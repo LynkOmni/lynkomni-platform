@@ -1,8 +1,8 @@
 /* GENERATED from design/tokens.v1.json by design/generate.py. Do not edit by hand. */
 :root {
   color-scheme: light;
-  --font-heading: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-heading: 'Montserrat', 'Noto Kufi Arabic', 'Noto Sans Hebrew', 'Noto Sans Devanagari', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: 'Inter', 'Noto Sans Arabic', 'Noto Sans Hebrew', 'Noto Sans Devanagari', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
   --font-feature-tabular: "tnum" 1, "lnum" 1, "cv05" 1;
   --touch-target: 2.75rem;
@@ -263,7 +263,7 @@ pre, code, kbd, samp, .code { font-family: var(--font-mono); font-variant-numeri
 :disabled, [aria-disabled="true"] { color: var(--text-muted); }
 ::placeholder { color: var(--text-secondary); }
 input, select, textarea { border: 1px solid var(--border-input); }
-html:lang(ar), html:lang(he), html:lang(fa), html:lang(ur) { direction: rtl; }
+html:lang(ar), html:lang(fa), html:lang(ur), html:lang(ps), html:lang(ckb), html:lang(sd), html:lang(ug), html:lang(he), html:lang(yi), [dir="rtl"] { direction: rtl; }
 button, [role="button"], a.btn, input:not([type="checkbox"]):not([type="radio"]), select { min-height: var(--touch-target); min-width: var(--touch-target); }
 html { font-size: 100%; }
 [data-mode="lite"] { --font-heading: var(--font-body); --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif; }

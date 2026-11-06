@@ -24,6 +24,13 @@ def block(sel, m, only=None):
     items = [(k, v) for k, v in m.items() if only is None or k in only]
     return sel + " {\n" + "\n".join(f"  --{k}: {v};" for k, v in items) + "\n}\n"
 
+def rtl_rule():
+    """Right-to-left languages come from design/fonts/scripts.v1.json (the language and script registry)."""
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "fonts", "scripts.v1.json"), encoding="utf-8") as f:
+        reg = json.load(f)
+    rtl = [k for k, v in reg["languages"].items() if reg["scripts"][v["script"]]["dir"] == "rtl"]
+    return ", ".join(f"html:lang({l})" for l in rtl) + ", [dir=\"rtl\"] { direction: rtl; }"
+
 def css():
     F = SRC["fonts"]; L, D = resolved("light"), resolved("dark"); CL, CD = SRC["themes"]["contrast-light"], SRC["themes"]["contrast-dark"]
     dark_only = {k: v for k, v in D.items() if L.get(k) != v}
@@ -48,7 +55,7 @@ pre, code, kbd, samp, .code { font-family: var(--font-mono); font-variant-numeri
 :disabled, [aria-disabled="true"] { color: var(--text-muted); }
 ::placeholder { color: var(--text-secondary); }
 input, select, textarea { border: 1px solid var(--border-input); }
-html:lang(ar), html:lang(he), html:lang(fa), html:lang(ur) { direction: rtl; }
+@@RTL@@
 button, [role="button"], a.btn, input:not([type="checkbox"]):not([type="radio"]), select { min-height: var(--touch-target); min-width: var(--touch-target); }
 html { font-size: 100%; }
 [data-mode="lite"] { --font-heading: var(--font-body); --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif; }
@@ -56,6 +63,7 @@ html { font-size: 100%; }
 [data-mode="lite"] .lite-hide, [data-mode="lite"] img[data-decorative] { display: none !important; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
 """
+    s = s.replace("@@RTL@@", rtl_rule())
     for k, v in SRC["states"].items():
         s += f".state-{k} {{ color: var(--status-{v['tone']}-text); background: var(--status-{v['tone']}-bg); border: 1px solid var(--status-{v['tone']}-border); }}\n"
     return s

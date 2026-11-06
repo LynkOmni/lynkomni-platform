@@ -1,8 +1,11 @@
-"""Brand fonts: Montserrat (headings) and Inter (body), self-hosted, small, licensed, and never loaded from another site."""
-import glob, hashlib, json, os, re, unittest
+"""Font system: every LynkOmni language has its script's fonts, in the right direction, self-hosted and small.
+Source of truth: design/fonts/scripts.v1.json. Built by design/fonts/build_fonts.py."""
+import glob, hashlib, json, os, re, subprocess, sys, unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FONTS = os.path.join(ROOT, "design", "fonts")
+sys.path.insert(0, FONTS)
+import build_fonts as bf  # noqa: E402  (also installs the brotli stand-in when needed)
 
 
 def read(p, mode="r"):
@@ -10,26 +13,81 @@ def read(p, mode="r"):
         return f.read()
 
 
-class Fonts(unittest.TestCase):
-    def test_every_file_in_fonts_css_exists_and_is_woff2(self):
-        files = set(re.findall(r"/fonts/([\w-]+\.woff2)", read(os.path.join(ROOT, "design", "fonts.css"))))
-        self.assertEqual(len(files), 9)
-        for f in files:
-            self.assertEqual(read(os.path.join(FONTS, f), "rb")[:4], b"wOF2", f)
+REG = bf.registry()
 
-    def test_files_match_their_recorded_sources(self):
+
+class Registry(unittest.TestCase):
+    def test_every_country_pack_language_is_covered(self):
+        for p in glob.glob(os.path.join(ROOT, "contract", "country-packs", "*.json")):
+            for lang in json.loads(read(p)).get("languages", []):
+                self.assertIn(lang, REG["languages"], f"{os.path.basename(p)}: add {lang} to design/fonts/scripts.v1.json")
+
+    def test_registry_is_consistent(self):
+        for code, L in REG["languages"].items():
+            self.assertIn(L["script"], REG["scripts"], code)
+            for k in ("name", "native", "sample", "letters"):
+                self.assertTrue(L[k], f"{code}: {k}")
+        for s, v in REG["scripts"].items():
+            self.assertIn(v["dir"], ("ltr", "rtl"))
+            for role in ("heading", "body"):
+                self.assertIn(v[role], REG["families"], f"{s} {role}")
+
+    def test_right_to_left_scripts(self):
+        self.assertEqual({s for s, v in REG["scripts"].items() if v["dir"] == "rtl"}, {"arabic", "hebrew"})
+        css = read(os.path.join(ROOT, "design", "generated", "tokens.css")) + read(os.path.join(ROOT, "design", "fonts.css"))
+        for code, L in REG["languages"].items():
+            if REG["scripts"][L["script"]]["dir"] == "rtl":
+                self.assertIn(f"lang({code})", css, code)
+
+    def test_token_font_stacks_name_every_family(self):
+        fonts = json.loads(read(os.path.join(ROOT, "design", "tokens.v1.json")))["fonts"]
+        for s in REG["scripts"].values():
+            self.assertIn(f"'{REG['families'][s['heading']]['name']}'", fonts["heading"])
+            self.assertIn(f"'{REG['families'][s['body']]['name']}'", fonts["body"])
+
+
+class Files(unittest.TestCase):
+    def test_every_file_exists_is_woff2_and_matches_its_source(self):
         rec = json.loads(read(os.path.join(FONTS, "sources.json")))
         self.assertTrue(rec["upstream_commit"])
+        expected = {bf.filename(f, s) for f, s, _, _ in bf.faces(REG)}
+        self.assertEqual(set(rec["outputs"]), expected)
+        self.assertEqual({os.path.basename(p) for p in glob.glob(os.path.join(FONTS, "*.woff2"))}, expected)
         for f, v in rec["outputs"].items():
-            self.assertEqual(hashlib.sha256(read(os.path.join(FONTS, f), "rb")).hexdigest(), v["sha256"], f"{f} changed: rebuild with build_fonts.py")
+            b = read(os.path.join(FONTS, f), "rb")
+            self.assertEqual(b[:4], b"wOF2", f)
+            self.assertEqual(hashlib.sha256(b).hexdigest(), v["sha256"], f"{f} changed: rebuild with build_fonts.py")
 
-    def test_first_load_budget(self):
-        budget = json.loads(read(os.path.join(ROOT, "design", "tokens.v1.json")))["fonts"]["first_load_budget_kb"] * 1024
-        self.assertLessEqual(sum(os.path.getsize(p) for p in glob.glob(os.path.join(FONTS, "*-latin.woff2"))), budget)
+    def test_every_language_letter_is_in_its_fonts(self):
+        from fontTools.ttLib import TTFont
+        cmaps = {}
+        for fam, sub, _, script in bf.faces(REG):
+            cmaps.setdefault((script, fam), set()).update(TTFont(os.path.join(FONTS, bf.filename(fam, sub))).getBestCmap())
+        for code, L in REG["languages"].items():
+            s = REG["scripts"][L["script"]]
+            for role in ("heading", "body"):
+                have = cmaps[(L["script"], s[role])]
+                missing = [c for c in L["letters"] + L["sample"] + L["native"] if not c.isspace() and ord(c) > 0x7F and ord(c) not in have]
+                self.assertEqual(missing, [], f"{code} {role}")
+
+    def test_budgets(self):
+        b = REG["budgets_kb"]
+        latin = sum(os.path.getsize(os.path.join(FONTS, f)) for f in ("inter-latin.woff2", "montserrat-latin.woff2"))
+        self.assertLessEqual(latin, b["latin_first_load"] * 1024)
+        self.assertEqual(b["latin_first_load"], json.loads(read(os.path.join(ROOT, "design", "tokens.v1.json")))["fonts"]["first_load_budget_kb"])
+        for script, v in REG["scripts"].items():
+            size = sum(os.path.getsize(os.path.join(FONTS, bf.filename(f, s))) for f, s, _, sc in bf.faces(REG) if sc == script and not s.endswith("-ext"))
+            self.assertLessEqual(size, b["per_script"] * 1024, script)
 
     def test_licences_are_kept(self):
-        for fam in ("inter", "montserrat"):
-            self.assertIn("SIL OPEN FONT LICENSE", read(os.path.join(FONTS, "LICENSES", f"{fam}-OFL.txt")).upper())
+        for fam in REG["families"]:
+            self.assertIn("SIL OPEN FONT LICENSE", read(os.path.join(FONTS, "LICENSES", f"{fam}-OFL.txt")).upper(), fam)
+
+    def test_generated_css_and_typescript_are_current(self):
+        before = {p: read(p) for p in (bf.CSS_PATH, bf.TS_PATH)}
+        bf.write_css(REG); bf.write_ts(REG)
+        for p, txt in before.items():
+            self.assertEqual(read(p), txt, f"{p} was out of date: run python3 design/fonts/build_fonts.py --css-only")
 
     def test_no_font_is_loaded_from_another_site(self):
         bad = re.compile(r"fonts\.googleapis|fonts\.gstatic|use\.typekit|fonts\.bunny|cdnfonts")

@@ -1,6 +1,6 @@
 // GENERATED from design/tokens.v1.json by design/generate.py. Do not edit by hand.
 export const tokens = {
-  fonts: {"heading": "'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif", "body": "'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif", "mono": "ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace", "feature_tabular": "\"tnum\" 1, \"lnum\" 1, \"cv05\" 1", "scale_px": [12, 14, 16, 20, 24, 32, 40, 56], "first_load_budget_kb": 100},
+  fonts: {"heading": "'Montserrat', 'Noto Kufi Arabic', 'Noto Sans Hebrew', 'Noto Sans Devanagari', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif", "body": "'Inter', 'Noto Sans Arabic', 'Noto Sans Hebrew', 'Noto Sans Devanagari', system-ui, -apple-system, 'Segoe UI', sans-serif", "mono": "ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace", "feature_tabular": "\"tnum\" 1, \"lnum\" 1, \"cv05\" 1", "scale_px": [12, 14, 16, 20, 24, 32, 40, 56], "first_load_budget_kb": 100, "scripts_registry": "design/fonts/scripts.v1.json"},
   "light": {
     "vcard-hub-bg": "#94A3B8",
     "vcard-core-bg": "#18181B",

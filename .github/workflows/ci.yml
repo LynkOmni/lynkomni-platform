@@ -3,7 +3,7 @@ on: [push, pull_request]
 jobs:
   python-reference:            # executable specification, AI services, automation, data processing
     runs-on: ubuntu-24.04
-    steps: [{uses: actions/checkout@v5}, {uses: actions/setup-python@v6, with: {python-version: "3.12"}}, {run: pip install cryptography}, {run: python -m unittest discover -s tests -t .}, {run: python contract/tools/validate_contract.py}]
+    steps: [{uses: actions/checkout@v5}, {uses: actions/setup-python@v6, with: {python-version: "3.12"}}, {run: pip install cryptography fonttools brotli}, {run: python -m unittest discover -s tests -t .}, {run: python contract/tools/validate_contract.py}]
   typescript:                  # web, PWA, dashboards, Node.js services
     runs-on: ubuntu-24.04
     steps: [{uses: actions/checkout@v5}, {uses: actions/setup-node@v5, with: {node-version: "22"}}, {run: cd ts && npm install && npx tsc -p tsconfig.ci.json && node --test "dist/test/*.test.js"}, {name: interface emulators are built from the current code, run: TSC=ts/node_modules/.bin/tsc node web/build.mjs --check}]
@@ -31,4 +31,4 @@ jobs:
     steps: [{uses: actions/checkout@v5}, {uses: actions/setup-python@v6, with: {python-version: "3.12"}}, {run: python providers/check.py}, {run: python -m unittest tests.test_providers tests.test_merchant_logo}]
   brand:                       # logos and icons: vendored copy must match its lock and the design tokens
     runs-on: ubuntu-24.04
-    steps: [{uses: actions/checkout@v5}, {uses: actions/setup-python@v6, with: {python-version: "3.12"}}, {run: python brand/check.py}, {run: python design/check_fonts.py}, {run: python -m unittest tests.test_brand tests.test_fonts}]
+    steps: [{uses: actions/checkout@v5}, {uses: actions/setup-python@v6, with: {python-version: "3.12"}}, {run: pip install fonttools brotli}, {run: python brand/check.py}, {run: python design/check_fonts.py}, {run: python -m unittest tests.test_brand tests.test_fonts}]

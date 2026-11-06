@@ -1052,12 +1052,12 @@
   },
   {
    "id": "native_fonts",
-   "name": "Montserrat and Inter bundled in the Android and iOS apps",
+   "name": "Brand and script fonts bundled in the Android and iOS apps",
    "blocks": [],
    "status": "pending",
    "why_not_now": "The Android and iOS app projects (with resource folders) do not exist yet; only the shared core libraries do.",
    "placeholders": [],
-   "done_when": "The app projects bundle TTF instances built by design/fonts/build_fonts.py from the same sources.json, and screenshots show the brand fonts."
+   "done_when": "The app projects bundle TTF instances of every family in design/fonts/scripts.v1.json (Latin, Arabic, Hebrew, Devanagari and the rest), built by build_fonts.py from the same sources.json, set the layout direction from ts/src/fonts.ts rules (Android supportsRtl, iOS semanticContentAttribute), and screenshots in an Arabic and a Hindi locale show the brand fonts."
   }
  ],
  "user_actions": [
@@ -1122,6 +1122,13 @@
    "what": "Choose a supplier of Android handheld POS terminals with a built-in printer (and a counter tablet setup), and get two sample devices.",
    "why": "The LynkPOS emulator shows an original LynkOmni design; the real app must be tested on the real terminals merchants will buy, and the supplier must allow our logo on the casing.",
    "when": "before the LynkPOS pilot",
+   "status": "open"
+  },
+  {
+   "id": "native-speaker-review",
+   "what": "Ask native speakers to check the words and screens in each language we launch with (Arabic, Persian, Urdu, Hebrew, Hindi, Swahili, Kinyarwanda, French, Spanish and others in design/fonts/scripts.v1.json).",
+   "why": "Fonts and right-to-left layout are in place, but translations written by Claude must be checked by people who speak the language before real users see them.",
+   "when": "before launching in a country that uses the language",
    "status": "open"
   }
  ]

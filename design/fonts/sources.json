@@ -23,44 +23,103 @@
      700
     ]
    }
+  },
+  "noto-sans-arabic": {
+   "path": "ofl/notosansarabic/NotoSansArabic[wdth,wght].ttf",
+   "sha256": "63111b5b2e074dd48cc67692e0a2726d86ee94c1c37fe8598257b7b4e87e869e",
+   "axes_kept": {
+    "wght": [
+     400,
+     700
+    ],
+    "wdth": 100
+   }
+  },
+  "noto-kufi-arabic": {
+   "path": "ofl/notokufiarabic/NotoKufiArabic[wght].ttf",
+   "sha256": "494f6b61469d7a02a2d63f0fc4930bb007388d8cfe551de5eb98354e100889f3",
+   "axes_kept": {
+    "wght": [
+     500,
+     700
+    ]
+   }
+  },
+  "noto-sans-hebrew": {
+   "path": "ofl/notosanshebrew/NotoSansHebrew[wdth,wght].ttf",
+   "sha256": "7ef36a2c3593758cdb622e1bdef4f84523e92fbc3ccc667438dd80ff54c2de88",
+   "axes_kept": {
+    "wght": [
+     400,
+     700
+    ],
+    "wdth": 100
+   }
+  },
+  "noto-sans-devanagari": {
+   "path": "ofl/notosansdevanagari/NotoSansDevanagari[wdth,wght].ttf",
+   "sha256": "14ec4af41f27482216d1c2229f417ff9b1425e1babb014e57d1d40d03229853e",
+   "axes_kept": {
+    "wght": [
+     400,
+     700
+    ],
+    "wdth": 100
+   }
   }
  },
  "outputs": {
   "inter-cyrillic.woff2": {
-   "bytes": 12784,
-   "sha256": "1d92c6a8b0957e256ed1521f93e561846bffd2956c9b310c68f0fb1bba0838b6"
+   "bytes": 12736,
+   "sha256": "8b989ec8b26b421fb4559be57dc4d69ea5fec5d977d4818d3d6d08c1685910c4"
   },
   "inter-greek.woff2": {
-   "bytes": 12668,
-   "sha256": "9effcad10629a9f4672320e7a31f50b6774b7076a417de3474f1b44137ea148a"
+   "bytes": 12664,
+   "sha256": "817ff0ebb072c32664510d98739abd080f91be68a9179b284bb5748e016c40f3"
   },
   "inter-latin-ext.woff2": {
-   "bytes": 55120,
-   "sha256": "e389b79507c8637ab27f33d7342f9df985d44ede8dad5e022b8191a17d621e5e"
+   "bytes": 55024,
+   "sha256": "66bdf94393b21af06b58067ad38c48e754e878e9046e8591c4c7aa2b25845978"
   },
   "inter-latin.woff2": {
-   "bytes": 30724,
-   "sha256": "2d9d5615d600e660e3462fd30e5bddf44c539a5750f637298da5db4475d5329b"
+   "bytes": 30744,
+   "sha256": "302f8bd7c1cfc9fa43cf58985bfc0f899959ffaa0141900763827daf9306c45c"
   },
   "inter-vietnamese.woff2": {
-   "bytes": 7280,
-   "sha256": "00629b7a97947ecf8171cce9db921d227eafd8fb75892aa30d263f6753b31090"
+   "bytes": 7240,
+   "sha256": "19a7e5eb6c36a28261dcce0e6f9ec25d17820278e9728b06668b3c1f42853017"
   },
   "montserrat-cyrillic.woff2": {
-   "bytes": 27584,
-   "sha256": "d67721a887a6059ac84f9af7a11e23888821068cc5476eb463df9b4fd7d59f09"
+   "bytes": 27560,
+   "sha256": "8ac6d23ddefa992486f5aea4e97f56198ed907f2c0065d45141c36de26135d2f"
   },
   "montserrat-latin-ext.woff2": {
-   "bytes": 83668,
-   "sha256": "7b060e2ff28df2a8346e5c52300579f1d4b05826dc9e192ce69ce0e66925b501"
+   "bytes": 83708,
+   "sha256": "da779edceda5b8a223268934abe9e849db4a3b7937fb725e29c28df230f097f2"
   },
   "montserrat-latin.woff2": {
-   "bytes": 38920,
-   "sha256": "fd639cf97849116e0e00937496e82fd026122c6686258f5f63195f415ae53aed"
+   "bytes": 38940,
+   "sha256": "78fb65d30f31455ebc0485d285cb8155db770b1fdfcb55a24210acaa0af1e6f5"
   },
   "montserrat-vietnamese.woff2": {
-   "bytes": 13168,
-   "sha256": "a5708896d42495bf9d0b98f9aed739cbe126c205faee39c95db773f96076a1c0"
+   "bytes": 13204,
+   "sha256": "e5288b44a3f9b53c7fe83dcfbddbc5554f827d32493043d694659f95e51fa661"
+  },
+  "noto-kufi-arabic-arabic.woff2": {
+   "bytes": 74676,
+   "sha256": "b07d22b71441fac05e193c4099017d1189f70a86ce21b322bcf87f04262a1dd1"
+  },
+  "noto-sans-arabic-arabic.woff2": {
+   "bytes": 84304,
+   "sha256": "42e12d777550450bf4b1fb5fcb15c1af523b1bf2de2ec498ef15fc127c9ba525"
+  },
+  "noto-sans-devanagari-devanagari.woff2": {
+   "bytes": 81216,
+   "sha256": "d950d073b339e95be347fdaa6ab1e2ee9f76242c09d3bdf7616c44cdd51938f3"
+  },
+  "noto-sans-hebrew-hebrew.woff2": {
+   "bytes": 11212,
+   "sha256": "caf912062e578b7463f06ebdd6d96fdc825f33afaa3a708addef076ef0d073dc"
   }
  }
 }
