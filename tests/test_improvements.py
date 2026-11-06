@@ -96,11 +96,11 @@ class T(unittest.TestCase):
         with self.assertRaises(PermissionError): s.create("m1", "p", 1000, {"tax_authority": 500}, provider_confirmed=True, tax_leg=True)
         self.assertEqual(len(self.rev("split:fee")), 1)
 
-    def test_new_services_have_tiers_inside_existing_families_and_suite_is_unchanged(self):
+    def test_new_services_have_tiers_inside_existing_families_and_suite_prices_are_as_set(self):
         from services import billing as B
         self.assertEqual([self._ent(t)["proof_fee_cents"] for t in B.MT], [500, 500, 400, 300])
         self.assertEqual([self._ent(t)["proof_packs_per_month"] for t in B.MT], [3, 20, 100, None]); self.assertEqual([self._ent(t)["split_max_legs"] for t in B.MT], [0, 2, 5, None])
-        self.assertNotIn("lynkmpay", B.SUITE_MEMBERS); self.assertEqual(B.FAMILIES["lynksuite"][3], (0, 12, 35, 89))
+        self.assertNotIn("lynkmpay", B.SUITE_MEMBERS); self.assertEqual(B.FAMILIES["lynksuite"][3], (0, 17, 49, 125))
         for fam in ("lynkpos", "lynkledger"): self.assertIn(fam, B.SUITE_MEMBERS)
         self.p.billing.set_plan("m1", "lynksuite", "max")                      # Suite Max carries LynkLedger Max, so exports are included; MPay stays separate
         self.assertFalse(self.p.audit_export.export("m1")["fee_charged"]); self.assertEqual(self.p.billing.entitlement("m1", "lynkmpay")["split_max_legs"], 0)

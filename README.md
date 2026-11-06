@@ -98,3 +98,7 @@ Offline selling pauses after 14 days without sign-in (the contract default, conf
 - `brand/surfaces.v1.json` now lists 21 places and, for each, which of logo, emblem and wordmark to show, with automatic fall-back to the emblem when space is narrow. `brand.for_surface(place, theme, width)` returns the right file; the CI `brand` job rejects bad rules and any code that places the emblem and wordmark together.
 - Receipts use the wordmark in one colour. "Powered by LynkOmni" (wordmark) shows on pay links and checkout: required on Free, removable on paid tiers (`powered_by` in LynkCheckout FEATURES; which tier removes it is an unconfirmed pricing decision).
 - Needs `@lynkomni/icons` 1.1.0 (adds wordmark email images). Run the brand-sync workflow and merge its pull request.
+
+### Prices updated (2026-11-06)
+- Standard USD prices raised about 25 to 40% on paid tiers after the first price check (still placeholders, not market-tested). LynkSuite is now $0/$17/$49/$125 (about 30% below its seven products). LynkBooking, LynkEssential and LynkDev unchanged. Free tiers unchanged.
+- The old revenue estimate ($24,825 a month) is out of date: its tier-mix assumptions were not saved, so it has not been recalculated.

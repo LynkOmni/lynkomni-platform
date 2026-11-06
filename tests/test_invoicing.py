@@ -24,7 +24,7 @@ class T(unittest.TestCase):
         self.p.billing.set_plan("m1", "lynkcheckout", "plus"); self.iv.issue("m1", "c", LINES, month="2026-11")
         self.assertEqual([self._ent(t)["invoices_per_month"] for t in B.MT], [3, 20, 200, None])
         self.assertEqual([self._ent(t)["invoice_series"] for t in B.MT], [1, 1, 3, None])
-        self.assertEqual(B.FAMILIES["lynkcheckout"][3], (0, 2, 5, 12))            # no price change
+        self.assertEqual(B.FAMILIES["lynkcheckout"][3], (0, 3, 7, 15))            # prices raised 2026-11-06 (placeholders)
     def _ent(self, tier):
         d = {}
         for x in B.FEATURES["lynkcheckout"][: B.MT.index(tier) + 1]: d.update(x)

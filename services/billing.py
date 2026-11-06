@@ -10,22 +10,22 @@ from services.control import COMPANY
 MT = ("free", "plus", "pro", "max")
 # id: full name, short name, tiers, standard USD price per tier, kind, inside LynkSuite?
 FAMILIES = {
- "lynkpos":      ("LynkOmni Point of Sale", "LynkPOS", MT, (0, 3, 10, 25), "merchant", True),
- "lynkledger":   ("LynkOmni Accountant", "LynkLedger", MT, (0, 2, 6, 15), "merchant", True),
- "lynkstock":    ("LynkOmni Inventory and Reordering", "LynkStock", MT, (0, 2, 6, 15), "merchant", True),
- "lynkrewards":  ("LynkOmni Loyalty", "LynkRewards", MT, (0, 2, 6, 15), "merchant", True),
- "lynkdash":     ("LynkOmni Dashboard", "LynkDash", MT, (0, 2, 5, 12), "merchant", True),
- "lynkgrow":     ("LynkOmni Growth Engine", "LynkGrow", MT, (0, 3, 9, 25), "merchant", True),
- "lynkchat":     ("LynkOmni Chat", "LynkChat", MT, (0, 3, 8, 20), "merchant", True),
- "lynkmpay":     ("LynkOmni Merchant Payments", "LynkMPay", MT, (0, 4, 12, 30), "merchant", False),
- "lynkrecover":  ("LynkOmni Payment Failure Recovery", "LynkRecover", MT, (0, 2, 5, 10), "merchant", False),
- "lynkcheckout": ("LynkOmni Pay-by-Link and QR", "LynkCheckout", MT, (0, 2, 5, 12), "merchant", False),
- "lynkassist":   ("LynkOmni Assistant", "LynkAssist", MT, (0, 5, 12, 29), "merchant", False),
- "lynkvcard":    ("LynkOmni Virtual Card", "LynkVCard", MT, (0, 3, 9, 25), "merchant", False),   # add-on family, never inside LynkSuite
+ "lynkpos":      ("LynkOmni Point of Sale", "LynkPOS", MT, (0, 4, 14, 35), "merchant", True),
+ "lynkledger":   ("LynkOmni Accountant", "LynkLedger", MT, (0, 3, 9, 22), "merchant", True),
+ "lynkstock":    ("LynkOmni Inventory and Reordering", "LynkStock", MT, (0, 3, 9, 22), "merchant", True),
+ "lynkrewards":  ("LynkOmni Loyalty", "LynkRewards", MT, (0, 3, 9, 22), "merchant", True),
+ "lynkdash":     ("LynkOmni Dashboard", "LynkDash", MT, (0, 3, 7, 17), "merchant", True),
+ "lynkgrow":     ("LynkOmni Growth Engine", "LynkGrow", MT, (0, 4, 12, 32), "merchant", True),
+ "lynkchat":     ("LynkOmni Chat", "LynkChat", MT, (0, 4, 11, 27), "merchant", True),
+ "lynkmpay":     ("LynkOmni Merchant Payments", "LynkMPay", MT, (0, 5, 15, 38), "merchant", False),
+ "lynkrecover":  ("LynkOmni Payment Failure Recovery", "LynkRecover", MT, (0, 3, 7, 12), "merchant", False),
+ "lynkcheckout": ("LynkOmni Pay-by-Link and QR", "LynkCheckout", MT, (0, 3, 7, 15), "merchant", False),
+ "lynkassist":   ("LynkOmni Assistant", "LynkAssist", MT, (0, 6, 15, 35), "merchant", False),
+ "lynkvcard":    ("LynkOmni Virtual Card", "LynkVCard", MT, (0, 4, 12, 30), "merchant", False),   # add-on family, never inside LynkSuite
  "lynkdev":      ("LynkOmni Developer Infrastructure", "LynkDev", ("free", "starter", "business", "enterprise"), (0, 500, 2500, 15000), "developer", False),
  "lynkbooking":  ("LynkOmni Bookings Membership", "LynkBooking", MT, (0, 4.99, 9.99, 19.99), "consumer", False),
  "lynkessential": ("LynkOmni Essentials Membership", "LynkEssential", MT, (0, 2.99, 5.99, 11.99), "consumer", False),
- "lynksuite":    ("LynkOmni Suite", "LynkSuite", MT, (0, 12, 35, 89), "suite", False),
+ "lynksuite":    ("LynkOmni Suite", "LynkSuite", MT, (0, 17, 49, 125), "suite", False),
 }
 SUITE_MEMBERS = [k for k, v in FAMILIES.items() if v[5]]            # the seven products inside LynkSuite
 # What each tier adds. Higher tiers include everything below. None means unlimited.

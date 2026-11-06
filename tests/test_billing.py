@@ -16,32 +16,42 @@ class T(unittest.TestCase):
     def test_families_names_and_tiers(self):
         self.assertEqual(len(FAMILIES), 16); self.assertEqual(len(SUITE_MEMBERS), 7)
         self.assertEqual(FAMILIES["lynkmpay"][:2], ("LynkOmni Merchant Payments", "LynkMPay"))
-        self.assertEqual(FAMILIES["lynksuite"][2:4], (("free", "plus", "pro", "max"), (0, 12, 35, 89)))
+        self.assertEqual(FAMILIES["lynksuite"][2:4], (("free", "plus", "pro", "max"), (0, 17, 49, 125)))
         self.assertEqual(FAMILIES["lynkdev"][2], ("free", "starter", "business", "enterprise"))
         self.assertNotIn("lynkmpay", SUITE_MEMBERS); self.assertNotIn("lynkassist", SUITE_MEMBERS)     # add-on families are never inside LynkSuite
         with self.assertRaises(ValueError): self.b.set_plan("a", "lynkdev", "plus")                        # developers use their own plan names
         self.b.set_plan("a", "lynkbooking", "max"); self.assertEqual(self.b.entitlement("a", "lynkbooking")["dedicated_concierge"], True)      # consumer families have Max too
         self.assertEqual(self.b.bill("a")["total_minor"], self.rwf(19.99))
 
+    def test_suite_stays_a_real_bundle_discount_and_tiers_never_get_cheaper(self):
+        # LynkSuite must cost less than its seven products together (the point of a bundle) but not give them away.
+        for i, tier in enumerate(("plus", "pro", "max"), start=1):
+            parts = sum(FAMILIES[m][3][i] for m in SUITE_MEMBERS)
+            suite = FAMILIES["lynksuite"][3][i]
+            self.assertLess(suite, parts, tier); self.assertGreaterEqual(suite, parts * 0.65, tier)
+        for k, v in FAMILIES.items():
+            self.assertEqual(v[3][0], 0, k)                                           # Free is always free
+            self.assertEqual(list(v[3]), sorted(v[3]), k)                             # a higher tier never costs less
+
     def test_regional_price_and_single_product(self):
         self.b.set_plan("a", "lynkpos", "pro")
-        self.assertEqual(self.b.bill("a")["total_minor"], self.rwf(10))
+        self.assertEqual(self.b.bill("a")["total_minor"], self.rwf(14))
         self.assertEqual(self.b.bill("b")["total_minor"], 0)                                                # Free costs nothing
 
     def test_suite_replaces_products_without_double_billing(self):
         self.b.set_plan("a", "lynksuite", "pro"); self.b.set_plan("a", "lynkpos", "pro"); self.b.set_plan("a", "lynkchat", "plus")
         bill = self.b.bill("a")
-        self.assertEqual([l["family"] for l in bill["lines"]], ["lynksuite"]); self.assertEqual(bill["total_minor"], self.rwf(35))
+        self.assertEqual([l["family"] for l in bill["lines"]], ["lynksuite"]); self.assertEqual(bill["total_minor"], self.rwf(49))
         self.assertEqual(set(bill["credited"]), {"lynkpos", "lynkchat"})
         self.assertEqual(self.b.effective("a")["lynkchat"], {"tier": "pro", "source": "suite"})              # the higher tier wins, tiers never stack
         self.b.set_plan("a", "lynkpos", "max")                                                              # above the Suite tier: only the difference
-        self.assertEqual(self.b.bill("a")["total_minor"], self.rwf(35) + self.rwf(25 - 10))
+        self.assertEqual(self.b.bill("a")["total_minor"], self.rwf(49) + self.rwf(35 - 14))
 
     def test_addons_are_separate_and_suite_free_costs_nothing(self):
         self.b.set_plan("a", "lynksuite", "plus"); self.b.set_plan("a", "lynkmpay", "plus"); self.b.set_plan("a", "lynkassist", "pro")
-        self.assertEqual(self.b.bill("a")["total_minor"], self.rwf(12) + self.rwf(4) + self.rwf(12))
+        self.assertEqual(self.b.bill("a")["total_minor"], self.rwf(17) + self.rwf(5) + self.rwf(15))
         self.b.set_plan("b", "lynksuite", "free"); self.b.set_plan("b", "lynkpos", "pro")
-        self.assertEqual(self.b.bill("b")["total_minor"], self.rwf(10))                                     # Suite Free replaces nothing
+        self.assertEqual(self.b.bill("b")["total_minor"], self.rwf(14))                                     # Suite Free replaces nothing
         self.assertEqual(self.b.tier("b", "lynkchat"), "free")
 
     def test_one_invoice_per_period_and_counted_once(self):
