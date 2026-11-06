@@ -2,7 +2,7 @@
 Rules: one subscription per product per account; the highest tier wins and tiers never stack; LynkSuite replaces its seven
 products at the matching tier; a product held above the Suite tier is billed only for the difference; add-on families are never
 inside LynkSuite; subscriptions never discount transaction fees; a subscriber is counted once per paid subscription.
-Prices are standard USD and PLACEHOLDERS until tested. Regional price index comes from the country pack."""
+Prices are standard USD and LOCKED (version 1, 2026-11-06; pinned by tests/test_price_lock.py). They are not market-tested, so adjust them later on purpose, together with the blueprint and finance/revenue_model.py. Regional price index comes from the country pack."""
 from core.money import to_minor
 from core.regions import country
 from services.control import COMPANY

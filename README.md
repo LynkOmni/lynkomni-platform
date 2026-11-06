@@ -101,4 +101,4 @@ Offline selling pauses after 14 days without sign-in (the contract default, conf
 
 ### Prices updated (2026-11-06)
 - Standard USD prices raised about 25 to 40% on paid tiers after the first price check (still placeholders, not market-tested). LynkSuite is now $0/$17/$49/$125 (about 30% below its seven products). LynkBooking, LynkEssential and LynkDev unchanged. Free tiers unchanged.
-- The old revenue estimate ($24,825 a month) is out of date: its tier-mix assumptions were not saved, so it has not been recalculated.
+- Prices are now LOCKED (v1) and pinned by `tests/test_price_lock.py`. `finance/revenue_model.py` reproduces the blueprint's subscription revenue from its stated user numbers and re-runs it at the new prices: Stage 3 is now $33.1 million a month ($397 million a year), Stage 1 $9,639, Stage 2 $900,522. The section 28 lines ($24,825 a month) are per-use fees and did not change.
