@@ -4,4 +4,4 @@ jobs:
   deploy:                      # production needs a human approval on the environment, and passing ci
     runs-on: ubuntu-24.04
     environment: ${{ inputs.environment }}
-    steps: [{uses: actions/checkout@v5}, {run: docker build -f infra/Dockerfile.api -t lynkomni-api:${{ github.sha }} .}, {run: echo "push the image and roll out with your hosting provider's deploy command; keep the previous image for rollback"}]
+    steps: [{uses: actions/checkout@v5}, {run: "docker build -f infra/Dockerfile.api -t lynkomni-api:${{ github.sha }} ."}, {run: echo "push the image and roll out with your hosting provider's deploy command; keep the previous image for rollback"}]
