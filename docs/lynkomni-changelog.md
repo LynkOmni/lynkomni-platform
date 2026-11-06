@@ -2,6 +2,9 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.12.1 (2026-11-06)
+- Recorded the nine approved experience improvements in the decision diary (they are built during building).
+
 ## v0.12.0 (2026-11-06)
 - Global availability rule: every service is shown in every country. Services that need no licensed partner (POS, books, stock, dashboard, insights, chat) work everywhere, even in countries without their own settings file. Regulated services say "Coming to your country soon." with a Notify me option until their partner is signed, then switch on by themselves.
 - Notify me list: needs the person's consent, keeps only a reference to their contact details, and tells each person once when the service arrives.
