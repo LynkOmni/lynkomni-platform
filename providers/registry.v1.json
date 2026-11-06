@@ -1067,6 +1067,20 @@
    "why_not_now": "These logos belong to other companies. LynkOmni may show them only as supplied by each company, usually once the provider or acquirer contract is signed. Until then every method shows a LynkOmni method icon with the provider's name as text (ts/src/payments.ts).",
    "placeholders": [],
    "done_when": "For each signed provider, its official artwork and usage rules are stored in a checksum-locked folder with the brand module, paymentOptions marks that method official, and the icon plus name is replaced only for that method and only in countries where that provider is signed."
+  },
+  {
+   "id": "machine_translation_engine",
+   "name": "Meta NLLB-200 machine translation engine for every LynkOmni language",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "The model must be downloaded and hosted, and this workspace cannot install packages. Until then services/translation.py uses SandboxTranslator (pseudo-translations) so every screen is tested for long text and right-to-left.",
+   "placeholders": [
+    {
+     "file": "services/translation.py",
+     "token": "SandboxTranslator"
+    }
+   ],
+   "done_when": "An NllbTranslator behind the Translator interface translates every catalogue into each language in design/fonts/scripts.v1.json, every result passes protect/restore (names, placeholders and numbers intact), and tests/test_layout_i18n.py passes in every real language."
   }
  ],
  "user_actions": [
@@ -1080,7 +1094,7 @@
   {
    "id": "network-for-installs",
    "what": "Allow package installs in Claude's network settings, then start a new chat.",
-   "why": "Needed for font files and any library the interface emulators or tests may need later; until then everything is built without extra libraries.",
+   "why": "Needed for font files and any library the interface emulators or tests may need later; until then everything is built without extra libraries. It also lets Claude install the NLLB-200 translation engine.",
    "when": "before fonts are added",
    "status": "open"
   },
@@ -1138,7 +1152,8 @@
    "what": "Ask native speakers to check the words and screens in each language we launch with (Arabic, Persian, Urdu, Hebrew, Hindi, Swahili, Kinyarwanda, French, Spanish and others in design/fonts/scripts.v1.json).",
    "why": "Fonts and right-to-left layout are in place, but translations written by Claude must be checked by people who speak the language before real users see them.",
    "when": "before launching in a country that uses the language",
-   "status": "open"
+   "status": "dropped",
+   "done_note": "Owner decision 2026-11-06: no native-speaker review; machine translation (Meta NLLB-200) with automatic protection and layout checks instead."
   },
   {
    "id": "social-accounts",
