@@ -1139,6 +1139,13 @@
    "why": "Fonts and right-to-left layout are in place, but translations written by Claude must be checked by people who speak the language before real users see them.",
    "when": "before launching in a country that uses the language",
    "status": "open"
+  },
+  {
+   "id": "social-accounts",
+   "what": "Create the official LynkOmni accounts and claim the name on LinkedIn, X, Facebook, Instagram, YouTube, TikTok, WhatsApp Business, Snapchat, Pinterest and Threads; send Claude the links of the seven footer channels.",
+   "why": "Claiming the name everywhere stops others from impersonating LynkOmni; the footer links must lead to real, active accounts.",
+   "when": "before the website goes public",
+   "status": "open"
   }
  ]
 }
