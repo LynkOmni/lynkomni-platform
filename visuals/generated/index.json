@@ -1299,6 +1299,12 @@
      "file": "web/favicon.ico",
      "sha256": "02e5caf31da45e9798bc19457821edb2be38b3f7069e8ccfcbf4ede5c89e0aaa",
      "bytes": 3047
+    },
+    {
+     "theme": "light",
+     "file": "web/manifest.webmanifest",
+     "sha256": "3567844afc85f89197c6306b261e1a230de928ca77a93f35a6d04c735f2997cd",
+     "bytes": 545
     }
    ]
   },
@@ -1411,6 +1417,110 @@
      "file": "diagrams/diagram-vcard-tiers.contrast-dark.svg",
      "sha256": "bc96ca7917c37cb28d50da1b2d1b7a25787033046d0c141636584eece28a5c07",
      "bytes": 15903
+    }
+   ]
+  },
+  "vcard-edge-back": {
+   "kind": "card",
+   "alt": "Back of the slate EDGE LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+   "purpose": "Back of the Free LynkVCard: shows where the licensed issuer displays the card details",
+   "used_in": [
+    "card-detail"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-edge-back.svg",
+     "sha256": "6dbfc48308120ab118f00b16fcdf437ae2bcef0b87190e4c673e7bddb8653c07",
+     "bytes": 13375
+    }
+   ]
+  },
+  "vcard-hub-back": {
+   "kind": "card",
+   "alt": "Back of the silver HUB LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+   "purpose": "Back of the Plus LynkVCard: shows where the licensed issuer displays the card details",
+   "used_in": [
+    "card-detail"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-hub-back.svg",
+     "sha256": "3a1ce991a37b9b4f0bee4490f2e313448d95eccec081a7235918ef8f76dc40ca",
+     "bytes": 13373
+    }
+   ]
+  },
+  "vcard-core-back": {
+   "kind": "card",
+   "alt": "Back of the black CORE LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+   "purpose": "Back of the Pro LynkVCard: shows where the licensed issuer displays the card details",
+   "used_in": [
+    "card-detail"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-core-back.svg",
+     "sha256": "61431d80d5ec6020894c703da6f439c869f6f1e2b253c0cac9c5add4d88efc1a",
+     "bytes": 13375
+    }
+   ]
+  },
+  "vcard-omni-back": {
+   "kind": "card",
+   "alt": "Back of the obsidian OMNI LynkVCard: a dashed frame where the issuer shows the card details, the emblem and the words LynkOmni Reserve Network. No number or bank name is drawn.",
+   "purpose": "Back of the Max LynkVCard: shows where the licensed issuer displays the card details",
+   "used_in": [
+    "card-detail"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-omni-back.svg",
+     "sha256": "08443bb37176329b123551e457606b096b8034cd78b9e9c86fedde8acabd79ad",
+     "bytes": 13660
+    }
+   ]
+  },
+  "vcard-core-near-limit": {
+   "kind": "card",
+   "alt": "The black CORE LynkVCard near its spend limit: an amber ring almost full with a triangle marker and a diamond centre instead of a dot, so the warning does not rely on colour.",
+   "purpose": "CORE card state when spend is near the limit; uses shape and colour together",
+   "used_in": [
+    "card-list",
+    "card-detail"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-core-near-limit.svg",
+     "sha256": "070eeea01a6649ca8059771f33888ef6500b464b1f92ce452fa818322f0c1959",
+     "bytes": 15333
+    }
+   ]
+  },
+  "vcard-omni-physical": {
+   "kind": "card",
+   "alt": "The physical companion for the OMNI LynkVCard: obsidian card with a contactless chip, an engraved sphere, a polished edge, no number on the front and the line OMNI // OWN ALL COMMERCE.",
+   "purpose": "Physical companion card for the Max tier (ordered through the issuer's fulfilment partner)",
+   "used_in": [
+    "card-detail",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-omni-physical.svg",
+     "sha256": "15b042858443fd5f5c5768ecd9fe9ea6ca39710bdcac339f73dcb20b49ef1edf",
+     "bytes": 14452
     }
    ]
   }

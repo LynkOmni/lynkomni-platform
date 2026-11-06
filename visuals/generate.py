@@ -66,7 +66,8 @@ def svg_jobs(doc):
                 files.append({"theme": th, "file": rel})
         elif kind == "card":
             rel = f"{FOLDER[kind]}/{nid}.svg"
-            text_files[rel] = cards.card_face(need["tier"])
+            text_files[rel] = {"face": lambda: cards.card_face(need["tier"]), "back": lambda: cards.card_back(need["tier"]),
+                               "near-limit": cards.near_limit, "physical": cards.physical}[need.get("variant", "face")]()
             files.append({"theme": "light", "file": rel})
         elif nid == "share-card":
             svg = figures.share_card("light")
@@ -98,7 +99,13 @@ def svg_jobs(doc):
                           {"src": "web/pwa-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}],
                 "head": ['<link rel="icon" href="/web/favicon.svg" type="image/svg+xml">', '<link rel="icon" href="/web/favicon.ico" sizes="any">',
                          '<link rel="apple-touch-icon" href="/web/apple-touch-icon-180.png">']}, indent=1) + "\n"
-            files += [{"theme": "light", "file": "web/icons-snippet.json"}, {"theme": "light", "file": "web/favicon.ico"}]
+            tk = kit._design.resolved("light")
+            text_files["web/manifest.webmanifest"] = json.dumps({
+                "name": "LynkOmni", "short_name": "LynkOmni", "start_url": "/", "scope": "/", "display": "standalone", "orientation": "portrait",
+                "background_color": tk["bg-base"], "theme_color": tk["brand-primary"], "lang": "en",
+                "icons": [{"src": "pwa-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"}, {"src": "pwa-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+                          {"src": "pwa-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}]}, indent=1) + "\n"
+            files += [{"theme": "light", "file": "web/icons-snippet.json"}, {"theme": "light", "file": "web/favicon.ico"}, {"theme": "light", "file": "web/manifest.webmanifest"}]
             png_jobs["__ico__"] = ("", 0, 0)
         else:
             raise SystemExit(f"need {nid}: unknown kind or figure")

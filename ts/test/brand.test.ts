@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { BRAND_THEMES, NO_BADGE_SCREENS, brandFile, brandSrc, chooseAsset, invoiceBrand, minWidth, poweredBy, surfaceVariant, themeVariant, type BrandManifest, type SurfacePolicy } from "../src/brand.js";
+import { STATUS_STATES, iconFile, statusIconFile, BRAND_THEMES, NO_BADGE_SCREENS, brandFile, brandSrc, chooseAsset, invoiceBrand, minWidth, poweredBy, surfaceVariant, themeVariant, type BrandManifest, type SurfacePolicy } from "../src/brand.js";
 
 const M: BrandManifest = { assets: { logo: { minWidthPx: 96, accessibleName: "LynkOmni", variants: { light: { svg: "svg/a-light.svg" }, mono: { svg: "svg/a-mono.svg" } } } } };
 
@@ -60,4 +60,14 @@ test("powered-by badge never shows on money-critical screens and follows the tie
   assert.equal(poweredBy("removable", "pay-link"), true);
   for (const s of NO_BADGE_SCREENS) assert.equal(poweredBy("required", s), false, s);
   assert.throws(() => poweredBy("sometimes", "pay-link"));
+});
+
+const ICONS: BrandManifest = { assets: {}, icons: { "status-queued": { group: "states", accessibleName: "Queued", svg: "icons/q.svg" }, "ui-home": { group: "ui", accessibleName: "Home", svg: "icons/h.svg" } } };
+
+test("icon lookup and the five states", () => {
+  assert.deepEqual(iconFile(ICONS, "ui-home"), { file: "icons/h.svg", accessibleName: "Home" });
+  assert.equal(statusIconFile(ICONS, "queued").accessibleName, "Queued");
+  assert.throws(() => statusIconFile(ICONS, "pending"));
+  assert.throws(() => iconFile(ICONS, "nope"));
+  assert.deepEqual([...STATUS_STATES], ["queued", "sent", "accepted", "confirmed", "failed"]);
 });

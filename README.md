@@ -117,3 +117,9 @@ Brand release 1.2.0 adds 43 one-colour icons (16 product marks, 5 status icons, 
 - Charts and the sync diagram read their numbers and wording from the code (billing, revenue model, state tokens). The revenue chart says it is an assumption, not a forecast.
 - `python3 visuals/check.py` (CI job `visuals`) fails on a missing, orphaned, off-token, wordy, oversized or stale picture, a placeholder or "TODO image", a stock-image service, a web image, or a call for an id that does not exist.
 - All of it is a draft until a human designer reviews it. Photographs and screenshots of real screens are not made here.
+
+## v0.9.9: provider ledger and the remaining doable work
+- `providers/registry.v1.json` lists every provider-dependent item (payments, mobile money, fiscal, card issuer, messaging, partners; plus one generated per catalog sub-service) and the later work that must happen before go-live. Each is a working sandbox adapter behind an interface; its service stays OFF until the provider is signed for that country. `providers.ready(service, country)` and `providers.go_live_report(...)` answer "can this go live?". `core.regions.enabled` checks it. `python3 providers/check.py` (CI job `providers`) stops stale entries, unregistered placeholders and services switched on early.
+- LynkVCard: card backs, the OMNI physical companion and the CORE near-limit state (amber ring, triangle marker and diamond centre, so it is never colour alone).
+- `services/merchant_logo.py`: safe merchant logo upload check (PNG, JPEG, WebP only; never SVG), used on invoices for tiers that allow it.
+- PWA `manifest.webmanifest`, and a TypeScript icon lookup (`iconFile`, `statusIconFile`).

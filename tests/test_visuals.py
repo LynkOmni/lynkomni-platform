@@ -194,8 +194,36 @@ class VCardFaces(unittest.TestCase):
         bad = ('<svg viewBox="0 0 1 1" role="img"><title id="t">a long enough title</title><!--card:start--><g><text>BANK OF X</text>'
                '<text>4111 1111</text><rect fill="#123456"/></g><!--card:end--></svg>')
         joined = " ".join(check.svg_problems("c.svg", bad, "card", "light", 24))
-        for word in ("approved tier lines", "not a design token", "must not show a number"):
+        for word in ("approved card lines", "not a design token", "must not show a number"):
             self.assertIn(word, joined)
+
+
+class MoreCards(unittest.TestCase):
+    def test_backs_physical_card_and_near_limit_state_exist_and_show_no_number(self):
+        import re
+        for nid in ("vcard-edge-back", "vcard-hub-back", "vcard-core-back", "vcard-omni-back", "vcard-omni-physical", "vcard-core-near-limit"):
+            svg = visuals.svg_text(nid)
+            self.assertIsNone(re.search(r"\d{4}", re.sub(r"<[^>]+>", " ", svg)), nid)
+        self.assertIn("LynkOmni Reserve Network", visuals.svg_text("vcard-omni-back"))
+        self.assertNotIn("<text", visuals.svg_text("vcard-edge-back"))
+
+    def test_near_limit_changes_shape_as_well_as_colour(self):
+        near, ok = visuals.svg_text("vcard-core-near-limit"), visuals.svg_text("vcard-core")
+        self.assertIn("<polygon", near)           # triangle marker and diamond centre
+        self.assertNotIn("<polygon", ok)
+
+    def test_pwa_manifest_matches_the_icon_files_and_tokens(self):
+        import json
+        from design import generate as design
+        with open(os.path.join(visuals.GENERATED, "web", "manifest.webmanifest"), encoding="utf-8") as f:
+            m = json.load(f)
+        tk = design.resolved("light")
+        self.assertEqual((m["background_color"], m["theme_color"]), (tk["bg-base"], tk["brand-primary"]))
+        for ic in m["icons"]:
+            with open(os.path.join(visuals.GENERATED, "web", ic["src"]), "rb") as f:
+                w, h = generate.png_dims(f.read())
+            self.assertEqual(f"{w}x{h}", ic["sizes"])
+        self.assertEqual({i["purpose"] for i in m["icons"]}, {"any", "maskable"})
 
 
 class Api(unittest.TestCase):

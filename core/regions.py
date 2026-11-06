@@ -37,4 +37,8 @@ def resolve_country(lat=None, lon=None, hint=None):
 def enabled(code, service):
     if os.environ.get("LYNK_MODE") == "sandbox":  # dev: everything on, providers are simulators
         return True
-    return {**DEFAULT_FLAGS, **country(code)["flags"]}.get(service, False)
+    on = {**DEFAULT_FLAGS, **country(code)["flags"]}.get(service, False)
+    if on:   # a flag alone is not enough: the providers the service needs must be signed for this country (providers/registry.v1.json)
+        from providers import ready
+        on = ready(service, (code or "").upper())[0]
+    return on

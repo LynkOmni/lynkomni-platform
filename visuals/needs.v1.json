@@ -740,6 +740,9 @@
     },
     {
      "file": "web/icons-snippet.json"
+    },
+    {
+     "file": "web/manifest.webmanifest"
     }
    ]
   },
@@ -822,6 +825,98 @@
    "used_in": [
     "pricing-page",
     "help-centre"
+   ],
+   "budget_kb": 24
+  },
+  {
+   "id": "vcard-edge-back",
+   "kind": "card",
+   "tier": "edge",
+   "variant": "back",
+   "themes": [
+    "light"
+   ],
+   "alt": "Back of the slate EDGE LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+   "purpose": "Back of the Free LynkVCard: shows where the licensed issuer displays the card details",
+   "used_in": [
+    "card-detail"
+   ],
+   "budget_kb": 24
+  },
+  {
+   "id": "vcard-hub-back",
+   "kind": "card",
+   "tier": "hub",
+   "variant": "back",
+   "themes": [
+    "light"
+   ],
+   "alt": "Back of the silver HUB LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+   "purpose": "Back of the Plus LynkVCard: shows where the licensed issuer displays the card details",
+   "used_in": [
+    "card-detail"
+   ],
+   "budget_kb": 24
+  },
+  {
+   "id": "vcard-core-back",
+   "kind": "card",
+   "tier": "core",
+   "variant": "back",
+   "themes": [
+    "light"
+   ],
+   "alt": "Back of the black CORE LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+   "purpose": "Back of the Pro LynkVCard: shows where the licensed issuer displays the card details",
+   "used_in": [
+    "card-detail"
+   ],
+   "budget_kb": 24
+  },
+  {
+   "id": "vcard-omni-back",
+   "kind": "card",
+   "tier": "omni",
+   "variant": "back",
+   "themes": [
+    "light"
+   ],
+   "alt": "Back of the obsidian OMNI LynkVCard: a dashed frame where the issuer shows the card details, the emblem and the words LynkOmni Reserve Network. No number or bank name is drawn.",
+   "purpose": "Back of the Max LynkVCard: shows where the licensed issuer displays the card details",
+   "used_in": [
+    "card-detail"
+   ],
+   "budget_kb": 24
+  },
+  {
+   "id": "vcard-core-near-limit",
+   "kind": "card",
+   "tier": "core",
+   "variant": "near-limit",
+   "themes": [
+    "light"
+   ],
+   "alt": "The black CORE LynkVCard near its spend limit: an amber ring almost full with a triangle marker and a diamond centre instead of a dot, so the warning does not rely on colour.",
+   "purpose": "CORE card state when spend is near the limit; uses shape and colour together",
+   "used_in": [
+    "card-list",
+    "card-detail"
+   ],
+   "budget_kb": 24
+  },
+  {
+   "id": "vcard-omni-physical",
+   "kind": "card",
+   "tier": "omni",
+   "variant": "physical",
+   "themes": [
+    "light"
+   ],
+   "alt": "The physical companion for the OMNI LynkVCard: obsidian card with a contactless chip, an engraved sphere, a polished edge, no number on the front and the line OMNI // OWN ALL COMMERCE.",
+   "purpose": "Physical companion card for the Max tier (ordered through the issuer's fulfilment partner)",
+   "used_in": [
+    "card-detail",
+    "marketing"
    ],
    "budget_kb": 24
   }

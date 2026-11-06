@@ -9,6 +9,24 @@ export type BrandAssetId = "emblem" | "logo" | "wordmark";
 /** The part of @lynkomni/icons' brand manifest this code needs. */
 export interface BrandManifest {
   assets: Record<string, { minWidthPx: number; accessibleName: string; variants: Record<string, { svg: string }> }>;
+  icons?: Record<string, { group: string; accessibleName: string; svg: string }>;
+}
+
+/** The five user-facing states, and only these (design tokens `states`). */
+export const STATUS_STATES = ["queued", "sent", "accepted", "confirmed", "failed"] as const;
+export type StatusState = (typeof STATUS_STATES)[number];
+
+/** Path of a one-colour icon inside the package, e.g. "icons/<file>.svg" (mirrors Python brand.icon). */
+export function iconFile(m: BrandManifest, id: string): { file: string; accessibleName: string } {
+  const i = m.icons?.[id];
+  if (!i) throw new Error(`unknown icon ${id}`);
+  return { file: i.svg, accessibleName: i.accessibleName };
+}
+
+/** The icon for one of the five states. Any other word throws (mirrors Python brand.status_icon). */
+export function statusIconFile(m: BrandManifest, state: string): { file: string; accessibleName: string } {
+  if (!(STATUS_STATES as readonly string[]).includes(state)) throw new Error(`${state} is not a user-facing state; use queued, sent, accepted, confirmed or failed`);
+  return iconFile(m, `status-${state}`);
 }
 
 export const themeVariant = (theme: string): BrandTheme => {

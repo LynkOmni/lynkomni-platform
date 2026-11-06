@@ -104,7 +104,7 @@ def svg_problems(rel, text, kind, theme, budget_kb):
     from visuals import cards
     for seg in segs:                       # card faces: only the fixed tier lines, and the dark-theme glow tokens are allowed
         for words in re.findall(r"<text[^>]*>(.*?)</text>", seg, re.S):
-            if words.replace("&amp;", "&") not in cards.TIER_TEXT.values(): out.append(f"{rel}: card text {words[:30]!r} is not one of the approved tier lines")
+            if words.replace("&amp;", "&") not in cards.ALLOWED_TEXT: out.append(f"{rel}: card text {words[:30]!r} is not one of the approved card lines")
         both = {v.upper() for th in ("light", "dark") for v in design.resolved(th).values() if re.fullmatch(r"#[0-9A-Fa-f]{6}", v)}
         for c in set(re.findall(r"#[0-9A-Fa-f]{3,8}\b", re.sub(r'<g data-brand="[a-z]+">.*?</svg></g>', "", seg, flags=re.S))):
             if c.upper() not in both: out.append(f"{rel}: card colour {c} is not a design token")

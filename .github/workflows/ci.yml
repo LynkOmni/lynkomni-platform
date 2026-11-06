@@ -26,6 +26,9 @@ jobs:
   visuals:                     # illustrations, charts, store and web images: every need has files, nothing off-brand or placeholder
     runs-on: ubuntu-24.04
     steps: [{uses: actions/checkout@v5}, {uses: actions/setup-python@v6, with: {python-version: "3.12"}}, {run: python visuals/check.py}, {run: python -m unittest tests.test_visuals}]
+  providers:                   # provider ledger: every placeholder registered, no service on without its provider
+    runs-on: ubuntu-24.04
+    steps: [{uses: actions/checkout@v5}, {uses: actions/setup-python@v6, with: {python-version: "3.12"}}, {run: python providers/check.py}, {run: python -m unittest tests.test_providers tests.test_merchant_logo}]
   brand:                       # logos and icons: vendored copy must match its lock and the design tokens
     runs-on: ubuntu-24.04
     steps: [{uses: actions/checkout@v5}, {uses: actions/setup-python@v6, with: {python-version: "3.12"}}, {run: python brand/check.py}, {run: python -m unittest tests.test_brand}]

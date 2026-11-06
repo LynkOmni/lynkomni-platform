@@ -18,6 +18,18 @@ TIERS = ("edge", "hub", "core", "omni")
 FAMILY_TIER = {"free": "edge", "plus": "hub", "pro": "core", "max": "omni"}     # billing tier -> card
 # The only words allowed on a card face (from the approved spec). The check fails on any other text.
 TIER_TEXT = {"edge": "EDGE // FIRST LIGHT", "hub": "HUB // CENTER POINT", "core": "CORE // DEEP SYSTEM", "omni": "OMNI // OWN ALL COMMERCE"}
+BACK_TEXT = {"omni": "LynkOmni Reserve Network"}      # the only words on a card back (approved spec, OMNI)
+ALLOWED_TEXT = set(TIER_TEXT.values()) | set(BACK_TEXT.values())
+ALT_BACK = {
+    "edge": "Back of the slate EDGE LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+    "hub": "Back of the silver HUB LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+    "core": "Back of the black CORE LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+    "omni": "Back of the obsidian OMNI LynkVCard: a dashed frame where the issuer shows the card details, the emblem and the words LynkOmni Reserve Network. No number or bank name is drawn.",
+}
+ALT_EXTRA = {
+    "core-near-limit": "The black CORE LynkVCard near its spend limit: an amber ring almost full with a triangle marker and a diamond centre instead of a dot, so the warning does not rely on colour.",
+    "omni-physical": "The physical companion for the OMNI LynkVCard: obsidian card with a contactless chip, an engraved sphere, a polished edge, no number on the front and the line OMNI // OWN ALL COMMERCE.",
+}
 ALT = {
     "edge": "Slate grey LynkVCard for the Free tier: one dot etched near the right edge with pulse rings, the emblem, masked number dots and the line EDGE // FIRST LIGHT.",
     "hub": "Brushed silver LynkVCard for the Plus tier: a hub with three lines running out to three nodes, the emblem, masked number dots and the line HUB // CENTER POINT.",
@@ -37,7 +49,7 @@ def _pt(cx, cy, r, deg):
     return cx + r * math.cos(a), cy + r * math.sin(a)
 
 
-def _centrepiece(tier, fg, t):
+def _centrepiece(tier, fg, t, near=False):
     cx, cy = 214, 88
     if tier == "edge":
         return (circ(300, 107, 20, "none", stroke=fg, stroke_opacity=".22", stroke_width=1.5) + circ(300, 107, 12, "none", stroke=fg, stroke_opacity=".45", stroke_width=1.5) +
@@ -49,6 +61,17 @@ def _centrepiece(tier, fg, t):
             parts += (line(cx, cy, x, y, stroke=fg, stroke_opacity=".18", stroke_width=11, stroke_linecap="round") + line(cx, cy, x, y, stroke=fg, stroke_width=3, stroke_linecap="round") +
                       circ(x, y, 6, fg, stroke="none"))
         return parts + circ(cx, cy, 10, fg, stroke="none")
+    if tier == "core" and near:      # near the limit: amber, ring almost full, and a diamond centre (shape changes too, never colour alone)
+        amber = t["status-warning-text"]
+        c = 2 * math.pi * 44
+        glow = "".join(circ(cx, cy, r, amber, stroke="none", fill_opacity=op) for r, op in ((34, ".07"), (24, ".14"), (15, ".32")))
+        ring = (circ(cx, cy, 44, "none", stroke=fg, stroke_opacity=".25", stroke_width=4) +
+                el("circle", cx=n(cx), cy=n(cy), r="44", fill="none", stroke=amber, stroke_width="4", stroke_linecap="round",
+                   stroke_dasharray=f"{n(round(c * .9, 1))} {n(round(c, 1))}", transform=f"rotate(-90 {cx} {cy})"))
+        mx, my = _pt(cx, cy, 44, -90 + 360 * .9)
+        marker = el("polygon", points=f"{n(round(mx, 1))},{n(round(my - 9, 1))} {n(round(mx + 8, 1))},{n(round(my + 6, 1))} {n(round(mx - 8, 1))},{n(round(my + 6, 1))}", fill=amber)
+        diamond = el("polygon", points=f"{cx},{cy - 10} {cx + 10},{cy} {cx},{cy + 10} {cx - 10},{cy}", fill=amber)
+        return glow + ring + marker + diamond
     if tier == "core":
         green = t["status-success-text"]
         c = 2 * math.pi * 44
@@ -66,7 +89,7 @@ def _centrepiece(tier, fg, t):
             circ(cx - 14, cy - 18, 4.5, fg, stroke="none", fill_opacity=".55") + rr(3, 3, W - 6, H - 6, 13, "none", stroke=edge, stroke_width=2))
 
 
-def face_group(tier, with_emblem=True):
+def face_group(tier, with_emblem=True, near=False):
     """The card face as a <g> in a 340 x 214 box. Colours may include the dark-theme glow tokens, so it is wrapped in markers."""
     t = _tok()
     bg, fg = t[f"vcard-{tier}-bg"], t[f"on-vcard-{tier}"]
@@ -75,7 +98,7 @@ def face_group(tier, with_emblem=True):
         mark, _ = figures.brand_asset("emblem", "light", 24, 22, 38, "vcard-face")
         body += f'<g color="{fg}">{mark}</g>'
     body += "".join(path(f"M{n(284 + r * .55)} {n(36 - r * .83)}A{n(r)} {n(r)} 0 0 1 {n(284 + r * .55)} {n(36 + r * .83)}", stroke=fg, stroke_width=2.5, stroke_linecap="round", fill="none") for r in (7, 13, 19))
-    body += _centrepiece(tier, fg, t)
+    body += _centrepiece(tier, fg, t, near)
     if tier != "omni":      # the front never shows a number; these dots only stand for the issuer-hosted number
         body += "".join(circ(24 + g * 54 + k * 11, 150, 2.4, fg, stroke="none", fill_opacity=".8") for g in range(4) for k in range(4))
     body += el("text", esc(TIER_TEXT[tier]), x="24", y="192", fill=fg, font_size="12", font_weight="600", letter_spacing="0.04em",
@@ -123,3 +146,41 @@ def tier_ladder(theme):
     alt = ("Diagram of the four LynkVCard tiers from left to right: Free with a slate EDGE card, Plus with a silver HUB card, Pro with a black CORE card "
            "and Max with an obsidian OMNI card, each with its price, number of cards, monthly spend limit, users and main feature.")
     return frame("diagram-vcard-tiers", alt, "".join(body), Wd, Hd)
+
+
+def back_group(tier):
+    """Back of a card: the issuer prints the card details in the dashed frame (hosted by the issuer, never stored here)."""
+    t = _tok()
+    bg, fg = t[f"vcard-{tier}-bg"], t[f"on-vcard-{tier}"]
+    body = rr(0, 0, W, H, 16, bg, stroke="none") + rr(1, 1, W - 2, H - 2, 15, "none", stroke=fg, stroke_opacity=".25", stroke_width=1)
+    body += rr(0, 28, W, 36, 0, fg, stroke="none", fill_opacity=".1")
+    body += rr(24, 84, 292, 70, 10, "none", stroke=fg, stroke_opacity=".55", stroke_width=1.5, stroke_dasharray="6 5")
+    body += "".join(line(40, y, 40 + w, y, stroke=fg, stroke_opacity=".22", stroke_width=4, stroke_linecap="round") for y, w in ((102, 150), (120, 90), (138, 60)))
+    mark, _ = figures.brand_asset("emblem", "light", 24, 170, 28, "vcard-face")
+    body += f'<g color="{fg}">{mark}</g>'
+    if tier == "omni":
+        body += el("text", esc(BACK_TEXT["omni"]), x="316", y="190", text_anchor="end", fill=fg, font_size="11", font_weight="600", letter_spacing="0.04em",
+                   font_family=_design.SRC["fonts"]["heading"].replace('"', "'"), stroke="none")
+    return f"{START}<g>{body}</g>{END}"
+
+
+def card_back(tier):
+    return frame(f"vcard-{tier}-back", ALT_BACK[tier], back_group(tier), W, H)
+
+
+def near_limit():
+    return frame("vcard-core-near-limit", ALT_EXTRA["core-near-limit"], face_group("core", near=True), W, H)
+
+
+def physical_group():
+    """Physical companion for OMNI: contactless chip, sphere, no number."""
+    t = _tok()
+    fg = t["on-vcard-omni"]
+    chip = (rr(24, 84, 48, 38, 7, "none", stroke=fg, stroke_opacity=".85", stroke_width=1.5) + line(24, 103, 72, 103, stroke=fg, stroke_opacity=".5", stroke_width=1.2) +
+            line(48, 84, 48, 122, stroke=fg, stroke_opacity=".5", stroke_width=1.2) + rr(36, 94, 24, 18, 4, "none", stroke=fg, stroke_opacity=".5", stroke_width=1.2))
+    g = face_group("omni")
+    return g.replace(END, chip + END)
+
+
+def physical():
+    return frame("vcard-omni-physical", ALT_EXTRA["omni-physical"], physical_group(), W, H)

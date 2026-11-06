@@ -1,0 +1,1054 @@
+{
+ "version": 1,
+ "description": "Everything that waits on a provider or on later work. A provider item is a working sandbox stand-in behind an interface; its service stays OFF for real users until the item is contract_signed (or live) for that country. `later` items are non-provider work that must happen before certain things go live. python3 providers/check.py keeps this honest: no stale entries, no unregistered placeholders, no service switched on without its provider.",
+ "statuses": [
+  "sandbox",
+  "chosen",
+  "contract_signed",
+  "live"
+ ],
+ "items": [
+  {
+   "id": "momo_mtn",
+   "name": "MTN Mobile Money",
+   "kind": "mobile_money",
+   "used_by": [
+    "payments",
+    "recovery",
+    "paylinks"
+   ],
+   "countries": [
+    "RW",
+    "UG",
+    "GH"
+   ],
+   "status": "sandbox",
+   "interface": "core.providers:Provider",
+   "sandbox": "core.providers:Simulator",
+   "needed_from_provider": [
+    "merchant API agreement per country",
+    "sandbox and live API keys",
+    "fee schedule",
+    "settlement and refund rules",
+    "webhook signing secret"
+   ],
+   "placeholders": [
+    {
+     "file": "core/providers.py",
+     "token": "Simulator"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "Fee in the simulator (100 bps) is a placeholder.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "airtel_money",
+   "name": "Airtel Money",
+   "kind": "mobile_money",
+   "used_by": [
+    "payments",
+    "recovery",
+    "paylinks"
+   ],
+   "countries": [
+    "RW",
+    "UG",
+    "TZ"
+   ],
+   "status": "sandbox",
+   "interface": "core.providers:Provider",
+   "sandbox": "core.providers:Simulator",
+   "needed_from_provider": [
+    "merchant API agreement per country",
+    "sandbox and live API keys",
+    "fee schedule",
+    "webhook signing secret"
+   ],
+   "placeholders": [
+    {
+     "file": "core/providers.py",
+     "token": "Simulator"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "mpesa",
+   "name": "M-Pesa",
+   "kind": "mobile_money",
+   "used_by": [
+    "payments",
+    "recovery",
+    "paylinks"
+   ],
+   "countries": [
+    "KE",
+    "TZ"
+   ],
+   "status": "sandbox",
+   "interface": "core.providers:Provider",
+   "sandbox": "core.providers:Simulator",
+   "needed_from_provider": [
+    "Daraja or equivalent API access per country",
+    "sandbox and live keys",
+    "fee schedule",
+    "callback URL registration"
+   ],
+   "placeholders": [
+    {
+     "file": "core/providers.py",
+     "token": "Simulator"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "upi",
+   "name": "UPI",
+   "kind": "bank_rail",
+   "used_by": [
+    "payments",
+    "paylinks"
+   ],
+   "countries": [
+    "IN"
+   ],
+   "status": "sandbox",
+   "interface": "core.providers:Provider",
+   "sandbox": "core.providers:Simulator",
+   "needed_from_provider": [
+    "licensed payment service provider or bank partner",
+    "collect and QR API access",
+    "RBI-compliant onboarding"
+   ],
+   "placeholders": [
+    {
+     "file": "core/providers.py",
+     "token": "Simulator"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "bank_transfer",
+   "name": "Bank transfer and payout",
+   "kind": "bank_rail",
+   "used_by": [
+    "payments",
+    "paylinks",
+    "marketplace"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "core.providers:Provider",
+   "sandbox": "core.providers:Simulator",
+   "needed_from_provider": [
+    "licensed bank or payment institution partner per country",
+    "virtual account or payout API",
+    "reconciliation file format"
+   ],
+   "placeholders": [
+    {
+     "file": "core/providers.py",
+     "token": "Simulator"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "card_acquirer",
+   "name": "Card payments (acquirer)",
+   "kind": "card_acquiring",
+   "used_by": [
+    "payments",
+    "paylinks"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "core.providers:Provider",
+   "sandbox": "core.providers:Simulator",
+   "needed_from_provider": [
+    "licensed acquirer or payment gateway per country",
+    "PCI scope agreement (card data stays with the gateway)",
+    "3D Secure support",
+    "chargeback and refund rules"
+   ],
+   "placeholders": [
+    {
+     "file": "core/providers.py",
+     "token": "Simulator"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "qr",
+   "name": "QR payments",
+   "kind": "qr_rail",
+   "used_by": [
+    "payments",
+    "paylinks"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "core.providers:Provider",
+   "sandbox": "core.providers:Simulator",
+   "needed_from_provider": [
+    "scheme or bank partner per country",
+    "merchant QR registration"
+   ],
+   "placeholders": [
+    {
+     "file": "core/providers.py",
+     "token": "Simulator"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "fiscal_rra_ebm",
+   "name": "Rwanda RRA EBM",
+   "kind": "fiscal",
+   "used_by": [
+    "pos",
+    "accountant"
+   ],
+   "countries": [
+    "RW"
+   ],
+   "status": "sandbox",
+   "interface": "core.providers:FiscalAdapter",
+   "sandbox": "core.providers:RraEbmAdapter",
+   "needed_from_provider": [
+    "RRA written confirmation of the allowed offline workflow",
+    "EBM certification for the private system",
+    "sandbox access"
+   ],
+   "placeholders": [
+    {
+     "file": "core/providers.py",
+     "token": "NOT certified"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "Until confirmed, sales stay pending_fiscal and are never called a valid tax receipt.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "fiscal_kra_etims",
+   "name": "Kenya KRA eTIMS",
+   "kind": "fiscal",
+   "used_by": [
+    "pos",
+    "accountant"
+   ],
+   "countries": [
+    "KE"
+   ],
+   "status": "sandbox",
+   "interface": "core.providers:FiscalAdapter",
+   "sandbox": "core.providers:FiscalAdapter",
+   "needed_from_provider": [
+    "KRA integration approval",
+    "sandbox access",
+    "written workflow confirmation"
+   ],
+   "placeholders": [],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "No adapter yet: sales are not_applicable until one exists.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "fiscal_tra_vfd",
+   "name": "Tanzania TRA VFD",
+   "kind": "fiscal",
+   "used_by": [
+    "pos",
+    "accountant"
+   ],
+   "countries": [
+    "TZ"
+   ],
+   "status": "sandbox",
+   "interface": "core.providers:FiscalAdapter",
+   "sandbox": "core.providers:FiscalAdapter",
+   "needed_from_provider": [
+    "TRA approval",
+    "sandbox access",
+    "written workflow confirmation"
+   ],
+   "placeholders": [],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "No adapter yet.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "fiscal_ura_efris",
+   "name": "Uganda URA EFRIS",
+   "kind": "fiscal",
+   "used_by": [
+    "pos",
+    "accountant"
+   ],
+   "countries": [
+    "UG"
+   ],
+   "status": "sandbox",
+   "interface": "core.providers:FiscalAdapter",
+   "sandbox": "core.providers:FiscalAdapter",
+   "needed_from_provider": [
+    "URA approval",
+    "sandbox access",
+    "written workflow confirmation"
+   ],
+   "placeholders": [],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "No adapter yet.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "vcard_issuer",
+   "name": "Virtual card issuer and BIN sponsor",
+   "kind": "card_issuing",
+   "used_by": [
+    "vcard"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.vcard:SandboxIssuer",
+   "sandbox": "services.vcard:SandboxIssuer",
+   "needed_from_provider": [
+    "signed issuer agreement and BIN sponsor per country",
+    "network licence (Visa or Mastercard) through the sponsor",
+    "sandbox and live API",
+    "interchange and FX share (replaces INTERCHANGE_BPS and FX_NET_BPS)",
+    "issuer-hosted card display (card numbers never reach LynkOmni)",
+    "dispute and chargeback process",
+    "legal sign-off and the activation checklist"
+   ],
+   "placeholders": [
+    {
+     "file": "services/vcard.py",
+     "token": "INTERCHANGE_BPS"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "Cards stay off in a country until its pack has issuer, bin_sponsor and enabled true. Card art has no network mark or bank name until the issuer supplies them under licence.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "vcard_wallet_tokens",
+   "name": "Apple Pay and Google Pay tokens (VTS and MDES)",
+   "kind": "card_tokenisation",
+   "used_by": [
+    "vcard"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.vcard:SandboxIssuer",
+   "sandbox": "services.vcard:SandboxIssuer",
+   "needed_from_provider": [
+    "network token service enrolment through the issuer",
+    "wallet provisioning approval",
+    "token auto-revoke on freeze, close and rotate"
+   ],
+   "placeholders": [],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "Only promised for CORE and OMNI after this is live.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "vcard_perks",
+   "name": "Card perks partner (lounge access, travel insurance, purchase protection)",
+   "kind": "perks",
+   "used_by": [
+    "vcard"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.vcard:SandboxIssuer",
+   "sandbox": "services.vcard:SandboxIssuer",
+   "needed_from_provider": [
+    "perks partner agreement through the issuer or network",
+    "claims process",
+    "legal wording per country"
+   ],
+   "placeholders": [],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "Do not advertise perks before this is signed.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "vcard_physical",
+   "name": "Physical companion card (KYC and fulfilment)",
+   "kind": "card_fulfilment",
+   "used_by": [
+    "vcard"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.vcard:SandboxIssuer",
+   "sandbox": "services.vcard:SandboxIssuer",
+   "needed_from_provider": [
+    "card manufacturer and fulfilment partner",
+    "KYC provider (identity and address) per issuer rules",
+    "shipping and tracking API",
+    "NFC activation flow"
+   ],
+   "placeholders": [],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "OMNI only. The artwork shows no bank or network mark until supplied.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "sms_otp",
+   "name": "SMS, WhatsApp, email and push delivery",
+   "kind": "messaging",
+   "used_by": [
+    "recovery",
+    "vcard",
+    "chat"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "identity.auth:Identity",
+   "sandbox": "identity.auth:Identity",
+   "needed_from_provider": [
+    "SMS aggregator per country (sender ID registration)",
+    "WhatsApp Business provider",
+    "email delivery service with domain verification",
+    "push services (FCM, APNs)"
+   ],
+   "placeholders": [
+    {
+     "file": "identity/auth.py",
+     "token": "never returned"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "Codes are returned in the sandbox only so tests run offline; production must send them and never return them.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "fx_rates",
+   "name": "Foreign exchange rates",
+   "kind": "data_feed",
+   "used_by": [
+    "payments",
+    "vcard",
+    "marketplace"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "core.money:USD_RATES",
+   "sandbox": "core.money:USD_RATES",
+   "needed_from_provider": [
+    "live FX rate provider",
+    "licence for redistribution",
+    "staleness rules"
+   ],
+   "placeholders": [
+    {
+     "file": "core/money.py",
+     "token": "PLACEHOLDER"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "Rates are placeholders. Show no live-rate claim.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "geo_lookup",
+   "name": "Country and location lookup",
+   "kind": "data_feed",
+   "used_by": [
+    "pos"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "core.regions:resolve_country",
+   "sandbox": "core.regions:resolve_country",
+   "needed_from_provider": [
+    "real geocoding or boundary dataset",
+    "usage terms"
+   ],
+   "placeholders": [
+    {
+     "file": "core/regions.py",
+     "token": "CRUDE"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "The merchant's explicit country choice always wins.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "ads_network",
+   "name": "Ad demand and measurement",
+   "kind": "advertising",
+   "used_by": [
+    "ads"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.ads:SHARE_BPS",
+   "sandbox": "services.ads:SHARE_BPS",
+   "needed_from_provider": [
+    "advertiser or ad network agreements",
+    "impression validation and billing partner",
+    "legal sign-off per country",
+    "merchant revenue share terms (replaces SHARE_BPS)"
+   ],
+   "placeholders": [
+    {
+     "file": "services/ads.py",
+     "token": "PLACEHOLDERS"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "Ads stay off per country until legal sign-off.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "financing_partner",
+   "name": "Licensed financing partner",
+   "kind": "financing",
+   "used_by": [
+    "financing"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.catalog:SandboxProvider",
+   "sandbox": "services.catalog:SandboxProvider",
+   "needed_from_provider": [
+    "licensed lender or credit partner agreement",
+    "referral terms and disclosures",
+    "consent flow approved by the partner"
+   ],
+   "placeholders": [
+    {
+     "file": "services/catalog.py",
+     "token": "PLACEHOLDER"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "Referral only. LynkOmni never lends.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "protection_partner",
+   "name": "Licensed insurance partner",
+   "kind": "insurance",
+   "used_by": [
+    "protection"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.catalog:SandboxProvider",
+   "sandbox": "services.catalog:SandboxProvider",
+   "needed_from_provider": [
+    "licensed insurer or broker agreement",
+    "product and disclosure documents per country",
+    "claims handoff"
+   ],
+   "placeholders": [
+    {
+     "file": "services/catalog.py",
+     "token": "PLACEHOLDER"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "marketplace_partners",
+   "name": "Marketplace suppliers and fulfilment",
+   "kind": "marketplace",
+   "used_by": [
+    "marketplace",
+    "loyalty"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.catalog:SandboxProvider",
+   "sandbox": "services.catalog:SandboxProvider",
+   "needed_from_provider": [
+    "supplier agreements",
+    "inventory and fulfilment feeds",
+    "refund and cancellation rules"
+   ],
+   "placeholders": [
+    {
+     "file": "services/catalog.py",
+     "token": "PLACEHOLDER"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "dispute_provider",
+   "name": "Dispute evidence handoff (LynkProof)",
+   "kind": "disputes",
+   "used_by": [
+    "payments",
+    "vcard"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.improvements:ProofPack",
+   "sandbox": "services.improvements:ProofPack",
+   "needed_from_provider": [
+    "provider API for evidence submission",
+    "win reporting callback (the $5 fee is charged only after the provider reports a win)"
+   ],
+   "placeholders": [],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "Hands evidence packs over only; never claims zero disputes.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "split_provider",
+   "name": "Licensed split payout provider (LynkSplit)",
+   "kind": "payouts",
+   "used_by": [
+    "payments"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.improvements:Split",
+   "sandbox": "services.improvements:Split",
+   "needed_from_provider": [
+    "licensed provider that executes splits",
+    "payout timing and failure rules"
+   ],
+   "placeholders": [],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "LynkOmni holds no funds.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "edge_cdn",
+   "name": "Edge network and CDN (LynkEdge)",
+   "kind": "infrastructure",
+   "used_by": [
+    "pos"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.improvements:Edge",
+   "sandbox": "services.improvements:Edge",
+   "needed_from_provider": [
+    "CDN or edge platform contract",
+    "bandwidth pricing (replaces billing.FEATURES numbers if different)",
+    "WebAssembly storefront deployment"
+   ],
+   "placeholders": [
+    {
+     "file": "services/improvements.py",
+     "token": "SANDBOX"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "mesh_relay",
+   "name": "Nearby relay transport (LynkMesh)",
+   "kind": "infrastructure",
+   "used_by": [
+    "pos"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.improvements:MeshRelay",
+   "sandbox": "services.improvements:MeshRelay",
+   "needed_from_provider": [
+    "Bluetooth and Wi-Fi Direct transport on Android and iOS",
+    "platform permission review",
+    "security review of sealing"
+   ],
+   "placeholders": [
+    {
+     "file": "services/improvements.py",
+     "token": "SANDBOX"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "Carries data, never money.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "logo_storage",
+   "name": "File storage and malware scanning (merchant logos)",
+   "kind": "storage",
+   "used_by": [
+    "paylinks"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.merchant_logo:validate",
+   "sandbox": "services.merchant_logo:validate",
+   "needed_from_provider": [
+    "object storage with regional location",
+    "malware scanning service",
+    "CDN copy for invoice pages"
+   ],
+   "placeholders": [
+    {
+     "file": "services/merchant_logo.py",
+     "token": "added later"
+    }
+   ],
+   "when_off": {
+    "visual": "state-unavailable-region",
+    "message": "Not available in your country yet."
+   },
+   "notes": "The check that decides whether bytes are safe to keep is built and tested; storage and scanning are not.",
+   "integrate": [
+    "Choose storage and scanner",
+    "Store only logos that pass validate()",
+    "Serve through the CDN as an image with the merchant name as alt text"
+   ]
+  }
+ ],
+ "later": [
+  {
+   "id": "hardware_signing",
+   "name": "Hardware-backed device signatures (ES256)",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Needs Android Keystore and iOS Secure Enclave code on real devices.",
+   "placeholders": [
+    {
+     "file": "dv/box.py",
+     "token": "PLACEHOLDERS"
+    }
+   ],
+   "done_when": "Devices sign with a hardware key and the cloud verifies it; dev-only random signatures are refused in production.",
+   "blocks_note": "any production device sync"
+  },
+  {
+   "id": "device_db_encryption",
+   "name": "SQLCipher exercised on a real build machine",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "SQLCipher is not installed here; the encrypted path is untested.",
+   "placeholders": [
+    {
+     "file": "core/devicedb.py",
+     "token": "SQLCipher"
+    }
+   ],
+   "done_when": "Encrypted open, key rotation and wrong-key tests pass on CI with SQLCipher installed.",
+   "blocks_note": "any production device database"
+  },
+  {
+   "id": "security_review",
+   "name": "Human security review (sealing, anything that moves money)",
+   "blocks": [
+    "payments",
+    "recovery",
+    "paylinks",
+    "vcard",
+    "marketplace",
+    "financing",
+    "protection"
+   ],
+   "status": "pending",
+   "why_not_now": "Needs a human reviewer.",
+   "placeholders": [],
+   "done_when": "A written review with findings closed."
+  },
+  {
+   "id": "accessibility_audit",
+   "name": "Human accessibility audit (WCAG 2.2 AA)",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Scripts check only part of AA.",
+   "placeholders": [],
+   "done_when": "A human audit report with findings closed."
+  },
+  {
+   "id": "names_trademarks",
+   "name": "Names, domains and trademarks for LynkOmni and every Lynk product",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Needs a trademark search and registrations.",
+   "placeholders": [],
+   "done_when": "Clearance for each name and domain."
+  },
+  {
+   "id": "price_validation",
+   "name": "Market validation of the locked prices",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Prices are locked but not market-tested.",
+   "placeholders": [
+    {
+     "file": "services/billing.py",
+     "token": "PLACEHOLDER"
+    }
+   ],
+   "done_when": "Pilot data replaces the guessed tier mix."
+  },
+  {
+   "id": "designer_review",
+   "name": "Human designer review of logo placement, icons, illustrations and cards",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "All visuals are drafts.",
+   "placeholders": [],
+   "done_when": "Designer sign-off recorded in visuals/needs.v1.json status."
+  },
+  {
+   "id": "invoice_law",
+   "name": "Invoice content and retention law per country",
+   "blocks": [
+    "paylinks"
+   ],
+   "status": "pending",
+   "why_not_now": "Needs a local adviser per country.",
+   "placeholders": [
+    {
+     "file": "services/invoicing.py",
+     "token": "local adviser"
+    }
+   ],
+   "done_when": "Written confirmation per country; until then no document is called a tax invoice."
+  },
+  {
+   "id": "font_files",
+   "name": "Montserrat and Inter WOFF2 files in design/fonts",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Montserrat is not on this machine, the sandbox cannot download, and WOFF2 needs the brotli package.",
+   "placeholders": [],
+   "done_when": "design/check_fonts.py reports fonts ok."
+  }
+ ]
+}

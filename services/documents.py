@@ -10,6 +10,7 @@ All text is escaped. Money is integer minor units + currency code, formatted by 
 import base64, html
 import brand
 from core.money import fmt
+from services.merchant_logo import data_uri as merchant_logo_uri
 
 EMAIL_THEMES = ("light", "dark")      # the email PNGs exist for these two only
 
@@ -45,7 +46,7 @@ def _badge_html(iv, merchant, theme, screen, merchant_removed):
     return f'<p><small>Powered by {_svg_img(brand.for_surface("powered-by-badge", theme), 14)}</small></p>'
 
 
-def invoice_html(platform, merchant, invoice_id, theme="light", printing=False, merchant_name=None, merchant_removed_badge=False):
+def invoice_html(platform, merchant, invoice_id, theme="light", printing=False, merchant_name=None, merchant_removed_badge=False, merchant_logo=None):
     """The invoice page. Header carries the LynkOmni logo only on the Free tier; paid tiers show the merchant's name as text."""
     iv = platform.invoicing
     v = iv.inv[invoice_id]
@@ -53,6 +54,8 @@ def invoice_html(platform, merchant, invoice_id, theme="light", printing=False, 
         raise PermissionError("this invoice belongs to another merchant")
     show = brand.invoice_brand(iv.ent(merchant).get("invoice_branding", "lynkomni"))
     head = _svg_img(brand.for_surface("invoice-header", theme, printing=printing), 36) if show["show_lynkomni"] else ""
+    if merchant_logo and show["merchant_logo"]:       # only tiers that allow it; re-checked now, never trusted from storage
+        head = f'<img src="{_esc(merchant_logo_uri(merchant_logo))}" alt="{_esc(merchant_name or "Merchant logo")}" height="36">'
     cur = v["currency"]
     rows = "".join(
         f'<tr><td>{_esc(ln.get("description", ""))}</td><td>{_esc(_qty(ln["qty_milli"]))}</td><td>{_esc(fmt(ln["unit_minor"], cur))}</td></tr>'
