@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { buildFooter, columns, copyright, currentYear, paymentMarks, shortFooter, t, SOCIAL, type Pack } from "../src/footer.js";
+import { buildFooter, columns, copyright, currentYear, paymentMarks, shortFooter, t, SOCIAL, SOCIAL_LINKS, type Pack } from "../src/footer.js";
 
 const pack = (c: string): Pack => JSON.parse(readFileSync(`${process.cwd()}/../contract/country-packs/${c}.json`, "utf8"));
 const FIXED = "© 2026 CruxOmni Group. All rights reserved. LynkOmni is a product of CruxOmni Group.";
@@ -27,6 +27,7 @@ test("menus use the ecosystem names and the cleaned structure", () => {
   for (const bad of ["support.lynkomni.com", "docs.lynkomni.com", "bookings.lynkomni.com", "essentials.lynkomni.com", "flow.lynkomni.com"]) assert.ok(!all.includes(bad), bad);
   assert.ok(all.includes("https://doc.lynkomni.com") && all.includes("https://booking.lynkomni.com") && all.includes("https://essential.lynkomni.com") && all.includes("/support"));
   assert.deepEqual([...SOCIAL], ["linkedin", "x", "facebook", "instagram", "youtube", "tiktok", "whatsapp"]);
+  for (const id of SOCIAL) assert.ok(SOCIAL_LINKS[id].startsWith("https://"), id);
 });
 test("payment methods follow the country pack and are never a global list", () => {
   assert.deepEqual(paymentMarks(pack("RW")), ["visa", "mastercard", "momo_mtn", "airtel_money", "bank_transfer", "qr"]);

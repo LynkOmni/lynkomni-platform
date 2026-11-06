@@ -67,6 +67,12 @@ export function columns(lang: string): Column[] {
   ];
 }
 export const SOCIAL = ["linkedin", "x", "facebook", "instagram", "youtube", "tiktok", "whatsapp"] as const;   // Snapchat, Pinterest and Threads removed: no audience fit for a merchant and fintech platform
+/** Official LynkOmni accounts (claimed 2026-11-06 under the name "LynkOmni" on all ten platforms; seven are shown). */
+export const SOCIAL_LINKS: Record<(typeof SOCIAL)[number], string> = {
+  linkedin: "https://www.linkedin.com/company/lynkomni", x: "https://x.com/LynkOmni", facebook: "https://www.facebook.com/LynkOmni",
+  instagram: "https://www.instagram.com/lynkomni", youtube: "https://www.youtube.com/@LynkOmni", tiktok: "https://www.tiktok.com/@lynkomni",
+  whatsapp: "https://wa.me/237681296652",
+};
 /** Only methods this country's transactions really use, from the country pack (ts/src/payments.ts). Each is shown as a
  *  LynkOmni method icon plus the provider's name as text; never a copied logo. */
 export function paymentMarks(pack: Pack | null): string[] {
@@ -78,7 +84,7 @@ export function buildFooter(o: { now: Date; pack: Pack | null; lang: string }) {
     lang, region: o.pack ? { code: o.pack.code, name: o.pack.name, currency: o.pack.currency } : null, tagline: t(lang, "tagline"),
     newsletter: { title: t(lang, "nlTitle"), text: t(lang, "nlText"), email: t(lang, "nlEmail"), consent: t(lang, "nlConsent"), button: t(lang, "nlButton"), note: t(lang, "nlNote"), preticked: false, doubleOptIn: true,
       topics: [t(lang, "tProduct"), t(lang, "tMerchant"), t(lang, "tDev"), t(lang, "tCompany")] },
-    columns: columns(lang), social: [...SOCIAL], download: [{ id: "appstore", label: t(lang, "appstore") }, { id: "gplay", label: t(lang, "gplay") }, { id: "pwa", label: t(lang, "pwa") }],
+    columns: columns(lang), social: [...SOCIAL], socialLinks: SOCIAL.map((id) => ({ id, href: SOCIAL_LINKS[id] })), download: [{ id: "appstore", label: t(lang, "appstore") }, { id: "gplay", label: t(lang, "gplay") }, { id: "pwa", label: t(lang, "pwa") }],
     payments: { title: t(lang, "payments"), marks: paymentMarks(o.pack), options: paymentOptions(o.pack) },
     legal: { copyright: copyright(currentYear(o.now, tz)), links: [txt(lang, "terms", "terms", "/legal/terms"), txt(lang, "privacy", "privacy", "/legal/privacy"), txt(lang, "cookies", "cookies", "/legal/cookies"),
       txt(lang, "compliance", "compliance", "/legal/compliance"), txt(lang, "accessibility", "accessibility", "/legal/accessibility")] },

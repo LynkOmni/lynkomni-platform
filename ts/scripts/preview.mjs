@@ -33,7 +33,7 @@ function main(code, lang) {
   <fieldset><legend class="sr">Topics</legend>${f.newsletter.topics.map((t) => `<label class="chk"><input type="checkbox"> ${esc(t)}</label>`).join("")}</fieldset>
   <label class="chk"><input type="checkbox" required> <span>${esc(f.newsletter.consent)} <a href="/legal/privacy">${esc(f.legal.links[1].label)}</a></span></label>
   <button>${esc(f.newsletter.button)}</button><small>${esc(f.newsletter.note)}</small></form></div><div class="cols">${cols}</div></div>
-  <div class="mid"><div><h3>${esc(f.newsletter.title === "" ? "" : "")}</h3></div><div class="social" aria-label="Social">${f.social.map((s) => `<a href="/social/${s}" aria-label="${s}" class="so">${SOCIAL[s]}</a>`).join("")}</div>
+  <div class="mid"><div><h3>${esc(f.newsletter.title === "" ? "" : "")}</h3></div><div class="social" aria-label="Social">${f.socialLinks.map((l) => `<a href="${esc(l.href)}" rel="noopener" class="so">${SOCIAL[l.id]}</a>`).join("")}</div>
   <div class="dl">${f.download.map((d) => `<a href="/download/${d.id}" class="btn">${esc(d.label)}</a>`).join("")}</div></div>
   <div class="pay"><span class="pt">${esc(f.payments.title)}</span><div class="marks">${marks}</div></div>
   <div class="bot"><p class="copy">${esc(f.legal.copyright)}</p><div class="legal">${f.legal.links.map((l) => `<a href="${esc(l.href)}">${esc(l.label)}</a>`).join('<span class="bar" aria-hidden="true">|</span>')}</div>

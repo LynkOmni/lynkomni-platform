@@ -1145,7 +1145,8 @@
    "what": "Create the official LynkOmni accounts and claim the name on LinkedIn, X, Facebook, Instagram, YouTube, TikTok, WhatsApp Business, Snapchat, Pinterest and Threads; send Claude the links of the seven footer channels.",
    "why": "Claiming the name everywhere stops others from impersonating LynkOmni; the footer links must lead to real, active accounts.",
    "when": "before the website goes public",
-   "status": "open"
+   "status": "done",
+   "done_note": "Claimed as \"LynkOmni\" on all ten platforms on 2026-11-06; footer links connected (ts/src/footer.ts SOCIAL_LINKS)."
   }
  ]
 }
