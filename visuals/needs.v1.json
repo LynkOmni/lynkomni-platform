@@ -1,0 +1,747 @@
+{
+ "version": 1,
+ "description": "Every visual LynkOmni needs, declared in one place. Add a need here, then run python3 visuals/generate.py. Never add a picture by hand and never leave a placeholder: python3 visuals/check.py fails the build if a need has no file, a file has no need, or anything is off-brand. All assets are drafts until a human designer reviews them.",
+ "status": "draft",
+ "themes_default": [
+  "light",
+  "dark",
+  "contrast-light",
+  "contrast-dark"
+ ],
+ "needs": [
+  {
+   "id": "product-pos",
+   "kind": "illustration",
+   "scene": "pos",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A cash register with a receipt coming out and a coin beside it",
+   "purpose": "Empty state, feature header and onboarding for LynkPOS",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-ledger",
+   "kind": "illustration",
+   "scene": "ledger",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "An open ledger book with ticked lines, a bookmark and a coin",
+   "purpose": "Empty state, feature header and onboarding for LynkLedger",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-stock",
+   "kind": "illustration",
+   "scene": "stock",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "Three stacked shipping boxes with a down arrow showing new stock arriving",
+   "purpose": "Empty state, feature header and onboarding for LynkStock",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-rewards",
+   "kind": "illustration",
+   "scene": "rewards",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A loyalty stamp card with five stamps filled, three empty, and a star",
+   "purpose": "Empty state, feature header and onboarding for LynkRewards",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-dash",
+   "kind": "illustration",
+   "scene": "dash",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A dashboard panel with a bar chart and a rising trend line",
+   "purpose": "Empty state, feature header and onboarding for LynkDash",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-grow",
+   "kind": "illustration",
+   "scene": "grow",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A seedling in a pot with an upward arrow and a coin",
+   "purpose": "Empty state, feature header and onboarding for LynkGrow",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-chat",
+   "kind": "illustration",
+   "scene": "chat",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "Two overlapping speech bubbles, one from a customer and one reply from a business",
+   "purpose": "Empty state, feature header and onboarding for LynkChat",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-mpay",
+   "kind": "illustration",
+   "scene": "mpay",
+   "accent": "exchange",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A phone showing a confirmed coin payment with contactless waves on both sides",
+   "purpose": "Empty state, feature header and onboarding for LynkMPay",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-recover",
+   "kind": "illustration",
+   "scene": "recover",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A padlock with a keyhole and two circular arrows showing recovery",
+   "purpose": "Empty state, feature header and onboarding for LynkRecover",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-checkout",
+   "kind": "illustration",
+   "scene": "checkout",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "An invoice page with lines of text and a round tick badge",
+   "purpose": "Empty state, feature header and onboarding for LynkCheckout",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-assist",
+   "kind": "illustration",
+   "scene": "assist",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A lifebuoy beside a small speech bubble, standing for help",
+   "purpose": "Empty state, feature header and onboarding for LynkAssist",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-vcard",
+   "kind": "illustration",
+   "scene": "vcard",
+   "accent": "vcard",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A tilted payment card with a chip and a padlock badge",
+   "purpose": "Empty state, feature header and onboarding for LynkVCard",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-dev",
+   "kind": "illustration",
+   "scene": "dev",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A code window with a prompt, a cursor and code brackets",
+   "purpose": "Empty state, feature header and onboarding for LynkDev",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-booking",
+   "kind": "illustration",
+   "scene": "booking",
+   "accent": "booking",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A calendar with one day ticked and a small clock",
+   "purpose": "Empty state, feature header and onboarding for LynkBooking",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-essential",
+   "kind": "illustration",
+   "scene": "essential",
+   "accent": "essential",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A shopping bag with a leaf, for everyday essentials",
+   "purpose": "Empty state, feature header and onboarding for LynkEssential",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-suite",
+   "kind": "illustration",
+   "scene": "suite",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A hub linked to seven tiles, for the seven products in LynkSuite",
+   "purpose": "Empty state, feature header and onboarding for LynkSuite",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "state-offline",
+   "kind": "illustration",
+   "scene": "offline",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A cloud crossed out beside a phone that shows a saved tick",
+   "purpose": "Offline banner and screens; reassures that nothing is lost",
+   "used_in": [
+    "state-screen"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "state-error",
+   "kind": "illustration",
+   "scene": "error",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A card with a red cross, standing for a failed action",
+   "purpose": "Failed-state screens; always paired with the word Failed and what happens next",
+   "used_in": [
+    "state-screen"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "state-not-found",
+   "kind": "illustration",
+   "scene": "not-found",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A page with dashed lines and a magnifying glass showing a question mark",
+   "purpose": "Not-found pages and missing records",
+   "used_in": [
+    "state-screen"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "state-no-results",
+   "kind": "illustration",
+   "scene": "no-results",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A list of empty rows and a magnifying glass with a minus",
+   "purpose": "Empty search and filter results",
+   "used_in": [
+    "state-screen"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "state-success",
+   "kind": "illustration",
+   "scene": "success",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A large green circle with a tick and small confetti",
+   "purpose": "Confirmed screens; used only after the provider confirms",
+   "used_in": [
+    "state-screen"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "state-permission",
+   "kind": "illustration",
+   "scene": "permission",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A shield with a padlock",
+   "purpose": "Consent, permission and restricted-access screens",
+   "used_in": [
+    "state-screen"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "state-maintenance",
+   "kind": "illustration",
+   "scene": "maintenance",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A gear above a progress bar",
+   "purpose": "Status page and maintenance banner",
+   "used_in": [
+    "state-screen"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "state-sync-pending",
+   "kind": "illustration",
+   "scene": "sync-pending",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A cloud with an up arrow, a queue of items and a clock",
+   "purpose": "Sync queue screens; shown with the word Queued or Sent",
+   "used_in": [
+    "state-screen"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "state-unavailable-region",
+   "kind": "illustration",
+   "scene": "unavailable-region",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A globe with a dashed ring and a map pin",
+   "purpose": "Country flag is off (for example cards before an issuer is signed)",
+   "used_in": [
+    "state-screen"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "onboarding-offline",
+   "kind": "illustration",
+   "scene": "onboard-offline",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A phone that has saved a sale with a tick, beside a crossed-out wifi signal",
+   "purpose": "Onboarding step 1: you can sell without internet",
+   "used_in": [
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "onboarding-chain",
+   "kind": "illustration",
+   "scene": "onboard-chain",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "Three linked blocks under a padlock, standing for a protected record of every sale",
+   "purpose": "Onboarding step 2: every sale is saved in a protected chain",
+   "used_in": [
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "onboarding-provider",
+   "kind": "illustration",
+   "scene": "onboard-provider",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A coin moving through a shield with a tick towards a bank building",
+   "purpose": "Onboarding step 3: money moves through your licensed provider",
+   "used_in": [
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "onboarding-growth",
+   "kind": "illustration",
+   "scene": "onboard-growth",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A storefront with an awning, a coin and an upward arrow",
+   "purpose": "Onboarding step 4: see your business grow",
+   "used_in": [
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "chart-pricing-ladder",
+   "kind": "chart",
+   "figure": "pricing_ladder",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "Bar chart of the standard monthly price in US dollars for the Plus, Pro and Max tiers of each product family.",
+   "purpose": "Pricing page and investor material; numbers come from services/billing.py",
+   "used_in": [
+    "pricing-page",
+    "docs"
+   ],
+   "budget_kb": 20
+  },
+  {
+   "id": "chart-revenue-path",
+   "kind": "chart",
+   "figure": "revenue_path",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "Column chart of modelled monthly revenue at each growth stage on a logarithmic scale; an assumption, not a forecast.",
+   "purpose": "Blueprint and investor material; numbers come from finance/revenue_model.py",
+   "used_in": [
+    "docs"
+   ],
+   "budget_kb": 20
+  },
+  {
+   "id": "diagram-sync-states",
+   "kind": "diagram",
+   "figure": "sync_states",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "Diagram of a sale moving from the device through an optional relay to the cloud and the provider, with the five states.",
+   "purpose": "Help centre and onboarding: explains queued, sent, accepted, confirmed, failed",
+   "used_in": [
+    "help-centre",
+    "docs"
+   ],
+   "budget_kb": 24
+  },
+  {
+   "id": "share-card",
+   "kind": "share",
+   "figure": "share_card",
+   "themes": [
+    "light"
+   ],
+   "alt": "LynkOmni logo beside a hub connected to seven small tiles.",
+   "purpose": "Link-preview image for the website and shared links (surface share-image)",
+   "used_in": [
+    "share-image"
+   ],
+   "budget_kb": 120,
+   "outputs": [
+    {
+     "file": "share/share-card.light.svg"
+    },
+    {
+     "file": "web/og-1200x630.png",
+     "w": 1200,
+     "h": 630
+    }
+   ]
+  },
+  {
+   "id": "store-feature-graphic",
+   "kind": "store",
+   "figure": "store_feature",
+   "themes": [
+    "light"
+   ],
+   "alt": "LynkOmni logo with a phone that has saved a sale and a cash register.",
+   "purpose": "Play Store feature graphic",
+   "used_in": [
+    "app-store"
+   ],
+   "budget_kb": 120,
+   "outputs": [
+    {
+     "file": "store/play-feature-1024x500.svg"
+    },
+    {
+     "file": "store/play-feature-1024x500.png",
+     "w": 1024,
+     "h": 500
+    }
+   ]
+  },
+  {
+   "id": "app-icon",
+   "kind": "icon-set",
+   "figure": "app_icon",
+   "themes": [
+    "light",
+    "dark"
+   ],
+   "alt": "LynkOmni emblem on a plain background.",
+   "purpose": "Launcher and store icon (surface app-icon)",
+   "used_in": [
+    "app-icon"
+   ],
+   "budget_kb": 120,
+   "outputs": [
+    {
+     "file": "store/app-icon-1024-light.png",
+     "w": 1024,
+     "h": 1024,
+     "theme": "light"
+    },
+    {
+     "file": "store/app-icon-1024-dark.png",
+     "w": 1024,
+     "h": 1024,
+     "theme": "dark"
+    }
+   ]
+  },
+  {
+   "id": "web-icons",
+   "kind": "icon-set",
+   "figure": "web_icons",
+   "themes": [
+    "light"
+   ],
+   "alt": "LynkOmni emblem on a plain background, in the sizes browsers and phones need.",
+   "purpose": "PWA install icons, favicon and touch icon (surface pwa-manifest)",
+   "used_in": [
+    "pwa-manifest"
+   ],
+   "budget_kb": 120,
+   "outputs": [
+    {
+     "file": "web/pwa-192.png",
+     "w": 192,
+     "h": 192
+    },
+    {
+     "file": "web/pwa-512.png",
+     "w": 512,
+     "h": 512
+    },
+    {
+     "file": "web/pwa-maskable-512.png",
+     "w": 512,
+     "h": 512
+    },
+    {
+     "file": "web/apple-touch-icon-180.png",
+     "w": 180,
+     "h": 180
+    },
+    {
+     "file": "web/favicon.svg"
+    },
+    {
+     "file": "web/favicon-32.png",
+     "w": 32,
+     "h": 32
+    },
+    {
+     "file": "web/favicon.ico"
+    },
+    {
+     "file": "web/icons-snippet.json"
+    }
+   ]
+  }
+ ]
+}

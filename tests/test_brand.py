@@ -3,6 +3,16 @@ import brand
 from brand import sync, check
 from design import generate
 
+def jload(p):
+    with open(p, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def jdump(obj, p):
+    with open(p, "w", encoding="utf-8") as f:
+        json.dump(obj, f)
+
+
 SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 10 10" role="img" aria-label="LynkOmni"><path fill="#18181B" d="M0 0L1 1Z"/></svg>\n'
 
 ICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M0 0L1 1"/></svg>\n'
@@ -303,7 +313,7 @@ class TestIcons(Base):
         with open(self.state, "w") as f: json.dump({"synced": True}, f)
 
     def test_icons_are_vendored_locked_and_found_by_id(self):
-        lk = json.load(open(self.lock))
+        lk = jload(self.lock)
         self.assertTrue(any(r.startswith("icons/") for r in lk["files"]))
         i = brand.icon("ui-home", **self.kw)
         self.assertEqual((i.group, i.accessible_name), ("ui", "Ui Home")); self.assertIn("currentColor", brand.icon_svg("ui-home", **self.kw))
@@ -321,8 +331,8 @@ class TestIcons(Base):
 
     def test_gate_needs_all_five_states(self):
         self.assertEqual(check.icon_checks(**self.kw), [])
-        bj = json.load(open(os.path.join(self.vendor, "brand.json"))); del bj["icons"]["status-failed"]
-        json.dump(bj, open(os.path.join(self.vendor, "brand.json"), "w"))
+        bj = jload(os.path.join(self.vendor, "brand.json")); del bj["icons"]["status-failed"]
+        jdump(bj, os.path.join(self.vendor, "brand.json"))
         self.assertTrue(any("status-failed" in m for m in check.icon_checks(**self.kw)))
 
     def test_package_without_icons_is_refused(self):

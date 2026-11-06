@@ -1,0 +1,1306 @@
+{
+ "version": 1,
+ "status": "draft",
+ "needs": {
+  "product-pos": {
+   "kind": "illustration",
+   "alt": "A cash register with a receipt coming out and a coin beside it",
+   "purpose": "Empty state, feature header and onboarding for LynkPOS",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-pos.light.svg",
+     "sha256": "c9c1b3d1bfea96076ec8401b0820eec3d81f09f0343fa419277179206cb7f9a5",
+     "bytes": 1986
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-pos.dark.svg",
+     "sha256": "ad259f9a39fd741699b02db8c3ff117812dcb54615f3e4984c4bce08718c8fce",
+     "bytes": 1986
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-pos.contrast-light.svg",
+     "sha256": "1fc49bb561d1a172be1b622c300f21c8b698b19ec9b7f3add3e4e81a1ef9827c",
+     "bytes": 1986
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-pos.contrast-dark.svg",
+     "sha256": "ea6c7fce190d5f19def7a1c6759209ec4b56268f486c55800cf0c6bf8836d7ba",
+     "bytes": 1986
+    }
+   ]
+  },
+  "product-ledger": {
+   "kind": "illustration",
+   "alt": "An open ledger book with ticked lines, a bookmark and a coin",
+   "purpose": "Empty state, feature header and onboarding for LynkLedger",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-ledger.light.svg",
+     "sha256": "43c5758971dadff6aa4f77620ec3255ab672a3e1455c2aa5c69b5bf6a9815203",
+     "bytes": 1394
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-ledger.dark.svg",
+     "sha256": "75ca5e8fb59d67648cdea6f0956628ad48e30b538528d1ca4d58249723346645",
+     "bytes": 1394
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-ledger.contrast-light.svg",
+     "sha256": "c52eec5ad9c4e3b27f1053d25360f9943f3b9ac4d3c31c9e20b7c0d54f5ac400",
+     "bytes": 1394
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-ledger.contrast-dark.svg",
+     "sha256": "f72c3379576e9588b3907d8ee77de00d9b96ab3d735d1aafc0be7225615d5bef",
+     "bytes": 1394
+    }
+   ]
+  },
+  "product-stock": {
+   "kind": "illustration",
+   "alt": "Three stacked shipping boxes with a down arrow showing new stock arriving",
+   "purpose": "Empty state, feature header and onboarding for LynkStock",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-stock.light.svg",
+     "sha256": "bf32f27ae1eec949d310dbc7c95a1f1e2c2d460b1a57142689f458a7cf678ffb",
+     "bytes": 1474
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-stock.dark.svg",
+     "sha256": "7a9f296350801eb2a9f471af08aca8f43abf71292a691ca386e852c6d2115d4b",
+     "bytes": 1474
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-stock.contrast-light.svg",
+     "sha256": "d897c3d9d4af34a2ba6fc8925c07a1297529248b1e6688faaec1b813fc2fa407",
+     "bytes": 1474
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-stock.contrast-dark.svg",
+     "sha256": "2a683cbf96f9dbdbc90d0d5aff94b9e2c4ed4b20893d618dbd4678d3838229eb",
+     "bytes": 1474
+    }
+   ]
+  },
+  "product-rewards": {
+   "kind": "illustration",
+   "alt": "A loyalty stamp card with five stamps filled, three empty, and a star",
+   "purpose": "Empty state, feature header and onboarding for LynkRewards",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-rewards.light.svg",
+     "sha256": "72003bd8ca811270cdbb94bad8cc7b4effe967d032652732587364fb381f69ec",
+     "bytes": 2105
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-rewards.dark.svg",
+     "sha256": "1c7b00e3972905c0f04eefb57da531827e4dc1cd486b5fb9f4907055896afe73",
+     "bytes": 2105
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-rewards.contrast-light.svg",
+     "sha256": "6b5068ec7e34b5b66ac34cdaf90da65bf066e0f53a992dc8bdb7fcc06c096c6d",
+     "bytes": 2105
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-rewards.contrast-dark.svg",
+     "sha256": "aa8e2c180f65297c09bc663060f2b714fbdd381c7ab11fad7a9c04aded134737",
+     "bytes": 2105
+    }
+   ]
+  },
+  "product-dash": {
+   "kind": "illustration",
+   "alt": "A dashboard panel with a bar chart and a rising trend line",
+   "purpose": "Empty state, feature header and onboarding for LynkDash",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-dash.light.svg",
+     "sha256": "fa30245e59b96ecce5b2133e81670bb79944b2106f4d32b847686a5315090bbb",
+     "bytes": 1565
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-dash.dark.svg",
+     "sha256": "7f7f19187ce0ffee2fe130638cbb9fecd80b94e2764f81033ed87e13d0428657",
+     "bytes": 1565
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-dash.contrast-light.svg",
+     "sha256": "878b56dd754166c3aefdc933cfbf4d25946982fe5344ecb07e2c4b5dd5c138f3",
+     "bytes": 1565
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-dash.contrast-dark.svg",
+     "sha256": "33d811f728abe94cbffdbba13f96e1c353a93ef4a8fe90512e31d07decd9035f",
+     "bytes": 1565
+    }
+   ]
+  },
+  "product-grow": {
+   "kind": "illustration",
+   "alt": "A seedling in a pot with an upward arrow and a coin",
+   "purpose": "Empty state, feature header and onboarding for LynkGrow",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-grow.light.svg",
+     "sha256": "489c9b47016ef69c7344e6bad12993613f7b3a15cc58dfbdaae257e3c6ff8381",
+     "bytes": 1351
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-grow.dark.svg",
+     "sha256": "2021ef30ff0794a5a2ceb77e942d4077f75d676b7aef2074934a32ff5cfcf478",
+     "bytes": 1351
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-grow.contrast-light.svg",
+     "sha256": "5336b5c62fcb3cc7d052169f9bca57473ab5502a36a0ab7f8d7d6aedd2ef25e8",
+     "bytes": 1351
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-grow.contrast-dark.svg",
+     "sha256": "909708a392f2d2d432f05f25fcd4168d2db588076339714c4eaf1a1647a71db4",
+     "bytes": 1351
+    }
+   ]
+  },
+  "product-chat": {
+   "kind": "illustration",
+   "alt": "Two overlapping speech bubbles, one from a customer and one reply from a business",
+   "purpose": "Empty state, feature header and onboarding for LynkChat",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-chat.light.svg",
+     "sha256": "c5b4b5a3f4e1de21b052a0f691d26429374803507a529e8a8562c0665370d77a",
+     "bytes": 1265
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-chat.dark.svg",
+     "sha256": "9f925b5b2894c501a8b8baaa8eaff1f127a6ab6b582d78a20c225b732f888f65",
+     "bytes": 1265
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-chat.contrast-light.svg",
+     "sha256": "1503b2f43d425b45810aa361747563f4f16d992d1ef33f6df45b622e492e7f93",
+     "bytes": 1265
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-chat.contrast-dark.svg",
+     "sha256": "273f78fd53c78950ce4dd411066a67966af69cb1ab3a838375734ce8abf0d7b0",
+     "bytes": 1265
+    }
+   ]
+  },
+  "product-mpay": {
+   "kind": "illustration",
+   "alt": "A phone showing a confirmed coin payment with contactless waves on both sides",
+   "purpose": "Empty state, feature header and onboarding for LynkMPay",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-mpay.light.svg",
+     "sha256": "70f2247e019196a311ff98c4b8b03bbe85e801c1c262f9c9afd0a62eee0d923f",
+     "bytes": 1427
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-mpay.dark.svg",
+     "sha256": "10352bb71fcb2b27fd49dd1f4d3329b0a44d57cae76eacc161645bc346fd9ae5",
+     "bytes": 1427
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-mpay.contrast-light.svg",
+     "sha256": "82dcefa6a85a1222ee566426be710619327970b236a032bfa7353ed03f6bd060",
+     "bytes": 1427
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-mpay.contrast-dark.svg",
+     "sha256": "74b26ea1b42998993fb54daeffa9bb1dcd376171491037abb8ad4d8012aed54f",
+     "bytes": 1427
+    }
+   ]
+  },
+  "product-recover": {
+   "kind": "illustration",
+   "alt": "A padlock with a keyhole and two circular arrows showing recovery",
+   "purpose": "Empty state, feature header and onboarding for LynkRecover",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-recover.light.svg",
+     "sha256": "cedb7f6b22e556c9ad55611b3e074a8efac9fc4587ed4d6b47cc32d64b53dda4",
+     "bytes": 1302
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-recover.dark.svg",
+     "sha256": "c8b2d471ff98bb41a17f6c327956636d9a66fc2624ff2e3c50435ddbaf413f83",
+     "bytes": 1302
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-recover.contrast-light.svg",
+     "sha256": "3e95fe0e6f035bdf508b0ac6d8200de2b76fc004a3e4b2577a0440466af8df01",
+     "bytes": 1302
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-recover.contrast-dark.svg",
+     "sha256": "565ce986857ee714a359b5669f4833d1803c3bcaa2105d8099fcfda668d184bb",
+     "bytes": 1302
+    }
+   ]
+  },
+  "product-checkout": {
+   "kind": "illustration",
+   "alt": "An invoice page with lines of text and a round tick badge",
+   "purpose": "Empty state, feature header and onboarding for LynkCheckout",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-checkout.light.svg",
+     "sha256": "2ad2eb7d08e4f1e3bc7ae36d3be8888c6b52606a84c60d10d6aa9ad3616c3822",
+     "bytes": 1274
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-checkout.dark.svg",
+     "sha256": "89554c00e82950de2732170942fda17989059eba78f76ee1ce2aa84b09dfa481",
+     "bytes": 1274
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-checkout.contrast-light.svg",
+     "sha256": "651497d51633ab96636d04b7a742678201f50182d37755f6066ccce9d1a54011",
+     "bytes": 1274
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-checkout.contrast-dark.svg",
+     "sha256": "94830a08bd74316e6c2e3fd70c4156c3047768a35c82ce8ab51b8e89b67e7114",
+     "bytes": 1274
+    }
+   ]
+  },
+  "product-assist": {
+   "kind": "illustration",
+   "alt": "A lifebuoy beside a small speech bubble, standing for help",
+   "purpose": "Empty state, feature header and onboarding for LynkAssist",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-assist.light.svg",
+     "sha256": "a2c0ace9fcd8e4d307fa16ec7a7751019b44b75e477bccdd48ca5d0d26e757f6",
+     "bytes": 1382
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-assist.dark.svg",
+     "sha256": "04cc87b21a606f9d114219eaf8a9218656dfb249ce881061164ea7ed1cd93d72",
+     "bytes": 1382
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-assist.contrast-light.svg",
+     "sha256": "8154abd6f8d1febda08fb94f8a50d29fbfc7e322bcb99e7cc542367507c5fbe8",
+     "bytes": 1382
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-assist.contrast-dark.svg",
+     "sha256": "ab26b60fdf9369968a6d38d81c94ccff0e66d9a41672e1a1480bb45b50413848",
+     "bytes": 1382
+    }
+   ]
+  },
+  "product-vcard": {
+   "kind": "illustration",
+   "alt": "A tilted payment card with a chip and a padlock badge",
+   "purpose": "Empty state, feature header and onboarding for LynkVCard",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-vcard.light.svg",
+     "sha256": "72fb82eee65118897400d0698ab0fdb378faf3aac50c2238aabdb409bbcd3cc9",
+     "bytes": 1382
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-vcard.dark.svg",
+     "sha256": "715e8b7817057698e4e7729de902911aa03ed9ef649c5246887846fbd78d0e06",
+     "bytes": 1382
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-vcard.contrast-light.svg",
+     "sha256": "527adb407f99e7eee63ea2c21f64d6e2f79f38c4d55d280ec2e2e818af19e9a8",
+     "bytes": 1382
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-vcard.contrast-dark.svg",
+     "sha256": "e056e7337c03902ea77487c274efc4411a5e8b3f4df08f4ad181d098b31a664c",
+     "bytes": 1382
+    }
+   ]
+  },
+  "product-dev": {
+   "kind": "illustration",
+   "alt": "A code window with a prompt, a cursor and code brackets",
+   "purpose": "Empty state, feature header and onboarding for LynkDev",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-dev.light.svg",
+     "sha256": "a16bbb372837db02a29e8cc8743cf8b15b1d83c633d305464a218af76aba0ab8",
+     "bytes": 1402
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-dev.dark.svg",
+     "sha256": "bebe407b367b41beb27dea71739e78fd6fea0c5adc9679ceb6c4acb9136dc7d6",
+     "bytes": 1402
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-dev.contrast-light.svg",
+     "sha256": "eb73d6fcfc9a1846a196042033b697f0cddd94b336fe23fd58d5c8d0d4f9b9e0",
+     "bytes": 1402
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-dev.contrast-dark.svg",
+     "sha256": "a01cd28c3117abb034b4cecf6424e25654a1a646516ed4ebe57506e8ab9a9ec3",
+     "bytes": 1402
+    }
+   ]
+  },
+  "product-booking": {
+   "kind": "illustration",
+   "alt": "A calendar with one day ticked and a small clock",
+   "purpose": "Empty state, feature header and onboarding for LynkBooking",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-booking.light.svg",
+     "sha256": "5ac720c5c3f0a0b00330214f9a03d9f4f6b50f6171ada11861f5e1623fe282a0",
+     "bytes": 2374
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-booking.dark.svg",
+     "sha256": "a025b090bc8e8115c8bab894a7e96d316da84d392e86876453fbb36fdcee271c",
+     "bytes": 2374
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-booking.contrast-light.svg",
+     "sha256": "0ad6da9a2f50a8026454291bdf683db5bd63b01d46da42276b0d9dbc4bd1ab67",
+     "bytes": 2374
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-booking.contrast-dark.svg",
+     "sha256": "466d5c5e2473b8f5bca95c22b9695c6b57e75fcfc9ef3e8c8e3b86b363db7590",
+     "bytes": 2374
+    }
+   ]
+  },
+  "product-essential": {
+   "kind": "illustration",
+   "alt": "A shopping bag with a leaf, for everyday essentials",
+   "purpose": "Empty state, feature header and onboarding for LynkEssential",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-essential.light.svg",
+     "sha256": "73cf8d63af80127acf8d36ff91164424846402e2cf5adaf5486f6b536e6fa3fc",
+     "bytes": 1157
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-essential.dark.svg",
+     "sha256": "30206af1db899f30f2646e13ad06d3179647801d2e314a33653fcc9d358e5e50",
+     "bytes": 1157
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-essential.contrast-light.svg",
+     "sha256": "d816fe4a350b3b0481b3a6aa23d070a04bb0b52b3dce18e9d5cc12ba76a01f77",
+     "bytes": 1157
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-essential.contrast-dark.svg",
+     "sha256": "147ce2b2d4aab2416810db9b61b9683034af24038d89726180286bcd4665b371",
+     "bytes": 1157
+    }
+   ]
+  },
+  "product-suite": {
+   "kind": "illustration",
+   "alt": "A hub linked to seven tiles, for the seven products in LynkSuite",
+   "purpose": "Empty state, feature header and onboarding for LynkSuite",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-suite.light.svg",
+     "sha256": "f45b1f4b114c82d760c0d2a7989b67a682de2bdf47ccde79591ea625d76532f6",
+     "bytes": 1913
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-suite.dark.svg",
+     "sha256": "590fa6e9f50f5f10a7b2552dfd8a77946a6c8b86baccb3b5d74271c9d3991fcb",
+     "bytes": 1913
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-suite.contrast-light.svg",
+     "sha256": "46eb5fdba69b9af9ca649155a549a478237efd569073095c7b03e47cd38f681f",
+     "bytes": 1913
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-suite.contrast-dark.svg",
+     "sha256": "19ad1d191e40e6db142b1c5ea144794384e92787f137ebf32a9b27949132abbc",
+     "bytes": 1913
+    }
+   ]
+  },
+  "state-offline": {
+   "kind": "illustration",
+   "alt": "A cloud crossed out beside a phone that shows a saved tick",
+   "purpose": "Offline banner and screens; reassures that nothing is lost",
+   "used_in": [
+    "state-screen"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/state-offline.light.svg",
+     "sha256": "7e7fb8810204c9b335cb944e68086f865e92d918f0279dde51b5abeba18dee5d",
+     "bytes": 1219
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/state-offline.dark.svg",
+     "sha256": "783b7f7cf250c546ae8285aacfe90e6375ee9bec587e94343ca98462a2af6d02",
+     "bytes": 1219
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/state-offline.contrast-light.svg",
+     "sha256": "66b7aaf893813efe87d055f83d8c2fcde1e9716fe947d472b74256767d203fc0",
+     "bytes": 1219
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/state-offline.contrast-dark.svg",
+     "sha256": "b06fe1656fcc1955e6ff8d7995da0f85ffc96054bc5f5d5c07950bbd59606dfe",
+     "bytes": 1219
+    }
+   ]
+  },
+  "state-error": {
+   "kind": "illustration",
+   "alt": "A card with a red cross, standing for a failed action",
+   "purpose": "Failed-state screens; always paired with the word Failed and what happens next",
+   "used_in": [
+    "state-screen"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/state-error.light.svg",
+     "sha256": "32bf251fce3c92f925e734997d1e3b8a38fa6a3361b33dd566e48a8959d74672",
+     "bytes": 1129
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/state-error.dark.svg",
+     "sha256": "48b21a6b62b4894dc0e46008c296b5cae0d8bb1595082203c311aefce6e7f9e7",
+     "bytes": 1129
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/state-error.contrast-light.svg",
+     "sha256": "a33e4aa94c55b399c78de490c204f41e7791082dcbaa44f353a1939fc973d601",
+     "bytes": 1129
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/state-error.contrast-dark.svg",
+     "sha256": "2317e4289aff8959c0e7bae206e6ef204bc6e8587e4f12507989f9ddf445a612",
+     "bytes": 1129
+    }
+   ]
+  },
+  "state-not-found": {
+   "kind": "illustration",
+   "alt": "A page with dashed lines and a magnifying glass showing a question mark",
+   "purpose": "Not-found pages and missing records",
+   "used_in": [
+    "state-screen"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/state-not-found.light.svg",
+     "sha256": "9b0cd0c36c792d2ca412600b59dec6267017d25db18726f5ee4ae0fdae154108",
+     "bytes": 1216
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/state-not-found.dark.svg",
+     "sha256": "abd802b6ce892742c1ce4f185f990c3efe3338063ba229504e7fe9524d697457",
+     "bytes": 1216
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/state-not-found.contrast-light.svg",
+     "sha256": "cc7c9108072c1f4ec39a492f4f3fd4d6f8c50692b0172ac3db3faf07878c53fb",
+     "bytes": 1216
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/state-not-found.contrast-dark.svg",
+     "sha256": "b954e5ee30d8b53c65e5baad13a2603ff26c6572533d2cf9497cba0a5a887b2d",
+     "bytes": 1216
+    }
+   ]
+  },
+  "state-no-results": {
+   "kind": "illustration",
+   "alt": "A list of empty rows and a magnifying glass with a minus",
+   "purpose": "Empty search and filter results",
+   "used_in": [
+    "state-screen"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/state-no-results.light.svg",
+     "sha256": "9d223d90942ae7f7440b4596f70d1a68fdc57634ef8fa8b7bc327328ee826090",
+     "bytes": 1345
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/state-no-results.dark.svg",
+     "sha256": "d55c6a36cd97ffbfa993a7c9988e1c2f0cf2f00049da09e17d011df0889f3c52",
+     "bytes": 1345
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/state-no-results.contrast-light.svg",
+     "sha256": "d0870444ec8a42e7770219f3bd48e83c6d40caaaa532531a5f45ba39a9243bc9",
+     "bytes": 1345
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/state-no-results.contrast-dark.svg",
+     "sha256": "323bf0bc6ab867aeff10a06d15e2b4da4c416b7d772b97995fa9482091da725f",
+     "bytes": 1345
+    }
+   ]
+  },
+  "state-success": {
+   "kind": "illustration",
+   "alt": "A large green circle with a tick and small confetti",
+   "purpose": "Confirmed screens; used only after the provider confirms",
+   "used_in": [
+    "state-screen"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/state-success.light.svg",
+     "sha256": "3a44f330ca21bb70cddf0a078335b2f713a0137e14cd6110822e8cd0c1a94fd6",
+     "bytes": 1479
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/state-success.dark.svg",
+     "sha256": "8a69ee2fa662c9dc88eeadbfb100f36d0c6a62378561eb840ac836ecce60d89e",
+     "bytes": 1479
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/state-success.contrast-light.svg",
+     "sha256": "407b8825a020d62da8899551cea75906fda47cbc89186c9028be057685213f85",
+     "bytes": 1479
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/state-success.contrast-dark.svg",
+     "sha256": "4679925de7ded8f5677920751f47c4cec371764d63718d035be3bee51c03793e",
+     "bytes": 1479
+    }
+   ]
+  },
+  "state-permission": {
+   "kind": "illustration",
+   "alt": "A shield with a padlock",
+   "purpose": "Consent, permission and restricted-access screens",
+   "used_in": [
+    "state-screen"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/state-permission.light.svg",
+     "sha256": "d24ad83f23f171222de802578722d7f554f80262309b5e3f9fbb8e11db90647b",
+     "bytes": 1108
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/state-permission.dark.svg",
+     "sha256": "430bec5b0cf35f3ce3e29e064469a17200ee59bdc955cfc539e072367d09fc83",
+     "bytes": 1108
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/state-permission.contrast-light.svg",
+     "sha256": "3c8bd8394aba0f7ed4af81d6ecc87f92bd87f7bd4d769bd30fa6db7cb135b1a2",
+     "bytes": 1108
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/state-permission.contrast-dark.svg",
+     "sha256": "34ccae4cff0ffa24f170edcc604396418307897cc819607a13eeea3551cfdbf3",
+     "bytes": 1108
+    }
+   ]
+  },
+  "state-maintenance": {
+   "kind": "illustration",
+   "alt": "A gear above a progress bar",
+   "purpose": "Status page and maintenance banner",
+   "used_in": [
+    "state-screen"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/state-maintenance.light.svg",
+     "sha256": "0b42443bb606c5f646c8bd95aa8860ccc4197d1775a22090dd30469061022d5c",
+     "bytes": 1744
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/state-maintenance.dark.svg",
+     "sha256": "b5483d2ee1bd09b0933e570293a5fa5684b4a11a6c58465193efec257ea1ed49",
+     "bytes": 1744
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/state-maintenance.contrast-light.svg",
+     "sha256": "0bd19448e7abf7f6a5f6b854b29609b359bb30447f5db291b186c0b1aef2c2db",
+     "bytes": 1744
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/state-maintenance.contrast-dark.svg",
+     "sha256": "bffc46dac3a3f6208a533c4683cde93643b412ba54b0fde527dd8c2d52d686d5",
+     "bytes": 1744
+    }
+   ]
+  },
+  "state-sync-pending": {
+   "kind": "illustration",
+   "alt": "A cloud with an up arrow, a queue of items and a clock",
+   "purpose": "Sync queue screens; shown with the word Queued or Sent",
+   "used_in": [
+    "state-screen"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/state-sync-pending.light.svg",
+     "sha256": "463b60cc350eba1f6fe3b672852b6fc3be109d993db81156107dcfdd79814127",
+     "bytes": 1310
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/state-sync-pending.dark.svg",
+     "sha256": "2f84d9b40bb681a53a00205d148d2b726d3809765f86ab02732ad294b5c3ac89",
+     "bytes": 1310
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/state-sync-pending.contrast-light.svg",
+     "sha256": "5add8b1a356ae8f4aeea23148833ae939241e4fabdec93d65bb841ee76dc3ac5",
+     "bytes": 1310
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/state-sync-pending.contrast-dark.svg",
+     "sha256": "0abb62df9e330ab832a4bb0a1cae5613e09e2e2bcdb37e99c67f466aa8aa1c47",
+     "bytes": 1310
+    }
+   ]
+  },
+  "state-unavailable-region": {
+   "kind": "illustration",
+   "alt": "A globe with a dashed ring and a map pin",
+   "purpose": "Country flag is off (for example cards before an issuer is signed)",
+   "used_in": [
+    "state-screen"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/state-unavailable-region.light.svg",
+     "sha256": "87ac1c83dea12d2e5260df30c57bb89fcadf8fa79c4706a586fe60ca865fa9e4",
+     "bytes": 1226
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/state-unavailable-region.dark.svg",
+     "sha256": "15674ebcaf0fe1891446fff16860381e7183309acf0c9a93e06cf684e2065eed",
+     "bytes": 1226
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/state-unavailable-region.contrast-light.svg",
+     "sha256": "04a54f08f718c9eab6108291ea2ac7a7527c0d9a3b0a09eb78239fbcb3a7833c",
+     "bytes": 1226
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/state-unavailable-region.contrast-dark.svg",
+     "sha256": "469267f6ee632aab1e30288f481305a26755a7ca28be83905f159a63cc003a0f",
+     "bytes": 1226
+    }
+   ]
+  },
+  "onboarding-offline": {
+   "kind": "illustration",
+   "alt": "A phone that has saved a sale with a tick, beside a crossed-out wifi signal",
+   "purpose": "Onboarding step 1: you can sell without internet",
+   "used_in": [
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/onboarding-offline.light.svg",
+     "sha256": "e8e32f2dbadb6f74c43aa908a54002bfac488dc756edd5d89c98bd482eb5b442",
+     "bytes": 1559
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/onboarding-offline.dark.svg",
+     "sha256": "cf78bcfb3dad6f57833a373e763f7bfe06263e28d04ade767d4f44fa17de8397",
+     "bytes": 1559
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/onboarding-offline.contrast-light.svg",
+     "sha256": "d32e7e2cf4835fff6cfd8fc9773ca2bd34a03c44d7ee1799b95afdde84bd5da1",
+     "bytes": 1559
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/onboarding-offline.contrast-dark.svg",
+     "sha256": "46e85eb361d29121c97d6f9ec598af0884b655003f1ed15e853518f1bf412e26",
+     "bytes": 1559
+    }
+   ]
+  },
+  "onboarding-chain": {
+   "kind": "illustration",
+   "alt": "Three linked blocks under a padlock, standing for a protected record of every sale",
+   "purpose": "Onboarding step 2: every sale is saved in a protected chain",
+   "used_in": [
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/onboarding-chain.light.svg",
+     "sha256": "48159d5581b84ca123de33c9b25f70989efaa9c1e57dff30cfc390cf56855bd2",
+     "bytes": 1842
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/onboarding-chain.dark.svg",
+     "sha256": "837b39e6126a1678e1b83c7941489b5b23af1030cc42731d405313e4868673ad",
+     "bytes": 1842
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/onboarding-chain.contrast-light.svg",
+     "sha256": "e568f336a72eff27923b6c4991082a94fc409337bb2ab3d61a04524c85c1e0ef",
+     "bytes": 1842
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/onboarding-chain.contrast-dark.svg",
+     "sha256": "7fb3159568fef7101e9e3f2c6ba984fd578df918fe896fa9099ba4bc462937cc",
+     "bytes": 1842
+    }
+   ]
+  },
+  "onboarding-provider": {
+   "kind": "illustration",
+   "alt": "A coin moving through a shield with a tick towards a bank building",
+   "purpose": "Onboarding step 3: money moves through your licensed provider",
+   "used_in": [
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/onboarding-provider.light.svg",
+     "sha256": "efcf95970f157e65db20172b9f07a9ea1f02f1035a8839fca42aa0351ada0852",
+     "bytes": 1406
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/onboarding-provider.dark.svg",
+     "sha256": "d785e2537913acdee8f92142ed98ec4e1a829543a70c4d1294965f4972a49df8",
+     "bytes": 1406
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/onboarding-provider.contrast-light.svg",
+     "sha256": "80b9bf244ce1a10c6115a36494788985e88d96b37a31a394ae1451c84fbbadbf",
+     "bytes": 1406
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/onboarding-provider.contrast-dark.svg",
+     "sha256": "146658a542cd0ba575234938dec5fb4191ea980b750052c94fc21975d307710a",
+     "bytes": 1406
+    }
+   ]
+  },
+  "onboarding-growth": {
+   "kind": "illustration",
+   "alt": "A storefront with an awning, a coin and an upward arrow",
+   "purpose": "Onboarding step 4: see your business grow",
+   "used_in": [
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/onboarding-growth.light.svg",
+     "sha256": "ca80f6834ebabb27b9b93f127c52945702ebedce4588a10a451fbc7e129fb7cd",
+     "bytes": 1599
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/onboarding-growth.dark.svg",
+     "sha256": "683e5c66fbfed2843bc80ca211ffcc3a438c24794d401828a99d94b7f1c97273",
+     "bytes": 1599
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/onboarding-growth.contrast-light.svg",
+     "sha256": "7585ba3f17c2a3b9b851a45887b7515734c80b4fc9c09483d44d67ce5fb397c5",
+     "bytes": 1599
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/onboarding-growth.contrast-dark.svg",
+     "sha256": "4ef4bd55f5c9ebbd57bb25946750b7a4f715e944b78d774c1d789b9ca9815c7f",
+     "bytes": 1599
+    }
+   ]
+  },
+  "chart-pricing-ladder": {
+   "kind": "chart",
+   "alt": "Bar chart of the standard monthly price in US dollars for the Plus, Pro and Max tiers of each product family.",
+   "purpose": "Pricing page and investor material; numbers come from services/billing.py",
+   "used_in": [
+    "pricing-page",
+    "docs"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "charts/chart-pricing-ladder.light.svg",
+     "sha256": "a0fe63ad777fe853201f81c9e001a219ba0085d1caf7e0d37a3afaae135a9c6a",
+     "bytes": 11807
+    },
+    {
+     "theme": "dark",
+     "file": "charts/chart-pricing-ladder.dark.svg",
+     "sha256": "3d47ab0152ad14df116a4801e404f9183324dbca0be08d1788d339482f47c972",
+     "bytes": 11807
+    },
+    {
+     "theme": "contrast-light",
+     "file": "charts/chart-pricing-ladder.contrast-light.svg",
+     "sha256": "2cd19544b1dc57ef920e6c3656036032eb78bbfe82120336dc74c0e446952008",
+     "bytes": 11807
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "charts/chart-pricing-ladder.contrast-dark.svg",
+     "sha256": "c129ba79934ac4e10f159b984380a561bed15741e207e2d5bde73f475d5b0955",
+     "bytes": 11807
+    }
+   ]
+  },
+  "chart-revenue-path": {
+   "kind": "chart",
+   "alt": "Column chart of modelled monthly revenue at each growth stage on a logarithmic scale; an assumption, not a forecast.",
+   "purpose": "Blueprint and investor material; numbers come from finance/revenue_model.py",
+   "used_in": [
+    "docs"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "charts/chart-revenue-path.light.svg",
+     "sha256": "bbffd9f0cb1b95f9638a70a55b5613cc461d483c429cc499424bfd9cada9f737",
+     "bytes": 6493
+    },
+    {
+     "theme": "dark",
+     "file": "charts/chart-revenue-path.dark.svg",
+     "sha256": "a27dd052afceaa2e69521193211d0dc7fd502b392566738c1927e647e7ab736f",
+     "bytes": 6493
+    },
+    {
+     "theme": "contrast-light",
+     "file": "charts/chart-revenue-path.contrast-light.svg",
+     "sha256": "55e84436eccecd43c1d488740150d159c8e1b9dd6c1d68a07d1265898e18ac50",
+     "bytes": 6493
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "charts/chart-revenue-path.contrast-dark.svg",
+     "sha256": "827f3535523322a932736d362d1a1e5ac372748867a09e446337f3f418419d65",
+     "bytes": 6493
+    }
+   ]
+  },
+  "diagram-sync-states": {
+   "kind": "diagram",
+   "alt": "Diagram of a sale moving from the device through an optional relay to the cloud and the provider, with the five states.",
+   "purpose": "Help centre and onboarding: explains queued, sent, accepted, confirmed, failed",
+   "used_in": [
+    "help-centre",
+    "docs"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "diagrams/diagram-sync-states.light.svg",
+     "sha256": "98ea2bc50b89fef8be28ba62a20b64328ca8b8fd3ead322325001dcebd278d52",
+     "bytes": 8480
+    },
+    {
+     "theme": "dark",
+     "file": "diagrams/diagram-sync-states.dark.svg",
+     "sha256": "2944bb12de937aa59bdb32007221ec4aa751e103caa5182312e18d988edc5bf9",
+     "bytes": 8480
+    },
+    {
+     "theme": "contrast-light",
+     "file": "diagrams/diagram-sync-states.contrast-light.svg",
+     "sha256": "1acc64edb452375bd75edd53a22944a19fe003ea3c29d7711016b6a76e4805b9",
+     "bytes": 8480
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "diagrams/diagram-sync-states.contrast-dark.svg",
+     "sha256": "16d73f42fef3c9fe2afddba73235ddab1d104f807150d717c2c7a33ffdabff2f",
+     "bytes": 8480
+    }
+   ]
+  },
+  "share-card": {
+   "kind": "share",
+   "alt": "LynkOmni logo beside a hub connected to seven small tiles.",
+   "purpose": "Link-preview image for the website and shared links (surface share-image)",
+   "used_in": [
+    "share-image"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "share/share-card.light.svg",
+     "sha256": "2d8a3df6c1ef5617135afb974480cbeb73d14b695e57602989a9675477a16f82",
+     "bytes": 6668
+    },
+    {
+     "theme": "light",
+     "file": "web/og-1200x630.png",
+     "w": 1200,
+     "h": 630,
+     "sha256": "38d6ebfd3713adfad788b3ef975c5846b5b9b0938936ad2a66c8f7d4faf62871",
+     "bytes": 55917
+    }
+   ]
+  },
+  "store-feature-graphic": {
+   "kind": "store",
+   "alt": "LynkOmni logo with a phone that has saved a sale and a cash register.",
+   "purpose": "Play Store feature graphic",
+   "used_in": [
+    "app-store"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "store/play-feature-1024x500.svg",
+     "sha256": "551eb78c2f50960f0034306dd84f466e5c1b110d2661c3e43400bf0ad2e08ca4",
+     "bytes": 8116
+    },
+    {
+     "theme": "light",
+     "file": "store/play-feature-1024x500.png",
+     "w": 1024,
+     "h": 500,
+     "sha256": "5a7832c13fb8eb151fdbdabc65d73401b864a9444c781d030da177fdaf933312",
+     "bytes": 50695
+    }
+   ]
+  },
+  "app-icon": {
+   "kind": "icon-set",
+   "alt": "LynkOmni emblem on a plain background.",
+   "purpose": "Launcher and store icon (surface app-icon)",
+   "used_in": [
+    "app-icon"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "store/app-icon-1024-light.png",
+     "w": 1024,
+     "h": 1024,
+     "sha256": "3610e76721df76c1ae71ba9be020138affc519091756185775c268aa38fce344",
+     "bytes": 38853
+    },
+    {
+     "theme": "dark",
+     "file": "store/app-icon-1024-dark.png",
+     "w": 1024,
+     "h": 1024,
+     "sha256": "b8157567fe9a179affe720290779cffc8c0c97fc98cd40876f4ac152f7156e97",
+     "bytes": 40094
+    }
+   ]
+  },
+  "web-icons": {
+   "kind": "icon-set",
+   "alt": "LynkOmni emblem on a plain background, in the sizes browsers and phones need.",
+   "purpose": "PWA install icons, favicon and touch icon (surface pwa-manifest)",
+   "used_in": [
+    "pwa-manifest"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "web/pwa-192.png",
+     "w": 192,
+     "h": 192,
+     "sha256": "951723709afea94995d9562a53e9f3896344f9fbc70bf31eee1a764bc80e30a4",
+     "bytes": 4928
+    },
+    {
+     "theme": "light",
+     "file": "web/pwa-512.png",
+     "w": 512,
+     "h": 512,
+     "sha256": "0fa21cd006a7fe3b2dbac73ed958d6404d7b275759dd85a16005104c18d2317e",
+     "bytes": 15811
+    },
+    {
+     "theme": "light",
+     "file": "web/pwa-maskable-512.png",
+     "w": 512,
+     "h": 512,
+     "sha256": "22eb022bf761af51c7170816754e62e3eda54b41188a6dacfc6e0f0ced2063c9",
+     "bytes": 13281
+    },
+    {
+     "theme": "light",
+     "file": "web/apple-touch-icon-180.png",
+     "w": 180,
+     "h": 180,
+     "sha256": "1076e8de2111683f712bc378d79c79a454ec4a06db4ee17f71221bb0765cf05c",
+     "bytes": 4530
+    },
+    {
+     "theme": "light",
+     "file": "web/favicon.svg",
+     "sha256": "d9bc9837bcd37ac1a697cb5ecc8165451ea68b721fb0a669a363914954d53e21",
+     "bytes": 12493
+    },
+    {
+     "theme": "light",
+     "file": "web/favicon-32.png",
+     "w": 32,
+     "h": 32,
+     "sha256": "8fcc23e39a63c4ea32eb8368b0fdad30b29cbfbce53f07dd105cae42f34e0b7d",
+     "bytes": 734
+    },
+    {
+     "theme": "light",
+     "file": "web/icons-snippet.json",
+     "sha256": "e0b5f49d0ccae8d30184a6b9821d1c10695ec5d54cbb98982156ea6a2531afe2",
+     "bytes": 576
+    },
+    {
+     "theme": "light",
+     "file": "web/favicon.ico",
+     "sha256": "02e5caf31da45e9798bc19457821edb2be38b3f7069e8ccfcbf4ede5c89e0aaa",
+     "bytes": 3047
+    }
+   ]
+  }
+ }
+}

@@ -110,3 +110,10 @@ Offline selling pauses after 14 days without sign-in (the contract default, conf
 ## Icons (v0.9.7)
 
 Brand release 1.2.0 adds 43 one-colour icons (16 product marks, 5 status icons, 22 core UI icons), vendored under brand/vendor/icons and locked by SHA-256. `brand.icon(id)` and `brand.status_icon(state)` look them up; only the five user-facing states have status icons. They are drafts for designer review. A new gate checks that all five status icons are present and locked.
+
+## v0.9.8: visuals made automatically
+- `visuals/needs.v1.json` lists every picture the product needs (36 so far: 16 product illustrations, 9 state screens, 4 onboarding steps, 2 charts, 1 diagram, share card, store graphic, app icons, web icons). `python3 visuals/generate.py` draws them all from the design tokens, in light, dark and the two high-contrast themes, into `visuals/generated`.
+- Code asks for a picture by id (`visuals.get("product-pos", "dark")`, TypeScript `visual(...)`). An unknown id is an error with instructions, never a placeholder. Lite mode hides decorative pictures; sunlight mode uses the contrast set.
+- Charts and the sync diagram read their numbers and wording from the code (billing, revenue model, state tokens). The revenue chart says it is an assumption, not a forecast.
+- `python3 visuals/check.py` (CI job `visuals`) fails on a missing, orphaned, off-token, wordy, oversized or stale picture, a placeholder or "TODO image", a stock-image service, a web image, or a call for an id that does not exist.
+- All of it is a draft until a human designer reviews it. Photographs and screenshots of real screens are not made here.
