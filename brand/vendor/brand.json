@@ -524,6 +524,54 @@
       "react": "ProductSuiteIcon",
       "android": "lynkomni_icon_product_suite",
       "ios": "lynkomni-icon-product-suite"
+    },
+    "ui-pay-card": {
+      "group": "ui",
+      "accessibleName": "Card payment",
+      "svg": "icons/lynkomni-icon-ui-pay-card.svg",
+      "react": "UiPayCardIcon",
+      "android": "lynkomni_icon_ui_pay_card",
+      "ios": "lynkomni-icon-ui-pay-card"
+    },
+    "ui-pay-mobile-money": {
+      "group": "ui",
+      "accessibleName": "Mobile money",
+      "svg": "icons/lynkomni-icon-ui-pay-mobile-money.svg",
+      "react": "UiPayMobileMoneyIcon",
+      "android": "lynkomni_icon_ui_pay_mobile_money",
+      "ios": "lynkomni-icon-ui-pay-mobile-money"
+    },
+    "ui-pay-bank": {
+      "group": "ui",
+      "accessibleName": "Bank transfer",
+      "svg": "icons/lynkomni-icon-ui-pay-bank.svg",
+      "react": "UiPayBankIcon",
+      "android": "lynkomni_icon_ui_pay_bank",
+      "ios": "lynkomni-icon-ui-pay-bank"
+    },
+    "ui-pay-instant": {
+      "group": "ui",
+      "accessibleName": "Instant bank payment",
+      "svg": "icons/lynkomni-icon-ui-pay-instant.svg",
+      "react": "UiPayInstantIcon",
+      "android": "lynkomni_icon_ui_pay_instant",
+      "ios": "lynkomni-icon-ui-pay-instant"
+    },
+    "ui-pay-wallet": {
+      "group": "ui",
+      "accessibleName": "Phone wallet",
+      "svg": "icons/lynkomni-icon-ui-pay-wallet.svg",
+      "react": "UiPayWalletIcon",
+      "android": "lynkomni_icon_ui_pay_wallet",
+      "ios": "lynkomni-icon-ui-pay-wallet"
+    },
+    "ui-pay-crypto": {
+      "group": "ui",
+      "accessibleName": "Digital asset payment",
+      "svg": "icons/lynkomni-icon-ui-pay-crypto.svg",
+      "react": "UiPayCryptoIcon",
+      "android": "lynkomni_icon_ui_pay_crypto",
+      "ios": "lynkomni-icon-ui-pay-crypto"
     }
   },
   "files": {
@@ -686,6 +734,30 @@
     "android/res/drawable/lynkomni_icon_ui_offline.xml": {
       "sha256": "6dbe9fb2bb4ae55db140a9599e55469deeea2e9ed44a4eb8ac1e9cd0d1427bf4",
       "bytes": 592
+    },
+    "android/res/drawable/lynkomni_icon_ui_pay_bank.xml": {
+      "sha256": "23de5eb5d3531ac87dd20a02472e1737ce8a42045d50fcda7df2056bb98729b1",
+      "bytes": 555
+    },
+    "android/res/drawable/lynkomni_icon_ui_pay_card.xml": {
+      "sha256": "bcf01ac5486b44e10306f964c506e78b14d3186240b69fba920d5b62b117b0d2",
+      "bytes": 528
+    },
+    "android/res/drawable/lynkomni_icon_ui_pay_crypto.xml": {
+      "sha256": "af64d19b876082fc865e91ddec405e6167cb7a43528f566a229988d01cd0c443",
+      "bytes": 560
+    },
+    "android/res/drawable/lynkomni_icon_ui_pay_instant.xml": {
+      "sha256": "8de9b88a1e344c0ffea725b1b1f0a4c121e970668f0ccb07f333ddeeb7257470",
+      "bytes": 526
+    },
+    "android/res/drawable/lynkomni_icon_ui_pay_mobile_money.xml": {
+      "sha256": "030ae97948bc994e79c80842774d1df073d15908decc5d62a6937aad1220409a",
+      "bytes": 562
+    },
+    "android/res/drawable/lynkomni_icon_ui_pay_wallet.xml": {
+      "sha256": "9d3d86328baeec85f5e7fa3b0a00f8f02ae792ad85beb302bbb30b1737f6f09e",
+      "bytes": 552
     },
     "android/res/drawable/lynkomni_icon_ui_plus.xml": {
       "sha256": "18a3003d822a3330866f1d42a087d35c5f6d968150bee5f42cc7d19aefa10672",
@@ -906,6 +978,30 @@
     "icons/lynkomni-icon-ui-offline.svg": {
       "sha256": "487bf77c3271cdb23f32df540529862ad14c1a6b5b22517d5cba99680b25dcb4",
       "bytes": 269
+    },
+    "icons/lynkomni-icon-ui-pay-bank.svg": {
+      "sha256": "d604ed8fa078aea2319ea384e9d1d7a2d6951cde5308b4e28e73b01c94a23b82",
+      "bytes": 232
+    },
+    "icons/lynkomni-icon-ui-pay-card.svg": {
+      "sha256": "f19d52607ca2cb2f51dd6262c57a3ad7b6e442403674311680ddf670720d13a4",
+      "bytes": 205
+    },
+    "icons/lynkomni-icon-ui-pay-crypto.svg": {
+      "sha256": "9c67845036bc7a54343d7d6cab126ec921ae6b3d9c99d73f0e1d46c88da4f2a7",
+      "bytes": 237
+    },
+    "icons/lynkomni-icon-ui-pay-instant.svg": {
+      "sha256": "d6dbbb10f5e2a5a89e61bc86f64379bf55b7297700f5afc0ef8d5ffac3f2c3c5",
+      "bytes": 203
+    },
+    "icons/lynkomni-icon-ui-pay-mobile-money.svg": {
+      "sha256": "c9cd57d950c1504840e1b3077827ef5c06af5ab6bcd60d95dd10bdda4dcfc515",
+      "bytes": 239
+    },
+    "icons/lynkomni-icon-ui-pay-wallet.svg": {
+      "sha256": "34fca92a409ab7c005d2d20efb3e92fde6296b4d9937ae2e7ee9ef9e8bf2a5e8",
+      "bytes": 229
     },
     "icons/lynkomni-icon-ui-plus.svg": {
       "sha256": "7f57ef4c3491084327dd29b2ca825790382e8c014f74c2f3a33e7ce9370c7c40",
@@ -1219,6 +1315,54 @@
       "sha256": "69d67bc1d5bfa812a85ce6f8a352c1f2fcc62d33ce1d2cb485d6c23d917d9657",
       "bytes": 682
     },
+    "icons/react/UiPayBankIcon.d.ts": {
+      "sha256": "82950c4270bedff7d60199aaa8908ca87d874532867a7c38776f90133fe66cb0",
+      "bytes": 70
+    },
+    "icons/react/UiPayBankIcon.js": {
+      "sha256": "f1de2bf539dd246cb853d60b608497dac550fbe14db74e78a75dcc403c78a10f",
+      "bytes": 645
+    },
+    "icons/react/UiPayCardIcon.d.ts": {
+      "sha256": "b835dba0d8f1bb98c1b5fe4103bca3145ddb6ddd9a07dfbf9a44b5d7ed4342f1",
+      "bytes": 70
+    },
+    "icons/react/UiPayCardIcon.js": {
+      "sha256": "ed1cf507767e5cb5a1f58cd400478a035bc9293478e0596bdf0e1336756d0071",
+      "bytes": 618
+    },
+    "icons/react/UiPayCryptoIcon.d.ts": {
+      "sha256": "111f2a44f81a094c1f225742a3ffca7e0389c0303538db96306959562b4319e1",
+      "bytes": 74
+    },
+    "icons/react/UiPayCryptoIcon.js": {
+      "sha256": "3b17645869d9b3ddeed42391fc0d7c265e9a68299c15531095d68b9863cae633",
+      "bytes": 654
+    },
+    "icons/react/UiPayInstantIcon.d.ts": {
+      "sha256": "089557dd5ca27e2ddc01792cc745157affb42ccaf3336e25f41bb4fef313a872",
+      "bytes": 76
+    },
+    "icons/react/UiPayInstantIcon.js": {
+      "sha256": "ae83960be9c96eff9d99bab24f205304b1974d78c1acb39a3707ea7b23475a5f",
+      "bytes": 622
+    },
+    "icons/react/UiPayMobileMoneyIcon.d.ts": {
+      "sha256": "f1bda8bb87202e7bc16d960e27ecf310e9560c640a91dd05703cfbd1ab25e423",
+      "bytes": 84
+    },
+    "icons/react/UiPayMobileMoneyIcon.js": {
+      "sha256": "9e06a1506ddc27fcc081d844173e1aa850db1a7fc241c34d97608adea578f434",
+      "bytes": 666
+    },
+    "icons/react/UiPayWalletIcon.d.ts": {
+      "sha256": "c0b7502c7eba2e1d79b46ecbcce2588007ddb928a7562187561ca8463ff986df",
+      "bytes": 74
+    },
+    "icons/react/UiPayWalletIcon.js": {
+      "sha256": "475df6cc8bb796139702e625abc795e30b9db5b140a1b6728d72fcefeb2266f1",
+      "bytes": 646
+    },
     "icons/react/UiPlusIcon.d.ts": {
       "sha256": "6e1ffa2566db22a401eb50f7807968014890ab924a2622a1798512c59c246145",
       "bytes": 64
@@ -1284,12 +1428,12 @@
       "bytes": 628
     },
     "icons/react/index.d.ts": {
-      "sha256": "7763545d7b8e6452b1ba957d13f5d8e6d473a718caeb89fc67b8157e606c1d4d",
-      "bytes": 3623
+      "sha256": "f8a960373061fd18939067dd2a762e31d85538414f134079a45953b4cab39cf5",
+      "bytes": 4111
     },
     "icons/react/index.js": {
-      "sha256": "3be60b71f29d831114365f91219629078cee8f5bb1b1fee77694d2705fae592c",
-      "bytes": 2390
+      "sha256": "c47b50b20de47f045de94e9c921ebf58d6717c2c6ea08963f3da711493c6b907",
+      "bytes": 2730
     },
     "ios/LynkOmniBrand.xcassets/Contents.json": {
       "sha256": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f",
@@ -1698,6 +1842,54 @@
     "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-offline.imageset/lynkomni-icon-ui-offline.svg": {
       "sha256": "487bf77c3271cdb23f32df540529862ad14c1a6b5b22517d5cba99680b25dcb4",
       "bytes": 269
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-pay-bank.imageset/Contents.json": {
+      "sha256": "493eb2bd05f88b0ed9fab05eda4875e740f7d3f73e7bb77619903acf32473dba",
+      "bytes": 281
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-pay-bank.imageset/lynkomni-icon-ui-pay-bank.svg": {
+      "sha256": "d604ed8fa078aea2319ea384e9d1d7a2d6951cde5308b4e28e73b01c94a23b82",
+      "bytes": 232
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-pay-card.imageset/Contents.json": {
+      "sha256": "35810d92cb5287484dfdcc5e28b1f9dc0339cf23c9d1e2d1af97ac9b678d4f04",
+      "bytes": 281
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-pay-card.imageset/lynkomni-icon-ui-pay-card.svg": {
+      "sha256": "f19d52607ca2cb2f51dd6262c57a3ad7b6e442403674311680ddf670720d13a4",
+      "bytes": 205
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-pay-crypto.imageset/Contents.json": {
+      "sha256": "fe9e2020587f814d9917b420875067db2efcc3e4df8c15ecfeecae4f7110207d",
+      "bytes": 283
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-pay-crypto.imageset/lynkomni-icon-ui-pay-crypto.svg": {
+      "sha256": "9c67845036bc7a54343d7d6cab126ec921ae6b3d9c99d73f0e1d46c88da4f2a7",
+      "bytes": 237
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-pay-instant.imageset/Contents.json": {
+      "sha256": "bb227c074f028c9bdaccb68ba26bb15a9a95a9922647d6ed7ccfe0f6b1d2b374",
+      "bytes": 284
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-pay-instant.imageset/lynkomni-icon-ui-pay-instant.svg": {
+      "sha256": "d6dbbb10f5e2a5a89e61bc86f64379bf55b7297700f5afc0ef8d5ffac3f2c3c5",
+      "bytes": 203
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-pay-mobile-money.imageset/Contents.json": {
+      "sha256": "1f7a4f298d76f9ba0ca42b319c430c9f46fd3fb22bd475eb504f57814fc21958",
+      "bytes": 289
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-pay-mobile-money.imageset/lynkomni-icon-ui-pay-mobile-money.svg": {
+      "sha256": "c9cd57d950c1504840e1b3077827ef5c06af5ab6bcd60d95dd10bdda4dcfc515",
+      "bytes": 239
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-pay-wallet.imageset/Contents.json": {
+      "sha256": "c3f88c5de307728d4330a7839bd3f283e5f4cf8b7fa11bd3c4081c38e1db89e2",
+      "bytes": 283
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-pay-wallet.imageset/lynkomni-icon-ui-pay-wallet.svg": {
+      "sha256": "34fca92a409ab7c005d2d20efb3e92fde6296b4d9937ae2e7ee9ef9e8bf2a5e8",
+      "bytes": 229
     },
     "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-plus.imageset/Contents.json": {
       "sha256": "55582c921395a1800c2ec0090fc67f4252f7f85ff0ac36addee05a6c54c98dc8",
