@@ -26,6 +26,8 @@ SAMPLES = {
 }
 SCRIPT_WORD = {"arabic": "ARABIC", "hebrew": "HEBREW", "devanagari": "DEVANAGARI"}
 MAX_KEPT = 0.10          # at most 10% of a pack may stay in English
+ALIASES = {"he": ["iw"], "yi": ["ji"], "fa": ["pes", "prs"], "ckb": ["ku"], "ug": ["uig"], "hi": [], "sd": [], "ps": ["pbt"]}
+PROBE = "Thank you for your purchase. Your receipt is ready."
 
 
 def in_script(text, word):
@@ -75,6 +77,17 @@ def main(report_path):
         report["languages"][lang]["samples"] = out
         for k, why in kept:
             failures.append(f"sample {k} in {lang}: {why}")
+    weak = sorted({f.split("/")[1].split(":")[0] for f in failures if "script" in f})
+    if weak:
+        tags = [engine.sp.id_to_piece(i) for i in range(engine.sp.get_piece_size())]
+        tags = [p for p in tags if p.startswith("<2") and p.endswith(">")]
+        report["probe"] = {}
+        for lang in weak:
+            want = {t.mt_code(lang), lang, *ALIASES.get(lang, [])}
+            cands = [p for p in tags if p[2:-1].split("_")[0].split("-")[0] in want]
+            report["probe"][lang] = {c: engine.model.translate_batch([engine.sp.encode(f"{c} {PROBE}", out_type=str)], beam_size=4)[0].hypotheses[0] for c in cands}
+            report["probe"][lang] = {c: engine.sp.decode(v) for c, v in report["probe"][lang].items()}
+            print("probe", lang, json.dumps(report["probe"][lang], ensure_ascii=False), flush=True)
     return finish(report, failures, report_path)
 
 

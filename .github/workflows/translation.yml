@@ -13,7 +13,7 @@ on:
       - tools/translation/**
       - design/fonts/scripts.v1.json
       - .github/workflows/translation.yml
-permissions: {contents: read}
+permissions: {contents: write}   # pushes the new packs back to the work branch (never to main)
 concurrency: {group: "translation-${{ github.ref }}", cancel-in-progress: true}
 jobs:
   packs:
@@ -49,14 +49,14 @@ jobs:
         uses: actions/cache/save@v6
         with: {path: /mnt/lynk-mt/engine, key: "${{ steps.engine.outputs.cache-primary-key }}"}
       - name: build every language pack and check every language
-        run: cp "$LYNK_MT_DIR/engine.json" translation-engine.json && python tools/translation/build_packs.py translation-report.json
-      - name: upload the packs and the report
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: language-packs
-          path: |
-            web/emulators/*/i18n/*.json
-            translation-report.json
-            translation-engine.json
-          if-no-files-found: warn
+        run: python tools/translation/build_packs.py tools/translation/report.json
+      - name: commit the packs and the report to the work branch
+        if: always() && github.ref != 'refs/heads/main' && startsWith(github.ref, 'refs/heads/lynkomni-')
+        run: |
+          cp "$LYNK_MT_DIR/engine.json" tools/translation/engine.json || true
+          git config user.name "lynkomni-translation[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add web/emulators/*/i18n tools/translation/report.json tools/translation/engine.json
+          if git diff --cached --quiet; then echo "packs unchanged"; exit 0; fi
+          git commit -m "Language packs from ${{ github.sha }} (MADLAD-400, workflow translation)"
+          git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"

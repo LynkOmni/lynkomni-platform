@@ -19,11 +19,15 @@ class Offline(unittest.TestCase):
         for lang in t.languages():
             self.assertRegex(t.mt_code(lang), r"^[a-z]{2,3}(-[A-Za-z]+)?$", lang)
 
-    def test_protected_parts_travel_as_marks_and_come_back(self):
-        text, toks = t.protect("Pay {amount} with MTN MoMo, 3 items")
-        marked = t.to_marks(text)
-        self.assertNotIn("⟦", marked)
-        self.assertEqual(t.restore(t.from_marks(marked), toks), "Pay {amount} with MTN MoMo, 3 items")
+    def test_engines_that_see_plain_names_must_return_every_protected_part(self):
+        class Plain(t.Translator):
+            name, plain_tokens = "plain", True
+            def __init__(s, out): s.out = out
+            def translate(s, texts, source, target): return [s.out]
+        src = "Pay {amount} with MTN MoMo, 3 items"
+        self.assertEqual(t.run(Plain("Payer {amount} avec MTN MoMo, ٣ articles"), [src], "en", "fr"), [("Payer {amount} avec MTN MoMo, 3 articles", None)])
+        self.assertIsNotNone(t.run(Plain("Payer {montant} avec MTN MoMo, 3 articles"), [src], "en", "fr")[0][1])
+        self.assertIsNotNone(t.run(Plain("Payer {amount} avec MoMo, 3 articles"), [src], "en", "fr")[0][1])
 
     def test_language_packs_carry_direction_and_protect_names_numbers_placeholders(self):
         ar = t.build_pack(CAT, "ar")

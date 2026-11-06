@@ -89,16 +89,42 @@ def translate_catalog(catalog, target, engine=None, source="en"):
         raise ValueError(f"{target} is not in design/fonts/scripts.v1.json")
     engine = engine or SandboxTranslator()
     keys = list(catalog)
-    prepared = [protect(catalog[k]) for k in keys]
-    raw = engine.translate([p[0] for p in prepared], source, target)
     out, kept = {}, []
-    for k, (txt, toks), r in zip(keys, prepared, raw):
-        try:
-            out[k] = restore(r, toks)
-        except ValueError as e:
-            out[k] = catalog[k]
-            kept.append((k, str(e)))
+    for k, (text, err) in zip(keys, run(engine, [catalog[k] for k in keys], source, target)):
+        out[k] = catalog[k] if err else text
+        if err:
+            kept.append((k, err))
     return out, kept
+
+
+def ascii_digits(text):
+    """Digits from any script (Arabic-Indic, Persian, Devanagari...) back to 0-9. Numbers are formatted by the app per locale."""
+    import unicodedata
+    return "".join(str(unicodedata.decimal(c)) if c.isdecimal() and not c.isascii() else c for c in text)
+
+
+def run(engine, texts, source, target):
+    """Translate texts and check every protected part. Returns [(translation, None) or (None, why it was refused)].
+    Engines with plain_tokens=True see the protected parts as they are (a real model copies names, {placeholders} and
+    numbers far more reliably than invented marks); each part must then come back exactly as often as in the English."""
+    if getattr(engine, "plain_tokens", False):
+        raw = engine.translate(texts, source, target)
+        res = []
+        for text, r in zip(texts, raw):
+            r = ascii_digits(r).strip()
+            _, toks = protect(text)
+            bad = [tok for tok in dict.fromkeys(toks) if r.count(tok) != text.count(tok)]
+            res.append((None, f"translation lost or repeated a protected part ({bad[0]!r})") if bad else (r, None) if r else (None, "empty translation"))
+        return res
+    prepared = [protect(t) for t in texts]
+    raw = engine.translate([p[0] for p in prepared], source, target)
+    res = []
+    for (_, toks), r in zip(prepared, raw):
+        try:
+            res.append((restore(r, toks), None))
+        except ValueError as e:
+            res.append((None, str(e)))
+    return res
 
 
 # ---- the real engine and the offline design ---------------------------------------------------------------------------
@@ -111,20 +137,6 @@ def mt_code(lang):
     return L["mt"]
 
 
-# Protected parts travel through the engine as plain Latin marks it copies unchanged (it would mangle the ⟦n⟧ brackets,
-# and numbers could come back in another digit system). They are turned back into ⟦n⟧ before restore() checks them.
-_MARK = "QZX"
-_LETTERS = "ABCDEFGHJKLMNPRSTUVW"
-
-
-def to_marks(text):
-    return re.sub(r"⟦(\d+)⟧", lambda m: _MARK + _LETTERS[int(m.group(1))], text)
-
-
-def from_marks(text):
-    return re.sub(rf"{_MARK}\s?([{_LETTERS}])", lambda m: f"⟦{_LETTERS.index(m.group(1))}⟧", text, flags=0)
-
-
 class MadladTranslator(Translator):
     """Google MADLAD-400-3B-MT (Apache 2.0 licence: commercial use allowed; 400+ languages), converted to CTranslate2 with
     int8 weights so it runs on ordinary processors. Chosen by the owner on 2026-11-06 instead of Meta NLLB-200, whose
@@ -132,6 +144,7 @@ class MadladTranslator(Translator):
     tools/translation/install_engine.py; nothing is downloaded while the app runs and no text leaves LynkOmni's machines.
     Needs the ctranslate2 and sentencepiece packages."""
     name = "madlad400-3b-mt-ct2-int8"
+    plain_tokens = True
 
     def __init__(self, model_dir=None):
         model_dir = model_dir or os.environ.get("LYNK_MT_DIR")
@@ -150,9 +163,8 @@ class MadladTranslator(Translator):
         tag = f"<2{mt_code(target)}>"
         if not self.has_language(target):
             raise ValueError(f"the engine does not know the language tag {tag}")
-        batch = [[tag] + self.sp.encode(to_marks(t), out_type=str) + ["</s>"] for t in texts]
-        res = self.model.translate_batch(batch, beam_size=4, max_decoding_length=256, max_batch_size=16)
-        return [from_marks(self.sp.decode(r.hypotheses[0])) for r in res]
+        return [self.sp.decode(r.hypotheses[0]) for r in self.model.translate_batch(
+            [self.sp.encode(f"{tag} {t}", out_type=str) for t in texts], beam_size=4, max_decoding_length=256, max_batch_size=16)]
 
 
 def build_pack(catalog, lang, engine=None):
@@ -194,10 +206,11 @@ class ContentTranslator:
             return {"text": self.cache[key], "translated": True, "state": None}
         if not online or self.engine is None:
             return {"text": text, "translated": False, "state": "queued", "note": "translates when online"}
-        protected, tokens = protect(text)
         try:
-            out = restore(self.engine.translate([protected], source, target)[0], tokens)
+            out, err = run(self.engine, [text], source, target)[0]
         except Exception:
+            out, err = None, "engine error"
+        if err:
             return {"text": text, "translated": False, "state": "failed"}
         self.cache[key] = out
         return {"text": out, "translated": True, "state": None}
