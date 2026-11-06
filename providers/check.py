@@ -61,6 +61,15 @@ def entry_problems(reg=None, root=ROOT):
         for ph in x["placeholders"]:
             p = os.path.join(root, ph["file"])
             if not os.path.isfile(p) or ph["token"] not in _read(p): out.append(f"later {x['id']}: {ph['token']!r} is no longer in {ph['file']}")
+    seen = set()
+    for a in reg.get("user_actions", []):
+        aid = a.get("id", "?")
+        if aid in seen: out.append(f"user action {aid}: duplicate id")
+        seen.add(aid)
+        for k in ("what", "why", "when"):
+            if not a.get(k): out.append(f"user action {aid}: missing {k}")
+        if a.get("status") not in ("open", "done"): out.append(f"user action {aid}: status must be open or done")
+    if "user_actions" not in reg: out.append("ledger needs a user_actions list (things only the user can do)")
     return out
 
 

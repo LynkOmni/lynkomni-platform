@@ -111,3 +111,16 @@ class GateCatches(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class UserActions(unittest.TestCase):
+    def test_list_exists_and_is_well_formed(self):
+        import copy
+        from providers import check
+        reg = providers.registry()
+        self.assertTrue(reg["user_actions"])
+        bad = copy.deepcopy(reg); bad["user_actions"].append({"id": "x", "what": "", "why": "y", "when": "z", "status": "maybe"})
+        p = check.entry_problems(bad)
+        self.assertTrue(any("missing what" in x for x in p) and any("open or done" in x for x in p))
+        gone = copy.deepcopy(reg); del gone["user_actions"]
+        self.assertTrue(any("user_actions" in x for x in check.entry_problems(gone)))

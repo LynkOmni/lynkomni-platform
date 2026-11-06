@@ -1050,5 +1050,63 @@
    "placeholders": [],
    "done_when": "design/check_fonts.py reports fonts ok."
   }
+ ],
+ "user_actions": [
+  {
+   "id": "approve-bot-workflows",
+   "what": "Approve workflow runs on pull requests opened by the brand-sync bot (button 'Approve workflows to run' on the pull request).",
+   "why": "GitHub does not run checks on bot pull requests until a person approves.",
+   "when": "each brand-sync pull request",
+   "status": "open"
+  },
+  {
+   "id": "network-for-installs",
+   "what": "Allow package installs in Claude's network settings, then start a new chat.",
+   "why": "Needed for font files and any library the interface emulators or tests may need later; until then everything is built without extra libraries.",
+   "when": "before fonts are added",
+   "status": "open"
+  },
+  {
+   "id": "provider-contracts",
+   "what": "Sign each provider in the ledger (card issuer, mobile money, banks, tax office, SMS, cloud) per country and send Claude the sandbox keys and documents.",
+   "why": "A service switches on for real users only when its provider is signed.",
+   "when": "per country, before launch there",
+   "status": "open"
+  },
+  {
+   "id": "designer-review",
+   "what": "Have a human designer review all visuals, icons and interface emulators.",
+   "why": "Everything is a draft until a designer signs off.",
+   "when": "before public launch",
+   "status": "open"
+  },
+  {
+   "id": "security-review",
+   "what": "Arrange a human security review of anything that moves money, sealing and card screens.",
+   "why": "Required before release by the LynkOmni rules.",
+   "when": "before any money feature goes live",
+   "status": "open"
+  },
+  {
+   "id": "accessibility-review",
+   "what": "Arrange a human accessibility audit (WCAG 2.2 AA).",
+   "why": "Automatic checks are not a full audit.",
+   "when": "before public launch",
+   "status": "open"
+  },
+  {
+   "id": "names-trademarks",
+   "what": "Have a lawyer check LynkOmni and product names, and register domains.",
+   "why": "Names are placeholders until checked.",
+   "when": "before public launch",
+   "status": "open"
+  },
+  {
+   "id": "store-accounts",
+   "what": "Create Apple Developer and Google Play developer accounts for the organisation.",
+   "why": "Needed to publish the real Android and iOS apps and capture store screenshots.",
+   "when": "before the first mobile release",
+   "status": "open"
+  }
  ]
 }
