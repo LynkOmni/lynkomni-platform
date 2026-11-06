@@ -4,6 +4,8 @@ Every decision the owner made, newest first. Lines are never deleted: a changed 
 
 | Date | Decision | Applied in |
 |---|---|---|
+| 2026-11-06 | Footer social channels: do what large global companies do. The footer keeps seven channels (LinkedIn, X, Facebook, Instagram, YouTube, TikTok, WhatsApp); the LynkOmni name is claimed on all ten platforms, including Snapchat, Pinterest and Threads, which stay out of the footer. | ts/src/footer.ts; providers/registry.v1.json user action social-accounts |
+| 2026-11-06 | The six-step build order and the shop services on the LynkPOS terminal will be addressed during building. | Master blueprint section 38 |
 | 2026-11-06 | Payment options are geo-based: each country shows only its own payment methods (Rwanda first, then every country); Visa and Mastercard are shown everywhere; crypto only where the country allows it and a licensed partner exists. | ts/src/payments.ts; country packs; master blueprint section 26 |
 | 2026-11-06 | Claude designs the payment visuals with no waiting. Owner delegated the method ("do what is best based on global standard and the LynkOmni ecosystem"): LynkOmni method icons plus each provider's name as text; another company's logo is never drawn or copied, and its official artwork is added once that provider is signed. | @lynkomni/icons 1.3.0; providers/registry.v1.json later item official_payment_marks |
 | 2026-11-06 | Use the five working standards: one rule book, a finish checklist, test before adding, version numbers with a change log, and this decision diary. | docs/lynkomni-standards.md; master blueprint section 36 |
