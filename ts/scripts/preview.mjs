@@ -1,6 +1,15 @@
 // Renders the footer model (dist/src/footer.js) into one self-contained preview page. Marks are PLACEHOLDERS: use official brand artwork before launch.
 import { readFileSync, writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { buildFooter, shortFooter } from "../dist/src/footer.js";
+// The real logo comes only from the vendored, hash-checked brand module (python brand/). Unsynced or tampered: show the text placeholder.
+function vendoredLogo() {
+  try {
+    const out = execFileSync("python3", ["-c", "import json,brand;print(json.dumps({v:brand.svg_text('logo',v) for v in ('light','dark')}))"], { cwd: "..", encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
+    return JSON.parse(out);
+  } catch { return null; }
+}
+const LOGO = vendoredLogo();
 const pack = (c) => JSON.parse(readFileSync(`../contract/country-packs/${c}.json`, "utf8"));
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
 const svg = (label, body) => `<svg class="mk" viewBox="0 0 60 38" role="img" aria-label="${esc(label)}"><title>${esc(label)}</title>${body}</svg>`;
@@ -22,7 +31,7 @@ function main(code, lang) {
   const p = pack(code), f = buildFooter({ now: NOW, pack: p, lang });
   const cols = f.columns.map((c) => `<nav aria-labelledby="h-${code}-${c.id}"><h3 id="h-${code}-${c.id}">${esc(c.title)}</h3><ul>${c.items.map((i) => `<li><a href="${esc(i.href)}">${esc(i.label)}</a></li>`).join("")}</ul></nav>`).join("");
   const marks = f.payments.marks.map((m) => svg(...MARKS[m])).join('<span class="bar" aria-hidden="true">|</span>');
-  return `<footer class="ft" aria-label="LynkOmni"><div class="top"><div class="brand"><div class="logo" aria-label="LynkOmni">Lynk<b>Omni</b></div><p>${esc(f.tagline)}</p>
+  return `<footer class="ft" aria-label="LynkOmni"><div class="top"><div class="brand">${LOGO ? `<div class="logo logo-real"><span class="lt">${LOGO.light}</span><span class="dk">${LOGO.dark}</span></div>` : `<div class="logo" aria-label="LynkOmni">Lynk<b>Omni</b></div>`}<p>${esc(f.tagline)}</p>
   <form class="nl" onsubmit="return false"><h3>${esc(f.newsletter.title)}</h3><p>${esc(f.newsletter.text)}</p><label>${esc(f.newsletter.email)}<input type="email" autocomplete="email" required></label>
   <fieldset><legend class="sr">Topics</legend>${f.newsletter.topics.map((t) => `<label class="chk"><input type="checkbox"> ${esc(t)}</label>`).join("")}</fieldset>
   <label class="chk"><input type="checkbox" required> ${esc(f.newsletter.consent)} <a href="/legal/privacy">${esc(f.legal.links[1].label)}</a></label>
@@ -43,7 +52,7 @@ const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta n
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.tabs button{border:1px solid var(--line);background:var(--card);color:var(--fg);padding:8px 12px;border-radius:999px;cursor:pointer;font:inherit}.tabs button[aria-selected="true"]{background:var(--acc);color:var(--acc2);border-color:var(--acc)}
 .ft{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 22px}.top{display:grid;grid-template-columns:minmax(260px,1fr) 3fr;gap:32px}.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:22px}
 h3{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:0 0 10px}ul{list-style:none;margin:0;padding:0}li{margin:6px 0}a{color:var(--fg);text-decoration:none}a:hover,a:focus-visible{text-decoration:underline;outline:2px solid transparent}
-.logo{font-size:24px;font-weight:700;letter-spacing:-.02em}.logo b{color:var(--acc)}.brand>p{color:var(--mut);margin:6px 0 18px}
+.logo-real svg{display:block;width:160px;height:auto}.logo-real .dk{display:none}@media(prefers-color-scheme:dark){.logo-real .lt{display:none}.logo-real .dk{display:block}}.logo{font-size:24px;font-weight:700;letter-spacing:-.02em}.logo b{color:var(--acc)}.brand>p{color:var(--mut);margin:6px 0 18px}
 .nl{border-top:1px solid var(--line);padding-top:14px}.nl p{color:var(--mut);margin:0 0 8px}.nl label{display:block;font-size:13px;margin:8px 0}.nl input[type=email]{display:block;width:100%;margin-top:4px;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit}
 fieldset{border:0;padding:0;margin:6px 0}.chk{display:flex!important;gap:8px;align-items:flex-start;color:var(--mut)}.chk input{margin-top:3px}.nl button{margin-top:8px;padding:10px 16px;border:0;border-radius:8px;background:var(--acc);color:var(--acc2);font:inherit;font-weight:600;cursor:pointer}.nl small{display:block;margin-top:8px;color:var(--mut)}
 .mid{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:26px;padding-top:18px;border-top:1px solid var(--line)}.social{display:flex;gap:8px}.so{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--fg)}

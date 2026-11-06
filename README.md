@@ -87,3 +87,9 @@ Offline selling pauses after 14 days without sign-in (the contract default, conf
 
 ## v0.9.3: invoicing
 - services/invoicing.py: invoices inside LynkCheckout with tier limits (3, 20, 200, unlimited a month), leased offline number blocks, pay link after cloud acceptance, provider-confirmed payment only, credit notes, partial payments, consent-based reminders, recurring invoices. Legal invoice content, numbering and retention rules per country are NOT checked and need a local adviser.
+
+## v0.9.4: logos and icons
+- The artwork lives in its own repo, `lynkomni-icons`, and is published as `@lynkomni/icons`. This repo never edits it: the brand-sync workflow vendors a release into `brand/vendor` with a SHA-256 `brand.lock.json`, and every read is re-checked. Works offline; nothing is fetched at run time.
+- `brand/` (Python) and `ts/src/brand.ts` choose which asset and variant to show per theme; invoice logo rules by tier (`lynkomni`, `logo`, `full`) are in one table.
+- New `logo-ink` design token (logo only). `python3 brand/check.py` guards the token mirror, surfaces and hard-coded logo colours or file names.
+- Until the first sync, the footer preview shows a text placeholder. Brand wording, names and trademarks are still unchecked; accessibility claim stays WCAG 2.2 AA only.

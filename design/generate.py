@@ -37,7 +37,7 @@ def css():
     s += block("[data-mode=\"sunlight\"]", cl) + block(".dark[data-mode=\"sunlight\"]", cd)
     s += block("[data-contrast=\"high\"]", cl) + block(".dark[data-contrast=\"high\"]", cd)
     s += "@media (prefers-contrast: more) {\n" + block(":root:not([data-contrast])", cl).replace("\n", "\n  ").rstrip(" ").replace("  :root", ":root", 0) + block(":root.dark:not([data-contrast])", cd).replace("\n", "\n  ").rstrip(" ") + "}\n"
-    s += "@media (forced-colors: active) {\n  :root, .dark { --brand-primary: Highlight; --brand-ink: LinkText; --text-primary: CanvasText; --bg-base: Canvas; --bg-surface: Canvas; --border-input: CanvasText; --focus-ring: Highlight; }\n}\n"
+    s += "@media (forced-colors: active) {\n  :root, .dark { --brand-primary: Highlight; --brand-ink: LinkText; --logo-ink: CanvasText; --text-primary: CanvasText; --bg-base: Canvas; --bg-surface: Canvas; --border-input: CanvasText; --focus-ring: Highlight; }\n}\n"
     s += """body { background-color: var(--bg-base); color: var(--text-primary); font-family: var(--font-body); font-weight: 400; line-height: 1.5; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 h1, h2, h3, h4, h5, h6, .font-heading { font-family: var(--font-heading); font-weight: 600; letter-spacing: -0.01em; }
 .badge-label, .micro-chip { font-family: var(--font-heading); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }

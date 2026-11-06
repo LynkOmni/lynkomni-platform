@@ -27,6 +27,7 @@ module.exports = {
         'brand-primary': 'var(--brand-primary)',
         'brand-subtle': 'var(--brand-subtle)',
         'focus-ring': 'var(--focus-ring)',
+        'logo-ink': 'var(--logo-ink)',
         'on-accent-booking': 'var(--on-accent-booking)',
         'on-accent-essential': 'var(--on-accent-essential)',
         'on-accent-exchange': 'var(--on-accent-exchange)',

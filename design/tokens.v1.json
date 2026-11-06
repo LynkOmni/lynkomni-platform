@@ -126,6 +126,10 @@
     "#6D3FE8",
     "added"
    ],
+   "logo-ink": [
+    "#18181B",
+    "added"
+   ],
    "focus-ring": [
     "#651FFF",
     "added"
@@ -292,6 +296,10 @@
     "#9E75FF",
     "added"
    ],
+   "logo-ink": [
+    "#FFFFFF",
+    "added"
+   ],
    "focus-ring": [
     "#9E75FF",
     "added"
@@ -438,6 +446,10 @@
     "#4C1D95",
     "added"
    ],
+   "logo-ink": [
+    "#000000",
+    "added"
+   ],
    "focus-ring": [
     "#4C1D95",
     "added"
@@ -480,6 +492,10 @@
     "#C4B5FD",
     "added"
    ],
+   "logo-ink": [
+    "#FFFFFF",
+    "added"
+   ],
    "focus-ring": [
     "#C4B5FD",
     "added"
@@ -509,6 +525,34 @@
     "bg-surface"
    ],
    "min": 4.5,
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ]
+  },
+  {
+   "fg": "logo-ink",
+   "bg": [
+    "bg-base",
+    "bg-surface"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ]
+  },
+  {
+   "fg": "brand-primary",
+   "bg": [
+    "bg-base",
+    "bg-surface"
+   ],
+   "min": 3.0,
    "themes": [
     "light",
     "dark",
@@ -761,6 +805,7 @@
   "text-muted": "Disabled text and decorative hints only. It fails 4.5:1 in both themes by design; placeholders and helper text use text-secondary.",
   "border-strong": "Dividers and decorative rings only. Input boundaries use border-input (3:1 or better).",
   "brand-primary": "Fill colour. White text on it is 4.81:1 (AA). Violet used as TEXT uses brand-ink.",
+  "logo-ink": "Logo colour only (the LynkOmni mark and wordmark). It is white in dark mode, unlike text-primary. Never use it for text. The logo accent is brand-primary and needs 3:1 as a graphic (WCAG non-text contrast).",
   "accent-*": "Fill and large-graphics colours. Accent TEXT or icons use the matching -ink token."
  },
  "states": {

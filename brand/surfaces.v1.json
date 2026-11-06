@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "description": "Every place that shows the LynkOmni brand, and exactly which asset it uses. A surface that is 'live' must resolve against the vendored brand; a 'planned' surface is a promise that when it is built it will use the brand module, not a file path or a colour code.",
+  "surfaces": [
+    {"id": "footer-preview", "status": "live", "kind": "web", "offline": true,
+     "uses": [{"asset": "logo", "variants": ["light", "dark"]}],
+     "note": "ts/scripts/preview.mjs. Shows both variants and swaps by theme."},
+    {"id": "invoice-header", "status": "planned", "kind": "document", "offline": true,
+     "uses": [{"asset": "logo", "variants": ["light", "mono"]}],
+     "note": "Only the lynkomni branding tier shows the LynkOmni logo (brand.invoice_brand). Merchant logos are a separate upload path: PNG, JPEG, WebP only."},
+    {"id": "receipt-header", "status": "planned", "kind": "document", "offline": true,
+     "uses": [{"asset": "emblem", "variants": ["mono"]}],
+     "note": "Printed receipts are one colour."},
+    {"id": "email-header", "status": "planned", "kind": "email", "offline": false,
+     "uses": [{"asset": "logo", "variants": ["light", "dark"]}],
+     "files": ["email/logo-light.png", "email/logo-light@2x.png", "email/logo-dark.png", "email/logo-dark@2x.png"],
+     "note": "Embedded in the message; never a link to a web address."},
+    {"id": "pwa-manifest", "status": "planned", "kind": "web", "offline": true,
+     "uses": [{"asset": "emblem", "variants": ["light"]}],
+     "files": ["web/pwa-192.png", "web/pwa-512.png", "web/pwa-maskable-512.png", "web/favicon.svg", "web/favicon.ico", "web/apple-touch-icon-180.png", "web/icons-snippet.json"],
+     "note": "Bundled into the app and precached so the install icon and splash work offline."},
+    {"id": "share-image", "status": "planned", "kind": "web", "offline": false,
+     "uses": [{"asset": "logo", "variants": ["light"]}],
+     "files": ["web/og-1200x630.png"]},
+    {"id": "status-page", "status": "planned", "kind": "web", "offline": false,
+     "uses": [{"asset": "logo", "variants": ["light", "dark", "contrast-light", "contrast-dark"]}],
+     "note": "status.lynkomni.com"},
+    {"id": "site-header", "status": "planned", "kind": "web", "offline": true,
+     "uses": [{"asset": "logo", "variants": ["light", "dark", "contrast-light", "contrast-dark"]}]}
+  ]
+}

@@ -40,6 +40,7 @@
   --brand-subtle: #F3E8FF;
   --brand-glow: rgba(124, 77, 255, 0.15);
   --brand-ink: #6D3FE8;
+  --logo-ink: #18181B;
   --focus-ring: #651FFF;
   --accent-vcard: #9E75FF;
   --accent-booking: #0EA5E9;
@@ -82,6 +83,7 @@
   --brand-subtle: #1F1047;
   --brand-glow: rgba(124, 77, 255, 0.35);
   --brand-ink: #9E75FF;
+  --logo-ink: #FFFFFF;
   --focus-ring: #9E75FF;
   --accent-vcard: #B388FF;
   --accent-booking: #38BDF8;
@@ -125,6 +127,7 @@
     --brand-subtle: #1F1047;
     --brand-glow: rgba(124, 77, 255, 0.35);
     --brand-ink: #9E75FF;
+    --logo-ink: #FFFFFF;
     --focus-ring: #9E75FF;
     --accent-vcard: #B388FF;
     --accent-booking: #38BDF8;
@@ -165,6 +168,7 @@
   --brand-primary: #4C1D95;
   --brand-hover: #3B0F7A;
   --brand-ink: #4C1D95;
+  --logo-ink: #000000;
   --focus-ring: #4C1D95;
 }
 .dark[data-mode="sunlight"] {
@@ -177,6 +181,7 @@
   --brand-primary: #C4B5FD;
   --brand-hover: #DDD6FE;
   --brand-ink: #C4B5FD;
+  --logo-ink: #FFFFFF;
   --focus-ring: #C4B5FD;
 }
 [data-contrast="high"] {
@@ -189,6 +194,7 @@
   --brand-primary: #4C1D95;
   --brand-hover: #3B0F7A;
   --brand-ink: #4C1D95;
+  --logo-ink: #000000;
   --focus-ring: #4C1D95;
 }
 .dark[data-contrast="high"] {
@@ -201,6 +207,7 @@
   --brand-primary: #C4B5FD;
   --brand-hover: #DDD6FE;
   --brand-ink: #C4B5FD;
+  --logo-ink: #FFFFFF;
   --focus-ring: #C4B5FD;
 }
 @media (prefers-contrast: more) {
@@ -214,6 +221,7 @@
     --brand-primary: #4C1D95;
     --brand-hover: #3B0F7A;
     --brand-ink: #4C1D95;
+    --logo-ink: #000000;
     --focus-ring: #4C1D95;
   }
 :root.dark:not([data-contrast]) {
@@ -226,11 +234,12 @@
     --brand-primary: #C4B5FD;
     --brand-hover: #DDD6FE;
     --brand-ink: #C4B5FD;
+    --logo-ink: #FFFFFF;
     --focus-ring: #C4B5FD;
   }
 }
 @media (forced-colors: active) {
-  :root, .dark { --brand-primary: Highlight; --brand-ink: LinkText; --text-primary: CanvasText; --bg-base: Canvas; --bg-surface: Canvas; --border-input: CanvasText; --focus-ring: Highlight; }
+  :root, .dark { --brand-primary: Highlight; --brand-ink: LinkText; --logo-ink: CanvasText; --text-primary: CanvasText; --bg-base: Canvas; --bg-surface: Canvas; --border-input: CanvasText; --focus-ring: Highlight; }
 }
 body { background-color: var(--bg-base); color: var(--text-primary); font-family: var(--font-body); font-weight: 400; line-height: 1.5; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 h1, h2, h3, h4, h5, h6, .font-heading { font-family: var(--font-heading); font-weight: 600; letter-spacing: -0.01em; }

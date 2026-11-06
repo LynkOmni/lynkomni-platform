@@ -1,0 +1,39 @@
+name: brand-sync
+# Pulls the newest @lynkomni/icons release, vendors it into brand/vendor (with SHA-256 lock) and opens a pull request.
+# Runs weekly and on demand. It never merges by itself: the brand gates in ci.yml must pass and a person approves.
+on:
+  workflow_dispatch:
+  schedule: [{cron: "17 5 * * 1"}]
+permissions:
+  contents: write
+  pull-requests: write
+  packages: read
+jobs:
+  sync:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with: {node-version: "22", registry-url: "https://npm.pkg.github.com", scope: "@lynkomni"}
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - name: Download the latest release
+        env: {NODE_AUTH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"}
+        run: |
+          mkdir -p "$RUNNER_TEMP/pkg" && cd "$RUNNER_TEMP/pkg"
+          npm pack @lynkomni/icons@latest
+          tar -xzf lynkomni-icons-*.tgz
+      - name: Vendor it
+        run: python -m brand.sync --from "$RUNNER_TEMP/pkg/package"
+      - name: Check
+        run: python brand/check.py && python -m unittest tests.test_brand
+      - name: Open a pull request
+        env: {GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"}
+        run: |
+          if git diff --quiet && [ -z "$(git ls-files -o --exclude-standard)" ]; then echo "Already up to date."; exit 0; fi
+          v=$(python -c "import json;print(json.load(open('brand.lock.json')).get('version','latest'))")
+          b="brand-sync/$v"
+          git config user.name "lynkomni-brand-sync"; git config user.email "brand-sync@users.noreply.github.com"
+          git checkout -B "$b" && git add -A && git commit -m "chore: sync brand artwork from @lynkomni/icons $v"
+          git push -f origin "$b"
+          gh pr create --base main --head "$b" --title "chore: sync brand artwork $v" --body "Automatic sync of @lynkomni/icons. Review the artwork preview, check the brand gates are green, then merge." || gh pr edit "$b" --title "chore: sync brand artwork $v"
