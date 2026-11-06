@@ -102,3 +102,7 @@ Offline selling pauses after 14 days without sign-in (the contract default, conf
 ### Prices updated (2026-11-06)
 - Standard USD prices raised about 25 to 40% on paid tiers after the first price check (still placeholders, not market-tested). LynkSuite is now $0/$17/$49/$125 (about 30% below its seven products). LynkBooking, LynkEssential and LynkDev unchanged. Free tiers unchanged.
 - Prices are now LOCKED (v1) and pinned by `tests/test_price_lock.py`. `finance/revenue_model.py` reproduces the blueprint's subscription revenue from its stated user numbers and re-runs it at the new prices: Stage 3 is now $33.1 million a month ($397 million a year), Stage 1 $9,639, Stage 2 $900,522. The section 28 lines ($24,825 a month) are per-use fees and did not change.
+
+## Documents with logos (v0.9.6)
+
+`services/documents.py` renders the invoice page, the receipt and a plain email shell. Logos come only from `brand.for_surface`: the LynkOmni logo shows on an invoice only on the Free LynkCheckout tier; receipts use the one-colour wordmark and never a badge; email uses the PNG logo on top and the wordmark in the footer. The "Powered by LynkOmni" badge is removable from LynkCheckout Plus upward (decided 2026-11-06). Invoices are never called tax invoices and say Paid only after the provider confirms. Merchant logo upload (PNG, JPEG, WebP only) is still to come, so a merchant's name shows as text. Fixed: the footer preview's Privacy link no longer floats at the edge.

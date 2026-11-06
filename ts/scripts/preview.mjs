@@ -34,7 +34,7 @@ function main(code, lang) {
   return `<footer class="ft" aria-label="LynkOmni"><div class="top"><div class="brand">${LOGO ? `<div class="logo logo-real"><span class="lt">${LOGO.light}</span><span class="dk">${LOGO.dark}</span></div>` : `<div class="logo" aria-label="LynkOmni">Lynk<b>Omni</b></div>`}<p>${esc(f.tagline)}</p>
   <form class="nl" onsubmit="return false"><h3>${esc(f.newsletter.title)}</h3><p>${esc(f.newsletter.text)}</p><label>${esc(f.newsletter.email)}<input type="email" autocomplete="email" required></label>
   <fieldset><legend class="sr">Topics</legend>${f.newsletter.topics.map((t) => `<label class="chk"><input type="checkbox"> ${esc(t)}</label>`).join("")}</fieldset>
-  <label class="chk"><input type="checkbox" required> ${esc(f.newsletter.consent)} <a href="/legal/privacy">${esc(f.legal.links[1].label)}</a></label>
+  <label class="chk"><input type="checkbox" required> <span>${esc(f.newsletter.consent)} <a href="/legal/privacy">${esc(f.legal.links[1].label)}</a></span></label>
   <button>${esc(f.newsletter.button)}</button><small>${esc(f.newsletter.note)}</small></form></div><div class="cols">${cols}</div></div>
   <div class="mid"><div><h3>${esc(f.newsletter.title === "" ? "" : "")}</h3></div><div class="social" aria-label="Social">${f.social.map((s) => `<a href="/social/${s}" aria-label="${s}" class="so">${SOCIAL[s]}</a>`).join("")}</div>
   <div class="dl">${f.download.map((d) => `<a href="/download/${d.id}" class="btn">${esc(d.label)}</a>`).join("")}</div></div>
