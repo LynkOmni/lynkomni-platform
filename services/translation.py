@@ -98,3 +98,79 @@ def translate_catalog(catalog, target, engine=None, source="en"):
             out[k] = catalog[k]
             kept.append((k, str(e)))
     return out, kept
+
+
+# ---- the real engine and the offline design ---------------------------------------------------------------------------
+
+def nllb_code(lang):
+    """The NLLB-200 language code (FLORES-200) for a LynkOmni language, from design/fonts/scripts.v1.json."""
+    L = languages().get(lang)
+    if not L or not L.get("nllb"):
+        raise ValueError(f"{lang} has no NLLB code in design/fonts/scripts.v1.json")
+    return L["nllb"]
+
+
+class NllbTranslator(Translator):
+    """Meta NLLB-200 (distilled 600M), converted to CTranslate2 with int8 weights so it runs on ordinary server processors.
+    It is loaded ONLY from a local folder on LynkOmni's own server (LYNK_NLLB_DIR); nothing is downloaded while the app runs,
+    and no text leaves LynkOmni's servers. Needs the ctranslate2 and sentencepiece packages (later item machine_translation_engine)."""
+    name = "nllb-200-distilled-600M-ct2-int8"
+
+    def __init__(self, model_dir=None):
+        model_dir = model_dir or os.environ.get("LYNK_NLLB_DIR")
+        if not model_dir or not os.path.isdir(model_dir):
+            raise RuntimeError("NLLB-200 model folder not found: set LYNK_NLLB_DIR (see providers/registry.v1.json, machine_translation_engine)")
+        import ctranslate2, sentencepiece   # noqa: E401  (installed with the model, never at run time)
+        self.model = ctranslate2.Translator(model_dir, device="cpu", compute_type="int8")
+        self.sp = sentencepiece.SentencePieceProcessor(model_file=os.path.join(model_dir, "sentencepiece.bpe.model"))
+
+    def translate(self, texts, source, target):
+        src, tgt = nllb_code(source), nllb_code(target)
+        batch = [[src] + self.sp.encode(t, out_type=str) + ["</s>"] for t in texts]
+        res = self.model.translate_batch(batch, target_prefix=[[tgt]] * len(texts), beam_size=4, max_decoding_length=256)
+        return [self.sp.decode(r.hypotheses[0][1:]) for r in res]
+
+
+def build_pack(catalog, lang, engine=None):
+    """A language pack for the apps: every screen text translated AHEAD of time and shipped inside the app, so screens work in
+    every language with no internet and no engine on the phone. English source is fingerprinted so stale packs are caught."""
+    import hashlib
+    engine = engine or SandboxTranslator()
+    if lang == "en":
+        texts, kept = dict(catalog), []
+    else:
+        texts, kept = translate_catalog(catalog, lang, engine)
+    src = hashlib.sha256(json.dumps(catalog, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+    L = languages()[lang]
+    return {"lang": lang, "dir": _dir(lang), "native": L["native"], "engine": "source" if lang == "en" else engine.name,
+            "source_sha256": src, "texts": texts, "kept_in_english": [k for k, _ in kept]}
+
+
+def _dir(lang):
+    with open(os.path.join(ROOT, "design", "fonts", "scripts.v1.json"), encoding="utf-8") as f:
+        reg = json.load(f)
+    return reg["scripts"][reg["languages"][lang]["script"]]["dir"]
+
+
+class ContentTranslator:
+    """Text people type (chat messages, product names, notes): translated by the server engine when online and cached on the
+    device. Offline, or when the engine is unavailable, the ORIGINAL text is shown with the state "queued" and translated once
+    back online; a broken or partial translation is never shown."""
+    def __init__(self, engine=None):
+        self.engine, self.cache = engine, {}
+
+    def show(self, text, source, target, online):
+        if source == target:
+            return {"text": text, "translated": False, "state": None}
+        key = (text, source, target)
+        if key in self.cache:
+            return {"text": self.cache[key], "translated": True, "state": None}
+        if not online or self.engine is None:
+            return {"text": text, "translated": False, "state": "queued", "note": "translates when online"}
+        protected, tokens = protect(text)
+        try:
+            out = restore(self.engine.translate([protected], source, target)[0], tokens)
+        except Exception:
+            return {"text": text, "translated": False, "state": "failed"}
+        self.cache[key] = out
+        return {"text": out, "translated": True, "state": None}
