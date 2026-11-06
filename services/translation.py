@@ -163,14 +163,14 @@ def run(engine, texts, source, target):
                 ok.append(c) if not why_c else None
                 why = why or why_c
             valid.append(ok)
-            res.append([None, why or "no usable translation", 0.0])
+            res.append([None, why or "no usable translation", -1.0])
         flat = [(i, c) for i, ok in enumerate(valid) for c in ok]
         back = engine.translate([c for _, c in flat], target, source) if flat else []
         for (i, c), b in zip(flat, back):
             score = chrf(texts[i], ascii_digits(b))
             if score > res[i][2]:
                 res[i] = [c, None, score] if score >= ROUND_TRIP_MIN else [None, f"meaning drifted (round trip {score:.2f})", score]
-        return [tuple(r) for r in res]
+        return [(r[0], r[1], max(r[2], 0.0)) for r in res]
     prepared = [protect(t) for t in texts]
     raw = engine.translate([p[0] for p in prepared], source, target)
     res = []
