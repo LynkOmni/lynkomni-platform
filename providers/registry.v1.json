@@ -1146,7 +1146,7 @@
    "why": "Claiming the name everywhere stops others from impersonating LynkOmni; the footer links must lead to real, active accounts.",
    "when": "before the website goes public",
    "status": "done",
-   "done_note": "Claimed as \"LynkOmni\" on all ten platforms on 2026-11-06; footer links connected (ts/src/footer.ts SOCIAL_LINKS)."
+   "done_note": "Claimed as \"LynkOmni\" on all ten platforms on 2026-11-06; footer links connected (ts/src/footer.ts SOCIAL_LINKS); LinkedIn is a showcase page under the CruxOmni Group company page."
   }
  ]
 }

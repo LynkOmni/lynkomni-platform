@@ -69,7 +69,7 @@ export function columns(lang: string): Column[] {
 export const SOCIAL = ["linkedin", "x", "facebook", "instagram", "youtube", "tiktok", "whatsapp"] as const;   // Snapchat, Pinterest and Threads removed: no audience fit for a merchant and fintech platform
 /** Official LynkOmni accounts (claimed 2026-11-06 under the name "LynkOmni" on all ten platforms; seven are shown). */
 export const SOCIAL_LINKS: Record<(typeof SOCIAL)[number], string> = {
-  linkedin: "https://www.linkedin.com/company/lynkomni", x: "https://x.com/LynkOmni", facebook: "https://www.facebook.com/LynkOmni",
+  linkedin: "https://www.linkedin.com/showcase/lynkomni", x: "https://x.com/LynkOmni", facebook: "https://www.facebook.com/LynkOmni",
   instagram: "https://www.instagram.com/lynkomni", youtube: "https://www.youtube.com/@LynkOmni", tiktok: "https://www.tiktok.com/@lynkomni",
   whatsapp: "https://wa.me/237681296652",
 };

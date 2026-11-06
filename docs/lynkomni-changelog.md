@@ -2,6 +2,9 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.12.4 (2026-11-06)
+- LinkedIn link corrected: LynkOmni is a showcase page under the CruxOmni Group company page.
+
 ## v0.12.3 (2026-11-06)
 - The footer now links to the official LynkOmni accounts on LinkedIn, X, Facebook, Instagram, YouTube, TikTok and WhatsApp Business. The LynkOmni name is claimed on all ten platforms.
 
