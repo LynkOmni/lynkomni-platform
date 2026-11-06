@@ -40,7 +40,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "Fee in the simulator (100 bps) is a placeholder.",
    "integrate": [
@@ -81,7 +81,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "",
    "integrate": [
@@ -121,7 +121,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "",
    "integrate": [
@@ -158,7 +158,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "",
    "integrate": [
@@ -194,7 +194,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "",
    "integrate": [
@@ -230,7 +230,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "",
    "integrate": [
@@ -264,7 +264,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "",
    "integrate": [
@@ -301,7 +301,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "Until confirmed, sales stay pending_fiscal and are never called a valid tax receipt.",
    "integrate": [
@@ -333,7 +333,7 @@
    "placeholders": [],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "No adapter yet: sales are not_applicable until one exists.",
    "integrate": [
@@ -365,7 +365,7 @@
    "placeholders": [],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "No adapter yet.",
    "integrate": [
@@ -397,7 +397,7 @@
    "placeholders": [],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "No adapter yet.",
    "integrate": [
@@ -435,7 +435,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "Cards stay off in a country until its pack has issuer, bin_sponsor and enabled true. Card art has no network mark or bank name until the issuer supplies them under licence.",
    "integrate": [
@@ -464,7 +464,7 @@
    "placeholders": [],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "Only promised for CORE and OMNI after this is live.",
    "integrate": [
@@ -493,7 +493,7 @@
    "placeholders": [],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "Do not advertise perks before this is signed.",
    "integrate": [
@@ -523,7 +523,7 @@
    "placeholders": [],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "OMNI only. The artwork shows no bank or network mark until supplied.",
    "integrate": [
@@ -560,7 +560,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "Codes are returned in the sandbox only so tests run offline; production must send them and never return them.",
    "integrate": [
@@ -596,7 +596,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "Rates are placeholders. Show no live-rate claim.",
    "integrate": [
@@ -629,7 +629,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "The merchant's explicit country choice always wins.",
    "integrate": [
@@ -664,7 +664,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "Ads stay off per country until legal sign-off.",
    "integrate": [
@@ -698,7 +698,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "Referral only. LynkOmni never lends.",
    "integrate": [
@@ -732,7 +732,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "",
    "integrate": [
@@ -767,7 +767,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "",
    "integrate": [
@@ -796,7 +796,7 @@
    "placeholders": [],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "Hands evidence packs over only; never claims zero disputes.",
    "integrate": [
@@ -824,7 +824,7 @@
    "placeholders": [],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "LynkOmni holds no funds.",
    "integrate": [
@@ -858,7 +858,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "",
    "integrate": [
@@ -892,7 +892,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "Carries data, never money.",
    "integrate": [
@@ -926,7 +926,7 @@
    ],
    "when_off": {
     "visual": "state-unavailable-region",
-    "message": "Not available in your country yet."
+    "message": "Coming to your country soon."
    },
    "notes": "The check that decides whether bytes are safe to keep is built and tested; storage and scanning are not.",
    "integrate": [

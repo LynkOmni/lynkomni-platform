@@ -83,7 +83,7 @@ class Ledger(unittest.TestCase):
         w = providers.when_off("vcard")
         self.assertEqual(w["visual"], "state-unavailable-region")
         self.assertTrue(visuals.get(w["visual"]).alt)
-        self.assertIn("Not available", w["message"])
+        self.assertIn("Coming to your country soon", w["message"])
 
 
 class GateCatches(unittest.TestCase):
