@@ -1,3 +1,4 @@
+import { paymentOptions } from "./payments.js";
 /** LynkOmni footer: one model for every site and app. Menus use ecosystem names, copyright is fixed text, the year follows the viewer's
  *  time zone, language and payment methods follow the country pack. Translations are DRAFTS pending native-speaker review. */
 export interface Pack { code: string; name: string; currency: string; tz: string; languages: string[]; providers: string[]; card_networks: string[]; wallets: string[] }
@@ -66,14 +67,10 @@ export function columns(lang: string): Column[] {
   ];
 }
 export const SOCIAL = ["linkedin", "x", "facebook", "instagram", "youtube", "tiktok", "whatsapp"] as const;   // Snapchat, Pinterest and Threads removed: no audience fit for a merchant and fintech platform
-const PROVIDER_MARK: Record<string, string> = { momo_mtn: "mtn_momo", airtel_money: "airtel_money", mpesa: "mpesa", upi: "upi", bank_transfer: "bank_transfer", qr: "qr" };
-
-/** Only methods this country's transactions really use. Card networks and wallets come from the pack, never from a global list. */
+/** Only methods this country's transactions really use, from the country pack (ts/src/payments.ts). Each is shown as a
+ *  LynkOmni method icon plus the provider's name as text; never a copied logo. */
 export function paymentMarks(pack: Pack | null): string[] {
-  if (!pack) return ["visa", "mastercard", "mobile_money", "bank_transfer"];
-  const marks = [...pack.card_networks, ...pack.wallets];
-  for (const p of pack.providers) { const m = PROVIDER_MARK[p]; if (m && !marks.includes(m)) marks.push(m); }
-  return marks;
+  return paymentOptions(pack).map((o) => o.id);
 }
 export function buildFooter(o: { now: Date; pack: Pack | null; lang: string }) {
   const tz = o.pack?.tz ?? "UTC", lang = T[o.lang] ? o.lang : "en";
@@ -82,7 +79,7 @@ export function buildFooter(o: { now: Date; pack: Pack | null; lang: string }) {
     newsletter: { title: t(lang, "nlTitle"), text: t(lang, "nlText"), email: t(lang, "nlEmail"), consent: t(lang, "nlConsent"), button: t(lang, "nlButton"), note: t(lang, "nlNote"), preticked: false, doubleOptIn: true,
       topics: [t(lang, "tProduct"), t(lang, "tMerchant"), t(lang, "tDev"), t(lang, "tCompany")] },
     columns: columns(lang), social: [...SOCIAL], download: [{ id: "appstore", label: t(lang, "appstore") }, { id: "gplay", label: t(lang, "gplay") }, { id: "pwa", label: t(lang, "pwa") }],
-    payments: { title: t(lang, "payments"), marks: paymentMarks(o.pack) },
+    payments: { title: t(lang, "payments"), marks: paymentMarks(o.pack), options: paymentOptions(o.pack) },
     legal: { copyright: copyright(currentYear(o.now, tz)), links: [txt(lang, "terms", "terms", "/legal/terms"), txt(lang, "privacy", "privacy", "/legal/privacy"), txt(lang, "cookies", "cookies", "/legal/cookies"),
       txt(lang, "compliance", "compliance", "/legal/compliance"), txt(lang, "accessibility", "accessibility", "/legal/accessibility")] },
   };

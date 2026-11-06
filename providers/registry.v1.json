@@ -1058,6 +1058,15 @@
    "why_not_now": "The Android and iOS app projects (with resource folders) do not exist yet; only the shared core libraries do.",
    "placeholders": [],
    "done_when": "The app projects bundle TTF instances of every family in design/fonts/scripts.v1.json (Latin, Arabic, Hebrew, Devanagari and the rest), built by build_fonts.py from the same sources.json, set the layout direction from ts/src/fonts.ts rules (Android supportsRtl, iOS semanticContentAttribute), and screenshots in an Arabic and a Hindi locale show the brand fonts."
+  },
+  {
+   "id": "official_payment_marks",
+   "name": "Official payment artwork (Visa, Mastercard, mobile money and other providers)",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "These logos belong to other companies. LynkOmni may show them only as supplied by each company, usually once the provider or acquirer contract is signed. Until then every method shows a LynkOmni method icon with the provider's name as text (ts/src/payments.ts).",
+   "placeholders": [],
+   "done_when": "For each signed provider, its official artwork and usage rules are stored in a checksum-locked folder with the brand module, paymentOptions marks that method official, and the icon plus name is replaced only for that method and only in countries where that provider is signed."
   }
  ],
  "user_actions": [

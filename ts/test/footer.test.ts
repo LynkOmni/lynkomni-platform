@@ -29,10 +29,10 @@ test("menus use the ecosystem names and the cleaned structure", () => {
   assert.deepEqual([...SOCIAL], ["linkedin", "x", "facebook", "instagram", "youtube", "tiktok", "whatsapp"]);
 });
 test("payment methods follow the country pack and are never a global list", () => {
-  assert.deepEqual(paymentMarks(pack("RW")), ["visa", "mastercard", "mtn_momo", "airtel_money", "bank_transfer", "qr"]);
+  assert.deepEqual(paymentMarks(pack("RW")), ["visa", "mastercard", "momo_mtn", "airtel_money", "bank_transfer", "qr"]);
   assert.deepEqual(paymentMarks(pack("KE")), ["visa", "mastercard", "mpesa", "bank_transfer", "qr"]);
-  assert.ok(paymentMarks(pack("IN")).includes("upi") && !paymentMarks(pack("IN")).includes("mtn_momo"));
-  assert.deepEqual(paymentMarks(null), ["visa", "mastercard", "mobile_money", "bank_transfer"]);
+  assert.ok(paymentMarks(pack("IN")).includes("upi") && !paymentMarks(pack("IN")).includes("momo_mtn"));
+  assert.deepEqual(paymentMarks(null), ["visa", "mastercard", "bank_transfer"]);
 });
 test("language follows the visitor with per-string fallback to English", () => {
   assert.equal(t("fr", "products"), "Produits"); assert.equal(t("sw", "products"), "Bidhaa"); assert.equal(t("sw", "appstore"), "App Store"); assert.equal(t("xx", "products"), "Products");

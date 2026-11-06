@@ -245,7 +245,7 @@ function view(): string {
     case "pay":
       return `${top(t("payment"))}<div class="due"><span>${esc(t("total"))}</span><strong>${esc(money(S.cart.total()))}</strong></div><p class="ask">${esc(t("how_pay"))}</p>
         <div class="methods">${(["cash", "mobile_money", "card"] as PaymentMethod[]).map((m) => { const ok = methodOk(m); return `<button class="method${ok ? "" : " off"}" data-act="method:${m}">
-          ${icon(m === "cash" ? "ui-receipt" : m === "card" ? "product-vcard" : "product-mpay")}<span>${esc(t("method_" + m))}</span>${ok ? (m !== "cash" ? `<em>${esc(t("sandbox"))}</em>` : "") : `<em>${esc(t("unavailable"))}</em>`}${icon("ui-chevron-right")}</button>`; }).join("")}</div>`;
+          ${icon(m === "cash" ? "ui-receipt" : m === "card" ? "ui-pay-card" : "ui-pay-mobile-money")}<span>${esc(t("method_" + m))}</span>${ok ? (m !== "cash" ? `<em>${esc(t("sandbox"))}</em>` : "") : `<em>${esc(t("unavailable"))}</em>`}${icon("ui-chevron-right")}</button>`; }).join("")}</div>`;
     case "cash": {
       const total = S.cart.total(), given = Number(S.input || "0");
       return `${top(t("method_cash"))}<div class="due"><span>${esc(t("total"))}</span><strong>${esc(money(total))}</strong></div>
