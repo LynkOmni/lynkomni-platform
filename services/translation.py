@@ -90,7 +90,7 @@ def translate_catalog(catalog, target, engine=None, source="en"):
     engine = engine or SandboxTranslator()
     keys = list(catalog)
     out, kept = {}, []
-    for k, (text, err) in zip(keys, run(engine, [catalog[k] for k in keys], source, target)):
+    for k, (text, err, _) in zip(keys, run(engine, [catalog[k] for k in keys], source, target)):
         out[k] = catalog[k] if err else text
         if err:
             kept.append((k, err))
@@ -103,28 +103,84 @@ def ascii_digits(text):
     return "".join(str(unicodedata.decimal(c)) if c.isdecimal() and not c.isascii() else c for c in text)
 
 
+ROUND_TRIP_MIN = 0.45    # chrF of English vs the translation translated back; below this the meaning probably drifted
+
+
+def stutters(text):
+    """True when a text repeats a word, a phrase or a sentence back to back (a known machine-translation failure)."""
+    w = re.findall(r"\w+", text.lower())
+    if any(w[i:i + n] == w[i + n:i + 2 * n] for n in range(1, 7) for i in range(len(w) - 2 * n + 1)):
+        return True
+    sentences = [x.strip() for x in re.split(r"[.!?\u061F\u06D4\u0964]+", text.lower()) if x.strip()]
+    return len(sentences) != len(set(sentences))
+
+
+def chrf(ref, hyp, n=4, beta=2.0):
+    """Character n-gram F-score (chrF, 0 to 1): how close two texts in the same language are."""
+    from collections import Counter
+    a, b = re.sub(r"\s+", "", ref.lower()), re.sub(r"\s+", "", hyp.lower())
+    scores = []
+    for k in range(1, n + 1):
+        ga, gb = Counter(a[i:i + k] for i in range(len(a) - k + 1)), Counter(b[i:i + k] for i in range(len(b) - k + 1))
+        if not ga or not gb:
+            continue
+        hit = sum((ga & gb).values())
+        p, r = hit / sum(gb.values()), hit / sum(ga.values())
+        scores.append(0.0 if not hit else (1 + beta ** 2) * p * r / (beta ** 2 * p + r))
+    return sum(scores) / len(scores) if scores else 0.0
+
+
+def problems(src, out):
+    """Why a machine translation must not be shown (None when it may be shown)."""
+    if not out:
+        return "empty translation"
+    _, toks = protect(src)
+    bad = [tok for tok in dict.fromkeys(toks) if out.count(tok) != src.count(tok)]
+    if bad:
+        return f"translation lost or repeated a protected part ({bad[0]!r})"
+    if stutters(out) and not stutters(src):
+        return "translation repeats itself"
+    if len(out) > 3 * len(src) + 15:
+        return "translation is much longer than the English (added words)"
+    return None
+
+
 def run(engine, texts, source, target):
-    """Translate texts and check every protected part. Returns [(translation, None) or (None, why it was refused)].
-    Engines with plain_tokens=True see the protected parts as they are (a real model copies names, {placeholders} and
-    numbers far more reliably than invented marks); each part must then come back exactly as often as in the English."""
+    """Translate texts and check them. Returns [(translation, None, score) or (None, why it was refused, score)].
+
+    Engines with plain_tokens=True (real models) see names, {placeholders} and numbers as they are and must return each
+    exactly as often as the English. They offer several candidates per text; a candidate is refused if it loses a
+    protected part, repeats itself or adds words, and the survivors are translated BACK into the source language: the
+    one whose round trip is closest to the original wins, and only if that closeness (chrF) is at least ROUND_TRIP_MIN.
+    Otherwise the text is refused and the caller keeps the original, so a drifted or invented meaning is never shown."""
     if getattr(engine, "plain_tokens", False):
-        raw = engine.translate(texts, source, target)
-        res = []
-        for text, r in zip(texts, raw):
-            r = ascii_digits(r).strip()
-            _, toks = protect(text)
-            bad = [tok for tok in dict.fromkeys(toks) if r.count(tok) != text.count(tok)]
-            res.append((None, f"translation lost or repeated a protected part ({bad[0]!r})") if bad else (r, None) if r else (None, "empty translation"))
-        return res
+        cands = engine.candidates(texts, source, target) if hasattr(engine, "candidates") else [[r] for r in engine.translate(texts, source, target)]
+        valid, res = [], []
+        for text, cs in zip(texts, cands):
+            ok, why = [], None
+            for c in dict.fromkeys(ascii_digits(c).strip() for c in cs):
+                why_c = problems(text, c)
+                ok.append(c) if not why_c else None
+                why = why or why_c
+            valid.append(ok)
+            res.append([None, why or "no usable translation", 0.0])
+        flat = [(i, c) for i, ok in enumerate(valid) for c in ok]
+        back = engine.translate([c for _, c in flat], target, source) if flat else []
+        for (i, c), b in zip(flat, back):
+            score = chrf(texts[i], ascii_digits(b))
+            if score > res[i][2]:
+                res[i] = [c, None, score] if score >= ROUND_TRIP_MIN else [None, f"meaning drifted (round trip {score:.2f})", score]
+        return [tuple(r) for r in res]
     prepared = [protect(t) for t in texts]
     raw = engine.translate([p[0] for p in prepared], source, target)
     res = []
     for (_, toks), r in zip(prepared, raw):
         try:
-            res.append((restore(r, toks), None))
+            res.append((restore(r, toks), None, 1.0))
         except ValueError as e:
-            res.append((None, str(e)))
+            res.append((None, str(e), 0.0))
     return res
+
 
 
 # ---- the real engine and the offline design ---------------------------------------------------------------------------
@@ -163,11 +219,19 @@ class MadladTranslator(Translator):
         tag = f"<2{mt_code(target)}>"
         if not self.has_language(target):
             raise ValueError(f"the engine does not know the language tag {tag}")
-        return [self.sp.decode(r.hypotheses[0]) for r in self.model.translate_batch(
-            [self.sp.encode(f"{tag} {t}", out_type=str) for t in texts], beam_size=4, max_decoding_length=256, max_batch_size=16)]
+        return [c[0] for c in self.candidates(texts, source, target, n=1)]
+
+    def candidates(self, texts, source, target, n=4):
+        """The n best translations of each text (beam search with a repetition penalty), best first."""
+        tag = f"<2{mt_code(target)}>"
+        if not self.has_language(target):
+            raise ValueError(f"the engine does not know the language tag {tag}")
+        res = self.model.translate_batch([self.sp.encode(f"{tag} {t}", out_type=str) for t in texts], beam_size=max(4, n),
+                                         num_hypotheses=n, repetition_penalty=1.15, max_decoding_length=256, max_batch_size=16)
+        return [[self.sp.decode(h) for h in r.hypotheses] for r in res]
 
 
-def build_pack(catalog, lang, engine=None):
+def build_pack(catalog, lang, engine=None, reasons=None):
     """A language pack for the apps: every screen text translated AHEAD of time and shipped inside the app, so screens work in
     every language with no internet and no engine on the phone. English source is fingerprinted so stale packs are caught."""
     import hashlib
@@ -176,6 +240,8 @@ def build_pack(catalog, lang, engine=None):
         texts, kept = dict(catalog), []
     else:
         texts, kept = translate_catalog(catalog, lang, engine)
+        if reasons is not None:
+            reasons.update(dict(kept))
     src = hashlib.sha256(json.dumps(catalog, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
     L = languages()[lang]
     pack = {"lang": lang, "dir": _dir(lang), "native": L["native"], "engine": "source" if lang == "en" else engine.name,
@@ -207,7 +273,7 @@ class ContentTranslator:
         if not online or self.engine is None:
             return {"text": text, "translated": False, "state": "queued", "note": "translates when online"}
         try:
-            out, err = run(self.engine, [text], source, target)[0]
+            out, err, _ = run(self.engine, [text], source, target)[0]
         except Exception:
             out, err = None, "engine error"
         if err:

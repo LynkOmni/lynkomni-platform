@@ -6,7 +6,8 @@
 For every emulator with a web/emulators/<id>/strings.en.json, writes web/emulators/<id>/i18n/<lang>.json for every
 language in design/fonts/scripts.v1.json (English included, as the source). Then checks, and fails if any check fails:
   1. the engine knows every language's tag;
-  2. sample sentences full of names, {placeholders} and numbers come back with every protected part, in every language;
+  2. sample sentences full of names, {placeholders} and numbers pass every check of services/translation.run (protected
+     parts, no repetition, no added words, round trip back to English), in every language;
   3. each translated pack is written in its own script (an Arabic pack has Arabic letters, and so on), so the engine did
      not just copy the English;
   4. no pack keeps more than a few texts in English (texts the engine damaged are kept in English, never shown broken).
@@ -53,7 +54,8 @@ def main(report_path):
         emu = os.path.basename(os.path.dirname(path))
         for lang, L in langs.items():
             start = time.time()
-            pack = t.build_pack(catalog, lang, engine)
+            why = {}
+            pack = t.build_pack(catalog, lang, engine, reasons=why)
             with open(os.path.join(out_dir, f"{lang}.json"), "w", encoding="utf-8") as f:
                 json.dump(pack, f, indent=1, ensure_ascii=False, sort_keys=True)
                 f.write("\n")
@@ -63,7 +65,7 @@ def main(report_path):
             word = SCRIPT_WORD.get(L["script"])
             translated = [k for k in catalog if k not in pack["kept_in_english"]]
             wrong_script = [k for k in translated if word and not in_script(pack["texts"][k], word) and any(c.isalpha() for c in pack["texts"][k])]
-            r[emu] = {"kept_in_english": pack["kept_in_english"], "wrong_script": wrong_script, "seconds": round(time.time() - start, 1)}
+            r[emu] = {"kept_in_english": why, "wrong_script": wrong_script, "seconds": round(time.time() - start, 1)}
             if len(pack["kept_in_english"]) > MAX_KEPT * len(catalog):
                 failures.append(f"{emu}/{lang}: {len(pack['kept_in_english'])} of {len(catalog)} texts kept in English")
             if word and len(wrong_script) > MAX_KEPT * len(catalog):
@@ -75,6 +77,7 @@ def main(report_path):
             continue
         out, kept = t.translate_catalog(SAMPLES, lang, engine)
         report["languages"][lang]["samples"] = out
+        report["languages"][lang]["samples_kept"] = dict(kept)
         for k, why in kept:
             failures.append(f"sample {k} in {lang}: {why}")
     weak = sorted({f.split("/")[1].split(":")[0] for f in failures if "script" in f})
