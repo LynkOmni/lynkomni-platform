@@ -7,6 +7,7 @@ import json, os, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, ROOT)
 import brand, providers, visuals  # noqa: E402
+from services import translation  # noqa: E402
 
 COUNTRY = "RW"                                    # the pilot country of the contract (integer RWF)
 METHOD_ITEMS = {"mobile_money": ["momo_mtn", "airtel_money"], "card": ["card_acquirer"]}
@@ -15,6 +16,29 @@ METHOD_ITEMS = {"mobile_money": ["momo_mtn", "airtel_money"], "card": ["card_acq
 def svg(path):
     with open(path, encoding="utf-8") as f:
         return f.read()
+
+
+def language_packs(emulator):
+    """English from strings.en.json plus every machine-translated pack in i18n/ that was made from that exact English.
+    A missing or out-of-date pack is left out here (the screen falls back to English) and fails tests/test_translation_packs.py."""
+    base = os.path.join(ROOT, "web", "emulators", emulator)
+    with open(os.path.join(base, "strings.en.json"), encoding="utf-8") as f:
+        source = json.load(f)
+    fresh = translation.build_pack(source, "en")["source_sha256"]
+    out = {}
+    for lang in translation.languages():
+        if lang == "en":
+            pack = translation.build_pack(source, "en")
+        else:
+            path = os.path.join(base, "i18n", f"{lang}.json")
+            if not os.path.isfile(path):
+                continue
+            with open(path, encoding="utf-8") as f:
+                pack = json.load(f)
+            if pack.get("source_sha256") != fresh:
+                continue
+        out[lang] = {"native": pack["native"], "dir": pack["dir"], "texts": pack["texts"]}
+    return out
 
 
 def main():
@@ -37,6 +61,7 @@ def main():
         "states": {k: {"label": v["label"], "meaning": v["meaning"]} for k, v in states.items()},
         "pack": {"code": COUNTRY, "name": pack["name"], "currency": pack["currency"], "tz": pack["tz"], "locale": pack.get("locale", "en")},
         "ready": ready,
+        "i18n": language_packs("pos-terminal"),
     }
     json.dump(out, sys.stdout, ensure_ascii=False, sort_keys=True)
 

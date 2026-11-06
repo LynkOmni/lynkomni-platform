@@ -1070,17 +1070,26 @@
   },
   {
    "id": "machine_translation_engine",
-   "name": "Meta NLLB-200 machine translation engine for every LynkOmni language",
+   "name": "Machine translation engine for every LynkOmni language (Google MADLAD-400-3B-MT, Apache 2.0)",
+   "blocks": [],
+   "status": "done",
+   "why_not_now": "Done 2026-11-06. The owner replaced Meta NLLB-200 (CC-BY-NC licence, no commercial use) with Google MADLAD-400-3B-MT (Apache 2.0). tools/translation/install_engine.py checks the licence, pins the model revision and converts it to CTranslate2 int8; the GitHub Actions workflow \"translation\" installs it (cached) and runs tools/translation/build_packs.py, which writes a language pack for every language into web/emulators/<id>/i18n/ and fails unless every language passes. tests/test_translation_packs.py and tests/test_layout_i18n.py check the committed packs.",
+   "placeholders": [],
+   "done_when": "Every language in design/fonts/scripts.v1.json has a current pack from MadladTranslator for every emulator, every protected part survives, the packs ship inside the emulators, and tests/test_layout_i18n.py passes in every real language."
+  },
+  {
+   "id": "translation_server",
+   "name": "Translation engine running on LynkOmni's own server for text people type (chat messages, product names, notes)",
    "blocks": [],
    "status": "pending",
-   "why_not_now": "This workspace cannot download packages or the model (package installs are off; owner action network-for-installs). Everything else is built: services/translation.py has NllbTranslator (CTranslate2 int8, loaded only from LynkOmni's own server folder LYNK_NLLB_DIR), build_pack (screen text translated ahead of time and shipped in the apps, so screens work offline in every language) and ContentTranslator (typed text translated online, cached, original shown offline). Until then SandboxTranslator makes pseudo-translations.",
+   "why_not_now": "LynkOmni has no production server yet (infra/ is a plan). Screen text is already translated ahead of time into the language packs. Until the server exists, ContentTranslator has no engine, so typed text is shown in the original with the state \"queued\"; tests use SandboxTranslator.",
    "placeholders": [
     {
      "file": "services/translation.py",
      "token": "SandboxTranslator"
     }
    ],
-   "done_when": "ctranslate2 and sentencepiece are installed on the translation server, facebook/nllb-200-distilled-600M is converted to CTranslate2 int8 into LYNK_NLLB_DIR, build_pack produces a language pack for every language in design/fonts/scripts.v1.json with NllbTranslator, every result passes protect/restore, the packs ship inside the apps and emulators, and tests/test_layout_i18n.py passes in every real language."
+   "done_when": "The API server image installs ctranslate2 and sentencepiece and mounts the engine folder made by tools/translation/install_engine.py as LYNK_MT_DIR; ContentTranslator uses MadladTranslator there; typed text never leaves LynkOmni's servers."
   }
  ],
  "user_actions": [
@@ -1096,7 +1105,8 @@
    "what": "Allow package installs in Claude's network settings, then start a new chat.",
    "why": "Needed for font files and any library the interface emulators or tests may need later; until then everything is built without extra libraries. It also lets Claude install the NLLB-200 translation engine.",
    "when": "before fonts are added",
-   "status": "open"
+   "status": "done",
+   "done_note": "Owner allowed package installs and Hugging Face for Claude Code cloud environments on 2026-11-06. The claude.ai chat workspace still blocks Hugging Face, so the translation engine is installed on GitHub Actions (workflow \"translation\") instead."
   },
   {
    "id": "provider-contracts",
@@ -1153,7 +1163,7 @@
    "why": "Fonts and right-to-left layout are in place, but translations written by Claude must be checked by people who speak the language before real users see them.",
    "when": "before launching in a country that uses the language",
    "status": "dropped",
-   "done_note": "Owner decision 2026-11-06: no native-speaker review; machine translation (Meta NLLB-200) with automatic protection and layout checks instead."
+   "done_note": "Owner decision 2026-11-06: no native-speaker review; machine translation (Google MADLAD-400; Meta NLLB-200 was replaced for licence reasons) with automatic protection and layout checks instead."
   },
   {
    "id": "social-accounts",

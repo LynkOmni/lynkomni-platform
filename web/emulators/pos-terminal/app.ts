@@ -11,53 +11,20 @@ interface BuildData {
   states: Record<string, { label: string; meaning: string }>;
   pack: { code: string; name: string; currency: string; tz: string; locale: string };
   ready: Record<string, { ok: boolean; message: string }>;
+  i18n: Record<string, { native: string; dir: "ltr" | "rtl"; texts: Record<string, string> }>;
 }
 declare const DATA: BuildData;
 
 type Screen = "lock" | "sell" | "cart" | "pay" | "cash" | "momo" | "card" | "waiting" | "done" | "off" | "menu" | "sales" | "sale" | "count";
-type Lang = "en" | "fr" | "xx" | "xx-rtl";   // xx = long-text test, xx-rtl = right-to-left test (pseudo-translations, never shown to real users)
+type Lang = string;   // a language code from design/fonts/scripts.v1.json, or one of TEST_LANGS
 interface Ev { n: number; type: string; origin: "device" | "server"; payload: unknown; sync: UserState; at: number }
 interface Sale { sale: SalePayload; payments: PaymentPayload[]; tendered?: number; at: number; voided: boolean }
 
-const W: Record<"en" | "fr", Record<string, string>> = {
-  en: {
-    pin: "Enter your PIN", pin_hint: "Sample PIN 1234", use_keys: "Type it on the keypad below the screen.", card_online: "Card payments need an internet connection. Use cash or mobile money.", wrong_pin: "Wrong PIN. Try again.", all: "All", food: "Food", drinks: "Drinks", home: "Household",
-    cart: "Basket", empty: "The basket is empty. Tap a product to add it.", charge: "Charge", total: "Total", items: "items", back: "Back",
-    how_pay: "How is the customer paying?", method_cash: "Cash", method_mobile_money: "Mobile money", method_card: "Card",
-    cash_given: "Cash given", change: "Change", not_enough: "Not enough cash yet", complete: "Complete sale", phone: "Customer phone number",
-    send_request: "Send payment request", tap_card: "Tap the card on the top of the screen, or insert it in the slot at the bottom.",
-    waiting: "Waiting for the provider", wait_momo: "The customer approves on their phone.", wait_card: "Reading the card. Do not remove it.",
-    queued_note: "No internet. The sale is saved and the request will be sent when the terminal is back online.",
-    failed_note: "The payment did not go through. Nothing was charged.", try_again: "Try again", other_method: "Choose another method",
-    done: "Sale complete", printing: "Printing receipt", new_sale: "New sale", menu: "Menu", sales: "Today's sales", count: "Cash count",
-    lock: "Lock terminal", expected: "Expected cash", counted: "Counted cash", matches: "Matches", short: "Short by", over: "Over by",
-    reprint: "Reprint receipt", void: "Void sale", void_reason: "Why is it voided?", r_entered_in_error: "Entered in error",
-    r_customer_cancelled: "Customer cancelled", r_price_error: "Price error", r_duplicate: "Duplicate", voided: "Voided",
-    no_sales: "No sales yet today.", sandbox: "Sandbox", test_money: "Test money only", sync: "Sync", online: "Online", offline: "Offline",
-    receipt: "Receipt", provisional: "Provisional receipt", not_tax: "Not a tax receipt", thanks: "Thank you", tendered: "Cash given",
-    state_pending_confirmation: "Waiting for provider", state_confirmed: "Confirmed by provider", state_failed: "Failed, not charged", unavailable: "Coming soon",
-    scan_added: "Scanned", scanning: "Scanning", ok: "OK", payment: "Payment", sync_state: "Sync", tear: "Tear off receipt",
-  },
-  fr: {
-    pin: "Saisissez votre code PIN", pin_hint: "Code d'exemple 1234", use_keys: "Saisissez-le sur le clavier sous l'écran.", card_online: "Le paiement par carte demande internet. Utilisez les espèces ou le mobile money.", wrong_pin: "Code incorrect. Réessayez.", all: "Tout", food: "Alimentation", drinks: "Boissons", home: "Maison",
-    cart: "Panier", empty: "Le panier est vide. Touchez un produit pour l'ajouter.", charge: "Encaisser", total: "Total", items: "articles", back: "Retour",
-    how_pay: "Comment le client paie-t-il ?", method_cash: "Espèces", method_mobile_money: "Mobile money", method_card: "Carte",
-    cash_given: "Espèces reçues", change: "Monnaie", not_enough: "Montant insuffisant", complete: "Terminer la vente", phone: "Numéro du client",
-    send_request: "Envoyer la demande", tap_card: "Posez la carte sur le haut de l'écran, ou insérez-la dans la fente du bas.",
-    waiting: "En attente du fournisseur", wait_momo: "Le client valide sur son téléphone.", wait_card: "Lecture de la carte. Ne la retirez pas.",
-    queued_note: "Pas d'internet. La vente est enregistrée et la demande partira dès le retour en ligne.",
-    failed_note: "Le paiement n'est pas passé. Rien n'a été débité.", try_again: "Réessayer", other_method: "Autre moyen de paiement",
-    done: "Vente terminée", printing: "Impression du reçu", new_sale: "Nouvelle vente", menu: "Menu", sales: "Ventes du jour", count: "Comptage de caisse",
-    lock: "Verrouiller", expected: "Espèces attendues", counted: "Espèces comptées", matches: "Correct", short: "Manque", over: "Excédent",
-    reprint: "Réimprimer le reçu", void: "Annuler la vente", void_reason: "Pourquoi l'annuler ?", r_entered_in_error: "Erreur de saisie",
-    r_customer_cancelled: "Client a annulé", r_price_error: "Erreur de prix", r_duplicate: "Doublon", voided: "Annulée",
-    no_sales: "Aucune vente aujourd'hui.", sandbox: "Bac à sable", test_money: "Argent de test uniquement", sync: "Synchro", online: "En ligne", offline: "Hors ligne",
-    receipt: "Reçu", provisional: "Reçu provisoire", not_tax: "Pas un reçu fiscal", thanks: "Merci", tendered: "Espèces reçues",
-    state_pending_confirmation: "En attente du fournisseur", state_confirmed: "Confirmé par le fournisseur", state_failed: "Échoué, non débité", unavailable: "Bientôt disponible",
-    scan_added: "Scanné", scanning: "Lecture", ok: "OK", payment: "Paiement", sync_state: "Synchro", tear: "Détacher le reçu",
-  },
-};
-const STATE_FR: Record<string, string> = { queued: "En attente", sent: "Envoyé", accepted: "Accepté", confirmed: "Confirmé", failed: "Échoué" };
+/** Screen words: English source in strings.en.json, every other language from the machine-translated language packs in
+ *  i18n/<lang>.json (tools/translation/build_packs.py), all embedded by web/build.mjs so every language works offline. */
+const PACKS = DATA.i18n;
+const EN: Record<string, string> = PACKS.en?.texts ?? {};
+const TEST_LANGS = ["xx", "xx-rtl"];   // xx = long-text test, xx-rtl = right-to-left test (pseudo-translations, never shown to real users)
 
 const rnd = (n: number): Uint8Array => crypto.getRandomValues(new Uint8Array(n));
 const newId = (): string => uuid7(Date.now(), rnd);
@@ -82,12 +49,13 @@ const $ = <T extends HTMLElement>(sel: string): T => document.querySelector(sel)
 const PSEUDO: Record<string, string> = { a: "\u00e0", c: "\u00e7", e: "\u00e9", i: "\u00ee", n: "\u00f1", o: "\u00f6", s: "\u0161", u: "\u00fc", y: "\u00fd" };
 /** Same pseudo-translation as services/translation.py: accented letters and about 40% more length, to prove screens never break. */
 const pseudo = (s: string): string => `[${s.replace(/[aceinosuy]/g, (c) => PSEUDO[c] ?? c)} ${"~".repeat(Math.max(1, Math.round(s.length * 0.4)))}]`;
-const t = (k: string): string => (S.lang === "xx" || S.lang === "xx-rtl" ? pseudo(W.en[k] ?? k) : W[S.lang][k] ?? W.en[k] ?? k);
+const isTest = (): boolean => TEST_LANGS.includes(S.lang);
+const t = (k: string): string => { const en = EN[k] ?? k; return isTest() ? pseudo(en) : PACKS[S.lang]?.texts[k] ?? en; };
 const esc = (s: string): string => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-const locale = (): string => (S.lang === "fr" ? "fr-RW" : "en-RW");
+const locale = (): string => `${isTest() ? "en" : S.lang}-${DATA.pack.code}`;
 const money = (n: number): string => formatMoney(n, DATA.pack.currency, locale());
 const icon = (id: string, cls = "ic"): string => `<span class="${cls}" aria-hidden="true">${DATA.icons[id] ?? ""}</span>`;
-const stateWord = (s: string): string => { const w = (S.lang === "fr" ? STATE_FR[s] : DATA.states[s]?.label) ?? s; return S.lang === "xx" || S.lang === "xx-rtl" ? pseudo(w) : w; };
+const stateWord = (s: string): string => t(`st_${s}`);
 const chip = (s: UserState): string => `<span class="chip st-${s}">${icon(`status-${s}`)}<span>${esc(stateWord(s))}</span></span>`;
 const clock = (ms: number, withDate = false): string => new Intl.DateTimeFormat(locale(), { timeZone: DATA.pack.tz, hour: "2-digit", minute: "2-digit", ...(withDate ? { day: "2-digit", month: "short", year: "numeric" } : {}) }).format(ms);
 const reduced = (): boolean => matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -152,7 +120,7 @@ function activePayment(): PaymentPayload | undefined { return S.current?.payment
 // ---- the printer --------------------------------------------------------------------------------------------------
 function printReceipt(s: Sale): void {
   const paper = $("#paper"), wrap = $("#paperWrap");
-  const lines = receiptLines({ shop: SHOP, sale: s.sale, payments: s.payments, tendered: s.tendered, when: clock(s.at, true), money, words: Object.fromEntries(Object.keys(W.en).map((k) => [k, t(k)])) });
+  const lines = receiptLines({ shop: SHOP, sale: s.sale, payments: s.payments, tendered: s.tendered, when: clock(s.at, true), money, words: Object.fromEntries(Object.keys(EN).map((k) => [k, t(k)])) });
   paper.innerHTML = `<div class="rhead" role="img" aria-label="LynkOmni">${DATA.brand.receipt}</div><pre class="rtext"></pre><div class="rcut" aria-hidden="true"></div>`;
   wrap.classList.remove("torn"); wrap.hidden = false;
   const pre = paper.querySelector("pre") as HTMLElement;
@@ -310,7 +278,7 @@ function draw(): void {
   const d = $("#display");
   d.className = `display ${S.theme}`;
   d.lang = S.lang === "xx-rtl" ? "ar" : S.lang === "xx" ? "en" : S.lang;
-  d.dir = S.lang === "xx-rtl" ? "rtl" : "ltr";
+  d.dir = S.lang === "xx-rtl" ? "rtl" : S.lang === "xx" ? "ltr" : PACKS[S.lang]?.dir ?? "ltr";
   d.querySelector(".app")!.innerHTML = view();
   drawStatus();
 }
@@ -374,6 +342,9 @@ function wire(): void {
   bind("#cDark", (el) => { S.theme = el.checked ? "dark" : "light"; draw(); });
   bind("#cReal", (el) => { S.realUser = el.checked; draw(); });
   bind("#cFail", (el) => { S.outcome = el.checked ? "fail" : "confirm"; });
+  const sel = $<HTMLSelectElement>("#cLang");
+  sel.insertAdjacentHTML("afterbegin", Object.entries(PACKS).map(([code, p]) => `<option value="${esc(code)}" lang="${esc(code)}" dir="${p.dir}">${esc(p.native)}</option>`).join(""));
+  sel.value = "en";
   $<HTMLSelectElement>("#cLang").addEventListener("change", (e) => { S.lang = (e.target as HTMLSelectElement).value as Lang; draw(); });
   document.addEventListener("keydown", (e) => {
     if ((e.target as HTMLElement).closest("input,select,textarea,summary")) return;
