@@ -1,0 +1,23 @@
+name: version-tag
+# When main changes, read the newest version in docs/lynkomni-changelog.md and create its Git tag (v0.MINOR.PATCH)
+# if it does not exist yet. So every finished piece gets its version tag without anyone doing it by hand.
+on:
+  push:
+    branches: [main]
+    paths: [docs/lynkomni-changelog.md]
+  workflow_dispatch:
+permissions: {contents: write}
+jobs:
+  tag:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+        with: {fetch-depth: 0}
+      - name: create the tag for the newest change-log version
+        run: |
+          v=$(grep -m1 -oE '^## v[0-9]+\.[0-9]+\.[0-9]+' docs/lynkomni-changelog.md | cut -c4-)
+          test -n "$v" || { echo "no version found in the change log"; exit 1; }
+          if git rev-parse -q --verify "refs/tags/$v" >/dev/null; then echo "$v already tagged"; exit 0; fi
+          git tag "$v" "$GITHUB_SHA"
+          git push origin "$v"
+          echo "tagged $v"

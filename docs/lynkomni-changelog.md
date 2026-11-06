@@ -1,0 +1,33 @@
+# LynkOmni change log
+
+What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
+
+## v0.10.1 (2026-11-06)
+- Working standards: a rule book (docs/lynkomni-standards.md), a finish checklist used on every change, changes tested on a copy before they enter the main version, version numbers with this change log, and a decision diary (docs/lynkomni-decisions.md).
+
+## v0.10.0 (2026-11-06)
+- LynkPOS handheld terminal emulator: a clickable card machine with printer, keypad, tap lights, card slot and scan key, running the real sale rules on practice providers.
+- Brand fonts Montserrat and Inter, self-hosted and offline.
+- Full font system for 15 languages, including Arabic, Persian, Urdu, Hebrew and the other right-to-left languages, and Hindi.
+- Swift tests run on Linux on every change; a weekly Mac run.
+
+## v0.9.9 (2026-11-06)
+- Provider ledger: every provider service has a practice version and stays off until signed; the later list; the owner's actions list.
+- LynkVCard card backs, physical OMNI card and CORE near-limit state; merchant logo safety check; install manifest for the web app.
+
+## v0.9.8 (2026-11-06)
+- Automatic pictures system: product illustrations, screen states, onboarding, charts, diagrams, share and store images, app and web icons.
+- LynkVCard tier faces (EDGE, HUB, CORE, OMNI) and the tier ladder.
+
+## v0.9.7 (2026-11-06)
+- 43 one-colour icons from the lynkomni-icons package (product marks, status icons, everyday icons).
+
+## v0.9.6 (2026-11-06)
+- Invoices, receipts and emails drawn with the brand module (logo rules by tier, wordmark on receipts).
+
+## v0.9.5 (2026-11-06)
+- Logo placement rules for every place; "Powered by LynkOmni" rule; prices raised and locked at version 1.
+
+Version tags are created automatically by the version-tag workflow when a new entry reaches main (from v0.10.1 on; v0.9.5 was tagged by hand, v0.10.0 has no tag).
+
+Earlier versions (up to v0.9.4) are described in README.md and the master blueprint, sections 1 to 29.
