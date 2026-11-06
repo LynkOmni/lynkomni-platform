@@ -1,4 +1,5 @@
 import os, re, sqlite3, threading, unittest
+import pathlib
 from core import ids, naming
 from core.capability import Capabilities
 from core.ids import IdAllocator, fmt, luhn_digit, parse
@@ -36,7 +37,7 @@ class TestIds(unittest.TestCase):
         with self.assertRaises(PermissionError): self.a.claim(block[1], "x", "dev-1")                 # retired for good
         self.a.retire(block[0]); self.assertEqual(self.a.lookup(block[0])["status"], "retired"); self.assertEqual(self.a.assign("RCP", "receipt-9"), block[0])
     def test_vectors_file_matches(self):
-        import json; v = json.load(open(os.path.join(ROOT, "contract", "vectors", "identifiers.v1.json")))
+        import json; v = json.loads(pathlib.Path(os.path.join(ROOT, "contract", "vectors", "identifiers.v1.json")).read_text())
         for c in v["valid"]: self.assertEqual(parse(c["id"])[1], c["payload"]); self.assertEqual(luhn_digit(c["payload"][:11]), c["payload"][11])
         for c in v["invalid"]:
             with self.assertRaises(ValueError): parse(c["id"])

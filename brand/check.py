@@ -110,7 +110,8 @@ def scan_code(root=ROOT):
             if rel.startswith(ALLOW_PREFIX):
                 continue
             try:
-                text = open(full, encoding="utf-8").read()
+                with open(full, encoding="utf-8") as fh:
+                    text = fh.read()
             except (UnicodeDecodeError, OSError):
                 continue
             for i, line in enumerate(text.splitlines(), 1):

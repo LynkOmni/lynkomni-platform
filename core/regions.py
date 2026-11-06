@@ -1,6 +1,7 @@
 """Country configuration, geo resolution and feature flags.
 Add a country by adding one entry. No code changes elsewhere."""
 import os
+import pathlib
 
 SERVICES = ["pos", "accountant", "inventory", "dashboard", "intelligence", "payments",
             "recovery", "paylinks", "loyalty", "marketplace", "financing", "protection", "chat", "ads", "vcard"]
@@ -12,7 +13,7 @@ def _load_packs():
     """Country packs are JSON files shared by every language (contract/country-packs). Adding XX.json is the whole job of adding a country."""
     d, packs = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "contract", "country-packs"), {}
     for f in sorted(glob.glob(os.path.join(d, "*.json"))):
-        p = json.load(open(f, encoding="utf-8")); p["bbox"] = tuple(p["bbox"]) if p.get("bbox") else None; p.setdefault("flags", {}); packs[p["code"]] = p
+        p = json.loads(pathlib.Path(f).read_text()); p["bbox"] = tuple(p["bbox"]) if p.get("bbox") else None; p.setdefault("flags", {}); packs[p["code"]] = p
     return packs
 _PACKS = _load_packs()
 GENERIC = _PACKS.pop("XX")

@@ -2,11 +2,12 @@
 LynkOmni never holds customer funds and never sees a card number: a licensed issuer creates, funds and displays cards.
 The issuer here is a SANDBOX simulator. Real issuing needs a signed issuer agreement, legal sign-off and the activation checklist."""
 import hashlib, hmac, json, os, re, secrets, time, uuid
+import pathlib
 from core.locale import local_dt
 from core.regions import country
 from services.control import COMPANY
 
-REG = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "contract", "vcard.v1.json")))
+REG = json.loads(pathlib.Path(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "contract", "vcard.v1.json")).read_text())
 CMD = {c["name"]: c for c in REG["commands"]}
 PERM = REG["permissions"]
 TYPES = {"supplier", "team", "ads", "subscription", "general"}

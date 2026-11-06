@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Generates every platform's tokens from design/tokens.v1.json. Run: python3 design/generate.py   (add --check to verify nothing is stale)."""
 import json, os, re, sys
+import pathlib
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
-SRC = json.load(open(os.path.join(HERE, "tokens.v1.json")))
+SRC = json.loads(pathlib.Path(os.path.join(HERE, "tokens.v1.json")).read_text())
 OUT = {"design/generated/tokens.css": None, "design/generated/tailwind.preset.cjs": None, "ts/src/tokens.ts": None,
        "android/core/src/main/kotlin/com/lynkomni/core/Tokens.kt": None, "ios/Sources/LynkCore/Tokens.swift": None}
 HEADER = "GENERATED from design/tokens.v1.json by design/generate.py. Do not edit by hand."
@@ -82,8 +83,8 @@ if __name__ == "__main__":
     for rel, text in build().items():
         p = os.path.join(ROOT, rel)
         if "--check" in sys.argv:
-            if not os.path.exists(p) or open(p).read() != text: stale.append(rel)
+            if not os.path.exists(p) or pathlib.Path(p).read_text() != text: stale.append(rel)
         else:
-            os.makedirs(os.path.dirname(p), exist_ok=True); open(p, "w").write(text)
+            os.makedirs(os.path.dirname(p), exist_ok=True); pathlib.Path(p).write_text(text)
     if stale: print("stale:", stale); sys.exit(1)
     print("ok")

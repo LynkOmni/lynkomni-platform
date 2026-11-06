@@ -2,9 +2,10 @@
 """Accessibility release gate. WCAG 2.2 AA target; this checks what a script can check. A human audit is still required.
 Run: python3 design/check_a11y.py"""
 import json, os, re, sys
+import pathlib
 HERE = os.path.dirname(os.path.abspath(__file__))
 def problems():
-    css = open(os.path.join(HERE, "generated", "tokens.css")).read(); src = json.load(open(os.path.join(HERE, "tokens.v1.json"))); out = []
+    css = pathlib.Path(os.path.join(HERE, "generated", "tokens.css")).read_text(); src = json.loads(pathlib.Path(os.path.join(HERE, "tokens.v1.json")).read_text()); out = []
     need = {"reduced motion": "prefers-reduced-motion: reduce", "forced colours": "forced-colors: active", "visible focus": ":focus-visible", "touch target var": "--touch-target",
             "touch target rule": "min-height: var(--touch-target)", "lite mode": '[data-mode="lite"]', "sunlight mode": '[data-mode="sunlight"]', "right-to-left": "direction: rtl", "high contrast": "prefers-contrast: more"}
     out += [f"missing: {k}" for k, v in need.items() if v not in css]

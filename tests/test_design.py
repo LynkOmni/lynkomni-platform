@@ -1,4 +1,5 @@
 import json, os, re, unittest
+import pathlib
 from design import generate
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = generate.SRC
@@ -42,16 +43,16 @@ class TestDesignSystem(unittest.TestCase):
         F = SRC["fonts"]; self.assertTrue(F["heading"].startswith("'Montserrat'")); self.assertTrue(F["body"].startswith("'Inter'"))
         self.assertIn("tnum", F["feature_tabular"])
         for rel in ("design/fonts.css", "design/generated/tokens.css", "design/generated/tailwind.preset.cjs"):
-            text = open(os.path.join(ROOT, rel)).read(); self.assertNotIn("googleapis", text); self.assertNotIn("gstatic", text); self.assertNotIn("@import", text)
-        css = open(os.path.join(ROOT, "design/fonts.css")).read(); self.assertEqual(css.count("font-display: swap"), css.count("@font-face"))
+            text = pathlib.Path(os.path.join(ROOT, rel)).read_text(); self.assertNotIn("googleapis", text); self.assertNotIn("gstatic", text); self.assertNotIn("@import", text)
+        css = pathlib.Path(os.path.join(ROOT, "design/fonts.css")).read_text(); self.assertEqual(css.count("font-display: swap"), css.count("@font-face"))
     def test_generated_files_are_up_to_date(self):
-        for rel, text in generate.build().items(): self.assertEqual(open(os.path.join(ROOT, rel)).read(), text, f"{rel} is stale: run python3 design/generate.py")
+        for rel, text in generate.build().items(): self.assertEqual(pathlib.Path(os.path.join(ROOT, rel)).read_text(), text, f"{rel} is stale: run python3 design/generate.py")
     def test_no_third_party_font_links_anywhere_in_the_repo(self):
         bad = []
         for d, _, files in os.walk(ROOT):
             if any(x in d for x in ("node_modules", "/dist", "__pycache__", "/tests")): continue
             for f in files:
-                if f.endswith((".css", ".ts", ".mjs", ".html", ".js", ".cjs")) and "googleapis.com/css" in open(os.path.join(d, f), errors="ignore").read(): bad.append(os.path.join(d, f))
+                if f.endswith((".css", ".ts", ".mjs", ".html", ".js", ".cjs")) and "googleapis.com/css" in pathlib.Path(os.path.join(d, f)).read_text(errors="ignore"): bad.append(os.path.join(d, f))
         self.assertEqual(bad, [])
     def test_high_contrast_themes_inherit_and_improve(self):
         for base, hc in (("light", "contrast-light"), ("dark", "contrast-dark")):
@@ -71,7 +72,7 @@ class TestModesAndStates(unittest.TestCase):
                 self.assertGreaterEqual(ratio(m[f"status-{v['tone']}-text"], m[f"status-{v['tone']}-bg"]), 4.5, f"{theme}:{k}")
         self.assertEqual(len({(v["icon"], v["label"]) for v in SRC["states"].values()}), 5)
     def test_sunlight_mode_uses_the_high_contrast_values(self):
-        css = open(os.path.join(ROOT, "design/generated/tokens.css")).read()
+        css = pathlib.Path(os.path.join(ROOT, "design/generated/tokens.css")).read_text()
         self.assertIn('[data-mode="sunlight"]', css); self.assertIn("--text-secondary: #3F3F46", css)
 
 if __name__ == "__main__": unittest.main()

@@ -1,9 +1,10 @@
 import os, sqlite3, unittest
+import pathlib
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class T(unittest.TestCase):
     def setUp(self):
-        self.db = sqlite3.connect(":memory:"); self.db.executescript(open(os.path.join(ROOT, "sql", "schema.sqlite.sql")).read())
+        self.db = sqlite3.connect(":memory:"); self.db.executescript(pathlib.Path(os.path.join(ROOT, "sql", "schema.sqlite.sql")).read_text())
     def bad(self, sql, *a):
         with self.assertRaises(sqlite3.DatabaseError): self.db.execute(sql, a)
     def test_public_ids_are_unique_permanent_and_well_formed(self):
@@ -40,7 +41,7 @@ class T(unittest.TestCase):
         self.bad("insert into conversations values('c3','personal',null,'agent','a','assigned')"); self.bad("insert into conversations values('c4','group',null,'agent','a','assigned')")
         self.bad("insert into conversations values('c5','support',null,'agent','a','teleported')")
     def test_postgres_schema_mirrors_the_checked_one(self):
-        pg = open(os.path.join(ROOT, "sql", "schema.postgres.sql")).read()
+        pg = pathlib.Path(os.path.join(ROOT, "sql", "schema.postgres.sql")).read_text()
         for needle in ("keep_one_owner", "audit_no_delete", "public_ids_never_deleted", "route IN ('business','support')", "NOT executed"): self.assertIn(needle, pg)
 if __name__ == "__main__":
     unittest.main()

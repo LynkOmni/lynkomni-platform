@@ -1,4 +1,5 @@
 import json, os, tempfile, unittest
+import pathlib
 from services.platform import Platform
 
 class T(unittest.TestCase):
@@ -77,7 +78,7 @@ class T(unittest.TestCase):
         i = self.p.status.report("payments", "Provider timeouts"); self.assertEqual(self.p.status.public_view(), [])                                    # unverified stays private
         with self.assertRaises(PermissionError): self.p.status.set_state(i, "monitoring")
         self.p.status.confirm(i, "ops"); path = os.path.join(tempfile.mkdtemp(), "status.json"); self.p.status.export_static(path)
-        self.assertEqual(json.load(open(path))["incidents"][0]["state"], "confirmed"); self.assertIn("independent", json.load(open(path))["hosting"])
+        self.assertEqual(json.loads(pathlib.Path(path).read_text())["incidents"][0]["state"], "confirmed"); self.assertIn("independent", json.loads(pathlib.Path(path).read_text())["hosting"])
         fb = self.p.feedback.submit("ideas", "Add dark mode"); self.assertIsNone(fb["case"]); self.assertIsNotNone(self.p.feedback.submit("billing", "Wrong charge", True, self.cust)["case"])
         rid = self.p.safety.report("LOCST-1", "abuse", "details"); self.assertTrue(rid.startswith("LORPT-")); self.assertEqual(self.p.safety.view(rid, "sam")["category"], "abuse")
         with self.assertRaises(PermissionError): self.p.safety.view(rid, "ann")

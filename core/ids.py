@@ -2,8 +2,9 @@
 LO + TYPE + '-XXXX-XXXX-XXXX': 12 digits, random (never sequential), last digit is a Luhn check digit, stored as strings.
 Uniqueness is enforced by the database, retired identifiers are never reissued, and a public ID never grants access by itself."""
 import json, os, re, secrets, sqlite3, threading, time
+import pathlib
 
-_REG = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "contract", "identifier-registry.v1.json")))
+_REG = json.loads(pathlib.Path(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "contract", "identifier-registry.v1.json")).read_text())
 TYPES = {t["code"]: t for t in _REG["types"]}
 _PAT = re.compile(r"^LO([A-Z]{2,4})-(\d{4})-(\d{4})-(\d{4})$")
 
