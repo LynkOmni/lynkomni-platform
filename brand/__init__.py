@@ -157,3 +157,58 @@ def verify(vendor=None, lock_path=None, state_path=None):
     for rel in sorted(found - set(lk["files"])):
         problems.append(f"vendored file {rel} is not in brand.lock.json")
     return problems
+
+# ---- Placement: which asset goes where --------------------------------------------------------------------
+SURFACES_PATH = os.path.join(HERE, "surfaces.v1.json")
+# Screens where a "Powered by" badge must never appear (same family as the ad rules in CLAUDE.md).
+NO_BADGE_SCREENS = frozenset({"payment", "refund", "void", "cash-count", "fiscal", "private-chat"})
+_BADGE_TIERS = ("required", "removable")
+
+
+def surfaces(path=None):
+    return _load(path or SURFACES_PATH)["surfaces"]
+
+
+def surface(surface_id, path=None):
+    for s in surfaces(path):
+        if s["id"] == surface_id:
+            return s
+    raise KeyError(f"unknown brand surface {surface_id!r}")
+
+
+def choose_asset(surface_id, width_px=None, path=None):
+    """The asset id a place should show. The first entry of `choose` whose minimum width fits wins; with no known
+    width the first (preferred) entry is used. The last entry never has a minimum, so something always fits."""
+    rules = surface(surface_id, path)["choose"]
+    if width_px is None:
+        return rules[0]["asset"]
+    for r in rules:
+        if width_px >= r.get("minWidthPx", 0):
+            return r["asset"]
+    return rules[-1]["asset"]
+
+
+def for_surface(surface_id, theme, width_px=None, printing=False, path=None, **kw):
+    """The one call product code makes. Picks the asset by place and available width, and the variant by theme.
+    One-colour places and print use `mono` (it takes the surrounding text colour)."""
+    s = surface(surface_id, path)
+    asset_id = choose_asset(surface_id, width_px, path)
+    theme_variant(theme)
+    if s.get("colour") == "mono" or (printing and s.get("print") == "mono"):
+        variant = "mono"
+    else:
+        variant = theme
+    allowed = {v for u in s["uses"] if u["asset"] == asset_id for v in u["variants"]}
+    if variant not in allowed:
+        raise KeyError(f"surface {surface_id} does not allow {asset_id} in {variant}")
+    return asset(asset_id, variant, **kw)
+
+
+def powered_by(badge_tier, screen, merchant_removed=False):
+    """Whether the small 'Powered by LynkOmni' wordmark shows. `badge_tier` is the powered_by value in
+    billing.FEATURES ('required' on the free tier, 'removable' on paid tiers). Never on money-critical screens."""
+    if badge_tier not in _BADGE_TIERS:
+        raise ValueError(f"unknown powered_by tier value {badge_tier!r}")
+    if screen in NO_BADGE_SCREENS:
+        return False
+    return True if badge_tier == "required" else not merchant_removed

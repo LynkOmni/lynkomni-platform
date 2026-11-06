@@ -51,3 +51,36 @@ export function invoiceBrand(tier: string): InvoiceBrand {
   if (!b) throw new Error(`unknown invoice branding tier ${tier}`);
   return { ...b };
 }
+
+/** Placement: which of logo, emblem and wordmark goes where. Same rules as brand/surfaces.v1.json (the Python module
+ *  reads the same file; the test below checks both agree). */
+export interface SurfaceRule { asset: BrandAssetId; minWidthPx?: number }
+export interface Surface { id: string; colour: "theme" | "mono"; print?: "mono"; choose: SurfaceRule[]; uses: { asset: string; variants: string[] }[] }
+export interface SurfacePolicy { surfaces: Surface[] }
+
+export function chooseAsset(policy: SurfacePolicy, surfaceId: string, widthPx?: number): BrandAssetId {
+  const s = policy.surfaces.find((x) => x.id === surfaceId);
+  if (!s) throw new Error(`unknown brand surface ${surfaceId}`);
+  const first = s.choose[0];
+  const last = s.choose[s.choose.length - 1];
+  if (!first || !last) throw new Error(`surface ${surfaceId} has no rules`);
+  if (widthPx === undefined) return first.asset;
+  for (const r of s.choose) if (widthPx >= (r.minWidthPx ?? 0)) return r.asset;
+  return last.asset;
+}
+
+/** Variant for a place: one-colour places and print use mono, everything else follows the theme. */
+export function surfaceVariant(policy: SurfacePolicy, surfaceId: string, theme: string, printing = false): BrandVariant {
+  const s = policy.surfaces.find((x) => x.id === surfaceId);
+  if (!s) throw new Error(`unknown brand surface ${surfaceId}`);
+  const t = themeVariant(theme);
+  return s.colour === "mono" || (printing && s.print === "mono") ? "mono" : t;
+}
+
+export const NO_BADGE_SCREENS: readonly string[] = ["payment", "refund", "void", "cash-count", "fiscal", "private-chat"];
+/** Whether the small "Powered by LynkOmni" wordmark shows. `tier` is billing.FEATURES powered_by. */
+export function poweredBy(tier: string, screen: string, merchantRemoved = false): boolean {
+  if (tier !== "required" && tier !== "removable") throw new Error(`unknown powered_by value ${tier}`);
+  if (NO_BADGE_SCREENS.includes(screen)) return false;
+  return tier === "required" ? true : !merchantRemoved;
+}

@@ -16,11 +16,13 @@ from brand import LOCK, STATE, VENDOR
 
 SURFACE_STATUS = ("live", "planned")
 ID_OK = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
+ASSET_IDS = ("emblem", "logo", "wordmark")
 SCAN_EXT = (".py", ".ts", ".mjs", ".js", ".html", ".css", ".kt", ".swift", ".rs", ".sql", ".yml", ".yaml")
 SKIP_DIRS = {".git", "node_modules", "dist", "target", "build", "__pycache__", ".build", "vendor"}
 # Places where the brand colours and logo names legitimately appear: tokens, the brand module, its tests, docs.
-ALLOW_PREFIX = ("design/", "brand/", "tests/", "ts/src/tokens.ts", "android/core/src/main/kotlin/com/lynkomni/core/Tokens.kt", "ios/Sources/LynkCore/Tokens.swift", ".github/workflows/brand-sync.yml")
+ALLOW_PREFIX = ("design/", "brand/", "tests/", "ts/src/brand.ts", "ts/test/brand.test.ts", "ts/src/tokens.ts", "android/core/src/main/kotlin/com/lynkomni/core/Tokens.kt", "ios/Sources/LynkCore/Tokens.swift", ".github/workflows/brand-sync.yml")
 RULES = (
+    (re.compile(r"(?=.*emblem)(?=.*wordmark)", re.I), "puts the emblem and wordmark together; use the logo asset (brand.for_surface)"),
     (re.compile(r"#7C4DFF", re.I), "writes the brand violet; use the design tokens"),
     (re.compile(r"lynkomni-(logo|emblem|wordmark)-"), "names a logo file; use brand.asset(id, variant)"),
     (re.compile(r"https?://[^\s\"')]*\.(svg|png|ico|jpe?g|webp)\b", re.I), "loads an image from a web address; bundle it instead"),
@@ -59,6 +61,48 @@ def vendored_checks(root=ROOT, vendor=None, lock_path=None, state_path=None, tok
     return problems
 
 
+def _placement_problems(sid, s, bj):
+    """Rules for `choose`: ordered by preference, minimum widths descending, last entry always fits, every chosen
+    asset is declared in `uses`, and a one-colour place only allows the mono variant."""
+    out = []
+    rules = s.get("choose")
+    if not rules:
+        return [f"surface {sid}: must say which asset to choose (choose)"]
+    used = {u.get("asset"): set(u.get("variants", [])) for u in s.get("uses", [])}
+    prev = None
+    for i, r in enumerate(rules):
+        last = i == len(rules) - 1
+        if r.get("asset") not in ASSET_IDS:
+            out.append(f"surface {sid}: choose has unknown asset {r.get('asset')!r}")
+            continue
+        if r["asset"] not in used:
+            out.append(f"surface {sid}: chooses {r['asset']} but does not list it under uses")
+        mw = r.get("minWidthPx")
+        if last and mw is not None:
+            out.append(f"surface {sid}: the last choice must have no minWidthPx so something always fits")
+        if not last:
+            if not isinstance(mw, int) or mw <= 0:
+                out.append(f"surface {sid}: every choice except the last needs a minWidthPx")
+            elif prev is not None and mw >= prev:
+                out.append(f"surface {sid}: minWidthPx must get smaller down the list")
+            else:
+                prev = mw
+                if bj is not None and r["asset"] in bj["assets"] and mw < bj["assets"][r["asset"]]["minWidthPx"]:
+                    out.append(f"surface {sid}: {r['asset']} chosen below its own minimum of {bj['assets'][r['asset']]['minWidthPx']} px")
+    if s.get("colour") not in ("theme", "mono"):
+        out.append(f"surface {sid}: colour must be theme or mono")
+    if s.get("colour") == "mono":
+        for a, vs in used.items():
+            if vs != {"mono"}:
+                out.append(f"surface {sid}: a one-colour place may only use the mono variant")
+    if "print" in s:
+        if s["print"] != "mono":
+            out.append(f"surface {sid}: print must be mono")
+        if not any("mono" in vs for vs in used.values()):
+            out.append(f"surface {sid}: print is mono, so mono must be listed under uses")
+    return out
+
+
 def surface_checks(root=ROOT, vendor=None, lock_path=None, state_path=None, surfaces_path=None):
     problems = []
     doc = _load(surfaces_path or os.path.join(HERE, "surfaces.v1.json"))
@@ -79,6 +123,7 @@ def surface_checks(root=ROOT, vendor=None, lock_path=None, state_path=None, surf
             problems.append(f"surface {sid}: must say whether it works offline (true or false)")
         if not s.get("uses"):
             problems.append(f"surface {sid}: must list the assets it uses")
+        problems.extend(_placement_problems(sid, s, bj))
         for u in s.get("uses", []):
             for v in u.get("variants", []):
                 if v not in VARIANTS:

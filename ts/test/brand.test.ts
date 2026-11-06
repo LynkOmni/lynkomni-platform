@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { BRAND_THEMES, brandFile, brandSrc, invoiceBrand, minWidth, themeVariant, type BrandManifest } from "../src/brand.js";
+import { BRAND_THEMES, NO_BADGE_SCREENS, brandFile, brandSrc, chooseAsset, invoiceBrand, minWidth, poweredBy, surfaceVariant, themeVariant, type BrandManifest, type SurfacePolicy } from "../src/brand.js";
 
 const M: BrandManifest = { assets: { logo: { minWidthPx: 96, accessibleName: "LynkOmni", variants: { light: { svg: "svg/a-light.svg" }, mono: { svg: "svg/a-mono.svg" } } } } };
 
@@ -29,4 +29,35 @@ test("invoice branding matches the Python table and the billing tiers", () => {
   assert.throws(() => invoiceBrand("platinum"));
   const py = readFileSync(`${process.cwd()}/../brand/__init__.py`, "utf8");
   for (const tier of ["lynkomni", "logo", "full"]) assert.ok(py.includes(`"${tier}":`), tier);
+});
+
+const POLICY = JSON.parse(readFileSync(`${process.cwd()}/../brand/surfaces.v1.json`, "utf8")) as SurfacePolicy;
+
+test("placement matches the agreed table", () => {
+  const want: Record<string, string> = { "web-header": "logo", "app-icon": "emblem", "pwa-manifest": "emblem", "receipt-header": "wordmark", "email-header": "logo", "email-footer": "wordmark", "powered-by-badge": "wordmark", "invoice-header": "logo" };
+  for (const [id, asset] of Object.entries(want)) assert.equal(chooseAsset(POLICY, id), asset, id);
+});
+
+test("narrow space falls back to the emblem, same as Python", () => {
+  assert.equal(chooseAsset(POLICY, "web-header", 96), "logo");
+  assert.equal(chooseAsset(POLICY, "web-header", 95), "emblem");
+  assert.equal(chooseAsset(POLICY, "side-menu", 220), "logo");
+  assert.equal(chooseAsset(POLICY, "side-menu", 64), "emblem");
+  assert.throws(() => chooseAsset(POLICY, "billboard"));
+});
+
+test("one-colour places and print use mono", () => {
+  assert.equal(surfaceVariant(POLICY, "receipt-header", "dark"), "mono");
+  assert.equal(surfaceVariant(POLICY, "notification-icon", "light"), "mono");
+  assert.equal(surfaceVariant(POLICY, "invoice-header", "light"), "light");
+  assert.equal(surfaceVariant(POLICY, "invoice-header", "light", true), "mono");
+  assert.throws(() => surfaceVariant(POLICY, "web-header", "neon"));
+});
+
+test("powered-by badge never shows on money-critical screens and follows the tier", () => {
+  assert.equal(poweredBy("required", "pay-link", true), true);
+  assert.equal(poweredBy("removable", "pay-link", true), false);
+  assert.equal(poweredBy("removable", "pay-link"), true);
+  for (const s of NO_BADGE_SCREENS) assert.equal(poweredBy("required", s), false, s);
+  assert.throws(() => poweredBy("sometimes", "pay-link"));
 });

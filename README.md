@@ -93,3 +93,8 @@ Offline selling pauses after 14 days without sign-in (the contract default, conf
 - `brand/` (Python) and `ts/src/brand.ts` choose which asset and variant to show per theme; invoice logo rules by tier (`lynkomni`, `logo`, `full`) are in one table.
 - New `logo-ink` design token (logo only). `python3 brand/check.py` guards the token mirror, surfaces and hard-coded logo colours or file names.
 - Until the first sync, the footer preview shows a text placeholder. Brand wording, names and trademarks are still unchecked; accessibility claim stays WCAG 2.2 AA only.
+
+### v0.9.5: which logo goes where
+- `brand/surfaces.v1.json` now lists 21 places and, for each, which of logo, emblem and wordmark to show, with automatic fall-back to the emblem when space is narrow. `brand.for_surface(place, theme, width)` returns the right file; the CI `brand` job rejects bad rules and any code that places the emblem and wordmark together.
+- Receipts use the wordmark in one colour. "Powered by LynkOmni" (wordmark) shows on pay links and checkout: required on Free, removable on paid tiers (`powered_by` in LynkCheckout FEATURES; which tier removes it is an unconfirmed pricing decision).
+- Needs `@lynkomni/icons` 1.1.0 (adds wordmark email images). Run the brand-sync workflow and merge its pull request.

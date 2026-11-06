@@ -1,31 +1,560 @@
 {
-  "version": 1,
-  "description": "Every place that shows the LynkOmni brand, and exactly which asset it uses. A surface that is 'live' must resolve against the vendored brand; a 'planned' surface is a promise that when it is built it will use the brand module, not a file path or a colour code.",
-  "surfaces": [
-    {"id": "footer-preview", "status": "live", "kind": "web", "offline": true,
-     "uses": [{"asset": "logo", "variants": ["light", "dark"]}],
-     "note": "ts/scripts/preview.mjs. Shows both variants and swaps by theme."},
-    {"id": "invoice-header", "status": "planned", "kind": "document", "offline": true,
-     "uses": [{"asset": "logo", "variants": ["light", "mono"]}],
-     "note": "Only the lynkomni branding tier shows the LynkOmni logo (brand.invoice_brand). Merchant logos are a separate upload path: PNG, JPEG, WebP only."},
-    {"id": "receipt-header", "status": "planned", "kind": "document", "offline": true,
-     "uses": [{"asset": "emblem", "variants": ["mono"]}],
-     "note": "Printed receipts are one colour."},
-    {"id": "email-header", "status": "planned", "kind": "email", "offline": false,
-     "uses": [{"asset": "logo", "variants": ["light", "dark"]}],
-     "files": ["email/logo-light.png", "email/logo-light@2x.png", "email/logo-dark.png", "email/logo-dark@2x.png"],
-     "note": "Embedded in the message; never a link to a web address."},
-    {"id": "pwa-manifest", "status": "planned", "kind": "web", "offline": true,
-     "uses": [{"asset": "emblem", "variants": ["light"]}],
-     "files": ["web/pwa-192.png", "web/pwa-512.png", "web/pwa-maskable-512.png", "web/favicon.svg", "web/favicon.ico", "web/apple-touch-icon-180.png", "web/icons-snippet.json"],
-     "note": "Bundled into the app and precached so the install icon and splash work offline."},
-    {"id": "share-image", "status": "planned", "kind": "web", "offline": false,
-     "uses": [{"asset": "logo", "variants": ["light"]}],
-     "files": ["web/og-1200x630.png"]},
-    {"id": "status-page", "status": "planned", "kind": "web", "offline": false,
-     "uses": [{"asset": "logo", "variants": ["light", "dark", "contrast-light", "contrast-dark"]}],
-     "note": "status.lynkomni.com"},
-    {"id": "site-header", "status": "planned", "kind": "web", "offline": true,
-     "uses": [{"asset": "logo", "variants": ["light", "dark", "contrast-light", "contrast-dark"]}]}
-  ]
+ "version": 2,
+ "description": "Every place that shows the LynkOmni brand and which asset it uses. `choose` lists the assets in order of preference; the first whose minWidthPx fits the space available is used, and the last entry has no minimum. `colour` is 'theme' (follows the user's theme) or 'mono' (one colour). A 'live' surface must resolve against the vendored brand; a 'planned' surface is a promise that, when built, it will ask the brand module for its surface id and never name a file or a colour.",
+ "principles": {
+  "logo": "Default whenever the brand introduces itself and there is room.",
+  "emblem": "Small, square or crowded spaces, and anywhere the name is already written next to it.",
+  "wordmark": "Where the name must be read, or the symbol is already shown close by."
+ },
+ "surfaces": [
+  {
+   "id": "footer-preview",
+   "status": "live",
+   "kind": "web",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "logo",
+     "variants": [
+      "light",
+      "dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "logo"
+    }
+   ],
+   "colour": "theme",
+   "note": "ts/scripts/preview.mjs. Shows both variants and swaps by theme."
+  },
+  {
+   "id": "web-header",
+   "status": "planned",
+   "kind": "web",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "logo",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    },
+    {
+     "asset": "emblem",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "logo",
+     "minWidthPx": 96
+    },
+    {
+     "asset": "emblem"
+    }
+   ],
+   "colour": "theme",
+   "note": "Website and dashboard header. Falls back to the emblem under 96 px of space."
+  },
+  {
+   "id": "side-menu",
+   "status": "planned",
+   "kind": "web",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "logo",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    },
+    {
+     "asset": "emblem",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "logo",
+     "minWidthPx": 140
+    },
+    {
+     "asset": "emblem"
+    }
+   ],
+   "colour": "theme",
+   "note": "Expanded menu shows the logo; collapsed shows the emblem."
+  },
+  {
+   "id": "auth-onboarding",
+   "status": "planned",
+   "kind": "web",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "logo",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "logo"
+    }
+   ],
+   "colour": "theme",
+   "note": "Login, sign-up, onboarding and hero screens."
+  },
+  {
+   "id": "status-page",
+   "status": "planned",
+   "kind": "web",
+   "offline": false,
+   "uses": [
+    {
+     "asset": "logo",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "logo"
+    }
+   ],
+   "colour": "theme",
+   "note": "status.lynkomni.com"
+  },
+  {
+   "id": "docs-header",
+   "status": "planned",
+   "kind": "web",
+   "offline": false,
+   "uses": [
+    {
+     "asset": "logo",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    },
+    {
+     "asset": "emblem",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "logo",
+     "minWidthPx": 96
+    },
+    {
+     "asset": "emblem"
+    }
+   ],
+   "colour": "theme",
+   "note": "doc.lynkomni.com"
+  },
+  {
+   "id": "app-top-bar",
+   "status": "planned",
+   "kind": "web",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "emblem",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "emblem"
+    }
+   ],
+   "colour": "theme",
+   "note": "Inside each product app: emblem plus the product name as real text. The name is never drawn inside the image."
+  },
+  {
+   "id": "app-icon",
+   "status": "planned",
+   "kind": "app",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "emblem",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "emblem"
+    }
+   ],
+   "colour": "theme",
+   "note": "Launcher icon and splash screen (Android drawables and iOS asset catalogue from the package)."
+  },
+  {
+   "id": "pwa-manifest",
+   "status": "planned",
+   "kind": "web",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "emblem",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "emblem"
+    }
+   ],
+   "colour": "theme",
+   "files": [
+    "web/pwa-192.png",
+    "web/pwa-512.png",
+    "web/pwa-maskable-512.png",
+    "web/favicon.svg",
+    "web/favicon.ico",
+    "web/favicon-32.png",
+    "web/apple-touch-icon-180.png",
+    "web/icons-snippet.json"
+   ],
+   "note": "Bundled into the app and precached so the install icon, favicon and splash work offline."
+  },
+  {
+   "id": "avatar-profile",
+   "status": "planned",
+   "kind": "web",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "emblem",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "emblem"
+    }
+   ],
+   "colour": "theme",
+   "note": "Profile pictures and social profile images."
+  },
+  {
+   "id": "loading-empty",
+   "status": "planned",
+   "kind": "web",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "emblem",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "emblem"
+    }
+   ],
+   "colour": "theme"
+  },
+  {
+   "id": "chat-launcher",
+   "status": "planned",
+   "kind": "web",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "emblem",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "emblem"
+    }
+   ],
+   "colour": "theme",
+   "note": "Launcher button only. Chat headers show the emblem plus the product name as text."
+  },
+  {
+   "id": "notification-icon",
+   "status": "planned",
+   "kind": "app",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "emblem",
+     "variants": [
+      "mono"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "emblem"
+    }
+   ],
+   "colour": "mono",
+   "note": "Android requires a one-colour notification icon."
+  },
+  {
+   "id": "stamp-watermark",
+   "status": "planned",
+   "kind": "document",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "emblem",
+     "variants": [
+      "mono"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "emblem"
+    }
+   ],
+   "colour": "mono"
+  },
+  {
+   "id": "invoice-header",
+   "status": "planned",
+   "kind": "document",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "logo",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark",
+      "mono"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "logo"
+    }
+   ],
+   "colour": "theme",
+   "print": "mono",
+   "note": "Only the lynkomni branding tier shows the LynkOmni logo (brand.invoice_brand). Merchant logos are a separate upload path: PNG, JPEG, WebP only."
+  },
+  {
+   "id": "receipt-header",
+   "status": "planned",
+   "kind": "document",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "wordmark",
+     "variants": [
+      "mono"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "wordmark"
+    }
+   ],
+   "colour": "mono",
+   "note": "Printed receipts (58 and 80 mm) are one colour. The merchant's own name stays the main line."
+  },
+  {
+   "id": "email-header",
+   "status": "planned",
+   "kind": "email",
+   "offline": false,
+   "uses": [
+    {
+     "asset": "logo",
+     "variants": [
+      "light",
+      "dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "logo"
+    }
+   ],
+   "colour": "theme",
+   "files": [
+    "email/logo-light.png",
+    "email/logo-light@2x.png",
+    "email/logo-dark.png",
+    "email/logo-dark@2x.png"
+   ],
+   "note": "Embedded in the message; never a link to a web address."
+  },
+  {
+   "id": "email-footer",
+   "status": "planned",
+   "kind": "email",
+   "offline": false,
+   "uses": [
+    {
+     "asset": "wordmark",
+     "variants": [
+      "light",
+      "dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "wordmark"
+    }
+   ],
+   "colour": "theme",
+   "files": [
+    "email/wordmark-light.png",
+    "email/wordmark-light@2x.png",
+    "email/wordmark-dark.png",
+    "email/wordmark-dark@2x.png"
+   ],
+   "note": "Embedded in the message; never a link to a web address."
+  },
+  {
+   "id": "powered-by-badge",
+   "status": "planned",
+   "kind": "web",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "wordmark",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "wordmark"
+    }
+   ],
+   "colour": "theme",
+   "note": "Small 'Powered by LynkOmni' on pay links and checkout. Shown per brand.powered_by(tier, screen); never on payment, refund, void, cash-count, fiscal or private-chat screens."
+  },
+  {
+   "id": "partner-lockup",
+   "status": "planned",
+   "kind": "web",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "wordmark",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "wordmark"
+    }
+   ],
+   "colour": "theme",
+   "note": "Next to other companies' names."
+  },
+  {
+   "id": "share-image",
+   "status": "planned",
+   "kind": "web",
+   "offline": false,
+   "uses": [
+    {
+     "asset": "logo",
+     "variants": [
+      "light"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "logo"
+    }
+   ],
+   "colour": "theme",
+   "files": [
+    "web/og-1200x630.png"
+   ]
+  }
+ ]
 }

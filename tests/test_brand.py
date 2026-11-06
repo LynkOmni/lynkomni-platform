@@ -14,7 +14,7 @@ def make_package(root, version="1.2.3", themes_override=None, drop_dir=None, cor
         with open(p, "wb") as f: f.write(data)
         into[rel] = {"sha256": brand.sha256_file(p), "bytes": len(data)}
     assets = {}
-    for aid, mw in (("logo", 96), ("emblem", 24)):
+    for aid, mw in (("logo", 96), ("emblem", 24), ("wordmark", 80)):
         variants = {}
         for v in brand.VARIANTS:
             rel = f"svg/lynkomni-{aid}-{v}.svg"
@@ -194,6 +194,86 @@ class TestGates(Base):
 
     def test_the_real_repository_passes_the_scan(self):
         self.assertEqual(check.scan_code(), [])
+
+
+class TestPlacement(Base):
+    """Which of logo, emblem and wordmark goes where."""
+    def setUp(self):
+        super().setUp(); self.do_sync()
+
+    def test_the_main_places_use_the_agreed_asset(self):
+        want = {"web-header": "logo", "footer-preview": "logo", "auth-onboarding": "logo", "app-icon": "emblem", "pwa-manifest": "emblem",
+                "avatar-profile": "emblem", "app-top-bar": "emblem", "notification-icon": "emblem", "invoice-header": "logo",
+                "receipt-header": "wordmark", "email-header": "logo", "email-footer": "wordmark", "powered-by-badge": "wordmark",
+                "partner-lockup": "wordmark", "share-image": "logo"}
+        for sid, asset_id in want.items():
+            self.assertEqual(brand.choose_asset(sid), asset_id, sid)
+
+    def test_narrow_space_falls_back_to_the_emblem(self):
+        self.assertEqual(brand.choose_asset("web-header", 400), "logo")
+        self.assertEqual(brand.choose_asset("web-header", 96), "logo")
+        self.assertEqual(brand.choose_asset("web-header", 95), "emblem")
+        self.assertEqual(brand.choose_asset("side-menu", 220), "logo")
+        self.assertEqual(brand.choose_asset("side-menu", 64), "emblem")
+
+    def test_for_surface_picks_variant_by_theme_and_mono_where_required(self):
+        a = brand.for_surface("web-header", "dark", 300, **self.kw)
+        self.assertEqual((a.id, a.variant), ("logo", "dark"))
+        self.assertEqual(brand.for_surface("web-header", "contrast-light", 40, **self.kw).id, "emblem")
+        r = brand.for_surface("receipt-header", "light", **self.kw)
+        self.assertEqual((r.id, r.variant), ("wordmark", "mono"))
+        self.assertEqual(brand.for_surface("notification-icon", "dark", **self.kw).variant, "mono")
+        inv = brand.for_surface("invoice-header", "light", **self.kw)
+        self.assertEqual(inv.variant, "light")
+        self.assertEqual(brand.for_surface("invoice-header", "light", printing=True, **self.kw).variant, "mono")
+
+    def test_unknown_place_or_theme_is_refused(self):
+        with self.assertRaises(KeyError): brand.for_surface("billboard", "light", **self.kw)
+        with self.assertRaises(KeyError): brand.for_surface("web-header", "neon", **self.kw)
+
+    def test_every_place_resolves_in_every_theme_and_width(self):
+        for s in brand.surfaces():
+            for theme in brand.THEMES:
+                for w in (None, 20, 60, 100, 300):
+                    if s["colour"] == "theme" and theme not in {v for u in s["uses"] for v in u["variants"]}:
+                        continue
+                    a = brand.for_surface(s["id"], theme, w, **self.kw)
+                    self.assertIn(a.id, ("logo", "emblem", "wordmark"))
+
+    def test_powered_by_badge_rules(self):
+        self.assertTrue(brand.powered_by("required", "pay-link"))
+        self.assertTrue(brand.powered_by("required", "pay-link", merchant_removed=True))   # free tier cannot remove it
+        self.assertFalse(brand.powered_by("removable", "pay-link", merchant_removed=True))
+        self.assertTrue(brand.powered_by("removable", "pay-link"))
+        for screen in ("payment", "refund", "void", "cash-count", "fiscal", "private-chat"):
+            self.assertFalse(brand.powered_by("required", screen), screen)
+        with self.assertRaises(ValueError): brand.powered_by("sometimes", "pay-link")
+
+    def test_billing_tiers_carry_the_badge_setting(self):
+        from services import billing
+        tiers = billing.FEATURES["lynkcheckout"]
+        self.assertEqual([t["powered_by"] for t in tiers], ["required", "removable", "removable", "removable"])
+
+    def test_placement_rules_reject_bad_entries(self):
+        bad = {"surfaces": [
+            {"id": "a-one", "status": "planned", "offline": True, "colour": "theme", "uses": [{"asset": "logo", "variants": ["light"]}], "choose": [{"asset": "logo"}, {"asset": "emblem"}]},
+            {"id": "b-two", "status": "planned", "offline": True, "colour": "theme", "uses": [{"asset": "logo", "variants": ["light"]}], "choose": [{"asset": "logo", "minWidthPx": 50}, {"asset": "emblem"}]},
+            {"id": "c-three", "status": "planned", "offline": True, "colour": "mono", "uses": [{"asset": "emblem", "variants": ["light"]}], "choose": [{"asset": "emblem"}]},
+            {"id": "d-four", "status": "planned", "offline": True, "colour": "theme", "uses": [{"asset": "logo", "variants": ["light"]}], "choose": [{"asset": "logo", "minWidthPx": 200}, {"asset": "logo", "minWidthPx": 300}, {"asset": "logo", "minWidthPx": 10}]},
+            {"id": "e-five", "status": "planned", "offline": True, "colour": "theme", "uses": [{"asset": "logo", "variants": ["light"]}]},
+        ]}
+        p = os.path.join(self.tmp, "p.json")
+        with open(p, "w") as f: json.dump(bad, f)
+        probs = check.surface_checks(surfaces_path=p, **self.kw)
+        for needle in ("every choice except the last needs", "does not list it under uses", "below its own minimum", "may only use the mono variant", "must get smaller", "the last choice must have no minWidthPx", "must say which asset to choose"):
+            self.assertTrue(any(needle in x for x in probs), (needle, probs))
+
+    def test_scan_flags_emblem_and_wordmark_on_one_line(self):
+        root = os.path.join(self.tmp, "repo2"); os.makedirs(os.path.join(root, "services"))
+        with open(os.path.join(root, "services", "y.py"), "w") as f: f.write('row = [asset("emblem"), asset("wordmark")]\nok = for_surface("web-header", "light")\n')
+        probs = check.scan_code(root)
+        self.assertEqual(len(probs), 1, probs)
+        self.assertIn("use the logo asset", probs[0])
 
 
 class TestTokens(unittest.TestCase):

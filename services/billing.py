@@ -43,10 +43,10 @@ FEATURES = {
               dict(providers=None, auto_routing=True, fast_reconciliation=True, proof_packs_per_month=100, proof_fee_cents=400, split_max_legs=5),
               dict(custom_limits=True, dedicated_support=True, proof_packs_per_month=None, proof_fee_cents=300, split_max_legs=None, split_discount_pct=20)],   # LynkProof and LynkSplit live here; numbers are PLACEHOLDERS
  "lynkrecover": [dict(retry_prompt=True), dict(auto_retries=True), dict(rerouting=True), dict(recovery_analytics=True, priority_handling=True)],
- "lynkcheckout": [dict(static_qr=True, invoices_per_month=3, invoice_branding="lynkomni", invoice_series=1, auto_reminders=False, credit_notes=False, partial_payments=False, recurring_invoices=False),
-                  dict(payment_links=True, invoices_per_month=20, invoice_branding="logo", credit_notes=True),
-                  dict(branded_links=True, invoices=True, recurring=True, invoices_per_month=200, invoice_branding="full", invoice_series=3, auto_reminders=True, partial_payments=True, recurring_invoices=True),
-                  dict(api=True, custom_domain=True, invoices_per_month=None, invoice_series=None, invoice_api=True)],   # invoice limits are PLACEHOLDERS
+ "lynkcheckout": [dict(powered_by="required", static_qr=True, invoices_per_month=3, invoice_branding="lynkomni", invoice_series=1, auto_reminders=False, credit_notes=False, partial_payments=False, recurring_invoices=False),
+                  dict(powered_by="removable", payment_links=True, invoices_per_month=20, invoice_branding="logo", credit_notes=True),
+                  dict(powered_by="removable", branded_links=True, invoices=True, recurring=True, invoices_per_month=200, invoice_branding="full", invoice_series=3, auto_reminders=True, partial_payments=True, recurring_invoices=True),
+                  dict(powered_by="removable", api=True, custom_domain=True, invoices_per_month=None, invoice_series=None, invoice_api=True)],   # invoice limits are PLACEHOLDERS; powered_by: the small "Powered by LynkOmni" wordmark is required on Free and removable on paid tiers (which tier removes it is a pricing decision, unconfirmed)
  "lynkassist": [dict(ai_questions=10), dict(ai_questions=100), dict(ai_questions=500), dict(ai_questions=None)],
  "lynkvcard": [dict(active_cards=1, new_cards_per_month=6, monthly_cap_usd=500, users=1, single_use_only=True, manual_freeze=True, card_expiry_hours=24, fx_fee_pct=1.5),
                dict(active_cards=3, new_cards_per_month=20, monthly_cap_usd=3000, users=3, single_use_only=False, team_cards=True, supplier_auto_cards=True, category_locks=True, card_expiry_hours=90 * 24, fx_fee_pct=1.0),
