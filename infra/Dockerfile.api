@@ -1,0 +1,12 @@
+# Node.js (TypeScript) service image. Untested in the build sandbox (no Docker there).
+FROM node:22-slim AS build
+WORKDIR /app
+COPY ts/ ts/
+COPY contract/ contract/
+RUN cd ts && npm install && rm -f types/node-shims.d.ts && npm run build
+FROM node:22-slim
+WORKDIR /app
+COPY --from=build /app/ts/dist ts/dist
+COPY --from=build /app/contract contract
+USER node
+CMD ["node", "ts/dist/src/index.js"]

@@ -1,0 +1,50 @@
+{
+ "name": "Tanzania",
+ "currency": "TZS",
+ "locale": "sw-TZ",
+ "languages": [
+  "sw",
+  "en"
+ ],
+ "tax_rate": "0.18",
+ "fiscal": "TRA_VFD",
+ "providers": [
+  "mpesa",
+  "airtel_money",
+  "bank_transfer",
+  "card",
+  "qr"
+ ],
+ "flags": {},
+ "tz": "Africa/Dar_es_Salaam",
+ "price_index": 0.35,
+ "code": "TZ",
+ "bbox": [
+  -11.8,
+  -1.0,
+  29.3,
+  40.5
+ ],
+ "payment_methods_note": "payment methods are the providers list: every product reads the same list",
+ "card_networks": [
+  "visa",
+  "mastercard"
+ ],
+ "wallets": [],
+ "vcard": {
+  "enabled": false,
+  "issuer": null,
+  "bin_sponsor": null,
+  "blocked_mcc": [
+   "7995",
+   "7801",
+   "7802",
+   "6051",
+   "4829",
+   "6211"
+  ],
+  "monthly_cap_usd_max": 100000,
+  "note": "A pack alone never turns cards on. Needs a signed issuer agreement, legal sign-off and the activation checklist."
+ },
+ "vcard_card_networks_note": "set from the issuer contract, never assumed"
+}

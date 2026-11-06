@@ -1,0 +1,56 @@
+{
+  "$id": "lynkomni/state-machines.v1",
+  "description": "The only statuses the UI may display, with their exact labels and the only legal transitions. A screen may not invent a status. 'derived' statuses are computed from events and acknowledgements, not emitted as events.",
+  "payment": {
+    "initial": ["cash_received", "pending_confirmation", "credit_open"],
+    "states": {
+      "cash_received": { "label_en": "Cash received", "terminal": true, "settled_money": true },
+      "pending_confirmation": { "label_en": "Pending confirmation", "terminal": false, "settled_money": false },
+      "confirmed": { "label_en": "Confirmed", "terminal": true, "settled_money": true },
+      "failed": { "label_en": "Failed", "terminal": true, "settled_money": false },
+      "manually_confirmed": { "label_en": "Confirmed manually", "terminal": true, "settled_money": true },
+      "credit_open": { "label_en": "On credit", "terminal": false, "settled_money": false },
+      "credit_settled": { "label_en": "Credit settled", "terminal": true, "settled_money": true }
+    },
+    "transitions": [
+      { "from": "pending_confirmation", "to": "confirmed", "allowed_sources": ["provider_callback"] },
+      { "from": "pending_confirmation", "to": "failed", "allowed_sources": ["provider_callback", "system"] },
+      { "from": "pending_confirmation", "to": "manually_confirmed", "allowed_sources": ["owner_manual"] },
+      { "from": "credit_open", "to": "credit_settled", "allowed_sources": ["owner_manual"] }
+    ],
+    "rule": "A non-cash payment is never shown as settled unless its state has settled_money true. Only provider_callback may produce 'confirmed'."
+  },
+  "sale": {
+    "states": {
+      "recorded": { "label_en": "Recorded", "derived": false, "from_event": "SaleRecorded" },
+      "pending_sync": { "label_en": "Pending synchronization", "derived": true, "rule": "recorded locally, no server acknowledgement yet" },
+      "accepted": { "label_en": "Accepted by cloud", "derived": true, "rule": "server acknowledged the event" },
+      "reconciled": { "label_en": "Reconciled", "derived": true, "rule": "included in a passed daily reconciliation" },
+      "voided": { "label_en": "Voided", "derived": false, "from_event": "SaleVoided" },
+      "returned": { "label_en": "Returned", "derived": false, "from_event": "ReturnRecorded" }
+    },
+    "transitions": [
+      { "from": "recorded", "to": "pending_sync" },
+      { "from": "pending_sync", "to": "accepted" },
+      { "from": "accepted", "to": "reconciled" },
+      { "from": "recorded", "to": "voided" },
+      { "from": "pending_sync", "to": "voided" },
+      { "from": "accepted", "to": "voided" },
+      { "from": "accepted", "to": "returned" },
+      { "from": "reconciled", "to": "returned" },
+      { "from": "reconciled", "to": "voided" }
+    ]
+  },
+  "receipt": {
+    "states": {
+      "provisional": { "label_en": "Provisional receipt", "legally_valid_invoice": false },
+      "valid": { "label_en": "Valid tax invoice", "legally_valid_invoice": true },
+      "submitted": { "label_en": "Submitted to tax authority", "legally_valid_invoice": true }
+    },
+    "transitions": [
+      { "from": "provisional", "to": "valid", "gate": "Only after the RRA written outcome (spec section 9) permits it" },
+      { "from": "valid", "to": "submitted" }
+    ],
+    "rule": "Devices may only emit provisional receipts in v1."
+  }
+}

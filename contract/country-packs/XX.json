@@ -1,0 +1,42 @@
+{
+ "name": "Generic",
+ "currency": "USD",
+ "locale": "en",
+ "languages": [
+  "en"
+ ],
+ "tax_rate": "0",
+ "fiscal": null,
+ "providers": [
+  "card",
+  "bank_transfer",
+  "qr"
+ ],
+ "flags": {},
+ "tz": "UTC",
+ "price_index": 1.0,
+ "code": "XX",
+ "bbox": null,
+ "payment_methods_note": "payment methods are the providers list: every product reads the same list",
+ "card_networks": [
+  "visa",
+  "mastercard"
+ ],
+ "wallets": [],
+ "vcard": {
+  "enabled": false,
+  "issuer": null,
+  "bin_sponsor": null,
+  "blocked_mcc": [
+   "7995",
+   "7801",
+   "7802",
+   "6051",
+   "4829",
+   "6211"
+  ],
+  "monthly_cap_usd_max": 100000,
+  "note": "A pack alone never turns cards on. Needs a signed issuer agreement, legal sign-off and the activation checklist."
+ },
+ "vcard_card_networks_note": "set from the issuer contract, never assumed"
+}

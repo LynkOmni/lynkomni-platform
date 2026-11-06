@@ -1,0 +1,50 @@
+{
+ "name": "Uganda",
+ "currency": "UGX",
+ "locale": "en-UG",
+ "languages": [
+  "en",
+  "sw"
+ ],
+ "tax_rate": "0.18",
+ "fiscal": "URA_EFRIS",
+ "providers": [
+  "momo_mtn",
+  "airtel_money",
+  "bank_transfer",
+  "card",
+  "qr"
+ ],
+ "flags": {},
+ "tz": "Africa/Kampala",
+ "price_index": 0.35,
+ "code": "UG",
+ "bbox": [
+  -1.5,
+  4.25,
+  29.5,
+  35.05
+ ],
+ "payment_methods_note": "payment methods are the providers list: every product reads the same list",
+ "card_networks": [
+  "visa",
+  "mastercard"
+ ],
+ "wallets": [],
+ "vcard": {
+  "enabled": false,
+  "issuer": null,
+  "bin_sponsor": null,
+  "blocked_mcc": [
+   "7995",
+   "7801",
+   "7802",
+   "6051",
+   "4829",
+   "6211"
+  ],
+  "monthly_cap_usd_max": 100000,
+  "note": "A pack alone never turns cards on. Needs a signed issuer agreement, legal sign-off and the activation checklist."
+ },
+ "vcard_card_networks_note": "set from the issuer contract, never assumed"
+}

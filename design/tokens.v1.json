@@ -1,0 +1,804 @@
+{
+ "version": 1,
+ "description": "Single source of truth for LynkOmni colour and type. Values marked origin=spec come from the supplied dual-theme specification and are unchanged. Values marked origin=added are the approved enhancements. Never edit the generated files by hand: edit this file and run python3 design/generate.py.",
+ "fonts": {
+  "heading": "'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif",
+  "body": "'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif",
+  "mono": "ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace",
+  "feature_tabular": "\"tnum\" 1, \"lnum\" 1, \"cv05\" 1",
+  "scale_px": [
+   12,
+   14,
+   16,
+   20,
+   24,
+   32,
+   40,
+   56
+  ],
+  "first_load_budget_kb": 100
+ },
+ "common": {
+  "vcard-hub-bg": [
+   "#94A3B8",
+   "spec"
+  ],
+  "vcard-core-bg": [
+   "#18181B",
+   "spec"
+  ],
+  "vcard-omni-bg": [
+   "#09090B",
+   "spec"
+  ],
+  "vcard-edge-bg": [
+   "#64748B",
+   "spec"
+  ],
+  "on-vcard-edge": [
+   "#FFFFFF",
+   "added"
+  ],
+  "on-vcard-hub": [
+   "#18181B",
+   "added"
+  ],
+  "on-vcard-core": [
+   "#FFFFFF",
+   "added"
+  ],
+  "on-vcard-omni": [
+   "#FFFFFF",
+   "added"
+  ],
+  "on-brand": [
+   "#FFFFFF",
+   "added"
+  ],
+  "on-accent-booking": [
+   "#18181B",
+   "added"
+  ],
+  "on-accent-essential": [
+   "#18181B",
+   "added"
+  ],
+  "on-accent-exchange": [
+   "#18181B",
+   "added"
+  ]
+ },
+ "themes": {
+  "light": {
+   "bg-base": [
+    "#FAFAFA",
+    "spec"
+   ],
+   "bg-surface": [
+    "#FFFFFF",
+    "spec"
+   ],
+   "bg-subtle": [
+    "#F4F4F5",
+    "spec"
+   ],
+   "border-subtle": [
+    "#E4E4E7",
+    "spec"
+   ],
+   "border-strong": [
+    "#A1A1AA",
+    "spec"
+   ],
+   "border-input": [
+    "#71717A",
+    "added"
+   ],
+   "text-primary": [
+    "#18181B",
+    "spec"
+   ],
+   "text-secondary": [
+    "#71717A",
+    "spec"
+   ],
+   "text-muted": [
+    "#A1A1AA",
+    "spec"
+   ],
+   "brand-primary": [
+    "#7C4DFF",
+    "spec"
+   ],
+   "brand-hover": [
+    "#651FFF",
+    "spec"
+   ],
+   "brand-subtle": [
+    "#F3E8FF",
+    "spec"
+   ],
+   "brand-glow": [
+    "rgba(124, 77, 255, 0.15)",
+    "spec"
+   ],
+   "brand-ink": [
+    "#6D3FE8",
+    "added"
+   ],
+   "focus-ring": [
+    "#651FFF",
+    "added"
+   ],
+   "accent-vcard": [
+    "#9E75FF",
+    "spec"
+   ],
+   "accent-booking": [
+    "#0EA5E9",
+    "spec"
+   ],
+   "accent-essential": [
+    "#10B981",
+    "spec"
+   ],
+   "accent-exchange": [
+    "#F59E0B",
+    "spec"
+   ],
+   "accent-hub": [
+    "#18181B",
+    "spec"
+   ],
+   "accent-vcard-ink": [
+    "#6D3FE8",
+    "added"
+   ],
+   "accent-booking-ink": [
+    "#0369A1",
+    "added"
+   ],
+   "accent-essential-ink": [
+    "#047857",
+    "added"
+   ],
+   "accent-exchange-ink": [
+    "#B45309",
+    "added"
+   ],
+   "status-success-bg": [
+    "#ECFDF5",
+    "spec"
+   ],
+   "status-success-border": [
+    "#A7F3D0",
+    "spec"
+   ],
+   "status-success-text": [
+    "#047857",
+    "spec"
+   ],
+   "status-warning-bg": [
+    "#FFFBEB",
+    "spec"
+   ],
+   "status-warning-border": [
+    "#FDE68A",
+    "spec"
+   ],
+   "status-warning-text": [
+    "#B45309",
+    "spec"
+   ],
+   "status-danger-bg": [
+    "#FEF2F2",
+    "spec"
+   ],
+   "status-danger-border": [
+    "#FECACA",
+    "spec"
+   ],
+   "status-danger-text": [
+    "#B91C1C",
+    "spec"
+   ],
+   "status-info-bg": [
+    "#F3E8FF",
+    "spec"
+   ],
+   "status-info-border": [
+    "#D8B4FE",
+    "spec"
+   ],
+   "status-info-text": [
+    "#6B21A8",
+    "spec"
+   ],
+   "status-neutral-bg": [
+    "#F4F4F5",
+    "added"
+   ],
+   "status-neutral-border": [
+    "#D4D4D8",
+    "added"
+   ],
+   "status-neutral-text": [
+    "#3F3F46",
+    "added"
+   ],
+   "ad-label-bg": [
+    "#F4F4F5",
+    "added"
+   ],
+   "ad-label-text": [
+    "#3F3F46",
+    "added"
+   ]
+  },
+  "dark": {
+   "bg-base": [
+    "#09090B",
+    "spec"
+   ],
+   "bg-surface": [
+    "#18181B",
+    "spec"
+   ],
+   "bg-subtle": [
+    "#27272A",
+    "spec"
+   ],
+   "border-subtle": [
+    "#3F3F46",
+    "spec"
+   ],
+   "border-strong": [
+    "#52525B",
+    "spec"
+   ],
+   "border-input": [
+    "#71717A",
+    "added"
+   ],
+   "text-primary": [
+    "#FAFAFA",
+    "spec"
+   ],
+   "text-secondary": [
+    "#A1A1AA",
+    "spec"
+   ],
+   "text-muted": [
+    "#71717A",
+    "spec"
+   ],
+   "brand-primary": [
+    "#7C4DFF",
+    "spec"
+   ],
+   "brand-hover": [
+    "#9E75FF",
+    "spec"
+   ],
+   "brand-subtle": [
+    "#1F1047",
+    "spec"
+   ],
+   "brand-glow": [
+    "rgba(124, 77, 255, 0.35)",
+    "spec"
+   ],
+   "brand-ink": [
+    "#9E75FF",
+    "added"
+   ],
+   "focus-ring": [
+    "#9E75FF",
+    "added"
+   ],
+   "accent-vcard": [
+    "#B388FF",
+    "spec"
+   ],
+   "accent-booking": [
+    "#38BDF8",
+    "spec"
+   ],
+   "accent-essential": [
+    "#34D399",
+    "spec"
+   ],
+   "accent-exchange": [
+    "#FBBF24",
+    "spec"
+   ],
+   "accent-hub": [
+    "#FAFAFA",
+    "spec"
+   ],
+   "accent-vcard-ink": [
+    "#B388FF",
+    "added"
+   ],
+   "accent-booking-ink": [
+    "#38BDF8",
+    "added"
+   ],
+   "accent-essential-ink": [
+    "#34D399",
+    "added"
+   ],
+   "accent-exchange-ink": [
+    "#FBBF24",
+    "added"
+   ],
+   "status-success-bg": [
+    "#064E3B",
+    "spec"
+   ],
+   "status-success-border": [
+    "#059669",
+    "spec"
+   ],
+   "status-success-text": [
+    "#34D399",
+    "spec"
+   ],
+   "status-warning-bg": [
+    "#451A03",
+    "spec"
+   ],
+   "status-warning-border": [
+    "#D97706",
+    "spec"
+   ],
+   "status-warning-text": [
+    "#FBBF24",
+    "spec"
+   ],
+   "status-danger-bg": [
+    "#450A0A",
+    "spec"
+   ],
+   "status-danger-border": [
+    "#DC2626",
+    "spec"
+   ],
+   "status-danger-text": [
+    "#FCA5A5",
+    "spec"
+   ],
+   "status-info-bg": [
+    "#2E1065",
+    "spec"
+   ],
+   "status-info-border": [
+    "#7C4DFF",
+    "spec"
+   ],
+   "status-info-text": [
+    "#D8B4FE",
+    "spec"
+   ],
+   "status-neutral-bg": [
+    "#27272A",
+    "added"
+   ],
+   "status-neutral-border": [
+    "#52525B",
+    "added"
+   ],
+   "status-neutral-text": [
+    "#D4D4D8",
+    "added"
+   ],
+   "ad-label-bg": [
+    "#27272A",
+    "added"
+   ],
+   "ad-label-text": [
+    "#D4D4D8",
+    "added"
+   ]
+  },
+  "contrast-light": {
+   "bg-base": [
+    "#FFFFFF",
+    "added"
+   ],
+   "bg-surface": [
+    "#FFFFFF",
+    "added"
+   ],
+   "text-primary": [
+    "#000000",
+    "added"
+   ],
+   "text-secondary": [
+    "#3F3F46",
+    "added"
+   ],
+   "border-input": [
+    "#3F3F46",
+    "added"
+   ],
+   "border-strong": [
+    "#3F3F46",
+    "added"
+   ],
+   "brand-primary": [
+    "#4C1D95",
+    "added"
+   ],
+   "brand-hover": [
+    "#3B0F7A",
+    "added"
+   ],
+   "brand-ink": [
+    "#4C1D95",
+    "added"
+   ],
+   "focus-ring": [
+    "#4C1D95",
+    "added"
+   ]
+  },
+  "contrast-dark": {
+   "bg-base": [
+    "#000000",
+    "added"
+   ],
+   "bg-surface": [
+    "#000000",
+    "added"
+   ],
+   "text-primary": [
+    "#FFFFFF",
+    "added"
+   ],
+   "text-secondary": [
+    "#D4D4D8",
+    "added"
+   ],
+   "border-input": [
+    "#A1A1AA",
+    "added"
+   ],
+   "border-strong": [
+    "#A1A1AA",
+    "added"
+   ],
+   "brand-primary": [
+    "#C4B5FD",
+    "added"
+   ],
+   "brand-hover": [
+    "#DDD6FE",
+    "added"
+   ],
+   "brand-ink": [
+    "#C4B5FD",
+    "added"
+   ],
+   "focus-ring": [
+    "#C4B5FD",
+    "added"
+   ]
+  }
+ },
+ "pairs": [
+  {
+   "fg": "text-primary",
+   "bg": [
+    "bg-base",
+    "bg-surface",
+    "bg-subtle"
+   ],
+   "min": 7.0,
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ]
+  },
+  {
+   "fg": "text-secondary",
+   "bg": [
+    "bg-base",
+    "bg-surface"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ]
+  },
+  {
+   "fg": "brand-ink",
+   "bg": [
+    "bg-base",
+    "bg-surface"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ]
+  },
+  {
+   "fg": "accent-booking-ink",
+   "bg": [
+    "bg-base",
+    "bg-surface"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark"
+   ]
+  },
+  {
+   "fg": "accent-essential-ink",
+   "bg": [
+    "bg-base",
+    "bg-surface"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark"
+   ]
+  },
+  {
+   "fg": "accent-exchange-ink",
+   "bg": [
+    "bg-base",
+    "bg-surface"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark"
+   ]
+  },
+  {
+   "fg": "accent-vcard-ink",
+   "bg": [
+    "bg-base",
+    "bg-surface"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark"
+   ]
+  },
+  {
+   "fg": "border-input",
+   "bg": [
+    "bg-base",
+    "bg-surface"
+   ],
+   "min": 3.0,
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ]
+  },
+  {
+   "fg": "focus-ring",
+   "bg": [
+    "bg-base",
+    "bg-surface"
+   ],
+   "min": 3.0,
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ]
+  },
+  {
+   "fg": "status-success-text",
+   "bg": [
+    "status-success-bg"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark"
+   ]
+  },
+  {
+   "fg": "status-warning-text",
+   "bg": [
+    "status-warning-bg"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark"
+   ]
+  },
+  {
+   "fg": "status-danger-text",
+   "bg": [
+    "status-danger-bg"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark"
+   ]
+  },
+  {
+   "fg": "status-info-text",
+   "bg": [
+    "status-info-bg"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark"
+   ]
+  },
+  {
+   "fg": "status-neutral-text",
+   "bg": [
+    "status-neutral-bg"
+   ],
+   "min": 7.0,
+   "themes": [
+    "light",
+    "dark"
+   ]
+  },
+  {
+   "fg": "ad-label-text",
+   "bg": [
+    "ad-label-bg"
+   ],
+   "min": 7.0,
+   "themes": [
+    "light",
+    "dark"
+   ]
+  },
+  {
+   "fg": "on-brand",
+   "bg": [
+    "brand-primary"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark"
+   ]
+  },
+  {
+   "fg": "on-accent-booking",
+   "bg": [
+    "accent-booking"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark"
+   ]
+  },
+  {
+   "fg": "on-accent-essential",
+   "bg": [
+    "accent-essential"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark"
+   ]
+  },
+  {
+   "fg": "on-accent-exchange",
+   "bg": [
+    "accent-exchange"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark"
+   ]
+  },
+  {
+   "fg": "on-vcard-edge",
+   "bg": [
+    "vcard-edge-bg"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light"
+   ]
+  },
+  {
+   "fg": "on-vcard-hub",
+   "bg": [
+    "vcard-hub-bg"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light"
+   ]
+  },
+  {
+   "fg": "on-vcard-core",
+   "bg": [
+    "vcard-core-bg"
+   ],
+   "min": 7.0,
+   "themes": [
+    "light"
+   ]
+  },
+  {
+   "fg": "on-vcard-omni",
+   "bg": [
+    "vcard-omni-bg"
+   ],
+   "min": 7.0,
+   "themes": [
+    "light"
+   ]
+  }
+ ],
+ "known_limits": {
+  "text-muted": "Disabled text and decorative hints only. It fails 4.5:1 in both themes by design; placeholders and helper text use text-secondary.",
+  "border-strong": "Dividers and decorative rings only. Input boundaries use border-input (3:1 or better).",
+  "brand-primary": "Fill colour. White text on it is 4.81:1 (AA). Violet used as TEXT uses brand-ink.",
+  "accent-*": "Fill and large-graphics colours. Accent TEXT or icons use the matching -ink token."
+ },
+ "states": {
+  "queued": {
+   "label": "Queued",
+   "icon": "clock",
+   "tone": "neutral",
+   "meaning": "Saved on this device, not sent yet."
+  },
+  "sent": {
+   "label": "Sent",
+   "icon": "arrow-up",
+   "tone": "info",
+   "meaning": "Left this device, awaiting the cloud. Relayed items stay here until the cloud accepts."
+  },
+  "accepted": {
+   "label": "Accepted",
+   "icon": "check",
+   "tone": "info",
+   "meaning": "The cloud stored it. A provider has not confirmed any money."
+  },
+  "confirmed": {
+   "label": "Confirmed",
+   "icon": "double-check",
+   "tone": "success",
+   "meaning": "The provider or issuer confirmed it."
+  },
+  "failed": {
+   "label": "Failed",
+   "icon": "cross",
+   "tone": "danger",
+   "meaning": "It did not go through. Nothing was charged unless a refund is shown."
+  }
+ },
+ "modes": {
+  "touch_target_px": 44,
+  "min_text_scale_percent": 200,
+  "lite": "System fonts only, no animation, no decorative images, smaller first load.",
+  "sunlight": "Uses the high-contrast token set on demand, for bright outdoor screens."
+ }
+}

@@ -1,0 +1,35 @@
+# Rules for Claude Code on LynkOmni
+- The user is a beginner. Explain each change simply, one small step at a time, and run the tests after every change.
+- Money is integer minor units plus a currency code. Never use floats for money.
+- The event log (core/events.py) is the source of truth. Add features as new event types and projections.
+- Devices may only send event types listed in CLIENT_EVENTS. Never let a client write server-only events.
+- Never block an offline sale. Flag conflicts (for example negative stock) for the owner instead.
+- Country specifics live in core/regions.py only. No country names or currencies hard-coded elsewhere.
+- Real providers go behind the Provider and FiscalAdapter interfaces. Keep simulators for tests.
+- LynkOmni never holds customer funds. Financing and insurance work only through licensed partners with merchant consent.
+- Do not claim a tax receipt is valid until the tax authority's workflow is confirmed.
+- Anything that moves money needs human security review before release.
+- Locale changes presentation only. Never change data, identifiers, event types or logic by language, currency or time zone.
+- Every new service or sub-service needs a country flag, a sandbox provider, and tests. Off by default until its partner and licence exist.
+- Company-level views read aggregates only and must be role-checked and audit-logged.
+- Purchases that need a provider never claim success until the provider confirms. Paid but undelivered means a refund_due event.
+- Ads are contextual only, always labeled, capped, and never inside payment, void, cash-count, refund, fiscal or private-chat screens. Off per country until legal sign-off. Devices can never bill; only validated impressions count.
+- The contract in contract/ is the authority for merchant-core events. Never edit a published version: add a new schema_version and an upcaster note, then run the validator.
+- Money in the contract is integer RWF and quantities are integer thousandths. Never use floats in an event.
+- Billing: never bill a product twice. The highest tier wins, LynkSuite replaces its seven products, and add-on families stay outside it. Count each paid subscription once.
+- Developer apps read merchant data only with the merchant's per-scope consent, and every API call is metered and audited.
+- Public identifiers come only from core/ids.py (or the TypeScript, Rust, Kotlin and Swift ports of the same registry). Never invent an identifier format.
+- Agents never change credentials or complete recovery in chat. Support sees customer data only through a time-limited consent record.
+- LynkVCard is an add-on family, never inside LynkSuite. Cards come only from a licensed issuer; LynkOmni never holds funds or stores a card number. Only a freeze may queue offline, and the UI never shows it as frozen until confirmed. Cards stay off in a country until its issuer is signed.
+- The footer copyright text is fixed: never reword or translate it.
+- Chat is customer-business and support only. Never claim end-to-end encryption. Never add personal or group chat.
+- Production code is TypeScript (services, web), Rust (offline core), Kotlin, Swift, SQL. Python is for AI, data, automation and the reference spec.
+- When the Python reference and another language disagree, the shared vectors in contract/vectors decide.
+- Colours and fonts come only from design/tokens.v1.json. Run `python3 design/generate.py` after any change; never hand-edit generated files. Never load fonts from a third-party site. Claim WCAG 2.2 AA; never claim AAA compliance.
+- LynkMesh carries data, never money, takes no fee, and a relayed sale shows "sent, awaiting cloud" until the cloud accepts it. Batches must be sealed with services/sealing.py; plain JSON is refused outside tests.
+- There is no LynkShield. Offline risk limits only cap unconfirmed non-cash value; a sale stays pending_confirmation and nothing is guaranteed.
+- LynkProof only hands evidence packs to the provider; the $5 fee is charged once, only after the provider reports a win. Never claim zero disputes. LynkAudit is not a tax authority device. LynkSplit executes through a licensed provider and LynkOmni holds no funds.
+- Only LOPRF-, LOAUD- and LOSPLT- were added for these improvements. Do not create ids for Shield, Snap, One, Stream, Edge, Usage or Portal, and give Portal no separate domain (it lives in business settings and the account site)..
+- Device databases are encrypted (SQLCipher) in production; never open one without a key outside tests. State shown to users uses only: queued, sent, accepted, confirmed, failed.
+- The new revenue services have no families of their own. LynkProof and LynkSplit are tier features of LynkMPay, LynkAudit of LynkLedger, extra seats of LynkPOS and LynkChat, LynkEdge bandwidth and metering of LynkDev. Their numbers live only in services/billing.py FEATURES. LynkSuite prices stay $0/$12/$35/$89.
+- Invoicing is a feature of LynkCheckout (services/invoicing.py), not a product. Issued invoices never change (credit note instead). An electronic payment counts only when the provider confirms it. Never call an invoice a "tax invoice" unless the country's workflow is confirmed in writing. Public id is LOINV-; the printed number is a separate sequential number per merchant series; unused leased numbers are voided with a reason. Invoice limits live only in billing.FEATURES.

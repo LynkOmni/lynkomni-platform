@@ -1,0 +1,3 @@
+global: {scrape_interval: 30s}
+scrape_configs: [{job_name: api, static_configs: [{targets: ["api:9100"]}]}]
+# Alerts to define before launch: sync failure rate, quarantined events, payment success rate, verification queue age, unassigned support conversations, backup age.

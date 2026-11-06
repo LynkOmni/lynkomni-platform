@@ -1,0 +1,205 @@
+{
+ "description": "Hash-chain vectors from the Python reference. Every implementation must reproduce signing bytes and hashes exactly.",
+ "server_stamp_keys": [
+  "clock_offset_ms",
+  "flags",
+  "received_at_server",
+  "server_cursor"
+ ],
+ "events": [
+  {
+   "event_id": "01a18f6c-3afb-7448-9fac-4f69c8647793",
+   "origin": "device",
+   "merchant_id": "ff7a1b3a-d860-476a-a926-2e3b0d2a58bd",
+   "branch_id": "4935ef0b-af44-4051-ab3c-e1f5a23fe551",
+   "device_id": "0edc350c-7ad8-44a3-ae25-50aacccbd40d",
+   "actor_user_id": "eac73918-1317-4de9-a30e-8b1c6495af34",
+   "device_seq": 1,
+   "type": "ProductCreated",
+   "schema_version": 1,
+   "occurred_at_device": "2026-10-31T00:46:37.307Z",
+   "prev_hash": "GENESIS",
+   "payload": {
+    "product_id": "01a18f6c-3afb-7334-9a54-1ddd771d00bc",
+    "name": "Juice é",
+    "unit": "piece",
+    "price": 1500,
+    "track_stock": true
+   },
+   "signature": "1suToPwwydD6IiatdNzR75DOuJwywS0W9jf1eMsr7oXSnbYNkSJ9S_4JW4b5GABmzBaoptByb-u-wMjqjR2VYg"
+  },
+  {
+   "event_id": "01a18f6c-3afc-7d4d-a89a-93ab42e61562",
+   "origin": "device",
+   "merchant_id": "ff7a1b3a-d860-476a-a926-2e3b0d2a58bd",
+   "branch_id": "4935ef0b-af44-4051-ab3c-e1f5a23fe551",
+   "device_id": "0edc350c-7ad8-44a3-ae25-50aacccbd40d",
+   "actor_user_id": "eac73918-1317-4de9-a30e-8b1c6495af34",
+   "device_seq": 2,
+   "type": "StockReceived",
+   "schema_version": 1,
+   "occurred_at_device": "2026-10-31T00:46:37.307Z",
+   "prev_hash": "48563109c1c0bf48e30c1287c2466eda843eaf0f269f69872962e7d2f0b90565",
+   "payload": {
+    "stock_receipt_id": "01a18f6c-3afc-7fbc-addd-8ea53139fb79",
+    "lines": [
+     {
+      "product_id": "01a18f6c-3afb-7334-9a54-1ddd771d00bc",
+      "quantity_milli": 10000
+     }
+    ]
+   },
+   "signature": "g2kLqK3iU54mFvqeG9DdUTXZWTlKcqCa-GeeqNff2pr8MKGbiByp3vIxO_A10snAiSHi76SiWBzsBP2zyFFKRg"
+  },
+  {
+   "event_id": "01a18f6c-3afc-7851-9796-1464309f636e",
+   "origin": "device",
+   "merchant_id": "ff7a1b3a-d860-476a-a926-2e3b0d2a58bd",
+   "branch_id": "4935ef0b-af44-4051-ab3c-e1f5a23fe551",
+   "device_id": "0edc350c-7ad8-44a3-ae25-50aacccbd40d",
+   "actor_user_id": "eac73918-1317-4de9-a30e-8b1c6495af34",
+   "device_seq": 3,
+   "type": "SaleRecorded",
+   "schema_version": 1,
+   "occurred_at_device": "2026-10-31T00:46:37.307Z",
+   "prev_hash": "7ec2dd34759a4e888e0ee13413d169d22681f4250d8724efbca59f28a51674e5",
+   "payload": {
+    "sale_id": "01a18f6c-3afc-7c15-aa86-ecb5d90e5183",
+    "receipt_number_local": "0E-1",
+    "lines": [
+     {
+      "line_no": 1,
+      "product_id": "01a18f6c-3afb-7334-9a54-1ddd771d00bc",
+      "product_name": "Juice é",
+      "quantity_milli": 2500,
+      "unit_price": 1500,
+      "discount": 0,
+      "line_total": 3750
+     }
+    ],
+    "subtotal": 3750,
+    "discount_total": 0,
+    "tax_total": 0,
+    "tax_mode": "none",
+    "total": 3750,
+    "currency": "RWF"
+   },
+   "signature": "EJmniktf2HPioOoxQQq-dtfeqwQWPYrikZ4rZrKxb7l1yDcMwhragSi1etGzV2pKYiE5vBNI6Z20Xa5BNOAFEQ"
+  },
+  {
+   "event_id": "01a18f6c-3afc-7330-a40e-0277b4fa22a3",
+   "origin": "device",
+   "merchant_id": "ff7a1b3a-d860-476a-a926-2e3b0d2a58bd",
+   "branch_id": "4935ef0b-af44-4051-ab3c-e1f5a23fe551",
+   "device_id": "0edc350c-7ad8-44a3-ae25-50aacccbd40d",
+   "actor_user_id": "eac73918-1317-4de9-a30e-8b1c6495af34",
+   "device_seq": 4,
+   "type": "ReceiptIssued",
+   "schema_version": 1,
+   "occurred_at_device": "2026-10-31T00:46:37.307Z",
+   "prev_hash": "fbcb846b30eb95e5eae753b628f7b896800f11f9e2946285fa956c75a3e7a750",
+   "payload": {
+    "receipt_id": "01a18f6c-3afc-7c9f-8895-27a04778a91d",
+    "sale_id": "01a18f6c-3afc-7c15-aa86-ecb5d90e5183",
+    "receipt_number_local": "0E-1",
+    "copy_number": 1,
+    "validity": "provisional"
+   },
+   "signature": "bBFi-ga5H_Kg0P36lKACrAKxp82JRvJbhWNupH9JQjLpQKvTi-ta5uVmNqdF8JKq0UM01Ggrr2AUQl6g999NDQ"
+  },
+  {
+   "event_id": "01a18f6c-3afd-7bdf-af76-2f88acb36be1",
+   "origin": "device",
+   "merchant_id": "ff7a1b3a-d860-476a-a926-2e3b0d2a58bd",
+   "branch_id": "4935ef0b-af44-4051-ab3c-e1f5a23fe551",
+   "device_id": "0edc350c-7ad8-44a3-ae25-50aacccbd40d",
+   "actor_user_id": "eac73918-1317-4de9-a30e-8b1c6495af34",
+   "device_seq": 5,
+   "type": "PaymentRecorded",
+   "schema_version": 1,
+   "occurred_at_device": "2026-10-31T00:46:37.307Z",
+   "prev_hash": "be77094a399decb4ae7f2e0221ace85535b54817013b850ddaa8afc9b47ca248",
+   "payload": {
+    "payment_id": "01a18f6c-3afd-7e0f-8be2-298bf774590e",
+    "sale_id": "01a18f6c-3afc-7c15-aa86-ecb5d90e5183",
+    "method": "cash",
+    "amount": 3750,
+    "status": "cash_received"
+   },
+   "signature": "4Yb9AnaxEg-OW6gETwkSfgCfCBsSNfdLuMe9aILssvyGMHrCDUAutkaZlWbJz0GCn7HHfkurtAjdJmSCcaTtyw"
+  }
+ ],
+ "signing_bytes": [
+  "{\"actor_user_id\":\"eac73918-1317-4de9-a30e-8b1c6495af34\",\"branch_id\":\"4935ef0b-af44-4051-ab3c-e1f5a23fe551\",\"device_id\":\"0edc350c-7ad8-44a3-ae25-50aacccbd40d\",\"device_seq\":1,\"event_id\":\"01a18f6c-3afb-7448-9fac-4f69c8647793\",\"merchant_id\":\"ff7a1b3a-d860-476a-a926-2e3b0d2a58bd\",\"occurred_at_device\":\"2026-10-31T00:46:37.307Z\",\"origin\":\"device\",\"payload\":{\"name\":\"Juice é\",\"price\":1500,\"product_id\":\"01a18f6c-3afb-7334-9a54-1ddd771d00bc\",\"track_stock\":true,\"unit\":\"piece\"},\"prev_hash\":\"GENESIS\",\"schema_version\":1,\"type\":\"ProductCreated\"}",
+  "{\"actor_user_id\":\"eac73918-1317-4de9-a30e-8b1c6495af34\",\"branch_id\":\"4935ef0b-af44-4051-ab3c-e1f5a23fe551\",\"device_id\":\"0edc350c-7ad8-44a3-ae25-50aacccbd40d\",\"device_seq\":2,\"event_id\":\"01a18f6c-3afc-7d4d-a89a-93ab42e61562\",\"merchant_id\":\"ff7a1b3a-d860-476a-a926-2e3b0d2a58bd\",\"occurred_at_device\":\"2026-10-31T00:46:37.307Z\",\"origin\":\"device\",\"payload\":{\"lines\":[{\"product_id\":\"01a18f6c-3afb-7334-9a54-1ddd771d00bc\",\"quantity_milli\":10000}],\"stock_receipt_id\":\"01a18f6c-3afc-7fbc-addd-8ea53139fb79\"},\"prev_hash\":\"48563109c1c0bf48e30c1287c2466eda843eaf0f269f69872962e7d2f0b90565\",\"schema_version\":1,\"type\":\"StockReceived\"}",
+  "{\"actor_user_id\":\"eac73918-1317-4de9-a30e-8b1c6495af34\",\"branch_id\":\"4935ef0b-af44-4051-ab3c-e1f5a23fe551\",\"device_id\":\"0edc350c-7ad8-44a3-ae25-50aacccbd40d\",\"device_seq\":3,\"event_id\":\"01a18f6c-3afc-7851-9796-1464309f636e\",\"merchant_id\":\"ff7a1b3a-d860-476a-a926-2e3b0d2a58bd\",\"occurred_at_device\":\"2026-10-31T00:46:37.307Z\",\"origin\":\"device\",\"payload\":{\"currency\":\"RWF\",\"discount_total\":0,\"lines\":[{\"discount\":0,\"line_no\":1,\"line_total\":3750,\"product_id\":\"01a18f6c-3afb-7334-9a54-1ddd771d00bc\",\"product_name\":\"Juice é\",\"quantity_milli\":2500,\"unit_price\":1500}],\"receipt_number_local\":\"0E-1\",\"sale_id\":\"01a18f6c-3afc-7c15-aa86-ecb5d90e5183\",\"subtotal\":3750,\"tax_mode\":\"none\",\"tax_total\":0,\"total\":3750},\"prev_hash\":\"7ec2dd34759a4e888e0ee13413d169d22681f4250d8724efbca59f28a51674e5\",\"schema_version\":1,\"type\":\"SaleRecorded\"}",
+  "{\"actor_user_id\":\"eac73918-1317-4de9-a30e-8b1c6495af34\",\"branch_id\":\"4935ef0b-af44-4051-ab3c-e1f5a23fe551\",\"device_id\":\"0edc350c-7ad8-44a3-ae25-50aacccbd40d\",\"device_seq\":4,\"event_id\":\"01a18f6c-3afc-7330-a40e-0277b4fa22a3\",\"merchant_id\":\"ff7a1b3a-d860-476a-a926-2e3b0d2a58bd\",\"occurred_at_device\":\"2026-10-31T00:46:37.307Z\",\"origin\":\"device\",\"payload\":{\"copy_number\":1,\"receipt_id\":\"01a18f6c-3afc-7c9f-8895-27a04778a91d\",\"receipt_number_local\":\"0E-1\",\"sale_id\":\"01a18f6c-3afc-7c15-aa86-ecb5d90e5183\",\"validity\":\"provisional\"},\"prev_hash\":\"fbcb846b30eb95e5eae753b628f7b896800f11f9e2946285fa956c75a3e7a750\",\"schema_version\":1,\"type\":\"ReceiptIssued\"}",
+  "{\"actor_user_id\":\"eac73918-1317-4de9-a30e-8b1c6495af34\",\"branch_id\":\"4935ef0b-af44-4051-ab3c-e1f5a23fe551\",\"device_id\":\"0edc350c-7ad8-44a3-ae25-50aacccbd40d\",\"device_seq\":5,\"event_id\":\"01a18f6c-3afd-7bdf-af76-2f88acb36be1\",\"merchant_id\":\"ff7a1b3a-d860-476a-a926-2e3b0d2a58bd\",\"occurred_at_device\":\"2026-10-31T00:46:37.307Z\",\"origin\":\"device\",\"payload\":{\"amount\":3750,\"method\":\"cash\",\"payment_id\":\"01a18f6c-3afd-7e0f-8be2-298bf774590e\",\"sale_id\":\"01a18f6c-3afc-7c15-aa86-ecb5d90e5183\",\"status\":\"cash_received\"},\"prev_hash\":\"be77094a399decb4ae7f2e0221ace85535b54817013b850ddaa8afc9b47ca248\",\"schema_version\":1,\"type\":\"PaymentRecorded\"}"
+ ],
+ "hashes": [
+  "48563109c1c0bf48e30c1287c2466eda843eaf0f269f69872962e7d2f0b90565",
+  "7ec2dd34759a4e888e0ee13413d169d22681f4250d8724efbca59f28a51674e5",
+  "fbcb846b30eb95e5eae753b628f7b896800f11f9e2946285fa956c75a3e7a750",
+  "be77094a399decb4ae7f2e0221ace85535b54817013b850ddaa8afc9b47ca248",
+  "8641c42ea2237a5bd166edf4bd218677fe48a1133c2de17baaee0fac3e8abb4b"
+ ],
+ "stamped_event": {
+  "event_id": "01a18f6c-3afb-7448-9fac-4f69c8647793",
+  "origin": "device",
+  "merchant_id": "ff7a1b3a-d860-476a-a926-2e3b0d2a58bd",
+  "branch_id": "4935ef0b-af44-4051-ab3c-e1f5a23fe551",
+  "device_id": "0edc350c-7ad8-44a3-ae25-50aacccbd40d",
+  "actor_user_id": "eac73918-1317-4de9-a30e-8b1c6495af34",
+  "device_seq": 1,
+  "type": "ProductCreated",
+  "schema_version": 1,
+  "occurred_at_device": "2026-10-31T00:46:37.307Z",
+  "prev_hash": "GENESIS",
+  "payload": {
+   "product_id": "01a18f6c-3afb-7334-9a54-1ddd771d00bc",
+   "name": "Juice é",
+   "unit": "piece",
+   "price": 1500,
+   "track_stock": true
+  },
+  "signature": "1suToPwwydD6IiatdNzR75DOuJwywS0W9jf1eMsr7oXSnbYNkSJ9S_4JW4b5GABmzBaoptByb-u-wMjqjR2VYg",
+  "server_cursor": 99
+ },
+ "stamped_hash": "48563109c1c0bf48e30c1287c2466eda843eaf0f269f69872962e7d2f0b90565",
+ "tampered_event": {
+  "event_id": "01a18f6c-3afc-7851-9796-1464309f636e",
+  "origin": "device",
+  "merchant_id": "ff7a1b3a-d860-476a-a926-2e3b0d2a58bd",
+  "branch_id": "4935ef0b-af44-4051-ab3c-e1f5a23fe551",
+  "device_id": "0edc350c-7ad8-44a3-ae25-50aacccbd40d",
+  "actor_user_id": "eac73918-1317-4de9-a30e-8b1c6495af34",
+  "device_seq": 3,
+  "type": "SaleRecorded",
+  "schema_version": 1,
+  "occurred_at_device": "2026-10-31T00:46:37.307Z",
+  "prev_hash": "7ec2dd34759a4e888e0ee13413d169d22681f4250d8724efbca59f28a51674e5",
+  "payload": {
+   "sale_id": "01a18f6c-3afc-7c15-aa86-ecb5d90e5183",
+   "receipt_number_local": "0E-1",
+   "lines": [
+    {
+     "line_no": 1,
+     "product_id": "01a18f6c-3afb-7334-9a54-1ddd771d00bc",
+     "product_name": "Juice é",
+     "quantity_milli": 2500,
+     "unit_price": 1500,
+     "discount": 0,
+     "line_total": 3750
+    }
+   ],
+   "subtotal": 3750,
+   "discount_total": 0,
+   "tax_total": 0,
+   "tax_mode": "none",
+   "total": 1,
+   "currency": "RWF"
+  },
+  "signature": "EJmniktf2HPioOoxQQq-dtfeqwQWPYrikZ4rZrKxb7l1yDcMwhragSi1etGzV2pKYiE5vBNI6Z20Xa5BNOAFEQ"
+ },
+ "tampered_hash": "2cb9db998d1e5b9f24a1ab50963b17d15f06662b39a76a60bb28ec0285ba55fe"
+}

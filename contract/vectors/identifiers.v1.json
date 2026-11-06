@@ -1,0 +1,77 @@
+{
+ "description": "Cross-language test vectors for the identifier standard. Every implementation (Python, TypeScript, Rust, Kotlin, Swift) must pass them.",
+ "valid": [
+  {
+   "id": "LOID-7188-3414-4930",
+   "payload": "718834144930",
+   "type": "ID"
+  },
+  {
+   "id": "LOOID-2101-7127-5089",
+   "payload": "210171275089",
+   "type": "OID"
+  },
+  {
+   "id": "LORCP-2176-0474-0548",
+   "payload": "217604740548",
+   "type": "RCP"
+  },
+  {
+   "id": "LOORD-5499-1341-4781",
+   "payload": "549913414781",
+   "type": "ORD"
+  },
+  {
+   "id": "LODEV-9804-6497-2879",
+   "payload": "980464972879",
+   "type": "DEV"
+  },
+  {
+   "id": "LOCST-2105-4285-0081",
+   "payload": "210542850081",
+   "type": "CST"
+  },
+  {
+   "id": "LOID-4827-1936-5041",
+   "payload": "482719365041",
+   "type": "ID"
+  },
+  {
+   "id": "LOPRF-3141-5926-5359",
+   "payload": "314159265359",
+   "type": "PRF"
+  },
+  {
+   "id": "LOAUD-2718-2818-2847",
+   "payload": "271828182847",
+   "type": "AUD"
+  },
+  {
+   "id": "LOSPLT-1618-0339-8874",
+   "payload": "161803398874",
+   "type": "SPLT"
+  }
+ ],
+ "invalid": [
+  {
+   "id": "LOID-7188-3414-4931",
+   "why": "wrong check digit"
+  },
+  {
+   "id": "LOZZ-1234-5678-9012",
+   "why": "unregistered type"
+  },
+  {
+   "id": "LOID-1234-5678",
+   "why": "short payload"
+  },
+  {
+   "id": "ID-1234-5678-9012",
+   "why": "missing LO namespace"
+  },
+  {
+   "id": "LOID-12345678-9012",
+   "why": "wrong separators"
+  }
+ ]
+}

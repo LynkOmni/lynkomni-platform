@@ -1,0 +1,758 @@
+{
+ "$id": "lynkomni/vcard.v1",
+ "status": "extension registry, schema_version 1 of the vcard namespace. Merchant-core contract v1 is unchanged.",
+ "names": {
+  "full": "LynkOmni Virtual Card",
+  "short": "LynkVCard",
+  "url": "https://lynkomni.com/vcard",
+  "risk_box": "LynkOmni Virtual Card Risk Box (LynkVCRBox)"
+ },
+ "rules": [
+  "Raw PAN, CVV and expiry are never received, stored or logged by LynkOmni. Display is issuer-hosted and ephemeral.",
+  "Every Request* command carries an idempotency_key; the cloud and the issuer both honor it, so a retry never debits twice.",
+  "Only RequestFreeze may be queued offline, as an intent with a 24 hour life and a one-time nonce. A queued intent is never shown as a freeze; only VirtualCardFrozen is.",
+  "Cards, transactions, disputes and physical companions have separate state machines.",
+  "A card receipt is a payment record, never a fiscal invoice. The supplier's own fiscal receipt reference may be attached.",
+  "3-D Secure approval is an in-app, device-bound approval with SMS OTP as fallback. Never through a chat thread.",
+  "A country pack alone never enables cards. It needs a signed issuer agreement, legal sign-off and the activation checklist."
+ ],
+ "id_types": {
+  "card": "VC",
+  "physical_companion": "PC",
+  "transaction": "TXN",
+  "receipt": "RCP",
+  "supplier_score": "SC",
+  "dispute": "CASE"
+ },
+ "card_states": [
+  "requested",
+  "issued",
+  "active",
+  "frozen",
+  "closed",
+  "expired"
+ ],
+ "card_transitions": {
+  "requested": [
+   "issued"
+  ],
+  "issued": [
+   "active",
+   "closed"
+  ],
+  "active": [
+   "frozen",
+   "closed",
+   "expired"
+  ],
+  "frozen": [
+   "active",
+   "closed"
+  ],
+  "closed": [],
+  "expired": [
+   "active"
+  ]
+ },
+ "transaction_states": [
+  "authorized",
+  "settled",
+  "reversed",
+  "disputed"
+ ],
+ "dispute_states": [
+  "opened",
+  "evidence",
+  "resolved"
+ ],
+ "physical_states": [
+  "ordered",
+  "shipped",
+  "activated",
+  "replaced"
+ ],
+ "permissions": {
+  "vcard.view": {
+   "roles": [
+    "cashier",
+    "manager",
+    "owner"
+   ],
+   "note": "view last four digits, status, limits and receipts. Cashiers see only the team card assigned to them"
+  },
+  "vcard.create": {
+   "roles": [
+    "manager",
+    "owner"
+   ],
+   "note": "create cards within the plan limits. Pro: a manager's request waits for an owner approval above the manager limit"
+  },
+  "vcard.fund": {
+   "roles": [
+    "manager",
+    "owner"
+   ],
+   "note": "fund a card from a pack payment method"
+  },
+  "vcard.freeze": {
+   "roles": [
+    "cashier",
+    "manager",
+    "owner"
+   ],
+   "note": "freeze: a cashier may freeze only their own team card"
+  },
+  "vcard.unfreeze": {
+   "roles": [
+    "manager",
+    "owner"
+   ],
+   "note": "unfreeze, only when no open risk case"
+  },
+  "vcard.close": {
+   "roles": [
+    "owner"
+   ],
+   "note": "close a card"
+  },
+  "vcard.limits": {
+   "roles": [
+    "owner"
+   ],
+   "note": "change caps and locks"
+  },
+  "vcard.team": {
+   "roles": [
+    "manager",
+    "owner"
+   ],
+   "note": "team, supplier, time and shift cards"
+  },
+  "vcard.dispute": {
+   "roles": [
+    "manager",
+    "owner"
+   ],
+   "note": "open and evidence a dispute"
+  },
+  "vcard.physical": {
+   "roles": [
+    "owner"
+   ],
+   "note": "order, activate and replace a physical companion"
+  },
+  "vcard.approve": {
+   "roles": [
+    "manager",
+    "owner"
+   ],
+   "note": "approve a pending card request, in the app and never in chat"
+  },
+  "vcard.display": {
+   "roles": [
+    "owner"
+   ],
+   "note": "open the issuer-hosted card display, needs step-up"
+  },
+  "vcard.wallet": {
+   "roles": [
+    "manager",
+    "owner"
+   ],
+   "note": "add the card to Apple Pay or Google Pay where the issuer supports it"
+  }
+ },
+ "commands": [
+  {
+   "name": "RequestVirtualCard",
+   "class": "C",
+   "permission": "vcard.create",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "type",
+    "lock",
+    "amount_base",
+    "expiry_utc",
+    "auto_renew",
+    "rotation_policy",
+    "funding_source_id"
+   ]
+  },
+  {
+   "name": "RequestFunding",
+   "class": "C",
+   "permission": "vcard.fund",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "card",
+    "funding_source_id",
+    "amount_base"
+   ]
+  },
+  {
+   "name": "RequestFreeze",
+   "class": "C",
+   "permission": "vcard.freeze",
+   "idempotent": true,
+   "offline": "queued_intent_ttl_24h",
+   "fields": [
+    "idempotency_key",
+    "card",
+    "reason",
+    "nonce"
+   ]
+  },
+  {
+   "name": "RequestUnfreeze",
+   "class": "C",
+   "permission": "vcard.unfreeze",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "card"
+   ]
+  },
+  {
+   "name": "RequestClose",
+   "class": "C",
+   "permission": "vcard.close",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "card"
+   ]
+  },
+  {
+   "name": "RequestChangeLimits",
+   "class": "C",
+   "permission": "vcard.limits",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "card",
+    "per_txn_cap",
+    "period_cap",
+    "category_locks"
+   ]
+  },
+  {
+   "name": "RequestRotateCard",
+   "class": "C",
+   "permission": "vcard.limits",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "card",
+    "reason"
+   ]
+  },
+  {
+   "name": "RequestRenewCard",
+   "class": "C",
+   "permission": "vcard.limits",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "card"
+   ]
+  },
+  {
+   "name": "RequestTimeLockedCard",
+   "class": "C",
+   "permission": "vcard.team",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "card",
+    "valid_for_minutes"
+   ]
+  },
+  {
+   "name": "RequestSupplierLockedCard",
+   "class": "C",
+   "permission": "vcard.team",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "card",
+    "supplier_till_id"
+   ]
+  },
+  {
+   "name": "RequestTeamCard",
+   "class": "C",
+   "permission": "vcard.team",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "card",
+    "staff_user_id",
+    "daily_cap",
+    "shift_id"
+   ]
+  },
+  {
+   "name": "RequestBranchCard",
+   "class": "C",
+   "permission": "vcard.team",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "card",
+    "branch"
+   ]
+  },
+  {
+   "name": "ApproveCardRequest",
+   "class": "C",
+   "permission": "vcard.approve",
+   "idempotent": false,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "request",
+    "decision"
+   ]
+  },
+  {
+   "name": "RequestCardDisplaySession",
+   "class": "C",
+   "permission": "vcard.display",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "card"
+   ]
+  },
+  {
+   "name": "RequestWalletProvisioning",
+   "class": "C",
+   "permission": "vcard.wallet",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "card",
+    "wallet"
+   ]
+  },
+  {
+   "name": "RequestWalletTokenRevoke",
+   "class": "C",
+   "permission": "vcard.wallet",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "card",
+    "wallet"
+   ]
+  },
+  {
+   "name": "RespondToChallenge",
+   "class": "C",
+   "permission": "vcard.view",
+   "idempotent": false,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "card",
+    "txn",
+    "decision"
+   ]
+  },
+  {
+   "name": "RequestDispute",
+   "class": "C",
+   "permission": "vcard.dispute",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "card",
+    "txn",
+    "reason"
+   ]
+  },
+  {
+   "name": "SubmitDisputeEvidence",
+   "class": "C",
+   "permission": "vcard.dispute",
+   "idempotent": false,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "case",
+    "evidence_ref"
+   ]
+  },
+  {
+   "name": "RequestPhysicalCompanionCard",
+   "class": "C",
+   "permission": "vcard.physical",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "card",
+    "address_ref"
+   ]
+  },
+  {
+   "name": "ActivatePhysicalCard",
+   "class": "C",
+   "permission": "vcard.physical",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "physical",
+    "otp_ref"
+   ]
+  },
+  {
+   "name": "RequestReplacePhysicalCard",
+   "class": "C",
+   "permission": "vcard.physical",
+   "idempotent": true,
+   "offline": "refused_offline",
+   "fields": [
+    "idempotency_key",
+    "physical",
+    "reason"
+   ]
+  }
+ ],
+ "events": [
+  {
+   "name": "VirtualCardCreated",
+   "origin": "server",
+   "fields": [
+    "card",
+    "last4",
+    "token",
+    "country_pack",
+    "expiry_utc",
+    "rotation_policy"
+   ]
+  },
+  {
+   "name": "VirtualCardFunded",
+   "origin": "server",
+   "fields": [
+    "card",
+    "txn",
+    "amount_base",
+    "amount_card",
+    "rate"
+   ]
+  },
+  {
+   "name": "VirtualCardFundingFailed",
+   "origin": "server",
+   "fields": [
+    "card",
+    "reason"
+   ]
+  },
+  {
+   "name": "VirtualCardFreezeIntentQueued",
+   "origin": "server",
+   "fields": [
+    "card",
+    "nonce",
+    "expires_utc"
+   ]
+  },
+  {
+   "name": "VirtualCardFreezeIntentExpired",
+   "origin": "server",
+   "fields": [
+    "card",
+    "nonce"
+   ]
+  },
+  {
+   "name": "VirtualCardFrozen",
+   "origin": "server",
+   "fields": [
+    "card",
+    "reason"
+   ]
+  },
+  {
+   "name": "VirtualCardUnfrozen",
+   "origin": "server",
+   "fields": [
+    "card"
+   ]
+  },
+  {
+   "name": "VirtualCardClosed",
+   "origin": "server",
+   "fields": [
+    "card",
+    "refund_base"
+   ]
+  },
+  {
+   "name": "VirtualCardExpired",
+   "origin": "server",
+   "fields": [
+    "card"
+   ]
+  },
+  {
+   "name": "VirtualCardRenewed",
+   "origin": "server",
+   "fields": [
+    "card",
+    "expiry_utc"
+   ]
+  },
+  {
+   "name": "VirtualCardRotated",
+   "origin": "server",
+   "fields": [
+    "card",
+    "new_token",
+    "new_last4",
+    "old_revoked"
+   ]
+  },
+  {
+   "name": "VirtualCardLimitsChanged",
+   "origin": "server",
+   "fields": [
+    "card",
+    "limits"
+   ]
+  },
+  {
+   "name": "CardRequestApprovalRequested",
+   "origin": "server",
+   "fields": [
+    "request",
+    "requester"
+   ]
+  },
+  {
+   "name": "CardRequestApproved",
+   "origin": "server",
+   "fields": [
+    "request"
+   ]
+  },
+  {
+   "name": "CardRequestRejected",
+   "origin": "server",
+   "fields": [
+    "request",
+    "reason"
+   ]
+  },
+  {
+   "name": "VirtualCardAuthorized",
+   "origin": "server",
+   "fields": [
+    "card",
+    "txn",
+    "merchant",
+    "mcc",
+    "amount",
+    "category",
+    "auth_rate",
+    "buffer_hold"
+   ]
+  },
+  {
+   "name": "VirtualCardAuthDeclined",
+   "origin": "server",
+   "fields": [
+    "card",
+    "reason"
+   ]
+  },
+  {
+   "name": "VirtualCardReversed",
+   "origin": "server",
+   "fields": [
+    "card",
+    "txn",
+    "amount_base"
+   ]
+  },
+  {
+   "name": "VirtualCardSettled",
+   "origin": "server",
+   "fields": [
+    "card",
+    "txn",
+    "final_amount_base",
+    "final_rate",
+    "buffer_released"
+   ]
+  },
+  {
+   "name": "VirtualCardReceiptCreated",
+   "origin": "server",
+   "fields": [
+    "receipt",
+    "card",
+    "txn",
+    "final_amount_base",
+    "fiscal"
+   ]
+  },
+  {
+   "name": "VirtualCardChallengeIssued",
+   "origin": "server",
+   "fields": [
+    "card",
+    "txn",
+    "channel"
+   ]
+  },
+  {
+   "name": "VirtualCardChallengeResolved",
+   "origin": "server",
+   "fields": [
+    "card",
+    "txn",
+    "decision"
+   ]
+  },
+  {
+   "name": "WalletTokenProvisioned",
+   "origin": "server",
+   "fields": [
+    "card",
+    "wallet"
+   ]
+  },
+  {
+   "name": "WalletTokenRevoked",
+   "origin": "server",
+   "fields": [
+    "card",
+    "wallet",
+    "reason"
+   ]
+  },
+  {
+   "name": "LynkVCRBoxFlagged",
+   "origin": "server",
+   "fields": [
+    "card",
+    "case",
+    "rule"
+   ]
+  },
+  {
+   "name": "LynkVCRBoxCleared",
+   "origin": "server",
+   "fields": [
+    "case"
+   ]
+  },
+  {
+   "name": "DisputeCreated",
+   "origin": "server",
+   "fields": [
+    "case",
+    "card",
+    "txn"
+   ]
+  },
+  {
+   "name": "DisputeEvidenceReceived",
+   "origin": "server",
+   "fields": [
+    "case"
+   ]
+  },
+  {
+   "name": "DisputeResolved",
+   "origin": "server",
+   "fields": [
+    "case",
+    "outcome",
+    "refund_txn"
+   ]
+  },
+  {
+   "name": "VirtualCardSupplierScoreUpdated",
+   "origin": "server",
+   "fields": [
+    "score",
+    "supplier"
+   ]
+  },
+  {
+   "name": "PhysicalCardOrdered",
+   "origin": "server",
+   "fields": [
+    "physical",
+    "card"
+   ]
+  },
+  {
+   "name": "PhysicalCardShipped",
+   "origin": "server",
+   "fields": [
+    "physical",
+    "tracking_id"
+   ]
+  },
+  {
+   "name": "PhysicalCardActivated",
+   "origin": "server",
+   "fields": [
+    "physical"
+   ]
+  },
+  {
+   "name": "PhysicalCardReplaced",
+   "origin": "server",
+   "fields": [
+    "physical",
+    "old_physical"
+   ]
+  }
+ ],
+ "risk_defaults": {
+  "issuance_per_10_min": 5,
+  "chargeback_warning_pct": 0.3,
+  "chargeback_halt_pct": 0.9,
+  "fx_buffer_pct": 2.0,
+  "note": "Placeholders set below the issuer and card-scheme limits once those are known"
+ },
+ "tiers": {
+  "free": {
+   "edition": "EDGE // FIRST LIGHT"
+  },
+  "plus": {
+   "edition": "HUB // CENTER POINT"
+  },
+  "pro": {
+   "edition": "CORE // DEEP SYSTEM"
+  },
+  "max": {
+   "edition": "OMNI // OWN ALL COMMERCE"
+  }
+ }
+}

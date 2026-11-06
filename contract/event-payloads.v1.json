@@ -1,0 +1,372 @@
+{
+  "$id": "lynkomni/event-payloads.v1",
+  "description": "Registry of every event type allowed in v1. A type not listed here is quarantined by LynkCCBox (reason unknown_schema_version or invalid_payload). Money is integer RWF (RWF has no minor unit). Quantities are integer thousandths (1000 = 1 unit) so weights and fractions need no floating point. Adding a type or changing a payload requires a new schema_version and an upcaster note.",
+  "$defs": {
+    "uuid": { "type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" },
+    "uuid7": { "type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$" },
+    "rwf": { "type": "integer", "minimum": 0, "maximum": 1000000000000 },
+    "qty": { "type": "integer", "minimum": 1, "maximum": 1000000000 },
+    "qty_signed": { "type": "integer", "minimum": -1000000000, "maximum": 1000000000 },
+    "name": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "note": { "type": "string", "minLength": 1, "maxLength": 300 },
+    "receipt_no": { "type": "string", "pattern": "^[A-Z0-9]{2,8}-[0-9]{1,10}$" },
+    "barcode": { "type": "string", "pattern": "^[0-9A-Za-z-]{4,32}$" },
+    "sku": { "type": "string", "pattern": "^[0-9A-Za-z._-]{1,32}$" },
+    "tax_code": { "type": "string", "pattern": "^[A-Z0-9]{1,6}$" },
+    "unit": { "enum": ["piece", "kg", "g", "litre", "ml", "pack", "box", "other"] },
+    "role": { "enum": ["owner", "manager", "cashier"] },
+    "payment_method": { "enum": ["cash", "mobile_money", "bank_transfer", "card", "credit", "other"] },
+    "payment_status": { "enum": ["cash_received", "pending_confirmation", "confirmed", "failed", "manually_confirmed", "credit_open", "credit_settled"] },
+    "provider_ref": { "type": "string", "pattern": "^[A-Za-z0-9._-]{3,64}$" },
+    "p256_public_key": { "type": "string", "description": "Uncompressed P-256 point (65 bytes), base64url, no padding.", "pattern": "^[A-Za-z0-9_-]{87}$" }
+  },
+  "events": {
+    "SaleRecorded": {
+      "schema_version": 1,
+      "origins": ["device"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["sale_id", "receipt_number_local", "lines", "subtotal", "discount_total", "tax_total", "tax_mode", "total", "currency"],
+        "properties": {
+          "sale_id": { "$ref": "#/$defs/uuid7" },
+          "receipt_number_local": { "$ref": "#/$defs/receipt_no" },
+          "lines": {
+            "type": "array", "minItems": 1, "maxItems": 200,
+            "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["line_no", "product_id", "product_name", "quantity_milli", "unit_price", "discount", "line_total"],
+              "properties": {
+                "line_no": { "type": "integer", "minimum": 1, "maximum": 200 },
+                "product_id": { "$ref": "#/$defs/uuid7" },
+                "product_name": { "$ref": "#/$defs/name" },
+                "quantity_milli": { "$ref": "#/$defs/qty" },
+                "unit_price": { "$ref": "#/$defs/rwf" },
+                "discount": { "$ref": "#/$defs/rwf" },
+                "tax_code": { "$ref": "#/$defs/tax_code" },
+                "line_total": { "$ref": "#/$defs/rwf" }
+              }
+            }
+          },
+          "subtotal": { "$ref": "#/$defs/rwf" },
+          "discount_total": { "$ref": "#/$defs/rwf" },
+          "tax_total": { "$ref": "#/$defs/rwf" },
+          "tax_mode": { "enum": ["inclusive", "exclusive", "none"] },
+          "total": { "$ref": "#/$defs/rwf" },
+          "currency": { "enum": ["RWF"] },
+          "customer_note": { "$ref": "#/$defs/note" }
+        }
+      }
+    },
+    "SaleVoided": {
+      "schema_version": 1, "origins": ["device"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["sale_id", "reason_code"],
+        "properties": {
+          "sale_id": { "$ref": "#/$defs/uuid7" },
+          "reason_code": { "enum": ["entered_in_error", "customer_cancelled", "price_error", "duplicate", "other"] },
+          "note": { "$ref": "#/$defs/note" }
+        }
+      }
+    },
+    "ReturnRecorded": {
+      "schema_version": 1, "origins": ["device"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["return_id", "sale_id", "lines", "refund_total", "reason_code"],
+        "properties": {
+          "return_id": { "$ref": "#/$defs/uuid7" },
+          "sale_id": { "$ref": "#/$defs/uuid7" },
+          "lines": {
+            "type": "array", "minItems": 1, "maxItems": 200,
+            "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["line_no", "product_id", "quantity_milli", "restock", "refund_amount"],
+              "properties": {
+                "line_no": { "type": "integer", "minimum": 1, "maximum": 200 },
+                "product_id": { "$ref": "#/$defs/uuid7" },
+                "quantity_milli": { "$ref": "#/$defs/qty" },
+                "restock": { "type": "boolean" },
+                "refund_amount": { "$ref": "#/$defs/rwf" }
+              }
+            }
+          },
+          "refund_total": { "$ref": "#/$defs/rwf" },
+          "reason_code": { "enum": ["defective", "wrong_item", "customer_changed_mind", "price_error", "other"] },
+          "note": { "$ref": "#/$defs/note" }
+        }
+      }
+    },
+    "PaymentRecorded": {
+      "schema_version": 1, "origins": ["device"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["payment_id", "sale_id", "method", "amount", "status"],
+        "properties": {
+          "payment_id": { "$ref": "#/$defs/uuid7" },
+          "sale_id": { "$ref": "#/$defs/uuid7" },
+          "method": { "$ref": "#/$defs/payment_method" },
+          "amount": { "$ref": "#/$defs/rwf" },
+          "status": { "enum": ["cash_received", "pending_confirmation", "credit_open"] },
+          "provider_reference": { "$ref": "#/$defs/provider_ref" }
+        }
+      }
+    },
+    "PaymentStatusChanged": {
+      "schema_version": 1, "origins": ["device", "server"],
+      "origin_constraints": {
+        "device": { "source": "owner_manual", "to_status_in": ["manually_confirmed", "credit_settled"] }
+      },
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["payment_id", "from_status", "to_status", "source"],
+        "properties": {
+          "payment_id": { "$ref": "#/$defs/uuid7" },
+          "from_status": { "$ref": "#/$defs/payment_status" },
+          "to_status": { "$ref": "#/$defs/payment_status" },
+          "source": { "enum": ["provider_callback", "owner_manual", "system"] },
+          "provider_reference": { "$ref": "#/$defs/provider_ref" }
+        }
+      }
+    },
+    "StockReceived": {
+      "schema_version": 1, "origins": ["device"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["stock_receipt_id", "lines"],
+        "properties": {
+          "stock_receipt_id": { "$ref": "#/$defs/uuid7" },
+          "lines": {
+            "type": "array", "minItems": 1, "maxItems": 200,
+            "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["product_id", "quantity_milli"],
+              "properties": {
+                "product_id": { "$ref": "#/$defs/uuid7" },
+                "quantity_milli": { "$ref": "#/$defs/qty" },
+                "unit_cost": { "$ref": "#/$defs/rwf" }
+              }
+            }
+          },
+          "supplier_note": { "$ref": "#/$defs/note" }
+        }
+      }
+    },
+    "StockAdjusted": {
+      "schema_version": 1, "origins": ["device"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["adjustment_id", "product_id", "delta_milli", "reason_code"],
+        "properties": {
+          "adjustment_id": { "$ref": "#/$defs/uuid7" },
+          "product_id": { "$ref": "#/$defs/uuid7" },
+          "delta_milli": { "$ref": "#/$defs/qty_signed" },
+          "reason_code": { "enum": ["damage", "loss", "theft", "expiry", "correction", "other"] },
+          "note": { "$ref": "#/$defs/note" }
+        }
+      }
+    },
+    "StockCounted": {
+      "schema_version": 1, "origins": ["device"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["count_id", "product_id", "counted_milli", "device_view_milli"],
+        "properties": {
+          "count_id": { "$ref": "#/$defs/uuid7" },
+          "product_id": { "$ref": "#/$defs/uuid7" },
+          "counted_milli": { "type": "integer", "minimum": 0, "maximum": 1000000000 },
+          "device_view_milli": { "$ref": "#/$defs/qty_signed" },
+          "note": { "$ref": "#/$defs/note" }
+        }
+      }
+    },
+    "ProductCreated": {
+      "schema_version": 1, "origins": ["device"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["product_id", "name", "unit", "price", "track_stock"],
+        "properties": {
+          "product_id": { "$ref": "#/$defs/uuid7" },
+          "name": { "$ref": "#/$defs/name" },
+          "barcode": { "$ref": "#/$defs/barcode" },
+          "sku": { "$ref": "#/$defs/sku" },
+          "unit": { "$ref": "#/$defs/unit" },
+          "price": { "$ref": "#/$defs/rwf" },
+          "track_stock": { "type": "boolean" },
+          "tax_code": { "$ref": "#/$defs/tax_code" }
+        }
+      }
+    },
+    "ProductUpdated": {
+      "schema_version": 1, "origins": ["device"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["product_id", "base_version", "changes"],
+        "properties": {
+          "product_id": { "$ref": "#/$defs/uuid7" },
+          "base_version": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+          "changes": {
+            "type": "object", "additionalProperties": false, "minProperties": 1,
+            "properties": {
+              "name": { "$ref": "#/$defs/name" },
+              "barcode": { "$ref": "#/$defs/barcode" },
+              "sku": { "$ref": "#/$defs/sku" },
+              "unit": { "$ref": "#/$defs/unit" },
+              "price": { "$ref": "#/$defs/rwf" },
+              "track_stock": { "type": "boolean" },
+              "tax_code": { "$ref": "#/$defs/tax_code" }
+            }
+          }
+        }
+      }
+    },
+    "ProductArchived": {
+      "schema_version": 1, "origins": ["device"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["product_id", "base_version"],
+        "properties": {
+          "product_id": { "$ref": "#/$defs/uuid7" },
+          "base_version": { "type": "integer", "minimum": 1, "maximum": 1000000 }
+        }
+      }
+    },
+    "ReceiptIssued": {
+      "schema_version": 1, "origins": ["device"],
+      "origin_constraints": { "device": { "validity": "provisional" } },
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["receipt_id", "sale_id", "receipt_number_local", "copy_number", "validity"],
+        "properties": {
+          "receipt_id": { "$ref": "#/$defs/uuid7" },
+          "sale_id": { "$ref": "#/$defs/uuid7" },
+          "receipt_number_local": { "$ref": "#/$defs/receipt_no" },
+          "copy_number": { "type": "integer", "minimum": 1, "maximum": 1000 },
+          "validity": { "enum": ["provisional", "valid", "submitted"] },
+          "clock_skew_known_ms": { "type": "integer", "minimum": -31536000000, "maximum": 31536000000 }
+        }
+      }
+    },
+    "DeviceEnrolled": {
+      "schema_version": 1, "origins": ["server"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["device_id", "device_name", "platform", "public_key", "enrolled_by_user_id"],
+        "properties": {
+          "device_id": { "$ref": "#/$defs/uuid" },
+          "device_name": { "type": "string", "minLength": 1, "maxLength": 60 },
+          "platform": { "enum": ["android", "ios"] },
+          "public_key": { "$ref": "#/$defs/p256_public_key" },
+          "enrolled_by_user_id": { "$ref": "#/$defs/uuid" }
+        }
+      }
+    },
+    "DeviceRevoked": {
+      "schema_version": 1, "origins": ["server"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["device_id", "revoked_by_user_id", "reason"],
+        "properties": {
+          "device_id": { "$ref": "#/$defs/uuid" },
+          "revoked_by_user_id": { "$ref": "#/$defs/uuid" },
+          "reason": { "enum": ["lost", "stolen", "replaced", "staff_left", "security", "recovery", "other"] }
+        }
+      }
+    },
+    "UserAdded": {
+      "schema_version": 1, "origins": ["server"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["user_id", "display_name", "role"],
+        "properties": {
+          "user_id": { "$ref": "#/$defs/uuid" },
+          "display_name": { "$ref": "#/$defs/name" },
+          "role": { "$ref": "#/$defs/role" }
+        }
+      }
+    },
+    "UserRoleChanged": {
+      "schema_version": 1, "origins": ["server"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["user_id", "old_role", "new_role"],
+        "properties": {
+          "user_id": { "$ref": "#/$defs/uuid" },
+          "old_role": { "$ref": "#/$defs/role" },
+          "new_role": { "$ref": "#/$defs/role" }
+        }
+      }
+    },
+    "ConfigChanged": {
+      "schema_version": 1, "origins": ["server"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["config_version", "changes"],
+        "properties": {
+          "config_version": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+          "changes": {
+            "type": "object", "additionalProperties": false, "minProperties": 1,
+            "properties": {
+              "language": { "enum": ["rw", "en", "fr"] },
+              "offline_session_max_days": { "type": "integer", "minimum": 1, "maximum": 60 },
+              "clock_warning_threshold_seconds": { "type": "integer", "minimum": 60, "maximum": 86400 },
+              "discount_limit_percent_cashier": { "type": "integer", "minimum": 0, "maximum": 100 },
+              "min_app_version": { "type": "string", "pattern": "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$" },
+              "tax_mode": { "enum": ["inclusive", "exclusive", "none"] }
+            }
+          }
+        }
+      }
+    },
+    "ClockWarningRaised": {
+      "schema_version": 1, "origins": ["server"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["device_id", "offset_ms", "threshold_ms"],
+        "properties": {
+          "device_id": { "$ref": "#/$defs/uuid" },
+          "offset_ms": { "type": "integer", "minimum": -31536000000, "maximum": 31536000000 },
+          "threshold_ms": { "type": "integer", "minimum": 60000, "maximum": 86400000 }
+        }
+      }
+    },
+    "ConflictNoticeRaised": {
+      "schema_version": 1, "origins": ["server"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["kind", "refs"],
+        "properties": {
+          "kind": { "enum": ["product_edit_conflict", "void_return_conflict"] },
+          "refs": { "type": "array", "minItems": 2, "maxItems": 10, "items": { "$ref": "#/$defs/uuid7" } },
+          "summary": { "$ref": "#/$defs/note" }
+        }
+      }
+    },
+    "NegativeStockFlagged": {
+      "schema_version": 1, "origins": ["server"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["product_id", "projected_milli", "as_of_cursor"],
+        "properties": {
+          "product_id": { "$ref": "#/$defs/uuid7" },
+          "projected_milli": { "$ref": "#/$defs/qty_signed" },
+          "as_of_cursor": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 }
+        }
+      }
+    },
+    "EventQuarantined": {
+      "schema_version": 1, "origins": ["server"],
+      "payload": {
+        "type": "object", "additionalProperties": false,
+        "required": ["quarantined_event_id", "device_id", "device_seq", "reason_code"],
+        "properties": {
+          "quarantined_event_id": { "$ref": "#/$defs/uuid7" },
+          "device_id": { "$ref": "#/$defs/uuid" },
+          "device_seq": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+          "reason_code": { "enum": ["unknown_schema_version", "invalid_payload", "after_revocation", "bad_signature", "broken_hash_chain", "redundant_void_return", "duplicate_entity_id", "other"] },
+          "detail": { "$ref": "#/$defs/note" }
+        }
+      }
+    }
+  }
+}

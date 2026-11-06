@@ -1,0 +1,7 @@
+__pycache__/
+*.db
+ts/dist/
+ts/node_modules/
+rust/**/target/
+android/**/build/
+ios/.build/

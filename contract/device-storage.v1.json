@@ -1,0 +1,7 @@
+{
+ "version": 1,
+ "rule": "Every production device database is encrypted at rest with SQLCipher (or the platform equivalent). Opening without a key is allowed only in tests.",
+ "key_handling": "The key lives in the platform keystore (Android Keystore, iOS Keychain, OS keyring) and is never stored beside the database or sent to the cloud.",
+ "implementations": {"python": "core/devicedb.py (reference, tested for refusal only)", "android": "SQLCipher for Android (not built here)", "ios": "SQLCipher (not built here)", "rust": "rusqlite with the bundled-sqlcipher feature (not built here)"},
+ "status": "reference rule only; no encrypted database has been opened in the build sandbox because SQLCipher is not installed there"
+}

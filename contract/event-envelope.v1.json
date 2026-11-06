@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "lynkomni/event-envelope.v1",
+  "title": "LynkOmni event envelope v1",
+  "description": "Outer shape of every event. Pick the definition by the 'origin' field: 'device' events are created and signed on a device (LynkDVBox); 'server' events are created by LynkCCBox and delivered to devices by pull. Devices must NOT send server_stamp fields; LynkCCBox adds them on receipt. No floating-point numbers are allowed anywhere in an event (integers only), so canonical serialization is unambiguous.",
+  "$defs": {
+    "uuid": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "uuid7": {
+      "type": "string",
+      "description": "UUIDv7, generated on the creating side. Time-sortable, globally unique.",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "timestamp_utc": {
+      "type": "string",
+      "description": "RFC 3339, UTC only, millisecond precision at most.",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,3})?Z$"
+    },
+    "prev_hash": {
+      "type": "string",
+      "description": "'GENESIS' for device_seq 1. Otherwise lowercase hex SHA-256 of the previous event's signing bytes (see README, section Hash chain).",
+      "pattern": "^(GENESIS|[0-9a-f]{64})$"
+    },
+    "es256_signature": {
+      "type": "string",
+      "description": "ECDSA P-256 / SHA-256, raw r||s (64 bytes), base64url without padding (86 characters).",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    },
+    "event_type": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Za-z0-9]{2,60}$"
+    },
+    "device_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id", "origin", "merchant_id", "branch_id", "device_id", "actor_user_id",
+        "device_seq", "type", "schema_version", "occurred_at_device", "prev_hash", "payload", "signature"
+      ],
+      "properties": {
+        "event_id": { "$ref": "#/$defs/uuid7" },
+        "origin": { "const": "device" },
+        "merchant_id": { "$ref": "#/$defs/uuid" },
+        "branch_id": { "$ref": "#/$defs/uuid" },
+        "device_id": { "$ref": "#/$defs/uuid" },
+        "actor_user_id": { "$ref": "#/$defs/uuid" },
+        "command_id": { "$ref": "#/$defs/uuid7" },
+        "device_seq": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+        "type": { "$ref": "#/$defs/event_type" },
+        "schema_version": { "type": "integer", "minimum": 1, "maximum": 1000 },
+        "occurred_at_device": { "$ref": "#/$defs/timestamp_utc" },
+        "prev_hash": { "$ref": "#/$defs/prev_hash" },
+        "payload": { "type": "object" },
+        "signature": { "$ref": "#/$defs/es256_signature" }
+      }
+    },
+    "server_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id", "origin", "merchant_id", "type", "schema_version",
+        "created_at_server", "server_cursor", "payload", "server_signature"
+      ],
+      "properties": {
+        "event_id": { "$ref": "#/$defs/uuid7" },
+        "origin": { "const": "server" },
+        "merchant_id": { "$ref": "#/$defs/uuid" },
+        "branch_id": { "$ref": "#/$defs/uuid" },
+        "type": { "$ref": "#/$defs/event_type" },
+        "schema_version": { "type": "integer", "minimum": 1, "maximum": 1000 },
+        "created_at_server": { "$ref": "#/$defs/timestamp_utc" },
+        "server_cursor": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+        "cause_event_ids": { "type": "array", "minItems": 1, "maxItems": 20, "items": { "$ref": "#/$defs/uuid7" } },
+        "payload": { "type": "object" },
+        "server_signature": { "$ref": "#/$defs/es256_signature" }
+      }
+    },
+    "server_stamp": {
+      "type": "object",
+      "description": "Fields LynkCCBox adds to a stored device event. Never sent by a device. Cross-device order is server_cursor; device timestamps are informational only.",
+      "additionalProperties": false,
+      "properties": {
+        "received_at_server": { "$ref": "#/$defs/timestamp_utc" },
+        "server_cursor": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+        "clock_offset_ms": { "type": "integer", "minimum": -31536000000, "maximum": 31536000000 },
+        "flags": {
+          "type": "array",
+          "maxItems": 10,
+          "items": { "enum": ["clock_skew", "negative_stock", "conflict", "after_revocation", "manual_confirmation"] }
+        }
+      }
+    }
+  }
+}

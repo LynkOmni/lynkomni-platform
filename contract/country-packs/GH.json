@@ -1,0 +1,48 @@
+{
+ "name": "Ghana",
+ "currency": "GHS",
+ "locale": "en-GH",
+ "languages": [
+  "en"
+ ],
+ "tax_rate": "0.15",
+ "fiscal": null,
+ "providers": [
+  "momo_mtn",
+  "bank_transfer",
+  "card",
+  "qr"
+ ],
+ "flags": {},
+ "tz": "Africa/Accra",
+ "price_index": 0.4,
+ "code": "GH",
+ "bbox": [
+  4.7,
+  11.2,
+  -3.3,
+  1.2
+ ],
+ "payment_methods_note": "payment methods are the providers list: every product reads the same list",
+ "card_networks": [
+  "visa",
+  "mastercard"
+ ],
+ "wallets": [],
+ "vcard": {
+  "enabled": false,
+  "issuer": null,
+  "bin_sponsor": null,
+  "blocked_mcc": [
+   "7995",
+   "7801",
+   "7802",
+   "6051",
+   "4829",
+   "6211"
+  ],
+  "monthly_cap_usd_max": 100000,
+  "note": "A pack alone never turns cards on. Needs a signed issuer agreement, legal sign-off and the activation checklist."
+ },
+ "vcard_card_networks_note": "set from the issuer contract, never assumed"
+}
