@@ -1,8 +1,9 @@
 """Machine translation for every LynkOmni screen, the way large platforms do it (owner decision 2026-11-06).
 
-The engine sits behind one interface. The intended engine is Meta's open NLLB-200 model (the translation model behind
-Facebook's own translations, about 200 languages, self-hosted, no per-word fee). Until it can be installed, the
-SandboxTranslator below produces pseudo-translations: longer, accented text used to prove that no screen breaks.
+The engine sits behind one interface. The engine is Google's open MADLAD-400-3B-MT model (Apache 2.0, so commercial use is
+allowed; 400+ languages; self-hosted, no per-word fee). Meta's NLLB-200 was the first choice but its licence (CC-BY-NC)
+forbids commercial use, so the owner replaced it on 2026-11-06. SandboxTranslator below produces pseudo-translations
+(longer, accented text) for tests and for any machine without the engine, to prove that no screen breaks.
 
 Rules every translation passes before it is used:
   - brand, product and provider names are never translated (GLOSSARY);
@@ -76,7 +77,7 @@ def pseudo(text, grow=0.4):
 
 
 class SandboxTranslator(Translator):
-    """SANDBOX engine until NLLB-200 is installed: returns pseudo-translations so layouts are tested in every language."""
+    """SANDBOX engine for tests and machines without the MADLAD-400 model: returns pseudo-translations so layouts are tested in every language."""
     name = "sandbox-pseudo"
     def translate(self, texts, source, target):
         return [pseudo(t) for t in texts]
@@ -102,33 +103,56 @@ def translate_catalog(catalog, target, engine=None, source="en"):
 
 # ---- the real engine and the offline design ---------------------------------------------------------------------------
 
-def nllb_code(lang):
-    """The NLLB-200 language code (FLORES-200) for a LynkOmni language, from design/fonts/scripts.v1.json."""
+def mt_code(lang):
+    """The MADLAD-400 target-language code for a LynkOmni language, from design/fonts/scripts.v1.json ("mt")."""
     L = languages().get(lang)
-    if not L or not L.get("nllb"):
-        raise ValueError(f"{lang} has no NLLB code in design/fonts/scripts.v1.json")
-    return L["nllb"]
+    if not L or not L.get("mt"):
+        raise ValueError(f"{lang} has no machine-translation code in design/fonts/scripts.v1.json")
+    return L["mt"]
 
 
-class NllbTranslator(Translator):
-    """Meta NLLB-200 (distilled 600M), converted to CTranslate2 with int8 weights so it runs on ordinary server processors.
-    It is loaded ONLY from a local folder on LynkOmni's own server (LYNK_NLLB_DIR); nothing is downloaded while the app runs,
-    and no text leaves LynkOmni's servers. Needs the ctranslate2 and sentencepiece packages (later item machine_translation_engine)."""
-    name = "nllb-200-distilled-600M-ct2-int8"
+# Protected parts travel through the engine as plain Latin marks it copies unchanged (it would mangle the ⟦n⟧ brackets,
+# and numbers could come back in another digit system). They are turned back into ⟦n⟧ before restore() checks them.
+_MARK = "QZX"
+_LETTERS = "ABCDEFGHJKLMNPRSTUVW"
+
+
+def to_marks(text):
+    return re.sub(r"⟦(\d+)⟧", lambda m: _MARK + _LETTERS[int(m.group(1))], text)
+
+
+def from_marks(text):
+    return re.sub(rf"{_MARK}\s?([{_LETTERS}])", lambda m: f"⟦{_LETTERS.index(m.group(1))}⟧", text, flags=0)
+
+
+class MadladTranslator(Translator):
+    """Google MADLAD-400-3B-MT (Apache 2.0 licence: commercial use allowed; 400+ languages), converted to CTranslate2 with
+    int8 weights so it runs on ordinary processors. Chosen by the owner on 2026-11-06 instead of Meta NLLB-200, whose
+    CC-BY-NC licence forbids commercial use. It is loaded ONLY from a local folder (LYNK_MT_DIR) made once by
+    tools/translation/install_engine.py; nothing is downloaded while the app runs and no text leaves LynkOmni's machines.
+    Needs the ctranslate2 and sentencepiece packages."""
+    name = "madlad400-3b-mt-ct2-int8"
 
     def __init__(self, model_dir=None):
-        model_dir = model_dir or os.environ.get("LYNK_NLLB_DIR")
+        model_dir = model_dir or os.environ.get("LYNK_MT_DIR")
         if not model_dir or not os.path.isdir(model_dir):
-            raise RuntimeError("NLLB-200 model folder not found: set LYNK_NLLB_DIR (see providers/registry.v1.json, machine_translation_engine)")
+            raise RuntimeError("MADLAD-400 model folder not found: set LYNK_MT_DIR (see tools/translation/install_engine.py)")
         import ctranslate2, sentencepiece   # noqa: E401  (installed with the model, never at run time)
         self.model = ctranslate2.Translator(model_dir, device="cpu", compute_type="int8")
-        self.sp = sentencepiece.SentencePieceProcessor(model_file=os.path.join(model_dir, "sentencepiece.bpe.model"))
+        self.sp = sentencepiece.SentencePieceProcessor(model_file=os.path.join(model_dir, "spiece.model"))
+        meta = os.path.join(model_dir, "engine.json")
+        self.revision = json.load(open(meta, encoding="utf-8")).get("revision") if os.path.isfile(meta) else None
+
+    def has_language(self, lang):
+        return self.sp.piece_to_id(f"<2{mt_code(lang)}>") != self.sp.unk_id()
 
     def translate(self, texts, source, target):
-        src, tgt = nllb_code(source), nllb_code(target)
-        batch = [[src] + self.sp.encode(t, out_type=str) + ["</s>"] for t in texts]
-        res = self.model.translate_batch(batch, target_prefix=[[tgt]] * len(texts), beam_size=4, max_decoding_length=256)
-        return [self.sp.decode(r.hypotheses[0][1:]) for r in res]
+        tag = f"<2{mt_code(target)}>"
+        if not self.has_language(target):
+            raise ValueError(f"the engine does not know the language tag {tag}")
+        batch = [[tag] + self.sp.encode(to_marks(t), out_type=str) + ["</s>"] for t in texts]
+        res = self.model.translate_batch(batch, beam_size=4, max_decoding_length=256, max_batch_size=16)
+        return [from_marks(self.sp.decode(r.hypotheses[0])) for r in res]
 
 
 def build_pack(catalog, lang, engine=None):
@@ -142,8 +166,11 @@ def build_pack(catalog, lang, engine=None):
         texts, kept = translate_catalog(catalog, lang, engine)
     src = hashlib.sha256(json.dumps(catalog, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
     L = languages()[lang]
-    return {"lang": lang, "dir": _dir(lang), "native": L["native"], "engine": "source" if lang == "en" else engine.name,
+    pack = {"lang": lang, "dir": _dir(lang), "native": L["native"], "engine": "source" if lang == "en" else engine.name,
             "source_sha256": src, "texts": texts, "kept_in_english": [k for k, _ in kept]}
+    if lang != "en" and getattr(engine, "revision", None):
+        pack["engine_revision"] = engine.revision
+    return pack
 
 
 def _dir(lang):

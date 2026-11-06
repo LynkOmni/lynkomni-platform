@@ -1,0 +1,60 @@
+name: translation
+# Installs the translation engine (Google MADLAD-400-3B-MT, Apache 2.0, converted to CTranslate2 int8) on GitHub's
+# machine, builds every language pack for the interface emulators and checks the engine in every language.
+# The packs and a report are uploaded as the "language-packs" artifact; they are committed to the branch from there.
+# Runs when the English screen text, the languages or the translation code change on a work branch, or by hand.
+on:
+  workflow_dispatch:
+  push:
+    branches: ["lynkomni-**"]
+    paths:
+      - web/emulators/*/strings.en.json
+      - services/translation.py
+      - tools/translation/**
+      - design/fonts/scripts.v1.json
+      - .github/workflows/translation.yml
+permissions: {contents: read}
+concurrency: {group: "translation-${{ github.ref }}", cancel-in-progress: true}
+jobs:
+  packs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    env: {LYNK_MT_DIR: /mnt/lynk-mt, HF_HOME: /mnt/hf}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: {python-version: "3.12"}
+      - name: room for the model (disk on /mnt, extra swap for the one-time conversion)
+        run: |
+          sudo mkdir -p /mnt/lynk-mt /mnt/hf && sudo chown -R "$USER" /mnt/lynk-mt /mnt/hf
+          sudo fallocate -l 16G /mnt/lynk-swap && sudo chmod 600 /mnt/lynk-swap && sudo mkswap /mnt/lynk-swap && sudo swapon /mnt/lynk-swap
+          free -g && df -h / /mnt
+      - name: engine from the cache (made once per version of the install script)
+        id: engine
+        uses: actions/cache/restore@v6
+        with: {path: /mnt/lynk-mt, key: "madlad400-3b-mt-int8-${{ hashFiles('tools/translation/install_engine.py') }}"}
+      - name: run-time packages
+        run: pip install "ctranslate2==4.*" "sentencepiece==0.2.*"
+      - name: install the engine (download, check the licence, convert to int8)
+        if: steps.engine.outputs.cache-hit != 'true'
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install "transformers<5" huggingface_hub safetensors protobuf
+          python tools/translation/install_engine.py "$LYNK_MT_DIR"
+          rm -rf "$HF_HOME"
+      - name: keep the engine for the next run
+        if: steps.engine.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with: {path: /mnt/lynk-mt, key: "${{ steps.engine.outputs.cache-primary-key }}"}
+      - name: build every language pack and check every language
+        run: cp "$LYNK_MT_DIR/engine.json" translation-engine.json && python tools/translation/build_packs.py translation-report.json
+      - name: upload the packs and the report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: language-packs
+          path: |
+            web/emulators/*/i18n/*.json
+            translation-report.json
+            translation-engine.json
+          if-no-files-found: warn
