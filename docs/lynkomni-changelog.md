@@ -28,4 +28,6 @@ What changed in each version, in plain words, newest first. Version numbers: `0.
 ## v0.9.5 (2026-11-06)
 - Logo placement rules for every place; "Powered by LynkOmni" rule; prices raised and locked at version 1.
 
+Version tags are created automatically by the version-tag workflow when a new entry reaches main (from v0.10.1 on; v0.9.5 was tagged by hand, v0.10.0 has no tag).
+
 Earlier versions (up to v0.9.4) are described in README.md and the master blueprint, sections 1 to 29.

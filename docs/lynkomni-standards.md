@@ -30,7 +30,7 @@ A piece of work is "done" only when every line is true:
 
 ## 4. Version numbers and change log
 - Each finished piece gets a version number: `0.MINOR.PATCH` until the first pilot, then `1.0.0`. A new feature raises MINOR (0.10 to 0.11); a fix raises PATCH (0.10.0 to 0.10.1).
-- Each version gets a tag in Git (for example `v0.11.0`) and a short entry in docs/lynkomni-changelog.md, written in plain words.
+- Each version gets a short entry in docs/lynkomni-changelog.md, written in plain words. When it reaches the main version, the version-tag workflow creates its Git tag (for example `v0.11.0`) automatically.
 
 ## 5. Decision diary
 - Every decision the owner makes (prices, names, what is in or out, yes or no to an idea) is written in docs/lynkomni-decisions.md with its date, what was decided and where it is applied.
