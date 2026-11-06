@@ -1,0 +1,261 @@
+{
+ "engine": "madlad400-3b-mt-ct2-int8",
+ "revision": "fa184c675da0b5c9e1c8694fccd4e12e2d422094",
+ "languages": {
+  "fr": {
+   "pos-terminal": {
+    "kept_in_english": [],
+    "wrong_script": [],
+    "seconds": 87.6
+   },
+   "samples": {
+    "pay": "Payer {amount} avec MTN MoMo",
+    "items": "You have 3 items in the basket.",
+    "sent": "LynkPOS a envoyé le reçu {number} à {phone}.",
+    "offline": "Pas d'internet. La vente est enregistrée et sera envoyée lorsque vous serez de nouveau en ligne.",
+    "brand": "Thank you for using LynkOmni."
+   }
+  },
+  "es": {
+   "pos-terminal": {
+    "kept_in_english": [],
+    "wrong_script": [],
+    "seconds": 79.7
+   },
+   "samples": {
+    "pay": "Pague {amount} con MTN MoMo.",
+    "items": "You have 3 items in the basket.",
+    "sent": "LynkPOS sent receipt {number} to {phone}.",
+    "offline": "No hay internet. La venta se guarda y se enviará cuando vuelva a estar en línea.",
+    "brand": "Thank you for using LynkOmni."
+   }
+  },
+  "sw": {
+   "pos-terminal": {
+    "kept_in_english": [],
+    "wrong_script": [],
+    "seconds": 89.5
+   },
+   "samples": {
+    "pay": "Kulipa {amount} na MTN MoMo.",
+    "items": "You have 3 items in the basket.",
+    "sent": "LynkPOS imetuma risiti {number} kwa {phone}.",
+    "offline": "Hakuna mtandao. mauzo ni kuokolewa na itatumwa wakati wewe ni online tena. hakuna internet. mauzo ni kuokolewa na itatumwa wakati wewe ni online tena.",
+    "brand": "Thank you for using LynkOmni."
+   }
+  },
+  "rw": {
+   "pos-terminal": {
+    "kept_in_english": [],
+    "wrong_script": [],
+    "seconds": 88.4
+   },
+   "samples": {
+    "pay": "Pay {amount} with MTN MoMo",
+    "items": "3 Ibintu in i Basket.",
+    "sent": "LynkPOS sent receipt {number} to {phone}.",
+    "offline": "Interineti. Kugurisha ni Na Yoherejwe: Ryari: Inyuma ku murongo.",
+    "brand": "Thank you for using LynkOmni."
+   }
+  },
+  "ar": {
+   "pos-terminal": {
+    "kept_in_english": [],
+    "wrong_script": [],
+    "seconds": 85.6
+   },
+   "samples": {
+    "pay": "Pay {amount} with MTN MoMo",
+    "items": "You have 3 items in the basket.",
+    "sent": "LynkPOS sent receipt {number} to {phone}.",
+    "offline": "لا يوجد اتصال بالإنترنت، يتم حفظ البيع وسيتم إرساله عندما تعود إلى الإنترنت.",
+    "brand": "Thank you for using LynkOmni."
+   }
+  },
+  "fa": {
+   "pos-terminal": {
+    "kept_in_english": [],
+    "wrong_script": [
+     "items"
+    ],
+    "seconds": 71.7
+   },
+   "samples": {
+    "pay": "Pay {amount} with MTN MoMo",
+    "items": "You have 3 items in the basket.",
+    "sent": "LynkPOS رسید {number} را به {phone} فرستاده است.",
+    "offline": "بدون اینترنت. فروش ذخیره شده و هنگامی که دوباره آنلاین شوید ارسال خواهد شد.",
+    "brand": "از اینکه از LynkOmni استفاده کردید سپاسگزارم."
+   }
+  },
+  "ur": {
+   "pos-terminal": {
+    "kept_in_english": [],
+    "wrong_script": [
+     "items"
+    ],
+    "seconds": 92.2
+   },
+   "samples": {
+    "pay": "MTN MoMo کے ساتھ {amount} ادا کریں",
+    "items": "You have 3 items in the basket.",
+    "sent": "LynkPOS sent receipt {number} to {phone}.",
+    "offline": "انٹرنیٹ نہیں ہے۔ فروخت محفوظ ہو جائے گی اور جب آپ دوبارہ آن لائن ہوں گے تو بھیجی جائے گی۔",
+    "brand": "Thank you for using LynkOmni."
+   }
+  },
+  "ps": {
+   "pos-terminal": {
+    "kept_in_english": [],
+    "wrong_script": [
+     "items"
+    ],
+    "seconds": 107.4
+   },
+   "samples": {
+    "pay": "Pay {amount} with MTN MoMo",
+    "items": "You have 3 items in the basket.",
+    "sent": "LynkPOS sent receipt {number} to {phone}.",
+    "offline": "نه انټرنیټ. د پلور ساتل کیږي او به واستول شي کله چې تاسو آنلاین بیرته شئ. نه انټرنیټ.",
+    "brand": "د LynkOmni.com د کارولو له امله مننه."
+   }
+  },
+  "ckb": {
+   "pos-terminal": {
+    "kept_in_english": [],
+    "wrong_script": [
+     "items"
+    ],
+    "seconds": 135.6
+   },
+   "samples": {
+    "pay": "Pay {amount} with MTN MoMo",
+    "items": "You have 3 items in the basket.",
+    "sent": "LynkPOS sent receipt {number} to {phone}.",
+    "offline": "هیچ ئینتەرنێتێک نییە. فرۆشتنەکە تۆمارکراوە و دەنێرێت کاتێک تۆ بگەڕێیتەوە سەر ئینتەرنێت. هیچ ئینتەرنێتێک نییە.",
+    "brand": "Thank you for using LynkOmni."
+   }
+  },
+  "sd": {
+   "pos-terminal": {
+    "kept_in_english": [],
+    "wrong_script": [
+     "items",
+     "short",
+     "voided"
+    ],
+    "seconds": 104.9
+   },
+   "samples": {
+    "pay": "Pay {amount} with MTN MoMo",
+    "items": "You have 3 items in the basket.",
+    "sent": "LynkPOS sent receipt {number} to {phone}.",
+    "offline": "ڪو انٽرنيٽ ناهي. وڪرو محفوظ ڪيو ويو آهي ۽ جڏهن توهان ٻيهر آن لائن ٿيندؤ ته موڪليو ويندو.",
+    "brand": "Thank you for using LynkOmni."
+   }
+  },
+  "ug": {
+   "pos-terminal": {
+    "kept_in_english": [],
+    "wrong_script": [
+     "back"
+    ],
+    "seconds": 185.9
+   },
+   "samples": {
+    "pay": "MTN MoMo ئارقىلىق {amount} پۇل تۆلەڭ.",
+    "items": "You have 3 items in the basket.",
+    "sent": "LynkPOS sent receipt {number} to {phone}.",
+    "offline": "ئىنتېرنېت يوق. سېتىۋېلىش ساقلىنىدۇ ۋە سىز قايتا تورغا چىققاندىن كېيىن ئەۋەتىلىدۇ. ئىنتېرنېت يوق. سېتىۋېلىش ساقلىنىدۇ ۋە سىز قايتا تورغا چىققاندىن كېيىن ئەۋەتىلىدۇ.",
+    "brand": "Thank you for using LynkOmni."
+   }
+  },
+  "he": {
+   "pos-terminal": {
+    "kept_in_english": [],
+    "wrong_script": [],
+    "seconds": 99.0
+   },
+   "samples": {
+    "pay": "Pay {amount} with MTN MoMo",
+    "items": "You have 3 items in the basket.",
+    "sent": "LynkPOS sent receipt {number} to {phone}.",
+    "offline": "אין אינטרנט. המכירה נשמר ותישלח כאשר תהיה שוב ברשת. אין אינטרנט.",
+    "brand": "Thank you for using LynkOmni."
+   }
+  },
+  "yi": {
+   "pos-terminal": {
+    "kept_in_english": [],
+    "wrong_script": [],
+    "seconds": 124.5
+   },
+   "samples": {
+    "pay": "Pay {amount} with MTN MoMo",
+    "items": "You have 3 items in the basket.",
+    "sent": "LynkPOS sent receipt {number} to {phone}.",
+    "offline": "קיין אינטערנעט. דער פאַרקויף איז אויסגעהאַלטן און וועט זיין געשיקט ווען איר זענט צוריק אינטערנעט. קיין אינטערנעט.",
+    "brand": "Thank you for using LynkOmni."
+   }
+  },
+  "hi": {
+   "pos-terminal": {
+    "kept_in_english": [],
+    "wrong_script": [],
+    "seconds": 85.0
+   },
+   "samples": {
+    "pay": "MTN MoMo के साथ {amount} का भुगतान करें",
+    "items": "You have 3 items in the basket.",
+    "sent": "LynkPOS ने {number} को {phone} पर रसीद भेजी है।",
+    "offline": "कोई इंटरनेट नहीं. बिक्री सहेजी जाती है और जब आप फिर से ऑनलाइन होंगे तो भेज दी जाएगी. कोई इंटरनेट नहीं.",
+    "brand": "Thank you for using LynkOmni."
+   }
+  }
+ },
+ "failures": [
+  "sample items in fr: translation lost or repeated a protected part ('3')",
+  "sample brand in fr: translation lost or repeated a protected part ('LynkOmni')",
+  "sample items in es: translation lost or repeated a protected part ('3')",
+  "sample sent in es: translation lost or repeated a protected part ('{number}')",
+  "sample brand in es: translation lost or repeated a protected part ('LynkOmni')",
+  "sample items in sw: translation lost or repeated a protected part ('3')",
+  "sample brand in sw: translation lost or repeated a protected part ('LynkOmni')",
+  "sample pay in rw: translation lost or repeated a protected part ('{amount}')",
+  "sample sent in rw: translation lost or repeated a protected part ('{number}')",
+  "sample brand in rw: translation lost or repeated a protected part ('LynkOmni')",
+  "sample pay in ar: translation lost or repeated a protected part ('{amount}')",
+  "sample items in ar: translation lost or repeated a protected part ('3')",
+  "sample sent in ar: translation lost or repeated a protected part ('{number}')",
+  "sample brand in ar: translation lost or repeated a protected part ('LynkOmni')",
+  "sample pay in fa: translation lost or repeated a protected part ('{amount}')",
+  "sample items in fa: translation lost or repeated a protected part ('3')",
+  "sample items in ur: translation lost or repeated a protected part ('3')",
+  "sample sent in ur: translation lost or repeated a protected part ('{number}')",
+  "sample brand in ur: translation lost or repeated a protected part ('LynkOmni')",
+  "sample pay in ps: translation lost or repeated a protected part ('{amount}')",
+  "sample items in ps: translation lost or repeated a protected part ('3')",
+  "sample sent in ps: translation lost or repeated a protected part ('{number}')",
+  "sample pay in ckb: translation lost or repeated a protected part ('{amount}')",
+  "sample items in ckb: translation lost or repeated a protected part ('3')",
+  "sample sent in ckb: translation lost or repeated a protected part ('{number}')",
+  "sample brand in ckb: translation lost or repeated a protected part ('LynkOmni')",
+  "sample pay in sd: translation lost or repeated a protected part ('{amount}')",
+  "sample items in sd: translation lost or repeated a protected part ('3')",
+  "sample sent in sd: translation lost or repeated a protected part ('{number}')",
+  "sample brand in sd: translation lost or repeated a protected part ('LynkOmni')",
+  "sample items in ug: translation lost or repeated a protected part ('3')",
+  "sample sent in ug: translation lost or repeated a protected part ('{number}')",
+  "sample brand in ug: translation lost or repeated a protected part ('LynkOmni')",
+  "sample pay in he: translation lost or repeated a protected part ('{amount}')",
+  "sample items in he: translation lost or repeated a protected part ('3')",
+  "sample sent in he: translation lost or repeated a protected part ('{number}')",
+  "sample brand in he: translation lost or repeated a protected part ('LynkOmni')",
+  "sample pay in yi: translation lost or repeated a protected part ('{amount}')",
+  "sample items in yi: translation lost or repeated a protected part ('3')",
+  "sample sent in yi: translation lost or repeated a protected part ('{number}')",
+  "sample brand in yi: translation lost or repeated a protected part ('LynkOmni')",
+  "sample items in hi: translation lost or repeated a protected part ('3')",
+  "sample brand in hi: translation lost or repeated a protected part ('LynkOmni')"
+ ]
+}
