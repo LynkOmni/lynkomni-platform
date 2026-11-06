@@ -19,7 +19,7 @@ jobs:
   packs:
     runs-on: ubuntu-24.04
     timeout-minutes: 300
-    env: {LYNK_MT_DIR: /mnt/lynk-mt, HF_HOME: /mnt/hf}
+    env: {LYNK_MT_DIR: /mnt/lynk-mt/engine, HF_HOME: /mnt/hf}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
@@ -34,7 +34,7 @@ jobs:
       - name: engine from the cache (made once per version of the install script)
         id: engine
         uses: actions/cache/restore@v6
-        with: {path: /mnt/lynk-mt, key: "madlad400-3b-mt-int8-${{ hashFiles('tools/translation/install_engine.py') }}"}
+        with: {path: /mnt/lynk-mt/engine, key: "madlad400-3b-mt-int8-${{ hashFiles('tools/translation/install_engine.py') }}"}
       - name: run-time packages
         run: pip install "ctranslate2==4.*" "sentencepiece==0.2.*"
       - name: install the engine (download, check the licence, convert to int8)
@@ -47,7 +47,7 @@ jobs:
       - name: keep the engine for the next run
         if: steps.engine.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
-        with: {path: /mnt/lynk-mt, key: "${{ steps.engine.outputs.cache-primary-key }}"}
+        with: {path: /mnt/lynk-mt/engine, key: "${{ steps.engine.outputs.cache-primary-key }}"}
       - name: build every language pack and check every language
         run: cp "$LYNK_MT_DIR/engine.json" translation-engine.json && python tools/translation/build_packs.py translation-report.json
       - name: upload the packs and the report
