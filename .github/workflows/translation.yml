@@ -24,11 +24,13 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
         with: {python-version: "3.12"}
-      - name: room for the model (disk on /mnt, extra swap for the one-time conversion)
+      - name: room for the model (remove unused preinstalled toolchains, add swap for the one-time conversion)
         run: |
+          df -h / && free -g
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL /usr/share/swift /usr/local/share/boost
           sudo mkdir -p /mnt/lynk-mt /mnt/hf && sudo chown -R "$USER" /mnt/lynk-mt /mnt/hf
-          sudo fallocate -l 16G /mnt/lynk-swap && sudo chmod 600 /mnt/lynk-swap && sudo mkswap /mnt/lynk-swap && sudo swapon /mnt/lynk-swap
-          free -g && df -h / /mnt
+          sudo fallocate -l 8G /lynk-swap && sudo chmod 600 /lynk-swap && sudo mkswap /lynk-swap && sudo swapon /lynk-swap
+          df -h / /mnt && free -g
       - name: engine from the cache (made once per version of the install script)
         id: engine
         uses: actions/cache/restore@v6
