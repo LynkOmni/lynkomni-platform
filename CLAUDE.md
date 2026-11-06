@@ -25,7 +25,7 @@
 - Chat is customer-business and support only. Never claim end-to-end encryption. Never add personal or group chat.
 - Production code is TypeScript (services, web), Rust (offline core), Kotlin, Swift, SQL. Python is for AI, data, automation and the reference spec.
 - When the Python reference and another language disagree, the shared vectors in contract/vectors decide.
-- Colours and fonts come only from design/tokens.v1.json. Run `python3 design/generate.py` after any change; never hand-edit generated files. Never load fonts from a third-party site. Claim WCAG 2.2 AA; never claim AAA compliance.
+- Colours and fonts come only from design/tokens.v1.json. Run `python3 design/generate.py` after any change; never hand-edit generated files. Never load fonts from a third-party site. The font files (Montserrat headings, Inter body) are built by design/fonts/build_fonts.py from the official sources in design/fonts/sources.json; never edit or swap them by hand. Claim WCAG 2.2 AA; never claim AAA compliance.
 - LynkMesh carries data, never money, takes no fee, and a relayed sale shows "sent, awaiting cloud" until the cloud accepts it. Batches must be sealed with services/sealing.py; plain JSON is refused outside tests.
 - There is no LynkShield. Offline risk limits only cap unconfirmed non-cash value; a sale stays pending_confirmation and nothing is guaranteed.
 - LynkProof only hands evidence packs to the provider; the $5 fee is charged once, only after the provider reports a win. Never claim zero disputes. LynkAudit is not a tax authority device. LynkSplit executes through a licensed provider and LynkOmni holds no funds.

@@ -29,11 +29,16 @@ function bundle(mods) {
 const data = execFileSync("python3", [join(WEB, "emulators", "build_data.py")], { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 26 });
 const D = JSON.parse(data);
 const tokens = read(join(ROOT, "design", "generated", "tokens.css"));
+// Brand fonts travel inside the file (offline, no font site). Only the Latin files: other scripts use the device font.
+const fontCss = read(join(ROOT, "design", "fonts.css")).match(/@font-face\s*\{[^}]*\}/g)
+  .filter((b) => /-latin\.woff2/.test(b))
+  .map((b) => b.replace(/url\('\/fonts\/([\w-]+\.woff2)'\)/, (_, f) => `url(data:font/woff2;base64,${readFileSync(join(ROOT, "design", "fonts", f)).toString("base64")})`))
+  .join("\n");
 let stale = [];
 for (const e of EMULATORS) {
   const dir = join(WEB, "emulators", e.id);
   let html = read(join(dir, "shell.html"))
-    .replace("/*@TOKENS@*/", () => tokens)
+    .replace("/*@TOKENS@*/", () => fontCss + "\n" + tokens)
     .replace("/*@STYLE@*/", () => read(join(dir, "style.css")))
     .replace("/*@BODYMARK@*/", () => D.brand.body)
     .replace(/\/\*@I:([a-z0-9-]+)@\*\//g, (_, id) => `<span class="ic" aria-hidden="true">${D.icons[id] ?? (() => { throw new Error(`unknown icon ${id}`); })()}</span>`)

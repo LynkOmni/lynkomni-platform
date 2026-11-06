@@ -31,4 +31,4 @@ jobs:
     steps: [{uses: actions/checkout@v5}, {uses: actions/setup-python@v6, with: {python-version: "3.12"}}, {run: python providers/check.py}, {run: python -m unittest tests.test_providers tests.test_merchant_logo}]
   brand:                       # logos and icons: vendored copy must match its lock and the design tokens
     runs-on: ubuntu-24.04
-    steps: [{uses: actions/checkout@v5}, {uses: actions/setup-python@v6, with: {python-version: "3.12"}}, {run: python brand/check.py}, {run: python -m unittest tests.test_brand}]
+    steps: [{uses: actions/checkout@v5}, {uses: actions/setup-python@v6, with: {python-version: "3.12"}}, {run: python brand/check.py}, {run: python design/check_fonts.py}, {run: python -m unittest tests.test_brand tests.test_fonts}]

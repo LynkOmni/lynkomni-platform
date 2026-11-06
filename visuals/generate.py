@@ -128,16 +128,28 @@ def png_dims(b):
     return struct.unpack(">II", b[16:24])
 
 
+def font_style():
+    """The Latin brand fonts as data URIs, so PNGs are drawn with Montserrat and Inter (never a font site)."""
+    import base64
+    with open(os.path.join(ROOT, "design", "fonts.css"), encoding="utf-8") as f:
+        css = f.read()
+    blocks = [b for b in re.findall(r"@font-face\s*\{[^}]*\}", css) if "-latin.woff2" in b]
+    def inline(m):
+        return "url(data:font/woff2;base64," + base64.b64encode(read_bytes(os.path.join(ROOT, "design", "fonts", m.group(1)))).decode() + ")"
+    return "<style>" + "\n".join(re.sub(r"url\('/fonts/([\w-]+\.woff2)'\)", inline, b) for b in blocks) + "</style>"
+
+
 def render_pngs(png_jobs):
     from playwright.sync_api import sync_playwright
-    out = {}
+    out, fonts = {}, font_style()
     with sync_playwright() as pw:
         br = pw.chromium.launch()
         for rel, (svg, w, h) in png_jobs.items():
             if rel == "__ico__":
                 continue
             pg = br.new_page(viewport={"width": w, "height": h}, device_scale_factor=1)
-            pg.set_content(f'<body style="margin:0;background:transparent">{svg.replace("<svg ", f"<svg style=\"display:block;width:{w}px;height:{h}px\" ", 1)}</body>')
+            pg.set_content(f'{fonts}<body style="margin:0;background:transparent">{svg.replace("<svg ", f"<svg style=\"display:block;width:{w}px;height:{h}px\" ", 1)}</body>')
+            pg.evaluate("document.fonts.ready")
             out[rel] = pg.screenshot(clip={"x": 0, "y": 0, "width": w, "height": h}, type="png")
             pg.close()
         small = {}

@@ -1045,10 +1045,19 @@
    "id": "font_files",
    "name": "Montserrat and Inter WOFF2 files in design/fonts",
    "blocks": [],
-   "status": "pending",
-   "why_not_now": "Montserrat is not on this machine, the sandbox cannot download, and WOFF2 needs the brotli package.",
+   "status": "done",
+   "why_not_now": "Done 2026-11-06: built from the official google/fonts files (see design/fonts/sources.json).",
    "placeholders": [],
-   "done_when": "design/check_fonts.py reports fonts ok."
+   "done_when": "design/check_fonts.py reports fonts ok (checked in CI, brand job)."
+  },
+  {
+   "id": "native_fonts",
+   "name": "Montserrat and Inter bundled in the Android and iOS apps",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "The Android and iOS app projects (with resource folders) do not exist yet; only the shared core libraries do.",
+   "placeholders": [],
+   "done_when": "The app projects bundle TTF instances built by design/fonts/build_fonts.py from the same sources.json, and screenshots show the brand fonts."
   }
  ],
  "user_actions": [
