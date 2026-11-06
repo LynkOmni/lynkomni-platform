@@ -190,7 +190,7 @@
   },
   {
    "id": "app-top-bar",
-   "status": "planned",
+   "status": "live",
    "kind": "web",
    "offline": true,
    "uses": [
@@ -410,7 +410,7 @@
   },
   {
    "id": "receipt-header",
-   "status": "planned",
+   "status": "live",
    "kind": "document",
    "offline": true,
    "uses": [
@@ -576,6 +576,27 @@
    ],
    "colour": "mono",
    "note": "LynkVCard faces: the emblem in one colour (the card's on-vcard text colour). No product name, no network mark, no bank name on the face; the licensed issuer adds those."
+  },
+  {
+   "id": "device-body",
+   "status": "live",
+   "kind": "app",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "emblem",
+     "variants": [
+      "mono"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "emblem"
+    }
+   ],
+   "colour": "mono",
+   "note": "The casing of LynkOmni devices and their emulators (POS terminal, scanner). The emblem in one colour, like a maker's mark. Never a product name, never another maker's logo."
   }
  ]
 }

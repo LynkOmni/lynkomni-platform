@@ -66,6 +66,58 @@
   "on-accent-exchange": [
    "#18181B",
    "added"
+  ],
+  "device-shell": [
+   "#27272A",
+   "added"
+  ],
+  "device-shell-edge": [
+   "#3F3F46",
+   "added"
+  ],
+  "device-glass": [
+   "#09090B",
+   "added"
+  ],
+  "device-key": [
+   "#52525B",
+   "added"
+  ],
+  "on-device-key": [
+   "#FFFFFF",
+   "added"
+  ],
+  "device-key-cancel": [
+   "#B91C1C",
+   "added"
+  ],
+  "on-device-key-cancel": [
+   "#FFFFFF",
+   "added"
+  ],
+  "device-key-clear": [
+   "#F59E0B",
+   "added"
+  ],
+  "on-device-key-clear": [
+   "#18181B",
+   "added"
+  ],
+  "device-key-enter": [
+   "#047857",
+   "added"
+  ],
+  "on-device-key-enter": [
+   "#FFFFFF",
+   "added"
+  ],
+  "device-paper": [
+   "#FFFFFF",
+   "added"
+  ],
+  "on-device-paper": [
+   "#18181B",
+   "added"
   ]
  },
  "themes": {
@@ -798,6 +850,84 @@
    "min": 7.0,
    "themes": [
     "light"
+   ]
+  },
+  {
+   "fg": "on-device-key",
+   "bg": [
+    "device-key"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ]
+  },
+  {
+   "fg": "on-device-key-cancel",
+   "bg": [
+    "device-key-cancel"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ]
+  },
+  {
+   "fg": "on-device-key-clear",
+   "bg": [
+    "device-key-clear"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ]
+  },
+  {
+   "fg": "on-device-key-enter",
+   "bg": [
+    "device-key-enter"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ]
+  },
+  {
+   "fg": "on-device-paper",
+   "bg": [
+    "device-paper"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ]
+  },
+  {
+   "fg": "on-device-key",
+   "bg": [
+    "device-shell"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
    ]
   }
  ],

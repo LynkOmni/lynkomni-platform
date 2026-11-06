@@ -5,3 +5,4 @@ ts/node_modules/
 rust/**/target/
 android/**/build/
 ios/.build/
+web/.build/

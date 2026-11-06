@@ -1107,6 +1107,13 @@
    "why": "Needed to publish the real Android and iOS apps and capture store screenshots.",
    "when": "before the first mobile release",
    "status": "open"
+  },
+  {
+   "id": "pos-hardware-supplier",
+   "what": "Choose a supplier of Android handheld POS terminals with a built-in printer (and a counter tablet setup), and get two sample devices.",
+   "why": "The LynkPOS emulator shows an original LynkOmni design; the real app must be tested on the real terminals merchants will buy, and the supplier must allow our logo on the casing.",
+   "when": "before the LynkPOS pilot",
+   "status": "open"
   }
  ]
 }

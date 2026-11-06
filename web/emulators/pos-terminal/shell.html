@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LynkPOS Terminal</title>
+<meta name="description" content="Interactive emulator of the LynkPOS handheld terminal: real sale rules, sandbox providers, sample products.">
+<style>/*@TOKENS@*/
+/*@STYLE@*/</style>
+</head>
+<body>
+<header class="pagehead">
+  <h1>LynkPOS handheld terminal <span class="draft">Draft design</span></h1>
+  <p>Interactive emulator. Real LynkPOS sale rules, sandbox payment providers (test money only), sample products. Not reviewed by a designer yet.</p>
+</header>
+<main class="stage">
+  <section class="rig" id="rig" aria-label="LynkPOS terminal">
+    <div class="fit">
+      <div class="paperwrap" id="paperWrap" hidden>
+        <div class="paper" id="paper" role="document" aria-label="Printed receipt"></div>
+        <button class="tear" id="tearBtn" type="button">Tear off receipt</button>
+      </div>
+      <div class="device" id="device">
+        <div class="printer"><div class="slot" aria-hidden="true"></div><span class="pstat" id="printerStatus" aria-live="polite"></span></div>
+        <div class="beam" id="beam" aria-hidden="true"></div>
+        <button class="side scan" id="scanKey" type="button" aria-label="Scan key: scan a product barcode">Scan</button>
+        <div class="side power" aria-hidden="true"></div>
+        <div class="mark" role="img" aria-label="LynkOmni">/*@BODYMARK@*/</div>
+        <div class="leds" id="tapzone" role="button" tabindex="0" aria-label="Contactless reader: tap a card here"><i></i><i></i><i></i><i></i></div>
+        <div class="bezel"><div class="display light" id="display"><div class="statusbar" id="statusbar"></div><div class="app"></div></div></div>
+        <div class="keypad" role="group" aria-label="Keypad">
+          <button class="key" type="button" data-act="d1">1</button><button class="key" type="button" data-act="d2">2</button><button class="key" type="button" data-act="d3">3</button>
+          <button class="key k-cancel" type="button" data-act="cancel" aria-label="Cancel">/*@I:ui-close@*/<small>Cancel</small></button>
+          <button class="key" type="button" data-act="d4">4</button><button class="key" type="button" data-act="d5">5</button><button class="key" type="button" data-act="d6">6</button>
+          <button class="key k-clear" type="button" data-act="clear" aria-label="Clear">/*@I:ui-arrow-left@*/<small>Clear</small></button>
+          <button class="key" type="button" data-act="d7">7</button><button class="key" type="button" data-act="d8">8</button><button class="key" type="button" data-act="d9">9</button>
+          <button class="key k-enter" type="button" data-act="enter" aria-label="Enter">/*@I:ui-check@*/<small>Enter</small></button>
+          <button class="key k-fn" type="button" data-act="menu" aria-label="Menu">/*@I:ui-menu@*/</button><button class="key" type="button" data-act="d0">0</button><button class="key" type="button" data-act="d00">00</button>
+        </div>
+        <div class="slotcard" id="slot" role="button" tabindex="0" aria-label="Card slot: insert a card here"></div>
+      </div>
+    </div>
+  </section>
+  <aside class="panel" aria-label="Emulator controls">
+    <h2>Try it</h2>
+    <p class="help">Unlock with PIN <kbd>1234</kbd>. Tap products, then Basket, Charge and a payment method. Your keyboard works too: digits, <kbd>Enter</kbd>, <kbd>Backspace</kbd>, <kbd>Esc</kbd>.</p>
+    <p class="help">The yellow key on the left side scans a barcode. For a card payment, click the four lights above the screen (tap) or the slot at the bottom (insert).</p>
+    <h3>Conditions</h3>
+    <label><input type="checkbox" id="cOnline" checked> <span>Internet connection<br><span class="help">Untick to sell offline: sales are saved as Queued and sent later.</span></span></label>
+    <label><input type="checkbox" id="cFail"> <span>Provider declines payments<br><span class="help">The sandbox provider answers Failed instead of Confirmed.</span></span></label>
+    <label><input type="checkbox" id="cReal"> <span>Show what a merchant in Rwanda sees today<br><span class="help">Providers are not signed yet, so mobile money and card are switched off.</span></span></label>
+    <label><input type="checkbox" id="cDark"> <span>Dark screen</span></label>
+    <label style="align-items:center"><span>Language</span> <select id="cLang"><option value="en">English</option><option value="fr">Français</option></select></label>
+    <h3>Event log (what the terminal sends to the cloud)</h3>
+    <ul class="log" id="log" aria-live="polite"></ul>
+  </aside>
+</main>
+<script>/*@SCRIPT@*/</script>
+</body>
+</html>

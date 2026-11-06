@@ -123,3 +123,9 @@ Brand release 1.2.0 adds 43 one-colour icons (16 product marks, 5 status icons, 
 - LynkVCard: card backs, the OMNI physical companion and the CORE near-limit state (amber ring, triangle marker and diamond centre, so it is never colour alone).
 - `services/merchant_logo.py`: safe merchant logo upload check (PNG, JPEG, WebP only; never SVG), used on invoices for tiers that allow it.
 - PWA `manifest.webmanifest`, and a TypeScript icon lookup (`iconFile`, `statusIconFile`).
+
+## Interface emulators (v0.10.0)
+Every service with a screen gets a working emulator that looks like the real-life device it runs on.
+- `web/emulators/pos-terminal/`: the LynkPOS handheld terminal (original LynkOmni design: built-in receipt printer, screen, keypad, tap lights, card slot, side scan key). Runs the real sale rules from `ts/src/pos.ts` (integer money, contract-shaped `SaleRecorded`, `PaymentRecorded`, `SaleVoided` events, provisional receipts, five user states) against sandbox providers. Offline selling, provider confirm or fail, "what a merchant in Rwanda sees today", dark screen, English and French.
+- Build: `node web/build.mjs` writes one offline file per emulator to `web/emulators/dist/` (check mode in CI). Gate: `tests/test_emulators.py`.
+- Draft design until a designer reviews it. Next emulators (agreed order): counter till, LynkVCard, LynkCheckout and LynkMPay, button phone, LynkStock scanner, LynkBooking, LynkChat, LynkRewards, LynkDash and LynkLedger, LynkMesh.
