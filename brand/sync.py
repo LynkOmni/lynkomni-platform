@@ -10,7 +10,7 @@ import argparse, json, os, shutil, sys
 from brand import ROOT, HERE, VENDOR, LOCK, STATE, sha256_file, THEMES
 
 PACKAGE = "@lynkomni/icons"
-VENDORED_DIRS = ("svg", "web", "email")
+VENDORED_DIRS = ("svg", "web", "email", "icons")
 SAFE = set("abcdefghijklmnopqrstuvwxyz0123456789-_.@/")
 
 
@@ -34,6 +34,8 @@ def plan(pkg_dir):
     for rel, info in sorted(listed.items()):
         if rel.split("/")[0] not in VENDORED_DIRS:
             continue
+        if rel.startswith("icons/react/"):
+            continue                      # React components are for web apps that install the package; the platform vendors the SVGs
         if any(c not in SAFE for c in rel) or ".." in rel or rel.startswith("/"):
             raise ValueError(f"unsafe file name {rel!r}")
         src = os.path.join(dist, *rel.split("/"))
@@ -42,7 +44,7 @@ def plan(pkg_dir):
         if sha256_file(src) != info["sha256"]:
             raise ValueError(f"checksum mismatch inside the package for {rel}")
         chosen[rel] = src
-    for must in ("svg", "web", "email"):
+    for must in ("svg", "web", "email", "icons"):
         if not any(r.startswith(must + "/") for r in chosen):
             raise ValueError(f"package has no {must}/ files (was the raster step skipped?)")
     for t in THEMES:

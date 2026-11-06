@@ -5,8 +5,10 @@ from design import generate
 
 SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 10 10" role="img" aria-label="LynkOmni"><path fill="#18181B" d="M0 0L1 1Z"/></svg>\n'
 
+ICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M0 0L1 1"/></svg>\n'
 
-def make_package(root, version="1.2.3", themes_override=None, drop_dir=None, corrupt=None):
+
+def make_package(root, version="1.2.3", themes_override=None, drop_dir=None, corrupt=None, drop_icons=False):
     dist = os.path.join(root, "dist")
     files, rasters = {}, {}
     def put(rel, data, into):
@@ -22,6 +24,12 @@ def make_package(root, version="1.2.3", themes_override=None, drop_dir=None, cor
             variants[v] = {"svg": rel, "react": "X", "android": "x", "ios": "x"}
         assets[aid] = {"kind": aid, "component": "X", "accessibleName": "LynkOmni", "minWidthPx": mw, "viewBox": [-8, -8, 10, 10], "variants": variants, "auto": {"react": "XAuto"}}
     put("web/favicon.svg", b"<svg/>", files)
+    icons = {}
+    for iid, grp in (("status-queued", "states"), ("status-sent", "states"), ("status-accepted", "states"), ("status-confirmed", "states"), ("status-failed", "states"), ("ui-home", "ui"), ("product-pos", "products")):
+        rel = f"icons/lynkomni-icon-{iid}.svg"
+        if drop_icons: continue
+        put(rel, ICON.encode(), files)
+        icons[iid] = {"group": grp, "accessibleName": iid.replace("-", " ").title(), "svg": rel, "react": "X", "android": "x", "ios": "x"}
     for rel in ("email/logo-light.png", "email/logo-dark.png", "web/pwa-192.png"):
         if drop_dir and rel.startswith(drop_dir):
             continue
@@ -31,7 +39,7 @@ def make_package(root, version="1.2.3", themes_override=None, drop_dir=None, cor
         m = generate.resolved(t)
         themes[t] = {"ink": m["logo-ink"], "accent": m["brand-primary"], "backgrounds": {k: m[k] for k in ("bg-base", "bg-surface")}}
     themes.update(themes_override or {})
-    bj = {"schema": 1, "package": "@lynkomni/icons", "themes": themes, "assets": assets, "files": files, "rasters": rasters}
+    bj = {"schema": 1, "package": "@lynkomni/icons", "themes": themes, "assets": assets, "files": files, "rasters": rasters, "icons": icons}
     os.makedirs(dist, exist_ok=True)
     with open(os.path.join(dist, "brand.json"), "w") as f: json.dump(bj, f)
     with open(os.path.join(root, "package.json"), "w") as f: json.dump({"name": "@lynkomni/icons", "version": version}, f)
@@ -60,7 +68,7 @@ class TestSync(Base):
         lk = self.do_sync()
         self.assertEqual(lk["version"], "1.2.3")
         self.assertIn("brand.json", lk["files"])
-        self.assertTrue(all(r == "brand.json" or r.split("/")[0] in ("svg", "web", "email") for r in lk["files"]))
+        self.assertTrue(all(r == "brand.json" or r.split("/")[0] in ("svg", "web", "email", "icons") for r in lk["files"]))
         self.assertTrue(brand.is_synced(self.state))
         self.assertEqual(brand.verify(**self.kw), [])
 
@@ -287,3 +295,35 @@ class TestTokens(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestIcons(Base):
+    def setUp(self):
+        super().setUp(); self.do_sync(); brand.is_synced(self.state)
+        with open(self.state, "w") as f: json.dump({"synced": True}, f)
+
+    def test_icons_are_vendored_locked_and_found_by_id(self):
+        lk = json.load(open(self.lock))
+        self.assertTrue(any(r.startswith("icons/") for r in lk["files"]))
+        i = brand.icon("ui-home", **self.kw)
+        self.assertEqual((i.group, i.accessible_name), ("ui", "Ui Home")); self.assertIn("currentColor", brand.icon_svg("ui-home", **self.kw))
+        with self.assertRaises(KeyError): brand.icon("ui-shield", **self.kw)
+
+    def test_only_the_five_states_have_status_icons(self):
+        for s in ("queued", "sent", "accepted", "confirmed", "failed"):
+            self.assertEqual(brand.status_icon(s, **self.kw).id, "status-" + s)
+        for bad in ("pending", "shield", "delivered", "success"):
+            with self.assertRaises(ValueError): brand.status_icon(bad, **self.kw)
+
+    def test_a_changed_icon_is_refused(self):
+        with open(os.path.join(self.vendor, "icons", "lynkomni-icon-ui-home.svg"), "ab") as f: f.write(b" ")
+        with self.assertRaises(brand.BrandTampered): brand.icon("ui-home", **self.kw)
+
+    def test_gate_needs_all_five_states(self):
+        self.assertEqual(check.icon_checks(**self.kw), [])
+        bj = json.load(open(os.path.join(self.vendor, "brand.json"))); del bj["icons"]["status-failed"]
+        json.dump(bj, open(os.path.join(self.vendor, "brand.json"), "w"))
+        self.assertTrue(any("status-failed" in m for m in check.icon_checks(**self.kw)))
+
+    def test_package_without_icons_is_refused(self):
+        with self.assertRaises(ValueError): self.do_sync(drop_icons=True)

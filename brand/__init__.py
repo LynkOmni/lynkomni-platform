@@ -89,6 +89,41 @@ def asset(asset_id, variant, **kw):
     return Asset(asset_id, variant, rel, path, sha256_file(path), a["minWidthPx"], a["accessibleName"], tuple(a["viewBox"]))
 
 
+@dataclass(frozen=True)
+class Icon:
+    id: str
+    group: str            # states, ui or products
+    path: str             # absolute path of the vendored SVG
+    sha256: str
+    accessible_name: str
+
+
+def icon(icon_id, **kw):
+    """A product mark, status icon or core UI icon by id (e.g. "status-queued"). One colour: it takes the text colour
+    (currentColor). Product names are always written as text beside a product mark, never drawn."""
+    m = manifest(**kw).get("icons", {})
+    if icon_id not in m:
+        raise KeyError(f"unknown icon {icon_id!r}")
+    e = m[icon_id]
+    path = _file(e["svg"], **kw)
+    return Icon(icon_id, e["group"], path, sha256_file(path), e["accessibleName"])
+
+
+# The five states a user is ever shown (CLAUDE.md): queued, sent, accepted, confirmed, failed.
+STATUS_ICONS = {state: "status-" + state for state in ("queued", "sent", "accepted", "confirmed", "failed")}
+
+
+def status_icon(state, **kw):
+    if state not in STATUS_ICONS:
+        raise ValueError(f"{state!r} is not a user-facing state; use queued, sent, accepted, confirmed or failed")
+    return icon(STATUS_ICONS[state], **kw)
+
+
+def icon_svg(icon_id, **kw):
+    with open(icon(icon_id, **kw).path, encoding="utf-8") as f:
+        return f.read()
+
+
 def theme_variant(theme):
     if theme not in THEMES:
         raise KeyError(f"unknown theme {theme!r}")

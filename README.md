@@ -106,3 +106,7 @@ Offline selling pauses after 14 days without sign-in (the contract default, conf
 ## Documents with logos (v0.9.6)
 
 `services/documents.py` renders the invoice page, the receipt and a plain email shell. Logos come only from `brand.for_surface`: the LynkOmni logo shows on an invoice only on the Free LynkCheckout tier; receipts use the one-colour wordmark and never a badge; email uses the PNG logo on top and the wordmark in the footer. The "Powered by LynkOmni" badge is removable from LynkCheckout Plus upward (decided 2026-11-06). Invoices are never called tax invoices and say Paid only after the provider confirms. Merchant logo upload (PNG, JPEG, WebP only) is still to come, so a merchant's name shows as text. Fixed: the footer preview's Privacy link no longer floats at the edge.
+
+## Icons (v0.9.7)
+
+Brand release 1.2.0 adds 43 one-colour icons (16 product marks, 5 status icons, 22 core UI icons), vendored under brand/vendor/icons and locked by SHA-256. `brand.icon(id)` and `brand.status_icon(state)` look them up; only the five user-facing states have status icons. They are drafts for designer review. A new gate checks that all five status icons are present and locked.

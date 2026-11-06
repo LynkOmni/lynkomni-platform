@@ -166,8 +166,30 @@ def scan_code(root=ROOT):
     return problems
 
 
+def icon_checks(vendor=None, lock_path=None, state_path=None):
+    """Once synced: every icon in brand.json is vendored and locked, and the five user-facing states all exist."""
+    if not is_synced(state_path):
+        return []
+    out = []
+    bj = _load(os.path.join(vendor or VENDOR, "brand.json"))
+    lock = _load(lock_path or LOCK)
+    icons = bj.get("icons", {})
+    from brand import STATUS_ICONS
+    for state, iid in STATUS_ICONS.items():
+        if iid not in icons:
+            out.append(f"status icon {iid} for state {state} is missing from the release")
+    for iid, e in icons.items():
+        if not ID_OK.match(iid):
+            out.append(f"icon id {iid!r} must be lowercase with hyphens")
+        if e["svg"] not in lock["files"]:
+            out.append(f"icon {iid}: {e['svg']} is not in the brand lock")
+        if not e.get("accessibleName"):
+            out.append(f"icon {iid}: needs an accessible name")
+    return out
+
+
 def all_problems(root=ROOT):
-    return vendored_checks(root) + surface_checks(root) + scan_code(root)
+    return vendored_checks(root) + surface_checks(root) + icon_checks() + scan_code(root)
 
 
 if __name__ == "__main__":
