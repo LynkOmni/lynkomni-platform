@@ -1,0 +1,12 @@
+name: ios-macos
+# The same Swift tests on a real macOS runner, where the iOS app will be built. Weekly and on demand, so a busy macOS
+# queue never blocks the main checks. When the iOS app target exists, its build moves here too.
+on:
+  workflow_dispatch:
+  schedule: [{cron: "17 3 * * 1"}]
+permissions: {contents: read}
+jobs:
+  swift-macos:
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps: [{uses: actions/checkout@v5}, {run: cd ios && swift test}]
