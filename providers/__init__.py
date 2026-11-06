@@ -7,7 +7,7 @@ sub-service in services/catalog.py, so a new sub-service can never be left out.
 
     providers.ready("vcard", "RW")        -> (False, ["vcard_issuer: sandbox, needs signed issuer agreement ..."])
     providers.go_live_report("payments", "KE")
-    providers.when_off("vcard")           -> {"visual": "state-unavailable-region", "message": "Not available in your country yet."}
+    providers.when_off("vcard")           -> {"visual": "state-unavailable-region", "message": "Coming to your country soon."}
 Registry file: providers/registry.v1.json. Gate: python3 providers/check.py."""
 import json, os
 
@@ -15,7 +15,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 REGISTRY = os.path.join(HERE, "registry.v1.json")
 OK_STATUS = ("contract_signed", "live")
-OFF = {"visual": "state-unavailable-region", "message": "Not available in your country yet."}
+OFF = {"visual": "state-unavailable-region", "message": "Coming to your country soon."}
 _CACHE = {}
 
 
@@ -87,6 +87,19 @@ def when_off(service):
         if service in gates(i):
             return i["when_off"]
     return OFF
+
+
+def availability(service, country):
+    """Global availability rule (owner approved 2026-11-06): every LynkOmni service is designed for the whole world and shown in
+    every country. Services that need no licensed partner are available everywhere. Regulated services (payments, cards,
+    lending, insurance, crypto, exchange, tax receipts and the like) are shown everywhere too, and say "Coming to your country
+    soon." with a Notify me option until their licensed partner is signed for that country; then they switch on by themselves."""
+    from core.regions import enabled
+    code = (country or "").upper()
+    if enabled(code, service):
+        return {"service": service, "country": code, "state": "available", "message": None, "visual": None, "notify_me": False}
+    off = when_off(service)
+    return {"service": service, "country": code, "state": "coming_soon", "message": off["message"], "visual": off["visual"], "notify_me": True}
 
 
 def pending_services():

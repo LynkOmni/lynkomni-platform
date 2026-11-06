@@ -35,7 +35,7 @@ const W: Record<Lang, Record<string, string>> = {
     r_customer_cancelled: "Customer cancelled", r_price_error: "Price error", r_duplicate: "Duplicate", voided: "Voided",
     no_sales: "No sales yet today.", sandbox: "Sandbox", test_money: "Test money only", sync: "Sync", online: "Online", offline: "Offline",
     receipt: "Receipt", provisional: "Provisional receipt", not_tax: "Not a tax receipt", thanks: "Thank you", tendered: "Cash given",
-    state_pending_confirmation: "Waiting for provider", state_confirmed: "Confirmed by provider", state_failed: "Failed, not charged", unavailable: "Not available here",
+    state_pending_confirmation: "Waiting for provider", state_confirmed: "Confirmed by provider", state_failed: "Failed, not charged", unavailable: "Coming soon",
     scan_added: "Scanned", scanning: "Scanning", ok: "OK", payment: "Payment", sync_state: "Sync", tear: "Tear off receipt",
   },
   fr: {
@@ -53,7 +53,7 @@ const W: Record<Lang, Record<string, string>> = {
     r_customer_cancelled: "Client a annulé", r_price_error: "Erreur de prix", r_duplicate: "Doublon", voided: "Annulée",
     no_sales: "Aucune vente aujourd'hui.", sandbox: "Bac à sable", test_money: "Argent de test uniquement", sync: "Synchro", online: "En ligne", offline: "Hors ligne",
     receipt: "Reçu", provisional: "Reçu provisoire", not_tax: "Pas un reçu fiscal", thanks: "Merci", tendered: "Espèces reçues",
-    state_pending_confirmation: "En attente du fournisseur", state_confirmed: "Confirmé par le fournisseur", state_failed: "Échoué, non débité", unavailable: "Pas disponible ici",
+    state_pending_confirmation: "En attente du fournisseur", state_confirmed: "Confirmé par le fournisseur", state_failed: "Échoué, non débité", unavailable: "Bientôt disponible",
     scan_added: "Scanné", scanning: "Lecture", ok: "OK", payment: "Paiement", sync_state: "Synchro", tear: "Détacher le reçu",
   },
 };

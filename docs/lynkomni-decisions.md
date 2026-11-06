@@ -4,6 +4,7 @@ Every decision the owner made, newest first. Lines are never deleted: a changed 
 
 | Date | Decision | Applied in |
 |---|---|---|
+| 2026-11-06 | LynkOmni is one global product with 100% global appeal; services are not designed or offered per country. Partner-free services work everywhere from day one; regulated services are shown everywhere with "Coming to your country soon" and Notify me, and switch on as each licensed partner signs; partners covering many countries are preferred. Replaces the Rwanda activation order (section 9 suggestion). Rwanda stays headquarters and first pilot market. | providers.availability; services/waitlist.py; master blueprint sections 1 and 34 |
 | 2026-11-06 | Footer social channels: do what large global companies do. The footer keeps seven channels (LinkedIn, X, Facebook, Instagram, YouTube, TikTok, WhatsApp); the LynkOmni name is claimed on all ten platforms, including Snapchat, Pinterest and Threads, which stay out of the footer. | ts/src/footer.ts; providers/registry.v1.json user action social-accounts |
 | 2026-11-06 | The six-step build order and the shop services on the LynkPOS terminal will be addressed during building. | Master blueprint section 38 |
 | 2026-11-06 | Payment options are geo-based: each country shows only its own payment methods (Rwanda first, then every country); Visa and Mastercard are shown everywhere; crypto only where the country allows it and a licensed partner exists. | ts/src/payments.ts; country packs; master blueprint section 26 |
