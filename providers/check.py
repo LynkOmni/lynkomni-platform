@@ -68,7 +68,7 @@ def entry_problems(reg=None, root=ROOT):
         seen.add(aid)
         for k in ("what", "why", "when"):
             if not a.get(k): out.append(f"user action {aid}: missing {k}")
-        if a.get("status") not in ("open", "done"): out.append(f"user action {aid}: status must be open or done")
+        if a.get("status") not in ("open", "done", "dropped"): out.append(f"user action {aid}: status must be open, done or dropped")
     if "user_actions" not in reg: out.append("ledger needs a user_actions list (things only the user can do)")
     return out
 

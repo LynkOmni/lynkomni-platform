@@ -121,6 +121,6 @@ class UserActions(unittest.TestCase):
         self.assertTrue(reg["user_actions"])
         bad = copy.deepcopy(reg); bad["user_actions"].append({"id": "x", "what": "", "why": "y", "when": "z", "status": "maybe"})
         p = check.entry_problems(bad)
-        self.assertTrue(any("missing what" in x for x in p) and any("open or done" in x for x in p))
+        self.assertTrue(any("missing what" in x for x in p) and any("open, done or dropped" in x for x in p))
         gone = copy.deepcopy(reg); del gone["user_actions"]
         self.assertTrue(any("user_actions" in x for x in check.entry_problems(gone)))

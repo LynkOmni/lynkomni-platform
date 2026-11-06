@@ -15,11 +15,11 @@ interface BuildData {
 declare const DATA: BuildData;
 
 type Screen = "lock" | "sell" | "cart" | "pay" | "cash" | "momo" | "card" | "waiting" | "done" | "off" | "menu" | "sales" | "sale" | "count";
-type Lang = "en" | "fr";
+type Lang = "en" | "fr" | "xx" | "xx-rtl";   // xx = long-text test, xx-rtl = right-to-left test (pseudo-translations, never shown to real users)
 interface Ev { n: number; type: string; origin: "device" | "server"; payload: unknown; sync: UserState; at: number }
 interface Sale { sale: SalePayload; payments: PaymentPayload[]; tendered?: number; at: number; voided: boolean }
 
-const W: Record<Lang, Record<string, string>> = {
+const W: Record<"en" | "fr", Record<string, string>> = {
   en: {
     pin: "Enter your PIN", pin_hint: "Sample PIN 1234", use_keys: "Type it on the keypad below the screen.", card_online: "Card payments need an internet connection. Use cash or mobile money.", wrong_pin: "Wrong PIN. Try again.", all: "All", food: "Food", drinks: "Drinks", home: "Household",
     cart: "Basket", empty: "The basket is empty. Tap a product to add it.", charge: "Charge", total: "Total", items: "items", back: "Back",
@@ -79,12 +79,15 @@ const S = {
 };
 
 const $ = <T extends HTMLElement>(sel: string): T => document.querySelector(sel) as T;
-const t = (k: string): string => W[S.lang][k] ?? W.en[k] ?? k;
+const PSEUDO: Record<string, string> = { a: "\u00e0", c: "\u00e7", e: "\u00e9", i: "\u00ee", n: "\u00f1", o: "\u00f6", s: "\u0161", u: "\u00fc", y: "\u00fd" };
+/** Same pseudo-translation as services/translation.py: accented letters and about 40% more length, to prove screens never break. */
+const pseudo = (s: string): string => `[${s.replace(/[aceinosuy]/g, (c) => PSEUDO[c] ?? c)} ${"~".repeat(Math.max(1, Math.round(s.length * 0.4)))}]`;
+const t = (k: string): string => (S.lang === "xx" || S.lang === "xx-rtl" ? pseudo(W.en[k] ?? k) : W[S.lang][k] ?? W.en[k] ?? k);
 const esc = (s: string): string => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const locale = (): string => (S.lang === "fr" ? "fr-RW" : "en-RW");
 const money = (n: number): string => formatMoney(n, DATA.pack.currency, locale());
 const icon = (id: string, cls = "ic"): string => `<span class="${cls}" aria-hidden="true">${DATA.icons[id] ?? ""}</span>`;
-const stateWord = (s: string): string => (S.lang === "fr" ? STATE_FR[s] : DATA.states[s]?.label) ?? s;
+const stateWord = (s: string): string => { const w = (S.lang === "fr" ? STATE_FR[s] : DATA.states[s]?.label) ?? s; return S.lang === "xx" || S.lang === "xx-rtl" ? pseudo(w) : w; };
 const chip = (s: UserState): string => `<span class="chip st-${s}">${icon(`status-${s}`)}<span>${esc(stateWord(s))}</span></span>`;
 const clock = (ms: number, withDate = false): string => new Intl.DateTimeFormat(locale(), { timeZone: DATA.pack.tz, hour: "2-digit", minute: "2-digit", ...(withDate ? { day: "2-digit", month: "short", year: "numeric" } : {}) }).format(ms);
 const reduced = (): boolean => matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -149,7 +152,7 @@ function activePayment(): PaymentPayload | undefined { return S.current?.payment
 // ---- the printer --------------------------------------------------------------------------------------------------
 function printReceipt(s: Sale): void {
   const paper = $("#paper"), wrap = $("#paperWrap");
-  const lines = receiptLines({ shop: SHOP, sale: s.sale, payments: s.payments, tendered: s.tendered, when: clock(s.at, true), money, words: W[S.lang] });
+  const lines = receiptLines({ shop: SHOP, sale: s.sale, payments: s.payments, tendered: s.tendered, when: clock(s.at, true), money, words: Object.fromEntries(Object.keys(W.en).map((k) => [k, t(k)])) });
   paper.innerHTML = `<div class="rhead" role="img" aria-label="LynkOmni">${DATA.brand.receipt}</div><pre class="rtext"></pre><div class="rcut" aria-hidden="true"></div>`;
   wrap.classList.remove("torn"); wrap.hidden = false;
   const pre = paper.querySelector("pre") as HTMLElement;
@@ -306,7 +309,8 @@ function view(): string {
 function draw(): void {
   const d = $("#display");
   d.className = `display ${S.theme}`;
-  d.lang = S.lang;
+  d.lang = S.lang === "xx-rtl" ? "ar" : S.lang === "xx" ? "en" : S.lang;
+  d.dir = S.lang === "xx-rtl" ? "rtl" : "ltr";
   d.querySelector(".app")!.innerHTML = view();
   drawStatus();
 }
