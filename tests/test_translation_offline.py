@@ -25,9 +25,21 @@ class Offline(unittest.TestCase):
             def __init__(s, out): s.out = out
             def translate(s, texts, source, target): return [s.out]
         src = "Pay {amount} with MTN MoMo, 3 items"
-        self.assertEqual(t.run(Plain("Payer {amount} avec MTN MoMo, ٣ articles"), [src], "en", "fr"), [("Payer {amount} avec MTN MoMo, 3 articles", None)])
+        class Echo(Plain):    # its "translation back to English" is the English itself, so the round trip matches
+            def translate(s, texts, source, target): return [src] if target == "en" else [s.out]
+        self.assertEqual(t.run(Echo("Payer {amount} avec MTN MoMo, ٣ articles"), [src], "en", "fr")[0][:2], ("Payer {amount} avec MTN MoMo, 3 articles", None))
         self.assertIsNotNone(t.run(Plain("Payer {montant} avec MTN MoMo, 3 articles"), [src], "en", "fr")[0][1])
         self.assertIsNotNone(t.run(Plain("Payer {amount} avec MoMo, 3 articles"), [src], "en", "fr")[0][1])
+
+    def test_repeated_padded_or_drifted_translations_are_refused(self):
+        class Fixed(t.Translator):
+            name, plain_tokens = "fixed", True
+            def __init__(s, out, back): s.out, s.back = out, back
+            def translate(s, texts, source, target): return [s.back if target == "en" else s.out]
+        self.assertIn("repeats", t.run(Fixed("Synchro Synchro", "Sync"), ["Sync"], "en", "fr")[0][1])
+        self.assertIn("longer", t.run(Fixed("Tout le monde est membre d'un grand parti politique", "All"), ["All"], "en", "fr")[0][1])
+        self.assertIn("drifted", t.run(Fixed("Tout le monde", "Everyone"), ["All"], "en", "fr")[0][1])
+        self.assertEqual(t.run(Fixed("Vente terminée", "Sale complete"), ["Sale complete"], "en", "fr")[0][:2], ("Vente terminée", None))
 
     def test_language_packs_carry_direction_and_protect_names_numbers_placeholders(self):
         ar = t.build_pack(CAT, "ar")
