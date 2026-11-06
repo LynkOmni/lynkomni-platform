@@ -27,6 +27,8 @@ jobs:
         run: python -m brand.sync --from "$RUNNER_TEMP/pkg/package"
       - name: Check
         run: python brand/check.py && python -m unittest tests.test_brand
+      - name: Rebuild the interface emulators (they carry the icons inside)
+        run: cd ts && npm install --no-audit --no-fund && cd .. && TSC=ts/node_modules/.bin/tsc node web/build.mjs
       - name: Open a pull request
         env: {GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"}
         run: |

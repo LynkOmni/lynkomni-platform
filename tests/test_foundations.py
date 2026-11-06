@@ -88,3 +88,11 @@ class TestPrivacyAndNames(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestPiiCheckIgnoresRecordIds(unittest.TestCase):
+    def test_an_all_digit_uuid_part_is_not_a_phone_number(self):
+        from services.privacy import contains_pii
+        self.assertFalse(contains_pii("0190a1b2-c3d4-7e5f-8a9b-123456789012"))
+        self.assertTrue(contains_pii("call me on +250 788 123 456"))
+        self.assertTrue(contains_pii("0788123456"))

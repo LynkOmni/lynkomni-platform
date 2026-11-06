@@ -17,8 +17,9 @@ class PiiVault:
         """Replace personal fields with vault references. The event keeps its shape and its hash."""
         return {k: (s.put(subject, k, v) if k in PII_FIELDS and isinstance(v, str) else v) for k, v in payload.items()}
 _PHONE, _EMAIL = re.compile(r"\+\d[\d ()-]{7,}\d|\b\d{10,}\b"), re.compile(r"[^@\s]+@[^@\s]+\.[a-z]{2,}", re.I)
+_ID = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")   # record ids (UUIDs) can be all digits in a part: not a phone
 def contains_pii(value):
-    return isinstance(value, str) and bool(_PHONE.search(value) or _EMAIL.search(value))
+    return isinstance(value, str) and not _ID.match(value) and bool(_PHONE.search(value) or _EMAIL.search(value))
 def assert_no_pii(event):
     """Device events must carry no phone numbers, emails or free-text notes."""
     def walk(x):
