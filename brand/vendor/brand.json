@@ -635,6 +635,22 @@
       "sha256": "d72b9c65101f903f56d9f64d280503bff2441564adef46ae3c97a9e05e494946",
       "bytes": 5383
     },
+    "email/wordmark-light.png": {
+      "sha256": "ab4c33cec26b06ef7435a68609d9f1790d3c1db8ac289952c3904433805f83d5",
+      "bytes": 1965
+    },
+    "email/wordmark-light@2x.png": {
+      "sha256": "26f003eea3f458d458a296b2d1f0a2c6857b59084f6d29f3da9dbd459236fdce",
+      "bytes": 3809
+    },
+    "email/wordmark-dark.png": {
+      "sha256": "d713c255174ce97954372b174fb9dbea6b5662dd0d4b4ef13c45ad77ff754302",
+      "bytes": 1806
+    },
+    "email/wordmark-dark@2x.png": {
+      "sha256": "eb9105cca9847d4e31e1fb751ccdc29579d50a4987cf62271b2cc78e24f009b1",
+      "bytes": 3546
+    },
     "web/icons-snippet.json": {
       "sha256": "d1cb9898c4c8da5dac7fcf8c5cac059ca6e4ac4ad63ee35d66639bb6eddda80c",
       "bytes": 385
