@@ -142,6 +142,9 @@ def problems(src, out):
         return "translation repeats itself"
     if len(out) > 3 * len(src) + 15:
         return "translation is much longer than the English (added words)"
+    ends = lambda x: len(re.findall(r"[.!?\u061F\u06D4\u0964]+(?=\s|$)", x.strip()))
+    if ends(out) > max(1, ends(src)):
+        return "translation adds a sentence"
     return None
 
 
@@ -165,9 +168,14 @@ def run(engine, texts, source, target):
             valid.append(ok)
             res.append([None, why or "no usable translation", -1.0])
         flat = [(i, c) for i, ok in enumerate(valid) for c in ok]
-        back = engine.translate([c for _, c in flat], target, source) if flat else []
-        for (i, c), b in zip(flat, back):
-            score = chrf(texts[i], ascii_digits(b))
+        if not flat:
+            back = []
+        elif hasattr(engine, "candidates"):    # several ways back: a one-word label ("Espèces") may come back as a synonym
+            back = engine.candidates([c for _, c in flat], target, source)
+        else:
+            back = [[b] for b in engine.translate([c for _, c in flat], target, source)]
+        for (i, c), bs in zip(flat, back):
+            score = max(chrf(texts[i], ascii_digits(b)) for b in bs)
             if score > res[i][2]:
                 res[i] = [c, None, score] if score >= ROUND_TRIP_MIN else [None, f"meaning drifted (round trip {score:.2f})", score]
         return [(r[0], r[1], max(r[2], 0.0)) for r in res]
@@ -226,9 +234,18 @@ class MadladTranslator(Translator):
         tag = f"<2{mt_code(target)}>"
         if not self.has_language(target):
             raise ValueError(f"the engine does not know the language tag {tag}")
-        res = self.model.translate_batch([self.sp.encode(f"{tag} {t}", out_type=str) for t in texts], beam_size=max(4, n),
-                                         num_hypotheses=n, repetition_penalty=1.15, max_decoding_length=256, max_batch_size=16)
-        return [[self.sp.decode(h) for h in r.hypotheses] for r in res]
+        # The answer may be at most about twice as long as the question: a short label must not grow into a sentence.
+        src = [self.sp.encode(f"{tag} {t}", out_type=str) for t in texts]
+        out = [None] * len(texts)
+        groups = {}
+        for i, toks in enumerate(src):
+            groups.setdefault(min(256, 2 * len(toks) + 8), []).append(i)
+        for limit, idx in groups.items():
+            res = self.model.translate_batch([src[i] for i in idx], beam_size=max(4, n), num_hypotheses=n, repetition_penalty=1.15,
+                                             max_decoding_length=limit, max_batch_size=16)
+            for i, r in zip(idx, res):
+                out[i] = [self.sp.decode(h) for h in r.hypotheses]
+        return out
 
 
 def build_pack(catalog, lang, engine=None, reasons=None):

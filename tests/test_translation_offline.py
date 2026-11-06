@@ -38,6 +38,7 @@ class Offline(unittest.TestCase):
             def translate(s, texts, source, target): return [s.back if target == "en" else s.out]
         self.assertIn("repeats", t.run(Fixed("Synchro Synchro", "Sync"), ["Sync"], "en", "fr")[0][1])
         self.assertIn("longer", t.run(Fixed("Tout le monde est membre d'un grand parti politique", "All"), ["All"], "en", "fr")[0][1])
+        self.assertIn("adds a sentence", t.run(Fixed("Le panier est vide. Ajoutez un produit.", "x"), ["The basket is empty"], "en", "fr")[0][1])
         self.assertIn("drifted", t.run(Fixed("Tout le monde", "Everyone"), ["All"], "en", "fr")[0][1])
         self.assertEqual(t.run(Fixed("Vente terminée", "Sale complete"), ["Sale complete"], "en", "fr")[0][:2], ("Vente terminée", None))
 
