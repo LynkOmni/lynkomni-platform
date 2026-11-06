@@ -11,13 +11,13 @@ import hashlib, json, os, re, struct, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, ROOT)
-from visuals import kit, scenes, figures  # noqa: E402
+from visuals import kit, scenes, figures, cards  # noqa: E402
 
 NEEDS = os.path.join(HERE, "needs.v1.json")
 OUT = os.path.join(HERE, "generated")
 TS_OUT = os.path.join(ROOT, "ts", "src", "visuals.generated.ts")
-FOLDER = {"illustration": "illustrations", "chart": "charts", "diagram": "diagrams"}
-FIGURES = {"pricing_ladder": figures.pricing_ladder, "revenue_path": figures.revenue_path, "sync_states": figures.sync_states}
+FOLDER = {"illustration": "illustrations", "chart": "charts", "diagram": "diagrams", "card": "cards"}
+FIGURES = {"pricing_ladder": figures.pricing_ladder, "revenue_path": figures.revenue_path, "sync_states": figures.sync_states, "vcard_tiers": cards.tier_ladder}
 
 
 def read_bytes(p):
@@ -64,6 +64,10 @@ def svg_jobs(doc):
                 rel = f"{FOLDER[kind]}/{nid}.{th}.svg"
                 text_files[rel] = FIGURES[need["figure"]](th)
                 files.append({"theme": th, "file": rel})
+        elif kind == "card":
+            rel = f"{FOLDER[kind]}/{nid}.svg"
+            text_files[rel] = cards.card_face(need["tier"])
+            files.append({"theme": "light", "file": rel})
         elif nid == "share-card":
             svg = figures.share_card("light")
             text_files["share/share-card.light.svg"] = svg

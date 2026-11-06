@@ -1301,6 +1301,118 @@
      "bytes": 3047
     }
    ]
+  },
+  "vcard-edge": {
+   "kind": "card",
+   "alt": "Slate grey LynkVCard for the Free tier: one dot etched near the right edge with pulse rings, the emblem, masked number dots and the line EDGE // FIRST LIGHT.",
+   "purpose": "LynkVCard face for the Free tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
+   "used_in": [
+    "card-list",
+    "card-detail",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-edge.svg",
+     "sha256": "3bd697e3778c687baa822748aaed6e9076517a2a3b63fc9cd204ac6d96d5da41",
+     "bytes": 14926
+    }
+   ]
+  },
+  "vcard-hub": {
+   "kind": "card",
+   "alt": "Brushed silver LynkVCard for the Plus tier: a hub with three lines running out to three nodes, the emblem, masked number dots and the line HUB // CENTER POINT.",
+   "purpose": "LynkVCard face for the Plus tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
+   "used_in": [
+    "card-list",
+    "card-detail",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-hub.svg",
+     "sha256": "c9029fddd264d3363d494b3aa0255ef4fb1cff4a4c6a3fab425055c2461a95bd",
+     "bytes": 15575
+    }
+   ]
+  },
+  "vcard-core": {
+   "kind": "card",
+   "alt": "Jet black LynkVCard for the Pro tier: a glowing green core dot inside a spend ring that is partly filled, the emblem, masked number dots and the line CORE // DEEP SYSTEM.",
+   "purpose": "LynkVCard face for the Pro tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
+   "used_in": [
+    "card-list",
+    "card-detail",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-core.svg",
+     "sha256": "2ce51cba87fe0e9eb6f217aa26f8a9909a852712f0020a4a3eb7e8ae8c2bdc99",
+     "bytes": 15239
+    }
+   ]
+  },
+  "vcard-omni": {
+   "kind": "card",
+   "alt": "Solid obsidian LynkVCard for the Max tier: an engraved sphere, the emblem, a polished edge, no number on the front, and the line OMNI // OWN ALL COMMERCE.",
+   "purpose": "LynkVCard face for the Max tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
+   "used_in": [
+    "card-list",
+    "card-detail",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-omni.svg",
+     "sha256": "76267a53cf04bab30ae2bcfeb33ba51397cfa2244ab9810d6b09062531d6d0cf",
+     "bytes": 13972
+    }
+   ]
+  },
+  "diagram-vcard-tiers": {
+   "kind": "diagram",
+   "alt": "Diagram of the four LynkVCard tiers (Free EDGE, Plus HUB, Pro CORE, Max OMNI) with price, number of cards, monthly spend limit, users and main feature.",
+   "purpose": "Pricing page and help centre: what each card tier gives; every number comes from services/billing.py",
+   "used_in": [
+    "pricing-page",
+    "help-centre"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "diagrams/diagram-vcard-tiers.light.svg",
+     "sha256": "c162dd8d78cb0b93a90f45705cee8cecb3faca4a9d5c360574b688f37459e0f1",
+     "bytes": 15903
+    },
+    {
+     "theme": "dark",
+     "file": "diagrams/diagram-vcard-tiers.dark.svg",
+     "sha256": "445f35b34772bf2e3f59e1fefee9882748635f8b7fe21a7d3143c2287805653e",
+     "bytes": 15903
+    },
+    {
+     "theme": "contrast-light",
+     "file": "diagrams/diagram-vcard-tiers.contrast-light.svg",
+     "sha256": "8aa025330e9c7987bf2cfe259a834430a451dc3af6c2081358256019755d116b",
+     "bytes": 15903
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "diagrams/diagram-vcard-tiers.contrast-dark.svg",
+     "sha256": "bc96ca7917c37cb28d50da1b2d1b7a25787033046d0c141636584eece28a5c07",
+     "bytes": 15903
+    }
+   ]
   }
  }
 }

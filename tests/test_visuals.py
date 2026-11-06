@@ -145,6 +145,59 @@ class GateCatchesProblems(unittest.TestCase):
             self.assertIn(word, out)
 
 
+class VCardFaces(unittest.TestCase):
+    def test_one_face_per_tier_in_spec_order_matching_billing(self):
+        from visuals import cards
+        fam = billing.FAMILIES["lynkvcard"]
+        self.assertEqual([cards.FAMILY_TIER[t] for t in fam[2]], ["edge", "hub", "core", "omni"])
+        for tier in cards.TIERS:
+            self.assertIn(f"vcard-{tier}", visuals.ids())
+
+    def test_faces_use_the_card_colours_and_only_the_approved_tier_line(self):
+        from visuals import cards
+        from design import generate as design
+        t = design.resolved("dark")
+        for tier in cards.TIERS:
+            svg = visuals.svg_text(f"vcard-{tier}")
+            self.assertIn(t[f"vcard-{tier}-bg"].upper(), svg.upper())
+            self.assertIn(cards.TIER_TEXT[tier], svg)
+            self.assertEqual(svg.count("<text"), 1)
+
+    def test_no_face_shows_a_card_number_a_bank_or_a_network_mark(self):
+        import re
+        for tier in ("edge", "hub", "core", "omni"):
+            svg = visuals.svg_text(f"vcard-{tier}")
+            words = re.sub(r"<[^>]+>", " ", svg)
+            self.assertIsNone(re.search(r"\d{4}", words))
+            for banned in ("visa", "mastercard", "bank", "issuer", "[bank]"):
+                self.assertNotIn(banned, svg.lower().replace("licensed issuer", ""))
+
+    def test_omni_has_no_number_dots_and_the_others_do(self):
+        self.assertEqual(visuals.svg_text("vcard-omni").count('r="2.4"'), 0)
+        self.assertEqual(visuals.svg_text("vcard-edge").count('r="2.4"'), 16)
+
+    def test_card_text_contrast(self):
+        self.assertEqual(check.card_checks(), [])
+
+    def test_ladder_numbers_come_from_billing(self):
+        svg = visuals.svg_text("diagram-vcard-tiers")
+        fam, feats = billing.FAMILIES["lynkvcard"], billing.FEATURES["lynkvcard"]
+        for price, f in zip(fam[3], feats):
+            self.assertIn(f"${price:g} a month", svg)
+            self.assertIn(f"${f['monthly_cap_usd']:,}", svg)
+        self.assertIn("placeholders", svg)
+
+    def test_emblem_comes_from_the_brand_surface_in_one_colour(self):
+        self.assertEqual(brand.for_surface("vcard-face", "light", 38).variant, "mono")
+
+    def test_gate_rejects_wrong_card_text_numbers_and_colours(self):
+        bad = ('<svg viewBox="0 0 1 1" role="img"><title id="t">a long enough title</title><!--card:start--><g><text>BANK OF X</text>'
+               '<text>4111 1111</text><rect fill="#123456"/></g><!--card:end--></svg>')
+        joined = " ".join(check.svg_problems("c.svg", bad, "card", "light", 24))
+        for word in ("approved tier lines", "not a design token", "must not show a number"):
+            self.assertIn(word, joined)
+
+
 class Api(unittest.TestCase):
     def test_get_and_alt(self):
         v = visuals.get("product-pos", "dark")

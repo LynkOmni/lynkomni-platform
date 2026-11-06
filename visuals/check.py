@@ -7,7 +7,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, ROOT)
 
-KINDS = ("illustration", "chart", "diagram", "share", "store", "icon-set")
+KINDS = ("illustration", "chart", "diagram", "card", "share", "store", "icon-set")
 TEXT_OK = ("chart", "diagram")                       # only these may contain words; the words are real data
 ID_OK = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 BAD_ALT = re.compile(r"placeholder|todo|lorem|tbd|image of|picture of|untitled", re.I)
@@ -79,6 +79,15 @@ def palette_checks():
     return out
 
 
+def card_checks():
+    """Text and marks on every card face must read on its colour."""
+    from visuals import kit, cards
+    from design import generate as design
+    t = design.resolved("dark")
+    return [f"card {c}: text is {kit.contrast(t['on-vcard-' + c], t['vcard-' + c + '-bg']):.2f}:1, needs 4.5:1" for c in cards.TIERS
+            if kit.contrast(t["on-vcard-" + c], t["vcard-" + c + "-bg"]) < 4.5]
+
+
 def svg_problems(rel, text, kind, theme, budget_kb):
     from design import generate as design
     out = []
@@ -87,8 +96,20 @@ def svg_problems(rel, text, kind, theme, budget_kb):
                     (r"url\(\s*[\"']?https?:", "loads from the web"), (r"@import", "imports a stylesheet"), (r"\son[a-z]+\s*=", "has an event handler")):
         if re.search(rx, text, re.I): out.append(f"{rel}: {why}")
     if "<title" not in text or 'role="img"' not in text or "viewBox" not in text: out.append(f"{rel}: needs role=img, a <title> (the text alternative) and a viewBox")
-    if kind not in TEXT_OK and "<text" in text: out.append(f"{rel}: {kind} images contain no words (put the words in the page, beside the picture)")
-    body = re.sub(r'<g data-brand="[a-z]+">.*?</svg></g>', "", text, flags=re.S)   # brand artwork keeps its own colours
+    card_rx = re.compile(r"<!--card:start-->(.*?)<!--card:end-->", re.S)
+    segs = card_rx.findall(text)
+    outside = card_rx.sub("", text)
+    if kind == "card" and not segs: out.append(f"{rel}: a card face must be wrapped in card markers")
+    if kind not in TEXT_OK and "<text" in outside: out.append(f"{rel}: {kind} images contain no words (put the words in the page, beside the picture)")
+    from visuals import cards
+    for seg in segs:                       # card faces: only the fixed tier lines, and the dark-theme glow tokens are allowed
+        for words in re.findall(r"<text[^>]*>(.*?)</text>", seg, re.S):
+            if words.replace("&amp;", "&") not in cards.TIER_TEXT.values(): out.append(f"{rel}: card text {words[:30]!r} is not one of the approved tier lines")
+        both = {v.upper() for th in ("light", "dark") for v in design.resolved(th).values() if re.fullmatch(r"#[0-9A-Fa-f]{6}", v)}
+        for c in set(re.findall(r"#[0-9A-Fa-f]{3,8}\b", re.sub(r'<g data-brand="[a-z]+">.*?</svg></g>', "", seg, flags=re.S))):
+            if c.upper() not in both: out.append(f"{rel}: card colour {c} is not a design token")
+        if re.search(r"\d{4}", re.sub(r"<[^>]+>", "", seg)): out.append(f"{rel}: a card face must not show a number")
+    body = re.sub(r'<g data-brand="[a-z]+">.*?</svg></g>', "", outside, flags=re.S)   # brand artwork keeps its own colours
     allowed = {v.upper() for v in design.resolved(theme).values() if re.fullmatch(r"#[0-9A-Fa-f]{6}", v)}
     for c in set(re.findall(r"#[0-9A-Fa-f]{3,8}\b", body)):
         if c.upper() not in allowed: out.append(f"{rel}: colour {c} is not a {theme} design token")
@@ -167,7 +188,7 @@ def scan_code(root=ROOT, valid_ids=None):
 
 def problems(root=ROOT):
     doc = _load(os.path.join(HERE, "needs.v1.json"))
-    return need_checks(doc) + palette_checks() + file_checks(doc) + freshness_checks() + scan_code(root, {n["id"] for n in doc["needs"]})
+    return need_checks(doc) + palette_checks() + card_checks() + file_checks(doc) + freshness_checks() + scan_code(root, {n["id"] for n in doc["needs"]})
 
 
 if __name__ == "__main__":

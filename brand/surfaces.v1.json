@@ -555,6 +555,27 @@
    "files": [
     "web/og-1200x630.png"
    ]
+  },
+  {
+   "id": "vcard-face",
+   "status": "live",
+   "kind": "app",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "emblem",
+     "variants": [
+      "mono"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "emblem"
+    }
+   ],
+   "colour": "mono",
+   "note": "LynkVCard faces: the emblem in one colour (the card's on-vcard text colour). No product name, no network mark, no bank name on the face; the licensed issuer adds those."
   }
  ]
 }
