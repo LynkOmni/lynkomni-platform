@@ -182,105 +182,120 @@
    "native": "English",
    "script": "latin",
    "sample": "Thank you",
-   "letters": "AaBbZz"
+   "letters": "AaBbZz",
+   "nllb": "eng_Latn"
   },
   "fr": {
    "name": "French",
    "native": "Français",
    "script": "latin",
    "sample": "Merci",
-   "letters": "éèêëàâçîïôûùüÿœæ"
+   "letters": "éèêëàâçîïôûùüÿœæ",
+   "nllb": "fra_Latn"
   },
   "es": {
    "name": "Spanish",
    "native": "Español",
    "script": "latin",
    "sample": "Gracias",
-   "letters": "áéíóúüñ¿¡"
+   "letters": "áéíóúüñ¿¡",
+   "nllb": "spa_Latn"
   },
   "sw": {
    "name": "Swahili",
    "native": "Kiswahili",
    "script": "latin",
    "sample": "Asante",
-   "letters": "abcdefghijklmnoprstuvwyz"
+   "letters": "abcdefghijklmnoprstuvwyz",
+   "nllb": "swh_Latn"
   },
   "rw": {
    "name": "Kinyarwanda",
    "native": "Ikinyarwanda",
    "script": "latin",
    "sample": "Murakoze",
-   "letters": "abcdefghijklmnoprstuvwyz"
+   "letters": "abcdefghijklmnoprstuvwyz",
+   "nllb": "kin_Latn"
   },
   "ar": {
    "name": "Arabic",
    "native": "العربية",
    "script": "arabic",
    "sample": "شكرا",
-   "letters": "ابتثجحخدذرزسشصضطظعغفقكلمنهويءةىآأإؤئ٠١٢٣٤٥٦٧٨٩،؛؟"
+   "letters": "ابتثجحخدذرزسشصضطظعغفقكلمنهويءةىآأإؤئ٠١٢٣٤٥٦٧٨٩،؛؟",
+   "nllb": "arb_Arab"
   },
   "fa": {
    "name": "Persian",
    "native": "فارسی",
    "script": "arabic",
    "sample": "متشکرم",
-   "letters": "پچژگکی۰۱۲۳۴۵۶۷۸۹"
+   "letters": "پچژگکی۰۱۲۳۴۵۶۷۸۹",
+   "nllb": "pes_Arab"
   },
   "ur": {
    "name": "Urdu",
    "native": "اردو",
    "script": "arabic",
    "sample": "شکریہ",
-   "letters": "ٹڈڑںہھےۓ۔"
+   "letters": "ٹڈڑںہھےۓ۔",
+   "nllb": "urd_Arab"
   },
   "ps": {
    "name": "Pashto",
    "native": "پښتو",
    "script": "arabic",
    "sample": "مننه",
-   "letters": "ټډړږښګڼۍې"
+   "letters": "ټډړږښګڼۍې",
+   "nllb": "pbt_Arab"
   },
   "ckb": {
    "name": "Kurdish (Sorani)",
    "native": "کوردی",
    "script": "arabic",
    "sample": "سوپاس",
-   "letters": "ڕڵۆێە"
+   "letters": "ڕڵۆێە",
+   "nllb": "ckb_Arab"
   },
   "sd": {
    "name": "Sindhi",
    "native": "سنڌي",
    "script": "arabic",
    "sample": "مهرباني",
-   "letters": "ٻڀٺٽٿڃڄڇڊڌڍڎڏڙڦڪڱڳڻ"
+   "letters": "ٻڀٺٽٿڃڄڇڊڌڍڎڏڙڦڪڱڳڻ",
+   "nllb": "snd_Arab"
   },
   "ug": {
    "name": "Uyghur",
    "native": "ئۇيغۇرچە",
    "script": "arabic",
    "sample": "رەھمەت",
-   "letters": "ئۇۆۈۋېىە"
+   "letters": "ئۇۆۈۋېىە",
+   "nllb": "uig_Arab"
   },
   "he": {
    "name": "Hebrew",
    "native": "עברית",
    "script": "hebrew",
    "sample": "תודה",
-   "letters": "אבגדהוזחטיכלמנסעפצקרשתךםןףץ₪"
+   "letters": "אבגדהוזחטיכלמנסעפצקרשתךםןףץ₪",
+   "nllb": "heb_Hebr"
   },
   "yi": {
    "name": "Yiddish",
    "native": "ייִדיש",
    "script": "hebrew",
    "sample": "אַ דאַנק",
-   "letters": "װױײ"
+   "letters": "װױײ",
+   "nllb": "ydd_Hebr"
   },
   "hi": {
    "name": "Hindi",
    "native": "हिन्दी",
    "script": "devanagari",
    "sample": "धन्यवाद",
-   "letters": "अआइईउऊएऐओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसहािीुूेैोौंः्।०१२३४५६७८९₹"
+   "letters": "अआइईउऊएऐओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसहािीुूेैोौंः्।०१२३४५६७८९₹",
+   "nllb": "hin_Deva"
   }
  },
  "budgets_kb": {
