@@ -1,9 +1,10 @@
 """Every emulator ships a real, current language pack for every language (owner request 2026-11-06).
 
-Packs are made by the MADLAD-400 engine in the "translation" workflow (tools/translation/build_packs.py) and committed to
-web/emulators/<id>/i18n/. This test needs no engine: it checks that each pack exists, was made from the current English,
-came from the real engine (not the sandbox), has the language's writing direction, and kept every protected part
-(brand, product and provider names, {placeholders}, numbers) exactly."""
+Screen-text packs are translated by Claude (owner decision 2026-11-07) and written by tools/translation/claude_packs.py
+into web/emulators/<id>/i18n/. This test checks that each pack exists, was made from the current English, is a real
+translation (not the sandbox), has the language's writing direction, keeps every protected part (brand, product and
+provider names, {placeholders}, numbers) exactly, passes every automatic check (no repetition, no added words or
+sentences), is written in its own script, and leaves nothing in English."""
 import glob, json, os, unittest
 from services import translation as t
 
@@ -30,12 +31,15 @@ class LanguagePacks(unittest.TestCase):
                     if lang == "en":
                         self.assertEqual(pack["texts"], catalog)
                         continue
-                    self.assertEqual(pack["engine"], t.MadladTranslator.name)
+                    self.assertTrue(pack["engine"].startswith("claude-"), pack["engine"])
+                    self.assertEqual(pack["kept_in_english"], [])
                     for k, en in catalog.items():
+                        text = pack["texts"][k]
                         _, tokens = t.protect(en)
                         for tok in tokens:
-                            self.assertEqual(pack["texts"][k].count(tok), en.count(tok), f"{k}: {tok!r} changed")
-                    self.assertLessEqual(len(pack["kept_in_english"]), len(catalog) // 10, "too much left in English")
+                            self.assertEqual(text.count(tok), en.count(tok), f"{k}: {tok!r} changed")
+                        self.assertIsNone(t.problems(en, text), f"{k}: {text!r}")
+                        self.assertTrue(t.in_own_script(text, lang), f"{k}: {text!r}")
 
 
 if __name__ == "__main__":

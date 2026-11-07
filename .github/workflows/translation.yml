@@ -1,24 +1,22 @@
 name: translation
-# Installs the translation engine (Google MADLAD-400-3B-MT, Apache 2.0, converted to CTranslate2 int8) on GitHub's
-# machine, builds every language pack for the interface emulators and checks the engine in every language.
-# The packs and a report are uploaded as the "language-packs" artifact; they are committed to the branch from there.
-# Runs when the English screen text, the languages or the translation code change on a work branch, or by hand.
+# Installs the translation engine for text people type (Google MADLAD-400-3B-MT, Apache 2.0, converted to CTranslate2
+# int8) on GitHub's machine and checks it in every language; the report is uploaded as the "translation-report" artifact.
+# Screen text is not made here: Claude translates it (tools/translation/claude_packs.py, owner decision 2026-11-07).
+# Runs when the engine tools change on a work branch, or by hand.
 on:
   workflow_dispatch:
   push:
     branches: ["lynkomni-**"]
     paths:
-      - web/emulators/*/strings.en.json
-      - services/translation.py
-      - tools/translation/**
-      - design/fonts/scripts.v1.json
+      - tools/translation/install_engine.py
+      - tools/translation/check_engine.py
       - .github/workflows/translation.yml
-permissions: {contents: write}   # pushes the new packs back to the work branch (never to main)
+permissions: {contents: read}
 concurrency: {group: "translation-${{ github.ref }}", cancel-in-progress: true}
 jobs:
-  packs:
+  engine:
     runs-on: ubuntu-24.04
-    timeout-minutes: 300
+    timeout-minutes: 90
     env: {LYNK_MT_DIR: /mnt/lynk-mt/engine, HF_HOME: /mnt/hf/cache}
     steps:
       - uses: actions/checkout@v5
@@ -48,15 +46,9 @@ jobs:
         if: steps.engine.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with: {path: /mnt/lynk-mt/engine, key: "${{ steps.engine.outputs.cache-primary-key }}"}
-      - name: build every language pack and check every language
-        run: python tools/translation/build_packs.py tools/translation/report.json
-      - name: commit the packs and the report to the work branch
-        if: always() && github.ref != 'refs/heads/main' && startsWith(github.ref, 'refs/heads/lynkomni-')
-        run: |
-          cp "$LYNK_MT_DIR/engine.json" tools/translation/engine.json || true
-          git config user.name "lynkomni-translation[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add web/emulators/*/i18n tools/translation/report.json tools/translation/engine.json
-          if git diff --cached --quiet; then echo "packs unchanged"; exit 0; fi
-          git commit -m "Language packs from ${{ github.sha }} (MADLAD-400, workflow translation)"
-          git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"
+      - name: check the engine in every language
+        run: python tools/translation/check_engine.py translation-report.json
+      - name: upload the report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with: {name: translation-report, path: translation-report.json, if-no-files-found: warn}

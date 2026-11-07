@@ -1073,9 +1073,9 @@
    "name": "Machine translation engine for every LynkOmni language (Google MADLAD-400-3B-MT, Apache 2.0)",
    "blocks": [],
    "status": "done",
-   "why_not_now": "Done 2026-11-06. The owner replaced Meta NLLB-200 (CC-BY-NC licence, no commercial use) with Google MADLAD-400-3B-MT (Apache 2.0). tools/translation/install_engine.py checks the licence, pins the model revision and converts it to CTranslate2 int8; the GitHub Actions workflow \"translation\" installs it (cached) and runs tools/translation/build_packs.py, which writes a language pack for every language into web/emulators/<id>/i18n/ and fails unless every language passes. tests/test_translation_packs.py and tests/test_layout_i18n.py check the committed packs.",
+   "why_not_now": "Done 2026-11-07. The owner replaced Meta NLLB-200 (CC-BY-NC licence, no commercial use) with Google MADLAD-400-3B-MT (Apache 2.0). tools/translation/install_engine.py checks the licence, pins the model revision and converts it to CTranslate2 int8; the GitHub Actions workflow \"translation\" installs it (cached) and runs tools/translation/check_engine.py in every language. Because the 3B model was weak on short screen labels, screen text is translated by Claude (tools/translation/claude_packs.py, owner decision 2026-11-07); the engine is for text people type.",
    "placeholders": [],
-   "done_when": "Every language in design/fonts/scripts.v1.json has a current pack from MadladTranslator for every emulator, every protected part survives, the packs ship inside the emulators, and tests/test_layout_i18n.py passes in every real language."
+   "done_when": "The engine is installed with a checked licence and pinned revision, knows every language in design/fonts/scripts.v1.json, every emulator has a current, fully translated pack for every language, and tests/test_layout_i18n.py passes in every language."
   },
   {
    "id": "translation_server",

@@ -2,11 +2,11 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
-## v0.14.0 (2026-11-06)
-- The translation engine is installed: Google's MADLAD-400 model (Apache 2.0 licence, so commercial use is allowed; 400+ languages), in a compact int8 version. It replaces Meta's NLLB-200, whose licence forbids commercial use.
-- The engine is installed and run on GitHub's machines (workflow "translation"): it checks the licence, pins the exact model version, translates every screen of the LynkPOS terminal into all 15 languages and fails if any language loses a name, amount or placeholder or is not written in its own script.
-- The LynkPOS terminal emulator now offers every language (English, French, Spanish, Swahili, Kinyarwanda, Arabic, Persian, Urdu, Pashto, Kurdish, Sindhi, Uyghur, Hebrew, Yiddish, Hindi), with right-to-left layout where needed, all inside the offline file. The automatic layout check now opens every screen in every language at desktop and phone size, with the brand's Noto fonts for Arabic, Hebrew and Hindi.
-- Still to come: running the same engine on LynkOmni's own server for text people type (chat, product names); until that server exists such text shows in the original, marked queued.
+## v0.14.0 (2026-11-07)
+- The LynkPOS terminal emulator now works in all 15 languages (English, French, Spanish, Swahili, Kinyarwanda, Arabic, Persian, Urdu, Pashto, Kurdish, Sindhi, Uyghur, Hebrew, Yiddish, Hindi), with right-to-left layout where needed, all inside the offline file. Every screen text is translated by Claude and passes automatic checks: names, amounts and placeholders unchanged, no repeated or added words, the right script for each language, nothing left in English.
+- The translation engine for text people type is installed: Google's MADLAD-400 model (Apache 2.0 licence, so commercial use is allowed), replacing Meta's NLLB-200, whose licence forbids commercial use. It is installed on GitHub's machines (workflow "translation"), which check the licence and pin the exact model version. It refuses any translation that drifts in meaning, repeats itself or adds words, and then shows the original text instead.
+- The automatic layout check now opens every screen in every language at desktop and phone size, with the brand's Noto fonts for Arabic, Hebrew and Hindi.
+- Still to come: running the engine on LynkOmni's own server for text people type; until that server exists such text shows in the original, marked queued.
 
 ## v0.13.1 (2026-11-06)
 - Translation works offline: screen text is translated ahead of time into language packs that ship inside the apps, so every language works with no internet and no engine on the phone. Text people type is translated on LynkOmni's server when online, saved on the device, and shown in the original (marked queued) when offline.

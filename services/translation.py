@@ -2,8 +2,10 @@
 
 The engine sits behind one interface. The engine is Google's open MADLAD-400-3B-MT model (Apache 2.0, so commercial use is
 allowed; 400+ languages; self-hosted, no per-word fee). Meta's NLLB-200 was the first choice but its licence (CC-BY-NC)
-forbids commercial use, so the owner replaced it on 2026-11-06. SandboxTranslator below produces pseudo-translations
-(longer, accented text) for tests and for any machine without the engine, to prove that no screen breaks.
+forbids commercial use, so the owner replaced it on 2026-11-06. MADLAD-400 (3B) proved weak on short screen labels, so
+since 2026-11-07 screen text is translated by Claude (TableTranslator, tools/translation/claude_packs.py) and MADLAD is
+the engine for text people type (ContentTranslator). SandboxTranslator produces pseudo-translations (longer, accented
+text) for tests and for any machine without the engine, to prove that no screen breaks.
 
 Rules every translation passes before it is used:
   - brand, product and provider names are never translated (GLOSSARY);
@@ -108,7 +110,8 @@ ROUND_TRIP_MIN = 0.45    # chrF of English vs the translation translated back; b
 
 def stutters(text):
     """True when a text repeats a word, a phrase or a sentence back to back (a known machine-translation failure)."""
-    w = re.findall(r"\w+", text.lower())
+    import unicodedata   # words split on spaces and punctuation (\w would cut Devanagari words at their vowel signs)
+    w = [x for x in ("".join(" " if unicodedata.category(c)[0] in "PZ" else c for c in text.lower())).split() if x]
     if any(w[i:i + n] == w[i + n:i + 2 * n] for n in range(1, 7) for i in range(len(w) - 2 * n + 1)):
         return True
     sentences = [x.strip() for x in re.split(r"[.!?\u061F\u06D4\u0964]+", text.lower()) if x.strip()]
@@ -148,6 +151,30 @@ def problems(src, out):
     return None
 
 
+_SCRIPT_WORD = {"arabic": "ARABIC", "hebrew": "HEBREW", "devanagari": "DEVANAGARI"}
+
+
+def in_own_script(text, lang):
+    """True when a text is written in its language's script (always true for Latin-script languages)."""
+    import unicodedata
+    with open(os.path.join(ROOT, "design", "fonts", "scripts.v1.json"), encoding="utf-8") as f:
+        word = _SCRIPT_WORD.get(json.load(f)["languages"][lang]["script"])
+    return not word or any(unicodedata.name(c, "").startswith(word) for c in text)
+
+
+class TableTranslator(Translator):
+    """Screen-text translations written by Claude (owner decision 2026-11-07: Claude translates the screens; the MADLAD
+    engine stays for text people type). It only looks texts up; run() still applies every automatic check (protected
+    parts, no repetition, no added words or sentences) and tools/translation/claude_packs.py adds the script check."""
+    plain_tokens, round_trip = True, False
+
+    def __init__(self, table, name="claude-opus-5-5"):
+        self.table, self.name = table, name
+
+    def translate(self, texts, source, target):
+        return [self.table[target][t] for t in texts]
+
+
 def run(engine, texts, source, target):
     """Translate texts and check them. Returns [(translation, None, score) or (None, why it was refused, score)].
 
@@ -167,6 +194,8 @@ def run(engine, texts, source, target):
                 why = why or why_c
             valid.append(ok)
             res.append([None, why or "no usable translation", -1.0])
+        if not getattr(engine, "round_trip", True):     # reviewed translations (TableTranslator): first valid candidate
+            return [(ok[0], None, 1.0) if ok else (None, r[1], 0.0) for ok, r in zip(valid, res)]
         flat = [(i, c) for i, ok in enumerate(valid) for c in ok]
         if not flat:
             back = []
