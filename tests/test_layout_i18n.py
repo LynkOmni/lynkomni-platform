@@ -1,9 +1,12 @@
 """Translations never break a screen (owner decision 2026-11-06): every emulator screen keeps its size and nothing spills
-over, in English, French, a long-text test (about 40% longer, accented) and a right-to-left test, at desktop and phone size.
+over, in every language of design/fonts/scripts.v1.json (real machine translations from the language packs), a long-text
+test (about 40% longer, accented) and a right-to-left test, at desktop and phone size.
 Needs Playwright with Chromium (installed in CI's layout job); skipped where it is missing."""
 import os, unittest
+from services import translation
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LANGS = list(translation.languages()) + ["xx", "xx-rtl"]
 FILE = os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-pos-terminal.html")
 PAGE = "file://" + FILE
 try:
@@ -65,20 +68,20 @@ class TranslationLayout(unittest.TestCase):
             b = p.chromium.launch()
             sizes = {}
             for width in (1280, 390):
-                for lang in ("en", "fr", "xx", "xx-rtl"):
+                for lang in LANGS:
                     pg = b.new_page(viewport={"width": width, "height": 1000}, reduced_motion="reduce")
                     pg.goto(PAGE)
                     pg.select_option("#cLang", lang)
                     sizes[(width, lang)] = tuple(pg.evaluate(SIZE))
                     problems = self.walk(pg)
                     self.assertEqual(problems, {}, f"{lang} at {width}px")
-                    if lang == "xx-rtl":
-                        self.assertEqual(pg.get_attribute("#display", "dir"), "rtl")
+                    want = "rtl" if lang == "xx-rtl" else "ltr" if lang == "xx" else translation._dir(lang)
+                    self.assertEqual(pg.get_attribute("#display", "dir"), want, lang)
                     self.assertLessEqual(pg.evaluate("document.documentElement.scrollWidth"), width, f"{lang} at {width}px scrolls sideways")
                     pg.close()
             b.close()
         for width in (1280, 390):   # the device and its screen keep exactly the same size in every language
-            self.assertEqual(len({sizes[(width, l)] for l in ("en", "fr", "xx", "xx-rtl")}), 1, f"size changed at {width}px: {sizes}")
+            self.assertEqual(len({sizes[(width, l)] for l in LANGS}), 1, f"size changed at {width}px: {sizes}")
 
 
 if __name__ == "__main__":

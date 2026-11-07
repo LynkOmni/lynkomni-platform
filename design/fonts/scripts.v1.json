@@ -183,7 +183,7 @@
    "script": "latin",
    "sample": "Thank you",
    "letters": "AaBbZz",
-   "nllb": "eng_Latn"
+   "mt": "en"
   },
   "fr": {
    "name": "French",
@@ -191,7 +191,7 @@
    "script": "latin",
    "sample": "Merci",
    "letters": "éèêëàâçîïôûùüÿœæ",
-   "nllb": "fra_Latn"
+   "mt": "fr"
   },
   "es": {
    "name": "Spanish",
@@ -199,7 +199,7 @@
    "script": "latin",
    "sample": "Gracias",
    "letters": "áéíóúüñ¿¡",
-   "nllb": "spa_Latn"
+   "mt": "es"
   },
   "sw": {
    "name": "Swahili",
@@ -207,7 +207,7 @@
    "script": "latin",
    "sample": "Asante",
    "letters": "abcdefghijklmnoprstuvwyz",
-   "nllb": "swh_Latn"
+   "mt": "sw"
   },
   "rw": {
    "name": "Kinyarwanda",
@@ -215,7 +215,7 @@
    "script": "latin",
    "sample": "Murakoze",
    "letters": "abcdefghijklmnoprstuvwyz",
-   "nllb": "kin_Latn"
+   "mt": "rw"
   },
   "ar": {
    "name": "Arabic",
@@ -223,7 +223,7 @@
    "script": "arabic",
    "sample": "شكرا",
    "letters": "ابتثجحخدذرزسشصضطظعغفقكلمنهويءةىآأإؤئ٠١٢٣٤٥٦٧٨٩،؛؟",
-   "nllb": "arb_Arab"
+   "mt": "ar"
   },
   "fa": {
    "name": "Persian",
@@ -231,7 +231,7 @@
    "script": "arabic",
    "sample": "متشکرم",
    "letters": "پچژگکی۰۱۲۳۴۵۶۷۸۹",
-   "nllb": "pes_Arab"
+   "mt": "fa"
   },
   "ur": {
    "name": "Urdu",
@@ -239,7 +239,7 @@
    "script": "arabic",
    "sample": "شکریہ",
    "letters": "ٹڈڑںہھےۓ۔",
-   "nllb": "urd_Arab"
+   "mt": "ur"
   },
   "ps": {
    "name": "Pashto",
@@ -247,7 +247,7 @@
    "script": "arabic",
    "sample": "مننه",
    "letters": "ټډړږښګڼۍې",
-   "nllb": "pbt_Arab"
+   "mt": "ps"
   },
   "ckb": {
    "name": "Kurdish (Sorani)",
@@ -255,7 +255,7 @@
    "script": "arabic",
    "sample": "سوپاس",
    "letters": "ڕڵۆێە",
-   "nllb": "ckb_Arab"
+   "mt": "ckb"
   },
   "sd": {
    "name": "Sindhi",
@@ -263,7 +263,7 @@
    "script": "arabic",
    "sample": "مهرباني",
    "letters": "ٻڀٺٽٿڃڄڇڊڌڍڎڏڙڦڪڱڳڻ",
-   "nllb": "snd_Arab"
+   "mt": "sd"
   },
   "ug": {
    "name": "Uyghur",
@@ -271,7 +271,7 @@
    "script": "arabic",
    "sample": "رەھمەت",
    "letters": "ئۇۆۈۋېىە",
-   "nllb": "uig_Arab"
+   "mt": "ug"
   },
   "he": {
    "name": "Hebrew",
@@ -279,7 +279,7 @@
    "script": "hebrew",
    "sample": "תודה",
    "letters": "אבגדהוזחטיכלמנסעפצקרשתךםןףץ₪",
-   "nllb": "heb_Hebr"
+   "mt": "he"
   },
   "yi": {
    "name": "Yiddish",
@@ -287,7 +287,7 @@
    "script": "hebrew",
    "sample": "אַ דאַנק",
    "letters": "װױײ",
-   "nllb": "ydd_Hebr"
+   "mt": "yi"
   },
   "hi": {
    "name": "Hindi",
@@ -295,7 +295,7 @@
    "script": "devanagari",
    "sample": "धन्यवाद",
    "letters": "अआइईउऊएऐओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसहािीुूेैोौंः्।०१२३४५६७८९₹",
-   "nllb": "hin_Deva"
+   "mt": "hi"
   }
  },
  "budgets_kb": {

@@ -1,0 +1,54 @@
+name: translation
+# Installs the translation engine for text people type (Google MADLAD-400-3B-MT, Apache 2.0, converted to CTranslate2
+# int8) on GitHub's machine and checks it in every language; the report is uploaded as the "translation-report" artifact.
+# Screen text is not made here: Claude translates it (tools/translation/claude_packs.py, owner decision 2026-11-07).
+# Runs when the engine tools change on a work branch, or by hand.
+on:
+  workflow_dispatch:
+  push:
+    branches: ["lynkomni-**"]
+    paths:
+      - tools/translation/install_engine.py
+      - tools/translation/check_engine.py
+      - .github/workflows/translation.yml
+permissions: {contents: read}
+concurrency: {group: "translation-${{ github.ref }}", cancel-in-progress: true}
+jobs:
+  engine:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env: {LYNK_MT_DIR: /mnt/lynk-mt/engine, HF_HOME: /mnt/hf/cache}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: {python-version: "3.12"}
+      - name: room for the model (remove unused preinstalled toolchains, add swap for the one-time conversion)
+        run: |
+          df -h / && free -g
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL /usr/share/swift /usr/local/share/boost
+          sudo mkdir -p /mnt/lynk-mt /mnt/hf && sudo chown -R "$USER" /mnt/lynk-mt /mnt/hf
+          sudo fallocate -l 8G /lynk-swap && sudo chmod 600 /lynk-swap && sudo mkswap /lynk-swap && sudo swapon /lynk-swap
+          df -h / /mnt && free -g
+      - name: engine from the cache (made once per version of the install script)
+        id: engine
+        uses: actions/cache/restore@v6
+        with: {path: /mnt/lynk-mt/engine, key: "madlad400-3b-mt-int8-${{ hashFiles('tools/translation/install_engine.py') }}"}
+      - name: run-time packages
+        run: pip install "ctranslate2==4.*" "sentencepiece==0.2.*"
+      - name: install the engine (download, check the licence, convert to int8)
+        if: steps.engine.outputs.cache-hit != 'true'
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install "transformers<5" huggingface_hub safetensors protobuf
+          python tools/translation/install_engine.py "$LYNK_MT_DIR"
+          rm -rf "$HF_HOME"
+      - name: keep the engine for the next run
+        if: steps.engine.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with: {path: /mnt/lynk-mt/engine, key: "${{ steps.engine.outputs.cache-primary-key }}"}
+      - name: check the engine in every language
+        run: python tools/translation/check_engine.py translation-report.json
+      - name: upload the report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with: {name: translation-report, path: translation-report.json, if-no-files-found: warn}
