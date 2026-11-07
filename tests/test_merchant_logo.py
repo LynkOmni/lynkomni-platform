@@ -65,14 +65,14 @@ class OnInvoices(unittest.TestCase):
         self.assertNotIn("data:image/png", h)
 
     def test_paid_tier_shows_the_logo_with_the_merchant_name_as_alt_and_escapes_it(self):
-        self.p.billing.set_plan("m1", "lynkcheckout", "plus")
+        self.p.billing.set_plan("m1", "lynkinv", "plus")
         iid = self.p.invoicing.issue("m1", "c", LINES)["id"]
         h = D.invoice_html(self.p, "m1", iid, merchant_name='Shop "<b>"', merchant_logo=png())
         self.assertIn("data:image/png;base64,", h)
         self.assertIn('alt="Shop &quot;&lt;b&gt;&quot;"', h)
 
     def test_a_bad_stored_logo_is_refused_at_render_time(self):
-        self.p.billing.set_plan("m1", "lynkcheckout", "plus")
+        self.p.billing.set_plan("m1", "lynkinv", "plus")
         iid = self.p.invoicing.issue("m1", "c", LINES)["id"]
         with self.assertRaises(M.LogoRejected):
             D.invoice_html(self.p, "m1", iid, merchant_logo=b"<svg/>")

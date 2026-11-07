@@ -1,4 +1,4 @@
-"""Invoicing inside LynkCheckout (approved proposal). Not a separate product, family or id prefix: public ids are LOINV- from core/ids.py.
+"""LynkInv, the invoicing service (standalone since 2026-11-07, also inside LynkOps and LynkSuite). Public ids are LOINV- (and LOQUO- for quotes) from core/ids.py; payments go through LynkCheckout pay links.
 
 Rules: an issued invoice never changes (fix with a credit note); an electronic payment is 'paid' only when the provider confirms it; the printed
 number is a sequential number in the merchant's own series, separate from the random public id; reserved numbers that go unused are voided with a
@@ -16,14 +16,14 @@ class Invoicing:
         s.p, s.now, db = p, now, p.c.store.db
         s.inv, s.series, s.blocks, s.notes, s.sched = Table(db, "inv"), Table(db, "inv_series"), Table(db, "inv_blocks"), Table(db, "inv_credit"), Table(db, "inv_recurring")
     # ---- plan
-    def ent(s, m): return s.p.billing.entitlement(m, "lynkcheckout")
+    def ent(s, m): return s.p.billing.entitlement(m, "lynkinv")
     def used(s, m, month): return sum(1 for _, v in s.inv.items() if v["merchant"] == m and v["month"] == month)
     def _quota(s, m, month):
         lim = s.ent(m).get("invoices_per_month")
-        if lim is not None and s.used(m, month) >= lim: raise PermissionError("invoice limit for this plan reached this month; upgrade LynkCheckout")
+        if lim is not None and s.used(m, month) >= lim: raise PermissionError("invoice limit for this plan reached this month; upgrade LynkInv")
     def _series_ok(s, m, name):
         lim, have = s.ent(m).get("invoice_series"), {k.split("|")[1] for k, _ in s.series.items() if k.startswith(m + "|")}
-        if name not in have and lim is not None and len(have) >= lim: raise PermissionError("series limit for this plan reached; upgrade LynkCheckout")
+        if name not in have and lim is not None and len(have) >= lim: raise PermissionError("series limit for this plan reached; upgrade LynkInv")
     # ---- numbers
     def _next(s, m, name):
         k = f"{m}|{name}"; r = s.series.get(k) or {"next": 1}; n = r["next"]; s.series.put(k, {"next": n + 1}); return n
@@ -87,7 +87,7 @@ class Invoicing:
         if v["state"] in ("void", "credited", "paid"): raise ValueError(f"invoice is {v['state']}")
         if method != "cash" and not provider_confirmed: raise PermissionError("an electronic payment counts only after the provider confirms it")
         if amount_minor <= 0 or amount_minor > s.outstanding(iid): raise ValueError("amount must be positive and not above what is owed")
-        if amount_minor < s.outstanding(iid) and not s.ent(m).get("partial_payments"): raise PermissionError("partial payments need a higher LynkCheckout plan")
+        if amount_minor < s.outstanding(iid) and not s.ent(m).get("partial_payments"): raise PermissionError("partial payments need a higher LynkInv plan")
         if payment_ref and any(p.get("ref") == payment_ref for p in v["payments"]): return {"state": v["state"], "duplicate": True}   # a retry never counts twice
         v["payments"] = v["payments"] + [{"method": method, "amount_minor": amount_minor, "ref": payment_ref}]; v["paid_minor"] += amount_minor
         v["state"] = "paid" if s.outstanding(iid) == 0 else "partially_paid"
@@ -99,7 +99,7 @@ class Invoicing:
         return v["state"]
     # ---- corrections
     def credit_note(s, m, iid, amount_minor, reason):
-        if not s.ent(m).get("credit_notes"): raise PermissionError("credit notes need a higher LynkCheckout plan")
+        if not s.ent(m).get("credit_notes"): raise PermissionError("credit notes need a higher LynkInv plan")
         v = s.inv[iid]
         if not reason: raise ValueError("a credit note needs a reason")
         if amount_minor <= 0 or amount_minor > s.outstanding(iid): raise ValueError("a credit note cannot exceed what is still owed")
@@ -114,13 +114,13 @@ class Invoicing:
     def edit(s, iid, **changes): raise PermissionError("an issued invoice never changes; issue a credit note and a new invoice")
     # ---- reminders (consent first)
     def remind(s, m, iid, channel, consented_channels, automatic=False):
-        if automatic and not s.ent(m).get("auto_reminders"): raise PermissionError("automatic reminders need a higher LynkCheckout plan")
+        if automatic and not s.ent(m).get("auto_reminders"): raise PermissionError("automatic reminders need a higher LynkInv plan")
         if channel not in REMINDER_CHANNELS: raise ValueError("unknown channel")
         if channel != "in_app" and channel not in consented_channels: raise PermissionError("the customer has not agreed to this channel")
         s.p.c.store.append(m, "server", "invoice.reminder", {"invoice": iid, "channel": channel, "automatic": automatic}); return True
     # ---- recurring
     def schedule(s, m, customer, lines, every_days, start):
-        if not s.ent(m).get("recurring_invoices"): raise PermissionError("recurring invoices need a higher LynkCheckout plan")
+        if not s.ent(m).get("recurring_invoices"): raise PermissionError("recurring invoices need a higher LynkInv plan")
         sid = uuid.uuid4().hex; s.sched.put(sid, {"merchant": m, "customer": customer, "lines": lines, "every_days": every_days, "next": start, "runs": []}); return sid
     def run_due(s, today):
         out = []

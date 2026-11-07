@@ -55,6 +55,33 @@ def _ledger(p):
     return wrap(p, b, 1)
 
 
+@scene("invoice")
+def _invoice(p):
+    b = (rr(84, 44, 120, 152, 8, p.surface) + rr(84, 44, 120, 26, 8, p.accent_soft) + path("M100 88h56M100 104h88M100 120h88M100 136h64", stroke=p.ink2, stroke_width=2.5) +
+         line(100, 158, 188, 158, stroke_width=2) + rr(148, 166, 40, 12, 3, p.accent) +
+         path("M220 118l52-26-16 58-12-18z", p.surface) + path("M244 132l28-40", stroke_width=2) + path("M232 150q-10 16-30 20", stroke=p.accent_ink, stroke_width=3, stroke_dasharray="3 6"))
+    return wrap(p, b, 1)
+
+
+@scene("crm")
+def _crm(p):
+    nodes = ""
+    for i, (y, f) in enumerate(((70, p.accent), (110, p.accent_soft), (150, p.accent_soft), (190, p.surface))):
+        nodes += circ(112, y, 9, f) + rr(132, y - 14, 104 - 12 * i, 28, 8, p.surface) + path(f"M144 {n(y)}h{n(56 - 10 * i)}", stroke=p.ink2, stroke_width=2.5)
+    b = line(112, 70, 112, 190, stroke=p.line, stroke_width=3) + nodes + star(254, 62, 16, p.accent, p) + sparkle(70, 96, 9, p.accent)
+    return wrap(p, b)
+
+
+@scene("ops")
+def _ops(p):
+    tiles = (rr(78, 92, 52, 60, 8, p.surface) + path("M88 108h32M88 120h32M88 132h20", stroke=p.ink2, stroke_width=2) +
+             rr(134, 92, 52, 60, 8, p.accent_soft) + path("M146 106h28M146 118h28", stroke=p.ink2, stroke_width=2) + rr(160, 132, 16, 8, 2, p.accent) +
+             rr(190, 92, 52, 60, 8, p.surface) + circ(204, 108, 4, p.accent) + circ(204, 122, 4, p.ink2, stroke="none") + circ(204, 136, 4, p.ink2, stroke="none") +
+             path("M214 108h18M214 122h14M214 136h18", stroke=p.ink2, stroke_width=2))
+    b = rr(62, 74, 196, 98, 16, "none", stroke=p.accent_ink, stroke_width=3) + tiles + coin(160, 196, 14, p) + path("M160 172v10", stroke=p.accent_ink, stroke_width=3)
+    return wrap(p, b, 1)
+
+
 @scene("stock")
 def _stock(p):
     def box(x, y, w, h, f):
@@ -163,8 +190,8 @@ def _essential(p):
 def _suite(p):
     cx, cy, rad = 160, 118, 76
     items = ""
-    for i in range(7):
-        a = -math.pi / 2 + i * 2 * math.pi / 7
+    for i in range(9):
+        a = -math.pi / 2 + i * 2 * math.pi / 9
         x, y = cx + rad * math.cos(a), cy + rad * math.sin(a) * .82
         items = line(cx, cy, x, y, stroke=p.line, stroke_width=2) + items + rr(x - 17, y - 17, 34, 34, 8, p.surface if i % 2 else p.accent_soft)
     b = items + circ(cx, cy, 24, p.accent) + circ(cx, cy, 9, p.on_accent, stroke="none")

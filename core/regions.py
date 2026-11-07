@@ -3,10 +3,11 @@ Add a country by adding one entry. No code changes elsewhere."""
 import os
 import pathlib
 
-SERVICES = ["pos", "accountant", "inventory", "dashboard", "intelligence", "payments",
+SERVICES = ["pos", "accountant", "invoicing", "crm", "inventory", "dashboard", "intelligence", "payments",
             "recovery", "paylinks", "loyalty", "marketplace", "financing", "protection", "chat", "ads", "vcard"]
 # Live by default = Phase 1. The rest are built but OFF until a country integrates them.
-DEFAULT_FLAGS = {s: s in ("pos", "accountant", "inventory", "dashboard", "intelligence", "chat") for s in SERVICES}
+# "accountant" is LynkAcc, "invoicing" LynkInv (issuing works without a provider; being paid uses "paylinks"), "crm" LynkCRM.
+DEFAULT_FLAGS = {s: s in ("pos", "accountant", "invoicing", "crm", "inventory", "dashboard", "intelligence", "chat") for s in SERVICES}
 
 import json, glob
 def _load_packs():

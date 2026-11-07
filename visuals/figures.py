@@ -61,7 +61,7 @@ def pricing_ladder(theme):
             body.append(rr(left, y + t * 8, w, 7, 2, fills[t], stroke=p.ink, stroke_width=1))
         body.append(text(left + scale_w + 16, y + 16, " · ".join(f"${v[3][t + 1]:g}" for t in range(3)), p, 13, 400, fill=p.ink2))
     body.append(text(24, H - 28, "LynkSuite and LynkDev use their own price scales and are not shown. Free tier is $0.", p, 12, fill=p.ink2))
-    body.append(text(24, H - 10, "Source: services/billing.py (prices locked v1).", p, 12, fill=p.ink2))
+    body.append(text(24, H - 10, "Source: services/billing.py (prices locked v2).", p, 12, fill=p.ink2))
     alt = ("Bar chart of the standard monthly price in US dollars for the Plus, Pro and Max tiers of each LynkOmni product family, "
            "with the three prices written beside every row. LynkSuite and LynkDev are not shown.")
     return frame("chart-pricing-ladder", alt, "".join(body), W, H)

@@ -160,7 +160,7 @@ class AuditExport:
     def __init__(s, p): s.p, s.exports = p, Table(p.c.store.db, "audit")
     def export(s, m):
         leaves = [{"seq": e["seq"], "id": e["id"], "type": e["type"], "ts": e["ts"], "payload": e["payload"]} for e in s.p.c.store.since(m)]
-        aid = s.p.ids.assign("AUD", uuid.uuid4().hex); fee_cents = s.p.billing.entitlement(m, "lynkledger")["audit_fee_cents"]; free = fee_cents == 0
+        aid = s.p.ids.assign("AUD", uuid.uuid4().hex); fee_cents = s.p.billing.entitlement(m, "lynkacc")["audit_fee_cents"]; free = fee_cents == 0
         if not free:
             cur, amt = _usd(s.p, m, D(fee_cents) / 100); s.p.control.record_revenue(m, "audit:export", amt, cur, s.p.c.profile(m)["country"])
         root = merkle_root(leaves); s.exports.put(aid, {"merchant": m, "root": root, "count": len(leaves), "leaves": leaves})

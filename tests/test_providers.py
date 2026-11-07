@@ -14,7 +14,7 @@ class Ledger(unittest.TestCase):
             self.assertIn(s, providers.pending_services())
 
     def test_phase_one_services_are_never_gated(self):
-        for s in ("pos", "accountant", "inventory", "dashboard", "intelligence", "chat"):
+        for s in ("pos", "accountant", "invoicing", "crm", "inventory", "dashboard", "intelligence", "chat"):
             self.assertEqual(providers.ready(s, "RW"), (True, []))
             self.assertTrue(regions.enabled("RW", s))
 

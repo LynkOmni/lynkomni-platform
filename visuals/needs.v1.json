@@ -30,7 +30,7 @@
    "budget_kb": 12
   },
   {
-   "id": "product-ledger",
+   "id": "product-acc",
    "kind": "illustration",
    "scene": "ledger",
    "accent": "brand",
@@ -40,8 +40,68 @@
     "contrast-light",
     "contrast-dark"
    ],
-   "alt": "An open ledger book with ticked lines, a bookmark and a coin",
-   "purpose": "Empty state, feature header and onboarding for LynkLedger",
+   "alt": "An open account book with ticked lines, a bookmark and a coin",
+   "purpose": "Empty state, feature header and onboarding for LynkAcc (accounting)",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-inv",
+   "kind": "illustration",
+   "scene": "invoice",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "An invoice page with lines and a highlighted total, beside a paper plane being sent",
+   "purpose": "Empty state, feature header and onboarding for LynkInv (invoicing)",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-crm",
+   "kind": "illustration",
+   "scene": "crm",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A timeline of four linked moments with a note beside each and a star",
+   "purpose": "Empty state, feature header and onboarding for LynkCRM (customers)",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-ops",
+   "kind": "illustration",
+   "scene": "ops",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "Three tiles for books, invoices and customers held together in one frame above a coin",
+   "purpose": "Feature header and plan page for LynkOps, the plan that bundles LynkAcc, LynkInv and LynkCRM",
    "used_in": [
     "empty-state",
     "feature-header",
@@ -320,7 +380,7 @@
     "contrast-light",
     "contrast-dark"
    ],
-   "alt": "A hub linked to seven tiles, for the seven products in LynkSuite",
+   "alt": "A hub linked to nine tiles, for the nine services in LynkSuite",
    "purpose": "Empty state, feature header and onboarding for LynkSuite",
    "used_in": [
     "empty-state",

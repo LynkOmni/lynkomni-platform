@@ -12,7 +12,7 @@ class T(unittest.TestCase):
         self.p = Platform(); self.p.register("m1", "RW"); self.iv = self.p.invoicing
 
     def _inv(self, tier=None):
-        if tier: self.p.billing.set_plan("m1", "lynkcheckout", tier)
+        if tier: self.p.billing.set_plan("m1", "lynkinv", tier)
         return self.iv.issue("m1", "Cust <script>x</script>", LINES)["id"]
 
     def test_free_invoice_shows_lynkomni_logo_badge_and_is_never_a_tax_invoice(self):

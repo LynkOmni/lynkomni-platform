@@ -1090,6 +1090,15 @@
     }
    ],
    "done_when": "The API server image installs ctranslate2 and sentencepiece and mounts the engine folder made by tools/translation/install_engine.py as LYNK_MT_DIR; ContentTranslator uses MadladTranslator there; typed text never leaves LynkOmni's servers."
+  },
+  {
+   "id": "ops_product_icons",
+   "name": "Product icons for LynkAcc, LynkInv, LynkCRM and LynkOps in lynkomni-icons",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Icons are released from the separate lynkomni-icons repository through its gates and the brand-sync workflow; they are made with build section 4 (LynkAcc, LynkInv, LynkCRM and LynkOps). Until then LynkAcc uses the existing product-ledger icon and LynkInv and LynkCRM are not yet listed in the merchant app's Business tab.",
+   "placeholders": [],
+   "done_when": "lynkomni-icons releases product-acc, product-inv, product-crm and product-ops, brand-sync vendors them, and every place that lists LynkOmni services shows LynkAcc, LynkInv and LynkCRM with their own icon."
   }
  ],
  "user_actions": [

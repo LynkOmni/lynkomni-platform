@@ -5,7 +5,7 @@ import providers
 from core.regions import SERVICES
 from services.waitlist import Waitlist
 
-CORE = ("pos", "accountant", "inventory", "dashboard", "intelligence", "chat")
+CORE = ("pos", "accountant", "invoicing", "crm", "inventory", "dashboard", "intelligence", "chat")
 
 
 class GlobalAvailability(unittest.TestCase):

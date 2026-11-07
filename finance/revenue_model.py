@@ -21,9 +21,11 @@ CONSUMERS = {"stage1": 15_000, "stage2": 500_000, "stage3": 10_000_000}
 # Adoption before the conversion factor, Plus / Pro / Max, in percent. Same in every stage.
 SUITE = (8, 3, Decimal("0.5"))                      # of all merchants
 PRODUCTS = {                                        # of all merchants (not already on LynkSuite)
-    "lynkpos": (8, 3, Decimal("0.5")), "lynkledger": (5, 2, Decimal("0.3")), "lynkstock": (5, 2, Decimal("0.3")),
+    "lynkpos": (8, 3, Decimal("0.5")), "lynkacc": (5, 2, Decimal("0.3")), "lynkstock": (5, 2, Decimal("0.3")),
     "lynkdash": (4, Decimal("1.5"), Decimal("0.2")), "lynkrewards": (3, 1, Decimal("0.2")),
     "lynkgrow": (3, Decimal("1.5"), Decimal("0.3")), "lynkchat": (5, 2, Decimal("0.3")),
+    # New on 2026-11-07 (ASSUMPTIONS, no pilot data): LynkAcc keeps LynkLedger's share; LynkInv, LynkCRM and the LynkOps tier below.
+    "lynkinv": (4, Decimal("1.5"), Decimal("0.2")), "lynkcrm": (3, 1, Decimal("0.2")), "lynkops": (3, 1, Decimal("0.2")),
 }
 ADDONS = {                                          # of merchants using payments
     "lynkmpay": (8, 5, 2), "lynkrecover": (10, 5, 1), "lynkcheckout": (15, 6, 2),
@@ -35,7 +37,7 @@ CONNECT = (Decimal("1.0"), Decimal("0.3"), Decimal("0.08"))
 # LynkVCard subscribers at Stage 3 (Plus / Pro / Max), read back from the blueprint's card table at index 0.55
 VCARD_STAGE3 = (28_000, 14_000, 3_000)
 
-ORDER = ["lynksuite", "lynkpos", "lynkledger", "lynkstock", "lynkdash", "lynkrewards", "lynkgrow", "lynkchat",
+ORDER = ["lynksuite", "lynkpos", "lynkacc", "lynkinv", "lynkcrm", "lynkops", "lynkstock", "lynkdash", "lynkrewards", "lynkgrow", "lynkchat",
          "lynkmpay", "lynkrecover", "lynkcheckout", "lynkassist", "travel", "connect"]
 
 
@@ -97,7 +99,8 @@ def vcard_subscriptions(price_table=None):
 # The blueprint's totals before the 2026-11-06 price update (Stage 1, 2, 3). Only subscription prices changed, so the
 # new totals are these plus the change in the subscription lines and in the LynkVCard subscription lines.
 OLD_PRICES = {
-    "lynksuite": (12, 35, 89), "lynkpos": (3, 10, 25), "lynkledger": (2, 6, 15), "lynkstock": (2, 6, 15),
+    "lynksuite": (12, 35, 89), "lynkpos": (3, 10, 25), "lynkacc": (2, 6, 15), "lynkstock": (2, 6, 15),
+    "lynkinv": (0, 0, 0), "lynkcrm": (0, 0, 0), "lynkops": (0, 0, 0),             # not in the original blueprint table: their whole line is new
     "lynkrewards": (2, 6, 15), "lynkdash": (2, 5, 12), "lynkgrow": (3, 9, 25), "lynkchat": (3, 8, 20),
     "lynkmpay": (4, 12, 30), "lynkrecover": (2, 5, 10), "lynkcheckout": (2, 5, 12), "lynkassist": (5, 12, 29),
     "lynkvcard": (3, 9, 25),

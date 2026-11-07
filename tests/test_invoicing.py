@@ -17,17 +17,18 @@ class T(unittest.TestCase):
         self.assertEqual(r["label"], "Invoice (not a tax invoice)")              # never 'tax invoice' without written confirmation
 
     def test_plan_limits(self):
-        self.assertEqual([self.iv.ent("m1")["invoices_per_month"]], [3])
-        for _ in range(3): self.iv.issue("m1", "c", LINES, month="2026-11")
+        self.assertEqual([self.iv.ent("m1")["invoices_per_month"]], [5])
+        for _ in range(5): self.iv.issue("m1", "c", LINES, month="2026-11")
         with self.assertRaises(PermissionError): self.iv.issue("m1", "c", LINES, month="2026-11")
         self.iv.issue("m1", "c", LINES, month="2026-12")                          # new month starts fresh
-        self.p.billing.set_plan("m1", "lynkcheckout", "plus"); self.iv.issue("m1", "c", LINES, month="2026-11")
-        self.assertEqual([self._ent(t)["invoices_per_month"] for t in B.MT], [3, 20, 200, None])
+        self.p.billing.set_plan("m1", "lynkinv", "plus"); self.iv.issue("m1", "c", LINES, month="2026-11")
+        self.assertEqual([self._ent(t)["invoices_per_month"] for t in B.MT], [5, None, None, None])
+        self.assertEqual([self._ent(t)["credit_notes"] and self._ent(t)["pay_link"] for t in B.MT], [True] * 4)   # at every tier (agreed 2026-11-07)
         self.assertEqual([self._ent(t)["invoice_series"] for t in B.MT], [1, 1, 3, None])
-        self.assertEqual(B.FAMILIES["lynkcheckout"][3], (0, 3, 7, 15))            # prices raised 2026-11-06 (placeholders)
+        self.assertEqual(B.FAMILIES["lynkinv"][3], (0, 5, 12, 32))                # LynkInv, price version 2 (2026-11-07)
     def _ent(self, tier):
         d = {}
-        for x in B.FEATURES["lynkcheckout"][: B.MT.index(tier) + 1]: d.update(x)
+        for x in B.FEATURES["lynkinv"][: B.MT.index(tier) + 1]: d.update(x)
         return d
 
     def test_paid_only_when_the_provider_confirms(self):
@@ -38,7 +39,7 @@ class T(unittest.TestCase):
         with self.assertRaises(ValueError): self.iv.record_payment("m1", iid, "cash", 1)
 
     def test_retry_never_counts_twice_and_partial_needs_a_plan(self):
-        self.p.billing.set_plan("m1", "lynkcheckout", "pro"); r = self.iv.issue("m1", "c", LINES); iid = r["id"]
+        self.p.billing.set_plan("m1", "lynkinv", "pro"); r = self.iv.issue("m1", "c", LINES); iid = r["id"]
         a = self.iv.record_payment("m1", iid, "card", 1000, True, "tx9"); b = self.iv.record_payment("m1", iid, "card", 1000, True, "tx9")
         self.assertEqual(a["state"], "partially_paid"); self.assertTrue(b["duplicate"]); self.assertEqual(self.iv.outstanding(iid), r["total_minor"] - 1000)
         self.p2 = Platform(); self.p2.register("m2", "RW"); r2 = self.p2.invoicing.issue("m2", "c", LINES)
@@ -47,8 +48,7 @@ class T(unittest.TestCase):
     def test_issued_invoices_never_change_credit_notes_do(self):
         r = self.iv.issue("m1", "c", LINES); iid = r["id"]
         with self.assertRaises(PermissionError): self.iv.edit(iid, total_minor=1)
-        with self.assertRaises(PermissionError): self.iv.credit_note("m1", iid, 100, "error")                     # Free: no credit notes
-        self.p.billing.set_plan("m1", "lynkcheckout", "plus")
+        # credit notes work at every tier, Free included (an issued invoice never changes, so the fix must always be possible)
         with self.assertRaises(ValueError): self.iv.credit_note("m1", iid, 100, "")
         with self.assertRaises(ValueError): self.iv.credit_note("m1", iid, r["total_minor"] + 1, "too much")
         self.iv.credit_note("m1", iid, r["total_minor"], "wrong price"); self.assertEqual(self.iv.state(iid), "credited"); self.assertEqual(self.iv.outstanding(iid), 0)
@@ -59,7 +59,7 @@ class T(unittest.TestCase):
         self.iv.mark_viewed(iid); self.assertEqual(self.iv.state(iid), "viewed"); t[0] += 2 * 86400; self.assertEqual(self.iv.state(iid), "overdue")
 
     def test_offline_numbers_come_from_a_leased_block_and_gaps_are_voided_with_a_reason(self):
-        self.p.billing.set_plan("m1", "lynkcheckout", "pro"); blk = self.iv.lease_block("m1", "devA", "A", size=5)
+        self.p.billing.set_plan("m1", "lynkinv", "pro"); blk = self.iv.lease_block("m1", "devA", "A", size=5)
         self.assertEqual((blk["first"], blk["last"]), (1, 5))
         r = self.iv.accept_offline("m1", "devA", "c", LINES, "A", 2)
         self.assertEqual(r["number"], 2)
@@ -83,7 +83,7 @@ class T(unittest.TestCase):
         self.assertTrue(self.iv.remind("m1", iid, "sms", ["sms"]))
         with self.assertRaises(PermissionError): self.iv.remind("m1", iid, "sms", ["sms"], automatic=True)         # Free: manual only
         with self.assertRaises(PermissionError): self.iv.schedule("m1", "c", LINES, 7, 100)
-        self.p.billing.set_plan("m1", "lynkcheckout", "pro"); self.assertTrue(self.iv.remind("m1", iid, "sms", ["sms"], automatic=True))
+        self.p.billing.set_plan("m1", "lynkinv", "pro"); self.assertTrue(self.iv.remind("m1", iid, "sms", ["sms"], automatic=True))
         self.iv.lease_block("m1", "d", "B", 1)
         self.iv.schedule("m1", "c", LINES, 7, 100); self.assertEqual(len(self.iv.run_due(100)), 1); self.assertEqual(len(self.iv.run_due(100)), 0); self.assertEqual(len(self.iv.run_due(107)), 1)
 

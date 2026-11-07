@@ -1,4 +1,4 @@
-"""Prices are LOCKED (version 1, 2026-11-06). This test pins every standard USD price. To change a price on purpose:
+"""Prices are LOCKED (version 2, 2026-11-07; version 1 was 2026-11-06). This test pins every standard USD price. To change a price on purpose:
 change services/billing.py, change LOCKED_PRICES below, re-run finance/revenue_model.py (tests/test_revenue_model.py
 pins its output), then update the blueprint (pricing tables, LynkSuite table, revenue model parts E, F and G), the
 project status doc and CLAUDE.md in the same task."""
@@ -7,11 +7,12 @@ import unittest
 from services import billing
 
 LOCKED_PRICES = {
-    "lynkpos": (0, 4, 14, 35), "lynkledger": (0, 3, 9, 22), "lynkstock": (0, 3, 9, 22), "lynkrewards": (0, 3, 9, 22),
+    "lynkpos": (0, 12, 29, 79), "lynkacc": (0, 6, 15, 40), "lynkinv": (0, 5, 12, 32), "lynkcrm": (0, 6, 15, 40),
+    "lynkops": (0, 12, 29, 79), "lynkstock": (0, 3, 9, 22), "lynkrewards": (0, 3, 9, 22),
     "lynkdash": (0, 3, 7, 17), "lynkgrow": (0, 4, 12, 32), "lynkchat": (0, 4, 11, 27), "lynkmpay": (0, 5, 15, 38),
     "lynkrecover": (0, 3, 7, 12), "lynkcheckout": (0, 3, 7, 15), "lynkassist": (0, 6, 15, 35), "lynkvcard": (0, 4, 12, 30),
     "lynkdev": (0, 500, 2500, 15000), "lynkbooking": (0, 4.99, 9.99, 19.99), "lynkessential": (0, 2.99, 5.99, 11.99),
-    "lynksuite": (0, 17, 49, 125),
+    "lynksuite": (0, 29, 75, 195),
 }
 
 
