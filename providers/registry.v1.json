@@ -1108,6 +1108,15 @@
    "why_not_now": "The flows are built in build section 3 (master blueprint section 42 I). The review needs a human security reviewer and the finished flows; until it passes, the services stay on practice partners only.",
    "placeholders": [],
    "done_when": "A human security reviewer has signed off every agent, collection and partner-finance flow, including never offering cash before the partner confirms and never queuing these requests offline."
+  },
+  {
+   "id": "email_sending_setup",
+   "name": "Sending subdomains mail.lynkomni.com and news.lynkomni.com with their nine sending addresses, SPF, DKIM, DMARC, MTA-STS and TLS reports",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Needs the email-sending provider (provider ledger item for SMS, WhatsApp, email and push delivery), chosen in build section 13 (outside screens). BIMI (the logo in inboxes) also waits for the registered trademark.",
+   "placeholders": [],
+   "done_when": "The nine sending addresses send through the chosen provider with SPF, DKIM and DMARC passing, DMARC at reject after two clean weeks, MTA-STS on, and no-reply@mail.lynkomni.com answering anyone who writes with the automatic help message."
   }
  ],
  "user_actions": [
@@ -1193,7 +1202,7 @@
   },
   {
    "id": "company-domains-email",
-   "what": "Finish the company email: Google Workspace Business Starter (yearly, one paid user, billing country Cameroon) for cruxomni.com with the admin login marvin@cruxomni.com; then add lynkomni.com as a free second domain and the free addresses billing@, support@, hello@, security@lynkomni.com and legal@cruxomni.com.",
+   "what": "Finish the company email: Google Workspace Business Starter (yearly, one paid user, billing country Cameroon) for cruxomni.com with the admin login marvin@cruxomni.com; then add lynkomni.com as a free second domain and the free addresses billing@, support@, hello@, security@lynkomni.com and legal@cruxomni.com. Then create the 28 Google Groups agreed on 2026-11-07 (master blueprint section 39), each with marvin@cruxomni.com as its member: on cruxomni.com accounts@, legal@, compliance@, finance@, investors@, press@, careers@, hello@; on lynkomni.com hello@, support@, billing@, security@, privacy@, safety@, accessibility@, partners@, agents@, accountants@, developers@, enterprise@, ads@, suppliers@; and postmaster@, abuse@ and dmarc-reports@ on each domain. Then add the SPF, DKIM and DMARC records Claude prepares, at Squarespace, for both domains.",
    "why": "One Google platform for email and, later, hosting (owner decision 2026-11-06). The domains cruxomni.com and lynkomni.com were bought on Squarespace on 2026-11-07; Google refused the prepaid card, so payment needs a normal (not prepaid) Visa or Mastercard debit card with international online payments, or an official Google Workspace partner that accepts bank transfer or mobile money.",
    "when": "now",
    "status": "open"
