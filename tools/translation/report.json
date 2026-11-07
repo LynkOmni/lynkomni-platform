@@ -5,52 +5,50 @@
   "fr": {
    "pos-terminal": {
     "kept_in_english": {
+     "wrong_pin": "translation adds a sentence",
      "all": "translation repeats itself",
-     "food": "meaning drifted (round trip 0.42)",
-     "drinks": "meaning drifted (round trip 0.44)",
-     "back": "meaning drifted (round trip 0.34)",
-     "method_cash": "meaning drifted (round trip 0.45)",
-     "method_card": "meaning drifted (round trip 0.39)",
+     "items": "meaning drifted (round trip 0.42)",
      "menu": "translation repeats itself",
      "over": "meaning drifted (round trip 0.43)",
-     "voided": "meaning drifted (round trip 0.43)",
+     "voided": "meaning drifted (round trip 0.44)",
      "ok": "translation repeats itself",
      "payment": "translation repeats itself"
     },
     "wrong_script": [],
-    "seconds": 264.5
+    "seconds": 153.7
    },
    "samples": {
     "pay": "Payer {amount} avec MTN MoMo",
     "items": "Vous avez 3 articles dans le panier. Vous n'avez pas d'articles dans votre panier",
     "sent": "LynkPOS a envoyé un reçu {number} à {phone}.",
     "offline": "Pas d'internet. La vente est sauvegardée et sera envoyée lorsque vous serez de nouveau en ligne.",
-    "brand": "Merci d'utiliser LynkOmni. Nous vous remercions de votre confiance en nous"
+    "brand": "Thank you for using LynkOmni."
    },
-   "samples_kept": {}
+   "samples_kept": {
+    "brand": "translation adds a sentence"
+   }
   },
   "es": {
    "pos-terminal": {
     "kept_in_english": {
+     "wrong_pin": "translation adds a sentence",
      "drinks": "translation repeats itself",
      "home": "translation repeats itself",
      "charge": "meaning drifted (round trip 0.26)",
      "new_sale": "translation repeats itself",
-     "menu": "meaning drifted (round trip 0.37)",
      "over": "meaning drifted (round trip 0.34)",
-     "void": "meaning drifted (round trip 0.34)",
-     "voided": "meaning drifted (round trip 0.15)",
+     "void": "meaning drifted (round trip 0.44)",
+     "voided": "meaning drifted (round trip 0.23)",
      "receipt": "translation repeats itself",
-     "ok": "meaning drifted (round trip 0.32)",
      "payment": "translation repeats itself",
      "st_sent": "translation repeats itself"
     },
     "wrong_script": [],
-    "seconds": 250.8
+    "seconds": 151.6
    },
    "samples": {
     "pay": "Pagar {amount} con MTN MoMo.",
-    "items": "Tienes 3 artículos en tu carrito de compras.Tienes 1 artículo en tu carrito de compras.",
+    "items": "Tienes 3 artículos en tu cesta de la compra.",
     "sent": "LynkPOS envió el recibo {number} a {phone}.",
     "offline": "La venta se guarda y será enviada cuando vuelvas a estar en línea. No hay internet.",
     "brand": "Thank you for using LynkOmni."
@@ -63,88 +61,80 @@
    "pos-terminal": {
     "kept_in_english": {
      "all": "translation repeats itself",
-     "drinks": "translation repeats itself",
-     "charge": "meaning drifted (round trip 0.23)",
+     "drinks": "meaning drifted (round trip 0.45)",
+     "charge": "meaning drifted (round trip 0.34)",
      "total": "translation repeats itself",
      "items": "translation repeats itself",
-     "method_card": "meaning drifted (round trip 0.38)",
-     "cash_given": "meaning drifted (round trip 0.30)",
-     "menu": "meaning drifted (round trip 0.34)",
-     "over": "meaning drifted (round trip 0.12)",
+     "method_card": "meaning drifted (round trip 0.39)",
+     "cash_given": "meaning drifted (round trip 0.32)",
+     "queued_note": "translation adds a sentence",
+     "menu": "meaning drifted (round trip 0.38)",
+     "over": "meaning drifted (round trip 0.35)",
      "void_reason": "meaning drifted (round trip 0.36)",
-     "r_customer_cancelled": "meaning drifted (round trip 0.43)",
      "r_duplicate": "translation repeats itself",
      "voided": "translation repeats itself",
-     "sandbox": "translation repeats itself",
-     "sync": "meaning drifted (round trip 0.31)",
-     "provisional": "meaning drifted (round trip 0.38)",
-     "tendered": "meaning drifted (round trip 0.30)",
-     "state_failed": "meaning drifted (round trip 0.41)",
-     "ok": "meaning drifted (round trip 0.00)",
-     "sync_state": "meaning drifted (round trip 0.31)",
-     "st_queued": "meaning drifted (round trip 0.41)"
+     "sync": "meaning drifted (round trip 0.28)",
+     "provisional": "meaning drifted (round trip 0.44)",
+     "tendered": "meaning drifted (round trip 0.32)",
+     "ok": "meaning drifted (round trip 0.39)",
+     "sync_state": "meaning drifted (round trip 0.28)"
     },
     "wrong_script": [],
-    "seconds": 267.2
+    "seconds": 139.7
    },
    "samples": {
     "pay": "Kulipa {amount} na MTN MoMo.",
-    "items": "Una vitu 3 katika kifurushi. Una vitu 1 katika kifurushi.",
+    "items": "You have 3 items in the basket.",
     "sent": "LynkPOS imetuma risiti {number} kwenda kwa {phone}.",
-    "offline": "Hakuna mtandao. uuzaji ni kuokolewa na itatumwa wakati wewe ni nyuma online. hakuna internet.",
+    "offline": "No internet. The sale is saved and will be sent when you are back online.",
     "brand": "Asante kwa kutumia LynkOmni."
    },
-   "samples_kept": {}
+   "samples_kept": {
+    "items": "translation adds a sentence",
+    "offline": "translation adds a sentence"
+   }
   },
   "rw": {
    "pos-terminal": {
     "kept_in_english": {
-     "wrong_pin": "meaning drifted (round trip 0.19)",
-     "drinks": "meaning drifted (round trip 0.16)",
-     "cart": "meaning drifted (round trip 0.07)",
-     "empty": "meaning drifted (round trip 0.42)",
+     "wrong_pin": "meaning drifted (round trip 0.13)",
+     "cart": "meaning drifted (round trip 0.13)",
      "charge": "translation is much longer than the English (added words)",
-     "back": "meaning drifted (round trip 0.00)",
-     "how_pay": "meaning drifted (round trip 0.31)",
-     "method_cash": "meaning drifted (round trip 0.10)",
+     "method_cash": "meaning drifted (round trip 0.12)",
      "method_mobile_money": "translation is much longer than the English (added words)",
      "method_card": "translation is much longer than the English (added words)",
-     "cash_given": "meaning drifted (round trip 0.24)",
-     "not_enough": "meaning drifted (round trip 0.22)",
-     "waiting": "meaning drifted (round trip 0.36)",
-     "wait_card": "meaning drifted (round trip 0.40)",
-     "count": "meaning drifted (round trip 0.27)",
-     "lock": "meaning drifted (round trip 0.28)",
-     "counted": "meaning drifted (round trip 0.26)",
+     "cash_given": "meaning drifted (round trip 0.26)",
+     "not_enough": "meaning drifted (round trip 0.26)",
+     "wait_card": "meaning drifted (round trip 0.43)",
+     "queued_note": "translation adds a sentence",
+     "count": "meaning drifted (round trip 0.40)",
+     "counted": "meaning drifted (round trip 0.29)",
      "short": "meaning drifted (round trip 0.22)",
-     "over": "meaning drifted (round trip 0.09)",
+     "over": "meaning drifted (round trip 0.22)",
      "void": "meaning drifted (round trip 0.40)",
-     "void_reason": "meaning drifted (round trip 0.29)",
-     "r_entered_in_error": "meaning drifted (round trip 0.44)",
-     "r_customer_cancelled": "meaning drifted (round trip 0.16)",
-     "r_price_error": "meaning drifted (round trip 0.41)",
+     "void_reason": "meaning drifted (round trip 0.34)",
+     "r_customer_cancelled": "meaning drifted (round trip 0.22)",
+     "r_price_error": "meaning drifted (round trip 0.43)",
      "voided": "meaning drifted (round trip 0.18)",
-     "no_sales": "meaning drifted (round trip 0.39)",
-     "sandbox": "meaning drifted (round trip 0.42)",
      "sync": "translation is much longer than the English (added words)",
      "online": "meaning drifted (round trip 0.39)",
-     "offline": "meaning drifted (round trip 0.14)",
+     "offline": "meaning drifted (round trip 0.15)",
      "provisional": "meaning drifted (round trip 0.23)",
      "not_tax": "meaning drifted (round trip 0.31)",
-     "tendered": "meaning drifted (round trip 0.24)",
-     "state_failed": "meaning drifted (round trip 0.26)",
-     "unavailable": "meaning drifted (round trip 0.27)",
+     "tendered": "meaning drifted (round trip 0.26)",
+     "state_failed": "meaning drifted (round trip 0.20)",
+     "scan_added": "meaning drifted (round trip 0.26)",
      "scanning": "meaning drifted (round trip 0.38)",
      "ok": "meaning drifted (round trip 0.19)",
-     "payment": "meaning drifted (round trip 0.10)",
+     "payment": "meaning drifted (round trip 0.14)",
      "sync_state": "translation is much longer than the English (added words)",
+     "tear": "meaning drifted (round trip 0.24)",
      "st_queued": "translation is much longer than the English (added words)",
      "st_sent": "translation is much longer than the English (added words)",
-     "st_accepted": "meaning drifted (round trip 0.26)",
-     "st_confirmed": "meaning drifted (round trip 0.16)"
+     "st_accepted": "meaning drifted (round trip 0.26)"
     },
     "wrong_script": [],
-    "seconds": 230.9
+    "seconds": 126.8
    },
    "samples": {
     "pay": "Pay {amount} with MTN MoMo",
@@ -162,32 +152,30 @@
   "ar": {
    "pos-terminal": {
     "kept_in_english": {
-     "all": "meaning drifted (round trip 0.00)",
-     "charge": "meaning drifted (round trip 0.10)",
+     "use_keys": "translation adds a sentence",
+     "all": "meaning drifted (round trip 0.38)",
+     "charge": "meaning drifted (round trip 0.13)",
+     "how_pay": "translation adds a sentence",
      "complete": "meaning drifted (round trip 0.29)",
-     "menu": "meaning drifted (round trip 0.43)",
-     "over": "meaning drifted (round trip 0.22)",
-     "void_reason": "meaning drifted (round trip 0.28)",
-     "r_duplicate": "meaning drifted (round trip 0.24)",
-     "voided": "meaning drifted (round trip 0.19)",
-     "sync": "meaning drifted (round trip 0.40)",
-     "offline": "meaning drifted (round trip 0.31)",
-     "ok": "translation repeats itself",
-     "sync_state": "meaning drifted (round trip 0.40)"
+     "over": "meaning drifted (round trip 0.32)",
+     "void_reason": "translation adds a sentence",
+     "voided": "meaning drifted (round trip 0.20)",
+     "offline": "meaning drifted (round trip 0.34)",
+     "ok": "translation repeats itself"
     },
     "wrong_script": [],
-    "seconds": 267.7
+    "seconds": 166.3
    },
    "samples": {
     "pay": "Pay {amount} with MTN MoMo",
     "items": "You have 3 items in the basket.",
     "sent": "LynkPOS sent receipt {number} to {phone}.",
-    "offline": "لا يوجد اتصال بالإنترنت، يتم حفظ البيع وسيتم إرساله عندما تعود إلى الإنترنت.",
+    "offline": "لا يوجد اتصال بالإنترنت. يتم حفظ البيع وسيتم إرساله عندما تعود إلى الإنترنت.",
     "brand": "شكرا لاستخدامكم LynkOmni.شكراً لكم على استخدام لينكومني."
    },
    "samples_kept": {
     "pay": "translation lost or repeated a protected part ('{amount}')",
-    "items": "meaning drifted (round trip 0.44)",
+    "items": "translation lost or repeated a protected part ('3')",
     "sent": "translation lost or repeated a protected part ('{number}')"
    }
   },
@@ -197,20 +185,16 @@
      "drinks": "translation repeats itself",
      "items": "translation repeats itself",
      "method_card": "meaning drifted (round trip 0.45)",
-     "menu": "meaning drifted (round trip 0.37)",
-     "over": "meaning drifted (round trip 0.39)",
-     "voided": "meaning drifted (round trip 0.14)",
-     "sync": "meaning drifted (round trip 0.40)",
-     "unavailable": "meaning drifted (round trip 0.28)",
-     "sync_state": "meaning drifted (round trip 0.40)"
+     "failed_note": "translation adds a sentence",
+     "over": "meaning drifted (round trip 0.45)"
     },
     "wrong_script": [],
-    "seconds": 235.5
+    "seconds": 135.8
    },
    "samples": {
     "pay": "Pay {amount} with MTN MoMo",
-    "items": "شما 3 مورد در سبد خرید خود دارید.",
-    "sent": "LynkPOS رسید {number} را به {phone} فرستاد.",
+    "items": "شما 3 مورد در سبد دارید.",
+    "sent": "LynkPOS رسید {number} را به {phone} فرستاده است.",
     "offline": "بدون اینترنت. فروش ذخیره شده و هنگامی که دوباره آنلاین شوید ارسال خواهد شد.",
     "brand": "از اینکه از LynkOmni استفاده کردید سپاسگزارم."
    },
@@ -221,33 +205,32 @@
   "ur": {
    "pos-terminal": {
     "kept_in_english": {
-     "all": "meaning drifted (round trip 0.38)",
+     "empty": "translation adds a sentence",
      "items": "translation repeats itself",
-     "method_cash": "meaning drifted (round trip 0.07)",
-     "method_card": "meaning drifted (round trip 0.34)",
-     "cash_given": "meaning drifted (round trip 0.33)",
-     "menu": "meaning drifted (round trip 0.35)",
-     "count": "meaning drifted (round trip 0.38)",
-     "over": "meaning drifted (round trip 0.14)",
-     "void_reason": "meaning drifted (round trip 0.37)",
-     "r_duplicate": "meaning drifted (round trip 0.21)",
-     "sync": "meaning drifted (round trip 0.38)",
-     "tendered": "meaning drifted (round trip 0.33)",
-     "state_confirmed": "meaning drifted (round trip 0.26)",
-     "sync_state": "meaning drifted (round trip 0.38)",
-     "tear": "meaning drifted (round trip 0.16)"
+     "cash_given": "meaning drifted (round trip 0.36)",
+     "failed_note": "translation adds a sentence",
+     "count": "meaning drifted (round trip 0.40)",
+     "over": "meaning drifted (round trip 0.23)",
+     "void": "meaning drifted (round trip 0.43)",
+     "void_reason": "meaning drifted (round trip 0.43)",
+     "r_duplicate": "meaning drifted (round trip 0.34)",
+     "no_sales": "translation adds a sentence",
+     "tendered": "meaning drifted (round trip 0.36)",
+     "state_confirmed": "meaning drifted (round trip 0.27)",
+     "tear": "meaning drifted (round trip 0.32)"
     },
     "wrong_script": [],
-    "seconds": 266.1
+    "seconds": 132.8
    },
    "samples": {
     "pay": "MTN MoMo کے ساتھ {amount} ادا کریں",
-    "items": "تمہارے پاس تین چیزیں ہیں. آپ کے پاس بسٹ میں 3 چیزیں ہیں.",
+    "items": "You have 3 items in the basket.",
     "sent": "LynkPOS sent receipt {number} to {phone}.",
-    "offline": "انٹرنیٹ نہیں ہے۔ فروخت محفوظ ہے اور جب آپ آن لائن ہوں گے تو بھیجی جائے گی۔",
+    "offline": "انٹرنیٹ نہیں ہے۔ فروخت محفوظ ہے اور جب آپ دوبارہ آن لائن ہوں گے تو بھیجی جائے گی۔",
     "brand": "Thank you for using LynkOmni."
    },
    "samples_kept": {
+    "items": "translation adds a sentence",
     "sent": "translation lost or repeated a protected part ('LynkPOS')",
     "brand": "translation lost or repeated a protected part ('LynkOmni')"
    }
@@ -255,65 +238,67 @@
   "ps": {
    "pos-terminal": {
     "kept_in_english": {
-     "all": "meaning drifted (round trip 0.25)",
-     "home": "meaning drifted (round trip 0.13)",
+     "use_keys": "translation adds a sentence",
+     "wrong_pin": "translation adds a sentence",
+     "home": "meaning drifted (round trip 0.22)",
+     "empty": "translation adds a sentence",
      "total": "meaning drifted (round trip 0.19)",
      "items": "translation repeats itself",
-     "back": "translation repeats itself",
-     "method_cash": "meaning drifted (round trip 0.34)",
-     "method_card": "meaning drifted (round trip 0.34)",
-     "cash_given": "meaning drifted (round trip 0.37)",
-     "over": "meaning drifted (round trip 0.11)",
+     "method_card": "meaning drifted (round trip 0.40)",
+     "failed_note": "translation adds a sentence",
+     "over": "meaning drifted (round trip 0.32)",
+     "void_reason": "meaning drifted (round trip 0.43)",
      "voided": "meaning drifted (round trip 0.22)",
-     "not_tax": "meaning drifted (round trip 0.29)",
-     "tendered": "meaning drifted (round trip 0.37)",
-     "unavailable": "meaning drifted (round trip 0.39)",
-     "ok": "meaning drifted (round trip 0.30)",
-     "st_queued": "meaning drifted (round trip 0.09)"
+     "no_sales": "translation adds a sentence",
+     "not_tax": "meaning drifted (round trip 0.41)",
+     "ok": "meaning drifted (round trip 0.36)"
     },
     "wrong_script": [],
-    "seconds": 284.5
+    "seconds": 157.0
    },
    "samples": {
     "pay": "د MTN MoMo سره {amount} ورکړئ.",
-    "items": "تاسو په سبسټریټ کې 3 توکي لرئ. تاسو په سبسټریټ کې 1 توکی لرئ.",
+    "items": "You have 3 items in the basket.",
     "sent": "LynkPOS sent receipt {number} to {phone}.",
     "offline": "نه انټرنیټ. د پلور ساتل کیږي او به لیږل شي کله چې تاسو بیرته آنلاین یاست.",
     "brand": "د LynkOmni.com کارولو لپاره مننه."
    },
    "samples_kept": {
+    "items": "translation lost or repeated a protected part ('3')",
     "sent": "translation lost or repeated a protected part ('{number}')"
    }
   },
   "ckb": {
    "pos-terminal": {
     "kept_in_english": {
-     "pin_hint": "meaning drifted (round trip 0.40)",
+     "wrong_pin": "translation adds a sentence",
+     "empty": "translation adds a sentence",
+     "charge": "meaning drifted (round trip 0.12)",
      "items": "translation repeats itself",
-     "back": "meaning drifted (round trip 0.45)",
      "method_card": "meaning drifted (round trip 0.45)",
-     "cash_given": "meaning drifted (round trip 0.33)",
-     "not_enough": "meaning drifted (round trip 0.20)",
-     "failed_note": "meaning drifted (round trip 0.30)",
-     "count": "meaning drifted (round trip 0.36)",
+     "cash_given": "meaning drifted (round trip 0.38)",
+     "not_enough": "meaning drifted (round trip 0.24)",
+     "tap_card": "translation adds a sentence",
+     "failed_note": "translation adds a sentence",
+     "count": "meaning drifted (round trip 0.37)",
      "lock": "meaning drifted (round trip 0.35)",
      "matches": "meaning drifted (round trip 0.17)",
      "short": "translation repeats itself",
      "over": "meaning drifted (round trip 0.29)",
-     "void": "meaning drifted (round trip 0.30)",
-     "void_reason": "meaning drifted (round trip 0.29)",
+     "void": "meaning drifted (round trip 0.20)",
+     "void_reason": "meaning drifted (round trip 0.27)",
+     "no_sales": "translation adds a sentence",
      "online": "meaning drifted (round trip 0.23)",
-     "receipt": "meaning drifted (round trip 0.11)",
+     "receipt": "meaning drifted (round trip 0.39)",
      "provisional": "meaning drifted (round trip 0.37)",
-     "tendered": "meaning drifted (round trip 0.33)",
-     "state_confirmed": "meaning drifted (round trip 0.27)",
+     "tendered": "meaning drifted (round trip 0.38)",
      "ok": "translation repeats itself",
      "payment": "meaning drifted (round trip 0.17)",
-     "tear": "meaning drifted (round trip 0.21)",
-     "st_queued": "meaning drifted (round trip 0.12)"
+     "tear": "meaning drifted (round trip 0.24)",
+     "st_queued": "meaning drifted (round trip 0.14)"
     },
     "wrong_script": [],
-    "seconds": 292.7
+    "seconds": 156.4
    },
    "samples": {
     "pay": "Pay {amount} with MTN MoMo",
@@ -333,142 +318,145 @@
    "pos-terminal": {
     "kept_in_english": {
      "all": "meaning drifted (round trip 0.24)",
-     "food": "meaning drifted (round trip 0.37)",
+     "food": "meaning drifted (round trip 0.40)",
+     "empty": "translation adds a sentence",
      "items": "translation repeats itself",
-     "back": "meaning drifted (round trip 0.37)",
-     "method_card": "meaning drifted (round trip 0.29)",
-     "menu": "meaning drifted (round trip 0.39)",
+     "method_card": "translation is much longer than the English (added words)",
+     "failed_note": "translation adds a sentence",
      "short": "translation repeats itself",
-     "over": "meaning drifted (round trip 0.17)",
-     "void_reason": "meaning drifted (round trip 0.37)",
-     "r_price_error": "meaning drifted (round trip 0.44)",
-     "r_duplicate": "meaning drifted (round trip 0.21)",
-     "provisional": "meaning drifted (round trip 0.27)",
+     "over": "meaning drifted (round trip 0.24)",
+     "no_sales": "translation adds a sentence",
+     "provisional": "meaning drifted (round trip 0.44)",
      "ok": "meaning drifted (round trip 0.39)",
-     "tear": "meaning drifted (round trip 0.33)"
+     "payment": "meaning drifted (round trip 0.45)",
+     "tear": "meaning drifted (round trip 0.38)"
     },
     "wrong_script": [],
-    "seconds": 292.6
+    "seconds": 157.9
    },
    "samples": {
     "pay": "{amount} ادا ڪريو MTN MoMo سان.",
-    "items": "توهان وٽ 3 شيون ڪپڙي ۾ آهن. توھان وٽ 2 شيون ڪپڙي ۾ آھن.",
-    "sent": "LynkPOS {number} کي {phone} تي وصولي موڪليو.",
+    "items": "توهان وٽ 3 شيون ڪپڙي ۾ آهن. توھان جي خريداري جي باري ۾ وڌيڪ ڄاڻ حاصل ڪريو",
+    "sent": "LynkPOS {number} کي {phone} تي وصولي موڪلي.",
     "offline": "ڪو انٽرنيٽ ناهي. وڪرو محفوظ ڪيو ويو آهي ۽ جڏهن توهان ٻيهر آن لائن آهيو ته موڪليو ويندو.",
-    "brand": "LynkOmni استعمال ڪرڻ لاءِ توهان جو شکريه. لينڪ اومني."
+    "brand": "Thank you for using LynkOmni."
    },
-   "samples_kept": {}
+   "samples_kept": {
+    "brand": "translation adds a sentence"
+   }
   },
   "ug": {
    "pos-terminal": {
     "kept_in_english": {
      "wrong_pin": "translation repeats itself",
      "empty": "translation repeats itself",
-     "charge": "translation is much longer than the English (added words)",
+     "charge": "meaning drifted (round trip 0.14)",
      "items": "translation is much longer than the English (added words)",
-     "back": "meaning drifted (round trip 0.37)",
      "cash_given": "translation is much longer than the English (added words)",
-     "complete": "meaning drifted (round trip 0.31)",
-     "failed_note": "meaning drifted (round trip 0.41)",
-     "new_sale": "meaning drifted (round trip 0.38)",
-     "over": "meaning drifted (round trip 0.10)",
-     "reprint": "meaning drifted (round trip 0.42)",
+     "complete": "meaning drifted (round trip 0.38)",
+     "wait_card": "translation adds a sentence",
+     "queued_note": "translation adds a sentence",
+     "failed_note": "translation adds a sentence",
+     "count": "meaning drifted (round trip 0.38)",
+     "over": "meaning drifted (round trip 0.20)",
+     "reprint": "meaning drifted (round trip 0.44)",
      "void_reason": "meaning drifted (round trip 0.37)",
-     "voided": "meaning drifted (round trip 0.17)",
+     "voided": "meaning drifted (round trip 0.42)",
+     "no_sales": "translation adds a sentence",
      "online": "meaning drifted (round trip 0.28)",
-     "receipt": "meaning drifted (round trip 0.13)",
-     "provisional": "meaning drifted (round trip 0.31)",
+     "provisional": "meaning drifted (round trip 0.32)",
+     "not_tax": "meaning drifted (round trip 0.26)",
      "tendered": "translation is much longer than the English (added words)",
-     "unavailable": "meaning drifted (round trip 0.30)",
-     "scan_added": "meaning drifted (round trip 0.14)",
+     "unavailable": "meaning drifted (round trip 0.31)",
+     "scan_added": "meaning drifted (round trip 0.16)",
      "scanning": "meaning drifted (round trip 0.30)",
-     "ok": "meaning drifted (round trip 0.12)",
-     "tear": "meaning drifted (round trip 0.32)"
+     "ok": "translation is much longer than the English (added words)",
+     "tear": "meaning drifted (round trip 0.35)"
     },
     "wrong_script": [],
-    "seconds": 295.4
+    "seconds": 162.8
    },
    "samples": {
     "pay": "MTN MoMo ئارقىلىق {amount} پۇل تۆلەڭ.",
     "items": "You have 3 items in the basket.",
     "sent": "LynkPOS {number} نى {phone} غا ئەۋەتتى.",
-    "offline": "ئىنتېرنېت يوق. سېتىۋېلىش ساقلىنىدۇ ۋە سىز قايتا تورغا چىققاندىن كېيىن ئەۋەتىلىدۇ. ئىنتېرنېت بار بولسا، سېتىش خاتىرىلەنگەن بولىدۇ.",
+    "offline": "No internet. The sale is saved and will be sent when you are back online.",
     "brand": "Thank you for using LynkOmni."
    },
    "samples_kept": {
-    "items": "meaning drifted (round trip 0.25)",
+    "items": "meaning drifted (round trip 0.35)",
+    "offline": "translation adds a sentence",
     "brand": "translation lost or repeated a protected part ('LynkOmni')"
    }
   },
   "he": {
    "pos-terminal": {
     "kept_in_english": {
-     "all": "meaning drifted (round trip 0.30)",
+     "all": "meaning drifted (round trip 0.43)",
      "drinks": "translation repeats itself",
+     "empty": "translation adds a sentence",
      "method_card": "meaning drifted (round trip 0.45)",
-     "complete": "meaning drifted (round trip 0.33)",
-     "over": "meaning drifted (round trip 0.18)",
-     "void": "meaning drifted (round trip 0.36)",
-     "void_reason": "meaning drifted (round trip 0.32)",
-     "voided": "meaning drifted (round trip 0.25)",
-     "online": "meaning drifted (round trip 0.23)",
-     "scan_added": "meaning drifted (round trip 0.44)",
-     "st_confirmed": "meaning drifted (round trip 0.22)"
+     "complete": "meaning drifted (round trip 0.39)",
+     "over": "meaning drifted (round trip 0.22)",
+     "void": "meaning drifted (round trip 0.39)",
+     "online": "meaning drifted (round trip 0.28)",
+     "st_confirmed": "meaning drifted (round trip 0.23)"
     },
     "wrong_script": [],
-    "seconds": 281.1
+    "seconds": 161.0
    },
    "samples": {
     "pay": "Pay {amount} with MTN MoMo",
     "items": "יש לך 3 פריטים בסל.",
     "sent": "LynkPOS sent receipt {number} to {phone}.",
-    "offline": "אין אינטרנט. המכירה נשמר והיא תישלח כשתהיה מחדש ברשת. לא יהיה לך אינטרנט.",
-    "brand": "תודה על השימוש ב- LynkOmni. תודה רבה לך."
+    "offline": "No internet. The sale is saved and will be sent when you are back online.",
+    "brand": "תודה רבה על השימוש ב- LynkOmni."
    },
    "samples_kept": {
     "pay": "translation lost or repeated a protected part ('{amount}')",
-    "sent": "translation lost or repeated a protected part ('{number}')"
+    "sent": "translation lost or repeated a protected part ('{number}')",
+    "offline": "translation repeats itself"
    }
   },
   "yi": {
    "pos-terminal": {
     "kept_in_english": {
-     "all": "meaning drifted (round trip 0.00)",
+     "pin_hint": "meaning drifted (round trip 0.42)",
+     "all": "meaning drifted (round trip 0.43)",
      "drinks": "translation repeats itself",
-     "cart": "meaning drifted (round trip 0.21)",
-     "charge": "meaning drifted (round trip 0.14)",
-     "total": "meaning drifted (round trip 0.18)",
-     "items": "meaning drifted (round trip 0.08)",
+     "cart": "meaning drifted (round trip 0.23)",
+     "total": "meaning drifted (round trip 0.31)",
+     "items": "translation is much longer than the English (added words)",
      "back": "translation is much longer than the English (added words)",
-     "method_card": "meaning drifted (round trip 0.32)",
+     "method_cash": "translation is much longer than the English (added words)",
+     "method_card": "meaning drifted (round trip 0.37)",
      "cash_given": "meaning drifted (round trip 0.44)",
-     "change": "translation repeats itself",
-     "printing": "meaning drifted (round trip 0.21)",
-     "sales": "meaning drifted (round trip 0.34)",
-     "count": "meaning drifted (round trip 0.39)",
-     "matches": "meaning drifted (round trip 0.15)",
-     "void": "meaning drifted (round trip 0.28)",
+     "wait_card": "translation adds a sentence",
+     "failed_note": "translation adds a sentence",
+     "printing": "meaning drifted (round trip 0.35)",
+     "count": "meaning drifted (round trip 0.40)",
+     "counted": "meaning drifted (round trip 0.43)",
+     "matches": "meaning drifted (round trip 0.34)",
+     "void": "meaning drifted (round trip 0.35)",
      "voided": "translation is much longer than the English (added words)",
      "online": "meaning drifted (round trip 0.23)",
      "offline": "meaning drifted (round trip 0.17)",
-     "provisional": "meaning drifted (round trip 0.40)",
+     "provisional": "meaning drifted (round trip 0.42)",
      "tendered": "meaning drifted (round trip 0.44)",
-     "tear": "meaning drifted (round trip 0.45)",
      "st_queued": "meaning drifted (round trip 0.13)",
      "st_accepted": "meaning drifted (round trip 0.17)"
     },
     "wrong_script": [],
-    "seconds": 301.7
+    "seconds": 166.8
    },
    "samples": {
-    "pay": "Pay {amount} with MTN MoMo",
-    "items": "דו האסט 3 זאכן אין דעם קרעדיט.",
+    "pay": "צאָלן {amount} מיט MTN MoMo",
+    "items": "דו האסט 3 זאכן אין דעם קארטל.",
     "sent": "LynkPOS sent receipt {number} to {phone}.",
     "offline": "קיין אינטערנעט. דער פאַרקויף איז אויסגעהאַלטן און וועט געשיקט ווערן ווען איר זענט צוריק אונליין.",
-    "brand": "דאַנקען פֿאַר ניצן LynkOmni."
+    "brand": "דאַנקען דיר, אַז דו ניצסט LynkOmni."
    },
    "samples_kept": {
-    "pay": "translation lost or repeated a protected part ('{amount}')",
     "sent": "translation lost or repeated a protected part ('{number}')"
    }
   },
@@ -477,72 +465,77 @@
     "kept_in_english": {
      "use_keys": "translation repeats itself",
      "wrong_pin": "translation repeats itself",
-     "items": "meaning drifted (round trip 0.09)",
+     "items": "meaning drifted (round trip 0.12)",
      "method_card": "translation is much longer than the English (added words)",
-     "change": "translation is much longer than the English (added words)",
+     "change": "translation repeats itself",
      "phone": "translation repeats itself",
      "wait_card": "translation repeats itself",
      "queued_note": "translation repeats itself",
+     "failed_note": "translation adds a sentence",
      "try_again": "translation repeats itself",
-     "sales": "translation repeats itself",
-     "void_reason": "meaning drifted (round trip 0.36)",
-     "voided": "meaning drifted (round trip 0.28)",
-     "sync": "meaning drifted (round trip 0.31)",
-     "online": "translation is much longer than the English (added words)",
-     "sync_state": "meaning drifted (round trip 0.31)"
+     "void_reason": "meaning drifted (round trip 0.42)",
+     "voided": "meaning drifted (round trip 0.29)"
     },
     "wrong_script": [],
-    "seconds": 230.7
+    "seconds": 125.8
    },
    "samples": {
     "pay": "MTN MoMo के साथ {amount} का भुगतान करें",
-    "items": "बास्केट में आपके पास3वस्तुएँ हैं। आपकी सूची में कोई वस्तु नहीं है।",
+    "items": "You have 3 items in the basket.",
     "sent": "LynkPOS ने {number} को {phone} पर रसीद भेजी।",
     "offline": "No internet. The sale is saved and will be sent when you are back online.",
     "brand": "Thank you for using LynkOmni."
    },
    "samples_kept": {
+    "items": "translation adds a sentence",
     "offline": "translation repeats itself",
     "brand": "translation lost or repeated a protected part ('LynkOmni')"
    }
   }
  },
  "failures": [
-  "pos-terminal/fr: 11 of 79 texts kept in English",
-  "pos-terminal/es: 12 of 79 texts kept in English",
-  "pos-terminal/sw: 21 of 79 texts kept in English",
-  "pos-terminal/rw: 43 of 79 texts kept in English",
-  "pos-terminal/ar: 12 of 79 texts kept in English",
-  "pos-terminal/fa: 9 of 79 texts kept in English",
-  "pos-terminal/ur: 15 of 79 texts kept in English",
-  "pos-terminal/ps: 15 of 79 texts kept in English",
-  "pos-terminal/ckb: 23 of 79 texts kept in English",
-  "pos-terminal/sd: 14 of 79 texts kept in English",
-  "pos-terminal/ug: 22 of 79 texts kept in English",
-  "pos-terminal/he: 11 of 79 texts kept in English",
-  "pos-terminal/yi: 23 of 79 texts kept in English",
-  "pos-terminal/hi: 15 of 79 texts kept in English",
+  "pos-terminal/fr: 8 of 79 texts kept in English",
+  "pos-terminal/es: 11 of 79 texts kept in English",
+  "pos-terminal/sw: 18 of 79 texts kept in English",
+  "pos-terminal/rw: 35 of 79 texts kept in English",
+  "pos-terminal/ar: 10 of 79 texts kept in English",
+  "pos-terminal/ur: 13 of 79 texts kept in English",
+  "pos-terminal/ps: 14 of 79 texts kept in English",
+  "pos-terminal/ckb: 25 of 79 texts kept in English",
+  "pos-terminal/sd: 13 of 79 texts kept in English",
+  "pos-terminal/ug: 24 of 79 texts kept in English",
+  "pos-terminal/he: 9 of 79 texts kept in English",
+  "pos-terminal/yi: 24 of 79 texts kept in English",
+  "pos-terminal/hi: 12 of 79 texts kept in English",
+  "sample brand in fr: translation adds a sentence",
   "sample brand in es: translation lost or repeated a protected part ('LynkOmni')",
+  "sample items in sw: translation adds a sentence",
+  "sample offline in sw: translation adds a sentence",
   "sample pay in rw: translation lost or repeated a protected part ('{amount}')",
   "sample sent in rw: translation lost or repeated a protected part ('{number}')",
   "sample brand in rw: translation lost or repeated a protected part ('LynkOmni')",
   "sample pay in ar: translation lost or repeated a protected part ('{amount}')",
-  "sample items in ar: meaning drifted (round trip 0.44)",
+  "sample items in ar: translation lost or repeated a protected part ('3')",
   "sample sent in ar: translation lost or repeated a protected part ('{number}')",
   "sample pay in fa: translation lost or repeated a protected part ('{amount}')",
+  "sample items in ur: translation adds a sentence",
   "sample sent in ur: translation lost or repeated a protected part ('LynkPOS')",
   "sample brand in ur: translation lost or repeated a protected part ('LynkOmni')",
+  "sample items in ps: translation lost or repeated a protected part ('3')",
   "sample sent in ps: translation lost or repeated a protected part ('{number}')",
   "sample pay in ckb: translation lost or repeated a protected part ('{amount}')",
   "sample items in ckb: translation lost or repeated a protected part ('3')",
   "sample sent in ckb: translation lost or repeated a protected part ('{number}')",
   "sample brand in ckb: translation lost or repeated a protected part ('LynkOmni')",
-  "sample items in ug: meaning drifted (round trip 0.25)",
+  "sample brand in sd: translation adds a sentence",
+  "sample items in ug: meaning drifted (round trip 0.35)",
+  "sample offline in ug: translation adds a sentence",
   "sample brand in ug: translation lost or repeated a protected part ('LynkOmni')",
   "sample pay in he: translation lost or repeated a protected part ('{amount}')",
   "sample sent in he: translation lost or repeated a protected part ('{number}')",
-  "sample pay in yi: translation lost or repeated a protected part ('{amount}')",
+  "sample offline in he: translation repeats itself",
   "sample sent in yi: translation lost or repeated a protected part ('{number}')",
+  "sample items in hi: translation adds a sentence",
   "sample offline in hi: translation repeats itself",
   "sample brand in hi: translation lost or repeated a protected part ('LynkOmni')"
  ]
