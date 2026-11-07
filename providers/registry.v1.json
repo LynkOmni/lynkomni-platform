@@ -1099,6 +1099,15 @@
    "why_not_now": "Icons are released from the separate lynkomni-icons repository through its gates and the brand-sync workflow; they are made with build section 4 (LynkAcc, LynkInv, LynkCRM and LynkOps). Until then LynkAcc uses the existing product-ledger icon and LynkInv and LynkCRM are not yet listed in the merchant app's Business tab.",
    "placeholders": [],
    "done_when": "lynkomni-icons releases product-acc, product-inv, product-crm and product-ops, brand-sync vendors them, and every place that lists LynkOmni services shows LynkAcc, LynkInv and LynkCRM with their own icon."
+  },
+  {
+   "id": "agent_services_security_review",
+   "name": "Human security review of every money-moving LynkPOS flow (agent, collection and partner-finance services)",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "The flows are built in build section 3 (master blueprint section 42 I). The review needs a human security reviewer and the finished flows; until it passes, the services stay on practice partners only.",
+   "placeholders": [],
+   "done_when": "A human security reviewer has signed off every agent, collection and partner-finance flow, including never offering cash before the partner confirms and never queuing these requests offline."
   }
  ],
  "user_actions": [
