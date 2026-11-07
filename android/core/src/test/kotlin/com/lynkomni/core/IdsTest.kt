@@ -11,7 +11,7 @@ class IdsTest {
     private val reg = Registry(File(root, "identifier-registry.v1.json").readText())
     private val vectors = JSONObject(File(root, "vectors/identifiers.v1.json").readText())
 
-    @Test fun registryHasTheApprovedTypes() = assertEquals(38, reg.size)
+    @Test fun registryHasTheApprovedTypes() = assertEquals(40, reg.size)
 
     @Test fun vectorsFromThePythonReference() {
         val valid = vectors.getJSONArray("valid"); for (i in 0 until valid.length()) { val v = valid.getJSONObject(i); assertEquals(v.getString("payload"), parseId(reg, v.getString("id")).second) }

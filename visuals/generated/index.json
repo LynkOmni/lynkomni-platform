@@ -261,7 +261,7 @@
     }
    ]
   },
-  "product-dash": {
+  "product-stat": {
    "kind": "illustration",
    "alt": "A dashboard panel with a bar chart and a rising trend line",
    "purpose": "Empty state, feature header and onboarding for LynkDash",
@@ -274,26 +274,26 @@
    "files": [
     {
      "theme": "light",
-     "file": "illustrations/product-dash.light.svg",
-     "sha256": "fa30245e59b96ecce5b2133e81670bb79944b2106f4d32b847686a5315090bbb",
+     "file": "illustrations/product-stat.light.svg",
+     "sha256": "a018bc93951ab5e09c9a784d555c3d7a6ff10b92a9a9cdad1a12f93ce25dccaa",
      "bytes": 1565
     },
     {
      "theme": "dark",
-     "file": "illustrations/product-dash.dark.svg",
-     "sha256": "7f7f19187ce0ffee2fe130638cbb9fecd80b94e2764f81033ed87e13d0428657",
+     "file": "illustrations/product-stat.dark.svg",
+     "sha256": "ada28c171fcd5cc7619a1797516e5cd063d0aee33aacf8daeb9181fdc9c84124",
      "bytes": 1565
     },
     {
      "theme": "contrast-light",
-     "file": "illustrations/product-dash.contrast-light.svg",
-     "sha256": "878b56dd754166c3aefdc933cfbf4d25946982fe5344ecb07e2c4b5dd5c138f3",
+     "file": "illustrations/product-stat.contrast-light.svg",
+     "sha256": "623f93a2d70d243ebac74c6b1e253b73ed58603e6c9bc54ecbdf75c199a66964",
      "bytes": 1565
     },
     {
      "theme": "contrast-dark",
-     "file": "illustrations/product-dash.contrast-dark.svg",
-     "sha256": "33d811f728abe94cbffdbba13f96e1c353a93ef4a8fe90512e31d07decd9035f",
+     "file": "illustrations/product-stat.contrast-dark.svg",
+     "sha256": "656880e75d2b7a5dfaa459df8dd431912ada024007ba883cbb2bf701f8965c80",
      "bytes": 1565
     }
    ]
@@ -1173,26 +1173,26 @@
     {
      "theme": "light",
      "file": "charts/chart-pricing-ladder.light.svg",
-     "sha256": "1b00c5ca17b8ec29cff530c82ef141baf54615108f89accdc605969eafec285d",
-     "bytes": 16524
+     "sha256": "850a3c19fe53da659a0e9a3872448b49c703cad03c5ab205477cc749aa3c8059",
+     "bytes": 16520
     },
     {
      "theme": "dark",
      "file": "charts/chart-pricing-ladder.dark.svg",
-     "sha256": "805104546f424764155c39ce990ed2740da9f8661e794f7718926dd8eeb3538d",
-     "bytes": 16524
+     "sha256": "7c25494cccce086026bac48807cdac1535ffbc3cffb402838fb5ff665bb47cc4",
+     "bytes": 16520
     },
     {
      "theme": "contrast-light",
      "file": "charts/chart-pricing-ladder.contrast-light.svg",
-     "sha256": "4bd14d599e3da90418749711436cfcdbe4af32166f9ab3ca1bf04229e6e4783c",
-     "bytes": 16524
+     "sha256": "526c75df81c0b2a8f29021de5acdb5bac77a4e64e5e8a0f20c17991bd7d8a0a9",
+     "bytes": 16520
     },
     {
      "theme": "contrast-dark",
      "file": "charts/chart-pricing-ladder.contrast-dark.svg",
-     "sha256": "0d6a5a7e486ec6769df57f1965bf8621626cfef97ef68e373c356124040efc12",
-     "bytes": 16524
+     "sha256": "0795c30234cc1625290845d3fdaca0701ba5c6a3530cc7956fd4a07afd084ca8",
+     "bytes": 16520
     }
    ]
   },
@@ -1208,25 +1208,25 @@
     {
      "theme": "light",
      "file": "charts/chart-revenue-path.light.svg",
-     "sha256": "ea8b9ffa188599bbfc4d817f6dd9f314a85aceb6b3330a67e9e0eaf67b797099",
+     "sha256": "a2eacd7419ac8f552d0ecef554179c8f36cf1ba5f4010c8bfc9a6a1b7d6a184a",
      "bytes": 7985
     },
     {
      "theme": "dark",
      "file": "charts/chart-revenue-path.dark.svg",
-     "sha256": "dbd8896d3076b537414ad98cb844dcb7e8745cebea5d9b9a3b80675746c748bb",
+     "sha256": "fd1d3202dac9362f8d6b9bba5ca2591b5c9a1f023c7fb68fbbc87eba12726e3a",
      "bytes": 7985
     },
     {
      "theme": "contrast-light",
      "file": "charts/chart-revenue-path.contrast-light.svg",
-     "sha256": "5f1f07e40d2fb261a7f819e9409cfce514f588445240a115b2c370a8a6ba665b",
+     "sha256": "eebbc23a486298932d408b4f7614afd5afa55b0d9bfa3d230d8dff26fb0cb580",
      "bytes": 7985
     },
     {
      "theme": "contrast-dark",
      "file": "charts/chart-revenue-path.contrast-dark.svg",
-     "sha256": "910bc9cb2c101b6fb7ffbb4985cb5190acdd24b57b0a1e27a863f4949439ed22",
+     "sha256": "7245b8b624dd86de9a8c77af529894692b0885d91f89659c68f9365539244db7",
      "bytes": 7985
     }
    ]

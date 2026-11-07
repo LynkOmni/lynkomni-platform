@@ -14,7 +14,7 @@ class T(unittest.TestCase):
     def rwf(self, usd): return self.p.c.fx.convert(to_minor(usd * .35, "USD"), "USD", "RWF")   # Rwanda price index 0.35
 
     def test_families_names_and_tiers(self):
-        self.assertEqual(len(FAMILIES), 19); self.assertEqual(len(SUITE_MEMBERS), 9); self.assertEqual(OPS_MEMBERS, ["lynkacc", "lynkinv", "lynkcrm"])
+        self.assertEqual(len(FAMILIES), 19); self.assertEqual(len(SUITE_MEMBERS), 9); self.assertEqual(OPS_MEMBERS, ["lynkacc", "lynkinv", "lynkcrm", "lynkstat"])
         self.assertEqual(FAMILIES["lynkmpay"][:2], ("LynkOmni Merchant Payments", "LynkMPay"))
         self.assertEqual(FAMILIES["lynksuite"][2:4], (("free", "plus", "pro", "max"), (0, 29, 75, 195)))
         self.assertEqual(FAMILIES["lynkdev"][2], ("free", "starter", "business", "enterprise"))
@@ -29,20 +29,20 @@ class T(unittest.TestCase):
         for i, tier in enumerate(("plus", "pro", "max"), start=1):
             for bundle in ("lynksuite", "lynkops"):
                 parts, price = bundle_price(bundle, tier), FAMILIES[bundle][3][i]
-                self.assertLess(price, parts, (bundle, tier)); self.assertGreaterEqual(price, parts * 0.65, (bundle, tier))
+                self.assertLess(price, parts, (bundle, tier)); self.assertGreaterEqual(price, parts * 0.6, (bundle, tier))   # LynkSuite kept at $29/$75/$195 when LynkStat joined (2026-11-08): about 37% below
         for k, v in FAMILIES.items():
             self.assertEqual(v[3][0], 0, k)                                           # Free is always free
             self.assertEqual(list(v[3]), sorted(v[3]), k)                             # a higher tier never costs less
 
-    def test_lynkops_replaces_its_three_services_and_suite_replaces_lynkops(self):
-        self.assertEqual([bundle_price("lynkops", t) for t in ("plus", "pro", "max")], [17, 42, 112])
-        self.assertEqual([bundle_price("lynksuite", t) for t in ("plus", "pro", "max")], [41, 106, 278])
+    def test_lynkops_replaces_its_four_services_and_suite_replaces_lynkops(self):
+        self.assertEqual([bundle_price("lynkops", t) for t in ("plus", "pro", "max")], [29, 71, 191])
+        self.assertEqual([bundle_price("lynksuite", t) for t in ("plus", "pro", "max")], [46, 119, 311])
         self.b.set_plan("a", "lynkinv", "plus"); self.assertEqual(self.b.bill("a")["total_minor"], self.rwf(5))      # one service on its own
         self.b.set_plan("a", "lynkops", "plus"); self.b.set_plan("a", "lynkacc", "plus")
         bill = self.b.bill("a"); self.assertEqual([l["family"] for l in bill["lines"]], ["lynkops"]); self.assertEqual(set(bill["credited"]), {"lynkinv", "lynkacc"})
         self.assertEqual(self.b.effective("a")["lynkcrm"], {"tier": "plus", "source": "bundle"})
         self.b.set_plan("a", "lynkacc", "pro")                                                              # one service above the tier: only its difference
-        self.assertEqual(self.b.bill("a")["total_minor"], self.rwf(12) + self.rwf(15 - 6))
+        self.assertEqual(self.b.bill("a")["total_minor"], self.rwf(20) + self.rwf(15 - 6))
         self.b.set_plan("a", "lynksuite", "pro")                                                            # LynkSuite replaces LynkOps and its services
         bill = self.b.bill("a"); self.assertEqual([l["family"] for l in bill["lines"]], ["lynksuite"]); self.assertIn("lynkops", bill["credited"])
         self.assertEqual(self.b.tier("a", "lynkcrm"), "pro")

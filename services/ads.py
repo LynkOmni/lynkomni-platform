@@ -53,7 +53,7 @@ class Ads:
         if screen in BLOCKED_SCREENS:
             return None  # never inside payments, voids, cash counts, refunds, fiscal data or private chats
         s.c.gate(m, "ads")
-        pr, today = s.c.profile(m), today or time.strftime("%Y-%m-%d")
+        pr, today = s.c.profile(m), today or time.strftime("%Y-%m-%d", time.gmtime())
         if s.ad_free(m):
             return None
         prod = s.SURFACE_PRODUCT.get(surface)

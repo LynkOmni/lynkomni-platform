@@ -3,7 +3,7 @@ Rules: one subscription per product per account; the highest tier wins and tiers
 replaces its member products at the matching tier; a product held above a bundle's tier is billed only for the difference;
 LynkSuite also replaces LynkOps; add-on families are never inside LynkSuite; subscriptions never discount transaction fees;
 a subscriber is counted once per paid subscription.
-Prices are standard USD and LOCKED (version 2, 2026-11-07; pinned by tests/test_price_lock.py). They are not market-tested, so
+Prices are standard USD and LOCKED (version 3, 2026-11-08; pinned by tests/test_price_lock.py). They are not market-tested, so
 adjust them later on purpose, together with the blueprint and finance/revenue_model.py. Regional price index comes from the country pack."""
 from core.money import to_minor
 from core.regions import country
@@ -18,7 +18,7 @@ FAMILIES = {
  "lynkcrm":      ("LynkOmni CRM", "LynkCRM", MT, (0, 6, 15, 40), "merchant", True),
  "lynkstock":    ("LynkOmni Inventory and Reordering", "LynkStock", MT, (0, 3, 9, 22), "merchant", True),
  "lynkrewards":  ("LynkOmni Loyalty", "LynkRewards", MT, (0, 3, 9, 22), "merchant", True),
- "lynkdash":     ("LynkOmni Dashboard", "LynkDash", MT, (0, 3, 7, 17), "merchant", True),
+ "lynkstat":     ("LynkOmni Analytics", "LynkStat", MT, (0, 12, 29, 79), "merchant", True),      # took over LynkDash (2026-11-08)
  "lynkgrow":     ("LynkOmni Growth Engine", "LynkGrow", MT, (0, 4, 12, 32), "merchant", True),
  "lynkchat":     ("LynkOmni Chat", "LynkChat", MT, (0, 4, 11, 27), "merchant", True),
  "lynkmpay":     ("LynkOmni Merchant Payments", "LynkMPay", MT, (0, 5, 15, 38), "merchant", False),
@@ -29,11 +29,11 @@ FAMILIES = {
  "lynkdev":      ("LynkOmni Developer Infrastructure", "LynkDev", ("free", "starter", "business", "enterprise"), (0, 500, 2500, 15000), "developer", False),
  "lynkbooking":  ("LynkOmni Bookings Membership", "LynkBooking", MT, (0, 4.99, 9.99, 19.99), "consumer", False),
  "lynkessential": ("LynkOmni Essentials Membership", "LynkEssential", MT, (0, 2.99, 5.99, 11.99), "consumer", False),
- "lynkops":      ("LynkOmni Operations", "LynkOps", MT, (0, 12, 29, 79), "bundle", True),        # a tier: LynkAcc, LynkInv and LynkCRM together
+ "lynkops":      ("LynkOmni Operations", "LynkOps", MT, (0, 20, 49, 129), "bundle", True),       # a tier: LynkAcc, LynkInv, LynkCRM and LynkStat together
  "lynksuite":    ("LynkOmni Suite", "LynkSuite", MT, (0, 29, 75, 195), "suite", False),
 }
 BUNDLE_KINDS = ("bundle", "suite")
-OPS_MEMBERS = ["lynkacc", "lynkinv", "lynkcrm"]                      # the three services inside LynkOps
+OPS_MEMBERS = ["lynkacc", "lynkinv", "lynkcrm", "lynkstat"]          # the four services inside LynkOps (LynkStat joined 2026-11-08)
 SUITE_MEMBERS = [k for k, v in FAMILIES.items() if v[5] and v[4] not in BUNDLE_KINDS]   # the nine products inside LynkSuite
 BUNDLES = {"lynkops": OPS_MEMBERS, "lynksuite": SUITE_MEMBERS + ["lynkops"]}             # LynkSuite also replaces LynkOps
 # A tier of one product that includes a tier of another (never billed twice): LynkPOS Pro and Max include LynkRewards Plus and Pro.
@@ -70,7 +70,15 @@ FEATURES = {
              dict(users=None, pipelines=None, staff_sales=True, api=True)],
  "lynkstock": [dict(products=100), dict(products=None, low_stock_alerts=True, supplier_comparison=True), dict(reorder_drafts=True, batch_expiry=True, multi_location=True), dict(auto_reorder=True, forecasting=True)],
  "lynkrewards": [dict(members=50, points=True), dict(members=500), dict(members=5000, coupons=True, referrals=True), dict(members=None, brand_offers=True, segments=True)],
- "lynkdash": [dict(today_view=True), dict(full_reports=True), dict(multi_branch=True), dict(custom_reports=True, exports=True)],
+ "lynkstat": [dict(businesses=1, viewers=1, imported_records_per_month=1000, outside_sources=1, history_months=3, today_view=True, daily_close=True, score=True, exports=True,
+                   analytics=("business_basics",), reports=("daily_summary",), forecasts=False),
+              dict(viewers=3, imported_records_per_month=25000, outside_sources=3, history_months=24, analytics=("business", "customers"), score_details=True,
+                   reports=("daily_summary", "daily_alert", "weekly"), simple_alerts=True, full_reports=True, setup_fee_cents=9900),
+              dict(businesses=3, viewers=10, imported_records_per_month=250000, outside_sources=10, history_months=60, multi_branch=True, team_comparison=True,
+                   analytics=("business", "customers", "products", "marketing", "money"), custom_dashboards=True, benchmark=True, sell_through=True,
+                   reports=("daily_summary", "daily_alert", "weekly", "monthly", "assist_weekly_insight"), forecasts=True),
+              dict(businesses=None, viewers=None, imported_records_per_month=1000000, outside_sources=None, history_months=None, predictions=True,
+                   custom_ai_reports=True, consolidation=True, white_label=True, api=True, webhooks=True, custom_reports=True, scheduled_reports=True)],   # LynkStat (took over LynkDash); LynkOmni's own data is never counted
  "lynkgrow": [dict(daily_insight=True), dict(weekly_insights=True), dict(full_intelligence=True, marketplace_tools=True, financing_access=True), dict(business_protection=True, priority_financing=True)],
  "lynkchat": [dict(seats=1, customer_messaging=True), dict(seats=1, shared_inbox=True, saved_replies=True), dict(seats=5, team_inbox=True, automation=True), dict(seats=None, api=True, priority_messaging=True)],
  "lynkmpay": [dict(providers=1, proof_packs_per_month=3, proof_fee_cents=500, split_max_legs=0, split_discount_pct=0),
@@ -95,6 +103,40 @@ FEATURES = {
  "lynkessential": [dict(standard_fees=True, ads=True), dict(ads=False, priority_support=True, reminders=True), dict(higher_priority_support=True, scheduled_payments=True, household_members=3),
                     dict(dedicated_support=True, household_members=8, bulk_topups=True)],
 }
+# Second review (owner approved 2026-11-08): limits of the 14 new services, added inside existing families. PLACEHOLDERS until
+# partner contracts and the pilot set them; partner-backed parts stay off per country until the partner is live (providers.ready).
+_NEW = {
+ "lynkpos": [dict(tables=5, kitchen_screens=0, split_bills=True, tips=False, table_qr_ordering=False, time_clock=True, partner_deliveries_per_month=20, own_riders=0, delivery_routing=False),
+             dict(tables=20, kitchen_screens=1, tips=True, partner_deliveries_per_month=None, own_riders=1),
+             dict(tables=None, kitchen_screens=3, table_qr_ordering=True, own_riders=5, delivery_routing=True),
+             dict(central_menu=True, kitchen_screens=None, own_riders=None)],
+ "lynkcheckout": [dict(partner_deliveries_per_month=20, own_riders=0, delivery_routing=False), dict(partner_deliveries_per_month=None, own_riders=1),
+                  dict(own_riders=5, delivery_routing=True), dict(own_riders=None)],
+ "lynkacc": [dict(payroll="time_clock", payroll_staff_included=0, tax_summary=True, tax_return_prepared=False, tax_filing=False),
+             dict(payroll="lite", payroll_staff_included=3, payroll_payouts=True, tax_return_prepared=True),
+             dict(payroll="full", payroll_staff_included=10, payroll_extra_staff_cents=100, tax_filing=True, tax_filing_fee_cents=500),
+             dict(payroll_staff_included=50, tax_filing_fee_cents=0)],
+ "lynkinv": [dict(standing_payments=0, quote_accept_tap=True, esignatures_per_month=0, get_paid_early=False),
+             dict(esignatures_per_month=10, esignature_extra_cents=20, get_paid_early=True),
+             dict(standing_payments=100, esignatures_per_month=50),
+             dict(standing_payments=None, esignatures_per_month=250)],
+ "lynkcrm": [dict(warranties=True, returns="till", repair_tickets=0, extended_warranty_offer=False),
+             dict(returns="full", repair_tickets=20), dict(repair_tickets=None, extended_warranty_offer=True), dict(service_centre=True)],
+ "lynkgrow": [dict(verified_reviews=True, review_replies=False, review_requests=False, promoted_listings=False),
+              dict(review_replies=True, review_requests=True, promoted_listings=True, promoted_listing_from_cents=1000), dict(), dict(promoted_all_outlets=True)],
+ "lynkstock": [dict(buy_together_join=True, buy_together_start=False), dict(), dict(buy_together_start=True), dict(buy_together_branches=True)],
+}
+for _f, _tiers in _NEW.items():
+    for _i, _d in enumerate(_tiers):
+        for _k, _v in _d.items():
+            FEATURES[_f][_i].setdefault(_k, _v)
+# Fees that are not tier limits (second review; assumptions until contracts): shares are paid by partners, never by merchants.
+SERVICE_FEES = {
+    "standing_payment_share_bps": 30, "get_paid_early_referral_bps": 50, "delivery_share_cents": 10, "extended_warranty_referral_cents": 100,
+    "lease_margin_cents_per_month": 100, "registration_referral_cents": 500, "academy_certificate_cents": 1000,
+    "lynkstat_setup_cents": 9900,      # LynkOps Setup includes it, so it is never charged twice
+}
+
 # Support level per tier (review P3, 2026-11-07): every family's Free is help center and chat, Plus priority, Pro higher
 # priority and Max a dedicated manager. A business with several plans gets its highest level; LynkSuite and LynkOps
 # give their members' levels through the bundle.
@@ -102,7 +144,7 @@ SUPPORT_LEVELS = ("help", "priority", "higher", "dedicated")
 for _tiers in FEATURES.values():
     for _i, _d in enumerate(_tiers):
         _d.setdefault("support", SUPPORT_LEVELS[min(_i, len(SUPPORT_LEVELS) - 1)])
-ADS_PRODUCT = {"pos": "lynkpos", "dash": "lynkdash", "stock": "lynkstock"}
+ADS_PRODUCT = {"pos": "lynkpos", "dash": "lynkstat", "stock": "lynkstock"}
 
 class Billing:
     def __init__(s, c, control=None): s.c, s.control = c, control
