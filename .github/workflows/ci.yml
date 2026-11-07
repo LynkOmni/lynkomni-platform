@@ -22,7 +22,7 @@ jobs:
     steps: [{uses: actions/checkout@v5}, {run: PGPASSWORD=ci psql -h localhost -U postgres -v ON_ERROR_STOP=1 -f sql/schema.postgres.sql}]
   names-and-secrets:
     runs-on: ubuntu-24.04
-    steps: [{uses: actions/checkout@v5}, {run: "! grep -rIn --exclude-dir=.git --exclude=naming.py --exclude=test_foundations.py --exclude=ci.yml --exclude=footer.test.ts -e LynkAI -e LynkDocs -e support.lynkomni.com -e docs.lynkomni.com ."}]
+    steps: [{uses: actions/checkout@v5}, {run: "! grep -rInF --exclude-dir=.git --exclude=naming.py --exclude=test_foundations.py --exclude=ci.yml --exclude=footer.test.ts -e LynkAI -e LynkDocs -e support.lynkomni.com -e docs.lynkomni.com ."}]
   visuals:                     # illustrations, charts, store and web images: every need has files, nothing off-brand or placeholder
     runs-on: ubuntu-24.04
     steps: [{uses: actions/checkout@v5}, {uses: actions/setup-python@v6, with: {python-version: "3.12"}}, {run: python visuals/check.py}, {run: python -m unittest tests.test_visuals}]

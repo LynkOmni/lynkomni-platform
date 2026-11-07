@@ -1,0 +1,158 @@
+{
+ "version": 1,
+ "note": "One product catalog (review P1, 2026-11-07). Billing, footer, website menus, app launcher and visuals must agree with it; tests/test_catalog.py checks.",
+ "products": [
+  {
+   "family": "lynkpos",
+   "page": "/pos",
+   "app": "app.lynkomni.com/sell",
+   "menu": "Sell and get paid",
+   "illustration": "product-pos",
+   "footer_id": "pos"
+  },
+  {
+   "family": "lynkmpay",
+   "page": "/mpay",
+   "app": "app.lynkomni.com/business/money",
+   "menu": "Sell and get paid",
+   "illustration": "product-mpay",
+   "footer_id": "mpay"
+  },
+  {
+   "family": "lynkcheckout",
+   "page": "/checkout",
+   "app": "app.lynkomni.com/business/pay-links",
+   "menu": "Sell and get paid",
+   "illustration": "product-checkout",
+   "footer_id": "checkout"
+  },
+  {
+   "family": "lynkrecover",
+   "page": "/recover",
+   "app": "app.lynkomni.com/business/recovery",
+   "menu": "Sell and get paid",
+   "illustration": "product-recover",
+   "footer_id": "recover"
+  },
+  {
+   "family": "lynkvcard",
+   "page": "/vcard",
+   "app": "app.lynkomni.com/business/cards",
+   "menu": "Sell and get paid",
+   "illustration": "product-vcard",
+   "footer_id": "vcard"
+  },
+  {
+   "family": "lynkacc",
+   "page": "/accounting",
+   "app": "app.lynkomni.com/accounting",
+   "menu": "Run your business",
+   "illustration": "product-acc",
+   "footer_id": "acc"
+  },
+  {
+   "family": "lynkinv",
+   "page": "/invoicing",
+   "app": "app.lynkomni.com/invoicing",
+   "menu": "Run your business",
+   "illustration": "product-inv",
+   "footer_id": "inv"
+  },
+  {
+   "family": "lynkcrm",
+   "page": "/crm",
+   "app": "app.lynkomni.com/crm",
+   "menu": "Run your business",
+   "illustration": "product-crm",
+   "footer_id": "crm"
+  },
+  {
+   "family": "lynkops",
+   "page": "/ops",
+   "app": "app.lynkomni.com/business/plans",
+   "menu": "Run your business",
+   "illustration": "product-ops",
+   "footer_id": "ops"
+  },
+  {
+   "family": "lynkstock",
+   "page": "/stock",
+   "app": "app.lynkomni.com/stock",
+   "menu": "Run your business",
+   "illustration": "product-stock",
+   "footer_id": "stock"
+  },
+  {
+   "family": "lynkdash",
+   "page": "/dash",
+   "app": "app.lynkomni.com/business/reports",
+   "menu": "Run your business",
+   "illustration": "product-dash",
+   "footer_id": "dash"
+  },
+  {
+   "family": "lynkrewards",
+   "page": "/rewards",
+   "app": "app.lynkomni.com/business/loyalty",
+   "menu": "Keep and grow customers",
+   "illustration": "product-rewards",
+   "footer_id": "rewards"
+  },
+  {
+   "family": "lynkchat",
+   "page": "/chat",
+   "app": "app.lynkomni.com/chats",
+   "menu": "Keep and grow customers",
+   "illustration": "product-chat",
+   "footer_id": "chat"
+  },
+  {
+   "family": "lynkgrow",
+   "page": "/grow",
+   "app": "app.lynkomni.com/business/growth",
+   "menu": "Keep and grow customers",
+   "illustration": "product-grow",
+   "footer_id": "grow"
+  },
+  {
+   "family": "lynkassist",
+   "page": "/ai",
+   "app": "app.lynkomni.com/business/assistant",
+   "menu": "Keep and grow customers",
+   "illustration": "product-assist",
+   "footer_id": "assist"
+  },
+  {
+   "family": "lynksuite",
+   "page": "/suite",
+   "app": "app.lynkomni.com/business/plans",
+   "menu": "Featured bundle",
+   "illustration": "product-suite",
+   "footer_id": "suite"
+  },
+  {
+   "family": "lynkdev",
+   "page": "https://hub.lynkomni.com",
+   "app": "https://hub.lynkomni.com",
+   "menu": "Developers",
+   "illustration": "product-dev",
+   "footer_id": null
+  },
+  {
+   "family": "lynkbooking",
+   "page": "https://booking.lynkomni.com",
+   "app": "https://booking.lynkomni.com",
+   "menu": "For customers",
+   "illustration": "product-booking",
+   "footer_id": null
+  },
+  {
+   "family": "lynkessential",
+   "page": "https://essential.lynkomni.com",
+   "app": "https://essential.lynkomni.com",
+   "menu": "For customers",
+   "illustration": "product-essential",
+   "footer_id": null
+  }
+ ]
+}

@@ -22,7 +22,7 @@ class Gate(unittest.TestCase):
 
     def test_every_status_state_screen_and_onboarding_step_exists(self):
         have = set(visuals.ids())
-        for need in ("state-offline", "state-error", "state-success", "state-sync-pending", "state-permission", "state-unavailable-region",
+        for need in ("state-offline", "state-error", "state-success", "state-sync-pending", "state-permission", "state-coming-soon",
                      "onboarding-offline", "onboarding-chain", "onboarding-provider", "onboarding-growth", "diagram-sync-states"):
             self.assertIn(need, have)
 

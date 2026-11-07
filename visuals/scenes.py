@@ -254,7 +254,7 @@ def _syncpending(p):
     return wrap(p, b, 1)
 
 
-@scene("unavailable-region")
+@scene("coming-soon")
 def _region(p):
     b = (circ(150, 120, 58, p.surface) + el("ellipse", cx="150", cy="120", rx="24", ry="58", fill="none") + line(92, 120, 208, 120) + path("M100 92h100M100 148h100", stroke_width=2) +
          el("circle", cx="150", cy="120", r="72", fill="none", stroke=p.ink2, stroke_width="2", stroke_dasharray="3 8") +

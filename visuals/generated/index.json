@@ -985,10 +985,10 @@
     }
    ]
   },
-  "state-unavailable-region": {
+  "state-coming-soon": {
    "kind": "illustration",
    "alt": "A globe with a dashed ring and a map pin",
-   "purpose": "Country flag is off (for example cards before an issuer is signed)",
+   "purpose": "Coming to your country soon: a regulated service waits for its licensed partner (for example cards before an issuer is signed)",
    "used_in": [
     "state-screen"
    ],
@@ -996,27 +996,27 @@
    "files": [
     {
      "theme": "light",
-     "file": "illustrations/state-unavailable-region.light.svg",
-     "sha256": "87ac1c83dea12d2e5260df30c57bb89fcadf8fa79c4706a586fe60ca865fa9e4",
-     "bytes": 1226
+     "file": "illustrations/state-coming-soon.light.svg",
+     "sha256": "96205509f3094e9767f351609056a7608124a00a17c7a7ddd669a7c507aa4cf0",
+     "bytes": 1212
     },
     {
      "theme": "dark",
-     "file": "illustrations/state-unavailable-region.dark.svg",
-     "sha256": "15674ebcaf0fe1891446fff16860381e7183309acf0c9a93e06cf684e2065eed",
-     "bytes": 1226
+     "file": "illustrations/state-coming-soon.dark.svg",
+     "sha256": "8c5b4f327fb810a73cb6e99c9ea905635958d1ae8f35c6b0ef34e91e4de69ee0",
+     "bytes": 1212
     },
     {
      "theme": "contrast-light",
-     "file": "illustrations/state-unavailable-region.contrast-light.svg",
-     "sha256": "04a54f08f718c9eab6108291ea2ac7a7527c0d9a3b0a09eb78239fbcb3a7833c",
-     "bytes": 1226
+     "file": "illustrations/state-coming-soon.contrast-light.svg",
+     "sha256": "806995e650cc4b0a934efe2b5a3654a3d7dbd5d16f2a19e6b10a55928c9c03ad",
+     "bytes": 1212
     },
     {
      "theme": "contrast-dark",
-     "file": "illustrations/state-unavailable-region.contrast-dark.svg",
-     "sha256": "469267f6ee632aab1e30288f481305a26755a7ca28be83905f159a63cc003a0f",
-     "bytes": 1226
+     "file": "illustrations/state-coming-soon.contrast-dark.svg",
+     "sha256": "799cfb06433cdbeabfde672e41ccb0139966f042b8ee3ccbac6d2c36bfcf117a",
+     "bytes": 1212
     }
    ]
   },

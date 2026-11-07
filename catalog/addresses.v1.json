@@ -1,0 +1,162 @@
+{
+ "version": 1,
+ "note": "One address map (review A0, 2026-11-07). Every host and website path; redirects are permanent. Website pages may carry /(lang)/ in front; apps, pay and shop pages never change their address by language.",
+ "hosts": [
+  {
+   "host": "lynkomni.com",
+   "purpose": "Website, product pages, help and legal",
+   "indexed": true
+  },
+  {
+   "host": "app.lynkomni.com",
+   "purpose": "LynkOmni Business, the merchant app",
+   "indexed": false
+  },
+  {
+   "host": "account.lynkomni.com",
+   "purpose": "LynkOmni Account, one identity",
+   "indexed": false
+  },
+  {
+   "host": "shop.lynkomni.com",
+   "purpose": "Shop pages",
+   "indexed": true
+  },
+  {
+   "host": "pay.lynkomni.com",
+   "purpose": "Pay links, invoices, quotes and receipt checks",
+   "indexed": false
+  },
+  {
+   "host": "booking.lynkomni.com",
+   "purpose": "LynkOmni Bookings",
+   "indexed": true
+  },
+  {
+   "host": "essential.lynkomni.com",
+   "purpose": "LynkOmni Essentials",
+   "indexed": true
+  },
+  {
+   "host": "exchange.lynkomni.com",
+   "purpose": "LynkOmni Exchange",
+   "indexed": true
+  },
+  {
+   "host": "hub.lynkomni.com",
+   "purpose": "LynkHub developer console",
+   "indexed": true
+  },
+  {
+   "host": "doc.lynkomni.com",
+   "purpose": "LynkDoc developer docs",
+   "indexed": true
+  },
+  {
+   "host": "api.lynkomni.com",
+   "purpose": "LynkAPI, no pages",
+   "indexed": false
+  },
+  {
+   "host": "sdk.lynkomni.com",
+   "purpose": "LynkSDK downloads",
+   "indexed": true
+  },
+  {
+   "host": "status.lynkomni.com",
+   "purpose": "LynkStatus, hosted apart",
+   "indexed": true
+  },
+  {
+   "host": "staff.lynkomni.com",
+   "purpose": "LynkOmni Staff, internal, never linked",
+   "indexed": false
+  },
+  {
+   "host": "mail.lynkomni.com",
+   "purpose": "Email sending only, no pages",
+   "indexed": false
+  },
+  {
+   "host": "news.lynkomni.com",
+   "purpose": "Newsletter sending only, no pages",
+   "indexed": false
+  }
+ ],
+ "website_paths": [
+  "/",
+  "/about",
+  "/about/leadership",
+  "/accounting",
+  "/ads",
+  "/agents",
+  "/ai",
+  "/blog",
+  "/brand",
+  "/careers",
+  "/chat",
+  "/checkout",
+  "/contact",
+  "/crm",
+  "/dash",
+  "/download",
+  "/enterprise",
+  "/enterprise/integrations",
+  "/faq",
+  "/feedback",
+  "/grow",
+  "/how-it-works",
+  "/investors",
+  "/invoicing",
+  "/legal/accessibility",
+  "/legal/compliance",
+  "/legal/cookies",
+  "/legal/privacy",
+  "/legal/terms",
+  "/mpay",
+  "/newsroom",
+  "/ops",
+  "/partners",
+  "/partners/accountants",
+  "/pos",
+  "/pricing",
+  "/recover",
+  "/rewards",
+  "/roadmap",
+  "/safety",
+  "/solutions",
+  "/solutions/merchants",
+  "/solutions/suppliers",
+  "/stock",
+  "/suite",
+  "/suppliers",
+  "/support",
+  "/trust",
+  "/trust/disclosure",
+  "/trust/security",
+  "/vcard"
+ ],
+ "app_paths": [
+  "/sell",
+  "/stock",
+  "/chats",
+  "/business",
+  "/services",
+  "/float",
+  "/clients",
+  "/accounting",
+  "/invoicing",
+  "/crm"
+ ],
+ "redirects": {
+  "/terms": "/legal/terms",
+  "/privacy": "/legal/privacy",
+  "/cookies": "/legal/cookies",
+  "/compliance": "/legal/compliance",
+  "/accessibility": "/legal/accessibility",
+  "/acc": "/accounting",
+  "/inv": "/invoicing",
+  "/ledger": "/accounting"
+ },
+ "receipt_check": "https://pay.lynkomni.com/r/{LORCP}"
+}

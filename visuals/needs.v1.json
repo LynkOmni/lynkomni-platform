@@ -534,9 +534,9 @@
    "budget_kb": 12
   },
   {
-   "id": "state-unavailable-region",
+   "id": "state-coming-soon",
    "kind": "illustration",
-   "scene": "unavailable-region",
+   "scene": "coming-soon",
    "accent": "brand",
    "themes": [
     "light",
@@ -545,7 +545,7 @@
     "contrast-dark"
    ],
    "alt": "A globe with a dashed ring and a map pin",
-   "purpose": "Country flag is off (for example cards before an issuer is signed)",
+   "purpose": "Coming to your country soon: a regulated service waits for its licensed partner (for example cards before an issuer is signed)",
    "used_in": [
     "state-screen"
    ],

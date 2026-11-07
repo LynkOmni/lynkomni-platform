@@ -208,3 +208,66 @@ def summary():
         "range": {st: (_r(Decimal(g[st]) / 2), _r(Decimal(g[st]) * Decimal("1.5"))) for st in STAGES},
         "groups": groups, "path": p, "cumulative": sum(v["year"] for v in p.values()),
     }
+
+
+# ---- Whole-ecosystem total (review part 11, agreed 2026-11-07) -------------------------------------------------
+# Streams the blueprint agreed but the model above did not count, plus the costs and discounts that go with them.
+# EVERY rate below is an ASSUMPTION, labelled as such in the blueprint, until partner contracts or pilot data replace it.
+ECO_ASSUMPTIONS = {
+    "improvements_global": 24_825,                         # section 28 lines a month at global scale, scaled by merchants
+    "agent_share": {"stage1": Decimal("0.05"), "stage2": Decimal("0.10"), "stage3": Decimal("0.15")},   # merchants running agent points
+    "agent_services_per_day": 10, "agent_share_per_service": Decimal("0.02"),   # cash in and out, transfers, remittances,
+                                                                                 # government, collections; airtime and bills are already in utilities
+    "referral_rate": Decimal("0.005"), "referral_fee": 8,  # merchants a month referring one accepted partner product
+    "ops_paid_share": Decimal("0.042"), "ops_new_monthly": Decimal("0.03"), "ops_setup_take": Decimal("0.30"), "ops_setup_fee": 99,
+    "hardware_rate": Decimal("0.002"), "hardware_margin": 15,
+    "yearly_share": Decimal("0.30"),                       # payers on yearly billing at 10 months' price
+    "partner_cost_share": Decimal("0.03"),                 # accountant share (2%) plus refer-and-earn credits (1%) of subscriptions
+}
+ECO_ROWS = ("current_model", "improvements", "agent_commissions", "partner_referrals", "ops_setup", "hardware", "yearly_billing", "partner_costs")
+
+
+def ecosystem(stage):
+    """Monthly USD per stream for one stage (whole dollars); the sum is the whole-ecosystem total."""
+    a, m, t = ECO_ASSUMPTIONS, MERCHANTS[stage], totals()[stage]
+    subs = Decimal(t["subscriptions"])
+    rows = {
+        "current_model": Decimal(t["grand"]),
+        "improvements": Decimal(a["improvements_global"]) * m / MERCHANTS["stage3"],
+        "agent_commissions": m * a["agent_share"][stage] * a["agent_services_per_day"] * 30 * a["agent_share_per_service"],
+        "partner_referrals": m * a["referral_rate"] * a["referral_fee"],
+        "ops_setup": m * a["ops_paid_share"] * CONVERSION[stage] * a["ops_new_monthly"] * a["ops_setup_take"] * a["ops_setup_fee"],
+        "hardware": m * a["hardware_rate"] * a["hardware_margin"],
+        "yearly_billing": -subs * a["yearly_share"] * 2 / 12,
+        "partner_costs": -subs * a["partner_cost_share"],
+    }
+    return {k: _r(v) for k, v in rows.items()}
+
+
+def ecosystem_totals():
+    """Per stage: the total a day, a month and a year (a day = a month x 12 / 365), and per merchant a month."""
+    out = {}
+    for st in STAGES:
+        month = sum(ecosystem(st).values())
+        out[st] = {"day": _r(Decimal(month) * 12 / 365), "month": month, "year": month * 12,
+                   "per_merchant": (Decimal(month) / MERCHANTS[st]).quantize(Decimal("0.01"))}
+    return out
+
+
+def ecosystem_path():
+    """Years 1 to 7: the section 14 G path scaled by each stage's whole-ecosystem total (log-interpolated like _uplift)."""
+    base, eco = path(), ecosystem_totals()
+    ratio = [(MERCHANTS[st], Decimal(eco[st]["month"]) / Decimal(totals()[st]["grand"])) for st in STAGES]
+    def up(n):
+        if n <= ratio[0][0]: return ratio[0][1]
+        for (m0, r0), (m1, r1) in zip(ratio, ratio[1:]):
+            if m0 <= n <= m1:
+                w = Decimal(str((math.log(n) - math.log(m0)) / (math.log(m1) - math.log(m0))))
+                return r0 + (r1 - r0) * w
+        raise ValueError("merchant count outside the modelled range")
+    out, prev = {}, Decimal(0)
+    for y in range(1, 8):
+        end = Decimal(base[y]["end"]) * up(base[y]["merchants"])
+        out[y] = {"merchants": base[y]["merchants"], "end_month": _r(end), "end_day": _r(end * 12 / 365), "year": _r((prev + end) / 2 * 12)}
+        prev = end
+    return out

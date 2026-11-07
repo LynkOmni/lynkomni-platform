@@ -17,7 +17,11 @@ class T(unittest.TestCase):
         for a in ("ann", "bob", "lea"): self.s.set_available(a, False)
         q1 = self.conv(); self.assertEqual((self.s.get(q1)["owner_kind"], self.s.get(q1)["state"]), ("queue", "queued"))     # a monitored queue
         self.p.billing.set_plan("vip", "lynkchat", "max"); self.p.register("vip", "RW")
-        q2 = self.conv(account="vip"); self.assertEqual(self.s.get(q2)["priority"], 2); self.assertEqual(self.s.queue("payments")[0], q2)   # priority plans first
+        q2 = self.conv(account="vip"); self.assertEqual(self.s.get(q2)["priority"], 3); self.assertEqual(self.s.queue("payments")[0], q2)   # priority plans first
+        self.p.billing.set_plan("shop", "lynkpos", "max"); self.p.register("shop", "RW")
+        self.assertEqual(self.p.billing.support_level("shop"), "dedicated")                                        # LynkPOS Max: dedicated manager
+        self.p.billing.set_plan("suite", "lynksuite", "plus"); self.p.register("suite", "RW")
+        self.assertEqual(self.s.priority_for("suite"), 1)                                                         # LynkSuite Plus: priority through its members
 
     def test_transfer_moves_responsibility_not_the_conversation(self):
         case = self.s.open_case(self.cust, "payments"); c = self.s.open_conversation(self.cust, "payments", case_id=case); owner = self.s.get(c)["owner"]
