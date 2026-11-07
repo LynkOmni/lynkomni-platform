@@ -91,7 +91,10 @@ FEATURES = {
                   dict(powered_by="removable", branded_links=True, recurring=True),
                   dict(powered_by="removable", api=True, custom_domain=True)],   # invoicing moved to LynkInv (2026-11-07); powered_by: the small "Powered by LynkOmni" wordmark is required on Free and removable on paid tiers (DECIDED 2026-11-06: Plus is the first tier that removes it; pinned by tests/test_brand.py)
  "lynkops": [dict(contains="free"), dict(contains="plus"), dict(contains="pro"), dict(contains="max")],   # a tier: its members carry the features
- "lynkassist": [dict(ai_questions=10), dict(ai_questions=100), dict(ai_questions=500), dict(ai_questions=None)],
+ "lynkassist": [dict(ai_questions=10, custom_automations=0, drafts=True, explain=True, weekly_insight=False, automation_builder=False),
+                dict(ai_questions=100, custom_automations=3, weekly_insight=True),
+                dict(ai_questions=500, custom_automations=20, automation_builder=True, chat_suggested_replies=True),
+                dict(ai_questions=None, custom_automations=None, custom_ai_reports=True)],   # LynkAssist everywhere (blueprint 45); built-in automations come with each family
  "lynkvcard": [dict(active_cards=1, new_cards_per_month=6, monthly_cap_usd=500, users=1, single_use_only=True, manual_freeze=True, card_expiry_hours=24, fx_fee_pct=1.5),
                dict(active_cards=3, new_cards_per_month=20, monthly_cap_usd=3000, users=3, single_use_only=False, team_cards=True, supplier_auto_cards=True, category_locks=True, card_expiry_hours=90 * 24, fx_fee_pct=1.0),
                dict(active_cards=15, new_cards_per_month=60, monthly_cap_usd=20000, users=10, pan_masking_roles=True, approvals=True, time_locked=True, supplier_locked=True, shift_locked=True, recurring=True, card_expiry_hours=1095 * 24, fx_fee_pct=0.5, cashback_bps=5),

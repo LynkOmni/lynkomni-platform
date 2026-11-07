@@ -17,7 +17,7 @@ MESSAGING_REVENUE = {"stage1": 338, "stage2": 16920, "stage3": 376000}    # mess
 TAX_RATE = Decimal("0.25")
 NEW_SERVICE_COST_SHARE = Decimal("0.20")                                  # running costs of the second review's additions
 ROWS = ("people", "office_tools", "marketing", "payment_collection", "legal", "hosting", "message_delivery", "sms", "security",
-        "ai", "insurance", "email", "translation_gpu", "new_service_costs")
+        "ai", "assist_everywhere", "insurance", "email", "translation_gpu", "new_service_costs")
 
 
 def _r(x):
@@ -39,6 +39,7 @@ def expenses(stage):
         "sms": (m * Decimal("1.5") + c) * Decimal("0.5") * Decimal("0.03"),
         "security": Decimal(SECURITY[stage]),
         "ai": m * Decimal("0.058") * rm.CONVERSION[stage] * Decimal("0.5") + m * Decimal("0.02"),
+        "assist_everywhere": m * Decimal("0.03") + c * Decimal("0.005"),   # LynkAssist in support, chat, drafts and summaries (blueprint 45)
         "insurance": Decimal(INSURANCE[stage]),
         "email": (m * 30 + c * 5) / 1000 * Decimal("0.30"),
         "translation_gpu": GPUS[stage] * Decimal("0.0001867") * 3600 * 730,

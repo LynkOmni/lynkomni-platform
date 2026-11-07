@@ -153,6 +153,9 @@
   "/analytics/sell-through",
   "/business",
   "/business/academy",
+  "/business/assistant",
+  "/business/automations",
+  "/business/automations/history",
   "/business/devices",
   "/business/growth/promotions",
   "/business/settings/data-sharing",
@@ -191,8 +194,9 @@
  },
  "receipt_check": "https://pay.lynkomni.com/r/{LORCP}",
  "account_paths": [
-  "/payslips",
+  "/notifications",
   "/payments",
+  "/payslips",
   "/start"
  ],
  "pay_paths": [
@@ -223,5 +227,13 @@
    ".co"
   ],
   "never_reissued": true
- }
+ },
+ "staff_paths": [
+  "/partner-hub",
+  "/automations",
+  "/control-center",
+  "/support",
+  "/safety",
+  "/ads-review"
+ ]
 }
