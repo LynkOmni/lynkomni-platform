@@ -49,7 +49,7 @@ const txt = (lang: string, id: string, key: string, href: string): Item => ({ id
 export function columns(lang: string): Column[] {
   return [
     { id: "products", title: t(lang, "products"), items: [brand("suite", "LynkSuite", "/suite"), brand("pos", "LynkPOS", "/pos"), brand("stock", "LynkStock", "/stock"), brand("acc", "LynkAcc", "/accounting"), brand("inv", "LynkInv", "/invoicing"), brand("crm", "LynkCRM", "/crm"), brand("ops", "LynkOps", "/ops"),
-      brand("dash", "LynkDash", "/dash"), brand("grow", "LynkGrow", "/grow"), brand("rewards", "LynkRewards", "/rewards"), brand("chat", "LynkChat", "/chat"), brand("mpay", "LynkMPay", "/mpay"),
+      brand("stat", "LynkStat", "/analytics"), brand("grow", "LynkGrow", "/grow"), brand("rewards", "LynkRewards", "/rewards"), brand("chat", "LynkChat", "/chat"), brand("mpay", "LynkMPay", "/mpay"),
       brand("checkout", "LynkCheckout", "/checkout"), brand("recover", "LynkRecover", "/recover"), brand("vcard", "LynkVCard", "/vcard"), brand("assist", "LynkAssist", "/ai"), txt(lang, "pricing", "pricing", "/pricing")] },
     { id: "solutions", title: t(lang, "solutions"), items: [txt(lang, "merchants", "merchants", "/solutions/merchants"), txt(lang, "suppliers", "suppliers", "/solutions/suppliers"),
       txt(lang, "travel", "travel", "https://booking.lynkomni.com"), txt(lang, "bills", "bills", "https://essential.lynkomni.com"), txt(lang, "currency", "currency", "https://exchange.lynkomni.com"),

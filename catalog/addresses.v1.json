@@ -73,6 +73,11 @@
    "indexed": false
   },
   {
+   "host": "partners.lynkomni.com",
+   "purpose": "Partner door of the Partner Hub: each partner's own onboarding, keys, scorecard and statements",
+   "indexed": false
+  },
+  {
    "host": "mail.lynkomni.com",
    "purpose": "Email sending only, no pages",
    "indexed": false
@@ -87,10 +92,12 @@
   "/",
   "/about",
   "/about/leadership",
+  "/academy",
   "/accounting",
   "/ads",
   "/agents",
   "/ai",
+  "/analytics",
   "/blog",
   "/brand",
   "/careers",
@@ -98,13 +105,14 @@
   "/checkout",
   "/contact",
   "/crm",
-  "/dash",
   "/download",
   "/enterprise",
   "/enterprise/integrations",
   "/faq",
   "/feedback",
   "/grow",
+  "/hardware",
+  "/hardware/lease",
   "/how-it-works",
   "/investors",
   "/invoicing",
@@ -127,6 +135,7 @@
   "/solutions",
   "/solutions/merchants",
   "/solutions/suppliers",
+  "/start",
   "/stock",
   "/suite",
   "/suppliers",
@@ -137,16 +146,36 @@
   "/vcard"
  ],
  "app_paths": [
-  "/sell",
-  "/stock",
-  "/chats",
-  "/business",
-  "/services",
-  "/float",
-  "/clients",
   "/accounting",
+  "/accounting/payroll",
+  "/accounting/tax/returns",
+  "/analytics",
+  "/analytics/sell-through",
+  "/business",
+  "/business/academy",
+  "/business/devices",
+  "/business/growth/promotions",
+  "/business/settings/data-sharing",
+  "/business/settings/tips",
+  "/chats",
+  "/clients",
+  "/crm",
+  "/crm/repairs",
+  "/crm/returns",
+  "/crm/reviews",
+  "/crm/warranties",
+  "/deliveries",
+  "/float",
   "/invoicing",
-  "/crm"
+  "/invoicing/get-paid-early",
+  "/invoicing/recurring",
+  "/sell",
+  "/sell/kitchen",
+  "/sell/shifts",
+  "/sell/tables",
+  "/services",
+  "/stock",
+  "/stock/marketplace/buy-together"
  ],
  "redirects": {
   "/terms": "/legal/terms",
@@ -156,7 +185,43 @@
   "/accessibility": "/legal/accessibility",
   "/acc": "/accounting",
   "/inv": "/invoicing",
-  "/ledger": "/accounting"
+  "/ledger": "/accounting",
+  "/dash": "/analytics",
+  "/stat": "/analytics"
  },
- "receipt_check": "https://pay.lynkomni.com/r/{LORCP}"
+ "receipt_check": "https://pay.lynkomni.com/r/{LORCP}",
+ "account_paths": [
+  "/payslips",
+  "/payments",
+  "/start"
+ ],
+ "pay_paths": [
+  "/r/{LORCP}",
+  "/quotes/{LOQUO}",
+  "/standing/{LOSUB}"
+ ],
+ "shop_paths": [
+  "/{username}",
+  "/{username}/tables/{table}",
+  "/{username}/reviews",
+  "/track/{LODLV}"
+ ],
+ "username_rule": {
+  "format": "instagram",
+  "min": 3,
+  "max": 30,
+  "chars": "a-z 0-9 . _",
+  "no_leading_or_trailing_dot": true,
+  "no_double_dot": true,
+  "case_insensitive": true,
+  "reserved_endings": [
+   ".com",
+   ".net",
+   ".org",
+   ".app",
+   ".io",
+   ".co"
+  ],
+  "never_reissued": true
+ }
 }

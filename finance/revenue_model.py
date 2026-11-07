@@ -22,7 +22,7 @@ CONSUMERS = {"stage1": 15_000, "stage2": 500_000, "stage3": 10_000_000}
 SUITE = (8, 3, Decimal("0.5"))                      # of all merchants
 PRODUCTS = {                                        # of all merchants (not already on LynkSuite)
     "lynkpos": (8, 3, Decimal("0.5")), "lynkacc": (5, 2, Decimal("0.3")), "lynkstock": (5, 2, Decimal("0.3")),
-    "lynkdash": (4, Decimal("1.5"), Decimal("0.2")), "lynkrewards": (3, 1, Decimal("0.2")),
+    "lynkstat": (4, Decimal("1.5"), Decimal("0.2")), "lynkrewards": (3, 1, Decimal("0.2")),
     "lynkgrow": (3, Decimal("1.5"), Decimal("0.3")), "lynkchat": (5, 2, Decimal("0.3")),
     # New on 2026-11-07 (ASSUMPTIONS, no pilot data): LynkAcc keeps LynkLedger's share; LynkInv, LynkCRM and the LynkOps tier below.
     "lynkinv": (4, Decimal("1.5"), Decimal("0.2")), "lynkcrm": (3, 1, Decimal("0.2")), "lynkops": (3, 1, Decimal("0.2")),
@@ -37,7 +37,7 @@ CONNECT = (Decimal("1.0"), Decimal("0.3"), Decimal("0.08"))
 # LynkVCard subscribers at Stage 3 (Plus / Pro / Max), read back from the blueprint's card table at index 0.55
 VCARD_STAGE3 = (28_000, 14_000, 3_000)
 
-ORDER = ["lynksuite", "lynkpos", "lynkacc", "lynkinv", "lynkcrm", "lynkops", "lynkstock", "lynkdash", "lynkrewards", "lynkgrow", "lynkchat",
+ORDER = ["lynksuite", "lynkpos", "lynkacc", "lynkinv", "lynkcrm", "lynkops", "lynkstock", "lynkstat", "lynkrewards", "lynkgrow", "lynkchat",
          "lynkmpay", "lynkrecover", "lynkcheckout", "lynkassist", "travel", "connect"]
 
 
@@ -101,7 +101,7 @@ def vcard_subscriptions(price_table=None):
 OLD_PRICES = {
     "lynksuite": (12, 35, 89), "lynkpos": (3, 10, 25), "lynkacc": (2, 6, 15), "lynkstock": (2, 6, 15),
     "lynkinv": (0, 0, 0), "lynkcrm": (0, 0, 0), "lynkops": (0, 0, 0),             # not in the original blueprint table: their whole line is new
-    "lynkrewards": (2, 6, 15), "lynkdash": (2, 5, 12), "lynkgrow": (3, 9, 25), "lynkchat": (3, 8, 20),
+    "lynkrewards": (2, 6, 15), "lynkstat": (2, 5, 12), "lynkgrow": (3, 9, 25), "lynkchat": (3, 8, 20),
     "lynkmpay": (4, 12, 30), "lynkrecover": (2, 5, 10), "lynkcheckout": (2, 5, 12), "lynkassist": (5, 12, 29),
     "lynkvcard": (3, 9, 25),
 }
@@ -223,8 +223,14 @@ ECO_ASSUMPTIONS = {
     "hardware_rate": Decimal("0.002"), "hardware_margin": 15,
     "yearly_share": Decimal("0.30"),                       # payers on yearly billing at 10 months' price
     "partner_cost_share": Decimal("0.03"),                 # accountant share (2%) plus refer-and-earn credits (1%) of subscriptions
+    # Second review (2026-11-08), ASSUMPTIONS:
+    "exchange_users": Decimal("0.01"), "exchange_volume": 200, "exchange_share": Decimal("0.005"),   # currency exchange through a licensed partner
+    "new_services_global": 4_710_000,                      # the 14 new services N1 to N14 at global scale (blueprint 44 H), scaled by merchants
+    "stat_new_monthly": Decimal("0.03"), "stat_setup_take": Decimal("0.30"), "stat_setup_fee": 99,   # LynkStat Setup (LynkOps Setup includes it)
 }
-ECO_ROWS = ("current_model", "improvements", "agent_commissions", "partner_referrals", "ops_setup", "hardware", "yearly_billing", "partner_costs")
+ECO_ROWS = ("current_model", "improvements", "agent_commissions", "partner_referrals", "ops_setup", "hardware", "exchange_currency", "new_services",
+            "stat_setup", "yearly_billing", "partner_costs")
+V2_PRICES = {"lynkstat": (3, 7, 17), "lynkops": (12, 29, 79)}     # LynkDash and three-service LynkOps before price lock version 3
 
 
 def ecosystem(stage):
@@ -238,10 +244,21 @@ def ecosystem(stage):
         "partner_referrals": m * a["referral_rate"] * a["referral_fee"],
         "ops_setup": m * a["ops_paid_share"] * CONVERSION[stage] * a["ops_new_monthly"] * a["ops_setup_take"] * a["ops_setup_fee"],
         "hardware": m * a["hardware_rate"] * a["hardware_margin"],
+        "exchange_currency": CONSUMERS[stage] * a["exchange_users"] * a["exchange_volume"] * a["exchange_share"],
+        "new_services": Decimal(a["new_services_global"]) * m / MERCHANTS["stage3"],
+        "stat_setup": sum(subscribers(stage)["lynkstat"]) * a["stat_new_monthly"] * a["stat_setup_take"] * a["stat_setup_fee"],
         "yearly_billing": -subs * a["yearly_share"] * 2 / 12,
         "partner_costs": -subs * a["partner_cost_share"],
     }
     return {k: _r(v) for k, v in rows.items()}
+
+
+def second_review_uplift(stage):
+    """Monthly revenue the second review added (2026-11-08): LynkStat and LynkOps at price lock version 3, LynkStat Setup and the new services."""
+    old, new = prices(V2_PRICES), prices()
+    lift = sum(line(f, stage, new) - line(f, stage, old) for f in V2_PRICES)
+    rows = ecosystem(stage)
+    return lift + rows["stat_setup"] + rows["new_services"]
 
 
 def ecosystem_totals():

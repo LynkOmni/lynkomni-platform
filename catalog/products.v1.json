@@ -83,12 +83,12 @@
    "footer_id": "stock"
   },
   {
-   "family": "lynkdash",
-   "page": "/dash",
-   "app": "app.lynkomni.com/business/reports",
+   "family": "lynkstat",
+   "page": "/analytics",
+   "app": "app.lynkomni.com/analytics",
    "menu": "Run your business",
-   "illustration": "product-dash",
-   "footer_id": "dash"
+   "illustration": "product-stat",
+   "footer_id": "stat"
   },
   {
    "family": "lynkrewards",

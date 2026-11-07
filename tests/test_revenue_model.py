@@ -5,7 +5,7 @@ from finance import revenue_model as R
 # The blueprint's printed figures for table 1 before the price update, Stage 1 / 2 / 3 per month.
 BLUEPRINT_OLD = {
     "lynksuite": (1547, 88380, 2700500), "lynkpos": (419, 23940, 731500), "lynkacc": (167, 9540, 291500),
-    "lynkstock": (167, 9540, 291500), "lynkdash": (113, 6444, 196900), "lynkrewards": (94, 5400, 165000),
+    "lynkstock": (167, 9540, 291500), "lynkstat": (113, 6444, 196900), "lynkrewards": (94, 5400, 165000),
     "lynkgrow": (189, 10800, 330000), "lynkchat": (233, 13320, 407000), "lynkmpay": (96, 13680, 501600),
     "lynkrecover": (35, 4950, 181500), "lynkcheckout": (53, 7560, 277200), "lynkassist": (294, 16812, 513700),
     "travel": (221, 12581, 384423), "connect": (181, 10344, 316041), "messaging": (338, 16920, 376000),
@@ -25,12 +25,12 @@ class TestRevenueModel(unittest.TestCase):
         self.assertEqual(R.vcard_subscriptions(R.prices({"lynkvcard": R.OLD_PRICES["lynkvcard"]})), [46200, 69300, 41250, 156750])
 
     def test_new_prices_give_these_totals(self):
-        # Price version 2 (2026-11-07). The adoption mix, including the new LynkInv, LynkCRM and LynkOps shares, is an ASSUMPTION.
+        # Price version 3 (2026-11-08: LynkStat took over LynkDash; LynkOps has four services). The adoption mix is an ASSUMPTION.
         t = R.totals()
-        self.assertEqual(t["stage1"]["grand"], 13032)
-        self.assertEqual(t["stage2"]["grand"], 1094418)
-        self.assertEqual(t["stage3"]["grand"], 39038813)
-        self.assertEqual(t["stage3"]["subscriptions"], 16094763)
+        self.assertEqual(t["stage1"]["grand"], 13885)
+        self.assertEqual(t["stage2"]["grand"], 1143162)
+        self.assertEqual(t["stage3"]["grand"], 40528213)
+        self.assertEqual(t["stage3"]["subscriptions"], 17584163)
         self.assertEqual(t["stage3"]["vcard"], 713938)
 
     def test_suite_line_at_stage_3(self):
@@ -46,10 +46,10 @@ class TestRevenueModel(unittest.TestCase):
 
     def test_summary_numbers(self):
         s = R.summary()
-        self.assertEqual(s["yearly"]["stage3"], 468465756)
-        self.assertEqual(s["range"]["stage3"], (19519407, 58558220))
-        self.assertEqual(str(s["per_merchant"]["stage3"]), "19.52")
-        self.assertEqual(s["cumulative"], 529908042)
+        self.assertEqual(s["yearly"]["stage3"], 486338556)
+        self.assertEqual(s["range"]["stage3"], (20264107, 60792320))
+        self.assertEqual(str(s["per_merchant"]["stage3"]), "20.26")
+        self.assertEqual(s["cumulative"], 550712530)
 
     def test_new_section_28_lines_do_not_depend_on_subscription_prices(self):
         # LynkProof, LynkSplit, LynkAudit exports, bandwidth and seats are per-use fees, so the blueprint's $24,825 a month
@@ -63,8 +63,8 @@ class EcosystemTotal(unittest.TestCase):
     def test_totals_per_day_month_year(self):
         t = R.ecosystem_totals()
         self.assertEqual({st: (t[st]["day"], t[st]["month"], t[st]["year"]) for st in R.STAGES},
-                         {"stage1": (445, 13537, 162444), "stage2": (36956, 1124073, 13488876), "stage3": (1308194, 39790901, 477490812)})
-        self.assertEqual(str(t["stage3"]["per_merchant"]), "19.90")
+                         {"stage1": (711, 21629, 259548), "stage2": (46487, 1413989, 16967868), "stage3": (1514720, 46072723, 552872676)})
+        self.assertEqual(str(t["stage3"]["per_merchant"]), "23.04")
     def test_streams_add_up_and_costs_are_negative(self):
         for st in R.STAGES:
             rows = R.ecosystem(st)
@@ -74,7 +74,26 @@ class EcosystemTotal(unittest.TestCase):
         self.assertEqual(R.ecosystem("stage3")["agent_commissions"], 1_800_000)
     def test_seven_year_path(self):
         p = R.ecosystem_path()
-        self.assertEqual(p[7]["year"], 345529656); self.assertEqual(sum(v["year"] for v in p.values()), 540927556)
+        self.assertEqual(p[7]["year"], 402548072); self.assertEqual(sum(v["year"] for v in p.values()), 637057996)
+
+    def test_second_review_rows(self):
+        e = R.ecosystem("stage3")
+        self.assertEqual((e["exchange_currency"], e["new_services"], e["stat_setup"]), (100000, 4710000, 101574))
+        self.assertEqual(R.table()["lynkstat"]["stage3"], 1180300)
+
+
+class ExpensesAndProfit(unittest.TestCase):
+    """Expenses and net profit (blueprint 44 M, 2026-11-08); every figure is an assumption, pinned so a change is seen."""
+    def test_profit_per_stage(self):
+        from finance import expense_model as X
+        got = {st: (X.profit(st)["expenses"]["month"], X.profit(st)["net"]["month"], X.profit(st)["net"]["year"]) for st in R.STAGES}
+        self.assertEqual(got, {"stage1": (36707, -15078, -180936), "stage2": (1177281, 177531, 2130372), "stage3": (20064627, 19506072, 234072864)})
+    def test_loss_pays_no_tax_and_rows_add_up(self):
+        from finance import expense_model as X
+        self.assertEqual(X.profit("stage1")["tax"], 0)
+        for st in R.STAGES:
+            self.assertEqual(tuple(X.expenses(st)), X.ROWS)
+            p = X.profit(st); self.assertEqual(p["revenue"]["month"] - p["expenses"]["month"] - p["tax"], p["net"]["month"])
 
 
 if __name__ == "__main__":

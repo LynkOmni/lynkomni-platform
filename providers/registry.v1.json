@@ -1093,7 +1093,7 @@
   },
   {
    "id": "ops_product_icons",
-   "name": "Product icons for LynkAcc, LynkInv, LynkCRM and LynkOps in lynkomni-icons",
+   "name": "Product icons for LynkAcc, LynkInv, LynkCRM and LynkOps and LynkStat in lynkomni-icons",
    "blocks": [],
    "status": "pending",
    "why_not_now": "Icons are released from the separate lynkomni-icons repository through its gates and the brand-sync workflow; they are made with build section 4 (LynkAcc, LynkInv, LynkCRM and LynkOps). Until then LynkAcc uses the existing product-ledger icon and LynkInv and LynkCRM are not yet listed in the merchant app's Business tab.",

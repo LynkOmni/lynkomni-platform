@@ -1,281 +1,295 @@
 {
-  "$id": "lynkomni/identifier-registry.v1",
-  "namespace": "LO",
-  "payload_digits": 12,
-  "check_digit": "luhn-last-digit",
-  "rule": "LO + CODE + '-' + XXXX-XXXX-XXXX. The 12th digit is a Luhn check digit. Payloads are random, never sequential. A code is never reused for another purpose.",
-  "not_public_ids": [
-    "chat messages",
-    "device events",
-    "internal audit rows",
-    "background jobs"
-  ],
-  "types": [
-    {
-      "code": "ID",
-      "prefix": "LOID-",
-      "name": "Personal identity",
-      "purpose": "Permanent personal identity",
-      "origin": "specification"
-    },
-    {
-      "code": "OID",
-      "prefix": "LOOID-",
-      "name": "Organization identity",
-      "purpose": "Permanent organizational identity",
-      "origin": "specification"
-    },
-    {
-      "code": "BK",
-      "prefix": "LOBK-",
-      "name": "Booking",
-      "purpose": "Reservation or booking",
-      "origin": "specification"
-    },
-    {
-      "code": "TKT",
-      "prefix": "LOTKT-",
-      "name": "Ticket",
-      "purpose": "Individual ticket or entitlement",
-      "origin": "specification"
-    },
-    {
-      "code": "ORD",
-      "prefix": "LOORD-",
-      "name": "Order",
-      "purpose": "Purchase or checkout order; a POS sale is an order",
-      "origin": "specification"
-    },
-    {
-      "code": "TXN",
-      "prefix": "LOTXN-",
-      "name": "Payment transaction",
-      "purpose": "Payment transaction or attempt",
-      "origin": "specification"
-    },
-    {
-      "code": "INV",
-      "prefix": "LOINV-",
-      "name": "Invoice",
-      "purpose": "Invoice",
-      "origin": "specification"
-    },
-    {
-      "code": "RCP",
-      "prefix": "LORCP-",
-      "name": "Receipt",
-      "purpose": "Receipt",
-      "origin": "specification"
-    },
-    {
-      "code": "SUB",
-      "prefix": "LOSUB-",
-      "name": "Subscription",
-      "purpose": "Subscription",
-      "origin": "specification"
-    },
-    {
-      "code": "APT",
-      "prefix": "LOAPT-",
-      "name": "Appointment",
-      "purpose": "Appointment",
-      "origin": "specification"
-    },
-    {
-      "code": "CASE",
-      "prefix": "LOCASE-",
-      "name": "Support case",
-      "purpose": "Customer support case",
-      "origin": "specification"
-    },
-    {
-      "code": "RFD",
-      "prefix": "LORFD-",
-      "name": "Refund",
-      "purpose": "Refund",
-      "origin": "specification"
-    },
-    {
-      "code": "CAN",
-      "prefix": "LOCAN-",
-      "name": "Cancellation",
-      "purpose": "Cancellation record",
-      "origin": "specification"
-    },
-    {
-      "code": "VCH",
-      "prefix": "LOVCH-",
-      "name": "Voucher",
-      "purpose": "Voucher",
-      "origin": "specification"
-    },
-    {
-      "code": "CUP",
-      "prefix": "LOCUP-",
-      "name": "Coupon",
-      "purpose": "Coupon",
-      "origin": "specification"
-    },
-    {
-      "code": "SHP",
-      "prefix": "LOSHP-",
-      "name": "Shipment",
-      "purpose": "Shipment",
-      "origin": "specification"
-    },
-    {
-      "code": "DLV",
-      "prefix": "LODLV-",
-      "name": "Delivery",
-      "purpose": "Delivery",
-      "origin": "specification"
-    },
-    {
-      "code": "NTF",
-      "prefix": "LONTF-",
-      "name": "Notification",
-      "purpose": "Notification record (only where a public reference is needed)",
-      "origin": "specification"
-    },
-    {
-      "code": "VER",
-      "prefix": "LOVER-",
-      "name": "Verification case",
-      "purpose": "Identity or business verification case",
-      "origin": "specification"
-    },
-    {
-      "code": "MEM",
-      "prefix": "LOMEM-",
-      "name": "Organization membership",
-      "purpose": "Membership relationship",
-      "origin": "specification"
-    },
-    {
-      "code": "APP",
-      "prefix": "LOAPP-",
-      "name": "API application",
-      "purpose": "Registered API application",
-      "origin": "specification"
-    },
-    {
-      "code": "CRD",
-      "prefix": "LOCRD-",
-      "name": "Credential record",
-      "purpose": "Reference to a credential record, never the credential itself",
-      "origin": "specification"
-    },
-    {
-      "code": "DEV",
-      "prefix": "LODEV-",
-      "name": "Device",
-      "purpose": "Enrolled LynkDVBox device",
-      "origin": "approved addition"
-    },
-    {
-      "code": "BRN",
-      "prefix": "LOBRN-",
-      "name": "Branch",
-      "purpose": "Branch of an organization",
-      "origin": "approved addition"
-    },
-    {
-      "code": "CNV",
-      "prefix": "LOCNV-",
-      "name": "Conversation",
-      "purpose": "Chat conversation, business or support route",
-      "origin": "approved addition"
-    },
-    {
-      "code": "QUO",
-      "prefix": "LOQUO-",
-      "name": "Quote",
-      "purpose": "Structured quote",
-      "origin": "approved addition"
-    },
-    {
-      "code": "CNS",
-      "prefix": "LOCNS-",
-      "name": "Consent record",
-      "purpose": "Consent, support-access grant or data-sharing grant",
-      "origin": "approved addition"
-    },
-    {
-      "code": "RPT",
-      "prefix": "LORPT-",
-      "name": "Safety report",
-      "purpose": "Abuse, harmful-behavior or policy report",
-      "origin": "approved addition"
-    },
-    {
-      "code": "FBK",
-      "prefix": "LOFBK-",
-      "name": "Feedback item",
-      "purpose": "Product feedback",
-      "origin": "approved addition"
-    },
-    {
-      "code": "INC",
-      "prefix": "LOINC-",
-      "name": "Status incident",
-      "purpose": "Service status incident",
-      "origin": "approved addition"
-    },
-    {
-      "code": "VUL",
-      "prefix": "LOVUL-",
-      "name": "Vulnerability report",
-      "purpose": "Private security vulnerability disclosure",
-      "origin": "approved addition"
-    },
-    {
-      "code": "CST",
-      "prefix": "LOCST-",
-      "name": "Customer reference",
-      "purpose": "Merchant-scoped pseudonymous customer reference, never the LynkID",
-      "origin": "approved addition"
-    },
-    {
-      "code": "VC",
-      "prefix": "LOVC-",
-      "name": "Virtual card",
-      "purpose": "LynkVCard virtual card",
-      "origin": "approved addition"
-    },
-    {
-      "code": "PC",
-      "prefix": "LOPC-",
-      "name": "Physical companion card",
-      "purpose": "Physical companion card. Linked to its virtual card in the database, never by composing IDs",
-      "origin": "approved addition"
-    },
-    {
-      "code": "SC",
-      "prefix": "LOSC-",
-      "name": "Supplier score",
-      "purpose": "Aggregated supplier score from settled card spend",
-      "origin": "approved addition"
-    },
-    {
-      "code": "PRF",
-      "prefix": "LOPRF-",
-      "name": "Evidence pack",
-      "purpose": "Evidence pack for one payment or dispute (LynkProof)",
-      "origin": "approved addition"
-    },
-    {
-      "code": "AUD",
-      "prefix": "LOAUD-",
-      "name": "Audit export",
-      "purpose": "One signed audit export (LynkAudit)",
-      "origin": "approved addition"
-    },
-    {
-      "code": "SPLT",
-      "prefix": "LOSPLT-",
-      "name": "Payout split",
-      "purpose": "One payout split instruction (LynkSplit)",
-      "origin": "approved addition"
-    }
-  ]
+ "$id": "lynkomni/identifier-registry.v1",
+ "namespace": "LO",
+ "payload_digits": 12,
+ "check_digit": "luhn-last-digit",
+ "rule": "LO + CODE + '-' + XXXX-XXXX-XXXX. The 12th digit is a Luhn check digit. Payloads are random, never sequential. A code is never reused for another purpose.",
+ "not_public_ids": [
+  "chat messages",
+  "device events",
+  "internal audit rows",
+  "background jobs"
+ ],
+ "types": [
+  {
+   "code": "ID",
+   "prefix": "LOID-",
+   "name": "Personal identity",
+   "purpose": "Permanent personal identity",
+   "origin": "specification"
+  },
+  {
+   "code": "OID",
+   "prefix": "LOOID-",
+   "name": "Organization identity",
+   "purpose": "Permanent organizational identity",
+   "origin": "specification"
+  },
+  {
+   "code": "BK",
+   "prefix": "LOBK-",
+   "name": "Booking",
+   "purpose": "Reservation or booking",
+   "origin": "specification"
+  },
+  {
+   "code": "TKT",
+   "prefix": "LOTKT-",
+   "name": "Ticket",
+   "purpose": "Individual ticket or entitlement",
+   "origin": "specification"
+  },
+  {
+   "code": "ORD",
+   "prefix": "LOORD-",
+   "name": "Order",
+   "purpose": "Purchase or checkout order; a POS sale is an order",
+   "origin": "specification"
+  },
+  {
+   "code": "TXN",
+   "prefix": "LOTXN-",
+   "name": "Payment transaction",
+   "purpose": "Payment transaction or attempt",
+   "origin": "specification"
+  },
+  {
+   "code": "INV",
+   "prefix": "LOINV-",
+   "name": "Invoice",
+   "purpose": "Invoice",
+   "origin": "specification"
+  },
+  {
+   "code": "RCP",
+   "prefix": "LORCP-",
+   "name": "Receipt",
+   "purpose": "Receipt",
+   "origin": "specification"
+  },
+  {
+   "code": "SUB",
+   "prefix": "LOSUB-",
+   "name": "Subscription",
+   "purpose": "Subscription",
+   "origin": "specification"
+  },
+  {
+   "code": "APT",
+   "prefix": "LOAPT-",
+   "name": "Appointment",
+   "purpose": "Appointment",
+   "origin": "specification"
+  },
+  {
+   "code": "CASE",
+   "prefix": "LOCASE-",
+   "name": "Support case",
+   "purpose": "Customer support case",
+   "origin": "specification"
+  },
+  {
+   "code": "RFD",
+   "prefix": "LORFD-",
+   "name": "Refund",
+   "purpose": "Refund",
+   "origin": "specification"
+  },
+  {
+   "code": "CAN",
+   "prefix": "LOCAN-",
+   "name": "Cancellation",
+   "purpose": "Cancellation record",
+   "origin": "specification"
+  },
+  {
+   "code": "VCH",
+   "prefix": "LOVCH-",
+   "name": "Voucher",
+   "purpose": "Voucher",
+   "origin": "specification"
+  },
+  {
+   "code": "CUP",
+   "prefix": "LOCUP-",
+   "name": "Coupon",
+   "purpose": "Coupon",
+   "origin": "specification"
+  },
+  {
+   "code": "SHP",
+   "prefix": "LOSHP-",
+   "name": "Shipment",
+   "purpose": "Shipment",
+   "origin": "specification"
+  },
+  {
+   "code": "DLV",
+   "prefix": "LODLV-",
+   "name": "Delivery",
+   "purpose": "Delivery",
+   "origin": "specification"
+  },
+  {
+   "code": "NTF",
+   "prefix": "LONTF-",
+   "name": "Notification",
+   "purpose": "Notification record (only where a public reference is needed)",
+   "origin": "specification"
+  },
+  {
+   "code": "VER",
+   "prefix": "LOVER-",
+   "name": "Verification case",
+   "purpose": "Identity or business verification case",
+   "origin": "specification"
+  },
+  {
+   "code": "MEM",
+   "prefix": "LOMEM-",
+   "name": "Organization membership",
+   "purpose": "Membership relationship",
+   "origin": "specification"
+  },
+  {
+   "code": "APP",
+   "prefix": "LOAPP-",
+   "name": "API application",
+   "purpose": "Registered API application",
+   "origin": "specification"
+  },
+  {
+   "code": "CRD",
+   "prefix": "LOCRD-",
+   "name": "Credential record",
+   "purpose": "Reference to a credential record, never the credential itself",
+   "origin": "specification"
+  },
+  {
+   "code": "DEV",
+   "prefix": "LODEV-",
+   "name": "Device",
+   "purpose": "Enrolled LynkDVBox device",
+   "origin": "approved addition"
+  },
+  {
+   "code": "BRN",
+   "prefix": "LOBRN-",
+   "name": "Branch",
+   "purpose": "Branch of an organization",
+   "origin": "approved addition"
+  },
+  {
+   "code": "CNV",
+   "prefix": "LOCNV-",
+   "name": "Conversation",
+   "purpose": "Chat conversation, business or support route",
+   "origin": "approved addition"
+  },
+  {
+   "code": "QUO",
+   "prefix": "LOQUO-",
+   "name": "Quote",
+   "purpose": "Structured quote",
+   "origin": "approved addition"
+  },
+  {
+   "code": "CNS",
+   "prefix": "LOCNS-",
+   "name": "Consent record",
+   "purpose": "Consent, support-access grant or data-sharing grant",
+   "origin": "approved addition"
+  },
+  {
+   "code": "RPT",
+   "prefix": "LORPT-",
+   "name": "Safety report",
+   "purpose": "Abuse, harmful-behavior or policy report",
+   "origin": "approved addition"
+  },
+  {
+   "code": "FBK",
+   "prefix": "LOFBK-",
+   "name": "Feedback item",
+   "purpose": "Product feedback",
+   "origin": "approved addition"
+  },
+  {
+   "code": "INC",
+   "prefix": "LOINC-",
+   "name": "Status incident",
+   "purpose": "Service status incident",
+   "origin": "approved addition"
+  },
+  {
+   "code": "VUL",
+   "prefix": "LOVUL-",
+   "name": "Vulnerability report",
+   "purpose": "Private security vulnerability disclosure",
+   "origin": "approved addition"
+  },
+  {
+   "code": "CST",
+   "prefix": "LOCST-",
+   "name": "Customer reference",
+   "purpose": "Merchant-scoped pseudonymous customer reference, never the LynkID",
+   "origin": "approved addition"
+  },
+  {
+   "code": "VC",
+   "prefix": "LOVC-",
+   "name": "Virtual card",
+   "purpose": "LynkVCard virtual card",
+   "origin": "approved addition"
+  },
+  {
+   "code": "PC",
+   "prefix": "LOPC-",
+   "name": "Physical companion card",
+   "purpose": "Physical companion card. Linked to its virtual card in the database, never by composing IDs",
+   "origin": "approved addition"
+  },
+  {
+   "code": "SC",
+   "prefix": "LOSC-",
+   "name": "Supplier score",
+   "purpose": "Aggregated supplier score from settled card spend",
+   "origin": "approved addition"
+  },
+  {
+   "code": "PRF",
+   "prefix": "LOPRF-",
+   "name": "Evidence pack",
+   "purpose": "Evidence pack for one payment or dispute (LynkProof)",
+   "origin": "approved addition"
+  },
+  {
+   "code": "AUD",
+   "prefix": "LOAUD-",
+   "name": "Audit export",
+   "purpose": "One signed audit export (LynkAudit)",
+   "origin": "approved addition"
+  },
+  {
+   "code": "SPLT",
+   "prefix": "LOSPLT-",
+   "name": "Payout split",
+   "purpose": "One payout split instruction (LynkSplit)",
+   "origin": "approved addition"
+  },
+  {
+   "code": "DOC",
+   "prefix": "LODOC-",
+   "name": "Business document",
+   "purpose": "Payslip, tax return, commission statement, analytics report or saved dashboard, certificate, registration application (owner approved 2026-11-08)",
+   "origin": "approved addition"
+  },
+  {
+   "code": "REV",
+   "prefix": "LOREV-",
+   "name": "Verified review",
+   "purpose": "A customer review tied to a real receipt (LORCP-), one per receipt (owner approved 2026-11-08)",
+   "origin": "approved addition"
+  }
+ ]
 }

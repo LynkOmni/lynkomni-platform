@@ -32,7 +32,7 @@ class DevPlatform:
         if scope not in app["scopes"] or not s.rights.has_consent(merchant, f"app:{app['app_id']}:{scope}"):
             raise PermissionError("the merchant has not approved this scope for this app")
         limit = s.billing.entitlement(app["developer"], "lynkdev").get("api_calls_per_day")
-        day = day or time.strftime("%Y-%m-%d")
+        day = day or time.strftime("%Y-%m-%d", time.gmtime())   # event times are UTC, so the day is too
         used = sum(1 for e in s.c.store.of(COMPANY, "api.call") if e["payload"]["app_id"] == app["app_id"] and e["ts"][:10] == day)
         if limit is not None and used >= limit:
             raise RateLimited("daily quota reached for this LynkDev plan")
