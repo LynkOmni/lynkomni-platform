@@ -95,6 +95,13 @@ FEATURES = {
  "lynkessential": [dict(standard_fees=True, ads=True), dict(ads=False, priority_support=True, reminders=True), dict(higher_priority_support=True, scheduled_payments=True, household_members=3),
                     dict(dedicated_support=True, household_members=8, bulk_topups=True)],
 }
+# Support level per tier (review P3, 2026-11-07): every family's Free is help center and chat, Plus priority, Pro higher
+# priority and Max a dedicated manager. A business with several plans gets its highest level; LynkSuite and LynkOps
+# give their members' levels through the bundle.
+SUPPORT_LEVELS = ("help", "priority", "higher", "dedicated")
+for _tiers in FEATURES.values():
+    for _i, _d in enumerate(_tiers):
+        _d.setdefault("support", SUPPORT_LEVELS[min(_i, len(SUPPORT_LEVELS) - 1)])
 ADS_PRODUCT = {"pos": "lynkpos", "dash": "lynkdash", "stock": "lynkstock"}
 
 class Billing:
@@ -144,6 +151,9 @@ class Billing:
         for d in FEATURES[family][: s._idx(family, s.tier(account, family)) + 1]:
             ent.update(d)
         return ent
+    def support_level(s, account):
+        """The highest support level across every plan the account has (help, priority, higher, dedicated)."""
+        return max((s.entitlement(account, f)["support"] for f, v in FAMILIES.items() if v[4] not in BUNDLE_KINDS), key=SUPPORT_LEVELS.index)
     def ads_enabled(s, account, product):  # ads show only while the surface's product is on its Free tier
         return s.tier(account, ADS_PRODUCT[product]) == "free"
     def _money(s, account, family, usd):

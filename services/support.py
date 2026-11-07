@@ -15,8 +15,7 @@ DEPT = {"payments": "payments", "account": "account", "billing": "billing", "tec
 FORBIDDEN_ACTIONS = {"reset_credentials", "change_pin", "change_email", "change_phone", "complete_recovery", "disable_2fa", "reveal_recovery_code", "change_payout"}
 ALLOWED_ACTIONS = {"view_case", "view_status", "request_diagnostics", "open_recovery_ticket", "add_note"}
 ASSISTANT_TOOLS = {"search_faq", "summarize", "propose", "handoff"}        # read and propose only: the assistant never changes an account
-PRIORITY_KEYS = ("priority_support", "higher_priority_support", "priority_messaging", "dedicated_support", "priority_handling")
-PRIORITY_FAMILIES = ("lynkbooking", "lynkessential", "lynkchat", "lynkmpay", "lynkrecover", "lynkvcard")
+# Queue priority follows the support level of the account's plans (billing.SUPPORT_LEVELS): help 0, priority 1, higher 2, dedicated 3.
 STATUS_HOSTING = "independent: separate infrastructure and domain, served from a static export so it works when the platform is down"
 def _now(n): return time.time() if n is None else n
 
@@ -39,9 +38,10 @@ class Support:
     def _agent(s, a): return s.db.execute("select role,dept,languages,available from agents where agent=?", (a,)).fetchone()
     def can(s, agent, perm): r = s._agent(agent); return bool(r) and perm in STAFF_PERMS[r[0]]
     def priority_for(s, account):
-        """Plans with priority support (Plus and above on the consumer memberships, higher LynkChat and payment tiers) go first."""
+        """Higher support levels go first; every family counts, so a LynkPOS Max or LynkSuite Max business reaches its dedicated manager."""
         if not (s.billing and account): return 0
-        return 2 if any(s.billing.entitlement(account, f).get(k) for f in PRIORITY_FAMILIES for k in PRIORITY_KEYS) else 0
+        from services.billing import SUPPORT_LEVELS
+        return SUPPORT_LEVELS.index(s.billing.support_level(account))
     def _load(s, agent): return s.db.execute("select count(*) from convs where owner_kind='agent' and owner=? and state not in ('resolved','closed')", (agent,)).fetchone()[0]
     def _pick(s, dept, language, exclude=()):
         rows = [(s._load(a), a) for a, _, d, langs, av in s.db.execute("select agent,role,dept,languages,available from agents") if av and d == dept and a not in exclude and language in json.loads(langs)] \

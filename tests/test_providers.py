@@ -81,7 +81,7 @@ class Ledger(unittest.TestCase):
     def test_off_service_shows_the_not_available_state(self):
         import visuals
         w = providers.when_off("vcard")
-        self.assertEqual(w["visual"], "state-unavailable-region")
+        self.assertEqual(w["visual"], "state-coming-soon")
         self.assertTrue(visuals.get(w["visual"]).alt)
         self.assertIn("Coming to your country soon", w["message"])
 

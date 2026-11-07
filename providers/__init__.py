@@ -7,7 +7,7 @@ sub-service in services/catalog.py, so a new sub-service can never be left out.
 
     providers.ready("vcard", "RW")        -> (False, ["vcard_issuer: sandbox, needs signed issuer agreement ..."])
     providers.go_live_report("payments", "KE")
-    providers.when_off("vcard")           -> {"visual": "state-unavailable-region", "message": "Coming to your country soon."}
+    providers.when_off("vcard")           -> {"visual": "state-coming-soon", "message": "Coming to your country soon."}
 Registry file: providers/registry.v1.json. Gate: python3 providers/check.py."""
 import json, os
 
@@ -15,7 +15,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 REGISTRY = os.path.join(HERE, "registry.v1.json")
 OK_STATUS = ("contract_signed", "live")
-OFF = {"visual": "state-unavailable-region", "message": "Coming to your country soon."}
+OFF = {"visual": "state-coming-soon", "message": "Coming to your country soon."}
 _CACHE = {}
 
 

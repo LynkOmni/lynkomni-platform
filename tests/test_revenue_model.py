@@ -57,5 +57,25 @@ class TestRevenueModel(unittest.TestCase):
         self.assertEqual(2300 + 6900 + 7050 + 3575 + 5000, 24825)
 
 
+
+class EcosystemTotal(unittest.TestCase):
+    """Whole-ecosystem total (review part 11, 2026-11-07); every new rate is an assumption, pinned so a change is seen."""
+    def test_totals_per_day_month_year(self):
+        t = R.ecosystem_totals()
+        self.assertEqual({st: (t[st]["day"], t[st]["month"], t[st]["year"]) for st in R.STAGES},
+                         {"stage1": (445, 13537, 162444), "stage2": (36956, 1124073, 13488876), "stage3": (1308194, 39790901, 477490812)})
+        self.assertEqual(str(t["stage3"]["per_merchant"]), "19.90")
+    def test_streams_add_up_and_costs_are_negative(self):
+        for st in R.STAGES:
+            rows = R.ecosystem(st)
+            self.assertEqual(tuple(rows), R.ECO_ROWS)
+            self.assertEqual(sum(rows.values()), R.ecosystem_totals()[st]["month"])
+            self.assertLess(rows["yearly_billing"], 0); self.assertLess(rows["partner_costs"], 0)
+        self.assertEqual(R.ecosystem("stage3")["agent_commissions"], 1_800_000)
+    def test_seven_year_path(self):
+        p = R.ecosystem_path()
+        self.assertEqual(p[7]["year"], 345529656); self.assertEqual(sum(v["year"] for v in p.values()), 540927556)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,223 @@
+{
+ "version": 1,
+ "note": "One contacts map (review M0, agreed 2026-11-07; addresses agreed in blueprint section 39). Every address shown on a page or used by the system is here; tests/test_catalog.py checks.",
+ "inbound": [
+  {
+   "address": "support@lynkomni.com",
+   "shown_on": "/support",
+   "lands_in": "support case (LOCASE-)",
+   "reply": "case number in the writer's language"
+  },
+  {
+   "address": "billing@lynkomni.com",
+   "shown_on": "account.lynkomni.com/billing",
+   "lands_in": "support case, billing queue",
+   "reply": "case number"
+  },
+  {
+   "address": "security@lynkomni.com",
+   "shown_on": "/trust/disclosure",
+   "lands_in": "security queue",
+   "reply": "case number, a person within 2 working days"
+  },
+  {
+   "address": "privacy@lynkomni.com",
+   "shown_on": "/legal/privacy",
+   "lands_in": "privacy queue",
+   "reply": "case number"
+  },
+  {
+   "address": "safety@lynkomni.com",
+   "shown_on": "/safety",
+   "lands_in": "safety and verification cases",
+   "reply": "case number"
+  },
+  {
+   "address": "accessibility@lynkomni.com",
+   "shown_on": "/legal/accessibility",
+   "lands_in": "support case, accessibility",
+   "reply": "case number"
+  },
+  {
+   "address": "partners@lynkomni.com",
+   "shown_on": "/partners",
+   "lands_in": "partner programs",
+   "reply": "person"
+  },
+  {
+   "address": "agents@lynkomni.com",
+   "shown_on": "/agents",
+   "lands_in": "agent network",
+   "reply": "person"
+  },
+  {
+   "address": "accountants@lynkomni.com",
+   "shown_on": "/partners/accountants",
+   "lands_in": "accountant partner program",
+   "reply": "person"
+  },
+  {
+   "address": "developers@lynkomni.com",
+   "shown_on": "https://hub.lynkomni.com",
+   "lands_in": "developer support",
+   "reply": "case number"
+  },
+  {
+   "address": "enterprise@lynkomni.com",
+   "shown_on": "/enterprise",
+   "lands_in": "sales",
+   "reply": "person"
+  },
+  {
+   "address": "ads@lynkomni.com",
+   "shown_on": "/ads",
+   "lands_in": "ads review",
+   "reply": "person"
+  },
+  {
+   "address": "suppliers@lynkomni.com",
+   "shown_on": "/suppliers",
+   "lands_in": "supplier marketplace",
+   "reply": "person"
+  },
+  {
+   "address": "hello@lynkomni.com",
+   "shown_on": "/contact",
+   "lands_in": "general, sorted into the queues",
+   "reply": "person"
+  },
+  {
+   "address": "hello@cruxomni.com",
+   "shown_on": "/about",
+   "lands_in": "company",
+   "reply": "person"
+  },
+  {
+   "address": "press@cruxomni.com",
+   "shown_on": "/newsroom",
+   "lands_in": "company",
+   "reply": "person"
+  },
+  {
+   "address": "careers@cruxomni.com",
+   "shown_on": "/careers",
+   "lands_in": "company",
+   "reply": "person"
+  },
+  {
+   "address": "investors@cruxomni.com",
+   "shown_on": "/investors",
+   "lands_in": "company",
+   "reply": "person"
+  },
+  {
+   "address": "legal@cruxomni.com",
+   "shown_on": "/legal/terms",
+   "lands_in": "company",
+   "reply": "person"
+  },
+  {
+   "address": "compliance@cruxomni.com",
+   "shown_on": "/legal/compliance",
+   "lands_in": "company",
+   "reply": "person"
+  },
+  {
+   "address": "finance@cruxomni.com",
+   "shown_on": null,
+   "lands_in": "company",
+   "reply": "person"
+  },
+  {
+   "address": "accounts@cruxomni.com",
+   "shown_on": null,
+   "lands_in": "contact on every outside account",
+   "reply": "person"
+  },
+  {
+   "address": "postmaster@lynkomni.com",
+   "shown_on": null,
+   "lands_in": "admin, reports read automatically",
+   "reply": "none"
+  },
+  {
+   "address": "abuse@lynkomni.com",
+   "shown_on": null,
+   "lands_in": "admin, reports read automatically",
+   "reply": "none"
+  },
+  {
+   "address": "dmarc-reports@lynkomni.com",
+   "shown_on": null,
+   "lands_in": "admin, reports read automatically",
+   "reply": "none"
+  },
+  {
+   "address": "postmaster@cruxomni.com",
+   "shown_on": null,
+   "lands_in": "admin, reports read automatically",
+   "reply": "none"
+  },
+  {
+   "address": "abuse@cruxomni.com",
+   "shown_on": null,
+   "lands_in": "admin, reports read automatically",
+   "reply": "none"
+  },
+  {
+   "address": "dmarc-reports@cruxomni.com",
+   "shown_on": null,
+   "lands_in": "admin, reports read automatically",
+   "reply": "none"
+  }
+ ],
+ "senders": [
+  {
+   "address": "no-reply@mail.lynkomni.com",
+   "sends": "sign-in codes and security alerts only",
+   "replies_to": "automatic answer pointing to /support"
+  },
+  {
+   "address": "receipts@mail.lynkomni.com",
+   "sends": "receipts, sent as 'Business name via LynkOmni'",
+   "replies_to": "the business's own contact"
+  },
+  {
+   "address": "invoices@mail.lynkomni.com",
+   "sends": "invoices, sent as 'Business name via LynkOmni'",
+   "replies_to": "the business's own contact"
+  },
+  {
+   "address": "billing@mail.lynkomni.com",
+   "sends": "LynkOmni bills and failed payments",
+   "replies_to": "billing@lynkomni.com"
+  },
+  {
+   "address": "notifications@mail.lynkomni.com",
+   "sends": "account, plan, Notify me, agent and partner messages, newsletter confirmation",
+   "replies_to": "support@lynkomni.com (agent messages: agents@lynkomni.com)"
+  },
+  {
+   "address": "bookings@mail.lynkomni.com",
+   "sends": "tickets and booking changes",
+   "replies_to": "support@lynkomni.com"
+  },
+  {
+   "address": "developers@mail.lynkomni.com",
+   "sends": "keys, webhooks, API notices",
+   "replies_to": "developers@lynkomni.com"
+  },
+  {
+   "address": "status@mail.lynkomni.com",
+   "sends": "incident updates to subscribers",
+   "replies_to": "none: link to status.lynkomni.com"
+  },
+  {
+   "address": "updates@news.lynkomni.com",
+   "sends": "newsletters, consent only",
+   "replies_to": "one-click unsubscribe"
+  }
+ ],
+ "owner_inbox": "marvin@cruxomni.com",
+ "emergency_admin": "admin@cruxomni.com"
+}
