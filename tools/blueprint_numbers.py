@@ -18,6 +18,7 @@ def numbers():
         "identifier_types": len(ids["types"]),
         "provider_items": len(reg["items"]), "later_items": len(reg["later"]), "user_actions": len(reg["user_actions"]),
         "pictures": len(needs),
+        "automations": len(json.loads((ROOT / "catalog" / "automations.v1.json").read_text())["automations"]),
         "languages": len(langs.get("languages", langs)),
         "ecosystem_revenue": rm.ecosystem_totals(),
     }

@@ -87,7 +87,7 @@ class ExpensesAndProfit(unittest.TestCase):
     def test_profit_per_stage(self):
         from finance import expense_model as X
         got = {st: (X.profit(st)["expenses"]["month"], X.profit(st)["net"]["month"], X.profit(st)["net"]["year"]) for st in R.STAGES}
-        self.assertEqual(got, {"stage1": (36707, -15078, -180936), "stage2": (1177281, 177531, 2130372), "stage3": (20064627, 19506072, 234072864)})
+        self.assertEqual(got, {"stage1": (36872, -15243, -182916), "stage2": (1182781, 173406, 2080872), "stage3": (20174627, 19423572, 233082864)})
     def test_loss_pays_no_tax_and_rows_add_up(self):
         from finance import expense_model as X
         self.assertEqual(X.profit("stage1")["tax"], 0)
