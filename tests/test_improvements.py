@@ -86,7 +86,7 @@ class T(unittest.TestCase):
         self.p.c.store.append("m1", "server", "note.test", {"a": 1}); e = self.p.audit_export.export("m1"); self.assertTrue(e["id"].startswith("LOAUD-")); self.assertTrue(e["fee_charged"]); self.assertFalse(e["tax_authority_validated"])
         self.assertEqual(self.rev("audit:export")[0]["usd_minor"], 250)
         pr = self.p.audit_export.proof_for(e["id"], 0); self.assertTrue(merkle_verify(pr["leaf"], pr["proof"], e["root"]))
-        self.p.billing.set_plan("m1", "lynkledger", "max"); self.assertFalse(self.p.audit_export.export("m1")["fee_charged"]); self.assertEqual(len(self.rev("audit:export")), 1)
+        self.p.billing.set_plan("m1", "lynkacc", "max"); self.assertFalse(self.p.audit_export.export("m1")["fee_charged"]); self.assertEqual(len(self.rev("audit:export")), 1)
 
     def test_split_exact_sum_and_fee_and_no_funds_held(self):
         s = self.p.split; self.p.billing.set_plan("m1", "lynkmpay", "pro")
@@ -100,9 +100,9 @@ class T(unittest.TestCase):
         from services import billing as B
         self.assertEqual([self._ent(t)["proof_fee_cents"] for t in B.MT], [500, 500, 400, 300])
         self.assertEqual([self._ent(t)["proof_packs_per_month"] for t in B.MT], [3, 20, 100, None]); self.assertEqual([self._ent(t)["split_max_legs"] for t in B.MT], [0, 2, 5, None])
-        self.assertNotIn("lynkmpay", B.SUITE_MEMBERS); self.assertEqual(B.FAMILIES["lynksuite"][3], (0, 17, 49, 125))
-        for fam in ("lynkpos", "lynkledger"): self.assertIn(fam, B.SUITE_MEMBERS)
-        self.p.billing.set_plan("m1", "lynksuite", "max")                      # Suite Max carries LynkLedger Max, so exports are included; MPay stays separate
+        self.assertNotIn("lynkmpay", B.SUITE_MEMBERS); self.assertEqual(B.FAMILIES["lynksuite"][3], (0, 29, 75, 195))
+        for fam in ("lynkpos", "lynkacc"): self.assertIn(fam, B.SUITE_MEMBERS)
+        self.p.billing.set_plan("m1", "lynksuite", "max")                      # Suite Max carries LynkAcc Max, so exports are included; MPay stays separate
         self.assertFalse(self.p.audit_export.export("m1")["fee_charged"]); self.assertEqual(self.p.billing.entitlement("m1", "lynkmpay")["split_max_legs"], 0)
     def _ent(self, tier):
         from services import billing as B
@@ -119,7 +119,7 @@ class T(unittest.TestCase):
         with self.assertRaises(PermissionError): self.p.split.create("m1", "p", 1000, {"a": 100, "b": 100, "c": 100}, provider_confirmed=True)
         self.p.billing.set_plan("m1", "lynkmpay", "max"); a = self.p.split.create("m1", "p", 100000, {"a": 100, "b": 100, "c": 100}, provider_confirmed=True)
         self.p.billing.set_plan("m1", "lynkmpay", "pro"); b = self.p.split.create("m1", "p", 100000, {"a": 100}, provider_confirmed=True); self.assertLess(a["fee_minor"], b["fee_minor"])
-        self.assertEqual(self.p.audit_export.export("m1")["fee_charged"], True); self.p.billing.set_plan("m1", "lynkledger", "pro")
+        self.assertEqual(self.p.audit_export.export("m1")["fee_charged"], True); self.p.billing.set_plan("m1", "lynkacc", "pro")
         self.p.audit_export.export("m1"); fees = [r["usd_minor"] for r in self.rev("audit:export")]; self.assertEqual(fees, [250, 150])
         self.assertGreater(self.p.edge.overage_minor("m1", 100), 0); self.p.billing.set_plan("m1", "lynkdev", "business"); self.assertEqual(self.p.edge.overage_minor("m1", 100), 0)   # 250 GB included
     def test_seats_meter_edge(self):

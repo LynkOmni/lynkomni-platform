@@ -152,9 +152,9 @@ class TestApi(Base):
         self.assertTrue(os.path.isfile(brand.raster("email/logo-light.png", **self.kw)))
         with self.assertRaises(KeyError): brand.raster("svg/lynkomni-logo-light.svg", **self.kw)
 
-    def test_invoice_branding_follows_the_checkout_tiers(self):
+    def test_invoice_branding_follows_the_lynkinv_tiers(self):
         from services import billing
-        tiers = {f["invoice_branding"] for f in billing.FEATURES["lynkcheckout"] if "invoice_branding" in f}
+        tiers = {f["invoice_branding"] for f in billing.FEATURES["lynkinv"] if "invoice_branding" in f}
         self.assertEqual(tiers, set(brand.INVOICE_BRANDING))
         self.assertTrue(brand.invoice_brand("lynkomni")["show_lynkomni"])
         self.assertFalse(brand.invoice_brand("logo")["show_lynkomni"])
@@ -269,8 +269,10 @@ class TestPlacement(Base):
 
     def test_billing_tiers_carry_the_badge_setting(self):
         from services import billing
-        tiers = billing.FEATURES["lynkcheckout"]
-        self.assertEqual([t["powered_by"] for t in tiers], ["required", "removable", "removable", "removable"])
+        for fam in ("lynkcheckout", "lynkinv"):
+            tiers, got = billing.FEATURES[fam], []
+            for t in tiers: got.append(t.get("powered_by", got[-1] if got else None))
+            self.assertEqual(got, ["required", "removable", "removable", "removable"], fam)
 
     def test_placement_rules_reject_bad_entries(self):
         bad = {"surfaces": [

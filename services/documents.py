@@ -1,7 +1,7 @@
 """Printable and emailable documents: invoice, receipt, email shell. They only show logos through the brand module.
 
 Rules (see CLAUDE.md): ask brand.for_surface for a place, never a file; no colours are written here (text inherits the
-reader's colours); the LynkOmni logo shows on an invoice only on the Free LynkCheckout tier; the small "Powered by LynkOmni"
+reader's colours); the LynkOmni logo shows on an invoice only on the Free LynkInv tier; the small "Powered by LynkOmni"
 wordmark follows billing.FEATURES powered_by and never appears on payment, refund, void, cash-count, fiscal or private-chat
 screens (so never on a receipt); an invoice is never called a tax invoice (the label comes from Invoicing.label); an invoice
 says "Paid" only when its state is paid, which needs the provider to confirm. The merchant's own logo (PNG, JPEG or WebP,

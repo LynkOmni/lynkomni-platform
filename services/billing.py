@@ -1,8 +1,10 @@
-"""Subscription families, LynkSuite and billing rules (blueprint section 14).
-Rules: one subscription per product per account; the highest tier wins and tiers never stack; LynkSuite replaces its seven
-products at the matching tier; a product held above the Suite tier is billed only for the difference; add-on families are never
-inside LynkSuite; subscriptions never discount transaction fees; a subscriber is counted once per paid subscription.
-Prices are standard USD and LOCKED (version 1, 2026-11-06; pinned by tests/test_price_lock.py). They are not market-tested, so adjust them later on purpose, together with the blueprint and finance/revenue_model.py. Regional price index comes from the country pack."""
+"""Subscription families, bundles and billing rules (blueprint section 14).
+Rules: one subscription per product per account; the highest tier wins and tiers never stack; a bundle (LynkSuite, LynkOps)
+replaces its member products at the matching tier; a product held above a bundle's tier is billed only for the difference;
+LynkSuite also replaces LynkOps; add-on families are never inside LynkSuite; subscriptions never discount transaction fees;
+a subscriber is counted once per paid subscription.
+Prices are standard USD and LOCKED (version 2, 2026-11-07; pinned by tests/test_price_lock.py). They are not market-tested, so
+adjust them later on purpose, together with the blueprint and finance/revenue_model.py. Regional price index comes from the country pack."""
 from core.money import to_minor
 from core.regions import country
 from services.control import COMPANY
@@ -10,8 +12,10 @@ from services.control import COMPANY
 MT = ("free", "plus", "pro", "max")
 # id: full name, short name, tiers, standard USD price per tier, kind, inside LynkSuite?
 FAMILIES = {
- "lynkpos":      ("LynkOmni Point of Sale", "LynkPOS", MT, (0, 4, 14, 35), "merchant", True),
- "lynkledger":   ("LynkOmni Accountant", "LynkLedger", MT, (0, 3, 9, 22), "merchant", True),
+ "lynkpos":      ("LynkOmni Point of Sale", "LynkPOS", MT, (0, 12, 29, 79), "merchant", True),
+ "lynkacc":      ("LynkOmni Accounting", "LynkAcc", MT, (0, 6, 15, 40), "merchant", True),       # took over LynkLedger (2026-11-07)
+ "lynkinv":      ("LynkOmni Invoicing", "LynkInv", MT, (0, 5, 12, 32), "merchant", True),        # moved out of LynkCheckout (2026-11-07)
+ "lynkcrm":      ("LynkOmni CRM", "LynkCRM", MT, (0, 6, 15, 40), "merchant", True),
  "lynkstock":    ("LynkOmni Inventory and Reordering", "LynkStock", MT, (0, 3, 9, 22), "merchant", True),
  "lynkrewards":  ("LynkOmni Loyalty", "LynkRewards", MT, (0, 3, 9, 22), "merchant", True),
  "lynkdash":     ("LynkOmni Dashboard", "LynkDash", MT, (0, 3, 7, 17), "merchant", True),
@@ -25,14 +29,45 @@ FAMILIES = {
  "lynkdev":      ("LynkOmni Developer Infrastructure", "LynkDev", ("free", "starter", "business", "enterprise"), (0, 500, 2500, 15000), "developer", False),
  "lynkbooking":  ("LynkOmni Bookings Membership", "LynkBooking", MT, (0, 4.99, 9.99, 19.99), "consumer", False),
  "lynkessential": ("LynkOmni Essentials Membership", "LynkEssential", MT, (0, 2.99, 5.99, 11.99), "consumer", False),
- "lynksuite":    ("LynkOmni Suite", "LynkSuite", MT, (0, 17, 49, 125), "suite", False),
+ "lynkops":      ("LynkOmni Operations", "LynkOps", MT, (0, 12, 29, 79), "bundle", True),        # a tier: LynkAcc, LynkInv and LynkCRM together
+ "lynksuite":    ("LynkOmni Suite", "LynkSuite", MT, (0, 29, 75, 195), "suite", False),
 }
-SUITE_MEMBERS = [k for k, v in FAMILIES.items() if v[5]]            # the seven products inside LynkSuite
+BUNDLE_KINDS = ("bundle", "suite")
+OPS_MEMBERS = ["lynkacc", "lynkinv", "lynkcrm"]                      # the three services inside LynkOps
+SUITE_MEMBERS = [k for k, v in FAMILIES.items() if v[5] and v[4] not in BUNDLE_KINDS]   # the nine products inside LynkSuite
+BUNDLES = {"lynkops": OPS_MEMBERS, "lynksuite": SUITE_MEMBERS + ["lynkops"]}             # LynkSuite also replaces LynkOps
+# A tier of one product that includes a tier of another (never billed twice): LynkPOS Pro and Max include LynkRewards Plus and Pro.
+INCLUDES = {("lynkpos", "pro"): {"lynkrewards": "plus"}, ("lynkpos", "max"): {"lynkrewards": "pro"}}
+
+
+def bundle_price(bundle, tier):
+    """What a bundle's members cost at this tier when bought separately (LynkOps counted at its own price inside LynkSuite)."""
+    i = MT.index(tier)
+    members = [m for m in BUNDLES[bundle] if not (bundle == "lynksuite" and m in OPS_MEMBERS)]
+    return sum(FAMILIES[m][3][i] for m in members)
 # What each tier adds. Higher tiers include everything below. None means unlimited.
 FEATURES = {
- "lynkpos": [dict(devices=1, users=1, products=100, history_months=3, ads=True), dict(devices=2, users=3, products=None, history_months=24, ads=False),
-             dict(devices=5, users=10, branches=3, discount_rules=True, staff_cash_controls=True), dict(devices=None, users=None, branches=10, custom_roles=True, api=True)],
- "lynkledger": [dict(daily_profit=True, audit_fee_cents=250), dict(full_books=True, tax_estimate=True), dict(multi_branch_totals=True, credit_ledger=True, collections=True, audit_fee_cents=150), dict(exports=True, integrations=True, accountant_access=True, audit_fee_cents=0)],   # LynkAudit exports; included at Max
+ "lynkpos": [dict(devices=1, users=1, products=100, history_months=3, ads=True, sales_per_month=None, agent_services=True, agent_partners=1, outlets=1,
+                  receipts=("print", "qr"), customer_credit="view", daily_close="screen", stock_at_till="counts", staff="owner", rewards_included=None, pickup_orders=False),
+             dict(devices=2, users=3, products=None, history_months=24, ads=False, agent_partners=3, receipts=("print", "qr", "message"), customer_credit="full",
+                  daily_close="nightly_summary", staff="shifts_cash_counts"),
+             dict(devices=5, users=10, branches=3, history_months=None, discount_rules=True, staff_cash_controls=True, agent_partners=None, outlets=3,
+                  stock_at_till="barcodes_variants_alerts", staff="tracking", rewards_included="plus", pickup_orders=True, staff_commissions=True),
+             dict(devices=None, users=None, branches=None, outlets=None, custom_roles=True, api=True, custom_domain=True, several_businesses=True,
+                  rewards_included="pro", payroll_lite=True, custom_receipts=True, dedicated_manager=True)],   # seat price and hardware are PLACEHOLDERS
+ "lynkacc": [dict(users=1, daily_profit=True, monthly_profit=True, cash_and_mobile_money=True, accountant_access="view", audit_fee_cents=250),
+             dict(users=3, full_books=True, tax_estimate=True, bank_accounts=True, statement_import=True, weekly_report=True, accountant_access="full"),
+             dict(users=10, multi_branch_totals=True, credit_ledger=True, collections=True, full_statements=True, journal=True, tax_presets=True, several_currencies=True, audit_fee_cents=150),
+             dict(users=None, exports=True, integrations=True, consolidation=True, payroll_lite=True, api=True, audit_fee_cents=0)],   # LynkAudit exports; included at Max
+ "lynkinv": [dict(powered_by="required", users=1, invoices_per_month=5, invoice_branding="lynkomni", invoice_series=1, quotes=True, credit_notes=True, pay_link=True,
+                  sending=("link", "qr", "email"), auto_reminders=False, partial_payments=False, recurring_invoices=False),
+             dict(powered_by="removable", users=3, invoices_per_month=None, invoice_branding="logo", sending=("link", "qr", "email", "chat", "message"), auto_reminders=True),
+             dict(users=10, invoice_branding="full", invoice_series=3, recurring=True, recurring_invoices=True, partial_payments=True, deposits=True),
+             dict(users=None, invoice_series=None, customer_portal=True, custom_domain=True, invoice_api=True)],   # limits are PLACEHOLDERS; credit notes and a pay link at every tier
+ "lynkcrm": [dict(users=1, customers=50, timeline=True, notes=True),
+             dict(users=3, customers=500, follow_ups=True, reminders=True, groups=True, consented_messages=True),
+             dict(users=10, customers=None, leads=True, pipeline=True, tasks=True, roles=("owner", "accountant", "sales", "viewer")),
+             dict(users=None, pipelines=None, staff_sales=True, api=True)],
  "lynkstock": [dict(products=100), dict(products=None, low_stock_alerts=True, supplier_comparison=True), dict(reorder_drafts=True, batch_expiry=True, multi_location=True), dict(auto_reorder=True, forecasting=True)],
  "lynkrewards": [dict(members=50, points=True), dict(members=500), dict(members=5000, coupons=True, referrals=True), dict(members=None, brand_offers=True, segments=True)],
  "lynkdash": [dict(today_view=True), dict(full_reports=True), dict(multi_branch=True), dict(custom_reports=True, exports=True)],
@@ -43,10 +78,11 @@ FEATURES = {
               dict(providers=None, auto_routing=True, fast_reconciliation=True, proof_packs_per_month=100, proof_fee_cents=400, split_max_legs=5),
               dict(custom_limits=True, dedicated_support=True, proof_packs_per_month=None, proof_fee_cents=300, split_max_legs=None, split_discount_pct=20)],   # LynkProof and LynkSplit live here; numbers are PLACEHOLDERS
  "lynkrecover": [dict(retry_prompt=True), dict(auto_retries=True), dict(rerouting=True), dict(recovery_analytics=True, priority_handling=True)],
- "lynkcheckout": [dict(powered_by="required", static_qr=True, invoices_per_month=3, invoice_branding="lynkomni", invoice_series=1, auto_reminders=False, credit_notes=False, partial_payments=False, recurring_invoices=False),
-                  dict(powered_by="removable", payment_links=True, invoices_per_month=20, invoice_branding="logo", credit_notes=True),
-                  dict(powered_by="removable", branded_links=True, invoices=True, recurring=True, invoices_per_month=200, invoice_branding="full", invoice_series=3, auto_reminders=True, partial_payments=True, recurring_invoices=True),
-                  dict(powered_by="removable", api=True, custom_domain=True, invoices_per_month=None, invoice_series=None, invoice_api=True)],   # invoice limits are PLACEHOLDERS; powered_by: the small "Powered by LynkOmni" wordmark is required on Free and removable on paid tiers (DECIDED 2026-11-06: Plus is the first tier that removes it; pinned by tests/test_brand.py)
+ "lynkcheckout": [dict(powered_by="required", static_qr=True),
+                  dict(powered_by="removable", payment_links=True),
+                  dict(powered_by="removable", branded_links=True, recurring=True),
+                  dict(powered_by="removable", api=True, custom_domain=True)],   # invoicing moved to LynkInv (2026-11-07); powered_by: the small "Powered by LynkOmni" wordmark is required on Free and removable on paid tiers (DECIDED 2026-11-06: Plus is the first tier that removes it; pinned by tests/test_brand.py)
+ "lynkops": [dict(contains="free"), dict(contains="plus"), dict(contains="pro"), dict(contains="max")],   # a tier: its members carry the features
  "lynkassist": [dict(ai_questions=10), dict(ai_questions=100), dict(ai_questions=500), dict(ai_questions=None)],
  "lynkvcard": [dict(active_cards=1, new_cards_per_month=6, monthly_cap_usd=500, users=1, single_use_only=True, manual_freeze=True, card_expiry_hours=24, fx_fee_pct=1.5),
                dict(active_cards=3, new_cards_per_month=20, monthly_cap_usd=3000, users=3, single_use_only=False, team_cards=True, supplier_auto_cards=True, category_locks=True, card_expiry_hours=90 * 24, fx_fee_pct=1.0),
@@ -75,15 +111,32 @@ class Billing:
         return h
     def _idx(s, family, tier): return FAMILIES[family][2].index(tier)
     def _usd(s, family, tier): return FAMILIES[family][3][s._idx(family, tier)]
+    def _covered(s, held, fam):
+        """The tier of `fam` that bundles and inclusions already provide, from what the account holds."""
+        best = "free"
+        for b, members in BUNDLES.items():
+            t = held.get(b, "free")
+            if fam in members and s._idx(fam, t) > s._idx(fam, best):
+                best = t
+        if fam in OPS_MEMBERS:                                               # LynkSuite replaces LynkOps, so it covers LynkOps' members
+            t = held.get("lynksuite", "free")
+            if s._idx(fam, t) > s._idx(fam, best):
+                best = t
+        for (src, src_tier), gives in INCLUDES.items():
+            if fam in gives:
+                have = max(held.get(src, "free"), held.get("lynksuite", "free") if src in SUITE_MEMBERS else "free", key=lambda t: s._idx(src, t))
+                if s._idx(src, have) >= s._idx(src, src_tier) and s._idx(fam, gives[fam]) > s._idx(fam, best):
+                    best = gives[fam]
+        return best
     def effective(s, account):
-        """The highest of the product's own tier and the tier LynkSuite provides. Tiers never stack."""
-        held, suite, out = s._held(account), s._held(account).get("lynksuite", "free"), {}
+        """The highest of the product's own tier and the tier a bundle or inclusion provides. Tiers never stack."""
+        held, out = s._held(account), {}
         for fam, v in FAMILIES.items():
-            if fam == "lynksuite":
+            if v[4] in BUNDLE_KINDS:
                 continue
-            own, via = held.get(fam, "free"), (suite if v[5] else "free")
+            own, via = held.get(fam, "free"), s._covered(held, fam)
             top = own if s._idx(fam, own) > s._idx(fam, via) else via
-            out[fam] = {"tier": top, "source": "suite" if (v[5] and via != "free" and s._idx(fam, via) >= s._idx(fam, own)) else "standalone"}
+            out[fam] = {"tier": top, "source": "bundle" if (via != "free" and s._idx(fam, via) >= s._idx(fam, own)) else "standalone"}
         return out
     def tier(s, account, family): return s.effective(account)[family]["tier"]
     def entitlement(s, account, family):
@@ -101,12 +154,12 @@ class Billing:
         st = held.get("lynksuite", "free")
         if st != "free":
             lines.append({"family": "lynksuite", "tier": st, "amount_minor": s._money(account, "lynksuite", s._usd("lynksuite", st))})
-        for fam, (_, _, tiers, _, _, inside) in FAMILIES.items():
+        for fam in FAMILIES:
             own = held.get(fam, "free")
             if fam == "lynksuite" or own == "free":
                 continue
-            covered = st if inside else "free"
-            if s._idx(fam, own) > s._idx(fam, covered):  # only the difference above what LynkSuite already provides
+            covered = st if fam == "lynkops" else s._covered(held, fam)
+            if s._idx(fam, own) > s._idx(fam, covered):  # only the difference above what a bundle or inclusion already provides
                 lines.append({"family": fam, "tier": own, "amount_minor": s._money(account, fam, s._usd(fam, own) - s._usd(fam, covered))})
             else:
                 credits.append(fam)

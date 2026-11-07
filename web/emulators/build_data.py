@@ -42,7 +42,8 @@ def language_packs(emulator):
 
 
 # The services shown in the merchant app's Business tab: (service in core.regions, product family name, icon).
-SERVICES = [("pos", "LynkPOS", "product-pos"), ("accountant", "LynkLedger", "product-ledger"), ("inventory", "LynkStock", "product-stock"),
+# LynkInv and LynkCRM join this list in build section 4, once their product icons are released in lynkomni-icons.
+SERVICES = [("pos", "LynkPOS", "product-pos"), ("accountant", "LynkAcc", "product-ledger"), ("inventory", "LynkStock", "product-stock"),
             ("dashboard", "LynkDash", "product-dash"), ("intelligence", "LynkGrow", "product-grow"), ("chat", "LynkChat", "product-chat"),
             ("payments", "LynkMPay", "product-mpay"), ("paylinks", "LynkCheckout", "product-checkout"), ("loyalty", "LynkRewards", "product-rewards"),
             ("recovery", "LynkRecover", "product-recover"), ("vcard", "LynkVCard", "product-vcard")]

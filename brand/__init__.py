@@ -152,7 +152,7 @@ def raster(rel, **kw):
     return _file(rel, **kw)
 
 
-# What an invoice shows for each LynkCheckout branding tier (billing.FEATURES invoice_branding).
+# What an invoice shows for each LynkInv branding tier (billing.FEATURES invoice_branding).
 INVOICE_BRANDING = {
     "lynkomni": {"show_lynkomni": True, "asset": "logo", "screen": "light", "print": "mono", "merchant_logo": False},
     "logo": {"show_lynkomni": False, "asset": None, "screen": None, "print": None, "merchant_logo": True},

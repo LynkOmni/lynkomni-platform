@@ -39,10 +39,10 @@
     }
    ]
   },
-  "product-ledger": {
+  "product-acc": {
    "kind": "illustration",
-   "alt": "An open ledger book with ticked lines, a bookmark and a coin",
-   "purpose": "Empty state, feature header and onboarding for LynkLedger",
+   "alt": "An open account book with ticked lines, a bookmark and a coin",
+   "purpose": "Empty state, feature header and onboarding for LynkAcc (accounting)",
    "used_in": [
     "empty-state",
     "feature-header",
@@ -52,27 +52,138 @@
    "files": [
     {
      "theme": "light",
-     "file": "illustrations/product-ledger.light.svg",
-     "sha256": "43c5758971dadff6aa4f77620ec3255ab672a3e1455c2aa5c69b5bf6a9815203",
-     "bytes": 1394
+     "file": "illustrations/product-acc.light.svg",
+     "sha256": "af592f9a9f2b95aad9323536b8cb25d73e406f69294c99bc6f274c63847c1c13",
+     "bytes": 1389
     },
     {
      "theme": "dark",
-     "file": "illustrations/product-ledger.dark.svg",
-     "sha256": "75ca5e8fb59d67648cdea6f0956628ad48e30b538528d1ca4d58249723346645",
-     "bytes": 1394
+     "file": "illustrations/product-acc.dark.svg",
+     "sha256": "f86d1d8d5cd1affb43569b3a60832118b412f4482a19f3185539448a0ca8815d",
+     "bytes": 1389
     },
     {
      "theme": "contrast-light",
-     "file": "illustrations/product-ledger.contrast-light.svg",
-     "sha256": "c52eec5ad9c4e3b27f1053d25360f9943f3b9ac4d3c31c9e20b7c0d54f5ac400",
-     "bytes": 1394
+     "file": "illustrations/product-acc.contrast-light.svg",
+     "sha256": "83c276f79f328fe91181b42d66fcc5c27369fec733def26447e0d7c62b9aca7d",
+     "bytes": 1389
     },
     {
      "theme": "contrast-dark",
-     "file": "illustrations/product-ledger.contrast-dark.svg",
-     "sha256": "f72c3379576e9588b3907d8ee77de00d9b96ab3d735d1aafc0be7225615d5bef",
-     "bytes": 1394
+     "file": "illustrations/product-acc.contrast-dark.svg",
+     "sha256": "af08732d373ef770bced8270231df3f6ce96ee906b7c2605e72107162003d883",
+     "bytes": 1389
+    }
+   ]
+  },
+  "product-inv": {
+   "kind": "illustration",
+   "alt": "An invoice page with lines and a highlighted total, beside a paper plane being sent",
+   "purpose": "Empty state, feature header and onboarding for LynkInv (invoicing)",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-inv.light.svg",
+     "sha256": "6894be4a6fe14d3ddef563ca629e01f014be2c21481ed9d796d654181db63cbc",
+     "bytes": 1344
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-inv.dark.svg",
+     "sha256": "649ef65ff2c82f2c6b2fd2ea942eb34e4d6c911f1921604558e0014b263d47e0",
+     "bytes": 1344
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-inv.contrast-light.svg",
+     "sha256": "d76fcc4f8a7290c1ecd741d01357ffc1507b45088b9d2514bb9fc3a0dace27f6",
+     "bytes": 1344
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-inv.contrast-dark.svg",
+     "sha256": "2cfa453bb1de1fa48e516434a366693c6fdf4bfcb2e159afc120d3b8acd20390",
+     "bytes": 1344
+    }
+   ]
+  },
+  "product-crm": {
+   "kind": "illustration",
+   "alt": "A timeline of four linked moments with a note beside each and a star",
+   "purpose": "Empty state, feature header and onboarding for LynkCRM (customers)",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-crm.light.svg",
+     "sha256": "af3b6c03ae888d9d6a67f7031e232b55113d2f5f8b4ecb6c9d755bf3f7098584",
+     "bytes": 1808
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-crm.dark.svg",
+     "sha256": "733bda58ba9d6e1f7cbabeac478b785df27e6914a50e7b2d5b940c4bd7619df4",
+     "bytes": 1808
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-crm.contrast-light.svg",
+     "sha256": "1568cc27186a73b33b722f362247af86eb6c42cdcd444f0ba101aea4cd3b48d0",
+     "bytes": 1808
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-crm.contrast-dark.svg",
+     "sha256": "531ba47e2022fa0c04365c6d010ff92130c152e9aa80adc0ce5285b750602e04",
+     "bytes": 1808
+    }
+   ]
+  },
+  "product-ops": {
+   "kind": "illustration",
+   "alt": "Three tiles for books, invoices and customers held together in one frame above a coin",
+   "purpose": "Feature header and plan page for LynkOps, the plan that bundles LynkAcc, LynkInv and LynkCRM",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-ops.light.svg",
+     "sha256": "8d758972ebcb97f2dc7311ae1e7874d58bc0e6b8c04ad9d533ee9800e99d3b55",
+     "bytes": 1765
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-ops.dark.svg",
+     "sha256": "96f7a05eb791515f99a266ceef04e95f188d3e3ba9775725035ffbfe22d58202",
+     "bytes": 1765
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-ops.contrast-light.svg",
+     "sha256": "2fe3f867c2f6a8d95048faa95b9b916d60daf3911a9bb80e7299e5d5388bbe0e",
+     "bytes": 1765
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-ops.contrast-dark.svg",
+     "sha256": "46c0d11a07f6425ac7bcaad068b93aa59584a512325bd414a58dacc0a5b2587d",
+     "bytes": 1765
     }
    ]
   },
@@ -559,7 +670,7 @@
   },
   "product-suite": {
    "kind": "illustration",
-   "alt": "A hub linked to seven tiles, for the seven products in LynkSuite",
+   "alt": "A hub linked to nine tiles, for the nine services in LynkSuite",
    "purpose": "Empty state, feature header and onboarding for LynkSuite",
    "used_in": [
     "empty-state",
@@ -571,26 +682,26 @@
     {
      "theme": "light",
      "file": "illustrations/product-suite.light.svg",
-     "sha256": "f45b1f4b114c82d760c0d2a7989b67a682de2bdf47ccde79591ea625d76532f6",
-     "bytes": 1913
+     "sha256": "78177458954f8dc6c9d315eabf8622c92e3df608a2e1fcfa713a25be0fb3c202",
+     "bytes": 2213
     },
     {
      "theme": "dark",
      "file": "illustrations/product-suite.dark.svg",
-     "sha256": "590fa6e9f50f5f10a7b2552dfd8a77946a6c8b86baccb3b5d74271c9d3991fcb",
-     "bytes": 1913
+     "sha256": "85d695163eedec9b9a8304b11b2d47bf18baf02ec269cb13897ccb69d18c1631",
+     "bytes": 2213
     },
     {
      "theme": "contrast-light",
      "file": "illustrations/product-suite.contrast-light.svg",
-     "sha256": "46eb5fdba69b9af9ca649155a549a478237efd569073095c7b03e47cd38f681f",
-     "bytes": 1913
+     "sha256": "7c63dd3bea4683cbed59060d741ab7c3488b0ce862aa1c5b54683c6ebe644ed0",
+     "bytes": 2213
     },
     {
      "theme": "contrast-dark",
      "file": "illustrations/product-suite.contrast-dark.svg",
-     "sha256": "19ad1d191e40e6db142b1c5ea144794384e92787f137ebf32a9b27949132abbc",
-     "bytes": 1913
+     "sha256": "8ac7792395a0c932c03ecba288a5c0770f02ad0d57fdff81961623200633a8e6",
+     "bytes": 2213
     }
    ]
   },
@@ -1062,26 +1173,26 @@
     {
      "theme": "light",
      "file": "charts/chart-pricing-ladder.light.svg",
-     "sha256": "9e835527e8acbc6bd231ff3831fffa2ca0fa4c7c43a382fab80be8eedaf16f7b",
-     "bytes": 13992
+     "sha256": "1b00c5ca17b8ec29cff530c82ef141baf54615108f89accdc605969eafec285d",
+     "bytes": 16524
     },
     {
      "theme": "dark",
      "file": "charts/chart-pricing-ladder.dark.svg",
-     "sha256": "a8d23004a0fcffdfdbee75572c7a3837af0e024bc7dcaaf4a4e72e0244ba8f96",
-     "bytes": 13992
+     "sha256": "805104546f424764155c39ce990ed2740da9f8661e794f7718926dd8eeb3538d",
+     "bytes": 16524
     },
     {
      "theme": "contrast-light",
      "file": "charts/chart-pricing-ladder.contrast-light.svg",
-     "sha256": "b9d4852e67a5a3d121a56138ea9a406c9de59db2f1387e1cdff7a8738ec229e9",
-     "bytes": 13992
+     "sha256": "4bd14d599e3da90418749711436cfcdbe4af32166f9ab3ca1bf04229e6e4783c",
+     "bytes": 16524
     },
     {
      "theme": "contrast-dark",
      "file": "charts/chart-pricing-ladder.contrast-dark.svg",
-     "sha256": "7b0a2677a16f901ec99e76b4ea5b65294838b074cf489305359b371c7844791a",
-     "bytes": 13992
+     "sha256": "0d6a5a7e486ec6769df57f1965bf8621626cfef97ef68e373c356124040efc12",
+     "bytes": 16524
     }
    ]
   },
@@ -1097,26 +1208,26 @@
     {
      "theme": "light",
      "file": "charts/chart-revenue-path.light.svg",
-     "sha256": "8746e2a84b9941c5027517f7c65ef6482ea7bd7b4462f635b548de1309fa818f",
-     "bytes": 7974
+     "sha256": "ea8b9ffa188599bbfc4d817f6dd9f314a85aceb6b3330a67e9e0eaf67b797099",
+     "bytes": 7985
     },
     {
      "theme": "dark",
      "file": "charts/chart-revenue-path.dark.svg",
-     "sha256": "2bc24ba204380a0056d41d550be576538619ae12dc89a7e4ab046e0dbaa2824a",
-     "bytes": 7974
+     "sha256": "dbd8896d3076b537414ad98cb844dcb7e8745cebea5d9b9a3b80675746c748bb",
+     "bytes": 7985
     },
     {
      "theme": "contrast-light",
      "file": "charts/chart-revenue-path.contrast-light.svg",
-     "sha256": "c00026b6fb7456c0b2a3b672e16514f34fa4c1ce757c7e960466691853462fe2",
-     "bytes": 7974
+     "sha256": "5f1f07e40d2fb261a7f819e9409cfce514f588445240a115b2c370a8a6ba665b",
+     "bytes": 7985
     },
     {
      "theme": "contrast-dark",
      "file": "charts/chart-revenue-path.contrast-dark.svg",
-     "sha256": "362f7b5921fcb0428f032ec3bdb500eb33f9edd2b774a10512cc6ac9ca34b460",
-     "bytes": 7974
+     "sha256": "910bc9cb2c101b6fb7ffbb4985cb5190acdd24b57b0a1e27a863f4949439ed22",
+     "bytes": 7985
     }
    ]
   },
@@ -1168,16 +1279,16 @@
     {
      "theme": "light",
      "file": "share/share-card.light.svg",
-     "sha256": "2d8a3df6c1ef5617135afb974480cbeb73d14b695e57602989a9675477a16f82",
-     "bytes": 6668
+     "sha256": "67df949b6de45405a6537d783067654ab3b665aaca3965baaafddef064065adc",
+     "bytes": 6970
     },
     {
      "theme": "light",
      "file": "web/og-1200x630.png",
      "w": 1200,
      "h": 630,
-     "sha256": "38d6ebfd3713adfad788b3ef975c5846b5b9b0938936ad2a66c8f7d4faf62871",
-     "bytes": 55917
+     "sha256": "6ec9d3f5de52ee4b9b4b5fcdee6bfc83003b5593ff1135a7a0fcb295e0376f28",
+     "bytes": 59536
     }
    ]
   },
