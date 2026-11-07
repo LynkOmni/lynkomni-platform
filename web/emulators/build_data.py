@@ -41,7 +41,14 @@ def language_packs(emulator):
     return out
 
 
-def main():
+# The services shown in the merchant app's Business tab: (service in core.regions, product family name, icon).
+SERVICES = [("pos", "LynkPOS", "product-pos"), ("accountant", "LynkLedger", "product-ledger"), ("inventory", "LynkStock", "product-stock"),
+            ("dashboard", "LynkDash", "product-dash"), ("intelligence", "LynkGrow", "product-grow"), ("chat", "LynkChat", "product-chat"),
+            ("payments", "LynkMPay", "product-mpay"), ("paylinks", "LynkCheckout", "product-checkout"), ("loyalty", "LynkRewards", "product-rewards"),
+            ("recovery", "LynkRecover", "product-recover"), ("vcard", "LynkVCard", "product-vcard")]
+
+
+def main(emulator):
     with open(os.path.join(ROOT, "contract", "country-packs", f"{COUNTRY}.json"), encoding="utf-8") as f:
         pack = json.load(f)
     with open(os.path.join(ROOT, "design", "tokens.v1.json"), encoding="utf-8") as f:
@@ -61,10 +68,11 @@ def main():
         "states": {k: {"label": v["label"], "meaning": v["meaning"]} for k, v in states.items()},
         "pack": {"code": COUNTRY, "name": pack["name"], "currency": pack["currency"], "tz": pack["tz"], "locale": pack.get("locale", "en")},
         "ready": ready,
-        "i18n": language_packs("pos-terminal"),
+        "i18n": language_packs(emulator),
+        "services": [{"service": sv, "name": name, "icon": ic, "state": providers.availability(sv, COUNTRY)["state"]} for sv, name, ic in SERVICES],
     }
     json.dump(out, sys.stdout, ensure_ascii=False, sort_keys=True)
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1] if len(sys.argv) > 1 else "pos-terminal")

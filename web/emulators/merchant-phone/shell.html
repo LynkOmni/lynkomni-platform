@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LynkOmni Merchant App</title>
+<meta name="description" content="Interactive emulator of the LynkOmni merchant app on a phone: role-aware home, selling, stock, customer chats and the business tab, working online and offline on sandbox providers.">
+<style>/*@TOKENS@*/
+/*@STYLE@*/</style>
+</head>
+<body>
+<header class="pagehead">
+  <h1>LynkOmni merchant app on a phone <span class="draft">Draft design</span></h1>
+  <p>Interactive emulator. Real LynkOmni rules for selling, stock and the day's summary, sandbox providers (test money only), sample products and sample customer chats. Not reviewed by a designer yet.</p>
+</header>
+<main class="stage">
+  <section class="rig" id="rig" aria-label="Phone running the LynkOmni merchant app">
+    <div class="fit">
+      <div class="device" id="device">
+        <div class="btn vol" aria-hidden="true"></div><div class="btn pwr" aria-hidden="true"></div>
+        <div class="glass">
+          <div class="display light" id="display">
+            <div class="statusbar" id="statusbar"></div>
+            <div class="app" id="app"></div>
+            <div class="home-ind" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <aside class="panel" aria-label="Emulator controls">
+    <h2>Try it</h2>
+    <p class="help">Sign in with any phone number and the sample code <kbd>123456</kbd>. Then sell, change stock, answer a customer and open Business for the day's summary.</p>
+    <h3>Conditions</h3>
+    <label class="row"><span>Connection</span> <select id="cLink"><option value="good">Good</option><option value="weak">Weak</option><option value="none">None</option></select></label>
+    <p class="help">Weak counts as offline: the phone saves everything and sends when it can. None: nothing is sent until the connection is back.</p>
+    <label class="row"><span>Signed in as</span> <select id="cRole"><option value="owner">Owner</option><option value="manager">Manager</option><option value="cashier">Cashier</option></select></label>
+    <label><input type="checkbox" id="cFail"> <span>Provider declines payments<br><span class="help">The sandbox provider answers Failed instead of Confirmed.</span></span></label>
+    <label><input type="checkbox" id="cReal"> <span>Show what a merchant in Rwanda sees today<br><span class="help">Payment providers are not signed yet, so mobile money shows "Coming to your country soon".</span></span></label>
+    <label><input type="checkbox" id="cDark"> <span>Dark screen</span></label>
+    <label class="row"><span>Language</span> <select id="cLang"><option value="xx">Long text test</option><option value="xx-rtl">Right-to-left test</option></select></label>
+    <h3>Event log (what the phone sends to the cloud)</h3>
+    <ul class="log" id="log" aria-live="polite"></ul>
+  </aside>
+</main>
+<script>/*@SCRIPT@*/</script>
+</body>
+</html>
