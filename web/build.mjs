@@ -11,7 +11,10 @@ import { fileURLToPath } from "node:url";
 const WEB = dirname(fileURLToPath(import.meta.url));
 const ROOT = dirname(WEB);
 const OUT = join(WEB, "emulators", "dist");
-const EMULATORS = [{ id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: ["ts/src/pos.js", "web/emulators/pos-terminal/app.js"] }];
+const EMULATORS = [
+  { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: ["ts/src/pos.js", "web/emulators/pos-terminal/app.js"] },
+  { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: ["ts/src/pos.js", "ts/src/merchant.js", "web/emulators/merchant-phone/app.js"] },
+];
 
 const read = (p) => readFileSync(p, "utf8");
 const tsc = process.env.TSC || "tsc";
@@ -26,8 +29,6 @@ function bundle(mods) {
   return `"use strict";\n(() => {\n${parts.join("\n")}\n})();`;
 }
 
-const data = execFileSync("python3", [join(WEB, "emulators", "build_data.py")], { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 26 });
-const D = JSON.parse(data);
 const tokens = read(join(ROOT, "design", "generated", "tokens.css"));
 // Brand fonts travel inside the file (offline, no font site). Only the Latin files: other scripts use the device font.
 const fontCss = read(join(ROOT, "design", "fonts.css")).match(/@font-face\s*\{[^}]*\}/g)
@@ -36,6 +37,7 @@ const fontCss = read(join(ROOT, "design", "fonts.css")).match(/@font-face\s*\{[^
   .join("\n");
 let stale = [];
 for (const e of EMULATORS) {
+  const D = JSON.parse(execFileSync("python3", [join(WEB, "emulators", "build_data.py"), e.id], { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 26 }));
   const dir = join(WEB, "emulators", e.id);
   let html = read(join(dir, "shell.html"))
     .replace("/*@TOKENS@*/", () => fontCss + "\n" + tokens)

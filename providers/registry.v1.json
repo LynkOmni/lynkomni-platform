@@ -1172,6 +1172,34 @@
    "when": "before the website goes public",
    "status": "done",
    "done_note": "Claimed as \"LynkOmni\" on all ten platforms on 2026-11-06; footer links connected (ts/src/footer.ts SOCIAL_LINKS); LinkedIn is a showcase page under the CruxOmni Group company page."
+  },
+  {
+   "id": "company-domains-email",
+   "what": "Finish the company email: Google Workspace Business Starter (yearly, one paid user, billing country Cameroon) for cruxomni.com with the admin login marvin@cruxomni.com; then add lynkomni.com as a free second domain and the free addresses billing@, support@, hello@, security@lynkomni.com and legal@cruxomni.com.",
+   "why": "One Google platform for email and, later, hosting (owner decision 2026-11-06). The domains cruxomni.com and lynkomni.com were bought on Squarespace on 2026-11-07; Google refused the prepaid card, so payment needs a normal (not prepaid) Visa or Mastercard debit card with international online payments, or an official Google Workspace partner that accepts bank transfer or mobile money.",
+   "when": "now",
+   "status": "open"
+  },
+  {
+   "id": "company-registration",
+   "what": "Register CruxOmni Group (with the lawyer), open a company bank account with a company card, get a free D-U-N-S number, then ask Google support to move the Workspace billing to the company and put the company as the owner of both domains.",
+   "why": "Needed for the Apple and Google developer accounts, startup cloud credits, payment providers and company invoices.",
+   "when": "with the lawyer, at the end of the owner's list",
+   "status": "open"
+  },
+  {
+   "id": "github-team-plan",
+   "what": "Upgrade the LynkOmni GitHub organisation to the Team plan (billing email billing@lynkomni.com) and lock the main branch so changes can only enter through a pull request with green checks.",
+   "why": "Branch protection on private repositories needs a paid plan; until then the working standards are followed by hand.",
+   "when": "last item of the owner's list, after billing@lynkomni.com exists",
+   "status": "open"
+  },
+  {
+   "id": "google-cloud-account",
+   "what": "Open Google Cloud with the marvin@cruxomni.com login, add a payment method Google accepts and a budget alert; Claude then sets up hosting (Cloud Run, Cloud SQL, Cloud Storage through its S3-compatible connection) as code.",
+   "why": "LynkOmni's servers, language engine and offline sync need a home; one Google platform, pay as you go, no move needed as LynkOmni grows.",
+   "when": "when the merchant app is ready to go online",
+   "status": "open"
   }
  ]
 }
