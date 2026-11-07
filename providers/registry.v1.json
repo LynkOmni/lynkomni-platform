@@ -1117,6 +1117,15 @@
    "why_not_now": "Needs the email-sending provider (provider ledger item for SMS, WhatsApp, email and push delivery), chosen in build section 13 (outside screens). BIMI (the logo in inboxes) also waits for the registered trademark.",
    "placeholders": [],
    "done_when": "The nine sending addresses send through the chosen provider with SPF, DKIM and DMARC passing, DMARC at reject after two clean weeks, MTA-STS on, and no-reply@mail.lynkomni.com answering anyone who writes with the automatic help message."
+  },
+  {
+   "id": "email_safeguards_build",
+   "name": "Email safeguards built into the product (agreed 2026-11-07, items 3, 4, 7, 9, 10, 11, 12 and 14)",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "They belong to build sections 12 (support console: case-number automatic replies in the writer's language) and 13 (outside screens: no sign-in links in security emails, bounce handling, nothing sensitive in email, newsletter consent proof and one-day unsubscribe, Postmaster Tools and DMARC report reading, standard signature); the email archive waits for the Workspace plan raised when staff join.",
+   "placeholders": [],
+   "done_when": "Every item is built and tested in its build section and the email archive is on once staff join."
   }
  ],
  "user_actions": [
@@ -1205,6 +1214,20 @@
    "what": "Finish the company email: Google Workspace Business Starter (yearly, one paid user, billing country Cameroon) for cruxomni.com with the admin login marvin@cruxomni.com; then add lynkomni.com as a free second domain and the free addresses billing@, support@, hello@, security@lynkomni.com and legal@cruxomni.com. Then create the 28 Google Groups agreed on 2026-11-07 (master blueprint section 39), each with marvin@cruxomni.com as its member: on cruxomni.com accounts@, legal@, compliance@, finance@, investors@, press@, careers@, hello@; on lynkomni.com hello@, support@, billing@, security@, privacy@, safety@, accessibility@, partners@, agents@, accountants@, developers@, enterprise@, ads@, suppliers@; and postmaster@, abuse@ and dmarc-reports@ on each domain. Then add the SPF, DKIM and DMARC records Claude prepares, at Squarespace, for both domains.",
    "why": "One Google platform for email and, later, hosting (owner decision 2026-11-06). The domains cruxomni.com and lynkomni.com were bought on Squarespace on 2026-11-07; Google refused the prepaid card, so payment needs a normal (not prepaid) Visa or Mastercard debit card with international online payments, or an official Google Workspace partner that accepts bank transfer or mobile money.",
    "when": "now",
+   "status": "open"
+  },
+  {
+   "id": "workspace-admin-safety",
+   "what": "Right after paying for Google Workspace (agreed 2026-11-07, email safeguards 1, 2, 5, 8 and 13): create a second super-admin account admin@cruxomni.com for emergencies only (one more paid user); turn on two-step verification with a passkey or physical security key, never SMS, on marvin@cruxomni.com and admin@cruxomni.com; switch on outside-sender warnings and the strongest phishing and malware protection; print the admin backup codes and keep them offline, with recovery email outside cruxomni.com (for example lynkomni@gmail.com) and your phone; turn on DNSSEC for both domains if Squarespace offers it. Claude writes the steps screen by screen.",
+   "why": "With one admin account, a hack or lock-out loses the company's email, Google Cloud and GitHub at once; Google recommends more than one super admin, and phishing-proof sign-in protects both.",
+   "when": "right after paying for Google Workspace",
+   "status": "open"
+  },
+  {
+   "id": "lookalike-domains-optional",
+   "what": "Optional, when you choose (email safeguard 6): buy a few look-alike domains (for example lynk-omni.com) and forward them to lynkomni.com so scammers cannot use them.",
+   "why": "Scammers register look-alike domains to trick merchants and customers.",
+   "when": "optional, when the owner chooses",
    "status": "open"
   },
   {
