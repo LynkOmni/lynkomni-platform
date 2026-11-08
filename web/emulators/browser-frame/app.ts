@@ -161,8 +161,10 @@ function drawLog(): void {
   box.innerHTML = S.events.slice(0, 40).map((e) => `<li><span class="n">#${e.n}</span><code>${esc(e.type)}</code><span class="org">${e.origin}</span>${chip(e.sync)}</li>`).join("") || `<li class="empty">No events yet. Try the page.</li>`;
 }
 
+/** Text that came from the page (an attribute or an input) never carries HTML characters into state; every value is escaped again when drawn. */
+const plain = (s: string): string => s.replace(/[<>"'&]/g, "");
 function act(a: string): void {
-  const [k, v = ""] = a.split(/:(.*)/s);
+  const [k, v = ""] = plain(a).split(/:(.*)/s);
   switch (k) {
     case "keep": return;
     case "closeoverlay": case "closesheet": S.overlay = null; draw(); return;
@@ -217,7 +219,7 @@ function init(): void {
   });
   $("#display").addEventListener("input", (e) => {
     const el = e.target as HTMLInputElement;
-    if (el.id === "cmdIn") { S.query = el.value; const list = $("#cmdList"); const index = overlay(); const m = /<ul id="cmdList"[^>]*>([\s\S]*?)<\/ul>/.exec(index); if (list && m) list.innerHTML = m[1]!; }
+    if (el.id === "cmdIn") { S.query = plain(el.value); const list = $("#cmdList"); const index = overlay(); const m = /<ul id="cmdList"[^>]*>([\s\S]*?)<\/ul>/.exec(index); if (list && m) list.innerHTML = m[1]!; }
     if (el.id === "usernameIn") { act(`username:${el.value}`); const inp = $<HTMLInputElement>("#usernameIn"); inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }
   });
   $("#display").addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["act"]?.startsWith("toggle:")) act(el.dataset["act"]); });

@@ -715,9 +715,18 @@ function check(value) {
 }
 /** Shown as @name; addresses carry it without the @. */
 const display = (username) => `@${normalize(username)}`;
+/** Strips leading and trailing full stops and underscores without a backtracking regular expression. */
+const trimDots = (s) => {
+    let a = 0, b = s.length;
+    while (a < b && (s[a] === "." || s[a] === "_"))
+        a++;
+    while (b > a && (s[b - 1] === "." || s[b - 1] === "_"))
+        b--;
+    return s.slice(a, b);
+};
 /** Free usernames close to a wanted one, for the "taken" and "refused" states of the username field. */
 function suggestions(value, taken = () => false, limit = 3) {
-    let base = normalize(value).replace(/\s+/g, ".").replace(/[^a-z0-9._]/g, "").replace(/^[._]+|[._]+$/g, "").replace(/\.\.+/g, ".") || "shop";
+    let base = trimDots(normalize(value).replace(/\s+/g, ".").replace(/[^a-z0-9._]/g, "").replace(/\.\.+/g, ".")) || "shop";
     base = base.slice(0, USERNAME_RULE.max - 4);
     const out = [];
     for (const cand of [base, `${base}.shop`, `${base}_1`, `${base}.store`, `${base}.2`, `the.${base}`]) {
@@ -1198,8 +1207,10 @@ function drawLog() {
     const chip = (s) => `<span class="chip st-${s}">${icon(`status-${s}`)}<span>${esc(t(`st_${s}`))}</span></span>`;
     box.innerHTML = S.events.slice(0, 40).map((e) => `<li><span class="n">#${e.n}</span><code>${esc(e.type)}</code><span class="org">${e.origin}</span>${chip(e.sync)}</li>`).join("") || `<li class="empty">No events yet. Try the page.</li>`;
 }
+/** Text that came from the page (an attribute or an input) never carries HTML characters into state; every value is escaped again when drawn. */
+const plain = (s) => s.replace(/[<>"'&]/g, "");
 function act(a) {
-    const [k, v = ""] = a.split(/:(.*)/s);
+    const [k, v = ""] = plain(a).split(/:(.*)/s);
     switch (k) {
         case "keep": return;
         case "closeoverlay":
@@ -1357,7 +1368,7 @@ function init() {
     $("#display").addEventListener("input", (e) => {
         const el = e.target;
         if (el.id === "cmdIn") {
-            S.query = el.value;
+            S.query = plain(el.value);
             const list = $("#cmdList");
             const index = overlay();
             const m = /<ul id="cmdList"[^>]*>([\s\S]*?)<\/ul>/.exec(index);
