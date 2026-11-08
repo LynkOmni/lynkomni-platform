@@ -111,7 +111,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "identity/automations.py sign_in_alert on LynkFlow (services/flow.py): SecurityAlertSent with no link when SessionStarted says new_device or new_place; account-site emulator sign-in"
   },
   {
    "id": "recovery-guide",
@@ -130,7 +131,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "identity/automations.py recovery_guide: GuideOffered with the steps of the path (device, code, assisted), labelled a suggestion; the recovery screens of the account-site emulator"
   },
   {
    "id": "consent-expiry",
@@ -148,7 +150,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "identity/automations.py consent_expiry (daily): ConsentExpiring seven days before the end, once; ConsentExpired and the consent withdrawn at the end"
   },
   {
    "id": "data-request-timer",
@@ -166,7 +169,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "identity/automations.py data_request_timer (daily): DataRequestReminder when a download request is due within three days"
   },
   {
    "id": "start-business-tracker",
@@ -182,7 +186,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "identity/automations.py start_business_tracker: GuideOffered on RegistrationSubmitted; the status only moves on the gateway's answer"
   },
   {
    "id": "setup-autofill",
@@ -1697,7 +1702,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "identity/automations.py churn_watch (weekly, draft): CheckInDrafted after 14 quiet days, for a person to confirm"
   },
   {
    "id": "renewal-reminder",
@@ -1714,7 +1720,8 @@
    "offline": false,
    "default": "on",
    "standing_instruction": false,
-   "consent": "transactional"
+   "consent": "transactional",
+   "implemented_by": "identity/automations.py renewal_reminder (daily): RenewalReminderSent seven days before a paid plan renews"
   },
   {
    "id": "reorder-one-tap",
