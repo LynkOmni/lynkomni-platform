@@ -1,5 +1,5 @@
 // NOT built in the sandbox (no Kotlin toolchain there). Run `./gradlew :core:test` in CI.
-plugins { kotlin("jvm") version "2.0.0" }
+plugins { kotlin("jvm") version "2.4.21" }
 repositories { mavenCentral() }
 dependencies { testImplementation(kotlin("test")); testImplementation("org.json:json:20240303"); implementation("org.json:json:20240303") }
 tasks.test { useJUnitPlatform() }
