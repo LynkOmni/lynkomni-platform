@@ -1,0 +1,31 @@
+# Blueprint 45 E, build section 0: the "dependency updates" automation (level draft: a person confirms).
+# Dependabot opens one pull request per update; nothing merges by itself. Every pull request goes through the
+# finish checklist and the checks like any other change, and a warning in a run is a bug (docs/lynkomni-standards.md).
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: {interval: weekly, day: monday, time: "06:00", timezone: Etc/UTC}
+    labels: [dependencies, automation-draft]
+    commit-message: {prefix: "deps(actions)"}
+  - package-ecosystem: npm
+    directory: /ts
+    schedule: {interval: weekly, day: monday, time: "06:00", timezone: Etc/UTC}
+    labels: [dependencies, automation-draft]
+    commit-message: {prefix: "deps(ts)"}
+    groups: {typescript-toolchain: {patterns: ["typescript", "@types/*"]}}
+  - package-ecosystem: cargo
+    directory: /rust/lynk-offline
+    schedule: {interval: weekly, day: monday, time: "06:00", timezone: Etc/UTC}
+    labels: [dependencies, automation-draft]
+    commit-message: {prefix: "deps(rust)"}
+  - package-ecosystem: gradle
+    directory: /android
+    schedule: {interval: weekly, day: monday, time: "06:00", timezone: Etc/UTC}
+    labels: [dependencies, automation-draft]
+    commit-message: {prefix: "deps(android)"}
+  - package-ecosystem: swift
+    directory: /ios
+    schedule: {interval: weekly, day: monday, time: "06:00", timezone: Etc/UTC}
+    labels: [dependencies, automation-draft]
+    commit-message: {prefix: "deps(ios)"}

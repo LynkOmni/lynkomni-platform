@@ -1625,7 +1625,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": ".github/dependabot.yml (weekly, one pull request per update, nothing merges by itself)"
   },
   {
    "id": "undo-anything",

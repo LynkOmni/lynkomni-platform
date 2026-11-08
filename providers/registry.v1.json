@@ -1150,7 +1150,7 @@
    "name": "Screen languages in two waves (review L2): wave 1 Chinese (Simplified, Traditional), Japanese, Korean, German, Italian, Russian, Turkish, Indonesian, Vietnamese; wave 2 Bengali, Tamil, Thai, Amharic, Hausa, Yoruba, Zulu, Filipino, Polish, Dutch, Ukrainian, Malay",
    "blocks": [],
    "status": "pending",
-   "why_not_now": "Each wave adds fonts (Chinese, Japanese and Korean split into subsets within a size budget) and Claude-translated packs; Portuguese is added in Step 0 and the waves follow in build section 1 with the shared shell.",
+   "why_not_now": "Each wave adds fonts (Chinese, Japanese and Korean split into subsets within a size budget) and Claude-translated packs; Portuguese was added in Step 0 (16th language, v0.20.0) and the waves follow in build section 1 with the shared shell.",
    "placeholders": [],
    "done_when": "Every wave language is in design/fonts/scripts.v1.json with packs for every emulator and the layout check passes."
   }
