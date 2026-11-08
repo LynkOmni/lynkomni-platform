@@ -937,7 +937,7 @@
   },
   {
    "id": "registration_gateway",
-   "name": "Business registration gateway and bank referral (Start a business, N14)",
+   "name": "Registration gateway",
    "kind": "government_gateway",
    "used_by": [
     "registration"
