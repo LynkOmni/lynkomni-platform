@@ -26,9 +26,9 @@ jobs:
   visuals:                     # illustrations, charts, store and web images: every need has files, nothing off-brand or placeholder
     runs-on: ubuntu-24.04
     steps: [{uses: actions/checkout@v5}, {uses: actions/setup-python@v6, with: {python-version: "3.12"}}, {run: python visuals/check.py}, {run: python -m unittest tests.test_visuals}]
-  layout:                      # translations never break a screen: long-text and right-to-left tests at desktop and phone size
+  layout:                      # translations never break a screen (long-text and right-to-left, desktop and phone), the automatic accessibility check and the speed budget
     runs-on: ubuntu-24.04
-    steps: [{uses: actions/checkout@v5}, {uses: actions/setup-python@v6, with: {python-version: "3.12"}}, {run: sudo apt-get update -q && sudo apt-get install -y fonts-noto-core && pip install playwright && python -m playwright install --with-deps chromium}, {run: python -m unittest tests.test_layout_i18n}]
+    steps: [{uses: actions/checkout@v5}, {uses: actions/setup-python@v6, with: {python-version: "3.12"}}, {run: sudo apt-get update -q && sudo apt-get install -y fonts-noto-core fonts-noto-cjk && pip install playwright && python -m playwright install --with-deps chromium}, {run: python -m unittest tests.test_layout_i18n tests.test_speed_budget}]
   providers:                   # provider ledger: every placeholder registered, no service on without its provider
     runs-on: ubuntu-24.04
     steps: [{uses: actions/checkout@v5}, {uses: actions/setup-python@v6, with: {python-version: "3.12"}}, {run: python providers/check.py}, {run: python -m unittest tests.test_providers tests.test_merchant_logo}]

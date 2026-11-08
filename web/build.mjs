@@ -14,6 +14,8 @@ const OUT = join(WEB, "emulators", "dist");
 const EMULATORS = [
   { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: ["ts/src/pos.js", "web/emulators/pos-terminal/app.js"] },
   { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: ["ts/src/pos.js", "ts/src/merchant.js", "web/emulators/merchant-phone/app.js"] },
+  { id: "browser-frame", out: "lynkomni-browser-frame.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/shell.js", "web/emulators/browser-frame/app.js"],
+    extraCss: ["web/shell/shell.css"] },
 ];
 
 const read = (p) => readFileSync(p, "utf8");
@@ -41,7 +43,7 @@ for (const e of EMULATORS) {
   const dir = join(WEB, "emulators", e.id);
   let html = read(join(dir, "shell.html"))
     .replace("/*@TOKENS@*/", () => fontCss + "\n" + tokens)
-    .replace("/*@STYLE@*/", () => read(join(dir, "style.css")))
+    .replace("/*@STYLE@*/", () => (e.extraCss ?? []).map((c) => read(join(ROOT, c))).join("\n") + "\n" + read(join(dir, "style.css")))
     .replace("/*@BODYMARK@*/", () => D.brand.body)
     .replace(/\/\*@I:([a-z0-9-]+)@\*\//g, (_, id) => `<span class="ic" aria-hidden="true">${D.icons[id] ?? (() => { throw new Error(`unknown icon ${id}`); })()}</span>`)
     .replace("/*@SCRIPT@*/", () => `const DATA = ${JSON.stringify(D).replace(/</g, "\\u003c")};\n${bundle(e.modules)}`);

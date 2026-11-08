@@ -50,6 +50,20 @@ SERVICES = [("pos", "LynkPOS", "product-pos"), ("accountant", "LynkAcc", "produc
             ("recovery", "LynkRecover", "product-recover"), ("vcard", "LynkVCard", "product-vcard")]
 
 
+def icons_used(emulator):
+    """Only the icons an emulator can show go into its file (size budget): every id written in its sources and in the shared
+    TypeScript it bundles, plus the five status icons and the product marks, which screens pick by name at run time."""
+    import re
+    text = ""
+    for folder in (os.path.join(ROOT, "web", "emulators", emulator), os.path.join(ROOT, "ts", "src")):
+        for name in os.listdir(folder):
+            if name.endswith((".ts", ".html")) and not name.endswith(".generated.ts"):
+                with open(os.path.join(folder, name), encoding="utf-8") as f:
+                    text += f.read()
+    all_ids = [i["id"] if isinstance(i, dict) else i for i in brand.manifest()["icons"]]
+    return sorted(i for i in all_ids if i.startswith(("status-", "product-")) or re.search(r"[\"'`/:]" + re.escape(i) + r"[\"'`@]", text))
+
+
 def country_packs():
     """Every country pack as the emulator's country chooser sees it, the sample pack first. What works in a country is read
     from the provider ledger, so a pack alone never switches a partner-backed method or service on."""
@@ -73,11 +87,21 @@ def country_packs():
 def main(emulator):
     with open(os.path.join(ROOT, "design", "tokens.v1.json"), encoding="utf-8") as f:
         states = json.load(f)["states"]
-    icons = {i["id"] if isinstance(i, dict) else i: None for i in brand.manifest()["icons"]}
-    icons = {i: brand.icon_svg(i) for i in icons}
+    icons = {i: brand.icon_svg(i) for i in icons_used(emulator)}
     packs = country_packs()
     off = providers.when_off("payments")
     pic = {th: visuals.get(off["visual"], th) for th in ("light", "dark")}
+    # every screen state's picture (blueprint 41 B: every state is designed), in both themes and the sunlight contrast set
+    state_pics = {}
+    for need_id in ("state-offline", "state-error", "state-not-found", "state-no-results", "state-success", "state-permission", "state-maintenance", "state-sync-pending", "state-coming-soon"):
+        state_pics[need_id] = {}
+        for th in ("light", "dark"):
+            v = visuals.get(need_id, th)
+            state_pics[need_id][th] = {"svg": svg(v.path), "alt": v.alt}
+            if th == "light":                                   # sunlight is a light mode: its contrast set rides on the light picture
+                state_pics[need_id][th]["contrast"] = svg(visuals.get(need_id, th, "sunlight").path)
+    with open(os.path.join(ROOT, "catalog", "addresses.v1.json"), encoding="utf-8") as f:
+        addresses = json.load(f)
     out = {
         "icons": icons,
         "brand": {"body": svg(brand.for_surface("device-body", "light").path),
@@ -86,6 +110,8 @@ def main(emulator):
         "pictures": {"offLight": svg(pic["light"].path), "offDark": svg(pic["dark"].path), "offAlt": pic["light"].alt},
         "states": {k: {"label": v["label"], "meaning": v["meaning"]} for k, v in states.items()},
         "packs": packs, "packOrder": list(packs),   # the country chooser: the sample pack first, then every real pack
+        "statePictures": state_pics,
+        "addresses": {k: addresses[k] for k in ("hosts", "website_paths", "app_paths", "account_paths", "pay_paths", "shop_paths", "staff_paths", "redirects")},
         "i18n": language_packs(emulator),
     }
     json.dump(out, sys.stdout, ensure_ascii=False, sort_keys=True)

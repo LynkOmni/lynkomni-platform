@@ -7,3 +7,4 @@ export * from "./visuals.js";
 export * from "./fonts.js";
 export * from "./payments.js";
 export * from "./usernames.js";
+export * from "./shell.js";

@@ -41,7 +41,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "ts/src/shell.ts search() and commandBar(); browser-frame emulator (press /)"
   },
   {
    "id": "help-in-context",
@@ -57,7 +58,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "ts/src/shell.ts helpPanel(): articles for the screen, LynkAssist, a person, a case"
   },
   {
    "id": "notification-digest",
@@ -73,7 +75,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "ts/src/shell.ts deliverNow(): security now, transactional outside quiet hours, low urgency into one digest, never twice"
   },
   {
    "id": "smart-defaults",
@@ -89,7 +92,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "ts/src/shell.ts smartDefaults(): language, region, currency, time zone from the country pack and the device, each changeable on the first-run card"
   },
   {
    "id": "sign-in-alert",
@@ -1642,7 +1646,8 @@
    "customer_message": false,
    "offline": true,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "ts/src/shell.ts Undo and undoToast(): 30 seconds from the toast, later from history; money actions are audited voids"
   },
   {
    "id": "performance-budget",
@@ -1658,7 +1663,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "web/budgets.v1.json + tests/test_speed_budget.py (CI job layout): size, first screen and first tap on a 4x slower CPU"
   },
   {
    "id": "session-handoff",
@@ -1674,7 +1680,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "ts/src/shell.ts handoff(): screen, record and unsent draft follow the person for a day; never a credential, card or protected screen"
   },
   {
    "id": "churn-watch",
@@ -1741,7 +1748,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "tools/a11y/check.js run on every emulator screen by tests/test_layout_i18n.py (CI job layout), light and dark; plus design/check_a11y.py on the tokens"
   },
   {
    "id": "data-saver",
@@ -1757,7 +1765,8 @@
    "customer_message": false,
    "offline": true,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "ts/src/shell.ts dataSaverPlan() and the sync sheet switch: fewer pictures and priority-only sync on a weak link, undoable"
   },
   {
    "id": "escalation-promise",

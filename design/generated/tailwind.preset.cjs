@@ -40,6 +40,7 @@ module.exports = {
         'on-accent-essential': 'var(--on-accent-essential)',
         'on-accent-exchange': 'var(--on-accent-exchange)',
         'on-brand': 'var(--on-brand)',
+        'on-brand-hover': 'var(--on-brand-hover)',
         'on-device-key': 'var(--on-device-key)',
         'on-device-key-cancel': 'var(--on-device-key-cancel)',
         'on-device-key-clear': 'var(--on-device-key-clear)',

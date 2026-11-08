@@ -35,6 +35,8 @@ const EN: Record<string, string> = PACKS.en?.texts ?? {};
 const TEST_LANGS = ["xx", "xx-rtl"];   // xx = long-text test, xx-rtl = right-to-left test (pseudo-translations, never shown to real users)
 
 const rnd = (n: number): Uint8Array => crypto.getRandomValues(new Uint8Array(n));
+/** An unbiased index below n (rejection sampling: bytes that would favour the low indexes are thrown away). */
+const pick = (n: number): number => { const limit = 256 - (256 % n); let b = rnd(1)[0]!; while (b >= limit) b = rnd(1)[0]!; return b % n; };
 const newId = (): string => uuid7(Date.now(), rnd);
 const CATALOG: Product[] = [
   ["Rice 1 kg", 1500, "food", "6000000000011"], ["Sugar 1 kg", 1400, "food", "6000000000028"], ["Beans 1 kg", 1200, "food", "6000000000035"],
@@ -181,7 +183,7 @@ function tapCard(): void {
   step();
 }
 function scan(): void {
-  const p = CATALOG[Math.floor(rnd(1)[0]! / 256 * CATALOG.length)]!;
+  const p = CATALOG[pick(CATALOG.length)]!;
   const beam = $("#beam"); beam.classList.remove("on"); void beam.offsetWidth; beam.classList.add("on");
   if (S.screen === "lock") return;
   if (!["sell", "cart"].includes(S.screen)) return;

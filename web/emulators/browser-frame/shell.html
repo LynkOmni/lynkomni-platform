@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LynkOmni shell in a browser</title>
+<meta name="description" content="Interactive emulator of the shared LynkOmni shell in a browser window at computer, tablet and phone size: header, navigation, launcher, account menu, every screen state, chat translation, username field and charts.">
+<style>/*@TOKENS@*/
+/*@STYLE@*/</style>
+</head>
+<body>
+<header class="pagehead">
+  <h1>LynkOmni shell in a browser <span class="draft">Draft design</span></h1>
+  <p>Interactive emulator of the parts every LynkOmni surface is built from (build section 1). Sample data, sandbox partners, test money only. Not reviewed by a designer yet.</p>
+</header>
+<main class="stage">
+  <section class="rig" id="rig" aria-label="Browser window">
+    <div class="fit">
+      <div class="device computer" id="device">
+        <div class="chrome">
+          <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="tab" aria-hidden="true"><span class="favicon">/*@BODYMARK@*/</span><span id="tabTitle">LynkOmni</span></div>
+          <div class="urlbar" role="group" aria-label="Address bar"><span class="lockic">/*@I:ui-lock@*/</span><span class="url" id="url">https://app.lynkomni.com/</span></div>
+        </div>
+        <div class="display light" id="display"></div>
+      </div>
+    </div>
+  </section>
+  <aside class="panel" aria-label="Emulator controls">
+    <h2>Try it</h2>
+    <p class="help">Everything here is the shared shell: the header, the navigation that becomes tabs on a phone, the app launcher (grid), the account menu, language and region (globe), "find or do anything" (search), the help panel, notifications, the connection chip and every screen state. Change the size and language and nothing breaks.</p>
+    <h3>Conditions</h3>
+    <label class="row"><span>Size</span> <select id="cSize"><option value="computer">Computer (1280)</option><option value="tablet">Tablet (800)</option><option value="phone">Phone (390)</option></select></label>
+    <label class="row"><span>Connection</span> <select id="cLink"><option value="good">Good</option><option value="weak">Weak</option><option value="offline">Offline</option></select></label>
+    <label class="row"><span>Country</span> <select id="cCountry"></select></label>
+    <label><input type="checkbox" id="cReal"> <span>Show what a merchant sees today in the chosen country<br><span class="help">Places waiting for a licensed partner show "Coming to your country soon." in the launcher instead of disappearing.</span></span></label>
+    <label><input type="checkbox" id="cDark"> <span>Dark theme</span></label>
+    <label class="row"><span>Mode</span> <select id="cMode"><option value="">Normal</option><option value="lite">Lite (no pictures, system fonts)</option><option value="sunlight">Sunlight (high contrast)</option></select></label>
+    <label class="row"><span>Language</span> <select id="cLang"><option value="xx">Long text test</option><option value="xx-rtl">Right-to-left test</option></select></label>
+    <h3>Screens</h3>
+    <p class="help">Pick a state to see how the shell shows it. Every state has a picture, a title, one line and a next step: no dead ends.</p>
+    <div class="states" id="stateButtons"></div>
+    <h3>Event log (what the shell records)</h3>
+    <ul class="log" id="log" aria-live="polite"></ul>
+  </aside>
+</main>
+<script>/*@SCRIPT@*/</script>
+</body>
+</html>

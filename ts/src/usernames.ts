@@ -42,9 +42,17 @@ export function check(value: string | null | undefined): Check {
 /** Shown as @name; addresses carry it without the @. */
 export const display = (username: string): string => `@${normalize(username)}`;
 
+/** Strips leading and trailing full stops and underscores without a backtracking regular expression. */
+const trimDots = (s: string): string => {
+  let a = 0, b = s.length;
+  while (a < b && (s[a] === "." || s[a] === "_")) a++;
+  while (b > a && (s[b - 1] === "." || s[b - 1] === "_")) b--;
+  return s.slice(a, b);
+};
+
 /** Free usernames close to a wanted one, for the "taken" and "refused" states of the username field. */
 export function suggestions(value: string, taken: (u: string) => boolean = () => false, limit = 3): string[] {
-  let base = normalize(value).replace(/\s+/g, ".").replace(/[^a-z0-9._]/g, "").replace(/^[._]+|[._]+$/g, "").replace(/\.\.+/g, ".") || "shop";
+  let base = trimDots(normalize(value).replace(/\s+/g, ".").replace(/[^a-z0-9._]/g, "").replace(/\.\.+/g, ".")) || "shop";
   base = base.slice(0, USERNAME_RULE.max - 4);
   const out: string[] = [];
   for (const cand of [base, `${base}.shop`, `${base}_1`, `${base}.store`, `${base}.2`, `the.${base}`]) {

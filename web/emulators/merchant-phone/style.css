@@ -69,7 +69,7 @@ button, input, select { font: inherit; color: inherit; }
 .kpi small { font-size: 11px; color: var(--text-secondary); }
 .greet { margin: 0; font: 600 13px var(--font-body); color: var(--text-secondary); }
 .big { min-height: 64px; border: 0; border-radius: 18px; background: var(--brand-primary); color: var(--on-brand); font: 700 18px var(--font-heading); display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; padding: 8px 14px; }
-.big:hover { background: var(--brand-hover); }
+.big:hover { background: var(--brand-hover); color: var(--on-brand-hover); }
 .big .ic { width: 24px; height: 24px; }
 .alert { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 12px; border: 1px solid; font-size: 13px; text-align: start; cursor: pointer; width: 100%; }
 .alert.neg { background: var(--status-danger-bg); color: var(--status-danger-text); border-color: var(--status-danger-border); }
@@ -110,11 +110,11 @@ button, input, select { font: inherit; color: inherit; }
 .sum strong { font-size: 17px; color: var(--text-primary); font-feature-settings: var(--font-feature-tabular); }
 .primary, .ghost { flex: 1; min-width: 0; min-height: 48px; border-radius: 14px; font-weight: 700; cursor: pointer; padding: 4px 12px; }
 .primary { border: 0; background: var(--brand-primary); color: var(--on-brand); }
-.primary:hover { background: var(--brand-hover); }
+.primary:hover { background: var(--brand-hover); color: var(--on-brand-hover); }
 .primary:disabled { background: var(--bg-subtle); color: var(--text-muted); cursor: not-allowed; }
 .ghost { border: 1px solid var(--border-strong); background: var(--bg-surface); }
 .due { padding: 12px; border-radius: 14px; background: var(--brand-subtle); display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.due span { font-size: 13px; color: var(--text-secondary); }
+.due span { font-size: 13px; color: var(--text-primary); }
 .due strong { font: 700 24px var(--font-heading); font-feature-settings: var(--font-feature-tabular); }
 .method { display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 0 12px; border-radius: 14px; border: 1px solid var(--border-subtle); background: var(--bg-surface); cursor: pointer; text-align: start; width: 100%; }
 .method > span:not(.ic) { flex: 1; min-width: 0; font-weight: 600; }
@@ -166,7 +166,7 @@ button, input, select { font: inherit; color: inherit; }
 .msg.in { align-self: flex-start; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-end-start-radius: 4px; }
 .msg.out { align-self: flex-end; background: var(--brand-subtle); border-end-end-radius: 4px; }
 .dark .msg.out { background: var(--bg-subtle); }
-.msg .meta { display: flex; gap: 6px; align-items: center; justify-content: flex-end; font-size: 11px; color: var(--text-secondary); }
+.msg .meta { display: flex; gap: 6px; align-items: center; justify-content: flex-end; font-size: 11px; color: var(--text-primary); }
 .compose { flex: none; display: flex; gap: 6px; padding: 8px 10px; border-top: 1px solid var(--border-subtle); background: var(--bg-surface); }
 .compose input { flex: 1; min-width: 0; min-height: 44px; padding: 0 14px; border-radius: 22px; border: 1px solid var(--border-input); background: var(--bg-base); }
 .compose .iconbtn { background: var(--brand-primary); color: var(--on-brand); border-radius: 22px; width: 44px; height: 44px; }

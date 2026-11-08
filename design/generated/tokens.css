@@ -1,8 +1,8 @@
 /* GENERATED from design/tokens.v1.json by design/generate.py. Do not edit by hand. */
 :root {
   color-scheme: light;
-  --font-heading: 'Montserrat', 'Noto Kufi Arabic', 'Noto Sans Hebrew', 'Noto Sans Devanagari', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-body: 'Inter', 'Noto Sans Arabic', 'Noto Sans Hebrew', 'Noto Sans Devanagari', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-heading: 'Montserrat', 'Noto Kufi Arabic', 'Noto Sans Hebrew', 'Noto Sans Devanagari', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: 'Inter', 'Noto Sans Arabic', 'Noto Sans Hebrew', 'Noto Sans Devanagari', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', 'Noto Sans KR', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
   --font-feature-tabular: "tnum" 1, "lnum" 1, "cv05" 1;
   --touch-target: 2.75rem;
@@ -81,6 +81,7 @@
   --status-neutral-text: #3F3F46;
   --ad-label-bg: #F4F4F5;
   --ad-label-text: #3F3F46;
+  --on-brand-hover: #FFFFFF;
 }
 .dark {
   color-scheme: dark;
@@ -124,6 +125,7 @@
   --status-neutral-text: #D4D4D8;
   --ad-label-bg: #27272A;
   --ad-label-text: #D4D4D8;
+  --on-brand-hover: #18181B;
 }
 @media (prefers-color-scheme: dark) {
   :root:not(.light):not(.dark) {
@@ -168,6 +170,7 @@
     --status-neutral-text: #D4D4D8;
     --ad-label-bg: #27272A;
     --ad-label-text: #D4D4D8;
+    --on-brand-hover: #18181B;
   }
 }
 /* High contrast (sunlight mode): set data-contrast="high" on <html>, or the device asks for it. */
@@ -183,6 +186,7 @@
   --brand-ink: #4C1D95;
   --logo-ink: #000000;
   --focus-ring: #4C1D95;
+  --on-brand-hover: #FFFFFF;
 }
 .dark[data-mode="sunlight"] {
   --bg-base: #000000;
@@ -196,6 +200,8 @@
   --brand-ink: #C4B5FD;
   --logo-ink: #FFFFFF;
   --focus-ring: #C4B5FD;
+  --on-brand-hover: #000000;
+  --on-brand: #000000;
 }
 [data-contrast="high"] {
   --bg-base: #FFFFFF;
@@ -209,6 +215,7 @@
   --brand-ink: #4C1D95;
   --logo-ink: #000000;
   --focus-ring: #4C1D95;
+  --on-brand-hover: #FFFFFF;
 }
 .dark[data-contrast="high"] {
   --bg-base: #000000;
@@ -222,6 +229,8 @@
   --brand-ink: #C4B5FD;
   --logo-ink: #FFFFFF;
   --focus-ring: #C4B5FD;
+  --on-brand-hover: #000000;
+  --on-brand: #000000;
 }
 @media (prefers-contrast: more) {
 :root:not([data-contrast]) {
@@ -236,6 +245,7 @@
     --brand-ink: #4C1D95;
     --logo-ink: #000000;
     --focus-ring: #4C1D95;
+    --on-brand-hover: #FFFFFF;
   }
 :root.dark:not([data-contrast]) {
     --bg-base: #000000;
@@ -249,6 +259,8 @@
     --brand-ink: #C4B5FD;
     --logo-ink: #FFFFFF;
     --focus-ring: #C4B5FD;
+    --on-brand-hover: #000000;
+    --on-brand: #000000;
   }
 }
 @media (forced-colors: active) {

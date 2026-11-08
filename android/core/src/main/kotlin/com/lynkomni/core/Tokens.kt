@@ -70,7 +70,8 @@ object Tokens {
         "status-neutral-border" to 0xFFD4D4D8L,
         "status-neutral-text" to 0xFF3F3F46L,
         "ad-label-bg" to 0xFFF4F4F5L,
-        "ad-label-text" to 0xFF3F3F46L
+        "ad-label-text" to 0xFF3F3F46L,
+        "on-brand-hover" to 0xFFFFFFFFL
     )
     val dark: Map<String, Long> = mapOf(
         "vcard-hub-bg" to 0xFF94A3B8L,
@@ -139,7 +140,8 @@ object Tokens {
         "status-neutral-border" to 0xFF52525BL,
         "status-neutral-text" to 0xFFD4D4D8L,
         "ad-label-bg" to 0xFF27272AL,
-        "ad-label-text" to 0xFFD4D4D8L
+        "ad-label-text" to 0xFFD4D4D8L,
+        "on-brand-hover" to 0xFF18181BL
     )
     val contrastLight: Map<String, Long> = mapOf(
         "vcard-hub-bg" to 0xFF94A3B8L,
@@ -208,7 +210,8 @@ object Tokens {
         "status-neutral-border" to 0xFFD4D4D8L,
         "status-neutral-text" to 0xFF3F3F46L,
         "ad-label-bg" to 0xFFF4F4F5L,
-        "ad-label-text" to 0xFF3F3F46L
+        "ad-label-text" to 0xFF3F3F46L,
+        "on-brand-hover" to 0xFFFFFFFFL
     )
     val contrastDark: Map<String, Long> = mapOf(
         "vcard-hub-bg" to 0xFF94A3B8L,
@@ -219,7 +222,7 @@ object Tokens {
         "on-vcard-hub" to 0xFF18181BL,
         "on-vcard-core" to 0xFFFFFFFFL,
         "on-vcard-omni" to 0xFFFFFFFFL,
-        "on-brand" to 0xFFFFFFFFL,
+        "on-brand" to 0xFF000000L,
         "on-accent-booking" to 0xFF18181BL,
         "on-accent-essential" to 0xFF18181BL,
         "on-accent-exchange" to 0xFF18181BL,
@@ -277,7 +280,8 @@ object Tokens {
         "status-neutral-border" to 0xFF52525BL,
         "status-neutral-text" to 0xFFD4D4D8L,
         "ad-label-bg" to 0xFF27272AL,
-        "ad-label-text" to 0xFFD4D4D8L
+        "ad-label-text" to 0xFFD4D4D8L,
+        "on-brand-hover" to 0xFF000000L
     )
     val states: Map<String, Triple<String, String, String>> = mapOf(
         "queued" to Triple("Queued", "clock", "neutral"),

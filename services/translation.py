@@ -151,7 +151,8 @@ def problems(src, out):
     return None
 
 
-_SCRIPT_WORD = {"arabic": "ARABIC", "hebrew": "HEBREW", "devanagari": "DEVANAGARI"}
+_SCRIPT_WORD = {"arabic": "ARABIC", "hebrew": "HEBREW", "devanagari": "DEVANAGARI", "cyrillic": "CYRILLIC",
+                "han-simplified": "CJK UNIFIED", "han-traditional": "CJK UNIFIED", "japanese": ("CJK UNIFIED", "HIRAGANA", "KATAKANA"), "korean": "HANGUL"}
 
 
 def in_own_script(text, lang):
@@ -159,7 +160,7 @@ def in_own_script(text, lang):
     import unicodedata
     with open(os.path.join(ROOT, "design", "fonts", "scripts.v1.json"), encoding="utf-8") as f:
         word = _SCRIPT_WORD.get(json.load(f)["languages"][lang]["script"])
-    return not word or any(unicodedata.name(c, "").startswith(word) for c in text)
+    return not word or any(unicodedata.name(c, "").startswith(word) for c in text)   # str.startswith accepts a tuple of words
 
 
 class TableTranslator(Translator):
