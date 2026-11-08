@@ -1283,7 +1283,7 @@
   "locked": "2026-11-08",
   "note": "The owner's 14 own to-dos, locked as the REMINDER (owner rule 2026-11-08). Claude provides this list any time the owner asks, when they say \"let's start building\" and whenever a piece of work concludes. None is mandatory before building; only item 1 blocks items 2 to 8. The user_actions list above holds the same items in detail with their status.",
   "now": [
-   "1. Pay for Google Workspace (a normal bank card, or an official Google Workspace partner).",
+   "1. Pay for Google Workspace: DONE 2026-11-08 (owner). Items 2 to 8 are now open, in order.",
    "1b. GitHub Actions billing: RESOLVED 2026-11-08 (an Actions budget of $5 is set; the repositories are private again).",
    "1c. CodeQL on private repositories: RESOLVED 2026-11-08 by GitHub itself (code scanning switched off when the repositories went private; Claude's own security review stays item 11)."
   ],
