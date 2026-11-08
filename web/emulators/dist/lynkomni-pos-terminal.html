@@ -90,6 +90,7 @@
   --status-neutral-text: #3F3F46;
   --ad-label-bg: #F4F4F5;
   --ad-label-text: #3F3F46;
+  --on-brand-hover: #FFFFFF;
 }
 .dark {
   color-scheme: dark;
@@ -133,6 +134,7 @@
   --status-neutral-text: #D4D4D8;
   --ad-label-bg: #27272A;
   --ad-label-text: #D4D4D8;
+  --on-brand-hover: #18181B;
 }
 @media (prefers-color-scheme: dark) {
   :root:not(.light):not(.dark) {
@@ -177,6 +179,7 @@
     --status-neutral-text: #D4D4D8;
     --ad-label-bg: #27272A;
     --ad-label-text: #D4D4D8;
+    --on-brand-hover: #18181B;
   }
 }
 /* High contrast (sunlight mode): set data-contrast="high" on <html>, or the device asks for it. */
@@ -192,6 +195,7 @@
   --brand-ink: #4C1D95;
   --logo-ink: #000000;
   --focus-ring: #4C1D95;
+  --on-brand-hover: #FFFFFF;
 }
 .dark[data-mode="sunlight"] {
   --bg-base: #000000;
@@ -205,6 +209,8 @@
   --brand-ink: #C4B5FD;
   --logo-ink: #FFFFFF;
   --focus-ring: #C4B5FD;
+  --on-brand-hover: #000000;
+  --on-brand: #000000;
 }
 [data-contrast="high"] {
   --bg-base: #FFFFFF;
@@ -218,6 +224,7 @@
   --brand-ink: #4C1D95;
   --logo-ink: #000000;
   --focus-ring: #4C1D95;
+  --on-brand-hover: #FFFFFF;
 }
 .dark[data-contrast="high"] {
   --bg-base: #000000;
@@ -231,6 +238,8 @@
   --brand-ink: #C4B5FD;
   --logo-ink: #FFFFFF;
   --focus-ring: #C4B5FD;
+  --on-brand-hover: #000000;
+  --on-brand: #000000;
 }
 @media (prefers-contrast: more) {
 :root:not([data-contrast]) {
@@ -245,6 +254,7 @@
     --brand-ink: #4C1D95;
     --logo-ink: #000000;
     --focus-ring: #4C1D95;
+    --on-brand-hover: #FFFFFF;
   }
 :root.dark:not([data-contrast]) {
     --bg-base: #000000;
@@ -258,6 +268,8 @@
     --brand-ink: #C4B5FD;
     --logo-ink: #FFFFFF;
     --focus-ring: #C4B5FD;
+    --on-brand-hover: #000000;
+    --on-brand: #000000;
   }
 }
 @media (forced-colors: active) {
@@ -338,7 +350,7 @@ body { margin: 0; min-height: 100vh; }
 
 /* ---- the screen ---- */
 .display { width: 284px; height: 470px; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; background: var(--bg-base); color: var(--text-primary); font: 14px/1.4 var(--font-body); position: relative; }
-.statusbar { flex: none; height: 24px; padding: 0 10px; display: flex; align-items: center; gap: 8px; font: 600 11px var(--font-body); color: var(--text-secondary); background: var(--bg-subtle); border-bottom: 1px solid var(--border-subtle); }
+.statusbar { flex: none; height: 24px; padding: 0 10px; display: flex; align-items: center; gap: 8px; font: 600 11px var(--font-body); color: var(--text-primary); background: var(--bg-subtle); border-bottom: 1px solid var(--border-subtle); }
 .statusbar > span:first-child { margin-inline-end: auto; font-feature-settings: var(--font-feature-tabular); }
 .sbxtag { padding: 0 6px; border-radius: 4px; background: var(--status-warning-bg); color: var(--status-warning-text); border: 1px solid var(--status-warning-border); text-transform: uppercase; letter-spacing: .05em; font-size: 9px; line-height: 14px; }
 .sync, .net { display: inline-flex; align-items: center; gap: 2px; }
@@ -370,7 +382,7 @@ button { font: inherit; color: inherit; }
 .sum strong { font-size: 17px; color: var(--text-primary); font-feature-settings: var(--font-feature-tabular); }
 .primary, .ghost { flex: 1; min-height: 44px; border-radius: 12px; font-weight: 700; cursor: pointer; padding: 0 12px; }
 .primary { border: 0; background: var(--brand-primary); color: var(--on-brand); }
-.primary:hover { background: var(--brand-hover); }
+.primary:hover { background: var(--brand-hover); color: var(--on-brand-hover); }
 .primary:disabled { background: var(--bg-subtle); color: var(--text-muted); cursor: not-allowed; }
 .ghost { border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); }
 .lines { list-style: none; margin: 0; padding: 0 10px; flex: 1; overflow-y: auto; }
@@ -384,7 +396,7 @@ button { font: inherit; color: inherit; }
 .rt { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
 .due { margin: 12px 10px 4px; padding: 12px; border-radius: 12px; background: var(--brand-subtle); display: flex; justify-content: space-between; align-items: baseline; }
 .dark .due { background: var(--bg-subtle); }
-.due span { font-size: 13px; color: var(--text-secondary); }
+.due span { font-size: 13px; color: var(--text-primary); }
 .due strong { font-size: 24px; font-feature-settings: var(--font-feature-tabular); }
 .ask { margin: 8px 12px; font-size: 13px; color: var(--text-secondary); }
 .methods { display: flex; flex-direction: column; gap: 6px; padding: 0 10px; }

@@ -1,0 +1,11 @@
+{
+ "version": 1,
+ "description": "Speed budget per screen (blueprint 45 E, build section 1: a slow screen fails the build). Every emulator is one offline file; the budget caps its size and how long it takes to show its first screen and to answer a tap on a four-times-slower CPU (a low-cost phone). tests/test_speed_budget.py enforces it; raise a budget only with a reason in the change log.",
+ "cpu_slowdown": 4,
+ "defaults": {"file_kb": 480, "first_screen_ms": 1500, "tap_ms": 120, "dom_nodes": 2500},
+ "emulators": {
+  "pos-terminal": {"first_tap": "[data-act=\"d1\"]"},
+  "merchant-phone": {"first_tap": "[data-act=\"sendcode\"]"},
+  "browser-frame": {"first_tap": "[data-act=\"shell:launcher\"]"}
+ }
+}

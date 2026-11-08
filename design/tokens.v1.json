@@ -290,6 +290,10 @@
    "ad-label-text": [
     "#3F3F46",
     "added"
+   ],
+   "on-brand-hover": [
+    "#FFFFFF",
+    "added"
    ]
   },
   "dark": {
@@ -460,6 +464,10 @@
    "ad-label-text": [
     "#D4D4D8",
     "added"
+   ],
+   "on-brand-hover": [
+    "#18181B",
+    "added"
    ]
   },
   "contrast-light": {
@@ -506,6 +514,10 @@
    "focus-ring": [
     "#4C1D95",
     "added"
+   ],
+   "on-brand-hover": [
+    "#FFFFFF",
+    "added"
    ]
   },
   "contrast-dark": {
@@ -551,6 +563,14 @@
    ],
    "focus-ring": [
     "#C4B5FD",
+    "added"
+   ],
+   "on-brand-hover": [
+    "#000000",
+    "added"
+   ],
+   "on-brand": [
+    "#000000",
     "added"
    ]
   }
@@ -930,6 +950,43 @@
     "contrast-light",
     "contrast-dark"
    ]
+  },
+  {
+   "fg": "on-brand-hover",
+   "bg": [
+    "brand-hover"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ]
+  },
+  {
+   "fg": "on-brand",
+   "bg": [
+    "brand-primary"
+   ],
+   "min": 4.5,
+   "themes": [
+    "contrast-light",
+    "contrast-dark"
+   ]
+  },
+  {
+   "fg": "text-primary",
+   "bg": [
+    "brand-subtle"
+   ],
+   "min": 4.5,
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ]
   }
  ],
  "known_limits": {
@@ -937,7 +994,8 @@
   "border-strong": "Dividers and decorative rings only. Input boundaries use border-input (3:1 or better).",
   "brand-primary": "Fill colour. White text on it is 4.81:1 (AA). Violet used as TEXT uses brand-ink.",
   "logo-ink": "Logo colour only (the LynkOmni mark and wordmark). It is white in dark mode, unlike text-primary. Never use it for text. The logo accent is brand-primary and needs 3:1 as a graphic (WCAG non-text contrast).",
-  "accent-*": "Fill and large-graphics colours. Accent TEXT or icons use the matching -ink token."
+  "accent-*": "Fill and large-graphics colours. Accent TEXT or icons use the matching -ink token.",
+  "on-brand-hover": "Text on a hovered brand button: white in light mode, dark in dark mode, because the dark hover colour (#9E75FF, spec) only reaches 3.3:1 with white."
  },
  "states": {
   "queued": {

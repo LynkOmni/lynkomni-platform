@@ -68,7 +68,8 @@ public enum Tokens {
         "status-neutral-border": 0xFFD4D4D8,
         "status-neutral-text": 0xFF3F3F46,
         "ad-label-bg": 0xFFF4F4F5,
-        "ad-label-text": 0xFF3F3F46
+        "ad-label-text": 0xFF3F3F46,
+        "on-brand-hover": 0xFFFFFFFF
     ]
     public static let dark: [String: UInt32] = [
         "vcard-hub-bg": 0xFF94A3B8,
@@ -137,7 +138,8 @@ public enum Tokens {
         "status-neutral-border": 0xFF52525B,
         "status-neutral-text": 0xFFD4D4D8,
         "ad-label-bg": 0xFF27272A,
-        "ad-label-text": 0xFFD4D4D8
+        "ad-label-text": 0xFFD4D4D8,
+        "on-brand-hover": 0xFF18181B
     ]
     public static let contrastLight: [String: UInt32] = [
         "vcard-hub-bg": 0xFF94A3B8,
@@ -206,7 +208,8 @@ public enum Tokens {
         "status-neutral-border": 0xFFD4D4D8,
         "status-neutral-text": 0xFF3F3F46,
         "ad-label-bg": 0xFFF4F4F5,
-        "ad-label-text": 0xFF3F3F46
+        "ad-label-text": 0xFF3F3F46,
+        "on-brand-hover": 0xFFFFFFFF
     ]
     public static let contrastDark: [String: UInt32] = [
         "vcard-hub-bg": 0xFF94A3B8,
@@ -217,7 +220,7 @@ public enum Tokens {
         "on-vcard-hub": 0xFF18181B,
         "on-vcard-core": 0xFFFFFFFF,
         "on-vcard-omni": 0xFFFFFFFF,
-        "on-brand": 0xFFFFFFFF,
+        "on-brand": 0xFF000000,
         "on-accent-booking": 0xFF18181B,
         "on-accent-essential": 0xFF18181B,
         "on-accent-exchange": 0xFF18181B,
@@ -275,7 +278,8 @@ public enum Tokens {
         "status-neutral-border": 0xFF52525B,
         "status-neutral-text": 0xFFD4D4D8,
         "ad-label-bg": 0xFF27272A,
-        "ad-label-text": 0xFFD4D4D8
+        "ad-label-text": 0xFFD4D4D8,
+        "on-brand-hover": 0xFF000000
     ]
     public static let states: [String: (label: String, icon: String, tone: String)] = [
         "queued": ("Queued", "clock", "neutral"),

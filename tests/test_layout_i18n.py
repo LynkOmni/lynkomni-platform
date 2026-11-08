@@ -29,16 +29,37 @@ OVERFLOW = """() => {
   }
   return [...new Set(bad)];
 }"""
+A11Y = open(os.path.join(ROOT, "tools", "a11y", "check.js"), encoding="utf-8").read()   # the automatic accessibility check (build section 1)
+A11Y_LANGS = ("en", "xx-rtl")                                                        # contrast and names are the same in every language; direction matters
+
+
+def problems(pg, lang):
+    """Layout problems on the current screen, plus accessibility problems in the languages the a11y check runs for."""
+    out = list(pg.evaluate(OVERFLOW))
+    if lang in A11Y_LANGS:
+        out += [f"a11y: {x}" for x in pg.evaluate(A11Y)]
+    return out
+
+
 SIZE = "() => { const r = document.querySelector('#device').getBoundingClientRect(), s = document.querySelector('#display').getBoundingClientRect(); return [Math.round(r.width / (window.devicePixelRatio || 1)), Math.round(s.width), Math.round(s.height)]; }"
 
 
+class DarkPass:
+    """The accessibility check again with the dark theme on: contrast differs by theme."""
+    def dark_pass(self, b, url):
+        pg = b.new_page(viewport={"width": 1500, "height": 1100}, reduced_motion="reduce")
+        pg.goto(url); pg.check("#cDark"); pg.evaluate("document.activeElement.blur()")
+        self.assertEqual(self.walk(pg, "en"), {}, "dark theme")
+        pg.close()
+
+
 @unittest.skipUnless(sync_playwright and os.path.isfile(FILE), "Playwright with Chromium is needed")
-class TranslationLayout(unittest.TestCase):
-    def walk(self, pg):
+class TranslationLayout(DarkPass, unittest.TestCase):
+    def walk(self, pg, lang="en"):
         """Every screen of a sale and the menu. Returns {screen: problems}."""
         found = {}
         def check(name):
-            p = pg.evaluate(OVERFLOW)
+            p = problems(pg, lang)
             if p:
                 found[name] = p
         for k in "1234":
@@ -75,24 +96,24 @@ class TranslationLayout(unittest.TestCase):
                     pg.goto(PAGE)
                     pg.select_option("#cLang", lang)
                     sizes[(width, lang)] = tuple(pg.evaluate(SIZE))
-                    problems = self.walk(pg)
-                    self.assertEqual(problems, {}, f"{lang} at {width}px")
+                    self.assertEqual(self.walk(pg, lang), {}, f"{lang} at {width}px")
                     want = "rtl" if lang == "xx-rtl" else "ltr" if lang == "xx" else translation._dir(lang)
                     self.assertEqual(pg.get_attribute("#display", "dir"), want, lang)
                     self.assertLessEqual(pg.evaluate("document.documentElement.scrollWidth"), width, f"{lang} at {width}px scrolls sideways")
                     pg.close()
+            self.dark_pass(b, PAGE)
             b.close()
         for width in (1280, 390):   # the device and its screen keep exactly the same size in every language
             self.assertEqual(len({sizes[(width, l)] for l in LANGS}), 1, f"size changed at {width}px: {sizes}")
 
 
 @unittest.skipUnless(sync_playwright and os.path.isfile(PHONE), "Playwright with Chromium is needed")
-class PhoneLayout(unittest.TestCase):
+class PhoneLayout(DarkPass, unittest.TestCase):
     """The merchant app on a phone: every screen, in every language, keeps its size and nothing spills over."""
-    def walk(self, pg):
+    def walk(self, pg, lang="en"):
         found = {}
         def check(name):
-            p = pg.evaluate(OVERFLOW)
+            p = problems(pg, lang)
             if p:
                 found[name] = p
         check("sign in")
@@ -127,27 +148,28 @@ class PhoneLayout(unittest.TestCase):
                     pg.goto("file://" + PHONE)
                     pg.select_option("#cLang", lang)
                     sizes[(width, lang)] = tuple(pg.evaluate(SIZE))
-                    self.assertEqual(self.walk(pg), {}, f"{lang} at {width}px")
+                    self.assertEqual(self.walk(pg, lang), {}, f"{lang} at {width}px")
                     want = "rtl" if lang == "xx-rtl" else "ltr" if lang == "xx" else translation._dir(lang)
                     self.assertEqual(pg.get_attribute("#display", "dir"), want, lang)
                     self.assertLessEqual(pg.evaluate("document.documentElement.scrollWidth"), width, f"{lang} at {width}px scrolls sideways")
                     pg.close()
+            self.dark_pass(b, "file://" + PHONE)
             b.close()
         for width in (1280, 390):
             self.assertEqual(len({sizes[(width, l)] for l in LANGS}), 1, f"size changed at {width}px: {sizes}")
 
 
 @unittest.skipUnless(sync_playwright and os.path.isfile(BROWSER), "Playwright with Chromium is needed")
-class ShellLayout(unittest.TestCase):
+class ShellLayout(DarkPass, unittest.TestCase):
     """The shared shell in a browser (build section 1): every part and every state, at computer, tablet and phone size, in every
     language, keeps the window size and nothing spills over. The browser window itself never scrolls sideways."""
     STATES = ["home", "payment", "state:loading", "state:empty", "state:offline", "state:error", "state:not_found", "state:no_results",
               "state:permission", "state:maintenance", "state:sync_pending", "state:coming_soon", "state:success"]
 
-    def walk(self, pg):
+    def walk(self, pg, lang="en"):
         found = {}
         def check(name):
-            p = pg.evaluate(OVERFLOW)
+            p = problems(pg, lang)
             if p:
                 found[name] = p
         for st in self.STATES:
@@ -176,10 +198,11 @@ class ShellLayout(unittest.TestCase):
                     pg.goto("file://" + BROWSER)
                     pg.select_option("#cSize", size); pg.select_option("#cLang", lang)
                     sizes[(size, lang)] = tuple(pg.evaluate(SIZE))
-                    self.assertEqual(self.walk(pg), {}, f"{lang} on {size}")
+                    self.assertEqual(self.walk(pg, lang), {}, f"{lang} on {size}")
                     want = "rtl" if lang == "xx-rtl" else "ltr" if lang == "xx" else translation._dir(lang)
                     self.assertEqual(pg.get_attribute("#display", "dir"), want, lang)
                     pg.close()
+            self.dark_pass(b, "file://" + BROWSER)
             # the page that holds the window never scrolls sideways at a narrow viewport either
             pg = b.new_page(viewport={"width": 390, "height": 900}); pg.goto("file://" + BROWSER)
             self.assertLessEqual(pg.evaluate("document.documentElement.scrollWidth"), 390)

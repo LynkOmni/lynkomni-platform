@@ -68,7 +68,8 @@ export const tokens = {
     "status-neutral-border": "#D4D4D8",
     "status-neutral-text": "#3F3F46",
     "ad-label-bg": "#F4F4F5",
-    "ad-label-text": "#3F3F46"
+    "ad-label-text": "#3F3F46",
+    "on-brand-hover": "#FFFFFF"
   },
   "dark": {
     "vcard-hub-bg": "#94A3B8",
@@ -137,7 +138,8 @@ export const tokens = {
     "status-neutral-border": "#52525B",
     "status-neutral-text": "#D4D4D8",
     "ad-label-bg": "#27272A",
-    "ad-label-text": "#D4D4D8"
+    "ad-label-text": "#D4D4D8",
+    "on-brand-hover": "#18181B"
   },
   "contrast-light": {
     "vcard-hub-bg": "#94A3B8",
@@ -206,7 +208,8 @@ export const tokens = {
     "status-neutral-border": "#D4D4D8",
     "status-neutral-text": "#3F3F46",
     "ad-label-bg": "#F4F4F5",
-    "ad-label-text": "#3F3F46"
+    "ad-label-text": "#3F3F46",
+    "on-brand-hover": "#FFFFFF"
   },
   "contrast-dark": {
     "vcard-hub-bg": "#94A3B8",
@@ -217,7 +220,7 @@ export const tokens = {
     "on-vcard-hub": "#18181B",
     "on-vcard-core": "#FFFFFF",
     "on-vcard-omni": "#FFFFFF",
-    "on-brand": "#FFFFFF",
+    "on-brand": "#000000",
     "on-accent-booking": "#18181B",
     "on-accent-essential": "#18181B",
     "on-accent-exchange": "#18181B",
@@ -275,7 +278,8 @@ export const tokens = {
     "status-neutral-border": "#52525B",
     "status-neutral-text": "#D4D4D8",
     "ad-label-bg": "#27272A",
-    "ad-label-text": "#D4D4D8"
+    "ad-label-text": "#D4D4D8",
+    "on-brand-hover": "#000000"
   },
   states: {"queued": {"label": "Queued", "icon": "clock", "tone": "neutral", "meaning": "Saved on this device, not sent yet."}, "sent": {"label": "Sent", "icon": "arrow-up", "tone": "info", "meaning": "Left this device, awaiting the cloud. Relayed items stay here until the cloud accepts."}, "accepted": {"label": "Accepted", "icon": "check", "tone": "info", "meaning": "The cloud stored it. A provider has not confirmed any money."}, "confirmed": {"label": "Confirmed", "icon": "double-check", "tone": "success", "meaning": "The provider or issuer confirmed it."}, "failed": {"label": "Failed", "icon": "cross", "tone": "danger", "meaning": "It did not go through. Nothing was charged unless a refund is shown."}},
   modes: {"touch_target_px": 44, "min_text_scale_percent": 200, "lite": "System fonts only, no animation, no decorative images, smaller first load.", "sunlight": "Uses the high-contrast token set on demand, for bright outdoor screens."},
