@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ckb",
  "native": "کوردی",
- "source_sha256": "42efec5ba5b3ad83a64b61c27405e3cd29a41d02faba9cc20e4b214c251e40e9",
+ "source_sha256": "b40baec3f875825ac567f1807378bc07505dbb0177b27cbd63df58748d9e1c09",
  "texts": {
   "account_menu": "هەژمار",
   "action_add": "یەکەم زیاد بکە",
@@ -73,6 +73,7 @@
   "role_owner": "خاوەن",
   "sample_country": "وڵاتی نموونە",
   "sandbox": "تاقیکاری",
+  "search_country": "گەڕان بۆ وڵاتان",
   "security_center": "ناوەندی ئاسایش",
   "shortcut_hint": "لەسەر کۆمپیوتەر: / دابگرە بۆ کردنەوەی ئەمە.",
   "show_original": "ئەسڵ پیشان بدە",

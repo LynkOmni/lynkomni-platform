@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "42efec5ba5b3ad83a64b61c27405e3cd29a41d02faba9cc20e4b214c251e40e9",
+ "source_sha256": "b40baec3f875825ac567f1807378bc07505dbb0177b27cbd63df58748d9e1c09",
  "texts": {
   "account_menu": "Tài khoản",
   "action_add": "Thêm mục đầu tiên",
@@ -73,6 +73,7 @@
   "role_owner": "Chủ",
   "sample_country": "Quốc gia mẫu",
   "sandbox": "Môi trường thử",
+  "search_country": "Tìm quốc gia",
   "security_center": "Trung tâm bảo mật",
   "shortcut_hint": "Trên máy tính: nhấn / để mở.",
   "show_original": "Xem bản gốc",

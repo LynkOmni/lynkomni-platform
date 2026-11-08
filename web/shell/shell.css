@@ -158,3 +158,8 @@
 [data-mode="lite"] .state .pic { display: none; }
 /* identifiers and addresses read left to right inside right-to-left text */
 .lynkid code, .deeplink, .rec, .urlbar .url { direction: ltr; unicode-bidi: isolate; }
+
+/* every country is listed, so the region list gets a search box */
+.globe-sheet .region-search { inline-size: 100%; min-block-size: 44px; margin-block: 4px 8px; padding: 8px 12px; border: 1px solid var(--border-input); border-radius: 8px; background: var(--bg-surface); color: var(--text-primary); font: inherit; }
+.globe-sheet .choices.regions { max-block-size: 40vh; overflow-y: auto; }
+.globe-sheet .choices.regions li[hidden] { display: none; }

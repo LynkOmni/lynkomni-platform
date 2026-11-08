@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "es",
  "native": "Español",
- "source_sha256": "42efec5ba5b3ad83a64b61c27405e3cd29a41d02faba9cc20e4b214c251e40e9",
+ "source_sha256": "b40baec3f875825ac567f1807378bc07505dbb0177b27cbd63df58748d9e1c09",
  "texts": {
   "account_menu": "Cuenta",
   "action_add": "Añadir el primero",
@@ -73,6 +73,7 @@
   "role_owner": "Propietario",
   "sample_country": "País de muestra",
   "sandbox": "Pruebas",
+  "search_country": "Buscar países",
   "security_center": "Centro de seguridad",
   "shortcut_hint": "En un ordenador: pulsa / para abrir esto.",
   "show_original": "Ver original",

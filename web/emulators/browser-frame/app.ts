@@ -1,6 +1,6 @@
 /* The shared LynkOmni shell inside a browser window (build section 1). Every part comes from ts/src/shell.ts; this file only
  * holds the sample page, the emulator controls and the event log. Words come from strings.en.json and the language packs. */
-import { STATE_PICTURE, Undo, accountMenu, chart, comingSoon, commandBar, connectionChip, deliverNow, esc, globeSheet, header, helpPanel, launcher, messageNote, messageText, navigation, notificationsPanel, route, search, state, syncSheet, translationBanner, translator, undoToast, usernameField } from "../../../ts/src/shell.js";
+import { STATE_PICTURE, Undo, accountMenu, chart, comingSoon, commandBar, connectionChip, deliverNow, esc, filterRegions, globeSheet, regionName, header, helpPanel, launcher, messageNote, messageText, navigation, notificationsPanel, route, search, state, syncSheet, translationBanner, translator, undoToast, usernameField } from "../../../ts/src/shell.js";
 import type { AddressMap, ChatLang, ChatMessage, Entry, Icon, Link, NavItem, Notice, Pic, StateKind, SyncInfo, T, UsernameStatus, Viewport } from "../../../ts/src/shell.js";
 import type { UserState } from "../../../ts/src/pos.js";
 
@@ -112,7 +112,7 @@ function overlay(): string {
   switch (S.overlay) {
     case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.service, name: s.name, icon: s.icon, href: `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon));
     case "account": return wrap("end", accountMenu({ name: "Grace", lynkId: "LOID-4821-9035-7716", businesses: [{ id: "b1", name: SHOP(), current: true }, { id: "b2", name: `${SHOP()} 2`, current: false }], role: "owner", roles: ["owner", "manager", "cashier"], theme: S.mode === "lite" ? "lite" : S.mode === "sunlight" ? "sunlight" : S.theme, language: langName(isTest() ? "en" : S.lang), region: pack().sample ? t("sample_country") : pack().name }, t, icon));
-    case "globe": return wrap("", globeSheet(Object.entries(PACKS).map(([code, p]) => ({ code, native: p.native, dir: p.dir })), DATA.packOrder.map((c) => ({ code: c, name: (DATA.packs[c] as CountryPack).sample ? t("sample_country") : (DATA.packs[c] as CountryPack).name })), { language: isTest() ? "en" : S.lang, region: pack().code }, t));
+    case "globe": return wrap("", globeSheet(Object.entries(PACKS).map(([code, p]) => ({ code, native: p.native, dir: p.dir })), DATA.packOrder.map((c) => ({ code: c, name: (DATA.packs[c] as CountryPack).sample ? t("sample_country") : regionName(c, isTest() ? "en" : S.lang, (DATA.packs[c] as CountryPack).name) })), { language: isTest() ? "en" : S.lang, region: pack().code }, t));
     case "cmd": {
       const index: Entry[] = [
         { id: "a1", kind: "action", title: t("new_sale"), act: "newsale" }, { id: "a2", kind: "action", title: t("archive_product"), act: "archive" },
@@ -221,6 +221,7 @@ function init(): void {
   });
   $("#display").addEventListener("input", (e) => {
     const el = e.target as HTMLInputElement;
+    if (el.dataset["filter"] === "regions") { const list = $("#regionList"); if (list) filterRegions(list, el.value); return; }
     if (el.id === "cmdIn") { S.query = plain(el.value); const list = $("#cmdList"); const index = overlay(); const m = /<ul id="cmdList"[^>]*>([\s\S]*?)<\/ul>/.exec(index); if (list && m) list.innerHTML = m[1]!; }
     if (el.id === "usernameIn") { act(`username:${el.value}`); const inp = $<HTMLInputElement>("#usernameIn"); inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }
   });

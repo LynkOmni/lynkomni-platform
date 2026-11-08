@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "42efec5ba5b3ad83a64b61c27405e3cd29a41d02faba9cc20e4b214c251e40e9",
+ "source_sha256": "b40baec3f875825ac567f1807378bc07505dbb0177b27cbd63df58748d9e1c09",
  "texts": {
   "account_menu": "アカウント",
   "action_add": "最初の 1 件を追加",
@@ -73,6 +73,7 @@
   "role_owner": "オーナー",
   "sample_country": "サンプルの国",
   "sandbox": "サンドボックス",
+  "search_country": "国を検索",
   "security_center": "セキュリティセンター",
   "shortcut_hint": "パソコンでは / キーで開きます。",
   "show_original": "原文を表示",

@@ -33,6 +33,8 @@ function bundle(mods) {
   return `"use strict";\n(() => {\n${parts.join("\n")}\n})();`;
 }
 
+// Country packs travel compact (build_data.py): inflate each pack's service states and payment readiness before the app starts.
+const INFLATE = `for (const p of Object.values(DATA.packs)) { p.services = DATA.serviceCatalog.map((s, i) => ({ ...s, state: p.st[i] === "a" ? "available" : "coming_soon" })); p.ready = Object.fromEntries(DATA.methods.map((m, i) => [m, { ok: p.ok[i] === "1", message: DATA.offMessage }])); }`;
 const tokens = read(join(ROOT, "design", "generated", "tokens.css"));
 // Brand fonts travel inside the file (offline, no font site). Only the Latin files: other scripts use the device font.
 const fontCss = read(join(ROOT, "design", "fonts.css")).match(/@font-face\s*\{[^}]*\}/g)
@@ -48,7 +50,7 @@ for (const e of EMULATORS) {
     .replace("/*@STYLE@*/", () => (e.extraCss ?? []).map((c) => read(join(ROOT, c))).join("\n") + "\n" + read(join(dir, "style.css")))
     .replace("/*@BODYMARK@*/", () => D.brand.body)
     .replace(/\/\*@I:([a-z0-9-]+)@\*\//g, (_, id) => `<span class="ic" aria-hidden="true">${D.icons[id] ?? (() => { throw new Error(`unknown icon ${id}`); })()}</span>`)
-    .replace("/*@SCRIPT@*/", () => `const DATA = ${JSON.stringify(D).replace(/</g, "\\u003c")};\n${bundle(e.modules)}`);
+    .replace("/*@SCRIPT@*/", () => `const DATA = ${JSON.stringify(D).replace(/</g, "\\u003c")};\n${INFLATE}\n${bundle(e.modules)}`);
   const target = join(OUT, e.out);
   if (process.argv.includes("--check")) {
     if (!existsSync(target) || read(target) !== html) stale.push(e.out);

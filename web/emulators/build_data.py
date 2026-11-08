@@ -89,11 +89,15 @@ def country_packs():
         with open(os.path.join(packs_dir, name), encoding="utf-8") as f:
             pack = json.load(f)
         code = pack["code"]
+        # Every country (247 ISO countries plus the sample) travels in each emulator, so the data is kept compact: the service
+        # catalog is listed once (serviceCatalog) and a pack carries only its state letters; web/build.mjs inflates them back
+        # into pack.services and pack.ready before the app starts. Country names in the person's language come from the
+        # browser's own Intl.DisplayNames at run time (no 26-language name table in the file).
         out[code] = {
-            "code": code, "name": pack["name"], "currency": pack["currency"], "tz": pack["tz"], "locale": pack.get("locale", "en"),
+            "code": code, "name": pack["name"], "currency": pack["currency"], "tz": pack["tz"], "locale": pack.get("locale", "en"), "ui": pack.get("ui_language", "en"),
             "sample": code == SAMPLE,
-            "ready": {m: {"ok": all(providers.item_status(ITEMS[i], code) in providers.OK_STATUS for i in items), "message": off["message"]} for m, items in METHOD_ITEMS.items()},
-            "services": [{"service": sv, "name": nm, "icon": ic, "state": providers.availability(sv, code)["state"]} for sv, nm, ic in SERVICES],
+            "ok": "".join("1" if all(providers.item_status(ITEMS[i], code) in providers.OK_STATUS for i in items) else "0" for items in METHOD_ITEMS.values()),
+            "st": "".join("a" if providers.availability(sv, code)["state"] == "available" else "c" for sv, _, _ in SERVICES),
         }
     return {SAMPLE: out.pop(SAMPLE), **out}
 
@@ -124,6 +128,7 @@ def main(emulator):
         "pictures": {"offLight": svg(pic["light"].path), "offDark": svg(pic["dark"].path), "offAlt": pic["light"].alt},
         "states": {k: {"label": v["label"], "meaning": v["meaning"]} for k, v in states.items()},
         "packs": packs, "packOrder": list(packs),   # the country chooser: the sample pack first, then every real pack
+        "serviceCatalog": [{"service": sv, "name": nm, "icon": ic} for sv, nm, ic in SERVICES], "methods": list(METHOD_ITEMS), "offMessage": off["message"],
         "statePictures": state_pics,
         "addresses": {k: addresses[k] for k in ("hosts", "website_paths", "app_paths", "account_paths", "pay_paths", "shop_paths", "staff_paths", "redirects")},
         "i18n": language_packs(emulator),

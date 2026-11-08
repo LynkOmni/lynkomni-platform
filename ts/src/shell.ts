@@ -73,7 +73,23 @@ export function accountMenu(a: Account, t: T, icon: Icon): string {
 
 /** Language and region are always one tap away (the globe), never a buried setting. Presentation only, never data. */
 export function globeSheet(languages: { code: string; native: string; dir: "ltr" | "rtl" }[], regions: { code: string; name: string }[], current: { language: string; region: string }, t: T): string {
-  return `<div class="globe-sheet" role="dialog" aria-label="${esc(t("language_region"))}"><h2>${esc(t("language"))}</h2><ul class="choices">${languages.map((l) => `<li><button class="choice${l.code === current.language ? " current" : ""}" lang="${esc(l.code)}" dir="${l.dir}" data-act="lang:${esc(l.code)}"${l.code === current.language ? ' aria-current="true"' : ""}>${esc(l.native)}</button></li>`).join("")}</ul><h2>${esc(t("region"))}</h2><ul class="choices">${regions.map((r) => `<li><button class="choice${r.code === current.region ? " current" : ""}" data-act="region:${esc(r.code)}">${esc(r.name)}</button></li>`).join("")}</ul><p class="note">${esc(t("presentation_only"))}</p></div>`;
+  const search = regions.length > 12 ? `<input type="search" class="region-search" data-filter="regions" placeholder="${esc(t("search_country"))}" aria-label="${esc(t("search_country"))}" autocomplete="off">` : "";
+  return `<div class="globe-sheet" role="dialog" aria-label="${esc(t("language_region"))}"><h2>${esc(t("language"))}</h2><ul class="choices">${languages.map((l) => `<li><button class="choice${l.code === current.language ? " current" : ""}" lang="${esc(l.code)}" dir="${l.dir}" data-act="lang:${esc(l.code)}"${l.code === current.language ? ' aria-current="true"' : ""}>${esc(l.native)}</button></li>`).join("")}</ul><h2>${esc(t("region"))}</h2>${search}<ul class="choices regions" id="regionList">${regions.map((r) => `<li data-name="${esc(r.name.toLowerCase())}"><button class="choice${r.code === current.region ? " current" : ""}" data-act="region:${esc(r.code)}">${esc(r.name)}</button></li>`).join("")}</ul><p class="note">${esc(t("presentation_only"))}</p></div>`;
+}
+/** A country's name in the person's language, from the browser's own CLDR data (Intl.DisplayNames); the pack's English name when the browser has none. */
+export function regionName(code: string, language: string, fallback: string): string {
+  try { const n = new Intl.DisplayNames([language], { type: "region" }).of(code); return n && n !== code ? n : fallback; } catch { return fallback; }
+}
+/** Filters the region list of the globe sheet as the person types (every country is listed, so a search box is needed). */
+export function filterRegions(list: Element, query: string): number {
+  const q = query.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+  let shown = 0;
+  for (const li of Array.from(list.children) as HTMLElement[]) {
+    const name = (li.dataset["name"] ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const hit = !q || name.includes(q);
+    li.hidden = !hit; if (hit) shown += 1;
+  }
+  return shown;
 }
 
 // ---------------------------------------------------------------- find or do anything

@@ -47,5 +47,6 @@
   "monthly_cap_usd_max": 100000,
   "note": "A pack alone never turns cards on. Needs a signed issuer agreement, legal sign-off and the activation checklist."
  },
- "vcard_card_networks_note": "set from the issuer contract, never assumed"
+ "vcard_card_networks_note": "set from the issuer contract, never assumed",
+ "source": "curated"
 }
