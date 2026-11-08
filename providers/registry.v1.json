@@ -1278,5 +1278,29 @@
    "when": "when the merchant app is ready to go online",
    "status": "open"
   }
- ]
+ ],
+ "reminder": {
+  "locked": "2026-11-08",
+  "note": "The owner's 14 own to-dos, locked as the REMINDER (owner rule 2026-11-08). Claude provides this list any time the owner asks, when they say \"let's start building\" and whenever a piece of work concludes. None is mandatory before building; only item 1 blocks items 2 to 8. The user_actions list above holds the same items in detail with their status.",
+  "now": [
+   "1. Pay for Google Workspace (a normal bank card, or an official Google Workspace partner)."
+  ],
+  "right_after_paying": [
+   "2. Second super admin admin@cruxomni.com (one more paid user, emergencies only).",
+   "3. Two-step verification with a passkey or security key on both admin accounts.",
+   "4. Workspace safety settings (outside-sender warnings, strongest phishing and malware protection).",
+   "5. Backup codes kept offline; recovery contact outside cruxomni.com.",
+   "6. Create the 28 Google Groups (Claude gives the exact list from catalog/contacts.v1.json).",
+   "7. Email DNS records at Squarespace (Claude gives the exact records), then DNSSEC.",
+   "8. Optional: look-alike domains forwarded to lynkomni.com."
+  ],
+  "at_the_end_in_order": [
+   "9. Lawyer and CruxOmni Group registration, name and licence checks; then company bank account and card, D-U-N-S number, Google billing moved to the company, both domains in the company's name.",
+   "10. Licensed partners per country (payments, mobile money, cards, tax office, SMS, lenders, insurers) with test keys.",
+   "11. POS hardware supplier (two sample devices), plus the human reviewers: designer, security, accessibility; an auditor later for SOC 2 Type II and ISO 27001.",
+   "12. Apple Developer and Google Play accounts for the organisation.",
+   "13. Google Cloud account when the app is ready to go online (same payment method as Workspace).",
+   "14. GitHub Team plan and the lock on the main branch, last."
+  ]
+ }
 }
