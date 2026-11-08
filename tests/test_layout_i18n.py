@@ -10,6 +10,7 @@ LANGS = list(translation.languages()) + ["xx", "xx-rtl"]
 FILE = os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-pos-terminal.html")
 PAGE = "file://" + FILE
 PHONE = os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-merchant-phone.html")
+BROWSER = os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-browser-frame.html")
 try:
     from playwright.sync_api import sync_playwright
 except ImportError:          # pragma: no cover
@@ -134,6 +135,57 @@ class PhoneLayout(unittest.TestCase):
             b.close()
         for width in (1280, 390):
             self.assertEqual(len({sizes[(width, l)] for l in LANGS}), 1, f"size changed at {width}px: {sizes}")
+
+
+@unittest.skipUnless(sync_playwright and os.path.isfile(BROWSER), "Playwright with Chromium is needed")
+class ShellLayout(unittest.TestCase):
+    """The shared shell in a browser (build section 1): every part and every state, at computer, tablet and phone size, in every
+    language, keeps the window size and nothing spills over. The browser window itself never scrolls sideways."""
+    STATES = ["home", "payment", "state:loading", "state:empty", "state:offline", "state:error", "state:not_found", "state:no_results",
+              "state:permission", "state:maintenance", "state:sync_pending", "state:coming_soon", "state:success"]
+
+    def walk(self, pg):
+        found = {}
+        def check(name):
+            p = pg.evaluate(OVERFLOW)
+            if p:
+                found[name] = p
+        for st in self.STATES:
+            pg.click(f'#stateButtons button[data-state="{st}"]'); check(st)
+        pg.click('#stateButtons button[data-state="home"]')
+        for ov in ("launcher", "account", "globe", "search", "help", "bell", "sync"):
+            if pg.locator(f'[data-act="shell:{ov}"]').count() == 0:      # on a phone the globe and help live in the account menu
+                pg.click('[data-act="shell:account"]')
+            pg.locator(f'[data-act="shell:{ov}"]').first.click(); check(ov)
+            if ov == "search":
+                pg.fill("#cmdIn", "new"); check("search results")
+            pg.keyboard.press("Escape")
+        pg.click('[data-act="archive"]'); check("undo toast")
+        pg.click('[data-act="chart:week:table"]'); check("chart table")
+        pg.fill("#usernameIn", "adm1n"); check("username held"); pg.fill("#usernameIn", "mamas.kitchen"); check("username taken")
+        pg.click('[data-act="chat:lang:original"]'); check("chat original")
+        return found
+
+    def test_shell_breaks_nowhere_at_any_size_or_language(self):
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            sizes = {}
+            for size in ("computer", "tablet", "phone"):
+                for lang in LANGS:
+                    pg = b.new_page(viewport={"width": 1500, "height": 1100}, reduced_motion="reduce")
+                    pg.goto("file://" + BROWSER)
+                    pg.select_option("#cSize", size); pg.select_option("#cLang", lang)
+                    sizes[(size, lang)] = tuple(pg.evaluate(SIZE))
+                    self.assertEqual(self.walk(pg), {}, f"{lang} on {size}")
+                    want = "rtl" if lang == "xx-rtl" else "ltr" if lang == "xx" else translation._dir(lang)
+                    self.assertEqual(pg.get_attribute("#display", "dir"), want, lang)
+                    pg.close()
+            # the page that holds the window never scrolls sideways at a narrow viewport either
+            pg = b.new_page(viewport={"width": 390, "height": 900}); pg.goto("file://" + BROWSER)
+            self.assertLessEqual(pg.evaluate("document.documentElement.scrollWidth"), 390)
+            b.close()
+        for size in ("computer", "tablet", "phone"):
+            self.assertEqual(len({sizes[(size, l)] for l in LANGS}), 1, f"size changed on {size}: {sizes}")
 
 
 if __name__ == "__main__":

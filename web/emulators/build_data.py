@@ -78,6 +78,16 @@ def main(emulator):
     packs = country_packs()
     off = providers.when_off("payments")
     pic = {th: visuals.get(off["visual"], th) for th in ("light", "dark")}
+    # every screen state's picture (blueprint 41 B: every state is designed), in both themes and the sunlight contrast set
+    state_pics = {}
+    for need_id in ("state-offline", "state-error", "state-not-found", "state-no-results", "state-success", "state-permission", "state-maintenance", "state-sync-pending", "state-coming-soon"):
+        state_pics[need_id] = {}
+        for th in ("light", "dark"):
+            v = visuals.get(need_id, th)
+            c = visuals.get(need_id, th, "sunlight")
+            state_pics[need_id][th] = {"svg": svg(v.path), "alt": v.alt, "contrast": svg(c.path)}
+    with open(os.path.join(ROOT, "catalog", "addresses.v1.json"), encoding="utf-8") as f:
+        addresses = json.load(f)
     out = {
         "icons": icons,
         "brand": {"body": svg(brand.for_surface("device-body", "light").path),
@@ -86,6 +96,8 @@ def main(emulator):
         "pictures": {"offLight": svg(pic["light"].path), "offDark": svg(pic["dark"].path), "offAlt": pic["light"].alt},
         "states": {k: {"label": v["label"], "meaning": v["meaning"]} for k, v in states.items()},
         "packs": packs, "packOrder": list(packs),   # the country chooser: the sample pack first, then every real pack
+        "statePictures": state_pics,
+        "addresses": {k: addresses[k] for k in ("hosts", "website_paths", "app_paths", "account_paths", "pay_paths", "shop_paths", "staff_paths", "redirects")},
         "i18n": language_packs(emulator),
     }
     json.dump(out, sys.stdout, ensure_ascii=False, sort_keys=True)

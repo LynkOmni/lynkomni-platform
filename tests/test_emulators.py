@@ -50,7 +50,9 @@ class Emulators(unittest.TestCase):
         for f in BUILT:
             txt = read(f)
             urls = set(re.findall(r"https?://[^\s\"')<\\]+", txt)) - {"http://www.w3.org/2000/svg", "http://www.w3.org/1999/xlink"}
+            urls = {u for u in urls if not re.match(r"https://([a-z]+\.)?lynkomni\.com(/|\$|$)", u)}   # LynkOmni addresses may be shown (address bar, deep links), never loaded
             self.assertEqual(urls, set(), f"{f}: must not load anything from the web")
+            self.assertNotRegex(txt, r"""(src|href)=["']https?://|url\(["']?https?://|fetch\(|XMLHttpRequest|navigator\.sendBeacon""", f"{f}: must not load anything from the web")
             self.assertNotRegex(txt, r"<img|@import|fonts\.googleapis|<link ", f)
             self.assertIn("Draft design", txt, f"{f}: must say it is a draft until a designer reviews it")
             self.assertNotRegex(txt.lower(), r"todo image|lorem ipsum", f)
