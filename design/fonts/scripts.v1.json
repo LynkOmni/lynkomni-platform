@@ -1,6 +1,6 @@
 {
  "version": 1,
- "description": "Every language LynkOmni shows, its script and writing direction, and the font files for each script. Source of truth for design/fonts.css, the font stacks in tokens.v1.json, the right-to-left rules and the offline precache list. A language in a country pack that is missing here fails the tests. Rebuild with design/fonts/build_fonts.py.",
+ "description": "Every language LynkOmni shows, its script and writing direction, and the font files for each script. Source of truth for design/fonts.css, the font stacks in tokens.v1.json, the right-to-left rules and the offline precache list. A language in a country pack that is missing here fails the tests. Rebuild with design/fonts/build_fonts.py. CJK scripts are sliced: `slices.base` is one file (punctuation, kana or jamo), and each `slices.blocks` entry [range, step] is cut into files of `step` code points, so a page downloads only the slices its text uses (unicode-range).",
  "source": {
   "repository": "https://github.com/google/fonts",
   "licence": "SIL Open Font License 1.1"
@@ -109,6 +109,54 @@
     "wdth": 100
    },
    "weight": "400 700"
+  },
+  "noto-sans-sc": {
+   "name": "Noto Sans SC",
+   "source": "ofl/notosanssc/NotoSansSC[wght].ttf",
+   "licence": "ofl/notosanssc/OFL.txt",
+   "axes": {
+    "wght": [
+     400,
+     700
+    ]
+   },
+   "weight": "400 700"
+  },
+  "noto-sans-tc": {
+   "name": "Noto Sans TC",
+   "source": "ofl/notosanstc/NotoSansTC[wght].ttf",
+   "licence": "ofl/notosanstc/OFL.txt",
+   "axes": {
+    "wght": [
+     400,
+     700
+    ]
+   },
+   "weight": "400 700"
+  },
+  "noto-sans-jp": {
+   "name": "Noto Sans JP",
+   "source": "ofl/notosansjp/NotoSansJP[wght].ttf",
+   "licence": "ofl/notosansjp/OFL.txt",
+   "axes": {
+    "wght": [
+     400,
+     700
+    ]
+   },
+   "weight": "400 700"
+  },
+  "noto-sans-kr": {
+   "name": "Noto Sans KR",
+   "source": "ofl/notosanskr/NotoSansKR[wght].ttf",
+   "licence": "ofl/notosanskr/OFL.txt",
+   "axes": {
+    "wght": [
+     400,
+     700
+    ]
+   },
+   "weight": "400 700"
   }
  },
  "scripts": {
@@ -173,6 +221,146 @@
    "line_height": 1.7,
    "subsets": {
     "devanagari": "U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF"
+   }
+  },
+  "han-simplified": {
+   "dir": "ltr",
+   "heading": "noto-sans-sc",
+   "body": "noto-sans-sc",
+   "line_height": 1.6,
+   "no_letter_spacing": true,
+   "slices": {
+    "base": "U+3000-303F, U+FF00-FFEF, U+2010-2027, U+2030-205E, U+20AC, U+2103, U+2116, U+2122, U+2190-2199, U+2460-24FF, U+25A0-25FF, U+3200-32FF, U+3300-33FF, U+3105-312F, U+31A0-31BF",
+    "blocks": [
+     [
+      "U+4E00-9FFF",
+      512
+     ],
+     [
+      "U+3400-4DBF",
+      512
+     ],
+     [
+      "U+F900-FAFF",
+      512
+     ],
+     [
+      "U+2E80-2FDF",
+      512
+     ]
+    ]
+   }
+  },
+  "han-traditional": {
+   "dir": "ltr",
+   "heading": "noto-sans-tc",
+   "body": "noto-sans-tc",
+   "line_height": 1.6,
+   "no_letter_spacing": true,
+   "slices": {
+    "base": "U+3000-303F, U+FF00-FFEF, U+2010-2027, U+2030-205E, U+20AC, U+2103, U+2116, U+2122, U+2190-2199, U+2460-24FF, U+25A0-25FF, U+3200-32FF, U+3300-33FF, U+3105-312F, U+31A0-31BF",
+    "blocks": [
+     [
+      "U+4E00-9FFF",
+      512
+     ],
+     [
+      "U+3400-4DBF",
+      512
+     ],
+     [
+      "U+F900-FAFF",
+      512
+     ],
+     [
+      "U+2E80-2FDF",
+      512
+     ]
+    ]
+   }
+  },
+  "japanese": {
+   "dir": "ltr",
+   "heading": "noto-sans-jp",
+   "body": "noto-sans-jp",
+   "line_height": 1.6,
+   "no_letter_spacing": true,
+   "slices": {
+    "base": "U+3000-303F, U+FF00-FFEF, U+2010-2027, U+2030-205E, U+20AC, U+2103, U+2116, U+2122, U+2190-2199, U+2460-24FF, U+25A0-25FF, U+3200-32FF, U+3300-33FF",
+    "blocks": [
+     [
+      "U+3040-30FF",
+      256
+     ],
+     [
+      "U+31F0-31FF",
+      256
+     ],
+     [
+      "U+4E00-9FFF",
+      512
+     ],
+     [
+      "U+3400-4DBF",
+      512
+     ],
+     [
+      "U+F900-FAFF",
+      512
+     ],
+     [
+      "U+2E80-2FDF",
+      512
+     ]
+    ]
+   }
+  },
+  "korean": {
+   "dir": "ltr",
+   "heading": "noto-sans-kr",
+   "body": "noto-sans-kr",
+   "line_height": 1.6,
+   "no_letter_spacing": true,
+   "slices": {
+    "base": "U+3000-303F, U+FF00-FFEF, U+2010-2027, U+2030-205E, U+20AC, U+2103, U+2116, U+2122, U+2190-2199, U+2460-24FF, U+25A0-25FF, U+3200-32FF, U+3300-33FF, U+20A9",
+    "blocks": [
+     [
+      "U+AC00-D7AF",
+      1024
+     ],
+     [
+      "U+1100-11FF",
+      256
+     ],
+     [
+      "U+3130-318F",
+      256
+     ],
+     [
+      "U+A960-A97F",
+      256
+     ],
+     [
+      "U+D7B0-D7FF",
+      256
+     ],
+     [
+      "U+4E00-9FFF",
+      512
+     ],
+     [
+      "U+3400-4DBF",
+      512
+     ],
+     [
+      "U+F900-FAFF",
+      512
+     ],
+     [
+      "U+2E80-2FDF",
+      512
+     ]
+    ]
    }
   }
  },
@@ -304,10 +492,92 @@
    "sample": "धन्यवाद",
    "letters": "अआइईउऊएऐओऔकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसहािीुूेैोौंः्।०१२३४५६७८९₹",
    "mt": "hi"
+  },
+  "de": {
+   "letters": "äöüßÄÖÜ",
+   "mt": "de",
+   "name": "German",
+   "native": "Deutsch",
+   "sample": "Danke",
+   "script": "latin"
+  },
+  "it": {
+   "letters": "àèéìòù",
+   "mt": "it",
+   "name": "Italian",
+   "native": "Italiano",
+   "sample": "Grazie",
+   "script": "latin"
+  },
+  "tr": {
+   "letters": "çğıöşüÇĞİÖŞÜ",
+   "mt": "tr",
+   "name": "Turkish",
+   "native": "Türkçe",
+   "sample": "Teşekkürler",
+   "script": "latin"
+  },
+  "id": {
+   "letters": "abcdefghijklmnopqrstuvwxyz",
+   "mt": "id",
+   "name": "Indonesian",
+   "native": "Bahasa Indonesia",
+   "sample": "Terima kasih",
+   "script": "latin"
+  },
+  "vi": {
+   "letters": "ăâđêôơưàảãáạằẳẵắặầẩẫấậèẻẽéẹềểễếệìỉĩíịòỏõóọồổỗốộờởỡớợùủũúụừửữứựỳỷỹýỵ",
+   "mt": "vi",
+   "name": "Vietnamese",
+   "native": "Tiếng Việt",
+   "sample": "Cảm ơn",
+   "script": "vietnamese"
+  },
+  "ru": {
+   "letters": "абвгдеёжзийклмнопрстуфхцчшщъыьэюя",
+   "mt": "ru",
+   "name": "Russian",
+   "native": "Русский",
+   "sample": "Спасибо",
+   "script": "cyrillic"
+  },
+  "zh-Hans": {
+   "letters": "的一是不了人我在有他这为之大来以个中上们到说国和地也子时道出而要于就下得可你年生",
+   "mt": "zh",
+   "name": "Chinese (Simplified)",
+   "native": "简体中文",
+   "sample": "谢谢",
+   "script": "han-simplified"
+  },
+  "zh-Hant": {
+   "letters": "的一是不了人我在有他這為之大來以個中上們到說國和地也子時道出而要於就下得可你年生",
+   "mt": "zh-Hant",
+   "name": "Chinese (Traditional)",
+   "native": "繁體中文",
+   "sample": "謝謝",
+   "script": "han-traditional"
+  },
+  "ja": {
+   "letters": "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン日本語売上支払在庫",
+   "mt": "ja",
+   "name": "Japanese",
+   "native": "日本語",
+   "sample": "ありがとう",
+   "script": "japanese"
+  },
+  "ko": {
+   "letters": "가나다라마바사아자차카타파하판매결제재고고객",
+   "mt": "ko",
+   "name": "Korean",
+   "native": "한국어",
+   "sample": "감사합니다",
+   "script": "korean"
   }
  },
  "budgets_kb": {
   "latin_first_load": 100,
-  "per_script": 220
+  "per_script": 220,
+  "per_slice": 220,
+  "note": "per_script caps the files of one unsliced script (and the base file of a sliced one); per_slice caps every CJK slice, which loads only when its characters appear"
  }
 }

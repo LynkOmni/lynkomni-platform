@@ -61,12 +61,12 @@ class Files(unittest.TestCase):
     def test_every_language_letter_is_in_its_fonts(self):
         from fontTools.ttLib import TTFont
         cmaps = {}
-        for fam, sub, _, script in bf.faces(REG):
-            cmaps.setdefault((script, fam), set()).update(TTFont(os.path.join(FONTS, bf.filename(fam, sub))).getBestCmap())
+        for fam, sub, _, script in bf.faces(REG):        # a browser merges every file of one family (unicode-range), so coverage is per family
+            cmaps.setdefault(fam, set()).update(TTFont(os.path.join(FONTS, bf.filename(fam, sub))).getBestCmap())
         for code, L in REG["languages"].items():
             s = REG["scripts"][L["script"]]
             for role in ("heading", "body"):
-                have = cmaps[(L["script"], s[role])]
+                have = cmaps[s[role]]
                 missing = [c for c in L["letters"] + L["sample"] + L["native"] if not c.isspace() and ord(c) > 0x7F and ord(c) not in have]
                 self.assertEqual(missing, [], f"{code} {role}")
 
@@ -76,6 +76,11 @@ class Files(unittest.TestCase):
         self.assertLessEqual(latin, b["latin_first_load"] * 1024)
         self.assertEqual(b["latin_first_load"], json.loads(read(os.path.join(ROOT, "design", "tokens.v1.json")))["fonts"]["first_load_budget_kb"])
         for script, v in REG["scripts"].items():
+            if "slices" in v:           # a sliced CJK script: the base file within per_script, every slice within per_slice (loaded only when used)
+                for f, s, _, sc in bf.faces(REG):
+                    if sc == script:
+                        self.assertLessEqual(os.path.getsize(os.path.join(FONTS, bf.filename(f, s))), b["per_slice" if not s.endswith("-base") else "per_script"] * 1024, s)
+                continue
             size = sum(os.path.getsize(os.path.join(FONTS, bf.filename(f, s))) for f, s, _, sc in bf.faces(REG) if sc == script and not s.endswith("-ext"))
             self.assertLessEqual(size, b["per_script"] * 1024, script)
 

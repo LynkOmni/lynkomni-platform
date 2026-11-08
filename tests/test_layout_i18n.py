@@ -41,7 +41,14 @@ def problems(pg, lang):
     return out
 
 
+# Chromium applies a changed `zoom` custom property on the next frame, so the measurement waits for one (people only ever see the settled frame).
+SETTLE = "() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)))"
 SIZE = "() => { const r = document.querySelector('#device').getBoundingClientRect(), s = document.querySelector('#display').getBoundingClientRect(); return [Math.round(r.width / (window.devicePixelRatio || 1)), Math.round(s.width), Math.round(s.height)]; }"
+
+
+def measure(pg):
+    pg.evaluate(SETTLE)
+    return tuple(pg.evaluate(SIZE))
 
 
 class DarkPass:
@@ -95,7 +102,7 @@ class TranslationLayout(DarkPass, unittest.TestCase):
                     pg = b.new_page(viewport={"width": width, "height": 1000}, reduced_motion="reduce")
                     pg.goto(PAGE)
                     pg.select_option("#cLang", lang)
-                    sizes[(width, lang)] = tuple(pg.evaluate(SIZE))
+                    sizes[(width, lang)] = measure(pg)
                     self.assertEqual(self.walk(pg, lang), {}, f"{lang} at {width}px")
                     want = "rtl" if lang == "xx-rtl" else "ltr" if lang == "xx" else translation._dir(lang)
                     self.assertEqual(pg.get_attribute("#display", "dir"), want, lang)
@@ -147,7 +154,7 @@ class PhoneLayout(DarkPass, unittest.TestCase):
                     pg = b.new_page(viewport={"width": width, "height": 1000}, reduced_motion="reduce")
                     pg.goto("file://" + PHONE)
                     pg.select_option("#cLang", lang)
-                    sizes[(width, lang)] = tuple(pg.evaluate(SIZE))
+                    sizes[(width, lang)] = measure(pg)
                     self.assertEqual(self.walk(pg, lang), {}, f"{lang} at {width}px")
                     want = "rtl" if lang == "xx-rtl" else "ltr" if lang == "xx" else translation._dir(lang)
                     self.assertEqual(pg.get_attribute("#display", "dir"), want, lang)
@@ -197,7 +204,7 @@ class ShellLayout(DarkPass, unittest.TestCase):
                     pg = b.new_page(viewport={"width": 1500, "height": 1100}, reduced_motion="reduce")
                     pg.goto("file://" + BROWSER)
                     pg.select_option("#cSize", size); pg.select_option("#cLang", lang)
-                    sizes[(size, lang)] = tuple(pg.evaluate(SIZE))
+                    sizes[(size, lang)] = measure(pg)
                     self.assertEqual(self.walk(pg, lang), {}, f"{lang} on {size}")
                     want = "rtl" if lang == "xx-rtl" else "ltr" if lang == "xx" else translation._dir(lang)
                     self.assertEqual(pg.get_attribute("#display", "dir"), want, lang)

@@ -88,8 +88,12 @@ function main(): string {
     return `<div class="pagetitle"><h1>${esc(t("tab_sell"))}</h1>${connectionChip(sync(), t, icon)}</div><div class="card"><div class="protected-note">${icon("ui-lock")}<span>${esc(t("protected_zone"))}</span></div><p class="muted" style="margin-top:8px">${esc(t("deep_link"))}: <span class="deeplink">https://app.lynkomni.com/sell</span></p><div class="actions"><button class="primary" data-act="go:home">${esc(t("action_home"))}</button></div></div>`;
   }
   const chartHtml = chart({ title: t("chart_title"), labels: DAYS.map((d) => t(d)), series: [{ name: t("today_sales"), values: SAMPLE_WEEK }], kind: "bar", format: money }, S.chartView, t, "week");
-  const chatLang: ChatLang = { reader: isTest() ? "en" : S.lang, writer: "ar", writerName: t("customer_name"), showOriginal: S.showOriginal };
-  const msg: ChatMessage = { id: "m1", text: "هل يمكنك أن تحتفظ لي بصينيتين من البيض حتى الساعة 5 مساءً؟", translated: t("chat_sample_translated"), language: "ar", pendingTranslation: S.link === "offline" || S.forced };
+  // The demo customer always writes in a language other than the reader's, so the two-language chat is always two languages.
+  const reader = isTest() ? "en" : S.lang;
+  const writer = reader === "ar" ? "sw" : "ar";
+  const writerText = writer === "ar" ? "هل يمكنك أن تحتفظ لي بصينيتين من البيض حتى الساعة 5 مساءً؟" : "Unaweza kuniwekea trei mbili za mayai hadi saa 11 jioni?";
+  const chatLang: ChatLang = { reader, writer, writerName: t("customer_name"), showOriginal: S.showOriginal };
+  const msg: ChatMessage = { id: "m1", text: writerText, translated: t("chat_sample_translated"), language: writer, pendingTranslation: S.link === "offline" || S.forced };
   const here = route(DATA.addresses, `https://app.lynkomni.com${screenPath()}`);
   return `<div class="pagetitle"><h1>${esc(t("title_home", { shop: SHOP() }))}</h1>${connectionChip(sync(), t, icon)}</div>
     <div class="cards">
@@ -98,7 +102,7 @@ function main(): string {
       <div class="card"><h2>${esc(t("today_profit"))}</h2><div class="big">${esc(money(Math.round((SAMPLE_WEEK[4] ?? 0) * 0.27)))}</div><div class="muted">${esc(t("deep_link"))}: <span class="deeplink">${esc(here ? `app.lynkomni.com${here.path}` : "")}</span></div></div>
       <div class="card" style="grid-column:1/-1">${chartHtml}</div>
       <div class="card"><h2>${esc(t("username_card"))}</h2>${usernameField(S.username, S.cloud, (u) => u === "mamas.kitchen", t, icon)}</div>
-      <div class="card"><h2>${esc(t("chat_card"))}</h2><div class="chat-demo">${translationBanner(chatLang, langName, t)}<div class="msg" lang="${messageText(msg, chatLang) === msg.text ? "ar" : esc(isTest() ? "en" : S.lang)}" dir="${messageText(msg, chatLang) === msg.text ? "rtl" : (PACKS[S.lang]?.dir ?? "ltr")}">${esc(messageText(msg, chatLang))}${messageNote(msg, chatLang, langName, t)}</div><div class="msg out">${esc(t("chat_reply"))}</div></div></div>
+      <div class="card"><h2>${esc(t("chat_card"))}</h2><div class="chat-demo">${translationBanner(chatLang, langName, t)}<div class="msg" lang="${messageText(msg, chatLang) === msg.text ? writer : esc(reader)}" dir="${messageText(msg, chatLang) === msg.text ? (PACKS[writer]?.dir ?? "ltr") : (PACKS[S.lang]?.dir ?? "ltr")}">${esc(messageText(msg, chatLang))}${messageNote(msg, chatLang, langName, t)}</div><div class="msg out">${esc(t("chat_reply"))}</div></div></div>
       <div class="card" style="grid-column:1/-1"><p class="muted">${icon("ui-sync")} ${esc(t("handoff_note"))}</p></div>
     </div>`;
 }
