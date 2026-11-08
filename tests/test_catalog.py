@@ -35,6 +35,16 @@ class Catalog(unittest.TestCase):
         for href in re.findall(r'(?:brand|txt)\([^)]*"((?:/|https://)[^"]*)"\)', FOOTER):
             self.assertTrue(known(href), href)
 
+    def test_every_product_app_place_is_in_the_address_map(self):
+        """Blueprint 43 D: one address map. A product's place in the Business app must be a registered app path,
+        and a product on its own host must be a registered host."""
+        for p in PRODUCTS["products"]:
+            app = p["app"]
+            if app.startswith("https://"): self.assertIn(app[len("https://"):], HOSTS, p["family"])
+            else:
+                self.assertTrue(app.startswith("app.lynkomni.com/"), app)
+                self.assertIn(app[len("app.lynkomni.com"):], ADDR["app_paths"], p["family"])
+
     def test_redirects_land_on_real_pages(self):
         for old, new in ADDR["redirects"].items():
             self.assertIn(new, ADDR["website_paths"], old)
