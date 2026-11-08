@@ -50,6 +50,20 @@ SERVICES = [("pos", "LynkPOS", "product-pos"), ("accountant", "LynkAcc", "produc
             ("recovery", "LynkRecover", "product-recover"), ("vcard", "LynkVCard", "product-vcard")]
 
 
+def icons_used(emulator):
+    """Only the icons an emulator can show go into its file (size budget): every id written in its sources and in the shared
+    TypeScript it bundles, plus the five status icons and the product marks, which screens pick by name at run time."""
+    import re
+    text = ""
+    for folder in (os.path.join(ROOT, "web", "emulators", emulator), os.path.join(ROOT, "ts", "src")):
+        for name in os.listdir(folder):
+            if name.endswith((".ts", ".html")) and not name.endswith(".generated.ts"):
+                with open(os.path.join(folder, name), encoding="utf-8") as f:
+                    text += f.read()
+    all_ids = [i["id"] if isinstance(i, dict) else i for i in brand.manifest()["icons"]]
+    return sorted(i for i in all_ids if i.startswith(("status-", "product-")) or re.search(r"[\"'`/:]" + re.escape(i) + r"[\"'`@]", text))
+
+
 def country_packs():
     """Every country pack as the emulator's country chooser sees it, the sample pack first. What works in a country is read
     from the provider ledger, so a pack alone never switches a partner-backed method or service on."""
@@ -73,8 +87,7 @@ def country_packs():
 def main(emulator):
     with open(os.path.join(ROOT, "design", "tokens.v1.json"), encoding="utf-8") as f:
         states = json.load(f)["states"]
-    icons = {i["id"] if isinstance(i, dict) else i: None for i in brand.manifest()["icons"]}
-    icons = {i: brand.icon_svg(i) for i in icons}
+    icons = {i: brand.icon_svg(i) for i in icons_used(emulator)}
     packs = country_packs()
     off = providers.when_off("payments")
     pic = {th: visuals.get(off["visual"], th) for th in ("light", "dark")}
