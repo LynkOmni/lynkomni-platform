@@ -9,4 +9,4 @@ jobs:
   swift-macos:
     runs-on: macos-latest
     timeout-minutes: 30
-    steps: [{uses: actions/checkout@v5}, {run: cd ios && swift test}]
+    steps: [{uses: actions/checkout@v7}, {run: cd ios && swift test}]
