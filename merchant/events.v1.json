@@ -1,0 +1,186 @@
+{
+ "version": 1,
+ "description": "Signals of the Business app that are not merchant-core contract events: projections and device conditions that automations in catalog/automations.v1.json listen to. Contract events (contract/event-payloads.v2.json) stay the source of truth for facts; these carry references only and are written by the cloud projections in merchant/ or by the device shell. Build section 3.",
+ "events": {
+  "BusinessCreated": {
+   "written_by": "cloud",
+   "payload": [
+    "lynkoid",
+    "business_type",
+    "country"
+   ],
+   "note": "A business exists; setup autofill drafts its profile."
+  },
+  "StockBelowThreshold": {
+   "written_by": "cloud",
+   "payload": [
+    "product_id",
+    "level_milli",
+    "reorder_at_milli"
+   ],
+   "note": "A sale or count took a product to or under its reorder level."
+  },
+  "OrderReadyForDelivery": {
+   "written_by": "cloud",
+   "payload": [
+    "order_id",
+    "lynkoid"
+   ],
+   "note": "A paid order wants a delivery (N8)."
+  },
+  "PartnerStatementReceived": {
+   "written_by": "cloud",
+   "payload": [
+    "partner_id",
+    "period",
+    "rows"
+   ],
+   "note": "A partner's commission statement arrived; the commission check matches it."
+  },
+  "ConnectionRestored": {
+   "written_by": "device",
+   "payload": [
+    "device_id",
+    "pending"
+   ],
+   "note": "A link came back; queued items are sent, sales and payments first."
+  },
+  "DeviceIdle": {
+   "written_by": "device",
+   "payload": [
+    "device_id",
+    "idle_s"
+   ],
+   "note": "No touch for the idle time; the staff PIN lock engages."
+  },
+  "MessageReceived": {
+   "written_by": "cloud",
+   "payload": [
+    "thread_id",
+    "message_id",
+    "lang"
+   ],
+   "note": "A customer message arrived in LynkChat."
+  },
+  "DeviceHealthChecked": {
+   "written_by": "cloud",
+   "payload": [
+    "device_id",
+    "issues"
+   ],
+   "note": "The daily device health check found something to tell the owner."
+  },
+  "ExpiryNear": {
+   "written_by": "cloud",
+   "payload": [
+    "product_id",
+    "expires_on"
+   ],
+   "note": "A tracked batch expires soon."
+  },
+  "ShiftDue": {
+   "written_by": "cloud",
+   "payload": [
+    "employee_id",
+    "starts_at"
+   ],
+   "note": "A shift starts soon."
+  },
+  "DayCloseReady": {
+   "written_by": "cloud",
+   "payload": [
+    "business_day",
+    "summary"
+   ],
+   "note": "Closing time: the day close is prepared for the owner."
+  },
+  "DraftCreated": {
+   "written_by": "automation",
+   "payload": [
+    "kind",
+    "ref",
+    "lines",
+    "by_automation"
+   ],
+   "note": "A draft for a person to confirm (setup profile, product from photo, reorder, expiry action, suggested reply). Nothing happens until confirmed."
+  },
+  "AlertSent": {
+   "written_by": "automation",
+   "payload": [
+    "kind",
+    "ref",
+    "detail",
+    "by_automation"
+   ],
+   "note": "An inform-level message to the owner or staff (day close, cash difference, shift, negative stock, low float, device health, chat summary)."
+  },
+  "ReceiptDelivered": {
+   "written_by": "automation",
+   "payload": [
+    "sale_id",
+    "channel",
+    "by_automation"
+   ],
+   "note": "The receipt went out by the channel the customer chose (print, QR or message)."
+  },
+  "KitchenTicketRouted": {
+   "written_by": "automation",
+   "payload": [
+    "order_id",
+    "station",
+    "by_automation"
+   ],
+   "note": "A kitchen order reached its station screen (or the printer on Free)."
+  },
+  "DeliveryAutoRequested": {
+   "written_by": "automation",
+   "payload": [
+    "order_id",
+    "partner_id",
+    "price",
+    "undo_until",
+    "by_automation"
+   ],
+   "note": "A delivery was booked by the owner's rule, undoable until the partner accepts."
+  },
+  "SyncRetried": {
+   "written_by": "automation",
+   "payload": [
+    "device_id",
+    "sent",
+    "order",
+    "by_automation"
+   ],
+   "note": "Queued items were sent when the link came back: sales and payments first, media last."
+  },
+  "DeviceLocked": {
+   "written_by": "automation",
+   "payload": [
+    "device_id",
+    "after_s",
+    "by_automation"
+   ],
+   "note": "The staff PIN lock engaged after idle time."
+  },
+  "ChatRouted": {
+   "written_by": "automation",
+   "payload": [
+    "thread_id",
+    "to",
+    "by_automation"
+   ],
+   "note": "A customer message was routed to the right staff member or queue."
+  },
+  "CommissionChecked": {
+   "written_by": "automation",
+   "payload": [
+    "partner_id",
+    "period",
+    "matched",
+    "mismatches",
+    "by_automation"
+   ],
+   "note": "The partner statement was matched against recorded commissions."
+  }
+ }
+}

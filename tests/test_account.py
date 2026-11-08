@@ -9,7 +9,7 @@ from services.platform import Platform
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 T0 = 1_800_000_000.0
-BUILT_SECTIONS = 2     # raise this as sections are built; every event trigger up to here must exist
+BUILT_SECTIONS = 3     # raise this as sections are built; every event trigger up to here must exist
 
 
 class SignUpAndSecurity(unittest.TestCase):
@@ -217,6 +217,8 @@ class FlowRunner(unittest.TestCase):
         self.assertEqual(len(ran), 1); self.assertLessEqual(len(self.p.c.store.of("p2", "AutomationRan")), MAX_DEPTH)
     def test_every_event_trigger_in_the_register_is_a_known_event(self):
         with open(os.path.join(ROOT, "contract", "event-payloads.v2.json"), encoding="utf-8") as f: core = set(json.load(f)["events"])
+        from merchant.cloud import SIGNALS
+        core |= set(SIGNALS)                              # Business app signals (merchant/events.v1.json)
         for a in REGISTER.values():                       # events of later sections are registered when those sections are built
             if a["trigger"].startswith("event:") and a["build_section"] <= BUILT_SECTIONS:
                 name = a["trigger"][6:]

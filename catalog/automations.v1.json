@@ -203,7 +203,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "product-from-photo",
@@ -221,7 +222,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "day-close-prepare",
@@ -237,7 +239,8 @@
    "customer_message": false,
    "offline": true,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "cash-difference-flag",
@@ -253,7 +256,8 @@
    "customer_message": false,
    "offline": true,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "shift-reminder",
@@ -269,7 +273,8 @@
    "customer_message": false,
    "offline": true,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "low-stock-reorder",
@@ -287,7 +292,8 @@
    "customer_message": false,
    "offline": true,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "expiry-alert",
@@ -303,7 +309,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "negative-stock-flag",
@@ -311,7 +318,7 @@
    "build_section": 3,
    "family": "lynkpos",
    "min_tier": "free",
-   "trigger": "event:StockBelowZero",
+   "trigger": "event:NegativeStockFlagged",
    "action": "Flag stock below zero for the owner; the sale is never blocked",
    "level": "inform",
    "assist": null,
@@ -319,7 +326,8 @@
    "customer_message": false,
    "offline": true,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "receipt-delivery",
@@ -336,7 +344,8 @@
    "offline": true,
    "default": "on",
    "standing_instruction": false,
-   "consent": "transactional"
+   "consent": "transactional",
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "kitchen-routing",
@@ -352,7 +361,8 @@
    "customer_message": false,
    "offline": true,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "delivery-auto-request",
@@ -370,7 +380,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "low-float-warning",
@@ -386,7 +397,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "commission-match",
@@ -402,7 +414,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "sync-retry",
@@ -418,7 +431,8 @@
    "customer_message": false,
    "offline": true,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "device-health",
@@ -434,7 +448,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "staff-pin-lock",
@@ -450,7 +465,8 @@
    "customer_message": false,
    "offline": true,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "bank-match",
@@ -1154,7 +1170,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "chat-routing",
@@ -1170,7 +1187,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "chat-summary",
@@ -1186,7 +1204,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "price-alert",
@@ -1739,7 +1758,8 @@
    "customer_message": false,
    "offline": true,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "merchant/automations.py"
   },
   {
    "id": "accessibility-check",
