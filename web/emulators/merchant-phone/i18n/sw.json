@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "6e8cac91069be50c9f3cf9708b377942dbf057b4910271ab699a5986096cd443",
+ "source_sha256": "c3272900fc9d6bc5760eef623799dac3a65cf7affd01f59dcf2bb023b31b1c93",
  "texts": {
   "all": "Zote",
   "all_sent": "Kila kitu kimetumwa.",
@@ -76,6 +76,7 @@
   "role_manager": "Meneja",
   "role_owner": "Mmiliki",
   "sales_count": "Mauzo: {n}",
+  "sample_country": "Nchi ya mfano",
   "sandbox": "Hali ya majaribio",
   "saved": "Imehifadhiwa kwenye simu hii",
   "send": "Tuma",

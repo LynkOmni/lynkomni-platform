@@ -13,12 +13,19 @@ interface BuildData {
   brand: { body: string; topLight: string; topDark: string; receipt: string };
   pictures: { offLight: string; offDark: string; offAlt: string };
   states: Record<string, { label: string; meaning: string }>;
-  pack: { code: string; name: string; currency: string; tz: string; locale: string };
-  ready: Record<string, { ok: boolean; message: string }>;
+  /** Every country pack, the neutral sample pack first (Step 0): the chooser never opens on a real country. */
+  packs: Record<string, CountryPack>;
+  packOrder: string[];
   i18n: Record<string, { native: string; dir: "ltr" | "rtl"; texts: Record<string, string> }>;
+}
+interface CountryPack {
+  code: string; name: string; currency: string; tz: string; locale: string; sample: boolean;
+  ready: Record<string, { ok: boolean; message: string }>;
   services: { service: string; name: string; icon: string; state: "available" | "coming_soon" }[];
 }
 declare const DATA: BuildData;
+/** The country the emulator shows. Read from the country pack and the provider ledger; nothing about a country lives in this code. */
+const pack = (): CountryPack => DATA.packs[S.country] ?? DATA.packs[DATA.packOrder[0] ?? ""] as CountryPack;
 
 type Tab = "home" | "sell" | "stock" | "chats" | "business";
 type View = "main" | "basket" | "pay" | "cash" | "momo" | "waiting" | "done" | "off" | "item" | "thread";
@@ -58,7 +65,7 @@ const THREADS: Thread[] = [
 
 const S = {
   screen: "phone" as "phone" | "code" | "enrol" | "app", tab: "home" as Tab, view: "main" as View, sheet: false,
-  lang: "en", theme: "light" as "light" | "dark", link: "good" as Link, forced: false, realUser: false, outcome: "confirm" as "confirm" | "fail",
+  lang: "en", theme: "light" as "light" | "dark", link: "good" as Link, forced: false, realUser: false, country: "", outcome: "confirm" as "confirm" | "fail",
   role: "owner" as Role, perms: { staffSeeProfit: false }, phone: "", code: "", input: "", note: "", flash: "", category: "all",
   cart: new Cart(), current: null as Sale | null, sales: [] as Sale[], events: [] as Ev[], levels: { ...START }, flagged: new Set<string>(),
   threads: THREADS, thread: "", draft: "", product: "", qty: 1, notified: new Set<string>(), receiptNo: 0, lastSync: 0, ticks: 0, enrolled: false,
@@ -74,14 +81,14 @@ const t = (k: string, vars: Record<string, string | number> = {}): string => {
   return raw.replace(/\{(\w+)\}/g, (m, v: string) => (v in vars ? String(vars[v]) : m));
 };
 const esc = (s: string): string => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-const locale = (): string => `${isTest() ? "en" : S.lang}-${DATA.pack.code}`;
-const money = (n: number): string => formatMoney(n, DATA.pack.currency, locale());
+const locale = (): string => `${isTest() ? "en" : S.lang}-${pack().code}`;
+const money = (n: number): string => formatMoney(n, pack().currency, locale());
 const icon = (id: string, cls = "ic"): string => `<span class="${cls}" aria-hidden="true">${DATA.icons[id] ?? ""}</span>`;
 const chip = (s: UserState): string => `<span class="chip st-${s}">${icon(`status-${s}`)}<span>${esc(t(`st_${s}`))}</span></span>`;
-const clock = (ms: number): string => new Intl.DateTimeFormat(locale(), { timeZone: DATA.pack.tz, hour: "2-digit", minute: "2-digit" }).format(ms);
+const clock = (ms: number): string => new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, hour: "2-digit", minute: "2-digit" }).format(ms);
 const reduced = (): boolean => matchMedia("(prefers-reduced-motion: reduce)").matches;
 const online = (): boolean => mode(S.link, S.forced) === "online";
-const methodOk = (m: PaymentMethod): boolean => m === "cash" || !S.realUser || (DATA.ready[m]?.ok ?? false);
+const methodOk = (m: PaymentMethod): boolean => m === "cash" || !S.realUser || (pack().ready[m]?.ok ?? false);
 const item = (id: string): Item | undefined => CATALOG.find((p) => p.id === id);
 const level = (id: string): number => S.levels[id] ?? 0;
 const unread = (): number => S.threads.reduce((a, th) => a + th.unread, 0);
@@ -133,7 +140,7 @@ function askProvider(s: Sale, p: PaymentPayload): void {   // the sandbox provid
 function recordSale(): Sale {
   if (S.current) return S.current;
   S.receiptNo += 1;
-  const sale = salePayload(S.cart, newId(), `${DEVICE}-${S.receiptNo}`, DATA.pack.currency);
+  const sale = salePayload(S.cart, newId(), `${DEVICE}-${S.receiptNo}`, pack().currency);
   emit("SaleRecorded", sale);
   emit("ReceiptIssued", { receipt_id: newId(), sale_id: sale.sale_id, receipt_number_local: sale.receipt_number_local, copy_number: 1, validity: "provisional" });
   S.levels = afterSale(S.levels, sale);   // never blocked: stock may go below zero and is flagged instead
@@ -301,7 +308,7 @@ function business(): string {
       <div class="duo"><div class="kpi"><span>${esc(t("today_sales"))}</span><strong>${esc(money(sm.total))}</strong><small>${esc(t("sales_count", { n: sm.count }))}</small></div>
       ${profit ? `<div class="kpi"><span>${esc(t("today_profit"))}</span><strong>${esc(money(sm.profit))}</strong></div>` : ""}</div>
       ${kv("cash_drawer", sm.cash)}${kv("confirmed_money", sm.confirmed)}${kv("waiting_money", sm.waiting)}${kv("failed_money", sm.failed)}</div>
-    <div class="card"><h2>${esc(t("services"))}</h2><ul class="list">${DATA.services.map((s) => `<li class="svc">${icon(s.icon, "prod")}<span class="main"><span class="nm">${esc(s.name)}</span>
+    <div class="card"><h2>${esc(t("services"))}</h2><ul class="list">${pack().services.map((s) => `<li class="svc">${icon(s.icon, "prod")}<span class="main"><span class="nm">${esc(s.name)}</span>
       <span class="sub">${esc(t(s.state === "available" ? "available" : "coming_soon"))}</span></span>${s.state === "available" ? `<span class="pill ok">${icon("ui-check")}</span>` : notifyBtn(s.service)}</li>`).join("")}</ul></div>
     <div class="card"><h2>${esc(t("team"))}</h2><div class="kv"><span>${esc(t("signed_in"))}</span><strong>${esc(t(`role_${S.role}`))}</strong></div>
       <label class="switch"><span>${esc(t("staff_profit"))}</span><input type="checkbox" data-in="perm" ${S.perms.staffSeeProfit ? "checked" : ""} ${owner ? "" : "disabled"}></label>
@@ -444,6 +451,9 @@ function wire(): void {
   bind("#cRole", (el) => { S.role = el.value as Role; draw(); });
   bind("#cDark", (el) => { S.theme = el.checked ? "dark" : "light"; draw(); });
   bind("#cReal", (el) => { S.realUser = el.checked; draw(); });
+  const country = $<HTMLSelectElement>("#cCountry");
+  country.innerHTML = DATA.packOrder.map((c) => { const p = DATA.packs[c] as CountryPack; return `<option value="${esc(c)}">${esc(p.sample ? t("sample_country") : p.name)}</option>`; }).join("");
+  country.addEventListener("change", (e) => { S.country = (e.target as HTMLSelectElement).value; draw(); });
   bind("#cFail", (el) => { S.outcome = el.checked ? "fail" : "confirm"; });
   const sel = $<HTMLSelectElement>("#cLang");
   sel.insertAdjacentHTML("afterbegin", Object.entries(PACKS).map(([code, p]) => `<option value="${esc(code)}" lang="${esc(code)}" dir="${p.dir}">${esc(p.native)}</option>`).join(""));

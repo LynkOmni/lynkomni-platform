@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "6e8cac91069be50c9f3cf9708b377942dbf057b4910271ab699a5986096cd443",
+ "source_sha256": "c3272900fc9d6bc5760eef623799dac3a65cf7affd01f59dcf2bb023b31b1c93",
  "texts": {
   "all": "सभी",
   "all_sent": "सब कुछ भेज दिया गया है।",
@@ -76,6 +76,7 @@
   "role_manager": "प्रबंधक",
   "role_owner": "मालिक",
   "sales_count": "बिक्री: {n}",
+  "sample_country": "नमूना देश",
   "sandbox": "परीक्षण मोड",
   "saved": "इस फ़ोन पर सहेजा गया",
   "send": "भेजें",

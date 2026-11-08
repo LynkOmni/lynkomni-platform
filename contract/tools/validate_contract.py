@@ -22,10 +22,14 @@ def load(name):
 
 
 ENVELOPE = load("event-envelope.v1.json")
-REGISTRY = load("event-payloads.v1.json")
+REGISTRY_V1 = load("event-payloads.v1.json")          # published, never edited; still readable through the upcaster
+REGISTRY = load("event-payloads.v2.json")             # the current version (Step 0: any currency, the new event names)
+REGISTRIES = {1: REGISTRY_V1, 2: REGISTRY}
+CURRENCIES = load("currencies.v1.json")["decimals"]
 PERMS = load("permissions.v1.json")
-REGISTER = load("command-policy-register.v1.json")
+REGISTER = load("command-policy-register.v2.json")
 STATES = load("state-machines.v1.json")
+SAMPLE_CURRENCY = load(os.path.join("country-packs", "XX.json"))["currency"]   # the neutral sample pack, never a real country
 
 # ---------------------------------------------------------------- mini JSON Schema
 def _type_ok(v, t):
@@ -142,6 +146,12 @@ def domain_errors(etype, p):
         want = METHOD_STATUS.get(p["method"], "pending_confirmation")
         if p["status"] != want:
             errs.append(f"method {p['method']} requires status {want}")
+    elif etype == "StockReceived":
+        if any("unit_cost" in l for l in p["lines"]) and "currency" not in p:
+            errs.append("unit_cost needs a currency")
+    elif etype == "ProductUpdated":
+        if "price" in p["changes"] and "currency" not in p:
+            errs.append("price change needs a currency")
     elif etype == "StockAdjusted":
         if p["delta_milli"] == 0:
             errs.append("delta_milli must be non-zero")
@@ -170,14 +180,15 @@ def validate_event(evt, stored=False):
         errs += validate(body, ENVELOPE["$defs"]["server_event"], ENVELOPE)
     if errs:
         return errs
-    entry = REGISTRY["events"].get(evt["type"])
-    if not entry:
+    if evt["type"] not in REGISTRY["events"]:
         return [f"unknown event type {evt['type']}"]
-    if evt["schema_version"] != entry["schema_version"]:
+    registry = REGISTRIES.get(evt["schema_version"])
+    entry = registry["events"].get(evt["type"]) if registry else None
+    if not entry or evt["schema_version"] != entry["schema_version"]:
         return [f"unsupported schema_version {evt['schema_version']} for {evt['type']}"]
     if origin not in entry["origins"]:
         return [f"{evt['type']} may not originate from '{origin}'"]
-    perr = validate(evt["payload"], entry["payload"], REGISTRY)
+    perr = validate(evt["payload"], entry["payload"], registry)
     if perr:
         return perr
     for key, want in entry.get("origin_constraints", {}).get(origin, {}).items():
@@ -241,20 +252,20 @@ class Device:
         evt = {
             "event_id": uuid7(), "origin": "device", "merchant_id": MERCHANT, "branch_id": BRANCH,
             "device_id": self.id, "actor_user_id": USER, "device_seq": self.seq, "type": etype,
-            "schema_version": 1, "occurred_at_device": ts(at or self.clock), "prev_hash": self.prev,
+            "schema_version": 2, "occurred_at_device": ts(at or self.clock), "prev_hash": self.prev,
             "payload": payload, "signature": fake_sig(),
         }
         self.prev = event_hash(evt)
         return evt
 
 
-def sale_payload(product_id, qty_milli=1000, unit_price=1500, discount=0):
+def sale_payload(product_id, qty_milli=1000, unit_price=1500, discount=0, currency=SAMPLE_CURRENCY):
     lt = round_half_up_line(qty_milli, unit_price, discount)
     return {
         "sale_id": uuid7(), "receipt_number_local": "A1-1",
-        "lines": [{"line_no": 1, "product_id": product_id, "product_name": "Inyange Juice 1L",
+        "lines": [{"line_no": 1, "product_id": product_id, "product_name": "Juice 1L",
                    "quantity_milli": qty_milli, "unit_price": unit_price, "discount": discount, "line_total": lt}],
-        "subtotal": lt, "discount_total": discount, "tax_total": 0, "tax_mode": "none", "total": lt, "currency": "RWF",
+        "subtotal": lt, "discount_total": discount, "tax_total": 0, "tax_mode": "none", "total": lt, "currency": currency,
     }
 
 
@@ -428,9 +439,9 @@ def contract_checks():
         for et in c["emits"]:
             check(f"register:{n}:emits {et} exists", et in ev)
             if et in ev:
-                want = "device" if cls == "A" else "server"
-                check(f"register:{n}:{et} origin allows {want}", want in ev[et]["origins"])
-                if c["v1"] and cls == "A": emitted_device.add(et)
+                if cls == "A": check(f"register:{n}:{et} origin allows device", "device" in ev[et]["origins"])
+                else: check(f"register:{n}:{et} has an origin", bool(ev[et]["origins"]))
+                if (c.get("v1") or c.get("v2")) and "device" in ev[et]["origins"]: emitted_device.add(et)
         pid = c["permission"]
         if pid is None:
             check(f"register:{n}:null permission is declared", c.get("local_only") or c.get("pre_auth") or c.get("any_authenticated"))
@@ -453,8 +464,25 @@ def contract_checks():
     # orphan device events
     sys_gen = {"PaymentStatusChanged"}  # also emitted by provider callbacks (server side)
     for name, e in ev.items():
-        if e["origins"] == ["device"]:
+        if "device" in e["origins"] and name not in sys_gen:
             check(f"coverage:{name} has an issuing command", name in emitted_device)
+    # version 2 money rule: every payload that carries an amount carries its currency, and v1 stays readable
+    def carries_money(node):
+        if isinstance(node, dict):
+            if node.get("$ref") in ("#/$defs/money", "#/$defs/money_signed"): return True
+            return any(carries_money(v) for v in node.values())
+        return isinstance(node, list) and any(carries_money(v) for v in node)
+    for name, e in ev.items():
+        props = e["payload"]["properties"]
+        if carries_money(props):
+            optional_money = name in ("StockReceived", "ProductUpdated")   # money optional there; domain_errors demands the currency with it
+            check(f"money:{name} carries its currency", "currency" in props and (optional_money or "currency" in e["payload"]["required"]))
+    check("money:no rwf definition left in version 2", "rwf" not in REGISTRY["$defs"])
+    check("money:currency enum == currency list", set(REGISTRY["$defs"]["currency"]["enum"]) == set(CURRENCIES))
+    for name in REGISTRY_V1["events"]:
+        check(f"upcast:{name} still registered in version 2", name in ev)
+    for part in ("42 I", "44 E", "44 G", "44 I N1", "44 I N8", "44 J", "45 A"):
+        check(f"registry:blueprint part {part} registered", any(e.get("blueprint", "").startswith(part) for e in ev.values()))
     # state machines vs registry
     pay_enum = set(REGISTRY["$defs"]["payment_status"]["enum"])
     check("states:payment enum == state machine", pay_enum == set(PAYMENT_STATES))
@@ -475,7 +503,7 @@ def event_checks():
     ok_sale = d.emit("SaleRecorded", sale_payload(pid))
     check("event:valid sale", validate_event(ok_sale) == [], str(validate_event(ok_sale)))
     # unicode name (Kinyarwanda / French accents) round-trips through canonical bytes
-    p = sale_payload(pid); p["lines"][0]["product_name"] = "Ikawa y’u Rwanda – café"
+    p = sale_payload(pid); p["lines"][0]["product_name"] = "Café – ikawa – قهوة – कॉफ़ी"
     e = Device().emit("SaleRecorded", p)
     check("event:unicode name ok", validate_event(e) == [])
     check("hash:canonical bytes are utf-8 stable", signing_bytes(e) == signing_bytes(json.loads(json.dumps(e, ensure_ascii=False))))
@@ -490,8 +518,27 @@ def event_checks():
     expect_invalid("event:unknown type rejected", bad, "unknown event type")
     bad = json.loads(json.dumps(ok_sale)); bad["server_cursor"] = 5
     expect_invalid("event:device may not send server stamp", bad, "unexpected field")
-    bad = json.loads(json.dumps(ok_sale)); bad["schema_version"] = 2
+    bad = json.loads(json.dumps(ok_sale)); bad["schema_version"] = 3
     expect_invalid("event:future schema_version rejected", bad, "unsupported schema_version")
+    # version 1 (integer RWF, no currency on payments) is still readable: as it is, and upcast to version 2
+    sys.path.insert(0, os.path.dirname(ROOT)); from contract.upcast import upcast
+    v1_sale = json.loads(json.dumps(ok_sale)); v1_sale["schema_version"] = 1; v1_sale["payload"]["currency"] = "RWF"
+    check("v1:sale still valid as version 1", validate_event(v1_sale) == [], str(validate_event(v1_sale)))
+    v1_pay = Device().emit("PaymentRecorded", {"payment_id": uuid7(), "sale_id": ok_sale["payload"]["sale_id"], "method": "cash", "amount": 1500, "status": "cash_received"})
+    v1_pay["schema_version"] = 1
+    check("v1:payment without currency valid as version 1", validate_event(v1_pay) == [], str(validate_event(v1_pay)))
+    up = upcast(v1_pay)
+    check("upcast:v1 payment reads as version 2 with RWF", up["schema_version"] == 2 and up["payload"]["currency"] == "RWF" and validate_event(up) == [], str(validate_event(up)))
+    check("upcast:amount never rescaled", up["payload"]["amount"] == v1_pay["payload"]["amount"] and v1_pay["schema_version"] == 1)
+    no_cur = Device().emit("PaymentRecorded", {"payment_id": uuid7(), "sale_id": ok_sale["payload"]["sale_id"], "method": "cash", "amount": 1500, "status": "cash_received"})
+    expect_invalid("v2:payment without currency rejected", no_cur, "missing required 'currency'")
+    bad_cur = json.loads(json.dumps(ok_sale)); bad_cur["payload"]["currency"] = "XXX"
+    expect_invalid("v2:unknown currency rejected", bad_cur, "not in enum")
+    # the new event names: an agent request is a device fact, its answer is cloud only
+    agent = Device().emit("AgentRequestCreated", {"request_id": uuid7(), "partner_id": uuid4(), "service": "cash_withdrawal", "amount": 20000, "fee": 200, "currency": SAMPLE_CURRENCY})
+    check("v2:agent request from a device ok", validate_event(agent) == [], str(validate_event(agent)))
+    confirm_dev = Device().emit("AgentRequestConfirmed", {"request_id": uuid7(), "partner_reference": "PRT-1", "amount": 20000, "fee": 200, "commission": 50, "currency": SAMPLE_CURRENCY})
+    expect_invalid("v2:device cannot confirm an agent request", confirm_dev, "may not originate")
     bad = json.loads(json.dumps(ok_sale)); bad["payload"]["total"] += 1
     expect_invalid("event:sale arithmetic enforced", bad, "total mismatch")
     bad = json.loads(json.dumps(ok_sale)); bad["payload"]["lines"][0]["line_total"] += 1
@@ -500,17 +547,17 @@ def event_checks():
     check("event:stored form accepted", validate_event(stored, stored=True) == [])
     # payments
     sale_id = ok_sale["payload"]["sale_id"]
-    good_pay = Device().emit("PaymentRecorded", {"payment_id": uuid7(), "sale_id": sale_id, "method": "mobile_money", "amount": 1500, "status": "pending_confirmation"})
+    good_pay = Device().emit("PaymentRecorded", {"payment_id": uuid7(), "sale_id": sale_id, "method": "mobile_money", "amount": 1500, "status": "pending_confirmation", "currency": SAMPLE_CURRENCY})
     check("payment:mobile money pending ok", validate_event(good_pay) == [])
-    cash_bad = Device().emit("PaymentRecorded", {"payment_id": uuid7(), "sale_id": sale_id, "method": "cash", "amount": 1500, "status": "pending_confirmation"})
+    cash_bad = Device().emit("PaymentRecorded", {"payment_id": uuid7(), "sale_id": sale_id, "method": "cash", "amount": 1500, "status": "pending_confirmation", "currency": SAMPLE_CURRENCY})
     expect_invalid("payment:cash must be cash_received", cash_bad, "requires status")
-    mm_bad = Device().emit("PaymentRecorded", {"payment_id": uuid7(), "sale_id": sale_id, "method": "mobile_money", "amount": 1500, "status": "confirmed"})
+    mm_bad = Device().emit("PaymentRecorded", {"payment_id": uuid7(), "sale_id": sale_id, "method": "mobile_money", "amount": 1500, "status": "confirmed", "currency": SAMPLE_CURRENCY})
     expect_invalid("payment:device cannot record confirmed", mm_bad)
     conf_dev = Device().emit("PaymentStatusChanged", {"payment_id": uuid7(), "from_status": "pending_confirmation", "to_status": "confirmed", "source": "owner_manual"})
     expect_invalid("payment:device cannot emit 'confirmed'", conf_dev)
     man_ok = Device().emit("PaymentStatusChanged", {"payment_id": uuid7(), "from_status": "pending_confirmation", "to_status": "manually_confirmed", "source": "owner_manual"})
     check("payment:device manual confirmation ok", validate_event(man_ok) == [], str(validate_event(man_ok)))
-    srv_ok = {"event_id": uuid7(), "origin": "server", "merchant_id": MERCHANT, "type": "PaymentStatusChanged", "schema_version": 1,
+    srv_ok = {"event_id": uuid7(), "origin": "server", "merchant_id": MERCHANT, "type": "PaymentStatusChanged", "schema_version": 2,
               "created_at_server": ts(), "server_cursor": 9, "payload": {"payment_id": uuid7(), "from_status": "pending_confirmation", "to_status": "confirmed", "source": "provider_callback"},
               "server_signature": fake_sig()}
     check("payment:provider callback confirms", validate_event(srv_ok) == [], str(validate_event(srv_ok)))
@@ -520,6 +567,8 @@ def event_checks():
     expect_invalid("receipt:device may only issue provisional", rcpt)
     prov = Device().emit("ReceiptIssued", {"receipt_id": uuid7(), "sale_id": sale_id, "receipt_number_local": "A1-1", "copy_number": 1, "validity": "provisional"})
     check("receipt:provisional ok", validate_event(prov) == [])
+    cost_no_cur = Device().emit("StockReceived", {"stock_receipt_id": uuid7(), "lines": [{"product_id": pid, "quantity_milli": 1000, "unit_cost": 900}]})
+    expect_invalid("v2:unit cost without currency rejected", cost_no_cur, "needs a currency")
     adj0 = Device().emit("StockAdjusted", {"adjustment_id": uuid7(), "product_id": pid, "delta_milli": 0, "reason_code": "loss"})
     expect_invalid("stock:zero adjustment rejected", adj0, "non-zero")
 
@@ -567,7 +616,7 @@ def chain_and_ingest_checks():
     d5 = Device(); s5 = ReferenceIngest(); s5.enroll(d5.id)
     fut = d5.emit("StockReceived", {"stock_receipt_id": uuid7(), "lines": [{"product_id": pid, "quantity_milli": 1000}]}); 
     # re-sign chain after changing version: rebuild event manually
-    fut["schema_version"] = 2
+    fut["schema_version"] = 3
     o = s5.push([fut])
     check("ingest:future schema quarantined", o["results"][0].get("reason") == "unknown_schema_version", str(o))
 

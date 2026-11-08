@@ -108,5 +108,6 @@
  "st_sent": "Sent",
  "st_accepted": "Accepted",
  "st_confirmed": "Confirmed",
- "st_failed": "Failed"
+ "st_failed": "Failed",
+ "sample_country": "Sample country"
 }

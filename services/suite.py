@@ -74,6 +74,27 @@ class POS:  # 2
 
 class Accountant:  # 3
     def __init__(s, c): s.c = c
+    def journal(s, m):
+        """The double-entry journal: a projection of the event log on the one global chart of accounts (core/accounts.py),
+        in the base currency, at every tier. Cost of goods sold is posted per sale at the average cost, so the journal's
+        profit is the same number as summary()."""
+        from core import accounts
+        types = tuple(accounts.POSTINGS)
+        entries = accounts.journal(s.c.store.of(m, *types), lambda p, f: s.c.base(m, p, f))
+        cost = Inventory(s.c).avg_cost(m)
+        for e in s.c.store.of(m, "sale.recorded", "sale.voided"):
+            cogs = sum(i["qty"] * cost.get(i["sku"], 0) for i in e["payload"]["items"])
+            if cogs:
+                dr, cr = ("5000", "1200") if e["type"] == "sale.recorded" else ("1200", "5000")
+                entries.append({"event_id": e["id"], "type": e["type"] + ".cogs", "ts": e["ts"], "lines": [(dr, cogs, 0), (cr, 0, cogs)]})
+        entries.sort(key=lambda x: (x["ts"] or "", x["event_id"]))
+        return entries
+    def trial_balance(s, m):
+        from core import accounts
+        pack = country(s.c.profile(m)["country"])
+        names = accounts.local_chart(pack)
+        tb = accounts.trial_balance(s.journal(m))
+        return {code: {"name": names[code]["name"], "local_code": names[code]["code"], "type": names[code]["type"], "balance_minor": v} for code, v in sorted(tb.items())}
     def summary(s, m):
         base, cost = s.c.profile(m)["currency"], Inventory(s.c).avg_cost(m)
         r = rf = ex = fee = cogs = 0

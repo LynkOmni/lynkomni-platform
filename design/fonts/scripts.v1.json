@@ -201,6 +201,14 @@
    "letters": "áéíóúüñ¿¡",
    "mt": "es"
   },
+  "pt": {
+   "letters": "ãõáéíóúâêôàçü",
+   "mt": "pt",
+   "name": "Portuguese",
+   "native": "Português",
+   "sample": "Obrigado",
+   "script": "latin"
+  },
   "sw": {
    "name": "Swahili",
    "native": "Kiswahili",

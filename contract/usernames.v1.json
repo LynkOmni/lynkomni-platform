@@ -1,0 +1,24 @@
+{
+ "$id": "lynkomni/usernames.v1",
+ "description": "The one username rule for the whole of LynkOmni (blueprint 44 B, owner approved 2026-11-08): shop, business, person, developer app, partner and agent point. Exact Instagram format, 3 to 30 characters: a to z, 0 to 9, full stops and underscores; not case-sensitive (stored lowercase); never a full stop at the start or the end, never two in a row; the same in every language. Shown as @name, without the @ in addresses. Reserved words and web-address-like endings are refused; a name that differs from a reserved one only by look-alike letters is held for review; a username belongs to its owner forever and is never reissued. Names (free text) are not usernames. core/usernames.py (Python) and ts/src/usernames.ts (TypeScript) implement it; contract/vectors/usernames.v1.json proves both.",
+ "min": 3,
+ "max": 30,
+ "pattern": "^(?!\\.)(?!.*\\.\\.)(?!.*\\.$)[a-z0-9._]{3,30}$",
+ "reserved_endings": [".com", ".net", ".org", ".app", ".io", ".co", ".ai", ".dev", ".africa", ".rw", ".ke", ".ng", ".tz", ".ug", ".gh", ".ae", ".uk", ".us", ".fr", ".de", ".in", ".za"],
+ "reserved_words": [
+  "lynkomni", "cruxomni", "lynk", "lynkid", "lynkoid",
+  "admin", "administrator", "support", "security", "pay", "help", "official", "tables", "track", "reviews", "orders", "academy",
+  "staff", "billing", "legal", "privacy", "safety", "abuse", "api", "app", "apps", "shop", "shops", "account", "accounts", "status",
+  "login", "signin", "signup", "register", "recover", "root", "system", "www", "mail", "news", "partners", "partner", "hub", "doc", "docs",
+  "sdk", "exchange", "booking", "bookings", "essential", "essentials", "developer", "developers", "enterprise", "agents", "agent",
+  "suppliers", "supplier", "ads", "invoice", "invoices", "receipt", "receipts", "quote", "quotes", "standing", "verify", "verified",
+  "cash", "refund", "refunds", "void", "fiscal", "tax", "government", "bank", "banks", "police", "test", "demo", "sample", "null", "undefined", "anonymous"
+ ],
+ "look_alike_map": {"0": "o", "1": "l", "3": "e", "4": "a", "5": "s", "7": "t", "8": "b", "9": "g", "_": "", ".": "", "i": "l", "j": "l", "rn": "m", "vv": "w"},
+ "ownership": {
+  "one_owner": "a username is tied to the owner's public id (LOOID- or LynkID), never to a device or a staff member",
+  "never_reissued": "a changed or released username stays reserved to the same owner forever; old links and QR codes redirect to the new one and can never point to someone else",
+  "taken_in_the_cloud": "a shop set up offline uses a temporary address until it is online, so two shops can never take the same username",
+  "disputes": "a trademark owner claims a username through safety@; staff decide and record the reason; the old owner keeps a redirect for 90 days"
+ }
+}

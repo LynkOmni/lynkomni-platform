@@ -1,8 +1,10 @@
 """Money is integer minor units + currency code. Never use floats for money."""
+import json, os
 from decimal import Decimal, ROUND_HALF_EVEN
 
-CURRENCIES = {"RWF": 0, "KES": 2, "UGX": 0, "TZS": 2, "NGN": 2, "GHS": 2,
-              "INR": 2, "AED": 2, "USD": 2, "EUR": 2}  # decimals per currency
+# Decimals per currency come from the contract's currency list (contract/currencies.v1.json), the one source shared by every language.
+with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "contract", "currencies.v1.json"), encoding="utf-8") as _f:
+    CURRENCIES = json.load(_f)["decimals"]
 # PLACEHOLDER units per 1 USD. Replace with a live FX provider before real use.
 USD_RATES = {"USD": "1", "RWF": "1450", "KES": "129", "UGX": "3700", "TZS": "2600",
              "NGN": "1500", "GHS": "12", "INR": "84", "AED": "3.6725", "EUR": "0.92"}

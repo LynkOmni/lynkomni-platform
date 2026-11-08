@@ -18,6 +18,12 @@ export const LANGUAGES: Record<string, { name: string; native: string; script: s
   "script": "latin",
   "dir": "ltr"
  },
+ "pt": {
+  "name": "Portuguese",
+  "native": "Português",
+  "script": "latin",
+  "dir": "ltr"
+ },
  "sw": {
   "name": "Swahili",
   "native": "Kiswahili",
