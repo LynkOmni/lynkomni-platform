@@ -1323,7 +1323,8 @@
    "11. POS hardware supplier (two sample devices), plus the human reviewers: designer, security, accessibility; an auditor later for SOC 2 Type II and ISO 27001.",
    "12. Apple Developer and Google Play accounts for the organisation.",
    "13. Google Cloud account when the app is ready to go online (same payment method as Workspace).",
-   "14. GitHub Team plan and the lock on the main branch, last."
+   "14. GitHub Team plan and the lock on the main branch, last.",
+   "15. Before the repositories go private at the end of the build (added by the owner 2026-11-08): re-check the two things that change with visibility, the GitHub Actions budget and that CodeQL's job is covered by Claude's own security review (item 11)."
   ]
  }
 }
