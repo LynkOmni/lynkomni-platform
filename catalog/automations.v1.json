@@ -156,7 +156,7 @@
    "build_section": 2,
    "family": "platform",
    "min_tier": "free",
-   "trigger": "event:DataRequestOpened",
+   "trigger": "schedule:daily",
    "action": "Track download or delete requests against the legal deadline and alert staff",
    "level": "inform",
    "assist": null,

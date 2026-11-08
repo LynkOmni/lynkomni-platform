@@ -934,6 +934,42 @@
     "Store only logos that pass validate()",
     "Serve through the CDN as an image with the merchant name as alt text"
    ]
+  },
+  {
+   "id": "registration_gateway",
+   "name": "Business registration gateway and bank referral (Start a business, N14)",
+   "kind": "government_gateway",
+   "used_by": [
+    "registration"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "identity.account:RegistrationGateway",
+   "sandbox": "identity.account:SandboxGateway",
+   "needed_from_provider": [
+    "government registration gateway agreement per country (company register, tax number)",
+    "bank partner referral agreement (business account opening)",
+    "fee schedule paid straight to the government body",
+    "status callback or polling API",
+    "referral fee terms (about $5 per referral, paid by the partner)"
+   ],
+   "placeholders": [
+    {
+     "file": "identity/account.py",
+     "token": "SANDBOX"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "LynkOmni never decides an application, never takes the government fee and never claims approval before the gateway answers. The sandbox approves any complete application.",
+   "integrate": [
+    "Sign the gateway and bank agreements for the country",
+    "Write the real adapter next to the sandbox one behind RegistrationGateway",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the 'registration' flag after legal sign-off"
+   ]
   }
  ],
  "later": [
