@@ -2,6 +2,11 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.21.1 (2026-11-08)
+- Dependency updates taken in (owner rule of 8 November: merge them without asking once the checks are green and nothing else is pending): the GitHub Actions moved to their current major versions (checkout 7, setup-node 6, setup-python 6, setup-java 6, cache 6, upload-artifact 5) and the pinned Python and Node packages to their latest releases (Dependabot pull requests #29 to #36; #30 was superseded by the same change on #39).
+- The Kotlin job caches its Gradle downloads and retries up to five times when GitHub's release store times out, so a 504 no longer fails a run.
+- Traditional Chinese: the engine's language tag is `zh_Hant` (MADLAD-400 writes the script with an underscore); the test that had pushed it to a hyphen now accepts the underscore, and the translation workflow passes again.
+
 ## v0.21.0 (2026-11-08)
 Build section 1, the shared shell (blueprint 41 S row 1 and 44 L row 1), built and locked.
 - The shell component library (ts/src/shell.ts, web/shell/shell.css): translator, viewport, header, navigation (tabs on a phone, rail on a tablet, sidebar on a computer), app launcher, account menu, language and region sheet, "find or do anything" search and command bar, help panel, notifications with quiet hours, every screen state with its picture and next step, connection chip and sync sheet, data-saver plan, deep links from the address map, protected zones, undo toasts, continue-on-any-device handoff, two-language chat banner and notes, the username field and accessible charts. 19 TypeScript tests.
