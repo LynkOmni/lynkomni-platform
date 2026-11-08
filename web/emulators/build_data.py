@@ -18,10 +18,15 @@ def svg(path):
         return f.read()
 
 
-def language_packs(emulator):
-    """English from strings.en.json plus every machine-translated pack in i18n/ that was made from that exact English.
+def uses_shell(emulator):
+    """An emulator built on the shared shell (ts/src/shell.ts) also carries the shell's own words (web/shell)."""
+    with open(os.path.join(ROOT, "web", "emulators", emulator, "app.ts"), encoding="utf-8") as f:
+        return "ts/src/shell.js" in f.read()
+
+
+def _packs(base):
+    """English from strings.en.json plus every pack in i18n/ that was made from that exact English.
     A missing or out-of-date pack is left out here (the screen falls back to English) and fails tests/test_translation_packs.py."""
-    base = os.path.join(ROOT, "web", "emulators", emulator)
     with open(os.path.join(base, "strings.en.json"), encoding="utf-8") as f:
         source = json.load(f)
     fresh = translation.build_pack(source, "en")["source_sha256"]
@@ -39,6 +44,15 @@ def language_packs(emulator):
                 continue
         out[lang] = {"native": pack["native"], "dir": pack["dir"], "texts": pack["texts"]}
     return out
+
+
+def language_packs(emulator):
+    """The emulator's own words, plus the shared shell's words when it is built on the shell (one translation of the shell, used everywhere)."""
+    own = _packs(os.path.join(ROOT, "web", "emulators", emulator))
+    if not uses_shell(emulator):
+        return own
+    shell = _packs(os.path.join(ROOT, "web", "shell"))
+    return {lang: {**own[lang], "texts": {**shell[lang]["texts"], **own[lang]["texts"]}} for lang in own if lang in shell}
 
 
 # The services shown in the merchant app's Business tab: (service in core.regions, product family name, icon).

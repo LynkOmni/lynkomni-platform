@@ -3,7 +3,8 @@
 
     python tools/translation/claude_packs.py <emulator> <folder with <lang>.json files of {key: translation}>
 
-Each input file must have exactly the keys of web/emulators/<emulator>/strings.en.json. Every translation passes the
+Each input file must have exactly the keys of web/emulators/<emulator>/strings.en.json (or web/shell/strings.en.json when
+the emulator is "shell": the shared shell's own words, merged into every emulator that uses the shell). Every translation passes the
 automatic checks of services/translation.run (names, {placeholders} and numbers unchanged; no repetition; no added
 words or sentences) and must be written in its language's script, or the tool stops and writes nothing. The packs go
 to web/emulators/<emulator>/i18n/<lang>.json with engine "claude-opus-5-5" and the fingerprint of the English, so
@@ -17,7 +18,7 @@ from services import translation as t  # noqa: E402
 
 
 def main(emulator, folder):
-    base = os.path.join(ROOT, "web", "emulators", emulator)
+    base = os.path.join(ROOT, "web", "shell") if emulator == "shell" else os.path.join(ROOT, "web", "emulators", emulator)   # "shell": the shared shell's own words (web/shell)
     catalog = json.load(open(os.path.join(base, "strings.en.json"), encoding="utf-8"))
     table, errors = {}, []
     for lang in t.languages():

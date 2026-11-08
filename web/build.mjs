@@ -16,6 +16,8 @@ const EMULATORS = [
   { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: ["ts/src/pos.js", "ts/src/merchant.js", "web/emulators/merchant-phone/app.js"] },
   { id: "browser-frame", out: "lynkomni-browser-frame.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/shell.js", "web/emulators/browser-frame/app.js"],
     extraCss: ["web/shell/shell.css"] },
+  { id: "account-site", out: "lynkomni-account-site.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/shell.js", "ts/src/account.js", "web/emulators/account-site/app.js"],
+    extraCss: ["web/shell/shell.css"] },
 ];
 
 const read = (p) => readFileSync(p, "utf8");
