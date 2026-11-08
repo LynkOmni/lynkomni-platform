@@ -1153,6 +1153,16 @@
    "why_not_now": "Each wave adds fonts (Chinese, Japanese and Korean split into subsets within a size budget) and Claude-translated packs; Portuguese was added in Step 0 (16th language, v0.20.0) and the waves follow in build section 1 with the shared shell.",
    "placeholders": [],
    "done_when": "Every wave language is in design/fonts/scripts.v1.json with packs for every emulator and the layout check passes."
+  },
+  {
+   "id": "dmarc_quarantine",
+   "name": "DMARC policy raised from p=none to p=quarantine, then p=reject",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "The records went live on 2026-11-08 with p=none (report only); the policy is raised only after about two weeks of reports to dmarc-reports@ show no legitimate sender failing.",
+   "placeholders": [],
+   "done_when": "_dmarc TXT of cruxomni.com and lynkomni.com reads p=quarantine (later p=reject) and the reports stay clean.",
+   "blocks_note": "nothing; a trust improvement for outgoing mail"
   }
  ],
  "user_actions": [
@@ -1241,14 +1251,18 @@
    "what": "Finish the company email: Google Workspace Business Starter (yearly, one paid user, billing country Cameroon) for cruxomni.com with the admin login marvin@cruxomni.com; then add lynkomni.com as a free second domain and the free addresses billing@, support@, hello@, security@lynkomni.com and legal@cruxomni.com. Then create the 28 Google Groups agreed on 2026-11-07 (master blueprint section 39), each with marvin@cruxomni.com as its member: on cruxomni.com accounts@, legal@, compliance@, finance@, investors@, press@, careers@, hello@; on lynkomni.com hello@, support@, billing@, security@, privacy@, safety@, accessibility@, partners@, agents@, accountants@, developers@, enterprise@, ads@, suppliers@; and postmaster@, abuse@ and dmarc-reports@ on each domain. Then add the SPF, DKIM and DMARC records Claude prepares, at Squarespace, for both domains.",
    "why": "One Google platform for email and, later, hosting (owner decision 2026-11-06). The domains cruxomni.com and lynkomni.com were bought on Squarespace on 2026-11-07; Google refused the prepaid card, so payment needs a normal (not prepaid) Visa or Mastercard debit card with international online payments, or an official Google Workspace partner that accepts bank transfer or mobile money.",
    "when": "now",
-   "status": "open"
+   "status": "done",
+   "done_on": "2026-11-08",
+   "result": "Workspace paid; lynkomni.com verified as a secondary domain; all 28 addresses of catalog/contacts.v1.json exist as groups (postmaster@lynkomni.com reserved by Google); MX, SPF, DKIM (authenticating) and DMARC p=none live for both domains at Squarespace; DNSSEC on; delivery tested to hello@ and postmaster@lynkomni.com."
   },
   {
    "id": "workspace-admin-safety",
    "what": "Right after paying for Google Workspace (agreed 2026-11-07, email safeguards 1, 2, 5, 8 and 13): create a second super-admin account admin@cruxomni.com for emergencies only (one more paid user); turn on two-step verification with a passkey or physical security key, never SMS, on marvin@cruxomni.com and admin@cruxomni.com; switch on outside-sender warnings and the strongest phishing and malware protection; print the admin backup codes and keep them offline, with recovery email outside cruxomni.com (for example lynkomni@gmail.com) and your phone; turn on DNSSEC for both domains if Squarespace offers it. Claude writes the steps screen by screen.",
    "why": "With one admin account, a hack or lock-out loses the company's email, Google Cloud and GitHub at once; Google recommends more than one super admin, and phishing-proof sign-in protects both.",
    "when": "right after paying for Google Workspace",
-   "status": "open"
+   "status": "done",
+   "done_on": "2026-11-08",
+   "result": "admin@cruxomni.com is a second super admin; passkeys on both admins and two-step enforced; strong passwords 12+; third-party API access blocked; every alert rule active with email; Drive external sharing warned, access checker recipients only; Gmail safety at full with move-to-spam; backup codes offline and recovery contacts outside cruxomni.com for both admins."
   },
   {
    "id": "lookalike-domains-optional",
@@ -1288,12 +1302,12 @@
    "1c. CodeQL on private repositories: RESOLVED 2026-11-08 by GitHub itself (code scanning switched off when the repositories went private; Claude's own security review stays item 11)."
   ],
   "right_after_paying": [
-   "2. Second super admin admin@cruxomni.com (one more paid user, emergencies only).",
-   "3. Two-step verification with a passkey or security key on both admin accounts.",
-   "4. Workspace safety settings (outside-sender warnings, strongest phishing and malware protection).",
-   "5. Backup codes kept offline; recovery contact outside cruxomni.com.",
-   "6. Create the 28 Google Groups (Claude gives the exact list from catalog/contacts.v1.json).",
-   "7. Email DNS records at Squarespace (Claude gives the exact records), then DNSSEC.",
+   "2. Second super admin admin@cruxomni.com: DONE 2026-11-08.",
+   "3. Passkey two-step on both admin accounts, enforced for the organisation: DONE 2026-11-08.",
+   "4. Workspace safety settings (strong passwords 12+, third-party API access blocked, all alert rules active with email, Drive sharing warned and recipients-only, Gmail safety at full with move-to-spam): DONE 2026-11-08. Two Google Terms of Service remain pending until Google prompts for them.",
+   "5. Backup codes kept offline and recovery phone and email outside cruxomni.com, both admin accounts: DONE 2026-11-08.",
+   "6. The 28 addresses of catalog/contacts.v1.json exist as Google Groups (open to outside senders, invited members only; postmaster@lynkomni.com is reserved by Google and delivers to the admin; lynkomni.com added as a secondary domain): DONE 2026-11-08, delivery tested.",
+   "7. Email DNS at Squarespace for cruxomni.com and lynkomni.com (MX smtp.google.com, SPF, DKIM 2048 authenticating, DMARC p=none with reports to dmarc-reports@) and DNSSEC on both: DONE 2026-11-08. Follow-up: raise DMARC to p=quarantine after about two weeks of clean reports (see later).",
    "8. Optional: look-alike domains forwarded to lynkomni.com."
   ],
   "at_the_end_in_order": [
