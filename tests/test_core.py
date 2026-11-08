@@ -44,7 +44,7 @@ class T(unittest.TestCase):
         self.assertEqual((a["revenue_minor"], a["cogs_minor"], a["profit_minor"]), (600, 400, 150))
         v = self.p.dashboard.view("m1", "USD"); self.assertEqual(v["currency"], "USD")
 
-    def test_rwanda_receipt_is_not_fiscal(self):
+    def test_receipt_is_pending_fiscal_until_the_authority_confirms(self):
         r = self.p.pos.record_sale("m1", "d", [item("x", 1, 100)])["receipt"]
         self.assertEqual((r["status"], r["fiscal"]), ("pending_fiscal", False))
 

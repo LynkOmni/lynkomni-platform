@@ -29,12 +29,15 @@ class FiscalAdapter:
     def issue(self, sale):
         return {"status": "not_applicable", "fiscal": False}
 
-class RraEbmAdapter(FiscalAdapter):
-    """Rwanda EBM. NOT certified. RRA says certified private systems must be always online,
-    so offline sales must stay marked 'pending_fiscal' until RRA confirms the allowed workflow."""
+class PendingFiscalAdapter(FiscalAdapter):
+    """Any tax authority whose offline workflow is not yet confirmed in writing (the country pack names the authority in its
+    `fiscal` field; the provider ledger holds the item). NOT certified: an offline sale stays 'pending_fiscal' until the
+    authority confirms the allowed workflow, and nothing is ever called a valid tax receipt before that."""
     def issue(self, sale):
         return {"status": "pending_fiscal", "fiscal": False, "note": "Not a valid tax invoice until submitted"}
 
-FISCAL = {"RRA_EBM": RraEbmAdapter}
+RraEbmAdapter = PendingFiscalAdapter   # the name used by one country pack today; every unconfirmed authority gets the same adapter
+
 def fiscal_for(code):
-    return FISCAL.get(code, FiscalAdapter)()
+    """A pack with no fiscal code gets the plain adapter (not applicable); any named authority is pending until confirmed."""
+    return PendingFiscalAdapter() if code else FiscalAdapter()

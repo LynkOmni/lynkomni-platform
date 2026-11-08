@@ -12,6 +12,8 @@ from decimal import Decimal, ROUND_HALF_UP
 from services import billing
 
 STAGES = ("stage1", "stage2", "stage3")
+# The three stages are sizes, never countries (Step 0, blueprint 42 A): proving ground, regional scale, global scale.
+STAGE_NAMES = {"stage1": "proving_ground", "stage2": "regional_scale", "stage3": "global_scale"}
 MERCHANTS = {"stage1": 3_000, "stage2": 100_000, "stage3": 2_000_000}
 INDEX = {"stage1": Decimal("0.35"), "stage2": Decimal("0.40"), "stage3": Decimal("0.55")}
 CONVERSION = {"stage1": Decimal("0.6"), "stage2": Decimal("0.9"), "stage3": Decimal("1.0")}

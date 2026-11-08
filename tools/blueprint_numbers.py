@@ -21,6 +21,10 @@ def numbers():
         "automations": len(json.loads((ROOT / "catalog" / "automations.v1.json").read_text())["automations"]),
         "languages": len(langs.get("languages", langs)),
         "ecosystem_revenue": rm.ecosystem_totals(),
+        "stage_names": rm.STAGE_NAMES,                  # the stages are sizes (proving ground, regional scale, global scale), never countries
+        "contract_version": 2, "event_types": len(json.loads((ROOT / "contract" / "event-payloads.v2.json").read_text())["events"]),
+        "currencies": len(json.loads((ROOT / "contract" / "currencies.v1.json").read_text())["decimals"]),
+        "country_packs": len([f for f in (ROOT / "contract" / "country-packs").iterdir() if f.suffix == ".json" and f.stem != "XX"]),
     }
 
 if __name__ == "__main__":
