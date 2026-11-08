@@ -97,8 +97,9 @@ def main(emulator):
         state_pics[need_id] = {}
         for th in ("light", "dark"):
             v = visuals.get(need_id, th)
-            c = visuals.get(need_id, th, "sunlight")
-            state_pics[need_id][th] = {"svg": svg(v.path), "alt": v.alt, "contrast": svg(c.path)}
+            state_pics[need_id][th] = {"svg": svg(v.path), "alt": v.alt}
+            if th == "light":                                   # sunlight is a light mode: its contrast set rides on the light picture
+                state_pics[need_id][th]["contrast"] = svg(visuals.get(need_id, th, "sunlight").path)
     with open(os.path.join(ROOT, "catalog", "addresses.v1.json"), encoding="utf-8") as f:
         addresses = json.load(f)
     out = {

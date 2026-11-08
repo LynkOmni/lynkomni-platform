@@ -9,7 +9,7 @@ interface BuildData {
   icons: Record<string, string>;
   brand: { body: string; topLight: string; topDark: string; receipt: string };
   pictures: { offLight: string; offDark: string; offAlt: string };
-  statePictures: Record<string, Record<"light" | "dark", { svg: string; alt: string; contrast: string }>>;
+  statePictures: Record<string, Record<"light" | "dark", { svg: string; alt: string; contrast?: string }>>;
   states: Record<string, { label: string; meaning: string }>;
   packs: Record<string, CountryPack>; packOrder: string[];
   addresses: AddressMap;
@@ -68,8 +68,8 @@ const sync = (): SyncInfo => ({ link: S.link, pending: S.pending, lastSync: S.la
 const statePic = (kind: StateKind): Pic | null => {
   const id = STATE_PICTURE[kind];
   if (!id || S.mode === "lite") return null;
-  const p = DATA.statePictures[id]?.[S.theme];
-  return p ? { svg: S.mode === "sunlight" ? p.contrast : p.svg, alt: p.alt } : null;
+  const p = DATA.statePictures[id]?.[S.mode === "sunlight" ? "light" : S.theme];
+  return p ? { svg: S.mode === "sunlight" ? (p.contrast ?? p.svg) : p.svg, alt: p.alt } : null;
 };
 const NEXT: Record<StateKind, { label: string; act: string } | null> = {
   loading: null, empty: { label: "action_add", act: "go:home" }, offline: { label: "action_continue", act: "go:home" }, error: { label: "action_retry", act: "go:home" },

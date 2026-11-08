@@ -1,8 +1,9 @@
 """Interface emulators (web/emulators): built, offline, on-brand and honest.
 Each emulator is one self-contained HTML file. These checks keep them that way."""
-import glob, os, re, shutil, subprocess, unittest
+import glob, json, os, re, shutil, subprocess, unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BUDGETS = json.load(open(os.path.join(ROOT, "web", "budgets.v1.json"), encoding="utf-8"))   # one size budget per emulator
 WEB = os.path.join(ROOT, "web", "emulators")
 SOURCES = [f for d in sorted(glob.glob(os.path.join(WEB, "*", ""))) if not d.rstrip("/").endswith("dist") for f in sorted(glob.glob(os.path.join(d, "*"))) if f.endswith((".ts", ".css", ".html"))]
 BUILT = sorted(glob.glob(os.path.join(WEB, "dist", "*.html")))
@@ -56,7 +57,8 @@ class Emulators(unittest.TestCase):
             self.assertNotRegex(txt, r"<img|@import|fonts\.googleapis|<link ", f)
             self.assertIn("Draft design", txt, f"{f}: must say it is a draft until a designer reviews it")
             self.assertNotRegex(txt.lower(), r"todo image|lorem ipsum", f)
-            self.assertLess(len(txt.encode()), 400_000, f"{f}: over the size budget")
+            budget = BUDGETS["emulators"].get(os.path.basename(f)[len("lynkomni-"):-len(".html")], {}).get("file_kb", BUDGETS["defaults"]["file_kb"])
+            self.assertLess(len(txt.encode()), budget * 1024, f"{f}: over its {budget} KB size budget (web/budgets.v1.json)")
 
     def test_terminal_never_claims_a_tax_receipt_or_end_to_end_encryption(self):
         txt = read(os.path.join(WEB, "dist", "lynkomni-pos-terminal.html")).lower()
