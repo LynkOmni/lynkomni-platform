@@ -2,7 +2,7 @@
 SIGNATURES ARE DEV-ONLY PLACEHOLDERS (random bytes in the right format). Real devices must sign with a hardware-backed ES256 key."""
 import os, base64
 from datetime import datetime, timedelta, timezone
-from contract.tools.validate_contract import PERMS, REGISTER, event_hash, round_half_up_line, ts, uuid7, validate_event
+from contract.tools.validate_contract import PERMS, REGISTER, SAMPLE_CURRENCY, event_hash, round_half_up_line, ts, uuid7, validate_event
 
 PERM = {p["id"]: p for p in PERMS["permissions"]}
 CMD = {c["name"]: c for c in REGISTER["commands"]}
@@ -16,8 +16,9 @@ class ContractError(Exception):
     pass
 
 class LynkDVBox:
-    def __init__(s, merchant_id, branch_id, device_id, user_id, role, now=None):
+    def __init__(s, merchant_id, branch_id, device_id, user_id, role, now=None, currency=SAMPLE_CURRENCY):
         s.m, s.b, s.d, s.u, s.role = merchant_id, branch_id, device_id, user_id, role
+        s.currency = currency   # the business's currency from its country pack (contract version 2: any currency, integer minor units)
         s.seq, s.prev, s.log = 0, "GENESIS", []
         s.clock = now or datetime.now(timezone.utc)
         s.session_started = s.clock
@@ -37,7 +38,7 @@ class LynkDVBox:
         if perm and (s.role not in PERM[perm]["roles"] or "mobile" not in PERM[perm]["channels"]): raise LocalRejection("permission_denied")
     def _emit(s, etype, payload):
         evt = {"event_id": uuid7(), "origin": "device", "merchant_id": s.m, "branch_id": s.b, "device_id": s.d, "actor_user_id": s.u,
-               "device_seq": s.seq + 1, "type": etype, "schema_version": 1, "occurred_at_device": ts(s.clock), "prev_hash": s.prev,
+               "device_seq": s.seq + 1, "type": etype, "schema_version": 2, "occurred_at_device": ts(s.clock), "prev_hash": s.prev,
                "payload": payload, "signature": base64.urlsafe_b64encode(os.urandom(64)).decode().rstrip("=")}   # DEV-ONLY signature
         problems = validate_event(evt)
         if problems: raise ContractError(f"{etype}: {problems}")
@@ -53,7 +54,7 @@ class LynkDVBox:
         s._guard("CreateProduct")
         pid, p = uuid7(), {"name": name, "unit": unit, "price": price, "track_stock": track_stock}
         if barcode: p["barcode"] = barcode
-        s._emit("ProductCreated", {"product_id": pid, **p}); s.products[pid] = {"name": name, "price": price}; s.stock[pid] = 0
+        s._emit("ProductCreated", {"product_id": pid, "currency": s.currency, **p}); s.products[pid] = {"name": name, "price": price}; s.stock[pid] = 0
         return pid
     def receive_stock(s, lines, supplier_note=None):
         s._guard("ReceiveStock")
@@ -84,7 +85,7 @@ class LynkDVBox:
         sub = sum(l["line_total"] for l in lines); s.receipt_no += 1
         sid, rno = uuid7(), f"{s.d[:2].upper()}-{s.receipt_no}"
         s._emit("SaleRecorded", {"sale_id": sid, "receipt_number_local": rno, "lines": lines, "subtotal": sub,
-                                 "discount_total": sum(l["discount"] for l in lines), "tax_total": 0, "tax_mode": "none", "total": sub, "currency": "RWF"})
+                                 "discount_total": sum(l["discount"] for l in lines), "tax_total": 0, "tax_mode": "none", "total": sub, "currency": s.currency})
         rid = uuid7()
         s._emit("ReceiptIssued", {"receipt_id": rid, "sale_id": sid, "receipt_number_local": rno, "copy_number": 1, "validity": "provisional"})
         s._print_id("RCP", rid); s._print_id("ORD", sid)
@@ -103,7 +104,7 @@ class LynkDVBox:
     def record_payment(s, sale_id, method, amount, provider_reference=None):
         s._guard("RecordPayment")
         status = {"cash": "cash_received", "credit": "credit_open"}.get(method, "pending_confirmation")   # a device never marks non-cash as settled
-        pl = {"payment_id": uuid7(), "sale_id": sale_id, "method": method, "amount": amount, "status": status}
+        pl = {"payment_id": uuid7(), "sale_id": sale_id, "method": method, "amount": amount, "status": status, "currency": s.currency}
         if provider_reference: pl["provider_reference"] = provider_reference
         s._emit("PaymentRecorded", pl)
         return status
