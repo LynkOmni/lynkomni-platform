@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "description": "What the owner can open and try after every build section. tools/showcase.py turns this file, the visuals index, the catalog and tools/blueprint_numbers.py into one offline page (web/showcase/dist/lynkomni-showcase.html). Emulator links point at the private pages Claude publishes after each section; update the link when a page is republished under a new address.",
+  "sections": [
+    {"n": 0, "title": "One global structure", "status": "locked", "version": "v0.20.0"},
+    {"n": 1, "title": "Shared shell and design components", "status": "locked", "version": "v0.21.0"},
+    {"n": 2, "title": "LynkOmni Account and sign-in", "status": "locked", "version": "v0.22.0"},
+    {"n": 3, "title": "Business app and the whole of LynkPOS", "status": "next"},
+    {"n": 4, "title": "LynkAcc, LynkInv, LynkCRM, LynkStat and LynkOps"},
+    {"n": 5, "title": "Website lynkomni.com"},
+    {"n": 6, "title": "Help, support and status"},
+    {"n": 7, "title": "Customer app, shop pages and pay pages"},
+    {"n": 8, "title": "Bookings"},
+    {"n": 9, "title": "Essentials"},
+    {"n": 10, "title": "Exchange"},
+    {"n": 11, "title": "Developers"},
+    {"n": 12, "title": "LynkOmni Staff"},
+    {"n": 13, "title": "Outside screens"},
+    {"n": 14, "title": "Native apps and going live"}
+  ],
+  "emulators": [
+    {"id": "account-site", "title": "LynkOmni Account site", "section": 2, "what": "Sign-up in four steps, sign-in with a passkey, the three recovery paths, Security Center and every account page. Computer, tablet and phone.", "try": "Tap Create account and go through the four steps; then Recover your account and answer the two questions.", "url": "https://claude.ai/artifact/8CprNX6QJKACwtEAKB6dTK"},
+    {"id": "browser-frame", "title": "Shared shell (browser frame)", "section": 1, "what": "The frame every LynkOmni screen sits in: header, navigation, launcher, search, help, notifications, connection and sync states, overlays, dark, lite and sunlight modes.", "try": "Switch size, language and mode at the top; open the launcher and the notifications panel.", "url": "https://claude.ai/artifact/6UrxwVAGfBR6unzqT1jS7u"},
+    {"id": "merchant-phone", "title": "Business app on a merchant's phone", "section": 3, "what": "Selling, money, stock, customers and chat on a phone, including offline states. Built before the shell; section 3 brings it onto the shell and the account rules.", "try": "Make a sale and watch its state: queued, sent, accepted, confirmed.", "url": "https://claude.ai/artifact/N7tczvu2FZ5tWMYgHD9B84"},
+    {"id": "pos-terminal", "title": "LynkPOS handheld terminal", "section": 3, "what": "A physical terminal: screen, keypad, card tap area, receipt printer that prints, scanner and cash drawer, running on sandbox adapters. Section 3 completes it.", "try": "Ring up items on the keypad, tap a card, print the receipt.", "url": "https://claude.ai/artifact/FUhtc3e1xDkPA7KmJmxsZp"}
+  ]
+}

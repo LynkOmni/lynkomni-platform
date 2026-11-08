@@ -6,3 +6,4 @@ rust/**/target/
 android/**/build/
 ios/.build/
 web/.build/
+web/showcase/dist/
