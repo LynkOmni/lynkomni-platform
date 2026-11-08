@@ -19,7 +19,7 @@ jobs:
     timeout-minutes: 90
     env: {LYNK_MT_DIR: /mnt/lynk-mt/engine, HF_HOME: /mnt/hf/cache}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with: {python-version: "3.12"}
       - name: room for the model (remove unused preinstalled toolchains, add swap for the one-time conversion)
