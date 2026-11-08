@@ -17,7 +17,7 @@ class Engine(t.Translator):
 class Offline(unittest.TestCase):
     def test_every_language_has_an_engine_code(self):
         for lang in t.languages():
-            self.assertRegex(t.mt_code(lang), r"^[a-z]{2,3}(-[A-Za-z]+)?$", lang)
+            self.assertRegex(t.mt_code(lang), r"^[a-z]{2,3}(_[A-Za-z]+)?$", lang)  # MADLAD-400 tags: <2zh>, <2zh_Hant>
 
     def test_engines_that_see_plain_names_must_return_every_protected_part(self):
         class Plain(t.Translator):
