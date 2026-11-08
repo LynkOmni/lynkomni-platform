@@ -1351,9 +1351,12 @@ function init() {
     const kinds = ["home", "payment", "state:loading", "state:empty", "state:offline", "state:error", "state:not_found", "state:no_results", "state:permission", "state:maintenance", "state:sync_pending", "state:coming_soon", "state:success"];
     $("#stateButtons").innerHTML = kinds.map((k) => `<button type="button" data-state="${k}">${esc(k === "home" ? "Home" : k === "payment" ? "Payment (protected)" : k.slice(6).replace("_", " "))}</button>`).join("");
     $("#stateButtons").addEventListener("click", (e) => { const b = e.target.closest("button[data-state]"); if (b) {
-        S.screen = b.dataset["state"];
-        S.overlay = null;
-        draw();
+        const picked = kinds.find((k) => k === b.dataset["state"]);
+        if (picked) {
+            S.screen = picked;
+            S.overlay = null;
+            draw();
+        }
     } });
     $("#display").addEventListener("click", (e) => {
         const el = e.target.closest("[data-act]");

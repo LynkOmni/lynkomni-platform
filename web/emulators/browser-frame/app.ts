@@ -209,7 +209,7 @@ function init(): void {
   sel.addEventListener("change", (e) => { S.lang = (e.target as HTMLSelectElement).value; draw(); });
   const kinds: Screen[] = ["home", "payment", "state:loading", "state:empty", "state:offline", "state:error", "state:not_found", "state:no_results", "state:permission", "state:maintenance", "state:sync_pending", "state:coming_soon", "state:success"];
   $("#stateButtons").innerHTML = kinds.map((k) => `<button type="button" data-state="${k}">${esc(k === "home" ? "Home" : k === "payment" ? "Payment (protected)" : k.slice(6).replace("_", " "))}</button>`).join("");
-  $("#stateButtons").addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("button[data-state]"); if (b) { S.screen = b.dataset["state"] as Screen; S.overlay = null; draw(); } });
+  $("#stateButtons").addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("button[data-state]"); if (b) { const picked = kinds.find((k) => k === b.dataset["state"]); if (picked) { S.screen = picked; S.overlay = null; draw(); } } });
   $("#display").addEventListener("click", (e) => {
     const el = (e.target as HTMLElement).closest<HTMLElement>("[data-act]");
     if (!el) return;
