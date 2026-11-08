@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "6e8cac91069be50c9f3cf9708b377942dbf057b4910271ab699a5986096cd443",
+ "source_sha256": "c3272900fc9d6bc5760eef623799dac3a65cf7affd01f59dcf2bb023b31b1c93",
  "texts": {
   "all": "הכול",
   "all_sent": "הכול נשלח.",
@@ -76,6 +76,7 @@
   "role_manager": "מנהל",
   "role_owner": "בעלים",
   "sales_count": "מכירות: {n}",
+  "sample_country": "מדינה לדוגמה",
   "sandbox": "מצב בדיקה",
   "saved": "נשמר בטלפון הזה",
   "send": "שליחה",

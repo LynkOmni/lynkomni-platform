@@ -21,6 +21,18 @@ class Emulators(unittest.TestCase):
         for i in ids:
             self.assertTrue(os.path.isfile(os.path.join(WEB, "dist", f"lynkomni-{i}.html")), f"run node web/build.mjs for {i}")
 
+    def test_country_chooser_opens_on_the_sample_country_and_lists_every_pack(self):
+        """Step 0 (blueprint 42 A): emulators are built for no country. The chooser lists every country pack with the neutral
+        sample pack first, and no country code is written into an emulator's source."""
+        import json
+        packs = sorted(os.path.splitext(f)[0] for f in os.listdir(os.path.join(ROOT, "contract", "country-packs")) if f.endswith(".json"))
+        for f in BUILT:
+            data = json.loads(re.search(r"const DATA = (\{.*?\});\n", read(f), re.S).group(1))
+            self.assertEqual(data["packOrder"][0], "XX", f); self.assertTrue(data["packs"]["XX"]["sample"])
+            self.assertEqual(sorted(data["packs"]), packs, f)
+        for src in SOURCES:
+            self.assertNotRegex(read(src), r"\b(Rwanda|Kenya|Nigeria|Ghana|Uganda|Tanzania|India|RWF|KES|NGN)\b", src)
+
     def test_sources_use_tokens_only(self):
         for f in SOURCES:
             txt = read(f)

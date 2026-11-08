@@ -9,7 +9,7 @@ sys.path.insert(0, ROOT)
 import brand, providers, visuals  # noqa: E402
 from services import translation  # noqa: E402
 
-COUNTRY = "RW"                                    # the pilot country of the contract (integer RWF)
+SAMPLE = "XX"                                     # the neutral sample pack: the emulator opens on it, never on a real country (Step 0, blueprint 42 A)
 METHOD_ITEMS = {"mobile_money": ["momo_mtn", "airtel_money"], "card": ["card_acquirer"]}
 
 
@@ -50,16 +50,33 @@ SERVICES = [("pos", "LynkPOS", "product-pos"), ("accountant", "LynkAcc", "produc
             ("recovery", "LynkRecover", "product-recover"), ("vcard", "LynkVCard", "product-vcard")]
 
 
+def country_packs():
+    """Every country pack as the emulator's country chooser sees it, the sample pack first. What works in a country is read
+    from the provider ledger, so a pack alone never switches a partner-backed method or service on."""
+    ITEMS = {i["id"]: i for i in providers.items()}
+    off = providers.when_off("payments")
+    packs_dir = os.path.join(ROOT, "contract", "country-packs")
+    out = {}
+    for name in sorted(os.listdir(packs_dir)):
+        with open(os.path.join(packs_dir, name), encoding="utf-8") as f:
+            pack = json.load(f)
+        code = pack["code"]
+        out[code] = {
+            "code": code, "name": pack["name"], "currency": pack["currency"], "tz": pack["tz"], "locale": pack.get("locale", "en"),
+            "sample": code == SAMPLE,
+            "ready": {m: {"ok": all(providers.item_status(ITEMS[i], code) in providers.OK_STATUS for i in items), "message": off["message"]} for m, items in METHOD_ITEMS.items()},
+            "services": [{"service": sv, "name": nm, "icon": ic, "state": providers.availability(sv, code)["state"]} for sv, nm, ic in SERVICES],
+        }
+    return {SAMPLE: out.pop(SAMPLE), **out}
+
+
 def main(emulator):
-    with open(os.path.join(ROOT, "contract", "country-packs", f"{COUNTRY}.json"), encoding="utf-8") as f:
-        pack = json.load(f)
     with open(os.path.join(ROOT, "design", "tokens.v1.json"), encoding="utf-8") as f:
         states = json.load(f)["states"]
     icons = {i["id"] if isinstance(i, dict) else i: None for i in brand.manifest()["icons"]}
     icons = {i: brand.icon_svg(i) for i in icons}
-    ITEMS = {i["id"]: i for i in providers.items()}
+    packs = country_packs()
     off = providers.when_off("payments")
-    ready = {m: {"ok": all(providers.item_status(ITEMS[i], COUNTRY) in providers.OK_STATUS for i in items), "message": off["message"]} for m, items in METHOD_ITEMS.items()}
     pic = {th: visuals.get(off["visual"], th) for th in ("light", "dark")}
     out = {
         "icons": icons,
@@ -68,10 +85,8 @@ def main(emulator):
                   "receipt": svg(brand.for_surface("receipt-header", "light", printing=True).path)},
         "pictures": {"offLight": svg(pic["light"].path), "offDark": svg(pic["dark"].path), "offAlt": pic["light"].alt},
         "states": {k: {"label": v["label"], "meaning": v["meaning"]} for k, v in states.items()},
-        "pack": {"code": COUNTRY, "name": pack["name"], "currency": pack["currency"], "tz": pack["tz"], "locale": pack.get("locale", "en")},
-        "ready": ready,
+        "packs": packs, "packOrder": list(packs),   # the country chooser: the sample pack first, then every real pack
         "i18n": language_packs(emulator),
-        "services": [{"service": sv, "name": name, "icon": ic, "state": providers.availability(sv, COUNTRY)["state"]} for sv, name, ic in SERVICES],
     }
     json.dump(out, sys.stdout, ensure_ascii=False, sort_keys=True)
 

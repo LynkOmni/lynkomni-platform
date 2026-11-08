@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "es",
  "native": "Español",
- "source_sha256": "6e8cac91069be50c9f3cf9708b377942dbf057b4910271ab699a5986096cd443",
+ "source_sha256": "c3272900fc9d6bc5760eef623799dac3a65cf7affd01f59dcf2bb023b31b1c93",
  "texts": {
   "all": "Todo",
   "all_sent": "Todo está enviado.",
@@ -76,6 +76,7 @@
   "role_manager": "Gerente",
   "role_owner": "Propietario",
   "sales_count": "Ventas: {n}",
+  "sample_country": "País de muestra",
   "sandbox": "Modo de prueba",
   "saved": "Guardado en este teléfono",
   "send": "Enviar",

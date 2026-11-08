@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ug",
  "native": "ئۇيغۇرچە",
- "source_sha256": "268c6e09b3a98c4ffa1251b084f152c9dc5bb8a134e27cad05896646a18393f1",
+ "source_sha256": "f8f0e753b816491f60dc3a13b60d9013b73ae2b91b764e200b51c3c56b6d6f07",
  "texts": {
   "all": "ھەممىسى",
   "back": "قايتىش",
@@ -54,6 +54,7 @@
   "receipt": "تالون",
   "reprint": "تالوننى قايتا بېسىش",
   "sales": "بۈگۈنكى سېتىش",
+  "sample_country": "ئۈلگە دۆلەت",
   "sandbox": "سىناق ھالىتى",
   "scan_added": "سكانىرلاندى",
   "scanning": "سكانىرلاۋاتىدۇ",

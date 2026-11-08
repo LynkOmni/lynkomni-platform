@@ -9,11 +9,19 @@ interface BuildData {
   brand: { body: string; topLight: string; topDark: string; receipt: string };
   pictures: { offLight: string; offDark: string; offAlt: string };
   states: Record<string, { label: string; meaning: string }>;
-  pack: { code: string; name: string; currency: string; tz: string; locale: string };
-  ready: Record<string, { ok: boolean; message: string }>;
+  /** Every country pack, the neutral sample pack first (Step 0): the chooser never opens on a real country. */
+  packs: Record<string, CountryPack>;
+  packOrder: string[];
   i18n: Record<string, { native: string; dir: "ltr" | "rtl"; texts: Record<string, string> }>;
 }
+interface CountryPack {
+  code: string; name: string; currency: string; tz: string; locale: string; sample: boolean;
+  ready: Record<string, { ok: boolean; message: string }>;
+  services: { service: string; name: string; icon: string; state: "available" | "coming_soon" }[];
+}
 declare const DATA: BuildData;
+/** The country the emulator shows. Read from the country pack and the provider ledger; nothing about a country lives in this code. */
+const pack = (): CountryPack => DATA.packs[S.country] ?? DATA.packs[DATA.packOrder[0] ?? ""] as CountryPack;
 
 type Screen = "lock" | "sell" | "cart" | "pay" | "cash" | "momo" | "card" | "waiting" | "done" | "off" | "menu" | "sales" | "sale" | "count";
 type Lang = string;   // a language code from design/fonts/scripts.v1.json, or one of TEST_LANGS
@@ -40,7 +48,7 @@ const DEVICE = "PT";
 const PIN = "1234";
 
 const S = {
-  screen: "lock" as Screen, lang: "en" as Lang, theme: "light" as "light" | "dark", online: true, realUser: false, outcome: "confirm" as "confirm" | "fail",
+  screen: "lock" as Screen, lang: "en" as Lang, theme: "light" as "light" | "dark", online: true, realUser: false, country: "", outcome: "confirm" as "confirm" | "fail",
   input: "", note: "", category: "all", cart: new Cart(), current: null as Sale | null, method: "cash" as PaymentMethod, sales: [] as Sale[],
   events: [] as Ev[], receiptNo: 0, selected: -1, timer: 0, leds: 0, flash: "",
 };
@@ -52,14 +60,14 @@ const pseudo = (s: string): string => `[${s.replace(/[aceinosuy]/g, (c) => PSEUD
 const isTest = (): boolean => TEST_LANGS.includes(S.lang);
 const t = (k: string): string => { const en = EN[k] ?? k; return isTest() ? pseudo(en) : PACKS[S.lang]?.texts[k] ?? en; };
 const esc = (s: string): string => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-const locale = (): string => `${isTest() ? "en" : S.lang}-${DATA.pack.code}`;
-const money = (n: number): string => formatMoney(n, DATA.pack.currency, locale());
+const locale = (): string => `${isTest() ? "en" : S.lang}-${pack().code}`;
+const money = (n: number): string => formatMoney(n, pack().currency, locale());
 const icon = (id: string, cls = "ic"): string => `<span class="${cls}" aria-hidden="true">${DATA.icons[id] ?? ""}</span>`;
 const stateWord = (s: string): string => t(`st_${s}`);
 const chip = (s: UserState): string => `<span class="chip st-${s}">${icon(`status-${s}`)}<span>${esc(stateWord(s))}</span></span>`;
-const clock = (ms: number, withDate = false): string => new Intl.DateTimeFormat(locale(), { timeZone: DATA.pack.tz, hour: "2-digit", minute: "2-digit", ...(withDate ? { day: "2-digit", month: "short", year: "numeric" } : {}) }).format(ms);
+const clock = (ms: number, withDate = false): string => new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, hour: "2-digit", minute: "2-digit", ...(withDate ? { day: "2-digit", month: "short", year: "numeric" } : {}) }).format(ms);
 const reduced = (): boolean => matchMedia("(prefers-reduced-motion: reduce)").matches;
-const methodOk = (m: PaymentMethod): boolean => m === "cash" || !S.realUser || (DATA.ready[m]?.ok ?? false);
+const methodOk = (m: PaymentMethod): boolean => m === "cash" || !S.realUser || (pack().ready[m]?.ok ?? false);
 
 // ---- event log and the simulated cloud --------------------------------------------------------------------------
 function emit(type: string, payload: unknown, origin: "device" | "server" = "device"): void {
@@ -96,7 +104,7 @@ function askProvider(s: Sale, p: PaymentPayload): void {   // the sandbox provid
 function recordSale(): Sale {
   if (S.current) return S.current;
   S.receiptNo += 1;
-  const sale = salePayload(S.cart, newId(), `${DEVICE}-${S.receiptNo}`, DATA.pack.currency);
+  const sale = salePayload(S.cart, newId(), `${DEVICE}-${S.receiptNo}`, pack().currency);
   emit("SaleRecorded", sale);
   emit("ReceiptIssued", { receipt_id: newId(), sale_id: sale.sale_id, receipt_number_local: sale.receipt_number_local, copy_number: 1, validity: "provisional" });
   const s: Sale = { sale, payments: [], at: Date.now(), voided: false };
@@ -248,7 +256,7 @@ function view(): string {
         <div class="foot"><button class="primary" data-act="enter">${esc(t("new_sale"))}</button></div>`;
     case "off":
       return `${top(t("unavailable"))}<div class="offbox"><span class="pic" role="img" aria-label="${esc(DATA.pictures.offAlt)}">${S.theme === "dark" ? DATA.pictures.offDark : DATA.pictures.offLight}</span>
-        <p>${esc(DATA.ready[S.method]?.message ?? "")}</p></div><div class="foot"><button class="primary" data-act="go:pay">${esc(t("other_method"))}</button></div>`;
+        <p>${esc(pack().ready[S.method]?.message ?? "")}</p></div><div class="foot"><button class="primary" data-act="go:pay">${esc(t("other_method"))}</button></div>`;
     case "menu":
       return `${top(t("menu"))}<ul class="menu"><li><button data-act="go:sales">${icon("ui-receipt")}${esc(t("sales"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="go:count">${icon("product-ledger")}${esc(t("count"))}${icon("ui-chevron-right")}</button></li>
@@ -341,6 +349,9 @@ function wire(): void {
   bind("#cOnline", (el) => { S.online = el.checked; drawStatus(); draw(); });
   bind("#cDark", (el) => { S.theme = el.checked ? "dark" : "light"; draw(); });
   bind("#cReal", (el) => { S.realUser = el.checked; draw(); });
+  const country = $<HTMLSelectElement>("#cCountry");
+  country.innerHTML = DATA.packOrder.map((c) => { const p = DATA.packs[c] as CountryPack; return `<option value="${esc(c)}">${esc(p.sample ? t("sample_country") : p.name)}</option>`; }).join("");
+  country.addEventListener("change", (e) => { S.country = (e.target as HTMLSelectElement).value; draw(); });
   bind("#cFail", (el) => { S.outcome = el.checked ? "fail" : "confirm"; });
   const sel = $<HTMLSelectElement>("#cLang");
   sel.insertAdjacentHTML("afterbegin", Object.entries(PACKS).map(([code, p]) => `<option value="${esc(code)}" lang="${esc(code)}" dir="${p.dir}">${esc(p.native)}</option>`).join(""));
