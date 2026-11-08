@@ -1291,6 +1291,13 @@
    "why": "LynkOmni's servers, language engine and offline sync need a home; one Google platform, pay as you go, no move needed as LynkOmni grows.",
    "when": "when the merchant app is ready to go online",
    "status": "open"
+  },
+  {
+   "id": "dependabot-security-updates-optional",
+   "what": "Optional, 10 seconds per repository: GitHub -> lynkomni-platform and lynkomni-icons -> Settings -> Advanced Security -> Dependabot security updates -> Enable (the proxy cannot switch it on). Fix PRs for vulnerable dependencies then arrive as drafts and are merged under the dependency-updates rule.",
+   "why": "A free safety net on public repositories.",
+   "when": "any time",
+   "status": "open"
   }
  ],
  "reminder": {
@@ -1298,8 +1305,8 @@
   "note": "The owner's 14 own to-dos, locked as the REMINDER (owner rule 2026-11-08). Claude provides this list any time the owner asks, when they say \"let's start building\" and whenever a piece of work concludes. None is mandatory before building; only item 1 blocks items 2 to 8. The user_actions list above holds the same items in detail with their status.",
   "now": [
    "1. Pay for Google Workspace: DONE 2026-11-08 (owner). Items 2 to 8 are now open, in order.",
-   "1b. GitHub Actions billing: RESOLVED 2026-11-08 (an Actions budget of $5 is set; the repositories are private again).",
-   "1c. CodeQL on private repositories: RESOLVED 2026-11-08 by GitHub itself (code scanning switched off when the repositories went private; Claude's own security review stays item 11)."
+   "1b. GitHub Actions billing: RESOLVED. 2026-11-08 evening (owner): the repositories are PUBLIC again during the build to keep Actions free; they go private when the build is complete. Secret scanning and push protection are on; no secrets in the history.",
+   "1c. CodeQL: back ON by itself when the repositories went public (default setup configured on both); its findings count as warnings and are fixed in the same task. Claude's own security review stays item 11."
   ],
   "right_after_paying": [
    "2. Second super admin admin@cruxomni.com: DONE 2026-11-08.",
