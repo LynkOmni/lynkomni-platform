@@ -1285,7 +1285,7 @@
   "now": [
    "1. Pay for Google Workspace (a normal bank card, or an official Google Workspace partner).",
    "1b. GitHub Actions billing: RESOLVED 2026-11-08 (an Actions budget of $5 is set; the repositories are private again).",
-   "1c. CodeQL on private repositories: turn off the automatic CodeQL analysis in GitHub Settings > Code security for lynkomni-platform and lynkomni-icons (it needs GitHub Advanced Security on a private repository and shows red on every push until then), or make the repositories public again. Claude's own security review stays item 11."
+   "1c. CodeQL on private repositories: RESOLVED 2026-11-08 by GitHub itself (code scanning switched off when the repositories went private; Claude's own security review stays item 11)."
   ],
   "right_after_paying": [
    "2. Second super admin admin@cruxomni.com (one more paid user, emergencies only).",
