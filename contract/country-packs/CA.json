@@ -9,7 +9,9 @@
  "locale": "en-CA",
  "languages": [
   "en",
-  "fr",
+  "fr"
+ ],
+ "regional_languages": [
   "iu",
   "crk",
   "chp",

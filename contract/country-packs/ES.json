@@ -8,7 +8,9 @@
  ],
  "locale": "es-ES",
  "languages": [
-  "es",
+  "es"
+ ],
+ "regional_languages": [
   "ca",
   "gl",
   "eu",

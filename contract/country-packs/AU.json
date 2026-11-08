@@ -10,6 +10,9 @@
  "languages": [
   "en"
  ],
+ "regional_languages": [
+  "en"
+ ],
  "ui_language": "en",
  "tz": "Australia/Lord_Howe",
  "time_zones": [

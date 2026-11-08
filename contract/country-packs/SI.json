@@ -8,7 +8,9 @@
  ],
  "locale": "en-SI",
  "languages": [
-  "sl",
+  "sl"
+ ],
+ "regional_languages": [
   "vec"
  ],
  "ui_language": "en",

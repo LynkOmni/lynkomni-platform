@@ -8,7 +8,9 @@
  ],
  "locale": "en-RS",
  "languages": [
-  "sr",
+  "sr"
+ ],
+ "regional_languages": [
   "hu",
   "ro",
   "hr",

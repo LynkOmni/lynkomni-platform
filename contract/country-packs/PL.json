@@ -6,14 +6,16 @@
  "currencies": [
   "PLN"
  ],
- "locale": "de-PL",
+ "locale": "en-PL",
  "languages": [
-  "pl",
+  "pl"
+ ],
+ "regional_languages": [
   "de",
   "csb",
   "lt"
  ],
- "ui_language": "de",
+ "ui_language": "en",
  "tz": "Europe/Warsaw",
  "time_zones": [
   "Europe/Warsaw"

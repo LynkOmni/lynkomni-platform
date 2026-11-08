@@ -9,7 +9,9 @@
  "locale": "en-PH",
  "languages": [
   "en",
-  "fil",
+  "fil"
+ ],
+ "regional_languages": [
   "ceb",
   "ilo",
   "hil",

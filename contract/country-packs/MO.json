@@ -9,8 +9,10 @@
  "locale": "zh-Hant-MO",
  "languages": [
   "zh-Hant",
-  "yue",
   "pt"
+ ],
+ "regional_languages": [
+  "yue"
  ],
  "ui_language": "zh-Hant",
  "tz": "Asia/Macau",

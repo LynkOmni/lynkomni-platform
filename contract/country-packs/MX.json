@@ -10,6 +10,9 @@
  "languages": [
   "es"
  ],
+ "regional_languages": [
+  "es"
+ ],
  "ui_language": "es",
  "tz": "America/Mexico_City",
  "time_zones": [

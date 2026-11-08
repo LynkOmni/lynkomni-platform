@@ -10,7 +10,9 @@
  "languages": [
   "nb",
   "no",
-  "nn",
+  "nn"
+ ],
+ "regional_languages": [
   "se"
  ],
  "ui_language": "en",

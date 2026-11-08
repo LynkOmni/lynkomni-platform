@@ -9,9 +9,11 @@
  "locale": "de-CH",
  "languages": [
   "de",
-  "gsw",
   "fr",
-  "it",
+  "it"
+ ],
+ "regional_languages": [
+  "gsw",
   "rm"
  ],
  "ui_language": "de",

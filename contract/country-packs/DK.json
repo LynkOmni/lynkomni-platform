@@ -6,13 +6,15 @@
  "currencies": [
   "DKK"
  ],
- "locale": "de-DK",
+ "locale": "en-DK",
  "languages": [
-  "da",
+  "da"
+ ],
+ "regional_languages": [
   "de",
   "kl"
  ],
- "ui_language": "de",
+ "ui_language": "en",
  "tz": "Europe/Copenhagen",
  "time_zones": [
   "Europe/Copenhagen"

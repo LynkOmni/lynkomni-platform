@@ -8,7 +8,9 @@
  ],
  "locale": "ru-RU",
  "languages": [
-  "ru",
+  "ru"
+ ],
+ "regional_languages": [
   "tt",
   "ba",
   "ce",

@@ -8,7 +8,9 @@
  ],
  "locale": "en-SE",
  "languages": [
-  "sv",
+  "sv"
+ ],
+ "regional_languages": [
   "fi"
  ],
  "ui_language": "en",

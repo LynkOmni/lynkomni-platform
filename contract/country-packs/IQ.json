@@ -8,7 +8,9 @@
  ],
  "locale": "ar-IQ",
  "languages": [
-  "ar",
+  "ar"
+ ],
+ "regional_languages": [
   "ckb",
   "az"
  ],

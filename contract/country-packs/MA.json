@@ -9,8 +9,10 @@
  "locale": "ar-MA",
  "languages": [
   "ar",
-  "fr",
   "tzm"
+ ],
+ "regional_languages": [
+  "fr"
  ],
  "ui_language": "ar",
  "tz": "Africa/Casablanca",

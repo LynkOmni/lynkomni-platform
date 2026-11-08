@@ -6,13 +6,15 @@
  "currencies": [
   "EUR"
  ],
- "locale": "it-HR",
+ "locale": "en-HR",
  "languages": [
-  "hr",
+  "hr"
+ ],
+ "regional_languages": [
   "it",
   "vec"
  ],
- "ui_language": "it",
+ "ui_language": "en",
  "tz": "Europe/Zagreb",
  "time_zones": [
   "Europe/Zagreb"

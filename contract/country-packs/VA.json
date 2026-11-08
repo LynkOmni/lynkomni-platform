@@ -10,6 +10,9 @@
  "languages": [
   "it"
  ],
+ "regional_languages": [
+  "it"
+ ],
  "ui_language": "it",
  "tz": "Europe/Vatican",
  "time_zones": [

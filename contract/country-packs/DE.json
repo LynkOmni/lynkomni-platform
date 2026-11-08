@@ -8,7 +8,9 @@
  ],
  "locale": "de-DE",
  "languages": [
-  "de",
+  "de"
+ ],
+ "regional_languages": [
   "frr"
  ],
  "ui_language": "de",

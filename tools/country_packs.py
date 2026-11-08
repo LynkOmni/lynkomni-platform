@@ -51,7 +51,9 @@ def build():
         currency = cur[0] if cur else "USD"                       # Antarctica has no tender currency
         for c in cur: currencies[c] = fractions.get(c, fractions["DEFAULT"])[0]
         spoken = langs_by_terr.get(code, {})
-        official = sorted((l for l, v in spoken.items() if v.get("official_status")), key=lambda l: -spoken[l].get("population_percent", 0))
+        official = sorted((l for l, v in spoken.items() if v.get("official_status") == "official"), key=lambda l: -spoken[l].get("population_percent", 0))
+        regional = sorted((l for l, v in spoken.items() if v.get("official_status") in ("official_regional", "de_facto_official")), key=lambda l: -spoken[l].get("population_percent", 0))
+        regional = [x for x in dict.fromkeys(_ui_code(l) for l in regional if l != "und") if x not in {_ui_code(o) for o in official}]
         if not official: official = sorted(spoken, key=lambda l: -spoken[l].get("population_percent", 0))[:1] or [FALLBACK_UI]
         official = list(dict.fromkeys(_ui_code(l) for l in official if l != "und")) or [FALLBACK_UI]   # "und" is CLDR for undetermined; Antarctica has no official language
         supported = [l for l in official if l in reg["languages"]]
@@ -59,13 +61,13 @@ def build():
             if l not in reg["languages"]: unsupported[l] += 1 + sum(v.get("population_percent", 0) for k, v in spoken.items() if _ui_code(k) == l) / 100
         ui_first = supported[0] if supported else FALLBACK_UI
         countries[code] = {"code": code, "name": names["en"].territories.get(code, code), "names": {lang: loc.territories.get(code, names["en"].territories.get(code, code)) for lang, loc in names.items()},
-                           "currency": currency, "currencies": cur, "tz": zones[code], "languages": official, "ui_language": ui_first}
+                           "currency": currency, "currencies": cur, "tz": zones[code], "languages": official, "regional_languages": regional, "ui_language": ui_first}
         path = os.path.join(PACKS, f"{code}.json")
         curated = os.path.isfile(path) and json.load(open(path, encoding="utf-8")).get("source") == "curated"
         if curated: continue
         packs[code] = {
             "name": countries[code]["name"], "code": code, "source": "standards",
-            "currency": currency, "currencies": cur, "locale": f"{ui_first}-{code}", "languages": official, "ui_language": ui_first,
+            "currency": currency, "currencies": cur, "locale": f"{ui_first}-{code}", "languages": official, "regional_languages": regional, "ui_language": ui_first,
             "tz": zones[code][0], "time_zones": zones[code],
             "tax_rate": "0", "tax_confirmed": False, "fiscal": None, "fiscal_confirmed": False,
             "providers": ["card", "bank_transfer", "qr"], "flags": {}, "price_index": 1.0, "price_index_source": "default until finance sets it from purchasing power",
@@ -93,8 +95,9 @@ def _ui_code(lang):
 
 
 def _waves(unsupported, reg):
-    """Every official language not yet an interface language, in waves of ten: first the languages official in most countries,
-    then by share of speakers (CLDR gives shares per country, not head counts, so this is an order of work, not a census)."""
+    """Every national official language not yet an interface language, in waves of ten: first the languages official in most
+    countries, then by share of speakers (CLDR gives shares per country, not head counts, so this is an order of work, not a
+    census). Regional and de-facto languages (pack regional_languages) follow after every national language."""
     order = sorted(unsupported, key=lambda l: (-unsupported[l], l))
     from babel import Locale
     out = []

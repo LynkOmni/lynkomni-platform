@@ -9,7 +9,9 @@
  "locale": "fa-AF",
  "languages": [
   "fa",
-  "ps",
+  "ps"
+ ],
+ "regional_languages": [
   "uz",
   "tk"
  ],

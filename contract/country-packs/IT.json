@@ -8,7 +8,9 @@
  ],
  "locale": "it-IT",
  "languages": [
-  "it",
+  "it"
+ ],
+ "regional_languages": [
   "fr",
   "vec"
  ],

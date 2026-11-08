@@ -9,7 +9,9 @@
  "locale": "en-FI",
  "languages": [
   "fi",
-  "sv",
+  "sv"
+ ],
+ "regional_languages": [
   "sms"
  ],
  "ui_language": "en",

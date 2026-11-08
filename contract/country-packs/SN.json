@@ -8,8 +8,10 @@
  ],
  "locale": "fr-SN",
  "languages": [
+  "fr"
+ ],
+ "regional_languages": [
   "wo",
-  "fr",
   "ff",
   "srr",
   "dyo",

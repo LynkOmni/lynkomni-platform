@@ -8,8 +8,10 @@
  ],
  "locale": "en-CW",
  "languages": [
-  "pap",
   "nl"
+ ],
+ "regional_languages": [
+  "pap"
  ],
  "ui_language": "en",
  "tz": "America/Curacao",

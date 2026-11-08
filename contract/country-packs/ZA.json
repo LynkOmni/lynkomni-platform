@@ -8,7 +8,9 @@
  ],
  "locale": "en-ZA",
  "languages": [
-  "en",
+  "en"
+ ],
+ "regional_languages": [
   "zu",
   "xh",
   "af",

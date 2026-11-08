@@ -10,6 +10,7 @@
  "languages": [
   "cs"
  ],
+ "regional_languages": [],
  "ui_language": "en",
  "tz": "Europe/Prague",
  "time_zones": [

@@ -44,6 +44,7 @@
    "languages": [
     "ca"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "AE": {
@@ -87,6 +88,7 @@
    "languages": [
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "AF": {
@@ -129,7 +131,9 @@
    ],
    "languages": [
     "fa",
-    "ps",
+    "ps"
+   ],
+   "regional_languages": [
     "uz",
     "tk"
    ],
@@ -176,6 +180,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "AI": {
@@ -219,6 +224,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "AL": {
@@ -262,6 +268,7 @@
    "languages": [
     "sq"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "AM": {
@@ -305,6 +312,7 @@
    "languages": [
     "hy"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "AO": {
@@ -348,6 +356,7 @@
    "languages": [
     "pt"
    ],
+   "regional_languages": [],
    "ui_language": "pt"
   },
   "AQ": {
@@ -398,6 +407,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "AR": {
@@ -452,6 +462,7 @@
    "languages": [
     "es"
    ],
+   "regional_languages": [],
    "ui_language": "es"
   },
   "AS": {
@@ -493,7 +504,9 @@
     "Pacific/Pago_Pago"
    ],
    "languages": [
-    "sm",
+    "sm"
+   ],
+   "regional_languages": [
     "en"
    ],
    "ui_language": "en"
@@ -537,7 +550,9 @@
     "Europe/Vienna"
    ],
    "languages": [
-    "de",
+    "de"
+   ],
+   "regional_languages": [
     "hr",
     "sl",
     "hu"
@@ -596,6 +611,9 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [
+    "en"
+   ],
    "ui_language": "en"
   },
   "AW": {
@@ -640,6 +658,7 @@
     "nl",
     "pap"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "AX": {
@@ -683,6 +702,7 @@
    "languages": [
     "sv"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "AZ": {
@@ -726,6 +746,7 @@
    "languages": [
     "az"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "BA": {
@@ -771,6 +792,7 @@
     "hr",
     "sr"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "BB": {
@@ -814,6 +836,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "BD": {
@@ -857,6 +880,7 @@
    "languages": [
     "bn"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "BE": {
@@ -902,6 +926,7 @@
     "fr",
     "de"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "BF": {
@@ -945,6 +970,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "BG": {
@@ -988,6 +1014,7 @@
    "languages": [
     "bg"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "BH": {
@@ -1031,6 +1058,7 @@
    "languages": [
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "BI": {
@@ -1076,6 +1104,7 @@
     "fr",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "BJ": {
@@ -1119,6 +1148,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "BL": {
@@ -1162,6 +1192,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "BM": {
@@ -1205,6 +1236,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "BN": {
@@ -1248,6 +1280,7 @@
    "languages": [
     "ms"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "BO": {
@@ -1293,6 +1326,7 @@
     "qu",
     "ay"
    ],
+   "regional_languages": [],
    "ui_language": "es"
   },
   "BQ": {
@@ -1336,6 +1370,7 @@
    "languages": [
     "nl"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "BR": {
@@ -1392,7 +1427,9 @@
     "America/Rio_Branco"
    ],
    "languages": [
-    "pt",
+    "pt"
+   ],
+   "regional_languages": [
     "vec"
    ],
    "ui_language": "pt"
@@ -1438,6 +1475,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "BT": {
@@ -1482,6 +1520,7 @@
    "languages": [
     "dz"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "BW": {
@@ -1526,6 +1565,7 @@
     "en",
     "tn"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "BY": {
@@ -1570,6 +1610,7 @@
     "be",
     "ru"
    ],
+   "regional_languages": [],
    "ui_language": "ru"
   },
   "BZ": {
@@ -1613,6 +1654,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "CA": {
@@ -1677,7 +1719,9 @@
    ],
    "languages": [
     "en",
-    "fr",
+    "fr"
+   ],
+   "regional_languages": [
     "iu",
     "crk",
     "chp",
@@ -1726,6 +1770,9 @@
     "Indian/Cocos"
    ],
    "languages": [
+    "ms"
+   ],
+   "regional_languages": [
     "en"
    ],
    "ui_language": "en"
@@ -1770,7 +1817,9 @@
     "Africa/Lubumbashi"
    ],
    "languages": [
-    "fr",
+    "fr"
+   ],
+   "regional_languages": [
     "sw",
     "lua",
     "ln",
@@ -1820,6 +1869,7 @@
     "sg",
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "CG": {
@@ -1863,6 +1913,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "CH": {
@@ -1905,9 +1956,11 @@
    ],
    "languages": [
     "de",
-    "gsw",
     "fr",
-    "it",
+    "it"
+   ],
+   "regional_languages": [
+    "gsw",
     "rm"
    ],
    "ui_language": "de"
@@ -1953,6 +2006,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "CK": {
@@ -1996,6 +2050,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "CL": {
@@ -2042,6 +2097,7 @@
    "languages": [
     "es"
    ],
+   "regional_languages": [],
    "ui_language": "es"
   },
   "CM": {
@@ -2086,6 +2142,7 @@
     "fr",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "CN": {
@@ -2128,7 +2185,9 @@
     "Asia/Urumqi"
    ],
    "languages": [
-    "zh-Hans",
+    "zh-Hans"
+   ],
+   "regional_languages": [
     "ug",
     "za",
     "mn",
@@ -2178,6 +2237,7 @@
    "languages": [
     "es"
    ],
+   "regional_languages": [],
    "ui_language": "es"
   },
   "CR": {
@@ -2221,6 +2281,7 @@
    "languages": [
     "es"
    ],
+   "regional_languages": [],
    "ui_language": "es"
   },
   "CU": {
@@ -2264,6 +2325,7 @@
    "languages": [
     "es"
    ],
+   "regional_languages": [],
    "ui_language": "es"
   },
   "CV": {
@@ -2307,6 +2369,7 @@
    "languages": [
     "pt"
    ],
+   "regional_languages": [],
    "ui_language": "pt"
   },
   "CW": {
@@ -2348,8 +2411,10 @@
     "America/Curacao"
    ],
    "languages": [
-    "pap",
     "nl"
+   ],
+   "regional_languages": [
+    "pap"
    ],
    "ui_language": "en"
   },
@@ -2394,6 +2459,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "CY": {
@@ -2439,6 +2505,7 @@
     "el",
     "tr"
    ],
+   "regional_languages": [],
    "ui_language": "tr"
   },
   "CZ": {
@@ -2482,6 +2549,7 @@
    "languages": [
     "cs"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "DE": {
@@ -2524,7 +2592,9 @@
     "Europe/Busingen"
    ],
    "languages": [
-    "de",
+    "de"
+   ],
+   "regional_languages": [
     "frr"
    ],
    "ui_language": "de"
@@ -2571,6 +2641,7 @@
     "fr",
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "DK": {
@@ -2612,11 +2683,13 @@
     "Europe/Copenhagen"
    ],
    "languages": [
-    "da",
+    "da"
+   ],
+   "regional_languages": [
     "de",
     "kl"
    ],
-   "ui_language": "de"
+   "ui_language": "en"
   },
   "DM": {
    "code": "DM",
@@ -2659,6 +2732,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "DO": {
@@ -2702,6 +2776,7 @@
    "languages": [
     "es"
    ],
+   "regional_languages": [],
    "ui_language": "es"
   },
   "DZ": {
@@ -2746,6 +2821,7 @@
     "ar",
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "EC": {
@@ -2791,6 +2867,7 @@
     "es",
     "qu"
    ],
+   "regional_languages": [],
    "ui_language": "es"
   },
   "EE": {
@@ -2834,6 +2911,7 @@
    "languages": [
     "et"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "EG": {
@@ -2877,6 +2955,7 @@
    "languages": [
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "EH": {
@@ -2920,6 +2999,7 @@
    "languages": [
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "ER": {
@@ -2961,9 +3041,11 @@
     "Africa/Asmara"
    ],
    "languages": [
-    "ti",
     "en",
     "ar"
+   ],
+   "regional_languages": [
+    "ti"
    ],
    "ui_language": "en"
   },
@@ -3008,7 +3090,9 @@
     "Atlantic/Canary"
    ],
    "languages": [
-    "es",
+    "es"
+   ],
+   "regional_languages": [
     "ca",
     "gl",
     "eu",
@@ -3058,6 +3142,7 @@
    "languages": [
     "am"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "FI": {
@@ -3100,7 +3185,9 @@
    ],
    "languages": [
     "fi",
-    "sv",
+    "sv"
+   ],
+   "regional_languages": [
     "sms"
    ],
    "ui_language": "en"
@@ -3148,6 +3235,7 @@
     "hif",
     "fj"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "FK": {
@@ -3191,6 +3279,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "FM": {
@@ -3236,6 +3325,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "FO": {
@@ -3279,6 +3369,7 @@
    "languages": [
     "fo"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "FR": {
@@ -3322,6 +3413,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "GA": {
@@ -3365,6 +3457,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "GB": {
@@ -3406,7 +3499,9 @@
     "Europe/London"
    ],
    "languages": [
-    "en",
+    "en"
+   ],
+   "regional_languages": [
     "cy",
     "ga",
     "gd"
@@ -3454,6 +3549,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "GE": {
@@ -3495,7 +3591,9 @@
     "Asia/Tbilisi"
    ],
    "languages": [
-    "ka",
+    "ka"
+   ],
+   "regional_languages": [
     "ab",
     "os"
    ],
@@ -3542,6 +3640,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "GG": {
@@ -3585,6 +3684,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "GH": {
@@ -3626,8 +3726,10 @@
     "Africa/Accra"
    ],
    "languages": [
+    "en"
+   ],
+   "regional_languages": [
     "ak",
-    "en",
     "ee",
     "gaa"
    ],
@@ -3674,6 +3776,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "GL": {
@@ -3720,6 +3823,7 @@
    "languages": [
     "kl"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "GM": {
@@ -3763,6 +3867,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "GN": {
@@ -3806,6 +3911,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "GP": {
@@ -3849,6 +3955,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "GQ": {
@@ -3894,6 +4001,7 @@
     "fr",
     "pt"
    ],
+   "regional_languages": [],
    "ui_language": "es"
   },
   "GR": {
@@ -3937,6 +4045,7 @@
    "languages": [
     "el"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "GS": {
@@ -3980,6 +4089,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "GT": {
@@ -4021,7 +4131,9 @@
     "America/Guatemala"
    ],
    "languages": [
-    "es",
+    "es"
+   ],
+   "regional_languages": [
     "quc"
    ],
    "ui_language": "es"
@@ -4065,8 +4177,10 @@
     "Pacific/Guam"
    ],
    "languages": [
-    "en",
     "ch"
+   ],
+   "regional_languages": [
+    "en"
    ],
    "ui_language": "en"
   },
@@ -4111,6 +4225,7 @@
    "languages": [
     "pt"
    ],
+   "regional_languages": [],
    "ui_language": "pt"
   },
   "GY": {
@@ -4154,6 +4269,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "HK": {
@@ -4198,6 +4314,7 @@
     "zh-Hant",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "zh-Hant"
   },
   "HN": {
@@ -4241,6 +4358,7 @@
    "languages": [
     "es"
    ],
+   "regional_languages": [],
    "ui_language": "es"
   },
   "HR": {
@@ -4282,11 +4400,13 @@
     "Europe/Zagreb"
    ],
    "languages": [
-    "hr",
+    "hr"
+   ],
+   "regional_languages": [
     "it",
     "vec"
    ],
-   "ui_language": "it"
+   "ui_language": "en"
   },
   "HT": {
    "code": "HT",
@@ -4331,6 +4451,7 @@
     "ht",
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "HU": {
@@ -4374,6 +4495,7 @@
    "languages": [
     "hu"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "ID": {
@@ -4420,6 +4542,7 @@
    "languages": [
     "id"
    ],
+   "regional_languages": [],
    "ui_language": "id"
   },
   "IE": {
@@ -4464,6 +4587,7 @@
     "en",
     "ga"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "IL": {
@@ -4508,6 +4632,7 @@
     "he",
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "he"
   },
   "IM": {
@@ -4552,6 +4677,7 @@
     "en",
     "gv"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "IN": {
@@ -4594,7 +4720,9 @@
    ],
    "languages": [
     "hi",
-    "en",
+    "en"
+   ],
+   "regional_languages": [
     "bn",
     "te",
     "mr",
@@ -4658,6 +4786,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "IQ": {
@@ -4699,7 +4828,9 @@
     "Asia/Baghdad"
    ],
    "languages": [
-    "ar",
+    "ar"
+   ],
+   "regional_languages": [
     "ckb",
     "az"
    ],
@@ -4746,6 +4877,7 @@
    "languages": [
     "fa"
    ],
+   "regional_languages": [],
    "ui_language": "fa"
   },
   "IS": {
@@ -4789,6 +4921,7 @@
    "languages": [
     "is"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "IT": {
@@ -4830,7 +4963,9 @@
     "Europe/Rome"
    ],
    "languages": [
-    "it",
+    "it"
+   ],
+   "regional_languages": [
     "fr",
     "vec"
    ],
@@ -4877,6 +5012,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "JM": {
@@ -4920,6 +5056,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "JO": {
@@ -4963,6 +5100,7 @@
    "languages": [
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "JP": {
@@ -5006,6 +5144,7 @@
    "languages": [
     "ja"
    ],
+   "regional_languages": [],
    "ui_language": "ja"
   },
   "KE": {
@@ -5050,6 +5189,7 @@
     "sw",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "sw"
   },
   "KG": {
@@ -5094,6 +5234,7 @@
     "ky",
     "ru"
    ],
+   "regional_languages": [],
    "ui_language": "ru"
   },
   "KH": {
@@ -5137,6 +5278,7 @@
    "languages": [
     "km"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "KI": {
@@ -5183,6 +5325,7 @@
     "en",
     "gil"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "KM": {
@@ -5229,6 +5372,7 @@
     "wni",
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "KN": {
@@ -5272,6 +5416,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "KP": {
@@ -5315,6 +5460,7 @@
    "languages": [
     "ko"
    ],
+   "regional_languages": [],
    "ui_language": "ko"
   },
   "KR": {
@@ -5358,6 +5504,7 @@
    "languages": [
     "ko"
    ],
+   "regional_languages": [],
    "ui_language": "ko"
   },
   "KW": {
@@ -5401,6 +5548,7 @@
    "languages": [
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "KY": {
@@ -5444,6 +5592,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "KZ": {
@@ -5494,6 +5643,7 @@
     "ru",
     "kk"
    ],
+   "regional_languages": [],
    "ui_language": "ru"
   },
   "LA": {
@@ -5537,6 +5687,7 @@
    "languages": [
     "lo"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "LB": {
@@ -5580,6 +5731,7 @@
    "languages": [
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "LC": {
@@ -5623,6 +5775,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "LI": {
@@ -5664,7 +5817,9 @@
     "Europe/Vaduz"
    ],
    "languages": [
-    "de",
+    "de"
+   ],
+   "regional_languages": [
     "gsw"
    ],
    "ui_language": "de"
@@ -5711,6 +5866,7 @@
     "si",
     "ta"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "LR": {
@@ -5754,6 +5910,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "LS": {
@@ -5799,6 +5956,7 @@
     "st",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "LT": {
@@ -5842,6 +6000,7 @@
    "languages": [
     "lt"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "LU": {
@@ -5887,6 +6046,7 @@
     "lb",
     "de"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "LV": {
@@ -5930,6 +6090,7 @@
    "languages": [
     "lv"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "LY": {
@@ -5973,6 +6134,7 @@
    "languages": [
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "MA": {
@@ -6015,8 +6177,10 @@
    ],
    "languages": [
     "ar",
-    "fr",
     "tzm"
+   ],
+   "regional_languages": [
+    "fr"
    ],
    "ui_language": "ar"
   },
@@ -6061,6 +6225,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "MD": {
@@ -6104,6 +6269,7 @@
    "languages": [
     "ro"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "ME": {
@@ -6147,6 +6313,7 @@
    "languages": [
     "sr"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "MF": {
@@ -6190,6 +6357,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "MG": {
@@ -6235,6 +6403,7 @@
     "fr",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "MH": {
@@ -6280,6 +6449,7 @@
     "en",
     "mh"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "MK": {
@@ -6321,7 +6491,9 @@
     "Europe/Skopje"
    ],
    "languages": [
-    "mk",
+    "mk"
+   ],
+   "regional_languages": [
     "sq"
    ],
    "ui_language": "en"
@@ -6367,6 +6539,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "MM": {
@@ -6410,6 +6583,7 @@
    "languages": [
     "my"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "MN": {
@@ -6454,6 +6628,7 @@
    "languages": [
     "mn"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "MO": {
@@ -6496,8 +6671,10 @@
    ],
    "languages": [
     "zh-Hant",
-    "yue",
     "pt"
+   ],
+   "regional_languages": [
+    "yue"
    ],
    "ui_language": "zh-Hant"
   },
@@ -6540,6 +6717,9 @@
     "Pacific/Saipan"
    ],
    "languages": [
+    "en"
+   ],
+   "regional_languages": [
     "en"
    ],
    "ui_language": "en"
@@ -6585,6 +6765,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "MR": {
@@ -6628,6 +6809,7 @@
    "languages": [
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "MS": {
@@ -6671,6 +6853,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "MT": {
@@ -6715,6 +6898,7 @@
     "mt",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "MU": {
@@ -6759,6 +6943,7 @@
     "fr",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "MV": {
@@ -6802,6 +6987,7 @@
    "languages": [
     "dv"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "MW": {
@@ -6846,6 +7032,7 @@
     "en",
     "ny"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "MX": {
@@ -6900,6 +7087,9 @@
    "languages": [
     "es"
    ],
+   "regional_languages": [
+    "es"
+   ],
    "ui_language": "es"
   },
   "MY": {
@@ -6944,6 +7134,7 @@
    "languages": [
     "ms"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "MZ": {
@@ -6987,6 +7178,7 @@
    "languages": [
     "pt"
    ],
+   "regional_languages": [],
    "ui_language": "pt"
   },
   "NA": {
@@ -7031,6 +7223,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "NC": {
@@ -7074,6 +7267,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "NE": {
@@ -7117,6 +7311,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "NF": {
@@ -7160,6 +7355,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "NG": {
@@ -7204,6 +7400,7 @@
     "en",
     "yo"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "NI": {
@@ -7247,6 +7444,7 @@
    "languages": [
     "es"
    ],
+   "regional_languages": [],
    "ui_language": "es"
   },
   "NL": {
@@ -7288,7 +7486,9 @@
     "Europe/Amsterdam"
    ],
    "languages": [
-    "nl",
+    "nl"
+   ],
+   "regional_languages": [
     "fy"
    ],
    "ui_language": "en"
@@ -7334,7 +7534,9 @@
    "languages": [
     "nb",
     "no",
-    "nn",
+    "nn"
+   ],
+   "regional_languages": [
     "se"
    ],
    "ui_language": "en"
@@ -7380,6 +7582,7 @@
    "languages": [
     "ne"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "NR": {
@@ -7424,6 +7627,7 @@
     "en",
     "na"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "NU": {
@@ -7468,6 +7672,7 @@
     "en",
     "niu"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "NZ": {
@@ -7510,8 +7715,10 @@
     "Pacific/Chatham"
    ],
    "languages": [
-    "en",
     "mi"
+   ],
+   "regional_languages": [
+    "en"
    ],
    "ui_language": "en"
   },
@@ -7556,6 +7763,7 @@
    "languages": [
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "PA": {
@@ -7600,6 +7808,7 @@
    "languages": [
     "es"
    ],
+   "regional_languages": [],
    "ui_language": "es"
   },
   "PE": {
@@ -7644,6 +7853,7 @@
     "es",
     "qu"
    ],
+   "regional_languages": [],
    "ui_language": "es"
   },
   "PF": {
@@ -7690,6 +7900,7 @@
     "fr",
     "ty"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "PG": {
@@ -7736,6 +7947,7 @@
     "en",
     "ho"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "PH": {
@@ -7778,7 +7990,9 @@
    ],
    "languages": [
     "en",
-    "fil",
+    "fil"
+   ],
+   "regional_languages": [
     "ceb",
     "ilo",
     "hil",
@@ -7831,6 +8045,7 @@
     "ur",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "ur"
   },
   "PL": {
@@ -7872,12 +8087,14 @@
     "Europe/Warsaw"
    ],
    "languages": [
-    "pl",
+    "pl"
+   ],
+   "regional_languages": [
     "de",
     "csb",
     "lt"
    ],
-   "ui_language": "de"
+   "ui_language": "en"
   },
   "PM": {
    "code": "PM",
@@ -7920,6 +8137,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "PN": {
@@ -7963,6 +8181,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "PR": {
@@ -8004,7 +8223,9 @@
     "America/Puerto_Rico"
    ],
    "languages": [
-    "es",
+    "es"
+   ],
+   "regional_languages": [
     "en"
    ],
    "ui_language": "es"
@@ -8052,6 +8273,7 @@
    "languages": [
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "PT": {
@@ -8097,6 +8319,7 @@
    "languages": [
     "pt"
    ],
+   "regional_languages": [],
    "ui_language": "pt"
   },
   "PW": {
@@ -8141,6 +8364,7 @@
     "pau",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "PY": {
@@ -8185,6 +8409,7 @@
     "gn",
     "es"
    ],
+   "regional_languages": [],
    "ui_language": "es"
   },
   "QA": {
@@ -8228,6 +8453,7 @@
    "languages": [
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "RE": {
@@ -8271,6 +8497,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "RO": {
@@ -8314,6 +8541,7 @@
    "languages": [
     "ro"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "RS": {
@@ -8355,7 +8583,9 @@
     "Europe/Belgrade"
    ],
    "languages": [
-    "sr",
+    "sr"
+   ],
+   "regional_languages": [
     "hu",
     "ro",
     "hr",
@@ -8428,7 +8658,9 @@
     "Asia/Anadyr"
    ],
    "languages": [
-    "ru",
+    "ru"
+   ],
+   "regional_languages": [
     "tt",
     "ba",
     "ce",
@@ -8494,6 +8726,7 @@
     "en",
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "rw"
   },
   "SA": {
@@ -8537,6 +8770,7 @@
    "languages": [
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "SB": {
@@ -8580,6 +8814,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "SC": {
@@ -8624,6 +8859,7 @@
     "fr",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "SD": {
@@ -8668,6 +8904,7 @@
     "ar",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "SE": {
@@ -8709,7 +8946,9 @@
     "Europe/Stockholm"
    ],
    "languages": [
-    "sv",
+    "sv"
+   ],
+   "regional_languages": [
     "fi"
    ],
    "ui_language": "en"
@@ -8758,6 +8997,7 @@
     "ms",
     "ta"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "SH": {
@@ -8801,6 +9041,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "SI": {
@@ -8842,7 +9083,9 @@
     "Europe/Ljubljana"
    ],
    "languages": [
-    "sl",
+    "sl"
+   ],
+   "regional_languages": [
     "vec"
    ],
    "ui_language": "en"
@@ -8888,6 +9131,7 @@
    "languages": [
     "nb"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "SK": {
@@ -8931,6 +9175,7 @@
    "languages": [
     "sk"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "SL": {
@@ -8974,6 +9219,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "SM": {
@@ -9017,6 +9263,7 @@
    "languages": [
     "it"
    ],
+   "regional_languages": [],
    "ui_language": "it"
   },
   "SN": {
@@ -9058,8 +9305,10 @@
     "Africa/Dakar"
    ],
    "languages": [
+    "fr"
+   ],
+   "regional_languages": [
     "wo",
-    "fr",
     "ff",
     "srr",
     "dyo",
@@ -9116,6 +9365,7 @@
     "so",
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "SR": {
@@ -9159,6 +9409,7 @@
    "languages": [
     "nl"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "SS": {
@@ -9202,6 +9453,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "ST": {
@@ -9245,6 +9497,7 @@
    "languages": [
     "pt"
    ],
+   "regional_languages": [],
    "ui_language": "pt"
   },
   "SV": {
@@ -9288,6 +9541,7 @@
    "languages": [
     "es"
    ],
+   "regional_languages": [],
    "ui_language": "es"
   },
   "SX": {
@@ -9332,6 +9586,7 @@
     "en",
     "nl"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "SY": {
@@ -9375,6 +9630,7 @@
    "languages": [
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "SZ": {
@@ -9419,6 +9675,7 @@
     "en",
     "ss"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "TC": {
@@ -9462,6 +9719,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "TD": {
@@ -9506,6 +9764,7 @@
     "ar",
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "TF": {
@@ -9549,6 +9808,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "TG": {
@@ -9592,6 +9852,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "TH": {
@@ -9635,6 +9896,7 @@
    "languages": [
     "th"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "TJ": {
@@ -9678,6 +9940,7 @@
    "languages": [
     "tg"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "TK": {
@@ -9722,6 +9985,7 @@
     "tkl",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "TL": {
@@ -9766,6 +10030,7 @@
     "pt",
     "tet"
    ],
+   "regional_languages": [],
    "ui_language": "pt"
   },
   "TM": {
@@ -9809,6 +10074,7 @@
    "languages": [
     "tk"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "TN": {
@@ -9853,6 +10119,7 @@
     "ar",
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "TO": {
@@ -9897,6 +10164,7 @@
     "to",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "TR": {
@@ -9940,6 +10208,7 @@
    "languages": [
     "tr"
    ],
+   "regional_languages": [],
    "ui_language": "tr"
   },
   "TT": {
@@ -9983,6 +10252,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "TV": {
@@ -10027,6 +10297,7 @@
     "tvl",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "TW": {
@@ -10072,6 +10343,7 @@
     "nan",
     "hak"
    ],
+   "regional_languages": [],
    "ui_language": "zh-Hant"
   },
   "TZ": {
@@ -10116,6 +10388,7 @@
     "sw",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "sw"
   },
   "UA": {
@@ -10158,10 +10431,12 @@
     "Europe/Kyiv"
    ],
    "languages": [
-    "uk",
+    "uk"
+   ],
+   "regional_languages": [
     "ru"
    ],
-   "ui_language": "ru"
+   "ui_language": "en"
   },
   "UG": {
    "code": "UG",
@@ -10205,6 +10480,7 @@
     "sw",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "sw"
   },
   "UM": {
@@ -10247,6 +10523,9 @@
     "Pacific/Wake"
    ],
    "languages": [
+    "en"
+   ],
+   "regional_languages": [
     "en"
    ],
    "ui_language": "en"
@@ -10318,6 +10597,9 @@
     "Pacific/Honolulu"
    ],
    "languages": [
+    "en"
+   ],
+   "regional_languages": [
     "en",
     "es",
     "haw"
@@ -10365,6 +10647,7 @@
    "languages": [
     "es"
    ],
+   "regional_languages": [],
    "ui_language": "es"
   },
   "UZ": {
@@ -10409,6 +10692,7 @@
    "languages": [
     "uz"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "VA": {
@@ -10450,6 +10734,9 @@
     "Europe/Vatican"
    ],
    "languages": [
+    "it"
+   ],
+   "regional_languages": [
     "it"
    ],
    "ui_language": "it"
@@ -10495,6 +10782,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "VE": {
@@ -10538,6 +10826,7 @@
    "languages": [
     "es"
    ],
+   "regional_languages": [],
    "ui_language": "es"
   },
   "VG": {
@@ -10581,6 +10870,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "VI": {
@@ -10622,6 +10912,9 @@
     "America/St_Thomas"
    ],
    "languages": [
+    "en"
+   ],
+   "regional_languages": [
     "en"
    ],
    "ui_language": "en"
@@ -10667,6 +10960,7 @@
    "languages": [
     "vi"
    ],
+   "regional_languages": [],
    "ui_language": "vi"
   },
   "VU": {
@@ -10712,6 +11006,7 @@
     "en",
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "WF": {
@@ -10755,6 +11050,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "WS": {
@@ -10799,6 +11095,7 @@
     "sm",
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "YE": {
@@ -10842,6 +11139,7 @@
    "languages": [
     "ar"
    ],
+   "regional_languages": [],
    "ui_language": "ar"
   },
   "YT": {
@@ -10885,6 +11183,7 @@
    "languages": [
     "fr"
    ],
+   "regional_languages": [],
    "ui_language": "fr"
   },
   "ZA": {
@@ -10926,7 +11225,9 @@
     "Africa/Johannesburg"
    ],
    "languages": [
-    "en",
+    "en"
+   ],
+   "regional_languages": [
     "zu",
     "xh",
     "af",
@@ -10981,6 +11282,7 @@
    "languages": [
     "en"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   },
   "ZW": {
@@ -11027,6 +11329,7 @@
     "en",
     "nd"
    ],
+   "regional_languages": [],
    "ui_language": "en"
   }
  }

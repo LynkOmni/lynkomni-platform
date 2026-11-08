@@ -8,7 +8,9 @@
  ],
  "locale": "de-AT",
  "languages": [
-  "de",
+  "de"
+ ],
+ "regional_languages": [
   "hr",
   "sl",
   "hu"

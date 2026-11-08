@@ -8,7 +8,9 @@
  ],
  "locale": "en-GE",
  "languages": [
-  "ka",
+  "ka"
+ ],
+ "regional_languages": [
   "ab",
   "os"
  ],

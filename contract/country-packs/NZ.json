@@ -8,8 +8,10 @@
  ],
  "locale": "en-NZ",
  "languages": [
-  "en",
   "mi"
+ ],
+ "regional_languages": [
+  "en"
  ],
  "ui_language": "en",
  "tz": "Pacific/Auckland",

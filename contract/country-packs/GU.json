@@ -8,8 +8,10 @@
  ],
  "locale": "en-GU",
  "languages": [
-  "en",
   "ch"
+ ],
+ "regional_languages": [
+  "en"
  ],
  "ui_language": "en",
  "tz": "Pacific/Guam",

@@ -8,6 +8,9 @@
  ],
  "locale": "en-CC",
  "languages": [
+  "ms"
+ ],
+ "regional_languages": [
   "en"
  ],
  "ui_language": "en",

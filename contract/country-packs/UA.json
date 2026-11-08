@@ -6,12 +6,14 @@
  "currencies": [
   "UAH"
  ],
- "locale": "ru-UA",
+ "locale": "en-UA",
  "languages": [
-  "uk",
+  "uk"
+ ],
+ "regional_languages": [
   "ru"
  ],
- "ui_language": "ru",
+ "ui_language": "en",
  "tz": "Europe/Simferopol",
  "time_zones": [
   "Europe/Simferopol",

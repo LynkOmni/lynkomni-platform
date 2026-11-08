@@ -8,7 +8,9 @@
  ],
  "locale": "en-GB",
  "languages": [
-  "en",
+  "en"
+ ],
+ "regional_languages": [
   "cy",
   "ga",
   "gd"

@@ -8,7 +8,9 @@
  ],
  "locale": "en-AS",
  "languages": [
-  "sm",
+  "sm"
+ ],
+ "regional_languages": [
   "en"
  ],
  "ui_language": "en",
