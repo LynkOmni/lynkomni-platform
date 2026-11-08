@@ -1209,6 +1209,8 @@ function drawLog() {
 }
 /** Text that came from the page (an attribute or an input) never carries HTML characters into state; every value is escaped again when drawn. */
 const plain = (s) => s.replace(/[<>"'&]/g, "");
+/** A choice from a control is only ever one of the known values, never the control's own text. */
+const pick = (allowed, value, fallback) => allowed.find((x) => x === value) ?? fallback;
 function act(a) {
     const [k, v = ""] = plain(a).split(/:(.*)/s);
     switch (k) {
@@ -1264,8 +1266,8 @@ function act(a) {
             draw();
             return;
         case "lang":
-            S.lang = v;
-            $("#cLang").value = v;
+            S.lang = pick(Object.keys(PACKS), v, S.lang);
+            $("#cLang").value = S.lang;
             S.overlay = null;
             draw();
             return;
@@ -1336,18 +1338,18 @@ function act(a) {
 }
 function init() {
     const bind = (sel, fn) => $(sel).addEventListener("change", (e) => fn(e.target));
-    bind("#cSize", (el) => { S.size = el.value; S.overlay = null; draw(); });
-    bind("#cLink", (el) => { S.link = el.value; draw(); });
+    bind("#cSize", (el) => { S.size = pick(["computer", "tablet", "phone"], el.value, S.size); S.overlay = null; draw(); });
+    bind("#cLink", (el) => { S.link = pick(["good", "weak", "offline"], el.value, S.link); draw(); });
     bind("#cDark", (el) => { S.theme = el.checked ? "dark" : "light"; draw(); });
-    bind("#cMode", (el) => { S.mode = el.value; draw(); });
+    bind("#cMode", (el) => { S.mode = pick(["", "lite", "sunlight"], el.value, S.mode); draw(); });
     bind("#cReal", (el) => { S.realUser = el.checked; draw(); });
     const country = $("#cCountry");
     country.innerHTML = DATA.packOrder.map((c) => { const p = DATA.packs[c]; return `<option value="${esc(c)}">${esc(p.sample ? t("sample_country") : p.name)}</option>`; }).join("");
-    country.addEventListener("change", (e) => { S.country = e.target.value; draw(); });
+    country.addEventListener("change", (e) => { S.country = pick(DATA.packOrder, e.target.value, S.country); draw(); });
     const sel = $("#cLang");
     sel.insertAdjacentHTML("afterbegin", Object.entries(PACKS).map(([code, p]) => `<option value="${esc(code)}" lang="${esc(code)}" dir="${p.dir}">${esc(p.native)}</option>`).join(""));
     sel.value = "en";
-    sel.addEventListener("change", (e) => { S.lang = e.target.value; draw(); });
+    sel.addEventListener("change", (e) => { S.lang = pick(Object.keys(PACKS).concat(["xx", "xx-rtl"]), e.target.value, S.lang); draw(); });
     const kinds = ["home", "payment", "state:loading", "state:empty", "state:offline", "state:error", "state:not_found", "state:no_results", "state:permission", "state:maintenance", "state:sync_pending", "state:coming_soon", "state:success"];
     $("#stateButtons").innerHTML = kinds.map((k) => `<button type="button" data-state="${k}">${esc(k === "home" ? "Home" : k === "payment" ? "Payment (protected)" : k.slice(6).replace("_", " "))}</button>`).join("");
     $("#stateButtons").addEventListener("click", (e) => { const b = e.target.closest("button[data-state]"); if (b) {

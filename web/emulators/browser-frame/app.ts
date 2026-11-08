@@ -163,6 +163,8 @@ function drawLog(): void {
 
 /** Text that came from the page (an attribute or an input) never carries HTML characters into state; every value is escaped again when drawn. */
 const plain = (s: string): string => s.replace(/[<>"'&]/g, "");
+/** A choice from a control is only ever one of the known values, never the control's own text. */
+const pick = <V extends string>(allowed: readonly V[], value: string, fallback: V): V => allowed.find((x) => x === value) ?? fallback;
 function act(a: string): void {
   const [k, v = ""] = plain(a).split(/:(.*)/s);
   switch (k) {
@@ -179,7 +181,7 @@ function act(a: string): void {
     case "nav": S.screen = v === "home" ? "home" : v === "sell" ? "payment" : v === "business" ? "state:empty" : S.screen; S.overlay = null; draw(); return;
     case "go": S.screen = v === "home" ? "home" : S.screen; S.overlay = null; draw(); return;
     case "place": case "business": case "role": case "region": case "open": case "notice": case "help": case "support": case "assist": case "copy": S.overlay = null; record("ShellAction", "device", { action: a }); draw(); return;
-    case "lang": S.lang = v; $<HTMLSelectElement>("#cLang").value = v; S.overlay = null; draw(); return;
+    case "lang": S.lang = pick(Object.keys(PACKS), v, S.lang); $<HTMLSelectElement>("#cLang").value = S.lang; S.overlay = null; draw(); return;
     case "newsale": record("SaleRecorded", "device", { total: 1500, currency: pack().currency }); S.overlay = null; draw(); return;
     case "archive": { const id = `arch${++S.archived}`; S.undo.push(id, t("product_archived"), Date.now(), () => record("ProductArchiveUndone", "device", { id })); record("ProductArchived", "device", { id }); S.overlay = null; draw(); return; }
     case "void": { const id = `void${++S.voided}`; S.undo.push(id, t("sale_voided"), Date.now(), () => record("SaleVoidReversedWithReason", "device", { id, reason: "entered_in_error" }), true); record("SaleVoided", "device", { id }); S.overlay = null; draw(); return; }
@@ -195,18 +197,18 @@ function act(a: string): void {
 
 function init(): void {
   const bind = (sel: string, fn: (el: HTMLInputElement) => void) => $<HTMLInputElement>(sel).addEventListener("change", (e) => fn(e.target as HTMLInputElement));
-  bind("#cSize", (el) => { S.size = el.value as Viewport; S.overlay = null; draw(); });
-  bind("#cLink", (el) => { S.link = el.value as Link; draw(); });
+  bind("#cSize", (el) => { S.size = pick(["computer", "tablet", "phone"] as Viewport[], el.value, S.size); S.overlay = null; draw(); });
+  bind("#cLink", (el) => { S.link = pick(["good", "weak", "offline"] as Link[], el.value, S.link); draw(); });
   bind("#cDark", (el) => { S.theme = el.checked ? "dark" : "light"; draw(); });
-  bind("#cMode", (el) => { S.mode = el.value as "" | "lite" | "sunlight"; draw(); });
+  bind("#cMode", (el) => { S.mode = pick(["", "lite", "sunlight"] as ("" | "lite" | "sunlight")[], el.value, S.mode); draw(); });
   bind("#cReal", (el) => { S.realUser = el.checked; draw(); });
   const country = $<HTMLSelectElement>("#cCountry");
   country.innerHTML = DATA.packOrder.map((c) => { const p = DATA.packs[c] as CountryPack; return `<option value="${esc(c)}">${esc(p.sample ? t("sample_country") : p.name)}</option>`; }).join("");
-  country.addEventListener("change", (e) => { S.country = (e.target as HTMLSelectElement).value; draw(); });
+  country.addEventListener("change", (e) => { S.country = pick(DATA.packOrder, (e.target as HTMLSelectElement).value, S.country); draw(); });
   const sel = $<HTMLSelectElement>("#cLang");
   sel.insertAdjacentHTML("afterbegin", Object.entries(PACKS).map(([code, p]) => `<option value="${esc(code)}" lang="${esc(code)}" dir="${p.dir}">${esc(p.native)}</option>`).join(""));
   sel.value = "en";
-  sel.addEventListener("change", (e) => { S.lang = (e.target as HTMLSelectElement).value; draw(); });
+  sel.addEventListener("change", (e) => { S.lang = pick(Object.keys(PACKS).concat(["xx", "xx-rtl"]), (e.target as HTMLSelectElement).value, S.lang); draw(); });
   const kinds: Screen[] = ["home", "payment", "state:loading", "state:empty", "state:offline", "state:error", "state:not_found", "state:no_results", "state:permission", "state:maintenance", "state:sync_pending", "state:coming_soon", "state:success"];
   $("#stateButtons").innerHTML = kinds.map((k) => `<button type="button" data-state="${k}">${esc(k === "home" ? "Home" : k === "payment" ? "Payment (protected)" : k.slice(6).replace("_", " "))}</button>`).join("");
   $("#stateButtons").addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("button[data-state]"); if (b) { const picked = kinds.find((k) => k === b.dataset["state"]); if (picked) { S.screen = picked; S.overlay = null; draw(); } } });
