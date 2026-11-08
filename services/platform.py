@@ -43,6 +43,12 @@ class Platform(_Base):
         s.seats, s.meter, s.edge, s.guest, s.settings = Seats(s), Meter(s), Edge(s), GuestCheckout(s), BusinessSettings(s)
         from services.invoicing import Invoicing
         s.invoicing = Invoicing(s)
+        from services.flow import Flow
+        from identity.account import Account
+        from identity.automations import register as register_section_2
+        s.flow = Flow(s.c)                                   # LynkFlow: every automation in catalog/automations.v1.json runs here
+        s.account = Account(s, s.flow)                        # LynkOmni Account (build section 2)
+        register_section_2(s.flow, s.account, s)
     def mesh_for(s, ccbox, **kw):
         """A mesh relay whose state is saved in this platform's database."""
         from services.improvements import MeshRelay

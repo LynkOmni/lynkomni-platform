@@ -22,6 +22,13 @@ class Emulators(unittest.TestCase):
         for i in ids:
             self.assertTrue(os.path.isfile(os.path.join(WEB, "dist", f"lynkomni-{i}.html")), f"run node web/build.mjs for {i}")
 
+    def test_identifiers_in_emulators_come_only_from_the_registry(self):
+        """Every public id an emulator shows uses a type from core/ids.py (never an invented prefix such as LOSEC-; fixed in build section 2)."""
+        from core.ids import TYPES
+        for f in SOURCES + [p for p in glob.glob(os.path.join(WEB, "*", "strings.en.json"))]:
+            for m in set(re.findall(r"\bLO([A-Z]{2,5})-", read(f))):
+                self.assertIn(m, TYPES, f"{f}: LO{m}- is not a registered identifier type")
+
     def test_country_chooser_opens_on_the_sample_country_and_lists_every_pack(self):
         """Step 0 (blueprint 42 A): emulators are built for no country. The chooser lists every country pack with the neutral
         sample pack first, and no country code is written into an emulator's source."""

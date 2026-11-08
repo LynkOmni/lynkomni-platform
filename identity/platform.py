@@ -8,7 +8,8 @@ from services.suite import ServiceOff
 
 OFFLINE_DAYS = {"owner": 7, "manager": 7, "cashier": 14}        # how long a role may stay offline before re-authenticating
 STAFF_PERMS = {"support_agent": {"case.view", "conversation.reply", "transfer.request"}, "support_lead": {"case.view", "conversation.reply", "transfer.request", "transfer.accept", "case.reassign"},
-               "safety": {"report.view", "report.handle"}, "security": {"vuln.view", "vuln.handle", "report.view"}, "verifier": {"verification.review"}}
+               "safety": {"report.view", "report.handle"}, "security": {"vuln.view", "vuln.handle", "report.view"}, "verifier": {"verification.review"},
+               "accountant": {"ledger.view", "invoice.view", "analytics.view"}}   # an outside accountant: reads only, and only with the owner's consent (Account.clients)
 MERCHANT_ROLES = ("cashier", "manager", "owner")
 HIGH_RISK = {"transfer_ownership", "remove_last_admin", "close_organization", "change_payout", "export_data", "revoke_device"}
 STAGES = {"core": True, "authentication": True, "verification": False, "fraud": False, "global": False, "ecosystem": False}   # pilot scope

@@ -202,13 +202,26 @@
  },
  "receipt_check": "https://pay.lynkomni.com/r/{LORCP}",
  "account_paths": [
+  "/",
+  "/billing",
+  "/businesses",
   "/invoices",
+  "/memberships",
   "/notifications",
   "/orders",
   "/payments",
   "/payslips",
+  "/privacy",
+  "/profile",
+  "/recover",
+  "/security",
+  "/sign-in",
+  "/sign-up",
   "/start",
-  "/transactions"
+  "/start/{LODOC}",
+  "/support",
+  "/transactions",
+  "/wallet"
  ],
  "pay_paths": [
   "/r/{LORCP}",

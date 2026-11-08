@@ -160,7 +160,10 @@ def in_own_script(text, lang):
     import unicodedata
     with open(os.path.join(ROOT, "design", "fonts", "scripts.v1.json"), encoding="utf-8") as f:
         word = _SCRIPT_WORD.get(json.load(f)["languages"][lang]["script"])
-    return not word or any(unicodedata.name(c, "").startswith(word) for c in text)   # str.startswith accepts a tuple of words
+    rest, _ = protect(text)                                                              # a text of only names, placeholders and numbers has nothing to write in any script
+    if not word or not any(c.isalpha() for c in re.sub(r"⟦\d+⟧", "", rest)):
+        return True
+    return any(unicodedata.name(c, "").startswith(word) for c in text)   # str.startswith accepts a tuple of words
 
 
 class TableTranslator(Translator):

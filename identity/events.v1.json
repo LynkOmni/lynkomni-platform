@@ -1,0 +1,286 @@
+{
+ "version": 1,
+ "note": "Account events (build section 2, blueprint 22 and 41). These are written by the cloud only, never by a device, on the person's own '_identity' stream. Payloads carry references (public ids, scopes, site names), never phone numbers, emails, codes or secrets. The merchant-core contract in contract/ stays the authority for device events; this register is the authority for account events, and every 'event:' trigger in catalog/automations.v1.json must name an event from one of the two. Two shell events of build section 1 (CountryPackSelected, ConnectionWeak) are listed here too: they are local device triggers for the shell's own automations.",
+ "events": {
+  "AccountCreated": {
+   "payload": [
+    "lynkid",
+    "username",
+    "lang"
+   ],
+   "note": "sign-up finished: username taken, contact verified, recovery code confirmed"
+  },
+  "UsernameChanged": {
+   "payload": [
+    "lynkid",
+    "old",
+    "new"
+   ],
+   "note": "the old username redirects; it is never reissued to anyone else"
+  },
+  "PasskeyEnrolled": {
+   "payload": [
+    "lynkid",
+    "locrd",
+    "device_name"
+   ]
+  },
+  "PasskeyRevoked": {
+   "payload": [
+    "lynkid",
+    "locrd"
+   ]
+  },
+  "SessionStarted": {
+   "payload": [
+    "lynkid",
+    "site",
+    "device_name",
+    "new_device",
+    "new_place"
+   ],
+   "note": "triggers the sign-in alert automation when new_device or new_place is true"
+  },
+  "SessionRevoked": {
+   "payload": [
+    "lynkid",
+    "site",
+    "by"
+   ],
+   "note": "by = self, security_center, recovery or staff"
+  },
+  "StepUpPassed": {
+   "payload": [
+    "lynkid",
+    "scope"
+   ]
+  },
+  "RecoveryStarted": {
+   "payload": [
+    "lynkid",
+    "path",
+    "recovery_id",
+    "ready_at"
+   ],
+   "note": "path = device, code or assisted; triggers the recovery guide"
+  },
+  "RecoveryCancelled": {
+   "payload": [
+    "lynkid",
+    "recovery_id",
+    "by"
+   ]
+  },
+  "RecoveryCompleted": {
+   "payload": [
+    "lynkid",
+    "recovery_id",
+    "restricted_until"
+   ]
+  },
+  "SecurityAlertSent": {
+   "payload": [
+    "lynkid",
+    "kind",
+    "channels"
+   ],
+   "note": "kind = new_sign_in, recovery_started, recovery_done, payout_change, data_request; the message never carries a link"
+  },
+  "ConsentGranted": {
+   "payload": [
+    "lynkid",
+    "locns",
+    "scope",
+    "grantee",
+    "expires_at"
+   ],
+   "note": "every data-sharing consent (health pack, accountant, lender, developer app, support)"
+  },
+  "ConsentWithdrawn": {
+   "payload": [
+    "lynkid",
+    "locns",
+    "by"
+   ]
+  },
+  "ConsentExpiring": {
+   "payload": [
+    "lynkid",
+    "locns",
+    "expires_at"
+   ],
+   "note": "written by the consent-expiry automation seven days before the end"
+  },
+  "ConsentExpired": {
+   "payload": [
+    "lynkid",
+    "locns"
+   ]
+  },
+  "PayoutChangeRequested": {
+   "payload": [
+    "lynkid",
+    "lynkoid",
+    "ready_at"
+   ],
+   "note": "takeover safeguard: a waiting period before payout or bank details change unless a second enrolled device approves"
+  },
+  "PayoutChangeApplied": {
+   "payload": [
+    "lynkid",
+    "lynkoid",
+    "approved_by"
+   ]
+  },
+  "PayoutChangeCancelled": {
+   "payload": [
+    "lynkid",
+    "lynkoid",
+    "by"
+   ]
+  },
+  "DataRequestOpened": {
+   "payload": [
+    "lynkid",
+    "request_id",
+    "due_at"
+   ],
+   "note": "download my records; the data-request timer automation watches due_at"
+  },
+  "DataRequestReady": {
+   "payload": [
+    "lynkid",
+    "request_id",
+    "expires_at"
+   ]
+  },
+  "AccountCloseRequested": {
+   "payload": [
+    "lynkid",
+    "closes_at"
+   ],
+   "note": "a grace period; the LynkID is retired at the end and never reused"
+  },
+  "AccountClosed": {
+   "payload": [
+    "lynkid"
+   ]
+  },
+  "StandingPaymentApproved": {
+   "payload": [
+    "lynkid",
+    "losub",
+    "merchant",
+    "cap_minor",
+    "currency",
+    "provider"
+   ],
+   "note": "N4: the customer's own capped standing instruction, held by the licensed provider and told every time it is used"
+  },
+  "StandingPaymentRevoked": {
+   "payload": [
+    "lynkid",
+    "losub",
+    "by"
+   ]
+  },
+  "MembershipLeft": {
+   "payload": [
+    "lynkid",
+    "lynkoid"
+   ]
+  },
+  "RegistrationStarted": {
+   "payload": [
+    "lynkid",
+    "application_id",
+    "country"
+   ],
+   "note": "N14 Start a business; the same names as the merchant-core contract, on the person's stream"
+  },
+  "RegistrationSubmitted": {
+   "payload": [
+    "lynkid",
+    "application_id",
+    "country",
+    "gateway"
+   ]
+  },
+  "RegistrationApproved": {
+   "payload": [
+    "lynkid",
+    "application_id",
+    "lynkoid"
+   ]
+  },
+  "RegistrationRejected": {
+   "payload": [
+    "lynkid",
+    "application_id",
+    "reason_code"
+   ]
+  },
+  "BankAccountReferred": {
+   "payload": [
+    "lynkid",
+    "application_id",
+    "partner"
+   ]
+  },
+  "GuideOffered": {
+   "payload": [
+    "lynkid",
+    "topic",
+    "steps"
+   ],
+   "note": "LynkAssist guide (inform): recovery or start-a-business steps, labelled as a suggestion"
+  },
+  "DataRequestReminder": {
+   "payload": [
+    "lynkid",
+    "request_id",
+    "due_at"
+   ],
+   "note": "data-request timer automation: the request is due soon or overdue"
+  },
+  "CheckInDrafted": {
+   "payload": [
+    "lynkoid",
+    "days_quiet"
+   ],
+   "note": "quiet-business watch (draft): a support check-in a person confirms before it is sent"
+  },
+  "RenewalReminderSent": {
+   "payload": [
+    "lynkid",
+    "family",
+    "tier",
+    "renews_at"
+   ],
+   "note": "renewal reminder (inform), seven days before a paid plan renews"
+  },
+  "AutomationRan": {
+   "payload": [
+    "automation",
+    "level",
+    "trigger",
+    "did",
+    "why",
+    "depth"
+   ],
+   "note": "every LynkFlow run, with 'Why did this happen?'"
+  },
+  "CountryPackSelected": {
+   "payload": [
+    "country"
+   ],
+   "note": "shell event (build section 1, left out of every register until section 2): the person chose a country pack; smart defaults follow. Written by the device for itself, never sent as a merchant-core event"
+  },
+  "ConnectionWeak": {
+   "payload": [
+    "link"
+   ],
+   "note": "shell event (build section 1): the connection became weak or offline; the data-saver plan follows. Local to the device"
+  }
+ }
+}

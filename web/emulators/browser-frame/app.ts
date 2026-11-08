@@ -125,7 +125,7 @@ function overlay(): string {
     case "help": return wrap("end", helpPanel(t("tab_home"), [{ id: "1", title: t("help_article_1"), href: "/faq/pos/offline" }, { id: "2", title: t("help_article_2"), href: "/faq/mpay/waiting" }], t, icon));
     case "bell": {
       const list: Notice[] = [
-        { id: "n1", at: Date.now() - 60000, urgency: "security", title: t("notice_signin"), record: "LOSEC-2201-4410-8832", href: "/security" },
+        { id: "n1", at: Date.now() - 60000, urgency: "security", title: t("notice_signin"), record: "LONTF-2201-4410-8832", href: "/security" },
         { id: "n2", at: Date.now() - 3600000, urgency: "transactional", title: t("notice_payment"), record: "LORCP-7731-0042-9910", read: true, href: "/sell" },
         { id: "n3", at: Date.now() - 7200000, urgency: "low", title: t("notice_insight"), read: true, href: "/analytics" },
       ];

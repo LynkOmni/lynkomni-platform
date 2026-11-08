@@ -21,6 +21,11 @@
    "first_tap": "[data-act=\"shell:launcher\"]",
    "file_kb": 560,
    "file_kb_reason": "holds every language pack of the whole shell (16 languages x 177 texts, about 100 KB) and the nine state pictures in both themes; a real app loads one language at a time"
+  },
+  "account-site": {
+   "first_tap": "[data-act=\"go:security\"]",
+   "file_kb": 900,
+   "file_kb_reason": "holds every language pack of the shell (138 texts) and the account site (199 texts) in 26 languages, about 650 KB of UTF-8 text, plus the state pictures in both themes; a real app loads one language at a time. First-screen and tap budgets are unchanged."
   }
  }
 }

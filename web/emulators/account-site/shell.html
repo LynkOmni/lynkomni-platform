@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LynkOmni Account</title>
+<meta name="description" content="Interactive emulator of LynkOmni Account (account.lynkomni.com) on a phone and in the browser: sign-up, sign-in, recovery, the Security Center and every account page, built on the shared shell.">
+<style>/*@TOKENS@*/
+/*@STYLE@*/</style>
+</head>
+<body>
+<header class="pagehead">
+  <h1>LynkOmni Account <span class="draft">Draft design</span></h1>
+  <p>Interactive emulator of one identity for every LynkOmni place (build section 2): sign-up, sign-in with a passkey, the three recovery paths, the Security Center, businesses and the accountant's client switcher, wallet, plans, privacy, standing payments and Start a business. Sample data, sandbox partners, test money only. Not reviewed by a designer yet.</p>
+</header>
+<main class="stage">
+  <section class="rig" id="rig" aria-label="Browser window">
+    <div class="fit">
+      <div class="device computer" id="device">
+        <div class="chrome">
+          <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="tab" aria-hidden="true"><span class="favicon">/*@BODYMARK@*/</span><span id="tabTitle">LynkOmni Account</span></div>
+          <div class="urlbar" role="group" aria-label="Address bar"><span class="lockic">/*@I:ui-lock@*/</span><span class="url" id="url">https://account.lynkomni.com/</span></div>
+        </div>
+        <div class="display light" id="display"></div>
+      </div>
+    </div>
+  </section>
+  <aside class="panel" aria-label="Emulator controls">
+    <h2>Try it</h2>
+    <p class="help">Everything follows the agreed identity rules: passkeys first, SMS never enough on its own, a recovery that other devices can cancel, a restricted day after recovery, consents with a scope and an end, a waiting period before payout details change, and nothing approved before the authority says so.</p>
+    <h3>Conditions</h3>
+    <label class="row"><span>Size</span> <select id="cSize"><option value="computer">Computer (1280)</option><option value="tablet">Tablet (800)</option><option value="phone">Phone (390)</option></select></label>
+    <label class="row"><span>Connection</span> <select id="cLink"><option value="good">Good</option><option value="weak">Weak</option><option value="offline">Offline</option></select></label>
+    <label class="row"><span>Country</span> <select id="cCountry"></select></label>
+    <label><input type="checkbox" id="cReal"> <span>Show what a person sees today in the chosen country<br><span class="help">Start a business and standing payments say "Coming to your country soon." until their licensed partner is signed there.</span></span></label>
+    <label><input type="checkbox" id="cDark"> <span>Dark theme</span></label>
+    <label class="row"><span>Mode</span> <select id="cMode"><option value="">Normal</option><option value="lite">Lite (no pictures, system fonts)</option><option value="sunlight">Sunlight (high contrast)</option></select></label>
+    <label class="row"><span>Language</span> <select id="cLang"><option value="xx">Long text test</option><option value="xx-rtl">Right-to-left test</option></select></label>
+    <h3>Screens</h3>
+    <p class="help" id="screensHint"></p>
+    <div class="states" id="stateButtons"></div>
+    <h3>Event log (what the account records)</h3>
+    <ul class="log" id="log" aria-live="polite"></ul>
+  </aside>
+</main>
+<script>/*@SCRIPT@*/</script>
+</body>
+</html>

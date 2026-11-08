@@ -11,6 +11,7 @@ FILE = os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-pos-terminal.htm
 PAGE = "file://" + FILE
 PHONE = os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-merchant-phone.html")
 BROWSER = os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-browser-frame.html")
+ACCOUNT = os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-account-site.html")
 try:
     from playwright.sync_api import sync_playwright
 except ImportError:          # pragma: no cover
@@ -212,6 +213,73 @@ class ShellLayout(DarkPass, unittest.TestCase):
             self.dark_pass(b, "file://" + BROWSER)
             # the page that holds the window never scrolls sideways at a narrow viewport either
             pg = b.new_page(viewport={"width": 390, "height": 900}); pg.goto("file://" + BROWSER)
+            self.assertLessEqual(pg.evaluate("document.documentElement.scrollWidth"), 390)
+            b.close()
+        for size in ("computer", "tablet", "phone"):
+            self.assertEqual(len({sizes[(size, l)] for l in LANGS}), 1, f"size changed on {size}: {sizes}")
+
+
+@unittest.skipUnless(sync_playwright and os.path.isfile(ACCOUNT), "Playwright with Chromium is needed")
+class AccountLayout(DarkPass, unittest.TestCase):
+    """LynkOmni Account (build section 2): sign-in, the four sign-up steps, the three recovery paths, every account page, the
+    step-up sheet and the shell's overlays, at computer, tablet and phone size, in every language."""
+    PAGES = ["overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "support", "payslips", "payments", "start"]
+
+    def walk(self, pg, lang="en"):
+        found = {}
+        def check(name):
+            p = problems(pg, lang)
+            if p:
+                found[name] = p
+        for st in ["signin"] + self.PAGES:
+            pg.click(f'#stateButtons button[data-state="{st}"]'); check(st)
+        pg.click('#stateButtons button[data-state="signup"]'); check("signup username")
+        pg.fill("#usernameIn", "grace.k"); pg.click('[data-act="signup:username"]'); check("signup contact")
+        pg.click('[data-act="signup:contact"]'); check("signup passkey")
+        pg.click('[data-act="signup:passkey"]'); check("signup recovery code")
+        pg.click('[data-act="signup:code"]'); check("signup done")
+        for answers, name in ((["device:yes"], "recover device"), (["device:no", "code:yes"], "recover code"), (["device:no", "code:no"], "recover assisted")):
+            pg.click('#stateButtons button[data-state="recover"]'); check("recover question")
+            for a in answers:
+                pg.click(f'[data-act="recover:{a}"]')
+            check(name)
+            pg.click('[data-act^="recover:start:"]'); check(name + " started")
+        pg.click('#stateButtons button[data-state="security"]')
+        pg.locator('[data-act^="passkey:remove:"]').first.click(); check("step-up sheet"); pg.click('[data-act="stepup:ok"]'); check("passkey removed")
+        pg.click('#stateButtons button[data-state="start"]'); pg.click('[data-act="start:begin"]'); check("start steps")
+        for st in ("profile", "registration", "tax_number"):
+            pg.click(f'[data-act="start:step:{st}"]')
+        pg.click('[data-act="start:submit"]'); check("start submitted"); pg.click('[data-act="start:poll"]'); check("start approved")
+        pg.click('#stateButtons button[data-state="privacy"]'); pg.click('[data-act="data:request"]'); check("data requested")
+        pg.click('[data-act="stepup:close"]'); pg.click('[data-act="stepup:ok"]'); check("closing")
+        pg.click('#stateButtons button[data-state="overview"]')
+        for ov in ("launcher", "account", "globe", "search", "help", "bell", "sync"):
+            if pg.locator(f'[data-act="shell:{ov}"]').count() == 0:
+                pg.click('[data-act="shell:account"]')
+            pg.locator(f'[data-act="shell:{ov}"]').first.click(); check(ov)
+            if ov == "search":
+                pg.fill("#cmdIn", "sec"); check("search results")
+            pg.keyboard.press("Escape")
+        if pg.locator('[data-act="nav:more"]').count():
+            pg.click('[data-act="nav:more"]'); check("more pages"); pg.keyboard.press("Escape")
+        return found
+
+    def test_account_breaks_nowhere_at_any_size_or_language(self):
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            sizes = {}
+            for size in ("computer", "tablet", "phone"):
+                for lang in LANGS:
+                    pg = b.new_page(viewport={"width": 1500, "height": 1100}, reduced_motion="reduce")
+                    pg.goto("file://" + ACCOUNT)
+                    pg.select_option("#cSize", size); pg.select_option("#cLang", lang)
+                    sizes[(size, lang)] = measure(pg)
+                    self.assertEqual(self.walk(pg, lang), {}, f"{lang} on {size}")
+                    want = "rtl" if lang == "xx-rtl" else "ltr" if lang == "xx" else translation._dir(lang)
+                    self.assertEqual(pg.get_attribute("#display", "dir"), want, lang)
+                    pg.close()
+            self.dark_pass(b, "file://" + ACCOUNT)
+            pg = b.new_page(viewport={"width": 390, "height": 900}); pg.goto("file://" + ACCOUNT)
             self.assertLessEqual(pg.evaluate("document.documentElement.scrollWidth"), 390)
             b.close()
         for size in ("computer", "tablet", "phone"):
