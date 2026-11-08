@@ -221,6 +221,9 @@ class FlowRunner(unittest.TestCase):
             if a["trigger"].startswith("event:") and a["build_section"] <= BUILT_SECTIONS:
                 name = a["trigger"][6:]
                 self.assertTrue(name in core or name in EVENTS, f"{a['id']} triggers on unknown event {name}")
+    def test_shared_vectors_are_current(self):
+        import subprocess, sys
+        self.assertEqual(subprocess.run([sys.executable, os.path.join(ROOT, "tools", "account_vectors.py"), "--check"], capture_output=True, text=True).returncode, 0, "run python3 tools/account_vectors.py")
     def test_section_2_automations_match_the_register_levels(self):
         for aid, level in (("sign-in-alert", "inform"), ("recovery-guide", "inform"), ("consent-expiry", "inform"), ("data-request-timer", "inform"), ("start-business-tracker", "inform"), ("churn-watch", "draft"), ("renewal-reminder", "inform")):
             self.assertEqual(REGISTER[aid]["level"], level); self.assertEqual(REGISTER[aid]["build_section"], 2); self.assertIn(aid, self.f.handlers)
