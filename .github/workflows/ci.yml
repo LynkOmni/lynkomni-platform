@@ -6,7 +6,7 @@ jobs:
     steps: [{uses: actions/checkout@v5}, {uses: actions/setup-python@v7, with: {python-version: "3.12"}}, {run: pip install cryptography fonttools brotli}, {run: python -m unittest discover -s tests -t .}, {run: python contract/tools/validate_contract.py}]
   typescript:                  # web, PWA, dashboards, Node.js services
     runs-on: ubuntu-24.04
-    steps: [{uses: actions/checkout@v5}, {uses: actions/setup-node@v5, with: {node-version: "22"}}, {run: cd ts && npm install && npx tsc -p tsconfig.ci.json && node --test "dist/test/*.test.js"}, {name: interface emulators are built from the current code, run: TSC=ts/node_modules/.bin/tsc node web/build.mjs --check}]
+    steps: [{uses: actions/checkout@v5}, {uses: actions/setup-node@v7, with: {node-version: "22"}}, {run: cd ts && npm install && npx tsc -p tsconfig.ci.json && node --test "dist/test/*.test.js"}, {name: interface emulators are built from the current code, run: TSC=ts/node_modules/.bin/tsc node web/build.mjs --check}]
   rust:                        # offline engine: native, JNI, static library, WebAssembly
     runs-on: ubuntu-24.04
     steps: [{uses: actions/checkout@v5}, {uses: dtolnay/rust-toolchain@stable, with: {targets: wasm32-unknown-unknown}}, {run: cd rust/lynk-offline && cargo test}, {run: cd rust/lynk-offline && cargo build --target wasm32-unknown-unknown}]
