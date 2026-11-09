@@ -409,7 +409,7 @@ body { margin: 0; min-height: 100vh; }
 .netchip { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--status-success-border); background: var(--status-success-bg); color: var(--status-success-text); border-radius: 999px; padding: 2px 8px; font: 600 11px var(--font-body); min-height: 28px; }
 .netchip.off { border-color: var(--status-warning-border); background: var(--status-warning-bg); color: var(--status-warning-text); }
 .netchip .ic { width: 12px; height: 12px; }
-.netchip .count { background: var(--brand-primary); color: var(--text-on-brand, var(--bg-surface)); border-radius: 999px; padding: 0 5px; }
+.netchip .count { background: var(--brand-primary); color: var(--on-brand); border-radius: 999px; padding: 0 5px; }
 .body { flex: 1; min-height: 0; overflow: auto; }
 .tabbar { display: flex; border-top: 1px solid var(--border-subtle); background: var(--bg-surface); }
 .tabbar button { flex: 1; min-height: 44px; border: 0; background: transparent; color: var(--text-secondary); display: flex; flex-direction: column; align-items: center; gap: 1px; font: 600 10px var(--font-body); cursor: pointer; overflow-wrap: anywhere; }
@@ -420,7 +420,7 @@ body { margin: 0; min-height: 100vh; }
 .grid-side { padding: 8px; overflow: auto; }
 .cats { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
 .pill { min-height: 28px; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 600 11px var(--font-body); cursor: pointer; }
-.pill.on { background: var(--brand-primary); color: var(--text-on-brand, var(--bg-surface)); border-color: var(--brand-primary); }
+.pill.on { background: var(--brand-primary); color: var(--on-brand); border-color: var(--brand-primary); }
 .pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 6px; }
 .pgrid.small { grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); padding: 0 8px; }
 .prod { min-height: 64px; border-radius: 10px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-primary); display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px; padding: 6px 8px; text-align: start; cursor: pointer; }
@@ -440,7 +440,7 @@ body { margin: 0; min-height: 100vh; }
 .tot { display: flex; justify-content: space-between; align-items: baseline; margin-top: 6px; font-size: 12px; }
 .tot strong { font: 700 18px var(--font-heading); font-feature-settings: var(--font-feature-tabular); }
 .second { margin: 2px 0 6px; font-size: 10px; color: var(--text-secondary); overflow-wrap: anywhere; }
-.primary { min-height: 40px; border-radius: 10px; border: 0; background: var(--brand-primary); color: var(--text-on-brand, var(--bg-surface)); font: 600 13px var(--font-body); cursor: pointer; padding: 0 14px; }
+.primary { min-height: 40px; border-radius: 10px; border: 0; background: var(--brand-primary); color: var(--on-brand); font: 600 13px var(--font-body); cursor: pointer; padding: 0 14px; }
 .primary.small { min-height: 32px; font-size: 12px; }
 .primary:disabled, button[disabled] { opacity: .5; cursor: not-allowed; }
 .link { background: transparent; border: 0; color: var(--brand-ink); font: 600 12px var(--font-body); cursor: pointer; min-height: 32px; }
@@ -461,7 +461,7 @@ body { margin: 0; min-height: 100vh; }
 .quick { display: flex; gap: 6px; flex-wrap: wrap; }
 .row { display: flex; gap: 8px; flex-wrap: wrap; }
 .row button { min-height: 36px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 600 12px var(--font-body); padding: 0 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
-.row button.primary { border: 0; background: var(--brand-primary); color: var(--text-on-brand, var(--bg-surface)); }
+.row button.primary { border: 0; background: var(--brand-primary); color: var(--on-brand); }
 .row .ic { width: 16px; height: 16px; }
 .bigcheck { width: 56px; height: 56px; padding: 12px; border-radius: 50%; background: var(--status-success-bg); color: var(--status-success-text); display: inline-flex; }
 .bigcheck svg { width: 100%; height: 100%; }

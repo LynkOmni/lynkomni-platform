@@ -61,6 +61,18 @@ class Emulators(unittest.TestCase):
             self.assertNotRegex(txt, r"\brgba?\(|\bhsla?\(", f"{f}: colour function, use a token")
             self.assertNotIn("7C4DFF", txt.upper(), f)
 
+    def test_every_css_variable_is_a_real_token(self):
+        """A misspelled or invented token silently falls back to another colour (found in build section 3: --text-on-brand
+        gave dark text on the brand colour in the dark theme). Every var(--x) must be a design token, set in the same file,
+        or one of the values the runtime sets (RUNTIME_VARS)."""
+        tokens = set(re.findall(r"(--[\w-]+)\s*:", read(os.path.join(ROOT, "design", "generated", "tokens.css"))))
+        RUNTIME_VARS = {"--fit"}   # emulator.ts fitToWidth: how much a device is shown smaller to fit the window
+        files = SOURCES + glob.glob(os.path.join(ROOT, "web", "device", "*.css")) + glob.glob(os.path.join(ROOT, "web", "shell", "*.css")) + [os.path.join(ROOT, "ts", "src", "emulator.ts")]
+        for f in files:
+            txt = read(f); own = set(re.findall(r"(--[\w-]+)\s*:", txt))
+            unknown = set(re.findall(r"var\((--[\w-]+)", txt)) - tokens - own - RUNTIME_VARS
+            self.assertEqual(unknown, set(), f"{f}: not a design token")
+
     def test_no_fake_provider_or_maker_marks(self):
         for f in SOURCES:
             m = FAKE_MARKS.search(read(f))

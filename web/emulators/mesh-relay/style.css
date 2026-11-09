@@ -8,7 +8,7 @@
 .mb p { margin: 0; }
 .mb ul { list-style: none; margin: 0; padding: 0; }
 .mb li { display: flex; gap: 8px; align-items: center; padding: 4px 0; border-bottom: 1px solid var(--border-subtle); }
-.mlabel { position: absolute; top: -12px; left: 50%; margin-left: -14px; width: 28px; height: 28px; border-radius: 50%; background: var(--brand-primary); color: var(--text-on-brand, var(--bg-surface)); display: flex; align-items: center; justify-content: center; font: 700 14px var(--font-body); }
+.mlabel { position: absolute; top: -12px; left: 50%; margin-left: -14px; width: 28px; height: 28px; border-radius: 50%; background: var(--brand-primary); color: var(--on-brand); display: flex; align-items: center; justify-content: center; font: 700 14px var(--font-body); }
 .link { display: flex; justify-content: space-between; padding: 0 8px; }
 .link i { width: 12px; height: 12px; border-radius: 50%; background: var(--border-strong); }
 .link.moving i { animation: hop 1.2s infinite; background: var(--brand-primary); }
@@ -19,7 +19,7 @@
 .ic svg { width: 100%; height: 100%; display: block; }
 .chip .ic { width: 12px; height: 12px; }
 .primary, .secondary { min-height: 44px; border-radius: 12px; font: 600 14px var(--font-body); cursor: pointer; }
-.primary { border: 0; background: var(--brand-primary); color: var(--text-on-brand, var(--bg-surface)); }
+.primary { border: 0; background: var(--brand-primary); color: var(--on-brand); }
 .secondary { border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); }
 button[disabled] { opacity: .5; cursor: not-allowed; }
 .note { color: var(--text-secondary); font-size: 12px; overflow-wrap: anywhere; }
