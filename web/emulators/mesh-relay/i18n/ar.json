@@ -1,0 +1,11 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ar",
+ "native": "العربية",
+ "source_sha256": "7ab03a59e233c01eb3881730859a8b9ae02cb7148e1bcb84745dcac083fdda92",
+ "texts": {
+  "title": "مرحّل LynkMesh بين الأجهزة"
+ }
+}

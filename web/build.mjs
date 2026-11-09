@@ -4,6 +4,7 @@
 // Steps: compile the TypeScript (tsc), join the modules into one script, add the design tokens, the emulator's CSS and
 // the brand, icon and picture data from web/emulators/build_data.py. No network, no outside libraries.
 import { execFileSync } from "node:child_process";
+import { deflateRawSync } from "node:zlib";
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -11,13 +12,17 @@ import { fileURLToPath } from "node:url";
 const WEB = dirname(fileURLToPath(import.meta.url));
 const ROOT = dirname(WEB);
 const OUT = join(WEB, "emulators", "dist");
+const DEVICE_MODULES = ["ts/src/pos.js", "ts/src/merchant.js", "ts/src/business.js", "ts/src/agent.js", "ts/src/restaurant.js", "ts/src/emulator.js"];
 const EMULATORS = [
-  { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: ["ts/src/pos.js", "web/emulators/pos-terminal/app.js"] },
-  { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: ["ts/src/pos.js", "ts/src/merchant.js", "web/emulators/merchant-phone/app.js"] },
+  { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: [...DEVICE_MODULES, "web/emulators/pos-terminal/app.js"] },
+  { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: [...DEVICE_MODULES, "web/emulators/merchant-phone/app.js"] },
   { id: "browser-frame", out: "lynkomni-browser-frame.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/shell.js", "web/emulators/browser-frame/app.js"],
     extraCss: ["web/shell/shell.css"] },
   { id: "account-site", out: "lynkomni-account-site.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/shell.js", "ts/src/account.js", "web/emulators/account-site/app.js"],
     extraCss: ["web/shell/shell.css"] },
+  // build section 3: the Business app devices, all on the shared device runtime (ts/src/emulator.js) and words (web/pos)
+  ...["counter-tablet", "kitchen-screen", "customer-display", "rider-phone", "stock-scanner", "button-phone", "vcard-card", "mesh-relay", "owner-web"]
+    .map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...DEVICE_MODULES, `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
 ];
 
 const read = (p) => readFileSync(p, "utf8");
@@ -34,6 +39,17 @@ function bundle(mods) {
 }
 
 // Country packs travel compact (build_data.py): inflate each pack's service states and payment readiness before the app starts.
+// The data travels compressed (owner speed budget): only the English words stay plain, so the checks in tests/test_emulators.py
+// can read them and the file stays small. Everything else (other languages, country packs, pictures, brand) is
+// deflate-compressed, about a quarter of its size, and unpacked by the browser's own DecompressionStream before the app
+// starts. A real app downloads one language and one country at a time; this demo file carries them all.
+function packData(D) {
+  const { i18n = {}, ...rest } = D;
+  const { en, ...langs } = i18n;
+  const Z = deflateRawSync(Buffer.from(JSON.stringify({ ...rest, i18n: langs })), { level: 9 }).toString("base64");
+  return { i18n: en ? { en } : {}, Z };
+}
+const UNPACK = `try { const z = Uint8Array.from(atob(DATA.Z), (c) => c.charCodeAt(0)); const x = JSON.parse(await new Response(new Blob([z]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text()); const en = DATA.i18n; Object.assign(DATA, x); DATA.i18n = { ...en, ...x.i18n }; delete DATA.Z; } catch { document.body.textContent = "This browser is too old for this demo. Please open it in a current browser."; return; }`;
 const INFLATE = `for (const p of Object.values(DATA.packs)) { p.services = DATA.serviceCatalog.map((s, i) => ({ ...s, state: p.st[i] === "a" ? "available" : "coming_soon" })); p.ready = Object.fromEntries(DATA.methods.map((m, i) => [m, { ok: p.ok[i] === "1", message: DATA.offMessage }])); }`;
 const tokens = read(join(ROOT, "design", "generated", "tokens.css"));
 // Brand fonts travel inside the file (offline, no font site). Only the Latin files: other scripts use the device font.
@@ -50,7 +66,7 @@ for (const e of EMULATORS) {
     .replace("/*@STYLE@*/", () => (e.extraCss ?? []).map((c) => read(join(ROOT, c))).join("\n") + "\n" + read(join(dir, "style.css")))
     .replace("/*@BODYMARK@*/", () => D.brand.body)
     .replace(/\/\*@I:([a-z0-9-]+)@\*\//g, (_, id) => `<span class="ic" aria-hidden="true">${D.icons[id] ?? (() => { throw new Error(`unknown icon ${id}`); })()}</span>`)
-    .replace("/*@SCRIPT@*/", () => `const DATA = ${JSON.stringify(D).replace(/</g, "\\u003c")};\n${INFLATE}\n${bundle(e.modules)}`);
+    .replace("/*@SCRIPT@*/", () => `const DATA = ${JSON.stringify(packData(D)).replace(/</g, "\\u003c")};\n(async () => {\n${UNPACK}\n${INFLATE}\n${bundle(e.modules)}\ndocument.documentElement.dataset.ready = "1"; window.__readyAt = performance.now();\n})();`);
   const target = join(OUT, e.out);
   if (process.argv.includes("--check")) {
     if (!existsSync(target) || read(target) !== html) stale.push(e.out);

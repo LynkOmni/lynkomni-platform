@@ -56,6 +56,17 @@ class EveryCountry(unittest.TestCase):
             for l in c["languages"]: self.assertTrue(l in ui or l in planned, l)
         self.assertTrue(all(len(w["languages"]) <= waves["wave_size"] for w in waves["waves"]))
 
+    def test_no_build_section_is_locked_while_its_language_wave_is_missing(self):
+        """Each wave belongs to a build section (wave 2 to section 4, then one a section). A section is never locked in the
+        showcase while a wave of its own is still unsupported (owner rule 2026-11-08: no leftovers)."""
+        waves = read(os.path.join(ROOT, "design", "fonts", "language_waves.v1.json"))
+        show = read(os.path.join(ROOT, "web", "showcase", "showcase.v1.json"))
+        locked = {s["n"] for s in show["sections"] if s.get("status") == "locked"}
+        for w in waves["waves"]:
+            self.assertIn("build_section", w)
+            self.assertNotIn(w["build_section"], locked, f"wave {w['wave']} belongs to locked section {w['build_section']}: add its languages first")
+        self.assertTrue(all(l["name"] != l["code"] for w in waves["waves"] for l in w["languages"]), "every planned language has its English name")
+
 
 if __name__ == "__main__":
     unittest.main()

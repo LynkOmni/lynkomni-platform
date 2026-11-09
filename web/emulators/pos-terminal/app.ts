@@ -3,6 +3,10 @@
  *  Built into one offline HTML file by web/build.mjs. Colours come only from the design tokens (CSS variables). */
 import { Cart, PosError, change, formatMoney, paymentPayload, paymentState, quickCash, receiptLines, salePayload, uuid7 } from "../../../ts/src/pos.js";
 import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload, UserState } from "../../../ts/src/pos.js";
+import { HANDHELD_TILES } from "../../../ts/src/business.js";
+import { AGENT_SERVICES, COLLECTION_KINDS, FINANCE_PRODUCTS, combinedLimits, commission, limitCheck, mayHandOverCash } from "../../../ts/src/agent.js";
+import type { AgentState, Limits } from "../../../ts/src/agent.js";
+import { TEST_LANGS, esc, newId, pseudo, randomBytes } from "../../../ts/src/emulator.js";
 
 interface BuildData {
   icons: Record<string, string>;
@@ -23,7 +27,10 @@ declare const DATA: BuildData;
 /** The country the emulator shows. Read from the country pack and the provider ledger; nothing about a country lives in this code. */
 const pack = (): CountryPack => DATA.packs[S.country] ?? DATA.packs[DATA.packOrder[0] ?? ""] as CountryPack;
 
-type Screen = "lock" | "sell" | "cart" | "pay" | "cash" | "momo" | "card" | "waiting" | "done" | "off" | "menu" | "sales" | "sale" | "count";
+type Screen = "lock" | "home" | "sell" | "cart" | "pay" | "cash" | "momo" | "card" | "waiting" | "done" | "off" | "menu" | "sales" | "sale" | "count"
+  | "pick" | "agent" | "agentdone" | "code" | "credit";
+type Step = "number" | "amount" | "confirm";
+interface Req { id: string; service: string; amount: number; fee: number; commission: number; state: AgentState; ref: string }
 type Lang = string;   // a language code from design/fonts/scripts.v1.json, or one of TEST_LANGS
 interface Ev { n: number; type: string; origin: "device" | "server"; payload: unknown; sync: UserState; at: number }
 interface Sale { sale: SalePayload; payments: PaymentPayload[]; tendered?: number; at: number; voided: boolean }
@@ -32,12 +39,10 @@ interface Sale { sale: SalePayload; payments: PaymentPayload[]; tendered?: numbe
  *  i18n/<lang>.json (tools/translation/build_packs.py), all embedded by web/build.mjs so every language works offline. */
 const PACKS = DATA.i18n;
 const EN: Record<string, string> = PACKS.en?.texts ?? {};
-const TEST_LANGS = ["xx", "xx-rtl"];   // xx = long-text test, xx-rtl = right-to-left test (pseudo-translations, never shown to real users)
 
-const rnd = (n: number): Uint8Array => crypto.getRandomValues(new Uint8Array(n));
+const rnd = randomBytes;
 /** An unbiased index below n (rejection sampling: bytes that would favour the low indexes are thrown away). */
-const pick = (n: number): number => { const limit = 256 - (256 % n); let b = rnd(1)[0]!; while (b >= limit) b = rnd(1)[0]!; return b % n; };
-const newId = (): string => uuid7(Date.now(), rnd);
+const pickIndex = (n: number): number => { const limit = 256 - (256 % n); let b = rnd(1)[0]!; while (b >= limit) b = rnd(1)[0]!; return b % n; };
 const CATALOG: Product[] = [
   ["Rice 1 kg", 1500, "food", "6000000000011"], ["Sugar 1 kg", 1400, "food", "6000000000028"], ["Beans 1 kg", 1200, "food", "6000000000035"],
   ["Cooking oil 1 L", 3200, "food", "6000000000042"], ["Bread", 1000, "food", "6000000000059"], ["Eggs, tray of 30", 4500, "food", "6000000000066"],
@@ -53,15 +58,20 @@ const S = {
   screen: "lock" as Screen, lang: "en" as Lang, theme: "light" as "light" | "dark", online: true, realUser: false, country: "", outcome: "confirm" as "confirm" | "fail",
   input: "", note: "", category: "all", cart: new Cart(), current: null as Sale | null, method: "cash" as PaymentMethod, sales: [] as Sale[],
   events: [] as Ev[], receiptNo: 0, selected: -1, timer: 0, leds: 0, flash: "",
+  tileGroup: "" as string, service: "bills", step: "number" as Step, number: "", amount: 0, req: null as Req | null, lowLiteracy: false, partnerFloat: 300_000, usedToday: 0,
+  credit: [{ name: "Aline", owes: 4500 }, { name: "Eric", owes: 12000 }, { name: "Grace", owes: 0 }],
 };
+/** Agent point on the handheld (blueprint 42 I): one sandbox partner; its float sits in the agent's own account there and is only read. */
+const PARTNER_LIMITS: Limits = { per_transaction: 200_000, per_day: 2_000_000 };
+const PARTNER_BPS = 100;
+const TILE_ICON: Record<string, string> = { sell: "ui-cart", agent: "ui-pay-mobile-money", collect: "ui-receipt", bills: "ui-doc", airtime_data: "ui-bolt", tickets: "ui-grid", government: "ui-pay-bank",
+  remittances: "ui-globe", partner_finance: "ui-pay-wallet", customers_credit: "ui-user", reports: "ui-chart", settings: "ui-settings" };
+const TILE_SERVICES: Record<string, readonly string[]> = { agent: ["cash_withdrawal", "cash_deposit", "money_transfer"], collect: COLLECTION_KINDS, partner_finance: FINANCE_PRODUCTS };
+const DIRECT: Record<string, string> = { bills: "bills", airtime_data: "airtime_data", tickets: "tickets", government: "government_payment", remittances: "remittance" };
 
 const $ = <T extends HTMLElement>(sel: string): T => document.querySelector(sel) as T;
-const PSEUDO: Record<string, string> = { a: "\u00e0", c: "\u00e7", e: "\u00e9", i: "\u00ee", n: "\u00f1", o: "\u00f6", s: "\u0161", u: "\u00fc", y: "\u00fd" };
-/** Same pseudo-translation as services/translation.py: accented letters and about 40% more length, to prove screens never break. */
-const pseudo = (s: string): string => `[${s.replace(/[aceinosuy]/g, (c) => PSEUDO[c] ?? c)} ${"~".repeat(Math.max(1, Math.round(s.length * 0.4)))}]`;
-const isTest = (): boolean => TEST_LANGS.includes(S.lang);
-const t = (k: string): string => { const en = EN[k] ?? k; return isTest() ? pseudo(en) : PACKS[S.lang]?.texts[k] ?? en; };
-const esc = (s: string): string => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const isTest = (): boolean => (TEST_LANGS as readonly string[]).includes(S.lang);
+const t = (k: string, vars: Record<string, string | number> = {}): string => { const en = EN[k] ?? k; const raw = isTest() ? pseudo(en) : PACKS[S.lang]?.texts[k] ?? en; return raw.replace(/\{(\w+)\}/g, (m, v: string) => (v in vars ? String(vars[v]) : m)); };
 const locale = (): string => `${isTest() ? "en" : S.lang}-${pack().code}`;
 const money = (n: number): string => formatMoney(n, pack().currency, locale());
 const icon = (id: string, cls = "ic"): string => `<span class="${cls}" aria-hidden="true">${DATA.icons[id] ?? ""}</span>`;
@@ -148,8 +158,8 @@ function tear(): void { const w = $("#paperWrap"); w.classList.add("torn"); wind
 
 // ---- input: touch screen, physical keypad and keyboard -------------------------------------------------------------
 function digit(d: string): void {
-  const max = S.screen === "lock" ? 4 : S.screen === "momo" ? 12 : 9;
-  if (!["lock", "cash", "momo", "count"].includes(S.screen)) return;
+  const max = S.screen === "lock" ? 4 : S.screen === "momo" || (S.screen === "agent" && S.step === "number") ? 12 : S.screen === "code" ? 8 : 9;
+  if (!["lock", "cash", "momo", "count", "agent", "code", "credit"].includes(S.screen) || (S.screen === "agent" && S.step === "confirm")) return;
   if (S.input.length + d.length > max) return;
   S.input += d; S.note = "";
   if (S.screen === "lock" && S.input.length === 4) { enter(); return; }
@@ -157,20 +167,30 @@ function digit(d: string): void {
 }
 function clearKey(): void { S.input = S.input.slice(0, -1); draw(); }
 function cancelKey(): void {
-  const back: Partial<Record<Screen, Screen>> = { cart: "sell", pay: "cart", cash: "pay", momo: "pay", card: "pay", off: "pay", menu: "sell", sales: "menu", sale: "sales", count: "menu" };
+  const back: Partial<Record<Screen, Screen>> = { sell: "home", cart: "sell", pay: "cart", cash: "pay", momo: "pay", card: "pay", off: "pay", menu: "home", sales: "home", sale: "sales", count: "menu",
+    pick: "home", agent: S.tileGroup ? "pick" : "home", agentdone: "home", code: "pick", credit: "home" };
+  if (S.screen === "agent" && S.step !== "number") { S.step = S.step === "confirm" ? "amount" : "number"; S.input = S.step === "number" ? S.number : String(S.amount || ""); draw(); return; }
   if (S.screen === "lock") { S.input = ""; draw(); return; }
   if (S.screen === "waiting" && activePayment()?.status === "failed") { S.screen = "pay"; draw(); return; }
   const to = back[S.screen]; if (to) { S.screen = to; S.input = ""; S.note = ""; draw(); }
 }
 function enter(): void {
   switch (S.screen) {
-    case "lock": if (S.input === PIN) { S.screen = "sell"; S.input = ""; } else { S.note = t("wrong_pin"); S.input = ""; } break;
+    case "lock": if (S.input === PIN) { S.screen = "home"; S.input = ""; } else { S.note = t("wrong_pin"); S.input = ""; } break;
+    case "agent":
+      if (S.step === "number") { if (S.input.length < 4) return; S.number = S.input; S.input = ""; S.step = (FINANCE_PRODUCTS as readonly string[]).includes(S.service) ? "confirm" : "amount"; break; }
+      if (S.step === "amount") { const a = Number(S.input || "0"); if (!a) return; if (limitCheck(a, S.usedToday, combinedLimits(PARTNER_LIMITS)) !== "ok") { S.note = t("limit_exceeded"); break; } S.amount = a; S.input = ""; S.step = "confirm"; break; }
+      agentSend(); return;
+    case "agentdone": S.screen = "home"; break;
+    case "code": redeem(); return;
+    case "credit": { const c = S.credit[S.selected]; const a = Number(S.input || "0"); if (c && a > 0 && a <= c.owes) { c.owes -= a; emit("CustomerCreditPaid", { payment_id: newId(), credit_id: newId(), amount: a, currency: pack().currency, method: "cash" }); S.flash = t("saved"); S.input = ""; } break; }
     case "sell": if (S.cart.lines().length) S.screen = "cart"; break;
     case "cart": if (S.cart.lines().length) S.screen = "pay"; break;
     case "cash": { const v = Number(S.input || "0"); if (v >= S.cart.total()) { pay("cash", v); return; } S.note = t("not_enough"); break; }
     case "momo": if (S.input.length >= 9) { pay("mobile_money"); return; } break;
     case "done": newSale(); return;
     case "count": S.screen = "menu"; S.input = ""; break;
+    case "home": S.screen = "sell"; break;
     default: return;
   }
   draw();
@@ -183,11 +203,56 @@ function tapCard(): void {
   step();
 }
 function scan(): void {
-  const p = CATALOG[pick(CATALOG.length)]!;
+  const p = CATALOG[pickIndex(CATALOG.length)]!;
   const beam = $("#beam"); beam.classList.remove("on"); void beam.offsetWidth; beam.classList.add("on");
   if (S.screen === "lock") return;
   if (!["sell", "cart"].includes(S.screen)) return;
   S.cart.add(p); S.flash = `${t("scan_added")}: ${p.name}`; draw();
+  window.setTimeout(() => { S.flash = ""; draw(); }, 1600);
+}
+
+// ---- agent point, collection point, partner finance, credit book --------------------------------------------------
+function openTile(tile: string): void {
+  S.input = ""; S.note = ""; S.tileGroup = "";
+  if (tile === "sell") { S.screen = "sell"; return; }
+  if (tile === "reports") { S.screen = "sales"; return; }
+  if (tile === "settings") { S.screen = "menu"; return; }
+  if (tile === "customers_credit") { S.screen = "credit"; S.selected = 0; return; }
+  if (DIRECT[tile]) { startService(DIRECT[tile]!); return; }
+  S.tileGroup = tile; S.screen = "pick";
+}
+function startService(service: string): void {
+  S.service = service; S.number = ""; S.amount = 0; S.input = ""; S.note = ""; S.req = null;
+  if (service === "voucher" || service === "pickup") { S.screen = "code"; return; }    // own vouchers and pickup codes work offline
+  S.step = "number"; S.screen = "agent";
+}
+function agentSend(): void {
+  if (!S.online) { S.note = t("online_only"); draw(); return; }     // never queued, never shown as done offline
+  const finance = (FINANCE_PRODUCTS as readonly string[]).includes(S.service);
+  const r: Req = { id: newId(), service: S.service, amount: S.amount, fee: finance ? 0 : Math.max(100, Math.floor(S.amount / 100)), commission: 0, state: "sent", ref: "" };
+  S.req = r; S.screen = "agentdone";
+  if (finance) emit("PartnerReferralRecorded", { referral_id: r.id, partner_id: "sandbox-partner", product: S.service, fee: 0, currency: pack().currency }, "server");
+  else emit("AgentRequestCreated", { request_id: r.id, partner_id: "sandbox-partner", service: (AGENT_SERVICES as readonly string[]).includes(S.service) || S.service === "loan_repayment" || S.service === "insurance_premium" ? S.service : "bills", amount: r.amount, fee: r.fee, currency: pack().currency });
+  draw();
+  window.setTimeout(() => {
+    if (finance) { r.state = "confirmed"; draw(); return; }
+    const out = S.service === "cash_deposit" ? 0 : r.amount;
+    if (!S.online || S.outcome === "fail" || out > S.partnerFloat) { r.state = "failed"; emit("AgentRequestFailed", { request_id: r.id, reason_code: !S.online ? "timeout" : out > S.partnerFloat ? "insufficient_float" : "partner_declined" }, "server"); draw(); return; }
+    r.state = "confirmed"; r.ref = `SBX-${r.id.slice(-8).toUpperCase()}`; r.commission = commission(r.amount, PARTNER_BPS); S.usedToday += r.amount;
+    S.partnerFloat += S.service === "cash_deposit" ? r.amount : -r.amount;
+    emit("AgentRequestConfirmed", { request_id: r.id, partner_reference: r.ref, amount: r.amount, fee: r.fee, commission: r.commission, currency: pack().currency }, "server");
+    emit("CommissionRecorded", { commission_id: newId(), request_id: r.id, partner_id: "sandbox-partner", amount: r.commission, currency: pack().currency, period: new Date().toISOString().slice(0, 10) }, "server");
+    draw();
+  }, reduced() ? 300 : 2200);
+}
+const usedCodes = new Set<string>();
+function redeem(): void {
+  if (S.input.length < 4) return;
+  if (usedCodes.has(S.input)) { S.note = t("already_used"); S.input = ""; draw(); return; }
+  usedCodes.add(S.input);
+  if (S.service === "voucher") emit("VoucherRedeemed", { redemption_id: newId(), voucher_id: newId(), amount: 1000, currency: pack().currency });
+  else emit("PickupHandedOver", { pickup_id: newId(), order_id: newId(), code_hash: "0".repeat(64) });
+  S.flash = t(S.service === "voucher" ? "redeemed" : "handed_over"); S.input = ""; draw();
   window.setTimeout(() => { S.flash = ""; draw(); }, 1600);
 }
 
@@ -211,6 +276,36 @@ function view(): string {
         <h1>${esc(t("pin"))}</h1><div class="dots" aria-label="${S.input.length} of 4">${[0, 1, 2, 3].map((i) => `<i class="${i < S.input.length ? "on" : ""}"></i>`).join("")}</div>
         <p class="note" role="alert">${esc(S.note)}</p><p class="keyhint">${icon("ui-info")}${esc(t("use_keys"))}</p>
         <p class="hint">${esc(t("pin_hint"))}</p></div>`;
+    case "home":
+      return `${top(t("sample_shop"), false)}<div class="tiles12${S.lowLiteracy ? " big" : ""}">${HANDHELD_TILES.map((k) => `<button class="t12" data-act="tile:${k}">${icon(TILE_ICON[k] ?? "ui-grid")}<span>${esc(t(`tile_${k}`))}</span></button>`).join("")}</div>
+        ${S.flash ? `<div class="toast" role="status">${icon("ui-check")}${esc(S.flash)}</div>` : ""}`;
+    case "pick":
+      return `${top(t(`tile_${S.tileGroup}`))}<ul class="menu">${(TILE_SERVICES[S.tileGroup] ?? []).map((k) => `<li><button data-act="svc:${k}">${icon(TILE_ICON[S.tileGroup] ?? "ui-grid")}${esc(t(`svc_${k}`))}${icon("ui-chevron-right")}</button></li>`).join("")}</ul>
+        ${S.tileGroup === "partner_finance" ? `<p class="note">${esc(t("referred"))}</p>` : ""}`;
+    case "agent": {
+      const lim = combinedLimits(PARTNER_LIMITS), finance = (FINANCE_PRODUCTS as readonly string[]).includes(S.service);
+      const field = S.step === "number" ? amountPad(t("customer_number"), S.input || "–") : S.step === "amount" ? amountPad(t("amount"), S.input ? money(Number(S.input)) : "–") : "";
+      const confirm = S.step === "confirm" ? `<div class="due"><span>${esc(t("customer_number"))}</span><strong>${esc(S.number)}</strong></div>${finance ? `<p class="note">${esc(t("referred"))}</p>` : `<div class="due"><span>${esc(t("amount"))}</span><strong>${esc(money(S.amount))}</strong></div>
+        <div class="change ok"><span>${esc(t("fee"))}</span><strong>${esc(money(Math.max(100, Math.floor(S.amount / 100))))}</strong></div><div class="change ok"><span>${esc(t("commission"))}</span><strong>${esc(money(commission(S.amount, PARTNER_BPS)))}</strong></div>`}` : "";
+      return `${top(t(`svc_${S.service}`))}${S.online ? "" : `<p class="note">${esc(t("online_only"))}</p>`}${field}${confirm}
+        ${S.step !== "number" || finance ? "" : `<p class="hint">${esc(t("limit_line", { per: money(lim.per_transaction), day: money(lim.per_day) }))}</p>`}<p class="hint">${esc(t("identity_check"))}</p><p class="note" role="alert">${esc(S.note)}</p>
+        <div class="foot"><button class="primary" data-act="enter" ${S.step === "confirm" && !S.online ? "disabled" : ""}>${esc(t(S.step === "confirm" ? "send_to_partner" : "next"))}</button></div>`;
+    }
+    case "agentdone": {
+      const r = S.req; if (!r) return "";
+      const done = r.state === "confirmed", cash = r.service === "cash_withdrawal";
+      return `${top(t(`svc_${r.service}`), false)}<div class="donebox">${r.amount ? `<p class="big">${esc(money(r.amount))}</p>` : ""}${chip(r.state)}<p>${esc(t(r.state === "sent" ? "request_sent" : done ? "request_confirmed" : "request_failed"))}</p>
+        ${r.ref ? `<p class="sub">${esc(t("partner_ref"))}: ${esc(r.ref)}</p>` : ""}${done && r.commission ? `<p class="sub">${esc(t("commission"))}: ${esc(money(r.commission))}</p>` : ""}${cash ? `<p class="sub">${esc(t("never_before_confirmed"))}</p>` : ""}</div>
+        <div class="foot${cash ? " two" : ""}">${cash ? `<button class="ghost" data-act="handcash" ${mayHandOverCash(r.state) ? "" : "disabled"}>${esc(t("hand_over_cash"))}</button>` : ""}<button class="primary" data-act="enter" ${r.state === "sent" ? "disabled" : ""}>${esc(t("ok"))}</button></div>`;
+    }
+    case "code":
+      return `${top(t(`svc_${S.service}`))}${amountPad(t(S.service === "voucher" ? "voucher_code" : "pickup_code"), S.input || "–")}<p class="note" role="alert">${esc(S.note)}</p>${S.flash ? `<div class="toast" role="status">${icon("ui-check")}${esc(S.flash)}</div>` : ""}
+        <div class="foot"><button class="primary" data-act="enter">${esc(t(S.service === "voucher" ? "redeem" : "hand_over"))}</button></div>`;
+    case "credit": {
+      const c = S.credit[S.selected];
+      return `${top(t("credit_book"))}<ul class="lines">${S.credit.map((x, i) => `<li><button class="row" data-act="cust:${i}"><div><span class="nm">${esc(x.name)}</span></div><div class="rt"><strong>${esc(money(x.owes))}</strong>${i === S.selected ? icon("ui-check") : ""}</div></button></li>`).join("")}</ul>
+        ${c ? amountPad(t("record_payment"), S.input ? money(Number(S.input)) : "–") : ""}${S.flash ? `<div class="toast" role="status">${icon("ui-check")}${esc(S.flash)}</div>` : ""}<div class="foot"><button class="primary" data-act="enter">${esc(t("record_payment"))}</button></div>`;
+    }
     case "sell": {
       const cats = ["all", "food", "drinks", "home"];
       const items = CATALOG.filter((p) => S.category === "all" || p.category === S.category);
@@ -262,6 +357,7 @@ function view(): string {
     case "menu":
       return `${top(t("menu"))}<ul class="menu"><li><button data-act="go:sales">${icon("ui-receipt")}${esc(t("sales"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="go:count">${icon("product-ledger")}${esc(t("count"))}${icon("ui-chevron-right")}</button></li>
+        <li><button data-act="lowlit" aria-pressed="${S.lowLiteracy}">${icon("ui-grid")}${esc(t("low_literacy"))}${S.lowLiteracy ? icon("ui-check") : icon("ui-chevron-right")}</button></li>
         <li><button data-act="lock">${icon("ui-lock")}${esc(t("lock"))}${icon("ui-chevron-right")}</button></li></ul>`;
     case "sales":
       return `${top(t("sales"))}<ul class="lines">${S.sales.map((s, i) => { const p = s.payments[s.payments.length - 1]; const ps = p ? paymentState(p.status, S.online) : null;
@@ -314,13 +410,18 @@ function act(a: string): void {
       case "clear": clearKey(); return;
       case "cancel": cancelKey(); return;
       case "enter": enter(); return;
-      case "menu": if (S.screen !== "lock") { S.screen = "menu"; draw(); } return;
+      case "menu": if (S.screen !== "lock") { S.screen = "home"; S.input = ""; S.note = ""; draw(); } return;
+      case "tile": if ((HANDHELD_TILES as readonly string[]).includes(v)) openTile(v); draw(); return;
+      case "svc": if ([...AGENT_SERVICES, ...COLLECTION_KINDS, ...FINANCE_PRODUCTS].includes(v as never)) startService(v); draw(); return;
+      case "handcash": if (S.req && mayHandOverCash(S.req.state)) { S.flash = t("done"); S.screen = "home"; } draw(); return;
+      case "cust": S.selected = Math.max(0, Math.min(S.credit.length - 1, Number(v) || 0)); S.input = ""; draw(); return;
+      case "lowlit": S.lowLiteracy = !S.lowLiteracy; draw(); return;
       case "lock": S.screen = "lock"; S.input = ""; draw(); return;
       case "cat": S.category = v; draw(); return;
       case "add": { const p = CATALOG.find((x) => x.id === v); if (p) S.cart.add(p); draw(); return; }
       case "inc": { const l = S.cart.lines().find((x) => x.product.id === v); if (l) S.cart.setQty(v, l.qtyMilli + 1000); draw(); return; }
       case "dec": { const l = S.cart.lines().find((x) => x.product.id === v); if (l) S.cart.setQty(v, l.qtyMilli - 1000); if (!S.cart.lines().length) S.screen = "sell"; draw(); return; }
-      case "go": S.screen = v as Screen; S.input = ""; S.note = ""; draw(); return;
+      case "go": S.screen = (["sell", "cart", "pay", "sales", "count", "menu", "home"] as Screen[]).find((x) => x === v) ?? "home"; S.input = ""; S.note = ""; draw(); return;
       case "method": {
         const m = v as PaymentMethod; S.method = m; S.input = "";
         S.screen = !methodOk(m) ? "off" : m === "cash" ? "cash" : m === "card" ? "card" : "momo"; draw(); return;

@@ -1,0 +1,38 @@
+/* LynkStock scanner: an original rugged handheld with a trigger. Every colour is a design token. */
+.gun { width: 300px; position: relative; display: flex; flex-direction: column; align-items: center; padding-top: 18px; }
+.window { width: 120px; height: 14px; border-radius: 7px 7px 0 0; background: var(--device-glass); transition: box-shadow .1s; }
+.window.on { box-shadow: 0 -10px 24px var(--device-key-cancel); }
+.gbody { width: 300px; padding: 18px 16px 20px; border-radius: 26px 26px 34px 34px; background: linear-gradient(160deg, var(--device-key-clear), var(--device-shell) 22%, var(--device-glass)); box-shadow: 0 24px 50px -20px color-mix(in srgb, var(--device-glass) 60%, transparent); }
+.sscreen { height: 360px; border-radius: 10px; background: var(--bg-base); color: var(--text-primary); overflow: hidden; display: flex; flex-direction: column; font: 13px var(--font-body); }
+.sscreen.dark { color-scheme: dark; }
+.shead { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: var(--bg-surface); border-bottom: 1px solid var(--border-subtle); font-weight: 700; }
+.shead .off { color: var(--status-warning-text); }
+.ic { display: inline-block; width: 14px; height: 14px; vertical-align: middle; }
+.ic svg { width: 100%; height: 100%; display: block; }
+.smodes { display: flex; border-bottom: 1px solid var(--border-subtle); }
+.smodes button { flex: 1; min-height: 32px; border: 0; background: transparent; color: var(--text-secondary); font: 600 11px var(--font-body); cursor: pointer; overflow-wrap: anywhere; }
+.smodes button[aria-current] { color: var(--brand-ink); box-shadow: inset 0 -2px 0 var(--brand-primary); }
+.sbody { flex: 1; overflow: auto; padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+.sbody h2 { margin: 0; font-size: 16px; }
+.sbody p { margin: 0; }
+.big .ic { width: 48px; height: 48px; display: block; margin: 8px auto 0; color: var(--text-secondary); }
+.sbody > p:nth-child(2) { text-align: center; color: var(--text-secondary); }
+.ok { text-align: center; color: var(--status-success-text); font-weight: 600; }
+.code { font-family: var(--font-mono); color: var(--text-secondary); }
+em { font-style: normal; font-weight: 700; color: var(--status-warning-text); }
+.slist { list-style: none; margin: 4px 0 0; padding: 0; }
+.slist li { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 0; border-bottom: 1px solid var(--border-subtle); }
+.slist li span:first-child { flex: 1; overflow-wrap: anywhere; }
+.slist em { width: 100%; font-size: 11px; }
+.qty { display: flex; align-items: center; justify-content: center; gap: 18px; margin: 8px 0; }
+.qty button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; padding: 12px; }
+.qty output { font: 700 28px var(--font-heading); min-width: 50px; text-align: center; }
+.save { min-height: 44px; border: 0; border-radius: 10px; background: var(--brand-primary); color: var(--text-on-brand, var(--bg-surface)); font: 700 14px var(--font-body); cursor: pointer; }
+.skeys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 14px; }
+.skeys button { height: 40px; border: 0; border-radius: 10px; background: var(--device-key); color: var(--on-device-key); font: 700 13px var(--font-body); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.skeys button:last-child { background: var(--device-key-enter); color: var(--on-device-key-enter); }
+.skeys .ic { width: 18px; height: 18px; }
+.trigger { margin-top: -8px; width: 110px; height: 120px; border: 0; border-radius: 0 0 40px 40px; background: linear-gradient(180deg, var(--device-shell), var(--device-glass)); color: var(--device-key-clear); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.trigger .ic { width: 36px; height: 36px; }
+.gun > .mark { position: absolute; bottom: 20px; width: 14px; color: var(--on-device-key); opacity: .6; }
+.mark svg { width: 100%; height: auto; display: block; }

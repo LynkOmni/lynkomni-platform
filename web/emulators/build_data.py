@@ -7,7 +7,8 @@ import json, os, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, ROOT)
 import brand, providers, visuals  # noqa: E402
-from services import translation  # noqa: E402
+from services import billing, translation  # noqa: E402
+from core.money import USD_RATES  # noqa: E402
 
 SAMPLE = "XX"                                     # the neutral sample pack: the emulator opens on it, never on a real country (Step 0, blueprint 42 A)
 METHOD_ITEMS = {"mobile_money": ["momo_mtn", "airtel_money"], "card": ["card_acquirer"]}
@@ -18,10 +19,20 @@ def svg(path):
         return f.read()
 
 
+# Shared word packs: an emulator that imports the module carries the folder's words too (one translation, used everywhere).
+SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/emulator.js", os.path.join("web", "pos")))
+
+
 def uses_shell(emulator):
     """An emulator built on the shared shell (ts/src/shell.ts) also carries the shell's own words (web/shell)."""
     with open(os.path.join(ROOT, "web", "emulators", emulator, "app.ts"), encoding="utf-8") as f:
         return "ts/src/shell.js" in f.read()
+
+
+def shared_folders(emulator):
+    with open(os.path.join(ROOT, "web", "emulators", emulator, "app.ts"), encoding="utf-8") as f:
+        src = f.read()
+    return [folder for module, folder in SHARED_WORDS if module in src and os.path.isdir(os.path.join(ROOT, folder))]
 
 
 def _packs(base):
@@ -46,13 +57,28 @@ def _packs(base):
     return out
 
 
+def used_keys(emulator, keys):
+    """The shared POS words an emulator can show: every key written as a string in its app.ts or in the shared TypeScript it
+    bundles, and every key under a prefix it builds at run time (t(`svc_${...}`)). Only those travel in its file (size budget)."""
+    import re
+    src = ""
+    for path in [os.path.join(ROOT, "web", "emulators", emulator, "app.ts")] + [os.path.join(ROOT, "ts", "src", f) for f in os.listdir(os.path.join(ROOT, "ts", "src")) if f.endswith(".ts") and not f.endswith(".generated.ts")]:
+        with open(path, encoding="utf-8") as f: src += f.read()
+    literal = set(re.findall(r"[\"'`]([a-z][a-z0-9_]*)[\"'`]", src))
+    prefixes = set(re.findall(r"`([a-z][a-z0-9_]*_)\$\{", src))
+    return {k for k in keys if k in literal or any(k.startswith(p) for p in prefixes)}
+
+
 def language_packs(emulator):
-    """The emulator's own words, plus the shared shell's words when it is built on the shell (one translation of the shell, used everywhere)."""
+    """The emulator's own words, plus the shared shell's or POS devices' words when it uses them (one translation, used everywhere)."""
     own = _packs(os.path.join(ROOT, "web", "emulators", emulator))
-    if not uses_shell(emulator):
-        return own
-    shell = _packs(os.path.join(ROOT, "web", "shell"))
-    return {lang: {**own[lang], "texts": {**shell[lang]["texts"], **own[lang]["texts"]}} for lang in own if lang in shell}
+    for folder in shared_folders(emulator):
+        shared = _packs(os.path.join(ROOT, folder))
+        if folder.endswith("pos"):
+            keep = used_keys(emulator, shared.get("en", {}).get("texts", {}).keys())
+            shared = {lang: {**v, "texts": {k: x for k, x in v["texts"].items() if k in keep}} for lang, v in shared.items()}
+        own = {lang: {**own[lang], "texts": {**shared[lang]["texts"], **own[lang]["texts"]}} for lang in own if lang in shared}
+    return own
 
 
 # The services shown in the merchant app's Business tab: (service in core.regions, product family name, icon).
@@ -62,6 +88,31 @@ SERVICES = [("pos", "LynkPOS", "product-pos"), ("accountant", "LynkAcc", "produc
             ("dashboard", "LynkStat", "product-dash"), ("intelligence", "LynkGrow", "product-grow"), ("chat", "LynkChat", "product-chat"),
             ("payments", "LynkMPay", "product-mpay"), ("paylinks", "LynkCheckout", "product-checkout"), ("loyalty", "LynkRewards", "product-rewards"),
             ("recovery", "LynkRecover", "product-recover"), ("vcard", "LynkVCard", "product-vcard")]
+
+
+def entitlement(family, tier):
+    out = {}
+    for d in billing.FEATURES[family][: billing.FAMILIES[family][2].index(tier) + 1]:
+        out.update(d)
+    return out
+
+
+def automations(section):
+    """The automations of a build section as the owner's control panel lists them (catalog/automations.v1.json is the register)."""
+    with open(os.path.join(ROOT, "catalog", "automations.v1.json"), encoding="utf-8") as f:
+        reg = json.load(f)["automations"]
+    return [{"id": a["id"], "level": a["level"], "assist": a.get("assist"), "trigger": a["trigger"], "min_tier": a.get("min_tier"), "default": a.get("default", "on")} for a in reg if a["build_section"] == section]
+
+
+def cards():
+    """The LynkVCard faces and backs (visuals/cards.py, approved spec) and the tier limits, labelled placeholders, from billing."""
+    out = {}
+    for tier, face in zip(billing.FAMILIES["lynkvcard"][2], ("edge", "hub", "core", "omni")):
+        f, b = visuals.get(f"vcard-{face}", "light"), visuals.get(f"vcard-{face}-back", "light")
+        out[tier] = {"face": face, "front": svg(f.path), "front_alt": f.alt, "back": svg(b.path), "back_alt": b.alt, "price_usd": billing.FAMILIES["lynkvcard"][3][billing.FAMILIES["lynkvcard"][2].index(tier)],
+                     "limits": entitlement("lynkvcard", tier)}
+    near = visuals.get("vcard-core-near-limit", "light")
+    return {"cards": out, "nearLimit": {"svg": svg(near.path), "alt": near.alt}}
 
 
 def icons_used(emulator):
@@ -129,6 +180,11 @@ def main(emulator):
         "states": {k: {"label": v["label"], "meaning": v["meaning"]} for k, v in states.items()},
         "packs": packs, "packOrder": list(packs),   # the country chooser: the sample pack first, then every real pack
         "serviceCatalog": [{"service": sv, "name": nm, "icon": ic} for sv, nm, ic in SERVICES], "methods": list(METHOD_ITEMS), "offMessage": off["message"],
+        # what each LynkPOS plan allows (billing FEATURES merged up to the tier) and the PLACEHOLDER rates behind the second-currency estimate (core/money.py, ledger fx_rates)
+        "entitlements": {tier: entitlement("lynkpos", tier) for tier in billing.FAMILIES["lynkpos"][2]}, "checkout": {tier: entitlement("lynkcheckout", tier) for tier in billing.FAMILIES["lynkcheckout"][2]},
+        "fx": {k: float(v) for k, v in USD_RATES.items()},
+        **(cards() if emulator == "vcard-card" else {}),
+        **({"automations": automations(3)} if emulator == "owner-web" else {}),
         "statePictures": state_pics,
         "addresses": {k: addresses[k] for k in ("hosts", "website_paths", "app_paths", "account_paths", "pay_paths", "shop_paths", "staff_paths", "redirects")},
         "i18n": language_packs(emulator),

@@ -15,6 +15,19 @@ def read(p):
         return f.read()
 
 
+def built_data(p):
+    """The DATA of a built emulator with its compressed part (web/build.mjs packData) unpacked, as the browser sees it."""
+    import base64, zlib
+    d = json.loads(re.search(r"const DATA = (\{.*?\});\n", read(p), re.S).group(1))
+    x = json.loads(zlib.decompress(base64.b64decode(d.pop("Z")), -15))
+    return {**d, **x, "i18n": {**d["i18n"], **x["i18n"]}}
+
+
+def built_text(p):
+    """The built file with its compressed data written out in full, so every scan below also sees the packed words and pictures."""
+    return read(p) + "\n" + json.dumps(built_data(p), ensure_ascii=False)
+
+
 class Emulators(unittest.TestCase):
     def test_every_emulator_is_built(self):
         ids = sorted(os.path.basename(os.path.dirname(f)) for f in SOURCES if f.endswith("shell.html"))
@@ -35,7 +48,7 @@ class Emulators(unittest.TestCase):
         import json
         packs = sorted(os.path.splitext(f)[0] for f in os.listdir(os.path.join(ROOT, "contract", "country-packs")) if f.endswith(".json"))
         for f in BUILT:
-            data = json.loads(re.search(r"const DATA = (\{.*?\});\n", read(f), re.S).group(1))
+            data = built_data(f)
             self.assertEqual(data["packOrder"][0], "XX", f); self.assertTrue(data["packs"]["XX"]["sample"])
             self.assertEqual(sorted(data["packs"]), packs, f)
         for src in SOURCES:
@@ -56,7 +69,7 @@ class Emulators(unittest.TestCase):
     def test_built_files_are_offline_and_honest(self):
         self.assertTrue(BUILT)
         for f in BUILT:
-            txt = read(f)
+            txt = built_text(f)
             urls = set(re.findall(r"https?://[^\s\"')<\\]+", txt)) - {"http://www.w3.org/2000/svg", "http://www.w3.org/1999/xlink"}
             urls = {u for u in urls if not re.match(r"https://([a-z]+\.)?lynkomni\.com(/|\$|$)", u)}   # LynkOmni addresses may be shown (address bar, deep links), never loaded
             self.assertEqual(urls, set(), f"{f}: must not load anything from the web")
@@ -65,10 +78,10 @@ class Emulators(unittest.TestCase):
             self.assertIn("Draft design", txt, f"{f}: must say it is a draft until a designer reviews it")
             self.assertNotRegex(txt.lower(), r"todo image|lorem ipsum", f)
             budget = BUDGETS["emulators"].get(os.path.basename(f)[len("lynkomni-"):-len(".html")], {}).get("file_kb", BUDGETS["defaults"]["file_kb"])
-            self.assertLess(len(txt.encode()), budget * 1024, f"{f}: over its {budget} KB size budget (web/budgets.v1.json)")
+            self.assertLess(len(read(f).encode()), budget * 1024, f"{f}: over its {budget} KB size budget (web/budgets.v1.json)")
 
     def test_terminal_never_claims_a_tax_receipt_or_end_to_end_encryption(self):
-        txt = read(os.path.join(WEB, "dist", "lynkomni-pos-terminal.html")).lower()
+        txt = built_text(os.path.join(WEB, "dist", "lynkomni-pos-terminal.html")).lower()
         self.assertIn("not a tax receipt", txt)
         self.assertIn("provisional receipt", txt)
         self.assertNotIn("end-to-end", txt)

@@ -94,7 +94,8 @@ button { font: inherit; color: inherit; }
 .step span { min-width: 22px; text-align: center; }
 .row { width: 100%; display: flex; justify-content: space-between; gap: 8px; text-align: start; border: 0; background: transparent; cursor: pointer; padding: 0; }
 .rt { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
-.due { margin: 12px 10px 4px; padding: 12px; border-radius: 12px; background: var(--brand-subtle); display: flex; justify-content: space-between; align-items: baseline; }
+.due { margin: 12px 10px 4px; padding: 12px; border-radius: 12px; background: var(--brand-subtle); display: flex; flex-wrap: wrap; gap: 4px 12px; justify-content: space-between; align-items: baseline; }
+.due span, .due strong { min-width: 0; overflow-wrap: anywhere; }   /* long labels and numbers wrap in every language */
 .dark .due { background: var(--bg-subtle); }
 .due span { font-size: 13px; color: var(--text-primary); }
 .due strong { font-size: 24px; font-feature-settings: var(--font-feature-tabular); }
@@ -197,3 +198,12 @@ button { font: inherit; color: inherit; }
 .display[dir="rtl"] .iconbtn[data-act="cancel"] svg, .display[dir="rtl"] .method > .ic:last-child svg, .display[dir="rtl"] .menu button > .ic:last-child svg { transform: scaleX(-1); }
 /* Long words (for example in Swahili or German) wrap instead of pushing the layout wider. */
 .display .nm, .display .ask, .display .note, .display .sbx, .display .waitbox p, .display .menu button, .display .method > span:not(.ic), .display .lock h1, .display .hint, .display .keyhint { overflow-wrap: anywhere; min-width: 0; }
+
+/* the handheld redesigned around 12 tiles (build section 3, blueprint 42 I) */
+.tiles12 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding: 8px; overflow-y: auto; flex: 1; }
+.t12 { min-height: 70px; border-radius: 12px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 6px 2px; font: 600 11px var(--font-body); text-align: center; cursor: pointer; overflow-wrap: anywhere; min-width: 0; }
+.t12 .ic { width: 22px; height: 22px; color: var(--brand-ink); }
+.tiles12.big { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.tiles12.big .t12 { min-height: 92px; font-size: 13px; }
+.tiles12.big .t12 .ic { width: 32px; height: 32px; }
+.display .t12, .display .donebox p { overflow-wrap: anywhere; min-width: 0; }

@@ -1,0 +1,11 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "sw",
+ "native": "Kiswahili",
+ "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "texts": {
+  "title": "LynkPOS kwenye simu ya vitufe"
+ }
+}

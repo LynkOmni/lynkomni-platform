@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LynkPOS Kitchen Screen</title>
+<meta name="description" content="Interactive emulator of the kitchen screen for restaurant mode (N1): a wall-mounted display that shows every table order as it is sent from the till, with a bump bar to mark items ready. Works offline over the shop's network or LynkMesh.">
+<style>/*@TOKENS@*/
+/*@STYLE@*/</style>
+</head>
+<body>
+<header class="pagehead">
+  <h1>LynkPOS kitchen screen <span class="draft">Draft design</span></h1>
+  <p>Interactive emulator of the kitchen screen for restaurant mode (N1): a wall-mounted display that shows every table order as it is sent from the till, with a bump bar to mark items ready. Works offline over the shop's network or LynkMesh. Sample data, sandbox partners, test money only. Not reviewed by a designer yet.</p>
+</header>
+<main class="stage">
+  <section class="rig" id="rig" aria-label="LynkPOS kitchen screen" data-width="1000">
+    <div class="fit"><div class="wall" id="wall"><div class="kscreen light" id="screen"></div><div class="bumpbar" role="group" aria-label="Bump bar"><button type="button" data-act="bump:prev" aria-label="Previous">◀</button><button type="button" data-act="bump:ready" aria-label="Ready">/*@I:ui-check@*/</button><button type="button" data-act="bump:next" aria-label="Next">▶</button><button type="button" data-act="bump:recall" aria-label="Recall">/*@I:ui-undo@*/</button></div><div class="mount" aria-hidden="true"><div class="mark">/*@BODYMARK@*/</div></div></div></div>
+  </section>
+  <aside class="panel" id="panel" aria-label="Emulator controls"></aside>
+</main>
+<script>/*@SCRIPT@*/</script>
+</body>
+</html>

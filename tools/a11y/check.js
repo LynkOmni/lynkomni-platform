@@ -4,7 +4,7 @@
 // direction on the screen root, dialogs with names, no duplicate ids, nothing focusable hidden from assistive tech.
 // A human accessibility audit is still required before launch (provider ledger, later list). Returns a list of problems.
 (() => {
-  const root = document.querySelector('#display') || document.body;
+  const root = document.querySelector(window.__a11yRoot || '#display') || document.body;   // a device emulator names its screen (tests/test_layout_i18n.py DeviceLayout)
   const bad = [];
   const vis = (el) => { const cs = getComputedStyle(el); const r = el.getBoundingClientRect(); return cs.display !== 'none' && cs.visibility !== 'hidden' && r.width > 1 && r.height > 1; };   // 1 px boxes are screen-reader-only text
   const hiddenFromAT = (el) => !!el.closest('[aria-hidden="true"]');
@@ -35,7 +35,11 @@
     if (role === 'dialog' && !el.getAttribute('aria-label') && !el.getAttribute('aria-labelledby')) bad.push(`dialog without a name: ${desc(el)}`);
     if (tag === 'button' || role === 'button' || (tag === 'a' && el.hasAttribute('href'))) {
       if (!name(el)) bad.push(`control without a name: ${desc(el)}`);
-      const r = el.getBoundingClientRect();
+      const r0 = el.getBoundingClientRect();
+      // A device shown smaller to fit the window (.fit zoom, emulator.ts fitToWidth) is a scaled picture of the real device:
+      // tap sizes are judged in the device's own pixels, which is what a finger meets on the real hardware.
+      const fit = parseFloat(getComputedStyle(el.closest('.fit') || document.documentElement).getPropertyValue('--fit')) || 1;
+      const r = { width: Math.round(r0.width / fit * 10) / 10, height: Math.round(r0.height / fit * 10) / 10 };   // to 0.1 px, so dividing by the zoom never turns 24 into 23.99
       const inline = tag === 'a' && el.closest('p, li, td, figcaption, .note, .sugg, .mnote, .chat-lang');
       if (!inline && Math.min(r.width, r.height) < 24) bad.push(`target under 24 px: ${desc(el)} ${Math.round(r.width)}x${Math.round(r.height)}`);
     }

@@ -72,7 +72,8 @@ class TranslationLayout(DarkPass, unittest.TestCase):
                 found[name] = p
         for k in "1234":
             pg.keyboard.press(k)
-        check("sell")
+        check("home, 12 tiles")
+        pg.click('[data-act="tile:sell"]'); check("sell")
         pg.locator(".tile").nth(5).click(); pg.locator(".tile").nth(3).click()
         pg.click('[data-act="go:cart"]'); check("basket")
         pg.click('[data-act="go:pay"]'); check("payment")
@@ -84,14 +85,36 @@ class TranslationLayout(DarkPass, unittest.TestCase):
         pg.keyboard.press("Escape"); pg.click('[data-act="method:card"]'); check("card")
         pg.keyboard.press("Escape"); pg.click('[data-act="method:cash"]'); pg.locator(".quick button").nth(0).click()
         pg.click('.foot [data-act="enter"]'); pg.wait_for_timeout(50); check("sale complete")
-        pg.click('.foot [data-act="enter"]'); pg.click('.keypad [data-act="menu"]'); check("menu")
-        pg.click('[data-act="go:sales"]'); check("sales")
-        pg.keyboard.press("Escape"); pg.click('[data-act="go:count"]')
+        pg.click('.foot [data-act="enter"]'); pg.click('.keypad [data-act="menu"]'); check("home after a sale")
+        pg.click('[data-act="tile:reports"]'); check("sales")
+        pg.keyboard.press("Escape"); pg.click('[data-act="tile:settings"]'); check("settings")
+        pg.click('[data-act="go:count"]')
         for k in "5000":
             pg.keyboard.press(k)
         check("cash count")
-        pg.keyboard.press("Escape"); pg.keyboard.press("Escape"); pg.click("#cReal")
-        pg.locator(".tile").nth(1).click(); pg.click('[data-act="go:cart"]'); pg.click('[data-act="go:pay"]'); pg.click('[data-act="method:card"]'); check("coming soon")
+        pg.click('.keypad [data-act="menu"]'); pg.click('[data-act="tile:agent"]'); check("agent services")
+        pg.click('[data-act="svc:cash_withdrawal"]')
+        for k in "0788999111":
+            pg.keyboard.press(k)
+        check("agent number"); pg.keyboard.press("Enter")
+        for k in "20000":
+            pg.keyboard.press(k)
+        check("agent amount"); pg.keyboard.press("Enter"); check("agent confirm")
+        pg.keyboard.press("Enter"); check("agent sent"); pg.wait_for_selector('.foot [data-act="enter"]:not([disabled])'); check("agent confirmed")
+        pg.click('.keypad [data-act="menu"]'); pg.click('[data-act="tile:collect"]'); check("collection point")
+        pg.click('[data-act="svc:voucher"]')
+        for k in "48213":
+            pg.keyboard.press(k)
+        check("voucher code")
+        pg.click('.keypad [data-act="menu"]'); pg.click('[data-act="tile:partner_finance"]'); check("partner finance")
+        pg.click('.keypad [data-act="menu"]'); pg.click('[data-act="tile:customers_credit"]')
+        for k in "2000":
+            pg.keyboard.press(k)
+        check("credit book")
+        pg.click('.keypad [data-act="menu"]'); pg.click('[data-act="tile:settings"]'); pg.click('[data-act="lowlit"]'); pg.click('.keypad [data-act="menu"]'); check("low-literacy home")
+        pg.click('[data-act="tile:bills"]'); check("bills")
+        pg.click('.keypad [data-act="menu"]'); pg.click("#cReal")
+        pg.click('[data-act="tile:sell"]'); pg.locator(".tile").nth(1).click(); pg.click('[data-act="go:cart"]'); pg.click('[data-act="go:pay"]'); pg.click('[data-act="method:card"]'); check("coming soon")
         return found
 
     def test_no_screen_breaks_in_any_language_or_size(self):
@@ -284,6 +307,68 @@ class AccountLayout(DarkPass, unittest.TestCase):
             b.close()
         for size in ("computer", "tablet", "phone"):
             self.assertEqual(len({sizes[(size, l)] for l in LANGS}), 1, f"size changed on {size}: {sizes}")
+
+
+# Build section 3 devices: each names its screens (two for the mesh relay and the counter tablet's customer screen) and
+# its language and dark controls (the shared panel uses data-ctl, the counter tablet its own ids).
+DEVICES = {
+    "counter-tablet": (["#screen", "#cscreen"], "#cLang", "#cDark"),
+    "kitchen-screen": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
+    "customer-display": (["#screen", "#till"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
+    "rider-phone": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
+    "stock-scanner": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
+    "button-phone": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
+    "vcard-card": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
+    "mesh-relay": (["#screenA", "#screenB"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
+    "owner-web": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
+}
+DEVICE_FILE = lambda e: os.path.join(ROOT, "web", "emulators", "dist", f"lynkomni-{e}.html")
+OVERFLOW_IN = OVERFLOW.replace("() => {\n  const d = document.querySelector('#display')", "(sel) => {\n  const d = document.querySelector(sel)")
+
+
+@unittest.skipUnless(sync_playwright and all(os.path.isfile(DEVICE_FILE(e)) for e in DEVICES), "Playwright with Chromium is needed")
+class DeviceLayout(unittest.TestCase):
+    """Every screen of every build-section-3 device (each state button), in every language, long text and right to left, at
+    desktop and phone size: nothing spills over, the page never scrolls sideways, no script error, and the accessibility
+    check passes in English, right to left and the dark theme."""
+    def walk(self, pg, emulator, lang, width):
+        roots, found = DEVICES[emulator][0], {}
+        states = pg.eval_on_selector_all("[data-state]", "els => els.map(e => e.dataset.state)")
+        self.assertTrue(states, f"{emulator}: no state buttons to walk")
+        for st in states:
+            pg.click(f'[data-state="{st}"]'); pg.evaluate(SETTLE)
+            for r in roots:
+                if not pg.evaluate("(r) => { const e = document.querySelector(r); return !!e && e.getClientRects().length > 0; }", r):
+                    continue
+                bad = list(pg.evaluate(OVERFLOW_IN, r))
+                if lang in A11Y_LANGS:
+                    pg.evaluate("(r) => { window.__a11yRoot = r; }", r)
+                    bad += [f"a11y: {x}" for x in pg.evaluate(A11Y)]
+                if bad:
+                    found[f"{st} {r}"] = bad
+            if pg.evaluate("document.documentElement.scrollWidth") > width:
+                found[f"{st} page"] = ["scrolls sideways"]
+        return found
+
+    def test_devices_break_nowhere_in_any_language_or_size(self):
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            for emulator, (roots, lang_sel, dark_sel) in DEVICES.items():
+                for width in (1280, 390):
+                    pg = b.new_page(viewport={"width": width, "height": 1000}, reduced_motion="reduce")
+                    errors = []; pg.on("pageerror", lambda e: errors.append(str(e)))
+                    pg.goto("file://" + DEVICE_FILE(emulator)); pg.wait_for_selector("html[data-ready]", state="attached")
+                    for lang in LANGS:
+                        pg.select_option(lang_sel, lang)
+                        self.assertEqual(self.walk(pg, emulator, lang, width), {}, f"{emulator}, {lang} at {width}px")
+                    self.assertEqual(errors, [], f"{emulator} at {width}px")
+                    pg.close()
+                pg = b.new_page(viewport={"width": 1500, "height": 1100}, reduced_motion="reduce")
+                pg.goto("file://" + DEVICE_FILE(emulator)); pg.wait_for_selector("html[data-ready]", state="attached")
+                pg.check(dark_sel); pg.evaluate("document.activeElement.blur()")
+                self.assertEqual(self.walk(pg, emulator, "en", 1500), {}, f"{emulator}, dark theme")
+                pg.close()
+            b.close()
 
 
 if __name__ == "__main__":

@@ -1,0 +1,29 @@
+/* LynkVCard as a real card: the faces are visuals/cards.py drawings. Every colour is a design token. */
+.rig .fit { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; justify-content: center; }
+.cardstage { perspective: 1400px; padding: 20px 0; }
+.card3d { width: 340px; height: 214px; position: relative; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.2,.7,.2,1); cursor: pointer; }
+.card3d.flipped { transform: rotateY(180deg); }
+.face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 16px; overflow: hidden; box-shadow: 0 24px 48px -18px color-mix(in srgb, var(--device-glass) 70%, transparent); }
+.face svg { width: 100%; height: 100%; display: block; }
+.back { transform: rotateY(180deg); }
+.card3d.is-frozen .front > div { filter: grayscale(1); opacity: .65; }
+.frozen { position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 999px; background: var(--status-info-bg); color: var(--status-info-text); border: 1px solid var(--status-info-border); font: 700 12px var(--font-body); }
+.cardapp { width: 320px; min-height: 260px; border-radius: 18px; padding: 16px; background: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 10px; font: 14px var(--font-body); }
+.cardapp.dark { color-scheme: dark; background: var(--bg-base); }
+.cardapp h2, .cardapp h3 { margin: 0; font-size: 17px; }
+.cardapp p { margin: 0; }
+.note { color: var(--text-secondary); font-size: 12px; overflow-wrap: anywhere; }
+.issuer .note { color: var(--text-primary); }   /* small text on the subtle box needs the stronger colour for 4.5:1 */
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+.primary, .secondary { min-height: 44px; padding: 0 14px; border-radius: 12px; font: 600 14px var(--font-body); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.primary { border: 0; background: var(--brand-primary); color: var(--text-on-brand, var(--bg-surface)); }
+.secondary { border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); }
+button[disabled] { opacity: .5; cursor: not-allowed; }
+.ic { width: 16px; height: 16px; display: inline-block; }
+.ic svg { width: 100%; height: 100%; display: block; }
+.chip .ic { width: 12px; height: 12px; }
+.issuer { border: 2px dashed var(--border-strong); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 6px; background: var(--bg-subtle); }
+.masked { font: 700 18px var(--font-mono); letter-spacing: .1em; }
+.stepup { border: 1px solid var(--border-strong); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.soon { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+@media (prefers-reduced-motion: reduce) { .card3d { transition: none; } }

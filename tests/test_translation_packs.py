@@ -9,7 +9,7 @@ import glob, json, os, unittest
 from services import translation as t
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SOURCES = sorted(glob.glob(os.path.join(ROOT, "web", "emulators", "*", "strings.en.json"))) + [os.path.join(ROOT, "web", "shell", "strings.en.json")]   # the shared shell's words too
+SOURCES = sorted(glob.glob(os.path.join(ROOT, "web", "emulators", "*", "strings.en.json"))) + [os.path.join(ROOT, "web", "shell", "strings.en.json"), os.path.join(ROOT, "web", "pos", "strings.en.json")]   # the shared shell and POS words too
 
 
 class LanguagePacks(unittest.TestCase):

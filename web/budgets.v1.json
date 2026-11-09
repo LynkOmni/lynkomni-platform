@@ -6,26 +6,57 @@
   "file_kb": 480,
   "first_screen_ms": 1500,
   "tap_ms": 120,
-  "dom_nodes": 2500
+  "dom_nodes": 2500,
+  "root": "#display"
  },
  "emulators": {
   "pos-terminal": {
    "first_tap": "[data-act=\"d1\"]"
   },
   "merchant-phone": {
-   "first_tap": "[data-act=\"sendcode\"]",
-   "file_kb": 460,
-   "file_kb_reason": "26 language packs of the full merchant app plus every country for the chooser (about 40 KB)"
+   "first_tap": "[data-act=\"sendcode\"]"
   },
   "browser-frame": {
-   "first_tap": "[data-act=\"shell:launcher\"]",
-   "file_kb": 600,
-   "file_kb_reason": "holds every language pack of the whole shell (26 languages) and the nine state pictures in both themes, plus every country (247 ISO countries, about 40 KB in compact form) for the country chooser; a real app loads one language at a time"
+   "first_tap": "[data-act=\"shell:launcher\"]"
   },
   "account-site": {
-   "first_tap": "[data-act=\"go:security\"]",
-   "file_kb": 900,
-   "file_kb_reason": "holds every language pack of the shell (138 texts) and the account site (199 texts) in 26 languages, about 650 KB of UTF-8 text, plus the state pictures in both themes; a real app loads one language at a time. First-screen and tap budgets are unchanged."
+   "first_tap": "[data-act=\"go:security\"]"
+  },
+  "counter-tablet": {
+   "first_tap": "[data-act=\"d1\"]",
+   "root": "#screen"
+  },
+  "kitchen-screen": {
+   "first_tap": "[data-act^=\"line:\"]",
+   "root": "#screen"
+  },
+  "customer-display": {
+   "first_tap": "[data-act^=\"add:\"]",
+   "root": "#till"
+  },
+  "rider-phone": {
+   "first_tap": "[data-act^=\"open:\"]",
+   "root": "#screen"
+  },
+  "stock-scanner": {
+   "first_tap": "[data-act=\"mode:count\"]",
+   "root": "#screen"
+  },
+  "button-phone": {
+   "first_tap": "[data-act=\"nav:down\"]",
+   "root": "#screen"
+  },
+  "vcard-card": {
+   "first_tap": "[data-act=\"flip\"]",
+   "root": "#screen"
+  },
+  "mesh-relay": {
+   "first_tap": "[data-act=\"sell\"]",
+   "root": "#screenA"
+  },
+  "owner-web": {
+   "first_tap": "[data-act=\"go:sales\"]",
+   "root": "#screen"
   }
  }
 }

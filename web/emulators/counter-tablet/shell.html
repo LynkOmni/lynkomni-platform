@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LynkPOS Counter Tablet</title>
+<meta name="description" content="Interactive emulator of the LynkPOS counter till: a tablet on a stand with a customer-facing display, printer, scanner, cash drawer and card tap area. Real sale rules, sandbox partners.">
+<style>/*@TOKENS@*/
+/*@STYLE@*/</style>
+</head>
+<body>
+<header class="pagehead">
+  <h1>LynkPOS counter tablet <span class="draft">Draft design</span></h1>
+  <p>Interactive emulator of the agreed counter till (build section 3): a tablet on a stand with a customer-facing display, receipt printer, barcode scanner, cash drawer and card tap area. Real LynkPOS rules from ts/src, sandbox partners, test money only. Not reviewed by a designer yet.</p>
+</header>
+<main class="stage">
+  <section class="rig" id="rig" aria-label="Counter tablet">
+    <div class="fit">
+      <div class="counter">
+        <div class="till">
+          <div class="tablet" id="tablet">
+            <div class="cam" aria-hidden="true"></div>
+            <div class="screen light" id="screen"><div class="app"></div></div>
+          </div>
+          <div class="stand" aria-hidden="true"><div class="mark" role="img" aria-label="LynkOmni">/*@BODYMARK@*/</div></div>
+          <div class="drawer" id="drawer"><div class="drawer-face"><span class="handle" aria-hidden="true"></span><span class="dstat" id="drawerStatus"></span></div></div>
+        </div>
+        <div class="side-kit">
+          <div class="cdisplay" aria-label="Customer-facing display"><div class="cscreen light" id="cscreen"></div></div>
+          <div class="printer-box"><div class="pslot" aria-hidden="true"></div><div class="paperwrap" id="paperWrap" hidden><div class="paper" id="paper" role="document" aria-label="Printed receipt"></div><button class="tear" id="tearBtn" type="button">Tear off</button></div><span class="pstat" id="printerStatus" aria-live="polite"></span></div>
+          <div class="reader" id="tapzone" role="button" tabindex="0" aria-label="Card reader: tap a card here"><i></i><i></i><i></i><i></i><span>tap</span></div>
+          <button class="scanner" id="scanKey" type="button" aria-label="Barcode scanner: scan a product">/*@I:ui-qr@*/</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <aside class="panel" aria-label="Emulator controls">
+    <h2 id="pTry"></h2>
+    <p class="help" id="pHelp"></p>
+    <h3 id="pCond"></h3>
+    <label><input type="checkbox" id="cOnline" checked> <span id="lOnline"></span></label>
+    <label><input type="checkbox" id="cFail"> <span id="lFail"></span></label>
+    <label style="align-items:center"><span id="lType"></span> <select id="cType"></select></label>
+    <label style="align-items:center"><span id="lPlan"></span> <select id="cPlan"></select></label>
+    <label style="align-items:center"><span id="lCountry"></span> <select id="cCountry"></select></label>
+    <label><input type="checkbox" id="cReal"> <span id="lReal"></span></label>
+    <label><input type="checkbox" id="cPractice"> <span id="lPractice"></span></label>
+    <label><input type="checkbox" id="cDark"> <span id="lDark"></span></label>
+    <label style="align-items:center"><span id="lLang"></span> <select id="cLang"></select></label>
+    <div id="stateButtons" class="states"></div>
+    <h3 id="pLog"></h3>
+    <ul class="log" id="log" aria-live="polite"></ul>
+  </aside>
+</main>
+<script>/*@SCRIPT@*/</script>
+</body>
+</html>
