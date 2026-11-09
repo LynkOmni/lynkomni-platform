@@ -31,7 +31,7 @@
   },
   {
    "id": "web-header",
-   "status": "planned",
+   "status": "live",
    "kind": "web",
    "offline": true,
    "uses": [
@@ -68,7 +68,7 @@
   },
   {
    "id": "side-menu",
-   "status": "planned",
+   "status": "live",
    "kind": "web",
    "offline": true,
    "uses": [
@@ -105,7 +105,7 @@
   },
   {
    "id": "auth-onboarding",
-   "status": "planned",
+   "status": "live",
    "kind": "web",
    "offline": true,
    "uses": [
@@ -296,7 +296,7 @@
   },
   {
    "id": "loading-empty",
-   "status": "planned",
+   "status": "live",
    "kind": "web",
    "offline": true,
    "uses": [

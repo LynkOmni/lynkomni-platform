@@ -6,11 +6,14 @@ import type { AddressMap, Entry, Icon, Link, NavItem, Notice, Pic, StateKind, Sy
 import { DAY, PAGES, RECOVERY, REGISTRATION_STEPS, SECURITY_EVENT_KEY, SIGN_UP_STEPS, applicationStatus, canSubmit, closesAt, consentState, dataRequestDue, nextSignUpStep, pagePath, payoutChange, recoveryPath, recoveryReady, recoveryReadyAt, signInAlertNeeded } from "../../../ts/src/account.js";
 import type { ApplicationStatus, Consent, Page, RecoveryPath, RegistrationStep, SignUpState } from "../../../ts/src/account.js";
 import type { UserState } from "../../../ts/src/pos.js";
+import { brandMark } from "../../../ts/src/brand.js";
+import type { BrandPlaces } from "../../../ts/src/brand.js";
+const HEADER_ROOM = { computer: 160, tablet: 160, phone: 40 } as const;   // px the shell header gives its brand place (web-header: logo from 96 px)
 
 interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; state: "available" | "coming_soon" }[] }
 interface BuildData {
   icons: Record<string, string>;
-  brand: { body: string; topLight: string; topDark: string; receipt: string };
+  brand: { body: string; receipt: string; places: BrandPlaces };
   pictures: { offLight: string; offDark: string; offAlt: string };
   statePictures: Record<string, Record<"light" | "dark", { svg: string; alt: string; contrast?: string }>>;
   packs: Record<string, CountryPack>; packOrder: string[];
@@ -244,7 +247,7 @@ function draw(): void {
   if (S.mode) d.setAttribute("data-mode", S.mode); else d.removeAttribute("data-mode");
   d.lang = S.lang === "xx-rtl" ? "ar" : S.lang === "xx" ? "en" : S.lang;
   d.dir = S.lang === "xx-rtl" ? "rtl" : S.lang === "xx" ? "ltr" : PACKS[S.lang]?.dir ?? "ltr";
-  const logo = S.theme === "dark" ? DATA.brand.topDark : DATA.brand.topLight;
+  const logo = brandMark(DATA.brand.places, "web-header", S.theme === "dark", "brandfill", HEADER_ROOM[S.size]);
   const items = signedIn() ? navItems() : [];
   const head = header({ logo, nav: items, notifications: signedIn() ? 1 : 0, signedIn: signedIn(), title: S.size === "computer" ? undefined : t("site_short"), surface: "app" }, S.size, t, icon);
   const nav = signedIn() ? navigation(items, S.size, t, icon) : "";

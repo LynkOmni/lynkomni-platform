@@ -3,11 +3,14 @@
 import { STATE_PICTURE, Undo, accountMenu, chart, comingSoon, commandBar, connectionChip, deliverNow, esc, filterRegions, globeSheet, regionName, header, helpPanel, launcher, messageNote, messageText, navigation, notificationsPanel, route, search, state, syncSheet, translationBanner, translator, undoToast, usernameField } from "../../../ts/src/shell.js";
 import type { AddressMap, ChatLang, ChatMessage, Entry, Icon, Link, NavItem, Notice, Pic, StateKind, SyncInfo, T, UsernameStatus, Viewport } from "../../../ts/src/shell.js";
 import type { UserState } from "../../../ts/src/pos.js";
+import { brandMark } from "../../../ts/src/brand.js";
+import type { BrandPlaces } from "../../../ts/src/brand.js";
+const HEADER_ROOM = { computer: 160, tablet: 160, phone: 40 } as const;   // px the shell header gives its brand place (web-header: logo from 96 px)
 
 interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; state: "available" | "coming_soon" }[] }
 interface BuildData {
   icons: Record<string, string>;
-  brand: { body: string; topLight: string; topDark: string; receipt: string };
+  brand: { body: string; receipt: string; places: BrandPlaces };
   pictures: { offLight: string; offDark: string; offAlt: string };
   statePictures: Record<string, Record<"light" | "dark", { svg: string; alt: string; contrast?: string }>>;
   states: Record<string, { label: string; meaning: string }>;
@@ -144,7 +147,7 @@ function draw(): void {
   if (S.mode) d.setAttribute("data-mode", S.mode); else d.removeAttribute("data-mode");
   d.lang = S.lang === "xx-rtl" ? "ar" : S.lang === "xx" ? "en" : S.lang;
   d.dir = S.lang === "xx-rtl" ? "rtl" : S.lang === "xx" ? "ltr" : PACKS[S.lang]?.dir ?? "ltr";
-  const logo = S.theme === "dark" ? DATA.brand.topDark : DATA.brand.topLight;
+  const logo = brandMark(DATA.brand.places, "web-header", S.theme === "dark", "brandfill", HEADER_ROOM[S.size]);
   const items = navItems();
   const head = header({ logo, nav: items, notifications: 1, signedIn: true, title: S.size === "computer" ? undefined : SHOP(), surface: "app" }, S.size, t, icon);
   const nav = navigation(items, S.size, t, icon);

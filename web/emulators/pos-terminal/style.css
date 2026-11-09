@@ -149,7 +149,7 @@ button { font: inherit; color: inherit; }
 .reasons { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 0 10px 10px; }
 .reasons button { min-height: 44px; border-radius: 10px; border: 1px solid var(--status-danger-border); background: var(--status-danger-bg); color: var(--status-danger-text); font-weight: 600; font-size: 12px; cursor: pointer; }
 .lock { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 22px 16px 10px; text-align: center; }
-.lockmark { width: 44px; display: block; }
+.lockmark { width: 150px; display: block; }
 .pname { margin: 4px 0 6px; font: 700 13px var(--font-heading); letter-spacing: .04em; color: var(--text-secondary); }
 .lock h1 { margin: 0; font-size: 17px; }
 .dots { display: flex; gap: 14px; margin: 14px 0 0; }

@@ -2,6 +2,9 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.23.1 (2026-11-09)
+- Brand marks follow their places: every screen had reused the app-bar emblem, so the full logo never showed. Screens now ask the brand module for their place (ts/src/brand.ts markFor and brandMark; the emulator build hands over the places from brand/surfaces.v1.json): the full logo in the web header on computer and tablet (the emblem on a phone, where the page title sits beside it), on every sign-in screen (account site, merchant phone, handheld terminal, counter tablet) and in the owner's sidebar; the emblem stays in phone and device app bars and on idle customer screens; the wordmark stays on printed receipts. Web header, side menu, sign-in and idle places are now live in brand/surfaces.v1.json. New tests: no screen uses a fixed mark, every place named is live, each screen shows the mark its place calls for, and markFor picks by room.
+
 ## v0.23.0 (2026-11-09)
 Build section 3, the Business app and the whole of LynkPOS (blueprint 41 S row 3, 42 I and J row 3, 44 L row 3, 45 E row 3), built and locked.
 - Device commands for the whole till (dv/box.py): shifts with opening float, cash counts and differences flagged for the owner (never blocking), the customer credit book with reminders, vouchers, parcel and order pickup by code, restaurant tables, kitchen tickets, splitting a bill, tips, closing a table, the staff time clock, delivery steps with proof, and practice mode (a clearly marked copy that never syncs). Agent, collection and partner requests are online only and never queued.

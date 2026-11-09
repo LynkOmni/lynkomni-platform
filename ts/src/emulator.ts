@@ -1,3 +1,4 @@
+import type { BrandPlaces } from "./brand.js";
 /** Shared runtime of every real-device emulator (build section 3): screen words in every language, the country chooser, money
  *  and clock formatting through the country pack, the event log with the five honest states and the sandbox cloud's answers.
  *  Each emulator keeps its own state and screens; this file keeps them consistent. No Node APIs; the DOM parts take elements. */
@@ -7,7 +8,7 @@ import type { UserState } from "./pos.js";
 export interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; ui: string; sample: boolean;
   ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; state: "available" | "coming_soon" }[] }
 export interface LanguagePack { native: string; dir: "ltr" | "rtl"; texts: Record<string, string> }
-export interface Build { icons: Record<string, string>; brand: { body: string; topLight: string; topDark: string; receipt: string }; pictures: { offLight: string; offDark: string; offAlt: string };
+export interface Build { icons: Record<string, string>; brand: { body: string; receipt: string; places: BrandPlaces }; pictures: { offLight: string; offDark: string; offAlt: string };
   states: Record<string, { label: string; meaning: string }>; packs: Record<string, CountryPack>; packOrder: string[]; i18n: Record<string, LanguagePack>;
   entitlements?: Record<string, Record<string, unknown>> }
 

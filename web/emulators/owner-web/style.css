@@ -12,7 +12,7 @@
 .url { flex: 1; display: flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; background: var(--bg-surface); color: var(--text-secondary); font: 13px var(--font-mono); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; direction: ltr; }
 .app { flex: 1; display: grid; grid-template-columns: 220px minmax(0, 1fr); min-height: 0; }
 .side { background: var(--bg-surface); border-inline-end: 1px solid var(--border-subtle); padding: 14px 10px; display: flex; flex-direction: column; gap: 2px; overflow: auto; }
-.side .logo { width: 32px; display: block; margin: 0 6px 12px; }
+.side .logo { width: 150px; display: block; margin: 0 6px 12px; }
 .side .logo svg { width: 100%; height: auto; display: block; }
 .side button { min-height: 40px; padding: 6px 10px; border: 0; border-radius: 8px; background: transparent; color: var(--text-primary); text-align: start; font: 600 14px var(--font-body); cursor: pointer; overflow-wrap: anywhere; }
 .side button[aria-current] { background: var(--brand-subtle); color: var(--brand-ink); }

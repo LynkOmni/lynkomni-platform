@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { STATUS_STATES, iconFile, statusIconFile, BRAND_THEMES, NO_BADGE_SCREENS, brandFile, brandSrc, chooseAsset, invoiceBrand, minWidth, poweredBy, surfaceVariant, themeVariant, type BrandManifest, type SurfacePolicy } from "../src/brand.js";
+import { STATUS_STATES, iconFile, statusIconFile, BRAND_THEMES, NO_BADGE_SCREENS, brandFile, brandMark, brandSrc, chooseAsset, invoiceBrand, markFor, minWidth, poweredBy, surfaceVariant, themeVariant, type BrandManifest, type SurfacePolicy } from "../src/brand.js";
 
 const M: BrandManifest = { assets: { logo: { minWidthPx: 96, accessibleName: "LynkOmni", variants: { light: { svg: "svg/a-light.svg" }, mono: { svg: "svg/a-mono.svg" } } } } };
 
@@ -70,4 +70,17 @@ test("icon lookup and the five states", () => {
   assert.throws(() => statusIconFile(ICONS, "pending"));
   assert.throws(() => iconFile(ICONS, "nope"));
   assert.deepEqual([...STATUS_STATES], ["queued", "sent", "accepted", "confirmed", "failed"]);
+});
+
+test("a screen gets the mark its place calls for, by the room it has", () => {
+  const places = {
+    "web-header": [{ asset: "logo" as const, minWidthPx: 96, light: "<svg>L</svg>", dark: "<svg>LD</svg>" }, { asset: "emblem" as const, minWidthPx: 0, light: "<svg>E</svg>", dark: "<svg>ED</svg>" }],
+    "app-top-bar": [{ asset: "emblem" as const, minWidthPx: 0, light: "<svg>E</svg>", dark: "<svg>ED</svg>" }],
+  };
+  assert.equal(markFor(places, "web-header", false, 160).asset, "logo");
+  assert.equal(markFor(places, "web-header", false, 40).asset, "emblem");
+  assert.equal(markFor(places, "web-header", true).svg, "<svg>LD</svg>");          // no width given: the place's first choice
+  assert.equal(markFor(places, "app-top-bar", false, 400).asset, "emblem");         // app bars never grow into the logo
+  assert.ok(brandMark(places, "web-header", false, "x", 160).includes(`data-brand-place="web-header" data-brand-asset="logo"`));
+  assert.throws(() => markFor(places, "nowhere", false));
 });

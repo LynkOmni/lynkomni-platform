@@ -61,6 +61,18 @@ class Emulators(unittest.TestCase):
             self.assertNotRegex(txt, r"\brgba?\(|\bhsla?\(", f"{f}: colour function, use a token")
             self.assertNotIn("7C4DFF", txt.upper(), f)
 
+    def test_every_brand_mark_asks_for_its_place(self):
+        """Screens ask the brand module for a place (brand/surfaces.v1.json), never for a fixed mark. Found 2026-11-09: every
+        screen reused the app-bar emblem, so the logo never showed in web headers, sign-in or sidebars. Every place an
+        emulator names must be a live surface, and the old fixed marks are gone."""
+        surfaces = {x["id"]: x for x in json.load(open(os.path.join(ROOT, "brand", "surfaces.v1.json"), encoding="utf-8"))["surfaces"]}
+        for f in SOURCES + [os.path.join(ROOT, "ts", "src", "emulator.ts")]:
+            txt = read(f)
+            self.assertNotRegex(txt, r"brand\.top(Light|Dark)", f"{f}: ask brandMark/markFor for a place")
+            for place in re.findall(r"(?:brandMark|markFor)\(DATA\.brand\.places, \"([a-z-]+)\"", txt):
+                self.assertIn(place, surfaces, f"{f}: {place} is not a brand place")
+                self.assertEqual(surfaces[place]["status"], "live", f"{f}: {place} is used, so brand/surfaces.v1.json must mark it live")
+
     def test_every_css_variable_is_a_real_token(self):
         """A misspelled or invented token silently falls back to another colour (found in build section 3: --text-on-brand
         gave dark text on the brand colour in the dark theme). Every var(--x) must be a design token, set in the same file,

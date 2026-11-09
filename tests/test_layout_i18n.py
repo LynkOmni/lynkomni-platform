@@ -373,3 +373,31 @@ class DeviceLayout(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+@unittest.skipUnless(sync_playwright and os.path.isfile(BROWSER), "Playwright with Chromium is needed")
+class BrandPlaces(unittest.TestCase):
+    """Each screen shows the mark its place calls for (brand/surfaces.v1.json): the full logo where the brand introduces
+    itself and there is room (web header on computer and tablet, sign-in, sidebar), the emblem in app bars and crowded
+    headers, the wordmark on printed receipts."""
+    CASES = [("browser-frame", 1280, {"web-header": "logo"}), ("account-site", 1280, {"web-header": "logo"}),
+             ("merchant-phone", 1280, {"auth-onboarding": "logo"}), ("pos-terminal", 1280, {"auth-onboarding": "logo"}),
+             ("counter-tablet", 1280, {"app-top-bar": "emblem", "auth-onboarding": "logo"}), ("owner-web", 1280, {"side-menu": "logo"})]
+
+    def test_each_place_shows_its_mark(self):
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            for emulator, width, want in self.CASES:
+                pg = b.new_page(viewport={"width": width, "height": 900})
+                pg.goto("file://" + os.path.join(ROOT, "web", "emulators", "dist", f"lynkomni-{emulator}.html"))
+                pg.wait_for_selector("html[data-ready]", state="attached")
+                got = dict(pg.eval_on_selector_all("[data-brand-place]", "els => els.map(e => [e.dataset.brandPlace, e.dataset.brandAsset])"))
+                for place, asset in want.items():
+                    self.assertEqual(got.get(place), asset, f"{emulator}: {place}")
+                pg.close()
+            pg = b.new_page(viewport={"width": 1280, "height": 900})   # a phone-sized shell writes the page title next to its mark: emblem
+            pg.goto("file://" + BROWSER); pg.wait_for_selector("html[data-ready]", state="attached")
+            pg.select_option("#cSize", "phone")
+            self.assertEqual(pg.eval_on_selector("[data-brand-place='web-header']", "e => e.dataset.brandAsset"), "emblem")
+            pg.select_option("#cSize", "tablet")
+            self.assertEqual(pg.eval_on_selector("[data-brand-place='web-header']", "e => e.dataset.brandAsset"), "logo")
+            b.close()

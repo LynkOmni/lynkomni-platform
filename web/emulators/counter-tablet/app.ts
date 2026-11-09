@@ -12,6 +12,7 @@ import { chargedWhen, deliveryEntitlement, groupOutcome, kitchenOutput, mayAddRi
 import { SETUP_STEPS, nextSetupStep, parseVoice } from "../../../ts/src/business.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, pick, plain, reducedMotion } from "../../../ts/src/emulator.js";
 import type { Build } from "../../../ts/src/emulator.js";
+import { brandMark } from "../../../ts/src/brand.js";
 
 declare const DATA: Build & { entitlements: Record<string, PosEntitlement>; fx: Record<string, number> };
 type Tab = "home" | "sell" | "stock" | "chats" | "business" | "tables" | "kitchen" | "invoices" | "customers" | "services" | "float";
@@ -118,7 +119,7 @@ function tabBar(): string {
 }
 function top(title: string): string {
   const p = LOG.pending();
-  return `<header class="top"><span class="brandmark" role="img" aria-label="LynkOmni">${S.dark ? DATA.brand.topDark : DATA.brand.topLight}</span><h1>${esc(title)}</h1>${S.practice ? `<span class="practice">${esc(t("practice"))}</span>` : ""}
+  return `<header class="top">${brandMark(DATA.brand.places, "app-top-bar", S.dark, "brandmark")}<h1>${esc(title)}</h1>${S.practice ? `<span class="practice">${esc(t("practice"))}</span>` : ""}
     <button class="netchip${S.online ? "" : " off"}" data-act="noop" aria-label="${esc(t("sync"))}">${icon(S.online ? "ui-sync" : "ui-offline")}<span>${esc(t(S.online ? "online" : "offline"))}</span>${p.count ? `<span class="count">${p.count}</span>` : ""}</button></header>`;
 }
 function sellScreen(): string {
@@ -233,7 +234,7 @@ function voiceScreen(): string {
     <div class="row"><button class="primary" data-act="listen">${icon("ui-mic")}${esc(t("voice"))}</button><button class="link" data-act="back">${esc(t("basket"))}</button></div></div>`;
 }
 function lockScreen(): string {
-  return `<div class="lock"><span class="lockmark">${icon("ui-lock")}</span><h1>${esc(t("enter_pin"))}</h1><p class="note">${esc(S.idleTicks ? t("locked_idle") : "")}</p><div class="dots">${[0, 1, 2, 3].map((i) => `<i class="${S.pin.length > i ? "on" : ""}"></i>`).join("")}</div>
+  return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.dark, "locklogo")}<h1>${esc(t("enter_pin"))}</h1><p class="note">${esc(S.idleTicks ? t("locked_idle") : "")}</p><div class="dots">${[0, 1, 2, 3].map((i) => `<i class="${S.pin.length > i ? "on" : ""}"></i>`).join("")}</div>
     <div class="soft">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => `<button data-act="d${d}">${d}</button>`).join("")}<button data-act="clear" aria-label="${esc(t("cancel"))}">${icon("ui-arrow-left")}</button><button data-act="d0">0</button><button data-act="enter" aria-label="${esc(t("unlock"))}">${icon("ui-check")}</button></div><p class="hint">PIN 1234</p></div>`;
 }
 function page(): string {
@@ -252,7 +253,7 @@ function page(): string {
 }
 function customerDisplay(): string {
   const cur = C.pack().currency;
-  if (S.cdisplay === "welcome" || !S.unlocked || (S.cdisplay === "basket" && !S.cart.lines().length)) return `<div class="cwelcome"><span class="cmark">${S.dark ? DATA.brand.topDark : DATA.brand.topLight}</span><h2>${esc(t("welcome"))}</h2><p>${esc(t("sample_shop"))}</p></div>`;
+  if (S.cdisplay === "welcome" || !S.unlocked || (S.cdisplay === "basket" && !S.cart.lines().length)) return `<div class="cwelcome">${brandMark(DATA.brand.places, "loading-empty", S.dark, "cmark")}<h2>${esc(t("welcome"))}</h2><p>${esc(t("sample_shop"))}</p></div>`;
   if (S.cdisplay === "thanks") return `<div class="cwelcome"><h2>${esc(t("thank_you_visit"))}</h2><p>${esc(money(S.current?.sale.total ?? 0))}</p></div>`;
   const second = secondCurrency(total(), cur, cur === "USD" ? "EUR" : "USD", (m, a, b) => Math.round(m * ((DATA.fx[b] ?? 1) / (DATA.fx[a] ?? 1))));
   return `<div class="cbasket"><ul>${S.cart.lines().map((l) => `<li><span>${esc(t(l.product.name))} × ${qtyText(l.qtyMilli)}</span><span>${esc(money(l.product.price * l.qtyMilli / 1000))}</span></li>`).join("")}</ul><div class="ctot"><span>${esc(t("your_total"))}</span><strong>${esc(money(total()))}</strong></div>${second ? `<small>${esc(t("second_currency", { amount: C.money(second.amount, second.currency), currency: cur }))}</small>` : ""}${S.cdisplay === "pay" && S.method !== "cash" ? `<p class="cpay">${icon("ui-qr")} ${esc(t("pay_by_qr"))}</p>` : ""}${S.tier === "free" ? `<small class="pb">${esc(t("powered_by"))} LynkOmni</small>` : ""}</div>`;
