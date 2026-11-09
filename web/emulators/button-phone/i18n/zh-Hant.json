@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "手機類型（測試）",
+  "bp_kind_basic": "基本手機：USSD、簡訊和語音",
+  "bp_kind_button": "有應用程式的按鍵手機",
+  "bp_kind_feature": "簡易手機（輕量應用程式）",
+  "ch_dial": "撥打 LynkPOS 代碼",
+  "ch_idle": "透過手機使用 LynkPOS",
+  "ch_message_to": "傳給 LynkPOS 的簡訊",
+  "ch_no_command": "不是指令。傳送 4 取得說明。",
+  "ch_reply": "回覆",
+  "ch_sandbox": "範例（沙盒）：在您所在國家簽約閘道之前，沒有真實的代碼或號碼。",
+  "ch_send": "傳送",
+  "ch_session_ended": "工作階段已結束",
+  "ch_spoken": "語音朗讀；請按數字",
+  "ch_text": "傳送簡訊",
+  "ch_voice": "撥打語音選單",
   "title": "按鍵手機上的 LynkPOS"
  }
 }

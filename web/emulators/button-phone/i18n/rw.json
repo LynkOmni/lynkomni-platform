@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "rw",
  "native": "Ikinyarwanda",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "Ubwoko bwa telefoni (igerageza)",
+  "bp_kind_basic": "Telefoni isanzwe: USSD, ubutumwa bugufi n'ijwi",
+  "bp_kind_button": "Telefoni ifite utubuto n'porogaramu",
+  "bp_kind_feature": "Telefoni yoroheje (porogaramu yoroshye)",
+  "ch_dial": "Kanda kode ya LynkPOS",
+  "ch_idle": "LynkPOS kuri telefoni",
+  "ch_message_to": "Ubutumwa kuri LynkPOS",
+  "ch_no_command": "Si itegeko. Ohereza 4 ubone ubufasha.",
+  "ch_reply": "Igisubizo",
+  "ch_sandbox": "Urugero (igerageza): nta kode cyangwa nimero nyayo bihari kugeza irembo risinywe mu gihugu cyawe.",
+  "ch_send": "Ohereza",
+  "ch_session_ended": "Igikorwa cyarangiye",
+  "ch_spoken": "Bisomwa mu ijwi; kanda umubare",
+  "ch_text": "Ohereza ubutumwa bugufi",
+  "ch_voice": "Hamagara ibikubiyemo by'ijwi",
   "title": "LynkPOS kuri telefone ifite utubuto"
  }
 }

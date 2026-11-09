@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "ফোনের ধরন (পরীক্ষা)",
+  "bp_kind_basic": "বেসিক ফোন: USSD, এসএমএস ও কণ্ঠ",
+  "bp_kind_button": "অ্যাপসহ বোতাম ফোন",
+  "bp_kind_feature": "সাধারণ ফোন (হালকা অ্যাপ)",
+  "ch_dial": "LynkPOS কোড ডায়াল করুন",
+  "ch_idle": "ফোনে LynkPOS",
+  "ch_message_to": "LynkPOS-কে বার্তা",
+  "ch_no_command": "এটি কোনো কমান্ড নয়। সাহায্যের জন্য 4 পাঠান।",
+  "ch_reply": "উত্তর",
+  "ch_sandbox": "নমুনা (স্যান্ডবক্স): আপনার দেশে কোনো গেটওয়ে স্বাক্ষরিত না হওয়া পর্যন্ত আসল কোড বা নম্বর নেই।",
+  "ch_send": "পাঠান",
+  "ch_session_ended": "সেশন শেষ",
+  "ch_spoken": "জোরে পড়া হয়; একটি সংখ্যা চাপুন",
+  "ch_text": "এসএমএস পাঠান",
+  "ch_voice": "কণ্ঠ মেনুতে কল করুন",
   "title": "বাটন ফোনে LynkPOS"
  }
 }

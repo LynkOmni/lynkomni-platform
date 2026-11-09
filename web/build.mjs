@@ -12,21 +12,21 @@ import { fileURLToPath } from "node:url";
 const WEB = dirname(fileURLToPath(import.meta.url));
 const ROOT = dirname(WEB);
 const OUT = join(WEB, "emulators", "dist");
-const DEVICE_MODULES = ["ts/src/brand.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/pos.js", "ts/src/merchant.js", "ts/src/business.js", "ts/src/agent.js", "ts/src/restaurant.js", "ts/src/emulator.js", "SH=ts/src/usernames.generated.js+ts/src/usernames.js+ts/src/shell.js", "ts/src/deviceshell.js"];
+const DEVICE_MODULES = ["ts/src/brand.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/pos.js", "ts/src/merchant.js", "ts/src/business.js", "ts/src/agent.js", "ts/src/restaurant.js", "ts/src/emulator.js", "SH=ts/src/usernames.generated.js+ts/src/usernames.js+ts/src/shell.js", "ts/src/deviceshell.js", "ts/src/interfaces.generated.js", "ts/src/interfaces.js", "ts/src/devicemode.js"];
 // every tracked thing is drawn the same way everywhere (owner, 9 November 2026): the engine, its register and the shared look
 const TRACK_MODULES = ["ts/src/tracking.js", "ts/src/tracking.generated.js", "ts/src/trackview.js"];
 // every interface picks its view from the device register (DEVICE, 48.17) and supports touch gestures and arrow navigation
 const INTERFACE_MODULES = ["ts/src/interfaces.generated.js", "ts/src/interfaces.js", "ts/src/gestures.js"];
 const EMULATORS = [
   { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: [...DEVICE_MODULES, "web/emulators/pos-terminal/app.js"] },
-  { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: ["ts/src/usernames.generated.js", "ts/src/usernames.js", ...DEVICE_MODULES, ...TRACK_MODULES, "web/emulators/merchant-phone/app.js"] },
+  { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: ["ts/src/usernames.generated.js", "ts/src/usernames.js", ...DEVICE_MODULES, ...TRACK_MODULES, "ts/src/reservations.js", "ts/src/drivers.js", "ts/src/drivers.generated.js", "web/emulators/merchant-phone/app.js"] },
   { id: "browser-frame", out: "lynkomni-browser-frame.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", ...INTERFACE_MODULES, "web/emulators/browser-frame/app.js"],
     extraCss: ["web/shell/shell.css"] },
   { id: "account-site", out: "lynkomni-account-site.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", "ts/src/account.js", ...INTERFACE_MODULES, ...TRACK_MODULES, "web/emulators/account-site/app.js"],
     extraCss: ["web/shell/shell.css"] },
   // build section 3: the Business app devices, all on the shared device runtime (ts/src/emulator.js) and words (web/pos)
   ...["counter-tablet", "kitchen-screen", "customer-display", "rider-phone", "stock-scanner", "button-phone", "vcard-card", "mesh-relay", "owner-web", "track-page"]
-    .map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...DEVICE_MODULES, ...(["rider-phone", "track-page"].includes(id) ? TRACK_MODULES : []), `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
+    .map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...DEVICE_MODULES, ...(["rider-phone", "track-page"].includes(id) ? TRACK_MODULES : []), ...(id === "button-phone" ? ["ts/src/channels.js"] : []), `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
 ];
 
 const read = (p) => readFileSync(p, "utf8");
@@ -111,7 +111,7 @@ for (const e of EMULATORS) {
   const dir = join(WEB, "emulators", e.id);
   let html = read(join(dir, "shell.html"))
     .replace("/*@TOKENS@*/", () => fontCss + "\n" + tokens)
-    .replace("/*@STYLE@*/", () => [...(e.extraCss ?? []), ...(e.modules.includes("ts/src/footer.js") ? ["web/footer/footer.css"] : []), ...(e.modules.includes("ts/src/deviceshell.js") ? ["web/device/deviceshell.css"] : []), ...(e.modules.includes("ts/src/trackview.js") ? ["web/tracking/tracking.css"] : [])].map((c) => read(join(ROOT, c))).join("\n") + "\n" + read(join(dir, "style.css")))   // the footer's styles travel with the footer module
+    .replace("/*@STYLE@*/", () => [...(e.extraCss ?? []), ...(e.modules.includes("ts/src/footer.js") ? ["web/footer/footer.css"] : []), ...(e.modules.includes("ts/src/deviceshell.js") ? ["web/device/deviceshell.css"] : []), ...(e.modules.includes("ts/src/devicemode.js") ? ["web/device/devicemode.css"] : []), ...(e.modules.includes("ts/src/trackview.js") ? ["web/tracking/tracking.css"] : [])].map((c) => read(join(ROOT, c))).join("\n") + "\n" + read(join(dir, "style.css")))   // the footer's styles travel with the footer module
     .replace("/*@BODYMARK@*/", () => D.brand.body)
     .replace("/*@FAVICON@*/", () => `<span class="fav-l">${D.brand.favicon.light}</span><span class="fav-d">${D.brand.favicon.dark}</span>`)
     .replace("</head>", () => `${faviconLinks(D.brand.favicon)}\n</head>`)

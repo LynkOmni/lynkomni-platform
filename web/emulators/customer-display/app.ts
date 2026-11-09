@@ -8,6 +8,8 @@ import { secondCurrency } from "../../../ts/src/business.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, reducedMotion, stateButtons } from "../../../ts/src/emulator.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
+import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
+import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 
 declare const DATA: Build & { fx: Record<string, number> };
 const TIERS = ["free", "plus", "pro", "max"] as const;
@@ -37,8 +39,12 @@ function till(): string {
   return `<h3>${esc(t("customer_display"))}</h3><div class="tbtns">${products.map((p) => `<button data-act="add:${p.id}">+ ${esc(t(p.name))}</button>`).join("")}</div>
     <div class="tbtns"><button data-act="pay" ${cart.lines().length ? "" : "disabled"}>${esc(t("charge"))}</button><button data-act="clear">${esc(t("new_sale"))}</button></div>`;
 }
+/** Touch or display only (DEVICE 48.17.14): the customer display shows the same screens either way; without touch nothing on it
+ *  needs pressing (the till drives it), so it has no pad. */
+const DM = new DeviceMode(DEVICES, "customer-display");
+const DEV = wireDevice(DM, { t, icon: (id) => `<span class="ic" aria-hidden="true">${DATA.icons[id] ?? ""}</span>`, screen: () => document.getElementById("screen"), pad: () => null, back: () => undefined, redraw: () => draw(), rtl: () => document.getElementById("screen")?.dir === "rtl" });
 function draw(): void {
-  const el = $("#screen"); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = display();
+  const el = $("#screen"); DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = display();
   const tl = $("#till"); applyRoot(tl, W); tl.innerHTML = till();
 }
 function act(a: string): void {
@@ -52,7 +58,7 @@ function act(a: string): void {
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "fail", "plan", "country", "dark", "lang"], S, W, C, { tiers: TIERS });
+  $("#panel").innerHTML = panelHtml(["online", "fail", "plan", "country", "dark", "lang"], S, W, C, { tiers: TIERS }) + DEV.control();
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["welcome", "basket", "pay", "thanks"], (k) => { if (!cart.lines().length && products[0] && products[1]) { cart.add(products[0]); cart.add(products[1], 2000); } S.step = k as Step; S.payState = "sent"; draw(); });
 }
@@ -60,7 +66,7 @@ function main(): void {
   S.country = DATA.packOrder[0] ?? "";
   panel(); draw();
   document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (b && !b.hasAttribute("disabled")) act(b.dataset["act"] ?? ""); });
-  $("#panel").addEventListener("change", (e) => { if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });
+  $("#panel").addEventListener("change", (e) => { if (DEV.change(e.target as HTMLElement)) return; if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });
   window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); }, 400);
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 760);
 }

@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "Irú fóònù (ìdánwò)",
+  "bp_kind_basic": "Fóònù àtijọ́: USSD, àtẹ̀jíṣẹ́ àti ohùn",
+  "bp_kind_button": "Fóònù oníbọ́tìnì pẹ̀lú áàpù",
+  "bp_kind_feature": "Fóònù rírọrùn (áàpù fúyẹ́)",
+  "ch_dial": "Tẹ kóòdù LynkPOS",
+  "ch_idle": "LynkPOS lórí fóònù",
+  "ch_message_to": "Ìfiránṣẹ́ sí LynkPOS",
+  "ch_no_command": "Kì í ṣe àṣẹ. Fi 4 ránṣẹ́ fún ìrànlọ́wọ́.",
+  "ch_reply": "Ìdáhùn",
+  "ch_sandbox": "Àpẹẹrẹ (ìdánwò): kò sí kóòdù tàbí nọ́mbà gidi títí a ó fi fọwọ́ sí ẹnu-ọ̀nà ìsopọ̀ ní orílẹ̀-èdè rẹ.",
+  "ch_send": "Fi ránṣẹ́",
+  "ch_session_ended": "Ìpàdé ti parí",
+  "ch_spoken": "A ń kà á sókè; tẹ nọ́mbà kan",
+  "ch_text": "Fi àtẹ̀jíṣẹ́ ránṣẹ́",
+  "ch_voice": "Pe àkójọ ohùn",
   "title": "LynkPOS lórí fóònù oníbọ́tìnnì"
  }
 }

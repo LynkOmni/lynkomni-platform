@@ -1288,6 +1288,41 @@
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country after legal sign-off"
    ]
+  },
+  {
+   "id": "ussd_gateway",
+   "name": "USSD, text-message short code and voice-menu gateway",
+   "kind": "messaging",
+   "used_by": [
+    "pos"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "core.channels:ChannelGateway",
+   "sandbox": "core.channels:SandboxChannelGateway",
+   "needed_from_provider": [
+    "a USSD code per country from a licensed aggregator or mobile network",
+    "a text-message short code with two-way messages",
+    "a voice-menu number with key presses",
+    "session callbacks to LynkOmni's engine and a fee schedule"
+   ],
+   "placeholders": [
+    {
+     "file": "core/channels.py",
+     "token": "SandboxChannelGateway"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "BIZZ & DEVICE 48.17: basic phones with no apps (interface phone.text) use LynkPOS by USSD, text message or a voice menu through one engine (core/channels.py, ts/src/channels.ts). The channel stays off for real users until a gateway is signed in the country; LynkPOS itself is never gated.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country after legal sign-off"
+   ]
   }
  ],
  "later": [

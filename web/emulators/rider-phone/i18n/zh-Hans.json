@@ -4,8 +4,17 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "16a443b1089a9b3b56ec8af1efb5f9be14173811d4b839007ad556480455b3c0",
+ "source_sha256": "0e2c0e7a40e99f1098e317497a915b9ab35f5d1341c623163e6e775171a37d1c",
  "texts": {
-  "title": "自有员工配送用的骑手手机"
+  "car_next": "下一步：{step}",
+  "car_stop": "请停车后再使用屏幕。",
+  "car_voice_only": "驾驶时：仅限语音。请说\"下一单配送\"或\"已取货\"。",
+  "rk_car": "车载屏幕",
+  "rk_device": "设备（测试）",
+  "rk_moving": "车辆正在行驶",
+  "rk_phone": "手机",
+  "rk_watch": "手表",
+  "title": "自有员工配送用的骑手手机",
+  "watch_more": "更多内容请在手机上查看"
  }
 }

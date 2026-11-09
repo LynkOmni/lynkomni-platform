@@ -8,6 +8,8 @@ import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChang
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { designedState, panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
 import type { Entry } from "../../../ts/src/shell.js";
+import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
+import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 
 declare const DATA: Build;
 type Mode = "count" | "receive" | "adjust";
@@ -21,6 +23,9 @@ const chip = (s: UserState): string => `<span class="chip st-${s}">${icon(`statu
 const LOG = new EventLog(() => { const el = document.getElementById("log"); if (el) el.innerHTML = LOG.html(esc, chip, t("no_events")); draw(); });
 const ITEMS: Item[] = ([["p_rice", "6001", 24, 10], ["p_sugar", "6002", 6, 8], ["p_oil", "6004", 2, 5], ["p_eggs", "6006", -1, 3], ["p_water", "6008", 36, 12], ["p_soap", "6011", 18, 6]] as const)
   .map(([name, barcode, lv, re]) => ({ id: newId(), name, barcode, level: lv * 1000, reorder: re * 1000 }));
+/** Touch or buttons (DEVICE 48.17.14): the registered hardware version decides; a button scanner works by its keys alone. */
+const DM = new DeviceMode(DEVICES, "handheld-scanner");
+const DEV = wireDevice(DM, { t, icon, screen: () => document.getElementById("screen"), pad: () => document.getElementById("pad"), back: () => { S.cur = ""; draw(); }, redraw: () => draw(), rtl: () => document.getElementById("screen")?.dir === "rtl" });
 const item = (): Item | undefined => ITEMS.find((i) => i.id === S.cur);
 const word = (i: Item): string => { const st = stockState(i.level, i.reorder); return st === "negative" ? t("negative_stock") : st === "low" ? t("low_stock") : ""; };
 
@@ -56,7 +61,7 @@ function screen(): string {
   return `${head}${tabs}<div class="sbody"><h2>${esc(t(i.name))}</h2><p class="code">${esc(i.barcode)}</p><p>${esc(t("in_stock", { n: qtyText(i.level) }))}${word(i) ? ` · <em>${esc(word(i))}</em>` : ""}</p>
     <div class="qty"><button data-act="minus" aria-label="−">${icon("ui-minus")}</button><output>${S.qty}</output><button data-act="plus" aria-label="+">${icon("ui-plus")}</button></div><button class="save" data-act="save">${esc(t("save"))}</button></div>`;
 }
-function draw(): void { const el = $("#screen"); if (!el) return; el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W); el.innerHTML = screen() + DSH.overlay(); const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address(); }
+function draw(): void { const el = $("#screen"); if (!el) return; DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W); el.innerHTML = screen() + DSH.overlay(); const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address(); }
 function act(a: string): void {
   const [k = "", v = ""] = a.split(":");
   if (k === "pick") { const x = ITEMS.find((i) => i.id === v); if (x) { S.cur = x.id; S.qty = 1; } }
@@ -66,18 +71,18 @@ function act(a: string): void {
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang"], S, W, C);
+  $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang"], S, W, C) + DEV.control();
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["list", "count", "receive", "adjust"], (k) => { if (k === "list") S.cur = ""; else { S.mode = k as Mode; S.cur = ITEMS[3]!.id; S.qty = 1; } draw(); });
 }
 function main(): void {
   S.country = DATA.packOrder[0] ?? ""; panel(); draw();
-  document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (!b) return; if (b.classList.contains("dsh-scrim") && (e.target as HTMLElement).closest("[data-stop]")) return; if (!DSH.act(b.dataset["act"] ?? "")) act(b.dataset["act"] ?? ""); });
+  document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (!b) return; if (DEV.act(b.dataset["act"] ?? "")) return; if (b.classList.contains("dsh-scrim") && (e.target as HTMLElement).closest("[data-stop]")) return; if (!DSH.act(b.dataset["act"] ?? "")) act(b.dataset["act"] ?? ""); });
   document.addEventListener("input", (e) => { DSH.input(e.target as HTMLInputElement); });
-  document.addEventListener("keydown", (e) => { DSH.key(e); });
+  document.addEventListener("keydown", (e) => { if (DSH.key(e)) return; DEV.key(e); });
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
   $("#trigger").addEventListener("click", scan);
-  $("#panel").addEventListener("change", (e) => { if (panelChange(e.target as HTMLSelectElement, S, DATA)) panel(); draw(); });
+  $("#panel").addEventListener("change", (e) => { if (DEV.change(e.target as HTMLElement)) return; if (panelChange(e.target as HTMLSelectElement, S, DATA)) panel(); draw(); });
   window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); }, 400);
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 420);
 }

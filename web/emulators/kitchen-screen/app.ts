@@ -9,6 +9,8 @@ import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChang
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { designedState, panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
 import type { Entry } from "../../../ts/src/shell.js";
+import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
+import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 
 declare const DATA: Build & { entitlements: Record<string, PosEntitlement> };
 const TIERS = ["free", "plus", "pro", "max"] as const;
@@ -61,9 +63,12 @@ function screen(): string {
       <ul>${tk.lines.map((x) => `<li class="${x.ready ? "done" : ""}"><button data-act="line:${tk.id}:${x.lineNo}" ${x.ready ? "disabled" : ""}><span class="q">${x.qty}</span><span class="nm">${esc(t(x.name))}${x.mods ? `<small>${esc(t(x.mods))}</small>` : ""}</span>${x.ready ? chip("confirmed") : ""}</button></li>`).join("")}</ul>
       <button class="kready" data-act="all:${tk.id}">${esc(t("ready"))}</button></article>`).join("") || `<p class="kall">${esc(t("all_ready"))}</p>${designedState("empty", t, DATA.statePictures, S.dark, { label: t("help"), act: "dsh:help" })}`}</div>`;
 }
-function draw(): void { const el = $("#screen"); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W); el.innerHTML = screen() + DSH.overlay(); const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address(); }
+/** Touch or remote (DEVICE 48.17.14): a wall screen without touch works by the bump bar and a remote's arrows, OK and Back. */
+const DM = new DeviceMode(DEVICES, "kitchen-screen");
+const DEV = wireDevice(DM, { t, icon, screen: () => document.getElementById("screen"), pad: () => document.getElementById("pad"), back: () => { DSH.act("dsh:close"); }, redraw: () => draw(), rtl: () => document.getElementById("screen")?.dir === "rtl" });
+function draw(): void { const el = $("#screen"); DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W); el.innerHTML = screen() + DSH.overlay(); const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address(); }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "plan", "country", "dark", "lang"], S, W, C, { tiers: TIERS });
+  $("#panel").innerHTML = panelHtml(["online", "plan", "country", "dark", "lang"], S, W, C, { tiers: TIERS }) + DEV.control();
   $("#panel").insertAdjacentHTML("afterbegin", `<p><button type="button" class="pill" data-act="incoming">+ ${esc(t("new_order_test"))}</button></p>`);
   stateButtons($("#stateButtons"), ["queue", "empty", "printed", "late"], (k) => { if (k === "empty") S.tickets = []; if (k === "printed") S.tier = "free"; if (k === "queue" || k === "late") { S.tier = S.tier === "free" ? "plus" : S.tier; if (!open().length) { incoming("4"); incoming("7"); } if (k === "late" && open()[0]) open()[0]!.at = Date.now() - 12 * 60000; } panel(); draw(); });
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
@@ -74,13 +79,14 @@ function main(): void {
   document.addEventListener("click", (e) => {
     const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (!b) return;
     if (b.classList.contains("dsh-scrim") && (e.target as HTMLElement).closest("[data-stop]")) return;
+    if (DEV.act(b.dataset["act"] ?? "")) return;
     if (DSH.act(b.dataset["act"] ?? "")) return;
     act(b.dataset["act"] ?? "");
   });
   document.addEventListener("input", (e) => { DSH.input(e.target as HTMLInputElement); });
-  document.addEventListener("keydown", (e) => { DSH.key(e); });
+  document.addEventListener("keydown", (e) => { if (DSH.key(e)) return; DEV.key(e); });
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
-  $("#panel").addEventListener("change", (e) => { if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });
+  $("#panel").addEventListener("change", (e) => { if (DEV.change(e.target as HTMLElement)) return; if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });
   window.setInterval(() => { S.ticks += 1; if (LOG.tick(S.online, false, S.ticks, () => undefined)) draw(); if (S.ticks % 75 === 0) draw(); }, 400);
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 1000);
 }

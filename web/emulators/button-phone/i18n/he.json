@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "סוג טלפון (בדיקה)",
+  "bp_kind_basic": "טלפון בסיסי: USSD, הודעות טקסט וקול",
+  "bp_kind_button": "טלפון מקשים עם האפליקציה",
+  "bp_kind_feature": "טלפון פשוט (אפליקציה קלה)",
+  "ch_dial": "חיוג לקוד של LynkPOS",
+  "ch_idle": "LynkPOS בטלפון",
+  "ch_message_to": "הודעה אל LynkPOS",
+  "ch_no_command": "זו לא פקודה. יש לשלוח 4 לעזרה.",
+  "ch_reply": "תשובה",
+  "ch_sandbox": "דוגמה (ארגז חול): אין קוד או מספר אמיתי עד שייחתם שער במדינה שלך.",
+  "ch_send": "שליחה",
+  "ch_session_ended": "הפגישה הסתיימה",
+  "ch_spoken": "מוקרא בקול; יש ללחוץ על מספר",
+  "ch_text": "שליחת הודעת טקסט",
+  "ch_voice": "התקשרות לתפריט הקולי",
   "title": "LynkPOS בטלפון מקשים"
  }
 }

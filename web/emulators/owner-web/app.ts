@@ -11,6 +11,8 @@ import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
 import type { Entry } from "../../../ts/src/shell.js";
+import { DeviceMode } from "../../../ts/src/devicemode.js";
+import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 const SIDE_W = 200;   // px of room the 220 px sidebar gives its brand place (side-menu: logo from 140 px)
 
 interface Auto { id: string; level: string; assist: string | null; trigger: string; min_tier: string | null; default: string }
@@ -80,8 +82,10 @@ const DSH = panelShell({
   run: (a) => act(a), redraw: () => draw(),
 });
 function page(): string { return { today, sales, devices, staff, commissions, automations, sharing }[S.page](); }
+/** The owner's computer view is the all-in-one without touch (catalog/devices.v1.json): mouse and keyboard. */
+const DM = new DeviceMode(DEVICES, "all-in-one-pos", "non_touch");
 function draw(): void {
-  const el = $("#screen"); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W);
+  const el = $("#screen"); DM.apply(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W);
   el.innerHTML = `<div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">${icon("ui-lock")}app.lynkomni.com${esc(PATH[S.page])}</span></div>
     <div class="app"><nav class="side" aria-label="LynkOmni">${brandMark(DATA.brand.places, "side-menu", S.dark, "logo", SIDE_W)}${PAGES.map((p) => `<button data-act="go:${p}" ${S.page === p ? 'aria-current="page"' : ""}>${esc(t(LABEL[p]))}</button>`).join("")}</nav><main class="main"><div class="mhead">${DSH.bar()}</div><p class="viewonly" role="note">${icon("ui-info")}${esc(t("view_only_computer"))}</p>${page()}${appMainFooter(W, C, DATA)}</main></div>${DSH.overlay()}`;
   const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address();

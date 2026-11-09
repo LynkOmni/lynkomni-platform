@@ -13,6 +13,8 @@ import type { BrandPlaces } from "../../../ts/src/brand.js";
 import { DeviceShell, designedState, screenArticles } from "../../../ts/src/deviceshell.js";
 import type { DsScreen, StatePictures } from "../../../ts/src/deviceshell.js";
 import type { Entry } from "../../../ts/src/shell.js";
+import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
+import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 
 interface BuildData {
   icons: Record<string, string>;
@@ -436,12 +438,16 @@ function view(): string {
   }
 }
 
+/** Touch or buttons (DEVICE 48.17.14): the registered hardware version decides; a button terminal works by its keys alone. */
+const DM = new DeviceMode(DEVICES, "pos-terminal");
+const DEV = wireDevice(DM, { t, icon, screen: () => document.getElementById("display"), pad: () => document.getElementById("pad"), back: () => cancelKey(), redraw: () => draw(), rtl: () => document.getElementById("display")?.dir === "rtl" });
 function draw(): void {
   const d = $("#display");
   d.className = `display ${S.theme}`;
   d.lang = S.lang === "xx-rtl" ? "ar" : S.lang === "xx" ? "en" : S.lang;
   d.dir = S.lang === "xx-rtl" ? "rtl" : S.lang === "xx" ? "ltr" : PACKS[S.lang]?.dir ?? "ltr";
   d.querySelector(".app")!.innerHTML = view() + DSH.overlay();
+  DEV.draw(d);
   const a = document.getElementById("address"); if (a) a.textContent = DSH.address();
   drawStatus();
 }
@@ -501,6 +507,7 @@ function wire(): void {
   document.addEventListener("click", (ev) => {
     const el = (ev.target as HTMLElement).closest<HTMLElement>("[data-act]");
     if (el?.classList.contains("dsh-scrim") && (ev.target as HTMLElement).closest("[data-stop]")) return;   // a tap inside a panel
+    if (el && DEV.act(el.dataset["act"] ?? "")) return;
     if (el && !(el as HTMLButtonElement).disabled) act(el.dataset["act"] ?? "");
   });
   $("#display").addEventListener("input", (ev) => { DSH.input(ev.target as HTMLInputElement); });
@@ -521,8 +528,11 @@ function wire(): void {
   sel.insertAdjacentHTML("afterbegin", Object.entries(PACKS).map(([code, p]) => `<option value="${esc(code)}" lang="${esc(code)}" dir="${p.dir}">${esc(p.native)}</option>`).join(""));
   sel.value = "en";
   $<HTMLSelectElement>("#cLang").addEventListener("change", (e) => { S.lang = (e.target as HTMLSelectElement).value as Lang; draw(); });
+  const vc = document.getElementById("versionCtl");
+  if (vc) { vc.innerHTML = DEV.control(); vc.addEventListener("change", (e) => { DEV.change(e.target as HTMLElement); }); }
   document.addEventListener("keydown", (e) => {
     if (DSH.key(e)) return;
+    if (DEV.key(e)) return;
     if ((e.target as HTMLElement).closest("input,select,textarea,summary")) return;
     if (/^\d$/.test(e.key)) { digit(e.key); e.preventDefault(); }
     else if (e.key === "Backspace") { clearKey(); e.preventDefault(); }

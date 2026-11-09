@@ -21,3 +21,10 @@
 .bmenu.pics li { display: flex; align-items: center; gap: 4px; }
 .bmenu.pics .ic { width: 18px; height: 18px; display: inline-flex; flex: none; }
 .bmenu.pics .ic svg { width: 100%; height: 100%; }
+/* Basic phone (DEVICE 48.17, phone.text): USSD pages, text messages and the voice menu, as the network shows them. */
+.bussd { margin: 4px 0; padding: 6px; border: 1px solid currentColor; border-radius: 4px; font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
+.bsms { margin: 4px 0; padding: 6px; border-radius: 8px; border: 1px solid currentColor; overflow-wrap: anywhere; }
+.bsms.in { margin-inline-end: 16px; }
+.bnote { margin: 4px 0; font-size: 0.85em; overflow-wrap: anywhere; }
+.bnote .ic { width: 14px; height: 14px; display: inline-flex; vertical-align: middle; }
+.breply { margin: 4px 0; }

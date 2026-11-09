@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "pt",
  "native": "Português",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "Tipo de telefone (teste)",
+  "bp_kind_basic": "Telefone básico: USSD, SMS e voz",
+  "bp_kind_button": "Telefone de teclas com o aplicativo",
+  "bp_kind_feature": "Telefone simples (aplicativo leve)",
+  "ch_dial": "Discar o código do LynkPOS",
+  "ch_idle": "LynkPOS por telefone",
+  "ch_message_to": "Mensagem para o LynkPOS",
+  "ch_no_command": "Não é um comando. Envie 4 para ajuda.",
+  "ch_reply": "Resposta",
+  "ch_sandbox": "Exemplo (sandbox): não há código nem número real até que um gateway seja assinado no seu país.",
+  "ch_send": "Enviar",
+  "ch_session_ended": "Sessão encerrada",
+  "ch_spoken": "Lido em voz alta; tecle um número",
+  "ch_text": "Enviar um SMS",
+  "ch_voice": "Ligar para o menu de voz",
   "title": "LynkPOS num telemóvel de teclas"
  }
 }

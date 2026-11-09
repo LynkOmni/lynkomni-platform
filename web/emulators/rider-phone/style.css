@@ -36,3 +36,12 @@
 .rtop strong { flex: 1 1 9ch; overflow-wrap: anywhere; }   /* the title keeps room for a word; the shell buttons move to the next line when they cannot fit */
 .share { display: flex; align-items: center; gap: 10px; min-height: 44px; overflow-wrap: anywhere; }
 .share input { inline-size: 22px; block-size: 22px; flex: none; accent-color: var(--brand-primary); }
+/* The same rider app on a watch and a car screen (DEVICE 48.17): sizes and type come from the device class. */
+.phone[data-kind="smartwatch"] { width: 240px; height: 280px; border-radius: 64px; padding: 14px; }
+.phone[data-kind="smartwatch"] .pscreen { border-radius: 52px; overflow-y: auto; }
+.phone[data-kind="car-screen"] { width: 640px; height: 380px; border-radius: 18px; padding: 14px; }
+.phone[data-kind="car-screen"] .pscreen { border-radius: 8px; overflow-y: auto; }
+.phone[data-kind="smartwatch"] .notch, .phone[data-kind="smartwatch"] .homebar, .phone[data-kind="car-screen"] .notch, .phone[data-kind="car-screen"] .homebar { display: none; }
+.wjob { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; padding: 12px; }
+.carvoice { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 280px; padding: 24px; text-align: center; font-size: 22px; }
+.carvoice .big .ic { width: 64px; height: 64px; }

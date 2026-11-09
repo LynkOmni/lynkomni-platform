@@ -4,8 +4,17 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "16a443b1089a9b3b56ec8af1efb5f9be14173811d4b839007ad556480455b3c0",
+ "source_sha256": "0e2c0e7a40e99f1098e317497a915b9ab35f5d1341c623163e6e775171a37d1c",
  "texts": {
-  "title": "Telefon penghantar untuk penghantaran oleh kakitangan sendiri"
+  "car_next": "Seterusnya: {step}",
+  "car_stop": "Hentikan kenderaan untuk menggunakan skrin.",
+  "car_voice_only": "Memandu: suara sahaja. Sebut \"penghantaran seterusnya\" atau \"sudah diambil\".",
+  "rk_car": "Skrin kereta",
+  "rk_device": "Peranti (ujian)",
+  "rk_moving": "Kenderaan sedang bergerak",
+  "rk_phone": "Telefon",
+  "rk_watch": "Jam tangan",
+  "title": "Telefon penghantar untuk penghantaran oleh kakitangan sendiri",
+  "watch_more": "Lagi di telefon"
  }
 }

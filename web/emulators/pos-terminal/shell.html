@@ -29,6 +29,7 @@
         <div class="mark" role="img" aria-label="LynkOmni">/*@BODYMARK@*/</div>
         <div class="leds" id="tapzone" role="button" tabindex="0" aria-label="Contactless reader: tap a card here"><i></i><i></i><i></i><i></i></div>
         <div class="bezel"><div class="display light" id="display"><div class="statusbar" id="statusbar"></div><div class="app"></div></div></div>
+        <div id="pad"></div>
         <div class="keypad" role="group" aria-label="Keypad">
           <button class="key" type="button" data-act="d1">1</button><button class="key" type="button" data-act="d2">2</button><button class="key" type="button" data-act="d3">3</button>
           <button class="key k-cancel" type="button" data-act="cancel" aria-label="Cancel">/*@I:ui-close@*/<small>Cancel</small></button>
@@ -53,6 +54,7 @@
     <label><input type="checkbox" id="cReal"> <span>A country where partners are not signed yet<br><span class="help">Only what a signed licensed partner covers there works; the rest shows "Coming to your country soon". The sample country has no partners signed yet.</span></span></label>
     <label><input type="checkbox" id="cDark"> <span>Dark screen</span></label>
     <label style="align-items:center"><span>Language</span> <select id="cLang"><option value="xx">Long text test</option><option value="xx-rtl">Right-to-left test</option></select></label>
+    <div id="versionCtl"></div>
     <h3>Event log (what the terminal sends to the cloud)</h3>
     <ul class="log" id="log" aria-live="polite"></ul>
   </aside>

@@ -4,8 +4,17 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "16a443b1089a9b3b56ec8af1efb5f9be14173811d4b839007ad556480455b3c0",
+ "source_sha256": "0e2c0e7a40e99f1098e317497a915b9ab35f5d1341c623163e6e775171a37d1c",
  "texts": {
-  "title": "自有員工外送用的外送員手機"
+  "car_next": "下一步：{step}",
+  "car_stop": "請停車後再使用螢幕。",
+  "car_voice_only": "駕駛時：僅限語音。請說「下一筆配送」或「已取貨」。",
+  "rk_car": "車用螢幕",
+  "rk_device": "裝置（測試）",
+  "rk_moving": "車輛正在行駛",
+  "rk_phone": "手機",
+  "rk_watch": "手錶",
+  "title": "自有員工外送用的外送員手機",
+  "watch_more": "更多內容請在手機上查看"
  }
 }

@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "전화기 종류(테스트)",
+  "bp_kind_basic": "기본 전화기: USSD, 문자, 음성",
+  "bp_kind_button": "앱이 있는 버튼식 전화기",
+  "bp_kind_feature": "간편 전화기(가벼운 앱)",
+  "ch_dial": "LynkPOS 코드로 전화 걸기",
+  "ch_idle": "전화로 LynkPOS",
+  "ch_message_to": "LynkPOS로 보내는 메시지",
+  "ch_no_command": "명령이 아닙니다. 도움말은 4를 보내세요.",
+  "ch_reply": "답장",
+  "ch_sandbox": "예시(샌드박스): 국가에서 게이트웨이 계약이 될 때까지 실제 코드나 번호는 없습니다.",
+  "ch_send": "보내기",
+  "ch_session_ended": "세션이 끝났습니다",
+  "ch_spoken": "소리 내어 읽어 줍니다. 숫자를 누르세요",
+  "ch_text": "문자 보내기",
+  "ch_voice": "음성 메뉴에 전화하기",
   "title": "버튼식 휴대폰의 LynkPOS"
  }
 }

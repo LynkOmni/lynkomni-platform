@@ -587,3 +587,39 @@ class SwitchAccess(unittest.TestCase):
                         pg.keyboard.press("Escape")
                 pg.close()
             b.close()
+
+
+@unittest.skipUnless(sync_playwright, "Playwright with Chromium is needed")
+class NonTouchVersions(unittest.TestCase):
+    """Every device made in a buttons-only version (DEVICE 48.17.14) works by its keys alone: the screen takes no taps, the
+    navigation pad (or bump bar and remote) is on the body, and every control on the first screen is reached with the arrows."""
+    CASES = (("pos-terminal", "#display"), ("stock-scanner", "#screen"), ("kitchen-screen", "#screen"))
+    REACH = """(root) => { const r = document.querySelector(root); return [...r.querySelectorAll("button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), [tabindex='0']")]
+      .filter((e) => { const b = e.getBoundingClientRect(); return b.width > 0 && b.height > 0 && !e.closest('[hidden]'); }).map((e, i) => e.dataset.act || e.id || ('#' + i)); }"""
+    WHO = "(root) => { const a = document.activeElement, r = document.querySelector(root); if (!a || !r.contains(a)) return null; const all = [...r.querySelectorAll(\"button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), [tabindex='0']\")]; return a.dataset.act || a.id || ('#' + all.indexOf(a)); }"
+
+    def test_buttons_only_versions_work_by_keys(self):
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            for emu, root in self.CASES:
+                pg = b.new_page(viewport={"width": 1400, "height": 1100}, reduced_motion="reduce")
+                pg.goto("file://" + os.path.join(ROOT, "web", "emulators", "dist", f"lynkomni-{emu}.html")); pg.wait_for_selector("html[data-ready]", state="attached")
+                pg.evaluate("window.__settle && window.__settle()")
+                pg.select_option('[data-ctl="version"]', "non_touch")
+                self.assertEqual(pg.get_attribute(root, "data-touch"), "no", emu)
+                self.assertGreater(pg.locator('[data-act="pad:ok"]').count(), 0, f"{emu}: navigation pad on the body")
+                pe = pg.evaluate(f"getComputedStyle(document.querySelector('{root}').querySelector('button') || document.querySelector('{root}')).pointerEvents")
+                self.assertEqual(pe, "none", f"{emu}: the screen takes no taps")
+                want = set(pg.evaluate(self.REACH, root))
+                pg.mouse.click(1, 1); pg.keyboard.press("ArrowDown")
+                seen, todo = set(), [pg.evaluate(self.WHO, root)]
+                while todo:
+                    cur = todo.pop()
+                    if cur is None or cur in seen: continue
+                    seen.add(cur)
+                    for k in ("ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"):
+                        pg.evaluate("([root, id]) => { const r = document.querySelector(root); const all = [...r.querySelectorAll(\"button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), [tabindex='0']\")]; const el = all.find((e, i) => (e.dataset.act || e.id || ('#' + i)) === id); el && el.focus(); }", [root, cur])
+                        pg.keyboard.press(k); todo.append(pg.evaluate(self.WHO, root))
+                self.assertEqual(want - seen, set(), f"{emu}: not reached by the arrows")
+                pg.close()
+            b.close()

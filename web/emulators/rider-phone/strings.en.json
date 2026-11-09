@@ -1,3 +1,12 @@
 {
- "title": "Rider phone for own-staff deliveries"
+ "title": "Rider phone for own-staff deliveries",
+ "rk_device": "Device (testing)",
+ "rk_phone": "Phone",
+ "rk_watch": "Watch",
+ "rk_car": "Car screen",
+ "rk_moving": "The vehicle is moving",
+ "car_voice_only": "Driving: voice only. Say \"next delivery\" or \"picked up\".",
+ "car_next": "Next: {step}",
+ "car_stop": "Stop the vehicle to use the screen.",
+ "watch_more": "More on the phone"
 }

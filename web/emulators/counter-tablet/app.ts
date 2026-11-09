@@ -15,6 +15,8 @@ import type { Build } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { designedState, panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
 import type { Entry } from "../../../ts/src/shell.js";
+import { DeviceMode } from "../../../ts/src/devicemode.js";
+import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 
 declare const DATA: Build & { entitlements: Record<string, PosEntitlement>; fx: Record<string, number> };
 type Tab = "home" | "sell" | "stock" | "chats" | "business" | "tables" | "kitchen" | "invoices" | "customers" | "services" | "float";
@@ -280,8 +282,10 @@ function customerDisplay(): string {
   return `<div class="cbasket"><ul>${S.cart.lines().map((l) => `<li><span>${esc(t(l.product.name))} × ${qtyText(l.qtyMilli)}</span><span>${esc(money(l.product.price * l.qtyMilli / 1000))}</span></li>`).join("")}</ul><div class="ctot"><span>${esc(t("your_total"))}</span><strong>${esc(money(total()))}</strong></div>${second ? `<small>${esc(t("second_currency", { amount: C.money(second.amount, second.currency), currency: cur }))}</small>` : ""}${S.cdisplay === "pay" && S.method !== "cash" ? `<p class="cpay">${icon("ui-qr")} ${esc(t("pay_by_qr"))}</p>` : ""}${S.tier === "free" && S.cdisplay !== "pay" ? `<small class="pb">${esc(t("powered_by"))} LynkOmni</small>` : ""}</div>`;   // never on the payment step (powered_by rule)
 }
 
+/** A counter tablet is made with a touch screen only (catalog/devices.v1.json wall-tablet, dual-screen-pos): its screen carries that interface. */
+const DM = new DeviceMode(DEVICES, "wall-tablet");
 function draw(): void {
-  const screen = $("#screen"), app = screen.querySelector(".app") as HTMLElement;
+  const screen = $("#screen"), app = screen.querySelector(".app") as HTMLElement; DM.apply(screen);
   screen.classList.toggle("light", !S.dark); screen.classList.toggle("dark", S.dark); screen.classList.toggle("lowlit", DSH.pictures); applyRoot(screen, W);
   const cs = $("#cscreen"); cs.classList.toggle("light", !S.dark); cs.classList.toggle("dark", S.dark); applyRoot(cs, W);
   app.innerHTML = `${top(t("sample_shop"))}<div class="body">${page()}</div>${S.unlocked && ["main", "shift", "dayclose"].includes(S.view) ? tabBar() : ""}${S.flash ? `<div class="toast" role="status">${esc(S.flash)}</div>` : ""}${DSH.overlay()}`;

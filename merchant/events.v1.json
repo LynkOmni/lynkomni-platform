@@ -226,6 +226,56 @@
     "devices"
    ],
    "note": "A LynkDriver release is out for this business's devices: level security, required or normal (BIZZ & DEVICE, 2026-11-09). Triggers driver-update-reminder."
+  },
+  "StockReserved": {
+   "payload": [
+    "reservation_id",
+    "product_id",
+    "quantity_milli",
+    "order_ref",
+    "expires_at"
+   ],
+   "note": "BIZZ & DEVICE: an online Storefront checkout holds free stock for 15 minutes (core/reservations.py)"
+  },
+  "StockReservationCommitted": {
+   "payload": [
+    "reservation_id",
+    "product_id",
+    "quantity_milli"
+   ],
+   "note": "The provider confirmed the checkout's payment: the held stock is sold"
+  },
+  "StockReservationReleased": {
+   "payload": [
+    "reservation_id",
+    "product_id",
+    "reason"
+   ],
+   "note": "The payment failed or the hold timed out: the stock is free again"
+  },
+  "StockConflictFlagged": {
+   "payload": [
+    "product_id",
+    "short_milli",
+    "reason"
+   ],
+   "note": "An in-person sale took stock a checkout was holding; never a refusal, a flag for the owner"
+  },
+  "DriverInstalled": {
+   "payload": [
+    "device_id",
+    "version",
+    "how"
+   ],
+   "note": "LynkDriver installed on a device, online (Devices > Driver) or from the offline file"
+  },
+  "DriverUpdated": {
+   "payload": [
+    "device_id",
+    "from_version",
+    "to_version"
+   ],
+   "note": "LynkDriver updated; overdue hardware comes back from its virtual stand-in"
   }
  }
 }

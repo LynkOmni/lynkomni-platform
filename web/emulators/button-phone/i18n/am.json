@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "am",
  "native": "አማርኛ",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "የስልክ አይነት (ሙከራ)",
+  "bp_kind_basic": "መደበኛ ስልክ: USSD፣ የጽሑፍ መልዕክት እና ድምፅ",
+  "bp_kind_button": "መተግበሪያ ያለው የቁልፍ ስልክ",
+  "bp_kind_feature": "ቀላል ስልክ (ቀላል መተግበሪያ)",
+  "ch_dial": "የLynkPOS ኮድ ይደውሉ",
+  "ch_idle": "LynkPOS በስልክ",
+  "ch_message_to": "ለLynkPOS መልዕክት",
+  "ch_no_command": "ትዕዛዝ አይደለም። ለእገዛ 4 ይላኩ።",
+  "ch_reply": "መልስ",
+  "ch_sandbox": "ናሙና (የሙከራ አካባቢ): በአገርዎ መግቢያ እስኪፈረም ድረስ እውነተኛ ኮድ ወይም ቁጥር የለም።",
+  "ch_send": "ላክ",
+  "ch_session_ended": "ክፍለ ጊዜው አብቅቷል",
+  "ch_spoken": "ጮክ ብሎ ይነበባል፤ ቁጥር ይጫኑ",
+  "ch_text": "የጽሑፍ መልዕክት ይላኩ",
+  "ch_voice": "የድምፅ ምናሌውን ይደውሉ",
   "title": "LynkPOS በአዝራር ስልክ ላይ"
  }
 }

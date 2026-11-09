@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "de",
  "native": "Deutsch",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "Telefonart (Test)",
+  "bp_kind_basic": "Basistelefon: USSD, SMS und Sprache",
+  "bp_kind_button": "Tastenhandy mit der App",
+  "bp_kind_feature": "Einfaches Telefon (schlanke App)",
+  "ch_dial": "LynkPOS-Code wählen",
+  "ch_idle": "LynkPOS per Telefon",
+  "ch_message_to": "Nachricht an LynkPOS",
+  "ch_no_command": "Kein Befehl. Senden Sie 4 für Hilfe.",
+  "ch_reply": "Antwort",
+  "ch_sandbox": "Beispiel (Sandbox): Es gibt keinen echten Code und keine Nummer, bis in Ihrem Land ein Gateway unterschrieben ist.",
+  "ch_send": "Senden",
+  "ch_session_ended": "Sitzung beendet",
+  "ch_spoken": "Wird vorgelesen; drücken Sie eine Zahl",
+  "ch_text": "SMS senden",
+  "ch_voice": "Sprachmenü anrufen",
   "title": "LynkPOS auf einem Tastentelefon"
  }
 }

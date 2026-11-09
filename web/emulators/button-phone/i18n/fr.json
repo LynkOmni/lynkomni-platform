@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "fr",
  "native": "Français",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "Type de téléphone (test)",
+  "bp_kind_basic": "Téléphone basique : USSD, SMS et voix",
+  "bp_kind_button": "Téléphone à touches avec l'application",
+  "bp_kind_feature": "Téléphone simple (application allégée)",
+  "ch_dial": "Composer le code LynkPOS",
+  "ch_idle": "LynkPOS par téléphone",
+  "ch_message_to": "Message à LynkPOS",
+  "ch_no_command": "Pas une commande. Envoyez 4 pour l'aide.",
+  "ch_reply": "Réponse",
+  "ch_sandbox": "Exemple (bac à sable) : aucun code ni numéro réel tant qu'aucune passerelle n'est signée dans votre pays.",
+  "ch_send": "Envoyer",
+  "ch_session_ended": "Session terminée",
+  "ch_spoken": "Lu à voix haute ; appuyez sur un chiffre",
+  "ch_text": "Envoyer un SMS",
+  "ch_voice": "Appeler le menu vocal",
   "title": "LynkPOS sur un téléphone à touches"
  }
 }
