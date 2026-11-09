@@ -129,3 +129,20 @@ class Emulators(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SampleIds(unittest.TestCase):
+    """Every public identifier written in an emulator or shared screen code uses the one format of core/ids.py, check digit
+    included (leftover fixed 9 November 2026: sample ids had made-up digits)."""
+    def test_every_written_id_passes_the_registry(self):
+        import glob, re
+        from core import ids
+        bad = []
+        files = glob.glob(os.path.join(ROOT, "web", "emulators", "*", "*.ts")) + glob.glob(os.path.join(ROOT, "ts", "src", "*.ts"))
+        for f in files:
+            for m in re.finditer(r"LO[A-Z]{2,4}-\d{4}-\d{4}-\d{4}", open(f, encoding="utf-8").read()):
+                try:
+                    ids.parse(m.group(0))
+                except Exception as e:      # noqa: BLE001
+                    bad.append(f"{os.path.relpath(f, ROOT)}: {m.group(0)} ({e})")
+        self.assertEqual(bad, [])

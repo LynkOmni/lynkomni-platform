@@ -15,7 +15,7 @@ const OUT = join(WEB, "emulators", "dist");
 const DEVICE_MODULES = ["ts/src/brand.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/pos.js", "ts/src/merchant.js", "ts/src/business.js", "ts/src/agent.js", "ts/src/restaurant.js", "ts/src/emulator.js"];
 const EMULATORS = [
   { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: [...DEVICE_MODULES, "web/emulators/pos-terminal/app.js"] },
-  { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: [...DEVICE_MODULES, "web/emulators/merchant-phone/app.js"] },
+  { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: [...DEVICE_MODULES, "ts/src/usernames.generated.js", "ts/src/usernames.js", "web/emulators/merchant-phone/app.js"] },
   { id: "browser-frame", out: "lynkomni-browser-frame.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", "web/emulators/browser-frame/app.js"],
     extraCss: ["web/shell/shell.css"] },
   { id: "account-site", out: "lynkomni-account-site.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", "ts/src/account.js", "web/emulators/account-site/app.js"],

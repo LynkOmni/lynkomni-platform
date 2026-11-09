@@ -6,7 +6,7 @@ import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload
 import { HANDHELD_TILES } from "../../../ts/src/business.js";
 import { AGENT_SERVICES, COLLECTION_KINDS, FINANCE_PRODUCTS, combinedLimits, commission, limitCheck, mayHandOverCash } from "../../../ts/src/agent.js";
 import type { AgentState, Limits } from "../../../ts/src/agent.js";
-import { TEST_LANGS, esc, newId, pseudo, randomBytes } from "../../../ts/src/emulator.js";
+import { TEST_LANGS, esc, newId, pseudo, publicId, randomBytes } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { shortFooterHtml } from "../../../ts/src/footer.js";
 import type { BrandPlaces } from "../../../ts/src/brand.js";
@@ -30,13 +30,13 @@ declare const DATA: BuildData;
 /** The country the emulator shows. Read from the country pack and the provider ledger; nothing about a country lives in this code. */
 const pack = (): CountryPack => DATA.packs[S.country] ?? DATA.packs[DATA.packOrder[0] ?? ""] as CountryPack;
 
-type Screen = "lock" | "home" | "sell" | "cart" | "pay" | "cash" | "momo" | "card" | "waiting" | "done" | "off" | "menu" | "sales" | "sale" | "count"
+type Screen = "lock" | "home" | "sell" | "cart" | "pay" | "cash" | "momo" | "card" | "waiting" | "done" | "off" | "menu" | "sales" | "sale" | "count" | "shopqr"
   | "pick" | "agent" | "agentdone" | "code" | "credit";
 type Step = "number" | "amount" | "confirm";
 interface Req { id: string; service: string; amount: number; fee: number; commission: number; state: AgentState; ref: string }
 type Lang = string;   // a language code from design/fonts/scripts.v1.json, or one of TEST_LANGS
 interface Ev { n: number; type: string; origin: "device" | "server"; payload: unknown; sync: UserState; at: number }
-interface Sale { sale: SalePayload; payments: PaymentPayload[]; tendered?: number; at: number; voided: boolean }
+interface Sale { sale: SalePayload; payments: PaymentPayload[]; tendered?: number; at: number; voided: boolean; receiptId: string }
 
 /** Screen words: English source in strings.en.json, every other language from the machine-translated language packs in
  *  i18n/<lang>.json (tools/translation/build_packs.py), all embedded by web/build.mjs so every language works offline. */
@@ -122,7 +122,7 @@ function recordSale(): Sale {
   const sale = salePayload(S.cart, newId(), `${DEVICE}-${S.receiptNo}`, pack().currency);
   emit("SaleRecorded", sale);
   emit("ReceiptIssued", { receipt_id: newId(), sale_id: sale.sale_id, receipt_number_local: sale.receipt_number_local, copy_number: 1, validity: "provisional" });
-  const s: Sale = { sale, payments: [], at: Date.now(), voided: false };
+  const s: Sale = { sale, payments: [], at: Date.now(), voided: false, receiptId: publicId("RCP") };   // the public receipt id (LORCP-) the verify QR opens
   S.sales.unshift(s); S.current = s;
   return s;
 }
@@ -144,17 +144,18 @@ function activePayment(): PaymentPayload | undefined { return S.current?.payment
 function printReceipt(s: Sale): void {
   const paper = $("#paper"), wrap = $("#paperWrap");
   const lines = receiptLines({ shop: SHOP, sale: s.sale, payments: s.payments, tendered: s.tendered, when: clock(s.at, true), money, words: Object.fromEntries(Object.keys(EN).map((k) => [k, t(k)])) });
-  paper.innerHTML = `<div class="rhead" role="img" aria-label="LynkOmni">${DATA.brand.receipt}</div><pre class="rtext"></pre><div class="rcut" aria-hidden="true"></div>`;
+  paper.innerHTML = `<div class="rhead" role="img" aria-label="LynkOmni">${DATA.brand.receipt}</div><pre class="rtext"></pre><div class="rqr" hidden><span class="qr" aria-hidden="true">${DATA.icons["ui-qr"] ?? ""}</span><span>${esc(t("verify_receipt"))}</span><span>${esc(s.receiptId)}</span></div><div class="rcut" aria-hidden="true"></div>`;
+  const qr = paper.querySelector(".rqr") as HTMLElement;   // 38 C, 7: every receipt carries a QR the customer can scan to check it
   wrap.classList.remove("torn"); wrap.hidden = false;
   const pre = paper.querySelector("pre") as HTMLElement;
   $("#printerStatus").textContent = t("printing");
   window.clearInterval(S.timer);
-  if (reduced()) { pre.textContent = lines.join("\n"); $("#printerStatus").textContent = ""; return; }
+  if (reduced()) { pre.textContent = lines.join("\n"); qr.hidden = false; $("#printerStatus").textContent = ""; return; }
   let i = 0;
   S.timer = window.setInterval(() => {
     pre.textContent += (i ? "\n" : "") + (lines[i] ?? "");
     i += 1;
-    if (i >= lines.length) { window.clearInterval(S.timer); $("#printerStatus").textContent = ""; }
+    if (i >= lines.length) { window.clearInterval(S.timer); qr.hidden = false; $("#printerStatus").textContent = ""; }
   }, 45);
 }
 function tear(): void { const w = $("#paperWrap"); w.classList.add("torn"); window.setTimeout(() => { w.hidden = true; }, reduced() ? 0 : 450); }
@@ -170,7 +171,7 @@ function digit(d: string): void {
 }
 function clearKey(): void { S.input = S.input.slice(0, -1); draw(); }
 function cancelKey(): void {
-  const back: Partial<Record<Screen, Screen>> = { sell: "home", cart: "sell", pay: "cart", cash: "pay", momo: "pay", card: "pay", off: "pay", menu: "home", sales: "home", sale: "sales", count: "menu",
+  const back: Partial<Record<Screen, Screen>> = { sell: "home", cart: "sell", pay: "cart", cash: "pay", momo: "pay", card: "pay", off: "pay", menu: "home", sales: "home", sale: "sales", count: "menu", shopqr: "menu",
     pick: "home", agent: S.tileGroup ? "pick" : "home", agentdone: "home", code: "pick", credit: "home" };
   if (S.screen === "agent" && S.step !== "number") { S.step = S.step === "confirm" ? "amount" : "number"; S.input = S.step === "number" ? S.number : String(S.amount || ""); draw(); return; }
   if (S.screen === "lock") { S.input = ""; draw(); return; }
@@ -357,9 +358,12 @@ function view(): string {
     case "off":
       return `${top(t("unavailable"))}<div class="offbox"><span class="pic" role="img" aria-label="${esc(DATA.pictures.offAlt)}">${S.theme === "dark" ? DATA.pictures.offDark : DATA.pictures.offLight}</span>
         <p>${esc(pack().ready[S.method]?.message ?? "")}</p></div><div class="foot"><button class="primary" data-act="go:pay">${esc(t("other_method"))}</button></div>`;
+    case "shopqr":   // 38 C: the shop QR customers scan to open the shop page and pay (LynkCheckout)
+      return `${top(t("shop_qr"))}<div class="offbox"><span class="qrbig" role="img" aria-label="${esc(t("shop_qr"))}">${icon("ui-qr")}</span><p>${esc(t("shop_qr_help"))}</p></div>`;
     case "menu":
       return `${top(t("menu"))}<ul class="menu"><li><button data-act="go:sales">${icon("ui-receipt")}${esc(t("sales"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="go:count">${icon("product-ledger")}${esc(t("count"))}${icon("ui-chevron-right")}</button></li>
+        <li><button data-act="go:shopqr">${icon("ui-qr")}${esc(t("shop_qr"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="lowlit" aria-pressed="${S.lowLiteracy}">${icon("ui-grid")}${esc(t("low_literacy"))}${S.lowLiteracy ? icon("ui-check") : icon("ui-chevron-right")}</button></li>
         <li><button data-act="lock">${icon("ui-lock")}${esc(t("lock"))}${icon("ui-chevron-right")}</button></li></ul>${shortFooterHtml(new Date(), pack().tz)}`;
     case "sales":
@@ -424,7 +428,7 @@ function act(a: string): void {
       case "add": { const p = CATALOG.find((x) => x.id === v); if (p) S.cart.add(p); draw(); return; }
       case "inc": { const l = S.cart.lines().find((x) => x.product.id === v); if (l) S.cart.setQty(v, l.qtyMilli + 1000); draw(); return; }
       case "dec": { const l = S.cart.lines().find((x) => x.product.id === v); if (l) S.cart.setQty(v, l.qtyMilli - 1000); if (!S.cart.lines().length) S.screen = "sell"; draw(); return; }
-      case "go": S.screen = (["sell", "cart", "pay", "sales", "count", "menu", "home"] as Screen[]).find((x) => x === v) ?? "home"; S.input = ""; S.note = ""; draw(); return;
+      case "go": S.screen = (["sell", "cart", "pay", "sales", "count", "menu", "home", "shopqr"] as Screen[]).find((x) => x === v) ?? "home"; S.input = ""; S.note = ""; draw(); return;
       case "method": {
         const m = v as PaymentMethod; S.method = m; S.input = "";
         S.screen = !methodOk(m) ? "off" : m === "cash" ? "cash" : m === "card" ? "card" : "momo"; draw(); return;

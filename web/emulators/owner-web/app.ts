@@ -71,7 +71,7 @@ function draw(): void {
   const el = $("#screen"); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W);
   const label: Record<Page, string> = { today: "home", sales: "sales", devices: "devices", staff: "staff_shifts", commissions: "agent_commissions", automations: "automations", sharing: "data_sharing" };
   el.innerHTML = `<div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">${icon("ui-lock")}app.lynkomni.com${esc(PATH[S.page])}</span></div>
-    <div class="app"><nav class="side" aria-label="LynkOmni">${brandMark(DATA.brand.places, "side-menu", S.dark, "logo", SIDE_W)}${PAGES.map((p) => `<button data-act="go:${p}" ${S.page === p ? 'aria-current="page"' : ""}>${esc(t(label[p]))}</button>`).join("")}</nav><main class="main">${page()}${appMainFooter(W, C, DATA)}</main></div>`;
+    <div class="app"><nav class="side" aria-label="LynkOmni">${brandMark(DATA.brand.places, "side-menu", S.dark, "logo", SIDE_W)}${PAGES.map((p) => `<button data-act="go:${p}" ${S.page === p ? 'aria-current="page"' : ""}>${esc(t(label[p]))}</button>`).join("")}</nav><main class="main"><p class="viewonly" role="note">${icon("ui-info")}${esc(t("view_only_computer"))}</p>${page()}${appMainFooter(W, C, DATA)}</main></div>`;
 }
 function act(a: string): void {
   const [k = "", v = ""] = a.split(":");

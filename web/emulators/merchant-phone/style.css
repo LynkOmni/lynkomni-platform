@@ -222,7 +222,7 @@ button, input, select { font: inherit; color: inherit; }
 /* Right-to-left screens: "forward" and "back" arrows turn around; the phone body never mirrors. */
 .display[dir="rtl"] .back svg, .display[dir="rtl"] .fwd svg { transform: scaleX(-1); }
 /* Long words wrap instead of pushing the layout wider, in every language. */
-.display p, .display h1, .display h2, .display .nm, .display .sub, .display b, .display span, .display button, .display label { overflow-wrap: anywhere; }
+.display p, .display h1, .display h2, .display .nm, .display .sub, .display b, .display span, .display small, .display button, .display label { overflow-wrap: anywhere; }
 
 /* agent point mode (build section 3) */
 .display .sect { margin: 14px 4px 6px; font-size: 13px; color: var(--text-secondary); overflow-wrap: anywhere; }
@@ -236,3 +236,60 @@ button, input, select { font: inherit; color: inherit; }
 
 /* Blueprint 41 B: every touch target is at least 44 px (tools/a11y/check.js enforces it on every screen and language). */
 #display :is(button, a[href]) { min-height: 44px; min-width: 44px; }
+
+/* ---- the Business app layout (41 E): one screen wrapper, a tablet side rail, a computer web view ---- */
+.screen { flex: 1; min-height: 0; display: flex; flex-direction: column; min-width: 0; }
+.device.tablet { width: 820px; border-radius: 40px; }
+.device.tablet .glass { border-radius: 30px; }
+.device.tablet .display { width: 788px; height: 560px; border-radius: 26px; }
+.device.web { width: 960px; padding: 10px 10px 26px; border-radius: 18px; }
+.device.web .glass { border-radius: 10px; }
+.device.web .display { width: 932px; height: 580px; border-radius: 6px; }
+.device.web .btn, .device.tablet .btn.vol { display: none; }
+.display.tablet .app, .display.web .app { flex-direction: row; }
+.rail { order: -1; flex: none; width: 92px; display: flex; flex-direction: column; gap: 4px; padding: 10px 6px; border-inline-end: 1px solid var(--border-subtle); background: var(--bg-surface); }
+.rail button { position: relative; min-height: 60px; border: 0; border-radius: 14px; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 11px; font-weight: 600; color: var(--text-secondary); cursor: pointer; padding: 4px 2px; }
+.rail button[aria-current="page"] { background: var(--brand-subtle); color: var(--brand-ink); }
+.rail .ic { width: 22px; height: 22px; }
+.display.tablet .body, .display.web .body { padding: 14px 18px; }
+.display.tablet .grid, .display.web .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.display.tablet .toast, .display.web .toast { inset-inline-start: 110px; }
+.bell { position: relative; }
+.bell .dot { top: 2px; inset-inline-start: auto; inset-inline-end: 0; }
+.avatarbtn .initials { width: 30px; height: 30px; border-radius: 50%; background: var(--brand-subtle); color: var(--brand-ink); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
+.dark .avatarbtn .initials { background: var(--bg-subtle); }
+.practice { margin: 0; display: flex; gap: 6px; align-items: center; padding: 6px 10px; border-radius: 10px; background: var(--status-warning-bg); color: var(--status-warning-text); border: 1px solid var(--status-warning-border); font-size: 12px; font-weight: 700; }
+.selltools { flex: none; display: flex; gap: 6px; align-items: center; padding: 8px 10px 0; }
+.search { flex: 1; min-width: 0; }
+.search input { width: 100%; min-height: 44px; padding: 0 14px; border-radius: 22px; border: 1px solid var(--border-input); background: var(--bg-surface); }
+.selltools .iconbtn { border: 1px solid var(--border-subtle); background: var(--bg-surface); width: 44px; height: 44px; }
+.filters { flex: none; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; padding: 8px 10px 0; }
+.qrbox, .tapbox { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px; border-radius: 14px; border: 1px solid var(--border-subtle); background: var(--bg-surface); text-align: center; }
+.qrbox p, .tapbox p { margin: 0; font-size: 12px; color: var(--text-secondary); }
+.bigqr { width: 96px; height: 96px; display: inline-flex; color: var(--text-primary); }
+.bigqr svg { width: 100%; height: 100%; }
+.verify { display: inline-flex; gap: 4px; align-items: center; color: var(--text-primary); font-weight: 600; }
+.second { margin: 0; text-align: end; }
+.sect { margin: 6px 2px 0; font: 700 13px var(--font-heading); }
+.tactions { flex: none; display: flex; flex-wrap: wrap; gap: 6px; padding: 6px 10px; border-top: 1px solid var(--border-subtle); background: var(--bg-surface); }
+.tactions button { flex: 1 1 auto; min-height: 44px; padding: 0 10px; border-radius: 999px; border: 1px solid var(--border-subtle); background: var(--bg-base); font-size: 12px; font-weight: 600; cursor: pointer; }
+.mcard { display: flex; gap: 6px; align-items: center; padding: 6px 8px; border-radius: 10px; background: var(--bg-base); border: 1px solid var(--border-subtle); font-weight: 600; font-size: 12px; }
+.label { align-self: center; width: 200px; padding: 10px; border-radius: 6px; border: 1px solid var(--border-strong); background: var(--bg-surface); display: flex; flex-direction: column; gap: 2px; font-size: 12px; text-align: center; }
+.label .bars { font: 18px/1 var(--font-mono); letter-spacing: 1px; height: auto; display: block; overflow: hidden; }
+.ghost.small, .linkbtn.small { flex: none; min-height: 44px; padding: 0 10px; font-size: 12px; }
+.rowbtn.static { cursor: default; }
+.rowbtn.unread .nm { color: var(--brand-ink); }
+.switch.mini { min-height: 44px; flex: none; }
+.signin.setup { overflow-y: auto; padding-top: 18px; }
+.signin .card h2 { margin: 0; font: 700 15px var(--font-heading); }
+.tile.on { border-color: var(--brand-primary); }
+.tile:disabled { opacity: .6; cursor: default; }
+.pagehead .address { margin-top: 6px; font-size: 13px; }
+.pagehead .address code { font: 600 13px var(--font-mono); overflow-wrap: anywhere; }
+.quick button:disabled { color: var(--text-muted); background: var(--bg-subtle); cursor: not-allowed; }
+/* Picture mode for people who read little (S4, 43 G): bigger pictures and words on every tile, tab and method; never a picture alone. */
+.lowlit .tabbar .ic, .lowlit .rail .ic { width: 30px; height: 30px; }
+.lowlit .tabbar button, .lowlit .rail button { font-size: 12px; min-height: 66px; }
+.lowlit .method .ic, .lowlit .tile .ic, .lowlit .prod { width: 32px; height: 32px; }
+.lowlit .method, .lowlit .rowbtn { min-height: 64px; font-size: 16px; }
+.lowlit .tile { min-height: 88px; font-size: 15px; }

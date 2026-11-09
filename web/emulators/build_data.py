@@ -118,6 +118,15 @@ def automations(section):
     return [{"id": a["id"], "level": a["level"], "assist": a.get("assist"), "trigger": a["trigger"], "min_tier": a.get("min_tier"), "default": a.get("default", "on")} for a in reg if a["build_section"] == section]
 
 
+def business_app():
+    """The Business app register (catalog/business-app.v1.json: every screen, its items and its address), the section 3
+    automations and the LynkPOS standard prices from billing (locked prices) for the plans screen."""
+    with open(os.path.join(ROOT, "catalog", "business-app.v1.json"), encoding="utf-8") as f:
+        reg = json.load(f)
+    return {"screens": [{"id": s["id"], "path": s["path"], "items": s["items"]} for s in reg["screens"]],
+            "plans": list(billing.FAMILIES["lynkpos"][3]), "automations": [{"id": a["id"], "level": a["level"]} for a in automations(3)]}
+
+
 def cards():
     """The LynkVCard faces and backs (visuals/cards.py, approved spec) and the tier limits, labelled placeholders, from billing."""
     out = {}
@@ -201,6 +210,7 @@ def main(emulator):
         "fx": {k: float(v) for k, v in USD_RATES.items()},
         **(cards() if emulator == "vcard-card" else {}),
         **({"automations": automations(3)} if emulator == "owner-web" else {}),
+        **(business_app() if emulator == "merchant-phone" else {}),
         "statePictures": state_pics,
         "addresses": {k: addresses[k] for k in ("hosts", "website_paths", "app_paths", "account_paths", "pay_paths", "shop_paths", "staff_paths", "redirects")},
         "i18n": language_packs(emulator),

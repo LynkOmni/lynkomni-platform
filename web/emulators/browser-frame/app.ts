@@ -122,7 +122,7 @@ function overlay(): string {
   const wrap = (cls: string, inner: string) => `<div class="overlay ${cls}" data-act="closeoverlay">${inner.replace(/^<(div|aside)/, '<$1 data-act="keep"')}</div>`;
   switch (S.overlay) {
     case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.service, name: s.name, icon: s.icon, href: `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon));
-    case "account": return wrap("end", accountMenu({ name: "Grace", lynkId: "LOID-4821-9035-7716", businesses: [{ id: "b1", name: SHOP(), current: true }, { id: "b2", name: `${SHOP()} 2`, current: false }], role: "owner", roles: ["owner", "manager", "cashier"], theme: S.mode === "lite" ? "lite" : S.mode === "sunlight" ? "sunlight" : S.theme, language: langName(isTest() ? "en" : S.lang), region: pack().sample ? t("sample_country") : pack().name }, t, icon));
+    case "account": return wrap("end", accountMenu({ name: "Grace", lynkId: "LOID-4821-9035-7715", businesses: [{ id: "b1", name: SHOP(), current: true }, { id: "b2", name: `${SHOP()} 2`, current: false }], role: "owner", roles: ["owner", "manager", "cashier"], theme: S.mode === "lite" ? "lite" : S.mode === "sunlight" ? "sunlight" : S.theme, language: langName(isTest() ? "en" : S.lang), region: pack().sample ? t("sample_country") : pack().name }, t, icon));
     case "globe": return wrap("", globeSheet(Object.entries(PACKS).map(([code, p]) => ({ code, native: p.native, dir: p.dir })), DATA.packOrder.map((c) => ({ code: c, name: (DATA.packs[c] as CountryPack).sample ? t("sample_country") : regionName(c, isTest() ? "en" : S.lang, (DATA.packs[c] as CountryPack).name) })), { language: isTest() ? "en" : S.lang, region: pack().code }, t));
     case "cmd": {
       const index: Entry[] = [
@@ -136,8 +136,8 @@ function overlay(): string {
     case "help": return wrap("end", helpPanel(t("tab_home"), [{ id: "1", title: t("help_article_1"), href: "/faq/pos/offline" }, { id: "2", title: t("help_article_2"), href: "/faq/mpay/waiting" }], t, icon));
     case "bell": {
       const list: Notice[] = [
-        { id: "n1", at: Date.now() - 60000, urgency: "security", title: t("notice_signin"), record: "LONTF-2201-4410-8832", href: "/security" },
-        { id: "n2", at: Date.now() - 3600000, urgency: "transactional", title: t("notice_payment"), record: "LORCP-7731-0042-9910", read: true, href: "/sell" },
+        { id: "n1", at: Date.now() - 60000, urgency: "security", title: t("notice_signin"), record: "LONTF-2201-4410-8838", href: "/security" },
+        { id: "n2", at: Date.now() - 3600000, urgency: "transactional", title: t("notice_payment"), record: "LORCP-7731-0042-9911", read: true, href: "/sell" },
         { id: "n3", at: Date.now() - 7200000, urgency: "low", title: t("notice_insight"), read: true, href: "/analytics" },
       ];
       const d = deliverNow(list, new Date().getHours(), { startHour: 22, endHour: 7 }, S.seen);

@@ -105,3 +105,10 @@ test("returns refund at most what was sold; stock filters and branch moves never
   assert.equal((moved["main"]?.["a"] ?? 0) + (moved["north"]?.["a"] ?? 0), 5000);
   assert.deepEqual(moveStock({ main: { a: 5000 } }, "a", "main", "main", 2000), { main: { a: 5000 } });
 });
+
+test("emulator sample ids use the one public id format and pass the registry check", async () => {
+  const { publicId } = await import("../src/emulator.js");
+  const { Registry, parse } = await import("../src/ids.js");
+  const reg = new Registry(readFileSync(`${root}/contract/identifier-registry.v1.json`, "utf8"));
+  for (const code of ["CNV", "RCP", "DOC", "INV"]) for (let i = 0; i < 50; i++) assert.equal(parse(reg, publicId(code)).code, code);
+});

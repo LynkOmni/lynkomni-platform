@@ -214,7 +214,7 @@ export function route(map: AddressMap, url: string): Route | null {
     return true;
   };
   if (surface === "other" || table.some(match) || path === "/") return { host, surface, path, params, ...(redirectedFrom ? { redirectedFrom } : {}) };
-  // a record under a registered app path: /invoicing/invoices/LOINV-1234-5678-9012 or ?view=overdue
+  // a record under a registered app path: /invoicing/invoices/LOINV-1234-5678-9015 or ?view=overdue
   // a record (or /new) under a registered path, through its plural list: /invoicing/invoices/LOINV-... (address rules, section 42 E)
   const parent = table.filter((p) => !p.includes("{") && path.startsWith(p + "/")).sort((a, b) => b.length - a.length)[0];
   if (!parent) return null;
