@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { buildFooter, columns, copyright, currentYear, paymentMarks, shortFooter, t, SOCIAL, SOCIAL_LINKS, type Pack } from "../src/footer.js";
+import { FOOTER_KEYS, buildFooter, columns, copyright, currentYear, mainFooterHtml, paymentMarks, shortFooter, shortFooterHtml, footerText, SOCIAL, SOCIAL_LINKS, type Pack } from "../src/footer.js";
 
 const pack = (c: string): Pack => JSON.parse(readFileSync(`${process.cwd()}/../contract/country-packs/${c}.json`, "utf8"));
 const FIXED = "© 2026 CruxOmni Group. All rights reserved. LynkOmni is a product of CruxOmni Group.";
@@ -36,7 +36,7 @@ test("payment methods follow the country pack and are never a global list", () =
   assert.deepEqual(paymentMarks(null), ["visa", "mastercard", "bank_transfer"]);
 });
 test("language follows the visitor with per-string fallback to English", () => {
-  assert.equal(t("fr", "products"), "Produits"); assert.equal(t("sw", "products"), "Bidhaa"); assert.equal(t("sw", "appstore"), "App Store"); assert.equal(t("xx", "products"), "Products");
+  assert.equal(footerText("fr", "products"), "Produits"); assert.equal(footerText("sw", "products"), "Bidhaa"); assert.equal(footerText("sw", "appstore"), "App Store"); assert.equal(footerText("xx", "products"), "Products");
   const f = buildFooter({ now: new Date(), pack: pack("RW"), lang: "fr" });
   assert.equal(f.newsletter.button, "S'abonner"); assert.equal(f.legal.copyright.startsWith("© "), true); assert.ok(f.legal.copyright.includes("All rights reserved. LynkOmni is a product of CruxOmni Group."));
   assert.equal(buildFooter({ now: new Date(), pack: null, lang: "zz" }).lang, "en");
@@ -44,4 +44,25 @@ test("language follows the visitor with per-string fallback to English", () => {
 test("the newsletter is double opt-in, nothing pre-ticked, and honest about confirmation", () => {
   const n = buildFooter({ now: new Date(), pack: pack("RW"), lang: "en" }).newsletter;
   assert.equal(n.preticked, false); assert.equal(n.doubleOptIn, true); assert.ok(n.note.includes("not subscribed until you confirm")); assert.equal(n.topics.length, 4);
+});
+
+test("the footer's words live in one file for every language (web/footer/strings.en.json)", () => {
+  const file = JSON.parse(readFileSync(`${process.cwd()}/../web/footer/strings.en.json`, "utf8")) as Record<string, string>;
+  assert.deepEqual(Object.keys(file).sort(), FOOTER_KEYS.map((k) => `ft_${k}`).sort());
+  for (const k of FOOTER_KEYS) assert.equal(file[`ft_${k}`], footerText("en", k), k);
+});
+test("the main footer is drawn from the model: fixed copyright, unticked newsletter, method icons with names as text", () => {
+  const words = (k: string): string | undefined => (k === "ft_products" ? "Produits" : undefined);
+  const f = buildFooter({ now: new Date("2026-11-09T12:00:00Z"), pack: pack("RW"), lang: "fr", words });
+  const html = mainFooterHtml(f, (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;"), (id) => `<svg data-i="${id}"></svg>`);
+  assert.ok(html.includes("© 2026 CruxOmni Group. All rights reserved. LynkOmni is a product of CruxOmni Group."));
+  assert.ok(html.includes("<h3>Produits</h3>"));                                  // words come from the language pack
+  assert.ok(!/checked/.test(html));                                                // nothing pre-ticked
+  assert.ok(html.includes("MTN MoMo") && html.includes('data-i="ui-pay-mobile-money"'));
+  assert.ok(!/Africa|Afrique|Afrika/.test(html));                                  // nothing built for one region (section 5 positioning line only)
+  assert.equal(footerText("en", "tagline"), "Works with or without internet.");                  // section 5 positioning line
+});
+test("the short footer inside apps is one line: the fixed copyright", () => {
+  const h = shortFooterHtml(new Date("2026-11-09T12:00:00Z"), "UTC");
+  assert.equal(h, '<footer class="shortfoot" role="contentinfo"><p>© 2026 CruxOmni Group. All rights reserved. LynkOmni is a product of CruxOmni Group.</p></footer>');
 });

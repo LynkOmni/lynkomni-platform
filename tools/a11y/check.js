@@ -1,6 +1,6 @@
 // Automatic accessibility check run inside every emulator screen by tests/test_layout_i18n.py (build section 1 automation
 // "accessibility check in the build", level auto). It checks what a script can check against WCAG 2.2 AA: names on
-// controls and images, labels on fields, contrast of text (4.5:1, 3:1 for large text), 44 px targets, one language and
+// controls and images, labels on fields, contrast of text (4.5:1, 3:1 for large text), 44 px targets (blueprint 41 B), one language and
 // direction on the screen root, dialogs with names, no duplicate ids, nothing focusable hidden from assistive tech.
 // A human accessibility audit is still required before launch (provider ledger, later list). Returns a list of problems.
 (() => {
@@ -41,7 +41,7 @@
       const fit = parseFloat(getComputedStyle(el.closest('.fit') || document.documentElement).getPropertyValue('--fit')) || 1;
       const r = { width: Math.round(r0.width / fit * 10) / 10, height: Math.round(r0.height / fit * 10) / 10 };   // to 0.1 px, so dividing by the zoom never turns 24 into 23.99
       const inline = tag === 'a' && el.closest('p, li, td, figcaption, .note, .sugg, .mnote, .chat-lang');
-      if (!inline && Math.min(r.width, r.height) < 24) bad.push(`target under 24 px: ${desc(el)} ${Math.round(r.width)}x${Math.round(r.height)}`);
+      if (!inline && Math.min(r.width, r.height) < 44) bad.push(`target under 44 px: ${desc(el)} ${Math.round(r.width)}x${Math.round(r.height)}`);   // blueprint 41 B: 44 px touch targets (stricter than the WCAG 2.2 AA minimum of 24)
     }
     if (tag === 'input' || tag === 'select' || tag === 'textarea') {
       const type = el.getAttribute('type');

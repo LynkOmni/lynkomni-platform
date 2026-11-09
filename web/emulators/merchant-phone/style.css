@@ -233,3 +233,6 @@ button, input, select { font: inherit; color: inherit; }
 .display .amt { margin: 0; font: 700 26px var(--font-heading); font-feature-settings: var(--font-feature-tabular); }
 .display .field select { font: inherit; min-height: 44px; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border-input); background: var(--bg-surface); color: var(--text-primary); width: 100%; }
 .display .inline { flex: none !important; min-height: 48px; }
+
+/* Blueprint 41 B: every touch target is at least 44 px (tools/a11y/check.js enforces it on every screen and language). */
+#display :is(button, a[href]) { min-height: 44px; min-width: 44px; }

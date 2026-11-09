@@ -13,6 +13,7 @@ import { AGENT_SERVICES, COLLECTION_KINDS, FINANCE_PRODUCTS, combinedLimits, com
 import type { AgentState, Limits } from "../../../ts/src/agent.js";
 import { TEST_LANGS, esc, newId, pick, pseudo, randomBytes } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
+import { shortFooterHtml } from "../../../ts/src/footer.js";
 import type { BrandPlaces } from "../../../ts/src/brand.js";
 
 interface BuildData {
@@ -429,7 +430,7 @@ function view(): string {
   if (S.screen !== "app") return signin();
   const agent = S.btype === "agent_point";
   const body = S.view === "svc" ? agentFlow() : S.tab === "services" ? agentServices() : S.tab === "float" ? agentFloat() : agent && S.tab === "home" ? agentHome()
-    : S.tab === "sell" ? sell() : S.tab === "stock" ? stock() : S.tab === "chats" ? chats() : S.tab === "business" ? business() : home();
+    : S.tab === "sell" ? sell() : S.tab === "stock" ? stock() : S.tab === "chats" ? chats() : S.tab === "business" ? business() + shortFooterHtml(new Date(), pack().tz) : home();   // the one-line short footer inside apps (26 C), at the end of the Business hub
   const noTabs = S.tab === "sell" && S.view !== "main" && S.view !== "done" || S.tab === "chats" && S.view === "thread" || S.view === "svc";
   return `${body}${noTabs ? "" : tabBar()}${S.sheet ? syncSheet() : ""}`;
 }

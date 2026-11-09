@@ -295,8 +295,45 @@
    "note": "Profile pictures and social profile images."
   },
   {
-   "id": "loading-empty",
+   "id": "customer-welcome",
    "status": "live",
+   "kind": "device",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "logo",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    },
+    {
+     "asset": "emblem",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "logo",
+     "minWidthPx": 96
+    },
+    {
+     "asset": "emblem"
+    }
+   ],
+   "colour": "theme",
+   "note": "The welcome screen a customer sees on a shop's display (counter tablet's customer screen, standalone customer display). The blueprint names no place for it, so its default applies: the logo (section 30), falling back to the emblem under 96 px."
+  },
+  {
+   "id": "loading-empty",
+   "status": "planned",
    "kind": "web",
    "offline": true,
    "uses": [

@@ -10,7 +10,7 @@ import { BUSINESS_TYPES, HANDHELD_TILES, IDLE_LOCK_S, TABS, mayShowConfirmed, pr
 import type { BusinessType, PosEntitlement } from "../../../ts/src/business.js";
 import { chargedWhen, deliveryEntitlement, groupOutcome, kitchenOutput, mayAddRider, mayOpenGroup, mayOpenTable, mayRequestPartnerDelivery, pickQuotes, restaurantLimits, splitNeedsAtLeast } from "../../../ts/src/restaurant.js";
 import { SETUP_STEPS, nextSetupStep, parseVoice } from "../../../ts/src/business.js";
-import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, pick, plain, reducedMotion } from "../../../ts/src/emulator.js";
+import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, pick, plain, reducedMotion, appShortFooter } from "../../../ts/src/emulator.js";
 import type { Build } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
 
@@ -247,13 +247,13 @@ function page(): string {
   }
   switch (S.tab) {
     case "home": return homeScreen(); case "sell": return sellScreen(); case "stock": return stockScreen(); case "tables": return tablesScreen(); case "kitchen": return kitchenScreen();
-    case "business": return businessScreen();
+    case "business": return businessScreen() + appShortFooter(C);   // the one-line short footer inside apps (26 C)
     default: return `<div class="paybox"><h2>${esc(t(S.tab))}</h2><p class="note">${esc(t("sandbox_note"))}</p></div>`;
   }
 }
 function customerDisplay(): string {
   const cur = C.pack().currency;
-  if (S.cdisplay === "welcome" || !S.unlocked || (S.cdisplay === "basket" && !S.cart.lines().length)) return `<div class="cwelcome">${brandMark(DATA.brand.places, "loading-empty", S.dark, "cmark")}<h2>${esc(t("welcome"))}</h2><p>${esc(t("sample_shop"))}</p></div>`;
+  if (S.cdisplay === "welcome" || !S.unlocked || (S.cdisplay === "basket" && !S.cart.lines().length)) return `<div class="cwelcome">${brandMark(DATA.brand.places, "customer-welcome", S.dark, "cmark", 118)}<h2>${esc(t("welcome"))}</h2><p>${esc(t("sample_shop"))}</p></div>`;
   if (S.cdisplay === "thanks") return `<div class="cwelcome"><h2>${esc(t("thank_you_visit"))}</h2><p>${esc(money(S.current?.sale.total ?? 0))}</p></div>`;
   const second = secondCurrency(total(), cur, cur === "USD" ? "EUR" : "USD", (m, a, b) => Math.round(m * ((DATA.fx[b] ?? 1) / (DATA.fx[a] ?? 1))));
   return `<div class="cbasket"><ul>${S.cart.lines().map((l) => `<li><span>${esc(t(l.product.name))} × ${qtyText(l.qtyMilli)}</span><span>${esc(money(l.product.price * l.qtyMilli / 1000))}</span></li>`).join("")}</ul><div class="ctot"><span>${esc(t("your_total"))}</span><strong>${esc(money(total()))}</strong></div>${second ? `<small>${esc(t("second_currency", { amount: C.money(second.amount, second.currency), currency: cur }))}</small>` : ""}${S.cdisplay === "pay" && S.method !== "cash" ? `<p class="cpay">${icon("ui-qr")} ${esc(t("pay_by_qr"))}</p>` : ""}${S.tier === "free" ? `<small class="pb">${esc(t("powered_by"))} LynkOmni</small>` : ""}</div>`;

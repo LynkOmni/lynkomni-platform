@@ -7,10 +7,11 @@ import { DAY, PAGES, RECOVERY, REGISTRATION_STEPS, SECURITY_EVENT_KEY, SIGN_UP_S
 import type { ApplicationStatus, Consent, Page, RecoveryPath, RegistrationStep, SignUpState } from "../../../ts/src/account.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import { brandMark } from "../../../ts/src/brand.js";
+import { buildFooter, mainFooterHtml } from "../../../ts/src/footer.js";
 import type { BrandPlaces } from "../../../ts/src/brand.js";
-const HEADER_ROOM = { computer: 160, tablet: 160, phone: 40 } as const;   // px the shell header gives its brand place (web-header: logo from 96 px)
+const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 } as const;   // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
 
-interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; state: "available" | "coming_soon" }[] }
+interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[]; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; state: "available" | "coming_soon" }[] }
 interface BuildData {
   icons: Record<string, string>;
   brand: { body: string; receipt: string; places: BrandPlaces };
@@ -58,6 +59,13 @@ const isTest = (): boolean => TEST_LANGS.includes(S.lang);
 const t: T = (k, vars) => (isTest() ? pseudo(translator(EN)(k, vars)) : translator(PACKS[S.lang]?.texts ?? EN, EN)(k, vars));
 const icon: Icon = (id, cls = "ic") => `<span class="${cls}" aria-hidden="true">${DATA.icons[id] ?? ""}</span>`;
 const pack = (): CountryPack => DATA.packs[S.country] ?? (DATA.packs[DATA.packOrder[0] ?? ""] as CountryPack);
+/** The main footer (blueprint 26 A and B): every word from the language packs, payment methods from the chosen country's pack,
+ *  the copyright line fixed and never translated. */
+const appFooter = (): string => {
+  const p = pack();
+  return mainFooterHtml(buildFooter({ now: new Date(), lang: S.lang, words: (k) => (k in EN ? t(k) : undefined),
+    pack: { code: p.code, name: p.name, currency: p.currency, tz: p.tz, languages: [], providers: p.providers, card_networks: p.card_networks, wallets: p.wallets } }), esc, (id) => DATA.icons[id] ?? "");
+};
 const locale = (): string => `${isTest() ? "en" : S.lang}-${pack().code}`;
 const money = (minor: number): string => { try { return new Intl.NumberFormat(locale(), { style: "currency", currency: pack().currency }).format(minor / 100); } catch { return `${pack().currency} ${(minor / 100).toFixed(2)}`; } };
 const clock = (ms: number): string => new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, hour: "2-digit", minute: "2-digit" }).format(ms);
@@ -252,7 +260,7 @@ function draw(): void {
   const head = header({ logo, nav: items, notifications: signedIn() ? 1 : 0, signedIn: signedIn(), title: S.size === "computer" ? undefined : t("site_short"), surface: "app" }, S.size, t, icon);
   const nav = signedIn() ? navigation(items, S.size, t, icon) : "";
   const toasts = S.undo.openToasts(Date.now()).map((u) => undoToast(u, Date.now(), t, icon)).join("");
-  d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main">${page()}<div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))} <span class="deeplink">account.lynkomni.com${esc(screenPath())}</span></div></main></div>${S.size === "phone" ? nav : ""}${overlay()}<div class="toasts">${toasts}</div></div>`;
+  d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main">${page()}<div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))} <span class="deeplink">account.lynkomni.com${esc(screenPath())}</span></div>${appFooter()}</main></div>${S.size === "phone" ? nav : ""}${overlay()}<div class="toasts">${toasts}</div></div>`;
   $("#device").className = `device ${S.size}`;
   $("#url").textContent = `https://account.lynkomni.com${screenPath()}`;
   $("#tabTitle").textContent = t("site_title");

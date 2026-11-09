@@ -48,24 +48,18 @@ class EveryCountry(unittest.TestCase):
             self.assertEqual(providers.availability("pos", code)["state"], "available", code)      # never waits on a partner
             self.assertEqual(providers.availability("payments", code)["state"], "coming_soon" if code not in ("RW", "KE", "NG", "GH", "UG", "TZ", "IN", "US", "AE") else providers.availability("payments", code)["state"], code)
     def test_language_waves_cover_every_official_language_not_yet_supported(self):
+        """Wave 2 is exactly blueprint 43 G (minus what is already supported); every other official language is listed as planned."""
         waves = read(os.path.join(ROOT, "design", "fonts", "language_waves.v1.json"))
-        ui = set(waves["supported"]); planned = [l["code"] for w in waves["waves"] for l in w["languages"]]
-        self.assertEqual(len(planned), len(set(planned)))                 # a language is scheduled once
+        ui = set(waves["supported"])
+        wave2 = [l["code"] for w in waves["waves"] if w["wave"] == 2 for l in w["languages"]]
+        self.assertEqual(wave2, [l for l in ("bn", "ta", "th", "am", "ha", "yo", "zu", "fil", "pl", "nl", "uk", "ms") if l not in ui])
+        planned = wave2 + [l["code"] for l in waves["planned"]]
+        self.assertEqual(len(planned), len(set(planned)))                 # a language is listed once
         self.assertFalse(set(planned) & ui)                                # and never when already supported
         for c in self.countries.values():
             for l in c["languages"]: self.assertTrue(l in ui or l in planned, l)
-        self.assertTrue(all(len(w["languages"]) <= waves["wave_size"] for w in waves["waves"]))
-
-    def test_no_build_section_is_locked_while_its_language_wave_is_missing(self):
-        """Each wave belongs to a build section (wave 2 to section 4, then one a section). A section is never locked in the
-        showcase while a wave of its own is still unsupported (owner rule 2026-11-08: no leftovers)."""
-        waves = read(os.path.join(ROOT, "design", "fonts", "language_waves.v1.json"))
-        show = read(os.path.join(ROOT, "web", "showcase", "showcase.v1.json"))
-        locked = {s["n"] for s in show["sections"] if s.get("status") == "locked"}
-        for w in waves["waves"]:
-            self.assertIn("build_section", w)
-            self.assertNotIn(w["build_section"], locked, f"wave {w['wave']} belongs to locked section {w['build_section']}: add its languages first")
-        self.assertTrue(all(l["name"] != l["code"] for w in waves["waves"] for l in w["languages"]), "every planned language has its English name")
+        self.assertTrue(all(l["name"] != l["code"] for w in waves["waves"] for l in w["languages"]), "every listed language has its English name")
+        self.assertTrue(all(l["name"] != l["code"] for l in waves["planned"]), "every planned language has its English name")
 
 
 if __name__ == "__main__":

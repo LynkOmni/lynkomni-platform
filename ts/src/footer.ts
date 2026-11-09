@@ -10,29 +10,36 @@ const T: Record<string, Record<string, string>> = {
     social: "Follow us", download: "Download", payments: "Payment methods", pricing: "Pricing", merchants: "Merchants & Retail", suppliers: "Suppliers & Marketplace", travel: "Travel & Ticketing",
     bills: "Bills & Connectivity", currency: "Currency & Crypto", cards: "Business Cards & Spend", entItem: "Enterprise", integrations: "Custom Integrations", partners: "Partner Program", agents: "Become an Agent",
     about: "About Us", leadership: "Leadership", careers: "Careers", newsroom: "Newsroom", investors: "Investors", contact: "Contact", how: "How It Works", trust: "Security & Trust", roadmap: "Roadmap",
-    blog: "Blog", brand: "Brand Kit", help: "Help Center", faq: "FAQ", ai: "AI Assistant", status: "Service Status", feedback: "Feedback", safety: "Safety", vuln: "Report a Vulnerability",
+    blog: "Blog", brand: "Brand Kit", help: "Help Center", vuln: "Report a Vulnerability",
     appstore: "App Store", gplay: "Google Play", pwa: "Install web app", terms: "Terms", privacy: "Privacy", cookies: "Cookies", compliance: "Compliance & Licenses", accessibility: "Accessibility",
-    language: "Language", region: "Region", tagline: "Works with or without internet. Built from Africa, for the world.", nlTitle: "Stay in the loop",
+    language: "Language", region: "Region", tagline: "Works with or without internet.", nlTitle: "Stay in the loop",
     nlText: "Product updates, merchant tips and LynkOmni news.", nlEmail: "Email address", nlConsent: "I agree to receive LynkOmni emails and understand I can unsubscribe at any time.",
-    nlButton: "Subscribe", nlNote: "We will send a confirmation email first. You are not subscribed until you confirm.", tProduct: "Product updates", tMerchant: "Merchant tips", tDev: "Developer updates", tCompany: "Company news" },
+    pm_bank_transfer: "Bank transfer", pm_qr: "QR payment", pm_crypto: "Crypto", follow: "Follow LynkOmni", nlTopics: "Topics", footerLabel: "LynkOmni site links", nlButton: "Subscribe", nlNote: "We will send a confirmation email first. You are not subscribed until you confirm.", tProduct: "Product updates", tMerchant: "Merchant tips", tDev: "Developer updates", tCompany: "Company news" },
   fr: { products: "Produits", solutions: "Solutions", developers: "Développeurs", enterprise: "Entreprises et partenaires", company: "Entreprise", resources: "Ressources", support: "Assistance",
     social: "Suivez-nous", download: "Télécharger", payments: "Moyens de paiement", pricing: "Tarifs", merchants: "Commerçants et distribution", suppliers: "Fournisseurs et marketplace", travel: "Voyages et billetterie",
     bills: "Factures et connectivité", currency: "Devises et crypto", cards: "Cartes et dépenses pro", entItem: "Entreprise", integrations: "Intégrations sur mesure", partners: "Programme partenaires", agents: "Devenir agent",
     about: "À propos", leadership: "Direction", careers: "Carrières", newsroom: "Presse", investors: "Investisseurs", contact: "Contact", how: "Comment ça marche", trust: "Sécurité et confiance", roadmap: "Feuille de route",
-    blog: "Blog", brand: "Kit de marque", help: "Centre d'aide", faq: "FAQ", ai: "Assistant IA", status: "État du service", feedback: "Retours", safety: "Sécurité des utilisateurs", vuln: "Signaler une vulnérabilité",
+    blog: "Blog", brand: "Kit de marque", help: "Centre d'aide", vuln: "Signaler une vulnérabilité",
     appstore: "App Store", gplay: "Google Play", pwa: "Installer l'application web", terms: "Conditions", privacy: "Confidentialité", cookies: "Cookies", compliance: "Conformité et licences", accessibility: "Accessibilité",
-    language: "Langue", region: "Région", tagline: "Fonctionne avec ou sans internet. Conçu en Afrique, pour le monde.", nlTitle: "Restez informé",
+    language: "Langue", region: "Région", tagline: "Fonctionne avec ou sans internet.", nlTitle: "Restez informé",
     nlText: "Nouveautés produits, conseils pour commerçants et actualités de LynkOmni.", nlEmail: "Adresse e-mail", nlConsent: "J'accepte de recevoir les e-mails de LynkOmni et je sais que je peux me désabonner à tout moment.",
     nlButton: "S'abonner", nlNote: "Nous enverrons d'abord un e-mail de confirmation. Vous n'êtes inscrit qu'après confirmation.", tProduct: "Nouveautés produits", tMerchant: "Conseils commerçants", tDev: "Actualités développeurs", tCompany: "Actualités de l'entreprise" },
   sw: { products: "Bidhaa", solutions: "Suluhisho", developers: "Wasanidi", enterprise: "Biashara kubwa na washirika", company: "Kampuni", resources: "Rasilimali", support: "Msaada",
     social: "Tufuate", download: "Pakua", payments: "Njia za malipo", pricing: "Bei", about: "Kuhusu sisi", leadership: "Uongozi", careers: "Kazi", newsroom: "Habari", investors: "Wawekezaji", contact: "Wasiliana nasi",
-    how: "Inavyofanya kazi", trust: "Usalama na uaminifu", roadmap: "Ramani ya maendeleo", blog: "Blogu", brand: "Vifaa vya chapa", help: "Kituo cha msaada", faq: "Maswali ya mara kwa mara", ai: "Msaidizi wa AI",
-    status: "Hali ya huduma", feedback: "Maoni", safety: "Usalama wa watumiaji", vuln: "Ripoti udhaifu wa kiusalama", pwa: "Sakinisha programu ya wavuti", terms: "Masharti", privacy: "Faragha", cookies: "Vidakuzi",
-    compliance: "Utiifu na leseni", accessibility: "Ufikiaji", language: "Lugha", region: "Eneo", tagline: "Inafanya kazi na au bila intaneti. Imejengwa Afrika, kwa dunia.", nlTitle: "Endelea kupata habari",
+    how: "Inavyofanya kazi", trust: "Usalama na uaminifu", roadmap: "Ramani ya maendeleo", blog: "Blogu", brand: "Vifaa vya chapa", help: "Kituo cha msaada", ai: "Msaidizi wa AI",
+    vuln: "Ripoti udhaifu wa kiusalama", pwa: "Sakinisha programu ya wavuti", terms: "Masharti", privacy: "Faragha", cookies: "Vidakuzi",
+    compliance: "Utiifu na leseni", accessibility: "Ufikiaji", language: "Lugha", region: "Eneo", tagline: "Inafanya kazi na au bila intaneti.", nlTitle: "Endelea kupata habari",
     nlText: "Habari za bidhaa, vidokezo kwa wafanyabiashara na habari za LynkOmni.", nlEmail: "Barua pepe", nlConsent: "Nakubali kupokea barua pepe za LynkOmni na ninajua naweza kujiondoa wakati wowote.",
     nlButton: "Jiandikishe", nlNote: "Tutatuma barua pepe ya uthibitisho kwanza. Hujajiandikisha hadi uthibitishe." },
 };
-export const t = (lang: string, key: string): string => T[lang]?.[key] ?? T["en"]![key] ?? key;   // per-string fallback to English
+export const footerText = (lang: string, key: string): string => T[lang]?.[key] ?? T["en"]![key] ?? key;   // per-string fallback to English
+/** The footer words of the app's language packs (web/footer, keys "ft_<key>"), when the app carries them: every interface language. */
+export type Words = (key: string) => string | undefined;
+const say = (lang: string, words: Words | undefined, key: string): string => words?.(`ft_${key}`) ?? footerText(lang, key);
+/** Every key the footer shows, in one list: web/footer/strings.en.json holds exactly these (tests/test_footer_words). */
+export const FOOTER_KEYS = Object.keys(T["en"]!);
+/** Methods named by a common word (translated); every other method is a provider's own name, written as text. */
+const GENERIC_METHODS: readonly string[] = ["bank_transfer", "qr", "crypto"];
 
 /** Fixed text. Never translated, reworded or shortened. */
 export const copyright = (year: number): string => `© ${year} CruxOmni Group. All rights reserved. LynkOmni is a product of CruxOmni Group.`;
@@ -44,25 +51,28 @@ export function currentYear(now: Date, tz: string): number {
 export const shortFooter = (now: Date, tz: string): string => copyright(currentYear(now, tz));
 
 const brand = (id: string, label: string, href: string): Item => ({ id, label, href, brand: true });
-const txt = (lang: string, id: string, key: string, href: string): Item => ({ id, label: t(lang, key), href });
+let WORDS: Words | undefined;
+const txt = (lang: string, id: string, key: string, href: string): Item => ({ id, label: say(lang, WORDS, key), href });
 
-export function columns(lang: string): Column[] {
+export function columns(lang: string, words?: Words): Column[] {
+  WORDS = words;
+  const tt = (k: string): string => say(lang, words, k);
   return [
-    { id: "products", title: t(lang, "products"), items: [brand("suite", "LynkSuite", "/suite"), brand("pos", "LynkPOS", "/pos"), brand("stock", "LynkStock", "/stock"), brand("acc", "LynkAcc", "/accounting"), brand("inv", "LynkInv", "/invoicing"), brand("crm", "LynkCRM", "/crm"), brand("ops", "LynkOps", "/ops"),
+    { id: "products", title: tt("products"), items: [brand("suite", "LynkSuite", "/suite"), brand("pos", "LynkPOS", "/pos"), brand("stock", "LynkStock", "/stock"), brand("acc", "LynkAcc", "/accounting"), brand("inv", "LynkInv", "/invoicing"), brand("crm", "LynkCRM", "/crm"), brand("ops", "LynkOps", "/ops"),
       brand("stat", "LynkStat", "/analytics"), brand("grow", "LynkGrow", "/grow"), brand("rewards", "LynkRewards", "/rewards"), brand("chat", "LynkChat", "/chat"), brand("mpay", "LynkMPay", "/mpay"),
       brand("checkout", "LynkCheckout", "/checkout"), brand("recover", "LynkRecover", "/recover"), brand("vcard", "LynkVCard", "/vcard"), brand("assist", "LynkAssist", "/ai"), txt(lang, "pricing", "pricing", "/pricing")] },
-    { id: "solutions", title: t(lang, "solutions"), items: [txt(lang, "merchants", "merchants", "/solutions/merchants"), txt(lang, "suppliers", "suppliers", "/solutions/suppliers"),
+    { id: "solutions", title: tt("solutions"), items: [txt(lang, "merchants", "merchants", "/solutions/merchants"), txt(lang, "suppliers", "suppliers", "/solutions/suppliers"),
       txt(lang, "travel", "travel", "https://booking.lynkomni.com"), txt(lang, "bills", "bills", "https://essential.lynkomni.com"), txt(lang, "currency", "currency", "https://exchange.lynkomni.com"),
       txt(lang, "cards", "cards", "/vcard")] },
-    { id: "developers", title: t(lang, "developers"), items: [brand("hub", "LynkHub", "https://hub.lynkomni.com"), brand("doc", "LynkDoc", "https://doc.lynkomni.com"), brand("api", "LynkAPI", "https://api.lynkomni.com"),
+    { id: "developers", title: tt("developers"), items: [brand("hub", "LynkHub", "https://hub.lynkomni.com"), brand("doc", "LynkDoc", "https://doc.lynkomni.com"), brand("api", "LynkAPI", "https://api.lynkomni.com"),
       brand("sdk", "LynkSDK", "https://sdk.lynkomni.com")] },
-    { id: "enterprise", title: t(lang, "enterprise"), items: [txt(lang, "enterprise", "entItem", "/enterprise"), txt(lang, "integrations", "integrations", "/enterprise/integrations"),
+    { id: "enterprise", title: tt("enterprise"), items: [txt(lang, "enterprise", "entItem", "/enterprise"), txt(lang, "integrations", "integrations", "/enterprise/integrations"),
       txt(lang, "partners", "partners", "/partners"), txt(lang, "agents", "agents", "/agents")] },
-    { id: "company", title: t(lang, "company"), items: [txt(lang, "about", "about", "/about"), txt(lang, "leadership", "leadership", "/about/leadership"), txt(lang, "careers", "careers", "/careers"),
+    { id: "company", title: tt("company"), items: [txt(lang, "about", "about", "/about"), txt(lang, "leadership", "leadership", "/about/leadership"), txt(lang, "careers", "careers", "/careers"),
       txt(lang, "newsroom", "newsroom", "/newsroom"), txt(lang, "investors", "investors", "/investors"), txt(lang, "contact", "contact", "/contact")] },
-    { id: "resources", title: t(lang, "resources"), items: [txt(lang, "how", "how", "/how-it-works"), txt(lang, "trust", "trust", "/trust"), txt(lang, "roadmap", "roadmap", "/roadmap"),
+    { id: "resources", title: tt("resources"), items: [txt(lang, "how", "how", "/how-it-works"), txt(lang, "trust", "trust", "/trust"), txt(lang, "roadmap", "roadmap", "/roadmap"),
       txt(lang, "blog", "blog", "/blog"), txt(lang, "brand", "brand", "/brand")] },
-    { id: "support", title: t(lang, "support"), items: [txt(lang, "help", "help", "/support"), brand("faq", "LynkFAQ", "/faq"), brand("ai", "LynkAssist", "/ai"), brand("status", "LynkStatus", "https://status.lynkomni.com"),
+    { id: "support", title: tt("support"), items: [txt(lang, "help", "help", "/support"), brand("faq", "LynkFAQ", "/faq"), brand("ai", "LynkAssist", "/ai"), brand("status", "LynkStatus", "https://status.lynkomni.com"),
       brand("feedback", "LynkFeedback", "/feedback"), brand("safety", "LynkSafety", "/safety"), txt(lang, "vuln", "vuln", "/trust/disclosure")] },
   ];
 }
@@ -78,15 +88,41 @@ export const SOCIAL_LINKS: Record<(typeof SOCIAL)[number], string> = {
 export function paymentMarks(pack: Pack | null): string[] {
   return paymentOptions(pack).map((o) => o.id);
 }
-export function buildFooter(o: { now: Date; pack: Pack | null; lang: string }) {
-  const tz = o.pack?.tz ?? "UTC", lang = T[o.lang] ? o.lang : "en";
+export function buildFooter(o: { now: Date; pack: Pack | null; lang: string; words?: Words }) {
+  const tz = o.pack?.tz ?? "UTC", lang = o.words || T[o.lang] ? o.lang : "en";
+  const t = (_l: string, k: string): string => say(lang, o.words, k);
   return {
     lang, region: o.pack ? { code: o.pack.code, name: o.pack.name, currency: o.pack.currency } : null, tagline: t(lang, "tagline"),
     newsletter: { title: t(lang, "nlTitle"), text: t(lang, "nlText"), email: t(lang, "nlEmail"), consent: t(lang, "nlConsent"), button: t(lang, "nlButton"), note: t(lang, "nlNote"), preticked: false, doubleOptIn: true,
       topics: [t(lang, "tProduct"), t(lang, "tMerchant"), t(lang, "tDev"), t(lang, "tCompany")] },
-    columns: columns(lang), social: [...SOCIAL], socialLinks: SOCIAL.map((id) => ({ id, href: SOCIAL_LINKS[id] })), download: [{ id: "appstore", label: t(lang, "appstore") }, { id: "gplay", label: t(lang, "gplay") }, { id: "pwa", label: t(lang, "pwa") }],
-    payments: { title: t(lang, "payments"), marks: paymentMarks(o.pack), options: paymentOptions(o.pack) },
+    columns: columns(lang, o.words), social: [...SOCIAL], socialLinks: SOCIAL.map((id) => ({ id, href: SOCIAL_LINKS[id] })), download: [{ id: "appstore", label: t(lang, "appstore") }, { id: "gplay", label: t(lang, "gplay") }, { id: "pwa", label: t(lang, "pwa") }],
+    payments: { title: t(lang, "payments"), marks: paymentMarks(o.pack), options: paymentOptions(o.pack).map((x) => ({ ...x, label: GENERIC_METHODS.includes(x.id) ? t(lang, `pm_${x.id}`) : x.label })) },
+    labels: { language: t(lang, "language"), region: t(lang, "region"), social: t(lang, "social"), download: t(lang, "download"), topics: t(lang, "nlTopics"), footer: t(lang, "footerLabel") },
     legal: { copyright: copyright(currentYear(o.now, tz)), links: [txt(lang, "terms", "terms", "/legal/terms"), txt(lang, "privacy", "privacy", "/legal/privacy"), txt(lang, "cookies", "cookies", "/legal/cookies"),
       txt(lang, "compliance", "compliance", "/legal/compliance"), txt(lang, "accessibility", "accessibility", "/legal/accessibility")] },
   };
 }
+
+/** The main footer (section 26 A and B) for websites and web apps, drawn from buildFooter. Payment methods are LynkOmni method
+ *  icons with the provider's name as text; social channels are text links (no other company's logo is drawn); the
+ *  newsletter box is unticked; the copyright line is the fixed text. `icon` draws a LynkOmni icon by id. */
+export function mainFooterHtml(f: ReturnType<typeof buildFooter>, esc: (s: string) => string, icon: (id: string) => string): string {
+  const link = (i: Item): string => `<li><a href="${esc(i.href)}">${esc(i.label)}</a></li>`;
+  const cols = f.columns.map((c) => `<section class="fcol"><h3>${esc(c.title)}</h3><ul>${c.items.map(link).join("")}</ul></section>`).join("");
+  const SOCIAL_NAMES: Record<string, string> = { linkedin: "LinkedIn", x: "X", facebook: "Facebook", instagram: "Instagram", youtube: "YouTube", tiktok: "TikTok", whatsapp: "WhatsApp" };
+  const social = f.socialLinks.map((s) => `<li><a href="${esc(s.href)}" target="_blank" rel="noopener">${esc(SOCIAL_NAMES[s.id] ?? s.id)}</a></li>`).join("");
+  const pay = f.payments.options.map((o) => `<li class="fpay"><span class="ic" aria-hidden="true">${icon(o.icon)}</span>${esc(o.label)}</li>`).join("");
+  const n = f.newsletter;
+  const topics = n.topics.map((x, i) => `<label class="ftopic"><input type="checkbox" name="topic${i}"> ${esc(x)}</label>`).join("");
+  return `<footer class="mainfoot" role="contentinfo" aria-label="${esc(f.labels.footer)}">
+<p class="ftag">${esc(f.tagline)}</p><div class="fcols">${cols}</div>
+<div class="frow"><section class="fcol"><h3>${esc(f.payments.title)}</h3><ul class="fpays">${pay}</ul></section>
+<section class="fcol"><h3>${esc(f.labels.social)}</h3><ul>${social}</ul></section>
+<section class="fcol"><h3>${esc(f.labels.download)}</h3><ul>${f.download.map((d) => `<li><a href="/download#${esc(d.id)}">${esc(d.label)}</a></li>`).join("")}</ul></section>
+<form class="fnews" onsubmit="return false"><h3>${esc(n.title)}</h3><p>${esc(n.text)}</p><label class="fl"><span>${esc(n.email)}</span><input type="email" autocomplete="email"></label>
+<fieldset><legend>${esc(f.labels.topics)}</legend>${topics}</fieldset><label class="fconsent"><input type="checkbox" required> <span>${esc(n.consent)}</span></label>
+<button type="submit">${esc(n.button)}</button><p class="fnote">${esc(n.note)}</p></form></div>
+<div class="flegal"><p class="fcopy">${esc(f.legal.copyright)}</p><ul>${f.legal.links.map(link).join("")}</ul></div></footer>`;
+}
+/** The short footer inside apps (section 26 C): one line, the fixed copyright text with the year in the viewer's time zone. */
+export const shortFooterHtml = (now: Date, tz: string): string => `<footer class="shortfoot" role="contentinfo"><p>${shortFooter(now, tz)}</p></footer>`;

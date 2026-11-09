@@ -207,3 +207,6 @@ button { font: inherit; color: inherit; }
 .tiles12.big .t12 { min-height: 92px; font-size: 13px; }
 .tiles12.big .t12 .ic { width: 32px; height: 32px; }
 .display .t12, .display .donebox p { overflow-wrap: anywhere; min-width: 0; }
+
+/* Blueprint 41 B: every touch target is at least 44 px (tools/a11y/check.js enforces it on every screen and language). */
+#display :is(button, a[href]) { min-height: 44px; min-width: 44px; }

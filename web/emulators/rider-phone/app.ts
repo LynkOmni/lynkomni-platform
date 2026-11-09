@@ -5,7 +5,7 @@
 import type { UserState } from "../../../ts/src/pos.js";
 import { nextDeliveryStep } from "../../../ts/src/restaurant.js";
 import type { DeliveryState } from "../../../ts/src/restaurant.js";
-import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, plain, stateButtons } from "../../../ts/src/emulator.js";
+import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, plain, stateButtons, appShortFooter } from "../../../ts/src/emulator.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 
 declare const DATA: Build;
@@ -23,7 +23,7 @@ const stateWord = (st: DeliveryState): string => (st === "accepted" ? t("st_acce
 const lastSync = (id: string, type: string): UserState => LOG.events.find((e) => e.type === type && (e.payload as { delivery_id: string }).delivery_id === id)?.sync ?? "queued";
 
 function list(): string {
-  return `<h2>${esc(t("deliveries"))}</h2><ul class="jobs">${S.jobs.map((j) => `<li><button data-act="open:${j.id}"><strong>${esc(t("order", { n: j.order }))}</strong><span>${esc(t(j.area))}</span><span class="st st-${j.state}">${esc(stateWord(j.state))}</span>${icon("ui-chevron-right")}</button></li>`).join("")}</ul><p class="note">${esc(t("proof_photo"))}</p>`;
+  return `<h2>${esc(t("deliveries"))}</h2><ul class="jobs">${S.jobs.map((j) => `<li><button data-act="open:${j.id}"><strong>${esc(t("order", { n: j.order }))}</strong><span>${esc(t(j.area))}</span><span class="st st-${j.state}">${esc(stateWord(j.state))}</span>${icon("ui-chevron-right")}</button></li>`).join("")}</ul><p class="note">${esc(t("proof_photo"))}</p>${appShortFooter(C)}`;
 }
 function detail(j: Job): string {
   const next = nextDeliveryStep(j.state);

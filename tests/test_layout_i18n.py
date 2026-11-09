@@ -377,11 +377,11 @@ if __name__ == "__main__":
 @unittest.skipUnless(sync_playwright and os.path.isfile(BROWSER), "Playwright with Chromium is needed")
 class BrandPlaces(unittest.TestCase):
     """Each screen shows the mark its place calls for (brand/surfaces.v1.json): the full logo where the brand introduces
-    itself and there is room (web header on computer and tablet, sign-in, sidebar), the emblem in app bars and crowded
-    headers, the wordmark on printed receipts."""
+    itself and there is room (web header on computer and tablet, sign-in, sidebar), the emblem in app bars (under 96 px the
+    logo falls back to the emblem), the wordmark on printed receipts."""
     CASES = [("browser-frame", 1280, {"web-header": "logo"}), ("account-site", 1280, {"web-header": "logo"}),
              ("merchant-phone", 1280, {"auth-onboarding": "logo"}), ("pos-terminal", 1280, {"auth-onboarding": "logo"}),
-             ("counter-tablet", 1280, {"app-top-bar": "emblem", "auth-onboarding": "logo"}), ("owner-web", 1280, {"side-menu": "logo"})]
+             ("counter-tablet", 1280, {"app-top-bar": "emblem", "auth-onboarding": "logo"}), ("customer-display", 1280, {"customer-welcome": "logo"}), ("owner-web", 1280, {"side-menu": "logo"})]
 
     def test_each_place_shows_its_mark(self):
         with sync_playwright() as p:
@@ -396,8 +396,32 @@ class BrandPlaces(unittest.TestCase):
                 pg.close()
             pg = b.new_page(viewport={"width": 1280, "height": 900})   # a phone-sized shell writes the page title next to its mark: emblem
             pg.goto("file://" + BROWSER); pg.wait_for_selector("html[data-ready]", state="attached")
-            pg.select_option("#cSize", "phone")
-            self.assertEqual(pg.eval_on_selector("[data-brand-place='web-header']", "e => e.dataset.brandAsset"), "emblem")
+            pg.select_option("#cSize", "phone")   # 41 B and 30: the logo falls back to the emblem only under 96 px; a phone header has room
+            self.assertEqual(pg.eval_on_selector("[data-brand-place='web-header']", "e => e.dataset.brandAsset"), "logo")
             pg.select_option("#cSize", "tablet")
             self.assertEqual(pg.eval_on_selector("[data-brand-place='web-header']", "e => e.dataset.brandAsset"), "logo")
+            b.close()
+
+
+@unittest.skipUnless(sync_playwright and os.path.isfile(BROWSER), "Playwright with Chromium is needed")
+class TextAt200(unittest.TestCase):
+    """Blueprint 41 B: text can grow to 200%. Browser zoom at 200% on a 1280 px window lays the page out at 640 px, so every
+    emulator is opened at 640 px in English and the long-text test: nothing spills over and the page never scrolls sideways."""
+    ROOTS = {**{e: v[0] for e, v in DEVICES.items()}, "pos-terminal": ["#display"], "merchant-phone": ["#display"], "browser-frame": ["#display"], "account-site": ["#display"]}
+    LANG = {**{e: v[1] for e, v in DEVICES.items()}, "pos-terminal": "#cLang", "merchant-phone": "#cLang", "browser-frame": "#cLang", "account-site": "#cLang"}
+
+    def test_every_emulator_at_200_percent_text(self):
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            for emulator, roots in self.ROOTS.items():
+                pg = b.new_page(viewport={"width": 640, "height": 900}, device_scale_factor=2, reduced_motion="reduce")
+                pg.goto("file://" + DEVICE_FILE(emulator)); pg.wait_for_selector("html[data-ready]", state="attached")
+                for lang in ("en", "xx"):
+                    if pg.query_selector(self.LANG[emulator]):
+                        pg.select_option(self.LANG[emulator], lang)
+                    pg.evaluate(SETTLE)
+                    bad = [x for r in roots if pg.query_selector(r) for x in pg.evaluate(OVERFLOW_IN, r)]
+                    self.assertEqual(bad, [], f"{emulator} {lang} at 200% text")
+                    self.assertLessEqual(pg.evaluate("document.documentElement.scrollWidth"), 640, f"{emulator} {lang} scrolls sideways at 200% text")
+                pg.close()
             b.close()

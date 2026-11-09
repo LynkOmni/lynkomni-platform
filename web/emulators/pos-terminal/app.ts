@@ -8,6 +8,7 @@ import { AGENT_SERVICES, COLLECTION_KINDS, FINANCE_PRODUCTS, combinedLimits, com
 import type { AgentState, Limits } from "../../../ts/src/agent.js";
 import { TEST_LANGS, esc, newId, pseudo, randomBytes } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
+import { shortFooterHtml } from "../../../ts/src/footer.js";
 import type { BrandPlaces } from "../../../ts/src/brand.js";
 
 interface BuildData {
@@ -360,7 +361,7 @@ function view(): string {
       return `${top(t("menu"))}<ul class="menu"><li><button data-act="go:sales">${icon("ui-receipt")}${esc(t("sales"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="go:count">${icon("product-ledger")}${esc(t("count"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="lowlit" aria-pressed="${S.lowLiteracy}">${icon("ui-grid")}${esc(t("low_literacy"))}${S.lowLiteracy ? icon("ui-check") : icon("ui-chevron-right")}</button></li>
-        <li><button data-act="lock">${icon("ui-lock")}${esc(t("lock"))}${icon("ui-chevron-right")}</button></li></ul>`;
+        <li><button data-act="lock">${icon("ui-lock")}${esc(t("lock"))}${icon("ui-chevron-right")}</button></li></ul>${shortFooterHtml(new Date(), pack().tz)}`;
     case "sales":
       return `${top(t("sales"))}<ul class="lines">${S.sales.map((s, i) => { const p = s.payments[s.payments.length - 1]; const ps = p ? paymentState(p.status, S.online) : null;
           const ev = S.events.find((e) => e.type === "SaleRecorded" && (e.payload as SalePayload).sale_id === s.sale.sale_id);

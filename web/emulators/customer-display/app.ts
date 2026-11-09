@@ -26,7 +26,7 @@ const cart = new Cart();
 function display(): string {
   const cur = C.pack().currency, total = cart.total();
   const pb = S.tier === "free" && S.step !== "pay" ? `<small class="pb">${esc(t("powered_by"))} LynkOmni</small>` : "";
-  if (S.step === "welcome") return `<div class="cwel">${brandMark(DATA.brand.places, "loading-empty", S.dark, "cmark")}<h2>${esc(t("welcome"))}</h2><p>${esc(t("sample_shop"))}</p>${pb}</div>`;
+  if (S.step === "welcome") return `<div class="cwel">${brandMark(DATA.brand.places, "customer-welcome", S.dark, "cmark")}<h2>${esc(t("welcome"))}</h2><p>${esc(t("sample_shop"))}</p>${pb}</div>`;
   if (S.step === "thanks") return `<div class="cwel"><span class="bigcheck">${icon("ui-check")}</span><h2>${esc(t("thank_you_visit"))}</h2><p>${esc(C.money(total))}</p>${pb}</div>`;
   const second = total ? secondCurrency(total, cur, cur === "USD" ? "EUR" : "USD", (m, a, b) => Math.round(m * ((DATA.fx[b] ?? 1) / (DATA.fx[a] ?? 1)))) : null;
   return `<div class="cbas"><ul>${cart.lines().map((l) => `<li><span>${esc(t(l.product.name))}</span><span>${qtyText(l.qtyMilli)} × ${esc(C.money(l.product.price))}</span><strong>${esc(C.money(l.product.price * l.qtyMilli / 1000))}</strong></li>`).join("")}</ul>

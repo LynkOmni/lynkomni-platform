@@ -18,7 +18,7 @@ from services import translation as t  # noqa: E402
 
 
 def main(emulator, folder):
-    SHARED = {"shell": os.path.join(ROOT, "web", "shell"), "pos": os.path.join(ROOT, "web", "pos")}   # shared word packs: the shell's and the POS devices' own words
+    SHARED = {"shell": os.path.join(ROOT, "web", "shell"), "pos": os.path.join(ROOT, "web", "pos"), "footer": os.path.join(ROOT, "web", "footer")}   # shared word packs: the shell's, the POS devices' and the footer's words
     base = SHARED.get(emulator) or os.path.join(ROOT, "web", "emulators", emulator)
     catalog = json.load(open(os.path.join(base, "strings.en.json"), encoding="utf-8"))
     table, errors = {}, []

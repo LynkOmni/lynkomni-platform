@@ -20,7 +20,7 @@ class Registry(unittest.TestCase):
     def test_every_country_pack_language_is_an_interface_language_or_in_a_wave(self):
         """Every country opens in a supported interface language; every official language not yet supported is scheduled in a wave."""
         waves = json.loads(read(os.path.join(ROOT, "design", "fonts", "language_waves.v1.json")))
-        planned = {l["code"] for w in waves["waves"] for l in w["languages"]}
+        planned = {l["code"] for w in waves["waves"] for l in w["languages"]} | {l["code"] for l in waves["planned"]}
         for p in glob.glob(os.path.join(ROOT, "contract", "country-packs", "*.json")):
             pack = json.loads(read(p))
             self.assertIn(pack.get("ui_language", pack.get("languages", ["en"])[0]), REG["languages"], f"{os.path.basename(p)}: opens in an unsupported interface language")

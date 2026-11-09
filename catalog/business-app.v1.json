@@ -1,0 +1,611 @@
+{
+ "version": 1,
+ "description": "The LynkOmni Business app as the master blueprint lays it out (section 41 E, with 42 C, 42 I, 44 L row 3, 5, 7 and 38 C). One entry per screen, with what it must hold. The merchant phone emulator (web/emulators/merchant-phone) shows every screen listed here, reachable from its state buttons, and tests/test_business_app.py fails when a screen or an item is missing. 'service_section' is the build section where a service's own full pages are built (section 41 S); its Business hub entry is built here in section 3. 'path' is the screen's address on app.lynkomni.com (41 B deep links; address rules of 42 E; a product opens by the contract's product_id, as no public id type exists for products).",
+ "getting_in": [
+  "sign_in",
+  "choose_business",
+  "register_device",
+  "locale_card",
+  "setup",
+  "first_sale"
+ ],
+ "setup_steps": [
+  {
+   "id": "business_name_type",
+   "blueprint": "41 E"
+  },
+  {
+   "id": "currency",
+   "blueprint": "41 E"
+  },
+  {
+   "id": "first_products",
+   "ways": [
+    "scan",
+    "photo",
+    "voice",
+    "template",
+    "import"
+   ],
+   "blueprint": "41 E"
+  },
+  {
+   "id": "invite_staff",
+   "blueprint": "41 E"
+  },
+  {
+   "id": "print_shop_qr",
+   "blueprint": "41 E, 7"
+  }
+ ],
+ "top_bar": [
+  "emblem",
+  "screen_title",
+  "connection_chip",
+  "notifications",
+  "account"
+ ],
+ "tabs": {
+  "shop": [
+   "home",
+   "sell",
+   "stock",
+   "chats",
+   "business"
+  ],
+  "no_till": [
+   "home",
+   "invoices",
+   "customers",
+   "chats",
+   "business"
+  ],
+  "agent_point": [
+   "home",
+   "services",
+   "float",
+   "chats",
+   "business"
+  ],
+  "restaurant": [
+   "home",
+   "tables",
+   "kitchen",
+   "chats",
+   "business"
+  ]
+ },
+ "sizes": {
+  "phone": "top bar and bottom tabs",
+  "tablet": "the same tabs in a side rail",
+  "web_view": "View only on this computer (44 C)"
+ },
+ "screens": [
+  {
+   "id": "home",
+   "blueprint": "5, 41 E",
+   "items": [
+    "today_sales",
+    "today_profit",
+    "new_sale",
+    "stock_alerts",
+    "chats",
+    "insight",
+    "pending_sync"
+   ],
+   "path": "/"
+  },
+  {
+   "id": "sell",
+   "blueprint": "41 E",
+   "items": [
+    "categories",
+    "search",
+    "scan",
+    "voice",
+    "basket"
+   ],
+   "path": "/sell"
+  },
+  {
+   "id": "basket",
+   "blueprint": "41 E",
+   "items": [
+    "quantity",
+    "discount",
+    "note",
+    "attach_customer"
+   ],
+   "path": "/sell/basket"
+  },
+  {
+   "id": "pay",
+   "blueprint": "41 E, 42 C",
+   "items": [
+    "cash",
+    "mobile_money",
+    "card",
+    "tap_to_pay",
+    "bank_transfer",
+    "qr",
+    "pay_link",
+    "credit",
+    "split",
+    "second_currency",
+    "proof_warning"
+   ],
+   "path": "/sell/payment"
+  },
+  {
+   "id": "receipt",
+   "blueprint": "41 E, 7, 42 I S10",
+   "items": [
+    "print",
+    "qr",
+    "chat_link",
+    "sms_link",
+    "verify_qr",
+    "not_tax_receipt"
+   ],
+   "path": "/sell/receipt"
+  },
+  {
+   "id": "sales_today",
+   "blueprint": "41 E",
+   "items": [
+    "reprint",
+    "void_reason",
+    "return_refund"
+   ],
+   "path": "/sell/sales?view=today"
+  },
+  {
+   "id": "shift",
+   "blueprint": "41 E, 42 I",
+   "items": [
+    "open_float",
+    "cash_count",
+    "close_discrepancy",
+    "handover"
+   ],
+   "path": "/sell/shifts"
+  },
+  {
+   "id": "practice",
+   "blueprint": "41 E, 7",
+   "items": [
+    "marked_copy",
+    "practice_float"
+   ],
+   "path": "/sell/practice"
+  },
+  {
+   "id": "stock",
+   "blueprint": "41 E",
+   "items": [
+    "filter_low",
+    "filter_below_zero",
+    "filter_category",
+    "filter_branch"
+   ],
+   "path": "/stock"
+  },
+  {
+   "id": "product",
+   "blueprint": "41 E",
+   "items": [
+    "price",
+    "cost",
+    "barcode",
+    "variants",
+    "units",
+    "photos",
+    "stock_per_branch",
+    "history"
+   ],
+   "path": "/stock/products/{product_id}"
+  },
+  {
+   "id": "add_product",
+   "blueprint": "41 E",
+   "items": [
+    "scan",
+    "photo",
+    "voice",
+    "template",
+    "import"
+   ],
+   "path": "/stock/products/new"
+  },
+  {
+   "id": "stock_received",
+   "blueprint": "41 E",
+   "items": [
+    "supplier",
+    "quantity"
+   ],
+   "path": "/stock/arrivals/new"
+  },
+  {
+   "id": "stock_count",
+   "blueprint": "41 E",
+   "items": [
+    "full",
+    "partial"
+   ],
+   "path": "/stock/counts/new"
+  },
+  {
+   "id": "stock_remove",
+   "blueprint": "41 E",
+   "items": [
+    "damaged",
+    "lost",
+    "expired",
+    "correction"
+   ],
+   "path": "/stock/removals/new"
+  },
+  {
+   "id": "stock_move",
+   "blueprint": "41 E",
+   "items": [
+    "from_branch",
+    "to_branch"
+   ],
+   "path": "/stock/moves/new"
+  },
+  {
+   "id": "suppliers",
+   "blueprint": "41 E",
+   "items": [
+    "supplier_list"
+   ],
+   "path": "/stock/suppliers"
+  },
+  {
+   "id": "reorder",
+   "blueprint": "41 E",
+   "items": [
+    "drafts",
+    "purchase_orders"
+   ],
+   "path": "/stock/purchase-orders"
+  },
+  {
+   "id": "marketplace",
+   "blueprint": "41 E, 44 I N11",
+   "items": [
+    "supplier_marketplace",
+    "buy_together"
+   ],
+   "path": "/stock/marketplace"
+  },
+  {
+   "id": "labels",
+   "blueprint": "41 E",
+   "items": [
+    "labels",
+    "barcodes"
+   ],
+   "path": "/stock/labels"
+  },
+  {
+   "id": "import_export",
+   "blueprint": "41 E",
+   "items": [
+    "import",
+    "export"
+   ],
+   "path": "/stock/import-export"
+  },
+  {
+   "id": "chats",
+   "blueprint": "41 E",
+   "items": [
+    "filter_unread",
+    "filter_assigned",
+    "filter_orders",
+    "filter_all",
+    "support_pinned"
+   ],
+   "path": "/chats"
+  },
+  {
+   "id": "thread",
+   "blueprint": "41 E, 44 E",
+   "items": [
+    "attached_card",
+    "send_product",
+    "send_quote",
+    "send_pay_link",
+    "send_receipt",
+    "saved_replies",
+    "photo",
+    "voice_note",
+    "assign_staff",
+    "translated_note"
+   ],
+   "path": "/chats/{LOCNV}"
+  },
+  {
+   "id": "business",
+   "blueprint": "41 E",
+   "items": [
+    "reports",
+    "daily_close",
+    "money",
+    "invoicing",
+    "customers",
+    "loyalty",
+    "books",
+    "growth",
+    "assistant",
+    "cards",
+    "online_shop",
+    "agent_earnings",
+    "team",
+    "branches_devices",
+    "plans_billing",
+    "settings",
+    "academy",
+    "automations",
+    "waiting_services"
+   ],
+   "path": "/business"
+  },
+  {
+   "id": "reports",
+   "blueprint": "41 E",
+   "service_section": 4,
+   "items": [
+    "sales",
+    "profit",
+    "payments",
+    "products",
+    "staff",
+    "branches",
+    "period",
+    "export"
+   ],
+   "path": "/analytics"
+  },
+  {
+   "id": "daily_close",
+   "blueprint": "41 E, 7",
+   "items": [
+    "sales",
+    "cash_expected",
+    "confirmed",
+    "waiting",
+    "failed",
+    "running_low",
+    "unusual"
+   ],
+   "path": "/business/daily-close"
+  },
+  {
+   "id": "money",
+   "blueprint": "41 E",
+   "items": [
+    "received",
+    "waiting",
+    "failed",
+    "payouts",
+    "fees",
+    "refunds",
+    "recovery",
+    "evidence_packs",
+    "payout_splits"
+   ],
+   "path": "/business/money"
+  },
+  {
+   "id": "invoicing",
+   "blueprint": "41 E",
+   "service_section": 4,
+   "items": [
+    "invoices",
+    "quotes",
+    "credit_notes",
+    "recurring",
+    "reminders",
+    "pay_links",
+    "shop_qr",
+    "guest_checkout"
+   ],
+   "path": "/invoicing"
+  },
+  {
+   "id": "customers",
+   "blueprint": "41 E",
+   "service_section": 4,
+   "items": [
+    "directory",
+    "timeline",
+    "who_owes_me",
+    "groups",
+    "follow_ups",
+    "loyalty_members"
+   ],
+   "path": "/crm"
+  },
+  {
+   "id": "loyalty",
+   "blueprint": "41 E",
+   "items": [
+    "points",
+    "coupons",
+    "campaigns",
+    "brand_offers"
+   ],
+   "path": "/business/loyalty"
+  },
+  {
+   "id": "books",
+   "blueprint": "41 E",
+   "service_section": 4,
+   "items": [
+    "profit_loss",
+    "expenses",
+    "cash_book",
+    "owed_to_me",
+    "audit_export",
+    "accountant_access"
+   ],
+   "path": "/accounting"
+  },
+  {
+   "id": "growth",
+   "blueprint": "41 E, 7",
+   "items": [
+    "insights",
+    "supplier_marketplace",
+    "financing",
+    "protection",
+    "business_passport"
+   ],
+   "path": "/business/growth"
+  },
+  {
+   "id": "assistant",
+   "blueprint": "41 E, 7",
+   "items": [
+    "ask",
+    "drafts",
+    "figures_visible"
+   ],
+   "path": "/business/assistant"
+  },
+  {
+   "id": "cards",
+   "blueprint": "41 E, 33",
+   "items": [
+    "cards",
+    "spend",
+    "approvals",
+    "issuer_display"
+   ],
+   "path": "/business/cards"
+  },
+  {
+   "id": "online_shop",
+   "blueprint": "41 E, 7, 44 B",
+   "items": [
+    "shop_page",
+    "username",
+    "link",
+    "qr",
+    "online_orders"
+   ],
+   "path": "/business/online-shop"
+  },
+  {
+   "id": "agent_earnings",
+   "blueprint": "41 E, 42 C",
+   "items": [
+    "commissions",
+    "float",
+    "limits",
+    "statement_match",
+    "outlets"
+   ],
+   "path": "/business/agent-earnings"
+  },
+  {
+   "id": "team",
+   "blueprint": "41 E",
+   "items": [
+    "staff",
+    "roles",
+    "pins",
+    "permissions",
+    "seats",
+    "time_clock"
+   ],
+   "path": "/business/team"
+  },
+  {
+   "id": "branches_devices",
+   "blueprint": "41 E, 44 C",
+   "items": [
+    "branches",
+    "devices",
+    "revoke",
+    "wipe"
+   ],
+   "path": "/business/devices"
+  },
+  {
+   "id": "plans_billing",
+   "blueprint": "41 E",
+   "items": [
+    "plans",
+    "next_bill"
+   ],
+   "path": "/business/plans"
+  },
+  {
+   "id": "settings",
+   "blueprint": "41 E",
+   "items": [
+    "business_profile",
+    "receipts",
+    "taxes",
+    "payment_methods",
+    "printers_scanners",
+    "language_region",
+    "notifications",
+    "data_saver",
+    "modes",
+    "ad_categories",
+    "lock",
+    "data_privacy",
+    "connected_apps",
+    "data_sharing"
+   ],
+   "path": "/business/settings"
+  },
+  {
+   "id": "academy",
+   "blueprint": "44 I N13",
+   "items": [
+    "lessons"
+   ],
+   "path": "/business/academy"
+  },
+  {
+   "id": "automations",
+   "blueprint": "45 D",
+   "items": [
+    "history",
+    "why",
+    "off_switch"
+   ],
+   "path": "/business/automations"
+  },
+  {
+   "id": "notifications",
+   "blueprint": "41 B, 41 E",
+   "items": [
+    "list"
+   ],
+   "path": "/notifications"
+  },
+  {
+   "id": "account",
+   "blueprint": "41 B",
+   "items": [
+    "name_lynkid",
+    "switch_business",
+    "switch_role",
+    "language_region",
+    "theme",
+    "security_center",
+    "help",
+    "sign_out"
+   ],
+   "path": "account.lynkomni.com"
+  }
+ ]
+}

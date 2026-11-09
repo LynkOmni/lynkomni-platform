@@ -20,7 +20,7 @@ def svg(path):
 
 
 # Shared word packs: an emulator that imports the module carries the folder's words too (one translation, used everywhere).
-SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/emulator.js", os.path.join("web", "pos")))
+SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/footer.js", os.path.join("web", "footer")))
 
 
 def uses_shell(emulator):
@@ -92,7 +92,7 @@ SERVICES = [("pos", "LynkPOS", "product-pos"), ("accountant", "LynkAcc", "produc
 
 # The brand places the screens ask for (brand/surfaces.v1.json): each place lists its choices in order with the smallest
 # width each needs, so the screen picks by the room it has (ts/src/brand.ts markFor). Screens never name a logo file.
-BRAND_PLACES = ("app-top-bar", "web-header", "side-menu", "auth-onboarding", "loading-empty")
+BRAND_PLACES = ("app-top-bar", "web-header", "side-menu", "auth-onboarding", "customer-welcome")
 
 
 def brand_places():
@@ -163,6 +163,8 @@ def country_packs():
             "sample": code == SAMPLE,
             "ok": "".join("1" if all(providers.item_status(ITEMS[i], code) in providers.OK_STATUS for i in items) else "0" for items in METHOD_ITEMS.values()),
             "st": "".join("a" if providers.availability(sv, code)["state"] == "available" else "c" for sv, _, _ in SERVICES),
+            # the payment methods the footer lists for this country (section 26 D: only what its pack supports)
+            "card_networks": pack.get("card_networks") or [], "wallets": pack.get("wallets") or [], "providers": pack.get("providers") or [],
         }
     return {SAMPLE: out.pop(SAMPLE), **out}
 

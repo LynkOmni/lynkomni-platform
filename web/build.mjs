@@ -12,13 +12,13 @@ import { fileURLToPath } from "node:url";
 const WEB = dirname(fileURLToPath(import.meta.url));
 const ROOT = dirname(WEB);
 const OUT = join(WEB, "emulators", "dist");
-const DEVICE_MODULES = ["ts/src/brand.js", "ts/src/pos.js", "ts/src/merchant.js", "ts/src/business.js", "ts/src/agent.js", "ts/src/restaurant.js", "ts/src/emulator.js"];
+const DEVICE_MODULES = ["ts/src/brand.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/pos.js", "ts/src/merchant.js", "ts/src/business.js", "ts/src/agent.js", "ts/src/restaurant.js", "ts/src/emulator.js"];
 const EMULATORS = [
   { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: [...DEVICE_MODULES, "web/emulators/pos-terminal/app.js"] },
   { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: [...DEVICE_MODULES, "web/emulators/merchant-phone/app.js"] },
-  { id: "browser-frame", out: "lynkomni-browser-frame.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/shell.js", "web/emulators/browser-frame/app.js"],
+  { id: "browser-frame", out: "lynkomni-browser-frame.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", "web/emulators/browser-frame/app.js"],
     extraCss: ["web/shell/shell.css"] },
-  { id: "account-site", out: "lynkomni-account-site.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/shell.js", "ts/src/account.js", "web/emulators/account-site/app.js"],
+  { id: "account-site", out: "lynkomni-account-site.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", "ts/src/account.js", "web/emulators/account-site/app.js"],
     extraCss: ["web/shell/shell.css"] },
   // build section 3: the Business app devices, all on the shared device runtime (ts/src/emulator.js) and words (web/pos)
   ...["counter-tablet", "kitchen-screen", "customer-display", "rider-phone", "stock-scanner", "button-phone", "vcard-card", "mesh-relay", "owner-web"]
@@ -29,11 +29,17 @@ const read = (p) => readFileSync(p, "utf8");
 const tsc = process.env.TSC || "tsc";
 execFileSync(tsc, ["-p", join(WEB, "tsconfig.json")], { stdio: "inherit" });
 
+// Comments are for people reading the source, not for phones downloading the file: whole-line // comments and /** ... */
+// blocks that start a line are dropped (never inside code: a line that starts a comment holds no code, and TypeScript output
+// keeps strings on their own lines). Trailing comments after code stay, which is always safe.
+function stripComments(js) {
+  return js.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*\n/gm, "").replace(/^[ \t]*\/\/.*\n/gm, "");
+}
 // Join ES modules into one script: drop import lines and the export keyword. Modules are listed in dependency order.
 function bundle(mods) {
   const parts = mods.map((m) => {
     const js = read(join(WEB, ".build", m));
-    return `// ---- ${m}\n` + js.replace(/^import[^;]*;\s*$/gm, "").replace(/^export \{\s*\};?\s*$/gm, "").replace(/^export (?=(const|function|class|let|async))/gm, "");
+    return `// ---- ${m}\n` + stripComments(js).replace(/^import[^;]*;\s*$/gm, "").replace(/^export \{\s*\};?\s*$/gm, "").replace(/^export (?=(const|function|class|let|async))/gm, "");
   });
   return `"use strict";\n(() => {\n${parts.join("\n")}\n})();`;
 }
@@ -63,7 +69,7 @@ for (const e of EMULATORS) {
   const dir = join(WEB, "emulators", e.id);
   let html = read(join(dir, "shell.html"))
     .replace("/*@TOKENS@*/", () => fontCss + "\n" + tokens)
-    .replace("/*@STYLE@*/", () => (e.extraCss ?? []).map((c) => read(join(ROOT, c))).join("\n") + "\n" + read(join(dir, "style.css")))
+    .replace("/*@STYLE@*/", () => [...(e.extraCss ?? []), ...(e.modules.includes("ts/src/footer.js") ? ["web/footer/footer.css"] : [])].map((c) => read(join(ROOT, c))).join("\n") + "\n" + read(join(dir, "style.css")))   // the footer's styles travel with the footer module
     .replace("/*@BODYMARK@*/", () => D.brand.body)
     .replace(/\/\*@I:([a-z0-9-]+)@\*\//g, (_, id) => `<span class="ic" aria-hidden="true">${D.icons[id] ?? (() => { throw new Error(`unknown icon ${id}`); })()}</span>`)
     .replace("/*@SCRIPT@*/", () => `const DATA = ${JSON.stringify(packData(D)).replace(/</g, "\\u003c")};\n(async () => {\n${UNPACK}\n${INFLATE}\n${bundle(e.modules)}\ndocument.documentElement.dataset.ready = "1"; window.__readyAt = performance.now();\n})();`);

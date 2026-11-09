@@ -27,7 +27,7 @@
 
 /* ---- header: logo place, navigation, then search, globe, help, bell, launcher, account ---- */
 .shell-header { display: flex; align-items: center; gap: 8px; min-height: 56px; padding: 6px 16px; background: var(--bg-surface); border-block-end: 1px solid var(--border-subtle); }
-.logo-place { display: inline-flex; align-items: center; height: 32px; margin-inline-end: 8px; color: var(--logo-ink); }
+.logo-place { display: inline-flex; align-items: center; height: 44px; margin-inline-end: 8px; color: var(--logo-ink); }
 .logo-place svg { height: 100%; width: auto; }
 .logo-place .brandfill { display: inline-flex; height: 26px; }   /* the full logo at its readable size (svg width follows) */
 .htitle { flex: 1; font-size: var(--text-16); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

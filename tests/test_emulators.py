@@ -10,6 +10,16 @@ BUILT = sorted(glob.glob(os.path.join(WEB, "dist", "*.html")))
 FAKE_MARKS = re.compile(r"\b(visa|mastercard|amex|mtn|airtel|m-pesa|mpesa|paypal|apple pay|google pay|sunmi|pax|ingenico|verifone)\b", re.I)
 
 
+def _official_social():
+    """LynkOmni's official social accounts, as ts/src/footer.ts SOCIAL_LINKS lists them (claimed 6 November 2026)."""
+    src = open(os.path.join(ROOT, "ts", "src", "footer.ts"), encoding="utf-8").read()
+    block = src[src.index("SOCIAL_LINKS"):src.index("};", src.index("SOCIAL_LINKS"))]
+    return set(re.findall(r'"(https://[^"]+)"', block))
+
+
+OFFICIAL_SOCIAL = _official_social()
+
+
 def read(p):
     with open(p, encoding="utf-8") as f:
         return f.read()
@@ -96,6 +106,7 @@ class Emulators(unittest.TestCase):
             txt = built_text(f)
             urls = set(re.findall(r"https?://[^\s\"')<\\]+", txt)) - {"http://www.w3.org/2000/svg", "http://www.w3.org/1999/xlink"}
             urls = {u for u in urls if not re.match(r"https://([a-z]+\.)?lynkomni\.com(/|\$|$)", u)}   # LynkOmni addresses may be shown (address bar, deep links), never loaded
+            urls -= OFFICIAL_SOCIAL   # the footer links to LynkOmni's own official accounts (section 26 A); a link, never a load
             self.assertEqual(urls, set(), f"{f}: must not load anything from the web")
             self.assertNotRegex(txt, r"""(src|href)=["']https?://|url\(["']?https?://|fetch\(|XMLHttpRequest|navigator\.sendBeacon""", f"{f}: must not load anything from the web")
             self.assertNotRegex(txt, r"<img|@import|fonts\.googleapis|<link ", f)
