@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "अकादमी",
   "academy_hint": "छोटा पाठ उसी स्क्रीन के बगल में खुलता है जिसे वह सिखाता है।",
@@ -142,6 +142,8 @@
   "invoices": "बिल",
   "join_group": "शामिल हों",
   "joined": "आप शामिल हुए। अपना हिस्सा आपूर्तिकर्ता को तभी देते हैं जब समूह लक्ष्य तक पहुँचे।",
+  "key_clear": "साफ़ करें",
+  "key_recall": "वापस लाएँ",
   "kitchen": "रसोई",
   "kitchen_items_open": "रसोई में अभी खाना बाकी है",
   "kitchen_queue": "रसोई की कतार",

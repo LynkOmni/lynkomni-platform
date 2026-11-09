@@ -1,11 +1,15 @@
 /* The shared LynkOmni shell inside a browser window (build section 1). Every part comes from ts/src/shell.ts; this file only
  * holds the sample page, the emulator controls and the event log. Words come from strings.en.json and the language packs. */
-import { STATE_PICTURE, Undo, accountMenu, chart, comingSoon, commandBar, connectionChip, deliverNow, esc, filterRegions, globeSheet, regionName, header, helpPanel, launcher, messageNote, messageText, navigation, notificationsPanel, route, search, state, syncSheet, translationBanner, translator, undoToast, usernameField } from "../../../ts/src/shell.js";
+import { STATE_PICTURE, Undo, accountMenu, viewSheet, IFACE_NAME, chart, comingSoon, commandBar, connectionChip, deliverNow, esc, filterRegions, globeSheet, regionName, header, helpPanel, launcher, messageNote, messageText, navigation, notificationsPanel, route, search, state, syncSheet, translationBanner, translator, undoToast, usernameField } from "../../../ts/src/shell.js";
 import type { AddressMap, ChatLang, ChatMessage, Entry, Icon, Link, NavItem, Notice, Pic, StateKind, SyncInfo, T, UsernameStatus, Viewport } from "../../../ts/src/shell.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import { brandMark, markFor } from "../../../ts/src/brand.js";
 import { buildFooter, mainFooterHtml } from "../../../ts/src/footer.js";
 import type { BrandPlaces } from "../../../ts/src/brand.js";
+import { browserFacts, chooseInterface, safeToSwitch } from "../../../ts/src/interfaces.js";
+import type { Choice } from "../../../ts/src/interfaces.js";
+import { DEVICES } from "../../../ts/src/interfaces.generated.js";
+import { arrowNav, gestures } from "../../../ts/src/gestures.js";
 const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 } as const;   // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
 
 interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[]; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; plain: string; state: "available" | "coming_soon" }[] }
@@ -25,14 +29,20 @@ interface Ev { n: number; type: string; origin: "device" | "server"; payload: un
 const PACKS = DATA.i18n;
 const EN: Record<string, string> = PACKS.en?.texts ?? {};
 const TEST_LANGS = ["xx", "xx-rtl"];
-type Overlay = null | "launcher" | "account" | "globe" | "cmd" | "help" | "bell" | "sync";
+type Overlay = null | "launcher" | "account" | "globe" | "cmd" | "help" | "bell" | "sync" | "view";
 type Screen = "home" | "payment" | `state:${StateKind}`;
 
 const S = {
   size: "computer" as Viewport, lang: "en", theme: "light" as "light" | "dark", mode: "" as "" | "lite" | "sunlight", link: "good" as Link, country: "", realUser: false,
   screen: "home" as Screen, overlay: null as Overlay, query: "", chartView: "chart" as "chart" | "table", showOriginal: false, username: "", cloud: null as UsernameStatus,
   notified: new Set<string>(), dataSaver: false, forced: false, pending: 0, lastSync: null as number | null, events: [] as Ev[], undo: new Undo(), archived: 0, voided: 0, seen: new Set<string>(),
+  // BIZZ & DEVICE: the side of the screen and the interface this device uses (chosen automatically; Change view overrides it)
+  side: "internal" as "internal" | "external", override: null as string | null, pendingView: undefined as string | null | undefined,
+  testView: "auto", testWidth: "auto", choice: null as Choice | null,
 };
+/** The interfaces a browser window can show; the others belong to their own devices (catalog/devices.v1.json). */
+const VIEWS = ["universal", "phone.touch", "tablet.touch", "computer.touch", "computer.pointer"] as const;
+const DEFAULT_WIDTH: Record<string, number> = { phone: 390, tablet: 800, computer: 1280, watch: 240, tv: 1920, eink: 600, voice: 390 };
 const $ = <T extends HTMLElement>(sel: string): T => document.querySelector(sel) as T;
 const PSEUDO: Record<string, string> = { a: "à", c: "ç", e: "é", i: "î", n: "ñ", o: "ö", s: "š", u: "ü", y: "ý" };
 const pseudo = (s: string): string => `[${s.replace(/[aceinosuy]/g, (c) => PSEUDO[c] ?? c)} ${"~".repeat(Math.max(1, Math.round(s.length * 0.4)))}]`;
@@ -55,6 +65,14 @@ const money = (minor: number): string => { try { return new Intl.NumberFormat(lo
 const clock = (ms: number): string => new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, hour: "2-digit", minute: "2-digit" }).format(ms);
 const langName = (code: string): string => PACKS[code]?.native ?? code;
 const SHOP = (): string => t("shop_name");
+/** The decision function on this device's own reported facts (never its browser's name); the testing panel may force a view. */
+const choose = (): Choice => {
+  const forced = S.testView !== "auto" ? S.testView : null;
+  return chooseInterface(DEVICES, { ...browserFacts(window), override: forced ?? S.override });
+};
+const width = (): number => S.testWidth !== "auto" ? Number(S.testWidth) : (DEFAULT_WIDTH[S.choice?.class ?? "computer"] ?? 1280);
+const sizeOf = (w: number): Viewport => w < 600 ? "phone" : w < 1024 ? "tablet" : "computer";
+const sideWord = (side: "internal" | "external"): string => side === "external" ? t("side_storefront") : t("side_business");
 // Sample sales for the chart: data the emulator itself holds (minor units), labelled sample in the page header.
 const SAMPLE_WEEK = [42000, 51500, 38000, 60250, 72000, 91000, 30500];
 const DAYS = ["day_mon", "day_tue", "day_wed", "day_thu", "day_fri", "day_sat", "day_sun"];
@@ -77,7 +95,10 @@ const navItems = (): NavItem[] => {
   ];
   return S.size === "computer" ? [...base, { id: "reports", label: t("nav_reports"), icon: "ui-chart", href: "/analytics" }, { id: "settings", label: t("nav_settings"), icon: "ui-settings", href: "/business/settings" }] : base;
 };
-const screenPath = (): string => S.screen === "home" ? "/" : S.screen === "payment" ? "/sell" : S.screen === "state:not_found" ? "/nowhere" : "/business";
+const screenPath = (): string => {
+  const p = S.screen === "home" ? "/business" : S.screen === "payment" ? "/sell" : S.screen === "state:not_found" ? "/nowhere" : "/business";
+  return S.side === "external" && p !== "/nowhere" ? `/external${p}` : S.screen === "home" ? "/" : p;    // the Storefront is /external + the workspace path
+};
 const sync = (): SyncInfo => ({ link: S.link, pending: S.pending, lastSync: S.lastSync, dataSaver: S.dataSaver, forcedOffline: S.forced });
 const statePic = (kind: StateKind): Pic | null => {
   const id = STATE_PICTURE[kind];
@@ -124,19 +145,22 @@ function main(): string {
 function overlay(): string {
   const wrap = (cls: string, inner: string) => `<div class="overlay ${cls}" data-act="closeoverlay">${inner.replace(/^<(div|aside)/, '<$1 data-act="keep"')}</div>`;
   switch (S.overlay) {
-    case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.service, name: s.name, plain: t(`ft_plain_${s.plain}`), icon: s.icon, href: `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon));
-    case "account": return wrap("end", accountMenu({ name: "Grace", lynkId: "LOID-4821-9035-7715", businesses: [{ id: "b1", name: SHOP(), current: true }, { id: "b2", name: `${SHOP()} 2`, current: false }], role: "owner", roles: ["owner", "manager", "cashier"], theme: S.mode === "lite" ? "lite" : S.mode === "sunlight" ? "sunlight" : S.theme, language: langName(isTest() ? "en" : S.lang), region: pack().sample ? t("sample_country") : pack().name }, t, icon));
+    case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.service, name: s.name, plain: t(`ft_plain_${s.plain}`), icon: s.icon, href: `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon, sides()));
+    case "account": return wrap("end", accountMenu({ name: "Grace", lynkId: "LOID-4821-9035-7715", businesses: [{ id: "b1", name: SHOP(), current: true }, { id: "b2", name: `${SHOP()} 2`, current: false }], role: "owner", roles: ["owner", "manager", "cashier"], theme: S.mode === "lite" ? "lite" : S.mode === "sunlight" ? "sunlight" : S.theme, language: langName(isTest() ? "en" : S.lang), region: pack().sample ? t("sample_country") : pack().name, sides: sides(), view: { name: t(IFACE_NAME[S.choice?.interface ?? "universal"] ?? "iface_universal") } }, t, icon));
+    case "view": return wrap("", viewSheet({ current: S.choice?.interface ?? "universal", rule: S.choice?.rule ?? "safe_default", options: [...VIEWS], ownerOnly: false, canChange: true }, t, icon) + (S.pendingView !== undefined ? `<p class="toast-note" role="status">${esc(t("view_waits"))}</p>` : ""));
     case "globe": return wrap("", globeSheet(Object.entries(PACKS).map(([code, p]) => ({ code, native: p.native, dir: p.dir })), DATA.packOrder.map((c) => ({ code: c, name: (DATA.packs[c] as CountryPack).sample ? t("sample_country") : regionName(c, isTest() ? "en" : S.lang, (DATA.packs[c] as CountryPack).name) })), { language: isTest() ? "en" : S.lang, region: pack().code }, t));
     case "cmd": {
       const index: Entry[] = [
         { id: "a1", kind: "action", title: t("new_sale"), act: "newsale" }, { id: "a2", kind: "action", title: t("archive_product"), act: "archive" },
         { id: "p1", kind: "product", title: "Rice 1 kg", subtitle: money(1500), act: "go:home" }, { id: "c1", kind: "customer", title: t("customer_name"), act: "go:home" },
         { id: "r1", kind: "report", title: t("chart_title"), act: "go:home" }, { id: "s1", kind: "setting", title: t("nav_settings"), act: "go:home" },
+        { id: "v1", kind: "action", title: t("switch_side", { side: sideWord(S.side === "external" ? "internal" : "external") }), act: "shell:side" },
+        { id: "v2", kind: "setting", title: t("change_view"), act: "shell:view" }, { id: "v3", kind: "help", title: t("why_this_view"), act: "shell:why" },
         { id: "h1", kind: "help", title: t("help_article_1"), act: "shell:help" }, { id: "h2", kind: "help", title: t("help_article_2"), act: "shell:help" },
       ];
       return wrap("", commandBar(S.query, search(index, S.query), t, icon));
     }
-    case "help": return wrap("end", helpPanel(t("tab_home"), [{ id: "1", title: t("help_article_1"), href: "/faq/pos/offline" }, { id: "2", title: t("help_article_2"), href: "/faq/mpay/waiting" }], t, icon));
+    case "help": return wrap("end", helpPanel(t("tab_home"), [{ id: "1", title: t("help_article_1"), href: "/faq/pos/offline" }, { id: "2", title: t("help_article_2"), href: "/faq/mpay/waiting" }, { id: "3", title: t("switch_side_group"), href: "/faq/storefront/sides" }, { id: "4", title: t("why_this_view"), href: "/faq/devices/view" }], t, icon));
     case "bell": {
       const list: Notice[] = [
         { id: "n1", at: Date.now() - 60000, urgency: "security", title: t("notice_signin"), record: "LONTF-2201-4410-8838", href: "/security" },
@@ -152,19 +176,26 @@ function overlay(): string {
   }
 }
 
+const sides = () => ({ current: S.side, workspaceWord: sideWord("internal"), storefrontWord: sideWord("external") });
+
 function draw(): void {
+  S.choice = choose();
+  const W = width(); S.size = sizeOf(W);
   const d = $("#display");
+  d.dataset["deviceClass"] = S.choice.class; d.dataset["interface"] = S.choice.interface;      // type scale and focus rules per device (design tokens)
+  const auto = $("#autoName"); if (auto) auto.textContent = `${EN[IFACE_NAME[chooseInterface(DEVICES, browserFacts(window)).interface] ?? "iface_universal"] ?? ""}`;
   d.className = `display ${S.theme}`;
   if (S.mode) d.setAttribute("data-mode", S.mode); else d.removeAttribute("data-mode");
   d.lang = S.lang === "xx-rtl" ? "ar" : S.lang === "xx" ? "en" : S.lang;
   d.dir = S.lang === "xx-rtl" ? "rtl" : S.lang === "xx" ? "ltr" : PACKS[S.lang]?.dir ?? "ltr";
   const logo = brandMark(DATA.brand.places, "web-header", S.theme === "dark", "brandfill", HEADER_ROOM[S.size]);
   const items = navItems();
-  const head = header({ logo, nav: items, notifications: 1, signedIn: true, title: S.size === "computer" ? undefined : SHOP(), surface: "app" }, S.size, t, icon);
+  const head = header({ logo, nav: items, notifications: 1, signedIn: true, title: S.size === "computer" ? undefined : SHOP(), surface: "app", side: { label: sideWord(S.side), storefront: S.side === "external" } }, S.size, t, icon);
   const nav = navigation(items, S.size, t, icon);
   const toasts = S.undo.openToasts(Date.now()).map((u) => undoToast(u, Date.now(), t, icon)).join("");
   d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main">${main()}<div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))}</div>${appFooter()}</main></div>${S.size === "phone" ? nav : ""}${overlay()}<div class="toasts">${toasts}</div></div>`;
   $("#device").className = `device ${S.size}`;
+  $("#device").style.width = `${W}px`;
   $("#tab").className = `tab ${S.theme}`;                       // the tab and its icon follow the page theme (brand surface "favicon")
   $("#url").textContent = `https://app.lynkomni.com${screenPath()}`;
   $("#tabTitle").textContent = `LynkOmni · ${SHOP()}`;
@@ -189,11 +220,26 @@ function act(a: string): void {
       const map: Record<string, Overlay> = { launcher: "launcher", account: "account", globe: "globe", search: "cmd", help: "help", bell: "bell", sync: "sync", menu: "launcher" };
       if (v === "theme") { S.theme = S.theme === "dark" ? "light" : "dark"; $<HTMLInputElement>("#cDark").checked = S.theme === "dark"; S.overlay = null; draw(); return; }
       if (v === "signout" || v === "signin" || v === "voice") { S.overlay = null; draw(); return; }
+      if (v === "side") { act(`side:${S.side === "external" ? "internal" : "external"}`); return; }
+      if (v === "view" || v === "why") { S.overlay = "view"; draw(); if (v === "why") $("#whyView")?.focus(); return; }
       S.overlay = S.overlay === map[v] ? null : (map[v] ?? null); S.query = ""; draw();
       if (S.overlay === "cmd") $<HTMLInputElement>("#cmdIn")?.focus();
       return;
     }
-    case "nav": S.screen = v === "home" ? "home" : v === "sell" ? "payment" : v === "business" ? "state:empty" : S.screen; S.overlay = null; draw(); return;
+    case "side": {
+      const next = v === "external" ? "external" : "internal";
+      if (next !== S.side) { S.side = next; record("SideSwitched", "device", { side: next, path: screenPath() }); }
+      S.overlay = null; draw(); return;
+    }
+    case "view": {
+      const want = v === "auto" ? null : (VIEWS as readonly string[]).includes(v) ? v : null;
+      if (!safeToSwitch(S.screen === "payment" ? "payment" : null)) { S.pendingView = want; draw(); return; }   // never in the middle of a payment
+      S.override = want; S.pendingView = undefined; S.overlay = null;
+      draw(); record("InterfaceChosen", "device", { interface: S.choice?.interface, rule: S.choice?.rule }); return;
+    }
+    case "nav": S.screen = v === "home" ? "home" : v === "sell" ? "payment" : v === "business" ? "state:empty" : S.screen; S.overlay = null;
+      if (S.screen !== "payment" && S.pendingView !== undefined) { S.override = S.pendingView; S.pendingView = undefined; }   // the waiting view starts after the payment step
+      draw(); return;
     case "go": S.screen = v === "home" ? "home" : S.screen; S.overlay = null; draw(); return;
     case "place": case "business": case "role": case "region": case "open": case "notice": case "help": case "support": case "assist": case "copy": S.overlay = null; record("ShellAction", "device", { action: a }); draw(); return;
     case "lang": S.lang = pick(Object.keys(PACKS), v, S.lang); $<HTMLSelectElement>("#cLang").value = S.lang; S.overlay = null; draw(); return;
@@ -212,7 +258,8 @@ function act(a: string): void {
 
 function init(): void {
   const bind = (sel: string, fn: (el: HTMLInputElement) => void) => $<HTMLInputElement>(sel).addEventListener("change", (e) => fn(e.target as HTMLInputElement));
-  bind("#cSize", (el) => { S.size = pick(["computer", "tablet", "phone"] as Viewport[], el.value, S.size); S.overlay = null; draw(); });
+  bind("#cSize", (el) => { S.testWidth = pick(["auto", "240", "320", "360", "390", "412", "600", "768", "1024", "1280", "1920", "3840"], el.value, S.testWidth); S.overlay = null; draw(); });
+  bind("#cView", (el) => { S.testView = pick(["auto", ...VIEWS], el.value, S.testView); S.overlay = null; draw(); });
   bind("#cLink", (el) => { S.link = pick(["good", "weak", "offline"] as Link[], el.value, S.link); draw(); });
   bind("#cDark", (el) => { S.theme = el.checked ? "dark" : "light"; draw(); });
   bind("#cMode", (el) => { S.mode = pick(["", "lite", "sunlight"] as ("" | "lite" | "sunlight")[], el.value, S.mode); draw(); });
@@ -241,10 +288,21 @@ function init(): void {
     if (el.id === "usernameIn") { act(`username:${el.value}`); const inp = $<HTMLInputElement>("#usernameIn"); inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }
   });
   $("#display").addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["act"]?.startsWith("toggle:")) act(el.dataset["act"]); });
-  document.addEventListener("keydown", (e) => { if (e.key === "/" && !(e.target as HTMLElement).matches("input,select,textarea")) { e.preventDefault(); act("shell:search"); } if (e.key === "Escape" && S.overlay) { S.overlay = null; draw(); } });
-  const fit = () => { const w = $("#rig").clientWidth - 8, dev = { computer: 1280, tablet: 800, phone: 390 }[S.size]; document.documentElement.style.setProperty("--fit", String(Math.min(1, w / dev))); };
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "/" && !(e.target as HTMLElement).matches("input,select,textarea")) { e.preventDefault(); act("shell:search"); }
+    if (e.key === "Escape" && S.overlay) { S.overlay = null; draw(); return; }
+    const group = (document.activeElement as HTMLElement | null)?.closest<HTMLElement>(".shell-nav, .lgrid, .choices, .lsides, .mside");
+    if (group) arrowNav(e, group, $("#display").dir === "rtl");                   // keyboard, remote and switch access move inside a group
+  });
+  // Touch and pen (every touch view): swipe from the start edge opens the menu, swipe a sheet down to close it, press and hold a tab for its help
+  gestures($("#display"), {
+    edgeSwipe: () => { if (!S.overlay) act("shell:launcher"); },
+    swipeDown: (el) => { if (S.overlay && el.closest(".overlay")) { S.overlay = null; draw(); } },
+    longPress: (el) => { if (el.closest(".navitem")) { S.overlay = "help"; draw(); } },
+  }, () => $("#display").dir === "rtl");
+  const fit = () => { const w = $("#rig").clientWidth - 8, dev = width(); document.documentElement.style.setProperty("--fit", String(Math.min(1, w / dev))); };
   new ResizeObserver(fit).observe($("#rig")); fit();
-  bind("#cSize", () => fit());
+  bind("#cSize", () => fit()); bind("#cView", () => fit());
   window.setInterval(() => { if (S.undo.openToasts(Date.now()).length || $(".toasts").children.length) draw(); }, 1000);
   draw(); drawLog();
 }

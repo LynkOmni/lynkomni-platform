@@ -41,7 +41,7 @@ button, input, select { font: inherit; color: inherit; }
 .display .toasts > * { pointer-events: auto; }
 
 /* ---- sample page content, built from the shell's cards ---- */
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 12px; }
 .card { padding: 14px; border: 1px solid var(--border-subtle); border-radius: 16px; background: var(--bg-surface); }
 .card h2 { font-size: var(--text-16); margin-block-end: 8px; }
 .card .big { font: 700 var(--text-24) var(--font-heading); font-feature-settings: var(--font-feature-tabular); }

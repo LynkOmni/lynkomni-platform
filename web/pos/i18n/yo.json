@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "Ilé-ẹ̀kọ́",
   "academy_hint": "Ẹ̀kọ́ kúkúrú kan ṣí lẹ́gbẹ̀ẹ́ ojú-ìwé tí ó ń kọ́ni.",
@@ -142,6 +142,8 @@
   "invoices": "Ìwé owó",
   "join_group": "Darapọ̀",
   "joined": "O ti darapọ̀. Ìwọ yóò san fún olùpèsè fún ìpín rẹ kìkì tí ẹgbẹ́ bá dé ibi àfojúsùn.",
+  "key_clear": "Pa rẹ́",
+  "key_recall": "Dá padà",
   "kitchen": "Ilé ìdáná",
   "kitchen_items_open": "Ọjà ilé ìdáná ṣì wà ní ṣíṣí",
   "kitchen_queue": "Ìlà ilé ìdáná",

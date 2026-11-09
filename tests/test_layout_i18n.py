@@ -47,6 +47,7 @@ SETTLE = "() => new Promise((r) => requestAnimationFrame(() => requestAnimationF
 SIZE = "() => { const r = document.querySelector('#device').getBoundingClientRect(), s = document.querySelector('#display').getBoundingClientRect(); return [Math.round(r.width / (window.devicePixelRatio || 1)), Math.round(s.width), Math.round(s.height)]; }"
 
 
+VIEW_OF = {"computer": "computer.pointer", "tablet": "tablet.touch", "phone": "phone.touch"}   # browser-frame test views (DEVICE 48.17)
 SHELL_PANELS = ("first", "search", "help", "account", "sync")
 
 
@@ -262,7 +263,7 @@ class ShellLayout(DarkPass, unittest.TestCase):
                 for lang in LANGS:
                     pg = b.new_page(viewport={"width": 1500, "height": 1100}, reduced_motion="reduce")
                     pg.goto("file://" + BROWSER)
-                    pg.select_option("#cSize", size); pg.select_option("#cLang", lang)
+                    pg.select_option("#cView", VIEW_OF[size]); pg.select_option("#cLang", lang)
                     sizes[(size, lang)] = measure(pg)
                     self.assertEqual(self.walk(pg, lang), {}, f"{lang} on {size}")
                     want = "rtl" if lang == "xx-rtl" else "ltr" if lang == "xx" else translation._dir(lang)
@@ -444,9 +445,9 @@ class BrandPlaces(unittest.TestCase):
                 pg.close()
             pg = b.new_page(viewport={"width": 1280, "height": 900})   # a phone-sized shell writes the page title next to its mark: emblem
             pg.goto("file://" + BROWSER); pg.wait_for_selector("html[data-ready]", state="attached")
-            pg.select_option("#cSize", "phone")   # 41 B and 30: the logo falls back to the emblem only under 96 px; a phone header has room
+            pg.select_option("#cView", "phone.touch")   # 41 B and 30: the logo falls back to the emblem only under 96 px; a phone header has room
             self.assertEqual(pg.eval_on_selector("[data-brand-place='web-header']", "e => e.dataset.brandAsset"), "logo")
-            pg.select_option("#cSize", "tablet")
+            pg.select_option("#cView", "tablet.touch")
             self.assertEqual(pg.eval_on_selector("[data-brand-place='web-header']", "e => e.dataset.brandAsset"), "logo")
             b.close()
 
@@ -471,5 +472,116 @@ class TextAt200(unittest.TestCase):
                     bad = [x for r in roots if pg.query_selector(r) for x in pg.evaluate(OVERFLOW_IN, r)]
                     self.assertEqual(bad, [], f"{emulator} {lang} at 200% text")
                     self.assertLessEqual(pg.evaluate("document.documentElement.scrollWidth"), 640, f"{emulator} {lang} scrolls sideways at 200% text")
+                pg.close()
+            b.close()
+
+
+# Distortion and fit (DEVICE, 48.17): interactive things never overlap, pictures keep their shape, and nothing is cut off.
+FIT = """() => {
+  const d = document.querySelector('#display'), bad = [];
+  const shown = (el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== 'hidden'; };
+  const hits = [...d.querySelectorAll('button, a[href], input, select, [role="button"]')].filter(shown).filter((el) => !el.closest('[hidden]'));
+  const box = (el) => el.getBoundingClientRect();
+  const pinned = (el) => { for (let e = el; e && e !== d; e = e.parentElement) { const p = getComputedStyle(e).position; if (p === 'fixed' || p === 'sticky') return e; } return null; };
+  for (let i = 0; i < hits.length; i++) for (let j = i + 1; j < hits.length; j++) {
+    const a = hits[i], b = hits[j];
+    if (a.contains(b) || b.contains(a)) continue;
+    if (pinned(a) !== pinned(b)) continue;                      // content scrolling under a fixed or sticky bar is not an overlap
+    const r = box(a), s = box(b), w = Math.min(r.right, s.right) - Math.max(r.left, s.left), h = Math.min(r.bottom, s.bottom) - Math.max(r.top, s.top);
+    if (w > 2 && h > 2) {
+      const top = document.elementFromPoint(Math.max(r.left, s.left) + w / 2, Math.max(r.top, s.top) + h / 2);
+      if (top && (a.contains(top) || b.contains(top)) && !(a.closest('.overlay, [role=dialog]') ? !b.closest('.overlay, [role=dialog]') : b.closest('.overlay, [role=dialog]')))
+        bad.push('overlap: ' + (a.dataset.act || a.textContent.trim().slice(0, 20)) + ' / ' + (b.dataset.act || b.textContent.trim().slice(0, 20)));
+    }
+  }
+  for (const img of d.querySelectorAll('img')) {
+    if (!shown(img) || !img.naturalWidth) continue;
+    const r = box(img), want = img.naturalWidth / img.naturalHeight, got = r.width / r.height, fit = getComputedStyle(img).objectFit;
+    if (fit !== 'contain' && fit !== 'cover' && Math.abs(got - want) / want > 0.02) bad.push('stretched: ' + (img.alt || img.src.slice(0, 30)));
+  }
+  return [...new Set(bad)];
+}"""
+
+
+@unittest.skipUnless(sync_playwright and os.path.isfile(BROWSER), "Playwright with Chromium is needed")
+class DeviceFit(unittest.TestCase):
+    """Every view the browser can be given fits every screen width from a 240 px watch to a 3840 px television: nothing spills
+    over, nothing interactive overlaps, no picture is stretched and the page never scrolls sideways, in English, long text and
+    right-to-left. The view chosen on a real phone and a real computer comes from the device facts, never the browser's name."""
+    VIEWS = ("universal", "phone.touch", "tablet.touch", "computer.touch", "computer.pointer")
+    WIDTHS = ("240", "320", "360", "390", "412", "600", "768", "1024", "1280", "1920", "3840")
+
+    def check(self, pg, lang, where, found):
+        p = list(pg.evaluate(OVERFLOW)) + list(pg.evaluate(FIT))
+        if p:
+            found[where] = p
+
+    def test_every_view_fits_every_width(self):
+        found = {}
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            for lang in ("en", "xx", "xx-rtl"):
+                pg = b.new_page(viewport={"width": 1500, "height": 1100}, reduced_motion="reduce")
+                pg.goto("file://" + BROWSER); pg.wait_for_selector("html[data-ready]", state="attached")
+                pg.select_option("#cLang", lang)
+                for view in self.VIEWS:
+                    pg.select_option("#cView", view)
+                    for w in self.WIDTHS:
+                        pg.select_option("#cSize", w); pg.evaluate(SETTLE)
+                        where = f"{lang} {view} {w}"
+                        self.assertEqual(pg.get_attribute("#display", "data-interface"), view, where)
+                        self.check(pg, lang, where, found)
+                        pg.click('[data-act="shell:launcher"]'); self.check(pg, lang, where + " launcher", found)
+                        pg.keyboard.press("Escape")
+                pg.close()
+            # the outer page holding the window never scrolls sideways, at any real viewport
+            for vw in (240, 320, 390, 768, 1280, 1920):
+                pg = b.new_page(viewport={"width": vw, "height": 900}); pg.goto("file://" + BROWSER)
+                pg.wait_for_selector("html[data-ready]", state="attached")
+                self.assertLessEqual(pg.evaluate("document.documentElement.scrollWidth"), vw, f"page at {vw}")
+                pg.close()
+            b.close()
+        self.assertEqual(found, {})
+
+    def test_real_devices_pick_their_view(self):
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            ctx = b.new_context(**p.devices["Pixel 7"]); pg = ctx.new_page(); pg.goto("file://" + BROWSER)
+            pg.wait_for_selector("html[data-ready]", state="attached")
+            self.assertEqual(pg.get_attribute("#display", "data-interface"), "phone.touch")
+            ctx.close()
+            pg = b.new_page(viewport={"width": 1440, "height": 900}); pg.goto("file://" + BROWSER)
+            pg.wait_for_selector("html[data-ready]", state="attached")
+            self.assertEqual(pg.get_attribute("#display", "data-interface"), "computer.pointer")
+            b.close()
+
+
+@unittest.skipUnless(sync_playwright and os.path.isfile(BROWSER), "Playwright with Chromium is needed")
+class SwitchAccess(unittest.TestCase):
+    """Switch access, keyboard and remote (DEVICE 48.17): every control on the home screen, in the launcher and in the account
+    menu is reached with Tab alone and shows a visible focus ring; arrows move inside the launcher grid."""
+    def test_everything_reached_by_keyboard(self):
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            for view in ("universal", "computer.pointer", "phone.touch"):
+                pg = b.new_page(viewport={"width": 1500, "height": 1100}, reduced_motion="reduce")
+                pg.goto("file://" + BROWSER); pg.wait_for_selector("html[data-ready]", state="attached")
+                pg.select_option("#cView", view)
+                for panel in (None, "launcher", "account"):
+                    if panel:
+                        pg.click(f'[data-act="shell:{panel}"]')
+                    want = set(pg.eval_on_selector_all("#display button:not([disabled]), #display a[href]",
+                        "els => els.filter(e => e.getBoundingClientRect().width > 0 && !e.closest('[hidden]') && !e.closest('[inert]')).map(e => e.dataset.act || e.getAttribute('href') || e.textContent.trim())"))
+                    pg.focus("#display [data-act='shell:launcher']") if not panel else None
+                    seen, rings = set(), True
+                    for _ in range(len(want) * 2 + 40):
+                        info = pg.evaluate("() => { const e = document.activeElement; if (!e || !document.querySelector('#display').contains(e)) return null; const cs = getComputedStyle(e); return [e.dataset.act || e.getAttribute('href') || e.textContent.trim(), cs.outlineStyle !== 'none' || cs.boxShadow !== 'none']; }")
+                        if info:
+                            seen.add(info[0]); rings = rings and info[1]
+                        pg.keyboard.press("Tab")
+                    self.assertTrue(want <= seen, f"{view} {panel}: not reached by Tab: {sorted(want - seen)[:6]}")
+                    self.assertTrue(rings, f"{view} {panel}: a focused control shows no focus ring")
+                    if panel:
+                        pg.keyboard.press("Escape")
                 pg.close()
             b.close()

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pt",
  "native": "Português",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "Academia",
   "academy_hint": "Um curso curto abre ao lado do ecrã que explica.",
@@ -142,6 +142,8 @@
   "invoices": "Faturas",
   "join_group": "Aderir",
   "joined": "Aderiu. Só paga a sua parte ao fornecedor se o grupo atingir o objetivo.",
+  "key_clear": "Limpar",
+  "key_recall": "Recuperar",
   "kitchen": "Cozinha",
   "kitchen_items_open": "Ainda há pratos na cozinha",
   "kitchen_queue": "Fila da cozinha",

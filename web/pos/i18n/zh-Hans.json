@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "学院",
   "academy_hint": "简短课程会在它所讲解的屏幕旁边打开。",
@@ -142,6 +142,8 @@
   "invoices": "账单",
   "join_group": "加入",
   "joined": "您已加入。只有当团体达到目标时，您才向供应商支付自己的份额。",
+  "key_clear": "清除",
+  "key_recall": "调回",
   "kitchen": "厨房",
   "kitchen_items_open": "厨房里还有菜品",
   "kitchen_queue": "厨房队列",

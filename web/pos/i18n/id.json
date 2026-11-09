@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "Akademi",
   "academy_hint": "Kursus singkat terbuka di samping layar yang diajarkannya.",
@@ -142,6 +142,8 @@
   "invoices": "Faktur",
   "join_group": "Gabung",
   "joined": "Sudah bergabung. Anda membayar bagian Anda ke pemasok hanya jika grup mencapai target.",
+  "key_clear": "Hapus",
+  "key_recall": "Panggil ulang",
   "kitchen": "Dapur",
   "kitchen_items_open": "Masih ada hidangan di dapur",
   "kitchen_queue": "Antrean dapur",

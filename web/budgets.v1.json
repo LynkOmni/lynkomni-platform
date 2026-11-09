@@ -3,12 +3,12 @@
  "description": "Speed budget per screen (blueprint 45 E, build section 1: a slow screen fails the build). Every emulator is one offline file; the budget caps its size and how long it takes to show its first screen and to answer a tap on a four-times-slower CPU (a low-cost phone). tests/test_speed_budget.py enforces it; raise a budget only with a reason in the change log.",
  "cpu_slowdown": 4,
  "defaults": {
-  "file_kb": 520,
+  "file_kb": 540,
   "first_screen_ms": 1500,
   "tap_ms": 120,
   "dom_nodes": 2500,
   "root": "#display",
-  "file_kb_reason": "Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline)."
+  "file_kb_reason": "Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline). Raised to 540 on 9 November 2026 for DEVICE (BIZZ & DEVICE section 1): every device's shell now carries its username helpers (one scope with the shell) and the side and view words in all 38 languages (about 18 KB); a real app downloads one language at a time."
  },
  "emulators": {
   "pos-terminal": {
@@ -22,7 +22,9 @@
    "file_kb_reason": "Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline) and the shared tracker (the tracking engine, its register and the tracker words in all 38 languages, owner request for tracking across every service), the deliveries screens and the who-is-it-for setup with its workspace words."
   },
   "browser-frame": {
-   "first_tap": "[data-act=\"shell:launcher\"]"
+   "first_tap": "[data-act=\"shell:launcher\"]",
+   "file_kb": 580,
+   "file_kb_reason": "Raised 9 November 2026 for DEVICE (BIZZ & DEVICE section 1): the shell now carries the device register, the one decision function, gestures and the side and view words in all 38 languages (about 30 KB); a real app downloads one language at a time. First-screen and tap budgets are unchanged."
   },
   "account-site": {
    "first_tap": "[data-act=\"go:security\"]",

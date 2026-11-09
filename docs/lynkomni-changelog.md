@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.29.0 (2026-11-09)
+BIZZ & DEVICE, section 1 (the shared shell and the device rule).
+- One device register (catalog/devices.v1.json: 7 device classes, 21 ways to use a device, 14 interfaces, 24 devices with their touch and non-touch versions, the key meanings) and one decision function in Python and TypeScript with 4,320 shared test cases. The order is always: your own Change view, the registered device, what the device reports about itself (never the browser's name), then the safe default that works with every input.
+- The shell shows which side you are in (your workspace word or Storefront) in the header, and one tap switches sides from the launcher, the account menu or search. The account menu has Change view and Why this view?; a new view never starts in the middle of a payment, count or signature.
+- Type and spacing per kind of screen (watch, phone, tablet, computer, TV, e-reader) come from the design tokens. Touch gestures (edge swipe, swipe down, long-press) always have a button or key that does the same; arrows, Home and End move through groups for keyboards, TV remotes and switch access.
+- New checks: every view fits every width from 240 to 3840 px in English, long text and right-to-left (nothing spills over, nothing overlaps, no stretched picture, no sideways scrolling); everything is reached by keyboard with a visible focus ring; real phones and computers get the right view; key words and colours exist; each section-1 item is in the places the register lists.
+- The showcase works out which device you opened it on (with the same decision function) and puts the emulators made for it first.
+- Fixed on the way: the footer and home cards now shrink to a single column on a watch-sized screen; device emulators carry the shell's username helpers in the shell's own scope (no name clashes) and only the shell words they can show. Size budget: default 540 KB, browser frame 580 KB (reasons in web/budgets.v1.json).
+
 ## v0.28.0 (2026-11-09)
 BIZZ & DEVICE, Step 0 (the global structure for the owner's locked plan; sections 1, 2 and 3 follow in their own changes).
 - Every service has two sides with one name: the workspace (using a service for your own affairs: today's paths and prices) and the Storefront (offering to others and earning). The side is read from the address alone, in Python and TypeScript with shared test cases: Storefront paths in the Business app are /external plus the workspace path, and every app path is classified as mirrored, Storefront only, shared (stock, devices, notifications) or workspace only (the in-person till and partner work). Public Storefront pages, Explore and buying an offer have their addresses; external, explore and storefront are reserved usernames.

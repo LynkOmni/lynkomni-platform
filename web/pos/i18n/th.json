@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "th",
  "native": "ไทย",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "สถาบันการเรียนรู้",
   "academy_hint": "บทเรียนสั้นจะเปิดข้างหน้าจอที่สอน",
@@ -142,6 +142,8 @@
   "invoices": "ใบแจ้งหนี้",
   "join_group": "เข้าร่วม",
   "joined": "เข้าร่วมแล้ว คุณจ่ายส่วนของคุณให้ผู้จัดหาสินค้าเฉพาะเมื่อกลุ่มถึงเป้า",
+  "key_clear": "ล้าง",
+  "key_recall": "เรียกคืน",
   "kitchen": "ครัว",
   "kitchen_items_open": "รายการในครัวยังไม่เสร็จ",
   "kitchen_queue": "คิวครัว",

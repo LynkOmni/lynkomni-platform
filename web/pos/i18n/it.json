@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "it",
  "native": "Italiano",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "Accademia",
   "academy_hint": "Un breve corso si apre accanto alla schermata che spiega.",
@@ -142,6 +142,8 @@
   "invoices": "Fatture",
   "join_group": "Partecipa",
   "joined": "Aderito. Paghi la tua parte al fornitore solo se il gruppo raggiunge l'obiettivo.",
+  "key_clear": "Cancella",
+  "key_recall": "Richiama",
   "kitchen": "Cucina",
   "kitchen_items_open": "Ci sono ancora piatti in cucina",
   "kitchen_queue": "Coda della cucina",

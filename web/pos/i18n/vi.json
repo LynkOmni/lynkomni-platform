@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "Học viện",
   "academy_hint": "Một khóa học ngắn mở ra bên cạnh màn hình mà nó hướng dẫn.",
@@ -142,6 +142,8 @@
   "invoices": "Hóa đơn",
   "join_group": "Tham gia",
   "joined": "Đã tham gia. Bạn chỉ trả phần của mình cho nhà cung cấp nếu nhóm đạt mục tiêu.",
+  "key_clear": "Xóa",
+  "key_recall": "Gọi lại",
   "kitchen": "Bếp",
   "kitchen_items_open": "Bếp vẫn còn món chưa xong",
   "kitchen_queue": "Hàng chờ của bếp",

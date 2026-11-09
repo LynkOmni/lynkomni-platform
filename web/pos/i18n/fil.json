@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "Academy",
   "academy_hint": "Bumubukas ang maikling kurso sa tabi ng screen na itinuturo nito.",
@@ -142,6 +142,8 @@
   "invoices": "Mga invoice",
   "join_group": "Sumali",
   "joined": "Sumali ka na. Babayaran mo lang ang supplier para sa bahagi mo kung maaabot ng grupo.",
+  "key_clear": "Burahin",
+  "key_recall": "Ibalik",
   "kitchen": "Kusina",
   "kitchen_items_open": "May bukas pang item sa kusina",
   "kitchen_queue": "Pila sa kusina",

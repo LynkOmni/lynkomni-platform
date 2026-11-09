@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "Akademi",
   "academy_hint": "Kursus ringkas dibuka di sebelah skrin yang diajarnya.",
@@ -142,6 +142,8 @@
   "invoices": "Invois",
   "join_group": "Sertai",
   "joined": "Telah menyertai. Anda membayar pembekal untuk bahagian anda hanya jika kumpulan mencapai sasaran.",
+  "key_clear": "Kosongkan",
+  "key_recall": "Panggil semula",
   "kitchen": "Dapur",
   "kitchen_items_open": "Item dapur masih terbuka",
   "kitchen_queue": "Baris gilir dapur",

@@ -74,7 +74,7 @@ def language_packs(emulator):
     own = _packs(os.path.join(ROOT, "web", "emulators", emulator))
     for folder in shared_folders(emulator):
         shared = _packs(os.path.join(ROOT, folder))
-        if folder.endswith("pos"):
+        if folder.endswith("pos") or (folder.endswith("shell") and emulator not in ("browser-frame", "account-site")):   # devices carry only the shell words they can show
             keep = used_keys(emulator, shared.get("en", {}).get("texts", {}).keys())
             shared = {lang: {**v, "texts": {k: x for k, x in v["texts"].items() if k in keep}} for lang, v in shared.items()}
         own = {lang: {**own[lang], "texts": {**shared[lang]["texts"], **own[lang]["texts"]}} for lang in own if lang in shared}
