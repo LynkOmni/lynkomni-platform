@@ -7,6 +7,8 @@ import { nextDeliveryStep } from "../../../ts/src/restaurant.js";
 import type { DeliveryState } from "../../../ts/src/restaurant.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, plain, stateButtons, appShortFooter } from "../../../ts/src/emulator.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
+import { designedState, panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
+import type { Entry } from "../../../ts/src/shell.js";
 
 declare const DATA: Build;
 interface Job { id: string; order: number; area: string; amount: number; state: DeliveryState; code: string; proof?: "code" | "photo" }
@@ -22,8 +24,22 @@ const job = (): Job | undefined => S.jobs.find((j) => j.id === S.open);
 const stateWord = (st: DeliveryState): string => (st === "accepted" ? t("st_accepted") : st === "picked_up" ? t("picked_up") : st === "delivered" ? t("delivered") : st === "failed" ? t("st_failed") : t("st_sent"));
 const lastSync = (id: string, type: string): UserState => LOG.events.find((e) => e.type === type && (e.payload as { delivery_id: string }).delivery_id === id)?.sync ?? "queued";
 
+// ---- the shell parts on this device (41 B): search, help, account, connection chip, first-run card, the screen's address ----
+const shellTitle = (): string => document.querySelector("#screen h1, #screen h2")?.textContent?.trim() || t("sample_shop");
+const DSH = panelShell({
+  st: S, t, icon: (id) => icon(id), clock: (ms) => C.clock(ms),
+  native: () => (DATA.i18n[S.lang]?.native ?? S.lang), region: () => (C.pack().sample ? t("sample_country") : C.pack().name), currency: () => C.pack().currency,
+  pending: () => LOG.pending().count, lastSync: () => LOG.events.find((e) => e.sync === "accepted")?.at ?? null,
+  screen: () => ({ id: S.open ? "delivery" : "deliveries", title: shellTitle(), path: "/deliveries" }), entries: (): Entry[] => S.jobs.map((j): Entry => ({ id: j.id, kind: "order", title: t("order", { n: j.order }), subtitle: `${t(j.area)} · ${stateWord(j.state)}`, act: `open:${j.id}` })),
+  account: () => sampleAccount(t, "cashier", ["cashier", "manager", "owner"], t("sample_shop"), S.dark ? "dark" : "light", DATA.i18n[S.lang]?.native ?? S.lang, C.pack().sample ? t("sample_country") : C.pack().name),
+  run: (a) => { act(a); }, redraw: () => draw(),
+});
+
 function list(): string {
-  return `<h2>${esc(t("deliveries"))}</h2><ul class="jobs">${S.jobs.map((j) => `<li><button data-act="open:${j.id}"><strong>${esc(t("order", { n: j.order }))}</strong><span>${esc(t(j.area))}</span><span class="st st-${j.state}">${esc(stateWord(j.state))}</span>${icon("ui-chevron-right")}</button></li>`).join("")}</ul><p class="note">${esc(t("proof_photo"))}</p>${appShortFooter(C)}`;
+  // designed states (41 B): changes waiting for the connection, and nothing left to deliver
+  const waiting = !S.online && LOG.pending().count ? designedState("sync_pending", t, DATA.statePictures, S.dark, null) : "";
+  const done = S.jobs.every((j) => j.state === "delivered") ? designedState("success", t, DATA.statePictures, S.dark, null) : "";
+  return `${waiting}${done}<h2>${esc(t("deliveries"))}</h2><ul class="jobs">${S.jobs.map((j) => `<li><button data-act="open:${j.id}"><strong>${esc(t("order", { n: j.order }))}</strong><span>${esc(t(j.area))}</span><span class="st st-${j.state}">${esc(stateWord(j.state))}</span>${icon("ui-chevron-right")}</button></li>`).join("")}</ul><p class="note">${esc(t("proof_photo"))}</p>${appShortFooter(C)}`;
 }
 function detail(j: Job): string {
   const next = nextDeliveryStep(j.state);
@@ -37,9 +53,9 @@ function detail(j: Job): string {
     ${S.msg ? `<p class="warn" role="alert">${esc(S.msg)}</p>` : ""}<p class="note">${esc(t("track"))}: shop.lynkomni.com/track/LODLV-…</p><p class="hint">${esc(t("pickup_code"))}: ${esc(j.code)}</p>`;
 }
 function draw(): void {
-  const el = $("#screen"); if (!el) return; el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W);
-  const p = LOG.pending();
-  el.innerHTML = `<header class="rtop"><span class="rmark">${icon("product-chat")}</span><strong>${esc(t("deliveries"))}</strong><span class="net${S.online ? "" : " off"}">${icon(S.online ? "ui-sync" : "ui-offline")}${esc(t(S.online ? "online" : "offline"))}${p.count ? ` · ${p.count}` : ""}</span></header><div class="rbody">${job() ? detail(job()!) : list()}</div>`;
+  const el = $("#screen"); if (!el) return; el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W);
+  el.innerHTML = `<header class="rtop"><span class="rmark">${icon("product-chat")}</span><strong>${esc(t("deliveries"))}</strong>${DSH.bar()}</header><div class="rbody">${job() ? detail(job()!) : list()}</div>${DSH.overlay()}`;
+  const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address();
 }
 function act(a: string): void {
   const [k = "", v = ""] = a.split(":"); const j = job();
@@ -63,8 +79,10 @@ function panel(): void {
 }
 function main(): void {
   S.country = DATA.packOrder[0] ?? ""; seed(); panel(); draw();
-  document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (b && !b.hasAttribute("disabled")) act(b.dataset["act"] ?? ""); });
-  document.addEventListener("input", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["field"] === "code") { S.typed = plain(el.value).replace(/\D/g, "").slice(0, 6); const pos = el.selectionStart; draw(); const n = document.querySelector<HTMLInputElement>('[data-field="code"]'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } } });
+  document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (!b || b.hasAttribute("disabled")) return; if (b.classList.contains("dsh-scrim") && (e.target as HTMLElement).closest("[data-stop]")) return; if (!DSH.act(b.dataset["act"] ?? "")) act(b.dataset["act"] ?? ""); });
+  document.addEventListener("keydown", (e) => { DSH.key(e); });
+  (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
+  document.addEventListener("input", (e) => { const el = e.target as HTMLInputElement; if (DSH.input(el)) return; if (el.dataset["field"] === "code") { S.typed = plain(el.value).replace(/\D/g, "").slice(0, 6); const pos = el.selectionStart; draw(); const n = document.querySelector<HTMLInputElement>('[data-field="code"]'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } } });
   $("#panel").addEventListener("change", (e) => { if (panelChange(e.target as HTMLSelectElement, S, DATA)) panel(); draw(); });
   window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); }, 400);
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 400);

@@ -32,3 +32,5 @@
 .mark svg { width: 100%; height: auto; display: block; }
 .pill { min-height: 32px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 600 13px var(--font-body); cursor: pointer; }
 .kscreen[dir="rtl"] .ticket header { flex-direction: row; }
+.khead { flex-wrap: wrap; gap: 8px 16px; }
+.khead h1 { overflow-wrap: anywhere; }

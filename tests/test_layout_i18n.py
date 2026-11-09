@@ -47,6 +47,20 @@ SETTLE = "() => new Promise((r) => requestAnimationFrame(() => requestAnimationF
 SIZE = "() => { const r = document.querySelector('#device').getBoundingClientRect(), s = document.querySelector('#display').getBoundingClientRect(); return [Math.round(r.width / (window.devicePixelRatio || 1)), Math.round(s.width), Math.round(s.height)]; }"
 
 
+SHELL_PANELS = ("first", "search", "help", "account", "sync")
+
+
+def shell_parts(pg, check):
+    """The 41 B shell parts on a device (ts/src/deviceshell.ts): the first-run language card and each panel, checked like any
+    screen, then closed so the walk goes on."""
+    if not pg.evaluate("!!window.__dsh"):
+        return
+    for panel in SHELL_PANELS:
+        pg.evaluate("(p) => window.__dsh.show(p)", panel)
+        check(f"shell {panel}")
+    pg.evaluate("window.__dsh.settle(); window.__settle && window.__settle()")
+
+
 def measure(pg):
     pg.evaluate(SETTLE)
     return tuple(pg.evaluate(SIZE))
@@ -70,6 +84,7 @@ class TranslationLayout(DarkPass, unittest.TestCase):
             p = problems(pg, lang)
             if p:
                 found[name] = p
+        shell_parts(pg, check)
         for k in "1234":
             pg.keyboard.press(k)
         check("home, 12 tiles")
@@ -165,6 +180,9 @@ class PhoneLayout(DarkPass, unittest.TestCase):
         pg.click('.top [data-act="view:pay"]'); pg.click('[data-act="view:split"]'); check("split payment")
         pg.click('.top [data-act="view:pay"]'); pg.click('[data-act="way:credit"]'); check("credit")
         pg.click(".netchip"); check("sync sheet"); pg.click('.sheet [data-act="closesheet"]')
+        for panel in ("search", "help"):   # the 41 B parts inside the Business app: Find or do anything, and help (?)
+            pg.evaluate("(p) => window.__dsh.show(p)", panel); check(f"shell {panel}")
+        pg.evaluate("window.__dsh.settle(); __go('home')")
         for kind in ("no_till", "agent_point", "restaurant"):
             pg.select_option("#cType", kind)
             for tab in ("home",) + {"no_till": ("invoices", "customers"), "agent_point": ("services", "float"), "restaurant": ("tables", "kitchen")}[kind]:
@@ -350,6 +368,18 @@ class DeviceLayout(unittest.TestCase):
         roots, found = DEVICES[emulator][0], {}
         states = pg.eval_on_selector_all("[data-state]", "els => els.map(e => e.dataset.state)")
         self.assertTrue(states, f"{emulator}: no state buttons to walk")
+        def check(name):
+            for r in roots:
+                if not pg.evaluate("(r) => { const e = document.querySelector(r); return !!e && e.getClientRects().length > 0; }", r):
+                    continue
+                pg.evaluate(SETTLE)
+                bad = list(pg.evaluate(OVERFLOW_IN, r))
+                if lang in A11Y_LANGS:
+                    pg.evaluate("(r) => { window.__a11yRoot = r; }", r)
+                    bad += [f"a11y: {x}" for x in pg.evaluate(A11Y)]
+                if bad:
+                    found[f"{name} {r}"] = bad
+        shell_parts(pg, check)
         for st in states:
             pg.click(f'[data-state="{st}"]'); pg.evaluate(SETTLE)
             for r in roots:

@@ -47,5 +47,60 @@
   "note": "A pack alone never turns cards on. Needs a signed issuer agreement, legal sign-off and the activation checklist."
  },
  "vcard_card_networks_note": "set from the issuer contract, never assumed",
- "source": "curated"
+ "source": "curated",
+ "holidays": {
+  "source": "holidays 0.84 (Vacanza team, MIT)",
+  "names_in": "the country's own language",
+  "confirmed": false,
+  "years": {
+   "2026": {
+    "2026-01-01": "New Year's Day",
+    "2026-01-26": "NRM Liberation Day",
+    "2026-02-16": "Archbishop Janani Luwum Day",
+    "2026-03-08": "Women's Day",
+    "2026-03-20": "Eid al-Fitr (estimated)",
+    "2026-04-03": "Good Friday",
+    "2026-04-06": "Easter Monday",
+    "2026-05-01": "Labour Day",
+    "2026-05-27": "Eid al-Adha (estimated)",
+    "2026-06-03": "Uganda Martyrs' Day",
+    "2026-06-09": "National Heroes' Day",
+    "2026-10-09": "Independence Day",
+    "2026-12-25": "Christmas Day",
+    "2026-12-26": "Boxing Day"
+   },
+   "2027": {
+    "2027-01-01": "New Year's Day",
+    "2027-01-26": "NRM Liberation Day",
+    "2027-02-16": "Archbishop Janani Luwum Day",
+    "2027-03-08": "Women's Day",
+    "2027-03-09": "Eid al-Fitr (estimated)",
+    "2027-03-26": "Good Friday",
+    "2027-03-29": "Easter Monday",
+    "2027-05-01": "Labour Day",
+    "2027-05-16": "Eid al-Adha (estimated)",
+    "2027-06-03": "Uganda Martyrs' Day",
+    "2027-06-09": "National Heroes' Day",
+    "2027-10-09": "Independence Day",
+    "2027-12-25": "Christmas Day",
+    "2027-12-26": "Boxing Day"
+   }
+  }
+ },
+ "invoice_numbering": {
+  "series_per": "merchant",
+  "sequential": true,
+  "format": "{series}-{number}",
+  "offline_blocks": true,
+  "unused_numbers": "voided_with_reason",
+  "reuse": false,
+  "confirmed": false,
+  "note": "services/invoicing.py rules; a country's tax authority may require more (for example a registered series). Set confirmed when a person checks the country."
+ },
+ "legal_text": {
+  "invoice": null,
+  "receipt": null,
+  "confirmed": false,
+  "note": "Set by the country's lawyer (ledger item country_legal_text). Until then nothing is printed as legal wording."
+ }
 }

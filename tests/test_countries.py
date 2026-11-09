@@ -32,6 +32,22 @@ class EveryCountry(unittest.TestCase):
             self.assertFalse(p["vcard"]["enabled"]); self.assertEqual(p["flags"], {}); self.assertEqual(p["price_index"], 1.0)
             self.assertIn(p["currency"], self.currencies); self.assertTrue(p["tz"]); self.assertTrue(p["languages"]); self.assertEqual(p["locale"].split("-")[-1], code)
         self.assertEqual(sum(1 for p in self.packs.values() if p.get("source") == "curated"), 10)   # 8 countries, the sample and nothing else by hand
+    def test_every_pack_carries_holidays_invoice_numbering_and_legal_text(self):
+        """Rule 0.5: a country adds only data, holidays, invoice numbering and legal text included (tools/country_holidays.py)."""
+        r = subprocess.run([sys.executable, os.path.join(ROOT, "tools", "country_holidays.py"), "--check"], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        covered = 0
+        for code, p in self.packs.items():
+            h, n, lt = p["holidays"], p["invoice_numbering"], p["legal_text"]
+            self.assertEqual(set(h["years"]), {"2026", "2027"}, code)
+            for y, days in h["years"].items():
+                self.assertTrue(all(d.startswith(y) for d in days), code)
+            covered += bool(h["source"] and h["years"]["2026"])
+            self.assertTrue(n["sequential"] and n["unused_numbers"] == "voided_with_reason" and n["reuse"] is False, code)
+            if not lt["confirmed"]:       # nothing legal is printed until the country's lawyer sets it (ledger country_legal_text)
+                self.assertIsNone(lt["invoice"], code); self.assertIsNone(lt["receipt"], code)
+        self.assertGreaterEqual(covered, 240)
+
     def test_every_tender_currency_has_its_decimals(self):
         for c in self.countries.values():
             for cur in c["currencies"]: self.assertIn(cur, self.currencies, cur)

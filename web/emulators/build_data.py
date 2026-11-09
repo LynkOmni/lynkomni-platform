@@ -20,7 +20,7 @@ def svg(path):
 
 
 # Shared word packs: an emulator that imports the module carries the folder's words too (one translation, used everywhere).
-SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/footer.js", os.path.join("web", "footer")))
+SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/footer.js", os.path.join("web", "footer")))
 
 
 def uses_shell(emulator):
@@ -32,7 +32,7 @@ def uses_shell(emulator):
 def shared_folders(emulator):
     with open(os.path.join(ROOT, "web", "emulators", emulator, "app.ts"), encoding="utf-8") as f:
         src = f.read()
-    return [folder for module, folder in SHARED_WORDS if module in src and os.path.isdir(os.path.join(ROOT, folder))]
+    return list(dict.fromkeys(folder for module, folder in SHARED_WORDS if module in src and os.path.isdir(os.path.join(ROOT, folder))))
 
 
 def _packs(base):
@@ -211,6 +211,8 @@ def main(emulator):
         **(cards() if emulator == "vcard-card" else {}),
         **({"automations": automations(3)} if emulator == "owner-web" else {}),
         **(business_app() if emulator == "merchant-phone" else {}),
+        # the agent point picture on the agent home (visuals need agent-point), in both themes; its text alternative is a translated screen text
+        **({"agentPicture": {th: svg(visuals.get("agent-point", th).path) for th in ("light", "dark")}} if emulator == "merchant-phone" else {}),
         "statePictures": state_pics,
         "addresses": {k: addresses[k] for k in ("hosts", "website_paths", "app_paths", "account_paths", "pay_paths", "shop_paths", "staff_paths", "redirects")},
         "i18n": language_packs(emulator),

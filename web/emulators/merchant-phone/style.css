@@ -39,8 +39,8 @@ button, input, select { font: inherit; color: inherit; }
 .app { flex: 1; min-height: 0; display: flex; flex-direction: column; position: relative; }
 
 /* ---- app chrome ---- */
-.top { flex: none; display: flex; align-items: center; gap: 8px; padding: 6px 10px 8px; background: var(--bg-surface); border-bottom: 1px solid var(--border-subtle); }
-.top h1 { flex: 1; margin: 0; font: 700 17px var(--font-heading); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.top { flex: none; display: flex; align-items: center; gap: 2px; padding: 6px 8px 8px; background: var(--bg-surface); border-bottom: 1px solid var(--border-subtle); }
+.top h1 { flex: 1; margin: 0 0 0 4px; font: 700 16px/1.2 var(--font-heading); min-width: 0; overflow: hidden; overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; text-overflow: ellipsis; }   /* two lines, so a title still reads with help (?) beside it */
 .logo { width: 28px; display: inline-flex; flex: none; }
 .logo svg { width: 100%; height: auto; }
 .iconbtn { width: 40px; height: 40px; flex: none; display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 12px; background: transparent; cursor: pointer; }
@@ -293,3 +293,5 @@ button, input, select { font: inherit; color: inherit; }
 .lowlit .method .ic, .lowlit .tile .ic, .lowlit .prod { width: 32px; height: 32px; }
 .lowlit .method, .lowlit .rowbtn { min-height: 64px; font-size: 16px; }
 .lowlit .tile { min-height: 88px; font-size: 15px; }
+.agentpic { margin: 0 auto; width: 100%; max-width: 240px; }
+.agentpic svg { width: 100%; height: auto; display: block; }

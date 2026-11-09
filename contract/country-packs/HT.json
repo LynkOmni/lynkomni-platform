@@ -50,5 +50,64 @@
   "note": "A pack alone never turns cards on. Needs a signed issuer agreement, legal sign-off and the activation checklist."
  },
  "vcard_card_networks_note": "set from the issuer contract, never assumed",
- "note": "Generated from ISO 3166, ISO 4217, IANA tz and CLDR by tools/country_packs.py. Tax, fiscal workflow, partners and price index stay unconfirmed until a person confirms them; then copy the facts in and set source to curated."
+ "note": "Generated from ISO 3166, ISO 4217, IANA tz and CLDR by tools/country_packs.py. Tax, fiscal workflow, partners and price index stay unconfirmed until a person confirms them; then copy the facts in and set source to curated.",
+ "holidays": {
+  "source": "holidays 0.84 (Vacanza team, MIT)",
+  "names_in": "en",
+  "confirmed": false,
+  "years": {
+   "2026": {
+    "2026-01-01": "National Independence Day; New Year's Day",
+    "2026-01-02": "Ancestry Day",
+    "2026-02-15": "Carnival",
+    "2026-02-16": "Shrove Monday",
+    "2026-02-17": "Fat Tuesday",
+    "2026-04-03": "Good Friday",
+    "2026-04-05": "Easter Sunday",
+    "2026-05-01": "Agriculture and Labor Day",
+    "2026-05-18": "Flag Day and University Day",
+    "2026-06-04": "Corpus Christi",
+    "2026-08-15": "Assumption Day",
+    "2026-10-17": "Death of Dessalines",
+    "2026-11-01": "All Saints' Day",
+    "2026-11-02": "Day of the Dead",
+    "2026-11-18": "Armed Forces Day; Commemoration of the Battle of Vertieres",
+    "2026-12-25": "Christmas Day"
+   },
+   "2027": {
+    "2027-01-01": "National Independence Day; New Year's Day",
+    "2027-01-02": "Ancestry Day",
+    "2027-02-07": "Carnival",
+    "2027-02-08": "Shrove Monday",
+    "2027-02-09": "Fat Tuesday",
+    "2027-03-26": "Good Friday",
+    "2027-03-28": "Easter Sunday",
+    "2027-05-01": "Agriculture and Labor Day",
+    "2027-05-18": "Flag Day and University Day",
+    "2027-05-27": "Corpus Christi",
+    "2027-08-15": "Assumption Day",
+    "2027-10-17": "Death of Dessalines",
+    "2027-11-01": "All Saints' Day",
+    "2027-11-02": "Day of the Dead",
+    "2027-11-18": "Armed Forces Day; Commemoration of the Battle of Vertieres",
+    "2027-12-25": "Christmas Day"
+   }
+  }
+ },
+ "invoice_numbering": {
+  "series_per": "merchant",
+  "sequential": true,
+  "format": "{series}-{number}",
+  "offline_blocks": true,
+  "unused_numbers": "voided_with_reason",
+  "reuse": false,
+  "confirmed": false,
+  "note": "services/invoicing.py rules; a country's tax authority may require more (for example a registered series). Set confirmed when a person checks the country."
+ },
+ "legal_text": {
+  "invoice": null,
+  "receipt": null,
+  "confirmed": false,
+  "note": "Set by the country's lawyer (ledger item country_legal_text). Until then nothing is printed as legal wording."
+ }
 }

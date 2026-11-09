@@ -661,6 +661,22 @@
       "android": "lynkomni_icon_ui_undo",
       "ios": "lynkomni-icon-ui-undo"
     },
+    "ui-float": {
+      "group": "ui",
+      "accessibleName": "Float",
+      "svg": "icons/lynkomni-icon-ui-float.svg",
+      "react": "UiFloatIcon",
+      "android": "lynkomni_icon_ui_float",
+      "ios": "lynkomni-icon-ui-float"
+    },
+    "ui-commission": {
+      "group": "ui",
+      "accessibleName": "Commission",
+      "svg": "icons/lynkomni-icon-ui-commission.svg",
+      "react": "UiCommissionIcon",
+      "android": "lynkomni_icon_ui_commission",
+      "ios": "lynkomni-icon-ui-commission"
+    },
     "lit-sell": {
       "group": "lowlit",
       "accessibleName": "Sell",
@@ -947,6 +963,10 @@
       "sha256": "81f5a9bf2e5425979edaff9fa55348cd59db02b004ce822f3508384ce3ca1fb5",
       "bytes": 520
     },
+    "android/res/drawable/lynkomni_icon_ui_commission.xml": {
+      "sha256": "db7ec883d59097d65af65ef51e57c1e0fe59fb4695da0dfaeeba0d23cd75b3d0",
+      "bytes": 618
+    },
     "android/res/drawable/lynkomni_icon_ui_copy.xml": {
       "sha256": "d5ff5fe4ee565fb5a91d4adf3eb96943060b424b42d1a517f3004e4af4d0d8ea",
       "bytes": 523
@@ -958,6 +978,10 @@
     "android/res/drawable/lynkomni_icon_ui_edit.xml": {
       "sha256": "1793fa00b2e90e152a77bb9afa4700487ca3adbc1677e8b6db9279adcbade431",
       "bytes": 533
+    },
+    "android/res/drawable/lynkomni_icon_ui_float.xml": {
+      "sha256": "acbb665e711a6250a03092a8e5e68ca44ae377d9b4c1a07fc2e13ee269333d1d",
+      "bytes": 628
     },
     "android/res/drawable/lynkomni_icon_ui_globe.xml": {
       "sha256": "9b41df5b8af60a02eb5bc9c1e7335c936167279cdd6567f4f57af915aa9662be",
@@ -1283,6 +1307,10 @@
       "sha256": "bcfb97bbefa5947878abe17063c437dfd5b24b4b3e2947832bef452f2584f13e",
       "bytes": 197
     },
+    "icons/lynkomni-icon-ui-commission.svg": {
+      "sha256": "f11439f5c47c0c6693aebcbc21a3cf028f688015e448cd3bce123a5564789bf0",
+      "bytes": 294
+    },
     "icons/lynkomni-icon-ui-copy.svg": {
       "sha256": "6265f8662b9cd60eb91c6ef743d85b91c53ed8ccfae10558f869847820e90f0d",
       "bytes": 200
@@ -1294,6 +1322,10 @@
     "icons/lynkomni-icon-ui-edit.svg": {
       "sha256": "6dd4c6e0383a31cd3fcbfb4e69cbbcae2afbda734dd13737346b177381a130c6",
       "bytes": 210
+    },
+    "icons/lynkomni-icon-ui-float.svg": {
+      "sha256": "5a7647a0f85e324a24457a665c841c2329069004f24b8a1f655e628ce04ba9f0",
+      "bytes": 304
     },
     "icons/lynkomni-icon-ui-globe.svg": {
       "sha256": "228f01c52b4f87a82b7f3f126689df57236f6505b47c292b953110bae37f95c3",
@@ -1739,6 +1771,14 @@
       "sha256": "53f7e86208916162802e12f8c8f15b0de5e0b4de71420865b3175fc63f8abef5",
       "bytes": 606
     },
+    "icons/react/UiCommissionIcon.d.ts": {
+      "sha256": "c712d98ef9f328343ec201b2c54a3dbdc6f4a94f78312acb889fb9b45c5c6e58",
+      "bytes": 76
+    },
+    "icons/react/UiCommissionIcon.js": {
+      "sha256": "3b9b81368c4086dd202afdb3653faedf83d3dc694b868b7b8a3e46662dfc0a8d",
+      "bytes": 714
+    },
     "icons/react/UiCopyIcon.d.ts": {
       "sha256": "1a6c3520718e0d9bd539704789141e3266aa0a4e7779eb0368ef9be713918733",
       "bytes": 64
@@ -1762,6 +1802,14 @@
     "icons/react/UiEditIcon.js": {
       "sha256": "11e06f1c992ba04156d71fb40e3108ab46b79ed1fb0382953279d51521df862d",
       "bytes": 617
+    },
+    "icons/react/UiFloatIcon.d.ts": {
+      "sha256": "92705970db184170f0222ee0f1b2ff7ce83a3205f76ece93ded97a8ad53e7427",
+      "bytes": 66
+    },
+    "icons/react/UiFloatIcon.js": {
+      "sha256": "2f3ecf4d643910a6117e88221df39df609e83620817b450df9bddc707c32f617",
+      "bytes": 714
     },
     "icons/react/UiGlobeIcon.d.ts": {
       "sha256": "e00f0aed598e6c6ae63bd3e8b500ae6a57808bb665e63eda01dcee6e0a3e1b74",
@@ -1980,12 +2028,12 @@
       "bytes": 628
     },
     "icons/react/index.d.ts": {
-      "sha256": "c4fb0d0eae16cd9e13a370badb431fb266c982372c521299bc5509e750280fab",
-      "bytes": 5934
+      "sha256": "af23361e9f3cf0f360231b10c485510660b337db2836ca7de6e67b75347a68fc",
+      "bytes": 6093
     },
     "icons/react/index.js": {
-      "sha256": "5bc979dd7bb8a68253f01658baa6ecaee3f00f7d0719feb40cd10ed619f58f17",
-      "bytes": 3938
+      "sha256": "692d4a558930617e7fd62d4871c28b1562c927a2c1c43e99c2a11842b93307b9",
+      "bytes": 4044
     },
     "ios/LynkOmniBrand.xcassets/Contents.json": {
       "sha256": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f",
@@ -2451,6 +2499,14 @@
       "sha256": "bcfb97bbefa5947878abe17063c437dfd5b24b4b3e2947832bef452f2584f13e",
       "bytes": 197
     },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-commission.imageset/Contents.json": {
+      "sha256": "8776d93be536275a959b3c5beafab19e71be9b64c212b8e2749b714e94508ec1",
+      "bytes": 283
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-commission.imageset/lynkomni-icon-ui-commission.svg": {
+      "sha256": "f11439f5c47c0c6693aebcbc21a3cf028f688015e448cd3bce123a5564789bf0",
+      "bytes": 294
+    },
     "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-copy.imageset/Contents.json": {
       "sha256": "a33cec2e43ad1443f3dc6e656e30ac2956f2bc6b6d27781eb74145c1ed053cfc",
       "bytes": 277
@@ -2474,6 +2530,14 @@
     "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-edit.imageset/lynkomni-icon-ui-edit.svg": {
       "sha256": "6dd4c6e0383a31cd3fcbfb4e69cbbcae2afbda734dd13737346b177381a130c6",
       "bytes": 210
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-float.imageset/Contents.json": {
+      "sha256": "25a9190a204d5c7f1c9869c3413108b8917d9382bc2c4a581a70c24e8dca2b22",
+      "bytes": 278
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-float.imageset/lynkomni-icon-ui-float.svg": {
+      "sha256": "5a7647a0f85e324a24457a665c841c2329069004f24b8a1f655e628ce04ba9f0",
+      "bytes": 304
     },
     "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-globe.imageset/Contents.json": {
       "sha256": "5be5a07271e99139dd1a4ebad205b0b64d5e9e508bd89da3fbcdefd0fd863ded",
