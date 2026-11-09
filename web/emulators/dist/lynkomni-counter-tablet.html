@@ -472,6 +472,8 @@ body { margin: 0; min-height: 100vh; }
 .tbl.open { border-color: var(--brand-primary); }
 .orders { list-style: none; margin: 0; padding: 0; }
 .orders li, .kitchen li { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border-subtle); font-size: 12px; }
+.orders li > span:first-child { flex: 1; min-width: 0; overflow-wrap: anywhere; }   /* the step name wraps; its button or chip keeps its size */
+.orders li > .pill, .orders li > .chip { flex: none; }
 .kitchen ul { list-style: none; margin: 0; padding: 0; }
 .kitchen h2, .stocklist h2, .biz h2 { margin: 0; font-size: 15px; }
 .empty { color: var(--text-secondary); }
