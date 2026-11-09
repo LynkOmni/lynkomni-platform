@@ -171,6 +171,9 @@
 .side-chip span { white-space: nowrap; }
 .side-strip { display: flex; padding: 6px 12px; border-block-end: 1px solid var(--border-subtle); background: var(--bg-surface); }
 .side-strip .side-chip { max-inline-size: 100%; }
+.side-strip { align-items: center; gap: 8px; flex-wrap: wrap; }
+.side-strip .htitle { flex: 1 1 auto; margin: 0; white-space: normal; overflow: visible; overflow-wrap: anywhere; }
+.hspace { flex: 1; }
 .side-chip.storefront { border-color: var(--brand-primary); background: var(--brand-subtle); color: var(--brand-ink); }
 .lsides, .mside { display: flex; flex-wrap: wrap; gap: 6px; margin-block-end: 8px; }
 .side-btn { display: inline-flex; flex: 1 1 140px; align-items: center; gap: 6px; min-block-size: var(--touch-target); padding-inline: 12px; border: 1px solid var(--border-strong); border-radius: 12px; background: var(--bg-surface); color: var(--text-primary); font: inherit; cursor: pointer; text-align: start; }

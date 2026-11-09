@@ -26,10 +26,10 @@ test("recovery, restriction, consent, standing-payment and payout vectors", () =
   assert.ok(V.recovery.length >= 50);
 });
 test("sign-up order, recovery path choice, sessions bound to a site, alerts on new device or place", () => {
-  assert.equal(nextSignUpStep({}), "username"); assert.equal(nextSignUpStep({ username: "grace.k" }), "contact");
-  assert.equal(nextSignUpStep({ username: "grace.k", contactVerified: true }), "passkey");
-  assert.equal(nextSignUpStep({ username: "grace.k", contactVerified: true, passkey: true }), "recovery_code");
-  assert.equal(nextSignUpStep({ username: "grace.k", contactVerified: true, passkey: true, recoveryCodeConfirmed: true }), null);
+  assert.equal(nextSignUpStep({}), "username"); assert.equal(nextSignUpStep({ username: "grace.k" }), "username"); assert.equal(nextSignUpStep({ username: "grace.k", adult: true }), "contact");
+  assert.equal(nextSignUpStep({ username: "grace.k", adult: true, contactVerified: true }), "passkey");
+  assert.equal(nextSignUpStep({ username: "grace.k", adult: true, contactVerified: true, passkey: true }), "recovery_code");
+  assert.equal(nextSignUpStep({ username: "grace.k", adult: true, contactVerified: true, passkey: true, recoveryCodeConfirmed: true }), null);
   assert.equal(recoveryPath({ otherDevice: true, recoveryCode: true, smsOk: true }), "device");
   assert.equal(recoveryPath({ otherDevice: false, recoveryCode: true, smsOk: true }), "code");
   assert.equal(recoveryPath({ otherDevice: false, recoveryCode: false, smsOk: true }), "assisted");   // SMS alone is never enough

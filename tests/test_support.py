@@ -23,6 +23,18 @@ class T(unittest.TestCase):
         self.p.billing.set_plan("suite", "lynksuite", "plus"); self.p.register("suite", "RW")
         self.assertEqual(self.s.priority_for("suite"), 1)                                                         # LynkSuite Plus: priority through its members
 
+    def test_channel_follows_the_side_and_priority_the_highest_plan(self):
+        """BIZZ & DEVICE: one support system; a Storefront request goes to seller support and says so, a workspace request to the
+        usual desk; safety and security keep their own desks on both sides; priority is the highest across all plans."""
+        self.s.register_agent("sel", "support_agent", "storefront", ("en",))
+        w = self.conv(); self.assertEqual((self.s.get(w)["side"], self.s.get(w)["route"]), ("internal", "support")); self.assertNotEqual(self.s.get(w)["owner"], "sel")
+        x = self.conv(side="external"); self.assertEqual((self.s.get(x)["side"], self.s.get(x)["route"], self.s.get(x)["owner"]), ("external", "seller_support", "sel"))
+        y = self.conv(side="external", category="safety"); self.assertEqual(self.s.get(y)["owner"], "sam")
+        with self.assertRaises(ValueError): self.conv(side="both")
+        self.p.billing.set_storefront_plan("seller", "max"); self.p.register("seller", "RW")
+        self.assertEqual(self.s.get(self.conv(account="seller"))["priority"], self.s.get(self.conv(account="seller", side="external"))["priority"])
+        self.assertGreater(self.s.priority_for("seller"), 0)
+
     def test_transfer_moves_responsibility_not_the_conversation(self):
         case = self.s.open_case(self.cust, "payments"); c = self.s.open_conversation(self.cust, "payments", case_id=case); owner = self.s.get(c)["owner"]
         self.s.set_available("tia", True); self.s._state(c, "in_progress"); cases_before = self.s.db.execute("select count(*) from cases").fetchone()[0]

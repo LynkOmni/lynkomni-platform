@@ -69,6 +69,14 @@ def used_keys(emulator, keys):
     return {k for k in keys if k in literal or any(k.startswith(p) for p in prefixes)}
 
 
+
+def storefront_plans():
+    """Storefront plans for My Storefront (services/billing.py, locked) and the minimum account age (core/workspaces.py)."""
+    from services import billing
+    from core import workspaces
+    return {"tiers": list(billing.STOREFRONT_TIERS), "prices_usd": dict(zip(billing.STOREFRONT_TIERS, billing.STOREFRONT_PRICES)),
+            "share_bps": dict(zip(billing.STOREFRONT_TIERS, billing.STOREFRONT_SHARE_BPS)), "min_age": workspaces.minimum_age()}
+
 def language_packs(emulator):
     """The emulator's own words, plus the shared shell's or POS devices' words when it uses them (one translation, used everywhere)."""
     own = _packs(os.path.join(ROOT, "web", "emulators", emulator))
@@ -218,6 +226,7 @@ def main(emulator):
         "fx": {k: float(v) for k, v in USD_RATES.items()},
         **(cards() if emulator == "vcard-card" else {}),
         **({"automations": automations(3)} if emulator == "owner-web" else {}),
+        **({"storefront": storefront_plans()} if emulator == "account-site" else {}),
         **(business_app() if emulator == "merchant-phone" else {}),
         # the agent point picture on the agent home (visuals need agent-point), in both themes; its text alternative is a translated screen text
         **({"agentPicture": {th: svg(visuals.get("agent-point", th).path) for th in ("light", "dark")}} if emulator == "merchant-phone" else {}),

@@ -5,10 +5,10 @@
 export const DAY = 86400;
 export const SIGN_UP_STEPS = ["username", "contact", "passkey", "recovery_code"] as const;
 export type SignUpStep = (typeof SIGN_UP_STEPS)[number];
-export interface SignUpState { username?: string; contactVerified?: boolean; passkey?: boolean; recoveryCodeConfirmed?: boolean }
+export interface SignUpState { username?: string; adult?: boolean; contactVerified?: boolean; passkey?: boolean; recoveryCodeConfirmed?: boolean }
 /** The next thing to do, or null when the account exists. The order is fixed: a recovery code is only shown once a passkey exists. */
 export function nextSignUpStep(s: SignUpState): SignUpStep | null {
-  if (!s.username) return "username";
+  if (!s.username || s.adult !== true) return "username";   // the first step also confirms the minimum age (18 or the local age of majority); no birth date is asked
   if (!s.contactVerified) return "contact";
   if (!s.passkey) return "passkey";
   if (!s.recoveryCodeConfirmed) return "recovery_code";
@@ -101,7 +101,7 @@ export function applicationStatus(current: ApplicationStatus, gateway: "pending"
 }
 
 // ---- the account site
-export const PAGES = ["overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "support", "payslips", "payments", "start"] as const;
+export const PAGES = ["overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "support", "payslips", "payments", "start", "storefront"] as const;
 export type Page = (typeof PAGES)[number];
 export const pagePath = (p: Page): string => (p === "overview" ? "/" : `/${p}`);
 /** Security Center rows: event type to the string key the screen shows (the word, never colour alone, beside the time). */
