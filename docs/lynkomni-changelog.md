@@ -2,6 +2,9 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.26.1 (2026-11-09)
+Dependency update: TypeScript 5.9.3 to 7.0.2 and the Node.js type definitions (Dependabot, merged once every check was green). The brand-sync pull request for icons 1.5.0 was closed because that artwork was already in v0.25.0.
+
 ## v0.26.0 (2026-11-09)
 Section 3, Phase 5: language wave 2 (blueprint 43 G). LynkOmni now speaks 38 languages: Bangla, Tamil, Thai, Amharic, Hausa, Yoruba, Zulu, Filipino, Polish, Dutch, Ukrainian and Malay join the 26 of wave 1.
 - Every screen text of every emulator (the shell, the shared POS words, the footer, the account site, the Business app and every device) is translated by Claude into the 12 languages and checked by tools/translation/claude_packs.py (names, placeholders and numbers unchanged, no repetition, written in the language's own script).
