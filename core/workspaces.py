@@ -62,6 +62,27 @@ def office_ok(family):
     return family in OFFICE_FAMILIES
 
 
+def open_to(entity, family):
+    """Every billing family is open to every entity (BIZZ & DEVICE, 2026-11-09); the law and licensed partners are the only limits."""
+    from services.billing import FAMILIES
+    check(entity)
+    if family not in FAMILIES:
+        raise ValueError("unknown family")
+    return True
+
+
+def identity_check(entity):
+    """Which identity check a licensed partner runs for this kind of entity before money moves."""
+    return REGISTER["open_to_all"]["identity_check"][check(entity)[0]]
+
+
+def minimum_age(pack=None):
+    """18, or the local age of majority when the country pack sets a higher one."""
+    base = REGISTER["open_to_all"]["minimum_age"]["years"]
+    local = (pack or {}).get("age_of_majority")
+    return max(base, local) if isinstance(local, int) else base
+
+
 def validate():
     """Register self-check (tests): categories post to real accounts of the right type; suggestions are office families."""
     problems = []

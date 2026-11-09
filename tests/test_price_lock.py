@@ -16,7 +16,17 @@ LOCKED_PRICES = {
 }
 
 
+# Storefront plans (BIZZ & DEVICE, owner approved 2026-11-09): the external side's own locked price list, a plan type not a family.
+LOCKED_STOREFRONT = {"tiers": ("free", "plus", "pro", "max", "enterprise"), "prices": (0, 12, 29, 79),
+                     "share_bps": (800, 500, 300, 150), "cap_usd_cents": {"max": 5000}, "trial_days": {"plus": 14, "pro": 14}}
+
+
 class TestPriceLock(unittest.TestCase):
+    def test_storefront_plans_are_locked_too(self):
+        self.assertEqual({"tiers": billing.STOREFRONT_TIERS, "prices": billing.STOREFRONT_PRICES, "share_bps": billing.STOREFRONT_SHARE_BPS,
+                          "cap_usd_cents": billing.STOREFRONT_SHARE_CAP_USD_CENTS, "trial_days": billing.STOREFRONT_TRIAL_DAYS}, LOCKED_STOREFRONT)
+        self.assertNotIn("storefront", billing.FAMILIES)                       # never a product family, never inside LynkSuite
+
     def test_every_standard_price_matches_the_locked_list(self):
         self.assertEqual({k: v[3] for k, v in billing.FAMILIES.items()}, LOCKED_PRICES)
 

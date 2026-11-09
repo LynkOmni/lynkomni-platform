@@ -1,41 +1,236 @@
 {
  "version": 1,
  "description": "Who LynkOmni is for (owner request 9 November 2026): the office services (accounting, invoicing, contacts, analytics and the rest of `office_families`) run the internal affairs of anyone: a person (household money or freelance work), a company of any size, or an organisation (non-profit, school, faith group, association or club, cooperative, public body). A workspace is a LynkOmni business record (LOOID) with an entity kind. The entity changes words, tabs, categories and suggested services only (presentation and setup); every record, event, price, limit and rule is the same for all. No till or registered device is needed for office work: it runs in any signed-in browser (LynkAcc, LynkInv and LynkCRM rule). Prices stay those of services/billing.py.",
- "office_families": ["lynkacc", "lynkinv", "lynkcrm", "lynkstat", "lynkops", "lynkstock", "lynkchat", "lynkassist", "lynkcheckout", "lynksuite"],
+ "office_families": [
+  "lynkacc",
+  "lynkinv",
+  "lynkcrm",
+  "lynkstat",
+  "lynkops",
+  "lynkstock",
+  "lynkchat",
+  "lynkassist",
+  "lynkcheckout",
+  "lynksuite"
+ ],
  "entities": {
   "person": {
-   "kinds": ["household", "freelancer"],
+   "kinds": [
+    "household",
+    "freelancer"
+   ],
    "default_type": "no_till",
-   "tabs": ["home", "books", "invoices", "customers", "business"],
-   "words": {"tab_customers": "tab_contacts", "tab_business": "tab_workspace", "it_customers": "tab_contacts"},
-   "suggested": ["lynkacc", "lynkinv", "lynkcrm", "lynkstat"],
+   "tabs": [
+    "home",
+    "books",
+    "invoices",
+    "customers",
+    "business"
+   ],
+   "words": {
+    "tab_customers": "tab_contacts",
+    "tab_business": "tab_workspace",
+    "it_customers": "tab_contacts"
+   },
+   "suggested": [
+    "lynkacc",
+    "lynkinv",
+    "lynkcrm",
+    "lynkstat"
+   ],
    "categories": {
-    "income": [{"id": "salary", "account": "4200"}, {"id": "freelance", "account": "4000"}, {"id": "other_income", "account": "4200"}],
-    "expense": [{"id": "rent", "account": "6000"}, {"id": "food", "account": "6000"}, {"id": "transport", "account": "6000"}, {"id": "utilities", "account": "6000"}, {"id": "school_fees", "account": "6000"}, {"id": "health", "account": "6000"}, {"id": "savings", "account": "1020"}, {"id": "work_costs", "account": "6000"}]
+    "income": [
+     {
+      "id": "salary",
+      "account": "4200"
+     },
+     {
+      "id": "freelance",
+      "account": "4000"
+     },
+     {
+      "id": "other_income",
+      "account": "4200"
+     }
+    ],
+    "expense": [
+     {
+      "id": "rent",
+      "account": "6000"
+     },
+     {
+      "id": "food",
+      "account": "6000"
+     },
+     {
+      "id": "transport",
+      "account": "6000"
+     },
+     {
+      "id": "utilities",
+      "account": "6000"
+     },
+     {
+      "id": "school_fees",
+      "account": "6000"
+     },
+     {
+      "id": "health",
+      "account": "6000"
+     },
+     {
+      "id": "savings",
+      "account": "1020"
+     },
+     {
+      "id": "work_costs",
+      "account": "6000"
+     }
+    ]
    }
   },
   "company": {
-   "kinds": ["business"],
+   "kinds": [
+    "business"
+   ],
    "default_type": "shop",
    "tabs": null,
    "words": {},
-   "suggested": ["lynkacc", "lynkinv", "lynkcrm", "lynkstat", "lynkops", "lynkstock"],
+   "suggested": [
+    "lynkacc",
+    "lynkinv",
+    "lynkcrm",
+    "lynkstat",
+    "lynkops",
+    "lynkstock"
+   ],
    "categories": {
-    "income": [{"id": "sales", "account": "4000"}, {"id": "other_income", "account": "4200"}],
-    "expense": [{"id": "stock_purchases", "account": "5000"}, {"id": "rent", "account": "6000"}, {"id": "wages", "account": "6300"}, {"id": "utilities", "account": "6000"}, {"id": "transport", "account": "6000"}, {"id": "provider_fees", "account": "6100"}, {"id": "marketing", "account": "6000"}]
+    "income": [
+     {
+      "id": "sales",
+      "account": "4000"
+     },
+     {
+      "id": "other_income",
+      "account": "4200"
+     }
+    ],
+    "expense": [
+     {
+      "id": "stock_purchases",
+      "account": "5000"
+     },
+     {
+      "id": "rent",
+      "account": "6000"
+     },
+     {
+      "id": "wages",
+      "account": "6300"
+     },
+     {
+      "id": "utilities",
+      "account": "6000"
+     },
+     {
+      "id": "transport",
+      "account": "6000"
+     },
+     {
+      "id": "provider_fees",
+      "account": "6100"
+     },
+     {
+      "id": "marketing",
+      "account": "6000"
+     }
+    ]
    }
   },
   "organisation": {
-   "kinds": ["nonprofit", "school", "faith", "association", "cooperative", "public_body"],
+   "kinds": [
+    "nonprofit",
+    "school",
+    "faith",
+    "association",
+    "cooperative",
+    "public_body"
+   ],
    "default_type": "no_till",
-   "tabs": ["home", "books", "invoices", "customers", "business"],
-   "words": {"tab_customers": "tab_members", "tab_business": "tab_organisation", "it_customers": "tab_members"},
-   "suggested": ["lynkacc", "lynkinv", "lynkcrm", "lynkstat", "lynkops", "lynkchat"],
-   "categories": {
-    "income": [{"id": "donations", "account": "4200"}, {"id": "grants", "account": "4200"}, {"id": "dues", "account": "4000"}, {"id": "fees", "account": "4000"}, {"id": "other_income", "account": "4200"}],
-    "expense": [{"id": "programmes", "account": "6000"}, {"id": "administration", "account": "6000"}, {"id": "fundraising", "account": "6000"}, {"id": "wages", "account": "6300"}, {"id": "utilities", "account": "6000"}, {"id": "rent", "account": "6000"}]
+   "tabs": [
+    "home",
+    "books",
+    "invoices",
+    "customers",
+    "business"
+   ],
+   "words": {
+    "tab_customers": "tab_members",
+    "tab_business": "tab_organisation",
+    "it_customers": "tab_members"
    },
-   "funds": ["unrestricted", "restricted"]
+   "suggested": [
+    "lynkacc",
+    "lynkinv",
+    "lynkcrm",
+    "lynkstat",
+    "lynkops",
+    "lynkchat"
+   ],
+   "categories": {
+    "income": [
+     {
+      "id": "donations",
+      "account": "4200"
+     },
+     {
+      "id": "grants",
+      "account": "4200"
+     },
+     {
+      "id": "dues",
+      "account": "4000"
+     },
+     {
+      "id": "fees",
+      "account": "4000"
+     },
+     {
+      "id": "other_income",
+      "account": "4200"
+     }
+    ],
+    "expense": [
+     {
+      "id": "programmes",
+      "account": "6000"
+     },
+     {
+      "id": "administration",
+      "account": "6000"
+     },
+     {
+      "id": "fundraising",
+      "account": "6000"
+     },
+     {
+      "id": "wages",
+      "account": "6300"
+     },
+     {
+      "id": "utilities",
+      "account": "6000"
+     },
+     {
+      "id": "rent",
+      "account": "6000"
+     }
+    ]
+   },
+   "funds": [
+    "unrestricted",
+    "restricted"
+   ]
   }
  },
  "rules": [
@@ -43,6 +238,20 @@
   "Categories are labels on the global chart of accounts (contract/chart-of-accounts.v1.json): each category posts to one global account, so books, reports and accountants read the same journal for every workspace.",
   "Organisations may mark money as restricted (given for one purpose) or unrestricted; the mark is a label on the journal line and reports show each fund separately.",
   "A person's household workspace is private to them and the people they invite; nothing in it is ever shared with a business, a supplier or LynkOmni partners.",
-  "Enterprise (approval steps, custom roles, sign-in with the organisation's own login system, audit log export) is the tier for large companies, groups and public bodies; every office service also works on Free."
- ]
+  "Enterprise (approval steps, custom roles, sign-in with the organisation's own login system, audit log export) is the tier for large companies, groups and public bodies; every office service also works on Free.",
+  "Every service is open to every entity (BIZZ & DEVICE, 2026-11-09): the office families above are only the suggested start; every billing family is available to a person, a company and an organisation alike."
+ ],
+ "open_to_all": {
+  "agreed": "2026-11-09 (BIZZ & DEVICE)",
+  "rule": "Every LynkOmni service is open to every entity that needs it: a person, a company or an organisation of any kind, bills, utilities and connectivity included. Examples never limit who may use a service. The entity changes only words, tabs, categories and suggestions. The only limits come from the law and licensed partners: money stays with the licensed partner; each entity passes that partner's own identity check for its kind (a personal check, a business check, a registration check); a regulated service is 'Coming to your country soon' until a partner serving that kind of entity is signed in the country; tax returns and registration stay drafts until the authority's workflow is confirmed; no personal wallet and no personal chat.",
+  "identity_check": {
+   "person": "personal",
+   "company": "business",
+   "organisation": "registration"
+  },
+  "minimum_age": {
+   "years": 18,
+   "rule": "An account holder is at least 18 or the local age of majority when a country pack sets a higher one. Younger learners use a guardian's or a school's account."
+  }
+ }
 }

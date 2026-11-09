@@ -156,12 +156,24 @@ def register(flow, biz, agent, deliveries, restaurant, devices, platform):
         _emit(f, m, "AlertSent", {"kind": "chat_summary", "ref": p["thread_id"], "detail": {"messages": n}}, "chat-summary", now)
         return {"messages": n, "why": "the person asked for a summary of this conversation; figures stay visible and the summary is labelled"}
 
+    # ---- LynkDriver (BIZZ & DEVICE, 2026-11-09): one driver pack, strongly enforced updates, a sale never blocked
+    DRIVER_DAYS = {"security": 0, "required": 3, "normal": 7}
+
+    def driver_update_reminder(f, m, p, now):
+        level = p.get("level")
+        if level not in DRIVER_DAYS: return None
+        told = {(e["payload"]["ref"]) for e in c.store.of(m, "AlertSent") if e["payload"].get("kind") == "driver_update"}
+        if p["version"] in told: return None
+        due = now + DRIVER_DAYS[level] * 86400
+        _emit(f, m, "AlertSent", {"kind": "driver_update", "ref": p["version"], "detail": {"level": level, "due_at": due, "devices": p.get("devices", [])}}, "driver-update-reminder", now)
+        return {"level": level, "due_at": due, "why": "a LynkDriver update is out; security updates install now, required ones within 3 days and normal ones within 7. Only the affected device pauses at the deadline, and a sale is never blocked (it ends with a digital receipt)"}
+
     for aid, fn in {"setup-autofill": setup_autofill, "product-from-photo": product_from_photo, "day-close-prepare": day_close_prepare, "cash-difference-flag": cash_difference_flag,
                     "shift-reminder": shift_reminder, "low-stock-reorder": low_stock_reorder, "expiry-alert": expiry_alert, "negative-stock-flag": negative_stock_flag,
                     "receipt-delivery": receipt_delivery, "kitchen-routing": kitchen_routing, "delivery-auto-request": delivery_auto_request, "low-float-warning": low_float_warning,
                     "commission-match": commission_match, "sync-retry": sync_retry, "device-health": device_health, "staff-pin-lock": staff_pin_lock,
                     "chat-suggested-replies": chat_suggested_replies, "chat-routing": chat_routing, "chat-summary": chat_summary, "reorder-one-tap": reorder_one_tap,
-                    "order-updates": order_updates, "tracking-late-watch": tracking_late_watch}.items():
+                    "order-updates": order_updates, "tracking-late-watch": tracking_late_watch, "driver-update-reminder": driver_update_reminder}.items():
         flow.handle(aid, fn)
 
 

@@ -290,6 +290,13 @@
    "name": "Verified review",
    "purpose": "A customer review tied to a real receipt (LORCP-), one per receipt (owner approved 2026-11-08)",
    "origin": "approved addition"
+  },
+  {
+   "code": "LST",
+   "prefix": "LOLST-",
+   "name": "Storefront offer",
+   "purpose": "One offer on a Storefront: a product, course, service, event or app offered to others (owner approved 2026-11-09, BIZZ & DEVICE)",
+   "origin": "approved addition"
   }
  ]
 }

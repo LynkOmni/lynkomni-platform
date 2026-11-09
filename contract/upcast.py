@@ -20,5 +20,7 @@ def upcast(event):
     if v == 1:
         if out["type"] in u["adds_currency_to"]:
             out["payload"].setdefault("currency", u["default_currency"])
+    if v == 2:
+        out["payload"].setdefault("side", u["adds_side"])      # written before Storefronts existed: the workspace side
     out["schema_version"] = u["to_schema_version"]
     return upcast(out)

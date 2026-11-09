@@ -3,7 +3,11 @@
 The chart lives in contract/chart-of-accounts.v1.json, shared by every language. Every money event posts balanced lines
 (debits == credits) in the merchant's base currency, at every tier: tiers decide which reports are shown, never what is
 recorded. A country pack may carry `chart_of_accounts`, a mapping from a global code to its local code and name; the
-mapping changes how an account is labelled in that country and nothing else. Money is integer minor units; no floats."""
+mapping changes how an account is labelled in that country and nothing else. Money is integer minor units; no floats.
+
+One legal ledger per entity (BIZZ & DEVICE, 2026-11-09): every entry carries its side, internal (the workspace) or external
+(the Storefront), from the event's payload (missing means internal). Screens and reports of one side read that side only;
+statutory reports and the draft tax return read the whole ledger, because the law counts all of an entity's income."""
 import json, os
 
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -68,8 +72,15 @@ def journal(events, to_base):
         lines = post(e["type"], p, amount)
         if lines:
             assert sum(d for _, d, _ in lines) == sum(c for _, _, c in lines), "journal entry must balance"
-            out.append({"event_id": e["id"], "type": e["type"], "ts": e.get("ts"), "lines": lines})
+            out.append({"event_id": e["id"], "type": e["type"], "ts": e.get("ts"), "side": p.get("side", "internal"), "lines": lines})
     return out
+
+
+def side_entries(entries, side):
+    """The entries of one side (internal or external) for that side's screens and reports. Statutory reports never filter."""
+    if side not in ("internal", "external"):
+        raise ValueError("side is internal or external")
+    return [e for e in entries if e.get("side", "internal") == side]
 
 
 def trial_balance(entries):

@@ -149,6 +149,47 @@ for _tiers in FEATURES.values():
         _d.setdefault("support", SUPPORT_LEVELS[min(_i, len(SUPPORT_LEVELS) - 1)])
 ADS_PRODUCT = {"pos": "lynkpos", "dash": "lynkstat", "stock": "lynkstock"}
 
+# Storefront plans (BIZZ & DEVICE, owner approved 2026-11-09): the external side of every service, where anyone offers to others
+# and earns. A plan type, not a product family: one Storefront plan per account covers every service's Storefront, the
+# highest plan wins and nothing is billed twice; outside LynkSuite. Workspace prices above never change. LOCKED with the
+# other prices (tests/test_price_lock.py). Enterprise is by contract.
+STOREFRONT_TIERS = ("free", "plus", "pro", "max", "enterprise")
+STOREFRONT_PRICES = (0, 12, 29, 79)                # standard USD per month for free, plus, pro, max (the same ladder as the plans)
+STOREFRONT_SHARE_BPS = (800, 500, 300, 150)        # LynkOmni's share of each Storefront sale, in basis points: 8%, 5%, 3%, 1.5%
+STOREFRONT_SHARE_CAP_USD_CENTS = {"max": 5000}     # Max: the share of one sale never exceeds $50 (converted by the provider)
+STOREFRONT_TRIAL_DAYS = {"plus": 14, "pro": 14}
+STOREFRONT_FEATURES = [
+    dict(items=3, storage_gb=1, team=1, reports="basic", powered_by="required", own_logo=False, discount_codes=False, live_seats=0, certificates=False, support="help"),
+    dict(items=25, storage_gb=20, team=2, reports="full", powered_by="removable", own_logo=True, discount_codes=True, live_seats=50, certificates=True, support="priority"),
+    dict(items=250, storage_gb=200, team=5, reports="buyer_insights", powered_by="removable", own_logo=True, discount_codes=True, live_seats=500, certificates=True, support="higher"),
+    dict(items=None, storage_gb=1000, team=20, reports="exports", powered_by="removable", own_logo=True, discount_codes=True, live_seats=5000, certificates=True, support="dedicated"),
+    dict(items=None, storage_gb="agreed", team=None, reports="custom", powered_by="removable", own_logo=True, discount_codes=True, live_seats="agreed", certificates=True, support="dedicated"),
+]
+STOREFRONT_RULES = (
+    "The share applies only to sales made through a Storefront, never to a business's own till sales, invoices or pay links.",
+    "The licensed provider takes the share at the moment of sale and pays the seller the rest; LynkOmni never holds money.",
+    "Free material is never charged; there is no minimum fee; the share is refunded with a refund and held during a dispute.",
+    "Before publishing and on every sale the seller sees the price, the provider's charges, the share and what they receive.",
+    "Items over the limit after a downgrade are hidden, never deleted.",
+)
+
+
+def storefront_share(tier, sale_minor, free_item=False, cap_minor=None):
+    """LynkOmni's share of one Storefront sale, in the sale's minor units (integers only, half up). cap_minor is the $50 Max
+    cap already converted to the sale's currency by the provider; Enterprise shares come from its contract (None here)."""
+    if tier not in STOREFRONT_TIERS:
+        raise ValueError(f"{tier} is not a Storefront plan")
+    if isinstance(sale_minor, bool) or not isinstance(sale_minor, int) or sale_minor < 0:
+        raise ValueError("a sale is a whole number of minor units")
+    if free_item or sale_minor == 0:
+        return 0
+    if tier == "enterprise":
+        return None
+    share = (sale_minor * STOREFRONT_SHARE_BPS[STOREFRONT_TIERS.index(tier)] + 5000) // 10000
+    if tier in STOREFRONT_SHARE_CAP_USD_CENTS and cap_minor is not None:
+        share = min(share, cap_minor)
+    return share
+
 class Billing:
     def __init__(s, c, control=None): s.c, s.control = c, control
     def set_plan(s, account, family, tier):
@@ -197,8 +238,23 @@ class Billing:
             ent.update(d)
         return ent
     def support_level(s, account):
-        """The highest support level across every plan the account has (help, priority, higher, dedicated)."""
-        return max((s.entitlement(account, f)["support"] for f, v in FAMILIES.items() if v[4] not in BUNDLE_KINDS), key=SUPPORT_LEVELS.index)
+        """The highest support level across every plan the account has (help, priority, higher, dedicated), the Storefront
+        plan included: the channel follows the side, the priority follows the highest plan (BIZZ & DEVICE)."""
+        levels = [s.entitlement(account, f)["support"] for f, v in FAMILIES.items() if v[4] not in BUNDLE_KINDS]
+        levels.append(s.storefront_entitlement(account)["support"])
+        return max(levels, key=SUPPORT_LEVELS.index)
+    def set_storefront_plan(s, account, tier):
+        """One Storefront plan per account, covering every service's Storefront (never billed per service)."""
+        if tier not in STOREFRONT_TIERS:
+            raise ValueError(f"{tier} is not a Storefront plan")
+        s.c.store.append(account, "server", "storefront.plan_set", {"tier": tier, "side": "external"})
+    def storefront_tier(s, account):
+        t = "free"
+        for e in s.c.store.of(account, "storefront.plan_set"):
+            t = e["payload"]["tier"]
+        return t
+    def storefront_entitlement(s, account):
+        return dict(STOREFRONT_FEATURES[STOREFRONT_TIERS.index(s.storefront_tier(account))])
     def ads_enabled(s, account, product):  # ads show only while the surface's product is on its Free tier
         return s.tier(account, ADS_PRODUCT[product]) == "free"
     def _money(s, account, family, usd):
@@ -218,6 +274,13 @@ class Billing:
                 lines.append({"family": fam, "tier": own, "amount_minor": s._money(account, fam, s._usd(fam, own) - s._usd(fam, covered))})
             else:
                 credits.append(fam)
+        for l in lines:
+            l["side"] = "internal"                                           # workspace plans: today's locked prices
+        sf = s.storefront_tier(account)
+        if sf not in ("free", "enterprise"):                                 # one Storefront line, never per service; Enterprise is by contract
+            pr = s.c.profile(account)
+            usd = STOREFRONT_PRICES[STOREFRONT_TIERS.index(sf)] * country(pr["country"]).get("price_index", 1.0)
+            lines.append({"family": "storefront", "tier": sf, "side": "external", "amount_minor": s.c.fx.convert(to_minor(usd, "USD"), "USD", pr["currency"])})
         return {"currency": s.c.profile(account)["currency"], "lines": lines, "credited": credits, "total_minor": sum(l["amount_minor"] for l in lines)}
     def invoice(s, account, period):
         """One invoice per account per period. Revenue is recorded once per paid line, by family."""
@@ -227,7 +290,7 @@ class Billing:
         s.c.store.append(account, "server", "billing.invoiced", {"period": period, "total_minor": b["total_minor"], "currency": b["currency"]})
         if s.control:
             for l in b["lines"]:
-                s.control.record_revenue(account, f"subscription:{l['family']}", l["amount_minor"], b["currency"], pr["country"])
+                s.control.record_revenue(account, f"storefront:plan" if l["side"] == "external" else f"subscription:{l['family']}", l["amount_minor"], b["currency"], pr["country"])
         return {"status": "invoiced", "period": period, **b}
     def counts(s):
         """Paid subscribers per family and tier. Each is counted once; LynkSuite Free and Free tiers are not paid."""

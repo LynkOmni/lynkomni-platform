@@ -1,0 +1,1210 @@
+{
+ "version": 1,
+ "description": "The two sides: which side an address is on, what kind each app path is, and each mirrored path's Storefront twin. core/sides.py is the reference; ts/src/sides.ts must agree.",
+ "sides": [
+  {
+   "address": "/accounting",
+   "side": "internal"
+  },
+  {
+   "address": "/accounting/payroll",
+   "side": "internal"
+  },
+  {
+   "address": "/accounting/tax/returns",
+   "side": "internal"
+  },
+  {
+   "address": "/analytics",
+   "side": "internal"
+  },
+  {
+   "address": "/analytics/sell-through",
+   "side": "internal"
+  },
+  {
+   "address": "/analytics/shared",
+   "side": "internal"
+  },
+  {
+   "address": "/business",
+   "side": "internal"
+  },
+  {
+   "address": "/business/academy",
+   "side": "internal"
+  },
+  {
+   "address": "/business/agent-earnings",
+   "side": "internal"
+  },
+  {
+   "address": "/business/assistant",
+   "side": "internal"
+  },
+  {
+   "address": "/business/automations",
+   "side": "internal"
+  },
+  {
+   "address": "/business/automations/history",
+   "side": "internal"
+  },
+  {
+   "address": "/business/cards",
+   "side": "internal"
+  },
+  {
+   "address": "/business/daily-close",
+   "side": "internal"
+  },
+  {
+   "address": "/business/devices",
+   "side": "internal"
+  },
+  {
+   "address": "/business/growth",
+   "side": "internal"
+  },
+  {
+   "address": "/business/growth/promotions",
+   "side": "internal"
+  },
+  {
+   "address": "/business/loyalty",
+   "side": "internal"
+  },
+  {
+   "address": "/business/money",
+   "side": "internal"
+  },
+  {
+   "address": "/business/online-shop",
+   "side": "internal"
+  },
+  {
+   "address": "/business/pay-links",
+   "side": "internal"
+  },
+  {
+   "address": "/business/plans",
+   "side": "internal"
+  },
+  {
+   "address": "/business/recovery",
+   "side": "internal"
+  },
+  {
+   "address": "/business/settings",
+   "side": "internal"
+  },
+  {
+   "address": "/business/settings/data-sharing",
+   "side": "internal"
+  },
+  {
+   "address": "/business/settings/tips",
+   "side": "internal"
+  },
+  {
+   "address": "/business/team",
+   "side": "internal"
+  },
+  {
+   "address": "/chats",
+   "side": "internal"
+  },
+  {
+   "address": "/chats/{LOCNV}",
+   "side": "internal"
+  },
+  {
+   "address": "/clients",
+   "side": "internal"
+  },
+  {
+   "address": "/crm",
+   "side": "internal"
+  },
+  {
+   "address": "/crm/repairs",
+   "side": "internal"
+  },
+  {
+   "address": "/crm/returns",
+   "side": "internal"
+  },
+  {
+   "address": "/crm/reviews",
+   "side": "internal"
+  },
+  {
+   "address": "/crm/warranties",
+   "side": "internal"
+  },
+  {
+   "address": "/deliveries",
+   "side": "internal"
+  },
+  {
+   "address": "/deliveries/{LODLV}",
+   "side": "internal"
+  },
+  {
+   "address": "/float",
+   "side": "internal"
+  },
+  {
+   "address": "/invoicing",
+   "side": "internal"
+  },
+  {
+   "address": "/invoicing/get-paid-early",
+   "side": "internal"
+  },
+  {
+   "address": "/invoicing/recurring",
+   "side": "internal"
+  },
+  {
+   "address": "/notifications",
+   "side": "internal"
+  },
+  {
+   "address": "/sell",
+   "side": "internal"
+  },
+  {
+   "address": "/sell/basket",
+   "side": "internal"
+  },
+  {
+   "address": "/sell/kitchen",
+   "side": "internal"
+  },
+  {
+   "address": "/sell/payment",
+   "side": "internal"
+  },
+  {
+   "address": "/sell/practice",
+   "side": "internal"
+  },
+  {
+   "address": "/sell/receipt",
+   "side": "internal"
+  },
+  {
+   "address": "/sell/sales",
+   "side": "internal"
+  },
+  {
+   "address": "/sell/shifts",
+   "side": "internal"
+  },
+  {
+   "address": "/sell/tables",
+   "side": "internal"
+  },
+  {
+   "address": "/services",
+   "side": "internal"
+  },
+  {
+   "address": "/stock",
+   "side": "internal"
+  },
+  {
+   "address": "/stock/arrivals/new",
+   "side": "internal"
+  },
+  {
+   "address": "/stock/counts/new",
+   "side": "internal"
+  },
+  {
+   "address": "/stock/import-export",
+   "side": "internal"
+  },
+  {
+   "address": "/stock/labels",
+   "side": "internal"
+  },
+  {
+   "address": "/stock/marketplace",
+   "side": "internal"
+  },
+  {
+   "address": "/stock/marketplace/buy-together",
+   "side": "internal"
+  },
+  {
+   "address": "/stock/moves/new",
+   "side": "internal"
+  },
+  {
+   "address": "/stock/products/new",
+   "side": "internal"
+  },
+  {
+   "address": "/stock/products/{product_id}",
+   "side": "internal"
+  },
+  {
+   "address": "/stock/purchase-orders",
+   "side": "internal"
+  },
+  {
+   "address": "/stock/removals/new",
+   "side": "internal"
+  },
+  {
+   "address": "/stock/suppliers",
+   "side": "internal"
+  },
+  {
+   "address": "/business/devices/driver",
+   "side": "internal"
+  },
+  {
+   "address": "/external/business",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/academy",
+   "side": "external"
+  },
+  {
+   "address": "/external/sell",
+   "side": "external"
+  },
+  {
+   "address": "/external/sell/sales",
+   "side": "external"
+  },
+  {
+   "address": "/external/services",
+   "side": "external"
+  },
+  {
+   "address": "/external/stock/marketplace",
+   "side": "external"
+  },
+  {
+   "address": "/external/stock/purchase-orders",
+   "side": "external"
+  },
+  {
+   "address": "/external/stock/products/new",
+   "side": "external"
+  },
+  {
+   "address": "/external/stock/products/{product_id}",
+   "side": "external"
+  },
+  {
+   "address": "/external/accounting",
+   "side": "external"
+  },
+  {
+   "address": "/external/accounting/payroll",
+   "side": "external"
+  },
+  {
+   "address": "/external/accounting/tax/returns",
+   "side": "external"
+  },
+  {
+   "address": "/external/invoicing",
+   "side": "external"
+  },
+  {
+   "address": "/external/invoicing/recurring",
+   "side": "external"
+  },
+  {
+   "address": "/external/invoicing/get-paid-early",
+   "side": "external"
+  },
+  {
+   "address": "/external/crm",
+   "side": "external"
+  },
+  {
+   "address": "/external/crm/reviews",
+   "side": "external"
+  },
+  {
+   "address": "/external/crm/returns",
+   "side": "external"
+  },
+  {
+   "address": "/external/crm/warranties",
+   "side": "external"
+  },
+  {
+   "address": "/external/clients",
+   "side": "external"
+  },
+  {
+   "address": "/external/analytics",
+   "side": "external"
+  },
+  {
+   "address": "/external/analytics/sell-through",
+   "side": "external"
+  },
+  {
+   "address": "/external/chats",
+   "side": "external"
+  },
+  {
+   "address": "/external/chats/{LOCNV}",
+   "side": "external"
+  },
+  {
+   "address": "/external/deliveries",
+   "side": "external"
+  },
+  {
+   "address": "/external/deliveries/{LODLV}",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/money",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/pay-links",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/recovery",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/cards",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/growth",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/growth/promotions",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/loyalty",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/assistant",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/automations",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/automations/history",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/plans",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/team",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/settings",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/settings/data-sharing",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/academy/listings",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/academy/listings/new",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/academy/listings/{LOLST}",
+   "side": "external"
+  },
+  {
+   "address": "/external/sell/listings",
+   "side": "external"
+  },
+  {
+   "address": "/external/sell/listings/new",
+   "side": "external"
+  },
+  {
+   "address": "/external/sell/listings/{LOLST}",
+   "side": "external"
+  },
+  {
+   "address": "/external/services/listings",
+   "side": "external"
+  },
+  {
+   "address": "/external/services/listings/new",
+   "side": "external"
+  },
+  {
+   "address": "/external/services/listings/{LOLST}",
+   "side": "external"
+  },
+  {
+   "address": "/external/stock/listings",
+   "side": "external"
+  },
+  {
+   "address": "/external/stock/listings/new",
+   "side": "external"
+  },
+  {
+   "address": "/external/stock/listings/{LOLST}",
+   "side": "external"
+  },
+  {
+   "address": "/external/business/money/payouts",
+   "side": "external"
+  },
+  {
+   "address": "/external/support",
+   "side": "external"
+  },
+  {
+   "address": "/",
+   "side": "internal"
+  },
+  {
+   "address": "/external",
+   "side": "external"
+  },
+  {
+   "address": "/externality",
+   "side": "internal"
+  },
+  {
+   "address": "/external/sell?view=all",
+   "side": "external"
+  },
+  {
+   "address": "/sell#top",
+   "side": "internal"
+  },
+  {
+   "address": "shop.lynkomni.com/grace",
+   "side": "external"
+  },
+  {
+   "address": "shop.lynkomni.com/grace/courses/LOLST-6837-8950-1932",
+   "side": "external"
+  },
+  {
+   "address": "shop.lynkomni.com/grace/products/LOLST-6837-8950-1932?view=wholesale",
+   "side": "external"
+  },
+  {
+   "address": "shop.lynkomni.com/grace/tables/4",
+   "side": "internal"
+  },
+  {
+   "address": "shop.lynkomni.com/grace/reviews",
+   "side": "internal"
+  },
+  {
+   "address": "shop.lynkomni.com/explore/courses",
+   "side": "external"
+  },
+  {
+   "address": "shop.lynkomni.com/explore/anything",
+   "side": "internal"
+  },
+  {
+   "address": "shop.lynkomni.com/track/LOORD-5499-1341-4781",
+   "side": "internal"
+  },
+  {
+   "address": "shop.lynkomni.com/",
+   "side": "internal"
+  },
+  {
+   "address": "pay.lynkomni.com/listings/LOLST-6837-8950-1932",
+   "side": "external"
+  },
+  {
+   "address": "pay.lynkomni.com/r/LORCP-2176-0474-0548",
+   "side": "internal"
+  },
+  {
+   "address": "account.lynkomni.com/orders/LOORD-5499-1341-4781",
+   "side": "internal"
+  },
+  {
+   "address": "lynkomni.com/download/driver",
+   "side": "internal"
+  },
+  {
+   "address": "app.lynkomni.com/external/business",
+   "side": "external"
+  },
+  {
+   "address": "app.lynkomni.com/business",
+   "side": "internal"
+  }
+ ],
+ "kinds": [
+  {
+   "path": "/accounting",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/accounting/payroll",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/accounting/tax/returns",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/analytics",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/analytics/sell-through",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/analytics/shared",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/business",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/academy",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/agent-earnings",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/business/assistant",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/automations",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/automations/history",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/cards",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/daily-close",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/business/devices",
+   "kind": "shared"
+  },
+  {
+   "path": "/business/growth",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/growth/promotions",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/loyalty",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/money",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/online-shop",
+   "kind": "shared"
+  },
+  {
+   "path": "/business/pay-links",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/plans",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/recovery",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/settings",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/settings/data-sharing",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/settings/tips",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/business/team",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/chats",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/chats/{LOCNV}",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/clients",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/crm",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/crm/repairs",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/crm/returns",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/crm/reviews",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/crm/warranties",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/deliveries",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/deliveries/{LODLV}",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/float",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/invoicing",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/invoicing/get-paid-early",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/invoicing/recurring",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/notifications",
+   "kind": "shared"
+  },
+  {
+   "path": "/sell",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/sell/basket",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/sell/kitchen",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/sell/payment",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/sell/practice",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/sell/receipt",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/sell/sales",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/sell/shifts",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/sell/tables",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/services",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/stock",
+   "kind": "shared"
+  },
+  {
+   "path": "/stock/arrivals/new",
+   "kind": "shared"
+  },
+  {
+   "path": "/stock/counts/new",
+   "kind": "shared"
+  },
+  {
+   "path": "/stock/import-export",
+   "kind": "shared"
+  },
+  {
+   "path": "/stock/labels",
+   "kind": "shared"
+  },
+  {
+   "path": "/stock/marketplace",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/stock/marketplace/buy-together",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/stock/moves/new",
+   "kind": "shared"
+  },
+  {
+   "path": "/stock/products/new",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/stock/products/{product_id}",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/stock/purchase-orders",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/stock/removals/new",
+   "kind": "shared"
+  },
+  {
+   "path": "/stock/suppliers",
+   "kind": "shared"
+  },
+  {
+   "path": "/business/devices/driver",
+   "kind": "shared"
+  },
+  {
+   "path": "/external/business",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/academy",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/sell",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/sell/sales",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/services",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/stock/marketplace",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/stock/purchase-orders",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/stock/products/new",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/stock/products/{product_id}",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/accounting",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/accounting/payroll",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/accounting/tax/returns",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/invoicing",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/invoicing/recurring",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/invoicing/get-paid-early",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/crm",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/crm/reviews",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/crm/returns",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/crm/warranties",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/clients",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/analytics",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/analytics/sell-through",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/chats",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/chats/{LOCNV}",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/deliveries",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/deliveries/{LODLV}",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/money",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/pay-links",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/recovery",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/cards",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/growth",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/growth/promotions",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/loyalty",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/assistant",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/automations",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/automations/history",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/plans",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/team",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/settings",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/settings/data-sharing",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/academy/listings",
+   "kind": "storefront_only"
+  },
+  {
+   "path": "/external/business/academy/listings/new",
+   "kind": "storefront_only"
+  },
+  {
+   "path": "/external/business/academy/listings/{LOLST}",
+   "kind": "storefront_only"
+  },
+  {
+   "path": "/external/sell/listings",
+   "kind": "storefront_only"
+  },
+  {
+   "path": "/external/sell/listings/new",
+   "kind": "storefront_only"
+  },
+  {
+   "path": "/external/sell/listings/{LOLST}",
+   "kind": "storefront_only"
+  },
+  {
+   "path": "/external/services/listings",
+   "kind": "storefront_only"
+  },
+  {
+   "path": "/external/services/listings/new",
+   "kind": "storefront_only"
+  },
+  {
+   "path": "/external/services/listings/{LOLST}",
+   "kind": "storefront_only"
+  },
+  {
+   "path": "/external/stock/listings",
+   "kind": "storefront_only"
+  },
+  {
+   "path": "/external/stock/listings/new",
+   "kind": "storefront_only"
+  },
+  {
+   "path": "/external/stock/listings/{LOLST}",
+   "kind": "storefront_only"
+  },
+  {
+   "path": "/external/business/money/payouts",
+   "kind": "storefront_only"
+  },
+  {
+   "path": "/external/support",
+   "kind": "storefront_only"
+  }
+ ],
+ "twins": [
+  {
+   "workspace": "/business",
+   "storefront": "/external/business"
+  },
+  {
+   "workspace": "/business/academy",
+   "storefront": "/external/business/academy"
+  },
+  {
+   "workspace": "/sell",
+   "storefront": "/external/sell"
+  },
+  {
+   "workspace": "/sell/sales",
+   "storefront": "/external/sell/sales"
+  },
+  {
+   "workspace": "/services",
+   "storefront": "/external/services"
+  },
+  {
+   "workspace": "/stock/marketplace",
+   "storefront": "/external/stock/marketplace"
+  },
+  {
+   "workspace": "/stock/purchase-orders",
+   "storefront": "/external/stock/purchase-orders"
+  },
+  {
+   "workspace": "/stock/products/new",
+   "storefront": "/external/stock/products/new"
+  },
+  {
+   "workspace": "/stock/products/{product_id}",
+   "storefront": "/external/stock/products/{product_id}"
+  },
+  {
+   "workspace": "/accounting",
+   "storefront": "/external/accounting"
+  },
+  {
+   "workspace": "/accounting/payroll",
+   "storefront": "/external/accounting/payroll"
+  },
+  {
+   "workspace": "/accounting/tax/returns",
+   "storefront": "/external/accounting/tax/returns"
+  },
+  {
+   "workspace": "/invoicing",
+   "storefront": "/external/invoicing"
+  },
+  {
+   "workspace": "/invoicing/recurring",
+   "storefront": "/external/invoicing/recurring"
+  },
+  {
+   "workspace": "/invoicing/get-paid-early",
+   "storefront": "/external/invoicing/get-paid-early"
+  },
+  {
+   "workspace": "/crm",
+   "storefront": "/external/crm"
+  },
+  {
+   "workspace": "/crm/reviews",
+   "storefront": "/external/crm/reviews"
+  },
+  {
+   "workspace": "/crm/returns",
+   "storefront": "/external/crm/returns"
+  },
+  {
+   "workspace": "/crm/warranties",
+   "storefront": "/external/crm/warranties"
+  },
+  {
+   "workspace": "/clients",
+   "storefront": "/external/clients"
+  },
+  {
+   "workspace": "/analytics",
+   "storefront": "/external/analytics"
+  },
+  {
+   "workspace": "/analytics/sell-through",
+   "storefront": "/external/analytics/sell-through"
+  },
+  {
+   "workspace": "/chats",
+   "storefront": "/external/chats"
+  },
+  {
+   "workspace": "/chats/{LOCNV}",
+   "storefront": "/external/chats/{LOCNV}"
+  },
+  {
+   "workspace": "/deliveries",
+   "storefront": "/external/deliveries"
+  },
+  {
+   "workspace": "/deliveries/{LODLV}",
+   "storefront": "/external/deliveries/{LODLV}"
+  },
+  {
+   "workspace": "/business/money",
+   "storefront": "/external/business/money"
+  },
+  {
+   "workspace": "/business/pay-links",
+   "storefront": "/external/business/pay-links"
+  },
+  {
+   "workspace": "/business/recovery",
+   "storefront": "/external/business/recovery"
+  },
+  {
+   "workspace": "/business/cards",
+   "storefront": "/external/business/cards"
+  },
+  {
+   "workspace": "/business/growth",
+   "storefront": "/external/business/growth"
+  },
+  {
+   "workspace": "/business/growth/promotions",
+   "storefront": "/external/business/growth/promotions"
+  },
+  {
+   "workspace": "/business/loyalty",
+   "storefront": "/external/business/loyalty"
+  },
+  {
+   "workspace": "/business/assistant",
+   "storefront": "/external/business/assistant"
+  },
+  {
+   "workspace": "/business/automations",
+   "storefront": "/external/business/automations"
+  },
+  {
+   "workspace": "/business/automations/history",
+   "storefront": "/external/business/automations/history"
+  },
+  {
+   "workspace": "/business/plans",
+   "storefront": "/external/business/plans"
+  },
+  {
+   "workspace": "/business/team",
+   "storefront": "/external/business/team"
+  },
+  {
+   "workspace": "/business/settings",
+   "storefront": "/external/business/settings"
+  },
+  {
+   "workspace": "/business/settings/data-sharing",
+   "storefront": "/external/business/settings/data-sharing"
+  }
+ ]
+}

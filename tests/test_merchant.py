@@ -227,9 +227,15 @@ class Automations(unittest.TestCase):
     def ran(self, aid): return [h for h in self.f.history(self.m) if h["automation"] == aid]
     def test_all_twenty_two_are_registered_with_the_levels_of_the_register(self):
         ids = [a["id"] for a in REGISTER.values() if a["build_section"] == 3]
-        self.assertEqual(len(ids), 22)                     # twenty, plus order-updates and tracking-late-watch (9 November 2026)
+        self.assertEqual(len(ids), 23)                     # twenty, plus order-updates, tracking-late-watch and driver-update-reminder (9 November 2026)
         for aid in ids: self.assertIn(aid, self.f.handlers); self.assertTrue(REGISTER[aid].get("implemented_by", "").startswith("merchant/automations.py"))
         self.assertEqual(REGISTER["negative-stock-flag"]["trigger"], "event:NegativeStockFlagged")      # a contract event, not an invented one
+    def test_driver_update_reminder_tells_once_with_the_deadline(self):
+        self.p.cloud.signal(self.m, "DriverUpdateAvailable", {"version": "1.2.0", "level": "required", "devices": [U()]}, now=T0)
+        self.p.cloud.signal(self.m, "DriverUpdateAvailable", {"version": "1.2.0", "level": "required", "devices": [U()]}, now=T0 + 60)
+        runs = [r for r in self.ran("driver-update-reminder") if r.get("result")]
+        alerts = [e for e in self.p.c.store.of(self.m, "AlertSent") if e["payload"]["kind"] == "driver_update"]
+        self.assertEqual(len(alerts), 1); self.assertEqual(alerts[0]["payload"]["detail"]["due_at"], T0 + 3 * 86400)
     def test_drafts_and_alerts_from_events(self):
         self.assertEqual(len(self.ran("setup-autofill")), 1)                                  # BusinessCreated in setUp
         self.p.cloud.signal(self.m, "StockBelowThreshold", {"product_id": U(), "level_milli": 1000, "reorder_at_milli": 2000}, now=T0)

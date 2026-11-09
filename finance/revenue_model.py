@@ -290,3 +290,27 @@ def ecosystem_path():
         out[y] = {"merchants": base[y]["merchants"], "end_month": _r(end), "end_day": _r(end * 12 / 365), "year": _r((prev + end) / 2 * 12)}
         prev = end
     return out
+
+
+# ---- Storefront (BIZZ & DEVICE, owner approved 2026-11-09) ---------------------------------------------------------
+# The external side: anyone offering to others through a Storefront pays a Storefront plan and LynkOmni's share of each
+# Storefront sale (services/billing.py). Shown as its OWN stream, kept OUTSIDE the totals above until pilot data exists, so
+# no agreed figure moves. EVERY number below is an ASSUMPTION, labelled as such wherever it is shown.
+STOREFRONT_ASSUMPTIONS = {
+    "sellers": {"stage1": Decimal("0.05"), "stage2": Decimal("0.08"), "stage3": Decimal("0.10")},   # of merchants with a Storefront
+    "mix": (Decimal("0.70"), Decimal("0.18"), Decimal("0.09"), Decimal("0.03")),                      # free, plus, pro, max
+    "sales_usd": (60, 400, 1_500, 6_000),                                                            # Storefront sales a seller a month, per plan
+    "max_cap_share": Decimal("0.02"),                                                                # Max sales above the $50 cap, a share of Max sales
+}
+
+
+def storefront(stage):
+    """Monthly USD for one stage (whole dollars): plans (with the stage's price index and conversion) and shares on sales.
+    An ASSUMPTION, outside the ecosystem totals."""
+    from services.billing import STOREFRONT_PRICES, STOREFRONT_SHARE_BPS
+    a = STOREFRONT_ASSUMPTIONS
+    sellers = MERCHANTS[stage] * a["sellers"][stage]
+    plans = sum(sellers * mix * price * INDEX[stage] * CONVERSION[stage] for mix, price in zip(a["mix"], STOREFRONT_PRICES))
+    shares = sum(sellers * mix * sales * Decimal(bps) / 10_000 for mix, sales, bps in zip(a["mix"], a["sales_usd"], STOREFRONT_SHARE_BPS))
+    shares -= sellers * a["mix"][3] * a["sales_usd"][3] * Decimal(STOREFRONT_SHARE_BPS[3]) / 10_000 * a["max_cap_share"]
+    return {"sellers": _r(sellers), "plans": _r(plans), "shares": _r(shares), "month": _r(plans + shares), "assumption": True}

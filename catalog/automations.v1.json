@@ -1829,6 +1829,79 @@
    "default": "on",
    "standing_instruction": false,
    "consent": "transactional"
+  },
+  {
+   "id": "driver-update-reminder",
+   "area": "Business app",
+   "build_section": 3,
+   "family": "lynkpos",
+   "min_tier": "free",
+   "trigger": "event:DriverUpdateAvailable",
+   "action": "Remind the owner and staff of a LynkDriver update at its level (security now, required within 3 days, normal within 7), offer \"Schedule after closing\", and pause only the affected device when the countdown ends; a sale is never blocked (digital receipt)",
+   "level": "auto",
+   "assist": null,
+   "touches": [
+    "devices"
+   ],
+   "customer_message": false,
+   "offline": true,
+   "default": "on",
+   "standing_instruction": false,
+   "consent": null,
+   "implemented_by": "merchant/automations.py driver_update_reminder (the enforcement and device pause come with LynkDriver in section 3)"
+  },
+  {
+   "id": "storefront-payout-notice",
+   "area": "Customer app and shop",
+   "build_section": 7,
+   "family": "platform",
+   "min_tier": "free",
+   "trigger": "event:StorefrontPayoutSent",
+   "action": "Tell the seller what the provider paid out: each sale's price, the provider's charges, LynkOmni's share and what they received (money is moved only by the licensed provider)",
+   "level": "inform",
+   "assist": null,
+   "touches": [],
+   "customer_message": true,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "consent": "transactional"
+  },
+  {
+   "id": "storefront-first-paid-listing",
+   "area": "Account and sign-in",
+   "build_section": 2,
+   "family": "platform",
+   "min_tier": "free",
+   "trigger": "user:PublishPaidListing",
+   "action": "Guide the seller through the partner's identity check and payout details before their first paid offer goes live (free offers never need it)",
+   "level": "draft",
+   "assist": "guide",
+   "touches": [
+    "personal_data"
+   ],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "consent": null
+  },
+  {
+   "id": "listing-review-notice",
+   "area": "Safety",
+   "build_section": 12,
+   "family": "staff",
+   "min_tier": "free",
+   "trigger": "event:ListingReported",
+   "action": "Tell the seller and the reporter what happened to a reported offer (kept, changed or removed, with the reason and how to appeal)",
+   "level": "inform",
+   "assist": null,
+   "touches": [],
+   "customer_message": true,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "consent": "transactional"
   }
  ],
  "careful": [

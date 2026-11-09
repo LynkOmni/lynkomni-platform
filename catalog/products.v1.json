@@ -1,6 +1,6 @@
 {
  "version": 1,
- "note": "One product catalog (review P1, 2026-11-07). Billing, footer, website menus, app launcher and visuals must agree with it; tests/test_catalog.py checks.",
+ "note": "One product catalog (review P1, 2026-11-07). Billing, footer, website menus, app launcher and visuals must agree with it; tests/test_catalog.py checks. Every product has two sides (BIZZ & DEVICE, 2026-11-09): internal (the workspace, its app place) and external (the Storefront, /external + the place, or a stated reason); tests/test_catalog.py checks both.",
  "products": [
   {
    "family": "lynkpos",
@@ -8,7 +8,12 @@
    "app": "app.lynkomni.com/sell",
    "menu": "Sell and get paid",
    "illustration": "product-pos",
-   "footer_id": "pos"
+   "footer_id": "pos",
+   "sides": {
+    "internal": "app.lynkomni.com/sell",
+    "external": "app.lynkomni.com/external/sell",
+    "external_section": 3
+   }
   },
   {
    "family": "lynkmpay",
@@ -16,7 +21,12 @@
    "app": "app.lynkomni.com/business/money",
    "menu": "Sell and get paid",
    "illustration": "product-mpay",
-   "footer_id": "mpay"
+   "footer_id": "mpay",
+   "sides": {
+    "internal": "app.lynkomni.com/business/money",
+    "external": "app.lynkomni.com/external/business/money",
+    "external_section": 3
+   }
   },
   {
    "family": "lynkcheckout",
@@ -24,7 +34,12 @@
    "app": "app.lynkomni.com/business/pay-links",
    "menu": "Sell and get paid",
    "illustration": "product-checkout",
-   "footer_id": "checkout"
+   "footer_id": "checkout",
+   "sides": {
+    "internal": "app.lynkomni.com/business/pay-links",
+    "external": "app.lynkomni.com/external/business/pay-links",
+    "external_section": 3
+   }
   },
   {
    "family": "lynkrecover",
@@ -32,7 +47,12 @@
    "app": "app.lynkomni.com/business/recovery",
    "menu": "Sell and get paid",
    "illustration": "product-recover",
-   "footer_id": "recover"
+   "footer_id": "recover",
+   "sides": {
+    "internal": "app.lynkomni.com/business/recovery",
+    "external": "app.lynkomni.com/external/business/recovery",
+    "external_section": 3
+   }
   },
   {
    "family": "lynkvcard",
@@ -40,7 +60,12 @@
    "app": "app.lynkomni.com/business/cards",
    "menu": "Sell and get paid",
    "illustration": "product-vcard",
-   "footer_id": "vcard"
+   "footer_id": "vcard",
+   "sides": {
+    "internal": "app.lynkomni.com/business/cards",
+    "external": "app.lynkomni.com/external/business/cards",
+    "external_section": 3
+   }
   },
   {
    "family": "lynkacc",
@@ -48,7 +73,12 @@
    "app": "app.lynkomni.com/accounting",
    "menu": "Run your business",
    "illustration": "product-acc",
-   "footer_id": "acc"
+   "footer_id": "acc",
+   "sides": {
+    "internal": "app.lynkomni.com/accounting",
+    "external": "app.lynkomni.com/external/accounting",
+    "external_section": 4
+   }
   },
   {
    "family": "lynkinv",
@@ -56,7 +86,12 @@
    "app": "app.lynkomni.com/invoicing",
    "menu": "Run your business",
    "illustration": "product-inv",
-   "footer_id": "inv"
+   "footer_id": "inv",
+   "sides": {
+    "internal": "app.lynkomni.com/invoicing",
+    "external": "app.lynkomni.com/external/invoicing",
+    "external_section": 4
+   }
   },
   {
    "family": "lynkcrm",
@@ -64,7 +99,12 @@
    "app": "app.lynkomni.com/crm",
    "menu": "Run your business",
    "illustration": "product-crm",
-   "footer_id": "crm"
+   "footer_id": "crm",
+   "sides": {
+    "internal": "app.lynkomni.com/crm",
+    "external": "app.lynkomni.com/external/crm",
+    "external_section": 4
+   }
   },
   {
    "family": "lynkops",
@@ -72,7 +112,12 @@
    "app": "app.lynkomni.com/business/plans",
    "menu": "Run your business",
    "illustration": "product-ops",
-   "footer_id": "ops"
+   "footer_id": "ops",
+   "sides": {
+    "internal": "app.lynkomni.com/business/plans",
+    "external": "app.lynkomni.com/external/business/plans",
+    "external_section": 4
+   }
   },
   {
    "family": "lynkstock",
@@ -80,7 +125,12 @@
    "app": "app.lynkomni.com/stock",
    "menu": "Run your business",
    "illustration": "product-stock",
-   "footer_id": "stock"
+   "footer_id": "stock",
+   "sides": {
+    "internal": "app.lynkomni.com/stock",
+    "external": "app.lynkomni.com/external/stock/marketplace",
+    "external_section": 3
+   }
   },
   {
    "family": "lynkstat",
@@ -88,7 +138,12 @@
    "app": "app.lynkomni.com/analytics",
    "menu": "Run your business",
    "illustration": "product-stat",
-   "footer_id": "stat"
+   "footer_id": "stat",
+   "sides": {
+    "internal": "app.lynkomni.com/analytics",
+    "external": "app.lynkomni.com/external/analytics",
+    "external_section": 4
+   }
   },
   {
    "family": "lynkrewards",
@@ -96,7 +151,12 @@
    "app": "app.lynkomni.com/business/loyalty",
    "menu": "Keep and grow customers",
    "illustration": "product-rewards",
-   "footer_id": "rewards"
+   "footer_id": "rewards",
+   "sides": {
+    "internal": "app.lynkomni.com/business/loyalty",
+    "external": "app.lynkomni.com/external/business/loyalty",
+    "external_section": 3
+   }
   },
   {
    "family": "lynkchat",
@@ -104,7 +164,12 @@
    "app": "app.lynkomni.com/chats",
    "menu": "Keep and grow customers",
    "illustration": "product-chat",
-   "footer_id": "chat"
+   "footer_id": "chat",
+   "sides": {
+    "internal": "app.lynkomni.com/chats",
+    "external": "app.lynkomni.com/external/chats",
+    "external_section": 3
+   }
   },
   {
    "family": "lynkgrow",
@@ -112,7 +177,12 @@
    "app": "app.lynkomni.com/business/growth",
    "menu": "Keep and grow customers",
    "illustration": "product-grow",
-   "footer_id": "grow"
+   "footer_id": "grow",
+   "sides": {
+    "internal": "app.lynkomni.com/business/growth",
+    "external": "app.lynkomni.com/external/business/growth",
+    "external_section": 3
+   }
   },
   {
    "family": "lynkassist",
@@ -120,7 +190,12 @@
    "app": "app.lynkomni.com/business/assistant",
    "menu": "Keep and grow customers",
    "illustration": "product-assist",
-   "footer_id": "assist"
+   "footer_id": "assist",
+   "sides": {
+    "internal": "app.lynkomni.com/business/assistant",
+    "external": "app.lynkomni.com/external/business/assistant",
+    "external_section": 3
+   }
   },
   {
    "family": "lynksuite",
@@ -128,7 +203,12 @@
    "app": "app.lynkomni.com/business/plans",
    "menu": "Featured bundle",
    "illustration": "product-suite",
-   "footer_id": "suite"
+   "footer_id": "suite",
+   "sides": {
+    "internal": "app.lynkomni.com/business/plans",
+    "external": "app.lynkomni.com/external/business/plans",
+    "external_section": 3
+   }
   },
   {
    "family": "lynkdev",
@@ -136,7 +216,13 @@
    "app": "https://hub.lynkomni.com",
    "menu": "Developers",
    "illustration": "product-dev",
-   "footer_id": null
+   "footer_id": null,
+   "sides": {
+    "internal": "https://hub.lynkomni.com",
+    "external": "https://hub.lynkomni.com",
+    "external_section": 11,
+    "external_reason": "Developers sell apps from hub.lynkomni.com with the same /external rule, built in section 11."
+   }
   },
   {
    "family": "lynkbooking",
@@ -144,7 +230,12 @@
    "app": "https://booking.lynkomni.com",
    "menu": "For customers",
    "illustration": "product-booking",
-   "footer_id": null
+   "footer_id": null,
+   "sides": {
+    "internal": "https://booking.lynkomni.com",
+    "external": "app.lynkomni.com/external/services",
+    "external_section": 8
+   }
   },
   {
    "family": "lynkessential",
@@ -152,7 +243,13 @@
    "app": "https://essential.lynkomni.com",
    "menu": "For customers",
    "illustration": "product-essential",
-   "footer_id": null
+   "footer_id": null,
+   "sides": {
+    "internal": "https://essential.lynkomni.com",
+    "external": null,
+    "external_section": 9,
+    "external_reason": "Selling airtime, data and bills to others is the agent point in LynkPOS, paid by the licensed partner (not Storefront plans); buying them for oneself, a household, staff or members is the workspace side."
+   }
   }
  ]
 }

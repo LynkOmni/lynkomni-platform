@@ -30,7 +30,7 @@ class Cloud:
         return v
     def event(s, merchant, type_, payload, now=None, causes=None):
         """A contract server event (origin 'server'), validated like every other event; returns its id."""
-        evt = {"event_id": uuid7(), "origin": "server", "merchant_id": merchant, "type": type_, "schema_version": 2,
+        evt = {"event_id": uuid7(), "origin": "server", "merchant_id": merchant, "type": type_, "schema_version": 3,
                "created_at_server": _ts(_now(now)), "server_cursor": s._cursor(), "payload": payload, "server_signature": fake_sig()}   # PLACEHOLDER signature
         if causes: evt["cause_event_ids"] = list(causes)
         problems = validate_event(evt)

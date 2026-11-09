@@ -7,7 +7,7 @@
  "reserved_endings": [".com", ".net", ".org", ".app", ".io", ".co", ".ai", ".dev", ".africa", ".rw", ".ke", ".ng", ".tz", ".ug", ".gh", ".ae", ".uk", ".us", ".fr", ".de", ".in", ".za"],
  "reserved_words": [
   "lynkomni", "cruxomni", "lynk", "lynkid", "lynkoid",
-  "admin", "administrator", "support", "security", "pay", "help", "official", "tables", "track", "reviews", "orders", "academy",
+  "admin", "administrator", "support", "security", "pay", "help", "official", "tables", "track", "reviews", "orders", "academy", "external", "explore", "storefront",
   "staff", "billing", "legal", "privacy", "safety", "abuse", "api", "app", "apps", "shop", "shops", "account", "accounts", "status",
   "login", "signin", "signup", "register", "recover", "root", "system", "www", "mail", "news", "partners", "partner", "hub", "doc", "docs",
   "sdk", "exchange", "booking", "bookings", "essential", "essentials", "developer", "developers", "enterprise", "agents", "agent",

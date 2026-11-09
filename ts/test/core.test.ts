@@ -10,7 +10,7 @@ const reg = new Registry(readFileSync(`${root}/contract/identifier-registry.v1.j
 const idv = JSON.parse(readFileSync(`${root}/contract/vectors/identifiers.v1.json`, "utf8"));
 const chain = JSON.parse(readFileSync(`${root}/contract/vectors/chain.v1.json`, "utf8"));
 
-test("registry has the 40 approved types", () => { assert.equal(reg.types.size, 40); assert.ok(reg.types.has("DEV") && reg.types.has("CST")); });
+test("registry has the 41 approved types", () => { assert.equal(reg.types.size, 41); assert.ok(reg.types.has("DEV") && reg.types.has("CST") && reg.types.has("LST")); });
 test("identifier vectors from the Python reference", () => {
   for (const v of idv.valid) { assert.equal(parse(reg, v.id).payload, v.payload); assert.equal(luhnDigit(v.payload.slice(0, 11)), v.payload[11]); }
   for (const v of idv.invalid) assert.throws(() => parse(reg, v.id));

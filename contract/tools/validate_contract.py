@@ -23,8 +23,9 @@ def load(name):
 
 ENVELOPE = load("event-envelope.v1.json")
 REGISTRY_V1 = load("event-payloads.v1.json")          # published, never edited; still readable through the upcaster
-REGISTRY = load("event-payloads.v2.json")             # the current version (Step 0: any currency, the new event names)
-REGISTRIES = {1: REGISTRY_V1, 2: REGISTRY}
+REGISTRY_V2 = load("event-payloads.v2.json")          # published, never edited; still readable through the upcaster
+REGISTRY = load("event-payloads.v3.json")             # the current version (v3, 2026-11-09: v2 plus the optional side on every payload)
+REGISTRIES = {1: REGISTRY_V1, 2: REGISTRY_V2, 3: REGISTRY}
 CURRENCIES = load("currencies.v1.json")["decimals"]
 PERMS = load("permissions.v1.json")
 REGISTER = load("command-policy-register.v2.json")
@@ -252,7 +253,7 @@ class Device:
         evt = {
             "event_id": uuid7(), "origin": "device", "merchant_id": MERCHANT, "branch_id": BRANCH,
             "device_id": self.id, "actor_user_id": USER, "device_seq": self.seq, "type": etype,
-            "schema_version": 2, "occurred_at_device": ts(at or self.clock), "prev_hash": self.prev,
+            "schema_version": 3, "occurred_at_device": ts(at or self.clock), "prev_hash": self.prev,
             "payload": payload, "signature": fake_sig(),
         }
         self.prev = event_hash(evt)
@@ -518,8 +519,15 @@ def event_checks():
     expect_invalid("event:unknown type rejected", bad, "unknown event type")
     bad = json.loads(json.dumps(ok_sale)); bad["server_cursor"] = 5
     expect_invalid("event:device may not send server stamp", bad, "unexpected field")
-    bad = json.loads(json.dumps(ok_sale)); bad["schema_version"] = 3
+    bad = json.loads(json.dumps(ok_sale)); bad["schema_version"] = 4
     expect_invalid("event:future schema_version rejected", bad, "unsupported schema_version")
+    # version 3: the side of a payload is internal or external, nothing else; a missing side means internal
+    ext = json.loads(json.dumps(ok_sale)); ext["payload"]["side"] = "external"
+    check("v3:external side valid", validate_event(ext) == [], str(validate_event(ext)))
+    bad = json.loads(json.dumps(ok_sale)); bad["payload"]["side"] = "both"
+    expect_invalid("v3:unknown side rejected", bad, "")
+    v2_sale = json.loads(json.dumps(ok_sale)); v2_sale["schema_version"] = 2
+    check("v2:sale still valid as version 2", validate_event(v2_sale) == [], str(validate_event(v2_sale)))
     # version 1 (integer RWF, no currency on payments) is still readable: as it is, and upcast to version 2
     sys.path.insert(0, os.path.dirname(ROOT)); from contract.upcast import upcast
     v1_sale = json.loads(json.dumps(ok_sale)); v1_sale["schema_version"] = 1; v1_sale["payload"]["currency"] = "RWF"
@@ -528,7 +536,7 @@ def event_checks():
     v1_pay["schema_version"] = 1
     check("v1:payment without currency valid as version 1", validate_event(v1_pay) == [], str(validate_event(v1_pay)))
     up = upcast(v1_pay)
-    check("upcast:v1 payment reads as version 2 with RWF", up["schema_version"] == 2 and up["payload"]["currency"] == "RWF" and validate_event(up) == [], str(validate_event(up)))
+    check("upcast:v1 payment reads as the current version with RWF and the workspace side", up["schema_version"] == 3 and up["payload"]["currency"] == "RWF" and up["payload"]["side"] == "internal" and validate_event(up) == [], str(validate_event(up)))
     check("upcast:amount never rescaled", up["payload"]["amount"] == v1_pay["payload"]["amount"] and v1_pay["schema_version"] == 1)
     no_cur = Device().emit("PaymentRecorded", {"payment_id": uuid7(), "sale_id": ok_sale["payload"]["sale_id"], "method": "cash", "amount": 1500, "status": "cash_received"})
     expect_invalid("v2:payment without currency rejected", no_cur, "missing required 'currency'")
@@ -557,7 +565,7 @@ def event_checks():
     expect_invalid("payment:device cannot emit 'confirmed'", conf_dev)
     man_ok = Device().emit("PaymentStatusChanged", {"payment_id": uuid7(), "from_status": "pending_confirmation", "to_status": "manually_confirmed", "source": "owner_manual"})
     check("payment:device manual confirmation ok", validate_event(man_ok) == [], str(validate_event(man_ok)))
-    srv_ok = {"event_id": uuid7(), "origin": "server", "merchant_id": MERCHANT, "type": "PaymentStatusChanged", "schema_version": 2,
+    srv_ok = {"event_id": uuid7(), "origin": "server", "merchant_id": MERCHANT, "type": "PaymentStatusChanged", "schema_version": 3,
               "created_at_server": ts(), "server_cursor": 9, "payload": {"payment_id": uuid7(), "from_status": "pending_confirmation", "to_status": "confirmed", "source": "provider_callback"},
               "server_signature": fake_sig()}
     check("payment:provider callback confirms", validate_event(srv_ok) == [], str(validate_event(srv_ok)))
@@ -616,7 +624,7 @@ def chain_and_ingest_checks():
     d5 = Device(); s5 = ReferenceIngest(); s5.enroll(d5.id)
     fut = d5.emit("StockReceived", {"stock_receipt_id": uuid7(), "lines": [{"product_id": pid, "quantity_milli": 1000}]}); 
     # re-sign chain after changing version: rebuild event manually
-    fut["schema_version"] = 3
+    fut["schema_version"] = 4
     o = s5.push([fut])
     check("ingest:future schema quarantined", o["results"][0].get("reason") == "unknown_schema_version", str(o))
 
