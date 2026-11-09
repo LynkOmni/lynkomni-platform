@@ -9,7 +9,7 @@ import type { UserState } from "./pos.js";
 export interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; ui: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[];
   ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; state: "available" | "coming_soon" }[] }
 export interface LanguagePack { native: string; dir: "ltr" | "rtl"; texts: Record<string, string> }
-export interface Build { icons: Record<string, string>; brand: { body: string; receipt: string; places: BrandPlaces }; pictures: { offLight: string; offDark: string; offAlt: string };
+export interface Build { icons: Record<string, string>; statePictures: Record<string, Record<string, { svg: string; alt: string }>>; brand: { body: string; receipt: string; places: BrandPlaces }; pictures: { offLight: string; offDark: string; offAlt: string };
   states: Record<string, { label: string; meaning: string }>; packs: Record<string, CountryPack>; packOrder: string[]; i18n: Record<string, LanguagePack>;
   entitlements?: Record<string, Record<string, unknown>> }
 
@@ -145,7 +145,11 @@ export function panelChange(el: HTMLInputElement | HTMLSelectElement, st: PanelS
 /** The state buttons under the panel (the layout test walks them): each names a screen the emulator can show at once. */
 export function stateButtons(el: HTMLElement, states: readonly string[], go: (s: string) => void): void {
   el.innerHTML = states.map((k) => `<button type="button" data-state="${esc(k)}">${esc(k)}</button>`).join("");
-  el.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-state]"); if (b) go(pick(states, b.dataset["state"] ?? "", states[0] ?? "")); });
+  el.addEventListener("click", (e) => {
+    const b = (e.target as HTMLElement).closest<HTMLElement>("[data-state]"); if (!b) return;
+    (window as unknown as { __settle?: () => void }).__settle?.();   // jumping to a screen ends the first-run card (ts/src/deviceshell.ts)
+    go(pick(states, b.dataset["state"] ?? "", states[0] ?? ""));
+  });
 }
 
 /** The footer (blueprint section 26). Web apps (the owner's web view) show the main footer; apps on a device show the one-line

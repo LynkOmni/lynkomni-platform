@@ -624,6 +624,24 @@
    "budget_kb": 12
   },
   {
+   "id": "agent-point",
+   "kind": "illustration",
+   "scene": "agent-point",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A shop counter with cash notes and a phone showing a tick, joined by a dashed line to a partner building",
+   "purpose": "Agent point home: the agent serves customers with their own cash, and the licensed partner confirms every transaction before cash changes hands",
+   "used_in": [
+    "agent-home"
+   ],
+   "budget_kb": 12
+  },
+  {
    "id": "chart-pricing-ladder",
    "kind": "chart",
    "figure": "pricing_ladder",

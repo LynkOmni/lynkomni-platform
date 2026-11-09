@@ -6,6 +6,8 @@ import type { UserState } from "../../../ts/src/pos.js";
 import { stockState } from "../../../ts/src/merchant.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, stateButtons } from "../../../ts/src/emulator.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
+import { designedState, panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
+import type { Entry } from "../../../ts/src/shell.js";
 
 declare const DATA: Build;
 type Mode = "count" | "receive" | "adjust";
@@ -22,6 +24,17 @@ const ITEMS: Item[] = ([["p_rice", "6001", 24, 10], ["p_sugar", "6002", 6, 8], [
 const item = (): Item | undefined => ITEMS.find((i) => i.id === S.cur);
 const word = (i: Item): string => { const st = stockState(i.level, i.reorder); return st === "negative" ? t("negative_stock") : st === "low" ? t("low_stock") : ""; };
 
+// ---- the shell parts on this device (41 B): search, help, account, connection chip, first-run card, the screen's address ----
+const shellTitle = (): string => document.querySelector("#screen h1, #screen h2")?.textContent?.trim() || t("sample_shop");
+const DSH = panelShell({
+  st: S, t, icon: (id) => icon(id), clock: (ms) => C.clock(ms),
+  native: () => (DATA.i18n[S.lang]?.native ?? S.lang), region: () => (C.pack().sample ? t("sample_country") : C.pack().name), currency: () => C.pack().currency,
+  pending: () => LOG.pending().count, lastSync: () => LOG.events.find((e) => e.sync === "accepted")?.at ?? null,
+  screen: () => ({ id: S.mode, title: shellTitle(), path: S.mode === "count" ? "/stock/counts/new" : S.mode === "receive" ? "/stock/arrivals/new" : "/stock/removals/new" }), entries: (): Entry[] => [...(["count", "receive", "adjust"] as Mode[]).map((m): Entry => ({ id: m, kind: "action", title: t(m), act: `mode:${m}` })), ...ITEMS.map((x): Entry => ({ id: x.id, kind: "product", title: t(x.name), subtitle: x.barcode, keywords: [x.barcode], act: `pick:${x.id}` }))],
+  account: () => sampleAccount(t, "cashier", ["cashier", "manager", "owner"], t("sample_shop"), S.dark ? "dark" : "light", DATA.i18n[S.lang]?.native ?? S.lang, C.pack().sample ? t("sample_country") : C.pack().name),
+  run: (a) => { act(a); }, redraw: () => draw(),
+});
+
 function scan(): void {
   const i = ITEMS[Math.floor(Math.random() * ITEMS.length)]; if (!i) return;
   S.cur = i.id; S.qty = S.mode === "count" ? Math.max(Math.round(i.level / 1000), 0) : 1; S.flash = t("scanned", { name: t(i.name) });
@@ -35,16 +48,18 @@ function save(): void {
   S.flash = t("saved"); S.cur = ""; draw();
 }
 function screen(): string {
-  const p = LOG.pending(), i = item();
-  const head = `<header class="shead"><span>${esc(t(S.mode === "count" ? "count" : S.mode === "receive" ? "receive" : "adjust"))}</span><span class="${S.online ? "" : "off"}">${icon(S.online ? "ui-sync" : "ui-offline")}${p.count ? p.count : ""}</span></header>`;
+  const i = item();
+  const head = `<header class="shead"><span>${esc(t(S.mode === "count" ? "count" : S.mode === "receive" ? "receive" : "adjust"))}</span>${DSH.bar()}</header>`;
   const tabs = `<nav class="smodes">${(["count", "receive", "adjust"] as Mode[]).map((m, n) => `<button data-act="mode:${m}" ${S.mode === m ? 'aria-current="true"' : ""}>F${n + 1} ${esc(t(m))}</button>`).join("")}</nav>`;
-  if (!i) return `${head}${tabs}<div class="sbody"><p class="big">${icon("ui-qr")}</p><p>${esc(t("scan"))}</p>${S.flash ? `<p class="ok">${esc(S.flash)}</p>` : ""}<ul class="slist">${ITEMS.map((x) => `<li><span>${esc(t(x.name))}</span><span>${qtyText(Math.abs(x.level))}${x.level < 0 ? " −" : ""}</span>${word(x) ? `<em>${esc(word(x))}</em>` : ""}</li>`).join("")}</ul></div>`;
+  const waiting = !S.online && LOG.pending().count ? designedState("sync_pending", t, DATA.statePictures, S.dark, null) : "";   // designed state (41 B)
+  if (!i) return `${head}${tabs}<div class="sbody">${waiting}<p class="big">${icon("ui-qr")}</p><p>${esc(t("scan"))}</p>${S.flash ? `<p class="ok">${esc(S.flash)}</p>` : ""}<ul class="slist">${ITEMS.map((x) => `<li><span>${esc(t(x.name))}</span><span>${qtyText(Math.abs(x.level))}${x.level < 0 ? " −" : ""}</span>${word(x) ? `<em>${esc(word(x))}</em>` : ""}</li>`).join("")}</ul></div>`;
   return `${head}${tabs}<div class="sbody"><h2>${esc(t(i.name))}</h2><p class="code">${esc(i.barcode)}</p><p>${esc(t("in_stock", { n: qtyText(i.level) }))}${word(i) ? ` · <em>${esc(word(i))}</em>` : ""}</p>
     <div class="qty"><button data-act="minus" aria-label="−">${icon("ui-minus")}</button><output>${S.qty}</output><button data-act="plus" aria-label="+">${icon("ui-plus")}</button></div><button class="save" data-act="save">${esc(t("save"))}</button></div>`;
 }
-function draw(): void { const el = $("#screen"); if (!el) return; el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = screen(); }
+function draw(): void { const el = $("#screen"); if (!el) return; el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W); el.innerHTML = screen() + DSH.overlay(); const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address(); }
 function act(a: string): void {
   const [k = "", v = ""] = a.split(":");
+  if (k === "pick") { const x = ITEMS.find((i) => i.id === v); if (x) { S.cur = x.id; S.qty = 1; } }
   if (k === "mode") S.mode = (["count", "receive", "adjust"] as Mode[]).find((m) => m === v) ?? "count";
   if (k === "key") { if (v === "enter") { save(); return; } S.mode = v === "f2" ? "receive" : v === "f3" ? "adjust" : "count"; }
   if (k === "minus") S.qty = Math.max(0, S.qty - 1); if (k === "plus") S.qty += 1; if (k === "save") { save(); return; }
@@ -57,7 +72,10 @@ function panel(): void {
 }
 function main(): void {
   S.country = DATA.packOrder[0] ?? ""; panel(); draw();
-  document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (b) act(b.dataset["act"] ?? ""); });
+  document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (!b) return; if (b.classList.contains("dsh-scrim") && (e.target as HTMLElement).closest("[data-stop]")) return; if (!DSH.act(b.dataset["act"] ?? "")) act(b.dataset["act"] ?? ""); });
+  document.addEventListener("input", (e) => { DSH.input(e.target as HTMLInputElement); });
+  document.addEventListener("keydown", (e) => { DSH.key(e); });
+  (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
   $("#trigger").addEventListener("click", scan);
   $("#panel").addEventListener("change", (e) => { if (panelChange(e.target as HTMLSelectElement, S, DATA)) panel(); draw(); });
   window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); }, 400);

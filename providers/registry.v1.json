@@ -1430,6 +1430,21 @@
    "placeholders": [],
    "done_when": "Every national official language of every country is an interface language.",
    "blocks_note": "a country opens in its best supported language meanwhile"
+  },
+  {
+   "id": "country_legal_text",
+   "name": "Country legal text, invoice numbering and holidays confirmed per country (rule 0.5 pack fields)",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Each pack now carries holidays (from the holidays package, unconfirmed), the invoice numbering rules of services/invoicing.py (unconfirmed) and an empty legal_text. The legal wording on invoices and receipts must come from the country's lawyer, and holidays and numbering need a person in the country to confirm them.",
+   "placeholders": [
+    {
+     "file": "tools/country_holidays.py",
+     "token": "country_legal_text"
+    }
+   ],
+   "done_when": "For each country: its lawyer sets legal_text, a person confirms holidays and invoice numbering, and the three are marked confirmed; tools/country_holidays.py is re-run each January.",
+   "blocks_note": "nothing legal is printed until set; holidays only inform schedules and reports"
   }
  ],
  "user_actions": [

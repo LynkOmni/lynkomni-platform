@@ -2,6 +2,18 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.25.0 (2026-11-09)
+Section 3, Phase 3 and 4: the 41 B shell parts in every device app, picture mode on every device, and the agent point pictures.
+- Every navigated device (terminal, counter tablet, kitchen screen, rider phone, stock scanner, owner's web view) now has "Find or do anything" (search that runs actions, with voice and LynkAssist), help (?) for the screen in view with a way to a person, the account menu, the connection chip with its sync sheet, the language and region card on first use with one-tap English, designed empty states, and an address for every screen from the address map. "/" or Ctrl+K opens search on a computer; Escape closes.
+- The Business app keeps its five-part top bar (41 E): help (?) sits beside the screen title, "Find or do anything" is a search field on Home and the Business hub, and Help in the account screen opens the help panel.
+- The button phone has no touch screen, so its numbered menu is its "find or do": Help, Language and region, Sync and Account are menu numbers, and the language card is a numbered list on first use.
+- Picture mode (bigger pictures with the word beside them) on every device: a switch in the account menu and in search; the button phone shows a picture beside each menu line.
+- New icons in lynkomni-icons: float and commission (released and vendored by brand-sync). New illustration: the agent point (a counter with the agent's cash and a phone with the partner's tick), on the agent home; hidden in lite mode.
+- Tests: tests/test_device_shell.py (shell parts on every device, addresses from the address map, the button phone menu, protected zones with nothing promoted on payment, cash count, private chat, agent, float and commission screens); the layout test now walks the first-run card and every shell panel in every language.
+- Leftovers fixed: the counter tablet's customer screen showed "Powered by LynkOmni" during payment (never allowed); the Business app's language card "Change" button used the word for cash change in 25 languages; the owner's web view used two addresses not in the address map (/business/staff, /business/money/commissions, now /business/team and /business/agent-earnings); the terminal's connection icon did nothing (it now opens the sync sheet, also in the menu).
+- Every country pack now carries the rule 0.5 fields it lacked: public holidays for 2026 and 2027 (from the open-source holidays package, MIT, through tools/country_holidays.py; 247 countries covered, all unconfirmed until a person checks), invoice numbering (the services/invoicing.py rules, unconfirmed) and legal text (empty until the country's lawyer sets it; nothing legal is printed before). The later list has country_legal_text.
+- File size budgets raised for the terminal, counter tablet and Business app demo files, which carry the shell words in all 26 languages (a real app downloads one language).
+
 ## v0.24.1 (2026-11-09)
 LynkVCard faces carry the full LynkOmni logo instead of the emblem alone (owner decision). Brand place vcard-face now chooses the logo in one colour; the four card fronts and backs, the tier ladder and the card emulator are regenerated from it; card alt texts say "the LynkOmni logo"; a test checks every face and back uses the logo and never the emblem alone. Blueprint sections 30 and 33 and CLAUDE.md updated.
 

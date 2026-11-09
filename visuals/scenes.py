@@ -287,6 +287,19 @@ def _on3(p):
     return wrap(p, b)
 
 
+@scene("agent-point")
+def _agent_point(p):
+    """An agent point: a counter with the agent's cash on it and a phone that shows the partner's tick, joined by a dashed line
+    to the licensed partner's building (the partner confirms each transaction; the cash and the float stay the agent's)."""
+    notes = rr(72, 118, 46, 26, 4, p.accent_soft) + rr(78, 110, 46, 26, 4, p.surface) + circ(101, 123, 6, "none", stroke_width=2)
+    b = (rr(56, 144, 136, 46, 6, p.surface) + line(56, 160, 192, 160, stroke_width=2) + notes +
+         rr(140, 82, 36, 62, 7, p.surface) + rr(146, 92, 24, 36, 3, p.accent_soft, stroke="none") + check(158, 110, 14, p.accent_ink) +
+         path("M184 108h40", stroke=p.ink2, stroke_width=3, stroke_dasharray="2 7") +
+         path("M230 96l26-16 26 16z", p.accent_soft) + path("M238 100v44M256 100v44M274 100v44") + line(228, 148, 284, 148, stroke_width=3.5) +
+         coin(76, 82, 13, p))
+    return wrap(p, b, 2)
+
+
 @scene("onboard-growth")
 def _on4(p):
     stripes = "".join(line(98 + 124 * i / 5, 84, 84 + 152 * i / 5, 116, stroke_width=2) for i in range(1, 5))

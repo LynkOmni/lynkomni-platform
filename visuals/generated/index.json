@@ -1160,6 +1160,41 @@
     }
    ]
   },
+  "agent-point": {
+   "kind": "illustration",
+   "alt": "A shop counter with cash notes and a phone showing a tick, joined by a dashed line to a partner building",
+   "purpose": "Agent point home: the agent serves customers with their own cash, and the licensed partner confirms every transaction before cash changes hands",
+   "used_in": [
+    "agent-home"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/agent-point.light.svg",
+     "sha256": "f6039ac73cea970c0a6bcfe88e8e4908ab10254ad3e98b02021e524f4ed282b5",
+     "bytes": 1726
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/agent-point.dark.svg",
+     "sha256": "fb36defc6fb924775f4bddbd83093979e0a6e5000c4f48df5bc6c91c88dce8da",
+     "bytes": 1726
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/agent-point.contrast-light.svg",
+     "sha256": "1dd466877fb5806933391fd35588f5455f59181993c1c0c1c5b4231ae9e771b3",
+     "bytes": 1726
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/agent-point.contrast-dark.svg",
+     "sha256": "5af13a007dc293f26a7c8e5931f496100fcbede620e21848ffbb27102e2a0b60",
+     "bytes": 1726
+    }
+   ]
+  },
   "chart-pricing-ladder": {
    "kind": "chart",
    "alt": "Bar chart of the standard monthly price in US dollars for the Plus, Pro and Max tiers of each product family.",

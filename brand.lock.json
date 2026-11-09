@@ -1,9 +1,9 @@
 {
   "schema": 1,
   "package": "@lynkomni/icons",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "files": {
-    "brand.json": "2e1cac3df41aaaaf444459207a8827d4f7e30452610becf62355c0b6882bee85",
+    "brand.json": "1376a1494147f454a8bc5f467a909d9762728e4f746a50506d69db859af5854a",
     "email/logo-dark.png": "837891fe630df086877bc184a8762d3b55f279b5435f870e47800a259d7b28fb",
     "email/logo-dark@2x.png": "d72b9c65101f903f56d9f64d280503bff2441564adef46ae3c97a9e05e494946",
     "email/logo-light.png": "47ddbdb606fd8a388aeae2b3261978f47c541b8e4f0fbe423bb0d7e48cc6b5cf",
@@ -54,9 +54,11 @@
     "icons/lynkomni-icon-ui-chevron-down.svg": "fbff5f99141fec550cf3a6466f8cb329610ab7bbbbb7662147dfe78d4fcfef44",
     "icons/lynkomni-icon-ui-chevron-right.svg": "cf25eaa76b559615a229f6c7a64ea9c9e8416b92b7103eab542929289e095a2f",
     "icons/lynkomni-icon-ui-close.svg": "bcfb97bbefa5947878abe17063c437dfd5b24b4b3e2947832bef452f2584f13e",
+    "icons/lynkomni-icon-ui-commission.svg": "f11439f5c47c0c6693aebcbc21a3cf028f688015e448cd3bce123a5564789bf0",
     "icons/lynkomni-icon-ui-copy.svg": "6265f8662b9cd60eb91c6ef743d85b91c53ed8ccfae10558f869847820e90f0d",
     "icons/lynkomni-icon-ui-doc.svg": "45c07d86ddf91602a9ab5448714aff43c47e5ae0a50c3f3d453890bd121288f0",
     "icons/lynkomni-icon-ui-edit.svg": "6dd4c6e0383a31cd3fcbfb4e69cbbcae2afbda734dd13737346b177381a130c6",
+    "icons/lynkomni-icon-ui-float.svg": "5a7647a0f85e324a24457a665c841c2329069004f24b8a1f655e628ce04ba9f0",
     "icons/lynkomni-icon-ui-globe.svg": "228f01c52b4f87a82b7f3f126689df57236f6505b47c292b953110bae37f95c3",
     "icons/lynkomni-icon-ui-grid.svg": "b2306832dec6e0fc4d5df469a77427fd63ddd8fb07a9835c90b5ff24880f9a1a",
     "icons/lynkomni-icon-ui-home.svg": "742a381d27be6e60c4f8efa38bb74d8840f5285d88a64a74bae7c9dbcc822b8c",

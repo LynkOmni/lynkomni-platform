@@ -48,5 +48,56 @@
   "note": "A pack alone never turns cards on. Needs a signed issuer agreement, legal sign-off and the activation checklist."
  },
  "vcard_card_networks_note": "set from the issuer contract, never assumed",
- "note": "Generated from ISO 3166, ISO 4217, IANA tz and CLDR by tools/country_packs.py. Tax, fiscal workflow, partners and price index stay unconfirmed until a person confirms them; then copy the facts in and set source to curated."
+ "note": "Generated from ISO 3166, ISO 4217, IANA tz and CLDR by tools/country_packs.py. Tax, fiscal workflow, partners and price index stay unconfirmed until a person confirms them; then copy the facts in and set source to curated.",
+ "holidays": {
+  "source": "holidays 0.84 (Vacanza team, MIT)",
+  "names_in": "en",
+  "confirmed": false,
+  "years": {
+   "2026": {
+    "2026-01-01": "New Year's Day",
+    "2026-01-20": "Armed Forces Day",
+    "2026-03-20": "Eid al-Fitr (estimated)",
+    "2026-03-26": "Martyrs' Day",
+    "2026-04-06": "Easter Monday",
+    "2026-05-01": "Labor Day",
+    "2026-05-25": "Africa Day",
+    "2026-05-27": "Eid al-Adha (estimated)",
+    "2026-08-25": "Prophet's Birthday (estimated)",
+    "2026-09-01": "Prophet's Baptism (estimated)",
+    "2026-09-22": "National Day of the Republic of Mali",
+    "2026-12-25": "Christmas Day"
+   },
+   "2027": {
+    "2027-01-01": "New Year's Day",
+    "2027-01-20": "Armed Forces Day",
+    "2027-03-09": "Eid al-Fitr (estimated)",
+    "2027-03-26": "Martyrs' Day",
+    "2027-03-29": "Easter Monday",
+    "2027-05-01": "Labor Day",
+    "2027-05-16": "Eid al-Adha (estimated)",
+    "2027-05-25": "Africa Day",
+    "2027-08-14": "Prophet's Birthday (estimated)",
+    "2027-08-21": "Prophet's Baptism (estimated)",
+    "2027-09-22": "National Day of the Republic of Mali",
+    "2027-12-25": "Christmas Day"
+   }
+  }
+ },
+ "invoice_numbering": {
+  "series_per": "merchant",
+  "sequential": true,
+  "format": "{series}-{number}",
+  "offline_blocks": true,
+  "unused_numbers": "voided_with_reason",
+  "reuse": false,
+  "confirmed": false,
+  "note": "services/invoicing.py rules; a country's tax authority may require more (for example a registered series). Set confirmed when a person checks the country."
+ },
+ "legal_text": {
+  "invoice": null,
+  "receipt": null,
+  "confirmed": false,
+  "note": "Set by the country's lawyer (ledger item country_legal_text). Until then nothing is printed as legal wording."
+ }
 }

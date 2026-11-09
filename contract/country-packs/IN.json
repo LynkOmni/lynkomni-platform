@@ -46,5 +46,63 @@
   "note": "A pack alone never turns cards on. Needs a signed issuer agreement, legal sign-off and the activation checklist."
  },
  "vcard_card_networks_note": "set from the issuer contract, never assumed",
- "source": "curated"
+ "source": "curated",
+ "holidays": {
+  "source": "holidays 0.84 (Vacanza team, MIT)",
+  "names_in": "en",
+  "confirmed": false,
+  "years": {
+   "2026": {
+    "2026-01-26": "Republic Day",
+    "2026-02-15": "Maha Shivaratri",
+    "2026-03-21": "Eid al-Fitr (estimated)",
+    "2026-03-31": "Mahavir Jayanti",
+    "2026-04-03": "Good Friday",
+    "2026-05-01": "Buddha Purnima",
+    "2026-05-28": "Eid al-Adha (estimated)",
+    "2026-06-26": "Ashura (estimated)",
+    "2026-08-15": "Independence Day",
+    "2026-08-26": "Prophet's Birthday (estimated)",
+    "2026-09-04": "Janmashtami",
+    "2026-10-02": "Gandhi Jayanti",
+    "2026-10-20": "Dussehra",
+    "2026-11-08": "Diwali",
+    "2026-11-24": "Guru Nanak Jayanti",
+    "2026-12-25": "Christmas"
+   },
+   "2027": {
+    "2027-01-26": "Republic Day",
+    "2027-03-06": "Maha Shivaratri",
+    "2027-03-10": "Eid al-Fitr (estimated)",
+    "2027-03-26": "Good Friday",
+    "2027-04-18": "Mahavir Jayanti",
+    "2027-05-17": "Eid al-Adha (estimated)",
+    "2027-05-20": "Buddha Purnima",
+    "2027-06-16": "Ashura (estimated)",
+    "2027-08-15": "Independence Day; Prophet's Birthday (estimated)",
+    "2027-08-25": "Janmashtami",
+    "2027-10-02": "Gandhi Jayanti",
+    "2027-10-09": "Dussehra",
+    "2027-10-29": "Diwali",
+    "2027-11-14": "Guru Nanak Jayanti",
+    "2027-12-25": "Christmas"
+   }
+  }
+ },
+ "invoice_numbering": {
+  "series_per": "merchant",
+  "sequential": true,
+  "format": "{series}-{number}",
+  "offline_blocks": true,
+  "unused_numbers": "voided_with_reason",
+  "reuse": false,
+  "confirmed": false,
+  "note": "services/invoicing.py rules; a country's tax authority may require more (for example a registered series). Set confirmed when a person checks the country."
+ },
+ "legal_text": {
+  "invoice": null,
+  "receipt": null,
+  "confirmed": false,
+  "note": "Set by the country's lawyer (ledger item country_legal_text). Until then nothing is printed as legal wording."
+ }
 }

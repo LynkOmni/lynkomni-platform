@@ -9,13 +9,15 @@ import { matchStatement } from "../../../ts/src/agent.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, stateButtons, appMainFooter } from "../../../ts/src/emulator.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
+import { panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
+import type { Entry } from "../../../ts/src/shell.js";
 const SIDE_W = 200;   // px of room the 220 px sidebar gives its brand place (side-menu: logo from 140 px)
 
 interface Auto { id: string; level: string; assist: string | null; trigger: string; min_tier: string | null; default: string }
 declare const DATA: Build & { automations: Auto[] };
 type Page = "today" | "sales" | "devices" | "staff" | "commissions" | "automations" | "sharing";
 const PAGES: Page[] = ["today", "sales", "devices", "staff", "commissions", "automations", "sharing"];
-const PATH: Record<Page, string> = { today: "/business", sales: "/sell/sales", devices: "/business/devices", staff: "/business/staff", commissions: "/business/money/commissions", automations: "/business/automations", sharing: "/business/settings/data-sharing" };
+const PATH: Record<Page, string> = { today: "/business", sales: "/sell/sales", devices: "/business/devices", staff: "/business/team", commissions: "/business/agent-earnings", automations: "/business/automations", sharing: "/business/settings/data-sharing" };
 const TIERS = ["free", "plus", "pro", "max"] as const;
 const S: PanelState & { page: Page; off: Set<string>; why: string; sharing: Set<string>; notice: string } =
   { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: false, lang: "en", page: "today", off: new Set(), why: "", sharing: new Set(), notice: "" };
@@ -66,12 +68,23 @@ function sharing(): string {
   const sup = [["s1", "supplier_1"], ["s2", "supplier_2"]] as const;
   return `<h1>${esc(t("data_sharing"))}</h1><p class="note">${esc(t("data_sharing_body"))}</p><ul class="rows">${sup.map(([id, w]) => `<li><span>${esc(t(w))}</span>${S.sharing.has(id) ? `${chip("confirmed")}<button class="secondary" data-act="unshare:${id}">${esc(t("stop_sharing"))}</button>` : `<button class="primary" data-act="share:${id}">${esc(t("share"))}</button>`}</li>`).join("")}</ul><p>${esc(t("sharing_with", { n: S.sharing.size }))}</p>`;
 }
+const LABEL: Record<Page, string> = { today: "home", sales: "sales", devices: "devices", staff: "staff_shifts", commissions: "agent_commissions", automations: "automations", sharing: "data_sharing" };
+const DSH = panelShell({
+  st: S, t, icon, clock: (ms) => C.clock(ms),
+  native: () => (DATA.i18n[S.lang]?.native ?? S.lang), region: () => (C.pack().sample ? t("sample_country") : C.pack().name), currency: () => C.pack().currency,
+  pending: () => LOG.pending().count, lastSync: () => LOG.events.find((e) => e.sync === "accepted")?.at ?? null,
+  screen: () => ({ id: S.page, title: t(LABEL[S.page]), path: PATH[S.page] }),
+  entries: (): Entry[] => [{ id: "new", kind: "action", title: t("new_sale"), act: "newsale" }, ...PAGES.map((p): Entry => ({ id: p, kind: p === "sales" || p === "commissions" ? "report" : "setting", title: t(LABEL[p]), act: `go:${p}` })),
+    ...DATA.automations.map((a): Entry => ({ id: a.id, kind: "setting", title: t(`auto_${key(a.id)}`), act: "go:automations" }))],
+  account: () => sampleAccount(t, "owner", ["owner", "manager"], t("sample_shop"), S.dark ? "dark" : "light", DATA.i18n[S.lang]?.native ?? S.lang, C.pack().sample ? t("sample_country") : C.pack().name),
+  run: (a) => act(a), redraw: () => draw(),
+});
 function page(): string { return { today, sales, devices, staff, commissions, automations, sharing }[S.page](); }
 function draw(): void {
-  const el = $("#screen"); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W);
-  const label: Record<Page, string> = { today: "home", sales: "sales", devices: "devices", staff: "staff_shifts", commissions: "agent_commissions", automations: "automations", sharing: "data_sharing" };
+  const el = $("#screen"); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W);
   el.innerHTML = `<div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">${icon("ui-lock")}app.lynkomni.com${esc(PATH[S.page])}</span></div>
-    <div class="app"><nav class="side" aria-label="LynkOmni">${brandMark(DATA.brand.places, "side-menu", S.dark, "logo", SIDE_W)}${PAGES.map((p) => `<button data-act="go:${p}" ${S.page === p ? 'aria-current="page"' : ""}>${esc(t(label[p]))}</button>`).join("")}</nav><main class="main"><p class="viewonly" role="note">${icon("ui-info")}${esc(t("view_only_computer"))}</p>${page()}${appMainFooter(W, C, DATA)}</main></div>`;
+    <div class="app"><nav class="side" aria-label="LynkOmni">${brandMark(DATA.brand.places, "side-menu", S.dark, "logo", SIDE_W)}${PAGES.map((p) => `<button data-act="go:${p}" ${S.page === p ? 'aria-current="page"' : ""}>${esc(t(LABEL[p]))}</button>`).join("")}</nav><main class="main"><div class="mhead">${DSH.bar()}</div><p class="viewonly" role="note">${icon("ui-info")}${esc(t("view_only_computer"))}</p>${page()}${appMainFooter(W, C, DATA)}</main></div>${DSH.overlay()}`;
+  const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address();
 }
 function act(a: string): void {
   const [k = "", v = ""] = a.split(":");
@@ -91,7 +104,11 @@ function panel(): void {
 }
 function main(): void {
   S.country = DATA.packOrder[0] ?? ""; panel(); draw();
-  document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (b) act(b.dataset["act"] ?? ""); });
+  document.addEventListener("click", (e) => { const tg = e.target as HTMLElement, b = tg.closest<HTMLElement>("[data-act]"); if (!b) return; const a = b.dataset["act"] ?? "";
+    if (b.classList.contains("dsh-scrim") && tg.closest("[data-stop]")) return; if (!DSH.act(a)) act(a); });
+  document.addEventListener("input", (e) => { DSH.input(e.target as HTMLInputElement); });
+  document.addEventListener("keydown", (e) => { DSH.key(e); });
+  (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
   $("#panel").addEventListener("change", (e) => { if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 1180);
 }

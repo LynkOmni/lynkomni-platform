@@ -21,11 +21,14 @@ import { shortFooterHtml } from "../../../ts/src/footer.js";
 import { check } from "../../../ts/src/usernames.js";
 import { kitchenOutput, mayOpenTable, restaurantLimits } from "../../../ts/src/restaurant.js";
 import type { BrandPlaces } from "../../../ts/src/brand.js";
+import { DeviceShell, screenArticles } from "../../../ts/src/deviceshell.js";
+import type { Entry } from "../../../ts/src/shell.js";
 
 interface BuildData {
   icons: Record<string, string>;
   brand: { body: string; receipt: string; places: BrandPlaces };
   pictures: { offLight: string; offDark: string; offAlt: string };
+  agentPicture: { light: string; dark: string };
   states: Record<string, { label: string; meaning: string }>;
   /** Every country pack, the neutral sample pack first (Step 0): the chooser never opens on a real country. */
   packs: Record<string, CountryPack>;
@@ -316,6 +319,28 @@ function sendMsg(card?: { kind: string; label: string }): void {
   S.draft = ""; draw();
 }
 
+// ---- shell parts (41 B) inside the Business app (41 E) ------------------------------------------------------------------
+/** 41 E fixes the top bar at five parts (emblem, title, chip, notifications, account), so the 41 B parts sit around them
+ *  (decided 9 November 2026): help (?) beside the screen title, "Find or do anything" as a search field on Home and the Business
+ *  hub, the account menu and sync sheet stay the app's own (account screen, chip sheet) and the language card stays in getting in. */
+const DSH = new DeviceShell({
+  t, icon: (id) => icon(id), clock,
+  screen: () => ({ id: screenId(), title: document.querySelector("#app .top h1")?.textContent?.trim() || t("tab_home"), path: address() }),
+  articles: (id) => screenArticles(t, id, document.querySelector("#app .top h1")?.textContent?.trim() || t("tab_home")),
+  entries: (): Entry[] => [
+    { id: "new_sale", kind: "action", title: t("new_sale"), act: "newsale" },
+    ...(TABS[S.btype] as readonly Tab[]).map((k): Entry => ({ id: `tab-${k}`, kind: "action", title: t(`tab_${k}`), act: `tab:${k}` })),
+    ...HUB.map((h): Entry => ({ id: `hub-${h.id}`, kind: h.id === "reports" ? "report" : "setting", title: t("it_" + h.id), act: `hub:${h.id}` })),
+    ...CATALOG.map((p): Entry => ({ id: p.id, kind: "product", title: t(p.name), subtitle: money(p.price), act: `product:${p.id}` })),
+    ...CUSTOMERS.map((c): Entry => ({ id: c.id, kind: "customer", title: c.name, subtitle: c.owes ? money(c.owes) : "", act: "hub:customers" })),
+    ...S.sales.slice(0, 5).map((x): Entry => ({ id: x.sale.sale_id, kind: "order", title: x.sale.receipt_number_local, subtitle: money(x.sale.total), act: `sale:${x.sale.sale_id}` })),
+  ],
+  sync: () => ({ link: S.link === "none" ? "offline" : S.link, pending: pending(S.events.map((e) => e.sync)).count, lastSync: S.lastSync || null, dataSaver: S.toggles.has("data_saver"), forcedOffline: S.forced }),
+  account: () => null,
+  locale: () => ({ language: PACKS[S.lang]?.native ?? S.lang, region: pack().sample ? t("sample_country") : pack().name, currency: pack().currency, english: S.lang === "en" }),
+  run: (a) => { if (a === "pictures") { if (DSH.pictures) S.toggles.add("low_literacy"); else S.toggles.delete("low_literacy"); return; } S.screen = "app"; act(a); }, redraw: () => draw(),
+}, { firstRun: false });
+
 // ---- chrome ---------------------------------------------------------------------------------------------------------
 /** The top bar (41 E): emblem, screen title, connection chip, notifications, account. A back arrow takes the emblem's place
  *  inside a flow. */
@@ -323,11 +348,11 @@ function topBar(title: string, back?: string): string {
   const p = pending(S.events.map((e) => e.sync)), off = !online(), n = unreadNotices();
   const initials = (S.staff.find((x) => x.role === S.role)?.name ?? "O").slice(0, 1);
   return `<div class="top">${back ? `<button class="iconbtn back" data-act="${back}" aria-label="${esc(t("back"))}">${icon("ui-arrow-left")}</button>` : `${brandMark(DATA.brand.places, "app-top-bar", S.theme === "dark", "logo")}`}
-    <h1>${esc(title)}</h1><button class="netchip${off ? " off" : ""}" data-act="sheet" aria-label="${esc(t(off ? "offline" : "online"))}. ${esc(t("sync"))}${p.count ? ` · ${p.count}` : ""}">${icon(off ? "ui-offline" : "ui-sync")}${p.count ? `<span class="count">${p.count}</span>` : ""}</button>
+    <h1>${esc(title)}</h1>${DSH.helpButton()}<button class="netchip${off ? " off" : ""}" data-act="sheet" aria-label="${esc(t(off ? "offline" : "online"))}. ${esc(t("sync"))}${p.count ? ` · ${p.count}` : ""}">${icon(off ? "ui-offline" : "ui-sync")}${p.count ? `<span class="count">${p.count}</span>` : ""}</button>
     <button class="iconbtn bell" data-act="view:notifications" aria-label="${esc(t("notifications"))}${n ? ` (${n})` : ""}">${icon("ui-bell")}${n ? `<span class="dot">${n}</span>` : ""}</button>
     <button class="iconbtn avatarbtn" data-act="view:account" aria-label="${esc(t("account"))}"><span class="initials" aria-hidden="true">${esc(initials)}</span></button></div>`;
 }
-const TAB_ICON: Record<string, string> = { home: "ui-home", sell: "ui-cart", stock: "product-stock", chats: "product-chat", business: "product-dash", services: "ui-grid", float: "ui-chart",
+const TAB_ICON: Record<string, string> = { home: "ui-home", sell: "ui-cart", stock: "product-stock", chats: "product-chat", business: "product-dash", services: "ui-grid", float: "ui-float",
   invoices: "ui-receipt", customers: "ui-user", tables: "ui-grid", kitchen: "ui-receipt" };
 /** Tabs follow the business type (5, 42 H): bottom tabs on a phone, the same tabs in a side rail on a tablet (41 E). */
 function tabBar(): string {
@@ -342,7 +367,7 @@ const row = (label: string, value: string, act = ""): string => act
 const practiceBanner = (): string => (S.practice ? `<p class="practice" role="status">${icon("ui-warning")}<span>${esc(t("practice_banner"))}</span></p>` : "");
 
 function home(): string {
-  const blocks = homeBlocks(S.role, S.perms), sm = summary(), out: string[] = [`<p class="greet">${esc(t("hello", { shop: shop() }))}</p>`];
+  const blocks = homeBlocks(S.role, S.perms), sm = summary(), out: string[] = [`<p class="greet">${esc(t("hello", { shop: shop() }))}</p>`, DSH.searchField()];
   const kpis = blocks.filter((b) => b === "sales" || b === "profit").map((b) => `<div class="card kpi" data-item="${b === "sales" ? "today_sales" : "today_profit"}"><span>${esc(t(b === "sales" ? "today_sales" : "today_profit"))}</span><strong>${esc(money(b === "sales" ? sm.total : sm.profit))}</strong>${b === "sales" ? `<small>${esc(t("sales_count", { n: sm.count }))}</small>` : ""}</div>`);
   if (kpis.length) out.push(kpis.length === 2 ? `<div class="duo">${kpis.join("")}</div>` : kpis.join(""));
   for (const b of blocks) {
@@ -637,13 +662,13 @@ function hubValue(item: string): string {
 const REMOVE_ITEM: Record<string, string> = { damage: "damaged", loss: "lost", expiry: "expired" };
 const ACADEMY = ["lesson_first_sale", "lesson_stock", "lesson_cash", "lesson_credit", "lesson_proof"];
 const HUB_ICON: Record<string, string> = { reports: "product-dash", daily_close: "ui-receipt", money: "product-mpay", invoicing: "ui-doc", customers: "ui-user", loyalty: "product-rewards", books: "product-ledger",
-  growth: "product-grow", assistant: "ui-info", cards: "product-vcard", online_shop: "product-checkout", agent_earnings: "ui-chart", team: "ui-user", branches_devices: "ui-grid",
+  growth: "product-grow", assistant: "ui-info", cards: "product-vcard", online_shop: "product-checkout", agent_earnings: "ui-commission", team: "ui-user", branches_devices: "ui-grid",
   plans_billing: "ui-receipt", settings: "ui-settings", academy: "ui-info", automations: "ui-sync" };
 function business(): string {
   if (S.view === "hub" && S.hub) return hubSection(S.hub);
   if (S.view === "setting" && S.setting) return settingScreen(S.setting);
   const waiting = pack().services.filter((s) => s.state !== "available");
-  return `${topBar(t("tab_business"))}<div class="body">${webNote()}<ul class="list card">${HUB.map((h) => `<li data-item="${h.id}"><button class="rowbtn" data-act="hub:${h.id}">${icon(HUB_ICON[h.id] ?? "ui-grid", "prod")}<span class="main"><span class="nm">${esc(t("it_" + h.id))}</span>${hubValue(h.id === "daily_close" ? "sales" : h.id === "agent_earnings" ? "commissions" : "") ? `<span class="sub">${esc(hubValue(h.id === "daily_close" ? "sales" : "commissions"))}</span>` : ""}</span>${icon("ui-chevron-right", "ic fwd")}</button></li>`).join("")}</ul>
+  return `${topBar(t("tab_business"))}<div class="body">${webNote()}${DSH.searchField()}<ul class="list card">${HUB.map((h) => `<li data-item="${h.id}"><button class="rowbtn" data-act="hub:${h.id}">${icon(HUB_ICON[h.id] ?? "ui-grid", "prod")}<span class="main"><span class="nm">${esc(t("it_" + h.id))}</span>${hubValue(h.id === "daily_close" ? "sales" : h.id === "agent_earnings" ? "commissions" : "") ? `<span class="sub">${esc(hubValue(h.id === "daily_close" ? "sales" : "commissions"))}</span>` : ""}</span>${icon("ui-chevron-right", "ic fwd")}</button></li>`).join("")}</ul>
     <div class="card" data-item="waiting_services"><h2>${esc(t("it_waiting_services"))}</h2><ul class="list">${(waiting.length ? waiting : pack().services).map((s) => `<li class="svc">${icon(s.icon, "prod")}<span class="main"><span class="nm">${esc(s.name)}</span>
       <span class="sub">${esc(t(s.state === "available" ? "available" : "coming_soon"))}</span></span>${s.state === "available" ? `<span class="pill ok">${icon("ui-check")}</span>` : notifyBtn(s.service)}</li>`).join("")}</ul></div>${flash()}</div>`;
 }
@@ -728,7 +753,8 @@ function agentHome(): string {
   const floats = PARTNERS.map((p) => `<div class="kv"><span>${esc(t("float_at", { partner: t(p.name) }))}</span><strong>${esc(money(p.float))}</strong></div>${lowFloat(p.float, usual(p)) ? `<p class="alert low">${icon("ui-warning")}<span>${esc(t("low_float"))}</span></p>` : ""}`).join("");
   const outletPick = outletsAllowed() ? `<label class="field" data-item="outlets"><span>${esc(t("outlet"))}</span><select data-in="outlet"><option value="all" ${S.outlet === "all" ? "selected" : ""}>${esc(t("all_outlets"))}</option>${S.outletList.map((o) => `<option value="${esc(o)}" ${o === S.outlet ? "selected" : ""}>${esc(o)}</option>`).join("")}</select></label>`
     : `<p class="sub" data-item="outlets">${esc(t("outlets_plan"))}</p>`;
-  return `${topBar(t("agent_point"))}<div class="body">${outletPick}<div class="card"><h2>${esc(t("float"))}</h2>${floats}<p class="sub">${esc(t("float_read_live"))}</p></div>
+  const pic = S.toggles.has("lite_mode") ? "" : `<figure class="agentpic" role="img" aria-label="${esc(t("agent_point_picture"))}">${S.theme === "dark" ? DATA.agentPicture.dark : DATA.agentPicture.light}</figure>`;   // decorative pictures hide in lite mode
+  return `${topBar(t("agent_point"))}<div class="body">${pic}${outletPick}<div class="card"><h2>${esc(t("float"))}</h2>${floats}<p class="sub">${esc(t("float_read_live"))}</p></div>
     <div class="duo"><div class="card kpi"><span>${esc(t("cash_in_drawer"))}</span><strong>${esc(money(S.cashIn))}</strong></div><div class="card kpi"><span>${esc(t("commission"))}</span><strong>${esc(money(com))}</strong><small>${esc(t("today_services", { n: today.length, amount: money(com) }))}</small></div></div>
     ${S.cashChecks.has("day_start") ? "" : `<button class="alert low" data-act="view:cashcheck">${icon("ui-warning")}<span>${esc(t("day_start_check"))}</span>${icon("ui-chevron-right", "ic fwd")}</button>`}
     <button class="big" data-act="tab:services">${icon("ui-grid")}<span>${esc(t("services"))}</span></button>
@@ -859,7 +885,7 @@ function signin(): string {
     const native = PACKS[S.lang]?.native ?? S.lang;
     return `<div class="signin" data-gi="locale_card">${mark}<h1>${esc(t("locale_title"))}</h1><div class="card"><div class="kv"><span>${esc(t("st_language"))}</span><strong>${esc(native)}</strong></div>
       <div class="kv"><span>${esc(t("st_region"))}</span><strong>${esc(pack().sample ? t("sample_country") : pack().name)}</strong></div><div class="kv"><span>${esc(t("st_currency"))}</span><strong>${esc(pack().currency)}</strong></div></div>
-      <div class="grow"></div><button class="primary" data-act="localeok">${esc(t("looks_right"))}</button>${S.lang === "en" ? "" : `<button class="ghost" data-act="english" lang="en" dir="ltr">English</button>`}<button class="linkbtn" data-act="localechange">${esc(t("change"))}</button></div>`;
+      <div class="grow"></div><button class="primary" data-act="localeok">${esc(t("looks_right"))}</button>${S.lang === "en" ? "" : `<button class="ghost" data-act="english" lang="en" dir="ltr">English</button>`}<button class="linkbtn" data-act="localechange">${esc(t("change_setting"))}</button></div>`;
   }
   if (S.screen === "setup") return setup();
   return `<div class="signin" data-gi="register_device">${mark}${S.enrolled ? `<h1>${esc(t("welcome"))}</h1><p>${esc(t("registered"))}</p><div class="grow"></div><button class="primary" data-act="start">${esc(t("start"))}</button>`
@@ -933,12 +959,13 @@ function view(): string {
     default: body = agent ? agentHome() : home();
   }
   const noTabs = S.tab === "sell" && !["main", "done", "receipt", "sales", "shift", "practice"].includes(S.view) || S.view === "thread" || S.view === "svc";
-  return `<div class="screen" data-screen="${esc(screenId())}">${body}</div>${noTabs ? "" : tabBar()}${S.sheet ? syncSheet() : ""}`;
+  return `<div class="screen" data-screen="${esc(screenId())}">${body}</div>${noTabs ? "" : tabBar()}${S.sheet ? syncSheet() : ""}${DSH.overlay()}`;
 }
 
 function draw(): void {
   const d = $("#display");
   const focus = document.activeElement instanceof HTMLInputElement && d.contains(document.activeElement) ? { id: document.activeElement.id, at: document.activeElement.selectionStart } : null;
+  DSH.pictures = S.toggles.has("low_literacy");
   d.className = `display ${S.theme} ${S.size}${S.toggles.has("low_literacy") ? " lowlit" : ""}`;   // picture mode (S4, 43 G): bigger pictures, the word always beside them
   d.lang = S.lang === "xx-rtl" ? "ar" : S.lang === "xx" ? "en" : S.lang;
   d.dir = S.lang === "xx-rtl" ? "rtl" : S.lang === "xx" ? "ltr" : PACKS[S.lang]?.dir ?? "ltr";
@@ -1075,7 +1102,7 @@ function act(a: string): void {
       case "copyid": toast(t("copied")); return;
       case "switchrole": S.role = S.role === "owner" ? "manager" : S.role === "manager" ? "cashier" : "owner"; ($("#cRole") as HTMLSelectElement).value = S.role; draw(); return;
       case "theme": S.theme = S.theme === "dark" ? "light" : "dark"; ($("#cDark") as HTMLInputElement).checked = S.theme === "dark"; draw(); return;
-      case "help": toast(t("help_soon")); return;
+      case "help": DSH.act("dsh:help"); return;
       case "signout": S.screen = "phone"; S.code = ""; S.view = "main"; S.tab = "home"; draw(); return;
       // agent point
       case "svc": S.svc = pick(AGENT_ALL as readonly string[], v, "bills"); S.view = "svc"; S.req = ""; S.amount = ""; S.number = ""; draw(); return;
@@ -1167,16 +1194,20 @@ function wire(): void {
     const el = target.closest<HTMLElement>("[data-act]");
     if (!el || (el as HTMLButtonElement).disabled) return;
     if (el.dataset["act"] === "closesheet" && el.classList.contains("scrim") && target.closest("[data-stop]")) return;   // taps inside the sheet
-    act(el.dataset["act"] ?? "");
+    const a = el.dataset["act"] ?? "";
+    if (el.classList.contains("dsh-scrim") && target.closest("[data-stop]")) return;
+    if ((a.startsWith("dsh:") || DSH.panel) && DSH.act(a)) return;   // the shell panels (search, help) handle their own taps
+    act(a);
   });
   const display = $("#display");
-  display.addEventListener("input", (ev) => onInput(ev.target as HTMLInputElement));
+  display.addEventListener("input", (ev) => { if (!DSH.input(ev.target as HTMLInputElement)) onInput(ev.target as HTMLInputElement); });
   display.addEventListener("change", (ev) => onChange(ev.target as HTMLInputElement & HTMLSelectElement));
   display.addEventListener("keydown", (ev) => {
     const el = ev.target as HTMLElement;
     if (ev.key === "Enter" && el.dataset["in"] === "msg") { S.draft = (el as HTMLInputElement).value; sendMsg(); ev.preventDefault(); }
     if (ev.key === "Escape" && S.sheet) { S.sheet = false; draw(); }
   });
+  document.addEventListener("keydown", (ev) => { if (S.screen === "app" && !S.sheet) DSH.key(ev); });
   const bind = (id: string, f: (el: HTMLInputElement & HTMLSelectElement) => void): void => { const el = $<HTMLInputElement & HTMLSelectElement>(id); el.addEventListener("change", () => f(el)); };
   bind("#cLink", (el) => { S.link = el.value as Link; draw(); });
   bind("#cRole", (el) => { S.role = pick(["owner", "manager", "cashier"] as Role[], el.value, "owner"); draw(); });
