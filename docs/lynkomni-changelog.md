@@ -2,6 +2,9 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.24.1 (2026-11-09)
+LynkVCard faces carry the full LynkOmni logo instead of the emblem alone (owner decision). Brand place vcard-face now chooses the logo in one colour; the four card fronts and backs, the tier ladder and the card emulator are regenerated from it; card alt texts say "the LynkOmni logo"; a test checks every face and back uses the logo and never the emblem alone. Blueprint sections 30 and 33 and CLAUDE.md updated.
+
 ## v0.24.0 (2026-11-09)
 The whole Business app as blueprint 41 E lays it out (Phase 2 of enforcing sections 1 to 3). catalog/business-app.v1.json lists its 46 screens with what each must hold and its address; the merchant phone emulator shows every one and tests/test_business_app.py checks each screen, item and address.
 - Getting in runs in the blueprint's order: sign in, choose the business, register this device, the language and region card with one-tap English, the setup checklist (name and type, currency, first products by scan, photo, voice, template or import, invite staff, print the shop QR, every step skippable), then the first sale.

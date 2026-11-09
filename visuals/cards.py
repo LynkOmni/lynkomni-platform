@@ -7,7 +7,7 @@ Card colours are the design tokens vcard-edge-bg, vcard-hub-bg, vcard-core-bg an
 
 Rules for these pictures (also in CLAUDE.md): a face never shows a card number, a card holder name, a bank name or a payment
 network mark (the licensed issuer adds the network mark and prints the last four digits itself); the only words are the fixed
-tier line below; the emblem comes from the brand module (surface vcard-face, one colour). Prices and limits in the ladder are read
+tier line below; the full logo asset (one artwork; owner decision 9 November 2026) comes from the brand module (surface vcard-face, one colour). Prices and limits in the ladder are read
 from services/billing.py and are placeholders until market-tested."""
 import math
 from .kit import rr, circ, line, path, el, text, frame, n, esc, Palette, _design
@@ -21,20 +21,20 @@ TIER_TEXT = {"edge": "EDGE // FIRST LIGHT", "hub": "HUB // CENTER POINT", "core"
 BACK_TEXT = {"omni": "LynkOmni Reserve Network"}      # the only words on a card back (approved spec, OMNI)
 ALLOWED_TEXT = set(TIER_TEXT.values()) | set(BACK_TEXT.values())
 ALT_BACK = {
-    "edge": "Back of the slate EDGE LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
-    "hub": "Back of the silver HUB LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
-    "core": "Back of the black CORE LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
-    "omni": "Back of the obsidian OMNI LynkVCard: a dashed frame where the issuer shows the card details, the emblem and the words LynkOmni Reserve Network. No number or bank name is drawn.",
+    "edge": "Back of the slate EDGE LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
+    "hub": "Back of the silver HUB LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
+    "core": "Back of the black CORE LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
+    "omni": "Back of the obsidian OMNI LynkVCard: a dashed frame where the issuer shows the card details, the LynkOmni logo and the words LynkOmni Reserve Network. No number or bank name is drawn.",
 }
 ALT_EXTRA = {
     "core-near-limit": "The black CORE LynkVCard near its spend limit: an amber ring almost full with a triangle marker and a diamond centre instead of a dot, so the warning does not rely on colour.",
     "omni-physical": "The physical companion for the OMNI LynkVCard: obsidian card with a contactless chip, an engraved sphere, a polished edge, no number on the front and the line OMNI // OWN ALL COMMERCE.",
 }
 ALT = {
-    "edge": "Slate grey LynkVCard for the Free tier: one dot etched near the right edge with pulse rings, the emblem, masked number dots and the line EDGE // FIRST LIGHT.",
-    "hub": "Brushed silver LynkVCard for the Plus tier: a hub with three lines running out to three nodes, the emblem, masked number dots and the line HUB // CENTER POINT.",
-    "core": "Jet black LynkVCard for the Pro tier: a glowing green core dot inside a spend ring that is partly filled, the emblem, masked number dots and the line CORE // DEEP SYSTEM.",
-    "omni": "Solid obsidian LynkVCard for the Max tier: an engraved sphere, the emblem, a polished edge, no number on the front, and the line OMNI // OWN ALL COMMERCE.",
+    "edge": "Slate grey LynkVCard for the Free tier: one dot etched near the right edge with pulse rings, the LynkOmni logo, masked number dots and the line EDGE // FIRST LIGHT.",
+    "hub": "Brushed silver LynkVCard for the Plus tier: a hub with three lines running out to three nodes, the LynkOmni logo, masked number dots and the line HUB // CENTER POINT.",
+    "core": "Jet black LynkVCard for the Pro tier: a glowing green core dot inside a spend ring that is partly filled, the LynkOmni logo, masked number dots and the line CORE // DEEP SYSTEM.",
+    "omni": "Solid obsidian LynkVCard for the Max tier: an engraved sphere, the LynkOmni logo, a polished edge, no number on the front, and the line OMNI // OWN ALL COMMERCE.",
 }
 W, H = 340, 214
 START, END = "<!--card:start-->", "<!--card:end-->"   # colours between these markers may use the dark-theme glow tokens
@@ -89,13 +89,13 @@ def _centrepiece(tier, fg, t, near=False):
             circ(cx - 14, cy - 18, 4.5, fg, stroke="none", fill_opacity=".55") + rr(3, 3, W - 6, H - 6, 13, "none", stroke=edge, stroke_width=2))
 
 
-def face_group(tier, with_emblem=True, near=False):
+def face_group(tier, with_logo=True, near=False):
     """The card face as a <g> in a 340 x 214 box. Colours may include the dark-theme glow tokens, so it is wrapped in markers."""
     t = _tok()
     bg, fg = t[f"vcard-{tier}-bg"], t[f"on-vcard-{tier}"]
     body = rr(0, 0, W, H, 16, bg, stroke="none") + rr(1, 1, W - 2, H - 2, 15, "none", stroke=fg, stroke_opacity=".25", stroke_width=1)
-    if with_emblem:
-        mark, _ = figures.brand_asset("emblem", "light", 24, 22, 38, "vcard-face")
+    if with_logo:
+        mark, _ = figures.brand_asset("logo", "light", 24, 20, 120, "vcard-face")
         body += f'<g color="{fg}">{mark}</g>'
     body += "".join(path(f"M{n(284 + r * .55)} {n(36 - r * .83)}A{n(r)} {n(r)} 0 0 1 {n(284 + r * .55)} {n(36 + r * .83)}", stroke=fg, stroke_width=2.5, stroke_linecap="round", fill="none") for r in (7, 13, 19))
     body += _centrepiece(tier, fg, t, near)
@@ -132,7 +132,7 @@ def tier_ladder(theme):
         key = FAMILY_TIER[tier_name]
         f = feats[i]
         x = 24 + i * 190
-        body.append(f'<g transform="translate({n(x)} 76) scale(0.5)">{face_group(key, with_emblem=False)}</g>')
+        body.append(f'<g transform="translate({n(x)} 76) scale(0.5)">{face_group(key, with_logo=False)}</g>')
         if i < 3:
             body.append(path(f"M{n(x + 174)} 123l8 6 -8 6z", p.ink2, stroke="none"))
         cards = "Unlimited cards" if f["active_cards"] is None else f"{f['active_cards']} card" + ("s" if f["active_cards"] != 1 else "")
@@ -156,7 +156,7 @@ def back_group(tier):
     body += rr(0, 28, W, 36, 0, fg, stroke="none", fill_opacity=".1")
     body += rr(24, 84, 292, 70, 10, "none", stroke=fg, stroke_opacity=".55", stroke_width=1.5, stroke_dasharray="6 5")
     body += "".join(line(40, y, 40 + w, y, stroke=fg, stroke_opacity=".22", stroke_width=4, stroke_linecap="round") for y, w in ((102, 150), (120, 90), (138, 60)))
-    mark, _ = figures.brand_asset("emblem", "light", 24, 170, 28, "vcard-face")
+    mark, _ = figures.brand_asset("logo", "light", 24, 168, 96, "vcard-face")
     body += f'<g color="{fg}">{mark}</g>'
     if tier == "omni":
         body += el("text", esc(BACK_TEXT["omni"]), x="316", y="190", text_anchor="end", fill=fg, font_size="11", font_weight="600", letter_spacing="0.04em",

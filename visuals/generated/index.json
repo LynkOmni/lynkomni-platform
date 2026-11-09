@@ -1421,7 +1421,7 @@
   },
   "vcard-edge": {
    "kind": "card",
-   "alt": "Slate grey LynkVCard for the Free tier: one dot etched near the right edge with pulse rings, the emblem, masked number dots and the line EDGE // FIRST LIGHT.",
+   "alt": "Slate grey LynkVCard for the Free tier: one dot etched near the right edge with pulse rings, the LynkOmni logo, masked number dots and the line EDGE // FIRST LIGHT.",
    "purpose": "LynkVCard face for the Free tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
    "used_in": [
     "card-list",
@@ -1433,14 +1433,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-edge.svg",
-     "sha256": "d39ba9d7bf0e49e7e71a99e9d8942974cd4caebdbd86d599f1170da3cd64d9f9",
-     "bytes": 15063
+     "sha256": "788568bf44931c1bb722ca5dfb08377844f6ac4c9fb1d88b40dc604862e28589",
+     "bytes": 7367
     }
    ]
   },
   "vcard-hub": {
    "kind": "card",
-   "alt": "Brushed silver LynkVCard for the Plus tier: a hub with three lines running out to three nodes, the emblem, masked number dots and the line HUB // CENTER POINT.",
+   "alt": "Brushed silver LynkVCard for the Plus tier: a hub with three lines running out to three nodes, the LynkOmni logo, masked number dots and the line HUB // CENTER POINT.",
    "purpose": "LynkVCard face for the Plus tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
    "used_in": [
     "card-list",
@@ -1452,14 +1452,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-hub.svg",
-     "sha256": "cb3b56032a901ed22dccd9b190a45e0cd285e4988d36e4f27db2e05be765d4dd",
-     "bytes": 15712
+     "sha256": "daa85f1ceb7e88a9a4abba485c94b15280bf2bdd9e7c0d20c6be8ea6348e41d2",
+     "bytes": 8016
     }
    ]
   },
   "vcard-core": {
    "kind": "card",
-   "alt": "Jet black LynkVCard for the Pro tier: a glowing green core dot inside a spend ring that is partly filled, the emblem, masked number dots and the line CORE // DEEP SYSTEM.",
+   "alt": "Jet black LynkVCard for the Pro tier: a glowing green core dot inside a spend ring that is partly filled, the LynkOmni logo, masked number dots and the line CORE // DEEP SYSTEM.",
    "purpose": "LynkVCard face for the Pro tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
    "used_in": [
     "card-list",
@@ -1471,14 +1471,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-core.svg",
-     "sha256": "6223bd4f6b4e67d330c946d727ad53614cf357dc64bf26dfd817cce273d5c746",
-     "bytes": 15376
+     "sha256": "06cee415811b2f64b7ebddabb3d2d844094ce717924f8e43f9b56a2077973070",
+     "bytes": 7680
     }
    ]
   },
   "vcard-omni": {
    "kind": "card",
-   "alt": "Solid obsidian LynkVCard for the Max tier: an engraved sphere, the emblem, a polished edge, no number on the front, and the line OMNI // OWN ALL COMMERCE.",
+   "alt": "Solid obsidian LynkVCard for the Max tier: an engraved sphere, the LynkOmni logo, a polished edge, no number on the front, and the line OMNI // OWN ALL COMMERCE.",
    "purpose": "LynkVCard face for the Max tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
    "used_in": [
     "card-list",
@@ -1490,8 +1490,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni.svg",
-     "sha256": "bfc51cde863a04ef97b6b3218f0bf0905fba0865fb132d2765c42c3f0c116fed",
-     "bytes": 14109
+     "sha256": "b65ae4f1e55a42ca0ebeafc8c3d967ccef20b86ada092be877ec4d7f66482341",
+     "bytes": 6413
     }
    ]
   },
@@ -1533,7 +1533,7 @@
   },
   "vcard-edge-back": {
    "kind": "card",
-   "alt": "Back of the slate EDGE LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+   "alt": "Back of the slate EDGE LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
    "purpose": "Back of the Free LynkVCard: shows where the licensed issuer displays the card details",
    "used_in": [
     "card-detail"
@@ -1543,14 +1543,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-edge-back.svg",
-     "sha256": "6dbfc48308120ab118f00b16fcdf437ae2bcef0b87190e4c673e7bddb8653c07",
-     "bytes": 13375
+     "sha256": "0362abe143a9f84c927aeb6ecde3ee8d7544c2f983aeed077a5e372c613d8990",
+     "bytes": 5678
     }
    ]
   },
   "vcard-hub-back": {
    "kind": "card",
-   "alt": "Back of the silver HUB LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+   "alt": "Back of the silver HUB LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
    "purpose": "Back of the Plus LynkVCard: shows where the licensed issuer displays the card details",
    "used_in": [
     "card-detail"
@@ -1560,14 +1560,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-hub-back.svg",
-     "sha256": "3a1ce991a37b9b4f0bee4490f2e313448d95eccec081a7235918ef8f76dc40ca",
-     "bytes": 13373
+     "sha256": "3e12499ac71dbd23891cb816a3965e7db08336919c1014ca0ed91efe616b9159",
+     "bytes": 5676
     }
    ]
   },
   "vcard-core-back": {
    "kind": "card",
-   "alt": "Back of the black CORE LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+   "alt": "Back of the black CORE LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
    "purpose": "Back of the Pro LynkVCard: shows where the licensed issuer displays the card details",
    "used_in": [
     "card-detail"
@@ -1577,14 +1577,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-core-back.svg",
-     "sha256": "61431d80d5ec6020894c703da6f439c869f6f1e2b253c0cac9c5add4d88efc1a",
-     "bytes": 13375
+     "sha256": "1605939eede5482363543d144390812ed4f6d1a4f3c9f842295e3f673737a66b",
+     "bytes": 5678
     }
    ]
   },
   "vcard-omni-back": {
    "kind": "card",
-   "alt": "Back of the obsidian OMNI LynkVCard: a dashed frame where the issuer shows the card details, the emblem and the words LynkOmni Reserve Network. No number or bank name is drawn.",
+   "alt": "Back of the obsidian OMNI LynkVCard: a dashed frame where the issuer shows the card details, the LynkOmni logo and the words LynkOmni Reserve Network. No number or bank name is drawn.",
    "purpose": "Back of the Max LynkVCard: shows where the licensed issuer displays the card details",
    "used_in": [
     "card-detail"
@@ -1594,8 +1594,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni-back.svg",
-     "sha256": "eaa0c4e671bdc7967cf31dc7c34b84a7298c5390c91a10182adc9a6adce6bd84",
-     "bytes": 13797
+     "sha256": "9edeb826c903f2abb0567b47a366cdf975ea886e81884a93062272ba5acd21df",
+     "bytes": 6100
     }
    ]
   },
@@ -1612,8 +1612,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-core-near-limit.svg",
-     "sha256": "d3c9ed70e03d7de3ee3f56d70da001a3c80a4e38c5d6a4595756e21e0b0e1d88",
-     "bytes": 15470
+     "sha256": "349d8891a0048c87969f87b25a19e1363e6a8b457c67afb1122c6e36a61c612f",
+     "bytes": 7767
     }
    ]
   },
@@ -1630,8 +1630,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni-physical.svg",
-     "sha256": "e9b5eb7f43b5dbc45fdec28e7403bf79ead93e1f9180afb1f79113220fa4d59a",
-     "bytes": 14589
+     "sha256": "dbb748e2809c685795b26e7ff6bdb2ceb3d8d6bc9660a195256d819c44f4160f",
+     "bytes": 6886
     }
    ]
   }
