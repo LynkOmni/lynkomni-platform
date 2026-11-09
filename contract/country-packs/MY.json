@@ -6,12 +6,12 @@
  "currencies": [
   "MYR"
  ],
- "locale": "en-MY",
+ "locale": "ms-MY",
  "languages": [
   "ms"
  ],
  "regional_languages": [],
- "ui_language": "en",
+ "ui_language": "ms",
  "tz": "Asia/Kuala_Lumpur",
  "time_zones": [
   "Asia/Kuala_Lumpur",

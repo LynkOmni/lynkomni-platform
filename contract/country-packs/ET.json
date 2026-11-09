@@ -6,12 +6,12 @@
  "currencies": [
   "ETB"
  ],
- "locale": "en-ET",
+ "locale": "am-ET",
  "languages": [
   "am"
  ],
  "regional_languages": [],
- "ui_language": "en",
+ "ui_language": "am",
  "tz": "Africa/Addis_Ababa",
  "time_zones": [
   "Africa/Addis_Ababa"

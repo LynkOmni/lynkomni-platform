@@ -106,6 +106,50 @@
      700
     ]
    }
+  },
+  "noto-sans-bengali": {
+   "path": "ofl/notosansbengali/NotoSansBengali[wdth,wght].ttf",
+   "sha256": "dcd42978094e584a849c84a51450eeac40c8826057d566ea6d4b9627a403a05a",
+   "axes_kept": {
+    "wght": [
+     400,
+     700
+    ],
+    "wdth": 100
+   }
+  },
+  "noto-sans-tamil": {
+   "path": "ofl/notosanstamil/NotoSansTamil[wdth,wght].ttf",
+   "sha256": "aa3a9b321f4b0bb2c40203ffbde9af89713227866e0e13f76e5b9eeea727cf88",
+   "axes_kept": {
+    "wght": [
+     400,
+     700
+    ],
+    "wdth": 100
+   }
+  },
+  "noto-sans-thai": {
+   "path": "ofl/notosansthai/NotoSansThai[wdth,wght].ttf",
+   "sha256": "5a1c559bb539583c8a1fd99d1c5b9491e5e14478c9cd2bd0970d5c3096cc9ef8",
+   "axes_kept": {
+    "wght": [
+     400,
+     700
+    ],
+    "wdth": 100
+   }
+  },
+  "noto-sans-ethiopic": {
+   "path": "ofl/notosansethiopic/NotoSansEthiopic[wdth,wght].ttf",
+   "sha256": "0dbccc00b22d180ebd6a4bd8a733918a29e709fa6798023adc3e6cd40da65077",
+   "axes_kept": {
+    "wght": [
+     400,
+     700
+    ],
+    "wdth": 100
+   }
   }
  },
  "outputs": {
@@ -153,9 +197,17 @@
    "bytes": 84200,
    "sha256": "c790dc0439975edfee5b195907b105e2b4630e1a4884c9180d45a1ae0feb7c29"
   },
+  "noto-sans-bengali-bengali.woff2": {
+   "bytes": 75412,
+   "sha256": "06d96c67159cb603d49d655f5f90eed41702bf5cb7037e409d6e173e5722de46"
+  },
   "noto-sans-devanagari-devanagari.woff2": {
    "bytes": 81192,
    "sha256": "f0959a1b8604b49648c7c821f6c8aabb0f2d2350126bd3184d7e7545a0e1be59"
+  },
+  "noto-sans-ethiopic-ethiopic.woff2": {
+   "bytes": 119136,
+   "sha256": "ff59661ee6cd2183625ea31031e4b6ba17e65fd9abc1f40be908354b21ed6ae5"
   },
   "noto-sans-hebrew-hebrew.woff2": {
    "bytes": 11248,
@@ -913,6 +965,10 @@
    "bytes": 36720,
    "sha256": "ff2bd49159340086463e494be11863b5c632718bda1a8e43c0bbd45d666a0d00"
   },
+  "noto-sans-tamil-tamil.woff2": {
+   "bytes": 26772,
+   "sha256": "69b1ab76e91f97d6425685a672474b18a6f2fe6fd3f2a614bdb1f11c1f440236"
+  },
   "noto-sans-tc-han-traditional-2e80.woff2": {
    "bytes": 56932,
    "sha256": "540e9e8b67f30b509eb4813ccbf0fb1210d6d09f4e847a8d2ab3f9b25a364a4e"
@@ -1140,6 +1196,10 @@
   "noto-sans-tc-han-traditional-f900.woff2": {
    "bytes": 20168,
    "sha256": "f269a3d20011de79c0217bfd70d46082a5340caf30d70870c1050a055d046daa"
+  },
+  "noto-sans-thai-thai.woff2": {
+   "bytes": 15208,
+   "sha256": "6361c1837d7bb939ca5b8b8f3d8e17b09bc888bbc96e2216aa2c9a3a38708170"
   }
  }
 }

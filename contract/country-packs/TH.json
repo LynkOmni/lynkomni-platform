@@ -6,12 +6,12 @@
  "currencies": [
   "THB"
  ],
- "locale": "en-TH",
+ "locale": "th-TH",
  "languages": [
   "th"
  ],
  "regional_languages": [],
- "ui_language": "en",
+ "ui_language": "th",
  "tz": "Asia/Bangkok",
  "time_zones": [
   "Asia/Bangkok"

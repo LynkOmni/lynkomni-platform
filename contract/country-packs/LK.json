@@ -6,13 +6,13 @@
  "currencies": [
   "LKR"
  ],
- "locale": "en-LK",
+ "locale": "ta-LK",
  "languages": [
   "si",
   "ta"
  ],
  "regional_languages": [],
- "ui_language": "en",
+ "ui_language": "ta",
  "tz": "Asia/Colombo",
  "time_zones": [
   "Asia/Colombo"

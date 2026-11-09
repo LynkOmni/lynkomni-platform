@@ -6,13 +6,13 @@
  "currencies": [
   "AWG"
  ],
- "locale": "en-AW",
+ "locale": "nl-AW",
  "languages": [
   "nl",
   "pap"
  ],
  "regional_languages": [],
- "ui_language": "en",
+ "ui_language": "nl",
  "tz": "America/Aruba",
  "time_zones": [
   "America/Aruba"

@@ -6,14 +6,14 @@
  "currencies": [
   "XCG"
  ],
- "locale": "en-CW",
+ "locale": "nl-CW",
  "languages": [
   "nl"
  ],
  "regional_languages": [
   "pap"
  ],
- "ui_language": "en",
+ "ui_language": "nl",
  "tz": "America/Curacao",
  "time_zones": [
   "America/Curacao"

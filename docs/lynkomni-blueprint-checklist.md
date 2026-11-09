@@ -71,4 +71,4 @@ choice is recorded in docs/lynkomni-decisions.md (owner, 9 November 2026: follow
 | 3.17 | Emulators (42 J): merchant phone with agent point mode and every service, handheld, counter tablet with display, button phone, scanner, card, mesh relay, owner's web view, kitchen screen, rider phone, standalone customer display, automation panel | done (v0.24.0) |
 | 3.18 | Customer display welcome screen brand mark | done (v0.23.1): place customer-welcome, logo |
 | 3.19 | Control Center screens (38 C row 1 sends merchant-app items to section 3; 41 S row 12 lists the Control Center in section 12) | settled by the blueprint's order: section 12 (41 S) |
-| 3.20 | Language wave 2 (43 G): Bengali, Tamil, Thai, Amharic, Hausa, Yoruba, Zulu, Filipino, Polish, Dutch, Ukrainian, Malay | list restored (v0.23.1); built now under the owner's rule "build everything that can be built now" (Phase 5) |
+| 3.20 | Language wave 2 (43 G): Bengali, Tamil, Thai, Amharic, Hausa, Yoruba, Zulu, Filipino, Polish, Dutch, Ukrainian, Malay | done (v0.26.0): 38 languages; every emulator translated, fonts for Bengali, Tamil, Thai and Ethiopic, layout test passed in every language |

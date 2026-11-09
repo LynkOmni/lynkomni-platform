@@ -6,12 +6,12 @@
  "currencies": [
   "BND"
  ],
- "locale": "en-BN",
+ "locale": "ms-BN",
  "languages": [
   "ms"
  ],
  "regional_languages": [],
- "ui_language": "en",
+ "ui_language": "ms",
  "tz": "Asia/Brunei",
  "time_zones": [
   "Asia/Brunei"

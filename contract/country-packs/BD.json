@@ -6,12 +6,12 @@
  "currencies": [
   "BDT"
  ],
- "locale": "en-BD",
+ "locale": "bn-BD",
  "languages": [
   "bn"
  ],
  "regional_languages": [],
- "ui_language": "en",
+ "ui_language": "bn",
  "tz": "Asia/Dhaka",
  "time_zones": [
   "Asia/Dhaka"

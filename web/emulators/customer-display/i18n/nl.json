@@ -1,0 +1,11 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "nl",
+ "native": "Nederlands",
+ "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "texts": {
+  "title": "LynkPOS-klantscherm"
+ }
+}
