@@ -111,7 +111,7 @@
       "section": 3,
       "what": "A counter till: tablet on a stand with a customer-facing screen, scanner, cash drawer and printer; tables, kitchen, shifts, day close, staff, deliveries, buy together, setup, credit and sell by voice.",
       "try": "Unlock with PIN 1234, sell two items, take cash and close the shift.",
-      "url": ""
+      "url": "https://claude.ai/artifact/TeVjGFAMAxtyumZY2VuXVj"
     },
     {
       "id": "kitchen-screen",
@@ -119,7 +119,7 @@
       "section": 3,
       "what": "The kitchen display: tickets in order, lines marked ready, late tickets highlighted, and printed slips on the Free plan.",
       "try": "Send a test order from the panel and mark its lines ready.",
-      "url": ""
+      "url": "https://claude.ai/artifact/9aUfZojeVz7bcS4sotptTV"
     },
     {
       "id": "customer-display",
@@ -127,7 +127,7 @@
       "section": 3,
       "what": "The screen the customer sees at the till: welcome, the basket line by line, pay by QR with an honest state, thank you.",
       "try": "Add items and pay; watch the state go from sent to confirmed.",
-      "url": ""
+      "url": "https://claude.ai/artifact/B9soSjcyGXCUW2f6xMR6gi"
     },
     {
       "id": "rider-phone",
@@ -135,7 +135,7 @@
       "section": 3,
       "what": "The shop's own rider: jobs, pickup, delivery with the customer's code or a parcel photo (never a person).",
       "try": "Open a job, pick it up and deliver with the code.",
-      "url": ""
+      "url": "https://claude.ai/artifact/KhEBHf1pGXxrAjD3p9zB2B"
     },
     {
       "id": "stock-scanner",
@@ -143,7 +143,7 @@
       "section": 3,
       "what": "A rugged scanner: count, receive and adjust stock by barcode, with below-zero items flagged for a recount.",
       "try": "Press the trigger to scan, then count and save.",
-      "url": ""
+      "url": "https://claude.ai/artifact/EKxa28BubrUYS3APPiPQNe"
     },
     {
       "id": "button-phone",
@@ -151,7 +151,7 @@
       "section": 3,
       "what": "Selling and checking stock from a basic phone through a short-code menu, for places without smartphones.",
       "try": "Use the arrow keys to make a sale and read today's total.",
-      "url": ""
+      "url": "https://claude.ai/artifact/4VG7qLhvnPrXjTxYuS51xS"
     },
     {
       "id": "vcard-card",
@@ -159,7 +159,7 @@
       "section": 3,
       "what": "The four card faces (Free, Plus, Pro, Max), flip, freeze that shows only after the issuer confirms, and card details only after step-up inside the issuer's display.",
       "try": "Flip the card, then freeze it and watch it wait for the issuer.",
-      "url": ""
+      "url": "https://claude.ai/artifact/Q85Fr32RyXL8LAyxExSQQP"
     },
     {
       "id": "mesh-relay",
@@ -167,7 +167,7 @@
       "section": 3,
       "what": "Two devices, one offline: a sale travels sealed through the nearby device and shows sent, awaiting cloud until the cloud accepts it; a tampered packet is refused.",
       "try": "Sell on device A, relay, and try the tamper test.",
-      "url": ""
+      "url": "https://claude.ai/artifact/97yk1aopjBUx5eD4Jbz311"
     },
     {
       "id": "owner-web",
@@ -175,7 +175,7 @@
       "section": 3,
       "what": "The owner's browser view: today, sales, devices, staff, agent commissions, every automation with why and an off switch, and data sharing. Selling stays on registered devices.",
       "try": "Open Automations and press Why did this happen?",
-      "url": ""
+      "url": "https://claude.ai/artifact/G6YYsSQeprbNUfyRGwjMH5"
     }
   ]
 }
