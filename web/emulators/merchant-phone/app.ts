@@ -12,7 +12,12 @@ import { adjust, afterSale, canChangeSettings, canSeeProfit, counted, daySummary
 import type { DaySale, Levels, Link, Role, StockItem } from "../../../ts/src/merchant.js";
 import { CHAT_FILTERS, COUNT_KINDS, FIRST_PRODUCT_WAYS, HUB, PAY_WAYS, REMOVE_REASONS, RETURN_REASONS, SETTINGS, SETUP_CHECKLIST, STOCK_FILTERS, TABS, THREAD_ACTIONS, VOID_REASONS,
   creditNeedsCustomer, moveStock, nextChecklistStep, parseVoice, payWay, receiptOptions, returnLine, secondCurrency, splitCheck, stockFilter, webRule } from "../../../ts/src/business.js";
-import type { BusinessType, ChecklistStep, PosEntitlement } from "../../../ts/src/business.js";
+import type { BusinessType, ChecklistStep, PosEntitlement, Entity, Workspaces } from "../../../ts/src/business.js";
+import { workspaceTabs, workspaceWord } from "../../../ts/src/business.js";
+import { Tracking } from "../../../ts/src/tracking.js";
+import type { View as TrackView } from "../../../ts/src/tracking.js";
+import { REGISTER } from "../../../ts/src/tracking.generated.js";
+import { trackerHtml, trackerLine } from "../../../ts/src/trackview.js";
 import { AGENT_SERVICES, COLLECTION_KINDS, FINANCE_PRODUCTS, combinedLimits, commission, floatForecastDays, limitCheck, lowFloat, mayHandOverCash } from "../../../ts/src/agent.js";
 import type { AgentState, Limits } from "../../../ts/src/agent.js";
 import { TEST_LANGS, esc, newId, pick, pseudo, publicId, randomBytes } from "../../../ts/src/emulator.js";
@@ -40,6 +45,8 @@ interface BuildData {
   /** LynkPOS standard monthly prices in USD by tier, from services/billing.py FAMILIES (locked prices, version 3). */
   plans: number[];
   automations: { id: string; level: string }[];
+  /** who the app is for (catalog/workspaces.v1.json): a person, a company or an organisation */
+  workspaces: Workspaces;
 }
 interface CountryPack {
   code: string; name: string; currency: string; tz: string; locale: string; sample: boolean;
@@ -50,10 +57,10 @@ declare const DATA: BuildData;
 /** The country the emulator shows. Read from the country pack and the provider ledger; nothing about a country lives in this code. */
 const pack = (): CountryPack => DATA.packs[S.country] ?? DATA.packs[DATA.packOrder[0] ?? ""] as CountryPack;
 
-type Tab = "home" | "sell" | "stock" | "chats" | "business" | "services" | "float" | "invoices" | "customers" | "tables" | "kitchen";
+type Tab = "home" | "sell" | "stock" | "chats" | "business" | "services" | "float" | "invoices" | "customers" | "tables" | "kitchen" | "books";
 /** One name per screen of the register (catalog/business-app.v1.json), plus the in-between steps of a flow. */
 type View = "main" | "basket" | "pay" | "cash" | "momo" | "split" | "credit" | "waiting" | "done" | "receipt" | "off" | "sales" | "sale" | "shift" | "practice"
-  | "item" | "add" | "received" | "count" | "remove" | "move" | "suppliers" | "reorder" | "marketplace" | "labels" | "import" | "thread" | "svc"
+  | "item" | "add" | "received" | "count" | "remove" | "move" | "suppliers" | "reorder" | "marketplace" | "labels" | "import" | "thread" | "svc" | "deliveries" | "delivery"
   | "notifications" | "account" | "hub" | "setting" | "cashcheck";
 /** Agent point mode (blueprint 42 C and 42 I): the sample partners are sandbox partners; the float sits in the agent's own
  *  account at each partner and is only read from it. The device asks; the partner alone confirms. */
@@ -69,6 +76,8 @@ interface Msg { out: boolean; text: string; at: number; state: UserState; card?:
 interface Thread { id: string; name: string; msgs: Msg[]; unread: number; order: boolean; assigned: string; lang: string; support?: boolean }
 interface Item extends Product, StockItem { unit: string; variants: string[]; branch: string; supplier: string }
 interface Customer { id: string; name: string; owes: number }
+/** A delivery booked from a sale: the shop's own rider or a partner; its steps come from the tracking engine. */
+interface Delivery { id: string; pid: string; order: string; receipt: string; own: boolean; timer: number }
 interface Staff { id: string; name: string; role: Role; pin: boolean }
 interface Notice { id: string; key: string; vars: Record<string, string | number>; at: number; read: boolean }
 
@@ -123,7 +132,10 @@ const S = {
   invoices: [] as Invoice[], tables: [] as Table[], devices: [] as { id: string; name: string; revoked: boolean }[], runs: [] as { auto: string; at: number }[], autoOff: new Set<string>(),
   toggles: new Set<string>(["n_sales", "n_stock", "n_chats", "pin_lock", "idle_lock", "receipt_qr", "ads_never_protected"]), username: "", userDraft: "", takenNames: new Set<string>(["sampleshop"]),
   ask: "", answer: "", clockedIn: false, clockId: "", staffPhone: "", supplier: "s1", lynkTail: "7715",
+  entity: "company" as Entity, kind: "business", deliveries: [] as Delivery[], delivery: "",
 };
+/** Every tracked thing on this phone (deliveries, kitchen orders, payments, agent requests) follows the shared engine (ts/src/tracking.ts). */
+const TRK = new Tracking(REGISTER);
 
 const $ = <T extends HTMLElement>(sel: string): T => document.querySelector(sel) as T;
 const isTest = (): boolean => (TEST_LANGS as readonly string[]).includes(S.lang);
@@ -159,7 +171,8 @@ const total = (): number => Math.max(0, S.cart.total() - S.discount);
 function address(): string {
   const id = screenId(), p = DATA.screens.find((s) => s.id === id)?.path ?? "/";
   if (p.startsWith("account.")) return p;
-  return `app.lynkomni.com${p.replace("{product_id}", S.product || "new").replace("{LOCNV}", S.thread || "")}`;
+  const dl = S.deliveries.find((x) => x.id === S.delivery) ?? S.deliveries[0];
+  return `app.lynkomni.com${p.replace("{product_id}", S.product || "new").replace("{LOCNV}", S.thread || "").replace("{LODLV}", dl?.pid ?? "")}`;
 }
 
 // ---- event log and the simulated cloud --------------------------------------------------------------------------
@@ -167,7 +180,7 @@ function address(): string {
 function emit(type: string, payload: unknown, origin: "device" | "server" = "device"): Ev {
   const e: Ev = { n: S.events.length + 1, type, origin, payload, sync: origin === "server" ? "accepted" : "queued", at: Date.now() };
   if (S.practice) return e;
-  S.events.unshift(e); drawLog(); return e;
+  S.events.unshift(e); TRK.apply({ type, payload: payload as Record<string, unknown>, at: e.at / 1000 }, "me"); drawLog(); return e;
 }
 function tick(): void {
   S.ticks += 1;
@@ -353,11 +366,15 @@ function topBar(title: string, back?: string): string {
     <button class="iconbtn avatarbtn" data-act="view:account" aria-label="${esc(t("account"))}"><span class="initials" aria-hidden="true">${esc(initials)}</span></button></div>`;
 }
 const TAB_ICON: Record<string, string> = { home: "ui-home", sell: "ui-cart", stock: "product-stock", chats: "product-chat", business: "product-dash", services: "ui-grid", float: "ui-float",
-  invoices: "ui-receipt", customers: "ui-user", tables: "ui-grid", kitchen: "ui-receipt" };
+  invoices: "ui-receipt", customers: "ui-user", tables: "ui-grid", kitchen: "ui-receipt", books: "ui-doc" };
+/** The tabs of this workspace: the business type's tabs, or an office workspace's (a person's or an organisation's, no till). */
+const tabs = (): readonly Tab[] => workspaceTabs(DATA.workspaces, S.entity, S.btype) as readonly Tab[];
+/** A word as this workspace says it (catalog/workspaces.v1.json): customers are contacts for a person, members for an organisation. */
+const ww = (k: string): string => t(workspaceWord(DATA.workspaces, S.entity, k));
+const office = (): boolean => S.entity !== "company" && S.btype === "no_till";
 /** Tabs follow the business type (5, 42 H): bottom tabs on a phone, the same tabs in a side rail on a tablet (41 E). */
 function tabBar(): string {
-  const tabs = TABS[S.btype] as readonly Tab[];
-  return `<nav class="${S.size === "tablet" ? "rail" : "tabbar"}" aria-label="LynkOmni">${tabs.map((k) => `<button data-act="tab:${k}" ${S.tab === k ? 'aria-current="page"' : ""}>${icon(TAB_ICON[k] ?? "ui-grid")}<span>${esc(t(`tab_${k}`))}</span>${k === "chats" && unread() ? `<span class="dot">${unread()}</span>` : ""}</button>`).join("")}</nav>`;
+  return `<nav class="${S.size === "tablet" ? "rail" : "tabbar"}" aria-label="LynkOmni">${tabs().map((k) => `<button data-act="tab:${k}" ${S.tab === k ? 'aria-current="page"' : ""}>${icon(TAB_ICON[k] ?? "ui-grid")}<span>${esc(ww(`tab_${k}`))}</span>${k === "chats" && unread() ? `<span class="dot">${unread()}</span>` : ""}</button>`).join("")}</nav>`;
 }
 const summary = () => daySummary(S.sales, COSTS);
 const flash = (): string => (S.flash ? `<div class="toast" role="status">${icon("ui-check")}<span>${esc(S.flash)}</span></div>` : "");
@@ -366,7 +383,51 @@ const row = (label: string, value: string, act = ""): string => act
   : `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(label)}</span>${value ? `<span class="sub">${esc(value)}</span>` : ""}</span></div></li>`;
 const practiceBanner = (): string => (S.practice ? `<p class="practice" role="status">${icon("ui-warning")}<span>${esc(t("practice_banner"))}</span></p>` : "");
 
+// ---- tracking (owner, 9 November 2026): everything on its way, from the shared engine and drawn the same everywhere ----------
+const trackLook = { t, esc, icon: (id: string) => icon(id), time: (iso: string) => clock(Date.parse(iso)), chip: (st: TrackView["state"]) => chip(st) };
+const trackTitle = (v: TrackView): string => {
+  const d = S.deliveries.find((x) => x.id === v.record);
+  return d ? `${t("trk_k_delivery")} · ${t("receipt")} ${d.receipt}` : t(v.label);
+};
+function onTheWayCard(): string {
+  const act = TRK.active("me").filter((v) => v.kind === "delivery" || v.kind === "order");
+  return `<div class="card" data-item="on_the_way"><h2>${icon("ui-cart")}<span>${esc(t("trk_on_the_way"))}</span></h2>${act.length
+    ? `<ul class="list">${act.slice(0, 3).map((v) => trackerLine(v, trackLook, trackTitle(v), v.kind === "delivery" ? `delivery:${v.record}` : "view:deliveries")).join("")}</ul><button class="ghost inline" data-act="view:deliveries">${esc(t("deliveries"))}</button>`
+    : `<p>${esc(t("trk_none"))}</p>`}</div>`;
+}
+function deliveriesScreen(): string {
+  const all = TRK.active("me"), done = S.deliveries.map((d) => TRK.view("delivery", d.id, "merchant")).filter((v): v is TrackView => !!v && v.ended);
+  return `${topBar(t("deliveries"), "tab:home")}<div class="body"><ul class="list card" data-item="trackers">${[...all, ...done].map((v) => trackerLine(v, trackLook, trackTitle(v), v.kind === "delivery" ? `delivery:${v.record}` : "view:deliveries")).join("") || `<li><p class="info">${esc(t("trk_none"))}</p></li>`}</ul>${flash()}</div>`;
+}
+function deliveryScreen(): string {
+  const d = S.deliveries.find((x) => x.id === S.delivery) ?? S.deliveries[0];
+  const v = d ? TRK.view("delivery", d.id, "merchant") : null;
+  if (!d || !v) return deliveriesScreen();
+  return `${topBar(t("trk_k_delivery"), "view:deliveries")}<div class="body">${trackerHtml(v, trackLook, trackTitle(v))}
+    <div class="card" data-item="track_link"><h2>${esc(t("trk_link"))}</h2><p class="mono">shop.lynkomni.com/track/${esc(d.pid)}</p><button class="ghost inline" data-act="copylink">${icon("ui-copy")}<span>${esc(t("trk_copy"))}</span></button></div>
+    <p class="sub" data-item="tracking_privacy">${esc(t("trk_privacy"))}</p><p class="sub">${esc(t(d.own ? "own_rider" : "partner"))}</p>${flash()}</div>`;
+}
+/** Book a delivery for the sale just made: the shop's own rider when the plan has one, else the sandbox partner. The partner (or the
+ *  rider's phone) reports each step; here a timer plays that part, and progress is a share of the trip, never a position. */
+function bookDelivery(): void {
+  const c = S.current; if (!c || S.deliveries.some((d) => d.order === c.sale.sale_id)) return;
+  const own = (ent().own_riders ?? 0) !== 0, id = newId();
+  const d: Delivery = { id, pid: publicId("DLV"), order: c.sale.sale_id, receipt: c.sale.receipt_number_local, own, timer: 0 };
+  S.deliveries.unshift(d); S.delivery = id;
+  emit("DeliveryRequested", { delivery_id: id, order_id: c.sale.sale_id, own_rider: own, price: own ? 0 : 1500, currency: pack().currency });
+  const eta = new Date(Date.now() + 30 * 60_000).toISOString().slice(0, 19) + "Z";
+  const steps: [number, () => void][] = [
+    [700, () => { emit("DeliveryAccepted", { delivery_id: id, partner_reference: own ? "own-rider" : "SBXD-SAMPLE", eta }, "server"); }],
+    [2200, () => { emit("DeliveryPickedUp", { delivery_id: id }, own ? "device" : "server"); TRK.setProgress("delivery", id, 0.1); }],
+    [3600, () => { TRK.setProgress("delivery", id, 0.45); }], [5000, () => { TRK.setProgress("delivery", id, 0.8); }],
+    [6400, () => { emit("DeliveryDelivered", { delivery_id: id, proof: "code" }, own ? "device" : "server"); toast(t("delivered")); }]];
+  let i = 0;
+  const next = (): void => { const st = steps[i]; if (!st) return; d.timer = window.setTimeout(() => { if (online()) { st[1](); i += 1; } next(); draw(); }, reduced() ? 150 : st[0] - (steps[i - 1]?.[0] ?? 0)); };
+  next(); S.tab = "home"; S.view = "delivery"; draw();
+}
+
 function home(): string {
+  if (office()) return officeHome();
   const blocks = homeBlocks(S.role, S.perms), sm = summary(), out: string[] = [`<p class="greet">${esc(t("hello", { shop: shop() }))}</p>`, DSH.searchField()];
   const kpis = blocks.filter((b) => b === "sales" || b === "profit").map((b) => `<div class="card kpi" data-item="${b === "sales" ? "today_sales" : "today_profit"}"><span>${esc(t(b === "sales" ? "today_sales" : "today_profit"))}</span><strong>${esc(money(b === "sales" ? sm.total : sm.profit))}</strong>${b === "sales" ? `<small>${esc(t("sales_count", { n: sm.count }))}</small>` : ""}</div>`);
   if (kpis.length) out.push(kpis.length === 2 ? `<div class="duo">${kpis.join("")}</div>` : kpis.join(""));
@@ -381,9 +442,30 @@ function home(): string {
     }
     if (b === "chats") out.push(`<button class="card rowbtn" data-act="tab:chats" data-item="chats">${icon("product-chat")}<span class="main"><span class="nm">${esc(t("tab_chats"))}</span><span class="sub">${esc(unread() ? t("unread", { n: unread() }) : t("no_unread"))}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>`);
     if (b === "insight") { const best = insight(S.sales); out.push(`<div class="card" data-item="insight"><h2>${icon("product-grow")}<span>${esc(t("insight"))}</span></h2><p>${esc(best ? t("best_seller", { product: best.name, qty: qtyText(best.qtyMilli) }) : t("no_insight"))}</p></div>`); }
-    if (b === "pending") { const p = pending(S.events.map((e) => e.sync)); out.push(`<button class="card rowbtn" data-act="sheet" data-item="pending_sync">${chip(p.state)}<span class="main"><span class="sub">${esc(p.count ? t("waiting_send", { n: p.count }) : t("all_sent"))}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>`); }
+    if (b === "pending") { out.push(onTheWayCard()); const p = pending(S.events.map((e) => e.sync)); out.push(`<button class="card rowbtn" data-act="sheet" data-item="pending_sync">${chip(p.state)}<span class="main"><span class="sub">${esc(p.count ? t("waiting_send", { n: p.count }) : t("all_sent"))}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>`); }
   }
   return `${topBar(t("tab_home"))}<div class="body">${practiceBanner()}${out.join("")}</div>`;
+}
+
+/** Home of an office workspace (a person or an organisation without a till): money in and out this month, invoices waiting, things on their way. */
+function officeHome(): string {
+  const paid = S.invoices.filter((v) => v.state === "confirmed").reduce((a, v) => a + v.amount, 0), waiting = S.invoices.filter((v) => v.state !== "confirmed").length;
+  return `${topBar(t("tab_home"))}<div class="body">${practiceBanner()}<p class="greet">${esc(t("hello", { shop: shop() }))}</p>${DSH.searchField()}
+    <div class="duo"><div class="card kpi" data-item="today_sales"><span>${esc(t("money_in"))}</span><strong>${esc(money(paid))}</strong></div><div class="card kpi" data-item="today_profit"><span>${esc(t("money_out"))}</span><strong>${esc(money(0))}</strong></div></div>
+    <button class="big" data-act="newinvoice" data-item="new_sale">${icon("ui-plus")}<span>${esc(t("new_invoice"))}</span></button>
+    <button class="card rowbtn" data-act="tab:invoices" data-item="stock_alerts">${icon("ui-receipt")}<span class="main"><span class="nm">${esc(t("tab_invoices"))}</span><span class="sub">${esc(waiting ? t("waiting_send", { n: waiting }) : t("no_invoices"))}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>
+    <button class="card rowbtn" data-act="tab:books" data-item="insight">${icon("ui-doc")}<span class="main"><span class="nm">${esc(t("tab_books"))}</span><span class="sub">${esc(t("office_note"))}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>
+    <button class="card rowbtn" data-act="tab:customers" data-item="chats">${icon("ui-user")}<span class="main"><span class="nm">${esc(ww("tab_customers"))}</span><span class="sub">${esc(t("people_n", { n: CUSTOMERS.length }))}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>
+    ${onTheWayCard()}<button class="card rowbtn" data-act="sheet" data-item="pending_sync">${chip(pending(S.events.map((e) => e.sync)).state)}<span class="main"><span class="sub">${esc(pending(S.events.map((e) => e.sync)).count ? t("waiting_send", { n: pending(S.events.map((e) => e.sync)).count }) : t("all_sent"))}</span></span>${icon("ui-chevron-right", "ic fwd")}</button></div>`;
+}
+/** Books of an office workspace: the categories this entity uses, each posting to one account of the global chart, and an organisation's funds. */
+function booksTab(): string {
+  const e = DATA.workspaces.entities[S.entity], cats = e?.categories, funds = e?.funds ?? [];
+  const list = (side: "income" | "expense"): string => `<ul class="list card">${(cats?.[side] ?? []).map((c) => row(t("cat_" + c.id), "")).join("")}</ul>`;
+  return `${topBar(t("tab_books"))}<div class="body"><div class="card" data-item="profit_loss"><h2>${esc(t("it_profit_loss"))}</h2><div class="kv"><span>${esc(t("money_in"))}</span><strong>${esc(money(0))}</strong></div><div class="kv"><span>${esc(t("money_out"))}</span><strong>${esc(money(0))}</strong></div></div>
+    <h2 class="sect" data-item="expenses">${esc(t("categories_income"))}</h2>${list("income")}<h2 class="sect" data-item="cash_book">${esc(t("categories_expense"))}</h2>${list("expense")}
+    ${funds.length ? `<h2 class="sect">${esc(t("funds"))}</h2><ul class="list card">${funds.map((f) => row(t("fund_" + f), "")).join("")}</ul>` : ""}
+    <p class="sub" data-item="owed_to_me">${esc(t("office_note"))}</p><p class="sub" data-item="audit_export">${esc(t("full_pages_web", { path: "/accounting" }))}</p><span data-item="accountant_access" hidden></span>${flash()}</div>`;
 }
 
 function sell(): string {
@@ -458,7 +540,8 @@ function sell(): string {
         <div class="receipt"><span class="nm">${esc(t("receipt"))} ${esc(c.sale.receipt_number_local)}</span>${c.payments.map((p) => `<span>${esc(t("method_" + p.method))} · ${esc(money(p.amount))} ${p.status === "pending_confirmation" ? chip("sent") : p.status === "confirmed" ? chip("confirmed") : p.status === "failed" ? chip("failed") : ""}</span>`).join("")}
           <span>${esc(t("provisional"))}</span><span data-item="not_tax_receipt">${esc(t("not_tax"))}</span><span class="verify" data-item="verify_qr">${icon("ui-qr")}<span>${esc(t("verify_receipt"))}</span></span></div>
         <h2 class="sect">${esc(t("send_receipt"))}</h2><div class="quick">${["print", "qr", "chat_link", "sms_link"].map((o) => `<button data-act="receipt:${o}" data-item="${o}" ${opts.includes(o) ? "" : "disabled"}>${esc(t("rc_" + o))}</button>`).join("")}</div>
-        ${opts.includes("chat_link") ? "" : `<p class="sub">${esc(t("message_receipts_plan"))}</p>`}${flash()}</div>
+        ${opts.includes("chat_link") ? "" : `<p class="sub">${esc(t("message_receipts_plan"))}</p>`}
+        <button class="ghost inline" data-act="deliver" ${S.deliveries.some((d) => d.order === c.sale.sale_id) ? "disabled" : ""}>${icon("ui-cart")}<span>${esc(t("deliver_order"))}</span></button>${flash()}</div>
         <div class="foot"><button class="primary" data-act="newsale">${esc(t("new_sale"))}</button></div>`;
     }
     case "off":
@@ -845,7 +928,7 @@ function invoices(): string {
     <p class="sub">${esc(t("invoice_rules"))}</p><p class="sub">${esc(t("full_pages_web", { path: "/invoicing" }))}</p>${flash()}</div>`;
 }
 function customersTab(): string {
-  return `${topBar(t("tab_customers"))}<div class="body"><ul class="list card">${CUSTOMERS.map((c) => `<li><div class="rowbtn static"><span class="avatar" aria-hidden="true">${esc(c.name.slice(0, 1))}</span><span class="main"><span class="nm">${esc(c.name)}</span><span class="sub">${esc(c.owes ? t("owes", { name: c.name, amount: money(c.owes) }) : t("owes_nothing"))}</span></span>
+  return `${topBar(ww("tab_customers"))}<div class="body"><ul class="list card">${CUSTOMERS.map((c) => `<li><div class="rowbtn static"><span class="avatar" aria-hidden="true">${esc(c.name.slice(0, 1))}</span><span class="main"><span class="nm">${esc(c.name)}</span><span class="sub">${esc(c.owes ? t("owes", { name: c.name, amount: money(c.owes) }) : t("owes_nothing"))}</span></span>
     ${c.owes ? `<button class="ghost small" data-act="paidcredit:${c.id}">${esc(t("record_paid"))}</button>` : ""}</div></li>`).join("")}</ul>
     <p class="sub">${esc(t("credit_reminders"))}</p><p class="sub">${esc(t("full_pages_web", { path: "/crm" }))}</p>${flash()}</div>`;
 }
@@ -897,6 +980,11 @@ function setup(): string {
   const step = (k: ChecklistStep): string => `<li data-item="${k}"><div class="rowbtn static"><span class="main"><span class="nm">${esc(t("cl_" + k))}</span><span class="sub">${esc(S.setupDone.has(k) ? t("done") : S.setupSkipped.has(k) ? t("skipped") : "")}</span></span>${S.setupDone.has(k) ? icon("ui-check") : ""}</div></li>`;
   let body = "";
   switch (next) {
+    case "who_for": {
+      const kinds = DATA.workspaces.entities[S.entity]?.kinds ?? [];
+      body = `<div class="reasons who">${(["person", "company", "organisation"] as Entity[]).map((e) => `<button data-act="entity:${e}" aria-pressed="${S.entity === e}"><strong>${esc(t("entity_" + e))}</strong><span>${esc(t("entity_" + e + "_help"))}</span></button>`).join("")}</div>
+        ${kinds.length > 1 ? `<div class="reasons">${kinds.map((k) => `<button data-act="kind:${k}" aria-pressed="${S.kind === k}">${esc(t("kind_" + k))}</button>`).join("")}</div>` : ""}<p class="sub">${esc(t("office_note"))}</p>`; break;
+    }
     case "business_name_type": body = `<label class="field"><span>${esc(t("st_shop_name"))}</span><input id="shopIn" data-in="shopname" value="${esc(S.shopName)}" autocomplete="off"></label>
       <div class="reasons">${(["shop", "no_till", "agent_point", "restaurant"] as BusinessType[]).map((b) => `<button data-act="btype:${b}" aria-pressed="${S.btype === b}">${esc(t("type_" + b))}</button>`).join("")}</div>`; break;
     case "currency": body = `<p class="kv"><span>${esc(t("st_currency"))}</span><strong>${esc(pack().currency)}</strong></p><p class="sub">${esc(t("currency_from_region"))}</p>`; break;
@@ -915,7 +1003,7 @@ const TAB_PATHS: Record<string, string> = { services: "/services", float: "/floa
 const VIEW_SCREEN: Record<string, string> = { basket: "basket", pay: "pay", cash: "pay", momo: "pay", split: "pay", credit: "pay", waiting: "pay", off: "pay", receipt: "receipt", done: "receipt",
   sales: "sales_today", sale: "sales_today", shift: "shift", practice: "practice", item: "product", add: "add_product", received: "stock_received", count: "stock_count", remove: "stock_remove",
   move: "stock_move", suppliers: "suppliers", reorder: "reorder", marketplace: "marketplace", labels: "labels", import: "import_export", thread: "thread", notifications: "notifications",
-  account: "account", setting: "settings", cashcheck: "shift" };
+  account: "account", setting: "settings", cashcheck: "shift", deliveries: "deliveries", delivery: "delivery" };
 function screenId(): string {
   if (S.view === "hub") return S.hub || "business";
   if (S.view === "svc") return "services";
@@ -941,6 +1029,8 @@ function view(): string {
   const agent = S.btype === "agent_point";
   let body: string;
   if (S.view === "notifications") body = notifications();
+  else if (S.view === "deliveries") body = deliveriesScreen();
+  else if (S.view === "delivery") body = deliveryScreen();
   else if (S.view === "account") body = account();
   else if (S.view === "svc") body = agentFlow();
   else if (S.view === "cashcheck") body = cashCheck();
@@ -953,6 +1043,7 @@ function view(): string {
     case "chats": body = chats(); break;
     case "invoices": body = invoices(); break;
     case "customers": body = customersTab(); break;
+    case "books": body = booksTab(); break;
     case "tables": body = tablesTab(); break;
     case "kitchen": body = kitchenTab(); break;
     case "business": body = business() + shortFooterHtml(new Date(), pack().tz); break;   // the one-line short footer inside apps (26 C)
@@ -1031,9 +1122,15 @@ function act(a: string): void {
         if (v === "invite_staff" && S.staffPhone) { S.staff.push({ id: newId(), name: S.staffPhone, role: "cashier", pin: false }); S.staffPhone = ""; }
         S.setupDone.add(v); S.screen = "setup"; S.tab = "home"; S.view = "main"; draw(); return;
       case "skipstep": S.setupSkipped.add(v); draw(); return;
-      case "firstsale": S.screen = "app"; S.tab = S.btype === "shop" ? "sell" : TABS[S.btype][1] as Tab; S.view = "main"; draw(); return;
+      case "firstsale": S.screen = "app"; S.tab = S.btype === "shop" ? "sell" : tabs()[1] as Tab; S.view = "main"; draw(); return;
+      case "entity": { const e = pick(["person", "company", "organisation"] as Entity[], v, "company"); S.entity = e; S.kind = DATA.workspaces.entities[e]?.kinds[0] ?? "business";
+        S.btype = DATA.workspaces.entities[e]?.default_type ?? "shop"; ($("#cEntity") as HTMLSelectElement).value = e; ($("#cType") as HTMLSelectElement).value = S.btype; draw(); return; }
+      case "kind": S.kind = pick([...(DATA.workspaces.entities[S.entity]?.kinds ?? ["business"])], v, S.kind); draw(); return;
+      case "deliver": bookDelivery(); return;
+      case "delivery": S.delivery = S.deliveries.some((x) => x.id === v) ? v : ""; S.view = "delivery"; draw(); return;
+      case "copylink": toast(t("copied")); return;
       // navigation
-      case "tab": S.tab = pick(TABS[S.btype] as readonly Tab[], v, "home"); S.view = "main"; S.note = ""; S.req = ""; S.hub = ""; S.setting = "";
+      case "tab": S.tab = pick(tabs(), v, "home"); S.view = "main"; S.note = ""; S.req = ""; S.hub = ""; S.setting = "";
         if (S.tab === "float") for (const p of PARTNERS) emit("FloatBalanceRead", { partner_id: p.id, balance: p.float, currency: pack().currency, read_at: new Date().toISOString().slice(0, 19) + "Z" }, "server");
         draw(); return;
       case "view": if (v === "choose") { S.screen = "choose"; draw(); return; } S.view = v as View; S.input = ""; S.note = ""; if (v === "notifications") window.setTimeout(() => S.notices.forEach((n) => { n.read = true; }), 0); draw(); return;
@@ -1185,6 +1282,8 @@ function go(id: string): void {
   else if (id === "business") { S.tab = "business"; S.view = "main"; }
   else if (id === "settings") { S.tab = "business"; S.hub = "settings"; S.view = "hub"; }
   else if (id === "notifications" || id === "account") { S.view = id; }
+  else if (id === "deliveries" || id === "delivery") { S.tab = "home"; S.view = id;
+    if (!S.deliveries.length) { S.btype = "shop"; S.cart.add(CATALOG[0] as Item); payPart("cash", total(), total()); bookDelivery(); } S.view = id; }
   else { S.tab = "business"; S.hub = id; S.view = "hub"; }
   draw();
 }
@@ -1212,6 +1311,7 @@ function wire(): void {
   bind("#cLink", (el) => { S.link = el.value as Link; draw(); });
   bind("#cRole", (el) => { S.role = pick(["owner", "manager", "cashier"] as Role[], el.value, "owner"); draw(); });
   bind("#cType", (el) => { S.btype = pick(["shop", "no_till", "agent_point", "restaurant"] as BusinessType[], el.value, "shop"); S.tab = "home"; S.view = "main"; S.hub = ""; draw(); });
+  bind("#cEntity", (el) => { act(`entity:${el.value}`); S.tab = "home"; S.view = "main"; S.hub = ""; draw(); });
   bind("#cSize", (el) => { S.size = el.value === "tablet" ? "tablet" : el.value === "web" ? "web" : "phone"; $("#device").className = `device ${S.size}`; fit(); draw(); });
   bind("#cTier", (el) => { S.tier = pick(TIERS as readonly string[], el.value, "free") as (typeof TIERS)[number]; draw(); });
   bind("#cOutcome", (el) => { S.outcome = el.value === "fail" ? "fail" : el.value === "silent" ? "silent" : "confirm"; });

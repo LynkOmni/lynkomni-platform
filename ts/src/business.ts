@@ -12,7 +12,26 @@ export const TABS: Record<BusinessType, readonly string[]> = {
 };
 export const tabsFor = (t: BusinessType): readonly string[] => TABS[t];
 
-export const SETUP_STEPS = ["locale_card", "business_name", "business_type", "first_product"] as const;   // under two minutes
+export const SETUP_STEPS = ["locale_card", "who_for", "business_name", "business_type", "first_product"] as const;   // under two minutes
+
+/** Who LynkOmni is for (catalog/workspaces.v1.json; core/workspaces.py): a person, a company or an organisation. The entity changes
+ *  words, tabs, categories and suggestions only; records, prices and rules are the same for everyone. */
+export interface Workspaces {
+  office_families: readonly string[];
+  entities: Record<string, { kinds: readonly string[]; default_type: BusinessType; tabs: readonly string[] | null; words: Record<string, string>; suggested: readonly string[];
+    categories: { income: readonly { id: string; account: string }[]; expense: readonly { id: string; account: string }[] }; funds?: readonly string[] }>;
+}
+export const ENTITIES = ["person", "company", "organisation"] as const;
+export type Entity = (typeof ENTITIES)[number];
+export function workspaceTabs(w: Workspaces, entity: Entity, type: BusinessType): readonly string[] {
+  const t = w.entities[entity]?.tabs;
+  return t && type === "no_till" ? t : TABS[type];
+}
+/** The word a screen shows for a key in this workspace (presentation only): customers are contacts for a person, members for an organisation. */
+export const workspaceWord = (w: Workspaces, entity: Entity, key: string): string => w.entities[entity]?.words[key] ?? key;
+export const categoryAccount = (w: Workspaces, entity: Entity, category: string): string | null =>
+  [...(w.entities[entity]?.categories.income ?? []), ...(w.entities[entity]?.categories.expense ?? [])].find((c) => c.id === category)?.account ?? null;
+export const isOfficeFamily = (w: Workspaces, family: string): boolean => w.office_families.includes(family);
 export type SetupStep = (typeof SETUP_STEPS)[number];
 export const nextSetupStep = (done: ReadonlySet<string>): SetupStep | null => SETUP_STEPS.find((s) => !done.has(s)) ?? null;
 
@@ -89,7 +108,7 @@ export const syncOrder = (pending: Readonly<Record<string, number>>): string[] =
  *  setup checklist, then the first sale. */
 export const GETTING_IN = ["sign_in", "choose_business", "register_device", "locale_card", "setup", "first_sale"] as const;
 /** The setup checklist (41 E): every step skippable, under two minutes. First products come by scan, photo, voice, template or import. */
-export const SETUP_CHECKLIST = ["business_name_type", "currency", "first_products", "invite_staff", "print_shop_qr"] as const;
+export const SETUP_CHECKLIST = ["who_for", "business_name_type", "currency", "first_products", "invite_staff", "print_shop_qr"] as const;
 export const FIRST_PRODUCT_WAYS = ["scan", "photo", "voice", "template", "import"] as const;
 export type ChecklistStep = (typeof SETUP_CHECKLIST)[number];
 /** The next step to show: the first one neither done nor skipped; null when the checklist is finished (then the first sale). */

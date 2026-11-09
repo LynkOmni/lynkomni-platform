@@ -3,12 +3,12 @@
 import { STATE_PICTURE, Undo, accountMenu, chart, comingSoon, commandBar, connectionChip, deliverNow, esc, filterRegions, globeSheet, regionName, header, helpPanel, launcher, messageNote, messageText, navigation, notificationsPanel, route, search, state, syncSheet, translationBanner, translator, undoToast, usernameField } from "../../../ts/src/shell.js";
 import type { AddressMap, ChatLang, ChatMessage, Entry, Icon, Link, NavItem, Notice, Pic, StateKind, SyncInfo, T, UsernameStatus, Viewport } from "../../../ts/src/shell.js";
 import type { UserState } from "../../../ts/src/pos.js";
-import { brandMark } from "../../../ts/src/brand.js";
+import { brandMark, markFor } from "../../../ts/src/brand.js";
 import { buildFooter, mainFooterHtml } from "../../../ts/src/footer.js";
 import type { BrandPlaces } from "../../../ts/src/brand.js";
 const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 } as const;   // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
 
-interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[]; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; state: "available" | "coming_soon" }[] }
+interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[]; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; plain: string; state: "available" | "coming_soon" }[] }
 interface BuildData {
   icons: Record<string, string>;
   brand: { body: string; receipt: string; places: BrandPlaces };
@@ -45,8 +45,11 @@ const pack = (): CountryPack => DATA.packs[S.country] ?? (DATA.packs[DATA.packOr
 const appFooter = (): string => {
   const p = pack();
   return mainFooterHtml(buildFooter({ now: new Date(), lang: S.lang, words: (k) => (k in EN ? t(k) : undefined),
-    pack: { code: p.code, name: p.name, currency: p.currency, tz: p.tz, languages: [], providers: p.providers, card_networks: p.card_networks, wallets: p.wallets } }), esc, (id) => DATA.icons[id] ?? "");
+    pack: { code: p.code, name: p.name, currency: p.currency, tz: p.tz, languages: [], providers: p.providers, card_networks: p.card_networks, wallets: p.wallets } }), esc, (id) => DATA.icons[id] ?? "",
+    { light: markFor(DATA.brand.places, "web-footer", false, FOOTER_LOGO_ROOM[S.size]).svg, dark: markFor(DATA.brand.places, "web-footer", true, FOOTER_LOGO_ROOM[S.size]).svg });
 };
+/** Room for the footer logo (brand surface web-footer): the full logo whenever 120 px or more is free, which is every size here. */
+const FOOTER_LOGO_ROOM: Record<string, number> = { computer: 180, tablet: 180, phone: 160 };
 const locale = (): string => `${isTest() ? "en" : S.lang}-${pack().code}`;
 const money = (minor: number): string => { try { return new Intl.NumberFormat(locale(), { style: "currency", currency: pack().currency }).format(minor / 100); } catch { return `${pack().currency} ${(minor / 100).toFixed(2)}`; } };
 const clock = (ms: number): string => new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, hour: "2-digit", minute: "2-digit" }).format(ms);
@@ -121,7 +124,7 @@ function main(): string {
 function overlay(): string {
   const wrap = (cls: string, inner: string) => `<div class="overlay ${cls}" data-act="closeoverlay">${inner.replace(/^<(div|aside)/, '<$1 data-act="keep"')}</div>`;
   switch (S.overlay) {
-    case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.service, name: s.name, icon: s.icon, href: `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon));
+    case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.service, name: s.name, plain: t(`ft_plain_${s.plain}`), icon: s.icon, href: `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon));
     case "account": return wrap("end", accountMenu({ name: "Grace", lynkId: "LOID-4821-9035-7715", businesses: [{ id: "b1", name: SHOP(), current: true }, { id: "b2", name: `${SHOP()} 2`, current: false }], role: "owner", roles: ["owner", "manager", "cashier"], theme: S.mode === "lite" ? "lite" : S.mode === "sunlight" ? "sunlight" : S.theme, language: langName(isTest() ? "en" : S.lang), region: pack().sample ? t("sample_country") : pack().name }, t, icon));
     case "globe": return wrap("", globeSheet(Object.entries(PACKS).map(([code, p]) => ({ code, native: p.native, dir: p.dir })), DATA.packOrder.map((c) => ({ code: c, name: (DATA.packs[c] as CountryPack).sample ? t("sample_country") : regionName(c, isTest() ? "en" : S.lang, (DATA.packs[c] as CountryPack).name) })), { language: isTest() ? "en" : S.lang, region: pack().code }, t));
     case "cmd": {
@@ -162,6 +165,7 @@ function draw(): void {
   const toasts = S.undo.openToasts(Date.now()).map((u) => undoToast(u, Date.now(), t, icon)).join("");
   d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main">${main()}<div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))}</div>${appFooter()}</main></div>${S.size === "phone" ? nav : ""}${overlay()}<div class="toasts">${toasts}</div></div>`;
   $("#device").className = `device ${S.size}`;
+  $("#tab").className = `tab ${S.theme}`;                       // the tab and its icon follow the page theme (brand surface "favicon")
   $("#url").textContent = `https://app.lynkomni.com${screenPath()}`;
   $("#tabTitle").textContent = `LynkOmni · ${SHOP()}`;
   document.querySelectorAll<HTMLElement>("#stateButtons button").forEach((b) => b.classList.toggle("on", b.dataset["state"] === S.screen));

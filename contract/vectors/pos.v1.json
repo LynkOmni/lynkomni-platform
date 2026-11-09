@@ -39,6 +39,7 @@
   },
   "setup_steps": [
    "locale_card",
+   "who_for",
    "business_name",
    "business_type",
    "first_product"
@@ -1478,6 +1479,504 @@
     "stock",
     "chats",
     "media"
+   ]
+  }
+ ],
+ "workspaces": [
+  {
+   "entity": "person",
+   "type": "shop",
+   "tabs": [
+    "home",
+    "sell",
+    "stock",
+    "chats",
+    "business"
+   ],
+   "words": {
+    "tab_customers": "tab_contacts",
+    "tab_business": "tab_workspace",
+    "it_customers": "tab_contacts",
+    "tab_home": "tab_home"
+   },
+   "accounts": {
+    "salary": "4200",
+    "freelance": "4000",
+    "other_income": "4200",
+    "rent": "6000",
+    "food": "6000",
+    "transport": "6000",
+    "utilities": "6000",
+    "school_fees": "6000",
+    "health": "6000",
+    "savings": "1020",
+    "work_costs": "6000"
+   },
+   "office": [
+    "lynkacc",
+    "lynkinv",
+    "lynkcrm",
+    "lynkstock",
+    "lynkstat",
+    "lynkchat",
+    "lynkcheckout",
+    "lynkassist",
+    "lynkops",
+    "lynksuite"
+   ]
+  },
+  {
+   "entity": "person",
+   "type": "no_till",
+   "tabs": [
+    "home",
+    "books",
+    "invoices",
+    "customers",
+    "business"
+   ],
+   "words": {
+    "tab_customers": "tab_contacts",
+    "tab_business": "tab_workspace",
+    "it_customers": "tab_contacts",
+    "tab_home": "tab_home"
+   },
+   "accounts": {
+    "salary": "4200",
+    "freelance": "4000",
+    "other_income": "4200",
+    "rent": "6000",
+    "food": "6000",
+    "transport": "6000",
+    "utilities": "6000",
+    "school_fees": "6000",
+    "health": "6000",
+    "savings": "1020",
+    "work_costs": "6000"
+   },
+   "office": [
+    "lynkacc",
+    "lynkinv",
+    "lynkcrm",
+    "lynkstock",
+    "lynkstat",
+    "lynkchat",
+    "lynkcheckout",
+    "lynkassist",
+    "lynkops",
+    "lynksuite"
+   ]
+  },
+  {
+   "entity": "person",
+   "type": "agent_point",
+   "tabs": [
+    "home",
+    "services",
+    "float",
+    "chats",
+    "business"
+   ],
+   "words": {
+    "tab_customers": "tab_contacts",
+    "tab_business": "tab_workspace",
+    "it_customers": "tab_contacts",
+    "tab_home": "tab_home"
+   },
+   "accounts": {
+    "salary": "4200",
+    "freelance": "4000",
+    "other_income": "4200",
+    "rent": "6000",
+    "food": "6000",
+    "transport": "6000",
+    "utilities": "6000",
+    "school_fees": "6000",
+    "health": "6000",
+    "savings": "1020",
+    "work_costs": "6000"
+   },
+   "office": [
+    "lynkacc",
+    "lynkinv",
+    "lynkcrm",
+    "lynkstock",
+    "lynkstat",
+    "lynkchat",
+    "lynkcheckout",
+    "lynkassist",
+    "lynkops",
+    "lynksuite"
+   ]
+  },
+  {
+   "entity": "person",
+   "type": "restaurant",
+   "tabs": [
+    "home",
+    "tables",
+    "kitchen",
+    "chats",
+    "business"
+   ],
+   "words": {
+    "tab_customers": "tab_contacts",
+    "tab_business": "tab_workspace",
+    "it_customers": "tab_contacts",
+    "tab_home": "tab_home"
+   },
+   "accounts": {
+    "salary": "4200",
+    "freelance": "4000",
+    "other_income": "4200",
+    "rent": "6000",
+    "food": "6000",
+    "transport": "6000",
+    "utilities": "6000",
+    "school_fees": "6000",
+    "health": "6000",
+    "savings": "1020",
+    "work_costs": "6000"
+   },
+   "office": [
+    "lynkacc",
+    "lynkinv",
+    "lynkcrm",
+    "lynkstock",
+    "lynkstat",
+    "lynkchat",
+    "lynkcheckout",
+    "lynkassist",
+    "lynkops",
+    "lynksuite"
+   ]
+  },
+  {
+   "entity": "company",
+   "type": "shop",
+   "tabs": [
+    "home",
+    "sell",
+    "stock",
+    "chats",
+    "business"
+   ],
+   "words": {
+    "tab_customers": "tab_customers",
+    "tab_business": "tab_business",
+    "it_customers": "it_customers",
+    "tab_home": "tab_home"
+   },
+   "accounts": {
+    "sales": "4000",
+    "other_income": "4200",
+    "stock_purchases": "5000",
+    "rent": "6000",
+    "wages": "6300",
+    "utilities": "6000",
+    "transport": "6000",
+    "provider_fees": "6100",
+    "marketing": "6000"
+   },
+   "office": [
+    "lynkacc",
+    "lynkinv",
+    "lynkcrm",
+    "lynkstock",
+    "lynkstat",
+    "lynkchat",
+    "lynkcheckout",
+    "lynkassist",
+    "lynkops",
+    "lynksuite"
+   ]
+  },
+  {
+   "entity": "company",
+   "type": "no_till",
+   "tabs": [
+    "home",
+    "invoices",
+    "customers",
+    "chats",
+    "business"
+   ],
+   "words": {
+    "tab_customers": "tab_customers",
+    "tab_business": "tab_business",
+    "it_customers": "it_customers",
+    "tab_home": "tab_home"
+   },
+   "accounts": {
+    "sales": "4000",
+    "other_income": "4200",
+    "stock_purchases": "5000",
+    "rent": "6000",
+    "wages": "6300",
+    "utilities": "6000",
+    "transport": "6000",
+    "provider_fees": "6100",
+    "marketing": "6000"
+   },
+   "office": [
+    "lynkacc",
+    "lynkinv",
+    "lynkcrm",
+    "lynkstock",
+    "lynkstat",
+    "lynkchat",
+    "lynkcheckout",
+    "lynkassist",
+    "lynkops",
+    "lynksuite"
+   ]
+  },
+  {
+   "entity": "company",
+   "type": "agent_point",
+   "tabs": [
+    "home",
+    "services",
+    "float",
+    "chats",
+    "business"
+   ],
+   "words": {
+    "tab_customers": "tab_customers",
+    "tab_business": "tab_business",
+    "it_customers": "it_customers",
+    "tab_home": "tab_home"
+   },
+   "accounts": {
+    "sales": "4000",
+    "other_income": "4200",
+    "stock_purchases": "5000",
+    "rent": "6000",
+    "wages": "6300",
+    "utilities": "6000",
+    "transport": "6000",
+    "provider_fees": "6100",
+    "marketing": "6000"
+   },
+   "office": [
+    "lynkacc",
+    "lynkinv",
+    "lynkcrm",
+    "lynkstock",
+    "lynkstat",
+    "lynkchat",
+    "lynkcheckout",
+    "lynkassist",
+    "lynkops",
+    "lynksuite"
+   ]
+  },
+  {
+   "entity": "company",
+   "type": "restaurant",
+   "tabs": [
+    "home",
+    "tables",
+    "kitchen",
+    "chats",
+    "business"
+   ],
+   "words": {
+    "tab_customers": "tab_customers",
+    "tab_business": "tab_business",
+    "it_customers": "it_customers",
+    "tab_home": "tab_home"
+   },
+   "accounts": {
+    "sales": "4000",
+    "other_income": "4200",
+    "stock_purchases": "5000",
+    "rent": "6000",
+    "wages": "6300",
+    "utilities": "6000",
+    "transport": "6000",
+    "provider_fees": "6100",
+    "marketing": "6000"
+   },
+   "office": [
+    "lynkacc",
+    "lynkinv",
+    "lynkcrm",
+    "lynkstock",
+    "lynkstat",
+    "lynkchat",
+    "lynkcheckout",
+    "lynkassist",
+    "lynkops",
+    "lynksuite"
+   ]
+  },
+  {
+   "entity": "organisation",
+   "type": "shop",
+   "tabs": [
+    "home",
+    "sell",
+    "stock",
+    "chats",
+    "business"
+   ],
+   "words": {
+    "tab_customers": "tab_members",
+    "tab_business": "tab_organisation",
+    "it_customers": "tab_members",
+    "tab_home": "tab_home"
+   },
+   "accounts": {
+    "donations": "4200",
+    "grants": "4200",
+    "dues": "4000",
+    "fees": "4000",
+    "other_income": "4200",
+    "programmes": "6000",
+    "administration": "6000",
+    "fundraising": "6000",
+    "wages": "6300",
+    "utilities": "6000",
+    "rent": "6000"
+   },
+   "office": [
+    "lynkacc",
+    "lynkinv",
+    "lynkcrm",
+    "lynkstock",
+    "lynkstat",
+    "lynkchat",
+    "lynkcheckout",
+    "lynkassist",
+    "lynkops",
+    "lynksuite"
+   ]
+  },
+  {
+   "entity": "organisation",
+   "type": "no_till",
+   "tabs": [
+    "home",
+    "books",
+    "invoices",
+    "customers",
+    "business"
+   ],
+   "words": {
+    "tab_customers": "tab_members",
+    "tab_business": "tab_organisation",
+    "it_customers": "tab_members",
+    "tab_home": "tab_home"
+   },
+   "accounts": {
+    "donations": "4200",
+    "grants": "4200",
+    "dues": "4000",
+    "fees": "4000",
+    "other_income": "4200",
+    "programmes": "6000",
+    "administration": "6000",
+    "fundraising": "6000",
+    "wages": "6300",
+    "utilities": "6000",
+    "rent": "6000"
+   },
+   "office": [
+    "lynkacc",
+    "lynkinv",
+    "lynkcrm",
+    "lynkstock",
+    "lynkstat",
+    "lynkchat",
+    "lynkcheckout",
+    "lynkassist",
+    "lynkops",
+    "lynksuite"
+   ]
+  },
+  {
+   "entity": "organisation",
+   "type": "agent_point",
+   "tabs": [
+    "home",
+    "services",
+    "float",
+    "chats",
+    "business"
+   ],
+   "words": {
+    "tab_customers": "tab_members",
+    "tab_business": "tab_organisation",
+    "it_customers": "tab_members",
+    "tab_home": "tab_home"
+   },
+   "accounts": {
+    "donations": "4200",
+    "grants": "4200",
+    "dues": "4000",
+    "fees": "4000",
+    "other_income": "4200",
+    "programmes": "6000",
+    "administration": "6000",
+    "fundraising": "6000",
+    "wages": "6300",
+    "utilities": "6000",
+    "rent": "6000"
+   },
+   "office": [
+    "lynkacc",
+    "lynkinv",
+    "lynkcrm",
+    "lynkstock",
+    "lynkstat",
+    "lynkchat",
+    "lynkcheckout",
+    "lynkassist",
+    "lynkops",
+    "lynksuite"
+   ]
+  },
+  {
+   "entity": "organisation",
+   "type": "restaurant",
+   "tabs": [
+    "home",
+    "tables",
+    "kitchen",
+    "chats",
+    "business"
+   ],
+   "words": {
+    "tab_customers": "tab_members",
+    "tab_business": "tab_organisation",
+    "it_customers": "tab_members",
+    "tab_home": "tab_home"
+   },
+   "accounts": {
+    "donations": "4200",
+    "grants": "4200",
+    "dues": "4000",
+    "fees": "4000",
+    "other_income": "4200",
+    "programmes": "6000",
+    "administration": "6000",
+    "fundraising": "6000",
+    "wages": "6300",
+    "utilities": "6000",
+    "rent": "6000"
+   },
+   "office": [
+    "lynkacc",
+    "lynkinv",
+    "lynkcrm",
+    "lynkstock",
+    "lynkstat",
+    "lynkchat",
+    "lynkcheckout",
+    "lynkassist",
+    "lynkops",
+    "lynksuite"
    ]
   }
  ]

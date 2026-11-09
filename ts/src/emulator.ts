@@ -1,4 +1,5 @@
 import type { BrandPlaces } from "./brand.js";
+import { markFor } from "./brand.js";
 /** Shared runtime of every real-device emulator (build section 3): screen words in every language, the country chooser, money
  *  and clock formatting through the country pack, the event log with the five honest states and the sandbox cloud's answers.
  *  Each emulator keeps its own state and screens; this file keeps them consistent. No Node APIs; the DOM parts take elements. */
@@ -7,9 +8,9 @@ import { buildFooter, mainFooterHtml, shortFooterHtml } from "./footer.js";
 import type { UserState } from "./pos.js";
 
 export interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; ui: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[];
-  ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; state: "available" | "coming_soon" }[] }
+  ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; plain: string; state: "available" | "coming_soon" }[] }
 export interface LanguagePack { native: string; dir: "ltr" | "rtl"; texts: Record<string, string> }
-export interface Build { icons: Record<string, string>; statePictures: Record<string, Record<string, { svg: string; alt: string }>>; brand: { body: string; receipt: string; places: BrandPlaces }; pictures: { offLight: string; offDark: string; offAlt: string };
+export interface Build { icons: Record<string, string>; statePictures: Record<string, Record<string, { svg: string; alt: string }>>; brand: { body: string; receipt: string; places: BrandPlaces; favicon?: { light: string; dark: string } }; pictures: { offLight: string; offDark: string; offAlt: string };
   states: Record<string, { label: string; meaning: string }>; packs: Record<string, CountryPack>; packOrder: string[]; i18n: Record<string, LanguagePack>;
   entitlements?: Record<string, Record<string, unknown>> }
 
@@ -158,6 +159,7 @@ export function stateButtons(el: HTMLElement, states: readonly string[], go: (s:
 export function appMainFooter(words: Words, country: Country, data: Build): string {
   const p = country.pack();
   return mainFooterHtml(buildFooter({ now: new Date(), lang: words.htmlLang(), words: (k) => (words.has(k) ? words.t(k) : undefined),
-    pack: { code: p.code, name: p.name, currency: p.currency, tz: p.tz, languages: [], providers: p.providers, card_networks: p.card_networks, wallets: p.wallets } }), esc, (id) => data.icons[id] ?? "");
+    pack: { code: p.code, name: p.name, currency: p.currency, tz: p.tz, languages: [], providers: p.providers, card_networks: p.card_networks, wallets: p.wallets } }), esc, (id) => data.icons[id] ?? "",
+    data.brand.places["web-footer"] ? { light: markFor(data.brand.places, "web-footer", false, 180).svg, dark: markFor(data.brand.places, "web-footer", true, 180).svg } : undefined);
 }
 export const appShortFooter = (country: Country): string => shortFooterHtml(new Date(), country.pack().tz);

@@ -7,7 +7,9 @@
    "payload": [
     "lynkoid",
     "business_type",
-    "country"
+    "country",
+    "entity",
+    "kind"
    ],
    "note": "A business exists; setup autofill drafts its profile."
   },
@@ -181,6 +183,40 @@
     "by_automation"
    ],
    "note": "The partner statement was matched against recorded commissions."
+  },
+  "TrackingStepReached": {
+   "written_by": "cloud",
+   "payload": [
+    "kind",
+    "record",
+    "step",
+    "state",
+    "customer"
+   ],
+   "note": "A tracked record reached a step (catalog/tracking.v1.json, services/tracking.py). Triggers order-updates for customer steps."
+  },
+  "TrackingSubscribed": {
+   "written_by": "cloud",
+   "payload": [
+    "kind",
+    "record",
+    "channel",
+    "lang"
+   ],
+   "note": "The customer chose how to hear about a tracked order or delivery (a PII vault reference holds the contact, never the number itself)."
+  },
+  "TrackingUpdateSent": {
+   "written_by": "automation",
+   "payload": [
+    "kind",
+    "record",
+    "step",
+    "channel",
+    "lang",
+    "held_until",
+    "by_automation"
+   ],
+   "note": "One step message to the customer, by the way they chose, in their language; held until quiet hours end when needed."
   }
  }
 }

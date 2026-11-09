@@ -61,6 +61,8 @@ class Platform(_Base):
         s.agent, s.deliveries, s.restaurant = AgentPoint(s.cloud, s), Deliveries(s.cloud, s), Restaurant(s.cloud, s)
         s.buy_together, s.devices, s.business = BuyTogether(s.cloud, s), Devices(s.cloud, s), Business(s.cloud, s, s.account.usernames)
         register_section_3(s.flow, s.business, s.agent, s.deliveries, s.restaurant, s.devices, s)
+        from services.tracking import PlatformTracking
+        s.tracking = PlatformTracking(s)                      # one tracking engine for every service (catalog/tracking.v1.json)
     def mesh_for(s, ccbox, **kw):
         """A mesh relay whose state is saved in this platform's database."""
         from services.improvements import MeshRelay

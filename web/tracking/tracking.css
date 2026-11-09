@@ -1,0 +1,26 @@
+/* A tracker (ts/src/trackview.ts), the same on every screen: the steps run top to bottom with the current one marked, the promised
+   time and live progress above them. Design tokens only; logical properties so right-to-left mirrors; text wraps in every language. */
+.trk { display: flex; flex-direction: column; gap: 8px; padding: 12px; border-radius: 12px; background: var(--bg-surface); border: 1px solid var(--border-subtle); min-width: 0; }
+.trk-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; }
+.trk-head h3 { margin: 0; font: 600 15px var(--font-heading); overflow-wrap: anywhere; min-width: 0; }
+.trk-eta { display: flex; align-items: flex-start; gap: 6px; margin: 0; color: var(--text-primary); overflow-wrap: anywhere; }
+.trk-eta.late { color: var(--status-warning-text); }
+.trk-eta .ic, .trk-eta > span:first-child { inline-size: 18px; block-size: 18px; flex: none; display: inline-flex; }
+.trk-eta svg { inline-size: 100%; block-size: 100%; }
+.trk-bar { block-size: 8px; border-radius: 4px; background: var(--bg-subtle); overflow: hidden; }
+.trk-bar i { display: block; block-size: 100%; background: var(--brand-primary); border-radius: 4px; }
+.trk-pct { margin: 0; color: var(--text-secondary); font-size: 13px; }
+.trk-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.trk-step { position: relative; display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 10px; align-items: start; padding-block: 6px; min-height: 32px; }
+.trk-step:not(:last-child)::after { content: ""; position: absolute; inset-inline-start: 10px; inset-block-start: 28px; inset-block-end: -6px; inline-size: 2px; background: var(--border-subtle); }
+.trk-step.done:not(:last-child)::after { background: var(--brand-primary); }
+.trk-dot { inline-size: 22px; block-size: 22px; border-radius: 50%; border: 2px solid var(--border-input); background: var(--bg-surface); display: inline-flex; align-items: center; justify-content: center; color: var(--on-brand); }
+.trk-dot svg { inline-size: 14px; block-size: 14px; }
+.trk-step.done .trk-dot { background: var(--brand-primary); border-color: var(--brand-primary); }
+.trk-step.current .trk-dot { background: var(--brand-primary); border-color: var(--brand-primary); box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand-primary) 22%, transparent); }
+.trk-step.failed .trk-dot { background: var(--status-danger-bg); border-color: var(--status-danger-text); color: var(--status-danger-text); }
+.trk-word { overflow-wrap: anywhere; color: var(--text-secondary); }
+.trk-step.done .trk-word, .trk-step.current .trk-word { color: var(--text-primary); }
+.trk-step.current .trk-word { font-weight: 600; }
+.trk-at { color: var(--text-secondary); font-size: 12px; font-feature-settings: var(--font-feature-tabular); white-space: nowrap; }
+.trk-line .sub { overflow-wrap: anywhere; }

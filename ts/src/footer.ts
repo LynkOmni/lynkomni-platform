@@ -2,8 +2,13 @@ import { paymentOptions } from "./payments.js";
 /** LynkOmni footer: one model for every site and app. Menus use ecosystem names, copyright is fixed text, the year follows the viewer's
  *  time zone, language and payment methods follow the country pack. Translations are DRAFTS pending native-speaker review. */
 export interface Pack { code: string; name: string; currency: string; tz: string; languages: string[]; providers: string[]; card_networks: string[]; wallets: string[] }
-export interface Item { id: string; label: string; href: string; brand?: boolean }
-export interface Column { id: string; title: string; items: Item[] }
+export interface Item { id: string; label: string; href: string; brand?: boolean; plain?: string }
+/** `span` is how many grid tracks the column takes: a list longer than PER_COLUMN links flows into more sub-columns, so no column
+ *  runs much taller than the others and no space is left empty. Every future column or item follows the same rule. */
+export interface Column { id: string; title: string; items: Item[]; span: number }
+/** The tallest a footer list may run before it wraps into another sub-column (owner, 9 November 2026: even display, no empty space). */
+export const PER_COLUMN = 6;
+export const spanFor = (items: number): number => Math.max(1, Math.min(3, Math.ceil(items / PER_COLUMN)));
 
 const T: Record<string, Record<string, string>> = {
   en: { products: "Products", solutions: "Solutions", developers: "Developers", enterprise: "Enterprise & Partners", company: "Company", resources: "Resources", support: "Support",
@@ -13,6 +18,12 @@ const T: Record<string, Record<string, string>> = {
     blog: "Blog", brand: "Brand Kit", help: "Help Center", vuln: "Report a Vulnerability",
     appstore: "App Store", gplay: "Google Play", pwa: "Install web app", terms: "Terms", privacy: "Privacy", cookies: "Cookies", compliance: "Compliance & Licenses", accessibility: "Accessibility",
     language: "Language", region: "Region", tagline: "Works with or without internet.", nlTitle: "Stay in the loop",
+    individuals: "Individuals & Freelancers", companies: "Companies", organisations: "Organisations & Non-profits", logoHome: "LynkOmni home",
+    plain_suite: "All-in-one", plain_pos: "Point of sale", plain_stock: "Inventory", plain_acc: "Accounting", plain_inv: "Invoicing", plain_crm: "Customers",
+    plain_ops: "Office bundle", plain_stat: "Analytics", plain_grow: "Marketing", plain_rewards: "Loyalty", plain_chat: "Business chat", plain_mpay: "Payments",
+    plain_checkout: "Pay links & QR", plain_recover: "Failed-payment recovery", plain_vcard: "Virtual cards", plain_assist: "AI assistant",
+    plain_hub: "Developer portal", plain_doc: "Documentation", plain_api: "Programming interface", plain_sdk: "Software kits",
+    plain_ai: "AI assistant", plain_faq: "Questions & answers", plain_status: "Service status", plain_feedback: "Product feedback", plain_safety: "Safety & reporting",
     nlText: "Product updates, merchant tips and LynkOmni news.", nlEmail: "Email address", nlConsent: "I agree to receive LynkOmni emails and understand I can unsubscribe at any time.",
     pm_bank_transfer: "Bank transfer", pm_qr: "QR payment", pm_crypto: "Crypto", follow: "Follow LynkOmni", nlTopics: "Topics", footerLabel: "LynkOmni site links", nlButton: "Subscribe", nlNote: "We will send a confirmation email first. You are not subscribed until you confirm.", tProduct: "Product updates", tMerchant: "Merchant tips", tDev: "Developer updates", tCompany: "Company news" },
   fr: { products: "Produits", solutions: "Solutions", developers: "Développeurs", enterprise: "Entreprises et partenaires", company: "Entreprise", resources: "Ressources", support: "Assistance",
@@ -50,18 +61,20 @@ export function currentYear(now: Date, tz: string): number {
 }
 export const shortFooter = (now: Date, tz: string): string => copyright(currentYear(now, tz));
 
-const brand = (id: string, label: string, href: string): Item => ({ id, label, href, brand: true });
-let WORDS: Words | undefined;
+let WORDS: Words | undefined, LANG = "en";
+/** A product's short name always travels with a plain word for it ("LynkAcc (Accounting)"), translated like every footer word. */
+const brand = (id: string, label: string, href: string): Item => ({ id, label, href, brand: true, plain: say(LANG, WORDS, `plain_${id}`) });
 const txt = (lang: string, id: string, key: string, href: string): Item => ({ id, label: say(lang, WORDS, key), href });
 
 export function columns(lang: string, words?: Words): Column[] {
-  WORDS = words;
+  WORDS = words; LANG = lang;
   const tt = (k: string): string => say(lang, words, k);
-  return [
+  const cols: Omit<Column, "span">[] = [
     { id: "products", title: tt("products"), items: [brand("suite", "LynkSuite", "/suite"), brand("pos", "LynkPOS", "/pos"), brand("stock", "LynkStock", "/stock"), brand("acc", "LynkAcc", "/accounting"), brand("inv", "LynkInv", "/invoicing"), brand("crm", "LynkCRM", "/crm"), brand("ops", "LynkOps", "/ops"),
       brand("stat", "LynkStat", "/analytics"), brand("grow", "LynkGrow", "/grow"), brand("rewards", "LynkRewards", "/rewards"), brand("chat", "LynkChat", "/chat"), brand("mpay", "LynkMPay", "/mpay"),
       brand("checkout", "LynkCheckout", "/checkout"), brand("recover", "LynkRecover", "/recover"), brand("vcard", "LynkVCard", "/vcard"), brand("assist", "LynkAssist", "/ai"), txt(lang, "pricing", "pricing", "/pricing")] },
     { id: "solutions", title: tt("solutions"), items: [txt(lang, "merchants", "merchants", "/solutions/merchants"), txt(lang, "suppliers", "suppliers", "/solutions/suppliers"),
+      txt(lang, "individuals", "individuals", "/solutions/individuals"), txt(lang, "companies", "companies", "/solutions/companies"), txt(lang, "organisations", "organisations", "/solutions/organisations"),
       txt(lang, "travel", "travel", "https://booking.lynkomni.com"), txt(lang, "bills", "bills", "https://essential.lynkomni.com"), txt(lang, "currency", "currency", "https://exchange.lynkomni.com"),
       txt(lang, "cards", "cards", "/vcard")] },
     { id: "developers", title: tt("developers"), items: [brand("hub", "LynkHub", "https://hub.lynkomni.com"), brand("doc", "LynkDoc", "https://doc.lynkomni.com"), brand("api", "LynkAPI", "https://api.lynkomni.com"),
@@ -75,6 +88,7 @@ export function columns(lang: string, words?: Words): Column[] {
     { id: "support", title: tt("support"), items: [txt(lang, "help", "help", "/support"), brand("faq", "LynkFAQ", "/faq"), brand("ai", "LynkAssist", "/ai"), brand("status", "LynkStatus", "https://status.lynkomni.com"),
       brand("feedback", "LynkFeedback", "/feedback"), brand("safety", "LynkSafety", "/safety"), txt(lang, "vuln", "vuln", "/trust/disclosure")] },
   ];
+  return cols.map((c) => ({ ...c, span: spanFor(c.items.length) }));
 }
 export const SOCIAL = ["linkedin", "x", "facebook", "instagram", "youtube", "tiktok", "whatsapp"] as const;   // Snapchat, Pinterest and Threads removed: no audience fit for a merchant and fintech platform
 /** Official LynkOmni accounts (claimed 2026-11-06 under the name "LynkOmni" on all ten platforms; seven are shown). */
@@ -97,25 +111,28 @@ export function buildFooter(o: { now: Date; pack: Pack | null; lang: string; wor
       topics: [t(lang, "tProduct"), t(lang, "tMerchant"), t(lang, "tDev"), t(lang, "tCompany")] },
     columns: columns(lang, o.words), social: [...SOCIAL], socialLinks: SOCIAL.map((id) => ({ id, href: SOCIAL_LINKS[id] })), download: [{ id: "appstore", label: t(lang, "appstore") }, { id: "gplay", label: t(lang, "gplay") }, { id: "pwa", label: t(lang, "pwa") }],
     payments: { title: t(lang, "payments"), marks: paymentMarks(o.pack), options: paymentOptions(o.pack).map((x) => ({ ...x, label: GENERIC_METHODS.includes(x.id) ? t(lang, `pm_${x.id}`) : x.label })) },
-    labels: { language: t(lang, "language"), region: t(lang, "region"), social: t(lang, "social"), download: t(lang, "download"), topics: t(lang, "nlTopics"), footer: t(lang, "footerLabel") },
+    labels: { language: t(lang, "language"), region: t(lang, "region"), social: t(lang, "social"), download: t(lang, "download"), topics: t(lang, "nlTopics"), footer: t(lang, "footerLabel"), home: t(lang, "logoHome") },
     legal: { copyright: copyright(currentYear(o.now, tz)), links: [txt(lang, "terms", "terms", "/legal/terms"), txt(lang, "privacy", "privacy", "/legal/privacy"), txt(lang, "cookies", "cookies", "/legal/cookies"),
       txt(lang, "compliance", "compliance", "/legal/compliance"), txt(lang, "accessibility", "accessibility", "/legal/accessibility")] },
   };
 }
 
-/** The main footer (section 26 A and B) for websites and web apps, drawn from buildFooter. Payment methods are LynkOmni method
- *  icons with the provider's name as text; social channels are text links (no other company's logo is drawn); the
- *  newsletter box is unticked; the copyright line is the fixed text. `icon` draws a LynkOmni icon by id. */
-export function mainFooterHtml(f: ReturnType<typeof buildFooter>, esc: (s: string) => string, icon: (id: string) => string): string {
-  const link = (i: Item): string => `<li><a href="${esc(i.href)}">${esc(i.label)}</a></li>`;
-  const cols = f.columns.map((c) => `<section class="fcol"><h3>${esc(c.title)}</h3><ul>${c.items.map(link).join("")}</ul></section>`).join("");
+/** The main footer (section 26 A and B) for websites and web apps, drawn from buildFooter. The full LynkOmni logo (brand surface
+ *  "web-footer", one artwork per theme: the page shows the one that matches its theme) stands above the tagline. Long lists flow
+ *  into sub-columns (Column.span). Payment methods are LynkOmni method icons with the provider's name as text; social channels are
+ *  text links (no other company's logo is drawn); the newsletter box is unticked; the copyright line is the fixed text.
+ *  `icon` draws a LynkOmni icon by id; `logo` holds the logo artwork for the light and the dark theme. */
+export function mainFooterHtml(f: ReturnType<typeof buildFooter>, esc: (s: string) => string, icon: (id: string) => string, logo?: { light: string; dark: string }): string {
+  const link = (i: Item): string => `<li><a href="${esc(i.href)}">${i.plain ? `<span class="fname">${esc(i.label)}</span> <span class="fplain">(${esc(i.plain)})</span>` : esc(i.label)}</a></li>`;
+  const cols = f.columns.map((c) => `<section class="fcol" data-span="${c.span}" style="--span:${c.span}"><h3>${esc(c.title)}</h3><ul>${c.items.map(link).join("")}</ul></section>`).join("");
+  const mark = logo ? `<a class="flogo" href="/" aria-label="${esc(f.labels.home)}"><span class="on-light">${logo.light}</span><span class="on-dark">${logo.dark}</span></a>` : "";
   const SOCIAL_NAMES: Record<string, string> = { linkedin: "LinkedIn", x: "X", facebook: "Facebook", instagram: "Instagram", youtube: "YouTube", tiktok: "TikTok", whatsapp: "WhatsApp" };
   const social = f.socialLinks.map((s) => `<li><a href="${esc(s.href)}" target="_blank" rel="noopener">${esc(SOCIAL_NAMES[s.id] ?? s.id)}</a></li>`).join("");
   const pay = f.payments.options.map((o) => `<li class="fpay"><span class="ic" aria-hidden="true">${icon(o.icon)}</span>${esc(o.label)}</li>`).join("");
   const n = f.newsletter;
   const topics = n.topics.map((x, i) => `<label class="ftopic"><input type="checkbox" name="topic${i}"> ${esc(x)}</label>`).join("");
   return `<footer class="mainfoot" role="contentinfo" aria-label="${esc(f.labels.footer)}">
-<p class="ftag">${esc(f.tagline)}</p><div class="fcols">${cols}</div>
+${mark}<p class="ftag">${esc(f.tagline)}</p><div class="fcols">${cols}</div>
 <div class="frow"><section class="fcol"><h3>${esc(f.payments.title)}</h3><ul class="fpays">${pay}</ul></section>
 <section class="fcol"><h3>${esc(f.labels.social)}</h3><ul>${social}</ul></section>
 <section class="fcol"><h3>${esc(f.labels.download)}</h3><ul>${f.download.map((d) => `<li><a href="/download#${esc(d.id)}">${esc(d.label)}</a></li>`).join("")}</ul></section>

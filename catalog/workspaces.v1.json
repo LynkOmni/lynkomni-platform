@@ -1,0 +1,48 @@
+{
+ "version": 1,
+ "description": "Who LynkOmni is for (owner request 9 November 2026): the office services (accounting, invoicing, contacts, analytics and the rest of `office_families`) run the internal affairs of anyone: a person (household money or freelance work), a company of any size, or an organisation (non-profit, school, faith group, association or club, cooperative, public body). A workspace is a LynkOmni business record (LOOID) with an entity kind. The entity changes words, tabs, categories and suggested services only (presentation and setup); every record, event, price, limit and rule is the same for all. No till or registered device is needed for office work: it runs in any signed-in browser (LynkAcc, LynkInv and LynkCRM rule). Prices stay those of services/billing.py.",
+ "office_families": ["lynkacc", "lynkinv", "lynkcrm", "lynkstat", "lynkops", "lynkstock", "lynkchat", "lynkassist", "lynkcheckout", "lynksuite"],
+ "entities": {
+  "person": {
+   "kinds": ["household", "freelancer"],
+   "default_type": "no_till",
+   "tabs": ["home", "books", "invoices", "customers", "business"],
+   "words": {"tab_customers": "tab_contacts", "tab_business": "tab_workspace", "it_customers": "tab_contacts"},
+   "suggested": ["lynkacc", "lynkinv", "lynkcrm", "lynkstat"],
+   "categories": {
+    "income": [{"id": "salary", "account": "4200"}, {"id": "freelance", "account": "4000"}, {"id": "other_income", "account": "4200"}],
+    "expense": [{"id": "rent", "account": "6000"}, {"id": "food", "account": "6000"}, {"id": "transport", "account": "6000"}, {"id": "utilities", "account": "6000"}, {"id": "school_fees", "account": "6000"}, {"id": "health", "account": "6000"}, {"id": "savings", "account": "1020"}, {"id": "work_costs", "account": "6000"}]
+   }
+  },
+  "company": {
+   "kinds": ["business"],
+   "default_type": "shop",
+   "tabs": null,
+   "words": {},
+   "suggested": ["lynkacc", "lynkinv", "lynkcrm", "lynkstat", "lynkops", "lynkstock"],
+   "categories": {
+    "income": [{"id": "sales", "account": "4000"}, {"id": "other_income", "account": "4200"}],
+    "expense": [{"id": "stock_purchases", "account": "5000"}, {"id": "rent", "account": "6000"}, {"id": "wages", "account": "6300"}, {"id": "utilities", "account": "6000"}, {"id": "transport", "account": "6000"}, {"id": "provider_fees", "account": "6100"}, {"id": "marketing", "account": "6000"}]
+   }
+  },
+  "organisation": {
+   "kinds": ["nonprofit", "school", "faith", "association", "cooperative", "public_body"],
+   "default_type": "no_till",
+   "tabs": ["home", "books", "invoices", "customers", "business"],
+   "words": {"tab_customers": "tab_members", "tab_business": "tab_organisation", "it_customers": "tab_members"},
+   "suggested": ["lynkacc", "lynkinv", "lynkcrm", "lynkstat", "lynkops", "lynkchat"],
+   "categories": {
+    "income": [{"id": "donations", "account": "4200"}, {"id": "grants", "account": "4200"}, {"id": "dues", "account": "4000"}, {"id": "fees", "account": "4000"}, {"id": "other_income", "account": "4200"}],
+    "expense": [{"id": "programmes", "account": "6000"}, {"id": "administration", "account": "6000"}, {"id": "fundraising", "account": "6000"}, {"id": "wages", "account": "6300"}, {"id": "utilities", "account": "6000"}, {"id": "rent", "account": "6000"}]
+   },
+   "funds": ["unrestricted", "restricted"]
+  }
+ },
+ "rules": [
+  "One product for everyone: the entity never changes a price, a limit, an event, an identifier or a rule, only the words, tabs, categories and suggestions a person sees.",
+  "Categories are labels on the global chart of accounts (contract/chart-of-accounts.v1.json): each category posts to one global account, so books, reports and accountants read the same journal for every workspace.",
+  "Organisations may mark money as restricted (given for one purpose) or unrestricted; the mark is a label on the journal line and reports show each fund separately.",
+  "A person's household workspace is private to them and the people they invite; nothing in it is ever shared with a business, a supplier or LynkOmni partners.",
+  "Enterprise (approval steps, custom roles, sign-in with the organisation's own login system, audit log export) is the tier for large companies, groups and public bodies; every office service also works on Free."
+ ]
+}

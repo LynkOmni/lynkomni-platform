@@ -66,3 +66,30 @@ test("the short footer inside apps is one line: the fixed copyright", () => {
   const h = shortFooterHtml(new Date("2026-11-09T12:00:00Z"), "UTC");
   assert.equal(h, '<footer class="shortfoot" role="contentinfo"><p>© 2026 CruxOmni Group. All rights reserved. LynkOmni is a product of CruxOmni Group.</p></footer>');
 });
+test("the full logo stands above the tagline, one artwork per theme (owner, 9 November 2026)", () => {
+  const f = buildFooter({ now: new Date(), pack: null, lang: "en" });
+  const html = mainFooterHtml(f, (s) => s, () => "", { light: "<svg id=L></svg>", dark: "<svg id=D></svg>" });
+  assert.ok(html.indexOf('class="flogo"') < html.indexOf('class="ftag"'));
+  assert.ok(html.includes('<span class="on-light"><svg id=L></svg></span><span class="on-dark"><svg id=D></svg></span>'));
+  assert.ok(html.includes('aria-label="LynkOmni home"'));
+});
+test("long lists wrap into sub-columns so no column runs taller than the rest; new items follow the same rule", () => {
+  for (const c of columns("en")) {
+    assert.equal(c.span, Math.max(1, Math.min(3, Math.ceil(c.items.length / 6))), c.id);
+    assert.ok(Math.ceil(c.items.length / c.span) <= 6, `${c.id} runs taller than six links in a sub-column`);
+  }
+  assert.equal(columns("en").find((c) => c.id === "products")!.span, 3);
+});
+test("every product short name carries a plain word for it", () => {
+  for (const c of columns("en")) for (const i of c.items) if (i.brand) {
+    assert.ok(i.plain && !i.plain.startsWith("plain_"), `${i.label} has no plain name`);
+  }
+  const acc = columns("en").flatMap((c) => c.items).find((i) => i.id === "acc")!;
+  assert.equal(acc.plain, "Accounting");
+  const html = mainFooterHtml(buildFooter({ now: new Date(), pack: null, lang: "en" }), (s) => s, () => "");
+  assert.ok(html.includes('<span class="fname">LynkAcc</span> <span class="fplain">(Accounting)</span>'));
+});
+test("individuals, companies and organisations each have their solution page", () => {
+  const hrefs = columns("en").find((c) => c.id === "solutions")!.items.map((i) => i.href);
+  for (const h of ["/solutions/individuals", "/solutions/companies", "/solutions/organisations"]) assert.ok(hrefs.includes(h), h);
+});

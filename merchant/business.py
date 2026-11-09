@@ -6,13 +6,14 @@ provider confirms (fake payment protection); the shop's username follows the one
 is one recorded consent each, withdrawable; the Academy opens beside the screen it teaches."""
 import re, time
 
+from core import workspaces
 from core.usernames import UsernameRegistry, check as username_check
 from services import billing
 
 TYPES = ("shop", "no_till", "agent_point", "restaurant")
 TABS = {"shop": ("home", "sell", "stock", "chats", "business"), "no_till": ("home", "invoices", "customers", "chats", "business"),
         "agent_point": ("home", "services", "float", "chats", "business"), "restaurant": ("home", "tables", "kitchen", "chats", "business")}
-SETUP_STEPS = ("locale_card", "business_name", "business_type", "first_product")       # under two minutes; the first sale within a minute
+SETUP_STEPS = ("locale_card", "who_for", "business_name", "business_type", "first_product")       # under two minutes; the first sale within a minute
 HANDHELD_TILES = ("sell", "agent", "collect", "bills", "airtime_data", "tickets", "government", "remittances", "partner_finance", "customers_credit", "reports", "settings")
 FAST_CHECKOUT = ("scan", "tap", "voice")
 RECEIPT_CHANNELS = ("print", "qr", "message")
@@ -26,19 +27,25 @@ class Business:
     def __init__(s, cloud, platform, usernames=None):
         s.cloud, s.p, s.db, s.usernames = cloud, platform, platform.c.store.db, usernames or UsernameRegistry()
         s.db.executescript("""
-        create table if not exists biz(lynkoid text primary key, name text, type text, country text, username text, currency text, low_literacy int, practice int, setup text, created real);
+        create table if not exists biz(lynkoid text primary key, name text, type text, country text, username text, currency text, low_literacy int, practice int, setup text, created real, entity text default 'company', kind text default 'business');
         create table if not exists biz_share(lynkoid text, supplier text, locns text, granted real, withdrawn real, primary key(lynkoid, supplier));""")
     # ---- profile, type and tabs
-    def create(s, lynkoid, name, business_type, country, currency, now=None):
+    def create(s, lynkoid, name, business_type, country, currency, now=None, entity="company", kind=None):
+        """A workspace for a person, a company or an organisation (core/workspaces.py): the entity changes words, tabs and
+        categories only; every record and rule is the same."""
         if business_type not in TYPES: raise ValueError("unknown business type")
-        s.db.execute("insert or replace into biz(lynkoid, name, type, country, currency, low_literacy, practice, setup, created) values(?,?,?,?,?,0,0,'',?)", (lynkoid, name, business_type, country, currency, _now(now)))
-        s.cloud.signal(lynkoid, "BusinessCreated", {"lynkoid": lynkoid, "business_type": business_type, "country": country}, now=now)
+        entity, kind = workspaces.check(entity, kind)
+        s.db.execute("insert or replace into biz(lynkoid, name, type, country, currency, low_literacy, practice, setup, created, entity, kind) values(?,?,?,?,?,0,0,'',?,?,?)", (lynkoid, name, business_type, country, currency, _now(now), entity, kind))
+        s.cloud.signal(lynkoid, "BusinessCreated", {"lynkoid": lynkoid, "business_type": business_type, "country": country, "entity": entity, "kind": kind}, now=now)
+    def entity(s, lynkoid):
+        r = s.db.execute("select entity, kind from biz where lynkoid=?", (lynkoid,)).fetchone(); return (r[0], r[1]) if r else ("company", "business")
+    def word(s, lynkoid, key): return workspaces.word(s.entity(lynkoid)[0], key)
     def set_type(s, lynkoid, business_type):
         if business_type not in TYPES: raise ValueError("unknown business type")
         s.db.execute("update biz set type=? where lynkoid=?", (business_type, lynkoid))
     def type(s, lynkoid):
         r = s.db.execute("select type from biz where lynkoid=?", (lynkoid,)).fetchone(); return r[0] if r else "shop"
-    def tabs(s, lynkoid): return TABS[s.type(lynkoid)]
+    def tabs(s, lynkoid): return workspaces.tabs(s.entity(lynkoid)[0], s.type(lynkoid), TABS[s.type(lynkoid)])
     @staticmethod
     def tabs_for(business_type): return TABS[business_type]
     # ---- setup under two minutes

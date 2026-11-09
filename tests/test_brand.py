@@ -223,9 +223,15 @@ class TestPlacement(Base):
         want = {"web-header": "logo", "footer-preview": "logo", "auth-onboarding": "logo", "app-icon": "emblem", "pwa-manifest": "emblem",
                 "avatar-profile": "emblem", "app-top-bar": "emblem", "notification-icon": "emblem", "invoice-header": "logo",
                 "receipt-header": "wordmark", "email-header": "logo", "email-footer": "wordmark", "powered-by-badge": "wordmark",
-                "partner-lockup": "wordmark", "share-image": "logo"}
+                "partner-lockup": "wordmark", "share-image": "logo", "favicon": "emblem", "web-footer": "logo"}
         for sid, asset_id in want.items():
             self.assertEqual(brand.choose_asset(sid), asset_id, sid)
+
+    def test_favicon_follows_the_browser_theme_and_is_never_one_colour(self):
+        for th in ("light", "dark"):
+            a = brand.for_surface("favicon", th, **self.kw)
+            self.assertEqual((a.id, a.variant), ("emblem", th))
+        self.assertNotIn("mono", json.dumps(brand.surface("favicon")["uses"]))
 
     def test_narrow_space_falls_back_to_the_emblem(self):
         self.assertEqual(brand.choose_asset("web-header", 400), "logo")

@@ -128,7 +128,9 @@ class DeliveriesTablesGroups(unittest.TestCase):
         r = self.p.deliveries.handle_request(self.m, self.x.log[-1], now=T0)
         self.assertEqual(r["state"], "accepted"); self.assertTrue(self.p.deliveries.code_matches(did, r["code"])); self.assertFalse(self.p.deliveries.code_matches(did, "000000"))
         self.p.deliveries.partner_step(self.m, did, "picked_up", T0); self.p.deliveries.partner_step(self.m, did, "delivered", T0)
-        self.assertEqual(self.p.deliveries.track(did)["state"], "delivered")
+        tr = self.p.deliveries.track(did)
+        self.assertEqual((tr["state"], tr["step"], tr["ended"]), ("confirmed", "delivered", True))
+        self.assertEqual([s["id"] for s in tr["steps"]], ["requested", "assigned", "on_the_way", "delivered"])
         self.assertEqual([e["type"] for e in self.p.c.store.of(self.m, "DeliveryAccepted", "DeliveryPickedUp", "DeliveryDelivered")], ["DeliveryAccepted", "DeliveryPickedUp", "DeliveryDelivered"])
     def test_own_riders_follow_the_tier_and_record_steps_offline(self):
         with self.assertRaises(PermissionError): self.p.deliveries.add_rider(self.m, "rider-1")    # Free: 0 riders
@@ -137,7 +139,7 @@ class DeliveriesTablesGroups(unittest.TestCase):
         self.assertEqual(self.p.deliveries.handle_request(self.m, self.x.log[-1], now=T0)["state"], "accepted")
         rider = LynkDVBox(self.m, U(), U(), U(), "cashier"); rider.record_delivery_step(did, "picked_up"); rider.record_delivery_step(did, "delivered", "code")
         for e in rider.log[-2:]: self.assertEqual(validate_event(e), []); self.p.deliveries.note_device_step(self.m, e)
-        self.assertEqual(self.p.deliveries.track(did)["state"], "delivered")
+        self.assertEqual(self.p.deliveries.track(did)["step"], "delivered")
     def test_partner_delivery_monthly_limit_on_free(self):
         a = U(); self.p.deliveries.add_partner(a, SandboxDeliveryPartner(a))
         for i in range(21):
@@ -223,10 +225,10 @@ class Automations(unittest.TestCase):
         os.environ.pop("LYNK_MODE", None); self.p = Platform(); self.m = U(); self.f = self.p.flow
         self.p.business.create(self.m, "Shop", "shop", "XX", "USD", now=T0)
     def ran(self, aid): return [h for h in self.f.history(self.m) if h["automation"] == aid]
-    def test_all_twenty_are_registered_with_the_levels_of_the_register(self):
+    def test_all_twenty_two_are_registered_with_the_levels_of_the_register(self):
         ids = [a["id"] for a in REGISTER.values() if a["build_section"] == 3]
-        self.assertEqual(len(ids), 20)
-        for aid in ids: self.assertIn(aid, self.f.handlers); self.assertEqual(REGISTER[aid].get("implemented_by"), "merchant/automations.py")
+        self.assertEqual(len(ids), 22)                     # twenty, plus order-updates and tracking-late-watch (9 November 2026)
+        for aid in ids: self.assertIn(aid, self.f.handlers); self.assertTrue(REGISTER[aid].get("implemented_by", "").startswith("merchant/automations.py"))
         self.assertEqual(REGISTER["negative-stock-flag"]["trigger"], "event:NegativeStockFlagged")      # a contract event, not an invented one
     def test_drafts_and_alerts_from_events(self):
         self.assertEqual(len(self.ran("setup-autofill")), 1)                                  # BusinessCreated in setUp

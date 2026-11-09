@@ -28,6 +28,7 @@ class SandboxDeliveryPartner(DeliveryPartner):
 
 
 class Deliveries:
+    """N8 deliveries. Every step is also followed by the shared tracking engine (catalog/tracking.v1.json kind "delivery")."""
     def __init__(s, cloud, platform):
         s.cloud, s.p, s.db, s.partners = cloud, platform, platform.c.store.db, {}
         s.db.executescript("""
@@ -56,6 +57,7 @@ class Deliveries:
     # ---- the request (the device's DeliveryRequested, online only) and the partner's answer
     def handle_request(s, merchant, evt, now=None):
         p, now = evt["payload"], _now(now); did = p["delivery_id"]; month = time.strftime("%Y-%m", time.gmtime(now))
+        s.cloud.device_event(merchant, evt, now=now)          # the device's request joins the log (idempotent), so tracking starts at "requested"
         code = f"{secrets.randbelow(10**6):06d}"            # the customer's pickup or delivery code; only its hash is kept
         s.db.execute("insert or ignore into dl(delivery_id, merchant, order_id, partner, own_rider, price, currency, state, code_hash, month, created) values(?,?,?,?,?,?,?,'sent',?,?,?)",
                      (did, merchant, p["order_id"], p.get("partner_id"), int(p["own_rider"]), p["price"], p["currency"], hashlib.sha256(code.encode()).hexdigest(), month, now))
@@ -88,15 +90,24 @@ class Deliveries:
             s.db.execute("update dl set state='delivered' where delivery_id=?", (delivery_id,))
             s.cloud.event(merchant, "DeliveryDelivered", {"delivery_id": delivery_id, "proof": "code"}, now=now)
         else: raise ValueError("unknown step")
-    def note_device_step(s, merchant, evt):
+    def note_device_step(s, merchant, evt, now=None):
         st = {"DeliveryPickedUp": "picked_up", "DeliveryDelivered": "delivered"}[evt["type"]]
+        s.cloud.device_event(merchant, evt, now=now)          # the rider's step joins the log (idempotent): tracking and customer messages follow
         s.db.execute("update dl set state=? where delivery_id=?", (st, evt["payload"]["delivery_id"]))
     def code_matches(s, delivery_id, code):
         r = s.db.execute("select code_hash from dl where delivery_id=?", (delivery_id,)).fetchone()
         return bool(r) and r[0] == hashlib.sha256(code.encode()).hexdigest()
-    # ---- what the customer sees (shop.lynkomni.com/track/(LODLV-), no account needed) and what LynkOmni earns
-    def track(s, delivery_id):
-        r = s.db.execute("select state, reference, own_rider from dl where delivery_id=?", (delivery_id,)).fetchone()
-        return {"state": r[0], "own_rider": bool(r[2])} if r else None
+    # ---- what the customer sees (shop.lynkomni.com/track/(LODLV-), no account needed): the shared tracking engine
+    def track(s, delivery_id, audience="customer", now=None):
+        """The delivery's tracker from services/tracking.py: steps, the state chip, the promised time, lateness and live progress.
+        The customer's view never holds an address, a phone number, the rider's identity or a position."""
+        return s.p.tracking.view("delivery", delivery_id, audience, now)
+    def share_progress(s, merchant, delivery_id, share, eta=None, rider_consent=False):
+        """Live progress while the parcel is on its way: a partner reports it, or the shop's own rider shares it with consent for
+        this trip only. Positions themselves never reach the log or the customer; progress ends with the trip."""
+        r = s.db.execute("select own_rider, merchant from dl where delivery_id=?", (delivery_id,)).fetchone()
+        if not r or r[1] != merchant: raise PermissionError("not this shop's delivery")
+        if r[0] and not rider_consent: raise PermissionError("rider_consent_required")
+        return s.p.tracking.t.set_progress("delivery", delivery_id, share, eta)
     @staticmethod
     def lynkomni_share_cents(partner_deliveries): return partner_deliveries * billing.SERVICE_FEES["delivery_share_cents"]   # paid by the partner, an assumption until contracts

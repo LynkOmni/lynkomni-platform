@@ -1,0 +1,26 @@
+/* The customer's tracking page in a phone browser: an original LynkOmni phone body. Every colour is a design token. */
+.phone { width: 380px; height: 780px; border-radius: 52px; padding: 16px; position: relative; background: linear-gradient(160deg, var(--device-shell-edge), var(--device-shell) 30%, var(--device-glass)); box-shadow: 0 30px 60px -24px color-mix(in srgb, var(--device-glass) 60%, transparent); }
+.notch { position: absolute; top: 24px; left: 50%; width: 90px; height: 22px; margin-left: -45px; border-radius: 12px; background: var(--device-glass); z-index: 2; }
+.homebar { position: absolute; bottom: 24px; left: 50%; width: 120px; height: 5px; margin-left: -60px; border-radius: 3px; background: var(--on-device-key); opacity: .5; }
+.pscreen { height: 100%; border-radius: 38px; overflow: hidden; background: var(--bg-base); color: var(--text-primary); display: flex; flex-direction: column; font-family: var(--font-body); font-size: 14px; }
+.pscreen.dark { color-scheme: dark; }
+.ic { display: inline-block; width: 16px; height: 16px; vertical-align: middle; }
+.ic svg { width: 100%; height: 100%; display: block; }
+.urlbar { display: flex; align-items: center; gap: 6px; margin: 48px 12px 0; padding: 6px 10px; border-radius: 999px; background: var(--bg-subtle); color: var(--text-primary); font: 12px var(--font-body); min-width: 0; }
+.urlbar .u { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.tbody { flex: 1; overflow: auto; padding: 14px 16px 40px; display: flex; flex-direction: column; gap: 12px; }
+.thead { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.thead .from { color: var(--text-secondary); overflow-wrap: anywhere; }
+.tlogo { display: inline-flex; inline-size: 96px; } .tlogo svg { inline-size: 100%; block-size: auto; display: block; }
+.tbody h1 { margin: 0; font: 700 22px var(--font-heading); overflow-wrap: anywhere; }
+.card { padding: 12px; border-radius: 12px; background: var(--bg-surface); border: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 8px; }
+.card h2 { margin: 0; font: 600 15px var(--font-heading); overflow-wrap: anywhere; }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.btns button { min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--border-input); background: var(--bg-surface); color: var(--text-primary); font: 600 14px var(--font-body); cursor: pointer; }
+.btns button[aria-pressed="true"] { background: var(--brand-primary); border-color: var(--brand-primary); color: var(--on-brand); }
+.note { margin: 0; color: var(--text-secondary); font-size: 13px; overflow-wrap: anywhere; }
+.banner { display: flex; gap: 8px; align-items: flex-start; margin: 0; padding: 10px; border-radius: 10px; background: var(--status-warning-bg); color: var(--status-warning-text); border: 1px solid var(--status-warning-border); overflow-wrap: anywhere; }
+.banner .ic { flex: none; }
+.chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; font: 600 11px var(--font-body); }
+.chip .ic { width: 12px; height: 12px; }
+.mono { font-family: ui-monospace, monospace; }

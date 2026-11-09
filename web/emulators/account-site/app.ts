@@ -6,12 +6,16 @@ import type { AddressMap, Entry, Icon, Link, NavItem, Notice, Pic, StateKind, Sy
 import { DAY, PAGES, RECOVERY, REGISTRATION_STEPS, SECURITY_EVENT_KEY, SIGN_UP_STEPS, applicationStatus, canSubmit, closesAt, consentState, dataRequestDue, nextSignUpStep, pagePath, payoutChange, recoveryPath, recoveryReady, recoveryReadyAt, signInAlertNeeded } from "../../../ts/src/account.js";
 import type { ApplicationStatus, Consent, Page, RecoveryPath, RegistrationStep, SignUpState } from "../../../ts/src/account.js";
 import type { UserState } from "../../../ts/src/pos.js";
-import { brandMark } from "../../../ts/src/brand.js";
+import { brandMark, markFor } from "../../../ts/src/brand.js";
 import { buildFooter, mainFooterHtml } from "../../../ts/src/footer.js";
 import type { BrandPlaces } from "../../../ts/src/brand.js";
+import { Tracking } from "../../../ts/src/tracking.js";
+import type { View as TrackView } from "../../../ts/src/tracking.js";
+import { REGISTER } from "../../../ts/src/tracking.generated.js";
+import { trackerHtml } from "../../../ts/src/trackview.js";
 const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 } as const;   // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
 
-interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[]; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; state: "available" | "coming_soon" }[] }
+interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[]; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; plain: string; state: "available" | "coming_soon" }[] }
 interface BuildData {
   icons: Record<string, string>;
   brand: { body: string; receipt: string; places: BrandPlaces };
@@ -53,6 +57,7 @@ const S = {
   standing: [{ losub: "LOSUB-5100-0200-0030", merchant: "Blue Taxi", cap: 300000, active: true }] as Standing[],
   app: null as null | { status: ApplicationStatus; steps: Record<RegistrationStep, boolean>; lynkoid?: string },
   restrictedUntil: 0,
+  workspaces: [] as { entity: "person" | "company" | "organisation" }[],
 };
 const $ = <T extends HTMLElement>(sel: string): T => document.querySelector(sel) as T;
 const PSEUDO: Record<string, string> = { a: "à", c: "ç", e: "é", i: "î", n: "ñ", o: "ö", s: "š", u: "ü", y: "ý" };
@@ -66,8 +71,11 @@ const pack = (): CountryPack => DATA.packs[S.country] ?? (DATA.packs[DATA.packOr
 const appFooter = (): string => {
   const p = pack();
   return mainFooterHtml(buildFooter({ now: new Date(), lang: S.lang, words: (k) => (k in EN ? t(k) : undefined),
-    pack: { code: p.code, name: p.name, currency: p.currency, tz: p.tz, languages: [], providers: p.providers, card_networks: p.card_networks, wallets: p.wallets } }), esc, (id) => DATA.icons[id] ?? "");
+    pack: { code: p.code, name: p.name, currency: p.currency, tz: p.tz, languages: [], providers: p.providers, card_networks: p.card_networks, wallets: p.wallets } }), esc, (id) => DATA.icons[id] ?? "",
+    { light: markFor(DATA.brand.places, "web-footer", false, FOOTER_LOGO_ROOM[S.size]).svg, dark: markFor(DATA.brand.places, "web-footer", true, FOOTER_LOGO_ROOM[S.size]).svg });
 };
+/** Room for the footer logo (brand surface web-footer): the full logo whenever 120 px or more is free, which is every size here. */
+const FOOTER_LOGO_ROOM: Record<string, number> = { computer: 180, tablet: 180, phone: 160 };
 const locale = (): string => `${isTest() ? "en" : S.lang}-${pack().code}`;
 const money = (minor: number): string => { try { return new Intl.NumberFormat(locale(), { style: "currency", currency: pack().currency }).format(minor / 100); } catch { return `${pack().currency} ${(minor / 100).toFixed(2)}`; } };
 const clock = (ms: number): string => new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, hour: "2-digit", minute: "2-digit" }).format(ms);
@@ -83,6 +91,28 @@ function record(type: string, origin: "device" | "server", payload: unknown): vo
   if (sync === "queued") S.pending++;
   drawLog();
 }
+/** The person's orders and requests (they are the customer, so the customer's view: no ids, addresses or positions), each a tracker from the shared engine (catalog/tracking.v1.json) replaying the cloud's
+ *  events: the same steps the shop's phone, the rider's phone and the tracking page show. Sample records only. */
+const TRK = new Tracking(REGISTER);
+const ORDER_NOW = "0001-ord-now", ORDER_PAST = "0002-ord-past", DLV_NOW = "0003-dlv-now", DLV_PAST = "0004-dlv-past";
+(() => {
+  const at = T_NOW() - 1500, ev = (type: string, payload: Record<string, unknown>, dt: number): void => { TRK.apply({ type, payload, at: at + dt }, "shop"); };
+  ev("OrderSentToKitchen", { order_id: ORDER_PAST, lines: [{ line_no: 0 }] }, -2 * DAY);
+  ev("KitchenItemReady", { order_id: ORDER_PAST, line_no: 0 }, -2 * DAY + 600);
+  ev("DeliveryRequested", { delivery_id: DLV_PAST, order_id: ORDER_PAST }, -2 * DAY + 650);
+  ev("DeliveryAccepted", { delivery_id: DLV_PAST }, -2 * DAY + 700);
+  ev("DeliveryPickedUp", { delivery_id: DLV_PAST }, -2 * DAY + 900);
+  ev("DeliveryDelivered", { delivery_id: DLV_PAST, proof: "code" }, -2 * DAY + 1800);
+  ev("OrderSentToKitchen", { order_id: ORDER_NOW, lines: [{ line_no: 0 }, { line_no: 1 }] }, 0);
+  ev("KitchenItemReady", { order_id: ORDER_NOW, line_no: 0 }, 300);
+  ev("KitchenItemReady", { order_id: ORDER_NOW, line_no: 1 }, 600);
+  ev("DeliveryRequested", { delivery_id: DLV_NOW, order_id: ORDER_NOW }, 700);
+  ev("DeliveryAccepted", { delivery_id: DLV_NOW, eta: new Date((at + 2700) * 1000).toISOString().slice(0, 19) + "Z" }, 760);
+  ev("DeliveryPickedUp", { delivery_id: DLV_NOW }, 900);
+  TRK.setProgress("delivery", DLV_NOW, 0.55);
+})();
+const trackLook = () => ({ t, esc, icon: (id: string) => icon(id), time: (iso: string) => { try { return clock(Date.parse(iso)); } catch { return iso.slice(11, 16); } }, chip: (st: UserState) => `<span class="chip st-${st}">${icon(`status-${st}`)}<span>${esc(t(`st_${st}`))}</span></span>` });
+const tracker = (kind: string, id: string, title?: string): string => { const v: TrackView | null = TRK.view(kind, id, "customer", T_NOW()); return v ? trackerHtml(v, trackLook(), title) : ""; };
 const secEvent = (type: string): void => { S.secEvents.unshift({ type, at: T_NOW() }); record(type, "server", { lynkid: LYNKID }); };
 
 // ---------------------------------------------------------------- navigation
@@ -184,11 +214,12 @@ function page(): string {
     </div>`;
     case "businesses": return `${title("businesses")}<div class="cards">
       <div class="card"><h2>${esc(t("your_businesses"))}</h2>${rows([kv(esc(t("shop_name")), `${esc(maskId(SHOP_OID))} · ${esc(t("role_owner"))}`, `<button class="primary" data-act="open:business">${esc(t("switch_to"))}</button><button class="secondary" data-act="leave:owner">${esc(t("leave"))}</button>`)])}<p class="muted">${esc(t("last_owner_note"))}</p><div class="actions"><button class="secondary" data-act="go:start">${icon("ui-plus")}<span>${esc(t("create_business"))}</span></button></div></div>
+      <div class="card"><h2>${esc(t("ws_title"))}</h2><p class="muted">${esc(t("ws_help"))}</p>${S.workspaces.length ? rows(S.workspaces.map((w) => kv(esc(t(`ws_name_${w.entity}`)), `${esc(t(`ws_kind_${w.entity}`))} · ${esc(t("role_owner"))}`, `<button class="primary" data-act="open:business">${esc(t("switch_to"))}</button>`))) : ""}<div class="actions">${(["person", "company", "organisation"] as const).map((e) => `<button class="secondary" data-act="ws:${e}">${icon(e === "person" ? "ui-user" : e === "company" ? "ui-grid" : "ui-home")}<span>${esc(t(`ws_${e}`))}</span></button>`).join("")}</div><p class="muted">${esc(t("ws_note"))}</p></div>
       <div class="card"><h2>${esc(t("client_businesses"))}</h2>${rows([
         kv(esc(t("client_pharmacy")), `${esc(t("role_accountant"))} · ${ok(t("consent_active", { when: dateOf(now + 300 * DAY) }))}`, `<button class="primary" data-act="open:client1">${esc(t("switch_to"))}</button>`),
         kv(esc(t("client_taxi")), `${esc(t("role_accountant"))} · ${wait(t("consent_missing"))}`, `<button class="secondary" disabled>${esc(t("switch_to"))}</button>`),
       ])}</div></div>`;
-    case "orders": return `${title("orders")}<div class="card">${state("empty", t, statePic("empty"), null)}<p class="muted">${esc(t("orders_empty"))}</p></div>`;
+    case "orders": return `${title("orders")}<div class="cards"><div class="card">${tracker("order", ORDER_NOW, t("order_from", { shop: t("shop_name") }))}</div><div class="card">${tracker("order", ORDER_PAST, t("order_from", { shop: t("client_pharmacy") }))}</div></div><p class="muted">${esc(t("trk_privacy"))}</p>`;
     case "transactions": return `${title("transactions")}<div class="card">${rows([kv(esc(t("shop_name")), esc(whenOf(now - 2 * DAY)) + " · " + esc(money(1500))), kv(esc(t("client_taxi")), `${esc(whenOf(now - 5 * DAY))} · ${esc(money(4200))} · ${wait(t("refund_owed", { amount: money(4200) }))}`)])}</div>`;
     case "wallet": return `${title("wallet")}<div class="cards">
       <div class="card"><h2>${esc(t("wallet_points"))}</h2>${rows([kv(esc(t("points_at", { n: n(240), shop: t("shop_name") })), "")])}</div>
@@ -200,7 +231,7 @@ function page(): string {
     case "memberships": return `${title("memberships")}<div class="card"><p class="muted">${esc(t("memberships_body"))}</p></div>`;
     case "privacy": return `${title("privacy")}<div class="cards">
       <div class="card"><h2>${esc(t("consent_log"))}</h2>${rows(S.consents.map((c) => kv(esc(`${c.scope}: ${c.purpose}`), esc(dateOf(c.expires)))))}</div>
-      <div class="card"><h2>${esc(t("download_records"))}</h2><p class="muted">${esc(t("download_hint"))}</p>${S.dataRequest ? wait(t("download_requested", { when: dateOf(S.dataRequest.due) })) : `<div class="actions"><button class="primary" data-act="data:request">${icon("ui-doc")}<span>${esc(t("download_records"))}</span></button></div>`}</div>
+      <div class="card"><h2>${esc(t("download_records"))}</h2><p class="muted">${esc(t("download_hint"))}</p>${S.dataRequest ? wait(t("download_requested", { when: dateOf(S.dataRequest.due) })) + tracker("data_request", "data-1") : `<div class="actions"><button class="primary" data-act="data:request">${icon("ui-doc")}<span>${esc(t("download_records"))}</span></button></div>`}</div>
       <div class="card"><h2>${esc(t("marketing_choices"))}</h2>${rows([`<label class="switch"><input type="checkbox" data-act="toggle:mkemail" ${S.marketing.email ? "checked" : ""}><span>${esc(t("marketing_email"))}</span></label>`, `<label class="switch"><input type="checkbox" data-act="toggle:mkpush" ${S.marketing.push ? "checked" : ""}><span>${esc(t("marketing_push"))}</span></label>`])}</div>
       <div class="card"><h2>${esc(t("close_account"))}</h2><p class="muted">${esc(t("close_hint"))}</p>${S.closing ? `${wait(t("close_requested", { when: dateOf(S.closing) }))}<div class="actions"><button class="primary" data-act="close:cancel">${esc(t("keep_account"))}</button></div>` : `<div class="actions"><button class="secondary" data-act="stepup:close">${esc(t("close_account"))}</button></div>`}</div></div>`;
     case "notifications": return `${title("notifications")}<div class="card">${rows([kv(esc(t("channels")), "push · email · SMS"), kv(esc(t("quiet_hours")), esc(t("quiet_hours_line", { start: clock(Date.UTC(2026, 0, 1, 22)), end: clock(Date.UTC(2026, 0, 1, 7)) })))])}<p class="muted">${esc(t("security_always"))}</p></div>`;
@@ -226,7 +257,7 @@ function page(): string {
 function overlay(): string {
   const wrap = (cls: string, inner: string) => `<div class="overlay ${cls}" data-act="closeoverlay">${inner.replace(/^<(div|aside)/, '<$1 data-act="keep"')}</div>`;
   switch (S.overlay) {
-    case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.service, name: s.name, icon: s.icon, href: `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon));
+    case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.service, name: s.name, plain: t(`ft_plain_${s.plain}`), icon: s.icon, href: `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon));
     case "pages": return wrap("", launcher(PAGES.map((p) => ({ id: `page-${p}`, name: t(`page_${p}`), icon: PAGE_ICON[p], href: pagePath(p), state: "available" as const })), t, icon));
     case "account": return wrap("end", accountMenu({ name: t("person_name"), lynkId: LYNKID, businesses: [{ id: "b1", name: t("shop_name"), current: true }, { id: "b2", name: t("client_pharmacy"), current: false }], role: "owner", roles: ["owner", "manager"], theme: S.mode === "lite" ? "lite" : S.mode === "sunlight" ? "sunlight" : S.theme, language: langName(isTest() ? "en" : S.lang), region: pack().sample ? t("sample_country") : pack().name }, t, icon));
     case "globe": return wrap("", globeSheet(Object.entries(PACKS).map(([code, p]) => ({ code, native: p.native, dir: p.dir })), DATA.packOrder.map((c) => ({ code: c, name: (DATA.packs[c] as CountryPack).sample ? t("sample_country") : regionName(c, isTest() ? "en" : S.lang, (DATA.packs[c] as CountryPack).name) })), { language: isTest() ? "en" : S.lang, region: pack().code }, t));
@@ -264,6 +295,7 @@ function draw(): void {
   const toasts = S.undo.openToasts(Date.now()).map((u) => undoToast(u, Date.now(), t, icon)).join("");
   d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main">${page()}<div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))} <span class="deeplink">account.lynkomni.com${esc(screenPath())}</span></div>${appFooter()}</main></div>${S.size === "phone" ? nav : ""}${overlay()}<div class="toasts">${toasts}</div></div>`;
   $("#device").className = `device ${S.size}`;
+  $("#tab").className = `tab ${S.theme}`;                       // the tab and its icon follow the page theme (brand surface "favicon")
   $("#url").textContent = `https://account.lynkomni.com${screenPath()}`;
   $("#tabTitle").textContent = t("site_title");
   $("#screensHint").textContent = t("screens_hint");
@@ -340,7 +372,9 @@ function act(a: string): void {
       if (v === "ok") { const then = S.stepup?.then ?? ""; S.stepup = { ok: true, then }; S.overlay = null; record("StepUpPassed", "server", { scope: "sensitive" }); if (then.startsWith("passkey:")) act(then); else if (then === "close") { S.closing = closesAt(now); record("AccountCloseRequested", "server", { closes_at: S.closing }); } else if (then === "recovery:newcode") { S.recoveryCode = "2B8N-4KQ7-M1XZ-9RCD"; record("RecoveryCodeRotated", "server", {}); } S.stepup = null; draw(); return; }
       stepUp(v); return;
     }
-    case "data": S.dataRequest = { due: dataRequestDue(now) }; record("DataRequestOpened", "server", { due_at: S.dataRequest.due }); draw(); return;
+    case "ws": if (v === "person" || v === "company" || v === "organisation") { S.workspaces.push({ entity: v }); record("BusinessCreated", "server", { entity: v, kind: v === "person" ? "household" : v === "company" ? "business" : "nonprofit", type: v === "company" ? "shop" : "no_till" }); } draw(); return;
+    case "data": S.dataRequest = { due: dataRequestDue(now) }; record("DataRequestOpened", "server", { due_at: S.dataRequest.due }); TRK.apply({ type: "DataRequestOpened", payload: { request_id: "data-1", due_at: new Date(S.dataRequest.due * 1000).toISOString().slice(0, 19) + "Z" }, at: now }, "account");
+       draw(); return;
     case "close": if (v === "cancel") { S.closing = null; record("AccountCloseCancelled", "server", {}); } draw(); return;
     case "toggle": if (v === "mkemail") S.marketing.email = !S.marketing.email; if (v === "mkpush") S.marketing.push = !S.marketing.push; record("MarketingChoiceChanged", "server", { ...S.marketing }); draw(); return;
     case "standing": { const i = Number(v.replace(/^revoke:/, "")); const s = S.standing[i]; if (s) { s.active = false; record("StandingPaymentRevoked", "server", { losub: s.losub, by: "self" }); } draw(); return; }

@@ -66,6 +66,7 @@
 .lplace:hover { background: var(--bg-subtle); }
 .lplace.soon { color: var(--text-secondary); }
 .lplace .nm { overflow-wrap: anywhere; }
+.lplace .pl { overflow-wrap: anywhere; font-weight: 400; color: var(--text-secondary); font-size: var(--text-12); }   /* the plain word beside a short product name */
 .soon-tag { font-weight: 400; color: var(--status-info-text); background: var(--status-info-bg); border-radius: 999px; padding: 2px 8px; }
 .who { display: flex; align-items: center; gap: 12px; margin-block-end: 8px; }
 .lynkid { display: inline-flex; align-items: center; gap: 4px; color: var(--text-secondary); }

@@ -11,6 +11,10 @@
  ],
  "setup_steps": [
   {
+   "id": "who_for",
+   "blueprint": "owner 2026-11-09 (catalog/workspaces.v1.json)"
+  },
+  {
    "id": "business_name_type",
    "blueprint": "41 E"
   },
@@ -91,7 +95,8 @@
     "stock_alerts",
     "chats",
     "insight",
-    "pending_sync"
+    "pending_sync",
+    "on_the_way"
    ],
    "path": "/"
   },
@@ -585,6 +590,24 @@
    "path": "/business/automations"
   },
   {
+   "id": "deliveries",
+   "blueprint": "44 I N8; tracking (owner 2026-11-09)",
+   "items": [
+    "trackers"
+   ],
+   "path": "/deliveries"
+  },
+  {
+   "id": "delivery",
+   "blueprint": "44 I N8; tracking (owner 2026-11-09)",
+   "items": [
+    "timeline",
+    "track_link",
+    "tracking_privacy"
+   ],
+   "path": "/deliveries/{LODLV}"
+  },
+  {
    "id": "notifications",
    "blueprint": "41 B, 41 E",
    "items": [
@@ -607,5 +630,6 @@
    ],
    "path": "account.lynkomni.com"
   }
- ]
+ ],
+ "workspaces": "Who the app is for (catalog/workspaces.v1.json): a person, a company or an organisation; the entity changes words, tabs (an office workspace of a person or an organisation shows Books instead of Chats) and categories only."
 }

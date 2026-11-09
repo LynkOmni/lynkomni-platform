@@ -13,16 +13,18 @@ const WEB = dirname(fileURLToPath(import.meta.url));
 const ROOT = dirname(WEB);
 const OUT = join(WEB, "emulators", "dist");
 const DEVICE_MODULES = ["ts/src/brand.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/pos.js", "ts/src/merchant.js", "ts/src/business.js", "ts/src/agent.js", "ts/src/restaurant.js", "ts/src/emulator.js", "SH=ts/src/shell.js", "ts/src/deviceshell.js"];
+// every tracked thing is drawn the same way everywhere (owner, 9 November 2026): the engine, its register and the shared look
+const TRACK_MODULES = ["ts/src/tracking.js", "ts/src/tracking.generated.js", "ts/src/trackview.js"];
 const EMULATORS = [
   { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: [...DEVICE_MODULES, "web/emulators/pos-terminal/app.js"] },
-  { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: [...DEVICE_MODULES, "ts/src/usernames.generated.js", "ts/src/usernames.js", "web/emulators/merchant-phone/app.js"] },
+  { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: [...DEVICE_MODULES, ...TRACK_MODULES, "ts/src/usernames.generated.js", "ts/src/usernames.js", "web/emulators/merchant-phone/app.js"] },
   { id: "browser-frame", out: "lynkomni-browser-frame.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", "web/emulators/browser-frame/app.js"],
     extraCss: ["web/shell/shell.css"] },
-  { id: "account-site", out: "lynkomni-account-site.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", "ts/src/account.js", "web/emulators/account-site/app.js"],
+  { id: "account-site", out: "lynkomni-account-site.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", "ts/src/account.js", ...TRACK_MODULES, "web/emulators/account-site/app.js"],
     extraCss: ["web/shell/shell.css"] },
   // build section 3: the Business app devices, all on the shared device runtime (ts/src/emulator.js) and words (web/pos)
-  ...["counter-tablet", "kitchen-screen", "customer-display", "rider-phone", "stock-scanner", "button-phone", "vcard-card", "mesh-relay", "owner-web"]
-    .map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...DEVICE_MODULES, `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
+  ...["counter-tablet", "kitchen-screen", "customer-display", "rider-phone", "stock-scanner", "button-phone", "vcard-card", "mesh-relay", "owner-web", "track-page"]
+    .map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...DEVICE_MODULES, ...(["rider-phone", "track-page"].includes(id) ? TRACK_MODULES : []), `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
 ];
 
 const read = (p) => readFileSync(p, "utf8");
@@ -42,6 +44,9 @@ function bundle(mods) {
   const parts = mods.map((spec) => {
     const [ns, m] = spec.includes("=") ? spec.split("=") : [null, spec];
     const js = read(join(WEB, ".build", m));
+    // joining drops import lines, so a renamed import (import { A as B }) would leave B undefined at run time: refuse it here
+    const renamed = [...js.matchAll(/^import\s*\{([^}]*)\}/gm)].map((x) => x[1]).join(",").split(",").map((x) => x.trim()).filter((x) => /\sas\s/.test(x) && !x.startsWith("type "));
+    if (renamed.length) throw new Error(`${m}: renamed imports are not joined (${renamed.join(", ")}); import the name as it is exported`);
     const body = stripComments(js).replace(/^import[^;]*;\s*$/gm, "").replace(/^export \{\s*\};?\s*$/gm, "").replace(/^export (?=(const|function|class|let|async))/gm, "");
     if (!ns) return `// ---- ${m}\n` + body;
     const names = [...js.matchAll(/^export (?:const|function|class|let|async function) (\w+)/gm)].map((x) => x[1]);
@@ -69,14 +74,21 @@ const fontCss = read(join(ROOT, "design", "fonts.css")).match(/@font-face\s*\{[^
   .filter((b) => /-latin\.woff2/.test(b))
   .map((b) => b.replace(/url\('\/fonts\/([\w-]+\.woff2)'\)/, (_, f) => `url(data:font/woff2;base64,${readFileSync(join(ROOT, "design", "fonts", f)).toString("base64")})`))
   .join("\n");
+// The page's own tab icon (brand surface "favicon"): the light-theme emblem when the browser is light, the dark-theme emblem when it is dark.
+// a small data address: double quotes become single quotes and only the characters an address cannot carry are escaped
+// (far smaller than escaping everything, so the two favicons cost little in every file)
+const svgUri = (svg) => `data:image/svg+xml,${svg.replace(/\s+(role|aria-label|focusable)="[^"]*"/g, "").replace(/"/g, "'").replace(/\s+/g, " ").replace(/[%#<>{}|\\^`[\]]/g, (c) => encodeURIComponent(c))}`;
+const faviconLinks = (f) => `<link rel="icon" type="image/svg+xml" media="(prefers-color-scheme: light)" href="${svgUri(f.light)}">\n<link rel="icon" type="image/svg+xml" media="(prefers-color-scheme: dark)" href="${svgUri(f.dark)}">`;
 let stale = [];
 for (const e of EMULATORS) {
   const D = JSON.parse(execFileSync("python3", [join(WEB, "emulators", "build_data.py"), e.id], { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 26 }));
   const dir = join(WEB, "emulators", e.id);
   let html = read(join(dir, "shell.html"))
     .replace("/*@TOKENS@*/", () => fontCss + "\n" + tokens)
-    .replace("/*@STYLE@*/", () => [...(e.extraCss ?? []), ...(e.modules.includes("ts/src/footer.js") ? ["web/footer/footer.css"] : []), ...(e.modules.includes("ts/src/deviceshell.js") ? ["web/device/deviceshell.css"] : [])].map((c) => read(join(ROOT, c))).join("\n") + "\n" + read(join(dir, "style.css")))   // the footer's styles travel with the footer module
+    .replace("/*@STYLE@*/", () => [...(e.extraCss ?? []), ...(e.modules.includes("ts/src/footer.js") ? ["web/footer/footer.css"] : []), ...(e.modules.includes("ts/src/deviceshell.js") ? ["web/device/deviceshell.css"] : []), ...(e.modules.includes("ts/src/trackview.js") ? ["web/tracking/tracking.css"] : [])].map((c) => read(join(ROOT, c))).join("\n") + "\n" + read(join(dir, "style.css")))   // the footer's styles travel with the footer module
     .replace("/*@BODYMARK@*/", () => D.brand.body)
+    .replace("/*@FAVICON@*/", () => `<span class="fav-l">${D.brand.favicon.light}</span><span class="fav-d">${D.brand.favicon.dark}</span>`)
+    .replace("</head>", () => `${faviconLinks(D.brand.favicon)}\n</head>`)
     .replace(/\/\*@I:([a-z0-9-]+)@\*\//g, (_, id) => `<span class="ic" aria-hidden="true">${D.icons[id] ?? (() => { throw new Error(`unknown icon ${id}`); })()}</span>`)
     .replace("/*@SCRIPT@*/", () => `const DATA = ${JSON.stringify(packData(D)).replace(/</g, "\\u003c")};\n(async () => {\n${UNPACK}\n${INFLATE}\n${bundle(e.modules)}\ndocument.documentElement.dataset.ready = "1"; window.__readyAt = performance.now();\n})();`);
   const target = join(OUT, e.out);

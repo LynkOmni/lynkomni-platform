@@ -170,7 +170,9 @@ class PhoneLayout(DarkPass, unittest.TestCase):
         pg.fill("#codeIn", "123456"); pg.click('[data-act="verify"]'); check("choose business")
         pg.click('[data-act="business:0"]'); pg.wait_for_selector('[data-act="start"]'); check("registered")
         pg.click('[data-act="start"]'); check("language and region card")
-        pg.click('[data-act="localeok"]'); check("setup")
+        pg.click('[data-act="localeok"]'); check("setup, who it is for")
+        pg.click('[data-act="entity:organisation"]'); check("setup, an organisation and its kinds")
+        pg.click('[data-act="entity:company"]'); pg.click('[data-act="donestep:who_for"]'); check("setup")
         pg.click('[data-act="donestep:business_name_type"]'); pg.click('[data-act="donestep:currency"]'); check("setup, first products")
         pg.click('[data-act="skipstep:first_products"]'); pg.click('[data-act="skipstep:invite_staff"]'); check("setup, shop QR")
         pg.click('[data-act="skipstep:print_shop_qr"]'); pg.click('[data-act="firstsale"]')
@@ -354,6 +356,7 @@ DEVICES = {
     "vcard-card": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
     "mesh-relay": (["#screenA", "#screenB"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
     "owner-web": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
+    "track-page": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
 }
 DEVICE_FILE = lambda e: os.path.join(ROOT, "web", "emulators", "dist", f"lynkomni-{e}.html")
 OVERFLOW_IN = OVERFLOW.replace("() => {\n  const d = document.querySelector('#display')", "(sel) => {\n  const d = document.querySelector(sel)")

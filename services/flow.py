@@ -45,8 +45,8 @@ class Flow:
             ran += s._run(a, subject, event["payload"], trigger_event=event["id"], now=now, depth=depth)
         return ran
     def tick(s, kind, subjects, now=None):
-        """Scheduled runs: kind is 'daily', 'weekly' or a daily moment such as 'closing_time' or 'shift_start'. Each (automation, subject) runs at most once per period."""
-        period = 7 * 86400 if kind == "weekly" else 86400
+        """Scheduled runs: kind is 'minutely', 'hourly', 'daily', 'weekly' or a daily moment such as 'closing_time' or 'shift_start'. Each (automation, subject) runs at most once per period."""
+        period = {"minutely": 60, "hourly": 3600, "weekly": 7 * 86400}.get(kind, 86400)
         ran = []
         for a in s.by_trigger(f"schedule:{kind}"):
             for subject in subjects:

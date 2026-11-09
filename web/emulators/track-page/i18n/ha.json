@@ -1,0 +1,12 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ha",
+ "native": "Hausa",
+ "source_sha256": "6f4bb9232e51ded405c98ac9f88da3c177762800c94c91babd681f2fdd100735",
+ "texts": {
+  "title": "Shafin bibiyar abokin ciniki",
+  "track_heading": "Odarka"
+ }
+}

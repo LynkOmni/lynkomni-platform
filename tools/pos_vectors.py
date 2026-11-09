@@ -8,6 +8,7 @@ import json, os, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from merchant import agent as AG, automations as AU, business as B, devices as D, restaurant as R  # noqa: E402
+from core import workspaces as WS  # noqa: E402
 from services import billing  # noqa: E402
 
 TIERS = ("free", "plus", "pro", "max")
@@ -52,6 +53,9 @@ def build():
                       "tip_share": R.Restaurant.tip_share_for_lynkomni(1000), "delivery_share_cents": billing.SERVICE_FEES["delivery_share_cents"], "proof_warning_key": B.PROOF_WARNING_KEY},
         "web_rule": web, "limit_check": limits, "low_float": low, "cash": cash, "statement": {**statement, "matched": s_m, "total": s_t, "mismatches": s_mm},
         "tiers": tiers, "voice": voice, "home_cards": home, "sync": sync,
+        "workspaces": [{"entity": e, "type": t, "tabs": list(WS.tabs(e, t, B.TABS[t])), "words": {k: WS.word(e, k) for k in ("tab_customers", "tab_business", "it_customers", "tab_home")},
+                        "accounts": {c["id"]: WS.account_for(e, c["id"]) for side in ("income", "expense") for c in WS.categories(e)[side]}, "office": [f for f in billing.FAMILIES if WS.office_ok(f)]}
+                       for e in WS.ENTITIES for t in B.TYPES],
     }
 
 

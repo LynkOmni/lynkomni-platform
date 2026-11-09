@@ -6,16 +6,19 @@ class EventStore:
         self.db = sqlite3.connect(path, check_same_thread=False)
         self.db.execute("create table if not exists events(seq integer primary key autoincrement, "
                         "id text unique, merchant text, device text, type text, ts text, payload text)")
+        self.observers = []          # projections that follow the log as it grows (services/tracking.py); called once per new event
     def append(self, merchant, device, type_, payload, id_=None, ts=None):
         """Returns False for a duplicate id, so retries never double-count."""
+        ts = ts or time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
         try:
             self.db.execute("insert into events(id,merchant,device,type,ts,payload) values(?,?,?,?,?,?)",
-                            (id_ or uuid.uuid4().hex, merchant, device, type_,
-                             ts or time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), json.dumps(payload)))
+                            (id_ or uuid.uuid4().hex, merchant, device, type_, ts, json.dumps(payload)))
             self.db.commit()
-            return True
         except sqlite3.IntegrityError:
             return False
+        for observe in list(self.observers):
+            observe(merchant, type_, payload, ts)
+        return True
     def _rows(self, q, args):
         return [dict(seq=r[0], id=r[1], device=r[2], type=r[3], ts=r[4], payload=json.loads(r[5]), merchant=r[6])
                 for r in self.db.execute(q, args)]
