@@ -30,6 +30,65 @@
    "note": "ts/scripts/preview.mjs. Shows both variants and swaps by theme."
   },
   {
+   "id": "favicon",
+   "status": "live",
+   "kind": "web",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "emblem",
+     "variants": [
+      "light",
+      "dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "emblem"
+    }
+   ],
+   "colour": "theme",
+   "note": "The browser tab icon (owner, 9 November 2026): the light-theme emblem for browsers in light mode and the dark-theme emblem for browsers in dark mode, as two icon links with prefers-color-scheme media queries; never the one-colour or all-white emblem. Emulated browser tabs follow the page theme the same way."
+  },
+  {
+   "id": "web-footer",
+   "status": "live",
+   "kind": "web",
+   "offline": true,
+   "uses": [
+    {
+     "asset": "logo",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    },
+    {
+     "asset": "emblem",
+     "variants": [
+      "light",
+      "dark",
+      "contrast-light",
+      "contrast-dark"
+     ]
+    }
+   ],
+   "choose": [
+    {
+     "asset": "logo",
+     "minWidthPx": 120
+    },
+    {
+     "asset": "emblem"
+    }
+   ],
+   "colour": "theme",
+   "note": "The main footer (section 26, owner 9 November 2026): the full LynkOmni logo above \"Works with or without internet.\", in the variant of the page's theme (light or dark); the emblem only where a footer is narrower than 120 px."
+  },
+  {
    "id": "web-header",
    "status": "live",
    "kind": "web",

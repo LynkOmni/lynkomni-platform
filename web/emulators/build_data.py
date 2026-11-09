@@ -20,7 +20,7 @@ def svg(path):
 
 
 # Shared word packs: an emulator that imports the module carries the folder's words too (one translation, used everywhere).
-SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/footer.js", os.path.join("web", "footer")))
+SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/trackview.js", os.path.join("web", "tracking")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/footer.js", os.path.join("web", "footer")))
 
 
 def uses_shell(emulator):
@@ -90,9 +90,14 @@ SERVICES = [("pos", "LynkPOS", "product-pos"), ("accountant", "LynkAcc", "produc
             ("recovery", "LynkRecover", "product-recover"), ("vcard", "LynkVCard", "product-vcard")]
 
 
+# Each product's footer id, whose plain word ("Accounting") travels beside its short name everywhere it is listed (web/footer ft_plain_<id>).
+PLAIN_ID = {"LynkPOS": "pos", "LynkAcc": "acc", "LynkStock": "stock", "LynkStat": "stat", "LynkGrow": "grow", "LynkChat": "chat", "LynkMPay": "mpay",
+            "LynkCheckout": "checkout", "LynkRewards": "rewards", "LynkRecover": "recover", "LynkVCard": "vcard"}
+
+
 # The brand places the screens ask for (brand/surfaces.v1.json): each place lists its choices in order with the smallest
 # width each needs, so the screen picks by the room it has (ts/src/brand.ts markFor). Screens never name a logo file.
-BRAND_PLACES = ("app-top-bar", "web-header", "side-menu", "auth-onboarding", "customer-welcome")
+BRAND_PLACES = ("app-top-bar", "web-header", "side-menu", "auth-onboarding", "customer-welcome", "web-footer")
 
 
 def brand_places():
@@ -124,7 +129,8 @@ def business_app():
     with open(os.path.join(ROOT, "catalog", "business-app.v1.json"), encoding="utf-8") as f:
         reg = json.load(f)
     return {"screens": [{"id": s["id"], "path": s["path"], "items": s["items"]} for s in reg["screens"]],
-            "plans": list(billing.FAMILIES["lynkpos"][3]), "automations": [{"id": a["id"], "level": a["level"]} for a in automations(3)]}
+            "plans": list(billing.FAMILIES["lynkpos"][3]), "automations": [{"id": a["id"], "level": a["level"]} for a in automations(3)],
+            "workspaces": json.load(open(os.path.join(ROOT, "catalog", "workspaces.v1.json"), encoding="utf-8"))}
 
 
 def cards():
@@ -200,11 +206,13 @@ def main(emulator):
         "icons": icons,
         "brand": {"body": svg(brand.for_surface("device-body", "light").path),
                   "receipt": svg(brand.for_surface("receipt-header", "light", printing=True).path),
-                  "places": brand_places()},
+                  "places": brand_places(),
+                  # the browser tab icon (brand surface "favicon"): the light-theme emblem for light browsers, the dark-theme emblem for dark ones
+                  "favicon": {th: svg(brand.for_surface("favicon", th).path) for th in ("light", "dark")}},
         "pictures": {"offLight": svg(pic["light"].path), "offDark": svg(pic["dark"].path), "offAlt": pic["light"].alt},
         "states": {k: {"label": v["label"], "meaning": v["meaning"]} for k, v in states.items()},
         "packs": packs, "packOrder": list(packs),   # the country chooser: the sample pack first, then every real pack
-        "serviceCatalog": [{"service": sv, "name": nm, "icon": ic} for sv, nm, ic in SERVICES], "methods": list(METHOD_ITEMS), "offMessage": off["message"],
+        "serviceCatalog": [{"service": sv, "name": nm, "icon": ic, "plain": PLAIN_ID[nm]} for sv, nm, ic in SERVICES], "methods": list(METHOD_ITEMS), "offMessage": off["message"],
         # what each LynkPOS plan allows (billing FEATURES merged up to the tier) and the PLACEHOLDER rates behind the second-currency estimate (core/money.py, ledger fx_rates)
         "entitlements": {tier: entitlement("lynkpos", tier) for tier in billing.FAMILIES["lynkpos"][2]}, "checkout": {tier: entitlement("lynkcheckout", tier) for tier in billing.FAMILIES["lynkcheckout"][2]},
         "fx": {k: float(v) for k, v in USD_RATES.items()},

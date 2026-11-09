@@ -133,7 +133,10 @@
   "/roadmap",
   "/safety",
   "/solutions",
+  "/solutions/companies",
+  "/solutions/individuals",
   "/solutions/merchants",
+  "/solutions/organisations",
   "/solutions/suppliers",
   "/start",
   "/stock",
@@ -182,6 +185,7 @@
   "/crm/reviews",
   "/crm/warranties",
   "/deliveries",
+  "/deliveries/{LODLV}",
   "/float",
   "/invoicing",
   "/invoicing/get-paid-early",
@@ -232,6 +236,7 @@
   "/memberships",
   "/notifications",
   "/orders",
+  "/orders/{LOORD}",
   "/payments",
   "/payslips",
   "/privacy",
@@ -255,7 +260,8 @@
   "/{username}",
   "/{username}/tables/{table}",
   "/{username}/reviews",
-  "/track/{LODLV}"
+  "/track/{LODLV}",
+  "/track/{LOORD}"
  ],
  "username_rule": {
   "format": "instagram",

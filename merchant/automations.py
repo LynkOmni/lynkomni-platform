@@ -1,4 +1,4 @@
-"""The twenty automations of build section 3 (blueprint 45 E row 3), each registered in catalog/automations.v1.json and run by
+"""The twenty-two automations of build section 3 (twenty, plus the two tracking automations of 9 November 2026) (blueprint 45 E row 3), each registered in catalog/automations.v1.json and run by
 LynkFlow (services/flow.py). Levels: inform (tell), draft (a person confirms), auto (housekeeping the person already chose) and
 auto with undo (the owner's rule, undoable). None moves money, changes a credential or acts beyond its level; LynkAssist drafts,
 explains, summarises and watches, and every draft is labelled a suggestion. Outputs are signals in merchant/events.v1.json."""
@@ -89,6 +89,27 @@ def register(flow, biz, agent, deliveries, restaurant, devices, platform):
         _emit(f, m, "DeliveryAutoRequested", {"order_id": p["order_id"], "partner_id": q["partner_id"], "price": q["price"], "undo_until": now + UNDO_S}, "delivery-auto-request", now)
         return {"partner_id": q["partner_id"], "price": q["price"], "undo_s": UNDO_S, "why": "the owner's rule books the cheapest partner for a paid order; undoable for five minutes and until the partner accepts"}
 
+    # ---- tracking (catalog/tracking.v1.json): customer step messages and the owner's late alerts
+    def order_updates(f, m, p, now):
+        tr = platform.tracking
+        sub = tr.t.subs.get((p["kind"], p["record"]))
+        if not p.get("customer") or not sub: return None                 # only customer steps, only to a customer who chose a way to hear
+        held = None
+        if p["step"] not in tr_act_now():
+            held = tr.quiet_until(now, _tz(biz, m))
+        _emit(f, m, "TrackingUpdateSent", {"kind": p["kind"], "record": p["record"], "step": p["step"], "channel": sub["channel"], "lang": sub["lang"], "held_until": held}, "order-updates", now)
+        return {"step": p["step"], "channel": sub["channel"], "held_until": held,
+                "why": "the customer chose to hear each step; the message is in their language and waits for quiet hours unless they must act now"}
+
+    def tracking_late_watch(f, m, p, now):
+        tr = platform.tracking
+        told = {e["payload"]["ref"] for e in c.store.of(m, "AlertSent") if e["payload"].get("kind") == "tracking_late"}
+        late = [v for v in tr.t.late(now, owner=m) if v["record"] not in told]
+        if not late: return None
+        for v in late:
+            _emit(f, m, "AlertSent", {"kind": "tracking_late", "ref": v["record"], "detail": {"tracking_kind": v["kind"], "step": v["step"], "eta": v["eta"]}}, "tracking-late-watch", now)
+        return {"late": len(late), "why": "a tracked delivery or order passed its promised time; the owner is told once, with the latest estimate"}
+
     # ---- agent point (inform / auto)
     def low_float_warning(f, m, p, now):
         if not agent.low_float(m, p["partner_id"], p["balance"]): return None
@@ -139,8 +160,21 @@ def register(flow, biz, agent, deliveries, restaurant, devices, platform):
                     "shift-reminder": shift_reminder, "low-stock-reorder": low_stock_reorder, "expiry-alert": expiry_alert, "negative-stock-flag": negative_stock_flag,
                     "receipt-delivery": receipt_delivery, "kitchen-routing": kitchen_routing, "delivery-auto-request": delivery_auto_request, "low-float-warning": low_float_warning,
                     "commission-match": commission_match, "sync-retry": sync_retry, "device-health": device_health, "staff-pin-lock": staff_pin_lock,
-                    "chat-suggested-replies": chat_suggested_replies, "chat-routing": chat_routing, "chat-summary": chat_summary, "reorder-one-tap": reorder_one_tap}.items():
+                    "chat-suggested-replies": chat_suggested_replies, "chat-routing": chat_routing, "chat-summary": chat_summary, "reorder-one-tap": reorder_one_tap,
+                    "order-updates": order_updates, "tracking-late-watch": tracking_late_watch}.items():
         flow.handle(aid, fn)
+
+
+def tr_act_now():
+    from services.tracking import ACT_NOW_STEPS
+    return ACT_NOW_STEPS
+
+
+def _tz(biz, m):
+    """The business's own time zone (its country pack), for quiet hours."""
+    from core import regions
+    r = biz.db.execute("select country from biz where lynkoid=?", (m,)).fetchone()
+    return regions.country(r[0] if r else None).get("tz") or "UTC"
 
 
 def _epoch(ts):

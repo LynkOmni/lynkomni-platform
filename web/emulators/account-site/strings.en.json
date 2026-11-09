@@ -197,5 +197,18 @@
  "site_account": "Account",
  "site_merchant": "Business app",
  "device_n": "Device {n}",
- "site_short": "Account"
+ "site_short": "Account",
+ "ws_title": "Run your affairs",
+ "ws_help": "The same books, invoices, contacts and reports for yourself, a company or an organisation.",
+ "ws_person": "Myself",
+ "ws_company": "A company",
+ "ws_organisation": "An organisation",
+ "ws_name_person": "My money",
+ "ws_name_company": "My company",
+ "ws_name_organisation": "Our organisation",
+ "ws_kind_person": "Personal",
+ "ws_kind_company": "Company",
+ "ws_kind_organisation": "Organisation",
+ "ws_note": "Same prices and rules for everyone. No till needed.",
+ "order_from": "Order from {shop}"
 }

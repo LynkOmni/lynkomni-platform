@@ -109,7 +109,9 @@ class Emulators(unittest.TestCase):
             urls -= OFFICIAL_SOCIAL   # the footer links to LynkOmni's own official accounts (section 26 A); a link, never a load
             self.assertEqual(urls, set(), f"{f}: must not load anything from the web")
             self.assertNotRegex(txt, r"""(src|href)=["']https?://|url\(["']?https?://|fetch\(|XMLHttpRequest|navigator\.sendBeacon""", f"{f}: must not load anything from the web")
-            self.assertNotRegex(txt, r"<img|@import|fonts\.googleapis|<link ", f)
+            # the only <link> allowed is the favicon, built in as data (brand surface favicon: the emblem for light and for dark)
+            self.assertNotRegex(txt, r"<img|@import|fonts\.googleapis|<link (?!rel=\"icon\" type=\"image/svg\+xml\" media=\"\(prefers-color-scheme: (light|dark)\)\" href=\"data:)", f)
+            self.assertEqual(len(re.findall(r'<link rel="icon"', txt)), 2, f"{f}: one favicon for light browsers and one for dark")
             self.assertIn("Draft design", txt, f"{f}: must say it is a draft until a designer reviews it")
             self.assertNotRegex(txt.lower(), r"todo image|lorem ipsum", f)
             budget = BUDGETS["emulators"].get(os.path.basename(f)[len("lynkomni-"):-len(".html")], {}).get("file_kb", BUDGETS["defaults"]["file_kb"])

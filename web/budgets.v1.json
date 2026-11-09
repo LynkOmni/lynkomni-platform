@@ -3,36 +3,37 @@
  "description": "Speed budget per screen (blueprint 45 E, build section 1: a slow screen fails the build). Every emulator is one offline file; the budget caps its size and how long it takes to show its first screen and to answer a tap on a four-times-slower CPU (a low-cost phone). tests/test_speed_budget.py enforces it; raise a budget only with a reason in the change log.",
  "cpu_slowdown": 4,
  "defaults": {
-  "file_kb": 480,
+  "file_kb": 520,
   "first_screen_ms": 1500,
   "tap_ms": 120,
   "dom_nodes": 2500,
-  "root": "#display"
+  "root": "#display",
+  "file_kb_reason": "Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline)."
  },
  "emulators": {
   "pos-terminal": {
    "first_tap": "[data-act=\"d1\"]",
-   "file_kb": 650,
-   "file_kb_reason": "Raised 9 November 2026 when the 41 B shell parts (find or do anything, help, account menu, language card, sync sheet, designed states) joined every device: the demo file carries their words in all 26 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged. Raised 9 November 2026 for language wave 2 (blueprint 43 G: Bangla, Tamil, Thai, Amharic, Hausa, Yoruba, Zulu, Filipino, Polish, Dutch, Ukrainian, Malay): the demo file carries every screen text in all 38 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged."
+   "file_kb": 690,
+   "file_kb_reason": "Raised 9 November 2026 when the 41 B shell parts (find or do anything, help, account menu, language card, sync sheet, designed states) joined every device: the demo file carries their words in all 26 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged. Raised 9 November 2026 for language wave 2 (blueprint 43 G: Bangla, Tamil, Thai, Amharic, Hausa, Yoruba, Zulu, Filipino, Polish, Dutch, Ukrainian, Malay): the demo file carries every screen text in all 38 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged. Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline)."
   },
   "merchant-phone": {
    "first_tap": "[data-act=\"sendcode\"]",
-   "file_kb": 1140,
-   "file_kb_reason": "This demo file now carries every Business app screen of blueprint 41 E (catalog/business-app.v1.json, 46 screens, about 700 texts with the shared POS words) in all 26 languages, plus every country; a real app downloads one language and one country at a time. Raised 9 November 2026 when the full Business app was built (section 3). First-screen and tap budgets are unchanged. Raised 9 November 2026 when the 41 B shell parts (find or do anything, help, account menu, language card, sync sheet, designed states) joined every device: the demo file carries their words in all 26 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged. Raised 9 November 2026 for language wave 2 (blueprint 43 G: Bangla, Tamil, Thai, Amharic, Hausa, Yoruba, Zulu, Filipino, Polish, Dutch, Ukrainian, Malay): the demo file carries every screen text in all 38 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged."
+   "file_kb": 1300,
+   "file_kb_reason": "Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline) and the shared tracker (the tracking engine, its register and the tracker words in all 38 languages, owner request for tracking across every service), the deliveries screens and the who-is-it-for setup with its workspace words."
   },
   "browser-frame": {
    "first_tap": "[data-act=\"shell:launcher\"]"
   },
   "account-site": {
    "first_tap": "[data-act=\"go:security\"]",
-   "file_kb": 640,
-   "file_kb_reason": "This demo file carries the shell (138 texts), the account site (199) and the main footer (61, blueprint section 26) in all 26 languages, plus every country; a real app downloads one language and one country at a time. Raised 9 November 2026 when the footer joined (change log v0.23.1). First-screen and tap budgets are unchanged. Raised 9 November 2026 for language wave 2 (blueprint 43 G: Bangla, Tamil, Thai, Amharic, Hausa, Yoruba, Zulu, Filipino, Polish, Dutch, Ukrainian, Malay): the demo file carries every screen text in all 38 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged."
+   "file_kb": 790,
+   "file_kb_reason": "Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline) and the shared tracker (the tracking engine, its register and the tracker words in all 38 languages, owner request for tracking across every service), the order trackers and the Run your affairs workspaces (office services for a person, a company or an organisation)."
   },
   "counter-tablet": {
    "first_tap": "[data-act=\"d1\"]",
    "root": "#screen",
-   "file_kb": 630,
-   "file_kb_reason": "Raised 9 November 2026 when the 41 B shell parts (find or do anything, help, account menu, language card, sync sheet, designed states) joined every device: the demo file carries their words in all 26 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged. Raised 9 November 2026 for language wave 2 (blueprint 43 G: Bangla, Tamil, Thai, Amharic, Hausa, Yoruba, Zulu, Filipino, Polish, Dutch, Ukrainian, Malay): the demo file carries every screen text in all 38 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged."
+   "file_kb": 650,
+   "file_kb_reason": "Raised 9 November 2026 when the 41 B shell parts (find or do anything, help, account menu, language card, sync sheet, designed states) joined every device: the demo file carries their words in all 26 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged. Raised 9 November 2026 for language wave 2 (blueprint 43 G: Bangla, Tamil, Thai, Amharic, Hausa, Yoruba, Zulu, Filipino, Polish, Dutch, Ukrainian, Malay): the demo file carries every screen text in all 38 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged. Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline)."
   },
   "kitchen-screen": {
    "first_tap": "[data-act^=\"line:\"]",
@@ -44,7 +45,9 @@
   },
   "rider-phone": {
    "first_tap": "[data-act^=\"open:\"]",
-   "root": "#screen"
+   "root": "#screen",
+   "file_kb": 600,
+   "file_kb_reason": "Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline) and the shared tracker (the tracking engine, its register and the tracker words in all 38 languages, owner request for tracking across every service) with the rider's trip-progress sharing."
   },
   "stock-scanner": {
    "first_tap": "[data-act=\"mode:count\"]",
@@ -65,8 +68,12 @@
   "owner-web": {
    "first_tap": "[data-act=\"go:sales\"]",
    "root": "#screen",
-   "file_kb": 590,
-   "file_kb_reason": "Raised 9 November 2026 for language wave 2 (blueprint 43 G: Bangla, Tamil, Thai, Amharic, Hausa, Yoruba, Zulu, Filipino, Polish, Dutch, Ukrainian, Malay): the demo file carries every screen text in all 38 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged."
+   "file_kb": 620,
+   "file_kb_reason": "Raised 9 November 2026 for language wave 2 (blueprint 43 G: Bangla, Tamil, Thai, Amharic, Hausa, Yoruba, Zulu, Filipino, Polish, Dutch, Ukrainian, Malay): the demo file carries every screen text in all 38 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged. Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline)."
+  },
+  "track-page": {
+   "first_tap": "[data-act=\"notify:sms\"]",
+   "root": "#screen"
   }
  }
 }

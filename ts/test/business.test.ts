@@ -78,8 +78,9 @@ test("the Business app follows blueprint 41 E, as the register catalog/business-
   for (const w of ["cash", "mobile_money", "card", "tap_to_pay", "bank_transfer", "qr", "pay_link", "credit"]) assert.ok(B_PAY.some((p) => p.id === w) && screen("pay").includes(w), w);
 });
 test("setup: every step skippable, then the first sale", () => {
-  assert.equal(nextChecklistStep(new Set(), new Set()), "business_name_type");
-  assert.equal(nextChecklistStep(new Set(["business_name_type"]), new Set(["currency"])), "first_products");
+  assert.equal(nextChecklistStep(new Set(), new Set()), "who_for");
+  assert.equal(nextChecklistStep(new Set(), new Set(["who_for"])), "business_name_type");
+  assert.equal(nextChecklistStep(new Set(["who_for", "business_name_type"]), new Set(["currency"])), "first_products");
   assert.equal(nextChecklistStep(new Set(B_CHECK), new Set()), null);
   assert.equal(nextChecklistStep(new Set(), new Set(B_CHECK)), null);
 });
@@ -111,4 +112,16 @@ test("emulator sample ids use the one public id format and pass the registry che
   const { Registry, parse } = await import("../src/ids.js");
   const reg = new Registry(readFileSync(`${root}/contract/identifier-registry.v1.json`, "utf8"));
   for (const code of ["CNV", "RCP", "DOC", "INV"]) for (let i = 0; i < 50; i++) assert.equal(parse(reg, publicId(code)).code, code);
+});
+
+import { categoryAccount, isOfficeFamily, workspaceTabs, workspaceWord, type Workspaces, type Entity } from "../src/business.js";
+test("workspaces for a person, a company and an organisation match the Python reference", () => {
+  const W = JSON.parse(readFileSync(`${root}/catalog/workspaces.v1.json`, "utf8")) as Workspaces;
+  for (const v of V.workspaces) {
+    const e = v.entity as Entity, t = v.type as BusinessType;
+    assert.deepEqual([...workspaceTabs(W, e, t)], v.tabs, `${e} ${t}`);
+    for (const [k, w] of Object.entries(v.words)) assert.equal(workspaceWord(W, e, k), w);
+    for (const [c, a] of Object.entries(v.accounts)) assert.equal(categoryAccount(W, e, c), a);
+    assert.deepEqual(["lynkpos", "lynkacc", "lynkinv", "lynkcrm", "lynkstock", "lynkrewards", "lynkstat", "lynkgrow", "lynkchat", "lynkmpay", "lynkrecover", "lynkcheckout", "lynkassist", "lynkvcard", "lynkdev", "lynkbooking", "lynkessential", "lynkops", "lynksuite"].filter((f) => isOfficeFamily(W, f)), v.office);
+  }
 });

@@ -1,0 +1,1301 @@
+{
+ "version": 1,
+ "description": "Tracking scenarios and what each audience sees (services/tracking.py is the reference; ts/src/tracking.ts must agree).",
+ "scenarios": [
+  {
+   "name": "partner delivery from request to door, with progress and a missed promise",
+   "steps": [
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryRequested",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000001",
+       "order_id": "01900000-0000-7000-8000-000000000002",
+       "own_rider": false,
+       "price": 1500,
+       "currency": "USD"
+      },
+      "at": 1794200000
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "view",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000001",
+     "audience": "customer",
+     "now": 1794200000
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryAccepted",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000001",
+       "partner_reference": "SBXD-1",
+       "eta": "2026-11-09T05:00:00Z"
+      },
+      "at": 1794200060
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryPickedUp",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000001"
+      },
+      "at": 1794200120
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "progress",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000001",
+     "share": 0.425,
+     "eta": null
+    },
+    {
+     "op": "view",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000001",
+     "audience": "customer",
+     "now": 1794200401
+    },
+    {
+     "op": "view",
+     "kind": "order",
+     "record": "01900000-0000-7000-8000-000000000002",
+     "audience": "merchant",
+     "now": 1794200130
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryDelivered",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000001",
+       "proof": "code"
+      },
+      "at": 1794200180
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "progress",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000001",
+     "share": 0.9,
+     "eta": null
+    },
+    {
+     "op": "view",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000001",
+     "audience": "merchant",
+     "now": 1794200200
+    },
+    {
+     "op": "view",
+     "kind": "order",
+     "record": "01900000-0000-7000-8000-000000000002",
+     "audience": "customer",
+     "now": 1794200200
+    }
+   ],
+   "expect": [
+    {
+     "view": {
+      "kind": "delivery",
+      "label": "trk_k_delivery",
+      "state": "sent",
+      "step": "requested",
+      "ended": false,
+      "steps": [
+       {
+        "id": "requested",
+        "label": "trk_requested",
+        "state": "sent",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "assigned",
+        "label": "trk_assigned",
+        "state": "accepted",
+        "done": false,
+        "current": false,
+        "at": null
+       },
+       {
+        "id": "on_the_way",
+        "label": "trk_on_the_way",
+        "state": "accepted",
+        "done": false,
+        "current": false,
+        "at": null
+       },
+       {
+        "id": "delivered",
+        "label": "trk_delivered",
+        "state": "confirmed",
+        "done": false,
+        "current": false,
+        "at": null
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "children": []
+     }
+    },
+    {
+     "progress_ok": true
+    },
+    {
+     "view": {
+      "kind": "delivery",
+      "label": "trk_k_delivery",
+      "state": "accepted",
+      "step": "on_the_way",
+      "ended": false,
+      "steps": [
+       {
+        "id": "requested",
+        "label": "trk_requested",
+        "state": "sent",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "assigned",
+        "label": "trk_assigned",
+        "state": "accepted",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:54:20Z"
+       },
+       {
+        "id": "on_the_way",
+        "label": "trk_on_the_way",
+        "state": "accepted",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:55:20Z"
+       },
+       {
+        "id": "delivered",
+        "label": "trk_delivered",
+        "state": "confirmed",
+        "done": false,
+        "current": false,
+        "at": null
+       }
+      ],
+      "eta": "2026-11-09T05:00:00Z",
+      "late": true,
+      "progress": 0.45,
+      "children": []
+     }
+    },
+    {
+     "view": {
+      "kind": "order",
+      "label": "trk_k_order",
+      "state": "accepted",
+      "step": "out_for_delivery",
+      "ended": false,
+      "steps": [
+       {
+        "id": "placed",
+        "label": "trk_placed",
+        "state": "sent",
+        "done": false,
+        "current": false,
+        "at": null
+       },
+       {
+        "id": "preparing",
+        "label": "trk_preparing",
+        "state": "accepted",
+        "done": false,
+        "current": false,
+        "at": null
+       },
+       {
+        "id": "ready",
+        "label": "trk_ready",
+        "state": "accepted",
+        "done": false,
+        "current": false,
+        "at": null
+       },
+       {
+        "id": "out_for_delivery",
+        "label": "trk_out_for_delivery",
+        "state": "accepted",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:55:20Z"
+       },
+       {
+        "id": "delivered",
+        "label": "trk_delivered",
+        "state": "confirmed",
+        "done": false,
+        "current": false,
+        "at": null
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "record": "01900000-0000-7000-8000-000000000002",
+      "children": [
+       {
+        "kind": "delivery",
+        "record": "01900000-0000-7000-8000-000000000001",
+        "state": "accepted",
+        "step": "on_the_way"
+       }
+      ]
+     }
+    },
+    {
+     "progress_ok": false
+    },
+    {
+     "view": {
+      "kind": "delivery",
+      "label": "trk_k_delivery",
+      "state": "confirmed",
+      "step": "delivered",
+      "ended": true,
+      "steps": [
+       {
+        "id": "requested",
+        "label": "trk_requested",
+        "state": "sent",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "assigned",
+        "label": "trk_assigned",
+        "state": "accepted",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:54:20Z"
+       },
+       {
+        "id": "on_the_way",
+        "label": "trk_on_the_way",
+        "state": "accepted",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:55:20Z"
+       },
+       {
+        "id": "delivered",
+        "label": "trk_delivered",
+        "state": "confirmed",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:56:20Z"
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "record": "01900000-0000-7000-8000-000000000001",
+      "children": [],
+      "parent": {
+       "kind": "order",
+       "record": "01900000-0000-7000-8000-000000000002"
+      }
+     }
+    },
+    {
+     "view": {
+      "kind": "order",
+      "label": "trk_k_order",
+      "state": "confirmed",
+      "step": "delivered",
+      "ended": true,
+      "steps": [
+       {
+        "id": "out_for_delivery",
+        "label": "trk_out_for_delivery",
+        "state": "accepted",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:55:20Z"
+       },
+       {
+        "id": "delivered",
+        "label": "trk_delivered",
+        "state": "confirmed",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:56:20Z"
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "children": [
+       {
+        "kind": "delivery",
+        "label": "trk_k_delivery",
+        "state": "confirmed",
+        "step": "delivered",
+        "ended": true,
+        "steps": [
+         {
+          "id": "requested",
+          "label": "trk_requested",
+          "state": "sent",
+          "done": true,
+          "current": false,
+          "at": "2026-11-09T04:53:20Z"
+         },
+         {
+          "id": "assigned",
+          "label": "trk_assigned",
+          "state": "accepted",
+          "done": true,
+          "current": false,
+          "at": "2026-11-09T04:54:20Z"
+         },
+         {
+          "id": "on_the_way",
+          "label": "trk_on_the_way",
+          "state": "accepted",
+          "done": true,
+          "current": false,
+          "at": "2026-11-09T04:55:20Z"
+         },
+         {
+          "id": "delivered",
+          "label": "trk_delivered",
+          "state": "confirmed",
+          "done": true,
+          "current": true,
+          "at": "2026-11-09T04:56:20Z"
+         }
+        ],
+        "eta": null,
+        "late": false,
+        "progress": null,
+        "children": []
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "name": "failed delivery shows the failure and nothing after it",
+   "steps": [
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryRequested",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000003",
+       "order_id": "01900000-0000-7000-8000-000000000004",
+       "own_rider": true,
+       "price": 0,
+       "currency": "USD"
+      },
+      "at": 1794200000
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryFailed",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000003",
+       "reason_code": "timeout"
+      },
+      "at": 1794200005
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryDelivered",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000003",
+       "proof": "code"
+      },
+      "at": 1794200009
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "view",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000003",
+     "audience": "customer",
+     "now": 1794200010
+    }
+   ],
+   "expect": [
+    {
+     "view": {
+      "kind": "delivery",
+      "label": "trk_k_delivery",
+      "state": "failed",
+      "step": "failed",
+      "ended": true,
+      "steps": [
+       {
+        "id": "requested",
+        "label": "trk_requested",
+        "state": "sent",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "failed",
+        "label": "trk_failed",
+        "state": "failed",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:53:25Z"
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "children": []
+     }
+    }
+   ]
+  },
+  {
+   "name": "table order: ready only when every line is ready, then collected",
+   "steps": [
+    {
+     "op": "event",
+     "event": {
+      "type": "OrderSentToKitchen",
+      "payload": {
+       "order_id": "01900000-0000-7000-8000-000000000005",
+       "table_id": "01900000-0000-7000-8000-000000000006",
+       "lines": [
+        {
+         "product_id": "01900000-0000-7000-8000-000000000007"
+        },
+        {
+         "product_id": "01900000-0000-7000-8000-000000000008"
+        }
+       ]
+      },
+      "at": 1794200000
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "KitchenItemReady",
+      "payload": {
+       "order_id": "01900000-0000-7000-8000-000000000005",
+       "line_no": 0
+      },
+      "at": 1794200001
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "KitchenItemReady",
+      "payload": {
+       "order_id": "01900000-0000-7000-8000-000000000005",
+       "line_no": 0
+      },
+      "at": 1794200002
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "view",
+     "kind": "order",
+     "record": "01900000-0000-7000-8000-000000000005",
+     "audience": "customer",
+     "now": 1794200003
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "KitchenItemReady",
+      "payload": {
+       "order_id": "01900000-0000-7000-8000-000000000005",
+       "line_no": 1
+      },
+      "at": 1794200004
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "view",
+     "kind": "order",
+     "record": "01900000-0000-7000-8000-000000000005",
+     "audience": "customer",
+     "now": 1794200005
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "PickupHandedOver",
+      "payload": {
+       "pickup_id": "01900000-0000-7000-8000-000000000009",
+       "order_id": "01900000-0000-7000-8000-000000000005",
+       "code_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "at": 1794200006
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "view",
+     "kind": "order",
+     "record": "01900000-0000-7000-8000-000000000005",
+     "audience": "merchant",
+     "now": 1794200007
+    }
+   ],
+   "expect": [
+    {
+     "view": {
+      "kind": "order",
+      "label": "trk_k_order",
+      "state": "accepted",
+      "step": "preparing",
+      "ended": false,
+      "steps": [
+       {
+        "id": "placed",
+        "label": "trk_placed",
+        "state": "sent",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "preparing",
+        "label": "trk_preparing",
+        "state": "accepted",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:53:21Z"
+       },
+       {
+        "id": "ready",
+        "label": "trk_ready",
+        "state": "accepted",
+        "done": false,
+        "current": false,
+        "at": null
+       },
+       {
+        "id": "collected",
+        "label": "trk_collected",
+        "state": "confirmed",
+        "done": false,
+        "current": false,
+        "at": null
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "children": []
+     }
+    },
+    {
+     "view": {
+      "kind": "order",
+      "label": "trk_k_order",
+      "state": "accepted",
+      "step": "ready",
+      "ended": false,
+      "steps": [
+       {
+        "id": "placed",
+        "label": "trk_placed",
+        "state": "sent",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "preparing",
+        "label": "trk_preparing",
+        "state": "accepted",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:21Z"
+       },
+       {
+        "id": "ready",
+        "label": "trk_ready",
+        "state": "accepted",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:53:24Z"
+       },
+       {
+        "id": "collected",
+        "label": "trk_collected",
+        "state": "confirmed",
+        "done": false,
+        "current": false,
+        "at": null
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "children": []
+     }
+    },
+    {
+     "view": {
+      "kind": "order",
+      "label": "trk_k_order",
+      "state": "confirmed",
+      "step": "collected",
+      "ended": true,
+      "steps": [
+       {
+        "id": "placed",
+        "label": "trk_placed",
+        "state": "sent",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "preparing",
+        "label": "trk_preparing",
+        "state": "accepted",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:21Z"
+       },
+       {
+        "id": "ready",
+        "label": "trk_ready",
+        "state": "accepted",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:24Z"
+       },
+       {
+        "id": "collected",
+        "label": "trk_collected",
+        "state": "confirmed",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:53:26Z"
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "record": "01900000-0000-7000-8000-000000000005",
+      "children": []
+     }
+    }
+   ]
+  },
+  {
+   "name": "payments wait for the provider; cash is confirmed at once",
+   "steps": [
+    {
+     "op": "event",
+     "event": {
+      "type": "PaymentRecorded",
+      "payload": {
+       "payment_id": "01900000-0000-7000-8000-000000000010",
+       "sale_id": "01900000-0000-7000-8000-000000000011",
+       "method": "mobile_money",
+       "amount": 500,
+       "status": "pending_confirmation",
+       "currency": "USD"
+      },
+      "at": 1794200000
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "view",
+     "kind": "payment",
+     "record": "01900000-0000-7000-8000-000000000010",
+     "audience": "customer",
+     "now": 1794200000
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "PaymentStatusChanged",
+      "payload": {
+       "payment_id": "01900000-0000-7000-8000-000000000010",
+       "from_status": "pending_confirmation",
+       "to_status": "failed",
+       "source": "provider_callback"
+      },
+      "at": 1794200001
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "view",
+     "kind": "payment",
+     "record": "01900000-0000-7000-8000-000000000010",
+     "audience": "merchant",
+     "now": 1794200002
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "PaymentRecorded",
+      "payload": {
+       "payment_id": "01900000-0000-7000-8000-000000000012",
+       "sale_id": "01900000-0000-7000-8000-000000000013",
+       "method": "cash",
+       "amount": 500,
+       "status": "cash_received",
+       "currency": "USD"
+      },
+      "at": 1794200000
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "view",
+     "kind": "payment",
+     "record": "01900000-0000-7000-8000-000000000012",
+     "audience": "customer",
+     "now": 1794200000
+    }
+   ],
+   "expect": [
+    {
+     "view": {
+      "kind": "payment",
+      "label": "trk_k_payment",
+      "state": "sent",
+      "step": "waiting_provider",
+      "ended": false,
+      "steps": [
+       {
+        "id": "waiting_provider",
+        "label": "trk_waiting_provider",
+        "state": "sent",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "confirmed",
+        "label": "trk_confirmed",
+        "state": "confirmed",
+        "done": false,
+        "current": false,
+        "at": null
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "children": []
+     }
+    },
+    {
+     "view": {
+      "kind": "payment",
+      "label": "trk_k_payment",
+      "state": "failed",
+      "step": "failed",
+      "ended": true,
+      "steps": [
+       {
+        "id": "waiting_provider",
+        "label": "trk_waiting_provider",
+        "state": "sent",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "failed",
+        "label": "trk_failed",
+        "state": "failed",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:53:21Z"
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "record": "01900000-0000-7000-8000-000000000010",
+      "children": []
+     }
+    },
+    {
+     "view": {
+      "kind": "payment",
+      "label": "trk_k_payment",
+      "state": "confirmed",
+      "step": "confirmed",
+      "ended": true,
+      "steps": [
+       {
+        "id": "confirmed",
+        "label": "trk_confirmed",
+        "state": "confirmed",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:53:20Z"
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "children": []
+     }
+    }
+   ]
+  },
+  {
+   "name": "financing follows its offer id",
+   "steps": [
+    {
+     "op": "event",
+     "event": {
+      "type": "FinancingRequested",
+      "payload": {
+       "request_id": "01900000-0000-7000-8000-000000000014",
+       "invoice_id": "01900000-0000-7000-8000-000000000015",
+       "consent_id": "01900000-0000-7000-8000-000000000016"
+      },
+      "at": 1794200000
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "FinancingOffered",
+      "payload": {
+       "offer_id": "01900000-0000-7000-8000-000000000017",
+       "request_id": "01900000-0000-7000-8000-000000000014",
+       "lender_id": "01900000-0000-7000-8000-000000000018",
+       "amount": 1000,
+       "total_cost": 1050,
+       "currency": "USD"
+      },
+      "at": 1794200001
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "FinancingAccepted",
+      "payload": {
+       "offer_id": "01900000-0000-7000-8000-000000000017"
+      },
+      "at": 1794200002
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "view",
+     "kind": "financing",
+     "record": "01900000-0000-7000-8000-000000000014",
+     "audience": "merchant",
+     "now": 1794200003
+    }
+   ],
+   "expect": [
+    {
+     "view": {
+      "kind": "financing",
+      "label": "trk_k_financing",
+      "state": "accepted",
+      "step": "accepted",
+      "ended": false,
+      "steps": [
+       {
+        "id": "sent_to_partner",
+        "label": "trk_sent_to_partner",
+        "state": "sent",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "offered",
+        "label": "trk_offered",
+        "state": "accepted",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:21Z"
+       },
+       {
+        "id": "accepted",
+        "label": "trk_accepted",
+        "state": "accepted",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:53:22Z"
+       },
+       {
+        "id": "paid_out",
+        "label": "trk_paid_out",
+        "state": "confirmed",
+        "done": false,
+        "current": false,
+        "at": null
+       },
+       {
+        "id": "repaid",
+        "label": "trk_repaid",
+        "state": "confirmed",
+        "done": false,
+        "current": false,
+        "at": null
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "record": "01900000-0000-7000-8000-000000000014",
+      "children": []
+     }
+    }
+   ]
+  },
+  {
+   "name": "an invoice fed by its own service state",
+   "steps": [
+    {
+     "op": "state",
+     "kind": "invoice",
+     "record": "01900000-0000-7000-8000-000000000019",
+     "state": "issued",
+     "at": 1794200000
+    },
+    {
+     "op": "state",
+     "kind": "invoice",
+     "record": "01900000-0000-7000-8000-000000000019",
+     "state": "viewed",
+     "at": 1794200001
+    },
+    {
+     "op": "view",
+     "kind": "invoice",
+     "record": "01900000-0000-7000-8000-000000000019",
+     "audience": "customer",
+     "now": 1794200002
+    },
+    {
+     "op": "view",
+     "kind": "invoice",
+     "record": "01900000-0000-7000-8000-000000000019",
+     "audience": "merchant",
+     "now": 1794200002
+    }
+   ],
+   "expect": [
+    {
+     "view": {
+      "kind": "invoice",
+      "label": "trk_k_invoice",
+      "state": "accepted",
+      "step": "viewed",
+      "ended": false,
+      "steps": [
+       {
+        "id": "issued",
+        "label": "trk_issued",
+        "state": "sent",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "paid",
+        "label": "trk_paid",
+        "state": "confirmed",
+        "done": false,
+        "current": false,
+        "at": null
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "children": []
+     }
+    },
+    {
+     "view": {
+      "kind": "invoice",
+      "label": "trk_k_invoice",
+      "state": "accepted",
+      "step": "viewed",
+      "ended": false,
+      "steps": [
+       {
+        "id": "issued",
+        "label": "trk_issued",
+        "state": "sent",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "viewed",
+        "label": "trk_viewed",
+        "state": "accepted",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:53:21Z"
+       },
+       {
+        "id": "paid",
+        "label": "trk_paid",
+        "state": "confirmed",
+        "done": false,
+        "current": false,
+        "at": null
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "record": "01900000-0000-7000-8000-000000000019",
+      "children": []
+     }
+    }
+   ]
+  },
+  {
+   "name": "repair steps appear as they are reached",
+   "steps": [
+    {
+     "op": "event",
+     "event": {
+      "type": "RepairTicketOpened",
+      "payload": {
+       "ticket_id": "01900000-0000-7000-8000-000000000020",
+       "customer_id": "01900000-0000-7000-8000-000000000021"
+      },
+      "at": 1794200000
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "RepairStatusChanged",
+      "payload": {
+       "ticket_id": "01900000-0000-7000-8000-000000000020",
+       "to_status": "waiting_parts"
+      },
+      "at": 1794200001
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "view",
+     "kind": "repair",
+     "record": "01900000-0000-7000-8000-000000000020",
+     "audience": "customer",
+     "now": 1794200002
+    }
+   ],
+   "expect": [
+    {
+     "view": {
+      "kind": "repair",
+      "label": "trk_k_repair",
+      "state": "accepted",
+      "step": "waiting_parts",
+      "ended": false,
+      "steps": [
+       {
+        "id": "received",
+        "label": "trk_received",
+        "state": "sent",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "waiting_parts",
+        "label": "trk_waiting_parts",
+        "state": "accepted",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:53:21Z"
+       },
+       {
+        "id": "ready",
+        "label": "trk_ready",
+        "state": "accepted",
+        "done": false,
+        "current": false,
+        "at": null
+       },
+       {
+        "id": "completed",
+        "label": "trk_completed",
+        "state": "confirmed",
+        "done": false,
+        "current": false,
+        "at": null
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "children": []
+     }
+    }
+   ]
+  },
+  {
+   "name": "account recovery waiting period, then cancelled",
+   "steps": [
+    {
+     "op": "event",
+     "event": {
+      "type": "RecoveryStarted",
+      "payload": {
+       "lynkid": "LOID-1",
+       "path": "code",
+       "recovery_id": "01900000-0000-7000-8000-000000000022",
+       "ready_at": "2026-11-10T00:00:00Z"
+      },
+      "at": 1794200000
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "view",
+     "kind": "recovery",
+     "record": "01900000-0000-7000-8000-000000000022",
+     "audience": "person",
+     "now": 1794200000
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "RecoveryCancelled",
+      "payload": {
+       "lynkid": "LOID-1",
+       "recovery_id": "01900000-0000-7000-8000-000000000022",
+       "by": "person"
+      },
+      "at": 1794200001
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "view",
+     "kind": "recovery",
+     "record": "01900000-0000-7000-8000-000000000022",
+     "audience": "person",
+     "now": 1794200002
+    }
+   ],
+   "expect": [
+    {
+     "view": {
+      "kind": "recovery",
+      "label": "trk_k_recovery",
+      "state": "sent",
+      "step": "waiting_period",
+      "ended": false,
+      "steps": [
+       {
+        "id": "waiting_period",
+        "label": "trk_waiting_period",
+        "state": "sent",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "completed",
+        "label": "trk_completed",
+        "state": "confirmed",
+        "done": false,
+        "current": false,
+        "at": null
+       }
+      ],
+      "eta": "2026-11-10T00:00:00Z",
+      "late": false,
+      "progress": null,
+      "record": "01900000-0000-7000-8000-000000000022",
+      "children": []
+     }
+    },
+    {
+     "view": {
+      "kind": "recovery",
+      "label": "trk_k_recovery",
+      "state": "confirmed",
+      "step": "cancelled",
+      "ended": true,
+      "steps": [
+       {
+        "id": "waiting_period",
+        "label": "trk_waiting_period",
+        "state": "sent",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "cancelled",
+        "label": "trk_cancelled",
+        "state": "confirmed",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:53:21Z"
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "record": "01900000-0000-7000-8000-000000000022",
+      "children": []
+     }
+    }
+   ]
+  }
+ ]
+}

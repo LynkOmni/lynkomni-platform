@@ -1,181 +1,189 @@
 {
-  "version": 1,
-  "description": "What the owner can open and try after every build section. tools/showcase.py turns this file, the visuals index, the catalog and tools/blueprint_numbers.py into one offline page (web/showcase/dist/lynkomni-showcase.html). Emulator links point at the private pages Claude publishes after each section; update the link when a page is republished under a new address.",
-  "sections": [
-    {
-      "n": 0,
-      "title": "One global structure",
-      "status": "locked",
-      "version": "v0.20.0"
-    },
-    {
-      "n": 1,
-      "title": "Shared shell and design components",
-      "status": "locked",
-      "version": "v0.21.0"
-    },
-    {
-      "n": 2,
-      "title": "LynkOmni Account and sign-in",
-      "status": "locked",
-      "version": "v0.22.0"
-    },
-    {
-      "n": 3,
-      "title": "Business app and the whole of LynkPOS",
-      "status": "locked",
-      "version": "v0.26.0"
-    },
-    {
-      "n": 4,
-      "title": "LynkAcc, LynkInv, LynkCRM, LynkStat and LynkOps",
-      "status": "next"
-    },
-    {
-      "n": 5,
-      "title": "Website lynkomni.com"
-    },
-    {
-      "n": 6,
-      "title": "Help, support and status"
-    },
-    {
-      "n": 7,
-      "title": "Customer app, shop pages and pay pages"
-    },
-    {
-      "n": 8,
-      "title": "Bookings"
-    },
-    {
-      "n": 9,
-      "title": "Essentials"
-    },
-    {
-      "n": 10,
-      "title": "Exchange"
-    },
-    {
-      "n": 11,
-      "title": "Developers"
-    },
-    {
-      "n": 12,
-      "title": "LynkOmni Staff"
-    },
-    {
-      "n": 13,
-      "title": "Outside screens"
-    },
-    {
-      "n": 14,
-      "title": "Native apps and going live"
-    }
-  ],
-  "emulators": [
-    {
-      "id": "account-site",
-      "title": "LynkOmni Account site",
-      "section": 2,
-      "what": "Sign-up in four steps, sign-in with a passkey, the three recovery paths, Security Center and every account page. Computer, tablet and phone.",
-      "try": "Tap Create account and go through the four steps; then Recover your account and answer the two questions.",
-      "url": "https://claude.ai/artifact/8CprNX6QJKACwtEAKB6dTK"
-    },
-    {
-      "id": "browser-frame",
-      "title": "Shared shell (browser frame)",
-      "section": 1,
-      "what": "The frame every LynkOmni screen sits in: header, navigation, launcher, search, help, notifications, connection and sync states, overlays, dark, lite and sunlight modes.",
-      "try": "Switch size, language and mode at the top; open the launcher and the notifications panel.",
-      "url": "https://claude.ai/artifact/6UrxwVAGfBR6unzqT1jS7u"
-    },
-    {
-      "id": "merchant-phone",
-      "title": "Business app on a phone, tablet or computer",
-      "section": 3,
-      "what": "Every Business app screen of blueprint 41 E: getting in, Sell with every payment way, today's sales, shifts, practice mode, Stock, Chats, every Business section and setting, and the four business types (shop, without a till, agent point, restaurant), on a phone, a tablet side rail or a computer web view, in every language and offline.",
-      "try": "Pick any screen by its address in \"Open screen\", or sign in and follow the setup checklist; then switch the business type and the plan.",
-      "url": "https://claude.ai/artifact/N7tczvu2FZ5tWMYgHD9B84"
-    },
-    {
-      "id": "pos-terminal",
-      "title": "LynkPOS handheld terminal",
-      "section": 3,
-      "what": "A physical handheld terminal: 12-tile home, selling, agent services, vouchers and pickup codes, the credit book, shifts and cash counts, receipt printer that prints, scanner and cash drawer, a low-literacy setting, on sandbox adapters.",
-      "try": "Open Agent from the home tiles, send a cash-out and see why cash waits for the partner; then sell and print a receipt.",
-      "url": "https://claude.ai/artifact/FUhtc3e1xDkPA7KmJmxsZp"
-    },
-    {
-      "id": "counter-tablet",
-      "title": "LynkPOS counter tablet",
-      "section": 3,
-      "what": "A counter till: tablet on a stand with a customer-facing screen, scanner, cash drawer and printer; tables, kitchen, shifts, day close, staff, deliveries, buy together, setup, credit and sell by voice.",
-      "try": "Unlock with PIN 1234, sell two items, take cash and close the shift.",
-      "url": "https://claude.ai/artifact/TeVjGFAMAxtyumZY2VuXVj"
-    },
-    {
-      "id": "kitchen-screen",
-      "title": "LynkPOS kitchen screen",
-      "section": 3,
-      "what": "The kitchen display: tickets in order, lines marked ready, late tickets highlighted, and printed slips on the Free plan.",
-      "try": "Send a test order from the panel and mark its lines ready.",
-      "url": "https://claude.ai/artifact/9aUfZojeVz7bcS4sotptTV"
-    },
-    {
-      "id": "customer-display",
-      "title": "LynkPOS customer display",
-      "section": 3,
-      "what": "The screen the customer sees at the till: welcome, the basket line by line, pay by QR with an honest state, thank you.",
-      "try": "Add items and pay; watch the state go from sent to confirmed.",
-      "url": "https://claude.ai/artifact/B9soSjcyGXCUW2f6xMR6gi"
-    },
-    {
-      "id": "rider-phone",
-      "title": "Rider phone",
-      "section": 3,
-      "what": "The shop's own rider: jobs, pickup, delivery with the customer's code or a parcel photo (never a person).",
-      "try": "Open a job, pick it up and deliver with the code.",
-      "url": "https://claude.ai/artifact/KhEBHf1pGXxrAjD3p9zB2B"
-    },
-    {
-      "id": "stock-scanner",
-      "title": "LynkStock handheld scanner",
-      "section": 3,
-      "what": "A rugged scanner: count, receive and adjust stock by barcode, with below-zero items flagged for a recount.",
-      "try": "Press the trigger to scan, then count and save.",
-      "url": "https://claude.ai/artifact/EKxa28BubrUYS3APPiPQNe"
-    },
-    {
-      "id": "button-phone",
-      "title": "LynkPOS on a button phone",
-      "section": 3,
-      "what": "Selling and checking stock from a basic phone through a short-code menu, for places without smartphones.",
-      "try": "Use the arrow keys to make a sale and read today's total.",
-      "url": "https://claude.ai/artifact/4VG7qLhvnPrXjTxYuS51xS"
-    },
-    {
-      "id": "vcard-card",
-      "title": "LynkVCard as a real card",
-      "section": 3,
-      "what": "The four card faces (Free, Plus, Pro, Max), flip, freeze that shows only after the issuer confirms, and card details only after step-up inside the issuer's display.",
-      "try": "Flip the card, then freeze it and watch it wait for the issuer.",
-      "url": "https://claude.ai/artifact/Q85Fr32RyXL8LAyxExSQQP"
-    },
-    {
-      "id": "mesh-relay",
-      "title": "LynkMesh relay between devices",
-      "section": 3,
-      "what": "Two devices, one offline: a sale travels sealed through the nearby device and shows sent, awaiting cloud until the cloud accepts it; a tampered packet is refused.",
-      "try": "Sell on device A, relay, and try the tamper test.",
-      "url": "https://claude.ai/artifact/97yk1aopjBUx5eD4Jbz311"
-    },
-    {
-      "id": "owner-web",
-      "title": "Owner's web view on a laptop",
-      "section": 3,
-      "what": "The owner's browser view: today, sales, devices, staff, agent commissions, every automation with why and an off switch, and data sharing. Selling stays on registered devices.",
-      "try": "Open Automations and press Why did this happen?",
-      "url": "https://claude.ai/artifact/G6YYsSQeprbNUfyRGwjMH5"
-    }
-  ]
+ "version": 1,
+ "description": "What the owner can open and try after every build section. tools/showcase.py turns this file, the visuals index, the catalog and tools/blueprint_numbers.py into one offline page (web/showcase/dist/lynkomni-showcase.html). Emulator links point at the private pages Claude publishes after each section; update the link when a page is republished under a new address.",
+ "sections": [
+  {
+   "n": 0,
+   "title": "One global structure",
+   "status": "locked",
+   "version": "v0.20.0"
+  },
+  {
+   "n": 1,
+   "title": "Shared shell and design components",
+   "status": "locked",
+   "version": "v0.21.0"
+  },
+  {
+   "n": 2,
+   "title": "LynkOmni Account and sign-in",
+   "status": "locked",
+   "version": "v0.22.0"
+  },
+  {
+   "n": 3,
+   "title": "Business app and the whole of LynkPOS",
+   "status": "locked",
+   "version": "v0.27.0"
+  },
+  {
+   "n": 4,
+   "title": "LynkAcc, LynkInv, LynkCRM, LynkStat and LynkOps",
+   "status": "next"
+  },
+  {
+   "n": 5,
+   "title": "Website lynkomni.com"
+  },
+  {
+   "n": 6,
+   "title": "Help, support and status"
+  },
+  {
+   "n": 7,
+   "title": "Customer app, shop pages and pay pages"
+  },
+  {
+   "n": 8,
+   "title": "Bookings"
+  },
+  {
+   "n": 9,
+   "title": "Essentials"
+  },
+  {
+   "n": 10,
+   "title": "Exchange"
+  },
+  {
+   "n": 11,
+   "title": "Developers"
+  },
+  {
+   "n": 12,
+   "title": "LynkOmni Staff"
+  },
+  {
+   "n": 13,
+   "title": "Outside screens"
+  },
+  {
+   "n": 14,
+   "title": "Native apps and going live"
+  }
+ ],
+ "emulators": [
+  {
+   "id": "account-site",
+   "title": "LynkOmni Account site",
+   "section": 2,
+   "what": "Sign-up in four steps, sign-in with a passkey, the three recovery paths, Security Center and every account page, your orders with live trackers, and Run your affairs: a workspace for yourself, a company or an organisation. Computer, tablet and phone.",
+   "try": "Open Orders and bookings to see two trackers; open Businesses and start a personal or organisation workspace; then Create account and go through the four steps.",
+   "url": "https://claude.ai/artifact/8CprNX6QJKACwtEAKB6dTK"
+  },
+  {
+   "id": "browser-frame",
+   "title": "Shared shell (browser frame)",
+   "section": 1,
+   "what": "The frame every LynkOmni screen sits in: header, navigation, launcher, search, help, notifications, connection and sync states, overlays, dark, lite and sunlight modes.",
+   "try": "Switch size, language and mode at the top; open the launcher and the notifications panel.",
+   "url": "https://claude.ai/artifact/6UrxwVAGfBR6unzqT1jS7u"
+  },
+  {
+   "id": "merchant-phone",
+   "title": "Business app on a phone, tablet or computer",
+   "section": 3,
+   "what": "Every Business app screen of blueprint 41 E: getting in, Sell with every payment way, today's sales, shifts, practice mode, Stock, Chats, every Business section and setting, and the four business types (shop, without a till, agent point, restaurant), on a phone, a tablet side rail or a computer web view, in every language and offline. Setup now starts with who it is for (yourself, a company or an organisation), which changes the words, tabs and categories; Deliveries shows every delivery with its tracker.",
+   "try": "Sign in, choose Myself or An organisation in setup and see the Books tab; or make a sale, press Deliver this order and watch the delivery move on the Deliveries screen.",
+   "url": "https://claude.ai/artifact/N7tczvu2FZ5tWMYgHD9B84"
+  },
+  {
+   "id": "pos-terminal",
+   "title": "LynkPOS handheld terminal",
+   "section": 3,
+   "what": "A physical handheld terminal: 12-tile home, selling, agent services, vouchers and pickup codes, the credit book, shifts and cash counts, receipt printer that prints, scanner and cash drawer, a low-literacy setting, on sandbox adapters.",
+   "try": "Open Agent from the home tiles, send a cash-out and see why cash waits for the partner; then sell and print a receipt.",
+   "url": "https://claude.ai/artifact/FUhtc3e1xDkPA7KmJmxsZp"
+  },
+  {
+   "id": "counter-tablet",
+   "title": "LynkPOS counter tablet",
+   "section": 3,
+   "what": "A counter till: tablet on a stand with a customer-facing screen, scanner, cash drawer and printer; tables, kitchen, shifts, day close, staff, deliveries, buy together, setup, credit and sell by voice.",
+   "try": "Unlock with PIN 1234, sell two items, take cash and close the shift.",
+   "url": "https://claude.ai/artifact/TeVjGFAMAxtyumZY2VuXVj"
+  },
+  {
+   "id": "kitchen-screen",
+   "title": "LynkPOS kitchen screen",
+   "section": 3,
+   "what": "The kitchen display: tickets in order, lines marked ready, late tickets highlighted, and printed slips on the Free plan.",
+   "try": "Send a test order from the panel and mark its lines ready.",
+   "url": "https://claude.ai/artifact/9aUfZojeVz7bcS4sotptTV"
+  },
+  {
+   "id": "customer-display",
+   "title": "LynkPOS customer display",
+   "section": 3,
+   "what": "The screen the customer sees at the till: welcome, the basket line by line, pay by QR with an honest state, thank you.",
+   "try": "Add items and pay; watch the state go from sent to confirmed.",
+   "url": "https://claude.ai/artifact/B9soSjcyGXCUW2f6xMR6gi"
+  },
+  {
+   "id": "rider-phone",
+   "title": "Rider phone",
+   "section": 3,
+   "what": "The shop's own rider: jobs, pickup, delivery with the customer's code or a parcel photo (never a person), each job's tracker, and Share trip progress (the rider's choice, this trip only; never a position).",
+   "try": "Open a job, turn on Share trip progress, pick it up and deliver with the code.",
+   "url": "https://claude.ai/artifact/KhEBHf1pGXxrAjD3p9zB2B"
+  },
+  {
+   "id": "stock-scanner",
+   "title": "LynkStock handheld scanner",
+   "section": 3,
+   "what": "A rugged scanner: count, receive and adjust stock by barcode, with below-zero items flagged for a recount.",
+   "try": "Press the trigger to scan, then count and save.",
+   "url": "https://claude.ai/artifact/EKxa28BubrUYS3APPiPQNe"
+  },
+  {
+   "id": "button-phone",
+   "title": "LynkPOS on a button phone",
+   "section": 3,
+   "what": "Selling and checking stock from a basic phone through a short-code menu, for places without smartphones.",
+   "try": "Use the arrow keys to make a sale and read today's total.",
+   "url": "https://claude.ai/artifact/4VG7qLhvnPrXjTxYuS51xS"
+  },
+  {
+   "id": "vcard-card",
+   "title": "LynkVCard as a real card",
+   "section": 3,
+   "what": "The four card faces (Free, Plus, Pro, Max), flip, freeze that shows only after the issuer confirms, and card details only after step-up inside the issuer's display.",
+   "try": "Flip the card, then freeze it and watch it wait for the issuer.",
+   "url": "https://claude.ai/artifact/Q85Fr32RyXL8LAyxExSQQP"
+  },
+  {
+   "id": "mesh-relay",
+   "title": "LynkMesh relay between devices",
+   "section": 3,
+   "what": "Two devices, one offline: a sale travels sealed through the nearby device and shows sent, awaiting cloud until the cloud accepts it; a tampered packet is refused.",
+   "try": "Sell on device A, relay, and try the tamper test.",
+   "url": "https://claude.ai/artifact/97yk1aopjBUx5eD4Jbz311"
+  },
+  {
+   "id": "owner-web",
+   "title": "Owner's web view on a laptop",
+   "section": 3,
+   "what": "The owner's browser view: today, sales, devices, staff, agent commissions, every automation with why and an off switch, and data sharing. Selling stays on registered devices.",
+   "try": "Open Automations and press Why did this happen?",
+   "url": "https://claude.ai/artifact/G6YYsSQeprbNUfyRGwjMH5"
+  },
+  {
+   "id": "track-page",
+   "title": "Customer's tracking page",
+   "section": 3,
+   "what": "What a customer sees from the shop's tracking link, with no account: each step of the order and its delivery, the promised time, a late notice, the share of the trip done (never a position), Tell me each step by text or chat, and the last known step when offline.",
+   "try": "Pick a stage in the panel (placed to delivered, late or failed), then press By text message; switch the connection off to see the last known step.",
+   "url": "https://claude.ai/artifact/AM8YkmShAqXu4ukvaFarog"
+  }
+ ]
 }

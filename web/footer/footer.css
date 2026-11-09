@@ -1,13 +1,32 @@
 /* The LynkOmni footer (blueprint section 26): the main footer on websites and web apps, the one-line short footer inside
    apps. Design tokens only; logical properties so right-to-left mirrors; text wraps in every language. */
-.mainfoot { margin-block-start: 32px; padding: 24px 16px; border-block-start: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-primary); font: 14px/1.5 var(--font-body); }
+.mainfoot { margin-block-start: 32px; padding: 24px 16px; border-block-start: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-primary); font: 14px/1.5 var(--font-body); container-type: inline-size; }
+/* The full LynkOmni logo above the tagline (brand surface web-footer): the artwork of the page's theme shows, the other is hidden. */
+.mainfoot .flogo { display: inline-flex; min-height: 44px; align-items: center; margin-block-end: 4px; }
+.mainfoot .flogo span { display: inline-flex; align-items: center; }
+.mainfoot .flogo svg { block-size: 36px; inline-size: auto; max-inline-size: 200px; }
+.mainfoot .flogo .on-dark, .dark .mainfoot .flogo .on-light { display: none; }
+.dark .mainfoot .flogo .on-dark { display: inline-flex; }
+@media (prefers-color-scheme: dark) { :root:not(.light) .mainfoot:not(.light *) .flogo .on-light { display: none; } :root:not(.light) .mainfoot:not(.light *) .flogo .on-dark { display: inline-flex; } }
 .mainfoot h3 { margin: 0 0 8px; font: 600 14px var(--font-heading); }
 .mainfoot ul { list-style: none; margin: 0; padding: 0; }
 .mainfoot li { margin: 0; }
 .mainfoot a { display: inline-flex; align-items: center; min-height: 44px; color: var(--text-primary); text-decoration: none; overflow-wrap: anywhere; }
+.fcol a { display: inline-block; padding-block: 10px; line-height: 24px; }   /* a link with a plain word wraps like text and keeps a 44 px target */
 .mainfoot a:hover, .mainfoot a:focus-visible { text-decoration: underline; }
-.ftag { margin: 0 0 16px; color: var(--text-secondary); }
-.fcols, .frow { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px 24px; }
+.ftag { margin: 0 0 20px; color: var(--text-secondary); }
+.fcols, .frow { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px 24px; }
+.fcols { grid-auto-flow: row dense; }
+/* A long list takes as many tracks as its span and flows into balanced sub-columns (footer.ts PER_COLUMN); on a narrow footer it
+   takes the full width and its sub-columns are as many as fit, so nothing is ever cut off or left empty. */
+.fcol[data-span="2"] { grid-column: span 2; } .fcol[data-span="3"] { grid-column: span 3; }
+.fcol ul { columns: var(--span, 1) 150px; column-gap: 24px; }
+.fcol li { break-inside: avoid; }
+@container (max-width: 560px) { .fcol[data-span="2"], .fcol[data-span="3"] { grid-column: 1 / -1; } }
+@container (max-width: 380px) { .fcols { grid-template-columns: 1fr; } }
+/* A product's short name with its plain word beside it: "LynkAcc (Accounting)". */
+.mainfoot a .fname { font-weight: 600; }
+.mainfoot a .fplain { color: var(--text-secondary); font-weight: 400; }
 .frow { margin-block-start: 24px; }
 .fcol { min-width: 0; }
 .fpays li { display: flex; align-items: center; gap: 8px; min-height: 44px; }

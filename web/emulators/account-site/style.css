@@ -21,7 +21,9 @@ button, input, select { font: inherit; color: inherit; }
 .dots { display: inline-flex; gap: 6px; } .dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--device-key); }
 .device.phone .dots, .device.phone .tab { display: none; }
 .tab { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 8px 8px 0 0; background: var(--device-glass); font: 600 12px var(--font-body); max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.favicon { display: inline-flex; width: 14px; height: 14px; color: var(--on-device-key); } .favicon svg { width: 100%; height: 100%; }
+.tab { background: var(--bg-surface); color: var(--text-primary); }   /* the active tab takes the page's theme, as browsers do */
+.favicon { display: inline-flex; width: 14px; height: 14px; } .favicon span { display: inline-flex; width: 100%; height: 100%; } .favicon svg { width: 100%; height: 100%; }
+.tab.light .fav-d, .tab.dark .fav-l { display: none; }   /* brand surface "favicon": light emblem in a light browser, dark emblem in a dark one */
 .urlbar { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; padding: 6px 10px; border-radius: 999px; background: var(--device-key); color: var(--on-device-key); font: 12px var(--font-mono); }
 .urlbar .url { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; direction: ltr; }
 .lockic { display: inline-flex; width: 14px; height: 14px; flex: none; } .lockic svg { width: 100%; height: 100%; }

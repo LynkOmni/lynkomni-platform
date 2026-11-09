@@ -56,10 +56,10 @@ export function navigation(items: NavItem[], vp: Viewport, t: T, icon: Icon): st
 }
 
 // ---------------------------------------------------------------- launcher and account menu
-export interface Place { id: string; name: string; icon: string; href: string; state: "available" | "coming_soon" }
+export interface Place { id: string; name: string; icon: string; href: string; state: "available" | "coming_soon"; plain?: string }
 /** The grid that lists every LynkOmni place the person can use. A place waiting for its partner shows "Coming to your country soon." instead of disappearing. */
 export function launcher(places: Place[], t: T, icon: Icon): string {
-  return `<div class="launcher" role="dialog" aria-label="${esc(t("app_launcher"))}"><ul class="lgrid">${places.map((p) => `<li><a class="lplace${p.state === "coming_soon" ? " soon" : ""}" href="${esc(p.href)}" data-act="place:${esc(p.id)}">${icon(p.icon, "prod")}<span class="nm">${esc(p.name)}</span>${p.state === "coming_soon" ? `<span class="soon-tag">${esc(t("coming_soon"))}</span>` : ""}</a></li>`).join("")}</ul></div>`;
+  return `<div class="launcher" role="dialog" aria-label="${esc(t("app_launcher"))}"><ul class="lgrid">${places.map((p) => `<li><a class="lplace${p.state === "coming_soon" ? " soon" : ""}" href="${esc(p.href)}" data-act="place:${esc(p.id)}">${icon(p.icon, "prod")}<span class="nm">${esc(p.name)}</span>${p.plain ? `<span class="pl">${esc(p.plain)}</span>` : ""}${p.state === "coming_soon" ? `<span class="soon-tag">${esc(t("coming_soon"))}</span>` : ""}</a></li>`).join("")}</ul></div>`;
 }
 
 export interface Account { name: string; lynkId: string; businesses: { id: string; name: string; current: boolean }[]; role: string; roles: string[]; theme: "light" | "dark" | "lite" | "sunlight"; language: string; region: string }

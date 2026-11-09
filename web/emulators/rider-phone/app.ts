@@ -9,10 +9,14 @@ import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChang
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { designedState, panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
 import type { Entry } from "../../../ts/src/shell.js";
+import { Tracking } from "../../../ts/src/tracking.js";
+import type { View as TrackView } from "../../../ts/src/tracking.js";
+import { REGISTER } from "../../../ts/src/tracking.generated.js";
+import { trackerHtml } from "../../../ts/src/trackview.js";
 
 declare const DATA: Build;
 interface Job { id: string; order: number; area: string; amount: number; state: DeliveryState; code: string; proof?: "code" | "photo" }
-const S: PanelState & { jobs: Job[]; open: string; typed: string; msg: string; ticks: number } = { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: false, lang: "en", jobs: [], open: "", typed: "", msg: "", ticks: 0 };
+const S: PanelState & { jobs: Job[]; open: string; typed: string; msg: string; ticks: number; share: boolean; trip: number } = { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: false, lang: "en", jobs: [], open: "", typed: "", msg: "", ticks: 0, share: false, trip: 0 };
 const W = new Words(DATA.i18n, () => S.lang); const t = W.t;
 const C = new Country(DATA, () => S.country, () => S.lang);
 const $ = <T extends HTMLElement>(sel: string): T => document.querySelector(sel) as T;
@@ -41,6 +45,19 @@ function list(): string {
   const done = S.jobs.every((j) => j.state === "delivered") ? designedState("success", t, DATA.statePictures, S.dark, null) : "";
   return `${waiting}${done}<h2>${esc(t("deliveries"))}</h2><ul class="jobs">${S.jobs.map((j) => `<li><button data-act="open:${j.id}"><strong>${esc(t("order", { n: j.order }))}</strong><span>${esc(t(j.area))}</span><span class="st st-${j.state}">${esc(stateWord(j.state))}</span>${icon("ui-chevron-right")}</button></li>`).join("")}</ul><p class="note">${esc(t("proof_photo"))}</p>${appShortFooter(C)}`;
 }
+/** The job as the shared tracking engine sees it (the same steps the shop and the customer see). Trip progress is shared only
+ *  while the rider has switched it on for this trip: a share of the way and the arrival time, never a position. */
+function tracker(j: Job): TrackView | null {
+  const tr = new Tracking(REGISTER), at = Date.now() / 1000 - 900, eta = new Date((at + 2700) * 1000).toISOString().slice(0, 19) + "Z";
+  tr.apply({ type: "DeliveryRequested", payload: { delivery_id: j.id, order_id: j.id, own_rider: true, price: 0, currency: C.pack().currency }, at }, "shop");
+  tr.apply({ type: "DeliveryAccepted", payload: { delivery_id: j.id, partner_reference: "own-rider", eta }, at: at + 60 }, "shop");
+  if (j.state === "picked_up" || j.state === "delivered") tr.apply({ type: "DeliveryPickedUp", payload: { delivery_id: j.id }, at: at + 300 }, "shop");
+  if (j.state === "picked_up" && S.share) tr.setProgress("delivery", j.id, Math.min(0.9, 0.1 + S.trip * 0.05));
+  if (j.state === "delivered") tr.apply({ type: "DeliveryDelivered", payload: { delivery_id: j.id, proof: j.proof ?? "code" }, at: at + 900 }, "shop");
+  if (j.state === "failed") tr.apply({ type: "DeliveryFailed", payload: { delivery_id: j.id, reason_code: "other" }, at: at + 900 }, "shop");
+  return tr.view("delivery", j.id, "staff", Date.now() / 1000);
+}
+const look = { t, esc, icon: (id: string) => icon(id), time: (iso: string) => C.clock(Date.parse(iso)), chip: (st: TrackView["state"]) => chip(st) };
 function detail(j: Job): string {
   const next = nextDeliveryStep(j.state);
   const syncChip = j.state === "picked_up" ? chip(lastSync(j.id, "DeliveryPickedUp")) : j.state === "delivered" ? chip(lastSync(j.id, "DeliveryDelivered")) : "";
@@ -50,7 +67,10 @@ function detail(j: Job): string {
     ${next === "delivered" ? `<label class="codebox">${esc(t("delivery_code", { code: "" }))}<input inputmode="numeric" maxlength="6" data-field="code" value="${esc(S.typed)}" autocomplete="off"></label>
       <button class="primary" data-act="deliver:code" ${S.typed.length === 6 ? "" : "disabled"}>${esc(t("delivered"))}</button><p class="note">${esc(t("proof_code"))}</p>
       <button class="secondary" data-act="deliver:photo">${icon("ui-receipt")}${esc(t("proof_photo"))}</button>` : ""}
-    ${S.msg ? `<p class="warn" role="alert">${esc(S.msg)}</p>` : ""}<p class="note">${esc(t("track"))}: shop.lynkomni.com/track/LODLV-…</p><p class="hint">${esc(t("pickup_code"))}: ${esc(j.code)}</p>`;
+    ${S.msg ? `<p class="warn" role="alert">${esc(S.msg)}</p>` : ""}
+    ${(() => { const v = tracker(j); return v ? trackerHtml(v, look, t("order", { n: j.order })) : ""; })()}
+    ${j.state === "picked_up" ? `<label class="share"><input type="checkbox" data-field="share" ${S.share ? "checked" : ""}> <span>${esc(t("trk_share_progress"))}</span></label><p class="note">${esc(t("trk_share_help"))}</p>` : ""}
+    <p class="note">${esc(t("track"))}: shop.lynkomni.com/track/LODLV-…</p><p class="hint">${esc(t("pickup_code"))}: ${esc(j.code)}</p>`;
 }
 function draw(): void {
   const el = $("#screen"); if (!el) return; el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W);
@@ -61,10 +81,10 @@ function act(a: string): void {
   const [k = "", v = ""] = a.split(":"); const j = job();
   if (k === "open") { S.open = S.jobs.some((x) => x.id === v) ? v : ""; S.typed = ""; S.msg = ""; }
   else if (k === "back") S.open = "";
-  else if (k === "pickup" && j && nextDeliveryStep(j.state) === "picked_up") { j.state = "picked_up"; LOG.emit("DeliveryPickedUp", { delivery_id: j.id }); }
+  else if (k === "pickup" && j && nextDeliveryStep(j.state) === "picked_up") { j.state = "picked_up"; S.trip = 0; LOG.emit("DeliveryPickedUp", { delivery_id: j.id }); }
   else if (k === "deliver" && j && nextDeliveryStep(j.state) === "delivered") {
     if (v === "code" && S.typed !== j.code) { S.msg = t("wrong_code"); draw(); return; }
-    j.state = "delivered"; j.proof = v === "photo" ? "photo" : "code"; LOG.emit("DeliveryDelivered", { delivery_id: j.id, proof: j.proof }); S.msg = "";
+    j.state = "delivered"; j.proof = v === "photo" ? "photo" : "code"; S.share = false; LOG.emit("DeliveryDelivered", { delivery_id: j.id, proof: j.proof }); S.msg = "";
   }
   draw();
 }
@@ -82,9 +102,10 @@ function main(): void {
   document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (!b || b.hasAttribute("disabled")) return; if (b.classList.contains("dsh-scrim") && (e.target as HTMLElement).closest("[data-stop]")) return; if (!DSH.act(b.dataset["act"] ?? "")) act(b.dataset["act"] ?? ""); });
   document.addEventListener("keydown", (e) => { DSH.key(e); });
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
+  document.addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["field"] === "share") { S.share = el.checked; S.trip = 0; draw(); } });
   document.addEventListener("input", (e) => { const el = e.target as HTMLInputElement; if (DSH.input(el)) return; if (el.dataset["field"] === "code") { S.typed = plain(el.value).replace(/\D/g, "").slice(0, 6); const pos = el.selectionStart; draw(); const n = document.querySelector<HTMLInputElement>('[data-field="code"]'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } } });
   $("#panel").addEventListener("change", (e) => { if (panelChange(e.target as HTMLSelectElement, S, DATA)) panel(); draw(); });
-  window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); }, 400);
+  window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); if (S.share && S.online && job()?.state === "picked_up" && S.ticks % 8 === 0 && S.trip < 16) { S.trip += 1; draw(); } }, 400);
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 400);
 }
 main();

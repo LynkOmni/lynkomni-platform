@@ -33,4 +33,6 @@
 .warn { padding: 8px 10px; border-radius: 10px; background: var(--status-danger-bg); color: var(--status-danger-text); border: 1px solid var(--status-danger-border); }
 .pscreen[dir="rtl"] .link .ic svg, .pscreen[dir="rtl"] .jobs .ic svg { transform: scaleX(-1); }
 .rtop { flex-wrap: wrap; gap: 4px 8px; }
-.rtop strong { overflow-wrap: anywhere; }
+.rtop strong { flex: 1 1 9ch; overflow-wrap: anywhere; }   /* the title keeps room for a word; the shell buttons move to the next line when they cannot fit */
+.share { display: flex; align-items: center; gap: 10px; min-height: 44px; overflow-wrap: anywhere; }
+.share input { inline-size: 22px; block-size: 22px; flex: none; accent-color: var(--brand-primary); }

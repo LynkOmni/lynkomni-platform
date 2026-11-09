@@ -1,0 +1,12 @@
+{
+ "dir": "ltr",
+ "engine": "source",
+ "kept_in_english": [],
+ "lang": "en",
+ "native": "English",
+ "source_sha256": "6f4bb9232e51ded405c98ac9f88da3c177762800c94c91babd681f2fdd100735",
+ "texts": {
+  "title": "Customer's tracking page",
+  "track_heading": "Your order"
+ }
+}

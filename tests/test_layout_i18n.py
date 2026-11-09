@@ -354,6 +354,7 @@ DEVICES = {
     "vcard-card": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
     "mesh-relay": (["#screenA", "#screenB"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
     "owner-web": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
+    "track-page": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
 }
 DEVICE_FILE = lambda e: os.path.join(ROOT, "web", "emulators", "dist", f"lynkomni-{e}.html")
 OVERFLOW_IN = OVERFLOW.replace("() => {\n  const d = document.querySelector('#display')", "(sel) => {\n  const d = document.querySelector(sel)")
