@@ -845,7 +845,7 @@ function invoices(): string {
     <p class="sub">${esc(t("invoice_rules"))}</p><p class="sub">${esc(t("full_pages_web", { path: "/invoicing" }))}</p>${flash()}</div>`;
 }
 function customersTab(): string {
-  return `${topBar(t("tab_customers"))}<div class="body"><ul class="list card">${CUSTOMERS.map((c) => `<li><div class="rowbtn static"><span class="avatar" aria-hidden="true">${esc(c.name.slice(0, 1))}</span><span class="main"><span class="nm">${esc(c.name)}</span><span class="sub">${esc(c.owes ? t("owes", { amount: money(c.owes) }) : t("owes_nothing"))}</span></span>
+  return `${topBar(t("tab_customers"))}<div class="body"><ul class="list card">${CUSTOMERS.map((c) => `<li><div class="rowbtn static"><span class="avatar" aria-hidden="true">${esc(c.name.slice(0, 1))}</span><span class="main"><span class="nm">${esc(c.name)}</span><span class="sub">${esc(c.owes ? t("owes", { name: c.name, amount: money(c.owes) }) : t("owes_nothing"))}</span></span>
     ${c.owes ? `<button class="ghost small" data-act="paidcredit:${c.id}">${esc(t("record_paid"))}</button>` : ""}</div></li>`).join("")}</ul>
     <p class="sub">${esc(t("credit_reminders"))}</p><p class="sub">${esc(t("full_pages_web", { path: "/crm" }))}</p>${flash()}</div>`;
 }

@@ -45,7 +45,7 @@
 .dsh-panel .mlabel { display: block; color: var(--text-secondary); font-size: 12px; padding: 4px 8px 0; }
 .dsh-panel .mitem.current { color: var(--brand-ink); font-weight: 700; }
 .dsh-panel .mitem.danger { color: var(--status-danger-text); }
-.dsh-panel dl { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 12px; margin: 8px 0; }
+.dsh-panel dl { display: grid; grid-template-columns: minmax(0, max-content) minmax(0, 1fr); gap: 6px 12px; margin: 8px 0; }
 .dsh-panel dt { color: var(--text-secondary); }
 .dsh-panel dd { margin: 0; font-weight: 600; }
 .dsh-panel .switch { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; min-width: 0; padding: 0; border: 0; border-radius: 0; background: none; color: inherit; font: inherit; }   /* never inherit a device's own .switch button look */

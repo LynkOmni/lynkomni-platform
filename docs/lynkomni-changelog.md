@@ -9,6 +9,7 @@ Section 3, Phase 5: language wave 2 (blueprint 43 G). LynkOmni now speaks 38 lan
 - Yoruba's dot-below vowels sit in the Vietnamese block, so a language can now name extra script files ("also" in design/fonts/scripts.v1.json) and offline apps store them too (fontFilesFor).
 - The translation script check knows Bengali, Tamil, Thai and Ethiopic.
 - Country packs: Bangladesh, Sri Lanka, Thailand, Ethiopia, Malaysia, Brunei, Poland, Ukraine, the Netherlands, Belgium, Suriname, the Dutch Caribbean and the Cocos Islands now open in their own language; every country name is available in the 12 new languages. No language waves are left in design/fonts/language_waves.v1.json; the other official languages stay "planned".
+- Leftover fixed: the Business app's customer list showed "{name}" in the "owes" line in every language (the name was not passed in); it now reads, for example, "Eric owes $45.00".
 - File size budgets raised for five demo files (they carry every text in all 38 languages; a real app downloads one language at a time) and the pricing ladder chart (the longer font stack).
 
 ## v0.25.0 (2026-11-09)
