@@ -20,7 +20,9 @@
    "first_tap": "[data-act=\"shell:launcher\"]"
   },
   "account-site": {
-   "first_tap": "[data-act=\"go:security\"]"
+   "first_tap": "[data-act=\"go:security\"]",
+   "file_kb": 520,
+   "file_kb_reason": "This demo file carries the shell (138 texts), the account site (199) and the main footer (61, blueprint section 26) in all 26 languages, plus every country; a real app downloads one language and one country at a time. Raised 9 November 2026 when the footer joined (change log v0.23.1). First-screen and tap budgets are unchanged."
   },
   "counter-tablet": {
    "first_tap": "[data-act=\"d1\"]",

@@ -62,3 +62,46 @@ test("voice, home cards, sync order, setup, second currency, practice and confir
   assert.equal(practiceLabel(true), "PRACTICE"); assert.equal(practiceLabel(false), null);
   assert.equal(mayShowConfirmed("pending_confirmation"), false); assert.equal(mayShowConfirmed("confirmed"), true);
 });
+
+import { CHAT_FILTERS as B_CHAT, GETTING_IN as B_IN, HUB as B_HUB, PAY_WAYS as B_PAY, SETTINGS as B_SET, SETUP_CHECKLIST as B_CHECK, TOP_BAR as B_TOP,
+  creditNeedsCustomer, moveStock, nextChecklistStep, receiptOptions, returnLine, splitCheck, stockFilter } from "../src/business.js";
+
+test("the Business app follows blueprint 41 E, as the register catalog/business-app.v1.json lists it", () => {
+  const reg = JSON.parse(readFileSync(`${process.cwd()}/../catalog/business-app.v1.json`, "utf8"));
+  assert.deepEqual([...B_IN], reg.getting_in);
+  assert.deepEqual([...B_CHECK], reg.setup_steps.map((s: { id: string }) => s.id));
+  assert.deepEqual([...B_TOP], reg.top_bar);
+  const screen = (id: string): string[] => reg.screens.find((s: { id: string }) => s.id === id).items;
+  assert.deepEqual(B_HUB.map((h) => h.id).sort(), screen("business").filter((i) => i !== "waiting_services").sort());
+  assert.deepEqual([...B_SET].sort(), screen("settings").sort());
+  assert.deepEqual(B_CHAT.map((f) => `filter_${f}`), screen("chats").filter((i) => i.startsWith("filter_")));
+  for (const w of ["cash", "mobile_money", "card", "tap_to_pay", "bank_transfer", "qr", "pay_link", "credit"]) assert.ok(B_PAY.some((p) => p.id === w) && screen("pay").includes(w), w);
+});
+test("setup: every step skippable, then the first sale", () => {
+  assert.equal(nextChecklistStep(new Set(), new Set()), "business_name_type");
+  assert.equal(nextChecklistStep(new Set(["business_name_type"]), new Set(["currency"])), "first_products");
+  assert.equal(nextChecklistStep(new Set(B_CHECK), new Set()), null);
+  assert.equal(nextChecklistStep(new Set(), new Set(B_CHECK)), null);
+});
+test("payments: cash and credit work offline; the rest waits for the provider; splits add up exactly; credit needs a customer", () => {
+  assert.deepEqual(B_PAY.filter((p) => !p.online).map((p) => p.id), ["cash", "credit"]);
+  assert.ok(B_PAY.filter((p) => p.online).every((p) => p.provider));
+  assert.equal(splitCheck(1500, [1000, 500]), "ok"); assert.equal(splitCheck(1500, [1000]), "short"); assert.equal(splitCheck(1500, [1000, 600]), "over"); assert.equal(splitCheck(1500, [1500, 0]), "empty_part");
+  assert.equal(creditNeedsCustomer("credit", null), true); assert.equal(creditNeedsCustomer("credit", "c1"), false); assert.equal(creditNeedsCustomer("cash", null), false);
+});
+test("receipts: print and QR on every plan, chat and SMS links with message receipts", () => {
+  assert.deepEqual(receiptOptions({ receipts: ["print", "qr"] }), ["print", "qr"]);
+  assert.deepEqual(receiptOptions({ receipts: ["print", "qr", "message"] }), ["print", "qr", "chat_link", "sms_link"]);
+});
+test("returns refund at most what was sold; stock filters and branch moves never create or lose stock", () => {
+  assert.deepEqual(returnLine(2000, 1500, 5000), { quantity_milli: 2000, refund_amount: 3000 });
+  assert.deepEqual(returnLine(2000, 1500, 1000), { quantity_milli: 1000, refund_amount: 1500 });
+  const items = [{ id: "a", category: "food", reorderAtMilli: 5000 }, { id: "b", category: "home", reorderAtMilli: 5000, branch: "north" }, { id: "c", category: "food", reorderAtMilli: 1000 }];
+  const lv = { a: 3000, b: -1000, c: 9000 };
+  assert.deepEqual(stockFilter(items, lv, { state: "low", category: "all", branch: "all" }).map((x) => x.id), ["a"]);
+  assert.deepEqual(stockFilter(items, lv, { state: "below_zero", category: "all", branch: "all" }).map((x) => x.id), ["b"]);
+  assert.deepEqual(stockFilter(items, lv, { state: "all", category: "food", branch: "main" }).map((x) => x.id), ["a", "c"]);
+  const moved = moveStock({ main: { a: 5000 }, north: {} }, "a", "main", "north", 2000);
+  assert.equal((moved["main"]?.["a"] ?? 0) + (moved["north"]?.["a"] ?? 0), 5000);
+  assert.deepEqual(moveStock({ main: { a: 5000 } }, "a", "main", "main", 2000), { main: { a: 5000 } });
+});

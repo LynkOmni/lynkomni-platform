@@ -12,10 +12,13 @@ import type { BusinessType } from "../../../ts/src/business.js";
 import { AGENT_SERVICES, COLLECTION_KINDS, FINANCE_PRODUCTS, combinedLimits, commission, floatForecastDays, limitCheck, lowFloat, mayHandOverCash } from "../../../ts/src/agent.js";
 import type { AgentState, Limits } from "../../../ts/src/agent.js";
 import { TEST_LANGS, esc, newId, pick, pseudo, randomBytes } from "../../../ts/src/emulator.js";
+import { brandMark } from "../../../ts/src/brand.js";
+import { shortFooterHtml } from "../../../ts/src/footer.js";
+import type { BrandPlaces } from "../../../ts/src/brand.js";
 
 interface BuildData {
   icons: Record<string, string>;
-  brand: { body: string; topLight: string; topDark: string; receipt: string };
+  brand: { body: string; receipt: string; places: BrandPlaces };
   pictures: { offLight: string; offDark: string; offAlt: string };
   states: Record<string, { label: string; meaning: string }>;
   /** Every country pack, the neutral sample pack first (Step 0): the chooser never opens on a real country. */
@@ -189,10 +192,9 @@ function sendMsg(): void {
 }
 
 // ---- screens --------------------------------------------------------------------------------------------------------
-const logo = (): string => (S.theme === "dark" ? DATA.brand.topDark : DATA.brand.topLight);
 function topBar(title: string, back?: string): string {
   const p = pending(S.events.map((e) => e.sync)), off = !online();
-  return `<div class="top">${back ? `<button class="iconbtn back" data-act="${back}" aria-label="${esc(t("back"))}">${icon("ui-arrow-left")}</button>` : `<span class="logo" role="img" aria-label="LynkOmni">${logo()}</span>`}
+  return `<div class="top">${back ? `<button class="iconbtn back" data-act="${back}" aria-label="${esc(t("back"))}">${icon("ui-arrow-left")}</button>` : `${brandMark(DATA.brand.places, "app-top-bar", S.theme === "dark", "logo")}`}
     <h1>${esc(title)}</h1><button class="netchip${off ? " off" : ""}" data-act="sheet" aria-label="${esc(t("sync"))}">${icon(off ? "ui-offline" : "ui-sync")}<span>${esc(t(off ? "offline" : "online"))}</span>${p.count ? `<span class="count">${p.count}</span>` : ""}</button></div>`;
 }
 function tabBar(): string {
@@ -408,7 +410,7 @@ function syncSheet(): string {
 }
 
 function signin(): string {
-  const mark = `<span class="mark" role="img" aria-label="LynkOmni">${logo()}</span>`;
+  const mark = brandMark(DATA.brand.places, "auth-onboarding", S.theme === "dark", "mark");   // sign-in: the full logo introduces the brand
   if (S.screen === "phone") {
     return `<div class="signin">${mark}<h1>${esc(t("welcome"))}</h1><p>${esc(t("works_anywhere"))}</p>
       <label class="field"><span>${esc(t("your_phone"))}</span><input id="phoneIn" inputmode="tel" autocomplete="off" value="${esc(S.phone)}" data-in="phone"></label>
@@ -428,7 +430,7 @@ function view(): string {
   if (S.screen !== "app") return signin();
   const agent = S.btype === "agent_point";
   const body = S.view === "svc" ? agentFlow() : S.tab === "services" ? agentServices() : S.tab === "float" ? agentFloat() : agent && S.tab === "home" ? agentHome()
-    : S.tab === "sell" ? sell() : S.tab === "stock" ? stock() : S.tab === "chats" ? chats() : S.tab === "business" ? business() : home();
+    : S.tab === "sell" ? sell() : S.tab === "stock" ? stock() : S.tab === "chats" ? chats() : S.tab === "business" ? business() + shortFooterHtml(new Date(), pack().tz) : home();   // the one-line short footer inside apps (26 C), at the end of the Business hub
   const noTabs = S.tab === "sell" && S.view !== "main" && S.view !== "done" || S.tab === "chats" && S.view === "thread" || S.view === "svc";
   return `${body}${noTabs ? "" : tabBar()}${S.sheet ? syncSheet() : ""}`;
 }

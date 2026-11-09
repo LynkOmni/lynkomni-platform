@@ -26,7 +26,7 @@
 .cwelcome { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%; gap: 2px; }
 .cwelcome h2 { margin: 0; font-size: 13px; }
 .cwelcome p { margin: 0; color: var(--text-secondary); }
-.cmark { width: 70px; display: block; }
+.cmark { width: 110px; display: block; }   /* 118 px of room on the 134 px customer screen: the logo fits (from 96 px) */
 .cmark svg { width: 100%; height: auto; display: block; }
 .cbasket { display: flex; flex-direction: column; height: 100%; }
 .cbasket ul { list-style: none; margin: 0; padding: 0; flex: 1; overflow: hidden; }
@@ -141,6 +141,8 @@
 .menu button .ic { margin-inline-start: auto; width: 16px; height: 16px; color: var(--text-muted); }
 .lock { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; }
 .lockmark { width: 36px; height: 36px; color: var(--brand-ink); }
+.locklogo { width: 160px; display: block; margin-bottom: 4px; }
+.locklogo svg { width: 100%; height: auto; display: block; }
 .lock h1 { margin: 0; font-size: 16px; }
 .dots { display: flex; gap: 12px; }
 .dots i { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--border-input); }

@@ -2,6 +2,17 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.23.1 (2026-11-09)
+Enforcing the blueprint for Step 0 and sections 1 and 2 (owner, 9 November 2026: "enforce what is laid out in the blueprint ... entirely"). The full list of rules and their status is docs/lynkomni-blueprint-checklist.md.
+- Brand marks follow their places (section 30): screens ask the brand module for their place (ts/src/brand.ts markFor and brandMark). The logo now shows in web headers at every size (it falls back to the emblem only under 96 px), on every sign-in screen, in the owner's sidebar and on the customer welcome screen (a 24th place, customer-welcome, taking the blueprint's default, the logo); the emblem stays in app bars; the wordmark stays on printed receipts. Tests: no fixed marks, every place named is live, each screen shows its mark, markFor picks by room.
+- The footer (section 26) now shows: the main footer on the web apps (browser frame, account site, owner's web view) with every 26 A column, payment methods from the chosen country's pack as LynkOmni icons with the provider's name as text, social channels as text links, an unticked double-opt-in newsletter and the fixed copyright line; the one-line short footer inside the apps (merchant phone, terminal, counter tablet, rider phone). Its 61 words are translated into all 26 languages (web/footer). The tagline is the section 5 positioning line only ("Works with or without internet."). App Store and Google Play are protected names.
+- 44 px touch targets (41 B), enforced by the accessibility check on every screen (it checked 24 px before) and fixed everywhere it failed.
+- Text up to 200% (41 B): a new test opens every emulator at 640 px (a 1280 px window at 200% zoom) in English and long text.
+- The Step 0 country switch reads "A country where partners are not signed yet" (42 A), in every language.
+- Language wave 2 is the blueprint's twelve (43 G); the order I had generated is replaced, and the section numbers I had invented for later waves are removed (the blueprint defines waves 1 and 2 only).
+- Bundled code drops whole-line comments (smaller files). The account site's file budget is 520 KB: it carries the shell, account and footer words in 26 languages (a real app downloads one).
+- tools/translation/update_keys.py updates changed translations without retyping the rest; it compares with the last committed English.
+
 ## v0.23.0 (2026-11-09)
 Build section 3, the Business app and the whole of LynkPOS (blueprint 41 S row 3, 42 I and J row 3, 44 L row 3, 45 E row 3), built and locked.
 - Device commands for the whole till (dv/box.py): shifts with opening float, cash counts and differences flagged for the owner (never blocking), the customer credit book with reminders, vouchers, parcel and order pickup by code, restaurant tables, kitchen tickets, splitting a bill, tips, closing a table, the staff time clock, delivery steps with proof, and practice mode (a clearly marked copy that never syncs). Agent, collection and partner requests are online only and never queued.

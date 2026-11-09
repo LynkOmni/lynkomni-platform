@@ -1,13 +1,15 @@
+import type { BrandPlaces } from "./brand.js";
 /** Shared runtime of every real-device emulator (build section 3): screen words in every language, the country chooser, money
  *  and clock formatting through the country pack, the event log with the five honest states and the sandbox cloud's answers.
  *  Each emulator keeps its own state and screens; this file keeps them consistent. No Node APIs; the DOM parts take elements. */
 import { formatMoney, uuid7 } from "./pos.js";
+import { buildFooter, mainFooterHtml, shortFooterHtml } from "./footer.js";
 import type { UserState } from "./pos.js";
 
-export interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; ui: string; sample: boolean;
+export interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; ui: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[];
   ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; state: "available" | "coming_soon" }[] }
 export interface LanguagePack { native: string; dir: "ltr" | "rtl"; texts: Record<string, string> }
-export interface Build { icons: Record<string, string>; brand: { body: string; topLight: string; topDark: string; receipt: string }; pictures: { offLight: string; offDark: string; offAlt: string };
+export interface Build { icons: Record<string, string>; brand: { body: string; receipt: string; places: BrandPlaces }; pictures: { offLight: string; offDark: string; offAlt: string };
   states: Record<string, { label: string; meaning: string }>; packs: Record<string, CountryPack>; packOrder: string[]; i18n: Record<string, LanguagePack>;
   entitlements?: Record<string, Record<string, unknown>> }
 
@@ -30,6 +32,8 @@ export class Words {
   isTest(): boolean { return (TEST_LANGS as readonly string[]).includes(this.lang()); }
   dir(): "ltr" | "rtl" { return this.lang() === "xx-rtl" ? "rtl" : this.packs[this.lang()]?.dir ?? "ltr"; }
   htmlLang(): string { return this.isTest() ? "en" : this.lang(); }
+  /** Whether the app carries this word (the footer's words travel only in apps that show a footer). */
+  has = (k: string): boolean => k in this.en;
   t = (k: string, vars: Record<string, string | number> = {}): string => {
     const en = this.en[k] ?? k, raw = this.isTest() ? pseudo(en) : this.packs[this.lang()]?.texts[k] ?? en;
     return raw.replace(/\{(\w+)\}/g, (m, v: string) => (v in vars ? String(vars[v]) : m));
@@ -134,3 +138,13 @@ export function stateButtons(el: HTMLElement, states: readonly string[], go: (s:
   el.innerHTML = states.map((k) => `<button type="button" data-state="${esc(k)}">${esc(k)}</button>`).join("");
   el.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-state]"); if (b) go(pick(states, b.dataset["state"] ?? "", states[0] ?? "")); });
 }
+
+/** The footer (blueprint section 26). Web apps (the owner's web view) show the main footer; apps on a device show the one-line
+ *  short footer. Words come from the language packs, payment methods from the chosen country's pack, and the copyright line is
+ *  fixed text with the year in the country's time zone. */
+export function appMainFooter(words: Words, country: Country, data: Build): string {
+  const p = country.pack();
+  return mainFooterHtml(buildFooter({ now: new Date(), lang: words.htmlLang(), words: (k) => (words.has(k) ? words.t(k) : undefined),
+    pack: { code: p.code, name: p.name, currency: p.currency, tz: p.tz, languages: [], providers: p.providers, card_networks: p.card_networks, wallets: p.wallets } }), esc, (id) => data.icons[id] ?? "");
+}
+export const appShortFooter = (country: Country): string => shortFooterHtml(new Date(), country.pack().tz);

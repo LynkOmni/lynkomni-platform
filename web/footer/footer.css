@@ -1,0 +1,31 @@
+/* The LynkOmni footer (blueprint section 26): the main footer on websites and web apps, the one-line short footer inside
+   apps. Design tokens only; logical properties so right-to-left mirrors; text wraps in every language. */
+.mainfoot { margin-block-start: 32px; padding: 24px 16px; border-block-start: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-primary); font: 14px/1.5 var(--font-body); }
+.mainfoot h3 { margin: 0 0 8px; font: 600 14px var(--font-heading); }
+.mainfoot ul { list-style: none; margin: 0; padding: 0; }
+.mainfoot li { margin: 0; }
+.mainfoot a { display: inline-flex; align-items: center; min-height: 44px; color: var(--text-primary); text-decoration: none; overflow-wrap: anywhere; }
+.mainfoot a:hover, .mainfoot a:focus-visible { text-decoration: underline; }
+.ftag { margin: 0 0 16px; color: var(--text-secondary); }
+.fcols, .frow { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px 24px; }
+.frow { margin-block-start: 24px; }
+.fcol { min-width: 0; }
+.fpays li { display: flex; align-items: center; gap: 8px; min-height: 44px; }
+.fpays .ic { inline-size: 20px; block-size: 20px; flex: none; }
+.fnews { min-width: 0; grid-column: span 2; }
+.fnews p { margin: 0 0 8px; color: var(--text-secondary); overflow-wrap: anywhere; }
+.fnews .fl { display: flex; flex-direction: column; gap: 4px; margin-block-end: 8px; }
+.fnews input[type="email"] { font: inherit; min-height: 44px; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-input); background: var(--bg-surface); color: var(--text-primary); }
+.fnews fieldset { border: 0; padding: 0; margin: 0 0 8px; display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.fnews legend { padding: 0; margin-block-end: 4px; font-weight: 600; }
+.ftopic, .fconsent { display: flex; align-items: center; gap: 8px; min-height: 44px; overflow-wrap: anywhere; }
+.ftopic input, .fconsent input { inline-size: 20px; block-size: 20px; flex: none; accent-color: var(--brand-primary); }
+.fnews button { min-height: 44px; padding: 0 20px; border: 0; border-radius: 8px; background: var(--brand-primary); color: var(--on-brand); font: 600 14px var(--font-body); cursor: pointer; }
+.fnote { font-size: 13px; }
+.flegal { margin-block-start: 24px; padding-block-start: 16px; border-block-start: 1px solid var(--border-subtle); display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; justify-content: space-between; }
+.flegal ul { display: flex; flex-wrap: wrap; gap: 0 16px; }
+.fcopy { margin: 0; color: var(--text-secondary); font-size: 13px; overflow-wrap: anywhere; }
+@media (max-width: 600px) { .fnews { grid-column: auto; } }
+/* Short footer inside apps: one line, the fixed copyright text. */
+.shortfoot { padding: 12px 8px; text-align: center; }
+.shortfoot p { margin: 0; color: var(--text-secondary); font-size: 11px; overflow-wrap: anywhere; }

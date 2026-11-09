@@ -102,3 +102,20 @@ export function poweredBy(tier: string, screen: string, merchantRemoved = false)
   if (NO_BADGE_SCREENS.includes(screen)) return false;
   return tier === "required" ? true : !merchantRemoved;
 }
+
+/** The brand mark for a place on screen (brand/surfaces.v1.json), as the emulator build hands it over: the choices in order,
+ *  each with the smallest width it needs and its light and dark drawing. The screen says which place it is and how much
+ *  room it has; the first choice that fits wins (no width given = the place's first choice). Never a file name here. */
+export interface PlaceChoice { asset: BrandAssetId; minWidthPx: number; light: string; dark: string }
+export type BrandPlaces = Record<string, PlaceChoice[]>;
+export function markFor(places: BrandPlaces, place: string, dark: boolean, widthPx?: number): { asset: BrandAssetId; svg: string } {
+  const choices = places[place];
+  if (!choices || choices.length === 0) throw new Error(`unknown brand place ${place}`);
+  const pick = (widthPx === undefined ? choices[0] : choices.find((c) => widthPx >= c.minWidthPx)) ?? choices[choices.length - 1]!;
+  return { asset: pick.asset, svg: dark ? pick.dark : pick.light };
+}
+/** The mark wrapped for the page: one image named LynkOmni, tagged with its place and asset so tests can check the rules. */
+export function brandMark(places: BrandPlaces, place: string, dark: boolean, cls: string, widthPx?: number): string {
+  const m = markFor(places, place, dark, widthPx);
+  return `<span class="${cls}" role="img" aria-label="LynkOmni" data-brand-place="${place}" data-brand-asset="${m.asset}">${m.svg}</span>`;
+}

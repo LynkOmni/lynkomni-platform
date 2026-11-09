@@ -82,3 +82,99 @@ export function homeCards(role: "owner" | "manager" | "cashier", staffSeeProfit:
 export const IDLE_LOCK_S = 120;          // staff PIN lock after two idle minutes
 export const SYNC_ORDER = ["sales", "payments", "stock", "chats", "media"] as const;   // priority sync: sales and payments first, media last
 export const syncOrder = (pending: Readonly<Record<string, number>>): string[] => SYNC_ORDER.filter((k) => (pending[k] ?? 0) > 0);
+
+// ---- the Business app as blueprint 41 E lays it out (catalog/business-app.v1.json is the register of its screens) --------------
+
+/** Getting in (41 E): sign in, choose the business (if more than one), register this device, the language and region card, the
+ *  setup checklist, then the first sale. */
+export const GETTING_IN = ["sign_in", "choose_business", "register_device", "locale_card", "setup", "first_sale"] as const;
+/** The setup checklist (41 E): every step skippable, under two minutes. First products come by scan, photo, voice, template or import. */
+export const SETUP_CHECKLIST = ["business_name_type", "currency", "first_products", "invite_staff", "print_shop_qr"] as const;
+export const FIRST_PRODUCT_WAYS = ["scan", "photo", "voice", "template", "import"] as const;
+export type ChecklistStep = (typeof SETUP_CHECKLIST)[number];
+/** The next step to show: the first one neither done nor skipped; null when the checklist is finished (then the first sale). */
+export const nextChecklistStep = (done: ReadonlySet<string>, skipped: ReadonlySet<string>): ChecklistStep | null =>
+  SETUP_CHECKLIST.find((s) => !done.has(s) && !skipped.has(s)) ?? null;
+/** The phone top bar (41 E): emblem, screen title, connection chip, notifications, account. */
+export const TOP_BAR = ["emblem", "screen_title", "connection_chip", "notifications", "account"] as const;
+
+/** Every way to take money at the till (41 E, 42 C), how it is recorded in the contract and what it needs. Cash and credit work
+ *  offline; every other method is sent and shows confirmed only when the provider confirms (fake payment protection). */
+export interface PayWay { id: string; method: "cash" | "mobile_money" | "bank_transfer" | "card" | "credit" | "other"; online: boolean; provider: string | null }
+export const PAY_WAYS: readonly PayWay[] = [
+  { id: "cash", method: "cash", online: false, provider: null },
+  { id: "mobile_money", method: "mobile_money", online: true, provider: "mobile_money" },
+  { id: "card", method: "card", online: true, provider: "card" },                  // on the LynkPOS handheld or a terminal
+  { id: "tap_to_pay", method: "card", online: true, provider: "tap_to_pay" },       // the phone itself, through a certified acquirer (7)
+  { id: "bank_transfer", method: "bank_transfer", online: true, provider: "bank_transfer" },
+  { id: "qr", method: "other", online: true, provider: "qr" },                      // LynkCheckout: the customer pays on the pay page
+  { id: "pay_link", method: "other", online: true, provider: "pay_link" },
+  { id: "credit", method: "credit", online: false, provider: null },                // pay later on credit, with the customer attached
+];
+export const payWay = (id: string): PayWay | undefined => PAY_WAYS.find((w) => w.id === id);
+/** A split payment: the parts must add up to the total exactly (integer minor units), each part above zero. */
+export function splitCheck(total: number, parts: readonly number[]): "ok" | "short" | "over" | "empty_part" {
+  if (parts.some((p) => !(p > 0))) return "empty_part";
+  const sum = parts.reduce((a, b) => a + b, 0);
+  return sum === total ? "ok" : sum < total ? "short" : "over";
+}
+/** A credit sale needs a customer attached (the credit book, S6). */
+export const creditNeedsCustomer = (wayId: string, customerId: string | null): boolean => wayId === "credit" && !customerId;
+
+/** Receipt channels by plan (42 C): print and QR on every plan; chat and SMS links from Plus (message receipts). Every receipt
+ *  carries a QR the customer can verify (7, Verified receipts) and says it is not a tax receipt until the authority confirms. */
+export function receiptOptions(e: PosEntitlement): string[] {
+  const allowed = receiptChannels(e);
+  return ["print", "qr", ...(allowed.includes("message") ? ["chat_link", "sms_link"] : [])];
+}
+
+/** Contract reason codes (contract/event-payloads.v2.json): the screens offer exactly these. */
+export const VOID_REASONS = ["entered_in_error", "customer_cancelled", "price_error", "duplicate", "other"] as const;
+export const RETURN_REASONS = ["defective", "wrong_item", "customer_changed_mind", "price_error", "other"] as const;
+export const REMOVE_REASONS = ["damage", "loss", "theft", "expiry", "correction", "other"] as const;
+export const COUNT_KINDS = ["day_start", "day_end", "handover", "spot"] as const;
+
+/** A return: refund at most what was paid for the line; restocking is the cashier's choice per line. */
+export function returnLine(soldQtyMilli: number, unitPrice: number, returnQtyMilli: number): { quantity_milli: number; refund_amount: number } {
+  const q = Math.max(0, Math.min(soldQtyMilli, returnQtyMilli));
+  return { quantity_milli: q, refund_amount: Math.round((q * unitPrice) / 1000) };
+}
+
+/** Stock list filters (41 E): low, below zero, category, branch. */
+export const STOCK_FILTERS = ["all", "low", "below_zero"] as const;
+export function stockFilter<T extends { category: string; branch?: string; reorderAtMilli: number; id: string }>(items: readonly T[], levels: Readonly<Record<string, number>>,
+  f: { state: (typeof STOCK_FILTERS)[number]; category: string; branch: string }): T[] {
+  return items.filter((p) => {
+    const lv = levels[p.id] ?? 0;
+    if (f.state === "low" && !(lv >= 0 && lv <= p.reorderAtMilli)) return false;
+    if (f.state === "below_zero" && !(lv < 0)) return false;
+    if (f.category !== "all" && p.category !== f.category) return false;
+    if (f.branch !== "all" && (p.branch ?? "main") !== f.branch) return false;
+    return true;
+  });
+}
+/** A move between branches is two adjustments with the same reason, so stock is never created or lost on the way. */
+export function moveStock(levels: Readonly<Record<string, Record<string, number>>>, productId: string, from: string, to: string, qtyMilli: number): Record<string, Record<string, number>> {
+  if (from === to || qtyMilli <= 0) return { ...levels };
+  const out: Record<string, Record<string, number>> = {};
+  for (const [b, l] of Object.entries(levels)) out[b] = { ...l };
+  out[from] = { ...(out[from] ?? {}), [productId]: (out[from]?.[productId] ?? 0) - qtyMilli };
+  out[to] = { ...(out[to] ?? {}), [productId]: (out[to]?.[productId] ?? 0) + qtyMilli };
+  return out;
+}
+
+/** Chat inbox filters (41 E) and the thread actions. */
+export const CHAT_FILTERS = ["unread", "assigned", "orders", "all"] as const;
+export const THREAD_ACTIONS = ["send_product", "send_quote", "send_pay_link", "send_receipt", "saved_replies", "photo", "voice_note", "assign_staff"] as const;
+
+/** The Business hub (41 E), in the blueprint's order, with the build section where each service's own full pages are built
+ *  (41 S). The hub entry itself is built here; "Coming to your country soon." comes from the country pack and the ledger. */
+export const HUB: readonly { id: string; serviceSection: number }[] = [
+  { id: "reports", serviceSection: 4 }, { id: "daily_close", serviceSection: 3 }, { id: "money", serviceSection: 3 }, { id: "invoicing", serviceSection: 4 },
+  { id: "customers", serviceSection: 4 }, { id: "loyalty", serviceSection: 3 }, { id: "books", serviceSection: 4 }, { id: "growth", serviceSection: 3 },
+  { id: "assistant", serviceSection: 3 }, { id: "cards", serviceSection: 3 }, { id: "online_shop", serviceSection: 3 }, { id: "agent_earnings", serviceSection: 3 },
+  { id: "team", serviceSection: 3 }, { id: "branches_devices", serviceSection: 3 }, { id: "plans_billing", serviceSection: 3 }, { id: "settings", serviceSection: 3 },
+  { id: "academy", serviceSection: 3 }, { id: "automations", serviceSection: 3 },
+];
+/** Settings (41 E, with 44 L: data sharing). Changing a setting on a computer that is not registered needs a fresh check (44 C). */
+export const SETTINGS = ["business_profile", "receipts", "taxes", "payment_methods", "printers_scanners", "language_region", "notifications", "data_saver", "modes", "ad_categories", "lock", "data_privacy", "connected_apps", "data_sharing"] as const;

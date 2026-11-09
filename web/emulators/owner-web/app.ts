@@ -6,8 +6,10 @@
 import type { UserState } from "../../../ts/src/pos.js";
 import { homeCards, webRule } from "../../../ts/src/business.js";
 import { matchStatement } from "../../../ts/src/agent.js";
-import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, stateButtons } from "../../../ts/src/emulator.js";
+import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, stateButtons, appMainFooter } from "../../../ts/src/emulator.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
+import { brandMark } from "../../../ts/src/brand.js";
+const SIDE_W = 200;   // px of room the 220 px sidebar gives its brand place (side-menu: logo from 140 px)
 
 interface Auto { id: string; level: string; assist: string | null; trigger: string; min_tier: string | null; default: string }
 declare const DATA: Build & { automations: Auto[] };
@@ -69,7 +71,7 @@ function draw(): void {
   const el = $("#screen"); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W);
   const label: Record<Page, string> = { today: "home", sales: "sales", devices: "devices", staff: "staff_shifts", commissions: "agent_commissions", automations: "automations", sharing: "data_sharing" };
   el.innerHTML = `<div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">${icon("ui-lock")}app.lynkomni.com${esc(PATH[S.page])}</span></div>
-    <div class="app"><nav class="side" aria-label="LynkOmni"><span class="logo" role="img" aria-label="LynkOmni">${S.dark ? DATA.brand.topDark : DATA.brand.topLight}</span>${PAGES.map((p) => `<button data-act="go:${p}" ${S.page === p ? 'aria-current="page"' : ""}>${esc(t(label[p]))}</button>`).join("")}</nav><main class="main">${page()}</main></div>`;
+    <div class="app"><nav class="side" aria-label="LynkOmni">${brandMark(DATA.brand.places, "side-menu", S.dark, "logo", SIDE_W)}${PAGES.map((p) => `<button data-act="go:${p}" ${S.page === p ? 'aria-current="page"' : ""}>${esc(t(label[p]))}</button>`).join("")}</nav><main class="main">${page()}${appMainFooter(W, C, DATA)}</main></div>`;
 }
 function act(a: string): void {
   const [k = "", v = ""] = a.split(":");

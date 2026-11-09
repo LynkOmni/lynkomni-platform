@@ -7,10 +7,13 @@ import { HANDHELD_TILES } from "../../../ts/src/business.js";
 import { AGENT_SERVICES, COLLECTION_KINDS, FINANCE_PRODUCTS, combinedLimits, commission, limitCheck, mayHandOverCash } from "../../../ts/src/agent.js";
 import type { AgentState, Limits } from "../../../ts/src/agent.js";
 import { TEST_LANGS, esc, newId, pseudo, randomBytes } from "../../../ts/src/emulator.js";
+import { brandMark } from "../../../ts/src/brand.js";
+import { shortFooterHtml } from "../../../ts/src/footer.js";
+import type { BrandPlaces } from "../../../ts/src/brand.js";
 
 interface BuildData {
   icons: Record<string, string>;
-  brand: { body: string; topLight: string; topDark: string; receipt: string };
+  brand: { body: string; receipt: string; places: BrandPlaces };
   pictures: { offLight: string; offDark: string; offAlt: string };
   states: Record<string, { label: string; meaning: string }>;
   /** Every country pack, the neutral sample pack first (Step 0): the chooser never opens on a real country. */
@@ -258,7 +261,7 @@ function redeem(): void {
 
 // ---- screens ------------------------------------------------------------------------------------------------------
 function top(title: string, backable = true): string {
-  return `<div class="bar">${backable ? `<button class="iconbtn" data-act="cancel" aria-label="${esc(t("back"))}">${icon("ui-arrow-left")}</button>` : `<span class="logo" role="img" aria-label="LynkOmni">${S.theme === "dark" ? DATA.brand.topDark : DATA.brand.topLight}</span>`}
+  return `<div class="bar">${backable ? `<button class="iconbtn" data-act="cancel" aria-label="${esc(t("back"))}">${icon("ui-arrow-left")}</button>` : `${brandMark(DATA.brand.places, "app-top-bar", S.theme === "dark", "logo")}`}
     <h1>${esc(title)}</h1><button class="iconbtn" data-act="menu" aria-label="${esc(t("menu"))}">${icon("ui-menu")}</button></div>`;
 }
 function totalBar(label: string, act: string, enabled: boolean): string {
@@ -272,7 +275,7 @@ function view(): string {
   const c = S.current;
   switch (S.screen) {
     case "lock":
-      return `<div class="lock"><span class="lockmark" role="img" aria-label="LynkOmni">${S.theme === "dark" ? DATA.brand.topDark : DATA.brand.topLight}</span><p class="pname">LynkPOS</p>
+      return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.theme === "dark", "lockmark")}<p class="pname">LynkPOS</p>
         <h1>${esc(t("pin"))}</h1><div class="dots" aria-label="${S.input.length} of 4">${[0, 1, 2, 3].map((i) => `<i class="${i < S.input.length ? "on" : ""}"></i>`).join("")}</div>
         <p class="note" role="alert">${esc(S.note)}</p><p class="keyhint">${icon("ui-info")}${esc(t("use_keys"))}</p>
         <p class="hint">${esc(t("pin_hint"))}</p></div>`;
@@ -358,7 +361,7 @@ function view(): string {
       return `${top(t("menu"))}<ul class="menu"><li><button data-act="go:sales">${icon("ui-receipt")}${esc(t("sales"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="go:count">${icon("product-ledger")}${esc(t("count"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="lowlit" aria-pressed="${S.lowLiteracy}">${icon("ui-grid")}${esc(t("low_literacy"))}${S.lowLiteracy ? icon("ui-check") : icon("ui-chevron-right")}</button></li>
-        <li><button data-act="lock">${icon("ui-lock")}${esc(t("lock"))}${icon("ui-chevron-right")}</button></li></ul>`;
+        <li><button data-act="lock">${icon("ui-lock")}${esc(t("lock"))}${icon("ui-chevron-right")}</button></li></ul>${shortFooterHtml(new Date(), pack().tz)}`;
     case "sales":
       return `${top(t("sales"))}<ul class="lines">${S.sales.map((s, i) => { const p = s.payments[s.payments.length - 1]; const ps = p ? paymentState(p.status, S.online) : null;
           const ev = S.events.find((e) => e.type === "SaleRecorded" && (e.payload as SalePayload).sale_id === s.sale.sale_id);
