@@ -42,7 +42,7 @@ class LynkDVBox:
         if perm and (s.role not in PERM[perm]["roles"] or "mobile" not in PERM[perm]["channels"]): raise LocalRejection("permission_denied")
     def _emit(s, etype, payload):
         evt = {"event_id": uuid7(), "origin": "device", "merchant_id": s.m, "branch_id": s.b, "device_id": s.d, "actor_user_id": s.u,
-               "device_seq": s.seq + 1, "type": etype, "schema_version": 2, "occurred_at_device": ts(s.clock), "prev_hash": s.prev,
+               "device_seq": s.seq + 1, "type": etype, "schema_version": 3, "occurred_at_device": ts(s.clock), "prev_hash": s.prev,
                "payload": payload, "signature": base64.urlsafe_b64encode(os.urandom(64)).decode().rstrip("=")}   # DEV-ONLY signature
         problems = validate_event(evt)
         if problems: raise ContractError(f"{etype}: {problems}")

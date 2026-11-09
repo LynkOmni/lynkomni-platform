@@ -10,7 +10,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 class TestIds(unittest.TestCase):
     def setUp(self): self.a = IdAllocator(sqlite3.connect(":memory:", check_same_thread=False))
     def test_registry_and_format(self):
-        self.assertEqual(len(ids.TYPES), 40); self.assertIn("DEV", ids.TYPES); self.assertIn("CST", ids.TYPES)
+        self.assertEqual(len(ids.TYPES), 41); self.assertIn("DEV", ids.TYPES); self.assertIn("LST", ids.TYPES); self.assertIn("CST", ids.TYPES)
         p11 = "48271936504"; pid = fmt("ID", p11 + luhn_digit(p11)); self.assertEqual(parse(pid), ("ID", p11 + luhn_digit(p11)))
         self.assertTrue(re.match(r"^LOID-\d{4}-\d{4}-\d{4}$", pid))
     def test_rejects_typos_and_unknown_types(self):

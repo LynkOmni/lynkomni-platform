@@ -1146,6 +1146,148 @@
     "Shared tests",
     "contract_signed per bank and country"
    ]
+  },
+  {
+   "id": "merchant_of_record",
+   "name": "Merchant of record and tax on digital sales (Storefront)",
+   "kind": "marketplace",
+   "used_by": [
+    "marketplace"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.storefront_partners:MerchantOfRecord",
+   "sandbox": "services.storefront_partners:SandboxMerchantOfRecord",
+   "needed_from_provider": [
+    "merchant-of-record agreement per country",
+    "tax rates and invoicing rules for digital goods",
+    "seller income reporting where required (for example EU DAC7)",
+    "settlement and refund rules",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/storefront_partners.py",
+     "token": "SandboxMerchantOfRecord"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "BIZZ & DEVICE (2026-11-09). The sandbox never invents a tax rate: tax is 'unconfirmed'. Paid Storefront selling stays off in a country until this partner and a payment provider are signed there.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country after legal sign-off"
+   ]
+  },
+  {
+   "id": "live_video",
+   "name": "Live sessions and classes (Storefront)",
+   "kind": "infrastructure",
+   "used_by": [
+    "marketplace"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.storefront_partners:LiveVideo",
+   "sandbox": "services.storefront_partners:SandboxLiveVideo",
+   "needed_from_provider": [
+    "video service agreement",
+    "data location per country",
+    "seat and bandwidth pricing",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/storefront_partners.py",
+     "token": "SandboxLiveVideo"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "Seat caps come from Storefront plans (services/billing.py). Questions go to the presenter only; never learner-to-learner chat. Never claim end-to-end encryption.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country after legal sign-off"
+   ]
+  },
+  {
+   "id": "content_store",
+   "name": "Storefront file storage, scanning and delivery",
+   "kind": "storage",
+   "used_by": [
+    "marketplace"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.storefront_partners:ContentStore",
+   "sandbox": "services.storefront_partners:SandboxContentStore",
+   "needed_from_provider": [
+    "storage and delivery agreement",
+    "malware scanning",
+    "data location per country",
+    "pricing per GB stored and delivered"
+   ],
+   "placeholders": [
+    {
+     "file": "services/storefront_partners.py",
+     "token": "SandboxContentStore"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "Allowed types by file bytes only (documents, video, audio, e-books, images); programs and markup are refused; size limits per Storefront plan.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country after legal sign-off"
+   ]
+  },
+  {
+   "id": "tap_to_pay",
+   "name": "Tap to pay on a phone (contactless without a card reader)",
+   "kind": "card_acquiring",
+   "used_by": [
+    "payments",
+    "pos"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.storefront_partners:TapToPay",
+   "sandbox": "services.storefront_partners:SandboxTapToPay",
+   "needed_from_provider": [
+    "certified tap-to-pay software and agreement per country",
+    "card scheme approvals held by the provider",
+    "fee schedule",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/storefront_partners.py",
+     "token": "SandboxTapToPay"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "Digital first (BIZZ & DEVICE): a phone accepts contactless cards through the provider's certified software. Confirmed only by the provider.",
+   "integrate": [
+    "Sign the agreement and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the country after legal sign-off"
+   ]
   }
  ],
  "later": [
@@ -1207,7 +1349,7 @@
   },
   {
    "id": "names_trademarks",
-   "name": "Names, domains and trademarks for LynkOmni and every Lynk product",
+   "name": "Names, domains and trademarks for LynkOmni and every Lynk product (including LynkAcademy and LynkDriver)",
    "blocks": [],
    "status": "pending",
    "why_not_now": "Needs a trademark search and registrations.",
@@ -1445,6 +1587,37 @@
    ],
    "done_when": "For each country: its lawyer sets legal_text, a person confirms holidays and invoice numbering, and the three are marked confirmed; tools/country_holidays.py is re-run each January.",
    "blocks_note": "nothing legal is printed until set; holidays only inform schedules and reports"
+  },
+  {
+   "id": "storefront_legal_review",
+   "name": "Lawyer review of the Storefront: marketplace terms, seller agreement, content policy, tax reporting, consumer law, copyright and data protection",
+   "blocks": [
+    "marketplace"
+   ],
+   "status": "pending",
+   "why_not_now": "Needs a lawyer in each launch country.",
+   "placeholders": [],
+   "done_when": "Written sign-off per country; paid Storefront selling switches on only after it."
+  },
+  {
+   "id": "driver_signing_key",
+   "name": "LynkDriver signing key in secure hardware",
+   "blocks": [
+    "pos"
+   ],
+   "status": "pending",
+   "why_not_now": "Needs a hardware security module or a cloud key service under the company's account (section 14).",
+   "placeholders": [],
+   "done_when": "Every LynkDriver release is signed with the hardware-held key and devices refuse anything else."
+  },
+  {
+   "id": "real_device_checks",
+   "name": "Checks on physical devices (LynkDriver drivers and every interface version)",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Needs sample devices; automatic checks already run on virtual devices and emulators.",
+   "placeholders": [],
+   "done_when": "Each device kind in the device register passed on a real unit."
   }
  ],
  "user_actions": [
@@ -1509,7 +1682,7 @@
    "id": "pos-hardware-supplier",
    "what": "Choose a supplier of Android handheld POS terminals with a built-in printer (and a counter tablet setup), and get two sample devices.",
    "why": "The LynkPOS emulator shows an original LynkOmni design; the real app must be tested on the real terminals merchants will buy, and the supplier must allow our logo on the casing.",
-   "when": "before the LynkPOS pilot",
+   "when": "On demand (BIZZ & DEVICE, 2026-11-09): only once people start ordering LynkOmni hardware. LynkOmni is digital first: every service runs on devices people already own, with compatible hardware from other makers through LynkDriver.",
    "status": "open"
   },
   {
@@ -1602,7 +1775,7 @@
   "at_the_end_in_order": [
    "9. Lawyer and CruxOmni Group registration, name and licence checks; then company bank account and card, D-U-N-S number, Google billing moved to the company, both domains in the company's name.",
    "10. Licensed partners per country (payments, mobile money, cards, tax office, SMS, lenders, insurers) with test keys.",
-   "11. POS hardware supplier (two sample devices), plus the human reviewers: designer, security, accessibility; an auditor later for SOC 2 Type II and ISO 27001.",
+   "11. Hardware on demand (BIZZ & DEVICE, 2026-11-09): the POS hardware supplier and two sample devices are needed only once people start ordering LynkOmni hardware (LynkOmni is digital first). The human reviewers stay: designer, security, accessibility; an auditor later for SOC 2 Type II and ISO 27001.",
    "12. Apple Developer and Google Play accounts for the organisation.",
    "13. Google Cloud account when the app is ready to go online (same payment method as Workspace).",
    "14. GitHub Team plan and the lock on the main branch, last.",

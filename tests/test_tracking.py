@@ -8,7 +8,7 @@ from services import tracking as T
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REG = T.register()
-CONTRACT = json.load(open(os.path.join(ROOT, "contract", "event-payloads.v2.json"), encoding="utf-8"))["events"]
+CONTRACT = json.load(open(os.path.join(ROOT, "contract", "event-payloads.v3.json"), encoding="utf-8"))["events"]
 IDENTITY = json.load(open(os.path.join(ROOT, "identity", "events.v1.json"), encoding="utf-8"))["events"]
 ADDR = json.load(open(os.path.join(ROOT, "catalog", "addresses.v1.json"), encoding="utf-8"))
 T0 = 1_794_200_000          # 2026-11-09

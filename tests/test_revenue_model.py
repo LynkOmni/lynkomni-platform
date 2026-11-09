@@ -96,5 +96,14 @@ class ExpensesAndProfit(unittest.TestCase):
             p = X.profit(st); self.assertEqual(p["revenue"]["month"] - p["expenses"]["month"] - p["tax"], p["net"]["month"])
 
 
+    def test_storefront_stream_is_separate_and_an_assumption(self):
+        # BIZZ & DEVICE (2026-11-09): the Storefront is its own stream, outside the agreed totals until pilot data exists
+        got = {st: R.storefront(st) for st in R.STAGES}
+        self.assertEqual({st: (g["sellers"], g["plans"], g["shares"], g["month"]) for st, g in got.items()},
+                         {"stage1": (150, 225, 2_048, 2_273), "stage2": (8_000, 20_563, 109_248, 129_811), "stage3": (200_000, 785_400, 2_731_200, 3_516_600)})
+        self.assertTrue(all(g["assumption"] for g in got.values()))
+        self.assertNotIn("storefront", R.ECO_ROWS)
+
+
 if __name__ == "__main__":
     unittest.main()

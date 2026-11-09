@@ -216,7 +216,7 @@ class FlowRunner(unittest.TestCase):
         ran = self.f.on_event("p2", {"id": "e1", "type": "SessionStarted", "payload": {"lynkid": "x", "new_device": True}})
         self.assertEqual(len(ran), 1); self.assertLessEqual(len(self.p.c.store.of("p2", "AutomationRan")), MAX_DEPTH)
     def test_every_event_trigger_in_the_register_is_a_known_event(self):
-        with open(os.path.join(ROOT, "contract", "event-payloads.v2.json"), encoding="utf-8") as f: core = set(json.load(f)["events"])
+        with open(os.path.join(ROOT, "contract", "event-payloads.v3.json"), encoding="utf-8") as f: core = set(json.load(f)["events"])
         from merchant.cloud import SIGNALS
         core |= set(SIGNALS)                              # Business app signals (merchant/events.v1.json)
         for a in REGISTER.values():                       # events of later sections are registered when those sections are built

@@ -1,0 +1,477 @@
+{
+ "version": 1,
+ "agreed": "2026-11-09 (BIZZ & DEVICE: everything has a place)",
+ "rule": "Every product, page, feature or download is placed everywhere it belongs in the same change: no item without a place, no place that does not show it, nothing shown that is not listed. Each place's screens read this register; tests/test_placements.py checks the register and, as each place is built, that the place shows exactly what is listed. section is the build section in which the item's places are built (the build order).",
+ "places": {
+  "website_header": "Website header (Products, Solutions, Explore, Download)",
+  "app_nav": "App sidebar on a computer, rail on a tablet, bottom tabs or More on a phone",
+  "launcher": "All LynkOmni places (the launcher)",
+  "account_menu": "The account menu",
+  "footer": "The main footer",
+  "search": "Find or do anything",
+  "help": "Help for the screen in view",
+  "settings": "Settings",
+  "product_page": "Its product page on lynkomni.com",
+  "pricing_page": "The pricing page",
+  "sitemap": "The website sitemap",
+  "showcase": "The showcase page"
+ },
+ "items": [
+  {
+   "id": "lynkpos",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkmpay",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkcheckout",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkrecover",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkvcard",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkacc",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkinv",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkcrm",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkops",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkstock",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkstat",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkrewards",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkchat",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkgrow",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkassist",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynksuite",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkdev",
+   "kind": "product",
+   "places": [
+    "help",
+    "launcher",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkbooking",
+   "kind": "product",
+   "places": [
+    "help",
+    "launcher",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkessential",
+   "kind": "product",
+   "places": [
+    "help",
+    "launcher",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap"
+   ],
+   "section": 1
+  },
+  {
+   "id": "side_indicator",
+   "kind": "item",
+   "what": "The side shown in the header: the workspace word (Business, My space, Organisation) or Storefront",
+   "places": [
+    "app_nav",
+    "help"
+   ],
+   "section": 1
+  },
+  {
+   "id": "side_switch",
+   "kind": "item",
+   "what": "One tap between the workspace and Storefront",
+   "places": [
+    "account_menu",
+    "app_nav",
+    "launcher",
+    "search"
+   ],
+   "section": 1
+  },
+  {
+   "id": "storefront_home",
+   "kind": "item",
+   "what": "Storefront home (/external/business)",
+   "places": [
+    "account_menu",
+    "app_nav",
+    "help",
+    "launcher",
+    "search"
+   ],
+   "section": 3
+  },
+  {
+   "id": "storefront_service_pages",
+   "kind": "item",
+   "what": "A Storefront group inside each service's own menu",
+   "places": [
+    "app_nav",
+    "help",
+    "search"
+   ],
+   "section": 3
+  },
+  {
+   "id": "my_storefront",
+   "kind": "item",
+   "what": "My Storefront: the public page at the username",
+   "places": [
+    "account_menu",
+    "help",
+    "search"
+   ],
+   "section": 2
+  },
+  {
+   "id": "storefront_plans",
+   "kind": "item",
+   "what": "Storefront plans (Free, Plus, Pro, Max, Enterprise)",
+   "places": [
+    "account_menu",
+    "help",
+    "pricing_page",
+    "search",
+    "settings"
+   ],
+   "section": 3
+  },
+  {
+   "id": "seller_support",
+   "kind": "item",
+   "what": "Seller support (the Storefront channel)",
+   "places": [
+    "account_menu",
+    "help",
+    "search"
+   ],
+   "section": 2
+  },
+  {
+   "id": "explore",
+   "kind": "item",
+   "what": "Explore everyone's offers",
+   "places": [
+    "footer",
+    "search",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 7
+  },
+  {
+   "id": "lynkacademy",
+   "kind": "item",
+   "what": "LynkAcademy (workspace lessons and Storefront courses)",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 5
+  },
+  {
+   "id": "lynkdriver",
+   "kind": "item",
+   "what": "LynkDriver, the one driver pack",
+   "places": [
+    "footer",
+    "help",
+    "search",
+    "settings",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 3
+  },
+  {
+   "id": "works_with_lynkomni",
+   "kind": "item",
+   "what": "Works with LynkOmni: the compatible hardware list",
+   "places": [
+    "footer",
+    "product_page",
+    "search",
+    "sitemap"
+   ],
+   "section": 5
+  },
+  {
+   "id": "change_view",
+   "kind": "item",
+   "what": "Change view (the interface for this device)",
+   "places": [
+    "account_menu",
+    "help",
+    "search",
+    "settings"
+   ],
+   "section": 1
+  },
+  {
+   "id": "why_this_view",
+   "kind": "item",
+   "what": "Why this view? (which rule chose the interface)",
+   "places": [
+    "account_menu",
+    "help"
+   ],
+   "section": 1
+  }
+ ]
+}

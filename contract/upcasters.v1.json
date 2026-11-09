@@ -7,9 +7,32 @@
    "to_schema_version": 2,
    "agreed": "2026-11-08 (Step 0, blueprint 42 A)",
    "rule": "Version 1 knew one currency: every amount was an integer RWF, and RWF has no minor unit, so a version 1 amount is already an integer in its minor unit. The upcaster sets schema_version to 2 and adds currency \"RWF\" to every payload that carries money and had no currency field (PaymentRecorded, ReturnRecorded, ProductCreated). SaleRecorded already carried its currency. Nothing else changes: no amount is rescaled, no field is removed, the signature and hash chain of the stored version 1 event stay as they were, because the upcast is applied when the event is read, never written back.",
-   "adds_currency_to": ["PaymentRecorded", "ReturnRecorded", "ProductCreated"],
+   "adds_currency_to": [
+    "PaymentRecorded",
+    "ReturnRecorded",
+    "ProductCreated"
+   ],
    "default_currency": "RWF",
-   "never": ["rescale an amount", "rewrite a stored event", "change an identifier", "change an event type"]
+   "never": [
+    "rescale an amount",
+    "rewrite a stored event",
+    "change an identifier",
+    "change an event type"
+   ]
+  },
+  {
+   "from_schema_version": 2,
+   "to_schema_version": 3,
+   "agreed": "2026-11-09 (BIZZ & DEVICE, Step 0)",
+   "rule": "Version 3 adds an optional side to every payload: internal (the workspace, using a service for one's own affairs) or external (the Storefront, offering to others and earning). Every version 2 event was written before Storefronts existed, so the upcaster sets schema_version to 3 and side \"internal\" when the payload has none. Nothing else changes: no field is removed or renamed, no amount is touched, and the stored version 2 event, its signature and its hash chain stay as they were, because the upcast is applied when the event is read, never written back.",
+   "adds_side": "internal",
+   "never": [
+    "rescale an amount",
+    "rewrite a stored event",
+    "change an identifier",
+    "change an event type",
+    "guess external"
+   ]
   }
  ]
 }

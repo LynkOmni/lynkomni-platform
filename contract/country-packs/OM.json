@@ -105,5 +105,18 @@
   "receipt": null,
   "confirmed": false,
   "note": "Set by the country's lawyer (ledger item country_legal_text). Until then nothing is printed as legal wording."
+ },
+ "storefront": {
+  "seller_income_reporting": {
+   "required": null,
+   "to": null,
+   "confirmed": false
+  },
+  "data_location": {
+   "in_country": null,
+   "confirmed": false
+  },
+  "age_of_majority": null,
+  "note": "Set per country after the lawyer review (ledger item storefront_legal_review); unknown until then."
  }
 }

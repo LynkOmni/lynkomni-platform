@@ -64,3 +64,17 @@ class OnThePlatform(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class OpenToAll(unittest.TestCase):
+    def test_every_family_is_open_to_every_entity(self):
+        from core import workspaces as W
+        from services.billing import FAMILIES
+        for e in W.ENTITIES:
+            for f in FAMILIES: self.assertTrue(W.open_to(e, f))
+        self.assertEqual([W.identity_check(e) for e in ("person", "company", "organisation")], ["personal", "business", "registration"])
+
+    def test_minimum_age(self):
+        from core import workspaces as W
+        self.assertEqual(W.minimum_age(), 18); self.assertEqual(W.minimum_age({"age_of_majority": 21}), 21)
+        self.assertEqual(W.minimum_age({"age_of_majority": 16}), 18)

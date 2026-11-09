@@ -217,6 +217,15 @@
     "by_automation"
    ],
    "note": "One step message to the customer, by the way they chose, in their language; held until quiet hours end when needed."
+  },
+  "DriverUpdateAvailable": {
+   "written_by": "cloud",
+   "payload": [
+    "version",
+    "level",
+    "devices"
+   ],
+   "note": "A LynkDriver release is out for this business's devices: level security, required or normal (BIZZ & DEVICE, 2026-11-09). Triggers driver-update-reminder."
   }
  }
 }
