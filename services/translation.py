@@ -151,7 +151,8 @@ def problems(src, out):
     return None
 
 
-_SCRIPT_WORD = {"arabic": "ARABIC", "hebrew": "HEBREW", "devanagari": "DEVANAGARI", "cyrillic": "CYRILLIC",
+_SCRIPT_WORD = {"arabic": "ARABIC", "hebrew": "HEBREW", "devanagari": "DEVANAGARI", "cyrillic": "CYRILLIC", "bengali": "BENGALI",
+                "tamil": "TAMIL", "thai": "THAI", "ethiopic": "ETHIOPIC",
                 "han-simplified": "CJK UNIFIED", "han-traditional": "CJK UNIFIED", "japanese": ("CJK UNIFIED", "HIRAGANA", "KATAKANA"), "korean": "HANGUL"}
 
 

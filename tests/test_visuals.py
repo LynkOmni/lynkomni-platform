@@ -187,8 +187,16 @@ class VCardFaces(unittest.TestCase):
             self.assertIn(f"${f['monthly_cap_usd']:,}", svg)
         self.assertIn("placeholders", svg)
 
-    def test_emblem_comes_from_the_brand_surface_in_one_colour(self):
-        self.assertEqual(brand.for_surface("vcard-face", "light", 38).variant, "mono")
+    def test_full_logo_comes_from_the_brand_surface_in_one_colour(self):
+        """Owner decision 9 November 2026: card faces carry the full logo (emblem and wordmark as one artwork), not the emblem alone."""
+        for width in (38, 96, 120):
+            a = brand.for_surface("vcard-face", "light", width)
+            self.assertEqual((a.id if hasattr(a, "id") else a.path.rsplit("-", 2)[0].rsplit("/", 1)[1].replace("lynkomni-", ""), a.variant), ("logo", "mono"))
+        for tier in ("edge", "hub", "core", "omni"):
+            for vid in (f"vcard-{tier}", f"vcard-{tier}-back"):
+                svg = visuals.svg_text(vid)
+                self.assertIn('data-brand="logo"', svg, vid)
+                self.assertNotIn('data-brand="emblem"', svg, vid)
 
     def test_gate_rejects_wrong_card_text_numbers_and_colours(self):
         bad = ('<svg viewBox="0 0 1 1" role="img"><title id="t">a long enough title</title><!--card:start--><g><text>BANK OF X</text>'

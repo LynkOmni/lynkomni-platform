@@ -1160,6 +1160,41 @@
     }
    ]
   },
+  "agent-point": {
+   "kind": "illustration",
+   "alt": "A shop counter with cash notes and a phone showing a tick, joined by a dashed line to a partner building",
+   "purpose": "Agent point home: the agent serves customers with their own cash, and the licensed partner confirms every transaction before cash changes hands",
+   "used_in": [
+    "agent-home"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/agent-point.light.svg",
+     "sha256": "f6039ac73cea970c0a6bcfe88e8e4908ab10254ad3e98b02021e524f4ed282b5",
+     "bytes": 1726
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/agent-point.dark.svg",
+     "sha256": "fb36defc6fb924775f4bddbd83093979e0a6e5000c4f48df5bc6c91c88dce8da",
+     "bytes": 1726
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/agent-point.contrast-light.svg",
+     "sha256": "1dd466877fb5806933391fd35588f5455f59181993c1c0c1c5b4231ae9e771b3",
+     "bytes": 1726
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/agent-point.contrast-dark.svg",
+     "sha256": "5af13a007dc293f26a7c8e5931f496100fcbede620e21848ffbb27102e2a0b60",
+     "bytes": 1726
+    }
+   ]
+  },
   "chart-pricing-ladder": {
    "kind": "chart",
    "alt": "Bar chart of the standard monthly price in US dollars for the Plus, Pro and Max tiers of each product family.",
@@ -1173,26 +1208,26 @@
     {
      "theme": "light",
      "file": "charts/chart-pricing-ladder.light.svg",
-     "sha256": "8a2c516be7b6f2b252340e746654e2ddbb3a56bb5b1dc93b0a8f985190637518",
-     "bytes": 19080
+     "sha256": "89ccd4c1bc89be600ce16e1352ff916e31c7a9689e16d9c76d84f360cb440fb5",
+     "bytes": 22280
     },
     {
      "theme": "dark",
      "file": "charts/chart-pricing-ladder.dark.svg",
-     "sha256": "ce0bb4b909c65163014b7a6955eef37848b0ddfd426df8e6ccb4070e8effcb8b",
-     "bytes": 19080
+     "sha256": "2ae0f7b4598f2d3205df3eead7fd005ffcc7e68a1cfaaa94a3276f8af1090052",
+     "bytes": 22280
     },
     {
      "theme": "contrast-light",
      "file": "charts/chart-pricing-ladder.contrast-light.svg",
-     "sha256": "b3684284ec8fa3baad0f6922367e6d40a1dfe9df1042829673dfe1f25943c968",
-     "bytes": 19080
+     "sha256": "429f1a3007b32991c323ab9ea873f408bb28a45ef47386c9160342ab894f72ae",
+     "bytes": 22280
     },
     {
      "theme": "contrast-dark",
      "file": "charts/chart-pricing-ladder.contrast-dark.svg",
-     "sha256": "e67f179844a2df447fc0fa03dcb67b042053ff2c54f28bb9d244cd15c5a0a91a",
-     "bytes": 19080
+     "sha256": "92fc77197bb1642b52d135a83856f5bf634a7c47c3a1e1b1f0fa418f72bf0405",
+     "bytes": 22280
     }
    ]
   },
@@ -1208,26 +1243,26 @@
     {
      "theme": "light",
      "file": "charts/chart-revenue-path.light.svg",
-     "sha256": "c4a1c7a1b9a9200d6d793a8fb7a32b8852f62e46964f9f0c37fc56323c030cb2",
-     "bytes": 9457
+     "sha256": "d490cdb2c230df19f5a4227615fbb3f48c930b5e6719f9debf4c09219dde277b",
+     "bytes": 11297
     },
     {
      "theme": "dark",
      "file": "charts/chart-revenue-path.dark.svg",
-     "sha256": "e8e14babea76042ea30f6dec0084cf272bcaa338ef5e3fa7ac1c2d02e6466808",
-     "bytes": 9457
+     "sha256": "c89e2e62fe744ee05aca8359f80e77e45b3543b6c9d400f49a41bf03029890b3",
+     "bytes": 11297
     },
     {
      "theme": "contrast-light",
      "file": "charts/chart-revenue-path.contrast-light.svg",
-     "sha256": "3cc70c20302c6068699de071807e7358c1e0f8e43a3122d105f79b46ce981483",
-     "bytes": 9457
+     "sha256": "8276dcff2cf93fb18b61081a9c36b99a20a6f438826c684041f25e1f1312cbcb",
+     "bytes": 11297
     },
     {
      "theme": "contrast-dark",
      "file": "charts/chart-revenue-path.contrast-dark.svg",
-     "sha256": "ed59fd272b98dfd024c933174b3c2808815b69038a596ab4825ef8e291e6bbd5",
-     "bytes": 9457
+     "sha256": "95179d08fcb836b47b9969d3701651c06f0195dbce458535ad35cca812b10fb6",
+     "bytes": 11297
     }
    ]
   },
@@ -1244,26 +1279,26 @@
     {
      "theme": "light",
      "file": "diagrams/diagram-sync-states.light.svg",
-     "sha256": "450eaca41b704eb7f99504a67ba788c68696877008d9b455831b587cb34aeb8b",
-     "bytes": 11689
+     "sha256": "91728b694011d31141132f60924b66438efa8086ecb773676b8145db681a8b48",
+     "bytes": 13689
     },
     {
      "theme": "dark",
      "file": "diagrams/diagram-sync-states.dark.svg",
-     "sha256": "41aa33741dde38ac258b57246659d7eb98f506f026853d1b05321948c9b7a9bc",
-     "bytes": 11689
+     "sha256": "8c374a6a541392602a165b969287975c649cba0e87eb8a3f6341aa3e15aa9507",
+     "bytes": 13689
     },
     {
      "theme": "contrast-light",
      "file": "diagrams/diagram-sync-states.contrast-light.svg",
-     "sha256": "7cc6693ce35308588cd3a86482aee9a2c0759641f9b06aab1b5ab5a64387b00f",
-     "bytes": 11689
+     "sha256": "a6a98f66552f16e67bda7c3a4bfc83952f936627bf45b3cf9975c52f5d18b51f",
+     "bytes": 13689
     },
     {
      "theme": "contrast-dark",
      "file": "diagrams/diagram-sync-states.contrast-dark.svg",
-     "sha256": "7a4617986da17e3dd55bb4ea2761db37ce333757d295b668febe58a18912a4cb",
-     "bytes": 11689
+     "sha256": "f50e7a53c89bf4ced3803219ae0f899b4c0aeb1e81950e45383457af634247b3",
+     "bytes": 13689
     }
    ]
   },
@@ -1421,7 +1456,7 @@
   },
   "vcard-edge": {
    "kind": "card",
-   "alt": "Slate grey LynkVCard for the Free tier: one dot etched near the right edge with pulse rings, the emblem, masked number dots and the line EDGE // FIRST LIGHT.",
+   "alt": "Slate grey LynkVCard for the Free tier: one dot etched near the right edge with pulse rings, the LynkOmni logo, masked number dots and the line EDGE // FIRST LIGHT.",
    "purpose": "LynkVCard face for the Free tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
    "used_in": [
     "card-list",
@@ -1433,14 +1468,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-edge.svg",
-     "sha256": "d39ba9d7bf0e49e7e71a99e9d8942974cd4caebdbd86d599f1170da3cd64d9f9",
-     "bytes": 15063
+     "sha256": "09f497ad6ee346f2ba69ecc21e8f69c5da579d26d1725202980ce6e6b8d20105",
+     "bytes": 7447
     }
    ]
   },
   "vcard-hub": {
    "kind": "card",
-   "alt": "Brushed silver LynkVCard for the Plus tier: a hub with three lines running out to three nodes, the emblem, masked number dots and the line HUB // CENTER POINT.",
+   "alt": "Brushed silver LynkVCard for the Plus tier: a hub with three lines running out to three nodes, the LynkOmni logo, masked number dots and the line HUB // CENTER POINT.",
    "purpose": "LynkVCard face for the Plus tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
    "used_in": [
     "card-list",
@@ -1452,14 +1487,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-hub.svg",
-     "sha256": "cb3b56032a901ed22dccd9b190a45e0cd285e4988d36e4f27db2e05be765d4dd",
-     "bytes": 15712
+     "sha256": "405f0a94413ed27cdf5b437711731bbce513a030035022c6b7e466a917172c70",
+     "bytes": 8096
     }
    ]
   },
   "vcard-core": {
    "kind": "card",
-   "alt": "Jet black LynkVCard for the Pro tier: a glowing green core dot inside a spend ring that is partly filled, the emblem, masked number dots and the line CORE // DEEP SYSTEM.",
+   "alt": "Jet black LynkVCard for the Pro tier: a glowing green core dot inside a spend ring that is partly filled, the LynkOmni logo, masked number dots and the line CORE // DEEP SYSTEM.",
    "purpose": "LynkVCard face for the Pro tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
    "used_in": [
     "card-list",
@@ -1471,14 +1506,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-core.svg",
-     "sha256": "6223bd4f6b4e67d330c946d727ad53614cf357dc64bf26dfd817cce273d5c746",
-     "bytes": 15376
+     "sha256": "bff08193cbe82e2bd5f487413922707e2f007bc81a9783a90ba2849441ce475d",
+     "bytes": 7760
     }
    ]
   },
   "vcard-omni": {
    "kind": "card",
-   "alt": "Solid obsidian LynkVCard for the Max tier: an engraved sphere, the emblem, a polished edge, no number on the front, and the line OMNI // OWN ALL COMMERCE.",
+   "alt": "Solid obsidian LynkVCard for the Max tier: an engraved sphere, the LynkOmni logo, a polished edge, no number on the front, and the line OMNI // OWN ALL COMMERCE.",
    "purpose": "LynkVCard face for the Max tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
    "used_in": [
     "card-list",
@@ -1490,8 +1525,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni.svg",
-     "sha256": "bfc51cde863a04ef97b6b3218f0bf0905fba0865fb132d2765c42c3f0c116fed",
-     "bytes": 14109
+     "sha256": "47bffc5e7363e2051570f81601c786718a0f0d9d654358507b9e68c60867bff3",
+     "bytes": 6493
     }
    ]
   },
@@ -1508,32 +1543,32 @@
     {
      "theme": "light",
      "file": "diagrams/diagram-vcard-tiers.light.svg",
-     "sha256": "980a81c289e5fddaabd48b489da4a216eba007663f316fb976d23a00a0a19be2",
-     "bytes": 19952
+     "sha256": "4f613c2c9e9eb4b654b648b608d472136af39df75aa5ade184ebb7dd3e5b4e11",
+     "bytes": 22432
     },
     {
      "theme": "dark",
      "file": "diagrams/diagram-vcard-tiers.dark.svg",
-     "sha256": "7630acebd00279f1e076613fb01d1bccd63b4b7228b3042db3fb31ecfc1068ba",
-     "bytes": 19952
+     "sha256": "a7b8d8967241bf1468cb4232a0158d2e33bf84c09e2d81e0242d4854e851637a",
+     "bytes": 22432
     },
     {
      "theme": "contrast-light",
      "file": "diagrams/diagram-vcard-tiers.contrast-light.svg",
-     "sha256": "71728183f4995cd34ecf60dea452ec2b11d42926d80b9f4a676a23a1e027e768",
-     "bytes": 19952
+     "sha256": "25cf0310e70e77b068d5e039a7c5ce3a81ad8a82080d93a3d249f424d0c1a809",
+     "bytes": 22432
     },
     {
      "theme": "contrast-dark",
      "file": "diagrams/diagram-vcard-tiers.contrast-dark.svg",
-     "sha256": "aaeedb3773b184461e1e6f193ce85f6430a38a2ad2033d62d0a2e726051b8283",
-     "bytes": 19952
+     "sha256": "bb72a2244eff8da736d6890aa4c7e7a52db0c90a30add5921520549f95b87870",
+     "bytes": 22432
     }
    ]
   },
   "vcard-edge-back": {
    "kind": "card",
-   "alt": "Back of the slate EDGE LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+   "alt": "Back of the slate EDGE LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
    "purpose": "Back of the Free LynkVCard: shows where the licensed issuer displays the card details",
    "used_in": [
     "card-detail"
@@ -1543,14 +1578,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-edge-back.svg",
-     "sha256": "6dbfc48308120ab118f00b16fcdf437ae2bcef0b87190e4c673e7bddb8653c07",
-     "bytes": 13375
+     "sha256": "0362abe143a9f84c927aeb6ecde3ee8d7544c2f983aeed077a5e372c613d8990",
+     "bytes": 5678
     }
    ]
   },
   "vcard-hub-back": {
    "kind": "card",
-   "alt": "Back of the silver HUB LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+   "alt": "Back of the silver HUB LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
    "purpose": "Back of the Plus LynkVCard: shows where the licensed issuer displays the card details",
    "used_in": [
     "card-detail"
@@ -1560,14 +1595,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-hub-back.svg",
-     "sha256": "3a1ce991a37b9b4f0bee4490f2e313448d95eccec081a7235918ef8f76dc40ca",
-     "bytes": 13373
+     "sha256": "3e12499ac71dbd23891cb816a3965e7db08336919c1014ca0ed91efe616b9159",
+     "bytes": 5676
     }
    ]
   },
   "vcard-core-back": {
    "kind": "card",
-   "alt": "Back of the black CORE LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+   "alt": "Back of the black CORE LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
    "purpose": "Back of the Pro LynkVCard: shows where the licensed issuer displays the card details",
    "used_in": [
     "card-detail"
@@ -1577,14 +1612,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-core-back.svg",
-     "sha256": "61431d80d5ec6020894c703da6f439c869f6f1e2b253c0cac9c5add4d88efc1a",
-     "bytes": 13375
+     "sha256": "1605939eede5482363543d144390812ed4f6d1a4f3c9f842295e3f673737a66b",
+     "bytes": 5678
     }
    ]
   },
   "vcard-omni-back": {
    "kind": "card",
-   "alt": "Back of the obsidian OMNI LynkVCard: a dashed frame where the issuer shows the card details, the emblem and the words LynkOmni Reserve Network. No number or bank name is drawn.",
+   "alt": "Back of the obsidian OMNI LynkVCard: a dashed frame where the issuer shows the card details, the LynkOmni logo and the words LynkOmni Reserve Network. No number or bank name is drawn.",
    "purpose": "Back of the Max LynkVCard: shows where the licensed issuer displays the card details",
    "used_in": [
     "card-detail"
@@ -1594,8 +1629,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni-back.svg",
-     "sha256": "eaa0c4e671bdc7967cf31dc7c34b84a7298c5390c91a10182adc9a6adce6bd84",
-     "bytes": 13797
+     "sha256": "988ceff630da2441a749ae196519ee35f93715d69014b649aeba6f42031a1fa3",
+     "bytes": 6180
     }
    ]
   },
@@ -1612,8 +1647,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-core-near-limit.svg",
-     "sha256": "d3c9ed70e03d7de3ee3f56d70da001a3c80a4e38c5d6a4595756e21e0b0e1d88",
-     "bytes": 15470
+     "sha256": "28263697488ad85e2c88fa907fb8bda3a3a7aefb1c3133f11b2bece511a707e8",
+     "bytes": 7847
     }
    ]
   },
@@ -1630,8 +1665,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni-physical.svg",
-     "sha256": "e9b5eb7f43b5dbc45fdec28e7403bf79ead93e1f9180afb1f79113220fa4d59a",
-     "bytes": 14589
+     "sha256": "e80487f14fbc04a91733c1bf12b86afffd20dd2d32d12ae2fc7d6952c0a5ffd0",
+     "bytes": 6966
     }
    ]
   }

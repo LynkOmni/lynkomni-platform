@@ -20,6 +20,9 @@ test("offline font files: Latin always, plus each language's script", () => {
   assert.ok(ar.includes("noto-sans-arabic-arabic.woff2") && ar.includes("noto-kufi-arabic-arabic.woff2") && ar.includes("inter-latin.woff2"));
   assert.ok(fontFilesFor(["hi"]).includes("noto-sans-devanagari-devanagari.woff2"));
   assert.ok(fontFilesFor(["he"]).includes("noto-sans-hebrew-hebrew.woff2"));
+  assert.ok(fontFilesFor(["bn"]).includes("noto-sans-bengali-bengali.woff2"));
+  assert.ok(fontFilesFor(["am"]).includes("noto-sans-ethiopic-ethiopic.woff2"));
+  assert.ok(fontFilesFor(["yo"]).includes("inter-vietnamese.woff2"), "Yoruba dot-below vowels live in the Vietnamese files");
 });
 
 test("every file the apps may ask for is declared in fonts.css", () => {

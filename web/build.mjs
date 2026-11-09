@@ -12,7 +12,7 @@ import { fileURLToPath } from "node:url";
 const WEB = dirname(fileURLToPath(import.meta.url));
 const ROOT = dirname(WEB);
 const OUT = join(WEB, "emulators", "dist");
-const DEVICE_MODULES = ["ts/src/brand.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/pos.js", "ts/src/merchant.js", "ts/src/business.js", "ts/src/agent.js", "ts/src/restaurant.js", "ts/src/emulator.js"];
+const DEVICE_MODULES = ["ts/src/brand.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/pos.js", "ts/src/merchant.js", "ts/src/business.js", "ts/src/agent.js", "ts/src/restaurant.js", "ts/src/emulator.js", "SH=ts/src/shell.js", "ts/src/deviceshell.js"];
 const EMULATORS = [
   { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: [...DEVICE_MODULES, "web/emulators/pos-terminal/app.js"] },
   { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: [...DEVICE_MODULES, "ts/src/usernames.generated.js", "ts/src/usernames.js", "web/emulators/merchant-phone/app.js"] },
@@ -36,10 +36,16 @@ function stripComments(js) {
   return js.replace(/^[ \t]*\/\*[\s\S]*?\*\/[ \t]*\n/gm, "").replace(/^[ \t]*\/\/.*\n/gm, "");
 }
 // Join ES modules into one script: drop import lines and the export keyword. Modules are listed in dependency order.
+// A module listed as "NS=path" is joined in its own scope and reached through that name (import * as NS from "path"), so its
+// names never clash with the device modules' own (ts/src/shell.ts and ts/src/emulator.ts both have esc, Link and state).
 function bundle(mods) {
-  const parts = mods.map((m) => {
+  const parts = mods.map((spec) => {
+    const [ns, m] = spec.includes("=") ? spec.split("=") : [null, spec];
     const js = read(join(WEB, ".build", m));
-    return `// ---- ${m}\n` + stripComments(js).replace(/^import[^;]*;\s*$/gm, "").replace(/^export \{\s*\};?\s*$/gm, "").replace(/^export (?=(const|function|class|let|async))/gm, "");
+    const body = stripComments(js).replace(/^import[^;]*;\s*$/gm, "").replace(/^export \{\s*\};?\s*$/gm, "").replace(/^export (?=(const|function|class|let|async))/gm, "");
+    if (!ns) return `// ---- ${m}\n` + body;
+    const names = [...js.matchAll(/^export (?:const|function|class|let|async function) (\w+)/gm)].map((x) => x[1]);
+    return `// ---- ${m} (as ${ns})\nconst ${ns} = (() => {\n${body}\nreturn { ${names.join(", ")} };\n})();`;
   });
   return `"use strict";\n(() => {\n${parts.join("\n")}\n})();`;
 }
@@ -69,7 +75,7 @@ for (const e of EMULATORS) {
   const dir = join(WEB, "emulators", e.id);
   let html = read(join(dir, "shell.html"))
     .replace("/*@TOKENS@*/", () => fontCss + "\n" + tokens)
-    .replace("/*@STYLE@*/", () => [...(e.extraCss ?? []), ...(e.modules.includes("ts/src/footer.js") ? ["web/footer/footer.css"] : [])].map((c) => read(join(ROOT, c))).join("\n") + "\n" + read(join(dir, "style.css")))   // the footer's styles travel with the footer module
+    .replace("/*@STYLE@*/", () => [...(e.extraCss ?? []), ...(e.modules.includes("ts/src/footer.js") ? ["web/footer/footer.css"] : []), ...(e.modules.includes("ts/src/deviceshell.js") ? ["web/device/deviceshell.css"] : [])].map((c) => read(join(ROOT, c))).join("\n") + "\n" + read(join(dir, "style.css")))   // the footer's styles travel with the footer module
     .replace("/*@BODYMARK@*/", () => D.brand.body)
     .replace(/\/\*@I:([a-z0-9-]+)@\*\//g, (_, id) => `<span class="ic" aria-hidden="true">${D.icons[id] ?? (() => { throw new Error(`unknown icon ${id}`); })()}</span>`)
     .replace("/*@SCRIPT@*/", () => `const DATA = ${JSON.stringify(packData(D)).replace(/</g, "\\u003c")};\n(async () => {\n${UNPACK}\n${INFLATE}\n${bundle(e.modules)}\ndocument.documentElement.dataset.ready = "1"; window.__readyAt = performance.now();\n})();`);

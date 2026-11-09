@@ -48,5 +48,85 @@
   "note": "A pack alone never turns cards on. Needs a signed issuer agreement, legal sign-off and the activation checklist."
  },
  "vcard_card_networks_note": "set from the issuer contract, never assumed",
- "note": "Generated from ISO 3166, ISO 4217, IANA tz and CLDR by tools/country_packs.py. Tax, fiscal workflow, partners and price index stay unconfirmed until a person confirms them; then copy the facts in and set source to curated."
+ "note": "Generated from ISO 3166, ISO 4217, IANA tz and CLDR by tools/country_packs.py. Tax, fiscal workflow, partners and price index stay unconfirmed until a person confirms them; then copy the facts in and set source to curated.",
+ "holidays": {
+  "source": "holidays 0.84 (Vacanza team, MIT)",
+  "names_in": "en",
+  "confirmed": false,
+  "years": {
+   "2026": {
+    "2026-01-03": "Birthday of Imam Ali (estimated)",
+    "2026-01-17": "Isra' and Mi'raj (estimated)",
+    "2026-02-04": "Birthday of Mahdi (estimated)",
+    "2026-02-11": "Islamic Revolution Day",
+    "2026-03-11": "Martyrdom of Imam Ali (estimated)",
+    "2026-03-20": "Iranian Oil Industry Nationalization Day",
+    "2026-03-21": "Eid al-Fitr (estimated); Nowruz",
+    "2026-03-22": "Eid al-Fitr Holiday (estimated); Nowruz Holiday",
+    "2026-03-23": "Nowruz Holiday",
+    "2026-03-24": "Nowruz Holiday",
+    "2026-04-01": "Islamic Republic Day",
+    "2026-04-02": "Nature's Day",
+    "2026-04-14": "Martyrdom of Imam Ja'far al-Sadiq (estimated)",
+    "2026-05-28": "Eid al-Adha (estimated)",
+    "2026-06-04": "Death of Imam Khomeini",
+    "2026-06-05": "15 Khordad Uprising; Eid al-Ghadeer (estimated)",
+    "2026-06-25": "Tasua (estimated)",
+    "2026-06-26": "Ashura (estimated)",
+    "2026-08-04": "Arbaeen (estimated)",
+    "2026-08-12": "Death of Prophet Muhammad and Martyrdom of Hasan ibn Ali (estimated)",
+    "2026-08-14": "Martyrdom of Ali al-Rida (estimated)",
+    "2026-08-22": "Martyrdom of Hasan al-Askari (estimated)",
+    "2026-08-31": "Birthday of Muhammad and Imam Ja'far al-Sadiq (estimated)",
+    "2026-11-14": "Martyrdom of Fatima (estimated)",
+    "2026-12-23": "Birthday of Imam Ali (estimated)"
+   },
+   "2027": {
+    "2027-01-06": "Isra' and Mi'raj (estimated)",
+    "2027-01-24": "Birthday of Mahdi (estimated)",
+    "2027-02-11": "Islamic Revolution Day",
+    "2027-03-01": "Martyrdom of Imam Ali (estimated)",
+    "2027-03-10": "Eid al-Fitr (estimated)",
+    "2027-03-11": "Eid al-Fitr Holiday (estimated)",
+    "2027-03-20": "Iranian Oil Industry Nationalization Day",
+    "2027-03-21": "Nowruz",
+    "2027-03-22": "Nowruz Holiday",
+    "2027-03-23": "Nowruz Holiday",
+    "2027-03-24": "Nowruz Holiday",
+    "2027-04-01": "Islamic Republic Day",
+    "2027-04-02": "Nature's Day",
+    "2027-04-03": "Martyrdom of Imam Ja'far al-Sadiq (estimated)",
+    "2027-05-17": "Eid al-Adha (estimated)",
+    "2027-05-25": "Eid al-Ghadeer (estimated)",
+    "2027-06-04": "Death of Imam Khomeini",
+    "2027-06-05": "15 Khordad Uprising",
+    "2027-06-15": "Tasua (estimated)",
+    "2027-06-16": "Ashura (estimated)",
+    "2027-07-25": "Arbaeen (estimated)",
+    "2027-08-02": "Death of Prophet Muhammad and Martyrdom of Hasan ibn Ali (estimated)",
+    "2027-08-03": "Martyrdom of Ali al-Rida (estimated)",
+    "2027-08-11": "Martyrdom of Hasan al-Askari (estimated)",
+    "2027-08-20": "Birthday of Muhammad and Imam Ja'far al-Sadiq (estimated)",
+    "2027-11-03": "Martyrdom of Fatima (estimated)",
+    "2027-12-12": "Birthday of Imam Ali (estimated)",
+    "2027-12-26": "Isra' and Mi'raj (estimated)"
+   }
+  }
+ },
+ "invoice_numbering": {
+  "series_per": "merchant",
+  "sequential": true,
+  "format": "{series}-{number}",
+  "offline_blocks": true,
+  "unused_numbers": "voided_with_reason",
+  "reuse": false,
+  "confirmed": false,
+  "note": "services/invoicing.py rules; a country's tax authority may require more (for example a registered series). Set confirmed when a person checks the country."
+ },
+ "legal_text": {
+  "invoice": null,
+  "receipt": null,
+  "confirmed": false,
+  "note": "Set by the country's lawyer (ledger item country_legal_text). Until then nothing is printed as legal wording."
+ }
 }

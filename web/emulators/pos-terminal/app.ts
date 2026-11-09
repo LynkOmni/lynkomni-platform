@@ -10,12 +10,16 @@ import { TEST_LANGS, esc, newId, pseudo, publicId, randomBytes } from "../../../
 import { brandMark } from "../../../ts/src/brand.js";
 import { shortFooterHtml } from "../../../ts/src/footer.js";
 import type { BrandPlaces } from "../../../ts/src/brand.js";
+import { DeviceShell, designedState, screenArticles } from "../../../ts/src/deviceshell.js";
+import type { DsScreen, StatePictures } from "../../../ts/src/deviceshell.js";
+import type { Entry } from "../../../ts/src/shell.js";
 
 interface BuildData {
   icons: Record<string, string>;
   brand: { body: string; receipt: string; places: BrandPlaces };
   pictures: { offLight: string; offDark: string; offAlt: string };
   states: Record<string, { label: string; meaning: string }>;
+  statePictures: StatePictures;
   /** Every country pack, the neutral sample pack first (Step 0): the chooser never opens on a real country. */
   packs: Record<string, CountryPack>;
   packOrder: string[];
@@ -67,8 +71,9 @@ const S = {
 /** Agent point on the handheld (blueprint 42 I): one sandbox partner; its float sits in the agent's own account there and is only read. */
 const PARTNER_LIMITS: Limits = { per_transaction: 200_000, per_day: 2_000_000 };
 const PARTNER_BPS = 100;
-const TILE_ICON: Record<string, string> = { sell: "ui-cart", agent: "ui-pay-mobile-money", collect: "ui-receipt", bills: "ui-doc", airtime_data: "ui-bolt", tickets: "ui-grid", government: "ui-pay-bank",
-  remittances: "ui-globe", partner_finance: "ui-pay-wallet", customers_credit: "ui-user", reports: "ui-chart", settings: "ui-settings" };
+/** The low-literacy picture set for the 12 tiles (43 G, 44 L row 1; lynkomni-icons lit-*): the word always sits beside it. */
+const TILE_ICON: Record<string, string> = { sell: "lit-sell", agent: "lit-agent", collect: "lit-collect", bills: "lit-bills", airtime_data: "lit-airtime-data", tickets: "lit-tickets", government: "lit-government",
+  remittances: "lit-remittance", partner_finance: "lit-partner-finance", customers_credit: "lit-customers-credit", reports: "lit-reports", settings: "lit-settings" };
 const TILE_SERVICES: Record<string, readonly string[]> = { agent: ["cash_withdrawal", "cash_deposit", "money_transfer"], collect: COLLECTION_KINDS, partner_finance: FINANCE_PRODUCTS };
 const DIRECT: Record<string, string> = { bills: "bills", airtime_data: "airtime_data", tickets: "tickets", government: "government_payment", remittances: "remittance" };
 
@@ -260,10 +265,52 @@ function redeem(): void {
   window.setTimeout(() => { S.flash = ""; draw(); }, 1600);
 }
 
+
+// ---- the shell parts on the terminal (41 B): search, help, account menu, first-run language card, every screen's address ---------
+const SCREEN_PATH: Record<Screen, string> = { lock: "/", home: "/", sell: "/sell", cart: "/sell/basket", pay: "/sell/payment", cash: "/sell/payment", momo: "/sell/payment",
+  card: "/sell/payment", waiting: "/sell/payment", off: "/sell/payment", done: "/sell/receipt", menu: "/business", sales: "/sell/sales", sale: "/sell/sales", count: "/sell/shifts",
+  shopqr: "/business/online-shop", pick: "/services", agent: "/services", agentdone: "/services", code: "/services", credit: "/crm" };
+const screenNow = (): DsScreen => ({ id: S.screen, title: document.querySelector("#display .app h1")?.textContent?.trim() || t("sample_shop"), path: SCREEN_PATH[S.screen] });
+function entries(): Entry[] {
+  const go = (id: string, key: string, kind: Entry["kind"] = "action"): Entry => ({ id, kind, title: t(key), act: `go:${id}` });
+  return [
+    { id: "new-sale", kind: "action", title: t("new_sale"), act: "newsale", keywords: [t("sell")] },
+    go("sales", "sales", "report"), go("count", "count"), go("shopqr", "shop_qr"), go("menu", "menu", "setting"),
+    { id: "lowlit", kind: "setting", title: t("low_literacy"), act: "lowlit" },
+    ...HANDHELD_TILES.map((k): Entry => ({ id: `tile-${k}`, kind: "action", title: t(`tile_${k}`), act: `tile:${k}` })),
+    ...CATALOG.map((p): Entry => ({ id: p.id, kind: "product", title: p.name, subtitle: money(p.price), act: `add:${p.id}`, keywords: [p.barcode ?? ""] })),
+    ...S.credit.map((c, i): Entry => ({ id: `cust-${i}`, kind: "customer", title: c.name, subtitle: c.owes ? money(c.owes) : "", act: `custopen:${i}` })),
+    ...S.sales.map((x, i): Entry => ({ id: x.sale.sale_id, kind: "order", title: x.sale.receipt_number_local, subtitle: money(x.sale.total), act: `sale:${i}` })),
+  ];
+}
+const DSH = new DeviceShell({
+  t, icon: (id) => icon(id), clock,
+  screen: screenNow,
+  entries,
+  articles: (id) => screenArticles(t, id, screenNow().title),
+  sync: () => ({ link: S.online ? "good" : "offline", pending: S.events.filter((e) => e.sync !== "accepted").length, lastSync: S.events.find((e) => e.sync === "accepted")?.at ?? null, dataSaver: false, forcedOffline: false }),
+  account: () => ({ name: t("role_cashier"), lynkId: "LOID-4821-9035-7715", businesses: [{ id: "b1", name: SHOP, current: true }], role: "cashier", roles: ["cashier", "manager", "owner"],
+    theme: S.theme, language: PACKS[S.lang]?.native ?? S.lang, region: pack().sample ? t("sample_country") : pack().name }),
+  locale: () => ({ language: PACKS[S.lang]?.native ?? S.lang, region: pack().sample ? t("sample_country") : pack().name, currency: pack().currency, english: S.lang === "en" }),
+  run: (a) => {
+    if (a === "pictures") { S.lowLiteracy = DSH.pictures; return; }
+    if (a === "lang:en") { S.lang = "en"; ($("#cLang") as HTMLSelectElement).value = "en"; return; }
+    if (a === "locale:change") { $("#cLang").focus(); return; }
+    if (a === "shell:theme") { S.theme = S.theme === "dark" ? "light" : "dark"; ($("#cDark") as HTMLInputElement).checked = S.theme === "dark"; return; }
+    if (a === "shell:signout") { S.screen = "lock"; S.input = ""; return; }
+    if (a === "toggle:forced" || a === "sync:now") return;
+    if (a.startsWith("add:")) { act(a); S.screen = "cart"; return; }
+    if (a.startsWith("custopen:")) { S.screen = "credit"; S.selected = Number(a.slice(9)) || 0; return; }
+    if (S.screen === "lock") S.screen = "home";
+    act(a);
+  },
+  redraw: () => draw(),
+});
+
 // ---- screens ------------------------------------------------------------------------------------------------------
 function top(title: string, backable = true): string {
   return `<div class="bar">${backable ? `<button class="iconbtn" data-act="cancel" aria-label="${esc(t("back"))}">${icon("ui-arrow-left")}</button>` : `${brandMark(DATA.brand.places, "app-top-bar", S.theme === "dark", "logo")}`}
-    <h1>${esc(title)}</h1><button class="iconbtn" data-act="menu" aria-label="${esc(t("menu"))}">${icon("ui-menu")}</button></div>`;
+    <h1>${esc(title)}</h1>${DSH.bar({ chip: false, account: false })}<button class="iconbtn" data-act="menu" aria-label="${esc(t("menu"))}">${icon("ui-menu")}</button></div>`;
 }
 function totalBar(label: string, act: string, enabled: boolean): string {
   return `<div class="foot"><div class="sum"><span>${S.cart.count()} ${esc(t("items"))}</span><strong>${esc(money(S.cart.total()))}</strong></div>
@@ -364,13 +411,15 @@ function view(): string {
       return `${top(t("menu"))}<ul class="menu"><li><button data-act="go:sales">${icon("ui-receipt")}${esc(t("sales"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="go:count">${icon("product-ledger")}${esc(t("count"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="go:shopqr">${icon("ui-qr")}${esc(t("shop_qr"))}${icon("ui-chevron-right")}</button></li>
+        <li><button data-act="dsh:account">${icon("ui-user")}${esc(t("account_menu"))}${icon("ui-chevron-right")}</button></li>
+        <li><button data-act="dsh:sync">${icon(S.online ? "ui-sync" : "ui-offline")}${esc(t("sync"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="lowlit" aria-pressed="${S.lowLiteracy}">${icon("ui-grid")}${esc(t("low_literacy"))}${S.lowLiteracy ? icon("ui-check") : icon("ui-chevron-right")}</button></li>
         <li><button data-act="lock">${icon("ui-lock")}${esc(t("lock"))}${icon("ui-chevron-right")}</button></li></ul>${shortFooterHtml(new Date(), pack().tz)}`;
     case "sales":
       return `${top(t("sales"))}<ul class="lines">${S.sales.map((s, i) => { const p = s.payments[s.payments.length - 1]; const ps = p ? paymentState(p.status, S.online) : null;
           const ev = S.events.find((e) => e.type === "SaleRecorded" && (e.payload as SalePayload).sale_id === s.sale.sale_id);
           return `<li><button class="row" data-act="sale:${i}"><div><span class="nm">${esc(s.sale.receipt_number_local)} · ${esc(clock(s.at))}${s.voided ? ` · ${esc(t("voided"))}` : ""}</span>
-          <span class="sub">${p ? esc(t("method_" + p.method)) : ""} ${ps && ps !== "cash" && ps !== "credit" ? chip(ps) : ""}</span></div><div class="rt"><strong>${esc(money(s.sale.total))}</strong>${ev ? chip(ev.sync) : ""}</div></button></li>`; }).join("") || `<li class="empty">${esc(t("no_sales"))}</li>`}</ul>`;
+          <span class="sub">${p ? esc(t("method_" + p.method)) : ""} ${ps && ps !== "cash" && ps !== "credit" ? chip(ps) : ""}</span></div><div class="rt"><strong>${esc(money(s.sale.total))}</strong>${ev ? chip(ev.sync) : ""}</div></button></li>`; }).join("")}</ul>${S.sales.length ? "" : designedState("empty", t, DATA.statePictures, S.theme === "dark", { label: t("new_sale"), act: "newsale" })}`;
     case "sale": {
       const s = S.sales[S.selected]; if (!s) return "";
       return `${top(`${t("receipt")} ${s.sale.receipt_number_local}`)}<ul class="lines">${s.sale.lines.map((l) => `<li><div><span class="nm">${esc(l.product_name)}</span><span class="sub">${l.quantity_milli / 1000} × ${esc(money(l.unit_price))}</span></div><strong>${esc(money(l.line_total))}</strong></li>`).join("")}</ul>
@@ -392,7 +441,8 @@ function draw(): void {
   d.className = `display ${S.theme}`;
   d.lang = S.lang === "xx-rtl" ? "ar" : S.lang === "xx" ? "en" : S.lang;
   d.dir = S.lang === "xx-rtl" ? "rtl" : S.lang === "xx" ? "ltr" : PACKS[S.lang]?.dir ?? "ltr";
-  d.querySelector(".app")!.innerHTML = view();
+  d.querySelector(".app")!.innerHTML = view() + DSH.overlay();
+  const a = document.getElementById("address"); if (a) a.textContent = DSH.address();
   drawStatus();
 }
 function drawStatus(): void {
@@ -400,7 +450,7 @@ function drawStatus(): void {
   const pending = S.events.find((e) => e.sync === "queued") ? "queued" : S.events.find((e) => e.sync === "sent") ? "sent" : "accepted";
   $("#statusbar").innerHTML = `<span>${esc(clock(Date.now()))}</span>${S.realUser ? "" : `<span class="sbxtag">${esc(t("sandbox"))}</span>`}
     <span class="sync" title="${esc(DATA.states[pending]?.meaning ?? "")}">${icon(`status-${pending}`)}${queued ? `<span>${queued}</span>` : ""}</span>
-    <span class="net">${icon(S.online ? "ui-sync" : "ui-offline")}<span class="sr">${esc(t(S.online ? "online" : "offline"))}</span></span>`;
+    <button type="button" class="net" data-act="dsh:sync" aria-label="${esc(t(S.online ? "online" : "offline"))}. ${esc(t("sync"))}">${icon(S.online ? "ui-sync" : "ui-offline")}</button>`;   // the connection chip (41 B): opens the sync sheet
 }
 function drawLeds(): void { document.querySelectorAll<HTMLElement>(".leds i").forEach((el, i) => el.classList.toggle("on", i < S.leds)); }
 function drawLog(): void {
@@ -410,6 +460,7 @@ function drawLog(): void {
 }
 
 function act(a: string): void {
+  if (DSH.act(a)) return;
   const [k, v = ""] = a.split(/:(.*)/s);
   try {
     if (k && /^d\d+$/.test(k)) { digit(k.slice(1)); return; }
@@ -422,7 +473,7 @@ function act(a: string): void {
       case "svc": if ([...AGENT_SERVICES, ...COLLECTION_KINDS, ...FINANCE_PRODUCTS].includes(v as never)) startService(v); draw(); return;
       case "handcash": if (S.req && mayHandOverCash(S.req.state)) { S.flash = t("done"); S.screen = "home"; } draw(); return;
       case "cust": S.selected = Math.max(0, Math.min(S.credit.length - 1, Number(v) || 0)); S.input = ""; draw(); return;
-      case "lowlit": S.lowLiteracy = !S.lowLiteracy; draw(); return;
+      case "lowlit": S.lowLiteracy = !S.lowLiteracy; DSH.pictures = S.lowLiteracy; draw(); return;
       case "lock": S.screen = "lock"; S.input = ""; draw(); return;
       case "cat": S.category = v; draw(); return;
       case "add": { const p = CATALOG.find((x) => x.id === v); if (p) S.cart.add(p); draw(); return; }
@@ -449,8 +500,11 @@ function act(a: string): void {
 function wire(): void {
   document.addEventListener("click", (ev) => {
     const el = (ev.target as HTMLElement).closest<HTMLElement>("[data-act]");
+    if (el?.classList.contains("dsh-scrim") && (ev.target as HTMLElement).closest("[data-stop]")) return;   // a tap inside a panel
     if (el && !(el as HTMLButtonElement).disabled) act(el.dataset["act"] ?? "");
   });
+  $("#display").addEventListener("input", (ev) => { DSH.input(ev.target as HTMLInputElement); });
+  (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
   $("#tapzone").addEventListener("click", tapCard);
   $("#slot").addEventListener("click", tapCard);
   $("#scanKey").addEventListener("click", scan);
@@ -468,6 +522,7 @@ function wire(): void {
   sel.value = "en";
   $<HTMLSelectElement>("#cLang").addEventListener("change", (e) => { S.lang = (e.target as HTMLSelectElement).value as Lang; draw(); });
   document.addEventListener("keydown", (e) => {
+    if (DSH.key(e)) return;
     if ((e.target as HTMLElement).closest("input,select,textarea,summary")) return;
     if (/^\d$/.test(e.key)) { digit(e.key); e.preventDefault(); }
     else if (e.key === "Backspace") { clearKey(); e.preventDefault(); }

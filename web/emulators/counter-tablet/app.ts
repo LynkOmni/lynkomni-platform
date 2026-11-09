@@ -13,6 +13,8 @@ import { SETUP_STEPS, nextSetupStep, parseVoice } from "../../../ts/src/business
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, pick, plain, reducedMotion, appShortFooter } from "../../../ts/src/emulator.js";
 import type { Build } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
+import { designedState, panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
+import type { Entry } from "../../../ts/src/shell.js";
 
 declare const DATA: Build & { entitlements: Record<string, PosEntitlement>; fx: Record<string, number> };
 type Tab = "home" | "sell" | "stock" | "chats" | "business" | "tables" | "kitchen" | "invoices" | "customers" | "services" | "float";
@@ -47,6 +49,9 @@ const CATALOG: Item[] = ([["p_rice", 1500, 1150, "food", 24, "6001"], ["p_sugar"
   .map(([key, price, cost, category, level, barcode]) => ({ id: newId(), name: key, price, cost, category, barcode, level: P(level) }));
 S.levels = Object.fromEntries(CATALOG.map((p) => [p.id, p.level]));
 const COSTS = Object.fromEntries(CATALOG.map((p) => [p.id, p.cost]));
+/** The app address of each place (catalog/addresses.v1.json app_paths), shown in the address line and used by search and help. */
+const TAB_PATH: Record<Tab, string> = { home: "/", sell: "/sell", stock: "/stock", chats: "/chats", business: "/business", tables: "/sell/tables", kitchen: "/sell/kitchen", invoices: "/invoicing", customers: "/crm", services: "/services", float: "/float" };
+const VIEW_PATH: Partial<Record<View, string>> = { pay: "/sell/payment", cash: "/sell/payment", waiting: "/sell/payment", done: "/sell/receipt", shift: "/sell/shifts", table: "/sell/tables", dayclose: "/business/daily-close", staff: "/business/team", deliver: "/deliveries", group: "/stock/marketplace/buy-together", setup: "/business/settings", credit: "/crm", voice: "/sell" };
 const named = (p: Product): Product => ({ ...p, name: t(p.name) });
 const money = (n: number): string => C.money(n);
 const toast = (m: string): void => { S.flash = m; draw(); window.setTimeout(() => { S.flash = ""; draw(); }, 1500); };
@@ -112,15 +117,31 @@ function scan(): void {
 
 // ---- screens
 const total = (): number => S.cart.total();
+const where = (): { id: string; path: string } => !S.unlocked ? { id: "locked", path: "/" } : S.view !== "main" ? { id: S.view, path: VIEW_PATH[S.view] ?? "/" } : { id: S.tab, path: TAB_PATH[S.tab] };
+const DSH = panelShell({
+  st: S, t, icon: (id) => icon(id), clock: (ms) => C.clock(ms),
+  native: () => (DATA.i18n[S.lang]?.native ?? S.lang), region: () => (C.pack().sample ? t("sample_country") : C.pack().name), currency: () => C.pack().currency,
+  pending: () => LOG.pending().count, lastSync: () => LOG.events.find((e) => e.sync === "accepted")?.at ?? null,
+  screen: () => ({ ...where(), title: document.querySelector("#screen .body h2")?.textContent?.trim() || t(S.unlocked ? (S.view === "main" ? S.tab : "sample_shop") : "enter_pin") }),
+  entries: (): Entry[] => !S.unlocked ? [] : [
+    { id: "new", kind: "action", title: t("new_sale"), act: "new" }, { id: "count", kind: "action", title: t("count_cash"), act: "go:shift" }, { id: "close", kind: "action", title: t("day_close"), act: "go:dayclose" },
+    ...TABS[S.type].map((k): Entry => ({ id: `tab-${k}`, kind: "action", title: t(k), act: `tab:${k}` })),
+    ...CATALOG.map((p): Entry => ({ id: p.id, kind: "product", title: t(p.name), subtitle: money(p.price), act: `add:${p.id}` })),
+    ...S.credit.map((c, i): Entry => ({ id: `c${i}`, kind: "customer", title: c.name, subtitle: money(c.owes), act: "go:credit" })),
+    ...S.sales.slice(0, 5).map((x): Entry => ({ id: x.sale.sale_id, kind: "order", title: x.sale.receipt_number_local, subtitle: money(x.sale.total), act: "tab:home" })),
+  ],
+  account: () => sampleAccount(t, "cashier", ["cashier", "manager", "owner"], t("sample_shop"), S.dark ? "dark" : "light", DATA.i18n[S.lang]?.native ?? S.lang, C.pack().sample ? t("sample_country") : C.pack().name),
+  run: (a) => { if (a === "role:cashier" || a.startsWith("role:") || a.startsWith("business:")) return; act(a); }, redraw: () => { syncPanel(); draw(); }, firstRun: true,
+});
+function syncPanel(): void { ($("#cLang") as HTMLSelectElement).value = S.lang; ($("#cDark") as HTMLInputElement).checked = S.dark; ($("#cOnline") as HTMLInputElement).checked = S.online; }
 function tabBar(): string {
   const tabs = TABS[S.type];
-  const ic: Record<string, string> = { home: "ui-home", sell: "ui-cart", stock: "product-stock", chats: "product-chat", business: "ui-grid", tables: "ui-grid", kitchen: "ui-bolt", invoices: "ui-doc", customers: "ui-user", services: "ui-grid", float: "ui-chart" };
+  const ic: Record<string, string> = { home: "ui-home", sell: "ui-cart", stock: "product-stock", chats: "product-chat", business: "ui-grid", tables: "ui-grid", kitchen: "ui-bolt", invoices: "ui-doc", customers: "ui-user", services: "ui-grid", float: "ui-float" };
   return `<nav class="tabbar" aria-label="LynkOmni">${tabs.map((k) => `<button data-act="tab:${k}" ${S.tab === k ? 'aria-current="page"' : ""}>${icon(ic[k] ?? "ui-grid")}<span>${esc(t(k))}</span></button>`).join("")}</nav>`;
 }
 function top(title: string): string {
-  const p = LOG.pending();
   return `<header class="top">${brandMark(DATA.brand.places, "app-top-bar", S.dark, "brandmark")}<h1>${esc(title)}</h1>${S.practice ? `<span class="practice">${esc(t("practice"))}</span>` : ""}
-    <button class="netchip${S.online ? "" : " off"}" data-act="noop" aria-label="${esc(t("sync"))}">${icon(S.online ? "ui-sync" : "ui-offline")}<span>${esc(t(S.online ? "online" : "offline"))}</span>${p.count ? `<span class="count">${p.count}</span>` : ""}</button></header>`;
+    ${S.unlocked ? DSH.bar() : DSH.bar({ search: false, account: false })}</header>`;
 }
 function sellScreen(): string {
   const cats = ["all", "food", "drinks", "home"];
@@ -185,7 +206,7 @@ function homeScreen(): string {
   const sm = daySummary(S.sales, COSTS); const best = insight(S.sales);
   return `<div class="home"><div class="cards"><div class="card"><span>${esc(t("today_sales"))}</span><strong>${esc(money(sm.total))}</strong><small>${sm.count}</small></div><div class="card"><span>${esc(t("today_profit"))}</span><strong>${esc(money(sm.profit))}</strong></div>
     <div class="card"><span>${esc(t("cash_in_drawer"))}</span><strong>${esc(money(S.shift ? S.shift.cash : sm.cash))}</strong></div><div class="card"><span>${esc(t("insight"))}</span><strong>${esc(best ? t("best_seller", { name: best.name }) : t("no_sales_yet"))}</strong></div></div>
-    <div class="row"><button class="primary" data-act="new">${esc(t("new_sale"))}</button><button data-act="go:shift">${esc(t(S.shift ? "count_cash" : "open_shift"))}</button><button data-act="go:dayclose">${esc(t("day_close"))}</button></div><p class="note">${esc(t("setup_done_in"))}</p></div>`;
+    <div class="row"><button class="primary" data-act="new">${esc(t("new_sale"))}</button><button data-act="go:shift">${esc(t(S.shift ? "count_cash" : "open_shift"))}</button><button data-act="go:dayclose">${esc(t("day_close"))}</button></div><p class="note">${esc(t("setup_done_in"))}</p>${S.sales.length ? "" : designedState("empty", t, DATA.statePictures, S.dark, { label: t("new_sale"), act: "new" })}</div>`;
 }
 function dayCloseScreen(): string {
   const sm = daySummary(S.sales, COSTS); const low = CATALOG.filter((p) => (S.levels[p.id] ?? 0) <= P(5)).map((p) => t(p.name));
@@ -256,14 +277,15 @@ function customerDisplay(): string {
   if (S.cdisplay === "welcome" || !S.unlocked || (S.cdisplay === "basket" && !S.cart.lines().length)) return `<div class="cwelcome">${brandMark(DATA.brand.places, "customer-welcome", S.dark, "cmark", 118)}<h2>${esc(t("welcome"))}</h2><p>${esc(t("sample_shop"))}</p></div>`;
   if (S.cdisplay === "thanks") return `<div class="cwelcome"><h2>${esc(t("thank_you_visit"))}</h2><p>${esc(money(S.current?.sale.total ?? 0))}</p></div>`;
   const second = secondCurrency(total(), cur, cur === "USD" ? "EUR" : "USD", (m, a, b) => Math.round(m * ((DATA.fx[b] ?? 1) / (DATA.fx[a] ?? 1))));
-  return `<div class="cbasket"><ul>${S.cart.lines().map((l) => `<li><span>${esc(t(l.product.name))} × ${qtyText(l.qtyMilli)}</span><span>${esc(money(l.product.price * l.qtyMilli / 1000))}</span></li>`).join("")}</ul><div class="ctot"><span>${esc(t("your_total"))}</span><strong>${esc(money(total()))}</strong></div>${second ? `<small>${esc(t("second_currency", { amount: C.money(second.amount, second.currency), currency: cur }))}</small>` : ""}${S.cdisplay === "pay" && S.method !== "cash" ? `<p class="cpay">${icon("ui-qr")} ${esc(t("pay_by_qr"))}</p>` : ""}${S.tier === "free" ? `<small class="pb">${esc(t("powered_by"))} LynkOmni</small>` : ""}</div>`;
+  return `<div class="cbasket"><ul>${S.cart.lines().map((l) => `<li><span>${esc(t(l.product.name))} × ${qtyText(l.qtyMilli)}</span><span>${esc(money(l.product.price * l.qtyMilli / 1000))}</span></li>`).join("")}</ul><div class="ctot"><span>${esc(t("your_total"))}</span><strong>${esc(money(total()))}</strong></div>${second ? `<small>${esc(t("second_currency", { amount: C.money(second.amount, second.currency), currency: cur }))}</small>` : ""}${S.cdisplay === "pay" && S.method !== "cash" ? `<p class="cpay">${icon("ui-qr")} ${esc(t("pay_by_qr"))}</p>` : ""}${S.tier === "free" && S.cdisplay !== "pay" ? `<small class="pb">${esc(t("powered_by"))} LynkOmni</small>` : ""}</div>`;   // never on the payment step (powered_by rule)
 }
 
 function draw(): void {
   const screen = $("#screen"), app = screen.querySelector(".app") as HTMLElement;
-  screen.classList.toggle("light", !S.dark); screen.classList.toggle("dark", S.dark); applyRoot(screen, W);
+  screen.classList.toggle("light", !S.dark); screen.classList.toggle("dark", S.dark); screen.classList.toggle("lowlit", DSH.pictures); applyRoot(screen, W);
   const cs = $("#cscreen"); cs.classList.toggle("light", !S.dark); cs.classList.toggle("dark", S.dark); applyRoot(cs, W);
-  app.innerHTML = `${top(t("sample_shop"))}<div class="body">${page()}</div>${S.unlocked && ["main", "shift", "dayclose"].includes(S.view) ? tabBar() : ""}${S.flash ? `<div class="toast" role="status">${esc(S.flash)}</div>` : ""}`;
+  app.innerHTML = `${top(t("sample_shop"))}<div class="body">${page()}</div>${S.unlocked && ["main", "shift", "dayclose"].includes(S.view) ? tabBar() : ""}${S.flash ? `<div class="toast" role="status">${esc(S.flash)}</div>` : ""}${DSH.overlay()}`;
+  const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address();
   cs.innerHTML = customerDisplay();
 }
 function act(a: string): void {
@@ -337,8 +359,11 @@ function bindPanel(): void {
 function main(): void {
   S.country = DATA.packOrder[0] ?? "";
   bindPanel(); draw();
-  document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (b && !b.hasAttribute("aria-disabled")) act(b.dataset["act"] ?? ""); });
-  document.addEventListener("input", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["filter"] === "counted") { S.counted = plain(el.value).replace(/\D/g, ""); } });
+  document.addEventListener("click", (e) => { const tg = e.target as HTMLElement, b = tg.closest<HTMLElement>("[data-act]"); if (!b || b.hasAttribute("aria-disabled")) return;
+    const a = b.dataset["act"] ?? ""; if (b.classList.contains("dsh-scrim") && tg.closest("[data-stop]")) return; if (DSH.act(a)) return; act(a); });
+  document.addEventListener("keydown", (e) => { if (S.unlocked || DSH.panel || DSH.firstRun) DSH.key(e); });
+  (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
+  document.addEventListener("input", (e) => { DSH.input(e.target as HTMLInputElement); const el = e.target as HTMLInputElement; if (el.dataset["filter"] === "counted") { S.counted = plain(el.value).replace(/\D/g, ""); } });
   $("#cOnline").addEventListener("change", (e) => { S.online = (e.target as HTMLInputElement).checked; draw(); });
   $("#cFail").addEventListener("change", (e) => { S.fail = (e.target as HTMLInputElement).checked; });
   $("#cReal").addEventListener("change", (e) => { S.realUser = (e.target as HTMLInputElement).checked; draw(); });
@@ -352,7 +377,7 @@ function main(): void {
   $("#tapzone").addEventListener("click", () => { if (S.unlocked && S.view === "pay") act("method:card"); });
   $("#tearBtn").addEventListener("click", () => { $("#paperWrap").classList.add("torn"); window.setTimeout(() => { $("#paperWrap").hidden = true; }, 500); });
   $("#stateButtons").innerHTML = ["locked", "sell", "pay", "cash", "done", "tables", "kitchen", "shift", "dayclose", "stock", "business", "staff", "deliver", "group", "setup", "credit", "voice"].map((k) => `<button type="button" data-state="${k}">${esc(k)}</button>`).join("");
-  $("#stateButtons").addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-state]"); if (!b) return; const k = b.dataset["state"] ?? ""; S.lastInput = Date.now();
+  $("#stateButtons").addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-state]"); if (!b) return; const k = b.dataset["state"] ?? ""; S.lastInput = Date.now(); DSH.settle();
     if (k === "locked") { S.unlocked = false; S.pin = ""; } else { S.unlocked = true; if (["sell", "stock", "tables", "kitchen", "business"].includes(k)) { if (k === "tables" || k === "kitchen") S.type = "restaurant"; S.tab = k as Tab; S.view = "main"; } else { if (!S.cart.lines().length && CATALOG[0]) S.cart.add(CATALOG[0]); if (k === "done") { S.view = "cash"; S.tendered = total(); pay("cash", S.tendered); return; } S.view = pick(["pay", "cash", "shift", "dayclose", "staff", "deliver", "group", "setup", "credit", "voice"] as View[], k, "main"); if (k === "cash") S.tendered = total(); } } draw(); });
   window.setInterval(tick, 400);
   fitToWidth($("#rig"), 740);

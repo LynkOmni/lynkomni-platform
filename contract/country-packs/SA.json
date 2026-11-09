@@ -48,5 +48,57 @@
   "note": "A pack alone never turns cards on. Needs a signed issuer agreement, legal sign-off and the activation checklist."
  },
  "vcard_card_networks_note": "set from the issuer contract, never assumed",
- "note": "Generated from ISO 3166, ISO 4217, IANA tz and CLDR by tools/country_packs.py. Tax, fiscal workflow, partners and price index stay unconfirmed until a person confirms them; then copy the facts in and set source to curated."
+ "note": "Generated from ISO 3166, ISO 4217, IANA tz and CLDR by tools/country_packs.py. Tax, fiscal workflow, partners and price index stay unconfirmed until a person confirms them; then copy the facts in and set source to curated.",
+ "holidays": {
+  "source": "holidays 0.84 (Vacanza team, MIT)",
+  "names_in": "en",
+  "confirmed": false,
+  "years": {
+   "2026": {
+    "2026-02-22": "Founding Day Holiday",
+    "2026-03-19": "Eid al-Fitr Holiday",
+    "2026-03-20": "Eid al-Fitr Holiday",
+    "2026-03-21": "Eid al-Fitr Holiday",
+    "2026-03-22": "Eid al-Fitr Holiday",
+    "2026-03-23": "Eid al-Fitr Holiday (observed)",
+    "2026-03-24": "Eid al-Fitr Holiday (observed)",
+    "2026-05-26": "Arafat Day",
+    "2026-05-27": "Eid al-Adha Holiday",
+    "2026-05-28": "Eid al-Adha Holiday",
+    "2026-05-29": "Eid al-Adha Holiday",
+    "2026-05-31": "Eid al-Adha Holiday (observed)",
+    "2026-09-23": "National Day Holiday"
+   },
+   "2027": {
+    "2027-02-22": "Founding Day Holiday",
+    "2027-03-09": "Eid al-Fitr Holiday",
+    "2027-03-10": "Eid al-Fitr Holiday",
+    "2027-03-11": "Eid al-Fitr Holiday",
+    "2027-03-12": "Eid al-Fitr Holiday",
+    "2027-03-14": "Eid al-Fitr Holiday (observed)",
+    "2027-05-15": "Arafat Day",
+    "2027-05-16": "Eid al-Adha Holiday",
+    "2027-05-17": "Eid al-Adha Holiday",
+    "2027-05-18": "Eid al-Adha Holiday",
+    "2027-05-19": "Eid al-Adha Holiday (observed)",
+    "2027-09-23": "National Day Holiday"
+   }
+  }
+ },
+ "invoice_numbering": {
+  "series_per": "merchant",
+  "sequential": true,
+  "format": "{series}-{number}",
+  "offline_blocks": true,
+  "unused_numbers": "voided_with_reason",
+  "reuse": false,
+  "confirmed": false,
+  "note": "services/invoicing.py rules; a country's tax authority may require more (for example a registered series). Set confirmed when a person checks the country."
+ },
+ "legal_text": {
+  "invoice": null,
+  "receipt": null,
+  "confirmed": false,
+  "note": "Set by the country's lawyer (ledger item country_legal_text). Until then nothing is printed as legal wording."
+ }
 }

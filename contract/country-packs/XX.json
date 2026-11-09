@@ -39,5 +39,30 @@
   "note": "A pack alone never turns cards on. Needs a signed issuer agreement, legal sign-off and the activation checklist."
  },
  "vcard_card_networks_note": "set from the issuer contract, never assumed",
- "source": "curated"
+ "source": "curated",
+ "holidays": {
+  "source": null,
+  "confirmed": false,
+  "years": {
+   "2026": {},
+   "2027": {}
+  },
+  "note": "The sample country has no holidays."
+ },
+ "invoice_numbering": {
+  "series_per": "merchant",
+  "sequential": true,
+  "format": "{series}-{number}",
+  "offline_blocks": true,
+  "unused_numbers": "voided_with_reason",
+  "reuse": false,
+  "confirmed": false,
+  "note": "services/invoicing.py rules; a country's tax authority may require more (for example a registered series). Set confirmed when a person checks the country."
+ },
+ "legal_text": {
+  "invoice": null,
+  "receipt": null,
+  "confirmed": false,
+  "note": "Set by the country's lawyer (ledger item country_legal_text). Until then nothing is printed as legal wording."
+ }
 }

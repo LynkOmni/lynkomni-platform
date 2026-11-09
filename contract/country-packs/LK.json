@@ -6,13 +6,13 @@
  "currencies": [
   "LKR"
  ],
- "locale": "en-LK",
+ "locale": "ta-LK",
  "languages": [
   "si",
   "ta"
  ],
  "regional_languages": [],
- "ui_language": "en",
+ "ui_language": "ta",
  "tz": "Asia/Colombo",
  "time_zones": [
   "Asia/Colombo"
@@ -49,5 +49,56 @@
   "note": "A pack alone never turns cards on. Needs a signed issuer agreement, legal sign-off and the activation checklist."
  },
  "vcard_card_networks_note": "set from the issuer contract, never assumed",
- "note": "Generated from ISO 3166, ISO 4217, IANA tz and CLDR by tools/country_packs.py. Tax, fiscal workflow, partners and price index stay unconfirmed until a person confirms them; then copy the facts in and set source to curated."
+ "note": "Generated from ISO 3166, ISO 4217, IANA tz and CLDR by tools/country_packs.py. Tax, fiscal workflow, partners and price index stay unconfirmed until a person confirms them; then copy the facts in and set source to curated.",
+ "holidays": {
+  "source": "holidays 0.84 (Vacanza team, MIT)",
+  "names_in": "en",
+  "confirmed": false,
+  "years": {
+   "2026": {
+    "2026-01-03": "Duruthu Full Moon Poya Day",
+    "2026-01-15": "Tamil Thai Pongal Day",
+    "2026-02-01": "Nawam Full Moon Poya Day",
+    "2026-02-04": "Independence Day",
+    "2026-02-15": "Maha Sivarathri Day",
+    "2026-03-02": "Medin Full Moon Poya Day",
+    "2026-03-21": "Eid al-Fitr",
+    "2026-04-01": "Bak Full Moon Poya Day",
+    "2026-04-03": "Good Friday",
+    "2026-04-13": "Day Before Sinhala and Tamil New Year",
+    "2026-04-14": "Sinhala and Tamil New Year",
+    "2026-05-01": "International Workers' Day; Vesak Full Moon Poya Day",
+    "2026-05-02": "Day Following Vesak Full Moon Poya Day",
+    "2026-05-28": "Eid al-Adha",
+    "2026-05-30": "Adhi Poson Full Moon Poya Day",
+    "2026-06-29": "Poson Full Moon Poya Day",
+    "2026-07-29": "Esala Full Moon Poya Day",
+    "2026-08-26": "Prophet's Birthday",
+    "2026-08-27": "Nikini Full Moon Poya Day",
+    "2026-09-26": "Binara Full Moon Poya Day",
+    "2026-10-25": "Vap Full Moon Poya Day",
+    "2026-11-08": "Deepavali Festival Day",
+    "2026-11-24": "Il Full Moon Poya Day",
+    "2026-12-23": "Unduvap Full Moon Poya Day",
+    "2026-12-25": "Christmas Day"
+   },
+   "2027": {}
+  }
+ },
+ "invoice_numbering": {
+  "series_per": "merchant",
+  "sequential": true,
+  "format": "{series}-{number}",
+  "offline_blocks": true,
+  "unused_numbers": "voided_with_reason",
+  "reuse": false,
+  "confirmed": false,
+  "note": "services/invoicing.py rules; a country's tax authority may require more (for example a registered series). Set confirmed when a person checks the country."
+ },
+ "legal_text": {
+  "invoice": null,
+  "receipt": null,
+  "confirmed": false,
+  "note": "Set by the country's lawyer (ledger item country_legal_text). Until then nothing is printed as legal wording."
+ }
 }

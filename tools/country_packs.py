@@ -63,8 +63,8 @@ def build():
         countries[code] = {"code": code, "name": names["en"].territories.get(code, code), "names": {lang: loc.territories.get(code, names["en"].territories.get(code, code)) for lang, loc in names.items()},
                            "currency": currency, "currencies": cur, "tz": zones[code], "languages": official, "regional_languages": regional, "ui_language": ui_first}
         path = os.path.join(PACKS, f"{code}.json")
-        curated = os.path.isfile(path) and json.load(open(path, encoding="utf-8")).get("source") == "curated"
-        if curated: continue
+        old = json.load(open(path, encoding="utf-8")) if os.path.isfile(path) else {}
+        if old.get("source") == "curated": continue
         packs[code] = {
             "name": countries[code]["name"], "code": code, "source": "standards",
             "currency": currency, "currencies": cur, "locale": f"{ui_first}-{code}", "languages": official, "regional_languages": regional, "ui_language": ui_first,
@@ -78,6 +78,8 @@ def build():
             "vcard_card_networks_note": "set from the issuer contract, never assumed",
             "note": "Generated from ISO 3166, ISO 4217, IANA tz and CLDR by tools/country_packs.py. Tax, fiscal workflow, partners and price index stay unconfirmed until a person confirms them; then copy the facts in and set source to curated.",
         }
+        # rule 0.5 fields written by tools/country_holidays.py (holidays, invoice numbering, legal text) are kept as they are
+        packs[code].update({k: old[k] for k in ("holidays", "invoice_numbering", "legal_text") if k in old})
     # curated packs must still list every currency they use
     for f in os.listdir(PACKS):
         p = json.load(open(os.path.join(PACKS, f), encoding="utf-8"))

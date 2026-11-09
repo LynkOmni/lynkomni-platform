@@ -1,0 +1,77 @@
+/* The shell parts inside device apps (ts/src/deviceshell.ts, blueprint 41 B): search, help, account, connection chip, the
+   first-run language card and the sheets. Logical properties only, so right-to-left mirrors; every target is 44 px. */
+.dsh-bar { display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 2px 4px; flex: none; max-width: 100%; }
+.dsh-btn { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; padding: 0; }
+.dsh-btn .ic { width: 22px; height: 22px; display: inline-flex; }
+.dsh-btn .ic svg, .dsh-x .ic svg { width: 100%; height: 100%; }
+.dsh-btn:focus-visible, .dsh-panel button:focus-visible, .dsh-panel a:focus-visible, .dsh-field:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+.dsh-chip, .dsh-bar .netchip { min-height: 44px; display: inline-flex; align-items: center; gap: 4px; padding: 0 10px; border-radius: 999px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-primary); font: 600 12px var(--font-body); cursor: pointer; }
+.dsh-bar .netchip .ic { width: 16px; height: 16px; display: inline-flex; }
+.dsh-bar .netchip.offline, .dsh-bar .netchip.forced { color: var(--status-warning-text); background: var(--status-warning-bg); border-color: var(--status-warning-border); }
+.dsh-bar .netchip .badge { min-width: 18px; padding: 0 5px; border-radius: 9px; background: var(--status-info-bg); color: var(--status-info-text); }
+.dsh-field { margin: 0 0 10px; display: flex; align-items: center; gap: 8px; width: 100%; min-height: 44px; padding: 0 14px; border-radius: 22px; border: 1px solid var(--border-input); background: var(--bg-surface); color: var(--text-secondary); font: 14px var(--font-body); cursor: pointer; text-align: start; }
+.dsh-field .ic { width: 18px; height: 18px; display: inline-flex; flex: none; }
+.dsh-field span { overflow-wrap: anywhere; }
+.dsh-scrim { position: absolute; inset: 0; z-index: 40; display: flex; align-items: flex-end; justify-content: center; background: color-mix(in srgb, var(--text-primary) 40%, transparent); }
+.dsh-panel { position: relative; width: min(100%, 520px); max-height: 92%; overflow-y: auto; padding: 16px; border-radius: 18px 18px 0 0; background: var(--bg-surface); color: var(--text-primary); font: 14px/1.4 var(--font-body); box-sizing: border-box; }
+.dsh-panel h2 { margin: 0 0 8px; padding-inline-end: 44px; font: 700 17px/1.3 var(--font-heading); overflow-wrap: anywhere; }
+.dsh-panel p, .dsh-panel span, .dsh-panel dd, .dsh-panel dt, .dsh-panel a, .dsh-panel button, .dsh-panel code { overflow-wrap: anywhere; }
+.dsh-x { position: absolute; inset-block-start: 8px; inset-inline-end: 8px; min-width: 44px; min-height: 44px; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.dsh-x .ic { width: 20px; height: 20px; display: inline-flex; }
+.dsh-panel .ic { width: 18px; height: 18px; display: inline-flex; flex: none; }
+.dsh-panel .ic svg { width: 100%; height: 100%; }
+.dsh-panel ul { list-style: none; margin: 0; padding: 0; }
+.dsh-panel .command-bar, .dsh-panel .help-panel, .dsh-panel .account-menu, .dsh-panel .sheet { display: flex; flex-direction: column; gap: 8px; }
+.dsh-panel .cmd-input { display: flex; align-items: center; gap: 6px; padding-inline-end: 40px; }
+.dsh-panel .cmd-input input { flex: 1; min-width: 0; min-height: 44px; padding: 0 12px; border-radius: 12px; border: 1px solid var(--border-input); background: var(--bg-base); color: var(--text-primary); font: 15px var(--font-body); }
+.dsh-panel .hbtn, .dsh-panel .copy { min-width: 44px; min-height: 44px; border: 0; background: transparent; color: inherit; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.dsh-panel .results li button, .dsh-panel .articles a, .dsh-panel .mitem { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 44px; padding: 6px 8px; border: 0; border-radius: 10px; background: transparent; color: inherit; font: inherit; text-align: start; cursor: pointer; text-decoration: none; flex-wrap: wrap; }
+.dsh-panel .results li button:hover, .dsh-panel .articles a:hover, .dsh-panel .mitem:hover { background: var(--bg-subtle); }
+.dsh-panel .rt { font-weight: 600; flex: 1 1 8em; min-width: 0; }
+.dsh-panel .rs, .dsh-panel .rk, .dsh-panel .kbd, .dsh-panel .suggested { color: var(--text-secondary); font-size: 12px; }
+.dsh-panel .rk { margin-inline-start: auto; }
+.dsh-panel .none { color: var(--text-secondary); padding: 8px; }
+.dsh-panel .assist-hand, .dsh-panel .help-steps button, .dsh-secondary, .dsh-primary, .dsh-panel .sheet .primary, .dsh-panel .sheet .secondary { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 48px; padding: 6px 12px; border-radius: 12px; font: 600 15px var(--font-body); cursor: pointer; flex-wrap: wrap; text-align: center; }
+.dsh-primary, .dsh-panel .sheet .primary { border: 0; background: var(--brand-primary); color: var(--on-brand); }
+.dsh-secondary, .dsh-panel .assist-hand, .dsh-panel .help-steps button, .dsh-panel .sheet .secondary { border: 1px solid var(--border-subtle); background: var(--bg-base); color: var(--text-primary); }
+.dsh-panel .help-steps { display: flex; flex-direction: column; gap: 6px; }
+.dsh-panel .who { display: flex; gap: 10px; align-items: center; }
+.dsh-panel .who > div { min-width: 0; }
+.dsh-panel .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--brand-subtle); color: var(--brand-ink); display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.dsh-panel .avatar .ic, .dsh-panel .avatar svg { width: 22px; height: 22px; display: inline-flex; }
+.dsh-panel .who { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.dsh-panel .who > div { min-width: 0; overflow-wrap: anywhere; }
+.dsh-panel .lynkid { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.dsh-panel .mlabel { display: block; color: var(--text-secondary); font-size: 12px; padding: 4px 8px 0; }
+.dsh-panel .mitem.current { color: var(--brand-ink); font-weight: 700; }
+.dsh-panel .mitem.danger { color: var(--status-danger-text); }
+.dsh-panel dl { display: grid; grid-template-columns: minmax(0, max-content) minmax(0, 1fr); gap: 6px 12px; margin: 8px 0; }
+.dsh-panel dt { color: var(--text-secondary); }
+.dsh-panel dd { margin: 0; font-weight: 600; }
+.dsh-panel .switch { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; min-width: 0; padding: 0; border: 0; border-radius: 0; background: none; color: inherit; font: inherit; }   /* never inherit a device's own .switch button look */
+.dsh-panel .switch input { width: 44px; height: 24px; flex: none; }
+.dsh-note, .dsh-panel .note { color: var(--text-secondary); font-size: 13px; margin: 6px 0 0; }
+.dsh-link { min-height: 44px; border: 0; background: transparent; color: var(--brand-ink); font: 600 14px var(--font-body); text-decoration: underline; cursor: pointer; width: 100%; }
+.dsh-locale { display: flex; flex-direction: column; gap: 8px; }
+.dsh-state .state { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 12px; text-align: center; }
+.dsh-state .state .pic { display: block; width: min(150px, 55%); }
+.dsh-state .state .pic svg { width: 100%; height: auto; }
+.dsh-state .state h2 { margin: 0; font: 700 16px/1.3 var(--font-heading); overflow-wrap: anywhere; }
+.dsh-state .state p { margin: 0; color: var(--text-secondary); font-size: 13px; overflow-wrap: anywhere; }
+.dsh-state .state .primary { min-height: 44px; padding: 0 16px; border: 0; border-radius: 12px; background: var(--brand-primary); color: var(--on-brand); font: 600 14px var(--font-body); cursor: pointer; }
+.dsh-state .skel { background: var(--bg-subtle); border-radius: 8px; height: 14px; margin: 6px 0; }
+.lite .dsh-state .pic, .dsh-lite .dsh-state .pic { display: none; }
+#screen { position: relative; }
+.pagehead .address { margin: 6px 0 0; font-size: 13px; } .pagehead .address code { font-weight: 600; overflow-wrap: anywhere; }
+
+/* picture mode (S4, 43 G): bigger pictures, the word always beside them, bigger targets */
+.dsh-toggle { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; margin-top: 8px; padding: 0 12px; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--bg-surface); color: inherit; font: 600 14px var(--font-body); cursor: pointer; text-align: start; }
+.dsh-toggle > span:not(.ic):not(.dsh-sw) { flex: 1; }
+.dsh-toggle .ic { width: 22px; height: 22px; display: inline-flex; flex: none; }
+.dsh-sw { width: 36px; height: 20px; border-radius: 10px; background: var(--border-strong); position: relative; flex: none; }
+.dsh-sw::after { content: ""; position: absolute; inset-block-start: 2px; inset-inline-start: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-surface); }
+.dsh-toggle[aria-checked="true"] .dsh-sw { background: var(--brand-primary); }
+.dsh-toggle[aria-checked="true"] .dsh-sw::after { inset-inline-start: 18px; }
+.lowlit { font-size: 112%; }
+.lowlit button { min-height: 52px; }
+.lowlit button .ic, .lowlit button .ic svg { width: 30px; height: 30px; }

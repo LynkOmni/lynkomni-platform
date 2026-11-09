@@ -36,3 +36,4 @@ em { font-style: normal; font-weight: 700; color: var(--status-warning-text); }
 .trigger .ic { width: 36px; height: 36px; }
 .gun > .mark { position: absolute; bottom: 20px; width: 14px; color: var(--on-device-key); opacity: .6; }
 .mark svg { width: 100%; height: auto; display: block; }
+.shead { flex-wrap: wrap; gap: 4px; }

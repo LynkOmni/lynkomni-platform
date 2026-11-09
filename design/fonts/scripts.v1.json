@@ -1,6 +1,6 @@
 {
  "version": 1,
- "description": "Every language LynkOmni shows, its script and writing direction, and the font files for each script. Source of truth for design/fonts.css, the font stacks in tokens.v1.json, the right-to-left rules and the offline precache list. A language in a country pack that is missing here fails the tests. Rebuild with design/fonts/build_fonts.py. CJK scripts are sliced: `slices.base` is one file (punctuation, kana or jamo), and each `slices.blocks` entry [range, step] is cut into files of `step` code points, so a page downloads only the slices its text uses (unicode-range).",
+ "description": "Every language LynkOmni shows, its script and writing direction, and the font files for each script. Source of truth for design/fonts.css, the font stacks in tokens.v1.json, the right-to-left rules and the offline precache list. A language in a country pack that is missing here fails the tests. Rebuild with design/fonts/build_fonts.py. CJK scripts are sliced: `slices.base` is one file (punctuation, kana or jamo), and each `slices.blocks` entry [range, step] is cut into files of `step` code points, so a page downloads only the slices its text uses (unicode-range). A language's optional `also` names further scripts whose files hold some of its letters (Yoruba's dot-below vowels are in the Vietnamese block), so offline apps store those files too.",
  "source": {
   "repository": "https://github.com/google/fonts",
   "licence": "SIL Open Font License 1.1"
@@ -155,6 +155,58 @@
      400,
      700
     ]
+   },
+   "weight": "400 700"
+  },
+  "noto-sans-bengali": {
+   "name": "Noto Sans Bengali",
+   "source": "ofl/notosansbengali/NotoSansBengali[wdth,wght].ttf",
+   "licence": "ofl/notosansbengali/OFL.txt",
+   "axes": {
+    "wght": [
+     400,
+     700
+    ],
+    "wdth": 100
+   },
+   "weight": "400 700"
+  },
+  "noto-sans-tamil": {
+   "name": "Noto Sans Tamil",
+   "source": "ofl/notosanstamil/NotoSansTamil[wdth,wght].ttf",
+   "licence": "ofl/notosanstamil/OFL.txt",
+   "axes": {
+    "wght": [
+     400,
+     700
+    ],
+    "wdth": 100
+   },
+   "weight": "400 700"
+  },
+  "noto-sans-thai": {
+   "name": "Noto Sans Thai",
+   "source": "ofl/notosansthai/NotoSansThai[wdth,wght].ttf",
+   "licence": "ofl/notosansthai/OFL.txt",
+   "axes": {
+    "wght": [
+     400,
+     700
+    ],
+    "wdth": 100
+   },
+   "weight": "400 700"
+  },
+  "noto-sans-ethiopic": {
+   "name": "Noto Sans Ethiopic",
+   "source": "ofl/notosansethiopic/NotoSansEthiopic[wdth,wght].ttf",
+   "licence": "ofl/notosansethiopic/OFL.txt",
+   "axes": {
+    "wght": [
+     400,
+     700
+    ],
+    "wdth": 100
    },
    "weight": "400 700"
   }
@@ -361,6 +413,45 @@
       512
      ]
     ]
+   }
+  },
+  "bengali": {
+   "dir": "ltr",
+   "heading": "noto-sans-bengali",
+   "body": "noto-sans-bengali",
+   "cursive": true,
+   "line_height": 1.7,
+   "subsets": {
+    "bengali": "U+0951-0952, U+0964-0965, U+0980-09FE, U+1CD0, U+1CD2, U+1CD5-1CD6, U+1CD8, U+1CE1, U+1CEA, U+1CED, U+1CF2, U+1CF5-1CF7, U+200C-200D, U+20B9, U+25CC, U+A8F1"
+   }
+  },
+  "tamil": {
+   "dir": "ltr",
+   "heading": "noto-sans-tamil",
+   "body": "noto-sans-tamil",
+   "cursive": true,
+   "line_height": 1.7,
+   "subsets": {
+    "tamil": "U+0964-0965, U+0B82-0BFA, U+200C-200D, U+20B9, U+25CC"
+   }
+  },
+  "thai": {
+   "dir": "ltr",
+   "heading": "noto-sans-thai",
+   "body": "noto-sans-thai",
+   "cursive": true,
+   "line_height": 1.7,
+   "subsets": {
+    "thai": "U+02D7, U+0303, U+0331, U+0E01-0E5B, U+200C-200D, U+25CC"
+   }
+  },
+  "ethiopic": {
+   "dir": "ltr",
+   "heading": "noto-sans-ethiopic",
+   "body": "noto-sans-ethiopic",
+   "line_height": 1.6,
+   "subsets": {
+    "ethiopic": "U+030E, U+1200-1399, U+2D80-2DDE, U+AB01-AB2E"
    }
   }
  },
@@ -572,6 +663,105 @@
    "native": "한국어",
    "sample": "감사합니다",
    "script": "korean"
+  },
+  "bn": {
+   "name": "Bangla",
+   "native": "বাংলা",
+   "script": "bengali",
+   "sample": "ধন্যবাদ",
+   "letters": "অআইঈউঊঋএঐওঔকখগঘঙচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহড়ঢ়য়ৎংঃঁািীুূৃেৈোৌ্।০১২৩৪৫৬৭৮৯৳",
+   "mt": "bn"
+  },
+  "ta": {
+   "name": "Tamil",
+   "native": "தமிழ்",
+   "script": "tamil",
+   "sample": "நன்றி",
+   "letters": "அஆஇஈஉஊஎஏஐஒஓஔகஙசஞடணதநபமயரலவழளறனஜஷஸஹாிீுூெேைொோௌ்ஃ௦௧௨௩௪௫௬௭௮௯",
+   "mt": "ta"
+  },
+  "th": {
+   "name": "Thai",
+   "native": "ไทย",
+   "script": "thai",
+   "sample": "ขอบคุณ",
+   "letters": "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮะัาำิีึืุูเแโใไๅ็่้๊๋์ๆฯ๐๑๒๓๔๕๖๗๘๙฿",
+   "mt": "th"
+  },
+  "am": {
+   "name": "Amharic",
+   "native": "አማርኛ",
+   "script": "ethiopic",
+   "sample": "አመሰግናለሁ",
+   "letters": "ሀለሐመሠረሰሸቀበቨተቸኀነኘአከኸወዐዘዠየደጀገጠጨጰጸፀፈፐሁሂሃሄህሆ።፣፤፥፦፧",
+   "mt": "am"
+  },
+  "ha": {
+   "name": "Hausa",
+   "native": "Hausa",
+   "script": "latin",
+   "sample": "Na gode",
+   "letters": "abɓcdɗefghijkƙlmnorsʼtuwyƴz",
+   "mt": "ha"
+  },
+  "yo": {
+   "name": "Yoruba",
+   "native": "Yorùbá",
+   "script": "latin",
+   "also": [
+    "vietnamese"
+   ],
+   "sample": "Ẹ ṣé",
+   "letters": "abdeẹfghijklmnoọprsṣtuwyàáèéìíòóùúẹ̀ẹ́ọ̀ọ́",
+   "mt": "yo"
+  },
+  "zu": {
+   "name": "Zulu",
+   "native": "isiZulu",
+   "script": "latin",
+   "sample": "Ngiyabonga",
+   "letters": "abcdefghijklmnopqrstuvwxyz",
+   "mt": "zu"
+  },
+  "fil": {
+   "name": "Filipino",
+   "native": "Filipino",
+   "script": "latin",
+   "sample": "Salamat",
+   "letters": "abcdefghijklmnñopqrstuvwxyz",
+   "mt": "fil"
+  },
+  "pl": {
+   "name": "Polish",
+   "native": "Polski",
+   "script": "latin",
+   "sample": "Dziękuję",
+   "letters": "aąbcćdeęfghijklłmnńoóprsśtuwyzźż",
+   "mt": "pl"
+  },
+  "nl": {
+   "name": "Dutch",
+   "native": "Nederlands",
+   "script": "latin",
+   "sample": "Dank je",
+   "letters": "abcdefghijklmnopqrstuvwxyzéëï",
+   "mt": "nl"
+  },
+  "uk": {
+   "name": "Ukrainian",
+   "native": "Українська",
+   "script": "cyrillic",
+   "sample": "Дякую",
+   "letters": "абвгґдеєжзиіїйклмнопрстуфхцчшщьюя",
+   "mt": "uk"
+  },
+  "ms": {
+   "name": "Malay",
+   "native": "Bahasa Melayu",
+   "script": "latin",
+   "sample": "Terima kasih",
+   "letters": "abcdefghijklmnopqrstuvwxyz",
+   "mt": "ms"
   }
  },
  "budgets_kb": {

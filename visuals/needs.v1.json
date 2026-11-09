@@ -624,6 +624,24 @@
    "budget_kb": 12
   },
   {
+   "id": "agent-point",
+   "kind": "illustration",
+   "scene": "agent-point",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A shop counter with cash notes and a phone showing a tick, joined by a dashed line to a partner building",
+   "purpose": "Agent point home: the agent serves customers with their own cash, and the licensed partner confirms every transaction before cash changes hands",
+   "used_in": [
+    "agent-home"
+   ],
+   "budget_kb": 12
+  },
+  {
    "id": "chart-pricing-ladder",
    "kind": "chart",
    "figure": "pricing_ladder",
@@ -639,7 +657,7 @@
     "pricing-page",
     "docs"
    ],
-   "budget_kb": 20
+   "budget_kb": 24
   },
   {
    "id": "chart-revenue-path",
@@ -813,7 +831,7 @@
    "themes": [
     "light"
    ],
-   "alt": "Slate grey LynkVCard for the Free tier: one dot etched near the right edge with pulse rings, the emblem, masked number dots and the line EDGE // FIRST LIGHT.",
+   "alt": "Slate grey LynkVCard for the Free tier: one dot etched near the right edge with pulse rings, the LynkOmni logo, masked number dots and the line EDGE // FIRST LIGHT.",
    "purpose": "LynkVCard face for the Free tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
    "used_in": [
     "card-list",
@@ -829,7 +847,7 @@
    "themes": [
     "light"
    ],
-   "alt": "Brushed silver LynkVCard for the Plus tier: a hub with three lines running out to three nodes, the emblem, masked number dots and the line HUB // CENTER POINT.",
+   "alt": "Brushed silver LynkVCard for the Plus tier: a hub with three lines running out to three nodes, the LynkOmni logo, masked number dots and the line HUB // CENTER POINT.",
    "purpose": "LynkVCard face for the Plus tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
    "used_in": [
     "card-list",
@@ -845,7 +863,7 @@
    "themes": [
     "light"
    ],
-   "alt": "Jet black LynkVCard for the Pro tier: a glowing green core dot inside a spend ring that is partly filled, the emblem, masked number dots and the line CORE // DEEP SYSTEM.",
+   "alt": "Jet black LynkVCard for the Pro tier: a glowing green core dot inside a spend ring that is partly filled, the LynkOmni logo, masked number dots and the line CORE // DEEP SYSTEM.",
    "purpose": "LynkVCard face for the Pro tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
    "used_in": [
     "card-list",
@@ -861,7 +879,7 @@
    "themes": [
     "light"
    ],
-   "alt": "Solid obsidian LynkVCard for the Max tier: an engraved sphere, the emblem, a polished edge, no number on the front, and the line OMNI // OWN ALL COMMERCE.",
+   "alt": "Solid obsidian LynkVCard for the Max tier: an engraved sphere, the LynkOmni logo, a polished edge, no number on the front, and the line OMNI // OWN ALL COMMERCE.",
    "purpose": "LynkVCard face for the Max tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
    "used_in": [
     "card-list",
@@ -896,7 +914,7 @@
    "themes": [
     "light"
    ],
-   "alt": "Back of the slate EDGE LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+   "alt": "Back of the slate EDGE LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
    "purpose": "Back of the Free LynkVCard: shows where the licensed issuer displays the card details",
    "used_in": [
     "card-detail"
@@ -911,7 +929,7 @@
    "themes": [
     "light"
    ],
-   "alt": "Back of the silver HUB LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+   "alt": "Back of the silver HUB LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
    "purpose": "Back of the Plus LynkVCard: shows where the licensed issuer displays the card details",
    "used_in": [
     "card-detail"
@@ -926,7 +944,7 @@
    "themes": [
     "light"
    ],
-   "alt": "Back of the black CORE LynkVCard: a dashed frame where the issuer shows the card details, and the emblem. No number is drawn.",
+   "alt": "Back of the black CORE LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
    "purpose": "Back of the Pro LynkVCard: shows where the licensed issuer displays the card details",
    "used_in": [
     "card-detail"
@@ -941,7 +959,7 @@
    "themes": [
     "light"
    ],
-   "alt": "Back of the obsidian OMNI LynkVCard: a dashed frame where the issuer shows the card details, the emblem and the words LynkOmni Reserve Network. No number or bank name is drawn.",
+   "alt": "Back of the obsidian OMNI LynkVCard: a dashed frame where the issuer shows the card details, the LynkOmni logo and the words LynkOmni Reserve Network. No number or bank name is drawn.",
    "purpose": "Back of the Max LynkVCard: shows where the licensed issuer displays the card details",
    "used_in": [
     "card-detail"

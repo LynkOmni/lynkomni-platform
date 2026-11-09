@@ -49,5 +49,50 @@
   "note": "A pack alone never turns cards on. Needs a signed issuer agreement, legal sign-off and the activation checklist."
  },
  "vcard_card_networks_note": "set from the issuer contract, never assumed",
- "note": "Generated from ISO 3166, ISO 4217, IANA tz and CLDR by tools/country_packs.py. Tax, fiscal workflow, partners and price index stay unconfirmed until a person confirms them; then copy the facts in and set source to curated."
+ "note": "Generated from ISO 3166, ISO 4217, IANA tz and CLDR by tools/country_packs.py. Tax, fiscal workflow, partners and price index stay unconfirmed until a person confirms them; then copy the facts in and set source to curated.",
+ "holidays": {
+  "source": "holidays 0.84 (Vacanza team, MIT)",
+  "names_in": "en",
+  "confirmed": false,
+  "years": {
+   "2026": {
+    "2026-04-02": "Pesach",
+    "2026-04-08": "Seventh day of Pesach",
+    "2026-04-22": "Independence Day",
+    "2026-05-22": "Shavuot",
+    "2026-09-12": "Rosh Hashanah",
+    "2026-09-13": "Rosh Hashanah",
+    "2026-09-21": "Yom Kippur",
+    "2026-09-26": "Sukkot",
+    "2026-10-03": "Simchat Torah / Shemini Atzeret"
+   },
+   "2027": {
+    "2027-04-22": "Pesach",
+    "2027-04-28": "Seventh day of Pesach",
+    "2027-05-12": "Independence Day",
+    "2027-06-11": "Shavuot",
+    "2027-10-02": "Rosh Hashanah",
+    "2027-10-03": "Rosh Hashanah",
+    "2027-10-11": "Yom Kippur",
+    "2027-10-16": "Sukkot",
+    "2027-10-23": "Simchat Torah / Shemini Atzeret"
+   }
+  }
+ },
+ "invoice_numbering": {
+  "series_per": "merchant",
+  "sequential": true,
+  "format": "{series}-{number}",
+  "offline_blocks": true,
+  "unused_numbers": "voided_with_reason",
+  "reuse": false,
+  "confirmed": false,
+  "note": "services/invoicing.py rules; a country's tax authority may require more (for example a registered series). Set confirmed when a person checks the country."
+ },
+ "legal_text": {
+  "invoice": null,
+  "receipt": null,
+  "confirmed": false,
+  "note": "Set by the country's lawyer (ledger item country_legal_text). Until then nothing is printed as legal wording."
+ }
 }

@@ -17,3 +17,7 @@
 .bkeys .red { background: var(--device-key-cancel); color: var(--on-device-key-cancel); }
 .bphone > .mark { position: absolute; bottom: 8px; width: 12px; color: var(--on-device-key); opacity: .6; }
 .mark svg { width: 100%; height: auto; display: block; }
+.bmenu { overflow-y: auto; }
+.bmenu.pics li { display: flex; align-items: center; gap: 4px; }
+.bmenu.pics .ic { width: 18px; height: 18px; display: inline-flex; flex: none; }
+.bmenu.pics .ic svg { width: 100%; height: 100%; }

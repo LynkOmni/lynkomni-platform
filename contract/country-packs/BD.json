@@ -6,12 +6,12 @@
  "currencies": [
   "BDT"
  ],
- "locale": "en-BD",
+ "locale": "bn-BD",
  "languages": [
   "bn"
  ],
  "regional_languages": [],
- "ui_language": "en",
+ "ui_language": "bn",
  "tz": "Asia/Dhaka",
  "time_zones": [
   "Asia/Dhaka"
@@ -48,5 +48,46 @@
   "note": "A pack alone never turns cards on. Needs a signed issuer agreement, legal sign-off and the activation checklist."
  },
  "vcard_card_networks_note": "set from the issuer contract, never assumed",
- "note": "Generated from ISO 3166, ISO 4217, IANA tz and CLDR by tools/country_packs.py. Tax, fiscal workflow, partners and price index stay unconfirmed until a person confirms them; then copy the facts in and set source to curated."
+ "note": "Generated from ISO 3166, ISO 4217, IANA tz and CLDR by tools/country_packs.py. Tax, fiscal workflow, partners and price index stay unconfirmed until a person confirms them; then copy the facts in and set source to curated.",
+ "holidays": {
+  "source": "holidays 0.84 (Vacanza team, MIT)",
+  "names_in": "the country's own language",
+  "confirmed": false,
+  "years": {
+   "2026": {
+    "2026-02-21": "International Mother's language Day",
+    "2026-03-17": "Sheikh Mujibur Rahman's Birthday and Children's Day",
+    "2026-03-26": "Independence Day",
+    "2026-04-14": "Bengali New Year's Day",
+    "2026-05-01": "May Day",
+    "2026-08-15": "National Mourning Day",
+    "2026-12-16": "Victory Day"
+   },
+   "2027": {
+    "2027-02-21": "International Mother's language Day",
+    "2027-03-17": "Sheikh Mujibur Rahman's Birthday and Children's Day",
+    "2027-03-26": "Independence Day",
+    "2027-04-14": "Bengali New Year's Day",
+    "2027-05-01": "May Day",
+    "2027-08-15": "National Mourning Day",
+    "2027-12-16": "Victory Day"
+   }
+  }
+ },
+ "invoice_numbering": {
+  "series_per": "merchant",
+  "sequential": true,
+  "format": "{series}-{number}",
+  "offline_blocks": true,
+  "unused_numbers": "voided_with_reason",
+  "reuse": false,
+  "confirmed": false,
+  "note": "services/invoicing.py rules; a country's tax authority may require more (for example a registered series). Set confirmed when a person checks the country."
+ },
+ "legal_text": {
+  "invoice": null,
+  "receipt": null,
+  "confirmed": false,
+  "note": "Set by the country's lawyer (ledger item country_legal_text). Until then nothing is printed as legal wording."
+ }
 }
