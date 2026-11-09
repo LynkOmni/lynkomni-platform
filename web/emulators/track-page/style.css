@@ -6,7 +6,7 @@
 .pscreen.dark { color-scheme: dark; }
 .ic { display: inline-block; width: 16px; height: 16px; vertical-align: middle; }
 .ic svg { width: 100%; height: 100%; display: block; }
-.urlbar { display: flex; align-items: center; gap: 6px; margin: 48px 12px 0; padding: 6px 10px; border-radius: 999px; background: var(--bg-subtle); color: var(--text-secondary); font: 12px var(--font-body); min-width: 0; }
+.urlbar { display: flex; align-items: center; gap: 6px; margin: 48px 12px 0; padding: 6px 10px; border-radius: 999px; background: var(--bg-subtle); color: var(--text-primary); font: 12px var(--font-body); min-width: 0; }
 .urlbar .u { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
 .tbody { flex: 1; overflow: auto; padding: 14px 16px 40px; display: flex; flex-direction: column; gap: 12px; }
 .thead { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
