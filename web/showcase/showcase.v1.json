@@ -6,13 +6,13 @@
    "n": 0,
    "title": "One global structure",
    "status": "locked",
-   "version": "v0.20.0"
+   "version": "v0.28.0"
   },
   {
    "n": 1,
    "title": "Shared shell and design components",
    "status": "locked",
-   "version": "v0.21.0"
+   "version": "v0.29.0"
   },
   {
    "n": 2,
@@ -85,8 +85,8 @@
    "id": "browser-frame",
    "title": "Shared shell (browser frame)",
    "section": 1,
-   "what": "The frame every LynkOmni screen sits in: header, navigation, launcher, search, help, notifications, connection and sync states, overlays, dark, lite and sunlight modes.",
-   "try": "Switch size, language and mode at the top; open the launcher and the notifications panel.",
+   "what": "The frame every LynkOmni screen sits in: header with the side you are in (your workspace or Storefront), navigation, launcher, search, help, notifications, connection and sync states, overlays, dark, lite and sunlight modes. It picks the right view for your device by itself (phone, tablet, computer, touch or mouse) and fits every screen from a 240 px watch to a 4K television.",
+   "try": "Open the account menu: switch to Storefront, then Change view and Why this view?. Use the testing controls to try other views and widths; swipe from the edge on a phone to open the launcher.",
    "url": "https://claude.ai/artifact/6UrxwVAGfBR6unzqT1jS7u"
   },
   {

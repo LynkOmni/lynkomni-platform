@@ -45,3 +45,46 @@ class Sides(unittest.TestCase):
 
 
 if __name__ == "__main__": unittest.main()
+
+
+try:
+    from playwright.sync_api import sync_playwright
+except ImportError:          # pragma: no cover
+    sync_playwright = None
+BROWSER = os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-browser-frame.html")
+
+
+@unittest.skipUnless(sync_playwright and os.path.isfile(BROWSER), "Playwright with Chromium is needed")
+class BuiltPlaces(unittest.TestCase):
+    """The section-1 items are really in their places in the shell (browser-frame): the side in the header, the side switch in
+    the launcher, the account menu and search, Change view in the account menu, search (as a setting) and help, and Why this
+    view? in the account menu and help."""
+    def test_section_1_items_are_where_the_register_says(self):
+        items = {i["id"]: set(i["places"]) for i in REG["items"] if i.get("section") == 1 and i["kind"] == "item"}
+        with sync_playwright() as p:
+            b = p.chromium.launch(); pg = b.new_page(viewport={"width": 1500, "height": 1100})
+            pg.goto("file://" + BROWSER); pg.wait_for_selector("html[data-ready]", state="attached")
+            found = {k: set() for k in items}
+            if pg.locator('#display [data-act="shell:side"]').count(): found["side_indicator"].add("app_nav"); found["side_switch"].add("app_nav")
+            pg.click('[data-act="shell:launcher"]')
+            if pg.locator("#display .lsides [data-act^='side:']").count(): found["side_switch"].add("launcher")
+            pg.keyboard.press("Escape"); pg.click('[data-act="shell:account"]')
+            if pg.locator("#display [data-act^='side:']").count(): found["side_switch"].add("account_menu")
+            for act, item in (("shell:view", "change_view"), ("shell:why", "why_this_view")):
+                if pg.locator(f'#display [data-act="{act}"]').count(): found[item].add("account_menu")
+            pg.keyboard.press("Escape"); pg.click('[data-act="shell:search"]')
+            en = json.load(open(os.path.join(ROOT, "web", "shell", "strings.en.json"), encoding="utf-8"))
+            for act, item, kind, q in (("shell:side", "side_switch", "search", "storefront"), ("shell:view", "change_view", "search", en["change_view"]), ("shell:view", "change_view", "settings", en["change_view"])):
+                pg.fill("#cmdIn", q)
+                if pg.locator(f'#cmdList [data-act="{act}"]').count(): found[item].add(kind)
+            pg.keyboard.press("Escape")
+            help_text = None
+            if pg.locator('[data-act="shell:help"]').count():
+                pg.click('[data-act="shell:help"]'); help_text = pg.inner_text("#display")
+            en = json.load(open(os.path.join(ROOT, "web", "shell", "strings.en.json"), encoding="utf-8"))
+            if help_text:
+                if en["why_this_view"] in help_text: found["why_this_view"].add("help"); found["change_view"].add("help")
+                if en["switch_side_group"] in help_text: found["side_indicator"].add("help")
+            b.close()
+        for item, want in items.items():
+            self.assertEqual(want - found[item], set(), f"{item} is missing from its places")

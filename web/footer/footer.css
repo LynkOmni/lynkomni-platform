@@ -15,7 +15,7 @@
 .fcol a { display: inline-block; padding-block: 10px; line-height: 24px; }   /* a link with a plain word wraps like text and keeps a 44 px target */
 .mainfoot a:hover, .mainfoot a:focus-visible { text-decoration: underline; }
 .ftag { margin: 0 0 20px; color: var(--text-secondary); }
-.fcols, .frow { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px 24px; }
+.fcols, .frow { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(160px, 100%), 1fr)); gap: 16px 24px; }
 .fcols { grid-auto-flow: row dense; }
 /* A long list takes as many tracks as its span and flows into balanced sub-columns (footer.ts PER_COLUMN); on a narrow footer it
    takes the full width and its sub-columns are as many as fit, so nothing is ever cut off or left empty. */
@@ -23,7 +23,7 @@
 .fcol ul { columns: var(--span, 1) 150px; column-gap: 24px; }
 .fcol li { break-inside: avoid; }
 @container (max-width: 560px) { .fcol[data-span="2"], .fcol[data-span="3"] { grid-column: 1 / -1; } }
-@container (max-width: 380px) { .fcols { grid-template-columns: 1fr; } }
+@container (max-width: 380px) { .fcols, .frow { grid-template-columns: 1fr; } }
 /* A product's short name with its plain word beside it: "LynkAcc (Accounting)". */
 .mainfoot a .fname { font-weight: 600; }
 .mainfoot a .fplain { color: var(--text-secondary); font-weight: 400; }
@@ -48,3 +48,5 @@
 /* Short footer inside apps: one line, the fixed copyright text. */
 .shortfoot { padding: 12px 8px; text-align: center; }
 .shortfoot p { margin: 0; color: var(--text-secondary); font-size: 11px; overflow-wrap: anywhere; }
+/* A very narrow footer (a watch, 41 B): one column, and the newsletter takes the full width instead of spanning two tracks. */
+@container (max-width: 380px) { .frow .fnews { grid-column: 1 / -1; } }

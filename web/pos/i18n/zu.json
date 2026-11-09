@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "Isikhungo sokufunda",
   "academy_hint": "Isifundo esifushane sivuleka eduze kwesikrini esisifundisayo.",
@@ -142,6 +142,8 @@
   "invoices": "Ama-invoyisi",
   "join_group": "Joyina",
   "joined": "Ujoyinile. Ukhokhela umhlinzeki ingxenye yakho kuphela uma iqembu lifinyelela.",
+  "key_clear": "Sula",
+  "key_recall": "Buyisa",
   "kitchen": "Ikhishi",
   "kitchen_items_open": "Izinto zasekhishini zisavuliwe",
   "kitchen_queue": "Umugqa wasekhishini",

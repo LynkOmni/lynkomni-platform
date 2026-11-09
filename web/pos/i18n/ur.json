@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ur",
  "native": "اردو",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "اکیڈمی",
   "academy_hint": "ایک مختصر سبق اسی اسکرین کے ساتھ کھلتا ہے جو وہ سکھاتا ہے۔",
@@ -142,6 +142,8 @@
   "invoices": "انوائس",
   "join_group": "شامل ہوں",
   "joined": "آپ شامل ہو گئے۔ آپ اپنا حصہ سپلائر کو صرف تب دیتے ہیں جب گروپ ہدف تک پہنچے۔",
+  "key_clear": "صاف کریں",
+  "key_recall": "واپس لائیں",
   "kitchen": "باورچی خانہ",
   "kitchen_items_open": "باورچی خانے میں ابھی کھانا باقی ہے",
   "kitchen_queue": "باورچی خانے کی قطار",

@@ -39,6 +39,10 @@ def css():
     s += f"  --touch-target: {SRC['modes']['touch_target_px'] / 16}rem;\n"
     s += "".join(f"  --text-{px}: {px / 16}rem;\n" for px in F["scale_px"])
     s += "".join(f"  --{k}: {v};\n" for k, v in L.items()) + "}\n"
+    # Type and spacing per device class (DEVICE, 48.17): the decision function sets data-device-class on the root of every screen.
+    for cls, v in F.get("device_classes", {}).items():
+        s += (f"[data-device-class=\"{cls}\"] {{ --type-factor: {v['type_factor']}; --space-factor: {v['space_factor']}; "
+              f"--min-text: {v['min_text_px'] / 16}rem; font-size: {round(v['type_factor'] * 100, 3)}%; }}\n")
     s += block(".dark", dark_only).replace(".dark {\n", ".dark {\n  color-scheme: dark;\n", 1)
     s += "@media (prefers-color-scheme: dark) {\n" + block(":root:not(.light):not(.dark)", dark_only).replace("\n", "\n  ").replace(":root:not(.light):not(.dark) {\n", "  :root:not(.light):not(.dark) {\n  color-scheme: dark;\n", 1).rstrip(" ") + "}\n"
     s += "/* High contrast (sunlight mode): set data-contrast=\"high\" on <html>, or the device asks for it. */\n"

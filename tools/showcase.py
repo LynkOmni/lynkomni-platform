@@ -90,6 +90,24 @@ def _pic_card(vid, info, wide=False):
             f'<p class="muted">{html.escape(info.get("purpose", ""))}</p></div>')
 
 
+def _device_pick(devreg, names):
+    """The showcase picks the viewer's device (DEVICE 48.17) with the one decision function itself (ts/src/interfaces.ts,
+    compiled by `node web/build.mjs`): capabilities only, never the browser's name. Emulators made for this kind of device
+    move to the front with a "Made for this device" tag; everything else stays open to try."""
+    js_path = os.path.join(ROOT, "web", ".build", "ts", "src", "interfaces.js")
+    if not os.path.isfile(js_path):
+        raise SystemExit("run `node web/build.mjs` first: the showcase uses the compiled decision function")
+    js = open(js_path, encoding="utf-8").read().replace("export ", "")
+    reg = {"safe_default": devreg["safe_default"], "interfaces": {k: {"class": v["class"]} for k, v in devreg["interfaces"].items()},
+           "devices": [{"id": d["id"], "touch": d["touch"], "non_touch": d["non_touch"]} for d in devreg["devices"]]}
+    return ("<script>(() => {" + js + f"const REG = {json.dumps(reg)}, NAMES = {json.dumps(names)};"
+            "const c = chooseInterface(REG, browserFacts(window)), out = document.getElementById('thisDevice');"
+            "out.textContent = 'This device: ' + (NAMES[c.interface] || c.interface) + '. Emulators made for it come first.'; out.hidden = false;"
+            "const grid = out.nextElementSibling; const mine = [...grid.querySelectorAll('[data-views]')].filter((e) => e.dataset.views.split(' ').includes(c.interface));"
+            "for (const e of mine.reverse()) { const tag = document.createElement('span'); tag.className = 'tag next'; tag.textContent = 'Made for this device'; e.querySelector('h3').after(tag); grid.prepend(e); }"
+            "})();</script>")
+
+
 def build():
     cfg = _load("web/showcase/showcase.v1.json")
     tokens = _load("design/tokens.v1.json")
@@ -107,12 +125,22 @@ def build():
                  '<nav aria-label="Sections of this page"><a href="#try">Try it</a><a href="#progress">Progress</a><a href="#numbers">Numbers</a><a href="#products">Products</a><a href="#cards">Card faces</a><a href="#figures">Charts and diagrams</a><a href="#pictures">Other pictures</a><a href="#store">Store and web</a></nav></header><main>')
 
     # Emulators
-    parts.append('<h2 id="try">Try it: the working emulators</h2><div class="grid">')
+    parts.append('<h2 id="try">Try it: the working emulators</h2><p id="thisDevice" class="muted" hidden></p><div class="grid">')
+    devreg = _load("catalog/devices.v1.json")
+    fits = {}                                   # emulator -> the interfaces it shows (catalog/devices.v1.json)
+    for d in devreg["devices"]:
+        for ver in ("touch", "non_touch"):
+            if d["emulator"][ver] and d[ver]:
+                fits.setdefault(d["emulator"][ver], set()).add(d[ver])
+    shell_en = _load("web/shell/strings.en.json")
+    names = {i: shell_en.get("iface_" + i.replace(".", "_"), i) for i in devreg["interfaces"]}
     for e in cfg["emulators"]:
-        parts.append(f'<div class="card"><h3>{html.escape(e["title"])}</h3><p class="muted">Build section {e["section"]}</p>'
+        views = " ".join(sorted(fits.get(e["id"], ())))
+        parts.append(f'<div class="card" data-emulator="{html.escape(e["id"])}" data-views="{views}"><h3>{html.escape(e["title"])}</h3><p class="muted">Build section {e["section"]}</p>'
                      f'<p>{html.escape(e["what"])}</p><p class="muted">Try: {html.escape(e["try"])}</p>'
                      f'<p><a class="btn" href="{html.escape(e["url"])}">Open {html.escape(e["title"])}</a></p></div>')
     parts.append('</div>')
+    parts.append(_device_pick(devreg, names))
 
     # Progress
     parts.append('<h2 id="progress">Progress: the 15 build steps</h2><table><thead><tr><th>#</th><th>Build section</th><th>Status</th><th>Version</th></tr></thead><tbody>')

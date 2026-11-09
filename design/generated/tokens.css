@@ -83,6 +83,13 @@
   --ad-label-text: #3F3F46;
   --on-brand-hover: #FFFFFF;
 }
+[data-device-class="watch"] { --type-factor: 0.875; --space-factor: 0.75; --min-text: 0.875rem; font-size: 87.5%; }
+[data-device-class="phone"] { --type-factor: 1; --space-factor: 1; --min-text: 0.875rem; font-size: 100%; }
+[data-device-class="tablet"] { --type-factor: 1; --space-factor: 1; --min-text: 0.875rem; font-size: 100%; }
+[data-device-class="computer"] { --type-factor: 1; --space-factor: 1; --min-text: 0.875rem; font-size: 100%; }
+[data-device-class="tv"] { --type-factor: 1.5; --space-factor: 1.5; --min-text: 1.5rem; font-size: 150.0%; }
+[data-device-class="eink"] { --type-factor: 1.125; --space-factor: 1; --min-text: 1.0rem; font-size: 112.5%; }
+[data-device-class="voice"] { --type-factor: 1; --space-factor: 1; --min-text: 0.875rem; font-size: 100%; }
 .dark {
   color-scheme: dark;
   --bg-base: #09090B;

@@ -27,7 +27,9 @@ export const TOUCH_TARGET_PX = 44;
 
 // ---------------------------------------------------------------- header
 export interface NavItem { id: string; label: string; icon?: string; href?: string; badge?: number; current?: boolean }
-export interface HeaderParts { logo: string; nav: NavItem[]; notifications: number; signedIn: boolean; title?: string; primary?: { label: string; act: string }; surface?: "app" | "website" }
+export interface HeaderParts { logo: string; nav: NavItem[]; notifications: number; signedIn: boolean; title?: string; primary?: { label: string; act: string }; surface?: "app" | "website";
+  /** BIZZ & DEVICE: which side the screen is on, always in words (the workspace word, or Storefront), never colour alone */
+  side?: { label: string; storefront: boolean } }
 
 /** One header grammar everywhere: logo place, main navigation, then search, language and region (globe), help, notifications
  *  (signed in), the app launcher and the account menu. On a phone: logo, search, menu. */
@@ -44,7 +46,10 @@ export function header(p: HeaderParts, vp: Viewport, t: T, icon: Icon): string {
   ].join("");
   // A website carries its navigation in the header on a computer; an app has it in the sidebar instead.
   const nav = vp === "computer" && (p.surface ?? "website") === "website" ? `<nav class="hnav" aria-label="${esc(t("main_navigation"))}">${p.nav.map((n) => `<a class="hnavitem${n.current ? " current" : ""}" href="${esc(n.href ?? "#")}" data-act="nav:${esc(n.id)}"${n.current ? ' aria-current="page"' : ""}>${esc(n.label)}</a>`).join("")}</nav>` : "";
-  return `<header class="shell-header" role="banner"><a class="logo-place" href="/" aria-label="LynkOmni">${p.logo}</a>${p.title && vp !== "computer" ? `<h1 class="htitle">${esc(p.title)}</h1>` : ""}${nav}<div class="hright">${right}</div></header>`;
+  const side = p.side ? `<button class="side-chip${p.side.storefront ? " storefront" : ""}" data-act="shell:side" data-side="${p.side.storefront ? "external" : "internal"}" aria-label="${esc(t("side_now", { side: p.side.label }))}">${icon(p.side.storefront ? "ui-cart" : "ui-home")}<span>${esc(p.side.label)}</span></button>` : "";
+  // on a phone the side gets its own line under the header, so the word is never squeezed or broken
+  const strip = side && vp === "phone" ? `<div class="side-strip">${side}</div>` : "";
+  return `<header class="shell-header" role="banner"><a class="logo-place" href="/" aria-label="LynkOmni">${p.logo}</a>${vp === "phone" ? "" : side}${p.title && vp !== "computer" ? `<h1 class="htitle">${esc(p.title)}</h1>` : ""}${nav}<div class="hright">${right}</div></header>${strip}`;
 }
 
 /** Navigation by size: bottom tab bar of 4 or 5 on a phone, a rail on a tablet, a sidebar on a computer. */
@@ -58,17 +63,43 @@ export function navigation(items: NavItem[], vp: Viewport, t: T, icon: Icon): st
 // ---------------------------------------------------------------- launcher and account menu
 export interface Place { id: string; name: string; icon: string; href: string; state: "available" | "coming_soon"; plain?: string }
 /** The grid that lists every LynkOmni place the person can use. A place waiting for its partner shows "Coming to your country soon." instead of disappearing. */
-export function launcher(places: Place[], t: T, icon: Icon): string {
-  return `<div class="launcher" role="dialog" aria-label="${esc(t("app_launcher"))}"><ul class="lgrid">${places.map((p) => `<li><a class="lplace${p.state === "coming_soon" ? " soon" : ""}" href="${esc(p.href)}" data-act="place:${esc(p.id)}">${icon(p.icon, "prod")}<span class="nm">${esc(p.name)}</span>${p.plain ? `<span class="pl">${esc(p.plain)}</span>` : ""}${p.state === "coming_soon" ? `<span class="soon-tag">${esc(t("coming_soon"))}</span>` : ""}</a></li>`).join("")}</ul></div>`;
+export function launcher(places: Place[], t: T, icon: Icon, sides?: SideChoice): string {
+  const top = sides ? `<div class="lsides" role="group" aria-label="${esc(t("switch_side_group"))}">${sideButtons(sides, t, icon)}</div>` : "";
+  return `<div class="launcher" role="dialog" aria-label="${esc(t("app_launcher"))}">${top}<ul class="lgrid">${places.map((p) => `<li><a class="lplace${p.state === "coming_soon" ? " soon" : ""}" href="${esc(p.href)}" data-act="place:${esc(p.id)}">${icon(p.icon, "prod")}<span class="nm">${esc(p.name)}</span>${p.plain ? `<span class="pl">${esc(p.plain)}</span>` : ""}${p.state === "coming_soon" ? `<span class="soon-tag">${esc(t("coming_soon"))}</span>` : ""}</a></li>`).join("")}</ul></div>`;
 }
 
-export interface Account { name: string; lynkId: string; businesses: { id: string; name: string; current: boolean }[]; role: string; roles: string[]; theme: "light" | "dark" | "lite" | "sunlight"; language: string; region: string }
+export interface Account { name: string; lynkId: string; businesses: { id: string; name: string; current: boolean }[]; role: string; roles: string[]; theme: "light" | "dark" | "lite" | "sunlight"; language: string; region: string;
+  /** BIZZ & DEVICE: the two sides (workspace word and Storefront) and the interface this device uses */
+  sides?: SideChoice; view?: { name: string } }
+/** The two sides of every service: the workspace (shown with its own word) and the Storefront. One tap between them. */
+export interface SideChoice { current: "internal" | "external"; workspaceWord: string; storefrontWord: string }
+export function sideButtons(s: SideChoice, t: T, icon: Icon): string {
+  const b = (side: "internal" | "external", word: string, ic: string) => `<button class="side-btn${s.current === side ? " current" : ""}" data-act="side:${side}"${s.current === side ? ' aria-current="true"' : ""}>${icon(ic)}<span>${esc(s.current === side ? word : t("switch_side", { side: word }))}</span></button>`;
+  return b("internal", s.workspaceWord, "ui-home") + b("external", s.storefrontWord, "ui-cart");
+}
 /** The LynkID is shown masked with a copy button: never the whole identifier on screen. */
 export const maskId = (id: string): string => id.length > 9 ? `${id.slice(0, 6)}…${id.slice(-4)}` : id;
 export function accountMenu(a: Account, t: T, icon: Icon): string {
   const biz = a.businesses.length > 1 ? `<li><span class="mlabel">${esc(t("switch_business"))}</span><ul class="sub">${a.businesses.map((b) => `<li><button class="mitem${b.current ? " current" : ""}" data-act="business:${esc(b.id)}"${b.current ? ' aria-current="true"' : ""}>${esc(b.name)}</button></li>`).join("")}</ul></li>` : "";
   const roles = a.roles.length > 1 ? `<li><span class="mlabel">${esc(t("switch_role"))}</span><ul class="sub">${a.roles.map((r) => `<li><button class="mitem${r === a.role ? " current" : ""}" data-act="role:${esc(r)}">${esc(t(`role_${r}`))}</button></li>`).join("")}</ul></li>` : "";
-  return `<div class="account-menu" role="dialog" aria-label="${esc(t("account_menu"))}"><div class="who"><span class="avatar big">${icon("ui-user")}</span><div><strong>${esc(a.name)}</strong><div class="lynkid"><code>${esc(maskId(a.lynkId))}</code><button class="copy" data-act="copy:lynkid" aria-label="${esc(t("copy_lynkid"))}">${icon("ui-copy")}</button></div></div></div><ul class="mlist">${biz}${roles}<li><button class="mitem" data-act="shell:globe">${icon("ui-globe")}<span>${esc(t("language_region"))}: ${esc(a.language)} · ${esc(a.region)}</span></button></li><li><button class="mitem" data-act="shell:theme">${icon("ui-theme")}<span>${esc(t("theme"))}: ${esc(t(`theme_${a.theme}`))}</span></button></li><li><a class="mitem" href="/security" data-act="go:security">${icon("ui-lock")}<span>${esc(t("security_center"))}</span></a></li><li><button class="mitem" data-act="shell:help">${icon("ui-info")}<span>${esc(t("help"))}</span></button></li><li><button class="mitem danger" data-act="shell:signout">${icon("ui-signout")}<span>${esc(t("sign_out"))}</span></button></li></ul></div>`;
+  return `<div class="account-menu" role="dialog" aria-label="${esc(t("account_menu"))}"><div class="who"><span class="avatar big">${icon("ui-user")}</span><div><strong>${esc(a.name)}</strong><div class="lynkid"><code>${esc(maskId(a.lynkId))}</code><button class="copy" data-act="copy:lynkid" aria-label="${esc(t("copy_lynkid"))}">${icon("ui-copy")}</button></div></div></div><ul class="mlist">${a.sides ? `<li class="mside">${sideButtons(a.sides, t, icon)}</li>` : ""}${biz}${roles}${a.view ? `<li><button class="mitem" data-act="shell:view">${icon("ui-settings")}<span>${esc(t("change_view"))}: ${esc(a.view.name)}</span></button></li><li><button class="mitem" data-act="shell:why">${icon("ui-info")}<span>${esc(t("why_this_view"))}</span></button></li>` : ""}<li><button class="mitem" data-act="shell:globe">${icon("ui-globe")}<span>${esc(t("language_region"))}: ${esc(a.language)} · ${esc(a.region)}</span></button></li><li><button class="mitem" data-act="shell:theme">${icon("ui-theme")}<span>${esc(t("theme"))}: ${esc(t(`theme_${a.theme}`))}</span></button></li><li><a class="mitem" href="/security" data-act="go:security">${icon("ui-lock")}<span>${esc(t("security_center"))}</span></a></li><li><button class="mitem" data-act="shell:help">${icon("ui-info")}<span>${esc(t("help"))}</span></button></li><li><button class="mitem danger" data-act="shell:signout">${icon("ui-signout")}<span>${esc(t("sign_out"))}</span></button></li></ul></div>`;
+}
+
+/** Change view (DEVICE, 48.17): the interface versions this device can use, "Automatic" first. The person's choice is remembered
+ *  for this device and can always be undone; on a selling device only the owner may change it. Why this view? names the rule. */
+/** The name of each interface in catalog/devices.v1.json (written out so the words travel only where they are used). */
+export const IFACE_NAME: Record<string, string> = { "universal": "iface_universal", "phone.touch": "iface_phone_touch", "phone.keypad": "iface_phone_keypad", "phone.feature": "iface_phone_feature", "phone.text": "iface_phone_text", "tablet.touch": "iface_tablet_touch", "computer.pointer": "iface_computer_pointer", "computer.touch": "iface_computer_touch", "tv.remote": "iface_tv_remote", "watch.touch": "iface_watch_touch", "car.voice": "iface_car_voice", "eink.touch": "iface_eink_touch", "eink.buttons": "iface_eink_buttons", "voice.only": "iface_voice_only" };
+/** The sentence for each rule of the decision function (written out so the words travel only where they are used). */
+const WHY_VIEW: Record<string, string> = { override: "why_override", registered: "why_registered", reported: "why_reported", safe_default: "why_safe_default" };
+export function viewSheet(o: { current: string; rule: "override" | "registered" | "reported" | "safe_default"; options: string[]; ownerOnly: boolean; canChange: boolean }, t: T, icon: Icon): string {
+  const name = (id: string) => t(IFACE_NAME[id] ?? "iface_universal");
+  const why = `<p class="why" id="whyView">${icon("ui-info")}<span>${esc(t(WHY_VIEW[o.rule] ?? "why_safe_default"))}</span></p>`;
+  const lock = o.ownerOnly && !o.canChange ? `<p class="note">${esc(t("view_owner_only"))}</p>` : "";
+  const opts = ["auto", ...o.options].map((id) => {
+    const on = id === "auto" ? o.rule !== "override" : o.rule === "override" && o.current === id;
+    return `<li><button class="choice${on ? " current" : ""}" data-act="view:${esc(id)}"${on ? ' aria-current="true"' : ""}${o.canChange ? "" : " disabled"}>${esc(id === "auto" ? t("view_auto") : name(id))}</button></li>`;
+  }).join("");
+  return `<div class="view-sheet" role="dialog" aria-label="${esc(t("change_view"))}"><h2>${esc(t("change_view"))}</h2><p class="now">${esc(t("view_now", { name: name(o.current) }))}</p>${why}${lock}<ul class="choices">${opts}</ul></div>`;
 }
 
 /** Language and region are always one tap away (the globe), never a buried setting. Presentation only, never data. */

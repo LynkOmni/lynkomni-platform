@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ar",
  "native": "العربية",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "الأكاديمية",
   "academy_hint": "تُفتح دورة قصيرة بجانب الشاشة التي تشرحها.",
@@ -142,6 +142,8 @@
   "invoices": "الفواتير",
   "join_group": "انضم",
   "joined": "انضممت. تدفع حصتك للمورد فقط إذا بلغت المجموعة الهدف.",
+  "key_clear": "مسح",
+  "key_recall": "استرجاع",
   "kitchen": "المطبخ",
   "kitchen_items_open": "ما زالت هناك أطباق في المطبخ",
   "kitchen_queue": "طابور المطبخ",

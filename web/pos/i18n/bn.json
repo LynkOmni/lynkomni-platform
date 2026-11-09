@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "একাডেমি",
   "academy_hint": "একটি ছোট কোর্স যে স্ক্রিন শেখায় তার পাশে খোলে।",
@@ -142,6 +142,8 @@
   "invoices": "চালান",
   "join_group": "যোগ দিন",
   "joined": "যোগ দিয়েছেন। দল লক্ষ্যে পৌঁছালে তবেই নিজের অংশের দাম সরবরাহকারীকে দেবেন।",
+  "key_clear": "মুছুন",
+  "key_recall": "ফিরিয়ে আনুন",
   "kitchen": "রান্নাঘর",
   "kitchen_items_open": "রান্নাঘরের আইটেম এখনও খোলা",
   "kitchen_queue": "রান্নাঘরের সারি",

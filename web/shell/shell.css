@@ -165,3 +165,19 @@
 .globe-sheet .region-search { inline-size: 100%; min-block-size: 44px; margin-block: 4px 8px; padding: 8px 12px; border: 1px solid var(--border-input); border-radius: 8px; background: var(--bg-surface); color: var(--text-primary); font: inherit; }
 .globe-sheet .choices.regions { max-block-size: 40vh; overflow-y: auto; }
 .globe-sheet .choices.regions li[hidden] { display: none; }
+
+/* BIZZ & DEVICE (2026-11-09): the side of every screen, always in words with a mark (never colour alone), and Change view */
+.side-chip { display: inline-flex; align-items: center; gap: 6px; min-block-size: var(--touch-target); flex: none; padding-inline: 10px; border: 1px solid var(--border-strong); border-radius: 999px; background: var(--bg-surface); color: var(--text-primary); font: inherit; font-size: var(--text-14); font-weight: 600; cursor: pointer; }
+.side-chip span { white-space: nowrap; }
+.side-strip { display: flex; padding: 6px 12px; border-block-end: 1px solid var(--border-subtle); background: var(--bg-surface); }
+.side-strip .side-chip { max-inline-size: 100%; }
+.side-chip.storefront { border-color: var(--brand-primary); background: var(--brand-subtle); color: var(--brand-ink); }
+.lsides, .mside { display: flex; flex-wrap: wrap; gap: 6px; margin-block-end: 8px; }
+.side-btn { display: inline-flex; flex: 1 1 140px; align-items: center; gap: 6px; min-block-size: var(--touch-target); padding-inline: 12px; border: 1px solid var(--border-strong); border-radius: 12px; background: var(--bg-surface); color: var(--text-primary); font: inherit; cursor: pointer; text-align: start; }
+.side-btn.current { border-color: var(--brand-primary); background: var(--brand-subtle); color: var(--brand-ink); font-weight: 700; }
+.view-sheet { inline-size: min(520px, 100%); max-block-size: 90%; overflow-y: auto; padding: 16px; border-radius: 16px; background: var(--bg-surface); box-shadow: 0 8px 32px rgba(0, 0, 0, .25); }
+.view-sheet .now { font-weight: 600; }
+.view-sheet .why { display: flex; gap: 6px; align-items: flex-start; color: var(--text-primary); }
+.view-sheet .choice[disabled] { opacity: 1; cursor: not-allowed; border-style: dashed; }
+/* Focus is always visible on keyboard, remote and switch-access interfaces */
+[data-interface="computer.pointer"] :focus-visible, [data-interface="tv.remote"] :focus-visible, [data-interface="universal"] :focus-visible, [data-interface="phone.keypad"] :focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }

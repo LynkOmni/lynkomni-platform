@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "學院",
   "academy_hint": "簡短課程會在它所講解的畫面旁邊開啟。",
@@ -142,6 +142,8 @@
   "invoices": "帳單",
   "join_group": "加入",
   "joined": "您已加入。只有當團體達到目標時，您才向供應商支付自己的份額。",
+  "key_clear": "清除",
+  "key_recall": "調回",
   "kitchen": "廚房",
   "kitchen_items_open": "廚房裡還有餐點",
   "kitchen_queue": "廚房佇列",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "اڪيڊمي",
   "academy_hint": "مختصر سبق ان اسڪرين جي ڀرسان کلي ٿو جيڪا اهو سيکاري ٿو.",
@@ -142,6 +142,8 @@
   "invoices": "بل",
   "join_group": "شامل ٿيو",
   "joined": "توهان شامل ٿيا. پنهنجو حصو سپلائر کي رڳو تڏهن ڏيو جڏهن گروپ ٽارگيٽ تي پهچي.",
+  "key_clear": "صاف ڪريو",
+  "key_recall": "واپس آڻيو",
   "kitchen": "رڌڻو",
   "kitchen_items_open": "اڃا رڌڻي ۾ کاڌو آهي",
   "kitchen_queue": "رڌڻي جي قطار",

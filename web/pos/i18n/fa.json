@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fa",
  "native": "فارسی",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "آموزشگاه",
   "academy_hint": "یک درس کوتاه کنار صفحه‌ای که آموزش می‌دهد باز می‌شود.",
@@ -142,6 +142,8 @@
   "invoices": "فاکتورها",
   "join_group": "پیوستن",
   "joined": "پیوستید. سهم خود را فقط وقتی به تأمین‌کننده می‌پردازید که گروه به هدف برسد.",
+  "key_clear": "پاک کردن",
+  "key_recall": "بازخوانی",
   "kitchen": "آشپزخانه",
   "kitchen_items_open": "هنوز غذایی در آشپزخانه مانده",
   "kitchen_queue": "صف آشپزخانه",

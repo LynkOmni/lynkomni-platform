@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "1088b1b421df640d05e8cf506f9c5f5c350f62c9842127bfa373ebb30a998b01",
+ "source_sha256": "a1dd3e0fc7e0789ab94b95396e178390369c8753a43c4254cdb99d656eda6927",
  "texts": {
   "academy": "아카데미",
   "academy_hint": "짧은 강의가 설명하는 화면 옆에 열립니다.",
@@ -142,6 +142,8 @@
   "invoices": "청구",
   "join_group": "참여하기",
   "joined": "참여했습니다. 그룹이 목표에 도달할 때만 내 몫을 공급업체에 지불합니다.",
+  "key_clear": "지우기",
+  "key_recall": "다시 불러오기",
   "kitchen": "주방",
   "kitchen_items_open": "주방에 아직 음식이 있습니다",
   "kitchen_queue": "주방 순서",

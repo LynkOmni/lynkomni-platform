@@ -1,0 +1,450 @@
+{
+ "version": 1,
+ "agreed": "2026-11-09 (DEVICE, master blueprint 48.17)",
+ "rule": "One register and one decision function (core/interfaces.py, ts/src/interfaces.ts, shared vectors) choose the interface version for every device. No screen decides its own layout. Order: Change view (the person's own override, remembered per device; on selling devices only the owner may set it), the registered device record (confirmed by LynkDriver from the attached hardware), what the device reports about itself (never the browser's name), then the safe default that works with every input. Devices with touch and a pointer or keyboard follow the input used last. A change never happens in the middle of a payment, count or signature. Type and spacing per class come from design/tokens.v1.json fonts.device_classes.",
+ "classes": {
+  "watch": {
+   "distance": "wrist"
+  },
+  "phone": {
+   "distance": "hand"
+  },
+  "tablet": {
+   "distance": "hand"
+  },
+  "computer": {
+   "distance": "desk"
+  },
+  "tv": {
+   "distance": "room"
+  },
+  "eink": {
+   "distance": "hand"
+  },
+  "voice": {
+   "distance": "none"
+  }
+ },
+ "inputs": [
+  "touch",
+  "gestures",
+  "stylus",
+  "mouse",
+  "trackpad",
+  "keyboard",
+  "number_keypad",
+  "phone_keypad",
+  "arrows",
+  "tv_remote",
+  "game_controller",
+  "voice",
+  "switch_access",
+  "eye_tracking",
+  "screen_reader",
+  "scan",
+  "nfc",
+  "camera",
+  "function_keys",
+  "bump_bar",
+  "trigger"
+ ],
+ "every_interface_accepts": [
+  "keyboard",
+  "switch_access",
+  "screen_reader",
+  "voice"
+ ],
+ "keys": {
+  "confirm": {
+   "label_key": "confirm",
+   "colour_token": "device-key-enter"
+  },
+  "cancel": {
+   "label_key": "cancel",
+   "colour_token": "device-key-cancel"
+  },
+  "clear": {
+   "label_key": "key_clear",
+   "colour_token": "device-key-clear"
+  },
+  "help": {
+   "label_key": "help",
+   "physical": "F1"
+  },
+  "scan": {
+   "label_key": "scan",
+   "physical": "trigger"
+  },
+  "ready": {
+   "label_key": "ready",
+   "physical": "bump bar"
+  },
+  "next": {
+   "label_key": "next",
+   "physical": "bump bar"
+  },
+  "recall": {
+   "label_key": "key_recall",
+   "physical": "bump bar"
+  }
+ },
+ "safe_default": "universal",
+ "interfaces": {
+  "universal": {
+   "class": "phone",
+   "inputs": [
+    "touch",
+    "keyboard",
+    "arrows",
+    "tv_remote",
+    "switch_access",
+    "screen_reader",
+    "voice"
+   ],
+   "note": "The safe default: large touch targets and full keyboard, arrow and remote navigation; used whenever the device facts are unclear."
+  },
+  "phone.touch": {
+   "class": "phone",
+   "inputs": [
+    "touch",
+    "gestures",
+    "stylus"
+   ]
+  },
+  "phone.keypad": {
+   "class": "phone",
+   "inputs": [
+    "phone_keypad",
+    "arrows"
+   ]
+  },
+  "phone.feature": {
+   "class": "phone",
+   "inputs": [
+    "arrows",
+    "phone_keypad"
+   ],
+   "note": "Simple smart-feature phone with a basic browser: the lighter app."
+  },
+  "phone.text": {
+   "class": "voice",
+   "inputs": [
+    "phone_keypad"
+   ],
+   "note": "Basic phone with no apps: text messages, USSD dialled codes and voice-call menus."
+  },
+  "tablet.touch": {
+   "class": "tablet",
+   "inputs": [
+    "touch",
+    "gestures",
+    "stylus",
+    "keyboard"
+   ]
+  },
+  "computer.pointer": {
+   "class": "computer",
+   "inputs": [
+    "mouse",
+    "trackpad",
+    "keyboard"
+   ]
+  },
+  "computer.touch": {
+   "class": "computer",
+   "inputs": [
+    "touch",
+    "gestures",
+    "stylus",
+    "mouse",
+    "trackpad",
+    "keyboard"
+   ]
+  },
+  "tv.remote": {
+   "class": "tv",
+   "inputs": [
+    "arrows",
+    "tv_remote",
+    "game_controller"
+   ]
+  },
+  "watch.touch": {
+   "class": "watch",
+   "inputs": [
+    "touch",
+    "gestures"
+   ]
+  },
+  "car.voice": {
+   "class": "voice",
+   "inputs": [
+    "voice"
+   ],
+   "note": "Voice only while the vehicle moves; full use when stopped."
+  },
+  "eink.touch": {
+   "class": "eink",
+   "inputs": [
+    "touch"
+   ]
+  },
+  "eink.buttons": {
+   "class": "eink",
+   "inputs": [
+    "arrows"
+   ]
+  },
+  "voice.only": {
+   "class": "voice",
+   "inputs": [
+    "voice"
+   ],
+   "note": "Voice assistants: never payments."
+  }
+ },
+ "devices": [
+  {
+   "id": "smartphone",
+   "touch": "phone.touch",
+   "non_touch": null,
+   "emulator": {
+    "touch": "merchant-phone",
+    "non_touch": null
+   },
+   "section": 1
+  },
+  {
+   "id": "button-phone",
+   "touch": null,
+   "non_touch": "phone.keypad",
+   "emulator": {
+    "touch": null,
+    "non_touch": "button-phone"
+   },
+   "section": 3
+  },
+  {
+   "id": "feature-phone",
+   "touch": null,
+   "non_touch": "phone.feature",
+   "emulator": {
+    "touch": null,
+    "non_touch": "button-phone"
+   },
+   "section": 3
+  },
+  {
+   "id": "basic-phone",
+   "touch": null,
+   "non_touch": "phone.text",
+   "emulator": {
+    "touch": null,
+    "non_touch": "button-phone"
+   },
+   "section": 3
+  },
+  {
+   "id": "tablet",
+   "touch": "tablet.touch",
+   "non_touch": null,
+   "emulator": {
+    "touch": "merchant-phone",
+    "non_touch": null
+   },
+   "section": 1
+  },
+  {
+   "id": "wall-tablet",
+   "touch": "tablet.touch",
+   "non_touch": null,
+   "emulator": {
+    "touch": "counter-tablet",
+    "non_touch": null
+   },
+   "section": 3
+  },
+  {
+   "id": "computer",
+   "touch": "computer.touch",
+   "non_touch": "computer.pointer",
+   "emulator": {
+    "touch": "browser-frame",
+    "non_touch": "browser-frame"
+   },
+   "section": 1
+  },
+  {
+   "id": "all-in-one-pos",
+   "touch": "computer.touch",
+   "non_touch": "computer.pointer",
+   "emulator": {
+    "touch": "pos-terminal",
+    "non_touch": "owner-web"
+   },
+   "section": 3
+  },
+  {
+   "id": "dual-screen-pos",
+   "touch": "computer.touch",
+   "non_touch": null,
+   "emulator": {
+    "touch": "counter-tablet",
+    "non_touch": null
+   },
+   "section": 3
+  },
+  {
+   "id": "pos-terminal",
+   "touch": "phone.touch",
+   "non_touch": "phone.keypad",
+   "emulator": {
+    "touch": "pos-terminal",
+    "non_touch": "pos-terminal"
+   },
+   "section": 3
+  },
+  {
+   "id": "smart-terminal",
+   "touch": "phone.touch",
+   "non_touch": "phone.keypad",
+   "emulator": {
+    "touch": "pos-terminal",
+    "non_touch": "pos-terminal"
+   },
+   "section": 3
+  },
+  {
+   "id": "handheld-scanner",
+   "touch": "phone.touch",
+   "non_touch": "phone.keypad",
+   "emulator": {
+    "touch": "stock-scanner",
+    "non_touch": "stock-scanner"
+   },
+   "section": 3
+  },
+  {
+   "id": "ring-scanner",
+   "touch": "watch.touch",
+   "non_touch": "phone.keypad",
+   "emulator": {
+    "touch": "stock-scanner",
+    "non_touch": "stock-scanner"
+   },
+   "section": 3
+  },
+  {
+   "id": "kitchen-screen",
+   "touch": "tablet.touch",
+   "non_touch": "tv.remote",
+   "emulator": {
+    "touch": "kitchen-screen",
+    "non_touch": "kitchen-screen"
+   },
+   "section": 3
+  },
+  {
+   "id": "customer-display",
+   "touch": "tablet.touch",
+   "non_touch": "tv.remote",
+   "emulator": {
+    "touch": "customer-display",
+    "non_touch": "customer-display"
+   },
+   "section": 3
+  },
+  {
+   "id": "rider-phone",
+   "touch": "phone.touch",
+   "non_touch": "phone.keypad",
+   "emulator": {
+    "touch": "rider-phone",
+    "non_touch": "button-phone"
+   },
+   "section": 3
+  },
+  {
+   "id": "car-screen",
+   "touch": null,
+   "non_touch": "car.voice",
+   "emulator": {
+    "touch": null,
+    "non_touch": "rider-phone"
+   },
+   "section": 3
+  },
+  {
+   "id": "smartwatch",
+   "touch": "watch.touch",
+   "non_touch": null,
+   "emulator": {
+    "touch": "rider-phone",
+    "non_touch": null
+   },
+   "section": 3
+  },
+  {
+   "id": "self-order-kiosk",
+   "touch": "tablet.touch",
+   "non_touch": "tv.remote",
+   "emulator": {
+    "touch": null,
+    "non_touch": null
+   },
+   "section": 13
+  },
+  {
+   "id": "smart-tv",
+   "touch": null,
+   "non_touch": "tv.remote",
+   "emulator": {
+    "touch": null,
+    "non_touch": null
+   },
+   "section": 13
+  },
+  {
+   "id": "queue-display",
+   "touch": null,
+   "non_touch": "tv.remote",
+   "emulator": {
+    "touch": null,
+    "non_touch": null
+   },
+   "section": 13
+  },
+  {
+   "id": "eink-reader",
+   "touch": "eink.touch",
+   "non_touch": "eink.buttons",
+   "emulator": {
+    "touch": null,
+    "non_touch": null
+   },
+   "section": 13
+  },
+  {
+   "id": "voice-assistant",
+   "touch": null,
+   "non_touch": "voice.only",
+   "emulator": {
+    "touch": null,
+    "non_touch": null
+   },
+   "section": 13
+  },
+  {
+   "id": "no-device",
+   "touch": null,
+   "non_touch": null,
+   "emulator": {
+    "touch": null,
+    "non_touch": null
+   },
+   "section": 3,
+   "note": "Assisted by an agent point or staff."
+  }
+ ],
+ "keys_rule": "Each key means the same thing on every device and interface: its word is the label_key in web/pos/strings.en.json and its colour, where it has one, the device-key-* token. Confirm, cancel and clear are never swapped or recoloured by a screen."
+}

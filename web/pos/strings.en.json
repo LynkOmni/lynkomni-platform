@@ -135,6 +135,8 @@
  "invoices": "Invoices",
  "join_group": "Join",
  "joined": "Joined. You pay the supplier for your own part only if the group is reached.",
+ "key_clear": "Clear",
+ "key_recall": "Recall",
  "kitchen": "Kitchen",
  "kitchen_items_open": "Kitchen items still open",
  "kitchen_queue": "Kitchen queue",

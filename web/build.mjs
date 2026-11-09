@@ -12,13 +12,15 @@ import { fileURLToPath } from "node:url";
 const WEB = dirname(fileURLToPath(import.meta.url));
 const ROOT = dirname(WEB);
 const OUT = join(WEB, "emulators", "dist");
-const DEVICE_MODULES = ["ts/src/brand.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/pos.js", "ts/src/merchant.js", "ts/src/business.js", "ts/src/agent.js", "ts/src/restaurant.js", "ts/src/emulator.js", "SH=ts/src/shell.js", "ts/src/deviceshell.js"];
+const DEVICE_MODULES = ["ts/src/brand.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/pos.js", "ts/src/merchant.js", "ts/src/business.js", "ts/src/agent.js", "ts/src/restaurant.js", "ts/src/emulator.js", "SH=ts/src/usernames.generated.js+ts/src/usernames.js+ts/src/shell.js", "ts/src/deviceshell.js"];
 // every tracked thing is drawn the same way everywhere (owner, 9 November 2026): the engine, its register and the shared look
 const TRACK_MODULES = ["ts/src/tracking.js", "ts/src/tracking.generated.js", "ts/src/trackview.js"];
+// every interface picks its view from the device register (DEVICE, 48.17) and supports touch gestures and arrow navigation
+const INTERFACE_MODULES = ["ts/src/interfaces.generated.js", "ts/src/interfaces.js", "ts/src/gestures.js"];
 const EMULATORS = [
   { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: [...DEVICE_MODULES, "web/emulators/pos-terminal/app.js"] },
-  { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: [...DEVICE_MODULES, ...TRACK_MODULES, "ts/src/usernames.generated.js", "ts/src/usernames.js", "web/emulators/merchant-phone/app.js"] },
-  { id: "browser-frame", out: "lynkomni-browser-frame.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", "web/emulators/browser-frame/app.js"],
+  { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: ["ts/src/usernames.generated.js", "ts/src/usernames.js", ...DEVICE_MODULES, ...TRACK_MODULES, "web/emulators/merchant-phone/app.js"] },
+  { id: "browser-frame", out: "lynkomni-browser-frame.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", ...INTERFACE_MODULES, "web/emulators/browser-frame/app.js"],
     extraCss: ["web/shell/shell.css"] },
   { id: "account-site", out: "lynkomni-account-site.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", "ts/src/account.js", ...TRACK_MODULES, "web/emulators/account-site/app.js"],
     extraCss: ["web/shell/shell.css"] },
@@ -40,13 +42,29 @@ function stripComments(js) {
 // Join ES modules into one script: drop import lines and the export keyword. Modules are listed in dependency order.
 // A module listed as "NS=path" is joined in its own scope and reached through that name (import * as NS from "path"), so its
 // names never clash with the device modules' own (ts/src/shell.ts and ts/src/emulator.ts both have esc, Link and state).
+const MISSING = new Set();   // modules imported but not joined, reported together after every emulator is bundled
 function bundle(mods) {
+  const flat = mods.map((x) => (x.includes("=") ? x.split("=")[1].split("+").pop() : x));   // what the joined modules can reach (a group's files stay inside the group)
   const parts = mods.map((spec) => {
-    const [ns, m] = spec.includes("=") ? spec.split("=") : [null, spec];
+    const [ns, group] = spec.includes("=") ? spec.split("=") : [null, spec];
+    if (ns && group.includes("+")) {           // "NS=a.js+b.js": a module with its own helpers, joined together in one scope
+      const files = group.split("+"), last = files[files.length - 1];
+      const inner = bundle.part(files, [...flat, ...files]);
+      const names = [...read(join(WEB, ".build", last)).matchAll(/^export (?:const|function|class|let|async function) (\w+)/gm)].map((x) => x[1]);
+      return `// ---- ${group} (as ${ns})\nconst ${ns} = (() => {\n${inner}\nreturn { ${names.join(", ")} };\n})();`;
+    }
+    const m = group;
     const js = read(join(WEB, ".build", m));
     // joining drops import lines, so a renamed import (import { A as B }) would leave B undefined at run time: refuse it here
     const renamed = [...js.matchAll(/^import\s*\{([^}]*)\}/gm)].map((x) => x[1]).join(",").split(",").map((x) => x.trim()).filter((x) => /\sas\s/.test(x) && !x.startsWith("type "));
     if (renamed.length) throw new Error(`${m}: renamed imports are not joined (${renamed.join(", ")}); import the name as it is exported`);
+    // every module a file imports (values, not types) must be joined too, or its names are undefined at run time: refuse a missing one
+    const listed = new Set(flat);
+    for (const [, what, from] of js.matchAll(/^import\s+(type\s+)?[^;]*?from\s+"([^"]+)";/gm).map((x) => [x[0], x[1], x[2]])) {
+      if (what) continue;
+      const target = join(dirname(m), from).replace(/\\/g, "/");
+      if (!listed.has(target)) MISSING.add(`${m} imports ${target}`);
+    }
     const body = stripComments(js).replace(/^import[^;]*;\s*$/gm, "").replace(/^export \{\s*\};?\s*$/gm, "").replace(/^export (?=(const|function|class|let|async))/gm, "");
     if (!ns) return `// ---- ${m}\n` + body;
     const names = [...js.matchAll(/^export (?:const|function|class|let|async function) (\w+)/gm)].map((x) => x[1]);
@@ -54,6 +72,14 @@ function bundle(mods) {
   });
   return `"use strict";\n(() => {\n${parts.join("\n")}\n})();`;
 }
+// The plain bodies of a group of modules (for "NS=a.js+b.js"), checked like any other module.
+bundle.part = (files, flat) => files.map((m) => {
+  const js = read(join(WEB, ".build", m));
+  for (const [, what, from] of js.matchAll(/^import\s+(type\s+)?[^;]*?from\s+"([^"]+)";/gm).map((x) => [x[0], x[1], x[2]])) {
+    if (!what && !flat.includes(join(dirname(m), from).replace(/\\/g, "/"))) MISSING.add(`${m} imports ${join(dirname(m), from)}`);
+  }
+  return `// ---- ${m}\n` + stripComments(js).replace(/^import[^;]*;\s*$/gm, "").replace(/^export \{\s*\};?\s*$/gm, "").replace(/^export (?=(const|function|class|let|async))/gm, "");
+}).join("\n");
 
 // Country packs travel compact (build_data.py): inflate each pack's service states and payment readiness before the app starts.
 // The data travels compressed (owner speed budget): only the English words stay plain, so the checks in tests/test_emulators.py
@@ -100,5 +126,6 @@ for (const e of EMULATORS) {
     console.log(`wrote web/emulators/dist/${e.out} (${Math.round(html.length / 1024)} KB)`);
   }
 }
+if (MISSING.size) { console.error(`imported but not joined (add them to the emulator's modules):\n  ${[...MISSING].join("\n  ")}`); process.exit(1); }
 if (stale.length) { console.error(`out of date (run node web/build.mjs): ${stale.join(", ")}`); process.exit(1); }
 if (process.argv.includes("--check")) console.log("emulators are up to date");
