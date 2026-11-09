@@ -30,8 +30,8 @@ export function fontFilesFor(tags: readonly string[]): string[] {
   const out = new Set<string>(FIRST_LOAD);
   for (const tag of tags) {
     const b = baseLanguage(tag);
-    const script = b ? LANGUAGES[b]?.script : undefined;
-    for (const f of (script ? SCRIPT_FILES[script] : undefined) ?? []) out.add(f);
+    const lang = b ? LANGUAGES[b] : undefined;
+    for (const script of lang ? [lang.script, ...(lang.also ?? [])] : []) for (const f of SCRIPT_FILES[script] ?? []) out.add(f);
   }
   return [...out];
 }

@@ -1,0 +1,11 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "pl",
+ "native": "Polski",
+ "source_sha256": "6ae2f0135dd2174402ad3565d882e5cb59341a33b2dbdfa6bf8c95e10ef8ec4c",
+ "texts": {
+  "title": "Ręczny skaner LynkStock"
+ }
+}

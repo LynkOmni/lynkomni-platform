@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.26.0 (2026-11-09)
+Section 3, Phase 5: language wave 2 (blueprint 43 G). LynkOmni now speaks 38 languages: Bangla, Tamil, Thai, Amharic, Hausa, Yoruba, Zulu, Filipino, Polish, Dutch, Ukrainian and Malay join the 26 of wave 1.
+- Every screen text of every emulator (the shell, the shared POS words, the footer, the account site, the Business app and every device) is translated by Claude into the 12 languages and checked by tools/translation/claude_packs.py (names, placeholders and numbers unchanged, no repetition, written in the language's own script).
+- Four new scripts with self-hosted fonts from the official Google Fonts repository (same pinned commit, SIL Open Font License): Noto Sans Bengali, Noto Sans Tamil, Noto Sans Thai and Noto Sans Ethiopic. Bengali, Tamil and Thai get the taller line height and are never letter-spaced or uppercased. Ukrainian uses the Cyrillic files and the Latin-script languages use Montserrat and Inter.
+- Yoruba's dot-below vowels sit in the Vietnamese block, so a language can now name extra script files ("also" in design/fonts/scripts.v1.json) and offline apps store them too (fontFilesFor).
+- The translation script check knows Bengali, Tamil, Thai and Ethiopic.
+- Country packs: Bangladesh, Sri Lanka, Thailand, Ethiopia, Malaysia, Brunei, Poland, Ukraine, the Netherlands, Belgium, Suriname, the Dutch Caribbean and the Cocos Islands now open in their own language; every country name is available in the 12 new languages. No language waves are left in design/fonts/language_waves.v1.json; the other official languages stay "planned".
+- File size budgets raised for five demo files (they carry every text in all 38 languages; a real app downloads one language at a time) and the pricing ladder chart (the longer font stack).
+
 ## v0.25.0 (2026-11-09)
 Section 3, Phase 3 and 4: the 41 B shell parts in every device app, picture mode on every device, and the agent point pictures.
 - Every navigated device (terminal, counter tablet, kitchen screen, rider phone, stock scanner, owner's web view) now has "Find or do anything" (search that runs actions, with voice and LynkAssist), help (?) for the screen in view with a way to a person, the account menu, the connection chip with its sync sheet, the language and region card on first use with one-tap English, designed empty states, and an address for every screen from the address map. "/" or Ctrl+K opens search on a computer; Escape closes.

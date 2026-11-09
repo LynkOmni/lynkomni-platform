@@ -6,12 +6,12 @@
  "currencies": [
   "USD"
  ],
- "locale": "en-BQ",
+ "locale": "nl-BQ",
  "languages": [
   "nl"
  ],
  "regional_languages": [],
- "ui_language": "en",
+ "ui_language": "nl",
  "tz": "America/Kralendijk",
  "time_zones": [
   "America/Kralendijk"

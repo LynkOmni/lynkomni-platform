@@ -6,14 +6,14 @@
  "currencies": [
   "EUR"
  ],
- "locale": "en-NL",
+ "locale": "nl-NL",
  "languages": [
   "nl"
  ],
  "regional_languages": [
   "fy"
  ],
- "ui_language": "en",
+ "ui_language": "nl",
  "tz": "Europe/Amsterdam",
  "time_zones": [
   "Europe/Amsterdam"

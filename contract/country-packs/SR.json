@@ -6,12 +6,12 @@
  "currencies": [
   "SRD"
  ],
- "locale": "en-SR",
+ "locale": "nl-SR",
  "languages": [
   "nl"
  ],
  "regional_languages": [],
- "ui_language": "en",
+ "ui_language": "nl",
  "tz": "America/Paramaribo",
  "time_zones": [
   "America/Paramaribo"

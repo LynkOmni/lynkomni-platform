@@ -6,14 +6,14 @@
  "currencies": [
   "AUD"
  ],
- "locale": "en-CC",
+ "locale": "ms-CC",
  "languages": [
   "ms"
  ],
  "regional_languages": [
   "en"
  ],
- "ui_language": "en",
+ "ui_language": "ms",
  "tz": "Indian/Cocos",
  "time_zones": [
   "Indian/Cocos"

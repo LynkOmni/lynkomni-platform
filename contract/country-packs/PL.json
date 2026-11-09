@@ -6,7 +6,7 @@
  "currencies": [
   "PLN"
  ],
- "locale": "en-PL",
+ "locale": "pl-PL",
  "languages": [
   "pl"
  ],
@@ -15,7 +15,7 @@
   "csb",
   "lt"
  ],
- "ui_language": "en",
+ "ui_language": "pl",
  "tz": "Europe/Warsaw",
  "time_zones": [
   "Europe/Warsaw"
