@@ -1,0 +1,34 @@
+/* Rider phone: an original LynkOmni phone body. Every colour is a design token. */
+.phone { width: 380px; height: 780px; border-radius: 52px; padding: 16px; position: relative; background: linear-gradient(160deg, var(--device-shell-edge), var(--device-shell) 30%, var(--device-glass)); box-shadow: 0 30px 60px -24px color-mix(in srgb, var(--device-glass) 60%, transparent); }
+.notch { position: absolute; top: 24px; left: 50%; width: 90px; height: 22px; margin-left: -45px; border-radius: 12px; background: var(--device-glass); z-index: 2; }
+.homebar { position: absolute; bottom: 24px; left: 50%; width: 120px; height: 5px; margin-left: -60px; border-radius: 3px; background: var(--on-device-key); opacity: .5; }
+.pscreen { height: 100%; border-radius: 38px; overflow: hidden; background: var(--bg-base); color: var(--text-primary); display: flex; flex-direction: column; font-family: var(--font-body); font-size: 14px; }
+.pscreen.dark { color-scheme: dark; }
+.rtop { display: flex; align-items: center; gap: 8px; padding: 52px 16px 10px; background: var(--bg-surface); border-bottom: 1px solid var(--border-subtle); }
+.rtop strong { flex: 1; }
+.rmark { width: 22px; height: 22px; color: var(--brand-ink); }
+.ic { display: inline-block; width: 16px; height: 16px; vertical-align: middle; }
+.ic svg { width: 100%; height: 100%; display: block; }
+.net { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; background: var(--status-success-bg); color: var(--status-success-text); border: 1px solid var(--status-success-border); font: 600 11px var(--font-body); }
+.net.off { background: var(--status-warning-bg); color: var(--status-warning-text); border-color: var(--status-warning-border); }
+.rbody { flex: 1; overflow: auto; padding: 14px 16px 40px; display: flex; flex-direction: column; gap: 10px; }
+.rbody h2 { margin: 0; font-size: 18px; }
+.rbody p { margin: 0; }
+.jobs { list-style: none; margin: 0; padding: 0; }
+.jobs button { width: 100%; display: grid; grid-template-columns: 1fr auto 16px; grid-template-areas: "o s i" "a s i"; gap: 2px 8px; align-items: center; min-height: 64px; padding: 8px 4px; border: 0; border-bottom: 1px solid var(--border-subtle); background: transparent; color: var(--text-primary); text-align: start; font: inherit; cursor: pointer; }
+.jobs strong { grid-area: o; } .jobs span:nth-child(2) { grid-area: a; color: var(--text-secondary); overflow-wrap: anywhere; } .jobs .st { grid-area: s; } .jobs .ic { grid-area: i; color: var(--text-muted); }
+.st { font: 600 11px var(--font-body); padding: 2px 8px; border-radius: 999px; background: var(--status-info-bg); color: var(--status-info-text); }
+.st-delivered { background: var(--status-success-bg); color: var(--status-success-text); }
+.st-failed { background: var(--status-danger-bg); color: var(--status-danger-text); }
+.state { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-weight: 600; }
+.chip .ic { width: 12px; height: 12px; }
+.primary, .secondary { min-height: 48px; border-radius: 12px; font: 600 15px var(--font-body); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.primary { border: 0; background: var(--brand-primary); color: var(--on-brand); }
+.secondary { border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); }
+.primary[disabled] { opacity: .5; cursor: not-allowed; }
+.link { align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; min-height: 36px; border: 0; background: transparent; color: var(--brand-ink); font: 600 14px var(--font-body); cursor: pointer; }
+.codebox { display: flex; flex-direction: column; gap: 6px; font-weight: 600; }
+.codebox input { font: 700 24px var(--font-mono); letter-spacing: .3em; text-align: center; padding: 10px; border-radius: 12px; border: 1px solid var(--border-input); background: var(--bg-surface); color: var(--text-primary); }
+.note, .hint { color: var(--text-secondary); font-size: 12px; overflow-wrap: anywhere; }
+.warn { padding: 8px 10px; border-radius: 10px; background: var(--status-danger-bg); color: var(--status-danger-text); border: 1px solid var(--status-danger-border); }
+.pscreen[dir="rtl"] .link .ic svg, .pscreen[dir="rtl"] .jobs .ic svg { transform: scaleX(-1); }

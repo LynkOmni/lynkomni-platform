@@ -1,0 +1,65 @@
+{
+ "name": "Mexico",
+ "code": "MX",
+ "source": "standards",
+ "currency": "MXN",
+ "currencies": [
+  "MXN"
+ ],
+ "locale": "es-MX",
+ "languages": [
+  "es"
+ ],
+ "regional_languages": [
+  "es"
+ ],
+ "ui_language": "es",
+ "tz": "America/Mexico_City",
+ "time_zones": [
+  "America/Mexico_City",
+  "America/Cancun",
+  "America/Merida",
+  "America/Monterrey",
+  "America/Matamoros",
+  "America/Chihuahua",
+  "America/Ciudad_Juarez",
+  "America/Ojinaga",
+  "America/Mazatlan",
+  "America/Bahia_Banderas",
+  "America/Hermosillo",
+  "America/Tijuana"
+ ],
+ "tax_rate": "0",
+ "tax_confirmed": false,
+ "fiscal": null,
+ "fiscal_confirmed": false,
+ "providers": [
+  "card",
+  "bank_transfer",
+  "qr"
+ ],
+ "flags": {},
+ "price_index": 1.0,
+ "price_index_source": "default until finance sets it from purchasing power",
+ "bbox": null,
+ "payment_methods_note": "payment methods are the providers list: every product reads the same list",
+ "card_networks": [],
+ "wallets": [],
+ "vcard": {
+  "enabled": false,
+  "issuer": null,
+  "bin_sponsor": null,
+  "blocked_mcc": [
+   "7995",
+   "7801",
+   "7802",
+   "6051",
+   "4829",
+   "6211"
+  ],
+  "monthly_cap_usd_max": 100000,
+  "note": "A pack alone never turns cards on. Needs a signed issuer agreement, legal sign-off and the activation checklist."
+ },
+ "vcard_card_networks_note": "set from the issuer contract, never assumed",
+ "note": "Generated from ISO 3166, ISO 4217, IANA tz and CLDR by tools/country_packs.py. Tax, fiscal workflow, partners and price index stay unconfirmed until a person confirms them; then copy the facts in and set source to curated."
+}

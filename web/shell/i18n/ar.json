@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ar",
  "native": "العربية",
- "source_sha256": "42efec5ba5b3ad83a64b61c27405e3cd29a41d02faba9cc20e4b214c251e40e9",
+ "source_sha256": "b40baec3f875825ac567f1807378bc07505dbb0177b27cbd63df58748d9e1c09",
  "texts": {
   "account_menu": "الحساب",
   "action_add": "أضف الأول",
@@ -73,6 +73,7 @@
   "role_owner": "المالك",
   "sample_country": "بلد نموذجي",
   "sandbox": "بيئة تجريبية",
+  "search_country": "البحث عن بلد",
   "security_center": "مركز الأمان",
   "shortcut_hint": "على الحاسوب: اضغط / لفتح هذا.",
   "show_original": "عرض الأصل",

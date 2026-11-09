@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "42efec5ba5b3ad83a64b61c27405e3cd29a41d02faba9cc20e4b214c251e40e9",
+ "source_sha256": "b40baec3f875825ac567f1807378bc07505dbb0177b27cbd63df58748d9e1c09",
  "texts": {
   "account_menu": "계정",
   "action_add": "첫 항목 추가",
@@ -73,6 +73,7 @@
   "role_owner": "소유자",
   "sample_country": "예시 국가",
   "sandbox": "샌드박스",
+  "search_country": "국가 검색",
   "security_center": "보안 센터",
   "shortcut_hint": "컴퓨터에서는 / 키를 눌러 엽니다.",
   "show_original": "원문 보기",

@@ -1,0 +1,11 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "sw",
+ "native": "Kiswahili",
+ "source_sha256": "366c40e71adaca25d8a7bddd5f0b63d4cbe97ec951e193ce728dae5bfa86e6f5",
+ "texts": {
+  "title": "LynkVCard kama kadi halisi"
+ }
+}

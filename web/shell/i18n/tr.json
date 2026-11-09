@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "42efec5ba5b3ad83a64b61c27405e3cd29a41d02faba9cc20e4b214c251e40e9",
+ "source_sha256": "b40baec3f875825ac567f1807378bc07505dbb0177b27cbd63df58748d9e1c09",
  "texts": {
   "account_menu": "Hesap",
   "action_add": "İlkini ekle",
@@ -73,6 +73,7 @@
   "role_owner": "Sahip",
   "sample_country": "Örnek ülke",
   "sandbox": "Deneme ortamı",
+  "search_country": "Ülke ara",
   "security_center": "Güvenlik Merkezi",
   "shortcut_hint": "Bilgisayarda: açmak için / tuşuna basın.",
   "show_original": "Aslını göster",

@@ -7,6 +7,11 @@ import { Cart, PosError, change, formatMoney, paymentPayload, paymentState, qtyT
 import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload, UserState } from "../../../ts/src/pos.js";
 import { adjust, afterSale, canChangeSettings, canSeeProfit, counted, daySummary, homeBlocks, insight, maySync, mode, pending, stockAlerts, stockState } from "../../../ts/src/merchant.js";
 import type { DaySale, Levels, Link, Role, StockItem } from "../../../ts/src/merchant.js";
+import { TABS, webRule } from "../../../ts/src/business.js";
+import type { BusinessType } from "../../../ts/src/business.js";
+import { AGENT_SERVICES, COLLECTION_KINDS, FINANCE_PRODUCTS, combinedLimits, commission, floatForecastDays, limitCheck, lowFloat, mayHandOverCash } from "../../../ts/src/agent.js";
+import type { AgentState, Limits } from "../../../ts/src/agent.js";
+import { TEST_LANGS, esc, newId, pick, pseudo, randomBytes } from "../../../ts/src/emulator.js";
 
 interface BuildData {
   icons: Record<string, string>;
@@ -27,8 +32,14 @@ declare const DATA: BuildData;
 /** The country the emulator shows. Read from the country pack and the provider ledger; nothing about a country lives in this code. */
 const pack = (): CountryPack => DATA.packs[S.country] ?? DATA.packs[DATA.packOrder[0] ?? ""] as CountryPack;
 
-type Tab = "home" | "sell" | "stock" | "chats" | "business";
-type View = "main" | "basket" | "pay" | "cash" | "momo" | "waiting" | "done" | "off" | "item" | "thread";
+type Tab = "home" | "sell" | "stock" | "chats" | "business" | "services" | "float";
+type View = "main" | "basket" | "pay" | "cash" | "momo" | "waiting" | "done" | "off" | "item" | "thread" | "svc";
+/** Agent point mode (blueprint 42 C and 42 I): the sample partners are sandbox partners; the float sits in the agent's own
+ *  account at each partner and is only read from it. The device asks; the partner alone confirms. */
+interface Partner { id: string; name: string; float: number; limits: Limits; bps: number }
+interface AgentReq { id: string; partner: string; service: string; number: string; amount: number; fee: number; commission: number; state: AgentState; ref: string; reason: string; at: number }
+const PARTNERS: Partner[] = [{ id: "pa", name: "partner_a", float: 400_000, limits: { per_transaction: 200_000, per_day: 2_000_000 }, bps: 100 }, { id: "pb", name: "partner_b", float: 30_000, limits: { per_transaction: 100_000, per_day: 1_000_000 }, bps: 120 }];
+const AGENT_ALL = [...AGENT_SERVICES, ...COLLECTION_KINDS, ...FINANCE_PRODUCTS] as const;
 interface Ev { n: number; type: string; origin: "device" | "server"; payload: unknown; sync: UserState; at: number }
 interface Sale extends DaySale { at: number; tendered?: number }
 interface Msg { out: boolean; text: string; at: number; state: UserState }
@@ -39,10 +50,7 @@ interface Item extends Product, StockItem {}
  *  checked by tools/translation/claude_packs.py), all embedded by web/build.mjs so every language works offline. */
 const PACKS = DATA.i18n;
 const EN: Record<string, string> = PACKS.en?.texts ?? {};
-const TEST_LANGS = ["xx", "xx-rtl"];   // xx = long-text test, xx-rtl = right-to-left test (never shown to real users)
 
-const rnd = (n: number): Uint8Array => crypto.getRandomValues(new Uint8Array(n));
-const newId = (): string => uuid7(Date.now(), rnd);
 const P = (milli: number): number => milli * 1000;
 const CATALOG: Item[] = ([
   ["Rice 1 kg", 1500, 1150, "food", 24, 10], ["Sugar 1 kg", 1400, 1100, "food", 6, 8], ["Beans 1 kg", 1200, 900, "food", 30, 10],
@@ -65,6 +73,7 @@ const THREADS: Thread[] = [
 
 const S = {
   screen: "phone" as "phone" | "code" | "enrol" | "app", tab: "home" as Tab, view: "main" as View, sheet: false,
+  btype: "shop" as BusinessType, svc: "bills" as string, partner: "pa", number: "", amount: "", reqs: [] as AgentReq[], req: "", cashIn: 150_000, usedToday: 0,
   lang: "en", theme: "light" as "light" | "dark", link: "good" as Link, forced: false, realUser: false, country: "", outcome: "confirm" as "confirm" | "fail",
   role: "owner" as Role, perms: { staffSeeProfit: false }, phone: "", code: "", input: "", note: "", flash: "", category: "all",
   cart: new Cart(), current: null as Sale | null, sales: [] as Sale[], events: [] as Ev[], levels: { ...START }, flagged: new Set<string>(),
@@ -72,15 +81,11 @@ const S = {
 };
 
 const $ = <T extends HTMLElement>(sel: string): T => document.querySelector(sel) as T;
-const PSEUDO: Record<string, string> = { a: "à", c: "ç", e: "é", i: "î", n: "ñ", o: "ö", s: "š", u: "ü", y: "ý" };
-/** Same pseudo-translation as services/translation.py: accented letters and about 40% more length, to prove screens never break. */
-const pseudo = (s: string): string => `[${s.split(/(\{\w+\})/).map((part) => (part.startsWith("{") ? part : part.replace(/[aceinosuy]/g, (c) => PSEUDO[c] ?? c))).join("")} ${"~".repeat(Math.max(1, Math.round(s.length * 0.4)))}]`;
-const isTest = (): boolean => TEST_LANGS.includes(S.lang);
+const isTest = (): boolean => (TEST_LANGS as readonly string[]).includes(S.lang);
 const t = (k: string, vars: Record<string, string | number> = {}): string => {
   const en = EN[k] ?? k, raw = isTest() ? pseudo(en) : PACKS[S.lang]?.texts[k] ?? en;
   return raw.replace(/\{(\w+)\}/g, (m, v: string) => (v in vars ? String(vars[v]) : m));
 };
-const esc = (s: string): string => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const locale = (): string => `${isTest() ? "en" : S.lang}-${pack().code}`;
 const money = (n: number): string => formatMoney(n, pack().currency, locale());
 const icon = (id: string, cls = "ic"): string => `<span class="${cls}" aria-hidden="true">${DATA.icons[id] ?? ""}</span>`;
@@ -191,7 +196,8 @@ function topBar(title: string, back?: string): string {
     <h1>${esc(title)}</h1><button class="netchip${off ? " off" : ""}" data-act="sheet" aria-label="${esc(t("sync"))}">${icon(off ? "ui-offline" : "ui-sync")}<span>${esc(t(off ? "offline" : "online"))}</span>${p.count ? `<span class="count">${p.count}</span>` : ""}</button></div>`;
 }
 function tabBar(): string {
-  const tabs: [Tab, string][] = [["home", "ui-home"], ["sell", "ui-cart"], ["stock", "product-stock"], ["chats", "product-chat"], ["business", "product-dash"]];
+  const ic: Record<string, string> = { home: "ui-home", sell: "ui-cart", stock: "product-stock", chats: "product-chat", business: "product-dash", services: "ui-grid", float: "ui-chart" };
+  const tabs: [Tab, string][] = TABS[S.btype === "agent_point" ? "agent_point" : "shop"].map((k) => [k as Tab, ic[k] ?? "ui-grid"]);
   return `<nav class="tabbar" aria-label="LynkOmni">${tabs.map(([k, ic]) => `<button data-act="tab:${k}" ${S.tab === k ? 'aria-current="page"' : ""}>${icon(ic)}<span>${esc(t(`tab_${k}`))}</span>${k === "chats" && unread() ? `<span class="dot">${unread()}</span>` : ""}</button>`).join("")}</nav>`;
 }
 const summary = () => daySummary(S.sales, COSTS);
@@ -239,7 +245,7 @@ function sell(): string {
       return `${topBar(t("method_mobile_money"), "view:pay")}<div class="body">${due(total)}
         <label class="field"><span>${esc(t("customer_phone"))}</span><input id="momoIn" inputmode="tel" autocomplete="off" value="${esc(S.input)}" data-in="momo"></label>
         <p class="info sbx">${icon("ui-info")}<span>${esc(t("sandbox"))}: ${esc(t("test_money"))}</span></p></div>
-        <div class="foot"><button class="primary" data-act="paymomo" ${S.input.replace(/\D/g, "").length >= 9 ? "" : "disabled"}>${esc(t("send_request"))}</button></div>`;
+        <div class="foot"><button class="primary" data-act="paymomo" ${S.input.replace(/\D/g, "").length >= 9 ? "" : "disabled"}>${esc(t("send_to_partner"))}</button></div>`;
     case "waiting": {
       const p = lastPayment(); if (!p || !c) return "";
       const st = paymentState(p.status, online()), failed = st === "failed";
@@ -316,6 +322,79 @@ function business(): string {
     ${S.flash ? `<div class="toast" role="status">${icon("ui-bell")}<span>${esc(S.flash)}</span></div>` : ""}</div>`;
 }
 
+
+// ---- agent point mode ------------------------------------------------------------------------------------------------
+const partner = (id = S.partner): Partner => PARTNERS.find((p) => p.id === id) ?? (PARTNERS[0] as Partner);
+const usual = (p: Partner): number => Math.max(...S.reqs.filter((r) => r.partner === p.id && r.state === "confirmed").map(() => 120_000), 120_000);
+const feeFor = (amount: number): number => Math.max(100, Math.floor(amount / 100));
+/** What the agent types is in whole units of the money (500, not 50000 cents); the event carries integer minor units. */
+const toMinor = (typed: string): number => { const d = new Intl.NumberFormat("en", { style: "currency", currency: pack().currency }).resolvedOptions().maximumFractionDigits ?? 2; return Number(typed || 0) * 10 ** d; };
+function agentHome(): string {
+  const today = S.reqs.filter((r) => r.state === "confirmed");
+  const com = today.reduce((a, r) => a + r.commission, 0);
+  const floats = PARTNERS.map((p) => `<div class="kv"><span>${esc(t("float_at", { partner: t(p.name) }))}</span><strong>${esc(money(p.float))}</strong></div>${lowFloat(p.float, usual(p)) ? `<p class="alert low">${icon("ui-warning")}<span>${esc(t("low_float"))}</span></p>` : ""}`).join("");
+  return `${topBar(t("agent_point"))}<div class="body"><div class="card"><h2>${esc(t("float"))}</h2>${floats}<p class="sub">${esc(t("float_read_live"))}</p></div>
+    <div class="duo"><div class="card kpi"><span>${esc(t("cash_in_drawer"))}</span><strong>${esc(money(S.cashIn))}</strong></div><div class="card kpi"><span>${esc(t("commission"))}</span><strong>${esc(money(com))}</strong><small>${esc(t("today_services", { n: today.length, amount: money(com) }))}</small></span></div></div>
+    <button class="big" data-act="tab:services">${icon("ui-grid")}<span>${esc(t("services"))}</span></button>
+    <div class="card"><h2>${esc(t("commissions"))}</h2>${S.reqs.slice(0, 4).map((r) => `<div class="kv"><span>${esc(t(`svc_${r.service}`))} · ${esc(money(r.amount))}</span>${chip(r.state)}</div>`).join("") || `<p>${esc(t("no_sales_yet"))}</p>`}</div></div>`;
+}
+function agentServices(): string {
+  const tile = (k: string, group: string): string => `<button class="tile" data-act="svc:${k}">${icon(group === "agent" ? "ui-pay-mobile-money" : group === "collect" ? "ui-receipt" : "ui-pay-bank")}<span>${esc(t(`svc_${k}`))}</span></button>`;
+  return `${topBar(t("services"))}<div class="body">${online() ? "" : `<p class="alert low">${icon("ui-offline")}<span>${esc(t("online_only"))}</span></p>`}
+    <h2 class="sect">${esc(t("agent"))}</h2><div class="tiles">${AGENT_SERVICES.map((k) => tile(k, "agent")).join("")}</div>
+    <h2 class="sect">${esc(t("collection_point"))}</h2><div class="tiles">${COLLECTION_KINDS.map((k) => tile(k, "collect")).join("")}</div>
+    <h2 class="sect">${esc(t("partner_finance"))}</h2><div class="tiles">${FINANCE_PRODUCTS.map((k) => tile(k, "finance")).join("")}</div></div>`;
+}
+function agentFlow(): string {
+  const p = partner(), amount = toMinor(S.amount), fee = feeFor(amount), lim = combinedLimits(p.limits), r = S.reqs.find((x) => x.id === S.req);
+  const isFinance = (FINANCE_PRODUCTS as readonly string[]).includes(S.svc);
+  if (r) {
+    const done = r.state === "confirmed", cashOut = r.service === "cash_withdrawal";
+    return `${topBar(t(`svc_${r.service}`), "tab:services")}<div class="body"><div class="card center"><p class="amt">${esc(money(r.amount))}</p>${chip(r.state)}
+      <p>${esc(t(r.state === "sent" ? "request_sent" : done ? "request_confirmed" : "request_failed"))}</p>${r.ref ? `<p class="sub">${esc(t("partner_ref"))}: ${esc(r.ref)}</p>` : ""}${r.reason ? `<p class="sub">${esc(r.reason)}</p>` : ""}
+      ${done ? `<div class="kv"><span>${esc(t("commission"))}</span><strong>${esc(money(r.commission))}</strong></div>` : ""}</div>
+      ${cashOut ? `<button class="primary inline" data-act="handcash" ${mayHandOverCash(r.state) ? "" : "disabled"}>${esc(t("hand_over_cash"))}</button><p class="note">${esc(t("never_before_confirmed"))}</p>` : ""}
+      ${done ? `<button class="ghost inline" data-act="tab:services">${esc(t("close"))}</button>` : ""}</div>`;
+  }
+  return `${topBar(t(`svc_${S.svc}`), "tab:services")}<div class="body">
+    <label class="field"><span>${esc(t("partner"))}</span><select data-in="partner">${PARTNERS.map((x) => `<option value="${x.id}" ${x.id === p.id ? "selected" : ""}>${esc(t(x.name))}</option>`).join("")}</select></label>
+    <label class="field"><span>${esc(t("customer_number"))}</span><input inputmode="tel" autocomplete="off" data-in="anum" id="anumIn" value="${esc(S.number)}"></label>
+    ${isFinance ? "" : `<label class="field"><span>${esc(t("amount"))}</span><input inputmode="numeric" autocomplete="off" data-in="aamt" id="aamtIn" value="${esc(S.amount)}"></label>
+    <div class="card"><div class="kv"><span>${esc(t("fee"))}</span><strong>${esc(money(fee))}</strong></div><div class="kv"><span>${esc(t("commission"))}</span><strong>${esc(money(commission(amount, p.bps)))}</strong></div>
+      <p class="sub">${esc(t("limit_line", { per: money(lim.per_transaction), day: money(lim.per_day) }))}</p></div>
+    ${amount && limitCheck(amount, S.usedToday, lim) !== "ok" ? `<p class="alert neg" role="alert">${icon("ui-warning")}<span>${esc(t("limit_exceeded"))}</span></p>` : ""}`}
+    <p class="info">${icon("ui-info")}<span>${esc(t(isFinance ? "referred" : "identity_check"))}</span></p>
+    ${online() ? "" : `<p class="alert low">${icon("ui-offline")}<span>${esc(t("online_only"))}</span></p>`}
+    <button class="primary inline" data-act="agentsend" ${online() && S.number.length >= 4 && (isFinance || (amount > 0 && limitCheck(amount, S.usedToday, lim) === "ok")) ? "" : "disabled"}>${esc(t("send_to_partner"))}</button></div>`;
+}
+function agentFloat(): string {
+  return `${topBar(t("float"))}<div class="body">${PARTNERS.map((p) => { const days = floatForecastDays(p.float, usual(p));
+    return `<div class="card"><h2>${esc(t(p.name))}</h2><div class="kv"><span>${esc(t("float"))}</span><strong>${esc(money(p.float))}</strong></div>${lowFloat(p.float, usual(p)) ? `<p class="alert low">${icon("ui-warning")}<span>${esc(t("low_float"))}</span></p>` : ""}
+      ${days !== null ? `<p class="sub">${esc(t("float_forecast", { days: days.toFixed(1) }))}</p>` : ""}</div>`; }).join("")}
+    <div class="card"><div class="kv"><span>${esc(t("cash_in_drawer"))}</span><strong>${esc(money(S.cashIn))}</strong></div><button class="ghost" data-act="tab:business">${esc(t("count_cash"))}</button></div><p class="info">${icon("ui-info")}<span>${esc(t("float_read_live"))}</span></p></div>`;
+}
+function agentSend(): void {
+  if (!online() || webRule("agent_service", true) !== "ok") return;
+  const p = partner(), isFinance = (FINANCE_PRODUCTS as readonly string[]).includes(S.svc), amount = isFinance ? 0 : toMinor(S.amount);
+  const r: AgentReq = { id: newId(), partner: p.id, service: S.svc, number: S.number, amount, fee: feeFor(amount), commission: 0, state: "sent", ref: "", reason: "", at: Date.now() };
+  S.reqs.unshift(r); S.req = r.id;
+  if (isFinance) emit("PartnerReferralRecorded", { referral_id: r.id, partner_id: p.id, product: S.svc, fee: 0, currency: pack().currency }, "server");
+  else emit("AgentRequestCreated", { request_id: r.id, partner_id: p.id, service: (AGENT_SERVICES as readonly string[]).includes(S.svc) ? S.svc : S.svc === "voucher" || S.svc === "pickup" ? "bills" : S.svc, amount, fee: r.fee, currency: pack().currency, customer_reference: "ref-" + S.number.slice(-4) });
+  draw();
+  window.setTimeout(() => {
+    if (isFinance) { r.state = "confirmed"; draw(); return; }
+    if (!online()) { r.state = "failed"; r.reason = t("request_failed"); emit("AgentRequestFailed", { request_id: r.id, reason_code: "timeout" }, "server"); draw(); return; }
+    const out = S.svc === "cash_deposit" ? 0 : amount;
+    if (S.outcome === "fail" || out > p.float) { r.state = "failed"; r.reason = t(out > p.float ? "low_float" : "request_failed"); emit("AgentRequestFailed", { request_id: r.id, reason_code: out > p.float ? "insufficient_float" : "partner_declined" }, "server"); draw(); return; }
+    r.state = "confirmed"; r.ref = `SBX-${r.id.slice(-8).toUpperCase()}`; r.commission = commission(amount, p.bps); S.usedToday += amount;
+    p.float += S.svc === "cash_deposit" ? amount : -amount;
+    if (S.svc === "cash_deposit") S.cashIn += amount + r.fee; else S.cashIn += r.fee;
+    emit("AgentRequestConfirmed", { request_id: r.id, partner_reference: r.ref, amount, fee: r.fee, commission: r.commission, currency: pack().currency }, "server");
+    emit("CommissionRecorded", { commission_id: newId(), request_id: r.id, partner_id: p.id, amount: r.commission, currency: pack().currency, period: new Date().toISOString().slice(0, 10) }, "server");
+    draw();
+  }, reduced() ? 300 : 2200);
+}
+
 function syncSheet(): string {
   const p = pending(S.events.map((e) => e.sync)), off = !online();
   return `<div class="scrim" data-act="closesheet"><div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(t("sync"))}" data-stop="1"><h2>${esc(t("sync"))}</h2>
@@ -347,8 +426,10 @@ function signin(): string {
 
 function view(): string {
   if (S.screen !== "app") return signin();
-  const body = S.tab === "sell" ? sell() : S.tab === "stock" ? stock() : S.tab === "chats" ? chats() : S.tab === "business" ? business() : home();
-  const noTabs = S.tab === "sell" && S.view !== "main" && S.view !== "done" || S.tab === "chats" && S.view === "thread";
+  const agent = S.btype === "agent_point";
+  const body = S.view === "svc" ? agentFlow() : S.tab === "services" ? agentServices() : S.tab === "float" ? agentFloat() : agent && S.tab === "home" ? agentHome()
+    : S.tab === "sell" ? sell() : S.tab === "stock" ? stock() : S.tab === "chats" ? chats() : S.tab === "business" ? business() : home();
+  const noTabs = S.tab === "sell" && S.view !== "main" && S.view !== "done" || S.tab === "chats" && S.view === "thread" || S.view === "svc";
   return `${body}${noTabs ? "" : tabBar()}${S.sheet ? syncSheet() : ""}`;
 }
 
@@ -379,7 +460,7 @@ async function enrol(): Promise<void> {
   try {   // a real P-256 key pair; the private key never leaves the phone (hardware-backed keys come with the native apps)
     const k = await crypto.subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, false, ["sign", "verify"]);
     raw = new Uint8Array(await crypto.subtle.exportKey("raw", k.publicKey));
-  } catch { raw = new Uint8Array([4, ...rnd(64)]); }
+  } catch { raw = new Uint8Array([4, ...randomBytes(64)]); }
   const b64 = btoa(String.fromCharCode(...raw)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
   window.setTimeout(() => {
     emit("DeviceEnrolled", { device_id: newId(), device_name: "Sample phone", platform: "android", public_key: b64, enrolled_by_user_id: newId() }, "server");
@@ -394,7 +475,12 @@ function act(a: string): void {
       case "sendcode": if (!maySync(S.link, S.forced)) { S.note = t("code_needs_net"); draw(); return; } S.note = ""; S.screen = "code"; draw(); return;
       case "verify": if (S.code === CODE) { S.note = ""; void enrol(); } else { S.note = t("wrong_code"); S.code = ""; draw(); } return;
       case "start": S.screen = "app"; S.tab = "home"; S.view = "main"; draw(); return;
-      case "tab": S.tab = v as Tab; S.view = "main"; S.note = ""; draw(); return;
+      case "tab": S.tab = pick(["home", "sell", "stock", "chats", "business", "services", "float"] as Tab[], v, "home"); S.view = "main"; S.note = ""; S.req = "";
+        if (S.tab === "float") for (const p of PARTNERS) emit("FloatBalanceRead", { partner_id: p.id, balance: p.float, currency: pack().currency, read_at: new Date().toISOString().slice(0, 19) + "Z" }, "server");
+        draw(); return;
+      case "svc": S.svc = pick(AGENT_ALL as readonly string[], v, "bills"); S.view = "svc"; S.req = ""; S.amount = ""; S.number = ""; draw(); return;
+      case "agentsend": agentSend(); return;
+      case "handcash": { const r = S.reqs.find((x) => x.id === S.req); if (r && mayHandOverCash(r.state)) { S.cashIn -= r.amount; toast(t("done")); } return; }
       case "view": S.view = v as View; S.input = ""; S.note = ""; draw(); return;
       case "sheet": S.sheet = true; draw(); return;
       case "closesheet": S.sheet = false; draw(); return;
@@ -435,11 +521,14 @@ function wire(): void {
     else if (k === "phone") { S.phone = el.value.replace(/[^\d +]/g, "").slice(0, 16); draw(); }
     else if (k === "code") { S.code = el.value.replace(/\D/g, "").slice(0, 6); draw(); }
     else if (k === "msg") S.draft = el.value.slice(0, 500);
+    else if (k === "anum") { S.number = el.value.replace(/[^\d ]/g, "").slice(0, 16); draw(); }
+    else if (k === "aamt") { S.amount = el.value.replace(/\D/g, "").slice(0, 9); draw(); }
   });
   display.addEventListener("change", (ev) => {
     const el = ev.target as HTMLInputElement, k = el.dataset["in"];
     if (k === "perm" && canChangeSettings(S.role)) { S.perms = { staffSeeProfit: el.checked }; draw(); }
     if (k === "forced") { S.forced = el.checked; draw(); }
+    if (k === "partner") { S.partner = pick(PARTNERS.map((p) => p.id), el.value, "pa"); draw(); }
   });
   display.addEventListener("keydown", (ev) => {
     const el = ev.target as HTMLElement;
@@ -449,6 +538,7 @@ function wire(): void {
   const bind = (id: string, f: (el: HTMLInputElement & HTMLSelectElement) => void): void => { const el = $<HTMLInputElement & HTMLSelectElement>(id); el.addEventListener("change", () => f(el)); };
   bind("#cLink", (el) => { S.link = el.value as Link; draw(); });
   bind("#cRole", (el) => { S.role = el.value as Role; draw(); });
+  bind("#cType", (el) => { S.btype = el.value === "agent_point" ? "agent_point" : "shop"; S.tab = "home"; S.view = "main"; draw(); });
   bind("#cDark", (el) => { S.theme = el.checked ? "dark" : "light"; draw(); });
   bind("#cReal", (el) => { S.realUser = el.checked; draw(); });
   const country = $<HTMLSelectElement>("#cCountry");

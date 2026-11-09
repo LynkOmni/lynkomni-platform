@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "42efec5ba5b3ad83a64b61c27405e3cd29a41d02faba9cc20e4b214c251e40e9",
+ "source_sha256": "b40baec3f875825ac567f1807378bc07505dbb0177b27cbd63df58748d9e1c09",
  "texts": {
   "account_menu": "帳戶",
   "action_add": "新增第一個",
@@ -73,6 +73,7 @@
   "role_owner": "店主",
   "sample_country": "範例國家/地區",
   "sandbox": "沙盒",
+  "search_country": "搜尋國家/地區",
   "security_center": "安全中心",
   "shortcut_hint": "在電腦上：按 / 開啟。",
   "show_original": "顯示原文",

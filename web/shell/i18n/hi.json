@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "42efec5ba5b3ad83a64b61c27405e3cd29a41d02faba9cc20e4b214c251e40e9",
+ "source_sha256": "b40baec3f875825ac567f1807378bc07505dbb0177b27cbd63df58748d9e1c09",
  "texts": {
   "account_menu": "खाता",
   "action_add": "पहला जोड़ें",
@@ -73,6 +73,7 @@
   "role_owner": "मालिक",
   "sample_country": "नमूना देश",
   "sandbox": "परीक्षण",
+  "search_country": "देश खोजें",
   "security_center": "सुरक्षा केंद्र",
   "shortcut_hint": "कंप्यूटर पर: इसे खोलने के लिए / दबाएँ।",
   "show_original": "मूल दिखाएँ",

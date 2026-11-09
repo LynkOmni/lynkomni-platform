@@ -1,0 +1,19 @@
+/* LynkPOS on a button phone: an original candybar phone. Every colour is a design token. */
+.bphone { width: 240px; padding: 22px 18px 28px; border-radius: 34px; position: relative; background: linear-gradient(160deg, var(--device-shell-edge), var(--device-shell) 35%, var(--device-glass)); box-shadow: 0 24px 50px -20px color-mix(in srgb, var(--device-glass) 60%, transparent); display: flex; flex-direction: column; align-items: center; }
+.speaker { width: 60px; height: 6px; border-radius: 3px; background: var(--device-glass); margin-bottom: 12px; }
+.bscreen { width: 200px; height: 220px; border: 6px solid var(--device-glass); border-radius: 6px; background: var(--bg-base); color: var(--text-primary); font: 13px/1.35 var(--font-mono); display: flex; flex-direction: column; overflow: hidden; }
+.bscreen.dark { color-scheme: dark; }
+.bhead { display: flex; justify-content: space-between; gap: 4px; padding: 2px 6px; background: var(--bg-subtle); font-size: 10px; }
+.bhead span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bt { margin: 4px 6px 2px; font-weight: 700; overflow-wrap: anywhere; }
+.bscreen p { margin: 2px 6px; overflow-wrap: anywhere; }
+.bmenu { list-style: none; margin: 2px 0; padding: 0 6px; flex: 1; overflow: hidden; }
+.bmenu li { padding: 1px 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bmenu li.sel { background: var(--brand-primary); color: var(--on-brand); }
+.bsoft { margin-top: auto; display: flex; justify-content: space-between; padding: 2px 6px; border-top: 1px solid var(--border-subtle); font-size: 11px; font-weight: 700; }
+.bkeys { margin-top: 16px; display: grid; grid-template-columns: repeat(3, 56px); gap: 8px; }
+.bkeys button { height: 36px; border: 0; border-radius: 12px; background: var(--device-key); color: var(--on-device-key); font: 700 15px var(--font-body); cursor: pointer; }
+.bkeys .green { background: var(--device-key-enter); color: var(--on-device-key-enter); }
+.bkeys .red { background: var(--device-key-cancel); color: var(--on-device-key-cancel); }
+.bphone > .mark { position: absolute; bottom: 8px; width: 12px; color: var(--on-device-key); opacity: .6; }
+.mark svg { width: 100%; height: auto; display: block; }

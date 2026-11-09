@@ -49,6 +49,18 @@ class Platform(_Base):
         s.flow = Flow(s.c)                                   # LynkFlow: every automation in catalog/automations.v1.json runs here
         s.account = Account(s, s.flow)                        # LynkOmni Account (build section 2)
         register_section_2(s.flow, s.account, s)
+        from merchant.cloud import Cloud
+        from merchant.agent import AgentPoint
+        from merchant.delivery import Deliveries
+        from merchant.restaurant import Restaurant
+        from merchant.buy_together import BuyTogether
+        from merchant.devices import Devices
+        from merchant.business import Business
+        from merchant.automations import register as register_section_3
+        s.cloud = Cloud(s, s.flow)                            # Business app server events (build section 3)
+        s.agent, s.deliveries, s.restaurant = AgentPoint(s.cloud, s), Deliveries(s.cloud, s), Restaurant(s.cloud, s)
+        s.buy_together, s.devices, s.business = BuyTogether(s.cloud, s), Devices(s.cloud, s), Business(s.cloud, s, s.account.usernames)
+        register_section_3(s.flow, s.business, s.agent, s.deliveries, s.restaurant, s.devices, s)
     def mesh_for(s, ccbox, **kw):
         """A mesh relay whose state is saved in this platform's database."""
         from services.improvements import MeshRelay

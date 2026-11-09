@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "de",
  "native": "Deutsch",
- "source_sha256": "42efec5ba5b3ad83a64b61c27405e3cd29a41d02faba9cc20e4b214c251e40e9",
+ "source_sha256": "b40baec3f875825ac567f1807378bc07505dbb0177b27cbd63df58748d9e1c09",
  "texts": {
   "account_menu": "Konto",
   "action_add": "Den ersten Eintrag hinzufügen",
@@ -73,6 +73,7 @@
   "role_owner": "Inhaber",
   "sample_country": "Beispielland",
   "sandbox": "Sandbox",
+  "search_country": "Länder suchen",
   "security_center": "Sicherheitscenter",
   "shortcut_hint": "Am Computer: / drücken, um dies zu öffnen.",
   "show_original": "Original anzeigen",

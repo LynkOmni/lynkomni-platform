@@ -45,8 +45,8 @@ class Flow:
             ran += s._run(a, subject, event["payload"], trigger_event=event["id"], now=now, depth=depth)
         return ran
     def tick(s, kind, subjects, now=None):
-        """Scheduled runs: kind is 'daily' or 'weekly'. Each (automation, subject) runs at most once per period."""
-        period = 86400 if kind == "daily" else 7 * 86400
+        """Scheduled runs: kind is 'daily', 'weekly' or a daily moment such as 'closing_time' or 'shift_start'. Each (automation, subject) runs at most once per period."""
+        period = 7 * 86400 if kind == "weekly" else 86400
         ran = []
         for a in s.by_trigger(f"schedule:{kind}"):
             for subject in subjects:
@@ -54,6 +54,12 @@ class Flow:
                 if last and _now(now) - last[0] < period: continue
                 s.db.execute("insert or replace into flow_last values(?,?,?)", (a["id"], subject, _now(now))); s.db.commit()
                 ran += s._run(a, subject, {"period": kind}, trigger_event=f"{kind}:{int(_now(now) // period)}", now=now)
+        return ran
+    def user_action(s, subject, action, payload, now=None):
+        """A person asked for something an automation drafts or summarises (trigger 'user:<action>'); each ask is its own run."""
+        ran = []
+        for a in s.by_trigger(f"user:{action}"):
+            ran += s._run(a, subject, payload, trigger_event=f"user:{action}:{uuid.uuid4().hex[:8]}", now=now)
         return ran
     def _run(s, a, subject, payload, trigger_event, now=None, depth=0):
         key = f"{a['id']}|{subject}|{trigger_event}"

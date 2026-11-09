@@ -17,11 +17,15 @@ REG = bf.registry()
 
 
 class Registry(unittest.TestCase):
-    def test_every_country_pack_language_is_covered(self):
+    def test_every_country_pack_language_is_an_interface_language_or_in_a_wave(self):
+        """Every country opens in a supported interface language; every official language not yet supported is scheduled in a wave."""
+        waves = json.loads(read(os.path.join(ROOT, "design", "fonts", "language_waves.v1.json")))
+        planned = {l["code"] for w in waves["waves"] for l in w["languages"]}
         for p in glob.glob(os.path.join(ROOT, "contract", "country-packs", "*.json")):
-            for lang in json.loads(read(p)).get("languages", []):
-                self.assertIn(lang, REG["languages"], f"{os.path.basename(p)}: add {lang} to design/fonts/scripts.v1.json")
-
+            pack = json.loads(read(p))
+            self.assertIn(pack.get("ui_language", pack.get("languages", ["en"])[0]), REG["languages"], f"{os.path.basename(p)}: opens in an unsupported interface language")
+            for lang in pack.get("languages", []):
+                self.assertTrue(lang in REG["languages"] or lang in planned, f"{os.path.basename(p)}: {lang} is neither an interface language nor in a wave (run tools/country_packs.py)")
     def test_registry_is_consistent(self):
         for code, L in REG["languages"].items():
             self.assertIn(L["script"], REG["scripts"], code)

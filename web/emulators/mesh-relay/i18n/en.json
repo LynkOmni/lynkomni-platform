@@ -1,0 +1,11 @@
+{
+ "dir": "ltr",
+ "engine": "source",
+ "kept_in_english": [],
+ "lang": "en",
+ "native": "English",
+ "source_sha256": "7ab03a59e233c01eb3881730859a8b9ae02cb7148e1bcb84745dcac083fdda92",
+ "texts": {
+  "title": "LynkMesh relay between devices"
+ }
+}

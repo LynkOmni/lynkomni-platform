@@ -970,6 +970,182 @@
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the 'registration' flag after legal sign-off"
    ]
+  },
+  {
+   "id": "agent_partner_gateways",
+   "name": "Agent partners",
+   "kind": "partner_gateway",
+   "used_by": [
+    "agent"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "merchant.agent:PartnerGateway",
+   "sandbox": "merchant.agent:SandboxPartner",
+   "needed_from_provider": [
+    "agent agreement per partner and country (LynkOmni's role checked by the lawyer)",
+    "agent approval and identity-check API (only the partner's reference is kept)",
+    "limits per transaction and per day",
+    "transaction confirm or fail callback",
+    "float balance read API (the float sits in the agent's own account at the partner)",
+    "commission statement per period and LynkOmni's share terms"
+   ],
+   "placeholders": [
+    {
+     "file": "merchant/agent.py",
+     "token": "SANDBOX"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "The device only asks; the cloud alone writes the partner's answer. Cash changes hands only after the partner confirms; offline, an agent service never starts. LynkOmni never pools, holds or settles money.",
+   "integrate": [
+    "Sign the partner for the country and get test keys",
+    "Write the real adapter next to SandboxPartner behind PartnerGateway",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then enable the 'agent' flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "collection_partners",
+   "name": "Collection partners",
+   "kind": "partner_gateway",
+   "used_by": [
+    "collection"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "merchant.agent:PartnerGateway",
+   "sandbox": "merchant.agent:SandboxPartner",
+   "needed_from_provider": [
+    "collection agreement (loan repayments, insurance premiums) per partner and country",
+    "referral agreement for savings, small loans, pay later and small insurance (the partner decides and pays the fee)",
+    "confirm or fail callback",
+    "statement per period"
+   ],
+   "placeholders": [
+    {
+     "file": "merchant/agent.py",
+     "token": "SANDBOX"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "The partner holds the money and decides; LynkOmni refers and earns a fee. Own vouchers and pickup codes work offline and need no partner.",
+   "integrate": [
+    "Sign the lender or insurer for the country",
+    "Real adapter behind PartnerGateway",
+    "Shared tests",
+    "contract_signed, then the 'collection' flag after legal sign-off"
+   ]
+  },
+  {
+   "id": "delivery_partners",
+   "name": "Delivery partners",
+   "kind": "logistics",
+   "used_by": [
+    "delivery"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "merchant.delivery:DeliveryPartner",
+   "sandbox": "merchant.delivery:SandboxDeliveryPartner",
+   "needed_from_provider": [
+    "delivery agreement per partner and country",
+    "quote API (price and time before booking)",
+    "booking, pickup and delivery callbacks",
+    "proof of delivery by code or parcel photo (never a person)",
+    "LynkOmni's share terms (about $0.10 a delivery, paid by the partner)"
+   ],
+   "placeholders": [
+    {
+     "file": "merchant/delivery.py",
+     "token": "SANDBOX"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "LynkOmni never employs riders. Own staff riders record pickup and delivery on the staff device, offline with the code, and need no partner.",
+   "integrate": [
+    "Sign the delivery partner for the country",
+    "Real adapter behind DeliveryPartner",
+    "Shared tests",
+    "contract_signed, then the 'delivery' flag"
+   ]
+  },
+  {
+   "id": "pos_terminal_drivers",
+   "name": "Terminal drivers",
+   "kind": "hardware",
+   "used_by": [
+    "pos"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "merchant.devices:DeviceDrivers",
+   "sandbox": "merchant.devices:SandboxDrivers",
+   "needed_from_provider": [
+    "SDK and licence for the maker's printer, scanner, drawer and customer display",
+    "the acquirer's certified card-reader kit for that device (our app never touches card data)",
+    "a sample device for the test bench (REMINDER 11)"
+   ],
+   "placeholders": [
+    {
+     "file": "merchant/devices.py",
+     "token": "SANDBOX"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "LynkPOS runs on the LynkOmni handheld, on Android smart terminals that allow third-party apps, on any Android phone or tablet and on iPhone and iPad. Phase 1 selling never waits on a driver: a phone alone is always enough; a missing part only hides its button.",
+   "integrate": [
+    "Choose the maker (REMINDER 11) and get two sample devices",
+    "Write the maker's adapter behind DeviceDrivers",
+    "Run the emulator and the shared tests against it",
+    "Set status to chosen, then live when the acquirer certifies card tap on it"
+   ]
+  },
+  {
+   "id": "bank_terminal_link",
+   "name": "Bank terminal link",
+   "kind": "bank_integration",
+   "used_by": [
+    "pos"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "merchant.devices:BankTerminalLink",
+   "sandbox": "merchant.devices:BankTerminalLink",
+   "needed_from_provider": [
+    "the bank's terminal integration interface and agreement",
+    "amount hand-over and result callback",
+    "test terminal"
+   ],
+   "placeholders": [
+    {
+     "file": "merchant/devices.py",
+     "token": "PLACEHOLDER"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "Old-style bank terminals run only the bank's software and cannot run LynkPOS. Where the bank offers an interface, LynkPOS sends the amount and the bank's terminal takes the card. Until then the merchant keys the amount on the bank's terminal and LynkPOS records the sale as a card payment awaiting confirmation.",
+   "integrate": [
+    "Ask the acquirer or bank for its terminal interface",
+    "Write the adapter behind BankTerminalLink",
+    "Shared tests",
+    "contract_signed per bank and country"
+   ]
   }
  ],
  "later": [
@@ -1199,6 +1375,61 @@
    "placeholders": [],
    "done_when": "_dmarc TXT of cruxomni.com and lynkomni.com reads p=quarantine (later p=reject) and the reports stay clean.",
    "blocks_note": "nothing; a trust improvement for outgoing mail"
+  },
+  {
+   "id": "server_signing_key",
+   "name": "Server signing key",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Needs the cloud key service of the production account (REMINDER 13).",
+   "placeholders": [
+    {
+     "file": "merchant/cloud.py",
+     "token": "PLACEHOLDER"
+    }
+   ],
+   "done_when": "Server events are signed with the KMS key and devices verify it; the dev-only random signature is refused in production.",
+   "blocks_note": "any production cloud event (the device side is hardware_signing)"
+  },
+  {
+   "id": "phone_number_metadata",
+   "name": "Phone number formats per country",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Needs the libphonenumber metadata package vendored for Python, TypeScript, Kotlin and Swift with a licence check; sign-up accepts E.164 numbers today.",
+   "placeholders": [],
+   "done_when": "Numbers are shown and checked in each country's national format from vendored metadata, with a shared vector test.",
+   "blocks_note": "polish of sign-up and customer records, not go-live"
+  },
+  {
+   "id": "address_formats",
+   "name": "Postal address formats per country",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Needs an address-format dataset vendored with a licence check; invoices and receipts print free-text address lines today.",
+   "placeholders": [],
+   "done_when": "Invoices, receipts and the shop page lay out addresses by the country's format.",
+   "blocks_note": "polish of invoices and shop pages, not go-live"
+  },
+  {
+   "id": "calendar_preferences",
+   "name": "Calendar preferences per country (Hijri, Persian, Ethiopian, Buddhist beside Gregorian)",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Needs the CLDR calendar-preference data wired through the locale layer; dates show Gregorian in every country today.",
+   "placeholders": [],
+   "done_when": "A country pack names its preferred calendars and screens show dates in the person's calendar, data unchanged.",
+   "blocks_note": "presentation only"
+  },
+  {
+   "id": "language_waves",
+   "name": "Interface language waves (design/fonts/language_waves.v1.json)",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "94 national official languages are not yet interface languages; one wave of ten is added per build section from section 3 on, with fonts, translations and the layout test.",
+   "placeholders": [],
+   "done_when": "Every national official language of every country is an interface language.",
+   "blocks_note": "a country opens in its best supported language meanwhile"
   }
  ],
  "user_actions": [

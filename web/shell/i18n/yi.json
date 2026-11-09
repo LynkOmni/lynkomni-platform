@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yi",
  "native": "ייִדיש",
- "source_sha256": "42efec5ba5b3ad83a64b61c27405e3cd29a41d02faba9cc20e4b214c251e40e9",
+ "source_sha256": "b40baec3f875825ac567f1807378bc07505dbb0177b27cbd63df58748d9e1c09",
  "texts": {
   "account_menu": "קאָנטע",
   "action_add": "לייגט צו דעם ערשטן",
@@ -73,6 +73,7 @@
   "role_owner": "אייגנטימער",
   "sample_country": "מוסטער לאַנד",
   "sandbox": "זאַמדקאַסטן",
+  "search_country": "זוכן לענדער",
   "security_center": "זיכערהייט־צענטער",
   "shortcut_hint": "אויף אַ קאָמפּיוטער: דריקט / צו עפֿענען דאָס.",
   "show_original": "ווײַזן אָריגינאַל",

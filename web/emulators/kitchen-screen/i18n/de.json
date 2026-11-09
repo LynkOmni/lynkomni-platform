@@ -1,0 +1,11 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "de",
+ "native": "Deutsch",
+ "source_sha256": "42f79e34143df05bf585a90dd3d066840e7b99516fc4f248eb9bb0a11bf922ee",
+ "texts": {
+  "title": "LynkPOS-Küchenbildschirm"
+ }
+}

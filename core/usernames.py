@@ -34,6 +34,7 @@ _GENERIC = frozenset("""ad and bank card cash country demand dispute edge eviden
     insurance issuer licensed location lookup malware marketplace measurement merchant logos network nearby network partner payments
     payout physical companion kyc provider push delivery email rates relay scanning sms split sponsor storage suppliers tokens
     transfer transport virtual acquirer access lounge perks protection purchase travel bin cdn money mobile pay airline aggregator registration gateway
+    agent partners collection terminal drivers link signing key server
     bus coach tickets train rail operator operators hotel hotels stays homes car rental local events cinema ferry appointments
     airtime data bills electricity water gas tv streaming education vouchers esim internet credit domestic international online
     offline remittance remittances government gateway gateways lender lenders insurers banks authority tax office booking bookings
