@@ -293,7 +293,7 @@ class AccountLayout(DarkPass, unittest.TestCase):
         for st in ["signin"] + self.PAGES:
             pg.click(f'#stateButtons button[data-state="{st}"]'); check(st)
         pg.click('#stateButtons button[data-state="signup"]'); check("signup username")
-        pg.fill("#usernameIn", "grace.k"); pg.click('[data-act="signup:username"]'); check("signup contact")
+        pg.fill("#usernameIn", "grace.k"); check("signup username, age not confirmed"); pg.check("#adultIn"); pg.click('[data-act="signup:username"]'); check("signup contact")
         pg.click('[data-act="signup:contact"]'); check("signup passkey")
         pg.click('[data-act="signup:passkey"]'); check("signup recovery code")
         pg.click('[data-act="signup:code"]'); check("signup done")
@@ -303,6 +303,8 @@ class AccountLayout(DarkPass, unittest.TestCase):
                 pg.click(f'[data-act="recover:{a}"]')
             check(name)
             pg.click('[data-act^="recover:start:"]'); check(name + " started")
+        pg.click('#stateButtons button[data-state="storefront"]'); check("my storefront"); pg.click('[data-act="idcheck:start"]'); check("identity sent")
+        pg.click('#stateButtons button[data-state="support"]'); pg.click('[data-act="support:external"]'); check("seller support case")
         pg.click('#stateButtons button[data-state="security"]')
         pg.locator('[data-act^="passkey:remove:"]').first.click(); check("step-up sheet"); pg.click('[data-act="stepup:ok"]'); check("passkey removed")
         pg.click('#stateButtons button[data-state="start"]'); pg.click('[data-act="start:begin"]'); check("start steps")

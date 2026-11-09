@@ -88,3 +88,36 @@ class BuiltPlaces(unittest.TestCase):
             b.close()
         for item, want in items.items():
             self.assertEqual(want - found[item], set(), f"{item} is missing from its places")
+
+
+ACCOUNT = os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-account-site.html")
+
+
+@unittest.skipUnless(sync_playwright and os.path.isfile(ACCOUNT), "Playwright with Chromium is needed")
+class AccountPlaces(unittest.TestCase):
+    """Section-2 items on the account site: My Storefront and Seller support in the account menu, search and help; the account
+    site chooses its own view (touch or not) and offers Change view in the account menu."""
+    def test_section_2_items_are_where_the_register_says(self):
+        items = {i["id"]: set(i["places"]) for i in REG["items"] if i.get("section") == 2 and i["kind"] == "item"}
+        en = json.load(open(os.path.join(ROOT, "web", "emulators", "dist", "..", "account-site", "strings.en.json"), encoding="utf-8"))
+        with sync_playwright() as p:
+            b = p.chromium.launch(); pg = b.new_page(viewport={"width": 1500, "height": 1100})
+            pg.goto("file://" + ACCOUNT); pg.wait_for_selector("html[data-ready]", state="attached")
+            found = {k: set() for k in items}
+            pg.click('[data-act="shell:account"]')
+            if pg.locator('#display [data-act="go:storefront"]').count(): found["my_storefront"].add("account_menu")
+            if pg.locator('#display [data-act="go:support"]').count(): found["seller_support"].add("account_menu")
+            self.assertEqual(pg.locator('#display [data-act="shell:view"]').count(), 1, "Change view in the account menu")
+            pg.keyboard.press("Escape"); pg.click('[data-act="shell:search"]')
+            pg.fill("#cmdIn", en["page_storefront"])
+            if pg.locator('#cmdList [data-act="go:storefront"]').count(): found["my_storefront"].add("search")
+            pg.fill("#cmdIn", en["support_seller"])
+            if pg.locator('#cmdList [data-act="support:external"]').count(): found["seller_support"].add("search")
+            pg.keyboard.press("Escape")
+            pg.click('[data-state="storefront"]'); pg.click('[data-act="shell:help"]')
+            if en["help_storefront"] in pg.inner_text("#display"): found["my_storefront"].add("help"); found["seller_support"].add("help")
+            pg.keyboard.press("Escape"); pg.click('[data-state="support"]'); pg.click('[data-act="support:external"]')
+            self.assertIn(en["support_seller"], pg.inner_text("#display"))
+            b.close()
+        for item, want in items.items():
+            self.assertEqual(want - found[item], set(), f"{item} is missing from its places")

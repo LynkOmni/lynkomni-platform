@@ -17,31 +17,33 @@ class SignUpAndSecurity(unittest.TestCase):
         os.environ.pop("LYNK_MODE", None); self.p = Platform(); self.a = self.p.account
     def tearDown(self): os.environ.pop("LYNK_MODE", None)
     def signed_up(self, username="grace.k", **kw):
-        s = self.a.begin_sign_up(username, "en", T0); p = s["person"]
+        s = self.a.begin_sign_up(username, "en", T0, adult_confirmed=True); p = s["person"]
         code = self.a.send_contact_code(p, T0); self.a.confirm_contact(p, code, T0)
         done = self.a.finish_sign_up(p, "pk-1", "Grace's phone", "pii_1", "pii_2", backup_contact="bk-1", now=T0, **kw)
         return p, s, done
 
     def test_sign_up_takes_a_username_checks_a_contact_and_shows_the_recovery_code_once(self):
-        with self.assertRaises(ValueError): self.a.begin_sign_up("admin", "en", T0)                    # reserved word
-        with self.assertRaises(ValueError): self.a.begin_sign_up("Grace..K", "en", T0)                 # two dots
+        with self.assertRaises(PermissionError): self.a.begin_sign_up("young.one", "en", T0)              # BIZZ & DEVICE: 18 or the local age of majority, confirmed
+        self.assertEqual(self.a.minimum_age("RW"), 18); self.assertEqual(self.a.minimum_age(None), 18)
+        with self.assertRaises(ValueError): self.a.begin_sign_up("admin", "en", T0, adult_confirmed=True)                    # reserved word
+        with self.assertRaises(ValueError): self.a.begin_sign_up("Grace..K", "en", T0, adult_confirmed=True)                 # two dots
         p, s, done = self.signed_up()
         self.assertTrue(s["lynkid"].startswith("LOID-")); self.assertEqual(s["username"], "grace.k")
         self.assertTrue(done["show_once"] and done["recovery_code"] and done["locrd"].startswith("LOCRD-"))
         self.assertEqual(self.a.username_status("grace.k"), "taken")
-        with self.assertRaises(ValueError): self.a.begin_sign_up("grace.k", "en", T0)
+        with self.assertRaises(ValueError): self.a.begin_sign_up("grace.k", "en", T0, adult_confirmed=True)
         types = [e["type"] for e in self.p.c.store.of(p, *EVENTS)]
         self.assertEqual(types, ["AccountCreated", "PasskeyEnrolled"])
         for e in self.p.c.store.of(p, *EVENTS):                                                           # payloads carry references only
             self.assertFalse(any(k in e["payload"] for k in ("phone", "email", "code", "recovery_code")))
         with self.assertRaises(PermissionError):                                                          # a contact must be verified first
-            q = self.a.begin_sign_up("other.one", "en", T0)["person"]; self.a.finish_sign_up(q, "pk", "x", "pii_3", "pii_4", now=T0)
+            q = self.a.begin_sign_up("other.one", "en", T0, adult_confirmed=True)["person"]; self.a.finish_sign_up(q, "pk", "x", "pii_3", "pii_4", now=T0)
 
     def test_old_usernames_redirect_and_are_never_reissued(self):
         p, s, _ = self.signed_up()
         self.a.change_username(p, "grace.kamau", T0)
         self.assertEqual(self.a.usernames.resolve("grace.k"), self.a.usernames.resolve("grace.kamau"))
-        with self.assertRaises(ValueError): self.a.begin_sign_up("grace.k", "en", T0)                   # reserved for its owner for ever
+        with self.assertRaises(ValueError): self.a.begin_sign_up("grace.k", "en", T0, adult_confirmed=True)                   # reserved for its owner for ever
 
     def test_sign_in_alerts_on_a_new_device_or_place_and_sessions_are_bound_to_one_site(self):
         p, s, _ = self.signed_up()
@@ -98,7 +100,7 @@ class SignUpAndSecurity(unittest.TestCase):
         self.assertEqual(self.a.request_payout_change(p, org, second_device_ok=True, now=T0)["status"], "applied")
         r2 = self.a.request_payout_change(p, org, now=T0); self.a.cancel_payout_change(p, r2["id"], "other_device", T0)
         with self.assertRaises(PermissionError): self.a.apply_payout_change(p, r2["id"], T0 + 2 * PAYOUT_WAIT_S)
-        other = self.a.begin_sign_up("not.owner", "en", T0)["person"]
+        other = self.a.begin_sign_up("not.owner", "en", T0, adult_confirmed=True)["person"]
         with self.assertRaises(PermissionError): self.a.request_payout_change(other, org, now=T0)
         self.assertFalse(self.a.can_export(p, "no-stepup", now=T0))
         tok = self.a.sign_in(p, "account", "Grace's phone", "Kigali", T0); code = self.a.auth.begin_stepup(p, T0); su = self.a.auth.complete_stepup(p, tok, code, T0)
@@ -125,16 +127,41 @@ class SignUpAndSecurity(unittest.TestCase):
         self.assertEqual(self.p.c.store.of(p, "AccountClosed")[0]["payload"], {"lynkid": s["lynkid"]})
 
 
+class StorefrontIdentity(unittest.TestCase):
+    """BIZZ & DEVICE: before the first paid Storefront offer the licensed partner checks who the seller is; LynkOmni only asks,
+    shows "sent" until the partner answers, and a device can never confirm it. Free offers never need it."""
+    def setUp(self):
+        os.environ.pop("LYNK_MODE", None); self.p = Platform(); self.a = self.p.account
+        s = self.a.begin_sign_up("seller.one", "en", T0, adult_confirmed=True); self.person = s["person"]
+    def test_check_is_sent_then_only_the_partner_confirms(self):
+        r = self.a.request_identity_check(self.person, now=T0); self.assertEqual(r["state"], "sent"); self.assertTrue(r["lover"].startswith("LOVER-"))
+        self.assertEqual(self.a.request_identity_check(self.person, now=T0)["lover"], r["lover"])       # one open check, never two
+        self.assertFalse(self.a.identity_confirmed(self.person))
+        self.assertEqual(self.a.partner_identity_answer(r["lover"], True, "sandbox", now=T0 + 60), "confirmed")
+        self.assertTrue(self.a.identity_confirmed(self.person))
+        with self.assertRaises(ValueError): self.a.partner_identity_answer(r["lover"], True, "sandbox")
+        self.assertEqual([len(self.p.c.store.of(self.person, t)) for t in ("IdentityCheckRequested", "IdentityCheckConfirmed")], [1, 1])
+    def test_first_paid_offer_is_guided_and_free_offers_are_not(self):
+        f = self.p.flow
+        self.assertEqual(f.user_action(self.person, "PublishPaidListing", {"price_minor": 0}, now=T0), [])
+        ran = f.user_action(self.person, "PublishPaidListing", {"price_minor": 5000}, now=T0)
+        self.assertEqual(len(ran), 1)
+        guides = [e for e in self.p.c.store.of(self.person, "GuideOffered") if e["payload"]["topic"] == "storefront_first_paid_offer"]
+        self.assertEqual(len(guides), 1)
+        lover = self.a.request_identity_check(self.person, now=T0)["lover"]; self.a.partner_identity_answer(lover, True, "sandbox", now=T0)
+        self.assertEqual(f.user_action(self.person, "PublishPaidListing", {"price_minor": 5000}, now=T0 + 1), [])
+
+
 class BusinessesAndMoney(unittest.TestCase):
     def setUp(self):
         os.environ.pop("LYNK_MODE", None); self.p = Platform(); self.a = self.p.account
-        s = self.a.begin_sign_up("owner.one", "en", T0); self.owner = s["person"]; self.lid = s["lynkid"]
+        s = self.a.begin_sign_up("owner.one", "en", T0, adult_confirmed=True); self.owner = s["person"]; self.lid = s["lynkid"]
         c = self.a.send_contact_code(self.owner, T0); self.a.confirm_contact(self.owner, c, T0); self.a.finish_sign_up(self.owner, "pk", "phone", "pii_1", "pii_2", now=T0)
         self.org = self.p.idp.register_org(self.owner, "Mama Shop", country="XX")["internal"]
     def tearDown(self): os.environ.pop("LYNK_MODE", None)
 
     def test_memberships_leaving_and_the_accountant_client_switcher(self):
-        acc = self.a.begin_sign_up("numbers.lady", "en", T0); accountant = acc["person"]
+        acc = self.a.begin_sign_up("numbers.lady", "en", T0, adult_confirmed=True); accountant = acc["person"]
         self.p.idp.add_member(self.owner, self.org, accountant, "accountant")
         self.assertTrue(self.p.idp.can(accountant, self.org, "ledger.view")); self.assertFalse(self.p.idp.can(accountant, self.org, "sale.record"))
         self.assertEqual(self.a.clients(accountant, T0)[0]["consent"], "missing")                         # a membership never proves consent
@@ -230,6 +257,7 @@ class FlowRunner(unittest.TestCase):
         for aid, level in (("sign-in-alert", "inform"), ("recovery-guide", "inform"), ("consent-expiry", "inform"), ("data-request-timer", "inform"), ("start-business-tracker", "inform"), ("churn-watch", "draft"), ("renewal-reminder", "inform")):
             self.assertEqual(REGISTER[aid]["level"], level); self.assertEqual(REGISTER[aid]["build_section"], 2); self.assertIn(aid, self.f.handlers)
         self.assertEqual(set(RECOVERY_STEPS), {"device", "code", "assisted"})
+        self.assertEqual(REGISTER["storefront-first-paid-listing"]["level"], "draft"); self.assertIn("storefront-first-paid-listing", self.f.handlers)
 
 
 if __name__ == "__main__":

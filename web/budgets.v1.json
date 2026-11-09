@@ -28,8 +28,8 @@
   },
   "account-site": {
    "first_tap": "[data-act=\"go:security\"]",
-   "file_kb": 790,
-   "file_kb_reason": "Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline) and the shared tracker (the tracking engine, its register and the tracker words in all 38 languages, owner request for tracking across every service), the order trackers and the Run your affairs workspaces (office services for a person, a company or an organisation)."
+   "file_kb": 860,
+   "file_kb_reason": "Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline) and the shared tracker (the tracking engine, its register and the tracker words in all 38 languages, owner request for tracking across every service), the order trackers and the Run your affairs workspaces (office services for a person, a company or an organisation). Raised to 860 on 9 November 2026 for BIZZ & DEVICE section 2: the account site now chooses its own view with the device register and decision function, and carries My Storefront, seller support and the age step, plus the side and view words, in all 38 languages (about 55 KB); a real app downloads one language at a time. First-screen and tap budgets are unchanged."
   },
   "counter-tablet": {
    "first_tap": "[data-act=\"d1\"]",

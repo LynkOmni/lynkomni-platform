@@ -59,7 +59,8 @@
    "support",
    "payslips",
    "payments",
-   "start"
+   "start",
+   "storefront"
   ]
  },
  "recovery": [

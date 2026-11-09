@@ -18,7 +18,7 @@
    "n": 2,
    "title": "LynkOmni Account and sign-in",
    "status": "locked",
-   "version": "v0.22.0"
+   "version": "v0.30.0"
   },
   {
    "n": 3,
@@ -77,8 +77,8 @@
    "id": "account-site",
    "title": "LynkOmni Account site",
    "section": 2,
-   "what": "Sign-up in four steps, sign-in with a passkey, the three recovery paths, Security Center and every account page, your orders with live trackers, and Run your affairs: a workspace for yourself, a company or an organisation. Computer, tablet and phone.",
-   "try": "Open Orders and bookings to see two trackers; open Businesses and start a personal or organisation workspace; then Create account and go through the four steps.",
+   "what": "Sign-up in four steps, sign-in with a passkey, the three recovery paths, Security Center and every account page, your orders with live trackers, and Run your affairs: a workspace for yourself, a company or an organisation. Computer, tablet and phone. Also My Storefront (your public page, Storefront plan and the partner's identity check before a first paid offer), support split between your workspace and seller support, and the age step at sign-up. It picks the right view for your device by itself.",
+   "try": "Open Orders and bookings to see two trackers; open Businesses and start a personal or organisation workspace; then Create account and go through the four steps. Then open the account menu, choose My Storefront and start the identity check; in Support cases, open a seller support case.",
    "url": "https://claude.ai/artifact/8CprNX6QJKACwtEAKB6dTK"
   },
   {

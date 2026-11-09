@@ -2,6 +2,18 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.30.0 (2026-11-09)
+BIZZ & DEVICE, section 2 (the account).
+- My Storefront on the account site (account.lynkomni.com/storefront, in the account menu, search and help). It shows:
+  - your public page at shop.lynkomni.com/(username);
+  - your Storefront plan and its share, read from billing;
+  - the identity check before your first paid offer.
+- The identity check is done by the licensed payment partner (a sandbox until one is signed; "Coming to your country soon" for real users). It shows "sent" until the partner answers, and only the cloud records the partner's confirmation (LOVER- case). Free offers never need it, and the new draft automation guides a seller through it before a first paid offer.
+- Support follows the side: Storefront questions (selling, offers, buyers, payouts) go to seller support and are labelled so. Workspace questions go to the usual desks; safety and security keep their own desks on both sides. Priority is the highest across all plans, the Storefront plan included.
+- Sign-up asks the person to confirm they are 18 or older, or of age where they live (the country pack can set a higher age). A birth date is never asked for or stored.
+- The account site chooses its own view for the device (touch or not), with Change view and Why this view? in the account menu, keyboard and remote arrows, and touch gestures with button equivalents.
+- Fixed on the way: on a phone, the page title moves to its own line under the header instead of being cut to "A..". The account-site size budget is now 860 KB (reason in web/budgets.v1.json).
+
 ## v0.29.0 (2026-11-09)
 BIZZ & DEVICE, section 1 (the shared shell and the device rule).
 - One device register (catalog/devices.v1.json: 7 device classes, 21 ways to use a device, 14 interfaces, 24 devices with their touch and non-touch versions, the key meanings) and one decision function in Python and TypeScript with 4,320 shared test cases. The order is always: your own Change view, the registered device, what the device reports about itself (never the browser's name), then the safe default that works with every input.

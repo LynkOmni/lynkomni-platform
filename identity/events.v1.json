@@ -281,6 +281,22 @@
     "link"
    ],
    "note": "shell event (build section 1): the connection became weak or offline; the data-saver plan follows. Local to the device"
+  },
+  "IdentityCheckRequested": {
+   "payload": [
+    "lynkid",
+    "purpose",
+    "lover"
+   ],
+   "note": "BIZZ & DEVICE: the person asked the licensed payment partner to check who they are (before a first paid Storefront offer); shown as sent until the partner answers"
+  },
+  "IdentityCheckConfirmed": {
+   "payload": [
+    "lynkid",
+    "lover",
+    "partner"
+   ],
+   "note": "The licensed partner confirmed the person's identity; written by the cloud from the partner's answer only, never by a device"
   }
  }
 }

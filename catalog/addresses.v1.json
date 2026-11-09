@@ -303,6 +303,7 @@
   "/sign-up",
   "/start",
   "/start/{LODOC}",
+  "/storefront",
   "/support",
   "/transactions",
   "/wallet"

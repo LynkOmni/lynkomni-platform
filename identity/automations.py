@@ -1,11 +1,12 @@
-"""The seven automations of build section 2 (blueprint 45 E row 2), each registered in catalog/automations.v1.json and run by
-LynkFlow (services/flow.py). Levels: six inform (tell), one draft (a person confirms). None moves money, changes a credential
+"""The eight automations of build section 2 (blueprint 45 E row 2), each registered in catalog/automations.v1.json and run by
+LynkFlow (services/flow.py). Levels: six inform (tell), two draft (a person confirms). None moves money, changes a credential
 or completes a recovery; LynkAssist only guides and watches, and every guide is labelled a suggestion."""
 from identity.account import DAY
 
 RECOVERY_STEPS = {"device": ["approve_on_other_device", "sign_in_on_new_device"],
                   "code": ["enter_recovery_code", "enter_sms_code", "wait_24_hours", "any_device_can_cancel", "new_device_restricted_24h"],
                   "assisted": ["id_document", "business_proof", "live_check", "wait_72_hours", "two_staff_approve", "new_device_restricted_24h"]}
+FIRST_PAID_STEPS = ["identity_check", "payout_details", "publish"]
 START_STEPS = ["profile", "registration", "tax_number", "bank_account", "wait_for_the_authority"]
 QUIET_DAYS, RENEWAL_DAYS, CONSENT_WARN_DAYS, DATA_WARN_DAYS = 14, 7, 7, 3
 
@@ -61,7 +62,14 @@ def register(flow, account, platform):
                     f.emit(person, "RenewalReminderSent", {"lynkid": acct._lynkid(person), "family": fam, "tier": v["tier"], "renews_at": renews}, "renewal-reminder", now); out += 1
         return {"reminders": out, "why": "a paid plan renews within seven days"} if out else None
 
-    for aid, fn in (("sign-in-alert", sign_in_alert), ("recovery-guide", recovery_guide), ("consent-expiry", consent_expiry), ("data-request-timer", data_request_timer),
+    def first_paid_listing(f, person, payload, now):
+        """BIZZ & DEVICE: before a first paid Storefront offer goes live, guide the seller through the partner's identity check
+        and payout details (draft: the seller confirms each step; free offers never need it)."""
+        if payload.get("price_minor", 0) <= 0 or acct.identity_confirmed(person): return None
+        f.emit(person, "GuideOffered", {"lynkid": acct._lynkid(person), "topic": "storefront_first_paid_offer", "steps": FIRST_PAID_STEPS}, "storefront-first-paid-listing", now)
+        return {"draft": "identity_check", "steps": len(FIRST_PAID_STEPS), "labelled": "suggestion", "why": "a first paid Storefront offer needs the licensed partner's identity check; the offer waits until the partner confirms"}
+
+    for aid, fn in (("storefront-first-paid-listing", first_paid_listing), ("sign-in-alert", sign_in_alert), ("recovery-guide", recovery_guide), ("consent-expiry", consent_expiry), ("data-request-timer", data_request_timer),
                     ("start-business-tracker", start_business_tracker), ("churn-watch", churn_watch), ("renewal-reminder", renewal_reminder)):
         flow.handle(aid, fn)
 

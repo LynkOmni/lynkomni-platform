@@ -1,7 +1,7 @@
 /* LynkOmni Account (account.lynkomni.com) in a browser window and on a phone (build section 2). Every part of the frame comes
  * from ts/src/shell.ts and every rule from ts/src/account.ts; this file holds the sample person, the screens and the event log.
  * Words come from web/shell/strings.en.json (the shell) and strings.en.json (this site) and their language packs. */
-import { STATE_PICTURE, Undo, accountMenu, commandBar, connectionChip, deliverNow, esc, filterRegions, globeSheet, regionName, header, helpPanel, launcher, maskId, navigation, notificationsPanel, search, state, comingSoon, syncSheet, translator, undoToast, usernameField } from "../../../ts/src/shell.js";
+import { STATE_PICTURE, Undo, accountMenu, viewSheet, IFACE_NAME, commandBar, connectionChip, deliverNow, esc, filterRegions, globeSheet, regionName, header, helpPanel, launcher, maskId, navigation, notificationsPanel, search, state, comingSoon, syncSheet, translator, undoToast, usernameField } from "../../../ts/src/shell.js";
 import type { AddressMap, Entry, Icon, Link, NavItem, Notice, Pic, StateKind, SyncInfo, T, UsernameStatus, Viewport } from "../../../ts/src/shell.js";
 import { DAY, PAGES, RECOVERY, REGISTRATION_STEPS, SECURITY_EVENT_KEY, SIGN_UP_STEPS, applicationStatus, canSubmit, closesAt, consentState, dataRequestDue, nextSignUpStep, pagePath, payoutChange, recoveryPath, recoveryReady, recoveryReadyAt, signInAlertNeeded } from "../../../ts/src/account.js";
 import type { ApplicationStatus, Consent, Page, RecoveryPath, RegistrationStep, SignUpState } from "../../../ts/src/account.js";
@@ -13,6 +13,10 @@ import { Tracking } from "../../../ts/src/tracking.js";
 import type { View as TrackView } from "../../../ts/src/tracking.js";
 import { REGISTER } from "../../../ts/src/tracking.generated.js";
 import { trackerHtml } from "../../../ts/src/trackview.js";
+import { browserFacts, chooseInterface } from "../../../ts/src/interfaces.js";
+import type { Choice } from "../../../ts/src/interfaces.js";
+import { DEVICES } from "../../../ts/src/interfaces.generated.js";
+import { arrowNav, gestures } from "../../../ts/src/gestures.js";
 const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 } as const;   // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
 
 interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[]; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; plain: string; state: "available" | "coming_soon" }[] }
@@ -23,6 +27,7 @@ interface BuildData {
   statePictures: Record<string, Record<"light" | "dark", { svg: string; alt: string; contrast?: string }>>;
   packs: Record<string, CountryPack>; packOrder: string[];
   addresses: AddressMap;
+  storefront: { tiers: string[]; prices_usd: Record<string, number>; share_bps: Record<string, number>; min_age: number };
   i18n: Record<string, { native: string; dir: "ltr" | "rtl"; texts: Record<string, string> }>;
 }
 declare const DATA: BuildData;
@@ -31,7 +36,11 @@ interface Ev { n: number; type: string; origin: "device" | "server"; payload: un
 const PACKS = DATA.i18n;
 const EN: Record<string, string> = PACKS.en?.texts ?? {};
 const TEST_LANGS = ["xx", "xx-rtl"];
-type Overlay = null | "launcher" | "account" | "globe" | "cmd" | "help" | "bell" | "sync" | "stepup" | "pages";
+type Overlay = null | "launcher" | "account" | "globe" | "cmd" | "help" | "bell" | "sync" | "stepup" | "pages" | "view";
+/** The views a browser can show the account site in (DEVICE, 48.17); the size follows the chosen view. */
+const VIEWS = ["universal", "phone.touch", "tablet.touch", "computer.touch", "computer.pointer"] as const;
+const SIZE_OF_CLASS: Record<string, Viewport> = { phone: "phone", watch: "phone", voice: "phone", tablet: "tablet", eink: "tablet", computer: "computer", tv: "computer" };
+const TEST_VIEW: Record<string, string> = { computer: "computer.pointer", tablet: "tablet.touch", phone: "phone.touch" };
 type Screen = "signin" | "signup" | "recover" | Page;
 const SCREENS: Screen[] = ["signin", "signup", "recover", ...PAGES];
 /** Sample credential ids in the one public id format (core/ids.py: valid check digits; tests/test_emulators.py checks every id written here). */
@@ -58,7 +67,14 @@ const S = {
   app: null as null | { status: ApplicationStatus; steps: Record<RegistrationStep, boolean>; lynkoid?: string },
   restrictedUntil: 0,
   workspaces: [] as { entity: "person" | "company" | "organisation" }[],
+  testSize: "auto", override: null as string | null, choice: null as Choice | null,
+  idCheck: null as null | "sent" | "confirmed", cases: [] as { side: "internal" | "external"; ref: string }[],
 };
+/** Sample identity check and case references in the one public id format (core/ids.py; tests/test_emulators.py checks them). */
+const SAMPLE_LOVER = "LOVER-3301-0442-1905";
+const SAMPLE_CASES = ["LOCASE-2101-7710-0042", "LOCASE-2101-7710-0059"];
+const choose = (): Choice => chooseInterface(DEVICES, { ...browserFacts(window), override: S.testSize !== "auto" ? TEST_VIEW[S.testSize] ?? null : S.override });
+const pct = (bps: number): string => { try { return new Intl.NumberFormat(locale(), { style: "percent", maximumFractionDigits: 2 }).format(bps / 10000); } catch { return `${bps / 100}%`; } };
 const $ = <T extends HTMLElement>(sel: string): T => document.querySelector(sel) as T;
 const PSEUDO: Record<string, string> = { a: "à", c: "ç", e: "é", i: "î", n: "ñ", o: "ö", s: "š", u: "ü", y: "ý" };
 const pseudo = (s: string): string => `[${s.replace(/[aceinosuy]/g, (c) => PSEUDO[c] ?? c)} ${"~".repeat(Math.max(1, Math.round(s.length * 0.4)))}]`;
@@ -128,7 +144,7 @@ const navItems = (): NavItem[] => {
   if (S.size === "phone") return phone;
   return PAGES.map((p) => ({ id: p, label: t(`page_${p}`), icon: PAGE_ICON[p], href: pagePath(p), current: S.screen === p }));
 };
-const PAGE_ICON: Record<Page, string> = { overview: "ui-home", profile: "ui-user", security: "ui-lock", businesses: "ui-grid", orders: "ui-cart", transactions: "ui-receipt", wallet: "ui-pay-wallet", billing: "ui-pay-card", memberships: "ui-check", privacy: "ui-doc", notifications: "ui-bell", support: "ui-info", payslips: "ui-doc", payments: "ui-pay-instant", start: "ui-bolt" };
+const PAGE_ICON: Record<Page, string> = { overview: "ui-home", profile: "ui-user", security: "ui-lock", businesses: "ui-grid", orders: "ui-cart", transactions: "ui-receipt", wallet: "ui-pay-wallet", billing: "ui-pay-card", memberships: "ui-check", privacy: "ui-doc", notifications: "ui-bell", support: "ui-info", payslips: "ui-doc", payments: "ui-pay-instant", start: "ui-bolt", storefront: "ui-cart" };
 const screenPath = (): string => (S.screen === "signin" ? "/sign-in" : S.screen === "signup" ? "/sign-up" : S.screen === "recover" ? "/recover" : pagePath(S.screen));
 const sync = (): SyncInfo => ({ link: S.link, pending: S.pending, lastSync: S.lastSync, dataSaver: false, forcedOffline: false });
 const statePic = (kind: StateKind): Pic | null => {
@@ -161,7 +177,7 @@ function authSignUp(): string {
   const idx = step ? SIGN_UP_STEPS.indexOf(step) : SIGN_UP_STEPS.length;
   const bar = `<ol class="steps" aria-label="${esc(t("step_of", { n: Math.min(idx + 1, 4), total: 4 }))}">${SIGN_UP_STEPS.map((_, i) => `<li class="${i <= idx ? "on" : ""}"></li>`).join("")}</ol>`;
   let body = "";
-  if (step === "username") body = `<h2>${esc(t("step_username"))}</h2>${usernameField(S.username, S.cloud, (u) => u === "mamas.kitchen", t, icon)}<button class="primary" data-act="signup:username" ${S.cloud === "available" ? "" : "disabled"}>${esc(t("next"))}</button>`;
+  if (step === "username") body = `<h2>${esc(t("step_username"))}</h2>${usernameField(S.username, S.cloud, (u) => u === "mamas.kitchen", t, icon)}<label class="check"><input type="checkbox" id="adultIn" data-act="toggle:adult"${S.signUp.adult ? " checked" : ""}><span>${esc(t("signup_adult", { age: n(DATA.storefront.min_age) }))}</span></label><p class="muted">${esc(t("signup_adult_note"))}</p><button class="primary" data-act="signup:username" ${S.cloud === "available" && S.signUp.adult ? "" : "disabled"}>${esc(t("next"))}</button>`;
   else if (step === "contact") body = `<h2>${esc(t("step_contact"))}</h2><p class="muted">${esc(t("contact_hint"))}</p><div class="field"><label for="code">${esc(t("code_label"))}</label><input class="text" id="code" inputmode="numeric" value="482913"></div><button class="primary" data-act="signup:contact">${esc(t("next"))}</button>`;
   else if (step === "passkey") body = `<h2>${esc(t("step_passkey"))}</h2><p class="muted">${esc(t("passkey_hint"))}</p><button class="primary" data-act="signup:passkey">${icon("ui-lock")}<span>${esc(t("add_passkey"))}</span></button>`;
   else if (step === "recovery_code") body = `<h2>${esc(t("step_recovery_code"))}</h2><div class="codebox"><span>${esc(S.recoveryCode)}</span>${icon("ui-doc")}</div><div class="warn">${icon("ui-warning")}<span>${esc(t("recovery_code_hint"))}</span></div><button class="primary" data-act="signup:code">${esc(t("recovery_code_confirm"))}</button>`;
@@ -235,7 +251,24 @@ function page(): string {
       <div class="card"><h2>${esc(t("marketing_choices"))}</h2>${rows([`<label class="switch"><input type="checkbox" data-act="toggle:mkemail" ${S.marketing.email ? "checked" : ""}><span>${esc(t("marketing_email"))}</span></label>`, `<label class="switch"><input type="checkbox" data-act="toggle:mkpush" ${S.marketing.push ? "checked" : ""}><span>${esc(t("marketing_push"))}</span></label>`])}</div>
       <div class="card"><h2>${esc(t("close_account"))}</h2><p class="muted">${esc(t("close_hint"))}</p>${S.closing ? `${wait(t("close_requested", { when: dateOf(S.closing) }))}<div class="actions"><button class="primary" data-act="close:cancel">${esc(t("keep_account"))}</button></div>` : `<div class="actions"><button class="secondary" data-act="stepup:close">${esc(t("close_account"))}</button></div>`}</div></div>`;
     case "notifications": return `${title("notifications")}<div class="card">${rows([kv(esc(t("channels")), "push · email · SMS"), kv(esc(t("quiet_hours")), esc(t("quiet_hours_line", { start: clock(Date.UTC(2026, 0, 1, 22)), end: clock(Date.UTC(2026, 0, 1, 7)) })))])}<p class="muted">${esc(t("security_always"))}</p></div>`;
-    case "support": return `${title("support")}<div class="card"><p class="muted">${esc(t("support_empty"))}</p><div class="actions"><button class="primary" data-act="support:open">${esc(t("open_case"))}</button></div><p class="muted">${esc(t("exchange_link"))}</p></div>`;
+    case "support": {
+      const desk = (side: "internal" | "external") => t(side === "external" ? "support_seller" : "support_workspace");
+      const list = S.cases.length ? rows(S.cases.map((c) => kv(esc(t("support_case_line", { desk: desk(c.side), ref: c.ref })), wait(t(S.link === "offline" ? "st_queued" : "st_sent"))))) : `<p class="muted">${esc(t("support_empty"))}</p>`;
+      return `${title("support")}<div class="card">${list}<div class="actions"><button class="primary" data-act="support:internal">${icon("ui-home")}<span>${esc(desk("internal"))}</span></button><button class="secondary" data-act="support:external">${icon("ui-cart")}<span>${esc(desk("external"))}</span></button></div><p class="muted">${esc(t("support_side_note"))}</p><p class="muted">${esc(t("exchange_link"))}</p></div>`;
+    }
+    case "storefront": {
+      const sf = DATA.storefront, tier = "free";
+      const handle = S.signUp.username || "grace.k";
+      const id = S.idCheck === "confirmed" ? ok(t("sf_identity_done", { ref: SAMPLE_LOVER })) : S.idCheck === "sent" ? `${wait(t("sf_identity_sent"))}<div class="actions"><button class="secondary" data-act="idcheck:poll">${esc(t("sf_identity_poll"))}</button></div>`
+        : `<div class="actions"><button class="primary" data-act="idcheck:start">${icon("ui-lock")}<span>${esc(t("sf_identity_start"))}</span></button></div>`;
+      const idCard = S.realUser ? comingSoon(t("sf_identity"), t, statePic("coming_soon"), S.notified.has("identity")) : `<p class="muted">${esc(t("sf_identity_why"))}</p>${id}`;
+      return `${title("storefront")}<div class="cards">
+        <div class="card wide"><p class="muted">${esc(t("sf_intro"))}</p><div class="muted">${esc(t("sf_address"))}</div><div class="lynkid-box"><span class="deeplink">shop.lynkomni.com/${esc(handle)}</span></div><div class="actions"><button class="secondary" data-act="open:storefront">${esc(t("sf_open"))}</button></div></div>
+        <div class="card"><h2>${esc(t("sf_plan"))}</h2><p>${esc(t("sf_plan_line", { plan: t(`plan_${tier}`), share: pct(sf.share_bps[tier] ?? 0) }))}</p><div class="actions"><button class="secondary" data-act="go:billing">${esc(t("sf_plans_link"))}</button></div></div>
+        <div class="card"><h2>${esc(t("sf_identity"))}</h2>${idCard}</div>
+        <div class="card wide"><p class="muted">${esc(t("sf_age", { age: n(sf.min_age) }))}</p></div>
+      </div>`;
+    }
     case "payslips": return `${title("payslips")}<div class="card">${rows([kv(esc(t("payslip_line", { period: "2026-10", employer: t("client_pharmacy") })), "LODOC-9001-0044-2814", `<button class="secondary" data-act="open:payslip">${esc(t("switch_to"))}</button>`)])}<p class="muted">${esc(t("payslips_empty"))}</p></div>`;
     case "payments": {
       if (!ready("paylinks")) return `${title("payments")}<div class="card">${comingSoon("LynkCheckout", t, statePic("coming_soon"), S.notified.has("paylinks"))}</div>`;
@@ -259,13 +292,15 @@ function overlay(): string {
   switch (S.overlay) {
     case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.service, name: s.name, plain: t(`ft_plain_${s.plain}`), icon: s.icon, href: `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon));
     case "pages": return wrap("", launcher(PAGES.map((p) => ({ id: `page-${p}`, name: t(`page_${p}`), icon: PAGE_ICON[p], href: pagePath(p), state: "available" as const })), t, icon));
-    case "account": return wrap("end", accountMenu({ name: t("person_name"), lynkId: LYNKID, businesses: [{ id: "b1", name: t("shop_name"), current: true }, { id: "b2", name: t("client_pharmacy"), current: false }], role: "owner", roles: ["owner", "manager"], theme: S.mode === "lite" ? "lite" : S.mode === "sunlight" ? "sunlight" : S.theme, language: langName(isTest() ? "en" : S.lang), region: pack().sample ? t("sample_country") : pack().name }, t, icon));
+    case "account": return wrap("end", accountMenu({ name: t("person_name"), lynkId: LYNKID, businesses: [{ id: "b1", name: t("shop_name"), current: true }, { id: "b2", name: t("client_pharmacy"), current: false }], role: "owner", roles: ["owner", "manager"], theme: S.mode === "lite" ? "lite" : S.mode === "sunlight" ? "sunlight" : S.theme, language: langName(isTest() ? "en" : S.lang), region: pack().sample ? t("sample_country") : pack().name, view: { name: t(IFACE_NAME[S.choice?.interface ?? "universal"] ?? "iface_universal") },
+      links: [{ act: "go:storefront", label: t("page_storefront"), icon: "ui-cart" }, { act: "go:support", label: t("support_seller"), icon: "ui-info" }] }, t, icon));
+    case "view": return wrap("", viewSheet({ current: S.choice?.interface ?? "universal", rule: S.choice?.rule ?? "safe_default", options: [...VIEWS], ownerOnly: false, canChange: true }, t, icon));
     case "globe": return wrap("", globeSheet(Object.entries(PACKS).map(([code, p]) => ({ code, native: p.native, dir: p.dir })), DATA.packOrder.map((c) => ({ code: c, name: (DATA.packs[c] as CountryPack).sample ? t("sample_country") : regionName(c, isTest() ? "en" : S.lang, (DATA.packs[c] as CountryPack).name) })), { language: isTest() ? "en" : S.lang, region: pack().code }, t));
     case "cmd": {
-      const index: Entry[] = [...PAGES.map((p): Entry => ({ id: p, kind: "setting", title: t(`page_${p}`), act: `go:${p}` })), { id: "h1", kind: "help", title: t("help_article_1"), act: "shell:help" }, { id: "h2", kind: "help", title: t("help_article_2"), act: "shell:help" }, { id: "a1", kind: "action", title: t("sign_out_everywhere"), act: "session:all" }];
+      const index: Entry[] = [...PAGES.map((p): Entry => ({ id: p, kind: "setting", title: t(`page_${p}`), act: `go:${p}` })), { id: "h1", kind: "help", title: t("help_article_1"), act: "shell:help" }, { id: "h2", kind: "help", title: t("help_article_2"), act: "shell:help" }, { id: "a1", kind: "action", title: t("sign_out_everywhere"), act: "session:all" }, { id: "a2", kind: "action", title: t("support_seller"), act: "support:external" }, { id: "h3", kind: "help", title: t("help_storefront"), act: "shell:help" }, { id: "v1", kind: "setting", title: t("change_view"), act: "shell:view" }];
       return wrap("", commandBar(S.query, search(index, S.query), t, icon));
     }
-    case "help": return wrap("end", helpPanel(t(`page_${signedIn() ? (S.screen as Page) : "security"}`), [{ id: "1", title: t("help_article_1"), href: "/faq/account/recovery" }, { id: "2", title: t("help_article_2"), href: "/faq/account/passkeys" }], t, icon));
+    case "help": return wrap("end", helpPanel(t(`page_${signedIn() ? (S.screen as Page) : "security"}`), [...(S.screen === "storefront" || S.screen === "support" ? [{ id: "3", title: t("help_storefront"), href: "/faq/storefront/start" }] : []), { id: "1", title: t("help_article_1"), href: "/faq/account/recovery" }, { id: "2", title: t("help_article_2"), href: "/faq/account/passkeys" }], t, icon));
     case "bell": {
       const list: Notice[] = [
         { id: "n1", at: Date.now() - 60000, urgency: "security", title: t("notice_signin"), record: "LONTF-2201-4410-8838", href: "/security" },
@@ -283,7 +318,9 @@ function overlay(): string {
 }
 
 function draw(): void {
+  S.choice = choose(); S.size = SIZE_OF_CLASS[S.choice.class] ?? "computer";
   const d = $("#display");
+  d.dataset["deviceClass"] = S.choice.class; d.dataset["interface"] = S.choice.interface;      // type scale and focus rules per device (design tokens)
   d.className = `display ${S.theme}`;
   if (S.mode) d.setAttribute("data-mode", S.mode); else d.removeAttribute("data-mode");
   d.lang = S.lang === "xx-rtl" ? "ar" : S.lang === "xx" ? "en" : S.lang;
@@ -323,6 +360,7 @@ function act(a: string): void {
       if (v === "signout") { S.screen = "signin"; S.overlay = null; record("SessionRevoked", "server", { by: "self" }); draw(); return; }
       if (v === "signin") { S.screen = "signin"; S.overlay = null; draw(); return; }
       if (v === "voice") { S.overlay = null; draw(); return; }
+      if (v === "view" || v === "why") { S.overlay = "view"; draw(); if (v === "why") $("#whyView")?.focus(); return; }
       S.overlay = S.overlay === map[v] ? null : (map[v] ?? null); S.query = ""; draw();
       if (S.overlay === "cmd") $<HTMLInputElement>("#cmdIn")?.focus();
       return;
@@ -331,7 +369,19 @@ function act(a: string): void {
     case "go": S.screen = pick(SCREENS, v, S.screen); S.overlay = null; if (v === "recover") S.recover = { otherDevice: null, hasCode: null, started: null }; draw(); return;
     case "place": { const p = v.replace(/^page-/, ""); if (v.startsWith("page-")) S.screen = pick(SCREENS, p, S.screen); S.overlay = null; draw(); return; }
     case "lang": S.lang = pick(Object.keys(PACKS), v, S.lang); $<HTMLSelectElement>("#cLang").value = S.lang; S.overlay = null; draw(); return;
-    case "business": case "role": case "region": case "open": case "notice": case "help": case "support": case "assist": case "copy": case "edit": case "plan": S.overlay = null; record("AccountAction", "device", { action: a }); draw(); return;
+    case "view": S.override = v === "auto" ? null : (VIEWS as readonly string[]).includes(v) ? v : null; S.overlay = null; draw(); record("InterfaceChosen", "device", { interface: S.choice?.interface, rule: S.choice?.rule }); return;
+    case "support": {
+      if (v !== "internal" && v !== "external") { S.overlay = null; record("AccountAction", "device", { action: a }); draw(); return; }
+      const ref = SAMPLE_CASES[S.cases.length % SAMPLE_CASES.length] as string;
+      S.cases.unshift({ side: v, ref }); S.screen = "support"; S.overlay = null;
+      record("SupportCaseOpened", S.link === "offline" ? "device" : "server", { case: ref, side: v, channel: v === "external" ? "seller_support" : "support" }); draw(); return;
+    }
+    case "idcheck": {
+      if (v === "start" && !S.idCheck) { S.idCheck = "sent"; record("IdentityCheckRequested", "device", { purpose: "first_paid_offer", partner: "sandbox" }); }
+      if (v === "poll" && S.idCheck === "sent" && S.link !== "offline") { S.idCheck = "confirmed"; record("IdentityCheckConfirmed", "server", { lover: SAMPLE_LOVER, by: "partner" }); }
+      draw(); return;
+    }
+    case "business": case "role": case "region": case "open": case "notice": case "help": case "assist": case "copy": case "edit": case "plan": S.overlay = null; record("AccountAction", "device", { action: a }); draw(); return;
     case "signin": {
       const dev = v === "other" ? "device_unknown" : "device_phone";
       const alert = signInAlertNeeded(S.seenDevices, dev, "sample_city");
@@ -376,7 +426,7 @@ function act(a: string): void {
     case "data": S.dataRequest = { due: dataRequestDue(now) }; record("DataRequestOpened", "server", { due_at: S.dataRequest.due }); TRK.apply({ type: "DataRequestOpened", payload: { request_id: "data-1", due_at: new Date(S.dataRequest.due * 1000).toISOString().slice(0, 19) + "Z" }, at: now }, "account");
        draw(); return;
     case "close": if (v === "cancel") { S.closing = null; record("AccountCloseCancelled", "server", {}); } draw(); return;
-    case "toggle": if (v === "mkemail") S.marketing.email = !S.marketing.email; if (v === "mkpush") S.marketing.push = !S.marketing.push; record("MarketingChoiceChanged", "server", { ...S.marketing }); draw(); return;
+    case "toggle": if (v === "adult") { S.signUp.adult = !S.signUp.adult; draw(); return; } if (v === "mkemail") S.marketing.email = !S.marketing.email; if (v === "mkpush") S.marketing.push = !S.marketing.push; record("MarketingChoiceChanged", "server", { ...S.marketing }); draw(); return;
     case "standing": { const i = Number(v.replace(/^revoke:/, "")); const s = S.standing[i]; if (s) { s.active = false; record("StandingPaymentRevoked", "server", { losub: s.losub, by: "self" }); } draw(); return; }
     case "start": {
       if (v === "begin") { S.app = { status: "started", steps: { profile: false, registration: false, tax_number: false, bank_account: false } }; record("RegistrationStarted", "server", { country: pack().code }); }
@@ -395,7 +445,7 @@ function act(a: string): void {
 
 function init(): void {
   const bind = (sel: string, fn: (el: HTMLInputElement) => void) => $<HTMLInputElement>(sel).addEventListener("change", (e) => fn(e.target as HTMLInputElement));
-  bind("#cSize", (el) => { S.size = pick(["computer", "tablet", "phone"] as Viewport[], el.value, S.size); S.overlay = null; draw(); });
+  bind("#cSize", (el) => { S.testSize = pick(["auto", "computer", "tablet", "phone"], el.value, S.testSize); S.overlay = null; draw(); });
   bind("#cLink", (el) => { S.link = pick(["good", "weak", "offline"] as Link[], el.value, S.link); draw(); });
   bind("#cDark", (el) => { S.theme = el.checked ? "dark" : "light"; draw(); });
   bind("#cMode", (el) => { S.mode = pick(["", "lite", "sunlight"] as ("" | "lite" | "sunlight")[], el.value, S.mode); draw(); });
@@ -424,8 +474,18 @@ function init(): void {
     if (el.id === "usernameIn") { act(`username:${el.value}`); const inp = $<HTMLInputElement>("#usernameIn"); inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }
   });
   $("#display").addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["act"]?.startsWith("toggle:")) act(el.dataset["act"]); });
-  document.addEventListener("keydown", (e) => { if (e.key === "/" && !(e.target as HTMLElement).matches("input,select,textarea")) { e.preventDefault(); act("shell:search"); } if (e.key === "Escape" && S.overlay) { S.overlay = null; draw(); } });
-  const fit = () => { const w = $("#rig").clientWidth - 8, dev = { computer: 1280, tablet: 800, phone: 390 }[S.size]; document.documentElement.style.setProperty("--fit", String(Math.min(1, w / dev))); };
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "/" && !(e.target as HTMLElement).matches("input,select,textarea")) { e.preventDefault(); act("shell:search"); }
+    if (e.key === "Escape" && S.overlay) { S.overlay = null; draw(); return; }
+    const group = (document.activeElement as HTMLElement | null)?.closest<HTMLElement>(".shell-nav, .lgrid, .choices");
+    if (group) arrowNav(e, group, $("#display").dir === "rtl");                   // keyboard, remote and switch access move inside a group
+  });
+  gestures($("#display"), {
+    edgeSwipe: () => { if (!S.overlay && signedIn()) act("shell:launcher"); },
+    swipeDown: (el) => { if (S.overlay && el.closest(".overlay")) { S.overlay = null; draw(); } },
+    longPress: (el) => { if (el.closest(".navitem")) { S.overlay = "help"; draw(); } },
+  }, () => $("#display").dir === "rtl");
+  const fit = () => { const w = $("#rig").clientWidth - 8, dev = { computer: 1280, tablet: 800, phone: 390 }[S.size] ?? 1280; document.documentElement.style.setProperty("--fit", String(Math.min(1, w / dev))); };
   new ResizeObserver(fit).observe($("#rig")); fit();
   bind("#cSize", () => fit());
   window.setInterval(() => { if (S.undo.openToasts(Date.now()).length || $(".toasts").children.length) draw(); }, 1000);

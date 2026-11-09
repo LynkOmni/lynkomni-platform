@@ -10,6 +10,8 @@ NEXT = {"initiated": {"queued", "assigned"}, "queued": {"assigned"}, "assigned":
         "in_progress": {"pending_customer", "transfer_pending", "resolved"}, "pending_customer": {"in_progress", "transfer_pending", "resolved", "closed"},
         "transfer_pending": {"in_progress", "transferred", "assigned"}, "transferred": {"in_progress", "transfer_pending", "resolved"},
         "resolved": {"closed", "in_progress"}, "closed": set()}
+SIDES = ("internal", "external")       # the two sides (core/sides.py); the channel follows the side, the priority follows the highest plan
+SIDE_DEPT = "storefront"               # seller support: the desk for Storefront requests
 ACCOUNT_CATEGORIES = {"account", "billing", "payments", "security"}
 DEPT = {"payments": "payments", "account": "account", "billing": "billing", "technical": "technical", "safety": "safety", "security": "security"}
 FORBIDDEN_ACTIONS = {"reset_credentials", "change_pin", "change_email", "change_phone", "complete_recovery", "disable_2fa", "reveal_recovery_code", "change_payout"}
@@ -26,7 +28,7 @@ class Support:
         create table if not exists agents(agent text primary key, role text, dept text, languages text, available int);
         create table if not exists cases(case_id text primary key, requester text, category text, status text, created real);
         create table if not exists convs(conv text primary key, route text, case_id text, customer text, account text, category text, product text, language text,
-                                        priority int, state text, prev_state text, owner_kind text, owner text, authenticated int, created real);
+                                        priority int, state text, prev_state text, owner_kind text, owner text, authenticated int, created real, side text default 'internal');
         create table if not exists transfers(id integer primary key autoincrement, conv text, frm text, dest_kind text, dest text, reason text, status text,
                                              requested_at real, timeout_s real, retried int default 0);""")
     def _log(s, conv, actor, action, detail=None): s.c.store.append("_support", actor or "system", "support.audit", {"conv": conv, "action": action, "detail": detail})
@@ -50,18 +52,25 @@ class Support:
     # cases and conversations (separate records)
     def open_case(s, requester, category):
         cid = s.ids.assign("CASE", uuid.uuid4().hex); s.db.execute("insert into cases values(?,?,?,?,?)", (cid, requester, category, "open", time.time())); s.db.commit(); return cid
-    def open_conversation(s, customer_ref, category, language="en", account=None, authenticated=False, case_id=None, product=None, now=None):
-        conv = s.ids.assign("CNV", uuid.uuid4().hex); dept = DEPT.get(category, "general")
-        s.db.execute("insert into convs values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (conv, "support", case_id, customer_ref, account, category, product, language, s.priority_for(account), "initiated", None, None, None, int(authenticated), _now(now)))
+    def open_conversation(s, customer_ref, category, language="en", account=None, authenticated=False, case_id=None, product=None, now=None, side="internal"):
+        """side (BIZZ & DEVICE): "internal" for help with using a service in one's own workspace, "external" for Storefront
+        matters (selling, offers, buyers, payouts). The same system and the same case rules; the side only picks the channel:
+        external requests go to seller support (SIDE_DEPT) and are labelled so in every view. Priority is the same either way:
+        the highest support level across all the account's plans, Storefront plan included."""
+        if side not in SIDES: raise ValueError("side is internal or external")
+        conv = s.ids.assign("CNV", uuid.uuid4().hex)
+        dept = SIDE_DEPT if side == "external" and category not in ("safety", "security") else DEPT.get(category, "general")   # safety and security keep their own desks
+        route = "seller_support" if side == "external" else "support"
+        s.db.execute("insert into convs values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (conv, route, case_id, customer_ref, account, category, product, language, s.priority_for(account), "initiated", None, None, None, int(authenticated), _now(now), side))
         s.db.commit(); agent = s._pick(dept, language)
         if agent: s._own(conv, "agent", agent, "assigned")
         else: s._own(conv, "queue", f"queue:{dept}", "queued")      # always a responsible agent or a monitored queue
-        s._log(conv, "system", "opened", category); return conv
+        s._log(conv, "system", "opened", {"category": category, "side": side}); return conv
     def _own(s, conv, kind, owner, state):
         s._state(conv, state); s.db.execute("update convs set owner_kind=?, owner=? where conv=?", (kind, owner, conv)); s.db.commit()
     def get(s, conv):
-        r = s.db.execute("select conv,route,case_id,customer,account,category,product,language,priority,state,owner_kind,owner,authenticated from convs where conv=?", (conv,)).fetchone()
-        return dict(zip(("conv", "route", "case_id", "customer", "account", "category", "product", "language", "priority", "state", "owner_kind", "owner", "authenticated"), r))
+        r = s.db.execute("select conv,route,case_id,customer,account,category,product,language,priority,state,owner_kind,owner,authenticated,side from convs where conv=?", (conv,)).fetchone()
+        return dict(zip(("conv", "route", "case_id", "customer", "account", "category", "product", "language", "priority", "state", "owner_kind", "owner", "authenticated", "side"), r))
     def _state(s, conv, to):
         cur = s.db.execute("select state from convs where conv=?", (conv,)).fetchone()[0]
         if to != cur and to not in NEXT[cur]: raise ValueError(f"cannot go from {cur} to {to}")

@@ -1884,7 +1884,8 @@
    "offline": false,
    "default": "on",
    "standing_instruction": false,
-   "consent": null
+   "consent": null,
+   "implemented_by": "identity/automations.py first_paid_listing on LynkFlow (services/flow.py): GuideOffered with the identity check, payout details and publish steps; identity/account.py request_identity_check and partner_identity_answer (cloud only); account-site My Storefront"
   },
   {
    "id": "listing-review-notice",

@@ -24,7 +24,7 @@ CONSENT_SCOPES = {"health-pack": "business health pack (LynkStat Score and trend
                   "supplier-sell-through": "a supplier sees sell-through of its own products only"}
 MAX_CONSENT_DAYS = {"health-pack": 90, "accountant": 365, "lender": 30, "developer-app": 365, "support": 1, "supplier-sell-through": 365}
 REGISTRATION_STEPS = ("profile", "registration", "tax_number", "bank_account")
-PAGES = ("overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "support", "payslips", "payments", "start")
+PAGES = ("overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "support", "payslips", "payments", "start", "storefront")
 def _now(n): return time.time() if n is None else n
 def _h(x): return hashlib.sha256(x.encode()).hexdigest()
 
@@ -53,6 +53,7 @@ class Account:
         s.db.executescript("""
         create table if not exists acct_people(person text primary key, lynkid text, username text, lang text, status text, closes_at real, contact_ok int);
         create table if not exists acct_contacts(person text primary key, code_hash text, expires real);
+        create table if not exists acct_idchecks(lover text primary key, person text, purpose text, state text, partner text, requested real, answered real);
         create table if not exists acct_passkeys(locrd text primary key, person text, device_name text, enrolled_at real, revoked_at real);
         create table if not exists acct_sessions(token text primary key, person text, site text, device_name text, place text, started real, revoked real);
         create table if not exists acct_consents(locns text primary key, person text, scope text, grantee text, purpose text, granted real, expires real, withdrawn real, warned int);
@@ -74,7 +75,16 @@ class Account:
         return eid
     # ---- sign-up: username, contact check, passkey, recovery code shown once
     def username_status(s, value): return s.usernames.status(value)
-    def begin_sign_up(s, username, lang="en", now=None):
+    @staticmethod
+    def minimum_age(country=None):
+        """18, or the country pack's age of majority when it is set and higher (unconfirmed packs keep 18)."""
+        from core import workspaces, regions
+        return workspaces.minimum_age(regions.country(country).get("storefront") if country else None)
+    def begin_sign_up(s, username, lang="en", now=None, adult_confirmed=False, country=None):
+        """BIZZ & DEVICE: an account is for a person of at least 18, or the local age of majority where that is higher
+        (core.workspaces.minimum_age). The person confirms it; no birth date or age is asked for or stored."""
+        if adult_confirmed is not True:
+            raise PermissionError(f"confirm you are {s.minimum_age(country)} or older")
         c = username_check(username)
         if not c["ok"]: raise ValueError(c["reason"])
         if s.usernames.status(username) != "available": raise ValueError(s.usernames.status(username))
@@ -101,6 +111,25 @@ class Account:
         s.emit(person, "AccountCreated", {"lynkid": row[1], "username": row[2], "lang": row[3]}, now)
         s.emit(person, "PasskeyEnrolled", {"lynkid": row[1], "locrd": locrd, "device_name": device_name}, now)
         return {"recovery_code": code, "locrd": locrd, "show_once": True}
+    # ---- identity check before a first paid Storefront offer (BIZZ & DEVICE): the licensed partner checks, LynkOmni only asks and records
+    def request_identity_check(s, person, purpose="first_paid_offer", now=None):
+        """Sends the request to the licensed payment partner (sandbox until signed). The state is 'sent' until the partner answers."""
+        open_ = s.db.execute("select lover,state from acct_idchecks where person=? and state in ('sent','confirmed')", (person,)).fetchone()
+        if open_: return {"lover": open_[0], "state": open_[1]}
+        lover = s.ids.assign("VER", uuid.uuid4().hex)
+        s.db.execute("insert into acct_idchecks values(?,?,?,?,?,?,null)", (lover, person, purpose, "sent", None, _now(now))); s.db.commit()
+        s.emit(person, "IdentityCheckRequested", {"lynkid": s._lynkid(person), "purpose": purpose, "lover": lover}, now)
+        return {"lover": lover, "state": "sent"}
+    def partner_identity_answer(s, lover, confirmed, partner, now=None):
+        """Cloud only, from the partner's answer: confirmed or failed. Nothing on a device can confirm an identity."""
+        r = s.db.execute("select person,state from acct_idchecks where lover=?", (lover,)).fetchone()
+        if not r or r[1] != "sent": raise ValueError("no open identity check")
+        state = "confirmed" if confirmed else "failed"
+        s.db.execute("update acct_idchecks set state=?, partner=?, answered=? where lover=?", (state, partner, _now(now), lover)); s.db.commit()
+        if confirmed: s.emit(r[0], "IdentityCheckConfirmed", {"lynkid": s._lynkid(r[0]), "lover": lover, "partner": partner}, now)
+        return state
+    def identity_confirmed(s, person):
+        return s.db.execute("select 1 from acct_idchecks where person=? and state='confirmed'", (person,)).fetchone() is not None
     def change_username(s, person, new, now=None):
         lid, old = s._lynkid(person), s.db.execute("select username from acct_people where person=?", (person,)).fetchone()[0]
         u = s.usernames.change(lid, old, new, now); s.db.execute("update acct_people set username=? where person=?", (u, person)); s.db.commit()
