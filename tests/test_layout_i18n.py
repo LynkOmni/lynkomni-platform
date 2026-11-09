@@ -2,7 +2,7 @@
 over, in every language of design/fonts/scripts.v1.json (real machine translations from the language packs), a long-text
 test (about 40% longer, accented) and a right-to-left test, at desktop and phone size.
 Needs Playwright with Chromium (installed in CI's layout job); skipped where it is missing."""
-import os, unittest
+import json, os, unittest
 from services import translation
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -140,7 +140,10 @@ class TranslationLayout(DarkPass, unittest.TestCase):
 
 @unittest.skipUnless(sync_playwright and os.path.isfile(PHONE), "Playwright with Chromium is needed")
 class PhoneLayout(DarkPass, unittest.TestCase):
-    """The merchant app on a phone: every screen, in every language, keeps its size and nothing spills over."""
+    """The Business app on a phone (blueprint 41 E): getting in, then every screen of catalog/business-app.v1.json for every
+    business type, the tablet side rail and the computer web view, in every language: the size never changes and nothing spills over."""
+    SCREENS = [s["id"] for s in json.load(open(os.path.join(ROOT, "catalog", "business-app.v1.json"), encoding="utf-8"))["screens"]]
+
     def walk(self, pg, lang="en"):
         found = {}
         def check(name):
@@ -149,24 +152,36 @@ class PhoneLayout(DarkPass, unittest.TestCase):
                 found[name] = p
         check("sign in")
         pg.fill("#phoneIn", "0788123456"); pg.click('[data-act="sendcode"]'); check("code")
-        pg.fill("#codeIn", "123456"); pg.click('[data-act="verify"]'); pg.wait_for_selector('[data-act="start"]'); check("registered")
-        pg.click('[data-act="start"]'); check("home")
-        pg.click('[data-act="newsale"]'); pg.locator(".tile").nth(5).click(); pg.locator(".tile").nth(5).click(); pg.locator(".tile").nth(0).click(); check("sell")
-        pg.click('[data-act="view:basket"]'); check("basket")
-        pg.click('[data-act="view:pay"]'); check("payment")
-        pg.click('[data-act="method:mobile_money"]'); pg.fill("#momoIn", "0788123456"); check("mobile money")
-        pg.click('.top [data-act="view:pay"]'); pg.click('[data-act="method:cash"]'); pg.locator(".quick button").nth(1).click(); check("cash")
-        pg.click('[data-act="paycash"]'); check("sale complete")
-        pg.click('[data-act="tab:home"]'); check("home after a sale")
-        pg.click('[data-act="tab:stock"]'); check("stock")
-        pg.locator(".rowbtn").first.click(); check("stock item")
-        pg.click('[data-act="tab:chats"]'); check("chats")
-        pg.click('[data-act="thread:t2"]'); pg.fill("#msgIn", "Yes"); pg.click('[data-act="send"]'); check("chat")
-        pg.click('.top [data-act="view:main"]'); pg.click('[data-act="tab:business"]'); check("business")
+        pg.fill("#codeIn", "123456"); pg.click('[data-act="verify"]'); check("choose business")
+        pg.click('[data-act="business:0"]'); pg.wait_for_selector('[data-act="start"]'); check("registered")
+        pg.click('[data-act="start"]'); check("language and region card")
+        pg.click('[data-act="localeok"]'); check("setup")
+        pg.click('[data-act="donestep:business_name_type"]'); pg.click('[data-act="donestep:currency"]'); check("setup, first products")
+        pg.click('[data-act="skipstep:first_products"]'); pg.click('[data-act="skipstep:invite_staff"]'); check("setup, shop QR")
+        pg.click('[data-act="skipstep:print_shop_qr"]'); pg.click('[data-act="firstsale"]')
+        for sid in self.SCREENS:
+            pg.evaluate(f"__go('{sid}')"); check(sid)
+        pg.evaluate("__go('pay')"); pg.click('[data-act="way:mobile_money"]'); pg.fill("#momoIn", "0788123456"); check("mobile money")
+        pg.click('.top [data-act="view:pay"]'); pg.click('[data-act="view:split"]'); check("split payment")
+        pg.click('.top [data-act="view:pay"]'); pg.click('[data-act="way:credit"]'); check("credit")
         pg.click(".netchip"); check("sync sheet"); pg.click('.sheet [data-act="closesheet"]')
-        pg.select_option("#cRole", "cashier"); pg.click('[data-act="tab:home"]'); check("cashier home")
-        pg.check("#cReal"); pg.click('[data-act="tab:sell"]'); pg.locator(".tile").nth(1).click(); pg.click('[data-act="view:basket"]'); pg.click('[data-act="view:pay"]')
-        check("payment, providers not signed"); pg.click('[data-act="method:mobile_money"]'); check("coming soon")
+        for kind in ("no_till", "agent_point", "restaurant"):
+            pg.select_option("#cType", kind)
+            for tab in ("home",) + {"no_till": ("invoices", "customers"), "agent_point": ("services", "float"), "restaurant": ("tables", "kitchen")}[kind]:
+                pg.click(f'[data-act="tab:{tab}"]'); check(f"{kind} {tab}")
+            if kind == "agent_point":
+                pg.click('[data-act="tab:services"]'); pg.click('[data-act="svc:cash_withdrawal"]'); check("agent service")
+                pg.click('.top [data-act="tab:services"]'); pg.click('[data-act="tab:home"]'); pg.click('[data-act="view:cashcheck"]'); check("cash check")
+            if kind == "restaurant":
+                pg.click('[data-act="tab:tables"]'); pg.click('[data-act="opentable"]'); check("table open")
+        pg.select_option("#cType", "shop")
+        for size in ("tablet", "web"):
+            pg.select_option("#cSize", size)
+            for sid in ("home", "sell", "stock", "business", "settings"):
+                pg.evaluate(f"__go('{sid}')"); check(f"{size} {sid}")
+        pg.select_option("#cSize", "phone")
+        pg.select_option("#cRole", "cashier"); pg.evaluate("__go('home')"); check("cashier home")
+        pg.check("#cReal"); pg.evaluate("__go('pay')"); check("payment, providers not signed"); pg.click('[data-act="way:mobile_money"]'); check("coming soon")
         return found
 
     def test_no_phone_screen_breaks_in_any_language_or_size(self):

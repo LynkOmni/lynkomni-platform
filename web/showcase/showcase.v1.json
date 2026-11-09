@@ -24,7 +24,7 @@
       "n": 3,
       "title": "Business app and the whole of LynkPOS",
       "status": "locked",
-      "version": "v0.23.0"
+      "version": "v0.24.0"
     },
     {
       "n": 4,
@@ -91,10 +91,10 @@
     },
     {
       "id": "merchant-phone",
-      "title": "Business app on a merchant's phone",
+      "title": "Business app on a phone, tablet or computer",
       "section": 3,
-      "what": "The Business app on a phone: selling, money, stock, customers, chat and the services tab, and agent point mode (partner services online only; cash only after the partner confirms), in every language and offline.",
-      "try": "Make a sale and watch its state; then switch the business type to agent point and send a cash-out to the sample partner.",
+      "what": "Every Business app screen of blueprint 41 E: getting in, Sell with every payment way, today's sales, shifts, practice mode, Stock, Chats, every Business section and setting, and the four business types (shop, without a till, agent point, restaurant), on a phone, a tablet side rail or a computer web view, in every language and offline.",
+      "try": "Pick any screen by its address in \"Open screen\", or sign in and follow the setup checklist; then switch the business type and the plan.",
       "url": "https://claude.ai/artifact/N7tczvu2FZ5tWMYgHD9B84"
     },
     {

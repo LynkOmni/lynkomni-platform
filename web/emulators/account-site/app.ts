@@ -30,8 +30,10 @@ const TEST_LANGS = ["xx", "xx-rtl"];
 type Overlay = null | "launcher" | "account" | "globe" | "cmd" | "help" | "bell" | "sync" | "stepup" | "pages";
 type Screen = "signin" | "signup" | "recover" | Page;
 const SCREENS: Screen[] = ["signin", "signup", "recover", ...PAGES];
-const LYNKID = "LOID-4821-9035-7716";           // the sample person: illustrative, never an allocated identifier
-const SHOP_OID = "LOOID-7351-2064-8912";
+/** Sample credential ids in the one public id format (core/ids.py: valid check digits; tests/test_emulators.py checks every id written here). */
+const SAMPLE_CRD = ["LOCRD-0001-0002-0015", "LOCRD-0001-0002-0023", "LOCRD-0001-0002-0031", "LOCRD-0001-0002-0049", "LOCRD-0001-0002-0056", "LOCRD-0001-0002-0064", "LOCRD-0001-0002-0072", "LOCRD-0001-0002-0080"];
+const LYNKID = "LOID-4821-9035-7715";           // the sample person: illustrative, never an allocated identifier
+const SHOP_OID = "LOOID-7351-2064-8911";
 const T_NOW = (): number => Math.floor(Date.now() / 1000);
 
 interface Standing { losub: string; merchant: string; cap: number; active: boolean }
@@ -40,15 +42,15 @@ const S = {
   screen: "overview" as Screen, overlay: null as Overlay, query: "", pending: 0, lastSync: null as number | null, events: [] as Ev[], undo: new Undo(), seen: new Set<string>(), notified: new Set<string>(),
   signUp: {} as SignUpState, username: "", cloud: null as UsernameStatus, recoveryCode: "7F3K-9Q2M-X81B-4TZC",
   recover: { otherDevice: null as boolean | null, hasCode: null as boolean | null, started: null as { path: RecoveryPath; startedAt: number; approvals: number; cancelled?: boolean } | null },
-  passkeys: [{ locrd: "LOCRD-0001-0002-0003", device: "device_phone", at: T_NOW() - 40 * DAY, here: true }, { locrd: "LOCRD-0001-0002-0004", device: "device_laptop", at: T_NOW() - 12 * DAY, here: false }],
+  passkeys: [{ locrd: SAMPLE_CRD[0] as string, device: "device_phone", at: T_NOW() - 40 * DAY, here: true }, { locrd: SAMPLE_CRD[1] as string, device: "device_laptop", at: T_NOW() - 12 * DAY, here: false }],
   sessions: [{ tail: "a1f3", site: "account", device: "device_phone", place: "sample_city", at: T_NOW() - 600 }, { tail: "9c0e", site: "merchant", device: "device_laptop", place: "sample_city", at: T_NOW() - 3 * 3600 }],
   seenDevices: [{ device: "device_phone", place: "sample_city" }, { device: "device_laptop", place: "sample_city" }],
   secEvents: [{ type: "SessionStarted", at: T_NOW() - 600 }, { type: "PasskeyEnrolled", at: T_NOW() - 12 * DAY }, { type: "ConsentGranted", at: T_NOW() - 20 * DAY }] as { type: string; at: number }[],
-  consents: [{ scope: "accountant", grantee: "LOID-1100-2200-3300", purpose: "monthly books", expires: T_NOW() + 5 * DAY }] as Consent[],
+  consents: [{ scope: "accountant", grantee: "LOID-1100-2200-3302", purpose: "monthly books", expires: T_NOW() + 5 * DAY }] as Consent[],
   stepup: null as null | { ok: boolean; then: string },
   payout: null as null | { status: "applied" | "waiting"; readyAt: number },
   dataRequest: null as null | { due: number }, closing: null as null | number, marketing: { email: false, push: true },
-  standing: [{ losub: "LOSUB-5100-0200-0031", merchant: "Blue Taxi", cap: 300000, active: true }] as Standing[],
+  standing: [{ losub: "LOSUB-5100-0200-0030", merchant: "Blue Taxi", cap: 300000, active: true }] as Standing[],
   app: null as null | { status: ApplicationStatus; steps: Record<RegistrationStep, boolean>; lynkoid?: string },
   restrictedUntil: 0,
 };
@@ -203,7 +205,7 @@ function page(): string {
       <div class="card"><h2>${esc(t("close_account"))}</h2><p class="muted">${esc(t("close_hint"))}</p>${S.closing ? `${wait(t("close_requested", { when: dateOf(S.closing) }))}<div class="actions"><button class="primary" data-act="close:cancel">${esc(t("keep_account"))}</button></div>` : `<div class="actions"><button class="secondary" data-act="stepup:close">${esc(t("close_account"))}</button></div>`}</div></div>`;
     case "notifications": return `${title("notifications")}<div class="card">${rows([kv(esc(t("channels")), "push · email · SMS"), kv(esc(t("quiet_hours")), esc(t("quiet_hours_line", { start: clock(Date.UTC(2026, 0, 1, 22)), end: clock(Date.UTC(2026, 0, 1, 7)) })))])}<p class="muted">${esc(t("security_always"))}</p></div>`;
     case "support": return `${title("support")}<div class="card"><p class="muted">${esc(t("support_empty"))}</p><div class="actions"><button class="primary" data-act="support:open">${esc(t("open_case"))}</button></div><p class="muted">${esc(t("exchange_link"))}</p></div>`;
-    case "payslips": return `${title("payslips")}<div class="card">${rows([kv(esc(t("payslip_line", { period: "2026-10", employer: t("client_pharmacy") })), "LODOC-9001-0044-2810", `<button class="secondary" data-act="open:payslip">${esc(t("switch_to"))}</button>`)])}<p class="muted">${esc(t("payslips_empty"))}</p></div>`;
+    case "payslips": return `${title("payslips")}<div class="card">${rows([kv(esc(t("payslip_line", { period: "2026-10", employer: t("client_pharmacy") })), "LODOC-9001-0044-2814", `<button class="secondary" data-act="open:payslip">${esc(t("switch_to"))}</button>`)])}<p class="muted">${esc(t("payslips_empty"))}</p></div>`;
     case "payments": {
       if (!ready("paylinks")) return `${title("payments")}<div class="card">${comingSoon("LynkCheckout", t, statePic("coming_soon"), S.notified.has("paylinks"))}</div>`;
       return `${title("payments")}<div class="card"><p class="muted">${esc(t("standing_intro"))}</p>${S.standing.length ? rows(S.standing.map((s, i) => kv(esc(t("standing_line", { merchant: s.merchant, cap: money(s.cap) })), s.active ? ok(t("standing_told")) : off(t("ev_consent_withdrawn")), s.active ? `<button class="secondary" data-act="standing:revoke:${i}">${esc(t("revoke"))}</button>` : ""))) : `<p class="muted">${esc(t("standing_empty"))}</p>`}</div>`;
@@ -235,7 +237,7 @@ function overlay(): string {
     case "help": return wrap("end", helpPanel(t(`page_${signedIn() ? (S.screen as Page) : "security"}`), [{ id: "1", title: t("help_article_1"), href: "/faq/account/recovery" }, { id: "2", title: t("help_article_2"), href: "/faq/account/passkeys" }], t, icon));
     case "bell": {
       const list: Notice[] = [
-        { id: "n1", at: Date.now() - 60000, urgency: "security", title: t("notice_signin"), record: "LONTF-2201-4410-8832", href: "/security" },
+        { id: "n1", at: Date.now() - 60000, urgency: "security", title: t("notice_signin"), record: "LONTF-2201-4410-8838", href: "/security" },
         { id: "n2", at: Date.now() - 3600000, urgency: "transactional", title: t("notice_consent"), read: true, href: "/security" },
         { id: "n3", at: Date.now() - 7200000, urgency: "low", title: t("notice_renewal"), read: true, href: "/billing" },
       ];
@@ -322,7 +324,7 @@ function act(a: string): void {
       draw(); return;
     }
     case "passkey": {
-      if (v === "add") { S.passkeys.push({ locrd: `LOCRD-0001-0002-${String(5 + S.passkeys.length).padStart(4, "0")}`, device: t("device_n", { n: S.passkeys.length + 1 }), at: now, here: false }); secEvent("PasskeyEnrolled"); draw(); return; }
+      if (v === "add") { S.passkeys.push({ locrd: SAMPLE_CRD[Math.min(S.passkeys.length, SAMPLE_CRD.length - 1)] as string, device: t("device_n", { n: S.passkeys.length + 1 }), at: now, here: false }); secEvent("PasskeyEnrolled"); draw(); return; }
       const locrd = v.replace(/^remove:/, "");
       if (S.passkeys.length <= 1) { draw(); return; }
       if (!S.stepup?.ok) { stepUp(a); return; }
@@ -346,7 +348,7 @@ function act(a: string): void {
       if (v === "begin") { S.app = { status: "started", steps: { profile: false, registration: false, tax_number: false, bank_account: false } }; record("RegistrationStarted", "server", { country: pack().code }); }
       else if (v.startsWith("step:")) { const st = pick(REGISTRATION_STEPS, v.slice(5), "profile"); if (S.app) S.app.steps[st] = true; }
       else if (v === "submit" && S.app && canSubmit(S.app.steps)) { S.app.status = "submitted"; record("RegistrationSubmitted", "server", { gateway: "registration_gateway" }); }
-      else if (v === "poll" && S.app) { S.app.status = applicationStatus(S.app.status, "approved"); S.app.lynkoid = "LOOID-2026-1108-0002"; record("RegistrationApproved", "server", { lynkoid: S.app.lynkoid }); }
+      else if (v === "poll" && S.app) { S.app.status = applicationStatus(S.app.status, "approved"); S.app.lynkoid = "LOOID-2026-1108-0005"; record("RegistrationApproved", "server", { lynkoid: S.app.lynkoid }); }
       draw(); return;
     }
     case "leave": draw(); return;                                                                    // the last owner cannot leave (note on the page)

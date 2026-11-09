@@ -23,6 +23,15 @@ export const pick = <T extends string>(allowed: readonly T[], value: string, fal
 export const plain = (s: string): string => s.replace(/[<>"'&]/g, "").slice(0, 200);
 export const randomBytes = (n: number): Uint8Array => crypto.getRandomValues(new Uint8Array(n));
 export const newId = (): string => uuid7(Date.now(), randomBytes);
+/** A public identifier in the one LynkOmni format (core/ids.py, ts/src/ids.ts): LO + type code + 12 digits with a Luhn check digit.
+ *  The browser copy of the allocator's format step, for sample records in emulators; the code must be in the identifier registry. */
+export function publicId(code: string): string {
+  const p11 = [...randomBytes(11)].map((b) => String(b % 10)).join("");
+  let s = 0;
+  [...p11].reverse().forEach((ch, i) => { let d = Number(ch) * (i % 2 === 0 ? 2 : 1); if (d > 9) d -= 9; s += d; });
+  const p12 = p11 + String((10 - (s % 10)) % 10);
+  return `LO${code}-${p12.slice(0, 4)}-${p12.slice(4, 8)}-${p12.slice(8)}`;
+}
 export const reducedMotion = (): boolean => typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /** Words: English from strings.en.json, every other language from its pack; {placeholders} filled from vars. */

@@ -3,18 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LynkOmni Merchant App</title>
-<meta name="description" content="Interactive emulator of the LynkOmni merchant app on a phone: role-aware home, selling, stock, customer chats and the business tab, working online and offline on sandbox providers.">
+<title>LynkOmni Business App</title>
+<meta name="description" content="Interactive emulator of the LynkOmni Business app on a phone or tablet: getting in, selling with every payment method, stock, chats, every Business section and setting, agent point, restaurant and invoice-only businesses, online and offline on sandbox providers.">
 <style>/*@TOKENS@*/
 /*@STYLE@*/</style>
 </head>
 <body>
 <header class="pagehead">
-  <h1>LynkOmni merchant app on a phone <span class="draft">Draft design</span></h1>
-  <p>Interactive emulator. Real LynkOmni rules for selling, stock and the day's summary, sandbox providers (test money only), sample products and sample customer chats. Not reviewed by a designer yet.</p>
+  <h1>LynkOmni Business app on a phone or tablet <span class="draft">Draft design</span></h1>
+  <p>Interactive emulator of every Business app screen (blueprint 41 E). Real LynkOmni rules, sandbox providers (test money only), sample products, customers and chats. Not reviewed by a designer yet.</p>
+  <p class="address" aria-live="polite">Address: <code id="address"></code></p>
 </header>
 <main class="stage">
-  <section class="rig" id="rig" aria-label="Phone running the LynkOmni merchant app">
+  <section class="rig" id="rig" aria-label="Phone running the LynkOmni Business app">
     <div class="fit">
       <div class="device" id="device">
         <div class="btn vol" aria-hidden="true"></div><div class="btn pwr" aria-hidden="true"></div>
@@ -30,13 +31,17 @@
   </section>
   <aside class="panel" aria-label="Emulator controls">
     <h2>Try it</h2>
-    <p class="help">Sign in with any phone number and the sample code <kbd>123456</kbd>. Then sell, change stock, answer a customer and open Business for the day's summary.</p>
+    <p class="help">Sign in with any phone number and the sample code <kbd>123456</kbd>, choose the business, confirm the language card and follow the setup checklist. Or jump to any screen by its address.</p>
+    <label class="row"><span>Open screen</span> <select id="cScreen"></select></label>
     <h3>Conditions</h3>
     <label class="row"><span>Connection</span> <select id="cLink"><option value="good">Good</option><option value="weak">Weak</option><option value="none">None</option></select></label>
     <p class="help">Weak counts as offline: the phone saves everything and sends when it can. None: nothing is sent until the connection is back.</p>
-    <label class="row"><span>Business type</span> <select id="cType"><option value="shop">Shop</option><option value="agent_point">Agent point</option></select></label>
+    <label class="row"><span>Device</span> <select id="cSize"><option value="phone">Phone</option><option value="tablet">Tablet (side rail)</option><option value="web">Computer, not registered (view only)</option></select></label>
+    <label class="row"><span>Business type</span> <select id="cType"><option value="shop">Shop</option><option value="no_till">Business without a till</option><option value="agent_point">Agent point</option><option value="restaurant">Restaurant</option></select></label>
+    <label class="row"><span>LynkPOS plan</span> <select id="cTier"><option value="free">Free</option><option value="plus">Plus</option><option value="pro">Pro</option><option value="max">Max</option></select></label>
     <label class="row"><span>Signed in as</span> <select id="cRole"><option value="owner">Owner</option><option value="manager">Manager</option><option value="cashier">Cashier</option></select></label>
-    <label><input type="checkbox" id="cFail"> <span>Provider declines payments<br><span class="help">The sandbox provider answers Failed instead of Confirmed.</span></span></label>
+    <label class="row"><span>Practice partner</span> <select id="cOutcome"><option value="confirm">Confirms</option><option value="fail">Fails</option><option value="silent">Stays silent</option></select></label>
+    <p class="help">How the sandbox provider or agent partner answers. Silent: the request stays sent and no cash changes hands.</p>
     <label class="row"><span>Country</span> <select id="cCountry"></select></label>
     <label><input type="checkbox" id="cReal"> <span>A country where partners are not signed yet<br><span class="help">Only what a signed licensed partner covers there works; the rest shows "Coming to your country soon". The sample country has no partners signed yet.</span></span></label>
     <label><input type="checkbox" id="cDark"> <span>Dark screen</span></label>
