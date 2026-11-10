@@ -184,7 +184,12 @@ def cards():
         out[tier] = {"face": face, "front": svg(f.path), "front_alt": f.alt, "back": svg(b.path), "back_alt": b.alt, "price_usd": billing.FAMILIES["lynkvcard"][3][billing.FAMILIES["lynkvcard"][2].index(tier)],
                      "limits": entitlement("lynkvcard", tier)}
     near = visuals.get("vcard-core-near-limit", "light")
-    return {"cards": out, "nearLimit": {"svg": svg(near.path), "alt": near.alt}}
+    samples = {}                      # the twelve sample cards (MASTER UPDATE 61): four faces in three groups, fronts and backs
+    for face in ("edge", "hub", "core", "omni"):
+        for group in ("prepaid", "debit", "credit"):
+            f, b = visuals.get(f"vcard-{face}-{group}", "light"), visuals.get(f"vcard-{face}-{group}-back", "light")
+            samples[f"{face}-{group}"] = {"front": svg(f.path), "front_alt": f.alt, "back": svg(b.path), "back_alt": b.alt}
+    return {"cards": out, "nearLimit": {"svg": svg(near.path), "alt": near.alt}, "samples": samples}
 
 
 def icons_used(emulator):

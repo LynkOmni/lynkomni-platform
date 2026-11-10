@@ -4,8 +4,12 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "366c40e71adaca25d8a7bddd5f0b63d4cbe97ec951e193ce728dae5bfa86e6f5",
+ "source_sha256": "141138e429e2b5cb9211d87050704603937403679870373b5268b0d257b1b751",
  "texts": {
-  "title": "असली कार्ड जैसा LynkVCard"
+  "title": "असली कार्ड जैसा LynkVCard",
+  "vc_failed": "साझेदार ने इसे मंज़ूर नहीं किया। कुछ भी नहीं काटा गया।",
+  "vc_my_card": "मेरा कार्ड",
+  "vc_sample_note": "नमूना कार्ड: नंबर, नाम और तारीखें प्लेसहोल्डर हैं जो कभी काम नहीं करते।",
+  "vc_twelve": "बारह कार्ड"
  }
 }

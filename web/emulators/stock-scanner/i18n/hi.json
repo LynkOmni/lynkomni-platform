@@ -4,8 +4,10 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "6ae2f0135dd2174402ad3565d882e5cb59341a33b2dbdfa6bf8c95e10ef8ec4c",
+ "source_sha256": "9a0c2eee3eda8b0d65f458c6c4214e3577dce0bb443a39adcad2df6c190b5810",
  "texts": {
+  "s_low": "स्टॉक कम: {name}",
+  "s_negative": "स्टॉक शून्य से नीचे: {name}",
   "title": "हैंडहेल्ड स्कैनर LynkStock"
  }
 }

@@ -61,7 +61,7 @@ function save(): void {
 }
 function screen(): string {
   const i = item();
-  const head = `<header class="shead"><span>${esc(t(S.mode === "count" ? "count" : S.mode === "receive" ? "receive" : "adjust"))}</span>${DSH.bar()}</header>${deviceBanners(LINES, t, (id) => icon(id))}`;
+  const head = `<header class="shead"><span>${esc(t(S.mode === "count" ? "count" : S.mode === "receive" ? "receive" : "adjust"))}</span>${DSH.bar()}</header>${DSH.crumbs(true)}${deviceBanners(LINES, t, (id) => icon(id))}`;
   const tabs = `<nav class="smodes">${(["count", "receive", "adjust"] as Mode[]).map((m, n) => `<button data-act="mode:${m}" ${S.mode === m ? 'aria-current="true"' : ""}>F${n + 1} ${esc(t(m))}</button>`).join("")}</nav>`;
   const waiting = !S.online && LOG.pending().count ? designedState("sync_pending", t, DATA.statePictures, S.dark, null) : "";   // designed state (41 B)
   if (!i) return `${head}${tabs}<div class="sbody">${waiting}<p class="big">${icon("ui-qr")}</p><p>${esc(t("scan"))}</p>${S.flash ? `<p class="ok">${esc(S.flash)}</p>` : ""}<ul class="slist">${ITEMS.map((x) => `<li><span>${esc(t(x.name))}</span><span>${qtyText(Math.abs(x.level))}${x.level < 0 ? " −" : ""}</span>${word(x) ? `<em>${esc(word(x))}</em>` : ""}</li>`).join("")}</ul></div>`;

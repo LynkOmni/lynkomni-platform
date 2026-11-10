@@ -24,7 +24,7 @@
    "n": 3,
    "title": "Business app and the whole of LynkPOS",
    "status": "locked",
-   "version": "v0.31.0"
+   "version": "v0.40.0"
   },
   {
    "n": 4,
@@ -97,32 +97,32 @@
    "id": "merchant-phone",
    "title": "Business app on a phone, tablet or computer",
    "section": 3,
-   "what": "Every Business app screen of blueprint 41 E: getting in, Sell with every payment way, today's sales, shifts, practice mode, Stock, Chats, every Business section and setting, and the four business types (shop, without a till, agent point, restaurant), on a phone, a tablet side rail or a computer web view, in every language and offline. Setup now starts with who it is for (yourself, a company or an organisation), which changes the words, tabs and categories; Deliveries shows every delivery with its tracker. New: the Storefront side (offers, stock held at online checkout, buyer chats, payouts) and Devices › Driver (LynkDriver, with enforced updates).",
-   "try": "Sign in, choose Myself or An organisation in setup and see the Books tab; or make a sale, press Deliver this order and watch the delivery move on the Deliveries screen.",
+   "what": "Every Business app screen of blueprint 41 E: getting in, Sell with every payment way, today's sales, shifts, practice mode, Stock, Chats, every Business section and setting, and the four business types (shop, without a till, agent point, restaurant), on a phone, a tablet side rail or a computer web view, in every language and offline. Setup now starts with who it is for (yourself, a company or an organisation), which changes the words, tabs and categories; Deliveries shows every delivery with its tracker. New: the Storefront side (offers, stock held at online checkout, buyer chats, payouts) and Devices › Driver (LynkDriver, with enforced updates). MASTER UPDATE section 3: Ask the owner with one-tap answers, LynkAssist's controls and history with offline queueing, the owner's thresholds and daily or weekly summary, remote lock and wipe, the integrity and duress alerts, breadcrumbs, and Get a card with the card group word.",
+   "try": "Sign in, choose Myself or An organisation in setup and see the Books tab; or make a sale, press Deliver this order and watch the delivery move on the Deliveries screen. Open the hub: Assistant, Settings, Branches and devices, and Cards; try a fix offline and see it wait sealed; use the panel buttons for an altered till app or a duress PIN and read the bell.",
    "url": "https://claude.ai/artifact/N7tczvu2FZ5tWMYgHD9B84"
   },
   {
    "id": "pos-terminal",
    "title": "LynkPOS handheld terminal",
    "section": 3,
-   "what": "A physical handheld terminal: 12-tile home, selling, agent services, vouchers and pickup codes, the credit book, shifts and cash counts, receipt printer that prints, scanner and cash drawer, a low-literacy setting, on sandbox adapters. Also in a buttons-only version: choose it under Hardware version and use the arrows, OK and Back.",
-   "try": "Open Agent from the home tiles, send a cash-out and see why cash waits for the partner; then sell and print a receipt.",
+   "what": "A physical handheld terminal: 12-tile home, selling, agent services, vouchers and pickup codes, the credit book, shifts and cash counts, receipt printer that prints, scanner and cash drawer, a low-literacy setting, on sandbox adapters. Also in a buttons-only version: choose it under Hardware version and use the arrows, OK and Back. MASTER UPDATE section 3: each person signs in with their own PIN (also offline), a quiet duress view, a manager's PIN for a void above the cashier's limit or Ask the owner, staff PIN reset on the spot, receipts by text or email, the device's own bell and banners, breadcrumbs, and remote lock and wipe by the owner.",
+   "try": "Open Agent from the home tiles, send a cash-out and see why cash waits for the partner; then sell and print a receipt. Then sign in as Aline with PIN 1234, try a void above her limit and approve it with Eric's PIN 2580; or sign in with Aline's duress PIN 8642 to see the quiet view; tick the owner's remote lock in the panel.",
    "url": "https://claude.ai/artifact/FUhtc3e1xDkPA7KmJmxsZp"
   },
   {
    "id": "counter-tablet",
    "title": "LynkPOS counter tablet",
    "section": 3,
-   "what": "A counter till: tablet on a stand with a customer-facing screen, scanner, cash drawer and printer; tables, kitchen, shifts, day close, staff, deliveries, buy together, setup, credit and sell by voice.",
-   "try": "Unlock with PIN 1234, sell two items, take cash and close the shift.",
+   "what": "A counter till: tablet on a stand with a customer-facing screen, scanner, cash drawer and printer; tables, kitchen, shifts, day close, staff, deliveries, buy together, setup, credit and sell by voice. MASTER UPDATE section 3: staff sign in with their own PIN, the duress view, banners and breadcrumbs.",
+   "try": "Unlock with PIN 1234, sell two items, take cash and close the shift. Or sign in with the duress PIN 8642 and see the quiet till.",
    "url": "https://claude.ai/artifact/TeVjGFAMAxtyumZY2VuXVj"
   },
   {
    "id": "kitchen-screen",
    "title": "LynkPOS kitchen screen",
    "section": 3,
-   "what": "The kitchen display: tickets in order, lines marked ready, late tickets highlighted, and printed slips on the Free plan. Also as a wall screen without touch, driven by the bump bar and a remote.",
-   "try": "Send a test order from the panel and mark its lines ready.",
+   "what": "The kitchen display: tickets in order, lines marked ready, late tickets highlighted, and printed slips on the Free plan. Also as a wall screen without touch, driven by the bump bar and a remote. MASTER UPDATE section 3: the screen's own bell, banners and breadcrumbs while offline.",
+   "try": "Send a test order from the panel and mark its lines ready. Switch the connection off and open the bell.",
    "url": "https://claude.ai/artifact/9aUfZojeVz7bcS4sotptTV"
   },
   {
@@ -145,24 +145,24 @@
    "id": "stock-scanner",
    "title": "LynkStock handheld scanner",
    "section": 3,
-   "what": "A rugged scanner: count, receive and adjust stock by barcode, with below-zero items flagged for a recount. Also in a buttons-only version, used by its keys alone.",
-   "try": "Press the trigger to scan, then count and save.",
+   "what": "A rugged scanner: count, receive and adjust stock by barcode, with below-zero items flagged for a recount. Also in a buttons-only version, used by its keys alone. MASTER UPDATE section 3: the scanner's own bell for low and negative stock, banners and breadcrumbs.",
+   "try": "Press the trigger to scan, then count and save. Count an item below its level and open the bell.",
    "url": "https://claude.ai/artifact/EKxa28BubrUYS3APPiPQNe"
   },
   {
    "id": "button-phone",
    "title": "LynkPOS on a button phone",
    "section": 3,
-   "what": "Selling and checking stock from a basic phone through a short-code menu, for places without smartphones. Also as a basic phone with no apps: LynkPOS by USSD, text message or voice menu.",
-   "try": "Use the arrow keys to make a sale and read today's total.",
+   "what": "Selling and checking stock from a basic phone through a short-code menu, for places without smartphones. Also as a basic phone with no apps: LynkPOS by USSD, text message or voice menu. MASTER UPDATE section 3: a LynkOmni account by menu numbers: sign up (age, username, PIN, terms), sign in with a hard lock after wrong PINs, read messages and get help.",
+   "try": "Use the arrow keys to make a sale and read today's total. From the idle screen choose LynkOmni account; press * to type the sample username and sign in with PIN 4719.",
    "url": "https://claude.ai/artifact/4VG7qLhvnPrXjTxYuS51xS"
   },
   {
    "id": "vcard-card",
    "title": "LynkVCard as a real card",
    "section": 3,
-   "what": "The four card faces (Free, Plus, Pro, Max), flip, freeze that shows only after the issuer confirms, and card details only after step-up inside the issuer's display.",
-   "try": "Flip the card, then freeze it and watch it wait for the issuer.",
+   "what": "The four card faces (Free, Plus, Pro, Max), flip, freeze that shows only after the issuer confirms, and card details only after step-up inside the issuer's display. MASTER UPDATE section 3: the twelve sample cards in a gallery with their card type word, and Get a card that waits for the licensed partner's answer.",
+   "try": "Flip the card, then freeze it and watch it wait for the issuer. Open The twelve cards, then Get a card and wait for the partner's answer (the panel's failure switch makes it decline).",
    "url": "https://claude.ai/artifact/Q85Fr32RyXL8LAyxExSQQP"
   },
   {

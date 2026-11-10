@@ -227,8 +227,8 @@ function signIn(): void {
   const r = STAFF.signIn(S.who, S.input, Date.now());
   S.input = "";
   if (r.ok) { S.role = r.role; S.view = r.view; S.screen = "home"; S.note = ""; S.pinNote = ""; sendAlerts(); draw(); return; }
-  S.pinNote = r.reason === "wrong" ? t("tries_left", { n: r.left ?? 0 }) : r.reason === "wait" ? t("wait_s", { s: r.seconds ?? 0 }) : t(r.reason === "hard_locked" ? "pin_hard_locked" : "locked_by_owner");
-  if (r.reason === "hard_locked") { emit("DeviceHardLocked", { device: DEVICE }); bellAdd("device_hard_locked", t("pin_hard_locked")); }
+  S.pinNote = r.reason === "wrong" ? t("dk_tries_left", { n: r.left ?? 0 }) : r.reason === "wait" ? t("dk_wait", { s: r.seconds ?? 0 }) : t(r.reason === "hard_locked" ? "dk_hard_locked" : "locked_by_owner");
+  if (r.reason === "hard_locked") { emit("DeviceHardLocked", { device: DEVICE }); bellAdd("device_hard_locked", t("dk_hard_locked")); }
   draw();
 }
 /** The duress alert leaves silently by the first path that appears; the device's screen never shows it. */
@@ -363,7 +363,7 @@ function view(): string {
       if (STAFF.remoteLocked) return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.theme === "dark", "lockmark")}<p class="pname">LynkPOS</p><h1>${esc(t("locked_by_owner"))}</h1></div>`;
       if (S.picking) return `<div class="lock">${staffPicker(STAFF.staff, t, icon)}</div>`;
       return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.theme === "dark", "lockmark")}<p class="pname">LynkPOS</p>
-        <p class="who">${icon("ui-user")}<span>${esc(STAFF.find(S.who)?.name ?? "")} · ${esc(t(`role_${STAFF.find(S.who)?.role ?? "cashier"}`))}</span><button class="link" data-act="staff:change">${esc(t("staff_change"))}</button></p>
+        <p class="who">${icon("ui-user")}<span>${esc(STAFF.find(S.who)?.name ?? "")} · ${esc(t(`role_${STAFF.find(S.who)?.role ?? "cashier"}`))}</span><button class="link" data-act="staff:change">${esc(t("dk_change"))}</button></p>
         <h1>${esc(t("pin"))}</h1>${S.pinNote ? `<p class="note" role="alert">${esc(S.pinNote)}</p>` : ""}<div class="dots" aria-label="${S.input.length} of 4">${[0, 1, 2, 3].map((i) => `<i class="${i < S.input.length ? "on" : ""}"></i>`).join("")}</div>
         <p class="note" role="alert">${esc(S.note)}</p><p class="keyhint">${icon("ui-info")}${esc(t("use_keys"))}</p>
         <p class="hint">${esc(t("pin_hint"))}</p></div>`;
@@ -486,7 +486,7 @@ function approveSheet(): string {
   if (ap.asked) return `<div class="dk-sheet" role="status"><p class="dk-queued">${icon("status-sent")}<span>${esc(t("asked_owner"))}</span></p><button class="secondary" data-act="approve:cancel">${esc(t("back"))}</button></div>`;
   return `<div class="dk-sheet" role="group" aria-labelledby="apT"><h3 id="apT">${esc(t("mgr_needed"))}</h3><p>${esc(money(ap.amount))}</p>
     <label for="mgrPin">${esc(t("mgr_pin"))}</label><input id="mgrPin" type="password" inputmode="numeric" autocomplete="off" maxlength="8">
-    <div class="dk-row"><button class="primary" data-act="approve:pin">${esc(t("approve"))}</button>${S.online ? `<button class="secondary" data-act="approve:ask">${esc(t("ask_owner"))}</button>` : ""}<button class="secondary" data-act="approve:cancel">${esc(t("back"))}</button></div></div>`;
+    <div class="dk-row"><button class="primary" data-act="approve:pin">${esc(t("ntf_act_approve"))}</button>${S.online ? `<button class="secondary" data-act="approve:ask">${esc(t("as_ask_owner"))}</button>` : ""}<button class="secondary" data-act="approve:cancel">${esc(t("back"))}</button></div></div>`;
 }
 function staffScreen(): string {
   const sh = S.staffSheet;

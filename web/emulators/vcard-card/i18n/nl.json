@@ -4,8 +4,12 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "366c40e71adaca25d8a7bddd5f0b63d4cbe97ec951e193ce728dae5bfa86e6f5",
+ "source_sha256": "141138e429e2b5cb9211d87050704603937403679870373b5268b0d257b1b751",
  "texts": {
-  "title": "LynkVCard als echte kaart"
+  "title": "LynkVCard als echte kaart",
+  "vc_failed": "De partner heeft hem niet goedgekeurd. Er is niets afgeschreven.",
+  "vc_my_card": "Mijn kaart",
+  "vc_sample_note": "Een voorbeeldkaart: nummer, naam en datums zijn plaatshouders die nooit werken.",
+  "vc_twelve": "De twaalf kaarten"
  }
 }

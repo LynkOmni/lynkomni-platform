@@ -4,8 +4,12 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "366c40e71adaca25d8a7bddd5f0b63d4cbe97ec951e193ce728dae5bfa86e6f5",
+ "source_sha256": "141138e429e2b5cb9211d87050704603937403679870373b5268b0d257b1b751",
  "texts": {
-  "title": "LynkVCard gẹ́gẹ́ bí káàdì gidi"
+  "title": "LynkVCard gẹ́gẹ́ bí káàdì gidi",
+  "vc_failed": "Alábàáṣiṣẹ́pọ̀ kò fọwọ́ sí i. A kò gba owó kankan.",
+  "vc_my_card": "Káàdì mi",
+  "vc_sample_note": "Káàdì àpẹẹrẹ: nọ́ńbà, orúkọ àti ọjọ́ jẹ́ àyè ìfirọ́pò tí kì í ṣiṣẹ́ láé.",
+  "vc_twelve": "Káàdì méjìlá"
  }
 }

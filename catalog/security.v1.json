@@ -11,9 +11,7 @@
   "personal_data": "Personal data",
   "service": "The service staying up"
  },
- "open_updates": {
-  "MASTER UPDATE": "Locked 10 November 2026. Its parts for Step 0 and sections 1, 2 and 3 are being built now, so planned controls in those sections are allowed while this update is open. It is removed from this list when section 3's parts are merged."
- },
+ "open_updates": {},
  "threat_review": {
   "when": "Before each build section starts",
   "questions": ["What in this section is worth stealing or breaking?", "Who would try, and how?", "How do we stop it?", "How do we notice it?", "How do we recover?"],
@@ -51,7 +49,14 @@
   {"id": "not-me-rollback", "asset": "accounts", "threat": "A suspicious session's changes stay after the person notices", "enforced_in": ["identity/protection.py"], "test": "tests/test_protection.py::test_this_was_not_me_locks_and_rolls_back_the_suspicious_session", "build_section": 2, "status": "built"},
   {"id": "staff-views-recorded", "asset": "personal_data", "threat": "LynkOmni staff look at a person's data without consent or unseen", "enforced_in": ["identity/protection.py"], "test": "tests/test_protection.py::test_staff_see_data_only_through_a_live_consent_and_every_look_is_shown", "build_section": 2, "status": "built"},
   {"id": "successor-guarded", "asset": "accounts", "threat": "Someone claims a business by pretending its owner is gone", "enforced_in": ["identity/protection.py"], "test": "tests/test_protection.py::test_the_successor_waits_the_owner_is_told_and_the_partner_decides", "build_section": 2, "status": "built"},
-  {"id": "staff-pin-and-integrity", "asset": "records", "threat": "A shared device hides who did what, or an altered app runs", "enforced_in": ["identity/platform.py"], "test": "tests/test_identity.py", "build_section": 3, "status": "planned", "update": "MASTER UPDATE"},
+  {"id": "staff-pin-and-integrity", "asset": "records", "threat": "A shared device hides who did what, or an altered app runs", "enforced_in": ["identity/device_access.py"], "test": "tests/test_device_access.py::test_an_altered_app_or_rooted_device_is_held_for_the_owner", "build_section": 3, "status": "built"},
+  {"id": "own-pin-per-person", "asset": "records", "threat": "Staff share one PIN, so nobody can tell who sold, voided or counted", "enforced_in": ["identity/device_access.py", "ts/src/devicekit.ts"], "test": "tests/test_device_access.py::test_each_person_signs_in_with_their_own_pin_offline", "build_section": 3, "status": "built"},
+  {"id": "hard-lock-never-wipe", "asset": "records", "threat": "Wrong PINs destroy sales that were never uploaded", "enforced_in": ["identity/device_access.py", "identity/offline.py"], "test": "tests/test_device_access.py::test_wrong_pins_slow_down_then_lock_hard_never_wipe", "build_section": 3, "status": "built"},
+  {"id": "duress-pin", "asset": "safety", "threat": "A person is forced to unlock the till", "enforced_in": ["identity/device_access.py", "ts/src/devicekit.ts"], "test": "tests/test_device_access.py::test_duress_pin_opens_a_limited_view_and_alerts_quietly", "build_section": 3, "status": "built"},
+  {"id": "offline-role-limits", "asset": "money", "threat": "A cashier voids, refunds or discounts too much while the device is offline", "enforced_in": ["identity/device_access.py", "ts/src/devicekit.ts"], "test": "tests/test_device_access.py::test_offline_limits_by_role_need_a_managers_pin_on_the_same_device", "build_section": 3, "status": "built"},
+  {"id": "remote-lock-and-wipe", "asset": "records", "threat": "A lost or stolen device keeps the business open to whoever holds it", "enforced_in": ["identity/device_access.py"], "test": "tests/test_device_access.py::test_remote_lock_and_wipe", "build_section": 3, "status": "built"},
+  {"id": "owner-only-backup", "asset": "records", "threat": "An offline backup on a memory card is read by someone else", "enforced_in": ["identity/device_access.py", "services/sealing.py"], "test": "tests/test_device_access.py::test_backup_is_readable_only_by_the_owner", "build_section": 3, "status": "built"},
+  {"id": "assist-offline-sealed", "asset": "records", "threat": "A change made offline is shown as done, or read or altered on the way", "enforced_in": ["services/assist_business.py"], "test": "tests/test_assist_business.py::test_offline_device_fixes_run_and_cloud_actions_queue_sealed", "build_section": 3, "status": "built"},
   {"id": "fraud-signals", "asset": "money", "threat": "Unusual sales, refunds or payouts go unnoticed", "enforced_in": [], "test": "", "build_section": 7, "status": "planned"},
   {"id": "position-store", "asset": "safety", "threat": "Positions are kept too long or seen by the wrong person", "enforced_in": [], "test": "", "build_section": "7B", "status": "planned"},
   {"id": "api-keys-and-webhooks", "asset": "accounts", "threat": "A leaked key or forged webhook acts for a merchant", "enforced_in": [], "test": "", "build_section": 11, "status": "planned"},

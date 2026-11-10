@@ -46,6 +46,7 @@ function stripComments(js) {
 // A module listed as "NS=path" is joined in its own scope and reached through that name (import * as NS from "path"), so its
 // names never clash with the device modules' own (ts/src/shell.ts and ts/src/emulator.ts both have esc, Link and state).
 const MISSING = new Set();   // modules imported but not joined, reported together after every emulator is bundled
+const DUPLICATES = new Set();
 function bundle(mods) {
   const flat = mods.map((x) => (x.includes("=") ? x.split("=")[1].split("+").pop() : x));   // what the joined modules can reach (a group's files stay inside the group)
   const parts = mods.map((spec) => {
@@ -73,6 +74,15 @@ function bundle(mods) {
     const names = [...js.matchAll(/^export (?:const|function|class|let|async function) (\w+)/gm)].map((x) => x[1]);
     return `// ---- ${m} (as ${ns})\nconst ${ns} = (() => {\n${body}\nreturn { ${names.join(", ")} };\n})();`;
   });
+  // joined modules share one scope: two top-level declarations with one name would silently replace each other (a function)
+  // or fail at load (a const), so refuse any name declared twice
+  const seen = new Map();
+  for (const [i, part] of parts.entries()) {
+    if (/^const \w+ = \(\(\) => \{/m.test(part.split("\n")[1] ?? "")) continue;          // a namespaced group keeps its names inside
+    for (const [, name] of part.matchAll(/^(?:async )?(?:function\*? |const |let |class )(\w+)/gm)) {
+      if (seen.has(name)) DUPLICATES.add(`${name} (${seen.get(name)} and ${mods[i]})`); else seen.set(name, mods[i]);
+    }
+  }
   return `"use strict";\n(() => {\n${parts.join("\n")}\n})();`;
 }
 // The plain bodies of a group of modules (for "NS=a.js+b.js"), checked like any other module.
@@ -140,5 +150,6 @@ for (const e of EMULATORS) {
   }
 }
 if (MISSING.size) { console.error(`imported but not joined (add them to the emulator's modules):\n  ${[...MISSING].join("\n  ")}`); process.exit(1); }
+if (DUPLICATES.size) { console.error(`declared twice in one joined scope (rename one):\n  ${[...DUPLICATES].join("\n  ")}`); process.exit(1); }
 if (stale.length) { console.error(`out of date (run node web/build.mjs): ${stale.join(", ")}`); process.exit(1); }
 if (process.argv.includes("--check")) console.log("emulators are up to date");

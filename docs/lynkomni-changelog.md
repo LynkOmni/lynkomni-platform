@@ -2,6 +2,19 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.40.0 (2026-11-10)
+MASTER UPDATE, section 3 (Business app and every LynkPOS device):
+- Each person signs in to a device with their own PIN, also offline: a wait after wrong tries and a hard lock that never wipes; the owner or a manager resets a staff PIN on the spot (never the owner's own PIN, which only online recovery resets).
+- A duress PIN opens a quiet limited till while the alert leaves by the first path that appears (text, a nearby device, then the internet); nothing calls the police by itself.
+- Offline limits by role: above a cashier's limit a void, refund or larger discount needs a manager's PIN on the same device, or Ask the owner, who answers in one tap.
+- The owner locks a device from afar (owner or manager after a check) and only the owner wipes one, after a fresh check and after being told how many records were never sent; an altered app holds its uploads for the owner and selling still works; the owner keeps an encrypted offline backup.
+- LynkAssist on devices and in the Business app: selling, shift, cash, stock and device fixes; offline, device fixes run at once, cloud fixes are confirmed, sealed and shown as queued until the cloud does them (they expire after 7 days), and partner or person work is prepared to send later; the owner switches areas off, asks to approve fixes first, or gives standing permission for chosen fixes; one history with Undo.
+- Notifications: role routing with "Done by", the owner's thresholds (cash difference, low stock, a cashier's offline discount), banners on the terminal, tablet, kitchen screen and scanner, each device's own offline bell merged without doubles, the owner's daily or weekly summary (opt-in), and receipts or documents by text or email only when the customer asks.
+- Basic phones: a LynkOmni account by menu numbers (sign up with the age step, username, PIN and terms; sign in with a hard lock; messages and help), and notifications read by text.
+- Breadcrumbs in the Business app and on devices; the card type word (PREPAID, DEBIT or CREDIT) on the card screens; the card emulator shows all twelve sample cards and Get a card waits for the licensed partner's answer.
+- Leftovers fixed: the LynkAssist register had no shift and cash actions (reprint receipt, recount cash, hand over the shift) and no offline rule per action; the card form words were moved to the shared device words; two pages had clashing names inside one bundled file (a Business app freeze), so the bundler now refuses duplicate names; hardware attestation is listed as later work with a sandbox check now.
+- Size budgets raised for the device emulators, the Business app and the pages that share the device shell (these parts in 38 languages; a real app downloads one language at a time).
+
 ## v0.39.0 (2026-11-10)
 MASTER UPDATE, section 2 (account, security and notifications):
 - The larger Security Center: a security check-up with Fix this, two ways in, Lock everything (signs out everywhere, sends a freeze for the cards and pauses app keys; location shares keep running; unlocking needs a fresh check), "This was not me", advanced protection (passkeys only, longer waits), a cool-off after a new device, a slow contact change the old contact can cancel, who at LynkOmni looked at the account, and a successor ("Coming to your country soon." until the law and a partner are in place).

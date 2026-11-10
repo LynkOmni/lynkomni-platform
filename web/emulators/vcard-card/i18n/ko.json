@@ -4,8 +4,12 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "366c40e71adaca25d8a7bddd5f0b63d4cbe97ec951e193ce728dae5bfa86e6f5",
+ "source_sha256": "141138e429e2b5cb9211d87050704603937403679870373b5268b0d257b1b751",
  "texts": {
-  "title": "실제 카드 같은 LynkVCard"
+  "title": "실제 카드 같은 LynkVCard",
+  "vc_failed": "파트너가 승인하지 않았습니다. 청구된 금액은 없습니다.",
+  "vc_my_card": "내 카드",
+  "vc_sample_note": "샘플 카드: 번호, 이름, 날짜는 절대 작동하지 않는 자리표시자입니다.",
+  "vc_twelve": "열두 장의 카드"
  }
 }

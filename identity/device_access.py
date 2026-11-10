@@ -248,8 +248,8 @@ class RemoteCommands:
 
 
 def integrity_check(report, signed_app_hashes):
-    """report: {"app_hash", "rooted", "verified_boot", "emulator"} from the device's own attestation (a sandbox now; the
-    platform attestation service per operating system later, provider ledger 'device_attestation').
+    """report: {"app_hash", "rooted", "verified_boot", "emulator"} from the device's own attestation. SANDBOX ATTESTATION: a
+    sample report now; the operating system's attestation service later (provider ledger, later: device_attestation).
     Returns {"ok": True} or {"ok": False, "failed": [...]} : the cloud then holds the device's uploads for the owner."""
     failed = []
     if report.get("app_hash") not in signed_app_hashes:

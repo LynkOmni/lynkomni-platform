@@ -272,7 +272,7 @@ function voiceScreen(): string {
 function lockedScreen(): string {
   if (PICKING) return `<div class="lock">${staffPicker(STAFF.staff, t, (id) => icon(id))}</div>`;
   const me = STAFF.find(WHO);
-  return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.dark, "locklogo")}<p class="who">${icon("ui-user")}<span>${esc(me?.name ?? "")} · ${esc(t(`role_${me?.role ?? "cashier"}`))}</span><button class="link" data-act="staff:change">${esc(t("staff_change"))}</button></p><h1>${esc(t("enter_pin"))}</h1><p class="note" role="alert">${esc(PINNOTE || (S.idleTicks ? t("locked_idle") : ""))}</p><div class="dots">${[0, 1, 2, 3].map((i) => `<i class="${S.pin.length > i ? "on" : ""}"></i>`).join("")}</div>
+  return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.dark, "locklogo")}<p class="who">${icon("ui-user")}<span>${esc(me?.name ?? "")} · ${esc(t(`role_${me?.role ?? "cashier"}`))}</span><button class="link" data-act="staff:change">${esc(t("dk_change"))}</button></p><h1>${esc(t("enter_pin"))}</h1><p class="note" role="alert">${esc(PINNOTE || (S.idleTicks ? t("locked_idle") : ""))}</p><div class="dots">${[0, 1, 2, 3].map((i) => `<i class="${S.pin.length > i ? "on" : ""}"></i>`).join("")}</div>
     <div class="soft">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => `<button data-act="d${d}">${d}</button>`).join("")}<button data-act="clear" aria-label="${esc(t("cancel"))}">${icon("ui-arrow-left")}</button><button data-act="d0">0</button><button data-act="enter" aria-label="${esc(t("unlock"))}">${icon("ui-check")}</button></div><p class="hint">PIN 1234</p></div>`;
 }
 function page(): string {
@@ -319,8 +319,8 @@ function act(a: string): void {
       const r = STAFF.signIn(WHO, S.pin, Date.now()); S.pin = "";
       if (r.ok) { S.unlocked = true; S.view = "main"; LIMITED = r.view === "limited"; S.tab = LIMITED || S.type !== "restaurant" ? "sell" : "tables"; PINNOTE = "";
         const n = STAFF.pathsOut(S.online ? ["internet"] : []); for (let i = 0; i < n; i++) LOG.emit("DuressSignalled", { device_id: "tablet", person: WHO, path: "internet", at: Date.now() }, "server", "accepted"); }
-      else { PINNOTE = r.reason === "wrong" ? t("wrong_pin") : r.reason === "wait" ? t("pin_wait", { s: r.seconds ?? 0 }) : t("pin_locked_hard");
-        if (r.reason === "hard_locked") LINES = raiseLocal(LINES, "device_hard_locked", t("pin_locked_hard"), Date.now()); }
+      else { PINNOTE = r.reason === "wrong" ? t("wrong_pin") : r.reason === "wait" ? t("dk_wait", { s: r.seconds ?? 0 }) : t("dk_hard_locked");
+        if (r.reason === "hard_locked") LINES = raiseLocal(LINES, "device_hard_locked", t("dk_hard_locked"), Date.now()); }
     }
     draw(); return;
   }

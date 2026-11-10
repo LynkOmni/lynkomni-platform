@@ -4,8 +4,12 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "366c40e71adaca25d8a7bddd5f0b63d4cbe97ec951e193ce728dae5bfa86e6f5",
+ "source_sha256": "141138e429e2b5cb9211d87050704603937403679870373b5268b0d257b1b751",
  "texts": {
-  "title": "LynkVCard kama kadi halisi"
+  "title": "LynkVCard kama kadi halisi",
+  "vc_failed": "Mshirika hakuidhinisha. Hakuna kilichotozwa.",
+  "vc_my_card": "Kadi yangu",
+  "vc_sample_note": "Kadi ya mfano: namba, jina na tarehe ni vishika nafasi visivyofanya kazi kamwe.",
+  "vc_twelve": "Kadi kumi na mbili"
  }
 }

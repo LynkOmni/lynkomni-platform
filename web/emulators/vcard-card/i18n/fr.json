@@ -4,8 +4,12 @@
  "kept_in_english": [],
  "lang": "fr",
  "native": "Français",
- "source_sha256": "366c40e71adaca25d8a7bddd5f0b63d4cbe97ec951e193ce728dae5bfa86e6f5",
+ "source_sha256": "141138e429e2b5cb9211d87050704603937403679870373b5268b0d257b1b751",
  "texts": {
-  "title": "LynkVCard comme une vraie carte"
+  "title": "LynkVCard comme une vraie carte",
+  "vc_failed": "Le partenaire ne l'a pas approuvée. Rien n'a été débité.",
+  "vc_my_card": "Ma carte",
+  "vc_sample_note": "Une carte exemple : le numéro, le nom et les dates sont des valeurs fictives qui ne peuvent jamais fonctionner.",
+  "vc_twelve": "Les douze cartes"
  }
 }

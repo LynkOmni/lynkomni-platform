@@ -6,14 +6,14 @@ import { ADDRESS_HOSTS, STOREFRONT_PREFIX } from "./parts.generated.js";
 import { esc } from "./shell.js";
 import type { T } from "./shell.js";
 
-export function home(host: string, path: string): string {
+export function trailHome(host: string, path: string): string {
   if (host === "app.lynkomni.com" && (path === STOREFRONT_PREFIX || path.startsWith(STOREFRONT_PREFIX + "/"))) return STOREFRONT_PREFIX;
   if (host === "shop.lynkomni.com" && path.startsWith("/{username}")) return "/{username}";
   return "/";
 }
 export function parent(host: string, path: string): string | null {
   const known = new Set(ADDRESS_HOSTS[host] ?? []);
-  const h = home(host, path);
+  const h = trailHome(host, path);
   if (path === h) return null;
   let parts = path.replace(/\/+$/, "").split("/");
   while (parts.length > 1) {

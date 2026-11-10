@@ -4,8 +4,9 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "42f79e34143df05bf585a90dd3d066840e7b99516fc4f248eb9bb0a11bf922ee",
+ "source_sha256": "e2860b4c2e65de13e4d1309ea0eed0c55c13e8950db3c00fd31e1ce13ebebf9a",
  "texts": {
+  "k_waiting": "已完成的订单等待发送",
   "title": "LynkPOS 厨房屏幕"
  }
 }

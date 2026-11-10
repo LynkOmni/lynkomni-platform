@@ -984,13 +984,13 @@ function m3Devices(): string {
 function m3Cards(): string {
   if (S.realUser) return `<div class="card"><p class="info">${icon("ui-info")}<span>${esc(t("coming_soon"))}</span></p>${notifyBtn("vcard")}</div>`;
   const c = M3.card, groups = ["prepaid", "debit", "credit"];
-  const mine = `<ul class="list card" data-item="card_groups">${c.list.map((x) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(cardName(x.group, x.tier))}</span><span class="sub">${esc(cardWord(x.group))} · ${esc(t("m3_ending", { last4: x.last4 }))}${x.group === "credit" ? ` · ${esc(t("m3_lender_terms"))}` : ""}</span></span></div></li>`).join("")}</ul>`;
+  const mine = `<ul class="list card" data-item="card_groups">${c.list.map((x) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(cardName(x.group, x.tier))}</span><span class="sub">${esc(cardWord(x.group))} · ${esc(t("m3_ending", { last4: x.last4 }))}${x.group === "credit" ? ` · ${esc(t("card_lender"))}` : ""}</span></span></div></li>`).join("")}</ul>`;
   const compare = `<ul class="list card" data-item="card_compare">${groups.map((g) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(cardName(g, c.tier))} · ${esc(cardWord(g))}</span><span class="sub">${esc(t("m3_group_" + g))}</span></span></div></li>`).join("")}</ul>`;
-  const form = c.state === "sent" ? `<p class="info" role="status">${icon("status-sent")}<span>${esc(t("m3_card_sent"))}</span></p>` : c.state === "confirmed" ? `<p class="info" role="status">${icon("status-confirmed")}<span>${esc(t("m3_card_confirmed"))}</span></p>`
-    : `<label class="field"><span>${esc(t("m3_card_group"))}</span><select data-in="m3card:group">${groups.map((g) => `<option value="${g}" ${c.group === g ? "selected" : ""}>${esc(cardName(g, c.tier))}</option>`).join("")}</select></label>
-      ${cardFormFields(c.group).filter((f) => f !== "holder" && f !== "form").map((f) => f.endsWith("consent") ? m3Switch(`m3cardf:${f}`, false, t("m3_f_" + f)) : `<label class="field"><span>${esc(t("m3_f_" + f))}</span><input autocomplete="off" data-in="m3cardf:${f}"></label>`).join("")}
-      <button class="primary inline" data-act="m3card:send" ${online() ? "" : "disabled"}>${esc(t("m3_card_send"))}</button>${online() ? "" : `<p class="sub">${esc(t("m3_card_online"))}</p>`}`;
-  return `${mine}<div class="card" data-item="get_a_card"><h2>${esc(t("m3_get_card"))}</h2>${compare}${form}<p class="sub">${esc(t("m3_card_note"))}</p></div>`;
+  const form = c.state === "sent" ? `<p class="info" role="status">${icon("status-sent")}<span>${esc(t("card_sent"))}</span></p>` : c.state === "confirmed" ? `<p class="info" role="status">${icon("status-confirmed")}<span>${esc(t("card_confirmed"))}</span></p>`
+    : `<label class="field"><span>${esc(t("card_which"))}</span><select data-in="m3card:group">${groups.map((g) => `<option value="${g}" ${c.group === g ? "selected" : ""}>${esc(cardName(g, c.tier))}</option>`).join("")}</select></label>
+      ${cardFormFields(c.group).filter((f) => f !== "holder" && f !== "form").map((f) => f.endsWith("consent") ? m3Switch(`m3cardf:${f}`, false, t(`card_f_${f}`)) : `<label class="field"><span>${esc(t(`card_f_${f}`))}</span><input autocomplete="off" data-in="m3cardf:${f}"></label>`).join("")}
+      <button class="primary inline" data-act="m3card:send" ${online() ? "" : "disabled"}>${esc(t("card_send"))}</button>${online() ? "" : `<p class="sub">${esc(t("m3_card_online"))}</p>`}`;
+  return `${mine}<div class="card" data-item="get_a_card"><h2>${esc(t("card_get"))}</h2>${compare}${form}<p class="sub">${esc(t("m3_card_note"))}</p></div>`;
 }
 function hubSection(id: string): string {
   const reg = DATA.screens.find((s) => s.id === id); if (!reg) return "";

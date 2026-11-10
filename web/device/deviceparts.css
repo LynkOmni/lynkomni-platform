@@ -3,15 +3,15 @@
    right-to-left works; every control is at least the 44 px target. */
 .dsh-bell { position: relative; }
 .dsh-badge { position: absolute; inset-block-start: 2px; inset-inline-end: 2px; min-inline-size: 18px; block-size: 18px; padding: 0 4px; border-radius: 999px; background: var(--status-danger-text); color: var(--on-brand); font: 700 11px/18px var(--font-body); text-align: center; }
-.dsh-panel :is(.primary, .secondary, .link, .hbtn, .chipbtn), .dk-banners :is(.primary, .hbtn), .dk-sheet :is(.primary, .secondary) { min-block-size: var(--touch-target); min-inline-size: var(--touch-target); border-radius: 10px; font: 600 14px var(--font-body); cursor: pointer; }
-.dsh-panel .primary, .dk-banners .primary, .dk-sheet .primary { padding: 0 14px; border: 0; background: var(--brand-primary); color: var(--on-brand); }
-.dsh-panel :is(.secondary, .chipbtn), .dk-sheet .secondary { padding: 0 12px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); }
-.dsh-panel .link { padding: 0 6px; border: 0; background: none; color: var(--brand-ink); text-decoration: underline; }
-.dsh-panel .hbtn, .dk-banners .hbtn { display: inline-grid; place-items: center; padding: 0; border: 0; background: none; color: inherit; }
+:is(.dsh-panel, .notifications) :is(.primary, .secondary, .link, .hbtn, .chipbtn), .dk-banners :is(.primary, .hbtn), .dk-sheet :is(.primary, .secondary) { min-block-size: var(--touch-target); min-inline-size: var(--touch-target); border-radius: 10px; font: 600 14px var(--font-body); cursor: pointer; }
+:is(.dsh-panel, .notifications) .primary, .dk-banners .primary, .dk-sheet .primary { padding: 0 14px; border: 0; background: var(--brand-primary); color: var(--on-brand); }
+:is(.dsh-panel, .notifications) :is(.secondary, .chipbtn), .dk-sheet .secondary { padding: 0 12px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); }
+:is(.dsh-panel, .notifications) .link { padding: 0 6px; border: 0; background: none; color: var(--brand-ink); text-decoration: underline; }
+:is(.dsh-panel, .notifications) .hbtn, .dk-banners .hbtn { display: inline-grid; place-items: center; padding: 0; border: 0; background: none; color: inherit; }
 .dsh-panel .notifications { display: grid; gap: 4px; }
-.dsh-panel .nlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
-.dsh-panel .mitem { display: inline-flex; align-items: center; gap: 8px; min-block-size: var(--touch-target); color: var(--brand-ink); }
-.dsh-panel .note, .dsh-panel .muted { color: var(--text-secondary); font-size: 12px; }
+:is(.dsh-panel, .notifications) .nlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+:is(.dsh-panel, .notifications) .mitem { display: inline-flex; align-items: center; gap: 8px; min-block-size: var(--touch-target); color: var(--brand-ink); }
+:is(.dsh-panel, .notifications) :is(.note, .muted) { color: var(--text-secondary); font-size: 12px; }
 .dsh-panel .cmd-input { display: flex; align-items: center; gap: 8px; min-block-size: var(--touch-target); padding: 0 10px; border: 1px solid var(--border-input); border-radius: 10px; }
 .dsh-panel .cmd-input input { flex: 1; min-inline-size: 0; border: 0; background: none; color: var(--text-primary); font: inherit; }
 .dsh-panel .mlabel { font-weight: 700; }
@@ -33,3 +33,5 @@
 /* Breadcrumbs on a device: one quiet line under the top bar */
 :is(#screen, #display, #screenA, #screenB) .crumbs { margin: 0; padding: 0 12px; font-size: 12px; }
 :is(#screen, #display, #screenA, #screenB) .crumbs a { color: var(--brand-ink); text-decoration: none; min-block-size: var(--touch-target); }
+.notifications .nline .ntext a { text-decoration: none; }
+.notifications h2 { margin: 0; }

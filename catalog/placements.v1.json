@@ -896,6 +896,83 @@
     "help"
    ],
    "section": 2
+  },
+  {
+   "id": "staff_pins_on_device",
+   "kind": "feature",
+   "what": "Each person's own PIN on every device, staff PINs reset on the spot, the duress PIN and offline limits by role",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 3
+  },
+  {
+   "id": "remote_lock_wipe",
+   "kind": "feature",
+   "what": "Lock or wipe a device from the Business app (the owner, after a fresh check)",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 3
+  },
+  {
+   "id": "assist_owner_controls",
+   "kind": "feature",
+   "what": "LynkAssist's owner controls in the Business app: switch off, ask me first, standing permissions, Ask the owner and the history",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 3
+  },
+  {
+   "id": "business_thresholds_summary",
+   "kind": "feature",
+   "what": "When to tell me (the owner's thresholds) and my summary (daily or weekly, by the channel the owner picks)",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 3
+  },
+  {
+   "id": "receipt_by_message",
+   "kind": "feature",
+   "what": "Receipts and documents by text message or email, only when the customer asks",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 3
+  },
+  {
+   "id": "basic_phone_account",
+   "kind": "feature",
+   "what": "The LynkOmni account by USSD, text or voice: sign up, sign in, help menu and messages",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 3
+  },
+  {
+   "id": "get_a_card",
+   "kind": "feature",
+   "what": "Get a card: the three card groups compared, one form per group, online only, the twelve sample cards",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 3
   }
  ]
 }
