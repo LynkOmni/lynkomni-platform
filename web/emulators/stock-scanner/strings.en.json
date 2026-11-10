@@ -1,3 +1,5 @@
 {
- "title": "LynkStock handheld scanner"
+ "title": "LynkStock handheld scanner",
+ "s_negative": "Stock below zero: {name}",
+ "s_low": "Low stock: {name}"
 }

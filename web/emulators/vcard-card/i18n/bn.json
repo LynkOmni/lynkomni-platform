@@ -4,8 +4,12 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "366c40e71adaca25d8a7bddd5f0b63d4cbe97ec951e193ce728dae5bfa86e6f5",
+ "source_sha256": "141138e429e2b5cb9211d87050704603937403679870373b5268b0d257b1b751",
  "texts": {
-  "title": "আসল কার্ড হিসেবে LynkVCard"
+  "title": "আসল কার্ড হিসেবে LynkVCard",
+  "vc_failed": "অংশীদার এটি অনুমোদন করেনি। কিছুই কাটা হয়নি।",
+  "vc_my_card": "আমার কার্ড",
+  "vc_sample_note": "নমুনা কার্ড: নম্বর, নাম ও তারিখ এমন স্থানধারক যা কখনো কাজ করে না।",
+  "vc_twelve": "বারোটি কার্ড"
  }
 }

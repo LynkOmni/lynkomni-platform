@@ -4,8 +4,12 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "366c40e71adaca25d8a7bddd5f0b63d4cbe97ec951e193ce728dae5bfa86e6f5",
+ "source_sha256": "141138e429e2b5cb9211d87050704603937403679870373b5268b0d257b1b751",
  "texts": {
-  "title": "Gerçek bir kart olarak LynkVCard"
+  "title": "Gerçek bir kart olarak LynkVCard",
+  "vc_failed": "Ortak onaylamadı. Hiçbir ücret alınmadı.",
+  "vc_my_card": "Kartım",
+  "vc_sample_note": "Örnek bir kart: numara, ad ve tarihler hiçbir zaman çalışmayan yer tutuculardır.",
+  "vc_twelve": "On iki kart"
  }
 }

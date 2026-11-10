@@ -4,8 +4,9 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "42f79e34143df05bf585a90dd3d066840e7b99516fc4f248eb9bb0a11bf922ee",
+ "source_sha256": "e2860b4c2e65de13e4d1309ea0eed0c55c13e8950db3c00fd31e1ce13ebebf9a",
  "texts": {
+  "k_waiting": "তৈরি অর্ডার পাঠানোর অপেক্ষায়",
   "title": "LynkPOS রান্নাঘরের স্ক্রিন"
  }
 }

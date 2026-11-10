@@ -4,8 +4,12 @@
  "kept_in_english": [],
  "lang": "am",
  "native": "አማርኛ",
- "source_sha256": "366c40e71adaca25d8a7bddd5f0b63d4cbe97ec951e193ce728dae5bfa86e6f5",
+ "source_sha256": "141138e429e2b5cb9211d87050704603937403679870373b5268b0d257b1b751",
  "texts": {
-  "title": "LynkVCard እንደ እውነተኛ ካርድ"
+  "title": "LynkVCard እንደ እውነተኛ ካርድ",
+  "vc_failed": "አጋሩ አላጸደቀውም። ምንም አልተከፈለም።",
+  "vc_my_card": "የእኔ ካርድ",
+  "vc_sample_note": "የናሙና ካርድ፦ ቁጥሩ፣ ስሙ እና ቀኖቹ ፈጽሞ የማይሠሩ ቦታ ያዦች ናቸው።",
+  "vc_twelve": "አሥራ ሁለቱ ካርዶች"
  }
 }

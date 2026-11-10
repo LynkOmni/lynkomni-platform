@@ -4,8 +4,12 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "366c40e71adaca25d8a7bddd5f0b63d4cbe97ec951e193ce728dae5bfa86e6f5",
+ "source_sha256": "141138e429e2b5cb9211d87050704603937403679870373b5268b0d257b1b751",
  "texts": {
-  "title": "LynkVCard bilang totoong card"
+  "title": "LynkVCard bilang totoong card",
+  "vc_failed": "Hindi ito inaprubahan ng partner. Walang siningil.",
+  "vc_my_card": "Ang card ko",
+  "vc_sample_note": "Isang sample na card: ang numero, pangalan at petsa ay mga placeholder na hindi kailanman gagana.",
+  "vc_twelve": "Ang labindalawang card"
  }
 }

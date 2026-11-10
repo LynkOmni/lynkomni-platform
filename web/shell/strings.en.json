@@ -284,5 +284,8 @@
  "ntf_act_i_am_here": "I am still here",
  "ntf_act_snooze": "Remind me later",
  "ntf_act_done": "Mark as done",
- "ntf_act_cancel_close": "Keep my account"
+ "ntf_act_cancel_close": "Keep my account",
+ "as_why_later": "This needs the network and a person or partner. It is prepared and sent when you are online.",
+ "as_why_network": "This touches your account, so it waits for the network.",
+ "ntf_act_open": "Open"
 }

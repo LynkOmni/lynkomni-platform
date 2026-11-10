@@ -4,8 +4,12 @@
  "kept_in_english": [],
  "lang": "ur",
  "native": "اردو",
- "source_sha256": "366c40e71adaca25d8a7bddd5f0b63d4cbe97ec951e193ce728dae5bfa86e6f5",
+ "source_sha256": "141138e429e2b5cb9211d87050704603937403679870373b5268b0d257b1b751",
  "texts": {
-  "title": "اصلی کارڈ کی طرح LynkVCard"
+  "title": "اصلی کارڈ کی طرح LynkVCard",
+  "vc_failed": "پارٹنر نے اسے منظور نہیں کیا۔ کوئی رقم نہیں کٹی۔",
+  "vc_my_card": "میرا کارڈ",
+  "vc_sample_note": "نمونہ کارڈ: نمبر، نام اور تاریخیں ایسی جگہ دار ہیں جو کبھی کام نہیں کرتیں۔",
+  "vc_twelve": "بارہ کارڈ"
  }
 }

@@ -4,8 +4,12 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "366c40e71adaca25d8a7bddd5f0b63d4cbe97ec951e193ce728dae5bfa86e6f5",
+ "source_sha256": "141138e429e2b5cb9211d87050704603937403679870373b5268b0d257b1b751",
  "texts": {
-  "title": "LynkVCard a matsayin katin gaske"
+  "title": "LynkVCard a matsayin katin gaske",
+  "vc_failed": "Abokin hulɗa bai amince ba. Babu kuɗin da aka cire.",
+  "vc_my_card": "Katina",
+  "vc_sample_note": "Katin misali: lamba, suna da kwanakin wata wurare ne da ba sa taɓa aiki.",
+  "vc_twelve": "Katuna goma sha biyu"
  }
 }

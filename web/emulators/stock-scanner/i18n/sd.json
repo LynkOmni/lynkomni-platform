@@ -4,8 +4,10 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "6ae2f0135dd2174402ad3565d882e5cb59341a33b2dbdfa6bf8c95e10ef8ec4c",
+ "source_sha256": "9a0c2eee3eda8b0d65f458c6c4214e3577dce0bb443a39adcad2df6c190b5810",
  "texts": {
+  "s_low": "اسٽاڪ گهٽ: {name}",
+  "s_negative": "اسٽاڪ صفر کان هيٺ: {name}",
   "title": "هٿ وارو اسڪينر LynkStock"
  }
 }
