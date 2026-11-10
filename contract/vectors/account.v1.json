@@ -36,7 +36,8 @@
    "lender": 30,
    "developer-app": 365,
    "support": 1,
-   "supplier-sell-through": 365
+   "supplier-sell-through": 365,
+   "location-share": 30
   },
   "registration_steps": [
    "profile",
@@ -60,7 +61,9 @@
    "payslips",
    "payments",
    "start",
-   "storefront"
+   "storefront",
+   "trips",
+   "collect"
   ]
  },
  "recovery": [
@@ -748,6 +751,42 @@
   },
   {
    "scope": "lender",
+   "days": 400,
+   "now": 1800000000,
+   "expires": 1802592000
+  },
+  {
+   "scope": "location-share",
+   "days": 1,
+   "now": 1800000000,
+   "expires": 1800086400
+  },
+  {
+   "scope": "location-share",
+   "days": 7,
+   "now": 1800000000,
+   "expires": 1800604800
+  },
+  {
+   "scope": "location-share",
+   "days": 30,
+   "now": 1800000000,
+   "expires": 1802592000
+  },
+  {
+   "scope": "location-share",
+   "days": 90,
+   "now": 1800000000,
+   "expires": 1802592000
+  },
+  {
+   "scope": "location-share",
+   "days": 365,
+   "now": 1800000000,
+   "expires": 1802592000
+  },
+  {
+   "scope": "location-share",
    "days": 400,
    "now": 1800000000,
    "expires": 1802592000

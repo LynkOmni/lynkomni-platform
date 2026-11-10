@@ -2,6 +2,17 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.35.0 (2026-11-10)
+NEW UPDATE 1, section 2 (LynkOmni Account).
+- **Arrive Safe** on account.lynkomni.com/trips (identity/arrive_safe.py):
+  - share a trip with people you choose, for a set time, under a location-share consent of at most 30 days;
+  - a share ends by itself or with one tap, and is always shown to the person sharing;
+  - a trip plan with a check-in deadline and trusted contacts, watched by the cloud, so contacts are told even if the phone dies.
+- **Collect Pass** on account.lynkomni.com/collect: one code that changes every minute and collects every parcel waiting at any pickup point, once per parcel. The QR picture of the code comes with the pay pages in section 7.
+- **My plans:** LynkMotion and LynkGuard appear on the billing page.
+- **Account site:** Trips and sharing and Collect Pass are in the account menu and search, in all 38 languages. The file budget was raised to 920 KB for these words.
+- **Contract:** every event matches contract version 4, and no position is ever stored.
+
 ## v0.34.0 (2026-11-10)
 NEW UPDATE 1, section 1 (shell and design).
 - **New LynkVCard faces,** one colour, finish and metal per tier:

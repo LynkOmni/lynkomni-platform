@@ -297,6 +297,42 @@
     "partner"
    ],
    "note": "The licensed partner confirmed the person's identity; written by the cloud from the partner's answer only, never by a device"
+  },
+  "LocationShareStarted": {
+   "payload": [
+    "share_id",
+    "consent_id",
+    "scope",
+    "ends_at"
+   ],
+   "note": "Arrive Safe: the person started sharing with someone they chose, under a location-share consent with an end time (contract v4 event)"
+  },
+  "LocationShareEnded": {
+   "payload": [
+    "share_id",
+    "reason"
+   ],
+   "note": "Arrive Safe: a share was stopped, expired or its trip ended; nothing more is shared"
+  },
+  "TripPlanSet": {
+   "payload": [
+    "plan_id",
+    "due_at",
+    "contacts"
+   ],
+   "note": "Arrive Safe: a trip plan with a check-in deadline and the number of trusted contacts (never who or where)"
+  },
+  "TripPlanCheckedIn": {
+   "payload": [
+    "plan_id"
+   ],
+   "note": "Arrive Safe: the traveller checked in on time"
+  },
+  "TripPlanOverdue": {
+   "payload": [
+    "plan_id"
+   ],
+   "note": "Arrive Safe: cloud only; the deadline passed with no check-in and the trusted contacts are told"
   }
  }
 }

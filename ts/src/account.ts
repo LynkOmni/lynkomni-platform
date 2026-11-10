@@ -64,9 +64,9 @@ export function payoutChange(secondDeviceOk: boolean, now: number): { status: "a
 export const exportAllowed = (stepUpValid: boolean, restrictedUntil: number, now: number): boolean => stepUpValid && deviceCan("export_data", restrictedUntil, now);
 
 // ---- data-sharing consents: a scope, a purpose, an end
-export const CONSENT_SCOPES = ["health-pack", "accountant", "lender", "developer-app", "support", "supplier-sell-through"] as const;
+export const CONSENT_SCOPES = ["health-pack", "accountant", "lender", "developer-app", "support", "supplier-sell-through", "location-share"] as const;
 export type ConsentScope = (typeof CONSENT_SCOPES)[number];
-export const MAX_CONSENT_DAYS: Record<ConsentScope, number> = { "health-pack": 90, accountant: 365, lender: 30, "developer-app": 365, support: 1, "supplier-sell-through": 365 };
+export const MAX_CONSENT_DAYS: Record<ConsentScope, number> = { "health-pack": 90, accountant: 365, lender: 30, "developer-app": 365, support: 1, "supplier-sell-through": 365, "location-share": 30 };
 export const CONSENT_WARN_DAYS = 7;
 export function consentEnd(scope: ConsentScope, days: number, now: number): number { return now + Math.min(Math.max(1, Math.floor(days)), MAX_CONSENT_DAYS[scope]) * DAY; }
 export interface Consent { scope: ConsentScope; grantee: string; purpose: string; expires: number; withdrawn?: number }
@@ -101,7 +101,7 @@ export function applicationStatus(current: ApplicationStatus, gateway: "pending"
 }
 
 // ---- the account site
-export const PAGES = ["overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "support", "payslips", "payments", "start", "storefront"] as const;
+export const PAGES = ["overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "support", "payslips", "payments", "start", "storefront", "trips", "collect"] as const;
 export type Page = (typeof PAGES)[number];
 export const pagePath = (p: Page): string => (p === "overview" ? "/" : `/${p}`);
 /** Security Center rows: event type to the string key the screen shows (the word, never colour alone, beside the time). */

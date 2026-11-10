@@ -21,10 +21,11 @@ DATA_REQUEST_DAYS = 30              # download my records: ready within 30 days,
 CLOSE_GRACE_DAYS = 30               # closing an account: a grace period, then the LynkID is retired for ever
 CONSENT_SCOPES = {"health-pack": "business health pack (LynkStat Score and trends, never a credit score)", "accountant": "the accountant sees the books of this business",
                   "lender": "a licensed lender reads the health pack once", "developer-app": "a developer app reads the scopes it names", "support": "support sees this record for a short time",
-                  "supplier-sell-through": "a supplier sees sell-through of its own products only"}
-MAX_CONSENT_DAYS = {"health-pack": 90, "accountant": 365, "lender": 30, "developer-app": 365, "support": 1, "supplier-sell-through": 365}
+                  "supplier-sell-through": "a supplier sees sell-through of its own products only",
+                  "location-share": "people you choose see your trip or live location until the share ends (Arrive Safe)"}
+MAX_CONSENT_DAYS = {"health-pack": 90, "accountant": 365, "lender": 30, "developer-app": 365, "support": 1, "supplier-sell-through": 365, "location-share": 30}
 REGISTRATION_STEPS = ("profile", "registration", "tax_number", "bank_account")
-PAGES = ("overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "support", "payslips", "payments", "start", "storefront")
+PAGES = ("overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "support", "payslips", "payments", "start", "storefront", "trips", "collect")
 def _now(n): return time.time() if n is None else n
 def _h(x): return hashlib.sha256(x.encode()).hexdigest()
 
@@ -61,6 +62,8 @@ class Account:
         create table if not exists acct_requests(id text primary key, person text, opened real, due real, ready real, expires real);
         create table if not exists acct_apps(application_id text primary key, person text, lodoc text, country text, steps text, status text, gateway_ref text, lynkoid text);
         create table if not exists acct_standing(losub text primary key, person text, merchant text, cap_minor int, currency text, provider text, approved real, revoked real, uses int);""")
+        from identity.arrive_safe import ArriveSafe
+        s.safe = ArriveSafe(s)          # Arrive Safe and Collect Pass (NEW UPDATE 1, build section 2)
     # ---- events
     def _lynkid(s, person):
         r = s.db.execute("select lynkid from acct_people where person=?", (person,)).fetchone(); return r[0] if r else None

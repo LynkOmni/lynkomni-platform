@@ -89,7 +89,7 @@ class SignUpAndSecurity(unittest.TestCase):
         self.p.flow.tick("daily", [p], T0 + 31 * DAY)
         self.assertEqual(len(self.p.c.store.of(p, "ConsentExpired")), 1); self.assertFalse(self.a.consent_allows(p, "lender", "bank-1", T0 + 31 * DAY))
         self.assertEqual(self.p.c.store.of(p, "ConsentWithdrawn")[0]["payload"]["by"], "expiry")
-        self.assertEqual(set(CONSENT_SCOPES), {"health-pack", "accountant", "lender", "developer-app", "support", "supplier-sell-through"})
+        self.assertEqual(set(CONSENT_SCOPES), {"health-pack", "accountant", "lender", "developer-app", "support", "supplier-sell-through", "location-share"})   # location-share: Arrive Safe, NEW UPDATE 1
 
     def test_takeover_safeguards_payout_change_waits_and_exports_need_a_step_up(self):
         p, s, _ = self.signed_up(); org = self.p.idp.register_org(p, "Mama Shop", country="XX")["internal"]
