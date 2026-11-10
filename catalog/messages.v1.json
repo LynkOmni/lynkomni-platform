@@ -1166,6 +1166,126 @@
     "done"
    ],
    "build_section": 2
+  },
+  {
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3,
+   "id": "document",
+   "area": "proof",
+   "trigger": "DocumentSent",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "email",
+    "text"
+   ],
+   "sender": "receipts@mail.lynkomni.com",
+   "note": "a counter document (quote, delivery note, warranty) sent because the customer asked for it"
+  },
+  {
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "open"
+   ],
+   "build_section": 3,
+   "id": "large_void",
+   "area": "selling",
+   "trigger": "OverLimitApproved",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "a void, refund or discount above a staff member's limit, approved by a manager's PIN; the owner's threshold decides"
+  },
+  {
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3,
+   "id": "duress_alert",
+   "area": "safety",
+   "trigger": "DuressSignalled",
+   "audience": "trusted_contact",
+   "basis": "safety",
+   "priority": "critical",
+   "channels": [
+    "push",
+    "text",
+    "email"
+   ],
+   "sender": "no-reply@mail.lynkomni.com",
+   "note": "a duress PIN was used; for the owner's trusted contacts; it never calls the police by itself and never says where the device is"
+  },
+  {
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "open"
+   ],
+   "build_section": 3,
+   "id": "device_integrity",
+   "area": "security",
+   "trigger": "DeviceIntegrityFailed",
+   "audience": "owner",
+   "basis": "security",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "no-reply@mail.lynkomni.com",
+   "note": "the app was altered or the device is unlocked at root level; its uploads wait for the owner"
+  },
+  {
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3,
+   "id": "device_wiped",
+   "area": "security",
+   "trigger": "DeviceWiped",
+   "audience": "owner",
+   "basis": "security",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "no-reply@mail.lynkomni.com",
+   "note": "the device carried out the owner's wipe"
+  },
+  {
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3,
+   "id": "staff_pin_reset",
+   "area": "security",
+   "trigger": "StaffPinReset",
+   "audience": "owner",
+   "basis": "security",
+   "priority": "normal",
+   "channels": [
+    "bell"
+   ],
+   "sender": "no-reply@mail.lynkomni.com",
+   "note": "a staff PIN was reset on a device by a manager"
   }
  ]
 }

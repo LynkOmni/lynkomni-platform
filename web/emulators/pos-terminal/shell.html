@@ -51,6 +51,11 @@
     <label><input type="checkbox" id="cOnline" checked> <span>Internet connection<br><span class="help">Untick to sell offline: sales are saved as Queued and sent later.</span></span></label>
     <label><input type="checkbox" id="cFail"> <span>Provider declines payments<br><span class="help">The sandbox provider answers Failed instead of Confirmed.</span></span></label>
     <label style="align-items:center"><span>Country</span> <select id="cCountry"></select></label>
+    <h3>Owner and security (MASTER UPDATE section 3)</h3>
+    <label><input type="checkbox" id="cRemoteLock"> <span>The owner locks this device from afar<br><span class="help">Carried out the next time the device hears from the cloud; nothing is deleted.</span></span></label>
+    <label><input type="checkbox" id="cAltered"> <span>The app on this device was altered<br><span class="help">The cloud holds this device's uploads for the owner to review and tells the owner. Selling still works.</span></span></label>
+    <p><button type="button" id="cWipe">The owner wipes this device</button><br><span class="help">Only the owner, after a fresh check and after being told how many records were never sent.</span></p>
+    <p class="help">Sample PINs: Aline (cashier) 1234, Eric (manager) 2580, Grace (owner) 4719. 8642 is Aline's sample duress PIN: it opens a quiet limited till and alerts the owner's trusted contacts.</p>
     <label><input type="checkbox" id="cReal"> <span>A country where partners are not signed yet<br><span class="help">Only what a signed licensed partner covers there works; the rest shows "Coming to your country soon". The sample country has no partners signed yet.</span></span></label>
     <label><input type="checkbox" id="cDark"> <span>Dark screen</span></label>
     <label style="align-items:center"><span>Language</span> <select id="cLang"><option value="xx">Long text test</option><option value="xx-rtl">Right-to-left test</option></select></label>

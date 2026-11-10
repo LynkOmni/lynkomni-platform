@@ -97,3 +97,27 @@ test("the protection waits and card names on screen are identity/protection.py's
   assert.deepEqual(mayNow("data_export", { locked: false, heldUntil: 1, now: 5 }), { ok: true });
   assert.throws(() => mayNow("buy_coffee", { locked: false, heldUntil: 0, now: 0 }));
 });
+
+import { StaffLock, decideOffline, needsManager, raiseLocal } from "../src/devicekit.js";
+test("offline limits by role and LynkAssist offline are identity/device_access.py's and services/assist_business.py's", () => {
+  for (const c of V.needs_manager) assert.equal(needsManager(c.role, c.act, c.amount), c.needs, `${c.role} ${c.act} ${c.amount}`);
+  for (const c of V.offline_decide) { const d = decideOffline(c.action, c.ask, false); assert.deepEqual([d.run, d.needs, d.offline ?? null], [c.run, c.needs, c.offline], `${c.action} ${JSON.stringify(c.ask)}`); }
+});
+test("staff sign in with their own PIN; the duress PIN opens the limited view quietly; resets never touch the owner", () => {
+  const lock = new StaffLock([{ person: "o", name: "Owner", role: "owner", pin: "4719" }, { person: "m", name: "M", role: "manager", pin: "2580" }, { person: "c", name: "C", role: "cashier", pin: "1357", duress: "8642" }]);
+  assert.deepEqual(lock.signIn("c", "1357", 0), { ok: true, view: "full", role: "cashier" });
+  const d = lock.signIn("c", "8642", 0);
+  assert.ok(d.ok && d.view === "limited"); assert.ok(!JSON.stringify(d).includes("duress"));
+  assert.equal(lock.pathsOut([]), 0); assert.equal(lock.pathsOut(["internet", "text"]), 1); assert.equal(lock.alerts[0]!.sentBy, "text");
+  let t = 0; for (let i = 0; i < 10; i++) { t += 4_000_000; lock.signIn("m", "0000", t); }
+  assert.deepEqual(lock.signIn("m", "2580", t + 4_000_000), { ok: false, reason: "hard_locked" });
+  assert.equal(lock.reset("m", "2580", "o", "1593"), "not_allowed");
+  assert.equal(lock.reset("o", "4719", "m", "1593"), "ok"); assert.ok(lock.signIn("m", "1593", t).ok, "a reset lifts the hard lock");
+  assert.equal(lock.reset("m", "1593", "c", "1111"), "bad_pin");
+  assert.ok(!lock.approve("c", "c", "1357")); assert.ok(lock.approve("c", "m", "1593"));
+});
+test("the device's own bell folds a repeat into one line", () => {
+  let L = raiseLocal([], "sync_retried", "Waiting", 1); L = raiseLocal(L, "sync_retried", "Waiting", 2); L = raiseLocal(L, "stock_low", "Rice", 3, "rice");
+  assert.equal(L.length, 2); assert.equal(L.find((l) => l.kind === "sync_retried")!.count, 2);
+  assert.throws(() => raiseLocal(L, "made_up", "x", 4));
+});

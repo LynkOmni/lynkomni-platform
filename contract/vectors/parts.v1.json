@@ -6706,6 +6706,405 @@
    "class": "B"
   },
   {
+   "action": "reprint_receipt",
+   "ask": {
+    "role": "owner"
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "reprint_receipt",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "reprint_receipt",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "reprint_receipt",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "reprint_receipt",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "reprint_receipt",
+   "ask": {
+    "role": "owner",
+    "done_today": 200
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "reprint_receipt",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "reprint_receipt"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "reprint_receipt",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "selling"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "reprint_receipt",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "reprint_receipt",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "reprint_receipt",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "reprint_receipt"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "reprint_receipt",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "reprint_receipt"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "recount_cash",
+   "ask": {
+    "role": "owner"
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "recount_cash",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "recount_cash",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "recount_cash",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "recount_cash",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "recount_cash",
+   "ask": {
+    "role": "owner",
+    "done_today": 20
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "recount_cash",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "recount_cash"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "recount_cash",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "cash"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "recount_cash",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "recount_cash",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "recount_cash",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "recount_cash"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "recount_cash",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "recount_cash"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "hand_over_shift",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "hand_over_shift",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "hand_over_shift",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "hand_over_shift",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "hand_over_shift",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "hand_over_shift",
+   "ask": {
+    "role": "owner",
+    "done_today": 10
+   },
+   "run": false,
+   "needs": "fresh_check",
+   "class": "C"
+  },
+  {
+   "action": "hand_over_shift",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "hand_over_shift"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "hand_over_shift",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "shifts"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "hand_over_shift",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "hand_over_shift",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "hand_over_shift",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "hand_over_shift"
+    ]
+   },
+   "run": false,
+   "needs": "ask_owner",
+   "class": "B"
+  },
+  {
+   "action": "hand_over_shift",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "hand_over_shift"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
    "action": "send_all_money_to_me",
    "ask": {
     "role": "owner"
@@ -7911,6 +8310,214 @@
    },
    "answer": false,
    "class": 5
+  },
+  {
+   "topic": "device_today",
+   "asker": {},
+   "answer": false,
+   "class": 4
+  },
+  {
+   "topic": "device_today",
+   "asker": {
+    "signed_in": true
+   },
+   "answer": false,
+   "class": 4
+  },
+  {
+   "topic": "device_today",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true
+   },
+   "answer": false,
+   "class": 4
+  },
+  {
+   "topic": "device_today",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "owner"
+   },
+   "answer": true,
+   "class": 4
+  },
+  {
+   "topic": "device_today",
+   "asker": {
+    "signed_in": true,
+    "role": "cashier"
+   },
+   "answer": true,
+   "class": 4
+  },
+  {
+   "topic": "device_today",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "manager"
+   },
+   "answer": true,
+   "class": 4
+  },
+  {
+   "topic": "cash_expected",
+   "asker": {},
+   "answer": false,
+   "class": 4
+  },
+  {
+   "topic": "cash_expected",
+   "asker": {
+    "signed_in": true
+   },
+   "answer": false,
+   "class": 4
+  },
+  {
+   "topic": "cash_expected",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true
+   },
+   "answer": false,
+   "class": 4
+  },
+  {
+   "topic": "cash_expected",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "owner"
+   },
+   "answer": true,
+   "class": 4
+  },
+  {
+   "topic": "cash_expected",
+   "asker": {
+    "signed_in": true,
+    "role": "cashier"
+   },
+   "answer": true,
+   "class": 4
+  },
+  {
+   "topic": "cash_expected",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "manager"
+   },
+   "answer": true,
+   "class": 4
+  },
+  {
+   "topic": "queued_items",
+   "asker": {},
+   "answer": false,
+   "class": 2
+  },
+  {
+   "topic": "queued_items",
+   "asker": {
+    "signed_in": true
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "queued_items",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "queued_items",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "owner"
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "queued_items",
+   "asker": {
+    "signed_in": true,
+    "role": "cashier"
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "queued_items",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "manager"
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "device_health",
+   "asker": {},
+   "answer": false,
+   "class": 2
+  },
+  {
+   "topic": "device_health",
+   "asker": {
+    "signed_in": true
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "device_health",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "device_health",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "owner"
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "device_health",
+   "asker": {
+    "signed_in": true,
+    "role": "cashier"
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "device_health",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "manager"
+   },
+   "answer": true,
+   "class": 2
   },
   {
    "topic": "no_such_topic",
@@ -10470,6 +11077,1034 @@
    "group": "credit",
    "tier": "omni",
    "name": "LynkCrest Max"
+  }
+ ],
+ "needs_manager": [
+  {
+   "role": "cashier",
+   "act": "void",
+   "amount": 0,
+   "needs": false
+  },
+  {
+   "role": "cashier",
+   "act": "void",
+   "amount": 1,
+   "needs": true
+  },
+  {
+   "role": "cashier",
+   "act": "void",
+   "amount": 500,
+   "needs": true
+  },
+  {
+   "role": "cashier",
+   "act": "void",
+   "amount": 1000,
+   "needs": true
+  },
+  {
+   "role": "cashier",
+   "act": "void",
+   "amount": 1001,
+   "needs": true
+  },
+  {
+   "role": "cashier",
+   "act": "void",
+   "amount": 1000000000,
+   "needs": true
+  },
+  {
+   "role": "cashier",
+   "act": "refund",
+   "amount": 0,
+   "needs": false
+  },
+  {
+   "role": "cashier",
+   "act": "refund",
+   "amount": 1,
+   "needs": true
+  },
+  {
+   "role": "cashier",
+   "act": "refund",
+   "amount": 500,
+   "needs": true
+  },
+  {
+   "role": "cashier",
+   "act": "refund",
+   "amount": 1000,
+   "needs": true
+  },
+  {
+   "role": "cashier",
+   "act": "refund",
+   "amount": 1001,
+   "needs": true
+  },
+  {
+   "role": "cashier",
+   "act": "refund",
+   "amount": 1000000000,
+   "needs": true
+  },
+  {
+   "role": "cashier",
+   "act": "discount",
+   "amount": 0,
+   "needs": false
+  },
+  {
+   "role": "cashier",
+   "act": "discount",
+   "amount": 1,
+   "needs": false
+  },
+  {
+   "role": "cashier",
+   "act": "discount",
+   "amount": 500,
+   "needs": false
+  },
+  {
+   "role": "cashier",
+   "act": "discount",
+   "amount": 1000,
+   "needs": false
+  },
+  {
+   "role": "cashier",
+   "act": "discount",
+   "amount": 1001,
+   "needs": true
+  },
+  {
+   "role": "cashier",
+   "act": "discount",
+   "amount": 1000000000,
+   "needs": true
+  },
+  {
+   "role": "stock_staff",
+   "act": "void",
+   "amount": 0,
+   "needs": false
+  },
+  {
+   "role": "stock_staff",
+   "act": "void",
+   "amount": 1,
+   "needs": true
+  },
+  {
+   "role": "stock_staff",
+   "act": "void",
+   "amount": 500,
+   "needs": true
+  },
+  {
+   "role": "stock_staff",
+   "act": "void",
+   "amount": 1000,
+   "needs": true
+  },
+  {
+   "role": "stock_staff",
+   "act": "void",
+   "amount": 1001,
+   "needs": true
+  },
+  {
+   "role": "stock_staff",
+   "act": "void",
+   "amount": 1000000000,
+   "needs": true
+  },
+  {
+   "role": "stock_staff",
+   "act": "refund",
+   "amount": 0,
+   "needs": false
+  },
+  {
+   "role": "stock_staff",
+   "act": "refund",
+   "amount": 1,
+   "needs": true
+  },
+  {
+   "role": "stock_staff",
+   "act": "refund",
+   "amount": 500,
+   "needs": true
+  },
+  {
+   "role": "stock_staff",
+   "act": "refund",
+   "amount": 1000,
+   "needs": true
+  },
+  {
+   "role": "stock_staff",
+   "act": "refund",
+   "amount": 1001,
+   "needs": true
+  },
+  {
+   "role": "stock_staff",
+   "act": "refund",
+   "amount": 1000000000,
+   "needs": true
+  },
+  {
+   "role": "stock_staff",
+   "act": "discount",
+   "amount": 0,
+   "needs": false
+  },
+  {
+   "role": "stock_staff",
+   "act": "discount",
+   "amount": 1,
+   "needs": true
+  },
+  {
+   "role": "stock_staff",
+   "act": "discount",
+   "amount": 500,
+   "needs": true
+  },
+  {
+   "role": "stock_staff",
+   "act": "discount",
+   "amount": 1000,
+   "needs": true
+  },
+  {
+   "role": "stock_staff",
+   "act": "discount",
+   "amount": 1001,
+   "needs": true
+  },
+  {
+   "role": "stock_staff",
+   "act": "discount",
+   "amount": 1000000000,
+   "needs": true
+  },
+  {
+   "role": "manager",
+   "act": "void",
+   "amount": 0,
+   "needs": false
+  },
+  {
+   "role": "manager",
+   "act": "void",
+   "amount": 1,
+   "needs": false
+  },
+  {
+   "role": "manager",
+   "act": "void",
+   "amount": 500,
+   "needs": false
+  },
+  {
+   "role": "manager",
+   "act": "void",
+   "amount": 1000,
+   "needs": false
+  },
+  {
+   "role": "manager",
+   "act": "void",
+   "amount": 1001,
+   "needs": false
+  },
+  {
+   "role": "manager",
+   "act": "void",
+   "amount": 1000000000,
+   "needs": false
+  },
+  {
+   "role": "manager",
+   "act": "refund",
+   "amount": 0,
+   "needs": false
+  },
+  {
+   "role": "manager",
+   "act": "refund",
+   "amount": 1,
+   "needs": false
+  },
+  {
+   "role": "manager",
+   "act": "refund",
+   "amount": 500,
+   "needs": false
+  },
+  {
+   "role": "manager",
+   "act": "refund",
+   "amount": 1000,
+   "needs": false
+  },
+  {
+   "role": "manager",
+   "act": "refund",
+   "amount": 1001,
+   "needs": false
+  },
+  {
+   "role": "manager",
+   "act": "refund",
+   "amount": 1000000000,
+   "needs": false
+  },
+  {
+   "role": "manager",
+   "act": "discount",
+   "amount": 0,
+   "needs": false
+  },
+  {
+   "role": "manager",
+   "act": "discount",
+   "amount": 1,
+   "needs": false
+  },
+  {
+   "role": "manager",
+   "act": "discount",
+   "amount": 500,
+   "needs": false
+  },
+  {
+   "role": "manager",
+   "act": "discount",
+   "amount": 1000,
+   "needs": false
+  },
+  {
+   "role": "manager",
+   "act": "discount",
+   "amount": 1001,
+   "needs": false
+  },
+  {
+   "role": "manager",
+   "act": "discount",
+   "amount": 1000000000,
+   "needs": false
+  }
+ ],
+ "offline_decide": [
+  {
+   "action": "explain_charge",
+   "ask": {
+    "role": "person"
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "explain_charge",
+   "ask": {
+    "role": "person",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "resend_receipt",
+   "ask": {
+    "role": "owner"
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "resend_receipt",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "rerun_sync",
+   "ask": {
+    "role": "owner"
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "rerun_sync",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "reconnect_device",
+   "ask": {
+    "role": "owner"
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "reconnect_device",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "mute_notification_kind",
+   "ask": {
+    "role": "person"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "device"
+  },
+  {
+   "action": "mute_notification_kind",
+   "ask": {
+    "role": "person",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "snooze_notification",
+   "ask": {
+    "role": "person"
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "snooze_notification",
+   "ask": {
+    "role": "person",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "end_plan_at_period_end",
+   "ask": {
+    "role": "person"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "queue"
+  },
+  {
+   "action": "end_plan_at_period_end",
+   "ask": {
+    "role": "person",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "change_language",
+   "ask": {
+    "role": "person"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "queue"
+  },
+  {
+   "action": "change_language",
+   "ask": {
+    "role": "person",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "stop_location_share",
+   "ask": {
+    "role": "person"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "queue"
+  },
+  {
+   "action": "stop_location_share",
+   "ask": {
+    "role": "person",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "sign_out_other_device",
+   "ask": {
+    "role": "person"
+   },
+   "run": false,
+   "needs": "wait_for_network",
+   "offline": null
+  },
+  {
+   "action": "sign_out_other_device",
+   "ask": {
+    "role": "person",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "wait_for_network",
+   "offline": null
+  },
+  {
+   "action": "export_my_data",
+   "ask": {
+    "role": "person"
+   },
+   "run": false,
+   "needs": "wait_for_network",
+   "offline": null
+  },
+  {
+   "action": "export_my_data",
+   "ask": {
+    "role": "person",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "wait_for_network",
+   "offline": null
+  },
+  {
+   "action": "close_account",
+   "ask": {
+    "role": "person"
+   },
+   "run": false,
+   "needs": "wait_for_network",
+   "offline": null
+  },
+  {
+   "action": "close_account",
+   "ask": {
+    "role": "person",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "wait_for_network",
+   "offline": null
+  },
+  {
+   "action": "lock_everything",
+   "ask": {
+    "role": "person"
+   },
+   "run": false,
+   "needs": "wait_for_network",
+   "offline": null
+  },
+  {
+   "action": "lock_everything",
+   "ask": {
+    "role": "person",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "wait_for_network",
+   "offline": null
+  },
+  {
+   "action": "recover_account",
+   "ask": {
+    "role": "person"
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "recover_account",
+   "ask": {
+    "role": "person",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "change_passkeys",
+   "ask": {
+    "role": "person"
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "change_passkeys",
+   "ask": {
+    "role": "person",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "void_sale_within_rules",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "queue"
+  },
+  {
+   "action": "void_sale_within_rules",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "correct_price",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "queue"
+  },
+  {
+   "action": "correct_price",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "correct_stock_quantity",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "queue"
+  },
+  {
+   "action": "correct_stock_quantity",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "release_stale_hold",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "queue"
+  },
+  {
+   "action": "release_stale_hold",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "retire_device",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "queue"
+  },
+  {
+   "action": "retire_device",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "enrol_device",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "wait_for_network",
+   "offline": null
+  },
+  {
+   "action": "enrol_device",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "wait_for_network",
+   "offline": null
+  },
+  {
+   "action": "wipe_lost_device",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "wait_for_network",
+   "offline": null
+  },
+  {
+   "action": "wipe_lost_device",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "wait_for_network",
+   "offline": null
+  },
+  {
+   "action": "refund_payment",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "refund_payment",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "agent_request",
+   "ask": {
+    "role": "agent"
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "agent_request",
+   "ask": {
+    "role": "agent",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "issue_credit_note",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "queue"
+  },
+  {
+   "action": "issue_credit_note",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "file_tax_return",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "file_tax_return",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "run_payroll",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "run_payroll",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "book_redelivery",
+   "ask": {
+    "role": "person"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "queue"
+  },
+  {
+   "action": "book_redelivery",
+   "ask": {
+    "role": "person",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "freeze_card",
+   "ask": {
+    "role": "person"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "queue"
+  },
+  {
+   "action": "freeze_card",
+   "ask": {
+    "role": "person",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "request_credit",
+   "ask": {
+    "role": "person"
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "request_credit",
+   "ask": {
+    "role": "person",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "exchange_request",
+   "ask": {
+    "role": "person"
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "exchange_request",
+   "ask": {
+    "role": "person",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "rotate_api_key",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "queue"
+  },
+  {
+   "action": "rotate_api_key",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "reprint_receipt",
+   "ask": {
+    "role": "owner"
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "reprint_receipt",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "recount_cash",
+   "ask": {
+    "role": "owner"
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "recount_cash",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "hand_over_shift",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "queue"
+  },
+  {
+   "action": "hand_over_shift",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
   }
  ]
 }

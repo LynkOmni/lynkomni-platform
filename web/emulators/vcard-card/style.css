@@ -27,3 +27,12 @@ button[disabled] { opacity: .5; cursor: not-allowed; }
 .stepup { border: 1px solid var(--border-strong); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
 .soon { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
 @media (prefers-reduced-motion: reduce) { .card3d { transition: none; } }
+/* MASTER UPDATE section 3: the twelve sample cards and Get a card */
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+.thumb { display: grid; gap: 4px; padding: 4px; border: 2px solid var(--border-subtle); border-radius: 10px; background: var(--bg-surface); color: var(--text-primary); cursor: pointer; min-height: 44px; }
+.thumb.on { border-color: var(--brand-primary); }
+.thumb svg { width: 100%; height: auto; display: block; }
+.thumb .tl { font: 600 12px var(--font-body); overflow-wrap: anywhere; }
+.fieldrow { display: grid; gap: 4px; margin: 6px 0; }
+.fieldrow select { min-height: 44px; border-radius: 10px; border: 1px solid var(--border-input); background: var(--bg-surface); color: var(--text-primary); font: inherit; padding: 0 8px; max-width: 100%; }
+.fields { margin: 6px 0; padding-inline-start: 18px; }

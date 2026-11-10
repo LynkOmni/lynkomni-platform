@@ -10,6 +10,9 @@ import { chooseInterface } from "../../../ts/src/interfaces.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { chPage, chRender, chStart, chStep, parseSms } from "../../../ts/src/channels.js";
 import type { ChState } from "../../../ts/src/channels.js";
+import { bpPage, bpStart, bpStep, textNotification } from "../../../ts/src/basicphone.js";
+import type { BpCtx, BpState, PinCheck } from "../../../ts/src/basicphone.js";
+import { check } from "../../../ts/src/usernames.js";
 
 declare const DATA: Build;
 /** Shell parts on a button phone (41 B, decided 9 November 2026): there is no touch screen, so "find or do" is the numbered menu
@@ -22,7 +25,17 @@ const W = new Words(DATA.i18n, () => S.lang); const t = W.t;
  *  the lighter app, and a basic phone with no apps reaches LynkPOS by USSD, text message or a voice menu (core/channels.py). */
 type Kind = "button-phone" | "feature-phone" | "basic-phone";
 const KINDS: Kind[] = ["button-phone", "feature-phone", "basic-phone"];
-const PH = { kind: "button-phone" as Kind, mode: "idle" as "idle" | "ussd" | "sms" | "voice", st: chStart() as ChState, input: "", sms: "", reply: "", ended: false };
+const PH = { kind: "button-phone" as Kind, mode: "idle" as "idle" | "ussd" | "sms" | "voice" | "acct", st: chStart() as ChState, input: "", sms: "", reply: "", ended: false,
+  // MASTER UPDATE section 3: the LynkOmni account on a basic phone (identity/basic_phone.py): sign up, sign in, help, the bell
+  acct: bpStart() as BpState, wrong: 0, read: new Set<string>(), created: false };
+const ACCT_PIN = "4719";                 // the sample account's PIN
+const SAMPLE_USER = "ama.shop";          // "*" types it: a basic phone types letters by tapping a key several times
+const acctCtx = (): BpCtx => ({ age: 18, lines: [["n1", t("bp_new_sign_in")], ["n2", t("bp_low_rice")], ["n3", t("bp_day_closed")]].filter(([nid]) => !PH.read.has(nid!)) as [string, string][], recovery: "7F3K-9Q2M-X81B-4TZC", case: "LOCASE-2101-7710-0042" });
+const acctRules = {
+  pinCheck: (p: string): PinCheck => { if (p === ACCT_PIN) { PH.wrong = 0; return "ok"; } PH.wrong += 1; return PH.wrong >= 10 ? "locked" : ["wrong", 10 - PH.wrong]; },
+  usernameCheck: (u: string): string | null => { const r = check(u); return r.ok ? null : r.reason; },
+  taken: (u: string): boolean => u === "mamas.kitchen",
+};
 const iface = (): string => chooseInterface(DEVICES, { registered: { device: PH.kind, version: "non_touch" } }).interface;
 const PIN = "1234";
 const C = new Country(DATA, () => S.country, () => S.lang);
@@ -45,7 +58,11 @@ function chCtx() {
 function channelBody(): string {
   const head = `<div class="bhead"><span>${esc(t("ch_idle"))}</span><span>${esc(S.link === "none" ? t("offline") : "")}</span></div>`;
   const soft = (l: string, r: string): string => `<div class="bsoft"><span>${esc(l)}</span><span>${esc(r)}</span></div>`;
-  if (PH.mode === "idle") return `${head}<ol class="bmenu">${[t("ch_dial"), t("ch_text"), t("ch_voice")].map((w, i) => `<li class="${i === S.sel ? "sel" : ""}">${i + 1}. ${esc(w)}</li>`).join("")}</ol><p class="bnote">${esc(t("ch_sandbox"))}</p>${soft(t("confirm"), "")}`;
+  if (PH.mode === "acct") {
+    const text = chRender(bpPage(PH.acct, acctCtx()), (k) => t(k));
+    return `${head}<pre class="bussd" role="status">${esc(text)}</pre>${PH.ended ? `<p class="bnote">${esc(t("ch_session_ended"))}</p>` : `<p class="breply">${esc(t("ch_reply"))}: <strong>${esc(PH.acct.screen === "pin" || PH.acct.screen === "new_pin" || PH.acct.screen === "pin_again" ? "•".repeat(PH.input.length) : PH.input)}</strong>_</p>${PH.acct.screen === "username" ? `<p class="bnote">${esc(t("bp_star_hint", { name: SAMPLE_USER }))}</p>` : ""}`}${soft(t("ch_send"), t("back"))}`;
+  }
+  if (PH.mode === "idle") return `${head}<ol class="bmenu">${[t("ch_dial"), t("ch_text"), t("ch_voice"), t("bp_dial_account")].map((w, i) => `<li class="${i === S.sel ? "sel" : ""}">${i + 1}. ${esc(w)}</li>`).join("")}</ol><p class="bnote">${esc(t("ch_sandbox"))}</p>${soft(t("confirm"), "")}`;
   if (PH.mode === "sms") return `${head}<p class="bt">${esc(t("ch_message_to"))}</p><p class="bsms">${esc(PH.sms)}_</p>${PH.reply ? `<p class="bsms in" role="status">${esc(PH.reply)}</p>` : ""}${soft(t("ch_send"), t("back"))}`;
   const text = chRender(chPage(PH.st, chCtx()), (k) => t(k));
   const spoken = PH.mode === "voice" ? `<p class="bnote">${icon("ui-mic")} ${esc(t("ch_spoken"))}</p>` : "";
@@ -61,10 +78,10 @@ function sellFromChannel(prod: number, qtyMilli: number): void {
 function channelAct(a: string): void {
   const n = /^d(\d)$/.exec(a);
   if (PH.mode === "idle") {
-    const pickMode = (i: number): void => { PH.mode = (["ussd", "sms", "voice"] as const)[i] ?? "ussd"; PH.st = chStart(); PH.input = ""; PH.sms = ""; PH.reply = ""; PH.ended = false; };
-    if (n && Number(n[1]) >= 1 && Number(n[1]) <= 3) pickMode(Number(n[1]) - 1);
+    const pickMode = (i: number): void => { PH.mode = (["ussd", "sms", "voice", "acct"] as const)[i] ?? "ussd"; PH.st = chStart(); PH.acct = bpStart(); PH.input = ""; PH.sms = ""; PH.reply = ""; PH.ended = false; };
+    if (n && Number(n[1]) >= 1 && Number(n[1]) <= 4) pickMode(Number(n[1]) - 1);
     else if (a === "call" || a === "soft:left") pickMode(S.sel);
-    else if (a === "nav:up") S.sel = Math.max(0, S.sel - 1); else if (a === "nav:down") S.sel = Math.min(2, S.sel + 1);
+    else if (a === "nav:up") S.sel = Math.max(0, S.sel - 1); else if (a === "nav:down") S.sel = Math.min(3, S.sel + 1);
     draw(); return;
   }
   if (a === "end" || a === "soft:right") { if (PH.mode === "sms" && PH.sms) PH.sms = PH.sms.slice(0, -1); else { PH.mode = "idle"; S.sel = 0; } draw(); return; }
@@ -80,6 +97,20 @@ function channelAct(a: string): void {
     draw(); return;
   }
   if (PH.ended) { PH.mode = "idle"; S.sel = 0; draw(); return; }
+  if (PH.mode === "acct") {
+    if (n) PH.input = (PH.input + n[1]).slice(0, 30);
+    else if (a === "star" && PH.acct.screen === "username") PH.input = SAMPLE_USER;
+    else if (a === "call" || a === "soft:left") {
+      const [st, ends, action] = bpStep(PH.acct, PH.input, acctCtx(), acctRules); PH.input = "";
+      if (action && "create" in action) { PH.created = true; LOG.emit("AccountCreated", { username: action.create.username, channel: "ussd" }, "server"); }
+      if (action && "sign_in" in action) LOG.emit("SessionStarted", { site: "basic_phone", channel: "ussd" }, "server");
+      if (action && "read" in action) { PH.read.add(action.read); LOG.emit("NotificationRead", { nid: action.read, channel: "ussd" }, "server"); }
+      if (action && "hand_over" in action) LOG.emit("SupportCaseOpened", { case: "LOCASE-2101-7710-0042", channel: "ussd" }, "server");
+      if (action && "send_link" in action) PH.reply = textNotification(t("bp_link_sent"), null, (k) => t(k));
+      PH.acct = st; PH.ended = ends;
+    }
+    draw(); return;
+  }
   if (n) PH.input = (PH.input + n[1]).slice(0, 4);
   else if (a === "call" || a === "soft:left") {
     const [st, ends, action] = chStep(PH.st, PH.input, chCtx()); PH.input = "";

@@ -276,6 +276,173 @@
     "to_version"
    ],
    "note": "LynkDriver updated; overdue hardware comes back from its virtual stand-in"
+  },
+  "StaffAddedOnDevice": {
+   "payload": [
+    "device_id",
+    "person",
+    "role",
+    "by"
+   ],
+   "note": "A staff member was added on the device itself by the owner or a manager, also offline (MASTER UPDATE section 3)."
+  },
+  "StaffRemovedOnDevice": {
+   "payload": [
+    "device_id",
+    "person",
+    "by"
+   ],
+   "note": "A staff member was removed on the device itself, also offline."
+  },
+  "StaffPinReset": {
+   "payload": [
+    "device_id",
+    "person",
+    "by"
+   ],
+   "note": "A forgotten staff PIN was reset on the spot by the owner or a manager; never the owner's own PIN."
+  },
+  "DuressSignalled": {
+   "payload": [
+    "device_id",
+    "person",
+    "path",
+    "at"
+   ],
+   "note": "A duress PIN was used; sent quietly by the first path that appeared, for the owner's trusted contacts. Never calls the police by itself."
+  },
+  "OfflineLimitChanged": {
+   "payload": [
+    "device_id",
+    "role",
+    "limit",
+    "value"
+   ],
+   "note": "The owner lowered a role's offline limit."
+  },
+  "OverLimitApproved": {
+   "payload": [
+    "device_id",
+    "person",
+    "act",
+    "amount",
+    "by"
+   ],
+   "note": "A manager's PIN on the same device approved a void, refund or discount above the staff member's offline limit."
+  },
+  "DeviceLockRequested": {
+   "payload": [
+    "device_id",
+    "by_role"
+   ],
+   "note": "The owner or a manager asked for a device to be locked from afar; carried out when the device next connects."
+  },
+  "DeviceWipeRequested": {
+   "payload": [
+    "device_id",
+    "unsent"
+   ],
+   "note": "The owner asked for a device to be wiped, after a fresh check and after being told how many records were never sent."
+  },
+  "DeviceWiped": {
+   "payload": [
+    "device_id",
+    "unsent_lost"
+   ],
+   "note": "The device destroyed its keys: its records can never be read again."
+  },
+  "DeviceIntegrityFailed": {
+   "payload": [
+    "device_id",
+    "failed"
+   ],
+   "note": "The app was altered or the device is unlocked at root level; its uploads wait for the owner's review."
+  },
+  "OfflineBackupMade": {
+   "payload": [
+    "device_id",
+    "place",
+    "count"
+   ],
+   "note": "An encrypted backup readable only by the owner went to a second device or a memory card."
+  },
+  "AssistActionQueued": {
+   "payload": [
+    "device_id",
+    "action",
+    "person",
+    "expires_at"
+   ],
+   "note": "LynkAssist offline: confirmed now, sealed on the device, carried out when the network returns. Never shown as done before that."
+  },
+  "AssistActionSettled": {
+   "payload": [
+    "device_id",
+    "action",
+    "outcome"
+   ],
+   "note": "A queued LynkAssist action reached the cloud: done, expired, or a conflict for the person to choose."
+  },
+  "OwnerAsked": {
+   "payload": [
+    "request_id",
+    "action",
+    "person",
+    "role",
+    "facts"
+   ],
+   "note": "Ask the owner: a staff request above their role, with the facts, waiting for one tap."
+  },
+  "OwnerAnswered": {
+   "payload": [
+    "request_id",
+    "answer",
+    "by"
+   ],
+   "note": "The owner confirmed or denied a staff request."
+  },
+  "StandingPermissionSet": {
+   "payload": [
+    "action",
+    "on",
+    "per_day",
+    "max_minor",
+    "by"
+   ],
+   "note": "The owner let LynkAssist do a class B fix without asking, within limits; every run is still recorded, told and undoable."
+  },
+  "AssistSwitched": {
+   "payload": [
+    "target",
+    "on",
+    "by"
+   ],
+   "note": "The owner switched a LynkAssist action or area off or on for the business."
+  },
+  "ThresholdChanged": {
+   "payload": [
+    "threshold",
+    "value",
+    "by"
+   ],
+   "note": "The owner changed a notification threshold (low stock, cash difference, large void, refund)."
+  },
+  "DocumentSent": {
+   "payload": [
+    "document_id",
+    "kind",
+    "channel",
+    "by"
+   ],
+   "note": "A receipt or business document went to the customer by the message channel they chose."
+  },
+  "OwnerSummaryBuilt": {
+   "payload": [
+    "business_id",
+    "period",
+    "channel"
+   ],
+   "note": "The owner's daily or weekly summary was built from the day's records and sent by the channel the owner picked."
   }
  }
 }

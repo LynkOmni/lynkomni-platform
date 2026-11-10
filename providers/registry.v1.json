@@ -1966,6 +1966,21 @@
       "why_not_now": "Who may take over a business when its owner dies or is lost depends on each country's inheritance and company law; a lawyer must confirm the rule in each country first. Until then identity/protection.py shows the successor as coming soon.",
       "placeholders": [],
       "done_when": "A lawyer confirms the rule for a country and its country pack sets successor_confirmed true; identity/protection.py then offers it there."
+    },
+    {
+      "id": "device_attestation",
+      "name": "App and device integrity checks on real phones and terminals",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Proving that the app was not altered and the device is not unlocked at root level needs each operating system's attestation service and the signed release builds of the native apps (build section 14). identity/device_access.py integrity_check runs on a sandbox report until then; an altered app's uploads are already held for the owner.",
+      "placeholders": [
+        {
+          "file": "identity/device_access.py",
+          "token": "SANDBOX ATTESTATION",
+          "note": "integrity_check reads a sandbox attestation report"
+        }
+      ],
+      "done_when": "The native apps are signed (hardware_signing) and send the operating system's attestation; the cloud verifies it before trusting a device's uploads."
     }
   ],
   "user_actions": [

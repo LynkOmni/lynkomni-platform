@@ -11,6 +11,10 @@ import { designedState, panelShell, sampleAccount } from "../../../ts/src/device
 import type { Entry } from "../../../ts/src/shell.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
+import { deviceBanners, knowledgeFor, raiseLocal } from "../../../ts/src/devicekit.js";
+import type { Line as Notice } from "../../../ts/src/notify.js";
+/** MASTER UPDATE section 3: the kitchen screen's own bell and banners (lines from the register, folded while offline). */
+let LINES: Notice[] = [];
 
 declare const DATA: Build & { entitlements: Record<string, PosEntitlement> };
 const TIERS = ["free", "plus", "pro", "max"] as const;
@@ -38,6 +42,7 @@ function incoming(table?: string): void {
 }
 function ready(tk: Ticket, line?: Line): void {
   for (const l of line ? [line] : tk.lines) if (!l.ready) { l.ready = true; LOG.emit("KitchenItemReady", { order_id: tk.id, line_no: l.lineNo }); }
+  if (!S.online) LINES = raiseLocal(LINES, "sync_retried", t("k_waiting"), Date.now());
   if (tk.lines.every((l) => l.ready)) tk.bumped = true;
   S.sel = Math.min(S.sel, Math.max(open().length - 1, 0)); draw();
 }
@@ -49,7 +54,8 @@ const DSH = panelShell({
   pending: () => LOG.pending().count, lastSync: () => LOG.events.find((e) => e.sync === "accepted")?.at ?? null,
   screen: () => ({ id: kitchenOutput(lim()) === "screen" ? "kitchen" : "kitchen_printed", title: shellTitle(), path: "/sell/kitchen" }), entries: (): Entry[] => [...open().map((tk): Entry => ({ id: tk.id, kind: "order", title: t("table", { label: tk.table }), subtitle: tk.lines.map((x) => t(x.name)).join(", "), act: `focus:${tk.id}` })), { id: "ready", kind: "action", title: t("ready"), act: "bump:ready" }],
   account: () => sampleAccount(t, "cashier", ["cashier", "manager", "owner"], t("sample_shop"), S.dark ? "dark" : "light", DATA.i18n[S.lang]?.native ?? S.lang, C.pack().sample ? t("sample_country") : C.pack().name),
-  run: (a) => {  act(a); }, redraw: () => draw(), firstRun: true,
+  run: (a) => { if (a.startsWith("ntf:")) { const nid = a.split(":")[2]; LINES.forEach((l) => { if (l.nid === nid || a === "ntf:allread") { l.read = true; l.acknowledged = true; } }); return; } act(a); }, redraw: () => draw(), firstRun: true,
+  lines: () => LINES, knowledge: () => knowledgeFor(DATA.i18n, S.lang), crumbLabel: (p) => t(p === "/" ? "sample_shop" : p === "/sell" ? "sell" : "kitchen_queue"),
 });
 const shellTitle = (): string => document.querySelector("#screen h1, #screen h2")?.textContent?.trim() || t("sample_shop");
 const mins = (ms: number): string => String(Math.max(0, Math.floor((Date.now() - ms) / 60000)));
@@ -58,7 +64,7 @@ function screen(): string {
   const l = lim();
   if (kitchenOutput(l) !== "screen") return `<div class="kempty"><h2>${esc(t("kitchen"))}</h2><p>${esc(t("printed_tickets"))}</p><pre class="kticket">${esc(open().slice(0, 2).map((tk) => `${t("table", { label: tk.table })}\n${tk.lines.map((x) => `${x.qty} x ${t(x.name)}`).join("\n")}`).join("\n\n") || t("all_ready"))}</pre></div>`;
   const screens = l.kitchenScreens === null ? "∞" : String(l.kitchenScreens);
-  return `<header class="khead"><h1>${esc(t("kitchen_queue"))}</h1><span class="kst">${esc(t("kitchen"))} ${S.station}/${screens}</span>${DSH.bar()}</header>
+  return `<header class="khead"><h1>${esc(t("kitchen_queue"))}</h1><span class="kst">${esc(t("kitchen"))} ${S.station}/${screens}</span>${DSH.bar()}</header>${DSH.crumbs(true)}${deviceBanners(LINES, t, (id) => icon(id))}
     <div class="tickets">${open().map((tk, i) => `<article class="ticket${i === S.sel ? " sel" : ""}${Date.now() - tk.at > 10 * 60000 ? " late" : ""}" aria-label="${esc(t("table", { label: tk.table }))}"><header><strong>${esc(t("table", { label: tk.table }))}</strong><span>${esc(mins(tk.at))} min</span></header>
       <ul>${tk.lines.map((x) => `<li class="${x.ready ? "done" : ""}"><button data-act="line:${tk.id}:${x.lineNo}" ${x.ready ? "disabled" : ""}><span class="q">${x.qty}</span><span class="nm">${esc(t(x.name))}${x.mods ? `<small>${esc(t(x.mods))}</small>` : ""}</span>${x.ready ? chip("confirmed") : ""}</button></li>`).join("")}</ul>
       <button class="kready" data-act="all:${tk.id}">${esc(t("ready"))}</button></article>`).join("") || `<p class="kall">${esc(t("all_ready"))}</p>${designedState("empty", t, DATA.statePictures, S.dark, { label: t("help"), act: "dsh:help" })}`}</div>`;

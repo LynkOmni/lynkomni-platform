@@ -177,6 +177,47 @@
     "signed_in": true
    },
    "answer": false
+  },
+  {
+   "q": "How much did this till sell today?",
+   "topic": "device_today",
+   "asker": {
+    "signed_in": true,
+    "role": "cashier"
+   },
+   "answer": true
+  },
+  {
+   "q": "How much did this till sell today?",
+   "topic": "device_today",
+   "asker": {
+    "signed_in": true,
+    "role": "stock_staff"
+   },
+   "answer": false
+  },
+  {
+   "q": "How much cash should be in the drawer?",
+   "topic": "cash_expected",
+   "asker": {
+    "signed_in": true,
+    "role": "manager"
+   },
+   "answer": true
+  },
+  {
+   "q": "What is still waiting to be sent?",
+   "topic": "queued_items",
+   "asker": {
+    "signed_in": true
+   },
+   "answer": true
+  },
+  {
+   "q": "Is this device healthy?",
+   "topic": "device_health",
+   "asker": {},
+   "answer": false
   }
  ]
 }

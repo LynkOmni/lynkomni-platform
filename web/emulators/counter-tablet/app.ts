@@ -14,6 +14,17 @@ import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, pick, plai
 import type { Build } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { designedState, panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
+import { StaffLock, deviceBanners, knowledgeFor, raiseLocal, staffPicker } from "../../../ts/src/devicekit.js";
+import type { Line } from "../../../ts/src/notify.js";
+/** MASTER UPDATE section 3: each person their own PIN on the tablet (samples; a real device keeps only a slow salted hash).
+ *  8642 is Aline's sample duress PIN: the quiet limited view (selling for cash) opens and the alert leaves by the first path out. */
+const STAFF = new StaffLock([
+  { person: "c1", name: "Aline", role: "cashier", pin: "1234", duress: "8642" },
+  { person: "m1", name: "Eric", role: "manager", pin: "2580" },
+  { person: "o1", name: "Grace", role: "owner", pin: "4719" },
+]);
+let WHO = "c1", PICKING = false, LIMITED = false, PINNOTE = "";
+let LINES: Line[] = [];
 import type { Entry } from "../../../ts/src/shell.js";
 import { DeviceMode } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
@@ -133,8 +144,10 @@ const DSH = panelShell({
     ...S.sales.slice(0, 5).map((x): Entry => ({ id: x.sale.sale_id, kind: "order", title: x.sale.receipt_number_local, subtitle: money(x.sale.total), act: "tab:home" })),
   ],
   account: () => sampleAccount(t, "cashier", ["cashier", "manager", "owner"], t("sample_shop"), S.dark ? "dark" : "light", DATA.i18n[S.lang]?.native ?? S.lang, C.pack().sample ? t("sample_country") : C.pack().name),
-  run: (a) => { if (a === "role:cashier" || a.startsWith("role:") || a.startsWith("business:")) return; act(a); }, redraw: () => { syncPanel(); draw(); }, firstRun: true,
+  run: (a) => { if (a === "role:cashier" || a.startsWith("role:") || a.startsWith("business:")) return; if (a.startsWith("ntf:")) { const nid = a.split(":")[2]; LINES.forEach((l) => { if (l.nid === nid || a === "ntf:allread") { l.read = true; l.acknowledged = true; } }); return; } act(a); }, redraw: () => { syncPanel(); draw(); }, firstRun: true,
+  lines: () => LINES, knowledge: () => knowledgeFor(DATA.i18n, S.lang), crumbLabel: (p) => t(CRUMB[p] ?? "sample_shop"),
 });
+const CRUMB: Record<string, string> = { "/": "sample_shop", "/sell": "sell", "/stock": "stock", "/business": "business", "/sell/payment": "pay", "/sell/receipt": "receipt", "/sell/shifts": "count_cash", "/sell/tables": "tables", "/sell/kitchen": "kitchen", "/business/team": "staff", "/business/daily-close": "day_close", "/crm": "customers" };
 function syncPanel(): void { ($("#cLang") as HTMLSelectElement).value = S.lang; ($("#cDark") as HTMLInputElement).checked = S.dark; ($("#cOnline") as HTMLInputElement).checked = S.online; }
 function tabBar(): string {
   const tabs = TABS[S.type];
@@ -143,7 +156,7 @@ function tabBar(): string {
 }
 function top(title: string): string {
   return `<header class="top">${brandMark(DATA.brand.places, "app-top-bar", S.dark, "brandmark")}<h1>${esc(title)}</h1>${S.practice ? `<span class="practice">${esc(t("practice"))}</span>` : ""}
-    ${S.unlocked ? DSH.bar() : DSH.bar({ search: false, account: false })}</header>`;
+    ${S.unlocked ? DSH.bar() : DSH.bar({ search: false, account: false })}</header>${S.unlocked ? DSH.crumbs(false) + deviceBanners(LINES, t, (id) => icon(id)) : ""}`;
 }
 function sellScreen(): string {
   const cats = ["all", "food", "drinks", "home"];
@@ -256,12 +269,14 @@ function voiceScreen(): string {
   return `<div class="paybox center"><span class="bigcheck">${icon("ui-mic")}</span><h2>${esc(t("voice"))}</h2><p class="note">${esc(t("voice_hint"))}</p>${S.heard ? `<p>${esc(t("voice_heard", { text: S.heard }))}</p>` : ""}
     <div class="row"><button class="primary" data-act="listen">${icon("ui-mic")}${esc(t("voice"))}</button><button class="link" data-act="back">${esc(t("basket"))}</button></div></div>`;
 }
-function lockScreen(): string {
-  return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.dark, "locklogo")}<h1>${esc(t("enter_pin"))}</h1><p class="note">${esc(S.idleTicks ? t("locked_idle") : "")}</p><div class="dots">${[0, 1, 2, 3].map((i) => `<i class="${S.pin.length > i ? "on" : ""}"></i>`).join("")}</div>
+function lockedScreen(): string {
+  if (PICKING) return `<div class="lock">${staffPicker(STAFF.staff, t, (id) => icon(id))}</div>`;
+  const me = STAFF.find(WHO);
+  return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.dark, "locklogo")}<p class="who">${icon("ui-user")}<span>${esc(me?.name ?? "")} · ${esc(t(`role_${me?.role ?? "cashier"}`))}</span><button class="link" data-act="staff:change">${esc(t("dk_change"))}</button></p><h1>${esc(t("enter_pin"))}</h1><p class="note" role="alert">${esc(PINNOTE || (S.idleTicks ? t("locked_idle") : ""))}</p><div class="dots">${[0, 1, 2, 3].map((i) => `<i class="${S.pin.length > i ? "on" : ""}"></i>`).join("")}</div>
     <div class="soft">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => `<button data-act="d${d}">${d}</button>`).join("")}<button data-act="clear" aria-label="${esc(t("cancel"))}">${icon("ui-arrow-left")}</button><button data-act="d0">0</button><button data-act="enter" aria-label="${esc(t("unlock"))}">${icon("ui-check")}</button></div><p class="hint">PIN 1234</p></div>`;
 }
 function page(): string {
-  if (!S.unlocked) return lockScreen();
+  if (!S.unlocked) return lockedScreen();
   switch (S.view) {
     case "pay": return payScreen(); case "cash": return cashScreen(); case "waiting": return waitingScreen(); case "done": return doneScreen();
     case "shift": return shiftScreen(); case "table": return tableScreen(); case "dayclose": return dayCloseScreen();
@@ -298,13 +313,20 @@ function act(a: string): void {
   if (!S.unlocked) {
     if (k.startsWith("d") && k.length === 2) S.pin = (S.pin + k[1]).slice(0, 4);
     else if (k === "clear") S.pin = S.pin.slice(0, -1);
-    else if (k === "enter" || S.pin.length === 4) { if (S.pin === "1234") { S.unlocked = true; S.view = "main"; S.tab = S.type === "restaurant" ? "tables" : "sell"; } else { S.pin = ""; toast(t("wrong_pin")); return; } }
-    if (S.pin.length === 4 && !S.unlocked) { if (S.pin === "1234") { S.unlocked = true; S.view = "main"; } else { S.pin = ""; toast(t("wrong_pin")); return; } }
+    else if (k === "staff" && v === "change") PICKING = true;
+    else if (k === "staff" && v === "pick") { WHO = v2; PICKING = false; S.pin = ""; PINNOTE = ""; }
+    if ((k === "enter" || S.pin.length === 4) && S.pin) {
+      const r = STAFF.signIn(WHO, S.pin, Date.now()); S.pin = "";
+      if (r.ok) { S.unlocked = true; S.view = "main"; LIMITED = r.view === "limited"; S.tab = LIMITED || S.type !== "restaurant" ? "sell" : "tables"; PINNOTE = "";
+        const n = STAFF.pathsOut(S.online ? ["internet"] : []); for (let i = 0; i < n; i++) LOG.emit("DuressSignalled", { device_id: "tablet", person: WHO, path: "internet", at: Date.now() }, "server", "accepted"); }
+      else { PINNOTE = r.reason === "wrong" ? t("wrong_pin") : r.reason === "wait" ? t("dk_wait", { s: r.seconds ?? 0 }) : t("dk_hard_locked");
+        if (r.reason === "hard_locked") LINES = raiseLocal(LINES, "device_hard_locked", t("dk_hard_locked"), Date.now()); }
+    }
     draw(); return;
   }
   const prod = CATALOG.find((p) => p.id === v);
   switch (k) {
-    case "tab": S.tab = pick([...TABS[S.type]] as Tab[], v, "home"); S.view = "main"; if (S.tab === "sell") S.cdisplay = S.cart.lines().length ? "basket" : "welcome"; break;
+    case "tab": S.tab = LIMITED ? "sell" : pick([...TABS[S.type]] as Tab[], v, "home"); S.view = "main";   // the duress view only sells if (S.tab === "sell") S.cdisplay = S.cart.lines().length ? "basket" : "welcome"; break;
     case "cat": S.cat = pick(["all", "food", "drinks", "home"], v, "all"); break;
     case "add": if (prod) { S.cart.add(prod); S.cdisplay = "basket"; } break;
     case "minus": if (prod) { const l = S.cart.lines().find((x) => x.product.id === prod.id); if (l) S.cart.setQty(prod.id, l.qtyMilli - 1000); } break;

@@ -1,0 +1,75 @@
+/* The MASTER UPDATE parts (sections 1 and 3): PIN pad and number matching, the bell, banners, message parts, LynkAssist and
+   breadcrumbs. Shared by the shell pages and every Business app device; built in when a page bundles ts/src/notify.js. Tokens only. */
+/* ---- MASTER UPDATE, build section 1: sign-in parts, the bell, message parts, LynkAssist and breadcrumbs (tokens only) ---- */
+.pinpad, .nmatch { display: grid; gap: 10px; justify-items: center; max-inline-size: 320px; min-inline-size: 0; margin-inline: auto; overflow-wrap: anywhere; }
+.ptitle { margin: 0; font-weight: 700; text-align: center; }
+.pdots-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; min-block-size: 18px; max-inline-size: 100%; }
+.pdot { inline-size: 14px; block-size: 14px; border-radius: 50%; border: 2px solid var(--border-strong); }
+.pdot.on { background: var(--text-primary); border-color: var(--text-primary); }
+.pkeys { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; inline-size: 100%; }
+.pkey { display: grid; justify-items: center; align-content: center; gap: 2px; min-block-size: 60px; border: 1px solid var(--border-subtle); border-radius: 14px; background: var(--bg-subtle); color: var(--text-primary); font: 700 var(--text-20)/1 var(--font-body); font-feature-settings: var(--font-feature-tabular); }
+.pkey:not(:disabled):hover { border-color: var(--brand-primary); }
+.pkey:disabled { opacity: .45; }
+.pkey.fn { background: var(--bg-surface); color: var(--brand-ink); }
+.pkey .pdots { inline-size: 18px; block-size: 18px; color: var(--text-secondary); }
+.pmsg { display: flex; gap: 6px; align-items: center; margin: 0; font-size: var(--text-14); text-align: center; }
+.pmsg.danger { color: var(--status-danger-text); } .pmsg.warning { color: var(--status-warning-text); } .pmsg.success { color: var(--status-success-text); }
+.popts { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.chipbtn.on { background: var(--brand-subtle); border-color: var(--brand-primary); }
+.nbig { margin: 0; font: 800 var(--text-24)/1 var(--font-heading); font-size: clamp(var(--text-24), 12vw, 48px); letter-spacing: .08em; font-feature-settings: var(--font-feature-tabular); }
+.nchoices { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-inline-size: 100%; }
+.nchoice { min-inline-size: 56px; max-inline-size: 100%; min-block-size: 64px; border: 2px solid var(--border-strong); border-radius: 14px; background: var(--bg-surface); color: var(--text-primary); font: 800 var(--text-24)/1 var(--font-heading); }
+.nhead { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.nhead h2 { margin: 0; }
+.nfilters { display: flex; gap: 6px; flex-wrap: wrap; margin-block: 8px; }
+.nsec { margin: 12px 0 4px; font-size: var(--text-12); color: var(--text-secondary); text-transform: none; }
+.nline { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; padding: 8px; border-radius: 12px; }
+.nline.unread { background: var(--brand-subtle); }
+.nline.p-critical { border-inline-start: 4px solid var(--status-danger-border); }
+.nline.p-high { border-inline-start: 4px solid var(--status-warning-border); }
+.nline .ntext a { display: grid; gap: 2px; color: var(--text-primary); }
+.nline .nt { font-weight: 600; overflow-wrap: anywhere; } .nline .nb { color: var(--text-secondary); font-size: var(--text-12); }
+.ncount { justify-self: start; padding: 0 8px; border-radius: 999px; background: var(--bg-subtle); color: var(--text-secondary); font-size: var(--text-12); font-weight: 700; }
+.nmeta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; color: var(--text-secondary); font-size: var(--text-12); }
+.nprio { font-weight: 700; color: var(--text-primary); }
+.nacts { display: flex; flex-wrap: wrap; gap: 6px; margin-block-start: 6px; }
+.ndone { display: flex; gap: 6px; align-items: center; margin: 6px 0 0; color: var(--status-success-text); font-size: var(--text-12); }
+.nmenu { display: flex; flex-direction: column; gap: 2px; }
+.nempty { display: grid; justify-items: center; gap: 6px; padding: 24px 8px; color: var(--text-secondary); text-align: center; }
+.primary.small { min-block-size: var(--touch-target); padding: 0 12px; margin-block-start: 6px; font-size: var(--text-12); }
+.nbanner { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--status-warning-border); background: var(--status-warning-bg); color: var(--status-warning-text); }
+.nbanner.p-critical { border-color: var(--status-danger-border); background: var(--status-danger-bg); color: var(--status-danger-text); }
+.nbanner .nt { flex: 1; font-weight: 700; overflow-wrap: anywhere; }
+.banners { position: absolute; inset-block-start: 64px; inset-inline: 12px; display: grid; gap: 8px; z-index: 30; max-inline-size: 560px; margin-inline: auto; }
+.mail { border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px; background: var(--bg-surface); }
+.mail .mhead { padding-block-end: 8px; border-block-end: 1px solid var(--border-subtle); margin-block-end: 8px; color: var(--text-primary); }
+.mail .mhead svg { block-size: 20px; inline-size: auto; }
+.mail h3 { margin: 4px 0 8px; } .mail p { margin: 4px 0; overflow-wrap: anywhere; }
+.mbtn { display: inline-flex; padding: 8px 16px; border-radius: 10px; background: var(--brand-primary); color: var(--on-brand) !important; font-weight: 600; }
+.mfoot { margin-block-start: 12px; padding-block-start: 8px; border-block-start: 1px solid var(--border-subtle); color: var(--text-secondary); font-size: var(--text-12); }
+.smsbubble { max-inline-size: 320px; padding: 10px 14px; border-radius: 16px; background: var(--bg-subtle); }
+.smsbubble p { margin: 0; overflow-wrap: anywhere; } .smsbubble .note { margin-block-start: 6px; }
+.mlist2 { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.mlist2 li { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; }
+.mlist2 li > div { display: grid; min-inline-size: 0; } .mlist2 .muted { font-size: var(--text-12); overflow-wrap: anywhere; }
+.askbox { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-block: 12px; min-inline-size: 0; }
+.askbox .cmd-input, .askbox input { min-inline-size: 0; }   /* the Ask box shrinks to narrow device panels (the scanner, a watch) instead of spilling */
+.askbox input { inline-size: 100%; }
+.asres { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.asres li { padding: 10px; border-radius: 12px; background: var(--bg-subtle); } .asres p { margin: 4px 0 0; overflow-wrap: anywhere; }
+.confirmcard, .asreceipt { display: grid; gap: 8px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-subtle); background: var(--bg-surface); }
+.asreceipt { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; border-color: var(--status-success-border); background: var(--status-success-bg); color: var(--status-success-text); }
+.asreceipt .link { color: var(--status-success-text); text-decoration: underline; }   /* the links take the receipt's own readable colour in light and dark */
+.aswhat { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+.suggested { margin: 0; color: var(--text-secondary); font-size: var(--text-12); }
+.fixthis { margin-block-start: 8px; }
+.crumbs { font-size: var(--text-14); margin-block-end: 8px; }
+.crumbs ol { display: flex; flex-wrap: wrap; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.crumbs li { display: inline-flex; align-items: center; gap: 4px; min-inline-size: 0; }
+.crumbs li + li::before { content: "/"; color: var(--text-secondary); }
+.crumbs a { display: inline-flex; align-items: center; min-block-size: var(--touch-target); overflow-wrap: anywhere; }
+.crumbs [aria-current] { color: var(--text-secondary); overflow-wrap: anywhere; }
+.pstack { display: flex; flex-wrap: wrap; gap: 12px; margin-block-start: 12px; min-inline-size: 0; } .pstack > * { flex: 1 1 220px; min-inline-size: 0; max-inline-size: 100%; }
+/* contrast on tinted backgrounds stays at 4.5:1 or more (WCAG 2.2 AA), and every chip is at least the 44 px target */
+.nline.unread .nmeta, .nline.unread .nb, .nline.unread .rec, .ncount, .smsbubble .note, .asres .note { color: var(--text-primary); }
+.chipbtn { min-inline-size: var(--touch-target); }
