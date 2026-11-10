@@ -152,13 +152,13 @@ function assistPart(): string {
 function pinCard(): string {
   const waitLeft = Math.max(0, Math.ceil((S.waitUntil - Date.now()) / 1000));
   if (!S.matchChoices.length) { let x = 7; S.matchChoices = numberChoices(S.matchShown, () => (x = (x * 9301 + 49297) % 233280) / 233280); }
-  return `<div class="card"><h2>${esc(t("demo_signin_card"))}</h2>${pinPad({ entered: S.pin.length, length: Math.max(4, S.pin.length), wrong: S.wrong, waitLeft, pictures: S.pictures, sound: S.keySound, title: t("demo_pin_title") }, t, icon)}<div class="cards" style="margin-block-start:12px">${numberShown(S.matchShown, t)}${numberMatch(S.matchChoices, t, S.matchResult)}</div></div>`;
+  return `<div class="card"><h2>${esc(t("demo_signin_card"))}</h2>${pinPad({ entered: S.pin.length, length: Math.max(4, S.pin.length), wrong: S.wrong, waitLeft, pictures: S.pictures, sound: S.keySound, title: t("demo_pin_title") }, t, icon)}<div class="pstack">${numberShown(S.matchShown, t)}${numberMatch(S.matchChoices, t, S.matchResult)}</div></div>`;
 }
 function messagesCard(): string {
   const p = pack();
   const sent: Sent[] = [{ id: "m1", channel: "email", sender: "receipts@mail.lynkomni.com", title: t("demo_mail_title"), at: T0 - 600_000, state: "confirmed" }, { id: "m2", channel: "text", sender: "LynkOmni", title: t("demo_text"), at: T0 - 590_000, state: S.link === "offline" ? "queued" : "sent" }];
   const logo = markFor(DATA.brand.places, "email-header", S.theme === "dark", 160).svg;
-  return `<div class="card" style="grid-column:1/-1"><h2>${esc(t("demo_messages_card"))}</h2><div class="cards">${mailPart({ title: t("demo_mail_title"), lines: [t("demo_mail_line"), money(1500)], record: "LORCP-7731-0042-9911", button: { label: t("demo_mail_title"), href: "https://pay.lynkomni.com/r/LORCP-7731-0042-9911" }, reason: t("demo_mail_reason"), optIn: false, lang: d0().lang, dir: d0().dir === "rtl" ? "rtl" : "ltr" }, logo, t)}${textPart(t("demo_text"), t)}${messagesList(sent, t, icon, when)}</div><p class="note">${esc(p.sample ? t("sample_country") : p.name)}</p></div>`;
+  return `<div class="card" style="grid-column:1/-1"><h2>${esc(t("demo_messages_card"))}</h2><div class="pstack">${mailPart({ title: t("demo_mail_title"), lines: [t("demo_mail_line"), money(1500)], record: "LORCP-7731-0042-9911", button: { label: t("demo_mail_title"), href: "https://pay.lynkomni.com/r/LORCP-7731-0042-9911" }, reason: t("demo_mail_reason"), optIn: false, lang: d0().lang, dir: d0().dir === "rtl" ? "rtl" : "ltr" }, logo, t)}${textPart(t("demo_text"), t)}${messagesList(sent, t, icon, when)}</div><p class="note">${esc(p.sample ? t("sample_country") : p.name)}</p></div>`;
 }
 const d0 = (): HTMLElement => $("#display");
 /** The breadcrumb trail of the current address, from the address map (core/breadcrumbs.py rules); labels from the menu words. */

@@ -186,12 +186,12 @@
 [data-interface="computer.pointer"] :focus-visible, [data-interface="tv.remote"] :focus-visible, [data-interface="universal"] :focus-visible, [data-interface="phone.keypad"] :focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
 
 /* ---- MASTER UPDATE, build section 1: sign-in parts, the bell, message parts, LynkAssist and breadcrumbs (tokens only) ---- */
-.pinpad, .nmatch { display: grid; gap: 10px; justify-items: center; max-inline-size: 320px; margin-inline: auto; }
+.pinpad, .nmatch { display: grid; gap: 10px; justify-items: center; max-inline-size: 320px; min-inline-size: 0; margin-inline: auto; overflow-wrap: anywhere; }
 .ptitle { margin: 0; font-weight: 700; text-align: center; }
-.pdots-row { display: flex; gap: 10px; min-block-size: 18px; }
+.pdots-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; min-block-size: 18px; max-inline-size: 100%; }
 .pdot { inline-size: 14px; block-size: 14px; border-radius: 50%; border: 2px solid var(--border-strong); }
 .pdot.on { background: var(--text-primary); border-color: var(--text-primary); }
-.pkeys { display: grid; grid-template-columns: repeat(3, minmax(64px, 1fr)); gap: 8px; inline-size: 100%; }
+.pkeys { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; inline-size: 100%; }
 .pkey { display: grid; justify-items: center; align-content: center; gap: 2px; min-block-size: 60px; border: 1px solid var(--border-subtle); border-radius: 14px; background: var(--bg-subtle); color: var(--text-primary); font: 700 var(--text-20)/1 var(--font-body); font-feature-settings: var(--font-feature-tabular); }
 .pkey:not(:disabled):hover { border-color: var(--brand-primary); }
 .pkey:disabled { opacity: .45; }
@@ -201,9 +201,9 @@
 .pmsg.danger { color: var(--status-danger-text); } .pmsg.warning { color: var(--status-warning-text); } .pmsg.success { color: var(--status-success-text); }
 .popts { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
 .chipbtn.on { background: var(--brand-subtle); border-color: var(--brand-primary); }
-.nbig { margin: 0; font: 800 48px/1 var(--font-heading); letter-spacing: .08em; font-feature-settings: var(--font-feature-tabular); }
-.nchoices { display: flex; gap: 10px; }
-.nchoice { min-inline-size: 72px; min-block-size: 64px; border: 2px solid var(--border-strong); border-radius: 14px; background: var(--bg-surface); color: var(--text-primary); font: 800 var(--text-24)/1 var(--font-heading); }
+.nbig { margin: 0; font: 800 var(--text-24)/1 var(--font-heading); font-size: clamp(var(--text-24), 12vw, 48px); letter-spacing: .08em; font-feature-settings: var(--font-feature-tabular); }
+.nchoices { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-inline-size: 100%; }
+.nchoice { min-inline-size: 56px; max-inline-size: 100%; min-block-size: 64px; border: 2px solid var(--border-strong); border-radius: 14px; background: var(--bg-surface); color: var(--text-primary); font: 800 var(--text-24)/1 var(--font-heading); }
 .nhead { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 .nhead h2 { margin: 0; }
 .nfilters { display: flex; gap: 6px; flex-wrap: wrap; margin-block: 8px; }
@@ -251,3 +251,7 @@
 .crumbs li + li::before { content: "/"; color: var(--text-secondary); }
 .crumbs a { display: inline-flex; align-items: center; min-block-size: var(--touch-target); overflow-wrap: anywhere; }
 .crumbs [aria-current] { color: var(--text-secondary); overflow-wrap: anywhere; }
+.pstack { display: flex; flex-wrap: wrap; gap: 12px; margin-block-start: 12px; min-inline-size: 0; } .pstack > * { flex: 1 1 220px; min-inline-size: 0; max-inline-size: 100%; }
+/* contrast on tinted backgrounds stays at 4.5:1 or more (WCAG 2.2 AA), and every chip is at least the 44 px target */
+.nline.unread .nmeta, .nline.unread .nb, .nline.unread .rec, .ncount, .smsbubble .note, .asres .note { color: var(--text-primary); }
+.chipbtn { min-inline-size: var(--touch-target); }
