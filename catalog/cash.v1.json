@@ -1,0 +1,40 @@
+{
+ "version": 1,
+ "agreed": "2026-11-10",
+ "rule": "Cash everywhere it applies (owner rule 2026-11-10): wherever money is taken in person, cash is always one of the choices, next to the electronic ways.",
+ "rules": [
+  "Cash never needs a provider and never needs the network: a cash payment is never blocked, also offline.",
+  "The person taking the cash confirms it with one tap after counting; the record is PaymentRecorded with method cash and status cash_received.",
+  "Cash joins the expected cash of the till or shift it was taken on, and is checked at the cash count.",
+  "Electronic ways keep their own rule: nothing is handed over or marked paid until the provider confirms.",
+  "Cash taken for someone else (a rider or a pickup point collecting for a seller) belongs to that seller: the app records who owes what, and LynkOmni never holds, pools or moves it.",
+  "Cash is never offered where nobody is there to take it (remote payments) or where a licensed partner must confirm first (agent point services)."
+ ],
+ "whose_cash": {
+  "own": "The cash belongs to the business taking it and goes into its till.",
+  "held_for_seller": "The cash belongs to the seller; the person collecting owes it to them, and the app records the amount owed.",
+  "customer_pays_business": "A customer settles what they owe the business in person; the cash goes into the till."
+ },
+ "points": [
+  {"id": "pos_sale", "what": "A sale at the counter, table or market stall", "service": "lynkpos", "whose_cash": "own", "offline": true, "build_section": 3, "status": "built",
+   "shown_in": [{"emulator": "merchant-phone", "marker": "data-act=\"paycash\""}, {"emulator": "counter-tablet", "marker": "data-act=\"paycash\""}, {"emulator": "pos-terminal", "marker": "method === \"cash\""}]},
+  {"id": "basic_phone_sale", "what": "A sale on a button phone or by USSD, text or voice", "service": "lynkpos", "whose_cash": "own", "offline": true, "build_section": 3, "status": "built",
+   "shown_in": [{"emulator": "button-phone", "marker": "method: \"cash\""}]},
+  {"id": "pickup_collection", "what": "A parcel with money due, collected at the shop's own pickup counter", "service": "lynkpos", "whose_cash": "own", "offline": true, "build_section": 3, "status": "built",
+   "shown_in": [{"emulator": "merchant-phone", "marker": "data-act=\"ppcash\""}]},
+  {"id": "invoice_in_person", "what": "An invoice paid in person: the business records the cash against the invoice", "service": "lynkinv", "whose_cash": "customer_pays_business", "offline": true, "build_section": 4, "status": "planned"},
+  {"id": "credit_repayment", "what": "A customer pays off what they owe on credit, in person", "service": "lynkcrm", "whose_cash": "customer_pays_business", "offline": true, "build_section": 4, "status": "planned"},
+  {"id": "storefront_in_person", "what": "A Storefront order or service paid when the customer and the seller meet", "service": "storefront", "whose_cash": "own", "offline": true, "build_section": 7, "status": "planned"},
+  {"id": "pay_on_delivery", "what": "An order paid to the rider at the door", "service": "lynkmotion", "whose_cash": "held_for_seller", "offline": true, "build_section": "7B", "status": "planned"},
+  {"id": "pickup_for_other_seller", "what": "A parcel with money due, collected at a pickup point run by someone other than the seller", "service": "lynkmotion", "whose_cash": "held_for_seller", "offline": true, "build_section": "7B", "status": "planned"},
+  {"id": "rental_in_person", "what": "A rental or its extra charges paid when the item is handed over or returned", "service": "lynkguard", "whose_cash": "own", "offline": true, "build_section": "7B", "status": "planned"},
+  {"id": "booking_at_venue", "what": "A booking paid at the venue, on arrival or after the service", "service": "lynkbooking", "whose_cash": "own", "offline": true, "build_section": 8, "status": "planned"}
+ ],
+ "not_applicable": [
+  {"id": "remote_payment", "why": "Pay links, QR and online checkout are paid from somewhere else: nobody is there to take cash."},
+  {"id": "lynkomni_plans", "why": "A LynkOmni plan is paid to LynkOmni through the payment partner, never in cash."},
+  {"id": "cards", "why": "A LynkVCard is loaded and spent through the licensed issuer."},
+  {"id": "agent_point_services", "why": "At an agent point the cash is the agent's own and changes hands only after the licensed partner confirms: its own rule stays."},
+  {"id": "exchange", "why": "Exchange runs only through its licensed partner."}
+ ]
+}
