@@ -8,5 +8,18 @@
  "car_voice_only": "Driving: voice only. Say \"next delivery\" or \"picked up\".",
  "car_next": "Next: {step}",
  "car_stop": "Stop the vehicle to use the screen.",
- "watch_more": "More on the phone"
+ "watch_more": "More on the phone",
+ "rk_battery": "Battery",
+ "battery_20": "Battery low. Charge soon: your delivery is being tracked.",
+ "battery_10": "Battery very low. Tracking now updates less often to save power.",
+ "last_report": "Last message sent: the shop knows your phone is about to switch off, and why.",
+ "shift_on": "On shift",
+ "shift_off": "Off shift",
+ "shift_off_note": "Off shift: nothing is shared or tracked.",
+ "sealed": "Hand-over sealed in the Proof Chain: {seal}",
+ "sos": "SOS",
+ "sos_confirm": "Send SOS to your shop and your trusted contacts?",
+ "sos_send": "Send SOS",
+ "sos_cancel": "Cancel",
+ "sos_sent": "SOS sent. Your shop and trusted contacts are told. If you are in danger, call your local emergency number."
 }

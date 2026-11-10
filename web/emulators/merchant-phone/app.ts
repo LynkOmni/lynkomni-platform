@@ -754,7 +754,7 @@ function hubValue(item: string): string {
 const REMOVE_ITEM: Record<string, string> = { damage: "damaged", loss: "lost", expiry: "expired" };
 const ACADEMY = ["lesson_first_sale", "lesson_stock", "lesson_cash", "lesson_credit", "lesson_proof"];
 const HUB_ICON: Record<string, string> = { reports: "product-dash", daily_close: "ui-receipt", money: "product-mpay", invoicing: "ui-doc", customers: "ui-user", loyalty: "product-rewards", books: "product-ledger",
-  growth: "product-grow", assistant: "ui-info", cards: "product-vcard", online_shop: "product-checkout", agent_earnings: "ui-commission", team: "ui-user", branches_devices: "ui-grid",
+  growth: "product-grow", assistant: "ui-info", cards: "product-vcard", online_shop: "product-checkout", agent_earnings: "ui-commission", pickup_point: "ui-qr", team: "ui-user", branches_devices: "ui-grid",
   plans_billing: "ui-receipt", settings: "ui-settings", academy: "ui-info", automations: "ui-sync" };
 // ---- BIZZ & DEVICE section 3: the Storefront side of the Business app, stock held at online checkout, and LynkDriver --------
 /** The Storefront side (core/sides.py): the same products, stock and money, offered to others; addresses are /external + the workspace path. */
@@ -841,6 +841,47 @@ function business(): string {
 }
 /** 44 C: a computer that is not a registered device sees the Business app as a web view, "View only on this computer". */
 const webNote = (): string => (S.size === "web" ? `<p class="info" data-item="web_view">${icon("ui-info")}<span>${esc(t("view_only_computer"))}</span></p>` : "");
+/** Pickup-point mode (NEW UPDATE 1, build section 3): parcels waiting here are handed over with the parcel's own code (works
+ *  offline) or the person's Collect Pass (checked by the cloud, so it needs the network). A parcel with money to collect is handed
+ *  over only after the provider confirms the payment; each hand-over is one sealed record (ShipmentHandedOver, method and seal). */
+interface Parcel { id: string; ref: string; name: string; code: string; due: number; state: "waiting" | "paying" | "failed" | "handed"; seal: string }
+const sixDigits = (): string => [...randomBytes(6)].map((b) => String(b % 10)).join("");
+const PP = { input: "", passCode: sixDigits(), note: "",
+  parcels: [{ name: "Aline", due: 0 }, { name: "Eric", due: 4500 }, { name: "Grace", due: 0 }].map((x): Parcel => ({ id: newId(), ref: publicId("SHP"), name: x.name, code: sixDigits(), due: x.due, state: "waiting", seal: "" })) };
+async function handOver(p: Parcel, method: "code" | "collect_pass"): Promise<void> {
+  const handover_id = newId();
+  const bytes = new TextEncoder().encode(JSON.stringify({ shipment_id: p.id, handover_id, from_role: "pickup_point", to_role: "receiver", method, at: Math.floor(Date.now() / 1000) }));
+  const seal = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", bytes)), (b) => b.toString(16).padStart(2, "0")).join("");
+  p.state = "handed"; p.seal = seal; PP.note = "pp_handed";
+  emit("ShipmentHandedOver", { shipment_id: p.id, handover_id, from_role: "pickup_point", to_role: "receiver", method, seal });
+  draw();
+}
+function collectParcel(): void {
+  const code = PP.input.trim(), waiting = PP.parcels.filter((p) => p.state === "waiting" || p.state === "failed");
+  let p = waiting.find((x) => x.code === code), method: "code" | "collect_pass" = "code";
+  if (!p && code === PP.passCode) {
+    if (!online()) { PP.note = "pp_pass_online"; draw(); return; }      // the Collect Pass is checked by the cloud
+    p = waiting[0]; method = "collect_pass";
+  }
+  if (!p) { PP.note = "pp_code_bad"; draw(); return; }
+  PP.input = "";
+  if (p.due <= 0) { void handOver(p, method); return; }
+  if (!online()) { PP.note = "pp_pay_online"; draw(); return; }        // money is collected only with the provider's confirmation
+  const parcel = p; parcel.state = "paying"; PP.note = ""; draw();
+  if (S.outcome === "silent") return;                                    // the provider stays silent: the parcel stays here
+  window.setTimeout(() => {
+    if (S.outcome === "confirm") void handOver(parcel, method); else { parcel.state = "failed"; PP.note = "pp_pay_failed"; draw(); }
+  }, reduced() ? 300 : 2600);
+}
+const ppState = (p: Parcel): UserState => (p.state === "handed" ? "confirmed" : p.state === "paying" ? "sent" : p.state === "failed" ? "failed" : "queued");
+function pickupPoint(): string {
+  return `<p class="sub">${esc(t("pp_help"))}</p><ul class="list card">${PP.parcels.map((p) => `<li data-parcel="${p.state}"><div class="rowbtn static"><span class="main"><span class="nm">${esc(p.name)} · ${esc(p.ref)}</span>
+    <span class="sub">${esc(p.due > 0 ? t("pp_due", { amount: money(p.due) }) : t("pp_paid"))}${p.state === "waiting" ? ` · ${esc(t("pp_sample_code", { code: p.code }))}` : ""}</span>
+    ${p.state === "paying" ? `<span class="sub">${esc(t("pp_waiting_provider"))}</span>` : ""}${p.seal ? `<span class="sub">${esc(t("pp_sealed", { hash: p.seal.slice(0, 12) }))}</span>` : ""}</span>${chip(ppState(p))}</div></li>`).join("")}</ul>
+    <label class="field"><span>${esc(t("pp_enter_code"))}</span><input id="ppIn" data-in="ppcode" inputmode="numeric" value="${esc(PP.input)}" autocomplete="off"></label>
+    <button class="primary inline" data-act="ppcollect" ${PP.input.length === 6 ? "" : "disabled"}>${esc(t("pp_hand_over"))}</button>
+    <p class="sub">${esc(t("pp_sample_pass", { code: PP.passCode }))}</p>${PP.note ? `<p class="info" role="status">${icon("ui-info")}<span>${esc(t(PP.note))}</span></p>` : ""}`;
+}
 function hubSection(id: string): string {
   const reg = DATA.screens.find((s) => s.id === id); if (!reg) return "";
   const back = "view:main";
@@ -865,6 +906,7 @@ function hubSection(id: string): string {
     case "automations": extra = `<ul class="list card">${DATA.automations.map((a) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(t("auto_" + key(a.id)))}</span><span class="sub">${esc(t("level_" + a.level))}</span></span><label class="switch mini"><span class="sr">${esc(t("it_off_switch"))}</span><input type="checkbox" data-in="auto:${a.id}" ${S.autoOff.has(a.id) ? "" : "checked"}></label></div></li>`).join("")}</ul>
       ${S.runs.slice(0, 3).map((r) => `<div class="card"><p class="nm">${esc(t("auto_" + key(r.auto)))} · ${esc(clock(r.at))}</p><p class="sub">${esc(t("why_" + key(r.auto)))}</p></div>`).join("")}`; break;
     case "academy": extra = `<ul class="list card">${ACADEMY.map((l) => row(t(l), t("minutes_n", { n: 2 }))).join("")}</ul>`; break;
+    case "pickup_point": extra = pickupPoint(); break;
     case "growth": extra = `<label class="switch"><span>${esc(t("passport_share"))}</span><input type="checkbox" data-in="passport" ${S.passport ? "checked" : ""}></label><p class="sub">${esc(t("passport_help"))}</p>`; break;
   }
   if (id === "settings") extra += `<button class="rowbtn card" data-item="driver_link" data-act="view:driver">${icon("ui-settings", "prod")}<span class="main"><span class="nm">LynkDriver</span><span class="sub">${esc(driverLine())}</span></span>${icon("ui-chevron-right", "ic fwd")}</button><button class="rowbtn card" data-item="storefront_plans_link" data-act="hub:plans_billing">${icon("ui-cart", "prod")}<span class="main"><span class="nm">${esc(t("sf_plan"))}</span><span class="sub">${esc(sfPlanLine())}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>`;
@@ -1291,6 +1333,7 @@ function act(a: string): void {
       case "original": S.showOriginal = !S.showOriginal; draw(); return;
       // the Business hub
       case "closeday": closeDay(); return;
+      case "ppcollect": collectParcel(); return;
       case "ask": S.answer = S.ask.trim() ? t("assist_answer", { sales: money(summary().total), n: summary().count }) : ""; draw(); return;
       case "takeusername": { const c = check(S.userDraft); if (c.ok && !S.takenNames.has(c.username)) { S.username = c.username; S.takenNames.add(c.username); toast(t("saved")); } else draw(); return; }
       case "outlet": S.outlet = v; S.tab = "home"; S.view = "main"; draw(); return;
@@ -1338,6 +1381,7 @@ function onInput(el: HTMLInputElement): void {
     case "salenote": S.saleNote = el.value.slice(0, 140); return;
     case "search": S.search = el.value.slice(0, 60); draw(); return;
     case "ask": S.ask = el.value.slice(0, 200); return;
+    case "ppcode": PP.input = el.value.replace(/\D/g, "").slice(0, 6); PP.note = ""; draw(); return;
     case "username": S.userDraft = el.value.slice(0, 40); draw(); return;
     case "shopname": S.shopName = el.value.slice(0, 60); return;
     case "staffphone": S.staffPhone = el.value.replace(/[^\d +]/g, "").slice(0, 16); return;

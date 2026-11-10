@@ -168,7 +168,7 @@ class BusinessAppPlaces(unittest.TestCase):
     place the register lists that exists by section 3 (the website places follow in section 5)."""
     def test_section_3_items_are_where_the_register_says(self):
         items = {i["id"]: set(i["places"]) & BUILT_BY_SECTION_3 for i in REG["items"] if i.get("section") == 3 and i["kind"] == "item"}
-        acts = {"storefront_home": ("side:external",), "storefront_service_pages": ("view:sflistings", "view:sfstock"), "storefront_plans": ("hub:plans_billing",), "lynkdriver": ("view:driver",)}
+        acts = {"storefront_home": ("side:external",), "storefront_service_pages": ("view:sflistings", "view:sfstock"), "storefront_plans": ("hub:plans_billing",), "lynkdriver": ("view:driver",), "pickup_point": ("hub:pickup_point",)}
         found = {k: set() for k in items}
         with sync_playwright() as p:
             b = p.chromium.launch(); pg = b.new_page(viewport={"width": 1280, "height": 1000})
@@ -182,13 +182,13 @@ class BusinessAppPlaces(unittest.TestCase):
             pg.evaluate("__go('settings')"); look("settings")
             pg.evaluate("__go('branches_devices')"); look("settings")
             pg.evaluate("__go('business')"); pg.click('#display [data-act="dsh:search"]')
-            for q in ("Storefront", "Offers", "Stock", "LynkDriver"):
+            for q in ("Storefront", "Offers", "Stock", "LynkDriver", "Pickup"):
                 pg.fill("#cmdIn", q); look("search")
             pg.keyboard.press("Escape")
-            for sid in ("storefront", "storefront_listings", "driver"):
+            for sid in ("storefront", "storefront_listings", "driver", "pickup_point"):
                 pg.evaluate(f"__go('{sid}')"); pg.click('#display .top [data-act="dsh:help"]')
                 if pg.locator("#display .dsh-help").count():
-                    {"storefront": found.get("storefront_home"), "storefront_listings": found.get("storefront_service_pages"), "driver": found.get("lynkdriver")}[sid].add("help")
+                    {"storefront": found.get("storefront_home"), "storefront_listings": found.get("storefront_service_pages"), "driver": found.get("lynkdriver"), "pickup_point": found.get("pickup_point")}[sid].add("help")
                     if sid == "storefront" and "storefront_plans" in found: found["storefront_plans"].add("help")
                 pg.keyboard.press("Escape")
             b.close()

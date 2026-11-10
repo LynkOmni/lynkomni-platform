@@ -18,8 +18,8 @@
   },
   "merchant-phone": {
    "first_tap": "[data-act=\"sendcode\"]",
-   "file_kb": 1420,
-   "file_kb_reason": "Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline) and the shared tracker (the tracking engine, its register and the tracker words in all 38 languages, owner request for tracking across every service), the deliveries screens and the who-is-it-for setup with its workspace words. Raised on 10 November 2026 for BIZZ & DEVICE section 3: every device now carries the device register, the one decision function and the touch and buttons-only versions (about 20 KB), and the Business app adds the Storefront side, stock held at online checkout and LynkDriver, all in 38 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged."
+   "file_kb": 1460,
+   "file_kb_reason": "Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline) and the shared tracker (the tracking engine, its register and the tracker words in all 38 languages, owner request for tracking across every service), the deliveries screens and the who-is-it-for setup with its workspace words. Raised on 10 November 2026 for BIZZ & DEVICE section 3: every device now carries the device register, the one decision function and the touch and buttons-only versions (about 20 KB), and the Business app adds the Storefront side, stock held at online checkout and LynkDriver, all in 38 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged. Raised to 1460 on 10 November 2026 for NEW UPDATE 1 section 3: the Business app adds pickup-point mode (parcels waiting, hand-over by parcel code or Collect Pass, pay on collection after the provider confirms, sealed records) in all 38 languages (about 30 KB); a real app downloads one language at a time. First-screen and tap budgets are unchanged."
   },
   "browser-frame": {
    "first_tap": "[data-act=\"shell:launcher\"]",
@@ -48,8 +48,8 @@
   "rider-phone": {
    "first_tap": "[data-act^=\"open:\"]",
    "root": "#screen",
-   "file_kb": 650,
-   "file_kb_reason": "Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline) and the shared tracker (the tracking engine, its register and the tracker words in all 38 languages, owner request for tracking across every service) with the rider's trip-progress sharing. Raised on 10 November 2026 for BIZZ & DEVICE section 3: every device now carries the device register, the one decision function and the touch and buttons-only versions (about 20 KB), and the Business app adds the Storefront side, stock held at online checkout and LynkDriver, all in 38 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged."
+   "file_kb": 680,
+   "file_kb_reason": "Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline) and the shared tracker (the tracking engine, its register and the tracker words in all 38 languages, owner request for tracking across every service) with the rider's trip-progress sharing. Raised on 10 November 2026 for BIZZ & DEVICE section 3: every device now carries the device register, the one decision function and the touch and buttons-only versions (about 20 KB), and the Business app adds the Storefront side, stock held at online checkout and LynkDriver, all in 38 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged. Raised to 680 on 10 November 2026 for NEW UPDATE 1 section 3: the rider phone adds battery warnings and the last message, the shift switch, sealed hand-overs and SOS on the watch, in all 38 languages (about 20 KB); a real app downloads one language at a time. First-screen and tap budgets are unchanged."
   },
   "stock-scanner": {
    "first_tap": "[data-act=\"mode:count\"]",

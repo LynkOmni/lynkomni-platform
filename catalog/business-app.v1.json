@@ -349,6 +349,7 @@
     "cards",
     "online_shop",
     "agent_earnings",
+    "pickup_point",
     "team",
     "branches_devices",
     "plans_billing",
@@ -516,6 +517,17 @@
     "outlets"
    ],
    "path": "/business/agent-earnings"
+  },
+  {
+   "id": "pickup_point",
+   "blueprint": "49 M (NEW UPDATE 1, build section 3)",
+   "items": [
+    "parcels",
+    "collect_code",
+    "handover",
+    "pay_on_collection"
+   ],
+   "path": "/business/pickup-point"
   },
   {
    "id": "team",
@@ -704,5 +716,28 @@
    ]
   }
  ],
- "workspaces": "Who the app is for (catalog/workspaces.v1.json): a person, a company or an organisation; the entity changes words, tabs (an office workspace of a person or an organisation shows Books instead of Chats) and categories only."
+ "workspaces": "Who the app is for (catalog/workspaces.v1.json): a person, a company or an organisation; the entity changes words, tabs (an office workspace of a person or an organisation shows Books instead of Chats) and categories only.",
+ "planned_tabs": {
+  "note": "Business types planned for build section 7B (LynkMotion and LynkGuard in full); their tabs are switched on there.",
+  "delivery": {
+   "build_section": "7B",
+   "tabs": [
+    "home",
+    "jobs",
+    "riders",
+    "chats",
+    "business"
+   ]
+  },
+  "fleet": {
+   "build_section": "7B",
+   "tabs": [
+    "home",
+    "vehicles",
+    "trips",
+    "chats",
+    "business"
+   ]
+  }
+ }
 }

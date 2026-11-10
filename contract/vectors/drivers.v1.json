@@ -636,6 +636,12 @@
   "camera": "phone_camera",
   "keypad": "on_screen_keys",
   "remote": "on_screen_keys",
-  "mesh_relay": null
+  "mesh_relay": null,
+  "vehicle_tracker": "phone_tracker",
+  "obd_plug": "phone_tracker",
+  "tag": "phone_tracker",
+  "e_seal": "photo_seal",
+  "condition_sensor": null,
+  "satellite_tracker": "phone_tracker"
  }
 }

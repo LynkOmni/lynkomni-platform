@@ -165,6 +165,7 @@
   "/business",
   "/business/academy",
   "/business/agent-earnings",
+  "/business/pickup-point",
   "/business/assistant",
   "/business/automations",
   "/business/automations/history",
@@ -494,7 +495,8 @@
    "/business/devices",
    "/business/devices/driver",
    "/notifications",
-   "/business/online-shop"
+   "/business/online-shop",
+   "/business/pickup-point"
   ],
   "workspace_only": [
    "/sell/basket",

@@ -39,6 +39,10 @@
    "side": "internal"
   },
   {
+   "address": "/business/pickup-point",
+   "side": "internal"
+  },
+  {
    "address": "/business/assistant",
    "side": "internal"
   },
@@ -767,6 +771,10 @@
   {
    "path": "/business/agent-earnings",
    "kind": "workspace_only"
+  },
+  {
+   "path": "/business/pickup-point",
+   "kind": "shared"
   },
   {
    "path": "/business/assistant",

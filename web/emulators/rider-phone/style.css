@@ -45,3 +45,8 @@
 .wjob { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; padding: 12px; }
 .carvoice { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 280px; padding: 24px; text-align: center; font-size: 22px; }
 .carvoice .big .ic { width: 64px; height: 64px; }
+/* NEW UPDATE 1: shift switch, SOS, battery notes */
+.shift { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-block-end: 8px; }
+.warn .ic, .note .ic { display: inline-flex; inline-size: 16px; block-size: 16px; margin-inline-end: 6px; vertical-align: -3px; }
+.sos { display: grid; gap: 6px; padding: 8px; border-radius: 10px; border: 1px solid var(--status-danger-border); background: var(--status-danger-bg); color: var(--status-danger-text); }
+.sosbtn { color: var(--status-danger-text); border-color: var(--status-danger-border); }

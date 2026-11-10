@@ -18,6 +18,29 @@ import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 
 declare const DATA: Build;
 interface Job { id: string; order: number; area: string; amount: number; state: DeliveryState; code: string; proof?: "code" | "photo" }
+/** NEW UPDATE 1 (build section 3): battery warnings and the last message, off-shift privacy, sealed hand-overs and SOS on the watch. */
+const RX = { battery: 100, lastSent: false, onShift: true, sos: "" as "" | "confirm" | "sent", seals: {} as Record<string, string> };
+async function seal(j: Job): Promise<void> {          // the hand-over as one sealed record (services/sealing.py in the cloud); the screen shows its hash
+  const bytes = new TextEncoder().encode(JSON.stringify({ delivery_id: j.id, proof: j.proof, to_role: "receiver", at: Math.floor(Date.now() / 1000) }));
+  const h = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", bytes)), (b) => b.toString(16).padStart(2, "0")).join("");
+  RX.seals[j.id] = h; draw();
+}
+function batteryNote(): string {
+  if (RX.battery > 20) return "";
+  if (RX.battery <= 3) {
+    if (!RX.lastSent) { RX.lastSent = true; LOG.emit("DeviceLastReport", { device_id: "rider-phone-1", reason: "battery", battery_pct: RX.battery }); }
+    return `<p class="warn" role="status">${icon("ui-warning")}${esc(t("last_report"))}</p>`;
+  }
+  return `<p class="warn" role="status">${icon("ui-warning")}${esc(t(RX.battery <= 10 ? "battery_10" : "battery_20"))}</p>`;
+}
+function shiftBar(): string {
+  return `<div class="shift"><button class="${RX.onShift ? "primary" : "secondary"}" data-act="shift:${RX.onShift ? "off" : "on"}" aria-pressed="${RX.onShift}">${esc(t(RX.onShift ? "shift_on" : "shift_off"))}</button>${RX.onShift ? "" : `<p class="note">${esc(t("shift_off_note"))}</p>`}</div>`;
+}
+function sosView(): string {
+  if (RX.sos === "confirm") return `<div class="sos" role="alertdialog" aria-labelledby="sosQ"><p id="sosQ"><strong>${esc(t("sos_confirm"))}</strong></p><button class="primary" data-act="sos:send">${esc(t("sos_send"))}</button><button class="secondary" data-act="sos:cancel">${esc(t("sos_cancel"))}</button></div>`;
+  if (RX.sos === "sent") return `<p class="warn" role="status">${esc(t("sos_sent"))}</p>`;
+  return `<button class="secondary sosbtn" data-act="sos:ask">${icon("ui-warning")}${esc(t("sos"))}</button>`;
+}
 const S: PanelState & { jobs: Job[]; open: string; typed: string; msg: string; ticks: number; share: boolean; trip: number } = { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: false, lang: "en", jobs: [], open: "", typed: "", msg: "", ticks: 0, share: false, trip: 0 };
 const W = new Words(DATA.i18n, () => S.lang); const t = W.t;
 const C = new Country(DATA, () => S.country, () => S.lang);
@@ -45,7 +68,7 @@ function list(): string {
   // designed states (41 B): changes waiting for the connection, and nothing left to deliver
   const waiting = !S.online && LOG.pending().count ? designedState("sync_pending", t, DATA.statePictures, S.dark, null) : "";
   const done = S.jobs.every((j) => j.state === "delivered") ? designedState("success", t, DATA.statePictures, S.dark, null) : "";
-  return `${waiting}${done}<h2>${esc(t("deliveries"))}</h2><ul class="jobs">${S.jobs.map((j) => `<li><button data-act="open:${j.id}"><strong>${esc(t("order", { n: j.order }))}</strong><span>${esc(t(j.area))}</span><span class="st st-${j.state}">${esc(stateWord(j.state))}</span>${icon("ui-chevron-right")}</button></li>`).join("")}</ul><p class="note">${esc(t("proof_photo"))}</p>${appShortFooter(C)}`;
+  return `${batteryNote()}${shiftBar()}${waiting}${done}<h2>${esc(t("deliveries"))}</h2><ul class="jobs">${S.jobs.map((j) => `<li><button data-act="open:${j.id}"><strong>${esc(t("order", { n: j.order }))}</strong><span>${esc(t(j.area))}</span><span class="st st-${j.state}">${esc(stateWord(j.state))}</span>${icon("ui-chevron-right")}</button></li>`).join("")}</ul><p class="note">${esc(t("proof_photo"))}</p>${appShortFooter(C)}`;
 }
 /** The job as the shared tracking engine sees it (the same steps the shop and the customer see). Trip progress is shared only
  *  while the rider has switched it on for this trip: a share of the way and the arrival time, never a position. */
@@ -69,9 +92,10 @@ function detail(j: Job): string {
     ${next === "delivered" ? `<label class="codebox">${esc(t("delivery_code", { code: "" }))}<input inputmode="numeric" maxlength="6" data-field="code" value="${esc(S.typed)}" autocomplete="off"></label>
       <button class="primary" data-act="deliver:code" ${S.typed.length === 6 ? "" : "disabled"}>${esc(t("delivered"))}</button><p class="note">${esc(t("proof_code"))}</p>
       <button class="secondary" data-act="deliver:photo">${icon("ui-receipt")}${esc(t("proof_photo"))}</button>` : ""}
-    ${S.msg ? `<p class="warn" role="alert">${esc(S.msg)}</p>` : ""}
+    ${batteryNote()}${S.msg ? `<p class="warn" role="alert">${esc(S.msg)}</p>` : ""}
     ${(() => { const v = tracker(j); return v ? trackerHtml(v, look, t("order", { n: j.order })) : ""; })()}
-    ${j.state === "picked_up" ? `<label class="share"><input type="checkbox" data-field="share" ${S.share ? "checked" : ""}> <span>${esc(t("trk_share_progress"))}</span></label><p class="note">${esc(t("trk_share_help"))}</p>` : ""}
+    ${j.state === "delivered" && RX.seals[j.id] ? `<p class="note" data-item="sealed">${icon("ui-lock")}${esc(t("sealed", { seal: RX.seals[j.id]!.slice(0, 12) }))}</p>` : ""}
+    ${j.state === "picked_up" && RX.onShift ? `<label class="share"><input type="checkbox" data-field="share" ${S.share ? "checked" : ""}> <span>${esc(t("trk_share_progress"))}</span></label><p class="note">${esc(t("trk_share_help"))}</p>` : ""}
     <p class="note">${esc(t("track"))}: shop.lynkomni.com/track/LODLV-…</p><p class="hint">${esc(t("pickup_code"))}: ${esc(j.code)}</p>`;
 }
 /** The same rider app on a phone, a watch or a car screen (DEVICE 48.17): the registered device decides the interface. A watch shows
@@ -80,7 +104,7 @@ const RK = { device: "rider-phone" as "rider-phone" | "smartwatch" | "car-screen
 const rkChoice = () => chooseInterface(DEVICES, { registered: { device: RK.device, version: RK.device === "car-screen" ? "non_touch" : "touch" } });
 function watchView(): string {
   const j = S.jobs.find((x) => x.state !== "delivered"); const next = j ? nextDeliveryStep(j.state) : null;
-  return j ? `<div class="wjob"><strong>${esc(t("order", { n: j.order }))}</strong><span>${esc(stateWord(j.state))}</span>${next === "picked_up" ? `<button class="primary" data-act="open:${j.id}">${esc(t("picked_up"))}</button>` : `<button class="primary" data-act="open:${j.id}">${esc(t("delivered"))}</button>`}<p class="note">${esc(t("watch_more"))}</p></div>` : designedState("success", t, DATA.statePictures, S.dark, null);
+  return sosView() + (j ? `<div class="wjob"><strong>${esc(t("order", { n: j.order }))}</strong><span>${esc(stateWord(j.state))}</span>${next === "picked_up" ? `<button class="primary" data-act="open:${j.id}">${esc(t("picked_up"))}</button>` : `<button class="primary" data-act="open:${j.id}">${esc(t("delivered"))}</button>`}<p class="note">${esc(t("watch_more"))}</p></div>` : designedState("success", t, DATA.statePictures, S.dark, null));
 }
 function carVoice(): string {
   const j = S.jobs.find((x) => x.state !== "delivered"); const next = j ? nextDeliveryStep(j.state) : null;
@@ -99,10 +123,12 @@ function act(a: string): void {
   const [k = "", v = ""] = a.split(":"); const j = job();
   if (k === "open") { S.open = S.jobs.some((x) => x.id === v) ? v : ""; S.typed = ""; S.msg = ""; }
   else if (k === "back") S.open = "";
+  else if (k === "shift") { RX.onShift = v === "on"; if (!RX.onShift) S.share = false; }
+  else if (k === "sos") { if (v === "ask") RX.sos = "confirm"; else if (v === "cancel") RX.sos = ""; else if (v === "send") { RX.sos = "sent"; LOG.emit("ProtectionAlertRaised", { alert_id: newId(), subject_id: "rider-1", alert: "sos", level: "urgent" }); } }
   else if (k === "pickup" && j && nextDeliveryStep(j.state) === "picked_up") { j.state = "picked_up"; S.trip = 0; LOG.emit("DeliveryPickedUp", { delivery_id: j.id }); }
   else if (k === "deliver" && j && nextDeliveryStep(j.state) === "delivered") {
     if (v === "code" && S.typed !== j.code) { S.msg = t("wrong_code"); draw(); return; }
-    j.state = "delivered"; j.proof = v === "photo" ? "photo" : "code"; S.share = false; LOG.emit("DeliveryDelivered", { delivery_id: j.id, proof: j.proof }); S.msg = "";
+    j.state = "delivered"; j.proof = v === "photo" ? "photo" : "code"; S.share = false; LOG.emit("DeliveryDelivered", { delivery_id: j.id, proof: j.proof }); S.msg = ""; void seal(j);
   }
   draw();
 }
@@ -112,6 +138,7 @@ function seed(): void {
 function panel(): void {
   $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang"], S, W, C)
     + `<label class="center"><span>${esc(t("rk_device"))}</span> <select data-ctl="rkdevice">${(["rider-phone", "smartwatch", "car-screen"] as const).map((k) => `<option value="${k}"${k === RK.device ? " selected" : ""}>${esc(t(k === "rider-phone" ? "rk_phone" : k === "smartwatch" ? "rk_watch" : "rk_car"))}</option>`).join("")}</select></label>`
+    + `<label class="center"><span>${esc(t("rk_battery"))}</span> <select data-ctl="battery">${[100, 20, 10, 3].map((b) => `<option value="${b}"${b === RX.battery ? " selected" : ""}>${b}%</option>`).join("")}</select></label>`
     + (RK.device === "car-screen" ? `<label><input type="checkbox" data-ctl="moving"${RK.moving ? " checked" : ""}> <span>${esc(t("rk_moving"))}</span></label>` : "");
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["list", "pickup", "deliver", "delivered", "wrong"], (k) => { seed(); const j = S.jobs[0]!; S.open = k === "list" ? "" : j.id; S.msg = "";
@@ -127,6 +154,7 @@ function main(): void {
   $("#panel").addEventListener("change", (e) => { const c = e.target as HTMLSelectElement & HTMLInputElement;
     if (c.dataset["ctl"] === "rkdevice") { RK.device = c.value === "smartwatch" ? "smartwatch" : c.value === "car-screen" ? "car-screen" : "rider-phone"; RK.moving = false; S.open = ""; panel(); draw(); (window as unknown as { __refit: () => void }).__refit(); return; }
     if (c.dataset["ctl"] === "moving") { RK.moving = c.checked; draw(); return; }
+    if (c.dataset["ctl"] === "battery") { RX.battery = Number(c.value) || 100; if (RX.battery > 3) RX.lastSent = false; draw(); return; }
     if (panelChange(e.target as HTMLSelectElement, S, DATA)) panel(); draw(); });
   window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); if (S.share && S.online && job()?.state === "picked_up" && S.ticks % 8 === 0 && S.trip < 16) { S.trip += 1; draw(); } }, 400);
   const base = Number($("#rig").dataset["width"]) || 400;

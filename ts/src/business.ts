@@ -191,7 +191,7 @@ export const THREAD_ACTIONS = ["send_product", "send_quote", "send_pay_link", "s
 export const HUB: readonly { id: string; serviceSection: number }[] = [
   { id: "reports", serviceSection: 4 }, { id: "daily_close", serviceSection: 3 }, { id: "money", serviceSection: 3 }, { id: "invoicing", serviceSection: 4 },
   { id: "customers", serviceSection: 4 }, { id: "loyalty", serviceSection: 3 }, { id: "books", serviceSection: 4 }, { id: "growth", serviceSection: 3 },
-  { id: "assistant", serviceSection: 3 }, { id: "cards", serviceSection: 3 }, { id: "online_shop", serviceSection: 3 }, { id: "agent_earnings", serviceSection: 3 },
+  { id: "assistant", serviceSection: 3 }, { id: "cards", serviceSection: 3 }, { id: "online_shop", serviceSection: 3 }, { id: "agent_earnings", serviceSection: 3 }, { id: "pickup_point", serviceSection: 3 },
   { id: "team", serviceSection: 3 }, { id: "branches_devices", serviceSection: 3 }, { id: "plans_billing", serviceSection: 3 }, { id: "settings", serviceSection: 3 },
   { id: "academy", serviceSection: 3 }, { id: "automations", serviceSection: 3 },
 ];
