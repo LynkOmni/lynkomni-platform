@@ -26,10 +26,14 @@ class Catalog(unittest.TestCase):
             self.assertTrue(known(p["page"]), p["page"])
 
     def test_footer_products_match_the_catalog(self):
-        col = FOOTER[FOOTER.index('id: "products"'):FOOTER.index('id: "solutions"')]
-        shown = dict(re.findall(r'brand\("([a-z]+)", "Lynk\w+", "([^"]+)"\)', col))
+        """Every product with a footer place is in the footer once, linked to its page, in the column that suits it (Products,
+        Solutions or Developers); the Products column holds only products."""
+        shown = re.findall(r'brand\("([a-z]+)", "Lynk\w+", "([^"]+)"\)', FOOTER)
         want = {p["footer_id"]: p["page"] for p in PRODUCTS["products"] if p["footer_id"]}
-        self.assertEqual(shown, want)
+        for fid, page in want.items():
+            self.assertEqual([h for i, h in shown if i == fid], [page], fid)
+        col = FOOTER[FOOTER.index('id: "products"'):FOOTER.index('id: "solutions"')]
+        self.assertTrue(set(re.findall(r'brand\("([a-z]+)"', col)) <= set(want))
 
     def test_every_footer_link_is_a_known_address(self):
         for href in re.findall(r'(?:brand|txt)\([^)]*"((?:/|https://)[^"]*)"\)', FOOTER):

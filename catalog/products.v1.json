@@ -212,11 +212,11 @@
   },
   {
    "family": "lynkdev",
-   "page": "https://hub.lynkomni.com",
+   "page": "/developers",
    "app": "https://hub.lynkomni.com",
    "menu": "Developers",
    "illustration": "product-dev",
-   "footer_id": null,
+   "footer_id": "dev",
    "sides": {
     "internal": "https://hub.lynkomni.com",
     "external": "https://hub.lynkomni.com",
@@ -230,7 +230,7 @@
    "app": "https://booking.lynkomni.com",
    "menu": "For customers",
    "illustration": "product-booking",
-   "footer_id": null,
+   "footer_id": "booking",
    "sides": {
     "internal": "https://booking.lynkomni.com",
     "external": "app.lynkomni.com/external/services",
@@ -243,7 +243,7 @@
    "app": "https://essential.lynkomni.com",
    "menu": "For customers",
    "illustration": "product-essential",
-   "footer_id": null,
+   "footer_id": "essential",
    "sides": {
     "internal": "https://essential.lynkomni.com",
     "external": null,

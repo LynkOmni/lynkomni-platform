@@ -26,6 +26,34 @@ class Register(unittest.TestCase):
             for base in ("launcher", "search", "help", "product_page"):
                 self.assertIn(base, placed[p["family"]]["places"], p["family"])
 
+    def test_every_service_is_in_every_place_it_belongs(self):
+        """Owner rule, 10 November 2026: every product, service and tier feature, existing and new, is in the headers, menus,
+        footer and every other place it belongs. A new billing family fails here until it is placed everywhere."""
+        from services import billing
+        apps = {p["family"]: p["app"] for p in PRODUCTS}
+        for i in REG["items"]:
+            places = set(i["places"])
+            if i["kind"] == "product":
+                want = {"website_header", "launcher", "search", "help", "product_page", "sitemap", "footer"}
+                if any(x > 0 for x in billing.FAMILIES[i["id"]][3]): want.add("pricing_page")
+                if apps[i["id"]].startswith("app.lynkomni.com/"): want.add("app_nav")
+                self.assertEqual(want - places, set(), f"{i['id']} is missing from places")
+            elif i["kind"] in ("service", "feature"):
+                self.assertEqual({"search", "help", "sitemap"} - places, set(), i["id"])
+                self.assertTrue(i.get("what"), i["id"])
+            if i.get("footer_ids"): self.assertIn("footer", places, i["id"])
+
+    def test_the_footer_shows_exactly_what_the_register_places_there(self):
+        """Every product-name link in the footer belongs to a placed product or service, and every product or service placed in
+        the footer is there."""
+        import re
+        footer = open(os.path.join(ROOT, "ts", "src", "footer.ts"), encoding="utf-8").read()
+        shown = set(re.findall(r'brand\("([a-z]+)", "Lynk\w+"', footer))
+        want = {p["footer_id"] for p in PRODUCTS if p["footer_id"]}
+        for i in REG["items"]:
+            want |= set(i.get("footer_ids", [])) | set(i.get("also_footer", []))
+        self.assertEqual(shown, want)
+
 
 class Sides(unittest.TestCase):
     def test_every_product_has_both_sides(self):
