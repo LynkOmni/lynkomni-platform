@@ -10,7 +10,7 @@ MASTER UPDATE, section 2 (account, security and notifications):
 - New security and account messages (contact change, cool-off, everything locked, not me, successor, personal reminders), read on one device is read on every device, and the new Messages page.
 - LynkAssist on the account site: answers by class, account actions through the register only (class C after a fresh check; recovery and passkeys only prepared), and "Everything LynkAssist did" with Undo.
 - Breadcrumbs, the bell and LynkAssist's Ask box on the account site; a person's cards listed by group (LynkPrima, LynkDyna, LynkCrest, last four only, the lender's interest and fees beside LynkCrest).
-- Leftovers fixed: card records had no group; security notice kinds were missing for the new protections; LynkAssist's decisions had no event of their own (AssistActionRecorded); the bell's small action button was under the 44 px touch size.
+- Leftovers fixed: card records had no group; security notice kinds were missing for the new protections; LynkAssist's decisions had no event of their own (AssistActionRecorded); the bell's small action button was under the 44 px touch size; the "Why did this happen?" link on LynkAssist's receipt was too faint in dark mode.
 - The account site's size budget is raised to 1200 KB (these parts in 38 languages; a real app downloads one language at a time).
 
 ## v0.38.0 (2026-11-10)
