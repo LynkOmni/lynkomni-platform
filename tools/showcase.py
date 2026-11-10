@@ -216,6 +216,9 @@ def build():
     # safe page settings (core/pagesafety.py): only this page's own script runs, pinned by its hash
     from core import pagesafety
     doc = doc.replace('<meta charset="utf-8">', '<meta charset="utf-8">' + pagesafety.meta([m.group("body") for m in pagesafety.SCRIPT.finditer(doc)]), 1)
+    problems = pagesafety.check_html(doc)
+    if problems:
+        raise SystemExit("showcase page refused: " + "; ".join(problems))
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
         f.write(doc)
