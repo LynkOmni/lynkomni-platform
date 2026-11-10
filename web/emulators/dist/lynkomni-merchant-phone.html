@@ -546,7 +546,9 @@ html { font-size: 100%; }
 .mlist2 { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .mlist2 li { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; }
 .mlist2 li > div { display: grid; min-inline-size: 0; } .mlist2 .muted { font-size: var(--text-12); overflow-wrap: anywhere; }
-.askbox { display: grid; gap: 8px; margin-block: 12px; }
+.askbox { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-block: 12px; min-inline-size: 0; }
+.askbox .cmd-input, .askbox input { min-inline-size: 0; }   /* the Ask box shrinks to narrow device panels (the scanner, a watch) instead of spilling */
+.askbox input { inline-size: 100%; }
 .asres { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .asres li { padding: 10px; border-radius: 12px; background: var(--bg-subtle); } .asres p { margin: 4px 0 0; overflow-wrap: anywhere; }
 .confirmcard, .asreceipt { display: grid; gap: 8px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-subtle); background: var(--bg-surface); }
