@@ -20,7 +20,18 @@ FAMILY_TIER = {"free": "edge", "plus": "hub", "pro": "core", "max": "omni"}     
 # The only words allowed on a card (owner approved): the tier line on the front and the tier word on the back. The check fails on any other text.
 TIER_TEXT = {"edge": "EDGE // FIRST LIGHT", "hub": "HUB // CENTER POINT", "core": "CORE // DEEP SYSTEM", "omni": "OMNI // OWN ALL COMMERCE"}
 BACK_TEXT = {t: t.upper() for t in TIERS}
-ALLOWED_TEXT = set(TIER_TEXT.values()) | set(BACK_TEXT.values())
+# MASTER UPDATE 61 (owner, 10 November 2026): the same four faces serve three card groups, and SAMPLE faces (outside a person's
+# own card: the store, marketing, "Get a card", design reviews) show placeholders that can never work as a real card
+# (services/card_groups.py SAMPLE; the check digit fails). A person's real card is never drawn with its details: the app shows the
+# plain face and the issuer prints the last four in its own secure display.
+from services import card_groups as _cg     # noqa: E402
+GROUPS = _cg.GROUPS
+GROUP_TEXT = dict(_cg.CARD_WORD)            # the group word on the card, just above the network space
+SAMPLE_TEXT = {"number": _cg.SAMPLE["number"], "valid": "VALID THRU", "expiry": _cg.SAMPLE["expiry"], "holder": _cg.SAMPLE["holder"],
+               "code": _cg.SAMPLE["code"], "sample": _cg.SAMPLE["sample_word"]}
+ALLOWED_TEXT = set(TIER_TEXT.values()) | set(BACK_TEXT.values()) | set(GROUP_TEXT.values()) | set(SAMPLE_TEXT.values())
+# The fixed layout (x, y, width, height in the 340 x 214 card): spaces kept empty for what only the licensed issuer adds.
+ZONES = {"contactless": (288, 14, 38, 40), "network": (262, 166, 60, 36)}
 NAMES = {"edge": "Aurora Teal", "hub": "Royal Sapphire", "core": "Imperial Amethyst", "omni": "Black Gold"}
 ALT_BACK = {
     "edge": "Back of the Aurora Teal EDGE LynkVCard: a dark stripe, a calm panel where the issuer shows the card details, the point of light as a faint watermark, the LynkOmni logo and the word EDGE. No number is drawn.",
@@ -235,3 +246,69 @@ def physical_group():
 
 def physical():
     return frame("vcard-omni-physical", ALT_EXTRA["omni-physical"], physical_group(), W, H)
+
+
+# ---------------------------------------------------------------- the twelve sample cards (MASTER UPDATE 61)
+def _txt(words, x, y, size, fill, weight="700", anchor="start", spacing="0.08em", family="mono", opacity=None):
+    fam = _design.SRC["fonts"][family].replace('"', "'")
+    extra = {"fill_opacity": opacity} if opacity else {}
+    return el("text", esc(words), x=n(x), y=n(y), fill=fill, font_size=n(size), font_weight=weight, letter_spacing=spacing, text_anchor=anchor, font_family=fam, stroke="none", **extra)
+
+
+def sample_face(tier, group):
+    """A sample front in the fixed layout: logo top left, the contactless space top right left empty, chip, the sample number in the
+    middle, VALID THRU and the name under it, the tier line bottom left, and bottom right an empty outline where the issuer adds
+    the network mark, with the group word just above it. A small SAMPLE word says it is not a real card."""
+    t = _tok()
+    defs, g = _defs(tier, t, f"{tier}{group[0]}s")
+    fg = t[f"on-vcard-{tier}"]
+    ink = _ink(tier, g, t) if tier == "omni" else fg
+    # the motif sits a little smaller and higher than on the plain face, clear of the number and of the issuer's spaces
+    inner = el("rect", width=str(W), height=str(H), fill=f"url(#{g}bg)") + _finish(tier, t, g) + _motif(tier, t, g, cx=250, cy=74, k=.75)
+    inner += _chip(25, 62, "gold" if tier in ("core", "omni") else "silver", g, t)
+    mark, _ = figures.brand_asset("logo", "light", 24, 20, 110, "vcard-face")
+    inner += f'<g color="{fg}">{mark}</g>'
+    inner += _txt(SAMPLE_TEXT["sample"], 200, 30, 8, ink, "800", "middle", "0.3em", "body", ".85")
+    inner += _txt(SAMPLE_TEXT["number"], 25, 124, 17, ink, "700", spacing="0.06em")
+    inner += _txt(SAMPLE_TEXT["valid"], 150, 143, 6, ink, "700", spacing="0.12em", family="body", opacity=".85")
+    inner += _txt(SAMPLE_TEXT["expiry"], 150, 156, 11, ink, "700")
+    inner += _txt(SAMPLE_TEXT["holder"], 25, 166, 11, ink, "700", spacing="0.1em", family="body")
+    accent_line = t[f"vcard-{tier}-accent"] if tier in ("edge", "hub", "core") else fg
+    inner += el("text", esc(TIER_TEXT[tier]), x="25", y="192", fill=ink if tier == "omni" else accent_line, font_size="11", font_weight="800", letter_spacing="0.12em",
+                font_family=_design.SRC["fonts"]["heading"].replace('"', "'"), stroke="none")
+    zx, zy, zw, zh = ZONES["network"]
+    inner += _txt(GROUP_TEXT[group], zx + zw, zy - 6, 9, ink, "800", "end", "0.16em", "heading")
+    inner += rr(zx, zy, zw, zh, 5, "none", stroke=fg, stroke_opacity=".55", stroke_width=1, stroke_dasharray="3 3")   # empty: the issuer's network mark goes here
+    body = defs + f'<g clip-path="url(#{g}clip)">{inner}</g>' + _edge(tier, t, g)
+    return frame(f"vcard-{tier}-{group}", sample_alt(tier, group), f"{START}<g>{body}</g>{END}", W, H)
+
+
+def sample_back(tier, group):
+    """A sample back: the calm back with the placeholder security code 000 in the issuer's panel and the SAMPLE word."""
+    t = _tok()
+    defs, g = _defs(tier, t, f"{tier}{group[0]}sb")
+    fg = t[f"on-vcard-{tier}"]
+    inner = el("rect", width=str(W), height=str(H), fill=f"url(#{g}bg)") + _finish(tier, t, g) + _motif(tier, t, g, cx=280, cy=130, k=1.5, op=".16")
+    inner += rr(0, 22, W, 36, 0, t["vcard-stripe"], stroke="none") + el("rect", y="22", width=str(W), height="36", fill=f"url(#{g}sheen)")
+    inner += rr(22, 74, 206, 26, 4, t["vcard-panel"], stroke="none")
+    inner += _txt(SAMPLE_TEXT["code"], 220, 92, 11, t["vcard-stripe"], "700", "end")
+    mark, _ = figures.brand_asset("logo", "light", 22, 166, 90, "vcard-face")
+    inner += f'<g color="{fg}">{mark}</g>'
+    inner += _txt(SAMPLE_TEXT["sample"], 170, 132, 8, _ink(tier, g, t) if tier == "omni" else fg, "800", "middle", "0.3em", "body", ".85")
+    inner += el("text", esc(BACK_TEXT[tier]), x="318", y="194", text_anchor="end", fill=_ink(tier, g, t) if tier == "omni" else t[f"vcard-{tier}-accent"], font_size="10", font_weight="800",
+                letter_spacing="0.2em", font_family=_design.SRC["fonts"]["heading"].replace('"', "'"), stroke="none")
+    body = defs + f'<g clip-path="url(#{g}clip)">{inner}</g>' + _edge(tier, t, g)
+    return frame(f"vcard-{tier}-{group}-back", sample_alt(tier, group, back=True), f"{START}<g>{body}</g>{END}", W, H)
+
+
+TIER_WORD = {"edge": "Free", "hub": "Plus", "core": "Pro", "omni": "Max"}
+
+
+def sample_alt(tier, group, back=False):
+    name = f"{_cg.NAMES[group]} {TIER_WORD[tier]}"
+    if back:
+        return (f"Back of a sample {name} card ({NAMES[tier]}, {tier.upper()}, {group}): a dark stripe, the issuer's panel with the sample "
+                f"security code 000, the word SAMPLE, the LynkOmni logo and the word {tier.upper()}. Not a real card.")
+    return (f"Sample {name} card ({NAMES[tier]}, {tier.upper()}, {group}): the LynkOmni logo top left, the chip, the sample number "
+            f"1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line {TIER_TEXT[tier]}, the word {GROUP_TEXT[group]} above an empty space "
+            "where the issuer adds the network mark, and the word SAMPLE. Not a real card.")

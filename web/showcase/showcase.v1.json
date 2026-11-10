@@ -6,13 +6,13 @@
    "n": 0,
    "title": "One global structure",
    "status": "locked",
-   "version": "v0.28.0"
+   "version": "v0.37.0"
   },
   {
    "n": 1,
    "title": "Shared shell and design components",
    "status": "locked",
-   "version": "v0.29.0"
+   "version": "v0.38.0"
   },
   {
    "n": 2,
@@ -89,8 +89,8 @@
    "id": "browser-frame",
    "title": "Shared shell (browser frame)",
    "section": 1,
-   "what": "The frame every LynkOmni screen sits in: header with the side you are in (your workspace or Storefront), navigation, launcher, search, help, notifications, connection and sync states, overlays, dark, lite and sunlight modes. It picks the right view for your device by itself (phone, tablet, computer, touch or mouse) and fits every screen from a 240 px watch to a 4K television.",
-   "try": "Open the account menu: switch to Storefront, then Change view and Why this view?. Use the testing controls to try other views and widths; swipe from the edge on a phone to open the launcher.",
+   "what": "The frame every LynkOmni screen sits in: header with the side you are in (your workspace or Storefront), navigation, launcher, search, help, notifications, connection and sync states, overlays, dark, lite and sunlight modes. It picks the right view for your device by itself (phone, tablet, computer, touch or mouse) and fits every screen from a 240 px watch to a 4K television. New (MASTER UPDATE): the notification bell with New and Earlier, filters, actions with Undo and \"Why am I seeing this?\", urgent banners with sound and vibration, LynkAssist in the help button (ask, even offline, or let it fix something with Confirm or Deny), breadcrumbs, the PIN pad with pictures and key tones, number matching, and the email, text and Messages parts.",
+   "try": "Open the account menu: switch to Storefront, then Change view and Why this view?. Use the testing controls to try other views and widths; swipe from the edge on a phone to open the launcher. Then open the bell and approve Amina's request (and undo it); press \"Send an urgent test notification\" in the panel; open help (?) and ask \"How much is LynkStat?\", then switch the connection to Offline and ask again; on the home page enter a PIN (the right one is 2580) and tap a matching number.",
    "url": "https://claude.ai/artifact/6UrxwVAGfBR6unzqT1jS7u"
   },
   {

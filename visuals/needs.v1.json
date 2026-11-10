@@ -1037,6 +1037,414 @@
     "marketing"
    ],
    "budget_kb": 24
+  },
+  {
+   "id": "vcard-edge-prepaid",
+   "kind": "card",
+   "tier": "edge",
+   "group": "prepaid",
+   "variant": "sample",
+   "themes": [
+    "light"
+   ],
+   "alt": "Sample LynkPrima Free card (Aurora Teal, EDGE, prepaid): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line EDGE // FIRST LIGHT, the word PREPAID above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkPrima Free card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-edge-prepaid-back",
+   "kind": "card",
+   "tier": "edge",
+   "group": "prepaid",
+   "variant": "sample-back",
+   "themes": [
+    "light"
+   ],
+   "alt": "Back of a sample LynkPrima Free card (Aurora Teal, EDGE, prepaid): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word EDGE. Not a real card.",
+   "purpose": "Sample back of the LynkPrima Free card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-edge-debit",
+   "kind": "card",
+   "tier": "edge",
+   "group": "debit",
+   "variant": "sample",
+   "themes": [
+    "light"
+   ],
+   "alt": "Sample LynkDyna Free card (Aurora Teal, EDGE, debit): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line EDGE // FIRST LIGHT, the word DEBIT above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkDyna Free card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-edge-debit-back",
+   "kind": "card",
+   "tier": "edge",
+   "group": "debit",
+   "variant": "sample-back",
+   "themes": [
+    "light"
+   ],
+   "alt": "Back of a sample LynkDyna Free card (Aurora Teal, EDGE, debit): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word EDGE. Not a real card.",
+   "purpose": "Sample back of the LynkDyna Free card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-edge-credit",
+   "kind": "card",
+   "tier": "edge",
+   "group": "credit",
+   "variant": "sample",
+   "themes": [
+    "light"
+   ],
+   "alt": "Sample LynkCrest Free card (Aurora Teal, EDGE, credit): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line EDGE // FIRST LIGHT, the word CREDIT above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkCrest Free card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-edge-credit-back",
+   "kind": "card",
+   "tier": "edge",
+   "group": "credit",
+   "variant": "sample-back",
+   "themes": [
+    "light"
+   ],
+   "alt": "Back of a sample LynkCrest Free card (Aurora Teal, EDGE, credit): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word EDGE. Not a real card.",
+   "purpose": "Sample back of the LynkCrest Free card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-hub-prepaid",
+   "kind": "card",
+   "tier": "hub",
+   "group": "prepaid",
+   "variant": "sample",
+   "themes": [
+    "light"
+   ],
+   "alt": "Sample LynkPrima Plus card (Royal Sapphire, HUB, prepaid): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line HUB // CENTER POINT, the word PREPAID above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkPrima Plus card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-hub-prepaid-back",
+   "kind": "card",
+   "tier": "hub",
+   "group": "prepaid",
+   "variant": "sample-back",
+   "themes": [
+    "light"
+   ],
+   "alt": "Back of a sample LynkPrima Plus card (Royal Sapphire, HUB, prepaid): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word HUB. Not a real card.",
+   "purpose": "Sample back of the LynkPrima Plus card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-hub-debit",
+   "kind": "card",
+   "tier": "hub",
+   "group": "debit",
+   "variant": "sample",
+   "themes": [
+    "light"
+   ],
+   "alt": "Sample LynkDyna Plus card (Royal Sapphire, HUB, debit): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line HUB // CENTER POINT, the word DEBIT above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkDyna Plus card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-hub-debit-back",
+   "kind": "card",
+   "tier": "hub",
+   "group": "debit",
+   "variant": "sample-back",
+   "themes": [
+    "light"
+   ],
+   "alt": "Back of a sample LynkDyna Plus card (Royal Sapphire, HUB, debit): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word HUB. Not a real card.",
+   "purpose": "Sample back of the LynkDyna Plus card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-hub-credit",
+   "kind": "card",
+   "tier": "hub",
+   "group": "credit",
+   "variant": "sample",
+   "themes": [
+    "light"
+   ],
+   "alt": "Sample LynkCrest Plus card (Royal Sapphire, HUB, credit): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line HUB // CENTER POINT, the word CREDIT above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkCrest Plus card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-hub-credit-back",
+   "kind": "card",
+   "tier": "hub",
+   "group": "credit",
+   "variant": "sample-back",
+   "themes": [
+    "light"
+   ],
+   "alt": "Back of a sample LynkCrest Plus card (Royal Sapphire, HUB, credit): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word HUB. Not a real card.",
+   "purpose": "Sample back of the LynkCrest Plus card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-core-prepaid",
+   "kind": "card",
+   "tier": "core",
+   "group": "prepaid",
+   "variant": "sample",
+   "themes": [
+    "light"
+   ],
+   "alt": "Sample LynkPrima Pro card (Imperial Amethyst, CORE, prepaid): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line CORE // DEEP SYSTEM, the word PREPAID above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkPrima Pro card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-core-prepaid-back",
+   "kind": "card",
+   "tier": "core",
+   "group": "prepaid",
+   "variant": "sample-back",
+   "themes": [
+    "light"
+   ],
+   "alt": "Back of a sample LynkPrima Pro card (Imperial Amethyst, CORE, prepaid): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word CORE. Not a real card.",
+   "purpose": "Sample back of the LynkPrima Pro card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-core-debit",
+   "kind": "card",
+   "tier": "core",
+   "group": "debit",
+   "variant": "sample",
+   "themes": [
+    "light"
+   ],
+   "alt": "Sample LynkDyna Pro card (Imperial Amethyst, CORE, debit): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line CORE // DEEP SYSTEM, the word DEBIT above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkDyna Pro card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-core-debit-back",
+   "kind": "card",
+   "tier": "core",
+   "group": "debit",
+   "variant": "sample-back",
+   "themes": [
+    "light"
+   ],
+   "alt": "Back of a sample LynkDyna Pro card (Imperial Amethyst, CORE, debit): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word CORE. Not a real card.",
+   "purpose": "Sample back of the LynkDyna Pro card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-core-credit",
+   "kind": "card",
+   "tier": "core",
+   "group": "credit",
+   "variant": "sample",
+   "themes": [
+    "light"
+   ],
+   "alt": "Sample LynkCrest Pro card (Imperial Amethyst, CORE, credit): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line CORE // DEEP SYSTEM, the word CREDIT above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkCrest Pro card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-core-credit-back",
+   "kind": "card",
+   "tier": "core",
+   "group": "credit",
+   "variant": "sample-back",
+   "themes": [
+    "light"
+   ],
+   "alt": "Back of a sample LynkCrest Pro card (Imperial Amethyst, CORE, credit): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word CORE. Not a real card.",
+   "purpose": "Sample back of the LynkCrest Pro card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-omni-prepaid",
+   "kind": "card",
+   "tier": "omni",
+   "group": "prepaid",
+   "variant": "sample",
+   "themes": [
+    "light"
+   ],
+   "alt": "Sample LynkPrima Max card (Black Gold, OMNI, prepaid): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line OMNI // OWN ALL COMMERCE, the word PREPAID above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkPrima Max card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-omni-prepaid-back",
+   "kind": "card",
+   "tier": "omni",
+   "group": "prepaid",
+   "variant": "sample-back",
+   "themes": [
+    "light"
+   ],
+   "alt": "Back of a sample LynkPrima Max card (Black Gold, OMNI, prepaid): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word OMNI. Not a real card.",
+   "purpose": "Sample back of the LynkPrima Max card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-omni-debit",
+   "kind": "card",
+   "tier": "omni",
+   "group": "debit",
+   "variant": "sample",
+   "themes": [
+    "light"
+   ],
+   "alt": "Sample LynkDyna Max card (Black Gold, OMNI, debit): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line OMNI // OWN ALL COMMERCE, the word DEBIT above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkDyna Max card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-omni-debit-back",
+   "kind": "card",
+   "tier": "omni",
+   "group": "debit",
+   "variant": "sample-back",
+   "themes": [
+    "light"
+   ],
+   "alt": "Back of a sample LynkDyna Max card (Black Gold, OMNI, debit): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word OMNI. Not a real card.",
+   "purpose": "Sample back of the LynkDyna Max card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-omni-credit",
+   "kind": "card",
+   "tier": "omni",
+   "group": "credit",
+   "variant": "sample",
+   "themes": [
+    "light"
+   ],
+   "alt": "Sample LynkCrest Max card (Black Gold, OMNI, credit): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line OMNI // OWN ALL COMMERCE, the word CREDIT above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkCrest Max card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
+  },
+  {
+   "id": "vcard-omni-credit-back",
+   "kind": "card",
+   "tier": "omni",
+   "group": "credit",
+   "variant": "sample-back",
+   "themes": [
+    "light"
+   ],
+   "alt": "Back of a sample LynkCrest Max card (Black Gold, OMNI, credit): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word OMNI. Not a real card.",
+   "purpose": "Sample back of the LynkCrest Max card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "budget_kb": 26
   }
  ]
 }

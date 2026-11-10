@@ -57,12 +57,29 @@ def _packs(base):
     return out
 
 
+# The MASTER UPDATE section 1 parts (the bell, sign-in parts, LynkAssist, breadcrumbs): their words travel only in a file that
+# shows them, so a device that does not import them never carries their words (size budget).
+PART_MODULES = ("signin.ts", "notify.ts", "assist.ts", "breadcrumbs.ts")
+PART_WORDS = {"signin.ts": ("pin_", "match_"), "notify.ts": ("ntf_", "msg_"), "assist.ts": ("as_",), "breadcrumbs.ts": ("crumbs",)}
+
+
+def part_words_left_out(emulator):
+    """The word prefixes of the parts this emulator does not import (true for every emulator, the full-shell ones included)."""
+    return tuple(p for m, prefixes in PART_WORDS.items() if not imports_part(emulator, m) for p in prefixes)
+
+
+def imports_part(emulator, module):
+    with open(os.path.join(ROOT, "web", "emulators", emulator, "app.ts"), encoding="utf-8") as f:
+        return f'ts/src/{module[:-3]}.js"' in f.read()
+
+
 def used_keys(emulator, keys):
     """The shared POS words an emulator can show: every key written as a string in its app.ts or in the shared TypeScript it
     bundles, and every key under a prefix it builds at run time (t(`svc_${...}`)). Only those travel in its file (size budget)."""
     import re
     src = ""
-    for path in [os.path.join(ROOT, "web", "emulators", emulator, "app.ts")] + [os.path.join(ROOT, "ts", "src", f) for f in os.listdir(os.path.join(ROOT, "ts", "src")) if f.endswith(".ts") and not f.endswith(".generated.ts")]:
+    for path in [os.path.join(ROOT, "web", "emulators", emulator, "app.ts")] + [os.path.join(ROOT, "ts", "src", f) for f in os.listdir(os.path.join(ROOT, "ts", "src"))
+                 if f.endswith(".ts") and not f.endswith(".generated.ts") and (f not in PART_MODULES or imports_part(emulator, f))]:
         with open(path, encoding="utf-8") as f: src += f.read()
     literal = set(re.findall(r"[\"'`]([a-z][a-z0-9_]*)[\"'`]", src))
     prefixes = set(re.findall(r"`([a-z][a-z0-9_]*_)\$\{", src))
@@ -85,6 +102,9 @@ def language_packs(emulator):
         if folder.endswith("pos") or (folder.endswith("shell") and emulator not in ("browser-frame", "account-site")):   # devices carry only the shell words they can show
             keep = used_keys(emulator, shared.get("en", {}).get("texts", {}).keys())
             shared = {lang: {**v, "texts": {k: x for k, x in v["texts"].items() if k in keep}} for lang, v in shared.items()}
+        if folder.endswith("shell") and part_words_left_out(emulator):
+            out = part_words_left_out(emulator)
+            shared = {lang: {**v, "texts": {k: x for k, x in v["texts"].items() if not k.startswith(out)}} for lang, v in shared.items()}
         own = {lang: {**own[lang], "texts": {**shared[lang]["texts"], **own[lang]["texts"]}} for lang in own if lang in shared}
     return own
 
@@ -108,7 +128,7 @@ PLAIN_ID = {"LynkPOS": "pos", "LynkAcc": "acc", "LynkStock": "stock", "LynkStat"
 
 # The brand places the screens ask for (brand/surfaces.v1.json): each place lists its choices in order with the smallest
 # width each needs, so the screen picks by the room it has (ts/src/brand.ts markFor). Screens never name a logo file.
-BRAND_PLACES = ("app-top-bar", "web-header", "side-menu", "auth-onboarding", "customer-welcome", "web-footer")
+BRAND_PLACES = ("app-top-bar", "web-header", "side-menu", "auth-onboarding", "customer-welcome", "web-footer", "email-header")
 
 
 def brand_places():

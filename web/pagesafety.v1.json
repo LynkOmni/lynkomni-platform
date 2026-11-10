@@ -1,0 +1,27 @@
+{
+ "version": 1,
+ "agreed": "2026-11-10 (MASTER UPDATE, master blueprint section 59)",
+ "rule": "Every LynkOmni page carries this policy: nothing loads from elsewhere and only the page's own scripts run, pinned by their SHA-256 hashes. core/pagesafety.py and web/build.mjs both read this file; tests/test_pagesafety.py checks every built page.",
+ "directives": {
+  "default-src": "'none'",
+  "script-src": "HASHES",
+  "style-src": "'unsafe-inline'",
+  "img-src": "data:",
+  "font-src": "data:",
+  "connect-src": "'none'",
+  "media-src": "'none'",
+  "object-src": "'none'",
+  "base-uri": "'none'",
+  "form-action": "'none'"
+ },
+ "headers": {
+  "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+  "X-Content-Type-Options": "nosniff",
+  "Referrer-Policy": "no-referrer",
+  "Permissions-Policy": "camera=(self), microphone=(self), geolocation=(self), payment=(self), usb=()",
+  "Cross-Origin-Opener-Policy": "same-origin",
+  "Cross-Origin-Resource-Policy": "same-origin",
+  "X-Frame-Options": "DENY",
+  "Content-Security-Policy": "POLICY; frame-ancestors 'none'; upgrade-insecure-requests"
+ }
+}

@@ -37,5 +37,17 @@
  "title_home": "Today at {shop}",
  "today_profit": "Today's profit",
  "today_sales": "Today's sales",
- "void_sale": "Void a sale"
+ "void_sale": "Void a sale",
+ "demo_signin_card": "Sign-in parts",
+ "demo_messages_card": "Message parts",
+ "demo_pin_title": "Enter your PIN",
+ "demo_ntf_stock": "Rice 1 kg is running low",
+ "demo_ntf_staff": "Amina asks to open the cash drawer",
+ "demo_ntf_recovery": "Someone started recovering your account",
+ "demo_mail_title": "Your receipt",
+ "demo_mail_line": "Thank you for shopping with us today.",
+ "demo_mail_reason": "You got this because you asked for a receipt by email.",
+ "demo_text": "LynkOmni: your receipt is ready in the app.",
+ "demo_assist_what": "Resend today's receipt to the customer",
+ "demo_assist_mute": "Turn off stock notifications"
 }

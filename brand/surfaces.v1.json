@@ -527,7 +527,7 @@
   },
   {
    "id": "email-header",
-   "status": "planned",
+   "status": "live",
    "kind": "email",
    "offline": false,
    "uses": [

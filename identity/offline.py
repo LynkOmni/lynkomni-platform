@@ -96,13 +96,27 @@ def allowed_offline(mode, action):
     return action in (CASH_ONLY if mode == "cash_only" else PROVISIONAL_WORKS)
 
 
+PIN_MIN, PIN_MAX = 4, 8
+
+
+def pin_problem(pin):
+    """None for a good PIN, "length" for the wrong number of digits, "pattern" for a repeated or running number. The PIN pad
+    (ts/src/signin.ts) applies the same rule, checked by the shared vectors (tools/shell_parts.py)."""
+    if not (isinstance(pin, str) and pin.isdigit() and PIN_MIN <= len(pin) <= PIN_MAX):
+        return "length"
+    if len(set(pin)) == 1 or pin in "0123456789" or pin in "9876543210":
+        return "pattern"
+    return None
+
+
 class PinLock:
     """The PIN is never stored, only a slow salted hash. Wrong tries slow down, then the device locks hard: nothing is
     destroyed, and the owner unlocks it by the recovery code, another signed-in device or online recovery."""
     def __init__(self, pin):
-        if not (isinstance(pin, str) and pin.isdigit() and 4 <= len(pin) <= 8):
+        problem = pin_problem(pin)
+        if problem == "length":
             raise ValueError("a PIN is 4 to 8 digits")
-        if len(set(pin)) == 1 or pin in "0123456789" or pin in "9876543210":
+        if problem == "pattern":
             raise ValueError("choose a PIN that is not a repeated or running number")
         self._salt = secrets.token_bytes(16)
         self._hash = self._h(pin)
