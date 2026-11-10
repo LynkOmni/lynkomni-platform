@@ -99,6 +99,7 @@ class Notifier:
         if record and record in prefs.get("muted_records", ()) and k["can_turn_off"]:
             return {"state": "suppressed", "reason": "muted_record"}
         line = self._line(k, person, event_id, now, record, business, role, facts)
+        line["lang"] = lang                                   # repeats and follow-ups stay in the reader's language
         if not online:
             self.backlog.setdefault(person, []).append(line["nid"])
             return {"state": "queued", "nid": line["nid"]}
@@ -205,7 +206,7 @@ class Notifier:
             if l["priority"] == "critical" and now - l["at"] >= REPEAT_S:
                 for c in KINDS[l["kind"]]["channels"]:
                     if c != "bell":
-                        self.sender.deliver(c, l["person"], l["kind"], "en")
+                        self.sender.deliver(c, l["person"], l["kind"], l.get("lang", "en"))
                 l["at"] = now
                 out.append(("repeated", l["nid"]))
             limit = (escalate_after or {}).get(l["role"], ESCALATE_DEFAULT_S)

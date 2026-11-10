@@ -122,3 +122,6 @@ Every decision the owner made, newest first. Lines are never deleted: a changed 
   - Cash taken for someone else (a rider or a pickup point collecting for a seller) belongs to that seller; the app records who owes what and LynkOmni never holds it. That part is built in section 7B.
   - Cash is not offered for remote payments, LynkOmni plans, cards, agent point services (their own rule stays) or exchange.
   - Every place is listed in catalog/cash.v1.json with its build section; a new service that takes money in person adds its place there.
+- 2026-11-10: MASTER UPDATE Step 0 (v0.37.0) built by the blueprint. Card group names locked as set B: LynkPrima (prepaid), LynkDyna (debit), LynkCrest (credit), each with Free, Plus, Pro and Max; they are plan names inside LynkVCard, not new products, and plan prices stay $0/$4/$12/$30.
+- 2026-11-10: Leftover fixed in Step 0: the contract session policy now says cash selling continues after the offline limit and only the rest waits for sign-in (MASTER UPDATE section 55); the older wording stopped the till.
+- 2026-11-10: Leftovers fixed in Step 0 after the owner's architecture check: repeated notifications keep each reader's language, and the offline knowledge pack is built in every language, not English only.

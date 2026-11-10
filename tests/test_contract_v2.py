@@ -60,7 +60,7 @@ class Version2(unittest.TestCase):
         self.assertEqual(CURRENT, 5)                                                             # version 3 (2026-11-09) adds the side, version 4 (2026-11-10) the movement milestones, version 5 (MASTER UPDATE) the card request
         v1 = {"type": "PaymentRecorded", "schema_version": 1, "payload": {"payment_id": "x", "amount": 1500}}
         up = upcast(v1)
-        self.assertEqual((up["schema_version"], up["payload"]["currency"], up["payload"]["amount"]), (4, "RWF", 1500))
+        self.assertEqual((up["schema_version"], up["payload"]["currency"], up["payload"]["amount"]), (CURRENT, "RWF", 1500))
         self.assertEqual(v1["schema_version"], 1); self.assertNotIn("currency", v1["payload"])     # the stored event is untouched
         sale = {"type": "SaleRecorded", "schema_version": 1, "payload": {"currency": "RWF", "total": 5}}
         self.assertEqual(upcast(sale)["payload"]["currency"], "RWF")

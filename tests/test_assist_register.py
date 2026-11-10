@@ -109,6 +109,20 @@ class TestKnowledgePack(unittest.TestCase):
         self.assertFalse(kp.verify(fake, key.public))
         self.assertFalse(kp.verify(signed, DeviceKey().public), "a pack signed by another key is refused")
 
+    def test_one_pack_per_language_with_no_english_left(self):
+        en = kp.build("2026-11-10", "en")
+        self.assertEqual(len(kp.LANGS), 38)
+        for lang in kp.LANGS:
+            p = kp.build("2026-11-10", lang)
+            self.assertEqual(len(p["entries"]), len(en["entries"]), lang)
+            if lang != "en":
+                self.assertNotIn("a month", " ".join(e["a"] for e in p["entries"]), lang)
+            for e in p["entries"]:
+                self.assertNotIn("{", e["q"] + e["a"], f"{lang}: {e['id']}")
+        ar = kp.build("2026-11-10", "ar")
+        self.assertIn("LynkStat", next(e for e in ar["entries"] if e["id"] == "price-lynkstat")["a"], "product names stay as they are")
+        self.assertEqual(kp.lookup(kp.build("2026-11-10", "ja"), "LynkStatの料金")[0]["id"], "price-lynkstat")
+
     def test_offline_search_finds_the_answer(self):
         pack = kp.build("2026-11-10")
         self.assertEqual(kp.lookup(pack, "How much is LynkStat?")[0]["id"], "price-lynkstat")

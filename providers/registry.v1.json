@@ -1,2046 +1,2124 @@
 {
- "version": 1,
- "description": "Everything that waits on a provider or on later work. A provider item is a working sandbox stand-in behind an interface; its service stays OFF for real users until the item is contract_signed (or live) for that country. `later` items are non-provider work that must happen before certain things go live. python3 providers/check.py keeps this honest: no stale entries, no unregistered placeholders, no service switched on without its provider.",
- "statuses": [
-  "sandbox",
-  "chosen",
-  "contract_signed",
-  "live"
- ],
- "items": [
-  {
-   "id": "momo_mtn",
-   "name": "MTN Mobile Money",
-   "kind": "mobile_money",
-   "used_by": [
-    "payments",
-    "recovery",
-    "paylinks"
-   ],
-   "countries": [
-    "RW",
-    "UG",
-    "GH"
-   ],
-   "status": "sandbox",
-   "interface": "core.providers:Provider",
-   "sandbox": "core.providers:Simulator",
-   "needed_from_provider": [
-    "merchant API agreement per country",
-    "sandbox and live API keys",
-    "fee schedule",
-    "settlement and refund rules",
-    "webhook signing secret"
-   ],
-   "placeholders": [
+  "version": 1,
+  "description": "Everything that waits on a provider or on later work. A provider item is a working sandbox stand-in behind an interface; its service stays OFF for real users until the item is contract_signed (or live) for that country. `later` items are non-provider work that must happen before certain things go live. python3 providers/check.py keeps this honest: no stale entries, no unregistered placeholders, no service switched on without its provider.",
+  "statuses": [
+    "sandbox",
+    "chosen",
+    "contract_signed",
+    "live"
+  ],
+  "items": [
     {
-     "file": "core/providers.py",
-     "token": "Simulator"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "Fee in the simulator (100 bps) is a placeholder.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "airtel_money",
-   "name": "Airtel Money",
-   "kind": "mobile_money",
-   "used_by": [
-    "payments",
-    "recovery",
-    "paylinks"
-   ],
-   "countries": [
-    "RW",
-    "UG",
-    "TZ"
-   ],
-   "status": "sandbox",
-   "interface": "core.providers:Provider",
-   "sandbox": "core.providers:Simulator",
-   "needed_from_provider": [
-    "merchant API agreement per country",
-    "sandbox and live API keys",
-    "fee schedule",
-    "webhook signing secret"
-   ],
-   "placeholders": [
-    {
-     "file": "core/providers.py",
-     "token": "Simulator"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "mpesa",
-   "name": "M-Pesa",
-   "kind": "mobile_money",
-   "used_by": [
-    "payments",
-    "recovery",
-    "paylinks"
-   ],
-   "countries": [
-    "KE",
-    "TZ"
-   ],
-   "status": "sandbox",
-   "interface": "core.providers:Provider",
-   "sandbox": "core.providers:Simulator",
-   "needed_from_provider": [
-    "Daraja or equivalent API access per country",
-    "sandbox and live keys",
-    "fee schedule",
-    "callback URL registration"
-   ],
-   "placeholders": [
-    {
-     "file": "core/providers.py",
-     "token": "Simulator"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "upi",
-   "name": "UPI",
-   "kind": "bank_rail",
-   "used_by": [
-    "payments",
-    "paylinks"
-   ],
-   "countries": [
-    "IN"
-   ],
-   "status": "sandbox",
-   "interface": "core.providers:Provider",
-   "sandbox": "core.providers:Simulator",
-   "needed_from_provider": [
-    "licensed payment service provider or bank partner",
-    "collect and QR API access",
-    "RBI-compliant onboarding"
-   ],
-   "placeholders": [
-    {
-     "file": "core/providers.py",
-     "token": "Simulator"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "bank_transfer",
-   "name": "Bank transfer and payout",
-   "kind": "bank_rail",
-   "used_by": [
-    "payments",
-    "paylinks",
-    "marketplace"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "core.providers:Provider",
-   "sandbox": "core.providers:Simulator",
-   "needed_from_provider": [
-    "licensed bank or payment institution partner per country",
-    "virtual account or payout API",
-    "reconciliation file format"
-   ],
-   "placeholders": [
-    {
-     "file": "core/providers.py",
-     "token": "Simulator"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "card_acquirer",
-   "name": "Card payments (acquirer)",
-   "kind": "card_acquiring",
-   "used_by": [
-    "payments",
-    "paylinks"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "core.providers:Provider",
-   "sandbox": "core.providers:Simulator",
-   "needed_from_provider": [
-    "licensed acquirer or payment gateway per country",
-    "PCI scope agreement (card data stays with the gateway)",
-    "3D Secure support",
-    "chargeback and refund rules"
-   ],
-   "placeholders": [
-    {
-     "file": "core/providers.py",
-     "token": "Simulator"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "qr",
-   "name": "QR payments",
-   "kind": "qr_rail",
-   "used_by": [
-    "payments",
-    "paylinks"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "core.providers:Provider",
-   "sandbox": "core.providers:Simulator",
-   "needed_from_provider": [
-    "scheme or bank partner per country",
-    "merchant QR registration"
-   ],
-   "placeholders": [
-    {
-     "file": "core/providers.py",
-     "token": "Simulator"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "fiscal_rra_ebm",
-   "name": "Rwanda RRA EBM",
-   "kind": "fiscal",
-   "used_by": [
-    "pos",
-    "accountant"
-   ],
-   "countries": [
-    "RW"
-   ],
-   "status": "sandbox",
-   "interface": "core.providers:FiscalAdapter",
-   "sandbox": "core.providers:RraEbmAdapter",
-   "needed_from_provider": [
-    "RRA written confirmation of the allowed offline workflow",
-    "EBM certification for the private system",
-    "sandbox access"
-   ],
-   "placeholders": [
-    {
-     "file": "core/providers.py",
-     "token": "NOT certified"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "Until confirmed, sales stay pending_fiscal and are never called a valid tax receipt.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "fiscal_kra_etims",
-   "name": "Kenya KRA eTIMS",
-   "kind": "fiscal",
-   "used_by": [
-    "pos",
-    "accountant"
-   ],
-   "countries": [
-    "KE"
-   ],
-   "status": "sandbox",
-   "interface": "core.providers:FiscalAdapter",
-   "sandbox": "core.providers:FiscalAdapter",
-   "needed_from_provider": [
-    "KRA integration approval",
-    "sandbox access",
-    "written workflow confirmation"
-   ],
-   "placeholders": [],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "No adapter yet: sales are not_applicable until one exists.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "fiscal_tra_vfd",
-   "name": "Tanzania TRA VFD",
-   "kind": "fiscal",
-   "used_by": [
-    "pos",
-    "accountant"
-   ],
-   "countries": [
-    "TZ"
-   ],
-   "status": "sandbox",
-   "interface": "core.providers:FiscalAdapter",
-   "sandbox": "core.providers:FiscalAdapter",
-   "needed_from_provider": [
-    "TRA approval",
-    "sandbox access",
-    "written workflow confirmation"
-   ],
-   "placeholders": [],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "No adapter yet.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "fiscal_ura_efris",
-   "name": "Uganda URA EFRIS",
-   "kind": "fiscal",
-   "used_by": [
-    "pos",
-    "accountant"
-   ],
-   "countries": [
-    "UG"
-   ],
-   "status": "sandbox",
-   "interface": "core.providers:FiscalAdapter",
-   "sandbox": "core.providers:FiscalAdapter",
-   "needed_from_provider": [
-    "URA approval",
-    "sandbox access",
-    "written workflow confirmation"
-   ],
-   "placeholders": [],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "No adapter yet.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "vcard_issuer",
-   "name": "Virtual card issuer and BIN sponsor",
-   "kind": "card_issuing",
-   "used_by": [
-    "vcard"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.vcard:SandboxIssuer",
-   "sandbox": "services.vcard:SandboxIssuer",
-   "needed_from_provider": [
-    "signed issuer agreement and BIN sponsor per country",
-    "network licence (Visa or Mastercard) through the sponsor",
-    "sandbox and live API",
-    "interchange and FX share (replaces INTERCHANGE_BPS and FX_NET_BPS)",
-    "issuer-hosted card display (card numbers never reach LynkOmni)",
-    "dispute and chargeback process",
-    "legal sign-off and the activation checklist"
-   ],
-   "placeholders": [
-    {
-     "file": "services/vcard.py",
-     "token": "INTERCHANGE_BPS"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "Cards stay off in a country until its pack has issuer, bin_sponsor and enabled true. Card art has no network mark or bank name until the issuer supplies them under licence.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "vcard_wallet_tokens",
-   "name": "Apple Pay and Google Pay tokens (VTS and MDES)",
-   "kind": "card_tokenisation",
-   "used_by": [
-    "vcard"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.vcard:SandboxIssuer",
-   "sandbox": "services.vcard:SandboxIssuer",
-   "needed_from_provider": [
-    "network token service enrolment through the issuer",
-    "wallet provisioning approval",
-    "token auto-revoke on freeze, close and rotate"
-   ],
-   "placeholders": [],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "Only promised for CORE and OMNI after this is live.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "vcard_perks",
-   "name": "Card perks partner (lounge access, travel insurance, purchase protection)",
-   "kind": "perks",
-   "used_by": [
-    "vcard"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.vcard:SandboxIssuer",
-   "sandbox": "services.vcard:SandboxIssuer",
-   "needed_from_provider": [
-    "perks partner agreement through the issuer or network",
-    "claims process",
-    "legal wording per country"
-   ],
-   "placeholders": [],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "Do not advertise perks before this is signed.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "vcard_physical",
-   "name": "Physical companion card (KYC and fulfilment)",
-   "kind": "card_fulfilment",
-   "used_by": [
-    "vcard"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.vcard:SandboxIssuer",
-   "sandbox": "services.vcard:SandboxIssuer",
-   "needed_from_provider": [
-    "card manufacturer and fulfilment partner",
-    "KYC provider (identity and address) per issuer rules",
-    "shipping and tracking API",
-    "NFC activation flow"
-   ],
-   "placeholders": [],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "OMNI only. The artwork shows no bank or network mark until supplied.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "sms_otp",
-   "name": "SMS, WhatsApp, email and push delivery",
-   "kind": "messaging",
-   "used_by": [
-    "recovery",
-    "vcard",
-    "chat"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "identity.auth:Identity",
-   "sandbox": "identity.auth:Identity",
-   "needed_from_provider": [
-    "SMS aggregator per country (sender ID registration)",
-    "WhatsApp Business provider",
-    "email delivery service with domain verification",
-    "push services (FCM, APNs)"
-   ],
-   "placeholders": [
-    {
-     "file": "identity/auth.py",
-     "token": "never returned"
+      "id": "momo_mtn",
+      "name": "MTN Mobile Money",
+      "kind": "mobile_money",
+      "used_by": [
+        "payments",
+        "recovery",
+        "paylinks"
+      ],
+      "countries": [
+        "RW",
+        "UG",
+        "GH"
+      ],
+      "status": "sandbox",
+      "interface": "core.providers:Provider",
+      "sandbox": "core.providers:Simulator",
+      "needed_from_provider": [
+        "merchant API agreement per country",
+        "sandbox and live API keys",
+        "fee schedule",
+        "settlement and refund rules",
+        "webhook signing secret"
+      ],
+      "placeholders": [
+        {
+          "file": "core/providers.py",
+          "token": "Simulator"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "Fee in the simulator (100 bps) is a placeholder.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
     },
     {
-     "file": "services/messages.py",
-     "token": "SandboxSender"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "Codes are returned in the sandbox only so tests run offline; production must send them and never return them.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "fx_rates",
-   "name": "Foreign exchange rates",
-   "kind": "data_feed",
-   "used_by": [
-    "payments",
-    "vcard",
-    "marketplace"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "core.money:USD_RATES",
-   "sandbox": "core.money:USD_RATES",
-   "needed_from_provider": [
-    "live FX rate provider",
-    "licence for redistribution",
-    "staleness rules"
-   ],
-   "placeholders": [
+      "id": "airtel_money",
+      "name": "Airtel Money",
+      "kind": "mobile_money",
+      "used_by": [
+        "payments",
+        "recovery",
+        "paylinks"
+      ],
+      "countries": [
+        "RW",
+        "UG",
+        "TZ"
+      ],
+      "status": "sandbox",
+      "interface": "core.providers:Provider",
+      "sandbox": "core.providers:Simulator",
+      "needed_from_provider": [
+        "merchant API agreement per country",
+        "sandbox and live API keys",
+        "fee schedule",
+        "webhook signing secret"
+      ],
+      "placeholders": [
+        {
+          "file": "core/providers.py",
+          "token": "Simulator"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "core/money.py",
-     "token": "PLACEHOLDER"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "Rates are placeholders. Show no live-rate claim.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "geo_lookup",
-   "name": "Country and location lookup",
-   "kind": "data_feed",
-   "used_by": [
-    "pos"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "core.regions:resolve_country",
-   "sandbox": "core.regions:resolve_country",
-   "needed_from_provider": [
-    "real geocoding or boundary dataset",
-    "usage terms"
-   ],
-   "placeholders": [
+      "id": "mpesa",
+      "name": "M-Pesa",
+      "kind": "mobile_money",
+      "used_by": [
+        "payments",
+        "recovery",
+        "paylinks"
+      ],
+      "countries": [
+        "KE",
+        "TZ"
+      ],
+      "status": "sandbox",
+      "interface": "core.providers:Provider",
+      "sandbox": "core.providers:Simulator",
+      "needed_from_provider": [
+        "Daraja or equivalent API access per country",
+        "sandbox and live keys",
+        "fee schedule",
+        "callback URL registration"
+      ],
+      "placeholders": [
+        {
+          "file": "core/providers.py",
+          "token": "Simulator"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "core/regions.py",
-     "token": "CRUDE"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "The merchant's explicit country choice always wins.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "ads_network",
-   "name": "Ad demand and measurement",
-   "kind": "advertising",
-   "used_by": [
-    "ads"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.ads:SHARE_BPS",
-   "sandbox": "services.ads:SHARE_BPS",
-   "needed_from_provider": [
-    "advertiser or ad network agreements",
-    "impression validation and billing partner",
-    "legal sign-off per country",
-    "merchant revenue share terms (replaces SHARE_BPS)"
-   ],
-   "placeholders": [
+      "id": "upi",
+      "name": "UPI",
+      "kind": "bank_rail",
+      "used_by": [
+        "payments",
+        "paylinks"
+      ],
+      "countries": [
+        "IN"
+      ],
+      "status": "sandbox",
+      "interface": "core.providers:Provider",
+      "sandbox": "core.providers:Simulator",
+      "needed_from_provider": [
+        "licensed payment service provider or bank partner",
+        "collect and QR API access",
+        "RBI-compliant onboarding"
+      ],
+      "placeholders": [
+        {
+          "file": "core/providers.py",
+          "token": "Simulator"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/ads.py",
-     "token": "PLACEHOLDERS"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "Ads stay off per country until legal sign-off.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "financing_partner",
-   "name": "Licensed financing partner",
-   "kind": "financing",
-   "used_by": [
-    "financing"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.catalog:SandboxProvider",
-   "sandbox": "services.catalog:SandboxProvider",
-   "needed_from_provider": [
-    "licensed lender or credit partner agreement",
-    "referral terms and disclosures",
-    "consent flow approved by the partner"
-   ],
-   "placeholders": [
+      "id": "bank_transfer",
+      "name": "Bank transfer and payout",
+      "kind": "bank_rail",
+      "used_by": [
+        "payments",
+        "paylinks",
+        "marketplace"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "core.providers:Provider",
+      "sandbox": "core.providers:Simulator",
+      "needed_from_provider": [
+        "licensed bank or payment institution partner per country",
+        "virtual account or payout API",
+        "reconciliation file format"
+      ],
+      "placeholders": [
+        {
+          "file": "core/providers.py",
+          "token": "Simulator"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/catalog.py",
-     "token": "PLACEHOLDER"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "Referral only. LynkOmni never lends.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "protection_partner",
-   "name": "Licensed insurance partner",
-   "kind": "insurance",
-   "used_by": [
-    "protection"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.catalog:SandboxProvider",
-   "sandbox": "services.catalog:SandboxProvider",
-   "needed_from_provider": [
-    "licensed insurer or broker agreement",
-    "product and disclosure documents per country",
-    "claims handoff"
-   ],
-   "placeholders": [
+      "id": "card_acquirer",
+      "name": "Card payments (acquirer)",
+      "kind": "card_acquiring",
+      "used_by": [
+        "payments",
+        "paylinks"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "core.providers:Provider",
+      "sandbox": "core.providers:Simulator",
+      "needed_from_provider": [
+        "licensed acquirer or payment gateway per country",
+        "PCI scope agreement (card data stays with the gateway)",
+        "3D Secure support",
+        "chargeback and refund rules"
+      ],
+      "placeholders": [
+        {
+          "file": "core/providers.py",
+          "token": "Simulator"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/catalog.py",
-     "token": "PLACEHOLDER"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "NEW UPDATE 1: also the insurer pack and insurer sharing of LynkMotion and LynkGuard, only with the owner's consent.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "marketplace_partners",
-   "name": "Marketplace suppliers and fulfilment",
-   "kind": "marketplace",
-   "used_by": [
-    "marketplace",
-    "loyalty"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.catalog:SandboxProvider",
-   "sandbox": "services.catalog:SandboxProvider",
-   "needed_from_provider": [
-    "supplier agreements",
-    "inventory and fulfilment feeds",
-    "refund and cancellation rules"
-   ],
-   "placeholders": [
+      "id": "qr",
+      "name": "QR payments",
+      "kind": "qr_rail",
+      "used_by": [
+        "payments",
+        "paylinks"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "core.providers:Provider",
+      "sandbox": "core.providers:Simulator",
+      "needed_from_provider": [
+        "scheme or bank partner per country",
+        "merchant QR registration"
+      ],
+      "placeholders": [
+        {
+          "file": "core/providers.py",
+          "token": "Simulator"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/catalog.py",
-     "token": "PLACEHOLDER"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "dispute_provider",
-   "name": "Dispute evidence handoff (LynkProof)",
-   "kind": "disputes",
-   "used_by": [
-    "payments",
-    "vcard"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.improvements:ProofPack",
-   "sandbox": "services.improvements:ProofPack",
-   "needed_from_provider": [
-    "provider API for evidence submission",
-    "win reporting callback (the $5 fee is charged only after the provider reports a win)"
-   ],
-   "placeholders": [],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "Hands evidence packs over only; never claims zero disputes.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "split_provider",
-   "name": "Licensed split payout provider (LynkSplit)",
-   "kind": "payouts",
-   "used_by": [
-    "payments"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.improvements:Split",
-   "sandbox": "services.improvements:Split",
-   "needed_from_provider": [
-    "licensed provider that executes splits",
-    "payout timing and failure rules"
-   ],
-   "placeholders": [],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "LynkOmni holds no funds.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "edge_cdn",
-   "name": "Edge network and CDN (LynkEdge)",
-   "kind": "infrastructure",
-   "used_by": [
-    "pos"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.improvements:Edge",
-   "sandbox": "services.improvements:Edge",
-   "needed_from_provider": [
-    "CDN or edge platform contract",
-    "bandwidth pricing (replaces billing.FEATURES numbers if different)",
-    "WebAssembly storefront deployment"
-   ],
-   "placeholders": [
+      "id": "fiscal_rra_ebm",
+      "name": "Rwanda RRA EBM",
+      "kind": "fiscal",
+      "used_by": [
+        "pos",
+        "accountant"
+      ],
+      "countries": [
+        "RW"
+      ],
+      "status": "sandbox",
+      "interface": "core.providers:FiscalAdapter",
+      "sandbox": "core.providers:RraEbmAdapter",
+      "needed_from_provider": [
+        "RRA written confirmation of the allowed offline workflow",
+        "EBM certification for the private system",
+        "sandbox access"
+      ],
+      "placeholders": [
+        {
+          "file": "core/providers.py",
+          "token": "NOT certified"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "Until confirmed, sales stay pending_fiscal and are never called a valid tax receipt.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/improvements.py",
-     "token": "SANDBOX"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "mesh_relay",
-   "name": "Nearby relay transport (LynkMesh)",
-   "kind": "infrastructure",
-   "used_by": [
-    "pos"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.improvements:MeshRelay",
-   "sandbox": "services.improvements:MeshRelay",
-   "needed_from_provider": [
-    "Bluetooth and Wi-Fi Direct transport on Android and iOS",
-    "platform permission review",
-    "security review of sealing"
-   ],
-   "placeholders": [
+      "id": "fiscal_kra_etims",
+      "name": "Kenya KRA eTIMS",
+      "kind": "fiscal",
+      "used_by": [
+        "pos",
+        "accountant"
+      ],
+      "countries": [
+        "KE"
+      ],
+      "status": "sandbox",
+      "interface": "core.providers:FiscalAdapter",
+      "sandbox": "core.providers:FiscalAdapter",
+      "needed_from_provider": [
+        "KRA integration approval",
+        "sandbox access",
+        "written workflow confirmation"
+      ],
+      "placeholders": [],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "No adapter yet: sales are not_applicable until one exists.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/improvements.py",
-     "token": "SANDBOX"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "Carries data, never money.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "logo_storage",
-   "name": "File storage and malware scanning (merchant logos)",
-   "kind": "storage",
-   "used_by": [
-    "paylinks"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.merchant_logo:validate",
-   "sandbox": "services.merchant_logo:validate",
-   "needed_from_provider": [
-    "object storage with regional location",
-    "malware scanning service",
-    "CDN copy for invoice pages"
-   ],
-   "placeholders": [
+      "id": "fiscal_tra_vfd",
+      "name": "Tanzania TRA VFD",
+      "kind": "fiscal",
+      "used_by": [
+        "pos",
+        "accountant"
+      ],
+      "countries": [
+        "TZ"
+      ],
+      "status": "sandbox",
+      "interface": "core.providers:FiscalAdapter",
+      "sandbox": "core.providers:FiscalAdapter",
+      "needed_from_provider": [
+        "TRA approval",
+        "sandbox access",
+        "written workflow confirmation"
+      ],
+      "placeholders": [],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "No adapter yet.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/merchant_logo.py",
-     "token": "added later"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "The check that decides whether bytes are safe to keep is built and tested; storage and scanning are not.",
-   "integrate": [
-    "Choose storage and scanner",
-    "Store only logos that pass validate()",
-    "Serve through the CDN as an image with the merchant name as alt text"
-   ]
-  },
-  {
-   "id": "registration_gateway",
-   "name": "Registration gateway",
-   "kind": "government_gateway",
-   "used_by": [
-    "registration"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "identity.account:RegistrationGateway",
-   "sandbox": "identity.account:SandboxGateway",
-   "needed_from_provider": [
-    "government registration gateway agreement per country (company register, tax number)",
-    "bank partner referral agreement (business account opening)",
-    "fee schedule paid straight to the government body",
-    "status callback or polling API",
-    "referral fee terms (about $5 per referral, paid by the partner)"
-   ],
-   "placeholders": [
+      "id": "fiscal_ura_efris",
+      "name": "Uganda URA EFRIS",
+      "kind": "fiscal",
+      "used_by": [
+        "pos",
+        "accountant"
+      ],
+      "countries": [
+        "UG"
+      ],
+      "status": "sandbox",
+      "interface": "core.providers:FiscalAdapter",
+      "sandbox": "core.providers:FiscalAdapter",
+      "needed_from_provider": [
+        "URA approval",
+        "sandbox access",
+        "written workflow confirmation"
+      ],
+      "placeholders": [],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "No adapter yet.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "identity/account.py",
-     "token": "SANDBOX"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "LynkOmni never decides an application, never takes the government fee and never claims approval before the gateway answers. The sandbox approves any complete application.",
-   "integrate": [
-    "Sign the gateway and bank agreements for the country",
-    "Write the real adapter next to the sandbox one behind RegistrationGateway",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the 'registration' flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "agent_partner_gateways",
-   "name": "Agent partners",
-   "kind": "partner_gateway",
-   "used_by": [
-    "agent"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "merchant.agent:PartnerGateway",
-   "sandbox": "merchant.agent:SandboxPartner",
-   "needed_from_provider": [
-    "agent agreement per partner and country (LynkOmni's role checked by the lawyer)",
-    "agent approval and identity-check API (only the partner's reference is kept)",
-    "limits per transaction and per day",
-    "transaction confirm or fail callback",
-    "float balance read API (the float sits in the agent's own account at the partner)",
-    "commission statement per period and LynkOmni's share terms"
-   ],
-   "placeholders": [
+      "id": "vcard_issuer",
+      "name": "Virtual card issuer and BIN sponsor",
+      "kind": "card_issuing",
+      "used_by": [
+        "vcard"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.vcard:SandboxIssuer",
+      "sandbox": "services.vcard:SandboxIssuer",
+      "needed_from_provider": [
+        "signed issuer agreement and BIN sponsor per country",
+        "network licence (Visa or Mastercard) through the sponsor",
+        "sandbox and live API",
+        "interchange and FX share (replaces INTERCHANGE_BPS and FX_NET_BPS)",
+        "issuer-hosted card display (card numbers never reach LynkOmni)",
+        "dispute and chargeback process",
+        "legal sign-off and the activation checklist"
+      ],
+      "placeholders": [
+        {
+          "file": "services/vcard.py",
+          "token": "INTERCHANGE_BPS"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "Cards stay off in a country until its pack has issuer, bin_sponsor and enabled true. Card art has no network mark or bank name until the issuer supplies them under licence.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "merchant/agent.py",
-     "token": "SANDBOX"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "The device only asks; the cloud alone writes the partner's answer. Cash changes hands only after the partner confirms; offline, an agent service never starts. LynkOmni never pools, holds or settles money.",
-   "integrate": [
-    "Sign the partner for the country and get test keys",
-    "Write the real adapter next to SandboxPartner behind PartnerGateway",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the 'agent' flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "collection_partners",
-   "name": "Collection partners",
-   "kind": "partner_gateway",
-   "used_by": [
-    "collection"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "merchant.agent:PartnerGateway",
-   "sandbox": "merchant.agent:SandboxPartner",
-   "needed_from_provider": [
-    "collection agreement (loan repayments, insurance premiums) per partner and country",
-    "referral agreement for savings, small loans, pay later and small insurance (the partner decides and pays the fee)",
-    "confirm or fail callback",
-    "statement per period"
-   ],
-   "placeholders": [
+      "id": "vcard_wallet_tokens",
+      "name": "Apple Pay and Google Pay tokens (VTS and MDES)",
+      "kind": "card_tokenisation",
+      "used_by": [
+        "vcard"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.vcard:SandboxIssuer",
+      "sandbox": "services.vcard:SandboxIssuer",
+      "needed_from_provider": [
+        "network token service enrolment through the issuer",
+        "wallet provisioning approval",
+        "token auto-revoke on freeze, close and rotate"
+      ],
+      "placeholders": [],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "Only promised for CORE and OMNI after this is live.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "merchant/agent.py",
-     "token": "SANDBOX"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "The partner holds the money and decides; LynkOmni refers and earns a fee. Own vouchers and pickup codes work offline and need no partner.",
-   "integrate": [
-    "Sign the lender or insurer for the country",
-    "Real adapter behind PartnerGateway",
-    "Shared tests",
-    "contract_signed, then the 'collection' flag after legal sign-off"
-   ]
-  },
-  {
-   "id": "delivery_partners",
-   "name": "Delivery partners",
-   "kind": "logistics",
-   "used_by": [
-    "delivery"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "merchant.delivery:DeliveryPartner",
-   "sandbox": "merchant.delivery:SandboxDeliveryPartner",
-   "needed_from_provider": [
-    "delivery agreement per partner and country",
-    "quote API (price and time before booking)",
-    "booking, pickup and delivery callbacks",
-    "proof of delivery by code or parcel photo (never a person)",
-    "LynkOmni's share terms (about $0.10 a delivery, paid by the partner)"
-   ],
-   "placeholders": [
+      "id": "vcard_perks",
+      "name": "Card perks partner (lounge access, travel insurance, purchase protection)",
+      "kind": "perks",
+      "used_by": [
+        "vcard"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.vcard:SandboxIssuer",
+      "sandbox": "services.vcard:SandboxIssuer",
+      "needed_from_provider": [
+        "perks partner agreement through the issuer or network",
+        "claims process",
+        "legal wording per country"
+      ],
+      "placeholders": [],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "Do not advertise perks before this is signed.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "merchant/delivery.py",
-     "token": "SANDBOX"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "LynkOmni never employs riders. Own staff riders record pickup and delivery on the staff device, offline with the code, and need no partner. NEW UPDATE 1: partner carriers in LynkTrace (one tracking link across carriers) use the same partners.",
-   "integrate": [
-    "Sign the delivery partner for the country",
-    "Real adapter behind DeliveryPartner",
-    "Shared tests",
-    "contract_signed, then the 'delivery' flag"
-   ]
-  },
-  {
-   "id": "pos_terminal_drivers",
-   "name": "Terminal drivers",
-   "kind": "hardware",
-   "used_by": [
-    "pos"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "merchant.devices:DeviceDrivers",
-   "sandbox": "merchant.devices:SandboxDrivers",
-   "needed_from_provider": [
-    "SDK and licence for the maker's printer, scanner, drawer and customer display",
-    "the acquirer's certified card-reader kit for that device (our app never touches card data)",
-    "a sample device for the test bench (REMINDER 11)"
-   ],
-   "placeholders": [
+      "id": "vcard_physical",
+      "name": "Physical companion card (KYC and fulfilment)",
+      "kind": "card_fulfilment",
+      "used_by": [
+        "vcard"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.vcard:SandboxIssuer",
+      "sandbox": "services.vcard:SandboxIssuer",
+      "needed_from_provider": [
+        "card manufacturer and fulfilment partner",
+        "KYC provider (identity and address) per issuer rules",
+        "shipping and tracking API",
+        "NFC activation flow"
+      ],
+      "placeholders": [],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "OMNI only. The artwork shows no bank or network mark until supplied.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "merchant/devices.py",
-     "token": "SANDBOX"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "LynkPOS runs on the LynkOmni handheld, on Android smart terminals that allow third-party apps, on any Android phone or tablet and on iPhone and iPad. Phase 1 selling never waits on a driver: a phone alone is always enough; a missing part only hides its button.",
-   "integrate": [
-    "Choose the maker (REMINDER 11) and get two sample devices",
-    "Write the maker's adapter behind DeviceDrivers",
-    "Run the emulator and the shared tests against it",
-    "Set status to chosen, then live when the acquirer certifies card tap on it"
-   ]
-  },
-  {
-   "id": "bank_terminal_link",
-   "name": "Bank terminal link",
-   "kind": "bank_integration",
-   "used_by": [
-    "pos"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "merchant.devices:BankTerminalLink",
-   "sandbox": "merchant.devices:BankTerminalLink",
-   "needed_from_provider": [
-    "the bank's terminal integration interface and agreement",
-    "amount hand-over and result callback",
-    "test terminal"
-   ],
-   "placeholders": [
+      "id": "sms_otp",
+      "name": "SMS, WhatsApp, email and push delivery",
+      "kind": "messaging",
+      "used_by": [
+        "recovery",
+        "vcard",
+        "chat"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "identity.auth:Identity",
+      "sandbox": "identity.auth:Identity",
+      "needed_from_provider": [
+        "SMS aggregator per country (sender ID registration)",
+        "WhatsApp Business provider",
+        "email delivery service with domain verification",
+        "push services (FCM, APNs)"
+      ],
+      "placeholders": [
+        {
+          "file": "identity/auth.py",
+          "token": "never returned"
+        },
+        {
+          "file": "services/messages.py",
+          "token": "SandboxSender"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "Codes are returned in the sandbox only so tests run offline; production must send them and never return them.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "merchant/devices.py",
-     "token": "PLACEHOLDER"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "Old-style bank terminals run only the bank's software and cannot run LynkPOS. Where the bank offers an interface, LynkPOS sends the amount and the bank's terminal takes the card. Until then the merchant keys the amount on the bank's terminal and LynkPOS records the sale as a card payment awaiting confirmation.",
-   "integrate": [
-    "Ask the acquirer or bank for its terminal interface",
-    "Write the adapter behind BankTerminalLink",
-    "Shared tests",
-    "contract_signed per bank and country"
-   ]
-  },
-  {
-   "id": "merchant_of_record",
-   "name": "Merchant of record and tax on digital sales (Storefront)",
-   "kind": "marketplace",
-   "used_by": [
-    "marketplace"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.storefront_partners:MerchantOfRecord",
-   "sandbox": "services.storefront_partners:SandboxMerchantOfRecord",
-   "needed_from_provider": [
-    "merchant-of-record agreement per country",
-    "tax rates and invoicing rules for digital goods",
-    "seller income reporting where required (for example EU DAC7)",
-    "settlement and refund rules",
-    "sandbox and live API keys"
-   ],
-   "placeholders": [
+      "id": "fx_rates",
+      "name": "Foreign exchange rates",
+      "kind": "data_feed",
+      "used_by": [
+        "payments",
+        "vcard",
+        "marketplace"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "core.money:USD_RATES",
+      "sandbox": "core.money:USD_RATES",
+      "needed_from_provider": [
+        "live FX rate provider",
+        "licence for redistribution",
+        "staleness rules"
+      ],
+      "placeholders": [
+        {
+          "file": "core/money.py",
+          "token": "PLACEHOLDER"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "Rates are placeholders. Show no live-rate claim.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/storefront_partners.py",
-     "token": "SandboxMerchantOfRecord"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "BIZZ & DEVICE (2026-11-09). The sandbox never invents a tax rate: tax is 'unconfirmed'. Paid Storefront selling stays off in a country until this partner and a payment provider are signed there.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country after legal sign-off"
-   ]
-  },
-  {
-   "id": "live_video",
-   "name": "Live sessions and classes (Storefront)",
-   "kind": "infrastructure",
-   "used_by": [
-    "marketplace"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.storefront_partners:LiveVideo",
-   "sandbox": "services.storefront_partners:SandboxLiveVideo",
-   "needed_from_provider": [
-    "video service agreement",
-    "data location per country",
-    "seat and bandwidth pricing",
-    "sandbox and live API keys"
-   ],
-   "placeholders": [
+      "id": "geo_lookup",
+      "name": "Country and location lookup",
+      "kind": "data_feed",
+      "used_by": [
+        "pos"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "core.regions:resolve_country",
+      "sandbox": "core.regions:resolve_country",
+      "needed_from_provider": [
+        "real geocoding or boundary dataset",
+        "usage terms"
+      ],
+      "placeholders": [
+        {
+          "file": "core/regions.py",
+          "token": "CRUDE"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "The merchant's explicit country choice always wins.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/storefront_partners.py",
-     "token": "SandboxLiveVideo"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "Seat caps come from Storefront plans (services/billing.py). Questions go to the presenter only; never learner-to-learner chat. Never claim end-to-end encryption.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country after legal sign-off"
-   ]
-  },
-  {
-   "id": "content_store",
-   "name": "Storefront file storage, scanning and delivery",
-   "kind": "storage",
-   "used_by": [
-    "marketplace"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.storefront_partners:ContentStore",
-   "sandbox": "services.storefront_partners:SandboxContentStore",
-   "needed_from_provider": [
-    "storage and delivery agreement",
-    "malware scanning",
-    "data location per country",
-    "pricing per GB stored and delivered"
-   ],
-   "placeholders": [
+      "id": "ads_network",
+      "name": "Ad demand and measurement",
+      "kind": "advertising",
+      "used_by": [
+        "ads"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.ads:SHARE_BPS",
+      "sandbox": "services.ads:SHARE_BPS",
+      "needed_from_provider": [
+        "advertiser or ad network agreements",
+        "impression validation and billing partner",
+        "legal sign-off per country",
+        "merchant revenue share terms (replaces SHARE_BPS)"
+      ],
+      "placeholders": [
+        {
+          "file": "services/ads.py",
+          "token": "PLACEHOLDERS"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "Ads stay off per country until legal sign-off.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/storefront_partners.py",
-     "token": "SandboxContentStore"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "Allowed types by file bytes only (documents, video, audio, e-books, images); programs and markup are refused; size limits per Storefront plan.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country after legal sign-off"
-   ]
-  },
-  {
-   "id": "tap_to_pay",
-   "name": "Tap to pay on a phone (contactless without a card reader)",
-   "kind": "card_acquiring",
-   "used_by": [
-    "payments",
-    "pos"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.storefront_partners:TapToPay",
-   "sandbox": "services.storefront_partners:SandboxTapToPay",
-   "needed_from_provider": [
-    "certified tap-to-pay software and agreement per country",
-    "card scheme approvals held by the provider",
-    "fee schedule",
-    "sandbox and live API keys"
-   ],
-   "placeholders": [
+      "id": "financing_partner",
+      "name": "Licensed financing partner",
+      "kind": "financing",
+      "used_by": [
+        "financing"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.catalog:SandboxProvider",
+      "sandbox": "services.catalog:SandboxProvider",
+      "needed_from_provider": [
+        "licensed lender or credit partner agreement",
+        "referral terms and disclosures",
+        "consent flow approved by the partner"
+      ],
+      "placeholders": [
+        {
+          "file": "services/catalog.py",
+          "token": "PLACEHOLDER"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "Referral only. LynkOmni never lends.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/storefront_partners.py",
-     "token": "SandboxTapToPay"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "Digital first (BIZZ & DEVICE): a phone accepts contactless cards through the provider's certified software. Confirmed only by the provider.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country after legal sign-off"
-   ]
-  },
-  {
-   "id": "ussd_gateway",
-   "name": "USSD, text-message short code and voice-menu gateway",
-   "kind": "messaging",
-   "used_by": [
-    "pos"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "core.channels:ChannelGateway",
-   "sandbox": "core.channels:SandboxChannelGateway",
-   "needed_from_provider": [
-    "a USSD code per country from a licensed aggregator or mobile network",
-    "a text-message short code with two-way messages",
-    "a voice-menu number with key presses",
-    "session callbacks to LynkOmni's engine and a fee schedule"
-   ],
-   "placeholders": [
+      "id": "protection_partner",
+      "name": "Licensed insurance partner",
+      "kind": "insurance",
+      "used_by": [
+        "protection"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.catalog:SandboxProvider",
+      "sandbox": "services.catalog:SandboxProvider",
+      "needed_from_provider": [
+        "licensed insurer or broker agreement",
+        "product and disclosure documents per country",
+        "claims handoff"
+      ],
+      "placeholders": [
+        {
+          "file": "services/catalog.py",
+          "token": "PLACEHOLDER"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "NEW UPDATE 1: also the insurer pack and insurer sharing of LynkMotion and LynkGuard, only with the owner's consent.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "core/channels.py",
-     "token": "SandboxChannelGateway"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "BIZZ & DEVICE 48.17: basic phones with no apps (interface phone.text) use LynkPOS by USSD, text message or a voice menu through one engine (core/channels.py, ts/src/channels.ts). The channel stays off for real users until a gateway is signed in the country; LynkPOS itself is never gated.",
-   "integrate": [
-    "Sign the agreement and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then enable the country after legal sign-off"
-   ]
-  },
-  {
-   "id": "vehicle_data",
-   "name": "Connected-car data partner",
-   "kind": "vehicle_data",
-   "used_by": [
-    "vehicle_data"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.movement_partners:VehicleDataProvider",
-   "sandbox": "services.movement_partners:SandboxVehicleData",
-   "needed_from_provider": [
-    "carmaker or licensed data-partner agreement per country",
-    "owner consent flow and revocation",
-    "ignition, motion, odometer and alert signals",
-    "sandbox and live API keys"
-   ],
-   "placeholders": [
+      "id": "marketplace_partners",
+      "name": "Marketplace suppliers and fulfilment",
+      "kind": "marketplace",
+      "used_by": [
+        "marketplace",
+        "loyalty"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.catalog:SandboxProvider",
+      "sandbox": "services.catalog:SandboxProvider",
+      "needed_from_provider": [
+        "supplier agreements",
+        "inventory and fulfilment feeds",
+        "refund and cancellation rules"
+      ],
+      "placeholders": [
+        {
+          "file": "services/catalog.py",
+          "token": "PLACEHOLDER"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/movement_partners.py",
-     "token": "SandboxVehicleData"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "NEW UPDATE 1 (blueprint 49): LynkGuard Plus and above link a car only with the owner's consent; the phone stays the default tracker.",
-   "integrate": [
-    "Sign the agreement through the Partner Hub and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then the country switches on by itself"
-   ]
-  },
-  {
-   "id": "monitoring_centre",
-   "name": "24/7 monitoring centre",
-   "kind": "monitoring",
-   "used_by": [
-    "monitoring"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.movement_partners:MonitoringCentre",
-   "sandbox": "services.movement_partners:SandboxMonitoring",
-   "needed_from_provider": [
-    "licensed monitoring agreement per country",
-    "hand-over and call-back procedure",
-    "fee schedule charged only when chosen"
-   ],
-   "placeholders": [
+      "id": "dispute_provider",
+      "name": "Dispute evidence handoff (LynkProof)",
+      "kind": "disputes",
+      "used_by": [
+        "payments",
+        "vcard"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.improvements:ProofPack",
+      "sandbox": "services.improvements:ProofPack",
+      "needed_from_provider": [
+        "provider API for evidence submission",
+        "win reporting callback (the $5 fee is charged only after the provider reports a win)"
+      ],
+      "placeholders": [],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "Hands evidence packs over only; never claims zero disputes.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/movement_partners.py",
-     "token": "SandboxMonitoring"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "NEW UPDATE 1: LynkGuard Max. The centre calls the owner; LynkSentry never contacts police by itself.",
-   "integrate": [
-    "Sign the agreement through the Partner Hub and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then the country switches on by itself"
-   ]
-  },
-  {
-   "id": "transport_data",
-   "name": "Ship-position and flight-status data",
-   "kind": "transport_data",
-   "used_by": [
-    "transport_data"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.movement_partners:TransportData",
-   "sandbox": "services.movement_partners:SandboxTransportData",
-   "needed_from_provider": [
-    "licensed AIS (ship) and flight-status data agreement",
-    "coverage and refresh terms",
-    "attribution rules"
-   ],
-   "placeholders": [
+      "id": "split_provider",
+      "name": "Licensed split payout provider (LynkSplit)",
+      "kind": "payouts",
+      "used_by": [
+        "payments"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.improvements:Split",
+      "sandbox": "services.improvements:Split",
+      "needed_from_provider": [
+        "licensed provider that executes splits",
+        "payout timing and failure rules"
+      ],
+      "placeholders": [],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "LynkOmni holds no funds.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/movement_partners.py",
-     "token": "SandboxTransportData"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "NEW UPDATE 1: LynkMotion and LynkGuard Max journeys by sea and air; vessel and flight status only, never a person's position.",
-   "integrate": [
-    "Sign the agreement through the Partner Hub and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then the country switches on by itself"
-   ]
-  },
-  {
-   "id": "satellite_messaging",
-   "name": "Satellite messaging",
-   "kind": "satellite",
-   "used_by": [
-    "satellite"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.movement_partners:SatelliteMessaging",
-   "sandbox": "services.movement_partners:SandboxSatellite",
-   "needed_from_provider": [
-    "satellite messaging agreement",
-    "supported phones and trackers",
-    "message size and airtime price (charged at partner cost, only when used)"
-   ],
-   "placeholders": [
+      "id": "edge_cdn",
+      "name": "Edge network and CDN (LynkEdge)",
+      "kind": "infrastructure",
+      "used_by": [
+        "pos"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.improvements:Edge",
+      "sandbox": "services.improvements:Edge",
+      "needed_from_provider": [
+        "CDN or edge platform contract",
+        "bandwidth pricing (replaces billing.FEATURES numbers if different)",
+        "WebAssembly storefront deployment"
+      ],
+      "placeholders": [
+        {
+          "file": "services/improvements.py",
+          "token": "SANDBOX"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/movement_partners.py",
-     "token": "SandboxSatellite"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "NEW UPDATE 1 (no-network layer 5 and 6): SOS and last reports where no network exists.",
-   "integrate": [
-    "Sign the agreement through the Partner Hub and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then the country switches on by itself"
-   ]
-  },
-  {
-   "id": "iot_sim",
-   "name": "Tracker data plans (IoT SIM)",
-   "kind": "connectivity",
-   "used_by": [
-    "iot_sim"
-   ],
-   "countries": "all",
-   "status": "sandbox",
-   "interface": "services.movement_partners:IotSim",
-   "sandbox": "services.movement_partners:SandboxIotSim",
-   "needed_from_provider": [
-    "multi-country IoT data plan agreement",
-    "activation and suspension API",
-    "price per device per month"
-   ],
-   "placeholders": [
+      "id": "mesh_relay",
+      "name": "Nearby relay transport (LynkMesh)",
+      "kind": "infrastructure",
+      "used_by": [
+        "pos"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.improvements:MeshRelay",
+      "sandbox": "services.improvements:MeshRelay",
+      "needed_from_provider": [
+        "Bluetooth and Wi-Fi Direct transport on Android and iOS",
+        "platform permission review",
+        "security review of sealing"
+      ],
+      "placeholders": [
+        {
+          "file": "services/improvements.py",
+          "token": "SANDBOX"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "Carries data, never money.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/movement_partners.py",
-     "token": "SandboxIotSim"
-    }
-   ],
-   "when_off": {
-    "visual": "state-coming-soon",
-    "message": "Coming to your country soon."
-   },
-   "notes": "NEW UPDATE 1: only for trackers, seals and sensors bought on demand; phones need none.",
-   "integrate": [
-    "Sign the agreement through the Partner Hub and get sandbox credentials",
-    "Write the real adapter next to the sandbox one behind the same interface",
-    "Run the shared tests against both adapters",
-    "Set status to contract_signed, then the country switches on by itself"
-   ]
-  }
- ],
- "later": [
-  {
-   "id": "hardware_signing",
-   "name": "Hardware-backed device signatures (ES256)",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Needs Android Keystore and iOS Secure Enclave code on real devices.",
-   "placeholders": [
+      "id": "logo_storage",
+      "name": "File storage and malware scanning (merchant logos)",
+      "kind": "storage",
+      "used_by": [
+        "paylinks"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.merchant_logo:validate",
+      "sandbox": "services.merchant_logo:validate",
+      "needed_from_provider": [
+        "object storage with regional location",
+        "malware scanning service",
+        "CDN copy for invoice pages"
+      ],
+      "placeholders": [
+        {
+          "file": "services/merchant_logo.py",
+          "token": "added later"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "The check that decides whether bytes are safe to keep is built and tested; storage and scanning are not.",
+      "integrate": [
+        "Choose storage and scanner",
+        "Store only logos that pass validate()",
+        "Serve through the CDN as an image with the merchant name as alt text"
+      ]
+    },
     {
-     "file": "dv/box.py",
-     "token": "PLACEHOLDERS"
-    }
-   ],
-   "done_when": "Devices sign with a hardware key and the cloud verifies it; dev-only random signatures are refused in production.",
-   "blocks_note": "any production device sync"
-  },
-  {
-   "id": "device_db_encryption",
-   "name": "SQLCipher exercised on a real build machine",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "SQLCipher is not installed here; the encrypted path is untested.",
-   "placeholders": [
+      "id": "registration_gateway",
+      "name": "Registration gateway",
+      "kind": "government_gateway",
+      "used_by": [
+        "registration"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "identity.account:RegistrationGateway",
+      "sandbox": "identity.account:SandboxGateway",
+      "needed_from_provider": [
+        "government registration gateway agreement per country (company register, tax number)",
+        "bank partner referral agreement (business account opening)",
+        "fee schedule paid straight to the government body",
+        "status callback or polling API",
+        "referral fee terms (about $5 per referral, paid by the partner)"
+      ],
+      "placeholders": [
+        {
+          "file": "identity/account.py",
+          "token": "SANDBOX"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "LynkOmni never decides an application, never takes the government fee and never claims approval before the gateway answers. The sandbox approves any complete application.",
+      "integrate": [
+        "Sign the gateway and bank agreements for the country",
+        "Write the real adapter next to the sandbox one behind RegistrationGateway",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the 'registration' flag after legal sign-off"
+      ]
+    },
     {
-     "file": "core/devicedb.py",
-     "token": "SQLCipher"
-    }
-   ],
-   "done_when": "Encrypted open, key rotation and wrong-key tests pass on CI with SQLCipher installed.",
-   "blocks_note": "any production device database"
-  },
-  {
-   "id": "security_review",
-   "name": "Human security review (sealing, anything that moves money)",
-   "blocks": [
-    "payments",
-    "recovery",
-    "paylinks",
-    "vcard",
-    "marketplace",
-    "financing",
-    "protection"
-   ],
-   "status": "pending",
-   "why_not_now": "Needs a human reviewer.",
-   "placeholders": [],
-   "done_when": "A written review with findings closed."
-  },
-  {
-   "id": "accessibility_audit",
-   "name": "Human accessibility audit (WCAG 2.2 AA)",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Scripts check only part of AA.",
-   "placeholders": [],
-   "done_when": "A human audit report with findings closed."
-  },
-  {
-   "id": "names_trademarks",
-   "name": "Names, domains and trademarks for LynkOmni and every Lynk product (including LynkAcademy and LynkDriver)",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Needs a trademark search and registrations.",
-   "placeholders": [],
-   "done_when": "Clearance for each name and domain."
-  },
-  {
-   "id": "price_validation",
-   "name": "Market validation of the locked prices",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Prices are locked but not market-tested.",
-   "placeholders": [
+      "id": "agent_partner_gateways",
+      "name": "Agent partners",
+      "kind": "partner_gateway",
+      "used_by": [
+        "agent"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "merchant.agent:PartnerGateway",
+      "sandbox": "merchant.agent:SandboxPartner",
+      "needed_from_provider": [
+        "agent agreement per partner and country (LynkOmni's role checked by the lawyer)",
+        "agent approval and identity-check API (only the partner's reference is kept)",
+        "limits per transaction and per day",
+        "transaction confirm or fail callback",
+        "float balance read API (the float sits in the agent's own account at the partner)",
+        "commission statement per period and LynkOmni's share terms"
+      ],
+      "placeholders": [
+        {
+          "file": "merchant/agent.py",
+          "token": "SANDBOX"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "The device only asks; the cloud alone writes the partner's answer. Cash changes hands only after the partner confirms; offline, an agent service never starts. LynkOmni never pools, holds or settles money.",
+      "integrate": [
+        "Sign the partner for the country and get test keys",
+        "Write the real adapter next to SandboxPartner behind PartnerGateway",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the 'agent' flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/billing.py",
-     "token": "PLACEHOLDER"
-    }
-   ],
-   "done_when": "Pilot data replaces the guessed tier mix."
-  },
-  {
-   "id": "designer_review",
-   "name": "Human designer review of logo placement, icons, illustrations and cards",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "All visuals are drafts.",
-   "placeholders": [],
-   "done_when": "Designer sign-off recorded in visuals/needs.v1.json status."
-  },
-  {
-   "id": "invoice_law",
-   "name": "Invoice content and retention law per country",
-   "blocks": [
-    "paylinks"
-   ],
-   "status": "pending",
-   "why_not_now": "Needs a local adviser per country.",
-   "placeholders": [
+      "id": "collection_partners",
+      "name": "Collection partners",
+      "kind": "partner_gateway",
+      "used_by": [
+        "collection"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "merchant.agent:PartnerGateway",
+      "sandbox": "merchant.agent:SandboxPartner",
+      "needed_from_provider": [
+        "collection agreement (loan repayments, insurance premiums) per partner and country",
+        "referral agreement for savings, small loans, pay later and small insurance (the partner decides and pays the fee)",
+        "confirm or fail callback",
+        "statement per period"
+      ],
+      "placeholders": [
+        {
+          "file": "merchant/agent.py",
+          "token": "SANDBOX"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "The partner holds the money and decides; LynkOmni refers and earns a fee. Own vouchers and pickup codes work offline and need no partner.",
+      "integrate": [
+        "Sign the lender or insurer for the country",
+        "Real adapter behind PartnerGateway",
+        "Shared tests",
+        "contract_signed, then the 'collection' flag after legal sign-off"
+      ]
+    },
     {
-     "file": "services/invoicing.py",
-     "token": "local adviser"
-    }
-   ],
-   "done_when": "Written confirmation per country; until then no document is called a tax invoice."
-  },
-  {
-   "id": "font_files",
-   "name": "Montserrat and Inter WOFF2 files in design/fonts",
-   "blocks": [],
-   "status": "done",
-   "why_not_now": "Done 2026-11-06: built from the official google/fonts files (see design/fonts/sources.json).",
-   "placeholders": [],
-   "done_when": "design/check_fonts.py reports fonts ok (checked in CI, brand job)."
-  },
-  {
-   "id": "native_fonts",
-   "name": "Brand and script fonts bundled in the Android and iOS apps",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "The Android and iOS app projects (with resource folders) do not exist yet; only the shared core libraries do.",
-   "placeholders": [],
-   "done_when": "The app projects bundle TTF instances of every family in design/fonts/scripts.v1.json (Latin, Arabic, Hebrew, Devanagari and the rest), built by build_fonts.py from the same sources.json, set the layout direction from ts/src/fonts.ts rules (Android supportsRtl, iOS semanticContentAttribute), and screenshots in an Arabic and a Hindi locale show the brand fonts."
-  },
-  {
-   "id": "official_payment_marks",
-   "name": "Official payment artwork (Visa, Mastercard, mobile money and other providers)",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "These logos belong to other companies. LynkOmni may show them only as supplied by each company, usually once the provider or acquirer contract is signed. Until then every method shows a LynkOmni method icon with the provider's name as text (ts/src/payments.ts).",
-   "placeholders": [],
-   "done_when": "For each signed provider, its official artwork and usage rules are stored in a checksum-locked folder with the brand module, paymentOptions marks that method official, and the icon plus name is replaced only for that method and only in countries where that provider is signed."
-  },
-  {
-   "id": "machine_translation_engine",
-   "name": "Machine translation engine for every LynkOmni language (Google MADLAD-400-3B-MT, Apache 2.0)",
-   "blocks": [],
-   "status": "done",
-   "why_not_now": "Done 2026-11-07. The owner replaced Meta NLLB-200 (CC-BY-NC licence, no commercial use) with Google MADLAD-400-3B-MT (Apache 2.0). tools/translation/install_engine.py checks the licence, pins the model revision and converts it to CTranslate2 int8; the GitHub Actions workflow \"translation\" installs it (cached) and runs tools/translation/check_engine.py in every language. Because the 3B model was weak on short screen labels, screen text is translated by Claude (tools/translation/claude_packs.py, owner decision 2026-11-07); the engine is for text people type.",
-   "placeholders": [],
-   "done_when": "The engine is installed with a checked licence and pinned revision, knows every language in design/fonts/scripts.v1.json, every emulator has a current, fully translated pack for every language, and tests/test_layout_i18n.py passes in every language."
-  },
-  {
-   "id": "translation_server",
-   "name": "Translation engine running on LynkOmni's own server for text people type (chat messages, product names, notes)",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "LynkOmni has no production server yet (infra/ is a plan). Screen text is already translated ahead of time into the language packs. Until the server exists, ContentTranslator has no engine, so typed text is shown in the original with the state \"queued\"; tests use SandboxTranslator.",
-   "placeholders": [
+      "id": "delivery_partners",
+      "name": "Delivery partners",
+      "kind": "logistics",
+      "used_by": [
+        "delivery"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "merchant.delivery:DeliveryPartner",
+      "sandbox": "merchant.delivery:SandboxDeliveryPartner",
+      "needed_from_provider": [
+        "delivery agreement per partner and country",
+        "quote API (price and time before booking)",
+        "booking, pickup and delivery callbacks",
+        "proof of delivery by code or parcel photo (never a person)",
+        "LynkOmni's share terms (about $0.10 a delivery, paid by the partner)"
+      ],
+      "placeholders": [
+        {
+          "file": "merchant/delivery.py",
+          "token": "SANDBOX"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "LynkOmni never employs riders. Own staff riders record pickup and delivery on the staff device, offline with the code, and need no partner. NEW UPDATE 1: partner carriers in LynkTrace (one tracking link across carriers) use the same partners.",
+      "integrate": [
+        "Sign the delivery partner for the country",
+        "Real adapter behind DeliveryPartner",
+        "Shared tests",
+        "contract_signed, then the 'delivery' flag"
+      ]
+    },
     {
-     "file": "services/translation.py",
-     "token": "SandboxTranslator"
-    }
-   ],
-   "done_when": "The API server image installs ctranslate2 and sentencepiece and mounts the engine folder made by tools/translation/install_engine.py as LYNK_MT_DIR; ContentTranslator uses MadladTranslator there; typed text never leaves LynkOmni's servers."
-  },
-  {
-   "id": "ops_product_icons",
-   "name": "Product icons for LynkAcc, LynkInv, LynkCRM and LynkOps and LynkStat in lynkomni-icons",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Icons are released from the separate lynkomni-icons repository through its gates and the brand-sync workflow; they are made with build section 4 (LynkAcc, LynkInv, LynkCRM and LynkOps). Until then LynkAcc uses the existing product-ledger icon and LynkInv and LynkCRM are not yet listed in the merchant app's Business tab.",
-   "placeholders": [],
-   "done_when": "lynkomni-icons releases product-acc, product-inv, product-crm and product-ops, brand-sync vendors them, and every place that lists LynkOmni services shows LynkAcc, LynkInv and LynkCRM with their own icon."
-  },
-  {
-   "id": "agent_services_security_review",
-   "name": "Human security review of every money-moving LynkPOS flow (agent, collection and partner-finance services)",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "The flows are built in build section 3 (master blueprint section 42 I). The review needs a human security reviewer and the finished flows; until it passes, the services stay on practice partners only.",
-   "placeholders": [],
-   "done_when": "A human security reviewer has signed off every agent, collection and partner-finance flow, including never offering cash before the partner confirms and never queuing these requests offline."
-  },
-  {
-   "id": "email_sending_setup",
-   "name": "Sending subdomains mail.lynkomni.com and news.lynkomni.com with their nine sending addresses, SPF, DKIM, DMARC, MTA-STS and TLS reports",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Needs the email-sending provider (provider ledger item for SMS, WhatsApp, email and push delivery), chosen in build section 13 (outside screens). BIMI (the logo in inboxes) also waits for the registered trademark.",
-   "placeholders": [],
-   "done_when": "The nine sending addresses send through the chosen provider with SPF, DKIM and DMARC passing, DMARC at reject after two clean weeks, MTA-STS on, and no-reply@mail.lynkomni.com answering anyone who writes with the automatic help message."
-  },
-  {
-   "id": "email_safeguards_build",
-   "name": "Email safeguards built into the product (agreed 2026-11-07, items 3, 4, 7, 9, 10, 11, 12 and 14)",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "They belong to build sections 12 (support console: case-number automatic replies in the writer's language) and 13 (outside screens: no sign-in links in security emails, bounce handling, nothing sensitive in email, newsletter consent proof and one-day unsubscribe, Postmaster Tools and DMARC report reading, standard signature); the email archive waits for the Workspace plan raised when staff join.",
-   "placeholders": [],
-   "done_when": "Every item is built and tested in its build section and the email archive is on once staff join."
-  },
-  {
-   "id": "company_certifications",
-   "name": "SOC 2 Type II and ISO 27001 for the company (review T2, agreed 2026-11-07)",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "An outside auditor certifies a running company and its live systems; there is nothing to audit before hosting and staff exist. PCI DSS stays out of scope because LynkOmni never touches a card number.",
-   "placeholders": [],
-   "done_when": "Both reports are issued by an accredited auditor and linked from /trust."
-  },
-  {
-   "id": "bug_bounty",
-   "name": "Paid bug bounty with written rules at /trust/disclosure (review T6)",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Opens only after the human security review, so researchers test reviewed code; security@ and /trust/disclosure take reports until then.",
-   "placeholders": [],
-   "done_when": "Rules, rewards and safe-harbour text are published and reports reach the security queue."
-  },
-  {
-   "id": "language_waves",
-   "name": "Screen languages in two waves (review L2): wave 1 Chinese (Simplified, Traditional), Japanese, Korean, German, Italian, Russian, Turkish, Indonesian, Vietnamese; wave 2 Bengali, Tamil, Thai, Amharic, Hausa, Yoruba, Zulu, Filipino, Polish, Dutch, Ukrainian, Malay",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Each wave adds fonts (Chinese, Japanese and Korean split into subsets within a size budget) and Claude-translated packs; Portuguese was added in Step 0 (16th language, v0.20.0) and the waves follow in build section 1 with the shared shell.",
-   "placeholders": [],
-   "done_when": "Every wave language is in design/fonts/scripts.v1.json with packs for every emulator and the layout check passes."
-  },
-  {
-   "id": "dmarc_quarantine",
-   "name": "DMARC policy raised from p=none to p=quarantine, then p=reject",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "The records went live on 2026-11-08 with p=none (report only); the policy is raised only after about two weeks of reports to dmarc-reports@ show no legitimate sender failing.",
-   "placeholders": [],
-   "done_when": "_dmarc TXT of cruxomni.com and lynkomni.com reads p=quarantine (later p=reject) and the reports stay clean.",
-   "blocks_note": "nothing; a trust improvement for outgoing mail"
-  },
-  {
-   "id": "server_signing_key",
-   "name": "Server signing key",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Needs the cloud key service of the production account (REMINDER 13).",
-   "placeholders": [
+      "id": "pos_terminal_drivers",
+      "name": "Terminal drivers",
+      "kind": "hardware",
+      "used_by": [
+        "pos"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "merchant.devices:DeviceDrivers",
+      "sandbox": "merchant.devices:SandboxDrivers",
+      "needed_from_provider": [
+        "SDK and licence for the maker's printer, scanner, drawer and customer display",
+        "the acquirer's certified card-reader kit for that device (our app never touches card data)",
+        "a sample device for the test bench (REMINDER 11)"
+      ],
+      "placeholders": [
+        {
+          "file": "merchant/devices.py",
+          "token": "SANDBOX"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "LynkPOS runs on the LynkOmni handheld, on Android smart terminals that allow third-party apps, on any Android phone or tablet and on iPhone and iPad. Phase 1 selling never waits on a driver: a phone alone is always enough; a missing part only hides its button.",
+      "integrate": [
+        "Choose the maker (REMINDER 11) and get two sample devices",
+        "Write the maker's adapter behind DeviceDrivers",
+        "Run the emulator and the shared tests against it",
+        "Set status to chosen, then live when the acquirer certifies card tap on it"
+      ]
+    },
     {
-     "file": "merchant/cloud.py",
-     "token": "PLACEHOLDER"
-    }
-   ],
-   "done_when": "Server events are signed with the KMS key and devices verify it; the dev-only random signature is refused in production.",
-   "blocks_note": "any production cloud event (the device side is hardware_signing)"
-  },
-  {
-   "id": "phone_number_metadata",
-   "name": "Phone number formats per country",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Needs the libphonenumber metadata package vendored for Python, TypeScript, Kotlin and Swift with a licence check; sign-up accepts E.164 numbers today.",
-   "placeholders": [],
-   "done_when": "Numbers are shown and checked in each country's national format from vendored metadata, with a shared vector test.",
-   "blocks_note": "polish of sign-up and customer records, not go-live"
-  },
-  {
-   "id": "address_formats",
-   "name": "Postal address formats per country",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Needs an address-format dataset vendored with a licence check; invoices and receipts print free-text address lines today.",
-   "placeholders": [],
-   "done_when": "Invoices, receipts and the shop page lay out addresses by the country's format.",
-   "blocks_note": "polish of invoices and shop pages, not go-live"
-  },
-  {
-   "id": "calendar_preferences",
-   "name": "Calendar preferences per country (Hijri, Persian, Ethiopian, Buddhist beside Gregorian)",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Needs the CLDR calendar-preference data wired through the locale layer; dates show Gregorian in every country today.",
-   "placeholders": [],
-   "done_when": "A country pack names its preferred calendars and screens show dates in the person's calendar, data unchanged.",
-   "blocks_note": "presentation only"
-  },
-  {
-   "id": "language_waves",
-   "name": "Interface language waves (design/fonts/language_waves.v1.json)",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "94 national official languages are not yet interface languages; one wave of ten is added per build section from section 3 on, with fonts, translations and the layout test.",
-   "placeholders": [],
-   "done_when": "Every national official language of every country is an interface language.",
-   "blocks_note": "a country opens in its best supported language meanwhile"
-  },
-  {
-   "id": "country_legal_text",
-   "name": "Country legal text, invoice numbering and holidays confirmed per country (rule 0.5 pack fields)",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Each pack now carries holidays (from the holidays package, unconfirmed), the invoice numbering rules of services/invoicing.py (unconfirmed) and an empty legal_text. The legal wording on invoices and receipts must come from the country's lawyer, and holidays and numbering need a person in the country to confirm them.",
-   "placeholders": [
+      "id": "bank_terminal_link",
+      "name": "Bank terminal link",
+      "kind": "bank_integration",
+      "used_by": [
+        "pos"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "merchant.devices:BankTerminalLink",
+      "sandbox": "merchant.devices:BankTerminalLink",
+      "needed_from_provider": [
+        "the bank's terminal integration interface and agreement",
+        "amount hand-over and result callback",
+        "test terminal"
+      ],
+      "placeholders": [
+        {
+          "file": "merchant/devices.py",
+          "token": "PLACEHOLDER"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "Old-style bank terminals run only the bank's software and cannot run LynkPOS. Where the bank offers an interface, LynkPOS sends the amount and the bank's terminal takes the card. Until then the merchant keys the amount on the bank's terminal and LynkPOS records the sale as a card payment awaiting confirmation.",
+      "integrate": [
+        "Ask the acquirer or bank for its terminal interface",
+        "Write the adapter behind BankTerminalLink",
+        "Shared tests",
+        "contract_signed per bank and country"
+      ]
+    },
     {
-     "file": "tools/country_holidays.py",
-     "token": "country_legal_text"
+      "id": "merchant_of_record",
+      "name": "Merchant of record and tax on digital sales (Storefront)",
+      "kind": "marketplace",
+      "used_by": [
+        "marketplace"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.storefront_partners:MerchantOfRecord",
+      "sandbox": "services.storefront_partners:SandboxMerchantOfRecord",
+      "needed_from_provider": [
+        "merchant-of-record agreement per country",
+        "tax rates and invoicing rules for digital goods",
+        "seller income reporting where required (for example EU DAC7)",
+        "settlement and refund rules",
+        "sandbox and live API keys"
+      ],
+      "placeholders": [
+        {
+          "file": "services/storefront_partners.py",
+          "token": "SandboxMerchantOfRecord"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "BIZZ & DEVICE (2026-11-09). The sandbox never invents a tax rate: tax is 'unconfirmed'. Paid Storefront selling stays off in a country until this partner and a payment provider are signed there.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country after legal sign-off"
+      ]
+    },
+    {
+      "id": "live_video",
+      "name": "Live sessions and classes (Storefront)",
+      "kind": "infrastructure",
+      "used_by": [
+        "marketplace"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.storefront_partners:LiveVideo",
+      "sandbox": "services.storefront_partners:SandboxLiveVideo",
+      "needed_from_provider": [
+        "video service agreement",
+        "data location per country",
+        "seat and bandwidth pricing",
+        "sandbox and live API keys"
+      ],
+      "placeholders": [
+        {
+          "file": "services/storefront_partners.py",
+          "token": "SandboxLiveVideo"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "Seat caps come from Storefront plans (services/billing.py). Questions go to the presenter only; never learner-to-learner chat. Never claim end-to-end encryption.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country after legal sign-off"
+      ]
+    },
+    {
+      "id": "content_store",
+      "name": "Storefront file storage, scanning and delivery",
+      "kind": "storage",
+      "used_by": [
+        "marketplace"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.storefront_partners:ContentStore",
+      "sandbox": "services.storefront_partners:SandboxContentStore",
+      "needed_from_provider": [
+        "storage and delivery agreement",
+        "malware scanning",
+        "data location per country",
+        "pricing per GB stored and delivered"
+      ],
+      "placeholders": [
+        {
+          "file": "services/storefront_partners.py",
+          "token": "SandboxContentStore"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "Allowed types by file bytes only (documents, video, audio, e-books, images); programs and markup are refused; size limits per Storefront plan.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country after legal sign-off"
+      ]
+    },
+    {
+      "id": "tap_to_pay",
+      "name": "Tap to pay on a phone (contactless without a card reader)",
+      "kind": "card_acquiring",
+      "used_by": [
+        "payments",
+        "pos"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.storefront_partners:TapToPay",
+      "sandbox": "services.storefront_partners:SandboxTapToPay",
+      "needed_from_provider": [
+        "certified tap-to-pay software and agreement per country",
+        "card scheme approvals held by the provider",
+        "fee schedule",
+        "sandbox and live API keys"
+      ],
+      "placeholders": [
+        {
+          "file": "services/storefront_partners.py",
+          "token": "SandboxTapToPay"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "Digital first (BIZZ & DEVICE): a phone accepts contactless cards through the provider's certified software. Confirmed only by the provider.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country after legal sign-off"
+      ]
+    },
+    {
+      "id": "ussd_gateway",
+      "name": "USSD, text-message short code and voice-menu gateway",
+      "kind": "messaging",
+      "used_by": [
+        "pos"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "core.channels:ChannelGateway",
+      "sandbox": "core.channels:SandboxChannelGateway",
+      "needed_from_provider": [
+        "a USSD code per country from a licensed aggregator or mobile network",
+        "a text-message short code with two-way messages",
+        "a voice-menu number with key presses",
+        "session callbacks to LynkOmni's engine and a fee schedule"
+      ],
+      "placeholders": [
+        {
+          "file": "core/channels.py",
+          "token": "SandboxChannelGateway"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "BIZZ & DEVICE 48.17: basic phones with no apps (interface phone.text) use LynkPOS by USSD, text message or a voice menu through one engine (core/channels.py, ts/src/channels.ts). The channel stays off for real users until a gateway is signed in the country; LynkPOS itself is never gated.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then enable the country after legal sign-off"
+      ]
+    },
+    {
+      "id": "vehicle_data",
+      "name": "Connected-car data partner",
+      "kind": "vehicle_data",
+      "used_by": [
+        "vehicle_data"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.movement_partners:VehicleDataProvider",
+      "sandbox": "services.movement_partners:SandboxVehicleData",
+      "needed_from_provider": [
+        "carmaker or licensed data-partner agreement per country",
+        "owner consent flow and revocation",
+        "ignition, motion, odometer and alert signals",
+        "sandbox and live API keys"
+      ],
+      "placeholders": [
+        {
+          "file": "services/movement_partners.py",
+          "token": "SandboxVehicleData"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "NEW UPDATE 1 (blueprint 49): LynkGuard Plus and above link a car only with the owner's consent; the phone stays the default tracker.",
+      "integrate": [
+        "Sign the agreement through the Partner Hub and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then the country switches on by itself"
+      ]
+    },
+    {
+      "id": "monitoring_centre",
+      "name": "24/7 monitoring centre",
+      "kind": "monitoring",
+      "used_by": [
+        "monitoring"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.movement_partners:MonitoringCentre",
+      "sandbox": "services.movement_partners:SandboxMonitoring",
+      "needed_from_provider": [
+        "licensed monitoring agreement per country",
+        "hand-over and call-back procedure",
+        "fee schedule charged only when chosen"
+      ],
+      "placeholders": [
+        {
+          "file": "services/movement_partners.py",
+          "token": "SandboxMonitoring"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "NEW UPDATE 1: LynkGuard Max. The centre calls the owner; LynkSentry never contacts police by itself.",
+      "integrate": [
+        "Sign the agreement through the Partner Hub and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then the country switches on by itself"
+      ]
+    },
+    {
+      "id": "transport_data",
+      "name": "Ship-position and flight-status data",
+      "kind": "transport_data",
+      "used_by": [
+        "transport_data"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.movement_partners:TransportData",
+      "sandbox": "services.movement_partners:SandboxTransportData",
+      "needed_from_provider": [
+        "licensed AIS (ship) and flight-status data agreement",
+        "coverage and refresh terms",
+        "attribution rules"
+      ],
+      "placeholders": [
+        {
+          "file": "services/movement_partners.py",
+          "token": "SandboxTransportData"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "NEW UPDATE 1: LynkMotion and LynkGuard Max journeys by sea and air; vessel and flight status only, never a person's position.",
+      "integrate": [
+        "Sign the agreement through the Partner Hub and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then the country switches on by itself"
+      ]
+    },
+    {
+      "id": "satellite_messaging",
+      "name": "Satellite messaging",
+      "kind": "satellite",
+      "used_by": [
+        "satellite"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.movement_partners:SatelliteMessaging",
+      "sandbox": "services.movement_partners:SandboxSatellite",
+      "needed_from_provider": [
+        "satellite messaging agreement",
+        "supported phones and trackers",
+        "message size and airtime price (charged at partner cost, only when used)"
+      ],
+      "placeholders": [
+        {
+          "file": "services/movement_partners.py",
+          "token": "SandboxSatellite"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "NEW UPDATE 1 (no-network layer 5 and 6): SOS and last reports where no network exists.",
+      "integrate": [
+        "Sign the agreement through the Partner Hub and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then the country switches on by itself"
+      ]
+    },
+    {
+      "id": "iot_sim",
+      "name": "Tracker data plans (IoT SIM)",
+      "kind": "connectivity",
+      "used_by": [
+        "iot_sim"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.movement_partners:IotSim",
+      "sandbox": "services.movement_partners:SandboxIotSim",
+      "needed_from_provider": [
+        "multi-country IoT data plan agreement",
+        "activation and suspension API",
+        "price per device per month"
+      ],
+      "placeholders": [
+        {
+          "file": "services/movement_partners.py",
+          "token": "SandboxIotSim"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "NEW UPDATE 1: only for trackers, seals and sensors bought on demand; phones need none.",
+      "integrate": [
+        "Sign the agreement through the Partner Hub and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then the country switches on by itself"
+      ]
+    },
+    {
+      "countries": "all",
+      "status": "sandbox",
+      "used_by": [
+        "vcard"
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "id": "card_account_partner",
+      "name": "Debit card account partner (bank or e-money institution)",
+      "kind": "card_issuing",
+      "interface": "services.card_groups:SandboxAccountPartner",
+      "sandbox": "services.card_groups:SandboxAccountPartner",
+      "needed_from_provider": [
+        "signed agreement per country",
+        "licence to hold the account behind a LynkDyna debit card",
+        "identity check and account opening API (sandbox and live)",
+        "issuer-hosted card display (card numbers never reach LynkOmni)",
+        "dispute process",
+        "legal sign-off and the activation checklist"
+      ],
+      "placeholders": [
+        {
+          "file": "services/card_groups.py",
+          "token": "SandboxAccountPartner"
+        }
+      ],
+      "notes": "LynkDyna (debit) stays off in a country until its account partner is signed. The account and its money sit at the partner; LynkOmni never holds funds.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter beside SandboxAccountPartner behind the same interface",
+        "Run tests/test_card_groups.py against both",
+        "Set status to contract_signed, then enable after legal sign-off"
+      ]
+    },
+    {
+      "countries": "all",
+      "status": "sandbox",
+      "used_by": [
+        "vcard"
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "id": "card_lender",
+      "name": "Licensed lender for LynkCrest credit cards",
+      "kind": "lending",
+      "interface": "services.card_groups:SandboxLender",
+      "sandbox": "services.card_groups:SandboxLender",
+      "needed_from_provider": [
+        "signed lending agreement and licence per country",
+        "credit decision API (secured, charge, credit) in sandbox and live",
+        "the lender's own interest, fee and disclosure texts",
+        "secured-card deposit handling at the lender",
+        "collections and complaints process",
+        "legal sign-off and the activation checklist"
+      ],
+      "placeholders": [
+        {
+          "file": "services/card_groups.py",
+          "token": "SandboxLender"
+        },
+        {
+          "file": "services/card_groups.py",
+          "token": "SANDBOX"
+        }
+      ],
+      "notes": "LynkCrest (credit) stays off in a country until its lender is signed. The lender alone decides credit and holds any deposit; \"The lender's interest and fees apply\" is shown beside every LynkCrest name.",
+      "integrate": [
+        "Sign the agreement and get sandbox credentials",
+        "Write the real adapter beside SandboxLender behind the same interface",
+        "Run tests/test_card_groups.py against both",
+        "Set status to contract_signed, then enable after legal sign-off"
+      ]
     }
-   ],
-   "done_when": "For each country: its lawyer sets legal_text, a person confirms holidays and invoice numbering, and the three are marked confirmed; tools/country_holidays.py is re-run each January.",
-   "blocks_note": "nothing legal is printed until set; holidays only inform schedules and reports"
-  },
-  {
-   "id": "storefront_legal_review",
-   "name": "Lawyer review of the Storefront: marketplace terms, seller agreement, content policy, tax reporting, consumer law, copyright and data protection",
-   "blocks": [
-    "marketplace"
-   ],
-   "status": "pending",
-   "why_not_now": "Needs a lawyer in each launch country.",
-   "placeholders": [],
-   "done_when": "Written sign-off per country; paid Storefront selling switches on only after it."
-  },
-  {
-   "id": "driver_signing_key",
-   "name": "LynkDriver signing key in secure hardware",
-   "blocks": [
-    "pos"
-   ],
-   "status": "pending",
-   "why_not_now": "Needs a hardware security module or a cloud key service under the company's account (section 14).",
-   "placeholders": [],
-   "done_when": "Every LynkDriver release is signed with the hardware-held key and devices refuse anything else."
-  },
-  {
-   "id": "real_device_checks",
-   "name": "Checks on physical devices (LynkDriver drivers and every interface version)",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Needs sample devices; automatic checks already run on virtual devices and emulators.",
-   "placeholders": [],
-   "done_when": "Each device kind in the device register passed on a real unit."
-  },
-  {
-   "id": "tracker_certification",
-   "name": "Certified trackers, seals and safe-stop hardware",
-   "blocks": [
-    "movement"
-   ],
-   "status": "pending",
-   "why_not_now": "Needs a hardware supplier and certification per country; safe-stop works only through certified hardware.",
-   "placeholders": [],
-   "done_when": "Each tracker, seal and safe-stop unit is certified for its country and its LynkDriver driver is signed."
-  },
-  {
-   "id": "police_report_formats",
-   "name": "Police report pack format per country",
-   "blocks": [
-    "movement"
-   ],
-   "status": "pending",
-   "why_not_now": "Each country's police accept their own format; a person per country must confirm it.",
-   "placeholders": [],
-   "done_when": "Each country pack carries a confirmed report format."
-  },
-  {
-   "id": "location_privacy_review",
-   "name": "Data-protection review of location data",
-   "blocks": [
-    "movement"
-   ],
-   "status": "pending",
-   "why_not_now": "A lawyer per region must confirm consent, retention and worker rules before positions are stored for owned assets and consenting workers.",
-   "placeholders": [],
-   "done_when": "Each region's retention and consent rules are confirmed and written into its country packs."
-  },
-  {
-   "id": "movement_names",
-   "name": "Trademark checks for LynkMotion, LynkGuard, LynkTrace, LynkGPS and LynkSentry",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Needs the lawyer (owner action names-trademarks).",
-   "placeholders": [],
-   "done_when": "The five names are cleared or replaced."
-  },
-  {
-   "id": "map_hosting",
-   "name": "LynkOmni's own map tiles, geocoding and offline region packs",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Self-hosted open map data needs the cloud hosting of build section 14; emulators use labelled sample maps until then.",
-   "placeholders": [],
-   "done_when": "Map tiles, geocoding and offline packs are served from LynkOmni's own servers in every region cell."
-  }
- ],
- "user_actions": [
-  {
-   "id": "approve-bot-workflows",
-   "what": "Approve workflow runs on pull requests opened by the brand-sync bot (button 'Approve workflows to run' on the pull request).",
-   "why": "GitHub does not run checks on bot pull requests until a person approves.",
-   "when": "each brand-sync pull request",
-   "status": "open"
-  },
-  {
-   "id": "network-for-installs",
-   "what": "Allow package installs in Claude's network settings, then start a new chat.",
-   "why": "Needed for font files and any library the interface emulators or tests may need later; until then everything is built without extra libraries. It also lets Claude install the NLLB-200 translation engine.",
-   "when": "before fonts are added",
-   "status": "done",
-   "done_note": "Owner allowed package installs and Hugging Face for Claude Code cloud environments on 2026-11-06. The claude.ai chat workspace still blocks Hugging Face, so the translation engine is installed on GitHub Actions (workflow \"translation\") instead."
-  },
-  {
-   "id": "provider-contracts",
-   "what": "Sign each provider in the ledger (card issuer, mobile money, banks, tax office, SMS, cloud) per country and send Claude the sandbox keys and documents.",
-   "why": "A service switches on for real users only when its provider is signed.",
-   "when": "per country, before launch there",
-   "status": "open"
-  },
-  {
-   "id": "designer-review",
-   "what": "Have a human designer review all visuals, icons and interface emulators.",
-   "why": "Everything is a draft until a designer signs off.",
-   "when": "before public launch",
-   "status": "open"
-  },
-  {
-   "id": "security-review",
-   "what": "Arrange a human security review of anything that moves money, sealing, card screens and agent services; later, an accredited auditor for SOC 2 Type II and ISO 27001.",
-   "why": "Required before release by the LynkOmni rules.",
-   "when": "before any money feature goes live",
-   "status": "open"
-  },
-  {
-   "id": "accessibility-review",
-   "what": "Arrange a human accessibility audit (WCAG 2.2 AA).",
-   "why": "Automatic checks are not a full audit.",
-   "when": "before public launch",
-   "status": "open"
-  },
-  {
-   "id": "names-trademarks",
-   "what": "Have a lawyer check LynkOmni and product names, and register domains.",
-   "why": "Names are placeholders until checked.",
-   "when": "before public launch",
-   "status": "open"
-  },
-  {
-   "id": "store-accounts",
-   "what": "Create Apple Developer and Google Play developer accounts for the organisation.",
-   "why": "Needed to publish the real Android and iOS apps and capture store screenshots.",
-   "when": "before the first mobile release",
-   "status": "open"
-  },
-  {
-   "id": "pos-hardware-supplier",
-   "what": "Choose a supplier of Android handheld POS terminals with a built-in printer (and a counter tablet setup), and get two sample devices.",
-   "why": "The LynkPOS emulator shows an original LynkOmni design; the real app must be tested on the real terminals merchants will buy, and the supplier must allow our logo on the casing.",
-   "when": "On demand (BIZZ & DEVICE, 2026-11-09): only once people start ordering LynkOmni hardware. LynkOmni is digital first: every service runs on devices people already own, with compatible hardware from other makers through LynkDriver.",
-   "status": "open"
-  },
-  {
-   "id": "native-speaker-review",
-   "what": "Ask native speakers to check the words and screens in each language we launch with (Arabic, Persian, Urdu, Hebrew, Hindi, Swahili, Kinyarwanda, French, Spanish and others in design/fonts/scripts.v1.json).",
-   "why": "Fonts and right-to-left layout are in place, but translations written by Claude must be checked by people who speak the language before real users see them.",
-   "when": "before launching in a country that uses the language",
-   "status": "dropped",
-   "done_note": "Owner decision 2026-11-06: no native-speaker review; machine translation (Google MADLAD-400; Meta NLLB-200 was replaced for licence reasons) with automatic protection and layout checks instead."
-  },
-  {
-   "id": "social-accounts",
-   "what": "Create the official LynkOmni accounts and claim the name on LinkedIn, X, Facebook, Instagram, YouTube, TikTok, WhatsApp Business, Snapchat, Pinterest and Threads; send Claude the links of the seven footer channels.",
-   "why": "Claiming the name everywhere stops others from impersonating LynkOmni; the footer links must lead to real, active accounts.",
-   "when": "before the website goes public",
-   "status": "done",
-   "done_note": "Claimed as \"LynkOmni\" on all ten platforms on 2026-11-06; footer links connected (ts/src/footer.ts SOCIAL_LINKS); LinkedIn is a showcase page under the CruxOmni Group company page."
-  },
-  {
-   "id": "company-domains-email",
-   "what": "Finish the company email: Google Workspace Business Starter (yearly, one paid user, billing country Cameroon) for cruxomni.com with the admin login marvin@cruxomni.com; then add lynkomni.com as a free second domain and the free addresses billing@, support@, hello@, security@lynkomni.com and legal@cruxomni.com. Then create the 28 Google Groups agreed on 2026-11-07 (master blueprint section 39), each with marvin@cruxomni.com as its member: on cruxomni.com accounts@, legal@, compliance@, finance@, investors@, press@, careers@, hello@; on lynkomni.com hello@, support@, billing@, security@, privacy@, safety@, accessibility@, partners@, agents@, accountants@, developers@, enterprise@, ads@, suppliers@; and postmaster@, abuse@ and dmarc-reports@ on each domain. Then add the SPF, DKIM and DMARC records Claude prepares, at Squarespace, for both domains.",
-   "why": "One Google platform for email and, later, hosting (owner decision 2026-11-06). The domains cruxomni.com and lynkomni.com were bought on Squarespace on 2026-11-07; Google refused the prepaid card, so payment needs a normal (not prepaid) Visa or Mastercard debit card with international online payments, or an official Google Workspace partner that accepts bank transfer or mobile money.",
-   "when": "now",
-   "status": "done",
-   "done_on": "2026-11-08",
-   "result": "Workspace paid; lynkomni.com verified as a secondary domain; all 28 addresses of catalog/contacts.v1.json exist as groups (postmaster@lynkomni.com reserved by Google); MX, SPF, DKIM (authenticating) and DMARC p=none live for both domains at Squarespace; DNSSEC on; delivery tested to hello@ and postmaster@lynkomni.com."
-  },
-  {
-   "id": "workspace-admin-safety",
-   "what": "Right after paying for Google Workspace (agreed 2026-11-07, email safeguards 1, 2, 5, 8 and 13): create a second super-admin account admin@cruxomni.com for emergencies only (one more paid user); turn on two-step verification with a passkey or physical security key, never SMS, on marvin@cruxomni.com and admin@cruxomni.com; switch on outside-sender warnings and the strongest phishing and malware protection; print the admin backup codes and keep them offline, with recovery email outside cruxomni.com (for example lynkomni@gmail.com) and your phone; turn on DNSSEC for both domains if Squarespace offers it. Claude writes the steps screen by screen.",
-   "why": "With one admin account, a hack or lock-out loses the company's email, Google Cloud and GitHub at once; Google recommends more than one super admin, and phishing-proof sign-in protects both.",
-   "when": "right after paying for Google Workspace",
-   "status": "done",
-   "done_on": "2026-11-08",
-   "result": "admin@cruxomni.com is a second super admin; passkeys on both admins and two-step enforced; strong passwords 12+; third-party API access blocked; every alert rule active with email; Drive external sharing warned, access checker recipients only; Gmail safety at full with move-to-spam; backup codes offline and recovery contacts outside cruxomni.com for both admins."
-  },
-  {
-   "id": "lookalike-domains-optional",
-   "what": "Optional, when you choose (email safeguard 6): buy a few look-alike domains (for example lynk-omni.com) and forward them to lynkomni.com so scammers cannot use them.",
-   "why": "Scammers register look-alike domains to trick merchants and customers.",
-   "when": "optional, when the owner chooses",
-   "status": "open"
-  },
-  {
-   "id": "company-registration",
-   "what": "Register CruxOmni Group (with the lawyer), open a company bank account with a company card, get a free D-U-N-S number, then ask Google support to move the Workspace billing to the company and put the company as the owner of both domains.",
-   "why": "Needed for the Apple and Google developer accounts, startup cloud credits, payment providers and company invoices.",
-   "when": "with the lawyer, at the end of the owner's list",
-   "status": "open"
-  },
-  {
-   "id": "github-team-plan",
-   "what": "Upgrade the LynkOmni GitHub organisation to the Team plan (billing email billing@lynkomni.com) and lock the main branch so changes can only enter through a pull request with green checks.",
-   "why": "Branch protection on private repositories needs a paid plan; until then the working standards are followed by hand.",
-   "when": "last item of the owner's list, after billing@lynkomni.com exists",
-   "status": "open"
-  },
-  {
-   "id": "google-cloud-account",
-   "what": "Open Google Cloud with the marvin@cruxomni.com login, add a payment method Google accepts and a budget alert; Claude then sets up hosting (Cloud Run, Cloud SQL, Cloud Storage through its S3-compatible connection) as code.",
-   "why": "LynkOmni's servers, language engine and offline sync need a home; one Google platform, pay as you go, no move needed as LynkOmni grows.",
-   "when": "when the merchant app is ready to go online",
-   "status": "open"
-  },
-  {
-   "id": "dependabot-security-updates-optional",
-   "what": "Optional, 10 seconds per repository: GitHub -> lynkomni-platform and lynkomni-icons -> Settings -> Advanced Security -> Dependabot security updates -> Enable (the proxy cannot switch it on). Fix PRs for vulnerable dependencies then arrive as drafts and are merged under the dependency-updates rule.",
-   "why": "A free safety net on public repositories.",
-   "when": "any time",
-   "status": "open"
-  }
- ],
- "reminder": {
-  "locked": "2026-11-08",
-  "note": "The owner's 14 own to-dos, locked as the REMINDER (owner rule 2026-11-08). Claude provides this list any time the owner asks, when they say \"let's start building\" and whenever a piece of work concludes. None is mandatory before building; only item 1 blocks items 2 to 8. The user_actions list above holds the same items in detail with their status.",
-  "now": [
-   "1. Pay for Google Workspace: DONE 2026-11-08 (owner). Items 2 to 8 are now open, in order.",
-   "1b. GitHub Actions billing: RESOLVED. 2026-11-08 evening (owner): the repositories are PUBLIC again during the build to keep Actions free; they go private when the build is complete. Secret scanning and push protection are on; no secrets in the history.",
-   "1c. CodeQL: back ON by itself when the repositories went public (default setup configured on both); its findings count as warnings and are fixed in the same task. Claude's own security review stays item 11."
   ],
-  "right_after_paying": [
-   "2. Second super admin admin@cruxomni.com: DONE 2026-11-08.",
-   "3. Passkey two-step on both admin accounts, enforced for the organisation: DONE 2026-11-08.",
-   "4. Workspace safety settings (strong passwords 12+, third-party API access blocked, all alert rules active with email, Drive sharing warned and recipients-only, Gmail safety at full with move-to-spam): DONE 2026-11-08. Two Google Terms of Service remain pending until Google prompts for them.",
-   "5. Backup codes kept offline and recovery phone and email outside cruxomni.com, both admin accounts: DONE 2026-11-08.",
-   "6. The 28 addresses of catalog/contacts.v1.json exist as Google Groups (open to outside senders, invited members only; postmaster@lynkomni.com is reserved by Google and delivers to the admin; lynkomni.com added as a secondary domain): DONE 2026-11-08, delivery tested.",
-   "7. Email DNS at Squarespace for cruxomni.com and lynkomni.com (MX smtp.google.com, SPF, DKIM 2048 authenticating, DMARC p=none with reports to dmarc-reports@) and DNSSEC on both: DONE 2026-11-08. Follow-up: raise DMARC to p=quarantine after about two weeks of clean reports (see later).",
-   "8. Optional: look-alike domains forwarded to lynkomni.com."
+  "later": [
+    {
+      "id": "hardware_signing",
+      "name": "Hardware-backed device signatures (ES256)",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Needs Android Keystore and iOS Secure Enclave code on real devices.",
+      "placeholders": [
+        {
+          "file": "dv/box.py",
+          "token": "PLACEHOLDERS"
+        }
+      ],
+      "done_when": "Devices sign with a hardware key and the cloud verifies it; dev-only random signatures are refused in production.",
+      "blocks_note": "any production device sync"
+    },
+    {
+      "id": "device_db_encryption",
+      "name": "SQLCipher exercised on a real build machine",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "SQLCipher is not installed here; the encrypted path is untested.",
+      "placeholders": [
+        {
+          "file": "core/devicedb.py",
+          "token": "SQLCipher"
+        }
+      ],
+      "done_when": "Encrypted open, key rotation and wrong-key tests pass on CI with SQLCipher installed.",
+      "blocks_note": "any production device database"
+    },
+    {
+      "id": "security_review",
+      "name": "Human security review (sealing, anything that moves money)",
+      "blocks": [
+        "payments",
+        "recovery",
+        "paylinks",
+        "vcard",
+        "marketplace",
+        "financing",
+        "protection"
+      ],
+      "status": "pending",
+      "why_not_now": "Needs a human reviewer.",
+      "placeholders": [],
+      "done_when": "A written review with findings closed."
+    },
+    {
+      "id": "accessibility_audit",
+      "name": "Human accessibility audit (WCAG 2.2 AA)",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Scripts check only part of AA.",
+      "placeholders": [],
+      "done_when": "A human audit report with findings closed."
+    },
+    {
+      "id": "names_trademarks",
+      "name": "Names, domains and trademarks for LynkOmni and every Lynk product (including LynkAcademy and LynkDriver)",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Needs a trademark search and registrations.",
+      "placeholders": [],
+      "done_when": "Clearance for each name and domain."
+    },
+    {
+      "id": "price_validation",
+      "name": "Market validation of the locked prices",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Prices are locked but not market-tested.",
+      "placeholders": [
+        {
+          "file": "services/billing.py",
+          "token": "PLACEHOLDER"
+        }
+      ],
+      "done_when": "Pilot data replaces the guessed tier mix."
+    },
+    {
+      "id": "designer_review",
+      "name": "Human designer review of logo placement, icons, illustrations and cards",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "All visuals are drafts.",
+      "placeholders": [],
+      "done_when": "Designer sign-off recorded in visuals/needs.v1.json status."
+    },
+    {
+      "id": "invoice_law",
+      "name": "Invoice content and retention law per country",
+      "blocks": [
+        "paylinks"
+      ],
+      "status": "pending",
+      "why_not_now": "Needs a local adviser per country.",
+      "placeholders": [
+        {
+          "file": "services/invoicing.py",
+          "token": "local adviser"
+        }
+      ],
+      "done_when": "Written confirmation per country; until then no document is called a tax invoice."
+    },
+    {
+      "id": "font_files",
+      "name": "Montserrat and Inter WOFF2 files in design/fonts",
+      "blocks": [],
+      "status": "done",
+      "why_not_now": "Done 2026-11-06: built from the official google/fonts files (see design/fonts/sources.json).",
+      "placeholders": [],
+      "done_when": "design/check_fonts.py reports fonts ok (checked in CI, brand job)."
+    },
+    {
+      "id": "native_fonts",
+      "name": "Brand and script fonts bundled in the Android and iOS apps",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "The Android and iOS app projects (with resource folders) do not exist yet; only the shared core libraries do.",
+      "placeholders": [],
+      "done_when": "The app projects bundle TTF instances of every family in design/fonts/scripts.v1.json (Latin, Arabic, Hebrew, Devanagari and the rest), built by build_fonts.py from the same sources.json, set the layout direction from ts/src/fonts.ts rules (Android supportsRtl, iOS semanticContentAttribute), and screenshots in an Arabic and a Hindi locale show the brand fonts."
+    },
+    {
+      "id": "official_payment_marks",
+      "name": "Official payment artwork (Visa, Mastercard, mobile money and other providers)",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "These logos belong to other companies. LynkOmni may show them only as supplied by each company, usually once the provider or acquirer contract is signed. Until then every method shows a LynkOmni method icon with the provider's name as text (ts/src/payments.ts).",
+      "placeholders": [],
+      "done_when": "For each signed provider, its official artwork and usage rules are stored in a checksum-locked folder with the brand module, paymentOptions marks that method official, and the icon plus name is replaced only for that method and only in countries where that provider is signed."
+    },
+    {
+      "id": "machine_translation_engine",
+      "name": "Machine translation engine for every LynkOmni language (Google MADLAD-400-3B-MT, Apache 2.0)",
+      "blocks": [],
+      "status": "done",
+      "why_not_now": "Done 2026-11-07. The owner replaced Meta NLLB-200 (CC-BY-NC licence, no commercial use) with Google MADLAD-400-3B-MT (Apache 2.0). tools/translation/install_engine.py checks the licence, pins the model revision and converts it to CTranslate2 int8; the GitHub Actions workflow \"translation\" installs it (cached) and runs tools/translation/check_engine.py in every language. Because the 3B model was weak on short screen labels, screen text is translated by Claude (tools/translation/claude_packs.py, owner decision 2026-11-07); the engine is for text people type.",
+      "placeholders": [],
+      "done_when": "The engine is installed with a checked licence and pinned revision, knows every language in design/fonts/scripts.v1.json, every emulator has a current, fully translated pack for every language, and tests/test_layout_i18n.py passes in every language."
+    },
+    {
+      "id": "translation_server",
+      "name": "Translation engine running on LynkOmni's own server for text people type (chat messages, product names, notes)",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "LynkOmni has no production server yet (infra/ is a plan). Screen text is already translated ahead of time into the language packs. Until the server exists, ContentTranslator has no engine, so typed text is shown in the original with the state \"queued\"; tests use SandboxTranslator.",
+      "placeholders": [
+        {
+          "file": "services/translation.py",
+          "token": "SandboxTranslator"
+        }
+      ],
+      "done_when": "The API server image installs ctranslate2 and sentencepiece and mounts the engine folder made by tools/translation/install_engine.py as LYNK_MT_DIR; ContentTranslator uses MadladTranslator there; typed text never leaves LynkOmni's servers."
+    },
+    {
+      "id": "ops_product_icons",
+      "name": "Product icons for LynkAcc, LynkInv, LynkCRM and LynkOps and LynkStat in lynkomni-icons",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Icons are released from the separate lynkomni-icons repository through its gates and the brand-sync workflow; they are made with build section 4 (LynkAcc, LynkInv, LynkCRM and LynkOps). Until then LynkAcc uses the existing product-ledger icon and LynkInv and LynkCRM are not yet listed in the merchant app's Business tab.",
+      "placeholders": [],
+      "done_when": "lynkomni-icons releases product-acc, product-inv, product-crm and product-ops, brand-sync vendors them, and every place that lists LynkOmni services shows LynkAcc, LynkInv and LynkCRM with their own icon."
+    },
+    {
+      "id": "agent_services_security_review",
+      "name": "Human security review of every money-moving LynkPOS flow (agent, collection and partner-finance services)",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "The flows are built in build section 3 (master blueprint section 42 I). The review needs a human security reviewer and the finished flows; until it passes, the services stay on practice partners only.",
+      "placeholders": [],
+      "done_when": "A human security reviewer has signed off every agent, collection and partner-finance flow, including never offering cash before the partner confirms and never queuing these requests offline."
+    },
+    {
+      "id": "email_sending_setup",
+      "name": "Sending subdomains mail.lynkomni.com and news.lynkomni.com with their nine sending addresses, SPF, DKIM, DMARC, MTA-STS and TLS reports",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Needs the email-sending provider (provider ledger item for SMS, WhatsApp, email and push delivery), chosen in build section 13 (outside screens). BIMI (the logo in inboxes) also waits for the registered trademark.",
+      "placeholders": [],
+      "done_when": "The nine sending addresses send through the chosen provider with SPF, DKIM and DMARC passing, DMARC at reject after two clean weeks, MTA-STS on, and no-reply@mail.lynkomni.com answering anyone who writes with the automatic help message."
+    },
+    {
+      "id": "email_safeguards_build",
+      "name": "Email safeguards built into the product (agreed 2026-11-07, items 3, 4, 7, 9, 10, 11, 12 and 14)",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "They belong to build sections 12 (support console: case-number automatic replies in the writer's language) and 13 (outside screens: no sign-in links in security emails, bounce handling, nothing sensitive in email, newsletter consent proof and one-day unsubscribe, Postmaster Tools and DMARC report reading, standard signature); the email archive waits for the Workspace plan raised when staff join.",
+      "placeholders": [],
+      "done_when": "Every item is built and tested in its build section and the email archive is on once staff join."
+    },
+    {
+      "id": "company_certifications",
+      "name": "SOC 2 Type II and ISO 27001 for the company (review T2, agreed 2026-11-07)",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "An outside auditor certifies a running company and its live systems; there is nothing to audit before hosting and staff exist. PCI DSS stays out of scope because LynkOmni never touches a card number.",
+      "placeholders": [],
+      "done_when": "Both reports are issued by an accredited auditor and linked from /trust."
+    },
+    {
+      "id": "bug_bounty",
+      "name": "Paid bug bounty with written rules at /trust/disclosure (review T6)",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Opens only after the human security review, so researchers test reviewed code; security@ and /trust/disclosure take reports until then.",
+      "placeholders": [],
+      "done_when": "Rules, rewards and safe-harbour text are published and reports reach the security queue."
+    },
+    {
+      "id": "language_waves",
+      "name": "Screen languages in two waves (review L2): wave 1 Chinese (Simplified, Traditional), Japanese, Korean, German, Italian, Russian, Turkish, Indonesian, Vietnamese; wave 2 Bengali, Tamil, Thai, Amharic, Hausa, Yoruba, Zulu, Filipino, Polish, Dutch, Ukrainian, Malay",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Each wave adds fonts (Chinese, Japanese and Korean split into subsets within a size budget) and Claude-translated packs; Portuguese was added in Step 0 (16th language, v0.20.0) and the waves follow in build section 1 with the shared shell.",
+      "placeholders": [],
+      "done_when": "Every wave language is in design/fonts/scripts.v1.json with packs for every emulator and the layout check passes."
+    },
+    {
+      "id": "dmarc_quarantine",
+      "name": "DMARC policy raised from p=none to p=quarantine, then p=reject",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "The records went live on 2026-11-08 with p=none (report only); the policy is raised only after about two weeks of reports to dmarc-reports@ show no legitimate sender failing.",
+      "placeholders": [],
+      "done_when": "_dmarc TXT of cruxomni.com and lynkomni.com reads p=quarantine (later p=reject) and the reports stay clean.",
+      "blocks_note": "nothing; a trust improvement for outgoing mail"
+    },
+    {
+      "id": "server_signing_key",
+      "name": "Server signing key",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Needs the cloud key service of the production account (REMINDER 13).",
+      "placeholders": [
+        {
+          "file": "merchant/cloud.py",
+          "token": "PLACEHOLDER"
+        }
+      ],
+      "done_when": "Server events are signed with the KMS key and devices verify it; the dev-only random signature is refused in production.",
+      "blocks_note": "any production cloud event (the device side is hardware_signing)"
+    },
+    {
+      "id": "phone_number_metadata",
+      "name": "Phone number formats per country",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Needs the libphonenumber metadata package vendored for Python, TypeScript, Kotlin and Swift with a licence check; sign-up accepts E.164 numbers today.",
+      "placeholders": [],
+      "done_when": "Numbers are shown and checked in each country's national format from vendored metadata, with a shared vector test.",
+      "blocks_note": "polish of sign-up and customer records, not go-live"
+    },
+    {
+      "id": "address_formats",
+      "name": "Postal address formats per country",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Needs an address-format dataset vendored with a licence check; invoices and receipts print free-text address lines today.",
+      "placeholders": [],
+      "done_when": "Invoices, receipts and the shop page lay out addresses by the country's format.",
+      "blocks_note": "polish of invoices and shop pages, not go-live"
+    },
+    {
+      "id": "calendar_preferences",
+      "name": "Calendar preferences per country (Hijri, Persian, Ethiopian, Buddhist beside Gregorian)",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Needs the CLDR calendar-preference data wired through the locale layer; dates show Gregorian in every country today.",
+      "placeholders": [],
+      "done_when": "A country pack names its preferred calendars and screens show dates in the person's calendar, data unchanged.",
+      "blocks_note": "presentation only"
+    },
+    {
+      "id": "language_waves",
+      "name": "Interface language waves (design/fonts/language_waves.v1.json)",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "94 national official languages are not yet interface languages; one wave of ten is added per build section from section 3 on, with fonts, translations and the layout test.",
+      "placeholders": [],
+      "done_when": "Every national official language of every country is an interface language.",
+      "blocks_note": "a country opens in its best supported language meanwhile"
+    },
+    {
+      "id": "country_legal_text",
+      "name": "Country legal text, invoice numbering and holidays confirmed per country (rule 0.5 pack fields)",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Each pack now carries holidays (from the holidays package, unconfirmed), the invoice numbering rules of services/invoicing.py (unconfirmed) and an empty legal_text. The legal wording on invoices and receipts must come from the country's lawyer, and holidays and numbering need a person in the country to confirm them.",
+      "placeholders": [
+        {
+          "file": "tools/country_holidays.py",
+          "token": "country_legal_text"
+        }
+      ],
+      "done_when": "For each country: its lawyer sets legal_text, a person confirms holidays and invoice numbering, and the three are marked confirmed; tools/country_holidays.py is re-run each January.",
+      "blocks_note": "nothing legal is printed until set; holidays only inform schedules and reports"
+    },
+    {
+      "id": "storefront_legal_review",
+      "name": "Lawyer review of the Storefront: marketplace terms, seller agreement, content policy, tax reporting, consumer law, copyright and data protection",
+      "blocks": [
+        "marketplace"
+      ],
+      "status": "pending",
+      "why_not_now": "Needs a lawyer in each launch country.",
+      "placeholders": [],
+      "done_when": "Written sign-off per country; paid Storefront selling switches on only after it."
+    },
+    {
+      "id": "driver_signing_key",
+      "name": "LynkDriver signing key in secure hardware",
+      "blocks": [
+        "pos"
+      ],
+      "status": "pending",
+      "why_not_now": "Needs a hardware security module or a cloud key service under the company's account (section 14).",
+      "placeholders": [],
+      "done_when": "Every LynkDriver release is signed with the hardware-held key and devices refuse anything else."
+    },
+    {
+      "id": "real_device_checks",
+      "name": "Checks on physical devices (LynkDriver drivers and every interface version)",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Needs sample devices; automatic checks already run on virtual devices and emulators.",
+      "placeholders": [],
+      "done_when": "Each device kind in the device register passed on a real unit."
+    },
+    {
+      "id": "tracker_certification",
+      "name": "Certified trackers, seals and safe-stop hardware",
+      "blocks": [
+        "movement"
+      ],
+      "status": "pending",
+      "why_not_now": "Needs a hardware supplier and certification per country; safe-stop works only through certified hardware.",
+      "placeholders": [],
+      "done_when": "Each tracker, seal and safe-stop unit is certified for its country and its LynkDriver driver is signed."
+    },
+    {
+      "id": "police_report_formats",
+      "name": "Police report pack format per country",
+      "blocks": [
+        "movement"
+      ],
+      "status": "pending",
+      "why_not_now": "Each country's police accept their own format; a person per country must confirm it.",
+      "placeholders": [],
+      "done_when": "Each country pack carries a confirmed report format."
+    },
+    {
+      "id": "location_privacy_review",
+      "name": "Data-protection review of location data",
+      "blocks": [
+        "movement"
+      ],
+      "status": "pending",
+      "why_not_now": "A lawyer per region must confirm consent, retention and worker rules before positions are stored for owned assets and consenting workers.",
+      "placeholders": [],
+      "done_when": "Each region's retention and consent rules are confirmed and written into its country packs."
+    },
+    {
+      "id": "movement_names",
+      "name": "Trademark checks for LynkMotion, LynkGuard, LynkTrace, LynkGPS and LynkSentry",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Needs the lawyer (owner action names-trademarks).",
+      "placeholders": [],
+      "done_when": "The five names are cleared or replaced."
+    },
+    {
+      "id": "map_hosting",
+      "name": "LynkOmni's own map tiles, geocoding and offline region packs",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Self-hosted open map data needs the cloud hosting of build section 14; emulators use labelled sample maps until then.",
+      "placeholders": [],
+      "done_when": "Map tiles, geocoding and offline packs are served from LynkOmni's own servers in every region cell."
+    }
   ],
-  "at_the_end_in_order": [
-   "9. Lawyer and CruxOmni Group registration, name and licence checks; then company bank account and card, D-U-N-S number, Google billing moved to the company, both domains in the company's name.",
-   "10. Licensed partners per country (payments, mobile money, cards, tax office, SMS, lenders, insurers) with test keys.",
-   "11. Hardware on demand (BIZZ & DEVICE, 2026-11-09): the POS hardware supplier and two sample devices are needed only once people start ordering LynkOmni hardware (LynkOmni is digital first). The human reviewers stay: designer, security, accessibility; an auditor later for SOC 2 Type II and ISO 27001.",
-   "12. Apple Developer and Google Play accounts for the organisation.",
-   "13. Google Cloud account when the app is ready to go online (same payment method as Workspace).",
-   "14. GitHub Team plan and the lock on the main branch, last.",
-   "15. Before the repositories go private at the end of the build (added by the owner 2026-11-08): re-check the two things that change with visibility, the GitHub Actions budget and that CodeQL's job is covered by Claude's own security review (item 11)."
-  ]
- }
+  "user_actions": [
+    {
+      "id": "approve-bot-workflows",
+      "what": "Approve workflow runs on pull requests opened by the brand-sync bot (button 'Approve workflows to run' on the pull request).",
+      "why": "GitHub does not run checks on bot pull requests until a person approves.",
+      "when": "each brand-sync pull request",
+      "status": "open"
+    },
+    {
+      "id": "network-for-installs",
+      "what": "Allow package installs in Claude's network settings, then start a new chat.",
+      "why": "Needed for font files and any library the interface emulators or tests may need later; until then everything is built without extra libraries. It also lets Claude install the NLLB-200 translation engine.",
+      "when": "before fonts are added",
+      "status": "done",
+      "done_note": "Owner allowed package installs and Hugging Face for Claude Code cloud environments on 2026-11-06. The claude.ai chat workspace still blocks Hugging Face, so the translation engine is installed on GitHub Actions (workflow \"translation\") instead."
+    },
+    {
+      "id": "provider-contracts",
+      "what": "Sign each provider in the ledger (card issuer, mobile money, banks, tax office, SMS, cloud) per country and send Claude the sandbox keys and documents.",
+      "why": "A service switches on for real users only when its provider is signed.",
+      "when": "per country, before launch there",
+      "status": "open"
+    },
+    {
+      "id": "designer-review",
+      "what": "Have a human designer review all visuals, icons and interface emulators.",
+      "why": "Everything is a draft until a designer signs off.",
+      "when": "before public launch",
+      "status": "open"
+    },
+    {
+      "id": "security-review",
+      "what": "Arrange a human security review of anything that moves money, sealing, card screens and agent services; later, an accredited auditor for SOC 2 Type II and ISO 27001.",
+      "why": "Required before release by the LynkOmni rules.",
+      "when": "before any money feature goes live",
+      "status": "open"
+    },
+    {
+      "id": "accessibility-review",
+      "what": "Arrange a human accessibility audit (WCAG 2.2 AA).",
+      "why": "Automatic checks are not a full audit.",
+      "when": "before public launch",
+      "status": "open"
+    },
+    {
+      "id": "names-trademarks",
+      "what": "Have a lawyer check LynkOmni and product names, and register domains.",
+      "why": "Names are placeholders until checked.",
+      "when": "before public launch",
+      "status": "open"
+    },
+    {
+      "id": "store-accounts",
+      "what": "Create Apple Developer and Google Play developer accounts for the organisation.",
+      "why": "Needed to publish the real Android and iOS apps and capture store screenshots.",
+      "when": "before the first mobile release",
+      "status": "open"
+    },
+    {
+      "id": "pos-hardware-supplier",
+      "what": "Choose a supplier of Android handheld POS terminals with a built-in printer (and a counter tablet setup), and get two sample devices.",
+      "why": "The LynkPOS emulator shows an original LynkOmni design; the real app must be tested on the real terminals merchants will buy, and the supplier must allow our logo on the casing.",
+      "when": "On demand (BIZZ & DEVICE, 2026-11-09): only once people start ordering LynkOmni hardware. LynkOmni is digital first: every service runs on devices people already own, with compatible hardware from other makers through LynkDriver.",
+      "status": "open"
+    },
+    {
+      "id": "native-speaker-review",
+      "what": "Ask native speakers to check the words and screens in each language we launch with (Arabic, Persian, Urdu, Hebrew, Hindi, Swahili, Kinyarwanda, French, Spanish and others in design/fonts/scripts.v1.json).",
+      "why": "Fonts and right-to-left layout are in place, but translations written by Claude must be checked by people who speak the language before real users see them.",
+      "when": "before launching in a country that uses the language",
+      "status": "dropped",
+      "done_note": "Owner decision 2026-11-06: no native-speaker review; machine translation (Google MADLAD-400; Meta NLLB-200 was replaced for licence reasons) with automatic protection and layout checks instead."
+    },
+    {
+      "id": "social-accounts",
+      "what": "Create the official LynkOmni accounts and claim the name on LinkedIn, X, Facebook, Instagram, YouTube, TikTok, WhatsApp Business, Snapchat, Pinterest and Threads; send Claude the links of the seven footer channels.",
+      "why": "Claiming the name everywhere stops others from impersonating LynkOmni; the footer links must lead to real, active accounts.",
+      "when": "before the website goes public",
+      "status": "done",
+      "done_note": "Claimed as \"LynkOmni\" on all ten platforms on 2026-11-06; footer links connected (ts/src/footer.ts SOCIAL_LINKS); LinkedIn is a showcase page under the CruxOmni Group company page."
+    },
+    {
+      "id": "company-domains-email",
+      "what": "Finish the company email: Google Workspace Business Starter (yearly, one paid user, billing country Cameroon) for cruxomni.com with the admin login marvin@cruxomni.com; then add lynkomni.com as a free second domain and the free addresses billing@, support@, hello@, security@lynkomni.com and legal@cruxomni.com. Then create the 28 Google Groups agreed on 2026-11-07 (master blueprint section 39), each with marvin@cruxomni.com as its member: on cruxomni.com accounts@, legal@, compliance@, finance@, investors@, press@, careers@, hello@; on lynkomni.com hello@, support@, billing@, security@, privacy@, safety@, accessibility@, partners@, agents@, accountants@, developers@, enterprise@, ads@, suppliers@; and postmaster@, abuse@ and dmarc-reports@ on each domain. Then add the SPF, DKIM and DMARC records Claude prepares, at Squarespace, for both domains.",
+      "why": "One Google platform for email and, later, hosting (owner decision 2026-11-06). The domains cruxomni.com and lynkomni.com were bought on Squarespace on 2026-11-07; Google refused the prepaid card, so payment needs a normal (not prepaid) Visa or Mastercard debit card with international online payments, or an official Google Workspace partner that accepts bank transfer or mobile money.",
+      "when": "now",
+      "status": "done",
+      "done_on": "2026-11-08",
+      "result": "Workspace paid; lynkomni.com verified as a secondary domain; all 28 addresses of catalog/contacts.v1.json exist as groups (postmaster@lynkomni.com reserved by Google); MX, SPF, DKIM (authenticating) and DMARC p=none live for both domains at Squarespace; DNSSEC on; delivery tested to hello@ and postmaster@lynkomni.com."
+    },
+    {
+      "id": "workspace-admin-safety",
+      "what": "Right after paying for Google Workspace (agreed 2026-11-07, email safeguards 1, 2, 5, 8 and 13): create a second super-admin account admin@cruxomni.com for emergencies only (one more paid user); turn on two-step verification with a passkey or physical security key, never SMS, on marvin@cruxomni.com and admin@cruxomni.com; switch on outside-sender warnings and the strongest phishing and malware protection; print the admin backup codes and keep them offline, with recovery email outside cruxomni.com (for example lynkomni@gmail.com) and your phone; turn on DNSSEC for both domains if Squarespace offers it. Claude writes the steps screen by screen.",
+      "why": "With one admin account, a hack or lock-out loses the company's email, Google Cloud and GitHub at once; Google recommends more than one super admin, and phishing-proof sign-in protects both.",
+      "when": "right after paying for Google Workspace",
+      "status": "done",
+      "done_on": "2026-11-08",
+      "result": "admin@cruxomni.com is a second super admin; passkeys on both admins and two-step enforced; strong passwords 12+; third-party API access blocked; every alert rule active with email; Drive external sharing warned, access checker recipients only; Gmail safety at full with move-to-spam; backup codes offline and recovery contacts outside cruxomni.com for both admins."
+    },
+    {
+      "id": "lookalike-domains-optional",
+      "what": "Optional, when you choose (email safeguard 6): buy a few look-alike domains (for example lynk-omni.com) and forward them to lynkomni.com so scammers cannot use them.",
+      "why": "Scammers register look-alike domains to trick merchants and customers.",
+      "when": "optional, when the owner chooses",
+      "status": "open"
+    },
+    {
+      "id": "company-registration",
+      "what": "Register CruxOmni Group (with the lawyer), open a company bank account with a company card, get a free D-U-N-S number, then ask Google support to move the Workspace billing to the company and put the company as the owner of both domains.",
+      "why": "Needed for the Apple and Google developer accounts, startup cloud credits, payment providers and company invoices.",
+      "when": "with the lawyer, at the end of the owner's list",
+      "status": "open"
+    },
+    {
+      "id": "github-team-plan",
+      "what": "Upgrade the LynkOmni GitHub organisation to the Team plan (billing email billing@lynkomni.com) and lock the main branch so changes can only enter through a pull request with green checks.",
+      "why": "Branch protection on private repositories needs a paid plan; until then the working standards are followed by hand.",
+      "when": "last item of the owner's list, after billing@lynkomni.com exists",
+      "status": "open"
+    },
+    {
+      "id": "google-cloud-account",
+      "what": "Open Google Cloud with the marvin@cruxomni.com login, add a payment method Google accepts and a budget alert; Claude then sets up hosting (Cloud Run, Cloud SQL, Cloud Storage through its S3-compatible connection) as code.",
+      "why": "LynkOmni's servers, language engine and offline sync need a home; one Google platform, pay as you go, no move needed as LynkOmni grows.",
+      "when": "when the merchant app is ready to go online",
+      "status": "open"
+    },
+    {
+      "id": "dependabot-security-updates-optional",
+      "what": "Optional, 10 seconds per repository: GitHub -> lynkomni-platform and lynkomni-icons -> Settings -> Advanced Security -> Dependabot security updates -> Enable (the proxy cannot switch it on). Fix PRs for vulnerable dependencies then arrive as drafts and are merged under the dependency-updates rule.",
+      "why": "A free safety net on public repositories.",
+      "when": "any time",
+      "status": "open"
+    }
+  ],
+  "reminder": {
+    "locked": "2026-11-08",
+    "note": "The owner's 14 own to-dos, locked as the REMINDER (owner rule 2026-11-08). Claude provides this list any time the owner asks, when they say \"let's start building\" and whenever a piece of work concludes. None is mandatory before building; only item 1 blocks items 2 to 8. The user_actions list above holds the same items in detail with their status.",
+    "now": [
+      "1. Pay for Google Workspace: DONE 2026-11-08 (owner). Items 2 to 8 are now open, in order.",
+      "1b. GitHub Actions billing: RESOLVED. 2026-11-08 evening (owner): the repositories are PUBLIC again during the build to keep Actions free; they go private when the build is complete. Secret scanning and push protection are on; no secrets in the history.",
+      "1c. CodeQL: back ON by itself when the repositories went public (default setup configured on both); its findings count as warnings and are fixed in the same task. Claude's own security review stays item 11."
+    ],
+    "right_after_paying": [
+      "2. Second super admin admin@cruxomni.com: DONE 2026-11-08.",
+      "3. Passkey two-step on both admin accounts, enforced for the organisation: DONE 2026-11-08.",
+      "4. Workspace safety settings (strong passwords 12+, third-party API access blocked, all alert rules active with email, Drive sharing warned and recipients-only, Gmail safety at full with move-to-spam): DONE 2026-11-08. Two Google Terms of Service remain pending until Google prompts for them.",
+      "5. Backup codes kept offline and recovery phone and email outside cruxomni.com, both admin accounts: DONE 2026-11-08.",
+      "6. The 28 addresses of catalog/contacts.v1.json exist as Google Groups (open to outside senders, invited members only; postmaster@lynkomni.com is reserved by Google and delivers to the admin; lynkomni.com added as a secondary domain): DONE 2026-11-08, delivery tested.",
+      "7. Email DNS at Squarespace for cruxomni.com and lynkomni.com (MX smtp.google.com, SPF, DKIM 2048 authenticating, DMARC p=none with reports to dmarc-reports@) and DNSSEC on both: DONE 2026-11-08. Follow-up: raise DMARC to p=quarantine after about two weeks of clean reports (see later).",
+      "8. Optional: look-alike domains forwarded to lynkomni.com."
+    ],
+    "at_the_end_in_order": [
+      "9. Lawyer and CruxOmni Group registration, name and licence checks; then company bank account and card, D-U-N-S number, Google billing moved to the company, both domains in the company's name.",
+      "10. Licensed partners per country (payments, mobile money, cards, tax office, SMS, lenders, insurers) with test keys.",
+      "11. Hardware on demand (BIZZ & DEVICE, 2026-11-09): the POS hardware supplier and two sample devices are needed only once people start ordering LynkOmni hardware (LynkOmni is digital first). The human reviewers stay: designer, security, accessibility; an auditor later for SOC 2 Type II and ISO 27001.",
+      "12. Apple Developer and Google Play accounts for the organisation.",
+      "13. Google Cloud account when the app is ready to go online (same payment method as Workspace).",
+      "14. GitHub Team plan and the lock on the main branch, last.",
+      "15. Before the repositories go private at the end of the build (added by the owner 2026-11-08): re-check the two things that change with visibility, the GitHub Actions budget and that CodeQL's job is covered by Claude's own security review (item 11)."
+    ]
+  }
 }

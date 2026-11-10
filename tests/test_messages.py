@@ -120,9 +120,10 @@ class TestEngine(unittest.TestCase):
         self.assertEqual(set(r["channels"]), {"bell", "push", "email", "text"}, "critical uses every channel")
 
     def test_critical_repeats_until_acknowledged_and_high_escalates(self):
-        r = self.n.notify("recovery_started", "p1", "a", NOON)
+        r = self.n.notify("recovery_started", "p1", "a", NOON, lang="sw")
         events = self.n.tick(NOON + m.REPEAT_S)
         self.assertIn(("repeated", r["nid"]), events)
+        self.assertTrue(all(lang == "sw" for _c, _p, _k, lang in self.n.sender.sent), "repeats stay in the reader's language")
         self.n.acknowledge(r["nid"])
         self.assertEqual([e for e in self.n.tick(NOON + 2 * m.REPEAT_S) if e[1] == r["nid"]], [])
         s = self.n.notify("sale_failed", "cashier1", "b", NOON, role="cashier")

@@ -181,5 +181,15 @@
  "iface_car_voice": "Car (voice only)",
  "iface_eink_touch": "E-reader (touch)",
  "iface_eink_buttons": "E-reader (buttons)",
- "iface_voice_only": "Voice only"
+ "iface_voice_only": "Voice only",
+ "kp_price_q": "How much is {name}?",
+ "kp_price_a": "{name} plans a month: {plans}.",
+ "kp_where_q": "Where is {name}?",
+ "kp_where_a": "{name} is described at {page}.",
+ "kp_state_q": "What does {state} mean?",
+ "kp_state_queued": "Saved on this device and waiting to be sent.",
+ "kp_state_sent": "Sent and waiting for an answer.",
+ "kp_state_accepted": "Received, but not final yet.",
+ "kp_state_confirmed": "Final: the provider or partner confirmed it.",
+ "kp_state_failed": "It did not go through. Nothing was charged or changed."
 }
