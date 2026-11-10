@@ -4,8 +4,12 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "366c40e71adaca25d8a7bddd5f0b63d4cbe97ec951e193ce728dae5bfa86e6f5",
+ "source_sha256": "141138e429e2b5cb9211d87050704603937403679870373b5268b0d257b1b751",
  "texts": {
-  "title": "像真卡一樣的 LynkVCard"
+  "title": "像真卡一樣的 LynkVCard",
+  "vc_failed": "合作夥伴未核准。未扣任何費用。",
+  "vc_my_card": "我的卡",
+  "vc_sample_note": "範例卡：卡號、姓名和日期都是永遠無法使用的預留內容。",
+  "vc_twelve": "十二張卡"
  }
 }

@@ -4,8 +4,12 @@
  "kept_in_english": [],
  "lang": "ug",
  "native": "ئۇيغۇرچە",
- "source_sha256": "366c40e71adaca25d8a7bddd5f0b63d4cbe97ec951e193ce728dae5bfa86e6f5",
+ "source_sha256": "141138e429e2b5cb9211d87050704603937403679870373b5268b0d257b1b751",
  "texts": {
-  "title": "ھەقىقىي كارتىدەك LynkVCard"
+  "title": "ھەقىقىي كارتىدەك LynkVCard",
+  "vc_failed": "ھەمكار تەستىقلىمىدى. ھېچقانداق پۇل تۇتۇلمىدى.",
+  "vc_my_card": "كارتام",
+  "vc_sample_note": "ئۈلگە كارتا: نومۇر، ئىسىم ۋە چېسلالار ھەرگىز ئىشلىمەيدىغان ئورۇن تۇتقۇچلار.",
+  "vc_twelve": "ئون ئىككى كارتا"
  }
 }

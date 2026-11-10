@@ -4,8 +4,12 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "366c40e71adaca25d8a7bddd5f0b63d4cbe97ec951e193ce728dae5bfa86e6f5",
+ "source_sha256": "141138e429e2b5cb9211d87050704603937403679870373b5268b0d257b1b751",
  "texts": {
-  "title": "I-LynkVCard njengekhadi langempela"
+  "title": "I-LynkVCard njengekhadi langempela",
+  "vc_failed": "Uzakwethu akaligunyazanga. Akukho okukhokhisiwe.",
+  "vc_my_card": "Ikhadi lami",
+  "vc_sample_note": "Ikhadi lesibonelo: inombolo, igama nezinsuku kuyizibambi-ndawo ezingasebenzi neze.",
+  "vc_twelve": "Amakhadi ayishumi nambili"
  }
 }
