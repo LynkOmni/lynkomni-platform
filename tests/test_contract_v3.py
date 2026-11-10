@@ -27,12 +27,12 @@ class ContractV3(unittest.TestCase):
             self.assertEqual(v2.get("required"), v3.get("required"), name)
 
     def test_upcaster_reads_version_2_as_the_workspace_side(self):
-        self.assertEqual(CURRENT, 3)
+        self.assertGreaterEqual(CURRENT, 3)                                      # version 4 (2026-11-10) reads version 3 unchanged
         v2 = {"type": "SaleRecorded", "schema_version": 2, "payload": {"currency": "XXX", "total": 5}}
         up = upcast(v2)
-        self.assertEqual((up["schema_version"], up["payload"]["side"], up["payload"]["total"]), (3, "internal", 5))
+        self.assertEqual((up["schema_version"], up["payload"]["side"], up["payload"]["total"]), (CURRENT, "internal", 5))
         self.assertNotIn("side", v2["payload"])                                      # the stored event is never rewritten
-        ext = {"type": "SaleRecorded", "schema_version": 3, "payload": {"side": "external"}}
+        ext = {"type": "SaleRecorded", "schema_version": CURRENT, "payload": {"side": "external"}}
         self.assertIs(upcast(ext), ext)
 
     def test_validator_passes(self):

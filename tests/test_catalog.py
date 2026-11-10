@@ -32,7 +32,7 @@ class Catalog(unittest.TestCase):
         want = {p["footer_id"]: p["page"] for p in PRODUCTS["products"] if p["footer_id"]}
         for fid, page in want.items():
             self.assertEqual([h for i, h in shown if i == fid], [page], fid)
-        col = FOOTER[FOOTER.index('id: "products"'):FOOTER.index('id: "solutions"')]
+        start = FOOTER.index('id: "products"'); col = FOOTER[start:FOOTER.index("{ id:", start)]
         self.assertTrue(set(re.findall(r'brand\("([a-z]+)"', col)) <= set(want))
 
     def test_every_footer_link_is_a_known_address(self):

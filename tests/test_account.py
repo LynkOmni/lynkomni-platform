@@ -10,6 +10,8 @@ from services.platform import Platform
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 T0 = 1_800_000_000.0
 BUILT_SECTIONS = 3     # raise this as sections are built; every event trigger up to here must exist
+from core.build_sections import ORDER as _ORDER  # noqa: E402
+BUILT = set(_ORDER[:_ORDER.index(BUILT_SECTIONS) + 1])
 
 
 class SignUpAndSecurity(unittest.TestCase):
@@ -243,11 +245,11 @@ class FlowRunner(unittest.TestCase):
         ran = self.f.on_event("p2", {"id": "e1", "type": "SessionStarted", "payload": {"lynkid": "x", "new_device": True}})
         self.assertEqual(len(ran), 1); self.assertLessEqual(len(self.p.c.store.of("p2", "AutomationRan")), MAX_DEPTH)
     def test_every_event_trigger_in_the_register_is_a_known_event(self):
-        with open(os.path.join(ROOT, "contract", "event-payloads.v3.json"), encoding="utf-8") as f: core = set(json.load(f)["events"])
+        with open(os.path.join(ROOT, "contract", "event-payloads.v4.json"), encoding="utf-8") as f: core = set(json.load(f)["events"])
         from merchant.cloud import SIGNALS
         core |= set(SIGNALS)                              # Business app signals (merchant/events.v1.json)
         for a in REGISTER.values():                       # events of later sections are registered when those sections are built
-            if a["trigger"].startswith("event:") and a["build_section"] <= BUILT_SECTIONS:
+            if a["trigger"].startswith("event:") and a["build_section"] in BUILT:
                 name = a["trigger"][6:]
                 self.assertTrue(name in core or name in EVENTS, f"{a['id']} triggers on unknown event {name}")
     def test_shared_vectors_are_current(self):

@@ -1,0 +1,401 @@
+{
+ "version": 1,
+ "agreed": "2026-11-10 (NEW UPDATE 1, master blueprint section 50)",
+ "rule": "Every LynkOmni service has an API through LynkDev. A business's own apps reach its own data at Pro (read and webhooks) and Max (read, write and webhooks) with no LynkDev plan, up to the plan's limits. Apps built by others need a LynkDev plan and the merchant's consent for each scope; every call is metered and audited. Usage prices (services/billing.py API_PRICES) apply only where a service has a real running cost; money services carry only their existing tier fees and LynkOmni never holds funds. Each API is built in its service's build section; the APIs of services whose sections are already locked are built with the developer platform in section 11.",
+ "hosts": {
+  "api": "api.lynkomni.com",
+  "docs": "doc.lynkomni.com",
+  "sdks": "sdk.lynkomni.com"
+ },
+ "usage_kinds": {
+  "none": "no usage fee",
+  "free": "free",
+  "plan_limits": "within the plan's own limits",
+  "existing_tier_fees": "only the service's existing tier fees",
+  "partner_commission": "the licensed partner's commission only",
+  "partner_cost": "at the partner's cost",
+  "partner_cost_outside_channels": "in-app free; text and other outside channels at the partner's cost",
+  "as_members": "as the services it contains",
+  "tracking_and_maps": "tracking_shipment_cents, geocoding_per_1000_cents, routing_per_1000_cents, routing_25_stops_per_1000_cents, map_tiles_per_1000_cents, offline_region_month_cents, zone_events_per_1000_cents"
+ },
+ "never": [
+  "change credentials",
+  "complete account recovery",
+  "change a person's consent for them",
+  "give out a card number",
+  "give out a customer's position",
+  "give out bulk personal data",
+  "sell data",
+  "move money without the person's confirmation or their own capped standing instruction held by the licensed provider",
+  "claim a payment before the provider confirms",
+  "file with a tax authority",
+  "call a receipt a tax receipt before the country's workflow is confirmed",
+  "write a server-only event from a device",
+  "send personal or group chat",
+  "serve or bill ads from a device"
+ ],
+ "apis": [
+  {
+   "id": "pos",
+   "family": "lynkpos",
+   "name": "LynkPOS API",
+   "can": "Catalog and price sync, orders from other channels, sales and shift reports, webhooks on sales",
+   "usage": "none",
+   "build_section": 11,
+   "scopes": [
+    "catalog.read",
+    "catalog.write",
+    "orders.write",
+    "sales.read",
+    "shifts.read"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "accounting",
+   "family": "lynkacc",
+   "name": "LynkAcc API",
+   "can": "Read the books and reports; post journal drafts that a person confirms; entries labelled by side",
+   "usage": "none",
+   "build_section": 4,
+   "scopes": [
+    "books.read",
+    "journal.draft",
+    "reports.read"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "invoicing",
+   "family": "lynkinv",
+   "name": "LynkInv API",
+   "can": "Create and issue invoices and credit notes, read their status, pay links through LynkCheckout",
+   "usage": "plan_limits",
+   "build_section": 4,
+   "scopes": [
+    "invoices.read",
+    "invoices.write",
+    "credit_notes.write"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "crm",
+   "family": "lynkcrm",
+   "name": "LynkCRM API",
+   "can": "Contacts and notes with consent, segments and follow-up tasks",
+   "usage": "none",
+   "build_section": 4,
+   "scopes": [
+    "contacts.read",
+    "contacts.write",
+    "tasks.write"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "stock",
+   "family": "lynkstock",
+   "name": "LynkStock API",
+   "can": "Stock levels, holds for online checkouts, transfers and reorder drafts",
+   "usage": "none",
+   "build_section": 11,
+   "scopes": [
+    "stock.read",
+    "stock.hold",
+    "transfers.write",
+    "reorders.draft"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "rewards",
+   "family": "lynkrewards",
+   "name": "LynkRewards API",
+   "can": "Earn and redeem points, member status",
+   "usage": "none",
+   "build_section": 7,
+   "scopes": [
+    "points.read",
+    "points.write"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "analytics",
+   "family": "lynkstat",
+   "name": "LynkStat API",
+   "can": "Report and metric queries, scheduled exports",
+   "usage": "lynkstat_queries_per_1000_cents",
+   "build_section": 4,
+   "scopes": [
+    "reports.read",
+    "exports.read"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "growth",
+   "family": "lynkgrow",
+   "name": "LynkGrow API",
+   "can": "Campaign reports and audiences built only from consented data; ad billing stays validated impressions only",
+   "usage": "none",
+   "build_section": 11,
+   "scopes": [
+    "campaigns.read",
+    "audiences.read"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "chat",
+   "family": "lynkchat",
+   "name": "LynkChat API",
+   "can": "Customer-business messages and support only, routing and summaries",
+   "usage": "partner_cost_outside_channels",
+   "build_section": 7,
+   "scopes": [
+    "conversations.read",
+    "messages.write"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "payments",
+   "family": "lynkmpay",
+   "name": "LynkMPay API",
+   "can": "Payment requests and their status from the licensed provider; refunds as refund_due",
+   "usage": "existing_tier_fees",
+   "build_section": 7,
+   "scopes": [
+    "payments.request",
+    "payments.read",
+    "refunds.request"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "recovery",
+   "family": "lynkrecover",
+   "name": "LynkRecover API",
+   "can": "Retry schedules and recovery status",
+   "usage": "existing_tier_fees",
+   "build_section": 7,
+   "scopes": [
+    "retries.read",
+    "retries.write"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "checkout",
+   "family": "lynkcheckout",
+   "name": "LynkCheckout API",
+   "can": "Create pay links and QR codes; payment status after the provider confirms",
+   "usage": "existing_tier_fees",
+   "build_section": 7,
+   "scopes": [
+    "paylinks.write",
+    "paylinks.read"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "assistant",
+   "family": "lynkassist",
+   "name": "LynkAssist API",
+   "can": "Answers, drafts and summaries labelled as suggestions, inform or draft level only",
+   "usage": "lynkassist_requests_per_1000_cents",
+   "build_section": 11,
+   "scopes": [
+    "assist.ask",
+    "assist.draft"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "cards",
+   "family": "lynkvcard",
+   "name": "LynkVCard API",
+   "can": "Freeze request, spending limits, statements and fleet card rules, through the licensed issuer; never a card number",
+   "usage": "none",
+   "build_section": 7,
+   "scopes": [
+    "cards.freeze_request",
+    "limits.write",
+    "statements.read"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "developer",
+   "family": "lynkdev",
+   "name": "LynkDev API",
+   "can": "Apps, keys, usage and webhooks of a developer account (LynkHub)",
+   "usage": "none",
+   "build_section": 11,
+   "scopes": [
+    "apps.read",
+    "apps.write",
+    "usage.read"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "bookings",
+   "family": "lynkbooking",
+   "name": "LynkBooking API",
+   "can": "Availability, bookings, reminders and on-the-way visits",
+   "usage": "none",
+   "build_section": 8,
+   "scopes": [
+    "availability.read",
+    "bookings.write"
+   ],
+   "own_account": false
+  },
+  {
+   "id": "essentials",
+   "family": "lynkessential",
+   "name": "LynkEssential API",
+   "can": "Bills, airtime and travel through licensed partners, and their status",
+   "usage": "partner_commission",
+   "build_section": 9,
+   "scopes": [
+    "purchases.request",
+    "purchases.read"
+   ],
+   "own_account": false
+  },
+  {
+   "id": "motion",
+   "family": "lynkmotion",
+   "name": "LynkMotion API (LynkTrace, LynkGPS, LynkSentry)",
+   "can": "Shipments across own riders and partner carriers, webhooks on every step, tracking widget, places, routing, arrival windows, map tiles and offline packs, zones",
+   "usage": "tracking_and_maps",
+   "build_section": "7B",
+   "scopes": [
+    "shipments.read",
+    "shipments.write",
+    "places.read",
+    "routes.read",
+    "maps.read",
+    "zones.events"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "guard",
+   "family": "lynkguard",
+   "name": "LynkGuard API (LynkTrace, LynkGPS, LynkSentry)",
+   "can": "Assets, trips, zones and alerts of the developer's own vehicles and assets; LynkSentry alerts to monitoring centres and insurers only by partner contract with the owner's consent",
+   "usage": "tracking_and_maps",
+   "build_section": "7B",
+   "scopes": [
+    "assets.read",
+    "trips.read",
+    "zones.events",
+    "alerts.read"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "ops",
+   "family": "lynkops",
+   "name": "LynkOps",
+   "can": "Follows the APIs of LynkAcc, LynkInv, LynkCRM and LynkStat",
+   "usage": "as_members",
+   "build_section": 4,
+   "scopes": [],
+   "own_account": true
+  },
+  {
+   "id": "suite",
+   "family": "lynksuite",
+   "name": "LynkSuite",
+   "can": "Follows the APIs of the services it contains",
+   "usage": "as_members",
+   "build_section": 11,
+   "scopes": [],
+   "own_account": true
+  },
+  {
+   "id": "storefront",
+   "family": "platform",
+   "name": "Storefront API",
+   "can": "Listings (LOLST-), offers, orders and verified reviews (LOREV-); the Storefront share applies to sales",
+   "usage": "none",
+   "build_section": 7,
+   "scopes": [
+    "listings.read",
+    "listings.write",
+    "orders.read",
+    "reviews.read"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "custody",
+   "family": "platform",
+   "name": "Custody check",
+   "can": "Check a Proof Chain by its QR code",
+   "usage": "free",
+   "build_section": "7B",
+   "scopes": [
+    "custody.check"
+   ],
+   "own_account": false
+  },
+  {
+   "id": "translation",
+   "family": "platform",
+   "name": "Translation API",
+   "can": "Text translation on LynkOmni's own engine with every check of services/translation.run",
+   "usage": "translation_per_million_chars_cents",
+   "build_section": 11,
+   "scopes": [
+    "translate"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "identity",
+   "family": "platform",
+   "name": "Identity check API",
+   "can": "Start the licensed partner's identity check and read its answer (LOVER-)",
+   "usage": "partner_cost",
+   "build_section": 11,
+   "scopes": [
+    "identity.start",
+    "identity.read"
+   ],
+   "own_account": false
+  },
+  {
+   "id": "usernames",
+   "family": "platform",
+   "name": "Usernames and public pages",
+   "can": "Check a username is free and read public shop pages",
+   "usage": "free",
+   "build_section": 11,
+   "scopes": [
+    "usernames.check",
+    "shops.read"
+   ],
+   "own_account": false
+  },
+  {
+   "id": "documents",
+   "family": "platform",
+   "name": "Business documents API",
+   "can": "Create and read business documents (LODOC-)",
+   "usage": "none",
+   "build_section": 11,
+   "scopes": [
+    "documents.read",
+    "documents.write"
+   ],
+   "own_account": true
+  }
+ ]
+}

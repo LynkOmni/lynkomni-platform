@@ -483,6 +483,174 @@
    "side": "external"
   },
   {
+   "address": "/tracking",
+   "side": "internal"
+  },
+  {
+   "address": "/tracking/shipments",
+   "side": "internal"
+  },
+  {
+   "address": "/tracking/shipments/new",
+   "side": "internal"
+  },
+  {
+   "address": "/tracking/shipments/{LOSHP}",
+   "side": "internal"
+  },
+  {
+   "address": "/tracking/deliveries",
+   "side": "internal"
+  },
+  {
+   "address": "/tracking/returns",
+   "side": "internal"
+  },
+  {
+   "address": "/tracking/exceptions",
+   "side": "internal"
+  },
+  {
+   "address": "/tracking/pickup-points",
+   "side": "internal"
+  },
+  {
+   "address": "/gps",
+   "side": "internal"
+  },
+  {
+   "address": "/gps/map",
+   "side": "internal"
+  },
+  {
+   "address": "/gps/places",
+   "side": "internal"
+  },
+  {
+   "address": "/gps/routes",
+   "side": "internal"
+  },
+  {
+   "address": "/gps/drivers",
+   "side": "internal"
+  },
+  {
+   "address": "/gps/trips",
+   "side": "internal"
+  },
+  {
+   "address": "/gps/trips/{LOTRP}",
+   "side": "internal"
+  },
+  {
+   "address": "/gps/zones",
+   "side": "internal"
+  },
+  {
+   "address": "/protection",
+   "side": "internal"
+  },
+  {
+   "address": "/protection/assets",
+   "side": "internal"
+  },
+  {
+   "address": "/protection/assets/new",
+   "side": "internal"
+  },
+  {
+   "address": "/protection/assets/{LOAST}",
+   "side": "internal"
+  },
+  {
+   "address": "/protection/alerts",
+   "side": "internal"
+  },
+  {
+   "address": "/protection/incidents",
+   "side": "internal"
+  },
+  {
+   "address": "/protection/incidents/{LOSNT}",
+   "side": "internal"
+  },
+  {
+   "address": "/protection/rentals",
+   "side": "internal"
+  },
+  {
+   "address": "/external/tracking",
+   "side": "external"
+  },
+  {
+   "address": "/external/tracking/shipments",
+   "side": "external"
+  },
+  {
+   "address": "/external/tracking/shipments/new",
+   "side": "external"
+  },
+  {
+   "address": "/external/tracking/shipments/{LOSHP}",
+   "side": "external"
+  },
+  {
+   "address": "/external/tracking/deliveries",
+   "side": "external"
+  },
+  {
+   "address": "/external/tracking/returns",
+   "side": "external"
+  },
+  {
+   "address": "/external/tracking/exceptions",
+   "side": "external"
+  },
+  {
+   "address": "/external/tracking/pickup-points",
+   "side": "external"
+  },
+  {
+   "address": "/external/gps",
+   "side": "external"
+  },
+  {
+   "address": "/external/gps/map",
+   "side": "external"
+  },
+  {
+   "address": "/external/gps/places",
+   "side": "external"
+  },
+  {
+   "address": "/external/gps/routes",
+   "side": "external"
+  },
+  {
+   "address": "/external/gps/drivers",
+   "side": "external"
+  },
+  {
+   "address": "/external/gps/trips",
+   "side": "external"
+  },
+  {
+   "address": "/external/gps/trips/{LOTRP}",
+   "side": "external"
+  },
+  {
+   "address": "/external/gps/zones",
+   "side": "external"
+  },
+  {
+   "address": "/external/protection",
+   "side": "external"
+  },
+  {
+   "address": "/external/protection/rentals",
+   "side": "external"
+  },
+  {
    "address": "/",
    "side": "internal"
   },
@@ -1043,6 +1211,174 @@
   {
    "path": "/external/support",
    "kind": "storefront_only"
+  },
+  {
+   "path": "/tracking",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/tracking/shipments",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/tracking/shipments/new",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/tracking/shipments/{LOSHP}",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/tracking/deliveries",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/tracking/returns",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/tracking/exceptions",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/tracking/pickup-points",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/gps",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/gps/map",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/gps/places",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/gps/routes",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/gps/drivers",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/gps/trips",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/gps/trips/{LOTRP}",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/gps/zones",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/protection",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/protection/assets",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/protection/assets/new",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/protection/assets/{LOAST}",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/protection/alerts",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/protection/incidents",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/protection/incidents/{LOSNT}",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/protection/rentals",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/tracking",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/tracking/shipments",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/tracking/shipments/new",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/tracking/shipments/{LOSHP}",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/tracking/deliveries",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/tracking/returns",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/tracking/exceptions",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/tracking/pickup-points",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/gps",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/gps/map",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/gps/places",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/gps/routes",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/gps/drivers",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/gps/trips",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/gps/trips/{LOTRP}",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/gps/zones",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/protection",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/protection/rentals",
+   "kind": "mirrored"
   }
  ],
  "twins": [
@@ -1205,6 +1541,78 @@
   {
    "workspace": "/business/settings/data-sharing",
    "storefront": "/external/business/settings/data-sharing"
+  },
+  {
+   "workspace": "/tracking",
+   "storefront": "/external/tracking"
+  },
+  {
+   "workspace": "/tracking/shipments",
+   "storefront": "/external/tracking/shipments"
+  },
+  {
+   "workspace": "/tracking/shipments/new",
+   "storefront": "/external/tracking/shipments/new"
+  },
+  {
+   "workspace": "/tracking/shipments/{LOSHP}",
+   "storefront": "/external/tracking/shipments/{LOSHP}"
+  },
+  {
+   "workspace": "/tracking/deliveries",
+   "storefront": "/external/tracking/deliveries"
+  },
+  {
+   "workspace": "/tracking/returns",
+   "storefront": "/external/tracking/returns"
+  },
+  {
+   "workspace": "/tracking/exceptions",
+   "storefront": "/external/tracking/exceptions"
+  },
+  {
+   "workspace": "/tracking/pickup-points",
+   "storefront": "/external/tracking/pickup-points"
+  },
+  {
+   "workspace": "/gps",
+   "storefront": "/external/gps"
+  },
+  {
+   "workspace": "/gps/map",
+   "storefront": "/external/gps/map"
+  },
+  {
+   "workspace": "/gps/places",
+   "storefront": "/external/gps/places"
+  },
+  {
+   "workspace": "/gps/routes",
+   "storefront": "/external/gps/routes"
+  },
+  {
+   "workspace": "/gps/drivers",
+   "storefront": "/external/gps/drivers"
+  },
+  {
+   "workspace": "/gps/trips",
+   "storefront": "/external/gps/trips"
+  },
+  {
+   "workspace": "/gps/trips/{LOTRP}",
+   "storefront": "/external/gps/trips/{LOTRP}"
+  },
+  {
+   "workspace": "/gps/zones",
+   "storefront": "/external/gps/zones"
+  },
+  {
+   "workspace": "/protection",
+   "storefront": "/external/protection"
+  },
+  {
+   "workspace": "/protection/rentals",
+   "storefront": "/external/protection/rentals"
   }
  ]
 }

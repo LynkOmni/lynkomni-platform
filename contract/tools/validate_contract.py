@@ -24,11 +24,12 @@ def load(name):
 ENVELOPE = load("event-envelope.v1.json")
 REGISTRY_V1 = load("event-payloads.v1.json")          # published, never edited; still readable through the upcaster
 REGISTRY_V2 = load("event-payloads.v2.json")          # published, never edited; still readable through the upcaster
-REGISTRY = load("event-payloads.v3.json")             # the current version (v3, 2026-11-09: v2 plus the optional side on every payload)
-REGISTRIES = {1: REGISTRY_V1, 2: REGISTRY_V2, 3: REGISTRY}
+REGISTRY_V3 = load("event-payloads.v3.json")          # published, never edited; still readable through the upcaster
+REGISTRY = load("event-payloads.v4.json")             # the current version (v4, 2026-11-10: v3 plus the LynkTrace, LynkGPS and LynkSentry milestones)
+REGISTRIES = {1: REGISTRY_V1, 2: REGISTRY_V2, 3: REGISTRY_V3, 4: REGISTRY}
 CURRENCIES = load("currencies.v1.json")["decimals"]
 PERMS = load("permissions.v1.json")
-REGISTER = load("command-policy-register.v2.json")
+REGISTER = load("command-policy-register.v4.json")
 STATES = load("state-machines.v1.json")
 SAMPLE_CURRENCY = load(os.path.join("country-packs", "XX.json"))["currency"]   # the neutral sample pack, never a real country
 
@@ -253,7 +254,7 @@ class Device:
         evt = {
             "event_id": uuid7(), "origin": "device", "merchant_id": MERCHANT, "branch_id": BRANCH,
             "device_id": self.id, "actor_user_id": USER, "device_seq": self.seq, "type": etype,
-            "schema_version": 3, "occurred_at_device": ts(at or self.clock), "prev_hash": self.prev,
+            "schema_version": 4, "occurred_at_device": ts(at or self.clock), "prev_hash": self.prev,
             "payload": payload, "signature": fake_sig(),
         }
         self.prev = event_hash(evt)
@@ -442,7 +443,7 @@ def contract_checks():
             if et in ev:
                 if cls == "A": check(f"register:{n}:{et} origin allows device", "device" in ev[et]["origins"])
                 else: check(f"register:{n}:{et} has an origin", bool(ev[et]["origins"]))
-                if (c.get("v1") or c.get("v2")) and "device" in ev[et]["origins"]: emitted_device.add(et)
+                if (c.get("v1") or c.get("v2") or c.get("v4")) and "device" in ev[et]["origins"]: emitted_device.add(et)
         pid = c["permission"]
         if pid is None:
             check(f"register:{n}:null permission is declared", c.get("local_only") or c.get("pre_auth") or c.get("any_authenticated"))
@@ -519,7 +520,7 @@ def event_checks():
     expect_invalid("event:unknown type rejected", bad, "unknown event type")
     bad = json.loads(json.dumps(ok_sale)); bad["server_cursor"] = 5
     expect_invalid("event:device may not send server stamp", bad, "unexpected field")
-    bad = json.loads(json.dumps(ok_sale)); bad["schema_version"] = 4
+    bad = json.loads(json.dumps(ok_sale)); bad["schema_version"] = 5
     expect_invalid("event:future schema_version rejected", bad, "unsupported schema_version")
     # version 3: the side of a payload is internal or external, nothing else; a missing side means internal
     ext = json.loads(json.dumps(ok_sale)); ext["payload"]["side"] = "external"
@@ -536,7 +537,7 @@ def event_checks():
     v1_pay["schema_version"] = 1
     check("v1:payment without currency valid as version 1", validate_event(v1_pay) == [], str(validate_event(v1_pay)))
     up = upcast(v1_pay)
-    check("upcast:v1 payment reads as the current version with RWF and the workspace side", up["schema_version"] == 3 and up["payload"]["currency"] == "RWF" and up["payload"]["side"] == "internal" and validate_event(up) == [], str(validate_event(up)))
+    check("upcast:v1 payment reads as the current version with RWF and the workspace side", up["schema_version"] == 4 and up["payload"]["currency"] == "RWF" and up["payload"]["side"] == "internal" and validate_event(up) == [], str(validate_event(up)))
     check("upcast:amount never rescaled", up["payload"]["amount"] == v1_pay["payload"]["amount"] and v1_pay["schema_version"] == 1)
     no_cur = Device().emit("PaymentRecorded", {"payment_id": uuid7(), "sale_id": ok_sale["payload"]["sale_id"], "method": "cash", "amount": 1500, "status": "cash_received"})
     expect_invalid("v2:payment without currency rejected", no_cur, "missing required 'currency'")
@@ -547,6 +548,17 @@ def event_checks():
     check("v2:agent request from a device ok", validate_event(agent) == [], str(validate_event(agent)))
     confirm_dev = Device().emit("AgentRequestConfirmed", {"request_id": uuid7(), "partner_reference": "PRT-1", "amount": 20000, "fee": 200, "commission": 50, "currency": SAMPLE_CURRENCY})
     expect_invalid("v2:device cannot confirm an agent request", confirm_dev, "may not originate")
+    # version 4 (NEW UPDATE 1): hand-overs are device facts, an overdue trip plan is cloud only, and no event carries a position
+    ho = Device().emit("ShipmentHandedOver", {"shipment_id": uuid7(), "handover_id": uuid7(), "from_role": "rider", "to_role": "receiver", "method": "code", "seal": "a" * 64})
+    check("v4:hand-over from a device ok", validate_event(ho) == [], str(validate_event(ho)))
+    od = Device().emit("TripPlanOverdue", {"plan_id": uuid7()})
+    expect_invalid("v4:device cannot declare a trip plan overdue", od, "may not originate")
+    pos = Device().emit("ZoneEntered", {"zone_id": uuid4(), "subject_kind": "asset", "subject_id": uuid4(), "lat": 4051})
+    expect_invalid("v4:no position in a zone event", pos, "unexpected field")
+    rent = Device().emit("RentalStarted", {"rental_id": uuid7(), "asset_id": uuid4(), "renter_told": False, "photos": 4, "odometer_m": 1000})
+    expect_invalid("v4:a rental starts only after the renter is told", rent, "")
+    pos_words = [n for n, e in REGISTRY["events"].items() for k in e["payload"]["properties"] if k in ("lat", "lng", "latitude", "longitude", "position", "location", "coordinates")]
+    check("v4:no event in the contract carries a position", not pos_words, str(pos_words))
     bad = json.loads(json.dumps(ok_sale)); bad["payload"]["total"] += 1
     expect_invalid("event:sale arithmetic enforced", bad, "total mismatch")
     bad = json.loads(json.dumps(ok_sale)); bad["payload"]["lines"][0]["line_total"] += 1
@@ -624,7 +636,7 @@ def chain_and_ingest_checks():
     d5 = Device(); s5 = ReferenceIngest(); s5.enroll(d5.id)
     fut = d5.emit("StockReceived", {"stock_receipt_id": uuid7(), "lines": [{"product_id": pid, "quantity_milli": 1000}]}); 
     # re-sign chain after changing version: rebuild event manually
-    fut["schema_version"] = 4
+    fut["schema_version"] = 5
     o = s5.push([fut])
     check("ingest:future schema quarantined", o["results"][0].get("reason") == "unknown_schema_version", str(o))
 

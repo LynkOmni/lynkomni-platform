@@ -314,3 +314,32 @@ def storefront(stage):
     shares = sum(sellers * mix * sales * Decimal(bps) / 10_000 for mix, sales, bps in zip(a["mix"], a["sales_usd"], STOREFRONT_SHARE_BPS))
     shares -= sellers * a["mix"][3] * a["sales_usd"][3] * Decimal(STOREFRONT_SHARE_BPS[3]) / 10_000 * a["max_cap_share"]
     return {"sellers": _r(sellers), "plans": _r(plans), "shares": _r(shares), "month": _r(plans + shares), "assumption": True}
+
+
+# ---- LynkMotion, LynkGuard and open APIs (NEW UPDATE 1, owner approved 2026-11-10) -----------------------------------
+# Two plans on one core (LynkTrace, LynkGPS, LynkSentry) and usage prices for APIs. Shown as their OWN stream, kept OUTSIDE the
+# agreed totals until pilot data exists, so no agreed figure moves. EVERY number below is an ASSUMPTION, labelled as such.
+MOVEMENT_ASSUMPTIONS = {
+    "motion": (Decimal("4"), Decimal("1.5"), Decimal("0.3")),          # Plus / Pro / Max, percent of all merchants
+    "guard": (Decimal("2"), Decimal("0.8"), Decimal("0.2")),           # Plus / Pro / Max, percent of all merchants
+    "guard_extra_assets": (0, 5, 40),                                  # extra vehicles above the included ones, per Plus / Pro / Max account
+    "consumer_motion_plus": Decimal("0.3"),                            # percent of consumers on LynkMotion Plus (families, travellers)
+    "api_developer_share": Decimal("0.002"),                           # merchants with a developer app that pays API usage
+    "api_usd_per_app": 40,                                             # monthly API usage per paying app
+}
+
+
+def movement(stage):
+    """Monthly USD for one stage (whole dollars): LynkMotion and LynkGuard plans (price index and conversion applied), LynkGuard
+    extra vehicles and API usage. An ASSUMPTION, outside the ecosystem totals."""
+    a, pct = MOVEMENT_ASSUMPTIONS, Decimal("0.01")
+    m, c, idx, conv = Decimal(MERCHANTS[stage]), Decimal(CONSUMERS[stage]), INDEX[stage], CONVERSION[stage]
+    mp = [Decimal(str(x)) for x in billing.FAMILIES["lynkmotion"][3][1:]]
+    gp = [Decimal(str(x)) for x in billing.FAMILIES["lynkguard"][3][1:]]
+    motion = sum(m * s * pct * conv * p for s, p in zip(a["motion"], mp)) + c * a["consumer_motion_plus"] * pct * conv * mp[0]
+    guard_subs = [m * s * pct * conv for s in a["guard"]]
+    extra_cents = [t.get("extra_asset_cents") or 0 for t in billing.FEATURES["lynkguard"][1:]]
+    guard = sum(n * p for n, p in zip(guard_subs, gp)) + sum(n * x * Decimal(e) / 100 for n, x, e in zip(guard_subs, a["guard_extra_assets"], extra_cents))
+    api = m * a["api_developer_share"] * a["api_usd_per_app"]
+    motion, guard = motion * idx, guard * idx
+    return {"motion": _r(motion), "guard": _r(guard), "api": _r(api), "month": _r(motion + guard + api), "assumption": True}

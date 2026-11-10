@@ -668,6 +668,80 @@
     }
    ]
   },
+  "product-motion": {
+   "kind": "illustration",
+   "alt": "A parcel travelling along a dotted route from one map pin to another, with a clock",
+   "purpose": "Empty state, feature header and onboarding for LynkMotion",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-motion.light.svg",
+     "sha256": "a3ca8edf8796e60ae9d065dd8a1e2d9a7de321c6d2bb1e6c4ce22c7321602b37",
+     "bytes": 1440
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-motion.dark.svg",
+     "sha256": "d5d0df51cfbfd187054d073034ee0b5db31cd0d80189c9ca938582f7c58c786d",
+     "bytes": 1440
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-motion.contrast-light.svg",
+     "sha256": "d0232ac2448a909cbda03a21bb5e590ccef5723ed6d1f8ef6c5b9bb85b2693d6",
+     "bytes": 1440
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-motion.contrast-dark.svg",
+     "sha256": "978a86930702068ef7a068ca213061162d8357268c9b873ec5e6793fd269d22e",
+     "bytes": 1440
+    }
+   ]
+  },
+  "product-guard": {
+   "kind": "illustration",
+   "alt": "A parked car inside a dashed protection ring, with a padlock badge and a signal",
+   "purpose": "Empty state, feature header and onboarding for LynkGuard",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-guard.light.svg",
+     "sha256": "2a7130aefaa031b251901a7e65c91663edc9350f73cfcc7eae70d37b4b6b6566",
+     "bytes": 1688
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-guard.dark.svg",
+     "sha256": "b251c420391cc2eeb94b634d92c7aeb96b8653f9b3f5d66fd4b9c6ac890c44cd",
+     "bytes": 1688
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-guard.contrast-light.svg",
+     "sha256": "4fc3a7473b4628fcddbf79648fd2158bb72bb909247d6486faa273ca14517ff2",
+     "bytes": 1688
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-guard.contrast-dark.svg",
+     "sha256": "021707a30acc0be59ce225f6c259f1124e73930279f50ec6f4453dd5c50431a1",
+     "bytes": 1688
+    }
+   ]
+  },
   "product-suite": {
    "kind": "illustration",
    "alt": "A hub linked to nine tiles, for the nine services in LynkSuite",
@@ -1208,26 +1282,26 @@
     {
      "theme": "light",
      "file": "charts/chart-pricing-ladder.light.svg",
-     "sha256": "89ccd4c1bc89be600ce16e1352ff916e31c7a9689e16d9c76d84f360cb440fb5",
-     "bytes": 22280
+     "sha256": "1f77cec9bf1e0c594b5474a3f7f028a47de6b66f8f087db6a2bf54cb2abb0ad3",
+     "bytes": 24486
     },
     {
      "theme": "dark",
      "file": "charts/chart-pricing-ladder.dark.svg",
-     "sha256": "2ae0f7b4598f2d3205df3eead7fd005ffcc7e68a1cfaaa94a3276f8af1090052",
-     "bytes": 22280
+     "sha256": "86e65d40b4dc668a4d19442c472434bcb0000b44d89c62f150ae7b639917c5f4",
+     "bytes": 24486
     },
     {
      "theme": "contrast-light",
      "file": "charts/chart-pricing-ladder.contrast-light.svg",
-     "sha256": "429f1a3007b32991c323ab9ea873f408bb28a45ef47386c9160342ab894f72ae",
-     "bytes": 22280
+     "sha256": "e8d1025060c51bc236b5c2466696393b1f80153e3170d44e053e8dc8c26d99b1",
+     "bytes": 24486
     },
     {
      "theme": "contrast-dark",
      "file": "charts/chart-pricing-ladder.contrast-dark.svg",
-     "sha256": "92fc77197bb1642b52d135a83856f5bf634a7c47c3a1e1b1f0fa418f72bf0405",
-     "bytes": 22280
+     "sha256": "d22cdaeeebec726b6bcf68b540d7e37162eb77b03e2b387613b1dcf71ca8eca6",
+     "bytes": 24486
     }
    ]
   },

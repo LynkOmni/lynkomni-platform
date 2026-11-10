@@ -5,13 +5,17 @@ import pathlib
 
 SERVICES = ["pos", "accountant", "invoicing", "crm", "inventory", "dashboard", "intelligence", "payments",
             "recovery", "paylinks", "loyalty", "marketplace", "financing", "protection", "chat", "ads", "vcard", "registration",
-            "agent", "collection", "delivery"]
+            "agent", "collection", "delivery", "movement", "vehicle_data", "monitoring", "transport_data", "satellite", "iot_sim"]
+# NEW UPDATE 1 (2026-11-10): "movement" is LynkMotion and LynkGuard (LynkTrace, LynkGPS, LynkSentry). It needs no partner (the phone is the
+# tracker, maps are LynkOmni's own), so it is on everywhere. Its partner parts are off until signed: "vehicle_data" (connected cars),
+# "monitoring" (24/7 monitoring centres), "transport_data" (ship and flight data), "satellite" (satellite messaging), "iot_sim" (tracker
+# data plans). Partner carriers use "delivery"; the insurer pack uses "protection" (insurance).
 # Live by default = Phase 1. The rest are built but OFF until a country integrates them.
 # "accountant" is LynkAcc, "invoicing" LynkInv (issuing works without a provider; being paid uses "paylinks"), "crm" LynkCRM.
 # "registration" is Start a business (N14, build section 2): a government gateway or bank in the Partner Hub; off until one is signed.
 # "agent" (agent point services), "collection" (collection point and partner finance) and "delivery" (N8 partner deliveries) are build
 # section 3: every one needs a licensed partner per country and stays off until it is signed; own riders and pickup codes never need one.
-DEFAULT_FLAGS = {s: s in ("pos", "accountant", "invoicing", "crm", "inventory", "dashboard", "intelligence", "chat") for s in SERVICES}
+DEFAULT_FLAGS = {s: s in ("pos", "accountant", "invoicing", "crm", "inventory", "dashboard", "intelligence", "chat", "movement") for s in SERVICES}
 
 import json, glob
 def _load_packs():
