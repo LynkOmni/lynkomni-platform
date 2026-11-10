@@ -2,6 +2,22 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.36.0 (2026-11-10)
+NEW UPDATE 1, section 3 (devices).
+- **LynkDriver:** six new kinds of device in catalog/drivers.v1.json: vehicle tracker, car plug-in (OBD), tag, electronic seal, condition sensor and satellite tracker. Each falls back to a virtual device (the phone as tracker, or a photo seal), so nothing is ever blocked.
+- **Rider phone:**
+  - battery warnings at 20% and 10%, and a last message at 3% (DeviceLastReport);
+  - an on-shift switch: off shift, nothing about where the rider is is shared;
+  - every hand-over is one sealed record, and its hash is shown;
+  - SOS on the watch with a confirm step (ProtectionAlertRaised).
+- **Business app, pickup-point mode** at app.lynkomni.com/business/pickup-point:
+  - parcels waiting;
+  - hand-over with the parcel's own code (works offline) or the person's Collect Pass (checked by the cloud, so it needs the network);
+  - pay on collection only after the provider confirms;
+  - each hand-over is a sealed ShipmentHandedOver.
+- **Planned business types:** delivery and fleet are recorded for build section 7B.
+- All new words are in all 38 languages. The merchant phone and rider phone size budgets were raised, with a reason.
+
 ## v0.35.0 (2026-11-10)
 NEW UPDATE 1, section 2 (LynkOmni Account).
 - **Arrive Safe** on account.lynkomni.com/trips (identity/arrive_safe.py):

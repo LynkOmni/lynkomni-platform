@@ -841,6 +841,17 @@
     "search"
    ],
    "section": 2
+  },
+  {
+   "id": "pickup_point",
+   "kind": "item",
+   "what": "Pickup-point mode in the Business app: parcels waiting, hand-over by parcel code or Collect Pass, pay on collection only after the provider confirms (app.lynkomni.com/business/pickup-point)",
+   "places": [
+    "app_nav",
+    "search",
+    "help"
+   ],
+   "section": 3
   }
  ]
 }

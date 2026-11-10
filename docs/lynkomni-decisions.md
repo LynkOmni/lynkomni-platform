@@ -110,4 +110,9 @@ Every decision the owner made, newest first. Lines are never deleted: a changed 
   - An overdue trip plan is written only by the cloud, and tells contacts where the person is only if a share with them is on.
   - Collect Pass is a 6-digit code that changes every minute and accepts the previous minute's code. It is given out once per parcel, with its QR picture in section 7.
   - The Hausa, Yoruba and Malay wording was adjusted where the checker read a doubled word as repetition.
-
+- 2026-11-10: NEW UPDATE 1 section 3 (v0.36.0) built by the blueprint without asking.
+  - A Collect Pass is checked by the cloud, so it needs the network. The parcel's own code works offline, so a pickup point never stops handing over parcels.
+  - A parcel with money to collect is handed over only after the provider confirms the payment. If the provider fails or stays silent, the parcel stays at the pickup point.
+  - Pickup-point mode is one address on both sides (shared), like the online shop.
+  - The delivery and fleet business types are recorded as planned for build section 7B, and their tabs are switched on there.
+  - The Urdu and Sindhi wording was adjusted where the checker read a doubled word as repetition. The merchant phone and rider phone size budgets were raised, with a reason.
