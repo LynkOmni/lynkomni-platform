@@ -1,0 +1,773 @@
+{
+ "version": 1,
+ "agreed": "2026-11-10",
+ "rule": "MASTER UPDATE, master blueprint section 54: every action LynkAssist may take and every kind of answer it may give is in this register. An action outside it never runs. services/assist_register.py decides; tests/test_assist_register.py and the banks in tests/assist_bank/ prove it on every release.",
+ "classes": {
+  "A": {
+   "level": "auto",
+   "confirm": false,
+   "fresh_check": false,
+   "hand_over": false,
+   "meaning": "solves alone: harmless and reversible"
+  },
+  "B": {
+   "level": "draft",
+   "confirm": true,
+   "fresh_check": false,
+   "hand_over": false,
+   "meaning": "solves after Confirm"
+  },
+  "C": {
+   "level": "draft",
+   "confirm": true,
+   "fresh_check": true,
+   "hand_over": false,
+   "meaning": "solves after a fresh identity check and Confirm"
+  },
+  "D": {
+   "level": "inform",
+   "confirm": false,
+   "fresh_check": false,
+   "hand_over": true,
+   "meaning": "prepared for a human or licensed partner"
+  }
+ },
+ "never_auto": [
+  "credentials",
+  "recovery",
+  "tax_filing",
+  "payroll",
+  "finance_request",
+  "exchange",
+  "personal_data",
+  "consent",
+  "money_movement"
+ ],
+ "only_hand_over": [
+  "credentials",
+  "recovery",
+  "tax_filing",
+  "payroll",
+  "finance_request",
+  "exchange",
+  "money_movement"
+ ],
+ "answer_classes": {
+  "1": "open: anyone",
+  "2": "personal: the signed-in person, their own records",
+  "3": "verified: after a fresh identity check",
+  "4": "by role: only the role allowed",
+  "5": "never: nobody"
+ },
+ "topics": {
+  "price": {
+   "class": 1
+  },
+  "plan_features": {
+   "class": 1
+  },
+  "country_availability": {
+   "class": 1
+  },
+  "how_to": {
+   "class": 1
+  },
+  "status_word": {
+   "class": 1
+  },
+  "my_next_charge": {
+   "class": 2
+  },
+  "my_parcel": {
+   "class": 2
+  },
+  "my_sale_state": {
+   "class": 2
+  },
+  "my_plan": {
+   "class": 2
+  },
+  "business_access_list": {
+   "class": 3
+  },
+  "payout_last_digits": {
+   "class": 3
+  },
+  "data_export": {
+   "class": 3
+  },
+  "sign_in_history": {
+   "class": 3
+  },
+  "profit": {
+   "class": 4,
+   "roles": [
+    "owner",
+    "manager"
+   ]
+  },
+  "staff_figures": {
+   "class": 4,
+   "roles": [
+    "owner"
+   ]
+  },
+  "outlet_sales": {
+   "class": 4,
+   "roles": [
+    "owner",
+    "manager"
+   ]
+  },
+  "customer_history": {
+   "class": 4,
+   "roles": [
+    "owner",
+    "manager",
+    "cashier"
+   ]
+  },
+  "password": {
+   "class": 5
+  },
+  "codes_and_keys": {
+   "class": 5
+  },
+  "full_card_number": {
+   "class": 5
+  },
+  "other_person_data": {
+   "class": 5
+  },
+  "customer_position": {
+   "class": 5
+  },
+  "security_check_internals": {
+   "class": 5
+  }
+ },
+ "actions": [
+  {
+   "id": "explain_charge",
+   "area": "billing",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "person",
+    "owner"
+   ],
+   "limits": {
+    "per_day": 50
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": 0,
+   "status": "built"
+  },
+  {
+   "id": "resend_receipt",
+   "area": "selling",
+   "class": "A",
+   "touches": [
+    "message"
+   ],
+   "roles": [
+    "owner",
+    "manager",
+    "cashier"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "delivery",
+   "undo": null,
+   "build_section": 0,
+   "status": "built"
+  },
+  {
+   "id": "rerun_sync",
+   "area": "devices",
+   "class": "A",
+   "touches": [
+    "device"
+   ],
+   "roles": [
+    "owner",
+    "manager",
+    "cashier"
+   ],
+   "limits": {
+    "per_day": 50
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 0,
+   "status": "built"
+  },
+  {
+   "id": "reconnect_device",
+   "area": "devices",
+   "class": "A",
+   "touches": [
+    "device"
+   ],
+   "roles": [
+    "owner",
+    "manager",
+    "cashier"
+   ],
+   "limits": {
+    "per_day": 50
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 0,
+   "status": "built"
+  },
+  {
+   "id": "mute_notification_kind",
+   "area": "notifications",
+   "class": "B",
+   "touches": [
+    "settings"
+   ],
+   "roles": [
+    "person",
+    "owner",
+    "manager",
+    "cashier",
+    "stock_staff",
+    "agent",
+    "accountant"
+   ],
+   "limits": {
+    "per_day": 50
+   },
+   "verify": "read_back",
+   "undo": "unmute",
+   "build_section": 0,
+   "status": "built"
+  },
+  {
+   "id": "snooze_notification",
+   "area": "notifications",
+   "class": "A",
+   "touches": [
+    "settings"
+   ],
+   "roles": [
+    "person",
+    "owner",
+    "manager",
+    "cashier",
+    "stock_staff",
+    "agent",
+    "accountant"
+   ],
+   "limits": {
+    "per_day": 50
+   },
+   "verify": "read_back",
+   "undo": "unsnooze",
+   "build_section": 0,
+   "status": "built"
+  },
+  {
+   "id": "end_plan_at_period_end",
+   "area": "billing",
+   "class": "B",
+   "touches": [
+    "plan"
+   ],
+   "roles": [
+    "person",
+    "owner"
+   ],
+   "limits": {
+    "per_day": 5
+   },
+   "verify": "read_back",
+   "undo": "keep_plan",
+   "build_section": 2,
+   "status": "planned"
+  },
+  {
+   "id": "change_language",
+   "area": "account",
+   "class": "B",
+   "touches": [
+    "settings"
+   ],
+   "roles": [
+    "person"
+   ],
+   "limits": {
+    "per_day": 50
+   },
+   "verify": "read_back",
+   "undo": "restore_setting",
+   "build_section": 2,
+   "status": "planned"
+  },
+  {
+   "id": "stop_location_share",
+   "area": "safety",
+   "class": "B",
+   "touches": [
+    "consent"
+   ],
+   "roles": [
+    "person"
+   ],
+   "limits": {
+    "per_day": 50
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 2,
+   "status": "planned",
+   "note": "stopping a share is always allowed; a new share needs the person's own consent"
+  },
+  {
+   "id": "sign_out_other_device",
+   "area": "security",
+   "class": "C",
+   "touches": [
+    "sessions"
+   ],
+   "roles": [
+    "person"
+   ],
+   "limits": {
+    "per_day": 10
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 2,
+   "status": "planned"
+  },
+  {
+   "id": "export_my_data",
+   "area": "account",
+   "class": "C",
+   "touches": [
+    "personal_data"
+   ],
+   "roles": [
+    "person"
+   ],
+   "limits": {
+    "per_day": 2
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 2,
+   "status": "planned"
+  },
+  {
+   "id": "close_account",
+   "area": "account",
+   "class": "C",
+   "touches": [
+    "personal_data"
+   ],
+   "roles": [
+    "person"
+   ],
+   "limits": {
+    "per_day": 1
+   },
+   "verify": "read_back",
+   "undo": "cancel_close",
+   "build_section": 2,
+   "status": "planned",
+   "note": "a waiting period lets the person cancel"
+  },
+  {
+   "id": "lock_everything",
+   "area": "security",
+   "class": "C",
+   "touches": [
+    "sessions",
+    "cards",
+    "api_keys"
+   ],
+   "roles": [
+    "person",
+    "owner"
+   ],
+   "limits": {
+    "per_day": 5
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 2,
+   "status": "planned",
+   "note": "locking is quick; unlocking needs verification; Arrive Safe shares keep running"
+  },
+  {
+   "id": "recover_account",
+   "area": "security",
+   "class": "D",
+   "touches": [
+    "credentials",
+    "recovery"
+   ],
+   "roles": [
+    "person"
+   ],
+   "limits": {
+    "per_day": 3
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 2,
+   "status": "planned"
+  },
+  {
+   "id": "change_passkeys",
+   "area": "security",
+   "class": "D",
+   "touches": [
+    "credentials"
+   ],
+   "roles": [
+    "person"
+   ],
+   "limits": {
+    "per_day": 3
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 2,
+   "status": "planned",
+   "note": "opens the Security Center; never done in a chat"
+  },
+  {
+   "id": "void_sale_within_rules",
+   "area": "selling",
+   "class": "B",
+   "touches": [
+    "books"
+   ],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 20,
+    "max_minor": 5000000
+   },
+   "verify": "read_back",
+   "undo": "restore_sale",
+   "build_section": 3,
+   "status": "planned"
+  },
+  {
+   "id": "correct_price",
+   "area": "stock",
+   "class": "B",
+   "touches": [
+    "books"
+   ],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 200
+   },
+   "verify": "read_back",
+   "undo": "restore_price",
+   "build_section": 3,
+   "status": "planned"
+  },
+  {
+   "id": "correct_stock_quantity",
+   "area": "stock",
+   "class": "B",
+   "touches": [
+    "books"
+   ],
+   "roles": [
+    "owner",
+    "manager",
+    "stock_staff"
+   ],
+   "limits": {
+    "per_day": 200
+   },
+   "verify": "read_back",
+   "undo": "restore_quantity",
+   "build_section": 3,
+   "status": "planned"
+  },
+  {
+   "id": "release_stale_hold",
+   "area": "stock",
+   "class": "B",
+   "touches": [
+    "books"
+   ],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 50
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 3,
+   "status": "planned"
+  },
+  {
+   "id": "retire_device",
+   "area": "devices",
+   "class": "B",
+   "touches": [
+    "device"
+   ],
+   "roles": [
+    "owner"
+   ],
+   "limits": {
+    "per_day": 5
+   },
+   "verify": "read_back",
+   "undo": "restore_device",
+   "build_section": 3,
+   "status": "planned"
+  },
+  {
+   "id": "enrol_device",
+   "area": "devices",
+   "class": "C",
+   "touches": [
+    "device"
+   ],
+   "roles": [
+    "owner"
+   ],
+   "limits": {
+    "per_day": 5
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 3,
+   "status": "planned"
+  },
+  {
+   "id": "wipe_lost_device",
+   "area": "devices",
+   "class": "C",
+   "touches": [
+    "device"
+   ],
+   "roles": [
+    "owner"
+   ],
+   "limits": {
+    "per_day": 2
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 3,
+   "status": "planned",
+   "note": "the owner's own command; wrong PINs only ever lock"
+  },
+  {
+   "id": "refund_payment",
+   "area": "money",
+   "class": "D",
+   "touches": [
+    "money_movement"
+   ],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 20
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 3,
+   "status": "planned",
+   "note": "the licensed provider decides and moves the money"
+  },
+  {
+   "id": "agent_request",
+   "area": "agent",
+   "class": "D",
+   "touches": [
+    "money_movement",
+    "finance_request"
+   ],
+   "roles": [
+    "agent"
+   ],
+   "limits": {
+    "per_day": 50
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 3,
+   "status": "planned"
+  },
+  {
+   "id": "issue_credit_note",
+   "area": "office",
+   "class": "B",
+   "touches": [
+    "books"
+   ],
+   "roles": [
+    "owner",
+    "manager",
+    "accountant"
+   ],
+   "limits": {
+    "per_day": 50
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 4,
+   "status": "planned",
+   "note": "an issued invoice never changes"
+  },
+  {
+   "id": "file_tax_return",
+   "area": "office",
+   "class": "D",
+   "touches": [
+    "tax_filing"
+   ],
+   "roles": [
+    "owner",
+    "accountant"
+   ],
+   "limits": {
+    "per_day": 2
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 4,
+   "status": "planned"
+  },
+  {
+   "id": "run_payroll",
+   "area": "office",
+   "class": "D",
+   "touches": [
+    "payroll"
+   ],
+   "roles": [
+    "owner"
+   ],
+   "limits": {
+    "per_day": 2
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 4,
+   "status": "planned"
+  },
+  {
+   "id": "book_redelivery",
+   "area": "orders",
+   "class": "B",
+   "touches": [
+    "purchase"
+   ],
+   "roles": [
+    "person",
+    "owner"
+   ],
+   "limits": {
+    "per_day": 10
+   },
+   "verify": "read_back",
+   "undo": "cancel_redelivery",
+   "build_section": 7,
+   "status": "planned"
+  },
+  {
+   "id": "freeze_card",
+   "area": "cards",
+   "class": "B",
+   "touches": [
+    "cards"
+   ],
+   "roles": [
+    "person",
+    "owner"
+   ],
+   "limits": {
+    "per_day": 10
+   },
+   "verify": "read_back",
+   "undo": "unfreeze_with_check",
+   "build_section": 7,
+   "status": "planned",
+   "note": "shown frozen only when the issuer confirms; may be queued offline"
+  },
+  {
+   "id": "request_credit",
+   "area": "cards",
+   "class": "D",
+   "touches": [
+    "finance_request"
+   ],
+   "roles": [
+    "person",
+    "owner"
+   ],
+   "limits": {
+    "per_day": 2
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 7,
+   "status": "planned",
+   "note": "the lender alone decides"
+  },
+  {
+   "id": "exchange_request",
+   "area": "exchange",
+   "class": "D",
+   "touches": [
+    "exchange"
+   ],
+   "roles": [
+    "person",
+    "owner"
+   ],
+   "limits": {
+    "per_day": 5
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 10,
+   "status": "planned"
+  },
+  {
+   "id": "rotate_api_key",
+   "area": "developers",
+   "class": "B",
+   "touches": [
+    "api_keys"
+   ],
+   "roles": [
+    "owner"
+   ],
+   "limits": {
+    "per_day": 10
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 11,
+   "status": "planned"
+  }
+ ]
+}
