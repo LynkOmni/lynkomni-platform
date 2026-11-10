@@ -116,3 +116,4 @@ Every decision the owner made, newest first. Lines are never deleted: a changed 
   - Pickup-point mode is one address on both sides (shared), like the online shop.
   - The delivery and fleet business types are recorded as planned for build section 7B, and their tabs are switched on there.
   - The Urdu and Sindhi wording was adjusted where the checker read a doubled word as repetition. The merchant phone and rider phone size budgets were raised, with a reason.
+- 2026-11-10: Owner reported that navigation on "Buttons, no touch" devices did not work. Fixed in v0.36.1: a pad key on the device body never takes the focus from the screen, and the focus returns to the same control (or the first one) after a redraw. Every buttons-only device is now also tested with real mouse clicks and finger taps on its pad, not only with a keyboard.

@@ -33,6 +33,14 @@ export class DeviceMode {
 }
 
 export type Dir = "up" | "down" | "left" | "right";
+/** The control on the screen that last had focus. A pad key pressed with a finger or a mouse must never take the focus away from
+ *  the screen: the pad refuses focus (see wireDevice), and this is the fallback when a browser moves it anyway. */
+let lastOnScreen: HTMLElement | null = null;
+function current(root: HTMLElement): HTMLElement | null {
+  const a = document.activeElement as HTMLElement | null;
+  if (a && root.contains(a)) return a;
+  return lastOnScreen && root.contains(lastOnScreen) ? lastOnScreen : null;
+}
 const FOCUSABLE = "button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), [tabindex='0']";
 
 /** Moves focus to the nearest visible control in a direction (spatial navigation for arrows, remotes and pads). The first press
@@ -40,8 +48,8 @@ const FOCUSABLE = "button:not([disabled]), a[href], input:not([disabled]), selec
 export function moveFocus(root: HTMLElement, dir: Dir, rtl = false): boolean {
   const items = Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE)).filter((el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && !el.closest("[hidden]"); });
   if (!items.length) return false;
-  const cur = document.activeElement as HTMLElement | null;
-  if (!cur || !root.contains(cur) || !items.includes(cur)) { items[0]!.focus(); return true; }
+  const cur = current(root);
+  if (!cur || !items.includes(cur)) { items[0]!.focus(); return true; }
   const d: Dir = rtl && (dir === "left" || dir === "right") ? (dir === "left" ? "right" : "left") : dir;
   const a = cur.getBoundingClientRect(), ax = a.left + a.width / 2, ay = a.top + a.height / 2;
   let best: HTMLElement | null = null, score = Infinity;
@@ -76,16 +84,23 @@ export function navPad(words: { up: string; down: string; left: string; right: s
   return `<div class="navpad" role="group" aria-label="${words.ok} / ${words.back}">${k("up", words.up, "▲", " up")}${k("left", words.left, "◀", " left")}${k("ok", words.ok, words.ok, " ok")}${k("right", words.right, "▶", " right")}${k("down", words.down, "▼", " down")}${k("back", words.back, icon("ui-undo"), " back")}</div>`;
 }
 
+/** After the screen redraws, puts the focus back on the same control; when that control is gone or can no longer be used (for
+ *  example a kitchen line just marked ready), on the first control instead, so the focus never leaves the screen. */
+function refocus(root: HTMLElement, act: string | undefined, rtl: boolean): void {
+  const again = act ? root.querySelector<HTMLElement>(`[data-act="${CSS.escape(act)}"]`) : null;
+  if (again) again.focus();
+  if (!root.contains(document.activeElement)) { lastOnScreen = null; moveFocus(root, "down", rtl); }
+}
+
 /** Runs a pad key or a physical key on a non-touch screen: moves focus, clicks the focused control on OK, or calls back(). */
 export function padPress(root: HTMLElement, what: Dir | "ok" | "back", back: () => void, rtl = false): void {
   if (what === "back") { back(); return; }
   if (what === "ok") {
-    const cur = document.activeElement as HTMLElement | null;
-    if (!cur || !root.contains(cur)) { moveFocus(root, "down", rtl); return; }
+    const cur = current(root);
+    if (!cur) { moveFocus(root, "down", rtl); return; }
     const act = cur.dataset["act"];
     cur.click();                                                      // the screen redraws: focus returns to the same control, or the first one
-    const again = act ? root.querySelector<HTMLElement>(`[data-act="${CSS.escape(act)}"]`) : null;
-    if (again) again.focus(); else if (!root.contains(document.activeElement)) moveFocus(root, "down", rtl);
+    refocus(root, act, rtl);
     return;
   }
   moveFocus(root, what, rtl);
@@ -107,6 +122,11 @@ export interface DeviceWiring {
 }
 export function wireDevice(mode: DeviceMode, o: { t: (k: string) => string; icon: (id: string) => string; screen: () => HTMLElement | null; pad: () => HTMLElement | null; back: () => void; redraw: () => void; rtl: () => boolean }): DeviceWiring {
   const press = (w: Dir | "ok" | "back"): void => { const r = o.screen(); if (r) padPress(r, w, o.back, o.rtl()); };
+  if (typeof document !== "undefined") {
+    // Remember the focused control on the screen, and keep a tapped or clicked pad key from taking the focus.
+    document.addEventListener("focusin", (e) => { const r = o.screen(), t = e.target as HTMLElement | null; if (r && t && r.contains(t)) lastOnScreen = t; });
+    document.addEventListener("mousedown", (e) => { if ((e.target as HTMLElement | null)?.closest?.(".padkey")) e.preventDefault(); });
+  }
   return {
     control: () => mode.control(o.t("version_testing"), { touch: o.t("version_touch"), non_touch: o.t("version_non_touch") }),
     change: (el) => {
@@ -119,6 +139,12 @@ export function wireDevice(mode: DeviceMode, o: { t: (k: string) => string; icon
       mode.apply(root);
       const pad = o.pad();
       if (pad) pad.innerHTML = mode.touch() ? "" : navPad({ up: o.t("key_up"), down: o.t("key_down"), left: o.t("key_left"), right: o.t("key_right"), ok: o.t("key_ok"), back: o.t("key_back") }, o.icon);
+      // A redraw replaces the screen's controls: on a buttons-only screen the focus goes back to the same control, or the first.
+      const had = lastOnScreen;
+      if (!mode.touch() && had) queueMicrotask(() => {
+        if (document.contains(had) || (document.activeElement && document.activeElement !== document.body)) return;
+        refocus(root, had.dataset["act"], o.rtl());
+      });
     },
     act: (a) => {
       const m = /^pad:(up|down|left|right|ok|back)$/.exec(a);
