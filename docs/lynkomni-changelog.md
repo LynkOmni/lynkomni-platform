@@ -2,6 +2,10 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.36.1 (2026-11-10)
+- **Fix, buttons-only devices** (owner report): on the "Buttons, no touch" versions of the POS terminal, stock scanner and kitchen screen, pressing the pad keys on the device body with a finger or a mouse did nothing useful. Every press jumped back to the first control, and OK never reached the control you chose. The pad key was taking the focus away from the screen. Now the pad never takes the focus, and the screen remembers its place, also after it redraws.
+- **New test:** it presses the pad with real mouse clicks and finger taps. The old test used only a keyboard, which is why it missed this.
+
 ## v0.36.0 (2026-11-10)
 NEW UPDATE 1, section 3 (devices).
 - **LynkDriver:** six new kinds of device in catalog/drivers.v1.json: vehicle tracker, car plug-in (OBD), tag, electronic seal, condition sensor and satellite tracker. Each falls back to a virtual device (the phone as tracker, or a photo seal), so nothing is ever blocked.

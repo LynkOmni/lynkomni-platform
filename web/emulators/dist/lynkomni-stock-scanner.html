@@ -2177,13 +2177,20 @@ class DeviceMode {
         return `<label class="row"><span>${label}</span> <select data-ctl="version">${v.map((x) => `<option value="${x}"${x === this.version ? " selected" : ""}>${words[x]}</option>`).join("")}</select></label>`;
     }
 }
+let lastOnScreen = null;
+function current(root) {
+    const a = document.activeElement;
+    if (a && root.contains(a))
+        return a;
+    return lastOnScreen && root.contains(lastOnScreen) ? lastOnScreen : null;
+}
 const FOCUSABLE = "button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), [tabindex='0']";
 function moveFocus(root, dir, rtl = false) {
     const items = Array.from(root.querySelectorAll(FOCUSABLE)).filter((el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && !el.closest("[hidden]"); });
     if (!items.length)
         return false;
-    const cur = document.activeElement;
-    if (!cur || !root.contains(cur) || !items.includes(cur)) {
+    const cur = current(root);
+    if (!cur || !items.includes(cur)) {
         items[0].focus();
         return true;
     }
@@ -2222,24 +2229,29 @@ function navPad(words, icon) {
     const k = (act, label, inner, cls = "") => `<button type="button" class="padkey${cls}" data-act="pad:${act}" aria-label="${label}">${inner}</button>`;
     return `<div class="navpad" role="group" aria-label="${words.ok} / ${words.back}">${k("up", words.up, "▲", " up")}${k("left", words.left, "◀", " left")}${k("ok", words.ok, words.ok, " ok")}${k("right", words.right, "▶", " right")}${k("down", words.down, "▼", " down")}${k("back", words.back, icon("ui-undo"), " back")}</div>`;
 }
+function refocus(root, act, rtl) {
+    const again = act ? root.querySelector(`[data-act="${CSS.escape(act)}"]`) : null;
+    if (again)
+        again.focus();
+    if (!root.contains(document.activeElement)) {
+        lastOnScreen = null;
+        moveFocus(root, "down", rtl);
+    }
+}
 function padPress(root, what, back, rtl = false) {
     if (what === "back") {
         back();
         return;
     }
     if (what === "ok") {
-        const cur = document.activeElement;
-        if (!cur || !root.contains(cur)) {
+        const cur = current(root);
+        if (!cur) {
             moveFocus(root, "down", rtl);
             return;
         }
         const act = cur.dataset["act"];
         cur.click(); // the screen redraws: focus returns to the same control, or the first one
-        const again = act ? root.querySelector(`[data-act="${CSS.escape(act)}"]`) : null;
-        if (again)
-            again.focus();
-        else if (!root.contains(document.activeElement))
-            moveFocus(root, "down", rtl);
+        refocus(root, act, rtl);
         return;
     }
     moveFocus(root, what, rtl);
@@ -2247,6 +2259,12 @@ function padPress(root, what, back, rtl = false) {
 function wireDevice(mode, o) {
     const press = (w) => { const r = o.screen(); if (r)
         padPress(r, w, o.back, o.rtl()); };
+    if (typeof document !== "undefined") {
+        document.addEventListener("focusin", (e) => { const r = o.screen(), t = e.target; if (r && t && r.contains(t))
+            lastOnScreen = t; });
+        document.addEventListener("mousedown", (e) => { if (e.target?.closest?.(".padkey"))
+            e.preventDefault(); });
+    }
     return {
         control: () => mode.control(o.t("version_testing"), { touch: o.t("version_touch"), non_touch: o.t("version_non_touch") }),
         change: (el) => {
@@ -2263,6 +2281,13 @@ function wireDevice(mode, o) {
             const pad = o.pad();
             if (pad)
                 pad.innerHTML = mode.touch() ? "" : navPad({ up: o.t("key_up"), down: o.t("key_down"), left: o.t("key_left"), right: o.t("key_right"), ok: o.t("key_ok"), back: o.t("key_back") }, o.icon);
+            const had = lastOnScreen;
+            if (!mode.touch() && had)
+                queueMicrotask(() => {
+                    if (document.contains(had) || (document.activeElement && document.activeElement !== document.body))
+                        return;
+                    refocus(root, had.dataset["act"], o.rtl());
+                });
         },
         act: (a) => {
             const m = /^pad:(up|down|left|right|ok|back)$/.exec(a);

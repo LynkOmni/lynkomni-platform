@@ -623,3 +623,29 @@ class NonTouchVersions(unittest.TestCase):
                 self.assertEqual(want - seen, set(), f"{emu}: not reached by the arrows")
                 pg.close()
             b.close()
+
+    def test_pad_keys_pressed_by_finger_or_mouse_move_the_focus(self):
+        """The pad on the device body is pressed with a finger or a mouse, which must never take the focus away from the screen
+        (owner report 2026-11-10: every press jumped back to the first control). Real clicks, not keyboard keys."""
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            for emu, root in self.CASES:
+                for touch in (False, True):
+                    cx = b.new_context(viewport={"width": 1400, "height": 1100}, reduced_motion="reduce", has_touch=touch)
+                    pg = cx.new_page()
+                    pg.goto("file://" + os.path.join(ROOT, "web", "emulators", "dist", f"lynkomni-{emu}.html")); pg.wait_for_selector("html[data-ready]", state="attached")
+                    pg.select_option('[data-ctl="version"]', "non_touch")
+                    press = (lambda k: pg.tap(f'[data-act="pad:{k}"]')) if touch else (lambda k: pg.click(f'[data-act="pad:{k}"]'))
+                    seen = []
+                    for k in ("down", "down", "down", "down"):
+                        press(k); seen.append(pg.evaluate(self.WHO, root))
+                    self.assertNotIn(None, seen, f"{emu} touch={touch}: the focus left the screen")
+                    self.assertGreaterEqual(len(set(seen)), 2, f"{emu} touch={touch}: the pad does not move the focus: {seen}")
+                    self.assertNotEqual(seen[0], seen[1], f"{emu} touch={touch}: the second press went back to the first control: {seen}")
+                    before = pg.evaluate(self.WHO, root)
+                    press("up")
+                    self.assertNotEqual(pg.evaluate(self.WHO, root), before, f"{emu} touch={touch}: Up did nothing")
+                    press("ok")
+                    self.assertIsNotNone(pg.evaluate(self.WHO, root), f"{emu} touch={touch}: OK lost the focus")
+                    cx.close()
+            b.close()
