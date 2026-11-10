@@ -282,7 +282,7 @@ class ShellLayout(DarkPass, unittest.TestCase):
 class AccountLayout(DarkPass, unittest.TestCase):
     """LynkOmni Account (build section 2): sign-in, the four sign-up steps, the three recovery paths, every account page, the
     step-up sheet and the shell's overlays, at computer, tablet and phone size, in every language."""
-    PAGES = ["overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "support", "payslips", "payments", "start"]
+    PAGES = ["overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "messages", "support", "assist", "payslips", "payments", "start"]
 
     def walk(self, pg, lang="en"):
         found = {}
@@ -313,6 +313,14 @@ class AccountLayout(DarkPass, unittest.TestCase):
         pg.click('[data-act="start:submit"]'); check("start submitted"); pg.click('[data-act="start:poll"]'); check("start approved")
         pg.click('#stateButtons button[data-state="privacy"]'); pg.click('[data-act="data:request"]'); check("data requested")
         pg.click('[data-act="stepup:close"]'); pg.click('[data-act="stepup:ok"]'); check("closing")
+        # MASTER UPDATE section 2: Lock everything, the slow contact change, notification settings in use, LynkAssist's card and receipt, the cool-off
+        pg.click('#stateButtons button[data-state="security"]'); pg.click('#display [data-act="lock:start"]'); pg.click('[data-act="stepup:ok"]'); check("everything locked")
+        pg.click('#display [data-act="lock:undo"]'); pg.click('[data-act="stepup:ok"]')
+        pg.click('#stateButtons button[data-state="profile"]'); pg.click('[data-act="contact:start"]'); pg.click('[data-act="stepup:ok"]'); check("contact change waiting")
+        pg.click('#stateButtons button[data-state="notifications"]'); pg.click('[data-act="nset:deputy"]'); pg.click('[data-act="nset:remind"]'); pg.click('[data-act="nset:test"]'); check("notification settings in use")
+        pg.click('#stateButtons button[data-state="assist"]'); pg.click('[data-act="assistc:lock_everything"]'); check("assist card")
+        pg.click('#display [data-act="assist:check"]'); pg.click('[data-act="stepup:ok"]'); pg.click('#display [data-act="assist:confirm"]'); check("assist receipt")
+        pg.click('#stateButtons button[data-state="signin"]'); pg.click('[data-act="signin:other"]'); pg.click('#stateButtons button[data-state="security"]'); check("cool-off")
         pg.click('#stateButtons button[data-state="overview"]')
         for ov in ("launcher", "account", "globe", "search", "help", "bell", "sync"):
             if pg.locator(f'[data-act="shell:{ov}"]').count() == 0:

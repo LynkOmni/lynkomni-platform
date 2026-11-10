@@ -1,8 +1,8 @@
 /* LynkOmni Account (account.lynkomni.com) in a browser window and on a phone (build section 2). Every part of the frame comes
  * from ts/src/shell.ts and every rule from ts/src/account.ts; this file holds the sample person, the screens and the event log.
  * Words come from web/shell/strings.en.json (the shell) and strings.en.json (this site) and their language packs. */
-import { STATE_PICTURE, Undo, accountMenu, viewSheet, IFACE_NAME, commandBar, connectionChip, deliverNow, esc, filterRegions, globeSheet, regionName, header, helpPanel, launcher, maskId, navigation, notificationsPanel, search, state, comingSoon, syncSheet, translator, undoToast, usernameField } from "../../../ts/src/shell.js";
-import type { AddressMap, Entry, Icon, Link, NavItem, Notice, Pic, StateKind, SyncInfo, T, UsernameStatus, Viewport } from "../../../ts/src/shell.js";
+import { STATE_PICTURE, Undo, accountMenu, viewSheet, IFACE_NAME, commandBar, connectionChip, esc, filterRegions, globeSheet, regionName, header, helpPanel, launcher, maskId, navigation, search, state, comingSoon, syncSheet, translator, undoToast, usernameField } from "../../../ts/src/shell.js";
+import type { AddressMap, Entry, Icon, Link, NavItem, Pic, StateKind, SyncInfo, T, UsernameStatus, Viewport } from "../../../ts/src/shell.js";
 import { DAY, PAGES, RECOVERY, REGISTRATION_STEPS, SECURITY_EVENT_KEY, SIGN_UP_STEPS, applicationStatus, canSubmit, closesAt, consentState, dataRequestDue, nextSignUpStep, pagePath, payoutChange, recoveryPath, recoveryReady, recoveryReadyAt, signInAlertNeeded } from "../../../ts/src/account.js";
 import type { ApplicationStatus, Consent, Page, RecoveryPath, RegistrationStep, SignUpState } from "../../../ts/src/account.js";
 import type { UserState } from "../../../ts/src/pos.js";
@@ -17,6 +17,12 @@ import { browserFacts, chooseInterface } from "../../../ts/src/interfaces.js";
 import type { Choice } from "../../../ts/src/interfaces.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { arrowNav, gestures } from "../../../ts/src/gestures.js";
+import { bell, messagesList, whySheet } from "../../../ts/src/notify.js";
+import type { Line, Sent } from "../../../ts/src/notify.js";
+import { MESSAGES } from "../../../ts/src/parts.generated.js";
+import { askBox, buildPack, confirmCard, decide, lookup, receipt } from "../../../ts/src/assist.js";
+import { breadcrumbBar, trail } from "../../../ts/src/breadcrumbs.js";
+import { TERMS_IN_FORCE, cardPlanName, contactWaitSeconds, coolOffSeconds, mayNow } from "../../../ts/src/protection.js";
 const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 } as const;   // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
 
 interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[]; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; id?: string; name: string; icon: string; plain: string; href?: string; state: "available" | "coming_soon" }[] }
@@ -36,7 +42,7 @@ interface Ev { n: number; type: string; origin: "device" | "server"; payload: un
 const PACKS = DATA.i18n;
 const EN: Record<string, string> = PACKS.en?.texts ?? {};
 const TEST_LANGS = ["xx", "xx-rtl"];
-type Overlay = null | "launcher" | "account" | "globe" | "cmd" | "help" | "bell" | "sync" | "stepup" | "pages" | "view";
+type Overlay = null | "launcher" | "account" | "globe" | "cmd" | "help" | "bell" | "why" | "sync" | "stepup" | "pages" | "view";
 /** The views a browser can show the account site in (DEVICE, 48.17); the size follows the chosen view. */
 const VIEWS = ["universal", "phone.touch", "tablet.touch", "computer.touch", "computer.pointer"] as const;
 const SIZE_OF_CLASS: Record<string, Viewport> = { phone: "phone", watch: "phone", voice: "phone", tablet: "tablet", eink: "tablet", computer: "computer", tv: "computer" };
@@ -71,6 +77,12 @@ const S = {
   idCheck: null as null | "sent" | "confirmed", cases: [] as { side: "internal" | "external"; ref: string }[],
   // Arrive Safe and Collect Pass (NEW UPDATE 1): shares end by themselves; a trip plan is watched by the cloud
   shares: [] as { id: string; scope: "live" | "trips" | "zones"; until: number }[], plan: null as null | { due: number; checked: boolean }, passWindow: 0,
+  // MASTER UPDATE section 2: protections (identity/protection.py decides; the page shows), the bell and Messages, LynkAssist
+  coolOffUntil: 0, locked: false, advanced: false, secondWay: true, held: "" as "" | "locked" | "cool_off",
+  contactChange: null as null | { until: number }, signupWay: "phone" as "phone" | "email", merged: 0,
+  nset: { off: [] as string[], muted: [] as string[], paused: false, dnd: false, summary: false, lock: "neutral" as "neutral" | "full" | "none", deputy: null as null | number, tested: false, health: false, reminders: [] as { id: string; at: number }[] },
+  lines: [] as Line[], sent: [] as Sent[], bellFilter: "all", lastOpened: 0, whyNid: "",
+  history: [] as { id: string; action: string; ran: boolean; why: string; at: number; undone: boolean; was?: string }[], pendingAssist: null as null | string, assistFresh: false, ask: "",
 };
 /** Sample identity check and case references in the one public id format (core/ids.py; tests/test_emulators.py checks them). */
 const SAMPLE_LOVER = "LOVER-3301-0442-1905";
@@ -133,6 +145,87 @@ const trackLook = () => ({ t, esc, icon: (id: string) => icon(id), time: (iso: s
 const tracker = (kind: string, id: string, title?: string): string => { const v: TrackView | null = TRK.view(kind, id, "customer", T_NOW()); return v ? trackerHtml(v, trackLook(), title) : ""; };
 const secEvent = (type: string): void => { S.secEvents.unshift({ type, at: T_NOW() }); record(type, "server", { lynkid: LYNKID }); };
 
+// ---------------------------------------------------------------- MASTER UPDATE section 2: the bell, Messages, protections, LynkAssist
+/** A security or account message: one line in the bell and one record per channel on the Messages page. The sender address
+ *  and the actions come from catalog/messages.v1.json (through parts.generated.ts), never typed here. */
+const ACT_WORD: Record<string, string> = { this_was_not_me: "ntf_act_this_was_not_me", cancel_recovery: "ntf_act_cancel_recovery", cancel_change: "ntf_act_cancel_change", i_am_here: "ntf_act_i_am_here", snooze: "ntf_act_snooze", done: "ntf_act_done", cancel_close: "ntf_act_cancel_close" };
+const AREAS = ["security", "account", "safety", "selling", "stock"];
+function tell(kind: string, title: string, at = Date.now()): void {
+  const k = MESSAGES.kinds[kind]; if (!k) return;
+  const nid = `n${S.lines.length + 1}`;
+  S.lines.unshift({ nid, kind, title, at });
+  const channels: Sent["channel"][] = k.priority === "critical" ? ["push", "email", "text"] : k.area === "security" ? ["push", "email"] : ["push"];
+  for (const ch of channels) S.sent.unshift({ id: `${nid}-${ch}`, channel: ch, sender: ch === "email" ? k.sender : "LynkOmni", title, at, state: S.link === "offline" ? "queued" : "sent" });
+}
+const shownLines = (): Line[] => S.lines.map((l) => ({ ...l, title: t(l.title), actions: (MESSAGES.kinds[l.kind]?.actions ?? []).filter((a) => ACT_WORD[a]).map((a) => ({ id: a, label: t(ACT_WORD[a]!) })) }));
+(() => { const at = Date.now(); tell("new_sign_in", "notice_signin", at - 60_000); tell("consent_ending", "notice_consent", at - 3_600_000); S.lines.forEach((l) => { l.read = l.kind !== "new_sign_in"; }); S.lastOpened = at - 1_800_000; })();
+let kpack: { lang: string; entries: ReturnType<typeof buildPack> } | null = null;
+const knowledge = () => { const lang = isTest() ? "en" : S.lang; if (!kpack || kpack.lang !== lang) kpack = { lang, entries: buildPack({ ...EN, ...(PACKS[lang]?.texts ?? {}) }) }; return kpack.entries; };
+/** The protections the cloud enforces, shown before the person tries: a locked account or a cool-off holds these acts. */
+const holds = (act: string): "" | "locked" | "cool_off" => { const r = mayNow(act, { locked: S.locked, heldUntil: S.coolOffUntil, now: T_NOW() }); return r.ok ? "" : (r.why ?? ""); };
+const heldNote = (why: string): string => (why === "locked" ? off(t("lock_done")) : why === "cool_off" ? wait(t("held_note", { when: whenOf(S.coolOffUntil) })) : "");
+/** A step that needs a fresh check that it is the person: true when the check just passed for this very step. */
+const fresh = (then: string): boolean => { if (S.stepup?.ok && S.stepup.then === then) { S.stepup = null; return true; } stepUp(then); return false; };
+function crumbs(): string {
+  if (!signedIn()) return "";
+  let steps: string[] = []; try { steps = trail("account.lynkomni.com", screenPath()); } catch { return ""; }
+  const label = (p: string) => (p === "/" ? t("page_overview") : t(`page_${PAGES.find((x) => pagePath(x) === p) ?? "overview"}`));
+  return breadcrumbBar(steps.map((p) => ({ path: p, label: label(p) })), S.size === "phone", t);
+}
+function securityCenter(now: number): string {
+  const findings: { key: string; fix: string }[] = [];
+  if (S.passkeys.length < 2 && !S.secondWay) findings.push({ key: "find_two_ways", fix: "passkey:add" });
+  if (!S.advanced) findings.push({ key: "find_advanced", fix: "adv:on" });
+  const checkup = `<div class="card wide"><h2>${esc(t("checkup_title"))}</h2>${heldNote(S.held)}${findings.length ? rows(findings.map((f) => kv(esc(t(f.key)), "", `<button class="secondary" data-act="${f.fix}">${esc(t("as_fix_this"))}</button>`))) : ok(t("checkup_all_good"))}</div>`;
+  const cool = S.coolOffUntil > now ? `<div class="card wide"><div class="warn">${icon("ui-warning")}<span>${esc(t("cooloff_note", { when: whenOf(S.coolOffUntil) }))}</span></div><div class="actions"><button class="secondary" data-act="notme">${esc(t("ntf_act_this_was_not_me"))}</button></div></div>` : "";
+  const two = `<div class="card"><h2>${esc(t("two_ways_title"))}</h2>${S.passkeys.length > 1 || S.secondWay ? ok(t("two_ways_ok")) : wait(t("two_ways_one"))}</div>`;
+  const lock = `<div class="card"><h2>${esc(t("lock_title"))}</h2>${S.locked ? `${off(t("lock_done"))}<p class="muted">${esc(t("unlock_note"))}</p><div class="actions"><button class="primary" data-act="lock:undo">${esc(t("unlock"))}</button></div>` : `<p class="muted">${esc(t("lock_body"))}</p><div class="actions"><button class="primary" data-act="lock:start">${icon("ui-lock")}<span>${esc(t("lock_title"))}</span></button></div>`}</div>`;
+  const adv = `<div class="card"><h2>${esc(t("adv_title"))}</h2><p class="muted">${esc(t("adv_body", { days: n(coolOffSeconds(true) / DAY), days2: n(contactWaitSeconds(true) / DAY) }))}</p>${S.advanced ? `${ok(t("adv_on"))}<div class="actions"><button class="secondary" data-act="adv:off">${esc(t("turn_off"))}</button></div>` : S.passkeys.length < 2 ? wait(t("adv_needs_two")) : `<div class="actions"><button class="primary" data-act="adv:on">${esc(t("turn_on"))}</button></div>`}</div>`;
+  const staff = `<div class="card"><h2>${esc(t("staff_title"))}</h2>${rows([kv(esc(t("staff_line", { what: t("page_billing"), ref: SAMPLE_CASES[0] as string })), esc(whenOf(now - 4 * DAY)))])}</div>`;
+  const succ = `<div class="card">${comingSoon(t("successor_title"), t, null, S.notified.has(t("successor_title")))}<p class="muted">${esc(t("successor_note"))}</p></div>`;
+  return `${checkup}${cool}${two}${lock}${adv}${staff}${succ}`;
+}
+function notificationSettings(): string {
+  const sw = (act: string, on: boolean, label: string, locked = false) => `<label class="switch"><input type="checkbox" data-act="toggle:${act}"${on ? " checked" : ""}${locked ? " disabled" : ""}><span>${esc(label)}</span></label>`;
+  const chans: Sent["channel"][] = ["push", "email", "text", "bell"];
+  const grid = AREAS.map((a) => { const locked = a === "security" || a === "safety"; return kv(`${esc(t(`ntf_area_${a}`))}${locked ? `<span class="sub">${esc(t("nset_locked"))}</span>` : ""}`, `<span class="wrapline">${chans.map((c) => sw(`grid:${a}:${c}`, locked || !S.nset.off.includes(`${a}:${c}`), t(`msg_ch_${c}`), locked)).join("")}</span>`); });
+  const biz = [["b1", t("shop_name")], ["b2", t("client_pharmacy")]].map(([id, name]) => kv(esc(name ?? ""), sw(`biz:${id}`, !!id && S.nset.muted.includes(id), t("nset_mute"))));
+  const lockChoice = (["neutral", "full", "none"] as const).map((m) => `<button type="button" class="chipbtn${S.nset.lock === m ? " on" : ""}" aria-pressed="${S.nset.lock === m}" data-act="nset:lock:${m}">${esc(t(`nset_lock_${m}`))}</button>`).join("");
+  const deputy = S.nset.deputy ? `${ok(t("nset_deputy_on", { name: t("role_manager"), when: dateOf(S.nset.deputy) }))}<div class="actions"><button class="secondary" data-act="nset:enddeputy">${esc(t("nset_end"))}</button></div>` : `<div class="actions"><button class="secondary" data-act="nset:deputy">${esc(t("nset_deputy_set"))}</button></div>`;
+  const reminders = S.nset.reminders.length ? rows(S.nset.reminders.map((r) => kv(esc(t("remind_sample")), esc(whenOf(r.at)), `<button class="secondary" data-act="nset:snooze:${r.id}">${esc(t("ntf_act_snooze"))}</button><button class="secondary" data-act="nset:done:${r.id}">${esc(t("ntf_act_done"))}</button>`))) : "";
+  return `${pageTitle("notifications")}<div class="cards">
+    <div class="card wide"><h2>${esc(t("nset_grid"))}</h2>${rows(grid)}<p class="muted">${esc(t("security_always"))}</p></div>
+    <div class="card"><h2>${esc(t("your_businesses"))}</h2>${rows(biz)}</div>
+    <div class="card"><h2>${esc(t("quiet_hours"))}</h2>${rows([sw("pause", S.nset.paused, t("nset_pause")), sw("dnd", S.nset.dnd, t("nset_dnd")), sw("summary", S.nset.summary, t("nset_summary"))])}${S.nset.paused ? `<p class="muted">${esc(t("nset_paused"))}</p>` : ""}<p class="muted">${esc(t("quiet_hours_line", { start: clock(Date.UTC(2026, 0, 1, 22)), end: clock(Date.UTC(2026, 0, 1, 7)) }))}</p></div>
+    <div class="card"><h2>${esc(t("nset_lock"))}</h2><div class="nfilters" role="group" aria-label="${esc(t("nset_lock"))}">${lockChoice}</div></div>
+    <div class="card"><h2>${esc(t("nset_deputy"))}</h2><p class="muted">${esc(t("nset_deputy_body"))}</p>${deputy}</div>
+    <div class="card"><h2>${esc(t("nset_test"))}</h2><div class="actions"><button class="secondary" data-act="nset:test">${esc(t("nset_test"))}</button><button class="secondary" data-act="nset:health">${esc(t("nset_health"))}</button></div>${S.nset.tested ? ok(t("nset_test_sent")) : ""}${S.nset.health ? ok(t("nset_health_ok")) : ""}</div>
+    <div class="card"><h2>${esc(t("nset_remind"))}</h2>${reminders}<div class="actions"><button class="secondary" data-act="nset:remind">${icon("ui-plus")}<span>${esc(t("nset_remind_add"))}</span></button></div></div>
+  </div>`;
+}
+const ASSIST_DEMO: Record<string, string> = { change_language: "ah_demo_lang", lock_everything: "lock_title" };
+function assistPage(): string {
+  const now = Date.now();
+  const pend = S.pendingAssist;
+  const card = pend ? confirmCard({ what: t(ASSIST_DEMO[pend] ?? pend), d: decide(pend, { role: "person", fresh_check: S.assistFresh }) }, t, icon) : `<div class="actions">${Object.entries(ASSIST_DEMO).map(([id, key]) => `<button class="secondary" data-act="assistc:${id}">${icon("product-assist")}<span>${esc(t(key))}</span></button>`).join("")}</div>`;
+  const last = S.history[0];
+  const rec = last && last.ran && !pend ? receipt({ what: t(ASSIST_DEMO[last.action] ?? last.action), undoable: last.action === "change_language" && !last.undone, secondsLeft: Math.max(0, 30 - Math.round((now - last.at) / 1000)) }, t, icon) : "";
+  const list = S.history.length ? rows(S.history.map((h) => kv(esc(t(ASSIST_DEMO[h.action] ?? h.action)), esc(whenOf(h.at / 1000)), h.undone ? off(t("undone")) : h.ran ? ok(t("done")) : off(t(h.why))))) : `<p class="muted">${esc(t("ah_empty"))}</p>`;
+  return `${pageTitle("assist")}<div class="cards"><div class="card wide">${card}${rec}</div><div class="card wide"><h2>${esc(t("ah_title"))}</h2>${list}<p class="suggested">${esc(t("suggested_by_assist"))}</p></div></div>`;
+}
+function cardsByGroup(): string {
+  if (S.realUser) return `<div class="card">${comingSoon("LynkVCard", t, statePic("coming_soon"), S.notified.has("LynkVCard"))}</div>`;
+  const cards = [{ group: "prepaid", tier: "edge", last4: "4242" }, { group: "credit", tier: "hub", last4: "1881" }];
+  const groups = ["prepaid", "debit", "credit"].filter((g) => cards.some((c) => c.group === g));
+  return `<div class="card wide"><h2>${esc(t("cards_title"))}</h2>${groups.map((g) => `<h3>${esc(t(`card_${g}`))}</h3>${rows(cards.filter((c) => c.group === g).map((c) => kv(esc(t("card_line", { name: cardPlanName(c.group, c.tier), last4: c.last4 })), S.locked ? wait(t("card_freeze_sent")) : ok(t("st_confirmed")))))}${g === "credit" ? `<p class="muted">${esc(t("credit_note"))}</p>` : ""}`).join("")}</div>`;
+}
+function doLock(by: "in_person" | "not_me" | "assist"): void {
+  S.locked = true; S.sessions = S.sessions.slice(0, 1);
+  record("EverythingLocked", "server", { by, sessions_ended: true, cards: "freeze_sent", keys: "paused", shares_kept: S.shares.length });
+  if (by === "not_me") record("NotMeReported", "server", { rolled_back: ["sessions", "contact_change"] });
+  S.contactChange = null; tell("everything_locked", "lock_done");
+}
+
 // ---------------------------------------------------------------- navigation
 const signedIn = (): boolean => !["signin", "signup", "recover"].includes(S.screen);
 const navItems = (): NavItem[] => {
@@ -146,7 +239,7 @@ const navItems = (): NavItem[] => {
   if (S.size === "phone") return phone;
   return PAGES.map((p) => ({ id: p, label: t(`page_${p}`), icon: PAGE_ICON[p], href: pagePath(p), current: S.screen === p }));
 };
-const PAGE_ICON: Record<Page, string> = { overview: "ui-home", profile: "ui-user", security: "ui-lock", businesses: "ui-grid", orders: "ui-cart", transactions: "ui-receipt", wallet: "ui-pay-wallet", billing: "ui-pay-card", memberships: "ui-check", privacy: "ui-doc", notifications: "ui-bell", support: "ui-info", payslips: "ui-doc", payments: "ui-pay-instant", start: "ui-bolt", storefront: "ui-cart", trips: "ui-globe", collect: "ui-qr" };
+const PAGE_ICON: Record<Page, string> = { overview: "ui-home", profile: "ui-user", security: "ui-lock", businesses: "ui-grid", orders: "ui-cart", transactions: "ui-receipt", wallet: "ui-pay-wallet", billing: "ui-pay-card", memberships: "ui-check", privacy: "ui-doc", notifications: "ui-bell", support: "ui-info", payslips: "ui-doc", payments: "ui-pay-instant", start: "ui-bolt", storefront: "ui-cart", trips: "ui-globe", collect: "ui-qr", messages: "product-chat", assist: "product-assist" };
 const screenPath = (): string => (S.screen === "signin" ? "/sign-in" : S.screen === "signup" ? "/sign-up" : S.screen === "recover" ? "/recover" : pagePath(S.screen));
 const sync = (): SyncInfo => ({ link: S.link, pending: S.pending, lastSync: S.lastSync, dataSaver: false, forcedOffline: false });
 const statePic = (kind: StateKind): Pic | null => {
@@ -155,7 +248,7 @@ const statePic = (kind: StateKind): Pic | null => {
   const p = DATA.statePictures[id]?.[S.mode === "sunlight" ? "light" : S.theme];
   return p ? { svg: S.mode === "sunlight" ? (p.contrast ?? p.svg) : p.svg, alt: p.alt } : null;
 };
-const title = (page: Page): string => `<div class="pagetitle"><h1>${esc(t(`page_${page}`))}</h1>${connectionChip(sync(), t, icon)}</div>`;
+const pageTitle = (page: Page): string => `<div class="pagetitle"><h1>${esc(t(`page_${page}`))}</h1>${connectionChip(sync(), t, icon)}</div>`;
 const rows = (items: string[]): string => `<ul class="rows">${items.map((i) => `<li>${i}</li>`).join("")}</ul>`;
 const kv = (k: string, v: string, action = ""): string => `<span class="k">${k}</span><span class="v">${v}</span>${action}`;
 const ok = (s: string): string => `<span class="status-ok">${icon("ui-check")}<span>${esc(s)}</span></span>`;
@@ -180,10 +273,10 @@ function authSignUp(): string {
   const bar = `<ol class="steps" aria-label="${esc(t("step_of", { n: Math.min(idx + 1, 4), total: 4 }))}">${SIGN_UP_STEPS.map((_, i) => `<li class="${i <= idx ? "on" : ""}"></li>`).join("")}</ol>`;
   let body = "";
   if (step === "username") body = `<h2>${esc(t("step_username"))}</h2>${usernameField(S.username, S.cloud, (u) => u === "mamas.kitchen", t, icon)}<label class="check"><input type="checkbox" id="adultIn" data-act="toggle:adult"${S.signUp.adult ? " checked" : ""}><span>${esc(t("signup_adult", { age: n(DATA.storefront.min_age) }))}</span></label><p class="muted">${esc(t("signup_adult_note"))}</p><button class="primary" data-act="signup:username" ${S.cloud === "available" && S.signUp.adult ? "" : "disabled"}>${esc(t("next"))}</button>`;
-  else if (step === "contact") body = `<h2>${esc(t("step_contact"))}</h2><p class="muted">${esc(t("contact_hint"))}</p><div class="field"><label for="code">${esc(t("code_label"))}</label><input class="text" id="code" inputmode="numeric" value="482913"></div><button class="primary" data-act="signup:contact">${esc(t("next"))}</button>`;
+  else if (step === "contact") body = `<h2>${esc(t("step_contact"))}</h2><div class="nfilters" role="group" aria-label="${esc(t("step_contact"))}">${(["phone", "email"] as const).map((w) => `<button type="button" class="chipbtn${S.signupWay === w ? " on" : ""}" aria-pressed="${S.signupWay === w}" data-act="signup:way:${w}">${esc(t(w === "phone" ? "way_phone" : "msg_ch_email"))}</button>`).join("")}</div><p class="muted">${esc(t("contact_hint"))}</p><div class="field"><label for="code">${esc(t("code_label"))}</label><input class="text" id="code" inputmode="numeric" value="482913"></div><button class="primary" data-act="signup:contact">${esc(t("next"))}</button>`;
   else if (step === "passkey") body = `<h2>${esc(t("step_passkey"))}</h2><p class="muted">${esc(t("passkey_hint"))}</p><button class="primary" data-act="signup:passkey">${icon("ui-lock")}<span>${esc(t("add_passkey"))}</span></button>`;
   else if (step === "recovery_code") body = `<h2>${esc(t("step_recovery_code"))}</h2><div class="codebox"><span>${esc(S.recoveryCode)}</span>${icon("ui-doc")}</div><div class="warn">${icon("ui-warning")}<span>${esc(t("recovery_code_hint"))}</span></div><button class="primary" data-act="signup:code">${esc(t("recovery_code_confirm"))}</button>`;
-  else body = `<div class="okbox">${icon("ui-check")}<span>${esc(t("passkey_added"))}</span></div><div class="assist">${icon("ui-bolt")}<span><strong>${esc(t("assist_guide"))}:</strong> ${esc(t("recovery_code_push"))}</span></div><button class="primary" data-act="go:overview">${esc(t("continue"))}</button>`;
+  else body = `<div class="okbox">${icon("ui-check")}<span>${esc(t("passkey_added"))}</span></div><h2>${esc(t("two_ways_title"))}</h2>${S.passkeys.length > 1 || S.secondWay ? ok(t("two_ways_ok")) : `${wait(t("two_ways_one"))}<div class="actions"><button class="secondary" data-act="passkey:add">${icon("ui-plus")}<span>${esc(t("add_passkey"))}</span></button></div>`}<div class="assist">${icon("ui-bolt")}<span><strong>${esc(t("assist_guide"))}:</strong> ${esc(t("recovery_code_push"))}</span></div><p class="muted">${esc(t("signup_later"))}</p>${S.merged ? ok(t("merge_done", { n: n(S.merged) })) : `<div class="actions"><button class="secondary" data-act="merge:do">${esc(t("merge_btn"))}</button></div>`}<button class="primary" data-act="go:overview">${esc(t("continue"))}</button>`;
   return `<div class="auth"><h1>${esc(t("signup_title"))}</h1><p class="lead">${esc(t("step_of", { n: Math.min(idx + 1, 4), total: 4 }))}</p>${bar}${body}<button class="secondary" data-act="go:signin">${esc(t("back"))}</button></div>`;
 }
 function authRecover(): string {
@@ -210,54 +303,57 @@ function page(): string {
     case "recover": return authRecover();
     case "overview": {
       const todo = S.passkeys.length < 2;
-      return `${title("overview")}<div class="cards">
+      return `${pageTitle("overview")}<div class="cards">
         <div class="card"><h2>${esc(t("overview_welcome", { name: t("person_name") }))}</h2><div class="muted">${esc(t("your_lynkid"))}</div><div class="lynkid-box"><span>${esc(maskId(LYNKID))}</span><button class="copy" data-act="copy:lynkid" aria-label="${esc(t("copy"))}">${icon("ui-copy")}</button></div></div>
         <div class="card"><h2>${esc(t("page_security"))}</h2>${todo ? wait(t("overview_security_todo")) : ok(t("overview_security_ok", { n: S.passkeys.length }))}<div class="actions"><button class="secondary" data-act="go:security">${esc(t("page_security"))}</button></div></div>
         <div class="card wide"><h2>${esc(t("shortcuts"))}</h2><div class="actions">${(["businesses", "wallet", "billing", "privacy", "payments", "start"] as Page[]).map((p) => `<button class="secondary" data-act="go:${p}">${icon(PAGE_ICON[p])}<span>${esc(t(`page_${p}`))}</span></button>`).join("")}</div></div>
       </div>`;
     }
-    case "profile": return `${title("profile")}<div class="card">${rows([
+    case "profile": return `${pageTitle("profile")}<div class="card">${rows([
       kv(esc(t("profile_name")), esc(t("person_name")), `<button class="secondary" data-act="edit:name">${esc(t("change"))}</button>`),
       kv(esc(t("profile_username")), "@grace.k", `<button class="secondary" data-act="edit:username">${esc(t("change"))}</button>`),
-      kv(esc(t("profile_phone")), `•••• 0471 ${ok(t("verified"))}`), kv(esc(t("profile_email")), `g•••@example.org ${ok(t("verified"))}`),
+      kv(esc(t("profile_phone")), `•••• 0471 ${S.contactChange ? wait(t("contact_wait", { when: whenOf(S.contactChange.until) })) : ok(t("verified"))}`, S.contactChange ? `<button class="secondary" data-act="contact:cancel">${esc(t("ntf_act_cancel_change"))}</button>` : `<button class="secondary" data-act="contact:start">${esc(t("change"))}</button>`), kv(esc(t("profile_email")), `g•••@example.org ${ok(t("verified"))}`),
       kv(esc(t("profile_language")), esc(langName(isTest() ? "en" : S.lang)), `<button class="secondary" data-act="shell:globe">${esc(t("change"))}</button>`),
       kv(esc(t("profile_region")), esc(pack().sample ? t("sample_country") : pack().name)), kv(esc(t("profile_timezone")), esc(pack().tz)),
     ])}<p class="muted">${esc(t("username_change_note"))}</p></div>`;
-    case "security": return `${title("security")}<div class="cards">
+    case "security": return `${pageTitle("security")}<div class="cards">${securityCenter(now)}
       <div class="card"><h2>${esc(t("passkeys_devices"))}</h2>${rows(S.passkeys.map((p) => kv(esc(p.device.startsWith("device_") ? t(p.device) : p.device) + (p.here ? ` ${ok(t("this_device"))}` : ""), esc(t("added_on", { when: dateOf(p.at) })), `<button class="secondary" data-act="passkey:remove:${p.locrd}">${esc(t("remove"))}</button>`)))}<div class="actions"><button class="primary" data-act="passkey:add">${icon("ui-plus")}<span>${esc(t("add_passkey"))}</span></button></div><p class="muted">${esc(t("keep_one_passkey"))}</p></div>
       <div class="card"><h2>${esc(t("active_sessions"))}</h2>${rows(S.sessions.map((s) => kv(esc(t("session_line", { site: t(`site_${s.site}`), device: t(s.device), place: t(s.place) })), esc(whenOf(s.at)), `<button class="secondary" data-act="session:revoke:${s.tail}">${esc(t("remove"))}</button>`)))}<div class="actions"><button class="secondary" data-act="session:all">${icon("ui-signout")}<span>${esc(t("sign_out_everywhere"))}</span></button></div></div>
       <div class="card"><h2>${esc(t("recent_events"))}</h2><ul class="evlist">${S.secEvents.slice(0, 8).map((e) => `<li><span class="t">${esc(whenOf(e.at))}</span><span class="w">${esc(t(SECURITY_EVENT_KEY[e.type] ?? e.type))}</span></li>`).join("")}</ul></div>
       <div class="card"><h2>${esc(t("recovery_settings"))}</h2>${rows([ok(t("recovery_code_set")) + `<button class="secondary" data-act="recovery:newcode">${esc(t("new_recovery_code"))}</button>`, kv(esc(t("backup_contact")), "•••• 2210"), kv(esc(t("second_device")), S.passkeys.length > 1 ? ok(t("verified")) : wait(t("not_yet")))])}</div>
       <div class="card wide"><h2>${esc(t("connected_apps"))}</h2>${S.consents.length ? rows(S.consents.map((c, i) => { const st = consentState(c, now); return kv(esc(`${c.scope}: ${c.purpose}`), st === "ending_soon" ? wait(t("consent_ending", { n: Math.ceil((c.expires - now) / DAY) })) : st === "active" ? ok(t("consent_active", { when: dateOf(c.expires) })) : off(t("ev_consent_withdrawn")), st === "active" || st === "ending_soon" ? `<button class="secondary" data-act="consent:withdraw:${i}">${esc(t("revoke"))}</button>` : ""); })) : `<p class="muted">${esc(t("no_connected_apps"))}</p>`}</div>
     </div>`;
-    case "businesses": return `${title("businesses")}<div class="cards">
+    case "businesses": return `${pageTitle("businesses")}<div class="cards">
       <div class="card"><h2>${esc(t("your_businesses"))}</h2>${rows([kv(esc(t("shop_name")), `${esc(maskId(SHOP_OID))} · ${esc(t("role_owner"))}`, `<button class="primary" data-act="open:business">${esc(t("switch_to"))}</button><button class="secondary" data-act="leave:owner">${esc(t("leave"))}</button>`)])}<p class="muted">${esc(t("last_owner_note"))}</p><div class="actions"><button class="secondary" data-act="go:start">${icon("ui-plus")}<span>${esc(t("create_business"))}</span></button></div></div>
       <div class="card"><h2>${esc(t("ws_title"))}</h2><p class="muted">${esc(t("ws_help"))}</p>${S.workspaces.length ? rows(S.workspaces.map((w) => kv(esc(t(`ws_name_${w.entity}`)), `${esc(t(`ws_kind_${w.entity}`))} · ${esc(t("role_owner"))}`, `<button class="primary" data-act="open:business">${esc(t("switch_to"))}</button>`))) : ""}<div class="actions">${(["person", "company", "organisation"] as const).map((e) => `<button class="secondary" data-act="ws:${e}">${icon(e === "person" ? "ui-user" : e === "company" ? "ui-grid" : "ui-home")}<span>${esc(t(`ws_${e}`))}</span></button>`).join("")}</div><p class="muted">${esc(t("ws_note"))}</p></div>
       <div class="card"><h2>${esc(t("client_businesses"))}</h2>${rows([
         kv(esc(t("client_pharmacy")), `${esc(t("role_accountant"))} · ${ok(t("consent_active", { when: dateOf(now + 300 * DAY) }))}`, `<button class="primary" data-act="open:client1">${esc(t("switch_to"))}</button>`),
         kv(esc(t("client_taxi")), `${esc(t("role_accountant"))} · ${wait(t("consent_missing"))}`, `<button class="secondary" disabled>${esc(t("switch_to"))}</button>`),
       ])}</div></div>`;
-    case "orders": return `${title("orders")}<div class="cards"><div class="card">${tracker("order", ORDER_NOW, t("order_from", { shop: t("shop_name") }))}</div><div class="card">${tracker("order", ORDER_PAST, t("order_from", { shop: t("client_pharmacy") }))}</div></div><p class="muted">${esc(t("trk_privacy"))}</p>`;
-    case "transactions": return `${title("transactions")}<div class="card">${rows([kv(esc(t("shop_name")), esc(whenOf(now - 2 * DAY)) + " · " + esc(money(1500))), kv(esc(t("client_taxi")), `${esc(whenOf(now - 5 * DAY))} · ${esc(money(4200))} · ${wait(t("refund_owed", { amount: money(4200) }))}`)])}</div>`;
-    case "wallet": return `${title("wallet")}<div class="cards">
+    case "orders": return `${pageTitle("orders")}<div class="cards"><div class="card">${tracker("order", ORDER_NOW, t("order_from", { shop: t("shop_name") }))}</div><div class="card">${tracker("order", ORDER_PAST, t("order_from", { shop: t("client_pharmacy") }))}</div></div><p class="muted">${esc(t("trk_privacy"))}</p>`;
+    case "transactions": return `${pageTitle("transactions")}<div class="card">${rows([kv(esc(t("shop_name")), esc(whenOf(now - 2 * DAY)) + " · " + esc(money(1500))), kv(esc(t("client_taxi")), `${esc(whenOf(now - 5 * DAY))} · ${esc(money(4200))} · ${wait(t("refund_owed", { amount: money(4200) }))}`)])}</div>`;
+    case "wallet": return `${pageTitle("wallet")}<div class="cards">
       <div class="card"><h2>${esc(t("wallet_points"))}</h2>${rows([kv(esc(t("points_at", { n: n(240), shop: t("shop_name") })), "")])}</div>
       <div class="card"><h2>${esc(t("wallet_vouchers"))}</h2>${rows([kv(esc(t("voucher_at", { amount: money(500), shop: t("client_pharmacy") })), esc(dateOf(now + 30 * DAY)))])}</div>
-      <div class="card"><h2>${esc(t("wallet_tickets"))}</h2><p class="muted">${esc(t("wallet_empty"))}</p></div></div>`;
-    case "billing": return `${title("billing")}<div class="cards">
+      <div class="card"><h2>${esc(t("wallet_tickets"))}</h2><p class="muted">${esc(t("wallet_empty"))}</p></div>${cardsByGroup()}</div>`;
+    case "billing": return `${pageTitle("billing")}<div class="cards">
       <div class="card"><h2>${esc(t("shop_name"))}</h2>${rows([kv(esc(t("plan_line", { family: "LynkPOS", tier: "Plus" })), esc(t("next_bill", { amount: money(1200), when: dateOf(now + 7 * DAY) })), `<button class="secondary" data-act="plan:change">${esc(t("change_plan"))}</button>`)])}<div class="actions"><button class="secondary" data-act="go:transactions">${esc(t("invoices"))}</button><button class="secondary" data-act="open:methods">${esc(t("payment_methods"))}</button></div></div>
       <div class="card"><h2>${esc(t("movement_plans"))}</h2>${rows([kv(esc(t("plan_line", { family: "LynkMotion", tier: "Free" })), esc(t("plan_free_note"))), kv(esc(t("plan_line", { family: "LynkGuard", tier: "Free" })), esc(t("plan_free_note")))])}<p class="muted">${esc(t("movement_plans_note"))}</p><div class="actions"><button class="secondary" data-act="plan:change">${esc(t("change_plan"))}</button></div></div>
       <div class="card"><h2>${esc(t("client_pharmacy"))}</h2><p class="muted">${esc(t("no_plans"))}</p></div></div>`;
-    case "memberships": return `${title("memberships")}<div class="card"><p class="muted">${esc(t("memberships_body"))}</p></div>`;
-    case "privacy": return `${title("privacy")}<div class="cards">
+    case "memberships": return `${pageTitle("memberships")}<div class="card"><p class="muted">${esc(t("memberships_body"))}</p></div>`;
+    case "privacy": return `${pageTitle("privacy")}<div class="cards">
+      <div class="card"><h2>${esc(t("terms_title"))}</h2>${rows([kv(esc(t("terms_doc_terms")), esc(t("terms_line", { date: dateOf(Date.parse(TERMS_IN_FORCE.terms) / 1000) }))), kv(esc(t("terms_doc_privacy")), esc(t("terms_line", { date: dateOf(Date.parse(TERMS_IN_FORCE.privacy) / 1000) })))])}</div>
       <div class="card"><h2>${esc(t("consent_log"))}</h2>${rows(S.consents.map((c) => kv(esc(`${c.scope}: ${c.purpose}`), esc(dateOf(c.expires)))))}</div>
-      <div class="card"><h2>${esc(t("download_records"))}</h2><p class="muted">${esc(t("download_hint"))}</p>${S.dataRequest ? wait(t("download_requested", { when: dateOf(S.dataRequest.due) })) + tracker("data_request", "data-1") : `<div class="actions"><button class="primary" data-act="data:request">${icon("ui-doc")}<span>${esc(t("download_records"))}</span></button></div>`}</div>
+      <div class="card"><h2>${esc(t("download_records"))}</h2><p class="muted">${esc(t("download_hint"))}</p>${heldNote(S.held)}${S.dataRequest ? wait(t("download_requested", { when: dateOf(S.dataRequest.due) })) + tracker("data_request", "data-1") : `<div class="actions"><button class="primary" data-act="data:request">${icon("ui-doc")}<span>${esc(t("download_records"))}</span></button></div>`}</div>
       <div class="card"><h2>${esc(t("marketing_choices"))}</h2>${rows([`<label class="switch"><input type="checkbox" data-act="toggle:mkemail" ${S.marketing.email ? "checked" : ""}><span>${esc(t("marketing_email"))}</span></label>`, `<label class="switch"><input type="checkbox" data-act="toggle:mkpush" ${S.marketing.push ? "checked" : ""}><span>${esc(t("marketing_push"))}</span></label>`])}</div>
       <div class="card"><h2>${esc(t("close_account"))}</h2><p class="muted">${esc(t("close_hint"))}</p>${S.closing ? `${wait(t("close_requested", { when: dateOf(S.closing) }))}<div class="actions"><button class="primary" data-act="close:cancel">${esc(t("keep_account"))}</button></div>` : `<div class="actions"><button class="secondary" data-act="stepup:close">${esc(t("close_account"))}</button></div>`}</div></div>`;
-    case "notifications": return `${title("notifications")}<div class="card">${rows([kv(esc(t("channels")), "push · email · SMS"), kv(esc(t("quiet_hours")), esc(t("quiet_hours_line", { start: clock(Date.UTC(2026, 0, 1, 22)), end: clock(Date.UTC(2026, 0, 1, 7)) })))])}<p class="muted">${esc(t("security_always"))}</p></div>`;
+    case "notifications": return notificationSettings();
+    case "messages": return `${pageTitle("messages")}<div class="card">${messagesList([...S.sent].sort((x, y) => y.at - x.at).map((m) => ({ ...m, title: t(m.title) })), t, icon, (ms) => whenOf(ms / 1000))}</div>`;
+    case "assist": return assistPage();
     case "support": {
       const desk = (side: "internal" | "external") => t(side === "external" ? "support_seller" : "support_workspace");
       const list = S.cases.length ? rows(S.cases.map((c) => kv(esc(t("support_case_line", { desk: desk(c.side), ref: c.ref })), wait(t(S.link === "offline" ? "st_queued" : "st_sent"))))) : `<p class="muted">${esc(t("support_empty"))}</p>`;
-      return `${title("support")}<div class="card">${list}<div class="actions"><button class="primary" data-act="support:internal">${icon("ui-home")}<span>${esc(desk("internal"))}</span></button><button class="secondary" data-act="support:external">${icon("ui-cart")}<span>${esc(desk("external"))}</span></button></div><p class="muted">${esc(t("support_side_note"))}</p><p class="muted">${esc(t("exchange_link"))}</p></div>`;
+      return `${pageTitle("support")}<div class="card">${list}<div class="actions"><button class="primary" data-act="support:internal">${icon("ui-home")}<span>${esc(desk("internal"))}</span></button><button class="secondary" data-act="support:external">${icon("ui-cart")}<span>${esc(desk("external"))}</span></button></div><p class="muted">${esc(t("support_side_note"))}</p><p class="muted">${esc(t("exchange_link"))}</p></div>`;
     }
     case "storefront": {
       const sf = DATA.storefront, tier = "free";
@@ -265,7 +361,7 @@ function page(): string {
       const id = S.idCheck === "confirmed" ? ok(t("sf_identity_done", { ref: SAMPLE_LOVER })) : S.idCheck === "sent" ? `${wait(t("sf_identity_sent"))}<div class="actions"><button class="secondary" data-act="idcheck:poll">${esc(t("sf_identity_poll"))}</button></div>`
         : `<div class="actions"><button class="primary" data-act="idcheck:start">${icon("ui-lock")}<span>${esc(t("sf_identity_start"))}</span></button></div>`;
       const idCard = S.realUser ? comingSoon(t("sf_identity"), t, statePic("coming_soon"), S.notified.has("identity")) : `<p class="muted">${esc(t("sf_identity_why"))}</p>${id}`;
-      return `${title("storefront")}<div class="cards">
+      return `${pageTitle("storefront")}<div class="cards">
         <div class="card wide"><p class="muted">${esc(t("sf_intro"))}</p><div class="muted">${esc(t("sf_address"))}</div><div class="lynkid-box"><span class="deeplink">shop.lynkomni.com/${esc(handle)}</span></div><div class="actions"><button class="secondary" data-act="open:storefront">${esc(t("sf_open"))}</button></div></div>
         <div class="card"><h2>${esc(t("sf_plan"))}</h2><p>${esc(t("sf_plan_line", { plan: t(`plan_${tier}`), share: pct(sf.share_bps[tier] ?? 0) }))}</p><div class="actions"><button class="secondary" data-act="go:billing">${esc(t("sf_plans_link"))}</button></div></div>
         <div class="card"><h2>${esc(t("sf_identity"))}</h2>${idCard}</div>
@@ -278,30 +374,30 @@ function page(): string {
         : `<p class="muted">${esc(t("share_none"))}</p>`;
       const plan = S.plan ? (S.plan.checked ? ok(t("plan_done")) : `${wait(t("plan_due", { time: clock(S.plan.due * 1000) }))}<p>${esc(t("plan_contacts", { count: n(1) }))}</p><div class="actions"><button class="primary" data-act="plan:checkin">${icon("ui-check")}<span>${esc(t("plan_check_in"))}</span></button></div>`)
         : `<div class="actions"><button class="primary" data-act="plan:set">${icon("ui-bolt")}<span>${esc(t("plan_set"))}</span></button></div>`;
-      return `${title("trips")}<div class="cards">
+      return `${pageTitle("trips")}<div class="cards">
         <div class="card wide"><p class="muted">${esc(t("trips_intro"))}</p>${list}<div class="actions">${scopes.map((sc) => `<button class="secondary" data-act="share:start:${sc}">${esc(t(`share_scope_${sc}`))}</button>`).join("")}</div><p class="muted">${esc(t("share_visible"))}</p></div>
         <div class="card"><h2>${esc(t("plan_title"))}</h2><p class="muted">${esc(t("plan_intro"))}</p>${plan}</div></div>`;
     }
     case "collect": {
       const w = Math.floor(now / 60) + S.passWindow;
       const code = String((w * 7919 + 271828) % 1000000).padStart(6, "0");      // a labelled sample; the real code is made by the cloud (identity/arrive_safe.py)
-      return `${title("collect")}<div class="cards">
+      return `${pageTitle("collect")}<div class="cards">
         <div class="card wide"><p class="muted">${esc(t("collect_intro"))}</p><div class="lynkid-box"><span class="deeplink" aria-label="${esc(t("page_collect"))}">${esc(code.slice(0, 3) + " " + code.slice(3))}</span></div><p class="muted">${esc(t("collect_changes"))}</p><div class="actions"><button class="secondary" data-act="pass:next">${esc(t("collect_refresh"))}</button></div></div>
         <div class="card"><p>${esc(t("collect_waiting", { count: n(2) }))}</p><p class="muted">${esc(t("collect_once"))}</p></div></div>`;
     }
-    case "payslips": return `${title("payslips")}<div class="card">${rows([kv(esc(t("payslip_line", { period: "2026-10", employer: t("client_pharmacy") })), "LODOC-9001-0044-2814", `<button class="secondary" data-act="open:payslip">${esc(t("switch_to"))}</button>`)])}<p class="muted">${esc(t("payslips_empty"))}</p></div>`;
+    case "payslips": return `${pageTitle("payslips")}<div class="card">${rows([kv(esc(t("payslip_line", { period: "2026-10", employer: t("client_pharmacy") })), "LODOC-9001-0044-2814", `<button class="secondary" data-act="open:payslip">${esc(t("switch_to"))}</button>`)])}<p class="muted">${esc(t("payslips_empty"))}</p></div>`;
     case "payments": {
-      if (!ready("paylinks")) return `${title("payments")}<div class="card">${comingSoon("LynkCheckout", t, statePic("coming_soon"), S.notified.has("paylinks"))}</div>`;
-      return `${title("payments")}<div class="card"><p class="muted">${esc(t("standing_intro"))}</p>${S.standing.length ? rows(S.standing.map((s, i) => kv(esc(t("standing_line", { merchant: s.merchant, cap: money(s.cap) })), s.active ? ok(t("standing_told")) : off(t("ev_consent_withdrawn")), s.active ? `<button class="secondary" data-act="standing:revoke:${i}">${esc(t("revoke"))}</button>` : ""))) : `<p class="muted">${esc(t("standing_empty"))}</p>`}</div>`;
+      if (!ready("paylinks")) return `${pageTitle("payments")}<div class="card">${comingSoon("LynkCheckout", t, statePic("coming_soon"), S.notified.has("paylinks"))}</div>`;
+      return `${pageTitle("payments")}<div class="card"><p class="muted">${esc(t("standing_intro"))}</p>${S.standing.length ? rows(S.standing.map((s, i) => kv(esc(t("standing_line", { merchant: s.merchant, cap: money(s.cap) })), s.active ? ok(t("standing_told")) : off(t("ev_consent_withdrawn")), s.active ? `<button class="secondary" data-act="standing:revoke:${i}">${esc(t("revoke"))}</button>` : ""))) : `<p class="muted">${esc(t("standing_empty"))}</p>`}</div>`;
     }
     case "start": {
-      if (!ready("registration")) return `${title("start")}<div class="card">${comingSoon(t("page_start"), t, statePic("coming_soon"), S.notified.has("registration"))}</div>`;
+      if (!ready("registration")) return `${pageTitle("start")}<div class="card">${comingSoon(t("page_start"), t, statePic("coming_soon"), S.notified.has("registration"))}</div>`;
       const a = S.app;
-      if (!a) return `${title("start")}<div class="card"><p class="muted">${esc(t("start_intro"))}</p><div class="actions"><button class="primary" data-act="start:begin">${icon("ui-bolt")}<span>${esc(t("start_begin"))}</span></button></div></div>`;
+      if (!a) return `${pageTitle("start")}<div class="card"><p class="muted">${esc(t("start_intro"))}</p><div class="actions"><button class="primary" data-act="start:begin">${icon("ui-bolt")}<span>${esc(t("start_begin"))}</span></button></div></div>`;
       const stepRows = REGISTRATION_STEPS.map((st) => kv(esc(t(`start_step_${st}`)), a.steps[st] ? ok(t("done")) : off(t("not_yet")), a.status === "started" && !a.steps[st] ? `<button class="secondary" data-act="start:step:${st}">${esc(t("done"))}</button>` : ""));
       const foot = a.status === "started" ? `<div class="actions"><button class="primary" data-act="start:submit" ${canSubmit(a.steps) ? "" : "disabled"}>${esc(t("start_submit"))}</button></div>`
         : a.status === "submitted" ? `${wait(t("start_submitted"))}<div class="actions"><button class="secondary" data-act="start:poll">${esc(t("continue"))}</button></div>` : ok(t("start_approved", { lynkoid: a.lynkoid ?? "" }));
-      return `${title("start")}<div class="card">${rows(stepRows)}${foot}<p class="muted">${esc(t("start_not_before"))}</p></div>`;
+      return `${pageTitle("start")}<div class="card">${rows(stepRows)}${foot}<p class="muted">${esc(t("start_not_before"))}</p></div>`;
     }
   }
   return "";
@@ -313,31 +409,31 @@ function overlay(): string {
     case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.id ?? s.service, name: s.name, plain: t(`ft_plain_${s.plain}`), icon: s.icon, href: s.href ?? `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon));
     case "pages": return wrap("", launcher(PAGES.map((p) => ({ id: `page-${p}`, name: t(`page_${p}`), icon: PAGE_ICON[p], href: pagePath(p), state: "available" as const })), t, icon));
     case "account": return wrap("end", accountMenu({ name: t("person_name"), lynkId: LYNKID, businesses: [{ id: "b1", name: t("shop_name"), current: true }, { id: "b2", name: t("client_pharmacy"), current: false }], role: "owner", roles: ["owner", "manager"], theme: S.mode === "lite" ? "lite" : S.mode === "sunlight" ? "sunlight" : S.theme, language: langName(isTest() ? "en" : S.lang), region: pack().sample ? t("sample_country") : pack().name, view: { name: t(IFACE_NAME[S.choice?.interface ?? "universal"] ?? "iface_universal") },
-      links: [{ act: "go:storefront", label: t("page_storefront"), icon: "ui-cart" }, { act: "go:support", label: t("support_seller"), icon: "ui-info" }, { act: "go:trips", label: t("page_trips"), icon: "ui-globe" }, { act: "go:collect", label: t("page_collect"), icon: "ui-qr" }] }, t, icon));
+      links: [{ act: "go:storefront", label: t("page_storefront"), icon: "ui-cart" }, { act: "go:support", label: t("support_seller"), icon: "ui-info" }, { act: "go:trips", label: t("page_trips"), icon: "ui-globe" }, { act: "go:collect", label: t("page_collect"), icon: "ui-qr" }, { act: "go:messages", label: t("page_messages"), icon: "product-chat" }, { act: "go:assist", label: t("page_assist"), icon: "product-assist" }, { act: "lock:start", label: t("lock_title"), icon: "ui-lock" }] }, t, icon));
     case "view": return wrap("", viewSheet({ current: S.choice?.interface ?? "universal", rule: S.choice?.rule ?? "safe_default", options: [...VIEWS], ownerOnly: false, canChange: true }, t, icon));
     case "globe": return wrap("", globeSheet(Object.entries(PACKS).map(([code, p]) => ({ code, native: p.native, dir: p.dir })), DATA.packOrder.map((c) => ({ code: c, name: (DATA.packs[c] as CountryPack).sample ? t("sample_country") : regionName(c, isTest() ? "en" : S.lang, (DATA.packs[c] as CountryPack).name) })), { language: isTest() ? "en" : S.lang, region: pack().code }, t));
     case "cmd": {
-      const index: Entry[] = [...PAGES.map((p): Entry => ({ id: p, kind: "setting", title: t(`page_${p}`), act: `go:${p}` })), { id: "h1", kind: "help", title: t("help_article_1"), act: "shell:help" }, { id: "h2", kind: "help", title: t("help_article_2"), act: "shell:help" }, { id: "a1", kind: "action", title: t("sign_out_everywhere"), act: "session:all" }, { id: "a2", kind: "action", title: t("support_seller"), act: "support:external" }, { id: "h3", kind: "help", title: t("help_storefront"), act: "shell:help" }, { id: "v1", kind: "setting", title: t("change_view"), act: "shell:view" }];
+      const index: Entry[] = [...PAGES.map((p): Entry => ({ id: p, kind: "setting", title: t(`page_${p}`), act: `go:${p}` })), { id: "h1", kind: "help", title: t("help_article_1"), act: "shell:help" }, { id: "h2", kind: "help", title: t("help_article_2"), act: "shell:help" }, { id: "a1", kind: "action", title: t("sign_out_everywhere"), act: "session:all" }, { id: "a2", kind: "action", title: t("support_seller"), act: "support:external" }, { id: "h3", kind: "help", title: t("help_storefront"), act: "shell:help" }, { id: "v1", kind: "setting", title: t("change_view"), act: "shell:view" }, { id: "a3", kind: "action", title: t("lock_title"), act: "lock:start" }];
       return wrap("", commandBar(S.query, search(index, S.query), t, icon));
     }
-    case "help": return wrap("end", helpPanel(t(`page_${signedIn() ? (S.screen as Page) : "security"}`), [...(S.screen === "storefront" || S.screen === "support" ? [{ id: "3", title: t("help_storefront"), href: "/faq/storefront/start" }] : []), { id: "1", title: t("help_article_1"), href: "/faq/account/recovery" }, { id: "2", title: t("help_article_2"), href: "/faq/account/passkeys" }], t, icon));
+    case "help": return wrap("end", helpPanel(t(`page_${signedIn() ? (S.screen as Page) : "security"}`), [...(S.screen === "storefront" || S.screen === "support" ? [{ id: "3", title: t("help_storefront"), href: "/faq/storefront/start" }] : []), ...(S.screen === "security" || S.screen === "messages" || S.screen === "assist" || S.screen === "notifications" ? [{ id: "4", title: t("lock_title"), href: "/faq/account/lock-everything" }, { id: "5", title: t("page_messages"), href: "/faq/account/messages" }, { id: "6", title: t("page_assist"), href: "/faq/assist/history" }] : []), { id: "1", title: t("help_article_1"), href: "/faq/account/recovery" }, { id: "2", title: t("help_article_2"), href: "/faq/account/passkeys" }], t, icon,
+      askBox({ query: S.ask, results: S.ask ? lookup(knowledge(), S.ask) : [], online: S.link !== "offline", builtOn: dateOf(T_NOW()) }, t, icon)));
     case "bell": {
-      const list: Notice[] = [
-        { id: "n1", at: Date.now() - 60000, urgency: "security", title: t("notice_signin"), record: "LONTF-2201-4410-8838", href: "/security" },
-        { id: "n2", at: Date.now() - 3600000, urgency: "transactional", title: t("notice_consent"), read: true, href: "/security" },
-        { id: "n3", at: Date.now() - 7200000, urgency: "low", title: t("notice_renewal"), read: true, href: "/billing" },
-      ];
-      const d = deliverNow(list, new Date().getHours(), { startHour: 22, endHour: 7 }, S.seen);
-      if (d.now.length || d.digest.length) record("NotificationsDelivered", "server", { now: d.now.map((x) => x.id), digest: d.digest.map((x) => x.id), held: d.held.map((x) => x.id) });
-      return wrap("end", notificationsPanel(list, t, icon));
+      const present = AREAS.filter((a) => S.lines.some((l) => MESSAGES.kinds[l.kind]?.area === a)).map((a) => ({ id: a, label: t(`ntf_area_${a}`) }));
+      return wrap("end", bell(shownLines(), { filter: S.bellFilter, lastOpened: S.lastOpened, areas: present }, t, icon, (ms) => clock(ms)));
     }
+    case "why": { const l = shownLines().find((x) => x.nid === S.whyNid); return l ? wrap("", whySheet(l, t, icon)) : ""; }
     case "sync": return wrap("bottom", syncSheet(sync(), t, icon, clock));
     case "stepup": return wrap("", `<div class="sheet" role="dialog" aria-labelledby="suT"><h2 id="suT">${esc(t("stepup_needed"))}</h2><p class="muted">${esc(t("stepup_hint"))}</p><div class="field"><label for="suCode">${esc(t("code_label"))}</label><input class="text" id="suCode" inputmode="numeric" value="771204"></div><button class="primary" data-act="stepup:ok">${esc(t("confirm"))}</button><button class="secondary" data-act="closeoverlay">${esc(t("cancel"))}</button></div>`);
     default: return "";
   }
 }
 
+let lastOverlay: Overlay = null;
 function draw(): void {
+  if (lastOverlay === "bell" && S.overlay !== "bell" && S.overlay !== "why") S.lastOpened = Date.now();   // New becomes Earlier once the bell was seen
+  if (S.overlay === "bell") S.lines.forEach((l) => { l.seen = true; });
+  lastOverlay = S.overlay;
   S.choice = choose(); S.size = SIZE_OF_CLASS[S.choice.class] ?? "computer";
   const d = $("#display");
   d.dataset["deviceClass"] = S.choice.class; d.dataset["interface"] = S.choice.interface;      // type scale and focus rules per device (design tokens)
@@ -347,10 +443,10 @@ function draw(): void {
   d.dir = S.lang === "xx-rtl" ? "rtl" : S.lang === "xx" ? "ltr" : PACKS[S.lang]?.dir ?? "ltr";
   const logo = brandMark(DATA.brand.places, "web-header", S.theme === "dark", "brandfill", HEADER_ROOM[S.size]);
   const items = signedIn() ? navItems() : [];
-  const head = header({ logo, nav: items, notifications: signedIn() ? 1 : 0, signedIn: signedIn(), title: S.size === "computer" ? undefined : t("site_short"), surface: "app" }, S.size, t, icon);
+  const head = header({ logo, nav: items, notifications: signedIn() ? S.lines.filter((l) => !l.read && MESSAGES.priorities[MESSAGES.kinds[l.kind]?.priority ?? "low"]?.raises_count).length : 0, signedIn: signedIn(), title: S.size === "computer" ? undefined : t("site_short"), surface: "app" }, S.size, t, icon);
   const nav = signedIn() ? navigation(items, S.size, t, icon) : "";
   const toasts = S.undo.openToasts(Date.now()).map((u) => undoToast(u, Date.now(), t, icon)).join("");
-  d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main">${page()}<div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))} <span class="deeplink">account.lynkomni.com${esc(screenPath())}</span></div>${appFooter()}</main></div>${S.size === "phone" ? nav : ""}${overlay()}<div class="toasts">${toasts}</div></div>`;
+  d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main">${crumbs()}${page()}<div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))} <span class="deeplink">account.lynkomni.com${esc(screenPath())}</span></div>${appFooter()}</main></div>${S.size === "phone" ? nav : ""}${overlay()}<div class="toasts">${toasts}</div></div>`;
   $("#device").className = `device ${S.size}`;
   $("#tab").className = `tab ${S.theme}`;                       // the tab and its icon follow the page theme (brand surface "favicon")
   $("#url").textContent = `https://account.lynkomni.com${screenPath()}`;
@@ -411,16 +507,18 @@ function act(a: string): void {
     case "plan": if (v === "set") { S.plan = { due: now + 2 * 3600, checked: false }; record("TripPlanSet", "device", { due_at: S.plan.due, contacts: 1 }); draw(); return; }
       if (v === "checkin" && S.plan) { S.plan.checked = true; record("TripPlanCheckedIn", "device", {}); draw(); return; }
       S.overlay = null; record("AccountAction", "device", { action: a }); draw(); return;
-    case "business": case "role": case "region": case "open": case "notice": case "help": case "assist": case "copy": case "edit": S.overlay = null; record("AccountAction", "device", { action: a }); draw(); return;
+    case "business": case "role": case "region": case "open": case "notice": case "help": case "copy": case "edit": S.overlay = null; record("AccountAction", "device", { action: a }); draw(); return;
     case "signin": {
       const dev = v === "other" ? "device_unknown" : "device_phone";
       const alert = signInAlertNeeded(S.seenDevices, dev, "sample_city");
       S.sessions.unshift({ tail: Math.random().toString(16).slice(2, 6), site: "account", device: dev, place: "sample_city", at: now });
       secEvent("SessionStarted"); if (alert.alert) { secEvent("SecurityAlertSent"); S.secEvents[0]!.type = "SecurityAlertSent"; }
+      if (alert.alert) { S.coolOffUntil = now + coolOffSeconds(S.advanced); record("CoolOffStarted", "server", { until: S.coolOffUntil }); tell("cool_off_started", "cooloff_title"); }
       S.screen = "overview"; draw(); return;
     }
     case "username": S.username = v; S.cloud = S.link === "offline" ? "checking" : v === "mamas.kitchen" ? "taken" : v.length >= 3 ? "available" : null; draw(); return;
     case "signup": {
+      if (v.startsWith("way:")) { S.signupWay = v === "way:email" ? "email" : "phone"; draw(); return; }
       if (v === "username" && S.cloud === "available") S.signUp.username = S.username;
       if (v === "contact") S.signUp.contactVerified = true;
       if (v === "passkey") { S.signUp.passkey = true; secEvent("PasskeyEnrolled"); }
@@ -438,7 +536,8 @@ function act(a: string): void {
     case "passkey": {
       if (v === "add") { S.passkeys.push({ locrd: SAMPLE_CRD[Math.min(S.passkeys.length, SAMPLE_CRD.length - 1)] as string, device: t("device_n", { n: S.passkeys.length + 1 }), at: now, here: false }); secEvent("PasskeyEnrolled"); draw(); return; }
       const locrd = v.replace(/^remove:/, "");
-      if (S.passkeys.length <= 1) { draw(); return; }
+      if (S.passkeys.length <= (S.advanced ? 2 : 1)) { draw(); return; }                              // advanced protection keeps two passkeys
+      S.held = holds("remove_passkey"); if (S.held) { record("SensitiveActHeld", "server", { act: "remove_passkey", why: S.held }); draw(); return; }
       if (!S.stepup?.ok) { stepUp(a); return; }
       S.passkeys = S.passkeys.filter((p) => p.locrd !== locrd); S.stepup = null; secEvent("PasskeyRevoked"); draw(); return;
     }
@@ -449,14 +548,18 @@ function act(a: string): void {
     case "recovery": if (v === "newcode") { stepUp(a); } return;
     case "consent": { const i = Number(v.replace(/^withdraw:/, "")); const c = S.consents[i]; if (c) { c.withdrawn = now; secEvent("ConsentWithdrawn"); } draw(); return; }
     case "stepup": {
-      if (v === "ok") { const then = S.stepup?.then ?? ""; S.stepup = { ok: true, then }; S.overlay = null; record("StepUpPassed", "server", { scope: "sensitive" }); if (then.startsWith("passkey:")) act(then); else if (then === "close") { S.closing = closesAt(now); record("AccountCloseRequested", "server", { closes_at: S.closing }); } else if (then === "recovery:newcode") { S.recoveryCode = "2B8N-4KQ7-M1XZ-9RCD"; record("RecoveryCodeRotated", "server", {}); } S.stepup = null; draw(); return; }
+      if (v === "ok") { const then = S.stepup?.then ?? ""; S.stepup = { ok: true, then }; S.overlay = null; record("StepUpPassed", "server", { scope: "sensitive" });
+        if (/^(lock|adv|contact|merge|assistc):/.test(then)) { act(then); return; } if (then.startsWith("passkey:")) act(then); else if (then === "close") { S.closing = closesAt(now); record("AccountCloseRequested", "server", { closes_at: S.closing }); } else if (then === "recovery:newcode") { S.recoveryCode = "2B8N-4KQ7-M1XZ-9RCD"; record("RecoveryCodeRotated", "server", {}); } S.stepup = null; draw(); return; }
       stepUp(v); return;
     }
     case "ws": if (v === "person" || v === "company" || v === "organisation") { S.workspaces.push({ entity: v }); record("BusinessCreated", "server", { entity: v, kind: v === "person" ? "household" : v === "company" ? "business" : "nonprofit", type: v === "company" ? "shop" : "no_till" }); } draw(); return;
-    case "data": S.dataRequest = { due: dataRequestDue(now) }; record("DataRequestOpened", "server", { due_at: S.dataRequest.due }); TRK.apply({ type: "DataRequestOpened", payload: { request_id: "data-1", due_at: new Date(S.dataRequest.due * 1000).toISOString().slice(0, 19) + "Z" }, at: now }, "account");
+    case "data": S.held = holds("data_export"); if (S.held) { record("SensitiveActHeld", "server", { act: "data_export", why: S.held }); draw(); return; } S.dataRequest = { due: dataRequestDue(now) }; record("DataRequestOpened", "server", { due_at: S.dataRequest.due }); TRK.apply({ type: "DataRequestOpened", payload: { request_id: "data-1", due_at: new Date(S.dataRequest.due * 1000).toISOString().slice(0, 19) + "Z" }, at: now }, "account");
        draw(); return;
     case "close": if (v === "cancel") { S.closing = null; record("AccountCloseCancelled", "server", {}); } draw(); return;
-    case "toggle": if (v === "adult") { S.signUp.adult = !S.signUp.adult; draw(); return; } if (v === "mkemail") S.marketing.email = !S.marketing.email; if (v === "mkpush") S.marketing.push = !S.marketing.push; record("MarketingChoiceChanged", "server", { ...S.marketing }); draw(); return;
+    case "toggle": if (v === "adult") { S.signUp.adult = !S.signUp.adult; draw(); return; }
+      if (v.startsWith("grid:")) { const key = v.slice(5); S.nset.off = S.nset.off.includes(key) ? S.nset.off.filter((y) => y !== key) : [...S.nset.off, key]; record("NotificationChoiceChanged", "server", { choice: key, on: !S.nset.off.includes(key) }); draw(); return; }
+      if (v.startsWith("biz:")) { const b = v.slice(4); S.nset.muted = S.nset.muted.includes(b) ? S.nset.muted.filter((y) => y !== b) : [...S.nset.muted, b]; record("NotificationChoiceChanged", "server", { business: b, muted: S.nset.muted.includes(b) }); draw(); return; }
+      if (v === "pause" || v === "dnd" || v === "summary") { const key = v === "pause" ? "paused" : v; S.nset[key] = !S.nset[key]; record("NotificationChoiceChanged", "server", { [key]: S.nset[key] }); draw(); return; } if (v === "mkemail") S.marketing.email = !S.marketing.email; if (v === "mkpush") S.marketing.push = !S.marketing.push; record("MarketingChoiceChanged", "server", { ...S.marketing }); draw(); return;
     case "standing": { const i = Number(v.replace(/^revoke:/, "")); const s = S.standing[i]; if (s) { s.active = false; record("StandingPaymentRevoked", "server", { losub: s.losub, by: "self" }); } draw(); return; }
     case "start": {
       if (v === "begin") { S.app = { status: "started", steps: { profile: false, registration: false, tax_number: false, bank_account: false } }; record("RegistrationStarted", "server", { country: pack().code }); }
@@ -466,6 +569,74 @@ function act(a: string): void {
       draw(); return;
     }
     case "leave": draw(); return;                                                                    // the last owner cannot leave (note on the page)
+    case "ntf": {
+      const [what = "", nid = "", extra = ""] = v.split(":");
+      const l = S.lines.find((x) => x.nid === nid);
+      if (what === "filter") { S.bellFilter = nid; draw(); return; }
+      if (what === "allread") { S.lines.forEach((x) => { x.read = true; }); record("NotificationsRead", "device", { all: true, at: now }); draw(); return; }   // read on one device is read on every device (services/messages.py)
+      if (!l) return;
+      if (what === "read") { l.read = !l.read; record(l.read ? "NotificationRead" : "NotificationUnread", "device", { nid }); }
+      if (what === "open") { l.read = true; S.overlay = null; S.screen = MESSAGES.kinds[l.kind]?.area === "security" ? "security" : "notifications"; record("NotificationOpened", "device", { nid, kind: l.kind }); }
+      if (what === "why") { S.whyNid = nid; S.overlay = "why"; }
+      if (what === "ack") { l.acknowledged = true; l.read = true; record("NotificationAcknowledged", "device", { nid, kind: l.kind }); }
+      if (what === "act") {
+        l.read = true; record("NotificationActed", "device", { nid, kind: l.kind, action: extra });
+        if (extra === "this_was_not_me") { S.overlay = null; S.screen = "security"; doLock("not_me"); }
+        if (extra === "cancel_change") { S.contactChange = null; record("ContactChangeCancelled", "server", { by: "old_contact" }); }
+        if (extra === "done" || extra === "snooze") act(`nset:${extra}:${S.nset.reminders[0]?.id ?? ""}`);
+      }
+      draw(); return;
+    }
+    case "notme": S.screen = "security"; doLock("not_me"); draw(); return;
+    case "lock": {
+      if (v === "start" && !S.locked) { if (!fresh("lock:start")) return; doLock("in_person"); S.screen = "security"; S.overlay = null; }
+      if (v === "undo" && S.locked) { if (!fresh("lock:undo")) return; S.locked = false; record("EverythingUnlocked", "server", { verified: true }); }
+      draw(); return;
+    }
+    case "adv": {
+      if (v === "on" && S.passkeys.length >= 2) { if (!fresh("adv:on")) return; S.advanced = true; record("AdvancedProtectionTurnedOn", "server", { passkeys: S.passkeys.length }); }
+      if (v === "off") { if (!fresh("adv:off")) return; S.advanced = false; record("AdvancedProtectionTurnedOff", "server", {}); }
+      draw(); return;
+    }
+    case "contact": {
+      if (v === "start") { if (holds("contact_change")) { S.held = holds("contact_change"); record("SensitiveActHeld", "server", { act: "contact_change", why: S.held }); draw(); return; } if (!fresh("contact:start")) return;
+        S.contactChange = { until: now + contactWaitSeconds(S.advanced) }; record("ContactChangeRequested", "server", { kind: "phone", applies_at: S.contactChange.until }); tell("contact_change_requested", "contact_title"); }
+      if (v === "cancel" && S.contactChange) { S.contactChange = null; record("ContactChangeCancelled", "server", { by: "owner" }); }
+      draw(); return;
+    }
+    case "merge": if (!fresh("merge:do")) return; S.merged = 3; record("ProvisionalAccountConfirmed", "server", { into: "existing", records: 3 }); draw(); return;
+    case "nset": {
+      const [what = "", x = ""] = v.split(":");
+      if (what === "lock") S.nset.lock = pick(["neutral", "full", "none"] as const, x, S.nset.lock);
+      if (what === "deputy") { S.nset.deputy = now + 14 * DAY; record("DeputyNamed", "server", { role: "manager", until: S.nset.deputy, personal_areas_stay: true }); }
+      if (what === "enddeputy") { S.nset.deputy = null; record("DeputyEnded", "server", {}); }
+      if (what === "test") { S.nset.tested = true; record("NotificationTestSent", "server", { channels: ["push", "email", "text", "bell"] }); }
+      if (what === "health") S.nset.health = true;
+      if (what === "remind") { const id = `r${S.nset.reminders.length + 1}`; S.nset.reminders.push({ id, at: now + DAY }); record("ReminderSet", "device", { reminder: id, due_at: now + DAY }); tell("personal_reminder", "remind_sample"); }
+      if (what === "snooze") { const r = S.nset.reminders.find((y) => y.id === x); if (r) { r.at += 3600; record("ReminderSet", "device", { reminder: x, due_at: r.at, snoozed: true }); } }
+      if (what === "done") { S.nset.reminders = S.nset.reminders.filter((y) => y.id !== x); record("ReminderCleared", "device", { reminder: x }); }
+      draw(); return;
+    }
+    case "assistc": {
+      if (v === "checked") { S.stepup = null; S.assistFresh = true; draw(); return; }
+      S.pendingAssist = v in ASSIST_DEMO ? v : null; S.assistFresh = false; S.screen = "assist"; S.overlay = null; draw(); return;
+    }
+    case "assist": {
+      const id = S.pendingAssist;
+      if (v === "check" && id) { if (fresh("assistc:checked")) { S.assistFresh = true; draw(); } return; }
+      if ((v === "confirm" || v === "deny") && id) {
+        const d = decide(id, { role: "person", fresh_check: S.assistFresh, confirmed: v === "confirm" });
+        const entry = { id: `h${S.history.length + 1}`, action: id, ran: v === "confirm" && d.run, why: v === "deny" ? "as_deny" : d.why, at: Date.now(), undone: false, was: S.lang };
+        S.history.unshift(entry); S.pendingAssist = null; S.assistFresh = false;
+        if (entry.ran && id === "change_language") S.lang = S.lang === "fr" ? "en" : "fr";
+        if (entry.ran && id === "lock_everything") doLock("assist");
+        record("AssistActionRecorded", "server", { action: id, class: d.class, needs: d.needs, ran: entry.ran });
+        draw(); return;
+      }
+      if (v === "undo") { const h = S.history[0]; if (h && h.ran && !h.undone && h.action === "change_language" && Date.now() - h.at < 30_000) { S.lang = h.was ?? "en"; h.undone = true; record("AssistActionUndone", "device", { action: h.action }); } draw(); return; }
+      if (v === "why") { S.overlay = "help"; draw(); return; }
+      S.overlay = null; record("AccountAction", "device", { action: a }); draw(); return;
+    }
     case "notify": S.notified.add(v); record("NotifyMeSubscribed", "device", { service: v }); draw(); return;
     case "payout": { const r = payoutChange(v === "second", now); S.payout = r; record(r.status === "applied" ? "PayoutChangeApplied" : "PayoutChangeRequested", "server", r); draw(); return; }
     case "undo": { const r = S.undo.undo(v, Date.now()); record("AutomationUndone", "device", { id: v, result: r }); draw(); return; }

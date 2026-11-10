@@ -102,3 +102,6 @@ button, input, select { font: inherit; color: inherit; }
 .log .n { color: var(--text-secondary); } .log code { font-family: var(--font-mono); } .log .empty { color: var(--text-secondary); }
 .chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border-subtle); background: var(--bg-subtle); }
 .chip .ic { width: 14px; height: 14px; display: inline-flex; } .chip .ic svg { width: 100%; height: 100%; }
+/* MASTER UPDATE section 2: the notification grid wraps its channel switches; the "always on" note sits under its area */
+.rows .k .sub { display: block; font-weight: 400; font-size: var(--text-14); color: var(--text-secondary); }
+.wrapline { display: flex; flex-wrap: wrap; gap: 0 16px; justify-content: flex-end; min-inline-size: 0; }

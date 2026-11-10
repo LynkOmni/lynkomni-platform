@@ -289,7 +289,7 @@
    "verify": "read_back",
    "undo": "keep_plan",
    "build_section": 2,
-   "status": "planned"
+   "status": "built"
   },
   {
    "id": "change_language",
@@ -307,7 +307,7 @@
    "verify": "read_back",
    "undo": "restore_setting",
    "build_section": 2,
-   "status": "planned"
+   "status": "built"
   },
   {
    "id": "stop_location_share",
@@ -325,7 +325,7 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 2,
-   "status": "planned",
+   "status": "built",
    "note": "stopping a share is always allowed; a new share needs the person's own consent"
   },
   {
@@ -344,7 +344,7 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 2,
-   "status": "planned"
+   "status": "built"
   },
   {
    "id": "export_my_data",
@@ -362,7 +362,7 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 2,
-   "status": "planned"
+   "status": "built"
   },
   {
    "id": "close_account",
@@ -380,7 +380,7 @@
    "verify": "read_back",
    "undo": "cancel_close",
    "build_section": 2,
-   "status": "planned",
+   "status": "built",
    "note": "a waiting period lets the person cancel"
   },
   {
@@ -402,7 +402,7 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 2,
-   "status": "planned",
+   "status": "built",
    "note": "locking is quick; unlocking needs verification; Arrive Safe shares keep running"
   },
   {
@@ -422,7 +422,7 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 2,
-   "status": "planned"
+   "status": "built"
   },
   {
    "id": "change_passkeys",
@@ -440,7 +440,7 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 2,
-   "status": "planned",
+   "status": "built",
    "note": "opens the Security Center; never done in a chat"
   },
   {

@@ -139,6 +139,8 @@ class AccountPlaces(unittest.TestCase):
             if pg.locator('#display [data-act="go:support"]').count(): found["seller_support"].add("account_menu")
             for act, item in (("go:trips", "arrive_safe"), ("go:collect", "collect_pass")):           # NEW UPDATE 1
                 if pg.locator(f'#display [data-act="{act}"]').count(): found[item].add("account_menu")
+            for act, item in (("go:messages", "messages_page"), ("go:assist", "assist_history"), ("lock:start", "lock_everything")):   # MASTER UPDATE section 2
+                if pg.locator(f'#display [data-act="{act}"]').count(): found[item].add("account_menu")
             self.assertEqual(pg.locator('#display [data-act="shell:view"]').count(), 1, "Change view in the account menu")
             pg.keyboard.press("Escape"); pg.click('[data-act="shell:search"]')
             pg.fill("#cmdIn", en["page_storefront"])
@@ -146,8 +148,16 @@ class AccountPlaces(unittest.TestCase):
             for key, act, item in (("page_trips", "go:trips", "arrive_safe"), ("page_collect", "go:collect", "collect_pass")):
                 pg.fill("#cmdIn", en[key])
                 if pg.locator(f'#cmdList [data-act="{act}"]').count(): found[item].add("search")
+            for key, act, item in (("page_messages", "go:messages", "messages_page"), ("page_assist", "go:assist", "assist_history"), ("lock_title", "lock:start", "lock_everything")):
+                pg.fill("#cmdIn", en[key])
+                if pg.locator(f'#cmdList [data-act="{act}"]').count(): found[item].add("search")
             pg.fill("#cmdIn", en["support_seller"])
             if pg.locator('#cmdList [data-act="support:external"]').count(): found["seller_support"].add("search")
+            pg.keyboard.press("Escape")
+            pg.click('[data-state="security"]'); pg.click('[data-act="shell:help"]')
+            helptext = pg.inner_text("#display")
+            for key, item in (("page_messages", "messages_page"), ("page_assist", "assist_history"), ("lock_title", "lock_everything")):
+                if en[key] in helptext: found[item].add("help")
             pg.keyboard.press("Escape")
             pg.click('[data-state="storefront"]'); pg.click('[data-act="shell:help"]')
             if en["help_storefront"] in pg.inner_text("#display"): found["my_storefront"].add("help"); found["seller_support"].add("help")
