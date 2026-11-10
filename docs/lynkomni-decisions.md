@@ -117,3 +117,8 @@ Every decision the owner made, newest first. Lines are never deleted: a changed 
   - The delivery and fleet business types are recorded as planned for build section 7B, and their tabs are switched on there.
   - The Urdu and Sindhi wording was adjusted where the checker read a doubled word as repetition. The merchant phone and rider phone size budgets were raised, with a reason.
 - 2026-11-10: Owner reported that navigation on "Buttons, no touch" devices did not work. Fixed in v0.36.1: a pad key on the device body never takes the focus from the screen, and the focus returns to the same control (or the first one) after a redraw. Every buttons-only device is now also tested with real mouse clicks and finger taps on its pad, not only with a keyboard.
+- 2026-11-10: Owner rule: the cash option applies throughout the LynkOmni ecosystem wherever it applies (v0.36.2).
+  - Wherever money is taken in person, cash is always one of the choices; it needs no provider and no network, so it is never blocked.
+  - Cash taken for someone else (a rider or a pickup point collecting for a seller) belongs to that seller; the app records who owes what and LynkOmni never holds it. That part is built in section 7B.
+  - Cash is not offered for remote payments, LynkOmni plans, cards, agent point services (their own rule stays) or exchange.
+  - Every place is listed in catalog/cash.v1.json with its build section; a new service that takes money in person adds its place there.

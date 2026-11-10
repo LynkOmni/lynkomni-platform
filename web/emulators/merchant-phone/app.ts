@@ -279,7 +279,7 @@ function returnSale(reason: string): void {
 }
 
 // ---- shifts and cash counts (42 I): differences are flagged for the owner, never blocking --------------------------------
-const expectedCash = (): number => (S.shift?.float ?? 0) + daySummary(S.sales.filter((s) => s.at >= (S.shift?.openedAt ?? 0)), COSTS).cash;
+const expectedCash = (): number => (S.shift?.float ?? 0) + daySummary(S.sales.filter((s) => s.at >= (S.shift?.openedAt ?? 0)), COSTS).cash + pickupCash();
 function openShift(): void {
   const float = Number(S.input || "0");
   S.shift = { id: newId(), float, openedAt: Date.now() };
@@ -842,45 +842,65 @@ function business(): string {
 /** 44 C: a computer that is not a registered device sees the Business app as a web view, "View only on this computer". */
 const webNote = (): string => (S.size === "web" ? `<p class="info" data-item="web_view">${icon("ui-info")}<span>${esc(t("view_only_computer"))}</span></p>` : "");
 /** Pickup-point mode (NEW UPDATE 1, build section 3): parcels waiting here are handed over with the parcel's own code (works
- *  offline) or the person's Collect Pass (checked by the cloud, so it needs the network). A parcel with money to collect is handed
- *  over only after the provider confirms the payment; each hand-over is one sealed record (ShipmentHandedOver, method and seal). */
-interface Parcel { id: string; ref: string; name: string; code: string; due: number; state: "waiting" | "paying" | "failed" | "handed"; seal: string }
+ *  offline) or the person's Collect Pass (checked by the cloud, so it needs the network). When money is due, the pickup point
+ *  chooses how the customer pays: cash is counted and the parcel handed over at once, also offline (a cash sale is never blocked;
+ *  the cash is this shop's own and joins the till's expected cash); an electronic payment hands over only after the provider
+ *  confirms. Each hand-over is one sealed record (ShipmentHandedOver, method and seal). Cash collected for another seller's parcel
+ *  is recorded with the Open Delivery Network in build section 7B. */
+interface Parcel { id: string; sale: string; ref: string; name: string; code: string; due: number; state: "waiting" | "choose" | "paying" | "handed"; method: "code" | "collect_pass"; failed: boolean; cash: boolean; seal: string }
 const sixDigits = (): string => [...randomBytes(6)].map((b) => String(b % 10)).join("");
-const PP = { input: "", passCode: sixDigits(), note: "",
-  parcels: [{ name: "Aline", due: 0 }, { name: "Eric", due: 4500 }, { name: "Grace", due: 0 }].map((x): Parcel => ({ id: newId(), ref: publicId("SHP"), name: x.name, code: sixDigits(), due: x.due, state: "waiting", seal: "" })) };
-async function handOver(p: Parcel, method: "code" | "collect_pass"): Promise<void> {
-  const handover_id = newId();
-  const bytes = new TextEncoder().encode(JSON.stringify({ shipment_id: p.id, handover_id, from_role: "pickup_point", to_role: "receiver", method, at: Math.floor(Date.now() / 1000) }));
+const PP = { input: "", passCode: sixDigits(), note: "", cash: [] as { at: number; amount: number }[],
+  parcels: [{ name: "Aline", due: 0 }, { name: "Eric", due: 4500 }, { name: "Grace", due: 2000 }].map((x): Parcel => ({ id: newId(), sale: newId(), ref: publicId("SHP"), name: x.name, code: sixDigits(), due: x.due, state: "waiting", method: "code", failed: false, cash: false, seal: "" })) };
+/** Cash taken at the pickup counter since the shift opened: part of what the drawer should hold. */
+const pickupCash = (): number => PP.cash.filter((c) => c.at >= (S.shift?.openedAt ?? 0)).reduce((n, c) => n + c.amount, 0);
+async function handOver(p: Parcel, paid: "none" | "cash" | "electronic"): Promise<void> {
+  const handover_id = newId(), method = p.method;
+  const bytes = new TextEncoder().encode(JSON.stringify({ shipment_id: p.id, handover_id, from_role: "pickup_point", to_role: "receiver", method, paid, amount: paid === "none" ? 0 : p.due, at: Math.floor(Date.now() / 1000) }));
   const seal = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", bytes)), (b) => b.toString(16).padStart(2, "0")).join("");
-  p.state = "handed"; p.seal = seal; PP.note = "pp_handed";
+  p.state = "handed"; p.failed = false; p.cash = paid === "cash"; p.seal = seal; PP.note = "pp_handed";
   emit("ShipmentHandedOver", { shipment_id: p.id, handover_id, from_role: "pickup_point", to_role: "receiver", method, seal });
   draw();
 }
 function collectParcel(): void {
-  const code = PP.input.trim(), waiting = PP.parcels.filter((p) => p.state === "waiting" || p.state === "failed");
+  const code = PP.input.trim(), waiting = PP.parcels.filter((p) => p.state === "waiting");
   let p = waiting.find((x) => x.code === code), method: "code" | "collect_pass" = "code";
   if (!p && code === PP.passCode) {
     if (!online()) { PP.note = "pp_pass_online"; draw(); return; }      // the Collect Pass is checked by the cloud
     p = waiting[0]; method = "collect_pass";
   }
   if (!p) { PP.note = "pp_code_bad"; draw(); return; }
-  PP.input = "";
-  if (p.due <= 0) { void handOver(p, method); return; }
-  if (!online()) { PP.note = "pp_pay_online"; draw(); return; }        // money is collected only with the provider's confirmation
-  const parcel = p; parcel.state = "paying"; PP.note = ""; draw();
+  PP.input = ""; PP.note = ""; p.method = method;
+  if (p.due <= 0) { void handOver(p, "none"); return; }
+  p.state = "choose"; draw();                                            // money is due: cash or electronic
+}
+/** Cash on collection: counted by the staff, recorded as a cash payment and handed over at once. Works offline. */
+function payCash(): void {
+  const p = PP.parcels.find((x) => x.state === "choose"); if (!p) return;
+  PP.cash.push({ at: Date.now(), amount: p.due });
+  emit("PaymentRecorded", { ...paymentPayload(newId(), p.sale, "cash", p.due), currency: pack().currency });
+  void handOver(p, "cash");
+}
+/** Electronic payment on collection: the parcel is handed over only after the provider confirms. */
+function payElectronic(): void {
+  const p = PP.parcels.find((x) => x.state === "choose"); if (!p) return;
+  if (!online()) { PP.note = "pp_pay_online"; draw(); return; }
+  p.state = "paying"; p.failed = false; PP.note = ""; draw();
   if (S.outcome === "silent") return;                                    // the provider stays silent: the parcel stays here
   window.setTimeout(() => {
-    if (S.outcome === "confirm") void handOver(parcel, method); else { parcel.state = "failed"; PP.note = "pp_pay_failed"; draw(); }
+    if (S.outcome === "confirm") void handOver(p, "electronic"); else { p.state = "choose"; p.failed = true; PP.note = "pp_pay_failed"; draw(); }
   }, reduced() ? 300 : 2600);
 }
-const ppState = (p: Parcel): UserState => (p.state === "handed" ? "confirmed" : p.state === "paying" ? "sent" : p.state === "failed" ? "failed" : "queued");
+const ppState = (p: Parcel): UserState => (p.state === "handed" ? "confirmed" : p.state === "paying" ? "sent" : p.failed ? "failed" : "queued");
 function pickupPoint(): string {
+  const ask = PP.parcels.find((x) => x.state === "choose");
   return `<p class="sub">${esc(t("pp_help"))}</p><ul class="list card">${PP.parcels.map((p) => `<li data-parcel="${p.state}"><div class="rowbtn static"><span class="main"><span class="nm">${esc(p.name)} · ${esc(p.ref)}</span>
-    <span class="sub">${esc(p.due > 0 ? t("pp_due", { amount: money(p.due) }) : t("pp_paid"))}${p.state === "waiting" ? ` · ${esc(t("pp_sample_code", { code: p.code }))}` : ""}</span>
+    <span class="sub">${esc(p.cash ? t("pp_paid_cash", { amount: money(p.due) }) : p.due > 0 && p.state !== "handed" ? t("pp_due", { amount: money(p.due) }) : t("pp_paid"))}${p.state === "waiting" ? ` · ${esc(t("pp_sample_code", { code: p.code }))}` : ""}</span>
     ${p.state === "paying" ? `<span class="sub">${esc(t("pp_waiting_provider"))}</span>` : ""}${p.seal ? `<span class="sub">${esc(t("pp_sealed", { hash: p.seal.slice(0, 12) }))}</span>` : ""}</span>${chip(ppState(p))}</div></li>`).join("")}</ul>
-    <label class="field"><span>${esc(t("pp_enter_code"))}</span><input id="ppIn" data-in="ppcode" inputmode="numeric" value="${esc(PP.input)}" autocomplete="off"></label>
+    ${ask ? `<div class="card" data-pay-choice><p><strong>${esc(t("pp_choose", { amount: money(ask.due) }))}</strong></p>
+      <button class="primary inline" data-act="ppcash">${esc(t("pp_cash"))}</button> <button class="ghost inline" data-act="ppelec">${esc(t("pp_electronic"))}</button></div>`
+    : `<label class="field"><span>${esc(t("pp_enter_code"))}</span><input id="ppIn" data-in="ppcode" inputmode="numeric" value="${esc(PP.input)}" autocomplete="off"></label>
     <button class="primary inline" data-act="ppcollect" ${PP.input.length === 6 ? "" : "disabled"}>${esc(t("pp_hand_over"))}</button>
-    <p class="sub">${esc(t("pp_sample_pass", { code: PP.passCode }))}</p>${PP.note ? `<p class="info" role="status">${icon("ui-info")}<span>${esc(t(PP.note))}</span></p>` : ""}`;
+    <p class="sub">${esc(t("pp_sample_pass", { code: PP.passCode }))}</p>`}${PP.note ? `<p class="info" role="status">${icon("ui-info")}<span>${esc(t(PP.note))}</span></p>` : ""}`;
 }
 function hubSection(id: string): string {
   const reg = DATA.screens.find((s) => s.id === id); if (!reg) return "";
@@ -1334,6 +1354,8 @@ function act(a: string): void {
       // the Business hub
       case "closeday": closeDay(); return;
       case "ppcollect": collectParcel(); return;
+      case "ppcash": payCash(); return;
+      case "ppelec": payElectronic(); return;
       case "ask": S.answer = S.ask.trim() ? t("assist_answer", { sales: money(summary().total), n: summary().count }) : ""; draw(); return;
       case "takeusername": { const c = check(S.userDraft); if (c.ok && !S.takenNames.has(c.username)) { S.username = c.username; S.takenNames.add(c.username); toast(t("saved")); } else draw(); return; }
       case "outlet": S.outlet = v; S.tab = "home"; S.view = "main"; draw(); return;

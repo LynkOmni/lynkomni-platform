@@ -709,6 +709,10 @@
  "pp_handed": "Handed over. The customer has the parcel.",
  "pp_pass_online": "Collect Pass needs the network. Offline, use the parcel code.",
  "pp_code_bad": "This code does not match a parcel waiting here.",
- "pp_pay_online": "Payment needs the network. Keep the parcel until you are back online.",
- "pp_pay_failed": "The payment did not go through. Keep the parcel here."
+ "pp_pay_online": "Electronic payment needs the network. Take cash, or keep the parcel until you are back online.",
+ "pp_pay_failed": "The payment did not go through. Take cash, or keep the parcel here.",
+ "pp_choose": "How is the customer paying {amount}?",
+ "pp_cash": "Cash received",
+ "pp_electronic": "Electronic payment",
+ "pp_paid_cash": "Paid in cash: {amount}"
 }

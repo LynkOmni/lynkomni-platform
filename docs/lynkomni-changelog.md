@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.36.2 (2026-11-10)
+Cash everywhere it applies (owner rule).
+- **Pickup-point mode:** when money is due, the pickup point now chooses **Cash received** or **Electronic payment**.
+  - Cash: counted, recorded and handed over at once, also offline; it joins the till's expected cash.
+  - Electronic: handed over only after the provider confirms, as before. If it fails, cash can still be taken.
+- **One list for cash:** catalog/cash.v1.json names every place money is taken in person, whose cash it is, and the build section that builds it. Built places must show the cash choice on their screens (tests/test_cash.py); the planned ones are built in sections 4, 7, 7B and 8.
+- **Where cash does not apply** is listed with the reason: remote payments, LynkOmni plans, cards, agent point services, exchange.
+- New words in all 38 languages.
+
 ## v0.36.1 (2026-11-10)
 - **Fix, buttons-only devices** (owner report): on the "Buttons, no touch" versions of the POS terminal, stock scanner and kitchen screen, pressing the pad keys on the device body with a finger or a mouse did nothing useful. Every press jumped back to the first control, and OK never reached the control you chose. The pad key was taking the focus away from the screen. Now the pad never takes the focus, and the screen remembers its place, also after it redraws.
 - **New test:** it presses the pad with real mouse clicks and finger taps. The old test used only a keyboard, which is why it missed this.
