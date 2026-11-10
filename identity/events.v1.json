@@ -333,6 +333,63 @@
     "plan_id"
    ],
    "note": "Arrive Safe: cloud only; the deadline passed with no check-in and the trusted contacts are told"
+  },
+  "ProvisionalAccountStarted": {
+   "payload": [
+    "provisional_id",
+    "lang",
+    "country"
+   ],
+   "note": "MASTER UPDATE 55: an account started on one device with no network; no contact or username in the payload"
+  },
+  "ProvisionalAccountConfirmed": {
+   "payload": [
+    "provisional_id",
+    "into"
+   ],
+   "note": "the cloud confirmed the contact and username, or the records joined an existing account after verification"
+  },
+  "OfflinePermissionGranted": {
+   "payload": [
+    "permission_id",
+    "approver",
+    "device",
+    "role",
+    "expires_at"
+   ],
+   "note": "face-to-face approval after the numbers matched; at most 3 days, never owner, restricted until confirmed"
+  },
+  "OfflinePermissionConfirmed": {
+   "payload": [
+    "permission_id"
+   ],
+   "note": "cloud only: the approving device was still trusted, so the restriction ends"
+  },
+  "DeviceHardLocked": {
+   "payload": [
+    "device"
+   ],
+   "note": "too many wrong PINs; nothing is destroyed"
+  },
+  "DeviceUnlocked": {
+   "payload": [
+    "device",
+    "method"
+   ],
+   "note": "unlocked by the recovery code, another signed-in device or online recovery"
+  },
+  "DeviceCopySuspended": {
+   "payload": [
+    "devices"
+   ],
+   "note": "cloud only: one identity on two devices; both wait for the owner"
+  },
+  "OfflineLimitReached": {
+   "payload": [
+    "device",
+    "role"
+   ],
+   "note": "past the role's offline limit the device sells for cash only until it reconnects"
   }
  }
 }
