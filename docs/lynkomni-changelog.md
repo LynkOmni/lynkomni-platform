@@ -2,6 +2,18 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.32.0 (2026-11-10)
+Every service in every place (owner rule, 10 November 2026).
+- Every product is now in the website header, the launcher, search, help, its product page, the sitemap and the footer. It is also on the pricing page when it has a paid tier, and in the app navigation when it has an app place.
+- LynkBooking (travel and ticketing), LynkEssential (bills and connectivity) and LynkDev (developer platform) joined the footer's product list. Their plain words are translated into all 38 languages. LynkDev has its own product page, lynkomni.com/developers.
+- 16 platform services and tier features are now in the placements register with their places:
+  - LynkHub, LynkDoc, LynkAPI and LynkSDK;
+  - LynkStatus, LynkFAQ, LynkFeedback, LynkSafety and LynkSupport;
+  - LynkFlow and LynkMesh, and the Partner Hub;
+  - LynkProof, LynkSplit, LynkAudit and LynkEdge.
+- New tests make this the rule for every new service. A new billing family fails until it is placed everywhere, and the footer must show exactly what the register places there.
+- Master blueprint: sections 49 (LynkMotion and LynkGuard) and 50 (open APIs for every service) added, and section 51 (every service in every place). LynkMotion and LynkGuard get their places when their groundwork is built.
+
 ## v0.31.0 (2026-11-10)
 BIZZ & DEVICE, section 3 (the Business app, LynkPOS and every device).
 - The Business app has its Storefront side, with its own pages:

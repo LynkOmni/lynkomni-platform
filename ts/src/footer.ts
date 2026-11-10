@@ -22,6 +22,7 @@ const T: Record<string, Record<string, string>> = {
     plain_suite: "All-in-one", plain_pos: "Point of sale", plain_stock: "Inventory", plain_acc: "Accounting", plain_inv: "Invoicing", plain_crm: "Customers",
     plain_ops: "Office bundle", plain_stat: "Analytics", plain_grow: "Marketing", plain_rewards: "Loyalty", plain_chat: "Business chat", plain_mpay: "Payments",
     plain_checkout: "Pay links & QR", plain_recover: "Failed-payment recovery", plain_vcard: "Virtual cards", plain_assist: "AI assistant",
+    plain_booking: "Travel & ticketing", plain_essential: "Bills & connectivity", plain_dev: "Developer platform",
     plain_hub: "Developer portal", plain_doc: "Documentation", plain_api: "Programming interface", plain_sdk: "Software kits",
     plain_ai: "AI assistant", plain_faq: "Questions & answers", plain_status: "Service status", plain_feedback: "Product feedback", plain_safety: "Safety & reporting",
     nlText: "Product updates, merchant tips and LynkOmni news.", nlEmail: "Email address", nlConsent: "I agree to receive LynkOmni emails and understand I can unsubscribe at any time.",
@@ -72,7 +73,8 @@ export function columns(lang: string, words?: Words): Column[] {
   const cols: Omit<Column, "span">[] = [
     { id: "products", title: tt("products"), items: [brand("suite", "LynkSuite", "/suite"), brand("pos", "LynkPOS", "/pos"), brand("stock", "LynkStock", "/stock"), brand("acc", "LynkAcc", "/accounting"), brand("inv", "LynkInv", "/invoicing"), brand("crm", "LynkCRM", "/crm"), brand("ops", "LynkOps", "/ops"),
       brand("stat", "LynkStat", "/analytics"), brand("grow", "LynkGrow", "/grow"), brand("rewards", "LynkRewards", "/rewards"), brand("chat", "LynkChat", "/chat"), brand("mpay", "LynkMPay", "/mpay"),
-      brand("checkout", "LynkCheckout", "/checkout"), brand("recover", "LynkRecover", "/recover"), brand("vcard", "LynkVCard", "/vcard"), brand("assist", "LynkAssist", "/ai"), txt(lang, "pricing", "pricing", "/pricing")] },
+      brand("checkout", "LynkCheckout", "/checkout"), brand("recover", "LynkRecover", "/recover"), brand("vcard", "LynkVCard", "/vcard"), brand("assist", "LynkAssist", "/ai"), brand("booking", "LynkBooking", "https://booking.lynkomni.com"),
+      brand("essential", "LynkEssential", "https://essential.lynkomni.com"), brand("dev", "LynkDev", "/developers"), txt(lang, "pricing", "pricing", "/pricing")] },
     { id: "solutions", title: tt("solutions"), items: [txt(lang, "merchants", "merchants", "/solutions/merchants"), txt(lang, "suppliers", "suppliers", "/solutions/suppliers"),
       txt(lang, "individuals", "individuals", "/solutions/individuals"), txt(lang, "companies", "companies", "/solutions/companies"), txt(lang, "organisations", "organisations", "/solutions/organisations"),
       txt(lang, "travel", "travel", "https://booking.lynkomni.com"), txt(lang, "bills", "bills", "https://essential.lynkomni.com"), txt(lang, "currency", "currency", "https://exchange.lynkomni.com"),

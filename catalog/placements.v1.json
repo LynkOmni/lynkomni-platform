@@ -1,7 +1,7 @@
 {
  "version": 1,
  "agreed": "2026-11-09 (BIZZ & DEVICE: everything has a place)",
- "rule": "Every product, page, feature or download is placed everywhere it belongs in the same change: no item without a place, no place that does not show it, nothing shown that is not listed. Each place's screens read this register; tests/test_placements.py checks the register and, as each place is built, that the place shows exactly what is listed. section is the build section in which the item's places are built (the build order).",
+ "rule": "Every product, page, feature or download is placed everywhere it belongs in the same change: no item without a place, no place that does not show it, nothing shown that is not listed. Each place's screens read this register; tests/test_placements.py checks the register and, as each place is built, that the place shows exactly what is listed. section is the build section in which the item's places are built (the build order). Every product, service and tier feature, existing and new, is in every place it belongs (owner rule, 10 November 2026): a product is in the website header, the launcher, search, help, its product page, the sitemap and the footer, on the pricing page when it has a paid tier, and in the app navigation when it has an app place; a service or tier feature is at least in search, help and the sitemap, and in the footer when the footer names it. A new service is not finished until it is placed here and in its places.",
  "places": {
   "website_header": "Website header (Products, Solutions, Explore, Download)",
   "app_nav": "App sidebar on a computer, rail on a tablet, bottom tabs or More on a phone",
@@ -29,7 +29,8 @@
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
    "section": 1
   },
@@ -45,7 +46,8 @@
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
    "section": 1
   },
@@ -61,7 +63,8 @@
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
    "section": 1
   },
@@ -77,7 +80,8 @@
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
    "section": 1
   },
@@ -93,7 +97,8 @@
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
    "section": 1
   },
@@ -109,7 +114,8 @@
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
    "section": 1
   },
@@ -125,7 +131,8 @@
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
    "section": 1
   },
@@ -141,7 +148,8 @@
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
    "section": 1
   },
@@ -157,7 +165,8 @@
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
    "section": 1
   },
@@ -173,7 +182,8 @@
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
    "section": 1
   },
@@ -189,7 +199,8 @@
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
    "section": 1
   },
@@ -205,7 +216,8 @@
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
    "section": 1
   },
@@ -221,7 +233,8 @@
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
    "section": 1
   },
@@ -237,7 +250,8 @@
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
    "section": 1
   },
@@ -253,9 +267,13 @@
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
-   "section": 1
+   "section": 1,
+   "also_footer": [
+    "ai"
+   ]
   },
   {
    "id": "lynksuite",
@@ -278,12 +296,15 @@
    "id": "lynkdev",
    "kind": "product",
    "places": [
+    "footer",
     "help",
     "launcher",
+    "pricing_page",
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
    "section": 1
   },
@@ -291,12 +312,15 @@
    "id": "lynkbooking",
    "kind": "product",
    "places": [
+    "footer",
     "help",
     "launcher",
+    "pricing_page",
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
    "section": 1
   },
@@ -304,12 +328,15 @@
    "id": "lynkessential",
    "kind": "product",
    "places": [
+    "footer",
     "help",
     "launcher",
+    "pricing_page",
     "product_page",
     "search",
     "showcase",
-    "sitemap"
+    "sitemap",
+    "website_header"
    ],
    "section": 1
   },
@@ -472,6 +499,237 @@
     "help"
    ],
    "section": 1
+  },
+  {
+   "id": "lynkhub",
+   "kind": "service",
+   "what": "LynkHub, the developer console (part of LynkDev)",
+   "places": [
+    "footer",
+    "help",
+    "launcher",
+    "search",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 11,
+   "footer_ids": [
+    "hub"
+   ]
+  },
+  {
+   "id": "lynkdoc",
+   "kind": "service",
+   "what": "LynkDoc, the developer documentation",
+   "places": [
+    "footer",
+    "help",
+    "search",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 11,
+   "footer_ids": [
+    "doc"
+   ]
+  },
+  {
+   "id": "lynkapi",
+   "kind": "service",
+   "what": "LynkAPI, the open APIs of every service (blueprint section 50)",
+   "places": [
+    "footer",
+    "help",
+    "pricing_page",
+    "search",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 11,
+   "footer_ids": [
+    "api"
+   ]
+  },
+  {
+   "id": "lynksdk",
+   "kind": "service",
+   "what": "LynkSDK, the software kits",
+   "places": [
+    "footer",
+    "help",
+    "search",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 11,
+   "footer_ids": [
+    "sdk"
+   ]
+  },
+  {
+   "id": "lynkstatus",
+   "kind": "service",
+   "what": "LynkStatus, the service status page",
+   "places": [
+    "account_menu",
+    "footer",
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 6,
+   "footer_ids": [
+    "status"
+   ]
+  },
+  {
+   "id": "lynkfaq",
+   "kind": "service",
+   "what": "LynkFAQ, questions and answers",
+   "places": [
+    "footer",
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 6,
+   "footer_ids": [
+    "faq"
+   ]
+  },
+  {
+   "id": "lynkfeedback",
+   "kind": "service",
+   "what": "LynkFeedback, product feedback (LOFBK-)",
+   "places": [
+    "account_menu",
+    "footer",
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 6,
+   "footer_ids": [
+    "feedback"
+   ]
+  },
+  {
+   "id": "lynksafety",
+   "kind": "service",
+   "what": "LynkSafety, safety and reporting (LORPT-)",
+   "places": [
+    "account_menu",
+    "footer",
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 6,
+   "footer_ids": [
+    "safety"
+   ]
+  },
+  {
+   "id": "lynksupport",
+   "kind": "service",
+   "what": "LynkSupport, support cases (LOCASE-)",
+   "places": [
+    "account_menu",
+    "help",
+    "search",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 6
+  },
+  {
+   "id": "lynkflow",
+   "kind": "service",
+   "what": "LynkFlow, the automations engine and its history (app.lynkomni.com/business/automations)",
+   "places": [
+    "app_nav",
+    "help",
+    "search",
+    "settings",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "lynkmesh",
+   "kind": "service",
+   "what": "LynkMesh, phone-to-phone relay of data (never money)",
+   "places": [
+    "help",
+    "search",
+    "settings",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "partner_hub",
+   "kind": "service",
+   "what": "The Partner Hub (staff.lynkomni.com/partner-hub, partner door partners.lynkomni.com)",
+   "places": [
+    "help",
+    "search",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 12
+  },
+  {
+   "id": "lynkproof",
+   "kind": "feature",
+   "what": "LynkProof, a tier feature of LynkMPay",
+   "places": [
+    "help",
+    "pricing_page",
+    "product_page",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "lynksplit",
+   "kind": "feature",
+   "what": "LynkSplit, a tier feature of LynkMPay",
+   "places": [
+    "help",
+    "pricing_page",
+    "product_page",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "lynkaudit",
+   "kind": "feature",
+   "what": "LynkAudit, a tier feature of LynkAcc",
+   "places": [
+    "help",
+    "pricing_page",
+    "product_page",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "lynkedge",
+   "kind": "feature",
+   "what": "LynkEdge, bandwidth and metering in LynkDev",
+   "places": [
+    "help",
+    "pricing_page",
+    "product_page",
+    "search",
+    "sitemap"
+   ],
+   "section": 11
   }
  ]
 }
