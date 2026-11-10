@@ -1,9 +1,12 @@
 """Safe page settings (MASTER UPDATE, master blueprint section 59; build section 1): every built page carries the one policy."""
-import glob, json, os, unittest
+import glob, json, os, subprocess, sys, unittest
 from core import pagesafety as ps
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PAGES = sorted(glob.glob(os.path.join(ROOT, "web", "emulators", "dist", "*.html"))) + [os.path.join(ROOT, "web", "showcase", "dist", "lynkomni-showcase.html")]
+SHOWCASE = os.path.join(ROOT, "web", "showcase", "dist", "lynkomni-showcase.html")
+if not os.path.isfile(SHOWCASE):   # the showcase page is built, not committed: build it so its policy is checked too
+    subprocess.run([sys.executable, os.path.join(ROOT, "tools", "showcase.py")], cwd=ROOT, check=True, capture_output=True)
+PAGES = sorted(glob.glob(os.path.join(ROOT, "web", "emulators", "dist", "*.html"))) + [SHOWCASE]
 
 
 class TestPageSafety(unittest.TestCase):
