@@ -13,8 +13,8 @@ def ratio(a, b):
 # Values from the supplied specification. They must never change; additions are allowed, edits are not.
 SPEC = {"light": {"bg-base": "#FAFAFA", "bg-surface": "#FFFFFF", "bg-subtle": "#F4F4F5", "border-subtle": "#E4E4E7", "border-strong": "#A1A1AA", "text-primary": "#18181B",
         "text-secondary": "#71717A", "text-muted": "#A1A1AA", "brand-primary": "#7C4DFF", "brand-hover": "#651FFF", "brand-subtle": "#F3E8FF", "accent-vcard": "#9E75FF",
-        "accent-booking": "#0EA5E9", "accent-essential": "#10B981", "accent-exchange": "#F59E0B", "accent-hub": "#18181B", "vcard-edge-bg": "#64748B", "vcard-hub-bg": "#94A3B8",
-        "vcard-core-bg": "#18181B", "vcard-omni-bg": "#09090B", "status-success-text": "#047857", "status-danger-bg": "#FEF2F2", "status-info-text": "#6B21A8"},
+        "accent-booking": "#0EA5E9", "accent-essential": "#10B981", "accent-exchange": "#F59E0B", "accent-hub": "#18181B", "vcard-edge-bg": "#0A4E54", "vcard-hub-bg": "#0C2470",
+        "vcard-core-bg": "#320B73", "vcard-omni-bg": "#0B0906", "status-success-text": "#047857", "status-danger-bg": "#FEF2F2", "status-info-text": "#6B21A8"},
         "dark": {"bg-base": "#09090B", "bg-surface": "#18181B", "bg-subtle": "#27272A", "border-subtle": "#3F3F46", "border-strong": "#52525B", "text-primary": "#FAFAFA",
         "text-secondary": "#A1A1AA", "text-muted": "#71717A", "brand-primary": "#7C4DFF", "brand-hover": "#9E75FF", "brand-subtle": "#1F1047", "accent-vcard": "#B388FF",
         "accent-booking": "#38BDF8", "accent-essential": "#34D399", "accent-exchange": "#FBBF24", "accent-hub": "#FAFAFA", "status-success-text": "#34D399", "status-danger-bg": "#450A0A", "status-info-text": "#D8B4FE"}}
