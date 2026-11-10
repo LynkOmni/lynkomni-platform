@@ -69,6 +69,8 @@ const S = {
   workspaces: [] as { entity: "person" | "company" | "organisation" }[],
   testSize: "auto", override: null as string | null, choice: null as Choice | null,
   idCheck: null as null | "sent" | "confirmed", cases: [] as { side: "internal" | "external"; ref: string }[],
+  // Arrive Safe and Collect Pass (NEW UPDATE 1): shares end by themselves; a trip plan is watched by the cloud
+  shares: [] as { id: string; scope: "live" | "trips" | "zones"; until: number }[], plan: null as null | { due: number; checked: boolean }, passWindow: 0,
 };
 /** Sample identity check and case references in the one public id format (core/ids.py; tests/test_emulators.py checks them). */
 const SAMPLE_LOVER = "LOVER-3301-0442-1905";
@@ -144,7 +146,7 @@ const navItems = (): NavItem[] => {
   if (S.size === "phone") return phone;
   return PAGES.map((p) => ({ id: p, label: t(`page_${p}`), icon: PAGE_ICON[p], href: pagePath(p), current: S.screen === p }));
 };
-const PAGE_ICON: Record<Page, string> = { overview: "ui-home", profile: "ui-user", security: "ui-lock", businesses: "ui-grid", orders: "ui-cart", transactions: "ui-receipt", wallet: "ui-pay-wallet", billing: "ui-pay-card", memberships: "ui-check", privacy: "ui-doc", notifications: "ui-bell", support: "ui-info", payslips: "ui-doc", payments: "ui-pay-instant", start: "ui-bolt", storefront: "ui-cart" };
+const PAGE_ICON: Record<Page, string> = { overview: "ui-home", profile: "ui-user", security: "ui-lock", businesses: "ui-grid", orders: "ui-cart", transactions: "ui-receipt", wallet: "ui-pay-wallet", billing: "ui-pay-card", memberships: "ui-check", privacy: "ui-doc", notifications: "ui-bell", support: "ui-info", payslips: "ui-doc", payments: "ui-pay-instant", start: "ui-bolt", storefront: "ui-cart", trips: "ui-globe", collect: "ui-qr" };
 const screenPath = (): string => (S.screen === "signin" ? "/sign-in" : S.screen === "signup" ? "/sign-up" : S.screen === "recover" ? "/recover" : pagePath(S.screen));
 const sync = (): SyncInfo => ({ link: S.link, pending: S.pending, lastSync: S.lastSync, dataSaver: false, forcedOffline: false });
 const statePic = (kind: StateKind): Pic | null => {
@@ -243,6 +245,7 @@ function page(): string {
       <div class="card"><h2>${esc(t("wallet_tickets"))}</h2><p class="muted">${esc(t("wallet_empty"))}</p></div></div>`;
     case "billing": return `${title("billing")}<div class="cards">
       <div class="card"><h2>${esc(t("shop_name"))}</h2>${rows([kv(esc(t("plan_line", { family: "LynkPOS", tier: "Plus" })), esc(t("next_bill", { amount: money(1200), when: dateOf(now + 7 * DAY) })), `<button class="secondary" data-act="plan:change">${esc(t("change_plan"))}</button>`)])}<div class="actions"><button class="secondary" data-act="go:transactions">${esc(t("invoices"))}</button><button class="secondary" data-act="open:methods">${esc(t("payment_methods"))}</button></div></div>
+      <div class="card"><h2>${esc(t("movement_plans"))}</h2>${rows([kv(esc(t("plan_line", { family: "LynkMotion", tier: "Free" })), esc(t("plan_free_note"))), kv(esc(t("plan_line", { family: "LynkGuard", tier: "Free" })), esc(t("plan_free_note")))])}<p class="muted">${esc(t("movement_plans_note"))}</p><div class="actions"><button class="secondary" data-act="plan:change">${esc(t("change_plan"))}</button></div></div>
       <div class="card"><h2>${esc(t("client_pharmacy"))}</h2><p class="muted">${esc(t("no_plans"))}</p></div></div>`;
     case "memberships": return `${title("memberships")}<div class="card"><p class="muted">${esc(t("memberships_body"))}</p></div>`;
     case "privacy": return `${title("privacy")}<div class="cards">
@@ -269,6 +272,23 @@ function page(): string {
         <div class="card wide"><p class="muted">${esc(t("sf_age", { age: n(sf.min_age) }))}</p></div>
       </div>`;
     }
+    case "trips": {
+      const scopes = ["live", "trips", "zones"] as const;
+      const list = S.shares.length ? rows(S.shares.map((x) => kv(esc(`${t("share_with_sample")} · ${t(`share_scope_${x.scope}`)}`), esc(t("share_until", { time: clock(x.until * 1000) })), `<button class="secondary" data-act="share:stop:${esc(x.id)}">${esc(t("share_stop"))}</button>`)))
+        : `<p class="muted">${esc(t("share_none"))}</p>`;
+      const plan = S.plan ? (S.plan.checked ? ok(t("plan_done")) : `${wait(t("plan_due", { time: clock(S.plan.due * 1000) }))}<p>${esc(t("plan_contacts", { count: n(1) }))}</p><div class="actions"><button class="primary" data-act="plan:checkin">${icon("ui-check")}<span>${esc(t("plan_check_in"))}</span></button></div>`)
+        : `<div class="actions"><button class="primary" data-act="plan:set">${icon("ui-bolt")}<span>${esc(t("plan_set"))}</span></button></div>`;
+      return `${title("trips")}<div class="cards">
+        <div class="card wide"><p class="muted">${esc(t("trips_intro"))}</p>${list}<div class="actions">${scopes.map((sc) => `<button class="secondary" data-act="share:start:${sc}">${esc(t(`share_scope_${sc}`))}</button>`).join("")}</div><p class="muted">${esc(t("share_visible"))}</p></div>
+        <div class="card"><h2>${esc(t("plan_title"))}</h2><p class="muted">${esc(t("plan_intro"))}</p>${plan}</div></div>`;
+    }
+    case "collect": {
+      const w = Math.floor(now / 60) + S.passWindow;
+      const code = String((w * 7919 + 271828) % 1000000).padStart(6, "0");      // a labelled sample; the real code is made by the cloud (identity/arrive_safe.py)
+      return `${title("collect")}<div class="cards">
+        <div class="card wide"><p class="muted">${esc(t("collect_intro"))}</p><div class="lynkid-box"><span class="deeplink" aria-label="${esc(t("page_collect"))}">${esc(code.slice(0, 3) + " " + code.slice(3))}</span></div><p class="muted">${esc(t("collect_changes"))}</p><div class="actions"><button class="secondary" data-act="pass:next">${esc(t("collect_refresh"))}</button></div></div>
+        <div class="card"><p>${esc(t("collect_waiting", { count: n(2) }))}</p><p class="muted">${esc(t("collect_once"))}</p></div></div>`;
+    }
     case "payslips": return `${title("payslips")}<div class="card">${rows([kv(esc(t("payslip_line", { period: "2026-10", employer: t("client_pharmacy") })), "LODOC-9001-0044-2814", `<button class="secondary" data-act="open:payslip">${esc(t("switch_to"))}</button>`)])}<p class="muted">${esc(t("payslips_empty"))}</p></div>`;
     case "payments": {
       if (!ready("paylinks")) return `${title("payments")}<div class="card">${comingSoon("LynkCheckout", t, statePic("coming_soon"), S.notified.has("paylinks"))}</div>`;
@@ -293,7 +313,7 @@ function overlay(): string {
     case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.id ?? s.service, name: s.name, plain: t(`ft_plain_${s.plain}`), icon: s.icon, href: s.href ?? `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon));
     case "pages": return wrap("", launcher(PAGES.map((p) => ({ id: `page-${p}`, name: t(`page_${p}`), icon: PAGE_ICON[p], href: pagePath(p), state: "available" as const })), t, icon));
     case "account": return wrap("end", accountMenu({ name: t("person_name"), lynkId: LYNKID, businesses: [{ id: "b1", name: t("shop_name"), current: true }, { id: "b2", name: t("client_pharmacy"), current: false }], role: "owner", roles: ["owner", "manager"], theme: S.mode === "lite" ? "lite" : S.mode === "sunlight" ? "sunlight" : S.theme, language: langName(isTest() ? "en" : S.lang), region: pack().sample ? t("sample_country") : pack().name, view: { name: t(IFACE_NAME[S.choice?.interface ?? "universal"] ?? "iface_universal") },
-      links: [{ act: "go:storefront", label: t("page_storefront"), icon: "ui-cart" }, { act: "go:support", label: t("support_seller"), icon: "ui-info" }] }, t, icon));
+      links: [{ act: "go:storefront", label: t("page_storefront"), icon: "ui-cart" }, { act: "go:support", label: t("support_seller"), icon: "ui-info" }, { act: "go:trips", label: t("page_trips"), icon: "ui-globe" }, { act: "go:collect", label: t("page_collect"), icon: "ui-qr" }] }, t, icon));
     case "view": return wrap("", viewSheet({ current: S.choice?.interface ?? "universal", rule: S.choice?.rule ?? "safe_default", options: [...VIEWS], ownerOnly: false, canChange: true }, t, icon));
     case "globe": return wrap("", globeSheet(Object.entries(PACKS).map(([code, p]) => ({ code, native: p.native, dir: p.dir })), DATA.packOrder.map((c) => ({ code: c, name: (DATA.packs[c] as CountryPack).sample ? t("sample_country") : regionName(c, isTest() ? "en" : S.lang, (DATA.packs[c] as CountryPack).name) })), { language: isTest() ? "en" : S.lang, region: pack().code }, t));
     case "cmd": {
@@ -376,12 +396,22 @@ function act(a: string): void {
       S.cases.unshift({ side: v, ref }); S.screen = "support"; S.overlay = null;
       record("SupportCaseOpened", S.link === "offline" ? "device" : "server", { case: ref, side: v, channel: v === "external" ? "seller_support" : "support" }); draw(); return;
     }
+    case "share": {
+      const [what, x] = [v.split(":")[0], v.split(":").slice(1).join(":")];
+      if (what === "start" && (x === "live" || x === "trips" || x === "zones")) { const id = `share-${S.shares.length + 1}`; S.shares.push({ id, scope: x, until: now + 3 * 3600 }); record("LocationShareStarted", "device", { share_id: id, scope: x, ends_at: now + 3 * 3600 }); }
+      if (what === "stop") { S.shares = S.shares.filter((y) => y.id !== x); record("LocationShareEnded", "device", { share_id: x, reason: "stopped" }); }
+      draw(); return;
+    }
+    case "pass": S.passWindow += 1; draw(); return;
     case "idcheck": {
       if (v === "start" && !S.idCheck) { S.idCheck = "sent"; record("IdentityCheckRequested", "device", { purpose: "first_paid_offer", partner: "sandbox" }); }
       if (v === "poll" && S.idCheck === "sent" && S.link !== "offline") { S.idCheck = "confirmed"; record("IdentityCheckConfirmed", "server", { lover: SAMPLE_LOVER, by: "partner" }); }
       draw(); return;
     }
-    case "business": case "role": case "region": case "open": case "notice": case "help": case "assist": case "copy": case "edit": case "plan": S.overlay = null; record("AccountAction", "device", { action: a }); draw(); return;
+    case "plan": if (v === "set") { S.plan = { due: now + 2 * 3600, checked: false }; record("TripPlanSet", "device", { due_at: S.plan.due, contacts: 1 }); draw(); return; }
+      if (v === "checkin" && S.plan) { S.plan.checked = true; record("TripPlanCheckedIn", "device", {}); draw(); return; }
+      S.overlay = null; record("AccountAction", "device", { action: a }); draw(); return;
+    case "business": case "role": case "region": case "open": case "notice": case "help": case "assist": case "copy": case "edit": S.overlay = null; record("AccountAction", "device", { action: a }); draw(); return;
     case "signin": {
       const dev = v === "other" ? "device_unknown" : "device_phone";
       const alert = signInAlertNeeded(S.seenDevices, dev, "sample_city");

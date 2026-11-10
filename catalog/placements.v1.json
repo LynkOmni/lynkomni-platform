@@ -821,6 +821,26 @@
    "footer_ids": [
     "sentry"
    ]
+  },
+  {
+   "id": "arrive_safe",
+   "kind": "item",
+   "what": "Arrive Safe: location sharing by consent and trip plans with a check-in deadline (account.lynkomni.com/trips)",
+   "places": [
+    "account_menu",
+    "search"
+   ],
+   "section": 2
+  },
+  {
+   "id": "collect_pass",
+   "kind": "item",
+   "what": "Collect Pass: one changing code that collects every parcel at any pickup point (account.lynkomni.com/collect)",
+   "places": [
+    "account_menu",
+    "search"
+   ],
+   "section": 2
   }
  ]
 }

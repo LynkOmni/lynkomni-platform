@@ -104,4 +104,10 @@ Every decision the owner made, newest first. Lines are never deleted: a changed 
   - The tier ladder picture's size budget was raised from 24 to 32 KB, because four richer faces share one drawing.
   - The plan marks went through lynkomni-icons (release 1.6.0). The brand-sync workflow vendored them, and its pull request #62 is folded into this section, as #37 was in section 1.
   - The stale icon count in the icons usage guide was removed.
+- 2026-11-10: NEW UPDATE 1 section 2 (v0.35.0) built by the blueprint without asking.
+  - Arrive Safe lives at account.lynkomni.com/trips and Collect Pass at /collect, in the account menu and search.
+  - A location share is a consent with the new scope "location-share", limited to 30 days.
+  - An overdue trip plan is written only by the cloud, and tells contacts where the person is only if a share with them is on.
+  - Collect Pass is a 6-digit code that changes every minute and accepts the previous minute's code. It is given out once per parcel, with its QR picture in section 7.
+  - The Hausa, Yoruba and Malay wording was adjusted where the checker read a doubled word as repetition.
 

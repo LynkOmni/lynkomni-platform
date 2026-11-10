@@ -354,7 +354,9 @@
   "/storefront",
   "/support",
   "/transactions",
-  "/wallet"
+  "/wallet",
+  "/trips",
+  "/collect"
  ],
  "pay_paths": [
   "/r/{LORCP}",

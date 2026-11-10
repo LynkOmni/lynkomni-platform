@@ -137,10 +137,15 @@ class AccountPlaces(unittest.TestCase):
             pg.click('[data-act="shell:account"]')
             if pg.locator('#display [data-act="go:storefront"]').count(): found["my_storefront"].add("account_menu")
             if pg.locator('#display [data-act="go:support"]').count(): found["seller_support"].add("account_menu")
+            for act, item in (("go:trips", "arrive_safe"), ("go:collect", "collect_pass")):           # NEW UPDATE 1
+                if pg.locator(f'#display [data-act="{act}"]').count(): found[item].add("account_menu")
             self.assertEqual(pg.locator('#display [data-act="shell:view"]').count(), 1, "Change view in the account menu")
             pg.keyboard.press("Escape"); pg.click('[data-act="shell:search"]')
             pg.fill("#cmdIn", en["page_storefront"])
             if pg.locator('#cmdList [data-act="go:storefront"]').count(): found["my_storefront"].add("search")
+            for key, act, item in (("page_trips", "go:trips", "arrive_safe"), ("page_collect", "go:collect", "collect_pass")):
+                pg.fill("#cmdIn", en[key])
+                if pg.locator(f'#cmdList [data-act="{act}"]').count(): found[item].add("search")
             pg.fill("#cmdIn", en["support_seller"])
             if pg.locator('#cmdList [data-act="support:external"]').count(): found["seller_support"].add("search")
             pg.keyboard.press("Escape")
