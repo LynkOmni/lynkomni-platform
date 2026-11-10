@@ -390,6 +390,167 @@
     "role"
    ],
    "note": "past the role's offline limit the device sells for cash only until it reconnects"
+  },
+  "SecondWayAdded": {
+   "payload": [
+    "lynkid",
+    "kind"
+   ],
+   "note": "two ways in: a second passkey or device was added"
+  },
+  "RecoveryCodeConfirmed": {
+   "payload": [
+    "lynkid"
+   ],
+   "note": "the person typed the recovery code back once"
+  },
+  "CoolOffStarted": {
+   "payload": [
+    "lynkid",
+    "reason",
+    "until"
+   ],
+   "note": "a new device or contact: sensitive acts are held until 'until'"
+  },
+  "SensitiveActHeld": {
+   "payload": [
+    "lynkid",
+    "act",
+    "until"
+   ],
+   "note": "a held act was asked for during the cool-off"
+  },
+  "ContactChangeRequested": {
+   "payload": [
+    "lynkid",
+    "kind",
+    "change_id",
+    "ready_at"
+   ],
+   "note": "the old contact is told and can cancel until ready_at; never the new contact itself"
+  },
+  "ContactChangeCancelled": {
+   "payload": [
+    "lynkid",
+    "change_id",
+    "by"
+   ]
+  },
+  "ContactChanged": {
+   "payload": [
+    "lynkid",
+    "kind",
+    "change_id"
+   ]
+  },
+  "AdvancedProtectionTurnedOn": {
+   "payload": [
+    "lynkid"
+   ]
+  },
+  "AdvancedProtectionTurnedOff": {
+   "payload": [
+    "lynkid"
+   ]
+  },
+  "EverythingLocked": {
+   "payload": [
+    "lynkid",
+    "by",
+    "sessions",
+    "cards",
+    "keys",
+    "shares_left_running"
+   ],
+   "note": "cards are freeze requests to the issuer, shown frozen only when it confirms; safety shares keep running"
+  },
+  "EverythingUnlocked": {
+   "payload": [
+    "lynkid"
+   ]
+  },
+  "NotMeReported": {
+   "payload": [
+    "lynkid",
+    "session_tail",
+    "rolled_back"
+   ]
+  },
+  "SuccessorNamed": {
+   "payload": [
+    "lynkid",
+    "successor",
+    "inactive_days"
+   ]
+  },
+  "SuccessorRequested": {
+   "payload": [
+    "lynkid",
+    "successor",
+    "ready_at"
+   ],
+   "note": "the owner is told on every channel and can stop it by signing in"
+  },
+  "SuccessorRequestStopped": {
+   "payload": [
+    "lynkid",
+    "by"
+   ]
+  },
+  "SuccessorGranted": {
+   "payload": [
+    "lynkid",
+    "successor",
+    "lover"
+   ],
+   "note": "cloud only, after the wait and the licensed partner's identity check"
+  },
+  "TermsAccepted": {
+   "payload": [
+    "lynkid",
+    "terms_version",
+    "privacy_version"
+   ]
+  },
+  "StaffViewRecorded": {
+   "payload": [
+    "lynkid",
+    "locns",
+    "scope",
+    "desk"
+   ],
+   "note": "LynkOmni staff saw this person's data through a live consent"
+  },
+  "DeputyNamed": {
+   "payload": [
+    "deputy",
+    "role",
+    "until"
+   ],
+   "note": "the owner is away; business notices for the owner's role go to the deputy within the deputy's own role"
+  },
+  "ReminderSet": {
+   "payload": [
+    "reminder_id",
+    "record",
+    "at"
+   ]
+  },
+  "ReminderDue": {
+   "payload": [
+    "reminder_id",
+    "record"
+   ]
+  },
+  "AssistActionRecorded": {
+   "payload": [
+    "lynkid",
+    "action",
+    "class",
+    "needs",
+    "ran"
+   ],
+   "note": "every LynkAssist decision on the account, run or not ('Everything LynkAssist did')"
   }
  }
 }

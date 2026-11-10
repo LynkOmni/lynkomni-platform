@@ -1957,6 +1957,15 @@
       "why_not_now": "Self-hosted open map data needs the cloud hosting of build section 14; emulators use labelled sample maps until then.",
       "placeholders": [],
       "done_when": "Map tiles, geocoding and offline packs are served from LynkOmni's own servers in every region cell."
+    },
+    {
+      "id": "successor_law",
+      "name": "The business successor rule, per country",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Who may take over a business when its owner dies or is lost depends on each country's inheritance and company law; a lawyer must confirm the rule in each country first. Until then identity/protection.py shows the successor as coming soon.",
+      "placeholders": [],
+      "done_when": "A lawyer confirms the rule for a country and its country pack sets successor_confirmed true; identity/protection.py then offers it there."
     }
   ],
   "user_actions": [

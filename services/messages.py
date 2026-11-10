@@ -19,6 +19,7 @@ FMT = "%Y-%m-%dT%H:%M:%SZ"
 BURST_S = 3600
 REPEAT_S = 300
 ESCALATE_DEFAULT_S = 900
+PERSONAL_AREAS = ("security", "account", "safety", "billing")    # never handed to a deputy
 NEXT_ROLE = {"cashier": "manager", "stock_staff": "manager", "agent": "owner", "manager": "owner"}
 SECRET_WORDS = {"password", "passcode", "pin", "otp", "secret", "token", "cvv", "cvc"}
 SECRET_KEYS = {"code", "sign_in_code", "verification_code", "one_time_code", "recovery_code"}
@@ -75,6 +76,7 @@ class Notifier:
     def __init__(self, sender=None):
         self.sender = sender or SandboxSender()
         self.lines, self.seen_keys, self.backlog, self.sent_today, self.summary = {}, set(), {}, {}, {}
+        self.outbox, self.away = {}, {}          # what went outside the app (the Messages page) and what a deputy handled
 
     # ---- the register and the rules
     @staticmethod
@@ -98,8 +100,16 @@ class Notifier:
             return {"state": "suppressed", "reason": "muted"}
         if record and record in prefs.get("muted_records", ()) and k["can_turn_off"]:
             return {"state": "suppressed", "reason": "muted_record"}
+        if business and business in prefs.get("businesses_off", ()) and k["can_turn_off"]:
+            return {"state": "suppressed", "reason": "business_off"}
+        dep = prefs.get("deputy")
+        if role == "owner" and dep and now < dep["until"] and k["area"] not in PERSONAL_AREAS:
+            # the owner is away: business notices go to the deputy, within the deputy's own role; the owner sees a summary on return
+            self.away.setdefault(person, []).append({"kind": kid, "event": event_id, "deputy": dep["person"], "at": now})
+            return self.notify(kid, dep["person"], event_id, now, facts, record, lang, country, business, consent, None, contacts, online, dep["role"])
         line = self._line(k, person, event_id, now, record, business, role, facts)
         line["lang"] = lang                                   # repeats and follow-ups stay in the reader's language
+        line["lock_screen"] = prefs.get("lock_screen", {}).get(kid, k["lock_screen"])
         if not online:
             self.backlog.setdefault(person, []).append(line["nid"])
             return {"state": "queued", "nid": line["nid"]}
@@ -119,7 +129,7 @@ class Notifier:
         l = {"nid": nid, "kind": k["id"], "area": k["area"], "priority": k["priority"], "person": person, "role": role,
              "business": business, "record": record, "events": [event_id], "facts": facts or {}, "at": now, "first_at": now,
              "count": 1, "seen": False, "read": False, "acked": False, "cleared": False, "done_by": None, "escalated": False,
-             "channels": []}
+             "channels": [], "updated": now}
         self.lines[nid] = l
         return l
 
@@ -148,6 +158,7 @@ class Notifier:
             if self.sender.deliver(c, person, k["id"], lang):
                 out.append(c)
                 delivered_one = True
+                self.outbox.setdefault(person, []).append({"nid": line["nid"], "kind": k["id"], "channel": c, "sender": k["sender"], "at": now})
         line["channels"] = sorted(set(line["channels"]) | set(out))
         return {"state": "shown", "nid": line["nid"], "channels": out}
 
@@ -165,30 +176,47 @@ class Notifier:
                 and REG["priorities"][l["priority"]]["raises_count"])
         return "99+" if n > 99 else n
 
-    def open_bell(self, person):
+    def open_bell(self, person, now=None):
         for l in self.lines.values():
-            if l["person"] == person:
-                l["seen"] = True
+            if l["person"] == person and not l["seen"]:
+                l["seen"], l["updated"] = True, now or time.time()
 
-    def read(self, nid, read=True):
+    def read(self, nid, read=True, now=None):
         self.lines[nid]["read"] = read
         self.lines[nid]["seen"] = self.lines[nid]["seen"] or read
+        self.lines[nid]["updated"] = now or time.time()
 
-    def mark_all_read(self, person):
+    def mark_all_read(self, person, now=None):
         for l in self.lines.values():
-            if l["person"] == person:
+            if l["person"] == person and not (l["read"] and l["seen"]):
                 l["read"] = l["seen"] = True
+                l["updated"] = now or time.time()
+
+    # ---- read sync and the Messages page (MASTER UPDATE section 2)
+    def changes(self, person, since):
+        """What changed since a device last synced (read, seen, done, acknowledged), so every device shows the same bell."""
+        return [{k: l[k] for k in ("nid", "read", "seen", "acked", "done_by", "count", "at")} for l in self.lines.values()
+                if l["person"] == person and l["updated"] > since]
+
+    def messages(self, person):
+        """Everything LynkOmni sent this person outside the app, newest first, with its channel and sender address.
+        If a message is not here, LynkOmni did not send it."""
+        return sorted(self.outbox.get(person, []), key=lambda m: m["at"], reverse=True)
+
+    def while_away(self, person):
+        """The owner's summary on return: what the deputy handled."""
+        return self.away.pop(person, [])
 
     def act(self, nid, by):
         """Someone acted: the same notification clears for everyone it went to, with 'Done by'."""
         l = self.lines[nid]
         for m in self.lines.values():
             if m["kind"] == l["kind"] and set(m["events"]) & set(l["events"]):
-                m.update(done_by=by, read=True, seen=True, acked=True)
+                m.update(done_by=by, read=True, seen=True, acked=True, updated=time.time())
         return True
 
     def acknowledge(self, nid):
-        self.lines[nid]["acked"] = True
+        self.lines[nid].update(acked=True, updated=time.time())
 
     def why(self, nid):
         l = self.lines[nid]

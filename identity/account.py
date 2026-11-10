@@ -51,6 +51,7 @@ class Account:
         s.p, s.c, s.db, s.ids, s.idp = platform, platform.c, platform.c.store.db, platform.ids, platform.idp
         s.auth = Identity(platform.c)
         s.flow, s.gateway, s.usernames = flow, gateway or SandboxGateway(), UsernameRegistry()
+        s.contact_notices = []          # SANDBOX: what the messaging provider would send (provider ledger sms_otp); kept here for tests
         s.db.executescript("""
         create table if not exists acct_people(person text primary key, lynkid text, username text, lang text, status text, closes_at real, contact_ok int);
         create table if not exists acct_contacts(person text primary key, code_hash text, expires real);
@@ -64,6 +65,8 @@ class Account:
         create table if not exists acct_standing(losub text primary key, person text, merchant text, cap_minor int, currency text, provider text, approved real, revoked real, uses int);""")
         from identity.arrive_safe import ArriveSafe
         s.safe = ArriveSafe(s)          # Arrive Safe and Collect Pass (NEW UPDATE 1, build section 2)
+        from identity.protection import Protection
+        s.protect = Protection(s)       # MASTER UPDATE section 2: two ways in, cool-off, slow contact change, Lock everything, successor, terms
     # ---- events
     def _lynkid(s, person):
         r = s.db.execute("select lynkid from acct_people where person=?", (person,)).fetchone(); return r[0] if r else None
@@ -107,13 +110,36 @@ class Account:
         """Needs a verified contact and a passkey. Returns the recovery code ONCE: it goes on paper, never on the phone."""
         row = s.db.execute("select contact_ok,lynkid,username,lang from acct_people where person=?", (person,)).fetchone()
         if not row or not row[0]: raise PermissionError("verify a phone or email first")
+        if not (phone_ref or email_ref): raise ValueError("an account needs an email or a phone number; either one is enough")
         locrd = s.enroll_passkey(person, passkey_public_key, device_name, now, quiet=True)
         s.auth.register(person, phone_ref, email_ref, row[3])                      # vault references only, never the numbers
         code = s.auth.add_merchant_role(person, f"personal:{person}", backup_contact)
         s.db.execute("update acct_people set status='active' where person=?", (person,)); s.db.commit()
         s.emit(person, "AccountCreated", {"lynkid": row[1], "username": row[2], "lang": row[3]}, now)
         s.emit(person, "PasskeyEnrolled", {"lynkid": row[1], "locrd": locrd, "device_name": device_name}, now)
-        return {"recovery_code": code, "locrd": locrd, "show_once": True}
+        from identity.protection import TERMS
+        s.protect.accept_terms(person, TERMS["terms"], TERMS["privacy"], now)      # the sign-up screen shows both; the versions are recorded
+        return {"recovery_code": code, "locrd": locrd, "show_once": True, "next": "two_ways_in"}
+    # ---- MASTER UPDATE 55: sign-up by email or by phone, side by side, and no clue for strangers
+    def start_with_contact(s, kind, contact_ref, now=None):
+        """The first step of sign-up or sign-in with an email or a phone number (a vault reference). The answer is the same
+        whether or not the contact already has an account, so nobody can learn who is a LynkOmni customer. A contact that has an
+        account gets a message saying someone tried to sign up with it, with a sign-in button, never a code that opens it."""
+        if kind not in ("email", "phone"):
+            raise ValueError("sign up with an email or a phone number")
+        col = "email" if kind == "email" else "phone"
+        known = s.auth.db.execute(f"select person from identities where {col}=?", (contact_ref,)).fetchone() is not None
+        s.contact_notices.append({"kind": kind, "ref": contact_ref, "message": "someone_tried_your_contact" if known else "sign_up_code"})
+        return {"next": "check_your_messages"}
+    # ---- MASTER UPDATE 55: the merge, a "start now, confirm later" account joins an existing account after verification
+    def attach_provisional(s, person, provisional_id, device_public, records, verified, seen, now=None):
+        """The person signed in to their existing account and passed a fresh check: the device's sealed records join it.
+        Matching contacts alone never merge anything; altered or replayed records are refused."""
+        from identity.offline import accept_records
+        if not verified: return {"state": "needs_fresh_check"}
+        ok, refused = accept_records(device_public, records, seen)
+        s.emit(person, "ProvisionalAccountConfirmed", {"provisional_id": provisional_id, "into": "existing"}, now)
+        return {"state": "merged", "accepted": len(ok), "refused": refused}
     # ---- identity check before a first paid Storefront offer (BIZZ & DEVICE): the licensed partner checks, LynkOmni only asks and records
     def request_identity_check(s, person, purpose="first_paid_offer", now=None):
         """Sends the request to the licensed payment partner (sandbox until signed). The state is 'sent' until the partner answers."""
@@ -148,6 +174,9 @@ class Account:
     def revoke_passkey(s, person, locrd, stepup_token, now=None):
         if not s.auth.stepup_valid(stepup_token, now=now): raise PermissionError("removing a sign-in method needs a fresh step-up")
         if len(s.passkeys(person)) <= 1: raise PermissionError("keep at least one passkey; add another before removing this one")
+        if s.protect.advanced(person) and len(s.passkeys(person)) <= 2: raise PermissionError("advanced protection keeps two passkeys; add another first")
+        m = s.protect.may(person, "remove_passkey", now)
+        if not m["ok"]: raise PermissionError(f"held: {m['why']}")
         s.db.execute("update acct_passkeys set revoked_at=? where locrd=? and person=?", (_now(now), locrd, person)); s.db.execute("update creds set status='revoked' where locrd=?", (locrd,)); s.db.commit()
         s.emit(person, "PasskeyRevoked", {"lynkid": s._lynkid(person), "locrd": locrd}, now)
     # ---- sessions and sign-in alerts (takeover safeguard 1)
@@ -158,6 +187,8 @@ class Account:
         tok = s.auth.sign_in(person, site, now)
         s.db.execute("insert into acct_sessions values(?,?,?,?,?,?,null)", (tok, person, site, device_name, place, _now(now))); s.db.commit()
         s.emit(person, "SessionStarted", {"lynkid": s._lynkid(person), "site": site, "device_name": device_name, "new_device": new_device and bool(seen), "new_place": new_place and bool(seen)}, now)
+        s.protect.seen(person, now)                                  # the owner is active: the successor clock resets
+        if new_device and seen: s.protect.start_cool_off(person, "new_device", now)
         return tok
     def sessions(s, person, now=None):
         return [{"token_tail": r[0][-4:], "site": r[1], "device_name": r[2], "place": r[3], "started": r[4]} for r in
@@ -212,6 +243,8 @@ class Account:
     def request_payout_change(s, person, org, second_device_ok=False, now=None):
         lid = s._lynkid(person); oid = s.ids.public_for("OID", org)
         if s.idp.role_of(person, org) != "owner": raise PermissionError("only an owner changes payout details")
+        m = s.protect.may(person, "payout_change", now)
+        if not m["ok"]: return {"status": "held", **m}
         i = uuid.uuid4().hex
         if second_device_ok:
             s.db.execute("insert into acct_payout values(?,?,?,?,'applied')", (i, person, org, _now(now))); s.db.commit()
@@ -235,6 +268,7 @@ class Account:
     def can_export(s, person, stepup_token, device_id=None, now=None):
         """Exports need a fresh step-up, and never from a device still restricted after a recovery."""
         if not s.auth.stepup_valid(stepup_token, now=now): return False
+        if not s.protect.may(person, "data_export", now)["ok"]: return False
         return device_id is None or s.auth.device_can(device_id, "export_data", now)
     # ---- privacy and data: download my records, close the account
     def open_data_request(s, person, now=None):

@@ -83,6 +83,10 @@ class VCard:
         create table if not exists vphysical(physical text primary key, card text, state text, tracking text);
         create table if not exists vrequests(request text primary key, account text, params text, state text, requester text);
         create table if not exists vkyb(account text primary key, issuer text, expires real);""")
+        # MASTER UPDATE 61: every card record names its group (prepaid, debit or credit; services/card_groups.py). Cards this service
+        # issues and funds itself are prepaid; debit and credit cards are written by the cloud when their partner confirms.
+        if "card_group" not in [c[1] for c in s.db.execute("pragma table_info(vcards)")]:
+            s.db.execute("alter table vcards add column card_group text not null default 'prepaid'"); s.db.commit()
     # plumbing
     def ev(s, account, name, payload): s.p.c.store.append(account, "server", name, payload)
     def _gate(s, account):
@@ -103,6 +107,13 @@ class VCard:
         res = fn(); s.db.execute("insert into vcommands values(?,?,?,?,?)", (account, key, command, h, json.dumps(res, default=str))); s.db.commit(); return res
     def _ent(s, account): return s.p.billing.entitlement(account, "lynkvcard")
     def _tier(s, account): return s.p.billing.tier(account, "lynkvcard")
+    def cards_by_group(s, account):
+        """A person's or business's cards listed by group (MASTER UPDATE 61): only the last four digits, never a number."""
+        from services.card_groups import GROUPS
+        out = {g: [] for g in GROUPS}
+        for card, last4, type_, state, group in s.db.execute("select card,last4,type,state,card_group from vcards where account=? order by created", (account,)):
+            out[group].append({"card": card, "last4": last4, "type": type_, "state": state})
+        return out
     def _row(s, card):
         r = s.db.execute("select card,account,token,last4,type,state,lock,expiry,auto_renew,rotation,balance,physical from vcards where card=?", (card,)).fetchone()
         if not r: raise KeyError("unknown card")
@@ -143,7 +154,8 @@ class VCard:
             res = s.issuer.create(key, {"type": type}); internal = _id(); card = s.p.ids.assign("VC", internal)
             if tier in SINGLE_USE_ONLY: expiry = now + ent["card_expiry_hours"] * 3600
             else: expiry = now + (expiry_days or 90) * 86400
-            s.db.execute("insert into vcards values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (card, account, internal, res["token"], res["last4"], type, "active", json.dumps(lock or {}), expiry, int(auto_renew), f"{rotation_days}d" if rotation_days else None, 0, now, None)); s.db.commit()
+            s.db.execute("insert into vcards(card,account,internal,token,last4,type,state,lock,expiry,auto_renew,rotation,balance,created,physical,card_group) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                         (card, account, internal, res["token"], res["last4"], type, "active", json.dumps(lock or {}), expiry, int(auto_renew), f"{rotation_days}d" if rotation_days else None, 0, now, None, "prepaid")); s.db.commit()
             s.ev(account, "VirtualCardCreated", {"card": card, "last4": res["last4"], "token": res["token"], "country_pack": s.p.c.profile(account)["country"], "expiry_utc": _iso(expiry), "rotation_policy": f"{rotation_days}d" if rotation_days else None})
             return {"card": card, "last4": res["last4"], "state": "active", "extra_card_fee_minor": fee}
         out = s._once(account, key, "RequestVirtualCard", {"type": type, "lock": lock, "amount": amount_base, "role": role}, go)

@@ -35,7 +35,7 @@ class SignUpAndSecurity(unittest.TestCase):
         self.assertEqual(self.a.username_status("grace.k"), "taken")
         with self.assertRaises(ValueError): self.a.begin_sign_up("grace.k", "en", T0, adult_confirmed=True)
         types = [e["type"] for e in self.p.c.store.of(p, *EVENTS)]
-        self.assertEqual(types, ["AccountCreated", "PasskeyEnrolled"])
+        self.assertEqual(types, ["AccountCreated", "PasskeyEnrolled", "TermsAccepted"])          # MASTER UPDATE 55: the terms agreed are recorded
         for e in self.p.c.store.of(p, *EVENTS):                                                           # payloads carry references only
             self.assertFalse(any(k in e["payload"] for k in ("phone", "email", "code", "recovery_code")))
         with self.assertRaises(PermissionError):                                                          # a contact must be verified first

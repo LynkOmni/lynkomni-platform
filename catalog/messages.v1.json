@@ -239,6 +239,110 @@
    "build_section": 0
   },
   {
+   "area": "security",
+   "audience": "person",
+   "basis": "security",
+   "sender": "no-reply@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "build_section": 2,
+   "id": "contact_change_requested",
+   "trigger": "ContactChangeRequested",
+   "priority": "critical",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "actions": [
+    "cancel_change"
+   ]
+  },
+  {
+   "area": "security",
+   "audience": "person",
+   "basis": "security",
+   "sender": "no-reply@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "build_section": 2,
+   "id": "cool_off_started",
+   "trigger": "CoolOffStarted",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "actions": [
+    "this_was_not_me"
+   ]
+  },
+  {
+   "area": "security",
+   "audience": "person",
+   "basis": "security",
+   "sender": "no-reply@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "build_section": 2,
+   "id": "everything_locked",
+   "trigger": "EverythingLocked",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "actions": []
+  },
+  {
+   "area": "security",
+   "audience": "person",
+   "basis": "security",
+   "sender": "no-reply@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "build_section": 2,
+   "id": "not_me_result",
+   "trigger": "NotMeReported",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "actions": []
+  },
+  {
+   "area": "security",
+   "audience": "person",
+   "basis": "security",
+   "sender": "no-reply@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "build_section": 2,
+   "id": "successor_requested",
+   "trigger": "SuccessorRequested",
+   "priority": "critical",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "actions": [
+    "i_am_here"
+   ]
+  },
+  {
    "id": "account_created",
    "area": "account",
    "trigger": "AccountCreated",
@@ -1041,6 +1145,27 @@
    "lock_screen": "neutral",
    "actions": [],
    "build_section": 12
+  },
+  {
+   "id": "personal_reminder",
+   "area": "account",
+   "trigger": "ReminderDue",
+   "audience": "person",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "snooze",
+    "done"
+   ],
+   "build_section": 2
   }
  ]
 }
