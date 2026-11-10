@@ -2,6 +2,17 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.39.0 (2026-11-10)
+MASTER UPDATE, section 2 (account, security and notifications):
+- The larger Security Center: a security check-up with Fix this, two ways in, Lock everything (signs out everywhere, sends a freeze for the cards and pauses app keys; location shares keep running; unlocking needs a fresh check), "This was not me", advanced protection (passkeys only, longer waits), a cool-off after a new device, a slow contact change the old contact can cancel, who at LynkOmni looked at the account, and a successor ("Coming to your country soon." until the law and a partner are in place).
+- Sign-up by phone or email side by side, two ways in at the last step, start now and confirm later with the device's records joined after a check, and the agreed terms recorded at sign-up and shown on the Privacy page.
+- Notification settings: what comes where (security and safety always on), mute per business, pause all optional, do not disturb, one summary a day, what the lock screen shows, a deputy for up to 90 days (security and account stay with the person), a test and a channel check, and personal reminders.
+- New security and account messages (contact change, cool-off, everything locked, not me, successor, personal reminders), read on one device is read on every device, and the new Messages page.
+- LynkAssist on the account site: answers by class, account actions through the register only (class C after a fresh check; recovery and passkeys only prepared), and "Everything LynkAssist did" with Undo.
+- Breadcrumbs, the bell and LynkAssist's Ask box on the account site; a person's cards listed by group (LynkPrima, LynkDyna, LynkCrest, last four only, the lender's interest and fees beside LynkCrest).
+- Leftovers fixed: card records had no group; security notice kinds were missing for the new protections; LynkAssist's decisions had no event of their own (AssistActionRecorded); the bell's small action button was under the 44 px touch size.
+- The account site's size budget is raised to 1200 KB (these parts in 38 languages; a real app downloads one language at a time).
+
 ## v0.38.0 (2026-11-10)
 MASTER UPDATE, section 1 (shared shell and design):
 - Safe page settings on every page: only the page's own script runs, pinned by its hash; nothing loads from anywhere else. Sessions now belong to the device that signed in.
@@ -418,3 +429,5 @@ Step 0, one global structure (blueprint 42 A and 44 L row 0), built and locked.
 Version tags are created automatically by the version-tag workflow when a new entry reaches main (from v0.10.1 on; v0.9.5 was tagged by hand, v0.10.0 has no tag).
 
 Earlier versions (up to v0.9.4) are described in README.md and the master blueprint, sections 1 to 29.
+- 2026-11-10: MASTER UPDATE section 2 (v0.39.0) built by the blueprint: the larger Security Center and account protections, sign-up by phone or email with two ways in, notification settings, the security and account messages, the Messages page, LynkAssist on the account site with its history, breadcrumbs and cards by group.
+- 2026-11-10: Leftovers fixed in section 2: card records now carry their group (older cards are prepaid); the security notice kinds for the new protections and personal reminders joined the message register; LynkAssist's decisions are recorded as AssistActionRecorded; the bell's small action button now has the full touch size.

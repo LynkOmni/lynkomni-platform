@@ -221,7 +221,7 @@
 .ndone { display: flex; gap: 6px; align-items: center; margin: 6px 0 0; color: var(--status-success-text); font-size: var(--text-12); }
 .nmenu { display: flex; flex-direction: column; gap: 2px; }
 .nempty { display: grid; justify-items: center; gap: 6px; padding: 24px 8px; color: var(--text-secondary); text-align: center; }
-.primary.small { min-block-size: 36px; padding: 0 12px; margin-block-start: 6px; font-size: var(--text-12); }
+.primary.small { min-block-size: var(--touch-target); padding: 0 12px; margin-block-start: 6px; font-size: var(--text-12); }
 .nbanner { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--status-warning-border); background: var(--status-warning-bg); color: var(--status-warning-text); }
 .nbanner.p-critical { border-color: var(--status-danger-border); background: var(--status-danger-bg); color: var(--status-danger-text); }
 .nbanner .nt { flex: 1; font-weight: 700; overflow-wrap: anywhere; }

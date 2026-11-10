@@ -25,7 +25,7 @@ CONSENT_SCOPES = {"health-pack": "business health pack (LynkStat Score and trend
                   "location-share": "people you choose see your trip or live location until the share ends (Arrive Safe)"}
 MAX_CONSENT_DAYS = {"health-pack": 90, "accountant": 365, "lender": 30, "developer-app": 365, "support": 1, "supplier-sell-through": 365, "location-share": 30}
 REGISTRATION_STEPS = ("profile", "registration", "tax_number", "bank_account")
-PAGES = ("overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "support", "payslips", "payments", "start", "storefront", "trips", "collect")
+PAGES = ("overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "messages", "support", "assist", "payslips", "payments", "start", "storefront", "trips", "collect")
 def _now(n): return time.time() if n is None else n
 def _h(x): return hashlib.sha256(x.encode()).hexdigest()
 

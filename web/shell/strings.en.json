@@ -279,5 +279,10 @@
  "ntf_act_deny": "Decline",
  "ntf_act_cancel_recovery": "Stop the recovery",
  "ntf_act_this_was_not_me": "This was not me",
- "ntf_act_draft_reorder": "Draft a reorder"
+ "ntf_act_draft_reorder": "Draft a reorder",
+ "ntf_act_cancel_change": "Cancel the change",
+ "ntf_act_i_am_here": "I am still here",
+ "ntf_act_snooze": "Remind me later",
+ "ntf_act_done": "Mark as done",
+ "ntf_act_cancel_close": "Keep my account"
 }

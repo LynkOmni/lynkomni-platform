@@ -357,7 +357,9 @@
   "/transactions",
   "/wallet",
   "/trips",
-  "/collect"
+  "/collect",
+  "/messages",
+  "/assist"
  ],
  "pay_paths": [
   "/r/{LORCP}",

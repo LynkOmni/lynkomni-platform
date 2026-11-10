@@ -87,3 +87,13 @@ test("the page head: canonical, one alternate per language and x-default, noinde
   assert.ok(/index, follow/.test(h));
   assert.ok(/noindex/.test(pageHead({ url: "https://app.lynkomni.com/sell", kind: "app", title_key: "help", description_key: "help", breadcrumb: ["/"], langs: ["en"] }, "en", t, (p) => p)));
 });
+
+import { cardPlanName, contactWaitSeconds, coolOffSeconds, mayNow } from "../src/protection.js";
+test("the protection waits and card names on screen are identity/protection.py's and services/card_groups.py's", () => {
+  for (const c of V.protection) { assert.equal(coolOffSeconds(c.advanced), c.cool_off_s); assert.equal(contactWaitSeconds(c.advanced), c.contact_wait_s); }
+  for (const c of V.card_names) assert.equal(cardPlanName(c.group, c.tier), c.name);
+  assert.deepEqual(mayNow("data_export", { locked: true, heldUntil: 0, now: 5 }), { ok: false, why: "locked" });
+  assert.deepEqual(mayNow("data_export", { locked: false, heldUntil: 10, now: 5 }), { ok: false, why: "cool_off" });
+  assert.deepEqual(mayNow("data_export", { locked: false, heldUntil: 1, now: 5 }), { ok: true });
+  assert.throws(() => mayNow("buy_coffee", { locked: false, heldUntil: 0, now: 0 }));
+});

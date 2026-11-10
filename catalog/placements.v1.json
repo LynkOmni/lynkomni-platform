@@ -863,6 +863,39 @@
     "sitemap"
    ],
    "section": 2
+  },
+  {
+   "id": "messages_page",
+   "kind": "item",
+   "what": "The Messages page: every message LynkOmni sent you, with its channel and sender (account.lynkomni.com/messages)",
+   "places": [
+    "account_menu",
+    "search",
+    "help"
+   ],
+   "section": 2
+  },
+  {
+   "id": "assist_history",
+   "kind": "item",
+   "what": "Everything LynkAssist did: every action and answer, run or not, with Undo while it can be undone (account.lynkomni.com/assist)",
+   "places": [
+    "account_menu",
+    "search",
+    "help"
+   ],
+   "section": 2
+  },
+  {
+   "id": "lock_everything",
+   "kind": "item",
+   "what": "Lock everything: sign out every device, freeze cards and pause keys in one verified step (account.lynkomni.com/security)",
+   "places": [
+    "account_menu",
+    "search",
+    "help"
+   ],
+   "section": 2
   }
  ]
 }

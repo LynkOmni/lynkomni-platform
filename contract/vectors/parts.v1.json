@@ -2269,6 +2269,22 @@
    ]
   },
   {
+   "host": "account.lynkomni.com",
+   "path": "/messages",
+   "trail": [
+    "/",
+    "/messages"
+   ]
+  },
+  {
+   "host": "account.lynkomni.com",
+   "path": "/assist",
+   "trail": [
+    "/",
+    "/assist"
+   ]
+  },
+  {
    "host": "shop.lynkomni.com",
    "path": "/{username}",
    "trail": [
@@ -10380,6 +10396,80 @@
   {
    "n": 250,
    "text": "99+"
+  }
+ ],
+ "protection": [
+  {
+   "advanced": false,
+   "cool_off_s": 172800,
+   "contact_wait_s": 259200
+  },
+  {
+   "advanced": true,
+   "cool_off_s": 604800,
+   "contact_wait_s": 604800
+  }
+ ],
+ "card_names": [
+  {
+   "group": "prepaid",
+   "tier": "edge",
+   "name": "LynkPrima Free"
+  },
+  {
+   "group": "prepaid",
+   "tier": "hub",
+   "name": "LynkPrima Plus"
+  },
+  {
+   "group": "prepaid",
+   "tier": "core",
+   "name": "LynkPrima Pro"
+  },
+  {
+   "group": "prepaid",
+   "tier": "omni",
+   "name": "LynkPrima Max"
+  },
+  {
+   "group": "debit",
+   "tier": "edge",
+   "name": "LynkDyna Free"
+  },
+  {
+   "group": "debit",
+   "tier": "hub",
+   "name": "LynkDyna Plus"
+  },
+  {
+   "group": "debit",
+   "tier": "core",
+   "name": "LynkDyna Pro"
+  },
+  {
+   "group": "debit",
+   "tier": "omni",
+   "name": "LynkDyna Max"
+  },
+  {
+   "group": "credit",
+   "tier": "edge",
+   "name": "LynkCrest Free"
+  },
+  {
+   "group": "credit",
+   "tier": "hub",
+   "name": "LynkCrest Plus"
+  },
+  {
+   "group": "credit",
+   "tier": "core",
+   "name": "LynkCrest Pro"
+  },
+  {
+   "group": "credit",
+   "tier": "omni",
+   "name": "LynkCrest Max"
   }
  ]
 }
