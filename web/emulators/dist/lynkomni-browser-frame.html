@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-0bPQg1G4wsMJBI5i4YAnJXMjnVMwE+cmXyDL9eKrxvw='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-dC0YlyhRFA/skuAlj1knbYWD2/dP+uDDaRTYBbezUf0='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni shell in a browser</title>
 <meta name="description" content="Interactive emulator of the shared LynkOmni shell in a browser window at computer, tablet and phone size: header, navigation, launcher, account menu, every screen state, chat translation, username field and charts.">
@@ -511,12 +511,12 @@ html { font-size: 100%; }
 [data-interface="computer.pointer"] :focus-visible, [data-interface="tv.remote"] :focus-visible, [data-interface="universal"] :focus-visible, [data-interface="phone.keypad"] :focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
 
 /* ---- MASTER UPDATE, build section 1: sign-in parts, the bell, message parts, LynkAssist and breadcrumbs (tokens only) ---- */
-.pinpad, .nmatch { display: grid; gap: 10px; justify-items: center; max-inline-size: 320px; margin-inline: auto; }
+.pinpad, .nmatch { display: grid; gap: 10px; justify-items: center; max-inline-size: 320px; min-inline-size: 0; margin-inline: auto; overflow-wrap: anywhere; }
 .ptitle { margin: 0; font-weight: 700; text-align: center; }
-.pdots-row { display: flex; gap: 10px; min-block-size: 18px; }
+.pdots-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; min-block-size: 18px; max-inline-size: 100%; }
 .pdot { inline-size: 14px; block-size: 14px; border-radius: 50%; border: 2px solid var(--border-strong); }
 .pdot.on { background: var(--text-primary); border-color: var(--text-primary); }
-.pkeys { display: grid; grid-template-columns: repeat(3, minmax(64px, 1fr)); gap: 8px; inline-size: 100%; }
+.pkeys { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; inline-size: 100%; }
 .pkey { display: grid; justify-items: center; align-content: center; gap: 2px; min-block-size: 60px; border: 1px solid var(--border-subtle); border-radius: 14px; background: var(--bg-subtle); color: var(--text-primary); font: 700 var(--text-20)/1 var(--font-body); font-feature-settings: var(--font-feature-tabular); }
 .pkey:not(:disabled):hover { border-color: var(--brand-primary); }
 .pkey:disabled { opacity: .45; }
@@ -526,9 +526,9 @@ html { font-size: 100%; }
 .pmsg.danger { color: var(--status-danger-text); } .pmsg.warning { color: var(--status-warning-text); } .pmsg.success { color: var(--status-success-text); }
 .popts { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
 .chipbtn.on { background: var(--brand-subtle); border-color: var(--brand-primary); }
-.nbig { margin: 0; font: 800 48px/1 var(--font-heading); letter-spacing: .08em; font-feature-settings: var(--font-feature-tabular); }
-.nchoices { display: flex; gap: 10px; }
-.nchoice { min-inline-size: 72px; min-block-size: 64px; border: 2px solid var(--border-strong); border-radius: 14px; background: var(--bg-surface); color: var(--text-primary); font: 800 var(--text-24)/1 var(--font-heading); }
+.nbig { margin: 0; font: 800 var(--text-24)/1 var(--font-heading); font-size: clamp(var(--text-24), 12vw, 48px); letter-spacing: .08em; font-feature-settings: var(--font-feature-tabular); }
+.nchoices { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-inline-size: 100%; }
+.nchoice { min-inline-size: 56px; max-inline-size: 100%; min-block-size: 64px; border: 2px solid var(--border-strong); border-radius: 14px; background: var(--bg-surface); color: var(--text-primary); font: 800 var(--text-24)/1 var(--font-heading); }
 .nhead { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 .nhead h2 { margin: 0; }
 .nfilters { display: flex; gap: 6px; flex-wrap: wrap; margin-block: 8px; }
@@ -576,6 +576,10 @@ html { font-size: 100%; }
 .crumbs li + li::before { content: "/"; color: var(--text-secondary); }
 .crumbs a { display: inline-flex; align-items: center; min-block-size: var(--touch-target); overflow-wrap: anywhere; }
 .crumbs [aria-current] { color: var(--text-secondary); overflow-wrap: anywhere; }
+.pstack { display: flex; flex-wrap: wrap; gap: 12px; margin-block-start: 12px; min-inline-size: 0; } .pstack > * { flex: 1 1 220px; min-inline-size: 0; max-inline-size: 100%; }
+/* contrast on tinted backgrounds stays at 4.5:1 or more (WCAG 2.2 AA), and every chip is at least the 44 px target */
+.nline.unread .nmeta, .nline.unread .nb, .nline.unread .rec, .ncount, .smsbubble .note, .asres .note { color: var(--text-primary); }
+.chipbtn { min-inline-size: var(--touch-target); }
 
 /* The LynkOmni footer (blueprint section 26): the main footer on websites and web apps, the one-line short footer inside
    apps. Design tokens only; logical properties so right-to-left mirrors; text wraps in every language. */
@@ -1983,13 +1987,13 @@ function pinCard() {
         let x = 7;
         S.matchChoices = numberChoices(S.matchShown, () => (x = (x * 9301 + 49297) % 233280) / 233280);
     }
-    return `<div class="card"><h2>${esc(t("demo_signin_card"))}</h2>${pinPad({ entered: S.pin.length, length: Math.max(4, S.pin.length), wrong: S.wrong, waitLeft, pictures: S.pictures, sound: S.keySound, title: t("demo_pin_title") }, t, icon)}<div class="cards" style="margin-block-start:12px">${numberShown(S.matchShown, t)}${numberMatch(S.matchChoices, t, S.matchResult)}</div></div>`;
+    return `<div class="card"><h2>${esc(t("demo_signin_card"))}</h2>${pinPad({ entered: S.pin.length, length: Math.max(4, S.pin.length), wrong: S.wrong, waitLeft, pictures: S.pictures, sound: S.keySound, title: t("demo_pin_title") }, t, icon)}<div class="pstack">${numberShown(S.matchShown, t)}${numberMatch(S.matchChoices, t, S.matchResult)}</div></div>`;
 }
 function messagesCard() {
     const p = pack();
     const sent = [{ id: "m1", channel: "email", sender: "receipts@mail.lynkomni.com", title: t("demo_mail_title"), at: T0 - 600_000, state: "confirmed" }, { id: "m2", channel: "text", sender: "LynkOmni", title: t("demo_text"), at: T0 - 590_000, state: S.link === "offline" ? "queued" : "sent" }];
     const logo = markFor(DATA.brand.places, "email-header", S.theme === "dark", 160).svg;
-    return `<div class="card" style="grid-column:1/-1"><h2>${esc(t("demo_messages_card"))}</h2><div class="cards">${mailPart({ title: t("demo_mail_title"), lines: [t("demo_mail_line"), money(1500)], record: "LORCP-7731-0042-9911", button: { label: t("demo_mail_title"), href: "https://pay.lynkomni.com/r/LORCP-7731-0042-9911" }, reason: t("demo_mail_reason"), optIn: false, lang: d0().lang, dir: d0().dir === "rtl" ? "rtl" : "ltr" }, logo, t)}${textPart(t("demo_text"), t)}${messagesList(sent, t, icon, when)}</div><p class="note">${esc(p.sample ? t("sample_country") : p.name)}</p></div>`;
+    return `<div class="card" style="grid-column:1/-1"><h2>${esc(t("demo_messages_card"))}</h2><div class="pstack">${mailPart({ title: t("demo_mail_title"), lines: [t("demo_mail_line"), money(1500)], record: "LORCP-7731-0042-9911", button: { label: t("demo_mail_title"), href: "https://pay.lynkomni.com/r/LORCP-7731-0042-9911" }, reason: t("demo_mail_reason"), optIn: false, lang: d0().lang, dir: d0().dir === "rtl" ? "rtl" : "ltr" }, logo, t)}${textPart(t("demo_text"), t)}${messagesList(sent, t, icon, when)}</div><p class="note">${esc(p.sample ? t("sample_country") : p.name)}</p></div>`;
 }
 const d0 = () => $("#display");
 function crumbs() {
