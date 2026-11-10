@@ -2,6 +2,16 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.37.0 (2026-11-10)
+MASTER UPDATE, Step 0 (groundwork for sections 54 to 62):
+- Security register (catalog/security.v1.json) with its seven principles, a secret scan in CI and a tamper-evident chain on the event log.
+- Offline sign-in rules: device keys, a clock that cannot be turned back, PIN lock with a hard lock (never a wipe), "start now, confirm later" accounts, face-to-face permission, and an attack bank of 12 cases.
+- One register for every message and notification (catalog/messages.v1.json) and its engine: the bell, four priorities, folding, quiet hours, daily cap, repeats and escalation, in the reader's language.
+- LynkAssist registers (catalog/assist.v1.json): action classes A to D, five answer classes, a question bank and a signed offline knowledge pack in all 38 languages.
+- Search register and breadcrumbs from the address map.
+- LynkVCard card groups: LynkPrima (prepaid), LynkDyna (debit) and LynkCrest (credit) with Free, Plus, Pro and Max; sample details that can never work as a real card; online-only requests answered by the licensed partner; sandbox account partner and lender in the provider ledger.
+- Contract version 5 (card request events; upcaster 4 to 5 changes nothing).
+
 ## v0.36.2 (2026-11-10)
 Cash everywhere it applies (owner rule).
 - **Pickup-point mode:** when money is due, the pickup point now chooses **Cash received** or **Electronic payment**.

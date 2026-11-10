@@ -1,0 +1,1046 @@
+{
+ "version": 1,
+ "agreed": "2026-11-10",
+ "rule": "MASTER UPDATE, master blueprint sections 56 and 62: one register for every message and notification on every channel. Nothing outside it is ever sent or shown. services/messages.py is the only engine; tests/test_messages.py enforces it.",
+ "channels": [
+  "bell",
+  "push",
+  "email",
+  "text"
+ ],
+ "bases": {
+  "security": "Always sent: the person must know",
+  "safety": "Always sent: someone may be in danger",
+  "legal": "Required by law or the terms",
+  "transaction": "Part of something the person did or asked for",
+  "opt_in": "Only with the receiver's recorded consent; one-tap stop"
+ },
+ "priorities": {
+  "critical": {
+   "breaks_quiet_hours": true,
+   "repeat_until_acknowledged": true,
+   "capped": false,
+   "raises_count": true
+  },
+  "high": {
+   "breaks_quiet_hours": false,
+   "repeat_until_acknowledged": false,
+   "capped": false,
+   "raises_count": true
+  },
+  "normal": {
+   "breaks_quiet_hours": false,
+   "repeat_until_acknowledged": false,
+   "capped": true,
+   "raises_count": true
+  },
+  "low": {
+   "breaks_quiet_hours": false,
+   "repeat_until_acknowledged": false,
+   "capped": true,
+   "raises_count": false
+  }
+ },
+ "groups": {
+  "none": "each on its own line",
+  "burst": "many in a short time fold into one line",
+  "daily": "folded into one line per day",
+  "summary": "carried by the owner's summary",
+  "update": "one line for one record, updated in place"
+ },
+ "daily_cap": 20,
+ "history_days": 90,
+ "track_opens": false,
+ "advertising": false,
+ "quiet_hours": {
+  "start": 21,
+  "end": 7
+ },
+ "lock_screen": {
+  "neutral": "service name and a neutral sentence until unlocked",
+  "full": "full text, only if the person chooses it for that kind",
+  "none": "nothing on the lock screen"
+ },
+ "never_in_a_message": [
+  "password",
+  "sign_in_code_without_app",
+  "full_card_number",
+  "link_asking_for_password",
+  "position",
+  "advertising"
+ ],
+ "kinds": [
+  {
+   "id": "new_sign_in",
+   "area": "security",
+   "trigger": "SessionStarted",
+   "audience": "person",
+   "basis": "security",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "no-reply@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "this_was_not_me"
+   ],
+   "build_section": 2
+  },
+  {
+   "id": "passkey_added",
+   "area": "security",
+   "trigger": "PasskeyEnrolled",
+   "audience": "person",
+   "basis": "security",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "no-reply@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "this_was_not_me"
+   ],
+   "build_section": 2
+  },
+  {
+   "id": "passkey_removed",
+   "area": "security",
+   "trigger": "PasskeyRevoked",
+   "audience": "person",
+   "basis": "security",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "no-reply@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "this_was_not_me"
+   ],
+   "build_section": 2
+  },
+  {
+   "id": "recovery_started",
+   "area": "security",
+   "trigger": "RecoveryStarted",
+   "audience": "person",
+   "basis": "security",
+   "priority": "critical",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "no-reply@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "cancel_recovery"
+   ],
+   "build_section": 2
+  },
+  {
+   "id": "payout_change_requested",
+   "area": "security",
+   "trigger": "PayoutChangeRequested",
+   "audience": "person",
+   "basis": "security",
+   "priority": "critical",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "no-reply@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "this_was_not_me"
+   ],
+   "build_section": 2
+  },
+  {
+   "id": "device_hard_locked",
+   "area": "security",
+   "trigger": "DeviceHardLocked",
+   "audience": "owner",
+   "basis": "security",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "no-reply@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 0
+  },
+  {
+   "id": "device_copy_suspended",
+   "area": "security",
+   "trigger": "DeviceCopySuspended",
+   "audience": "owner",
+   "basis": "security",
+   "priority": "critical",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "no-reply@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 0
+  },
+  {
+   "id": "offline_limit_reached",
+   "area": "security",
+   "trigger": "OfflineLimitReached",
+   "audience": "owner",
+   "basis": "security",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "no-reply@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 0
+  },
+  {
+   "id": "account_created",
+   "area": "account",
+   "trigger": "AccountCreated",
+   "audience": "person",
+   "basis": "legal",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 2
+  },
+  {
+   "id": "data_export_ready",
+   "area": "account",
+   "trigger": "DataRequestReady",
+   "audience": "person",
+   "basis": "legal",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 2
+  },
+  {
+   "id": "account_close_requested",
+   "area": "account",
+   "trigger": "AccountCloseRequested",
+   "audience": "person",
+   "basis": "legal",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "cancel_close"
+   ],
+   "build_section": 2
+  },
+  {
+   "id": "consent_ending",
+   "area": "account",
+   "trigger": "ConsentExpiring",
+   "audience": "person",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "daily",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 2
+  },
+  {
+   "id": "provisional_confirmed",
+   "area": "account",
+   "trigger": "ProvisionalAccountConfirmed",
+   "audience": "person",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 2
+  },
+  {
+   "id": "location_share_started",
+   "area": "safety",
+   "trigger": "LocationShareStarted",
+   "audience": "person",
+   "basis": "safety",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 2
+  },
+  {
+   "id": "trip_plan_overdue",
+   "area": "safety",
+   "trigger": "TripPlanOverdue",
+   "audience": "trusted_contact",
+   "basis": "safety",
+   "priority": "critical",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "acknowledge"
+   ],
+   "build_section": 2,
+   "note": "trusted contacts receive it only after accepting once"
+  },
+  {
+   "id": "renewal_reminder",
+   "area": "billing",
+   "trigger": "RenewalReminderSent",
+   "audience": "billing_owner",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "billing@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 2
+  },
+  {
+   "id": "sale_failed",
+   "area": "selling",
+   "trigger": "PaymentStatusChanged",
+   "audience": "cashier",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3
+  },
+  {
+   "id": "cash_difference",
+   "area": "selling",
+   "trigger": "CashDifferenceFlagged",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3
+  },
+  {
+   "id": "day_close_ready",
+   "area": "selling",
+   "trigger": "DayCloseReady",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "low",
+   "channels": [
+    "bell"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "daily",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3
+  },
+  {
+   "id": "receipt",
+   "area": "proof",
+   "trigger": "ReceiptIssued",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "email",
+    "text"
+   ],
+   "sender": "receipts@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3,
+   "note": "sent because the customer asked for the receipt"
+  },
+  {
+   "id": "owner_summary",
+   "area": "selling",
+   "trigger": "DayCloseReady",
+   "audience": "owner",
+   "basis": "opt_in",
+   "priority": "low",
+   "channels": [
+    "bell",
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "summary",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3
+  },
+  {
+   "id": "stock_low",
+   "area": "stock",
+   "trigger": "StockBelowThreshold",
+   "audience": "stock_staff",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "burst",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "draft_reorder"
+   ],
+   "build_section": 3
+  },
+  {
+   "id": "stock_negative",
+   "area": "stock",
+   "trigger": "NegativeStockFlagged",
+   "audience": "stock_staff",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "burst",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3
+  },
+  {
+   "id": "stock_conflict",
+   "area": "stock",
+   "trigger": "StockConflictFlagged",
+   "audience": "manager",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3
+  },
+  {
+   "id": "device_idle",
+   "area": "devices",
+   "trigger": "DeviceIdle",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "burst",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3
+  },
+  {
+   "id": "device_health",
+   "area": "devices",
+   "trigger": "DeviceHealthChecked",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3
+  },
+  {
+   "id": "driver_update",
+   "area": "devices",
+   "trigger": "DriverUpdateAvailable",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "low",
+   "channels": [
+    "bell"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "daily",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3
+  },
+  {
+   "id": "sync_retried",
+   "area": "devices",
+   "trigger": "SyncRetried",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "low",
+   "channels": [
+    "bell"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "daily",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3
+  },
+  {
+   "id": "staff_request",
+   "area": "selling",
+   "trigger": "AutomationDrafted",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "approve",
+    "deny"
+   ],
+   "build_section": 3,
+   "note": "a staff request above their role; approving opens the full screen when it touches money or a setting"
+  },
+  {
+   "id": "agent_confirmed",
+   "area": "agent",
+   "trigger": "AgentRequestConfirmed",
+   "audience": "agent",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3
+  },
+  {
+   "id": "agent_failed",
+   "area": "agent",
+   "trigger": "AgentRequestFailed",
+   "audience": "agent",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3
+  },
+  {
+   "id": "commission_recorded",
+   "area": "agent",
+   "trigger": "CommissionRecorded",
+   "audience": "agent",
+   "basis": "transaction",
+   "priority": "low",
+   "channels": [
+    "bell"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "daily",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3
+  },
+  {
+   "id": "pickup_handed_over",
+   "area": "orders",
+   "trigger": "ShipmentHandedOver",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "low",
+   "channels": [
+    "bell"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "burst",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 3
+  },
+  {
+   "id": "assist_fix_done",
+   "area": "assist",
+   "trigger": "AutomationApplied",
+   "audience": "person",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "undo"
+   ],
+   "build_section": 3
+  },
+  {
+   "id": "assist_needs_confirm",
+   "area": "assist",
+   "trigger": "AutomationDrafted",
+   "audience": "person",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "confirm",
+    "deny"
+   ],
+   "build_section": 3
+  },
+  {
+   "id": "invoice_paid",
+   "area": "office",
+   "trigger": "PaymentStatusChanged",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "invoices@mail.lynkomni.com",
+   "group": "burst",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 4
+  },
+  {
+   "id": "invoice_overdue",
+   "area": "office",
+   "trigger": "ConflictNoticeRaised",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "invoices@mail.lynkomni.com",
+   "group": "daily",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 4
+  },
+  {
+   "id": "customer_credit_paid",
+   "area": "office",
+   "trigger": "CustomerCreditPaid",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "low",
+   "channels": [
+    "bell"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "daily",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 4
+  },
+  {
+   "id": "report_ready",
+   "area": "office",
+   "trigger": "ReportBuilt",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "low",
+   "channels": [
+    "bell"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 4
+  },
+  {
+   "id": "incident_notice",
+   "area": "support",
+   "trigger": "AlertRaised",
+   "audience": "affected",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "status@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 6
+  },
+  {
+   "id": "order_step",
+   "area": "orders",
+   "trigger": "TrackingStepReached",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 7
+  },
+  {
+   "id": "payout_confirmed",
+   "area": "money",
+   "trigger": "PayoutConfirmed",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 7
+  },
+  {
+   "id": "payout_failed",
+   "area": "money",
+   "trigger": "PayoutFailed",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 7
+  },
+  {
+   "id": "review_received",
+   "area": "storefront",
+   "trigger": "ReviewSubmitted",
+   "audience": "seller",
+   "basis": "transaction",
+   "priority": "low",
+   "channels": [
+    "bell"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "daily",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 7
+  },
+  {
+   "id": "merchant_offer",
+   "area": "marketing",
+   "trigger": "PromotionStarted",
+   "audience": "customer",
+   "basis": "opt_in",
+   "priority": "low",
+   "channels": [
+    "bell",
+    "email"
+   ],
+   "sender": "updates@news.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 7,
+   "note": "only with the customer's opt-in; one-tap stop"
+  },
+  {
+   "id": "zone_alert",
+   "area": "movement",
+   "trigger": "ZoneEntered",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "burst",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "7B"
+  },
+  {
+   "id": "protection_alert",
+   "area": "movement",
+   "trigger": "ProtectionAlertRaised",
+   "audience": "owner",
+   "basis": "safety",
+   "priority": "critical",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "acknowledge"
+   ],
+   "build_section": "7B"
+  },
+  {
+   "id": "last_report",
+   "area": "movement",
+   "trigger": "DeviceLastReport",
+   "audience": "owner",
+   "basis": "safety",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "7B"
+  },
+  {
+   "id": "booking_confirmed",
+   "area": "bookings",
+   "trigger": "DeliveryAccepted",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "email",
+    "text"
+   ],
+   "sender": "bookings@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 8,
+   "note": "trigger is replaced by the booking events of section 8"
+  },
+  {
+   "id": "developer_key",
+   "area": "developers",
+   "trigger": "ConnectionActivated",
+   "audience": "developer",
+   "basis": "security",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "email"
+   ],
+   "sender": "developers@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 11
+  },
+  {
+   "id": "staff_case_handover",
+   "area": "staff",
+   "trigger": "ConflictNoticeRaised",
+   "audience": "staff",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 12
+  }
+ ]
+}

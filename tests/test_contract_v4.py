@@ -41,11 +41,11 @@ class ContractV4(unittest.TestCase):
             if c.get("v4"):
                 self.assertEqual((c["class"], c["offline"]["allowed"], c["cloud_may_reject"]), ("A", True, False), c["name"])
 
-    def test_upcaster_reads_version_3_as_version_4_unchanged(self):
-        self.assertEqual(CURRENT, 4)
+    def test_upcaster_reads_version_3_unchanged(self):
+        self.assertGreaterEqual(CURRENT, 4)                          # version 5 (MASTER UPDATE) reads version 4 unchanged too
         v3 = {"type": "SaleRecorded", "schema_version": 3, "payload": {"currency": "XXX", "total": 5, "side": "external"}}
         up = upcast(v3)
-        self.assertEqual((up["schema_version"], up["payload"]), (4, v3["payload"]))
+        self.assertEqual((up["schema_version"], up["payload"]), (CURRENT, v3["payload"]))
         self.assertEqual(v3["schema_version"], 3)                    # the stored event is never rewritten
 
     def test_validator_passes(self):

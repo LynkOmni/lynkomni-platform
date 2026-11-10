@@ -852,6 +852,17 @@
     "help"
    ],
    "section": 3
+  },
+  {
+   "id": "card_groups",
+   "kind": "feature",
+   "what": "LynkVCard card groups: LynkPrima (prepaid), LynkDyna (debit) and LynkCrest (credit), with Get a card",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 2
   }
  ]
 }
