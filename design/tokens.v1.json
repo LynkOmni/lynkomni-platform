@@ -58,36 +58,36 @@
  },
  "common": {
   "vcard-hub-bg": [
-   "#94A3B8",
-   "spec"
+   "#0C2470",
+   "owner 2026-11-10"
   ],
   "vcard-core-bg": [
-   "#18181B",
-   "spec"
+   "#320B73",
+   "owner 2026-11-10"
   ],
   "vcard-omni-bg": [
-   "#09090B",
-   "spec"
+   "#0B0906",
+   "owner 2026-11-10"
   ],
   "vcard-edge-bg": [
-   "#64748B",
-   "spec"
+   "#0A4E54",
+   "owner 2026-11-10"
   ],
   "on-vcard-edge": [
    "#FFFFFF",
-   "added"
+   "owner 2026-11-10"
   ],
   "on-vcard-hub": [
-   "#18181B",
-   "added"
+   "#FFFFFF",
+   "owner 2026-11-10"
   ],
   "on-vcard-core": [
    "#FFFFFF",
-   "added"
+   "owner 2026-11-10"
   ],
   "on-vcard-omni": [
-   "#FFFFFF",
-   "added"
+   "#F3DFA2",
+   "owner 2026-11-10"
   ],
   "on-brand": [
    "#FFFFFF",
@@ -156,6 +156,78 @@
   "on-device-paper": [
    "#18181B",
    "added"
+  ],
+  "vcard-edge-deep": [
+   "#04252A",
+   "owner 2026-11-10"
+  ],
+  "vcard-edge-light": [
+   "#138A86",
+   "owner 2026-11-10"
+  ],
+  "vcard-edge-accent": [
+   "#7FF5E0",
+   "owner 2026-11-10"
+  ],
+  "vcard-hub-deep": [
+   "#050E2B",
+   "owner 2026-11-10"
+  ],
+  "vcard-hub-light": [
+   "#2950E8",
+   "owner 2026-11-10"
+  ],
+  "vcard-hub-accent": [
+   "#D6E3FF",
+   "owner 2026-11-10"
+  ],
+  "vcard-core-deep": [
+   "#10031F",
+   "owner 2026-11-10"
+  ],
+  "vcard-core-light": [
+   "#6E2BF2",
+   "owner 2026-11-10"
+  ],
+  "vcard-core-accent": [
+   "#E07BFF",
+   "owner 2026-11-10"
+  ],
+  "vcard-omni-deep": [
+   "#000000",
+   "owner 2026-11-10"
+  ],
+  "vcard-omni-light": [
+   "#1A140A",
+   "owner 2026-11-10"
+  ],
+  "vcard-omni-accent": [
+   "#E8C766",
+   "owner 2026-11-10"
+  ],
+  "vcard-gold-light": [
+   "#FBEFC4",
+   "owner 2026-11-10"
+  ],
+  "vcard-gold-dark": [
+   "#B8892F",
+   "owner 2026-11-10"
+  ],
+  "vcard-silver-light": [
+   "#F4F6FA",
+   "owner 2026-11-10"
+  ],
+  "vcard-silver-dark": [
+   "#8F9AAA",
+   "owner 2026-11-10"
+  ],
+  "vcard-stripe": [
+   "#050505",
+   "owner 2026-11-10"
+  ],
+  "vcard-panel": [
+   "#F4F2EC",
+   "owner 2026-11-10"
   ]
  },
  "themes": {
