@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "es",
  "native": "Español",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "Sobre nosotros",
   "ft_accessibility": "Accesibilidad",
   "ft_agents": "Hazte agente",
   "ft_appstore": "App Store",
-  "ft_bills": "Facturas y conectividad",
   "ft_blog": "Blog",
   "ft_brand": "Kit de marca",
   "ft_cards": "Tarjetas y gastos de empresa",
@@ -96,7 +95,6 @@
   "ft_tProduct": "Novedades del producto",
   "ft_tagline": "Funciona con o sin internet.",
   "ft_terms": "Condiciones",
-  "ft_travel": "Viajes y entradas",
   "ft_trust": "Seguridad y confianza",
   "ft_vuln": "Informar de una vulnerabilidad"
  }

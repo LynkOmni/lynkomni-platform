@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "Tentang kami",
   "ft_accessibility": "Aksesibilitas",
   "ft_agents": "Jadilah agen",
   "ft_appstore": "App Store",
-  "ft_bills": "Tagihan dan konektivitas",
   "ft_blog": "Blog",
   "ft_brand": "Kit merek",
   "ft_cards": "Kartu bisnis dan pengeluaran",
@@ -96,7 +95,6 @@
   "ft_tProduct": "Kabar produk",
   "ft_tagline": "Bekerja dengan atau tanpa internet.",
   "ft_terms": "Ketentuan",
-  "ft_travel": "Perjalanan dan tiket",
   "ft_trust": "Keamanan dan kepercayaan",
   "ft_vuln": "Laporkan kerentanan"
  }

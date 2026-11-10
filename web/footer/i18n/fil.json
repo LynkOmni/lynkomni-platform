@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "Tungkol sa amin",
   "ft_accessibility": "Accessibility",
   "ft_agents": "Maging ahente",
   "ft_appstore": "App Store",
-  "ft_bills": "Mga bayarin at koneksyon",
   "ft_blog": "Blog",
   "ft_brand": "Brand kit",
   "ft_cards": "Mga business card at gastos",
@@ -96,7 +95,6 @@
   "ft_tProduct": "Mga update sa produkto",
   "ft_tagline": "Gumagana may internet man o wala.",
   "ft_terms": "Mga tuntunin",
-  "ft_travel": "Paglalakbay at tiket",
   "ft_trust": "Seguridad at tiwala",
   "ft_vuln": "Mag-ulat ng kahinaan sa seguridad"
  }

@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "Về chúng tôi",
   "ft_accessibility": "Khả năng tiếp cận",
   "ft_agents": "Trở thành đại lý",
   "ft_appstore": "App Store",
-  "ft_bills": "Hóa đơn và kết nối",
   "ft_blog": "Blog",
   "ft_brand": "Bộ nhận diện thương hiệu",
   "ft_cards": "Thẻ doanh nghiệp và chi tiêu",
@@ -96,7 +95,6 @@
   "ft_tProduct": "Tin sản phẩm",
   "ft_tagline": "Hoạt động có hoặc không có internet.",
   "ft_terms": "Điều khoản",
-  "ft_travel": "Du lịch và vé",
   "ft_trust": "Bảo mật và tin cậy",
   "ft_vuln": "Báo cáo lỗ hổng bảo mật"
  }

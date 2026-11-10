@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "關於我們",
   "ft_accessibility": "無障礙",
   "ft_agents": "成為代理",
   "ft_appstore": "App Store",
-  "ft_bills": "帳單與通訊",
   "ft_blog": "部落格",
   "ft_brand": "品牌資源",
   "ft_cards": "企業卡與支出",
@@ -96,7 +95,6 @@
   "ft_tProduct": "產品動態",
   "ft_tagline": "有網無網都能用。",
   "ft_terms": "條款",
-  "ft_travel": "旅遊與票券",
   "ft_trust": "安全與信任",
   "ft_vuln": "回報安全漏洞"
  }

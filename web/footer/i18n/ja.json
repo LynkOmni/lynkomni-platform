@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "会社概要",
   "ft_accessibility": "アクセシビリティ",
   "ft_agents": "代理店になる",
   "ft_appstore": "App Store",
-  "ft_bills": "請求書と通信",
   "ft_blog": "ブログ",
   "ft_brand": "ブランドキット",
   "ft_cards": "法人カードと経費",
@@ -96,7 +95,6 @@
   "ft_tProduct": "製品の最新情報",
   "ft_tagline": "インターネットがあってもなくても使えます。",
   "ft_terms": "利用規約",
-  "ft_travel": "旅行とチケット",
   "ft_trust": "セキュリティと信頼",
   "ft_vuln": "脆弱性を報告"
  }

@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "ckb",
  "native": "کوردی",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "دەربارەی ئێمە",
   "ft_accessibility": "دەستگەیشتن",
   "ft_agents": "ببە بە بریکار",
   "ft_appstore": "App Store",
-  "ft_bills": "پسوولە و پەیوەندی",
   "ft_blog": "بلۆگ",
   "ft_brand": "کیتی براند",
   "ft_cards": "کارتی بازرگانی و خەرجی",
@@ -96,7 +95,6 @@
   "ft_tProduct": "نوێکاریی بەرهەم",
   "ft_tagline": "بە ئینتەرنێت و بەبێ ئینتەرنێت کار دەکات.",
   "ft_terms": "مەرجەکان",
-  "ft_travel": "گەشت و بلیت",
   "ft_trust": "ئاسایش و متمانە",
   "ft_vuln": "ڕاپۆرتی لاوازی ئاسایش"
  }

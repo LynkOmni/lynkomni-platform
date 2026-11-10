@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "אודותינו",
   "ft_accessibility": "נגישות",
   "ft_agents": "הפכו לסוכן",
   "ft_appstore": "App Store",
-  "ft_bills": "חשבונות וקישוריות",
   "ft_blog": "בלוג",
   "ft_brand": "ערכת מותג",
   "ft_cards": "כרטיסים והוצאות לעסקים",
@@ -96,7 +95,6 @@
   "ft_tProduct": "עדכוני מוצר",
   "ft_tagline": "עובד עם אינטרנט ובלעדיו.",
   "ft_terms": "תנאים",
-  "ft_travel": "נסיעות וכרטיסים",
   "ft_trust": "אבטחה ואמון",
   "ft_vuln": "דיווח על פרצת אבטחה"
  }

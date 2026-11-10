@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "ps",
  "native": "پښتو",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "زموږ په اړه",
   "ft_accessibility": "لاسرسی",
   "ft_agents": "استازی شئ",
   "ft_appstore": "App Store",
-  "ft_bills": "بلونه او اړیکې",
   "ft_blog": "بلاګ",
   "ft_brand": "د برانډ کڅوړه",
   "ft_cards": "د سوداګرۍ کارتونه او لګښتونه",
@@ -96,7 +95,6 @@
   "ft_tProduct": "د محصول تازه معلومات",
   "ft_tagline": "له انټرنېټ سره او بې له هغه کار کوي.",
   "ft_terms": "شرطونه",
-  "ft_travel": "سفر او ټکټونه",
   "ft_trust": "امنیت او باور",
   "ft_vuln": "د امنیتي کمزورۍ راپور ورکړئ"
  }

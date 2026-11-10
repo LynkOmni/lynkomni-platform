@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "yi",
  "native": "ייִדיש",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "וועגן אונדז",
   "ft_accessibility": "צוטריטלעכקייט",
   "ft_agents": "ווערט אַן אַגענט",
   "ft_appstore": "App Store",
-  "ft_bills": "חשבונות און פֿאַרבינדונג",
   "ft_blog": "בלאָג",
   "ft_brand": "מאַרקע געצײַג",
   "ft_cards": "געשעפֿט קאַרטלעך און הוצאות",
@@ -96,7 +95,6 @@
   "ft_tProduct": "פּראָדוקט נײַעס",
   "ft_tagline": "אַרבעט מיט אינטערנעץ און אָן אים.",
   "ft_terms": "באַדינגונגען",
-  "ft_travel": "רײַזעס און בילעטן",
   "ft_trust": "זיכערהייט און צוטרוי",
   "ft_vuln": "מעלדן אַ זיכערהייט לאָך"
  }

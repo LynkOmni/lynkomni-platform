@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "Tentang Kami",
   "ft_accessibility": "Kebolehcapaian",
   "ft_agents": "Jadi Ejen",
   "ft_appstore": "App Store",
-  "ft_bills": "Bil & Sambungan",
   "ft_blog": "Blog",
   "ft_brand": "Kit Jenama",
   "ft_cards": "Kad Perniagaan & Perbelanjaan",
@@ -96,7 +95,6 @@
   "ft_tProduct": "Kemas kini produk",
   "ft_tagline": "Berfungsi dengan atau tanpa internet.",
   "ft_terms": "Terma",
-  "ft_travel": "Perjalanan & Tiket",
   "ft_trust": "Keselamatan & Kepercayaan",
   "ft_vuln": "Laporkan Kelemahan"
  }

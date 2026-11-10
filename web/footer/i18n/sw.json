@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "Kuhusu sisi",
   "ft_accessibility": "Ufikiaji",
   "ft_agents": "Kuwa wakala",
   "ft_appstore": "App Store",
-  "ft_bills": "Bili na mawasiliano",
   "ft_blog": "Blogu",
   "ft_brand": "Vifaa vya chapa",
   "ft_cards": "Kadi za biashara na matumizi",
@@ -96,7 +95,6 @@
   "ft_tProduct": "Habari za bidhaa",
   "ft_tagline": "Inafanya kazi na au bila intaneti.",
   "ft_terms": "Masharti",
-  "ft_travel": "Safari na tiketi",
   "ft_trust": "Usalama na uaminifu",
   "ft_vuln": "Ripoti udhaifu wa kiusalama"
  }

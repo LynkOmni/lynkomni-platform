@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "Game da mu",
   "ft_accessibility": "Samun dama",
   "ft_agents": "Zama wakili",
   "ft_appstore": "App Store",
-  "ft_bills": "Kuɗaɗen biya da haɗin sadarwa",
   "ft_blog": "Bulogi",
   "ft_brand": "Kayan alama",
   "ft_cards": "Katunan kasuwanci da kashe kuɗi",
@@ -96,7 +95,6 @@
   "ft_tProduct": "Sabbin kayayyaki",
   "ft_tagline": "Yana aiki da intanet ko ba tare da shi ba.",
   "ft_terms": "Sharuɗɗa",
-  "ft_travel": "Tafiya da tikiti",
   "ft_trust": "Tsaro da amana",
   "ft_vuln": "Bayar da rahoton rauni"
  }

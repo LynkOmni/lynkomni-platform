@@ -5,7 +5,11 @@ What changed in each version, in plain words, newest first. Version numbers: `0.
 ## v0.32.0 (2026-11-10)
 Every service in every place (owner rule, 10 November 2026).
 - Every product is now in the website header, the launcher, search, help, its product page, the sitemap and the footer. It is also on the pricing page when it has a paid tier, and in the app navigation when it has an app place.
-- LynkBooking (travel and ticketing), LynkEssential (bills and connectivity) and LynkDev (developer platform) joined the footer's product list. Their plain words are translated into all 38 languages. LynkDev has its own product page, lynkomni.com/developers.
+- New footer entries, with plain words translated into all 38 languages:
+  - LynkBooking (Travel & ticketing) and LynkEssential (Bills & connectivity) replace their plain links in Solutions;
+  - LynkDev (Developer platform) leads the Developers column, with its own product page, lynkomni.com/developers.
+
+  The Products column stays within its three sub-columns of six.
 - 16 platform services and tier features are now in the placements register with their places:
   - LynkHub, LynkDoc, LynkAPI and LynkSDK;
   - LynkStatus, LynkFAQ, LynkFeedback, LynkSafety and LynkSupport;

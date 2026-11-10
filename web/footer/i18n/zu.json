@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "Mayelana nathi",
   "ft_accessibility": "Ukufinyeleleka",
   "ft_agents": "Yiba yi-ejenti",
   "ft_appstore": "App Store",
-  "ft_bills": "Izikweletu nokuxhumana",
   "ft_blog": "Ibhulogi",
   "ft_brand": "Impahla yophawu",
   "ft_cards": "Amakhadi ebhizinisi nokusebenzisa imali",
@@ -96,7 +95,6 @@
   "ft_tProduct": "Izibuyekezo zemikhiqizo",
   "ft_tagline": "Kusebenza kunayo noma kungekho i-inthanethi.",
   "ft_terms": "Imigomo",
-  "ft_travel": "Uhambo namathikithi",
   "ft_trust": "Ukuphepha nokwethenjwa",
   "ft_vuln": "Bika ubuthakathaka bokuphepha"
  }

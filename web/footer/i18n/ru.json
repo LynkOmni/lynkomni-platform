@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "ru",
  "native": "Русский",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "О нас",
   "ft_accessibility": "Доступность",
   "ft_agents": "Стать агентом",
   "ft_appstore": "App Store",
-  "ft_bills": "Счета и связь",
   "ft_blog": "Блог",
   "ft_brand": "Брендбук",
   "ft_cards": "Бизнес-карты и расходы",
@@ -96,7 +95,6 @@
   "ft_tProduct": "Новости продукта",
   "ft_tagline": "Работает с интернетом и без него.",
   "ft_terms": "Условия",
-  "ft_travel": "Путешествия и билеты",
   "ft_trust": "Безопасность и доверие",
   "ft_vuln": "Сообщить об уязвимости"
  }

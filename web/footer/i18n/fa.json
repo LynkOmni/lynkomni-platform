@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "fa",
  "native": "فارسی",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "درباره ما",
   "ft_accessibility": "دسترس‌پذیری",
   "ft_agents": "نماینده شوید",
   "ft_appstore": "App Store",
-  "ft_bills": "قبض‌ها و ارتباطات",
   "ft_blog": "وبلاگ",
   "ft_brand": "کیت برند",
   "ft_cards": "کارت‌ها و هزینه‌های کسب‌وکار",
@@ -96,7 +95,6 @@
   "ft_tProduct": "تازه‌های محصول",
   "ft_tagline": "با اینترنت یا بدون آن کار می‌کند.",
   "ft_terms": "شرایط",
-  "ft_travel": "سفر و بلیت",
   "ft_trust": "امنیت و اعتماد",
   "ft_vuln": "گزارش آسیب‌پذیری"
  }

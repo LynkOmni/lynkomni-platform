@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "th",
  "native": "ไทย",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "เกี่ยวกับเรา",
   "ft_accessibility": "การเข้าถึง",
   "ft_agents": "เป็นตัวแทน",
   "ft_appstore": "App Store",
-  "ft_bills": "ค่าบริการและการเชื่อมต่อ",
   "ft_blog": "บล็อก",
   "ft_brand": "ชุดแบรนด์",
   "ft_cards": "บัตรธุรกิจและการใช้จ่าย",
@@ -96,7 +95,6 @@
   "ft_tProduct": "อัปเดตผลิตภัณฑ์",
   "ft_tagline": "ใช้งานได้ทั้งมีและไม่มีอินเทอร์เน็ต",
   "ft_terms": "ข้อกำหนด",
-  "ft_travel": "การเดินทางและตั๋ว",
   "ft_trust": "ความปลอดภัยและความน่าเชื่อถือ",
   "ft_vuln": "รายงานช่องโหว่"
  }

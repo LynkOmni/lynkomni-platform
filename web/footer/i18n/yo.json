@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "Nípa wa",
   "ft_accessibility": "Ìráyèsí",
   "ft_agents": "Di aṣojú",
   "ft_appstore": "App Store",
-  "ft_bills": "Owó ìnáwó àti ìsopọ̀",
   "ft_blog": "Búlọ́ọ̀gì",
   "ft_brand": "Ohun èlò àmì",
   "ft_cards": "Káàdì iṣẹ́ òwò àti ìnáwó",
@@ -96,7 +95,6 @@
   "ft_tProduct": "Ìròyìn ọjà",
   "ft_tagline": "Ó ń ṣiṣẹ́ pẹ̀lú íńtánẹ́ẹ̀tì tàbí láìsí rẹ̀.",
   "ft_terms": "Àwọn òfin",
-  "ft_travel": "Ìrìnàjò àti tíkẹ́ẹ̀tì",
   "ft_trust": "Ààbò àti ìgbẹ́kẹ̀lé",
   "ft_vuln": "Jábọ̀ àìlágbára ààbò"
  }

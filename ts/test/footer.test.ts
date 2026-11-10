@@ -19,7 +19,8 @@ test("the year flips at the viewer's local midnight", () => {
 });
 test("menus use the ecosystem names and the cleaned structure", () => {
   const cols = columns("en"), ids = (c: string) => cols.find((x) => x.id === c)!.items.map((i) => i.label);
-  assert.deepEqual(ids("developers"), ["LynkHub", "LynkDoc", "LynkAPI", "LynkSDK"]);
+  assert.deepEqual(ids("developers"), ["LynkDev", "LynkHub", "LynkDoc", "LynkAPI", "LynkSDK"]);
+  assert.ok(ids("solutions").includes("LynkBooking") && ids("solutions").includes("LynkEssential"));
   assert.ok(ids("products").includes("LynkVCard") && ids("products").includes("LynkSuite") && ids("products").includes("LynkAssist"));
   assert.ok(ids("support").includes("LynkStatus") && ids("support").includes("LynkFAQ"));
   assert.ok(!ids("company").includes("Founder") && !ids("company").includes("Press"));                     // folded into Leadership and Newsroom

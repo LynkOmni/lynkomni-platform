@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "uk",
  "native": "Українська",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "Про нас",
   "ft_accessibility": "Доступність",
   "ft_agents": "Стати агентом",
   "ft_appstore": "App Store",
-  "ft_bills": "Рахунки й зв'язок",
   "ft_blog": "Блог",
   "ft_brand": "Матеріали бренду",
   "ft_cards": "Бізнес-картки й витрати",
@@ -96,7 +95,6 @@
   "ft_tProduct": "Новини продуктів",
   "ft_tagline": "Працює з інтернетом і без нього.",
   "ft_terms": "Умови",
-  "ft_travel": "Подорожі й квитки",
   "ft_trust": "Безпека й довіра",
   "ft_vuln": "Повідомити про вразливість"
  }

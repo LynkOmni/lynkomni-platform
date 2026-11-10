@@ -4,13 +4,12 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "07975850e6b8711c8ca2d0b3b45a07cb7b8f7c1c94ceb46abf30753f3af62736",
+ "source_sha256": "d59c061487447e5508add700b6489284236bcfd5e0aa06e10e9e02c063e8fde5",
  "texts": {
   "ft_about": "আমাদের সম্পর্কে",
   "ft_accessibility": "প্রবেশযোগ্যতা",
   "ft_agents": "এজেন্ট হোন",
   "ft_appstore": "App Store",
-  "ft_bills": "বিল ও সংযোগ",
   "ft_blog": "ব্লগ",
   "ft_brand": "ব্র্যান্ড উপকরণ",
   "ft_cards": "ব্যবসায়িক কার্ড ও খরচ",
@@ -96,7 +95,6 @@
   "ft_tProduct": "পণ্যের হালনাগাদ",
   "ft_tagline": "ইন্টারনেট থাকুক বা না থাকুক, কাজ করে।",
   "ft_terms": "শর্তাবলি",
-  "ft_travel": "ভ্রমণ ও টিকিট",
   "ft_trust": "নিরাপত্তা ও আস্থা",
   "ft_vuln": "নিরাপত্তা ত্রুটি জানান"
  }
