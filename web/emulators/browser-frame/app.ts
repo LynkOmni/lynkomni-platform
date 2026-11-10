@@ -12,7 +12,7 @@ import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { arrowNav, gestures } from "../../../ts/src/gestures.js";
 const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 } as const;   // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
 
-interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[]; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; plain: string; state: "available" | "coming_soon" }[] }
+interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[]; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; id?: string; name: string; icon: string; plain: string; href?: string; state: "available" | "coming_soon" }[] }
 interface BuildData {
   icons: Record<string, string>;
   brand: { body: string; receipt: string; places: BrandPlaces };
@@ -145,7 +145,7 @@ function main(): string {
 function overlay(): string {
   const wrap = (cls: string, inner: string) => `<div class="overlay ${cls}" data-act="closeoverlay">${inner.replace(/^<(div|aside)/, '<$1 data-act="keep"')}</div>`;
   switch (S.overlay) {
-    case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.service, name: s.name, plain: t(`ft_plain_${s.plain}`), icon: s.icon, href: `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon, sides()));
+    case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.id ?? s.service, name: s.name, plain: t(`ft_plain_${s.plain}`), icon: s.icon, href: s.href ?? `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon, sides()));
     case "account": return wrap("end", accountMenu({ name: "Grace", lynkId: "LOID-4821-9035-7715", businesses: [{ id: "b1", name: SHOP(), current: true }, { id: "b2", name: `${SHOP()} 2`, current: false }], role: "owner", roles: ["owner", "manager", "cashier"], theme: S.mode === "lite" ? "lite" : S.mode === "sunlight" ? "sunlight" : S.theme, language: langName(isTest() ? "en" : S.lang), region: pack().sample ? t("sample_country") : pack().name, sides: sides(), view: { name: t(IFACE_NAME[S.choice?.interface ?? "universal"] ?? "iface_universal") } }, t, icon));
     case "view": return wrap("", viewSheet({ current: S.choice?.interface ?? "universal", rule: S.choice?.rule ?? "safe_default", options: [...VIEWS], ownerOnly: false, canChange: true }, t, icon) + (S.pendingView !== undefined ? `<p class="toast-note" role="status">${esc(t("view_waits"))}</p>` : ""));
     case "globe": return wrap("", globeSheet(Object.entries(PACKS).map(([code, p]) => ({ code, native: p.native, dir: p.dir })), DATA.packOrder.map((c) => ({ code: c, name: (DATA.packs[c] as CountryPack).sample ? t("sample_country") : regionName(c, isTest() ? "en" : S.lang, (DATA.packs[c] as CountryPack).name) })), { language: isTest() ? "en" : S.lang, region: pack().code }, t));

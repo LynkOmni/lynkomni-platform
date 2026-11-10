@@ -8,7 +8,7 @@ import { buildFooter, mainFooterHtml, shortFooterHtml } from "./footer.js";
 import type { UserState } from "./pos.js";
 
 export interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; ui: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[];
-  ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; plain: string; state: "available" | "coming_soon" }[] }
+  ready: Record<string, { ok: boolean; message: string }>; services: { service: string; id?: string; name: string; icon: string; plain: string; href?: string; state: "available" | "coming_soon" }[] }
 export interface LanguagePack { native: string; dir: "ltr" | "rtl"; texts: Record<string, string> }
 export interface Build { icons: Record<string, string>; statePictures: Record<string, Record<string, { svg: string; alt: string }>>; brand: { body: string; receipt: string; places: BrandPlaces; favicon?: { light: string; dark: string } }; pictures: { offLight: string; offDark: string; offAlt: string };
   states: Record<string, { label: string; meaning: string }>; packs: Record<string, CountryPack>; packOrder: string[]; i18n: Record<string, LanguagePack>;

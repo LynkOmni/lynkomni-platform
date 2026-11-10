@@ -19,7 +19,7 @@ import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { arrowNav, gestures } from "../../../ts/src/gestures.js";
 const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 } as const;   // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
 
-interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[]; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; name: string; icon: string; plain: string; state: "available" | "coming_soon" }[] }
+interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[]; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; id?: string; name: string; icon: string; plain: string; href?: string; state: "available" | "coming_soon" }[] }
 interface BuildData {
   icons: Record<string, string>;
   brand: { body: string; receipt: string; places: BrandPlaces };
@@ -290,7 +290,7 @@ function page(): string {
 function overlay(): string {
   const wrap = (cls: string, inner: string) => `<div class="overlay ${cls}" data-act="closeoverlay">${inner.replace(/^<(div|aside)/, '<$1 data-act="keep"')}</div>`;
   switch (S.overlay) {
-    case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.service, name: s.name, plain: t(`ft_plain_${s.plain}`), icon: s.icon, href: `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon));
+    case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.id ?? s.service, name: s.name, plain: t(`ft_plain_${s.plain}`), icon: s.icon, href: s.href ?? `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon));
     case "pages": return wrap("", launcher(PAGES.map((p) => ({ id: `page-${p}`, name: t(`page_${p}`), icon: PAGE_ICON[p], href: pagePath(p), state: "available" as const })), t, icon));
     case "account": return wrap("end", accountMenu({ name: t("person_name"), lynkId: LYNKID, businesses: [{ id: "b1", name: t("shop_name"), current: true }, { id: "b2", name: t("client_pharmacy"), current: false }], role: "owner", roles: ["owner", "manager"], theme: S.mode === "lite" ? "lite" : S.mode === "sunlight" ? "sunlight" : S.theme, language: langName(isTest() ? "en" : S.lang), region: pack().sample ? t("sample_country") : pack().name, view: { name: t(IFACE_NAME[S.choice?.interface ?? "universal"] ?? "iface_universal") },
       links: [{ act: "go:storefront", label: t("page_storefront"), icon: "ui-cart" }, { act: "go:support", label: t("support_seller"), icon: "ui-info" }] }, t, icon));

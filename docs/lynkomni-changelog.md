@@ -2,6 +2,18 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.34.0 (2026-11-10)
+NEW UPDATE 1, section 1 (shell and design).
+- **New LynkVCard faces,** one colour, finish and metal per tier:
+  - EDGE: Aurora Teal, aurora waves, a point of light, silver chip;
+  - HUB: Royal Sapphire, guilloche, a silver hub, silver chip;
+  - CORE: Imperial Amethyst, a holographic band, a glowing core in its spend gauge, gold chip;
+  - OMNI: Black Gold, gold pinstripes, foil edge, a gold globe and orbit.
+
+  No number dots and no contactless symbol. Calm backs with a stripe, a plain panel for the issuer and the motif as a watermark. "LynkOmni Reserve Network" removed. 18 new colour tokens.
+- **Plan marks:** product marks for LynkMotion (a route to a pin) and LynkGuard (a padlock in a ring), released in @lynkomni/icons 1.6.0 and vendored by the brand-sync workflow.
+- **Launcher:** LynkMotion and LynkGuard are in the launcher of every emulator with their plain words; they open /tracking and /protection.
+
 ## v0.33.0 (2026-11-10)
 NEW UPDATE 1, Step 0 (one global structure).
 - **Billing:** LynkMotion ($0, $9, $29, $79) and LynkGuard ($0, $15, $49, $149) are new families outside LynkSuite. Each covers LynkTrace, LynkGPS and LynkSentry, with:

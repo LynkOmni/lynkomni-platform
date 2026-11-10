@@ -99,4 +99,9 @@ Every decision the owner made, newest first. Lines are never deleted: a changed 
   - The APIs of services whose sections are already locked (LynkPOS, LynkStock, LynkGrow, LynkAssist, business documents) are built with the developer platform in section 11.
   - LynkMotion's Storefront side is built in section 7 and LynkGuard's in section 7B.
   - The journey pass reads LynkBooking travel; this corrects an earlier line that said LynkEssential.
+- 2026-11-10: NEW UPDATE 1 section 1 (v0.34.0) built by the blueprint without asking.
+  - The card faces follow the approved colours, and the four sample card details stay only in the design review.
+  - The tier ladder picture's size budget was raised from 24 to 32 KB, because four richer faces share one drawing.
+  - The plan marks went through lynkomni-icons (release 1.6.0). The brand-sync workflow vendored them, and its pull request #62 is folded into this section, as #37 was in section 1.
+  - The stale icon count in the icons usage guide was removed.
 

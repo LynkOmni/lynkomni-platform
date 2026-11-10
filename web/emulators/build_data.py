@@ -95,12 +95,15 @@ def language_packs(emulator):
 SERVICES = [("pos", "LynkPOS", "product-pos"), ("accountant", "LynkAcc", "product-ledger"), ("inventory", "LynkStock", "product-stock"),
             ("dashboard", "LynkStat", "product-dash"), ("intelligence", "LynkGrow", "product-grow"), ("chat", "LynkChat", "product-chat"),
             ("payments", "LynkMPay", "product-mpay"), ("paylinks", "LynkCheckout", "product-checkout"), ("loyalty", "LynkRewards", "product-rewards"),
-            ("recovery", "LynkRecover", "product-recover"), ("vcard", "LynkVCard", "product-vcard")]
+            ("recovery", "LynkRecover", "product-recover"), ("vcard", "LynkVCard", "product-vcard"),
+            ("movement", "LynkMotion", "product-motion"), ("movement", "LynkGuard", "product-guard")]     # NEW UPDATE 1: two plans on the one "movement" service
+# Where a launcher place opens when it is not /<service> (catalog/products.v1.json app place).
+HREF = {"LynkMotion": "/tracking", "LynkGuard": "/protection"}
 
 
 # Each product's footer id, whose plain word ("Accounting") travels beside its short name everywhere it is listed (web/footer ft_plain_<id>).
 PLAIN_ID = {"LynkPOS": "pos", "LynkAcc": "acc", "LynkStock": "stock", "LynkStat": "stat", "LynkGrow": "grow", "LynkChat": "chat", "LynkMPay": "mpay",
-            "LynkCheckout": "checkout", "LynkRewards": "rewards", "LynkRecover": "recover", "LynkVCard": "vcard"}
+            "LynkCheckout": "checkout", "LynkRewards": "rewards", "LynkRecover": "recover", "LynkVCard": "vcard", "LynkMotion": "motion", "LynkGuard": "guard"}
 
 
 # The brand places the screens ask for (brand/surfaces.v1.json): each place lists its choices in order with the smallest
@@ -220,7 +223,7 @@ def main(emulator):
         "pictures": {"offLight": svg(pic["light"].path), "offDark": svg(pic["dark"].path), "offAlt": pic["light"].alt},
         "states": {k: {"label": v["label"], "meaning": v["meaning"]} for k, v in states.items()},
         "packs": packs, "packOrder": list(packs),   # the country chooser: the sample pack first, then every real pack
-        "serviceCatalog": [{"service": sv, "name": nm, "icon": ic, "plain": PLAIN_ID[nm]} for sv, nm, ic in SERVICES], "methods": list(METHOD_ITEMS), "offMessage": off["message"],
+        "serviceCatalog": [{"service": sv, "id": nm.lower(), "name": nm, "icon": ic, "plain": PLAIN_ID[nm], "href": HREF.get(nm, f"/{sv}")} for sv, nm, ic in SERVICES], "methods": list(METHOD_ITEMS), "offMessage": off["message"],
         # what each LynkPOS plan allows (billing FEATURES merged up to the tier) and the PLACEHOLDER rates behind the second-currency estimate (core/money.py, ledger fx_rates)
         "entitlements": {tier: entitlement("lynkpos", tier) for tier in billing.FAMILIES["lynkpos"][2]}, "checkout": {tier: entitlement("lynkcheckout", tier) for tier in billing.FAMILIES["lynkcheckout"][2]},
         "fx": {k: float(v) for k, v in USD_RATES.items()},

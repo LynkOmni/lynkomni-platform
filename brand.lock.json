@@ -1,9 +1,9 @@
 {
   "schema": 1,
   "package": "@lynkomni/icons",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "files": {
-    "brand.json": "1376a1494147f454a8bc5f467a909d9762728e4f746a50506d69db859af5854a",
+    "brand.json": "aec24e1914d569e8450f71c5b87d85a0b0304f6b9c6f5bc00136038092d5b9be",
     "email/logo-dark.png": "837891fe630df086877bc184a8762d3b55f279b5435f870e47800a259d7b28fb",
     "email/logo-dark@2x.png": "d72b9c65101f903f56d9f64d280503bff2441564adef46ae3c97a9e05e494946",
     "email/logo-light.png": "47ddbdb606fd8a388aeae2b3261978f47c541b8e4f0fbe423bb0d7e48cc6b5cf",
@@ -32,7 +32,9 @@
     "icons/lynkomni-icon-product-dev.svg": "33f2e9167d61b375b01a44ae7a55e680d264dd735985d420bb93543a3e978c02",
     "icons/lynkomni-icon-product-essential.svg": "a3db49f5ff2f0f8894db01fda7d3e40a0ca44870d5b73a53525f5586a1d9619a",
     "icons/lynkomni-icon-product-grow.svg": "c026d88bbabc26f10d5ca5a3c5306e07a81ee326f062cc7af6b2b96026be9b22",
+    "icons/lynkomni-icon-product-guard.svg": "b60c77d873737514e187ce9c1cf1282f6e930f9c11dfab6ceeba7f09995ff5ea",
     "icons/lynkomni-icon-product-ledger.svg": "0055a54b7af40d3f9b297b811c8b2ad810996681d61f2b218789ccb51f880501",
+    "icons/lynkomni-icon-product-motion.svg": "8470cceb6e817905756c31bb230709360551c8c57193ecbd5e3694a1f33b92eb",
     "icons/lynkomni-icon-product-mpay.svg": "923cd33eca6fe79fac2ac9a55e1f57b255298b464b605fd647321013672ba648",
     "icons/lynkomni-icon-product-pos.svg": "535b061ce4bb7fb0f7bad7d6deb4464c57675659597c0318aa77ad1d88c25dfc",
     "icons/lynkomni-icon-product-recover.svg": "0d5d184fd044bb5787a67dee23fecd107b1c7435ca091e9b86534fa05954571b",
