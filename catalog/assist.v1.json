@@ -144,6 +144,32 @@
   },
   "security_check_internals": {
    "class": 5
+  },
+  "device_today": {
+   "class": 4,
+   "roles": [
+    "owner",
+    "manager",
+    "cashier"
+   ],
+   "source": "this device's own records (offline layer 2)"
+  },
+  "cash_expected": {
+   "class": 4,
+   "roles": [
+    "owner",
+    "manager",
+    "cashier"
+   ],
+   "source": "this device's own records (offline layer 2)"
+  },
+  "queued_items": {
+   "class": 2,
+   "source": "this device's own records (offline layer 2)"
+  },
+  "device_health": {
+   "class": 2,
+   "source": "this device's own records (offline layer 2)"
   }
  },
  "actions": [
@@ -162,7 +188,8 @@
    "verify": "none",
    "undo": null,
    "build_section": 0,
-   "status": "built"
+   "status": "built",
+   "offline": "queue"
   },
   {
    "id": "resend_receipt",
@@ -182,7 +209,8 @@
    "verify": "delivery",
    "undo": null,
    "build_section": 0,
-   "status": "built"
+   "status": "built",
+   "offline": "queue"
   },
   {
    "id": "rerun_sync",
@@ -202,7 +230,8 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 0,
-   "status": "built"
+   "status": "built",
+   "offline": "device"
   },
   {
    "id": "reconnect_device",
@@ -222,7 +251,8 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 0,
-   "status": "built"
+   "status": "built",
+   "offline": "device"
   },
   {
    "id": "mute_notification_kind",
@@ -246,7 +276,8 @@
    "verify": "read_back",
    "undo": "unmute",
    "build_section": 0,
-   "status": "built"
+   "status": "built",
+   "offline": "device"
   },
   {
    "id": "snooze_notification",
@@ -270,7 +301,8 @@
    "verify": "read_back",
    "undo": "unsnooze",
    "build_section": 0,
-   "status": "built"
+   "status": "built",
+   "offline": "device"
   },
   {
    "id": "end_plan_at_period_end",
@@ -289,7 +321,8 @@
    "verify": "read_back",
    "undo": "keep_plan",
    "build_section": 2,
-   "status": "built"
+   "status": "built",
+   "offline": "queue"
   },
   {
    "id": "change_language",
@@ -307,7 +340,8 @@
    "verify": "read_back",
    "undo": "restore_setting",
    "build_section": 2,
-   "status": "built"
+   "status": "built",
+   "offline": "queue"
   },
   {
    "id": "stop_location_share",
@@ -326,7 +360,8 @@
    "undo": null,
    "build_section": 2,
    "status": "built",
-   "note": "stopping a share is always allowed; a new share needs the person's own consent"
+   "note": "stopping a share is always allowed; a new share needs the person's own consent",
+   "offline": "queue"
   },
   {
    "id": "sign_out_other_device",
@@ -344,7 +379,8 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 2,
-   "status": "built"
+   "status": "built",
+   "offline": "cloud_check"
   },
   {
    "id": "export_my_data",
@@ -362,7 +398,8 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 2,
-   "status": "built"
+   "status": "built",
+   "offline": "cloud_check"
   },
   {
    "id": "close_account",
@@ -381,7 +418,8 @@
    "undo": "cancel_close",
    "build_section": 2,
    "status": "built",
-   "note": "a waiting period lets the person cancel"
+   "note": "a waiting period lets the person cancel",
+   "offline": "cloud_check"
   },
   {
    "id": "lock_everything",
@@ -403,7 +441,8 @@
    "undo": null,
    "build_section": 2,
    "status": "built",
-   "note": "locking is quick; unlocking needs verification; Arrive Safe shares keep running"
+   "note": "locking is quick; unlocking needs verification; Arrive Safe shares keep running",
+   "offline": "cloud_check"
   },
   {
    "id": "recover_account",
@@ -422,7 +461,8 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 2,
-   "status": "built"
+   "status": "built",
+   "offline": "never"
   },
   {
    "id": "change_passkeys",
@@ -441,7 +481,8 @@
    "undo": null,
    "build_section": 2,
    "status": "built",
-   "note": "opens the Security Center; never done in a chat"
+   "note": "opens the Security Center; never done in a chat",
+   "offline": "never"
   },
   {
    "id": "void_sale_within_rules",
@@ -461,7 +502,8 @@
    "verify": "read_back",
    "undo": "restore_sale",
    "build_section": 3,
-   "status": "planned"
+   "status": "built",
+   "offline": "queue"
   },
   {
    "id": "correct_price",
@@ -480,7 +522,8 @@
    "verify": "read_back",
    "undo": "restore_price",
    "build_section": 3,
-   "status": "planned"
+   "status": "built",
+   "offline": "queue"
   },
   {
    "id": "correct_stock_quantity",
@@ -500,7 +543,8 @@
    "verify": "read_back",
    "undo": "restore_quantity",
    "build_section": 3,
-   "status": "planned"
+   "status": "built",
+   "offline": "queue"
   },
   {
    "id": "release_stale_hold",
@@ -519,7 +563,8 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 3,
-   "status": "planned"
+   "status": "built",
+   "offline": "queue"
   },
   {
    "id": "retire_device",
@@ -537,7 +582,8 @@
    "verify": "read_back",
    "undo": "restore_device",
    "build_section": 3,
-   "status": "planned"
+   "status": "built",
+   "offline": "queue"
   },
   {
    "id": "enrol_device",
@@ -555,7 +601,8 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 3,
-   "status": "planned"
+   "status": "built",
+   "offline": "cloud_check"
   },
   {
    "id": "wipe_lost_device",
@@ -573,8 +620,9 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 3,
-   "status": "planned",
-   "note": "the owner's own command; wrong PINs only ever lock"
+   "status": "built",
+   "note": "the owner's own command; wrong PINs only ever lock",
+   "offline": "cloud_check"
   },
   {
    "id": "refund_payment",
@@ -593,8 +641,9 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 3,
-   "status": "planned",
-   "note": "the licensed provider decides and moves the money"
+   "status": "built",
+   "note": "the licensed provider decides and moves the money",
+   "offline": "never"
   },
   {
    "id": "agent_request",
@@ -613,7 +662,8 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 3,
-   "status": "planned"
+   "status": "built",
+   "offline": "never"
   },
   {
    "id": "issue_credit_note",
@@ -634,7 +684,8 @@
    "undo": null,
    "build_section": 4,
    "status": "planned",
-   "note": "an issued invoice never changes"
+   "note": "an issued invoice never changes",
+   "offline": "queue"
   },
   {
    "id": "file_tax_return",
@@ -653,7 +704,8 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 4,
-   "status": "planned"
+   "status": "planned",
+   "offline": "never"
   },
   {
    "id": "run_payroll",
@@ -671,7 +723,8 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 4,
-   "status": "planned"
+   "status": "planned",
+   "offline": "never"
   },
   {
    "id": "book_redelivery",
@@ -690,7 +743,8 @@
    "verify": "read_back",
    "undo": "cancel_redelivery",
    "build_section": 7,
-   "status": "planned"
+   "status": "planned",
+   "offline": "queue"
   },
   {
    "id": "freeze_card",
@@ -710,7 +764,8 @@
    "undo": "unfreeze_with_check",
    "build_section": 7,
    "status": "planned",
-   "note": "shown frozen only when the issuer confirms; may be queued offline"
+   "note": "shown frozen only when the issuer confirms; may be queued offline",
+   "offline": "queue"
   },
   {
    "id": "request_credit",
@@ -730,7 +785,8 @@
    "undo": null,
    "build_section": 7,
    "status": "planned",
-   "note": "the lender alone decides"
+   "note": "the lender alone decides",
+   "offline": "never"
   },
   {
    "id": "exchange_request",
@@ -749,7 +805,8 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 10,
-   "status": "planned"
+   "status": "planned",
+   "offline": "never"
   },
   {
    "id": "rotate_api_key",
@@ -767,7 +824,74 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 11,
-   "status": "planned"
+   "status": "planned",
+   "offline": "queue"
+  },
+  {
+   "id": "reprint_receipt",
+   "area": "selling",
+   "class": "A",
+   "touches": [
+    "device"
+   ],
+   "roles": [
+    "owner",
+    "manager",
+    "cashier"
+   ],
+   "limits": {
+    "per_day": 200
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 3,
+   "status": "built",
+   "offline": "device"
+  },
+  {
+   "id": "recount_cash",
+   "area": "cash",
+   "class": "A",
+   "touches": [
+    "device"
+   ],
+   "roles": [
+    "owner",
+    "manager",
+    "cashier"
+   ],
+   "limits": {
+    "per_day": 20
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 3,
+   "status": "built",
+   "note": "opens a fresh count outside the count screen; LynkAssist is never shown inside a cash count",
+   "offline": "device"
+  },
+  {
+   "id": "hand_over_shift",
+   "area": "shifts",
+   "class": "B",
+   "touches": [
+    "books"
+   ],
+   "roles": [
+    "owner",
+    "manager",
+    "cashier"
+   ],
+   "limits": {
+    "per_day": 10
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 3,
+   "status": "built",
+   "offline": "queue"
   }
- ]
+ ],
+ "offline_rule": "Offline layer 2 (MASTER UPDATE 1.11; build section 3): every action says what it does without a network. device: changes only this device, done at once and recorded, synced later. queue: the person confirms now, it is sealed on the device and shown as queued, carried out when the network returns, then verified and told; never shown as done before that, and it expires if the device stays offline too long. cloud_check: needs the cloud's fresh identity check, so it waits. never: needs a provider, a partner or a person, so it is not offered offline (LynkAssist prepares the case to send later; the one exception, a card freeze, is queued and shown frozen only when the issuer confirms).",
+ "queue_expires_s": 604800
 }

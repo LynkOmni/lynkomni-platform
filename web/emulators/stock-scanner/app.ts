@@ -10,6 +10,10 @@ import { designedState, panelShell, sampleAccount } from "../../../ts/src/device
 import type { Entry } from "../../../ts/src/shell.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
+import { deviceBanners, knowledgeFor, raiseLocal } from "../../../ts/src/devicekit.js";
+import type { Line } from "../../../ts/src/notify.js";
+/** MASTER UPDATE section 3: the scanner's own bell and banners (lines from the register, folded while offline). */
+let LINES: Line[] = [];
 
 declare const DATA: Build;
 type Mode = "count" | "receive" | "adjust";
@@ -37,7 +41,8 @@ const DSH = panelShell({
   pending: () => LOG.pending().count, lastSync: () => LOG.events.find((e) => e.sync === "accepted")?.at ?? null,
   screen: () => ({ id: S.mode, title: shellTitle(), path: S.mode === "count" ? "/stock/counts/new" : S.mode === "receive" ? "/stock/arrivals/new" : "/stock/removals/new" }), entries: (): Entry[] => [...(["count", "receive", "adjust"] as Mode[]).map((m): Entry => ({ id: m, kind: "action", title: t(m), act: `mode:${m}` })), ...ITEMS.map((x): Entry => ({ id: x.id, kind: "product", title: t(x.name), subtitle: x.barcode, keywords: [x.barcode], act: `pick:${x.id}` }))],
   account: () => sampleAccount(t, "cashier", ["cashier", "manager", "owner"], t("sample_shop"), S.dark ? "dark" : "light", DATA.i18n[S.lang]?.native ?? S.lang, C.pack().sample ? t("sample_country") : C.pack().name),
-  run: (a) => { act(a); }, redraw: () => draw(),
+  run: (a) => { if (a.startsWith("ntf:")) { const nid = a.split(":")[2]; LINES.forEach((l) => { if (l.nid === nid || a === "ntf:allread") { l.read = true; l.acknowledged = true; } }); return; } act(a); }, redraw: () => draw(),
+  lines: () => LINES, knowledge: () => knowledgeFor(DATA.i18n, S.lang), crumbLabel: (p) => t(p === "/" ? "sample_shop" : p === "/stock" ? "stock" : S.mode),
 });
 
 function scan(): void {
@@ -50,11 +55,13 @@ function save(): void {
   if (S.mode === "count") { LOG.emit("StockCounted", { count_id: newId(), product_id: i.id, counted_milli: q, device_view_milli: i.level }); i.level = q; }
   else if (S.mode === "receive") { LOG.emit("StockReceived", { stock_receipt_id: newId(), lines: [{ product_id: i.id, quantity_milli: q }] }); i.level += q; }
   else { LOG.emit("StockAdjusted", { adjustment_id: newId(), product_id: i.id, delta_milli: -q, reason_code: "damaged" }); i.level -= q; }
+  if (i.level < 0) LINES = raiseLocal(LINES, "stock_negative", t("s_negative", { name: t(i.name) }), Date.now(), i.id);
+  else if (stockState(i.level, i.reorder) === "low") LINES = raiseLocal(LINES, "stock_low", t("s_low", { name: t(i.name) }), Date.now(), i.id);
   S.flash = t("saved"); S.cur = ""; draw();
 }
 function screen(): string {
   const i = item();
-  const head = `<header class="shead"><span>${esc(t(S.mode === "count" ? "count" : S.mode === "receive" ? "receive" : "adjust"))}</span>${DSH.bar()}</header>`;
+  const head = `<header class="shead"><span>${esc(t(S.mode === "count" ? "count" : S.mode === "receive" ? "receive" : "adjust"))}</span>${DSH.bar()}</header>${deviceBanners(LINES, t, (id) => icon(id))}`;
   const tabs = `<nav class="smodes">${(["count", "receive", "adjust"] as Mode[]).map((m, n) => `<button data-act="mode:${m}" ${S.mode === m ? 'aria-current="true"' : ""}>F${n + 1} ${esc(t(m))}</button>`).join("")}</nav>`;
   const waiting = !S.online && LOG.pending().count ? designedState("sync_pending", t, DATA.statePictures, S.dark, null) : "";   // designed state (41 B)
   if (!i) return `${head}${tabs}<div class="sbody">${waiting}<p class="big">${icon("ui-qr")}</p><p>${esc(t("scan"))}</p>${S.flash ? `<p class="ok">${esc(S.flash)}</p>` : ""}<ul class="slist">${ITEMS.map((x) => `<li><span>${esc(t(x.name))}</span><span>${qtyText(Math.abs(x.level))}${x.level < 0 ? " −" : ""}</span>${word(x) ? `<em>${esc(word(x))}</em>` : ""}</li>`).join("")}</ul></div>`;

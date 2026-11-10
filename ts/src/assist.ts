@@ -11,7 +11,7 @@ import type { Icon, T } from "./shell.js";
 type Cls = "A" | "B" | "C" | "D";
 interface Action { area: string; class: Cls; roles: string[]; limits: { per_day: number; max_minor?: number | null }; touches: string[]; undo: string | null }
 const ACTIONS: Record<string, Action> = ASSIST.actions;
-const ORDER: Cls[] = ["A", "B", "C", "D"];
+const CLASS_ORDER: Cls[] = ["A", "B", "C", "D"];
 export interface Ask { role: string; done_today?: number; amount_minor?: number; confirmed?: boolean; fresh_check?: boolean; switched_off?: string[]; country?: string; ask_owner_first?: string[]; standing?: string[] }
 export type Needs = "none" | "confirm" | "fresh_check" | "ask_owner" | "hand_over" | "refused";
 export interface Decision { run: boolean; needs: Needs; class: Cls | null; why: string; undo?: string | null }
@@ -25,7 +25,7 @@ export function decide(actionId: string, a: Ask): Decision {
   if (!x.roles.includes(a.role)) return { run: false, needs: "refused", class: null, why: "as_why_role" };
   let cls = x.class;
   const lim = x.limits;
-  if ((a.done_today ?? 0) >= lim.per_day || (a.amount_minor !== undefined && lim.max_minor != null && a.amount_minor > lim.max_minor)) cls = ORDER[Math.min(ORDER.indexOf(cls) + 1, 3)]!;
+  if ((a.done_today ?? 0) >= lim.per_day || (a.amount_minor !== undefined && lim.max_minor != null && a.amount_minor > lim.max_minor)) cls = CLASS_ORDER[Math.min(CLASS_ORDER.indexOf(cls) + 1, 3)]!;
   if (x.touches.some((t) => ASSIST.only_hand_over.includes(t))) cls = "D";
   if (cls === "D") return { run: false, needs: "hand_over", class: "D", why: "as_why_hand_over" };
   if (cls === "B" && a.role !== "owner" && (a.ask_owner_first ?? []).includes(actionId)) return { run: false, needs: "ask_owner", class: "B", why: "as_why_ask_owner" };

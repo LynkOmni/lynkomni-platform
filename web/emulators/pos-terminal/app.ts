@@ -15,6 +15,9 @@ import type { DsScreen, StatePictures } from "../../../ts/src/deviceshell.js";
 import type { Entry } from "../../../ts/src/shell.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
+import { StaffLock, deviceBanners, needsManager, raiseLocal, staffPicker } from "../../../ts/src/devicekit.js";
+import type { Line } from "../../../ts/src/notify.js";
+import { buildPack } from "../../../ts/src/assist.js";
 
 interface BuildData {
   icons: Record<string, string>;
@@ -37,7 +40,7 @@ declare const DATA: BuildData;
 const pack = (): CountryPack => DATA.packs[S.country] ?? DATA.packs[DATA.packOrder[0] ?? ""] as CountryPack;
 
 type Screen = "lock" | "home" | "sell" | "cart" | "pay" | "cash" | "momo" | "card" | "waiting" | "done" | "off" | "menu" | "sales" | "sale" | "count" | "shopqr"
-  | "pick" | "agent" | "agentdone" | "code" | "credit";
+  | "pick" | "agent" | "agentdone" | "code" | "credit" | "staff";
 type Step = "number" | "amount" | "confirm";
 interface Req { id: string; service: string; amount: number; fee: number; commission: number; state: AgentState; ref: string }
 type Lang = string;   // a language code from design/fonts/scripts.v1.json, or one of TEST_LANGS
@@ -61,7 +64,13 @@ const CATALOG: Product[] = [
 const NOTES = [500, 1000, 2000, 5000, 10000];
 const SHOP = "Sample shop";
 const DEVICE = "PT";
-const PIN = "1234";
+/** MASTER UPDATE section 3: each person their own PIN on the device (samples; a real device keeps only a slow salted hash).
+ *  8642 is the cashier's sample duress PIN: it opens the quiet limited view and the alert leaves by the first path out. */
+const STAFF = new StaffLock([
+  { person: "c1", name: "Aline", role: "cashier", pin: "1234", duress: "8642" },
+  { person: "m1", name: "Eric", role: "manager", pin: "2580" },
+  { person: "o1", name: "Grace", role: "owner", pin: "4719" },
+]);
 
 const S = {
   screen: "lock" as Screen, lang: "en" as Lang, theme: "light" as "light" | "dark", online: true, realUser: false, country: "", outcome: "confirm" as "confirm" | "fail",
@@ -69,6 +78,9 @@ const S = {
   events: [] as Ev[], receiptNo: 0, selected: -1, timer: 0, leds: 0, flash: "",
   tileGroup: "" as string, service: "bills", step: "number" as Step, number: "", amount: 0, req: null as Req | null, lowLiteracy: false, partnerFloat: 300_000, usedToday: 0,
   credit: [{ name: "Aline", owes: 4500 }, { name: "Eric", owes: 12000 }, { name: "Grace", owes: 0 }],
+  // MASTER UPDATE section 3: who is signed in, the quiet limited view, the manager's approval, the device's bell and messages
+  who: "c1", role: "cashier", view: "full" as "full" | "limited", picking: false, pinNote: "", approve: null as null | { act: "void"; reason: string; amount: number; pin: string; asked: boolean },
+  lines: [] as Line[], wiped: false, staffSheet: null as null | { person: string; byPin: string; newPin: string; note: string }, sendTo: "" as "" | "text" | "email", sent: "",
 };
 /** Agent point on the handheld (blueprint 42 I): one sandbox partner; its float sits in the agent's own account there and is only read. */
 const PARTNER_LIMITS: Limits = { per_transaction: 200_000, per_day: 2_000_000 };
@@ -94,6 +106,7 @@ const methodOk = (m: PaymentMethod): boolean => m === "cash" || !S.realUser || (
 // ---- event log and the simulated cloud --------------------------------------------------------------------------
 function emit(type: string, payload: unknown, origin: "device" | "server" = "device"): void {
   S.events.unshift({ n: S.events.length + 1, type, origin, payload, sync: origin === "server" ? "accepted" : "queued", at: Date.now() });
+  if (!S.online && type === "SaleRecorded") bellAdd("sync_retried", t("ln_sync"));     // the device's own bell while offline
   drawLog();
 }
 function tick(): void {
@@ -144,7 +157,7 @@ function finish(): void {
   const s = S.current; if (!s) return;
   S.screen = "done"; draw(); printReceipt(s);
 }
-function newSale(): void { S.cart.clear(); S.current = null; S.input = ""; S.note = ""; S.screen = "sell"; draw(); }
+function newSale(): void { S.cart.clear(); S.current = null; S.input = ""; S.note = ""; S.sent = ""; S.sendTo = ""; S.screen = "sell"; draw(); }
 function activePayment(): PaymentPayload | undefined { return S.current?.payments[S.current.payments.length - 1]; }
 
 // ---- the printer --------------------------------------------------------------------------------------------------
@@ -187,7 +200,7 @@ function cancelKey(): void {
 }
 function enter(): void {
   switch (S.screen) {
-    case "lock": if (S.input === PIN) { S.screen = "home"; S.input = ""; } else { S.note = t("wrong_pin"); S.input = ""; } break;
+    case "lock": { signIn(); return; }
     case "agent":
       if (S.step === "number") { if (S.input.length < 4) return; S.number = S.input; S.input = ""; S.step = (FINANCE_PRODUCTS as readonly string[]).includes(S.service) ? "confirm" : "amount"; break; }
       if (S.step === "amount") { const a = Number(S.input || "0"); if (!a) return; if (limitCheck(a, S.usedToday, combinedLimits(PARTNER_LIMITS)) !== "ok") { S.note = t("limit_exceeded"); break; } S.amount = a; S.input = ""; S.step = "confirm"; break; }
@@ -200,12 +213,28 @@ function enter(): void {
     case "cash": { const v = Number(S.input || "0"); if (v >= S.cart.total()) { pay("cash", v); return; } S.note = t("not_enough"); break; }
     case "momo": if (S.input.length >= 9) { pay("mobile_money"); return; } break;
     case "done": newSale(); return;
-    case "count": S.screen = "menu"; S.input = ""; break;
+    case "count": {
+      const expected = S.sales.filter((x) => !x.voided).flatMap((x) => x.payments).filter((p) => p.status === "cash_received").reduce((a, p) => a + p.amount, 0);
+      if (S.input && Number(S.input) !== expected) bellAdd("cash_difference", t("ln_cash", { amount: money(Math.abs(Number(S.input) - expected)) }));
+      S.screen = "menu"; S.input = ""; break;
+    }
     case "home": S.screen = "sell"; break;
     default: return;
   }
   draw();
 }
+function signIn(): void {
+  const r = STAFF.signIn(S.who, S.input, Date.now());
+  S.input = "";
+  if (r.ok) { S.role = r.role; S.view = r.view; S.screen = "home"; S.note = ""; S.pinNote = ""; sendAlerts(); draw(); return; }
+  S.pinNote = r.reason === "wrong" ? t("tries_left", { n: r.left ?? 0 }) : r.reason === "wait" ? t("wait_s", { s: r.seconds ?? 0 }) : t(r.reason === "hard_locked" ? "pin_hard_locked" : "locked_by_owner");
+  if (r.reason === "hard_locked") { emit("DeviceHardLocked", { device: DEVICE }); bellAdd("device_hard_locked", t("pin_hard_locked")); }
+  draw();
+}
+/** The duress alert leaves silently by the first path that appears; the device's screen never shows it. */
+function sendAlerts(): void { const n = STAFF.pathsOut(S.online ? ["internet"] : []); for (let i = 0; i < n; i++) emit("DuressSignalled", { device_id: DEVICE, person: S.who, path: "internet", at: Date.now() }, "server"); }
+function bellAdd(kind: string, title: string, record?: string): void { S.lines = raiseLocal(S.lines, kind, title, Date.now(), record); }
+const KP = (): ReturnType<typeof buildPack> => buildPack({ ...EN, ...(PACKS[S.lang]?.texts ?? {}) });
 function tapCard(): void {
   if (S.screen !== "card") return;
   if (!S.online) { S.note = t("card_online"); draw(); return; }
@@ -271,7 +300,7 @@ function redeem(): void {
 // ---- the shell parts on the terminal (41 B): search, help, account menu, first-run language card, every screen's address ---------
 const SCREEN_PATH: Record<Screen, string> = { lock: "/", home: "/", sell: "/sell", cart: "/sell/basket", pay: "/sell/payment", cash: "/sell/payment", momo: "/sell/payment",
   card: "/sell/payment", waiting: "/sell/payment", off: "/sell/payment", done: "/sell/receipt", menu: "/business", sales: "/sell/sales", sale: "/sell/sales", count: "/sell/shifts",
-  shopqr: "/business/online-shop", pick: "/services", agent: "/services", agentdone: "/services", code: "/services", credit: "/crm" };
+  shopqr: "/business/online-shop", pick: "/services", agent: "/services", agentdone: "/services", code: "/services", credit: "/crm", staff: "/business/team" };
 const screenNow = (): DsScreen => ({ id: S.screen, title: document.querySelector("#display .app h1")?.textContent?.trim() || t("sample_shop"), path: SCREEN_PATH[S.screen] });
 function entries(): Entry[] {
   const go = (id: string, key: string, kind: Entry["kind"] = "action"): Entry => ({ id, kind, title: t(key), act: `go:${id}` });
@@ -299,7 +328,8 @@ const DSH = new DeviceShell({
     if (a === "lang:en") { S.lang = "en"; ($("#cLang") as HTMLSelectElement).value = "en"; return; }
     if (a === "locale:change") { $("#cLang").focus(); return; }
     if (a === "shell:theme") { S.theme = S.theme === "dark" ? "light" : "dark"; ($("#cDark") as HTMLInputElement).checked = S.theme === "dark"; return; }
-    if (a === "shell:signout") { S.screen = "lock"; S.input = ""; return; }
+    if (a === "shell:signout") { S.screen = "lock"; S.input = ""; S.view = "full"; return; }
+    if (a.startsWith("ntf:")) { act(a); return; }
     if (a === "toggle:forced" || a === "sync:now") return;
     if (a.startsWith("add:")) { act(a); S.screen = "cart"; return; }
     if (a.startsWith("custopen:")) { S.screen = "credit"; S.selected = Number(a.slice(9)) || 0; return; }
@@ -307,12 +337,16 @@ const DSH = new DeviceShell({
     act(a);
   },
   redraw: () => draw(),
+  lines: () => S.lines.map((l) => ({ ...l })),
+  knowledge: () => KP(),
+  crumbLabel: (p) => t(CRUMB[p] ?? "sample_shop"),
 });
+const CRUMB: Record<string, string> = { "/": "sample_shop", "/sell": "sell", "/sell/basket": "basket", "/sell/payment": "pay", "/sell/receipt": "receipt", "/sell/sales": "sales", "/sell/shifts": "count", "/business": "menu", "/business/team": "staff_title", "/business/online-shop": "shop_qr", "/services": "menu", "/crm": "menu" };
 
 // ---- screens ------------------------------------------------------------------------------------------------------
 function top(title: string, backable = true): string {
   return `<div class="bar">${backable ? `<button class="iconbtn" data-act="cancel" aria-label="${esc(t("back"))}">${icon("ui-arrow-left")}</button>` : `${brandMark(DATA.brand.places, "app-top-bar", S.theme === "dark", "logo")}`}
-    <h1>${esc(title)}</h1>${DSH.bar({ chip: false, account: false })}<button class="iconbtn" data-act="menu" aria-label="${esc(t("menu"))}">${icon("ui-menu")}</button></div>`;
+    <h1>${esc(title)}</h1>${DSH.bar({ chip: false, account: false })}<button class="iconbtn" data-act="menu" aria-label="${esc(t("menu"))}">${icon("ui-menu")}</button></div>${DSH.crumbs(true)}`;
 }
 function totalBar(label: string, act: string, enabled: boolean): string {
   return `<div class="foot"><div class="sum"><span>${S.cart.count()} ${esc(t("items"))}</span><strong>${esc(money(S.cart.total()))}</strong></div>
@@ -325,12 +359,16 @@ function view(): string {
   const c = S.current;
   switch (S.screen) {
     case "lock":
+      if (S.wiped) return `<div class="lock"><p class="pname">LynkPOS</p><h1>${esc(t("wiped"))}</h1></div>`;
+      if (STAFF.remoteLocked) return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.theme === "dark", "lockmark")}<p class="pname">LynkPOS</p><h1>${esc(t("locked_by_owner"))}</h1></div>`;
+      if (S.picking) return `<div class="lock">${staffPicker(STAFF.staff, t, icon)}</div>`;
       return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.theme === "dark", "lockmark")}<p class="pname">LynkPOS</p>
-        <h1>${esc(t("pin"))}</h1><div class="dots" aria-label="${S.input.length} of 4">${[0, 1, 2, 3].map((i) => `<i class="${i < S.input.length ? "on" : ""}"></i>`).join("")}</div>
+        <p class="who">${icon("ui-user")}<span>${esc(STAFF.find(S.who)?.name ?? "")} · ${esc(t(`role_${STAFF.find(S.who)?.role ?? "cashier"}`))}</span><button class="link" data-act="staff:change">${esc(t("staff_change"))}</button></p>
+        <h1>${esc(t("pin"))}</h1>${S.pinNote ? `<p class="note" role="alert">${esc(S.pinNote)}</p>` : ""}<div class="dots" aria-label="${S.input.length} of 4">${[0, 1, 2, 3].map((i) => `<i class="${i < S.input.length ? "on" : ""}"></i>`).join("")}</div>
         <p class="note" role="alert">${esc(S.note)}</p><p class="keyhint">${icon("ui-info")}${esc(t("use_keys"))}</p>
         <p class="hint">${esc(t("pin_hint"))}</p></div>`;
     case "home":
-      return `${top(t("sample_shop"), false)}<div class="tiles12${S.lowLiteracy ? " big" : ""}">${HANDHELD_TILES.map((k) => `<button class="t12" data-act="tile:${k}">${icon(TILE_ICON[k] ?? "ui-grid")}<span>${esc(t(`tile_${k}`))}</span></button>`).join("")}</div>
+      return `${top(t("sample_shop"), false)}${banners()}<div class="tiles12${S.lowLiteracy ? " big" : ""}">${HANDHELD_TILES.map((k) => `<button class="t12" data-act="tile:${k}">${icon(TILE_ICON[k] ?? "ui-grid")}<span>${esc(t(`tile_${k}`))}</span></button>`).join("")}</div>
         ${S.flash ? `<div class="toast" role="status">${icon("ui-check")}${esc(S.flash)}</div>` : ""}`;
     case "pick":
       return `${top(t(`tile_${S.tileGroup}`))}<ul class="menu">${(TILE_SERVICES[S.tileGroup] ?? []).map((k) => `<li><button data-act="svc:${k}">${icon(TILE_ICON[S.tileGroup] ?? "ui-grid")}${esc(t(`svc_${k}`))}${icon("ui-chevron-right")}</button></li>`).join("")}</ul>
@@ -373,7 +411,7 @@ function view(): string {
         ${S.flash ? `<div class="toast" role="status">${icon("ui-check")}${esc(S.flash)}</div>` : ""}${totalBar(t("charge"), "go:pay", S.cart.lines().length > 0)}`;
     case "pay":
       return `${top(t("payment"))}<div class="due"><span>${esc(t("total"))}</span><strong>${esc(money(S.cart.total()))}</strong></div><p class="ask">${esc(t("how_pay"))}</p>
-        <div class="methods">${(["cash", "mobile_money", "card"] as PaymentMethod[]).map((m) => { const ok = methodOk(m); return `<button class="method${ok ? "" : " off"}" data-act="method:${m}">
+        <div class="methods">${((S.view === "limited" ? ["cash"] : ["cash", "mobile_money", "card"]) as PaymentMethod[]).map((m) => { const ok = methodOk(m); return `<button class="method${ok ? "" : " off"}" data-act="method:${m}">
           ${icon(m === "cash" ? "ui-receipt" : m === "card" ? "ui-pay-card" : "ui-pay-mobile-money")}<span>${esc(t("method_" + m))}</span>${ok ? (m !== "cash" ? `<em>${esc(t("sandbox"))}</em>` : "") : `<em>${esc(t("unavailable"))}</em>`}${icon("ui-chevron-right")}</button>`; }).join("")}</div>`;
     case "cash": {
       const total = S.cart.total(), given = Number(S.input || "0");
@@ -403,16 +441,19 @@ function view(): string {
     }
     case "done":
       return `<div class="donebox">${icon("ui-check", "bigcheck")}<h1>${esc(t("done"))}</h1>${c ? `<p class="big">${esc(money(c.sale.total))}</p>${c.tendered !== undefined ? `<p>${esc(t("change"))}: <strong>${esc(money(change(c.sale.total, c.tendered)))}</strong></p>` : ""}<p class="sub">${esc(t("receipt"))} ${esc(c.sale.receipt_number_local)}</p>` : ""}</div>
-        <div class="foot"><button class="primary" data-act="enter">${esc(t("new_sale"))}</button></div>`;
+        ${c ? receiptByMessage() : ""}<div class="foot"><button class="primary" data-act="enter">${esc(t("new_sale"))}</button></div>`;
     case "off":
       return `${top(t("unavailable"))}<div class="offbox"><span class="pic" role="img" aria-label="${esc(DATA.pictures.offAlt)}">${S.theme === "dark" ? DATA.pictures.offDark : DATA.pictures.offLight}</span>
         <p>${esc(pack().ready[S.method]?.message ?? "")}</p></div><div class="foot"><button class="primary" data-act="go:pay">${esc(t("other_method"))}</button></div>`;
     case "shopqr":   // 38 C: the shop QR customers scan to open the shop page and pay (LynkCheckout)
       return `${top(t("shop_qr"))}<div class="offbox"><span class="qrbig" role="img" aria-label="${esc(t("shop_qr"))}">${icon("ui-qr")}</span><p>${esc(t("shop_qr_help"))}</p></div>`;
+    case "staff": return staffScreen();
     case "menu":
+      if (S.view === "limited") return `${top(t("menu"))}<ul class="menu"><li><button data-act="lock">${icon("ui-lock")}${esc(t("lock"))}${icon("ui-chevron-right")}</button></li></ul>`;
       return `${top(t("menu"))}<ul class="menu"><li><button data-act="go:sales">${icon("ui-receipt")}${esc(t("sales"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="go:count">${icon("product-ledger")}${esc(t("count"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="go:shopqr">${icon("ui-qr")}${esc(t("shop_qr"))}${icon("ui-chevron-right")}</button></li>
+        <li><button data-act="go:staff">${icon("ui-user")}${esc(t("staff_title"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="dsh:account">${icon("ui-user")}${esc(t("account_menu"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="dsh:sync">${icon(S.online ? "ui-sync" : "ui-offline")}${esc(t("sync"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="lowlit" aria-pressed="${S.lowLiteracy}">${icon("ui-grid")}${esc(t("low_literacy"))}${S.lowLiteracy ? icon("ui-check") : icon("ui-chevron-right")}</button></li>
@@ -425,7 +466,7 @@ function view(): string {
     case "sale": {
       const s = S.sales[S.selected]; if (!s) return "";
       return `${top(`${t("receipt")} ${s.sale.receipt_number_local}`)}<ul class="lines">${s.sale.lines.map((l) => `<li><div><span class="nm">${esc(l.product_name)}</span><span class="sub">${l.quantity_milli / 1000} × ${esc(money(l.unit_price))}</span></div><strong>${esc(money(l.line_total))}</strong></li>`).join("")}</ul>
-        ${s.voided ? `<p class="note">${esc(t("voided"))}</p><div class="foot"><button class="ghost" data-act="reprint">${esc(t("reprint"))}</button></div>` : S.note === "void" ? `<p class="ask">${esc(t("void_reason"))}</p><div class="reasons">${["entered_in_error", "customer_cancelled", "price_error", "duplicate"].map((r) => `<button data-act="void:${r}">${esc(t("r_" + r))}</button>`).join("")}</div>`
+        ${S.approve ? approveSheet() : s.voided ? `<p class="note">${esc(t("voided"))}</p><div class="foot"><button class="ghost" data-act="reprint">${esc(t("reprint"))}</button></div>` : S.note === "void" ? `<p class="ask">${esc(t("void_reason"))}</p><div class="reasons">${["entered_in_error", "customer_cancelled", "price_error", "duplicate"].map((r) => `<button data-act="void:${r}">${esc(t("r_" + r))}</button>`).join("")}</div>`
         : `<div class="foot two"><button class="ghost" data-act="askvoid">${esc(t("void"))}</button><button class="primary" data-act="reprint">${esc(t("reprint"))}</button></div>`}`;
     }
     case "count": {
@@ -438,10 +479,37 @@ function view(): string {
   }
 }
 
+/** Banners on the device screen (high and critical lines), never on the payment, cash count or void screens. */
+const banners = (): string => deviceBanners(S.lines, t, (id) => icon(id));
+function approveSheet(): string {
+  const ap = S.approve!;
+  if (ap.asked) return `<div class="dk-sheet" role="status"><p class="dk-queued">${icon("status-sent")}<span>${esc(t("asked_owner"))}</span></p><button class="secondary" data-act="approve:cancel">${esc(t("back"))}</button></div>`;
+  return `<div class="dk-sheet" role="group" aria-labelledby="apT"><h3 id="apT">${esc(t("mgr_needed"))}</h3><p>${esc(money(ap.amount))}</p>
+    <label for="mgrPin">${esc(t("mgr_pin"))}</label><input id="mgrPin" type="password" inputmode="numeric" autocomplete="off" maxlength="8">
+    <div class="dk-row"><button class="primary" data-act="approve:pin">${esc(t("approve"))}</button>${S.online ? `<button class="secondary" data-act="approve:ask">${esc(t("ask_owner"))}</button>` : ""}<button class="secondary" data-act="approve:cancel">${esc(t("back"))}</button></div></div>`;
+}
+function staffScreen(): string {
+  const sh = S.staffSheet;
+  const sheet = sh ? `<div class="dk-sheet" role="group" aria-labelledby="rsT"><h3 id="rsT">${esc(t("reset_pin"))}: ${esc(STAFF.find(sh.person)?.name ?? "")}</h3>
+    <label for="byPin">${esc(t("your_pin"))}</label><input id="byPin" type="password" inputmode="numeric" autocomplete="off" maxlength="8">
+    <label for="newPin">${esc(t("new_pin"))}</label><input id="newPin" type="password" inputmode="numeric" autocomplete="off" maxlength="8">
+    ${sh.note ? `<p role="alert">${esc(sh.note)}</p>` : ""}<div class="dk-row"><button class="primary" data-act="staff:save">${esc(t("ok"))}</button><button class="secondary" data-act="staff:cancel">${esc(t("back"))}</button></div></div>` : "";
+  return `${top(t("staff_title"))}${S.flash ? `<div class="toast" role="status">${icon("ui-check")}${esc(S.flash)}</div>` : ""}<ul class="menu">${STAFF.staff.map((x) => `<li><button data-act="staff:reset:${x.person}" ${x.role === "owner" ? "disabled" : ""}>${icon("ui-user")}<span>${esc(x.name)} · ${esc(t(`role_${x.role}`))}</span>${icon("ui-chevron-right")}</button></li>`).join("")}</ul>
+    <p class="note">${esc(t("staff_note"))}</p>${sheet}`;
+}
+function receiptByMessage(): string {
+  if (S.sent) return `<p class="note" role="status">${esc(S.sent)}</p>`;
+  if (!S.sendTo) return `<div class="dk-row"><button class="ghost" data-act="rcpt:text">${icon("product-chat")}${esc(t("by_text"))}</button><button class="ghost" data-act="rcpt:email">${icon("ui-doc")}${esc(t("by_email"))}</button></div>`;
+  return `<div class="dk-sheet"><label for="rcptTo">${esc(t("customer_contact"))}</label><input id="rcptTo" inputmode="${S.sendTo === "text" ? "tel" : "email"}" autocomplete="off"><button class="primary" data-act="rcpt:send">${esc(t("send_receipt"))}</button></div>`;
+}
+
 /** Touch or buttons (DEVICE 48.17.14): the registered hardware version decides; a button terminal works by its keys alone. */
 const DM = new DeviceMode(DEVICES, "pos-terminal");
 const DEV = wireDevice(DM, { t, icon, screen: () => document.getElementById("display"), pad: () => document.getElementById("pad"), back: () => cancelKey(), redraw: () => draw(), rtl: () => document.getElementById("display")?.dir === "rtl" });
+/** The duress PIN's limited view looks like an ordinary quiet till: selling for cash and the receipt, nothing else. */
+const LIMITED_OK: Screen[] = ["lock", "sell", "cart", "pay", "cash", "done", "menu"];
 function draw(): void {
+  if (S.view === "limited" && !LIMITED_OK.includes(S.screen)) S.screen = "sell";
   const d = $("#display");
   d.className = `display ${S.theme}`;
   d.lang = S.lang === "xx-rtl" ? "ar" : S.lang === "xx" ? "en" : S.lang;
@@ -480,12 +548,12 @@ function act(a: string): void {
       case "handcash": if (S.req && mayHandOverCash(S.req.state)) { S.flash = t("done"); S.screen = "home"; } draw(); return;
       case "cust": S.selected = Math.max(0, Math.min(S.credit.length - 1, Number(v) || 0)); S.input = ""; draw(); return;
       case "lowlit": S.lowLiteracy = !S.lowLiteracy; DSH.pictures = S.lowLiteracy; draw(); return;
-      case "lock": S.screen = "lock"; S.input = ""; draw(); return;
+      case "lock": S.screen = "lock"; S.input = ""; S.view = "full"; S.approve = null; draw(); return;
       case "cat": S.category = v; draw(); return;
       case "add": { const p = CATALOG.find((x) => x.id === v); if (p) S.cart.add(p); draw(); return; }
       case "inc": { const l = S.cart.lines().find((x) => x.product.id === v); if (l) S.cart.setQty(v, l.qtyMilli + 1000); draw(); return; }
       case "dec": { const l = S.cart.lines().find((x) => x.product.id === v); if (l) S.cart.setQty(v, l.qtyMilli - 1000); if (!S.cart.lines().length) S.screen = "sell"; draw(); return; }
-      case "go": S.screen = (["sell", "cart", "pay", "sales", "count", "menu", "home", "shopqr"] as Screen[]).find((x) => x === v) ?? "home"; S.input = ""; S.note = ""; draw(); return;
+      case "go": S.screen = (["sell", "cart", "pay", "sales", "count", "menu", "home", "shopqr", "staff"] as Screen[]).find((x) => x === v && (S.view === "full" || ["sell", "cart", "pay", "home"].includes(x))) ?? "home"; S.input = ""; S.note = ""; draw(); return;
       case "method": {
         const m = v as PaymentMethod; S.method = m; S.input = "";
         S.screen = !methodOk(m) ? "off" : m === "cash" ? "cash" : m === "card" ? "card" : "momo"; draw(); return;
@@ -497,7 +565,54 @@ function act(a: string): void {
       case "sale": S.selected = Number(v); S.note = ""; S.screen = "sale"; draw(); return;
       case "reprint": { const s = S.sales[S.selected]; if (s) printReceipt(s); return; }
       case "askvoid": S.note = "void"; draw(); return;
-      case "void": { const s = S.sales[S.selected]; if (s && !s.voided) { emit("SaleVoided", { sale_id: s.sale.sale_id, reason_code: v }); s.voided = true; } S.note = ""; draw(); return; }
+      case "void": {
+        const s = S.sales[S.selected];
+        if (s && !s.voided && needsManager(S.role, "void", s.sale.total)) { S.approve = { act: "void", reason: v, amount: s.sale.total, pin: "", asked: false }; S.note = ""; draw(); return; }
+        if (s && !s.voided) { emit("SaleVoided", { sale_id: s.sale.sale_id, reason_code: v }); s.voided = true; } S.note = ""; draw(); return;
+      }
+      case "approve": {                    // a manager's PIN on this device (offline) or Ask the owner (online)
+        const s = S.sales[S.selected], ap = S.approve;
+        if (!s || !ap) return;
+        if (v === "cancel") { S.approve = null; draw(); return; }
+        if (v === "ask") { ap.asked = true; emit("OwnerAsked", { request_id: newId(), action: "void_sale_within_rules", person: S.who, role: S.role, facts: { amount: ap.amount } }, "server"); draw(); return; }
+        if (v === "pin") { ap.pin = (document.getElementById("mgrPin") as HTMLInputElement | null)?.value ?? ""; }
+        const mgr = STAFF.staff.find((x) => (x.role === "manager" || x.role === "owner") && x.pin === ap.pin && x.person !== S.who);
+        if (mgr && STAFF.approve(S.who, mgr.person, ap.pin)) {
+          emit("OverLimitApproved", { device_id: DEVICE, act: "void", amount: ap.amount, by: mgr.person });
+          emit("SaleVoided", { sale_id: s.sale.sale_id, reason_code: ap.reason }); s.voided = true; S.approve = null;
+        } else ap.pin = "";
+        draw(); return;
+      }
+      case "staff": {
+        if (v === "change") { S.picking = true; draw(); return; }
+        if (v.startsWith("pick:")) { S.who = v.slice(5); S.picking = false; S.pinNote = ""; S.input = ""; draw(); return; }
+        if (v.startsWith("reset:")) { S.staffSheet = { person: v.slice(6), byPin: "", newPin: "", note: "" }; draw(); return; }
+        if (v === "cancel") { S.staffSheet = null; draw(); return; }
+        if (v === "save" && S.staffSheet) {
+          const by = (document.getElementById("byPin") as HTMLInputElement | null)?.value ?? "", np = (document.getElementById("newPin") as HTMLInputElement | null)?.value ?? "";
+          const r = STAFF.reset(S.who, by, S.staffSheet.person, np);
+          if (r === "ok") { emit("StaffPinReset", { device_id: DEVICE, person: S.staffSheet.person, by: S.who }, "server"); S.staffSheet = null; S.flash = t("reset_done"); }
+          else S.staffSheet.note = t(r === "not_allowed" ? "not_allowed" : r === "wrong_pin" ? "wrong_pin" : "bad_pin");
+          draw(); return;
+        }
+        return;
+      }
+      case "rcpt": {                        // receipts by message: only when the customer asks; offline it waits, never lost
+        if (v === "text" || v === "email") { S.sendTo = v; draw(); return; }
+        if (v === "send" && S.current && S.sendTo) {
+          if (S.online) { emit("DocumentSent", { document_id: S.current.receiptId, kind: "receipt", channel: S.sendTo, by: S.who }, "server"); S.sent = t("receipt_sent"); }
+          else S.sent = t("receipt_waits");                // waits on the device; nothing is claimed as sent
+          S.sendTo = ""; draw();
+        }
+        return;
+      }
+      case "ntf": {                         // a line acted on in the bell
+        const [what = "", nid = ""] = v.split(":");
+        const l = S.lines.find((x) => x.nid === nid);
+        if (l && (what === "read" || what === "open" || what === "ack" || what === "dismiss" || what === "act")) { l.read = true; l.acknowledged = true; }
+        if (what === "allread") S.lines.forEach((x) => { x.read = true; });
+        draw(); return;
+      }
     }
   } catch (e) { S.note = e instanceof PosError ? e.reason : String(e); draw(); }
 }
@@ -517,7 +632,11 @@ function wire(): void {
   $("#scanKey").addEventListener("click", scan);
   $("#tearBtn").addEventListener("click", tear);
   const bind = (id: string, f: (el: HTMLInputElement) => void): void => { const el = $<HTMLInputElement>(id); el.addEventListener("change", () => f(el)); };
-  bind("#cOnline", (el) => { S.online = el.checked; drawStatus(); draw(); });
+  bind("#cOnline", (el) => { S.online = el.checked; if (S.online) sendAlerts(); drawStatus(); draw(); });
+  // MASTER UPDATE section 3: the owner's remote lock and wipe, and an altered app (what the cloud does about it)
+  bind("#cRemoteLock", (el) => { STAFF.remoteLocked = el.checked; if (el.checked) { emit("DeviceLocked", { device_id: DEVICE, after_s: 0, by_automation: false }, "server"); S.screen = "lock"; S.input = ""; } draw(); });
+  $("#cWipe").addEventListener("click", () => { S.wiped = true; S.screen = "lock"; S.sales = []; S.lines = []; emit("DeviceWiped", { device_id: DEVICE, unsent_lost: S.events.filter((e) => e.sync === "queued").length }, "server"); draw(); });
+  bind("#cAltered", (el) => { if (el.checked) emit("DeviceIntegrityFailed", { device_id: DEVICE, failed: ["app_signature"] }, "server"); });
   bind("#cDark", (el) => { S.theme = el.checked ? "dark" : "light"; draw(); });
   bind("#cReal", (el) => { S.realUser = el.checked; draw(); });
   const country = $<HTMLSelectElement>("#cCountry");

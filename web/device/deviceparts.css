@@ -1,0 +1,35 @@
+/* MASTER UPDATE section 3 on every Business app device: the bell button and its badge, banners on the device screen, the
+   staff lock screen, the manager's approval, LynkAssist's queued state and the card screens. Tokens only; logical CSS so
+   right-to-left works; every control is at least the 44 px target. */
+.dsh-bell { position: relative; }
+.dsh-badge { position: absolute; inset-block-start: 2px; inset-inline-end: 2px; min-inline-size: 18px; block-size: 18px; padding: 0 4px; border-radius: 999px; background: var(--status-danger-text); color: var(--on-brand); font: 700 11px/18px var(--font-body); text-align: center; }
+.dsh-panel :is(.primary, .secondary, .link, .hbtn, .chipbtn), .dk-banners :is(.primary, .hbtn), .dk-sheet :is(.primary, .secondary) { min-block-size: var(--touch-target); min-inline-size: var(--touch-target); border-radius: 10px; font: 600 14px var(--font-body); cursor: pointer; }
+.dsh-panel .primary, .dk-banners .primary, .dk-sheet .primary { padding: 0 14px; border: 0; background: var(--brand-primary); color: var(--on-brand); }
+.dsh-panel :is(.secondary, .chipbtn), .dk-sheet .secondary { padding: 0 12px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); }
+.dsh-panel .link { padding: 0 6px; border: 0; background: none; color: var(--brand-ink); text-decoration: underline; }
+.dsh-panel .hbtn, .dk-banners .hbtn { display: inline-grid; place-items: center; padding: 0; border: 0; background: none; color: inherit; }
+.dsh-panel .notifications { display: grid; gap: 4px; }
+.dsh-panel .nlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.dsh-panel .mitem { display: inline-flex; align-items: center; gap: 8px; min-block-size: var(--touch-target); color: var(--brand-ink); }
+.dsh-panel .note, .dsh-panel .muted { color: var(--text-secondary); font-size: 12px; }
+.dsh-panel .cmd-input { display: flex; align-items: center; gap: 8px; min-block-size: var(--touch-target); padding: 0 10px; border: 1px solid var(--border-input); border-radius: 10px; }
+.dsh-panel .cmd-input input { flex: 1; min-inline-size: 0; border: 0; background: none; color: var(--text-primary); font: inherit; }
+.dsh-panel .mlabel { font-weight: 700; }
+.dk-banners { display: grid; gap: 6px; margin: 6px 0; }
+.dk-banners .nbanner { font-size: 13px; }
+.dk-staff h2 { margin: 0 0 8px; font: 700 17px/1.3 var(--font-heading); }
+.dk-staff ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.dk-staff button { display: flex; align-items: center; gap: 10px; inline-size: 100%; min-block-size: 52px; padding: 0 12px; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--bg-surface); color: var(--text-primary); font: 600 15px var(--font-body); text-align: start; cursor: pointer; }
+.dk-staff button > span:first-of-type { flex: 1; min-inline-size: 0; overflow-wrap: anywhere; }
+.dk-role { color: var(--text-secondary); font-weight: 400; font-size: 12px; }
+.dk-note { margin: 8px 0 0; color: var(--text-secondary); font-size: 12px; overflow-wrap: anywhere; }
+.dk-sheet { display: grid; gap: 8px; padding: 12px; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--bg-surface); color: var(--text-primary); }
+.dk-sheet h3 { margin: 0; font: 700 15px var(--font-heading); overflow-wrap: anywhere; }
+.dk-sheet p { margin: 0; overflow-wrap: anywhere; }
+.dk-sheet input { min-block-size: var(--touch-target); padding: 0 10px; border: 1px solid var(--border-input); border-radius: 10px; background: var(--bg-surface); color: var(--text-primary); font: inherit; }
+.dk-queued { display: inline-flex; align-items: center; gap: 6px; color: var(--status-info-text); }
+.dk-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.dk-row > * { min-inline-size: 0; }
+/* Breadcrumbs on a device: one quiet line under the top bar */
+:is(#screen, #display, #screenA, #screenB) .crumbs { margin: 0; padding: 0 12px; font-size: 12px; }
+:is(#screen, #display, #screenA, #screenB) .crumbs a { color: var(--brand-ink); text-decoration: none; min-block-size: var(--touch-target); }

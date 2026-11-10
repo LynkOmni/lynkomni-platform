@@ -69,8 +69,20 @@ def part_words_left_out(emulator):
 
 
 def imports_part(emulator, module):
-    with open(os.path.join(ROOT, "web", "emulators", emulator, "app.ts"), encoding="utf-8") as f:
-        return f'ts/src/{module[:-3]}.js"' in f.read()
+    """True when the emulator's app.ts imports the part, directly or through a shared module it imports (the device kit and the
+    device shell bring the bell, LynkAssist, breadcrumbs and the PIN pad to every Business app device, build section 3)."""
+    import re
+    seen, todo = set(), [os.path.join(ROOT, "web", "emulators", emulator, "app.ts")]
+    while todo:
+        path = todo.pop()
+        if path in seen or not os.path.isfile(path):
+            continue
+        seen.add(path)
+        with open(path, encoding="utf-8") as f:
+            src = f.read()
+        for name in re.findall(r'^import\s+(?!type\b)[^;]*?from\s+"[./]*(?:ts/src/)?([a-z]+)\.js";', src, re.M):
+            todo.append(os.path.join(ROOT, "ts", "src", f"{name}.ts"))
+    return os.path.join(ROOT, "ts", "src", module) in seen
 
 
 def used_keys(emulator, keys):

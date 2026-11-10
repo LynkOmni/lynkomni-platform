@@ -156,3 +156,8 @@ label input { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px s
 .states { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
 .states button { font: 600 11px var(--font-body); padding: 4px 8px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; }
 .screen[dir="rtl"] .menu button .ic svg, .screen[dir="rtl"] .tabbar .ic svg { transform: none; }
+/* MASTER UPDATE section 3: who is signing in, with the change-person link */
+.lock .who { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; margin: 4px 0; font-size: 14px; }
+.lock .who .ic { width: 16px; height: 16px; }
+.lock .link { min-height: 44px; padding: 0 8px; border: 0; background: none; color: var(--brand-ink); font: 600 14px var(--font-body); text-decoration: underline; cursor: pointer; }
+.lock .dk-staff { width: min(100%, 420px); }

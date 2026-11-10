@@ -179,7 +179,7 @@
   },
   {
    "address": "receipts@mail.lynkomni.com",
-   "sends": "receipts, sent as 'Business name via LynkOmni'",
+   "sends": "receipts and counter documents (quotes, delivery notes, warranties), sent as 'Business name via LynkOmni'",
    "replies_to": "the business's own contact"
   },
   {

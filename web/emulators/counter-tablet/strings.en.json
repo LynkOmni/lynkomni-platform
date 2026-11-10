@@ -1,1 +1,6 @@
-{"ct_title": "LynkPOS counter tablet"}
+{
+ "ct_title": "LynkPOS counter tablet",
+ "staff_change": "Not you? Change",
+ "pin_wait": "Too many tries. Wait {s} seconds.",
+ "pin_locked_hard": "Too many wrong PINs. This PIN is locked and nothing was deleted. The owner or a manager can reset it."
+}

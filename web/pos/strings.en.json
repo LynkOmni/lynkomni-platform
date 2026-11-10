@@ -419,5 +419,9 @@
  "why_sync_retry": "The link came back; sales and payments were sent first, pictures last.",
  "wrong_code": "Wrong code",
  "wrong_pin": "Wrong PIN",
- "your_total": "Your total"
+ "your_total": "Your total",
+ "dk_who": "Who is using this device?",
+ "dk_own_pin": "Everyone has their own PIN, so every sale is tied to a person.",
+ "dk_pin_for": "{name}, enter your PIN",
+ "role_stock_staff": "Stock staff"
 }

@@ -33,6 +33,9 @@ import { driverFallback, driverState, needsInstall } from "../../../ts/src/drive
 import { DRIVERS } from "../../../ts/src/drivers.generated.js";
 import { DeviceMode } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
+import { bell } from "../../../ts/src/notify.js";
+import type { Line } from "../../../ts/src/notify.js";
+import { cardFormFields, cardName, cardWord, decideOffline, knowledgeFor, needsManager } from "../../../ts/src/devicekit.js";
 
 interface BuildData {
   storefront?: { tiers: string[]; prices_usd: Record<string, number>; share_bps: Record<string, number>; min_age: number };
@@ -86,7 +89,7 @@ interface Customer { id: string; name: string; owes: number }
 /** A delivery booked from a sale: the shop's own rider or a partner; its steps come from the tracking engine. */
 interface Delivery { id: string; pid: string; order: string; receipt: string; own: boolean; timer: number }
 interface Staff { id: string; name: string; role: Role; pin: boolean }
-interface Notice { id: string; key: string; vars: Record<string, string | number>; at: number; read: boolean }
+interface Notice { id: string; key: string; vars: Record<string, string | number>; at: number; read: boolean; kind?: string; request?: string; doneBy?: string; acked?: boolean }
 
 /** Screen words: English in strings.en.json, every other language from the packs in i18n/<lang>.json (translated by Claude and
  *  checked by tools/translation/claude_packs.py), all embedded by web/build.mjs so every language works offline. */
@@ -141,6 +144,25 @@ const S = {
   ask: "", answer: "", clockedIn: false, clockId: "", staffPhone: "", supplier: "s1", lynkTail: "7715",
   entity: "company" as Entity, kind: "business", deliveries: [] as Delivery[], delivery: "",
 };
+/** MASTER UPDATE section 3 in the Business app: the register-driven bell with role routing and "Done by", Ask the owner,
+ *  LynkAssist's owner controls and history, the owner's thresholds and summary, remote lock and wipe, and "Get a card". */
+const M3 = {
+  filter: "all", lastOpened: 0,
+  requests: [] as { id: string; action: string; by: string; role: Role; amount: number; sale: string; state: "asked" | "approve" | "deny" }[],
+  areasOff: new Set<string>(), askFirst: new Set<string>(), standing: new Set<string>(), history: [] as { action: string; state: string; at: number; by: string }[],
+  cashDiff: 500, stockLow: 5, discountBps: 1000, summary: { period: "day", channel: "email", consent: false },
+  devState: {} as Record<string, "" | "lock_sent" | "locked" | "wipe_confirm" | "wipe_sent">, integrity: false,
+  card: { group: "prepaid", tier: "edge", state: "" as "" | "sent" | "confirmed", list: [{ group: "prepaid", tier: "edge", last4: "4242" }] as { group: string; tier: string; last4: string }[] },
+};
+/** Notices raised before the register carried them map to their message kind (catalog/messages.v1.json). */
+const NOTICE_KIND: Record<string, string> = { n_agent_confirmed: "agent_confirmed", n_below_zero: "stock_negative", n_cash_difference: "cash_difference", n_day_closed: "day_close_ready",
+  n_staff_request: "staff_request", n_device_integrity: "device_integrity", n_large_void: "large_void", n_duress: "duress_alert", n_assist_done: "assist_fix_done" };
+const ACT_LABEL: Record<string, string> = { approve: "ntf_act_approve", deny: "ntf_act_deny", open: "ntf_act_open" };
+const bellLines = (): Line[] => S.notices.map((n): Line => {
+  const kind = n.kind ?? NOTICE_KIND[n.key] ?? "sync_retried";
+  const acts = n.request && M3.requests.find((r) => r.id === n.request)?.state === "asked" ? ["approve", "deny"] : kind === "device_integrity" || kind === "large_void" ? ["open"] : [];
+  return { nid: n.id, kind, title: t(n.key, n.vars), at: n.at, read: n.read, seen: n.at <= M3.lastOpened, acknowledged: n.acked, ...(n.doneBy ? { doneBy: n.doneBy } : {}), actions: acts.map((a) => ({ id: a, label: t(ACT_LABEL[a] ?? a) })) };
+});
 /** Every tracked thing on this phone (deliveries, kitchen orders, payments, agent requests) follows the shared engine (ts/src/tracking.ts). */
 const TRK = new Tracking(REGISTER);
 
@@ -166,7 +188,7 @@ const unread = (): number => S.threads.reduce((a, th) => a + th.unread, 0);
 const unreadNotices = (): number => S.notices.filter((n) => !n.read).length;
 const shop = (): string => S.shopName || BUSINESSES[S.business] || "";
 const toast = (msg: string): void => { S.flash = msg; draw(); window.setTimeout(() => { S.flash = ""; draw(); }, 1600); };
-const notice = (key: string, vars: Record<string, string | number> = {}): void => { S.notices.unshift({ id: newId(), key, vars, at: Date.now(), read: false }); };
+const notice = (key: string, vars: Record<string, string | number> = {}, extra: Partial<Notice> = {}): void => { S.notices.unshift({ id: newId(), key, vars, at: Date.now(), read: false, ...extra }); };
 /** Every automation run is shown in history with "Why did this happen?" (45 D); ids come from catalog/automations.v1.json. */
 const run = (auto: string): void => { if (!S.autoOff.has(auto)) S.runs.unshift({ auto, at: Date.now() }); };
 const key = (id: string): string => id.replace(/-/g, "_");
@@ -263,8 +285,26 @@ function finishPay(): void {
 }
 function newSale(): void { S.cart.clear(); S.current = null; S.input = ""; S.note = ""; S.discount = 0; S.saleNote = ""; S.customer = ""; S.parts = []; S.receiptWay = ""; S.tab = "sell"; S.view = "main"; draw(); }
 const lastPayment = (): PaymentPayload | undefined => S.current?.payments[S.current.payments.length - 1];
+/** Ask the owner: one tap. Approving carries out the act as the owner confirmed it; the line clears for everyone with "Done by". */
+function answerRequest(id: string, ans: "approve" | "deny"): void {
+  const r = M3.requests.find((x) => x.id === id); if (!r || r.state !== "asked" || !owner()) return;
+  r.state = ans;
+  emit("OwnerAnswered", { request_id: id, answer: ans, by: "owner" }, "server");
+  if (ans === "approve") { const s = S.sales.find((x) => x.sale.sale_id === r.sale); if (s && !s.voided) { emit("SaleVoided", { sale_id: s.sale.sale_id, reason_code: "other" }); s.voided = true; } }
+  S.notices.forEach((n) => { if (n.request === id) { n.read = true; n.doneBy = t("role_owner"); } });
+  M3.history.unshift({ action: "void_sale_within_rules", state: ans === "approve" ? "done" : "not_done", at: Date.now(), by: t("role_owner") });
+  toast(t(ans === "approve" ? "m3_approved" : "m3_denied"));
+}
 function voidSale(reason: string): void {
   const s = S.sales.find((x) => x.sale.sale_id === S.selected); if (!s || s.voided) return;
+  if (S.role !== "owner" && (needsManager(S.role, "void", s.sale.total) || M3.askFirst.has("void_sale_within_rules"))) {   // above the role's limit: Ask the owner
+    if (!online()) { toast(t("m3_needs_manager_pin")); return; }
+    const id = newId();
+    M3.requests.unshift({ id, action: "void_sale_within_rules", by: t("role_" + S.role), role: S.role, amount: s.sale.total, sale: s.sale.sale_id, state: "asked" });
+    emit("OwnerAsked", { request_id: id, action: "void_sale_within_rules", person: S.role, role: S.role, facts: { amount: s.sale.total, reason } }, "server");
+    notice("n_staff_request", { who: t("role_" + S.role), amount: money(s.sale.total) }, { kind: "staff_request", request: id });
+    toast(t("m3_asked_owner")); return;
+  }
   emit("SaleVoided", { sale_id: s.sale.sale_id, reason_code: pick(VOID_REASONS as readonly string[], reason, "other") });
   s.voided = true; toast(t("voided"));
 }
@@ -361,6 +401,8 @@ const DSH = new DeviceShell({
   account: () => null,
   locale: () => ({ language: PACKS[S.lang]?.native ?? S.lang, region: pack().sample ? t("sample_country") : pack().name, currency: pack().currency, english: S.lang === "en" }),
   run: (a) => { if (a === "pictures") { if (DSH.pictures) S.toggles.add("low_literacy"); else S.toggles.delete("low_literacy"); return; } S.screen = "app"; act(a); }, redraw: () => draw(),
+  lines: () => bellLines(), knowledge: () => knowledgeFor(PACKS, S.lang),
+  crumbLabel: (p) => { const reg = DATA.screens.find((x) => x.path === p); return reg ? t("it_" + reg.id) === "it_" + reg.id ? t("tab_" + reg.id) : t("it_" + reg.id) : p === "/" ? t("tab_home") : t("tab_" + (p.split("/")[1] ?? "home")); },
 }, { firstRun: false });
 
 // ---- chrome ---------------------------------------------------------------------------------------------------------
@@ -372,7 +414,7 @@ function topBar(title: string, back?: string): string {
   return `<div class="top">${back ? `<button class="iconbtn back" data-act="${back}" aria-label="${esc(t("back"))}">${icon("ui-arrow-left")}</button>` : `${brandMark(DATA.brand.places, "app-top-bar", S.theme === "dark", "logo")}`}
     <h1>${esc(title)}</h1>${DSH.helpButton()}<button class="netchip${off ? " off" : ""}" data-act="sheet" aria-label="${esc(t(off ? "offline" : "online"))}. ${esc(t("sync"))}${p.count ? ` · ${p.count}` : ""}">${icon(off ? "ui-offline" : "ui-sync")}${p.count ? `<span class="count">${p.count}</span>` : ""}</button>
     <button class="iconbtn bell" data-act="view:notifications" aria-label="${esc(t("notifications"))}${n ? ` (${n})` : ""}">${icon("ui-bell")}${n ? `<span class="dot">${n}</span>` : ""}</button>
-    <button class="iconbtn avatarbtn" data-act="view:account" aria-label="${esc(t("account"))}"><span class="initials" aria-hidden="true">${esc(initials)}</span></button></div>`;
+    <button class="iconbtn avatarbtn" data-act="view:account" aria-label="${esc(t("account"))}"><span class="initials" aria-hidden="true">${esc(initials)}</span></button></div>${DSH.crumbs(S.size === "phone")}`;
 }
 const TAB_ICON: Record<string, string> = { home: "ui-home", sell: "ui-cart", stock: "product-stock", chats: "product-chat", business: "product-dash", services: "ui-grid", float: "ui-float",
   invoices: "ui-receipt", customers: "ui-user", tables: "ui-grid", kitchen: "ui-receipt", books: "ui-doc" };
@@ -902,6 +944,54 @@ function pickupPoint(): string {
     <button class="primary inline" data-act="ppcollect" ${PP.input.length === 6 ? "" : "disabled"}>${esc(t("pp_hand_over"))}</button>
     <p class="sub">${esc(t("pp_sample_pass", { code: PP.passCode }))}</p>`}${PP.note ? `<p class="info" role="status">${icon("ui-info")}<span>${esc(t(PP.note))}</span></p>` : ""}`;
 }
+// ---- MASTER UPDATE section 3: the owner's side of LynkAssist, thresholds and summary, remote lock and wipe, Get a card ------
+const owner = (): boolean => S.role === "owner";
+const m3Switch = (inKey: string, on: boolean, label: string, disabled = false): string => `<label class="switch"><span>${esc(label)}</span><input type="checkbox" data-in="${inKey}" ${on ? "checked" : ""} ${disabled ? "disabled" : ""}></label>`;
+function m3Assistant(): string {
+  const areas = ["selling", "stock", "devices", "shifts", "cash"];
+  const asked = M3.requests.filter((r) => r.state === "asked");
+  const reqs = asked.length ? `<ul class="list card" data-item="ask_owner">${asked.map((r) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(t("m3_request_line", { who: r.by, amount: money(r.amount) }))}</span><span class="sub">${esc(t("as_card_title"))}</span></span>
+    ${owner() ? `<button class="primary small" data-act="m3req:approve:${r.id}">${esc(t("ntf_act_approve"))}</button><button class="ghost small" data-act="m3req:deny:${r.id}">${esc(t("ntf_act_deny"))}</button>` : ""}</div></li>`).join("")}</ul>` : "";
+  const hist = M3.history.length ? `<ul class="list card" data-item="assist_history">${M3.history.slice(0, 5).map((h) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(t("m3_act_" + h.action))}</span><span class="sub">${esc(h.by)} · ${esc(clock(h.at))}</span></span>${chip(h.state === "queued" ? "queued" : h.state === "done" ? "confirmed" : "failed")}</div></li>`).join("")}</ul>` : `<p class="sub">${esc(t("m3_none_yet"))}</p>`;
+  const d = decideOffline("correct_price", { role: S.role === "owner" ? "owner" : "manager", confirmed: true, standing: [...M3.standing] }, online());
+  return `<div class="card" data-item="assist_controls"><h2>${esc(t("m3_controls"))}</h2>${owner() ? "" : `<p class="sub">${esc(t("owner_only"))}</p>`}
+    ${areas.map((a) => m3Switch(`m3area:${a}`, !M3.areasOff.has(a), t("m3_area_" + a), !owner())).join("")}
+    ${m3Switch("m3ask:void_sale_within_rules", M3.askFirst.has("void_sale_within_rules"), t("m3_ask_first_void"), !owner())}
+    ${m3Switch("m3standing:correct_price", M3.standing.has("correct_price"), t("m3_standing_price"), !owner())}<p class="sub">${esc(t("m3_standing_note"))}</p></div>
+    <div class="card" data-item="assist_fix"><h2>${esc(t("m3_try_fix"))}</h2><p>${esc(t("m3_act_correct_price"))}</p><p class="sub">${esc(d.needs === "none" ? t("m3_runs_now") : d.offline === "queue" ? t("m3_queued_note") : t(String(d.why).startsWith("as_") ? String(d.why) : "as_why_confirm"))}</p>
+      <button class="ghost inline" data-act="m3fix:correct_price" ${M3.areasOff.has("stock") ? "disabled" : ""}>${esc(t("as_confirm"))}</button></div>
+    ${reqs}<h2>${esc(t("m3_history"))}</h2>${hist}`;
+}
+function m3Settings(): string {
+  const ro = !owner();
+  const num = (k: string, v: number, label: string): string => `<label class="field"><span>${esc(label)}</span><input inputmode="numeric" autocomplete="off" data-in="m3num:${k}" value="${v}" ${ro ? "disabled" : ""}></label>`;
+  return `<div class="card" data-item="business_notifications"><h2>${esc(t("m3_thresholds"))}</h2>${num("cashDiff", M3.cashDiff, t("m3_cash_diff", { currency: pack().currency }))}${num("stockLow", M3.stockLow, t("m3_stock_low"))}
+    ${num("discountBps", M3.discountBps / 100, t("m3_cashier_discount"))}<p class="sub">${esc(t("m3_limits_note"))}</p></div>
+    <div class="card" data-item="owner_summary"><h2>${esc(t("m3_summary"))}</h2>${m3Switch("m3sum:consent", M3.summary.consent, t("m3_summary_on"), ro)}
+      <label class="field"><span>${esc(t("m3_summary_when"))}</span><select data-in="m3sum:period" ${ro ? "disabled" : ""}><option value="day" ${M3.summary.period === "day" ? "selected" : ""}>${esc(t("m3_daily"))}</option><option value="week" ${M3.summary.period === "week" ? "selected" : ""}>${esc(t("m3_weekly"))}</option></select></label>
+      <label class="field"><span>${esc(t("m3_summary_channel"))}</span><select data-in="m3sum:channel" ${ro ? "disabled" : ""}>${["bell", "email", "text"].map((c) => `<option value="${c}" ${M3.summary.channel === c ? "selected" : ""}>${esc(t("msg_ch_" + c))}</option>`).join("")}</select></label>
+      <p class="sub">${esc(t("m3_summary_note"))}</p></div>`;
+}
+function m3Devices(): string {
+  const devs = [{ id: "pt", name: t("m3_dev_terminal") }, { id: "ct", name: t("m3_dev_tablet") }];
+  const line = (id: string): string => { const st = M3.devState[id] ?? ""; return st === "lock_sent" || st === "wipe_sent" ? t(st === "lock_sent" ? "m3_lock_sent" : "m3_wipe_sent") : st === "locked" ? t("m3_locked") : t("active"); };
+  return `<div class="card" data-item="remote_lock"><h2>${esc(t("m3_remote"))}</h2><ul class="list">${devs.map((d) => { const st = M3.devState[d.id] ?? "";
+    return `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(d.name)}</span><span class="sub">${esc(line(d.id))}${d.id === "pt" && M3.integrity ? ` · ${esc(t("m3_integrity_held"))}` : ""}</span></span>
+      ${st === "wipe_confirm" ? `<span class="sub">${esc(t("m3_wipe_unsent", { n: 3 }))}</span><button class="primary small" data-act="m3dev:wipeok:${d.id}" ${owner() ? "" : "disabled"}>${esc(t("m3_wipe_anyway"))}</button>`
+      : `<button class="ghost small" data-act="m3dev:lock:${d.id}" ${owner() || S.role === "manager" ? "" : "disabled"}>${esc(t("m3_lock"))}</button><button class="ghost small" data-act="m3dev:wipe:${d.id}" ${owner() ? "" : "disabled"}>${esc(t("m3_wipe"))}</button>`}</div></li>`; }).join("")}</ul>
+    <p class="sub">${esc(t("m3_remote_note"))}</p></div>`;
+}
+function m3Cards(): string {
+  if (S.realUser) return `<div class="card"><p class="info">${icon("ui-info")}<span>${esc(t("coming_soon"))}</span></p>${notifyBtn("vcard")}</div>`;
+  const c = M3.card, groups = ["prepaid", "debit", "credit"];
+  const mine = `<ul class="list card" data-item="card_groups">${c.list.map((x) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(cardName(x.group, x.tier))}</span><span class="sub">${esc(cardWord(x.group))} · ${esc(t("m3_ending", { last4: x.last4 }))}${x.group === "credit" ? ` · ${esc(t("m3_lender_terms"))}` : ""}</span></span></div></li>`).join("")}</ul>`;
+  const compare = `<ul class="list card" data-item="card_compare">${groups.map((g) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(cardName(g, c.tier))} · ${esc(cardWord(g))}</span><span class="sub">${esc(t("m3_group_" + g))}</span></span></div></li>`).join("")}</ul>`;
+  const form = c.state === "sent" ? `<p class="info" role="status">${icon("status-sent")}<span>${esc(t("m3_card_sent"))}</span></p>` : c.state === "confirmed" ? `<p class="info" role="status">${icon("status-confirmed")}<span>${esc(t("m3_card_confirmed"))}</span></p>`
+    : `<label class="field"><span>${esc(t("m3_card_group"))}</span><select data-in="m3card:group">${groups.map((g) => `<option value="${g}" ${c.group === g ? "selected" : ""}>${esc(cardName(g, c.tier))}</option>`).join("")}</select></label>
+      ${cardFormFields(c.group).filter((f) => f !== "holder" && f !== "form").map((f) => f.endsWith("consent") ? m3Switch(`m3cardf:${f}`, false, t("m3_f_" + f)) : `<label class="field"><span>${esc(t("m3_f_" + f))}</span><input autocomplete="off" data-in="m3cardf:${f}"></label>`).join("")}
+      <button class="primary inline" data-act="m3card:send" ${online() ? "" : "disabled"}>${esc(t("m3_card_send"))}</button>${online() ? "" : `<p class="sub">${esc(t("m3_card_online"))}</p>`}`;
+  return `${mine}<div class="card" data-item="get_a_card"><h2>${esc(t("m3_get_card"))}</h2>${compare}${form}<p class="sub">${esc(t("m3_card_note"))}</p></div>`;
+}
 function hubSection(id: string): string {
   const reg = DATA.screens.find((s) => s.id === id); if (!reg) return "";
   const back = "view:main";
@@ -911,8 +1001,8 @@ function hubSection(id: string): string {
     case "daily_close": extra = `<p class="sub">${esc(t("daily_close_help"))}</p><button class="primary inline" data-act="closeday">${esc(t("close_day"))}</button>`; break;
     case "reports": case "invoicing": case "customers": case "books": extra = `<p class="sub">${esc(t("full_pages_web", { path: reg.path }))}</p>`; break;
     case "assistant": extra = `<label class="field"><span>${esc(t("it_ask"))}</span><input id="askIn" data-in="ask" value="${esc(S.ask)}" autocomplete="off"></label><button class="ghost inline" data-act="ask">${esc(t("send"))}</button>
-      ${S.answer ? `<div class="card"><p class="sub">${esc(t("assist_label"))}</p><p>${esc(S.answer)}</p></div>` : ""}<p class="sub">${esc(t("assist_never"))}</p>`; break;
-    case "cards": extra = `<p class="sub">${esc(t("cards_issuer"))}</p>`; break;
+      ${S.answer ? `<div class="card"><p class="sub">${esc(t("assist_label"))}</p><p>${esc(S.answer)}</p></div>` : ""}<p class="sub">${esc(t("assist_never"))}</p>${m3Assistant()}`; break;
+    case "cards": extra = `<p class="sub">${esc(t("cards_issuer"))}</p>${m3Cards()}`; break;
     case "online_shop": extra = `<label class="field"><span>${esc(t("it_username"))}</span><input id="userIn" data-in="username" value="${esc(S.userDraft)}" autocomplete="off" autocapitalize="none" spellcheck="false"></label>
       <p class="sub" role="status">${esc(usernameNote())}</p><button class="primary inline" data-act="takeusername" ${check(S.userDraft).ok ? "" : "disabled"}>${esc(t("save"))}</button>
       ${S.username ? `<div class="qrbox" data-item="qr" role="img" aria-label="${esc(t("shop_qr"))}">${icon("ui-qr", "bigqr")}<p>${esc(t("shop_qr"))}</p></div>` : ""}`; break;
@@ -920,7 +1010,7 @@ function hubSection(id: string): string {
     case "team": extra = `<label class="switch"><span>${esc(t("staff_profit"))}</span><input type="checkbox" data-in="perm" ${S.perms.staffSeeProfit ? "checked" : ""} ${canChangeSettings(S.role) ? "" : "disabled"}></label>
       ${canChangeSettings(S.role) ? "" : `<p>${esc(t("owner_only"))}</p>`}<ul class="list card">${S.staff.map((x) => row(x.name, t("role_" + x.role))).join("")}</ul>
       <button class="ghost inline" data-act="invite">${esc(t("invite_staff"))}</button><button class="ghost inline" data-act="clock">${esc(t(S.clockedIn ? "clock_out" : "clock_in"))}</button>`; break;
-    case "branches_devices": extra = `<button class="rowbtn card" data-act="view:driver">${icon("ui-settings", "prod")}<span class="main"><span class="nm">LynkDriver</span><span class="sub">${esc(driverLine())}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>`; extra += `<ul class="list card">${S.devices.map((d) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(d.name)}</span><span class="sub">${esc(t(d.revoked ? "revoked" : "active"))}</span></span>${d.revoked ? "" : `<button class="ghost small" data-act="revoke:${d.id}">${esc(t("it_revoke"))}</button>`}</div></li>`).join("")}</ul><p class="sub">${esc(t("wipe_help"))}</p>`; break;
+    case "branches_devices": extra = `<button class="rowbtn card" data-act="view:driver">${icon("ui-settings", "prod")}<span class="main"><span class="nm">LynkDriver</span><span class="sub">${esc(driverLine())}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>`; extra += `<ul class="list card">${S.devices.map((d) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(d.name)}</span><span class="sub">${esc(t(d.revoked ? "revoked" : "active"))}</span></span>${d.revoked ? "" : `<button class="ghost small" data-act="revoke:${d.id}">${esc(t("it_revoke"))}</button>`}</div></li>`).join("")}</ul><p class="sub">${esc(t("wipe_help"))}</p>${m3Devices()}`; break;
     case "plans_billing": extra = `<ul class="list card">${TIERS.map((k, i) => `<li><button class="rowbtn" data-act="tier:${k}" aria-pressed="${S.tier === k}"><span class="main"><span class="nm">LynkPOS ${esc(t("tier_" + k))}</span><span class="sub">${esc(t("per_month", { amount: formatMoney((DATA.plans[i] ?? 0) * 100, "USD", locale()) }))}</span></span>${S.tier === k ? icon("ui-check") : ""}</button></li>`).join("")}</ul><p class="sub">${esc(t("prices_usd_note"))}</p>
       <div class="card" data-item="storefront_plans"><h2>${esc(t("sf_plan"))}</h2><ul class="list">${(DATA.storefront?.tiers ?? []).filter((k) => k in (DATA.storefront?.prices_usd ?? {})).map((k) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(t("tier_" + k))}</span><span class="sub">${esc(t("per_month", { amount: formatMoney((DATA.storefront?.prices_usd[k] ?? 0) * 100, "USD", locale()) }))} · ${esc(new Intl.NumberFormat(locale(), { style: "percent", maximumFractionDigits: 2 }).format((DATA.storefront?.share_bps[k] ?? 0) / 10000))}</span></span></div></li>`).join("")}</ul></div>`; break;
     case "automations": extra = `<ul class="list card">${DATA.automations.map((a) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(t("auto_" + key(a.id)))}</span><span class="sub">${esc(t("level_" + a.level))}</span></span><label class="switch mini"><span class="sr">${esc(t("it_off_switch"))}</span><input type="checkbox" data-in="auto:${a.id}" ${S.autoOff.has(a.id) ? "" : "checked"}></label></div></li>`).join("")}</ul>
@@ -929,6 +1019,7 @@ function hubSection(id: string): string {
     case "pickup_point": extra = pickupPoint(); break;
     case "growth": extra = `<label class="switch"><span>${esc(t("passport_share"))}</span><input type="checkbox" data-in="passport" ${S.passport ? "checked" : ""}></label><p class="sub">${esc(t("passport_help"))}</p>`; break;
   }
+  if (id === "settings") extra += m3Settings();
   if (id === "settings") extra += `<button class="rowbtn card" data-item="driver_link" data-act="view:driver">${icon("ui-settings", "prod")}<span class="main"><span class="nm">LynkDriver</span><span class="sub">${esc(driverLine())}</span></span>${icon("ui-chevron-right", "ic fwd")}</button><button class="rowbtn card" data-item="storefront_plans_link" data-act="hub:plans_billing">${icon("ui-cart", "prod")}<span class="main"><span class="nm">${esc(t("sf_plan"))}</span><span class="sub">${esc(sfPlanLine())}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>`;
   const act = (i: string): string => id === "settings" ? `setting:${i}` : i === "statement_match" ? "matchstatement" : i === "wipe" ? "" : "";
   return `${topBar(t("it_" + id), back)}<div class="body">${webNote()}${rows(reg.items, act)}${extra}${flash()}</div>`;
@@ -963,7 +1054,7 @@ function settingScreen(id: string): string {
 
 // ---- notifications and the account menu (41 B) ---------------------------------------------------------------------------
 function notifications(): string {
-  return `${topBar(t("notifications"), "view:main")}<div class="body"><ul class="list card" data-item="list">${S.notices.map((n) => `<li><div class="rowbtn static${n.read ? "" : " unread"}"><span class="main"><span class="nm">${esc(t(n.key, n.vars))}</span><span class="sub">${esc(clock(n.at))}</span></span></div></li>`).join("") || `<li><p class="info">${esc(t("no_notifications"))}</p></li>`}</ul></div>`;
+  return `${topBar(t("notifications"), "view:main")}<div class="body" data-item="list">${bell(bellLines(), { filter: M3.filter, lastOpened: M3.lastOpened, areas: [] }, t, (id) => icon(id), clock)}</div>`;
 }
 function account(): string {
   const it = (k: string, value: string, act = ""): string => row(t("am_" + k), value, act).replace("<li>", `<li data-item="${k}">`);
@@ -1301,6 +1392,27 @@ function act(a: string): void {
         draw(); return;
       case "view": if (v === "choose") { S.screen = "choose"; draw(); return; } S.view = v as View; S.input = ""; S.note = ""; if (v === "notifications") window.setTimeout(() => S.notices.forEach((n) => { n.read = true; }), 0); draw(); return;
       case "hub": S.tab = "business"; S.hub = v; S.setting = ""; S.view = "hub"; draw(); return;
+      case "m3req": { const [ans = "", id = ""] = v.split(":"); answerRequest(id, ans === "approve" ? "approve" : "deny"); return; }
+      case "m3fix": {                                                         // LynkAssist: the register decides, offline it queues sealed
+        const d = decideOffline("correct_price", { role: owner() ? "owner" : "manager", confirmed: true, standing: [...M3.standing] }, online());
+        const state = d.run ? (d.offline === "queue" ? "queued" : "done") : "not_done";
+        M3.history.unshift({ action: "correct_price", state, at: Date.now(), by: t("role_" + S.role) });
+        emit(state === "queued" ? "AssistActionQueued" : "AssistActionRecorded", state === "queued" ? { device_id: DEVICE, action: "correct_price", person: S.role, expires_at: Date.now() + 604_800_000 } : { action: "correct_price", class: d.class, needs: d.needs, ran: d.run }, state === "queued" ? "device" : "server");
+        if (state === "done") notice("n_assist_done", {}, { kind: "assist_fix_done" });
+        toast(t(state === "queued" ? "m3_queued_note" : state === "done" ? "m3_done" : "m3_not_done")); return;
+      }
+      case "m3dev": {
+        const [what = "", id = ""] = v.split(":");
+        if (what === "lock") { M3.devState[id] = "lock_sent"; emit("DeviceLockRequested", { device_id: id, by_role: S.role }, "server"); window.setTimeout(() => { M3.devState[id] = "locked"; draw(); }, 900); }
+        if (what === "wipe") M3.devState[id] = "wipe_confirm";                // told first how many records the device never sent
+        if (what === "wipeok" && owner()) { M3.devState[id] = "wipe_sent"; emit("DeviceWipeRequested", { device_id: id, unsent: 3 }, "server"); }
+        draw(); return;
+      }
+      case "m3card": {                                                        // online only; the card appears only when the partner confirms
+        if (v === "send" && online()) { M3.card.state = "sent"; emit("CardRequested", { group: M3.card.group, tier: M3.card.tier }, "device"); draw();
+          window.setTimeout(() => { M3.card.state = "confirmed"; M3.card.list.push({ group: M3.card.group, tier: M3.card.tier, last4: "1881" }); emit("CardRequestConfirmed", { group: M3.card.group, by: "partner" }, "server"); draw(); }, 1200); }
+        return;
+      }
       case "setting": S.setting = v; S.view = "setting"; draw(); return;
       case "sheet": S.sheet = true; draw(); return;
       case "closesheet": S.sheet = false; draw(); return;
@@ -1332,6 +1444,16 @@ function act(a: string): void {
       case "countcash": countCash(false); return;
       case "closeshift": countCash(true); return;
       case "notify": S.notified.add(v); toast(t("notify_done")); return;
+      case "ntf": {                                                            // the register's bell (role routing and "Done by")
+        const [what = "", nid = "", extra = ""] = v.split(":");
+        const n = S.notices.find((x) => x.id === nid);
+        if (what === "allread") S.notices.forEach((x) => { x.read = true; });
+        else if (n && what === "read") n.read = !n.read;
+        else if (n && (what === "ack" || what === "dismiss")) { n.acked = true; n.read = true; }
+        else if (n && what === "act" && n.request) answerRequest(n.request, extra === "approve" ? "approve" : "deny");
+        else if (n && (what === "open" || what === "act")) { n.read = true; const k = n.kind ?? NOTICE_KIND[n.key]; S.tab = "business"; S.view = "hub"; S.hub = k === "device_integrity" ? "branches_devices" : k === "staff_request" ? "assistant" : "reports"; }
+        M3.lastOpened = Date.now(); draw(); return;
+      }
       // stock
       case "product": S.product = v; S.qty = 1; S.tab = "stock"; S.view = "item"; draw(); return;
       case "qty": S.qty = Math.max(1, S.qty + Number(v)); draw(); return;
@@ -1409,10 +1531,25 @@ function onInput(el: HTMLInputElement): void {
     case "staffphone": S.staffPhone = el.value.replace(/[^\d +]/g, "").slice(0, 16); return;
   }
 }
+function m3Change(k: string, el: HTMLInputElement & HTMLSelectElement): void {
+  const [what = "", x = ""] = k.split(":");
+  if (what === "m3card") { M3.card.group = pick(["prepaid", "debit", "credit"], el.value, "prepaid"); draw(); return; }
+  if (what === "m3cardf") return;
+  if (!owner()) { draw(); return; }                                       // only the owner changes these
+  if (what === "m3area") { if (el.checked) M3.areasOff.delete(x); else M3.areasOff.add(x); emit("AssistSwitched", { target: x, on: el.checked, by: "owner" }, "server"); }
+  if (what === "m3ask") { if (el.checked) M3.askFirst.add(x); else M3.askFirst.delete(x); }
+  if (what === "m3standing") { if (el.checked) M3.standing.add(x); else M3.standing.delete(x); emit("StandingPermissionSet", { action: x, on: el.checked, per_day: 200, max_minor: null, by: "owner" }, "server"); }
+  if (what === "m3num") { const v = Math.max(0, Math.round(Number(el.value.replace(/[^\d.]/g, "")) || 0));
+    if (x === "cashDiff") M3.cashDiff = v; if (x === "stockLow") M3.stockLow = v; if (x === "discountBps") M3.discountBps = Math.min(v * 100, 1000);   // lowered, never above the platform's limit
+    emit(x === "discountBps" ? "OfflineLimitChanged" : "ThresholdChanged", x === "discountBps" ? { device_id: "all", role: "cashier", limit: "discount_bps", value: M3.discountBps } : { threshold: x === "cashDiff" ? "cash_difference_minor" : "stock_low_milli", value: x === "cashDiff" ? v : v * 1000, by: "owner" }, "server"); }
+  if (what === "m3sum") { if (x === "consent") M3.summary.consent = el.checked; else if (x === "period") M3.summary.period = el.value === "week" ? "week" : "day"; else M3.summary.channel = pick(["bell", "email", "text"], el.value, "email"); }
+  draw();
+}
 function onChange(el: HTMLInputElement & HTMLSelectElement): void {
   const k = el.dataset["in"] ?? "";
   if (k.startsWith("set:")) { if (canChangeSettings(S.role)) { const x = k.slice(4); if (el.checked) S.toggles.add(x); else S.toggles.delete(x); if (x === "practice_mode") S.practice = el.checked; } draw(); return; }
   if (k.startsWith("auto:")) { const x = k.slice(5); if (el.checked) S.autoOff.delete(x); else S.autoOff.add(x); draw(); return; }
+  if (k.startsWith("m3")) { m3Change(k, el); return; }
   switch (k) {
     case "perm": if (canChangeSettings(S.role)) S.perms = { staffSeeProfit: el.checked }; break;
     case "forced": S.forced = el.checked; break;
@@ -1482,6 +1619,8 @@ function wire(): void {
   const bind = (id: string, f: (el: HTMLInputElement & HTMLSelectElement) => void): void => { const el = $<HTMLInputElement & HTMLSelectElement>(id); el.addEventListener("change", () => f(el)); };
   bind("#cLink", (el) => { S.link = el.value as Link; draw(); });
   bind("#cRole", (el) => { S.role = pick(["owner", "manager", "cashier"] as Role[], el.value, "owner"); draw(); });
+  $("#cIntegrity").addEventListener("click", () => { M3.integrity = true; emit("DeviceIntegrityFailed", { device_id: "pt", failed: ["app_signature"] }, "server"); notice("n_device_integrity", { device: t("m3_dev_terminal") }, { kind: "device_integrity" }); draw(); });
+  $("#cDuress").addEventListener("click", () => { emit("DuressSignalled", { device_id: "pt", person: "cashier", path: "internet", at: Date.now() }, "server"); notice("n_duress", { device: t("m3_dev_terminal") }, { kind: "duress_alert" }); draw(); });
   bind("#cDriver", (el) => { const v = el.value; DRV.installed = v === "none" ? null : v === "current" ? DRIVERS.pack.version : "1.3.2"; DRV.days = v === "due" ? 2 : v === "overdue" ? 9 : 0; draw(); });
   bind("#cType", (el) => { S.btype = pick(["shop", "no_till", "agent_point", "restaurant"] as BusinessType[], el.value, "shop"); S.tab = "home"; S.view = "main"; S.hub = ""; draw(); });
   bind("#cEntity", (el) => { act(`entity:${el.value}`); S.tab = "home"; S.view = "main"; S.hub = ""; draw(); });

@@ -4,8 +4,13 @@
  *  sheet, the first-run language and region card with one-tap English, and the screen's own address (deep link). The device
  *  supplies what only it knows (its screens, search entries, articles, account and sync state) through DsHost. */
 import * as SH from "./shell.js";
+import { bell, count, badge, whySheet } from "./notify.js";
+import type { Line } from "./notify.js";
+import { askBox, lookup } from "./assist.js";
+import type { Entry as KEntry } from "./assist.js";
+import { deviceCrumbs } from "./devicekit.js";
 
-export type DsPanel = "" | "search" | "help" | "account" | "sync" | "locale";
+export type DsPanel = "" | "search" | "help" | "account" | "sync" | "locale" | "bell" | "why";
 /** The screen in view: its register id, its title and its address on app.lynkomni.com (catalog/addresses.v1.json). */
 export interface DsScreen { id: string; title: string; path: string }
 export interface DsLocale { language: string; region: string; currency: string; english: boolean }
@@ -20,6 +25,12 @@ export interface DsHost {
   /** Runs an action the shell hands back: a search result ("go:sell", "new_sale"), theme, sign out, English, sync now, toggles. */
   run(act: string): void;
   redraw(): void;
+  /** MASTER UPDATE section 3: the device's bell lines (the cloud's and its own offline ones), already in the reader's language. */
+  lines?(): Line[];
+  /** The offline knowledge pack for LynkAssist's Ask box in help (layer 1), in the device's language. */
+  knowledge?(): KEntry[];
+  /** A word for a breadcrumb step's address. */
+  crumbLabel?(path: string): string;
 }
 
 export const APP_HOST = "app.lynkomni.com";
@@ -31,6 +42,8 @@ export class DeviceShell {
   firstRun: boolean;
   /** Picture mode (S4, 43 G low-literacy mode on every device): bigger pictures with the word always beside them. */
   pictures = false;
+  /** The bell's filter, when it was last opened, and the line "Why am I seeing this?" is about. */
+  filter = "all"; lastOpened = 0; whyNid = ""; ask = "";
   constructor(private h: DsHost, opts: { firstRun?: boolean } = {}) {
     this.firstRun = opts.firstRun ?? true;
     (globalThis as unknown as { __dsh?: DeviceShell }).__dsh = this;   // lets the layout test open each panel in every language
@@ -45,7 +58,9 @@ export class DeviceShell {
   bar(opts: { search?: boolean; help?: boolean; account?: boolean; chip?: boolean } = {}): string {
     const { t, icon } = this.h, o = { search: true, help: true, account: true, chip: true, ...opts };
     const btn = (act: string, ic: string, label: string): string => `<button class="dsh-btn" data-act="${act}" aria-label="${SH.esc(label)}" title="${SH.esc(label)}">${icon(ic)}</button>`;
-    return `<span class="dsh-bar">${o.search ? btn("dsh:search", "ui-search", t("find_or_do")) : ""}${o.help ? btn("dsh:help", "ui-info", t("help")) : ""}${o.chip ? SH.connectionChip(this.h.sync(), t, icon).replace('class="netchip', 'class="netchip dsh-chip') : ""}${o.account && this.h.account() ? btn("dsh:account", "ui-user", t("account_menu")) : ""}</span>`;
+    const n = this.h.lines ? count(this.h.lines()) : 0;
+    const bellBtn = this.h.lines ? `<button class="dsh-btn dsh-bell" data-act="dsh:bell" aria-label="${SH.esc(n ? t("notifications_n", { n }) : t("notifications"))}" title="${SH.esc(t("notifications"))}">${icon("ui-bell")}${n ? `<span class="dsh-badge" aria-hidden="true">${SH.esc(badge(n))}</span>` : ""}</button>` : "";
+    return `<span class="dsh-bar">${o.search ? btn("dsh:search", "ui-search", t("find_or_do")) : ""}${bellBtn}${o.help ? btn("dsh:help", "ui-info", t("help")) : ""}${o.chip ? SH.connectionChip(this.h.sync(), t, icon).replace('class="netchip', 'class="netchip dsh-chip') : ""}${o.account && this.h.account() ? btn("dsh:account", "ui-user", t("account_menu")) : ""}</span>`;
   }
   /** Only the help button, for screens whose top bar has a fixed set of parts (the Business app's top bar, 41 E). */
   helpButton(): string { return `<button class="dsh-btn" data-act="dsh:help" aria-label="${SH.esc(this.h.t("help"))}" title="${SH.esc(this.h.t("help"))}">${this.h.icon("ui-info")}</button>`; }
@@ -62,12 +77,25 @@ export class DeviceShell {
       body = `<div class="dsh-locale" role="dialog" aria-modal="true" aria-labelledby="dshLocaleT"><h2 id="dshLocaleT">${SH.esc(t("locale_title"))}</h2><dl><dt>${SH.esc(t("language"))}</dt><dd>${SH.esc(l.language)}</dd><dt>${SH.esc(t("region"))}</dt><dd>${SH.esc(l.region)}</dd><dt>${SH.esc(t("currency"))}</dt><dd>${SH.esc(l.currency)}</dd></dl>
         <button class="dsh-primary" data-act="dsh:localeok">${SH.esc(t("looks_right"))}</button>${l.english ? "" : `<button class="dsh-secondary" data-act="dsh:english" lang="en" dir="ltr">English</button>`}<button class="dsh-link" data-act="dsh:localechange">${SH.esc(t("change"))}</button><p class="dsh-note">${SH.esc(t("presentation_only"))}</p></div>`;
     } else if (p === "search") body = SH.commandBar(this.q, SH.search([...this.h.entries(), { id: "pictures", kind: "setting", title: t("low_literacy"), act: "dsh:pictures" }], this.q), t, icon);
-    else if (p === "help") body = SH.helpPanel(this.h.screen().title, this.h.articles(this.h.screen().id), t, icon);
+    else if (p === "help") body = SH.helpPanel(this.h.screen().title, this.h.articles(this.h.screen().id), t, icon, this.h.knowledge ? this.askPart() : "");
+    else if (p === "bell" && this.h.lines) body = bell(this.h.lines(), { filter: this.filter, lastOpened: this.lastOpened, areas: [] }, t, icon, this.h.clock);
+    else if (p === "why" && this.h.lines) { const l = this.h.lines().find((x) => x.nid === this.whyNid); body = l ? whySheet(l, t, icon) : ""; }
     else if (p === "account") { const a = this.h.account(); body = a ? SH.accountMenu(a, t, icon) + this.picturesToggle() : ""; }
     else if (p === "sync") body = SH.syncSheet(this.h.sync(), t, icon, this.h.clock);
     const note = this.note ? `<p class="dsh-note" role="status">${SH.esc(this.note)}</p>` : "";
     const close = p === "locale" ? "" : `<button class="dsh-x" data-act="dsh:close" aria-label="${SH.esc(t("close"))}">${icon("ui-close")}</button>`;
     return `<div class="dsh-scrim" data-act="${p === "locale" ? "" : "dsh:close"}"><div class="dsh-panel dsh-${p}" data-stop="1">${close}${body}${note}</div></div>`;
+  }
+
+  /** LynkAssist's Ask box (layer 1 offline): answers from the saved help in the device's language, with its date. */
+  askPart(): string {
+    const k = this.h.knowledge ? this.h.knowledge() : [];
+    return askBox({ query: this.ask, results: this.ask ? lookup(k, this.ask) : [], online: this.h.sync().link !== "offline", builtOn: "" }, this.h.t, this.h.icon);
+  }
+  /** The breadcrumb trail of the screen in view (from the address map), compact on small screens. */
+  crumbs(compact: boolean): string {
+    const label = (p: string): string => (this.h.crumbLabel ? this.h.crumbLabel(p) : p.split("/").pop() || p);
+    return deviceCrumbs(this.h.screen().path, label, compact, this.h.t);
   }
 
   /** The picture mode switch (in the account menu and in search): a 44 px switch with its word. */
@@ -87,6 +115,7 @@ export class DeviceShell {
       case "dsh:help": case "shell:help": return open("help");
       case "dsh:account": return open("account");
       case "dsh:sync": case "shell:sync": return open("sync");
+      case "dsh:bell": case "shell:bell": return open("bell");
       case "dsh:close": case "closesheet": if (fromStop) return true; this.panel = ""; this.note = ""; this.h.redraw(); return true;
       case "dsh:localeok": this.firstRun = false; this.panel = ""; this.h.redraw(); return true;
       case "dsh:english": this.h.run("lang:en"); this.firstRun = false; this.panel = ""; this.h.redraw(); return true;
@@ -101,12 +130,20 @@ export class DeviceShell {
       case "shell:theme": case "shell:signout": this.panel = ""; this.h.run(a); this.h.redraw(); return true;
     }
     if (k === "help" && v.startsWith("article:")) return say("article_opening");
+    if (k === "ntf") {                                    // the bell's own controls; acting on a line is the device's (run)
+      const [what = "", nid = ""] = v.split(":");
+      if (what === "filter") { this.filter = nid; this.h.redraw(); return true; }
+      if (what === "why") { this.whyNid = nid; this.panel = "why"; this.h.redraw(); return true; }
+      if (this.panel === "bell" && (what === "open" || what === "act")) this.panel = "";
+      this.h.run(a); this.h.redraw(); return true;
+    }
     if (k === "role" || k === "business") { this.panel = ""; this.h.run(a); this.h.redraw(); return true; }
     if (this.panel === "search" && a) { this.panel = ""; this.h.run(a); this.h.redraw(); return true; }   // a search result: do it
     return false;
   }
   /** Typing in the search box: results follow every letter, focus stays in the box. */
   input(el: HTMLInputElement): boolean {
+    if (el.id === "asIn") { this.ask = el.value.slice(0, 120); this.h.redraw(); const n = document.getElementById("asIn") as HTMLInputElement | null; if (n) { n.focus(); n.setSelectionRange(n.value.length, n.value.length); } return true; }
     if (el.id !== "cmdIn") return false;
     const at = el.selectionStart;
     this.q = el.value.slice(0, 80); this.h.redraw();
@@ -153,6 +190,7 @@ export function panelShell(o: {
   st: PanelLike; t: SH.T; icon: SH.Icon; clock: (ms: number) => string;
   native(): string; region(): string; currency(): string; pending(): number; lastSync(): number | null;
   screen(): DsScreen; entries(): SH.Entry[]; account?: () => SH.Account | null; run(a: string): void; redraw(): void; firstRun?: boolean;
+  lines?: () => Line[]; knowledge?: () => KEntry[]; crumbLabel?: (path: string) => string;
 }): DeviceShell {
   const ctl = (name: string): HTMLInputElement | null => document.querySelector<HTMLInputElement>(`[data-ctl="${name}"]`);
   return new DeviceShell({
@@ -170,6 +208,7 @@ export function panelShell(o: {
       o.run(a);
     },
     redraw: o.redraw,
+    ...(o.lines ? { lines: o.lines } : {}), ...(o.knowledge ? { knowledge: o.knowledge } : {}), ...(o.crumbLabel ? { crumbLabel: o.crumbLabel } : {}),
   }, { firstRun: o.firstRun ?? true });
 }
 /** A sample signed-in person for a device (staff on a shop device): never a real person, a masked public id from core/ids.py. */
