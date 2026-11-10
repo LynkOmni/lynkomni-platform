@@ -172,9 +172,21 @@ class VCardFaces(unittest.TestCase):
             for banned in ("visa", "mastercard", "bank", "issuer", "[bank]"):
                 self.assertNotIn(banned, svg.lower().replace("licensed issuer", ""))
 
-    def test_omni_has_no_number_dots_and_the_others_do(self):
-        self.assertEqual(visuals.svg_text("vcard-omni").count('r="2.4"'), 0)
-        self.assertEqual(visuals.svg_text("vcard-edge").count('r="2.4"'), 16)
+    def test_no_face_has_number_dots_or_a_contactless_symbol(self):
+        """NEW UPDATE 1 (owner 2026-11-10): placeholder number dots and the contactless symbol are gone from every face; the issuer adds its own marks."""
+        for tier in ("edge", "hub", "core", "omni"):
+            svg = visuals.svg_text(f"vcard-{tier}")
+            self.assertEqual(svg.count('r="2.4"'), 0, tier)
+            self.assertNotIn("A7 7 0 0 1", svg, tier)                # the old contactless arcs
+
+    def test_each_tier_has_its_own_colour_and_the_chip_turns_gold_from_core(self):
+        from design import generate as design
+        t = design.resolved("dark")
+        for tier, metal in (("edge", "vcard-silver-light"), ("hub", "vcard-silver-light"), ("core", "vcard-gold-light"), ("omni", "vcard-gold-light")):
+            svg = visuals.svg_text(f"vcard-{tier}").upper()
+            for k in ("bg", "deep", "light", "accent"): self.assertIn(t[f"vcard-{tier}-{k}"].upper(), svg, (tier, k))
+            self.assertIn(t[metal].upper(), svg, tier)
+        self.assertEqual(len({t[f"vcard-{x}-bg"] for x in ("edge", "hub", "core", "omni")}), 4)
 
     def test_card_text_contrast(self):
         self.assertEqual(check.card_checks(), [])
@@ -212,8 +224,11 @@ class MoreCards(unittest.TestCase):
         for nid in ("vcard-edge-back", "vcard-hub-back", "vcard-core-back", "vcard-omni-back", "vcard-omni-physical", "vcard-core-near-limit"):
             svg = visuals.svg_text(nid)
             self.assertIsNone(re.search(r"\d{4}", re.sub(r"<[^>]+>", " ", svg)), nid)
-        self.assertIn("LynkOmni Reserve Network", visuals.svg_text("vcard-omni-back"))
-        self.assertNotIn("<text", visuals.svg_text("vcard-edge-back"))
+        self.assertNotIn("Reserve Network", visuals.svg_text("vcard-omni-back"))       # removed by the owner, 2026-11-10
+        for tier in ("edge", "hub", "core", "omni"):
+            back = visuals.svg_text(f"vcard-{tier}-back")
+            self.assertEqual(back.count("<text"), 1, tier); self.assertIn(f">{tier.upper()}<", back)
+            self.assertNotIn("stroke-dasharray", back)                                 # a calm panel, no dashed frame
 
     def test_near_limit_changes_shape_as_well_as_colour(self):
         near, ok = visuals.svg_text("vcard-core-near-limit"), visuals.svg_text("vcard-core")

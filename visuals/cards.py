@@ -1,13 +1,14 @@
-"""LynkVCard faces, one per tier, and the tier ladder diagram.
+"""LynkVCard faces, one per tier, and the tier ladder diagram (NEW UPDATE 1, owner approved 10 November 2026).
 
-Tier names, colours and design ideas come from the approved LynkVCard specification:
-  Free = EDGE (slate, one dot etched at the edge), Plus = HUB (brushed silver, a hub with three lines),
-  Pro = CORE (jet black, a glowing core dot with a spend ring), Max = OMNI (obsidian, a sphere, no numbers on the front).
-Card colours are the design tokens vcard-edge-bg, vcard-hub-bg, vcard-core-bg and vcard-omni-bg and the matching on-vcard-* text colours.
+Each tier has its own colour, finish and metal, and everything rises with the tier: Free = EDGE (Aurora Teal, aurora waves, a
+point of light, silver chip), Plus = HUB (Royal Sapphire, a fine guilloche, a silver hub with three nodes, silver chip), Pro = CORE
+(Imperial Amethyst, guilloche and a holographic band, a glowing core in its spend gauge, gold chip), Max = OMNI (Black Gold, gold
+pinstripes and a gold foil edge, a gold globe with its orbit, gold chip, every word in gold). Colours are the vcard-* tokens.
 
-Rules for these pictures (also in CLAUDE.md): a face never shows a card number, a card holder name, a bank name or a payment
-network mark (the licensed issuer adds the network mark and prints the last four digits itself); the only words are the fixed
-tier line below; the full logo asset (one artwork; owner decision 9 November 2026) comes from the brand module (surface vcard-face, one colour). Prices and limits in the ladder are read
+Rules for these pictures (also in CLAUDE.md): a face never shows a card number, a card holder name, a bank name, a contactless
+symbol or a payment network mark (the licensed issuer adds the network mark and prints the last four digits itself, and card details
+are shown only in the issuer's secure display); the only words are the fixed tier line on the front and the tier word on the back;
+the full logo (one artwork) comes from the brand module (surface vcard-face, one colour). Prices and limits in the ladder are read
 from services/billing.py and are placeholders until market-tested."""
 import math
 from .kit import rr, circ, line, path, el, text, frame, n, esc, Palette, _design
@@ -16,25 +17,26 @@ from services import billing
 
 TIERS = ("edge", "hub", "core", "omni")
 FAMILY_TIER = {"free": "edge", "plus": "hub", "pro": "core", "max": "omni"}     # billing tier -> card
-# The only words allowed on a card face (from the approved spec). The check fails on any other text.
+# The only words allowed on a card (owner approved): the tier line on the front and the tier word on the back. The check fails on any other text.
 TIER_TEXT = {"edge": "EDGE // FIRST LIGHT", "hub": "HUB // CENTER POINT", "core": "CORE // DEEP SYSTEM", "omni": "OMNI // OWN ALL COMMERCE"}
-BACK_TEXT = {"omni": "LynkOmni Reserve Network"}      # the only words on a card back (approved spec, OMNI)
+BACK_TEXT = {t: t.upper() for t in TIERS}
 ALLOWED_TEXT = set(TIER_TEXT.values()) | set(BACK_TEXT.values())
+NAMES = {"edge": "Aurora Teal", "hub": "Royal Sapphire", "core": "Imperial Amethyst", "omni": "Black Gold"}
 ALT_BACK = {
-    "edge": "Back of the slate EDGE LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
-    "hub": "Back of the silver HUB LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
-    "core": "Back of the black CORE LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
-    "omni": "Back of the obsidian OMNI LynkVCard: a dashed frame where the issuer shows the card details, the LynkOmni logo and the words LynkOmni Reserve Network. No number or bank name is drawn.",
+    "edge": "Back of the Aurora Teal EDGE LynkVCard: a dark stripe, a calm panel where the issuer shows the card details, the point of light as a faint watermark, the LynkOmni logo and the word EDGE. No number is drawn.",
+    "hub": "Back of the Royal Sapphire HUB LynkVCard: a dark stripe, a calm panel where the issuer shows the card details, the hub as a faint watermark, the LynkOmni logo and the word HUB. No number is drawn.",
+    "core": "Back of the Imperial Amethyst CORE LynkVCard: a dark stripe, a calm panel where the issuer shows the card details, the core as a faint watermark, the LynkOmni logo and the word CORE. No number is drawn.",
+    "omni": "Back of the Black Gold OMNI LynkVCard: a dark stripe, a calm panel where the issuer shows the card details, the globe as a faint gold watermark, the LynkOmni logo and the word OMNI in gold. No number or bank name is drawn.",
 }
 ALT_EXTRA = {
-    "core-near-limit": "The black CORE LynkVCard near its spend limit: an amber ring almost full with a triangle marker and a diamond centre instead of a dot, so the warning does not rely on colour.",
-    "omni-physical": "The physical companion for the OMNI LynkVCard: obsidian card with a contactless chip, an engraved sphere, a polished edge, no number on the front and the line OMNI // OWN ALL COMMERCE.",
+    "core-near-limit": "The Imperial Amethyst CORE LynkVCard near its spend limit: an amber gauge almost full with a triangle marker and a diamond centre instead of a dot, so the warning does not rely on colour.",
+    "omni-physical": "The physical companion for the OMNI LynkVCard: a full metal Black Gold card with a gold chip, a gold globe and orbit, a gold foil edge, no number on the front and the line OMNI // OWN ALL COMMERCE.",
 }
 ALT = {
-    "edge": "Slate grey LynkVCard for the Free tier: one dot etched near the right edge with pulse rings, the LynkOmni logo, masked number dots and the line EDGE // FIRST LIGHT.",
-    "hub": "Brushed silver LynkVCard for the Plus tier: a hub with three lines running out to three nodes, the LynkOmni logo, masked number dots and the line HUB // CENTER POINT.",
-    "core": "Jet black LynkVCard for the Pro tier: a glowing green core dot inside a spend ring that is partly filled, the LynkOmni logo, masked number dots and the line CORE // DEEP SYSTEM.",
-    "omni": "Solid obsidian LynkVCard for the Max tier: an engraved sphere, the LynkOmni logo, a polished edge, no number on the front, and the line OMNI // OWN ALL COMMERCE.",
+    "edge": "Aurora Teal LynkVCard for the Free tier: deep teal rising to lagoon green with soft aurora waves, a silver chip, one point of mint light, the LynkOmni logo and the line EDGE // FIRST LIGHT. No number is drawn.",
+    "hub": "Royal Sapphire LynkVCard for the Plus tier: midnight to royal blue with a fine guilloche pattern, a silver chip, a silver hub with three nodes, the LynkOmni logo and the line HUB // CENTER POINT. No number is drawn.",
+    "core": "Imperial Amethyst LynkVCard for the Pro tier: deep violet rising to brand violet with guilloche and a holographic band, a gold chip, a glowing magenta core inside its spend gauge, the LynkOmni logo and the line CORE // DEEP SYSTEM. No number is drawn.",
+    "omni": "Black Gold LynkVCard for the Max tier: pure black with gold pinstripes and a gold foil edge, a gold chip, a gold globe with an orbit, the LynkOmni logo and the line OMNI // OWN ALL COMMERCE in gold. No number is drawn.",
 }
 W, H = 340, 214
 START, END = "<!--card:start-->", "<!--card:end-->"   # colours between these markers may use the dark-theme glow tokens
@@ -49,60 +51,113 @@ def _pt(cx, cy, r, deg):
     return cx + r * math.cos(a), cy + r * math.sin(a)
 
 
-def _centrepiece(tier, fg, t, near=False):
-    cx, cy = 214, 88
+def _defs(tier, t, uid):
+    """Gradients for one card (ids made unique per drawing, because the ladder draws four cards in one picture)."""
+    g = f"g{uid}"
+    stops = lambda c: "".join(f'<stop offset="{o}" stop-color="{v}"/>' for o, v in c)
+    out = (f'<linearGradient id="{g}bg" x1="0" y1="1" x2="1" y2="0">' + stops((("0", t[f"vcard-{tier}-deep"]), (".55", t[f"vcard-{tier}-bg"]), ("1", t[f"vcard-{tier}-light"]))) + "</linearGradient>" +
+           f'<radialGradient id="{g}glow"><stop offset="0" stop-color="{t[f"vcard-{tier}-accent"]}" stop-opacity=".55"/><stop offset="1" stop-color="{t[f"vcard-{tier}-accent"]}" stop-opacity="0"/></radialGradient>' +
+           f'<linearGradient id="{g}gold" x1="0" y1="0" x2="1" y2="1">' + stops((("0", t["vcard-gold-light"]), (".4", t["vcard-omni-accent"]), (".7", t["vcard-gold-dark"]), ("1", t["vcard-gold-light"]))) + "</linearGradient>" +
+           f'<linearGradient id="{g}silver" x1="0" y1="0" x2="1" y2="1">' + stops((("0", t["vcard-silver-light"]), (".5", t["vcard-silver-dark"]), ("1", t["vcard-silver-light"]))) + "</linearGradient>" +
+           f'<linearGradient id="{g}sheen" x1="0" y1="0" x2="1" y2=".4"><stop offset=".25" stop-color="{t["vcard-silver-light"]}" stop-opacity="0"/><stop offset=".45" stop-color="{t["vcard-silver-light"]}" stop-opacity=".1"/><stop offset=".7" stop-color="{t["vcard-silver-light"]}" stop-opacity="0"/></linearGradient>' +
+           f'<linearGradient id="{g}holo" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="{t["vcard-edge-accent"]}" stop-opacity="0"/><stop offset=".3" stop-color="{t["vcard-edge-accent"]}" stop-opacity=".18"/><stop offset=".5" stop-color="{t["vcard-core-accent"]}" stop-opacity=".22"/><stop offset=".7" stop-color="{t["vcard-hub-accent"]}" stop-opacity=".18"/><stop offset="1" stop-color="{t["vcard-hub-accent"]}" stop-opacity="0"/></linearGradient>' +
+           f'<clipPath id="{g}clip"><rect width="{W}" height="{H}" rx="14"/></clipPath>')
+    return f"<defs>{out}</defs>", g
+
+
+def _finish(tier, t, g, detail=True):
+    """The finish rises with the tier: aurora waves, then guilloche, then a holographic band, then gold pinstripes."""
+    out = ""
+    acc = t[f"vcard-{tier}-accent"]
     if tier == "edge":
-        return (circ(300, 107, 20, "none", stroke=fg, stroke_opacity=".22", stroke_width=1.5) + circ(300, 107, 12, "none", stroke=fg, stroke_opacity=".45", stroke_width=1.5) +
-                circ(300, 107, 6, fg, stroke="none"))
-    if tier == "hub":
-        parts = ""
+        for i, (dy, op) in enumerate(((0, ".2"), (16, ".12"), (32, ".08"))):
+            out += path(f"M-16 {n(171 - dy)}C80 {n(119 - dy)} 168 {n(207 - dy)} 356 {n(99 - dy)}", stroke=acc, stroke_opacity=op, stroke_width=7 - i * 2, fill="none")
+    if tier in ("hub", "core", "omni") and detail:
+        op = {"hub": ".1", "core": ".07", "omni": ".07"}[tier]
+        for k in range(14):
+            r = 24 + k * 10
+            out += el("ellipse", cx="262", cy="99", rx=n(r), ry=n(round(r * .62, 1)), fill="none", stroke=acc, stroke_opacity=op, stroke_width="0.6", transform=f"rotate({k * 4} 262 99)")
+    if tier in ("core", "omni"):
+        out += el("rect", x="-40", y="0", width="440", height=str(H), fill=f"url(#{g}holo)", opacity="1" if tier == "core" else ".45", transform="rotate(-24 170 107)")
+    if tier == "omni" and detail:
+        out += "".join(line(x, 0, x - 104, H, stroke=acc, stroke_opacity=".05", stroke_width=.6) for x in range(0, 460, 5))
+    return out + el("rect", width=str(W), height=str(H), fill=f"url(#{g}sheen)")
+
+
+def _motif(tier, t, g, cx=270, cy=82, k=1.0, op="1", near=False):
+    """The tier motif: a point of light, a hub with three nodes, a core in its gauge, a globe with an orbit."""
+    acc, fg = t[f"vcard-{tier}-accent"], t[f"on-vcard-{tier}"]
+    if tier == "edge":
+        body = circ(cx, cy, 48 * k, f"url(#{g}glow)", stroke="none") + circ(cx, cy, 12 * k, "none", stroke=acc, stroke_opacity=".55", stroke_width=1) + circ(cx, cy, 4 * k, fg, stroke="none")
+    elif tier == "hub":
+        rings = "".join(circ(cx, cy, r * k, "none", stroke=acc, stroke_opacity=o, stroke_width=1) for r, o in ((20, ".5"), (37, ".3"), (52, ".18")))
+        spokes = ""
         for deg in (-90, 30, 150):
-            x, y = _pt(cx, cy, 46, deg)
-            parts += (line(cx, cy, x, y, stroke=fg, stroke_opacity=".18", stroke_width=11, stroke_linecap="round") + line(cx, cy, x, y, stroke=fg, stroke_width=3, stroke_linecap="round") +
-                      circ(x, y, 6, fg, stroke="none"))
-        return parts + circ(cx, cy, 10, fg, stroke="none")
-    if tier == "core" and near:      # near the limit: amber, ring almost full, and a diamond centre (shape changes too, never colour alone)
-        amber = t["status-warning-text"]
-        c = 2 * math.pi * 44
-        glow = "".join(circ(cx, cy, r, amber, stroke="none", fill_opacity=op) for r, op in ((34, ".07"), (24, ".14"), (15, ".32")))
-        ring = (circ(cx, cy, 44, "none", stroke=fg, stroke_opacity=".25", stroke_width=4) +
-                el("circle", cx=n(cx), cy=n(cy), r="44", fill="none", stroke=amber, stroke_width="4", stroke_linecap="round",
-                   stroke_dasharray=f"{n(round(c * .9, 1))} {n(round(c, 1))}", transform=f"rotate(-90 {cx} {cy})"))
-        mx, my = _pt(cx, cy, 44, -90 + 360 * .9)
-        marker = el("polygon", points=f"{n(round(mx, 1))},{n(round(my - 9, 1))} {n(round(mx + 8, 1))},{n(round(my + 6, 1))} {n(round(mx - 8, 1))},{n(round(my + 6, 1))}", fill=amber)
-        diamond = el("polygon", points=f"{cx},{cy - 10} {cx + 10},{cy} {cx},{cy + 10} {cx - 10},{cy}", fill=amber)
-        return glow + ring + marker + diamond
-    if tier == "core":
-        green = t["status-success-text"]
-        c = 2 * math.pi * 44
-        glow = "".join(circ(cx, cy, r, green, stroke="none", fill_opacity=op) for r, op in ((34, ".07"), (24, ".14"), (15, ".32")))
-        ring = (circ(cx, cy, 44, "none", stroke=fg, stroke_opacity=".25", stroke_width=4) +
-                el("circle", cx=n(cx), cy=n(cy), r="44", fill="none", stroke=green, stroke_width="4", stroke_linecap="round",
-                   stroke_dasharray=f"{n(round(c * .62, 1))} {n(round(c, 1))}", transform=f"rotate(-90 {cx} {cy})"))
-        return glow + ring + circ(cx, cy, 8, green, stroke="none")
-    # omni: an engraved sphere
-    edge = t["border-strong"]
-    return (circ(cx, cy, 40, t["vcard-core-bg"], stroke=fg, stroke_opacity=".8", stroke_width=1.5) +
-            el("ellipse", cx=n(cx), cy=n(cy), rx="40", ry="13", fill="none", stroke=fg, stroke_opacity=".4", stroke_width="1.5") +
-            el("ellipse", cx=n(cx), cy=n(cy), rx="15", ry="40", fill="none", stroke=fg, stroke_opacity=".4", stroke_width="1.5") +
-            el("ellipse", cx=n(cx), cy=n(cy), rx="30", ry="40", fill="none", stroke=fg, stroke_opacity=".25", stroke_width="1.5") +
-            circ(cx - 14, cy - 18, 4.5, fg, stroke="none", fill_opacity=".55") + rr(3, 3, W - 6, H - 6, 13, "none", stroke=edge, stroke_width=2))
+            x, y = _pt(cx, cy, 44 * k, deg)
+            spokes += line(cx, cy, round(x, 1), round(y, 1), stroke=f"url(#{g}silver)", stroke_width=2.2 * k, stroke_linecap="round") + circ(round(x, 1), round(y, 1), 5.2 * k, f"url(#{g}silver)", stroke="none")
+        body = circ(cx, cy, 56 * k, f"url(#{g}glow)", stroke="none", opacity=".6") + rings + spokes + circ(cx, cy, 8.8 * k, f"url(#{g}silver)", stroke="none") + circ(cx, cy, 3.6 * k, t["vcard-hub-bg"], stroke="none")
+    elif tier == "core":
+        color = t["status-warning-text"] if near else acc
+        ticks = "".join(line(round(_pt(cx, cy, 46 * k, a)[0], 1), round(_pt(cx, cy, 46 * k, a)[1], 1), round(_pt(cx, cy, 50 * k, a)[0], 1), round(_pt(cx, cy, 50 * k, a)[1], 1),
+                             stroke=t["vcard-core-accent"], stroke_opacity=".45", stroke_width=.7) for a in range(0, 360, 15))
+        r, share = 40 * k, (.97 if near else .62)
+        a0 = math.radians(135); a1 = math.radians(135 + 270 * share)
+        x0, y0 = cx + r * math.cos(a0), cy + r * math.sin(a0); x1, y1 = cx + r * math.cos(a1), cy + r * math.sin(a1)
+        big = 1 if 270 * share > 180 else 0
+        arc = path(f"M{n(round(x0, 1))} {n(round(y0, 1))}A{n(r)} {n(r)} 0 {big} 1 {n(round(x1, 1))} {n(round(y1, 1))}", stroke=color, stroke_width=2.8 * k, stroke_linecap="round", fill="none")
+        a2 = math.radians(135 + 270)
+        track = path(f"M{n(round(x0, 1))} {n(round(y0, 1))}A{n(r)} {n(r)} 0 1 1 {n(round(cx + r * math.cos(a2), 1))} {n(round(cy + r * math.sin(a2), 1))}", stroke=fg, stroke_opacity=".14", stroke_width=2.8 * k, fill="none")
+        if near:   # the shape changes too, never colour alone: a triangle marker at the end and a diamond centre
+            marker = el("polygon", points=f"{n(round(x1, 1))},{n(round(y1 - 7, 1))} {n(round(x1 + 6, 1))},{n(round(y1 + 5, 1))} {n(round(x1 - 6, 1))},{n(round(y1 + 5, 1))}", fill=color)
+            centre = el("polygon", points=f"{n(cx)},{n(cy - 9)} {n(cx + 9)},{n(cy)} {n(cx)},{n(cy + 9)} {n(cx - 9)},{n(cy)}", fill=color)
+        else:
+            marker, centre = "", circ(cx, cy, 10 * k, acc, stroke="none") + circ(cx, cy, 4.6 * k, fg, stroke="none")
+        body = circ(cx, cy, 68 * k, f"url(#{g}glow)", stroke="none") + ticks + track + arc + circ(cx, cy, 19 * k, "none", stroke=t["vcard-core-accent"], stroke_opacity=".4", stroke_width=.7) + marker + centre
+    else:
+        R = 45 * k
+        mer = "".join(el("ellipse", cx=n(cx), cy=n(cy), rx=n(round(R * abs(math.cos(math.radians(a))), 1)), ry=n(round(R, 1)), fill="none", stroke=f"url(#{g}gold)", stroke_opacity=".55", stroke_width=".5") for a in (0, 30, 60, 78))
+        lat = "".join(el("ellipse", cx=n(cx), cy=n(round(cy + R * math.sin(math.radians(b)), 1)), rx=n(round(R * math.cos(math.radians(b)), 1)), ry=n(round(R * math.cos(math.radians(b)) * .18, 1)),
+                         fill="none", stroke=f"url(#{g}gold)", stroke_opacity=".45", stroke_width=".45") for b in (-45, -20, 0, 20, 45))
+        ox, oy = cx + 73 * k, cy
+        orbit = (f'<g transform="rotate(-18 {n(cx)} {n(cy)})">' + el("ellipse", cx=n(cx), cy=n(cy), rx=n(round(73 * k, 1)), ry=n(round(18 * k, 1)), fill="none", stroke=f"url(#{g}gold)", stroke_width=".9") +
+                 circ(round(ox, 1), oy, 8 * k, t["vcard-omni-accent"], stroke="none", fill_opacity=".25") + circ(round(ox, 1), oy, 2.8 * k, t["vcard-gold-light"], stroke="none") + "</g>")
+        body = (circ(cx, cy, 66 * k, f"url(#{g}glow)", stroke="none", opacity=".45") + circ(cx, cy, R, t["vcard-omni-deep"], stroke="none") + mer + lat +
+                circ(cx, cy, R, "none", stroke=f"url(#{g}gold)", stroke_width=.8) + orbit)
+    return f'<g opacity="{op}">{body}</g>'
 
 
-def face_group(tier, with_logo=True, near=False):
-    """The card face as a <g> in a 340 x 214 box. Colours may include the dark-theme glow tokens, so it is wrapped in markers."""
+def _chip(x, y, metal, g, t):
+    f = f"url(#{g}{metal})"
+    seam = t["vcard-stripe"]
+    return (rr(x, y, 37, 28, 5, f, stroke="none") + line(x, y + 9.5, x + 37, y + 9.5, stroke=seam, stroke_opacity=".25", stroke_width=.6) +
+            line(x, y + 18.5, x + 37, y + 18.5, stroke=seam, stroke_opacity=".25", stroke_width=.6) + line(x + 13.5, y, x + 13.5, y + 28, stroke=seam, stroke_opacity=".25", stroke_width=.6) +
+            line(x + 23.5, y, x + 23.5, y + 28, stroke=seam, stroke_opacity=".25", stroke_width=.6) + rr(x + 13.5, y + 9.5, 10, 9, 2, f, stroke=seam, stroke_opacity=".25", stroke_width=.6))
+
+
+def _edge(tier, t, g):
+    if tier == "omni":
+        return rr(1, 1, W - 2, H - 2, 13, "none", stroke=f"url(#{g}gold)", stroke_width=1.6)
+    return rr(.75, .75, W - 1.5, H - 1.5, 13.5, "none", stroke=t[f"vcard-{tier}-accent"], stroke_opacity=".45" if tier != "edge" else ".3", stroke_width=1)
+
+
+def _ink(tier, g, t):
+    return f"url(#{g}gold)" if tier == "omni" else t[f"on-vcard-{tier}"]
+
+
+def face_group(tier, with_logo=True, near=False, uid=None, detail=True):
+    """The card face as a <g> in a 340 x 214 box. Colours are card tokens, so it is wrapped in card markers."""
     t = _tok()
-    bg, fg = t[f"vcard-{tier}-bg"], t[f"on-vcard-{tier}"]
-    body = rr(0, 0, W, H, 16, bg, stroke="none") + rr(1, 1, W - 2, H - 2, 15, "none", stroke=fg, stroke_opacity=".25", stroke_width=1)
+    defs, g = _defs(tier, t, uid or f"{tier}{'n' if near else ''}{'' if with_logo else 'l'}")
+    fg = t[f"on-vcard-{tier}"]
+    inner = el("rect", width=str(W), height=str(H), fill=f"url(#{g}bg)") + _finish(tier, t, g, detail) + (_motif(tier, t, g, cx=256, k=.92) if tier == "omni" else _motif(tier, t, g, near=near))
+    inner += _chip(25, 67, "gold" if tier in ("core", "omni") else "silver", g, t)
     if with_logo:
-        mark, _ = figures.brand_asset("logo", "light", 24, 20, 120, "vcard-face")
-        body += f'<g color="{fg}">{mark}</g>'
-    body += "".join(path(f"M{n(284 + r * .55)} {n(36 - r * .83)}A{n(r)} {n(r)} 0 0 1 {n(284 + r * .55)} {n(36 + r * .83)}", stroke=fg, stroke_width=2.5, stroke_linecap="round", fill="none") for r in (7, 13, 19))
-    body += _centrepiece(tier, fg, t, near)
-    if tier != "omni":      # the front never shows a number; these dots only stand for the issuer-hosted number
-        body += "".join(circ(24 + g * 54 + k * 11, 150, 2.4, fg, stroke="none", fill_opacity=".8") for g in range(4) for k in range(4))
-    body += el("text", esc(TIER_TEXT[tier]), x="24", y="192", fill=fg, font_size="12", font_weight="600", letter_spacing="0.04em",
-               font_family=_design.SRC["fonts"]["heading"].replace('"', "'"), stroke="none")
+        mark, _ = figures.brand_asset("logo", "light", 24, 20, 110, "vcard-face")
+        inner += f'<g color="{fg}">{mark}</g>'
+    accent_line = t[f"vcard-{tier}-accent"] if tier in ("edge", "hub", "core") else fg
+    inner += el("text", esc(TIER_TEXT[tier]), x="25", y="192", fill=_ink(tier, g, t) if tier == "omni" else accent_line, font_size="11", font_weight="800", letter_spacing="0.12em",
+                font_family=_design.SRC["fonts"]["heading"].replace('"', "'"), stroke="none")
+    body = defs + f'<g clip-path="url(#{g}clip)">{inner}</g>' + _edge(tier, t, g)
     return f'{START}<g>{body}</g>{END}'
 
 
@@ -127,12 +182,12 @@ def tier_ladder(theme):
     feats = billing.FEATURES["lynkvcard"]
     Wd, Hd = 800, 372
     body = [rr(0, 0, Wd, Hd, 0, p.base, stroke="none"), text(24, 34, "LynkVCard by tier", p, 20, 700, family="heading"),
-            text(24, 56, "Card colour and design grow with the tier: a dot, a hub, a core, a sphere.", p, 13, fill=p.ink2)]
+            text(24, 56, "Colour, finish and metal rise with the tier: teal, sapphire, amethyst, black and gold.", p, 13, fill=p.ink2)]
     for i, (tier_name, price) in enumerate(zip(fam[2], fam[3])):
         key = FAMILY_TIER[tier_name]
         f = feats[i]
         x = 24 + i * 190
-        body.append(f'<g transform="translate({n(x)} 76) scale(0.5)">{face_group(key, with_logo=False)}</g>')
+        body.append(f'<g transform="translate({n(x)} 76) scale(0.5)">{face_group(key, with_logo=False, uid=key + "l", detail=False)}</g>')
         if i < 3:
             body.append(path(f"M{n(x + 174)} 123l8 6 -8 6z", p.ink2, stroke="none"))
         cards = "Unlimited cards" if f["active_cards"] is None else f"{f['active_cards']} card" + ("s" if f["active_cards"] != 1 else "")
@@ -143,24 +198,25 @@ def tier_ladder(theme):
                  text(x, 258, cards, p, 13), text(x, 276, cap, p, 12, fill=p.ink2), text(x, 294, users, p, 12, fill=p.ink2),
                  text(x, 316, _headline(f), p, 12, 500)]
     body.append(text(24, Hd - 10, "Prices and limits are placeholders until market-tested (services/billing.py). Cards come from a licensed issuer; LynkOmni never holds funds.", p, 11, fill=p.ink2))
-    alt = ("Diagram of the four LynkVCard tiers from left to right: Free with a slate EDGE card, Plus with a silver HUB card, Pro with a black CORE card "
-           "and Max with an obsidian OMNI card, each with its price, number of cards, monthly spend limit, users and main feature.")
+    alt = ("Diagram of the four LynkVCard tiers from left to right: Free with an Aurora Teal EDGE card, Plus with a Royal Sapphire HUB card, Pro with an Imperial Amethyst CORE card "
+           "and Max with a Black Gold OMNI card, each with its price, number of cards, monthly spend limit, users and main feature.")
     return frame("diagram-vcard-tiers", alt, "".join(body), Wd, Hd)
 
 
-def back_group(tier):
-    """Back of a card: the issuer prints the card details in the dashed frame (hosted by the issuer, never stored here)."""
+def back_group(tier, uid=None):
+    """Back of a card: a dark stripe, a calm panel where the issuer shows the card details (hosted by the issuer, never stored
+    here), the tier motif as a faint watermark, the logo and the tier word."""
     t = _tok()
-    bg, fg = t[f"vcard-{tier}-bg"], t[f"on-vcard-{tier}"]
-    body = rr(0, 0, W, H, 16, bg, stroke="none") + rr(1, 1, W - 2, H - 2, 15, "none", stroke=fg, stroke_opacity=".25", stroke_width=1)
-    body += rr(0, 28, W, 36, 0, fg, stroke="none", fill_opacity=".1")
-    body += rr(24, 84, 292, 70, 10, "none", stroke=fg, stroke_opacity=".55", stroke_width=1.5, stroke_dasharray="6 5")
-    body += "".join(line(40, y, 40 + w, y, stroke=fg, stroke_opacity=".22", stroke_width=4, stroke_linecap="round") for y, w in ((102, 150), (120, 90), (138, 60)))
-    mark, _ = figures.brand_asset("logo", "light", 24, 168, 96, "vcard-face")
-    body += f'<g color="{fg}">{mark}</g>'
-    if tier == "omni":
-        body += el("text", esc(BACK_TEXT["omni"]), x="316", y="190", text_anchor="end", fill=fg, font_size="11", font_weight="600", letter_spacing="0.04em",
-                   font_family=_design.SRC["fonts"]["heading"].replace('"', "'"), stroke="none")
+    defs, g = _defs(tier, t, uid or f"{tier}b")
+    fg = t[f"on-vcard-{tier}"]
+    inner = el("rect", width=str(W), height=str(H), fill=f"url(#{g}bg)") + _finish(tier, t, g) + _motif(tier, t, g, cx=280, cy=130, k=1.5, op=".16")
+    inner += rr(0, 22, W, 36, 0, t["vcard-stripe"], stroke="none") + el("rect", y="22", width=str(W), height="36", fill=f"url(#{g}sheen)")
+    inner += rr(22, 74, 206, 26, 4, t["vcard-panel"], stroke="none", fill_opacity=".92")
+    mark, _ = figures.brand_asset("logo", "light", 22, 166, 90, "vcard-face")
+    inner += f'<g color="{fg}">{mark}</g>'
+    inner += el("text", esc(BACK_TEXT[tier]), x="318", y="194", text_anchor="end", fill=_ink(tier, g, t) if tier == "omni" else t[f"vcard-{tier}-accent"], font_size="10", font_weight="800",
+                letter_spacing="0.2em", font_family=_design.SRC["fonts"]["heading"].replace('"', "'"), stroke="none")
+    body = defs + f'<g clip-path="url(#{g}clip)">{inner}</g>' + _edge(tier, t, g)
     return f"{START}<g>{body}</g>{END}"
 
 
@@ -173,13 +229,8 @@ def near_limit():
 
 
 def physical_group():
-    """Physical companion for OMNI: contactless chip, sphere, no number."""
-    t = _tok()
-    fg = t["on-vcard-omni"]
-    chip = (rr(24, 84, 48, 38, 7, "none", stroke=fg, stroke_opacity=".85", stroke_width=1.5) + line(24, 103, 72, 103, stroke=fg, stroke_opacity=".5", stroke_width=1.2) +
-            line(48, 84, 48, 122, stroke=fg, stroke_opacity=".5", stroke_width=1.2) + rr(36, 94, 24, 18, 4, "none", stroke=fg, stroke_opacity=".5", stroke_width=1.2))
-    g = face_group("omni")
-    return g.replace(END, chip + END)
+    """Physical companion for OMNI (on demand, full metal): the same face; the chip is real and the edge is gold foil. No number."""
+    return face_group("omni", uid="omnip")
 
 
 def physical():

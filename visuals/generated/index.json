@@ -1530,7 +1530,7 @@
   },
   "vcard-edge": {
    "kind": "card",
-   "alt": "Slate grey LynkVCard for the Free tier: one dot etched near the right edge with pulse rings, the LynkOmni logo, masked number dots and the line EDGE // FIRST LIGHT.",
+   "alt": "Aurora Teal LynkVCard for the Free tier: deep teal rising to lagoon green with soft aurora waves, a silver chip, one point of mint light, the LynkOmni logo and the line EDGE // FIRST LIGHT. No number is drawn.",
    "purpose": "LynkVCard face for the Free tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
    "used_in": [
     "card-list",
@@ -1542,14 +1542,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-edge.svg",
-     "sha256": "09f497ad6ee346f2ba69ecc21e8f69c5da579d26d1725202980ce6e6b8d20105",
-     "bytes": 7447
+     "sha256": "88e5f0ef9d02d1978f669a7bcf392d225bf24ecc53ef86077e87f8c5d99d0aba",
+     "bytes": 8333
     }
    ]
   },
   "vcard-hub": {
    "kind": "card",
-   "alt": "Brushed silver LynkVCard for the Plus tier: a hub with three lines running out to three nodes, the LynkOmni logo, masked number dots and the line HUB // CENTER POINT.",
+   "alt": "Royal Sapphire LynkVCard for the Plus tier: midnight to royal blue with a fine guilloche pattern, a silver chip, a silver hub with three nodes, the LynkOmni logo and the line HUB // CENTER POINT. No number is drawn.",
    "purpose": "LynkVCard face for the Plus tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
    "used_in": [
     "card-list",
@@ -1561,14 +1561,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-hub.svg",
-     "sha256": "405f0a94413ed27cdf5b437711731bbce513a030035022c6b7e466a917172c70",
-     "bytes": 8096
+     "sha256": "9988ced971cb118174b850b8133cb472633f282055516766cf223147a9b9c92f",
+     "bytes": 10845
     }
    ]
   },
   "vcard-core": {
    "kind": "card",
-   "alt": "Jet black LynkVCard for the Pro tier: a glowing green core dot inside a spend ring that is partly filled, the LynkOmni logo, masked number dots and the line CORE // DEEP SYSTEM.",
+   "alt": "Imperial Amethyst LynkVCard for the Pro tier: deep violet rising to brand violet with guilloche and a holographic band, a gold chip, a glowing magenta core inside its spend gauge, the LynkOmni logo and the line CORE // DEEP SYSTEM. No number is drawn.",
    "purpose": "LynkVCard face for the Pro tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
    "used_in": [
     "card-list",
@@ -1580,14 +1580,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-core.svg",
-     "sha256": "bff08193cbe82e2bd5f487413922707e2f007bc81a9783a90ba2849441ce475d",
-     "bytes": 7760
+     "sha256": "4140d7b5c820875ff1e074b48712ce180d52abf8b1ba1a8415ed92f5d2250f95",
+     "bytes": 12977
     }
    ]
   },
   "vcard-omni": {
    "kind": "card",
-   "alt": "Solid obsidian LynkVCard for the Max tier: an engraved sphere, the LynkOmni logo, a polished edge, no number on the front, and the line OMNI // OWN ALL COMMERCE.",
+   "alt": "Black Gold LynkVCard for the Max tier: pure black with gold pinstripes and a gold foil edge, a gold chip, a gold globe with an orbit, the LynkOmni logo and the line OMNI // OWN ALL COMMERCE in gold. No number is drawn.",
    "purpose": "LynkVCard face for the Max tier (card list, card detail, onboarding, store and marketing); the same card in every theme",
    "used_in": [
     "card-list",
@@ -1599,14 +1599,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni.svg",
-     "sha256": "47bffc5e7363e2051570f81601c786718a0f0d9d654358507b9e68c60867bff3",
-     "bytes": 6493
+     "sha256": "83bda3ffc31726a3721acdfff99dee70342d85306ec68428a837484c6e21b6eb",
+     "bytes": 20521
     }
    ]
   },
   "diagram-vcard-tiers": {
    "kind": "diagram",
-   "alt": "Diagram of the four LynkVCard tiers (Free EDGE, Plus HUB, Pro CORE, Max OMNI) with price, number of cards, monthly spend limit, users and main feature.",
+   "alt": "Diagram of the four LynkVCard tiers from left to right: Free with an Aurora Teal EDGE card, Plus with a Royal Sapphire HUB card, Pro with an Imperial Amethyst CORE card and Max with a Black Gold OMNI card, each with its price, number of cards, monthly spend limit, users and main feature.",
    "purpose": "Pricing page and help centre: what each card tier gives; every number comes from services/billing.py",
    "used_in": [
     "pricing-page",
@@ -1617,32 +1617,32 @@
     {
      "theme": "light",
      "file": "diagrams/diagram-vcard-tiers.light.svg",
-     "sha256": "4f613c2c9e9eb4b654b648b608d472136af39df75aa5ade184ebb7dd3e5b4e11",
-     "bytes": 22432
+     "sha256": "03b50fff4ca963c7d1ebbe4189a9332e58b905d4aaae4231ab39eea77623932d",
+     "bytes": 30188
     },
     {
      "theme": "dark",
      "file": "diagrams/diagram-vcard-tiers.dark.svg",
-     "sha256": "a7b8d8967241bf1468cb4232a0158d2e33bf84c09e2d81e0242d4854e851637a",
-     "bytes": 22432
+     "sha256": "42c3dd03390691c39f2190438b2f27314b9511271c4da471e10c987fb3c3eca0",
+     "bytes": 30188
     },
     {
      "theme": "contrast-light",
      "file": "diagrams/diagram-vcard-tiers.contrast-light.svg",
-     "sha256": "25cf0310e70e77b068d5e039a7c5ce3a81ad8a82080d93a3d249f424d0c1a809",
-     "bytes": 22432
+     "sha256": "18dbd81e84328d80def50712d16203b373a75b1ef21373c084a09cbc44396d40",
+     "bytes": 30188
     },
     {
      "theme": "contrast-dark",
      "file": "diagrams/diagram-vcard-tiers.contrast-dark.svg",
-     "sha256": "bb72a2244eff8da736d6890aa4c7e7a52db0c90a30add5921520549f95b87870",
-     "bytes": 22432
+     "sha256": "6857e1829dc7df43b6651b1443c9089ba0a42938e67a7ff0e7bf8803c7a33c26",
+     "bytes": 30188
     }
    ]
   },
   "vcard-edge-back": {
    "kind": "card",
-   "alt": "Back of the slate EDGE LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
+   "alt": "Back of the Aurora Teal EDGE LynkVCard: a dark stripe, a calm panel where the issuer shows the card details, the point of light as a faint watermark, the LynkOmni logo and the word EDGE. No number is drawn.",
    "purpose": "Back of the Free LynkVCard: shows where the licensed issuer displays the card details",
    "used_in": [
     "card-detail"
@@ -1652,14 +1652,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-edge-back.svg",
-     "sha256": "0362abe143a9f84c927aeb6ecde3ee8d7544c2f983aeed077a5e372c613d8990",
-     "bytes": 5678
+     "sha256": "665b4d5c56a28c9b0d84197d2d84de75a26afcea05d4a857bdae432ef099a535",
+     "bytes": 7976
     }
    ]
   },
   "vcard-hub-back": {
    "kind": "card",
-   "alt": "Back of the silver HUB LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
+   "alt": "Back of the Royal Sapphire HUB LynkVCard: a dark stripe, a calm panel where the issuer shows the card details, the hub as a faint watermark, the LynkOmni logo and the word HUB. No number is drawn.",
    "purpose": "Back of the Plus LynkVCard: shows where the licensed issuer displays the card details",
    "used_in": [
     "card-detail"
@@ -1669,14 +1669,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-hub-back.svg",
-     "sha256": "3e12499ac71dbd23891cb816a3965e7db08336919c1014ca0ed91efe616b9159",
-     "bytes": 5676
+     "sha256": "2dec098e6611c4f21f62cdef27824406a7bad3956719f6bc73b00e80dc057cf6",
+     "bytes": 10533
     }
    ]
   },
   "vcard-core-back": {
    "kind": "card",
-   "alt": "Back of the black CORE LynkVCard: a dashed frame where the issuer shows the card details, and the LynkOmni logo. No number is drawn.",
+   "alt": "Back of the Imperial Amethyst CORE LynkVCard: a dark stripe, a calm panel where the issuer shows the card details, the core as a faint watermark, the LynkOmni logo and the word CORE. No number is drawn.",
    "purpose": "Back of the Pro LynkVCard: shows where the licensed issuer displays the card details",
    "used_in": [
     "card-detail"
@@ -1686,14 +1686,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-core-back.svg",
-     "sha256": "1605939eede5482363543d144390812ed4f6d1a4f3c9f842295e3f673737a66b",
-     "bytes": 5678
+     "sha256": "82179730b2a6aac42fd4252253e94785b6993bfd22a026dee776e677a841f2f5",
+     "bytes": 12623
     }
    ]
   },
   "vcard-omni-back": {
    "kind": "card",
-   "alt": "Back of the obsidian OMNI LynkVCard: a dashed frame where the issuer shows the card details, the LynkOmni logo and the words LynkOmni Reserve Network. No number or bank name is drawn.",
+   "alt": "Back of the Black Gold OMNI LynkVCard: a dark stripe, a calm panel where the issuer shows the card details, the globe as a faint gold watermark, the LynkOmni logo and the word OMNI in gold. No number or bank name is drawn.",
    "purpose": "Back of the Max LynkVCard: shows where the licensed issuer displays the card details",
    "used_in": [
     "card-detail"
@@ -1703,14 +1703,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni-back.svg",
-     "sha256": "988ceff630da2441a749ae196519ee35f93715d69014b649aeba6f42031a1fa3",
-     "bytes": 6180
+     "sha256": "21b2a1d138e2d894f152d01d91df155054850e81a549dcb34c9b0c05f868dcac",
+     "bytes": 20197
     }
    ]
   },
   "vcard-core-near-limit": {
    "kind": "card",
-   "alt": "The black CORE LynkVCard near its spend limit: an amber ring almost full with a triangle marker and a diamond centre instead of a dot, so the warning does not rely on colour.",
+   "alt": "The Imperial Amethyst CORE LynkVCard near its spend limit: an amber gauge almost full with a triangle marker and a diamond centre instead of a dot, so the warning does not rely on colour.",
    "purpose": "CORE card state when spend is near the limit; uses shape and colour together",
    "used_in": [
     "card-list",
@@ -1721,14 +1721,14 @@
     {
      "theme": "light",
      "file": "cards/vcard-core-near-limit.svg",
-     "sha256": "28263697488ad85e2c88fa907fb8bda3a3a7aefb1c3133f11b2bece511a707e8",
-     "bytes": 7847
+     "sha256": "c6ca53579a0aedb381095f4b678d4812c3e365923c49211f9e8142327c6255e2",
+     "bytes": 12940
     }
    ]
   },
   "vcard-omni-physical": {
    "kind": "card",
-   "alt": "The physical companion for the OMNI LynkVCard: obsidian card with a contactless chip, an engraved sphere, a polished edge, no number on the front and the line OMNI // OWN ALL COMMERCE.",
+   "alt": "The physical companion for the OMNI LynkVCard: a full metal Black Gold card with a gold chip, a gold globe and orbit, a gold foil edge, no number on the front and the line OMNI // OWN ALL COMMERCE.",
    "purpose": "Physical companion card for the Max tier (ordered through the issuer's fulfilment partner)",
    "used_in": [
     "card-detail",
@@ -1739,8 +1739,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni-physical.svg",
-     "sha256": "e80487f14fbc04a91733c1bf12b86afffd20dd2d32d12ae2fc7d6952c0a5ffd0",
-     "bytes": 6966
+     "sha256": "d0a50028bc5f957e97ef189d780ee874142973e2e5db049c3cd5b06da2a9a75e",
+     "bytes": 20545
     }
    ]
   }
