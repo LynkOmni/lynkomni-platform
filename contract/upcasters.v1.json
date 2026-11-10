@@ -33,6 +33,19 @@
     "change an event type",
     "guess external"
    ]
+  },
+  {
+   "from_schema_version": 3,
+   "to_schema_version": 4,
+   "agreed": "2026-11-10 (NEW UPDATE 1, Step 0)",
+   "rule": "Version 4 only adds the milestone events of LynkTrace, LynkGPS and LynkSentry and the commands that issue them. A version 3 event reads as version 4 unchanged: the upcaster raises schema_version and touches nothing else. No position is ever part of an event.",
+   "never": [
+    "rescale an amount",
+    "rewrite a stored event",
+    "change an identifier",
+    "change an event type",
+    "add a position"
+   ]
   }
  ]
 }

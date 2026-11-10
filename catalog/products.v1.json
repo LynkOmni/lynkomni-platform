@@ -198,6 +198,32 @@
    }
   },
   {
+   "family": "lynkmotion",
+   "page": "/motion",
+   "app": "app.lynkomni.com/tracking",
+   "menu": "Move and protect",
+   "illustration": "product-motion",
+   "footer_id": "motion",
+   "sides": {
+    "internal": "app.lynkomni.com/tracking",
+    "external": "app.lynkomni.com/external/tracking",
+    "external_section": 7
+   }
+  },
+  {
+   "family": "lynkguard",
+   "page": "/guard",
+   "app": "app.lynkomni.com/protection",
+   "menu": "Move and protect",
+   "illustration": "product-guard",
+   "footer_id": "guard",
+   "sides": {
+    "internal": "app.lynkomni.com/protection",
+    "external": "app.lynkomni.com/external/protection",
+    "external_section": "7B"
+   }
+  },
+  {
    "family": "lynksuite",
    "page": "/suite",
    "app": "app.lynkomni.com/business/plans",

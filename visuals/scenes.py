@@ -163,6 +163,26 @@ def _vcard(p):
     return wrap(p, b, 1)
 
 
+@scene("motion")
+def _motion(p):
+    """LynkMotion: a parcel moving along a dotted route between two pins, with a clock for the arrival window."""
+    route = path("M70 170C110 170 110 100 160 100S220 70 252 70", stroke=p.ink2, stroke_width=3, stroke_dasharray="2 9", stroke_linecap="round")
+    pin = lambda x, y, f: path(f"M{n(x)} {n(y)}c-12-14-18-22-18-31a18 18 0 0 1 36 0c0 9-6 17-18 31z", f) + circ(x, y - 31, 6, p.surface)
+    box = rr(136, 82, 48, 40, 6, p.accent) + path("M136 96h48M160 82v14", stroke=p.on_accent, stroke_width=2.5)
+    b = route + pin(70, 196, p.accent_soft) + pin(252, 96, p.accent) + box + circ(232, 168, 24, p.surface) + path("M232 154v14l10 6", stroke_width=3)
+    return wrap(p, b, 1)
+
+
+@scene("guard")
+def _guard(p):
+    """LynkGuard: a parked car inside a protected zone ring, with a padlock badge and a signal arc."""
+    ring = el("ellipse", cx="150", cy="150", rx="112", ry="48", fill="none", stroke=p.accent, stroke_width="3", stroke_dasharray="10 8")
+    car = (path("M88 150l14-30q4-8 13-8h70q9 0 13 8l14 30v22H88z", p.surface) + path("M106 124h78l9 22h-96z", p.accent_soft) +
+           circ(112, 172, 11, p.ink, stroke="none") + circ(178, 172, 11, p.ink, stroke="none"))
+    b = ring + car + circ(232, 90, 26, p.surface) + lock(232, 90, 26, p, p.accent_soft) + wifi_arcs(232, 52, p, p.accent_ink)
+    return wrap(p, b)
+
+
 @scene("dev")
 def _dev(p):
     b = (rr(58, 58, 204, 134, 12, p.surface) + line(58, 86, 262, 86, stroke_width=2) + "".join(circ(76 + 14 * i, 72, 3.5, p.ink2, stroke="none") for i in range(3)) +

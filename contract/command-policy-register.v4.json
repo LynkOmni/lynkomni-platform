@@ -1,0 +1,2038 @@
+{
+ "$id": "lynkomni/command-policy-register.v4",
+ "description": "Command register version 4 (NEW UPDATE 1, 2026-11-10): version 2's commands unchanged plus the commands that issue the device events of LynkTrace, LynkGPS and LynkSentry (all class A: they work offline and the cloud never refuses them).",
+ "class_defaults": {
+  "A": {
+   "retry": "none",
+   "note": "Local transaction. Sync of the resulting event follows the sync protocol, not command retry."
+  },
+  "B": {
+   "retry": {
+    "backoff_base_seconds": 5,
+    "backoff_max_seconds": 900,
+    "jitter": true,
+    "max_age_days": 30,
+    "on_expiry": "escalate_to_owner"
+   }
+  },
+  "C": {
+   "retry": {
+    "timeout_seconds": 30,
+    "max_attempts": 3,
+    "backoff_base_seconds": 2,
+    "jitter": true,
+    "on_exhausted": "show_failed_with_reason"
+   }
+  }
+ },
+ "session_policy": {
+  "offline_session_max_days_default": 14,
+  "on_expiry": "selling_pauses_data_stays_safe_syncs_after_reauth"
+ },
+ "commands": [
+  {
+   "name": "RecordSale",
+   "class": "A",
+   "v1": true,
+   "emits": [
+    "SaleRecorded",
+    "ReceiptIssued"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "empty_cart",
+    "invalid_amount",
+    "product_not_found_local",
+    "discount_over_limit",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ]
+  },
+  {
+   "name": "VoidSale",
+   "class": "A",
+   "v1": true,
+   "emits": [
+    "SaleVoided"
+   ],
+   "permission": "sale.void",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_redundant_void_return"
+   ],
+   "local_rejections": [
+    "sale_not_found_local",
+    "already_voided",
+    "already_returned",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "voided"
+   ]
+  },
+  {
+   "name": "RecordReturn",
+   "class": "A",
+   "v1": true,
+   "emits": [
+    "ReturnRecorded"
+   ],
+   "permission": "sale.return",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_redundant_void_return"
+   ],
+   "local_rejections": [
+    "sale_not_found_local",
+    "already_voided",
+    "quantity_exceeds_sold",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "returned"
+   ]
+  },
+  {
+   "name": "RecordPayment",
+   "class": "A",
+   "v1": true,
+   "emits": [
+    "PaymentRecorded"
+   ],
+   "permission": "payment.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true,
+    "note": "Records the payment fact. Non-cash payments are stored as pending_confirmation and are never shown as settled until confirmed."
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged"
+   ],
+   "local_rejections": [
+    "sale_not_found_local",
+    "invalid_amount",
+    "method_status_mismatch",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "cash_received",
+    "pending_confirmation",
+    "credit_open"
+   ]
+  },
+  {
+   "name": "ConfirmPaymentManually",
+   "class": "A",
+   "v1": true,
+   "emits": [
+    "PaymentStatusChanged"
+   ],
+   "permission": "payment.confirm_manual",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true,
+    "note": "Always labeled 'Confirmed manually' and flagged for owner review."
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted_flagged"
+   ],
+   "local_rejections": [
+    "payment_not_found_local",
+    "payment_not_pending",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "manually_confirmed",
+    "credit_settled"
+   ]
+  },
+  {
+   "name": "CreateProduct",
+   "class": "A",
+   "v1": true,
+   "emits": [
+    "ProductCreated"
+   ],
+   "permission": "product.create",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged"
+   ],
+   "local_rejections": [
+    "duplicate_barcode_local",
+    "invalid_price",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ]
+  },
+  {
+   "name": "UpdateProduct",
+   "class": "A",
+   "v1": true,
+   "emits": [
+    "ProductUpdated"
+   ],
+   "permission": "product.update",
+   "extra_permissions": [
+    {
+     "when": "changes.price",
+     "permission": "product.price_change"
+    }
+   ],
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_with_conflict_notice"
+   ],
+   "local_rejections": [
+    "product_not_found_local",
+    "no_changes",
+    "invalid_price",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ]
+  },
+  {
+   "name": "ArchiveProduct",
+   "class": "A",
+   "v1": true,
+   "emits": [
+    "ProductArchived"
+   ],
+   "permission": "product.archive",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_with_conflict_notice"
+   ],
+   "local_rejections": [
+    "product_not_found_local",
+    "already_archived",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ]
+  },
+  {
+   "name": "ReceiveStock",
+   "class": "A",
+   "v1": true,
+   "emits": [
+    "StockReceived"
+   ],
+   "permission": "stock.receive",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged"
+   ],
+   "local_rejections": [
+    "product_not_found_local",
+    "invalid_quantity",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ]
+  },
+  {
+   "name": "AdjustStock",
+   "class": "A",
+   "v1": true,
+   "emits": [
+    "StockAdjusted"
+   ],
+   "permission": "stock.adjust",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged"
+   ],
+   "local_rejections": [
+    "product_not_found_local",
+    "zero_delta",
+    "reason_required",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ]
+  },
+  {
+   "name": "CountStock",
+   "class": "A",
+   "v1": true,
+   "emits": [
+    "StockCounted"
+   ],
+   "permission": "stock.count",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged"
+   ],
+   "local_rejections": [
+    "product_not_found_local",
+    "invalid_quantity",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ]
+  },
+  {
+   "name": "ReprintReceipt",
+   "class": "A",
+   "v1": true,
+   "emits": [
+    "ReceiptIssued"
+   ],
+   "permission": "receipt.reprint",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted"
+   ],
+   "local_rejections": [
+    "sale_not_found_local",
+    "printer_unavailable",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "provisional"
+   ]
+  },
+  {
+   "name": "ChangeLocalSettings",
+   "class": "A",
+   "v1": true,
+   "emits": [],
+   "permission": null,
+   "local_only": true,
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true,
+    "note": "Language, printer choice and similar device-only preferences. Never synced."
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [],
+   "local_rejections": [
+    "invalid_value",
+    "device_locked"
+   ],
+   "ui_states": []
+  },
+  {
+   "name": "SubmitDiagnostics",
+   "class": "B",
+   "v1": true,
+   "emits": [],
+   "permission": "sync.view",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true,
+    "note": "Queued until online. Bundle contains no customer data."
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted",
+    "rejected_rate_limited",
+    "rejected_too_large"
+   ],
+   "local_rejections": [
+    "bundle_too_large",
+    "device_locked"
+   ],
+   "ui_states": [
+    "pending_sync",
+    "accepted"
+   ]
+  },
+  {
+   "name": "RequestTaxSubmission",
+   "class": "B",
+   "v1": false,
+   "deferred_until": "RRA written outcome (spec section 9)",
+   "emits": [],
+   "permission": "report.view",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted",
+    "rejected_invalid_invoice",
+    "pending_authority"
+   ],
+   "local_rejections": [
+    "sale_not_found_local",
+    "device_locked"
+   ],
+   "ui_states": [
+    "pending_sync",
+    "submitted"
+   ]
+  },
+  {
+   "name": "SignIn",
+   "class": "C",
+   "v1": true,
+   "emits": [],
+   "permission": null,
+   "pre_auth": true,
+   "channels": [
+    "mobile",
+    "web"
+   ],
+   "offline": {
+    "allowed": false,
+    "behavior": "refuse_with_reason",
+    "note": "Daily unlock uses the local PIN, which is not SignIn."
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted",
+    "rejected_bad_code",
+    "rejected_locked_out",
+    "rejected_rate_limited"
+   ],
+   "local_rejections": [
+    "malformed_phone",
+    "offline_not_possible"
+   ],
+   "ui_states": [
+    "pending",
+    "signed_in",
+    "failed"
+   ]
+  },
+  {
+   "name": "RefreshSession",
+   "class": "C",
+   "v1": true,
+   "emits": [],
+   "permission": null,
+   "any_authenticated": true,
+   "channels": [
+    "mobile",
+    "web"
+   ],
+   "offline": {
+    "allowed": false,
+    "behavior": "refuse_with_reason",
+    "note": "Must succeed within offline_session_max_days or selling pauses."
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted",
+    "rejected_revoked",
+    "rejected_expired"
+   ],
+   "local_rejections": [
+    "offline_not_possible"
+   ],
+   "ui_states": [
+    "pending",
+    "refreshed",
+    "failed"
+   ]
+  },
+  {
+   "name": "EnrollDevice",
+   "class": "C",
+   "v1": true,
+   "emits": [
+    "DeviceEnrolled"
+   ],
+   "permission": "device.enroll",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": false,
+    "behavior": "refuse_with_reason"
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted",
+    "rejected_not_approved",
+    "rejected_attestation_failed",
+    "rejected_rate_limited"
+   ],
+   "local_rejections": [
+    "offline_not_possible",
+    "keystore_unavailable"
+   ],
+   "ui_states": [
+    "pending",
+    "enrolled",
+    "failed"
+   ]
+  },
+  {
+   "name": "AddUser",
+   "class": "C",
+   "v1": true,
+   "emits": [
+    "UserAdded"
+   ],
+   "permission": "user.add",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": false,
+    "behavior": "refuse_with_reason"
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted",
+    "rejected_duplicate",
+    "rejected_limit_reached"
+   ],
+   "local_rejections": [
+    "offline_not_possible",
+    "permission_denied"
+   ],
+   "ui_states": [
+    "pending",
+    "added",
+    "failed"
+   ]
+  },
+  {
+   "name": "ChangeUserRole",
+   "class": "C",
+   "v1": true,
+   "emits": [
+    "UserRoleChanged"
+   ],
+   "permission": "user.change_role",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": false,
+    "behavior": "refuse_with_reason"
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted",
+    "rejected_last_owner",
+    "rejected_recovery_window"
+   ],
+   "local_rejections": [
+    "offline_not_possible",
+    "permission_denied"
+   ],
+   "ui_states": [
+    "pending",
+    "changed",
+    "failed"
+   ]
+  },
+  {
+   "name": "ResetStaffCredentials",
+   "class": "C",
+   "v1": true,
+   "emits": [],
+   "permission": "user.reset_credentials",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": false,
+    "behavior": "refuse_with_reason"
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted",
+    "rejected_not_staff"
+   ],
+   "local_rejections": [
+    "offline_not_possible",
+    "permission_denied"
+   ],
+   "ui_states": [
+    "pending",
+    "done",
+    "failed"
+   ]
+  },
+  {
+   "name": "RevokeDevice",
+   "class": "C",
+   "v1": true,
+   "emits": [
+    "DeviceRevoked"
+   ],
+   "permission": "device.revoke",
+   "channels": [
+    "mobile",
+    "web"
+   ],
+   "offline": {
+    "allowed": false,
+    "behavior": "refuse_with_reason",
+    "note": "Revocation takes effect when the cloud enforces it; a disconnected target device learns of it on reconnect."
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted",
+    "rejected_recovery_window",
+    "rejected_unknown_device"
+   ],
+   "local_rejections": [
+    "offline_not_possible",
+    "permission_denied"
+   ],
+   "ui_states": [
+    "pending",
+    "revoked",
+    "failed"
+   ]
+  },
+  {
+   "name": "ChangeSharedSettings",
+   "class": "C",
+   "v1": true,
+   "emits": [
+    "ConfigChanged"
+   ],
+   "permission": "settings.change",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": false,
+    "behavior": "refuse_with_reason"
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted",
+    "rejected_invalid_value",
+    "rejected_recovery_window"
+   ],
+   "local_rejections": [
+    "offline_not_possible",
+    "permission_denied",
+    "invalid_value"
+   ],
+   "ui_states": [
+    "pending",
+    "applied",
+    "failed"
+   ]
+  },
+  {
+   "name": "FetchSnapshot",
+   "class": "C",
+   "v1": true,
+   "emits": [],
+   "permission": "sync.view",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": false,
+    "behavior": "refuse_with_reason"
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted",
+    "rejected_revoked"
+   ],
+   "local_rejections": [
+    "offline_not_possible"
+   ],
+   "ui_states": [
+    "pending",
+    "loaded",
+    "failed"
+   ]
+  },
+  {
+   "name": "InitiateRecovery",
+   "class": "C",
+   "v1": true,
+   "emits": [],
+   "permission": null,
+   "pre_auth": true,
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": false,
+    "behavior": "refuse_with_reason"
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted_waiting_period",
+    "rejected_rate_limited",
+    "rejected_unknown_account"
+   ],
+   "local_rejections": [
+    "offline_not_possible"
+   ],
+   "ui_states": [
+    "pending",
+    "waiting_period",
+    "failed"
+   ]
+  },
+  {
+   "name": "ApproveRecovery",
+   "class": "C",
+   "v1": true,
+   "emits": [],
+   "permission": "recovery.approve",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": false,
+    "behavior": "refuse_with_reason"
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted",
+    "rejected_expired",
+    "rejected_cancelled"
+   ],
+   "local_rejections": [
+    "offline_not_possible",
+    "permission_denied"
+   ],
+   "ui_states": [
+    "pending",
+    "approved",
+    "failed"
+   ]
+  },
+  {
+   "name": "CancelRecovery",
+   "class": "C",
+   "v1": true,
+   "emits": [],
+   "permission": "recovery.cancel",
+   "channels": [
+    "mobile",
+    "web"
+   ],
+   "offline": {
+    "allowed": false,
+    "behavior": "refuse_with_reason"
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted",
+    "rejected_not_found"
+   ],
+   "local_rejections": [
+    "offline_not_possible",
+    "permission_denied"
+   ],
+   "ui_states": [
+    "pending",
+    "cancelled",
+    "failed"
+   ]
+  },
+  {
+   "name": "RequestMobileMoneyPayment",
+   "class": "C",
+   "v1": false,
+   "deferred_until": "payments module activation checklist (spec section 13)",
+   "emits": [],
+   "permission": "payment.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": false,
+    "behavior": "stay_pending_or_refuse",
+    "note": "Never faked. Offline it can only be recorded as a pending_confirmation payment fact."
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted_pending_provider",
+    "rejected_provider_error"
+   ],
+   "local_rejections": [
+    "invalid_amount",
+    "offline_not_possible"
+   ],
+   "ui_states": [
+    "pending_confirmation",
+    "confirmed",
+    "failed"
+   ]
+  },
+  {
+   "name": "RequestAgentService",
+   "class": "C",
+   "v1": false,
+   "deferred_until": "payments module activation checklist (spec section 13)",
+   "emits": [
+    "AgentRequestCreated"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": false,
+    "behavior": "refused with offline_not_possible; the request is never queued (blueprint 42 I)"
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted_pending_provider",
+    "rejected_provider_error"
+   ],
+   "local_rejections": [
+    "partner_declined",
+    "limit_exceeded",
+    "offline_not_possible",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "sent",
+    "confirmed",
+    "failed"
+   ],
+   "v2": true
+  },
+  {
+   "name": "OpenShift",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "ShiftOpened"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "shift_already_open",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "CloseShift",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "ShiftClosed",
+    "CashCounted"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "no_open_shift",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "CountCash",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "CashCounted"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "no_open_shift",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "RedeemVoucher",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "VoucherRedeemed"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "voucher_unknown_local",
+    "voucher_already_used",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "HandOverPickup",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "PickupHandedOver"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "code_mismatch",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "RecordCustomerCredit",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "CustomerCreditRecorded"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "credit_over_limit",
+    "customer_not_found_local",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "RecordCreditPayment",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "CustomerCreditPaid"
+   ],
+   "permission": "payment.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "invalid_amount",
+    "credit_not_found_local",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "OpenTable",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "TableOpened"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "table_already_open",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "SendToKitchen",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "OrderSentToKitchen"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "empty_order",
+    "table_not_open",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "MarkKitchenItemReady",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "KitchenItemReady"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "order_not_found_local",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "SplitTableBill",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "TableBillSplit"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "table_not_open",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "RecordTip",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "TipRecorded"
+   ],
+   "permission": "payment.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "invalid_amount",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "CloseTable",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "TableClosed"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "table_not_open",
+    "unpaid_balance",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "ClockIn",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "ClockedIn"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "already_clocked_in",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "ClockOut",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "ClockedOut"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "not_clocked_in",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "RequestFinancing",
+   "class": "C",
+   "v1": false,
+   "deferred_until": "payments module activation checklist (spec section 13)",
+   "emits": [
+    "FinancingRequested"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": false,
+    "behavior": "refused with offline_not_possible; the request is never queued (blueprint 42 I)"
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted_pending_provider",
+    "rejected_provider_error"
+   ],
+   "local_rejections": [
+    "no_consent",
+    "offline_not_possible",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "sent",
+    "confirmed",
+    "failed"
+   ],
+   "v2": true
+  },
+  {
+   "name": "RequestDelivery",
+   "class": "C",
+   "v1": false,
+   "deferred_until": "payments module activation checklist (spec section 13)",
+   "emits": [
+    "DeliveryRequested"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": false,
+    "behavior": "refused with offline_not_possible; the request is never queued (blueprint 42 I)"
+   },
+   "cloud_may_reject": true,
+   "cloud_outcomes": [
+    "accepted_pending_provider",
+    "rejected_provider_error"
+   ],
+   "local_rejections": [
+    "offline_not_possible",
+    "order_not_found_local",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "sent",
+    "confirmed",
+    "failed"
+   ],
+   "v2": true
+  },
+  {
+   "name": "RecordDeliveryStep",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "DeliveryPickedUp",
+    "DeliveryDelivered"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "code_mismatch",
+    "delivery_not_found_local",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "IssueWarranty",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "WarrantyIssued"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "sale_not_found_local",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "OpenRepairTicket",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "RepairTicketOpened",
+    "RepairStatusChanged"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "customer_not_found_local",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true
+  },
+  {
+   "name": "RunDeviceAutomation",
+   "class": "A",
+   "v1": false,
+   "emits": [
+    "AutomationTriggered",
+    "AutomationDrafted",
+    "AutomationApplied",
+    "AutomationUndone",
+    "AutomationSkipped"
+   ],
+   "permission": null,
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "automation_off",
+    "loop_guard",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "v2": true,
+   "local_only": true
+  },
+  {
+   "name": "CreateShipment",
+   "class": "A",
+   "v1": false,
+   "v4": true,
+   "emits": [
+    "ShipmentCreated"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ]
+  },
+  {
+   "name": "RecordShipmentStep",
+   "class": "A",
+   "v1": false,
+   "v4": true,
+   "emits": [
+    "ShipmentScanned",
+    "ShipmentHandedOver",
+    "DeliveryAttempted",
+    "ShipmentExceptionRaised"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "code_mismatch",
+    "shipment_not_found_local",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ]
+  },
+  {
+   "name": "RecordZoneEvent",
+   "class": "A",
+   "v1": false,
+   "v4": true,
+   "emits": [
+    "ZoneEntered",
+    "ZoneLeft"
+   ],
+   "permission": null,
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "zone_not_found_local"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "local_only": true
+  },
+  {
+   "name": "RegisterAsset",
+   "class": "A",
+   "v1": false,
+   "v4": true,
+   "emits": [
+    "AssetRegistered"
+   ],
+   "permission": "settings.change",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ]
+  },
+  {
+   "name": "RecordAssetTrip",
+   "class": "A",
+   "v1": false,
+   "v4": true,
+   "emits": [
+    "AssetTripStarted",
+    "AssetTripEnded"
+   ],
+   "permission": null,
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "asset_not_found_local"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "local_only": true
+  },
+  {
+   "name": "RecordRental",
+   "class": "A",
+   "v1": false,
+   "v4": true,
+   "emits": [
+    "RentalStarted",
+    "RentalEnded"
+   ],
+   "permission": "sale.record",
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "renter_not_told",
+    "asset_not_found_local",
+    "permission_denied",
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ]
+  },
+  {
+   "name": "RaiseProtectionAlert",
+   "class": "A",
+   "v1": false,
+   "v4": true,
+   "emits": [
+    "ProtectionAlertRaised"
+   ],
+   "permission": null,
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "subject_not_found_local"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "local_only": true
+  },
+  {
+   "name": "ClearProtectionAlert",
+   "class": "A",
+   "v1": false,
+   "v4": true,
+   "emits": [
+    "ProtectionAlertCleared"
+   ],
+   "permission": null,
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "alert_not_found_local",
+    "session_expired"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "any_authenticated": true
+  },
+  {
+   "name": "RecordSentryIncident",
+   "class": "A",
+   "v1": false,
+   "v4": true,
+   "emits": [
+    "SentryIncidentOpened",
+    "SentryIncidentClosed"
+   ],
+   "permission": null,
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "session_expired",
+    "device_locked"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "any_authenticated": true
+  },
+  {
+   "name": "ShareLocation",
+   "class": "A",
+   "v1": false,
+   "v4": true,
+   "emits": [
+    "LocationShareStarted",
+    "LocationShareEnded"
+   ],
+   "permission": null,
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "consent_missing",
+    "session_expired"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "any_authenticated": true
+  },
+  {
+   "name": "SetTripPlan",
+   "class": "A",
+   "v1": false,
+   "v4": true,
+   "emits": [
+    "TripPlanSet",
+    "TripPlanCheckedIn"
+   ],
+   "permission": null,
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "no_trusted_contact",
+    "session_expired"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "any_authenticated": true
+  },
+  {
+   "name": "SendLastReport",
+   "class": "A",
+   "v1": false,
+   "v4": true,
+   "emits": [
+    "DeviceLastReport"
+   ],
+   "permission": null,
+   "channels": [
+    "mobile"
+   ],
+   "offline": {
+    "allowed": true
+   },
+   "cloud_may_reject": false,
+   "cloud_outcomes": [
+    "accepted",
+    "accepted_flagged",
+    "quarantined_identity_or_integrity_only"
+   ],
+   "local_rejections": [
+    "already_sent"
+   ],
+   "ui_states": [
+    "recorded",
+    "pending_sync",
+    "accepted"
+   ],
+   "local_only": true
+  }
+ ]
+}

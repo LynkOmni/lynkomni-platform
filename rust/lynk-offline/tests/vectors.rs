@@ -6,7 +6,7 @@ fn read(p: &str) -> String { std::fs::read_to_string(format!("{}/../../contract/
 #[test]
 fn identifier_vectors() {
     let reg = ids::Registry::from_json(&read("identifier-registry.v1.json"));
-    assert_eq!(reg.len(), 41);
+    assert_eq!(reg.len(), 44);
     let v: Value = serde_json::from_str(&read("vectors/identifiers.v1.json")).unwrap();
     for c in v["valid"].as_array().unwrap() { assert_eq!(ids::parse(&reg, c["id"].as_str().unwrap()).unwrap().1, c["payload"].as_str().unwrap()); }
     for c in v["invalid"].as_array().unwrap() { assert!(ids::parse(&reg, c["id"].as_str().unwrap()).is_err()); }

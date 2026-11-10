@@ -730,6 +730,97 @@
     "sitemap"
    ],
    "section": 11
+  },
+  {
+   "id": "lynkmotion",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkguard",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynktrace",
+   "kind": "service",
+   "what": "LynkTrace, tracking (the product name of the tracking engine), inside LynkMotion and LynkGuard",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "product_page",
+    "search",
+    "sitemap",
+    "website_header"
+   ],
+   "section": "7B",
+   "footer_ids": [
+    "trace"
+   ]
+  },
+  {
+   "id": "lynkgps",
+   "kind": "service",
+   "what": "LynkGPS, GPS: location with consent, maps, places, routes and dispatch, inside LynkMotion and LynkGuard",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "product_page",
+    "search",
+    "sitemap",
+    "website_header"
+   ],
+   "section": "7B",
+   "footer_ids": [
+    "gps"
+   ]
+  },
+  {
+   "id": "lynksentry",
+   "kind": "service",
+   "what": "LynkSentry, protection: alerts, incidents, custody and safe-stop rules, inside LynkMotion and LynkGuard",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "product_page",
+    "search",
+    "sitemap",
+    "website_header"
+   ],
+   "section": "7B",
+   "footer_ids": [
+    "sentry"
+   ]
   }
  ]
 }

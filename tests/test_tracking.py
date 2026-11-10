@@ -4,11 +4,12 @@ import json, os, re, unittest, uuid
 
 from contract.tools.validate_contract import uuid7
 from core import ids
+from core.build_sections import after
 from services import tracking as T
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REG = T.register()
-CONTRACT = json.load(open(os.path.join(ROOT, "contract", "event-payloads.v3.json"), encoding="utf-8"))["events"]
+CONTRACT = json.load(open(os.path.join(ROOT, "contract", "event-payloads.v4.json"), encoding="utf-8"))["events"]
 IDENTITY = json.load(open(os.path.join(ROOT, "identity", "events.v1.json"), encoding="utf-8"))["events"]
 ADDR = json.load(open(os.path.join(ROOT, "catalog", "addresses.v1.json"), encoding="utf-8"))
 T0 = 1_794_200_000          # 2026-11-09
@@ -79,7 +80,7 @@ class Register(unittest.TestCase):
 
     def test_planned_kinds_name_their_build_section(self):
         for k in REG["planned"]:
-            self.assertIn(k["record"], ids.TYPES); self.assertGreater(k["ui_section"], 3)
+            self.assertIn(k["record"], ids.TYPES); self.assertTrue(after(k["ui_section"], 3), k["id"])
 
 
 def ev(t, at=T0, **p): return {"type": t, "payload": p, "at": at}

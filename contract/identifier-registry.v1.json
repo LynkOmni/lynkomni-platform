@@ -297,6 +297,27 @@
    "name": "Storefront offer",
    "purpose": "One offer on a Storefront: a product, course, service, event or app offered to others (owner approved 2026-11-09, BIZZ & DEVICE)",
    "origin": "approved addition"
+  },
+  {
+   "code": "AST",
+   "prefix": "LOAST-",
+   "name": "Tracked or protected asset",
+   "purpose": "A vehicle, container, piece of cargo or equipment tracked or protected in LynkGuard or LynkMotion (owner approved 2026-11-10, NEW UPDATE 1)",
+   "origin": "approved addition"
+  },
+  {
+   "code": "TRP",
+   "prefix": "LOTRP-",
+   "name": "Trip or journey",
+   "purpose": "One trip of a person, rider or vehicle, or a journey of several legs (owner approved 2026-11-10, NEW UPDATE 1)",
+   "origin": "approved addition"
+  },
+  {
+   "code": "SNT",
+   "prefix": "LOSNT-",
+   "name": "LynkSentry incident",
+   "purpose": "A security incident opened in LynkSentry: theft, tamper, crash or SOS (owner approved 2026-11-10, NEW UPDATE 1); never the platform status incident (INC)",
+   "origin": "approved addition"
   }
  ]
 }

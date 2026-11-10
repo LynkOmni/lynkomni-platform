@@ -734,7 +734,7 @@
     "visual": "state-coming-soon",
     "message": "Coming to your country soon."
    },
-   "notes": "",
+   "notes": "NEW UPDATE 1: also the insurer pack and insurer sharing of LynkMotion and LynkGuard, only with the owner's consent.",
    "integrate": [
     "Sign the agreement and get sandbox credentials",
     "Write the real adapter next to the sandbox one behind the same interface",
@@ -1071,7 +1071,7 @@
     "visual": "state-coming-soon",
     "message": "Coming to your country soon."
    },
-   "notes": "LynkOmni never employs riders. Own staff riders record pickup and delivery on the staff device, offline with the code, and need no partner.",
+   "notes": "LynkOmni never employs riders. Own staff riders record pickup and delivery on the staff device, offline with the code, and need no partner. NEW UPDATE 1: partner carriers in LynkTrace (one tracking link across carriers) use the same partners.",
    "integrate": [
     "Sign the delivery partner for the country",
     "Real adapter behind DeliveryPartner",
@@ -1322,6 +1322,177 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country after legal sign-off"
+   ]
+  },
+  {
+   "id": "vehicle_data",
+   "name": "Connected-car data partner",
+   "kind": "vehicle_data",
+   "used_by": [
+    "vehicle_data"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.movement_partners:VehicleDataProvider",
+   "sandbox": "services.movement_partners:SandboxVehicleData",
+   "needed_from_provider": [
+    "carmaker or licensed data-partner agreement per country",
+    "owner consent flow and revocation",
+    "ignition, motion, odometer and alert signals",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/movement_partners.py",
+     "token": "SandboxVehicleData"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "NEW UPDATE 1 (blueprint 49): LynkGuard Plus and above link a car only with the owner's consent; the phone stays the default tracker.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "monitoring_centre",
+   "name": "24/7 monitoring centre",
+   "kind": "monitoring",
+   "used_by": [
+    "monitoring"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.movement_partners:MonitoringCentre",
+   "sandbox": "services.movement_partners:SandboxMonitoring",
+   "needed_from_provider": [
+    "licensed monitoring agreement per country",
+    "hand-over and call-back procedure",
+    "fee schedule charged only when chosen"
+   ],
+   "placeholders": [
+    {
+     "file": "services/movement_partners.py",
+     "token": "SandboxMonitoring"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "NEW UPDATE 1: LynkGuard Max. The centre calls the owner; LynkSentry never contacts police by itself.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "transport_data",
+   "name": "Ship-position and flight-status data",
+   "kind": "transport_data",
+   "used_by": [
+    "transport_data"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.movement_partners:TransportData",
+   "sandbox": "services.movement_partners:SandboxTransportData",
+   "needed_from_provider": [
+    "licensed AIS (ship) and flight-status data agreement",
+    "coverage and refresh terms",
+    "attribution rules"
+   ],
+   "placeholders": [
+    {
+     "file": "services/movement_partners.py",
+     "token": "SandboxTransportData"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "NEW UPDATE 1: LynkMotion and LynkGuard Max journeys by sea and air; vessel and flight status only, never a person's position.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "satellite_messaging",
+   "name": "Satellite messaging",
+   "kind": "satellite",
+   "used_by": [
+    "satellite"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.movement_partners:SatelliteMessaging",
+   "sandbox": "services.movement_partners:SandboxSatellite",
+   "needed_from_provider": [
+    "satellite messaging agreement",
+    "supported phones and trackers",
+    "message size and airtime price (charged at partner cost, only when used)"
+   ],
+   "placeholders": [
+    {
+     "file": "services/movement_partners.py",
+     "token": "SandboxSatellite"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "NEW UPDATE 1 (no-network layer 5 and 6): SOS and last reports where no network exists.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "iot_sim",
+   "name": "Tracker data plans (IoT SIM)",
+   "kind": "connectivity",
+   "used_by": [
+    "iot_sim"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.movement_partners:IotSim",
+   "sandbox": "services.movement_partners:SandboxIotSim",
+   "needed_from_provider": [
+    "multi-country IoT data plan agreement",
+    "activation and suspension API",
+    "price per device per month"
+   ],
+   "placeholders": [
+    {
+     "file": "services/movement_partners.py",
+     "token": "SandboxIotSim"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "NEW UPDATE 1: only for trackers, seals and sensors bought on demand; phones need none.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
    ]
   }
  ],
@@ -1653,6 +1824,57 @@
    "why_not_now": "Needs sample devices; automatic checks already run on virtual devices and emulators.",
    "placeholders": [],
    "done_when": "Each device kind in the device register passed on a real unit."
+  },
+  {
+   "id": "tracker_certification",
+   "name": "Certified trackers, seals and safe-stop hardware",
+   "blocks": [
+    "movement"
+   ],
+   "status": "pending",
+   "why_not_now": "Needs a hardware supplier and certification per country; safe-stop works only through certified hardware.",
+   "placeholders": [],
+   "done_when": "Each tracker, seal and safe-stop unit is certified for its country and its LynkDriver driver is signed."
+  },
+  {
+   "id": "police_report_formats",
+   "name": "Police report pack format per country",
+   "blocks": [
+    "movement"
+   ],
+   "status": "pending",
+   "why_not_now": "Each country's police accept their own format; a person per country must confirm it.",
+   "placeholders": [],
+   "done_when": "Each country pack carries a confirmed report format."
+  },
+  {
+   "id": "location_privacy_review",
+   "name": "Data-protection review of location data",
+   "blocks": [
+    "movement"
+   ],
+   "status": "pending",
+   "why_not_now": "A lawyer per region must confirm consent, retention and worker rules before positions are stored for owned assets and consenting workers.",
+   "placeholders": [],
+   "done_when": "Each region's retention and consent rules are confirmed and written into its country packs."
+  },
+  {
+   "id": "movement_names",
+   "name": "Trademark checks for LynkMotion, LynkGuard, LynkTrace, LynkGPS and LynkSentry",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Needs the lawyer (owner action names-trademarks).",
+   "placeholders": [],
+   "done_when": "The five names are cleared or replaced."
+  },
+  {
+   "id": "map_hosting",
+   "name": "LynkOmni's own map tiles, geocoding and offline region packs",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Self-hosted open map data needs the cloud hosting of build section 14; emulators use labelled sample maps until then.",
+   "placeholders": [],
+   "done_when": "Map tiles, geocoding and offline packs are served from LynkOmni's own servers in every region cell."
   }
  ],
  "user_actions": [

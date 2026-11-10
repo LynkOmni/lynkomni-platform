@@ -2,6 +2,31 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.33.0 (2026-11-10)
+NEW UPDATE 1, Step 0 (one global structure).
+- **Billing:** LynkMotion ($0, $9, $29, $79) and LynkGuard ($0, $15, $49, $149) are new families outside LynkSuite. Each covers LynkTrace, LynkGPS and LynkSentry, with:
+  - their limits and the LynkMotion extras;
+  - LynkGuard's extra vehicles and the 20% pair discount;
+  - the API prices.
+
+  All are locked by the price test.
+- **Catalog and addresses:**
+  - product pages /motion, /guard, /tracking, /gps and /protection;
+  - Business app paths under /tracking, /gps and /protection, each with its Storefront twin;
+  - public pages /track/{LOSHP} and /track/{LOSHP}/custody;
+  - placements for both products and the three services;
+  - a "Move & protect" footer column in all 38 languages.
+- **Identifiers:** LOAST- (asset), LOTRP- (trip or journey) and LOSNT- (LynkSentry incident), now 44 types in every code language.
+- **Contract version 4:** 23 milestone events and 12 class A commands. No event carries a position. The upcaster from version 3 changes nothing.
+- **Tracking:** new planned kinds (journey leg, vehicle trip, rental, security incident) with their words in 38 languages, and 16 automations registered for build section 7B.
+- **Partners:** the "movement" service is on everywhere. Its partner parts (connected cars, monitoring centres, ship and flight data, satellite messaging, tracker data plans) have working sandboxes and stay off until signed. Five "later" items added.
+- **APIs:** the API catalog lists one API for every family and the platform services (catalog/apis.v1.json).
+- **Other:**
+  - product illustrations for LynkMotion and LynkGuard;
+  - the new service names are reserved as usernames;
+  - a separate assumed revenue stream for movement and APIs;
+  - build section 7B in the build order.
+
 ## v0.32.0 (2026-11-10)
 Every service in every place (owner rule, 10 November 2026).
 - Every product is now in the website header, the launcher, search, help, its product page, the sitemap and the footer. It is also on the pricing page when it has a paid tier, and in the app navigation when it has an app place.

@@ -370,6 +370,46 @@
    "budget_kb": 12
   },
   {
+   "id": "product-motion",
+   "kind": "illustration",
+   "scene": "motion",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A parcel travelling along a dotted route from one map pin to another, with a clock",
+   "purpose": "Empty state, feature header and onboarding for LynkMotion",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-guard",
+   "kind": "illustration",
+   "scene": "guard",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A parked car inside a dashed protection ring, with a padlock badge and a signal",
+   "purpose": "Empty state, feature header and onboarding for LynkGuard",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
    "id": "product-suite",
    "kind": "illustration",
    "scene": "suite",

@@ -104,6 +104,14 @@ class ExpensesAndProfit(unittest.TestCase):
         self.assertTrue(all(g["assumption"] for g in got.values()))
         self.assertNotIn("storefront", R.ECO_ROWS)
 
+    def test_movement_and_api_stream_is_separate_and_an_assumption(self):
+        # NEW UPDATE 1 (2026-11-10): LynkMotion, LynkGuard and API usage are their own stream, outside the agreed totals until pilot data exists
+        got = {st: R.movement(st) for st in R.STAGES}
+        self.assertEqual({st: (g["motion"], g["guard"], g["api"], g["month"]) for st, g in got.items()},
+                         {"stage1": (735, 712, 240, 1_687), "stage2": (42_012, 40_680, 8_000, 90_692), "stage3": (1_283_700, 1_243_000, 160_000, 2_686_700)})
+        self.assertTrue(all(g["assumption"] for g in got.values()))
+        self.assertNotIn("lynkmotion", R.ECO_ROWS); self.assertNotIn("lynkguard", R.ECO_ROWS)
+
 
 if __name__ == "__main__":
     unittest.main()

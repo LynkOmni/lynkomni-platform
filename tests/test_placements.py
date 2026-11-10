@@ -6,6 +6,8 @@ REG = json.load(open(os.path.join(ROOT, "catalog", "placements.v1.json"), encodi
 PRODUCTS = json.load(open(os.path.join(ROOT, "catalog", "products.v1.json"), encoding="utf-8"))["products"]
 ADDR = json.load(open(os.path.join(ROOT, "catalog", "addresses.v1.json"), encoding="utf-8"))
 HOSTS = {h["host"] for h in ADDR["hosts"]}
+import sys; sys.path.insert(0, ROOT)
+from core.build_sections import ORDER  # noqa: E402
 
 
 class Register(unittest.TestCase):
@@ -15,7 +17,7 @@ class Register(unittest.TestCase):
         for i in REG["items"]:
             self.assertTrue(i["places"], i["id"])
             for p in i["places"]: self.assertIn(p, REG["places"], i["id"])
-            self.assertIn(i["section"], range(0, 15), i["id"])
+            self.assertIn(i["section"], ORDER, i["id"])
 
     def test_every_product_is_placed(self):
         placed = {i["id"]: i for i in REG["items"] if i["kind"] == "product"}
@@ -69,7 +71,7 @@ class Sides(unittest.TestCase):
                 path = s["external"][len("app.lynkomni.com"):]
                 self.assertTrue(path.startswith("/external/"), p["family"])
                 self.assertIn(path, ADDR["app_paths"], p["family"])
-            self.assertIn(s["external_section"], range(1, 15), p["family"])
+            self.assertIn(s["external_section"], ORDER[1:], p["family"])
 
 
 if __name__ == "__main__": unittest.main()

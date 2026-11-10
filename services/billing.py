@@ -29,6 +29,8 @@ FAMILIES = {
  "lynkdev":      ("LynkOmni Developer Infrastructure", "LynkDev", ("free", "starter", "business", "enterprise"), (0, 500, 2500, 15000), "developer", False),
  "lynkbooking":  ("LynkOmni Bookings Membership", "LynkBooking", MT, (0, 4.99, 9.99, 19.99), "consumer", False),
  "lynkessential": ("LynkOmni Essentials Membership", "LynkEssential", MT, (0, 2.99, 5.99, 11.99), "consumer", False),
+ "lynkmotion":   ("LynkOmni Motion", "LynkMotion", MT, (0, 9, 29, 79), "movement", False),    # NEW UPDATE 1 (2026-11-10): everyday tracking (LynkTrace, LynkGPS, LynkSentry)
+ "lynkguard":    ("LynkOmni Guard", "LynkGuard", MT, (0, 15, 49, 149), "movement", False),    # NEW UPDATE 1 (2026-11-10): vehicle and asset protection on the same core
  "lynkops":      ("LynkOmni Operations", "LynkOps", MT, (0, 20, 49, 129), "bundle", True),       # a tier: LynkAcc, LynkInv, LynkCRM and LynkStat together
  "lynksuite":    ("LynkOmni Suite", "LynkSuite", MT, (0, 29, 75, 195), "suite", False),
 }
@@ -101,6 +103,27 @@ FEATURES = {
                dict(active_cards=None, new_cards_per_month=500, monthly_cap_usd=100000, users=None, branch_cards=True, two_step_roles=True, physical_companion=True, founders_edition=True, custom_limits=True, fx_fee_pct=0.25, cashback_bps=10)],  # prices and limits are PLACEHOLDERS set against competitor plans
  "lynkdev": [dict(sandbox=True, api_calls_per_day=1000, bandwidth_gb=10, bandwidth_cents_per_gb=8), dict(production=True, api_calls_per_day=50000, bandwidth_gb=50, bandwidth_cents_per_gb=7),
              dict(api_calls_per_day=500000, sla=True, bandwidth_gb=250, bandwidth_cents_per_gb=6), dict(api_calls_per_day=None, custom_terms=True, bandwidth_gb=None)],   # LynkEdge bandwidth and metering live here  # call limits are PLACEHOLDERS
+ # NEW UPDATE 1 (owner approved 2026-11-10, blueprint section 49): two plans on one core, each covering LynkTrace, LynkGPS and
+ # LynkSentry. Phones are the tracker; hardware, SIM data, monitoring and satellite airtime are charged only when chosen.
+ "lynkmotion": [dict(tracked_per_month=50, live=2, history_days=7, places=2, drivers=2, offline_regions=0, branded_page=False, proof=("code",),
+                     receiver_choices=False, route_stops_per_day=0, partner_carriers=False, multi_leg=False, multimodal=False, api=False,
+                     sos=True, safe_arrival=True, trip_plan=True, unknown_tracker_alerts=True, store_and_forward=True, mesh_relay=True, text_tracking=True),
+                dict(tracked_per_month=1000, live=10, history_days=30, places=25, drivers=5, offline_regions=1, branded_page=True,
+                     proof=("code", "photo", "signature"), receiver_choices=True, route_stops_per_day=25, rider_checkins=True, hidden_numbers=True),
+                dict(tracked_per_month=10000, live=50, history_days=365, places=250, drivers=50, offline_regions=5, proof_chain=True,
+                     route_stops_per_day=300, dispatch_board=True, partner_carriers=True, multi_leg=True, api=True, webhooks=True, fraud_checks=True),
+                dict(tracked_per_month=100000, live=250, history_days=1095, places=None, drivers=None, offline_regions=None, route_stops_per_day=None,
+                     multimodal=True, customs_documents=True, predicted_arrival=True, control_tower=True, seals_on_demand=True, insurer_pack=True,
+                     ship_and_flight_data=True)],
+ "lynkguard": [dict(assets=1, extra_asset_cents=None, tracker="phone", history_days=7, zones=1, crash_detection=True, sos=True, moved_without_you=True,
+                    trusted_contacts=True, trip_plan=True, store_and_forward=True, mesh_relay=True, text_tracking=True, gone_silent=False, api=False),
+               dict(assets=3, connected_car=True, history_days=90, zones=10, theft_and_tow_alerts=True, after_hours_alerts=True, police_report_pack=True,
+                    gone_silent=True, driver_sharing=True),
+               dict(assets=25, extra_asset_cents=150, trackers_on_demand=True, history_days=365, zones=100, tamper_and_jamming_alerts=True, curfews=True,
+                    rental_mode=True, fleet_tools=True, driver_identity=True, driver_hours=True, safety_scores=True, incident_room=True,
+                    power_cut_alerts=True, satellite_on_demand=True, api=True, webhooks=True),
+               dict(assets=100, extra_asset_cents=100, seals_and_sensors=True, history_days=1095, zones=None, control_room_wall=True, cargo_custody=True,
+                    safe_stop=True, monitoring_partner=True, insurer_sharing=True, ship_and_flight_data=True)],
  "lynkbooking": [dict(standard_fees=True, ads=True), dict(ads=False, priority_support=True, price_alerts=True), dict(higher_priority_support=True, group_trips=True),
                   dict(dedicated_concierge=True, dedicated_support=True, traveler_profiles=5)],
  "lynkessential": [dict(standard_fees=True, ads=True), dict(ads=False, priority_support=True, reminders=True), dict(higher_priority_support=True, scheduled_payments=True, household_members=3),
@@ -138,7 +161,37 @@ SERVICE_FEES = {
     "standing_payment_share_bps": 30, "get_paid_early_referral_bps": 50, "delivery_share_cents": 10, "extended_warranty_referral_cents": 100,
     "lease_margin_cents_per_month": 100, "registration_referral_cents": 500, "academy_certificate_cents": 1000,
     "lynkstat_setup_cents": 9900,      # LynkOps Setup includes it, so it is never charged twice
+    # NEW UPDATE 1 (2026-11-10): LynkMotion extras. LynkGuard's extra vehicles are its tiers' extra_asset_cents.
+    "motion_extra_1000_tracked_cents": 500, "motion_extra_live_cents": 100,
 }
+# An account may hold one LynkMotion plan and one LynkGuard plan (they cover different things; each is counted once). Holding both
+# takes this much off the lower paid plan (NEW UPDATE 1, owner approved 2026-11-10). LOCKED with the prices.
+MOVEMENT_FAMILIES = ("lynkmotion", "lynkguard")
+MOVEMENT_PAIR_DISCOUNT_BPS = 2000
+
+
+def movement_pair_discount_cents(motion_tier, guard_tier):
+    """The monthly discount, in US cents, for an account holding both LynkMotion and LynkGuard: 20% of the lower paid plan."""
+    a = int(round(FAMILIES["lynkmotion"][3][MT.index(motion_tier)] * 100))
+    b = int(round(FAMILIES["lynkguard"][3][MT.index(guard_tier)] * 100))
+    if a == 0 or b == 0:
+        return 0
+    return (min(a, b) * MOVEMENT_PAIR_DISCOUNT_BPS + 5000) // 10000
+
+
+# Open APIs for every service (NEW UPDATE 1, blueprint section 50; catalog/apis.v1.json lists each API). Usage prices in US cents,
+# charged only where a service has a real running cost; LOCKED with the prices. Money services add no fee beyond their tiers.
+API_PRICES = {
+    "tracking_shipment_cents": 1,                 # each tracked shipment
+    "geocoding_per_1000_cents": 100, "routing_per_1000_cents": 100, "routing_25_stops_per_1000_cents": 200,
+    "map_tiles_per_1000_cents": 50, "offline_region_month_cents": 1000, "zone_events_per_1000_cents": 100,
+    "lynkstat_queries_per_1000_cents": 100,       # above the plan
+    "lynkassist_requests_per_1000_cents": 200,    # above the plan
+    "translation_per_million_chars_cents": 500,
+}
+API_FREE_MONTHLY = {"tracked_shipments": 100, "geocoding": 10000, "routing": 10000, "map_tiles": 50000}   # on a LynkDev production plan
+API_BUSINESS_DISCOUNT_BPS = 2000                  # LynkDev Business; Enterprise is by contract
+API_OWN_ACCOUNT = {"pro": ("read", "webhooks"), "max": ("read", "write", "webhooks")}   # a business's own apps on its own data
 
 # Support level per tier (review P3, 2026-11-07): every family's Free is help center and chat, Plus priority, Pro higher
 # priority and Max a dedicated manager. A business with several plans gets its highest level; LynkSuite and LynkOps

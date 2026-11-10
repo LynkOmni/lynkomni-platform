@@ -2,6 +2,7 @@
 import json, pathlib, re, sys, unittest
 ROOT = pathlib.Path(__file__).resolve().parents[1]; sys.path.insert(0, str(ROOT))
 from services import billing
+from core.build_sections import ORDER, WITH_PEOPLE
 R = json.loads((ROOT / "catalog" / "automations.v1.json").read_text())
 A = R["automations"]
 NON_FAMILY = {"platform", "customer", "staff", "partner"}
@@ -14,7 +15,7 @@ class Automations(unittest.TestCase):
 
     def test_every_automation_has_a_build_section_level_and_valid_plan(self):
         for a in A:
-            self.assertIn(a["build_section"], range(0, 15), a["id"])
+            self.assertIn(a["build_section"], ORDER, a["id"])
             self.assertIn(a["level"], R["levels"], a["id"])
             if a["assist"] is not None: self.assertIn(a["assist"], R["assist_roles"], a["id"])
             if a["family"] not in NON_FAMILY:
@@ -41,7 +42,7 @@ class Automations(unittest.TestCase):
             if a["customer_message"]: self.assertIn(a.get("consent"), ("transactional", "opt_in"), a["id"])
 
     def test_every_build_section_with_people_is_covered(self):
-        self.assertEqual({a["build_section"] for a in A} >= set(range(1, 15)), True)
+        self.assertEqual({a["build_section"] for a in A} >= set(WITH_PEOPLE), True)
 
     def test_assist_never_on_forbidden_actions(self):
         for a in A:

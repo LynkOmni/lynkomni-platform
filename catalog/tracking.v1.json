@@ -1140,7 +1140,7 @@
    "id": "shipment",
    "record": "SHP",
    "ui_section": 7,
-   "note": "Online shop orders sent by a carrier and supplier marketplace purchase orders: packed, handed to the carrier, in transit, delivered."
+   "note": "LynkTrace shipments (NEW UPDATE 1): online shop orders, supplier purchase orders and parcels sent by own riders, partner carriers or agencies, with legs, scans, hand-overs, exceptions, attempts and receiver choices on the contract version 4 events. The receiver's tracking and custody pages come in section 7; the full engine in section 7B."
   },
   {
    "id": "booking",
@@ -1159,6 +1159,30 @@
    "record": "TXN",
    "ui_section": 10,
    "note": "Exchange orders through the licensed partner: placed, matched, settled or failed."
+  },
+  {
+   "id": "journey_leg",
+   "record": "TRP",
+   "ui_section": "7B",
+   "note": "One leg of a journey (road, rail, sea or air) inside a shipment or a traveller's journey pass (LOTRP-)."
+  },
+  {
+   "id": "asset_trip",
+   "record": "TRP",
+   "ui_section": "7B",
+   "note": "A trip of a protected vehicle or asset (LynkGuard): started, in progress, ended, from AssetTripStarted and AssetTripEnded."
+  },
+  {
+   "id": "rental",
+   "record": "AST",
+   "ui_section": "7B",
+   "note": "A rental from hand-over to return (LynkGuard rental mode): renter told, handed over, returned, checked."
+  },
+  {
+   "id": "sentry_incident",
+   "record": "SNT",
+   "ui_section": "7B",
+   "note": "A LynkSentry incident (LOSNT-): opened, with the owner and trusted contacts, closed; routed to the safety desk."
   }
  ]
 }

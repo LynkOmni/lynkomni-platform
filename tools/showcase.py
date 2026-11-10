@@ -143,7 +143,7 @@ def build():
     parts.append(_device_pick(devreg, names))
 
     # Progress
-    parts.append('<h2 id="progress">Progress: the 15 build steps</h2><table><thead><tr><th>#</th><th>Build section</th><th>Status</th><th>Version</th></tr></thead><tbody>')
+    parts.append(f'<h2 id="progress">Progress: the {len(cfg["sections"])} build steps</h2><table><thead><tr><th>#</th><th>Build section</th><th>Status</th><th>Version</th></tr></thead><tbody>')
     for s in cfg["sections"]:
         st = s.get("status", "")
         word = {"locked": "Done and locked", "next": "Next"}.get(st, "Waiting")
