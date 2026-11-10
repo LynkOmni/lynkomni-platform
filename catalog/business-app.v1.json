@@ -629,6 +629,79 @@
     "sign_out"
    ],
    "path": "account.lynkomni.com"
+  },
+  {
+   "id": "storefront",
+   "path": "/external/business",
+   "items": [
+    "side_switch",
+    "storefront_plan",
+    "offers",
+    "orders",
+    "reserved_stock",
+    "payouts",
+    "seller_support"
+   ]
+  },
+  {
+   "id": "storefront_listings",
+   "path": "/external/sell/listings",
+   "items": [
+    "listings",
+    "new_listing",
+    "reserved_stock",
+    "online_orders"
+   ]
+  },
+  {
+   "id": "storefront_new_listing",
+   "path": "/external/sell/listings/new",
+   "items": [
+    "product",
+    "price",
+    "stock_hold",
+    "identity_check",
+    "publish"
+   ]
+  },
+  {
+   "id": "storefront_stock",
+   "path": "/external/stock/listings",
+   "items": [
+    "listings",
+    "reserved_stock",
+    "shared_stock"
+   ]
+  },
+  {
+   "id": "storefront_chats",
+   "path": "/external/chats",
+   "items": [
+    "buyer_chats",
+    "filter_orders"
+   ]
+  },
+  {
+   "id": "storefront_payouts",
+   "path": "/external/business/money/payouts",
+   "items": [
+    "payouts",
+    "share",
+    "provider"
+   ]
+  },
+  {
+   "id": "driver",
+   "path": "/business/devices/driver",
+   "items": [
+    "installed_version",
+    "latest_version",
+    "update_deadline",
+    "install_online",
+    "install_offline",
+    "attached_hardware",
+    "virtual_devices"
+   ]
   }
  ],
  "workspaces": "Who the app is for (catalog/workspaces.v1.json): a person, a company or an organisation; the entity changes words, tabs (an office workspace of a person or an organisation shows Books instead of Chats) and categories only."

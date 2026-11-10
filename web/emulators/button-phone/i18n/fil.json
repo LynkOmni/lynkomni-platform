@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "Uri ng telepono (pagsubok)",
+  "bp_kind_basic": "Basic na telepono: USSD, text at boses",
+  "bp_kind_button": "Teleponong may button at app",
+  "bp_kind_feature": "Simpleng telepono (magaang app)",
+  "ch_dial": "I-dial ang code ng LynkPOS",
+  "ch_idle": "LynkPOS sa telepono",
+  "ch_message_to": "Mensahe sa LynkPOS",
+  "ch_no_command": "Hindi ito utos. Ipadala ang 4 para sa tulong.",
+  "ch_reply": "Sagot",
+  "ch_sandbox": "Halimbawa (sandbox): walang tunay na code o numero hangga't walang gateway na napirmahan sa iyong bansa.",
+  "ch_send": "Ipadala",
+  "ch_session_ended": "Natapos ang session",
+  "ch_spoken": "Binabasa nang malakas; pumindot ng numero",
+  "ch_text": "Magpadala ng text",
+  "ch_voice": "Tawagan ang voice menu",
   "title": "LynkPOS sa teleponong de-pindot"
  }
 }

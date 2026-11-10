@@ -295,3 +295,8 @@ button, input, select { font: inherit; color: inherit; }
 .lowlit .tile { min-height: 88px; font-size: 15px; }
 .agentpic { margin: 0 auto; width: 100%; max-width: 240px; }
 .agentpic svg { width: 100%; height: auto; display: block; }
+/* The side the Business app is on (BIZZ & DEVICE): the word, never colour alone, under the top bar and on the Business hub. */
+.sidechip { display: inline-flex; align-items: center; gap: 6px; margin: 0; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 600 13px/1.3 var(--font-body); }
+.sidechip .ic { width: 16px; height: 16px; flex: none; }
+.sidechip.sf { margin: 8px 12px 0; }
+.sidecard { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }

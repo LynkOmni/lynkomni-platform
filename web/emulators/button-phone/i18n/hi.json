@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "फ़ोन का प्रकार (परीक्षण)",
+  "bp_kind_basic": "साधारण फ़ोन: USSD, SMS और आवाज़",
+  "bp_kind_button": "ऐप वाला बटन फ़ोन",
+  "bp_kind_feature": "सरल फ़ोन (हल्का ऐप)",
+  "ch_dial": "LynkPOS कोड डायल करें",
+  "ch_idle": "फ़ोन से LynkPOS",
+  "ch_message_to": "LynkPOS को संदेश",
+  "ch_no_command": "यह कोई आदेश नहीं है। मदद के लिए 4 भेजें।",
+  "ch_reply": "जवाब",
+  "ch_sandbox": "नमूना (सैंडबॉक्स): जब तक आपके देश में गेटवे पर हस्ताक्षर नहीं होते, कोई असली कोड या नंबर नहीं है।",
+  "ch_send": "भेजें",
+  "ch_session_ended": "सत्र समाप्त",
+  "ch_spoken": "ज़ोर से पढ़ा जाता है; कोई संख्या दबाएँ",
+  "ch_text": "SMS भेजें",
+  "ch_voice": "आवाज़ मेनू पर कॉल करें",
   "title": "बटन वाले फ़ोन पर LynkPOS"
  }
 }

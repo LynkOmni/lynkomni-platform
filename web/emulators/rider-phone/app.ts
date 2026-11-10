@@ -13,6 +13,8 @@ import { Tracking } from "../../../ts/src/tracking.js";
 import type { View as TrackView } from "../../../ts/src/tracking.js";
 import { REGISTER } from "../../../ts/src/tracking.generated.js";
 import { trackerHtml } from "../../../ts/src/trackview.js";
+import { chooseInterface } from "../../../ts/src/interfaces.js";
+import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 
 declare const DATA: Build;
 interface Job { id: string; order: number; area: string; amount: number; state: DeliveryState; code: string; proof?: "code" | "photo" }
@@ -72,8 +74,24 @@ function detail(j: Job): string {
     ${j.state === "picked_up" ? `<label class="share"><input type="checkbox" data-field="share" ${S.share ? "checked" : ""}> <span>${esc(t("trk_share_progress"))}</span></label><p class="note">${esc(t("trk_share_help"))}</p>` : ""}
     <p class="note">${esc(t("track"))}: shop.lynkomni.com/track/LODLV-…</p><p class="hint">${esc(t("pickup_code"))}: ${esc(j.code)}</p>`;
 }
+/** The same rider app on a phone, a watch or a car screen (DEVICE 48.17): the registered device decides the interface. A watch shows
+ *  the next job and its one action; a car screen is voice only while the vehicle moves and the full screen when it stops. */
+const RK = { device: "rider-phone" as "rider-phone" | "smartwatch" | "car-screen", moving: false };
+const rkChoice = () => chooseInterface(DEVICES, { registered: { device: RK.device, version: RK.device === "car-screen" ? "non_touch" : "touch" } });
+function watchView(): string {
+  const j = S.jobs.find((x) => x.state !== "delivered"); const next = j ? nextDeliveryStep(j.state) : null;
+  return j ? `<div class="wjob"><strong>${esc(t("order", { n: j.order }))}</strong><span>${esc(stateWord(j.state))}</span>${next === "picked_up" ? `<button class="primary" data-act="open:${j.id}">${esc(t("picked_up"))}</button>` : `<button class="primary" data-act="open:${j.id}">${esc(t("delivered"))}</button>`}<p class="note">${esc(t("watch_more"))}</p></div>` : designedState("success", t, DATA.statePictures, S.dark, null);
+}
+function carVoice(): string {
+  const j = S.jobs.find((x) => x.state !== "delivered"); const next = j ? nextDeliveryStep(j.state) : null;
+  return `<div class="carvoice" role="status"><p class="big">${icon("ui-mic")}</p><p>${esc(t("car_voice_only"))}</p>${j && next ? `<p><strong>${esc(t("car_next", { step: t(next === "picked_up" ? "picked_up" : "delivered") }))}</strong> · ${esc(t("order", { n: j.order }))}</p>` : ""}<p class="note">${esc(t("car_stop"))}</p></div>`;
+}
 function draw(): void {
-  const el = $("#screen"); if (!el) return; el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W);
+  const el = $("#screen"); if (!el) return;
+  const c = rkChoice(); el.dataset["interface"] = c.interface; el.dataset["deviceClass"] = c.class; el.dataset["moving"] = RK.device === "car-screen" && RK.moving ? "yes" : "no";
+  document.querySelector(".phone")?.setAttribute("data-kind", RK.device);
+  if (RK.device === "smartwatch" && !job()) { el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = `<div class="rbody">${watchView()}</div>${DSH.overlay()}`; return; }
+  if (RK.device === "car-screen" && RK.moving) { el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = carVoice(); return; } el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W);
   el.innerHTML = `<header class="rtop"><span class="rmark">${icon("product-chat")}</span><strong>${esc(t("deliveries"))}</strong>${DSH.bar()}</header><div class="rbody">${job() ? detail(job()!) : list()}</div>${DSH.overlay()}`;
   const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address();
 }
@@ -92,7 +110,9 @@ function seed(): void {
   S.jobs = [{ id: newId(), order: 1042, area: "area_1", amount: 8500, state: "accepted", code: code6() }, { id: newId(), order: 1043, area: "area_2", amount: 23000, state: "accepted", code: code6() }, { id: newId(), order: 1039, area: "area_3", amount: 4000, state: "delivered", code: code6(), proof: "code" }];
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang"], S, W, C);
+  $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang"], S, W, C)
+    + `<label class="center"><span>${esc(t("rk_device"))}</span> <select data-ctl="rkdevice">${(["rider-phone", "smartwatch", "car-screen"] as const).map((k) => `<option value="${k}"${k === RK.device ? " selected" : ""}>${esc(t(k === "rider-phone" ? "rk_phone" : k === "smartwatch" ? "rk_watch" : "rk_car"))}</option>`).join("")}</select></label>`
+    + (RK.device === "car-screen" ? `<label><input type="checkbox" data-ctl="moving"${RK.moving ? " checked" : ""}> <span>${esc(t("rk_moving"))}</span></label>` : "");
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["list", "pickup", "deliver", "delivered", "wrong"], (k) => { seed(); const j = S.jobs[0]!; S.open = k === "list" ? "" : j.id; S.msg = "";
     if (k === "deliver" || k === "delivered" || k === "wrong") j.state = "picked_up"; if (k === "delivered") { j.state = "delivered"; } if (k === "wrong") { S.typed = "000000"; S.msg = t("wrong_code"); } draw(); });
@@ -104,8 +124,14 @@ function main(): void {
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
   document.addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["field"] === "share") { S.share = el.checked; S.trip = 0; draw(); } });
   document.addEventListener("input", (e) => { const el = e.target as HTMLInputElement; if (DSH.input(el)) return; if (el.dataset["field"] === "code") { S.typed = plain(el.value).replace(/\D/g, "").slice(0, 6); const pos = el.selectionStart; draw(); const n = document.querySelector<HTMLInputElement>('[data-field="code"]'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } } });
-  $("#panel").addEventListener("change", (e) => { if (panelChange(e.target as HTMLSelectElement, S, DATA)) panel(); draw(); });
+  $("#panel").addEventListener("change", (e) => { const c = e.target as HTMLSelectElement & HTMLInputElement;
+    if (c.dataset["ctl"] === "rkdevice") { RK.device = c.value === "smartwatch" ? "smartwatch" : c.value === "car-screen" ? "car-screen" : "rider-phone"; RK.moving = false; S.open = ""; panel(); draw(); (window as unknown as { __refit: () => void }).__refit(); return; }
+    if (c.dataset["ctl"] === "moving") { RK.moving = c.checked; draw(); return; }
+    if (panelChange(e.target as HTMLSelectElement, S, DATA)) panel(); draw(); });
   window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); if (S.share && S.online && job()?.state === "picked_up" && S.ticks % 8 === 0 && S.trip < 16) { S.trip += 1; draw(); } }, 400);
-  fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 400);
+  const base = Number($("#rig").dataset["width"]) || 400;
+  (window as unknown as { __refit: () => void }).__refit = () => { const r = $("#rig"); document.documentElement.style.setProperty("--fit", String(Math.min(1, (r.clientWidth - 8) / (RK.device === "car-screen" ? 680 : base)))); };
+  addEventListener("resize", () => (window as unknown as { __refit: () => void }).__refit());
+  (window as unknown as { __refit: () => void }).__refit();
 }
 main();

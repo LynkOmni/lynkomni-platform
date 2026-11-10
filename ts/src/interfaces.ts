@@ -21,7 +21,7 @@ export interface Facts {
 }
 export interface Choice { interface: string; class: DeviceClass; rule: Rule }
 
-function fromDevice(reg: DeviceRegister, spec: DeviceRef | string | null | undefined): string | null {
+function ifaceFromDevice(reg: DeviceRegister, spec: DeviceRef | string | null | undefined): string | null {
   if (typeof spec === "string") return spec in reg.interfaces ? spec : null;
   if (!spec || typeof spec !== "object") return null;
   const d = reg.devices.find((x) => x.id === spec.device);
@@ -29,7 +29,7 @@ function fromDevice(reg: DeviceRegister, spec: DeviceRef | string | null | undef
   return d[spec.version];
 }
 
-function reported(f: Facts): string | null {
+function ifaceReported(f: Facts): string | null {
   const os = f.os_class ?? null, w = f.width ?? 0, touch = !!f.touch, fine = !!f.fine, last = f.last_input ?? null;
   if (os === "car") return "car.voice";
   if (os === "speaker") return "voice.only";
@@ -50,7 +50,7 @@ function reported(f: Facts): string | null {
 }
 
 export function chooseInterface(reg: DeviceRegister, facts: Facts = {}): Choice {
-  const steps: [Rule, () => string | null][] = [["override", () => fromDevice(reg, facts.override)], ["registered", () => fromDevice(reg, facts.registered)], ["reported", () => reported(facts)]];
+  const steps: [Rule, () => string | null][] = [["override", () => ifaceFromDevice(reg, facts.override)], ["registered", () => ifaceFromDevice(reg, facts.registered)], ["reported", () => ifaceReported(facts)]];
   for (const [rule, pick] of steps) {
     const i = pick();
     if (i) return { interface: i, class: reg.interfaces[i]!.class, rule };

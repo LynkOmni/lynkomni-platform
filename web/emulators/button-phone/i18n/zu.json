@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "Uhlobo lwefoni (ukuhlola)",
+  "bp_kind_basic": "Ifoni evamile: USSD, imiyalezo nezwi",
+  "bp_kind_button": "Ifoni enezinkinobho ene-app",
+  "bp_kind_feature": "Ifoni elula (i-app elula)",
+  "ch_dial": "Shayela ikhodi ye-LynkPOS",
+  "ch_idle": "LynkPOS ngocingo",
+  "ch_message_to": "Umlayezo oya ku-LynkPOS",
+  "ch_no_command": "Akuwona umyalo. Thumela u-4 ukuze uthole usizo.",
+  "ch_reply": "Impendulo",
+  "ch_sandbox": "Isibonelo (ukuhlola): ayikho ikhodi noma inombolo yangempela kuze kusayinwe isango ezweni lakho.",
+  "ch_send": "Thumela",
+  "ch_session_ended": "Iseshini iphelile",
+  "ch_spoken": "Kufundwa ngezwi; cindezela inombolo",
+  "ch_text": "Thumela umlayezo",
+  "ch_voice": "Shayela imenyu yezwi",
   "title": "I-LynkPOS efonini enezinkinobho"
  }
 }

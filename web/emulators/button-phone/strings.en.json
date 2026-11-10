@@ -1,3 +1,18 @@
 {
- "title": "LynkPOS on a button phone"
+ "title": "LynkPOS on a button phone",
+ "bp_kind": "Phone kind (testing)",
+ "bp_kind_button": "Button phone with the app",
+ "bp_kind_feature": "Simple phone (lighter app)",
+ "bp_kind_basic": "Basic phone: USSD, text messages and voice",
+ "ch_idle": "LynkPOS by phone",
+ "ch_dial": "Dial the LynkPOS code",
+ "ch_text": "Send a text message",
+ "ch_voice": "Call the voice menu",
+ "ch_sandbox": "Sample (sandbox): there is no real code or number until a gateway is signed in your country.",
+ "ch_reply": "Reply",
+ "ch_message_to": "Message to LynkPOS",
+ "ch_spoken": "Read aloud; press a number",
+ "ch_session_ended": "Session ended",
+ "ch_send": "Send",
+ "ch_no_command": "Not a command. Send 4 for help."
 }

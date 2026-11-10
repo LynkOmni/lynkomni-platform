@@ -4,8 +4,17 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "16a443b1089a9b3b56ec8af1efb5f9be14173811d4b839007ad556480455b3c0",
+ "source_sha256": "0e2c0e7a40e99f1098e317497a915b9ab35f5d1341c623163e6e775171a37d1c",
  "texts": {
-  "title": "자체 직원 배달용 배달원 휴대폰"
+  "car_next": "다음: {step}",
+  "car_stop": "화면을 쓰려면 차를 세우세요.",
+  "car_voice_only": "운전 중: 음성만 가능합니다. \"다음 배송\" 또는 \"픽업 완료\"라고 말하세요.",
+  "rk_car": "자동차 화면",
+  "rk_device": "기기(테스트)",
+  "rk_moving": "차량이 움직이고 있습니다",
+  "rk_phone": "휴대폰",
+  "rk_watch": "시계",
+  "title": "자체 직원 배달용 배달원 휴대폰",
+  "watch_more": "자세한 내용은 휴대폰에서"
  }
 }

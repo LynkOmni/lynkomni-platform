@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "電話の種類（テスト）",
+  "bp_kind_basic": "基本の電話：USSD、SMS、音声",
+  "bp_kind_button": "アプリ付きのボタン式電話",
+  "bp_kind_feature": "シンプルな電話（軽量アプリ）",
+  "ch_dial": "LynkPOS のコードに発信",
+  "ch_idle": "電話で LynkPOS",
+  "ch_message_to": "LynkPOS へのメッセージ",
+  "ch_no_command": "コマンドではありません。ヘルプは 4 を送信してください。",
+  "ch_reply": "返信",
+  "ch_sandbox": "サンプル（サンドボックス）：お住まいの国でゲートウェイの契約が済むまで、実際のコードや番号はありません。",
+  "ch_send": "送信",
+  "ch_session_ended": "セッションが終了しました",
+  "ch_spoken": "読み上げます。数字を押してください",
+  "ch_text": "SMS を送る",
+  "ch_voice": "音声メニューに電話する",
   "title": "ボタン式携帯電話の LynkPOS"
  }
 }

@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "ps",
  "native": "پښتو",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "د تلیفون ډول (ازموینه)",
+  "bp_kind_basic": "عادي تلیفون: USSD، لنډ پیغام او غږ",
+  "bp_kind_button": "تڼۍ لرونکی تلیفون له اپ سره",
+  "bp_kind_feature": "ساده تلیفون (سپک اپ)",
+  "ch_dial": "د LynkPOS کوډ ډایل کړئ",
+  "ch_idle": "LynkPOS د تلیفون له لارې",
+  "ch_message_to": "LynkPOS ته پیغام",
+  "ch_no_command": "دا امر نه دی. د مرستې لپاره 4 ولېږئ.",
+  "ch_reply": "ځواب",
+  "ch_sandbox": "بېلګه (ازمېښتي): تر هغه چې ستاسو په هېواد کې دروازه لاسلیک نه شي، اصلي کوډ یا شمېره نشته.",
+  "ch_send": "لېږل",
+  "ch_session_ended": "ناسته پای ته ورسېده",
+  "ch_spoken": "په لوړ غږ لوستل کېږي؛ یوه شمېره کېکاږئ",
+  "ch_text": "لنډ پیغام ولېږئ",
+  "ch_voice": "غږیز مېنو ته زنګ ووهئ",
   "title": "په تڼۍ لرونکي تلیفون کې LynkPOS"
  }
 }

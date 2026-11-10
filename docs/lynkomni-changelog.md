@@ -2,6 +2,37 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.31.0 (2026-11-10)
+BIZZ & DEVICE, section 3 (the Business app, LynkPOS and every device).
+- The Business app has its Storefront side, with its own pages:
+  - Storefront home (/external/business);
+  - Offers and a new offer;
+  - stock for online orders;
+  - buyer chats;
+  - payouts.
+
+  You switch from the Business hub, the account screen or search. A first paid offer waits for the partner's identity check. Storefront plans sit beside the LynkPOS plans.
+- Stock held at online checkout (core/reservations.py, ts/src/reservations.ts):
+  - a Storefront checkout holds free stock for 15 minutes;
+  - the provider's confirmation sells it; a failure or the time frees it;
+  - a counter sale is never blocked, and a clash becomes a flag for the owner.
+- LynkDriver, one driver pack for every kind of hardware (catalog/drivers.v1.json, core/drivers.py, ts/src/drivers.ts, shared vectors):
+  - install it online from Devices › Driver (/business/devices/driver) or offline from lynkomni.com/download/driver;
+  - the app asks to install it as soon as hardware needs it;
+  - updates are strongly enforced: security now, required in 3 days, normal in 7;
+  - past the deadline the hardware pauses and a screen version stands in, so selling goes on.
+- Every device in its touch and buttons-only versions:
+  - the POS terminal, the stock scanner, the kitchen screen and the customer display each have a buttons-only version (the screen takes no taps; a navigation pad, the bump bar or a remote moves a thick focus ring);
+  - the rider app runs on a phone, a watch and a car screen (voice only while moving);
+  - the button phone comes as a button phone, a simple phone or a basic phone.
+- Basic phones with no apps use LynkPOS by USSD, text message or a voice menu, through one engine (core/channels.py, ts/src/channels.ts, shared vectors). A sale needs the PIN, and the commands are numbers so they work in every language. The gateway is a sandbox placeholder until one is signed (provider ledger ussd_gateway).
+- New checks:
+  - Business app Storefront and Driver screens at their addresses;
+  - section-3 placements;
+  - buttons-only versions reached by arrows alone;
+  - drivers, reservations and channels in Python and TypeScript.
+- 97 new words in all 38 languages. Size budgets raised with their reason (web/budgets.v1.json).
+
 ## v0.30.0 (2026-11-09)
 BIZZ & DEVICE, section 2 (the account).
 - My Storefront on the account site (account.lynkomni.com/storefront, in the account menu, search and help). It shows:

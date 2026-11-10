@@ -4,8 +4,17 @@
  "kept_in_english": [],
  "lang": "it",
  "native": "Italiano",
- "source_sha256": "16a443b1089a9b3b56ec8af1efb5f9be14173811d4b839007ad556480455b3c0",
+ "source_sha256": "0e2c0e7a40e99f1098e317497a915b9ab35f5d1341c623163e6e775171a37d1c",
  "texts": {
-  "title": "Telefono del fattorino per le consegne del personale"
+  "car_next": "Prossimo: {step}",
+  "car_stop": "Ferma il veicolo per usare lo schermo.",
+  "car_voice_only": "Alla guida: solo voce. Di' \"prossima consegna\" o \"ritirato\".",
+  "rk_car": "Schermo dell'auto",
+  "rk_device": "Dispositivo (test)",
+  "rk_moving": "Il veicolo è in movimento",
+  "rk_phone": "Telefono",
+  "rk_watch": "Orologio",
+  "title": "Telefono del fattorino per le consegne del personale",
+  "watch_more": "Altro sul telefono"
  }
 }

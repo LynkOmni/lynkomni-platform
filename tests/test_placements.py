@@ -121,3 +121,41 @@ class AccountPlaces(unittest.TestCase):
             b.close()
         for item, want in items.items():
             self.assertEqual(want - found[item], set(), f"{item} is missing from its places")
+
+
+PHONE = os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-merchant-phone.html")
+BUILT_BY_SECTION_3 = {"app_nav", "search", "help", "settings", "account_menu"}     # the website places (header, footer, pricing, sitemap, showcase) come with section 5
+
+
+@unittest.skipUnless(sync_playwright and os.path.isfile(PHONE), "Playwright with Chromium is needed")
+class BusinessAppPlaces(unittest.TestCase):
+    """Section-3 items in the Business app: Storefront home and its service pages, Storefront plans and LynkDriver are in every
+    place the register lists that exists by section 3 (the website places follow in section 5)."""
+    def test_section_3_items_are_where_the_register_says(self):
+        items = {i["id"]: set(i["places"]) & BUILT_BY_SECTION_3 for i in REG["items"] if i.get("section") == 3 and i["kind"] == "item"}
+        acts = {"storefront_home": ("side:external",), "storefront_service_pages": ("view:sflistings", "view:sfstock"), "storefront_plans": ("hub:plans_billing",), "lynkdriver": ("view:driver",)}
+        found = {k: set() for k in items}
+        with sync_playwright() as p:
+            b = p.chromium.launch(); pg = b.new_page(viewport={"width": 1280, "height": 1000})
+            pg.goto("file://" + PHONE); pg.wait_for_selector("html[data-ready]", state="attached")
+            def look(place):
+                for item, want in acts.items():
+                    if item in found and any(pg.locator(f'#display [data-act="{a}"]').count() for a in want): found[item].add(place)
+            pg.evaluate("__go('business')"); look("app_nav")
+            pg.evaluate("__go('storefront')"); look("app_nav")
+            pg.evaluate("__go('account')"); look("account_menu")
+            pg.evaluate("__go('settings')"); look("settings")
+            pg.evaluate("__go('branches_devices')"); look("settings")
+            pg.evaluate("__go('business')"); pg.click('#display [data-act="dsh:search"]')
+            for q in ("Storefront", "Offers", "Stock", "LynkDriver"):
+                pg.fill("#cmdIn", q); look("search")
+            pg.keyboard.press("Escape")
+            for sid in ("storefront", "storefront_listings", "driver"):
+                pg.evaluate(f"__go('{sid}')"); pg.click('#display .top [data-act="dsh:help"]')
+                if pg.locator("#display .dsh-help").count():
+                    {"storefront": found.get("storefront_home"), "storefront_listings": found.get("storefront_service_pages"), "driver": found.get("lynkdriver")}[sid].add("help")
+                    if sid == "storefront" and "storefront_plans" in found: found["storefront_plans"].add("help")
+                pg.keyboard.press("Escape")
+            b.close()
+        for item, want in items.items():
+            self.assertEqual(want - found[item], set(), f"{item} is missing from its places")

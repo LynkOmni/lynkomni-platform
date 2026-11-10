@@ -4,8 +4,17 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "16a443b1089a9b3b56ec8af1efb5f9be14173811d4b839007ad556480455b3c0",
+ "source_sha256": "0e2c0e7a40e99f1098e317497a915b9ab35f5d1341c623163e6e775171a37d1c",
  "texts": {
-  "title": "Bezorgtelefoon voor bezorging door eigen personeel"
+  "car_next": "Volgende: {step}",
+  "car_stop": "Zet het voertuig stil om het scherm te gebruiken.",
+  "car_voice_only": "Tijdens het rijden: alleen spraak. Zeg \"volgende levering\" of \"opgehaald\".",
+  "rk_car": "Autoscherm",
+  "rk_device": "Apparaat (test)",
+  "rk_moving": "Het voertuig rijdt",
+  "rk_phone": "Telefoon",
+  "rk_watch": "Horloge",
+  "title": "Bezorgtelefoon voor bezorging door eigen personeel",
+  "watch_more": "Meer op de telefoon"
  }
 }

@@ -4,8 +4,17 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "16a443b1089a9b3b56ec8af1efb5f9be14173811d4b839007ad556480455b3c0",
+ "source_sha256": "0e2c0e7a40e99f1098e317497a915b9ab35f5d1341c623163e6e775171a37d1c",
  "texts": {
-  "title": "Ifoni yomgibeli yokuletha kwabasebenzi bakho"
+  "car_next": "Okulandelayo: {step}",
+  "car_stop": "Misa imoto ukuze usebenzise isikrini.",
+  "car_voice_only": "Uma ushayela: izwi kuphela. Yisho ukuthi \"ukulethwa okulandelayo\" noma \"sekuthathiwe\".",
+  "rk_car": "Isikrini semoto",
+  "rk_device": "Idivayisi (ukuhlola)",
+  "rk_moving": "Imoto iyahamba",
+  "rk_phone": "Ifoni",
+  "rk_watch": "Iwashi",
+  "title": "Ifoni yomgibeli yokuletha kwabasebenzi bakho",
+  "watch_more": "Okunye efonini"
  }
 }

@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "手机类型（测试）",
+  "bp_kind_basic": "基础手机：USSD、短信和语音",
+  "bp_kind_button": "带应用的按键手机",
+  "bp_kind_feature": "简易手机（轻量应用）",
+  "ch_dial": "拨打 LynkPOS 代码",
+  "ch_idle": "通过手机使用 LynkPOS",
+  "ch_message_to": "发给 LynkPOS 的短信",
+  "ch_no_command": "不是指令。发送 4 获取帮助。",
+  "ch_reply": "回复",
+  "ch_sandbox": "示例（沙盒）：在您所在国家签约网关之前，没有真实的代码或号码。",
+  "ch_send": "发送",
+  "ch_session_ended": "会话已结束",
+  "ch_spoken": "语音朗读；请按数字",
+  "ch_text": "发送短信",
+  "ch_voice": "拨打语音菜单",
   "title": "按键手机上的 LynkPOS"
  }
 }

@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "Telefon türü (test)",
+  "bp_kind_basic": "Temel telefon: USSD, SMS ve sesli menü",
+  "bp_kind_button": "Uygulamalı tuşlu telefon",
+  "bp_kind_feature": "Basit telefon (hafif uygulama)",
+  "ch_dial": "LynkPOS kodunu çevir",
+  "ch_idle": "Telefonla LynkPOS",
+  "ch_message_to": "LynkPOS'a mesaj",
+  "ch_no_command": "Komut değil. Yardım için 4 gönderin.",
+  "ch_reply": "Yanıt",
+  "ch_sandbox": "Örnek (sandbox): ülkenizde bir ağ geçidi imzalanana kadar gerçek kod ya da numara yok.",
+  "ch_send": "Gönder",
+  "ch_session_ended": "Oturum sona erdi",
+  "ch_spoken": "Sesli okunur; bir sayıya basın",
+  "ch_text": "SMS gönder",
+  "ch_voice": "Sesli menüyü ara",
   "title": "Tuşlu telefonda LynkPOS"
  }
 }

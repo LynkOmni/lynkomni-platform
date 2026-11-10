@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "pl",
  "native": "Polski",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "Rodzaj telefonu (test)",
+  "bp_kind_basic": "Zwykły telefon: USSD, SMS i głos",
+  "bp_kind_button": "Telefon z klawiaturą i aplikacją",
+  "bp_kind_feature": "Prosty telefon (lżejsza aplikacja)",
+  "ch_dial": "Wybierz kod LynkPOS",
+  "ch_idle": "LynkPOS przez telefon",
+  "ch_message_to": "Wiadomość do LynkPOS",
+  "ch_no_command": "To nie jest polecenie. Wyślij 4, aby uzyskać pomoc.",
+  "ch_reply": "Odpowiedź",
+  "ch_sandbox": "Przykład (piaskownica): nie ma prawdziwego kodu ani numeru, dopóki w Twoim kraju nie zostanie podpisana bramka.",
+  "ch_send": "Wyślij",
+  "ch_session_ended": "Sesja zakończona",
+  "ch_spoken": "Czytane na głos; naciśnij cyfrę",
+  "ch_text": "Wyślij SMS",
+  "ch_voice": "Zadzwoń do menu głosowego",
   "title": "LynkPOS na telefonie z klawiszami"
  }
 }

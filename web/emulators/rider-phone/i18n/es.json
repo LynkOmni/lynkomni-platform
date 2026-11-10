@@ -4,8 +4,17 @@
  "kept_in_english": [],
  "lang": "es",
  "native": "Español",
- "source_sha256": "16a443b1089a9b3b56ec8af1efb5f9be14173811d4b839007ad556480455b3c0",
+ "source_sha256": "0e2c0e7a40e99f1098e317497a915b9ab35f5d1341c623163e6e775171a37d1c",
  "texts": {
-  "title": "Teléfono del repartidor para entregas del propio personal"
+  "car_next": "Siguiente: {step}",
+  "car_stop": "Detén el vehículo para usar la pantalla.",
+  "car_voice_only": "Conduciendo: solo voz. Di «siguiente entrega» o «recogido».",
+  "rk_car": "Pantalla del coche",
+  "rk_device": "Dispositivo (prueba)",
+  "rk_moving": "El vehículo está en marcha",
+  "rk_phone": "Teléfono",
+  "rk_watch": "Reloj",
+  "title": "Teléfono del repartidor para entregas del propio personal",
+  "watch_more": "Más en el teléfono"
  }
 }

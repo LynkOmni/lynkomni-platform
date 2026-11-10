@@ -24,7 +24,7 @@
    "n": 3,
    "title": "Business app and the whole of LynkPOS",
    "status": "locked",
-   "version": "v0.27.0"
+   "version": "v0.31.0"
   },
   {
    "n": 4,
@@ -93,7 +93,7 @@
    "id": "merchant-phone",
    "title": "Business app on a phone, tablet or computer",
    "section": 3,
-   "what": "Every Business app screen of blueprint 41 E: getting in, Sell with every payment way, today's sales, shifts, practice mode, Stock, Chats, every Business section and setting, and the four business types (shop, without a till, agent point, restaurant), on a phone, a tablet side rail or a computer web view, in every language and offline. Setup now starts with who it is for (yourself, a company or an organisation), which changes the words, tabs and categories; Deliveries shows every delivery with its tracker.",
+   "what": "Every Business app screen of blueprint 41 E: getting in, Sell with every payment way, today's sales, shifts, practice mode, Stock, Chats, every Business section and setting, and the four business types (shop, without a till, agent point, restaurant), on a phone, a tablet side rail or a computer web view, in every language and offline. Setup now starts with who it is for (yourself, a company or an organisation), which changes the words, tabs and categories; Deliveries shows every delivery with its tracker. New: the Storefront side (offers, stock held at online checkout, buyer chats, payouts) and Devices › Driver (LynkDriver, with enforced updates).",
    "try": "Sign in, choose Myself or An organisation in setup and see the Books tab; or make a sale, press Deliver this order and watch the delivery move on the Deliveries screen.",
    "url": "https://claude.ai/artifact/N7tczvu2FZ5tWMYgHD9B84"
   },
@@ -101,7 +101,7 @@
    "id": "pos-terminal",
    "title": "LynkPOS handheld terminal",
    "section": 3,
-   "what": "A physical handheld terminal: 12-tile home, selling, agent services, vouchers and pickup codes, the credit book, shifts and cash counts, receipt printer that prints, scanner and cash drawer, a low-literacy setting, on sandbox adapters.",
+   "what": "A physical handheld terminal: 12-tile home, selling, agent services, vouchers and pickup codes, the credit book, shifts and cash counts, receipt printer that prints, scanner and cash drawer, a low-literacy setting, on sandbox adapters. Also in a buttons-only version: choose it under Hardware version and use the arrows, OK and Back.",
    "try": "Open Agent from the home tiles, send a cash-out and see why cash waits for the partner; then sell and print a receipt.",
    "url": "https://claude.ai/artifact/FUhtc3e1xDkPA7KmJmxsZp"
   },
@@ -117,7 +117,7 @@
    "id": "kitchen-screen",
    "title": "LynkPOS kitchen screen",
    "section": 3,
-   "what": "The kitchen display: tickets in order, lines marked ready, late tickets highlighted, and printed slips on the Free plan.",
+   "what": "The kitchen display: tickets in order, lines marked ready, late tickets highlighted, and printed slips on the Free plan. Also as a wall screen without touch, driven by the bump bar and a remote.",
    "try": "Send a test order from the panel and mark its lines ready.",
    "url": "https://claude.ai/artifact/9aUfZojeVz7bcS4sotptTV"
   },
@@ -125,7 +125,7 @@
    "id": "customer-display",
    "title": "LynkPOS customer display",
    "section": 3,
-   "what": "The screen the customer sees at the till: welcome, the basket line by line, pay by QR with an honest state, thank you.",
+   "what": "The screen the customer sees at the till: welcome, the basket line by line, pay by QR with an honest state, thank you. Also as a display without touch.",
    "try": "Add items and pay; watch the state go from sent to confirmed.",
    "url": "https://claude.ai/artifact/B9soSjcyGXCUW2f6xMR6gi"
   },
@@ -133,7 +133,7 @@
    "id": "rider-phone",
    "title": "Rider phone",
    "section": 3,
-   "what": "The shop's own rider: jobs, pickup, delivery with the customer's code or a parcel photo (never a person), each job's tracker, and Share trip progress (the rider's choice, this trip only; never a position).",
+   "what": "The shop's own rider: jobs, pickup, delivery with the customer's code or a parcel photo (never a person), each job's tracker, and Share trip progress (the rider's choice, this trip only; never a position). Also on a watch and a car screen (voice only while the vehicle moves).",
    "try": "Open a job, turn on Share trip progress, pick it up and deliver with the code.",
    "url": "https://claude.ai/artifact/KhEBHf1pGXxrAjD3p9zB2B"
   },
@@ -141,7 +141,7 @@
    "id": "stock-scanner",
    "title": "LynkStock handheld scanner",
    "section": 3,
-   "what": "A rugged scanner: count, receive and adjust stock by barcode, with below-zero items flagged for a recount.",
+   "what": "A rugged scanner: count, receive and adjust stock by barcode, with below-zero items flagged for a recount. Also in a buttons-only version, used by its keys alone.",
    "try": "Press the trigger to scan, then count and save.",
    "url": "https://claude.ai/artifact/EKxa28BubrUYS3APPiPQNe"
   },
@@ -149,7 +149,7 @@
    "id": "button-phone",
    "title": "LynkPOS on a button phone",
    "section": 3,
-   "what": "Selling and checking stock from a basic phone through a short-code menu, for places without smartphones.",
+   "what": "Selling and checking stock from a basic phone through a short-code menu, for places without smartphones. Also as a basic phone with no apps: LynkPOS by USSD, text message or voice menu.",
    "try": "Use the arrow keys to make a sale and read today's total.",
    "url": "https://claude.ai/artifact/4VG7qLhvnPrXjTxYuS51xS"
   },

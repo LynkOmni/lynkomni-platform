@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "Jenis telefon (ujian)",
+  "bp_kind_basic": "Telefon asas: USSD, SMS dan suara",
+  "bp_kind_button": "Telefon butang dengan aplikasi",
+  "bp_kind_feature": "Telefon ringkas (aplikasi ringan)",
+  "ch_dial": "Dail kod LynkPOS",
+  "ch_idle": "LynkPOS melalui telefon",
+  "ch_message_to": "Mesej kepada LynkPOS",
+  "ch_no_command": "Bukan arahan. Hantar 4 untuk bantuan.",
+  "ch_reply": "Balas",
+  "ch_sandbox": "Contoh (kotak pasir): tiada kod atau nombor sebenar sehingga get laluan ditandatangani di negara anda.",
+  "ch_send": "Hantar",
+  "ch_session_ended": "Sesi tamat",
+  "ch_spoken": "Dibacakan; tekan nombor",
+  "ch_text": "Hantar SMS",
+  "ch_voice": "Hubungi menu suara",
   "title": "LynkPOS pada telefon butang"
  }
 }

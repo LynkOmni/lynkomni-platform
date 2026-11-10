@@ -39,7 +39,9 @@ body { margin: 0; min-height: 100vh; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 .panel .draftnote { font-size: 12px; color: var(--text-secondary); }
 .screen-note { font-size: 12px; color: var(--text-secondary); margin: 6px 0 0; }
-.panel label.center { align-items: center; }
+.panel label.center { align-items: center; flex-wrap: wrap; }
+.panel label.center > span:first-child, .panel label.row > span:first-child { flex: 0 1 auto; min-width: 6em; overflow-wrap: normal; }
+.panel label.center select, .panel label.row select { flex: 1 1 10em; min-width: 0; max-width: 100%; }
 .panel label > span { min-width: 0; overflow-wrap: anywhere; }   /* long words in any language wrap inside the panel */
 .panel select { max-width: 100%; }
 .states { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }

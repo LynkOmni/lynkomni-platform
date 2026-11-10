@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "Soort telefoon (test)",
+  "bp_kind_basic": "Basistelefoon: USSD, sms en spraak",
+  "bp_kind_button": "Toetsentelefoon met de app",
+  "bp_kind_feature": "Eenvoudige telefoon (lichte app)",
+  "ch_dial": "De LynkPOS-code bellen",
+  "ch_idle": "LynkPOS per telefoon",
+  "ch_message_to": "Bericht aan LynkPOS",
+  "ch_no_command": "Geen opdracht. Stuur 4 voor hulp.",
+  "ch_reply": "Antwoord",
+  "ch_sandbox": "Voorbeeld (sandbox): er is geen echte code of nummer tot er in uw land een gateway is getekend.",
+  "ch_send": "Verzenden",
+  "ch_session_ended": "Sessie beëindigd",
+  "ch_spoken": "Wordt voorgelezen; druk op een cijfer",
+  "ch_text": "Een sms sturen",
+  "ch_voice": "Het spraakmenu bellen",
   "title": "LynkPOS op een toetsentelefoon"
  }
 }

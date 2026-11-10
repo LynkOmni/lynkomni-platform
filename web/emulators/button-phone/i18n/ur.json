@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "ur",
  "native": "اردو",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "فون کی قسم (جانچ)",
+  "bp_kind_basic": "عام فون: USSD، ٹیکسٹ پیغام اور آواز",
+  "bp_kind_button": "بٹنوں والا فون ایپ کے ساتھ",
+  "bp_kind_feature": "سادہ فون (ہلکی ایپ)",
+  "ch_dial": "LynkPOS کوڈ ڈائل کریں",
+  "ch_idle": "فون پر LynkPOS",
+  "ch_message_to": "LynkPOS کو پیغام",
+  "ch_no_command": "یہ کمانڈ نہیں۔ مدد کے لیے 4 بھیجیں۔",
+  "ch_reply": "جواب",
+  "ch_sandbox": "نمونہ (سینڈ باکس): جب تک آپ کے ملک میں گیٹ وے پر دستخط نہ ہوں، کوئی اصل کوڈ یا نمبر نہیں۔",
+  "ch_send": "بھیجیں",
+  "ch_session_ended": "سیشن ختم ہو گیا",
+  "ch_spoken": "بلند آواز میں پڑھا جاتا ہے؛ کوئی نمبر دبائیں",
+  "ch_text": "ٹیکسٹ پیغام بھیجیں",
+  "ch_voice": "آواز والے مینو پر کال کریں",
   "title": "بٹن والے فون پر LynkPOS"
  }
 }

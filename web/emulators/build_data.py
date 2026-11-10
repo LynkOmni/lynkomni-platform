@@ -226,7 +226,7 @@ def main(emulator):
         "fx": {k: float(v) for k, v in USD_RATES.items()},
         **(cards() if emulator == "vcard-card" else {}),
         **({"automations": automations(3)} if emulator == "owner-web" else {}),
-        **({"storefront": storefront_plans()} if emulator == "account-site" else {}),
+        **({"storefront": storefront_plans()} if emulator in ("account-site", "merchant-phone") else {}),
         **(business_app() if emulator == "merchant-phone" else {}),
         # the agent point picture on the agent home (visuals need agent-point), in both themes; its text alternative is a translated screen text
         **({"agentPicture": {th: svg(visuals.get("agent-point", th).path) for th in ("light", "dark")}} if emulator == "merchant-phone" else {}),

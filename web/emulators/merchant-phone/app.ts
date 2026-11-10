@@ -28,8 +28,14 @@ import { kitchenOutput, mayOpenTable, restaurantLimits } from "../../../ts/src/r
 import type { BrandPlaces } from "../../../ts/src/brand.js";
 import { DeviceShell, screenArticles } from "../../../ts/src/deviceshell.js";
 import type { Entry } from "../../../ts/src/shell.js";
+import { Reservations } from "../../../ts/src/reservations.js";
+import { driverFallback, driverState, needsInstall } from "../../../ts/src/drivers.js";
+import { DRIVERS } from "../../../ts/src/drivers.generated.js";
+import { DeviceMode } from "../../../ts/src/devicemode.js";
+import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 
 interface BuildData {
+  storefront?: { tiers: string[]; prices_usd: Record<string, number>; share_bps: Record<string, number>; min_age: number };
   icons: Record<string, string>;
   brand: { body: string; receipt: string; places: BrandPlaces };
   pictures: { offLight: string; offDark: string; offAlt: string };
@@ -61,7 +67,8 @@ type Tab = "home" | "sell" | "stock" | "chats" | "business" | "services" | "floa
 /** One name per screen of the register (catalog/business-app.v1.json), plus the in-between steps of a flow. */
 type View = "main" | "basket" | "pay" | "cash" | "momo" | "split" | "credit" | "waiting" | "done" | "receipt" | "off" | "sales" | "sale" | "shift" | "practice"
   | "item" | "add" | "received" | "count" | "remove" | "move" | "suppliers" | "reorder" | "marketplace" | "labels" | "import" | "thread" | "svc" | "deliveries" | "delivery"
-  | "notifications" | "account" | "hub" | "setting" | "cashcheck";
+  | "notifications" | "account" | "hub" | "setting" | "cashcheck"
+  | "storefront" | "sflistings" | "sfnew" | "sfstock" | "sfchats" | "sfpayouts" | "driver";
 /** Agent point mode (blueprint 42 C and 42 I): the sample partners are sandbox partners; the float sits in the agent's own
  *  account at each partner and is only read from it. The device asks; the partner alone confirms. */
 interface Partner { id: string; name: string; float: number; limits: Limits; bps: number }
@@ -344,6 +351,8 @@ const DSH = new DeviceShell({
     { id: "new_sale", kind: "action", title: t("new_sale"), act: "newsale" },
     ...(TABS[S.btype] as readonly Tab[]).map((k): Entry => ({ id: `tab-${k}`, kind: "action", title: t(`tab_${k}`), act: `tab:${k}` })),
     ...HUB.map((h): Entry => ({ id: `hub-${h.id}`, kind: h.id === "reports" ? "report" : "setting", title: t("it_" + h.id), act: `hub:${h.id}` })),
+    { id: "sf-home", kind: "action", title: t("sf_switch_to", { side: t("sf_title") }), act: "side:external" }, { id: "sf-offers", kind: "setting", title: t("sf_offers"), act: "view:sflistings" },
+    { id: "sf-stock", kind: "setting", title: t("sf_stock"), act: "view:sfstock" }, { id: "sf-plans", kind: "setting", title: t("sf_plan"), act: "hub:plans_billing" }, { id: "drv", kind: "setting", title: "LynkDriver", act: "view:driver" },
     ...CATALOG.map((p): Entry => ({ id: p.id, kind: "product", title: t(p.name), subtitle: money(p.price), act: `product:${p.id}` })),
     ...CUSTOMERS.map((c): Entry => ({ id: c.id, kind: "customer", title: c.name, subtitle: c.owes ? money(c.owes) : "", act: "hub:customers" })),
     ...S.sales.slice(0, 5).map((x): Entry => ({ id: x.sale.sale_id, kind: "order", title: x.sale.receipt_number_local, subtitle: money(x.sale.total), act: `sale:${x.sale.sale_id}` })),
@@ -747,11 +756,86 @@ const ACADEMY = ["lesson_first_sale", "lesson_stock", "lesson_cash", "lesson_cre
 const HUB_ICON: Record<string, string> = { reports: "product-dash", daily_close: "ui-receipt", money: "product-mpay", invoicing: "ui-doc", customers: "ui-user", loyalty: "product-rewards", books: "product-ledger",
   growth: "product-grow", assistant: "ui-info", cards: "product-vcard", online_shop: "product-checkout", agent_earnings: "ui-commission", team: "ui-user", branches_devices: "ui-grid",
   plans_billing: "ui-receipt", settings: "ui-settings", academy: "ui-info", automations: "ui-sync" };
+// ---- BIZZ & DEVICE section 3: the Storefront side of the Business app, stock held at online checkout, and LynkDriver --------
+/** The Storefront side (core/sides.py): the same products, stock and money, offered to others; addresses are /external + the workspace path. */
+const SF = { side: "internal" as "internal" | "external", listings: [] as { id: string; product: string; published: boolean }[], idCheck: "" as "" | "sent" | "confirmed",
+  orders: [] as { id: string; hold: string; product: string; qty: number; state: UserState }[], flags: [] as string[] };
+const SAMPLE_LST = ["LOLST-5260-1815-9081", "LOLST-3016-6131-8602", "LOLST-9139-0996-0308"];
+const SAMPLE_ORD = "LOORD-8246-2819-4824";
+const nowS = (): number => Math.floor(Date.now() / 1000);
+/** Stock held for online checkout (ts/src/reservations.ts, same rules as core/reservations.py). */
+const HOLDS = new Reservations((type, payload) => { emit(type, payload, "server"); });
+/** LynkDriver on this device (testing control in the panel: up to date, not installed, update due, update overdue). */
+const DRV = { installed: "1.4.0" as string | null, days: 0, attached: ["receipt_printer", "barcode_scanner", "cash_drawer"] };
+const drvNow = (): number => DRIVERS.pack.released_at + DRV.days * 86400;
+const drv = () => driverState(DRIVERS, DRV.installed, drvNow());
+const SF_VIEW: Record<string, string> = { storefront: "storefront", storefront_listings: "sflistings", storefront_new_listing: "sfnew", storefront_stock: "sfstock", storefront_chats: "sfchats", storefront_payouts: "sfpayouts", driver: "driver" };
+const sfBar = (title: string, back: string): string => `${topBar(title, back)}<p class="sidechip sf" data-side="external">${icon("ui-cart")}<span>${esc(t("sf_title"))}</span></p>`;
+const sfPlanLine = (): string => t("sf_plan_line", { plan: t("tier_free"), share: new Intl.NumberFormat(locale(), { style: "percent", maximumFractionDigits: 2 }).format((DATA.storefront?.share_bps.free ?? 0) / 10000) });
+function heldList(): string {
+  const now = nowS(), rows = CATALOG.filter((p) => HOLDS.held(p.id, now) > 0).map((p) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(p.name)}</span><span class="sub">${esc(t("sf_held_line", { qty: qtyText(HOLDS.held(p.id, now)) }))}</span></span></div></li>`);
+  return `<div class="card" data-item="reserved_stock"><h2>${esc(t("sf_reserved"))}</h2>${rows.length ? `<ul class="list">${rows.join("")}</ul>` : `<p class="sub">${esc(t("sf_none_held"))}</p>`}<p class="sub">${esc(t("sf_stock_note"))}</p></div>`;
+}
+function storefrontHome(): string {
+  return `${sfBar(t("tab_home"), "side:internal")}<div class="body">
+    <div class="card" data-item="side_switch"><p class="sub">${esc(t("sf_side_note"))}</p><button class="ghost inline" data-act="side:internal">${icon("ui-home")}<span>${esc(t("sf_switch_to", { side: t("sf_business") }))}</span></button></div>
+    <div class="card" data-item="storefront_plan"><h2>${esc(t("sf_plan"))}</h2><p>${esc(sfPlanLine())}</p></div>
+    <ul class="list card"><li data-item="offers"><button class="rowbtn" data-act="view:sflistings">${icon("product-pos", "prod")}<span class="main"><span class="nm">${esc(t("sf_offers"))}</span><span class="sub">${esc(t("sf_n_offers", { n: SF.listings.filter((l) => l.published).length }))}</span></span>${icon("ui-chevron-right", "ic fwd")}</button></li>
+      <li data-item="orders"><button class="rowbtn" data-act="view:sfstock">${icon("product-stock", "prod")}<span class="main"><span class="nm">${esc(t("sf_stock"))}</span><span class="sub">${esc(t("sf_n_orders", { n: SF.orders.length }))}</span></span>${icon("ui-chevron-right", "ic fwd")}</button></li>
+      <li data-item="payouts"><button class="rowbtn" data-act="view:sfpayouts">${icon("product-mpay", "prod")}<span class="main"><span class="nm">${esc(t("sf_payouts"))}</span></span>${icon("ui-chevron-right", "ic fwd")}</button></li>
+      <li><button class="rowbtn" data-act="view:sfchats">${icon("product-chat", "prod")}<span class="main"><span class="nm">${esc(t("sf_buyer_chats"))}</span></span>${icon("ui-chevron-right", "ic fwd")}</button></li>
+      <li data-item="seller_support"><button class="rowbtn" data-act="dsh:help">${icon("ui-info", "prod")}<span class="main"><span class="nm">${esc(t("sf_seller_support"))}</span></span>${icon("ui-chevron-right", "ic fwd")}</button></li></ul>
+    ${heldList()}${flash()}</div>`;
+}
+function storefrontListings(): string {
+  const rows = SF.listings.map((l) => { const p = CATALOG.find((x) => x.id === l.product); return p ? `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(p.name)}</span><span class="sub">${esc(money(p.price))} · ${esc(l.published ? t("sf_published") : t("sf_waiting_identity"))} · <code>${esc(l.id)}</code></span></span>${l.published ? `<button class="ghost small" data-act="sfcheckout:${l.id}">${esc(t("sf_test_checkout"))}</button>` : ""}</div></li>` : ""; }).join("");
+  return `${sfBar(t("sf_offers"), "view:storefront")}<div class="body"><div class="card" data-item="listings">${rows ? `<ul class="list">${rows}</ul>` : `<p class="sub">${esc(t("sf_no_offers"))}</p>`}</div>
+    <button class="primary inline" data-item="new_listing" data-act="view:sfnew">${icon("ui-plus")}<span>${esc(t("sf_new_listing"))}</span></button>
+    <div class="card" data-item="online_orders"><h2>${esc(t("sf_orders"))}</h2>${SF.orders.length ? `<ul class="list">${SF.orders.map((o) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(CATALOG.find((p) => p.id === o.product)?.name ?? "")} × ${o.qty}</span><span class="sub"><code>${esc(o.id)}</code></span></span>${chip(o.state)}</div></li>`).join("")}</ul>` : `<p class="sub">${esc(t("sf_no_orders"))}</p>`}</div>
+    ${heldList()}${flash()}</div>`;
+}
+function storefrontNew(): string {
+  const p = CATALOG[0] as Item;
+  const id = SF.idCheck === "confirmed" ? `<p class="info">${icon("ui-check")}<span>${esc(t("sf_identity_ok"))}</span></p>` : SF.idCheck === "sent" ? `<p class="info">${icon("ui-sync")}<span>${esc(t("sf_identity_sent"))}</span></p>`
+    : `<p class="sub">${esc(t("sf_needs_identity"))}</p><button class="ghost inline" data-act="sfidentity">${esc(t("sf_check_identity"))}</button>`;
+  return `${sfBar(t("sf_new_listing"), "view:sflistings")}<div class="body"><div class="card"><p data-item="product"><strong>${esc(p.name)}</strong></p><p data-item="price">${esc(money(p.price))}</p>
+    <p class="sub" data-item="stock_hold">${esc(t("sf_hold_note"))}</p></div>
+    <div class="card" data-item="identity_check"><h2>${esc(t("sf_identity"))}</h2>${S.realUser ? `<p class="info">${icon("ui-info")}<span>${esc(t("coming_soon"))}</span></p>${notifyBtn("identity")}` : id}</div>
+    <button class="primary inline" data-item="publish" data-act="sfpublish">${esc(t("sf_publish"))}</button>${flash()}</div>`;
+}
+function storefrontStock(): string {
+  const rows = CATALOG.slice(0, 6).map((p) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(p.name)}</span><span class="sub">${esc(t("sf_free_line", { free: qtyText(HOLDS.free(p.id, level(p.id), nowS())), held: qtyText(HOLDS.held(p.id, nowS())) }))}</span></span></div></li>`).join("");
+  return `${sfBar(t("sf_stock"), "view:storefront")}<div class="body"><ul class="list card" data-item="listings">${rows}</ul>${heldList()}<p class="sub" data-item="shared_stock">${esc(t("sf_shared_stock"))}</p>
+    ${SF.flags.map((f) => `<p class="info warn">${icon("ui-warning")}<span>${esc(t("sf_conflict", { name: f }))}</span></p>`).join("")}${flash()}</div>`;
+}
+function storefrontChats(): string {
+  return `${sfBar(t("sf_buyer_chats"), "view:storefront")}<div class="body"><p class="sub" data-item="buyer_chats">${esc(t("sf_buyer_chats_note"))}</p><div class="chips" data-item="filter_orders"><button class="pill" aria-pressed="true">${esc(t("sf_orders"))}</button></div><p class="sub">${esc(t("sf_no_chats"))}</p></div>`;
+}
+function storefrontPayouts(): string {
+  return `${sfBar(t("sf_payouts"), "view:storefront")}<div class="body"><div class="card" data-item="payouts"><p class="sub">${esc(t("sf_no_payouts"))}</p></div><p data-item="share">${esc(sfPlanLine())}</p><p class="sub" data-item="provider">${esc(t("sf_payouts_note"))}</p></div>`;
+}
+const driverLine = (): string => { const d = drv(); return d.state === "current" ? t("drv_current", { v: d.latest }) : d.state === "not_installed" ? t("drv_not_installed") : d.state === "available" ? t("drv_due", { date: dateOnly((d.deadline ?? 0) * 1000) }) : t("drv_overdue_short"); };
+const dateOnly = (ms: number): string => { try { return new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, dateStyle: "medium" }).format(ms); } catch { return new Date(ms).toISOString().slice(0, 10); } };
+function driverScreen(): string {
+  const d = drv(), prompt = needsInstall(DRIVERS, DRV.attached, DRV.installed);
+  const tone = d.state === "overdue" || d.state === "not_installed" ? "warn" : "";
+  const virt = d.hardware === "virtual" ? DRV.attached.map((k) => `<li>${esc(t("drv_k_" + k))}: ${esc(t("drv_v_" + (driverFallback(DRIVERS, k) ?? "none")))}</li>`).join("") : "";
+  return `${topBar(t("drv_title"), "hub:branches_devices")}<div class="body"><p class="sub">LynkDriver</p>
+    <div class="card"><div class="kv" data-item="installed_version"><span>${esc(t("drv_installed"))}</span><strong>${esc(DRV.installed ?? t("drv_not_installed"))}</strong></div>
+      <div class="kv" data-item="latest_version"><span>${esc(t("drv_latest"))}</span><strong>${esc(d.latest)}</strong></div>
+      <p class="info ${tone}" data-item="update_deadline" role="status">${icon(tone ? "ui-warning" : "ui-check")}<span>${esc(d.state === "overdue" ? t("drv_overdue") : driverLine())}</span></p>
+      <button class="primary inline" data-item="install_online" data-act="drvinstall" ${d.state === "current" ? "disabled" : ""}>${esc(t(DRV.installed ? "drv_update" : "drv_install"))}</button>
+      <p class="sub" data-item="install_offline">${esc(t("drv_offline", { path: "lynkomni.com" + DRIVERS.where.offline }))}</p></div>
+    <div class="card" data-item="attached_hardware"><h2>${esc(t("drv_attached"))}</h2><ul class="list">${DRV.attached.map((k) => `<li>${esc(t("drv_k_" + k))}${prompt.includes(k) ? ` · <strong>${esc(t("drv_needs"))}</strong>` : ""}</li>`).join("")}</ul></div>
+    <div class="card" data-item="virtual_devices"><h2>${esc(t("drv_virtual"))}</h2>${virt ? `<ul class="list">${virt}</ul>` : `<p class="sub">${esc(t("drv_virtual_none"))}</p>`}<p class="sub">${esc(t("drv_never_blocks"))}</p></div>${flash()}</div>`;
+}
+const SF_SCREENS: Record<string, () => string> = { storefront: storefrontHome, sflistings: storefrontListings, sfnew: storefrontNew, sfstock: storefrontStock, sfchats: storefrontChats, sfpayouts: storefrontPayouts, driver: driverScreen };
 function business(): string {
   if (S.view === "hub" && S.hub) return hubSection(S.hub);
   if (S.view === "setting" && S.setting) return settingScreen(S.setting);
   const waiting = pack().services.filter((s) => s.state !== "available");
-  return `${topBar(t("tab_business"))}<div class="body">${webNote()}${DSH.searchField()}<ul class="list card">${HUB.map((h) => `<li data-item="${h.id}"><button class="rowbtn" data-act="hub:${h.id}">${icon(HUB_ICON[h.id] ?? "ui-grid", "prod")}<span class="main"><span class="nm">${esc(t("it_" + h.id))}</span>${hubValue(h.id === "daily_close" ? "sales" : h.id === "agent_earnings" ? "commissions" : "") ? `<span class="sub">${esc(hubValue(h.id === "daily_close" ? "sales" : "commissions"))}</span>` : ""}</span>${icon("ui-chevron-right", "ic fwd")}</button></li>`).join("")}</ul>
+  const sideCard = `<div class="card sidecard" data-item="side_switch"><p class="sidechip">${icon("ui-home")}<span>${esc(t("sf_business"))}</span></p><button class="ghost inline" data-act="side:external">${icon("ui-cart")}<span>${esc(t("sf_switch_to", { side: t("sf_title") }))}</span></button></div>`;
+  return `${topBar(t("tab_business"))}<div class="body">${webNote()}${sideCard}${DSH.searchField()}<ul class="list card">${HUB.map((h) => `<li data-item="${h.id}"><button class="rowbtn" data-act="hub:${h.id}">${icon(HUB_ICON[h.id] ?? "ui-grid", "prod")}<span class="main"><span class="nm">${esc(t("it_" + h.id))}</span>${hubValue(h.id === "daily_close" ? "sales" : h.id === "agent_earnings" ? "commissions" : "") ? `<span class="sub">${esc(hubValue(h.id === "daily_close" ? "sales" : "commissions"))}</span>` : ""}</span>${icon("ui-chevron-right", "ic fwd")}</button></li>`).join("")}</ul>
     <div class="card" data-item="waiting_services"><h2>${esc(t("it_waiting_services"))}</h2><ul class="list">${(waiting.length ? waiting : pack().services).map((s) => `<li class="svc">${icon(s.icon, "prod")}<span class="main"><span class="nm">${esc(s.name)}</span>
       <span class="sub">${esc(t(s.state === "available" ? "available" : "coming_soon"))}</span></span>${s.state === "available" ? `<span class="pill ok">${icon("ui-check")}</span>` : notifyBtn(s.service)}</li>`).join("")}</ul></div>${flash()}</div>`;
 }
@@ -775,13 +859,15 @@ function hubSection(id: string): string {
     case "team": extra = `<label class="switch"><span>${esc(t("staff_profit"))}</span><input type="checkbox" data-in="perm" ${S.perms.staffSeeProfit ? "checked" : ""} ${canChangeSettings(S.role) ? "" : "disabled"}></label>
       ${canChangeSettings(S.role) ? "" : `<p>${esc(t("owner_only"))}</p>`}<ul class="list card">${S.staff.map((x) => row(x.name, t("role_" + x.role))).join("")}</ul>
       <button class="ghost inline" data-act="invite">${esc(t("invite_staff"))}</button><button class="ghost inline" data-act="clock">${esc(t(S.clockedIn ? "clock_out" : "clock_in"))}</button>`; break;
-    case "branches_devices": extra = `<ul class="list card">${S.devices.map((d) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(d.name)}</span><span class="sub">${esc(t(d.revoked ? "revoked" : "active"))}</span></span>${d.revoked ? "" : `<button class="ghost small" data-act="revoke:${d.id}">${esc(t("it_revoke"))}</button>`}</div></li>`).join("")}</ul><p class="sub">${esc(t("wipe_help"))}</p>`; break;
-    case "plans_billing": extra = `<ul class="list card">${TIERS.map((k, i) => `<li><button class="rowbtn" data-act="tier:${k}" aria-pressed="${S.tier === k}"><span class="main"><span class="nm">LynkPOS ${esc(t("tier_" + k))}</span><span class="sub">${esc(t("per_month", { amount: formatMoney((DATA.plans[i] ?? 0) * 100, "USD", locale()) }))}</span></span>${S.tier === k ? icon("ui-check") : ""}</button></li>`).join("")}</ul><p class="sub">${esc(t("prices_usd_note"))}</p>`; break;
+    case "branches_devices": extra = `<button class="rowbtn card" data-act="view:driver">${icon("ui-settings", "prod")}<span class="main"><span class="nm">LynkDriver</span><span class="sub">${esc(driverLine())}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>`; extra += `<ul class="list card">${S.devices.map((d) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(d.name)}</span><span class="sub">${esc(t(d.revoked ? "revoked" : "active"))}</span></span>${d.revoked ? "" : `<button class="ghost small" data-act="revoke:${d.id}">${esc(t("it_revoke"))}</button>`}</div></li>`).join("")}</ul><p class="sub">${esc(t("wipe_help"))}</p>`; break;
+    case "plans_billing": extra = `<ul class="list card">${TIERS.map((k, i) => `<li><button class="rowbtn" data-act="tier:${k}" aria-pressed="${S.tier === k}"><span class="main"><span class="nm">LynkPOS ${esc(t("tier_" + k))}</span><span class="sub">${esc(t("per_month", { amount: formatMoney((DATA.plans[i] ?? 0) * 100, "USD", locale()) }))}</span></span>${S.tier === k ? icon("ui-check") : ""}</button></li>`).join("")}</ul><p class="sub">${esc(t("prices_usd_note"))}</p>
+      <div class="card" data-item="storefront_plans"><h2>${esc(t("sf_plan"))}</h2><ul class="list">${(DATA.storefront?.tiers ?? []).filter((k) => k in (DATA.storefront?.prices_usd ?? {})).map((k) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(t("tier_" + k))}</span><span class="sub">${esc(t("per_month", { amount: formatMoney((DATA.storefront?.prices_usd[k] ?? 0) * 100, "USD", locale()) }))} · ${esc(new Intl.NumberFormat(locale(), { style: "percent", maximumFractionDigits: 2 }).format((DATA.storefront?.share_bps[k] ?? 0) / 10000))}</span></span></div></li>`).join("")}</ul></div>`; break;
     case "automations": extra = `<ul class="list card">${DATA.automations.map((a) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(t("auto_" + key(a.id)))}</span><span class="sub">${esc(t("level_" + a.level))}</span></span><label class="switch mini"><span class="sr">${esc(t("it_off_switch"))}</span><input type="checkbox" data-in="auto:${a.id}" ${S.autoOff.has(a.id) ? "" : "checked"}></label></div></li>`).join("")}</ul>
       ${S.runs.slice(0, 3).map((r) => `<div class="card"><p class="nm">${esc(t("auto_" + key(r.auto)))} · ${esc(clock(r.at))}</p><p class="sub">${esc(t("why_" + key(r.auto)))}</p></div>`).join("")}`; break;
     case "academy": extra = `<ul class="list card">${ACADEMY.map((l) => row(t(l), t("minutes_n", { n: 2 }))).join("")}</ul>`; break;
     case "growth": extra = `<label class="switch"><span>${esc(t("passport_share"))}</span><input type="checkbox" data-in="passport" ${S.passport ? "checked" : ""}></label><p class="sub">${esc(t("passport_help"))}</p>`; break;
   }
+  if (id === "settings") extra += `<button class="rowbtn card" data-item="driver_link" data-act="view:driver">${icon("ui-settings", "prod")}<span class="main"><span class="nm">LynkDriver</span><span class="sub">${esc(driverLine())}</span></span>${icon("ui-chevron-right", "ic fwd")}</button><button class="rowbtn card" data-item="storefront_plans_link" data-act="hub:plans_billing">${icon("ui-cart", "prod")}<span class="main"><span class="nm">${esc(t("sf_plan"))}</span><span class="sub">${esc(sfPlanLine())}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>`;
   const act = (i: string): string => id === "settings" ? `setting:${i}` : i === "statement_match" ? "matchstatement" : i === "wipe" ? "" : "";
   return `${topBar(t("it_" + id), back)}<div class="body">${webNote()}${rows(reg.items, act)}${extra}${flash()}</div>`;
 }
@@ -819,7 +905,7 @@ function notifications(): string {
 }
 function account(): string {
   const it = (k: string, value: string, act = ""): string => row(t("am_" + k), value, act).replace("<li>", `<li data-item="${k}">`);
-  return `${topBar(t("account"), "view:main")}<div class="body"><ul class="list card">${it("name_lynkid", "LOID-····-····-" + S.lynkTail, "copyid")}${it("switch_business", shop(), "view:choose")}${it("switch_role", t("role_" + S.role), "switchrole")}
+  return `${topBar(t("account"), "view:main")}<div class="body"><ul class="list card">${it("name_lynkid", "LOID-····-····-" + S.lynkTail, "copyid")}${it("switch_business", shop(), "view:choose")}${it("switch_role", t("role_" + S.role), "switchrole")}${row(t("sf_switch_to", { side: SF.side === "external" ? t("sf_business") : t("sf_title") }), "", SF.side === "external" ? "side:internal" : "side:external").replace("<li>", '<li data-item="side_switch">')}${row(t("sf_plan"), sfPlanLine(), "hub:plans_billing").replace("<li>", '<li data-item="storefront_plans">')}
     ${it("language_region", `${PACKS[S.lang]?.native ?? S.lang} · ${pack().currency}`, "localecard")}${it("theme", t("theme_" + S.theme), "theme")}${it("security_center", "account.lynkomni.com/security")}${it("help", "", "help")}${it("sign_out", "", "signout")}</ul>${flash()}</div>`;
 }
 
@@ -1003,7 +1089,8 @@ const TAB_PATHS: Record<string, string> = { services: "/services", float: "/floa
 const VIEW_SCREEN: Record<string, string> = { basket: "basket", pay: "pay", cash: "pay", momo: "pay", split: "pay", credit: "pay", waiting: "pay", off: "pay", receipt: "receipt", done: "receipt",
   sales: "sales_today", sale: "sales_today", shift: "shift", practice: "practice", item: "product", add: "add_product", received: "stock_received", count: "stock_count", remove: "stock_remove",
   move: "stock_move", suppliers: "suppliers", reorder: "reorder", marketplace: "marketplace", labels: "labels", import: "import_export", thread: "thread", notifications: "notifications",
-  account: "account", setting: "settings", cashcheck: "shift", deliveries: "deliveries", delivery: "delivery" };
+  account: "account", setting: "settings", cashcheck: "shift", deliveries: "deliveries", delivery: "delivery",
+  storefront: "storefront", sflistings: "storefront_listings", sfnew: "storefront_new_listing", sfstock: "storefront_stock", sfchats: "storefront_chats", sfpayouts: "storefront_payouts", driver: "driver" };
 function screenId(): string {
   if (S.view === "hub") return S.hub || "business";
   if (S.view === "svc") return "services";
@@ -1035,6 +1122,7 @@ function view(): string {
   else if (S.view === "svc") body = agentFlow();
   else if (S.view === "cashcheck") body = cashCheck();
   else if (S.view === "hub" || S.view === "setting") body = business();
+  else if (S.view in SF_SCREENS) body = SF_SCREENS[S.view]!();
   else switch (S.tab) {
     case "services": body = agentServices(); break;
     case "float": body = agentFloat(); break;
@@ -1053,8 +1141,10 @@ function view(): string {
   return `<div class="screen" data-screen="${esc(screenId())}">${body}</div>${noTabs ? "" : tabBar()}${S.sheet ? syncSheet() : ""}${DSH.overlay()}`;
 }
 
+/** The Business app on a phone or tablet is the touch version (catalog/devices.v1.json smartphone, tablet). */
+const DM = new DeviceMode(DEVICES, "smartphone");
 function draw(): void {
-  const d = $("#display");
+  const d = $("#display"); DM.device = S.size === "tablet" ? "tablet" : S.size === "web" ? "computer" : "smartphone"; DM.version = S.size === "web" ? "non_touch" : "touch"; DM.apply(d);
   const focus = document.activeElement instanceof HTMLInputElement && d.contains(document.activeElement) ? { id: document.activeElement.id, at: document.activeElement.selectionStart } : null;
   DSH.pictures = S.toggles.has("low_literacy");
   d.className = `display ${S.theme} ${S.size}${S.toggles.has("low_literacy") ? " lowlit" : ""}`;   // picture mode (S4, 43 G): bigger pictures, the word always beside them
@@ -1107,6 +1197,20 @@ function act(a: string): void {
   const [k, v = ""] = a.split(/:(.*)/s);
   try {
     switch (k) {
+      // BIZZ & DEVICE: sides, Storefront offers and holds, LynkDriver
+      case "side": SF.side = v === "external" ? "external" : "internal"; S.tab = "business"; S.hub = ""; S.view = SF.side === "external" ? "storefront" : "main"; emit("SideSwitched", { side: SF.side }); draw(); return;
+      case "sfidentity": if (!SF.idCheck) { SF.idCheck = "sent"; emit("IdentityCheckRequested", { purpose: "first_paid_offer" }); window.setTimeout(() => { if (online()) { SF.idCheck = "confirmed"; emit("IdentityCheckConfirmed", { by: "partner" }, "server"); draw(); } }, 1500); } draw(); return;
+      case "sfpublish": { const p = CATALOG[0] as Item; const id = SAMPLE_LST[SF.listings.length % SAMPLE_LST.length] as string; const ok = SF.idCheck === "confirmed";
+        if (!SF.listings.some((l) => l.id === id)) SF.listings.unshift({ id, product: p.id, published: ok });
+        emit(ok ? "ListingPublished" : "ListingHeld", { listing: id, reason: ok ? null : "identity_check" }); S.view = "sflistings"; toast(t(ok ? "sf_published" : "sf_waiting_identity")); return; }
+      case "sfcheckout": { const l = SF.listings.find((x) => x.id === v); const p = l && CATALOG.find((x) => x.id === l.product); if (!p || !l) return;
+        const hold = `h${SF.orders.length + 1}`, r = HOLDS.reserve(hold, p.id, 1000, SAMPLE_ORD, level(p.id), nowS());
+        if (!r.ok) { toast(t("sf_not_enough")); return; }
+        SF.orders.unshift({ id: SAMPLE_ORD, hold, product: p.id, qty: 1, state: "sent" });
+        window.setTimeout(() => { const o = SF.orders.find((x) => x.hold === hold); if (!o) return; const st = S.outcome === "fail" ? "failed" : "confirmed";
+          if (S.outcome !== "silent") { HOLDS.onPayment(hold, st, nowS()); o.state = st; if (st === "confirmed") { S.levels[p.id] = level(p.id) - 1000; } draw(); } }, 1500);
+        toast(t("sf_checkout_held", { name: p.name })); return; }
+      case "drvinstall": { const from = DRV.installed; DRV.installed = DRIVERS.pack.version; DRV.days = 0; emit(from ? "DriverUpdated" : "DriverInstalled", from ? { device_id: "this", from_version: from, to_version: DRV.installed } : { device_id: "this", version: DRV.installed, how: "online" }); toast(t("drv_done")); return; }
       // getting in
       case "sendcode": if (!maySync(S.link, S.forced)) { S.note = t("code_needs_net"); draw(); return; } S.note = ""; S.screen = "code"; draw(); return;
       case "verify": if (S.code === CODE) { S.note = ""; S.screen = "choose"; draw(); } else { S.note = t("wrong_code"); S.code = ""; draw(); } return;
@@ -1265,6 +1369,7 @@ function onChange(el: HTMLInputElement & HTMLSelectElement): void {
 /** Test and demo hook: open any register screen directly (its deep link), as tests/test_business_app.py does. */
 function go(id: string): void {
   S.screen = "app"; S.sheet = false; S.hub = ""; S.setting = ""; S.practice = id === "practice";
+  SF.side = id.startsWith("storefront") ? "external" : "internal";      // the side is read from the address (core/sides.py)
   const sell: Record<string, View> = { sell: "main", basket: "basket", pay: "pay", receipt: "receipt", sales_today: "sales", shift: "shift", practice: "practice" };
   const stockV: Record<string, View> = { stock: "main", product: "item", add_product: "add", stock_received: "received", stock_count: "count", stock_remove: "remove", stock_move: "move", suppliers: "suppliers", reorder: "reorder", marketplace: "marketplace", labels: "labels", import_export: "import" };
   if (id in sell) {
@@ -1282,6 +1387,7 @@ function go(id: string): void {
   else if (id === "business") { S.tab = "business"; S.view = "main"; }
   else if (id === "settings") { S.tab = "business"; S.hub = "settings"; S.view = "hub"; }
   else if (id === "notifications" || id === "account") { S.view = id; }
+  else if (id in SF_VIEW) { S.tab = "business"; SF.side = id === "driver" ? "internal" : "external"; S.view = SF_VIEW[id] as View; }
   else if (id === "deliveries" || id === "delivery") { S.tab = "home"; S.view = id;
     if (!S.deliveries.length) { S.btype = "shop"; S.cart.add(CATALOG[0] as Item); payPart("cash", total(), total()); bookDelivery(); } S.view = id; }
   else { S.tab = "business"; S.hub = id; S.view = "hub"; }
@@ -1310,6 +1416,7 @@ function wire(): void {
   const bind = (id: string, f: (el: HTMLInputElement & HTMLSelectElement) => void): void => { const el = $<HTMLInputElement & HTMLSelectElement>(id); el.addEventListener("change", () => f(el)); };
   bind("#cLink", (el) => { S.link = el.value as Link; draw(); });
   bind("#cRole", (el) => { S.role = pick(["owner", "manager", "cashier"] as Role[], el.value, "owner"); draw(); });
+  bind("#cDriver", (el) => { const v = el.value; DRV.installed = v === "none" ? null : v === "current" ? DRIVERS.pack.version : "1.3.2"; DRV.days = v === "due" ? 2 : v === "overdue" ? 9 : 0; draw(); });
   bind("#cType", (el) => { S.btype = pick(["shop", "no_till", "agent_point", "restaurant"] as BusinessType[], el.value, "shop"); S.tab = "home"; S.view = "main"; S.hub = ""; draw(); });
   bind("#cEntity", (el) => { act(`entity:${el.value}`); S.tab = "home"; S.view = "main"; S.hub = ""; draw(); });
   bind("#cSize", (el) => { S.size = el.value === "tablet" ? "tablet" : el.value === "web" ? "web" : "phone"; $("#device").className = `device ${S.size}`; fit(); draw(); });

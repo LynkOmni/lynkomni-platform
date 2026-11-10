@@ -4,8 +4,23 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "c2fe3a14fac24c03f868fcd519a2666b2bba9a92bf763cf9cf3d24bc821d9788",
+ "source_sha256": "179b395e29e91ece9443addf13ec2730964c90fc702627ca8b96e2700e70d759",
  "texts": {
+  "bp_kind": "Aina ya simu (majaribio)",
+  "bp_kind_basic": "Simu ya kawaida: USSD, SMS na sauti",
+  "bp_kind_button": "Simu ya vitufe yenye programu",
+  "bp_kind_feature": "Simu rahisi (programu nyepesi)",
+  "ch_dial": "Piga msimbo wa LynkPOS",
+  "ch_idle": "LynkPOS kwa simu",
+  "ch_message_to": "Ujumbe kwa LynkPOS",
+  "ch_no_command": "Si amri. Tuma 4 kupata msaada.",
+  "ch_reply": "Jibu",
+  "ch_sandbox": "Mfano (majaribio): hakuna msimbo wala namba halisi hadi lango litiwe saini katika nchi yako.",
+  "ch_send": "Tuma",
+  "ch_session_ended": "Kipindi kimeisha",
+  "ch_spoken": "Inasomwa kwa sauti; bonyeza namba",
+  "ch_text": "Tuma SMS",
+  "ch_voice": "Piga menyu ya sauti",
   "title": "LynkPOS kwenye simu ya vitufe"
  }
 }
