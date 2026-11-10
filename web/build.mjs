@@ -5,6 +5,7 @@
 // the brand, icon and picture data from web/emulators/build_data.py. No network, no outside libraries.
 import { execFileSync } from "node:child_process";
 import { deflateRawSync } from "node:zlib";
+import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -17,10 +18,12 @@ const DEVICE_MODULES = ["ts/src/brand.js", "ts/src/payments.js", "ts/src/footer.
 const TRACK_MODULES = ["ts/src/tracking.js", "ts/src/tracking.generated.js", "ts/src/trackview.js"];
 // every interface picks its view from the device register (DEVICE, 48.17) and supports touch gestures and arrow navigation
 const INTERFACE_MODULES = ["ts/src/interfaces.generated.js", "ts/src/interfaces.js", "ts/src/gestures.js"];
+// MASTER UPDATE, section 1: the shared sign-in parts, the bell and message parts, LynkAssist and breadcrumbs, on their registers
+const PARTS_MODULES = ["ts/src/parts.generated.js", "ts/src/signin.js", "ts/src/notify.js", "ts/src/assist.js", "ts/src/breadcrumbs.js"];
 const EMULATORS = [
   { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: [...DEVICE_MODULES, "web/emulators/pos-terminal/app.js"] },
   { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: ["ts/src/usernames.generated.js", "ts/src/usernames.js", ...DEVICE_MODULES, ...TRACK_MODULES, "ts/src/reservations.js", "ts/src/drivers.js", "ts/src/drivers.generated.js", "web/emulators/merchant-phone/app.js"] },
-  { id: "browser-frame", out: "lynkomni-browser-frame.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", ...INTERFACE_MODULES, "web/emulators/browser-frame/app.js"],
+  { id: "browser-frame", out: "lynkomni-browser-frame.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", ...INTERFACE_MODULES, ...PARTS_MODULES, "web/emulators/browser-frame/app.js"],
     extraCss: ["web/shell/shell.css"] },
   { id: "account-site", out: "lynkomni-account-site.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", "ts/src/account.js", ...INTERFACE_MODULES, ...TRACK_MODULES, "web/emulators/account-site/app.js"],
     extraCss: ["web/shell/shell.css"] },
@@ -105,6 +108,15 @@ const fontCss = read(join(ROOT, "design", "fonts.css")).match(/@font-face\s*\{[^
 // (far smaller than escaping everything, so the two favicons cost little in every file)
 const svgUri = (svg) => `data:image/svg+xml,${svg.replace(/\s+(role|aria-label|focusable)="[^"]*"/g, "").replace(/"/g, "'").replace(/\s+/g, " ").replace(/[%#<>{}|\\^`[\]]/g, (c) => encodeURIComponent(c))}`;
 const faviconLinks = (f) => `<link rel="icon" type="image/svg+xml" media="(prefers-color-scheme: light)" href="${svgUri(f.light)}">\n<link rel="icon" type="image/svg+xml" media="(prefers-color-scheme: dark)" href="${svgUri(f.dark)}">`;
+// Safe page settings (MASTER UPDATE 59, web/pagesafety.v1.json, the same file core/pagesafety.py reads): nothing loads from
+// elsewhere and only this page's own script runs, pinned by its SHA-256 hash. The policy goes right after the charset line.
+const SAFETY = JSON.parse(read(join(WEB, "pagesafety.v1.json")));
+function withPolicy(html) {
+  const hashes = [...html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/gi)].map((m) => `'sha256-${createHash("sha256").update(m[2], "utf8").digest("base64")}'`).join(" ") || "'none'";
+  const csp = Object.entries(SAFETY.directives).map(([k, v]) => `${k} ${v === "HASHES" ? hashes : v}`).join("; ");
+  if (!html.includes('<meta charset="utf-8">')) throw new Error("every page starts with <meta charset=\"utf-8\">");
+  return html.replace('<meta charset="utf-8">', () => `<meta charset="utf-8">\n<meta http-equiv="Content-Security-Policy" content="${csp}">`);
+}
 let stale = [];
 for (const e of EMULATORS) {
   const D = JSON.parse(execFileSync("python3", [join(WEB, "emulators", "build_data.py"), e.id], { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 26 }));
@@ -117,6 +129,7 @@ for (const e of EMULATORS) {
     .replace("</head>", () => `${faviconLinks(D.brand.favicon)}\n</head>`)
     .replace(/\/\*@I:([a-z0-9-]+)@\*\//g, (_, id) => `<span class="ic" aria-hidden="true">${D.icons[id] ?? (() => { throw new Error(`unknown icon ${id}`); })()}</span>`)
     .replace("/*@SCRIPT@*/", () => `const DATA = ${JSON.stringify(packData(D)).replace(/</g, "\\u003c")};\n(async () => {\n${UNPACK}\n${INFLATE}\n${bundle(e.modules)}\ndocument.documentElement.dataset.ready = "1"; window.__readyAt = performance.now();\n})();`);
+  html = withPolicy(html);
   const target = join(OUT, e.out);
   if (process.argv.includes("--check")) {
     if (!existsSync(target) || read(target) !== html) stale.push(e.out);

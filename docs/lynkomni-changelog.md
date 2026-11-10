@@ -2,6 +2,18 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.38.0 (2026-11-10)
+MASTER UPDATE, section 1 (shared shell and design):
+- Safe page settings on every page: only the page's own script runs, pinned by its hash; nothing loads from anywhere else. Sessions now belong to the device that signed in.
+- Shared sign-in parts: a PIN pad with pictures and a tone for each key (digits never shown, keys never move), and number matching for face-to-face permission.
+- The notification bell on every screen: New and Earlier, filters, folded repeats, actions with "Done by" and Undo, "Why am I seeing this?", an empty state, banners, and sound and vibration by priority (urgent breaks through and repeats until seen). Private lock screens.
+- The message parts: the email, the text message (with its length in parts) and the Messages list.
+- LynkAssist in the help button: Ask (answers offline from the saved help in every language), Fix this, the Confirm or Deny card and the receipt with Undo and "Why did this happen?".
+- Breadcrumbs from the address map on every screen, and the head for public pages (title, description, one address per language, search engine trail).
+- The twelve sample LynkVCard cards (three groups on the four faces) in the fixed layout, fronts and backs, with layout and contrast tests.
+- Leftovers fixed: the footer newsletter form no longer uses an inline handler; event-log icons in the shell emulator have their size; a device page carries only the shared words it can show.
+- The shell emulator's size budget is raised to 740 KB (all these parts in 38 languages; a real app downloads one language at a time).
+
 ## v0.37.0 (2026-11-10)
 MASTER UPDATE, Step 0 (groundwork for sections 54 to 62):
 - Security register (catalog/security.v1.json) with its seven principles, a secret scan in CI and a tamper-evident chain on the event log.

@@ -108,7 +108,8 @@ def svg_problems(rel, text, kind, theme, budget_kb):
         both = {v.upper() for th in ("light", "dark") for v in design.resolved(th).values() if re.fullmatch(r"#[0-9A-Fa-f]{6}", v)}
         for c in set(re.findall(r"#[0-9A-Fa-f]{3,8}\b", re.sub(r'<g data-brand="[a-z]+">.*?</svg></g>', "", seg, flags=re.S))):
             if c.upper() not in both: out.append(f"{rel}: card colour {c} is not a design token")
-        if re.search(r"\d{4}", re.sub(r"<[^>]+>", "", seg)): out.append(f"{rel}: a card face must not show a number")
+        # the only digits allowed are the approved sample number, which can never work as a card (services/card_groups.py)
+        if re.search(r"\d{4}", re.sub(r"<[^>]+>", "", seg).replace(cards.SAMPLE_TEXT["number"], "")): out.append(f"{rel}: a card face must not show a number")
     body = re.sub(r'<g data-brand="[a-z]+">.*?</svg></g>', "", outside, flags=re.S)   # brand artwork keeps its own colours
     allowed = {v.upper() for v in design.resolved(theme).values() if re.fullmatch(r"#[0-9A-Fa-f]{6}", v)}
     for c in set(re.findall(r"#[0-9A-Fa-f]{3,8}\b", body)):

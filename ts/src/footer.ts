@@ -139,9 +139,9 @@ ${mark}<p class="ftag">${esc(f.tagline)}</p><div class="fcols">${cols}</div>
 <div class="frow"><section class="fcol"><h3>${esc(f.payments.title)}</h3><ul class="fpays">${pay}</ul></section>
 <section class="fcol"><h3>${esc(f.labels.social)}</h3><ul>${social}</ul></section>
 <section class="fcol"><h3>${esc(f.labels.download)}</h3><ul>${f.download.map((d) => `<li><a href="/download#${esc(d.id)}">${esc(d.label)}</a></li>`).join("")}</ul></section>
-<form class="fnews" onsubmit="return false"><h3>${esc(n.title)}</h3><p>${esc(n.text)}</p><label class="fl"><span>${esc(n.email)}</span><input type="email" autocomplete="email"></label>
+<div class="fnews" role="group" aria-labelledby="fnewsTitle"><h3 id="fnewsTitle">${esc(n.title)}</h3><p>${esc(n.text)}</p><label class="fl"><span>${esc(n.email)}</span><input type="email" autocomplete="email"></label>
 <fieldset><legend>${esc(f.labels.topics)}</legend>${topics}</fieldset><label class="fconsent"><input type="checkbox" required> <span>${esc(n.consent)}</span></label>
-<button type="submit">${esc(n.button)}</button><p class="fnote">${esc(n.note)}</p></form></div>
+<button type="button" data-act="footer:news">${esc(n.button)}</button><p class="fnote">${esc(n.note)}</p></div></div>
 <div class="flegal"><p class="fcopy">${esc(f.legal.copyright)}</p><ul>${f.legal.links.map(link).join("")}</ul></div></footer>`;
 }
 /** The short footer inside apps (section 26 C): one line, the fixed copyright text with the year in the viewer's time zone. */

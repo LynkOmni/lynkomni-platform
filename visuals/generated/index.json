@@ -1743,6 +1743,438 @@
      "bytes": 20545
     }
    ]
+  },
+  "vcard-edge-prepaid": {
+   "kind": "card",
+   "alt": "Sample LynkPrima Free card (Aurora Teal, EDGE, prepaid): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line EDGE // FIRST LIGHT, the word PREPAID above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkPrima Free card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-edge-prepaid.svg",
+     "sha256": "cea4ed7480cb750db667d64e4db5547135b3fbadf787fc67d5a846b1a4455bfc",
+     "bytes": 10853
+    }
+   ]
+  },
+  "vcard-edge-prepaid-back": {
+   "kind": "card",
+   "alt": "Back of a sample LynkPrima Free card (Aurora Teal, EDGE, prepaid): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word EDGE. Not a real card.",
+   "purpose": "Sample back of the LynkPrima Free card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-edge-prepaid-back.svg",
+     "sha256": "1a3de0923135fa85deea5b852db0db6c32dd5dd9d66637e27e7b8b2c8b96d634",
+     "bytes": 8673
+    }
+   ]
+  },
+  "vcard-edge-debit": {
+   "kind": "card",
+   "alt": "Sample LynkDyna Free card (Aurora Teal, EDGE, debit): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line EDGE // FIRST LIGHT, the word DEBIT above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkDyna Free card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-edge-debit.svg",
+     "sha256": "edbb3387bccac948c5410d71894148924f49b3b220a46fc2088ed12327e9b515",
+     "bytes": 10842
+    }
+   ]
+  },
+  "vcard-edge-debit-back": {
+   "kind": "card",
+   "alt": "Back of a sample LynkDyna Free card (Aurora Teal, EDGE, debit): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word EDGE. Not a real card.",
+   "purpose": "Sample back of the LynkDyna Free card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-edge-debit-back.svg",
+     "sha256": "db9cbb5da55d8876c3241005b1296073346fcdf90fd7c91fa8561754464e3dc9",
+     "bytes": 8666
+    }
+   ]
+  },
+  "vcard-edge-credit": {
+   "kind": "card",
+   "alt": "Sample LynkCrest Free card (Aurora Teal, EDGE, credit): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line EDGE // FIRST LIGHT, the word CREDIT above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkCrest Free card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-edge-credit.svg",
+     "sha256": "5f522c02ff674c103cc47949f9f8828702907c2a986f04da9c708f1b8cde7a19",
+     "bytes": 10848
+    }
+   ]
+  },
+  "vcard-edge-credit-back": {
+   "kind": "card",
+   "alt": "Back of a sample LynkCrest Free card (Aurora Teal, EDGE, credit): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word EDGE. Not a real card.",
+   "purpose": "Sample back of the LynkCrest Free card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-edge-credit-back.svg",
+     "sha256": "e6efb5ffd0899bdc064a105ff17a6726e319ea11c8e824737e5c19abdf33ba2f",
+     "bytes": 8670
+    }
+   ]
+  },
+  "vcard-hub-prepaid": {
+   "kind": "card",
+   "alt": "Sample LynkPrima Plus card (Royal Sapphire, HUB, prepaid): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line HUB // CENTER POINT, the word PREPAID above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkPrima Plus card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-hub-prepaid.svg",
+     "sha256": "bb221532842bf05435ea9d1b9850e56dd2712db11c42777001db1e98906b5bee",
+     "bytes": 13427
+    }
+   ]
+  },
+  "vcard-hub-prepaid-back": {
+   "kind": "card",
+   "alt": "Back of a sample LynkPrima Plus card (Royal Sapphire, HUB, prepaid): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word HUB. Not a real card.",
+   "purpose": "Sample back of the LynkPrima Plus card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-hub-prepaid-back.svg",
+     "sha256": "43fb0fab5e41ab2da22aea939e6add7851caed22373af619267aac504e8edccd",
+     "bytes": 11255
+    }
+   ]
+  },
+  "vcard-hub-debit": {
+   "kind": "card",
+   "alt": "Sample LynkDyna Plus card (Royal Sapphire, HUB, debit): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line HUB // CENTER POINT, the word DEBIT above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkDyna Plus card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-hub-debit.svg",
+     "sha256": "455f8783962f54338dbd003c5ba4953c0a3a7b57d87154307e9230fe45be8c5c",
+     "bytes": 13416
+    }
+   ]
+  },
+  "vcard-hub-debit-back": {
+   "kind": "card",
+   "alt": "Back of a sample LynkDyna Plus card (Royal Sapphire, HUB, debit): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word HUB. Not a real card.",
+   "purpose": "Sample back of the LynkDyna Plus card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-hub-debit-back.svg",
+     "sha256": "64be9f0f65585798326490e1c79925da51d0e62e8b0b9467f2ae2b2a9890c80d",
+     "bytes": 11248
+    }
+   ]
+  },
+  "vcard-hub-credit": {
+   "kind": "card",
+   "alt": "Sample LynkCrest Plus card (Royal Sapphire, HUB, credit): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line HUB // CENTER POINT, the word CREDIT above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkCrest Plus card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-hub-credit.svg",
+     "sha256": "1f93f23c140aec19c9bb3b4e97d210038d1c9433a9ed7730fe17abaa73615494",
+     "bytes": 13422
+    }
+   ]
+  },
+  "vcard-hub-credit-back": {
+   "kind": "card",
+   "alt": "Back of a sample LynkCrest Plus card (Royal Sapphire, HUB, credit): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word HUB. Not a real card.",
+   "purpose": "Sample back of the LynkCrest Plus card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-hub-credit-back.svg",
+     "sha256": "983d433eb7fac113e58b73bd3669111a668c866accf327b43b18b8924f33bd30",
+     "bytes": 11252
+    }
+   ]
+  },
+  "vcard-core-prepaid": {
+   "kind": "card",
+   "alt": "Sample LynkPrima Pro card (Imperial Amethyst, CORE, prepaid): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line CORE // DEEP SYSTEM, the word PREPAID above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkPrima Pro card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-core-prepaid.svg",
+     "sha256": "fb1a7a56b392e6292517037cb8f796bc01c4a87d0867f357b727aaa46abf831f",
+     "bytes": 15535
+    }
+   ]
+  },
+  "vcard-core-prepaid-back": {
+   "kind": "card",
+   "alt": "Back of a sample LynkPrima Pro card (Imperial Amethyst, CORE, prepaid): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word CORE. Not a real card.",
+   "purpose": "Sample back of the LynkPrima Pro card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-core-prepaid-back.svg",
+     "sha256": "ba1434800d8a4d0079e513c93734f3a4e25640ad089ad9083957e4c1878c68cd",
+     "bytes": 13331
+    }
+   ]
+  },
+  "vcard-core-debit": {
+   "kind": "card",
+   "alt": "Sample LynkDyna Pro card (Imperial Amethyst, CORE, debit): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line CORE // DEEP SYSTEM, the word DEBIT above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkDyna Pro card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-core-debit.svg",
+     "sha256": "b71b0c5ea9b774f0efa8834def5772ed97587bd3aeb169013761c83d989b79a6",
+     "bytes": 15524
+    }
+   ]
+  },
+  "vcard-core-debit-back": {
+   "kind": "card",
+   "alt": "Back of a sample LynkDyna Pro card (Imperial Amethyst, CORE, debit): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word CORE. Not a real card.",
+   "purpose": "Sample back of the LynkDyna Pro card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-core-debit-back.svg",
+     "sha256": "d4cd81b1f599c6b14354660989969362d165322081c19a0375493aa43aace41d",
+     "bytes": 13324
+    }
+   ]
+  },
+  "vcard-core-credit": {
+   "kind": "card",
+   "alt": "Sample LynkCrest Pro card (Imperial Amethyst, CORE, credit): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line CORE // DEEP SYSTEM, the word CREDIT above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkCrest Pro card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-core-credit.svg",
+     "sha256": "ddf5245024db385b80a16c218cca152a2a082a23cce77a7eb073719b7cef6163",
+     "bytes": 15530
+    }
+   ]
+  },
+  "vcard-core-credit-back": {
+   "kind": "card",
+   "alt": "Back of a sample LynkCrest Pro card (Imperial Amethyst, CORE, credit): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word CORE. Not a real card.",
+   "purpose": "Sample back of the LynkCrest Pro card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-core-credit-back.svg",
+     "sha256": "448d2abec9f7dae4a4551feef95d2e536ccc9a56e9b01f0dd8fc2759c5753aff",
+     "bytes": 13328
+    }
+   ]
+  },
+  "vcard-omni-prepaid": {
+   "kind": "card",
+   "alt": "Sample LynkPrima Max card (Black Gold, OMNI, prepaid): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line OMNI // OWN ALL COMMERCE, the word PREPAID above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkPrima Max card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-omni-prepaid.svg",
+     "sha256": "2cb8977d39fdf1d6043e697383ad28c6bb0dc7fbb3b3d5991c8eb6eff75e7db3",
+     "bytes": 23123
+    }
+   ]
+  },
+  "vcard-omni-prepaid-back": {
+   "kind": "card",
+   "alt": "Back of a sample LynkPrima Max card (Black Gold, OMNI, prepaid): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word OMNI. Not a real card.",
+   "purpose": "Sample back of the LynkPrima Max card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-omni-prepaid-back.svg",
+     "sha256": "5c2f46abcc372808e27b4cee612a610fe6b71d349ed03c5f98067bce6a23fb8d",
+     "bytes": 20915
+    }
+   ]
+  },
+  "vcard-omni-debit": {
+   "kind": "card",
+   "alt": "Sample LynkDyna Max card (Black Gold, OMNI, debit): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line OMNI // OWN ALL COMMERCE, the word DEBIT above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkDyna Max card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-omni-debit.svg",
+     "sha256": "e8a5fa93d7010a797ae20554e9ff675f4857220b09285f38cc6dbb0fdece9232",
+     "bytes": 23112
+    }
+   ]
+  },
+  "vcard-omni-debit-back": {
+   "kind": "card",
+   "alt": "Back of a sample LynkDyna Max card (Black Gold, OMNI, debit): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word OMNI. Not a real card.",
+   "purpose": "Sample back of the LynkDyna Max card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-omni-debit-back.svg",
+     "sha256": "33af029669e2afcb1b3e8193742eaed9d21bd6296f309fa5c99604a8d0fe263d",
+     "bytes": 20908
+    }
+   ]
+  },
+  "vcard-omni-credit": {
+   "kind": "card",
+   "alt": "Sample LynkCrest Max card (Black Gold, OMNI, credit): the LynkOmni logo top left, the chip, the sample number 1234 5678 9012 3456, VALID THRU MM/YY, CARD HOLDER, the line OMNI // OWN ALL COMMERCE, the word CREDIT above an empty space where the issuer adds the network mark, and the word SAMPLE. Not a real card.",
+   "purpose": "Sample front of the LynkCrest Max card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-omni-credit.svg",
+     "sha256": "44be9b2f423e72de9cb752da83cfc6933b93dbfc89dd720f7fcaf29731cdeb68",
+     "bytes": 23118
+    }
+   ]
+  },
+  "vcard-omni-credit-back": {
+   "kind": "card",
+   "alt": "Back of a sample LynkCrest Max card (Black Gold, OMNI, credit): a dark stripe, the issuer's panel with the sample security code 000, the word SAMPLE, the LynkOmni logo and the word OMNI. Not a real card.",
+   "purpose": "Sample back of the LynkCrest Max card in the fixed layout (Get a card, the store, marketing and design reviews); never a person's own card",
+   "used_in": [
+    "get-a-card",
+    "marketing"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "cards/vcard-omni-credit-back.svg",
+     "sha256": "96faf1094fa55b6e66ba7e83c70a1e8cb5442ef9a569acce9e5ed47b858b6b5e",
+     "bytes": 20912
+    }
+   ]
   }
  }
 }

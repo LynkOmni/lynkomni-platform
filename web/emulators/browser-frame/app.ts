@@ -10,6 +10,11 @@ import { browserFacts, chooseInterface, safeToSwitch } from "../../../ts/src/int
 import type { Choice } from "../../../ts/src/interfaces.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { arrowNav, gestures } from "../../../ts/src/gestures.js";
+import { afterWrong, numberChoices, numberMatch, numberShown, pinPad, KEY_TONE } from "../../../ts/src/signin.js";
+import { banner, bell, count, feelFor, mailPart, messagesList, priorityOf, textPart, whySheet } from "../../../ts/src/notify.js";
+import type { Line, Priority, Sent } from "../../../ts/src/notify.js";
+import { askBox, buildPack, confirmCard, decide, fixThis, lookup, receipt } from "../../../ts/src/assist.js";
+import { breadcrumbBar, trail } from "../../../ts/src/breadcrumbs.js";
 const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 } as const;   // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
 
 interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[]; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; id?: string; name: string; icon: string; plain: string; href?: string; state: "available" | "coming_soon" }[] }
@@ -29,7 +34,7 @@ interface Ev { n: number; type: string; origin: "device" | "server"; payload: un
 const PACKS = DATA.i18n;
 const EN: Record<string, string> = PACKS.en?.texts ?? {};
 const TEST_LANGS = ["xx", "xx-rtl"];
-type Overlay = null | "launcher" | "account" | "globe" | "cmd" | "help" | "bell" | "sync" | "view";
+type Overlay = null | "launcher" | "account" | "globe" | "cmd" | "help" | "bell" | "sync" | "view" | "why";
 type Screen = "home" | "payment" | `state:${StateKind}`;
 
 const S = {
@@ -39,6 +44,10 @@ const S = {
   // BIZZ & DEVICE: the side of the screen and the interface this device uses (chosen automatically; Change view overrides it)
   side: "internal" as "internal" | "external", override: null as string | null, pendingView: undefined as string | null | undefined,
   testView: "auto", testWidth: "auto", choice: null as Choice | null,
+  // MASTER UPDATE, section 1: the bell, the sign-in parts and LynkAssist in the help panel
+  lines: [] as Line[], bellFilter: "all", lastOpened: 0, whyNid: "", banners: [] as string[],
+  pin: "", wrong: 0, waitUntil: 0, pictures: true, keySound: true, matchShown: "47", matchChoices: [] as string[], matchResult: "" as "" | "ok" | "wrong",
+  ask: "", assistStep: "idle" as "idle" | "card" | "done", assistDoneAt: 0, resends: 0, lastDone: null as null | { nid: string; by: string },
 };
 /** The interfaces a browser window can show; the others belong to their own devices (catalog/devices.v1.json). */
 const VIEWS = ["universal", "phone.touch", "tablet.touch", "computer.touch", "computer.pointer"] as const;
@@ -84,6 +93,83 @@ function record(type: string, origin: "device" | "server", payload: unknown): vo
   drawLog();
 }
 
+// ---------------------------------------------------------------- MASTER UPDATE, section 1: the bell, sign-in parts, LynkAssist
+// Lines hold word keys; they are put into the reader's language when drawn, so a language change changes every line at once.
+const T0 = Date.now();
+S.lines = [
+  { nid: "n1", kind: "new_sign_in", title: "notice_signin", at: T0 - 60_000, record: "LONTF-2201-4410-8838" },
+  { nid: "n5", kind: "staff_request", title: "demo_ntf_staff", at: T0 - 300_000 },
+  { nid: "n4", kind: "stock_low", title: "demo_ntf_stock", at: T0 - 1_200_000, count: 12 },
+  { nid: "n2", kind: "receipt", title: "notice_payment", at: T0 - 3_600_000, record: "LORCP-7731-0042-9911", read: true, seen: true },
+  { nid: "n3", kind: "owner_summary", title: "notice_insight", at: T0 - 7_200_000, read: true, seen: true },
+];
+S.lastOpened = T0 - 1_800_000;
+const ACT_WORD: Record<string, string> = { approve: "ntf_act_approve", deny: "ntf_act_deny", cancel_recovery: "ntf_act_cancel_recovery", this_was_not_me: "ntf_act_this_was_not_me", draft_reorder: "ntf_act_draft_reorder", confirm: "as_confirm", undo: "undo" };
+const AREAS = ["security", "account", "safety", "selling", "stock", "devices"];
+const shown = (): Line[] => S.lines.map((l) => ({ ...l, title: t(l.title), actions: (KIND_ACTIONS[l.kind] ?? []).filter((a) => ACT_WORD[a]).map((a) => ({ id: a, label: t(ACT_WORD[a]!) })) }));
+const KIND_ACTIONS: Record<string, string[]> = { new_sign_in: ["this_was_not_me"], staff_request: ["approve", "deny"], stock_low: ["draft_reorder"], recovery_started: ["cancel_recovery"] };
+const when = (ms: number): string => clock(ms);
+const lineOf = (nid: string): Line | undefined => S.lines.find((l) => l.nid === nid);
+/** Each priority is felt as well as seen: the tones and vibration of notify.ts FEEL (never instead of the words). */
+let audio: AudioContext | null = null;
+function feel(p: Priority): void {
+  const f = feelFor(p, { quiet: false, silent: false, lowData: S.dataSaver });
+  try { (navigator as Navigator & { vibrate?: (p: number[]) => boolean }).vibrate?.(f.vibrate); } catch { /* not every device vibrates */ }
+  if (!f.tones.length) return;
+  try {
+    audio ??= new AudioContext();
+    let at = audio.currentTime;
+    for (const [hz, ms] of f.tones) {
+      if (hz) { const o = audio.createOscillator(), g = audio.createGain(); o.frequency.value = hz; g.gain.setValueAtTime(0.08, at); g.gain.exponentialRampToValueAtTime(0.0001, at + ms / 1000); o.connect(g).connect(audio.destination); o.start(at); o.stop(at + ms / 1000); }
+      at += ms / 1000;
+    }
+  } catch { /* sound is never the only signal */ }
+}
+/** A key press on the PIN pad is heard as its own pair of tones, so a person who cannot see the screen knows which key went in. */
+function keyTone(k: string): void {
+  if (!S.keySound) return;
+  const pair = KEY_TONE[k]; if (!pair) return;
+  try { audio ??= new AudioContext(); const at = audio.currentTime; for (const hz of pair) { const o = audio.createOscillator(), g = audio.createGain(); o.frequency.value = hz; g.gain.setValueAtTime(0.05, at); g.gain.exponentialRampToValueAtTime(0.0001, at + 0.12); o.connect(g).connect(audio.destination); o.start(at); o.stop(at + 0.12); } } catch { /* silent device */ }
+}
+function urgent(): void {
+  const nid = `u${S.lines.length + 1}`;
+  S.lines.unshift({ nid, kind: "recovery_started", title: "demo_ntf_recovery", at: Date.now() });
+  S.banners.unshift(nid);
+  record("NotificationShown", "server", { kind: "recovery_started", priority: "critical", channels: ["bell", "push", "email", "text"] });
+  feel("critical"); draw();
+}
+let kpack: { lang: string; entries: ReturnType<typeof buildPack> } | null = null;
+const knowledge = () => { const lang = isTest() ? "en" : S.lang; if (!kpack || kpack.lang !== lang) kpack = { lang, entries: buildPack({ ...EN, ...(PACKS[lang]?.texts ?? {}) }) }; return kpack.entries; };
+function assistPart(): string {
+  const online = S.link !== "offline" && !S.forced;
+  const ask = askBox({ query: S.ask, results: S.ask ? lookup(knowledge(), S.ask) : [], online, builtOn: new Intl.DateTimeFormat(locale(), { dateStyle: "medium" }).format(T0) }, t, icon);
+  const mute = decide("mute_notification_kind", { role: "owner", confirmed: S.assistStep === "done" });
+  const step = S.assistStep === "card" ? confirmCard({ what: t("demo_assist_mute"), d: mute }, t, icon)
+    : S.assistStep === "done" ? receipt({ what: t("demo_assist_mute"), undoable: !!mute.undo, secondsLeft: Math.max(0, 30 - Math.round((Date.now() - S.assistDoneAt) / 1000)) }, t, icon)
+    : `<div class="actions"><button type="button" class="secondary" data-act="assist:resend">${icon("product-assist")}<span>${esc(t("demo_assist_what"))}</span></button><button type="button" class="secondary" data-act="assist:mute">${icon("product-assist")}<span>${esc(t("demo_assist_mute"))}</span></button></div>`;
+  return `${ask}${step}`;
+}
+function pinCard(): string {
+  const waitLeft = Math.max(0, Math.ceil((S.waitUntil - Date.now()) / 1000));
+  if (!S.matchChoices.length) { let x = 7; S.matchChoices = numberChoices(S.matchShown, () => (x = (x * 9301 + 49297) % 233280) / 233280); }
+  return `<div class="card"><h2>${esc(t("demo_signin_card"))}</h2>${pinPad({ entered: S.pin.length, length: Math.max(4, S.pin.length), wrong: S.wrong, waitLeft, pictures: S.pictures, sound: S.keySound, title: t("demo_pin_title") }, t, icon)}<div class="pstack">${numberShown(S.matchShown, t)}${numberMatch(S.matchChoices, t, S.matchResult)}</div></div>`;
+}
+function messagesCard(): string {
+  const p = pack();
+  const sent: Sent[] = [{ id: "m1", channel: "email", sender: "receipts@mail.lynkomni.com", title: t("demo_mail_title"), at: T0 - 600_000, state: "confirmed" }, { id: "m2", channel: "text", sender: "LynkOmni", title: t("demo_text"), at: T0 - 590_000, state: S.link === "offline" ? "queued" : "sent" }];
+  const logo = markFor(DATA.brand.places, "email-header", S.theme === "dark", 160).svg;
+  return `<div class="card" style="grid-column:1/-1"><h2>${esc(t("demo_messages_card"))}</h2><div class="pstack">${mailPart({ title: t("demo_mail_title"), lines: [t("demo_mail_line"), money(1500)], record: "LORCP-7731-0042-9911", button: { label: t("demo_mail_title"), href: "https://pay.lynkomni.com/r/LORCP-7731-0042-9911" }, reason: t("demo_mail_reason"), optIn: false, lang: d0().lang, dir: d0().dir === "rtl" ? "rtl" : "ltr" }, logo, t)}${textPart(t("demo_text"), t)}${messagesList(sent, t, icon, when)}</div><p class="note">${esc(p.sample ? t("sample_country") : p.name)}</p></div>`;
+}
+const d0 = (): HTMLElement => $("#display");
+/** The breadcrumb trail of the current address, from the address map (core/breadcrumbs.py rules); labels from the menu words. */
+function crumbs(): string {
+  const path = screenPath() === "/" ? "/business" : screenPath();
+  const label: Record<string, string> = { "/": t("tab_home"), "/business": t("tab_business"), "/sell": t("tab_sell"), "/external": t("side_storefront"), "/external/business": t("tab_business"), "/external/sell": t("tab_sell"), "/business/settings": t("nav_settings"), "/analytics": t("nav_reports") };
+  let steps: string[];
+  try { steps = trail("app.lynkomni.com", path); } catch { return ""; }
+  return breadcrumbBar(steps.map((p) => ({ path: p, label: label[p] ?? p.split("/").pop() ?? p })), S.size === "phone", t);
+}
+
 // ---------------------------------------------------------------- the page
 const navItems = (): NavItem[] => {
   const base: NavItem[] = [
@@ -117,10 +203,11 @@ function main(): string {
     const kind = S.screen.slice(6) as StateKind;
     const next = NEXT[kind];
     const body = kind === "coming_soon" ? comingSoon("LynkMPay", t, statePic(kind), S.notified.has("LynkMPay")) : state(kind, t, statePic(kind), next ? { label: t(next.label), act: next.act } : null);
-    return `<div class="pagetitle"><h1>${esc(t("states_card"))}</h1>${connectionChip(sync(), t, icon)}</div><div class="card">${body}</div><p class="note">${esc(t("states_hint"))}</p>`;
+    const fix = kind === "error" || kind === "sync_pending" || kind === "offline" ? fixThis(kind, t, icon) : "";
+    return `${crumbs()}<div class="pagetitle"><h1>${esc(t("states_card"))}</h1>${connectionChip(sync(), t, icon)}</div><div class="card">${body}${fix}</div><p class="note">${esc(t("states_hint"))}</p>`;
   }
   if (S.screen === "payment") {
-    return `<div class="pagetitle"><h1>${esc(t("tab_sell"))}</h1>${connectionChip(sync(), t, icon)}</div><div class="card"><div class="protected-note">${icon("ui-lock")}<span>${esc(t("protected_zone"))}</span></div><p class="muted" style="margin-top:8px">${esc(t("deep_link"))}: <span class="deeplink">https://app.lynkomni.com/sell</span></p><div class="actions"><button class="primary" data-act="go:home">${esc(t("action_home"))}</button></div></div>`;
+    return `${crumbs()}<div class="pagetitle"><h1>${esc(t("tab_sell"))}</h1>${connectionChip(sync(), t, icon)}</div><div class="card"><div class="protected-note">${icon("ui-lock")}<span>${esc(t("protected_zone"))}</span></div><p class="muted" style="margin-top:8px">${esc(t("deep_link"))}: <span class="deeplink">https://app.lynkomni.com/sell</span></p><div class="actions"><button class="primary" data-act="go:home">${esc(t("action_home"))}</button></div></div>`;
   }
   const chartHtml = chart({ title: t("chart_title"), labels: DAYS.map((d) => t(d)), series: [{ name: t("today_sales"), values: SAMPLE_WEEK }], kind: "bar", format: money }, S.chartView, t, "week");
   // The demo customer always writes in a language other than the reader's, so the two-language chat is always two languages.
@@ -130,7 +217,7 @@ function main(): string {
   const chatLang: ChatLang = { reader, writer, writerName: t("customer_name"), showOriginal: S.showOriginal };
   const msg: ChatMessage = { id: "m1", text: writerText, translated: t("chat_sample_translated"), language: writer, pendingTranslation: S.link === "offline" || S.forced };
   const here = route(DATA.addresses, `https://app.lynkomni.com${screenPath()}`);
-  return `<div class="pagetitle"><h1>${esc(t("title_home", { shop: SHOP() }))}</h1>${connectionChip(sync(), t, icon)}</div>
+  return `${crumbs()}<div class="pagetitle"><h1>${esc(t("title_home", { shop: SHOP() }))}</h1>${connectionChip(sync(), t, icon)}</div>
     <div class="cards">
       <div class="card"><h2>${esc(t("today_sales"))}</h2><div class="big">${esc(money(SAMPLE_WEEK[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1] ?? 0))}</div><div class="muted">${esc(t("sales_count", { n: 14 }))}</div>
         <div class="actions"><button class="primary" data-act="newsale">${icon("ui-plus")}<span>${esc(t("new_sale"))}</span></button><button class="secondary" data-act="archive">${esc(t("archive_product"))}</button><button class="secondary" data-act="void">${esc(t("void_sale"))}</button></div></div>
@@ -138,6 +225,8 @@ function main(): string {
       <div class="card" style="grid-column:1/-1">${chartHtml}</div>
       <div class="card"><h2>${esc(t("username_card"))}</h2>${usernameField(S.username, S.cloud, (u) => u === "mamas.kitchen", t, icon)}</div>
       <div class="card"><h2>${esc(t("chat_card"))}</h2><div class="chat-demo">${translationBanner(chatLang, langName, t)}<div class="msg" lang="${messageText(msg, chatLang) === msg.text ? writer : esc(reader)}" dir="${messageText(msg, chatLang) === msg.text ? (PACKS[writer]?.dir ?? "ltr") : (PACKS[S.lang]?.dir ?? "ltr")}">${esc(messageText(msg, chatLang))}${messageNote(msg, chatLang, langName, t)}</div><div class="msg out">${esc(t("chat_reply"))}</div></div></div>
+      ${pinCard()}
+      ${messagesCard()}
       <div class="card" style="grid-column:1/-1"><p class="muted">${icon("ui-sync")} ${esc(t("handoff_note"))}</p></div>
     </div>`;
 }
@@ -160,25 +249,25 @@ function overlay(): string {
       ];
       return wrap("", commandBar(S.query, search(index, S.query), t, icon));
     }
-    case "help": return wrap("end", helpPanel(t("tab_home"), [{ id: "1", title: t("help_article_1"), href: "/faq/pos/offline" }, { id: "2", title: t("help_article_2"), href: "/faq/mpay/waiting" }, { id: "3", title: t("switch_side_group"), href: "/faq/storefront/sides" }, { id: "4", title: t("why_this_view"), href: "/faq/devices/view" }], t, icon));
+    case "help": return wrap("end", helpPanel(t("tab_home"), [{ id: "1", title: t("help_article_1"), href: "/faq/pos/offline" }, { id: "2", title: t("help_article_2"), href: "/faq/mpay/waiting" }, { id: "3", title: t("switch_side_group"), href: "/faq/storefront/sides" }, { id: "4", title: t("why_this_view"), href: "/faq/devices/view" }], t, icon, assistPart()));
     case "bell": {
-      const list: Notice[] = [
-        { id: "n1", at: Date.now() - 60000, urgency: "security", title: t("notice_signin"), record: "LONTF-2201-4410-8838", href: "/security" },
-        { id: "n2", at: Date.now() - 3600000, urgency: "transactional", title: t("notice_payment"), record: "LORCP-7731-0042-9911", read: true, href: "/sell" },
-        { id: "n3", at: Date.now() - 7200000, urgency: "low", title: t("notice_insight"), read: true, href: "/analytics" },
-      ];
-      const d = deliverNow(list, new Date().getHours(), { startHour: 22, endHour: 7 }, S.seen);
-      if (d.now.length || d.digest.length) record("NotificationsDelivered", "server", { now: d.now.map((n) => n.id), digest: d.digest.map((n) => n.id), held: d.held.map((n) => n.id) });
-      return wrap("end", notificationsPanel(list, t, icon));
+      const present = AREAS.filter((a) => S.lines.some((l) => (KIND_AREA[l.kind] ?? "") === a)).map((a) => ({ id: a, label: t(`ntf_area_${a}`) }));
+      return wrap("end", bell(shown(), { filter: S.bellFilter, lastOpened: S.lastOpened, areas: present }, t, icon, when));
     }
+    case "why": { const l = shown().find((x) => x.nid === S.whyNid); return l ? wrap("", whySheet(l, t, icon)) : ""; }
     case "sync": return wrap("bottom", syncSheet(sync(), t, icon, clock));
     default: return "";
   }
 }
 
+const KIND_AREA: Record<string, string> = { new_sign_in: "security", recovery_started: "security", staff_request: "selling", stock_low: "stock", receipt: "proof", owner_summary: "selling" };
 const sides = () => ({ current: S.side, workspaceWord: sideWord("internal"), storefrontWord: sideWord("external") });
 
+let lastOverlay: Overlay = null;
 function draw(): void {
+  if (lastOverlay === "bell" && S.overlay !== "bell" && S.overlay !== "why") S.lastOpened = Date.now();   // New becomes Earlier once the bell was seen
+  if (S.overlay === "bell") S.lines.forEach((l) => { l.seen = true; });
+  lastOverlay = S.overlay;
   S.choice = choose();
   const W = width(); S.size = sizeOf(W);
   const d = $("#display");
@@ -190,10 +279,10 @@ function draw(): void {
   d.dir = S.lang === "xx-rtl" ? "rtl" : S.lang === "xx" ? "ltr" : PACKS[S.lang]?.dir ?? "ltr";
   const logo = brandMark(DATA.brand.places, "web-header", S.theme === "dark", "brandfill", HEADER_ROOM[S.size]);
   const items = navItems();
-  const head = header({ logo, nav: items, notifications: 1, signedIn: true, title: S.size === "computer" ? undefined : SHOP(), surface: "app", side: { label: sideWord(S.side), storefront: S.side === "external" } }, S.size, t, icon);
+  const head = header({ logo, nav: items, notifications: count(S.lines), signedIn: true, title: S.size === "computer" ? undefined : SHOP(), surface: "app", side: { label: sideWord(S.side), storefront: S.side === "external" } }, S.size, t, icon);
   const nav = navigation(items, S.size, t, icon);
   const toasts = S.undo.openToasts(Date.now()).map((u) => undoToast(u, Date.now(), t, icon)).join("");
-  d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main">${main()}<div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))}</div>${appFooter()}</main></div>${S.size === "phone" ? nav : ""}${overlay()}<div class="toasts">${toasts}</div></div>`;
+  d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main">${main()}<div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))}</div>${appFooter()}</main></div>${S.size === "phone" ? nav : ""}${overlay()}<div class="banners">${S.banners.map((nid) => { const l = shown().find((x) => x.nid === nid); return l ? banner(l, t, icon) : ""; }).join("")}</div><div class="toasts">${toasts}</div></div>`;
   $("#device").className = `device ${S.size}`;
   $("#device").style.width = `${W}px`;
   $("#tab").className = `tab ${S.theme}`;                       // the tab and its icon follow the page theme (brand surface "favicon")
@@ -215,6 +304,49 @@ function act(a: string): void {
   const [k, v = ""] = plain(a).split(/:(.*)/s);
   switch (k) {
     case "keep": return;
+    case "ntf": {
+      const [what = "", nid = "", extra = ""] = v.split(":");
+      const l = lineOf(nid);
+      if (what === "filter") { S.bellFilter = nid; draw(); return; }
+      if (what === "allread") { S.lines.forEach((x) => { x.read = true; }); record("NotificationsRead", "device", { all: true }); draw(); return; }
+      if (!l) return;
+      if (what === "read") { l.read = !l.read; record(l.read ? "NotificationRead" : "NotificationUnread", "device", { nid }); }
+      if (what === "open") { l.read = true; S.overlay = null; record("NotificationOpened", "device", { nid, kind: l.kind }); }
+      if (what === "why") { S.whyNid = nid; S.overlay = "why"; }
+      if (what === "dismiss") S.banners = S.banners.filter((b) => b !== nid);
+      if (what === "ack") { l.acknowledged = true; l.read = true; l.seen = true; S.banners = S.banners.filter((b) => b !== nid); record("NotificationAcknowledged", "device", { nid, kind: l.kind }); }
+      if (what === "act") {
+        l.doneBy = "Grace"; l.read = true;
+        record("NotificationActed", "device", { nid, kind: l.kind, action: extra });
+        S.undo.push(`ntf-${nid}`, t("ntf_done_by", { name: "Grace" }), Date.now(), () => { l.doneBy = undefined; record("NotificationActionUndone", "device", { nid }); });
+      }
+      draw(); return;
+    }
+    case "pin": {
+      if (afterWrong(S.wrong) === "locked" || Date.now() < S.waitUntil) return;
+      if (v === "pictures") { S.pictures = !S.pictures; draw(); return; }
+      if (v === "sound") { S.keySound = !S.keySound; draw(); return; }
+      keyTone(v);
+      if (v === "clear") S.pin = "";
+      else if (/^\d$/.test(v) && S.pin.length < 8) S.pin += v;
+      else if (v === "ok") {
+        if (S.pin === "2580") { S.wrong = 0; record("DeviceUnlocked", "device", { by: "pin" }); }
+        else { S.wrong += 1; const w = afterWrong(S.wrong); if (typeof w === "number" && w) S.waitUntil = Date.now() + w * 1000; record(w === "locked" ? "DeviceHardLocked" : "PinRefused", "device", { wrong: S.wrong }); }
+        S.pin = "";
+      }
+      draw(); return;
+    }
+    case "match": { S.matchResult = v === S.matchShown ? "ok" : "wrong"; record(S.matchResult === "ok" ? "OfflinePermissionGranted" : "OfflinePermissionRefused", "device", { matched: S.matchResult === "ok" }); draw(); return; }
+    case "assist": {
+      if (v === "resend") { const d = decide("resend_receipt", { role: "cashier", done_today: S.resends }); if (d.run) { S.resends += 1; record("AssistActionRun", "device", { action: "resend_receipt", class: d.class }); } return; }
+      if (v === "mute") { S.assistStep = "card"; draw(); return; }
+      if (v === "deny") { S.assistStep = "idle"; record("AssistActionDenied", "device", { action: "mute_notification_kind" }); draw(); return; }
+      if (v === "confirm") { const d = decide("mute_notification_kind", { role: "owner", confirmed: true }); if (d.run) { S.assistStep = "done"; S.assistDoneAt = Date.now(); record("AssistActionRun", "device", { action: "mute_notification_kind", class: d.class }); } draw(); return; }
+      if (v === "undo") { S.assistStep = "idle"; record("AssistActionUndone", "device", { action: "mute_notification_kind", undo: "unmute" }); draw(); return; }
+      if (v === "why") { S.overlay = "help"; draw(); return; }
+      if (v.startsWith("fix")) { S.overlay = "help"; S.ask = ""; record("AssistFixAsked", "device", { problem: v.slice(4) }); draw(); return; }
+      S.overlay = null; record("ShellAction", "device", { action: a }); draw(); return;
+    }
     case "closeoverlay": case "closesheet": S.overlay = null; draw(); return;
     case "shell": {
       const map: Record<string, Overlay> = { launcher: "launcher", account: "account", globe: "globe", search: "cmd", help: "help", bell: "bell", sync: "sync", menu: "launcher" };
@@ -285,6 +417,7 @@ function init(): void {
     const el = e.target as HTMLInputElement;
     if (el.dataset["filter"] === "regions") { const list = $("#regionList"); if (list) filterRegions(list, el.value); return; }
     if (el.id === "cmdIn") { S.query = plain(el.value); const list = $("#cmdList"); const index = overlay(); const m = /<ul id="cmdList"[^>]*>([\s\S]*?)<\/ul>/.exec(index); if (list && m) list.innerHTML = m[1]!; }
+    if (el.id === "asIn") { S.ask = plain(el.value); draw(); const inp = $<HTMLInputElement>("#asIn"); inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); return; }
     if (el.id === "usernameIn") { act(`username:${el.value}`); const inp = $<HTMLInputElement>("#usernameIn"); inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }
   });
   $("#display").addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["act"]?.startsWith("toggle:")) act(el.dataset["act"]); });
@@ -303,7 +436,14 @@ function init(): void {
   const fit = () => { const w = $("#rig").clientWidth - 8, dev = width(); document.documentElement.style.setProperty("--fit", String(Math.min(1, w / dev))); };
   new ResizeObserver(fit).observe($("#rig")); fit();
   bind("#cSize", () => fit()); bind("#cView", () => fit());
-  window.setInterval(() => { if (S.undo.openToasts(Date.now()).length || $(".toasts").children.length) draw(); }, 1000);
+  window.setInterval(() => {
+    const now = Date.now();
+    const before = S.banners.length;
+    S.banners = S.banners.filter((nid) => { const l = lineOf(nid); return !!l && (priorityOf(l.kind) === "critical" || now - l.at < 8000); });
+    if (S.banners.some((nid) => { const l = lineOf(nid); return l && !l.acknowledged && priorityOf(l.kind) === "critical" && Math.round((now - l.at) / 1000) % 30 === 0 && now - l.at > 1000; })) feel("critical");   // repeats until "I have seen this" (every 30 s here, 5 minutes in the product)
+    if (S.undo.openToasts(now).length || $(".toasts").children.length || before !== S.banners.length || S.waitUntil > now - 1000 || S.assistStep === "done") draw();
+  }, 1000);
+  $("#urgent").addEventListener("click", () => urgent());
   draw(); drawLog();
 }
 init();

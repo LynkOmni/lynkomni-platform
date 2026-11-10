@@ -213,6 +213,12 @@ def build():
     doc = ('<!doctype html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
            '<title>LynkOmni Showcase</title><meta name="description" content="Everything built so far in LynkOmni: working emulators, progress, numbers and every picture.">'
            f'{_fav("light")}{_fav("dark")}<style>{_css(tokens)}</style></head><body>{"".join(parts)}</body></html>')
+    # safe page settings (core/pagesafety.py): only this page's own script runs, pinned by its hash
+    from core import pagesafety
+    doc = doc.replace('<meta charset="utf-8">', '<meta charset="utf-8">' + pagesafety.meta([m.group("body") for m in pagesafety.SCRIPT.finditer(doc)]), 1)
+    problems = pagesafety.check_html(doc)
+    if problems:
+        raise SystemExit("showcase page refused: " + "; ".join(problems))
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
         f.write(doc)

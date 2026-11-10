@@ -67,7 +67,9 @@ def svg_jobs(doc):
         elif kind == "card":
             rel = f"{FOLDER[kind]}/{nid}.svg"
             text_files[rel] = {"face": lambda: cards.card_face(need["tier"]), "back": lambda: cards.card_back(need["tier"]),
-                               "near-limit": cards.near_limit, "physical": cards.physical}[need.get("variant", "face")]()
+                               "near-limit": cards.near_limit, "physical": cards.physical,
+                               "sample": lambda: cards.sample_face(need["tier"], need["group"]),
+                               "sample-back": lambda: cards.sample_back(need["tier"], need["group"])}[need.get("variant", "face")]()
             files.append({"theme": "light", "file": rel})
         elif nid == "share-card":
             svg = figures.share_card("light")

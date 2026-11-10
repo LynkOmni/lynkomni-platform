@@ -69,3 +69,6 @@ button, input, select { font: inherit; color: inherit; }
 .log { list-style: none; margin: 0; padding: 0; max-height: 260px; overflow: auto; font-size: 12px; }
 .log li { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 6px 0; border-top: 1px solid var(--border-subtle); }
 .log .n { color: var(--text-secondary); } .log code { font-family: var(--font-mono); } .log .empty { color: var(--text-secondary); }
+.testbtn { min-height: 44px; padding: 4px 14px; border: 1px solid var(--status-danger-border); border-radius: 999px; background: var(--status-danger-bg); color: var(--status-danger-text); font-weight: 600; cursor: pointer; }
+.shell-main { position: relative; }
+.log .chip { display: inline-flex; align-items: center; gap: 4px; } .log .ic, .log .ic svg { display: inline-flex; inline-size: 16px; block-size: 16px; }
