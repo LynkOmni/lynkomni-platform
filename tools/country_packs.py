@@ -79,7 +79,7 @@ def build():
             "note": "Generated from ISO 3166, ISO 4217, IANA tz and CLDR by tools/country_packs.py. Tax, fiscal workflow, partners and price index stay unconfirmed until a person confirms them; then copy the facts in and set source to curated.",
         }
         # rule 0.5 fields written by tools/country_holidays.py (holidays, invoice numbering, legal text) are kept as they are
-        packs[code].update({k: old[k] for k in ("holidays", "invoice_numbering", "legal_text", "storefront") if k in old})
+        packs[code].update({k: old[k] for k in ("holidays", "invoice_numbering", "legal_text", "storefront", "people") if k in old})
     # curated packs must still list every currency they use
     for f in os.listdir(PACKS):
         p = json.load(open(os.path.join(PACKS, f), encoding="utf-8"))

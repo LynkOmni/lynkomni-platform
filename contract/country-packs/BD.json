@@ -102,5 +102,20 @@
   },
   "age_of_majority": null,
   "note": "Set per country after the lawyer review (ledger item storefront_legal_review); unknown until then."
+ },
+ "people": {
+  "attendance": {
+   "face_allowed": null,
+   "finger_allowed": null,
+   "id_documents": null,
+   "hours_records_years": null,
+   "confirmed": false
+  },
+  "survey": {
+   "consent_age": null,
+   "answers_in_country": null,
+   "confirmed": false
+  },
+  "note": "Set per country after the lawyer review (ledger item people_services_legal); unknown until then."
  }
 }
