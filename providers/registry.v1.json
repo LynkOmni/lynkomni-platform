@@ -1576,6 +1576,111 @@
         "Run tests/test_card_groups.py against both",
         "Set status to contract_signed, then enable after legal sign-off"
       ]
+    },
+    {
+      "id": "people_messaging",
+      "name": "Text, WhatsApp and USSD partner for LynkAttend, LynkQueue and LynkSurvey",
+      "kind": "messaging",
+      "used_by": [
+        "people_messages"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.people_partners:PeopleMessages",
+      "sandbox": "services.people_partners:SandboxPeopleMessages",
+      "needed_from_provider": [
+        "messaging agreement per country (text and WhatsApp business messaging)",
+        "USSD short code per country",
+        "registered message templates in every language",
+        "sandbox and live API keys"
+      ],
+      "placeholders": [
+        {
+          "file": "services/people_partners.py",
+          "token": "SandboxPeopleMessages"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "NEW UPDATE 4 (blueprint 63): PINs and agreement codes, queue joining and Please come now, survey invitations and answering. LynkChat, email and in-app messages need no partner.",
+      "integrate": [
+        "Sign the agreement through the Partner Hub and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then the country switches on by itself"
+      ]
+    },
+    {
+      "id": "survey_voice_calls",
+      "name": "Voice-call partner for LynkSurvey",
+      "kind": "voice",
+      "used_by": [
+        "survey_voice"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.people_partners:SurveyVoice",
+      "sandbox": "services.people_partners:SandboxSurveyVoice",
+      "needed_from_provider": [
+        "voice-call agreement per country",
+        "text-to-speech and speech recognition in the country's languages",
+        "caller identity rules",
+        "sandbox and live API keys"
+      ],
+      "placeholders": [
+        {
+          "file": "services/people_partners.py",
+          "token": "SandboxSurveyVoice"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "NEW UPDATE 4: surveys read aloud for people who cannot read or have no smartphone (LynkSurvey Pro and Max).",
+      "integrate": [
+        "Sign the agreement through the Partner Hub and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then the country switches on by itself"
+      ]
+    },
+    {
+      "id": "survey_reward_payouts",
+      "name": "Reward and LynkSurvey Panel payment partner",
+      "kind": "payouts",
+      "used_by": [
+        "survey_rewards"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.people_partners:SurveyRewards",
+      "sandbox": "services.people_partners:SandboxSurveyRewards",
+      "needed_from_provider": [
+        "licensed payment partner agreement per country",
+        "airtime, credit and voucher APIs",
+        "panel payment payouts",
+        "the partner's confirmation of every payment"
+      ],
+      "placeholders": [
+        {
+          "file": "services/people_partners.py",
+          "token": "SandboxSurveyRewards"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "NEW UPDATE 4: the organisation pays; LynkOmni never holds a reward or panel payment. Cash given by a field worker is recorded and needs no partner.",
+      "integrate": [
+        "Sign the agreement through the Partner Hub and get sandbox credentials",
+        "Write the real adapter next to the sandbox one behind the same interface",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed, then the country switches on by itself"
+      ]
     }
   ],
   "later": [
@@ -1981,6 +2086,33 @@
         }
       ],
       "done_when": "The native apps are signed (hardware_signing) and send the operating system's attestation; the cloud verifies it before trusting a device's uploads."
+    },
+    {
+      "id": "people_services_legal",
+      "name": "Lawyer's checks for LynkAttend and LynkSurvey per country",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Needs the lawyer (owner action 9): whether Face and Finger may be used for attendance, which ID documents may be recorded, how long hours records must be kept, survey consent and children's age, and whether survey answers must stay in the country. The country packs carry these as unconfirmed until then.",
+      "placeholders": [],
+      "done_when": "Each country pack's attendance and survey fields are confirmed."
+    },
+    {
+      "id": "people_names",
+      "name": "Trademark checks for LynkAttend, LynkQueue and LynkSurvey and the device names",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Needs the lawyer (owner action names-trademarks): LynkAttend, LynkQueue, LynkSurvey, LynkMobile, LynkTab, LynkPC, LynkKiosk, LynkDScreen and LynkCDisplay.",
+      "placeholders": [],
+      "done_when": "The names are cleared or replaced."
+    },
+    {
+      "id": "people_hardware_suppliers",
+      "name": "Third-party hardware for the three services",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "LynkOmni makes no hardware; door devices, fingerprint readers, cameras, kiosks, ticket printers, pagers and feedback button stands come from third-party suppliers the owner chooses (owner action 11). Everything runs on devices people already have until then.",
+      "placeholders": [],
+      "done_when": "Suppliers are chosen and their devices pass the real-device checks."
     }
   ],
   "user_actions": [

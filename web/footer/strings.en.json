@@ -95,5 +95,9 @@
  "ft_plain_faq": "Questions & answers",
  "ft_plain_status": "Service status",
  "ft_plain_feedback": "Product feedback",
- "ft_plain_safety": "Safety & reporting"
+ "ft_plain_safety": "Safety & reporting",
+ "ft_people": "People & service",
+ "ft_plain_attend": "Attendance",
+ "ft_plain_queue": "Queue & tickets",
+ "ft_plain_survey": "Surveys"
 }

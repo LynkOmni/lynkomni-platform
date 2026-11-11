@@ -1282,26 +1282,26 @@
     {
      "theme": "light",
      "file": "charts/chart-pricing-ladder.light.svg",
-     "sha256": "1f77cec9bf1e0c594b5474a3f7f028a47de6b66f8f087db6a2bf54cb2abb0ad3",
-     "bytes": 24486
+     "sha256": "5de68cca78e3485fe172aa0c70c35eb1f98725f819f6d92c3f5c036bb0a0ec37",
+     "bytes": 27846
     },
     {
      "theme": "dark",
      "file": "charts/chart-pricing-ladder.dark.svg",
-     "sha256": "86e65d40b4dc668a4d19442c472434bcb0000b44d89c62f150ae7b639917c5f4",
-     "bytes": 24486
+     "sha256": "587bc4e40ac0cab74a15fd3ee76820a979699bb074f70bb0ded11eca8a07c0f5",
+     "bytes": 27846
     },
     {
      "theme": "contrast-light",
      "file": "charts/chart-pricing-ladder.contrast-light.svg",
-     "sha256": "e8d1025060c51bc236b5c2466696393b1f80153e3170d44e053e8dc8c26d99b1",
-     "bytes": 24486
+     "sha256": "aa8c15a71c2ded4c18e6a0f13455c9c447d5874904ba774285c4a4971c9f9513",
+     "bytes": 27846
     },
     {
      "theme": "contrast-dark",
      "file": "charts/chart-pricing-ladder.contrast-dark.svg",
-     "sha256": "d22cdaeeebec726b6bcf68b540d7e37162eb77b03e2b387613b1dcf71ca8eca6",
-     "bytes": 24486
+     "sha256": "4e3e081fda0b445568edb8cc500cc046fb1d4f18ebbd88a521f507f9fe5f516b",
+     "bytes": 27846
     }
    ]
   },
@@ -2173,6 +2173,117 @@
      "file": "cards/vcard-omni-credit-back.svg",
      "sha256": "96faf1094fa55b6e66ba7e83c70a1e8cb5442ef9a569acce9e5ed47b858b6b5e",
      "bytes": 20912
+    }
+   ]
+  },
+  "product-attend": {
+   "kind": "illustration",
+   "alt": "A door device with a number keypad and a fingerprint pad, a clock and a check mark",
+   "purpose": "Empty state, feature header and onboarding for LynkAttend",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-attend.light.svg",
+     "sha256": "e1f95fcd3fd958ae30bf8e2d4e21e4897e68da013f0971ddbdc229856efd0b96",
+     "bytes": 2355
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-attend.dark.svg",
+     "sha256": "83cf6cca69ccf2ac7f250b30bbca4025aa88eb103ba1de6d0c9033e87457d88a",
+     "bytes": 2355
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-attend.contrast-light.svg",
+     "sha256": "08f24a660dd757535a39d400ba223c57c07218892f31a0b29f50e261190694b4",
+     "bytes": 2355
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-attend.contrast-dark.svg",
+     "sha256": "95526ed3bfeea40b95776aed69c69dff0144e01b4bc172ce3a5299a661dcd94a",
+     "bytes": 2355
+    }
+   ]
+  },
+  "product-queue": {
+   "kind": "illustration",
+   "alt": "A kiosk giving out a ticket, a calling screen with an arrow to a counter, and a short line of waiting markers",
+   "purpose": "Empty state, feature header and onboarding for LynkQueue",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-queue.light.svg",
+     "sha256": "caf0a46f8e4005d57a5b97ba2c619f16a990e071d3c9dba0333fd2e48eab8ed3",
+     "bytes": 1753
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-queue.dark.svg",
+     "sha256": "f612146aaeb83b7209bfa1c045327357abb7af69832beeed82a71b522d3a7d9a",
+     "bytes": 1753
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-queue.contrast-light.svg",
+     "sha256": "89b5586bf95dfa92fa3b10c0980825cf2b937e199e7e65d1fa395276c4473f89",
+     "bytes": 1753
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-queue.contrast-dark.svg",
+     "sha256": "ad767a2df1b96b857833d9d36fb38e6f48f3ccc0a06546b2efb74aa306eb800a",
+     "bytes": 1753
+    }
+   ]
+  },
+  "product-survey": {
+   "kind": "illustration",
+   "alt": "A form with tick boxes and a star rating, a small bar chart and a check badge",
+   "purpose": "Empty state, feature header and onboarding for LynkSurvey",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-survey.light.svg",
+     "sha256": "3cdd11a1a41fe837f681b532325799c6993f39d6a3db82768d02f4d80fe6c366",
+     "bytes": 2468
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-survey.dark.svg",
+     "sha256": "923cf4f7a36b3688ebc0fbb5b16433108a5a51f0d69422c59f23fbad6f91184b",
+     "bytes": 2468
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-survey.contrast-light.svg",
+     "sha256": "ab9c75245c814420996d26d46c7f72ac5c0f2f1ab435d1c7f806a32a9efaea0d",
+     "bytes": 2468
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-survey.contrast-dark.svg",
+     "sha256": "eeccc2adfdf386f77d6666e8e793e8f44616a2fed22cb725cd1e16169ee4673b",
+     "bytes": 2468
     }
    ]
   }

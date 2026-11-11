@@ -214,6 +214,52 @@
     "network"
    ],
    "virtual": "phone_tracker"
+  },
+  {
+   "id": "fingerprint_reader",
+   "connections": [
+    "usb",
+    "bluetooth",
+    "serial"
+   ],
+   "virtual": "idcn_entry"
+  },
+  {
+   "id": "pager_base",
+   "connections": [
+    "usb",
+    "network",
+    "serial"
+   ],
+   "virtual": "phone_message"
+  },
+  {
+   "id": "feedback_buttons",
+   "connections": [
+    "usb",
+    "bluetooth",
+    "network"
+   ],
+   "virtual": "screen_rating"
+  },
+  {
+   "id": "speaker",
+   "connections": [
+    "usb",
+    "bluetooth",
+    "audio_jack",
+    "network"
+   ],
+   "virtual": "screen_text"
+  },
+  {
+   "id": "number_board",
+   "connections": [
+    "usb",
+    "network",
+    "serial"
+   ],
+   "virtual": "screen_number"
   }
  ]
 }

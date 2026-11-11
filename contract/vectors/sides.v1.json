@@ -655,6 +655,234 @@
    "side": "external"
   },
   {
+   "address": "/attendance",
+   "side": "internal"
+  },
+  {
+   "address": "/attendance/people",
+   "side": "internal"
+  },
+  {
+   "address": "/attendance/people/new",
+   "side": "internal"
+  },
+  {
+   "address": "/attendance/people/{LOMEM}",
+   "side": "internal"
+  },
+  {
+   "address": "/attendance/check-ins",
+   "side": "internal"
+  },
+  {
+   "address": "/attendance/check-ins/{LOATT}",
+   "side": "internal"
+  },
+  {
+   "address": "/attendance/visitors",
+   "side": "internal"
+  },
+  {
+   "address": "/attendance/visitors/new",
+   "side": "internal"
+  },
+  {
+   "address": "/attendance/visitors/{LOVIS}",
+   "side": "internal"
+  },
+  {
+   "address": "/attendance/checkers",
+   "side": "internal"
+  },
+  {
+   "address": "/attendance/shifts",
+   "side": "internal"
+  },
+  {
+   "address": "/attendance/leave",
+   "side": "internal"
+  },
+  {
+   "address": "/attendance/events",
+   "side": "internal"
+  },
+  {
+   "address": "/attendance/devices",
+   "side": "internal"
+  },
+  {
+   "address": "/attendance/reports",
+   "side": "internal"
+  },
+  {
+   "address": "/attendance/door",
+   "side": "internal"
+  },
+  {
+   "address": "/queue",
+   "side": "internal"
+  },
+  {
+   "address": "/queue/places",
+   "side": "internal"
+  },
+  {
+   "address": "/queue/places/new",
+   "side": "internal"
+  },
+  {
+   "address": "/queue/sections",
+   "side": "internal"
+  },
+  {
+   "address": "/queue/counters",
+   "side": "internal"
+  },
+  {
+   "address": "/queue/tickets",
+   "side": "internal"
+  },
+  {
+   "address": "/queue/tickets/{LOTKT}",
+   "side": "internal"
+  },
+  {
+   "address": "/queue/appointments",
+   "side": "internal"
+  },
+  {
+   "address": "/queue/devices",
+   "side": "internal"
+  },
+  {
+   "address": "/queue/reports",
+   "side": "internal"
+  },
+  {
+   "address": "/queue/reception",
+   "side": "internal"
+  },
+  {
+   "address": "/queue/counter",
+   "side": "internal"
+  },
+  {
+   "address": "/queue/kiosk",
+   "side": "internal"
+  },
+  {
+   "address": "/queue/screen",
+   "side": "internal"
+  },
+  {
+   "address": "/survey",
+   "side": "internal"
+  },
+  {
+   "address": "/survey/surveys",
+   "side": "internal"
+  },
+  {
+   "address": "/survey/surveys/new",
+   "side": "internal"
+  },
+  {
+   "address": "/survey/surveys/{LOSRV}",
+   "side": "internal"
+  },
+  {
+   "address": "/survey/library",
+   "side": "internal"
+  },
+  {
+   "address": "/survey/results",
+   "side": "internal"
+  },
+  {
+   "address": "/survey/results/{LOSRV}",
+   "side": "internal"
+  },
+  {
+   "address": "/survey/tasks",
+   "side": "internal"
+  },
+  {
+   "address": "/survey/panel",
+   "side": "internal"
+  },
+  {
+   "address": "/survey/devices",
+   "side": "internal"
+  },
+  {
+   "address": "/survey/reports",
+   "side": "internal"
+  },
+  {
+   "address": "/survey/kiosk",
+   "side": "internal"
+  },
+  {
+   "address": "/external/attendance",
+   "side": "external"
+  },
+  {
+   "address": "/external/attendance/events",
+   "side": "external"
+  },
+  {
+   "address": "/external/attendance/reports",
+   "side": "external"
+  },
+  {
+   "address": "/external/queue",
+   "side": "external"
+  },
+  {
+   "address": "/external/queue/appointments",
+   "side": "external"
+  },
+  {
+   "address": "/external/queue/reports",
+   "side": "external"
+  },
+  {
+   "address": "/external/survey",
+   "side": "external"
+  },
+  {
+   "address": "/external/survey/surveys",
+   "side": "external"
+  },
+  {
+   "address": "/external/survey/surveys/new",
+   "side": "external"
+  },
+  {
+   "address": "/external/survey/surveys/{LOSRV}",
+   "side": "external"
+  },
+  {
+   "address": "/external/survey/results",
+   "side": "external"
+  },
+  {
+   "address": "/external/survey/results/{LOSRV}",
+   "side": "external"
+  },
+  {
+   "address": "/external/survey/reports",
+   "side": "external"
+  },
+  {
+   "address": "/external/survey/panel",
+   "side": "external"
+  },
+  {
+   "address": "/external/queue/public-page",
+   "side": "external"
+  },
+  {
    "address": "/",
    "side": "internal"
   },
@@ -1387,6 +1615,234 @@
   {
    "path": "/external/protection/rentals",
    "kind": "mirrored"
+  },
+  {
+   "path": "/attendance",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/attendance/people",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/attendance/people/new",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/attendance/people/{LOMEM}",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/attendance/check-ins",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/attendance/check-ins/{LOATT}",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/attendance/visitors",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/attendance/visitors/new",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/attendance/visitors/{LOVIS}",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/attendance/checkers",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/attendance/shifts",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/attendance/leave",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/attendance/events",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/attendance/devices",
+   "kind": "shared"
+  },
+  {
+   "path": "/attendance/reports",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/attendance/door",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/queue",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/queue/places",
+   "kind": "shared"
+  },
+  {
+   "path": "/queue/places/new",
+   "kind": "shared"
+  },
+  {
+   "path": "/queue/sections",
+   "kind": "shared"
+  },
+  {
+   "path": "/queue/counters",
+   "kind": "shared"
+  },
+  {
+   "path": "/queue/tickets",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/queue/tickets/{LOTKT}",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/queue/appointments",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/queue/devices",
+   "kind": "shared"
+  },
+  {
+   "path": "/queue/reports",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/queue/reception",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/queue/counter",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/queue/kiosk",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/queue/screen",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/survey",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/survey/surveys",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/survey/surveys/new",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/survey/surveys/{LOSRV}",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/survey/library",
+   "kind": "shared"
+  },
+  {
+   "path": "/survey/results",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/survey/results/{LOSRV}",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/survey/tasks",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/survey/panel",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/survey/devices",
+   "kind": "shared"
+  },
+  {
+   "path": "/survey/reports",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/survey/kiosk",
+   "kind": "workspace_only"
+  },
+  {
+   "path": "/external/attendance",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/attendance/events",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/attendance/reports",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/queue",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/queue/appointments",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/queue/reports",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/survey",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/survey/surveys",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/survey/surveys/new",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/survey/surveys/{LOSRV}",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/survey/results",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/survey/results/{LOSRV}",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/survey/reports",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/survey/panel",
+   "kind": "storefront_only"
+  },
+  {
+   "path": "/external/queue/public-page",
+   "kind": "storefront_only"
   }
  ],
  "twins": [
@@ -1621,6 +2077,58 @@
   {
    "workspace": "/protection/rentals",
    "storefront": "/external/protection/rentals"
+  },
+  {
+   "workspace": "/attendance",
+   "storefront": "/external/attendance"
+  },
+  {
+   "workspace": "/attendance/events",
+   "storefront": "/external/attendance/events"
+  },
+  {
+   "workspace": "/attendance/reports",
+   "storefront": "/external/attendance/reports"
+  },
+  {
+   "workspace": "/queue",
+   "storefront": "/external/queue"
+  },
+  {
+   "workspace": "/queue/appointments",
+   "storefront": "/external/queue/appointments"
+  },
+  {
+   "workspace": "/queue/reports",
+   "storefront": "/external/queue/reports"
+  },
+  {
+   "workspace": "/survey",
+   "storefront": "/external/survey"
+  },
+  {
+   "workspace": "/survey/surveys",
+   "storefront": "/external/survey/surveys"
+  },
+  {
+   "workspace": "/survey/surveys/new",
+   "storefront": "/external/survey/surveys/new"
+  },
+  {
+   "workspace": "/survey/surveys/{LOSRV}",
+   "storefront": "/external/survey/surveys/{LOSRV}"
+  },
+  {
+   "workspace": "/survey/results",
+   "storefront": "/external/survey/results"
+  },
+  {
+   "workspace": "/survey/results/{LOSRV}",
+   "storefront": "/external/survey/results/{LOSRV}"
+  },
+  {
+   "workspace": "/survey/reports",
+   "storefront": "/external/survey/reports"
   }
  ]
 }

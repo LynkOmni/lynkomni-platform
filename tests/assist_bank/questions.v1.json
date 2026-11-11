@@ -218,6 +218,54 @@
    "topic": "device_health",
    "asker": {},
    "answer": false
+  },
+  {
+   "q": "When did I check in today?",
+   "topic": "my_attendance",
+   "asker": {
+    "signed_in": true
+   },
+   "answer": true
+  },
+  {
+   "q": "When did I check in today?",
+   "topic": "my_attendance",
+   "asker": {},
+   "answer": false
+  },
+  {
+   "q": "How many people are before me?",
+   "topic": "my_ticket",
+   "asker": {
+    "signed_in": true
+   },
+   "answer": true
+  },
+  {
+   "q": "Which surveys did I answer?",
+   "topic": "my_answers",
+   "asker": {
+    "signed_in": true
+   },
+   "answer": true
+  },
+  {
+   "q": "How long is the wait at the Laboratory?",
+   "topic": "queue_wait",
+   "asker": {},
+   "answer": true
+  },
+  {
+   "q": "How do I register a person in LynkAttend?",
+   "topic": "attendance_how_to",
+   "asker": {},
+   "answer": true
+  },
+  {
+   "q": "How do I make a survey anonymous?",
+   "topic": "survey_how_to",
+   "asker": {},
+   "answer": true
   }
  ]
 }

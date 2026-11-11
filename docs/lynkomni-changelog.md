@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.41.0 (2026-11-11)
+NEW UPDATE 4, Step 0 (LynkAttend, LynkQueue and LynkSurvey: one global structure):
+- Three new services, each its own plan outside LynkSuite: LynkAttend (attendance) $0 / $49.50 / $95 / $179, LynkQueue (queue and tickets) $0 / $55 / $115 / $249 and LynkSurvey (surveys) $0 / $59 / $155 / $249 a month, with people, places or creators included and a price for each extra; 20% off when two or three are held together. Pro and Max were topped up a little for the links across LynkOmni; Free and Plus stay as agreed. Prices are pinned by the price lock.
+- Their places everywhere: product pages, the Business app (/attendance, /queue, /survey with their lists and the Storefront side), the account site (My details, My tickets, My answers, the Panel), public pages (the queue page, ticket tracker, survey and verified-results pages, certificates) and every menu, the footer ("People & service") and search.
+- New public identifiers LOSRV- (survey), LORSP- (survey answer), LOVIS- (visitor) and LOATT- (attendance record); contract version 6 with 47 new events and 14 commands that work offline; nothing secret (a PIN, IDCN, ID number, face or finger pattern, phone number, position or anonymous identity) is ever in an event.
+- The rules, the same in Python and TypeScript: the IDCN from an ID number, PINs that are never easy, never given twice and never reused, the door order Face, Finger, IDCN with every backup marked; ticket numbers like LAB-A2K9P2 from the Lynk Alphabet (1.07 billion per section at each place, never used twice, rude words skipped), a fair order staff cannot change; one person one answer, results never shown for fewer than 5 people, sample size and margins.
+- The device names for the whole of LynkOmni: LynkMobile, LynkTab, LynkPC, LynkPOS, LynkKiosk, LynkDScreen and LynkCDisplay (hardware without a screen keeps its plain name and runs through LynkDriver, which gains fingerprint readers, pagers, feedback buttons, speakers and number boards).
+- Registers: 17 messages, 32 automations (every link across LynkOmni, only when switched on), LynkAssist actions and answers, 7 security controls, 3 open APIs, the queue ticket tracker, a new build section 3B (the three in full on every emulator, before section 4); every country pack carries the attendance and survey settings (unconfirmed until the lawyer checks); text, WhatsApp, USSD, voice-call and reward partners are sandboxes until signed; the revenue model shows the three as their own assumed stream; three new product pictures.
+
 ## v0.40.0 (2026-11-10)
 MASTER UPDATE, section 3 (Business app and every LynkPOS device):
 - Each person signs in to a device with their own PIN, also offline: a wait after wrong tries and a hard lock that never wipes; the owner or a manager resets a staff PIN on the spot (never the owner's own PIN, which only online recovery resets).

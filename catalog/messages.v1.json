@@ -1286,6 +1286,334 @@
    ],
    "sender": "no-reply@mail.lynkomni.com",
    "note": "a staff PIN was reset on a device by a manager"
+  },
+  {
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3B",
+   "id": "attend_pin_sent",
+   "area": "people",
+   "trigger": "AttendancePinSent",
+   "audience": "person",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkAttend: your PIN and IDCN, sent to your own contact (never shown on a lock screen)"
+  },
+  {
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "not_me"
+   ],
+   "build_section": "3B",
+   "id": "attend_was_this_you",
+   "area": "people",
+   "trigger": "CheckedIn",
+   "audience": "person",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkAttend: You checked in at 07:58, Main branch. Not you? Tap Not me."
+  },
+  {
+   "group": "burst",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3B",
+   "id": "attend_flag_for_manager",
+   "area": "people",
+   "trigger": "CheckInFlagged",
+   "audience": "manager",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkAttend: a check-in needs a look (checker not checked in, Not me, warning sign, clock, no check-out)"
+  },
+  {
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "recreate_pin"
+   ],
+   "build_section": "3B",
+   "id": "attend_pin_blocked",
+   "area": "people",
+   "trigger": "AttendancePinBlocked",
+   "audience": "manager",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkAttend: a PIN was blocked; Re-create PIN"
+  },
+  {
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3B",
+   "id": "attend_request_raised",
+   "area": "people",
+   "trigger": "AttendanceRequestRaised",
+   "audience": "manager",
+   "basis": "legal",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkAttend: a person asked for deletion or raised a dispute; reminders at 7, 14 and 25 days, automatic deletion at 30"
+  },
+  {
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3B",
+   "id": "attend_details_deleted",
+   "area": "people",
+   "trigger": "AttendanceDetailsDeleted",
+   "audience": "person",
+   "basis": "legal",
+   "priority": "normal",
+   "channels": [
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkAttend: your details were deleted"
+  },
+  {
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3B",
+   "id": "attend_visitor_arrived",
+   "area": "people",
+   "trigger": "VisitorSignedIn",
+   "audience": "staff",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkAttend: your visitor has arrived"
+  },
+  {
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3B",
+   "id": "attend_visitor_decision",
+   "area": "people",
+   "trigger": "VisitorDecision",
+   "audience": "staff",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkAttend: the manager allowed or refused a visitor without an ID document"
+  },
+  {
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3B",
+   "id": "queue_your_turn",
+   "area": "people",
+   "trigger": "TicketCalled",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "push",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkQueue: It's your turn. Counter 5. (Also \"Please come now\" when 5 people are left.)"
+  },
+  {
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3B",
+   "id": "queue_next_section",
+   "area": "people",
+   "trigger": "TicketSentTo",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "push",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkQueue: Next: Laboratory, Room 3. You are number 4."
+  },
+  {
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3B",
+   "id": "queue_missed",
+   "area": "people",
+   "trigger": "TicketMissed",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "push",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkQueue: we called you 3 times; ask reception within 15 minutes to be put back"
+  },
+  {
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3B",
+   "id": "queue_device_health",
+   "area": "people",
+   "trigger": "QueueKeeperChanged",
+   "audience": "manager",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkQueue: another device took over as queue keeper; device health"
+  },
+  {
+   "group": "summary",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3B",
+   "id": "survey_invite",
+   "area": "people",
+   "trigger": "SurveyStateChanged",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "low",
+   "channels": [
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkSurvey: a short survey after something the person did (rest period, at most 2 reminders, Don't ask me again)"
+  },
+  {
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3B",
+   "id": "survey_call_back",
+   "area": "people",
+   "trigger": "SurveyCallBack",
+   "audience": "staff",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkSurvey: a Call back task for an unhappy customer who agreed to be contacted"
+  },
+  {
+   "group": "daily",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3B",
+   "id": "survey_please_check",
+   "area": "people",
+   "trigger": "SurveyAnswerChecked",
+   "audience": "manager",
+   "basis": "transaction",
+   "priority": "low",
+   "channels": [
+    "bell"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkSurvey: answers kept apart for Please check"
+  },
+  {
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3B",
+   "id": "survey_reward",
+   "area": "people",
+   "trigger": "SurveyRewardAnswered",
+   "audience": "person",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "push",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkSurvey: your reward was paid, or why not"
+  },
+  {
+   "group": "burst",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3B",
+   "id": "survey_alert",
+   "area": "people",
+   "trigger": "SurveyAnswerReceived",
+   "audience": "manager",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkSurvey: 3 unhappy answers at Douala branch in the last hour"
   }
  ]
 }

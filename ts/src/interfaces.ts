@@ -5,7 +5,8 @@
 export type Rule = "override" | "registered" | "reported" | "safe_default";
 export type DeviceClass = "watch" | "phone" | "tablet" | "computer" | "tv" | "eink" | "voice";
 export interface InterfaceSpec { class: DeviceClass; inputs: readonly string[]; note?: string }
-export interface DeviceSpec { id: string; touch: string | null; non_touch: string | null; emulator: { touch: string | null; non_touch: string | null }; section: number; note?: string }
+/** lynk_name: the ecosystem device name (LynkMobile, LynkTab, LynkPC, LynkPOS, LynkKiosk, LynkDScreen); hardware without one keeps its plain name. */
+export interface DeviceSpec { id: string; touch: string | null; non_touch: string | null; emulator: { touch: string | null; non_touch: string | null }; section: number; note?: string; lynk_name?: string }
 export interface DeviceRegister {
   classes: Record<string, { distance: string }>;
   safe_default: string; interfaces: Record<string, InterfaceSpec>; devices: readonly DeviceSpec[];

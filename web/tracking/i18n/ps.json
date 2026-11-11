@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ps",
  "native": "پښتو",
- "source_sha256": "0e17f8bead75cf794d1d1e8b43dfd83efc778c79a0130cef13e9aa5faf77e812",
+ "source_sha256": "ba5e781ca4eb298aaf4888962a0146c22aa67864b04c7074538efdc23477fda7",
  "texts": {
   "trk_accepted": "ومنل شو",
   "trk_active": "فعال",
@@ -44,6 +44,7 @@
   "trk_k_payment": "تادیه",
   "trk_k_payout": "د کارکوونکو معاش",
   "trk_k_payout_change": "د ترلاسه کولو حساب بدلون",
+  "trk_k_queue_ticket": "د کتار ټکټ",
   "trk_k_quote": "د بیې اټکل",
   "trk_k_recovery": "د حساب بیرته راګرځول",
   "trk_k_refund": "پیسې بیرته",

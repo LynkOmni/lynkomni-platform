@@ -182,6 +182,19 @@
    "status": "planned"
   },
   {
+   "url": "https://lynkomni.com/attendance",
+   "kind": "product",
+   "title_key": "seo_title_www-attendance",
+   "description_key": "seo_desc_www-attendance",
+   "breadcrumb": [
+    "/",
+    "/attendance"
+   ],
+   "langs": "all",
+   "build_section": 5,
+   "status": "planned"
+  },
+  {
    "url": "https://lynkomni.com/blog",
    "kind": "company",
    "title_key": "seo_title_www-blog",
@@ -654,6 +667,19 @@
    "status": "planned"
   },
   {
+   "url": "https://lynkomni.com/queue",
+   "kind": "product",
+   "title_key": "seo_title_www-queue",
+   "description_key": "seo_desc_www-queue",
+   "breadcrumb": [
+    "/",
+    "/queue"
+   ],
+   "langs": "all",
+   "build_section": 5,
+   "status": "planned"
+  },
+  {
    "url": "https://lynkomni.com/recover",
    "kind": "product",
    "title_key": "seo_title_www-recover",
@@ -854,6 +880,19 @@
    "status": "planned"
   },
   {
+   "url": "https://lynkomni.com/survey",
+   "kind": "product",
+   "title_key": "seo_title_www-survey",
+   "description_key": "seo_desc_www-survey",
+   "breadcrumb": [
+    "/",
+    "/survey"
+   ],
+   "langs": "all",
+   "build_section": 5,
+   "status": "planned"
+  },
+  {
    "url": "https://lynkomni.com/tracking",
    "kind": "page",
    "title_key": "seo_title_www-tracking",
@@ -966,6 +1005,19 @@
    "breadcrumb": [
     "/{username}",
     "/{username}/{list}/{LOLST}"
+   ],
+   "langs": "all",
+   "build_section": 7,
+   "status": "planned"
+  },
+  {
+   "url": "https://shop.lynkomni.com/{username}/queue",
+   "kind": "site",
+   "title_key": "seo_title_shop-username-queue",
+   "description_key": "seo_desc_shop-username-queue",
+   "breadcrumb": [
+    "/{username}",
+    "/{username}/queue"
    ],
    "langs": "all",
    "build_section": 7,

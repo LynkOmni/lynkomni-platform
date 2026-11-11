@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ur",
  "native": "اردو",
- "source_sha256": "0e17f8bead75cf794d1d1e8b43dfd83efc778c79a0130cef13e9aa5faf77e812",
+ "source_sha256": "ba5e781ca4eb298aaf4888962a0146c22aa67864b04c7074538efdc23477fda7",
  "texts": {
   "trk_accepted": "قبول کیا",
   "trk_active": "فعال",
@@ -44,6 +44,7 @@
   "trk_k_payment": "ادائیگی",
   "trk_k_payout": "عملے کی تنخواہ",
   "trk_k_payout_change": "وصولی اکاؤنٹ کی تبدیلی",
+  "trk_k_queue_ticket": "قطار کا ٹکٹ",
   "trk_k_quote": "کوٹیشن",
   "trk_k_recovery": "اکاؤنٹ کی بحالی",
   "trk_k_refund": "رقم کی واپسی",

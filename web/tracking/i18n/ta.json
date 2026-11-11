@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ta",
  "native": "தமிழ்",
- "source_sha256": "0e17f8bead75cf794d1d1e8b43dfd83efc778c79a0130cef13e9aa5faf77e812",
+ "source_sha256": "ba5e781ca4eb298aaf4888962a0146c22aa67864b04c7074538efdc23477fda7",
  "texts": {
   "trk_accepted": "ஏற்கப்பட்டது",
   "trk_active": "செயலில்",
@@ -44,6 +44,7 @@
   "trk_k_payment": "கட்டணம்",
   "trk_k_payout": "ஊழியர் சம்பளம்",
   "trk_k_payout_change": "பணம் பெறும் கணக்கு மாற்றம்",
+  "trk_k_queue_ticket": "வரிசை டிக்கெட்",
   "trk_k_quote": "மதிப்பீடு",
   "trk_k_recovery": "கணக்கு மீட்பு",
   "trk_k_refund": "பணம் திருப்பம்",

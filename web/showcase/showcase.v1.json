@@ -27,9 +27,13 @@
    "version": "v0.40.0"
   },
   {
-   "n": 4,
-   "title": "LynkAcc, LynkInv, LynkCRM, LynkStat and LynkOps",
+   "n": "3B",
+   "title": "LynkAttend, LynkQueue and LynkSurvey (NEW UPDATE 4) in full, on every emulator",
    "status": "next"
+  },
+  {
+   "n": 4,
+   "title": "LynkAcc, LynkInv, LynkCRM, LynkStat and LynkOps"
   },
   {
    "n": 5,

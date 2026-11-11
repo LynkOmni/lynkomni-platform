@@ -32,7 +32,9 @@
   "call a receipt a tax receipt before the country's workflow is confirmed",
   "write a server-only event from a device",
   "send personal or group chat",
-  "serve or bill ads from a device"
+  "serve or bill ads from a device",
+  "give out a PIN, face or finger pattern, IDCN or ID number",
+  "say who gave an anonymous answer"
  ],
  "apis": [
   {
@@ -394,6 +396,55 @@
    "scopes": [
     "documents.read",
     "documents.write"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "attendance",
+   "family": "lynkattend",
+   "name": "LynkAttend API",
+   "can": "Registered people (never a PIN, face or finger pattern or ID number), check-ins and check-outs, flags, visitors, shifts and approved hours, webhooks on every check-in",
+   "usage": "none",
+   "build_section": 11,
+   "scopes": [
+    "people.read",
+    "people.write",
+    "checkins.read",
+    "visitors.read",
+    "hours.read",
+    "webhooks"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "queue",
+   "family": "lynkqueue",
+   "name": "LynkQueue API",
+   "can": "Places, sections and counters, issue a ticket from another system, ticket steps, waiting numbers and times, webhooks on every call",
+   "usage": "none",
+   "build_section": 11,
+   "scopes": [
+    "places.read",
+    "tickets.read",
+    "tickets.write",
+    "waits.read",
+    "webhooks"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "survey",
+   "family": "lynksurvey",
+   "name": "LynkSurvey API",
+   "can": "Surveys, send or start a survey from another system, answers (never who gave an anonymous answer), results and verified-results links, webhooks on every answer",
+   "usage": "none",
+   "build_section": 11,
+   "scopes": [
+    "surveys.read",
+    "surveys.write",
+    "answers.read",
+    "results.read",
+    "webhooks"
    ],
    "own_account": true
   }

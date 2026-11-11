@@ -318,6 +318,34 @@
    "name": "LynkSentry incident",
    "purpose": "A security incident opened in LynkSentry: theft, tamper, crash or SOS (owner approved 2026-11-10, NEW UPDATE 1); never the platform status incident (INC)",
    "origin": "approved addition"
+  },
+  {
+   "code": "SRV",
+   "prefix": "LOSRV-",
+   "name": "Survey",
+   "purpose": "A LynkSurvey survey, every version of it (owner locked 2026-11-11, NEW UPDATE 4)",
+   "origin": "approved addition"
+  },
+  {
+   "code": "RSP",
+   "prefix": "LORSP-",
+   "name": "Survey answer",
+   "purpose": "One person's answer to a LynkSurvey survey; for an anonymous survey it is never linked to who answered (owner locked 2026-11-11, NEW UPDATE 4)",
+   "origin": "approved addition"
+  },
+  {
+   "code": "VIS",
+   "prefix": "LOVIS-",
+   "name": "Visitor",
+   "purpose": "A visitor signed in through LynkAttend (owner locked 2026-11-11, NEW UPDATE 4)",
+   "origin": "approved addition"
+  },
+  {
+   "code": "ATT",
+   "prefix": "LOATT-",
+   "name": "Attendance record",
+   "purpose": "One LynkAttend check-in and its check-out (owner locked 2026-11-11, NEW UPDATE 4)",
+   "origin": "approved addition"
   }
  ]
 }

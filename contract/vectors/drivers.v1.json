@@ -642,6 +642,11 @@
   "tag": "phone_tracker",
   "e_seal": "photo_seal",
   "condition_sensor": null,
-  "satellite_tracker": "phone_tracker"
+  "satellite_tracker": "phone_tracker",
+  "fingerprint_reader": "idcn_entry",
+  "pager_base": "phone_message",
+  "feedback_buttons": "screen_rating",
+  "speaker": "screen_text",
+  "number_board": "screen_number"
  }
 }
