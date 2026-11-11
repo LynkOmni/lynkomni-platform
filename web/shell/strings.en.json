@@ -314,5 +314,6 @@
  "demo_section_lab": "Laboratory",
  "demo_counter": "Room 3",
  "demo_call_next": "Call next",
- "demo_back_waiting": "Back to waiting"
+ "demo_back_waiting": "Back to waiting",
+ "ntf_area_people": "Attendance, queues and surveys"
 }

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fa",
  "native": "فارسی",
- "source_sha256": "c446015f06f442e9d87a3732afffab9c59a96e231ac75268b3d9d8880d9f9252",
+ "source_sha256": "18d43718fc0eede8fab69124944c98a701c53ed0b23ad566677bccb43c538b25",
  "texts": {
   "account_menu": "حساب",
   "action_add": "اولین را اضافه کنید",
@@ -163,6 +163,7 @@
   "ntf_all": "همه",
   "ntf_area_account": "حساب",
   "ntf_area_devices": "دستگاه‌ها",
+  "ntf_area_people": "حضور، صف‌ها و نظرسنجی‌ها",
   "ntf_area_safety": "ایمنی",
   "ntf_area_security": "امنیت",
   "ntf_area_selling": "فروش",

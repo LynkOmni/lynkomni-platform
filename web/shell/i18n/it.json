@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "it",
  "native": "Italiano",
- "source_sha256": "c446015f06f442e9d87a3732afffab9c59a96e231ac75268b3d9d8880d9f9252",
+ "source_sha256": "18d43718fc0eede8fab69124944c98a701c53ed0b23ad566677bccb43c538b25",
  "texts": {
   "account_menu": "Account",
   "action_add": "Aggiungi il primo",
@@ -163,6 +163,7 @@
   "ntf_all": "Tutte",
   "ntf_area_account": "Account",
   "ntf_area_devices": "Dispositivi",
+  "ntf_area_people": "Presenze, code e sondaggi",
   "ntf_area_safety": "Protezione",
   "ntf_area_security": "Sicurezza",
   "ntf_area_selling": "Vendite",

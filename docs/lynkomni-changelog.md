@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.43.0 (2026-11-11)
+NEW UPDATE 4, section 2 (LynkOmni Account):
+- My details (attendance): opened only after a code to your own contact; your set, your PIN and IDCN (hidden until Show), your attendance, a proof of attendance to download, the "Was this you?" switch, and Delete my details or Raise a dispute with the 30-day date and the manager's reminders at 7, 14 and 25 days.
+- My tickets: your ticket with your place and the estimate, Running late (once per ticket) and Leave queue; earlier tickets. No account is needed to take a ticket.
+- My answers: surveys you answered that are not anonymous, Delete my answer, and Don't ask me again for each organisation (anonymous surveys are never listed).
+- LynkSurvey Panel: join or leave (leaving deletes your panel details); rewards show "Coming to your country soon." until a payment partner is signed.
+- Notification settings gain the "Attendance, queues and surveys" area; breadcrumbs on every new page; 56 new screen words in all 38 languages.
+- PINs are no longer counted at start (a fixed number, checked by the tests), which kept the first screen within its time on slow phones; the account site's size budget is raised for the new pages in 38 languages.
+
 ## v0.42.0 (2026-11-11)
 NEW UPDATE 4, section 1 (shared shell and design):
 - LynkAttend, LynkQueue and LynkSurvey are in the app launcher with their plain words, and in the footer under "People & service"; their product marks (an arrow going in through a door, a ticket, a clipboard with a tick) come from @lynkomni/icons 1.7.0.

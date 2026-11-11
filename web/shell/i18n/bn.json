@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "c446015f06f442e9d87a3732afffab9c59a96e231ac75268b3d9d8880d9f9252",
+ "source_sha256": "18d43718fc0eede8fab69124944c98a701c53ed0b23ad566677bccb43c538b25",
  "texts": {
   "account_menu": "অ্যাকাউন্ট",
   "action_add": "প্রথমটি যোগ করুন",
@@ -163,6 +163,7 @@
   "ntf_all": "সব",
   "ntf_area_account": "অ্যাকাউন্ট",
   "ntf_area_devices": "ডিভাইস",
+  "ntf_area_people": "উপস্থিতি, সারি ও জরিপ",
   "ntf_area_safety": "সুরক্ষা",
   "ntf_area_security": "নিরাপত্তা",
   "ntf_area_selling": "বিক্রি",

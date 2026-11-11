@@ -101,7 +101,7 @@ export function applicationStatus(current: ApplicationStatus, gateway: "pending"
 }
 
 // ---- the account site
-export const PAGES = ["overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "messages", "support", "assist", "payslips", "payments", "start", "storefront", "trips", "collect"] as const;
+export const PAGES = ["overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "messages", "support", "assist", "payslips", "payments", "start", "storefront", "trips", "collect", "attendance", "tickets", "answers", "panel"] as const;   // NEW UPDATE 4 (section 2): My details, My tickets, My answers, the Panel
 export type Page = (typeof PAGES)[number];
 export const pagePath = (p: Page): string => (p === "overview" ? "/" : `/${p}`);
 /** Security Center rows: event type to the string key the screen shows (the word, never colour alone, beside the time). */

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "c446015f06f442e9d87a3732afffab9c59a96e231ac75268b3d9d8880d9f9252",
+ "source_sha256": "18d43718fc0eede8fab69124944c98a701c53ed0b23ad566677bccb43c538b25",
  "texts": {
   "account_menu": "खाता",
   "action_add": "पहला जोड़ें",
@@ -163,6 +163,7 @@
   "ntf_all": "सभी",
   "ntf_area_account": "खाता",
   "ntf_area_devices": "डिवाइस",
+  "ntf_area_people": "उपस्थिति, कतारें और सर्वेक्षण",
   "ntf_area_safety": "हिफ़ाज़त",
   "ntf_area_security": "सुरक्षा",
   "ntf_area_selling": "बिक्री",
