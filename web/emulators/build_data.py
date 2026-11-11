@@ -60,7 +60,7 @@ def _packs(base):
 # The MASTER UPDATE section 1 parts (the bell, sign-in parts, LynkAssist, breadcrumbs): their words travel only in a file that
 # shows them, so a device that does not import them never carries their words (size budget).
 PART_MODULES = ("signin.ts", "notify.ts", "assist.ts", "breadcrumbs.ts")
-PART_WORDS = {"signin.ts": ("pin_", "match_"), "notify.ts": ("ntf_", "msg_"), "assist.ts": ("as_",), "breadcrumbs.ts": ("crumbs",)}
+PART_WORDS = {"signin.ts": ("pin_", "match_"), "notify.ts": ("ntf_", "msg_"), "assist.ts": ("as_",), "breadcrumbs.ts": ("crumbs",), "peopleparts.ts": ("ppl_",)}
 
 
 def part_words_left_out(emulator):
@@ -128,14 +128,16 @@ SERVICES = [("pos", "LynkPOS", "product-pos"), ("accountant", "LynkAcc", "produc
             ("dashboard", "LynkStat", "product-dash"), ("intelligence", "LynkGrow", "product-grow"), ("chat", "LynkChat", "product-chat"),
             ("payments", "LynkMPay", "product-mpay"), ("paylinks", "LynkCheckout", "product-checkout"), ("loyalty", "LynkRewards", "product-rewards"),
             ("recovery", "LynkRecover", "product-recover"), ("vcard", "LynkVCard", "product-vcard"),
-            ("movement", "LynkMotion", "product-motion"), ("movement", "LynkGuard", "product-guard")]     # NEW UPDATE 1: two plans on the one "movement" service
+            ("movement", "LynkMotion", "product-motion"), ("movement", "LynkGuard", "product-guard"),     # NEW UPDATE 1: two plans on the one "movement" service
+            ("attendance", "LynkAttend", "product-attend"), ("queue", "LynkQueue", "product-queue"), ("survey", "LynkSurvey", "product-survey")]   # NEW UPDATE 4
 # Where a launcher place opens when it is not /<service> (catalog/products.v1.json app place).
 HREF = {"LynkMotion": "/tracking", "LynkGuard": "/protection"}
 
 
 # Each product's footer id, whose plain word ("Accounting") travels beside its short name everywhere it is listed (web/footer ft_plain_<id>).
 PLAIN_ID = {"LynkPOS": "pos", "LynkAcc": "acc", "LynkStock": "stock", "LynkStat": "stat", "LynkGrow": "grow", "LynkChat": "chat", "LynkMPay": "mpay",
-            "LynkCheckout": "checkout", "LynkRewards": "rewards", "LynkRecover": "recover", "LynkVCard": "vcard", "LynkMotion": "motion", "LynkGuard": "guard"}
+            "LynkCheckout": "checkout", "LynkRewards": "rewards", "LynkRecover": "recover", "LynkVCard": "vcard", "LynkMotion": "motion", "LynkGuard": "guard",
+            "LynkAttend": "attend", "LynkQueue": "queue", "LynkSurvey": "survey"}
 
 
 # The brand places the screens ask for (brand/surfaces.v1.json): each place lists its choices in order with the smallest

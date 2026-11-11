@@ -91,15 +91,15 @@
   },
   {
    "id": "browser-frame",
-   "title": "Shared shell (browser frame)",
+   "title": "Shared shell on LynkPC (browser frame)",
    "section": 1,
-   "what": "The frame every LynkOmni screen sits in: header with the side you are in (your workspace or Storefront), navigation, launcher, search, help, notifications, connection and sync states, overlays, dark, lite and sunlight modes. It picks the right view for your device by itself (phone, tablet, computer, touch or mouse) and fits every screen from a 240 px watch to a 4K television. New (MASTER UPDATE): the notification bell with New and Earlier, filters, actions with Undo and \"Why am I seeing this?\", urgent banners with sound and vibration, LynkAssist in the help button (ask, even offline, or let it fix something with Confirm or Deny), breadcrumbs, the PIN pad with pictures and key tones, number matching, and the email, text and Messages parts.",
+   "what": "The frame every LynkOmni screen sits in: header with the side you are in (your workspace or Storefront), navigation, launcher, search, help, notifications, connection and sync states, overlays, dark, lite and sunlight modes. It picks the right view for your device by itself (phone, tablet, computer, touch or mouse) and fits every screen from a 240 px watch to a 4K television. New (MASTER UPDATE): the notification bell with New and Earlier, filters, actions with Undo and \"Why am I seeing this?\", urgent banners with sound and vibration, LynkAssist in the help button (ask, even offline, or let it fix something with Confirm or Deny), breadcrumbs, the PIN pad with pictures and key tones, number matching, and the email, text and Messages parts. NEW UPDATE 4 section 1: LynkAttend, LynkQueue and LynkSurvey in the launcher and footer, the device names (Change view says LynkPC, LynkTab or LynkMobile), and the shared parts: the ticket card, the IDCN entry with the checker list, the quick rating, the 0 to 10 score and Rate us.",
    "try": "Open the account menu: switch to Storefront, then Change view and Why this view?. Use the testing controls to try other views and widths; swipe from the edge on a phone to open the launcher. Then open the bell and approve Amina's request (and undo it); press \"Send an urgent test notification\" in the panel; open help (?) and ask \"How much is LynkStat?\", then switch the connection to Offline and ask again; on the home page enter a PIN (the right one is 2580) and tap a matching number.",
    "url": "https://claude.ai/artifact/6UrxwVAGfBR6unzqT1jS7u"
   },
   {
    "id": "merchant-phone",
-   "title": "Business app on a phone, tablet or computer",
+   "title": "Business app on LynkMobile, LynkTab or LynkPC",
    "section": 3,
    "what": "Every Business app screen of blueprint 41 E: getting in, Sell with every payment way, today's sales, shifts, practice mode, Stock, Chats, every Business section and setting, and the four business types (shop, without a till, agent point, restaurant), on a phone, a tablet side rail or a computer web view, in every language and offline. Setup now starts with who it is for (yourself, a company or an organisation), which changes the words, tabs and categories; Deliveries shows every delivery with its tracker. New: the Storefront side (offers, stock held at online checkout, buyer chats, payouts) and Devices › Driver (LynkDriver, with enforced updates). MASTER UPDATE section 3: Ask the owner with one-tap answers, LynkAssist's controls and history with offline queueing, the owner's thresholds and daily or weekly summary, remote lock and wipe, the integrity and duress alerts, breadcrumbs, and Get a card with the card group word.",
    "try": "Sign in, choose Myself or An organisation in setup and see the Books tab; or make a sale, press Deliver this order and watch the delivery move on the Deliveries screen. Open the hub: Assistant, Settings, Branches and devices, and Cards; try a fix offline and see it wait sealed; use the panel buttons for an altered till app or a duress PIN and read the bell.",
@@ -115,7 +115,7 @@
   },
   {
    "id": "counter-tablet",
-   "title": "LynkPOS counter tablet",
+   "title": "LynkPOS on LynkTab (counter tablet)",
    "section": 3,
    "what": "A counter till: tablet on a stand with a customer-facing screen, scanner, cash drawer and printer; tables, kitchen, shifts, day close, staff, deliveries, buy together, setup, credit and sell by voice. MASTER UPDATE section 3: staff sign in with their own PIN, the duress view, banners and breadcrumbs.",
    "try": "Unlock with PIN 1234, sell two items, take cash and close the shift. Or sign in with the duress PIN 8642 and see the quiet till.",
@@ -131,7 +131,7 @@
   },
   {
    "id": "customer-display",
-   "title": "LynkPOS customer display",
+   "title": "LynkPOS customer screen",
    "section": 3,
    "what": "The screen the customer sees at the till: welcome, the basket line by line, pay by QR with an honest state, thank you. Also as a display without touch.",
    "try": "Add items and pay; watch the state go from sent to confirmed.",
@@ -139,7 +139,7 @@
   },
   {
    "id": "rider-phone",
-   "title": "Rider phone",
+   "title": "Rider app on LynkMobile",
    "section": 3,
    "what": "The shop's own rider: jobs, pickup, delivery with the customer's code or a parcel photo (never a person), each job's tracker, and Share trip progress (the rider's choice, this trip only; never a position). Also on a watch and a car screen (voice only while the vehicle moves).",
    "try": "Open a job, turn on Share trip progress, pick it up and deliver with the code.",
@@ -155,7 +155,7 @@
   },
   {
    "id": "button-phone",
-   "title": "LynkPOS on a button phone",
+   "title": "LynkPOS on LynkMobile (button phone)",
    "section": 3,
    "what": "Selling and checking stock from a basic phone through a short-code menu, for places without smartphones. Also as a basic phone with no apps: LynkPOS by USSD, text message or voice menu. MASTER UPDATE section 3: a LynkOmni account by menu numbers: sign up (age, username, PIN, terms), sign in with a hard lock after wrong PINs, read messages and get help.",
    "try": "Use the arrow keys to make a sale and read today's total. From the idle screen choose LynkOmni account; press * to type the sample username and sign in with PIN 4719.",
@@ -179,7 +179,7 @@
   },
   {
    "id": "owner-web",
-   "title": "Owner's web view on a laptop",
+   "title": "Owner's web view on LynkPC",
    "section": 3,
    "what": "The owner's browser view: today, sales, devices, staff, agent commissions, every automation with why and an off switch, and data sharing. Selling stays on registered devices.",
    "try": "Open Automations and press Why did this happen?",
