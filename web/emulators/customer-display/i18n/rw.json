@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "rw",
  "native": "Ikinyarwanda",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "Isuzuma nyuma yo kwishyura",
+  "ppl_off": "Ntibikora",
+  "ppl_on": "Birakora",
+  "ppl_rate_1": "Bibi cyane",
+  "ppl_rate_2": "Bibi",
+  "ppl_rate_3": "Biringaniye",
+  "ppl_rate_4": "Byiza",
+  "ppl_rate_5": "Byiza cyane",
+  "ppl_rate_title": "Uruzinduko rwawe rw'uyu munsi rwagenze rute?",
+  "ppl_rate_us": "Duhe amanota",
+  "ppl_scan_to_answer": "Sikana usubirize kuri telefoni yawe.",
+  "ppl_thanks": "Murakoze gusubiza.",
   "title": "Ecran y'umukiriya ya LynkPOS"
  }
 }

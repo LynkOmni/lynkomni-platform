@@ -1,3 +1,15 @@
 {
- "title": "LynkPOS customer display"
+ "title": "LynkPOS customer display",
+ "ppl_rate_title": "How was your visit today?",
+ "ppl_rate_1": "Very bad",
+ "ppl_rate_2": "Bad",
+ "ppl_rate_3": "Okay",
+ "ppl_rate_4": "Good",
+ "ppl_rate_5": "Very good",
+ "ppl_thanks": "Thank you for answering.",
+ "ppl_rate_us": "Rate us",
+ "ppl_scan_to_answer": "Scan to answer on your phone.",
+ "ppl_after_payment": "Rating after payment",
+ "ppl_on": "On",
+ "ppl_off": "Off"
 }

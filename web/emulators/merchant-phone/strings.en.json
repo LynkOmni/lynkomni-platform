@@ -772,5 +772,8 @@
  "m3_group_credit": "A credit line decided by the lender",
  "m3_ending": "ending {last4}",
  "m3_card_online": "Card requests need the network.",
- "m3_card_note": "Sample: the licensed partner adds the network mark and shows full card details only in its secure display."
+ "m3_card_note": "Sample: the licensed partner adds the network mark and shows full card details only in its secure display.",
+ "it_attendance": "Attendance",
+ "it_queue": "Queue",
+ "it_survey": "Surveys"
 }

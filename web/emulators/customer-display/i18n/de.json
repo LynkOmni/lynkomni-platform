@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "de",
  "native": "Deutsch",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "Bewertung nach der Zahlung",
+  "ppl_off": "Aus",
+  "ppl_on": "An",
+  "ppl_rate_1": "Sehr schlecht",
+  "ppl_rate_2": "Schlecht",
+  "ppl_rate_3": "In Ordnung",
+  "ppl_rate_4": "Gut",
+  "ppl_rate_5": "Sehr gut",
+  "ppl_rate_title": "Wie war Ihr Besuch heute?",
+  "ppl_rate_us": "Bewerten Sie uns",
+  "ppl_scan_to_answer": "Scannen Sie, um auf Ihrem Telefon zu antworten.",
+  "ppl_thanks": "Danke für Ihre Antwort.",
   "title": "LynkPOS-Kundendisplay"
  }
 }

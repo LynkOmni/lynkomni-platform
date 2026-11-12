@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "ar",
  "native": "العربية",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "التقييم بعد الدفع",
+  "ppl_off": "متوقف",
+  "ppl_on": "مفعّل",
+  "ppl_rate_1": "سيئ جدًا",
+  "ppl_rate_2": "سيئ",
+  "ppl_rate_3": "مقبول",
+  "ppl_rate_4": "جيد",
+  "ppl_rate_5": "جيد جدًا",
+  "ppl_rate_title": "كيف كانت زيارتك اليوم؟",
+  "ppl_rate_us": "قيّمنا",
+  "ppl_scan_to_answer": "امسح الرمز للإجابة على هاتفك.",
+  "ppl_thanks": "شكرًا على إجابتك.",
   "title": "شاشة العميل LynkPOS"
  }
 }

@@ -350,6 +350,9 @@
     "online_shop",
     "agent_earnings",
     "pickup_point",
+    "attendance",
+    "queue",
+    "survey",
     "team",
     "branches_devices",
     "plans_billing",
@@ -528,6 +531,46 @@
     "pay_on_collection"
    ],
    "path": "/business/pickup-point"
+  },
+  {
+   "id": "attendance",
+   "blueprint": "63 (NEW UPDATE 4, LynkAttend; build section 3)",
+   "items": [
+    "att_setup",
+    "att_today",
+    "att_people",
+    "att_checkers",
+    "att_door",
+    "att_add_device",
+    "att_reports"
+   ],
+   "path": "/attendance"
+  },
+  {
+   "id": "queue",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue; build section 3)",
+   "items": [
+    "q_setup",
+    "q_sections",
+    "q_waiting",
+    "q_counters",
+    "q_reception",
+    "q_add_device",
+    "q_reports"
+   ],
+   "path": "/queue"
+  },
+  {
+   "id": "survey",
+   "blueprint": "63 (NEW UPDATE 4, LynkSurvey; build section 3)",
+   "items": [
+    "sv_setup",
+    "sv_after_payment",
+    "sv_surveys",
+    "sv_results",
+    "sv_add_device"
+   ],
+   "path": "/survey"
   },
   {
    "id": "team",

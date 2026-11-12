@@ -2,6 +2,17 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.44.0 (2026-11-12)
+NEW UPDATE 4, section 3 (Business app and LynkPOS):
+- The Business app hub gains Attendance, Queue and Surveys for every business type and workspace, each at its own address (app.lynkomni.com/attendance, /queue, /survey), with How you use it (Just me, One place, Many places: prices, limits and rules stay the same) and Add a device (pick a LynkOmni device from the device register and type a one-time code on it; owner or manager only; offline it waits and is never shown as confirmed).
+- Attendance: today at the door (who is in, how they checked in, any backup or flag in words) and where the door runs.
+- Queue: sections with the ticket numbers ready on the device, waiting now in the fair order, counters (open, paused, closed; Call next, call again up to three times, served, did not come, send to another section) and reception (Give a ticket, priority for an older person, pregnancy or disability).
+- Surveys: the rating after payment switch and the results (average and share, with the margin; nothing shown below 5 answers; sandbox answers are labelled).
+- LynkPOS: the door (PIN, then face or finger, then IDCN with a checker who is not the person; dots only, never the digits), reception with the ticket printed on the receipt printer, and the counter, all from the menu and search, by touch or by the keys alone, and all working offline.
+- The customer screen asks "How was your visit today?" after a confirmed payment (five answers with their words on a touch screen, the Rate us QR on a screen that only shows); never required, saved offline.
+- Fixes found by the layout and speed checks: the rating shows numbered dials 1 to 5 beside the words instead of emoji (emoji look different on every phone and a device without an emoji font slowed the first screen), easy PINs are counted by the tests and no longer at start, the 0 to 10 score keys are now 44 px, Rate us wraps on a 240 px screen, and the words under a chosen setup option keep full contrast.
+- One shared engine for all of this (ts/src/peoplehub.ts) with its own tests; 89 new screen words in all 38 languages; size budgets raised for the new words.
+
 ## v0.43.0 (2026-11-11)
 NEW UPDATE 4, section 2 (LynkOmni Account):
 - My details (attendance): opened only after a code to your own contact; your set, your PIN and IDCN (hidden until Show), your attendance, a proof of attendance to download, the "Was this you?" switch, and Delete my details or Raise a dispute with the 30-day date and the manager's reminders at 7, 14 and 25 days.

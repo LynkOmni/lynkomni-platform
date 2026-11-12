@@ -33,3 +33,9 @@
 .tbtns { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
 .tbtns button { min-height: 36px; padding: 4px 10px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 600 12px var(--font-body); cursor: pointer; }
 .tbtns button[disabled] { opacity: .5; cursor: not-allowed; }
+/* LynkSurvey's rating after payment fits the small screen: five answers in one row, the word always beside the face */
+.cwel:has(.ph-rate) { justify-content: flex-start; gap: 2px; } .cwel:has(.ph-rate) .bigcheck { width: 36px; height: 36px; padding: 8px; }
+.cwel:has(.ph-rate) h2 { font-size: 18px; }
+.ph-rate { margin-block-start: 4px; } .ph-rate .rating { padding: 4px 6px; } .ph-rate legend { font-size: 13px; padding: 0 4px; }
+.ph-rate .rates { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; } .ph-rate .rate { padding: 4px 2px; font-size: 11px; line-height: 1.15; }
+.ph-rate .rate .face { inline-size: 1.4rem; block-size: 1.4rem; font-size: 12px; } .ph-rate .ok { margin: 2px 0 0; font-size: 12px; }

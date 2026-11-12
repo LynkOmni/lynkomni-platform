@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "Penilaian selepas bayaran",
+  "ppl_off": "Mati",
+  "ppl_on": "Hidup",
+  "ppl_rate_1": "Sangat teruk",
+  "ppl_rate_2": "Teruk",
+  "ppl_rate_3": "Sederhana",
+  "ppl_rate_4": "Baik",
+  "ppl_rate_5": "Sangat baik",
+  "ppl_rate_title": "Bagaimana lawatan anda hari ini?",
+  "ppl_rate_us": "Nilai kami",
+  "ppl_scan_to_answer": "Imbas untuk menjawab di telefon anda.",
+  "ppl_thanks": "Terima kasih kerana menjawab.",
   "title": "Paparan pelanggan LynkPOS"
  }
 }

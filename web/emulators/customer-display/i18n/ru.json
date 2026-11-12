@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "ru",
  "native": "Русский",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "Оценка после оплаты",
+  "ppl_off": "Выкл.",
+  "ppl_on": "Вкл.",
+  "ppl_rate_1": "Очень плохо",
+  "ppl_rate_2": "Плохо",
+  "ppl_rate_3": "Нормально",
+  "ppl_rate_4": "Хорошо",
+  "ppl_rate_5": "Очень хорошо",
+  "ppl_rate_title": "Как прошёл ваш визит сегодня?",
+  "ppl_rate_us": "Оцените нас",
+  "ppl_scan_to_answer": "Отсканируйте, чтобы ответить с телефона.",
+  "ppl_thanks": "Спасибо за ответ.",
   "title": "Экран покупателя LynkPOS"
  }
 }

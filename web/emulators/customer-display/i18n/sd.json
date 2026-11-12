@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "ادائگي کانپوءِ درجه بندي",
+  "ppl_off": "بند ٿيل",
+  "ppl_on": "چالو",
+  "ppl_rate_1": "تمام خراب",
+  "ppl_rate_2": "خراب",
+  "ppl_rate_3": "ٺيڪ",
+  "ppl_rate_4": "سٺو",
+  "ppl_rate_5": "تمام سٺو",
+  "ppl_rate_title": "اڄ توهان جو دورو ڪيئن رهيو؟",
+  "ppl_rate_us": "اسان کي درجو ڏيو",
+  "ppl_scan_to_answer": "پنهنجي فون تي جواب ڏيڻ لاءِ اسڪين ڪريو.",
+  "ppl_thanks": "جواب ڏيڻ جي مهرباني.",
   "title": "گراهڪ جي اسڪرين LynkPOS"
  }
 }

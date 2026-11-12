@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "ur",
  "native": "اردو",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "ادائیگی کے بعد درجہ بندی",
+  "ppl_off": "آف",
+  "ppl_on": "آن",
+  "ppl_rate_1": "بہت برا",
+  "ppl_rate_2": "برا",
+  "ppl_rate_3": "ٹھیک",
+  "ppl_rate_4": "اچھا",
+  "ppl_rate_5": "بہت اچھا",
+  "ppl_rate_title": "آج آپ کا دورہ کیسا رہا؟",
+  "ppl_rate_us": "ہمیں درجہ دیں",
+  "ppl_scan_to_answer": "اپنے فون پر جواب دینے کے لیے اسکین کریں۔",
+  "ppl_thanks": "جواب دینے کا شکریہ۔",
   "title": "گاہک کی اسکرین LynkPOS"
  }
 }

@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "am",
  "native": "አማርኛ",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "ከክፍያ በኋላ ደረጃ",
+  "ppl_off": "ጠፍቷል",
+  "ppl_on": "በርቷል",
+  "ppl_rate_1": "በጣም መጥፎ",
+  "ppl_rate_2": "መጥፎ",
+  "ppl_rate_3": "መካከለኛ",
+  "ppl_rate_4": "ጥሩ",
+  "ppl_rate_5": "በጣም ጥሩ",
+  "ppl_rate_title": "የዛሬው ጉብኝትዎ እንዴት ነበር?",
+  "ppl_rate_us": "ደረጃ ይስጡን",
+  "ppl_scan_to_answer": "በስልክዎ ለመመለስ ይቃኙ።",
+  "ppl_thanks": "ስለመለሱ እናመሰግናለን።",
   "title": "የLynkPOS የደንበኛ ማሳያ"
  }
 }

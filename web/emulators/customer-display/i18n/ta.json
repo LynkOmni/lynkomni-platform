@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "ta",
  "native": "தமிழ்",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "கட்டணத்துக்குப் பின் மதிப்பீடு",
+  "ppl_off": "நிறுத்தத்தில்",
+  "ppl_on": "இயக்கத்தில்",
+  "ppl_rate_1": "மிக மோசம்",
+  "ppl_rate_2": "மோசம்",
+  "ppl_rate_3": "பரவாயில்லை",
+  "ppl_rate_4": "நன்று",
+  "ppl_rate_5": "மிக நன்று",
+  "ppl_rate_title": "இன்றைய உங்கள் வருகை எப்படி இருந்தது?",
+  "ppl_rate_us": "எங்களை மதிப்பிடுங்கள்",
+  "ppl_scan_to_answer": "உங்கள் தொலைபேசியில் பதிலளிக்க ஸ்கேன் செய்யவும்.",
+  "ppl_thanks": "பதிலளித்ததற்கு நன்றி.",
   "title": "LynkPOS வாடிக்கையாளர் திரை"
  }
 }

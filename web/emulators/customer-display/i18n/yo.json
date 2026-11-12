@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "Ìdíyelé lẹ́yìn ìsanwó",
+  "ppl_off": "Ó pa",
+  "ppl_on": "Ó tàn",
+  "ppl_rate_1": "Burú gan-an",
+  "ppl_rate_2": "Burú",
+  "ppl_rate_3": "Kò burú",
+  "ppl_rate_4": "Dára",
+  "ppl_rate_5": "Dára gan-an",
+  "ppl_rate_title": "Báwo ni àbẹ̀wò rẹ lónìí ṣe rí?",
+  "ppl_rate_us": "Fún wa ní máàkì",
+  "ppl_scan_to_answer": "Ṣàyẹ̀wò láti dáhùn lórí fóònù rẹ.",
+  "ppl_thanks": "A dúpẹ́ fún ìdáhùn rẹ.",
   "title": "Ojú-ìwé oníbàárà LynkPOS"
  }
 }

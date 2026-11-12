@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "Ƙima bayan biya",
+  "ppl_off": "A kashe",
+  "ppl_on": "A kunne",
+  "ppl_rate_1": "Mummuna sosai",
+  "ppl_rate_2": "Mummuna",
+  "ppl_rate_3": "Matsakaici",
+  "ppl_rate_4": "Mai kyau",
+  "ppl_rate_5": "Mai kyau sosai",
+  "ppl_rate_title": "Yaya ziyararka ta yau ta kasance?",
+  "ppl_rate_us": "Ba mu maki",
+  "ppl_scan_to_answer": "Ka duba don amsawa a wayarka.",
+  "ppl_thanks": "Na gode da amsawa.",
   "title": "Allon abokin ciniki na LynkPOS"
  }
 }

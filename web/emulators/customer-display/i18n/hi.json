@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "भुगतान के बाद रेटिंग",
+  "ppl_off": "बंद है",
+  "ppl_on": "चालू",
+  "ppl_rate_1": "बहुत खराब",
+  "ppl_rate_2": "खराब",
+  "ppl_rate_3": "ठीक",
+  "ppl_rate_4": "अच्छा",
+  "ppl_rate_5": "बहुत अच्छा",
+  "ppl_rate_title": "आज आपकी यात्रा कैसी रही?",
+  "ppl_rate_us": "हमें रेटिंग दें",
+  "ppl_scan_to_answer": "अपने फ़ोन पर जवाब देने के लिए स्कैन करें।",
+  "ppl_thanks": "जवाब देने के लिए धन्यवाद।",
   "title": "ग्राहक स्क्रीन LynkPOS"
  }
 }

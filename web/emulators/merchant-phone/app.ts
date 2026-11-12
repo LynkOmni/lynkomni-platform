@@ -36,6 +36,7 @@ import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { bell } from "../../../ts/src/notify.js";
 import type { Line } from "../../../ts/src/notify.js";
 import { cardFormFields, cardName, cardWord, decideOffline, knowledgeFor, needsManager } from "../../../ts/src/devicekit.js";
+import { PeopleHub, attendanceToday, counterCard, devicesCard, doorWhere, receptionCard, sectionsCard, setupCard, surveyCard, waitingCard } from "../../../ts/src/peoplehub.js";
 
 interface BuildData {
   storefront?: { tiers: string[]; prices_usd: Record<string, number>; share_bps: Record<string, number>; min_age: number };
@@ -211,9 +212,13 @@ function emit(type: string, payload: unknown, origin: "device" | "server" = "dev
   if (S.practice) return e;
   S.events.unshift(e); TRK.apply({ type, payload: payload as Record<string, unknown>, at: e.at / 1000 }, "me"); drawLog(); return e;
 }
+/** LynkAttend, LynkQueue and LynkSurvey on this phone (ts/src/peoplehub.ts): the same engine as LynkPOS, writing to this log. */
+const PH = new PeopleHub((type, payload, origin) => { emit(type, payload, origin); });
+const mayAddDevice = (): boolean => S.role === "owner" || S.role === "manager";
 function tick(): void {
   S.ticks += 1;
   if (!maySync(S.link, S.forced) || (S.link === "weak" && S.ticks % 4)) return;   // a weak link sends now and then
+  PH.onlineAgain(draw);                                                   // a device added offline gets its code checked once the link is back
   const now = Date.now();
   let changed = false;
   for (const e of [...S.events].reverse()) {
@@ -762,6 +767,12 @@ function hubValue(item: string): string {
   const sm = summary(), a = stockAlerts(CATALOG, S.levels), owed = CUSTOMERS.reduce((x, c) => x + c.owes, 0);
   const com = S.reqs.filter((r) => r.state === "confirmed").reduce((x, r) => x + r.commission, 0);
   switch (item) {
+    case "att_today": return t("ppl_in_count", { n: PH.inCount(), of: PH.members.length });
+    case "att_setup": case "q_setup": case "sv_setup": return t(`ppl_setup_${PH.setup[item === "att_setup" ? "attendance" : item === "q_setup" ? "queue" : "survey"]}`);
+    case "q_waiting": return t("ppl_waiting_n", { n: PH.waiting().length });
+    case "q_counters": return t("ppl_open_n", { n: PH.openCounters(), of: PH.counters.length });
+    case "sv_after_payment": return t(PH.afterPayment ? "ppl_on" : "ppl_off");
+    case "sv_results": return t("ppl_answers_n", { n: PH.ratings.length });
     case "sales": return t("sales_count", { n: sm.count }) + " · " + money(sm.total);
     case "profit": return canSeeProfit(S.role, S.perms) ? money(sm.profit) : t("owner_only");
     case "payments": case "received": return money(sm.confirmed);
@@ -794,9 +805,13 @@ function hubValue(item: string): string {
   }
 }
 const REMOVE_ITEM: Record<string, string> = { damage: "damaged", loss: "lost", expiry: "expired" };
+/** The rows of the LynkAttend, LynkQueue and LynkSurvey hub screens use the shared people words (web/shell "ppl_"), one translation everywhere. */
+const PEOPLE_ITEM: Record<string, string> = { att_setup: "ppl_setup_title", att_today: "ppl_today", att_people: "ppl_people", att_checkers: "ppl_checkers", att_door: "ppl_door_title", att_add_device: "ppl_add_device", att_reports: "ppl_reports",
+  q_setup: "ppl_setup_title", q_sections: "ppl_sections", q_waiting: "ppl_waiting_now", q_counters: "ppl_counters", q_reception: "ppl_reception_title", q_add_device: "ppl_add_device", q_reports: "ppl_reports",
+  sv_setup: "ppl_setup_title", sv_after_payment: "ppl_after_payment", sv_surveys: "ppl_surveys", sv_results: "ppl_results", sv_add_device: "ppl_add_device" };
 const ACADEMY = ["lesson_first_sale", "lesson_stock", "lesson_cash", "lesson_credit", "lesson_proof"];
 const HUB_ICON: Record<string, string> = { reports: "product-dash", daily_close: "ui-receipt", money: "product-mpay", invoicing: "ui-doc", customers: "ui-user", loyalty: "product-rewards", books: "product-ledger",
-  growth: "product-grow", assistant: "ui-info", cards: "product-vcard", online_shop: "product-checkout", agent_earnings: "ui-commission", pickup_point: "ui-qr", team: "ui-user", branches_devices: "ui-grid",
+  growth: "product-grow", assistant: "ui-info", cards: "product-vcard", online_shop: "product-checkout", agent_earnings: "ui-commission", pickup_point: "ui-qr", attendance: "product-attend", queue: "product-queue", survey: "product-survey", team: "ui-user", branches_devices: "ui-grid",
   plans_billing: "ui-receipt", settings: "ui-settings", academy: "ui-info", automations: "ui-sync" };
 // ---- BIZZ & DEVICE section 3: the Storefront side of the Business app, stock held at online checkout, and LynkDriver --------
 /** The Storefront side (core/sides.py): the same products, stock and money, offered to others; addresses are /external + the workspace path. */
@@ -995,7 +1010,7 @@ function m3Cards(): string {
 function hubSection(id: string): string {
   const reg = DATA.screens.find((s) => s.id === id); if (!reg) return "";
   const back = "view:main";
-  const rows = (items: readonly string[], act: (i: string) => string = () => ""): string => `<ul class="list card">${items.map((i) => lineItem(i, t("it_" + i), hubValue(i), act(i))).join("")}</ul>`;
+  const rows = (items: readonly string[], act: (i: string) => string = () => ""): string => `<ul class="list card">${items.map((i) => lineItem(i, t(PEOPLE_ITEM[i] ?? "it_" + i), hubValue(i), act(i))).join("")}</ul>`;
   let extra = "";
   switch (id) {
     case "daily_close": extra = `<p class="sub">${esc(t("daily_close_help"))}</p><button class="primary inline" data-act="closeday">${esc(t("close_day"))}</button>`; break;
@@ -1017,6 +1032,10 @@ function hubSection(id: string): string {
       ${S.runs.slice(0, 3).map((r) => `<div class="card"><p class="nm">${esc(t("auto_" + key(r.auto)))} · ${esc(clock(r.at))}</p><p class="sub">${esc(t("why_" + key(r.auto)))}</p></div>`).join("")}`; break;
     case "academy": extra = `<ul class="list card">${ACADEMY.map((l) => row(t(l), t("minutes_n", { n: 2 }))).join("")}</ul>`; break;
     case "pickup_point": extra = pickupPoint(); break;
+    // NEW UPDATE 4 (section 3): LynkAttend, LynkQueue and LynkSurvey on the phone; the door, reception and counter also run on LynkPOS
+    case "attendance": extra = setupCard(PH, "attendance", t) + attendanceToday(PH, t, clock) + doorWhere(DEVICES, t) + devicesCard(PH, "attendance", DEVICES, t, icon, mayAddDevice()); break;
+    case "queue": extra = setupCard(PH, "queue", t) + sectionsCard(PH, t) + waitingCard(PH, t) + PH.counters.map((c) => counterCard(PH, c.id, t, icon)).join("") + receptionCard(PH, t, icon) + devicesCard(PH, "queue", DEVICES, t, icon, mayAddDevice()); break;
+    case "survey": extra = setupCard(PH, "survey", t) + surveyCard(PH, t, mayAddDevice()) + devicesCard(PH, "survey", DEVICES, t, icon, mayAddDevice()); break;
     case "growth": extra = `<label class="switch"><span>${esc(t("passport_share"))}</span><input type="checkbox" data-in="passport" ${S.passport ? "checked" : ""}></label><p class="sub">${esc(t("passport_help"))}</p>`; break;
   }
   if (id === "settings") extra += m3Settings();
@@ -1348,6 +1367,7 @@ function closeDay(): void {
 }
 function act(a: string): void {
   const [k, v = ""] = a.split(/:(.*)/s);
+  if (a.startsWith("ph:")) { if (!a.startsWith("ph:afterpay") || mayAddDevice()) PH.act(a, { online: online(), redraw: draw, language: S.lang }); draw(); return; }
   try {
     switch (k) {
       // BIZZ & DEVICE: sides, Storefront offers and holds, LynkDriver
