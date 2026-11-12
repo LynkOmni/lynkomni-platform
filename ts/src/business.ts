@@ -192,6 +192,7 @@ export const HUB: readonly { id: string; serviceSection: number }[] = [
   { id: "reports", serviceSection: 4 }, { id: "daily_close", serviceSection: 3 }, { id: "money", serviceSection: 3 }, { id: "invoicing", serviceSection: 4 },
   { id: "customers", serviceSection: 4 }, { id: "loyalty", serviceSection: 3 }, { id: "books", serviceSection: 4 }, { id: "growth", serviceSection: 3 },
   { id: "assistant", serviceSection: 3 }, { id: "cards", serviceSection: 3 }, { id: "online_shop", serviceSection: 3 }, { id: "agent_earnings", serviceSection: 3 }, { id: "pickup_point", serviceSection: 3 },
+  { id: "attendance", serviceSection: 3 }, { id: "queue", serviceSection: 3 }, { id: "survey", serviceSection: 3 },   // NEW UPDATE 4: LynkAttend, LynkQueue, LynkSurvey (full pages in 3B)
   { id: "team", serviceSection: 3 }, { id: "branches_devices", serviceSection: 3 }, { id: "plans_billing", serviceSection: 3 }, { id: "settings", serviceSection: 3 },
   { id: "academy", serviceSection: 3 }, { id: "automations", serviceSection: 3 },
 ];

@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "ckb",
  "native": "کوردی",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "هەڵسەنگاندن دوای پارەدان",
+  "ppl_off": "کوژاوە",
+  "ppl_on": "داگیرساو",
+  "ppl_rate_1": "زۆر خراپ",
+  "ppl_rate_2": "خراپ",
+  "ppl_rate_3": "مامناوەند",
+  "ppl_rate_4": "باش",
+  "ppl_rate_5": "زۆر باش",
+  "ppl_rate_title": "سەردانەکەی ئەمڕۆت چۆن بوو؟",
+  "ppl_rate_us": "هەڵمانبسەنگێنە",
+  "ppl_scan_to_answer": "سکان بکە بۆ وەڵامدانەوە لە مۆبایلەکەت.",
+  "ppl_thanks": "سوپاس بۆ وەڵامدانەوەکەت.",
   "title": "شاشەی کڕیاری LynkPOS"
  }
 }

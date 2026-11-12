@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "결제 후 평가",
+  "ppl_off": "꺼짐",
+  "ppl_on": "켜짐",
+  "ppl_rate_1": "매우 나쁨",
+  "ppl_rate_2": "나쁨",
+  "ppl_rate_3": "보통",
+  "ppl_rate_4": "좋음",
+  "ppl_rate_5": "매우 좋음",
+  "ppl_rate_title": "오늘 방문은 어떠셨나요?",
+  "ppl_rate_us": "평가하기",
+  "ppl_scan_to_answer": "휴대폰으로 답하려면 스캔하세요.",
+  "ppl_thanks": "답변해 주셔서 감사합니다.",
   "title": "LynkPOS 고객 디스플레이"
  }
 }

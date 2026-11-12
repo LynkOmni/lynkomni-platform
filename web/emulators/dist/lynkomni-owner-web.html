@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-ibtEo8XFf5Cho4hTwBlKhmVsLHaCzux6GPZyYbpRsB4='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-aIJ183VZGlv0bFl94MgZYxPNCZu8kL3vl+6heacNb3w='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni Owner View on LynkPC</title>
 <meta name="description" content="Interactive emulator of the owner's Business app in a browser on a laptop: today at a glance, sales, devices, staff and shifts, agent commissions, the automation control panel with its history at /business/automations, and data sharing. Selling and cash run only on a registered device, so the till is not here.">
@@ -613,6 +613,28 @@ body { margin: 0; min-height: 100vh; }
 .score { min-block-size: var(--touch-target); border: 1px solid var(--border-subtle); border-radius: 8px; background: var(--bg-surface); color: var(--text-primary); font-variant-numeric: var(--font-feature-tabular); }
 .scale .ends { display: flex; justify-content: space-between; gap: 8px; color: var(--text-secondary); margin: 6px 0 0; flex-wrap: wrap; }
 .rateus { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; min-inline-size: 0; } .rateus .qr { flex: 0 0 auto; } .rateus > div { flex: 1 1 8rem; min-inline-size: 0; overflow-wrap: anywhere; } .rateus .qrbig svg { inline-size: 72px; block-size: 72px; }
+/* NEW UPDATE 4, section 3: setup, Add a device, door, reception, counter and the rating after payment (ts/src/peoplehub.ts) */
+.ph-wrap { display: grid; gap: 10px; padding: 8px; min-inline-size: 0; }
+.ph-choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 8px 0; min-inline-size: 0; }
+.ph-choices.small { grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); }
+.ph-choice { display: grid; gap: 2px; align-content: start; text-align: start; min-block-size: var(--touch-target); min-inline-size: 0; padding: 8px 10px; border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--bg-surface); color: var(--text-primary); font: inherit; overflow-wrap: anywhere; cursor: pointer; }
+.ph-choice span { color: var(--text-secondary); font-size: var(--text-12); }
+.ph-choice[aria-pressed="true"] { border: 2px solid var(--brand-primary); background: var(--brand-subtle); } .ph-choice[aria-pressed="true"] span { color: var(--text-primary); }
+.ph-choice:disabled { opacity: .55; cursor: not-allowed; }
+.ph-toggle { display: flex; gap: 8px; align-items: center; justify-content: space-between; inline-size: 100%; min-block-size: var(--touch-target); padding: 8px 10px; margin: 6px 0; border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--bg-surface); color: var(--text-primary); font: inherit; text-align: start; overflow-wrap: anywhere; cursor: pointer; }
+.ph-toggle[aria-pressed="true"] { border-color: var(--brand-primary); background: var(--brand-subtle); }
+.ph-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; min-inline-size: 0; }
+.ph-row > button { flex: 1 1 auto; min-block-size: var(--touch-target); min-inline-size: 0; overflow-wrap: anywhere; }
+.ph-code { background: var(--bg-subtle); border-radius: 8px; padding: 8px 10px; margin: 8px 0; overflow-wrap: anywhere; }
+.ph-code strong { font-family: var(--font-heading); font-size: var(--text-20); letter-spacing: .08em; font-variant-numeric: var(--font-feature-tabular); }
+.ph-door { display: grid; gap: 10px; justify-items: center; text-align: center; padding: 12px 8px; min-inline-size: 0; }
+.ph-door .dots { display: flex; gap: 10px; justify-content: center; } .ph-door .dots i { inline-size: 14px; block-size: 14px; border-radius: 50%; border: 2px solid var(--border-strong); }
+.ph-door .dots i.on { background: var(--text-primary); border-color: var(--text-primary); }
+.ph-door .bigcheck svg { inline-size: 48px; block-size: 48px; } .ph-door .idcn { inline-size: 100%; }
+.ph-door > button, .ph-reception > .primary, .ph-counter > .primary { min-block-size: var(--touch-target); }
+.ph-rate { margin-block-start: 10px; inline-size: 100%; min-inline-size: 0; }
+.rtk { font-family: var(--font-heading); font-size: var(--text-24); font-weight: 700; text-align: center; margin: 6px 0; letter-spacing: .04em; }
+.pn { color: var(--text-secondary); font-size: var(--text-12); }
 
 /* MASTER UPDATE section 3 on every Business app device: the bell button and its badge, banners on the device screen, the
    staff lock screen, the manager's approval, LynkAssist's queued state and the card screens. Tokens only; logical CSS so
@@ -1327,6 +1349,7 @@ const HUB = [
     { id: "reports", serviceSection: 4 }, { id: "daily_close", serviceSection: 3 }, { id: "money", serviceSection: 3 }, { id: "invoicing", serviceSection: 4 },
     { id: "customers", serviceSection: 4 }, { id: "loyalty", serviceSection: 3 }, { id: "books", serviceSection: 4 }, { id: "growth", serviceSection: 3 },
     { id: "assistant", serviceSection: 3 }, { id: "cards", serviceSection: 3 }, { id: "online_shop", serviceSection: 3 }, { id: "agent_earnings", serviceSection: 3 }, { id: "pickup_point", serviceSection: 3 },
+    { id: "attendance", serviceSection: 3 }, { id: "queue", serviceSection: 3 }, { id: "survey", serviceSection: 3 }, // NEW UPDATE 4: LynkAttend, LynkQueue, LynkSurvey (full pages in 3B)
     { id: "team", serviceSection: 3 }, { id: "branches_devices", serviceSection: 3 }, { id: "plans_billing", serviceSection: 3 }, { id: "settings", serviceSection: 3 },
     { id: "academy", serviceSection: 3 }, { id: "automations", serviceSection: 3 },
 ];

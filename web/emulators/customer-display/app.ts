@@ -10,11 +10,12 @@ import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
+import { PeopleHub, afterPaymentRating } from "../../../ts/src/peoplehub.js";
 
 declare const DATA: Build & { fx: Record<string, number> };
 const TIERS = ["free", "plus", "pro", "max"] as const;
 type Step = "welcome" | "basket" | "pay" | "thanks";
-const S: PanelState & { step: Step; payState: UserState; ticks: number } = { online: true, fail: false, type: "shop", tier: "free", country: "", realUser: false, practice: false, dark: false, lang: "en", step: "welcome", payState: "sent", ticks: 0 };
+const S: PanelState & { step: Step; payState: UserState; ticks: number; rated: number | null } = { online: true, fail: false, type: "shop", tier: "free", country: "", realUser: false, practice: false, dark: false, lang: "en", step: "welcome", payState: "sent", ticks: 0, rated: null };
 const W = new Words(DATA.i18n, () => S.lang); const t = W.t;
 const C = new Country(DATA, () => S.country, () => S.lang);
 const $ = <T extends HTMLElement>(sel: string): T => document.querySelector(sel) as T;
@@ -24,12 +25,17 @@ const LOG = new EventLog(() => { const el = document.getElementById("log"); if (
 const ITEMS = [["p_bread", 1000], ["p_milk", 600], ["p_eggs", 4500], ["p_soap", 500]] as const;
 const products = ITEMS.map(([name, price]) => ({ id: newId(), name, price, category: "food" }));
 const cart = new Cart();
+/** LynkSurvey's rating after payment (NEW UPDATE 4, section 3): one tap on a touch screen, the QR on a screen that only shows.
+ *  Never required, never before the payment is confirmed; the answer is saved here and sent when the link is back. Its words are
+ *  this display's own copies of the shared "ppl_" words (same text and translation), so the display does not carry the whole shell. */
+const PH = new PeopleHub((type, payload, origin) => LOG.emit(type, payload, origin));
+const tt = (k: string, v?: Record<string, string | number>): string => t(k, v ?? {});
 
 function display(): string {
   const cur = C.pack().currency, total = cart.total();
   const pb = S.tier === "free" && S.step !== "pay" ? `<small class="pb">${esc(t("powered_by"))} LynkOmni</small>` : "";
   if (S.step === "welcome") return `<div class="cwel">${brandMark(DATA.brand.places, "customer-welcome", S.dark, "cmark")}<h2>${esc(t("welcome"))}</h2><p>${esc(t("sample_shop"))}</p>${pb}</div>`;
-  if (S.step === "thanks") return `<div class="cwel"><span class="bigcheck">${icon("ui-check")}</span><h2>${esc(t("thank_you_visit"))}</h2><p>${esc(C.money(total))}</p>${pb}</div>`;
+  if (S.step === "thanks") return `<div class="cwel"><span class="bigcheck">${icon("ui-check")}</span><h2>${esc(t("thank_you_visit"))}</h2><p>${esc(C.money(total))}</p>${afterPaymentRating(PH, DM.touch(), S.rated, tt, (id) => icon(id))}${pb}</div>`;
   const second = total ? secondCurrency(total, cur, cur === "USD" ? "EUR" : "USD", (m, a, b) => Math.round(m * ((DATA.fx[b] ?? 1) / (DATA.fx[a] ?? 1)))) : null;
   return `<div class="cbas"><ul>${cart.lines().map((l) => `<li><span>${esc(t(l.product.name))}</span><span>${qtyText(l.qtyMilli)} × ${esc(C.money(l.product.price))}</span><strong>${esc(C.money(l.product.price * l.qtyMilli / 1000))}</strong></li>`).join("")}</ul>
     <div class="ctot"><span>${esc(t("your_total"))}</span><strong>${esc(C.money(total))}</strong></div>${second ? `<p class="sec">${esc(t("second_currency", { amount: C.money(second.amount, second.currency), currency: cur }))}</p>` : ""}
@@ -37,7 +43,8 @@ function display(): string {
 }
 function till(): string {
   return `<h3>${esc(t("customer_display"))}</h3><div class="tbtns">${products.map((p) => `<button data-act="add:${p.id}">+ ${esc(t(p.name))}</button>`).join("")}</div>
-    <div class="tbtns"><button data-act="pay" ${cart.lines().length ? "" : "disabled"}>${esc(t("charge"))}</button><button data-act="clear">${esc(t("new_sale"))}</button></div>`;
+    <div class="tbtns"><button data-act="pay" ${cart.lines().length ? "" : "disabled"}>${esc(t("charge"))}</button><button data-act="clear">${esc(t("new_sale"))}</button></div>
+    <div class="tbtns"><button data-act="afterpay" aria-pressed="${PH.afterPayment}">${esc(t("ppl_after_payment"))}: ${esc(t(PH.afterPayment ? "ppl_on" : "ppl_off"))}</button></div>`;
 }
 /** Touch or display only (DEVICE 48.17.14): the customer display shows the same screens either way; without touch nothing on it
  *  needs pressing (the till drives it), so it has no pad. */
@@ -54,7 +61,9 @@ function act(a: string): void {
     S.step = "pay"; S.payState = S.online ? "sent" : "queued"; LOG.emit("PaymentRecorded", { payment_id: newId(), method: "other", amount: cart.total(), status: "pending_confirmation", currency: C.pack().currency });
     window.setTimeout(() => { if (!S.online) return; S.payState = S.fail ? "failed" : "confirmed"; LOG.emit("PaymentStatusChanged", { to_status: S.fail ? "failed" : "confirmed", source: "provider_callback" }, "server"); if (!S.fail) window.setTimeout(() => { S.step = "thanks"; draw(); }, 900); draw(); }, reducedMotion() ? 300 : 1800);
   }
-  if (k === "clear") { cart.clear(); S.step = "welcome"; }
+  if (k === "clear") { cart.clear(); S.step = "welcome"; S.rated = null; }
+  if (k === "ppl" && a.startsWith("ppl:rate:") && S.step === "thanks" && S.rated === null) { const n = Number(a.slice(9)); if (PH.rate(n, "pos", S.lang)) S.rated = n; }
+  if (k === "afterpay") PH.afterPayment = !PH.afterPayment;
   draw();
 }
 function panel(): void {

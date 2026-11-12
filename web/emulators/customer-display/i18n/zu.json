@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "Isilinganiso ngemuva kokukhokha",
+  "ppl_off": "Kuvaliwe",
+  "ppl_on": "Kuvuliwe",
+  "ppl_rate_1": "Kubi kakhulu",
+  "ppl_rate_2": "Kubi",
+  "ppl_rate_3": "Kulungile",
+  "ppl_rate_4": "Kuhle",
+  "ppl_rate_5": "Kuhle kakhulu",
+  "ppl_rate_title": "Bekunjani ukuvakasha kwakho namuhla?",
+  "ppl_rate_us": "Silinganisele",
+  "ppl_scan_to_answer": "Skena ukuze uphendule ocingweni lwakho.",
+  "ppl_thanks": "Siyabonga ngokuphendula.",
   "title": "Isikrini sekhasimende se-LynkPOS"
  }
 }

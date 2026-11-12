@@ -18,6 +18,8 @@ import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { StaffLock, deviceBanners, needsManager, raiseLocal, staffPicker } from "../../../ts/src/devicekit.js";
 import type { Line } from "../../../ts/src/notify.js";
 import { buildPack } from "../../../ts/src/assist.js";
+import { PeopleHub, counterCard, doorScreen, receptionCard, waitingCard } from "../../../ts/src/peoplehub.js";
+import { ticketNumber } from "../../../ts/src/queue.js";
 
 interface BuildData {
   icons: Record<string, string>;
@@ -40,7 +42,7 @@ declare const DATA: BuildData;
 const pack = (): CountryPack => DATA.packs[S.country] ?? DATA.packs[DATA.packOrder[0] ?? ""] as CountryPack;
 
 type Screen = "lock" | "home" | "sell" | "cart" | "pay" | "cash" | "momo" | "card" | "waiting" | "done" | "off" | "menu" | "sales" | "sale" | "count" | "shopqr"
-  | "pick" | "agent" | "agentdone" | "code" | "credit" | "staff";
+  | "pick" | "agent" | "agentdone" | "code" | "credit" | "staff" | "door" | "reception" | "counter";
 type Step = "number" | "amount" | "confirm";
 interface Req { id: string; service: string; amount: number; fee: number; commission: number; state: AgentState; ref: string }
 type Lang = string;   // a language code from design/fonts/scripts.v1.json, or one of TEST_LANGS
@@ -161,6 +163,17 @@ function newSale(): void { S.cart.clear(); S.current = null; S.input = ""; S.not
 function activePayment(): PaymentPayload | undefined { return S.current?.payments[S.current.payments.length - 1]; }
 
 // ---- the printer --------------------------------------------------------------------------------------------------
+/** LynkAttend and LynkQueue on this terminal (ts/src/peoplehub.ts): the same engine as the Business app, writing to this log. */
+const PH = new PeopleHub((type, payload, origin) => emit(type, payload, origin));
+const phCtx = (): { online: boolean; redraw: () => void; language: string } => ({ online: S.online, redraw: draw, language: S.lang });
+/** The ticket on the receipt printer: the big number, the section, the place and the time (no name, no phone number). */
+function printTicket(): void {
+  const tk = PH.tickets.find((x) => x.id === PH.lastTicket); if (!tk) return;
+  const v = PH.view(tk, t), paper = $("#paper"), wrap = $("#paperWrap");
+  paper.innerHTML = `<div class="rhead" role="img" aria-label="LynkOmni">${DATA.brand.receipt}</div><p class="rtk" dir="ltr">${esc(ticketNumber(tk.section, tk.code))}</p>
+    <pre class="rtext">${esc([v.sectionName, t("ppl_place", { n: String(v.place ?? "") }), clock(tk.at, true), SHOP].join("\n"))}</pre><div class="rcut" aria-hidden="true"></div>`;
+  wrap.classList.remove("torn"); wrap.hidden = false;
+}
 function printReceipt(s: Sale): void {
   const paper = $("#paper"), wrap = $("#paperWrap");
   const lines = receiptLines({ shop: SHOP, sale: s.sale, payments: s.payments, tendered: s.tendered, when: clock(s.at, true), money, words: Object.fromEntries(Object.keys(EN).map((k) => [k, t(k)])) });
@@ -182,6 +195,7 @@ function tear(): void { const w = $("#paperWrap"); w.classList.add("torn"); wind
 
 // ---- input: touch screen, physical keypad and keyboard -------------------------------------------------------------
 function digit(d: string): void {
+  if (S.screen === "door") { PH.doorDigit(d); draw(); return; }      // the door's PIN and IDCN: dots only, never the digits
   const max = S.screen === "lock" ? 4 : S.screen === "momo" || (S.screen === "agent" && S.step === "number") ? 12 : S.screen === "code" ? 8 : 9;
   if (!["lock", "cash", "momo", "count", "agent", "code", "credit"].includes(S.screen) || (S.screen === "agent" && S.step === "confirm")) return;
   if (S.input.length + d.length > max) return;
@@ -189,18 +203,22 @@ function digit(d: string): void {
   if (S.screen === "lock" && S.input.length === 4) { enter(); return; }
   draw();
 }
-function clearKey(): void { S.input = S.input.slice(0, -1); draw(); }
+function clearKey(): void { if (S.screen === "door") { PH.doorBack(); draw(); return; } S.input = S.input.slice(0, -1); draw(); }
 function cancelKey(): void {
   const back: Partial<Record<Screen, Screen>> = { sell: "home", cart: "sell", pay: "cart", cash: "pay", momo: "pay", card: "pay", off: "pay", menu: "home", sales: "home", sale: "sales", count: "menu", shopqr: "menu",
-    pick: "home", agent: S.tileGroup ? "pick" : "home", agentdone: "home", code: "pick", credit: "home" };
+    pick: "home", agent: S.tileGroup ? "pick" : "home", agentdone: "home", code: "pick", credit: "home", door: "menu", reception: "menu", counter: "menu" };
   if (S.screen === "agent" && S.step !== "number") { S.step = S.step === "confirm" ? "amount" : "number"; S.input = S.step === "number" ? S.number : String(S.amount || ""); draw(); return; }
   if (S.screen === "lock") { S.input = ""; draw(); return; }
+  if (S.screen === "door" && PH.door.step !== "pin") { PH.doorReset(); draw(); return; }   // Back at the door starts again for the next person
   if (S.screen === "waiting" && activePayment()?.status === "failed") { S.screen = "pay"; draw(); return; }
   const to = back[S.screen]; if (to) { S.screen = to; S.input = ""; S.note = ""; draw(); }
 }
 function enter(): void {
   switch (S.screen) {
     case "lock": { signIn(); return; }
+    case "door": if (PH.door.step === "done") PH.doorReset(); else PH.doorIdcn(); break;
+    case "reception": PH.act("ph:issue", phCtx()); printTicket(); break;
+    case "counter": { const c = PH.counters[0]; if (c && !c.serving) PH.callNext(c.id); else if (c) PH.finish(c.id, "served"); break; }
     case "agent":
       if (S.step === "number") { if (S.input.length < 4) return; S.number = S.input; S.input = ""; S.step = (FINANCE_PRODUCTS as readonly string[]).includes(S.service) ? "confirm" : "amount"; break; }
       if (S.step === "amount") { const a = Number(S.input || "0"); if (!a) return; if (limitCheck(a, S.usedToday, combinedLimits(PARTNER_LIMITS)) !== "ok") { S.note = t("limit_exceeded"); break; } S.amount = a; S.input = ""; S.step = "confirm"; break; }
@@ -300,13 +318,14 @@ function redeem(): void {
 // ---- the shell parts on the terminal (41 B): search, help, account menu, first-run language card, every screen's address ---------
 const SCREEN_PATH: Record<Screen, string> = { lock: "/", home: "/", sell: "/sell", cart: "/sell/basket", pay: "/sell/payment", cash: "/sell/payment", momo: "/sell/payment",
   card: "/sell/payment", waiting: "/sell/payment", off: "/sell/payment", done: "/sell/receipt", menu: "/business", sales: "/sell/sales", sale: "/sell/sales", count: "/sell/shifts",
-  shopqr: "/business/online-shop", pick: "/services", agent: "/services", agentdone: "/services", code: "/services", credit: "/crm", staff: "/business/team" };
+  shopqr: "/business/online-shop", pick: "/services", agent: "/services", agentdone: "/services", code: "/services", credit: "/crm", staff: "/business/team", door: "/attendance/door", reception: "/queue/reception", counter: "/queue/counter" };
 const screenNow = (): DsScreen => ({ id: S.screen, title: document.querySelector("#display .app h1")?.textContent?.trim() || t("sample_shop"), path: SCREEN_PATH[S.screen] });
 function entries(): Entry[] {
   const go = (id: string, key: string, kind: Entry["kind"] = "action"): Entry => ({ id, kind, title: t(key), act: `go:${id}` });
   return [
     { id: "new-sale", kind: "action", title: t("new_sale"), act: "newsale", keywords: [t("sell")] },
     go("sales", "sales", "report"), go("count", "count"), go("shopqr", "shop_qr"), go("menu", "menu", "setting"),
+    go("door", "ppl_door_title"), go("reception", "ppl_reception_title"), go("counter", "ppl_counter_title"),
     { id: "lowlit", kind: "setting", title: t("low_literacy"), act: "lowlit" },
     ...HANDHELD_TILES.map((k): Entry => ({ id: `tile-${k}`, kind: "action", title: t(`tile_${k}`), act: `tile:${k}` })),
     ...CATALOG.map((p): Entry => ({ id: p.id, kind: "product", title: p.name, subtitle: money(p.price), act: `add:${p.id}`, keywords: [p.barcode ?? ""] })),
@@ -341,7 +360,7 @@ const DSH = new DeviceShell({
   knowledge: () => KP(),
   crumbLabel: (p) => t(CRUMB[p] ?? "sample_shop"),
 });
-const CRUMB: Record<string, string> = { "/": "sample_shop", "/sell": "sell", "/sell/basket": "basket", "/sell/payment": "pay", "/sell/receipt": "receipt", "/sell/sales": "sales", "/sell/shifts": "count", "/business": "menu", "/business/team": "staff_title", "/business/online-shop": "shop_qr", "/services": "menu", "/crm": "menu" };
+const CRUMB: Record<string, string> = { "/": "sample_shop", "/sell": "sell", "/sell/basket": "basket", "/sell/payment": "pay", "/sell/receipt": "receipt", "/sell/sales": "sales", "/sell/shifts": "count", "/business": "menu", "/business/team": "staff_title", "/business/online-shop": "shop_qr", "/services": "menu", "/crm": "menu", "/attendance/door": "ppl_door_title", "/queue/reception": "ppl_reception_title", "/queue/counter": "ppl_counter_title" };
 
 // ---- screens ------------------------------------------------------------------------------------------------------
 function top(title: string, backable = true): string {
@@ -448,12 +467,19 @@ function view(): string {
     case "shopqr":   // 38 C: the shop QR customers scan to open the shop page and pay (LynkCheckout)
       return `${top(t("shop_qr"))}<div class="offbox"><span class="qrbig" role="img" aria-label="${esc(t("shop_qr"))}">${icon("ui-qr")}</span><p>${esc(t("shop_qr_help"))}</p></div>`;
     case "staff": return staffScreen();
+    // NEW UPDATE 4 (section 3): the door (LynkAttend), reception and counter (LynkQueue) on LynkPOS, offline like the till
+    case "door": return `${top(t("ppl_door_title"))}${doorScreen(PH, t, icon, (ms) => clock(ms))}<p class="keyhint">${icon("ui-info")}${esc(t("ppl_door_sample", { pin: PH.members[1]?.pin ?? "", idcn: PH.members[1]?.idcn ?? "" }))}</p>`;
+    case "reception": return `${top(t("ppl_reception_title"))}<div class="ph-wrap">${receptionCard(PH, t, icon)}${waitingCard(PH, t)}</div>`;
+    case "counter": return `${top(t("ppl_counter_title"))}<div class="ph-wrap">${PH.counters[0] ? counterCard(PH, PH.counters[0].id, t, icon) : ""}${waitingCard(PH, t)}</div>`;
     case "menu":
       if (S.view === "limited") return `${top(t("menu"))}<ul class="menu"><li><button data-act="lock">${icon("ui-lock")}${esc(t("lock"))}${icon("ui-chevron-right")}</button></li></ul>`;
       return `${top(t("menu"))}<ul class="menu"><li><button data-act="go:sales">${icon("ui-receipt")}${esc(t("sales"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="go:count">${icon("product-ledger")}${esc(t("count"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="go:shopqr">${icon("ui-qr")}${esc(t("shop_qr"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="go:staff">${icon("ui-user")}${esc(t("staff_title"))}${icon("ui-chevron-right")}</button></li>
+        <li><button data-act="go:door">${icon("product-attend")}<span>${esc(t("ppl_door_title"))} <span class="pn">LynkAttend</span></span>${icon("ui-chevron-right")}</button></li>
+        <li><button data-act="go:reception">${icon("product-queue")}<span>${esc(t("ppl_reception_title"))} <span class="pn">LynkQueue</span></span>${icon("ui-chevron-right")}</button></li>
+        <li><button data-act="go:counter">${icon("product-queue")}<span>${esc(t("ppl_counter_title"))} <span class="pn">LynkQueue</span></span>${icon("ui-chevron-right")}</button></li>
         <li><button data-act="dsh:account">${icon("ui-user")}${esc(t("account_menu"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="dsh:sync">${icon(S.online ? "ui-sync" : "ui-offline")}${esc(t("sync"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="lowlit" aria-pressed="${S.lowLiteracy}">${icon("ui-grid")}${esc(t("low_literacy"))}${S.lowLiteracy ? icon("ui-check") : icon("ui-chevron-right")}</button></li>
@@ -535,6 +561,7 @@ function drawLog(): void {
 
 function act(a: string): void {
   if (DSH.act(a)) return;
+  if (a.startsWith("ph:")) { const issue = a === "ph:issue"; PH.act(a, phCtx()); if (issue) printTicket(); draw(); return; }
   const [k, v = ""] = a.split(/:(.*)/s);
   try {
     if (k && /^d\d+$/.test(k)) { digit(k.slice(1)); return; }
@@ -553,7 +580,7 @@ function act(a: string): void {
       case "add": { const p = CATALOG.find((x) => x.id === v); if (p) S.cart.add(p); draw(); return; }
       case "inc": { const l = S.cart.lines().find((x) => x.product.id === v); if (l) S.cart.setQty(v, l.qtyMilli + 1000); draw(); return; }
       case "dec": { const l = S.cart.lines().find((x) => x.product.id === v); if (l) S.cart.setQty(v, l.qtyMilli - 1000); if (!S.cart.lines().length) S.screen = "sell"; draw(); return; }
-      case "go": S.screen = (["sell", "cart", "pay", "sales", "count", "menu", "home", "shopqr", "staff"] as Screen[]).find((x) => x === v && (S.view === "full" || ["sell", "cart", "pay", "home"].includes(x))) ?? "home"; S.input = ""; S.note = ""; draw(); return;
+      case "go": S.screen = (["sell", "cart", "pay", "sales", "count", "menu", "home", "shopqr", "staff", "door", "reception", "counter"] as Screen[]).find((x) => x === v && (S.view === "full" || ["sell", "cart", "pay", "home"].includes(x))) ?? "home"; S.input = ""; S.note = ""; draw(); return;
       case "method": {
         const m = v as PaymentMethod; S.method = m; S.input = "";
         S.screen = !methodOk(m) ? "off" : m === "cash" ? "cash" : m === "card" ? "card" : "momo"; draw(); return;
@@ -626,6 +653,7 @@ function wire(): void {
     if (el && !(el as HTMLButtonElement).disabled) act(el.dataset["act"] ?? "");
   });
   $("#display").addEventListener("input", (ev) => { DSH.input(ev.target as HTMLInputElement); });
+  $("#display").addEventListener("change", (ev) => { const el = ev.target as HTMLSelectElement; if (el.dataset["act"] === "ppl:checker") { PH.pickChecker(el.value); draw(); } });
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
   $("#tapzone").addEventListener("click", tapCard);
   $("#slot").addEventListener("click", tapCard);

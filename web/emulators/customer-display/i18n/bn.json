@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "পেমেন্টের পরে রেটিং",
+  "ppl_off": "বন্ধ আছে",
+  "ppl_on": "চালু",
+  "ppl_rate_1": "খুব খারাপ",
+  "ppl_rate_2": "খারাপ",
+  "ppl_rate_3": "মোটামুটি",
+  "ppl_rate_4": "ভালো",
+  "ppl_rate_5": "খুব ভালো",
+  "ppl_rate_title": "আজ আপনার আসা কেমন ছিল?",
+  "ppl_rate_us": "আমাদের রেটিং দিন",
+  "ppl_scan_to_answer": "ফোনে উত্তর দিতে স্ক্যান করুন।",
+  "ppl_thanks": "উত্তর দেওয়ার জন্য ধন্যবাদ।",
   "title": "LynkPOS গ্রাহক ডিসপ্লে"
  }
 }

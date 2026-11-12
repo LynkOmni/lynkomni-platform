@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "支払い後の評価",
+  "ppl_off": "オフ",
+  "ppl_on": "オン",
+  "ppl_rate_1": "とても悪い",
+  "ppl_rate_2": "悪い",
+  "ppl_rate_3": "普通",
+  "ppl_rate_4": "良い",
+  "ppl_rate_5": "とても良い",
+  "ppl_rate_title": "本日のご来店はいかがでしたか？",
+  "ppl_rate_us": "評価する",
+  "ppl_scan_to_answer": "スキャンしてスマホで回答してください。",
+  "ppl_thanks": "ご回答ありがとうございます。",
   "title": "LynkPOS お客様用ディスプレイ"
  }
 }

@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "דירוג אחרי תשלום",
+  "ppl_off": "כבוי",
+  "ppl_on": "פועל",
+  "ppl_rate_1": "גרוע מאוד",
+  "ppl_rate_2": "גרוע",
+  "ppl_rate_3": "סביר",
+  "ppl_rate_4": "טוב",
+  "ppl_rate_5": "טוב מאוד",
+  "ppl_rate_title": "איך היה הביקור שלך היום?",
+  "ppl_rate_us": "דרגו אותנו",
+  "ppl_scan_to_answer": "סרקו כדי לענות בטלפון.",
+  "ppl_thanks": "תודה על התשובה.",
   "title": "מסך לקוח LynkPOS"
  }
 }

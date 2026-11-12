@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "付款后评分",
+  "ppl_off": "关闭中",
+  "ppl_on": "开启",
+  "ppl_rate_1": "很差",
+  "ppl_rate_2": "差",
+  "ppl_rate_3": "一般",
+  "ppl_rate_4": "好",
+  "ppl_rate_5": "很好",
+  "ppl_rate_title": "您今天的到访体验如何？",
+  "ppl_rate_us": "为我们评分",
+  "ppl_scan_to_answer": "扫码用手机作答。",
+  "ppl_thanks": "感谢您的回答。",
   "title": "LynkPOS 顾客显示屏"
  }
 }

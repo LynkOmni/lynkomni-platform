@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "Penilaian setelah pembayaran",
+  "ppl_off": "Nonaktif",
+  "ppl_on": "Aktif",
+  "ppl_rate_1": "Sangat buruk",
+  "ppl_rate_2": "Buruk",
+  "ppl_rate_3": "Biasa",
+  "ppl_rate_4": "Baik",
+  "ppl_rate_5": "Sangat baik",
+  "ppl_rate_title": "Bagaimana kunjungan Anda hari ini?",
+  "ppl_rate_us": "Beri kami nilai",
+  "ppl_scan_to_answer": "Pindai untuk menjawab di ponsel Anda.",
+  "ppl_thanks": "Terima kasih telah menjawab.",
   "title": "Layar pelanggan LynkPOS"
  }
 }

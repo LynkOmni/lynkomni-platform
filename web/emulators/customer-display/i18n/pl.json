@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "pl",
  "native": "Polski",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "Ocena po płatności",
+  "ppl_off": "Wyłączona",
+  "ppl_on": "Włączona",
+  "ppl_rate_1": "Bardzo źle",
+  "ppl_rate_2": "Źle",
+  "ppl_rate_3": "Przeciętnie",
+  "ppl_rate_4": "Dobrze",
+  "ppl_rate_5": "Bardzo dobrze",
+  "ppl_rate_title": "Jak minęła dziś Twoja wizyta?",
+  "ppl_rate_us": "Oceń nas",
+  "ppl_scan_to_answer": "Zeskanuj, aby odpowiedzieć na telefonie.",
+  "ppl_thanks": "Dziękujemy za odpowiedź.",
   "title": "Wyświetlacz klienta LynkPOS"
  }
 }

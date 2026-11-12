@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "Tathmini baada ya malipo",
+  "ppl_off": "Imezimwa",
+  "ppl_on": "Imewashwa",
+  "ppl_rate_1": "Mbaya sana",
+  "ppl_rate_2": "Mbaya",
+  "ppl_rate_3": "Wastani",
+  "ppl_rate_4": "Nzuri",
+  "ppl_rate_5": "Nzuri sana",
+  "ppl_rate_title": "Ziara yako ya leo ilikuwaje?",
+  "ppl_rate_us": "Tupe alama",
+  "ppl_scan_to_answer": "Changanua ili ujibu kwenye simu yako.",
+  "ppl_thanks": "Asante kwa kujibu.",
   "title": "Skrini ya mteja ya LynkPOS"
  }
 }

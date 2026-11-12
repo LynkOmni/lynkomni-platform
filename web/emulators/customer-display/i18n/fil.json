@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "Rating pagkatapos magbayad",
+  "ppl_off": "Naka-off",
+  "ppl_on": "Naka-on",
+  "ppl_rate_1": "Napakasama",
+  "ppl_rate_2": "Masama",
+  "ppl_rate_3": "Puwede na",
+  "ppl_rate_4": "Mabuti",
+  "ppl_rate_5": "Napakabuti",
+  "ppl_rate_title": "Kumusta ang iyong pagbisita ngayon?",
+  "ppl_rate_us": "I-rate kami",
+  "ppl_scan_to_answer": "I-scan para sumagot sa telepono mo.",
+  "ppl_thanks": "Salamat sa pagsagot.",
   "title": "Display ng customer ng LynkPOS"
  }
 }

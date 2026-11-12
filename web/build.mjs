@@ -22,16 +22,18 @@ const INTERFACE_MODULES = ["ts/src/interfaces.generated.js", "ts/src/interfaces.
 const PARTS_MODULES = ["ts/src/parts.generated.js", "ts/src/signin.js", "ts/src/notify.js", "ts/src/assist.js", "ts/src/breadcrumbs.js"];
 // NEW UPDATE 4 (section 1): the shared parts of LynkAttend, LynkQueue and LynkSurvey with the rules they draw from
 const PEOPLE_MODULES = ["ts/src/attendance.js", "ts/src/queue.js", "ts/src/peopleparts.js"];
+// NEW UPDATE 4 (section 3): the Business app devices also run the people engine (setup, Add a device, door, reception, counter, rating)
+const PEOPLE_DEVICE = ["ts/src/attendance.js", "ts/src/queue.js", "ts/src/survey.js", "ts/src/peopleparts.js", "ts/src/peoplehub.js"];
 const EMULATORS = [
-  { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: [...DEVICE_MODULES, "web/emulators/pos-terminal/app.js"] },
-  { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: ["ts/src/usernames.generated.js", "ts/src/usernames.js", ...DEVICE_MODULES, ...TRACK_MODULES, "ts/src/reservations.js", "ts/src/drivers.js", "ts/src/drivers.generated.js", "web/emulators/merchant-phone/app.js"] },
+  { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: [...DEVICE_MODULES, ...PEOPLE_DEVICE, "web/emulators/pos-terminal/app.js"] },
+  { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: ["ts/src/usernames.generated.js", "ts/src/usernames.js", ...DEVICE_MODULES, ...TRACK_MODULES, "ts/src/reservations.js", "ts/src/drivers.js", "ts/src/drivers.generated.js", ...PEOPLE_DEVICE, "web/emulators/merchant-phone/app.js"] },
   { id: "browser-frame", out: "lynkomni-browser-frame.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", ...INTERFACE_MODULES, ...PARTS_MODULES, ...PEOPLE_MODULES, "web/emulators/browser-frame/app.js"],
     extraCss: ["web/shell/shell.css"] },
   { id: "account-site", out: "lynkomni-account-site.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", "ts/src/account.js", ...INTERFACE_MODULES, ...TRACK_MODULES, ...PARTS_MODULES, "ts/src/protection.js", ...PEOPLE_MODULES, "web/emulators/account-site/app.js"],
     extraCss: ["web/shell/shell.css"] },
   // build section 3: the Business app devices, all on the shared device runtime (ts/src/emulator.js) and words (web/pos)
   ...["counter-tablet", "kitchen-screen", "customer-display", "rider-phone", "stock-scanner", "button-phone", "vcard-card", "mesh-relay", "owner-web", "track-page"]
-    .map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...(id === "button-phone" ? ["ts/src/usernames.generated.js", "ts/src/usernames.js"] : []), ...DEVICE_MODULES, ...(["rider-phone", "track-page"].includes(id) ? TRACK_MODULES : []), ...(id === "button-phone" ? ["ts/src/channels.js", "ts/src/basicphone.js"] : []), `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
+    .map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...(id === "button-phone" ? ["ts/src/usernames.generated.js", "ts/src/usernames.js"] : []), ...DEVICE_MODULES, ...(["rider-phone", "track-page"].includes(id) ? TRACK_MODULES : []), ...(id === "button-phone" ? ["ts/src/channels.js", "ts/src/basicphone.js"] : []), ...(id === "customer-display" ? PEOPLE_DEVICE : []), `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
 ];
 
 const read = (p) => readFileSync(p, "utf8");

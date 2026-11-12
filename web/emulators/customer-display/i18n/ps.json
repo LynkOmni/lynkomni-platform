@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "ps",
  "native": "پښتو",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "له تادیې وروسته درجه",
+  "ppl_off": "بند",
+  "ppl_on": "روښانه",
+  "ppl_rate_1": "ډېر بد",
+  "ppl_rate_2": "بد",
+  "ppl_rate_3": "ښه نه بد",
+  "ppl_rate_4": "ښه",
+  "ppl_rate_5": "ډېر ښه",
+  "ppl_rate_title": "نن ستاسو لیدنه څنګه وه؟",
+  "ppl_rate_us": "موږ ته نمره راکړئ",
+  "ppl_scan_to_answer": "په خپل تلیفون د ځواب لپاره سکن کړئ.",
+  "ppl_thanks": "د ځواب لپاره مننه.",
   "title": "د پېرودونکي پرده LynkPOS"
  }
 }

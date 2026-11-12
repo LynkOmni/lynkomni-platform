@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "Ödeme sonrası puan",
+  "ppl_off": "Kapalı",
+  "ppl_on": "Açık",
+  "ppl_rate_1": "Çok kötü",
+  "ppl_rate_2": "Kötü",
+  "ppl_rate_3": "İdare eder",
+  "ppl_rate_4": "İyi",
+  "ppl_rate_5": "Çok iyi",
+  "ppl_rate_title": "Bugünkü ziyaretiniz nasıldı?",
+  "ppl_rate_us": "Bizi puanlayın",
+  "ppl_scan_to_answer": "Telefonunuzdan yanıtlamak için tarayın.",
+  "ppl_thanks": "Yanıtınız için teşekkürler.",
   "title": "LynkPOS müşteri ekranı"
  }
 }

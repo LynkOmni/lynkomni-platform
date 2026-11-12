@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "Đánh giá sau thanh toán",
+  "ppl_off": "Tắt",
+  "ppl_on": "Bật",
+  "ppl_rate_1": "Rất tệ",
+  "ppl_rate_2": "Tệ",
+  "ppl_rate_3": "Tạm được",
+  "ppl_rate_4": "Tốt",
+  "ppl_rate_5": "Rất tốt",
+  "ppl_rate_title": "Chuyến ghé thăm hôm nay của bạn thế nào?",
+  "ppl_rate_us": "Đánh giá chúng tôi",
+  "ppl_scan_to_answer": "Quét để trả lời trên điện thoại.",
+  "ppl_thanks": "Cảm ơn bạn đã trả lời.",
   "title": "Màn hình khách hàng LynkPOS"
  }
 }

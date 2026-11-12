@@ -4,8 +4,20 @@
  "kept_in_english": [],
  "lang": "fa",
  "native": "فارسی",
- "source_sha256": "418a33d84cc40c18d949fe39ae19aa8bd7122636f7d427f669b5517884363ae9",
+ "source_sha256": "179dce659afa94c830a64d5faa580f37276aab4a52c951d0a1bdbbfb581944f0",
  "texts": {
+  "ppl_after_payment": "امتیاز پس از پرداخت",
+  "ppl_off": "خاموش",
+  "ppl_on": "روشن",
+  "ppl_rate_1": "خیلی بد",
+  "ppl_rate_2": "بد",
+  "ppl_rate_3": "معمولی",
+  "ppl_rate_4": "خوب",
+  "ppl_rate_5": "خیلی خوب",
+  "ppl_rate_title": "بازدید امروزتان چطور بود؟",
+  "ppl_rate_us": "به ما امتیاز دهید",
+  "ppl_scan_to_answer": "برای پاسخ با گوشی خود اسکن کنید.",
+  "ppl_thanks": "از پاسخ شما متشکریم.",
   "title": "صفحه مشتری LynkPOS"
  }
 }
