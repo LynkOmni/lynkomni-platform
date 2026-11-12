@@ -19,6 +19,7 @@ class Attendance(unittest.TestCase):
         taken = {"482915"}
         self.assertEqual(A.new_pin(lambda: next(draws), taken), "908172")   # easy and taken PINs are passed over
         self.assertTrue(A.pin_group_warning(A.PIN_GROUP_SIZE * 9 // 10 + 1))
+        self.assertEqual(A.EASY_PIN_COUNT, sum(1 for n in range(10 ** 6) if A.is_easy_pin(f"{n:06d}")))
 
     def test_the_door_runs_the_set_in_order_and_marks_every_backup(self):
         self.assertEqual(A.means_of("face_finger_idcn"), ["face", "finger", "idcn"])

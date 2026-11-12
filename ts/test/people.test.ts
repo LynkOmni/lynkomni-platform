@@ -13,6 +13,8 @@ test("LynkAttend: IDCN, easy PINs, sets, the door ladder and checkers agree with
   for (const c of a.idcn) assert.equal(A.idcn(c.id), c.idcn, c.id);
   for (const c of a.easy_pin) assert.equal(A.isEasyPin(c.pin), c.easy, c.pin);
   assert.equal(A.PIN_GROUP_SIZE, a.pin_group_size); assert.equal(A.EASY_PIN_COUNT, a.easy_pin_count);
+  let easy = 0; for (let n = 0; n < 1e6; n++) if (A.isEasyPin(String(n).padStart(6, "0"))) easy++;
+  assert.equal(easy, A.EASY_PIN_COUNT);
   for (const [s, m] of Object.entries(a.means)) assert.deepEqual(A.meansOf(s), m);
   for (const c of a.sets_allowed) assert.deepEqual(A.setsAllowed(c.face, c.finger), c.sets);
   for (const c of a.door) assert.deepEqual(A.door(c.set, c.attempts, c.broken), c.out);

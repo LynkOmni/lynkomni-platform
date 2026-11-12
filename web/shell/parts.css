@@ -88,7 +88,7 @@
 .rating, .scale { border: 1px solid var(--border-subtle); border-radius: 12px; padding: 10px; min-inline-size: 0; margin: 0; }
 .rates { display: grid; grid-template-columns: repeat(auto-fit, minmax(64px, 1fr)); gap: 6px; }
 .rate { display: grid; justify-items: center; gap: 2px; min-block-size: var(--touch-target); padding: 6px 4px; border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--bg-surface); color: var(--text-primary); overflow-wrap: anywhere; min-inline-size: 0; }
-.rate .face { font-size: 1.5rem; } .rate.on, .score.on { border: 2px solid var(--brand-primary); background: var(--brand-subtle); }
+.rate .face { display: grid; place-items: center; inline-size: 1.75rem; block-size: 1.75rem; border-radius: 50%; border: 2px solid var(--border-strong); font-weight: 700; font-variant-numeric: var(--font-feature-tabular); } .rate.on, .score.on { border: 2px solid var(--brand-primary); background: var(--brand-subtle); } .rate.on .face { border-color: var(--brand-primary); }
 .scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(44px, 1fr)); gap: 4px; }
 .score { min-block-size: var(--touch-target); border: 1px solid var(--border-subtle); border-radius: 8px; background: var(--bg-surface); color: var(--text-primary); font-variant-numeric: var(--font-feature-tabular); }
 .scale .ends { display: flex; justify-content: space-between; gap: 8px; color: var(--text-secondary); margin: 6px 0 0; flex-wrap: wrap; }

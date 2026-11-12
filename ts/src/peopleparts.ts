@@ -38,10 +38,10 @@ export function idcnEntry(e: IdcnEntry, t: T): string {
 }
 
 export const RATING = ["ppl_rate_1", "ppl_rate_2", "ppl_rate_3", "ppl_rate_4", "ppl_rate_5"] as const;
-const FACES = ["😞", "🙁", "😐", "🙂", "😀"] as const;
-/** The quick rating: five buttons, each with its word (never the picture alone), 1 = very bad to 5 = very good. */
+/** The quick rating: five buttons, each with its number on a small dial and its word, 1 = very bad to 5 = very good. No emoji: they
+ *  look different on every phone and a device without an emoji font spends seconds looking for one. */
 export function quickRating(title: string, chosen: number | null, t: T): string {
-  const b = RATING.map((k, i) => `<button type="button" class="rate${chosen === i + 1 ? " on" : ""}" data-act="ppl:rate:${i + 1}" aria-pressed="${chosen === i + 1}"><span class="face" aria-hidden="true">${FACES[i]}</span><span>${esc(t(k))}</span></button>`).join("");
+  const b = RATING.map((k, i) => `<button type="button" class="rate${chosen === i + 1 ? " on" : ""}" data-act="ppl:rate:${i + 1}" aria-pressed="${chosen === i + 1}"><span class="face" aria-hidden="true">${i + 1}</span><span>${esc(t(k))}</span></button>`).join("");
   return `<fieldset class="rating"><legend>${esc(title)}</legend><div class="rates">${b}</div>${chosen ? `<p class="ok" role="status">${esc(t("ppl_thanks"))}</p>` : ""}</fieldset>`;
 }
 
