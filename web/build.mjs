@@ -20,10 +20,12 @@ const TRACK_MODULES = ["ts/src/tracking.js", "ts/src/tracking.generated.js", "ts
 const INTERFACE_MODULES = ["ts/src/interfaces.generated.js", "ts/src/interfaces.js", "ts/src/gestures.js"];
 // MASTER UPDATE, section 1: the shared sign-in parts (section 3 puts them on every device too, with ts/src/devicekit.js), the bell and message parts, LynkAssist and breadcrumbs, on their registers
 const PARTS_MODULES = ["ts/src/parts.generated.js", "ts/src/signin.js", "ts/src/notify.js", "ts/src/assist.js", "ts/src/breadcrumbs.js"];
+// NEW UPDATE 4 (section 1): the shared parts of LynkAttend, LynkQueue and LynkSurvey with the rules they draw from
+const PEOPLE_MODULES = ["ts/src/attendance.js", "ts/src/queue.js", "ts/src/peopleparts.js"];
 const EMULATORS = [
   { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: [...DEVICE_MODULES, "web/emulators/pos-terminal/app.js"] },
   { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: ["ts/src/usernames.generated.js", "ts/src/usernames.js", ...DEVICE_MODULES, ...TRACK_MODULES, "ts/src/reservations.js", "ts/src/drivers.js", "ts/src/drivers.generated.js", "web/emulators/merchant-phone/app.js"] },
-  { id: "browser-frame", out: "lynkomni-browser-frame.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", ...INTERFACE_MODULES, ...PARTS_MODULES, "web/emulators/browser-frame/app.js"],
+  { id: "browser-frame", out: "lynkomni-browser-frame.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", ...INTERFACE_MODULES, ...PARTS_MODULES, ...PEOPLE_MODULES, "web/emulators/browser-frame/app.js"],
     extraCss: ["web/shell/shell.css"] },
   { id: "account-site", out: "lynkomni-account-site.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", "ts/src/account.js", ...INTERFACE_MODULES, ...TRACK_MODULES, ...PARTS_MODULES, "ts/src/protection.js", "web/emulators/account-site/app.js"],
     extraCss: ["web/shell/shell.css"] },

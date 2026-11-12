@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.42.0 (2026-11-11)
+NEW UPDATE 4, section 1 (shared shell and design):
+- LynkAttend, LynkQueue and LynkSurvey are in the app launcher with their plain words, and in the footer under "People & service"; their product marks (an arrow going in through a door, a ticket, a clipboard with a tick) come from @lynkomni/icons 1.7.0.
+- The device names for the whole of LynkOmni are on the screens: Change view says LynkMobile, LynkTab or LynkPC; the Business app calls its devices LynkMobile and LynkTab; the customer display is the LynkPOS customer screen; emulator titles and the showcase name the device each one runs on.
+- Shared parts for the three services, by touch and by keys: the ticket card (the big ticket number, the section, your place as a plain number and the estimate, or "It's your turn" with the counter), the IDCN entry (dots, never the digits) with the checker notice and the list without your own name, the quick rating with a word under every face, the 0 to 10 score and "Rate us" with its QR.
+- 33 new and changed screen words in all 38 languages.
+
 ## v0.41.0 (2026-11-11)
 NEW UPDATE 4, Step 0 (LynkAttend, LynkQueue and LynkSurvey: one global structure):
 - Three new services, each its own plan outside LynkSuite: LynkAttend (attendance) $0 / $49.50 / $95 / $179, LynkQueue (queue and tickets) $0 / $55 / $115 / $249 and LynkSurvey (surveys) $0 / $59 / $155 / $249 a month, with people, places or creators included and a price for each extra; 20% off when two or three are held together. Pro and Max were topped up a little for the links across LynkOmni; Free and Plus stay as agreed. Prices are pinned by the price lock.

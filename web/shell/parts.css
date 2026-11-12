@@ -73,3 +73,23 @@
 /* contrast on tinted backgrounds stays at 4.5:1 or more (WCAG 2.2 AA), and every chip is at least the 44 px target */
 .nline.unread .nmeta, .nline.unread .nb, .nline.unread .rec, .ncount, .smsbubble .note, .asres .note { color: var(--text-primary); }
 .chipbtn { min-inline-size: var(--touch-target); }
+/* LynkAttend, LynkQueue and LynkSurvey shared parts (NEW UPDATE 4, ts/src/peopleparts.ts): ticket card, IDCN entry, ratings, Rate us */
+.ticket { border: 2px dashed var(--border-strong); border-radius: 12px; padding: 14px; background: var(--bg-surface); text-align: center; min-inline-size: 0; overflow-wrap: anywhere; container-type: inline-size; }
+.ticket .tlabel, .ticket .tname { color: var(--text-secondary); margin: 0; }
+.ticket .tnum { white-space: nowrap; overflow-wrap: normal; font-family: var(--font-heading); font-size: min(2.4rem, 13cqi); font-weight: 700; letter-spacing: .04em; margin: 6px 0; color: var(--text-primary); font-variant-numeric: var(--font-feature-tabular); }
+.ticket .tplace { font-weight: 600; margin: 6px 0 0; } .ticket .twait { margin: 4px 0 0; color: var(--text-secondary); }
+.ticket .tcalled { display: flex; gap: 6px; justify-content: center; align-items: center; color: var(--status-success-text); font-weight: 700; margin: 8px 0 0; }
+.idcn { display: grid; gap: 8px; min-inline-size: 0; max-inline-size: 360px; }
+.idcn .dots { display: flex; gap: 10px; justify-content: center; } .idcn .dot { inline-size: 14px; block-size: 14px; border-radius: 50%; border: 2px solid var(--border-strong); }
+.idcn .dot.on { background: var(--text-primary); border-color: var(--text-primary); }
+.idcn .notice { background: var(--status-warning-bg); border: 1px solid var(--status-warning-border); color: var(--status-warning-text); border-radius: 8px; padding: 8px; margin: 0; }
+.idcn select { min-block-size: var(--touch-target); inline-size: 100%; } .plabel { font-weight: 600; margin: 0; }
+.sr { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.rating, .scale { border: 1px solid var(--border-subtle); border-radius: 12px; padding: 10px; min-inline-size: 0; margin: 0; }
+.rates { display: grid; grid-template-columns: repeat(auto-fit, minmax(64px, 1fr)); gap: 6px; }
+.rate { display: grid; justify-items: center; gap: 2px; min-block-size: var(--touch-target); padding: 6px 4px; border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--bg-surface); color: var(--text-primary); overflow-wrap: anywhere; min-inline-size: 0; }
+.rate .face { display: grid; place-items: center; inline-size: 1.75rem; block-size: 1.75rem; border-radius: 50%; border: 2px solid var(--border-strong); font-weight: 700; font-variant-numeric: var(--font-feature-tabular); } .rate.on, .score.on { border: 2px solid var(--brand-primary); background: var(--brand-subtle); } .rate.on .face { border-color: var(--brand-primary); }
+.scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(44px, 1fr)); gap: 4px; }
+.score { min-block-size: var(--touch-target); border: 1px solid var(--border-subtle); border-radius: 8px; background: var(--bg-surface); color: var(--text-primary); font-variant-numeric: var(--font-feature-tabular); }
+.scale .ends { display: flex; justify-content: space-between; gap: 8px; color: var(--text-secondary); margin: 6px 0 0; flex-wrap: wrap; }
+.rateus { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; min-inline-size: 0; } .rateus .qr { flex: 0 0 auto; } .rateus > div { flex: 1 1 8rem; min-inline-size: 0; overflow-wrap: anywhere; } .rateus .qrbig svg { inline-size: 72px; block-size: 72px; }

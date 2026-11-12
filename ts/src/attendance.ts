@@ -30,10 +30,9 @@ export function isEasyPin(pin: string): boolean {
   if (steps.size === 1 && (steps.has(1) || steps.has(-1))) return true;
   return pin === pin.slice(0, 2).repeat(3) || pin === pin.slice(0, 3).repeat(2);
 }
-let easy = 0;
-for (let n = 0; n < 10 ** PIN_LENGTH; n++) if (isEasyPin(String(n).padStart(6, "0"))) easy++;
-export const EASY_PIN_COUNT = easy;
-export const PIN_GROUP_SIZE = 10 ** PIN_LENGTH - easy;
+/** How many 6-digit PINs are easy (never given): fixed here so no screen counts a million PINs at start; the tests count them. */
+export const EASY_PIN_COUNT = 1100;
+export const PIN_GROUP_SIZE = 10 ** PIN_LENGTH - EASY_PIN_COUNT;
 export const pinGroupWarning = (used: number): boolean => used * 100 >= PIN_GROUP_SIZE * PIN_GROUP_WARN_PERCENT;
 
 export interface DoorStep { means: Means; try?: number; result: "ok" | "fail" | "not_working" }

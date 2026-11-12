@@ -541,6 +541,30 @@
       "android": "lynkomni_icon_product_guard",
       "ios": "lynkomni-icon-product-guard"
     },
+    "product-attend": {
+      "group": "products",
+      "accessibleName": "Attendance",
+      "svg": "icons/lynkomni-icon-product-attend.svg",
+      "react": "ProductAttendIcon",
+      "android": "lynkomni_icon_product_attend",
+      "ios": "lynkomni-icon-product-attend"
+    },
+    "product-queue": {
+      "group": "products",
+      "accessibleName": "Queue and tickets",
+      "svg": "icons/lynkomni-icon-product-queue.svg",
+      "react": "ProductQueueIcon",
+      "android": "lynkomni_icon_product_queue",
+      "ios": "lynkomni-icon-product-queue"
+    },
+    "product-survey": {
+      "group": "products",
+      "accessibleName": "Surveys",
+      "svg": "icons/lynkomni-icon-product-survey.svg",
+      "react": "ProductSurveyIcon",
+      "android": "lynkomni_icon_product_survey",
+      "ios": "lynkomni-icon-product-survey"
+    },
     "ui-pay-card": {
       "group": "ui",
       "accessibleName": "Card payment",
@@ -863,6 +887,10 @@
       "sha256": "5d113c04e79708219380650613a3c29febdf3b630586f4c5f33cbb4f271bbce4",
       "bytes": 599
     },
+    "android/res/drawable/lynkomni_icon_product_attend.xml": {
+      "sha256": "08eb871733d3c4ff60eafc19044399191be266c1d44555d69b3133e4e195dcf0",
+      "bytes": 562
+    },
     "android/res/drawable/lynkomni_icon_product_booking.xml": {
       "sha256": "fa4e9c327e57247438810592649eeb2efd08f506158007600de53b537d1b18ef",
       "bytes": 568
@@ -911,6 +939,10 @@
       "sha256": "3196eedf4702ed1b663253f32dde1f2d76a134c437c98d767ed63ec15b3bfc29",
       "bytes": 555
     },
+    "android/res/drawable/lynkomni_icon_product_queue.xml": {
+      "sha256": "de447ce3c9ddecaf8e0c001a49110f91aa071b29b784578e977e9ca7c52f49b3",
+      "bytes": 567
+    },
     "android/res/drawable/lynkomni_icon_product_recover.xml": {
       "sha256": "e5f55812587170146952f443d9de7e5bb815bfe0f587dc1adef632d2b9ca24be",
       "bytes": 575
@@ -926,6 +958,10 @@
     "android/res/drawable/lynkomni_icon_product_suite.xml": {
       "sha256": "ca0b464e4e942105974e5b8647028ada176c9b5571827eb515f30817116bb7ba",
       "bytes": 550
+    },
+    "android/res/drawable/lynkomni_icon_product_survey.xml": {
+      "sha256": "952d500079d94bb68fb07fb232fb2a5dd21fca381ac88f2961c3382433334dcf",
+      "bytes": 612
     },
     "android/res/drawable/lynkomni_icon_product_vcard.xml": {
       "sha256": "15dce369dfd068c188fce4e0fc3137b6f61226a56dc9616914a14a9529069bba",
@@ -1215,6 +1251,10 @@
       "sha256": "6ffb83892d388358ee5085d3af6ed1582b71248eba154d7a782f1e78d3470855",
       "bytes": 276
     },
+    "icons/lynkomni-icon-product-attend.svg": {
+      "sha256": "7d398e8b07fea37a1b93e601e2d2c364f31a009e2a552de9768e5f1978caf7cd",
+      "bytes": 239
+    },
     "icons/lynkomni-icon-product-booking.svg": {
       "sha256": "46fb9c4a45810bd17753698d561db7520092e0558767b4072d51555d2a6c180c",
       "bytes": 245
@@ -1263,6 +1303,10 @@
       "sha256": "535b061ce4bb7fb0f7bad7d6deb4464c57675659597c0318aa77ad1d88c25dfc",
       "bytes": 232
     },
+    "icons/lynkomni-icon-product-queue.svg": {
+      "sha256": "ed23f642ab2469d5f08d642579afd62b352003a075b0f07b47cd32fda549b0b0",
+      "bytes": 244
+    },
     "icons/lynkomni-icon-product-recover.svg": {
       "sha256": "0d5d184fd044bb5787a67dee23fecd107b1c7435ca091e9b86534fa05954571b",
       "bytes": 252
@@ -1278,6 +1322,10 @@
     "icons/lynkomni-icon-product-suite.svg": {
       "sha256": "c2bb70b0d7160c50e821161d0d22438362171d78108de36517e6c4fe8b536894",
       "bytes": 227
+    },
+    "icons/lynkomni-icon-product-survey.svg": {
+      "sha256": "1dc983f77cc7a9416d4781dc6daf87a3f0f148925518454fc32d258c17ca5f36",
+      "bytes": 289
     },
     "icons/lynkomni-icon-product-vcard.svg": {
       "sha256": "701bcd69c71220cd3ab20b2958d80d214ca0a198bf207bbfaba21dff4bc0ab02",
@@ -1571,6 +1619,14 @@
       "sha256": "a189ce227914f726ab20cf820a291699dfaeb0e75efe94a09adc4d34abec63cb",
       "bytes": 697
     },
+    "icons/react/ProductAttendIcon.d.ts": {
+      "sha256": "79e7c8b82e4191432d3921bfaaed0fb96d99b0db7a9676d9832f7306828f9c2b",
+      "bytes": 78
+    },
+    "icons/react/ProductAttendIcon.js": {
+      "sha256": "d9a09ce66d376c3b2c6e2a3e34b031ab684ccbd06c0be22fbc0f9afe8ff2b41d",
+      "bytes": 660
+    },
     "icons/react/ProductBookingIcon.d.ts": {
       "sha256": "525a938c7241f7258fce4f917d48d8794e3807884b8ab9ac34d138584455fccc",
       "bytes": 80
@@ -1667,6 +1723,14 @@
       "sha256": "81e80e8d93e3ad8be7990e5bd73249d86b95f23ca8fcd2d0e4829de019030954",
       "bytes": 647
     },
+    "icons/react/ProductQueueIcon.d.ts": {
+      "sha256": "df0bcc3b04647ba62b240c853a3e47b4bfbd792cd39a6a8c5db31764aa60d21c",
+      "bytes": 76
+    },
+    "icons/react/ProductQueueIcon.js": {
+      "sha256": "2ec5de72094ecf76d5efda805b771097297f8621d7aaf8372cfc28f2470a2a3a",
+      "bytes": 663
+    },
     "icons/react/ProductRecoverIcon.d.ts": {
       "sha256": "112007c31cb073612e799055a5202362641891dd482d3d49bc94c3394f234c90",
       "bytes": 80
@@ -1698,6 +1762,14 @@
     "icons/react/ProductSuiteIcon.js": {
       "sha256": "788712ce53fd4f4f26c28017ac0543c68f7a1228d477c8a9c748ca44463d25f9",
       "bytes": 646
+    },
+    "icons/react/ProductSurveyIcon.d.ts": {
+      "sha256": "773f0e08b4c72e140bc28fdd9f1441fe52fe75717118c31521e6bcabffe57cd6",
+      "bytes": 78
+    },
+    "icons/react/ProductSurveyIcon.js": {
+      "sha256": "50c1530a5658cd3f3024963dd5d3134d0e5cce711cab4376c7624ca307ef25cc",
+      "bytes": 710
     },
     "icons/react/ProductVcardIcon.d.ts": {
       "sha256": "4ef2b8358be858580f7f3034cbff5bc67388a73819320d19f44937f020b629d9",
@@ -2076,12 +2148,12 @@
       "bytes": 628
     },
     "icons/react/index.d.ts": {
-      "sha256": "39f8b0c26ad595899bb97c7716712ee87e4e24f0b9f6a5d388204adfecaeb45f",
-      "bytes": 6258
+      "sha256": "c395ed78212a0ad19829c9d0e8c8328595da76008f094fc214392cd964b72344",
+      "bytes": 6506
     },
     "icons/react/index.js": {
-      "sha256": "11062379f00014addb8990602b9f65958ef7dd1fce06efd88ad306b399908583",
-      "bytes": 4162
+      "sha256": "21aaf15706e8fb4e3f7cee84bcd386cead4d22722c392a61d380abe6d0455573",
+      "bytes": 4340
     },
     "ios/LynkOmniBrand.xcassets/Contents.json": {
       "sha256": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f",
@@ -2315,6 +2387,14 @@
       "sha256": "6ffb83892d388358ee5085d3af6ed1582b71248eba154d7a782f1e78d3470855",
       "bytes": 276
     },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-product-attend.imageset/Contents.json": {
+      "sha256": "ed207925189893ad3a71ecfca79f6a8755722226315278712361a2bcc4f1e146",
+      "bytes": 284
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-product-attend.imageset/lynkomni-icon-product-attend.svg": {
+      "sha256": "7d398e8b07fea37a1b93e601e2d2c364f31a009e2a552de9768e5f1978caf7cd",
+      "bytes": 239
+    },
     "ios/LynkOmniIcons.xcassets/lynkomni-icon-product-booking.imageset/Contents.json": {
       "sha256": "217eadaaa1a17ba3e99918aecb00c316cc05b5974b07a9b7f1482134c131e4ed",
       "bytes": 285
@@ -2411,6 +2491,14 @@
       "sha256": "535b061ce4bb7fb0f7bad7d6deb4464c57675659597c0318aa77ad1d88c25dfc",
       "bytes": 232
     },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-product-queue.imageset/Contents.json": {
+      "sha256": "111dda816cc24d9993863ab571819f23dd2c0e8147af547b280ed231fabd2d98",
+      "bytes": 283
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-product-queue.imageset/lynkomni-icon-product-queue.svg": {
+      "sha256": "ed23f642ab2469d5f08d642579afd62b352003a075b0f07b47cd32fda549b0b0",
+      "bytes": 244
+    },
     "ios/LynkOmniIcons.xcassets/lynkomni-icon-product-recover.imageset/Contents.json": {
       "sha256": "48fc1075e60f898538a51ffb7b81775c4419f3254f7212e002a52c1282f17085",
       "bytes": 285
@@ -2442,6 +2530,14 @@
     "ios/LynkOmniIcons.xcassets/lynkomni-icon-product-suite.imageset/lynkomni-icon-product-suite.svg": {
       "sha256": "c2bb70b0d7160c50e821161d0d22438362171d78108de36517e6c4fe8b536894",
       "bytes": 227
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-product-survey.imageset/Contents.json": {
+      "sha256": "04338cdcd1e8d1c2a2e5fedc1049f6ddcd5d93dcf8f6322d77d8959d2e504965",
+      "bytes": 284
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-product-survey.imageset/lynkomni-icon-product-survey.svg": {
+      "sha256": "1dc983f77cc7a9416d4781dc6daf87a3f0f148925518454fc32d258c17ca5f36",
+      "bytes": 289
     },
     "ios/LynkOmniIcons.xcassets/lynkomni-icon-product-vcard.imageset/Contents.json": {
       "sha256": "59e5c843f8a5e0659e353ffa5fa297f18beffc5f24df969382b2f7ac315e70fc",

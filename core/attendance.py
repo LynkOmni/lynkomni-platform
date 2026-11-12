@@ -53,7 +53,7 @@ def is_easy_pin(pin):
     return pin == pin[:2] * 3 or pin == pin[:3] * 2
 
 
-EASY_PIN_COUNT = sum(1 for n in range(10 ** PIN_LENGTH) if is_easy_pin(f"{n:06d}"))
+EASY_PIN_COUNT = 1100          # fixed so nothing counts a million PINs at start; tests/test_people_rules.py counts them
 PIN_GROUP_SIZE = 10 ** PIN_LENGTH - EASY_PIN_COUNT
 
 

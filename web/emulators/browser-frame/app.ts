@@ -15,6 +15,7 @@ import { banner, bell, count, feelFor, mailPart, messagesList, priorityOf, textP
 import type { Line, Priority, Sent } from "../../../ts/src/notify.js";
 import { askBox, buildPack, confirmCard, decide, fixThis, lookup, receipt } from "../../../ts/src/assist.js";
 import { breadcrumbBar, trail } from "../../../ts/src/breadcrumbs.js";
+import { idcnEntry, quickRating, rateUs, scoreScale, ticketCard } from "../../../ts/src/peopleparts.js";
 const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 } as const;   // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
 
 interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[]; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; id?: string; name: string; icon: string; plain: string; href?: string; state: "available" | "coming_soon" }[] }
@@ -48,6 +49,8 @@ const S = {
   lines: [] as Line[], bellFilter: "all", lastOpened: 0, whyNid: "", banners: [] as string[],
   pin: "", wrong: 0, waitUntil: 0, pictures: true, keySound: true, matchShown: "47", matchChoices: [] as string[], matchResult: "" as "" | "ok" | "wrong",
   ask: "", assistStep: "idle" as "idle" | "card" | "done", assistDoneAt: 0, resends: 0, lastDone: null as null | { nid: string; by: string },
+  // NEW UPDATE 4, section 1: the shared parts of LynkAttend, LynkQueue and LynkSurvey
+  rate: null as number | null, score: null as number | null, checker: null as string | null, called: false,
 };
 /** The interfaces a browser window can show; the others belong to their own devices (catalog/devices.v1.json). */
 const VIEWS = ["universal", "phone.touch", "tablet.touch", "computer.touch", "computer.pointer"] as const;
@@ -154,6 +157,11 @@ function pinCard(): string {
   if (!S.matchChoices.length) { let x = 7; S.matchChoices = numberChoices(S.matchShown, () => (x = (x * 9301 + 49297) % 233280) / 233280); }
   return `<div class="card"><h2>${esc(t("demo_signin_card"))}</h2>${pinPad({ entered: S.pin.length, length: Math.max(4, S.pin.length), wrong: S.wrong, waitLeft, pictures: S.pictures, sound: S.keySound, title: t("demo_pin_title") }, t, icon)}<div class="pstack">${numberShown(S.matchShown, t)}${numberMatch(S.matchChoices, t, S.matchResult)}</div></div>`;
 }
+function peopleCard(): string {
+  const tk = ticketCard({ section: "LAB", sectionName: t("demo_section_lab"), code: "A2K9P2", place: S.called ? null : 4, waitMinutes: S.called ? null : 12, counter: S.called ? t("demo_counter") : null }, t, icon);
+  const call = `<div class="actions"><button type="button" class="secondary" data-act="ppl:call">${esc(t(S.called ? "demo_back_waiting" : "demo_call_next"))}</button></div>`;
+  return `<div class="card" style="grid-column:1/-1"><h2>${esc(t("demo_people_card"))}</h2><div class="pstack"><div>${tk}${call}</div>${idcnEntry({ typed: 6, checkers: ["Ama", "Ben", "Grace"], me: "Grace", chosen: S.checker, triesLeft: null }, t)}${quickRating(t("demo_rate_title"), S.rate, t)}${scoreScale(t("demo_score_title"), S.score, t)}${rateUs(icon, t)}</div></div>`;
+}
 function messagesCard(): string {
   const p = pack();
   const sent: Sent[] = [{ id: "m1", channel: "email", sender: "receipts@mail.lynkomni.com", title: t("demo_mail_title"), at: T0 - 600_000, state: "confirmed" }, { id: "m2", channel: "text", sender: "LynkOmni", title: t("demo_text"), at: T0 - 590_000, state: S.link === "offline" ? "queued" : "sent" }];
@@ -227,6 +235,7 @@ function main(): string {
       <div class="card"><h2>${esc(t("chat_card"))}</h2><div class="chat-demo">${translationBanner(chatLang, langName, t)}<div class="msg" lang="${messageText(msg, chatLang) === msg.text ? writer : esc(reader)}" dir="${messageText(msg, chatLang) === msg.text ? (PACKS[writer]?.dir ?? "ltr") : (PACKS[S.lang]?.dir ?? "ltr")}">${esc(messageText(msg, chatLang))}${messageNote(msg, chatLang, langName, t)}</div><div class="msg out">${esc(t("chat_reply"))}</div></div></div>
       ${pinCard()}
       ${messagesCard()}
+      ${peopleCard()}
       <div class="card" style="grid-column:1/-1"><p class="muted">${icon("ui-sync")} ${esc(t("handoff_note"))}</p></div>
     </div>`;
 }
@@ -304,6 +313,12 @@ function act(a: string): void {
   const [k, v = ""] = plain(a).split(/:(.*)/s);
   switch (k) {
     case "keep": return;
+    case "ppl": {
+      const [what = "", n = ""] = v.split(":");
+      if (what === "rate") S.rate = Number(n); else if (what === "score") S.score = Number(n); else if (what === "call") S.called = !S.called;
+      else if (what === "checker") S.checker = ($<HTMLSelectElement>("#checker").value || null);
+      draw(); return;
+    }
     case "ntf": {
       const [what = "", nid = "", extra = ""] = v.split(":");
       const l = lineOf(nid);
@@ -420,7 +435,7 @@ function init(): void {
     if (el.id === "asIn") { S.ask = plain(el.value); draw(); const inp = $<HTMLInputElement>("#asIn"); inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); return; }
     if (el.id === "usernameIn") { act(`username:${el.value}`); const inp = $<HTMLInputElement>("#usernameIn"); inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }
   });
-  $("#display").addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["act"]?.startsWith("toggle:")) act(el.dataset["act"]); });
+  $("#display").addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["act"]?.startsWith("toggle:") || el.dataset["act"] === "ppl:checker") act(el.dataset["act"]); });
   document.addEventListener("keydown", (e) => {
     if (e.key === "/" && !(e.target as HTMLElement).matches("input,select,textarea")) { e.preventDefault(); act("shell:search"); }
     if (e.key === "Escape" && S.overlay) { S.overlay = null; draw(); return; }

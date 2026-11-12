@@ -139,4 +139,4 @@ Every decision the owner made, newest first. Lines are never deleted: a changed 
 - 2026-11-11: Build allocation: Step 0 and the parts of sections 1, 2 and 3 now; a new section 3B (the three in full on every emulator) straight after section 3; the rest in sections 4, 5, 6, 7, 7B, 8, 11, 12, 13 and 14 (blueprint 63.7).
 - 2026-11-11: Leftover adjusted in Step 0: the LynkA example "DYY87HIO gives 870000" contradicts the agreed rule that fewer than 4 digits means another ID document; the rule is kept (the manager is asked for another ID document), and the owner is told in the review.
 - 2026-11-11: Leftover adjusted in Step 0: LynkQ said LynkAttend is kept out of LynkQueue; the owner's later instruction links the three where appropriate, only when switched on (a counter opens on check-in).
-
+- 2026-11-11: NEW UPDATE 4 section 1 built as approved: the three services in the launcher and footer, the ecosystem device names on every screen that named a device, and the shared ticket, IDCN, rating and Rate us parts; product marks released in @lynkomni/icons 1.7.0.
