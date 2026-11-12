@@ -74,7 +74,7 @@ class ArriveSafeTests(unittest.TestCase):
             self.assertFalse(any(k in e["payload"] for k in POSITION))
 
     def test_pages_and_addresses(self):
-        self.assertEqual(PAGES[-2:], ("trips", "collect"))
+        self.assertEqual(PAGES[PAGES.index("trips"):PAGES.index("trips") + 2], ("trips", "collect"))   # NEW UPDATE 4 pages follow them
         addr = json.load(open(os.path.join(ROOT, "catalog", "addresses.v1.json"), encoding="utf-8"))["account_paths"]
         for p in ("/trips", "/collect"): self.assertIn(p, addr)
         self.assertTrue(UUID7.match(uuid7(T0)))

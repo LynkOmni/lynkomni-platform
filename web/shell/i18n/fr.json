@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fr",
  "native": "Français",
- "source_sha256": "c446015f06f442e9d87a3732afffab9c59a96e231ac75268b3d9d8880d9f9252",
+ "source_sha256": "18d43718fc0eede8fab69124944c98a701c53ed0b23ad566677bccb43c538b25",
  "texts": {
   "account_menu": "Compte",
   "action_add": "Ajouter le premier",
@@ -163,6 +163,7 @@
   "ntf_all": "Tout",
   "ntf_area_account": "Compte",
   "ntf_area_devices": "Appareils",
+  "ntf_area_people": "Présence, files d'attente et enquêtes",
   "ntf_area_safety": "Sûreté",
   "ntf_area_security": "Sécurité",
   "ntf_area_selling": "Vente",

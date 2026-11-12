@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "c446015f06f442e9d87a3732afffab9c59a96e231ac75268b3d9d8880d9f9252",
+ "source_sha256": "18d43718fc0eede8fab69124944c98a701c53ed0b23ad566677bccb43c538b25",
  "texts": {
   "account_menu": "Hesap",
   "action_add": "İlkini ekle",
@@ -163,6 +163,7 @@
   "ntf_all": "Tümü",
   "ntf_area_account": "Hesap",
   "ntf_area_devices": "Cihazlar",
+  "ntf_area_people": "Devam, sıralar ve anketler",
   "ntf_area_safety": "Emniyet",
   "ntf_area_security": "Güvenlik",
   "ntf_area_selling": "Satış",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "c446015f06f442e9d87a3732afffab9c59a96e231ac75268b3d9d8880d9f9252",
+ "source_sha256": "18d43718fc0eede8fab69124944c98a701c53ed0b23ad566677bccb43c538b25",
  "texts": {
   "account_menu": "Asusu",
   "action_add": "Ƙara na farko",
@@ -163,6 +163,7 @@
   "ntf_all": "Duka",
   "ntf_area_account": "Asusu",
   "ntf_area_devices": "Na'urori",
+  "ntf_area_people": "Halartar aiki, layuka da bincike",
   "ntf_area_safety": "Kariya",
   "ntf_area_security": "Tsaro",
   "ntf_area_selling": "Sayarwa",

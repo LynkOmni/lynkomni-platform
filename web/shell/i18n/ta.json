@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ta",
  "native": "தமிழ்",
- "source_sha256": "c446015f06f442e9d87a3732afffab9c59a96e231ac75268b3d9d8880d9f9252",
+ "source_sha256": "18d43718fc0eede8fab69124944c98a701c53ed0b23ad566677bccb43c538b25",
  "texts": {
   "account_menu": "கணக்கு",
   "action_add": "முதலாவதைச் சேர்க்கவும்",
@@ -163,6 +163,7 @@
   "ntf_all": "அனைத்தும்",
   "ntf_area_account": "கணக்கு",
   "ntf_area_devices": "சாதனங்கள்",
+  "ntf_area_people": "வருகை, வரிசைகள், கணக்கெடுப்புகள்",
   "ntf_area_safety": "காப்பு",
   "ntf_area_security": "பாதுகாப்பு",
   "ntf_area_selling": "விற்பனை",

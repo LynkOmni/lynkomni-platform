@@ -65,7 +65,11 @@
    "start",
    "storefront",
    "trips",
-   "collect"
+   "collect",
+   "attendance",
+   "tickets",
+   "answers",
+   "panel"
   ]
  },
  "recovery": [

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "c446015f06f442e9d87a3732afffab9c59a96e231ac75268b3d9d8880d9f9252",
+ "source_sha256": "18d43718fc0eede8fab69124944c98a701c53ed0b23ad566677bccb43c538b25",
  "texts": {
   "account_menu": "계정",
   "action_add": "첫 항목 추가",
@@ -163,6 +163,7 @@
   "ntf_all": "전체",
   "ntf_area_account": "계정",
   "ntf_area_devices": "기기",
+  "ntf_area_people": "출석, 대기열, 설문",
   "ntf_area_safety": "안전",
   "ntf_area_security": "보안",
   "ntf_area_selling": "판매",

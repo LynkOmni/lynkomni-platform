@@ -21,6 +21,8 @@ import { bell, messagesList, whySheet } from "../../../ts/src/notify.js";
 import type { Line, Sent } from "../../../ts/src/notify.js";
 import { MESSAGES } from "../../../ts/src/parts.generated.js";
 import { askBox, buildPack, confirmCard, decide, lookup, receipt } from "../../../ts/src/assist.js";
+import { idcn } from "../../../ts/src/attendance.js";
+import { ticketCard } from "../../../ts/src/peopleparts.js";
 import { breadcrumbBar, trail } from "../../../ts/src/breadcrumbs.js";
 import { TERMS_IN_FORCE, cardPlanName, contactWaitSeconds, coolOffSeconds, mayNow } from "../../../ts/src/protection.js";
 const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 } as const;   // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
@@ -77,6 +79,9 @@ const S = {
   idCheck: null as null | "sent" | "confirmed", cases: [] as { side: "internal" | "external"; ref: string }[],
   // Arrive Safe and Collect Pass (NEW UPDATE 1): shares end by themselves; a trip plan is watched by the cloud
   shares: [] as { id: string; scope: "live" | "trips" | "zones"; until: number }[], plan: null as null | { due: number; checked: boolean }, passWindow: 0,
+  // NEW UPDATE 4 section 2: My details (LynkAttend), My tickets (LynkQueue), My answers and the Panel (LynkSurvey)
+  att: "closed" as "closed" | "code_sent" | "open", attShow: "" as "" | "pin" | "idcn", attRequest: null as null | { kind: "delete_my_details" | "dispute"; at: number }, wasThisYou: true,
+  tkLate: false, tkLeft: false, answers: ["sv1", "sv2"] as string[], optOut: [] as string[], panel: false,
   // MASTER UPDATE section 2: protections (identity/protection.py decides; the page shows), the bell and Messages, LynkAssist
   coolOffUntil: 0, locked: false, advanced: false, secondWay: true, held: "" as "" | "locked" | "cool_off",
   contactChange: null as null | { until: number }, signupWay: "phone" as "phone" | "email", merged: 0,
@@ -86,6 +91,7 @@ const S = {
 };
 /** Sample identity check and case references in the one public id format (core/ids.py; tests/test_emulators.py checks them). */
 const SAMPLE_LOVER = "LOVER-3301-0442-1905";
+const SAMPLE_MEMBER = "01a1ccc3-fe6e-7222-b62f-dff0086a4e75";   // a labelled sample record (NEW UPDATE 4); real ones come from the cloud
 const SAMPLE_CASES = ["LOCASE-2101-7710-0042", "LOCASE-2101-7710-0059"];
 const choose = (): Choice => chooseInterface(DEVICES, { ...browserFacts(window), override: S.testSize !== "auto" ? TEST_VIEW[S.testSize] ?? null : S.override });
 const pct = (bps: number): string => { try { return new Intl.NumberFormat(locale(), { style: "percent", maximumFractionDigits: 2 }).format(bps / 10000); } catch { return `${bps / 100}%`; } };
@@ -149,7 +155,7 @@ const secEvent = (type: string): void => { S.secEvents.unshift({ type, at: T_NOW
 /** A security or account message: one line in the bell and one record per channel on the Messages page. The sender address
  *  and the actions come from catalog/messages.v1.json (through parts.generated.ts), never typed here. */
 const ACT_WORD: Record<string, string> = { this_was_not_me: "ntf_act_this_was_not_me", cancel_recovery: "ntf_act_cancel_recovery", cancel_change: "ntf_act_cancel_change", i_am_here: "ntf_act_i_am_here", snooze: "ntf_act_snooze", done: "ntf_act_done", cancel_close: "ntf_act_cancel_close" };
-const AREAS = ["security", "account", "safety", "selling", "stock"];
+const AREAS = ["security", "account", "safety", "selling", "stock", "people"];
 function tell(kind: string, title: string, at = Date.now()): void {
   const k = MESSAGES.kinds[kind]; if (!k) return;
   const nid = `n${S.lines.length + 1}`;
@@ -239,7 +245,8 @@ const navItems = (): NavItem[] => {
   if (S.size === "phone") return phone;
   return PAGES.map((p) => ({ id: p, label: t(`page_${p}`), icon: PAGE_ICON[p], href: pagePath(p), current: S.screen === p }));
 };
-const PAGE_ICON: Record<Page, string> = { overview: "ui-home", profile: "ui-user", security: "ui-lock", businesses: "ui-grid", orders: "ui-cart", transactions: "ui-receipt", wallet: "ui-pay-wallet", billing: "ui-pay-card", memberships: "ui-check", privacy: "ui-doc", notifications: "ui-bell", support: "ui-info", payslips: "ui-doc", payments: "ui-pay-instant", start: "ui-bolt", storefront: "ui-cart", trips: "ui-globe", collect: "ui-qr", messages: "product-chat", assist: "product-assist" };
+const PAGE_ICON: Record<Page, string> = { overview: "ui-home", profile: "ui-user", security: "ui-lock", businesses: "ui-grid", orders: "ui-cart", transactions: "ui-receipt", wallet: "ui-pay-wallet", billing: "ui-pay-card", memberships: "ui-check", privacy: "ui-doc", notifications: "ui-bell", support: "ui-info", payslips: "ui-doc", payments: "ui-pay-instant", start: "ui-bolt", storefront: "ui-cart", trips: "ui-globe", collect: "ui-qr", messages: "product-chat", assist: "product-assist",
+  attendance: "product-attend", tickets: "product-queue", answers: "product-survey", panel: "product-survey" };
 const screenPath = (): string => (S.screen === "signin" ? "/sign-in" : S.screen === "signup" ? "/sign-up" : S.screen === "recover" ? "/recover" : pagePath(S.screen));
 const sync = (): SyncInfo => ({ link: S.link, pending: S.pending, lastSync: S.lastSync, dataSaver: false, forcedOffline: false });
 const statePic = (kind: StateKind): Pic | null => {
@@ -385,6 +392,37 @@ function page(): string {
         <div class="card wide"><p class="muted">${esc(t("collect_intro"))}</p><div class="lynkid-box"><span class="deeplink" aria-label="${esc(t("page_collect"))}">${esc(code.slice(0, 3) + " " + code.slice(3))}</span></div><p class="muted">${esc(t("collect_changes"))}</p><div class="actions"><button class="secondary" data-act="pass:next">${esc(t("collect_refresh"))}</button></div></div>
         <div class="card"><p>${esc(t("collect_waiting", { count: n(2) }))}</p><p class="muted">${esc(t("collect_once"))}</p></div></div>`;
     }
+    case "attendance": {
+      if (S.att !== "open") {
+        const step = S.att === "closed" ? `<div class="actions"><button class="primary" data-act="att:code">${icon("ui-lock")}<span>${esc(t("att_send_code"))}</span></button></div>`
+          : `${wait(t("att_code_sent"))}<div class="actions"><button class="primary" data-act="att:open">${esc(t("att_open"))}</button></div>`;
+        return `${pageTitle("attendance")}<div class="card"><p class="muted">${esc(t("att_intro"))}</p>${rows([kv(esc(t("att_org")), esc(t("att_sample_org"))), kv(esc(t("att_pin")), "••••••")])}${step}</div>`;
+      }
+      const sample = idcn("NIN 1985 0412 3301") ?? "";
+      const hidden = (what: "pin" | "idcn", value: string): string => S.attShow === what ? `<span class="deeplink" dir="ltr">${esc(value)}</span>` : "••••••";
+      const req = S.attRequest ? `${wait(t(S.attRequest.kind === "dispute" ? "att_dispute_sent" : "att_delete_sent", { date: new Intl.DateTimeFormat(locale(), { dateStyle: "medium", timeZone: pack().tz }).format((S.attRequest.at + 30 * 86400) * 1000) }))}<p class="muted">${esc(t("att_reminders"))}</p>`
+        : `<div class="actions"><button class="secondary" data-act="att:req:delete_my_details">${esc(t("att_delete"))}</button><button class="secondary" data-act="att:req:dispute">${esc(t("att_dispute"))}</button></div>`;
+      return `${pageTitle("attendance")}<div class="cards">
+        <div class="card"><h2>${esc(t("att_sample_org"))}</h2>${rows([kv(esc(t("att_set")), esc(t("att_set_face_idcn"))), kv(esc(t("att_pin")), hidden("pin", "482915"), `<button class="secondary" data-act="att:show:pin">${esc(t("att_show"))}</button>`), kv(esc(t("att_idcn")), hidden("idcn", sample), `<button class="secondary" data-act="att:show:idcn">${esc(t("att_show"))}</button>`)])}<p class="muted">${esc(t("att_keep_private"))}</p></div>
+        <div class="card"><h2>${esc(t("att_records"))}</h2>${rows([kv(esc(t("att_today")), esc(t("att_in_at", { time: "07:58" }))), kv(esc(t("att_yesterday")), esc(t("att_in_out", { a: "07:55", b: "17:04", h: n(9), m: n(9) })))])}<div class="actions"><button class="secondary" data-act="att:proof">${icon("ui-doc")}<span>${esc(t("att_proof"))}</span></button></div><label class="switch"><input type="checkbox" data-act="toggle:wty"${S.wasThisYou ? " checked" : ""}><span>${esc(t("att_was_this_you"))}</span></label></div>
+        <div class="card wide"><h2>${esc(t("att_your_details"))}</h2><p class="muted">${esc(t("att_only_manager_edits"))}</p>${req}</div></div>`;
+    }
+    case "tickets": {
+      const live = S.tkLeft ? `<p class="muted">${esc(t("tk_left"))}</p>` : `${ticketCard({ section: "LAB", sectionName: t("tk_sample_section"), code: "A2K9P2", place: S.tkLate ? 7 : 4, waitMinutes: S.tkLate ? 21 : 12 }, t, icon)}<div class="actions"><button class="secondary" data-act="tk:late" ${S.tkLate ? "disabled" : ""}>${esc(t("tk_running_late"))}</button><button class="secondary" data-act="tk:leave">${esc(t("tk_leave"))}</button></div>${S.tkLate ? `<p class="muted">${esc(t("tk_late_once"))}</p>` : ""}`;
+      return `${pageTitle("tickets")}<div class="cards"><div class="card">${live}</div><div class="card"><h2>${esc(t("tk_earlier"))}</h2>${rows([kv(`<span dir="ltr">PHA-B8P4T7</span>`, ok(t("tk_done")))])}<p class="muted">${esc(t("tk_no_account"))}</p></div></div>`;
+    }
+    case "answers": {
+      const ORGS = ["sv1", "sv2"];
+      const list = S.answers.length ? rows(S.answers.map((id) => kv(esc(t(`ans_${id}`)), "", `<button class="secondary" data-act="ans:del:${id}">${esc(t("ans_delete"))}</button>`))) : `<p class="muted">${esc(t("ans_none"))}</p>`;
+      const stop = rows(ORGS.map((o) => kv(esc(t(`ans_org_${o}`)), S.optOut.includes(o) ? off(t("ans_stopped")) : "", S.optOut.includes(o) ? "" : `<button class="secondary" data-act="ans:stop:${o}">${esc(t("ans_dont_ask"))}</button>`)));
+      return `${pageTitle("answers")}<div class="cards"><div class="card"><h2>${esc(t("ans_mine"))}</h2>${list}<p class="muted">${esc(t("ans_anonymous_note"))}</p></div><div class="card"><h2>${esc(t("ans_dont_ask"))}</h2>${stop}</div></div>`;
+    }
+    case "panel": {
+      const pay = S.realUser ? comingSoon(t("panel_rewards"), t, statePic("coming_soon"), S.notified.has("survey_rewards")) : `<p class="muted">${esc(t("panel_rewards_sample"))}</p>`;
+      const body = S.panel ? `${ok(t("panel_joined"))}<p class="muted">${esc(t("panel_never_seen"))}</p><div class="actions"><button class="secondary" data-act="panel:leave">${esc(t("panel_leave"))}</button></div>`
+        : `<p class="muted">${esc(t("panel_intro"))}</p><div class="actions"><button class="primary" data-act="panel:join">${esc(t("panel_join"))}</button></div>`;
+      return `${pageTitle("panel")}<div class="cards"><div class="card">${body}</div><div class="card"><h2>${esc(t("panel_rewards"))}</h2>${pay}</div></div>`;
+    }
     case "payslips": return `${pageTitle("payslips")}<div class="card">${rows([kv(esc(t("payslip_line", { period: "2026-10", employer: t("client_pharmacy") })), "LODOC-9001-0044-2814", `<button class="secondary" data-act="open:payslip">${esc(t("switch_to"))}</button>`)])}<p class="muted">${esc(t("payslips_empty"))}</p></div>`;
     case "payments": {
       if (!ready("paylinks")) return `${pageTitle("payments")}<div class="card">${comingSoon("LynkCheckout", t, statePic("coming_soon"), S.notified.has("paylinks"))}</div>`;
@@ -492,6 +530,29 @@ function act(a: string): void {
       S.cases.unshift({ side: v, ref }); S.screen = "support"; S.overlay = null;
       record("SupportCaseOpened", S.link === "offline" ? "device" : "server", { case: ref, side: v, channel: v === "external" ? "seller_support" : "support" }); draw(); return;
     }
+    case "att": {
+      const [what = "", x = ""] = v.split(":");
+      if (what === "code") S.att = "code_sent";
+      else if (what === "open") S.att = "open";
+      else if (what === "show") { S.attShow = S.attShow === x ? "" : (x === "pin" ? "pin" : "idcn"); if (S.attShow === "pin") record("AttendancePinShown", "server", { member_id: SAMPLE_MEMBER, by: SAMPLE_MEMBER }); }
+      else if (what === "req" && (x === "delete_my_details" || x === "dispute")) { S.attRequest = { kind: x, at: now }; record("AttendanceRequestRaised", "server", { member_id: SAMPLE_MEMBER, request_id: SAMPLE_MEMBER, kind: x }); }
+      else if (what === "proof") record("AccountAction", "device", { action: "proof_of_attendance" });
+      draw(); return;
+    }
+    case "tk": {
+      if (v === "late" && !S.tkLate) { S.tkLate = true; record("TicketRunningLate", "server", { ticket_id: SAMPLE_MEMBER }); }
+      if (v === "leave") { S.tkLeft = true; record("TicketLeft", "server", { ticket_id: SAMPLE_MEMBER }); }
+      draw(); return;
+    }
+    case "ans": {
+      const [what = "", x = ""] = v.split(":");
+      if (what === "del") { S.answers = S.answers.filter((y) => y !== x); record("SurveyAnswerDeleted", "server", { answer_id: SAMPLE_MEMBER }); }
+      if (what === "stop" && !S.optOut.includes(x)) { S.optOut.push(x); record("SurveyOptOut", "server", { organisation_id: SAMPLE_MEMBER }); }
+      draw(); return;
+    }
+    case "panel": {
+      S.panel = v === "join"; record("PanelMembership", "server", { member_ref: SAMPLE_MEMBER, state: S.panel ? "joined" : "left" }); draw(); return;
+    }
     case "share": {
       const [what, x] = [v.split(":")[0], v.split(":").slice(1).join(":")];
       if (what === "start" && (x === "live" || x === "trips" || x === "zones")) { const id = `share-${S.shares.length + 1}`; S.shares.push({ id, scope: x, until: now + 3 * 3600 }); record("LocationShareStarted", "device", { share_id: id, scope: x, ends_at: now + 3 * 3600 }); }
@@ -557,6 +618,7 @@ function act(a: string): void {
        draw(); return;
     case "close": if (v === "cancel") { S.closing = null; record("AccountCloseCancelled", "server", {}); } draw(); return;
     case "toggle": if (v === "adult") { S.signUp.adult = !S.signUp.adult; draw(); return; }
+      if (v === "wty") { S.wasThisYou = !S.wasThisYou; record("NotificationChoiceChanged", "server", { choice: "attend_was_this_you", on: S.wasThisYou }); draw(); return; }
       if (v.startsWith("grid:")) { const key = v.slice(5); S.nset.off = S.nset.off.includes(key) ? S.nset.off.filter((y) => y !== key) : [...S.nset.off, key]; record("NotificationChoiceChanged", "server", { choice: key, on: !S.nset.off.includes(key) }); draw(); return; }
       if (v.startsWith("biz:")) { const b = v.slice(4); S.nset.muted = S.nset.muted.includes(b) ? S.nset.muted.filter((y) => y !== b) : [...S.nset.muted, b]; record("NotificationChoiceChanged", "server", { business: b, muted: S.nset.muted.includes(b) }); draw(); return; }
       if (v === "pause" || v === "dnd" || v === "summary") { const key = v === "pause" ? "paused" : v; S.nset[key] = !S.nset[key]; record("NotificationChoiceChanged", "server", { [key]: S.nset[key] }); draw(); return; } if (v === "mkemail") S.marketing.email = !S.marketing.email; if (v === "mkpush") S.marketing.push = !S.marketing.push; record("MarketingChoiceChanged", "server", { ...S.marketing }); draw(); return;
