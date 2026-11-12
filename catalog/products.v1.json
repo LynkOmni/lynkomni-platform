@@ -276,6 +276,45 @@
     "external_section": 9,
     "external_reason": "Selling airtime, data and bills to others is the agent point in LynkPOS, paid by the licensed partner (not Storefront plans); buying them for oneself, a household, staff or members is the workspace side."
    }
+  },
+  {
+   "family": "lynkattend",
+   "page": "/attendance",
+   "app": "app.lynkomni.com/attendance",
+   "menu": "People and service",
+   "illustration": "product-attend",
+   "footer_id": "attend",
+   "sides": {
+    "internal": "app.lynkomni.com/attendance",
+    "external": "app.lynkomni.com/external/attendance",
+    "external_section": 7
+   }
+  },
+  {
+   "family": "lynkqueue",
+   "page": "/queue",
+   "app": "app.lynkomni.com/queue",
+   "menu": "People and service",
+   "illustration": "product-queue",
+   "footer_id": "queue",
+   "sides": {
+    "internal": "app.lynkomni.com/queue",
+    "external": "app.lynkomni.com/external/queue",
+    "external_section": 7
+   }
+  },
+  {
+   "family": "lynksurvey",
+   "page": "/survey",
+   "app": "app.lynkomni.com/survey",
+   "menu": "People and service",
+   "illustration": "product-survey",
+   "footer_id": "survey",
+   "sides": {
+    "internal": "app.lynkomni.com/survey",
+    "external": "app.lynkomni.com/external/survey",
+    "external_section": 7
+   }
   }
  ]
 }

@@ -158,6 +158,14 @@
   },
   {
    "host": "lynkomni.com",
+   "path": "/attendance",
+   "trail": [
+    "/",
+    "/attendance"
+   ]
+  },
+  {
+   "host": "lynkomni.com",
    "path": "/blog",
    "trail": [
     "/",
@@ -450,6 +458,14 @@
   },
   {
    "host": "lynkomni.com",
+   "path": "/queue",
+   "trail": [
+    "/",
+    "/queue"
+   ]
+  },
+  {
+   "host": "lynkomni.com",
    "path": "/recover",
    "trail": [
     "/",
@@ -571,6 +587,14 @@
    "trail": [
     "/",
     "/support"
+   ]
+  },
+  {
+   "host": "lynkomni.com",
+   "path": "/survey",
+   "trail": [
+    "/",
+    "/survey"
    ]
   },
   {
@@ -2076,6 +2100,526 @@
    ]
   },
   {
+   "host": "app.lynkomni.com",
+   "path": "/attendance",
+   "trail": [
+    "/",
+    "/attendance"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/attendance/people",
+   "trail": [
+    "/",
+    "/attendance",
+    "/attendance/people"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/attendance/people/new",
+   "trail": [
+    "/",
+    "/attendance",
+    "/attendance/people",
+    "/attendance/people/new"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/attendance/people/{LOMEM}",
+   "trail": [
+    "/",
+    "/attendance",
+    "/attendance/people",
+    "/attendance/people/{LOMEM}"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/attendance/check-ins",
+   "trail": [
+    "/",
+    "/attendance",
+    "/attendance/check-ins"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/attendance/check-ins/{LOATT}",
+   "trail": [
+    "/",
+    "/attendance",
+    "/attendance/check-ins",
+    "/attendance/check-ins/{LOATT}"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/attendance/visitors",
+   "trail": [
+    "/",
+    "/attendance",
+    "/attendance/visitors"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/attendance/visitors/new",
+   "trail": [
+    "/",
+    "/attendance",
+    "/attendance/visitors",
+    "/attendance/visitors/new"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/attendance/visitors/{LOVIS}",
+   "trail": [
+    "/",
+    "/attendance",
+    "/attendance/visitors",
+    "/attendance/visitors/{LOVIS}"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/attendance/checkers",
+   "trail": [
+    "/",
+    "/attendance",
+    "/attendance/checkers"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/attendance/shifts",
+   "trail": [
+    "/",
+    "/attendance",
+    "/attendance/shifts"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/attendance/leave",
+   "trail": [
+    "/",
+    "/attendance",
+    "/attendance/leave"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/attendance/events",
+   "trail": [
+    "/",
+    "/attendance",
+    "/attendance/events"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/attendance/devices",
+   "trail": [
+    "/",
+    "/attendance",
+    "/attendance/devices"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/attendance/reports",
+   "trail": [
+    "/",
+    "/attendance",
+    "/attendance/reports"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/attendance/door",
+   "trail": [
+    "/",
+    "/attendance",
+    "/attendance/door"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/queue",
+   "trail": [
+    "/",
+    "/queue"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/queue/places",
+   "trail": [
+    "/",
+    "/queue",
+    "/queue/places"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/queue/places/new",
+   "trail": [
+    "/",
+    "/queue",
+    "/queue/places",
+    "/queue/places/new"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/queue/sections",
+   "trail": [
+    "/",
+    "/queue",
+    "/queue/sections"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/queue/counters",
+   "trail": [
+    "/",
+    "/queue",
+    "/queue/counters"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/queue/tickets",
+   "trail": [
+    "/",
+    "/queue",
+    "/queue/tickets"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/queue/tickets/{LOTKT}",
+   "trail": [
+    "/",
+    "/queue",
+    "/queue/tickets",
+    "/queue/tickets/{LOTKT}"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/queue/appointments",
+   "trail": [
+    "/",
+    "/queue",
+    "/queue/appointments"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/queue/devices",
+   "trail": [
+    "/",
+    "/queue",
+    "/queue/devices"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/queue/reports",
+   "trail": [
+    "/",
+    "/queue",
+    "/queue/reports"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/queue/reception",
+   "trail": [
+    "/",
+    "/queue",
+    "/queue/reception"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/queue/counter",
+   "trail": [
+    "/",
+    "/queue",
+    "/queue/counter"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/queue/kiosk",
+   "trail": [
+    "/",
+    "/queue",
+    "/queue/kiosk"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/queue/screen",
+   "trail": [
+    "/",
+    "/queue",
+    "/queue/screen"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/survey",
+   "trail": [
+    "/",
+    "/survey"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/survey/surveys",
+   "trail": [
+    "/",
+    "/survey",
+    "/survey/surveys"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/survey/surveys/new",
+   "trail": [
+    "/",
+    "/survey",
+    "/survey/surveys",
+    "/survey/surveys/new"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/survey/surveys/{LOSRV}",
+   "trail": [
+    "/",
+    "/survey",
+    "/survey/surveys",
+    "/survey/surveys/{LOSRV}"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/survey/library",
+   "trail": [
+    "/",
+    "/survey",
+    "/survey/library"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/survey/results",
+   "trail": [
+    "/",
+    "/survey",
+    "/survey/results"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/survey/results/{LOSRV}",
+   "trail": [
+    "/",
+    "/survey",
+    "/survey/results",
+    "/survey/results/{LOSRV}"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/survey/tasks",
+   "trail": [
+    "/",
+    "/survey",
+    "/survey/tasks"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/survey/panel",
+   "trail": [
+    "/",
+    "/survey",
+    "/survey/panel"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/survey/devices",
+   "trail": [
+    "/",
+    "/survey",
+    "/survey/devices"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/survey/reports",
+   "trail": [
+    "/",
+    "/survey",
+    "/survey/reports"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/survey/kiosk",
+   "trail": [
+    "/",
+    "/survey",
+    "/survey/kiosk"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/attendance",
+   "trail": [
+    "/external",
+    "/external/attendance"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/attendance/events",
+   "trail": [
+    "/external",
+    "/external/attendance",
+    "/external/attendance/events"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/attendance/reports",
+   "trail": [
+    "/external",
+    "/external/attendance",
+    "/external/attendance/reports"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/queue",
+   "trail": [
+    "/external",
+    "/external/queue"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/queue/appointments",
+   "trail": [
+    "/external",
+    "/external/queue",
+    "/external/queue/appointments"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/queue/reports",
+   "trail": [
+    "/external",
+    "/external/queue",
+    "/external/queue/reports"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/survey",
+   "trail": [
+    "/external",
+    "/external/survey"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/survey/surveys",
+   "trail": [
+    "/external",
+    "/external/survey",
+    "/external/survey/surveys"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/survey/surveys/new",
+   "trail": [
+    "/external",
+    "/external/survey",
+    "/external/survey/surveys",
+    "/external/survey/surveys/new"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/survey/surveys/{LOSRV}",
+   "trail": [
+    "/external",
+    "/external/survey",
+    "/external/survey/surveys",
+    "/external/survey/surveys/{LOSRV}"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/survey/results",
+   "trail": [
+    "/external",
+    "/external/survey",
+    "/external/survey/results"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/survey/results/{LOSRV}",
+   "trail": [
+    "/external",
+    "/external/survey",
+    "/external/survey/results",
+    "/external/survey/results/{LOSRV}"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/survey/reports",
+   "trail": [
+    "/external",
+    "/external/survey",
+    "/external/survey/reports"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/survey/panel",
+   "trail": [
+    "/external",
+    "/external/survey",
+    "/external/survey/panel"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/queue/public-page",
+   "trail": [
+    "/external",
+    "/external/queue",
+    "/external/queue/public-page"
+   ]
+  },
+  {
    "host": "account.lynkomni.com",
    "path": "/",
    "trail": [
@@ -2285,6 +2829,38 @@
    ]
   },
   {
+   "host": "account.lynkomni.com",
+   "path": "/attendance",
+   "trail": [
+    "/",
+    "/attendance"
+   ]
+  },
+  {
+   "host": "account.lynkomni.com",
+   "path": "/tickets",
+   "trail": [
+    "/",
+    "/tickets"
+   ]
+  },
+  {
+   "host": "account.lynkomni.com",
+   "path": "/answers",
+   "trail": [
+    "/",
+    "/answers"
+   ]
+  },
+  {
+   "host": "account.lynkomni.com",
+   "path": "/panel",
+   "trail": [
+    "/",
+    "/panel"
+   ]
+  },
+  {
    "host": "shop.lynkomni.com",
    "path": "/{username}",
    "trail": [
@@ -2354,6 +2930,47 @@
     "/",
     "/track/{LOSHP}",
     "/track/{LOSHP}/custody"
+   ]
+  },
+  {
+   "host": "shop.lynkomni.com",
+   "path": "/{username}/queue",
+   "trail": [
+    "/{username}",
+    "/{username}/queue"
+   ]
+  },
+  {
+   "host": "shop.lynkomni.com",
+   "path": "/track/{LOTKT}",
+   "trail": [
+    "/",
+    "/track/{LOTKT}"
+   ]
+  },
+  {
+   "host": "shop.lynkomni.com",
+   "path": "/{username}/surveys/{LOSRV}",
+   "trail": [
+    "/{username}",
+    "/{username}/surveys/{LOSRV}"
+   ]
+  },
+  {
+   "host": "shop.lynkomni.com",
+   "path": "/{username}/surveys/{LOSRV}/verified",
+   "trail": [
+    "/{username}",
+    "/{username}/surveys/{LOSRV}",
+    "/{username}/surveys/{LOSRV}/verified"
+   ]
+  },
+  {
+   "host": "shop.lynkomni.com",
+   "path": "/{username}/certificates/{LODOC}",
+   "trail": [
+    "/{username}",
+    "/{username}/certificates/{LODOC}"
    ]
   },
   {
@@ -7105,6 +7722,538 @@
    "class": "B"
   },
   {
+   "action": "queue_open_counter",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "queue_open_counter",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "queue_open_counter",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "queue_open_counter",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "queue_open_counter",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "queue_open_counter",
+   "ask": {
+    "role": "owner",
+    "done_today": 20
+   },
+   "run": false,
+   "needs": "fresh_check",
+   "class": "C"
+  },
+  {
+   "action": "queue_open_counter",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "queue_open_counter"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "queue_open_counter",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "queue"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "queue_open_counter",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "queue_open_counter",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "queue_open_counter",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "queue_open_counter"
+    ]
+   },
+   "run": false,
+   "needs": "ask_owner",
+   "class": "B"
+  },
+  {
+   "action": "queue_open_counter",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "queue_open_counter"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "survey_write_it_for_me",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "survey_write_it_for_me",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "survey_write_it_for_me",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "survey_write_it_for_me",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "survey_write_it_for_me",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "survey_write_it_for_me",
+   "ask": {
+    "role": "owner",
+    "done_today": 50
+   },
+   "run": false,
+   "needs": "fresh_check",
+   "class": "C"
+  },
+  {
+   "action": "survey_write_it_for_me",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "survey_write_it_for_me"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "survey_write_it_for_me",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "survey"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "survey_write_it_for_me",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "survey_write_it_for_me",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "survey_write_it_for_me",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "survey_write_it_for_me"
+    ]
+   },
+   "run": false,
+   "needs": "ask_owner",
+   "class": "B"
+  },
+  {
+   "action": "survey_write_it_for_me",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "survey_write_it_for_me"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "attend_explain_flag",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "hand_over",
+   "class": "D"
+  },
+  {
+   "action": "attend_explain_flag",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": false,
+   "needs": "hand_over",
+   "class": "D"
+  },
+  {
+   "action": "attend_explain_flag",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "hand_over",
+   "class": "D"
+  },
+  {
+   "action": "attend_explain_flag",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": false,
+   "needs": "hand_over",
+   "class": "D"
+  },
+  {
+   "action": "attend_explain_flag",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "attend_explain_flag",
+   "ask": {
+    "role": "owner",
+    "done_today": 100
+   },
+   "run": false,
+   "needs": "hand_over",
+   "class": "D"
+  },
+  {
+   "action": "attend_explain_flag",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "attend_explain_flag"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "attend_explain_flag",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "attendance"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "attend_explain_flag",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "attend_explain_flag",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "hand_over",
+   "class": "D"
+  },
+  {
+   "action": "attend_explain_flag",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "attend_explain_flag"
+    ]
+   },
+   "run": false,
+   "needs": "hand_over",
+   "class": "D"
+  },
+  {
+   "action": "attend_explain_flag",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "attend_explain_flag"
+    ]
+   },
+   "run": false,
+   "needs": "hand_over",
+   "class": "D"
+  },
+  {
+   "action": "people_pair_device",
+   "ask": {
+    "role": "owner"
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "people_pair_device",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "people_pair_device",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "people_pair_device",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "people_pair_device",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "people_pair_device",
+   "ask": {
+    "role": "owner",
+    "done_today": 20
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "people_pair_device",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "people_pair_device"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "people_pair_device",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "devices"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "people_pair_device",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "people_pair_device",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "people_pair_device",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "people_pair_device"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "people_pair_device",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "people_pair_device"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
    "action": "send_all_money_to_me",
    "ask": {
     "role": "owner"
@@ -8520,6 +9669,318 @@
    "class": 2
   },
   {
+   "topic": "my_attendance",
+   "asker": {},
+   "answer": false,
+   "class": 2
+  },
+  {
+   "topic": "my_attendance",
+   "asker": {
+    "signed_in": true
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "my_attendance",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "my_attendance",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "owner"
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "my_attendance",
+   "asker": {
+    "signed_in": true,
+    "role": "cashier"
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "my_attendance",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "manager"
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "my_ticket",
+   "asker": {},
+   "answer": false,
+   "class": 2
+  },
+  {
+   "topic": "my_ticket",
+   "asker": {
+    "signed_in": true
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "my_ticket",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "my_ticket",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "owner"
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "my_ticket",
+   "asker": {
+    "signed_in": true,
+    "role": "cashier"
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "my_ticket",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "manager"
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "my_answers",
+   "asker": {},
+   "answer": false,
+   "class": 2
+  },
+  {
+   "topic": "my_answers",
+   "asker": {
+    "signed_in": true
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "my_answers",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "my_answers",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "owner"
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "my_answers",
+   "asker": {
+    "signed_in": true,
+    "role": "cashier"
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "my_answers",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "manager"
+   },
+   "answer": true,
+   "class": 2
+  },
+  {
+   "topic": "queue_wait",
+   "asker": {},
+   "answer": true,
+   "class": 1
+  },
+  {
+   "topic": "queue_wait",
+   "asker": {
+    "signed_in": true
+   },
+   "answer": true,
+   "class": 1
+  },
+  {
+   "topic": "queue_wait",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true
+   },
+   "answer": true,
+   "class": 1
+  },
+  {
+   "topic": "queue_wait",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "owner"
+   },
+   "answer": true,
+   "class": 1
+  },
+  {
+   "topic": "queue_wait",
+   "asker": {
+    "signed_in": true,
+    "role": "cashier"
+   },
+   "answer": true,
+   "class": 1
+  },
+  {
+   "topic": "queue_wait",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "manager"
+   },
+   "answer": true,
+   "class": 1
+  },
+  {
+   "topic": "attendance_how_to",
+   "asker": {},
+   "answer": true,
+   "class": 1
+  },
+  {
+   "topic": "attendance_how_to",
+   "asker": {
+    "signed_in": true
+   },
+   "answer": true,
+   "class": 1
+  },
+  {
+   "topic": "attendance_how_to",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true
+   },
+   "answer": true,
+   "class": 1
+  },
+  {
+   "topic": "attendance_how_to",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "owner"
+   },
+   "answer": true,
+   "class": 1
+  },
+  {
+   "topic": "attendance_how_to",
+   "asker": {
+    "signed_in": true,
+    "role": "cashier"
+   },
+   "answer": true,
+   "class": 1
+  },
+  {
+   "topic": "attendance_how_to",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "manager"
+   },
+   "answer": true,
+   "class": 1
+  },
+  {
+   "topic": "survey_how_to",
+   "asker": {},
+   "answer": true,
+   "class": 1
+  },
+  {
+   "topic": "survey_how_to",
+   "asker": {
+    "signed_in": true
+   },
+   "answer": true,
+   "class": 1
+  },
+  {
+   "topic": "survey_how_to",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true
+   },
+   "answer": true,
+   "class": 1
+  },
+  {
+   "topic": "survey_how_to",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "owner"
+   },
+   "answer": true,
+   "class": 1
+  },
+  {
+   "topic": "survey_how_to",
+   "asker": {
+    "signed_in": true,
+    "role": "cashier"
+   },
+   "answer": true,
+   "class": 1
+  },
+  {
+   "topic": "survey_how_to",
+   "asker": {
+    "signed_in": true,
+    "fresh_check": true,
+    "role": "manager"
+   },
+   "answer": true,
+   "class": 1
+  },
+  {
    "topic": "no_such_topic",
    "asker": {},
    "answer": false,
@@ -8838,6 +10299,48 @@
     "topic": "how_to",
     "q": "Where is LynkGuard?",
     "a": "LynkGuard is described at lynkomni.com/guard.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkattend",
+    "topic": "price",
+    "q": "How much is LynkAttend?",
+    "a": "LynkAttend plans a month: Free $0, Plus $49.5, Pro $95, Max $179.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkattend",
+    "topic": "how_to",
+    "q": "Where is LynkAttend?",
+    "a": "LynkAttend is described at lynkomni.com/attendance.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkqueue",
+    "topic": "price",
+    "q": "How much is LynkQueue?",
+    "a": "LynkQueue plans a month: Free $0, Plus $55, Pro $115, Max $249.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkqueue",
+    "topic": "how_to",
+    "q": "Where is LynkQueue?",
+    "a": "LynkQueue is described at lynkomni.com/queue.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynksurvey",
+    "topic": "price",
+    "q": "How much is LynkSurvey?",
+    "a": "LynkSurvey plans a month: Free $0, Plus $59, Pro $155, Max $249.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynksurvey",
+    "topic": "how_to",
+    "q": "Where is LynkSurvey?",
+    "a": "LynkSurvey is described at lynkomni.com/survey.",
     "source": "catalog/products.v1.json"
    },
    {
@@ -9172,6 +10675,48 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "price-lynkattend",
+    "topic": "price",
+    "q": "كم سعر LynkAttend؟",
+    "a": "خطط LynkAttend شهريًا: Free $0, Plus $49.5, Pro $95, Max $179.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkattend",
+    "topic": "how_to",
+    "q": "أين أجد LynkAttend؟",
+    "a": "يُوصف LynkAttend في lynkomni.com/attendance.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkqueue",
+    "topic": "price",
+    "q": "كم سعر LynkQueue؟",
+    "a": "خطط LynkQueue شهريًا: Free $0, Plus $55, Pro $115, Max $249.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkqueue",
+    "topic": "how_to",
+    "q": "أين أجد LynkQueue؟",
+    "a": "يُوصف LynkQueue في lynkomni.com/queue.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynksurvey",
+    "topic": "price",
+    "q": "كم سعر LynkSurvey؟",
+    "a": "خطط LynkSurvey شهريًا: Free $0, Plus $59, Pro $155, Max $249.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynksurvey",
+    "topic": "how_to",
+    "q": "أين أجد LynkSurvey؟",
+    "a": "يُوصف LynkSurvey في lynkomni.com/survey.",
+    "source": "catalog/products.v1.json"
+   },
+   {
     "id": "price-lynkops",
     "topic": "price",
     "q": "كم سعر LynkOps؟",
@@ -9500,6 +11045,48 @@
     "topic": "how_to",
     "q": "LynkGuardはどこにありますか？",
     "a": "LynkGuardの説明はlynkomni.com/guardにあります。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkattend",
+    "topic": "price",
+    "q": "LynkAttendの料金はいくらですか？",
+    "a": "LynkAttendの月額プラン：Free $0, Plus $49.5, Pro $95, Max $179。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkattend",
+    "topic": "how_to",
+    "q": "LynkAttendはどこにありますか？",
+    "a": "LynkAttendの説明はlynkomni.com/attendanceにあります。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkqueue",
+    "topic": "price",
+    "q": "LynkQueueの料金はいくらですか？",
+    "a": "LynkQueueの月額プラン：Free $0, Plus $55, Pro $115, Max $249。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkqueue",
+    "topic": "how_to",
+    "q": "LynkQueueはどこにありますか？",
+    "a": "LynkQueueの説明はlynkomni.com/queueにあります。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynksurvey",
+    "topic": "price",
+    "q": "LynkSurveyの料金はいくらですか？",
+    "a": "LynkSurveyの月額プラン：Free $0, Plus $59, Pro $155, Max $249。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynksurvey",
+    "topic": "how_to",
+    "q": "LynkSurveyはどこにありますか？",
+    "a": "LynkSurveyの説明はlynkomni.com/surveyにあります。",
     "source": "catalog/products.v1.json"
    },
    {
@@ -9834,6 +11421,48 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "price-lynkattend",
+    "topic": "price",
+    "q": "Combien coûte LynkAttend ?",
+    "a": "Formules LynkAttend par mois : Free $0, Plus $49.5, Pro $95, Max $179.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkattend",
+    "topic": "how_to",
+    "q": "Où trouver LynkAttend ?",
+    "a": "LynkAttend est présenté sur lynkomni.com/attendance.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkqueue",
+    "topic": "price",
+    "q": "Combien coûte LynkQueue ?",
+    "a": "Formules LynkQueue par mois : Free $0, Plus $55, Pro $115, Max $249.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkqueue",
+    "topic": "how_to",
+    "q": "Où trouver LynkQueue ?",
+    "a": "LynkQueue est présenté sur lynkomni.com/queue.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynksurvey",
+    "topic": "price",
+    "q": "Combien coûte LynkSurvey ?",
+    "a": "Formules LynkSurvey par mois : Free $0, Plus $59, Pro $155, Max $249.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynksurvey",
+    "topic": "how_to",
+    "q": "Où trouver LynkSurvey ?",
+    "a": "LynkSurvey est présenté sur lynkomni.com/survey.",
+    "source": "catalog/products.v1.json"
+   },
+   {
     "id": "price-lynkops",
     "topic": "price",
     "q": "Combien coûte LynkOps ?",
@@ -10162,6 +11791,48 @@
     "topic": "how_to",
     "q": "LynkGuard iko wapi?",
     "a": "LynkGuard imeelezwa kwenye lynkomni.com/guard.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkattend",
+    "topic": "price",
+    "q": "LynkAttend inagharimu kiasi gani?",
+    "a": "Mipango ya LynkAttend kwa mwezi: Free $0, Plus $49.5, Pro $95, Max $179.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkattend",
+    "topic": "how_to",
+    "q": "LynkAttend iko wapi?",
+    "a": "LynkAttend imeelezwa kwenye lynkomni.com/attendance.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkqueue",
+    "topic": "price",
+    "q": "LynkQueue inagharimu kiasi gani?",
+    "a": "Mipango ya LynkQueue kwa mwezi: Free $0, Plus $55, Pro $115, Max $249.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkqueue",
+    "topic": "how_to",
+    "q": "LynkQueue iko wapi?",
+    "a": "LynkQueue imeelezwa kwenye lynkomni.com/queue.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynksurvey",
+    "topic": "price",
+    "q": "LynkSurvey inagharimu kiasi gani?",
+    "a": "Mipango ya LynkSurvey kwa mwezi: Free $0, Plus $59, Pro $155, Max $249.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynksurvey",
+    "topic": "how_to",
+    "q": "LynkSurvey iko wapi?",
+    "a": "LynkSurvey imeelezwa kwenye lynkomni.com/survey.",
     "source": "catalog/products.v1.json"
    },
    {
@@ -10496,6 +12167,48 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "price-lynkattend",
+    "topic": "price",
+    "q": "LynkAttend多少钱？",
+    "a": "LynkAttend的月度方案：Free $0, Plus $49.5, Pro $95, Max $179。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkattend",
+    "topic": "how_to",
+    "q": "LynkAttend在哪里？",
+    "a": "LynkAttend的介绍在lynkomni.com/attendance。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkqueue",
+    "topic": "price",
+    "q": "LynkQueue多少钱？",
+    "a": "LynkQueue的月度方案：Free $0, Plus $55, Pro $115, Max $249。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkqueue",
+    "topic": "how_to",
+    "q": "LynkQueue在哪里？",
+    "a": "LynkQueue的介绍在lynkomni.com/queue。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynksurvey",
+    "topic": "price",
+    "q": "LynkSurvey多少钱？",
+    "a": "LynkSurvey的月度方案：Free $0, Plus $59, Pro $155, Max $249。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynksurvey",
+    "topic": "how_to",
+    "q": "LynkSurvey在哪里？",
+    "a": "LynkSurvey的介绍在lynkomni.com/survey。",
+    "source": "catalog/products.v1.json"
+   },
+   {
     "id": "price-lynkops",
     "topic": "price",
     "q": "LynkOps多少钱？",
@@ -10827,6 +12540,48 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "price-lynkattend",
+    "topic": "price",
+    "q": "LynkAttend कितने का है?",
+    "a": "LynkAttend के मासिक प्लान: Free $0, Plus $49.5, Pro $95, Max $179।",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkattend",
+    "topic": "how_to",
+    "q": "LynkAttend कहाँ है?",
+    "a": "LynkAttend का विवरण lynkomni.com/attendance पर है।",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkqueue",
+    "topic": "price",
+    "q": "LynkQueue कितने का है?",
+    "a": "LynkQueue के मासिक प्लान: Free $0, Plus $55, Pro $115, Max $249।",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkqueue",
+    "topic": "how_to",
+    "q": "LynkQueue कहाँ है?",
+    "a": "LynkQueue का विवरण lynkomni.com/queue पर है।",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynksurvey",
+    "topic": "price",
+    "q": "LynkSurvey कितने का है?",
+    "a": "LynkSurvey के मासिक प्लान: Free $0, Plus $59, Pro $155, Max $249।",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynksurvey",
+    "topic": "how_to",
+    "q": "LynkSurvey कहाँ है?",
+    "a": "LynkSurvey का विवरण lynkomni.com/survey पर है।",
+    "source": "catalog/products.v1.json"
+   },
+   {
     "id": "price-lynkops",
     "topic": "price",
     "q": "LynkOps कितने का है?",
@@ -10898,7 +12653,7 @@
    "ids": [
     "price-lynkstat",
     "price-lynkstock",
-    "price-lynksuite"
+    "price-lynksurvey"
    ]
   },
   {
@@ -10925,7 +12680,7 @@
    "ids": [
     "price-lynkstat",
     "price-lynkstock",
-    "price-lynksuite"
+    "price-lynksurvey"
    ]
   },
   {
@@ -10943,7 +12698,7 @@
    "ids": [
     "price-lynkstat",
     "price-lynkstock",
-    "price-lynksuite"
+    "price-lynksurvey"
    ]
   },
   {
@@ -12105,6 +13860,86 @@
    "run": true,
    "needs": "none",
    "offline": "queue"
+  },
+  {
+   "action": "queue_open_counter",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "device"
+  },
+  {
+   "action": "queue_open_counter",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "survey_write_it_for_me",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "survey_write_it_for_me",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "attend_explain_flag",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "attend_explain_flag",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "people_pair_device",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "wait_for_network",
+   "offline": null
+  },
+  {
+   "action": "people_pair_device",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "wait_for_network",
+   "offline": null
   }
  ]
 }

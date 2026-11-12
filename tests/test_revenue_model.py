@@ -113,5 +113,14 @@ class ExpensesAndProfit(unittest.TestCase):
         self.assertNotIn("lynkmotion", R.ECO_ROWS); self.assertNotIn("lynkguard", R.ECO_ROWS)
 
 
+    def test_lynka_lynkq_and_lynks_stream_is_separate_and_an_assumption(self):
+        # NEW UPDATE 4 (2026-11-11): LynkAttend, LynkQueue and LynkSurvey are their own stream, outside the agreed totals until pilot data exists
+        got = {st: R.people(st) for st in R.STAGES}
+        self.assertEqual({st: (g["attend"], g["queue"], g["survey"], g["month"]) for st, g in got.items()},
+                         {"stage1": (4_395, 1_648, 1_592, 7_634), "stage2": (251_115, 94_147, 90_989, 436_251),
+                          "stage3": (7_672_962, 2_876_709, 2_780_206, 13_329_877)})
+        self.assertTrue(all(g["assumption"] for g in got.values()))
+        for f in ("lynkattend", "lynkqueue", "lynksurvey"): self.assertNotIn(f, R.ECO_ROWS)
+
 if __name__ == "__main__":
     unittest.main()

@@ -22,7 +22,7 @@ def numbers():
         "languages": len(langs.get("languages", langs)),
         "ecosystem_revenue": rm.ecosystem_totals(),
         "stage_names": rm.STAGE_NAMES,                  # the stages are sizes (proving ground, regional scale, global scale), never countries
-        "contract_version": 5, "event_types": len(json.loads((ROOT / "contract" / "event-payloads.v5.json").read_text())["events"]),
+        "contract_version": 6, "event_types": len(json.loads((ROOT / "contract" / "event-payloads.v6.json").read_text())["events"]),
         "currencies": len(json.loads((ROOT / "contract" / "currencies.v1.json").read_text())["decimals"]),
         "country_packs": len([f for f in (ROOT / "contract" / "country-packs").iterdir() if f.suffix == ".json" and f.stem != "XX"]),
     }

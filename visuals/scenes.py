@@ -183,6 +183,39 @@ def _guard(p):
     return wrap(p, b)
 
 
+@scene("attendance")
+def _attendance(p):
+    """LynkAttend: a door device with a PIN keypad and a fingerprint, a clock for the time in, and a check mark."""
+    keys = "".join(rr(102 + 20 * i, 118 + 18 * j, 14, 12, 3, p.ground, stroke_width=2) for i in range(3) for j in range(3))
+    prints = "".join(path(f"M{n(204 - r)} {n(126)}a{n(r)} {n(r * 1.1)} 0 0 1 {n(2 * r)} 0v{n(r * .5)}", stroke=p.accent_ink, stroke_width=2.5) for r in (6, 12, 18))
+    b = (rr(88, 52, 144, 150, 14, p.surface) + rr(100, 66, 120, 40, 8, p.accent_soft) + path("M114 86h28M150 86h28M186 86h20", stroke=p.ink2, stroke_width=4, stroke_linecap="round") +
+         keys + rr(180, 116, 46, 62, 10, p.accent_soft) + prints +
+         circ(258, 74, 24, p.surface) + path("M258 60v14l10 6", stroke_width=3) + circ(66, 172, 18, p.accent) + check(66, 174, 16, p.on_accent))
+    return wrap(p, b, 2)
+
+
+@scene("queue")
+def _queue(p):
+    """LynkQueue: a ticket coming out of a kiosk, a calling screen with an arrow to a counter, and a short line of waiting markers."""
+    ticket = path("M74 96h56v74l-7-5-7 5-7-5-7 5-7-5-7 5-7-5-7 5z", p.surface) + path("M84 112h36M84 126h24M84 140h30", stroke=p.ink2, stroke_width=3)
+    kiosk = rr(66, 60, 72, 44, 8, p.accent_soft) + rr(80, 92, 44, 6, 3, p.ink, stroke="none")
+    screen = rr(158, 54, 104, 66, 10, p.ink) + path("M174 76h34M174 96h22", stroke=p.on_accent, stroke_width=4, stroke_linecap="round") + path("M220 86h22l-8-8M242 86l-8 8", stroke=p.accent, stroke_width=3.5)
+    line_up = "".join(rr(166 + 22 * i, 156, 14, 30, 7, p.accent if i == 0 else p.surface) for i in range(4))
+    b = kiosk + ticket + screen + path("M210 120v18", stroke_width=3) + rr(150, 186, 120, 10, 4, p.surface) + line_up
+    return wrap(p, b, 1)
+
+
+@scene("survey")
+def _survey(p):
+    """LynkSurvey: a form with tick boxes and a star rating beside a small results chart and a sealed check badge."""
+    boxes = "".join(rr(96, 92 + 26 * i, 14, 14, 3, p.accent if i != 1 else p.surface) + path(f"M118 {n(99 + 26 * i)}h44", stroke=p.ink2, stroke_width=2.5) for i in range(3))
+    stars = "".join(star(104 + 18 * i, 186, 7, p.accent if i < 4 else p.surface, p) for i in range(5))
+    bars = "".join(rr(206 + 16 * i, 170 - h, 10, h, 2, p.accent if i == 2 else p.accent_soft) for i, h in enumerate((40, 58, 82, 30)))
+    b = (rr(80, 56, 104, 146, 10, p.surface) + rr(110, 46, 44, 18, 5, p.accent_soft) + boxes + stars + path("M196 172h76", stroke_width=2.5) + bars +
+         circ(262, 60, 18, p.accent) + check(262, 62, 14, p.on_accent))
+    return wrap(p, b, 2)
+
+
 @scene("dev")
 def _dev(p):
     b = (rr(58, 58, 204, 134, 12, p.surface) + line(58, 86, 262, 86, stroke_width=2) + "".join(circ(76 + 14 * i, 72, 3.5, p.ink2, stroke="none") for i in range(3)) +

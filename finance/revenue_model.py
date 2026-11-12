@@ -343,3 +343,39 @@ def movement(stage):
     api = m * a["api_developer_share"] * a["api_usd_per_app"]
     motion, guard = motion * idx, guard * idx
     return {"motion": _r(motion), "guard": _r(guard), "api": _r(api), "month": _r(motion + guard + api), "assumption": True}
+
+
+# ---- LynkAttend, LynkQueue and LynkSurvey (NEW UPDATE 4, owner locked 2026-11-11) --------------------------------------
+# Three standalone plans outside LynkSuite, with included people, places and creators and a price for each extra. Shown as their
+# OWN stream, kept OUTSIDE the agreed totals until pilot data exists, so no agreed figure moves. EVERY number below is an
+# ASSUMPTION, labelled as such.
+PEOPLE_ASSUMPTIONS = {
+    "attend": (Decimal("3"), Decimal("1"), Decimal("0.2")),            # Plus / Pro / Max, percent of all merchants
+    "queue": (Decimal("1.5"), Decimal("0.6"), Decimal("0.15")),        # Plus / Pro / Max, percent of all merchants
+    "survey": (Decimal("2"), Decimal("0.6"), Decimal("0.1")),          # Plus / Pro / Max, percent of all merchants
+    "attend_extra_people": (10, 60, 300),                              # people above the 50 included, per Plus / Pro / Max account
+    "queue_extra_places": (0, 2, 10),                                  # places above the 5 included
+    "survey_extra_creators": (0, 1, 4),                                # creators above the 5 included
+    "bundle_share": Decimal("0.3"),                                    # share of these plans held with another of the three (20% off)
+}
+
+
+def people(stage):
+    """Monthly USD for one stage (whole dollars): LynkAttend, LynkQueue and LynkSurvey plans and extras (price index and conversion
+    applied), less the 20% bundle discount on the share held together. An ASSUMPTION, outside the ecosystem totals."""
+    a, pct = PEOPLE_ASSUMPTIONS, Decimal("0.01")
+    m, idx, conv = Decimal(MERCHANTS[stage]), INDEX[stage], CONVERSION[stage]
+    out = {}
+    for name, fam, extra_key, cents_key in (("attend", "lynkattend", "attend_extra_people", "extra_person_cents"),
+                                            ("queue", "lynkqueue", "queue_extra_places", "extra_place_cents"),
+                                            ("survey", "lynksurvey", "survey_extra_creators", "extra_creator_cents")):
+        prices = [Decimal(str(x)) for x in billing.FAMILIES[fam][3][1:]]
+        subs = [m * s * pct * conv for s in a[name]]
+        cents, last = [], 0
+        for t in billing.FEATURES[fam][1:]:
+            last = t.get(cents_key, last) or 0; cents.append(last)
+        plans = sum(n * p for n, p in zip(subs, prices))
+        extras = sum(n * x * Decimal(c) / 100 for n, x, c in zip(subs, a[extra_key], cents))
+        out[name] = (plans * (1 - a["bundle_share"] * Decimal(billing.PEOPLE_BUNDLE_DISCOUNT_BPS) / 10_000) + extras) * idx
+    return {"attend": _r(out["attend"]), "queue": _r(out["queue"]), "survey": _r(out["survey"]),
+            "month": _r(sum(out.values())), "assumption": True}

@@ -1183,6 +1183,12 @@
    "record": "SNT",
    "ui_section": "7B",
    "note": "A LynkSentry incident (LOSNT-): opened, with the owner and trusted contacts, closed; routed to the safety desk."
+  },
+  {
+   "id": "queue_ticket",
+   "record": "TKT",
+   "ui_section": "3B",
+   "note": "A LynkQueue ticket (LOTKT-): waiting with its place as a plain number, called (with the counter), being served, sent to the next section, done; missed, put back, running late or left. Customers see only these steps, never a name (NEW UPDATE 4)."
   }
  ]
 }

@@ -16,7 +16,7 @@ class ContractV5(unittest.TestCase):
     def test_built_from_v4_and_current(self):
         r = subprocess.run([sys.executable, str(ROOT / "contract" / "tools" / "build_v5.py"), "--check"], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertEqual(CURRENT, 5)
+        self.assertGreaterEqual(CURRENT, 5)                          # version 6 (NEW UPDATE 4) reads version 5 unchanged
 
     def test_version_4_events_are_unchanged_and_the_card_events_added(self):
         self.assertEqual(set(V5["events"]) - set(V4["events"]), NEW)
@@ -39,7 +39,7 @@ class ContractV5(unittest.TestCase):
     def test_upcaster_reads_version_4_unchanged(self):
         v4 = {"type": "ZoneEntered", "schema_version": 4, "payload": {"zone_id": "z1"}}
         up = upcast(v4)
-        self.assertEqual((up["schema_version"], up["payload"]), (5, v4["payload"]))
+        self.assertEqual((up["schema_version"], up["payload"]), (CURRENT, v4["payload"]))
         self.assertEqual(v4["schema_version"], 4)
 
     def test_validator_passes(self):

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "0e17f8bead75cf794d1d1e8b43dfd83efc778c79a0130cef13e9aa5faf77e812",
+ "source_sha256": "ba5e781ca4eb298aaf4888962a0146c22aa67864b04c7074538efdc23477fda7",
  "texts": {
   "trk_accepted": "स्वीकार किया",
   "trk_active": "सक्रिय",
@@ -44,6 +44,7 @@
   "trk_k_payment": "भुगतान",
   "trk_k_payout": "कर्मचारियों का वेतन",
   "trk_k_payout_change": "भुगतान खाते में बदलाव",
+  "trk_k_queue_ticket": "कतार टिकट",
   "trk_k_quote": "कोटेशन",
   "trk_k_recovery": "खाता वापसी",
   "trk_k_refund": "रिफ़ंड",

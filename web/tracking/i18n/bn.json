@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "0e17f8bead75cf794d1d1e8b43dfd83efc778c79a0130cef13e9aa5faf77e812",
+ "source_sha256": "ba5e781ca4eb298aaf4888962a0146c22aa67864b04c7074538efdc23477fda7",
  "texts": {
   "trk_accepted": "গৃহীত",
   "trk_active": "সক্রিয়",
@@ -44,6 +44,7 @@
   "trk_k_payment": "পেমেন্ট",
   "trk_k_payout": "কর্মীদের বেতন",
   "trk_k_payout_change": "পেমেন্ট অ্যাকাউন্ট বদল",
+  "trk_k_queue_ticket": "সারির টিকিট",
   "trk_k_quote": "দরপত্র",
   "trk_k_recovery": "অ্যাকাউন্ট ফেরত",
   "trk_k_refund": "ফেরত টাকা",

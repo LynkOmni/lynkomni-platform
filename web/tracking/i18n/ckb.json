@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ckb",
  "native": "کوردی",
- "source_sha256": "0e17f8bead75cf794d1d1e8b43dfd83efc778c79a0130cef13e9aa5faf77e812",
+ "source_sha256": "ba5e781ca4eb298aaf4888962a0146c22aa67864b04c7074538efdc23477fda7",
  "texts": {
   "trk_accepted": "وەرگیرا",
   "trk_active": "چالاکە",
@@ -44,6 +44,7 @@
   "trk_k_payment": "پارەدان",
   "trk_k_payout": "مووچەی کارمەندان",
   "trk_k_payout_change": "گۆڕینی هەژماری وەرگرتن",
+  "trk_k_queue_ticket": "بلیتی ڕیز",
   "trk_k_quote": "نرخنامە",
   "trk_k_recovery": "گەڕاندنەوەی هەژمار",
   "trk_k_refund": "گەڕاندنەوەی پارە",

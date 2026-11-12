@@ -170,6 +170,24 @@
   "device_health": {
    "class": 2,
    "source": "this device's own records (offline layer 2)"
+  },
+  "my_attendance": {
+   "class": 2
+  },
+  "my_ticket": {
+   "class": 2
+  },
+  "my_answers": {
+   "class": 2
+  },
+  "queue_wait": {
+   "class": 1
+  },
+  "attendance_how_to": {
+   "class": 1
+  },
+  "survey_how_to": {
+   "class": 1
   }
  },
  "actions": [
@@ -890,6 +908,84 @@
    "build_section": 3,
    "status": "built",
    "offline": "queue"
+  },
+  {
+   "id": "queue_open_counter",
+   "area": "queue",
+   "class": "B",
+   "touches": [
+    "settings"
+   ],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 20
+   },
+   "verify": "read_back",
+   "undo": "close_counter",
+   "build_section": "3B",
+   "status": "planned",
+   "offline": "device"
+  },
+  {
+   "id": "survey_write_it_for_me",
+   "area": "survey",
+   "class": "B",
+   "touches": [
+    "message"
+   ],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 50
+   },
+   "verify": "read_back",
+   "undo": "discard_draft",
+   "build_section": "3B",
+   "status": "planned",
+   "offline": "never"
+  },
+  {
+   "id": "attend_explain_flag",
+   "area": "attendance",
+   "class": "D",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": "3B",
+   "status": "planned",
+   "offline": "never"
+  },
+  {
+   "id": "people_pair_device",
+   "area": "devices",
+   "class": "A",
+   "touches": [
+    "device"
+   ],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 20
+   },
+   "verify": "read_back",
+   "undo": "remove_device",
+   "build_section": "3B",
+   "status": "planned",
+   "offline": "cloud_check"
   }
  ],
  "offline_rule": "Offline layer 2 (MASTER UPDATE 1.11; build section 3): every action says what it does without a network. device: changes only this device, done at once and recorded, synced later. queue: the person confirms now, it is sealed on the device and shown as queued, carried out when the network returns, then verified and told; never shown as done before that, and it expires if the device stays offline too long. cloud_check: needs the cloud's fresh identity check, so it waits. never: needs a provider, a partner or a person, so it is not offered offline (LynkAssist prepares the case to send later; the one exception, a card freeze, is queued and shown frozen only when the issuer confirms).",

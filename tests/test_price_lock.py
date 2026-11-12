@@ -14,7 +14,13 @@ LOCKED_PRICES = {
     "lynkdev": (0, 500, 2500, 15000), "lynkbooking": (0, 4.99, 9.99, 19.99), "lynkessential": (0, 2.99, 5.99, 11.99),
     "lynksuite": (0, 29, 75, 195),
     "lynkmotion": (0, 9, 29, 79), "lynkguard": (0, 15, 49, 149),          # NEW UPDATE 1, 2026-11-10
+    "lynkattend": (0, 49.5, 95, 179), "lynkqueue": (0, 55, 115, 249), "lynksurvey": (0, 59, 155, 249),   # NEW UPDATE 4, 2026-11-11
 }
+# NEW UPDATE 4 (owner locked 2026-11-11, blueprint 63.5): what each paid tier includes, the price of each extra, and the bundle discount.
+LOCKED_PEOPLE = {"attend_people": (15, 50, 50, 50), "attend_extra_person_cents": (None, 150, 250, 400),
+                 "queue_places": (1, 5, 5, 5), "queue_extra_place_cents": (None, 1000, 2000, 4000), "queue_extra_1000_tickets_cents": 200,
+                 "survey_creators": (1, 5, 5, 5), "survey_extra_creator_cents": (None, 1000, 2500, 4000), "survey_extra_1000_answers_cents": 100,
+                 "bundle_discount_bps": 2000}
 # NEW UPDATE 1 (owner approved 2026-11-10): LynkMotion extras, LynkGuard extra vehicles, the pair discount and the API prices.
 LOCKED_MOVEMENT = {"motion_extra_1000_tracked_cents": 500, "motion_extra_live_cents": 100, "guard_extra_asset_cents": (None, None, 150, 100),
                    "guard_assets": (1, 3, 25, 100), "pair_discount_bps": 2000}
@@ -31,6 +37,23 @@ LOCKED_STOREFRONT = {"tiers": ("free", "plus", "pro", "max", "enterprise"), "pri
 
 
 class TestPriceLock(unittest.TestCase):
+    def test_lynka_lynkq_and_lynks_extras_and_bundle_are_locked(self):
+        F = billing.FEATURES
+        def col(fam, key):
+            out, last = [], None
+            for t in F[fam]:
+                last = t.get(key, last); out.append(last)
+            return tuple(out)
+        self.assertEqual({"attend_people": col("lynkattend", "people_included"), "attend_extra_person_cents": col("lynkattend", "extra_person_cents"),
+                          "queue_places": col("lynkqueue", "places_included"), "queue_extra_place_cents": col("lynkqueue", "extra_place_cents"),
+                          "queue_extra_1000_tickets_cents": billing.SERVICE_FEES["queue_extra_1000_tickets_cents"],
+                          "survey_creators": col("lynksurvey", "creators_included"), "survey_extra_creator_cents": col("lynksurvey", "extra_creator_cents"),
+                          "survey_extra_1000_answers_cents": billing.SERVICE_FEES["survey_extra_1000_answers_cents"],
+                          "bundle_discount_bps": billing.PEOPLE_BUNDLE_DISCOUNT_BPS}, LOCKED_PEOPLE)
+        for f in billing.PEOPLE_FAMILIES: self.assertNotIn(f, billing.SUITE_MEMBERS)          # outside LynkSuite
+        self.assertEqual(billing.people_bundle_discount_cents({"lynkattend": "plus", "lynkqueue": "pro"}), 990 + 2300)
+        self.assertEqual(billing.people_bundle_discount_cents({"lynkattend": "max", "lynkqueue": "free"}), 0)   # two paid plans needed
+
     def test_storefront_plans_are_locked_too(self):
         self.assertEqual({"tiers": billing.STOREFRONT_TIERS, "prices": billing.STOREFRONT_PRICES, "share_bps": billing.STOREFRONT_SHARE_BPS,
                           "cap_usd_cents": billing.STOREFRONT_SHARE_CAP_USD_CENTS, "trial_days": billing.STOREFRONT_TRIAL_DAYS}, LOCKED_STOREFRONT)

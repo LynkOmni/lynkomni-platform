@@ -59,6 +59,19 @@
     "change an event type",
     "add a card number"
    ]
+  },
+  {
+   "from_schema_version": 5,
+   "to_schema_version": 6,
+   "agreed": "2026-11-11 (NEW UPDATE 4, Step 0)",
+   "rule": "Version 6 only adds the events of LynkAttend, LynkQueue and LynkSurvey and the class A commands that issue the ones a device may write. A version 5 event reads as version 6 unchanged: the upcaster raises schema_version and touches nothing else.",
+   "never": [
+    "rescale an amount",
+    "rewrite a stored event",
+    "change an identifier",
+    "change an event type",
+    "add a PIN, IDCN, ID number, face or finger pattern, phone number, position or anonymous identity"
+   ]
   }
  ]
 }

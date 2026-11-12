@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "0e17f8bead75cf794d1d1e8b43dfd83efc778c79a0130cef13e9aa5faf77e812",
+ "source_sha256": "ba5e781ca4eb298aaf4888962a0146c22aa67864b04c7074538efdc23477fda7",
  "texts": {
   "trk_accepted": "承諾済み",
   "trk_active": "有効",
@@ -44,6 +44,7 @@
   "trk_k_payment": "支払い",
   "trk_k_payout": "スタッフへの支払い",
   "trk_k_payout_change": "受取口座の変更",
+  "trk_k_queue_ticket": "順番待ちの整理券",
   "trk_k_quote": "見積書",
   "trk_k_recovery": "アカウント復旧",
   "trk_k_refund": "返金",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fr",
  "native": "Français",
- "source_sha256": "0e17f8bead75cf794d1d1e8b43dfd83efc778c79a0130cef13e9aa5faf77e812",
+ "source_sha256": "ba5e781ca4eb298aaf4888962a0146c22aa67864b04c7074538efdc23477fda7",
  "texts": {
   "trk_accepted": "Accepté",
   "trk_active": "Actif",
@@ -44,6 +44,7 @@
   "trk_k_payment": "Paiement",
   "trk_k_payout": "Paie du personnel",
   "trk_k_payout_change": "Changement du compte de versement",
+  "trk_k_queue_ticket": "Ticket de file d'attente",
   "trk_k_quote": "Devis",
   "trk_k_recovery": "Récupération du compte",
   "trk_k_refund": "Remboursement",

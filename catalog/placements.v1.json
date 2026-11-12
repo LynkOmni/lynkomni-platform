@@ -973,6 +973,184 @@
     "sitemap"
    ],
    "section": 3
+  },
+  {
+   "id": "lynkattend",
+   "kind": "product",
+   "places": [
+    "account_menu",
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynkqueue",
+   "kind": "product",
+   "places": [
+    "account_menu",
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 1
+  },
+  {
+   "id": "lynksurvey",
+   "kind": "product",
+   "places": [
+    "account_menu",
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 1
+  },
+  {
+   "id": "attend_was_this_you",
+   "kind": "feature",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 0,
+   "what": "LynkAttend: a message after every check-in with Not me"
+  },
+  {
+   "id": "attend_visitors",
+   "kind": "feature",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 0,
+   "what": "LynkAttend: visitors, Ask manager and the fire list"
+  },
+  {
+   "id": "attend_my_details",
+   "kind": "feature",
+   "places": [
+    "account_menu",
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 0,
+   "what": "LynkAttend: My details, proof of attendance, delete or dispute"
+  },
+  {
+   "id": "queue_send_to",
+   "kind": "feature",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 0,
+   "what": "LynkQueue: one ticket for the whole visit (Send to)"
+  },
+  {
+   "id": "queue_public_page",
+   "kind": "feature",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 0,
+   "what": "LynkQueue: the public queue page and ticket tracker"
+  },
+  {
+   "id": "queue_busy_forecast",
+   "kind": "feature",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 0,
+   "what": "LynkQueue: the busy-hour forecast"
+  },
+  {
+   "id": "survey_panel",
+   "kind": "feature",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 0,
+   "what": "LynkSurvey: the LynkSurvey Panel and rewards"
+  },
+  {
+   "id": "survey_research_tools",
+   "kind": "feature",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 0,
+   "what": "LynkSurvey: research tools and verified results"
+  },
+  {
+   "id": "survey_my_answers",
+   "kind": "feature",
+   "places": [
+    "account_menu",
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 0,
+   "what": "LynkSurvey: My answers and Don't ask me again"
+  },
+  {
+   "id": "people_bundle",
+   "kind": "feature",
+   "places": [
+    "help",
+    "pricing_page",
+    "search",
+    "sitemap"
+   ],
+   "section": 0,
+   "what": "20% off for two or three of LynkAttend, LynkQueue and LynkSurvey"
+  },
+  {
+   "id": "lynk_device_names",
+   "kind": "feature",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 1,
+   "what": "LynkMobile, LynkTab, LynkPC, LynkPOS, LynkKiosk, LynkDScreen and LynkCDisplay: the device names across LynkOmni"
   }
  ]
 }

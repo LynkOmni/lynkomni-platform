@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "am",
  "native": "አማርኛ",
- "source_sha256": "0e17f8bead75cf794d1d1e8b43dfd83efc778c79a0130cef13e9aa5faf77e812",
+ "source_sha256": "ba5e781ca4eb298aaf4888962a0146c22aa67864b04c7074538efdc23477fda7",
  "texts": {
   "trk_accepted": "ተቀብሏል",
   "trk_active": "ንቁ",
@@ -44,6 +44,7 @@
   "trk_k_payment": "ክፍያ",
   "trk_k_payout": "የሠራተኞች ደመወዝ",
   "trk_k_payout_change": "የክፍያ መለያ ለውጥ",
+  "trk_k_queue_ticket": "የወረፋ ትኬት",
   "trk_k_quote": "የዋጋ ግምት",
   "trk_k_recovery": "መለያ መመለስ",
   "trk_k_refund": "ተመላሽ ገንዘብ",

@@ -212,7 +212,8 @@
     "touch": "merchant-phone",
     "non_touch": null
    },
-   "section": 1
+   "section": 1,
+   "lynk_name": "LynkMobile"
   },
   {
    "id": "button-phone",
@@ -222,7 +223,8 @@
     "touch": null,
     "non_touch": "button-phone"
    },
-   "section": 3
+   "section": 3,
+   "lynk_name": "LynkMobile"
   },
   {
    "id": "feature-phone",
@@ -232,7 +234,8 @@
     "touch": null,
     "non_touch": "button-phone"
    },
-   "section": 3
+   "section": 3,
+   "lynk_name": "LynkMobile"
   },
   {
    "id": "basic-phone",
@@ -242,7 +245,8 @@
     "touch": null,
     "non_touch": "button-phone"
    },
-   "section": 3
+   "section": 3,
+   "lynk_name": "LynkMobile"
   },
   {
    "id": "tablet",
@@ -252,7 +256,8 @@
     "touch": "merchant-phone",
     "non_touch": null
    },
-   "section": 1
+   "section": 1,
+   "lynk_name": "LynkTab"
   },
   {
    "id": "wall-tablet",
@@ -262,7 +267,8 @@
     "touch": "counter-tablet",
     "non_touch": null
    },
-   "section": 3
+   "section": 3,
+   "lynk_name": "LynkTab"
   },
   {
    "id": "computer",
@@ -272,7 +278,8 @@
     "touch": "browser-frame",
     "non_touch": "browser-frame"
    },
-   "section": 1
+   "section": 1,
+   "lynk_name": "LynkPC"
   },
   {
    "id": "all-in-one-pos",
@@ -282,7 +289,8 @@
     "touch": "pos-terminal",
     "non_touch": "owner-web"
    },
-   "section": 3
+   "section": 3,
+   "lynk_name": "LynkPOS"
   },
   {
    "id": "dual-screen-pos",
@@ -292,7 +300,8 @@
     "touch": "counter-tablet",
     "non_touch": null
    },
-   "section": 3
+   "section": 3,
+   "lynk_name": "LynkPOS"
   },
   {
    "id": "pos-terminal",
@@ -302,7 +311,8 @@
     "touch": "pos-terminal",
     "non_touch": "pos-terminal"
    },
-   "section": 3
+   "section": 3,
+   "lynk_name": "LynkPOS"
   },
   {
    "id": "smart-terminal",
@@ -312,7 +322,8 @@
     "touch": "pos-terminal",
     "non_touch": "pos-terminal"
    },
-   "section": 3
+   "section": 3,
+   "lynk_name": "LynkPOS"
   },
   {
    "id": "handheld-scanner",
@@ -352,7 +363,8 @@
     "touch": "customer-display",
     "non_touch": "customer-display"
    },
-   "section": 3
+   "section": 3,
+   "lynk_name": "LynkPOS"
   },
   {
    "id": "rider-phone",
@@ -362,7 +374,8 @@
     "touch": "rider-phone",
     "non_touch": "button-phone"
    },
-   "section": 3
+   "section": 3,
+   "lynk_name": "LynkMobile"
   },
   {
    "id": "car-screen",
@@ -392,7 +405,8 @@
     "touch": null,
     "non_touch": null
    },
-   "section": 13
+   "section": 13,
+   "lynk_name": "LynkKiosk"
   },
   {
    "id": "smart-tv",
@@ -402,7 +416,8 @@
     "touch": null,
     "non_touch": null
    },
-   "section": 13
+   "section": 13,
+   "lynk_name": "LynkDScreen"
   },
   {
    "id": "queue-display",
@@ -412,7 +427,8 @@
     "touch": null,
     "non_touch": null
    },
-   "section": 13
+   "section": 13,
+   "lynk_name": "LynkDScreen"
   },
   {
    "id": "eink-reader",
@@ -446,5 +462,73 @@
    "note": "Assisted by an agent point or staff."
   }
  ],
- "keys_rule": "Each key means the same thing on every device and interface: its word is the label_key in web/pos/strings.en.json and its colour, where it has one, the device-key-* token. Confirm, cancel and clear are never swapped or recoloured by a screen."
+ "keys_rule": "Each key means the same thing on every device and interface: its word is the label_key in web/pos/strings.en.json and its colour, where it has one, the device-key-* token. Confirm, cancel and clear are never swapped or recoloured by a screen.",
+ "lynk_names": {
+  "agreed": "2026-11-11 (owner, NEW UPDATE 4; master blueprint 63.1)",
+  "rule": "An emulator is the real, working LynkOmni software assigned to a display device (touch screen or buttons only) that actually works on that device. These seven names are used everywhere in LynkOmni and stay the same in every language. LynkOmni makes no hardware. Hardware that cannot run an emulator keeps its plain name and runs through LynkDriver.",
+  "names": {
+   "LynkMobile": {
+    "what": "Phone",
+    "touch": "Smartphone",
+    "buttons_only": "Basic phone (USSD, text, voice call)"
+   },
+   "LynkTab": {
+    "what": "Tablet",
+    "touch": "Touch tablet, wall tablet",
+    "buttons_only": "Tablet with keyboard"
+   },
+   "LynkPC": {
+    "what": "Computer",
+    "touch": "Touch-screen computer",
+    "buttons_only": "Keyboard-only computer"
+   },
+   "LynkPOS": {
+    "what": "Point of sale",
+    "touch": "POS terminal, all-in-one and dual-screen POS, with its customer screen",
+    "buttons_only": "POS keypad"
+   },
+   "LynkKiosk": {
+    "what": "Self-service kiosk",
+    "touch": "Touch kiosk, ticket machine with a screen, tablet on a stand",
+    "buttons_only": "Kiosk or ticket machine with physical buttons"
+   },
+   "LynkDScreen": {
+    "what": "Main display screen",
+    "touch": null,
+    "buttons_only": "Any TV with a browser (remote control), display board, monitor"
+   },
+   "LynkCDisplay": {
+    "what": "Small screen above a counter",
+    "touch": null,
+    "buttons_only": "Its own buttons",
+    "built": "3B"
+   }
+  },
+  "plain_names": [
+   "reception printer",
+   "counter keypad",
+   "pager",
+   "fingerprint reader",
+   "camera",
+   "QR scanner",
+   "speaker",
+   "feedback button stand",
+   "LED number board",
+   "kitchen screen",
+   "scanner",
+   "watch",
+   "car screen",
+   "TV with a browser"
+  ],
+  "emulators": {
+   "merchant-phone": "LynkMobile",
+   "rider-phone": "LynkMobile",
+   "button-phone": "LynkMobile",
+   "counter-tablet": "LynkTab",
+   "owner-web": "LynkPC",
+   "browser-frame": "LynkPC",
+   "pos-terminal": "LynkPOS",
+   "customer-display": "LynkPOS"
+  }
+ }
 }

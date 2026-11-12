@@ -697,7 +697,7 @@
     "pricing-page",
     "docs"
    ],
-   "budget_kb": 24
+   "budget_kb": 32
   },
   {
    "id": "chart-revenue-path",
@@ -1445,6 +1445,66 @@
     "marketing"
    ],
    "budget_kb": 26
+  },
+  {
+   "id": "product-attend",
+   "kind": "illustration",
+   "scene": "attendance",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A door device with a number keypad and a fingerprint pad, a clock and a check mark",
+   "purpose": "Empty state, feature header and onboarding for LynkAttend",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-queue",
+   "kind": "illustration",
+   "scene": "queue",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A kiosk giving out a ticket, a calling screen with an arrow to a counter, and a short line of waiting markers",
+   "purpose": "Empty state, feature header and onboarding for LynkQueue",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-survey",
+   "kind": "illustration",
+   "scene": "survey",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A form with tick boxes and a star rating, a small bar chart and a check badge",
+   "purpose": "Empty state, feature header and onboarding for LynkSurvey",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
   }
  ]
 }

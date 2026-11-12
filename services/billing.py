@@ -31,6 +31,9 @@ FAMILIES = {
  "lynkessential": ("LynkOmni Essentials Membership", "LynkEssential", MT, (0, 2.99, 5.99, 11.99), "consumer", False),
  "lynkmotion":   ("LynkOmni Motion", "LynkMotion", MT, (0, 9, 29, 79), "movement", False),    # NEW UPDATE 1 (2026-11-10): everyday tracking (LynkTrace, LynkGPS, LynkSentry)
  "lynkguard":    ("LynkOmni Guard", "LynkGuard", MT, (0, 15, 49, 149), "movement", False),    # NEW UPDATE 1 (2026-11-10): vehicle and asset protection on the same core
+ "lynkattend":   ("LynkOmni Attendance", "LynkAttend", MT, (0, 49.5, 95, 179), "people", False),   # NEW UPDATE 4 (LynkA, 2026-11-11)
+ "lynkqueue":    ("LynkOmni Queue", "LynkQueue", MT, (0, 55, 115, 249), "people", False),           # NEW UPDATE 4 (LynkQ, 2026-11-11)
+ "lynksurvey":   ("LynkOmni Survey", "LynkSurvey", MT, (0, 59, 155, 249), "people", False),         # NEW UPDATE 4 (LynkS, 2026-11-11)
  "lynkops":      ("LynkOmni Operations", "LynkOps", MT, (0, 20, 49, 129), "bundle", True),       # a tier: LynkAcc, LynkInv, LynkCRM and LynkStat together
  "lynksuite":    ("LynkOmni Suite", "LynkSuite", MT, (0, 29, 75, 195), "suite", False),
 }
@@ -127,6 +130,45 @@ FEATURES = {
                     power_cut_alerts=True, satellite_on_demand=True, api=True, webhooks=True),
                dict(assets=100, extra_asset_cents=100, seals_and_sensors=True, history_days=1095, zones=None, control_room_wall=True, cargo_custody=True,
                     safe_stop=True, monitoring_partner=True, insurer_sharing=True, ship_and_flight_data=True)],
+ # NEW UPDATE 4 (owner locked 2026-11-11, blueprint section 63): LynkA, LynkQ and LynkS. Safety is never a paid extra: every tier has
+ # the full check-in protections, the fair queue and one person one answer. Only active units are counted (people who checked in,
+ # places that gave a ticket, creators who built or sent a survey). Pro and Max carry the ecosystem links (blueprint 63.4).
+ "lynkattend": [dict(people_included=15, extra_person_cents=None, branches=1, managers=1, door_devices=2, history_months=3, shifts="basic",
+                     own_hardware=False, events_at_once=1, certificates=False, links=(), api=False, several_countries=False, reports="monthly_summary",
+                     sets=("face_finger_idcn", "face_idcn", "finger_idcn", "idcn"), visitors=True, fire_list=True, was_this_you=True, offline=True),
+                dict(people_included=50, extra_person_cents=150, branches=3, managers=3, door_devices=None, history_months=24, shifts="full",
+                     own_hardware=True, events_at_once=5, links=("lynkacc",), reports="full"),
+                dict(extra_person_cents=250, branches=None, managers=10, deputy_managers=True, history_months=60, events_at_once=None, certificates=True,
+                     links=("lynkacc", "lynkstat", "ecosystem"), api="read", reports="by_email"),
+                dict(extra_person_cents=400, managers=None, history_months=None, links=("all",), api="full", several_countries=True, reports="custom")],
+ "lynkqueue": [dict(places_included=1, extra_place_cents=None, max_places=1, tickets_per_place_month=500, sections_per_place=3, counters_per_place=3,
+                    staff_accounts=3, basic_phone=False, whatsapp_and_chat=False, appointments=False, send_to=False, own_hardware=False, busy_forecast=False,
+                    own_logo=False, powered_by="required", api=False, reports="daily_summary", history_months=3, several_countries=False, links=(),
+                    queue_keeper=True, check_ticket=True, public_queue_page=True, running_late=True, offline=True),
+               dict(places_included=5, extra_place_cents=1000, max_places=10, tickets_per_place_month=3000, sections_per_place=None, counters_per_place=15,
+                    staff_accounts=15, basic_phone=True, whatsapp_and_chat=True, send_to=True, own_hardware=True, busy_forecast=True, own_logo=True,
+                    powered_by="removable", reports="full", history_months=24, links=("lynkattend", "lynksurvey")),
+               dict(extra_place_cents=2000, max_places=None, tickets_per_place_month=10000, counters_per_place=None, staff_accounts=None, appointments=True,
+                    api="read", reports="by_email", history_months=60, links=("lynkattend", "lynksurvey", "lynkcrm", "lynkstat", "ecosystem")),
+               dict(extra_place_cents=4000, tickets_per_place_month=50000, api="full", reports="custom", history_months=None, several_countries=True, links=("all",))],
+ "lynksurvey": [dict(creators_included=1, extra_creator_cents=None, answers_per_month=300, live_surveys=3, places=1, org_tree=None, whatsapp_and_chat=False,
+                     basic_phone=False, field_and_paper=False, voice_call=False, write_it_for_me=False, logic="basic", repeating=False, automatic=(),
+                     staff_journey=False, experience_dashboards=False, library_and_brand_kit=False, approval=False, call_back=False, rewards=False,
+                     panel=False, own_hardware=False, company_login=False, own_logo=False, powered_by="required", api=False,
+                     research=("margins", "sample_size", "research_record"), downloads=(), reports="summary", history_months=3, several_countries=False,
+                     answer_rules=("open", "one_per_phone", "invited", "verified"), anonymity_min_group=5, real_answers_check=True, verified_results=True, offline=True),
+                dict(creators_included=5, extra_creator_cents=1000, answers_per_month=10000, live_surveys=None, places=10, whatsapp_and_chat=True, basic_phone=True,
+                     field_and_paper=True, write_it_for_me=True, logic="full", repeating=True, automatic=("lynkpos", "lynkqueue", "lynkchat"), call_back=True,
+                     rewards=True, own_hardware=True, own_logo=True, powered_by="removable",
+                     research=("margins", "sample_size", "research_record", "compare_groups", "before_after", "themes_basic"), downloads=("spreadsheet", "csv"),
+                     reports="full", history_months=24),
+                dict(extra_creator_cents=2500, answers_per_month=50000, places=None, org_tree="branches_departments", voice_call=True, automatic=("all", "api"),
+                     staff_journey=True, experience_dashboards=True, library_and_brand_kit=True, approval=True, panel=True, api="read",
+                     research=("margins", "sample_size", "research_record", "compare_groups", "before_after", "themes", "real_difference", "groups_to_fill",
+                               "balancing", "what_matters_most", "trade_off"), downloads=("spreadsheet", "csv", "spss", "stata", "r"), reports="by_email",
+                     history_months=60),
+                dict(extra_creator_cents=4000, answers_per_month=250000, org_tree="full", company_login=True, api="full", reports="custom", history_months=None,
+                     several_countries=True)],
  "lynkbooking": [dict(standard_fees=True, ads=True), dict(ads=False, priority_support=True, price_alerts=True), dict(higher_priority_support=True, group_trips=True),
                   dict(dedicated_concierge=True, dedicated_support=True, traveler_profiles=5)],
  "lynkessential": [dict(standard_fees=True, ads=True), dict(ads=False, priority_support=True, reminders=True), dict(higher_priority_support=True, scheduled_payments=True, household_members=3),
@@ -166,7 +208,23 @@ SERVICE_FEES = {
     "lynkstat_setup_cents": 9900,      # LynkOps Setup includes it, so it is never charged twice
     # NEW UPDATE 1 (2026-11-10): LynkMotion extras. LynkGuard's extra vehicles are its tiers' extra_asset_cents.
     "motion_extra_1000_tracked_cents": 500, "motion_extra_live_cents": 100,
+    # NEW UPDATE 4 (2026-11-11): extra queue tickets and survey answers above a paid tier (nobody is turned away; no survey stops).
+    "queue_extra_1000_tickets_cents": 200, "survey_extra_1000_answers_cents": 100,
 }
+# LynkA, LynkQ and LynkS: any two or all three paid plans held together take 20% off each of them (a bundle discount, not a link;
+# owner locked 2026-11-11). LOCKED with the prices.
+PEOPLE_FAMILIES = ("lynkattend", "lynkqueue", "lynksurvey")
+PEOPLE_BUNDLE_DISCOUNT_BPS = 2000
+
+
+def people_bundle_discount_cents(tiers):
+    """The monthly discount, in US cents, for an account holding two or three of LynkAttend, LynkQueue and LynkSurvey on paid tiers:
+    20% of each paid plan's price. tiers maps a family to its tier; families not held are left out."""
+    paid = [int(round(FAMILIES[f][3][MT.index(t)] * 100)) for f, t in tiers.items() if f in PEOPLE_FAMILIES]
+    paid = [c for c in paid if c > 0]
+    if len(paid) < 2:
+        return 0
+    return sum((c * PEOPLE_BUNDLE_DISCOUNT_BPS + 5000) // 10000 for c in paid)
 # An account may hold one LynkMotion plan and one LynkGuard plan (they cover different things; each is counted once). Holding both
 # takes this much off the lower paid plan (NEW UPDATE 1, owner approved 2026-11-10). LOCKED with the prices.
 MOVEMENT_FAMILIES = ("lynkmotion", "lynkguard")

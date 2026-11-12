@@ -90,5 +90,6 @@
  "trk_share_progress": "Share trip progress while delivering",
  "trk_share_help": "Only how far along the trip is and the arrival time are shared, during this trip. Your position is never stored or shown.",
  "trk_last_known": "Last known step. It updates when you are back online.",
- "trk_from_shop": "From {shop}"
+ "trk_from_shop": "From {shop}",
+ "trk_k_queue_ticket": "Queue ticket"
 }

@@ -14,7 +14,7 @@ class T(unittest.TestCase):
     def rwf(self, usd): return self.p.c.fx.convert(to_minor(usd * .35, "USD"), "USD", "RWF")   # Rwanda price index 0.35
 
     def test_families_names_and_tiers(self):
-        self.assertEqual(len(FAMILIES), 21); self.assertEqual(len(SUITE_MEMBERS), 9); self.assertEqual(OPS_MEMBERS, ["lynkacc", "lynkinv", "lynkcrm", "lynkstat"])
+        self.assertEqual(len(FAMILIES), 24); self.assertEqual(len(SUITE_MEMBERS), 9); self.assertEqual(OPS_MEMBERS, ["lynkacc", "lynkinv", "lynkcrm", "lynkstat"])
         self.assertEqual(FAMILIES["lynkmpay"][:2], ("LynkOmni Merchant Payments", "LynkMPay"))
         self.assertEqual(FAMILIES["lynksuite"][2:4], (("free", "plus", "pro", "max"), (0, 29, 75, 195)))
         self.assertEqual(FAMILIES["lynkdev"][2], ("free", "starter", "business", "enterprise"))

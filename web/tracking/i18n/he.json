@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "0e17f8bead75cf794d1d1e8b43dfd83efc778c79a0130cef13e9aa5faf77e812",
+ "source_sha256": "ba5e781ca4eb298aaf4888962a0146c22aa67864b04c7074538efdc23477fda7",
  "texts": {
   "trk_accepted": "התקבל",
   "trk_active": "פעיל",
@@ -44,6 +44,7 @@
   "trk_k_payment": "תשלום",
   "trk_k_payout": "שכר לעובדים",
   "trk_k_payout_change": "שינוי חשבון לקבלת כספים",
+  "trk_k_queue_ticket": "כרטיס תור",
   "trk_k_quote": "הצעת מחיר",
   "trk_k_recovery": "שחזור חשבון",
   "trk_k_refund": "החזר כספי",
