@@ -636,10 +636,10 @@ body { margin: 0; min-height: 100vh; }
 .rates { display: grid; grid-template-columns: repeat(auto-fit, minmax(64px, 1fr)); gap: 6px; }
 .rate { display: grid; justify-items: center; gap: 2px; min-block-size: var(--touch-target); padding: 6px 4px; border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--bg-surface); color: var(--text-primary); overflow-wrap: anywhere; min-inline-size: 0; }
 .rate .face { font-size: 1.5rem; } .rate.on, .score.on { border: 2px solid var(--brand-primary); background: var(--brand-subtle); }
-.scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(36px, 1fr)); gap: 4px; }
+.scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(44px, 1fr)); gap: 4px; }
 .score { min-block-size: var(--touch-target); border: 1px solid var(--border-subtle); border-radius: 8px; background: var(--bg-surface); color: var(--text-primary); font-variant-numeric: var(--font-feature-tabular); }
 .scale .ends { display: flex; justify-content: space-between; gap: 8px; color: var(--text-secondary); margin: 6px 0 0; flex-wrap: wrap; }
-.rateus { display: flex; gap: 12px; align-items: center; min-inline-size: 0; } .rateus .qrbig svg { inline-size: 72px; block-size: 72px; }
+.rateus { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; min-inline-size: 0; } .rateus .qr { flex: 0 0 auto; } .rateus > div { flex: 1 1 8rem; min-inline-size: 0; overflow-wrap: anywhere; } .rateus .qrbig svg { inline-size: 72px; block-size: 72px; }
 
 /* MASTER UPDATE section 3 on every Business app device: the bell button and its badge, banners on the device screen, the
    staff lock screen, the manager's approval, LynkAssist's queued state and the card screens. Tokens only; logical CSS so
