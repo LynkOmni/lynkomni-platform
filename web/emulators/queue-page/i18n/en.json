@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "source",
+ "kept_in_english": [],
+ "lang": "en",
+ "native": "English",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "No internet. Your place in the queue is kept; this page updates when the internet is back.",
+  "qp_place": "Sample place",
+  "qp_tab_public": "Queue now",
+  "qp_tab_ticket": "My ticket",
+  "title": "LynkQueue on your phone"
+ }
+}

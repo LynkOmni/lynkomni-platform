@@ -1,0 +1,21 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "tr",
+ "native": "Türkçe",
+ "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "texts": {
+  "k_attend": "Giriş veya çıkış yap",
+  "k_attend_sub": "Devam",
+  "k_camera": "Kamera çalışıyor",
+  "k_choose": "İhtiyacınız olanı seçin.",
+  "k_home": "Baştan başla",
+  "k_place": "Örnek yer",
+  "k_reader": "Parmak izi okuyucu bağlı",
+  "k_ticket": "Bilet al",
+  "k_ticket_sub": "Sıra",
+  "k_welcome": "Hoş geldiniz",
+  "title": "LynkKiosk"
+ }
+}

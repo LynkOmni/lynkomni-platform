@@ -1,0 +1,21 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "he",
+ "native": "עברית",
+ "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "texts": {
+  "k_attend": "החתמת כניסה או יציאה",
+  "k_attend_sub": "נוכחות",
+  "k_camera": "המצלמה פועלת",
+  "k_choose": "בחרו את מה שאתם צריכים.",
+  "k_home": "התחלה מחדש",
+  "k_place": "מקום לדוגמה",
+  "k_reader": "קורא טביעות האצבע מחובר",
+  "k_ticket": "לקיחת כרטיס",
+  "k_ticket_sub": "תור",
+  "k_welcome": "ברוכים הבאים",
+  "title": "LynkKiosk"
+ }
+}

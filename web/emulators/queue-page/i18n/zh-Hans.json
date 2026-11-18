@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "zh-Hans",
+ "native": "简体中文",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "没有网络。您在队列中的位置已保留；网络恢复后此页面会更新。",
+  "qp_place": "示例场所",
+  "qp_tab_public": "当前排队情况",
+  "qp_tab_ticket": "我的号票",
+  "title": "手机上的 LynkQueue"
+ }
+}

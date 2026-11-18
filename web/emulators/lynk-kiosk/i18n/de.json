@@ -1,0 +1,21 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "de",
+ "native": "Deutsch",
+ "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "texts": {
+  "k_attend": "Ein- oder ausstempeln",
+  "k_attend_sub": "Anwesenheit",
+  "k_camera": "Kamera funktioniert",
+  "k_choose": "Wählen Sie, was Sie brauchen.",
+  "k_home": "Neu beginnen",
+  "k_place": "Beispielstandort",
+  "k_reader": "Fingerabdruckleser angeschlossen",
+  "k_ticket": "Ticket ziehen",
+  "k_ticket_sub": "Warteschlange",
+  "k_welcome": "Willkommen",
+  "title": "LynkKiosk"
+ }
+}

@@ -23,7 +23,11 @@ const PARTS_MODULES = ["ts/src/parts.generated.js", "ts/src/signin.js", "ts/src/
 // NEW UPDATE 4 (section 1): the shared parts of LynkAttend, LynkQueue and LynkSurvey with the rules they draw from
 const PEOPLE_MODULES = ["ts/src/attendance.js", "ts/src/queue.js", "ts/src/peopleparts.js"];
 // NEW UPDATE 4 (section 3): the Business app devices also run the people engine (setup, Add a device, door, reception, counter, rating)
-const PEOPLE_DEVICE = ["ts/src/attendance.js", "ts/src/queue.js", "ts/src/survey.js", "ts/src/peopleparts.js", "ts/src/peoplehub.js"];
+const PEOPLE_DEVICE = ["ts/src/attendance.js", "ts/src/queue.js", "ts/src/survey.js", "ts/src/peopleparts.js", "ts/src/afterpay.js", "ts/src/attenddesk.js", "ts/src/queuedesk.js", "ts/src/peoplehub.js"];
+// the customer display carries only the rating after payment (ts/src/afterpay.js), not the whole people engine
+// LynkDScreen, LynkCDisplay and the page on a person's phone carry only the queue engine and its words
+const QUEUE_ONLY = ["ts/src/attendance.js", "ts/src/queue.js", "ts/src/peopleparts.js", "ts/src/queuedesk.js"];
+const AFTER_PAY = ["ts/src/attendance.js", "ts/src/queue.js", "ts/src/survey.js", "ts/src/peopleparts.js", "ts/src/afterpay.js"];
 const EMULATORS = [
   { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: [...DEVICE_MODULES, ...PEOPLE_DEVICE, "web/emulators/pos-terminal/app.js"] },
   { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: ["ts/src/usernames.generated.js", "ts/src/usernames.js", ...DEVICE_MODULES, ...TRACK_MODULES, "ts/src/reservations.js", "ts/src/drivers.js", "ts/src/drivers.generated.js", ...PEOPLE_DEVICE, "web/emulators/merchant-phone/app.js"] },
@@ -32,8 +36,12 @@ const EMULATORS = [
   { id: "account-site", out: "lynkomni-account-site.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", "ts/src/account.js", ...INTERFACE_MODULES, ...TRACK_MODULES, ...PARTS_MODULES, "ts/src/protection.js", ...PEOPLE_MODULES, "web/emulators/account-site/app.js"],
     extraCss: ["web/shell/shell.css"] },
   // build section 3: the Business app devices, all on the shared device runtime (ts/src/emulator.js) and words (web/pos)
+  // build section 3B: LynkKiosk (LynkAttend's door, LynkQueue's tickets and LynkSurvey's answers on one self-service device)
+  { id: "lynk-kiosk", out: "lynkomni-lynk-kiosk.html", modules: [...DEVICE_MODULES, ...PEOPLE_DEVICE, "web/emulators/lynk-kiosk/app.js"], extraCss: ["web/device/device.css"] },
+  // build section 3B: LynkQueue's own screens: the main calling screen, the small screen above each counter, and the page on a person's phone
+  ...["lynk-dscreen", "lynk-cdisplay", "queue-page"].map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...DEVICE_MODULES, ...QUEUE_ONLY, `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
   ...["counter-tablet", "kitchen-screen", "customer-display", "rider-phone", "stock-scanner", "button-phone", "vcard-card", "mesh-relay", "owner-web", "track-page"]
-    .map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...(id === "button-phone" ? ["ts/src/usernames.generated.js", "ts/src/usernames.js"] : []), ...DEVICE_MODULES, ...(["rider-phone", "track-page"].includes(id) ? TRACK_MODULES : []), ...(id === "button-phone" ? ["ts/src/channels.js", "ts/src/basicphone.js"] : []), ...(id === "customer-display" ? PEOPLE_DEVICE : []), `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
+    .map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...(id === "button-phone" ? ["ts/src/usernames.generated.js", "ts/src/usernames.js"] : []), ...DEVICE_MODULES, ...(["rider-phone", "track-page"].includes(id) ? TRACK_MODULES : []), ...(id === "button-phone" ? ["ts/src/channels.js", "ts/src/basicphone.js", "ts/src/queue.js"] : []), ...(id === "customer-display" ? AFTER_PAY : []), `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
 ];
 
 const read = (p) => readFileSync(p, "utf8");
@@ -137,7 +145,7 @@ for (const e of EMULATORS) {
   const dir = join(WEB, "emulators", e.id);
   let html = read(join(dir, "shell.html"))
     .replace("/*@TOKENS@*/", () => fontCss + "\n" + tokens)
-    .replace("/*@STYLE@*/", () => [...(e.extraCss ?? []), ...(e.modules.includes("ts/src/footer.js") ? ["web/footer/footer.css"] : []), ...(e.modules.includes("ts/src/deviceshell.js") ? ["web/device/deviceshell.css"] : []), ...(e.modules.includes("ts/src/devicemode.js") ? ["web/device/devicemode.css"] : []), ...(e.modules.includes("ts/src/trackview.js") ? ["web/tracking/tracking.css"] : []), ...(e.modules.includes("ts/src/notify.js") ? ["web/shell/parts.css"] : []), ...(e.modules.includes("ts/src/devicekit.js") ? ["web/device/deviceparts.css"] : [])].map((c) => read(join(ROOT, c))).join("\n") + "\n" + read(join(dir, "style.css")))   // the footer's styles travel with the footer module
+    .replace("/*@STYLE@*/", () => [...(e.extraCss ?? []), ...(e.modules.includes("ts/src/footer.js") ? ["web/footer/footer.css"] : []), ...(e.modules.includes("ts/src/deviceshell.js") ? ["web/device/deviceshell.css"] : []), ...(e.modules.includes("ts/src/devicemode.js") ? ["web/device/devicemode.css"] : []), ...(e.modules.includes("ts/src/trackview.js") ? ["web/tracking/tracking.css"] : []), ...(e.modules.includes("ts/src/notify.js") || e.modules.includes("ts/src/queuedesk.js") ? ["web/shell/parts.css"] : []), ...(e.modules.includes("ts/src/devicekit.js") ? ["web/device/deviceparts.css"] : [])].map((c) => read(join(ROOT, c))).join("\n") + "\n" + read(join(dir, "style.css")))   // the footer's styles travel with the footer module
     .replace("/*@BODYMARK@*/", () => D.brand.body)
     .replace("/*@FAVICON@*/", () => `<span class="fav-l">${D.brand.favicon.light}</span><span class="fav-d">${D.brand.favicon.dark}</span>`)
     .replace("</head>", () => `${faviconLinks(D.brand.favicon)}\n</head>`)

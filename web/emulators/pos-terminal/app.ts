@@ -18,7 +18,11 @@ import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { StaffLock, deviceBanners, needsManager, raiseLocal, staffPicker } from "../../../ts/src/devicekit.js";
 import type { Line } from "../../../ts/src/notify.js";
 import { buildPack } from "../../../ts/src/assist.js";
-import { PeopleHub, counterCard, doorScreen, receptionCard, waitingCard } from "../../../ts/src/peoplehub.js";
+import { PeopleHub } from "../../../ts/src/peoplehub.js";
+import { pairCode, quCounterView, quPaper, quReceptionView } from "../../../ts/src/queuedesk.js";
+import type { QuLook, QuPlan } from "../../../ts/src/queuedesk.js";
+import { atDoor, wasThisYou } from "../../../ts/src/attenddesk.js";
+import type { AtLook, AtPlan, AtTier } from "../../../ts/src/attenddesk.js";
 import { ticketNumber } from "../../../ts/src/queue.js";
 
 interface BuildData {
@@ -31,6 +35,7 @@ interface BuildData {
   packs: Record<string, CountryPack>;
   packOrder: string[];
   i18n: Record<string, { native: string; dir: "ltr" | "rtl"; texts: Record<string, string> }>;
+  people: { attend: Record<AtTier, AtPlan>; queue: Record<AtTier, QuPlan> };
 }
 interface CountryPack {
   code: string; name: string; currency: string; tz: string; locale: string; sample: boolean;
@@ -164,14 +169,21 @@ function activePayment(): PaymentPayload | undefined { return S.current?.payment
 
 // ---- the printer --------------------------------------------------------------------------------------------------
 /** LynkAttend and LynkQueue on this terminal (ts/src/peoplehub.ts): the same engine as the Business app, writing to this log. */
-const PH = new PeopleHub((type, payload, origin) => emit(type, payload, origin));
+const PH = new PeopleHub((type, payload, origin) => emit(type, payload, origin), Date.now, DATA.people.attend, DATA.people.queue);
+PH.q.ownPrinter = true;                                                 // the terminal prints tickets on its own receipt printer
+/** How the LynkAttend screens look on this terminal, and the door speaking the person's own language after the PIN. */
+const atLook = (): AtLook => ({ t, icon, clock: (ms) => clock(ms), money: (c) => formatMoney(c, "USD", locale()), online: S.online, partner: !S.realUser, mayManage: S.role === "owner" || S.role === "manager" });
+const SPEAK = { t: (lang: string) => (k: string, vars: Record<string, string | number> = {}): string => (isTest() ? t(k, vars) : (PACKS[lang]?.texts[k] ?? EN[k] ?? k).replace(/\{(\w+)\}/g, (m, v: string) => (v in vars ? String(vars[v]) : m))),
+  dir: (lang: string): "ltr" | "rtl" => (S.lang === "xx-rtl" ? "rtl" : isTest() ? "ltr" : PACKS[lang]?.dir ?? "ltr"), code: (lang: string): string => (isTest() ? "en" : lang) };
 const phCtx = (): { online: boolean; redraw: () => void; language: string } => ({ online: S.online, redraw: draw, language: S.lang });
-/** The ticket on the receipt printer: the big number, the section, the place and the time (no name, no phone number). */
+/** How the LynkQueue screens look on this terminal: the ticket prints on the receipt printer, so it is not drawn on the screen too. */
+const quLook = (): QuLook => ({ ...atLook(), place: SHOP, powered: `<small class="pb">${esc(t("ppl_qu_powered", { brand: "LynkOmni" }))}</small>`, paper: false });
+const quCtx = (): { online: boolean; partner: boolean; pairCode: () => string; redraw: () => void } => ({ online: S.online, partner: !S.realUser, pairCode, redraw: draw });
+/** The ticket on the receipt printer: the place, the section, the big number, its QR, the time and the place in the queue (no name, no phone number). */
 function printTicket(): void {
-  const tk = PH.tickets.find((x) => x.id === PH.lastTicket); if (!tk) return;
-  const v = PH.view(tk, t), paper = $("#paper"), wrap = $("#paperWrap");
-  paper.innerHTML = `<div class="rhead" role="img" aria-label="LynkOmni">${DATA.brand.receipt}</div><p class="rtk" dir="ltr">${esc(ticketNumber(tk.section, tk.code))}</p>
-    <pre class="rtext">${esc([v.sectionName, t("ppl_place", { n: String(v.place ?? "") }), clock(tk.at, true), SHOP].join("\n"))}</pre><div class="rcut" aria-hidden="true"></div>`;
+  const tk = PH.q.tk(PH.q.printed); if (!tk) return;
+  const paper = $("#paper"), wrap = $("#paperWrap");
+  paper.innerHTML = `${quPaper(PH.q, tk, { ...quLook(), paper: true })}<div class="rcut" aria-hidden="true"></div>`;
   wrap.classList.remove("torn"); wrap.hidden = false;
 }
 function printReceipt(s: Sale): void {
@@ -216,9 +228,9 @@ function cancelKey(): void {
 function enter(): void {
   switch (S.screen) {
     case "lock": { signIn(); return; }
-    case "door": if (PH.door.step === "done") PH.doorReset(); else PH.doorIdcn(); break;
-    case "reception": PH.act("ph:issue", phCtx()); printTicket(); break;
-    case "counter": { const c = PH.counters[0]; if (c && !c.serving) PH.callNext(c.id); else if (c) PH.finish(c.id, "served"); break; }
+    case "door": if (PH.door.step === "done") PH.doorReset(); else PH.doorIdcn(); break;                    // OK: check in with the IDCN typed, or the next person
+    case "reception": PH.q.act("qu:issue", quCtx()); printTicket(); break;
+    case "counter": { const c = PH.q.counter(PH.q.counterPick); if (c && !c.serving) PH.q.callNext(c.id); else if (c) PH.q.finish(c.id, "served"); break; }
     case "agent":
       if (S.step === "number") { if (S.input.length < 4) return; S.number = S.input; S.input = ""; S.step = (FINANCE_PRODUCTS as readonly string[]).includes(S.service) ? "confirm" : "amount"; break; }
       if (S.step === "amount") { const a = Number(S.input || "0"); if (!a) return; if (limitCheck(a, S.usedToday, combinedLimits(PARTNER_LIMITS)) !== "ok") { S.note = t("limit_exceeded"); break; } S.amount = a; S.input = ""; S.step = "confirm"; break; }
@@ -468,9 +480,9 @@ function view(): string {
       return `${top(t("shop_qr"))}<div class="offbox"><span class="qrbig" role="img" aria-label="${esc(t("shop_qr"))}">${icon("ui-qr")}</span><p>${esc(t("shop_qr_help"))}</p></div>`;
     case "staff": return staffScreen();
     // NEW UPDATE 4 (section 3): the door (LynkAttend), reception and counter (LynkQueue) on LynkPOS, offline like the till
-    case "door": return `${top(t("ppl_door_title"))}${doorScreen(PH, t, icon, (ms) => clock(ms))}<p class="keyhint">${icon("ui-info")}${esc(t("ppl_door_sample", { pin: PH.members[1]?.pin ?? "", idcn: PH.members[1]?.idcn ?? "" }))}</p>`;
-    case "reception": return `${top(t("ppl_reception_title"))}<div class="ph-wrap">${receptionCard(PH, t, icon)}${waitingCard(PH, t)}</div>`;
-    case "counter": return `${top(t("ppl_counter_title"))}<div class="ph-wrap">${PH.counters[0] ? counterCard(PH, PH.counters[0].id, t, icon) : ""}${waitingCard(PH, t)}</div>`;
+    case "door": return `${top(t("ppl_door_title"))}${atDoor(PH.att, atLook(), SPEAK)}${wasThisYou(PH.att, atLook())}<p class="keyhint">${icon("ui-info")}${esc(t("ppl_door_sample", { pin: PH.members[1]?.pin ?? "", idcn: PH.members[1]?.idcn ?? "" }))}</p>`;
+    case "reception": return `${top(t("ppl_reception_title"))}<div class="ph-wrap">${quReceptionView(PH.q, quLook())}</div>`;
+    case "counter": return `${top(t("ppl_counter_title"))}<div class="ph-wrap">${quCounterView(PH.q, quLook())}</div>`;
     case "menu":
       if (S.view === "limited") return `${top(t("menu"))}<ul class="menu"><li><button data-act="lock">${icon("ui-lock")}${esc(t("lock"))}${icon("ui-chevron-right")}</button></li></ul>`;
       return `${top(t("menu"))}<ul class="menu"><li><button data-act="go:sales">${icon("ui-receipt")}${esc(t("sales"))}${icon("ui-chevron-right")}</button></li>
@@ -561,7 +573,9 @@ function drawLog(): void {
 
 function act(a: string): void {
   if (DSH.act(a)) return;
-  if (a.startsWith("ph:")) { const issue = a === "ph:issue"; PH.act(a, phCtx()); if (issue) printTicket(); draw(); return; }
+  if (a.startsWith("at:")) { PH.att.act(a, { online: S.online, partner: !S.realUser }); draw(); return; }
+  if (a.startsWith("qu:")) { const prints = a === "qu:issue" || a.startsWith("qu:reprint:"); PH.q.act(a, quCtx()); if (prints) printTicket(); draw(); return; }
+  if (a.startsWith("ph:")) { PH.act(a, phCtx()); draw(); return; }
   const [k, v = ""] = a.split(/:(.*)/s);
   try {
     if (k && /^d\d+$/.test(k)) { digit(k.slice(1)); return; }

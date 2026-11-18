@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "nl",
+ "native": "Nederlands",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "Geen internet. Uw plaats in de wachtrij blijft bewaard; deze pagina wordt bijgewerkt zodra het internet terug is.",
+  "qp_place": "Voorbeeldlocatie",
+  "qp_tab_public": "Wachtrij nu",
+  "qp_tab_ticket": "Mijn ticket",
+  "title": "LynkQueue op uw telefoon"
+ }
+}

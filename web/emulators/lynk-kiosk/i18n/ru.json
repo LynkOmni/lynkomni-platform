@@ -1,0 +1,21 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ru",
+ "native": "Русский",
+ "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "texts": {
+  "k_attend": "Отметить приход или уход",
+  "k_attend_sub": "Посещаемость",
+  "k_camera": "Камера работает",
+  "k_choose": "Выберите, что вам нужно.",
+  "k_home": "Начать заново",
+  "k_place": "Пример места",
+  "k_reader": "Сканер отпечатков подключён",
+  "k_ticket": "Взять талон",
+  "k_ticket_sub": "Очередь",
+  "k_welcome": "Добро пожаловать",
+  "title": "LynkKiosk"
+ }
+}

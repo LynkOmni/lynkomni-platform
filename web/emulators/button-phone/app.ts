@@ -8,8 +8,9 @@ import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { APP_HOST } from "../../../ts/src/deviceshell.js";
 import { chooseInterface } from "../../../ts/src/interfaces.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
-import { chPage, chRender, chStart, chStep, parseSms } from "../../../ts/src/channels.js";
-import type { ChState } from "../../../ts/src/channels.js";
+import { chPage, chQPage, chQStart, chQStep, chRender, chStart, chStep, parseSms } from "../../../ts/src/channels.js";
+import type { ChQCtx, ChQState, ChState } from "../../../ts/src/channels.js";
+import { nextCode, runningLate, ticketNumber, waitMinutes } from "../../../ts/src/queue.js";
 import { bpPage, bpStart, bpStep, textNotification } from "../../../ts/src/basicphone.js";
 import type { BpCtx, BpState, PinCheck } from "../../../ts/src/basicphone.js";
 import { check } from "../../../ts/src/usernames.js";
@@ -25,9 +26,31 @@ const W = new Words(DATA.i18n, () => S.lang); const t = W.t;
  *  the lighter app, and a basic phone with no apps reaches LynkPOS by USSD, text message or a voice menu (core/channels.py). */
 type Kind = "button-phone" | "feature-phone" | "basic-phone";
 const KINDS: Kind[] = ["button-phone", "feature-phone", "basic-phone"];
-const PH = { kind: "button-phone" as Kind, mode: "idle" as "idle" | "ussd" | "sms" | "voice" | "acct", st: chStart() as ChState, input: "", sms: "", reply: "", ended: false,
+const PH = { kind: "button-phone" as Kind, mode: "idle" as "idle" | "ussd" | "sms" | "voice" | "acct" | "queue", st: chStart() as ChState, input: "", sms: "", reply: "", ended: false,
   // MASTER UPDATE section 3: the LynkOmni account on a basic phone (identity/basic_phone.py): sign up, sign in, help, the bell
   acct: bpStart() as BpState, wrong: 0, read: new Set<string>(), created: false };
+/** LynkQueue by basic phone (build section 3B; core/channels.py queue menu): a sample place whose queue keeper gives the number. The
+ *  menu only asks; ticket codes and the order come from the queue rules (ts/src/queue.ts). "#" plays the counter serving the next person. */
+const QQ = { st: chQStart() as ChQState, place: newId(), last: null as string | null, order: ["a", "b", "c", "d"] as string[], me: null as null | { id: string; code: string; late: boolean; state: "waiting" | "called" | "served" } };
+const Q_SECTIONS: [string, boolean][] = [["ch_q_sec_1", true], ["ch_q_sec_2", false]];
+const qCtx = (): ChQCtx => {
+  const me = QQ.me, at = me ? QQ.order.indexOf(me.id) + 1 : 0;
+  return { place: t("sample_shop"), sections: Q_SECTIONS.map(([k, open], i): [string, number, number, boolean] => [t(k), i ? 0 : QQ.order.length - (me && me.state === "waiting" ? 1 : 0), waitMinutes(QQ.order.length + 1, 4, 1) ?? 0, open]),
+    ticket: me ? { number: ticketNumber("SRV", me.code), place: at, minutes: waitMinutes(Math.max(1, at), 4, 1) ?? 0, state: me.state, late_used: me.late, counter: t("ch_q_counter") } : null };
+};
+function queueAsk(action: { join: number } | { running_late: true } | { leave: true }): void {
+  if ("join" in action) {
+    const code = nextCode(QQ.last) ?? "222222"; QQ.last = code; QQ.me = { id: newId(), code, late: false, state: "waiting" }; QQ.order.push(QQ.me.id);
+    LOG.emit("TicketIssued", { ticket_id: QQ.me.id, place_id: QQ.place, section: "SRV", code, via: "basic_phone", priority: false });
+  } else if (QQ.me && "running_late" in action) { QQ.order = runningLate(QQ.order, QQ.me.id); QQ.me.late = true; LOG.emit("TicketRunningLate", { ticket_id: QQ.me.id }, "server"); }
+  else if (QQ.me) { QQ.order = QQ.order.filter((x) => x !== QQ.me?.id); LOG.emit("TicketLeft", { ticket_id: QQ.me.id }, "server"); QQ.me = null; }
+}
+/** The counter serves the next person: when it is this phone's turn the ticket is called (a text would tell the person). */
+function queueMove(): void {
+  const next = QQ.order.shift(); if (!next) return;
+  if (QQ.me && next === QQ.me.id) { QQ.me.state = "called"; LOG.emit("TicketCalled", { ticket_id: QQ.me.id, counter_id: QQ.place, call: 1, by_number: true }); }
+  if (QQ.order.length < 2) QQ.order.push(newId());
+}
 const ACCT_PIN = "4719";                 // the sample account's PIN
 const SAMPLE_USER = "ama.shop";          // "*" types it: a basic phone types letters by tapping a key several times
 const acctCtx = (): BpCtx => ({ age: 18, lines: [["n1", t("bp_new_sign_in")], ["n2", t("bp_low_rice")], ["n3", t("bp_day_closed")]].filter(([nid]) => !PH.read.has(nid!)) as [string, string][], recovery: "7F3K-9Q2M-X81B-4TZC", case: "LOCASE-2101-7710-0042" });
@@ -62,7 +85,11 @@ function channelBody(): string {
     const text = chRender(bpPage(PH.acct, acctCtx()), (k) => t(k));
     return `${head}<pre class="bussd" role="status">${esc(text)}</pre>${PH.ended ? `<p class="bnote">${esc(t("ch_session_ended"))}</p>` : `<p class="breply">${esc(t("ch_reply"))}: <strong>${esc(PH.acct.screen === "pin" || PH.acct.screen === "new_pin" || PH.acct.screen === "pin_again" ? "•".repeat(PH.input.length) : PH.input)}</strong>_</p>${PH.acct.screen === "username" ? `<p class="bnote">${esc(t("bp_star_hint", { name: SAMPLE_USER }))}</p>` : ""}`}${soft(t("ch_send"), t("back"))}`;
   }
-  if (PH.mode === "idle") return `${head}<ol class="bmenu">${[t("ch_dial"), t("ch_text"), t("ch_voice"), t("bp_dial_account")].map((w, i) => `<li class="${i === S.sel ? "sel" : ""}">${i + 1}. ${esc(w)}</li>`).join("")}</ol><p class="bnote">${esc(t("ch_sandbox"))}</p>${soft(t("confirm"), "")}`;
+  if (PH.mode === "idle") return `${head}<ol class="bmenu">${[t("ch_dial"), t("ch_text"), t("ch_voice"), t("bp_dial_account"), t("ch_q_dial")].map((w, i) => `<li class="${i === S.sel ? "sel" : ""}">${i + 1}. ${esc(w)}</li>`).join("")}</ol><p class="bnote">${esc(t("ch_sandbox"))}</p>${soft(t("confirm"), "")}`;
+  if (PH.mode === "queue") {
+    const text = chRender(chQPage(QQ.st, qCtx()), (k) => t(k));
+    return `${head}<pre class="bussd" role="status">${esc(text)}</pre>${PH.ended ? `<p class="bnote">${esc(t("ch_session_ended"))}</p>` : `<p class="breply">${esc(t("ch_reply"))}: <strong>${esc(PH.input)}</strong>_</p>`}<p class="bnote">${esc(t("ch_q_text_help"))} ${esc(t("ch_q_sandbox"))}</p>${soft(t("ch_send"), t("back"))}`;
+  }
   if (PH.mode === "sms") return `${head}<p class="bt">${esc(t("ch_message_to"))}</p><p class="bsms">${esc(PH.sms)}_</p>${PH.reply ? `<p class="bsms in" role="status">${esc(PH.reply)}</p>` : ""}${soft(t("ch_send"), t("back"))}`;
   const text = chRender(chPage(PH.st, chCtx()), (k) => t(k));
   const spoken = PH.mode === "voice" ? `<p class="bnote">${icon("ui-mic")} ${esc(t("ch_spoken"))}</p>` : "";
@@ -78,10 +105,10 @@ function sellFromChannel(prod: number, qtyMilli: number): void {
 function channelAct(a: string): void {
   const n = /^d(\d)$/.exec(a);
   if (PH.mode === "idle") {
-    const pickMode = (i: number): void => { PH.mode = (["ussd", "sms", "voice", "acct"] as const)[i] ?? "ussd"; PH.st = chStart(); PH.acct = bpStart(); PH.input = ""; PH.sms = ""; PH.reply = ""; PH.ended = false; };
-    if (n && Number(n[1]) >= 1 && Number(n[1]) <= 4) pickMode(Number(n[1]) - 1);
+    const pickMode = (i: number): void => { PH.mode = (["ussd", "sms", "voice", "acct", "queue"] as const)[i] ?? "ussd"; PH.st = chStart(); PH.acct = bpStart(); QQ.st = chQStart(QQ.me !== null); PH.input = ""; PH.sms = ""; PH.reply = ""; PH.ended = false; };
+    if (n && Number(n[1]) >= 1 && Number(n[1]) <= 5) pickMode(Number(n[1]) - 1);
     else if (a === "call" || a === "soft:left") pickMode(S.sel);
-    else if (a === "nav:up") S.sel = Math.max(0, S.sel - 1); else if (a === "nav:down") S.sel = Math.min(3, S.sel + 1);
+    else if (a === "nav:up") S.sel = Math.max(0, S.sel - 1); else if (a === "nav:down") S.sel = Math.min(4, S.sel + 1);
     draw(); return;
   }
   if (a === "end" || a === "soft:right") { if (PH.mode === "sms" && PH.sms) PH.sms = PH.sms.slice(0, -1); else { PH.mode = "idle"; S.sel = 0; } draw(); return; }
@@ -97,6 +124,16 @@ function channelAct(a: string): void {
     draw(); return;
   }
   if (PH.ended) { PH.mode = "idle"; S.sel = 0; draw(); return; }
+  if (PH.mode === "queue") {
+    if (n) PH.input = (PH.input + n[1]).slice(0, 2);
+    else if (a === "hash") queueMove();
+    else if (a === "call" || a === "soft:left") {
+      const [st, ends, action] = chQStep(QQ.st, PH.input, qCtx()); PH.input = "";
+      if (action) queueAsk(action);
+      QQ.st = st; PH.ended = ends;
+    }
+    draw(); return;
+  }
   if (PH.mode === "acct") {
     if (n) PH.input = (PH.input + n[1]).slice(0, 30);
     else if (a === "star" && PH.acct.screen === "username") PH.input = SAMPLE_USER;

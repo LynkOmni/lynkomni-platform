@@ -33,6 +33,11 @@ export function isEasyPin(pin: string): boolean {
 /** How many 6-digit PINs are easy (never given): fixed here so no screen counts a million PINs at start; the tests count them. */
 export const EASY_PIN_COUNT = 1100;
 export const PIN_GROUP_SIZE = 10 ** PIN_LENGTH - EASY_PIN_COUNT;
+/** A new PIN for a PIN group (core/attendance.py new_pin): never easy, never one the group ever gave (live or blocked). */
+export function newPin(draw: () => number, taken: ReadonlySet<string>): string {
+  if (taken.size >= PIN_GROUP_SIZE) throw new Error("this PIN group is full; start a new PIN group");
+  for (;;) { const pin = String(draw() % 10 ** PIN_LENGTH).padStart(PIN_LENGTH, "0"); if (!isEasyPin(pin) && !taken.has(pin)) return pin; }
+}
 export const pinGroupWarning = (used: number): boolean => used * 100 >= PIN_GROUP_SIZE * PIN_GROUP_WARN_PERCENT;
 
 export interface DoorStep { means: Means; try?: number; result: "ok" | "fail" | "not_working" }

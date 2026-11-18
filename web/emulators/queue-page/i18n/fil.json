@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "fil",
+ "native": "Filipino",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "Walang internet. Nakatago ang iyong puwesto sa pila; mag-a-update ang pahinang ito kapag bumalik ang internet.",
+  "qp_place": "Halimbawang lugar",
+  "qp_tab_public": "Pila ngayon",
+  "qp_tab_ticket": "Aking tiket",
+  "title": "LynkQueue sa iyong telepono"
+ }
+}

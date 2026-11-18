@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "uk",
+ "native": "Українська",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "Немає інтернету. Ваше місце в черзі збережено; ця сторінка оновиться, коли інтернет повернеться.",
+  "qp_place": "Зразок місця",
+  "qp_tab_public": "Черга зараз",
+  "qp_tab_ticket": "Мій талон",
+  "title": "LynkQueue на вашому телефоні"
+ }
+}

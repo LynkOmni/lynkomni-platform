@@ -1,0 +1,21 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "hi",
+ "native": "हिन्दी",
+ "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "texts": {
+  "k_attend": "हाज़िरी या जाने का समय दर्ज करें",
+  "k_attend_sub": "हाज़िरी",
+  "k_camera": "कैमरा काम कर रहा है",
+  "k_choose": "जो चाहिए वह चुनें।",
+  "k_home": "फिर से शुरू करें",
+  "k_place": "नमूना जगह",
+  "k_reader": "फ़िंगरप्रिंट रीडर जुड़ा है",
+  "k_ticket": "टिकट लें",
+  "k_ticket_sub": "कतार",
+  "k_welcome": "स्वागत है",
+  "title": "LynkKiosk"
+ }
+}

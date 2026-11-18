@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LynkDScreen</title>
+<meta name="description" content="Interactive emulator of LynkDScreen, the main calling screen of LynkQueue: the tickets being called and their counters, the chime and the voice, back soon, how many are waiting and the QR code to join, with or without internet.">
+<style>/*@TOKENS@*/
+/*@STYLE@*/</style>
+</head>
+<body>
+<header class="pagehead">
+  <h1>LynkDScreen <span class="draft">Draft design</span></h1>
+  <p>Interactive emulator of LynkDScreen, the main calling screen of LynkQueue, on any TV with a browser, display board or monitor. It only follows the queue keeper: the buttons beside it play reception and the counters. Ticket numbers only, never a name. Real LynkOmni rules, sample tickets. Not reviewed by a designer yet.</p>
+</header>
+<main class="stage">
+  <section class="rig" id="rig" aria-label="LynkDScreen" data-width="724">
+    <div class="fit"><div class="wall"><div class="tv"><div class="tvscreen light" id="screen"></div><div class="tvbar"><span class="tvspk" aria-hidden="true"></span><div class="mark" aria-hidden="true">/*@BODYMARK@*/</div><span class="tvspk" aria-hidden="true"></span></div></div>
+      <div class="tvpad" id="pad"></div></div><div class="fake-till" id="till"></div></div>
+  </section>
+  <aside class="panel" id="panel" aria-label="Emulator controls"></aside>
+</main>
+<script>/*@SCRIPT@*/</script>
+</body>
+</html>

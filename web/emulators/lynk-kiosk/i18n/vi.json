@@ -1,0 +1,21 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "vi",
+ "native": "Tiếng Việt",
+ "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "texts": {
+  "k_attend": "Chấm công vào hoặc ra",
+  "k_attend_sub": "Chấm công",
+  "k_camera": "Máy ảnh đang hoạt động",
+  "k_choose": "Chọn điều bạn cần.",
+  "k_home": "Bắt đầu lại",
+  "k_place": "Địa điểm mẫu",
+  "k_reader": "Đầu đọc vân tay đã kết nối",
+  "k_ticket": "Lấy vé",
+  "k_ticket_sub": "Hàng đợi",
+  "k_welcome": "Xin chào",
+  "title": "LynkKiosk"
+ }
+}

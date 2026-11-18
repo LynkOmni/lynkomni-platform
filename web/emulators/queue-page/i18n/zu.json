@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "zu",
+ "native": "isiZulu",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "Ayikho i-inthanethi. Indawo yakho kulayini igciniwe; leli khasi lizovuseleleka uma i-inthanethi isibuyile.",
+  "qp_place": "Indawo yesampula",
+  "qp_tab_public": "Ulayini manje",
+  "qp_tab_ticket": "Ithikithi lami",
+  "title": "I-LynkQueue efonini yakho"
+ }
+}

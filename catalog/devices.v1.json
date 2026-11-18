@@ -402,8 +402,8 @@
    "touch": "tablet.touch",
    "non_touch": "tv.remote",
    "emulator": {
-    "touch": null,
-    "non_touch": null
+    "touch": "lynk-kiosk",
+    "non_touch": "lynk-kiosk"
    },
    "section": 13,
    "lynk_name": "LynkKiosk"
@@ -425,10 +425,21 @@
    "non_touch": "tv.remote",
    "emulator": {
     "touch": null,
-    "non_touch": null
+    "non_touch": "lynk-dscreen"
    },
-   "section": 13,
+   "section": 3,
    "lynk_name": "LynkDScreen"
+  },
+  {
+   "id": "counter-display",
+   "touch": null,
+   "non_touch": "tv.remote",
+   "emulator": {
+    "touch": null,
+    "non_touch": "lynk-cdisplay"
+   },
+   "section": 3,
+   "lynk_name": "LynkCDisplay"
   },
   {
    "id": "eink-reader",
@@ -495,7 +506,8 @@
    "LynkDScreen": {
     "what": "Main display screen",
     "touch": null,
-    "buttons_only": "Any TV with a browser (remote control), display board, monitor"
+    "buttons_only": "Any TV with a browser (remote control), display board, monitor",
+    "built": "3B"
    },
    "LynkCDisplay": {
     "what": "Small screen above a counter",
@@ -528,7 +540,11 @@
    "owner-web": "LynkPC",
    "browser-frame": "LynkPC",
    "pos-terminal": "LynkPOS",
-   "customer-display": "LynkPOS"
+   "customer-display": "LynkPOS",
+   "lynk-kiosk": "LynkKiosk",
+   "lynk-dscreen": "LynkDScreen",
+   "lynk-cdisplay": "LynkCDisplay",
+   "queue-page": "LynkMobile"
   }
  }
 }

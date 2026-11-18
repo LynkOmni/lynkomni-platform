@@ -1,0 +1,21 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ckb",
+ "native": "کوردی",
+ "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "texts": {
+  "k_attend": "ئامادەبوون یان ڕۆیشتن تۆمار بکە",
+  "k_attend_sub": "ئامادەبوون",
+  "k_camera": "کامێرا کار دەکات",
+  "k_choose": "ئەوەی پێویستتە هەڵیبژێرە.",
+  "k_home": "دەست پێ بکەرەوە",
+  "k_place": "شوێنی نموونەیی",
+  "k_reader": "خوێنەری پەنجەمۆر بەستراوە",
+  "k_ticket": "بلیت وەربگرە",
+  "k_ticket_sub": "ڕیز",
+  "k_welcome": "بەخێربێیت",
+  "title": "LynkKiosk"
+ }
+}

@@ -368,6 +368,10 @@ DEVICES = {
     "mesh-relay": (["#screenA", "#screenB"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
     "owner-web": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
     "track-page": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
+    "lynk-kiosk": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),          # build section 3B
+    "lynk-dscreen": (["#screen", "#till"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
+    "lynk-cdisplay": (["#screen", "#till"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
+    "queue-page": (["#screen", "#till"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
 }
 DEVICE_FILE = lambda e: os.path.join(ROOT, "web", "emulators", "dist", f"lynkomni-{e}.html")
 OVERFLOW_IN = OVERFLOW.replace("() => {\n  const d = document.querySelector('#display')", "(sel) => {\n  const d = document.querySelector(sel)")

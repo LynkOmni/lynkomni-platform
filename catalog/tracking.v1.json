@@ -15,7 +15,8 @@
   "Customers see a tracker with no account at its public address and see only customer steps: never an address, a phone number, a name other than the shop's, a rider's identity or coordinates.",
   "Live progress (delivery only) is a share between 0 and 1 and a time of arrival, worked out on LynkOmni's servers from positions the partner reports or the shop's own rider shares with consent during the trip. Positions are never stored in the event log, never shown to the customer, and are deleted when the trip ends.",
   "A tracker is late when its promised time has passed and it has not ended; the owner is told (automation tracking-late-watch) and the customer sees the new estimate, never a guess.",
-  "Every step change a customer can see may send one message by the way they chose (automation order-updates: transactional, quiet hours, their language)."
+  "Every step change a customer can see may send one message by the way they chose (automation order-updates: transactional, quiet hours, their language).",
+  "A step counts once. A step marked \"again\" can be reached again when its event comes again (a queue ticket waits again after Put back or Send to, and is called again); the current step is always the last one reached."
  ],
  "kinds": [
   {
@@ -1121,6 +1122,93 @@
      ]
     }
    ]
+  },
+  {
+   "id": "queue_ticket",
+   "record": "TKT",
+   "key": "ticket_id",
+   "family": "lynkqueue",
+   "ui_section": "3B",
+   "viewers": {
+    "merchant": "app.lynkomni.com/queue/tickets/{LOTKT}",
+    "customer": "shop.lynkomni.com/track/{LOTKT}"
+   },
+   "note": "A LynkQueue ticket: waiting (also after Put back or Send to), called to a counter, done; missed, left or not served today. The place in the queue is a plain number on the ticket itself; customers see only these steps, never a name (NEW UPDATE 4; build section 3B).",
+   "steps": [
+    {
+     "id": "waiting",
+     "state": "accepted",
+     "customer": true,
+     "on": [
+      {
+       "event": "TicketIssued"
+      },
+      {
+       "event": "TicketPutBack"
+      },
+      {
+       "event": "TicketSentTo"
+      }
+     ],
+     "again": true
+    },
+    {
+     "id": "called",
+     "state": "accepted",
+     "customer": true,
+     "on": [
+      {
+       "event": "TicketCalled"
+      }
+     ],
+     "again": true
+    },
+    {
+     "id": "served",
+     "state": "confirmed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "event": "TicketServed"
+      }
+     ]
+    },
+    {
+     "id": "missed",
+     "state": "failed",
+     "customer": true,
+     "optional": true,
+     "on": [
+      {
+       "event": "TicketMissed"
+      }
+     ],
+     "again": true
+    },
+    {
+     "id": "left_queue",
+     "state": "failed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "event": "TicketLeft"
+      }
+     ]
+    },
+    {
+     "id": "not_served_today",
+     "state": "failed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "event": "TicketNotServedToday"
+      }
+     ]
+    }
+   ]
   }
  ],
  "planned": [
@@ -1183,12 +1271,6 @@
    "record": "SNT",
    "ui_section": "7B",
    "note": "A LynkSentry incident (LOSNT-): opened, with the owner and trusted contacts, closed; routed to the safety desk."
-  },
-  {
-   "id": "queue_ticket",
-   "record": "TKT",
-   "ui_section": "3B",
-   "note": "A LynkQueue ticket (LOTKT-): waiting with its place as a plain number, called (with the counter), being served, sent to the next section, done; missed, put back, running late or left. Customers see only these steps, never a name (NEW UPDATE 4)."
   }
  ]
 }

@@ -20,7 +20,7 @@ class Flow:
         s.c, s.db, s.handlers = c, c.store.db, {}
         s.db.executescript("""
         create table if not exists flow_runs(key text primary key, automation text, subject text, trigger_event text, at real, level text, did text, why text);
-        create table if not exists flow_off(subject text, automation text, primary key(subject, automation));
+        create table if not exists flow_off(subject text, automation text, primary key(subject, automation)); create table if not exists flow_on(subject text, automation text, primary key(subject, automation));
         create table if not exists flow_last(automation text, subject text, at real, primary key(automation, subject));""")
     # registration and switches
     def handle(s, automation_id, fn):
@@ -30,10 +30,15 @@ class Flow:
         if off: s.db.execute("insert or ignore into flow_off values(?,?)", (subject, automation_id))
         else: s.db.execute("delete from flow_off where subject=? and automation=?", (subject, automation_id))
         s.db.commit()
+    def set_on(s, subject, automation_id, on=True):
+        """An automation that is off by default (a link between two services, a message to customers) runs only after the owner switches it on."""
+        if on: s.db.execute("insert or ignore into flow_on values(?,?)", (subject, automation_id)); s.db.execute("delete from flow_off where subject=? and automation=?", (subject, automation_id))
+        else: s.db.execute("delete from flow_on where subject=? and automation=?", (subject, automation_id))
+        s.db.commit()
     def is_on(s, subject, automation_id):
         a = REGISTER[automation_id]
-        row = s.db.execute("select 1 from flow_off where subject=? and automation=?", (subject, automation_id)).fetchone()
-        return a.get("default", "on") == "on" and row is None
+        if s.db.execute("select 1 from flow_off where subject=? and automation=?", (subject, automation_id)).fetchone(): return False
+        return a.get("default", "on") == "on" or s.db.execute("select 1 from flow_on where subject=? and automation=?", (subject, automation_id)).fetchone() is not None
     # triggers
     def by_trigger(s, trigger): return [a for a in REGISTER.values() if a["trigger"] == trigger and a["id"] in s.handlers]
     def on_event(s, subject, event, now=None, depth=0):
@@ -54,6 +59,13 @@ class Flow:
                 if last and _now(now) - last[0] < period: continue
                 s.db.execute("insert or replace into flow_last values(?,?,?)", (a["id"], subject, _now(now))); s.db.commit()
                 ran += s._run(a, subject, {"period": kind}, trigger_event=f"{kind}:{int(_now(now) // period)}", now=now)
+        return ran
+    def metric(s, name, subject, payload, key, now=None):
+        """A watched number crossed its line (trigger 'metric:<name>'): the service that owns the number says so, with a key that makes
+        each crossing its own run (for example the section and the hour), so the same crossing is never acted on twice."""
+        ran = []
+        for a in s.by_trigger(f"metric:{name}"):
+            ran += s._run(a, subject, payload, trigger_event=f"metric:{name}:{key}", now=now)
         return ran
     def user_action(s, subject, action, payload, now=None):
         """A person asked for something an automation drafts or summarises (trigger 'user:<action>'); each ask is its own run."""

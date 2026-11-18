@@ -32,6 +32,21 @@ class Channels(unittest.TestCase):
         self.assertNotIn("agent", C.MENU)
         self.assertIn("ch_help", EN); self.assertIn("1", EN["ch_help"])
 
+    def test_joining_a_queue_by_basic_phone_is_numbers_only_and_every_page_fits(self):
+        ctx = {"place": "Buea Regional Hospital", "sections": [["Laboratory", 12, 25, True], ["Pharmacy", 3, 8, True], ["Accounts", 0, 4, False]], "ticket": None}
+        st = C.queue_start(); self.assertLessEqual(len(C.render(C.queue_page(st, ctx), EN)), C.USSD_MAX)
+        self.assertEqual(C.queue_step(st, "3", ctx)[2], None)                                   # a closed section gives no ticket
+        st, ends, action = C.queue_step(st, "1", ctx); self.assertEqual((ends, action), (False, {"join": 0}))
+        ctx["ticket"] = {"number": "LAB-A2K9P2", "place": 13, "minutes": 27, "state": "waiting", "late_used": False}
+        text = C.render(C.queue_page(st, ctx), EN); self.assertIn("LAB-A2K9P2", text); self.assertLessEqual(len(text), C.USSD_MAX)
+        self.assertEqual(C.queue_step(st, "1", ctx)[2], {"running_late": True})
+        ctx["ticket"]["late_used"] = True; self.assertIsNone(C.queue_step(st, "1", ctx)[2]); self.assertNotIn("ch_q_late", [k for k, _ in C.queue_page(st, ctx)])   # once per ticket
+        st2, ends, action = C.queue_step(st, "2", ctx); self.assertEqual((ends, action), (True, {"leave": True}))
+        ctx["ticket"].update(state="called", counter="Room 3"); self.assertIn("Room 3", C.render(C.queue_page(C.queue_start(True), ctx), EN))
+        self.assertEqual(C.parse_queue_sms("2", 3), {"command": "join", "section": 1}); self.assertEqual(C.parse_queue_sms("8", 3), {"command": "running_late"})
+        self.assertEqual(C.parse_queue_sms("9", 3), {"command": "leave"}); self.assertIsNone(C.parse_queue_sms("JOIN", 3)); self.assertIsNone(C.parse_queue_sms("5", 3))
+        self.assertNotRegex(json.dumps(C.queue_page(st, ctx)), "name\\\": \\\"[A-Z][a-z]+ [A-Z]")   # a ticket number, never a person's name
+
     def test_the_basic_phone_uses_this_channel(self):
         self.assertEqual(I.DEVICES["basic-phone"]["non_touch"], "phone.text")
         self.assertEqual(I.choose({"registered": {"device": "basic-phone", "version": "non_touch"}})["interface"], "phone.text")

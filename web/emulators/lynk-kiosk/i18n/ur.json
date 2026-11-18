@@ -1,0 +1,21 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ur",
+ "native": "اردو",
+ "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "texts": {
+  "k_attend": "حاضری یا روانگی درج کریں",
+  "k_attend_sub": "حاضری",
+  "k_camera": "کیمرا کام کر رہا ہے",
+  "k_choose": "جو چاہیے وہ چنیں۔",
+  "k_home": "دوبارہ شروع کریں",
+  "k_place": "نمونے کی جگہ",
+  "k_reader": "انگلی کا نشان پڑھنے والا آلہ جڑا ہے",
+  "k_ticket": "ٹکٹ لیں",
+  "k_ticket_sub": "قطار",
+  "k_welcome": "خوش آمدید",
+  "title": "LynkKiosk"
+ }
+}

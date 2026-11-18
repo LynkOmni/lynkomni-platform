@@ -61,6 +61,15 @@ class Platform(_Base):
         s.agent, s.deliveries, s.restaurant = AgentPoint(s.cloud, s), Deliveries(s.cloud, s), Restaurant(s.cloud, s)
         s.buy_together, s.devices, s.business = BuyTogether(s.cloud, s), Devices(s.cloud, s), Business(s.cloud, s, s.account.usernames)
         register_section_3(s.flow, s.business, s.agent, s.deliveries, s.restaurant, s.devices, s)
+        from services.messages import Notifier
+        from services.people_partners import SandboxPeopleMessages
+        from people.attendance import Attendance
+        from people.automations import register as register_section_3b
+        s.notifier = Notifier()                               # the one message engine (catalog/messages.v1.json)
+        s.attendance = Attendance(s.cloud, s, s.notifier, SandboxPeopleMessages())   # LynkAttend in full (build section 3B)
+        from people.queue import Queue
+        s.queue = Queue(s.cloud, s, s.notifier, SandboxPeopleMessages())             # LynkQueue in full (build section 3B)
+        register_section_3b(s.flow, s)
         from services.tracking import PlatformTracking
         s.tracking = PlatformTracking(s)                      # one tracking engine for every service (catalog/tracking.v1.json)
     def mesh_for(s, ccbox, **kw):

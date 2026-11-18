@@ -1,0 +1,21 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "pl",
+ "native": "Polski",
+ "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "texts": {
+  "k_attend": "Zarejestruj wejście lub wyjście",
+  "k_attend_sub": "Obecność",
+  "k_camera": "Kamera działa",
+  "k_choose": "Wybierz, czego potrzebujesz.",
+  "k_home": "Zacznij od nowa",
+  "k_place": "Przykładowe miejsce",
+  "k_reader": "Czytnik linii papilarnych podłączony",
+  "k_ticket": "Pobierz bilet",
+  "k_ticket_sub": "Kolejka",
+  "k_welcome": "Witamy",
+  "title": "LynkKiosk"
+ }
+}

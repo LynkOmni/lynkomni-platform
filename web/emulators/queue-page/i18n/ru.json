@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ru",
+ "native": "Русский",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "Нет интернета. Ваше место в очереди сохранено; эта страница обновится, когда интернет вернётся.",
+  "qp_place": "Пример места",
+  "qp_tab_public": "Очередь сейчас",
+  "qp_tab_ticket": "Мой талон",
+  "title": "LynkQueue на вашем телефоне"
+ }
+}

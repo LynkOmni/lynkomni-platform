@@ -1,0 +1,15 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "he",
+ "native": "עברית",
+ "source_sha256": "51453af1fa9e48f865300eac9b250a86ba9fcc8d177369e3c6e6de14f7cdd75f",
+ "texts": {
+  "ds_place": "מקום לדוגמה",
+  "ds_say_again": "לומר שוב",
+  "ds_second_language": "שפה שנייה של הקול",
+  "ds_sound": "קול",
+  "title": "LynkDScreen"
+ }
+}

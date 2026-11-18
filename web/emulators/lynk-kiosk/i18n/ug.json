@@ -1,0 +1,21 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ug",
+ "native": "ئۇيغۇرچە",
+ "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "texts": {
+  "k_attend": "كېلىش ياكى كېتىشنى خاتىرىلەش",
+  "k_attend_sub": "ئىشقا كېلىش",
+  "k_camera": "كامېرا ئىشلەۋاتىدۇ",
+  "k_choose": "كېرەكلىكىنى تاللاڭ.",
+  "k_home": "قايتا باشلاش",
+  "k_place": "ئۈلگە ئورۇن",
+  "k_reader": "بارماق ئىزى ئوقۇغۇچ ئۇلاندى",
+  "k_ticket": "بېلەت ئېلىش",
+  "k_ticket_sub": "ئۆچىرەت",
+  "k_welcome": "خۇش كەلدىڭىز",
+  "title": "LynkKiosk"
+ }
+}

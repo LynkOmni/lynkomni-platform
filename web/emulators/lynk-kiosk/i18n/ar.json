@@ -1,0 +1,21 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ar",
+ "native": "العربية",
+ "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "texts": {
+  "k_attend": "تسجيل الحضور أو الانصراف",
+  "k_attend_sub": "الحضور",
+  "k_camera": "الكاميرا تعمل",
+  "k_choose": "اختر ما تحتاج إليه.",
+  "k_home": "البدء من جديد",
+  "k_place": "مكان نموذجي",
+  "k_reader": "قارئ البصمات موصول",
+  "k_ticket": "أخذ تذكرة",
+  "k_ticket_sub": "الطابور",
+  "k_welcome": "مرحبًا",
+  "title": "LynkKiosk"
+ }
+}

@@ -2222,7 +2222,7 @@
    "offline": false,
    "default": "off",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/attendance.py"
   },
   {
    "id": "attend-opens-queue-counter",
@@ -2239,7 +2239,7 @@
    "offline": true,
    "default": "off",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/queue.py and people/keeper.py (the counter opens on the device)"
   },
   {
    "id": "attend-after-shift-question",
@@ -2326,7 +2326,7 @@
    "offline": true,
    "default": "on",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/attendance.py"
   },
   {
    "id": "attend-no-check-out",
@@ -2343,7 +2343,7 @@
    "offline": false,
    "default": "on",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/attendance.py"
   },
   {
    "id": "attend-request-reminders",
@@ -2360,7 +2360,7 @@
    "offline": false,
    "default": "on",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/attendance.py"
   },
   {
    "id": "attend-warning-signs",
@@ -2377,7 +2377,7 @@
    "offline": false,
    "default": "on",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/attendance.py"
   },
   {
    "id": "queue-please-come",
@@ -2394,7 +2394,7 @@
    "offline": false,
    "default": "on",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow",
+   "implemented_by": "people/automations.py on people/queue.py",
    "consent": "transactional"
   },
   {
@@ -2412,7 +2412,7 @@
    "offline": false,
    "default": "on",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/queue.py"
   },
   {
    "id": "queue-open-counter",
@@ -2429,7 +2429,7 @@
    "offline": false,
    "default": "on",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/queue.py"
   },
   {
    "id": "queue-busy-forecast",
@@ -2446,7 +2446,7 @@
    "offline": false,
    "default": "on",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/queue.py"
   },
   {
    "id": "queue-pickup-collection",
@@ -2454,8 +2454,8 @@
    "build_section": "3B",
    "family": "lynkqueue",
    "min_tier": "plus",
-   "trigger": "event:ShipmentArrived",
-   "action": "Gives each parcel collection a queue ticket at a pickup point",
+   "trigger": "event:ShipmentScanned",
+   "action": "Gives each parcel collection a queue ticket at a pickup point (when the parcel is scanned in there)",
    "level": "inform",
    "assist": null,
    "touches": [],
@@ -2463,7 +2463,7 @@
    "offline": false,
    "default": "off",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/queue.py"
   },
   {
    "id": "queue-appointments",

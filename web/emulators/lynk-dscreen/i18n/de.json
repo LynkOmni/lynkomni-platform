@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "de",
+ "native": "Deutsch",
+ "source_sha256": "51453af1fa9e48f865300eac9b250a86ba9fcc8d177369e3c6e6de14f7cdd75f",
+ "texts": {
+  "ds_place": "Beispielstandort",
+  "ds_say_again": "Noch einmal sagen",
+  "ds_second_language": "Zweite Sprache der Stimme",
+  "ds_sound": "Ton",
+  "title": "LynkDScreen"
+ }
+}

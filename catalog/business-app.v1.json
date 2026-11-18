@@ -537,28 +537,240 @@
    "blueprint": "63 (NEW UPDATE 4, LynkAttend; build section 3)",
    "items": [
     "att_setup",
-    "att_today",
     "att_people",
+    "att_check_ins",
+    "att_visitors",
     "att_checkers",
+    "att_shifts",
+    "att_leave",
+    "att_events",
+    "att_devices",
     "att_door",
-    "att_add_device",
     "att_reports"
    ],
    "path": "/attendance"
   },
   {
-   "id": "queue",
-   "blueprint": "63 (NEW UPDATE 4, LynkQueue; build section 3)",
+   "id": "attendance_people",
+   "blueprint": "63 (NEW UPDATE 4, LynkAttend in full; build section 3B)",
    "items": [
-    "q_setup",
+    "people_list",
+    "pin_group",
+    "requests"
+   ],
+   "path": "/attendance/people"
+  },
+  {
+   "id": "attendance_new",
+   "blueprint": "63 (NEW UPDATE 4, LynkAttend in full; build section 3B)",
+   "items": [
+    "id_document",
+    "set_choice",
+    "agreement",
+    "enrolment",
+    "confirm_person",
+    "create_pin",
+    "send_pin"
+   ],
+   "path": "/attendance/people/new"
+  },
+  {
+   "id": "attendance_check_ins",
+   "blueprint": "63 (NEW UPDATE 4, LynkAttend in full; build section 3B)",
+   "items": [
+    "live_view",
+    "flags",
+    "hand_check_in",
+    "corrections"
+   ],
+   "path": "/attendance/check-ins"
+  },
+  {
+   "id": "attendance_visitors",
+   "blueprint": "63 (NEW UPDATE 4, LynkAttend in full; build section 3B)",
+   "items": [
+    "visitor_list",
+    "sign_in_visitor",
+    "ask_manager",
+    "fire_list"
+   ],
+   "path": "/attendance/visitors"
+  },
+  {
+   "id": "attendance_checkers",
+   "blueprint": "63 (NEW UPDATE 4, LynkAttend in full; build section 3B)",
+   "items": [
+    "checker_list"
+   ],
+   "path": "/attendance/checkers"
+  },
+  {
+   "id": "attendance_shifts",
+   "blueprint": "63 (NEW UPDATE 4, LynkAttend in full; build section 3B)",
+   "items": [
+    "shift_times",
+    "missed_check_out"
+   ],
+   "path": "/attendance/shifts"
+  },
+  {
+   "id": "attendance_leave",
+   "blueprint": "63 (NEW UPDATE 4, LynkAttend in full; build section 3B)",
+   "items": [
+    "leave_list"
+   ],
+   "path": "/attendance/leave"
+  },
+  {
+   "id": "attendance_events",
+   "blueprint": "63 (NEW UPDATE 4, LynkAttend in full; build section 3B)",
+   "items": [
+    "event_list",
+    "certificates"
+   ],
+   "path": "/attendance/events"
+  },
+  {
+   "id": "attendance_devices",
+   "blueprint": "63 (NEW UPDATE 4, LynkAttend in full; build section 3B)",
+   "items": [
+    "door_devices",
+    "device_lock",
+    "clock_guard",
+    "att_add_device"
+   ],
+   "path": "/attendance/devices"
+  },
+  {
+   "id": "attendance_door",
+   "blueprint": "63 (NEW UPDATE 4, LynkAttend in full; build section 3B)",
+   "items": [
+    "door_screen"
+   ],
+   "path": "/attendance/door"
+  },
+  {
+   "id": "attendance_reports",
+   "blueprint": "63 (NEW UPDATE 4, LynkAttend in full; build section 3B)",
+   "items": [
+    "hours_report",
+    "manager_history",
+    "billing_count"
+   ],
+   "path": "/attendance/reports"
+  },
+  {
+   "id": "queue",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue; build sections 3 and 3B)",
+   "items": [
+    "q_places",
     "q_sections",
-    "q_waiting",
     "q_counters",
+    "q_tickets",
     "q_reception",
-    "q_add_device",
+    "q_counter",
+    "q_kiosk",
+    "q_screen",
+    "q_devices",
     "q_reports"
    ],
    "path": "/queue"
+  },
+  {
+   "id": "queue_places",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "q_kind",
+    "q_join_from",
+    "q_balance",
+    "q_public_page",
+    "q_plan"
+   ],
+   "path": "/queue/places"
+  },
+  {
+   "id": "queue_sections",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "section_list",
+    "add_section"
+   ],
+   "path": "/queue/sections"
+  },
+  {
+   "id": "queue_counters",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "counter_list"
+   ],
+   "path": "/queue/counters"
+  },
+  {
+   "id": "queue_tickets",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "live_view",
+    "fair_order",
+    "ticket_history"
+   ],
+   "path": "/queue/tickets"
+  },
+  {
+   "id": "queue_devices",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "device_list",
+    "queue_keeper",
+    "q_add_device"
+   ],
+   "path": "/queue/devices"
+  },
+  {
+   "id": "queue_reports",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "today_report",
+    "busy_forecast",
+    "please_check",
+    "close_day",
+    "q_billing_count"
+   ],
+   "path": "/queue/reports"
+  },
+  {
+   "id": "queue_reception",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "new_ticket",
+    "put_back"
+   ],
+   "path": "/queue/reception"
+  },
+  {
+   "id": "queue_counter",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "counter_buttons",
+    "check_ticket"
+   ],
+   "path": "/queue/counter"
+  },
+  {
+   "id": "queue_kiosk",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "kiosk_tickets"
+   ],
+   "path": "/queue/kiosk"
+  },
+  {
+   "id": "queue_screen",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "calling_screen",
+    "counter_displays"
+   ],
+   "path": "/queue/screen"
   },
   {
    "id": "survey",

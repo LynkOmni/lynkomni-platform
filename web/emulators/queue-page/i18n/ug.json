@@ -1,0 +1,15 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ug",
+ "native": "ئۇيغۇرچە",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "ئىنتېرنېت يوق. ئۆچىرەتتىكى ئورنىڭىز ساقلاندى؛ ئىنتېرنېت قايتقاندا بۇ بەت يېڭىلىنىدۇ.",
+  "qp_place": "ئۈلگە ئورۇن",
+  "qp_tab_public": "ھازىرقى ئۆچىرەت",
+  "qp_tab_ticket": "مېنىڭ بېلىتىم",
+  "title": "تېلېفونىڭىزدىكى LynkQueue"
+ }
+}

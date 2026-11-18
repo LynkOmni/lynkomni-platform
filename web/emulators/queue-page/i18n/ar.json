@@ -1,0 +1,15 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ar",
+ "native": "العربية",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "لا يوجد إنترنت. مكانك في الطابور محفوظ؛ تتحدّث هذه الصفحة عند عودة الإنترنت.",
+  "qp_place": "مكان نموذجي",
+  "qp_tab_public": "الطابور الآن",
+  "qp_tab_ticket": "تذكرتي",
+  "title": "LynkQueue على هاتفك"
+ }
+}

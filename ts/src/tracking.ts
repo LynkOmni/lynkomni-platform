@@ -6,9 +6,9 @@
 export type TrackState = "queued" | "sent" | "accepted" | "confirmed" | "failed";
 export type Audience = "merchant" | "customer" | "person" | "staff";
 export interface Rule { event?: string; state?: string; child?: string; step?: string; when?: Record<string, readonly unknown[]>; all_of?: { list: string; from: string; unique: string } }
-export interface Step { id: string; state: TrackState; customer: boolean; terminal?: boolean; optional?: boolean; on: readonly Rule[] }
+export interface Step { id: string; state: TrackState; customer: boolean; terminal?: boolean; optional?: boolean; again?: boolean; on: readonly Rule[] }
 export interface Kind {
-  id: string; record: string | null; key: string; family: string; ui_section: number; live_progress?: boolean;
+  id: string; record: string | null; key: string; note?: string; family: string; ui_section: number | string; live_progress?: boolean;
   parent?: { kind: string; event: string; field: string }; eta?: readonly { event: string; field: string }[];
   aliases?: readonly { event: string; from: string; to: string }[]; viewers: Record<string, string>; steps: readonly Step[];
 }
@@ -66,9 +66,13 @@ export class Tracking {
   private endedRec(kind: string, r: Rec): boolean { const steps = this.kind(kind).steps; return [...r.reached.keys()].some((i) => !!steps[i]!.terminal); }
   private reach(kind: string, record: string, i: number, at: number | null, changes: Change[]): void {
     const r = this.recs.get(this.key(kind, record))!;
-    if (r.reached.has(i) || this.endedRec(kind, r)) return;
-    r.reached.set(i, at); r.order.push(i);
     const step = this.kind(kind).steps[i]!;
+    if (this.endedRec(kind, r)) return;
+    if (r.reached.has(i)) {   // a step counts once, unless the register says it can come again (a queue ticket waits again after Put back or Send to)
+      if (!step.again || r.order[r.order.length - 1] === i) return;
+      r.order.splice(r.order.indexOf(i), 1);
+    }
+    r.reached.set(i, at); r.order.push(i);
     if (step.terminal) r.progress = null;
     changes.push({ kind, record, step: step.id, state: step.state, customer: !!step.customer, owner: r.owner, at });
     for (const [pk, pi] of this.byChild.get(`${kind}|${step.id}`) ?? []) if (r.parent && r.parent[0] === pk) this.reach(pk, r.parent[1], pi, at, changes);

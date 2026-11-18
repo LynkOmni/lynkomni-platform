@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ta",
+ "native": "தமிழ்",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "இணையம் இல்லை. வரிசையில் உங்கள் இடம் பாதுகாக்கப்பட்டுள்ளது; இணையம் திரும்பியதும் இந்தப் பக்கம் புதுப்பிக்கப்படும்.",
+  "qp_place": "மாதிரி இடம்",
+  "qp_tab_public": "இப்போதைய வரிசை",
+  "qp_tab_ticket": "என் டிக்கெட்",
+  "title": "உங்கள் தொலைபேசியில் LynkQueue"
+ }
+}
