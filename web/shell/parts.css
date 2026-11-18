@@ -104,7 +104,7 @@
 .ph-toggle { display: flex; gap: 8px; align-items: center; justify-content: space-between; inline-size: 100%; min-block-size: var(--touch-target); padding: 8px 10px; margin: 6px 0; border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--bg-surface); color: var(--text-primary); font: inherit; text-align: start; overflow-wrap: anywhere; cursor: pointer; }
 .ph-toggle[aria-pressed="true"] { border-color: var(--brand-primary); background: var(--brand-subtle); }
 .ph-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; min-inline-size: 0; }
-.ph-row > button { flex: 1 1 auto; min-block-size: var(--touch-target); min-inline-size: 0; overflow-wrap: anywhere; }
+.ph-row > button { flex: 1 1 auto; min-block-size: var(--touch-target); min-inline-size: 0; max-inline-size: 100%; overflow-wrap: anywhere; white-space: normal; }
 .ph-code { background: var(--bg-subtle); border-radius: 8px; padding: 8px 10px; margin: 8px 0; overflow-wrap: anywhere; }
 .ph-code strong { font-family: var(--font-heading); font-size: var(--text-20); letter-spacing: .08em; font-variant-numeric: var(--font-feature-tabular); }
 .ph-door { display: grid; gap: 10px; justify-items: center; text-align: center; padding: 12px 8px; min-inline-size: 0; }
@@ -136,14 +136,14 @@
 .qscreen { display: grid; gap: 10px; min-inline-size: 0; container-type: inline-size; overflow-wrap: anywhere; }
 .qscreen .qs-title { margin: 0; font-family: var(--font-heading); font-size: min(1.5rem, 7cqi); } .qs-list, .qs-waits { list-style: none; margin: 0; padding: 0; }
 .qs-list { display: grid; gap: 6px; } .qs-row { display: grid; grid-template-columns: minmax(0, 1.4fr) auto minmax(0, 1fr); gap: 8px; align-items: center; padding: 8px 12px; border-radius: 10px; background: var(--bg-subtle); border: 2px solid transparent; }
-.qs-num { font-family: var(--font-heading); font-weight: 700; font-size: min(2rem, 9cqi); white-space: nowrap; letter-spacing: .03em; font-variant-numeric: var(--font-feature-tabular); } .qs-counter { font-weight: 600; font-size: min(1.25rem, 6cqi); text-align: end; }
+.qs-num { font-family: var(--font-heading); font-weight: 700; font-size: min(2rem, 9cqi); overflow-wrap: anywhere; min-inline-size: 0; letter-spacing: .03em; font-variant-numeric: var(--font-feature-tabular); } .qs-counter { font-weight: 600; font-size: min(1.25rem, 6cqi); text-align: end; }
 .qs-arrow .ic, .qs-arrow svg { inline-size: 20px; block-size: 20px; display: block; } [dir="rtl"] .qs-arrow { transform: scaleX(-1); }
 .qs-none { color: var(--text-secondary); padding: 8px 0; } .qs-soon { margin: 0; padding: 6px 10px; border-radius: 8px; background: var(--status-warning-bg); border: 1px solid var(--status-warning-border); color: var(--status-warning-text); }
 .qs-waits { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--text-secondary); } .qs-waits strong { color: var(--text-primary); }
 .qs-join { display: flex; gap: 10px; align-items: center; min-inline-size: 0; } .qs-join p { margin: 0; } .qs-join .qr { flex: none; inline-size: 56px; block-size: 56px; display: block; } .qs-join .qr svg, .qs-join .qrbig { inline-size: 100%; block-size: 100%; display: block; }
 .qs-voice { margin: 0; min-block-size: 1.4em; color: var(--text-secondary); font-size: var(--text-14); } .qs-voice .ic { inline-size: 14px; block-size: 14px; display: inline-block; vertical-align: -2px; }
 .qcd { display: grid; place-items: center; align-content: center; gap: 2px; text-align: center; block-size: 100%; min-inline-size: 0; container-type: inline-size; border: 3px solid transparent; border-radius: 8px; overflow-wrap: anywhere; }
-.qcd p { margin: 0; line-height: 1.15; } .qcd-name { color: var(--text-secondary); font-size: var(--text-14); } .qcd-num { font-family: var(--font-heading); font-weight: 700; font-size: min(2.1rem, 15cqi); white-space: nowrap; letter-spacing: .03em; font-variant-numeric: var(--font-feature-tabular); } .qcd-state { font-size: var(--text-20); font-weight: 600; }
+.qcd p { margin: 0; line-height: 1.15; } .qcd-name { color: var(--text-secondary); font-size: var(--text-14); } .qcd-num { font-family: var(--font-heading); font-weight: 700; font-size: min(2.1rem, 13cqi); overflow-wrap: anywhere; letter-spacing: .03em; font-variant-numeric: var(--font-feature-tabular); } .qcd-state { font-size: var(--text-20); font-weight: 600; }
 .qs-row.flash, .qcd.flash { border-color: var(--brand-primary); animation: quflash 1s steps(2, jump-none) 5; }
 @keyframes quflash { from { background: var(--brand-subtle); } to { background: var(--bg-subtle); } }
 @media (prefers-reduced-motion: reduce) { .qs-row.flash, .qcd.flash { animation: none; } }
