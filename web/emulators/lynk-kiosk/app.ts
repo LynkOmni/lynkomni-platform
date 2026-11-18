@@ -12,9 +12,11 @@ import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { PeopleHub } from "../../../ts/src/peoplehub.js";
 import { atDoor } from "../../../ts/src/attenddesk.js";
 import type { AtLook, AtPlan, AtTier } from "../../../ts/src/attenddesk.js";
+import { pairCode, quKioskView, quPaper } from "../../../ts/src/queuedesk.js";
+import type { QuLook, QuPlan } from "../../../ts/src/queuedesk.js";
 
-declare const DATA: Build & { people: { attend: Record<AtTier, AtPlan> } };
-type Mode = "home" | "door";
+declare const DATA: Build & { people: { attend: Record<AtTier, AtPlan>; queue: Record<AtTier, QuPlan> } };
+type Mode = "home" | "door" | "tickets";
 const S: PanelState & { mode: Mode; ticks: number } = { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: false, lang: "en", mode: "home", ticks: 0 };
 const W = new Words(DATA.i18n, () => S.lang); const t = W.t;
 const C = new Country(DATA, () => S.country, () => S.lang);
@@ -22,20 +24,25 @@ const $ = <E extends HTMLElement>(sel: string): E => document.querySelector(sel)
 const icon = (id: string, cls = "ic"): string => `<span class="${cls}" aria-hidden="true">${DATA.icons[id] ?? ""}</span>`;
 const chip = (s: UserState): string => `<span class="chip st-${s}">${icon(`status-${s}`)}<span>${esc(t(`st_${s}`))}</span></span>`;
 const LOG = new EventLog(() => { const el = document.getElementById("log"); if (el) el.innerHTML = LOG.html(esc, chip, t("no_events")); });
-const PH = new PeopleHub((type, payload, origin) => { LOG.emit(type, payload, origin); }, Date.now, DATA.people.attend);
+const PH = new PeopleHub((type, payload, origin) => { LOG.emit(type, payload, origin); }, Date.now, DATA.people.attend, DATA.people.queue);
+PH.q.ownPrinter = true;                                                 // the kiosk prints tickets from its own slot
 const clock = (ms: number): string => new Intl.DateTimeFormat(`${W.htmlLang()}-${C.pack().code}`, { timeZone: C.pack().tz, hour: "2-digit", minute: "2-digit" }).format(ms);
 const look = (): AtLook => ({ t, icon, clock, money: (c) => C.money(c, "USD"), online: S.online, partner: !S.realUser, mayManage: false });
+/** LynkQueue on the kiosk: the ticket comes out of the slot under the screen, so it is not drawn on the screen too. */
+const quLook = (): QuLook => ({ ...look(), place: t("k_place"), powered: `<small class="pb">${esc(t("ppl_qu_powered", { brand: "LynkOmni" }))}</small>`, paper: false });
 /** After the PIN the kiosk speaks the person's own language (only the words change, never the steps or the record). */
 const SPEAK = { t: (lang: string): T => (k, vars = {}) => (W.isTest() ? t(k, vars) : (DATA.i18n[lang]?.texts[k] ?? DATA.i18n["en"]?.texts[k] ?? k).replace(/\{(\w+)\}/g, (m, v: string) => (v in vars ? String(vars[v]) : m))),
   dir: (lang: string): "ltr" | "rtl" => (W.isTest() ? W.dir() : DATA.i18n[lang]?.dir ?? "ltr"), code: (lang: string): string => (W.isTest() ? "en" : lang) };
 
 function home(): string {
   return `<div class="khome">${brandMark(DATA.brand.places, "customer-welcome", S.dark, "kmark")}<h2>${esc(t("k_welcome"))}</h2><p class="sub">${esc(t("k_choose"))}</p>
-    <button type="button" class="kchoice" data-act="go:door">${icon("product-attend")}<span><strong>${esc(t("k_attend"))}</strong><span>${esc(t("k_attend_sub"))}</span></span></button></div>`;
+    <button type="button" class="kchoice" data-act="go:door">${icon("product-attend")}<span><strong>${esc(t("k_attend"))}</strong><span>${esc(t("k_attend_sub"))}</span></span></button>
+    <button type="button" class="kchoice" data-act="go:tickets">${icon("product-queue")}<span><strong>${esc(t("k_ticket"))}</strong><span>${esc(t("k_ticket_sub"))}</span></span></button></div>`;
 }
 const bar = (title: string): string => `<div class="kbar"><button type="button" class="kback" data-act="go:home" aria-label="${esc(t("k_home"))}">${icon("ui-arrow-left")}</button><h2>${esc(title)}</h2></div>`;
 function screen(): string {
   if (S.mode === "door") return bar(t("k_attend")) + atDoor(PH.att, look(), SPEAK, true);
+  if (S.mode === "tickets") return bar(t("k_ticket")) + quKioskView(PH.q, quLook());
   return home();
 }
 /** Touch or buttons only (DEVICE 48.17.14): a kiosk with physical buttons works with arrows, OK and Back alone. */
@@ -46,9 +53,13 @@ function draw(): void {
   const m = PH.members[1];
   $("#hint").textContent = S.mode === "door" && m ? t("ppl_door_sample", { pin: m.pin, idcn: m.idcn }) : "";
   $("#cam").setAttribute("aria-label", t("k_camera")); $("#reader").setAttribute("aria-label", t("k_reader"));
+  const paper = $("#paper"), tk = S.mode === "tickets" ? PH.q.tk(PH.q.kioskDone) : undefined;
+  paper.hidden = !tk; paper.innerHTML = tk ? quPaper(PH.q, tk, { ...quLook(), paper: true }) : "";
 }
 function act(a: string): void {
   if (a.startsWith("at:")) PH.att.act(a, { online: S.online, partner: !S.realUser });
+  else if (a.startsWith("qu:")) PH.q.act(a, { online: S.online, partner: !S.realUser, pairCode, redraw: draw });
+  else if (a === "go:tickets") { S.mode = "tickets"; PH.q.kioskDone = null; PH.q.refused = ""; }
   else if (a === "go:door") { S.mode = "door"; PH.att.doorReset(); }
   else if (a === "go:home") { S.mode = "home"; PH.att.doorReset(); }
   draw();
@@ -59,9 +70,12 @@ function panel(): void {
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   const eric = PH.members.find((m) => m.set === "idcn"), aline = PH.members.find((m) => m.set === "finger_idcn");
   const typePin = (pin: string): void => { S.mode = "door"; PH.att.doorReset(); PH.att.doorDir("in"); for (const d of pin) PH.att.doorDigit(d); };
-  stateButtons($("#stateButtons"), ["home", "door", "door-finger", "door-idcn", "door-done"], (k) => {
+  stateButtons($("#stateButtons"), ["home", "door", "door-finger", "door-idcn", "door-done", "tickets", "ticket-taken"], (k) => {
     for (const m of PH.members) if (m.state === "in") m.state = "out";            // each state starts from an empty building
+    PH.q.kioskDone = null;
     if (k === "home") S.mode = "home";
+    else if (k === "tickets") S.mode = "tickets";
+    else if (k === "ticket-taken") { S.mode = "tickets"; act("qu:kiosk:SRV"); return; }
     else if (k === "door") { S.mode = "door"; PH.att.doorReset(); }
     else if (k === "door-finger" && aline) { PH.att.readers.finger = true; typePin(aline.pin); }
     else if (eric) { typePin(eric.pin); if (k === "door-done") { for (const d of eric.idcn) PH.att.doorDigit(d); PH.att.pickChecker(aline?.name ?? ""); PH.att.doorIdcn(); } }

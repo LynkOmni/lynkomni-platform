@@ -3,12 +3,12 @@
  "description": "Speed budget per screen (blueprint 45 E, build section 1: a slow screen fails the build). Every emulator is one offline file; the budget caps its size and how long it takes to show its first screen and to answer a tap on a four-times-slower CPU (a low-cost phone). tests/test_speed_budget.py enforces it; raise a budget only with a reason in the change log.",
  "cpu_slowdown": 4,
  "defaults": {
-  "file_kb": 580,
+  "file_kb": 600,
   "first_screen_ms": 1500,
   "tap_ms": 120,
   "dom_nodes": 2500,
   "root": "#display",
-  "file_kb_reason": "Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline). Raised to 540 on 9 November 2026 for DEVICE (BIZZ & DEVICE section 1): every device's shell now carries its username helpers (one scope with the shell) and the side and view words in all 38 languages (about 18 KB); a real app downloads one language at a time. Raised on 10 November 2026 for BIZZ & DEVICE section 3: every device now carries the device register, the one decision function and the touch and buttons-only versions (about 20 KB), and the Business app adds the Storefront side, stock held at online checkout and LynkDriver, all in 38 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged."
+  "file_kb_reason": "Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline). Raised to 540 on 9 November 2026 for DEVICE (BIZZ & DEVICE section 1): every device's shell now carries its username helpers (one scope with the shell) and the side and view words in all 38 languages (about 18 KB); a real app downloads one language at a time. Raised on 10 November 2026 for BIZZ & DEVICE section 3: every device now carries the device register, the one decision function and the touch and buttons-only versions (about 20 KB), and the Business app adds the Storefront side, stock held at online checkout and LynkDriver, all in 38 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged. Raised to 600 on 18 November 2026 for build section 3B: the device register every device carries now holds LynkQueue's calling screen and counter display with their emulators (about 1 KB; the virtual card emulator was at its limit). First-screen and tap budgets are unchanged."
  },
  "emulators": {
   "pos-terminal": {
@@ -92,6 +92,24 @@
    "root": "#screen",
    "file_kb": 900,
    "file_kb_reason": "Set on 18 November 2026 for build section 3B: LynkKiosk carries the LynkAttend door, LynkQueue tickets and LynkSurvey answering with their engines and words in all 38 languages; a real app downloads one language at a time."
+  },
+  "lynk-dscreen": {
+   "first_tap": "[data-act^=\"qu:give:\"]",
+   "root": "#till",
+   "file_kb": 1100,
+   "file_kb_reason": "Set on 18 November 2026 for build section 3B (LynkQueue in full): the queue engine (the queue keeper, reception, the counters, the screens) and its words in all 38 languages; a real device downloads one language at a time. First-screen and tap budgets are the defaults."
+  },
+  "lynk-cdisplay": {
+   "first_tap": "[data-act^=\"qu:give:\"]",
+   "root": "#till",
+   "file_kb": 1100,
+   "file_kb_reason": "Set on 18 November 2026 for build section 3B (LynkQueue in full): the queue engine (the queue keeper, reception, the counters, the screens) and its words in all 38 languages; a real device downloads one language at a time. First-screen and tap budgets are the defaults."
+  },
+  "queue-page": {
+   "first_tap": "[data-act^=\"qu:join:\"]",
+   "root": "#screen",
+   "file_kb": 1100,
+   "file_kb_reason": "Set on 18 November 2026 for build section 3B (LynkQueue in full): the queue engine (the queue keeper, reception, the counters, the screens) and its words in all 38 languages; a real device downloads one language at a time. First-screen and tap budgets are the defaults."
   }
  }
 }

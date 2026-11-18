@@ -9,7 +9,8 @@ from services import tracking as T
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REG = T.register()
-CONTRACT = json.load(open(os.path.join(ROOT, "contract", "event-payloads.v4.json"), encoding="utf-8"))["events"]
+from contract.tools.validate_contract import REGISTRY
+CONTRACT = REGISTRY["events"]          # the latest contract version: every event of every earlier version with those added since
 IDENTITY = json.load(open(os.path.join(ROOT, "identity", "events.v1.json"), encoding="utf-8"))["events"]
 ADDR = json.load(open(os.path.join(ROOT, "catalog", "addresses.v1.json"), encoding="utf-8"))
 T0 = 1_794_200_000          # 2026-11-09
@@ -156,6 +157,16 @@ class Engine(unittest.TestCase):
         q = uuid7()
         self.t.apply(ev("PaymentRecorded", payment_id=q, sale_id=uuid7(), method="cash", amount=500, status="cash_received", currency="USD"), "m")
         self.assertEqual([s["id"] for s in self.t.view("payment", q, now=T0)["steps"]], ["confirmed"])
+
+    def test_a_queue_ticket_waits_again_after_put_back_and_shows_no_name(self):
+        tk = "t-1"; cur = lambda: self.t.view("queue_ticket", tk, "customer", now=T0 + 99)
+        for i, (e, want) in enumerate([("TicketIssued", "waiting"), ("TicketCalled", "called"), ("TicketMissed", "missed"), ("TicketPutBack", "waiting"), ("TicketCalled", "called"), ("TicketSentTo", "waiting"),
+                                       ("TicketCalled", "called"), ("TicketServed", "served")]):
+            self.t.apply(ev(e, T0 + i, ticket_id=tk, counter_id="c", call=1, by="staff-1", to_section="LAB", code="A2K9P2", section="GEN"), owner="m")
+            self.assertEqual(cur()["step"], want, e)
+        self.assertEqual((cur()["state"], cur()["ended"]), ("confirmed", True))
+        self.t.apply(ev("TicketCalled", T0 + 50, ticket_id=tk, counter_id="c", call=1), owner="m"); self.assertEqual(cur()["step"], "served")          # nothing moves after an ending
+        self.assertNotRegex(json.dumps(cur()), r"staff-1|\bc\b\"")
 
     def test_aliases_follow_a_record_whose_id_changes(self):
         r, o = uuid7(), uuid7()

@@ -661,17 +661,116 @@
   },
   {
    "id": "queue",
-   "blueprint": "63 (NEW UPDATE 4, LynkQueue; build section 3)",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue; build sections 3 and 3B)",
    "items": [
-    "q_setup",
+    "q_places",
     "q_sections",
-    "q_waiting",
     "q_counters",
+    "q_tickets",
     "q_reception",
-    "q_add_device",
+    "q_counter",
+    "q_kiosk",
+    "q_screen",
+    "q_devices",
     "q_reports"
    ],
    "path": "/queue"
+  },
+  {
+   "id": "queue_places",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "q_kind",
+    "q_join_from",
+    "q_balance",
+    "q_public_page",
+    "q_plan"
+   ],
+   "path": "/queue/places"
+  },
+  {
+   "id": "queue_sections",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "section_list",
+    "add_section"
+   ],
+   "path": "/queue/sections"
+  },
+  {
+   "id": "queue_counters",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "counter_list"
+   ],
+   "path": "/queue/counters"
+  },
+  {
+   "id": "queue_tickets",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "live_view",
+    "fair_order",
+    "ticket_history"
+   ],
+   "path": "/queue/tickets"
+  },
+  {
+   "id": "queue_devices",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "device_list",
+    "queue_keeper",
+    "q_add_device"
+   ],
+   "path": "/queue/devices"
+  },
+  {
+   "id": "queue_reports",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "today_report",
+    "busy_forecast",
+    "please_check",
+    "close_day",
+    "q_billing_count"
+   ],
+   "path": "/queue/reports"
+  },
+  {
+   "id": "queue_reception",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "new_ticket",
+    "put_back"
+   ],
+   "path": "/queue/reception"
+  },
+  {
+   "id": "queue_counter",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "counter_buttons",
+    "check_ticket"
+   ],
+   "path": "/queue/counter"
+  },
+  {
+   "id": "queue_kiosk",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "kiosk_tickets"
+   ],
+   "path": "/queue/kiosk"
+  },
+  {
+   "id": "queue_screen",
+   "blueprint": "63 (NEW UPDATE 4, LynkQueue in full; build section 3B)",
+   "items": [
+    "calling_screen",
+    "counter_displays"
+   ],
+   "path": "/queue/screen"
   },
   {
    "id": "survey",

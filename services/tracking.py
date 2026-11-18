@@ -68,11 +68,15 @@ class Tracking:
 
     def _reach(s, kind, record, i, at, changes):
         r = s.recs[(kind, record)]
-        if i in r["reached"] or s._ended(kind, r):
-            return                                   # a step counts once; nothing moves after an ending
+        step = s.kinds[kind]["steps"][i]
+        if s._ended(kind, r):
+            return                                   # nothing moves after an ending
+        if i in r["reached"]:
+            # a step counts once, unless the register says it can come again (a queue ticket waits again after Put back or Send to)
+            if not step.get("again") or r["order"][-1] == i: return
+            r["order"].remove(i)
         r["reached"][i] = at
         r["order"].append(i)                         # arrival order decides the current step (device clocks can disagree)
-        step = s.kinds[kind]["steps"][i]
         if step.get("terminal"):
             r["progress"] = None                     # the trip is over: positions and progress are gone
         changes.append({"kind": kind, "record": record, "step": step["id"], "state": step["state"], "customer": bool(step.get("customer")), "owner": r["owner"], "at": at})

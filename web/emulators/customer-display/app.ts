@@ -10,7 +10,7 @@ import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
-import { PeopleHub, afterPaymentRating } from "../../../ts/src/peoplehub.js";
+import { AfterPay, afterPaymentRating } from "../../../ts/src/afterpay.js";
 
 declare const DATA: Build & { fx: Record<string, number> };
 const TIERS = ["free", "plus", "pro", "max"] as const;
@@ -28,7 +28,7 @@ const cart = new Cart();
 /** LynkSurvey's rating after payment (NEW UPDATE 4, section 3): one tap on a touch screen, the QR on a screen that only shows.
  *  Never required, never before the payment is confirmed; the answer is saved here and sent when the link is back. Its words are
  *  this display's own copies of the shared "ppl_" words (same text and translation), so the display does not carry the whole shell. */
-const PH = new PeopleHub((type, payload, origin) => LOG.emit(type, payload, origin));
+const PH = new AfterPay((type, payload, origin) => { LOG.emit(type, payload, origin); });
 const tt = (k: string, v?: Record<string, string | number>): string => t(k, v ?? {});
 
 function display(): string {

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LynkCDisplay</title>
+<meta name="description" content="Interactive emulator of LynkCDisplay, the small LynkQueue screen above each counter: the ticket being served there, flashing when a new ticket is called, back soon and closed, with or without internet.">
+<style>/*@TOKENS@*/
+/*@STYLE@*/</style>
+</head>
+<body>
+<header class="pagehead">
+  <h1>LynkCDisplay <span class="draft">Draft design</span></h1>
+  <p>Interactive emulator of LynkCDisplay, the small screen above each counter in LynkQueue. It shows the ticket being served at its counter and flashes when a new ticket is called. It only follows the queue keeper: the buttons beside it play reception and the counters. Ticket numbers only, never a name. Not reviewed by a designer yet.</p>
+</header>
+<main class="stage">
+  <section class="rig" id="rig" aria-label="LynkCDisplay" data-width="600">
+    <div class="fit"><div class="desks" id="desks"></div><div class="fake-till" id="till"></div></div>
+  </section>
+  <aside class="panel" id="panel" aria-label="Emulator controls"></aside>
+</main>
+<script>/*@SCRIPT@*/</script>
+</body>
+</html>

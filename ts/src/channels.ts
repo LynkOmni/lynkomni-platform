@@ -63,6 +63,48 @@ export function parseSms(text: string): SmsCommand | null {
   return { command: what };
 }
 
+// ---- LynkQueue for a person with a basic phone (build section 3B): the port of queue_start, queue_page, queue_step and parse_queue_sms
+export const Q_LATE = 8, Q_LEAVE = 9;
+export interface ChQState { screen: "sections" | "ticket" | "left" | "bye" }
+export interface ChQTicket { number: string; place: number; minutes: number; state: string; late_used: boolean; counter?: string }
+export interface ChQCtx { place: string; sections: [string, number, number, boolean][]; ticket: ChQTicket | null }
+export type ChQAction = { join: number } | { running_late: true } | { leave: true };
+export const chQStart = (hasTicket = false): ChQState => ({ screen: hasTicket ? "ticket" : "sections" });
+export function chQPage(s: ChQState, ctx: ChQCtx): ChLine[] {
+  if (s.screen === "sections") return [["ch_q_title", { place: ctx.place }], ...ctx.sections.map((sec, i): ChLine => [sec[3] ? "ch_q_section" : "ch_q_section_closed", { n: i + 1, name: sec[0], waiting: sec[1], minutes: sec[2] }]), ["ch_end", { n: 0 }]];
+  if (s.screen === "ticket" && ctx.ticket) {
+    const tk = ctx.ticket;
+    if (tk.state !== "waiting") return [[tk.state === "called" ? "ch_q_called" : "ch_q_over", { number: tk.number, counter: tk.counter ?? "" }]];
+    return [["ch_q_ticket", { number: tk.number, place: tk.place, minutes: tk.minutes }], ...(tk.late_used ? [] : [["ch_q_late", { n: 1 }] as ChLine]), ["ch_q_leave", { n: 2 }], ["ch_end", { n: 0 }]];
+  }
+  if (s.screen === "left") return [["ch_q_left", {}]];
+  return [["ch_bye", {}]];
+}
+export function chQStep(state: ChQState, text: string, ctx: ChQCtx): [ChQState, boolean, ChQAction | null] {
+  const s: ChQState = { ...state }, t = (text ?? "").trim();
+  if (s.screen === "sections") {
+    if (t === "0") { s.screen = "bye"; return [s, true, null]; }
+    if (digit(t) && Number(t) >= 1 && Number(t) <= ctx.sections.length && ctx.sections[Number(t) - 1]![3]) { s.screen = "ticket"; return [s, false, { join: Number(t) - 1 }]; }
+    return [s, false, null];
+  }
+  if (s.screen === "ticket" && ctx.ticket) {
+    const tk = ctx.ticket;
+    if (t === "0" || tk.state !== "waiting") { s.screen = "bye"; return [s, true, null]; }
+    if (t === "1" && !tk.late_used) return [s, false, { running_late: true }];
+    if (t === "2") { s.screen = "left"; return [s, true, { leave: true }]; }
+    return [s, false, null];
+  }
+  return [s, true, null];
+}
+export function parseQueueSms(text: string, sections: number): { command: "running_late" | "leave" } | { command: "join"; section: number } | null {
+  const t = (text ?? "").trim(); if (!digit(t)) return null;
+  const n = Number(t);
+  if (n === Q_LATE) return { command: "running_late" };
+  if (n === Q_LEAVE) return { command: "leave" };
+  if (n >= 1 && n <= Math.min(sections, Q_LATE - 1)) return { command: "join", section: n - 1 };
+  return null;
+}
+
 export function chRender(lines: ChLine[], words: (key: string) => string): string {
   return lines.map(([k, v]) => words(k).replace(/\{(\w+)\}/g, (m, n: string) => (n in v ? String(v[n]) : m))).join("\n");
 }

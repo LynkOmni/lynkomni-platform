@@ -91,5 +91,11 @@
  "trk_share_help": "Only how far along the trip is and the arrival time are shared, during this trip. Your position is never stored or shown.",
  "trk_last_known": "Last known step. It updates when you are back online.",
  "trk_from_shop": "From {shop}",
- "trk_k_queue_ticket": "Queue ticket"
+ "trk_k_queue_ticket": "Queue ticket",
+ "trk_waiting": "Waiting",
+ "trk_called": "Called",
+ "trk_served": "Served",
+ "trk_missed": "Did not come",
+ "trk_left_queue": "Left the queue",
+ "trk_not_served_today": "Not served today"
 }

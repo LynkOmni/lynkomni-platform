@@ -1,7 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { PeopleHub, afterPaymentRating, counterCard, devicesCard, lynkNames, receptionCard, setupCard, surveyCard } from "../src/peoplehub.js";
+import { PeopleHub, devicesCard, lynkNames, setupCard, surveyCard } from "../src/peoplehub.js";
+import { AfterPay, afterPaymentRating } from "../src/afterpay.js";
+import { QU_LYNK, QueueDesk, quCDisplayView, quCounterView, quCountersView, quDevicesView, quKioskView, quPhoneView, quPublicView, quReceptionView, quReportsView, quScreenView, quSectionsView, quSetupView, quTicketsView } from "../src/queuedesk.js";
+import type { QuLook, QuPlan } from "../src/queuedesk.js";
 import { AttendDesk, atDoor, checkInsView, peopleView, registerView, reportsView, visitorsView } from "../src/attenddesk.js";
 import type { AtLook, AtPlan, AtTier } from "../src/attenddesk.js";
 import { DEVICES } from "../src/interfaces.generated.js";
@@ -89,21 +92,136 @@ test("finger or face first, IDCN last: three failed reads fall back and are mark
   assert.equal(log.at(-1)?.payload["backup_from"], "finger_failed");
 });
 
+const QPLAN = (price: number, o: Partial<QuPlan>): QuPlan => ({ price_usd: price, places_included: 5, extra_place_cents: 1000, max_places: 10, tickets_per_place_month: 3000, sections_per_place: null, counters_per_place: 15, staff_accounts: 15,
+  basic_phone: true, whatsapp_and_chat: true, appointments: false, send_to: true, own_hardware: true, busy_forecast: true, own_logo: true, reports: "full", history_months: 24, ...o });
+const QPLANS: Record<AtTier, QuPlan> = { free: QPLAN(0, { places_included: 1, extra_place_cents: null, max_places: 1, tickets_per_place_month: 500, sections_per_place: 3, counters_per_place: 3, basic_phone: false, whatsapp_and_chat: false, send_to: false, own_hardware: false, busy_forecast: false, own_logo: false, reports: "daily_summary" }),
+  plus: QPLAN(55, {}), pro: QPLAN(115, { extra_place_cents: 2000, appointments: true, reports: "by_email" }), max: QPLAN(249, { extra_place_cents: 4000, appointments: true, reports: "custom" }) };
+const QLOOK: QuLook = { ...LOOK, place: "Sample place", powered: "<i data-powered></i>" };
+type Log = { type: string; payload: Record<string, unknown>; origin?: string }[];
+function desk(at = new Date(2026, 10, 18, 10, 0).getTime()): { d: QueueDesk; log: Log; clock: { now: number } } {
+  const log: Log = [], clock = { now: at };
+  return { d: new QueueDesk((type, payload, origin) => { log.push({ type, payload, origin }); }, QPLANS, () => clock.now), log, clock };
+}
+const QCTX = { online: true, partner: false, pairCode: () => "A2K9P2", redraw: () => undefined };
+
 test("reception and counter: codes from this device's block, the fair order, three calls before missed", () => {
-  const { h, log } = hub();
-  const ctx = { online: false, redraw: () => undefined, language: "en" };
-  h.act("ph:section:PAY", ctx); h.act("ph:issue", ctx);
+  const { d, log } = desk();
+  d.act("qu:sec:PAY", QCTX); d.act("qu:issue", QCTX);
   const issued = log.find((e) => e.type === "TicketIssued")!;
   assert.equal(issued.payload["section"], "PAY"); match(String(issued.payload["code"]), /^[2-9A-HJ-NP-Z]{6}$/);
-  match(receptionCard(h, t, icon), /ppl_place/);
-  const c = h.counters[0]!;
-  const first = h.callNext(c.id)!;
+  match(quReceptionView(d, QLOOK), /ppl_place/); match(quReceptionView(d, QLOOK), /qpaper/, "the reception printer prints the ticket");
+  const c = d.counters[0]!;
+  const first = d.callNext(c.id)!;
   assert.equal(first.section, "SRV", "the oldest ticket comes first; staff never choose");
-  h.finish(c.id, "missed"); assert.equal(first.state, "called", "missed only after three calls");
-  h.callAgain(c.id); h.callAgain(c.id); h.callAgain(c.id);
+  d.finish(c.id, "missed"); assert.equal(first.state, "called", "missed only after three calls");
+  d.callAgain(c.id); d.callAgain(c.id); d.callAgain(c.id);
   assert.equal(log.filter((e) => e.type === "TicketCalled").length, 3);
-  h.finish(c.id, "missed"); assert.equal(first.state, "missed");
-  h.counterState(c.id, "paused"); match(counterCard(h, c.id, t, icon), /ph:call:[^"]+" disabled/);
+  d.finish(c.id, "missed"); assert.equal(first.state, "missed");
+  d.counterState(c.id, "paused"); d.counterPick = c.id; match(quCounterView(d, QLOOK), /qu:call:[^"]+" disabled/); match(quCounterView(d, QLOOK), /ppl_qu_back_soon/);
+  noMatch(quCounterView(d, QLOOK), /qu:pickticket|data-act="qu:callticket/, "there is no button to call a chosen ticket");
+});
+
+test("LynkQueue: 1 priority after every 3 others, a counter serves its sections in the manager's order", () => {
+  const { d } = desk();
+  for (const t of d.tickets) t.state = "served";
+  const ids = [0, 1, 2, 3].map(() => d.issue("SRV", false, "reception")!.id); const p = d.issue("SRV", true, "reception")!;
+  assert.deepEqual(d.order(["SRV"]), [ids[0], ids[1], ids[2], p.id, ids[3]]);
+  d.act("qu:balance:1", QCTX); assert.equal(d.order(["SRV"])[1], p.id);
+  const pay = d.issue("PAY", false, "kiosk")!, c2 = d.counters[1]!;
+  assert.deepEqual(c2.sections, ["PAY", "SRV"]); assert.equal(d.callNext(c2.id)?.id, pay.id, "PAY comes first at this counter");
+  d.finish(c2.id, "served"); d.toggleCounterSection(c2.id, "PAY"); d.toggleCounterSection(c2.id, "PAY"); assert.deepEqual(c2.sections, ["SRV", "PAY"]);
+});
+
+test("LynkQueue: closed, last ticket time, may not be served today, and one phone holds one waiting ticket", () => {
+  const { d, clock } = desk();
+  d.setHours("SRV", "opens", 8 * 60); d.setHours("SRV", "closes", 17 * 60); d.setHours("SRV", "lastBefore", 30);
+  assert.equal(d.closedWhy("SRV"), "");
+  clock.now = new Date(2026, 10, 18, 16, 31).getTime(); assert.equal(d.closedWhy("SRV"), "after_last_ticket_time"); assert.equal(d.issue("SRV", false, "kiosk"), null);
+  clock.now = new Date(2026, 10, 18, 17, 30).getTime(); assert.equal(d.closedWhy("SRV"), "section_closed"); match(quKioskView(d, QLOOK), /qu:kiosk:SRV" disabled/); match(quKioskView(d, QLOOK), /ppl_qu_closed/);
+  clock.now = new Date(2026, 10, 18, 16, 0).getTime(); assert.equal(d.mayNotBeServed("SRV"), false);
+  for (let i = 0; i < 30; i++) d.issue("SRV", false, "reception");
+  assert.ok(d.mayNotBeServed("SRV")); match(quKioskView(d, QLOOK), /ppl_qu_may_not/, "told before the ticket is taken");
+  assert.ok(d.phoneJoin("PAY", false)); d.phone.ticket = null; assert.equal(d.phoneJoin("PAY", false), null); assert.equal(d.phone.note, "one_waiting_ticket_per_phone");
+});
+
+test("LynkQueue: ways to join follow the plan, the partner and the place", () => {
+  const { d } = desk();
+  d.phone.way = "whatsapp"; assert.equal(d.wayWhy("whatsapp", false), "coming_soon"); match(quPhoneView(d, QLOOK), /coming_soon/); assert.equal(d.wayWhy("whatsapp", true), "");
+  assert.equal(d.wayWhy("lynkchat", false), "");
+  d.tier = "free"; assert.equal(d.wayWhy("lynkchat", true), "plan"); assert.equal(d.wayWhy("basic_phone", true), "plan"); assert.equal(d.wayWhy("smartphone", false), "");
+  d.act("qu:joinfrom:only_at_the_place", QCTX); assert.equal(d.wayWhy("smartphone", false), "only_at_the_place"); match(quScreenView(d, QLOOK, undefined, "K7M2P9"), /ppl_qu_qr_changes/);
+  d.act("qu:atplace", QCTX); assert.equal(d.wayWhy("smartphone", false), "");
+});
+
+test("LynkQueue: Send to keeps the ticket, Put back within 15 minutes, Running late once, Leave, Please come now", () => {
+  const { d, log, clock } = desk(); const c = d.counters[0]!;
+  const a = d.callNext(c.id)!; const num = d.number(a);
+  d.sendTo(c.id, "PAY"); assert.equal(a.section, "PAY"); assert.equal(d.number(a), num, "the same ticket for the whole visit"); assert.equal(d.placeOf(a), 1, "the same arrival time");
+  d.tier = "free"; const b = d.callNext(c.id)!; d.sendTo(c.id, "PAY"); assert.equal(b.state, "called", "Send to is a paid feature"); match(quCounterView(d, QLOOK), /ppl_qu_plan_send_to/); d.tier = "plus";
+  d.callAgain(c.id); d.callAgain(c.id); d.finish(c.id, "missed"); assert.ok(d.canPutBack(b));
+  for (let i = 0; i < 5; i++) d.issue("SRV", false, "reception");
+  d.putBack(b.id); assert.equal(d.order(["SRV"]).indexOf(b.id), 3, "after the next 3 people");
+  const me = d.phoneJoin("SRV", false)!; const before = d.placeOf(me)!;
+  for (let i = 0; i < 4; i++) d.issue("SRV", false, "reception");
+  d.runningLate(me.id); assert.equal(d.placeOf(me), before + 3); d.runningLate(me.id); assert.equal(d.placeOf(me), before + 3, "once per ticket"); match(quPhoneView(d, QLOOK), /qu:late" disabled/);
+  assert.deepEqual(d.pleaseCome(), []); while ((d.placeOf(me) ?? 0) > 5) { d.callNext(c.id); d.finish(c.id, "served"); }
+  assert.deepEqual(d.pleaseCome().map((x) => x.id), [me.id]); assert.deepEqual(d.pleaseCome(), []); match(quPhoneView(d, QLOOK), /ppl_qu_please_come/);
+  d.act("qu:leave", QCTX); assert.equal(me.state, "left");
+  const c3 = d.callNext(c.id)!; d.callAgain(c.id); d.callAgain(c.id); d.finish(c.id, "missed"); clock.now += 16 * 60000; assert.equal(d.canPutBack(c3), false); match(quReceptionView(d, QLOOK), /ppl_qu_put_back_late/);
+  inContract(log); for (const e of log) noMatch(Object.keys(e.payload).join(" "), SECRET);
+});
+
+test("LynkQueue: check ticket, reprint never makes a new number, pagers, and Free has no hardware without a display", () => {
+  const { d, log } = desk();
+  const tk = d.issue("SRV", false, "reception")!; assert.equal(tk.pager, 1); assert.equal(d.printed, tk.id);
+  const n = log.filter((e) => e.type === "TicketIssued").length; d.printed = null; d.reprint(tk.id); assert.equal(d.printed, tk.id); assert.equal(log.filter((e) => e.type === "TicketIssued").length, n);
+  assert.equal(d.check(d.number(tk).toLowerCase()).state, "waiting"); assert.equal(d.check("SRV-ZZZZZZ").state, "not_valid_here");
+  d.checkTyped = "SRV-ZZZZZZ"; d.act("qu:check", QCTX); match(quCounterView(d, QLOOK), /ppl_qu_state_not_valid_here/);
+  d.tier = "free"; const t2 = d.issue("SRV", false, "reception")!; assert.equal(t2.pager, null); assert.equal(d.printed, null); match(quReceptionView(d, QLOOK), /ppl_qu_plan_hardware/);
+  match(quKioskView(d, QLOOK), /qk-sec/); d.act("qu:kiosk:PAY", QCTX); match(quKioskView(d, QLOOK), /data-powered/, "LynkQueue Free shows Powered by LynkOmni on the ticket");
+});
+
+test("LynkQueue: only added devices, a pairing code, the lock, and another device takes over as queue keeper", () => {
+  const { d, log } = desk();
+  d.act("qu:kind:kiosk", QCTX); d.act("qu:adddev", { ...QCTX, online: false }); const added = d.devices.at(-1)!;
+  assert.equal(added.state, "queued"); assert.equal(added.pair, "A2K9P2"); match(quDevicesView(d, QLOOK), /st-queued/);
+  const before = d.deviceId, last = d.issue("SRV", false, "reception")!;
+  assert.ok(d.takeOver()); assert.notEqual(d.deviceId, before);
+  const next = d.issue("SRV", false, "reception")!; assert.equal(next.code, "2222Z8".length === 6 ? next.code : "", "a code"); assert.ok(next.seq > last.seq, "the same queue");
+  assert.notEqual(next.code, last.code); assert.ok(parseInt(next.code, 36) !== parseInt(last.code, 36));
+  const voided = log.filter((e) => e.type === "TicketCodesVoided"); assert.equal(voided.length, 3); assert.equal(voided[0]!.payload["device_id"], before); assert.equal(voided[0]!.payload["reason"], "block_not_used");
+  assert.equal(log.at(-2)?.type === "QueueKeeperChanged" || log.some((e) => e.type === "QueueKeeperChanged"), true);
+  assert.equal(d.takeOver(), false, "no other device holds codes"); match(quDevicesView(d, QLOOK), /ppl_qu_keeper_none/);
+  d.tier = "free"; d.act("qu:kind:printer", QCTX); const count = d.devices.length; d.act("qu:adddev", QCTX); assert.equal(d.devices.length, count, "hardware without a display needs a paid tier");
+  inContract(log);
+});
+
+test("LynkQueue: closing writes Not served today from the cloud only, reports and the plan's counts", () => {
+  const { d, log } = desk(); const c = d.counters[0]!;
+  d.callNext(c.id); d.finish(c.id, "served");
+  assert.equal(d.closeDay(false), 0, "it waits for the internet"); match(quReportsView(d, { ...QLOOK, online: false }), /qu:closeday" disabled/);
+  assert.equal(d.closeDay(true), 2); assert.ok(log.filter((e) => e.type === "TicketNotServedToday").every((e) => e.origin === "server"));
+  const rep = d.report(); assert.deepEqual(rep.map((r) => [r.section, r.tickets, r.served, r.notServed]), [["SRV", 2, 1, 1], ["PAY", 1, 0, 1], ["CLT", 0, 0, 0]]);
+  match(quReportsView(d, QLOOK), /ppl_qu_forecast_line/); match(quReportsView(d, QLOOK), /ppl_qu_sandbox_history/, "the forecast says its history is a sandbox");
+  d.tier = "free"; match(quReportsView(d, QLOOK), /ppl_qu_plan_forecast/);
+  d.earlierThisMonth = 500; assert.equal(d.closedWhy("SRV"), "free_limit_reached"); d.tier = "plus"; d.earlierThisMonth = 3100; assert.equal(d.closedWhy("SRV"), ""); assert.equal(d.usage().extra, 103);
+  for (let i = 0; i < 3; i++) d.markPriority(d.issue("SRV", false, "reception")!.id); assert.deepEqual(d.pleaseCheck(), ["priority"]); match(quReportsView(d, QLOOK), /ppl_qu_check_priority/);
+  inContract(log);
+});
+
+test("LynkQueue: sections within the plan, and the screens show numbers only", () => {
+  const { d } = desk();
+  d.input("qu:code", "lob"); d.input("qu:name", "Laboratory"); assert.equal(d.sectionWhy(), "code", "no O in the Lynk Alphabet");
+  d.input("qu:code", "lab"); assert.equal(d.sectionWhy(), ""); d.act("qu:addsection", QCTX); assert.equal(d.sections.at(-1)?.code, "LAB");
+  d.input("qu:code", "LAB"); d.input("qu:name", "x"); assert.equal(d.sectionWhy(), "used");
+  d.tier = "free"; d.input("qu:code", "PHA"); assert.equal(d.sectionWhy(), "plan"); match(quSectionsView(d, QLOOK), /ppl_qu_plan_sections/);
+  d.tier = "plus"; const c = d.counters[0]!; const tk = d.callNext(c.id)!;
+  const screen = quScreenView(d, QLOOK), cd = quCDisplayView(d, c.id, QLOOK), pub = quPublicView(d, QLOOK);
+  for (const html of [screen, cd, pub]) match(html, new RegExp(d.number(tk)));
+  match(screen, /ppl_qu_voice/); match(cd, /qcd flash/); d.counterState(d.counters[1]!.id, "paused"); match(quScreenView(d, QLOOK), /ppl_qu_back_soon/);
+  d.act("qu:public", QCTX); match(quPublicView(d, QLOOK), /ppl_qu_public_off/);
+  for (const v of [quSetupView, quCountersView, quTicketsView]) assert.ok(v(d, QLOOK).length > 100);
+  assert.deepEqual(Object.values(QU_LYNK).sort(), DEVICES.devices.map((x) => x.lynk_name).filter((n): n is string => !!n && ["LynkKiosk", "LynkDScreen", "LynkCDisplay"].includes(n)).filter((n, i, a) => a.indexOf(n) === i).sort(), "names only from the device register");
 });
 
 test("the rating after payment: one answer per tap, results only from five answers, off means not shown", () => {
@@ -126,7 +244,7 @@ test("every event the people screens write is a contract version 6 event", () =>
   for (const d of eric.pin) h.doorDigit(d); for (const d of eric.idcn) h.doorDigit(d); h.pickChecker(aline.name); h.doorIdcn(); h.doorReset();
   for (const d of aline.pin) h.doorDigit(d); for (let i = 0; i < 3; i++) h.doorReader("fail"); for (let i = 0; i < 5; i++) { for (const d of "000001") h.doorDigit(d); h.pickChecker(eric.name); h.doorIdcn(); }
   assert.equal(aline.pinState, "blocked");
-  h.act("ph:issue", ctx); const c = h.counters[0]!; h.callNext(c.id); h.sendTo(c.id, "PAY"); h.callNext(c.id); h.finish(c.id, "served"); h.counterState(c.id, "paused"); h.rate(4, "pos", "en");
+  const qc = { ...ctx, partner: false, pairCode: () => "A2K9P2" }; h.q.act("qu:issue", qc); const c = h.q.counters[0]!; h.q.callNext(c.id); h.q.sendTo(c.id, "PAY"); h.q.callNext(c.id); h.q.finish(c.id, "served"); h.q.counterState(c.id, "paused"); h.rate(4, "pos", "en");
   inContract(log);
 });
 

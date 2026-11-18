@@ -1,0 +1,34 @@
+/* LynkCDisplay: a small screen on an arm above each counter, with its own buttons. An original LynkOmni design; every colour is a design token. */
+.desks { display: flex; gap: 28px; align-items: flex-end; flex-wrap: wrap; justify-content: center; }
+.deskcol { display: flex; flex-direction: column; align-items: center; }
+.cdframe { inline-size: 250px; padding: 10px 10px 18px; border-radius: 12px; background: linear-gradient(160deg, var(--device-shell-edge), var(--device-shell) 40%, var(--device-glass)); position: relative; box-shadow: 0 18px 36px -18px color-mix(in srgb, var(--device-shell) 70%, transparent); }
+.cdframe .mark { position: absolute; inset-block-end: 4px; inset-inline-start: 50%; inline-size: 12px; margin-inline-start: -6px; color: var(--on-device-key); opacity: .6; }
+.cdscreen { block-size: 132px; border-radius: 4px; padding: 6px; position: relative; overflow: hidden; }
+.cdarm { inline-size: 14px; block-size: 46px; background: linear-gradient(90deg, var(--device-glass), var(--device-shell), var(--device-glass)); }
+.cdpad { display: flex; justify-content: center; } .cdpad:empty { display: none; }
+.cdesk { inline-size: 250px; block-size: 18px; border-radius: 6px 6px 0 0; background: var(--device-shell); }
+.cd-gear { position: absolute; inset-block-start: 2px; inset-inline-end: 2px; inline-size: 32px; block-size: 32px; display: grid; place-items: center; padding: 0; border-radius: 50%; border: 1px solid transparent; background: transparent; color: var(--text-secondary); cursor: pointer; }
+.cd-gear .ic { inline-size: 16px; block-size: 16px; }
+.cd-set { display: flex; flex-wrap: wrap; gap: 6px; align-content: center; justify-content: center; block-size: 100%; text-align: center; } .cd-set p { inline-size: 100%; font-size: 13px; } .cd-set .ghost { min-block-size: 32px; padding: 2px 10px; font-size: 13px; }
+.cdscreen { background: var(--bg-base); color: var(--text-primary); font-family: var(--font-body); }
+.cdscreen.dark { color-scheme: dark; }
+.cdscreen h2 { margin: 0; font: 700 18px/1.25 var(--font-heading); overflow-wrap: anywhere; } .cdscreen p { margin: 0; overflow-wrap: anywhere; } .cdscreen .sub { color: var(--text-secondary); font-size: 13px; }
+.cdscreen button { font: inherit; } .cdscreen .primary { min-block-size: var(--touch-target); padding: 8px 16px; border-radius: 12px; border: 0; background: var(--brand-primary); color: var(--on-brand); font-weight: 700; cursor: pointer; }
+.cdscreen .primary.small, .cdscreen .ghost.small { padding: 4px 12px; } .cdscreen .primary:disabled, .cdscreen .ghost:disabled { opacity: .5; cursor: not-allowed; }
+.cdscreen .ghost { min-block-size: var(--touch-target); padding: 8px 14px; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; }
+.cdscreen .ghost[aria-pressed="true"] { border: 2px solid var(--brand-primary); background: var(--brand-subtle); }
+.cdscreen :focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+.cdscreen .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; } .cdscreen .rowbtn { display: flex; gap: 8px; align-items: center; padding: 8px 10px; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--bg-surface); min-inline-size: 0; }
+.cdscreen .rowbtn .main { flex: 1; min-inline-size: 0; display: grid; gap: 2px; } .cdscreen .rowbtn .nm { font-weight: 600; overflow-wrap: anywhere; }
+.cdscreen .notice { padding: 8px 10px; border-radius: 8px; background: var(--status-warning-bg); border: 1px solid var(--status-warning-border); color: var(--status-warning-text); }
+.cdscreen .warn { color: var(--status-danger-text); font-weight: 600; } .cdscreen .ok { color: var(--status-success-text); font-weight: 600; } .cdscreen .plabel { font-weight: 600; }
+.cdscreen .tag { display: inline-block; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--border-subtle); font-size: 12px; color: var(--text-secondary); background: var(--bg-subtle); }
+.ic { display: inline-flex; inline-size: 20px; block-size: 20px; } .ic svg { inline-size: 100%; block-size: 100%; display: block; } .chip .ic { inline-size: 12px; block-size: 12px; }
+.rig .fit { display: flex; gap: 32px; align-items: flex-end; flex-wrap: wrap; justify-content: center; }
+.mark svg { inline-size: 100%; block-size: auto; display: block; }
+.fake-till { inline-size: 280px; padding: 14px; border-radius: 14px; border: 1px dashed var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font-size: 13px; overflow-wrap: anywhere; }
+.fake-till h3 { margin: 0 0 4px; font-size: 14px; } .fake-till p { margin: 0 0 6px; } .fake-till .sub { color: var(--text-secondary); } .fake-till .tname { font-weight: 600; margin: 8px 0 4px; }
+.tbtns { display: flex; flex-wrap: wrap; gap: 6px; margin-block-end: 6px; }
+.tbtns button { min-block-size: 36px; padding: 4px 10px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 600 12px var(--font-body); cursor: pointer; }
+.tbtns button[disabled] { opacity: .5; cursor: not-allowed; } .tbtns button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+.ctl-extra label { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; cursor: pointer; }

@@ -1,0 +1,37 @@
+/* LynkDScreen: a wall screen with a speaker bar and a small remote. An original LynkOmni design; every colour is a design token. */
+.wall { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.tv { inline-size: 700px; padding: 12px 12px 0; border-radius: 14px; background: linear-gradient(160deg, var(--device-shell-edge), var(--device-shell) 40%, var(--device-glass)); box-shadow: 0 24px 50px -22px color-mix(in srgb, var(--device-shell) 70%, transparent); }
+.tvscreen { block-size: 394px; border-radius: 4px; padding: 16px 20px; overflow: hidden; display: flex; flex-direction: column; gap: 8px; }
+.tvbar { block-size: 26px; display: flex; align-items: center; justify-content: center; gap: 14px; } .tvspk { inline-size: 120px; block-size: 4px; border-radius: 2px; background: var(--device-glass); opacity: .7; }
+.tvbar .mark { inline-size: 14px; color: var(--on-device-key); opacity: .6; }
+.tvpad { display: flex; justify-content: center; } .tvpad:empty { display: none; }
+.tvscreen .qscreen { flex: 1; min-block-size: 0; align-content: start; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); column-gap: 20px; grid-auto-rows: min-content; }
+.tvscreen .qs-title { grid-column: 1 / -1; } .tvscreen .qs-list { grid-column: 1; grid-row: 2 / span 6; max-block-size: 250px; overflow: hidden; align-content: start; }
+.tvscreen .qscreen > :not(.qs-title):not(.qs-list) { grid-column: 2; } .tvscreen .qs-waits { flex-direction: column; gap: 4px; }
+.tvscreen .qs-num { font-size: min(1.75rem, 9cqi); } .tvscreen .qs-row { padding: 6px 12px; }
+.ds-keys { display: flex; flex-wrap: wrap; gap: 8px; } .ds-keys .ghost { min-block-size: 32px; padding: 2px 12px; font-size: 13px; }
+.tvscreen { background: var(--bg-base); color: var(--text-primary); font-family: var(--font-body); }
+.tvscreen.dark { color-scheme: dark; }
+.tvscreen h2 { margin: 0; font: 700 18px/1.25 var(--font-heading); overflow-wrap: anywhere; } .tvscreen p { margin: 0; overflow-wrap: anywhere; } .tvscreen .sub { color: var(--text-secondary); font-size: 13px; }
+.tvscreen button { font: inherit; } .tvscreen .primary { min-block-size: var(--touch-target); padding: 8px 16px; border-radius: 12px; border: 0; background: var(--brand-primary); color: var(--on-brand); font-weight: 700; cursor: pointer; }
+.tvscreen .primary.small, .tvscreen .ghost.small { padding: 4px 12px; } .tvscreen .primary:disabled, .tvscreen .ghost:disabled { opacity: .5; cursor: not-allowed; }
+.tvscreen .ghost { min-block-size: var(--touch-target); padding: 8px 14px; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; }
+.tvscreen .ghost[aria-pressed="true"] { border: 2px solid var(--brand-primary); background: var(--brand-subtle); }
+.tvscreen :focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+.tvscreen .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; } .tvscreen .rowbtn { display: flex; gap: 8px; align-items: center; padding: 8px 10px; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--bg-surface); min-inline-size: 0; }
+.tvscreen .rowbtn .main { flex: 1; min-inline-size: 0; display: grid; gap: 2px; } .tvscreen .rowbtn .nm { font-weight: 600; overflow-wrap: anywhere; }
+.tvscreen .notice { padding: 8px 10px; border-radius: 8px; background: var(--status-warning-bg); border: 1px solid var(--status-warning-border); color: var(--status-warning-text); }
+.tvscreen .warn { color: var(--status-danger-text); font-weight: 600; } .tvscreen .ok { color: var(--status-success-text); font-weight: 600; } .tvscreen .plabel { font-weight: 600; }
+.tvscreen .tag { display: inline-block; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--border-subtle); font-size: 12px; color: var(--text-secondary); background: var(--bg-subtle); }
+.ic { display: inline-flex; inline-size: 20px; block-size: 20px; } .ic svg { inline-size: 100%; block-size: 100%; display: block; } .chip .ic { inline-size: 12px; block-size: 12px; }
+.rig .fit { display: flex; gap: 32px; align-items: flex-end; flex-wrap: wrap; justify-content: center; }
+.mark svg { inline-size: 100%; block-size: auto; display: block; }
+.fake-till { inline-size: 280px; padding: 14px; border-radius: 14px; border: 1px dashed var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font-size: 13px; overflow-wrap: anywhere; }
+.fake-till h3 { margin: 0 0 4px; font-size: 14px; } .fake-till p { margin: 0 0 6px; } .fake-till .sub { color: var(--text-secondary); } .fake-till .tname { font-weight: 600; margin: 8px 0 4px; }
+.tbtns { display: flex; flex-wrap: wrap; gap: 6px; margin-block-end: 6px; }
+.tbtns button { min-block-size: 36px; padding: 4px 10px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 600 12px var(--font-body); cursor: pointer; }
+.tbtns button[disabled] { opacity: .5; cursor: not-allowed; } .tbtns button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+.ctl-extra label { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; cursor: pointer; }
+/* the emulator's screen is a wall screen drawn small: its own sizes keep the same proportions a real one has at room distance */
+.tvscreen { font-size: 14px; } .tvscreen .qs-title { font-size: 22px; } .tvscreen .qs-waits { font-size: 14px; } .tvscreen .qs-soon { font-size: 14px; } .tvscreen .qs-join { font-size: 13px; } .tvscreen .qs-join .qr { inline-size: 48px; block-size: 48px; }
+.tvscreen .qs-voice { font-size: 12px; } .tvscreen .qs-counter { font-size: 18px; } .tvscreen .qs-num { font-size: 26px; } .tvscreen .pb { font-size: 11px; text-align: start; }

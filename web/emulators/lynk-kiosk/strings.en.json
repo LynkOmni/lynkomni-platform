@@ -6,5 +6,8 @@
  "k_attend_sub": "Attendance",
  "k_home": "Start again",
  "k_camera": "Camera working",
- "k_reader": "Fingerprint reader connected"
+ "k_reader": "Fingerprint reader connected",
+ "k_ticket": "Take a ticket",
+ "k_ticket_sub": "Queue",
+ "k_place": "Sample place"
 }
