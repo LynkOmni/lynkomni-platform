@@ -21,7 +21,7 @@ class T(unittest.TestCase):
         self.assertNotIn("lynkmpay", SUITE_MEMBERS); self.assertNotIn("lynkassist", SUITE_MEMBERS)     # add-on families are never inside LynkSuite
         with self.assertRaises(ValueError): self.b.set_plan("a", "lynkdev", "plus")                        # developers use their own plan names
         self.b.set_plan("a", "lynkbooking", "max"); self.assertEqual(self.b.entitlement("a", "lynkbooking")["dedicated_concierge"], True)      # consumer families have Max too
-        self.assertEqual(self.b.bill("a")["total_minor"], self.rwf(19.99))
+        self.assertEqual(self.b.bill("a")["total_minor"], self.rwf(7.99))
 
     def test_suite_stays_a_real_bundle_discount_and_tiers_never_get_cheaper(self):
         # A bundle must cost less than its parts (the point of a bundle) but not give them away. LynkSuite is compared with

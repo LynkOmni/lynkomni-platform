@@ -1,4 +1,4 @@
-"""Prices are LOCKED (version 3, 2026-11-08: LynkStat $0/$12/$29/$79 took over LynkDash, LynkOps $0/$20/$49/$129 with four services; version 2 was 2026-11-07, version 1 2026-11-06). This test pins every standard USD price. To change a price on purpose:
+"""Prices are LOCKED (version 3, 2026-11-08; BOOKING UPDATE 2026-11-18 set the LynkBooking membership to $0/$1.99/$3.99/$7.99 and locked the LynkBooking business tiers and commission: LynkStat $0/$12/$29/$79 took over LynkDash, LynkOps $0/$20/$49/$129 with four services; version 2 was 2026-11-07, version 1 2026-11-06). This test pins every standard USD price. To change a price on purpose:
 change services/billing.py, change LOCKED_PRICES below, re-run finance/revenue_model.py (tests/test_revenue_model.py
 pins its output), then update the blueprint (pricing tables, LynkSuite table, revenue model parts E, F and G), the
 project status doc and CLAUDE.md in the same task."""
@@ -11,7 +11,7 @@ LOCKED_PRICES = {
     "lynkops": (0, 20, 49, 129), "lynkstock": (0, 3, 9, 22), "lynkrewards": (0, 3, 9, 22),
     "lynkstat": (0, 12, 29, 79), "lynkgrow": (0, 4, 12, 32), "lynkchat": (0, 4, 11, 27), "lynkmpay": (0, 5, 15, 38),
     "lynkrecover": (0, 3, 7, 12), "lynkcheckout": (0, 3, 7, 15), "lynkassist": (0, 6, 15, 35), "lynkvcard": (0, 4, 12, 30),
-    "lynkdev": (0, 500, 2500, 15000), "lynkbooking": (0, 4.99, 9.99, 19.99), "lynkessential": (0, 2.99, 5.99, 11.99),
+    "lynkdev": (0, 500, 2500, 15000), "lynkbooking": (0, 1.99, 3.99, 7.99), "lynkessential": (0, 2.99, 5.99, 11.99),
     "lynksuite": (0, 29, 75, 195),
     "lynkmotion": (0, 9, 29, 79), "lynkguard": (0, 15, 49, 149),          # NEW UPDATE 1, 2026-11-10
     "lynkattend": (0, 49.5, 95, 179), "lynkqueue": (0, 55, 115, 249), "lynksurvey": (0, 59, 155, 249),   # NEW UPDATE 4, 2026-11-11
@@ -45,7 +45,25 @@ LOCKED_STOREFRONT = {"tiers": ("free", "plus", "pro", "max", "enterprise"), "pri
                      "share_bps": (800, 500, 300, 150), "cap_usd_cents": {"max": 5000}, "trial_days": {"plus": 14, "pro": 14}}
 
 
+# BOOKING UPDATE (owner locked 2026-11-18, blueprint 64.7): the LynkBooking business tiers, their extras and the commission.
+LOCKED_BOOKING = {"tiers": ("free", "plus", "pro", "max"), "prices": (0, 19, 49, 119), "places_included": (1, 3, 3, 3),
+                  "extra_place_cents": (None, 500, 1000, 2000), "units_per_place": (3, 15, None, None),
+                  "bookings_per_place": (150, 2000, 10000, 50000), "extra_1000_bookings_cents": 100, "bundle_discount_bps": 2000,
+                  "commission": {"appointment_first_visit_bps": 500, "appointment_first_visit_cap_cents": 500, "stay_bps": 800,
+                                 "tour_bps": 1000, "event_bps": 200, "event_ticket_cents": 25, "transport_bps": 300,
+                                 "rental_and_space_bps": 600, "table_guest_cents": 25, "class_bps": 500, "own_customers_bps": 0}}
+
+
 class TestPriceLock(unittest.TestCase):
+    def test_booking_update_prices_and_commission_are_locked(self):
+        b = billing
+        self.assertEqual({"tiers": b.BOOKING_BUSINESS_TIERS, "prices": b.BOOKING_BUSINESS_PRICES, "places_included": b.BOOKING_PLACES_INCLUDED,
+                          "extra_place_cents": b.BOOKING_EXTRA_PLACE_CENTS, "units_per_place": b.BOOKING_UNITS_PER_PLACE,
+                          "bookings_per_place": b.BOOKING_BOOKINGS_PER_PLACE, "extra_1000_bookings_cents": b.BOOKING_EXTRA_1000_BOOKINGS_CENTS,
+                          "bundle_discount_bps": b.BOOKING_BUNDLE_DISCOUNT_BPS, "commission": b.BOOKING_COMMISSION}, LOCKED_BOOKING)
+        self.assertNotIn("lynkbooking", b.SUITE_MEMBERS)                       # outside LynkSuite
+        self.assertEqual(b.BOOKING_COMMISSION["own_customers_bps"], 0)         # never a commission on a business's own customers
+
     def test_lynka_lynkq_and_lynks_extras_and_bundle_are_locked(self):
         F = billing.FEATURES
         def col(fam, key):

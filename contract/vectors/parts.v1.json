@@ -11518,7 +11518,7 @@
     "id": "price-lynkbooking",
     "topic": "price",
     "q": "How much is LynkBooking?",
-    "a": "LynkBooking plans a month: Free $0, Plus $4.99, Pro $9.99, Max $19.99.",
+    "a": "LynkBooking plans a month: Free $0, Plus $1.99, Pro $3.99, Max $7.99.",
     "source": "services/billing.py"
    },
    {
@@ -11891,7 +11891,7 @@
     "id": "price-lynkbooking",
     "topic": "price",
     "q": "كم سعر LynkBooking؟",
-    "a": "خطط LynkBooking شهريًا: Free $0, Plus $4.99, Pro $9.99, Max $19.99.",
+    "a": "خطط LynkBooking شهريًا: Free $0, Plus $1.99, Pro $3.99, Max $7.99.",
     "source": "services/billing.py"
    },
    {
@@ -12264,7 +12264,7 @@
     "id": "price-lynkbooking",
     "topic": "price",
     "q": "LynkBookingの料金はいくらですか？",
-    "a": "LynkBookingの月額プラン：Free $0, Plus $4.99, Pro $9.99, Max $19.99。",
+    "a": "LynkBookingの月額プラン：Free $0, Plus $1.99, Pro $3.99, Max $7.99。",
     "source": "services/billing.py"
    },
    {
@@ -12637,7 +12637,7 @@
     "id": "price-lynkbooking",
     "topic": "price",
     "q": "Combien coûte LynkBooking ?",
-    "a": "Formules LynkBooking par mois : Free $0, Plus $4.99, Pro $9.99, Max $19.99.",
+    "a": "Formules LynkBooking par mois : Free $0, Plus $1.99, Pro $3.99, Max $7.99.",
     "source": "services/billing.py"
    },
    {
@@ -13010,7 +13010,7 @@
     "id": "price-lynkbooking",
     "topic": "price",
     "q": "LynkBooking inagharimu kiasi gani?",
-    "a": "Mipango ya LynkBooking kwa mwezi: Free $0, Plus $4.99, Pro $9.99, Max $19.99.",
+    "a": "Mipango ya LynkBooking kwa mwezi: Free $0, Plus $1.99, Pro $3.99, Max $7.99.",
     "source": "services/billing.py"
    },
    {
@@ -13383,7 +13383,7 @@
     "id": "price-lynkbooking",
     "topic": "price",
     "q": "LynkBooking多少钱？",
-    "a": "LynkBooking的月度方案：Free $0, Plus $4.99, Pro $9.99, Max $19.99。",
+    "a": "LynkBooking的月度方案：Free $0, Plus $1.99, Pro $3.99, Max $7.99。",
     "source": "services/billing.py"
    },
    {
@@ -13756,7 +13756,7 @@
     "id": "price-lynkbooking",
     "topic": "price",
     "q": "LynkBooking कितने का है?",
-    "a": "LynkBooking के मासिक प्लान: Free $0, Plus $4.99, Pro $9.99, Max $19.99।",
+    "a": "LynkBooking के मासिक प्लान: Free $0, Plus $1.99, Pro $3.99, Max $7.99।",
     "source": "services/billing.py"
    },
    {
