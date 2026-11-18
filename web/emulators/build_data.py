@@ -20,7 +20,7 @@ def svg(path):
 
 
 # Shared word packs: an emulator that imports the module carries the folder's words too (one translation, used everywhere).
-SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/trackview.js", os.path.join("web", "tracking")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/footer.js", os.path.join("web", "footer")))
+SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/queuedesk.js", os.path.join("web", "shell")), ("ts/src/trackview.js", os.path.join("web", "tracking")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/footer.js", os.path.join("web", "footer")))
 
 
 def uses_shell(emulator):
@@ -59,8 +59,9 @@ def _packs(base):
 
 # The MASTER UPDATE section 1 parts (the bell, sign-in parts, LynkAssist, breadcrumbs): their words travel only in a file that
 # shows them, so a device that does not import them never carries their words (size budget).
-PART_MODULES = ("signin.ts", "notify.ts", "assist.ts", "breadcrumbs.ts")
-PART_WORDS = {"signin.ts": ("pin_", "match_"), "notify.ts": ("ntf_", "msg_"), "assist.ts": ("as_",), "breadcrumbs.ts": ("crumbs",), "peopleparts.ts": ("ppl_",)}
+PART_MODULES = ("signin.ts", "notify.ts", "assist.ts", "breadcrumbs.ts", "attenddesk.ts", "queuedesk.ts", "peoplehub.ts", "afterpay.ts")
+PART_WORDS = {"signin.ts": ("pin_", "match_"), "notify.ts": ("ntf_", "msg_"), "assist.ts": ("as_",), "breadcrumbs.ts": ("crumbs",), "peopleparts.ts": ("ppl_",),
+              "attenddesk.ts": ("ppl_at_",), "queuedesk.ts": ("ppl_qu_",)}   # build section 3B: each desk's own words travel only with that desk
 
 
 def part_words_left_out(emulator):
@@ -105,6 +106,23 @@ def storefront_plans():
     from core import workspaces
     return {"tiers": list(billing.STOREFRONT_TIERS), "prices_usd": dict(zip(billing.STOREFRONT_TIERS, billing.STOREFRONT_PRICES)),
             "share_bps": dict(zip(billing.STOREFRONT_TIERS, billing.STOREFRONT_SHARE_BPS)), "min_age": workspaces.minimum_age()}
+
+def people_plans():
+    """What each plan of the three services allows, merged up to the tier, with its locked monthly price in USD."""
+    from services import billing
+    out = {}
+    for short, family in (("attend", "lynkattend"), ("queue", "lynkqueue"), ("survey", "lynksurvey")):
+        tiers, prices = billing.FAMILIES[family][2], billing.FAMILIES[family][3]
+        out[short] = {}
+        for i, tier in enumerate(tiers):
+            ent = {}
+            for d in billing.FEATURES[family][: i + 1]:
+                ent.update(d)
+            out[short][tier] = {"price_usd": prices[i], **{k: (list(v) if isinstance(v, tuple) else v) for k, v in ent.items()}}
+    out["fees"] = {k: v for k, v in billing.SERVICE_FEES.items() if k.startswith(("queue_", "survey_"))}
+    out["bundle_discount_bps"] = billing.PEOPLE_BUNDLE_DISCOUNT_BPS
+    return out
+
 
 def language_packs(emulator):
     """The emulator's own words, plus the shared shell's or POS devices' words when it uses them (one translation, used everywhere)."""
@@ -270,6 +288,8 @@ def main(emulator):
         **({"automations": automations(3)} if emulator == "owner-web" else {}),
         **({"storefront": storefront_plans()} if emulator in ("account-site", "merchant-phone") else {}),
         **(business_app() if emulator == "merchant-phone" else {}),
+        # LynkAttend, LynkQueue and LynkSurvey plan numbers (billing FAMILIES and FEATURES, locked), for every device that runs their engine
+        **({"people": people_plans()} if imports_part(emulator, "peopleparts.ts") else {}),
         # the agent point picture on the agent home (visuals need agent-point), in both themes; its text alternative is a translated screen text
         **({"agentPicture": {th: svg(visuals.get("agent-point", th).path) for th in ("light", "dark")}} if emulator == "merchant-phone" else {}),
         "statePictures": state_pics,

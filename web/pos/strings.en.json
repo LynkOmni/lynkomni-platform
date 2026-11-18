@@ -441,5 +441,20 @@
  "card_f_limit_asked": "Limit you ask for",
  "card_f_income": "Monthly income",
  "card_f_credit_check_consent": "I agree to a credit check by the lender",
- "card_f_records_consent": "I agree to share my business records with the lender"
+ "card_f_records_consent": "I agree to share my business records with the lender",
+ "ch_q_title": "{place}: choose where you need to go",
+ "ch_q_section": "{n}. {name}: {waiting} waiting, about {minutes} min",
+ "ch_q_section_closed": "{n}. {name}: closed",
+ "ch_q_ticket": "Your ticket is {number}. You are number {place}. About {minutes} minutes.",
+ "ch_q_late": "{n}. Running late",
+ "ch_q_leave": "{n}. Leave queue",
+ "ch_q_called": "It's your turn. Ticket {number}, {counter}.",
+ "ch_q_over": "Ticket {number} is finished.",
+ "ch_q_left": "You left the queue.",
+ "ch_q_dial": "Join a queue",
+ "ch_q_text_help": "Text the section's number to join, 8 for Running late, 9 to leave.",
+ "ch_q_sec_1": "Service desk",
+ "ch_q_sec_2": "Payments",
+ "ch_q_counter": "Counter 1",
+ "ch_q_sandbox": "Sandbox: press # to serve the next person."
 }
