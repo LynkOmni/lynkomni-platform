@@ -67,6 +67,8 @@ class Platform(_Base):
         from people.automations import register as register_section_3b
         s.notifier = Notifier()                               # the one message engine (catalog/messages.v1.json)
         s.attendance = Attendance(s.cloud, s, s.notifier, SandboxPeopleMessages())   # LynkAttend in full (build section 3B)
+        from people.queue import Queue
+        s.queue = Queue(s.cloud, s, s.notifier, SandboxPeopleMessages())             # LynkQueue in full (build section 3B)
         register_section_3b(s.flow, s)
         from services.tracking import PlatformTracking
         s.tracking = PlatformTracking(s)                      # one tracking engine for every service (catalog/tracking.v1.json)
