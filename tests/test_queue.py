@@ -257,6 +257,41 @@ class QueueTests(unittest.TestCase):
         box = LynkDVBox(self.m, self.place, self.dev, self.staff, "manager", now=AT(T0 + DAY)); k = QueueKeeper(box, pack)
         with self.assertRaisesRegex(LocalRejection, "free_limit_reached"): k.issue("GEN")
 
+    # ---- automations (catalog/automations.v1.json, run by LynkFlow)
+    def test_please_come_and_the_long_wait_suggestion_run_once(self):
+        self.k.counter_state(self.c1, "open"); self.give(2)
+        j = self.q.join(self.m, self.place, "GEN", "link", PHONE, now=T0); me = self.k.issue("GEN", via="smartphone", phone_mark=j["phone_mark"]); self.q.joined(j["join_id"], me["ticket_id"]); self.sync()
+        come = self.k.please_come(); f = self.p.flow
+        self.assertEqual(f.metric("place_is_5", self.m, {"place_id": self.place, "ticket_ids": come}, me["ticket_id"], now=T0)[0]["told"], 1)
+        self.assertEqual(f.metric("place_is_5", self.m, {"place_id": self.place, "ticket_ids": come}, me["ticket_id"], now=T0), [])
+        gen = self.q.live(self.m, self.place, now=T0 + 40 * 60)["sections"][0]; self.assertTrue(gen["suggest_open_counter"])
+        ran = f.metric("longest_wait_over_30", self.m, {"place_id": self.place, "section": "GEN", "longest_wait_minutes": gen["longest_wait_minutes"]}, f"{self.place}:GEN:9", now=T0 + 40 * 60)
+        self.assertEqual((ran[0]["level"], ran[0]["suggested"]), ("inform", "GEN"))                       # only a suggestion: nothing was opened
+        self.assertEqual([c["state"] for c in self.q.live(self.m, self.place, now=T0)["counters"]], ["open", "closed", "closed"])
+
+    def test_closing_and_the_forecast_run_by_themselves(self):
+        self.give(3); self.sync(); f = self.p.flow
+        self.assertEqual(f.tick("closing", [self.m], now=T0 + 3600), [])                                   # still open: nothing is closed early
+        self.assertEqual(f.tick("closing", [self.m], now=T0 + DAY + 8 * 3600 + 60)[0]["closed"], 3)
+        self.assertEqual(len(self.events("TicketNotServedToday")), 3)
+        self.assertEqual(f.tick("daily", [self.m], now=T0 + 6 * DAY)[0]["places"], 1)                      # the same weekday comes tomorrow
+
+    def test_a_counter_follows_its_persons_check_in_and_a_collection_gets_a_ticket(self):
+        member = uuid4(); self.q.set_counter_staff(self.m, self.lab, member, self.boss)
+        self.assertEqual(self.p.flow.on_event(self.m, {"id": uuid4(), "type": "CheckedIn", "payload": {"member_id": member, "record_id": uuid4()}}, now=T0), [])   # a link is off until switched on
+        self.p.flow.set_on(self.m, "attend-opens-queue-counter"); self.p.flow.set_on(self.m, "queue-pickup-collection")
+        ran = self.p.flow.on_event(self.m, {"id": uuid4(), "type": "CheckedIn", "payload": {"member_id": member, "record_id": uuid4()}}, now=T0)
+        self.assertIn(1, [r.get("counters") for r in ran])
+        self.assertEqual(self.k.on_check(member, "in", self.q.counters_of(member)), [self.lab]); self.assertEqual(self.k.counters[self.lab]["state"], "open")
+        self.give(1, "LAB"); self.k.call_next(self.lab)
+        self.assertEqual(self.k.on_check(member, "out", [self.lab]), [])                                   # never closes in the middle of serving someone
+        self.k.served(self.lab); self.assertEqual(self.k.on_check(member, "out", [self.lab]), [self.lab])
+        point = uuid4(); self.q.set_pickup_section(self.m, point, self.place, "GEN", self.boss)
+        ran = self.p.flow.on_event(self.m, {"id": uuid4(), "type": "ShipmentScanned", "payload": {"shipment_id": uuid4(), "scan_id": uuid4(), "piece": 1, "place_id": point, "step": "at_pickup_point"}}, now=T0)
+        self.assertEqual(ran[0]["ready"], "GEN")
+        ask = self.q.pending(self.place); self.assertEqual([a["way"] for a in ask], ["collection"])
+        t = self.k.issue("GEN", via="api"); self.q.joined(ask[0]["join_id"], t["ticket_id"]); self.assertEqual(self.q.pending(self.place), [])
+
 
 if __name__ == "__main__":
     unittest.main()

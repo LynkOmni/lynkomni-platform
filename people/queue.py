@@ -45,7 +45,9 @@ class Queue:
         create table if not exists qu_joins(join_id text primary key, merchant text, place text, section text, way text, contact_ref text, mark text, lang text, at real, ticket text);
         create table if not exists qu_history(merchant text, place text, at real, by text, what text, ticket text);
         create table if not exists qu_seen(event_id text primary key);
-        create table if not exists qu_checks(merchant text, staff text, sign text, at real);""")
+        create table if not exists qu_checks(merchant text, staff text, sign text, at real);
+        create table if not exists qu_pickup(point text primary key, merchant text, place text, section text);
+        create table if not exists qu_staff(counter text primary key, member text);""")
 
     # ---- small helpers
     def _ent(s, merchant): return billing.Billing(s.p.c).entitlement(merchant, "lynkqueue")
@@ -310,6 +312,34 @@ class Queue:
         if t["state"] == "waiting": out.update(place=ahead + 1, about_minutes=R.wait_minutes(ahead + 1, avg[0] if avg else 4, max(1, s._open(t["place"], t["section"]))))
         if t["state"] == "called": out["counter_id"] = counter
         return out
+
+    def pending(s, place):
+        """Requests waiting for the queue keeper to give a number (phone joins and parcel collections), oldest first."""
+        return [dict(zip(("join_id", "section", "way", "phone_mark"), r)) for r in s.db.execute("select join_id, section, way, mark from qu_joins where place=? and ticket is null order by rowid", (place,))]
+
+    # ---- links, only when switched on: LynkAttend opens a counter, a pickup point gives collections a ticket
+    def set_counter_staff(s, merchant, counter, member, by, now=None):
+        """The person who serves at a counter (a LynkAttend member): the counter can then open when they check in."""
+        s._need_manager(merchant, by); place = s.db.execute("select place from qu_counters where counter_id=?", (counter,)).fetchone()[0]
+        s.db.execute("insert or replace into qu_staff values(?,?)", (counter, member)); s._log(merchant, place, by, "counter_staff_set", now=now)
+    def counters_of(s, member): return [r[0] for r in s.db.execute("select counter from qu_staff where member=?", (member,))]
+    def set_pickup_section(s, merchant, point, place, section, by, now=None):
+        """Parcel collections at this pickup point wait in this section."""
+        s._need_manager(merchant, by)
+        if section not in {x["code"] for x in s._sections(place)}: raise ValueError("unknown section")
+        s.db.execute("insert or replace into qu_pickup values(?,?,?,?)", (point, merchant, place, section)); s._log(merchant, place, by, f"pickup_section:{section}", now=now)
+    def collection(s, merchant, point, shipment, now=None):
+        """A parcel reached the pickup point: a request is made ready, and the keeper gives the ticket when the person comes."""
+        r = s.db.execute("select place, section from qu_pickup where point=? and merchant=?", (point, merchant)).fetchone()
+        if not r: return None
+        jid = uuid4(); s.db.execute("insert into qu_joins values(?,?,?,?,'collection',null,?,'en',?,null)", (jid, merchant, r[0], r[1], f"shipment:{shipment}", _now(now)))
+        return {"join_id": jid, "place": r[0], "section": r[1]}
+    def places(s, merchant): return [r[0] for r in s.db.execute("select place_id from qu_places where merchant=? order by rowid", (merchant,))]
+    def closing_due(s, merchant, now=None):
+        """Places whose last section has closed for the day and that still have someone waiting."""
+        n = _now(now); minute = int(n % DAY // 60)
+        return [pl for pl in s.places(merchant) if all(minute >= x["closes_min"] for x in s._sections(pl))
+                and s.db.execute("select 1 from qu_tickets where place=? and state in ('waiting','missed')", (pl,)).fetchone()]
 
     # ---- closing: a ticket is for today only
     def close_day(s, merchant, place, now=None):

@@ -163,6 +163,17 @@ class QueueKeeper:
             if t["state"] == "waiting" and t["phone"] and not t.get("told") and (s.place(t["id"]) or 99) <= R.PLEASE_COME_AT: t["told"] = True; out.append(t["id"])
         return out
 
+    # ---- LynkAttend link (only when switched on): a counter opens when its person checks in and closes when they check out
+    def on_check(s, member, direction, counters):
+        """counters: the counters this person serves (from the cloud's setup). It can be undone with the counter's own buttons."""
+        done = []
+        for cid in counters:
+            c = s.counters.get(cid)
+            if not c or c["serving"]: continue                                 # never closes a counter in the middle of serving someone
+            want = "open" if direction == "in" else "closed"
+            if c["state"] != want: s.counter_state(cid, want, by=member); done.append(cid)
+        return done
+
     # ---- another device takes over as queue keeper, with the same queue and its own codes
     def take_over_from(s, old):
         s._ready(); s.box._guard("TakeOverQueueKeeper")
