@@ -23,7 +23,7 @@ const PARTS_MODULES = ["ts/src/parts.generated.js", "ts/src/signin.js", "ts/src/
 // NEW UPDATE 4 (section 1): the shared parts of LynkAttend, LynkQueue and LynkSurvey with the rules they draw from
 const PEOPLE_MODULES = ["ts/src/attendance.js", "ts/src/queue.js", "ts/src/peopleparts.js"];
 // NEW UPDATE 4 (section 3): the Business app devices also run the people engine (setup, Add a device, door, reception, counter, rating)
-const PEOPLE_DEVICE = ["ts/src/attendance.js", "ts/src/queue.js", "ts/src/survey.js", "ts/src/peopleparts.js", "ts/src/peoplehub.js"];
+const PEOPLE_DEVICE = ["ts/src/attendance.js", "ts/src/queue.js", "ts/src/survey.js", "ts/src/peopleparts.js", "ts/src/attenddesk.js", "ts/src/peoplehub.js"];
 const EMULATORS = [
   { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: [...DEVICE_MODULES, ...PEOPLE_DEVICE, "web/emulators/pos-terminal/app.js"] },
   { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: ["ts/src/usernames.generated.js", "ts/src/usernames.js", ...DEVICE_MODULES, ...TRACK_MODULES, "ts/src/reservations.js", "ts/src/drivers.js", "ts/src/drivers.generated.js", ...PEOPLE_DEVICE, "web/emulators/merchant-phone/app.js"] },

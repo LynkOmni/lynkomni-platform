@@ -106,6 +106,23 @@ def storefront_plans():
     return {"tiers": list(billing.STOREFRONT_TIERS), "prices_usd": dict(zip(billing.STOREFRONT_TIERS, billing.STOREFRONT_PRICES)),
             "share_bps": dict(zip(billing.STOREFRONT_TIERS, billing.STOREFRONT_SHARE_BPS)), "min_age": workspaces.minimum_age()}
 
+def people_plans():
+    """What each plan of the three services allows, merged up to the tier, with its locked monthly price in USD."""
+    from services import billing
+    out = {}
+    for short, family in (("attend", "lynkattend"), ("queue", "lynkqueue"), ("survey", "lynksurvey")):
+        tiers, prices = billing.FAMILIES[family][2], billing.FAMILIES[family][3]
+        out[short] = {}
+        for i, tier in enumerate(tiers):
+            ent = {}
+            for d in billing.FEATURES[family][: i + 1]:
+                ent.update(d)
+            out[short][tier] = {"price_usd": prices[i], **{k: (list(v) if isinstance(v, tuple) else v) for k, v in ent.items()}}
+    out["fees"] = {k: v for k, v in billing.SERVICE_FEES.items() if k.startswith(("queue_", "survey_"))}
+    out["bundle_discount_bps"] = billing.PEOPLE_BUNDLE_DISCOUNT_BPS
+    return out
+
+
 def language_packs(emulator):
     """The emulator's own words, plus the shared shell's or POS devices' words when it uses them (one translation, used everywhere)."""
     own = _packs(os.path.join(ROOT, "web", "emulators", emulator))
@@ -270,6 +287,8 @@ def main(emulator):
         **({"automations": automations(3)} if emulator == "owner-web" else {}),
         **({"storefront": storefront_plans()} if emulator in ("account-site", "merchant-phone") else {}),
         **(business_app() if emulator == "merchant-phone" else {}),
+        # LynkAttend, LynkQueue and LynkSurvey plan numbers (billing FAMILIES and FEATURES, locked), for every device that runs their engine
+        **({"people": people_plans()} if imports_part(emulator, "peopleparts.ts") else {}),
         # the agent point picture on the agent home (visuals need agent-point), in both themes; its text alternative is a translated screen text
         **({"agentPicture": {th: svg(visuals.get("agent-point", th).path) for th in ("light", "dark")}} if emulator == "merchant-phone" else {}),
         "statePictures": state_pics,

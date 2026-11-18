@@ -5,11 +5,17 @@ SERVER SIGNATURE IS A DEV-ONLY PLACEHOLDER (provider ledger, later: server_signi
 import json, os, time, uuid
 from datetime import datetime, timezone
 
-from contract.tools.validate_contract import fake_sig, uuid7, validate_event
+from contract.tools.validate_contract import REGISTRIES, REGISTRY, fake_sig, uuid7, validate_event
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 with open(os.path.join(ROOT, "merchant", "events.v1.json"), encoding="utf-8") as f:
     SIGNALS = json.load(f)["events"]
+
+
+def version_of(type_):
+    """The contract version an event is written in: version 3 for everything it holds, and for an event added later the version
+    that added it (movement in 4, card requests in 5, LynkAttend, LynkQueue and LynkSurvey in 6)."""
+    return 3 if type_ in REGISTRIES[3]["events"] else REGISTRY["events"][type_]["schema_version"]
 
 
 def _ts(now):
@@ -30,7 +36,7 @@ class Cloud:
         return v
     def event(s, merchant, type_, payload, now=None, causes=None):
         """A contract server event (origin 'server'), validated like every other event; returns its id."""
-        evt = {"event_id": uuid7(), "origin": "server", "merchant_id": merchant, "type": type_, "schema_version": 3,
+        evt = {"event_id": uuid7(), "origin": "server", "merchant_id": merchant, "type": type_, "schema_version": version_of(type_),
                "created_at_server": _ts(_now(now)), "server_cursor": s._cursor(), "payload": payload, "server_signature": fake_sig()}   # PLACEHOLDER signature
         if causes: evt["cause_event_ids"] = list(causes)
         problems = validate_event(evt)

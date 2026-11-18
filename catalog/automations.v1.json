@@ -2222,7 +2222,7 @@
    "offline": false,
    "default": "off",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/attendance.py"
   },
   {
    "id": "attend-opens-queue-counter",
@@ -2326,7 +2326,7 @@
    "offline": true,
    "default": "on",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/attendance.py"
   },
   {
    "id": "attend-no-check-out",
@@ -2343,7 +2343,7 @@
    "offline": false,
    "default": "on",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/attendance.py"
   },
   {
    "id": "attend-request-reminders",
@@ -2360,7 +2360,7 @@
    "offline": false,
    "default": "on",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/attendance.py"
   },
   {
    "id": "attend-warning-signs",
@@ -2377,7 +2377,7 @@
    "offline": false,
    "default": "on",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/attendance.py"
   },
   {
    "id": "queue-please-come",

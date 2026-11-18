@@ -115,3 +115,12 @@
 .ph-rate { margin-block-start: 10px; inline-size: 100%; min-inline-size: 0; }
 .rtk { font-family: var(--font-heading); font-size: var(--text-24); font-weight: 700; text-align: center; margin: 6px 0; letter-spacing: .04em; }
 .pn { color: var(--text-secondary); font-size: var(--text-12); }
+/* Section 3B: LynkAttend in full (ts/src/attenddesk.ts): cards, a person's details, the on-screen number keys, the fire list */
+.ph-card { min-inline-size: 0; overflow-wrap: anywhere; } .ph-card h2 { margin: 0 0 6px; font-size: var(--text-14); }
+.ph-card .tag, .ph-door .tag { display: inline-block; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--border-subtle); font-size: var(--text-12); color: var(--text-secondary); background: var(--bg-subtle); }
+.ph-card .tag.warn { border-color: var(--status-warning-border); background: var(--status-warning-bg); color: var(--status-warning-text); }
+.ph-detail { padding: 8px 10px 10px; border-block-start: 1px solid var(--border-subtle); background: var(--bg-subtle); border-radius: 0 0 10px 10px; }
+.ph-keys { display: grid; grid-template-columns: repeat(3, minmax(44px, 72px)); gap: 6px; justify-content: center; }
+.ph-keys button { min-block-size: var(--touch-target); border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--bg-surface); color: var(--text-primary); font: inherit; font-weight: 600; font-variant-numeric: var(--font-feature-tabular); cursor: pointer; }
+.ph-tick { display: flex; gap: 10px; align-items: center; min-block-size: var(--touch-target); padding: 0 6px; } .ph-tick input { inline-size: 22px; block-size: 22px; }
+.ph-door .note { color: var(--status-warning-text); margin: 0; }

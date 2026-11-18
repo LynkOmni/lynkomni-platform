@@ -2,7 +2,7 @@
 SIGNATURES ARE DEV-ONLY PLACEHOLDERS (random bytes in the right format). Real devices must sign with a hardware-backed ES256 key."""
 import os, base64
 from datetime import datetime, timedelta, timezone
-from contract.tools.validate_contract import PERMS, REGISTER, SAMPLE_CURRENCY, event_hash, round_half_up_line, ts, uuid7, validate_event
+from contract.tools.validate_contract import PERMS, REGISTER, REGISTRIES, REGISTRY, SAMPLE_CURRENCY, event_hash, round_half_up_line, ts, uuid7, validate_event
 
 PERM = {p["id"]: p for p in PERMS["permissions"]}
 CMD = {c["name"]: c for c in REGISTER["commands"]}
@@ -42,7 +42,7 @@ class LynkDVBox:
         if perm and (s.role not in PERM[perm]["roles"] or "mobile" not in PERM[perm]["channels"]): raise LocalRejection("permission_denied")
     def _emit(s, etype, payload):
         evt = {"event_id": uuid7(), "origin": "device", "merchant_id": s.m, "branch_id": s.b, "device_id": s.d, "actor_user_id": s.u,
-               "device_seq": s.seq + 1, "type": etype, "schema_version": 3, "occurred_at_device": ts(s.clock), "prev_hash": s.prev,
+               "device_seq": s.seq + 1, "type": etype, "schema_version": 3 if etype in REGISTRIES[3]["events"] else REGISTRY["events"].get(etype, {}).get("schema_version", 3), "occurred_at_device": ts(s.clock), "prev_hash": s.prev,
                "payload": payload, "signature": base64.urlsafe_b64encode(os.urandom(64)).decode().rstrip("=")}   # DEV-ONLY signature
         problems = validate_event(evt)
         if problems: raise ContractError(f"{etype}: {problems}")

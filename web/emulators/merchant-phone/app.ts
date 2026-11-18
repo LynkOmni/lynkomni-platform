@@ -36,9 +36,12 @@ import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { bell } from "../../../ts/src/notify.js";
 import type { Line } from "../../../ts/src/notify.js";
 import { cardFormFields, cardName, cardWord, decideOffline, knowledgeFor, needsManager } from "../../../ts/src/devicekit.js";
-import { PeopleHub, attendanceToday, counterCard, devicesCard, doorWhere, receptionCard, sectionsCard, setupCard, surveyCard, waitingCard } from "../../../ts/src/peoplehub.js";
+import { PeopleHub, counterCard, devicesCard, doorWhere, receptionCard, sectionsCard, setupCard, surveyCard, waitingCard } from "../../../ts/src/peoplehub.js";
+import { atDoor, checkInsView, checkersView, devicesView, eventsView, leaveView, peopleView, registerView, reportsView, shiftsView, visitorsView, wasThisYou } from "../../../ts/src/attenddesk.js";
+import type { AtLook, AtPlan, AtTier } from "../../../ts/src/attenddesk.js";
 
 interface BuildData {
+  people: { attend: Record<AtTier, AtPlan> };
   storefront?: { tiers: string[]; prices_usd: Record<string, number>; share_bps: Record<string, number>; min_age: number };
   icons: Record<string, string>;
   brand: { body: string; receipt: string; places: BrandPlaces };
@@ -213,7 +216,22 @@ function emit(type: string, payload: unknown, origin: "device" | "server" = "dev
   S.events.unshift(e); TRK.apply({ type, payload: payload as Record<string, unknown>, at: e.at / 1000 }, "me"); drawLog(); return e;
 }
 /** LynkAttend, LynkQueue and LynkSurvey on this phone (ts/src/peoplehub.ts): the same engine as LynkPOS, writing to this log. */
-const PH = new PeopleHub((type, payload, origin) => { emit(type, payload, origin); });
+const PH = new PeopleHub((type, payload, origin) => { emit(type, payload, origin); }, Date.now, DATA.people.attend);
+/** LynkAttend in full (ts/src/attenddesk.ts): each sub-page of app.lynkomni.com/attendance, its title and what draws it. */
+const atLook = (): AtLook => ({ t, icon, clock, money: (c) => formatMoney(c, "USD", locale()), online: online(), partner: !S.realUser, mayManage: S.role === "owner" || S.role === "manager" });
+const SPEAK = { t: (lang: string) => (k: string, vars: Record<string, string | number> = {}): string => (isTest() ? t(k, vars) : (PACKS[lang]?.texts[k] ?? PACKS["en"]?.texts[k] ?? k).replace(/\{(\w+)\}/g, (m, v: string) => (v in vars ? String(vars[v]) : m))),
+  dir: (lang: string): "ltr" | "rtl" => (S.lang === "xx-rtl" ? "rtl" : isTest() ? "ltr" : PACKS[lang]?.dir ?? "ltr"), code: (lang: string): string => (isTest() ? "en" : lang) };
+const AT_PAGES: Record<string, { title: string; draw: () => string }> = {
+  attendance_people: { title: "ppl_people", draw: () => peopleView(PH.att, atLook()) }, attendance_new: { title: "ppl_at_register", draw: () => registerView(PH.att, atLook()) },
+  attendance_check_ins: { title: "ppl_at_check_ins", draw: () => checkInsView(PH.att, atLook()) + wasThisYou(PH.att, atLook()) }, attendance_visitors: { title: "ppl_at_visitors", draw: () => visitorsView(PH.att, atLook()) },
+  attendance_checkers: { title: "ppl_checkers", draw: () => checkersView(PH.att, atLook()) }, attendance_shifts: { title: "ppl_at_shifts", draw: () => shiftsView(PH.att, atLook()) },
+  attendance_leave: { title: "ppl_at_leave", draw: () => leaveView(PH.att, atLook()) }, attendance_events: { title: "ppl_at_events", draw: () => eventsView(PH.att, atLook()) },
+  attendance_devices: { title: "ppl_at_door_devices", draw: () => devicesView(PH.att, atLook()) + `<div data-item="att_add_device">${devicesCard(PH, "attendance", DEVICES, t, icon, mayAddDevice())}</div>` },
+  attendance_door: { title: "ppl_door_title", draw: () => atDoor(PH.att, atLook(), SPEAK, true) + wasThisYou(PH.att, atLook()) + `<p class="sub">${esc(t("ppl_door_sample", { pin: PH.members[1]?.pin ?? "", idcn: PH.members[1]?.idcn ?? "" }))}</p>` },
+  attendance_reports: { title: "ppl_reports", draw: () => reportsView(PH.att, atLook()) },
+};
+const AT_HOME: Record<string, string> = { att_people: "attendance_people", att_check_ins: "attendance_check_ins", att_visitors: "attendance_visitors", att_checkers: "attendance_checkers", att_shifts: "attendance_shifts",
+  att_leave: "attendance_leave", att_events: "attendance_events", att_devices: "attendance_devices", att_door: "attendance_door", att_reports: "attendance_reports" };
 const mayAddDevice = (): boolean => S.role === "owner" || S.role === "manager";
 function tick(): void {
   S.ticks += 1;
@@ -407,7 +425,7 @@ const DSH = new DeviceShell({
   locale: () => ({ language: PACKS[S.lang]?.native ?? S.lang, region: pack().sample ? t("sample_country") : pack().name, currency: pack().currency, english: S.lang === "en" }),
   run: (a) => { if (a === "pictures") { if (DSH.pictures) S.toggles.add("low_literacy"); else S.toggles.delete("low_literacy"); return; } S.screen = "app"; act(a); }, redraw: () => draw(),
   lines: () => bellLines(), knowledge: () => knowledgeFor(PACKS, S.lang),
-  crumbLabel: (p) => { const reg = DATA.screens.find((x) => x.path === p); return reg ? t("it_" + reg.id) === "it_" + reg.id ? t("tab_" + reg.id) : t("it_" + reg.id) : p === "/" ? t("tab_home") : t("tab_" + (p.split("/")[1] ?? "home")); },
+  crumbLabel: (p) => { const reg = DATA.screens.find((x) => x.path === p); if (reg && AT_PAGES[reg.id]) return t(AT_PAGES[reg.id]!.title); return reg ? t("it_" + reg.id) === "it_" + reg.id ? t("tab_" + reg.id) : t("it_" + reg.id) : p === "/" ? t("tab_home") : t("tab_" + (p.split("/")[1] ?? "home")); },
 }, { firstRun: false });
 
 // ---- chrome ---------------------------------------------------------------------------------------------------------
@@ -767,7 +785,9 @@ function hubValue(item: string): string {
   const sm = summary(), a = stockAlerts(CATALOG, S.levels), owed = CUSTOMERS.reduce((x, c) => x + c.owes, 0);
   const com = S.reqs.filter((r) => r.state === "confirmed").reduce((x, r) => x + r.commission, 0);
   switch (item) {
-    case "att_today": return t("ppl_in_count", { n: PH.inCount(), of: PH.members.length });
+    case "att_check_ins": case "att_people": return t("ppl_in_count", { n: PH.inCount(), of: PH.members.length });
+    case "att_visitors": return t("ppl_at_inside_n", { n: PH.att.visitors.filter((v) => v.state === "inside").length });
+    case "att_checkers": return String(PH.att.checkers.length);
     case "att_setup": case "q_setup": case "sv_setup": return t(`ppl_setup_${PH.setup[item === "att_setup" ? "attendance" : item === "q_setup" ? "queue" : "survey"]}`);
     case "q_waiting": return t("ppl_waiting_n", { n: PH.waiting().length });
     case "q_counters": return t("ppl_open_n", { n: PH.openCounters(), of: PH.counters.length });
@@ -806,7 +826,8 @@ function hubValue(item: string): string {
 }
 const REMOVE_ITEM: Record<string, string> = { damage: "damaged", loss: "lost", expiry: "expired" };
 /** The rows of the LynkAttend, LynkQueue and LynkSurvey hub screens use the shared people words (web/shell "ppl_"), one translation everywhere. */
-const PEOPLE_ITEM: Record<string, string> = { att_setup: "ppl_setup_title", att_today: "ppl_today", att_people: "ppl_people", att_checkers: "ppl_checkers", att_door: "ppl_door_title", att_add_device: "ppl_add_device", att_reports: "ppl_reports",
+const PEOPLE_ITEM: Record<string, string> = { att_setup: "ppl_setup_title", att_people: "ppl_people", att_check_ins: "ppl_at_check_ins", att_visitors: "ppl_at_visitors", att_checkers: "ppl_checkers", att_shifts: "ppl_at_shifts", att_leave: "ppl_at_leave",
+  att_events: "ppl_at_events", att_devices: "ppl_at_door_devices", att_door: "ppl_door_title", att_reports: "ppl_reports",
   q_setup: "ppl_setup_title", q_sections: "ppl_sections", q_waiting: "ppl_waiting_now", q_counters: "ppl_counters", q_reception: "ppl_reception_title", q_add_device: "ppl_add_device", q_reports: "ppl_reports",
   sv_setup: "ppl_setup_title", sv_after_payment: "ppl_after_payment", sv_surveys: "ppl_surveys", sv_results: "ppl_results", sv_add_device: "ppl_add_device" };
 const ACADEMY = ["lesson_first_sale", "lesson_stock", "lesson_cash", "lesson_credit", "lesson_proof"];
@@ -1009,6 +1030,8 @@ function m3Cards(): string {
 }
 function hubSection(id: string): string {
   const reg = DATA.screens.find((s) => s.id === id); if (!reg) return "";
+  const page = AT_PAGES[id];
+  if (page) return `${topBar(t(page.title), "hub:attendance")}<div class="body">${webNote()}${page.draw()}${flash()}</div>`;
   const back = "view:main";
   const rows = (items: readonly string[], act: (i: string) => string = () => ""): string => `<ul class="list card">${items.map((i) => lineItem(i, t(PEOPLE_ITEM[i] ?? "it_" + i), hubValue(i), act(i))).join("")}</ul>`;
   let extra = "";
@@ -1033,14 +1056,14 @@ function hubSection(id: string): string {
     case "academy": extra = `<ul class="list card">${ACADEMY.map((l) => row(t(l), t("minutes_n", { n: 2 }))).join("")}</ul>`; break;
     case "pickup_point": extra = pickupPoint(); break;
     // NEW UPDATE 4 (section 3): LynkAttend, LynkQueue and LynkSurvey on the phone; the door, reception and counter also run on LynkPOS
-    case "attendance": extra = setupCard(PH, "attendance", t) + attendanceToday(PH, t, clock) + doorWhere(DEVICES, t) + devicesCard(PH, "attendance", DEVICES, t, icon, mayAddDevice()); break;
+    case "attendance": extra = setupCard(PH, "attendance", t) + doorWhere(DEVICES, t); break;
     case "queue": extra = setupCard(PH, "queue", t) + sectionsCard(PH, t) + waitingCard(PH, t) + PH.counters.map((c) => counterCard(PH, c.id, t, icon)).join("") + receptionCard(PH, t, icon) + devicesCard(PH, "queue", DEVICES, t, icon, mayAddDevice()); break;
     case "survey": extra = setupCard(PH, "survey", t) + surveyCard(PH, t, mayAddDevice()) + devicesCard(PH, "survey", DEVICES, t, icon, mayAddDevice()); break;
     case "growth": extra = `<label class="switch"><span>${esc(t("passport_share"))}</span><input type="checkbox" data-in="passport" ${S.passport ? "checked" : ""}></label><p class="sub">${esc(t("passport_help"))}</p>`; break;
   }
   if (id === "settings") extra += m3Settings();
   if (id === "settings") extra += `<button class="rowbtn card" data-item="driver_link" data-act="view:driver">${icon("ui-settings", "prod")}<span class="main"><span class="nm">LynkDriver</span><span class="sub">${esc(driverLine())}</span></span>${icon("ui-chevron-right", "ic fwd")}</button><button class="rowbtn card" data-item="storefront_plans_link" data-act="hub:plans_billing">${icon("ui-cart", "prod")}<span class="main"><span class="nm">${esc(t("sf_plan"))}</span><span class="sub">${esc(sfPlanLine())}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>`;
-  const act = (i: string): string => id === "settings" ? `setting:${i}` : i === "statement_match" ? "matchstatement" : i === "wipe" ? "" : "";
+  const act = (i: string): string => AT_HOME[i] ? `hub:${AT_HOME[i]}` : id === "settings" ? `setting:${i}` : i === "statement_match" ? "matchstatement" : i === "wipe" ? "" : "";
   return `${topBar(t("it_" + id), back)}<div class="body">${webNote()}${rows(reg.items, act)}${extra}${flash()}</div>`;
 }
 function usernameNote(): string {
@@ -1367,6 +1390,11 @@ function closeDay(): void {
 }
 function act(a: string): void {
   const [k, v = ""] = a.split(/:(.*)/s);
+  if (a.startsWith("at:")) {
+    PH.att.act(a, { online: online(), partner: !S.realUser, typed: (document.getElementById("atFull") as HTMLInputElement | null)?.value ?? "" });
+    if (a === "at:new") S.hub = "attendance_new"; else if (a === "at:donenew") S.hub = "attendance_people";
+    draw(); return;
+  }
   if (a.startsWith("ph:")) { if (!a.startsWith("ph:afterpay") || mayAddDevice()) PH.act(a, { online: online(), redraw: draw, language: S.lang }); draw(); return; }
   try {
     switch (k) {
@@ -1504,7 +1532,7 @@ function act(a: string): void {
       case "invite": toast(t("invite_sent")); return;
       case "clock": S.clockedIn = !S.clockedIn; if (S.clockedIn) S.clockId = newId(); emit(S.clockedIn ? "ClockedIn" : "ClockedOut", { clock_id: S.clockId, employee_id: S.staff[0]?.id ?? newId() }); draw(); return;
       case "revoke": { const d = S.devices.find((x) => x.id === v); if (d) { d.revoked = true; emit("DeviceRevoked", { device_id: d.id, revoked_by_user_id: S.staff[0]?.id ?? newId(), reason: "other" }, "server"); toast(t("revoked")); } return; }
-      case "tier": S.tier = pick(TIERS as readonly string[], v, "free") as (typeof TIERS)[number]; ($("#cTier") as HTMLSelectElement).value = S.tier; draw(); return;
+      case "tier": S.tier = pick(TIERS as readonly string[], v, "free") as (typeof TIERS)[number]; PH.att.tier = S.tier; ($("#cTier") as HTMLSelectElement).value = S.tier; draw(); return;
       case "matchstatement": toast(t("statement_matched", { n: S.reqs.filter((r) => r.state === "confirmed").length })); return;
       // account menu
       case "copyid": toast(t("copied")); return;
@@ -1533,6 +1561,7 @@ function act(a: string): void {
 // ---- controls beside the phone ---------------------------------------------------------------------------------------
 function onInput(el: HTMLInputElement): void {
   const k = el.dataset["in"] ?? "", digits = (n: number): string => el.value.replace(/\D/g, "").slice(0, n);
+  if (k.startsWith("at:")) { if (el.tagName !== "SELECT" && PH.att.input(k, el.value)) draw(); return; }
   switch (k) {
     case "cash": case "split": case "cashnum": S.input = digits(9); draw(); return;
     case "momo": S.input = el.value.replace(/[^\d ]/g, "").slice(0, 15); draw(); return;
@@ -1567,6 +1596,8 @@ function m3Change(k: string, el: HTMLInputElement & HTMLSelectElement): void {
 }
 function onChange(el: HTMLInputElement & HTMLSelectElement): void {
   const k = el.dataset["in"] ?? "";
+  if ((el.dataset["act"] ?? "") === "ppl:checker") { PH.pickChecker(el.value); draw(); return; }
+  if (k.startsWith("at:")) { if (el.tagName === "SELECT") { PH.att.input(k, el.value); draw(); } return; }
   if (k.startsWith("set:")) { if (canChangeSettings(S.role)) { const x = k.slice(4); if (el.checked) S.toggles.add(x); else S.toggles.delete(x); if (x === "practice_mode") S.practice = el.checked; } draw(); return; }
   if (k.startsWith("auto:")) { const x = k.slice(5); if (el.checked) S.autoOff.delete(x); else S.autoOff.add(x); draw(); return; }
   if (k.startsWith("m3")) { m3Change(k, el); return; }
@@ -1645,7 +1676,7 @@ function wire(): void {
   bind("#cType", (el) => { S.btype = pick(["shop", "no_till", "agent_point", "restaurant"] as BusinessType[], el.value, "shop"); S.tab = "home"; S.view = "main"; S.hub = ""; draw(); });
   bind("#cEntity", (el) => { act(`entity:${el.value}`); S.tab = "home"; S.view = "main"; S.hub = ""; draw(); });
   bind("#cSize", (el) => { S.size = el.value === "tablet" ? "tablet" : el.value === "web" ? "web" : "phone"; $("#device").className = `device ${S.size}`; fit(); draw(); });
-  bind("#cTier", (el) => { S.tier = pick(TIERS as readonly string[], el.value, "free") as (typeof TIERS)[number]; draw(); });
+  bind("#cTier", (el) => { S.tier = pick(TIERS as readonly string[], el.value, "free") as (typeof TIERS)[number]; PH.att.tier = S.tier; draw(); });   // the sandbox plan applies to LynkAttend too
   bind("#cOutcome", (el) => { S.outcome = el.value === "fail" ? "fail" : el.value === "silent" ? "silent" : "confirm"; });
   bind("#cDark", (el) => { S.theme = el.checked ? "dark" : "light"; draw(); });
   bind("#cReal", (el) => { S.realUser = el.checked; draw(); });
