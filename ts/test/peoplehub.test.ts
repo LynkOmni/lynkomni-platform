@@ -29,7 +29,7 @@ function inContract(log: { type: string; payload: Record<string, unknown>; origi
     assert.ok(c.origins.includes(e.origin ?? "device"), `${e.type} from ${e.origin ?? "device"}`);
     for (const r of c.payload.required ?? []) assert.ok(r in e.payload, `${e.type} needs ${r}`);
     for (const [k, v] of Object.entries(e.payload)) {
-      const prop = c.payload.properties[k]; if (!prop) throw new Error(`${e.type} must not carry ${k}`);
+      const prop: { enum?: unknown[]; items?: { enum?: unknown[] } } | undefined = c.payload.properties[k]; if (!prop) throw new Error(`${e.type} must not carry ${k}`);
       if (prop.enum) assert.ok(prop.enum.includes(v), `${e.type}.${k} = ${String(v)}`);
       if (prop.items?.enum) for (const x of v as unknown[]) assert.ok(prop.items.enum.includes(x), `${e.type}.${k} has ${String(x)}`);
     }
