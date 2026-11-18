@@ -32,6 +32,8 @@ const EMULATORS = [
   { id: "account-site", out: "lynkomni-account-site.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", "ts/src/account.js", ...INTERFACE_MODULES, ...TRACK_MODULES, ...PARTS_MODULES, "ts/src/protection.js", ...PEOPLE_MODULES, "web/emulators/account-site/app.js"],
     extraCss: ["web/shell/shell.css"] },
   // build section 3: the Business app devices, all on the shared device runtime (ts/src/emulator.js) and words (web/pos)
+  // build section 3B: LynkKiosk (LynkAttend's door, LynkQueue's tickets and LynkSurvey's answers on one self-service device)
+  { id: "lynk-kiosk", out: "lynkomni-lynk-kiosk.html", modules: [...DEVICE_MODULES, ...PEOPLE_DEVICE, "web/emulators/lynk-kiosk/app.js"], extraCss: ["web/device/device.css"] },
   ...["counter-tablet", "kitchen-screen", "customer-display", "rider-phone", "stock-scanner", "button-phone", "vcard-card", "mesh-relay", "owner-web", "track-page"]
     .map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...(id === "button-phone" ? ["ts/src/usernames.generated.js", "ts/src/usernames.js"] : []), ...DEVICE_MODULES, ...(["rider-phone", "track-page"].includes(id) ? TRACK_MODULES : []), ...(id === "button-phone" ? ["ts/src/channels.js", "ts/src/basicphone.js"] : []), ...(id === "customer-display" ? PEOPLE_DEVICE : []), `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
 ];

@@ -86,6 +86,12 @@
    "root": "#screen",
    "file_kb": 640,
    "file_kb_reason": "Raised 9 November 2026: every file now carries the LynkOmni favicon (the emblem for light browsers and for dark ones, owner request; about 24 KB, built in so it works offline). Raised to 540 on 9 November 2026 for DEVICE (BIZZ & DEVICE section 1): every device's shell now carries its username helpers (one scope with the shell) and the side and view words in all 38 languages (about 18 KB); a real app downloads one language at a time. Raised on 10 November 2026 for BIZZ & DEVICE section 3: every device now carries the device register, the one decision function and the touch and buttons-only versions (about 20 KB), and the Business app adds the Storefront side, stock held at online checkout and LynkDriver, all in 38 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged. Raised on 10 November 2026 for MASTER UPDATE section 3: every Business app device now carries the shared section 3 parts (the sign-in, notification, LynkAssist and breadcrumb parts, the staff PIN lock with the quiet duress view, offline limits by role, the device's own bell and banners, and the card words), and the button phone carries the basic-phone account menu, all in 38 languages; a real app downloads one language at a time. First-screen and tap budgets are unchanged."
+  },
+  "lynk-kiosk": {
+   "first_tap": "[data-act=\"go:door\"]",
+   "root": "#screen",
+   "file_kb": 900,
+   "file_kb_reason": "Set on 18 November 2026 for build section 3B: LynkKiosk carries the LynkAttend door, LynkQueue tickets and LynkSurvey answering with their engines and words in all 38 languages; a real app downloads one language at a time."
   }
  }
 }

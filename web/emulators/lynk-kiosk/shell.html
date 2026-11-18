@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LynkKiosk</title>
+<meta name="description" content="Interactive emulator of LynkKiosk, the self-service kiosk: check in or out with LynkAttend, take a ticket with LynkQueue and give an answer with LynkSurvey, by touch or by buttons only, with or without internet.">
+<style>/*@TOKENS@*/
+/*@STYLE@*/</style>
+</head>
+<body>
+<header class="pagehead">
+  <h1>LynkKiosk <span class="draft">Draft design</span></h1>
+  <p>Interactive emulator of LynkKiosk, the self-service kiosk: check in or out with LynkAttend, take a ticket with LynkQueue and give an answer with LynkSurvey. It works by touch or by buttons only, with or without internet. Real LynkOmni rules, sample people, sandbox partners. Not reviewed by a designer yet.</p>
+</header>
+<main class="stage">
+  <section class="rig" id="rig" aria-label="LynkKiosk" data-width="420">
+    <div class="fit"><div class="kiosk">
+      <div class="khead"><button type="button" class="kcam" id="cam" aria-label="Camera"></button><span class="kspk" aria-hidden="true"></span></div>
+      <div class="kscreen light" id="screen"></div>
+      <div class="kshelf"><button type="button" class="kreader" id="reader" aria-label="Fingerprint reader"><span aria-hidden="true"></span></button>
+        <div class="kslot" aria-hidden="true"><div class="kpaper" id="paper" hidden></div></div><div class="mark" aria-hidden="true">/*@BODYMARK@*/</div></div>
+      <div class="kpad" id="pad"></div>
+      <div class="kneck" aria-hidden="true"></div><div class="kbase" aria-hidden="true"></div>
+    </div><p class="khint" id="hint"></p></div>
+  </section>
+  <aside class="panel" id="panel" aria-label="Emulator controls"></aside>
+</main>
+<script>/*@SCRIPT@*/</script>
+</body>
+</html>

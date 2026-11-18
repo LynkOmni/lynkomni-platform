@@ -402,8 +402,8 @@
    "touch": "tablet.touch",
    "non_touch": "tv.remote",
    "emulator": {
-    "touch": null,
-    "non_touch": null
+    "touch": "lynk-kiosk",
+    "non_touch": "lynk-kiosk"
    },
    "section": 13,
    "lynk_name": "LynkKiosk"
@@ -528,7 +528,8 @@
    "owner-web": "LynkPC",
    "browser-frame": "LynkPC",
    "pos-terminal": "LynkPOS",
-   "customer-display": "LynkPOS"
+   "customer-display": "LynkPOS",
+  "lynk-kiosk": "LynkKiosk"
   }
  }
 }
