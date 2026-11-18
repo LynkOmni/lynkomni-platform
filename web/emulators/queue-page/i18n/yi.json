@@ -1,0 +1,15 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "yi",
+ "native": "ייִדיש",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "קיין אינטערנעץ. אײַער אָרט אין דער ריי איז אויפֿגעהיט; דער בלאַט דערהײַנטיקט זיך ווען דער אינטערנעץ קומט צוריק.",
+  "qp_place": "מוסטער־אָרט",
+  "qp_tab_public": "די ריי איצט",
+  "qp_tab_ticket": "מײַן בילעט",
+  "title": "LynkQueue אויף אײַער טעלעפֿאָן"
+ }
+}

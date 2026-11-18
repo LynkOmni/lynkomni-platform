@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "th",
+ "native": "ไทย",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "ไม่มีอินเทอร์เน็ต ลำดับของคุณในคิวยังอยู่ หน้านี้จะอัปเดตเมื่ออินเทอร์เน็ตกลับมา",
+  "qp_place": "สถานที่ตัวอย่าง",
+  "qp_tab_public": "คิวตอนนี้",
+  "qp_tab_ticket": "บัตรคิวของฉัน",
+  "title": "LynkQueue บนโทรศัพท์ของคุณ"
+ }
+}

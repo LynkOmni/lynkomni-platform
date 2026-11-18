@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "bn",
+ "native": "বাংলা",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "ইন্টারনেট নেই। সারিতে আপনার জায়গা রাখা আছে; ইন্টারনেট ফিরলে এই পাতা হালনাগাদ হবে।",
+  "qp_place": "নমুনা স্থান",
+  "qp_tab_public": "এখনকার সারি",
+  "qp_tab_ticket": "আমার টিকিট",
+  "title": "আপনার ফোনে LynkQueue"
+ }
+}

@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "es",
+ "native": "Español",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "Sin internet. Tu puesto en la fila se conserva; esta página se actualiza cuando vuelva internet.",
+  "qp_place": "Lugar de ejemplo",
+  "qp_tab_public": "La fila ahora",
+  "qp_tab_ticket": "Mi turno",
+  "title": "LynkQueue en tu teléfono"
+ }
+}

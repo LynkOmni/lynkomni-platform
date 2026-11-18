@@ -1,0 +1,21 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "es",
+ "native": "Español",
+ "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "texts": {
+  "k_attend": "Marcar entrada o salida",
+  "k_attend_sub": "Asistencia",
+  "k_camera": "Cámara en funcionamiento",
+  "k_choose": "Elija lo que necesita.",
+  "k_home": "Empezar de nuevo",
+  "k_place": "Lugar de ejemplo",
+  "k_reader": "Lector de huellas conectado",
+  "k_ticket": "Sacar un turno",
+  "k_ticket_sub": "Turnos",
+  "k_welcome": "Bienvenido",
+  "title": "LynkKiosk"
+ }
+}

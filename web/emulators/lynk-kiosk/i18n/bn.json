@@ -1,0 +1,21 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "bn",
+ "native": "বাংলা",
+ "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "texts": {
+  "k_attend": "উপস্থিতি বা প্রস্থান দিন",
+  "k_attend_sub": "উপস্থিতি",
+  "k_camera": "ক্যামেরা কাজ করছে",
+  "k_choose": "যা দরকার তা বেছে নিন।",
+  "k_home": "আবার শুরু করুন",
+  "k_place": "নমুনা স্থান",
+  "k_reader": "আঙুলের ছাপ পড়ার যন্ত্র যুক্ত আছে",
+  "k_ticket": "টিকিট নিন",
+  "k_ticket_sub": "সারি",
+  "k_welcome": "স্বাগতম",
+  "title": "LynkKiosk"
+ }
+}

@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ru",
+ "native": "Русский",
+ "source_sha256": "51453af1fa9e48f865300eac9b250a86ba9fcc8d177369e3c6e6de14f7cdd75f",
+ "texts": {
+  "ds_place": "Пример места",
+  "ds_say_again": "Повторить",
+  "ds_second_language": "Второй язык голоса",
+  "ds_sound": "Звук",
+  "title": "LynkDScreen"
+ }
+}

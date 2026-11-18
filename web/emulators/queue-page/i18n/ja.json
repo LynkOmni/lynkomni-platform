@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ja",
+ "native": "日本語",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "インターネットがありません。列でのあなたの位置は保たれています。インターネットが戻るとこのページは更新されます。",
+  "qp_place": "サンプルの場所",
+  "qp_tab_public": "現在の順番待ち",
+  "qp_tab_ticket": "自分の整理券",
+  "title": "スマートフォンで LynkQueue"
+ }
+}

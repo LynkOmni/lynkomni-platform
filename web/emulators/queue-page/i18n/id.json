@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "id",
+ "native": "Bahasa Indonesia",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "Tidak ada internet. Posisi Anda di antrean tetap tersimpan; halaman ini diperbarui saat internet kembali.",
+  "qp_place": "Lokasi contoh",
+  "qp_tab_public": "Antrean sekarang",
+  "qp_tab_ticket": "Tiket saya",
+  "title": "LynkQueue di ponsel Anda"
+ }
+}

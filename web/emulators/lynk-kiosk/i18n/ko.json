@@ -1,0 +1,21 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ko",
+ "native": "한국어",
+ "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "texts": {
+  "k_attend": "출근 또는 퇴근 기록",
+  "k_attend_sub": "출결",
+  "k_camera": "카메라 작동 중",
+  "k_choose": "필요한 것을 선택하세요.",
+  "k_home": "처음부터 다시",
+  "k_place": "예시 장소",
+  "k_reader": "지문 인식기 연결됨",
+  "k_ticket": "번호표 받기",
+  "k_ticket_sub": "대기열",
+  "k_welcome": "어서 오세요",
+  "title": "LynkKiosk"
+ }
+}

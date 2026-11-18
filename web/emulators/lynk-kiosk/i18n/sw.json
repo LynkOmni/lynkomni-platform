@@ -1,0 +1,21 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "sw",
+ "native": "Kiswahili",
+ "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "texts": {
+  "k_attend": "Ingia au toka",
+  "k_attend_sub": "Mahudhurio",
+  "k_camera": "Kamera inafanya kazi",
+  "k_choose": "Chagua unachohitaji.",
+  "k_home": "Anza upya",
+  "k_place": "Eneo la mfano",
+  "k_reader": "Kisoma alama za vidole kimeunganishwa",
+  "k_ticket": "Chukua tiketi",
+  "k_ticket_sub": "Foleni",
+  "k_welcome": "Karibu",
+  "title": "LynkKiosk"
+ }
+}

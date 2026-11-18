@@ -2,6 +2,18 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.45.0 (2026-11-18)
+Section 3B, parts 1 and 2 (LynkAttend and LynkQueue in full, on every device; LynkSurvey follows as v0.46.0):
+- LynkAttend in full: register a person with their agreement and their set (Face, then Finger, then IDCN; Finger, then IDCN; or IDCN only), PINs made only by LynkOmni in PIN groups (one branch or one event is one group, never given twice), check-in by hand only when every means failed and never for yourself, visitors with the manager's permission, the fire list that works without internet, shifts with "No check-out" after 2 hours, leave, events and courses with certificates anyone can check, door devices that can be locked, the clock check, everything managers did, what is counted this month, and requests from people (delete my details, dispute) with reminders at 7, 14 and 25 days and deletion by itself at 30.
+- LynkQueue in full: places, sections with a 3-character code and their hours, counters, priority (1 after every few others), Send to another section with the same ticket number, Put back, Running late (once), Leave queue, closing the day ("Not served today"), the public queue page (ticket numbers only), the busy-hour forecast from the place's own past days, reports by plan, and flags that are never an accusation.
+- The queue keeper: one device in the building keeps the queue so the order stays right without internet; each device has its own block of ticket numbers from the cloud, and another added device takes over by itself.
+- Ways to join: reception, LynkKiosk, a phone link or QR code, WhatsApp and LynkChat (sandbox, "Coming to your country soon." until the message partner is signed), a basic phone (menu numbers: 8 for Running late, 9 to leave) and appointments. No name, app or account is needed; a phone number is used only for that ticket's messages and deleted after 30 days.
+- New real-device emulators: LynkKiosk (check in or take a ticket, with a paper slot that prints), LynkDScreen (the calling screen with the changing QR code and the voice), LynkCDisplay (the small screen above a counter) and the queue page on a phone. The Business app, LynkPOS and the button phone gain the full queue screens.
+- A queue ticket is a tracked item (waiting, called, served, missed, left the queue, not served today) in the tracking register; a ticket can be called or missed more than once.
+- Six queue automations run on LynkFlow (please come, not served today, open another counter, busy-hour forecast, pickup collection, a check-in opens the person's counter); automations that are off by default can now be switched on per place.
+- Plans and limits are read from billing: included tickets, extra tickets per 1,000, places, sections and counters; nobody is turned away when the Free limit is reached that day.
+- 347 new screen words in all 38 languages; size budgets set for the new emulators and the default raised to 600 KB (with the reason in web/budgets.v1.json).
+
 ## v0.44.0 (2026-11-12)
 NEW UPDATE 4, section 3 (Business app and LynkPOS):
 - The Business app hub gains Attendance, Queue and Surveys for every business type and workspace, each at its own address (app.lynkomni.com/attendance, /queue, /survey), with How you use it (Just me, One place, Many places: prices, limits and rules stay the same) and Add a device (pick a LynkOmni device from the device register and type a one-time code on it; owner or manager only; offline it waits and is never shown as confirmed).

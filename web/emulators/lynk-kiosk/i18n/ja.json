@@ -1,0 +1,21 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ja",
+ "native": "日本語",
+ "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "texts": {
+  "k_attend": "出勤または退勤を記録",
+  "k_attend_sub": "勤怠",
+  "k_camera": "カメラは正常",
+  "k_choose": "ご用件を選んでください。",
+  "k_home": "最初からやり直す",
+  "k_place": "サンプルの場所",
+  "k_reader": "指紋リーダー接続済み",
+  "k_ticket": "整理券を取る",
+  "k_ticket_sub": "順番待ち",
+  "k_welcome": "いらっしゃいませ",
+  "title": "LynkKiosk"
+ }
+}

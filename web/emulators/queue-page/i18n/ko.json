@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ko",
+ "native": "한국어",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "인터넷이 없습니다. 대기열의 내 자리는 유지됩니다; 인터넷이 돌아오면 이 페이지가 업데이트됩니다.",
+  "qp_place": "예시 장소",
+  "qp_tab_public": "현재 대기 상황",
+  "qp_tab_ticket": "내 번호표",
+  "title": "휴대전화의 LynkQueue"
+ }
+}

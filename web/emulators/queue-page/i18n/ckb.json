@@ -1,0 +1,15 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ckb",
+ "native": "کوردی",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "ئینتەرنێت نییە. شوێنەکەت لە ڕیزدا پارێزراوە؛ ئەم پەڕەیە کاتێک ئینتەرنێت گەڕایەوە نوێ دەبێتەوە.",
+  "qp_place": "شوێنی نموونەیی",
+  "qp_tab_public": "ڕیز لە ئێستادا",
+  "qp_tab_ticket": "بلیتەکەم",
+  "title": "LynkQueue لەسەر تەلەفۆنەکەت"
+ }
+}

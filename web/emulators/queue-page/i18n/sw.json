@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "sw",
+ "native": "Kiswahili",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "Hakuna intaneti. Nafasi yako kwenye foleni imehifadhiwa; ukurasa huu utasasishwa intaneti ikirudi.",
+  "qp_place": "Eneo la mfano",
+  "qp_tab_public": "Foleni sasa",
+  "qp_tab_ticket": "Tiketi yangu",
+  "title": "LynkQueue kwenye simu yako"
+ }
+}

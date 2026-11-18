@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "tr",
+ "native": "Türkçe",
+ "source_sha256": "b11bcb54aa7cb09028a9c6a049ade3e385c02bde19f853c37cfc40987b1bef87",
+ "texts": {
+  "qp_offline": "İnternet yok. Sıradaki yeriniz korunuyor; internet geri gelince bu sayfa güncellenir.",
+  "qp_place": "Örnek yer",
+  "qp_tab_public": "Şu anki sıra",
+  "qp_tab_ticket": "Biletim",
+  "title": "Telefonunuzda LynkQueue"
+ }
+}

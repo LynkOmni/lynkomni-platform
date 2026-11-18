@@ -659,7 +659,7 @@
  "ppl_qu_did_keeper_changed": "Another device became the queue keeper",
  "ppl_qu_via_smartphone": "Phone link or QR code",
  "ppl_qu_via_basic_phone": "Basic phone",
- "ppl_qu_via_api": "API",
+ "ppl_qu_via_api": "Another system",
  "ppl_qu_via_appointment": "Appointment",
  "ppl_qu_pager_n": "Pager {n}",
  "ppl_qu_keeper": "Queue keeper",

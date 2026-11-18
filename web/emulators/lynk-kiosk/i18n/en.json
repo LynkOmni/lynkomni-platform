@@ -1,0 +1,21 @@
+{
+ "dir": "ltr",
+ "engine": "source",
+ "kept_in_english": [],
+ "lang": "en",
+ "native": "English",
+ "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "texts": {
+  "k_attend": "Check in or out",
+  "k_attend_sub": "Attendance",
+  "k_camera": "Camera working",
+  "k_choose": "Choose what you need.",
+  "k_home": "Start again",
+  "k_place": "Sample place",
+  "k_reader": "Fingerprint reader connected",
+  "k_ticket": "Take a ticket",
+  "k_ticket_sub": "Queue",
+  "k_welcome": "Welcome",
+  "title": "LynkKiosk"
+ }
+}

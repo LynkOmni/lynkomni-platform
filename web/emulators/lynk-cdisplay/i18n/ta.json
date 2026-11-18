@@ -1,0 +1,12 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ta",
+ "native": "தமிழ்",
+ "source_sha256": "69b317b90a68fd480d5fcb3c8ea9c3d93619b43560fc29580f5aab15af1fbca7",
+ "texts": {
+  "cd_which_counter": "இந்தத் திரை எந்தக் கவுண்டரின் மேல் உள்ளது?",
+  "title": "LynkCDisplay"
+ }
+}
