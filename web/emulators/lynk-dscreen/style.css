@@ -22,7 +22,7 @@
 .tvscreen .rowbtn .main { flex: 1; min-inline-size: 0; display: grid; gap: 2px; } .tvscreen .rowbtn .nm { font-weight: 600; overflow-wrap: anywhere; }
 .tvscreen .notice { padding: 8px 10px; border-radius: 8px; background: var(--status-warning-bg); border: 1px solid var(--status-warning-border); color: var(--status-warning-text); }
 .tvscreen .warn { color: var(--status-danger-text); font-weight: 600; } .tvscreen .ok { color: var(--status-success-text); font-weight: 600; } .tvscreen .plabel { font-weight: 600; }
-.tvscreen .tag { display: inline-block; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--border-subtle); font-size: 12px; color: var(--text-secondary); background: var(--bg-subtle); }
+.tvscreen .tag { display: inline-block; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--border-subtle); font-size: 12px; color: var(--text-secondary); background: var(--bg-surface); }
 .ic { display: inline-flex; inline-size: 20px; block-size: 20px; } .ic svg { inline-size: 100%; block-size: 100%; display: block; } .chip .ic { inline-size: 12px; block-size: 12px; }
 .rig .fit { display: flex; gap: 32px; align-items: flex-end; flex-wrap: wrap; justify-content: center; }
 .mark svg { inline-size: 100%; block-size: auto; display: block; }
