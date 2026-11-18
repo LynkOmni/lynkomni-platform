@@ -12,6 +12,7 @@ Section 3B, parts 1 and 2 (LynkAttend and LynkQueue in full, on every device; Ly
 - A queue ticket is a tracked item (waiting, called, served, missed, left the queue, not served today) in the tracking register; a ticket can be called or missed more than once.
 - Six queue automations run on LynkFlow (please come, not served today, open another counter, busy-hour forecast, pickup collection, a check-in opens the person's counter); automations that are off by default can now be switched on per place.
 - Plans and limits are read from billing: included tickets, extra tickets per 1,000, places, sections and counters; nobody is turned away when the Free limit is reached that day.
+- Fixes found by the layout check: tags, detail panels, counter cards and the phone page's address line now pass the contrast check; ticket numbers wrap instead of spilling when a code has wide letters; long buttons wrap inside their row.
 - 347 new screen words in all 38 languages; size budgets set for the new emulators and the default raised to 600 KB (with the reason in web/budgets.v1.json).
 
 ## v0.44.0 (2026-11-12)
