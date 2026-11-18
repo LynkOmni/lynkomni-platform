@@ -25,12 +25,12 @@ class TestRevenueModel(unittest.TestCase):
         self.assertEqual(R.vcard_subscriptions(R.prices({"lynkvcard": R.OLD_PRICES["lynkvcard"]})), [46200, 69300, 41250, 156750])
 
     def test_new_prices_give_these_totals(self):
-        # Price version 3 (2026-11-08: LynkStat took over LynkDash; LynkOps has four services). The adoption mix is an ASSUMPTION.
+        # Price version 3 (2026-11-08) with BOOKING UPDATE (2026-11-18: LynkBooking Pass at $1.99, $3.99 and $7.99, and no flat appointment fee). The adoption mix is an ASSUMPTION.
         t = R.totals()
-        self.assertEqual(t["stage1"]["grand"], 13885)
-        self.assertEqual(t["stage2"]["grand"], 1143162)
-        self.assertEqual(t["stage3"]["grand"], 40528213)
-        self.assertEqual(t["stage3"]["subscriptions"], 17584163)
+        self.assertEqual(t["stage1"]["grand"], 13749)
+        self.assertEqual(t["stage2"]["grand"], 1134602)
+        self.assertEqual(t["stage3"]["grand"], 40257213)
+        self.assertEqual(t["stage3"]["subscriptions"], 17353163)
         self.assertEqual(t["stage3"]["vcard"], 713938)
 
     def test_suite_line_at_stage_3(self):
@@ -46,10 +46,10 @@ class TestRevenueModel(unittest.TestCase):
 
     def test_summary_numbers(self):
         s = R.summary()
-        self.assertEqual(s["yearly"]["stage3"], 486338556)
-        self.assertEqual(s["range"]["stage3"], (20264107, 60792320))
-        self.assertEqual(str(s["per_merchant"]["stage3"]), "20.26")
-        self.assertEqual(s["cumulative"], 550712530)
+        self.assertEqual(s["yearly"]["stage3"], 483086556)
+        self.assertEqual(s["range"]["stage3"], (20128607, 60385820))
+        self.assertEqual(str(s["per_merchant"]["stage3"]), "20.13")
+        self.assertEqual(s["cumulative"], 546982482)
 
     def test_new_section_28_lines_do_not_depend_on_subscription_prices(self):
         # LynkProof, LynkSplit, LynkAudit exports, bandwidth and seats are per-use fees, so the blueprint's $24,825 a month
@@ -63,8 +63,8 @@ class EcosystemTotal(unittest.TestCase):
     def test_totals_per_day_month_year(self):
         t = R.ecosystem_totals()
         self.assertEqual({st: (t[st]["day"], t[st]["month"], t[st]["year"]) for st in R.STAGES},
-                         {"stage1": (711, 21629, 259548), "stage2": (46487, 1413989, 16967868), "stage3": (1514720, 46072723, 552872676)})
-        self.assertEqual(str(t["stage3"]["per_merchant"]), "23.04")
+                         {"stage1": (707, 21503, 258036), "stage2": (46226, 1406034, 16872408), "stage3": (1506418, 45820203, 549842436)})
+        self.assertEqual(str(t["stage3"]["per_merchant"]), "22.91")
     def test_streams_add_up_and_costs_are_negative(self):
         for st in R.STAGES:
             rows = R.ecosystem(st)
@@ -74,7 +74,7 @@ class EcosystemTotal(unittest.TestCase):
         self.assertEqual(R.ecosystem("stage3")["agent_commissions"], 1_800_000)
     def test_seven_year_path(self):
         p = R.ecosystem_path()
-        self.assertEqual(p[7]["year"], 402548072); self.assertEqual(sum(v["year"] for v in p.values()), 637057996)
+        self.assertEqual(p[7]["year"], 400335472); self.assertEqual(sum(v["year"] for v in p.values()), 633600116)
 
     def test_second_review_rows(self):
         e = R.ecosystem("stage3")
@@ -87,7 +87,7 @@ class ExpensesAndProfit(unittest.TestCase):
     def test_profit_per_stage(self):
         from finance import expense_model as X
         got = {st: (X.profit(st)["expenses"]["month"], X.profit(st)["net"]["month"], X.profit(st)["net"]["year"]) for st in R.STAGES}
-        self.assertEqual(got, {"stage1": (36872, -15243, -182916), "stage2": (1182781, 173406, 2080872), "stage3": (20174627, 19423572, 233082864)})
+        self.assertEqual(got, {"stage1": (36867, -15364, -184368), "stage2": (1182516, 167638, 2011656), "stage3": (20166542, 19240246, 230882952)})
     def test_loss_pays_no_tax_and_rows_add_up(self):
         from finance import expense_model as X
         self.assertEqual(X.profit("stage1")["tax"], 0)
@@ -121,6 +121,18 @@ class ExpensesAndProfit(unittest.TestCase):
                           "stage3": (7_672_962, 2_876_709, 2_780_206, 13_329_877)})
         self.assertTrue(all(g["assumption"] for g in got.values()))
         for f in ("lynkattend", "lynkqueue", "lynksurvey"): self.assertNotIn(f, R.ECO_ROWS)
+
+
+    def test_booking_update_stream_is_separate_and_an_assumption(self):
+        # BOOKING UPDATE (2026-11-18): the LynkBooking business tiers and commission are their own stream, outside the agreed totals
+        # until pilot data exists; LynkBooking Pass (the customer membership) is the "travel" line inside the totals
+        got = {st: R.booking_update(st) for st in R.STAGES}
+        self.assertEqual({st: (g["plans"], g["commission"], g["month"]) for st, g in got.items()},
+                         {"stage1": (958, 900, 1858), "stage2": (54724, 50000, 104724), "stage3": (1672132, 1600000, 3272132)})
+        self.assertTrue(all(g["assumption"] for g in got.values()))
+        self.assertNotIn("booking_update", R.ECO_ROWS)
+        self.assertEqual(tuple(R.table()["travel"][st] for st in R.STAGES), (88, 5021, 153423))
+        self.assertEqual(tuple(R.booking_group(st) for st in R.STAGES), (299, 75855, 4172000))   # without the old flat appointment fee
 
 if __name__ == "__main__":
     unittest.main()

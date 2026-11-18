@@ -2,6 +2,12 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.44.1 (2026-11-18)
+BOOKING UPDATE, prices and revenue (master blueprint section 64; owner: "Update with the updated prices"):
+- The LynkBooking customer membership (shown as LynkBooking Pass) now costs $0, $1.99, $3.99 and $7.99 a month (was $0, $4.99, $9.99, $19.99). The price lock, the plan sentences LynkAssist reads, the pricing chart and every emulator follow.
+- The LynkBooking business tiers ($0, $19, $49, $119 for an organisation; 1, 3, 3, 3 places included; each extra place $5, $10, $20; extra 1,000 bookings $1), the 20% bundle discount and the commission (only on bookings LynkBooking brings; 0% on a business's own customers) are locked in services/billing.py and pinned by the price lock test. The billing family, its screens and places are built from build section 4 onward (blueprint 64.11).
+- The revenue model is re-run: the membership line follows the new prices, the flat $0.25 appointment fee leaves the Bookings group, and the LynkBooking business tiers and commission are shown as their own assumed stream, outside the agreed totals. Revenue a month is now $21,503, $1,406,034 and $45,820,203 at the three stages (was $21,629, $1,413,989 and $46,072,723). Every figure is an assumption.
+
 ## v0.44.0 (2026-11-12)
 NEW UPDATE 4, section 3 (Business app and LynkPOS):
 - The Business app hub gains Attendance, Queue and Surveys for every business type and workspace, each at its own address (app.lynkomni.com/attendance, /queue, /survey), with How you use it (Just me, One place, Many places: prices, limits and rules stay the same) and Add a device (pick a LynkOmni device from the device register and type a one-time code on it; owner or manager only; offline it waits and is never shown as confirmed).
