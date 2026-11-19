@@ -66,14 +66,15 @@
 
 /* ---- sheets and dialogs (launcher, account menu, globe, command bar, help, notifications, sync) ---- */
 .sheet, .launcher, .account-menu, .globe-sheet, .command-bar, .help-panel, .notifications { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 16px; box-shadow: 0 16px 40px -16px color-mix(in srgb, var(--text-primary) 35%, transparent); }
-.lgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
-.lplace { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 6px; border-radius: 12px; color: var(--text-primary); text-align: center; font-weight: 600; font-size: var(--text-12); }
+.lgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 4px; margin: 0; padding: 0; list-style: none; }
+.lplace { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px; border-radius: 12px; color: var(--text-primary); text-align: center; font-weight: 600; font-size: var(--text-12); }
 .lplace:hover { background: var(--bg-subtle); }
 .lplace.soon { color: var(--text-secondary); }
 .lplace .nm { overflow-wrap: anywhere; align-self: stretch; }   /* the label takes the tile's width, so a long name wraps instead of spilling */
 .lplace .pl { overflow-wrap: anywhere; align-self: stretch; font-weight: 400; color: var(--text-secondary); font-size: var(--text-12); }   /* the plain word beside a short product name */
 .soon-tag { font-weight: 400; color: var(--status-info-text); background: var(--status-info-bg); border-radius: 999px; padding: 2px 8px; }
 .who { display: flex; align-items: center; gap: 12px; margin-block-end: 8px; }
+.who > div { display: flex; flex-direction: column; align-items: flex-start; min-inline-size: 0; }   /* the LynkOmni ID sits under the name, never run into it */
 .lynkid { display: inline-flex; align-items: center; gap: 4px; color: var(--text-secondary); }
 .copy { display: inline-flex; align-items: center; justify-content: center; width: var(--touch-target); border: 0; background: none; border-radius: 10px; color: var(--brand-ink); }
 .mlist, .sub, .choices, .results, .nlist, .articles, .xlabels, .legend { margin: 0; padding: 0; list-style: none; }

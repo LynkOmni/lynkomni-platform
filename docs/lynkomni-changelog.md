@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.52.1 (2026-11-19)
+No space that is not needed (owner report, a phone screenshot of the newsletter's topics: "Avoid unnecessary empty space around menus, topics"):
+- Newsletter topics (the footer on every page): the four choices now sit in two even columns that line up, with no extra space between the rows. Each tick box keeps its full tap size.
+- "We accept" list in the footer: these are words only, with nothing to tap, so the rows no longer take a tap-sized height (about 16 px less each).
+- App launcher (every product tile, on every device): tiles and rows sit closer together, about 12 px less a row, and every tile can still be tapped easily.
+- Account menu: the LynkOmni ID now sits under the person's name instead of running into it ("GraceLOID-4…").
+- New check in the fit guard (every emulator, every size, light and dark, every pop-up): tick choices that wrap must line up in columns with no extra space between rows; menu and list rows may not leave more than 12 px of empty space beyond what they hold; the account menu's name and ID never share a line. It fails on the old pages and passes now.
+- All emulators rebuilt.
+
 ## v0.52.0 (2026-11-19)
 ADS UPDATE, the groundwork (owner request; master blueprint section 79):
 - One ads register, catalog/ads.v1.json, now lists every place an ad may appear. It is an allow-list: a screen not listed there never shows an ad. It also holds the protected screens (payments, cards, exchange, agent services, sign-in, security, signatures, LynkAssist answers, notifications, messages, children's and household places and more), the categories, caps, the "really seen" rule, the controls and the revenue streams with their build sections.

@@ -7,6 +7,8 @@ ignored mouse clicks). For every emulator in web/emulators/dist, at every size i
 - pop-ups: every open dialog or sheet sits fully inside its screen; on anything wider than a phone it does not touch the
   screen's edges (a phone slides its sheet up from the bottom edge); its first button can really be pressed;
 - input: a screen that has a mouse, trackpad, stylus or touch takes clicks and taps (only buttons-only screens ignore them).
+- space: tick choices that wrap line up in columns with no extra space between rows; menu and list rows sit no further apart
+  than a comfortable tap needs; the account menu never runs the name and the LynkOmni ID together.
 
 Needs Playwright with Chromium (installed in CI's layout job); skipped where it is missing."""
 import glob, os, unittest
@@ -100,6 +102,56 @@ CROWD = """() => {
   return [...bad];
 }"""
 
+# No space that is not needed (owner report 2026-11-19, a phone screenshot of the newsletter's topics: "Avoid unnecessary empty
+# space around menus, topics"): a group of tick choices that wraps lines its choices up in columns with no extra space between
+# the rows; menu and list rows sit no further apart than a comfortable tap needs; the account menu's name and LynkOmni ID never
+# run together on one line. Every item keeps its full tap size.
+SPACE = """() => {
+  const bad = new Set();
+  const shown = (e) => e && e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden' && getComputedStyle(e).display !== 'none';
+  const name = (e) => ((e.innerText || e.getAttribute('aria-label') || e.className || e.tagName) + '').trim().replace(/\\s+/g, ' ').slice(0, 30);
+  const scale = (e) => { const root = e.closest('[data-device-class]') || e.closest('#display, #screen'); return root && root.offsetHeight ? root.getBoundingClientRect().height / root.offsetHeight : 1; };
+  const rowsOf = (rs) => { const rows = []; for (const r of rs) { const row = rows.find((x) => Math.abs(x.top - r.top) < 3); if (row) row.items.push(r); else rows.push({ top: r.top, items: [r] }); } return rows.sort((a, b) => a.top - b.top); };
+  for (const g of document.querySelectorAll('fieldset, [role="group"], [role="radiogroup"]')) {
+    if (!shown(g) || g.closest('.panel')) continue;
+    const items = [...g.children].filter((c) => shown(c) && c.matches('label') && c.querySelector('input[type="checkbox"], input[type="radio"]'));
+    if (items.length < 3) continue;
+    const k = scale(g), rows = rowsOf(items.map((c) => c.getBoundingClientRect()));
+    if (rows.length > 1 && rows[0].items.length > 1) {
+      const lefts = rows[0].items.map((r) => r.left);
+      if (rows.slice(1).some((row) => row.items.some((r) => !lefts.some((l) => Math.abs(l - r.left) < 3)))) bad.add('choices not lined up in columns: ' + name(g));
+    }
+    for (let i = 1; i < rows.length; i++) {
+      if ((rows[i].top - Math.max(...rows[i - 1].items.map((r) => r.bottom))) / k > 8) { bad.add('extra space between choices: ' + name(g)); break; }
+    }
+  }
+  const filled = (el) => {          // what a row really holds: its tap areas, words and pictures (a tap area keeps its full size)
+    let top = Infinity, bottom = -Infinity;
+    const take = (q) => { if (q.height > 0) { top = Math.min(top, q.top); bottom = Math.max(bottom, q.bottom); } };
+    if (el.matches('a, button, label, [role="button"]')) take(el.getBoundingClientRect());
+    el.querySelectorAll('a, button, label, input, select, svg, img').forEach((x) => { if (shown(x)) take(x.getBoundingClientRect()); });
+    const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    while (w.nextNode()) { if (!(w.currentNode.textContent || '').trim()) continue; const r = document.createRange(); r.selectNodeContents(w.currentNode); [...r.getClientRects()].forEach(take); }
+    return bottom > top ? bottom - top : 0;
+  };
+  for (const list of document.querySelectorAll('.mlist, .lgrid, .shell-nav, nav.side, .fcol ul, .fpays')) {
+    if (!shown(list) || list.closest('.panel')) continue;
+    const k = scale(list), items = [...list.children].filter((i) => shown(i) && i.matches('li, a, button, label'));
+    const rows = rowsOf(items.map((i) => Object.assign(i.getBoundingClientRect().toJSON(), { el: i })));
+    for (let i = 1; i < rows.length; i++) {
+      const space = (rows[i].top - rows[i - 1].top - Math.max(...rows[i - 1].items.map((r) => filled(r.el)))) / k;
+      if (space > 12) { bad.add('menu rows too far apart (' + Math.round(space) + ' px empty): ' + name(rows[i - 1].items[0].el)); break; }
+    }
+  }
+  for (const who of document.querySelectorAll('.who')) {
+    const n = who.querySelector('strong'), id = who.querySelector('.lynkid');
+    if (!shown(n) || !shown(id)) continue;
+    const nr = n.getBoundingClientRect(), ir = id.getBoundingClientRect();
+    if (ir.top < nr.bottom - 2 && ir.left >= nr.right - 1) bad.add('name and LynkOmni ID run together on one line');
+  }
+  return [...bad];
+}"""
+
 INPUT = """() => {
   const bad = [];
   for (const el of document.querySelectorAll('[data-interface]')) {
@@ -153,7 +205,7 @@ class BrowserTestsRun(unittest.TestCase):
 class FitGuard(unittest.TestCase):
     def check(self, pg, where, found):
         pg.evaluate(SETTLE)
-        bad = list(pg.evaluate(MENUS)) + list(pg.evaluate(DIALOGS)) + list(pg.evaluate(INPUT)) + list(pg.evaluate(CROWD))
+        bad = list(pg.evaluate(MENUS)) + list(pg.evaluate(DIALOGS)) + list(pg.evaluate(INPUT)) + list(pg.evaluate(CROWD)) + list(pg.evaluate(SPACE))
         if bad:
             found[where] = bad
 

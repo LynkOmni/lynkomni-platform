@@ -30,13 +30,14 @@
 .mainfoot a .fplain { color: var(--text-secondary); font-weight: 400; }
 .frow { margin-block-start: 24px; }
 .fcol { min-width: 0; }
-.fpays li { display: flex; align-items: center; gap: 8px; min-height: 44px; }
+.fpays li { display: flex; align-items: center; gap: 8px; min-height: 28px; }   /* words only, nothing to tap: no tap-sized rows (owner, 2026-11-19) */
 .fpays .ic { inline-size: 20px; block-size: 20px; flex: none; }
 .fnews { min-width: 0; grid-column: span 2; }
 .mainfoot .fnews p { margin: 0 0 8px; color: var(--text-secondary); overflow-wrap: anywhere; }
 .fnews .fl { display: flex; flex-direction: column; gap: 4px; margin-block-end: 8px; }
 .fnews input[type="email"] { font: inherit; min-height: 44px; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-input); background: var(--bg-surface); color: var(--text-primary); }
-.fnews fieldset { border: 0; padding: 0; margin: 0 0 8px; display: flex; flex-wrap: wrap; gap: 4px 16px; }
+/* topics sit in two even columns, so the choices line up and the rows stay close (owner report 2026-11-19) */
+.fnews fieldset { border: 0; padding: 0; margin: 0 0 8px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; }
 .fnews legend { padding: 0; margin-block-end: 4px; font-weight: 600; }
 .ftopic, .fconsent { display: flex; align-items: center; gap: 8px; min-height: 44px; overflow-wrap: anywhere; }
 .ftopic input, .fconsent input { inline-size: 20px; block-size: 20px; flex: none; accent-color: var(--brand-primary); }
@@ -54,3 +55,4 @@
 .shortfoot p { margin: 0; color: var(--text-secondary); font-size: 11px; overflow-wrap: anywhere; }
 /* A very narrow footer (a watch, 41 B): one column, and the newsletter takes the full width instead of spanning two tracks. */
 @container (max-width: 380px) { .frow .fnews { grid-column: 1 / -1; } }
+@container (max-width: 240px) { .fnews fieldset { grid-template-columns: minmax(0, 1fr); } }
