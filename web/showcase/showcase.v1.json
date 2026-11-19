@@ -42,7 +42,7 @@
    "n": 4,
    "title": "LynkAcc, LynkInv, LynkCRM, LynkStat and LynkOps",
    "status": "building",
-   "version": "v0.48.0 (part 1a: office top-up and LynkBooking prices), v0.49.0 (part 1b: eight new families), v0.50.0 (part 1c: build tables and a steadier layout check), v0.53.0 (part 1d: LynkAcademy and the LynkSchool price rise)"
+   "version": "v0.48.0 (part 1a: office top-up and LynkBooking prices), v0.49.0 (part 1b: eight new families), v0.50.0 (part 1c: build tables and a steadier layout check), v0.53.0 (part 1d: LynkAcademy and the LynkSchool price rise), v0.54.0 (step A1: connections register, journeys and the vote identifiers)"
   },
   {
    "n": "4B",

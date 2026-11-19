@@ -394,7 +394,8 @@
      "done": {},
      "progress": {
       "4": [
-       "v0.49.0: the lynkvote billing family, tiers, limits, the full price list and the price lock; addresses, placements, the API register entry, the product illustration and the revenue stream"
+       "v0.49.0: the lynkvote billing family, tiers, limits, the full price list and the price lock; addresses, placements, the API register entry, the product illustration and the revenue stream",
+       "v0.54.0: the identifiers LOVOT- (a vote) and LOBLT- (a ballot receipt) in the registry, read by every language"
       ]
      }
     },
@@ -708,7 +709,12 @@
       "4"
      ],
      "part": "The connections register, its tests and map; the cross-service journeys sale to books and quote to cash; every new automation registered; the automation system improvements; the shared role system, calendar, address book, timeline, recycle bin, consent page, \"my plans and limits\", data dictionary, offline clash rules, the test copy; breadcrumbs for the new paths with sibling lists and the \"up one level\" key; the LynkAssist register extended, cross-service questions and plans, the morning brief, \"Why did this change?\", scheduled and saved questions, the owner's switches, visible memory, usage meter; the message register extended, smart, role and rota routing, role inboxes, urgent broadcast, delivery states, reply by text, reply-by-email and email-in, wording edits, test mode, fair-use guard, corrections",
-     "done": {}
+     "done": {},
+     "progress": {
+      "4": [
+       "v0.54.0: the connections register (catalog/connections.v1.json, 49 links joining every service, with their events, consent and build section), its reading module core/connections.py and its tests; the ten journeys of 71.2 registered, with sale to books and quote to cash due in section 4"
+      ]
+     }
     },
     {
      "sections": [

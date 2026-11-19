@@ -1,0 +1,716 @@
+{
+ "version": 1,
+ "description": "Every link between two LynkOmni services and the ten journeys that cross services (master blueprint 71.3 and 71.2, CONNECT UPDATE), read through core/connections.py and checked by tests/test_connections.py. A link names its two ends, what passes, the contract events that carry it (events already in the contract) or the events its build section adds (planned_events), whose consent it needs and its build section. Services stay loosely coupled: a link reads events or a published API, never another service's storage. Change a link here first.",
+ "platform": [
+  "support",
+  "storefront",
+  "ads"
+ ],
+ "links": [
+  {
+   "id": "pos-stock",
+   "from": "lynkpos",
+   "to": "lynkstock",
+   "what": "Every sale and void moves stock at once, offline too; a shortage is flagged, never blocking the sale",
+   "events": [
+    "SaleRecorded",
+    "SaleVoided",
+    "NegativeStockFlagged"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 3
+  },
+  {
+   "id": "pos-crm",
+   "from": "lynkpos",
+   "to": "lynkcrm",
+   "what": "A sale with a known customer lands on that customer's one record (LOCST-)",
+   "events": [
+    "SaleRecorded"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 3
+  },
+  {
+   "id": "pos-rewards",
+   "from": "lynkpos",
+   "to": "lynkrewards",
+   "what": "Points earned and spent at the till",
+   "events": [
+    "SaleRecorded"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 3
+  },
+  {
+   "id": "pos-acc",
+   "from": "lynkpos",
+   "to": "lynkacc",
+   "what": "Sales, payments, cash differences and agent commission post to the books, labelled by side",
+   "events": [
+    "SaleRecorded",
+    "PaymentRecorded",
+    "CommissionRecorded"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 4
+  },
+  {
+   "id": "mpay-acc",
+   "from": "lynkmpay",
+   "to": "lynkacc",
+   "what": "Provider-confirmed payments and their fees post to the books",
+   "events": [
+    "PaymentStatusChanged"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 4
+  },
+  {
+   "id": "crm-inv",
+   "from": "lynkcrm",
+   "to": "lynkinv",
+   "what": "A quote on a deal becomes an invoice once the customer accepts or signs it",
+   "events": [
+    "QuoteAccepted",
+    "QuoteSigned",
+    "InvoiceIssuedFromQuote"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": 4
+  },
+  {
+   "id": "inv-checkout",
+   "from": "lynkinv",
+   "to": "lynkcheckout",
+   "what": "Every invoice is paid through a pay link or QR; it counts as paid only when the provider confirms",
+   "events": [
+    "PaymentRecorded",
+    "PaymentStatusChanged"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 4
+  },
+  {
+   "id": "inv-acc",
+   "from": "lynkinv",
+   "to": "lynkacc",
+   "what": "Issued invoices, credit notes and confirmed payments post to the books",
+   "events": [
+    "InvoiceIssuedFromQuote",
+    "PaymentStatusChanged"
+   ],
+   "planned_events": [
+    "InvoiceIssued",
+    "CreditNoteIssued"
+   ],
+   "consent": "none",
+   "build_section": 4
+  },
+  {
+   "id": "acc-stat",
+   "from": "lynkacc",
+   "to": "lynkstat",
+   "what": "The books feed reports, forecasts and the owner's dashboard",
+   "events": [],
+   "planned_events": [
+    "PeriodClosed"
+   ],
+   "consent": "none",
+   "build_section": 4
+  },
+  {
+   "id": "crm-stat",
+   "from": "lynkcrm",
+   "to": "lynkstat",
+   "what": "Customers, deals and cases feed reports, as totals",
+   "events": [],
+   "planned_events": [
+    "DealStageChanged"
+   ],
+   "consent": "none",
+   "build_section": 4
+  },
+  {
+   "id": "inv-chat",
+   "from": "lynkinv",
+   "to": "lynkchat",
+   "what": "An invoice card in a customer conversation, with its pay link",
+   "events": [],
+   "planned_events": [
+    "ConversationCardSent"
+   ],
+   "consent": "person",
+   "build_section": 4
+  },
+  {
+   "id": "ads-acc",
+   "from": "ads",
+   "to": "lynkacc",
+   "what": "A merchant's ad earnings post to the books as income (79.10)",
+   "events": [],
+   "planned_events": [
+    "AdEarningsRecorded"
+   ],
+   "consent": "none",
+   "build_section": 4
+  },
+  {
+   "id": "files-acc",
+   "from": "lynkfiles",
+   "to": "lynkacc",
+   "what": "Bills, receipts and statements are filed under their record and read into draft entries",
+   "events": [],
+   "planned_events": [
+    "DocumentFiled"
+   ],
+   "consent": "none",
+   "build_section": 4
+  },
+  {
+   "id": "vote-crm",
+   "from": "lynkcrm",
+   "to": "lynkvote",
+   "what": "Members from LynkCRM become a vote's roll, with the organisation's consent records",
+   "events": [],
+   "planned_events": [
+    "VoteRollImported"
+   ],
+   "consent": "merchant",
+   "build_section": 4
+  },
+  {
+   "id": "exchange-acc",
+   "from": "lynkexchange",
+   "to": "lynkacc",
+   "what": "Conversions and rate gains or losses post to the books",
+   "events": [],
+   "planned_events": [
+    "ExchangeSettled"
+   ],
+   "consent": "none",
+   "build_section": 4
+  },
+  {
+   "id": "queue-survey",
+   "from": "lynkqueue",
+   "to": "lynksurvey",
+   "what": "The rating after a served ticket, never required",
+   "events": [
+    "TicketServed",
+    "SurveyAnswered"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": "3B"
+  },
+  {
+   "id": "attend-hr",
+   "from": "lynkattend",
+   "to": "lynkhr",
+   "what": "Clock-ins and absences become staff time and leave, where the organisation switches it on",
+   "events": [],
+   "planned_events": [
+    "LeaveRequested"
+   ],
+   "consent": "merchant",
+   "build_section": "4B"
+  },
+  {
+   "id": "hr-acc",
+   "from": "lynkhr",
+   "to": "lynkacc",
+   "what": "Staff figures go to payroll in LynkAcc; LynkAssist never decides pay",
+   "events": [],
+   "planned_events": [
+    "PayrollFiguresSent"
+   ],
+   "consent": "none",
+   "build_section": "4B"
+  },
+  {
+   "id": "hr-files",
+   "from": "lynkhr",
+   "to": "lynkfiles",
+   "what": "Offers and contracts signed through LynkFiles and kept in the staff file",
+   "events": [],
+   "planned_events": [
+    "SignatureRequested",
+    "SignatureCompleted"
+   ],
+   "consent": "person",
+   "build_section": "4B"
+  },
+  {
+   "id": "project-inv",
+   "from": "lynkproject",
+   "to": "lynkinv",
+   "what": "Time and costs on a project become invoice lines",
+   "events": [],
+   "planned_events": [
+    "TimeSheetApproved"
+   ],
+   "consent": "none",
+   "build_section": "4B"
+  },
+  {
+   "id": "files-project",
+   "from": "lynkfiles",
+   "to": "lynkproject",
+   "what": "Minutes from a meeting become tasks for a named person",
+   "events": [],
+   "planned_events": [
+    "TaskCreated"
+   ],
+   "consent": "none",
+   "build_section": "4B"
+  },
+  {
+   "id": "files-crm",
+   "from": "lynkfiles",
+   "to": "lynkcrm",
+   "what": "A signed document is filed on the customer's record",
+   "events": [],
+   "planned_events": [
+    "SignatureCompleted"
+   ],
+   "consent": "person",
+   "build_section": "4B"
+  },
+  {
+   "id": "academy-hr",
+   "from": "lynkacademy",
+   "to": "lynkhr",
+   "what": "Finished training and certificates join the staff member's skills record",
+   "events": [
+    "CourseCompleted"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": "4B"
+  },
+  {
+   "id": "chat-support",
+   "from": "lynkchat",
+   "to": "support",
+   "what": "A conversation becomes a support case (LOCASE-) only when someone opens one",
+   "events": [],
+   "planned_events": [
+    "CaseOpened"
+   ],
+   "consent": "person",
+   "build_section": 6
+  },
+  {
+   "id": "assist-support",
+   "from": "lynkassist",
+   "to": "support",
+   "what": "LynkAssist answers first and hands over to a person with the full context",
+   "events": [],
+   "planned_events": [
+    "AssistHandedOver"
+   ],
+   "consent": "none",
+   "build_section": 6
+  },
+  {
+   "id": "booking-checkout",
+   "from": "lynkbooking",
+   "to": "lynkcheckout",
+   "what": "Deposits and prepaid bookings through the provider; cash bookings confirm or release",
+   "events": [],
+   "planned_events": [
+    "BookingPaid"
+   ],
+   "consent": "none",
+   "build_section": 8
+  },
+  {
+   "id": "booking-queue",
+   "from": "lynkbooking",
+   "to": "lynkqueue",
+   "what": "An appointment is called by LynkQueue on the day; LynkBooking owns it",
+   "events": [],
+   "planned_events": [
+    "BookingCheckedIn"
+   ],
+   "consent": "none",
+   "build_section": 8
+  },
+  {
+   "id": "booking-crm",
+   "from": "lynkbooking",
+   "to": "lynkcrm",
+   "what": "A booking lands on the customer's record",
+   "events": [],
+   "planned_events": [
+    "BookingConfirmed"
+   ],
+   "consent": "none",
+   "build_section": 8
+  },
+  {
+   "id": "property-booking",
+   "from": "lynkproperty",
+   "to": "lynkbooking",
+   "what": "Viewings of a property to let are booked through LynkBooking",
+   "events": [],
+   "planned_events": [
+    "ViewingBooked"
+   ],
+   "consent": "none",
+   "build_section": 8
+  },
+  {
+   "id": "jobs-hr",
+   "from": "lynkjobs",
+   "to": "lynkhr",
+   "what": "An accepted offer passes the person's verified details to LynkHR, with consent",
+   "events": [],
+   "planned_events": [
+    "OfferAccepted"
+   ],
+   "consent": "person",
+   "build_section": "8B"
+  },
+  {
+   "id": "academy-jobs",
+   "from": "lynkacademy",
+   "to": "lynkjobs",
+   "what": "Verified certificates show on a person's work passport",
+   "events": [
+    "CourseCompleted"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": "8B"
+  },
+  {
+   "id": "school-academy",
+   "from": "lynkschool",
+   "to": "lynkacademy",
+   "what": "One list of learners and classes; quiz and exam results come back as proposed marks the teacher confirms",
+   "events": [],
+   "planned_events": [
+    "ClassSynced",
+    "MarkProposed"
+   ],
+   "consent": "none",
+   "build_section": "9B"
+  },
+  {
+   "id": "school-inv",
+   "from": "lynkschool",
+   "to": "lynkinv",
+   "what": "School fees become invoices paid through LynkCheckout or in cash",
+   "events": [],
+   "planned_events": [
+    "FeeInvoiced"
+   ],
+   "consent": "none",
+   "build_section": "9B"
+  },
+  {
+   "id": "school-attend",
+   "from": "lynkschool",
+   "to": "lynkattend",
+   "what": "Class attendance, and joining a live class, recorded in the register",
+   "events": [],
+   "planned_events": [
+    "LessonAttended"
+   ],
+   "consent": "none",
+   "build_section": "9B"
+  },
+  {
+   "id": "property-inv",
+   "from": "lynkproperty",
+   "to": "lynkinv",
+   "what": "Rent becomes invoices; LynkOmni never holds rent or deposits",
+   "events": [],
+   "planned_events": [
+    "RentInvoiced"
+   ],
+   "consent": "none",
+   "build_section": "9B"
+  },
+  {
+   "id": "property-files",
+   "from": "lynkproperty",
+   "to": "lynkfiles",
+   "what": "Leases from country templates signed through LynkFiles",
+   "events": [],
+   "planned_events": [
+    "SignatureRequested",
+    "SignatureCompleted"
+   ],
+   "consent": "person",
+   "build_section": "9B"
+  },
+  {
+   "id": "motion-acc",
+   "from": "lynkmotion",
+   "to": "lynkacc",
+   "what": "Mileage from trips goes into expense claims",
+   "events": [],
+   "planned_events": [
+    "ExpenseClaimDrafted"
+   ],
+   "consent": "none",
+   "build_section": "7B"
+  },
+  {
+   "id": "guard-crm",
+   "from": "lynkguard",
+   "to": "lynkcrm",
+   "what": "Repair visits and field tasks show on the customer's record",
+   "events": [],
+   "planned_events": [
+    "FieldTaskDone"
+   ],
+   "consent": "none",
+   "build_section": "7B"
+  },
+  {
+   "id": "essential-acc",
+   "from": "lynkessential",
+   "to": "lynkacc",
+   "what": "Bills paid and airtime sold post to the books",
+   "events": [],
+   "planned_events": [
+    "EssentialDelivered"
+   ],
+   "consent": "none",
+   "build_section": 9
+  },
+  {
+   "id": "exchange-inv",
+   "from": "lynkexchange",
+   "to": "lynkinv",
+   "what": "An invoice in another currency settled through LynkExchange",
+   "events": [],
+   "planned_events": [
+    "ExchangeSettled"
+   ],
+   "consent": "none",
+   "build_section": 10
+  },
+  {
+   "id": "stock-acc",
+   "from": "lynkstock",
+   "to": "lynkacc",
+   "what": "Low stock drafts a purchase order; the supplier's bill joins bills to pay",
+   "events": [
+    "StockReceived"
+   ],
+   "planned_events": [
+    "PurchaseOrderDrafted"
+   ],
+   "consent": "none",
+   "build_section": 14
+  },
+  {
+   "id": "stock-crm",
+   "from": "lynkstock",
+   "to": "lynkcrm",
+   "what": "Suppliers are organisations in LynkCRM",
+   "events": [
+    "StockReceived"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 14
+  },
+  {
+   "id": "grow-crm",
+   "from": "lynkgrow",
+   "to": "lynkcrm",
+   "what": "Campaigns reach saved segments with consent; results come back to each record",
+   "events": [],
+   "planned_events": [
+    "CampaignSent"
+   ],
+   "consent": "person",
+   "build_section": 14
+  },
+  {
+   "id": "recover-mpay",
+   "from": "lynkrecover",
+   "to": "lynkmpay",
+   "what": "Failed payments are retried through the provider at better times",
+   "events": [
+    "PaymentStatusChanged"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 14
+  },
+  {
+   "id": "vcard-acc",
+   "from": "lynkvcard",
+   "to": "lynkacc",
+   "what": "Card spending through the licensed issuer is matched to expenses",
+   "events": [],
+   "planned_events": [
+    "CardSpendRead"
+   ],
+   "consent": "none",
+   "build_section": 7
+  },
+  {
+   "id": "dev-crm",
+   "from": "lynkdev",
+   "to": "lynkcrm",
+   "what": "Developer apps read customer data only with the merchant's per-scope consent, metered and audited",
+   "events": [],
+   "planned_events": [
+    "ApiCallMetered"
+   ],
+   "consent": "merchant",
+   "build_section": 11
+  },
+  {
+   "id": "storefront-inv",
+   "from": "storefront",
+   "to": "lynkinv",
+   "what": "A Storefront sale is invoiced and labelled external",
+   "events": [],
+   "planned_events": [
+    "ListingSold"
+   ],
+   "consent": "none",
+   "build_section": 7
+  },
+  {
+   "id": "ops-acc",
+   "from": "lynkops",
+   "to": "lynkacc",
+   "what": "The LynkOps tier bundles LynkAcc, LynkInv, LynkCRM and LynkStat; one subscription, never billed twice",
+   "events": [],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 4
+  },
+  {
+   "id": "suite-ops",
+   "from": "lynksuite",
+   "to": "lynkops",
+   "what": "LynkSuite replaces its nine services and the LynkOps tier",
+   "events": [],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 4
+  }
+ ],
+ "journeys": [
+  {
+   "id": "sale_to_books",
+   "name": "Sale to books",
+   "links": [
+    "pos-stock",
+    "pos-crm",
+    "pos-acc",
+    "mpay-acc",
+    "acc-stat"
+   ],
+   "build_section": 4
+  },
+  {
+   "id": "quote_to_cash",
+   "name": "Quote to cash",
+   "links": [
+    "crm-inv",
+    "inv-checkout",
+    "inv-acc",
+    "inv-chat"
+   ],
+   "build_section": 4
+  },
+  {
+   "id": "hire_to_work",
+   "name": "Hire to work",
+   "links": [
+    "hr-files",
+    "attend-hr",
+    "hr-acc",
+    "academy-hr"
+   ],
+   "build_section": "4B"
+  },
+  {
+   "id": "document_to_record",
+   "name": "Document to record",
+   "links": [
+    "files-crm",
+    "files-acc"
+   ],
+   "build_section": "4B"
+  },
+  {
+   "id": "meeting_to_action",
+   "name": "Meeting to action",
+   "links": [
+    "files-project",
+    "project-inv"
+   ],
+   "build_section": "4B"
+  },
+  {
+   "id": "problem_to_fix",
+   "name": "Problem to fix",
+   "links": [
+    "assist-support",
+    "chat-support"
+   ],
+   "build_section": 6
+  },
+  {
+   "id": "booking_to_visit",
+   "name": "Booking to visit",
+   "links": [
+    "booking-crm",
+    "booking-checkout",
+    "booking-queue",
+    "queue-survey"
+   ],
+   "build_section": 8
+  },
+  {
+   "id": "enrol_to_class",
+   "name": "Enrol to class",
+   "links": [
+    "school-academy",
+    "school-inv",
+    "school-attend"
+   ],
+   "build_section": "9B"
+  },
+  {
+   "id": "lease_to_rent",
+   "name": "Lease to rent",
+   "links": [
+    "property-booking",
+    "property-files",
+    "property-inv",
+    "inv-checkout"
+   ],
+   "build_section": "9B"
+  },
+  {
+   "id": "low_stock_to_supplier",
+   "name": "Low stock to supplier",
+   "links": [
+    "stock-acc",
+    "stock-crm"
+   ],
+   "build_section": 14
+  }
+ ]
+}

@@ -346,6 +346,20 @@
    "name": "Attendance record",
    "purpose": "One LynkAttend check-in and its check-out (owner locked 2026-11-11, NEW UPDATE 4)",
    "origin": "approved addition"
+  },
+  {
+   "code": "VOT",
+   "prefix": "LOVOT-",
+   "name": "Vote",
+   "purpose": "One vote, election or poll run in LynkVote (owner approved 2026-11-18, VOTE UPDATE 68; added in build section 4)",
+   "origin": "approved addition"
+  },
+  {
+   "code": "BLT",
+   "prefix": "LOBLT-",
+   "name": "Ballot receipt",
+   "purpose": "The receipt a voter keeps to check that their locked ballot was counted, never showing how they voted (VOTE UPDATE 68; added in build section 4)",
+   "origin": "approved addition"
   }
  ]
 }

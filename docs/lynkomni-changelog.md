@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.54.0 (2026-11-19)
+Section 4, step A1 (shared groundwork: connections and identifiers):
+- New register catalog/connections.v1.json (blueprint 71.3): 49 links between services, each with its two ends, what passes, the contract events that carry it (or the events its build section will add), whose consent it needs and its build section. Every product family and the support desk, the Storefront and ads have at least one link. Read through core/connections.py.
+- The ten journeys that cross services (blueprint 71.2): sale to books, quote to cash, hire to work, document to record, meeting to action, problem to fix, booking to visit, enrol to class, lease to rent and low stock to supplier, each made of registered links and finished in its build section.
+- New check tests/test_connections.py: both ends of every link are real services, every event named is in the contract or waits for its section, a journey never finishes before its links, and everything is connected.
+- Two new identifiers agreed in VOTE UPDATE: LOVOT- (a vote) and LOBLT- (a ballot receipt), now 50 types, read by Python, TypeScript, Rust, Kotlin and Swift.
+
 ## v0.53.0 (2026-11-19)
 Section 4, part 1d (the ACADEMY UPDATE and SCHOOL UPDATE groundwork):
 - New billing family LynkAcademy, outside LynkSuite, one price per organisation: $0, $19, $49, $129 a month, with 10, 50, 250 and 1,000 learners who opened a lesson that month, $5 per extra 100 on paid tiers, 3 own courses on Free (unlimited from Plus), and the tier features of blueprint 78.12. Learners never pay to join.
