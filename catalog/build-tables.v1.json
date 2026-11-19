@@ -910,7 +910,7 @@
      "done": {},
      "progress": {
       "4": [
-       "v0.56.0: the navigation register and the page-template register (every Business app screen with its template and a way in; three-tap and no-orphan checks)"
+       "v0.57.0: the navigation register and the page-template register (every Business app screen with its template and a way in; three-tap and no-orphan checks)"
       ]
      }
     },
@@ -1189,7 +1189,7 @@
      "done": {},
      "progress": {
       "4": [
-       "v0.56.0: the app settings file fixed (leftover, decisions and change log); the layout for every shape and the turn rules (ts/src/turn.ts) with shared vectors"
+       "v0.57.0: the app settings file fixed (leftover, decisions and change log); the layout for every shape and the turn rules (ts/src/turn.ts) with shared vectors"
       ]
      }
     },
