@@ -11,6 +11,14 @@ export interface DeviceRegister {
   classes: Record<string, { distance: string }>;
   safe_default: string; interfaces: Record<string, InterfaceSpec>; devices: readonly DeviceSpec[];
   keys: Record<string, { label_key: string; colour_token?: string; physical?: string }>; every_interface_accepts: readonly string[];
+  shapes: Shapes;
+}
+/** The TURN UPDATE numbers (master blueprint 76; catalog/devices.v1.json shapes). */
+export interface Shapes {
+  lockable: readonly string[]; buttons_only: readonly string[]; small_phone_below_px: number; short_below_px: number;
+  phone_two_columns_from_px: number; tablet_from_px: number; computer_from_px: number; wide_from_px: number; max_line_ch: number;
+  turn: { keep: readonly string[]; never: readonly string[]; announce_once: boolean; keep_step: readonly string[] };
+  [more: string]: unknown;
 }
 export type Version = "touch" | "non_touch";
 export interface DeviceRef { device: string; version: Version }
@@ -70,4 +78,42 @@ export function browserFacts(win: { matchMedia(q: string): { matches: boolean };
     coarse: m("(pointer: coarse)"), fine: m("(any-pointer: fine)"), hover: m("(any-hover: hover)"),
     width: win.innerWidth, height: win.innerHeight,
   };
+}
+
+export interface ShapeFacts { interface?: string | null; width?: number; height?: number; posture?: "flat" | "half_open" | null; device?: string | null; lock?: "upright" | "sideways" | null }
+export interface Layout {
+  orientation: "upright" | "sideways"; locked: boolean;
+  nav: "bottom_bar" | "side_rail" | "rail" | "two_level" | "soft_keys" | "glance" | "board" | "voice";
+  tabs: number; columns: number; header: "normal" | "small" | "shrinks"; helper: "none" | "slide_in" | "open";
+  main_button: "bottom" | "top_end"; split: "none" | "fold"; max_line_ch: number;
+}
+
+/** The layout for a screen's shape (TURN UPDATE, 76). Port of core/interfaces.py layout(); the shared vectors prove both agree.
+ *  A lock is obeyed only on a lockable fixed device; a person's own phone follows its own rotation lock (its reported size). */
+export function layoutFor(reg: DeviceRegister, f: ShapeFacts = {}): Layout {
+  const s = reg.shapes;
+  const iface = f.interface && f.interface in reg.interfaces ? f.interface : reg.safe_default;
+  let w = Math.trunc(f.width ?? 0), h = Math.trunc(f.height ?? 0);
+  const locked = (f.lock === "upright" || f.lock === "sideways") && !!f.device && s.lockable.includes(f.device);
+  if (locked && (f.lock === "sideways") !== (w > h)) [w, h] = [h, w];
+  const orientation = w > h ? "sideways" : "upright";
+  const out: Layout = { orientation, locked, nav: "bottom_bar", tabs: 0, columns: 1, header: "normal", helper: "none", main_button: "bottom", split: "none", max_line_ch: s.max_line_ch };
+  let cls: string = reg.interfaces[iface]!.class;
+  if (s.buttons_only.includes(iface)) return { ...out, nav: "soft_keys" };
+  if (cls === "voice") return { ...out, nav: "voice" };
+  if (cls === "watch") return { ...out, nav: "glance" };
+  if (cls === "tv") return { ...out, nav: "board", columns: w >= s.wide_from_px ? 3 : 2 };
+  if (!["phone", "tablet", "computer"].includes(cls) || iface === "universal")
+    cls = w >= s.computer_from_px ? "computer" : Math.min(w, h) >= s.tablet_from_px ? "tablet" : "phone";
+  if (cls === "phone") {
+    if (orientation === "upright") Object.assign(out, { nav: "bottom_bar", tabs: w < s.small_phone_below_px ? 4 : 5 });
+    else Object.assign(out, { nav: "side_rail", header: "small", columns: w >= s.phone_two_columns_from_px ? 2 : 1 });
+  } else if (cls === "tablet") {
+    Object.assign(out, { nav: "rail", columns: orientation === "sideways" ? 2 : 1, helper: orientation === "sideways" ? "open" : "slide_in" });
+  } else {
+    Object.assign(out, { nav: "two_level", columns: w >= s.wide_from_px ? 3 : 2, helper: "open", main_button: "top_end" });
+  }
+  if (h > 0 && h < s.short_below_px && out.header === "normal") out.header = "shrinks";
+  if (f.posture === "half_open") out.split = "fold";
+  return out;
 }

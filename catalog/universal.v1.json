@@ -141,6 +141,13 @@
    "blueprint": "48",
    "check": "auto",
    "na_allowed": true
+  },
+  {
+   "id": "navigation",
+   "what": "In one of the eight groups of the navigation register (header menu, launcher, side bar, footer, search)",
+   "blueprint": "73",
+   "check": "auto",
+   "na_allowed": false
   }
  ],
  "everywhere": [
@@ -203,6 +210,11 @@
    "id": "open_to_all",
    "what": "Open to every entity: person, company, organisation; the entity changes only words",
    "enforced_by": "tests/test_workspaces.py"
+  },
+  {
+   "id": "navigation",
+   "what": "Every screen has its page template and a way in; anything used often is at most three taps from Home; focus screens show only Back or Cancel and the connection chip",
+   "enforced_by": "tests/test_navigation.py"
   }
  ],
  "not_applicable": {

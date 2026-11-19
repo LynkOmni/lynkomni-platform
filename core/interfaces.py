@@ -83,9 +83,65 @@ def safe_to_switch(task):
     return task not in ("payment", "count", "signature")
 
 
+SHAPES = REGISTER["shapes"]
+
+
+def layout(facts=None):
+    """The layout for a screen's shape (TURN UPDATE, master blueprint 76; catalog/devices.v1.json shapes). Port: ts/src/interfaces.ts
+    layoutFor. facts: interface (from choose), width, height, posture ("flat" | "half_open"), device (a register id) and lock
+    ("upright" | "sideways", set in the Emulator Panel; obeyed only on a lockable fixed device). The phone's own rotation lock is the
+    phone's business: the width and height it reports already follow it.
+    Returns orientation, locked, nav (bottom_bar | side_rail | rail | two_level | soft_keys | glance | board | voice), tabs (bottom bar
+    size, 0 when none), columns, header (normal | small | shrinks), helper (none | slide_in | open), main_button (bottom | top_end),
+    split (none | fold: content on the top half, controls on the bottom half) and max_line_ch."""
+    f = facts or {}
+    s = SHAPES
+    iface = f.get("interface") if f.get("interface") in INTERFACES else SAFE
+    w, h = int(f.get("width") or 0), int(f.get("height") or 0)
+    locked = f.get("lock") in ("upright", "sideways") and f.get("device") in s["lockable"]
+    if locked and (f["lock"] == "sideways") != (w > h):
+        w, h = h, w                                            # a locked fixed screen draws in its own direction
+    orientation = "sideways" if w > h else "upright"
+    out = {"orientation": orientation, "locked": locked, "nav": "bottom_bar", "tabs": 0, "columns": 1, "header": "normal", "helper": "none",
+           "main_button": "bottom", "split": "none", "max_line_ch": s["max_line_ch"]}
+    cls = INTERFACES[iface]["class"]
+    if iface in s["buttons_only"]:
+        out["nav"] = "soft_keys"
+        return out
+    if cls == "voice":
+        out["nav"] = "voice"
+        return out
+    if cls == "watch":
+        out["nav"] = "glance"
+        return out
+    if cls == "tv":
+        out.update(nav="board", columns=3 if w >= s["wide_from_px"] else 2)
+        return out
+    if cls not in ("phone", "tablet", "computer") or iface == "universal":   # the safe default and e-ink touch follow the width
+        cls = "computer" if w >= s["computer_from_px"] else "tablet" if min(w, h) >= s["tablet_from_px"] else "phone"
+    if cls == "phone":
+        if orientation == "upright":
+            out.update(nav="bottom_bar", tabs=4 if w < s["small_phone_below_px"] else 5)
+        else:
+            out.update(nav="side_rail", header="small", columns=2 if w >= s["phone_two_columns_from_px"] else 1)
+    elif cls == "tablet":
+        out.update(nav="rail", columns=2 if orientation == "sideways" else 1, helper="open" if orientation == "sideways" else "slide_in")
+    else:
+        out.update(nav="two_level", columns=3 if w >= s["wide_from_px"] else 2, helper="open", main_button="top_end")
+    if 0 < h < s["short_below_px"] and out["header"] == "normal":
+        out["header"] = "shrinks"                              # very short screens: the header shrinks on scroll, the main button stays
+    if f.get("posture") == "half_open":
+        out["split"] = "fold"
+    return out
+
+
 def validate():
     """Register self-check: every device version names a real interface, every interface a real class and known inputs."""
     problems = []
+    for d in SHAPES["lockable"]:
+        if d not in DEVICES: problems.append(f"shapes.lockable: unknown device {d}")
+    for i in SHAPES["buttons_only"]:
+        if i not in INTERFACES: problems.append(f"shapes.buttons_only: unknown interface {i}")
     for i, v in INTERFACES.items():
         if v["class"] not in REGISTER["classes"]: problems.append(f"{i}: unknown class")
         for x in v["inputs"]:

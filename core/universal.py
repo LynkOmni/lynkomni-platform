@@ -14,7 +14,7 @@ def _load(*p):
 
 REGISTER = _load("catalog", "universal.v1.json")
 RULES = {r["id"]: r for r in REGISTER["rules"]}
-BUNDLE_RULES = ("catalog", "places", "picture")
+BUNDLE_RULES = ("catalog", "places", "picture", "navigation")
 
 
 def _facts():
@@ -45,6 +45,7 @@ def _facts():
         "storefront_side": {p["family"] for p in products if p.get("sides")},
         "assist": lambda f: bool(set(areas.get(f, ())) & assist_areas),
         "messages": lambda f: bool(set(areas.get(f, ())) & message_areas),
+        "navigation": {fam for g in _load("catalog", "navigation.v1.json")["groups"] for fam in g["families"]},
     }
 
 

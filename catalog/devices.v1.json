@@ -547,5 +547,73 @@
    "queue-page": "LynkMobile",
    "survey-page": "LynkMobile"
   }
+ },
+ "shapes": {
+  "agreed": "2026-11-19 (TURN UPDATE, master blueprint section 76; built in section 4 step B)",
+  "rule": "Turning, folding, unfolding, splitting the screen or resizing a window is one thing: the screen changes shape. The layout for every shape comes only from core/interfaces.py layout() and ts/src/interfaces.ts layoutFor() (shared vectors). Nothing is lost, nothing restarts, nothing repeats; a payment, count, void, signature or ballot keeps its step and only the layout changes. The phone's own rotation lock always wins and a person's own device is never locked by LynkOmni; only the fixed devices listed in lockable may be held to one direction, set per device in the Emulator Panel and shown in words. The installed web app never locks its direction (manifest orientation any).",
+  "lockable": [
+   "wall-tablet",
+   "all-in-one-pos",
+   "dual-screen-pos",
+   "pos-terminal",
+   "smart-terminal",
+   "kitchen-screen",
+   "customer-display",
+   "self-order-kiosk",
+   "queue-display",
+   "counter-display"
+  ],
+  "buttons_only": [
+   "phone.keypad",
+   "phone.feature",
+   "phone.text",
+   "eink.buttons"
+  ],
+  "small_phone_below_px": 340,
+  "short_below_px": 480,
+  "phone_two_columns_from_px": 640,
+  "tablet_from_px": 600,
+  "computer_from_px": 1024,
+  "wide_from_px": 1600,
+  "max_line_ch": 75,
+  "postures": [
+   "flat",
+   "half_open"
+  ],
+  "manifest_orientation": "any",
+  "turn": {
+   "keep": [
+    "page",
+    "record",
+    "scroll",
+    "typed_text",
+    "cursor",
+    "keyboard",
+    "panels",
+    "menus",
+    "filters",
+    "selections",
+    "form_step",
+    "media",
+    "basket",
+    "sale",
+    "cash_count",
+    "focus"
+   ],
+   "never": [
+    "restart",
+    "repeat",
+    "cancel",
+    "double_action"
+   ],
+   "announce_once": true,
+   "keep_step": [
+    "payment",
+    "cash_count",
+    "void",
+    "signature",
+    "ballot"
+   ]
+  }
  }
 }

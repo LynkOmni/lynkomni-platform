@@ -2,6 +2,16 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.57.0 (2026-11-19)
+Section 4, step B1 (INTERFACE UPDATE and TURN UPDATE groundwork: the registers, the rules and the checks):
+- New navigation register (catalog/navigation.v1.json, read by core/navigation.py and ts/src/navigation.ts with shared vectors): the eight groups (Sell; Get paid; Run the office; People; Move and protect; Learn and work; Ask and decide; Build) with every one of the 33 products in exactly one; the app header and the focus header (only Back or Cancel and the connection chip in a payment, cash count, void, signature or ballot); the two-level side bar with Settings and Help that can never be hidden; the phone bottom bars (a person: Home, Track, Scan, Chats, Me; business types keep their five; four on a small phone; none on focus screens); quick create by role; the same menu order in every service; at most seven tabs in a page.
+- New page-template register (catalog/templates.v1.json): every one of the 91 Business app screens has its template (Home, List, Record, Form, Steps, Report, Board and calendar, Inbox, Settings or Focus), and every emulator names its frame (app, device or page).
+- Checks: every screen has a way in (no orphans) and everything used often is at most three taps from Home on a phone.
+- Turning (TURN UPDATE): the device register now holds the layout for every shape (phone upright and sideways, small phones, tablets, folds half open, short and very wide screens, TVs, watches and buttons-only phones) through one decision function in Python and TypeScript, with shared vectors at real sizes from 240 by 320 to 3840 by 2160. Only fixed devices (kiosks, counter screens, displays, terminals) can be held to one direction; a person's own phone never is. The new ts/src/turn.ts applies a turn without redrawing the screen, so nothing typed, chosen or paid is lost or repeated, and a screen reader hears the change once.
+- Leftover fixed: the installed web app was locked upright ("orientation": "portrait"); it now turns freely ("any"), and a check makes sure nothing in the code locks the direction again.
+- The rules for all services (catalog/universal.v1.json) gained the navigation rule: every service, existing or new, must sit in one of the eight groups, and every screen needs its template and a way in.
+- The English words of the new menus are in web/navigation/strings.en.json; they are translated when the shared parts that show them are built (step B2).
+
 ## v0.56.0 (2026-11-19)
 Rules for all services now apply to everything by themselves (owner rule):
 - A new register, catalog/universal.v1.json, lists every rule the blueprint lays down for all services: tracking, APIs, places, pictures, automations, LynkAssist, messages, emulators, connections, build tables, ads, cash and both sides, plus the rules already checked on every screen (five states, 38 languages, layout and turning, design, safe pages, global availability, security, money, prices, identifiers, speed, open to all).
