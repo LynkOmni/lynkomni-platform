@@ -8090,7 +8090,7 @@
    "family": "lynkbooking",
    "tier": "free",
    "extras": 1,
-   "next": "plus"
+   "next": null
   },
   {
    "family": "lynkbooking",
@@ -8126,19 +8126,19 @@
    "family": "lynkbooking",
    "tier": "plus",
    "extras": 1,
-   "next": "pro"
+   "next": null
   },
   {
    "family": "lynkbooking",
    "tier": "plus",
    "extras": 2,
-   "next": "pro"
+   "next": null
   },
   {
    "family": "lynkbooking",
    "tier": "plus",
    "extras": 3,
-   "next": "pro"
+   "next": null
   },
   {
    "family": "lynkbooking",
@@ -8168,25 +8168,25 @@
    "family": "lynkbooking",
    "tier": "pro",
    "extras": 2,
-   "next": "max"
+   "next": null
   },
   {
    "family": "lynkbooking",
    "tier": "pro",
    "extras": 3,
-   "next": "max"
+   "next": null
   },
   {
    "family": "lynkbooking",
    "tier": "pro",
    "extras": 6,
-   "next": "max"
+   "next": null
   },
   {
    "family": "lynkbooking",
    "tier": "pro",
    "extras": 12,
-   "next": "max"
+   "next": null
   },
   {
    "family": "lynkbooking",

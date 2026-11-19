@@ -106,6 +106,7 @@ OLD_PRICES = {
     "lynkrewards": (2, 6, 15), "lynkstat": (2, 5, 12), "lynkgrow": (3, 9, 25), "lynkchat": (3, 8, 20),
     "lynkmpay": (4, 12, 30), "lynkrecover": (2, 5, 10), "lynkcheckout": (2, 5, 12), "lynkassist": (5, 12, 29),
     "lynkvcard": (3, 9, 25),
+    "travel": ("4.99", "9.99", "19.99"),      # the LynkBooking membership before BOOKING UPDATE (2026-11-18); now LynkBooking Pass at billing's prices
 }
 OLD_SUBTOTAL = {"stage1": 4_146, "stage2": 250_211, "stage3": 7_664_363}      # table 1 subtotal as printed
 OLD_GRAND = {"stage1": 8_322, "stage2": 820_206, "stage3": 30_561_663}        # grand total per month as printed
@@ -142,6 +143,16 @@ def vcard_change(stage):
     return Decimal(new - old)
 
 
+# BOOKING UPDATE (owner locked 2026-11-18, blueprint 64.7): the flat $0.25 for every appointment booking is replaced by the
+# commission on bookings LynkBooking brings (the booking_update stream below), so its line leaves the Bookings group.
+APPOINTMENT_FLAT_REMOVED = {"stage1": 4, "stage2": 1_000, "stage3": 40_000}
+
+
+def booking_group(stage):
+    """The Bookings group a month: partner supply as stated in the blueprint, without the old flat appointment fee."""
+    return OTHER_GROUPS["booking"][stage] - APPOINTMENT_FLAT_REMOVED[stage]
+
+
 def totals():
     """New per-month subtotal of table 1, LynkVCard group and grand total, per stage."""
     out = {}
@@ -149,7 +160,7 @@ def totals():
         sub = _r(OLD_SUBTOTAL[st] + subscription_change(st))
         vc = _r(VCARD_OLD[st] + vcard_change(st))
         out[st] = {"subscriptions": sub, "vcard": vc,
-                   "grand": _r(OLD_GRAND[st] + subscription_change(st) + vcard_change(st))}
+                   "grand": _r(OLD_GRAND[st] + subscription_change(st) + vcard_change(st)) - APPOINTMENT_FLAT_REMOVED[st]}
     return out
 
 
@@ -200,7 +211,7 @@ def summary():
     groups = {}
     for st in STAGES:
         parts = {"subscriptions": t[st]["subscriptions"], "payments": OTHER_GROUPS["payments"][st],
-                 "commerce": OTHER_GROUPS["commerce"][st], "booking": OTHER_GROUPS["booking"][st],
+                 "commerce": OTHER_GROUPS["commerce"][st], "booking": booking_group(st),
                  "utility": OTHER_GROUPS["utility"][st], "advertising": OTHER_GROUPS["advertising"][st],
                  "infrastructure": OTHER_GROUPS["infrastructure"][st], "vcard": t[st]["vcard"]}
         groups[st] = {k: round(100 * v / g[st]) for k, v in parts.items()}
@@ -403,3 +414,33 @@ def emulator_slots(stage):
     extra = sum(m * share * pct * conv * a["slots_each"] * Decimal(billing.EMULATOR_EXTRA_CENTS[f]) / 100 for f, share in a["buyers"].items())
     passes = m * a["day_pass_users"] * pct * a["day_passes_each"] * Decimal(billing.SERVICE_FEES["emulator_day_pass_cents"]) / 100
     return {"slots": _r(slots), "extra": _r(extra * idx), "day_passes": _r(passes * idx), "month": _r((extra + passes) * idx), "assumption": True}
+
+
+# ---- BOOKING UPDATE: the LynkBooking business tiers and commission (owner locked 2026-11-18) ---------------------------
+# The business side of LynkBooking: one plan per organisation with places included and a price for each extra place, and a
+# commission only on bookings that LynkBooking itself brings. Shown as its OWN stream, kept OUTSIDE the agreed totals until
+# pilot data exists, so no agreed figure moves. EVERY number below is an ASSUMPTION, labelled as such. (The customer
+# membership, LynkBooking Pass, is the "travel" line of the subscription table above and IS inside the totals.)
+BOOKING_ASSUMPTIONS = {
+    "tiers": (Decimal("3"), Decimal("1"), Decimal("0.2")),              # Plus / Pro / Max, percent of all merchants
+    "extra_places": (0, 1, 5),                                          # places above the 3 included, per Plus / Pro / Max account
+    "bundle_share": Decimal("0.3"),                                     # share of these plans held with LynkQueue, LynkAttend or LynkSurvey (20% off)
+    "listed": {"stage1": Decimal("0.03"), "stage2": Decimal("0.05"), "stage3": Decimal("0.08")},   # merchants listed in the LynkBooking search
+    "found_bookings": 20,                                               # bookings a listed business gets through the search a month
+    "commission_usd": Decimal("0.50"),                                  # average commission on such a booking, across every kind
+}
+
+
+def booking_update(stage):
+    """Monthly USD for one stage (whole dollars): LynkBooking business plans and extra places (price index and conversion applied,
+    less the 20% bundle discount on the share held together) and the commission on bookings found through the LynkBooking search.
+    An ASSUMPTION, outside the ecosystem totals."""
+    a, pct = BOOKING_ASSUMPTIONS, Decimal("0.01")
+    m, idx, conv = Decimal(MERCHANTS[stage]), INDEX[stage], CONVERSION[stage]
+    prices_ = [Decimal(str(x)) for x in billing.BOOKING_BUSINESS_PRICES[1:]]
+    subs = [m * s * pct * conv for s in a["tiers"]]
+    plans = sum(n * p for n, p in zip(subs, prices_))
+    extras = sum(n * x * Decimal(c) / 100 for n, x, c in zip(subs, a["extra_places"], billing.BOOKING_EXTRA_PLACE_CENTS[1:]))
+    plans_total = (plans * (1 - a["bundle_share"] * Decimal(billing.BOOKING_BUNDLE_DISCOUNT_BPS) / 10_000) + extras) * idx
+    commission = m * a["listed"][stage] * a["found_bookings"] * a["commission_usd"]
+    return {"plans": _r(plans_total), "commission": _r(commission), "month": _r(plans_total + commission), "assumption": True}

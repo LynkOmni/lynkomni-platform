@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.48.0 (2026-11-19)
+Section 4, part 1a (prices first, as agreed when section 4 was planned):
+- Office top-up: LynkAcc now $0, $6, $19, $49; LynkInv $0, $5, $15, $39; LynkCRM $0, $6, $19, $49 a month (were $0, $6, $15, $40 for LynkAcc and LynkCRM and $0, $5, $12, $32 for LynkInv). LynkOps stays $0, $20, $49, $129, so buying the four services through LynkOps now saves about 31% on Plus and 40% on Pro and Max. LynkSuite's prices do not change. The price lock, the bill rules, the revenue model and every emulator follow.
+- The BOOKING UPDATE prices (made as v0.44.1 in pull request 78, which is folded into this version): the LynkBooking Pass is $0, $1.99, $3.99 and $7.99 a month; the LynkBooking business tiers ($0, $19, $49, $119 per organisation, places 1, 3, 3, 3, extra place $5, $10, $20, extra 1,000 bookings $1), the 20% bundle discount and the commission only on bookings LynkBooking brings are locked in services/billing.py; the flat $0.25 appointment fee is gone and the business side is its own assumed revenue stream.
+- Revenue a month is now $21,632, $1,413,452 and $46,046,891 at the three stages. Every figure is an assumption about how many businesses choose each plan.
+- 2026-11-19: Leftover adjusted in section 4: LynkBooking counts its devices by its own places (like LynkAttend, LynkQueue and LynkSurvey), so its $6 extra device price from section 3A is removed; extra places are bought at the LynkBooking place price instead.
+- 2026-11-19: Leftover adjusted in section 4: the bill test's lowest allowed bundle price (a bundle never drops below 59% of its services bought one by one) was set for the old prices; it now fits the new ones.
 ## v0.47.4 (2026-11-19)
 Fixes the owner found on a phone, and a check so they cannot come back:
 - Side menus (Account and every screen built on the shared shell): on a tablet the narrow side menu squeezed 23 items into the screen's height, so labels were cut at the bottom and the sides ("Secur", "Notifi"). A long menu now scrolls, every item keeps its full height, and a long name goes onto a second line. The same for the computer side menu, the phone's bottom tabs (names were cut with "…" on small phones) and the Business app's tablet side rail.

@@ -25,7 +25,7 @@ class T(unittest.TestCase):
         self.assertEqual([self._ent(t)["invoices_per_month"] for t in B.MT], [5, None, None, None])
         self.assertEqual([self._ent(t)["credit_notes"] and self._ent(t)["pay_link"] for t in B.MT], [True] * 4)   # at every tier (agreed 2026-11-07)
         self.assertEqual([self._ent(t)["invoice_series"] for t in B.MT], [1, 1, 3, None])
-        self.assertEqual(B.FAMILIES["lynkinv"][3], (0, 5, 12, 32))                # LynkInv, price version 2 (2026-11-07)
+        self.assertEqual(B.FAMILIES["lynkinv"][3], (0, 5, 15, 39))                # LynkInv, OFFICE UPDATE top-up (2026-11-19; was 0, 5, 12, 32)
     def _ent(self, tier):
         d = {}
         for x in B.FEATURES["lynkinv"][: B.MT.index(tier) + 1]: d.update(x)

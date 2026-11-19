@@ -13,9 +13,9 @@ MT = ("free", "plus", "pro", "max")
 # id: full name, short name, tiers, standard USD price per tier, kind, inside LynkSuite?
 FAMILIES = {
  "lynkpos":      ("LynkOmni Point of Sale", "LynkPOS", MT, (0, 12, 29, 79), "merchant", True),
- "lynkacc":      ("LynkOmni Accounting", "LynkAcc", MT, (0, 6, 15, 40), "merchant", True),       # took over LynkLedger (2026-11-07)
- "lynkinv":      ("LynkOmni Invoicing", "LynkInv", MT, (0, 5, 12, 32), "merchant", True),        # moved out of LynkCheckout (2026-11-07)
- "lynkcrm":      ("LynkOmni CRM", "LynkCRM", MT, (0, 6, 15, 40), "merchant", True),
+ "lynkacc":      ("LynkOmni Accounting", "LynkAcc", MT, (0, 6, 19, 49), "merchant", True),       # took over LynkLedger (2026-11-07); OFFICE UPDATE top-up 2026-11-18 (was 15, 40)
+ "lynkinv":      ("LynkOmni Invoicing", "LynkInv", MT, (0, 5, 15, 39), "merchant", True),        # moved out of LynkCheckout (2026-11-07); OFFICE UPDATE top-up (was 12, 32)
+ "lynkcrm":      ("LynkOmni CRM", "LynkCRM", MT, (0, 6, 19, 49), "merchant", True),             # OFFICE UPDATE top-up 2026-11-18 (was 15, 40)
  "lynkstock":    ("LynkOmni Inventory and Reordering", "LynkStock", MT, (0, 3, 9, 22), "merchant", True),
  "lynkrewards":  ("LynkOmni Loyalty", "LynkRewards", MT, (0, 3, 9, 22), "merchant", True),
  "lynkstat":     ("LynkOmni Analytics", "LynkStat", MT, (0, 12, 29, 79), "merchant", True),      # took over LynkDash (2026-11-08)
@@ -27,7 +27,7 @@ FAMILIES = {
  "lynkassist":   ("LynkOmni Assistant", "LynkAssist", MT, (0, 6, 15, 35), "merchant", False),
  "lynkvcard":    ("LynkOmni Virtual Card", "LynkVCard", MT, (0, 4, 12, 30), "merchant", False),   # add-on family, never inside LynkSuite
  "lynkdev":      ("LynkOmni Developer Infrastructure", "LynkDev", ("free", "starter", "business", "enterprise"), (0, 500, 2500, 15000), "developer", False),
- "lynkbooking":  ("LynkOmni Bookings Membership", "LynkBooking", MT, (0, 4.99, 9.99, 19.99), "consumer", False),
+ "lynkbooking":  ("LynkOmni Bookings Membership", "LynkBooking", MT, (0, 1.99, 3.99, 7.99), "consumer", False),   # BOOKING UPDATE (2026-11-18): the customer membership, shown as LynkBooking Pass; was 4.99, 9.99, 19.99
  "lynkessential": ("LynkOmni Essentials Membership", "LynkEssential", MT, (0, 2.99, 5.99, 11.99), "consumer", False),
  "lynkmotion":   ("LynkOmni Motion", "LynkMotion", MT, (0, 9, 29, 79), "movement", False),    # NEW UPDATE 1 (2026-11-10): everyday tracking (LynkTrace, LynkGPS, LynkSentry)
  "lynkguard":    ("LynkOmni Guard", "LynkGuard", MT, (0, 15, 49, 149), "movement", False),    # NEW UPDATE 1 (2026-11-10): vehicle and asset protection on the same core
@@ -213,7 +213,7 @@ for _f in EMULATOR_FAMILIES:
     for _i in range(len(MT)):
         if _f == "lynkpos":
             _v = [d["devices"] for d in FEATURES[_f][: _i + 1] if "devices" in d][-1]     # the locked device numbers
-        elif _f in ("lynkattend", "lynkqueue", "lynksurvey"):
+        elif _f in ("lynkattend", "lynkqueue", "lynksurvey", "lynkbooking"):    # own locked units (places, counters, creators, booking places)
             _v = "own_units"
         else:
             _v = EMULATOR_LADDER[_i]
@@ -235,7 +235,7 @@ SERVICE_FEES = {
 # each is the Pro price per device times 1.35, rounded up to whole dollars (at least $2), so stacking extras never beats the next
 # tier and the panel says so when the next tier costs less. LOCKED with the prices (tests/test_price_lock.py).
 EMULATOR_EXTRA_CENTS = {"lynkpos": 800, "lynkmpay": 400, "lynkstock": 300, "lynkrewards": 300, "lynkcheckout": 200, "lynkessential": 200,
-                        "lynkbooking": 600, "lynkmotion": 800, "lynkguard": 1400}
+                        "lynkmotion": 800, "lynkguard": 1400}   # LynkBooking: its devices follow its own places (BOOKING_PLACES_INCLUDED)
 # LynkA, LynkQ and LynkS: any two or all three paid plans held together take 20% off each of them (a bundle discount, not a link;
 # owner locked 2026-11-11). LOCKED with the prices.
 PEOPLE_FAMILIES = ("lynkattend", "lynkqueue", "lynksurvey")
@@ -287,6 +287,25 @@ for _tiers in FEATURES.values():
     for _i, _d in enumerate(_tiers):
         _d.setdefault("support", SUPPORT_LEVELS[min(_i, len(SUPPORT_LEVELS) - 1)])
 ADS_PRODUCT = {"pos": "lynkpos", "dash": "lynkstat", "stock": "lynkstock"}
+
+# BOOKING UPDATE (owner locked 2026-11-18, master blueprint section 64): the business side of LynkBooking. One price per
+# organisation, never per staff member; outside LynkSuite; commission only when LynkBooking brings the customer (0% on a
+# business's own link, QR, front desk and returning customers). LOCKED with the other prices (tests/test_price_lock.py). The
+# billing family, its features, places and screens are built from build section 4 onward (blueprint 64.11); until then these
+# numbers are the single source for the revenue model and the blueprint.
+BOOKING_BUSINESS_TIERS = ("free", "plus", "pro", "max")
+BOOKING_BUSINESS_PRICES = (0, 19, 49, 119)                    # standard USD per month
+BOOKING_PLACES_INCLUDED = (1, 3, 3, 3)
+BOOKING_EXTRA_PLACE_CENTS = (None, 500, 1000, 2000)           # each place above the included ones; not possible on Free
+BOOKING_UNITS_PER_PLACE = (3, 15, None, None)                 # staff, rooms, vehicles or tables per place; None = unlimited
+BOOKING_BOOKINGS_PER_PLACE = (150, 2000, 10000, 50000)        # bookings a month, per place
+BOOKING_EXTRA_1000_BOOKINGS_CENTS = 100                       # paid tiers only; nobody is turned away
+BOOKING_BUNDLE_DISCOUNT_BPS = 2000                            # 20% off when held with LynkQueue, LynkAttend or LynkSurvey
+BOOKING_COMMISSION = {                                        # only on bookings found through the LynkBooking search
+    "appointment_first_visit_bps": 500, "appointment_first_visit_cap_cents": 500,
+    "stay_bps": 800, "tour_bps": 1000, "event_bps": 200, "event_ticket_cents": 25, "transport_bps": 300,
+    "rental_and_space_bps": 600, "table_guest_cents": 25, "class_bps": 500, "own_customers_bps": 0,
+}
 
 # Storefront plans (BIZZ & DEVICE, owner approved 2026-11-09): the external side of every service, where anyone offers to others
 # and earns. A plan type, not a product family: one Storefront plan per account covers every service's Storefront, the
