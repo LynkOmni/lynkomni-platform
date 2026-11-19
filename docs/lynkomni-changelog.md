@@ -2,6 +2,14 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.50.1 (2026-11-19)
+Font check across the ecosystem (owner request):
+- The font register's script rules never reached the emulators: the build copied only the Latin font files from design/fonts.css. Now every emulator carries them: taller lines for Arabic and Indian scripts, and letters that join (Arabic script, Devanagari, Bengali, Tamil, Thai) are never spaced out or capitalised, nor are Chinese, Japanese and Korean spaced. The rule sits on each screen's language and also covers every style of the page that spaces out or capitalises letters, so small labels are safe too, while a tap stays as fast as before.
+- The "Try it" controls and event log beside each device carry the screen's language and writing direction, so Arabic and Hebrew read right to left there too.
+- The tracking page's code text uses the mono font from the design tokens.
+- Checked: no font is loaded from another website; fonts come only from the register and the tokens; every screen sets its language and direction. Emulators carry the Latin brand fonts (Montserrat, Inter); other scripts show in the device's own font, as decided to keep each emulator one small offline file. The real apps load each language's own fonts from the register.
+- Also: Chinese, Japanese and Korean brackets keep their width at a line end, so short labels wrap instead of spilling; search results and menu rows keep their small grey text readable when hovered; the tablet's customer welcome wraps long Tamil words.
+
 ## v0.50.0 (2026-11-19)
 Section 4, part 1c (the build-order tables and a steadier layout check):
 - The thirteen "where every part is built" tables of the master blueprint (64.11 to 76.8, 147 rows) are now a register, catalog/build-tables.v1.json, read through core/build_sections.py. Each row names its build sections and records which are done and in which version.

@@ -284,8 +284,11 @@ function draw(): void {
   const auto = $("#autoName"); if (auto) auto.textContent = `${EN[IFACE_NAME[chooseInterface(DEVICES, browserFacts(window)).interface] ?? "iface_universal"] ?? ""}`;
   d.className = `display ${S.theme}`;
   if (S.mode) d.setAttribute("data-mode", S.mode); else d.removeAttribute("data-mode");
-  d.lang = S.lang === "xx-rtl" ? "ar" : S.lang === "xx" ? "en" : S.lang;
-  d.dir = S.lang === "xx-rtl" ? "rtl" : S.lang === "xx" ? "ltr" : PACKS[S.lang]?.dir ?? "ltr";
+  const wantLang = S.lang === "xx-rtl" ? "ar" : S.lang === "xx" ? "en" : S.lang;
+  if (d.lang !== wantLang) d.lang = wantLang;   // only on a change: setting the same value still restyles the whole screen
+  const wantDir = S.lang === "xx-rtl" ? "rtl" : S.lang === "xx" ? "ltr" : PACKS[S.lang]?.dir ?? "ltr";
+  if (d.dir !== wantDir) d.dir = wantDir;
+  for (const p of document.querySelectorAll<HTMLElement>("#panel, #log, #emkCtl")) { if (p.lang !== d.lang) p.lang = d.lang; if (p.dir !== d.dir) p.dir = d.dir; }   // the "Try it" controls speak the same language
   const logo = brandMark(DATA.brand.places, "web-header", S.theme === "dark", "brandfill", HEADER_ROOM[S.size]);
   const items = navItems();
   const head = header({ logo, nav: items, notifications: count(S.lines), signedIn: true, title: S.size === "computer" ? undefined : SHOP(), surface: "app", side: { label: sideWord(S.side), storefront: S.side === "external" } }, S.size, t, icon);

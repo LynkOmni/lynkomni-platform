@@ -70,8 +70,8 @@
 .lplace { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 6px; border-radius: 12px; color: var(--text-primary); text-align: center; font-weight: 600; font-size: var(--text-12); }
 .lplace:hover { background: var(--bg-subtle); }
 .lplace.soon { color: var(--text-secondary); }
-.lplace .nm { overflow-wrap: anywhere; }
-.lplace .pl { overflow-wrap: anywhere; font-weight: 400; color: var(--text-secondary); font-size: var(--text-12); }   /* the plain word beside a short product name */
+.lplace .nm { overflow-wrap: anywhere; align-self: stretch; }   /* the label takes the tile's width, so a long name wraps instead of spilling */
+.lplace .pl { overflow-wrap: anywhere; align-self: stretch; font-weight: 400; color: var(--text-secondary); font-size: var(--text-12); }   /* the plain word beside a short product name */
 .soon-tag { font-weight: 400; color: var(--status-info-text); background: var(--status-info-bg); border-radius: 999px; padding: 2px 8px; }
 .who { display: flex; align-items: center; gap: 12px; margin-block-end: 8px; }
 .lynkid { display: inline-flex; align-items: center; gap: 4px; color: var(--text-secondary); }
@@ -90,6 +90,7 @@
 .results { margin-block: 8px; }
 .result { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; width: 100%; padding: 6px 10px; border: 0; border-radius: 10px; background: none; color: var(--text-primary); text-align: start; }
 .result:hover, .result:focus-visible { background: var(--bg-subtle); }
+.result:is(:hover, :focus-visible) :is(.rs, .rk) { color: var(--text-primary); }   /* secondary text is too faint on the hover colour */
 .result .rt { font-weight: 600; } .result .rs { grid-column: 2; color: var(--text-secondary); font-size: var(--text-12); } .result .rk { grid-column: 3; grid-row: 1 / span 2; color: var(--text-secondary); font-size: var(--text-12); }
 .assist-hand { display: flex; align-items: center; gap: 10px; width: 100%; min-height: var(--touch-target); padding: 8px 10px; border: 1px dashed var(--border-strong); border-radius: 12px; background: var(--bg-base); color: var(--text-primary); text-align: start; }
 .suggested { margin-inline-start: auto; color: var(--text-secondary); font-size: var(--text-12); }

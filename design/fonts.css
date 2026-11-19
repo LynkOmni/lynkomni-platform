@@ -268,43 +268,38 @@
 /* Right-to-left languages. Apps set <html lang=".." dir="rtl"> (ts/src/fonts.ts direction()); these rules are the fallback. Use logical CSS (margin-inline-start, not margin-left). */
 :root:lang(ar), :root:lang(fa), :root:lang(ur), :root:lang(ps), :root:lang(ckb), :root:lang(sd), :root:lang(ug), :root:lang(he), :root:lang(yi) { direction: rtl; }
 /* arabic: taller letters need more space between lines */
-:lang(ar), :lang(fa), :lang(ur), :lang(ps), :lang(ckb), :lang(sd), :lang(ug) { line-height: 1.7; }
+[lang|="ar"], [lang|="fa"], [lang|="ur"], [lang|="ps"], [lang|="ckb"], [lang|="sd"], [lang|="ug"] { line-height: 1.7; }
 /* arabic: letters join, so spacing or capitals would break words */
-:lang(ar) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip), :lang(fa) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip), :lang(ur) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip), :lang(ps) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip), :lang(ckb) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip), :lang(sd) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip), :lang(ug) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip) { letter-spacing: 0; text-transform: none; }
 /* hebrew: taller letters need more space between lines */
-:lang(he), :lang(yi) { line-height: 1.6; }
+[lang|="he"], [lang|="yi"] { line-height: 1.6; }
 /* devanagari: taller letters need more space between lines */
-:lang(hi) { line-height: 1.7; }
+[lang|="hi"] { line-height: 1.7; }
 /* devanagari: letters join, so spacing or capitals would break words */
-:lang(hi) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip) { letter-spacing: 0; text-transform: none; }
 /* han-simplified: taller letters need more space between lines */
-:lang(zh-Hans) { line-height: 1.6; }
+[lang|="zh-Hans"] { line-height: 1.6; }
 /* han-simplified: ideographs and syllable blocks are never letter-spaced */
-:lang(zh-Hans) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip) { letter-spacing: 0; }
 /* han-traditional: taller letters need more space between lines */
-:lang(zh-Hant) { line-height: 1.6; }
+[lang|="zh-Hant"] { line-height: 1.6; }
 /* han-traditional: ideographs and syllable blocks are never letter-spaced */
-:lang(zh-Hant) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip) { letter-spacing: 0; }
 /* japanese: taller letters need more space between lines */
-:lang(ja) { line-height: 1.6; }
+[lang|="ja"] { line-height: 1.6; }
 /* japanese: ideographs and syllable blocks are never letter-spaced */
-:lang(ja) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip) { letter-spacing: 0; }
 /* korean: taller letters need more space between lines */
-:lang(ko) { line-height: 1.6; }
+[lang|="ko"] { line-height: 1.6; }
 /* korean: ideographs and syllable blocks are never letter-spaced */
-:lang(ko) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip) { letter-spacing: 0; }
 /* bengali: taller letters need more space between lines */
-:lang(bn) { line-height: 1.7; }
+[lang|="bn"] { line-height: 1.7; }
 /* bengali: letters join, so spacing or capitals would break words */
-:lang(bn) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip) { letter-spacing: 0; text-transform: none; }
 /* tamil: taller letters need more space between lines */
-:lang(ta) { line-height: 1.7; }
+[lang|="ta"] { line-height: 1.7; }
 /* tamil: letters join, so spacing or capitals would break words */
-:lang(ta) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip) { letter-spacing: 0; text-transform: none; }
 /* thai: taller letters need more space between lines */
-:lang(th) { line-height: 1.7; }
+[lang|="th"] { line-height: 1.7; }
 /* thai: letters join, so spacing or capitals would break words */
-:lang(th) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip) { letter-spacing: 0; text-transform: none; }
 /* ethiopic: taller letters need more space between lines */
-:lang(am) { line-height: 1.6; }
+[lang|="am"] { line-height: 1.6; }
+/* letters join (Arabic script, Devanagari, Bengali, Tamil, Thai): never spaced or capitalised */
+[lang|="ar"], [lang|="fa"], [lang|="ur"], [lang|="ps"], [lang|="ckb"], [lang|="sd"], [lang|="ug"], [lang|="hi"], [lang|="bn"], [lang|="ta"], [lang|="th"] { letter-spacing: 0 !important; text-transform: none !important; }
+/* ideographs and syllable blocks (Chinese, Japanese, Korean): never letter-spaced; full-width brackets keep their width at a line end, so a short label wraps instead of spilling */
+[lang|="zh-Hans"], [lang|="zh-Hant"], [lang|="ja"], [lang|="ko"] { letter-spacing: 0 !important; text-spacing-trim: space-all; }
 /* Scripts not listed in design/fonts/scripts.v1.json fall through to the device's own font for that script. */

@@ -558,8 +558,11 @@ function drawScreen(): void {
   if (S.view === "limited" && !LIMITED_OK.includes(S.screen)) S.screen = "sell";
   const d = $("#display");
   d.className = `display ${S.theme}`;
-  d.lang = S.lang === "xx-rtl" ? "ar" : S.lang === "xx" ? "en" : S.lang;
-  d.dir = S.lang === "xx-rtl" ? "rtl" : S.lang === "xx" ? "ltr" : PACKS[S.lang]?.dir ?? "ltr";
+  const wantLang = S.lang === "xx-rtl" ? "ar" : S.lang === "xx" ? "en" : S.lang;
+  if (d.lang !== wantLang) d.lang = wantLang;   // only on a change: setting the same value still restyles the whole screen
+  const wantDir = S.lang === "xx-rtl" ? "rtl" : S.lang === "xx" ? "ltr" : PACKS[S.lang]?.dir ?? "ltr";
+  if (d.dir !== wantDir) d.dir = wantDir;
+  for (const p of document.querySelectorAll<HTMLElement>("#panel, #log, #emkCtl")) { if (p.lang !== d.lang) p.lang = d.lang; if (p.dir !== d.dir) p.dir = d.dir; }   // the "Try it" controls speak the same language
   d.querySelector(".app")!.innerHTML = view() + DSH.overlay();
   DEV.draw(d);
   const a = document.getElementById("address"); if (a) a.textContent = DSH.address();

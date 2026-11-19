@@ -48,8 +48,8 @@
   "customer-display": {
    "first_tap": "[data-act^=\"add:\"]",
    "root": "#till",
-   "file_kb": 640,
-   "file_kb_reason": "Set on 12 November 2026 for NEW UPDATE 4 section 3: the customer screen adds LynkSurvey's rating after payment (five answers on a touch screen, the Rate us QR on a screen that only shows) with the people engine and its own copies of the rating words, in all 38 languages (about 45 KB); a real app downloads one language at a time. First-screen and tap budgets are unchanged."
+   "file_kb": 660,
+   "file_kb_reason": "Set on 12 November 2026 for NEW UPDATE 4 section 3: the customer screen adds LynkSurvey's rating after payment (five answers on a touch screen, the Rate us QR on a screen that only shows) with the people engine and its own copies of the rating words, in all 38 languages (about 45 KB); a real app downloads one language at a time. First-screen and tap budgets are unchanged. Raised to 660 on 19 November 2026 for the owner's font check (v0.50.1): every page now carries the font register's script rules (line height per script, no spacing or capitals for joined letters and ideographs) and its own cover for styles that space letters (about 3 KB; the file was within 1 KB of its limit). First-screen and tap budgets are unchanged."
   },
   "rider-phone": {
    "first_tap": "[data-act^=\"open:\"]",

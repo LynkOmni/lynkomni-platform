@@ -103,7 +103,12 @@ export class EventLog {
 }
 
 /** Root attributes for right-to-left and the language (ts/src/fonts.ts rootAttributes does the same for real screens). */
-export function applyRoot(el: HTMLElement, words: Words): void { el.setAttribute("lang", words.htmlLang()); el.setAttribute("dir", words.dir()); }
+export function applyRoot(el: HTMLElement, words: Words): void {
+  if (el.getAttribute("lang") !== words.htmlLang()) el.setAttribute("lang", words.htmlLang());   // only on a change: setting the same value still restyles the whole screen
+  if (el.getAttribute("dir") !== words.dir()) el.setAttribute("dir", words.dir());
+  // the "Try it" controls and event log beside the device speak the same language, so they carry its tag and direction too
+  if (typeof document !== "undefined") for (const p of document.querySelectorAll<HTMLElement>("#panel, #log, #emkCtl")) { if (p.lang !== words.htmlLang()) p.lang = words.htmlLang(); if (p.dir !== words.dir()) p.dir = words.dir(); }   // only on a change, so a tap does not restyle the side panel
+}
 
 /** Scales a device drawing down to the width it has (never up), so a counter till or a wall screen fits a phone too. */
 export function fitToWidth(rig: HTMLElement, deviceWidth: number): () => void {

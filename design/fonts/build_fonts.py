@@ -102,20 +102,33 @@ def write_css(reg):
     rtl = langs_of(reg, lambda s: s["dir"] == "rtl")
     lines.append("/* Right-to-left languages. Apps set <html lang=\"..\" dir=\"rtl\"> (ts/src/fonts.ts direction()); these rules are the fallback. Use logical CSS (margin-inline-start, not margin-left). */")
     lines.append(", ".join(f":root:lang({l})" for l in rtl) + " { direction: rtl; }")
+    joined, nospace = [], []
     for sname, s in reg["scripts"].items():
         ls = [k for k, v in reg["languages"].items() if v["script"] == sname]
         if not ls:
             continue
-        sel = ", ".join(f":lang({l})" for l in ls)
+        sel = ", ".join(f'[lang|="{l}"]' for l in ls)   # the element that carries lang (a screen's root); the rest inherits. Attribute rules stay fast.
         if s.get("line_height"):
             lines.append(f"/* {sname}: taller letters need more space between lines */")
             lines.append(f"{sel} {{ line-height: {s['line_height']}; }}")
         if s.get("no_letter_spacing"):
             lines.append(f"/* {sname}: ideographs and syllable blocks are never letter-spaced */")
-            lines.append(", ".join(f"{q} :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip)" for q in (f":lang({l})" for l in ls)) + " { letter-spacing: 0; }")
+            nospace.extend(ls)
         if s.get("cursive"):
             lines.append(f"/* {sname}: letters join, so spacing or capitals would break words */")
-            lines.append(", ".join(f"{q} :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip)" for q in (f":lang({l})" for l in ls)) + " { letter-spacing: 0; text-transform: none; }")
+            joined.extend(ls)
+    # Every element, not only headings and badges: a screen's own small labels must not space or capitalise these letters either
+    # (owner check, 19 November 2026). The rule sits on the element that carries lang and is inherited; web/build.mjs adds, per page,
+    # the same rule for each of that page's own selectors that space or capitalise letters (a rule on every element doubled the time
+    # of a first tap). !important because a script rule outranks any styling.
+    if joined:
+        q = ", ".join(f'[lang|="{l}"]' for l in joined)
+        lines.append("/* letters join (Arabic script, Devanagari, Bengali, Tamil, Thai): never spaced or capitalised */")
+        lines.append(f"{q} {{ letter-spacing: 0 !important; text-transform: none !important; }}")
+    if nospace:
+        q = ", ".join(f'[lang|="{l}"]' for l in nospace)
+        lines.append("/* ideographs and syllable blocks (Chinese, Japanese, Korean): never letter-spaced; full-width brackets keep their width at a line end, so a short label wraps instead of spilling */")
+        lines.append(f"{q} {{ letter-spacing: 0 !important; text-spacing-trim: space-all; }}")
     lines.append("/* Scripts not listed in design/fonts/scripts.v1.json fall through to the device's own font for that script. */")
     with open(CSS_PATH, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")

@@ -148,3 +148,34 @@ class SampleIds(unittest.TestCase):
                 except Exception as e:      # noqa: BLE001
                     bad.append(f"{os.path.relpath(f, ROOT)}: {m.group(0)} ({e})")
         self.assertEqual(bad, [])
+
+
+class ScriptRules(unittest.TestCase):
+    """Owner check, 19 November 2026: every emulator carries the font register's script rules (design/fonts.css), so letters that
+    join (Arabic, Devanagari, Bengali, Tamil, Thai) are never spaced or capitalised and ideographs are never spaced, on any screen."""
+    def test_every_built_emulator_carries_the_script_rules(self):
+        import glob
+        files = glob.glob(os.path.join(ROOT, "web", "emulators", "dist", "*.html"))
+        self.assertTrue(files)
+        for f in files:
+            html = open(f, encoding="utf-8").read()
+            name = os.path.basename(f)
+            joined = re.search(r"^((?:\[lang\|=\"[\w-]+\"\](?:, )?)+) \{ letter-spacing: 0 !important; text-transform: none !important; \}$", html, re.M)
+            spaced = re.search(r"^((?:\[lang\|=\"[\w-]+\"\](?:, )?)+) \{ letter-spacing: 0 !important; text-spacing-trim: space-all; \}$", html, re.M)
+            self.assertTrue(joined and spaced, f"{name} lacks the script rules")
+            for lang in ("ar", "fa", "ur", "hi", "bn", "ta", "th"):
+                self.assertIn(f'[lang|="{lang}"]', joined.group(1), f"{name}: {lang} letters may be spaced or capitalised")
+            for lang in ("zh-Hans", "zh-Hant", "ja", "ko"):
+                self.assertIn(f'[lang|="{lang}"]', spaced.group(1), f"{name}: {lang} may be letter-spaced")
+            rules = html.split("/* script cover */\n", 1)[1].split("\n")[:2] if "/* script cover */" in html else ["", ""]
+            cover = [[x.strip() for x in m.group(1).split(",")] if (m := re.match(r"^:is\([^)]*\) :is\((.*)\) \{", r)) else [] for r in rules]
+            # every selector of the page that spaces out or capitalises letters is covered for both groups (web/build.mjs withScriptCover)
+            css = re.sub(r"/\*[\s\S]*?\*/", "", "\n".join(re.findall(r"<style[^>]*>([\s\S]*?)</style>", html)))
+            for sel, decl in re.findall(r"([^{}]+)\{([^{}]*)\}", css):
+                sel = sel.strip()
+                if sel.startswith("@") or re.match(r"^(from|to|[\d.]+%)", sel) or "[lang|=" in sel:
+                    continue
+                if re.search(r"letter-spacing\s*:\s*(?!0\b|0\s*!|normal)[^;]+", decl) or re.search(r"text-transform\s*:\s*(uppercase|capitalize)", decl):
+                    for one in filter(None, (x.strip() for x in sel.split(","))):
+                        for listed in cover:
+                            self.assertIn(one, listed, f"{name}: {one} spaces or capitalises letters without the script cover")
