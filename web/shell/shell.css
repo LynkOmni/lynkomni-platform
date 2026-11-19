@@ -96,6 +96,7 @@
 .suggested { margin-inline-start: auto; color: var(--text-secondary); font-size: var(--text-12); }
 .assist-hand { flex-wrap: wrap; }
 .kbd { margin-block-start: 8px; color: var(--text-secondary); font-size: var(--text-12); }
+.command-bar > .kbd { margin-block-start: 8px; }   /* a page's own paragraph reset must not glue the tip to the Ask LynkAssist button (owner report 2026-11-19) */
 .articles a { display: flex; align-items: center; gap: 10px; min-height: var(--touch-target); padding: 4px 8px; border-radius: 10px; color: var(--text-primary); }
 .articles a:hover { background: var(--bg-subtle); }
 .help-steps { display: grid; gap: 8px; margin-block: 12px; }

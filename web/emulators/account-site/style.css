@@ -65,6 +65,8 @@ button, input, select { font: inherit; color: inherit; }
 .auth h1 { font: 700 var(--text-24) var(--font-heading); margin: 0 0 6px; overflow-wrap: anywhere; }
 .auth .lead { color: var(--text-secondary); margin: 0 0 14px; }
 .auth .primary, .auth .secondary { width: 100%; margin-block-start: 8px; }
+/* the line explaining a button sits a little apart from it (owner report 2026-11-19) */
+.auth :is(.primary, .secondary) + :is(p, .muted) { margin-block-start: 6px; }
 .auth .field { margin-block-start: 12px; }
 .auth .warn, .auth .okbox, .auth .assist, .auth .codebox, .auth h2 { margin-block-start: 12px; }
 .auth h2 { font-size: var(--text-16); margin-block-end: 6px; }

@@ -42,6 +42,9 @@
 .ftopic input, .fconsent input { inline-size: 20px; block-size: 20px; flex: none; accent-color: var(--brand-primary); }
 .fnews button { min-height: 44px; padding: 0 20px; border: 0; border-radius: 8px; background: var(--brand-primary); color: var(--on-brand); font: 600 14px var(--font-body); cursor: pointer; }
 .fnote { font-size: 13px; }
+/* breathing room: the agreement line, the Subscribe button and the note never touch (owner report 2026-11-19) */
+.fnews .fconsent { margin-block: 4px 12px; }
+.mainfoot .fnews .fnote { margin-block-start: 8px; }
 .flegal { margin-block-start: 24px; padding-block-start: 16px; border-block-start: 1px solid var(--border-subtle); display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; justify-content: space-between; }
 .flegal ul { display: flex; flex-wrap: wrap; gap: 0 16px; }
 .mainfoot .fcopy { margin: 0; color: var(--text-secondary); font-size: 13px; overflow-wrap: anywhere; }
