@@ -81,7 +81,7 @@ DIALOGS = "() => {" + VISIBLE + """
 
 # A button never touches the text right above or below it (owner report 2026-11-19: the newsletter's agreement line, Subscribe
 # button and note were stuck together, and so were the sign-in buttons and their notes): at least 4 px between them.
-CROWD = """() => {
+CROWD = r"""() => {
   const bad = new Set();
   const shown = (e) => e && e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden';
   for (const b of document.querySelectorAll('button, [role="button"]')) {
@@ -152,6 +152,64 @@ SPACE = """() => {
   return [...bad];
 }"""
 
+# Crowded areas and uneven spacing (owner, 2026-11-19: "not only crowded buttons but also crowded areas and uneven spacing"):
+# two visibly bounded boxes (a border, a filled background or a shadow: cards, fields, panels, chips, filled buttons) never sit
+# closer than 3.5 px, and a run of three or more repeated items of the same kind in one row or column has even gaps (a jump of
+# 24 px or more is a deliberate section break).
+AREAS = r"""() => {
+  const crowded = new Set(), uneven = new Set();
+  const roots = [...document.querySelectorAll('#screen, #display, #cscreen, #till, #screenA, #screenB, .lscreen')].filter((r) => r.getClientRects().length);
+  const shown = (e) => e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden' && getComputedStyle(e).display !== 'contents';
+  const name = (e) => ((e.className && typeof e.className === 'string' ? '.' + e.className.split(' ')[0] : e.tagName.toLowerCase()) + ' "' + (e.innerText || e.getAttribute('aria-label') || '').trim().replace(/\s+/g, ' ').slice(0, 20) + '"');
+  const isBox = (e) => {
+    const cs = getComputedStyle(e);
+    const r0 = e.getBoundingClientRect(); if (r0.width < 12 || r0.height < 12) return false;   // dots and tiny marks are decoration
+    const border = ['Top', 'Right', 'Bottom', 'Left'].filter((s) => parseFloat(cs['border' + s + 'Width']) > 0 && cs['border' + s + 'Style'] !== 'none').length;
+    const bg = cs.backgroundColor && !/rgba\(0, 0, 0, 0\)|transparent/.test(cs.backgroundColor);
+    return border >= 3 || (bg && parseFloat(cs.borderRadius) > 0) || (cs.boxShadow && cs.boxShadow !== 'none');
+  };
+  for (const root of roots) {
+    const k = root.offsetHeight ? root.getBoundingClientRect().height / root.offsetHeight : 1;
+    for (const par of root.querySelectorAll('*')) {
+      if (par.closest('svg, .keypad, .navpad, .seg, .segmented, table')) continue;
+      const kids = [...par.children].filter((c) => shown(c) && !c.matches('script, style, br'));
+      if (kids.length < 2) continue;
+      // crowded: two boxes next to each other with less than 4 px between them
+      for (let i = 0; i + 1 < kids.length; i++) {
+        const a = kids[i], b = kids[i + 1];
+        if (!isBox(a) || !isBox(b)) continue;
+        const r = a.getBoundingClientRect(), s = b.getBoundingClientRect();
+        if (!r.width || !s.width) continue;
+        const ox = Math.min(r.right, s.right) - Math.max(r.left, s.left), oy = Math.min(r.bottom, s.bottom) - Math.max(r.top, s.top);
+        let gap = null;
+        if (ox > 2 && oy <= 0) gap = Math.max(s.top - r.bottom, r.top - s.bottom);
+        else if (oy > 2 && ox <= 0) gap = Math.max(s.left - r.right, r.left - s.right);
+        if (gap !== null && gap / k < 3.5 && gap / k > -1) crowded.add('crowded: ' + name(a) + ' / ' + name(b) + ' (' + Math.round(gap / k) + ' px)');
+      }
+      // uneven: three or more repeated items of the same kind in one row or one column with different gaps
+      let run = [kids[0]];
+      const key = (c) => c.tagName + '|' + (typeof c.className === 'string' ? c.className.replace(/\b(current|active|on|selected)\b/g, '').trim() : '');
+      const check = (items) => {
+        if (items.length < 3) return;
+        const rs = items.map((c) => c.getBoundingClientRect());
+        const sameRow = rs.every((x) => Math.abs(x.top - rs[0].top) < 2), sameCol = rs.every((x) => Math.abs(x.left - rs[0].left) < 2);
+        if (!sameRow && !sameCol) return;
+        const gaps = [];
+        for (let i = 0; i + 1 < rs.length; i++) gaps.push((sameCol ? rs[i + 1].top - rs[i].bottom : rs[i + 1].left - rs[i].right) / k);
+        if (gaps.some((g) => g < -1)) return;
+        const sorted = [...gaps].sort((a, b) => a - b), m = sorted[Math.floor(sorted.length / 2)];
+        const odd = gaps.filter((g) => Math.abs(g - m) > 4 && g < m + 24);   // a jump of 24 px or more is a deliberate section break
+        if (odd.length) uneven.add('uneven: ' + items.length + ' x ' + name(items[0]) + ' gaps ' + gaps.map(Math.round).join('/'));
+      };
+      for (let i = 1; i <= kids.length; i++) {
+        if (i < kids.length && key(kids[i]) === key(run[0])) run.push(kids[i]);
+        else { check(run); run = i < kids.length ? [kids[i]] : []; }
+      }
+    }
+  }
+  return [...crowded, ...uneven];
+}"""
+
 INPUT = """() => {
   const bad = [];
   for (const el of document.querySelectorAll('[data-interface]')) {
@@ -180,21 +238,28 @@ RAW = r"""() => {
 }"""
 
 
+def _ci():
+    with open(os.path.join(ROOT, ".github", "workflows", "ci.yml"), encoding="utf-8") as fh:
+        return fh.read()
+
+
 class BrowserTestsRun(unittest.TestCase):
     """A browser test skips itself where Chromium is missing, so it only protects anything if the layout job (which installs
     Chromium) runs it. Every test file that uses Playwright must be named in that job (the owner-web click bug of 2026-11-19
     sat in tests/test_device_shell.py, which no job with a browser ran)."""
     def test_every_browser_test_runs_in_the_layout_job(self):
-        ci = open(os.path.join(ROOT, ".github", "workflows", "ci.yml"), encoding="utf-8").read()
+        ci = _ci()
         for f in sorted(glob.glob(os.path.join(ROOT, "tests", "test_*.py"))):
             mod = os.path.basename(f)[:-3]
-            if "playwright" in open(f, encoding="utf-8").read():
+            with open(f, encoding="utf-8") as fh:
+                uses_browser = "playwright" in fh.read()
+            if uses_browser:
                 self.assertIn(f"tests.{mod}", ci, f"{mod} uses a browser but no job with a browser runs it")
 
     def test_every_layout_part_has_a_time_limit(self):
         """A stuck part fails within minutes instead of blocking the merge for an hour (on 19 November one part hung for over an
         hour while setting up the test machine): the job and its set-up step each have a time limit (section 4 part 1c)."""
-        ci = open(os.path.join(ROOT, ".github", "workflows", "ci.yml"), encoding="utf-8").read()
+        ci = _ci()
         job = ci[ci.index("  layout-part:"):ci.index("  layout:")]
         self.assertRegex(job, r"timeout-minutes: \d+", "the layout parts need a time limit")
         self.assertRegex(job, r"layout_setup\.sh, timeout-minutes: \d+", "the set-up step needs its own time limit")
@@ -204,8 +269,12 @@ class BrowserTestsRun(unittest.TestCase):
 @unittest.skipUnless(sync_playwright and glob.glob(os.path.join(DIST, "*.html")), "Playwright with Chromium is needed")
 class FitGuard(unittest.TestCase):
     def check(self, pg, where, found):
+        pg.mouse.move(0, 0)            # a hovered item is not part of the layout
         pg.evaluate(SETTLE)
-        bad = list(pg.evaluate(MENUS)) + list(pg.evaluate(DIALOGS)) + list(pg.evaluate(INPUT)) + list(pg.evaluate(CROWD)) + list(pg.evaluate(SPACE))
+        bad = list(pg.evaluate(MENUS)) + list(pg.evaluate(DIALOGS)) + list(pg.evaluate(INPUT)) + list(pg.evaluate(CROWD)) + list(pg.evaluate(SPACE)) + list(pg.evaluate(AREAS))
+        if bad:                               # look again after a moment: only what stays on screen counts
+            pg.wait_for_timeout(400); pg.evaluate(SETTLE)
+            bad = list(pg.evaluate(MENUS)) + list(pg.evaluate(DIALOGS)) + list(pg.evaluate(INPUT)) + list(pg.evaluate(CROWD)) + list(pg.evaluate(SPACE)) + list(pg.evaluate(AREAS))
         if bad:
             found[where] = bad
 
@@ -272,8 +341,12 @@ class FitGuard(unittest.TestCase):
                 pg = b.new_page(viewport={"width": 1500, "height": 1100}, reduced_motion="reduce")
                 pg.goto("file://" + f); pg.wait_for_timeout(300)
                 def look(where):
+                    pg.mouse.move(0, 0)
                     pg.evaluate(SETTLE)
-                    bad = pg.evaluate(RAW) + pg.evaluate(CROWD)
+                    bad = pg.evaluate(RAW) + pg.evaluate(CROWD) + pg.evaluate(AREAS)
+                    if bad:                   # look again after a moment: only what stays on screen counts
+                        pg.wait_for_timeout(400); pg.evaluate(SETTLE)
+                        bad = pg.evaluate(RAW) + pg.evaluate(CROWD) + pg.evaluate(AREAS)
                     if bad:
                         found.setdefault(emu, {})[where] = bad
                 look("start")
