@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { chooseInterface, safeToSwitch, browserFacts } from "../src/interfaces.js";
+import { chooseInterface, safeToSwitch, browserFacts, layoutFor } from "../src/interfaces.js";
 import type { Facts } from "../src/interfaces.js";
 import { DEVICES } from "../src/interfaces.generated.js";
 
@@ -15,6 +15,9 @@ test("every combination of device facts gets the same interface in TypeScript as
     assert.deepEqual([c.interface, c.rule], [r[8], r[9]], JSON.stringify(f));
   }
   for (const n of V.named) assert.deepEqual(chooseInterface(DEVICES, n.facts), n.expect, JSON.stringify(n.facts));
+});
+test("every interface at every shape gets the same layout in TypeScript as in the Python reference (TURN UPDATE)", () => {
+  for (const r of V.layouts) assert.deepEqual(layoutFor(DEVICES, r.facts), r.expect, JSON.stringify(r.facts));
 });
 test("never switch during a payment, count or signature; browser facts are capabilities only", () => {
   assert.equal(safeToSwitch("payment"), false); assert.equal(safeToSwitch(null), true);

@@ -1,0 +1,601 @@
+{
+ "version": 1,
+ "agreed": "2026-11-19 (INTERFACE UPDATE, master blueprint section 73; built in section 4 step B)",
+ "rule": "Every menu in LynkOmni comes from this register through core/navigation.py and ts/src/navigation.ts (run python3 tools/navigation_vectors.py after a change); no screen builds its own menu. Eight groups are used in the header menu, launcher, side bar, footer and search, and every billing family sits in exactly one. Every screen of catalog/business-app.v1.json has a way in (a tab, a service menu, a header button, quick create or a parent screen) and nothing unlisted is shown. Anything used often is at most three taps from Home. Words are label keys in web/navigation/strings.en.json.",
+ "groups": [
+  {
+   "id": "sell",
+   "label_key": "nav_g_sell",
+   "families": [
+    "lynkpos",
+    "lynkstock",
+    "lynkrewards",
+    "lynkgrow",
+    "lynkbooking",
+    "lynkessential"
+   ]
+  },
+  {
+   "id": "get_paid",
+   "label_key": "nav_g_get_paid",
+   "families": [
+    "lynkmpay",
+    "lynkcheckout",
+    "lynkrecover",
+    "lynkvcard",
+    "lynkexchange"
+   ]
+  },
+  {
+   "id": "run_the_office",
+   "label_key": "nav_g_run_the_office",
+   "families": [
+    "lynkacc",
+    "lynkinv",
+    "lynkcrm",
+    "lynkops",
+    "lynkstat",
+    "lynkfiles",
+    "lynkproperty",
+    "lynksuite"
+   ]
+  },
+  {
+   "id": "people",
+   "label_key": "nav_g_people",
+   "families": [
+    "lynkchat",
+    "lynkattend",
+    "lynkqueue",
+    "lynkhr"
+   ]
+  },
+  {
+   "id": "move_and_protect",
+   "label_key": "nav_g_move_and_protect",
+   "families": [
+    "lynkmotion",
+    "lynkguard"
+   ]
+  },
+  {
+   "id": "learn_and_work",
+   "label_key": "nav_g_learn_and_work",
+   "families": [
+    "lynkschool",
+    "lynkacademy",
+    "lynkjobs",
+    "lynkproject"
+   ]
+  },
+  {
+   "id": "ask_and_decide",
+   "label_key": "nav_g_ask_and_decide",
+   "families": [
+    "lynkassist",
+    "lynksurvey",
+    "lynkvote"
+   ]
+  },
+  {
+   "id": "build",
+   "label_key": "nav_g_build",
+   "families": [
+    "lynkdev"
+   ]
+  }
+ ],
+ "header": {
+  "app": [
+   "workspace_switcher",
+   "side_word",
+   "quick_create",
+   "search",
+   "connection_chip",
+   "assist",
+   "help",
+   "bell",
+   "launcher",
+   "account"
+  ],
+  "app_banners": [
+   "practice",
+   "view_only",
+   "deputy"
+  ],
+  "focus": [
+   "back_or_cancel",
+   "connection_chip"
+  ],
+  "website": [
+   "products_menu",
+   "solutions_menu",
+   "search",
+   "country_language",
+   "open_lynkomni",
+   "skip_to_content"
+  ],
+  "solutions": [
+   "person",
+   "shop",
+   "company",
+   "school",
+   "organisation",
+   "government",
+   "developer"
+  ],
+  "record_bar": [
+   "name",
+   "state",
+   "main_button"
+  ],
+  "connection_chip_counts_waiting": true,
+  "website_section": "5"
+ },
+ "rail": {
+  "top": [
+   "home",
+   "inbox",
+   "track",
+   "pins",
+   "all_services"
+  ],
+  "bottom": [
+   "emulators",
+   "automations",
+   "settings",
+   "help"
+  ],
+  "never_hidden": [
+   "settings",
+   "help"
+  ],
+  "extras": [
+   "favourites",
+   "recent",
+   "whats_new",
+   "usage_meter"
+  ],
+  "service_menu_order": [
+   "overview",
+   "lists",
+   "reports",
+   "automations",
+   "emulators",
+   "settings"
+  ],
+  "storefront_group_last": true,
+  "max_page_tabs": 7,
+  "more_key": "nav_more"
+ },
+ "bottom_bar": {
+  "max_tabs": 5,
+  "small_phone_tabs": 4,
+  "small_phone_below_px": 340,
+  "words_always": true,
+  "person": {
+   "tabs": [
+    "home",
+    "track",
+    "scan",
+    "chats",
+    "me"
+   ],
+   "centre": "scan",
+   "choosable": [
+    1,
+    3
+   ],
+   "section": "7"
+  },
+  "business": {
+   "tabs_from": "catalog/business-app.v1.json tabs",
+   "centre": {
+    "shop": "sell",
+    "no_till": "invoices",
+    "agent_point": "services",
+    "restaurant": "tables"
+   },
+   "choosable": [
+    1,
+    3
+   ],
+   "default_set_by": "owner"
+  },
+  "small_phone_drops": 3,
+  "soft_keys": [
+   "options",
+   "ok",
+   "back"
+  ],
+  "hidden_in": [
+   "payment",
+   "cash_count",
+   "void",
+   "signature",
+   "ballot"
+  ],
+  "scan_kinds": [
+   "pay",
+   "collect",
+   "check_in",
+   "join_queue",
+   "open_ballot",
+   "connect_emulator"
+  ]
+ },
+ "protected": [
+  "payment",
+  "cash_count",
+  "void",
+  "signature",
+  "ballot"
+ ],
+ "quick_create": [
+  {
+   "id": "new_sale",
+   "family": "lynkpos",
+   "opens": "sell",
+   "roles": [
+    "owner",
+    "manager",
+    "cashier"
+   ]
+  },
+  {
+   "id": "new_product",
+   "family": "lynkstock",
+   "opens": "add_product",
+   "roles": [
+    "owner",
+    "manager",
+    "stock_staff"
+   ]
+  },
+  {
+   "id": "new_invoice",
+   "family": "lynkinv",
+   "opens": "invoicing",
+   "roles": [
+    "owner",
+    "manager"
+   ]
+  },
+  {
+   "id": "new_customer",
+   "family": "lynkcrm",
+   "opens": "customers",
+   "roles": [
+    "owner",
+    "manager",
+    "cashier"
+   ]
+  },
+  {
+   "id": "new_booking",
+   "family": "lynkbooking",
+   "planned_section": "4",
+   "roles": [
+    "owner",
+    "manager",
+    "cashier"
+   ]
+  },
+  {
+   "id": "new_task",
+   "family": "lynkproject",
+   "planned_section": "4B",
+   "roles": [
+    "owner",
+    "manager"
+   ]
+  }
+ ],
+ "search_groups": [
+  "go_to",
+  "do",
+  "records",
+  "help",
+  "settings"
+ ],
+ "account_menu": [
+  "workspace",
+  "role",
+  "side",
+  "language_region",
+  "theme",
+  "change_view"
+ ],
+ "launcher": [
+  "my_services",
+  "groups",
+  "search",
+  "pins",
+  "side_switch"
+ ],
+ "service_menus": [
+  {
+   "service": "sell",
+   "family": "lynkpos",
+   "overview": "sell",
+   "lists": [
+    "sales_today",
+    "shift",
+    "practice"
+   ],
+   "reports": "reports",
+   "automations": "automations",
+   "emulators": "sell_emulators",
+   "settings": "settings"
+  },
+  {
+   "service": "stock",
+   "family": "lynkstock",
+   "overview": "stock",
+   "lists": [
+    "suppliers",
+    "reorder",
+    "marketplace",
+    "labels",
+    "import_export"
+   ],
+   "reports": "reports",
+   "automations": "automations",
+   "emulators": "stock_emulators",
+   "settings": "settings",
+   "storefront": [
+    "storefront_stock"
+   ]
+  },
+  {
+   "service": "chats",
+   "family": "lynkchat",
+   "overview": "chats",
+   "lists": [],
+   "reports": null,
+   "automations": "automations",
+   "emulators": null,
+   "settings": "settings",
+   "storefront": [
+    "storefront_chats"
+   ]
+  },
+  {
+   "service": "business",
+   "family": null,
+   "overview": "business",
+   "lists": [
+    "daily_close",
+    "money",
+    "invoicing",
+    "customers",
+    "books",
+    "loyalty",
+    "growth",
+    "assistant",
+    "cards",
+    "online_shop",
+    "agent_earnings",
+    "pickup_point",
+    "academy",
+    "deliveries",
+    "team",
+    "branches_devices",
+    "plans_billing",
+    "driver"
+   ],
+   "reports": "reports",
+   "automations": "automations",
+   "emulators": "emulators",
+   "settings": "settings",
+   "storefront": [
+    "storefront",
+    "storefront_listings",
+    "storefront_payouts"
+   ]
+  },
+  {
+   "service": "attendance",
+   "family": "lynkattend",
+   "overview": "attendance",
+   "lists": [
+    "attendance_people",
+    "attendance_check_ins",
+    "attendance_visitors",
+    "attendance_checkers",
+    "attendance_shifts",
+    "attendance_leave",
+    "attendance_events",
+    "attendance_devices"
+   ],
+   "reports": "attendance_reports",
+   "automations": "automations",
+   "emulators": "attendance_emulators",
+   "settings": "settings"
+  },
+  {
+   "service": "queue",
+   "family": "lynkqueue",
+   "overview": "queue",
+   "lists": [
+    "queue_tickets",
+    "queue_places",
+    "queue_sections",
+    "queue_counters",
+    "queue_devices"
+   ],
+   "reports": "queue_reports",
+   "automations": "automations",
+   "emulators": "queue_emulators",
+   "settings": "settings"
+  },
+  {
+   "service": "survey",
+   "family": "lynksurvey",
+   "overview": "survey",
+   "lists": [
+    "survey_surveys",
+    "survey_tasks",
+    "survey_panel",
+    "survey_devices"
+   ],
+   "reports": "survey_results",
+   "automations": "automations",
+   "emulators": "survey_emulators",
+   "settings": "settings"
+  }
+ ],
+ "header_ways_in": {
+  "bell": "notifications",
+  "account": "account",
+  "home": "home"
+ },
+ "children": {
+  "sell": [
+   {
+    "screen": "basket",
+    "via": "tap"
+   }
+  ],
+  "basket": [
+   {
+    "screen": "pay",
+    "via": "flow"
+   }
+  ],
+  "pay": [
+   {
+    "screen": "receipt",
+    "via": "flow"
+   }
+  ],
+  "stock": [
+   {
+    "screen": "product",
+    "via": "tap"
+   },
+   {
+    "screen": "add_product",
+    "via": "tap"
+   },
+   {
+    "screen": "stock_received",
+    "via": "tap"
+   },
+   {
+    "screen": "stock_count",
+    "via": "tap"
+   },
+   {
+    "screen": "stock_remove",
+    "via": "tap"
+   },
+   {
+    "screen": "stock_move",
+    "via": "tap"
+   }
+  ],
+  "chats": [
+   {
+    "screen": "thread",
+    "via": "tap"
+   }
+  ],
+  "attendance_people": [
+   {
+    "screen": "attendance_new",
+    "via": "tap"
+   }
+  ],
+  "attendance_devices": [
+   {
+    "screen": "attendance_door",
+    "via": "tap"
+   }
+  ],
+  "queue": [
+   {
+    "screen": "queue_reception",
+    "via": "tap"
+   },
+   {
+    "screen": "queue_counter",
+    "via": "tap"
+   }
+  ],
+  "queue_devices": [
+   {
+    "screen": "queue_kiosk",
+    "via": "tap"
+   },
+   {
+    "screen": "queue_screen",
+    "via": "tap"
+   }
+  ],
+  "survey_surveys": [
+   {
+    "screen": "survey_new",
+    "via": "tap"
+   }
+  ],
+  "survey_results": [
+   {
+    "screen": "survey_research",
+    "via": "tap"
+   }
+  ],
+  "survey_devices": [
+   {
+    "screen": "survey_kiosk",
+    "via": "tap"
+   }
+  ],
+  "storefront_listings": [
+   {
+    "screen": "storefront_new_listing",
+    "via": "tap"
+   }
+  ],
+  "deliveries": [
+   {
+    "screen": "delivery",
+    "via": "tap"
+   }
+  ]
+ },
+ "three_taps": 3,
+ "often": [
+  "home",
+  "sell",
+  "basket",
+  "pay",
+  "sales_today",
+  "shift",
+  "stock",
+  "product",
+  "add_product",
+  "stock_received",
+  "chats",
+  "thread",
+  "business",
+  "reports",
+  "daily_close",
+  "money",
+  "invoicing",
+  "customers",
+  "books",
+  "notifications",
+  "attendance",
+  "attendance_check_ins",
+  "queue",
+  "queue_tickets",
+  "queue_counter",
+  "survey",
+  "survey_results",
+  "storefront",
+  "storefront_listings",
+  "deliveries",
+  "delivery"
+ ]
+}

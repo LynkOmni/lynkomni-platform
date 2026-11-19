@@ -247,6 +247,9 @@ class MoreCards(unittest.TestCase):
                 w, h = generate.png_dims(f.read())
             self.assertEqual(f"{w}x{h}", ic["sizes"])
         self.assertEqual({i["purpose"] for i in m["icons"]}, {"any", "maskable"})
+        from core import interfaces
+        self.assertEqual(m["orientation"], interfaces.SHAPES["manifest_orientation"], "the installed app is never locked to one direction again (TURN UPDATE 76.6)")
+        self.assertEqual(m["orientation"], "any")
 
 
 class Api(unittest.TestCase):

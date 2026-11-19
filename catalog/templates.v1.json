@@ -1,0 +1,427 @@
+{
+ "version": 1,
+ "agreed": "2026-11-19 (INTERFACE UPDATE, master blueprint 73.6; built in section 4 step B)",
+ "rule": "Every screen uses one of these page templates, listed per screen here; a screen never invents its own layout. The parts each template holds come from the one shared kit (B2: ts/src/pagekit.ts). Focus screens (payment, cash count, void, signature, ballot and one-task device screens) show only Back or Cancel and the connection chip in the header and hide the bottom bar. Every place (emulator) names its frame.",
+ "templates": {
+  "home": {
+   "parts": [
+    "greeting",
+    "first_use_checklist",
+    "summary_cards",
+    "next_steps",
+    "whats_new"
+   ]
+  },
+  "list": {
+   "parts": [
+    "search",
+    "filter_chips",
+    "sort",
+    "saved_views",
+    "column_chooser",
+    "act_on_many",
+    "sticky_header_row",
+    "cards_on_phone",
+    "swipe_actions_with_buttons",
+    "totals",
+    "export_menu",
+    "load_more"
+   ]
+  },
+  "record": {
+   "parts": [
+    "summary",
+    "record_bar",
+    "tabs",
+    "helper_panel",
+    "print_layout"
+   ],
+   "tabs": [
+    "details",
+    "activity",
+    "files",
+    "related"
+   ]
+  },
+  "form": {
+   "parts": [
+    "one_column",
+    "check_as_you_type",
+    "right_keyboard",
+    "draft_saved",
+    "review_before_final",
+    "save_bar"
+   ]
+  },
+  "steps": {
+   "parts": [
+    "step_count",
+    "one_column",
+    "check_as_you_type",
+    "draft_saved",
+    "review_before_final",
+    "save_bar"
+   ]
+  },
+  "report": {
+   "parts": [
+    "period",
+    "chart_with_table",
+    "totals",
+    "export_menu",
+    "print_layout"
+   ]
+  },
+  "board_calendar": {
+   "parts": [
+    "board_or_calendar",
+    "list_view",
+    "filter_chips"
+   ]
+  },
+  "inbox": {
+   "parts": [
+    "filter_chips",
+    "list",
+    "conversation_beside_list"
+   ]
+  },
+  "settings": {
+   "parts": [
+    "labelled_sections",
+    "save_bar",
+    "reset_to_default"
+   ]
+  },
+  "focus": {
+   "parts": [
+    "focus_header",
+    "one_task",
+    "main_button"
+   ],
+   "no_bottom_bar": true
+  }
+ },
+ "states": [
+  "loading_shape",
+  "empty_picture_first_step",
+  "error_with_fix",
+  "undo_after_action",
+  "confirm_only_without_undo",
+  "offline_needs_internet"
+ ],
+ "panels": {
+  "phone": "bottom",
+  "wider": "side",
+  "stacked": false
+ },
+ "screens": {
+  "home": {
+   "template": "home"
+  },
+  "business": {
+   "template": "home"
+  },
+  "attendance": {
+   "template": "home"
+  },
+  "queue": {
+   "template": "home"
+  },
+  "survey": {
+   "template": "home"
+  },
+  "storefront": {
+   "template": "home"
+  },
+  "sell": {
+   "template": "list"
+  },
+  "sales_today": {
+   "template": "list"
+  },
+  "stock": {
+   "template": "list"
+  },
+  "suppliers": {
+   "template": "list"
+  },
+  "reorder": {
+   "template": "list"
+  },
+  "marketplace": {
+   "template": "list"
+  },
+  "labels": {
+   "template": "list"
+  },
+  "attendance_people": {
+   "template": "list"
+  },
+  "attendance_check_ins": {
+   "template": "list"
+  },
+  "attendance_visitors": {
+   "template": "list"
+  },
+  "attendance_checkers": {
+   "template": "list"
+  },
+  "attendance_events": {
+   "template": "list"
+  },
+  "attendance_devices": {
+   "template": "list"
+  },
+  "queue_places": {
+   "template": "list"
+  },
+  "queue_sections": {
+   "template": "list"
+  },
+  "queue_counters": {
+   "template": "list"
+  },
+  "queue_devices": {
+   "template": "list"
+  },
+  "survey_surveys": {
+   "template": "list"
+  },
+  "survey_tasks": {
+   "template": "list"
+  },
+  "survey_panel": {
+   "template": "list"
+  },
+  "survey_devices": {
+   "template": "list"
+  },
+  "storefront_listings": {
+   "template": "list"
+  },
+  "storefront_stock": {
+   "template": "list"
+  },
+  "storefront_payouts": {
+   "template": "list"
+  },
+  "deliveries": {
+   "template": "list"
+  },
+  "money": {
+   "template": "list"
+  },
+  "invoicing": {
+   "template": "list"
+  },
+  "customers": {
+   "template": "list"
+  },
+  "loyalty": {
+   "template": "list"
+  },
+  "cards": {
+   "template": "list"
+  },
+  "agent_earnings": {
+   "template": "list"
+  },
+  "pickup_point": {
+   "template": "list"
+  },
+  "team": {
+   "template": "list"
+  },
+  "branches_devices": {
+   "template": "list"
+  },
+  "emulators": {
+   "template": "list"
+  },
+  "sell_emulators": {
+   "template": "list"
+  },
+  "stock_emulators": {
+   "template": "list"
+  },
+  "attendance_emulators": {
+   "template": "list"
+  },
+  "queue_emulators": {
+   "template": "list"
+  },
+  "survey_emulators": {
+   "template": "list"
+  },
+  "academy": {
+   "template": "list"
+  },
+  "automations": {
+   "template": "list"
+  },
+  "product": {
+   "template": "record"
+  },
+  "delivery": {
+   "template": "record"
+  },
+  "basket": {
+   "template": "record"
+  },
+  "chats": {
+   "template": "inbox"
+  },
+  "storefront_chats": {
+   "template": "inbox"
+  },
+  "notifications": {
+   "template": "inbox"
+  },
+  "thread": {
+   "template": "record"
+  },
+  "add_product": {
+   "template": "form"
+  },
+  "stock_received": {
+   "template": "form"
+  },
+  "stock_remove": {
+   "template": "form"
+  },
+  "stock_move": {
+   "template": "form"
+  },
+  "import_export": {
+   "template": "form"
+  },
+  "attendance_new": {
+   "template": "steps"
+  },
+  "survey_new": {
+   "template": "steps"
+  },
+  "storefront_new_listing": {
+   "template": "steps"
+  },
+  "stock_count": {
+   "template": "steps"
+  },
+  "reports": {
+   "template": "report"
+  },
+  "daily_close": {
+   "template": "report"
+  },
+  "books": {
+   "template": "report"
+  },
+  "growth": {
+   "template": "report"
+  },
+  "attendance_reports": {
+   "template": "report"
+  },
+  "queue_reports": {
+   "template": "report"
+  },
+  "survey_results": {
+   "template": "report"
+  },
+  "survey_research": {
+   "template": "report"
+  },
+  "attendance_shifts": {
+   "template": "board_calendar"
+  },
+  "attendance_leave": {
+   "template": "board_calendar"
+  },
+  "queue_tickets": {
+   "template": "board_calendar"
+  },
+  "settings": {
+   "template": "settings"
+  },
+  "plans_billing": {
+   "template": "settings"
+  },
+  "driver": {
+   "template": "settings"
+  },
+  "account": {
+   "template": "settings"
+  },
+  "online_shop": {
+   "template": "settings"
+  },
+  "assistant": {
+   "template": "settings"
+  },
+  "pay": {
+   "template": "focus",
+   "protected": "payment"
+  },
+  "shift": {
+   "template": "focus",
+   "protected": "cash_count"
+  },
+  "receipt": {
+   "template": "focus"
+  },
+  "practice": {
+   "template": "focus"
+  },
+  "attendance_door": {
+   "template": "focus",
+   "device": true
+  },
+  "queue_reception": {
+   "template": "focus",
+   "device": true
+  },
+  "queue_counter": {
+   "template": "focus",
+   "device": true
+  },
+  "queue_kiosk": {
+   "template": "focus",
+   "device": true
+  },
+  "queue_screen": {
+   "template": "focus",
+   "device": true
+  },
+  "survey_kiosk": {
+   "template": "focus",
+   "device": true
+  }
+ },
+ "places": {
+  "merchant-phone": "app",
+  "owner-web": "app",
+  "counter-tablet": "app",
+  "account-site": "app",
+  "pos-terminal": "device",
+  "kitchen-screen": "device",
+  "customer-display": "device",
+  "button-phone": "device",
+  "lynk-kiosk": "device",
+  "lynk-dscreen": "device",
+  "lynk-cdisplay": "device",
+  "stock-scanner": "device",
+  "rider-phone": "device",
+  "mesh-relay": "device",
+  "vcard-card": "device",
+  "track-page": "page",
+  "queue-page": "page",
+  "survey-page": "page",
+  "browser-frame": "page"
+ },
+ "frames": {
+  "app": "header, two-level side bar on a computer, rail on a tablet, bottom bar on a phone, helper panel, footer of the app",
+  "device": "the device body from ts/src/deviceshell.ts; its screens use the same templates inside",
+  "page": "a hosted page with ts/src/pagehead.ts and a minimal footer; pay pages use the focus frame"
+ }
+}

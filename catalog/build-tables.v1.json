@@ -907,7 +907,12 @@
       "4"
      ],
      "part": "The groundwork: the navigation register and the page-template register; the upgraded header, two-level side bar, bottom bar, quick create, switchers, search and launcher; lists, records, forms and states; the speed targets and checks; the part gallery in the showcase; every screen already built (Step 0 to 3B) moved onto them",
-     "done": {}
+     "done": {},
+     "progress": {
+      "4": [
+       "v0.56.0: the navigation register and the page-template register (every Business app screen with its template and a way in; three-tap and no-orphan checks)"
+      ]
+     }
     },
     {
      "sections": [
@@ -1181,7 +1186,12 @@
       "4"
      ],
      "part": "The groundwork: the fix to the app settings file (leftover, with lines in the decisions diary and change log); the turn rules in the shared shell (keep place, text, focus and step; no double actions); sideways side-rail and two-column layouts; the new checks; every screen already built (Step 0 to 3B) re-tested in both directions and fixed where needed",
-     "done": {}
+     "done": {},
+     "progress": {
+      "4": [
+       "v0.56.0: the app settings file fixed (leftover, decisions and change log); the layout for every shape and the turn rules (ts/src/turn.ts) with shared vectors"
+      ]
+     }
     },
     {
      "sections": [

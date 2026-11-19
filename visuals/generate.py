@@ -103,7 +103,7 @@ def svg_jobs(doc):
                          '<link rel="apple-touch-icon" href="/web/apple-touch-icon-180.png">']}, indent=1) + "\n"
             tk = kit._design.resolved("light")
             text_files["web/manifest.webmanifest"] = json.dumps({
-                "name": "LynkOmni", "short_name": "LynkOmni", "start_url": "/", "scope": "/", "display": "standalone", "orientation": "portrait",
+                "name": "LynkOmni", "short_name": "LynkOmni", "start_url": "/", "scope": "/", "display": "standalone", "orientation": "any",
                 "background_color": tk["bg-base"], "theme_color": tk["brand-primary"], "lang": "en",
                 "icons": [{"src": "pwa-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"}, {"src": "pwa-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
                           {"src": "pwa-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}]}, indent=1) + "\n"
