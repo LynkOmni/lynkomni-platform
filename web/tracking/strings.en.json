@@ -97,5 +97,10 @@
  "trk_served": "Served",
  "trk_missed": "Did not come",
  "trk_left_queue": "Left the queue",
- "trk_not_served_today": "Not served today"
+ "trk_not_served_today": "Not served today",
+ "trk_k_attendance_correction": "Attendance record",
+ "trk_k_survey_reward": "Survey reward",
+ "trk_checked_in": "Checked in",
+ "trk_checked_out": "Checked out",
+ "trk_corrected": "Corrected"
 }
