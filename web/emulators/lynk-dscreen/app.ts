@@ -10,11 +10,13 @@ import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { QueueDesk, pairCode, pairCodeAt, quDriver, quScreenView, quVoice } from "../../../ts/src/queuedesk.js";
 import type { QuLook, QuPlan } from "../../../ts/src/queuedesk.js";
+import { SurveyDesk, svScreenView } from "../../../ts/src/surveydesk.js";
+import type { SvPlan } from "../../../ts/src/surveydesk.js";
 import type { AtTier } from "../../../ts/src/attenddesk.js";
 
-declare const DATA: Build & { people: { queue: Record<AtTier, QuPlan> } };
+declare const DATA: Build & { people: { queue: Record<AtTier, QuPlan>; survey: Record<AtTier, SvPlan> } };
 const TIERS = ["free", "plus", "pro", "max"] as const;
-const S: PanelState & { ticks: number; sound: boolean; said: string; second: string } = { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: true, lang: "en", ticks: 0, sound: false, said: "", second: "" };
+const S: PanelState & { ticks: number; sound: boolean; said: string; second: string; poll?: boolean } = { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: true, lang: "en", ticks: 0, sound: false, said: "", second: "" };
 const W = new Words(DATA.i18n, () => S.lang); const t = W.t;
 const C = new Country(DATA, () => S.country, () => S.lang);
 const $ = <E extends HTMLElement>(sel: string): E => document.querySelector(sel) as E;
@@ -22,6 +24,8 @@ const icon = (id: string, cls = "ic"): string => `<span class="${cls}" aria-hidd
 const chip = (s: UserState): string => `<span class="chip st-${s}">${icon(`status-${s}`)}<span>${esc(t(`st_${s}`))}</span></span>`;
 const LOG = new EventLog(() => { const el = document.getElementById("log"); if (el) el.innerHTML = LOG.html(esc, chip, t("no_events")); });
 const Q = new QueueDesk((type, payload, origin) => { LOG.emit(type, payload, origin); }, DATA.people.queue);
+/** LynkSurvey on the same wall: the live poll builds up as people answer (never below 5 answers) with the QR to answer. */
+const SV = new SurveyDesk((type, payload, origin) => { LOG.emit(type, payload, origin); }, DATA.people.survey);
 const clock = (ms: number): string => new Intl.DateTimeFormat(`${W.htmlLang()}-${C.pack().code}`, { timeZone: C.pack().tz, hour: "2-digit", minute: "2-digit" }).format(ms);
 const look = (): QuLook => ({ t, icon, clock, money: (c) => C.money(c, "USD"), online: S.online, partner: !S.realUser, mayManage: false, place: t("ds_place"), powered: `<small class="pb">${esc(t("ppl_qu_powered", { brand: "LynkOmni" }))}</small>` });
 /** The voice reads in the place's languages (only the words change; the number is read character by character in every one). */
@@ -43,6 +47,8 @@ function draw(): void {
   const el = $("#screen"); DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W);
   Q.tier = S.tier as AtTier; Q.voice = S.second && S.second !== S.lang ? [S.lang, S.second] : [S.lang];
   const top = Q.tickets.filter((x) => x.state === "called").sort((a, b) => (b.calledAt ?? 0) - (a.calledAt ?? 0))[0];
+  SV.tier = S.tier as AtTier;
+  if (S.poll) { el.innerHTML = svScreenView(SV, look()); const tl = $("#till"); applyRoot(tl, W); tl.innerHTML = `<div class="tbtns"><button type="button" data-act="ds:vote:5">5</button><button type="button" data-act="ds:vote:2">2</button></div>`; return; }
   el.innerHTML = quScreenView(Q, look(), speakIn, pairCodeAt(Math.floor(Date.now() / 180_000)))
     + `<div class="ds-keys"><button type="button" class="ghost" data-act="ds:again" ${top ? "" : "disabled"}>${esc(t("ds_say_again"))}</button><button type="button" class="ghost" data-act="ds:sound" aria-pressed="${S.sound}">${esc(t("ds_sound"))}: ${esc(t(S.sound ? "ppl_on" : "ppl_off"))}</button></div>`;
   const key = top ? `${top.id}:${top.calls}` : "";
@@ -54,6 +60,7 @@ function act(a: string): void {
   if (a.startsWith("qu:")) Q.act(a, { online: S.online, partner: !S.realUser, pairCode, redraw: draw });
   else if (a === "ds:sound") S.sound = !S.sound;
   else if (a === "ds:again") S.said = "";
+  else if (a.startsWith("ds:vote:")) { const c = SV.sv(); if (c) SV.answer(c.id, "smartphone", { visit: { number: Number(a.slice(8)) } }, { online: S.online }); }
   draw();
 }
 function panel(): void {
@@ -62,7 +69,8 @@ function panel(): void {
     + `<div class="ctl-extra"><label class="center"><span>${esc(t("ds_second_language"))}</span> <select data-kctl="second"><option value="">–</option>${langs.map((l) => `<option value="${esc(l)}" ${S.second === l ? "selected" : ""}>${esc(DATA.i18n[l]?.native ?? l)}</option>`).join("")}</select></label>
       <label><input type="checkbox" data-kctl="only" ${Q.joinFrom === "only_at_the_place" ? "checked" : ""}> <span>${esc(t("ppl_qu_join_only_at_the_place"))}</span></label></div>` + DEV.control();
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
-  stateButtons($("#stateButtons"), ["waiting", "called", "two-called", "back-soon"], (k) => {
+  stateButtons($("#stateButtons"), ["waiting", "called", "two-called", "back-soon", "live-poll"], (k) => {
+    S.poll = k === "live-poll";
     for (const c of Q.counters) { if (c.serving) Q.finish(c.id, "served"); Q.counterState(c.id, "open"); }
     while (Q.waiting().length < 4) Q.issue("SRV", false, "reception");
     const [c1, c2] = Q.counters;

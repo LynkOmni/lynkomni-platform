@@ -32,6 +32,19 @@ class Channels(unittest.TestCase):
         self.assertNotIn("agent", C.MENU)
         self.assertIn("ch_help", EN); self.assertIn("1", EN["ch_help"])
 
+    def test_answering_a_survey_by_basic_phone_is_numbers_only_and_every_page_fits(self):
+        ctx = {"org": "Buea Regional Hospital", "minutes": 2, "anonymous": True, "questions": [{"id": "visit", "type": "rating", "text": "How was your visit today?"},
+               {"id": "why", "type": "long", "text": "What should we do better?"}, {"id": "wait", "type": "choice", "text": "How long did you wait?", "choices": ["Under 5 min", "5 to 15 min", "Over 15 min"]}]}
+        st = C.survey_start(); intro = C.render(C.survey_page(st, ctx), EN)
+        self.assertIn("2", intro); self.assertLessEqual(len(intro), C.USSD_MAX)                    # "2 questions": a written question is not asked here
+        st, ends, action = C.survey_step(st, "1", ctx)
+        for page in (C.survey_page(st, ctx),): self.assertLessEqual(len(C.render(page, EN)), C.USSD_MAX)
+        self.assertEqual(C.survey_step(st, "9", ctx)[0], st)                                   # a reply that does not fit is asked again
+        st, ends, action = C.survey_step(st, "4", ctx); self.assertLessEqual(len(C.render(C.survey_page(st, ctx), EN)), C.USSD_MAX)
+        st, ends, action = C.survey_step(st, "3", ctx)
+        self.assertEqual((ends, action), (True, {"answers": [{"q": "visit", "number": 4}, {"q": "wait", "choice": "Over 15 min"}]}))
+        self.assertEqual(C.survey_step(C.survey_start(), "0", ctx)[1:], (True, None))
+
     def test_joining_a_queue_by_basic_phone_is_numbers_only_and_every_page_fits(self):
         ctx = {"place": "Buea Regional Hospital", "sections": [["Laboratory", 12, 25, True], ["Pharmacy", 3, 8, True], ["Accounts", 0, 4, False]], "ticket": None}
         st = C.queue_start(); self.assertLessEqual(len(C.render(C.queue_page(st, ctx), EN)), C.USSD_MAX)

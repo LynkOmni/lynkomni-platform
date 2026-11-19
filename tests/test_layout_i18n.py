@@ -372,6 +372,7 @@ DEVICES = {
     "lynk-dscreen": (["#screen", "#till"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
     "lynk-cdisplay": (["#screen", "#till"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
     "queue-page": (["#screen", "#till"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
+    "survey-page": (["#screen", "#till"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
 }
 DEVICE_FILE = lambda e: os.path.join(ROOT, "web", "emulators", "dist", f"lynkomni-{e}.html")
 OVERFLOW_IN = OVERFLOW.replace("() => {\n  const d = document.querySelector('#display')", "(sel) => {\n  const d = document.querySelector(sel)")

@@ -20,7 +20,7 @@ def svg(path):
 
 
 # Shared word packs: an emulator that imports the module carries the folder's words too (one translation, used everywhere).
-SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/queuedesk.js", os.path.join("web", "shell")), ("ts/src/trackview.js", os.path.join("web", "tracking")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/footer.js", os.path.join("web", "footer")))
+SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/queuedesk.js", os.path.join("web", "shell")), ("ts/src/surveydesk.js", os.path.join("web", "shell")), ("ts/src/trackview.js", os.path.join("web", "tracking")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/footer.js", os.path.join("web", "footer")))
 
 
 def uses_shell(emulator):
@@ -59,9 +59,9 @@ def _packs(base):
 
 # The MASTER UPDATE section 1 parts (the bell, sign-in parts, LynkAssist, breadcrumbs): their words travel only in a file that
 # shows them, so a device that does not import them never carries their words (size budget).
-PART_MODULES = ("signin.ts", "notify.ts", "assist.ts", "breadcrumbs.ts", "attenddesk.ts", "queuedesk.ts", "peoplehub.ts", "afterpay.ts")
+PART_MODULES = ("signin.ts", "notify.ts", "assist.ts", "breadcrumbs.ts", "attenddesk.ts", "queuedesk.ts", "surveydesk.ts", "peoplehub.ts", "afterpay.ts")
 PART_WORDS = {"signin.ts": ("pin_", "match_"), "notify.ts": ("ntf_", "msg_"), "assist.ts": ("as_",), "breadcrumbs.ts": ("crumbs",), "peopleparts.ts": ("ppl_",),
-              "attenddesk.ts": ("ppl_at_",), "queuedesk.ts": ("ppl_qu_",)}   # build section 3B: each desk's own words travel only with that desk
+              "attenddesk.ts": ("ppl_at_",), "queuedesk.ts": ("ppl_qu_",), "surveydesk.ts": ("ppl_sv_",)}   # build section 3B: each desk's own words travel only with that desk
 
 
 def part_words_left_out(emulator):

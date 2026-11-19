@@ -21,6 +21,7 @@ import { buildPack } from "../../../ts/src/assist.js";
 import { PeopleHub } from "../../../ts/src/peoplehub.js";
 import { pairCode, quCounterView, quPaper, quReceptionView } from "../../../ts/src/queuedesk.js";
 import type { QuLook, QuPlan } from "../../../ts/src/queuedesk.js";
+import type { SvPlan } from "../../../ts/src/surveydesk.js";
 import { atDoor, wasThisYou } from "../../../ts/src/attenddesk.js";
 import type { AtLook, AtPlan, AtTier } from "../../../ts/src/attenddesk.js";
 import { ticketNumber } from "../../../ts/src/queue.js";
@@ -35,7 +36,7 @@ interface BuildData {
   packs: Record<string, CountryPack>;
   packOrder: string[];
   i18n: Record<string, { native: string; dir: "ltr" | "rtl"; texts: Record<string, string> }>;
-  people: { attend: Record<AtTier, AtPlan>; queue: Record<AtTier, QuPlan> };
+  people: { attend: Record<AtTier, AtPlan>; queue: Record<AtTier, QuPlan>; survey: Record<AtTier, SvPlan> };
 }
 interface CountryPack {
   code: string; name: string; currency: string; tz: string; locale: string; sample: boolean;
@@ -169,7 +170,7 @@ function activePayment(): PaymentPayload | undefined { return S.current?.payment
 
 // ---- the printer --------------------------------------------------------------------------------------------------
 /** LynkAttend and LynkQueue on this terminal (ts/src/peoplehub.ts): the same engine as the Business app, writing to this log. */
-const PH = new PeopleHub((type, payload, origin) => emit(type, payload, origin), Date.now, DATA.people.attend, DATA.people.queue);
+const PH = new PeopleHub((type, payload, origin) => emit(type, payload, origin), Date.now, DATA.people.attend, DATA.people.queue, DATA.people.survey);
 PH.q.ownPrinter = true;                                                 // the terminal prints tickets on its own receipt printer
 /** How the LynkAttend screens look on this terminal, and the door speaking the person's own language after the PIN. */
 const atLook = (): AtLook => ({ t, icon, clock: (ms) => clock(ms), money: (c) => formatMoney(c, "USD", locale()), online: S.online, partner: !S.realUser, mayManage: S.role === "owner" || S.role === "manager" });

@@ -137,6 +137,65 @@ def parse_queue_sms(text, sections):
     return None
 
 
+# ---- LynkSurvey for a person with a basic phone (NEW UPDATE 4, LynkS; build section 3B): the organisation's short code or number.
+# The same number menu by USSD, by text message and read aloud on a voice call; one question a page; no account needed. Only the
+# question types that fit a number reply are asked here (a 1 to 5 rating with words, a 0 to 10 score, yes or no, one choice);
+# written answers are left to the other ways. The answers go to the cloud, which checks them like every other answer.
+S_TYPES = ("rating", "stars", "score", "yes_no", "choice")
+
+
+def survey_start():
+    return {"screen": "intro", "i": 0, "answers": []}
+
+
+def _asked(ctx):
+    return [q for q in ctx["questions"] if q["type"] in S_TYPES]
+
+
+def survey_page(state, ctx):
+    """ctx: org (text), minutes, anonymous (bool), questions [{"id", "type", "text", "choices"?}] in the person's language."""
+    s, qs = state["screen"], _asked(ctx)
+    if s == "intro":
+        return [("ch_s_intro", {"org": ctx["org"], "count": len(qs), "minutes": ctx["minutes"]})] + ([("ch_s_anon", {})] if ctx["anonymous"] else []) + [("ch_s_start", {"n": 1}), ("ch_end", {"n": 0})]
+    if s == "question":
+        q = qs[state["i"]]
+        head = [("ch_s_q", {"i": state["i"] + 1, "of": len(qs), "text": q["text"]})]
+        if q["type"] in ("rating", "stars"): return head + [("ch_s_rate", {})]
+        if q["type"] == "score": return head + [("ch_s_score", {})]
+        if q["type"] == "yes_no": return head + [("ch_s_yes", {"n": 1}), ("ch_s_no", {"n": 2})]
+        return head + [("ch_s_choice", {"n": i + 1, "name": c}) for i, c in enumerate(q["choices"])]
+    if s == "done":
+        return [("ch_s_done", {})]
+    return [("ch_bye", {})]
+
+
+def _reply(q, t):
+    """The answer a reply gives, or None when the reply does not fit the question."""
+    if not t.isdigit(): return None
+    n = int(t)
+    if q["type"] in ("rating", "stars") and 1 <= n <= 5: return {"q": q["id"], "number": n}
+    if q["type"] == "score" and 0 <= n <= 10: return {"q": q["id"], "number": n}
+    if q["type"] == "yes_no" and n in (1, 2): return {"q": q["id"], "choice": "yes" if n == 1 else "no"}
+    if q["type"] == "choice" and 1 <= n <= len(q["choices"]): return {"q": q["id"], "choice": q["choices"][n - 1]}
+    return None
+
+
+def survey_step(state, text, ctx):
+    """One reply. Returns (new state, ends, action or None); the action {"answers": [...]} comes once, when the last question is answered."""
+    s, t, qs = {**state, "answers": list(state["answers"])}, (text or "").strip(), _asked(ctx)
+    if s["screen"] == "intro":
+        if t == "0" or not qs: s["screen"] = "bye"; return s, True, None
+        if t == "1": s["screen"] = "question"; return s, False, None
+        return s, False, None
+    if s["screen"] == "question":
+        a = _reply(qs[s["i"]], t)
+        if a is None: return s, False, None
+        s["answers"].append(a)
+        if s["i"] + 1 < len(qs): s["i"] += 1; return s, False, None
+        s["screen"] = "done"; return s, True, {"answers": s["answers"]}
+    return s, True, None
+
+
 def render(lines, words):
     """English (or any language) text of a page; words maps keys to templates with {name} values."""
     out = []

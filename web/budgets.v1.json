@@ -110,6 +110,12 @@
    "root": "#screen",
    "file_kb": 1100,
    "file_kb_reason": "Set on 18 November 2026 for build section 3B (LynkQueue in full): the queue engine (the queue keeper, reception, the counters, the screens) and its words in all 38 languages; a real device downloads one language at a time. First-screen and tap budgets are the defaults."
+  },
+  "survey-page": {
+   "first_tap": "[data-act=\"sv:pstart\"]",
+   "root": "#screen",
+   "file_kb": 1100,
+   "file_kb_reason": "Build section 3B (v0.46.0): the LynkSurvey page on a person's phone carries the survey desk and its words in all 38 languages; a real page downloads one language at a time."
   }
  }
 }

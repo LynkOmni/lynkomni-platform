@@ -1,8 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { USSD_MAX, chPage as page, chQPage, chQStart, chQStep, parseQueueSms, parseSms, chStart as start, chStep as step } from "../src/channels.js";
-import type { ChQCtx, ChQState } from "../src/channels.js";
+import { USSD_MAX, chPage as page, chQPage, chQStart, chQStep, chSPage, chSStart, chSStep, parseQueueSms, parseSms, chStart as start, chStep as step } from "../src/channels.js";
+import type { ChQCtx, ChQState, ChSState } from "../src/channels.js";
 import type { ChState } from "../src/channels.js";
 
 const root = new URL("../../..", import.meta.url).pathname;
@@ -41,4 +41,17 @@ test("joining a queue by basic phone gives the same pages and actions as the Pyt
   }
   assert.deepEqual(chQPage(chQStart(true), { ...Q.ctx, ticket: { ...Q.ticket, state: "called", counter: "Counter 1" } }), Q.called_page);
   for (const c of Q.sms) assert.deepEqual(parseQueueSms(c.text, Q.ctx.sections.length), c.parsed, c.text);
+});
+
+test("answering a survey by basic phone gives the same pages, ends and answers as the Python reference", () => {
+  const S = V.survey;
+  for (const steps of S.sessions) {
+    let s: ChSState = chSStart();
+    assert.deepEqual(chSPage(s, S.ctx), steps[0].page);
+    for (const want of steps.slice(1)) {
+      const [n, ends, action] = chSStep(s, want.input, S.ctx);
+      s = n; assert.deepEqual(chSPage(s, S.ctx), want.page, want.input);
+      assert.equal(ends, want.ends); assert.deepEqual(action, want.action);
+    }
+  }
 });

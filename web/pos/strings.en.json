@@ -456,5 +456,16 @@
  "ch_q_sec_1": "Service desk",
  "ch_q_sec_2": "Payments",
  "ch_q_counter": "Counter 1",
- "ch_q_sandbox": "Sandbox: press # to serve the next person."
+ "ch_q_sandbox": "Sandbox: press # to serve the next person.",
+ "ch_s_intro": "{org} asks {count} questions, about {minutes} min.",
+ "ch_s_anon": "Anonymous: your number is never shown.",
+ "ch_s_start": "{n}. Start",
+ "ch_s_q": "{i}/{of}. {text}",
+ "ch_s_rate": "Reply 1 (Very bad) to 5 (Very good)",
+ "ch_s_score": "Reply 0 (Not at all likely) to 10 (Extremely likely)",
+ "ch_s_yes": "{n}. Yes",
+ "ch_s_no": "{n}. No",
+ "ch_s_choice": "{n}. {name}",
+ "ch_s_done": "Thank you. Your answers were sent.",
+ "ch_s_dial": "Answer a survey"
 }

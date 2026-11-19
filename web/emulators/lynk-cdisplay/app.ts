@@ -9,10 +9,12 @@ import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { QueueDesk, pairCode, quCDisplayView, quDriver } from "../../../ts/src/queuedesk.js";
 import type { QuLook, QuPlan } from "../../../ts/src/queuedesk.js";
+import { SurveyDesk, svCDisplayView } from "../../../ts/src/surveydesk.js";
+import type { SvPlan } from "../../../ts/src/surveydesk.js";
 import type { AtTier } from "../../../ts/src/attenddesk.js";
 
-declare const DATA: Build & { people: { queue: Record<AtTier, QuPlan> } };
-const S: PanelState & { ticks: number; setting: boolean } = { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: true, lang: "en", ticks: 0, setting: false };
+declare const DATA: Build & { people: { queue: Record<AtTier, QuPlan>; survey: Record<AtTier, SvPlan> } };
+const S: PanelState & { ticks: number; setting: boolean; rate?: boolean } = { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: true, lang: "en", ticks: 0, setting: false };
 const W = new Words(DATA.i18n, () => S.lang); const t = W.t;
 const C = new Country(DATA, () => S.country, () => S.lang);
 const $ = <E extends HTMLElement>(sel: string): E => document.querySelector(sel) as E;
@@ -20,6 +22,7 @@ const icon = (id: string, cls = "ic"): string => `<span class="${cls}" aria-hidd
 const chip = (s: UserState): string => `<span class="chip st-${s}">${icon(`status-${s}`)}<span>${esc(t(`st_${s}`))}</span></span>`;
 const LOG = new EventLog(() => { const el = document.getElementById("log"); if (el) el.innerHTML = LOG.html(esc, chip, t("no_events")); });
 const Q = new QueueDesk((type, payload, origin) => { LOG.emit(type, payload, origin); }, DATA.people.queue);
+const SV = new SurveyDesk(() => undefined, DATA.people.survey);
 const look = (): QuLook => ({ t, icon, clock: () => "", money: (c) => C.money(c, "USD"), online: S.online, partner: !S.realUser, mayManage: false, place: "", powered: "" });
 const DM = new DeviceMode(DEVICES, "counter-display");
 const DEV = wireDevice(DM, { t, icon: (id) => icon(id), screen: () => document.getElementById("screen"), pad: () => document.getElementById("pad"), back: () => { S.setting = false; draw(); }, redraw: () => draw(), rtl: () => document.getElementById("screen")?.dir === "rtl" });
@@ -29,7 +32,7 @@ let mine = Q.counters[0]?.id ?? "";
 function desk(id: string, own: boolean): string {
   const c = Q.counter(id); if (!c) return "";
   const body = own && S.setting ? `<div class="cd-set"><p>${esc(t("cd_which_counter"))}</p>${Q.counters.map((x) => `<button type="button" class="ghost" data-act="cd:pick:${x.id}" aria-pressed="${x.id === mine}">${esc(t("ppl_counter_n", { n: x.n }))}</button>`).join("")}</div>`
-    : quCDisplayView(Q, id, look()) + (own ? `<button type="button" class="cd-gear" data-act="cd:set" aria-label="${esc(t("cd_which_counter"))}">${icon("ui-settings")}</button>` : "");
+    : (own && S.rate ? svCDisplayView(SV, Q.counter(id)?.n ?? 1, { ...look() }) : quCDisplayView(Q, id, look())) + (own ? `<button type="button" class="cd-gear" data-act="cd:set" aria-label="${esc(t("cd_which_counter"))}">${icon("ui-settings")}</button>` : "");
   return `<div class="deskcol"><div class="cdframe"><div class="cdscreen ${S.dark ? "dark" : "light"}"${own ? ' id="screen"' : ""}>${body}</div>${own ? `<div class="mark" aria-hidden="true">${DATA.brand.body}</div>` : ""}</div><div class="cdarm" aria-hidden="true"></div>
     <div class="cdesk" aria-hidden="true"></div>${own ? '<div class="cdpad" id="pad"></div>' : ""}</div>`;
 }
@@ -50,7 +53,8 @@ function act(a: string): void {
 function panel(): void {
   $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang"], S, W, C) + DEV.control();
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
-  stateButtons($("#stateButtons"), ["next-please", "serving", "back-soon", "closed", "which-counter"], (k) => {
+  stateButtons($("#stateButtons"), ["next-please", "serving", "back-soon", "closed", "which-counter", "rate-us"], (k) => {
+    S.rate = k === "rate-us";
     S.setting = k === "which-counter";
     for (const c of Q.counters) { if (c.serving) Q.finish(c.id, "served"); Q.counterState(c.id, "open"); }
     while (Q.waiting().length < 3) Q.issue("SRV", false, "reception");

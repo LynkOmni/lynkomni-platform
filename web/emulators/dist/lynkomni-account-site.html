@@ -743,6 +743,22 @@ html { font-size: 100%; }
 .qphone, .qpublic { display: grid; gap: 8px; min-inline-size: 0; overflow-wrap: anywhere; } .qphone h2, .qpublic h2 { margin: 0; font-size: var(--text-20); }
 .ph-cds { display: grid; gap: 8px; } .ph-cds .qcd { min-block-size: 84px; background: var(--bg-surface); } .ph-cds .qcd:not(.flash) { border-color: var(--border-subtle); }
 .field.small { flex: 1 1 110px; min-inline-size: 0; } .field.small select { inline-size: 100%; min-block-size: var(--touch-target); }
+/* Section 3B: LynkSurvey in full (ts/src/surveydesk.ts): results bars with their margins, the builder, the kiosk, the wall poll and the person's phone */
+.sv-bars { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 6px; min-inline-size: 0; }
+.sv-bar { display: grid; grid-template-columns: minmax(0, 1fr) minmax(60px, 1.2fr) auto; gap: 8px; align-items: center; min-inline-size: 0; }
+.sv-bar .sv-l { overflow-wrap: anywhere; min-inline-size: 0; } .sv-bar .sv-p { font-variant-numeric: var(--font-feature-tabular); font-size: var(--text-14); white-space: nowrap; }
+.sv-track { display: block; block-size: 10px; border-radius: 5px; background: var(--bg-subtle); border: 1px solid var(--border-subtle); overflow: hidden; }
+.sv-fill { display: block; block-size: 100%; background: var(--brand-primary); border-start-end-radius: 5px; border-end-end-radius: 5px; }
+.sv-res > li { display: grid; gap: 4px; padding: 6px 0; border-block-end: 1px solid var(--border-subtle); } .sv-res .nm { font-weight: 600; }
+.sv-qs { gap: 10px; } .sv-q { display: grid; gap: 6px; padding: 8px; border: 1px solid var(--border-subtle); border-radius: 12px; min-inline-size: 0; }
+.sv-choices { display: flex; flex-wrap: wrap; gap: 6px; min-inline-size: 0; } .sv-add { flex-wrap: wrap; }
+.sv-preview { border: 1px dashed var(--border-strong); border-radius: 12px; padding: 10px; min-inline-size: 0; overflow-wrap: anywhere; }
+.sv-preview .bussd, .sv-csv { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--font-mono, monospace); font-size: var(--text-12); }
+.sv-order { margin: 4px 0; padding-inline-start: 1.4em; } .mono { font-family: var(--font-mono, monospace); overflow-wrap: anywhere; }
+.sv-yn, .sv-ch { border: 1px solid var(--border-subtle); border-radius: 12px; padding: 10px; margin: 0; min-inline-size: 0; } .sv-yn legend, .sv-ch legend { padding: 0 4px; font-weight: 600; overflow-wrap: anywhere; }
+.svkiosk, .svphone, .svscreen { display: grid; gap: 10px; min-inline-size: 0; overflow-wrap: anywhere; } .svkiosk.done, .svphone[role="status"] { justify-items: center; text-align: center; }
+.svscreen { container-type: inline-size; } .svscreen .qs-title { margin: 0; font-family: var(--font-heading); font-size: min(1.5rem, 7cqi); } .svs-big { font-family: var(--font-heading); font-weight: 700; font-size: min(1.6rem, 8cqi); margin: 0; }
+.svcd { gap: 6px; } .svcd .rateus { justify-content: center; }
 
 /* LynkOmni Account in a browser window (and on a phone): original LynkOmni design, tokens only. The window and the controls panel
  * are the same as the browser-frame emulator; the page styles below are the account site's own, built from the shell's parts. */

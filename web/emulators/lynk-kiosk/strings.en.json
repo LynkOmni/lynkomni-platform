@@ -9,5 +9,7 @@
  "k_reader": "Fingerprint reader connected",
  "k_ticket": "Take a ticket",
  "k_ticket_sub": "Queue",
- "k_place": "Sample place"
+ "k_place": "Sample place",
+ "k_answer": "Give your opinion",
+ "k_answer_sub": "Survey"
 }
