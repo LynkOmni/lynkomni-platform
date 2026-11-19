@@ -1,4 +1,5 @@
 """One source of truth for service names, short names and URLs. Corrections applied: LynkDoc (not LynkDocs) at doc.lynkomni.com;
+the documents and e-signature service is LynkFiles (owner 2026-11-19) at app.lynkomni.com/files with no subdomain of its own;
 support lives at lynkomni.com/support; LynkOmni AI and LynkOmni Assistant are one entity with the short name LynkAssist at lynkomni.com/ai."""
 SERVICES = {
  "chat": ("LynkOmni Chat", "LynkChat", "lynkomni.com/chat"), "support": ("LynkOmni Support", "LynkSupport", "lynkomni.com/support"),
@@ -9,6 +10,7 @@ SERVICES = {
  "exchange": ("LynkOmni Exchange", "LynkExchange", "exchange.lynkomni.com"), "vcard": ("LynkOmni Virtual Card", "LynkVCard", "lynkomni.com/vcard"),
  "vcrbox": ("LynkOmni Virtual Card Risk Box", "LynkVCRBox", None), "sdk": ("LynkOmni SDK", "LynkSDK", "sdk.lynkomni.com"),
  "hub": ("LynkHub", "LynkHub", "hub.lynkomni.com"), "doc": ("LynkDoc", "LynkDoc", "doc.lynkomni.com"), "api": ("LynkAPI", "LynkAPI", "api.lynkomni.com"),
+ "files": ("LynkOmni Files", "LynkFiles", "app.lynkomni.com/files"),
  "flow": ("LynkFlow", "LynkFlow", None)}                       # LynkFlow is internal: no public domain
 ALIASES = {"LynkOmni Assistant": "LynkAssist", "LynkOmni AI": "LynkAssist"}   # the merchant add-on and the platform-wide AI are the same entity
 BANNED = ("bookings.lynkomni.com", "essentials.lynkomni.com", "LynkBookings", "LynkEssentials", "lynkbookings", "lynkessentials", "LynkAI", "LynkDocs", "support.lynkomni.com", "docs.lynkomni.com", "flow.lynkomni.com", "LynkHub Plus", "LynkOmni AI Assistant", "portal.lynkomni.com")

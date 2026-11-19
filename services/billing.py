@@ -34,6 +34,16 @@ FAMILIES = {
  "lynkattend":   ("LynkOmni Attendance", "LynkAttend", MT, (0, 49.5, 95, 179), "people", False),   # NEW UPDATE 4 (LynkA, 2026-11-11)
  "lynkqueue":    ("LynkOmni Queue", "LynkQueue", MT, (0, 55, 115, 249), "people", False),           # NEW UPDATE 4 (LynkQ, 2026-11-11)
  "lynksurvey":   ("LynkOmni Survey", "LynkSurvey", MT, (0, 59, 155, 249), "people", False),         # NEW UPDATE 4 (LynkS, 2026-11-11)
+ # Section 4 part 1b (19 November 2026): the families agreed on 18 November (blueprint 65, 68 and 69). Each is outside LynkSuite,
+ # priced per organisation (never per user); the full services are built in their own build sections (4B, 8B, 9B, 10, 14).
+ "lynkexchange": ("LynkOmni Exchange", "LynkExchange", MT, (0, 9, 29, 79), "money", False),         # EXCHANGE UPDATE (blueprint 65.6): business tiers
+ "lynkvote":     ("LynkOmni Voting", "LynkVote", MT, (0, 9, 29, 99), "people", False),              # VOTE UPDATE (blueprint 68.11)
+ "lynkhr":       ("LynkOmni People and HR", "LynkHR", MT, (0, 9, 29, 79), "office", False),        # SIX SERVICES UPDATE (blueprint 69.11)
+ "lynkproject":  ("LynkOmni Projects", "LynkProject", MT, (0, 5, 15, 39), "office", False),
+ "lynkschool":   ("LynkOmni School", "LynkSchool", MT, (0, 19, 49, 129), "office", False),
+ "lynkproperty": ("LynkOmni Property", "LynkProperty", MT, (0, 9, 29, 79), "office", False),
+ "lynkfiles":     ("LynkOmni Files", "LynkFiles", MT, (0, 4, 11, 29), "office", False),
+ "lynkjobs":     ("LynkOmni Jobs", "LynkJobs", MT, (0, 15, 45, 129), "office", False),            # employers; seekers' LynkJobs Pass: JOBS_PASS_PRICES
  "lynkops":      ("LynkOmni Operations", "LynkOps", MT, (0, 20, 49, 129), "bundle", True),       # a tier: LynkAcc, LynkInv, LynkCRM and LynkStat together
  "lynksuite":    ("LynkOmni Suite", "LynkSuite", MT, (0, 29, 75, 195), "suite", False),
 }
@@ -169,6 +179,31 @@ FEATURES = {
                      history_months=60),
                 dict(extra_creator_cents=4000, answers_per_month=250000, org_tree="full", company_login=True, api="full", reports="custom", history_months=None,
                      several_countries=True)],
+ # Section 4 part 1b (owner approved 18 November 2026; LOCKED by tests/test_price_lock.py). Only what was agreed is a number here;
+ # each service's full features are added in its own build section. Extras are possible on paid tiers only (None on Free). The same
+ # safety and security core is on every tier: it is never a paid extra.
+ "lynkexchange": [dict(lynkomni_part_bps=50, people=1, batch_payees=0, scheduled_and_targets=1, rate_alerts=3, templates=False,
+                       several_receivers=False, hold_rate=False, large_amounts_desk=False, api=False, protections=True),
+                  dict(lynkomni_part_bps=40, people=3, batch_payees=50, scheduled_and_targets=10, rate_alerts=25, templates=True, several_receivers=True),
+                  dict(lynkomni_part_bps=30, people=10, batch_payees=1000, scheduled_and_targets=None, rate_alerts=None, hold_rate=True,
+                       large_amounts_desk=True, api="read"),
+                  dict(lynkomni_part_bps=20, people=None, batch_payees=None, api="full")],
+ "lynkvote": [dict(voters_per_vote=100, extra_1000_voters_cents=None, votes=None, security_core=True, receipts=True, public_checking=True),
+              dict(voters_per_vote=1000, extra_1000_voters_cents=300),
+              dict(voters_per_vote=10000, extra_1000_voters_cents=200),
+              dict(voters_per_vote=100000, extra_1000_voters_cents=100)],
+ "lynkhr": [dict(staff_included=5, extra_100_staff_cents=None), dict(staff_included=50, extra_100_staff_cents=400),
+            dict(staff_included=250), dict(staff_included=1000)],
+ "lynkproject": [dict(members_included=5, extra_50_members_cents=None), dict(members_included=25, extra_50_members_cents=300),
+                 dict(members_included=100), dict(members_included=500)],
+ "lynkschool": [dict(learners_included=100, extra_500_learners_cents=None), dict(learners_included=500, extra_500_learners_cents=500),
+                dict(learners_included=2500), dict(learners_included=10000)],
+ "lynkproperty": [dict(units_included=5, extra_100_units_cents=None), dict(units_included=50, extra_100_units_cents=500),
+                  dict(units_included=250), dict(units_included=1000)],
+ "lynkfiles": [dict(storage_gb=5, signature_requests=5, extra_100_gb_cents=None), dict(storage_gb=100, signature_requests=50, extra_100_gb_cents=200),
+              dict(storage_gb=500, signature_requests=500), dict(storage_gb=2048, signature_requests=None)],
+ "lynkjobs": [dict(open_jobs=2, extra_open_job_cents=None, seekers_never_pay=True), dict(open_jobs=10, extra_open_job_cents=300),
+              dict(open_jobs=50), dict(open_jobs=None)],
  "lynkbooking": [dict(standard_fees=True, ads=True), dict(ads=False, priority_support=True, price_alerts=True), dict(higher_priority_support=True, group_trips=True),
                   dict(dedicated_concierge=True, dedicated_support=True, traveler_profiles=5)],
  "lynkessential": [dict(standard_fees=True, ads=True), dict(ads=False, priority_support=True, reminders=True), dict(higher_priority_support=True, scheduled_payments=True, household_members=3),
@@ -306,6 +341,67 @@ BOOKING_COMMISSION = {                                        # only on bookings
     "stay_bps": 800, "tour_bps": 1000, "event_bps": 200, "event_ticket_cents": 25, "transport_bps": 300,
     "rental_and_space_bps": 600, "table_guest_cents": 25, "class_bps": 500, "own_customers_bps": 0,
 }
+
+# EXCHANGE UPDATE (owner accepted 2026-11-18, blueprint 65.6; pinned in section 4 part 1b). LynkOmni's part of each exchange sits
+# inside the one full price and is collected by the licensed partner; LynkOmni never holds the money. Exchange levels are free and
+# automatic by the last 30 days' volume; a customer pays the lower of their tier's part and their level's part. LOCKED.
+EXCHANGE_LEVELS = ((0, 50), (100_000, 40), (1_000_000, 30), (10_000_000, 20))   # (30-day volume from, in US cents; LynkOmni's part in bps)
+EXCHANGE_CRYPTO_REFERRAL_CENTS = 200        # about $2 per verified sign-up at a licensed exchange; $0 until the lawyer approves (an assumption)
+
+
+def exchange_part_bps(tier, volume_30d_cents):
+    """LynkOmni's part of one exchange, in basis points: the lower of the tier's part and the level reached by 30-day volume."""
+    level = [bps for start, bps in EXCHANGE_LEVELS if volume_30d_cents >= start][-1]
+    tier_bps = [d["lynkomni_part_bps"] for d in FEATURES["lynkexchange"][: MT.index(tier) + 1] if "lynkomni_part_bps" in d][-1]
+    return min(tier_bps, level)
+
+
+# VOTE UPDATE (owner approved 2026-11-18, blueprint 68.11; pinned in section 4 part 1b). Paid contest votes go through the provider;
+# governments are by agreement after certification (the guide below; pilots free). LOCKED.
+VOTE_CONTEST_SHARE_BPS = 500                # 5% of each paid contest vote ...
+VOTE_CONTEST_SHARE_CAP_CENTS = 10           # ... capped at $0.10 a vote
+VOTE_GOVERNMENT_GUIDE_CENTS_PER_VOTER = 10  # $0.10 per registered voter for each election; each agreement sets the final price
+VOTE_BUNDLE_FAMILIES = ("lynkattend", "lynkqueue", "lynksurvey", "lynkbooking")
+VOTE_BUNDLE_DISCOUNT_BPS = 2000             # 20% off the LynkVote plan when held with one of these on a paid tier (their own discounts stay their own)
+VERIFIED_SCHOOL_FREE = {"lynkschool": ("plus", {"learners_included": 500}), "lynkvote": ("plus", {"voters_per_vote": 1000})}   # Plus at no charge for a verified school
+
+
+def vote_contest_share_cents(vote_price_cents):
+    """LynkOmni's share of one paid contest vote, in US cents: 5% rounded half up, never above $0.10."""
+    return min((vote_price_cents * VOTE_CONTEST_SHARE_BPS + 5000) // 10000, VOTE_CONTEST_SHARE_CAP_CENTS)
+
+
+# SIX SERVICES UPDATE (owner approved 2026-11-18, blueprint 69.11; pinned in section 4 part 1b). Job seekers never pay to search,
+# apply or be hired: LynkJobs Pass sells tools only. Freelance work is paid by the client through the licensed provider. LOCKED.
+JOBS_PASS_TIERS = ("free", "plus", "pro", "max")
+JOBS_PASS_PRICES = (0, 1.99, 3.99, 7.99)    # standard USD per month, for job seekers (tools only)
+JOBS_FEATURED_FROM_CENTS_PER_WEEK = 500     # featured jobs from $5 a week
+JOBS_FREELANCE_SHARE_BPS = 500              # 5% of freelance work, paid by the client through the provider
+SIX_FAMILIES = ("lynkhr", "lynkproject", "lynkschool", "lynkproperty", "lynkfiles", "lynkjobs")
+SIX_BUNDLE_DISCOUNT_BPS = 2000              # 20% off each when two or more of the six (or one with LynkAttend) are held on paid tiers
+
+
+def _paid_cents(tiers, families):
+    out = [int(round(FAMILIES[f][3][MT.index(t)] * 100)) for f, t in tiers.items() if f in families]
+    return [c for c in out if c > 0]
+
+
+def six_bundle_discount_cents(tiers):
+    """The monthly discount, in US cents, for an account holding two or more of the six services, or one of them with LynkAttend,
+    on paid tiers: 20% off each of those plans (LynkAttend's own discount comes from people_bundle_discount_cents)."""
+    six = _paid_cents(tiers, SIX_FAMILIES)
+    if len(six) >= 2 or (six and _paid_cents(tiers, ("lynkattend",))):
+        return sum((c * SIX_BUNDLE_DISCOUNT_BPS + 5000) // 10000 for c in six)
+    return 0
+
+
+def vote_bundle_discount_cents(tiers):
+    """The monthly discount, in US cents, for LynkVote held on a paid tier with a paid LynkAttend, LynkQueue, LynkSurvey or
+    LynkBooking plan: 20% off the LynkVote plan."""
+    vote = _paid_cents(tiers, ("lynkvote",))
+    if vote and _paid_cents(tiers, VOTE_BUNDLE_FAMILIES):
+        return (vote[0] * VOTE_BUNDLE_DISCOUNT_BPS + 5000) // 10000
+    return 0
 
 # Storefront plans (BIZZ & DEVICE, owner approved 2026-11-09): the external side of every service, where anyone offers to others
 # and earns. A plan type, not a product family: one Storefront plan per account covers every service's Storefront, the

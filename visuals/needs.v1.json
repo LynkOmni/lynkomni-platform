@@ -697,7 +697,7 @@
     "pricing-page",
     "docs"
    ],
-   "budget_kb": 32
+   "budget_kb": 44
   },
   {
    "id": "chart-revenue-path",
@@ -1499,6 +1499,166 @@
    ],
    "alt": "A form with tick boxes and a star rating, a small bar chart and a check badge",
    "purpose": "Empty state, feature header and onboarding for LynkSurvey",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-exchange",
+   "kind": "illustration",
+   "scene": "exchange",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "Two coins of different currencies joined by two curved arrows, above a small rising rate line",
+   "purpose": "Empty state, feature header and onboarding for LynkExchange",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-vote",
+   "kind": "illustration",
+   "scene": "vote",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A ballot box with a ticked ballot going in, a lock on the box and a check badge",
+   "purpose": "Empty state, feature header and onboarding for LynkVote",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-hr",
+   "kind": "illustration",
+   "scene": "hr",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "An organisation chart of boxes joined by lines, a calendar with one marked day and a check badge",
+   "purpose": "Empty state, feature header and onboarding for LynkHR",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-project",
+   "kind": "illustration",
+   "scene": "project",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A board of three columns with task cards, one card moving across, and a progress bar",
+   "purpose": "Empty state, feature header and onboarding for LynkProject",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-school",
+   "kind": "illustration",
+   "scene": "school",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "An open book with a graduation cap above it and a small timetable grid",
+   "purpose": "Empty state, feature header and onboarding for LynkSchool",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-property",
+   "kind": "illustration",
+   "scene": "property",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A house with a door and windows, a key and a small meter dial",
+   "purpose": "Empty state, feature header and onboarding for LynkProperty",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-files",
+   "kind": "illustration",
+   "scene": "files",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A stack of documents with lines, a signature stroke and a round seal, and a pen",
+   "purpose": "Empty state, feature header and onboarding for LynkFiles",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-jobs",
+   "kind": "illustration",
+   "scene": "jobs",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A briefcase with a tag, a search glass over a list of openings and a small star",
+   "purpose": "Empty state, feature header and onboarding for LynkJobs",
    "used_in": [
     "empty-state",
     "feature-header",

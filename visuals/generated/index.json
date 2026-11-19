@@ -1282,26 +1282,26 @@
     {
      "theme": "light",
      "file": "charts/chart-pricing-ladder.light.svg",
-     "sha256": "da64b03c69bf91f05d6b4c5e8daaa7db2b8f6dddff2e9807a168e7173603258c",
-     "bytes": 27842
+     "sha256": "f73317d45d4755a06b90f171f236a68d996e0a1db1f9a0d18d06abb47e7dd39f",
+     "bytes": 36769
     },
     {
      "theme": "dark",
      "file": "charts/chart-pricing-ladder.dark.svg",
-     "sha256": "564abaed8d966de8ee965de1ed1c3cd0ef90174bd2f7b280a9e5a5675ce7dd8e",
-     "bytes": 27842
+     "sha256": "7654623f0c547bc89ac17f369dcb130817600b5f9de00ee7509ab78b4c507faa",
+     "bytes": 36769
     },
     {
      "theme": "contrast-light",
      "file": "charts/chart-pricing-ladder.contrast-light.svg",
-     "sha256": "4fa8d34e936cada9a8e33ed9e21d73bf8e85e62e2ba59804a5fa55c737c3ac2d",
-     "bytes": 27842
+     "sha256": "6cf8b508e0a04a93bb4c70d04dd3b476fb808322e3622d7edb2032216ab0fdf7",
+     "bytes": 36769
     },
     {
      "theme": "contrast-dark",
      "file": "charts/chart-pricing-ladder.contrast-dark.svg",
-     "sha256": "4fd13fb830f962b348b47f9c319518a7034d1a10bdbdc19f9fb546219c7496fd",
-     "bytes": 27842
+     "sha256": "285896977b5a8ec50fd3045336c508d3535af460e556da271f17c797390a3758",
+     "bytes": 36769
     }
    ]
   },
@@ -2284,6 +2284,302 @@
      "file": "illustrations/product-survey.contrast-dark.svg",
      "sha256": "eeccc2adfdf386f77d6666e8e793e8f44616a2fed22cb725cd1e16169ee4673b",
      "bytes": 2468
+    }
+   ]
+  },
+  "product-exchange": {
+   "kind": "illustration",
+   "alt": "Two coins of different currencies joined by two curved arrows, above a small rising rate line",
+   "purpose": "Empty state, feature header and onboarding for LynkExchange",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-exchange.light.svg",
+     "sha256": "8e9654b0f0fa5427da55a07718ea8a540211902be5c55ec79454f714d0239d1c",
+     "bytes": 1565
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-exchange.dark.svg",
+     "sha256": "e3a5810fd7a03b879d2aa4ab60ff5648ae5d28ae2a553c596ac9040f2a6ee110",
+     "bytes": 1565
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-exchange.contrast-light.svg",
+     "sha256": "951df162ace21998737264ba214598b59922c15dea33a4f20ff5428e9b0f3bd8",
+     "bytes": 1565
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-exchange.contrast-dark.svg",
+     "sha256": "8b0d86652e880cd6aa1ca6f67935f5d8c754cf849e7bb7bcfeaf56874e555d2d",
+     "bytes": 1565
+    }
+   ]
+  },
+  "product-vote": {
+   "kind": "illustration",
+   "alt": "A ballot box with a ticked ballot going in, a lock on the box and a check badge",
+   "purpose": "Empty state, feature header and onboarding for LynkVote",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-vote.light.svg",
+     "sha256": "91b292a48106a35f83499e64137da5b7b7f797f8d63dfb69565e4486d9a65320",
+     "bytes": 1537
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-vote.dark.svg",
+     "sha256": "e89e039d68330f8ec7b80a56bb9ad375aeeb1393fbc009e84a7be4d2d3808218",
+     "bytes": 1537
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-vote.contrast-light.svg",
+     "sha256": "08070df83e163d03e1fb91f956e42cf5b9fa4699c49682057f54df16437790e8",
+     "bytes": 1537
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-vote.contrast-dark.svg",
+     "sha256": "ce3b437f66dae98d0cd626f165beaf1d70fc79d12cc479760605f7f88795a773",
+     "bytes": 1537
+    }
+   ]
+  },
+  "product-hr": {
+   "kind": "illustration",
+   "alt": "An organisation chart of boxes joined by lines, a calendar with one marked day and a check badge",
+   "purpose": "Empty state, feature header and onboarding for LynkHR",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-hr.light.svg",
+     "sha256": "05c01c2d3847219836b5fd92a073eacdde21afb2e6f030503a27b9cbd560d0cb",
+     "bytes": 2058
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-hr.dark.svg",
+     "sha256": "c6f982a711f285415fb967e4f18e88b7f8e71714595838fc529e865b688f8961",
+     "bytes": 2058
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-hr.contrast-light.svg",
+     "sha256": "1087392cf4f6a88c8a90f36a58879ea646e0ac0d9348724a8b0f4ca52c67183f",
+     "bytes": 2058
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-hr.contrast-dark.svg",
+     "sha256": "380cb113bfd3c7785c9fabcb9d638ab12331cc1c3e1a142ec0860a42584902ab",
+     "bytes": 2058
+    }
+   ]
+  },
+  "product-project": {
+   "kind": "illustration",
+   "alt": "A board of three columns with task cards, one card moving across, and a progress bar",
+   "purpose": "Empty state, feature header and onboarding for LynkProject",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-project.light.svg",
+     "sha256": "ef268e091390bd6872dcc722374ea468f59d19e53ac68501ede9d8abd0f6b62b",
+     "bytes": 1884
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-project.dark.svg",
+     "sha256": "814536bc0dcf58ba4355e2c65b7341bddf1c854cad77b48958fa127e0fc79c8b",
+     "bytes": 1884
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-project.contrast-light.svg",
+     "sha256": "ddc8e23f9c658e47923266657ab086323d0b06b5b00827edf4ec07a4a131b849",
+     "bytes": 1884
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-project.contrast-dark.svg",
+     "sha256": "c068ed846715ba072602491cf52c359597ecab34a7a317782641ae219e9587b1",
+     "bytes": 1884
+    }
+   ]
+  },
+  "product-school": {
+   "kind": "illustration",
+   "alt": "An open book with a graduation cap above it and a small timetable grid",
+   "purpose": "Empty state, feature header and onboarding for LynkSchool",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-school.light.svg",
+     "sha256": "4b7351fd2c80d69a9324810974c4e4fea039ca7658b09f11e132bc3a2cf38b59",
+     "bytes": 1769
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-school.dark.svg",
+     "sha256": "a6477db6df908f7f7c63fa38a275fa08ed0c9e69e96f390d7613abac892b6a86",
+     "bytes": 1769
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-school.contrast-light.svg",
+     "sha256": "6fa6ab0b727c9318e39927a270445639a75f6f4fff1001b5d7d7131c3e4e51e4",
+     "bytes": 1769
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-school.contrast-dark.svg",
+     "sha256": "20752ce6539a0eeef3c48667aef2f55c53ab240052106b1b290bc9b03d4d866f",
+     "bytes": 1769
+    }
+   ]
+  },
+  "product-property": {
+   "kind": "illustration",
+   "alt": "A house with a door and windows, a key and a small meter dial",
+   "purpose": "Empty state, feature header and onboarding for LynkProperty",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-property.light.svg",
+     "sha256": "57f63f01d714972a945720243934dd7cc8af5669696a247e16ef234e1a3b816c",
+     "bytes": 1495
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-property.dark.svg",
+     "sha256": "dc8539e57949440778be08218f9325ea858dace9e9a47c9bbc87775f169f73e8",
+     "bytes": 1495
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-property.contrast-light.svg",
+     "sha256": "f022b34e243dd1b41180271f56e2f77d4101fcf293bdeb13ad704582c066db8e",
+     "bytes": 1495
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-property.contrast-dark.svg",
+     "sha256": "f585e1085d0b8b342949c867a262700c08c23976299cb2e9a8741e2a92890a12",
+     "bytes": 1495
+    }
+   ]
+  },
+  "product-files": {
+   "kind": "illustration",
+   "alt": "A stack of documents with lines, a signature stroke and a round seal, and a pen",
+   "purpose": "Empty state, feature header and onboarding for LynkFiles",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-files.light.svg",
+     "sha256": "9b80ca1e59c27ef9e7651ef67a26ec3279f80ec5cef3b6b3651c0dd92136e0de",
+     "bytes": 1398
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-files.dark.svg",
+     "sha256": "53a959bcc9f67eba075328a45870ec6dd5e39937467df0ca4ff68fa8c44effa1",
+     "bytes": 1398
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-files.contrast-light.svg",
+     "sha256": "4f33e0a88edd7e3b29cc9d2e9cb22ff9fc477f0cab61f7f6dc2628a7b379ac75",
+     "bytes": 1398
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-files.contrast-dark.svg",
+     "sha256": "b46740ad94af03d000225cdaaccd962daf3e1eede689436c1622a65c4f28efa4",
+     "bytes": 1398
+    }
+   ]
+  },
+  "product-jobs": {
+   "kind": "illustration",
+   "alt": "A briefcase with a tag, a search glass over a list of openings and a small star",
+   "purpose": "Empty state, feature header and onboarding for LynkJobs",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-jobs.light.svg",
+     "sha256": "5a2581132f0404bb1f65841b08686cf6da1136b87bc78f3116552eb30c323435",
+     "bytes": 1592
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-jobs.dark.svg",
+     "sha256": "49196d9dbeb0143ecb44283f420a8b31c32b9eb456883ae5754d4e6f2516e26c",
+     "bytes": 1592
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-jobs.contrast-light.svg",
+     "sha256": "9b5782d35911f47797cf76808c88b4c9a98862cbd07697e24de6407a63ab6179",
+     "bytes": 1592
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-jobs.contrast-dark.svg",
+     "sha256": "7a5b04dd9715958be9418a59279eace2621f7c66ebec1255bf488f0a18c5b4dc",
+     "bytes": 1592
     }
    ]
   }

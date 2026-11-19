@@ -1039,7 +1039,7 @@
   "lynkproperty": "9B",
   "lynkjobs": "8B",
   "lynkhr": "4B (uses the LynkAttend door and reception)",
-  "lynkdocs": "4B (signing tablet)"
+  "lynkfiles": "4B (signing tablet)"
  },
  "sides_rule": "The side follows the address map (catalog/addresses.v1.json storefront): the in-person till, the door, reception, the counter and the kiosks are workspace-only, so their emulators are internal; the Business app on a phone and the stock handheld serve both sides; a customer-facing screen shows the side it was assigned from."
 }

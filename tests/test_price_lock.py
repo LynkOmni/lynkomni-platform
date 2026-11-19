@@ -15,6 +15,26 @@ LOCKED_PRICES = {
     "lynksuite": (0, 29, 75, 195),
     "lynkmotion": (0, 9, 29, 79), "lynkguard": (0, 15, 49, 149),          # NEW UPDATE 1, 2026-11-10
     "lynkattend": (0, 49.5, 95, 179), "lynkqueue": (0, 55, 115, 249), "lynksurvey": (0, 59, 155, 249),   # NEW UPDATE 4, 2026-11-11
+    # Section 4 part 1b, 2026-11-19 (owner approved 2026-11-18; blueprint 65.6, 68.11 and 69.11)
+    "lynkexchange": (0, 9, 29, 79), "lynkvote": (0, 9, 29, 99), "lynkhr": (0, 9, 29, 79), "lynkproject": (0, 5, 15, 39),
+    "lynkschool": (0, 19, 49, 129), "lynkproperty": (0, 9, 29, 79), "lynkfiles": (0, 4, 11, 29), "lynkjobs": (0, 15, 45, 129),
+}
+# Section 4 part 1b (owner approved 2026-11-18): what each tier includes, every extra, the levels, the fees and the bundles.
+LOCKED_NEW_FAMILIES = {
+    "exchange_part_bps": (50, 40, 30, 20), "exchange_people": (1, 3, 10, None), "exchange_batch_payees": (0, 50, 1000, None),
+    "exchange_scheduled": (1, 10, None, None), "exchange_rate_alerts": (3, 25, None, None),
+    "exchange_levels": ((0, 50), (100_000, 40), (1_000_000, 30), (10_000_000, 20)), "exchange_crypto_referral_cents": 200,
+    "vote_voters": (100, 1000, 10000, 100000), "vote_extra_1000_voters_cents": (None, 300, 200, 100), "vote_contest": (500, 10),
+    "vote_government_guide_cents": 10, "vote_bundle": (("lynkattend", "lynkqueue", "lynksurvey", "lynkbooking"), 2000),
+    "hr_staff": (5, 50, 250, 1000), "hr_extra_100_cents": (None, 400, 400, 400),
+    "project_members": (5, 25, 100, 500), "project_extra_50_cents": (None, 300, 300, 300),
+    "school_learners": (100, 500, 2500, 10000), "school_extra_500_cents": (None, 500, 500, 500),
+    "property_units": (5, 50, 250, 1000), "property_extra_100_cents": (None, 500, 500, 500),
+    "docs_storage_gb": (5, 100, 500, 2048), "docs_signatures": (5, 50, 500, None), "docs_extra_100_gb_cents": (None, 200, 200, 200),
+    "jobs_open_jobs": (2, 10, 50, None), "jobs_extra_open_job_cents": (None, 300, 300, 300),
+    "jobs_pass": (("free", "plus", "pro", "max"), (0, 1.99, 3.99, 7.99)), "jobs_featured_week_cents": 500, "jobs_freelance_bps": 500,
+    "six_bundle_bps": 2000,
+    "verified_school_free": {"lynkschool": ("plus", {"learners_included": 500}), "lynkvote": ("plus", {"voters_per_vote": 1000})},
 }
 # NEW UPDATE 4 (owner locked 2026-11-11, blueprint 63.5): what each paid tier includes, the price of each extra, and the bundle discount.
 LOCKED_PEOPLE = {"attend_people": (15, 50, 50, 50), "attend_extra_person_cents": (None, 150, 250, 400),
@@ -113,6 +133,41 @@ class TestPriceLock(unittest.TestCase):
                     plus3 = round(billing.FAMILIES[f][3][i] * 100) + 3 * LOCKED_EMULATORS["extra_cents"][f]
                     if E.slots(f, t) + 3 >= (E.slots(f, nxt) or 99): self.assertGreater(plus3, round(billing.FAMILIES[f][3][i + 1] * 100), f"{f} {t}")
                 self.assertEqual(tuple(t["emulator_slots"] for t in F[f]), LOCKED_EMULATORS["ladder"], f)
+
+    def test_new_families_units_extras_levels_fees_and_bundles_are_locked(self):
+        b, F = billing, billing.FEATURES
+        def col(fam, key):
+            out, last = [], None
+            for t in F[fam]:
+                last = t.get(key, last); out.append(last)
+            return tuple(out)
+        got = {
+            "exchange_part_bps": col("lynkexchange", "lynkomni_part_bps"), "exchange_people": col("lynkexchange", "people"),
+            "exchange_batch_payees": col("lynkexchange", "batch_payees"), "exchange_scheduled": col("lynkexchange", "scheduled_and_targets"),
+            "exchange_rate_alerts": col("lynkexchange", "rate_alerts"), "exchange_levels": b.EXCHANGE_LEVELS,
+            "exchange_crypto_referral_cents": b.EXCHANGE_CRYPTO_REFERRAL_CENTS,
+            "vote_voters": col("lynkvote", "voters_per_vote"), "vote_extra_1000_voters_cents": col("lynkvote", "extra_1000_voters_cents"),
+            "vote_contest": (b.VOTE_CONTEST_SHARE_BPS, b.VOTE_CONTEST_SHARE_CAP_CENTS), "vote_government_guide_cents": b.VOTE_GOVERNMENT_GUIDE_CENTS_PER_VOTER,
+            "vote_bundle": (b.VOTE_BUNDLE_FAMILIES, b.VOTE_BUNDLE_DISCOUNT_BPS),
+            "hr_staff": col("lynkhr", "staff_included"), "hr_extra_100_cents": col("lynkhr", "extra_100_staff_cents"),
+            "project_members": col("lynkproject", "members_included"), "project_extra_50_cents": col("lynkproject", "extra_50_members_cents"),
+            "school_learners": col("lynkschool", "learners_included"), "school_extra_500_cents": col("lynkschool", "extra_500_learners_cents"),
+            "property_units": col("lynkproperty", "units_included"), "property_extra_100_cents": col("lynkproperty", "extra_100_units_cents"),
+            "docs_storage_gb": col("lynkfiles", "storage_gb"), "docs_signatures": col("lynkfiles", "signature_requests"),
+            "docs_extra_100_gb_cents": col("lynkfiles", "extra_100_gb_cents"),
+            "jobs_open_jobs": col("lynkjobs", "open_jobs"), "jobs_extra_open_job_cents": col("lynkjobs", "extra_open_job_cents"),
+            "jobs_pass": (b.JOBS_PASS_TIERS, b.JOBS_PASS_PRICES), "jobs_featured_week_cents": b.JOBS_FEATURED_FROM_CENTS_PER_WEEK,
+            "jobs_freelance_bps": b.JOBS_FREELANCE_SHARE_BPS, "six_bundle_bps": b.SIX_BUNDLE_DISCOUNT_BPS,
+            "verified_school_free": b.VERIFIED_SCHOOL_FREE,
+        }
+        self.assertEqual(got, LOCKED_NEW_FAMILIES)
+        for f in ("lynkexchange", "lynkvote") + b.SIX_FAMILIES: self.assertNotIn(f, b.SUITE_MEMBERS)     # all outside LynkSuite
+        self.assertEqual(b.exchange_part_bps("plus", 500_000), 40); self.assertEqual(b.exchange_part_bps("free", 20_000_000), 20)   # the lower of tier and level
+        self.assertEqual(b.vote_contest_share_cents(1000), 10)                                    # 5%, capped at $0.10 a vote
+        self.assertEqual(b.six_bundle_discount_cents({"lynkhr": "plus", "lynkfiles": "pro"}), 180 + 220)
+        self.assertEqual(b.six_bundle_discount_cents({"lynkhr": "plus", "lynkattend": "plus"}), 180)      # one of the six with LynkAttend
+        self.assertEqual(b.six_bundle_discount_cents({"lynkhr": "plus", "lynkfiles": "free"}), 0)           # two paid plans needed
+        self.assertEqual(b.vote_bundle_discount_cents({"lynkvote": "pro", "lynkqueue": "plus"}), 580)
 
     def test_every_standard_price_matches_the_locked_list(self):
         self.assertEqual({k: v[3] for k, v in billing.FAMILIES.items()}, LOCKED_PRICES)

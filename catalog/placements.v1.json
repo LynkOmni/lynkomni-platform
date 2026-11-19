@@ -1165,6 +1165,149 @@
    ],
    "section": "3A",
    "what": "The Emulator Panel: give a service's screen to a phone, tablet, computer, kiosk or display with a QR code, a Lynk Code or a link; see every device, emulator and user live; connect, disconnect, lock, swap and approve again (app.lynkomni.com/business/emulators and each service's /emulators)"
+  },
+  {
+   "id": "lynkexchange",
+   "kind": "product",
+   "places": [
+    "account_menu",
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 10
+  },
+  {
+   "id": "lynkvote",
+   "kind": "product",
+   "places": [
+    "account_menu",
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 14
+  },
+  {
+   "id": "lynkhr",
+   "kind": "product",
+   "places": [
+    "account_menu",
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": "4B"
+  },
+  {
+   "id": "lynkproject",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": "4B"
+  },
+  {
+   "id": "lynkschool",
+   "kind": "product",
+   "places": [
+    "account_menu",
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": "9B"
+  },
+  {
+   "id": "lynkproperty",
+   "kind": "product",
+   "places": [
+    "account_menu",
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": "9B"
+  },
+  {
+   "id": "lynkfiles",
+   "kind": "product",
+   "places": [
+    "account_menu",
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": "4B"
+  },
+  {
+   "id": "lynkjobs",
+   "kind": "product",
+   "places": [
+    "account_menu",
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": "8B"
   }
  ]
 }

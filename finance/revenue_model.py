@@ -444,3 +444,47 @@ def booking_update(stage):
     plans_total = (plans * (1 - a["bundle_share"] * Decimal(billing.BOOKING_BUNDLE_DISCOUNT_BPS) / 10_000) + extras) * idx
     commission = m * a["listed"][stage] * a["found_bookings"] * a["commission_usd"]
     return {"plans": _r(plans_total), "commission": _r(commission), "month": _r(plans_total + commission), "assumption": True}
+
+
+# ---- Section 4 part 1b: the eight new families (owner approved 2026-11-18; blueprint 65, 68 and 69) ----------------------------
+# LynkExchange business tiers (with LynkOmni's part of their own exchanges), LynkVote, LynkHR, LynkProject, LynkSchool,
+# LynkProperty, LynkFiles and LynkJobs, plus LynkJobs Pass for job seekers. Shown as their OWN stream, kept OUTSIDE the agreed
+# totals until pilot data exists, so no agreed figure moves. EVERY number below is an ASSUMPTION, labelled as such. Extras,
+# featured jobs, freelance work, paid contest votes and government agreements are left out until there is pilot data.
+NEW_FAMILY_ASSUMPTIONS = {
+    "tiers": {                                                          # Plus / Pro / Max, percent of all merchants
+        "lynkexchange": (Decimal("1.5"), Decimal("0.5"), Decimal("0.1")), "lynkvote": (Decimal("1"), Decimal("0.3"), Decimal("0.05")),
+        "lynkhr": (Decimal("2"), Decimal("0.8"), Decimal("0.15")), "lynkproject": (Decimal("2.5"), Decimal("1"), Decimal("0.2")),
+        "lynkschool": (Decimal("0.5"), Decimal("0.2"), Decimal("0.05")), "lynkproperty": (Decimal("1"), Decimal("0.4"), Decimal("0.1")),
+        "lynkfiles": (Decimal("3"), Decimal("1"), Decimal("0.2")), "lynkjobs": (Decimal("1"), Decimal("0.3"), Decimal("0.05")),
+    },
+    "exchange_volume_usd": (5_000, 25_000, 150_000),                    # a Plus / Pro / Max business's own exchanges a month
+    "six_bundle_share": Decimal("0.3"),                                 # share of the six held with another of them or LynkAttend (20% off)
+    "vote_bundle_share": Decimal("0.2"),                                # share of LynkVote held with LynkAttend, LynkQueue, LynkSurvey or LynkBooking
+    "jobs_pass": (Decimal("0.5"), Decimal("0.2"), Decimal("0.05")),     # Plus / Pro / Max seekers, as a percent of all merchants (a proxy)
+}
+
+
+def new_families(stage):
+    """Monthly USD for one stage (whole dollars): the eight new families' plans (price index and conversion applied, less the 20%
+    bundle discounts on the assumed shares), LynkOmni's part of LynkExchange business exchanges, and LynkJobs Pass. An ASSUMPTION,
+    outside the ecosystem totals."""
+    a, pct = NEW_FAMILY_ASSUMPTIONS, Decimal("0.01")
+    m, idx, conv = Decimal(MERCHANTS[stage]), INDEX[stage], CONVERSION[stage]
+    out = {}
+    for fam, shares in a["tiers"].items():
+        subs = [m * s * pct * conv for s in shares]
+        plans = sum(n * Decimal(str(p)) for n, p in zip(subs, billing.FAMILIES[fam][3][1:]))
+        if fam in billing.SIX_FAMILIES:
+            plans *= 1 - a["six_bundle_share"] * Decimal(billing.SIX_BUNDLE_DISCOUNT_BPS) / 10_000
+        if fam == "lynkvote":
+            plans *= 1 - a["vote_bundle_share"] * Decimal(billing.VOTE_BUNDLE_DISCOUNT_BPS) / 10_000
+        if fam == "lynkexchange":
+            plans += sum(n * v * Decimal(billing.exchange_part_bps(t, v * 100)) / 10_000
+                         for n, v, t in zip(subs, a["exchange_volume_usd"], ("plus", "pro", "max")))
+        out[fam] = plans * idx
+    seekers = [m * s * pct * conv for s in a["jobs_pass"]]
+    out["jobs_pass"] = sum(n * Decimal(str(p)) for n, p in zip(seekers, billing.JOBS_PASS_PRICES[1:])) * idx
+    res = {k.replace("lynk", ""): _r(v) for k, v in out.items()}
+    res.update(month=_r(sum(out.values())), assumption=True)
+    return res

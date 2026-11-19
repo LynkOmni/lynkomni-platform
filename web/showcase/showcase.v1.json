@@ -42,7 +42,11 @@
    "n": 4,
    "title": "LynkAcc, LynkInv, LynkCRM, LynkStat and LynkOps",
    "status": "building",
-   "version": "v0.48.0 (part 1a: office top-up and LynkBooking prices)"
+   "version": "v0.48.0 (part 1a: office top-up and LynkBooking prices), v0.49.0 (part 1b: eight new families)"
+  },
+  {
+   "n": "4B",
+   "title": "LynkFiles, LynkHR and LynkProject in full"
   },
   {
    "n": 5,
@@ -65,8 +69,16 @@
    "title": "Bookings"
   },
   {
+   "n": "8B",
+   "title": "LynkJobs in full"
+  },
+  {
    "n": 9,
    "title": "Essentials"
+  },
+  {
+   "n": "9B",
+   "title": "LynkSchool and LynkProperty in full"
   },
   {
    "n": 10,

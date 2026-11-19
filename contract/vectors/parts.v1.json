@@ -640,6 +640,54 @@
    ]
   },
   {
+   "host": "lynkomni.com",
+   "path": "/voting",
+   "trail": [
+    "/",
+    "/voting"
+   ]
+  },
+  {
+   "host": "lynkomni.com",
+   "path": "/hr",
+   "trail": [
+    "/",
+    "/hr"
+   ]
+  },
+  {
+   "host": "lynkomni.com",
+   "path": "/project",
+   "trail": [
+    "/",
+    "/project"
+   ]
+  },
+  {
+   "host": "lynkomni.com",
+   "path": "/school",
+   "trail": [
+    "/",
+    "/school"
+   ]
+  },
+  {
+   "host": "lynkomni.com",
+   "path": "/property",
+   "trail": [
+    "/",
+    "/property"
+   ]
+  },
+  {
+   "host": "lynkomni.com",
+   "path": "/files",
+   "trail": [
+    "/",
+    "/files"
+   ]
+  },
+  {
    "host": "app.lynkomni.com",
    "path": "/accounting",
    "trail": [
@@ -2689,6 +2737,134 @@
     "/external",
     "/external/sell",
     "/external/sell/emulators"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/exchange",
+   "trail": [
+    "/",
+    "/exchange"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/exchange",
+   "trail": [
+    "/external",
+    "/external/exchange"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/voting",
+   "trail": [
+    "/",
+    "/voting"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/voting",
+   "trail": [
+    "/external",
+    "/external/voting"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/hr",
+   "trail": [
+    "/",
+    "/hr"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/hr",
+   "trail": [
+    "/external",
+    "/external/hr"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/project",
+   "trail": [
+    "/",
+    "/project"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/project",
+   "trail": [
+    "/external",
+    "/external/project"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/school",
+   "trail": [
+    "/",
+    "/school"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/school",
+   "trail": [
+    "/external",
+    "/external/school"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/property",
+   "trail": [
+    "/",
+    "/property"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/property",
+   "trail": [
+    "/external",
+    "/external/property"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/files",
+   "trail": [
+    "/",
+    "/files"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/files",
+   "trail": [
+    "/external",
+    "/external/files"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/job",
+   "trail": [
+    "/",
+    "/job"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/job",
+   "trail": [
+    "/external",
+    "/external/job"
    ]
   },
   {
@@ -11613,6 +11789,118 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "price-lynkexchange",
+    "topic": "price",
+    "q": "How much is LynkExchange?",
+    "a": "LynkExchange plans a month: Free $0, Plus $9, Pro $29, Max $79.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkexchange",
+    "topic": "how_to",
+    "q": "Where is LynkExchange?",
+    "a": "LynkExchange is described at exchange.lynkomni.com.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkvote",
+    "topic": "price",
+    "q": "How much is LynkVote?",
+    "a": "LynkVote plans a month: Free $0, Plus $9, Pro $29, Max $99.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkvote",
+    "topic": "how_to",
+    "q": "Where is LynkVote?",
+    "a": "LynkVote is described at lynkomni.com/voting.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkhr",
+    "topic": "price",
+    "q": "How much is LynkHR?",
+    "a": "LynkHR plans a month: Free $0, Plus $9, Pro $29, Max $79.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkhr",
+    "topic": "how_to",
+    "q": "Where is LynkHR?",
+    "a": "LynkHR is described at lynkomni.com/hr.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkproject",
+    "topic": "price",
+    "q": "How much is LynkProject?",
+    "a": "LynkProject plans a month: Free $0, Plus $5, Pro $15, Max $39.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkproject",
+    "topic": "how_to",
+    "q": "Where is LynkProject?",
+    "a": "LynkProject is described at lynkomni.com/project.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkschool",
+    "topic": "price",
+    "q": "How much is LynkSchool?",
+    "a": "LynkSchool plans a month: Free $0, Plus $19, Pro $49, Max $129.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkschool",
+    "topic": "how_to",
+    "q": "Where is LynkSchool?",
+    "a": "LynkSchool is described at lynkomni.com/school.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkproperty",
+    "topic": "price",
+    "q": "How much is LynkProperty?",
+    "a": "LynkProperty plans a month: Free $0, Plus $9, Pro $29, Max $79.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkproperty",
+    "topic": "how_to",
+    "q": "Where is LynkProperty?",
+    "a": "LynkProperty is described at lynkomni.com/property.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkfiles",
+    "topic": "price",
+    "q": "How much is LynkFiles?",
+    "a": "LynkFiles plans a month: Free $0, Plus $4, Pro $11, Max $29.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkfiles",
+    "topic": "how_to",
+    "q": "Where is LynkFiles?",
+    "a": "LynkFiles is described at lynkomni.com/files.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkjobs",
+    "topic": "price",
+    "q": "How much is LynkJobs?",
+    "a": "LynkJobs plans a month: Free $0, Plus $15, Pro $45, Max $129.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkjobs",
+    "topic": "how_to",
+    "q": "Where is LynkJobs?",
+    "a": "LynkJobs is described at job.lynkomni.com.",
+    "source": "catalog/products.v1.json"
+   },
+   {
     "id": "price-lynkops",
     "topic": "price",
     "q": "How much is LynkOps?",
@@ -11983,6 +12271,118 @@
     "topic": "how_to",
     "q": "أين أجد LynkSurvey؟",
     "a": "يُوصف LynkSurvey في lynkomni.com/survey.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkexchange",
+    "topic": "price",
+    "q": "كم سعر LynkExchange؟",
+    "a": "خطط LynkExchange شهريًا: Free $0, Plus $9, Pro $29, Max $79.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkexchange",
+    "topic": "how_to",
+    "q": "أين أجد LynkExchange؟",
+    "a": "يُوصف LynkExchange في exchange.lynkomni.com.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkvote",
+    "topic": "price",
+    "q": "كم سعر LynkVote؟",
+    "a": "خطط LynkVote شهريًا: Free $0, Plus $9, Pro $29, Max $99.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkvote",
+    "topic": "how_to",
+    "q": "أين أجد LynkVote؟",
+    "a": "يُوصف LynkVote في lynkomni.com/voting.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkhr",
+    "topic": "price",
+    "q": "كم سعر LynkHR؟",
+    "a": "خطط LynkHR شهريًا: Free $0, Plus $9, Pro $29, Max $79.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkhr",
+    "topic": "how_to",
+    "q": "أين أجد LynkHR؟",
+    "a": "يُوصف LynkHR في lynkomni.com/hr.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkproject",
+    "topic": "price",
+    "q": "كم سعر LynkProject؟",
+    "a": "خطط LynkProject شهريًا: Free $0, Plus $5, Pro $15, Max $39.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkproject",
+    "topic": "how_to",
+    "q": "أين أجد LynkProject؟",
+    "a": "يُوصف LynkProject في lynkomni.com/project.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkschool",
+    "topic": "price",
+    "q": "كم سعر LynkSchool؟",
+    "a": "خطط LynkSchool شهريًا: Free $0, Plus $19, Pro $49, Max $129.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkschool",
+    "topic": "how_to",
+    "q": "أين أجد LynkSchool؟",
+    "a": "يُوصف LynkSchool في lynkomni.com/school.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkproperty",
+    "topic": "price",
+    "q": "كم سعر LynkProperty؟",
+    "a": "خطط LynkProperty شهريًا: Free $0, Plus $9, Pro $29, Max $79.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkproperty",
+    "topic": "how_to",
+    "q": "أين أجد LynkProperty؟",
+    "a": "يُوصف LynkProperty في lynkomni.com/property.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkfiles",
+    "topic": "price",
+    "q": "كم سعر LynkFiles؟",
+    "a": "خطط LynkFiles شهريًا: Free $0, Plus $4, Pro $11, Max $29.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkfiles",
+    "topic": "how_to",
+    "q": "أين أجد LynkFiles؟",
+    "a": "يُوصف LynkFiles في lynkomni.com/files.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkjobs",
+    "topic": "price",
+    "q": "كم سعر LynkJobs؟",
+    "a": "خطط LynkJobs شهريًا: Free $0, Plus $15, Pro $45, Max $129.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkjobs",
+    "topic": "how_to",
+    "q": "أين أجد LynkJobs؟",
+    "a": "يُوصف LynkJobs في job.lynkomni.com.",
     "source": "catalog/products.v1.json"
    },
    {
@@ -12359,6 +12759,118 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "price-lynkexchange",
+    "topic": "price",
+    "q": "LynkExchangeの料金はいくらですか？",
+    "a": "LynkExchangeの月額プラン：Free $0, Plus $9, Pro $29, Max $79。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkexchange",
+    "topic": "how_to",
+    "q": "LynkExchangeはどこにありますか？",
+    "a": "LynkExchangeの説明はexchange.lynkomni.comにあります。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkvote",
+    "topic": "price",
+    "q": "LynkVoteの料金はいくらですか？",
+    "a": "LynkVoteの月額プラン：Free $0, Plus $9, Pro $29, Max $99。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkvote",
+    "topic": "how_to",
+    "q": "LynkVoteはどこにありますか？",
+    "a": "LynkVoteの説明はlynkomni.com/votingにあります。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkhr",
+    "topic": "price",
+    "q": "LynkHRの料金はいくらですか？",
+    "a": "LynkHRの月額プラン：Free $0, Plus $9, Pro $29, Max $79。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkhr",
+    "topic": "how_to",
+    "q": "LynkHRはどこにありますか？",
+    "a": "LynkHRの説明はlynkomni.com/hrにあります。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkproject",
+    "topic": "price",
+    "q": "LynkProjectの料金はいくらですか？",
+    "a": "LynkProjectの月額プラン：Free $0, Plus $5, Pro $15, Max $39。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkproject",
+    "topic": "how_to",
+    "q": "LynkProjectはどこにありますか？",
+    "a": "LynkProjectの説明はlynkomni.com/projectにあります。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkschool",
+    "topic": "price",
+    "q": "LynkSchoolの料金はいくらですか？",
+    "a": "LynkSchoolの月額プラン：Free $0, Plus $19, Pro $49, Max $129。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkschool",
+    "topic": "how_to",
+    "q": "LynkSchoolはどこにありますか？",
+    "a": "LynkSchoolの説明はlynkomni.com/schoolにあります。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkproperty",
+    "topic": "price",
+    "q": "LynkPropertyの料金はいくらですか？",
+    "a": "LynkPropertyの月額プラン：Free $0, Plus $9, Pro $29, Max $79。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkproperty",
+    "topic": "how_to",
+    "q": "LynkPropertyはどこにありますか？",
+    "a": "LynkPropertyの説明はlynkomni.com/propertyにあります。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkfiles",
+    "topic": "price",
+    "q": "LynkFilesの料金はいくらですか？",
+    "a": "LynkFilesの月額プラン：Free $0, Plus $4, Pro $11, Max $29。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkfiles",
+    "topic": "how_to",
+    "q": "LynkFilesはどこにありますか？",
+    "a": "LynkFilesの説明はlynkomni.com/filesにあります。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkjobs",
+    "topic": "price",
+    "q": "LynkJobsの料金はいくらですか？",
+    "a": "LynkJobsの月額プラン：Free $0, Plus $15, Pro $45, Max $129。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkjobs",
+    "topic": "how_to",
+    "q": "LynkJobsはどこにありますか？",
+    "a": "LynkJobsの説明はjob.lynkomni.comにあります。",
+    "source": "catalog/products.v1.json"
+   },
+   {
     "id": "price-lynkops",
     "topic": "price",
     "q": "LynkOpsの料金はいくらですか？",
@@ -12729,6 +13241,118 @@
     "topic": "how_to",
     "q": "Où trouver LynkSurvey ?",
     "a": "LynkSurvey est présenté sur lynkomni.com/survey.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkexchange",
+    "topic": "price",
+    "q": "Combien coûte LynkExchange ?",
+    "a": "Formules LynkExchange par mois : Free $0, Plus $9, Pro $29, Max $79.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkexchange",
+    "topic": "how_to",
+    "q": "Où trouver LynkExchange ?",
+    "a": "LynkExchange est présenté sur exchange.lynkomni.com.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkvote",
+    "topic": "price",
+    "q": "Combien coûte LynkVote ?",
+    "a": "Formules LynkVote par mois : Free $0, Plus $9, Pro $29, Max $99.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkvote",
+    "topic": "how_to",
+    "q": "Où trouver LynkVote ?",
+    "a": "LynkVote est présenté sur lynkomni.com/voting.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkhr",
+    "topic": "price",
+    "q": "Combien coûte LynkHR ?",
+    "a": "Formules LynkHR par mois : Free $0, Plus $9, Pro $29, Max $79.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkhr",
+    "topic": "how_to",
+    "q": "Où trouver LynkHR ?",
+    "a": "LynkHR est présenté sur lynkomni.com/hr.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkproject",
+    "topic": "price",
+    "q": "Combien coûte LynkProject ?",
+    "a": "Formules LynkProject par mois : Free $0, Plus $5, Pro $15, Max $39.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkproject",
+    "topic": "how_to",
+    "q": "Où trouver LynkProject ?",
+    "a": "LynkProject est présenté sur lynkomni.com/project.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkschool",
+    "topic": "price",
+    "q": "Combien coûte LynkSchool ?",
+    "a": "Formules LynkSchool par mois : Free $0, Plus $19, Pro $49, Max $129.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkschool",
+    "topic": "how_to",
+    "q": "Où trouver LynkSchool ?",
+    "a": "LynkSchool est présenté sur lynkomni.com/school.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkproperty",
+    "topic": "price",
+    "q": "Combien coûte LynkProperty ?",
+    "a": "Formules LynkProperty par mois : Free $0, Plus $9, Pro $29, Max $79.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkproperty",
+    "topic": "how_to",
+    "q": "Où trouver LynkProperty ?",
+    "a": "LynkProperty est présenté sur lynkomni.com/property.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkfiles",
+    "topic": "price",
+    "q": "Combien coûte LynkFiles ?",
+    "a": "Formules LynkFiles par mois : Free $0, Plus $4, Pro $11, Max $29.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkfiles",
+    "topic": "how_to",
+    "q": "Où trouver LynkFiles ?",
+    "a": "LynkFiles est présenté sur lynkomni.com/files.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkjobs",
+    "topic": "price",
+    "q": "Combien coûte LynkJobs ?",
+    "a": "Formules LynkJobs par mois : Free $0, Plus $15, Pro $45, Max $129.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkjobs",
+    "topic": "how_to",
+    "q": "Où trouver LynkJobs ?",
+    "a": "LynkJobs est présenté sur job.lynkomni.com.",
     "source": "catalog/products.v1.json"
    },
    {
@@ -13105,6 +13729,118 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "price-lynkexchange",
+    "topic": "price",
+    "q": "LynkExchange inagharimu kiasi gani?",
+    "a": "Mipango ya LynkExchange kwa mwezi: Free $0, Plus $9, Pro $29, Max $79.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkexchange",
+    "topic": "how_to",
+    "q": "LynkExchange iko wapi?",
+    "a": "LynkExchange imeelezwa kwenye exchange.lynkomni.com.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkvote",
+    "topic": "price",
+    "q": "LynkVote inagharimu kiasi gani?",
+    "a": "Mipango ya LynkVote kwa mwezi: Free $0, Plus $9, Pro $29, Max $99.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkvote",
+    "topic": "how_to",
+    "q": "LynkVote iko wapi?",
+    "a": "LynkVote imeelezwa kwenye lynkomni.com/voting.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkhr",
+    "topic": "price",
+    "q": "LynkHR inagharimu kiasi gani?",
+    "a": "Mipango ya LynkHR kwa mwezi: Free $0, Plus $9, Pro $29, Max $79.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkhr",
+    "topic": "how_to",
+    "q": "LynkHR iko wapi?",
+    "a": "LynkHR imeelezwa kwenye lynkomni.com/hr.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkproject",
+    "topic": "price",
+    "q": "LynkProject inagharimu kiasi gani?",
+    "a": "Mipango ya LynkProject kwa mwezi: Free $0, Plus $5, Pro $15, Max $39.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkproject",
+    "topic": "how_to",
+    "q": "LynkProject iko wapi?",
+    "a": "LynkProject imeelezwa kwenye lynkomni.com/project.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkschool",
+    "topic": "price",
+    "q": "LynkSchool inagharimu kiasi gani?",
+    "a": "Mipango ya LynkSchool kwa mwezi: Free $0, Plus $19, Pro $49, Max $129.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkschool",
+    "topic": "how_to",
+    "q": "LynkSchool iko wapi?",
+    "a": "LynkSchool imeelezwa kwenye lynkomni.com/school.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkproperty",
+    "topic": "price",
+    "q": "LynkProperty inagharimu kiasi gani?",
+    "a": "Mipango ya LynkProperty kwa mwezi: Free $0, Plus $9, Pro $29, Max $79.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkproperty",
+    "topic": "how_to",
+    "q": "LynkProperty iko wapi?",
+    "a": "LynkProperty imeelezwa kwenye lynkomni.com/property.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkfiles",
+    "topic": "price",
+    "q": "LynkFiles inagharimu kiasi gani?",
+    "a": "Mipango ya LynkFiles kwa mwezi: Free $0, Plus $4, Pro $11, Max $29.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkfiles",
+    "topic": "how_to",
+    "q": "LynkFiles iko wapi?",
+    "a": "LynkFiles imeelezwa kwenye lynkomni.com/files.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkjobs",
+    "topic": "price",
+    "q": "LynkJobs inagharimu kiasi gani?",
+    "a": "Mipango ya LynkJobs kwa mwezi: Free $0, Plus $15, Pro $45, Max $129.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkjobs",
+    "topic": "how_to",
+    "q": "LynkJobs iko wapi?",
+    "a": "LynkJobs imeelezwa kwenye job.lynkomni.com.",
+    "source": "catalog/products.v1.json"
+   },
+   {
     "id": "price-lynkops",
     "topic": "price",
     "q": "LynkOps inagharimu kiasi gani?",
@@ -13475,6 +14211,118 @@
     "topic": "how_to",
     "q": "LynkSurvey在哪里？",
     "a": "LynkSurvey的介绍在lynkomni.com/survey。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkexchange",
+    "topic": "price",
+    "q": "LynkExchange多少钱？",
+    "a": "LynkExchange的月度方案：Free $0, Plus $9, Pro $29, Max $79。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkexchange",
+    "topic": "how_to",
+    "q": "LynkExchange在哪里？",
+    "a": "LynkExchange的介绍在exchange.lynkomni.com。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkvote",
+    "topic": "price",
+    "q": "LynkVote多少钱？",
+    "a": "LynkVote的月度方案：Free $0, Plus $9, Pro $29, Max $99。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkvote",
+    "topic": "how_to",
+    "q": "LynkVote在哪里？",
+    "a": "LynkVote的介绍在lynkomni.com/voting。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkhr",
+    "topic": "price",
+    "q": "LynkHR多少钱？",
+    "a": "LynkHR的月度方案：Free $0, Plus $9, Pro $29, Max $79。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkhr",
+    "topic": "how_to",
+    "q": "LynkHR在哪里？",
+    "a": "LynkHR的介绍在lynkomni.com/hr。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkproject",
+    "topic": "price",
+    "q": "LynkProject多少钱？",
+    "a": "LynkProject的月度方案：Free $0, Plus $5, Pro $15, Max $39。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkproject",
+    "topic": "how_to",
+    "q": "LynkProject在哪里？",
+    "a": "LynkProject的介绍在lynkomni.com/project。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkschool",
+    "topic": "price",
+    "q": "LynkSchool多少钱？",
+    "a": "LynkSchool的月度方案：Free $0, Plus $19, Pro $49, Max $129。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkschool",
+    "topic": "how_to",
+    "q": "LynkSchool在哪里？",
+    "a": "LynkSchool的介绍在lynkomni.com/school。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkproperty",
+    "topic": "price",
+    "q": "LynkProperty多少钱？",
+    "a": "LynkProperty的月度方案：Free $0, Plus $9, Pro $29, Max $79。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkproperty",
+    "topic": "how_to",
+    "q": "LynkProperty在哪里？",
+    "a": "LynkProperty的介绍在lynkomni.com/property。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkfiles",
+    "topic": "price",
+    "q": "LynkFiles多少钱？",
+    "a": "LynkFiles的月度方案：Free $0, Plus $4, Pro $11, Max $29。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkfiles",
+    "topic": "how_to",
+    "q": "LynkFiles在哪里？",
+    "a": "LynkFiles的介绍在lynkomni.com/files。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkjobs",
+    "topic": "price",
+    "q": "LynkJobs多少钱？",
+    "a": "LynkJobs的月度方案：Free $0, Plus $15, Pro $45, Max $129。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkjobs",
+    "topic": "how_to",
+    "q": "LynkJobs在哪里？",
+    "a": "LynkJobs的介绍在job.lynkomni.com。",
     "source": "catalog/products.v1.json"
    },
    {
@@ -13851,6 +14699,118 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "price-lynkexchange",
+    "topic": "price",
+    "q": "LynkExchange कितने का है?",
+    "a": "LynkExchange के मासिक प्लान: Free $0, Plus $9, Pro $29, Max $79।",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkexchange",
+    "topic": "how_to",
+    "q": "LynkExchange कहाँ है?",
+    "a": "LynkExchange का विवरण exchange.lynkomni.com पर है।",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkvote",
+    "topic": "price",
+    "q": "LynkVote कितने का है?",
+    "a": "LynkVote के मासिक प्लान: Free $0, Plus $9, Pro $29, Max $99।",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkvote",
+    "topic": "how_to",
+    "q": "LynkVote कहाँ है?",
+    "a": "LynkVote का विवरण lynkomni.com/voting पर है।",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkhr",
+    "topic": "price",
+    "q": "LynkHR कितने का है?",
+    "a": "LynkHR के मासिक प्लान: Free $0, Plus $9, Pro $29, Max $79।",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkhr",
+    "topic": "how_to",
+    "q": "LynkHR कहाँ है?",
+    "a": "LynkHR का विवरण lynkomni.com/hr पर है।",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkproject",
+    "topic": "price",
+    "q": "LynkProject कितने का है?",
+    "a": "LynkProject के मासिक प्लान: Free $0, Plus $5, Pro $15, Max $39।",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkproject",
+    "topic": "how_to",
+    "q": "LynkProject कहाँ है?",
+    "a": "LynkProject का विवरण lynkomni.com/project पर है।",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkschool",
+    "topic": "price",
+    "q": "LynkSchool कितने का है?",
+    "a": "LynkSchool के मासिक प्लान: Free $0, Plus $19, Pro $49, Max $129।",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkschool",
+    "topic": "how_to",
+    "q": "LynkSchool कहाँ है?",
+    "a": "LynkSchool का विवरण lynkomni.com/school पर है।",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkproperty",
+    "topic": "price",
+    "q": "LynkProperty कितने का है?",
+    "a": "LynkProperty के मासिक प्लान: Free $0, Plus $9, Pro $29, Max $79।",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkproperty",
+    "topic": "how_to",
+    "q": "LynkProperty कहाँ है?",
+    "a": "LynkProperty का विवरण lynkomni.com/property पर है।",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkfiles",
+    "topic": "price",
+    "q": "LynkFiles कितने का है?",
+    "a": "LynkFiles के मासिक प्लान: Free $0, Plus $4, Pro $11, Max $29।",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkfiles",
+    "topic": "how_to",
+    "q": "LynkFiles कहाँ है?",
+    "a": "LynkFiles का विवरण lynkomni.com/files पर है।",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkjobs",
+    "topic": "price",
+    "q": "LynkJobs कितने का है?",
+    "a": "LynkJobs के मासिक प्लान: Free $0, Plus $15, Pro $45, Max $129।",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkjobs",
+    "topic": "how_to",
+    "q": "LynkJobs कहाँ है?",
+    "a": "LynkJobs का विवरण job.lynkomni.com पर है।",
+    "source": "catalog/products.v1.json"
+   },
+   {
     "id": "price-lynkops",
     "topic": "price",
     "q": "LynkOps कितने का है?",
@@ -13939,8 +14899,8 @@
    "query": "where is LynkPOS",
    "ids": [
     "where-lynkpos",
-    "where-lynkacc",
-    "where-lynkinv"
+    "where-lynkproject",
+    "where-lynkproperty"
    ]
   },
   {
@@ -13976,7 +14936,7 @@
    "ids": [
     "where-lynkpos",
     "where-lynkrewards",
-    "where-lynkops"
+    "where-lynkproject"
    ]
   },
   {
