@@ -7,6 +7,7 @@ Fixes the owner found on the counter tablet:
 - Sell by voice: the microphone picture had no size and filled the whole basket, pushing its words onto the Charge button. The microphone is now a normal-size button beside Charge, with its name for screen readers.
 - The basket keeps the total, the microphone and Charge always in view; only the list of lines scrolls.
 - A main button that cannot be used yet (Charge with an empty basket) is now solid grey with readable grey text in every emulator, instead of a see-through purple that looked broken. Checked every emulator in every state: no other button picture was oversized.
+- Checks: the font and browser download in the layout check now retries by itself, so a short outage of Ubuntu's package servers (as on 19 November 2026) no longer fails a pull request.
 
 ## v0.47.1 (2026-11-19)
 Fixes the owner found on a phone:
