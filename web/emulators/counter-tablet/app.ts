@@ -28,6 +28,8 @@ let LINES: Line[] = [];
 import type { Entry } from "../../../ts/src/shell.js";
 import { DeviceMode } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
+import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
+import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
 
 declare const DATA: Build & { entitlements: Record<string, PosEntitlement>; fx: Record<string, number> };
 type Tab = "home" | "sell" | "stock" | "chats" | "business" | "tables" | "kitchen" | "invoices" | "customers" | "services" | "float";
@@ -299,7 +301,12 @@ function customerDisplay(): string {
 
 /** A counter tablet is made with a touch screen only (catalog/devices.v1.json wall-tablet, dual-screen-pos): its screen carries that interface. */
 const DM = new DeviceMode(DEVICES, "wall-tablet");
-function draw(): void {
+/** The device side of the Emulator Panel (ts/src/emkit.ts, build section 3A): the connect request, the disconnected and locked screens,
+ *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
+const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "pos.counter_tablet", "Counter tablet", { short_side: 800, touch: true, camera: true, speaker: true, device_print: true }, "android"), (type, payload, origin) => { LOG.emit(type, payload, origin); });
+const KW = wireKit(KIT, { t, icon: (id, cls) => icon(id, cls), online: () => S.online, redraw: () => draw() });
+function draw(): void { drawScreen(); KW.after($("#screen").querySelector(".app") as HTMLElement); }
+function drawScreen(): void {
   const screen = $("#screen"), app = screen.querySelector(".app") as HTMLElement; DM.apply(screen);
   screen.classList.toggle("light", !S.dark); screen.classList.toggle("dark", S.dark); screen.classList.toggle("lowlit", DSH.pictures); applyRoot(screen, W);
   const cs = $("#cscreen"); cs.classList.toggle("light", !S.dark); cs.classList.toggle("dark", S.dark); applyRoot(cs, W);

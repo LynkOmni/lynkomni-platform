@@ -37,12 +37,16 @@ import { bell } from "../../../ts/src/notify.js";
 import type { Line } from "../../../ts/src/notify.js";
 import { cardFormFields, cardName, cardWord, decideOffline, knowledgeFor, needsManager } from "../../../ts/src/devicekit.js";
 import { PeopleHub, devicesCard, doorWhere, setupCard, surveyCard } from "../../../ts/src/peoplehub.js";
+import { EmulatorPanelDesk, panelPath, panelView } from "../../../ts/src/emulatorpanel.js";
+import type { PanelLook } from "../../../ts/src/emulatorpanel.js";
+import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
 import { pairCode, pairCodeAt, quCDisplayView, quCounterView, quCountersView, quDevicesView, quKioskView, quPublicView, quReceptionView, quReportsView, quScreenView, quSectionsView, quSetupView, quTicketsView } from "../../../ts/src/queuedesk.js";
 import type { QuLook, QuPlan } from "../../../ts/src/queuedesk.js";
 import { svBuilderView, svCDisplayView, svDevicesView, svKioskView, svPhoneView, svPlanView, svResearchView, svResultsView, svRewardsView, svScreenView, svSurveysView, svTasksView } from "../../../ts/src/surveydesk.js";
 import type { SvLook, SvPlan } from "../../../ts/src/surveydesk.js";
 import { atDoor, checkInsView, checkersView, devicesView, eventsView, leaveView, peopleView, registerView, reportsView, shiftsView, visitorsView, wasThisYou } from "../../../ts/src/attenddesk.js";
 import type { AtLook, AtPlan, AtTier } from "../../../ts/src/attenddesk.js";
+import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
 
 interface BuildData {
   people: { attend: Record<AtTier, AtPlan>; queue: Record<AtTier, QuPlan>; survey: Record<AtTier, SvPlan> };
@@ -221,6 +225,22 @@ function emit(type: string, payload: unknown, origin: "device" | "server" = "dev
 }
 /** LynkAttend, LynkQueue and LynkSurvey on this phone (ts/src/peoplehub.ts): the same engine as LynkPOS, writing to this log. */
 const PH = new PeopleHub((type, payload, origin) => { emit(type, payload, origin); }, Date.now, DATA.people.attend, DATA.people.queue, DATA.people.survey);
+/** The Emulator Panel (EMULATOR UPDATE, build section 3A): the overall panel in the business settings and each service's own panel
+ *  (ts/src/emulatorpanel.ts), on the sandbox devices of this business. */
+const EMP = new EmulatorPanelDesk(EMULATOR_REGISTER, (type, payload, origin) => { emit(type, payload, origin); });
+const EM_PAGES: Record<string, { family: string | null; back: string }> = { emulators: { family: null, back: "view:main" }, sell_emulators: { family: "lynkpos", back: "view:main" },
+  stock_emulators: { family: "lynkstock", back: "view:main" }, attendance_emulators: { family: "lynkattend", back: "hub:attendance" }, queue_emulators: { family: "lynkqueue", back: "hub:queue" },
+  survey_emulators: { family: "lynksurvey", back: "hub:survey" } };
+const EM_SCREEN: Record<string, string> = Object.fromEntries(Object.entries(EM_PAGES).map(([id, p]) => [p.family ?? "", id]));
+const SERVICE_PATH = (family: string): string => (DATA.screens.find((s) => s.id === EM_SCREEN[family])?.path ?? "/business/emulators").replace(/\/emulators$/, "");
+const empLook = (): PanelLook => ({ t, icon, online: online(), mayManage: S.role === "owner" || S.role === "manager", tier: S.tier, clock, money: (c) => formatMoney(c, "USD", locale()),
+  familyName: (f) => EMULATOR_REGISTER.names[f] ?? f, go: (f) => `hub:${EM_SCREEN[f ?? ""] ?? "emulators"}` });
+function emulatorPage(id: string): string {
+  const pg = EM_PAGES[id]; if (!pg) return "";
+  EMP.service = pg.family; EMP.tier = S.tier;
+  const path = panelPath(pg.family, EMP.side, SERVICE_PATH);
+  return `${topBar(t("emp_bar"), pg.back)}<div class="body">${webNote()}${panelView(EMP, empLook(), !pg.family, path)}${flash()}</div>`;
+}
 /** LynkAttend in full (ts/src/attenddesk.ts): each sub-page of app.lynkomni.com/attendance, its title and what draws it. */
 const atLook = (): AtLook => ({ t, icon, clock, money: (c) => formatMoney(c, "USD", locale()), online: online(), partner: !S.realUser, mayManage: S.role === "owner" || S.role === "manager" });
 const SPEAK = { t: (lang: string) => (k: string, vars: Record<string, string | number> = {}): string => (isTest() ? t(k, vars) : (PACKS[lang]?.texts[k] ?? PACKS["en"]?.texts[k] ?? k).replace(/\{(\w+)\}/g, (m, v: string) => (v in vars ? String(vars[v]) : m))),
@@ -258,11 +278,11 @@ const SV_PAGES: Record<string, { title: string; draw: () => string }> = {
   survey_kiosk: { title: "ppl_sv_answering", draw: () => `<div class="card" data-item="sv_kiosk"><h2>LynkKiosk</h2>${svKioskView(PH.s, svLook())}</div><div class="card" data-item="sv_screen"><h2>LynkDScreen</h2>${svScreenView(PH.s, svLook())}</div>
     <div class="card" data-item="sv_cdisplay"><h2>LynkCDisplay</h2>${svCDisplayView(PH.s, 1, svLook())}</div><div class="card" data-item="sv_phone"><h2>LynkMobile</h2>${svPhoneView(PH.s, svLook())}</div>` },
 };
-const SV_HOME: Record<string, string> = { sv_surveys: "survey_surveys", sv_new: "survey_new", sv_results: "survey_results", sv_research: "survey_research", sv_tasks: "survey_tasks", sv_panel_home: "survey_panel",
+const SV_HOME: Record<string, string> = { sv_emulators: "survey_emulators", sv_surveys: "survey_surveys", sv_new: "survey_new", sv_results: "survey_results", sv_research: "survey_research", sv_tasks: "survey_tasks", sv_panel_home: "survey_panel",
   sv_kiosk_home: "survey_kiosk", sv_devices_home: "survey_devices" };
-const QU_HOME: Record<string, string> = { q_places: "queue_places", q_sections: "queue_sections", q_counters: "queue_counters", q_tickets: "queue_tickets", q_reception: "queue_reception", q_counter: "queue_counter", q_kiosk: "queue_kiosk",
+const QU_HOME: Record<string, string> = { q_emulators: "queue_emulators", q_places: "queue_places", q_sections: "queue_sections", q_counters: "queue_counters", q_tickets: "queue_tickets", q_reception: "queue_reception", q_counter: "queue_counter", q_kiosk: "queue_kiosk",
   q_screen: "queue_screen", q_devices: "queue_devices", q_reports: "queue_reports" };
-const AT_HOME: Record<string, string> = { att_people: "attendance_people", att_check_ins: "attendance_check_ins", att_visitors: "attendance_visitors", att_checkers: "attendance_checkers", att_shifts: "attendance_shifts",
+const AT_HOME: Record<string, string> = { att_emulators: "attendance_emulators", att_people: "attendance_people", att_check_ins: "attendance_check_ins", att_visitors: "attendance_visitors", att_checkers: "attendance_checkers", att_shifts: "attendance_shifts",
   att_leave: "attendance_leave", att_events: "attendance_events", att_devices: "attendance_devices", att_door: "attendance_door", att_reports: "attendance_reports" };
 const mayAddDevice = (): boolean => S.role === "owner" || S.role === "manager";
 function tick(): void {
@@ -457,7 +477,7 @@ const DSH = new DeviceShell({
   locale: () => ({ language: PACKS[S.lang]?.native ?? S.lang, region: pack().sample ? t("sample_country") : pack().name, currency: pack().currency, english: S.lang === "en" }),
   run: (a) => { if (a === "pictures") { if (DSH.pictures) S.toggles.add("low_literacy"); else S.toggles.delete("low_literacy"); return; } S.screen = "app"; act(a); }, redraw: () => draw(),
   lines: () => bellLines(), knowledge: () => knowledgeFor(PACKS, S.lang),
-  crumbLabel: (p) => { const reg = DATA.screens.find((x) => x.path === p); if (reg && AT_PAGES[reg.id]) return t(AT_PAGES[reg.id]!.title); if (reg && QU_PAGES[reg.id]) return t(QU_PAGES[reg.id]!.title); if (reg && SV_PAGES[reg.id]) return t(SV_PAGES[reg.id]!.title); return reg ? t("it_" + reg.id) === "it_" + reg.id ? t("tab_" + reg.id) : t("it_" + reg.id) : p === "/" ? t("tab_home") : t("tab_" + (p.split("/")[1] ?? "home")); },
+  crumbLabel: (p) => { const reg = DATA.screens.find((x) => x.path === p); if (reg && EM_PAGES[reg.id]) return t(reg.id === "emulators" ? "emp_title" : "emp_bar"); if (reg && AT_PAGES[reg.id]) return t(AT_PAGES[reg.id]!.title); if (reg && QU_PAGES[reg.id]) return t(QU_PAGES[reg.id]!.title); if (reg && SV_PAGES[reg.id]) return t(SV_PAGES[reg.id]!.title); return reg ? t("it_" + reg.id) === "it_" + reg.id ? t("tab_" + reg.id) : t("it_" + reg.id) : p === "/" ? t("tab_home") : t("tab_" + (p.split("/")[1] ?? "home")); },
 }, { firstRun: false });
 
 // ---- chrome ---------------------------------------------------------------------------------------------------------
@@ -864,7 +884,7 @@ function hubValue(item: string): string {
 }
 const REMOVE_ITEM: Record<string, string> = { damage: "damaged", loss: "lost", expiry: "expired" };
 /** The rows of the LynkAttend, LynkQueue and LynkSurvey hub screens use the shared people words (web/shell "ppl_"), one translation everywhere. */
-const PEOPLE_ITEM: Record<string, string> = { att_setup: "ppl_setup_title", att_people: "ppl_people", att_check_ins: "ppl_at_check_ins", att_visitors: "ppl_at_visitors", att_checkers: "ppl_checkers", att_shifts: "ppl_at_shifts", att_leave: "ppl_at_leave",
+const PEOPLE_ITEM: Record<string, string> = { att_emulators: "emp_title", q_emulators: "emp_title", sv_emulators: "emp_title", emulators: "emp_title", att_setup: "ppl_setup_title", att_people: "ppl_people", att_check_ins: "ppl_at_check_ins", att_visitors: "ppl_at_visitors", att_checkers: "ppl_checkers", att_shifts: "ppl_at_shifts", att_leave: "ppl_at_leave",
   att_events: "ppl_at_events", att_devices: "ppl_at_door_devices", att_door: "ppl_door_title", att_reports: "ppl_reports",
   q_places: "ppl_qu_place", q_sections: "ppl_sections", q_counters: "ppl_counters", q_tickets: "ppl_qu_tickets", q_reception: "ppl_reception_title", q_counter: "ppl_counter_title", q_kiosk: "ppl_qu_kiosk", q_screen: "ppl_qu_screen",
   q_devices: "ppl_qu_devices", q_reports: "ppl_reports",
@@ -872,7 +892,7 @@ const PEOPLE_ITEM: Record<string, string> = { att_setup: "ppl_setup_title", att_
   sv_research: "ppl_sv_research", sv_tasks: "ppl_sv_call_back", sv_panel_home: "ppl_sv_rewards_panel", sv_kiosk_home: "ppl_sv_answering", sv_devices_home: "ppl_sv_devices" };
 const ACADEMY = ["lesson_first_sale", "lesson_stock", "lesson_cash", "lesson_credit", "lesson_proof"];
 const HUB_ICON: Record<string, string> = { reports: "product-dash", daily_close: "ui-receipt", money: "product-mpay", invoicing: "ui-doc", customers: "ui-user", loyalty: "product-rewards", books: "product-ledger",
-  growth: "product-grow", assistant: "ui-info", cards: "product-vcard", online_shop: "product-checkout", agent_earnings: "ui-commission", pickup_point: "ui-qr", attendance: "product-attend", queue: "product-queue", survey: "product-survey", team: "ui-user", branches_devices: "ui-grid",
+  growth: "product-grow", assistant: "ui-info", cards: "product-vcard", online_shop: "product-checkout", agent_earnings: "ui-commission", pickup_point: "ui-qr", attendance: "product-attend", queue: "product-queue", survey: "product-survey", team: "ui-user", branches_devices: "ui-grid", emulators: "ui-grid",
   plans_billing: "ui-receipt", settings: "ui-settings", academy: "ui-info", automations: "ui-sync" };
 // ---- BIZZ & DEVICE section 3: the Storefront side of the Business app, stock held at online checkout, and LynkDriver --------
 /** The Storefront side (core/sides.py): the same products, stock and money, offered to others; addresses are /external + the workspace path. */
@@ -1074,6 +1094,7 @@ function hubSection(id: string): string {
   if (page) return `${topBar(t(page.title), "hub:attendance")}<div class="body">${webNote()}${page.draw()}${flash()}</div>`;
   const qpage = QU_PAGES[id];
   if (qpage) return `${topBar(t(qpage.title), "hub:queue")}<div class="body">${webNote()}${qpage.draw()}${flash()}</div>`;
+  if (EM_PAGES[id]) return emulatorPage(id);
   const spage = SV_PAGES[id];
   if (spage) return `${topBar(t(spage.title), "hub:survey")}<div class="body">${webNote()}${spage.draw()}${flash()}</div>`;
   const back = "view:main";
@@ -1092,7 +1113,7 @@ function hubSection(id: string): string {
     case "team": extra = `<label class="switch"><span>${esc(t("staff_profit"))}</span><input type="checkbox" data-in="perm" ${S.perms.staffSeeProfit ? "checked" : ""} ${canChangeSettings(S.role) ? "" : "disabled"}></label>
       ${canChangeSettings(S.role) ? "" : `<p>${esc(t("owner_only"))}</p>`}<ul class="list card">${S.staff.map((x) => row(x.name, t("role_" + x.role))).join("")}</ul>
       <button class="ghost inline" data-act="invite">${esc(t("invite_staff"))}</button><button class="ghost inline" data-act="clock">${esc(t(S.clockedIn ? "clock_out" : "clock_in"))}</button>`; break;
-    case "branches_devices": extra = `<button class="rowbtn card" data-act="view:driver">${icon("ui-settings", "prod")}<span class="main"><span class="nm">LynkDriver</span><span class="sub">${esc(driverLine())}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>`; extra += `<ul class="list card">${S.devices.map((d) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(d.name)}</span><span class="sub">${esc(t(d.revoked ? "revoked" : "active"))}</span></span>${d.revoked ? "" : `<button class="ghost small" data-act="revoke:${d.id}">${esc(t("it_revoke"))}</button>`}</div></li>`).join("")}</ul><p class="sub">${esc(t("wipe_help"))}</p>${m3Devices()}`; break;
+    case "branches_devices": extra = `<button class="rowbtn card" data-item="emulators_link" data-act="hub:emulators">${icon("ui-grid", "prod")}<span class="main"><span class="nm">${esc(t("emp_title"))}</span><span class="sub">${esc(t("emp_intro"))}</span></span>${icon("ui-chevron-right", "ic fwd")}</button><button class="rowbtn card" data-act="view:driver">${icon("ui-settings", "prod")}<span class="main"><span class="nm">LynkDriver</span><span class="sub">${esc(driverLine())}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>`; extra += `<ul class="list card">${S.devices.map((d) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(d.name)}</span><span class="sub">${esc(t(d.revoked ? "revoked" : "active"))}</span></span>${d.revoked ? "" : `<button class="ghost small" data-act="revoke:${d.id}">${esc(t("it_revoke"))}</button>`}</div></li>`).join("")}</ul><p class="sub">${esc(t("wipe_help"))}</p>${m3Devices()}`; break;
     case "plans_billing": extra = `<ul class="list card">${TIERS.map((k, i) => `<li><button class="rowbtn" data-act="tier:${k}" aria-pressed="${S.tier === k}"><span class="main"><span class="nm">LynkPOS ${esc(t("tier_" + k))}</span><span class="sub">${esc(t("per_month", { amount: formatMoney((DATA.plans[i] ?? 0) * 100, "USD", locale()) }))}</span></span>${S.tier === k ? icon("ui-check") : ""}</button></li>`).join("")}</ul><p class="sub">${esc(t("prices_usd_note"))}</p>
       <div class="card" data-item="storefront_plans"><h2>${esc(t("sf_plan"))}</h2><ul class="list">${(DATA.storefront?.tiers ?? []).filter((k) => k in (DATA.storefront?.prices_usd ?? {})).map((k) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(t("tier_" + k))}</span><span class="sub">${esc(t("per_month", { amount: formatMoney((DATA.storefront?.prices_usd[k] ?? 0) * 100, "USD", locale()) }))} · ${esc(new Intl.NumberFormat(locale(), { style: "percent", maximumFractionDigits: 2 }).format((DATA.storefront?.share_bps[k] ?? 0) / 10000))}</span></span></div></li>`).join("")}</ul></div>`; break;
     case "automations": extra = `<ul class="list card">${DATA.automations.map((a) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(t("auto_" + key(a.id)))}</span><span class="sub">${esc(t("level_" + a.level))}</span></span><label class="switch mini"><span class="sr">${esc(t("it_off_switch"))}</span><input type="checkbox" data-in="auto:${a.id}" ${S.autoOff.has(a.id) ? "" : "checked"}></label></div></li>`).join("")}</ul>
@@ -1382,7 +1403,12 @@ function view(): string {
 
 /** The Business app on a phone or tablet is the touch version (catalog/devices.v1.json smartphone, tablet). */
 const DM = new DeviceMode(DEVICES, "smartphone");
-function draw(): void {
+/** The device side of the Emulator Panel (ts/src/emkit.ts, build section 3A): the connect request, the disconnected and locked screens,
+ *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
+const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "pos.merchant_phone", "Phone", { short_side: 390, touch: true, camera: true, speaker: true, device_print: true }, "android"), (type, payload, origin) => { emit(type, payload, origin); });
+const KW = wireKit(KIT, { t, icon: (id, cls) => icon(id, cls), online: () => online(), redraw: () => draw() });
+function draw(): void { drawScreen(); KW.after($("#app")); }
+function drawScreen(): void {
   const d = $("#display"); DM.device = S.size === "tablet" ? "tablet" : S.size === "web" ? "computer" : "smartphone"; DM.version = S.size === "web" ? "non_touch" : "touch"; DM.apply(d);
   const ae = document.activeElement, focus = (ae instanceof HTMLInputElement || ae instanceof HTMLTextAreaElement) && d.contains(ae) ? { id: ae.id, key: ae.dataset["in"] ?? "", at: ae.selectionStart } : null;   // typed text keeps its place across a redraw
   DSH.pictures = S.toggles.has("low_literacy");
@@ -1441,6 +1467,7 @@ function act(a: string): void {
   }
   if (a.startsWith("qu:")) { PH.q.act(a, { online: online(), partner: !S.realUser, pairCode, redraw: draw }); draw(); return; }
   if (a.startsWith("sv:")) { PH.s.act(a, { online: online(), partner: !S.realUser, redraw: draw }); if (a === "sv:new" || a.startsWith("sv:edit:")) S.hub = "survey_new"; draw(); return; }
+  if (a.startsWith("emp:")) { EMP.act(a, { online: online(), busy: false, redraw: draw }); draw(); return; }
   if (a.startsWith("ph:")) { if (!a.startsWith("ph:afterpay") || mayAddDevice()) PH.act(a, { online: online(), redraw: draw, language: S.lang }); draw(); return; }
   try {
     switch (k) {
@@ -1610,6 +1637,7 @@ function onInput(el: HTMLInputElement): void {
   if (k.startsWith("at:")) { if (el.tagName !== "SELECT" && PH.att.input(k, el.value)) draw(); return; }
   if (k.startsWith("qu:")) { if (el.tagName !== "SELECT" && PH.q.input(k, el.value)) draw(); return; }
   if (k.startsWith("sv:")) { if (el.tagName !== "SELECT" && PH.s.input(k, el.value)) draw(); return; }
+  if (k === "emp_filter") { EMP.filter = el.value.slice(0, 40); draw(); return; }
   switch (k) {
     case "cash": case "split": case "cashnum": S.input = digits(9); draw(); return;
     case "momo": S.input = el.value.replace(/[^\d ]/g, "").slice(0, 15); draw(); return;

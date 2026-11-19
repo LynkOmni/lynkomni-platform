@@ -1067,6 +1067,105 @@
    "status": "built",
    "offline": "queue",
    "note": "only the reminders the survey already allows: at most 2 per person, never to anyone who said Don't ask me again"
+  },
+  {
+   "id": "panel_explain_device",
+   "area": "emulators",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "staff"
+   ],
+   "limits": {
+    "per_day": 200
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": "3A",
+   "status": "built",
+   "offline": "device"
+  },
+  {
+   "id": "panel_connect_device",
+   "area": "emulators",
+   "class": "B",
+   "touches": [
+    "devices"
+   ],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 30
+   },
+   "verify": "read_back",
+   "undo": "disconnect_again",
+   "build_section": "3A",
+   "status": "built",
+   "offline": "never"
+  },
+  {
+   "id": "panel_disconnect_device",
+   "area": "emulators",
+   "class": "B",
+   "touches": [
+    "devices"
+   ],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 30
+   },
+   "verify": "read_back",
+   "undo": "connect_again",
+   "build_section": "3A",
+   "status": "built",
+   "offline": "never"
+  },
+  {
+   "id": "panel_mark_lost",
+   "area": "emulators",
+   "class": "B",
+   "touches": [
+    "devices"
+   ],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 10
+   },
+   "verify": "read_back",
+   "undo": "mark_found",
+   "build_section": "3A",
+   "status": "built",
+   "offline": "never"
+  },
+  {
+   "id": "panel_practice_mode",
+   "area": "emulators",
+   "class": "B",
+   "touches": [
+    "devices"
+   ],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 30
+   },
+   "verify": "read_back",
+   "undo": "end_practice",
+   "build_section": "3A",
+   "status": "built",
+   "offline": "never"
   }
  ],
  "offline_rule": "Offline layer 2 (MASTER UPDATE 1.11; build section 3): every action says what it does without a network. device: changes only this device, done at once and recorded, synced later. queue: the person confirms now, it is sealed on the device and shown as queued, carried out when the network returns, then verified and told; never shown as done before that, and it expires if the device stays offline too long. cloud_check: needs the cloud's fresh identity check, so it waits. never: needs a provider, a partner or a person, so it is not offered offline (LynkAssist prepares the case to send later; the one exception, a card freeze, is queued and shown frozen only when the issuer confirms).",

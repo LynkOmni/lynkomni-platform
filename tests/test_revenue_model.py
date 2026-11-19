@@ -122,5 +122,12 @@ class ExpensesAndProfit(unittest.TestCase):
         self.assertTrue(all(g["assumption"] for g in got.values()))
         for f in ("lynkattend", "lynkqueue", "lynksurvey"): self.assertNotIn(f, R.ECO_ROWS)
 
+    def test_emulator_extra_slot_stream_is_separate_and_an_assumption(self):
+        # EMULATOR UPDATE (build section 3A): the $2 extra slot is its own stream, outside the agreed totals until pilot data exists
+        got = {st: R.emulator_slots(st) for st in R.STAGES}
+        self.assertEqual({st: (g["slots"], g["month"]) for st, g in got.items()},
+                         {"stage1": (54, 38), "stage2": (2_700, 2_160), "stage3": (60_000, 66_000)})
+        self.assertTrue(all(g["assumption"] for g in got.values()))
+
 if __name__ == "__main__":
     unittest.main()

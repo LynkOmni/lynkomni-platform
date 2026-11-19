@@ -379,3 +379,23 @@ def people(stage):
         out[name] = (plans * (1 - a["bundle_share"] * Decimal(billing.PEOPLE_BUNDLE_DISCOUNT_BPS) / 10_000) + extras) * idx
     return {"attend": _r(out["attend"]), "queue": _r(out["queue"]), "survey": _r(out["survey"]),
             "month": _r(sum(out.values())), "assumption": True}
+
+
+# ---- Emulator Panel extra slots (EMULATOR UPDATE, owner accepted 2026-11-18; build section 3A) -------------------------------
+# A paid plan can add one more staff device for services.billing SERVICE_FEES["emulator_extra_slot_cents"] a month. Shown as its
+# OWN stream, kept OUTSIDE the agreed totals until pilot data exists, so no agreed figure moves. EVERY number below is an
+# ASSUMPTION, labelled as such.
+EMULATOR_ASSUMPTIONS = {
+    "buyers": Decimal("2"),                                            # percent of all merchants on a paid plan who buy extra slots
+    "slots_each": Decimal("1.5"),                                      # extra slots per buying merchant
+}
+
+
+def emulator_slots(stage):
+    """Monthly USD for one stage (whole dollars): extra Emulator Panel slots (price index and conversion applied). An ASSUMPTION,
+    outside the ecosystem totals."""
+    a = EMULATOR_ASSUMPTIONS
+    m, idx, conv = Decimal(MERCHANTS[stage]), INDEX[stage], CONVERSION[stage]
+    buyers = m * a["buyers"] * Decimal("0.01") * conv
+    month = buyers * a["slots_each"] * Decimal(billing.SERVICE_FEES["emulator_extra_slot_cents"]) / 100 * idx
+    return {"slots": _r(buyers * a["slots_each"]), "month": _r(month), "assumption": True}

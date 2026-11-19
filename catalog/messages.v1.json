@@ -1614,6 +1614,99 @@
    ],
    "sender": "notifications@mail.lynkomni.com",
    "note": "LynkSurvey: 3 unhappy answers at Douala branch in the last hour"
+  },
+  {
+   "group": "summary",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3A",
+   "id": "survey_you_said",
+   "area": "people",
+   "trigger": "SurveyYouSaidSent",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "low",
+   "channels": [
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "LynkSurvey: \"You said, we did\", the organisation's one message back to the people who answered (carried over from section 3B)"
+  },
+  {
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3A",
+   "id": "emulator_connect_asked",
+   "area": "devices",
+   "trigger": "EmulatorConnectAsked",
+   "audience": "manager",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "Emulator Panel: a disconnected emulator asks to be connected again (Counter 2, LynkPOS terminal)"
+  },
+  {
+   "group": "burst",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3A",
+   "id": "emulator_device_alert",
+   "area": "devices",
+   "trigger": "DeviceHealthReported",
+   "audience": "manager",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "Emulator Panel: a device long offline, a low battery, a printer out of paper, many unsent records, or a failed morning check"
+  },
+  {
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3A",
+   "id": "emulator_reapproval",
+   "area": "devices",
+   "trigger": "EmulatorReapprovalNeeded",
+   "audience": "manager",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "Emulator Panel: a device not seen for a while must be approved again"
+  },
+  {
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "3A",
+   "id": "emulator_screen_view",
+   "area": "devices",
+   "trigger": "ScreenViewChanged",
+   "audience": "staff",
+   "basis": "security",
+   "priority": "high",
+   "channels": [
+    "bell"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "note": "Emulator Panel: someone started or ended viewing this device's screen to help, with the user's consent"
   }
  ]
 }

@@ -1151,6 +1151,20 @@
    ],
    "section": 1,
    "what": "LynkMobile, LynkTab, LynkPC, LynkPOS, LynkKiosk, LynkDScreen and LynkCDisplay: the device names across LynkOmni"
+  },
+  {
+   "id": "emulator_panel",
+   "kind": "feature",
+   "places": [
+    "app_nav",
+    "help",
+    "search",
+    "settings",
+    "showcase",
+    "sitemap"
+   ],
+   "section": "3A",
+   "what": "The Emulator Panel: give a service's screen to a phone, tablet, computer, kiosk or display with a QR code, a Lynk Code or a link; see every device, emulator and user live; connect, disconnect, lock, swap and approve again (app.lynkomni.com/business/emulators and each service's /emulators)"
   }
  ]
 }

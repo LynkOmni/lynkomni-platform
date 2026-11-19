@@ -599,7 +599,10 @@ class Survey:
         s._need(merchant, by, SEES_ALL)
         if not s._ent(merchant)["call_back"]: raise PermissionError("plan_no_you_said_we_did")
         sv = s._sv(survey); people = [] if sv["anonymous"] else [r[0] for r in s.db.execute("select distinct person from sv_answers where survey_id=? and person is not null and deleted=0", (survey,))]
-        s.db.execute("insert into sv_said values(?,?,?,?)", (survey, text, _now(now), len(people)))
+        n = _now(now)
+        s.db.execute("insert into sv_said values(?,?,?,?)", (survey, text, n, len(people)))
+        eid = s.cloud.event(merchant, "SurveyYouSaidSent", {"survey_id": survey, "told": len(people), "public_page": sv["anonymous"]}, now=now)
+        for person in people: s._tell("survey_you_said", person, f"{eid}:{person}", n, record=survey, business=merchant)
         s._log(merchant, by, "you_said_we_did", survey, now); s.db.commit()
         return {"told": len(people), "public_page": sv["anonymous"]}
 
@@ -698,7 +701,7 @@ class Survey:
     # ---- the person's control: My answers, delete, Don't ask me again, contacts kept 30 days
     def my_answers(s, person):
         """Every non-anonymous answer of the person, each with the organisation's "You said, we did" messages for that survey
-        (the message itself joins the message register with its own event in the next contract version, section 3A)."""
+        (also sent to them as the message survey_you_said, from the cloud event SurveyYouSaidSent)."""
         out = [dict(zip(("answer_id", "survey_id", "merchant", "at"), r)) for r in s.db.execute("select answer_id, survey_id, merchant, at from sv_answers where person=? and deleted=0 order by at desc", (person,))]
         for a in out: a["you_said"] = s.you_said_for(a["survey_id"])
         return out

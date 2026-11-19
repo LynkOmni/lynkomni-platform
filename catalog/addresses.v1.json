@@ -378,7 +378,15 @@
   "/external/survey/results/{LOSRV}",
   "/external/survey/reports",
   "/external/survey/panel",
-  "/external/queue/public-page"
+  "/external/queue/public-page",
+  "/business/emulators",
+  "/sell/emulators",
+  "/stock/emulators",
+  "/attendance/emulators",
+  "/queue/emulators",
+  "/survey/emulators",
+  "/external/business/emulators",
+  "/external/sell/emulators"
  ],
  "redirects": {
   "/terms": "/legal/terms",
@@ -549,7 +557,9 @@
    "/survey/surveys/{LOSRV}",
    "/survey/results",
    "/survey/results/{LOSRV}",
-   "/survey/reports"
+   "/survey/reports",
+   "/business/emulators",
+   "/sell/emulators"
   ],
   "storefront_only": [
    "/external/business/academy/listings",
@@ -590,7 +600,11 @@
    "/queue/places/new",
    "/queue/sections",
    "/queue/counters",
-   "/survey/library"
+   "/survey/library",
+   "/stock/emulators",
+   "/attendance/emulators",
+   "/queue/emulators",
+   "/survey/emulators"
   ],
   "workspace_only": [
    "/sell/basket",

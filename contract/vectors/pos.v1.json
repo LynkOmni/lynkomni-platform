@@ -677,6 +677,7 @@
     "partner_deliveries_per_month": 20,
     "own_riders": 0,
     "delivery_routing": false,
+    "emulator_slots": 1,
     "support": "help"
    },
    "checkout_entitlement": {
@@ -685,6 +686,7 @@
     "partner_deliveries_per_month": 20,
     "own_riders": 0,
     "delivery_routing": false,
+    "emulator_slots": 1,
     "support": "help"
    }
   },
@@ -737,6 +739,7 @@
     "partner_deliveries_per_month": null,
     "own_riders": 1,
     "delivery_routing": false,
+    "emulator_slots": 2,
     "support": "priority"
    },
    "checkout_entitlement": {
@@ -745,6 +748,7 @@
     "partner_deliveries_per_month": null,
     "own_riders": 1,
     "delivery_routing": false,
+    "emulator_slots": 2,
     "support": "priority",
     "payment_links": true
    }
@@ -798,6 +802,7 @@
     "partner_deliveries_per_month": null,
     "own_riders": 5,
     "delivery_routing": true,
+    "emulator_slots": 5,
     "support": "higher",
     "branches": 3,
     "discount_rules": true,
@@ -810,6 +815,7 @@
     "partner_deliveries_per_month": null,
     "own_riders": 5,
     "delivery_routing": true,
+    "emulator_slots": 5,
     "support": "higher",
     "payment_links": true,
     "branded_links": true,
@@ -865,6 +871,7 @@
     "partner_deliveries_per_month": null,
     "own_riders": null,
     "delivery_routing": true,
+    "emulator_slots": null,
     "support": "dedicated",
     "branches": null,
     "discount_rules": true,
@@ -885,6 +892,7 @@
     "partner_deliveries_per_month": null,
     "own_riders": null,
     "delivery_routing": true,
+    "emulator_slots": null,
     "support": "dedicated",
     "payment_links": true,
     "branded_links": true,

@@ -355,6 +355,7 @@
     "survey",
     "team",
     "branches_devices",
+    "emulators",
     "plans_billing",
     "settings",
     "academy",
@@ -546,7 +547,8 @@
     "att_events",
     "att_devices",
     "att_door",
-    "att_reports"
+    "att_reports",
+    "att_emulators"
    ],
    "path": "/attendance"
   },
@@ -672,7 +674,8 @@
     "q_kiosk",
     "q_screen",
     "q_devices",
-    "q_reports"
+    "q_reports",
+    "q_emulators"
    ],
    "path": "/queue"
   },
@@ -786,7 +789,8 @@
     "sv_panel_home",
     "sv_kiosk_home",
     "sv_devices_home",
-    "sv_add_device"
+    "sv_add_device",
+    "sv_emulators"
    ],
    "path": "/survey"
   },
@@ -1064,6 +1068,72 @@
     "sv_phone"
    ],
    "path": "/survey/kiosk"
+  },
+  {
+   "id": "emulators",
+   "blueprint": "70 (EMULATOR UPDATE, the Emulator Panel; build section 3A)",
+   "items": [
+    "emp_usage",
+    "emp_add",
+    "emp_live",
+    "emp_history"
+   ],
+   "path": "/business/emulators"
+  },
+  {
+   "id": "sell_emulators",
+   "blueprint": "70 (EMULATOR UPDATE, the Emulator Panel; build section 3A)",
+   "items": [
+    "emp_usage",
+    "emp_add",
+    "emp_live",
+    "emp_history"
+   ],
+   "path": "/sell/emulators"
+  },
+  {
+   "id": "stock_emulators",
+   "blueprint": "70 (EMULATOR UPDATE, the Emulator Panel; build section 3A)",
+   "items": [
+    "emp_usage",
+    "emp_add",
+    "emp_live",
+    "emp_history"
+   ],
+   "path": "/stock/emulators"
+  },
+  {
+   "id": "attendance_emulators",
+   "blueprint": "70 (EMULATOR UPDATE, the Emulator Panel; build section 3A)",
+   "items": [
+    "emp_usage",
+    "emp_add",
+    "emp_live",
+    "emp_history"
+   ],
+   "path": "/attendance/emulators"
+  },
+  {
+   "id": "queue_emulators",
+   "blueprint": "70 (EMULATOR UPDATE, the Emulator Panel; build section 3A)",
+   "items": [
+    "emp_usage",
+    "emp_add",
+    "emp_live",
+    "emp_history"
+   ],
+   "path": "/queue/emulators"
+  },
+  {
+   "id": "survey_emulators",
+   "blueprint": "70 (EMULATOR UPDATE, the Emulator Panel; build section 3A)",
+   "items": [
+    "emp_usage",
+    "emp_add",
+    "emp_live",
+    "emp_history"
+   ],
+   "path": "/survey/emulators"
   }
  ],
  "workspaces": "Who the app is for (catalog/workspaces.v1.json): a person, a company or an organisation; the entity changes words, tabs (an office workspace of a person or an organisation shows Books instead of Chats) and categories only.",

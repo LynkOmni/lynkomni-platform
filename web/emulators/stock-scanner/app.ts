@@ -12,6 +12,8 @@ import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { deviceBanners, knowledgeFor, raiseLocal } from "../../../ts/src/devicekit.js";
 import type { Line } from "../../../ts/src/notify.js";
+import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
+import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
 /** MASTER UPDATE section 3: the scanner's own bell and banners (lines from the register, folded while offline). */
 let LINES: Line[] = [];
 
@@ -68,7 +70,12 @@ function screen(): string {
   return `${head}${tabs}<div class="sbody"><h2>${esc(t(i.name))}</h2><p class="code">${esc(i.barcode)}</p><p>${esc(t("in_stock", { n: qtyText(i.level) }))}${word(i) ? ` · <em>${esc(word(i))}</em>` : ""}</p>
     <div class="qty"><button data-act="minus" aria-label="−">${icon("ui-minus")}</button><output>${S.qty}</output><button data-act="plus" aria-label="+">${icon("ui-plus")}</button></div><button class="save" data-act="save">${esc(t("save"))}</button></div>`;
 }
-function draw(): void { const el = $("#screen"); if (!el) return; DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W); el.innerHTML = screen() + DSH.overlay(); const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address(); }
+/** The device side of the Emulator Panel (ts/src/emkit.ts, build section 3A): the connect request, the disconnected and locked screens,
+ *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
+const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "stock.scanner", "Scanner", { short_side: 360, touch: true, keys: true, camera: true, speaker: true, hardware: ["scanner"] }, "android"), (type, payload, origin) => { LOG.emit(type, payload, origin); });
+const KW = wireKit(KIT, { t, icon: (id) => icon(id), online: () => S.online, redraw: () => draw() });
+function draw(): void { drawScreen(); KW.after($("#screen")); }
+function drawScreen(): void { const el = $("#screen"); if (!el) return; DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W); el.innerHTML = screen() + DSH.overlay(); const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address(); }
 function act(a: string): void {
   const [k = "", v = ""] = a.split(":");
   if (k === "pick") { const x = ITEMS.find((i) => i.id === v); if (x) { S.cur = x.id; S.qty = 1; } }

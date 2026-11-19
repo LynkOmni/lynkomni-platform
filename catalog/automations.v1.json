@@ -2748,6 +2748,59 @@
    "default": "off",
    "standing_instruction": false,
    "implemented_by": "planned: section 4 (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+  },
+  {
+   "area": "Emulator Panel",
+   "build_section": "3A",
+   "family": "platform",
+   "min_tier": "free",
+   "assist": null,
+   "touches": [],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "id": "emulator-connect-asked",
+   "trigger": "event:EmulatorConnectAsked",
+   "action": "A disconnected emulator's Connect request tells the managers of its branch; a manager decides in the Emulator Panel",
+   "level": "inform",
+   "implemented_by": "services/panel_automations.py on services/emulator_panel.py"
+  },
+  {
+   "area": "Emulator Panel",
+   "build_section": "3A",
+   "family": "platform",
+   "min_tier": "free",
+   "assist": "watch",
+   "touches": [],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "id": "emulator-device-alert",
+   "trigger": "event:DeviceHealthReported",
+   "action": "A device that is out of paper, low on battery, holding many unsent records or failed its morning check alerts the managers of its branch",
+   "level": "inform",
+   "implemented_by": "services/panel_automations.py on services/emulator_panel.py"
+  },
+  {
+   "area": "Emulator Panel",
+   "build_section": "3A",
+   "family": "platform",
+   "min_tier": "free",
+   "assist": null,
+   "touches": [
+    "devices"
+   ],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "id": "emulator-daily",
+   "trigger": "schedule:daily",
+   "action": "Ends temporary emulators on their last day, asks for re-approval of devices not seen for 30 days, and after a downgrade's 3 days of grace disconnects the most recently connected devices still over the plan",
+   "level": "auto",
+   "implemented_by": "services/panel_automations.py on services/emulator_panel.py"
   }
  ],
  "careful": [

@@ -201,6 +201,23 @@ for _f, _tiers in _NEW.items():
     for _i, _d in enumerate(_tiers):
         for _k, _v in _d.items():
             FEATURES[_f][_i].setdefault(_k, _v)
+# EMULATOR UPDATE (owner accepted 2026-11-18, blueprint 70.12; build section 3A): staff emulator slots, the number of staff emulators
+# of a family connected at the same time. Every number already locked stays: LynkPOS keeps its devices (1, 2, 5, unlimited);
+# LynkAttend, LynkQueue and LynkSurvey keep their own locked units ("own_units": places, counters, creators) and are not limited
+# again. A family with no device number gets the LynkPOS ladder. Customer-facing screens are free and unlimited and practice mode
+# never counts (core/emulators.py). Extra slots on paid tiers: SERVICE_FEES["emulator_extra_slot_cents"].
+EMULATOR_LADDER = (1, 2, 5, None)
+EMULATOR_FAMILIES = ("lynkpos", "lynkstock", "lynkrewards", "lynkmpay", "lynkcheckout", "lynkessential", "lynkbooking", "lynkmotion", "lynkguard",
+                     "lynkattend", "lynkqueue", "lynksurvey")
+for _f in EMULATOR_FAMILIES:
+    for _i in range(len(MT)):
+        if _f == "lynkpos":
+            _v = [d["devices"] for d in FEATURES[_f][: _i + 1] if "devices" in d][-1]     # the locked device numbers
+        elif _f in ("lynkattend", "lynkqueue", "lynksurvey"):
+            _v = "own_units"
+        else:
+            _v = EMULATOR_LADDER[_i]
+        FEATURES[_f][_i]["emulator_slots"] = _v
 # Fees that are not tier limits (second review; assumptions until contracts): shares are paid by partners, never by merchants.
 SERVICE_FEES = {
     "standing_payment_share_bps": 30, "get_paid_early_referral_bps": 50, "delivery_share_cents": 10, "extended_warranty_referral_cents": 100,
@@ -210,6 +227,8 @@ SERVICE_FEES = {
     "motion_extra_1000_tracked_cents": 500, "motion_extra_live_cents": 100,
     # NEW UPDATE 4 (2026-11-11): extra queue tickets and survey answers above a paid tier (nobody is turned away; no survey stops).
     "queue_extra_1000_tickets_cents": 200, "survey_extra_1000_answers_cents": 100,
+    # EMULATOR UPDATE (2026-11-18, blueprint 70.12): one extra staff emulator slot on a paid tier, per month. LOCKED with the prices.
+    "emulator_extra_slot_cents": 200,
 }
 # LynkA, LynkQ and LynkS: any two or all three paid plans held together take 20% off each of them (a bundle discount, not a link;
 # owner locked 2026-11-11). LOCKED with the prices.

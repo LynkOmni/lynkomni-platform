@@ -883,6 +883,38 @@
    "side": "external"
   },
   {
+   "address": "/business/emulators",
+   "side": "internal"
+  },
+  {
+   "address": "/sell/emulators",
+   "side": "internal"
+  },
+  {
+   "address": "/stock/emulators",
+   "side": "internal"
+  },
+  {
+   "address": "/attendance/emulators",
+   "side": "internal"
+  },
+  {
+   "address": "/queue/emulators",
+   "side": "internal"
+  },
+  {
+   "address": "/survey/emulators",
+   "side": "internal"
+  },
+  {
+   "address": "/external/business/emulators",
+   "side": "external"
+  },
+  {
+   "address": "/external/sell/emulators",
+   "side": "external"
+  },
+  {
    "address": "/",
    "side": "internal"
   },
@@ -1843,6 +1875,38 @@
   {
    "path": "/external/queue/public-page",
    "kind": "storefront_only"
+  },
+  {
+   "path": "/business/emulators",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/sell/emulators",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/stock/emulators",
+   "kind": "shared"
+  },
+  {
+   "path": "/attendance/emulators",
+   "kind": "shared"
+  },
+  {
+   "path": "/queue/emulators",
+   "kind": "shared"
+  },
+  {
+   "path": "/survey/emulators",
+   "kind": "shared"
+  },
+  {
+   "path": "/external/business/emulators",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/sell/emulators",
+   "kind": "mirrored"
   }
  ],
  "twins": [
@@ -2129,6 +2193,14 @@
   {
    "workspace": "/survey/reports",
    "storefront": "/external/survey/reports"
+  },
+  {
+   "workspace": "/business/emulators",
+   "storefront": "/external/business/emulators"
+  },
+  {
+   "workspace": "/sell/emulators",
+   "storefront": "/external/sell/emulators"
   }
  ]
 }

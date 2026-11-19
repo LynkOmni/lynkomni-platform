@@ -11,6 +11,8 @@ import { brandMark } from "../../../ts/src/brand.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { AfterPay, afterPaymentRating } from "../../../ts/src/afterpay.js";
+import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
+import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
 
 declare const DATA: Build & { fx: Record<string, number> };
 const TIERS = ["free", "plus", "pro", "max"] as const;
@@ -50,7 +52,12 @@ function till(): string {
  *  needs pressing (the till drives it), so it has no pad. */
 const DM = new DeviceMode(DEVICES, "customer-display");
 const DEV = wireDevice(DM, { t, icon: (id) => `<span class="ic" aria-hidden="true">${DATA.icons[id] ?? ""}</span>`, screen: () => document.getElementById("screen"), pad: () => null, back: () => undefined, redraw: () => draw(), rtl: () => document.getElementById("screen")?.dir === "rtl" });
-function draw(): void {
+/** The device side of the Emulator Panel (ts/src/emkit.ts, build section 3A): the connect request, the disconnected and locked screens,
+ *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
+const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "pos.customer_display", "Customer screen", { short_side: 480, touch: true, speaker: true }, "android"), (type, payload, origin) => { LOG.emit(type, payload, origin); });
+const KW = wireKit(KIT, { t, icon: (id) => icon(id), online: () => S.online, redraw: () => draw() });
+function draw(): void { drawScreen(); KW.after($("#screen")); }
+function drawScreen(): void {
   const el = $("#screen"); DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = display();
   const tl = $("#till"); applyRoot(tl, W); tl.innerHTML = till();
 }

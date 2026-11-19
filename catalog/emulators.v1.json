@@ -1,0 +1,1045 @@
+{
+ "version": 1,
+ "agreed": "2026-11-18 (owner, EMULATOR UPDATE; master blueprint section 70)",
+ "rule": "Every emulator of LynkOmni is listed here: its service, the device names it runs on, where it is built, whether it is a staff emulator counted by the plan or a free customer-facing screen, whether it needs a user, and the four checks (touch, buttons only, online and offline, internal and external). A service with a dedicated screen fails the tests until its emulators are here. The rules live in core/emulators.py with the TypeScript port ts/src/emulators.ts and shared vectors (python3 tools/emulators_vectors.py).",
+ "touch_exceptions": {
+  "board": "A display board has no touch by nature; it is used by remote control or its own buttons.",
+  "counter_screen": "A small counter screen has no touch by nature; it follows the counter it is above."
+ },
+ "offline_kinds": {
+  "works": "Works fully offline; records are sealed and sent when the device is back online.",
+  "partner_parts_online_only": "Works offline for everything the service does alone; parts that need a licensed partner are never offered offline."
+ },
+ "user_kinds": {
+  "needed": "A staff member signs in with their staff PIN.",
+  "optional": "Works without a user; a staff member may sign in.",
+  "none": "A customer-facing screen with no user."
+ },
+ "not_on_the_panel": {
+  "button-phone": "Basic phones reach LynkOmni by USSD, text and voice with the staff PIN; the panel only shows that the channel is on.",
+  "vcard-card": "A person's own LynkVCard lives in their own account.",
+  "account-site": "A person's own LynkOmni account in their own browser.",
+  "browser-frame": "The website and Business app in an ordinary browser.",
+  "owner-web": "The Business app in the owner's own browser.",
+  "mesh-relay": "LynkMesh is part of every device; it relays sealed data and is not assigned.",
+  "track-page": "A page a customer opens on their own phone.",
+  "queue-page": "A page a customer opens on their own phone.",
+  "survey-page": "A page a person opens on their own phone."
+ },
+ "no_panel_services": [
+  "lynkacc",
+  "lynkinv",
+  "lynkcrm",
+  "lynkstat",
+  "lynkgrow",
+  "lynkchat",
+  "lynkrecover",
+  "lynkassist",
+  "lynkdev",
+  "lynkvcard"
+ ],
+ "emulators": [
+  {
+   "id": "pos.terminal",
+   "service": "lynkpos",
+   "devices": [
+    "LynkPOS"
+   ],
+   "built_in": "pos-terminal",
+   "build_section": "3A",
+   "planned": false,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [
+    "receipt_printer",
+    "scanner",
+    "cash_drawer",
+    "card_reader"
+   ],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "pos.counter_tablet",
+   "service": "lynkpos",
+   "devices": [
+    "LynkTab",
+    "LynkPOS"
+   ],
+   "built_in": "counter-tablet",
+   "build_section": "3A",
+   "planned": false,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [
+    "receipt_printer",
+    "scanner",
+    "cash_drawer",
+    "scale"
+   ],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "pos.merchant_phone",
+   "service": "lynkpos",
+   "devices": [
+    "LynkMobile",
+    "LynkTab",
+    "LynkPC"
+   ],
+   "built_in": "merchant-phone",
+   "build_section": "3A",
+   "planned": false,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal",
+     "external"
+    ]
+   },
+   "hardware": [
+    "receipt_printer",
+    "scanner"
+   ],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "pos.kitchen_screen",
+   "service": "lynkpos",
+   "devices": [
+    "LynkTab",
+    "LynkDScreen"
+   ],
+   "built_in": "kitchen-screen",
+   "build_section": "3A",
+   "planned": false,
+   "counted": true,
+   "customer_facing": false,
+   "user": "optional",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [
+    "kitchen_printer"
+   ],
+   "needs": {
+    "min_short_side_px": 480,
+    "outputs": []
+   }
+  },
+  {
+   "id": "pos.rider_phone",
+   "service": "lynkpos",
+   "devices": [
+    "LynkMobile"
+   ],
+   "built_in": "rider-phone",
+   "build_section": "3A",
+   "planned": false,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "pos.customer_display",
+   "service": "lynkpos",
+   "devices": [
+    "LynkCDisplay",
+    "LynkTab"
+   ],
+   "built_in": "customer-display",
+   "build_section": "3A",
+   "planned": false,
+   "counted": false,
+   "customer_facing": true,
+   "user": "none",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "pos.order_board",
+   "service": "lynkpos",
+   "devices": [
+    "LynkDScreen"
+   ],
+   "built_in": null,
+   "build_section": 13,
+   "planned": true,
+   "counted": false,
+   "customer_facing": true,
+   "user": "none",
+   "shared_with": null,
+   "checks": {
+    "touch": {
+     "touch": false,
+     "why": "board"
+    },
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 540,
+    "outputs": []
+   }
+  },
+  {
+   "id": "stock.scanner",
+   "service": "lynkstock",
+   "devices": [
+    "LynkMobile"
+   ],
+   "built_in": "stock-scanner",
+   "build_section": "3A",
+   "planned": false,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal",
+     "external"
+    ]
+   },
+   "hardware": [
+    "scanner",
+    "label_printer"
+   ],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": [
+     "camera_or_scanner"
+    ]
+   }
+  },
+  {
+   "id": "stock.receiving_station",
+   "service": "lynkstock",
+   "devices": [
+    "LynkTab",
+    "LynkPC"
+   ],
+   "built_in": null,
+   "build_section": 14,
+   "planned": true,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal",
+     "external"
+    ]
+   },
+   "hardware": [
+    "scanner",
+    "scale",
+    "label_printer"
+   ],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "rewards.till",
+   "service": "lynkrewards",
+   "devices": [
+    "LynkPOS",
+    "LynkTab",
+    "LynkMobile"
+   ],
+   "built_in": "pos-terminal",
+   "build_section": "3A",
+   "planned": false,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": "lynkpos",
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "rewards.stand",
+   "service": "lynkrewards",
+   "devices": [
+    "LynkKiosk",
+    "LynkTab"
+   ],
+   "built_in": null,
+   "build_section": 14,
+   "planned": true,
+   "counted": false,
+   "customer_facing": true,
+   "user": "none",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "pay.till",
+   "service": "lynkmpay",
+   "devices": [
+    "LynkPOS",
+    "LynkTab",
+    "LynkMobile"
+   ],
+   "built_in": "pos-terminal",
+   "build_section": "3A",
+   "planned": false,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": "lynkpos",
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "partner_parts_online_only",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "pay.qr_stand",
+   "service": "lynkcheckout",
+   "devices": [
+    "LynkKiosk",
+    "LynkTab",
+    "LynkCDisplay"
+   ],
+   "built_in": null,
+   "build_section": 14,
+   "planned": true,
+   "counted": false,
+   "customer_facing": true,
+   "user": "none",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "partner_parts_online_only",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "essential.agent_counter",
+   "service": "lynkessential",
+   "devices": [
+    "LynkPOS",
+    "LynkTab",
+    "LynkMobile"
+   ],
+   "built_in": "pos-terminal",
+   "build_section": "3A",
+   "planned": false,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": "lynkpos",
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "partner_parts_online_only",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [
+    "receipt_printer"
+   ],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "attend.door",
+   "service": "lynkattend",
+   "devices": [
+    "LynkKiosk",
+    "LynkTab",
+    "LynkPOS",
+    "LynkMobile"
+   ],
+   "built_in": "lynk-kiosk",
+   "build_section": "3B",
+   "planned": false,
+   "counted": false,
+   "customer_facing": true,
+   "user": "none",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [
+    "fingerprint_reader",
+    "camera"
+   ],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "attend.reception",
+   "service": "lynkattend",
+   "devices": [
+    "LynkTab",
+    "LynkPC",
+    "LynkMobile",
+    "LynkPOS"
+   ],
+   "built_in": "merchant-phone",
+   "build_section": "3B",
+   "planned": false,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [
+    "receipt_printer"
+   ],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "attend.visitor_kiosk",
+   "service": "lynkattend",
+   "devices": [
+    "LynkKiosk",
+    "LynkTab"
+   ],
+   "built_in": "lynk-kiosk",
+   "build_section": "3B",
+   "planned": false,
+   "counted": false,
+   "customer_facing": true,
+   "user": "none",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [
+    "receipt_printer"
+   ],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "queue.kiosk",
+   "service": "lynkqueue",
+   "devices": [
+    "LynkKiosk",
+    "LynkTab"
+   ],
+   "built_in": "lynk-kiosk",
+   "build_section": "3B",
+   "planned": false,
+   "counted": false,
+   "customer_facing": true,
+   "user": "none",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [
+    "ticket_printer"
+   ],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "queue.reception",
+   "service": "lynkqueue",
+   "devices": [
+    "LynkTab",
+    "LynkPC",
+    "LynkMobile",
+    "LynkPOS"
+   ],
+   "built_in": "merchant-phone",
+   "build_section": "3B",
+   "planned": false,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [
+    "ticket_printer"
+   ],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "queue.counter",
+   "service": "lynkqueue",
+   "devices": [
+    "LynkPOS",
+    "LynkTab",
+    "LynkMobile",
+    "LynkPC"
+   ],
+   "built_in": "pos-terminal",
+   "build_section": "3B",
+   "planned": false,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [
+    "pager"
+   ],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "queue.counter_screen",
+   "service": "lynkqueue",
+   "devices": [
+    "LynkCDisplay"
+   ],
+   "built_in": "lynk-cdisplay",
+   "build_section": "3B",
+   "planned": false,
+   "counted": false,
+   "customer_facing": true,
+   "user": "none",
+   "shared_with": null,
+   "checks": {
+    "touch": {
+     "touch": false,
+     "why": "counter_screen"
+    },
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 240,
+    "outputs": []
+   }
+  },
+  {
+   "id": "queue.board",
+   "service": "lynkqueue",
+   "devices": [
+    "LynkDScreen"
+   ],
+   "built_in": "lynk-dscreen",
+   "build_section": "3B",
+   "planned": false,
+   "counted": false,
+   "customer_facing": true,
+   "user": "none",
+   "shared_with": null,
+   "checks": {
+    "touch": {
+     "touch": false,
+     "why": "board"
+    },
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 540,
+    "outputs": [
+     "speaker"
+    ]
+   }
+  },
+  {
+   "id": "survey.rating_stand",
+   "service": "lynksurvey",
+   "devices": [
+    "LynkCDisplay",
+    "LynkTab"
+   ],
+   "built_in": "lynk-cdisplay",
+   "build_section": "3B",
+   "planned": false,
+   "counted": false,
+   "customer_facing": true,
+   "user": "none",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 240,
+    "outputs": []
+   }
+  },
+  {
+   "id": "survey.kiosk",
+   "service": "lynksurvey",
+   "devices": [
+    "LynkKiosk",
+    "LynkTab"
+   ],
+   "built_in": "lynk-kiosk",
+   "build_section": "3B",
+   "planned": false,
+   "counted": false,
+   "customer_facing": true,
+   "user": "none",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "survey.interviewer",
+   "service": "lynksurvey",
+   "devices": [
+    "LynkMobile",
+    "LynkTab"
+   ],
+   "built_in": "merchant-phone",
+   "build_section": "3B",
+   "planned": false,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "booking.front_desk",
+   "service": "lynkbooking",
+   "devices": [
+    "LynkTab",
+    "LynkPC"
+   ],
+   "built_in": null,
+   "build_section": 8,
+   "planned": true,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal",
+     "external"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "booking.check_in_kiosk",
+   "service": "lynkbooking",
+   "devices": [
+    "LynkKiosk",
+    "LynkTab"
+   ],
+   "built_in": null,
+   "build_section": 8,
+   "planned": true,
+   "counted": false,
+   "customer_facing": true,
+   "user": "none",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal",
+     "external"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "booking.ticket_checker",
+   "service": "lynkbooking",
+   "devices": [
+    "LynkMobile"
+   ],
+   "built_in": null,
+   "build_section": 8,
+   "planned": true,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal",
+     "external"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": [
+     "camera_or_scanner"
+    ]
+   }
+  },
+  {
+   "id": "booking.arrivals_board",
+   "service": "lynkbooking",
+   "devices": [
+    "LynkDScreen"
+   ],
+   "built_in": null,
+   "build_section": 8,
+   "planned": true,
+   "counted": false,
+   "customer_facing": true,
+   "user": "none",
+   "shared_with": null,
+   "checks": {
+    "touch": {
+     "touch": false,
+     "why": "board"
+    },
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal",
+     "external"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 540,
+    "outputs": []
+   }
+  },
+  {
+   "id": "motion.driver_phone",
+   "service": "lynkmotion",
+   "devices": [
+    "LynkMobile"
+   ],
+   "built_in": null,
+   "build_section": "7B",
+   "planned": true,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "guard.patrol_phone",
+   "service": "lynkguard",
+   "devices": [
+    "LynkMobile"
+   ],
+   "built_in": null,
+   "build_section": "7B",
+   "planned": true,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "guard.gate_post",
+   "service": "lynkguard",
+   "devices": [
+    "LynkTab",
+    "LynkKiosk"
+   ],
+   "built_in": null,
+   "build_section": "7B",
+   "planned": true,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   }
+  },
+  {
+   "id": "guard.monitoring_wall",
+   "service": "lynkguard",
+   "devices": [
+    "LynkDScreen"
+   ],
+   "built_in": null,
+   "build_section": "7B",
+   "planned": true,
+   "counted": false,
+   "customer_facing": true,
+   "user": "none",
+   "shared_with": null,
+   "checks": {
+    "touch": {
+     "touch": false,
+     "why": "board"
+    },
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 540,
+    "outputs": []
+   }
+  }
+ ],
+ "later_services": {
+  "note": "These services gain their billing family in build section 4 and register their emulators in the section that builds them (blueprint 70.13 and 70.16).",
+  "lynkvote": "13",
+  "lynkexchange": "10",
+  "lynkschool": "9B",
+  "lynkproperty": "9B",
+  "lynkjobs": "8B",
+  "lynkhr": "4B (uses the LynkAttend door and reception)",
+  "lynkdocs": "4B (signing tablet)"
+ },
+ "sides_rule": "The side follows the address map (catalog/addresses.v1.json storefront): the in-person till, the door, reception, the counter and the kiosks are workspace-only, so their emulators are internal; the Business app on a phone and the stock handheld serve both sides; a customer-facing screen shows the side it was assigned from."
+}

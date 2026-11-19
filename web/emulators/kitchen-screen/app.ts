@@ -13,6 +13,8 @@ import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { deviceBanners, knowledgeFor, raiseLocal } from "../../../ts/src/devicekit.js";
 import type { Line as Notice } from "../../../ts/src/notify.js";
+import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
+import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
 /** MASTER UPDATE section 3: the kitchen screen's own bell and banners (lines from the register, folded while offline). */
 let LINES: Notice[] = [];
 
@@ -72,7 +74,12 @@ function screen(): string {
 /** Touch or remote (DEVICE 48.17.14): a wall screen without touch works by the bump bar and a remote's arrows, OK and Back. */
 const DM = new DeviceMode(DEVICES, "kitchen-screen");
 const DEV = wireDevice(DM, { t, icon, screen: () => document.getElementById("screen"), pad: () => document.getElementById("pad"), back: () => { DSH.act("dsh:close"); }, redraw: () => draw(), rtl: () => document.getElementById("screen")?.dir === "rtl" });
-function draw(): void { const el = $("#screen"); DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W); el.innerHTML = screen() + DSH.overlay(); const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address(); }
+/** The device side of the Emulator Panel (ts/src/emkit.ts, build section 3A): the connect request, the disconnected and locked screens,
+ *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
+const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "pos.kitchen_screen", "Kitchen", { short_side: 800, touch: true, speaker: true }, "android"), (type, payload, origin) => { LOG.emit(type, payload, origin); });
+const KW = wireKit(KIT, { t, icon: (id) => icon(id), online: () => S.online, redraw: () => draw() });
+function draw(): void { drawScreen(); KW.after($("#screen")); }
+function drawScreen(): void { const el = $("#screen"); DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W); el.innerHTML = screen() + DSH.overlay(); const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address(); }
 function panel(): void {
   $("#panel").innerHTML = panelHtml(["online", "plan", "country", "dark", "lang"], S, W, C, { tiers: TIERS }) + DEV.control();
   $("#panel").insertAdjacentHTML("afterbegin", `<p><button type="button" class="pill" data-act="incoming">+ ${esc(t("new_order_test"))}</button></p>`);
