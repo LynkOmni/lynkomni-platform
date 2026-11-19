@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.54.1 (2026-11-19)
+The approved company profile words replace the old ones everywhere (owner, 19 November 2026):
+- The main footer line under the logo is now the tag phrase "Run it all. Anywhere. Nonstop." (was "Works with or without internet."), in all 38 languages.
+- The Business app's sign-in screen now says the plain line "One app to run your business, money and daily life, with or without internet." under the welcome, in all 38 languages.
+- The README opens with the tag phrase and the approved definition; the brand note for the footer logo names the tag phrase.
+- Master blueprint section 81 (in its new tab "Sections 81 onward", since the first tab is full) records the company profile and every page where each part appears.
+
 ## v0.54.0 (2026-11-19)
 Section 4, step A1 (shared groundwork: connections and identifiers):
 - New register catalog/connections.v1.json (blueprint 71.3): 49 links between services, each with its two ends, what passes, the contract events that carry it (or the events its build section will add), whose consent it needs and its build section. Every product family and the support desk, the Storefront and ads have at least one link. Read through core/connections.py.

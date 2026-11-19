@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
+ "source_sha256": "bdf91495b8262e210e77b0b2a251b1b34c70d94abd4c2776e78bdf1ec47299bf",
  "texts": {
   "ft_about": "Về chúng tôi",
   "ft_accessibility": "Khả năng tiếp cận",
@@ -112,7 +112,7 @@
   "ft_tDev": "Tin cho nhà phát triển",
   "ft_tMerchant": "Mẹo cho người bán",
   "ft_tProduct": "Tin sản phẩm",
-  "ft_tagline": "Hoạt động có hoặc không có internet.",
+  "ft_tagline": "Vận hành mọi thứ. Mọi nơi. Không ngừng.",
   "ft_terms": "Điều khoản",
   "ft_trust": "Bảo mật và tin cậy",
   "ft_vuln": "Báo cáo lỗ hổng bảo mật",

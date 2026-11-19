@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "e788bc5ce3d20b41ea03dbe469a27bbd1703ee92bfcedd7dda92b868c5d19356",
+ "source_sha256": "05b59c42f3f32611120f39ae571a061949f5fad9c0548f698083fd2337e04c13",
  "texts": {
   "account": "账户",
   "active": "使用中",
@@ -778,7 +778,7 @@
   "why_low_stock_reorder": "部分商品达到了补货点，所以起草了一张订单。你确认前不会发送任何内容。",
   "why_negative_stock_flag": "一笔销售让商品库存变成负数。销售已完成；请清点商品进行更正。",
   "wipe_help": "被撤销的设备会立即停止工作，下次联网时会删除其中的数据。",
-  "works_anywhere": "有没有网络都能用。",
+  "works_anywhere": "一个应用，打理你的生意、钱和日常生活，有没有网络都能用。",
   "write_message": "写消息",
   "wrong_code": "验证码错误，请重试。",
   "your_data_yours": "你的数据属于你，随时可以导出。",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "am",
  "native": "አማርኛ",
- "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
+ "source_sha256": "bdf91495b8262e210e77b0b2a251b1b34c70d94abd4c2776e78bdf1ec47299bf",
  "texts": {
   "ft_about": "ስለ እኛ",
   "ft_accessibility": "ተደራሽነት",
@@ -112,7 +112,7 @@
   "ft_tDev": "የገንቢ ዝማኔዎች",
   "ft_tMerchant": "ለነጋዴዎች ምክሮች",
   "ft_tProduct": "የምርት ዝማኔዎች",
-  "ft_tagline": "በበይነመረብም ያለ በይነመረብም ይሠራል።",
+  "ft_tagline": "ሁሉንም ያስተዳድሩ። በየትኛውም ቦታ። ያለማቋረጥ።",
   "ft_terms": "ውሎች",
   "ft_trust": "ደህንነትና እምነት",
   "ft_vuln": "ተጋላጭነትን ሪፖርት ያድርጉ",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "es",
  "native": "Español",
- "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
+ "source_sha256": "bdf91495b8262e210e77b0b2a251b1b34c70d94abd4c2776e78bdf1ec47299bf",
  "texts": {
   "ft_about": "Sobre nosotros",
   "ft_accessibility": "Accesibilidad",
@@ -112,7 +112,7 @@
   "ft_tDev": "Novedades para desarrolladores",
   "ft_tMerchant": "Consejos para comercios",
   "ft_tProduct": "Novedades del producto",
-  "ft_tagline": "Funciona con o sin internet.",
+  "ft_tagline": "Gestiona todo. En cualquier lugar. Sin parar.",
   "ft_terms": "Condiciones",
   "ft_trust": "Seguridad y confianza",
   "ft_vuln": "Informar de una vulnerabilidad",

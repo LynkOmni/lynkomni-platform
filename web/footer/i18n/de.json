@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "de",
  "native": "Deutsch",
- "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
+ "source_sha256": "bdf91495b8262e210e77b0b2a251b1b34c70d94abd4c2776e78bdf1ec47299bf",
  "texts": {
   "ft_about": "Über uns",
   "ft_accessibility": "Barrierefreiheit",
@@ -112,7 +112,7 @@
   "ft_tDev": "Neuigkeiten für Entwickler",
   "ft_tMerchant": "Tipps für Händler",
   "ft_tProduct": "Produktneuheiten",
-  "ft_tagline": "Funktioniert mit und ohne Internet.",
+  "ft_tagline": "Alles steuern. Überall. Nonstop.",
   "ft_terms": "Bedingungen",
   "ft_trust": "Sicherheit und Vertrauen",
   "ft_vuln": "Sicherheitslücke melden",

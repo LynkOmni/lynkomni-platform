@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "e788bc5ce3d20b41ea03dbe469a27bbd1703ee92bfcedd7dda92b868c5d19356",
+ "source_sha256": "05b59c42f3f32611120f39ae571a061949f5fad9c0548f698083fd2337e04c13",
  "texts": {
   "account": "Àkọọ́lẹ̀",
   "active": "Ó ń ṣiṣẹ́",
@@ -778,7 +778,7 @@
   "why_low_stock_reorder": "Àwọn ọjà kan dé ìpele àtúnrà, nítorí náà a kọ ìbéèrè ọjà sílẹ̀. A kò fi nǹkan kan ránṣẹ́ títí o fi fìdí rẹ̀ múlẹ̀.",
   "why_negative_stock_flag": "Títà kan mú ọjà kan wálẹ̀ sí ìsàlẹ̀ òdo. Títà náà lọ; ka ọjà náà láti tún un ṣe.",
   "wipe_help": "Ẹ̀rọ tí a fà sẹ́yìn dá iṣẹ́ dúró lẹ́sẹ̀kẹsẹ̀, a ó sì pa dátà rẹ̀ rẹ́ nígbà tí ó bá tún sopọ̀.",
-  "works_anywhere": "Ó ń ṣiṣẹ́ pẹ̀lú íńtánẹ́ẹ̀tì tàbí láìsí rẹ̀.",
+  "works_anywhere": "Áàpù kan láti ṣàkóso iṣẹ́ rẹ, owó rẹ àti ìgbésí ayé rẹ ojoojúmọ́, pẹ̀lú íńtánẹ́ẹ̀tì tàbí láìsí rẹ̀.",
   "write_message": "Kọ ọ̀rọ̀",
   "wrong_code": "Kóòdù kò tọ̀nà. Gbìyànjú lẹ́ẹ̀kan sí i.",
   "your_data_yours": "Dátà rẹ jẹ́ tìrẹ. Gbé e jáde nígbàkigbà.",

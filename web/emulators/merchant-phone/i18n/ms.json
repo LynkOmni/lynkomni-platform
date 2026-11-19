@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "e788bc5ce3d20b41ea03dbe469a27bbd1703ee92bfcedd7dda92b868c5d19356",
+ "source_sha256": "05b59c42f3f32611120f39ae571a061949f5fad9c0548f698083fd2337e04c13",
  "texts": {
   "account": "Akaun",
   "active": "Aktif",
@@ -778,7 +778,7 @@
   "why_low_stock_reorder": "Sesetengah produk mencapai paras pesanan semula, jadi draf pesanan dibuat. Tiada yang dihantar sehingga anda mengesahkan.",
   "why_negative_stock_flag": "Jualan menurunkan produk di bawah sifar. Jualan berjaya; kira produk itu untuk membetulkannya.",
   "wipe_help": "Peranti yang dibatalkan berhenti berfungsi serta-merta dan datanya dipadam apabila ia bersambung semula.",
-  "works_anywhere": "Berfungsi dengan atau tanpa internet.",
+  "works_anywhere": "Satu aplikasi untuk mengurus perniagaan, wang dan kehidupan harian anda, dengan atau tanpa internet.",
   "write_message": "Tulis mesej",
   "wrong_code": "Kod salah. Cuba lagi.",
   "your_data_yours": "Data anda milik anda. Eksport pada sebarang masa.",

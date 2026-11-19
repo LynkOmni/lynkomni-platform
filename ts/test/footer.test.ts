@@ -61,7 +61,7 @@ test("the main footer is drawn from the model: fixed copyright, unticked newslet
   assert.ok(!/checked/.test(html));                                                // nothing pre-ticked
   assert.ok(html.includes("MTN MoMo") && html.includes('data-i="ui-pay-mobile-money"'));
   assert.ok(!/Africa|Afrique|Afrika/.test(html));                                  // nothing built for one region (section 5 positioning line only)
-  assert.equal(footerText("en", "tagline"), "Works with or without internet.");                  // section 5 positioning line
+  assert.equal(footerText("en", "tagline"), "Run it all. Anywhere. Nonstop.");                   // the approved tag phrase (company profile, owner 19 November 2026)
 });
 test("the short footer inside apps is one line: the fixed copyright", () => {
   const h = shortFooterHtml(new Date("2026-11-09T12:00:00Z"), "UTC");

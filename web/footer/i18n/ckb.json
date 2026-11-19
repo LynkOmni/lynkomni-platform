@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ckb",
  "native": "کوردی",
- "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
+ "source_sha256": "bdf91495b8262e210e77b0b2a251b1b34c70d94abd4c2776e78bdf1ec47299bf",
  "texts": {
   "ft_about": "دەربارەی ئێمە",
   "ft_accessibility": "دەستگەیشتن",
@@ -112,7 +112,7 @@
   "ft_tDev": "هەواڵی گەشەپێدەران",
   "ft_tMerchant": "ئامۆژگاری بۆ بازرگانان",
   "ft_tProduct": "نوێکاریی بەرهەم",
-  "ft_tagline": "بە ئینتەرنێت و بەبێ ئینتەرنێت کار دەکات.",
+  "ft_tagline": "هەموو شتێک بەڕێوە ببە. لە هەر شوێنێک. بێ وەستان.",
   "ft_terms": "مەرجەکان",
   "ft_trust": "ئاسایش و متمانە",
   "ft_vuln": "ڕاپۆرتی لاوازی ئاسایش",

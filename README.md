@@ -1,7 +1,6 @@
 # LynkOmni platform (v0.8)
 
-Ten CORE services, two sub-core service categories (25 sub-services, advertising), the Adaptive Locale System, a mode manager
-and an internal Control Center, all over one offline-first event log. Pure Python standard library: nothing to install.
+**Run it all. Anywhere. Nonstop.** LynkOmni helps you run your business, your money and your life, all from one app, online or offline. This repository is the LynkOmni platform by CruxOmni Group: one offline-first event log under every service, the shared shell, the device emulators and the rules each service follows. Pure Python standard library for the reference spec: nothing to install.
 
     python3 -m unittest discover -s tests -t .     # run all 104 tests (plus 11 in ts: cd ts && npm test)
     python3 server.py                               # API on http://localhost:8080

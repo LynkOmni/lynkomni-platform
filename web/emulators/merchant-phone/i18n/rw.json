@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "rw",
  "native": "Ikinyarwanda",
- "source_sha256": "e788bc5ce3d20b41ea03dbe469a27bbd1703ee92bfcedd7dda92b868c5d19356",
+ "source_sha256": "05b59c42f3f32611120f39ae571a061949f5fad9c0548f698083fd2337e04c13",
  "texts": {
   "account": "Konti",
   "active": "Irakora",
@@ -778,7 +778,7 @@
   "why_low_stock_reorder": "Bimwe mu bicuruzwa byageze ku rugero rwo kongera gutumiza, bityo hateguwe umushinga w'itumiza. Nta kintu cyoherezwa utarabyemeza.",
   "why_negative_stock_flag": "Igurisha ryashyize igicuruzwa munsi ya zeru. Igurisha ryarakozwe; bara igicuruzwa ukosore.",
   "wipe_help": "Igikoresho cyakuweho gihita gihagarara gukora kandi amakuru yacyo agasibwa ubutaha nikongera kwihuza.",
-  "works_anywhere": "Ikora ufite interineti cyangwa utayifite.",
+  "works_anywhere": "Porogaramu imwe yo gucunga ubucuruzi bwawe, amafaranga yawe n'ubuzima bwa buri munsi, ufite interineti cyangwa utayifite.",
   "write_message": "Andika ubutumwa",
   "wrong_code": "Kode si yo. Ongera ugerageze.",
   "your_data_yours": "Amakuru yawe ni ayawe. Yohereze hanze igihe icyo ari cyo cyose.",

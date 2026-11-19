@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "e788bc5ce3d20b41ea03dbe469a27bbd1703ee92bfcedd7dda92b868c5d19356",
+ "source_sha256": "05b59c42f3f32611120f39ae571a061949f5fad9c0548f698083fd2337e04c13",
  "texts": {
   "account": "Hesap",
   "active": "Etkin",
@@ -778,7 +778,7 @@
   "why_low_stock_reorder": "Bazı ürünler yeniden sipariş seviyesine ulaştı; bu yüzden bir sipariş taslağı hazırlandı. Siz onaylamadan hiçbir şey gönderilmez.",
   "why_negative_stock_flag": "Bir satış bir ürünü sıfırın altına düşürdü. Satış gerçekleşti; düzeltmek için ürünü sayın.",
   "wipe_help": "İptal edilen cihaz hemen çalışmayı bırakır ve verileri bir sonraki bağlantısında silinir.",
-  "works_anywhere": "İnternetle de internetsiz de çalışır.",
+  "works_anywhere": "İşinizi, paranızı ve günlük hayatınızı yönetmek için tek uygulama, internetle de internetsiz de.",
   "write_message": "Mesaj yazın",
   "wrong_code": "Yanlış kod. Tekrar deneyin.",
   "your_data_yours": "Verileriniz sizindir. İstediğiniz zaman dışa aktarın.",

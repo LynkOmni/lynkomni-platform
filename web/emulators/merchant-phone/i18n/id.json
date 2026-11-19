@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "e788bc5ce3d20b41ea03dbe469a27bbd1703ee92bfcedd7dda92b868c5d19356",
+ "source_sha256": "05b59c42f3f32611120f39ae571a061949f5fad9c0548f698083fd2337e04c13",
  "texts": {
   "account": "Akun",
   "active": "Aktif",
@@ -778,7 +778,7 @@
   "why_low_stock_reorder": "Beberapa produk mencapai batas pemesanan ulang, jadi draf pesanan dibuat. Tidak ada yang dikirim sampai Anda mengonfirmasi.",
   "why_negative_stock_flag": "Sebuah penjualan membuat produk di bawah nol. Penjualan tetap berjalan; hitung produknya untuk membetulkan.",
   "wipe_help": "Perangkat yang dicabut langsung berhenti bekerja dan datanya dihapus saat tersambung lagi.",
-  "works_anywhere": "Berfungsi dengan atau tanpa internet.",
+  "works_anywhere": "Satu aplikasi untuk menjalankan bisnis, uang, dan kehidupan sehari-hari Anda, dengan atau tanpa internet.",
   "write_message": "Tulis pesan",
   "wrong_code": "Kode salah. Coba lagi.",
   "your_data_yours": "Data Anda milik Anda. Ekspor kapan saja.",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
+ "source_sha256": "bdf91495b8262e210e77b0b2a251b1b34c70d94abd4c2776e78bdf1ec47299bf",
  "texts": {
   "ft_about": "אודותינו",
   "ft_accessibility": "נגישות",
@@ -112,7 +112,7 @@
   "ft_tDev": "עדכונים למפתחים",
   "ft_tMerchant": "טיפים לסוחרים",
   "ft_tProduct": "עדכוני מוצר",
-  "ft_tagline": "עובד עם אינטרנט ובלעדיו.",
+  "ft_tagline": "לנהל הכול. בכל מקום. בלי הפסקה.",
   "ft_terms": "תנאים",
   "ft_trust": "אבטחה ואמון",
   "ft_vuln": "דיווח על פרצת אבטחה",
