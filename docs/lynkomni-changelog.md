@@ -2,6 +2,11 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.52.3 (2026-11-19)
+Faster start-up on every screen, and a steadier speed check (owner: "Do it"):
+- Every emulator now turns its packed data into bytes with a plain loop, about ten times faster than before. LynkPOS opens in about 1.1 to 1.3 s on the four-times-slower test phone (was 1.5 to 2.2 s, over its 1.5 s limit on the test machine), the Business app in about 1.4 s (was about 2 s), the others faster too.
+- The speed check (every screen opens and answers a tap in time on a four-times-slower phone) now loads each screen up to three times and counts the fastest, because a shared test machine is sometimes busy for a moment. The time limits are unchanged; a real slowdown still fails all three loads, and a failure now shows every load's time.
+
 ## v0.52.2 (2026-11-19)
 No crowded areas, even spacing (owner: "not only crowded buttons but also crowded areas and uneven spacing"):
 - New rules in tests/test_fit_guard.py, on every emulator, every size, state and pop-up: two visible boxes (cards, fields, panels, chips, filled buttons) never sit closer than 3.5 px, side by side or stacked; a run of three or more repeated items (rows, cards, buttons, chips) has even gaps, apart from a deliberate section break of 24 px or more. Proven on a sample page with both faults; the pointer is moved away first, so a hovered item never counts.

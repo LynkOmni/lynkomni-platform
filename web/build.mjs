@@ -127,7 +127,8 @@ function packData(D) {
   const Z = deflateRawSync(Buffer.from(JSON.stringify({ ...rest, i18n: langs })), { level: 9 }).toString("base64");
   return { i18n: en ? { en } : {}, Z };
 }
-const UNPACK = `try { const z = Uint8Array.from(atob(DATA.Z), (c) => c.charCodeAt(0)); const x = JSON.parse(await new Response(new Blob([z]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text()); const en = DATA.i18n; Object.assign(DATA, x); DATA.i18n = { ...en, ...x.i18n }; delete DATA.Z; } catch { document.body.textContent = "This browser is too old for this demo. Please open it in a current browser."; return; }`;
+// a plain loop turns the packed text into bytes about ten times faster than Uint8Array.from with a callback (LynkPOS start-up, 19 November 2026)
+const UNPACK = `try { const s = atob(DATA.Z), z = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) z[i] = s.charCodeAt(i); const x = JSON.parse(await new Response(new Blob([z]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text()); const en = DATA.i18n; Object.assign(DATA, x); DATA.i18n = { ...en, ...x.i18n }; delete DATA.Z; } catch { document.body.textContent = "This browser is too old for this demo. Please open it in a current browser."; return; }`;
 const INFLATE = `for (const p of Object.values(DATA.packs)) { p.services = DATA.serviceCatalog.map((s, i) => ({ ...s, state: p.st[i] === "a" ? "available" : "coming_soon" })); p.ready = Object.fromEntries(DATA.methods.map((m, i) => [m, { ok: p.ok[i] === "1", message: DATA.offMessage }])); }`;
 const tokens = read(join(ROOT, "design", "generated", "tokens.css"));
 // Brand fonts travel inside the file (offline, no font site). Only the Latin files: other scripts use the device font.
