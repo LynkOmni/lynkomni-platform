@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.58.0 (2026-11-19)
+PLACEHOLDER UPDATE, the groundwork (owner request; master blueprint section 83):
+- One shared part for waiting screens: cached content shows first; otherwise a grey skeleton shaped like the content to come (11 shapes: lists, cards, records, forms, tables, charts, chats, trackers, tiles, media, text). It never flashes (nothing before 300 ms, at least 300 ms once shown), says "taking longer" with Retry after 8 seconds, stays still with reduced motion or lite mode, and is read once as "Loading" by screen readers.
+- Field hints: an example of what to type, never the instruction; the label always stays. Amounts, counts, emails and usernames use the same hint in every language; other hints come from each page's words. PINs, passwords, card details, codes and ID numbers never show example values.
+- New checks: a new typing field without a hint fails at once; a hinted field must keep its label; no filler text (Latin filler, TODO, TBD, [Bank]) on any screen. 34 existing fields still need a hint and 2 a label; they are due in section 4, which cannot lock until they are done.
+- Rules for all services now include skeletons, field hints and empty states, so every new screen gets them. Build table 83.6 added.
+
 ## v0.57.0 (2026-11-19)
 Section 4, step B1 (INTERFACE UPDATE and TURN UPDATE groundwork: the registers, the rules and the checks):
 - New navigation register (catalog/navigation.v1.json, read by core/navigation.py and ts/src/navigation.ts with shared vectors): the eight groups (Sell; Get paid; Run the office; People; Move and protect; Learn and work; Ask and decide; Build) with every one of the 33 products in exactly one; the app header and the focus header (only Back or Cancel and the connection chip in a payment, cash count, void, signature or ballot); the two-level side bar with Settings and Help that can never be hidden; the phone bottom bars (a person: Home, Track, Scan, Chats, Me; business types keep their five; four on a small phone; none on focus screens); quick create by role; the same menu order in every service; at most seven tabs in a page.

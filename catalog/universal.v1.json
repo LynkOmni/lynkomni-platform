@@ -215,6 +215,21 @@
    "id": "navigation",
    "what": "Every screen has its page template and a way in; anything used often is at most three taps from Home; focus screens show only Back or Cancel and the connection chip",
    "enforced_by": "tests/test_navigation.py"
+  },
+  {
+   "id": "skeletons",
+   "what": "Cached content first; otherwise a skeleton shaped like the content (never before 300 ms, never under 300 ms, a 'taking longer' note with Retry after 8 s); still under reduced motion and lite mode",
+   "enforced_by": "tests/test_placeholders.py, ts/test/placeholder.test.ts"
+  },
+  {
+   "id": "field_hints",
+   "what": "Every typing field has a hint (an example, never the instruction) in every language and keeps its visible label; sensitive fields never show example values",
+   "enforced_by": "tests/test_placeholders.py"
+  },
+  {
+   "id": "empty_states",
+   "what": "Every list and page has its designed empty state with a picture and a next step; no filler text such as Latin filler or TODO",
+   "enforced_by": "tests/test_placeholders.py, ts/test/shell.test.ts"
   }
  ],
  "not_applicable": {

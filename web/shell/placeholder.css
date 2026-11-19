@@ -1,0 +1,18 @@
+/* Loading skeletons and field hints (PLACEHOLDER UPDATE, blueprint section 83; ts/src/placeholder.ts). Tokens only. The
+   skeleton keeps the real content's size, so nothing jumps when it arrives; it stays still under reduced motion and in lite mode. */
+.skeleton { display: flex; flex-direction: column; gap: 10px; padding-block: 4px; }
+.skeleton .skel { display: block; border-radius: 6px; background: linear-gradient(90deg, var(--bg-subtle), var(--border-subtle), var(--bg-subtle)); background-size: 200% 100%; animation: ph-shimmer 1.4s linear infinite; }
+.skeleton .skel.title { inline-size: 50%; block-size: 22px; } .skeleton .skel.line { inline-size: 90%; block-size: 12px; } .skeleton .skel.line.short { inline-size: 55%; }
+.skeleton .skel.label { inline-size: 30%; block-size: 10px; } .skeleton .skel.input { inline-size: 100%; block-size: 44px; } .skeleton .skel.button { inline-size: 40%; block-size: 44px; border-radius: 22px; }
+.skeleton .skel.dot { inline-size: 36px; block-size: 36px; border-radius: 50%; flex: none; } .skeleton .skel.media { inline-size: 100%; aspect-ratio: 16 / 9; }
+.skeleton .skel.cell { flex: 1; block-size: 14px; } .skeleton .skel.figure { inline-size: 60%; block-size: 26px; } .skeleton .skel.bubble { inline-size: 70%; block-size: 40px; border-radius: 14px; }
+.skeleton .skel.axis { inline-size: 100%; block-size: 2px; order: 2; } .skeleton .skel.col { inline-size: 12%; block-size: 60px; }
+.skel-row, .skel-step, .skel-tr { display: flex; align-items: center; gap: 10px; } .skel-col { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.skel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.skel-card, .skel-tile, .skel-field, .skel-pair { display: flex; flex-direction: column; gap: 6px; }
+.skel-chart { display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; block-size: 80px; }
+.skel-msg:nth-child(even) { display: flex; justify-content: flex-end; }
+@keyframes ph-shimmer { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+@media (prefers-reduced-motion: reduce) { .skeleton .skel { animation: none; } }
+[data-lite] .skeleton .skel, [data-lite="on"] .skeleton .skel { animation: none; }
+::placeholder { color: var(--text-secondary); opacity: 1; }
