@@ -2,6 +2,9 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.47.3 (2026-11-19)
+- Checks: the layout check's tests take about 5 minutes in each of its 8 parts, but downloading the fonts and the test browser from Ubuntu took 1 to 27 minutes per part. They are now kept in GitHub's check cache after the first run and restored in seconds (tools/ci/layout_setup.sh), with retries if a download is needed. The test browser's version is pinned so the stored copy always matches.
+
 ## v0.47.2 (2026-11-19)
 Fixes the owner found on the counter tablet:
 - Sell by voice: the microphone picture had no size and filled the whole basket, pushing its words onto the Charge button. The microphone is now a normal-size button beside Charge, with its name for screen readers.

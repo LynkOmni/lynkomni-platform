@@ -35,8 +35,8 @@ jobs:
   layout-part:                 # translations never break a screen (long-text and right-to-left, desktop and phone), the automatic accessibility check and the speed budget; 8 parts at once, every language checked once
     runs-on: ubuntu-24.04
     strategy: {fail-fast: false, matrix: {part: [1, 2, 3, 4, 5, 6, 7, 8]}}
-    env: {LAYOUT_SHARD: "${{ matrix.part }}/8"}
-    steps: [{uses: actions/checkout@v7}, {uses: actions/setup-python@v7, with: {python-version: "3.12"}}, {name: "fonts and browser, retried so a short outage of the package servers never fails the check", run: "for i in 1 2 3 4 5; do sudo apt-get update -q -o Acquire::Retries=5 && sudo apt-get install -y -o Acquire::Retries=5 fonts-noto-core fonts-noto-cjk && pip install playwright && python -m playwright install --with-deps chromium && exit 0; echo retry $i; sleep 30; done; exit 1"}, {run: python -m unittest tests.test_layout_i18n}, {if: "matrix.part == 1", run: python -m unittest tests.test_speed_budget}]
+    env: {LAYOUT_SHARD: "${{ matrix.part }}/8", PLAYWRIGHT_VERSION: "1.63.0"}
+    steps: [{uses: actions/checkout@v7}, {uses: actions/setup-python@v7, with: {python-version: "3.12"}}, {uses: actions/cache@v6, with: {path: "~/layout-cache\n~/.cache/ms-playwright", key: "layout-fonts-browser-v1-playwright-${{ env.PLAYWRIGHT_VERSION }}"}}, {name: "fonts and browser, from the cache after the first run (tools/ci/layout_setup.sh)", run: bash tools/ci/layout_setup.sh}, {run: python -m unittest tests.test_layout_i18n}, {if: "matrix.part == 1", run: python -m unittest tests.test_speed_budget}]
   layout:                      # one result for the whole layout check: green only when all 8 parts are green
     if: always()
     needs: layout-part
