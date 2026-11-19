@@ -1,0 +1,341 @@
+{
+ "version": 1,
+ "agreed": "2026-11-19 (owner: \"Everything in the blueprint laid out like rules or applicable to all services should automatically apply to new services or things added during the build\")",
+ "rule": "A rule the blueprint lays down for all services applies to every service, sub-service, feature and screen, existing or new, without being named again. Nothing new waits to be listed by hand: a new billing family fails tests/test_universal.py until it has a home build section here, and from then on every rule below is checked for it automatically. A rule is met (the register shows it), due in a named build section (that section cannot lock until it is met), or not applicable with a written reason (only where the rule allows it). A new rule for all services is added here in the change that agrees it. Read through core/universal.py; tests/test_universal.py.",
+ "home_sections": {
+  "lynkpos": "14",
+  "lynkstock": "14",
+  "lynkrewards": "14",
+  "lynkgrow": "14",
+  "lynkchat": "14",
+  "lynkmpay": "14",
+  "lynkrecover": "14",
+  "lynkvcard": "14",
+  "lynkacc": "4",
+  "lynkinv": "4",
+  "lynkcrm": "4",
+  "lynkstat": "4",
+  "lynkops": "4",
+  "lynksuite": "4",
+  "lynkassist": "4",
+  "lynkattend": "4",
+  "lynkqueue": "4",
+  "lynksurvey": "4",
+  "lynkfiles": "4B",
+  "lynkhr": "4B",
+  "lynkproject": "4B",
+  "lynkcheckout": "7",
+  "lynkvote": "7",
+  "lynkacademy": "7",
+  "lynkmotion": "7B",
+  "lynkguard": "7B",
+  "lynkbooking": "8",
+  "lynkjobs": "8B",
+  "lynkessential": "9",
+  "lynkschool": "9B",
+  "lynkproperty": "9B",
+  "lynkexchange": "10",
+  "lynkdev": "11"
+ },
+ "home_sections_note": "The section where the family is finished; a rule not yet met is due there (or in the section being built now, if that is later). LynkAttend, LynkQueue and LynkSurvey were finished in the locked section 3B, so anything still missing for them is a section 4 leftover.",
+ "bundles": [
+  "lynksuite",
+  "lynkops"
+ ],
+ "bundles_note": "Bundles are tiers over their member services: every rule is met through their members, so they are checked for the catalog, places, picture and build tables only.",
+ "rules": [
+  {
+   "id": "catalog",
+   "what": "In the one catalog: page, app path, menu group, picture and footer place",
+   "blueprint": "44 E",
+   "check": "auto",
+   "na_allowed": false
+  },
+  {
+   "id": "places",
+   "what": "Shown in every place it belongs: header, launcher, search, help, product page, sitemap, footer, pricing, app navigation",
+   "blueprint": "Every service in every place (2026-11-10)",
+   "check": "auto",
+   "na_allowed": false
+  },
+  {
+   "id": "picture",
+   "what": "Its own product picture",
+   "blueprint": "Visual assets rule",
+   "check": "auto",
+   "na_allowed": false
+  },
+  {
+   "id": "api",
+   "what": "An open API with consent per scope, metered and audited",
+   "blueprint": "50",
+   "check": "auto",
+   "na_allowed": false
+  },
+  {
+   "id": "tracking",
+   "what": "Every step someone waits on is a tracked kind, with the five states, customer view, chains, promised times and the API",
+   "blueprint": "72, 50",
+   "check": "auto",
+   "na_allowed": true
+  },
+  {
+   "id": "automations",
+   "what": "Its automations in the register, at the right level, with Why did this happen? and an off switch",
+   "blueprint": "45, 71",
+   "check": "auto",
+   "na_allowed": true
+  },
+  {
+   "id": "emulator",
+   "what": "A real-device emulator for every screen it has, on the Emulator Panel",
+   "blueprint": "42 J, 70",
+   "check": "auto",
+   "na_allowed": true
+  },
+  {
+   "id": "connections",
+   "what": "Its links to other services and journeys in the connections register",
+   "blueprint": "71.3",
+   "check": "auto",
+   "na_allowed": true
+  },
+  {
+   "id": "build_tables",
+   "what": "Its parts named in the build tables, so a section cannot lock without them",
+   "blueprint": "44 L",
+   "check": "auto",
+   "na_allowed": false
+  },
+  {
+   "id": "ads",
+   "what": "An explicit ads decision: its ad places in the ads register, or none",
+   "blueprint": "79",
+   "check": "auto",
+   "na_allowed": true
+  },
+  {
+   "id": "cash",
+   "what": "Cash beside the electronic ways wherever money is taken in person",
+   "blueprint": "Cash everywhere (2026-11-10)",
+   "check": "auto",
+   "na_allowed": true
+  },
+  {
+   "id": "assist",
+   "what": "LynkAssist skills through the assist register, never beyond its level",
+   "blueprint": "45, 75",
+   "check": "auto",
+   "na_allowed": false
+  },
+  {
+   "id": "messages",
+   "what": "Every message and notice it sends in the message register",
+   "blueprint": "54, 71",
+   "check": "auto",
+   "na_allowed": true
+  },
+  {
+   "id": "storefront_side",
+   "what": "Both sides with one name: the workspace and the Storefront",
+   "blueprint": "48",
+   "check": "auto",
+   "na_allowed": true
+  }
+ ],
+ "everywhere": [
+  {
+   "id": "five_states",
+   "what": "Only queued, sent, accepted, confirmed, failed shown to users",
+   "enforced_by": "tests/test_tracking.py, tests/test_emulators.py"
+  },
+  {
+   "id": "languages",
+   "what": "Every screen in all 38 languages, right to left included, no English left, no raw word names",
+   "enforced_by": "tests/test_translation_packs.py, tests/test_words_guard.py"
+  },
+  {
+   "id": "layout",
+   "what": "Every screen fits every device and width, turns and folds without loss, menus never squeeze, pop-ups fit",
+   "enforced_by": "tests/test_layout_i18n.py, tests/test_fit_guard.py"
+  },
+  {
+   "id": "design",
+   "what": "Colours, fonts, sounds, icons and logos only from tokens and the brand module; script rules on every page",
+   "enforced_by": "tests/test_emulators.py, tests/test_fonts.py"
+  },
+  {
+   "id": "safe_page",
+   "what": "One safe page policy, no web loads, a Draft design label",
+   "enforced_by": "tests/test_pagesafety.py, tests/test_emulators.py"
+  },
+  {
+   "id": "global",
+   "what": "Shown in every country; regulated parts say Coming to your country soon until their partner signs",
+   "enforced_by": "providers/check.py, tests/test_providers*.py"
+  },
+  {
+   "id": "security",
+   "what": "Every security control in the security register; hash-chained event log; device-signed sessions",
+   "enforced_by": "tests/test_security_register.py"
+  },
+  {
+   "id": "money",
+   "what": "Integer money only, never held by LynkOmni, success only when the provider confirms",
+   "enforced_by": "contract validator, tests/test_contract*.py"
+  },
+  {
+   "id": "prices",
+   "what": "Every price locked and pinned; support level, ads on Free and Powered by from the plan",
+   "enforced_by": "tests/test_price_lock.py, tests/test_billing.py"
+  },
+  {
+   "id": "ids_addresses",
+   "what": "Identifiers only from the id registry; addresses, emails and paths only from the catalog",
+   "enforced_by": "tests/test_catalog.py, tests/test_ids.py"
+  },
+  {
+   "id": "speed",
+   "what": "First screen and first tap within the speed budget",
+   "enforced_by": "tests/test_speed_budget.py"
+  },
+  {
+   "id": "open_to_all",
+   "what": "Open to every entity: person, company, organisation; the entity changes only words",
+   "enforced_by": "tests/test_workspaces.py"
+  }
+ ],
+ "not_applicable": {
+  "tracking": {
+   "lynkassist": "LynkAssist's own runs are shown through the service it acts in and its history; it has no steps of its own",
+   "lynkstat": "Reports and dashboards are read at once; nobody waits on steps",
+   "lynkdev": "API calls answer at once; app review is tracked as a support case kind when built"
+  },
+  "ads": {
+   "lynkacc": "Money records: no ad places",
+   "lynkinv": "Invoices are documents people pay: no ad places",
+   "lynkcrm": "Customer records: no ad places",
+   "lynkassist": "LynkAssist answers never carry ads",
+   "lynkattend": "Attendance doors and staff records: no ad places",
+   "lynkqueue": "Queue calls never carry ads",
+   "lynksurvey": "Survey answering never carries ads",
+   "lynkchat": "Chats never carry ads",
+   "lynkcheckout": "Payment and pay-link screens never carry ads",
+   "lynkmpay": "Payment screens never carry ads",
+   "lynkrecover": "Money recovery: no ad places",
+   "lynkvcard": "Card screens never carry ads",
+   "lynkexchange": "Exchange screens never carry ads",
+   "lynkdev": "Developer tools: no ad places",
+   "lynkfiles": "Private documents: no ad places",
+   "lynkhr": "Staff records: no ad places",
+   "lynkproject": "Work records: no ad places",
+   "lynkmotion": "Tracking and safety screens: no ad places",
+   "lynkguard": "Safety and protection screens: no ad places",
+   "lynkjobs": "People's job applications: no ad places",
+   "lynkschool": "Children's and school places never carry ads",
+   "lynkproperty": "Tenants' and owners' records: no ad places",
+   "lynkvote": "Voting never carries ads",
+   "lynkacademy": "Learning places used by children never carry ads",
+   "lynkgrow": "Growth tools sell the merchant's own offers; no third-party ad places"
+  },
+  "cash": {
+   "lynkacc": "Records money; it does not take it in person",
+   "lynkstat": "Reports only; it takes no money in person",
+   "lynkassist": "Never takes money",
+   "lynkattend": "Takes no money; it takes no money in person",
+   "lynksurvey": "Takes no money; it takes no money in person",
+   "lynkchat": "Takes no money; it takes no money in person",
+   "lynkdev": "Remote only; it takes no money in person",
+   "lynkfiles": "Takes no money; it takes no money in person",
+   "lynkhr": "Takes no money; it takes no money in person",
+   "lynkproject": "Takes no money; it takes no money in person",
+   "lynkvcard": "Cards never take cash",
+   "lynkexchange": "Cash is never offered for exchange",
+   "lynkvote": "Takes no money; it takes no money in person",
+   "lynkcheckout": "Remote payments: cash is never offered",
+   "lynkmpay": "Electronic payments; cash is taken at the till by LynkPOS",
+   "lynkrecover": "Collections are remote; cash at a counter goes through LynkPOS",
+   "lynkstock": "Stock records; money is taken by LynkPOS",
+   "lynkrewards": "Points; money is taken by LynkPOS",
+   "lynkgrow": "Takes no money; it takes no money in person",
+   "lynkqueue": "Takes no money; payment at the counter goes through LynkPOS",
+   "lynkessential": "Bills paid remotely through the provider; cash at an agent point goes through LynkPOS",
+   "lynkjobs": "Job fees and passes are paid remotely; no money is taken in person"
+  },
+  "emulator": {
+   "lynkassist": "Runs inside every emulator's screens; it has no device of its own"
+  },
+  "automations": {
+   "lynkassist": "LynkAssist acts inside other services' automations through its assist role; it has none of its own"
+  }
+ },
+ "areas": {
+  "lynkpos": [
+   "selling",
+   "cash",
+   "shifts",
+   "agent",
+   "orders",
+   "devices",
+   "proof"
+  ],
+  "lynkstock": [
+   "stock"
+  ],
+  "lynkacc": [
+   "office",
+   "money"
+  ],
+  "lynkinv": [
+   "office"
+  ],
+  "lynkcrm": [
+   "office"
+  ],
+  "lynkstat": [
+   "office"
+  ],
+  "lynkassist": [
+   "assist",
+   "office",
+   "selling",
+   "account"
+  ],
+  "lynkattend": [
+   "attendance",
+   "people"
+  ],
+  "lynkqueue": [
+   "queue",
+   "people"
+  ],
+  "lynksurvey": [
+   "survey",
+   "people"
+  ],
+  "lynkvcard": [
+   "cards"
+  ],
+  "lynkexchange": [
+   "exchange"
+  ],
+  "lynkdev": [
+   "developers"
+  ],
+  "lynkmotion": [
+   "movement",
+   "safety"
+  ],
+  "lynkguard": [
+   "movement",
+   "safety"
+  ],
+  "lynkbooking": [
+   "bookings"
+  ],
+  "lynkmpay": [
+   "money"
+  ]
+ },
+ "areas_note": "Which areas of the LynkAssist register (catalog/assist.v1.json) and the message register (catalog/messages.v1.json) belong to each family. A family with no area here has its LynkAssist skills and messages due in its home section; its build adds the area here and its entries there."
+}

@@ -2,6 +2,12 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.56.0 (2026-11-19)
+Rules for all services now apply to everything by themselves (owner rule):
+- A new register, catalog/universal.v1.json, lists every rule the blueprint lays down for all services: tracking, APIs, places, pictures, automations, LynkAssist, messages, emulators, connections, build tables, ads, cash and both sides, plus the rules already checked on every screen (five states, 38 languages, layout and turning, design, safe pages, global availability, security, money, prices, identifiers, speed, open to all).
+- For every service the check answers by itself: met, not applicable with a written reason, or due in the service's home build section. A new service is checked by every rule the moment it exists; a build section cannot lock while anything is due there.
+- What is due today, by section: LynkAssist skills, messages and trackers for most services in their own sections (for example LynkSchool and LynkProperty in 9B, LynkAcademy and LynkVote in 7, LynkFiles, LynkHR and LynkProject in 4B), cash at the counter for LynkSchool, LynkProperty and LynkAcademy, and the LynkAcademy and LynkProject emulators.
+
 ## v0.55.0 (2026-11-19)
 Section 4, step A2 (shared groundwork: contract version 9 and new tracker kinds):
 - Contract version 9 (contract/tools/build_v9.py): version 8 plus nine events that the section 4 links need: InvoiceIssued and CreditNoteIssued (an issued invoice never changes), PeriodClosed, DealStageChanged, ConversationCardSent, AdEarningsRecorded (validated impressions only), DocumentFiled, VoteRollImported (only the count, never a voter's name) and ExchangeSettled (by the licensed partner). Only moving a deal and filing a document can come from a device, and both work offline; the cloud alone writes the rest. Upcaster 8 to 9 only raises the version; nothing stored is rewritten. The validator now checks version 9 (1,508 checks pass).
