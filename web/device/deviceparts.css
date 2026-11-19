@@ -13,6 +13,8 @@
 :is(.dsh-panel, .notifications) .mitem { display: inline-flex; align-items: center; gap: 8px; min-block-size: var(--touch-target); color: var(--brand-ink); }
 :is(.dsh-panel, .notifications) :is(.note, .muted) { color: var(--text-secondary); font-size: 12px; }
 .dsh-panel .cmd-input { display: flex; align-items: center; gap: 8px; min-block-size: var(--touch-target); padding: 0 10px; border: 1px solid var(--border-input); border-radius: 10px; }
+/* the row ends before the Close button in the corner, so Close never covers Speak (owner report 2026-11-19) */
+.dsh-panel .command-bar > .cmd-input:first-child { margin-inline-end: 44px; }
 .dsh-panel .cmd-input input { flex: 1; min-inline-size: 0; border: 0; background: none; color: var(--text-primary); font: inherit; }
 .dsh-panel .mlabel { font-weight: 700; }
 .dk-banners { display: grid; gap: 6px; margin: 6px 0; }

@@ -69,8 +69,15 @@ def shell_parts(pg, check):
 
 
 def measure(pg):
-    pg.evaluate(SETTLE)
-    return tuple(pg.evaluate(SIZE))
+    """The settled size: fitting the window to the page can take a few frames, so read until two frames agree."""
+    last = None
+    for _ in range(30):
+        pg.evaluate(SETTLE)
+        now = tuple(pg.evaluate(SIZE))
+        if now == last:
+            return now
+        last = now
+    return last
 
 
 class DarkPass:
