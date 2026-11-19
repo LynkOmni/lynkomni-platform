@@ -1480,6 +1480,66 @@
      "done": {}
     }
    ]
+  },
+  {
+   "id": "83.6",
+   "update": "PLACEHOLDER UPDATE",
+   "blueprint_section": 83,
+   "rows": [
+    {
+     "sections": [
+      "3",
+      "3B",
+      "3A"
+     ],
+     "part": "No change when they were built; their screens are moved onto the skeletons, hints and empty states in section 4",
+     "nothing": true
+    },
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "The groundwork; every screen already built moved onto shape-matched skeletons, cached-first loading and its empty states; the 34 field hints in every language and the 2 missing labels; Updating chips; busy buttons that keep their width; time to skeleton and no layout shift added to the speed and fit checks",
+     "done": {},
+     "progress": {
+      "4": [
+       "v0.58.0: the groundwork: the placeholder register (catalog/placeholders.v1.json), the shared skeleton and hint part (ts/src/placeholder.ts, web/shell/placeholder.css) with its timing, the checks (tests/test_placeholders.py, ts/test/placeholder.test.ts), and the 34 fields still needing a hint and 2 needing a label listed as due here"
+      ]
+     }
+    },
+    {
+     "sections": [
+      "4B",
+      "5",
+      "6",
+      "7",
+      "7B",
+      "8",
+      "8B",
+      "9",
+      "9B",
+      "10",
+      "11",
+      "12"
+     ],
+     "part": "Every new screen built with its skeleton, hints and empty states and passing the checks in its own section (the website and its search pages in 5, help in 6, the customer app in 7, the developer portal and the SDK parts in 11, staff tools in 12)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "Big screens, boards and kiosks: idle and loading screens, attract loops and their skeletons",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "The phone apps: native skeletons, hints and the phone's own autofill, and the store-app first-run screens",
+     "done": {}
+    }
+   ]
   }
  ]
 }

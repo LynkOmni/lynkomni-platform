@@ -1,0 +1,166 @@
+{
+ "version": 1,
+ "agreed": "2026-11-19 (PLACEHOLDER UPDATE, owner: \"Add all possible improvements leaving nothing else out\"; master blueprint section 83)",
+ "rule": "Every screen waits well, hints well and is never empty without a next step. Loading shows cached content first, then (only for content the device has never had) a skeleton shaped like the content, never before 300 ms and never for less than 300 ms once shown, turning into a 'taking longer' note with Retry after 8 s. Every typing field shows a hint: an example, never the instruction; its label always stays visible; sensitive fields (PINs, passwords, card details, one-time and recovery codes, ID numbers) never get an example that looks like a value. Every list and page has its designed empty state with a next step. ts/src/placeholder.ts, web/shell/placeholder.css and shell.ts state() draw them; tests/test_placeholders.py and ts/test/placeholder.test.ts check them. Never filler Latin text, TODO, [Bank] or made-up values on a screen; sample data is labelled Sample.",
+ "timing_ms": {
+  "show_after": 300,
+  "min_show": 300,
+  "slow_after": 8000
+ },
+ "shapes": [
+  "list",
+  "cards",
+  "record",
+  "form",
+  "table",
+  "chart",
+  "chat",
+  "tracker",
+  "tiles",
+  "media",
+  "text"
+ ],
+ "hint_kinds": {
+  "format": [
+   "amount",
+   "count",
+   "email",
+   "username"
+  ],
+  "words": [
+   "search",
+   "name",
+   "note",
+   "ask",
+   "answer",
+   "code_short",
+   "phone",
+   "id_number",
+   "country"
+  ]
+ },
+ "sensitive_markers": [
+  "type=\"password\"",
+  "one-time-code",
+  "data-sensitive"
+ ],
+ "banned_text": [
+  "lor[e]m ips[u]m",
+  "\\bTODO\\b",
+  "\\bTBD\\b",
+  "\\[Bank\\]",
+  "placeholder text",
+  "\\bxxx\\b"
+ ],
+ "empty_states": [
+  "first_use",
+  "all_done",
+  "no_results",
+  "error",
+  "offline",
+  "permission",
+  "not_found",
+  "maintenance",
+  "sync_pending",
+  "coming_soon"
+ ],
+ "sensitive": {
+  "web/emulators/pos-terminal/app.ts": [
+   "mgrPin",
+   "byPin",
+   "newPin"
+  ],
+  "ts/src/surveydesk.ts": [
+   "sv:pcode"
+  ],
+  "web/emulators/merchant-phone/app.ts": [
+   "codeIn",
+   "ppIn"
+  ],
+  "web/emulators/account-site/app.ts": [
+   "code",
+   "rc",
+   "sms",
+   "suCode"
+  ],
+  "web/emulators/rider-phone/app.ts": [
+   "code"
+  ],
+  "ts/src/queuedesk.ts": [
+   "quCheck"
+  ],
+  "ts/src/attenddesk.ts": [
+   "atId",
+   "atFull"
+  ]
+ },
+ "due": {
+  "section": "4",
+  "hints": {
+   "ts/src/attenddesk.ts": [
+    "atName",
+    "atV"
+   ],
+   "ts/src/emulatorpanel.ts": [
+    "emp_filter"
+   ],
+   "ts/src/footer.ts": [
+    "email"
+   ],
+   "ts/src/queuedesk.ts": [
+    "quCode",
+    "quName"
+   ],
+   "ts/src/shell.ts": [
+    "usernameIn"
+   ],
+   "ts/src/surveydesk.ts": [
+    "sv:qchoice:${i}:${j}",
+    "sv:qtext:${i}",
+    "sv:target:${g}",
+    "sv:${who === ",
+    "sv:yousaid",
+    "sv:pcountry",
+    "sv:pwanted"
+   ],
+   "web/emulators/account-site/app.ts": [
+    "who"
+   ],
+   "web/emulators/counter-tablet/app.ts": [
+    "counted"
+   ],
+   "web/emulators/merchant-phone/app.ts": [
+    "discIn",
+    "noteIn",
+    "cashIn",
+    "momoIn",
+    "splitIn",
+    "floatIn",
+    "countIn",
+    "m3num:${k}",
+    "m3cardf:${f}",
+    "askIn",
+    "userIn",
+    "anumIn",
+    "aamtIn",
+    "checkIn",
+    "phoneIn",
+    "shopIn",
+    "staffIn"
+   ],
+   "web/emulators/pos-terminal/app.ts": [
+    "rcptTo"
+   ]
+  },
+  "labels": {
+   "ts/src/surveydesk.ts": [
+    "sv:sentence"
+   ],
+   "web/emulators/merchant-phone/app.ts": [
+    "searchIn"
+   ]
+  }
+ },
+ "due_note": "Fields that still need a hint (and two hinted fields that still need a visible label) when this rule was agreed. Section 4 moves every built screen onto the page templates and gives each its hint in every language; the list may only shrink, and section 4 cannot lock while it is not empty.",
+ "banned_note": "Patterns (case-insensitive except the capital-letter markers); the first is the classic Latin filler text, written so this file itself passes the visuals gate."
+}
