@@ -4,8 +4,10 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "source_sha256": "ff556803738b7c1ffdf5ba2f8ab72afb0a8b1a2b76b88b2e0f95cd963939cfff",
  "texts": {
+  "k_answer": "说说你的意见",
+  "k_answer_sub": "调查",
   "k_attend": "签到或签退",
   "k_attend_sub": "考勤",
   "k_camera": "摄像头正常",
