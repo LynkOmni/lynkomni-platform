@@ -54,10 +54,14 @@ export function skeleton(shape: SkeletonShape, loadingWord: string, count = 3): 
 export type HintKind = "amount" | "count" | "email" | "username" | "search" | "name" | "note" | "ask" | "answer" | "code_short" | "phone" | "id_number" | "country";
 export const FORMAT_HINTS: Partial<Record<HintKind, string>> = { amount: "0", count: "0", email: "name@example.com", username: "your.name" };
 export const SENSITIVE = ["pin", "password", "card", "otp", "one-time-code", "recovery", "cvv"] as const;
-export function hintFor(kind: HintKind, t: (k: string) => string): string {
+/** Number hints use the reader's own digits (Arabic-Indic, Bengali, Devanagari and the rest), like every number on screen. */
+export function hintFor(kind: HintKind, t: (k: string) => string, lang?: string): string {
+  if ((kind === "amount" || kind === "count") && lang) {
+    try { return new Intl.NumberFormat(lang).format(0); } catch { return "0"; }
+  }
   return FORMAT_HINTS[kind] ?? t(`hint_${kind}`);
 }
 /** A hint attribute pair for a field; empty for sensitive fields. The visible label (or aria-label) is never replaced. */
-export function hintAttr(kind: HintKind | null, t: (k: string) => string): string {
-  return kind ? ` placeholder="${phEsc(hintFor(kind, t))}"` : "";
+export function hintAttr(kind: HintKind | null, t: (k: string) => string, lang?: string): string {
+  return kind ? ` placeholder="${phEsc(hintFor(kind, t, lang))}"` : "";
 }
