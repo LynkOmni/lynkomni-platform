@@ -2,6 +2,12 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.51.2 (2026-11-19)
+Tracking through every service's API (owner request):
+- Every service that has a tracker now shows its steps through its own API: tracking.read gives a record's steps in the five states (queued, sent, accepted, confirmed, failed) and tracking.events sends a notice at each step. Added for LynkPOS (orders, deliveries, leases, agent requests, device requests), LynkAcc (payouts, tax returns), LynkInv (invoices, quotes), LynkCRM (repairs), LynkStock (group orders), LynkMPay (payments, financing), LynkCheckout (standing payments, collections), LynkAttend, LynkQueue and LynkSurvey.
+- Outside apps get only the customer view: no address, phone number, rider identity or position. Personal account trackers (sign-up, recovery, data requests, payout changes) are never in an API.
+- A test fails if a tracked kind has no API, so new trackers follow automatically. Each API is still built in its own build section.
+
 ## v0.51.1 (2026-11-19)
 Fixes the owner found on a phone, and a check so they cannot come back:
 - Newsletter sign-up in the main footer (every page that has it): the agreement line, the Subscribe button and the note under it touched each other. They now have clear space between them.
