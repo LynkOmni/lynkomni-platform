@@ -300,7 +300,12 @@
       "4"
      ],
      "part": "Groundwork for all of section 67: the limits in billing, the register entries (placements, addresses, automations, tracker kinds, messages, APIs), the provider ledger entries with sandbox adapters, events in a new contract version. LynkStat additions in full (67.5). The office side of gift cards and store credit, deposits, matching centre and payment costs in LynkAcc. Move-in tools for every service (67.15). The large-organisation set applied to every service (67.15)",
-     "done": {}
+     "done": {},
+     "progress": {
+      "4": [
+       "v0.55.0: contract version 9 with the events of the section 4 links (invoices and credit notes issued, period closed, deal stage, a card in a conversation, ad earnings, a filed document, a vote's roll, a settled exchange) and two offline device commands"
+      ]
+     }
     },
     {
      "sections": [
@@ -801,7 +806,12 @@
       "4"
      ],
      "part": "The engine upgrade for every kind (parent and child trackers, promised times and \"at risk\", exception lists, partner status mapping, late events, working-time promises, flows that never break items on their way, the two-second target, the offline clash rule, retention); every new kind registered with its build section; the control tower; scan to move a step; proof at hand-over; a business's own extra steps; checks before a step; promise capacity; practice trackers; the office kinds; tracking automations and messages registered",
-     "done": {}
+     "done": {},
+     "progress": {
+      "4": [
+       "v0.55.0: 21 new tracker kinds registered with their build sections (bill to pay, expense claim, message delivery, signature request, approval, document request, verification, plan change, vote, dispute, held payment, pre-order, return, card request, journey, advert review, deposit return, report card, app review, purchase order, stock transfer), named in 38 languages; kinds whose identifier is chosen in their own section wait for it"
+      ]
+     }
     },
     {
      "sections": [

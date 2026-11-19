@@ -115,6 +115,19 @@
     "change an event type",
     "add a PIN, a phone number or a name"
    ]
+  },
+  {
+   "from_schema_version": 8,
+   "to_schema_version": 9,
+   "agreed": "2026-11-19 (build section 4, step A2: the events of the section 4 links)",
+   "rule": "Version 9 only adds events (InvoiceIssued, CreditNoteIssued, PeriodClosed, DealStageChanged, ConversationCardSent, AdEarningsRecorded, DocumentFiled, VoteRollImported, ExchangeSettled) and two device commands. A version 8 event reads as version 9 with schema_version raised; nothing else changes.",
+   "never": [
+    "rescale an amount",
+    "rewrite a stored event",
+    "change an identifier",
+    "change an event type",
+    "add a PIN, a phone number or a name"
+   ]
   }
  ]
 }

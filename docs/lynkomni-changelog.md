@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.55.0 (2026-11-19)
+Section 4, step A2 (shared groundwork: contract version 9 and new tracker kinds):
+- Contract version 9 (contract/tools/build_v9.py): version 8 plus nine events that the section 4 links need: InvoiceIssued and CreditNoteIssued (an issued invoice never changes), PeriodClosed, DealStageChanged, ConversationCardSent, AdEarningsRecorded (validated impressions only), DocumentFiled, VoteRollImported (only the count, never a voter's name) and ExchangeSettled (by the licensed partner). Only moving a deal and filing a document can come from a device, and both work offline; the cloud alone writes the rest. Upcaster 8 to 9 only raises the version; nothing stored is rewritten. The validator now checks version 9 (1,508 checks pass).
+- The connections register's section 4 links now name these events instead of planned ones.
+- 21 new tracker kinds registered with their build sections, each on an identifier that already exists: bill to pay, expense claim, message delivery, signature request, approval, document request, verification, plan change, vote, dispute, held payment, pre-order, return, card request, journey, advert review, deposit return, report card, app review, purchase order and stock transfer. Their names are in all 38 languages.
+- The account site, Business app and rider app demo files carry those names in 38 languages, so their size budgets rose a little (1,440 KB, 2,920 KB and 1,100 KB).
+
 ## v0.54.0 (2026-11-19)
 Section 4, step A1 (shared groundwork: connections and identifiers):
 - New register catalog/connections.v1.json (blueprint 71.3): 49 links between services, each with its two ends, what passes, the contract events that carry it (or the events its build section will add), whose consent it needs and its build section. Every product family and the support desk, the Storefront and ads have at least one link. Read through core/connections.py.

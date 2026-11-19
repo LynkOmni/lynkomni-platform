@@ -16,7 +16,7 @@ class ContractV8(unittest.TestCase):
     def test_built_from_v7_and_current(self):
         r = subprocess.run([sys.executable, str(ROOT / "contract" / "tools" / "build_v8.py"), "--check"], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertEqual(CURRENT, 8)
+        self.assertGreaterEqual(CURRENT, 8)                                   # version 9 (section 4) reads version 8 unchanged
 
     def test_no_whatsapp_anywhere_in_version_8(self):
         self.assertNotIn("whatsapp", json.dumps(V8["events"]).lower())
@@ -33,7 +33,7 @@ class ContractV8(unittest.TestCase):
     def test_an_older_whatsapp_value_reads_as_lynkchat(self):
         old = {"type": "TicketIssued", "schema_version": 7, "payload": {"ticket_id": "t1", "via": "whatsapp"}}
         up = upcast(old)
-        self.assertEqual((up["schema_version"], up["payload"]["via"]), (8, "lynkchat"))
+        self.assertEqual((up["schema_version"], up["payload"]["via"]), (CURRENT, "lynkchat"))
         self.assertEqual(old["payload"]["via"], "whatsapp", "the stored event is never rewritten")
         consent = upcast({"type": "AttendanceConsentRecorded", "schema_version": 6, "payload": {"method": "code_whatsapp"}})
         self.assertEqual(consent["payload"]["method"], "code_lynkchat")
