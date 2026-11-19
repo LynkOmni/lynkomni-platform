@@ -448,7 +448,7 @@ def booking_update(stage):
 
 # ---- Section 4 part 1b: the eight new families (owner approved 2026-11-18; blueprint 65, 68 and 69) ----------------------------
 # LynkExchange business tiers (with LynkOmni's part of their own exchanges), LynkVote, LynkHR, LynkProject, LynkSchool,
-# LynkProperty, LynkDocs and LynkJobs, plus LynkJobs Pass for job seekers. Shown as their OWN stream, kept OUTSIDE the agreed
+# LynkProperty, LynkFiles and LynkJobs, plus LynkJobs Pass for job seekers. Shown as their OWN stream, kept OUTSIDE the agreed
 # totals until pilot data exists, so no agreed figure moves. EVERY number below is an ASSUMPTION, labelled as such. Extras,
 # featured jobs, freelance work, paid contest votes and government agreements are left out until there is pilot data.
 NEW_FAMILY_ASSUMPTIONS = {
@@ -456,7 +456,7 @@ NEW_FAMILY_ASSUMPTIONS = {
         "lynkexchange": (Decimal("1.5"), Decimal("0.5"), Decimal("0.1")), "lynkvote": (Decimal("1"), Decimal("0.3"), Decimal("0.05")),
         "lynkhr": (Decimal("2"), Decimal("0.8"), Decimal("0.15")), "lynkproject": (Decimal("2.5"), Decimal("1"), Decimal("0.2")),
         "lynkschool": (Decimal("0.5"), Decimal("0.2"), Decimal("0.05")), "lynkproperty": (Decimal("1"), Decimal("0.4"), Decimal("0.1")),
-        "lynkdocs": (Decimal("3"), Decimal("1"), Decimal("0.2")), "lynkjobs": (Decimal("1"), Decimal("0.3"), Decimal("0.05")),
+        "lynkfiles": (Decimal("3"), Decimal("1"), Decimal("0.2")), "lynkjobs": (Decimal("1"), Decimal("0.3"), Decimal("0.05")),
     },
     "exchange_volume_usd": (5_000, 25_000, 150_000),                    # a Plus / Pro / Max business's own exchanges a month
     "six_bundle_share": Decimal("0.3"),                                 # share of the six held with another of them or LynkAttend (20% off)

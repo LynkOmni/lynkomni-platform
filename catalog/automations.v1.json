@@ -2822,7 +2822,7 @@
    "id": "docs-signature-reminder",
    "area": "Documents",
    "build_section": "4B",
-   "family": "lynkdocs",
+   "family": "lynkfiles",
    "min_tier": "free",
    "trigger": "schedule:daily",
    "action": "Remind the people still to sign a document that is waiting for them, at most twice, in their language and outside quiet hours",

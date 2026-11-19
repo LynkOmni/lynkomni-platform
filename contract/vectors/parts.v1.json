@@ -681,10 +681,10 @@
   },
   {
    "host": "lynkomni.com",
-   "path": "/document",
+   "path": "/files",
    "trail": [
     "/",
-    "/document"
+    "/files"
    ]
   },
   {
@@ -2837,18 +2837,18 @@
   },
   {
    "host": "app.lynkomni.com",
-   "path": "/document",
+   "path": "/files",
    "trail": [
     "/",
-    "/document"
+    "/files"
    ]
   },
   {
    "host": "app.lynkomni.com",
-   "path": "/external/document",
+   "path": "/external/files",
    "trail": [
     "/external",
-    "/external/document"
+    "/external/files"
    ]
   },
   {
@@ -11873,17 +11873,17 @@
     "source": "catalog/products.v1.json"
    },
    {
-    "id": "price-lynkdocs",
+    "id": "price-lynkfiles",
     "topic": "price",
-    "q": "How much is LynkDocs?",
-    "a": "LynkDocs plans a month: Free $0, Plus $4, Pro $11, Max $29.",
+    "q": "How much is LynkFiles?",
+    "a": "LynkFiles plans a month: Free $0, Plus $4, Pro $11, Max $29.",
     "source": "services/billing.py"
    },
    {
-    "id": "where-lynkdocs",
+    "id": "where-lynkfiles",
     "topic": "how_to",
-    "q": "Where is LynkDocs?",
-    "a": "LynkDocs is described at lynkomni.com/document.",
+    "q": "Where is LynkFiles?",
+    "a": "LynkFiles is described at lynkomni.com/files.",
     "source": "catalog/products.v1.json"
    },
    {
@@ -12358,17 +12358,17 @@
     "source": "catalog/products.v1.json"
    },
    {
-    "id": "price-lynkdocs",
+    "id": "price-lynkfiles",
     "topic": "price",
-    "q": "كم سعر LynkDocs؟",
-    "a": "خطط LynkDocs شهريًا: Free $0, Plus $4, Pro $11, Max $29.",
+    "q": "كم سعر LynkFiles؟",
+    "a": "خطط LynkFiles شهريًا: Free $0, Plus $4, Pro $11, Max $29.",
     "source": "services/billing.py"
    },
    {
-    "id": "where-lynkdocs",
+    "id": "where-lynkfiles",
     "topic": "how_to",
-    "q": "أين أجد LynkDocs؟",
-    "a": "يُوصف LynkDocs في lynkomni.com/document.",
+    "q": "أين أجد LynkFiles؟",
+    "a": "يُوصف LynkFiles في lynkomni.com/files.",
     "source": "catalog/products.v1.json"
    },
    {
@@ -12843,17 +12843,17 @@
     "source": "catalog/products.v1.json"
    },
    {
-    "id": "price-lynkdocs",
+    "id": "price-lynkfiles",
     "topic": "price",
-    "q": "LynkDocsの料金はいくらですか？",
-    "a": "LynkDocsの月額プラン：Free $0, Plus $4, Pro $11, Max $29。",
+    "q": "LynkFilesの料金はいくらですか？",
+    "a": "LynkFilesの月額プラン：Free $0, Plus $4, Pro $11, Max $29。",
     "source": "services/billing.py"
    },
    {
-    "id": "where-lynkdocs",
+    "id": "where-lynkfiles",
     "topic": "how_to",
-    "q": "LynkDocsはどこにありますか？",
-    "a": "LynkDocsの説明はlynkomni.com/documentにあります。",
+    "q": "LynkFilesはどこにありますか？",
+    "a": "LynkFilesの説明はlynkomni.com/filesにあります。",
     "source": "catalog/products.v1.json"
    },
    {
@@ -13328,17 +13328,17 @@
     "source": "catalog/products.v1.json"
    },
    {
-    "id": "price-lynkdocs",
+    "id": "price-lynkfiles",
     "topic": "price",
-    "q": "Combien coûte LynkDocs ?",
-    "a": "Formules LynkDocs par mois : Free $0, Plus $4, Pro $11, Max $29.",
+    "q": "Combien coûte LynkFiles ?",
+    "a": "Formules LynkFiles par mois : Free $0, Plus $4, Pro $11, Max $29.",
     "source": "services/billing.py"
    },
    {
-    "id": "where-lynkdocs",
+    "id": "where-lynkfiles",
     "topic": "how_to",
-    "q": "Où trouver LynkDocs ?",
-    "a": "LynkDocs est présenté sur lynkomni.com/document.",
+    "q": "Où trouver LynkFiles ?",
+    "a": "LynkFiles est présenté sur lynkomni.com/files.",
     "source": "catalog/products.v1.json"
    },
    {
@@ -13813,17 +13813,17 @@
     "source": "catalog/products.v1.json"
    },
    {
-    "id": "price-lynkdocs",
+    "id": "price-lynkfiles",
     "topic": "price",
-    "q": "LynkDocs inagharimu kiasi gani?",
-    "a": "Mipango ya LynkDocs kwa mwezi: Free $0, Plus $4, Pro $11, Max $29.",
+    "q": "LynkFiles inagharimu kiasi gani?",
+    "a": "Mipango ya LynkFiles kwa mwezi: Free $0, Plus $4, Pro $11, Max $29.",
     "source": "services/billing.py"
    },
    {
-    "id": "where-lynkdocs",
+    "id": "where-lynkfiles",
     "topic": "how_to",
-    "q": "LynkDocs iko wapi?",
-    "a": "LynkDocs imeelezwa kwenye lynkomni.com/document.",
+    "q": "LynkFiles iko wapi?",
+    "a": "LynkFiles imeelezwa kwenye lynkomni.com/files.",
     "source": "catalog/products.v1.json"
    },
    {
@@ -14298,17 +14298,17 @@
     "source": "catalog/products.v1.json"
    },
    {
-    "id": "price-lynkdocs",
+    "id": "price-lynkfiles",
     "topic": "price",
-    "q": "LynkDocs多少钱？",
-    "a": "LynkDocs的月度方案：Free $0, Plus $4, Pro $11, Max $29。",
+    "q": "LynkFiles多少钱？",
+    "a": "LynkFiles的月度方案：Free $0, Plus $4, Pro $11, Max $29。",
     "source": "services/billing.py"
    },
    {
-    "id": "where-lynkdocs",
+    "id": "where-lynkfiles",
     "topic": "how_to",
-    "q": "LynkDocs在哪里？",
-    "a": "LynkDocs的介绍在lynkomni.com/document。",
+    "q": "LynkFiles在哪里？",
+    "a": "LynkFiles的介绍在lynkomni.com/files。",
     "source": "catalog/products.v1.json"
    },
    {
@@ -14783,17 +14783,17 @@
     "source": "catalog/products.v1.json"
    },
    {
-    "id": "price-lynkdocs",
+    "id": "price-lynkfiles",
     "topic": "price",
-    "q": "LynkDocs कितने का है?",
-    "a": "LynkDocs के मासिक प्लान: Free $0, Plus $4, Pro $11, Max $29।",
+    "q": "LynkFiles कितने का है?",
+    "a": "LynkFiles के मासिक प्लान: Free $0, Plus $4, Pro $11, Max $29।",
     "source": "services/billing.py"
    },
    {
-    "id": "where-lynkdocs",
+    "id": "where-lynkfiles",
     "topic": "how_to",
-    "q": "LynkDocs कहाँ है?",
-    "a": "LynkDocs का विवरण lynkomni.com/document पर है।",
+    "q": "LynkFiles कहाँ है?",
+    "a": "LynkFiles का विवरण lynkomni.com/files पर है।",
     "source": "catalog/products.v1.json"
    },
    {

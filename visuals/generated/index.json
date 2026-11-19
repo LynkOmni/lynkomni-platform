@@ -1282,26 +1282,26 @@
     {
      "theme": "light",
      "file": "charts/chart-pricing-ladder.light.svg",
-     "sha256": "aa5b09da1de9570e7ad9cb84563153a895b8d23f75f3eccc4d9b1601470c7a95",
-     "bytes": 36768
+     "sha256": "f73317d45d4755a06b90f171f236a68d996e0a1db1f9a0d18d06abb47e7dd39f",
+     "bytes": 36769
     },
     {
      "theme": "dark",
      "file": "charts/chart-pricing-ladder.dark.svg",
-     "sha256": "1dbf96593ab96d34637fe19ece8bd30399cdea7c0bbbd6f9665bdc7379088bde",
-     "bytes": 36768
+     "sha256": "7654623f0c547bc89ac17f369dcb130817600b5f9de00ee7509ab78b4c507faa",
+     "bytes": 36769
     },
     {
      "theme": "contrast-light",
      "file": "charts/chart-pricing-ladder.contrast-light.svg",
-     "sha256": "72fa8b8e130a979db4bd2d7cf0c592c9dbb59c8af534abbe97a7028df75ee11d",
-     "bytes": 36768
+     "sha256": "6cf8b508e0a04a93bb4c70d04dd3b476fb808322e3622d7edb2032216ab0fdf7",
+     "bytes": 36769
     },
     {
      "theme": "contrast-dark",
      "file": "charts/chart-pricing-ladder.contrast-dark.svg",
-     "sha256": "be170511d0cceb76e70c051e8560dbdc56f0d1ee60ee17e645c27d9e9a9844e3",
-     "bytes": 36768
+     "sha256": "285896977b5a8ec50fd3045336c508d3535af460e556da271f17c797390a3758",
+     "bytes": 36769
     }
    ]
   },
@@ -2509,10 +2509,10 @@
     }
    ]
   },
-  "product-docs": {
+  "product-files": {
    "kind": "illustration",
    "alt": "A stack of documents with lines, a signature stroke and a round seal, and a pen",
-   "purpose": "Empty state, feature header and onboarding for LynkDocs",
+   "purpose": "Empty state, feature header and onboarding for LynkFiles",
    "used_in": [
     "empty-state",
     "feature-header",
@@ -2522,27 +2522,27 @@
    "files": [
     {
      "theme": "light",
-     "file": "illustrations/product-docs.light.svg",
-     "sha256": "ccef3d1f95d1ee8cfb2bf1e969929e5f7990dc422f30396aa2c8f28629a2494b",
-     "bytes": 1396
+     "file": "illustrations/product-files.light.svg",
+     "sha256": "9b80ca1e59c27ef9e7651ef67a26ec3279f80ec5cef3b6b3651c0dd92136e0de",
+     "bytes": 1398
     },
     {
      "theme": "dark",
-     "file": "illustrations/product-docs.dark.svg",
-     "sha256": "0fd9fa5835b649e3546e9c6df1e27d323fb9dbd25e8be45681d63521a3c06d1e",
-     "bytes": 1396
+     "file": "illustrations/product-files.dark.svg",
+     "sha256": "53a959bcc9f67eba075328a45870ec6dd5e39937467df0ca4ff68fa8c44effa1",
+     "bytes": 1398
     },
     {
      "theme": "contrast-light",
-     "file": "illustrations/product-docs.contrast-light.svg",
-     "sha256": "f34be6c972e8e74ba7794e63da683717b554a281dca173645cd4eb63e2e46d8c",
-     "bytes": 1396
+     "file": "illustrations/product-files.contrast-light.svg",
+     "sha256": "4f33e0a88edd7e3b29cc9d2e9cb22ff9fc477f0cab61f7f6dc2628a7b379ac75",
+     "bytes": 1398
     },
     {
      "theme": "contrast-dark",
-     "file": "illustrations/product-docs.contrast-dark.svg",
-     "sha256": "18412cff03cb18848ba016ee22d324b2620f44b73bd3c76f83b97fc05051741c",
-     "bytes": 1396
+     "file": "illustrations/product-files.contrast-dark.svg",
+     "sha256": "b46740ad94af03d000225cdaaccd962daf3e1eede689436c1622a65c4f28efa4",
+     "bytes": 1398
     }
    ]
   },

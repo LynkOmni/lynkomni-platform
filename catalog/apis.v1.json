@@ -388,9 +388,9 @@
   },
   {
    "id": "documents",
-   "family": "lynkdocs",
-   "name": "LynkDocs API",
-   "can": "Files, folders, business documents (LODOC-) and signature requests with their states, webhooks when a document is signed (business documents and e-signature moved into LynkDocs as its engine, blueprint 69.7)",
+   "family": "lynkfiles",
+   "name": "LynkFiles API",
+   "can": "Files, folders, business documents (LODOC-) and signature requests with their states, webhooks when a document is signed (business documents and e-signature moved into LynkFiles as its engine, blueprint 69.7)",
    "usage": "plan_limits",
    "build_section": "4B",
    "scopes": [

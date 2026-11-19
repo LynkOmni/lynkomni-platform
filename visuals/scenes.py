@@ -276,9 +276,9 @@ def _property(p):
     return wrap(p, b, 2)
 
 
-@scene("docs")
+@scene("files")
 def _docs(p):
-    """LynkDocs: a stack of documents, the top one with lines, a signature stroke and a round seal, and a pen beside it."""
+    """LynkFiles: a stack of documents, the top one with lines, a signature stroke and a round seal, and a pen beside it."""
     b = (rr(104, 66, 116, 136, 8, p.accent_soft) + rr(94, 56, 116, 136, 8, p.surface) + path("M112 82h80M112 98h80M112 114h56", stroke=p.ink2, stroke_width=2.5) +
          path("M112 166q10-16 20-2t20-4 18 2", stroke=p.accent_ink, stroke_width=3) + path("M112 178h80", stroke=p.ink2, stroke_width=1.5) +
          circ(182, 140, 15, p.accent) + check(182, 142, 12, p.on_accent) +

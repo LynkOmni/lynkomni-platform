@@ -1025,13 +1025,13 @@
    "status": "planned"
   },
   {
-   "url": "https://lynkomni.com/document",
+   "url": "https://lynkomni.com/files",
    "kind": "product",
-   "title_key": "seo_title_www-document",
-   "description_key": "seo_desc_www-document",
+   "title_key": "seo_title_www-files",
+   "description_key": "seo_desc_www-files",
    "breadcrumb": [
     "/",
-    "/document"
+    "/files"
    ],
    "langs": "all",
    "build_section": 5,

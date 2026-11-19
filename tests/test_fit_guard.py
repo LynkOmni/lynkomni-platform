@@ -76,6 +76,24 @@ INPUT = """() => {
   return bad;
 }"""
 
+RAW = r"""() => {
+  const bad = new Set(), re = /\b[a-z][a-z0-9]*(?:_[a-z0-9]+)+\b/g;
+  const roots = document.querySelectorAll('#screen, #display, #cscreen, #till, #screenA, #screenB, .display, .lscreen');
+  const walk = (n) => {
+    for (const c of n.childNodes) {
+      if (c.nodeType === 3) {
+        const p = c.parentElement; if (!p || !p.getClientRects().length || p.closest('script, style, code, input, textarea, .sr')) continue;
+        for (const m of (c.textContent || '').match(re) || []) bad.add(m);
+      } else if (c.nodeType === 1) {
+        walk(c);
+        for (const a of ['aria-label', 'title', 'placeholder', 'alt']) { const v = c.getAttribute(a); if (v) for (const m of v.match(re) || []) bad.add(m + ' (' + a + ')'); }
+      }
+    }
+  };
+  roots.forEach(walk);
+  return [...bad];
+}"""
+
 
 class BrowserTestsRun(unittest.TestCase):
     """A browser test skips itself where Chromium is missing, so it only protects anything if the layout job (which installs
@@ -145,6 +163,47 @@ class FitGuard(unittest.TestCase):
                         self.open_dialogs(pg, where, found)
                     self.assertEqual(errors, [], emu)
                     pg.close()
+            b.close()
+        self.assertEqual(found, {}, "\n".join(f"{k}: {v}" for k, v in found.items()))
+
+    def test_no_raw_word_names_on_any_screen(self):
+        """Every screen of every emulator (each state button and each tab, view or choice it offers), in English: no raw word name
+        such as "ppl_at_way_whatsapp" is ever shown, in text or in a label read aloud (owner report 2026-11-19)."""
+        found = {}
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            for f in sorted(glob.glob(os.path.join(DIST, "*.html"))):
+                emu = os.path.basename(f)[len("lynkomni-"):-len(".html")]
+                pg = b.new_page(viewport={"width": 1500, "height": 1100}, reduced_motion="reduce")
+                pg.goto("file://" + f); pg.wait_for_timeout(300)
+                def look(where):
+                    pg.evaluate(SETTLE)
+                    bad = pg.evaluate(RAW)
+                    if bad:
+                        found.setdefault(emu, {})[where] = bad
+                look("start")
+                states = pg.eval_on_selector_all("[data-state]", "e => e.map(x => x.dataset.state)")
+                for st in states or [None]:
+                    if st is not None:
+                        try:
+                            pg.click(f'[data-state="{st}"]', timeout=2000)
+                        except Exception:
+                            continue
+                        look(st)
+                    acts = pg.eval_on_selector_all('#screen [data-act], #display [data-act], .lscreen [data-act]',
+                        "e => [...new Set(e.filter(x => x.getClientRects().length && /^(tab|view|way|go|nav|page|show|open|mode|join|qu|sv|at):/.test(x.dataset.act)).map(x => x.dataset.act))].slice(0, 40)")
+                    for a in acts:
+                        try:
+                            pg.click(f'[data-act="{a}"] >> visible=true', timeout=1500)
+                        except Exception:
+                            continue
+                        look(f"{st or 'start'} > {a}")
+                        if st is not None:
+                            try:
+                                pg.click(f'[data-state="{st}"]', timeout=1500)
+                            except Exception:
+                                pass
+                pg.close()
             b.close()
         self.assertEqual(found, {}, "\n".join(f"{k}: {v}" for k, v in found.items()))
 

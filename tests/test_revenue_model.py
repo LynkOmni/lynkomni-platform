@@ -134,7 +134,7 @@ class ExpensesAndProfit(unittest.TestCase):
         # Section 4 part 1b (2026-11-19): the eight new families and LynkJobs Pass are their own stream, outside the agreed totals
         # until pilot data exists; every figure is an assumption
         got = {st: R.new_families(st) for st in R.STAGES}
-        self.assertEqual({st: (g["exchange"], g["vote"], g["hr"], g["project"], g["school"], g["property"], g["docs"], g["jobs"], g["jobs_pass"], g["month"])
+        self.assertEqual({st: (g["exchange"], g["vote"], g["hr"], g["project"], g["school"], g["property"], g["files"], g["jobs"], g["jobs_pass"], g["month"])
                           for st, g in got.items()},
                          {"stage1": (840, 137, 314, 209, 152, 169, 171, 207, 14, 2213),
                           "stage2": (48024, 7828, 17952, 11946, 8714, 9644, 9746, 11827, 789, 126470),

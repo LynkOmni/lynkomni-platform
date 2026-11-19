@@ -42,7 +42,7 @@ FAMILIES = {
  "lynkproject":  ("LynkOmni Projects", "LynkProject", MT, (0, 5, 15, 39), "office", False),
  "lynkschool":   ("LynkOmni School", "LynkSchool", MT, (0, 19, 49, 129), "office", False),
  "lynkproperty": ("LynkOmni Property", "LynkProperty", MT, (0, 9, 29, 79), "office", False),
- "lynkdocs":     ("LynkOmni Documents", "LynkDocs", MT, (0, 4, 11, 29), "office", False),
+ "lynkfiles":     ("LynkOmni Files", "LynkFiles", MT, (0, 4, 11, 29), "office", False),
  "lynkjobs":     ("LynkOmni Jobs", "LynkJobs", MT, (0, 15, 45, 129), "office", False),            # employers; seekers' LynkJobs Pass: JOBS_PASS_PRICES
  "lynkops":      ("LynkOmni Operations", "LynkOps", MT, (0, 20, 49, 129), "bundle", True),       # a tier: LynkAcc, LynkInv, LynkCRM and LynkStat together
  "lynksuite":    ("LynkOmni Suite", "LynkSuite", MT, (0, 29, 75, 195), "suite", False),
@@ -200,7 +200,7 @@ FEATURES = {
                 dict(learners_included=2500), dict(learners_included=10000)],
  "lynkproperty": [dict(units_included=5, extra_100_units_cents=None), dict(units_included=50, extra_100_units_cents=500),
                   dict(units_included=250), dict(units_included=1000)],
- "lynkdocs": [dict(storage_gb=5, signature_requests=5, extra_100_gb_cents=None), dict(storage_gb=100, signature_requests=50, extra_100_gb_cents=200),
+ "lynkfiles": [dict(storage_gb=5, signature_requests=5, extra_100_gb_cents=None), dict(storage_gb=100, signature_requests=50, extra_100_gb_cents=200),
               dict(storage_gb=500, signature_requests=500), dict(storage_gb=2048, signature_requests=None)],
  "lynkjobs": [dict(open_jobs=2, extra_open_job_cents=None, seekers_never_pay=True), dict(open_jobs=10, extra_open_job_cents=300),
               dict(open_jobs=50), dict(open_jobs=None)],
@@ -377,7 +377,7 @@ JOBS_PASS_TIERS = ("free", "plus", "pro", "max")
 JOBS_PASS_PRICES = (0, 1.99, 3.99, 7.99)    # standard USD per month, for job seekers (tools only)
 JOBS_FEATURED_FROM_CENTS_PER_WEEK = 500     # featured jobs from $5 a week
 JOBS_FREELANCE_SHARE_BPS = 500              # 5% of freelance work, paid by the client through the provider
-SIX_FAMILIES = ("lynkhr", "lynkproject", "lynkschool", "lynkproperty", "lynkdocs", "lynkjobs")
+SIX_FAMILIES = ("lynkhr", "lynkproject", "lynkschool", "lynkproperty", "lynkfiles", "lynkjobs")
 SIX_BUNDLE_DISCOUNT_BPS = 2000              # 20% off each when two or more of the six (or one with LynkAttend) are held on paid tiers
 
 

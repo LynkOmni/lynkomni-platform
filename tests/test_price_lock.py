@@ -17,7 +17,7 @@ LOCKED_PRICES = {
     "lynkattend": (0, 49.5, 95, 179), "lynkqueue": (0, 55, 115, 249), "lynksurvey": (0, 59, 155, 249),   # NEW UPDATE 4, 2026-11-11
     # Section 4 part 1b, 2026-11-19 (owner approved 2026-11-18; blueprint 65.6, 68.11 and 69.11)
     "lynkexchange": (0, 9, 29, 79), "lynkvote": (0, 9, 29, 99), "lynkhr": (0, 9, 29, 79), "lynkproject": (0, 5, 15, 39),
-    "lynkschool": (0, 19, 49, 129), "lynkproperty": (0, 9, 29, 79), "lynkdocs": (0, 4, 11, 29), "lynkjobs": (0, 15, 45, 129),
+    "lynkschool": (0, 19, 49, 129), "lynkproperty": (0, 9, 29, 79), "lynkfiles": (0, 4, 11, 29), "lynkjobs": (0, 15, 45, 129),
 }
 # Section 4 part 1b (owner approved 2026-11-18): what each tier includes, every extra, the levels, the fees and the bundles.
 LOCKED_NEW_FAMILIES = {
@@ -153,8 +153,8 @@ class TestPriceLock(unittest.TestCase):
             "project_members": col("lynkproject", "members_included"), "project_extra_50_cents": col("lynkproject", "extra_50_members_cents"),
             "school_learners": col("lynkschool", "learners_included"), "school_extra_500_cents": col("lynkschool", "extra_500_learners_cents"),
             "property_units": col("lynkproperty", "units_included"), "property_extra_100_cents": col("lynkproperty", "extra_100_units_cents"),
-            "docs_storage_gb": col("lynkdocs", "storage_gb"), "docs_signatures": col("lynkdocs", "signature_requests"),
-            "docs_extra_100_gb_cents": col("lynkdocs", "extra_100_gb_cents"),
+            "docs_storage_gb": col("lynkfiles", "storage_gb"), "docs_signatures": col("lynkfiles", "signature_requests"),
+            "docs_extra_100_gb_cents": col("lynkfiles", "extra_100_gb_cents"),
             "jobs_open_jobs": col("lynkjobs", "open_jobs"), "jobs_extra_open_job_cents": col("lynkjobs", "extra_open_job_cents"),
             "jobs_pass": (b.JOBS_PASS_TIERS, b.JOBS_PASS_PRICES), "jobs_featured_week_cents": b.JOBS_FEATURED_FROM_CENTS_PER_WEEK,
             "jobs_freelance_bps": b.JOBS_FREELANCE_SHARE_BPS, "six_bundle_bps": b.SIX_BUNDLE_DISCOUNT_BPS,
@@ -164,9 +164,9 @@ class TestPriceLock(unittest.TestCase):
         for f in ("lynkexchange", "lynkvote") + b.SIX_FAMILIES: self.assertNotIn(f, b.SUITE_MEMBERS)     # all outside LynkSuite
         self.assertEqual(b.exchange_part_bps("plus", 500_000), 40); self.assertEqual(b.exchange_part_bps("free", 20_000_000), 20)   # the lower of tier and level
         self.assertEqual(b.vote_contest_share_cents(1000), 10)                                    # 5%, capped at $0.10 a vote
-        self.assertEqual(b.six_bundle_discount_cents({"lynkhr": "plus", "lynkdocs": "pro"}), 180 + 220)
+        self.assertEqual(b.six_bundle_discount_cents({"lynkhr": "plus", "lynkfiles": "pro"}), 180 + 220)
         self.assertEqual(b.six_bundle_discount_cents({"lynkhr": "plus", "lynkattend": "plus"}), 180)      # one of the six with LynkAttend
-        self.assertEqual(b.six_bundle_discount_cents({"lynkhr": "plus", "lynkdocs": "free"}), 0)           # two paid plans needed
+        self.assertEqual(b.six_bundle_discount_cents({"lynkhr": "plus", "lynkfiles": "free"}), 0)           # two paid plans needed
         self.assertEqual(b.vote_bundle_discount_cents({"lynkvote": "pro", "lynkqueue": "plus"}), 580)
 
     def test_every_standard_price_matches_the_locked_list(self):

@@ -172,7 +172,7 @@
   "/project",
   "/school",
   "/property",
-  "/document"
+  "/files"
  ],
  "app_paths": [
   "/accounting",
@@ -415,8 +415,8 @@
   "/external/school",
   "/property",
   "/external/property",
-  "/document",
-  "/external/document",
+  "/files",
+  "/external/files",
   "/job",
   "/external/job"
  ],
@@ -598,7 +598,7 @@
    "/project",
    "/school",
    "/property",
-   "/document",
+   "/files",
    "/job"
   ],
   "storefront_only": [

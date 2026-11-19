@@ -963,11 +963,11 @@
    "side": "external"
   },
   {
-   "address": "/document",
+   "address": "/files",
    "side": "internal"
   },
   {
-   "address": "/external/document",
+   "address": "/external/files",
    "side": "external"
   },
   {
@@ -2021,11 +2021,11 @@
    "kind": "mirrored"
   },
   {
-   "path": "/document",
+   "path": "/files",
    "kind": "mirrored"
   },
   {
-   "path": "/external/document",
+   "path": "/external/files",
    "kind": "mirrored"
   },
   {
@@ -2355,8 +2355,8 @@
    "storefront": "/external/property"
   },
   {
-   "workspace": "/document",
-   "storefront": "/external/document"
+   "workspace": "/files",
+   "storefront": "/external/files"
   },
   {
    "workspace": "/job",

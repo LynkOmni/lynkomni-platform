@@ -395,15 +395,15 @@
    }
   },
   {
-   "family": "lynkdocs",
-   "page": "/document",
-   "app": "app.lynkomni.com/document",
+   "family": "lynkfiles",
+   "page": "/files",
+   "app": "app.lynkomni.com/files",
    "menu": "Run your business",
-   "illustration": "product-docs",
-   "footer_id": "docs",
+   "illustration": "product-files",
+   "footer_id": "files",
    "sides": {
-    "internal": "app.lynkomni.com/document",
-    "external": "app.lynkomni.com/external/document",
+    "internal": "app.lynkomni.com/files",
+    "external": "app.lynkomni.com/external/files",
     "external_section": "4B"
    }
   },

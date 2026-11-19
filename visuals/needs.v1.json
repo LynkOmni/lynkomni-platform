@@ -1627,9 +1627,9 @@
    "budget_kb": 12
   },
   {
-   "id": "product-docs",
+   "id": "product-files",
    "kind": "illustration",
-   "scene": "docs",
+   "scene": "files",
    "accent": "brand",
    "themes": [
     "light",
@@ -1638,7 +1638,7 @@
     "contrast-dark"
    ],
    "alt": "A stack of documents with lines, a signature stroke and a round seal, and a pen",
-   "purpose": "Empty state, feature header and onboarding for LynkDocs",
+   "purpose": "Empty state, feature header and onboarding for LynkFiles",
    "used_in": [
     "empty-state",
     "feature-header",
