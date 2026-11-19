@@ -185,3 +185,8 @@
 /* Focus is always visible on keyboard, remote and switch-access interfaces */
 [data-interface="computer.pointer"] :focus-visible, [data-interface="tv.remote"] :focus-visible, [data-interface="universal"] :focus-visible, [data-interface="phone.keypad"] :focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
 /* The MASTER UPDATE parts' styles (PIN pad, bell, banners, messages, LynkAssist, breadcrumbs) live in web/shell/parts.css, shared with every device. */
+
+/* A main button that cannot be used yet (for example Charge with an empty basket) is solid grey with readable grey text, never a
+   see-through purple that looks broken (owner, 19 November 2026). One rule for every emulator; weighty enough to win over each
+   screen's own half-transparent rule. */
+:is(button, a).primary:is(:disabled, [disabled], [aria-disabled="true"]) { opacity: 1; background: var(--bg-subtle); color: var(--text-secondary); border: 1px solid var(--border-subtle); box-shadow: none; cursor: not-allowed; }

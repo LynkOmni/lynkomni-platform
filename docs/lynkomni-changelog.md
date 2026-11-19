@@ -2,6 +2,12 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.47.2 (2026-11-19)
+Fixes the owner found on the counter tablet:
+- Sell by voice: the microphone picture had no size and filled the whole basket, pushing its words onto the Charge button. The microphone is now a normal-size button beside Charge, with its name for screen readers.
+- The basket keeps the total, the microphone and Charge always in view; only the list of lines scrolls.
+- A main button that cannot be used yet (Charge with an empty basket) is now solid grey with readable grey text in every emulator, instead of a see-through purple that looked broken. Checked every emulator in every state: no other button picture was oversized.
+
 ## v0.47.1 (2026-11-19)
 Fixes the owner found on a phone:
 - Counter tablet: the first-launch card ("Is this right?") was cut off below "Yes, continue". A shared rule added with the Emulator Panel (web/device/emkit.css) outweighed the tablet's own screen layout, so the app grew taller than the screen. The rule now has no weight (:where), so every device keeps its own layout. No other emulator was affected (checked on all of them, computer and phone size).
