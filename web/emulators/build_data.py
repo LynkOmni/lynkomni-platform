@@ -70,6 +70,28 @@ def part_words_left_out(emulator):
     return tuple(p for m, prefixes in PART_WORDS.items() if not imports_part(emulator, m) for p in prefixes)
 
 
+def imported_sources(emulator):
+    """The emulator's app.ts and every TypeScript module it imports, directly or through another module."""
+    import re
+    seen, todo, out = set(), [os.path.join(ROOT, "web", "emulators", emulator, "app.ts")], []
+    while todo:
+        path = todo.pop()
+        if path in seen or not os.path.isfile(path):
+            continue
+        seen.add(path)
+        with open(path, encoding="utf-8") as f:
+            src = f.read()
+        out.append(src)
+        todo += [os.path.join(ROOT, "ts", "src", f"{n}.ts") for n in re.findall(r'^import\s+(?!type\b)[^;]*?from\s+"[./]*(?:ts/src/)?([a-z]+)\.js";', src, re.M)]
+    return "\n".join(out)
+
+
+def imported_literals(emulator):
+    """Every word-name-like string written in the code this emulator really includes (tests/test_words_guard.py checks the same)."""
+    import re
+    return set(re.findall(r"[\"'`]([a-z][a-z0-9]*_[a-z0-9_]+)[\"'`]", imported_sources(emulator)))
+
+
 def imports_part(emulator, module):
     """True when the emulator's app.ts imports the part, directly or through a shared module it imports (the device kit and the
     device shell bring the bell, LynkAssist, breadcrumbs and the PIN pad to every Business app device, build section 3)."""
@@ -135,7 +157,10 @@ def language_packs(emulator):
             shared = {lang: {**v, "texts": {k: x for k, x in v["texts"].items() if k in keep}} for lang, v in shared.items()}
         if folder.endswith("shell") and part_words_left_out(emulator):
             out = part_words_left_out(emulator)
-            shared = {lang: {**v, "texts": {k: x for k, x in v["texts"].items() if not k.startswith(out)}} for lang, v in shared.items()}
+            # a word the page's own code uses always stays, even under another part's prefix (owner report 2026-11-19: the queue
+            # page borrowed two LynkAttend words, ppl_at_way_whatsapp and ppl_at_way_lynkchat, and showed their raw names)
+            needed = imported_literals(emulator)
+            shared = {lang: {**v, "texts": {k: x for k, x in v["texts"].items() if not k.startswith(out) or k in needed}} for lang, v in shared.items()}
         own = {lang: {**own[lang], "texts": {**shared[lang]["texts"], **own[lang]["texts"]}} for lang in own if lang in shared}
     return own
 

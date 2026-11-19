@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.48.1 (2026-11-19)
+Fixes the owner found on a phone, and checks so raw names can never show again:
+- LynkQueue on a phone showed "ppl_at_way_whatsapp" and "ppl_at_way_lynkchat" instead of WhatsApp and LynkChat. The queue borrows these two words from LynkAttend, and the page builder left LynkAttend's words out of the queue page. A page now always keeps every word its own code uses.
+- The owner's Automations page (laptop) showed three automations by their raw names: the customer order updates, the late-order watch and the LynkDriver update reminder had never been given a name. They now have names in all 38 languages.
+- New check without a browser (tests/test_words_guard.py, runs in every check): every word name a page's code uses is packed into that page, in every language. It fails on the old code.
+- New on-screen check (tests/test_fit_guard.py, layout job): every emulator is clicked through, every state and every tab, view and choice it offers, and the check fails if a raw word name shows in text or in a label read aloud.
+
 ## v0.48.0 (2026-11-19)
 Section 4, part 1a (prices first, as agreed when section 4 was planned):
 - Office top-up: LynkAcc now $0, $6, $19, $49; LynkInv $0, $5, $15, $39; LynkCRM $0, $6, $19, $49 a month (were $0, $6, $15, $40 for LynkAcc and LynkCRM and $0, $5, $12, $32 for LynkInv). LynkOps stays $0, $20, $49, $129, so buying the four services through LynkOps now saves about 31% on Plus and 40% on Pro and Max. LynkSuite's prices do not change. The price lock, the bill rules, the revenue model and every emulator follow.
