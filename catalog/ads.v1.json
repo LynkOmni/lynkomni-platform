@@ -1,6 +1,6 @@
 {
  "version": 1,
- "agreed": "2026-11-19 (ADS UPDATE, owner; master blueprint section 77)",
+ "agreed": "2026-11-19 (ADS UPDATE, owner; master blueprint section 79)",
  "rule": "Ads appear only in the places listed here (an allow-list, never a block-list). Ads are matched to the screen's subject, never to the person; always labelled in the reader's language; capped; never in the never list; off per country until legal sign-off; never on a product's paid tier; never in a household workspace or anywhere a child is the audience. An ad never delays a screen: it comes from the device's cached bundle, draws after the screen is ready, and a missing ad leaves no gap. Only impressions that were really seen count, devices never bill, and advertisers see totals only. Prices, shares and every revenue figure here are placeholders and assumptions until the first advertisers sign.",
  "places": [
   {"id": "receipt_footer", "family": "lynkpos", "audience": "customer", "owner": "merchant", "kind": "text", "share_bps": 4000, "build_section": "3", "what": "One labelled line at the very end of a printed or digital receipt, never on a fiscal document"},

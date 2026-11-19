@@ -1,4 +1,4 @@
-"""ADS UPDATE (owner 2026-11-19, master blueprint section 77): one ads register (catalog/ads.v1.json) is an allow-list of places;
+"""ADS UPDATE (owner 2026-11-19, master blueprint section 79): one ads register (catalog/ads.v1.json) is an allow-list of places;
 the never list covers every protected screen; families that show ads on Free have places; seen-only impressions, caps,
 merchant and person controls, children and household spaces, and totals-only reports all follow the register."""
 import json, os, unittest

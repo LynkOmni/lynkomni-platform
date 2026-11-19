@@ -1,4 +1,4 @@
-"""Advertising (master blueprint sections 21 and 77, ADS UPDATE 2026-11-19). Every rule comes from catalog/ads.v1.json: ads show
+"""Advertising (master blueprint sections 21 and 79, ADS UPDATE 2026-11-19). Every rule comes from catalog/ads.v1.json: ads show
 only in the places listed there (an allow-list), matched to the screen's subject and never to the person, always labelled,
 capped, never in the never list, never on a paid tier, never for a child or in a household workspace. Off per country until
 legal and policy sign-off. Offline: devices cache a bundle, and their impressions sync later. Only impressions that were really
