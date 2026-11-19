@@ -159,3 +159,4 @@ Every decision the owner made, newest first. Lines are never deleted: a changed 
 - 2026-11-19: Leftover adjusted in section 3B: the research file format names (CSV, SPSS, Stata, R) are product names shown as they are, not screen words to translate.
 - 2026-11-19: Leftover adjusted in section 3B: "You said, we did" was counted but reached nobody. It now shows in each person's My answers and, for an anonymous survey, on the public page. Sending it as a message needs its own cloud event; that event and its message kind join the next contract version, which section 3A makes for the Emulator Panel, and section 3A is not locked without them.
 - 2026-11-19: Section 3B is locked (v0.46.0). Next is section 3A (the Emulator Panel), then section 4.
+- 2026-11-19: Section 3B lock, thirteenth table: TURN UPDATE (76.8, added the same day) has no part in section 3B; its screens are re-tested for turning in the section 4 groundwork with every screen built so far.
