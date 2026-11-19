@@ -130,6 +130,18 @@ class ExpensesAndProfit(unittest.TestCase):
                          {"stage1": (202, 126, 328), "stage2": (11_556, 4_800, 16_356), "stage3": (353_100, 132_000, 485_100)})
         self.assertTrue(all(g["assumption"] for g in got.values()))
 
+    def test_new_families_stream_is_separate_and_an_assumption(self):
+        # Section 4 part 1b (2026-11-19): the eight new families and LynkJobs Pass are their own stream, outside the agreed totals
+        # until pilot data exists; every figure is an assumption
+        got = {st: R.new_families(st) for st in R.STAGES}
+        self.assertEqual({st: (g["exchange"], g["vote"], g["hr"], g["project"], g["school"], g["property"], g["docs"], g["jobs"], g["jobs_pass"], g["month"])
+                          for st, g in got.items()},
+                         {"stage1": (840, 137, 314, 209, 152, 169, 171, 207, 14, 2213),
+                          "stage2": (48024, 7828, 17952, 11946, 8714, 9644, 9746, 11827, 789, 126470),
+                          "stage3": (1467400, 239184, 548537, 365002, 266255, 294690, 297792, 361383, 24118, 3864361)})
+        self.assertTrue(all(g["assumption"] for g in got.values()))
+        self.assertNotIn("new_families", R.ECO_ROWS)
+
     def test_booking_update_stream_is_separate_and_an_assumption(self):
         # BOOKING UPDATE (2026-11-18): the LynkBooking business tiers and commission are their own stream, outside the agreed totals
         # until pilot data exists; LynkBooking Pass (the customer membership) is the "travel" line inside the totals

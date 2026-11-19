@@ -99,5 +99,14 @@
  "ft_people": "People & service",
  "ft_plain_attend": "Attendance",
  "ft_plain_queue": "Queue & tickets",
- "ft_plain_survey": "Surveys"
+ "ft_plain_survey": "Surveys",
+ "ft_work": "Work & records",
+ "ft_plain_exchange": "Currency exchange",
+ "ft_plain_vote": "Voting",
+ "ft_plain_hr": "Staff management",
+ "ft_plain_project": "Projects",
+ "ft_plain_school": "School management",
+ "ft_plain_property": "Property management",
+ "ft_plain_docs": "Documents & signing",
+ "ft_plain_jobs": "Jobs & hiring"
 }

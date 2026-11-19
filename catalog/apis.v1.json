@@ -388,14 +388,18 @@
   },
   {
    "id": "documents",
-   "family": "platform",
-   "name": "Business documents API",
-   "can": "Create and read business documents (LODOC-)",
-   "usage": "none",
-   "build_section": 11,
+   "family": "lynkdocs",
+   "name": "LynkDocs API",
+   "can": "Files, folders, business documents (LODOC-) and signature requests with their states, webhooks when a document is signed (business documents and e-signature moved into LynkDocs as its engine, blueprint 69.7)",
+   "usage": "plan_limits",
+   "build_section": "4B",
    "scopes": [
+    "files.read",
+    "files.write",
     "documents.read",
-    "documents.write"
+    "documents.write",
+    "signatures.write",
+    "webhooks"
    ],
    "own_account": true
   },
@@ -444,6 +448,123 @@
     "surveys.write",
     "answers.read",
     "results.read",
+    "webhooks"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "exchange",
+   "family": "lynkexchange",
+   "name": "LynkExchange API",
+   "can": "Rates, quotes with the one full price, conversions and payments started through the licensed partner, their tracker states, recipients the business saved, webhooks on every state; never moves money without the person's confirmation",
+   "usage": "existing_tier_fees",
+   "build_section": 11,
+   "scopes": [
+    "rates.read",
+    "quotes.write",
+    "transfers.read",
+    "transfers.write",
+    "recipients.read",
+    "webhooks"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "voting",
+   "family": "lynkvote",
+   "name": "LynkVote API",
+   "can": "Votes and their settings, rolls from the organisation's own records, public results and the proofs that check them, webhooks when a vote opens, closes or is counted; never who voted for what",
+   "usage": "plan_limits",
+   "build_section": 11,
+   "scopes": [
+    "votes.read",
+    "votes.write",
+    "rolls.write",
+    "results.read",
+    "proofs.read",
+    "webhooks"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "hr",
+   "family": "lynkhr",
+   "name": "LynkHR API",
+   "can": "Staff records the organisation keeps, leave requests and balances, documents linked to a person, webhooks on changes; pay figures come from LynkAcc",
+   "usage": "plan_limits",
+   "build_section": "4B",
+   "scopes": [
+    "staff.read",
+    "staff.write",
+    "leave.read",
+    "leave.write",
+    "webhooks"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "projects",
+   "family": "lynkproject",
+   "name": "LynkProject API",
+   "can": "Projects, tasks, boards, time sheets and milestones, webhooks on task changes",
+   "usage": "plan_limits",
+   "build_section": "4B",
+   "scopes": [
+    "projects.read",
+    "projects.write",
+    "tasks.read",
+    "tasks.write",
+    "time.read",
+    "webhooks"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "school",
+   "family": "lynkschool",
+   "name": "LynkSchool API",
+   "can": "Classes, timetables, attendance, marks and fee balances for the school's own records, webhooks on report cards issued; learners under 18 hold no account and their data never leaves the school's own use",
+   "usage": "plan_limits",
+   "build_section": "9B",
+   "scopes": [
+    "classes.read",
+    "timetable.read",
+    "attendance.read",
+    "marks.read",
+    "fees.read",
+    "webhooks"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "property",
+   "family": "lynkproperty",
+   "name": "LynkProperty API",
+   "can": "Properties, units, leases, rent balances, repair reports and inspections, webhooks on repairs and rent; rent is paid through the licensed provider",
+   "usage": "plan_limits",
+   "build_section": "9B",
+   "scopes": [
+    "properties.read",
+    "units.read",
+    "leases.read",
+    "repairs.read",
+    "repairs.write",
+    "webhooks"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "jobs",
+   "family": "lynkjobs",
+   "name": "LynkJobs API",
+   "can": "Job posts, applications the employer received, interview steps and offers, webhooks on new applications; job seekers never pay to apply",
+   "usage": "plan_limits",
+   "build_section": "8B",
+   "scopes": [
+    "jobs.read",
+    "jobs.write",
+    "applications.read",
+    "offers.write",
     "webhooks"
    ],
    "own_account": true

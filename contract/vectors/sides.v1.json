@@ -915,6 +915,70 @@
    "side": "external"
   },
   {
+   "address": "/exchange",
+   "side": "internal"
+  },
+  {
+   "address": "/external/exchange",
+   "side": "external"
+  },
+  {
+   "address": "/voting",
+   "side": "internal"
+  },
+  {
+   "address": "/external/voting",
+   "side": "external"
+  },
+  {
+   "address": "/hr",
+   "side": "internal"
+  },
+  {
+   "address": "/external/hr",
+   "side": "external"
+  },
+  {
+   "address": "/project",
+   "side": "internal"
+  },
+  {
+   "address": "/external/project",
+   "side": "external"
+  },
+  {
+   "address": "/school",
+   "side": "internal"
+  },
+  {
+   "address": "/external/school",
+   "side": "external"
+  },
+  {
+   "address": "/property",
+   "side": "internal"
+  },
+  {
+   "address": "/external/property",
+   "side": "external"
+  },
+  {
+   "address": "/document",
+   "side": "internal"
+  },
+  {
+   "address": "/external/document",
+   "side": "external"
+  },
+  {
+   "address": "/job",
+   "side": "internal"
+  },
+  {
+   "address": "/external/job",
+   "side": "external"
+  },
+  {
    "address": "/",
    "side": "internal"
   },
@@ -1907,6 +1971,70 @@
   {
    "path": "/external/sell/emulators",
    "kind": "mirrored"
+  },
+  {
+   "path": "/exchange",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/exchange",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/voting",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/voting",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/hr",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/hr",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/project",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/project",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/school",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/school",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/property",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/property",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/document",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/document",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/job",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/job",
+   "kind": "mirrored"
   }
  ],
  "twins": [
@@ -2201,6 +2329,38 @@
   {
    "workspace": "/sell/emulators",
    "storefront": "/external/sell/emulators"
+  },
+  {
+   "workspace": "/exchange",
+   "storefront": "/external/exchange"
+  },
+  {
+   "workspace": "/voting",
+   "storefront": "/external/voting"
+  },
+  {
+   "workspace": "/hr",
+   "storefront": "/external/hr"
+  },
+  {
+   "workspace": "/project",
+   "storefront": "/external/project"
+  },
+  {
+   "workspace": "/school",
+   "storefront": "/external/school"
+  },
+  {
+   "workspace": "/property",
+   "storefront": "/external/property"
+  },
+  {
+   "workspace": "/document",
+   "storefront": "/external/document"
+  },
+  {
+   "workspace": "/job",
+   "storefront": "/external/job"
   }
  ]
 }

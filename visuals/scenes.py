@@ -216,6 +216,86 @@ def _survey(p):
     return wrap(p, b, 2)
 
 
+@scene("exchange")
+def _exchange(p):
+    """LynkExchange: two coins of different currencies joined by two curved arrows, with a small rate line between them."""
+    b = (coin(96, 126, 34, p) + circ(224, 126, 34, p.surface) + circ(224, 126, 19, "none", stroke=p.ink2, stroke_width=2) +
+         path("M124 92Q160 64 196 92", stroke=p.accent_ink, stroke_width=3.5) + path("M188 82l8 10-12 3", stroke=p.accent_ink, stroke_width=3.5) +
+         path("M196 160Q160 188 124 160", stroke=p.ink2, stroke_width=3.5) + path("M132 170l-8-10 12-3", stroke=p.ink2, stroke_width=3.5) +
+         path("M70 204h44l18-14 22 8 24-20 22 10h40", stroke=p.accent, stroke_width=3) + sparkle(266, 64, 9, p.accent))
+    return wrap(p, b, 1)
+
+
+@scene("vote")
+def _vote(p):
+    """LynkVote: a ballot box with a sealed ballot going in, a check mark on the ballot and a small lock for the sealed count."""
+    b = (rr(92, 118, 136, 76, 10, p.surface) + rr(92, 118, 136, 18, 6, p.accent_soft) + rr(130, 122, 60, 6, 3, p.ink, stroke="none") +
+         rr(136, 58, 48, 66, 6, p.surface) + check(160, 92, 18, p.accent_ink) + path("M146 110h28", stroke=p.ink2, stroke_width=2.5) +
+         lock(160, 164, 30, p, p.accent_soft) + circ(262, 76, 18, p.accent) + check(262, 78, 14, p.on_accent))
+    return wrap(p, b, 2)
+
+
+@scene("hr")
+def _hr(p):
+    """LynkHR: an organisation chart of plain boxes joined by lines, beside a calendar page with one marked day for leave."""
+    boxes = rr(118, 52, 52, 30, 7, p.accent) + "".join(rr(70 + 64 * i, 126, 46, 28, 7, p.surface) for i in range(3))
+    links = path("M144 82v22M93 104h102M93 104v22M157 104v22M221 104v22", stroke_width=2.5)
+    cal = (rr(226, 52, 62, 56, 8, p.surface) + rr(226, 52, 62, 16, 6, p.accent_soft) +
+           "".join(rr(234 + 16 * i, 74 + 14 * j, 9, 8, 2, p.accent if (i, j) == (2, 1) else p.ground, stroke_width=1.5) for i in range(3) for j in range(2)))
+    b = boxes + links + cal + path("M70 176h176", stroke=p.ink2, stroke_width=2.5) + path("M70 192h120", stroke=p.ink2, stroke_width=2.5) + circ(262, 186, 14, p.accent) + check(262, 188, 11, p.on_accent)
+    return wrap(p, b, 1)
+
+
+@scene("project")
+def _project(p):
+    """LynkProject: a board of three columns with task cards, one card moving across, and a progress bar underneath."""
+    cols = "".join(rr(72 + 62 * i, 52, 54, 118, 8, p.accent_soft if i == 1 else p.surface) for i in range(3))
+    cards = "".join(rr(78 + 62 * i, 64 + 26 * j, 42, 18, 4, p.ground, stroke_width=2) for i, k in ((0, 3), (1, 2), (2, 1)) for j in range(k))
+    b = (cols + cards + rr(206, 98, 42, 18, 4, p.accent) + path("M196 107h-10", stroke=p.accent_ink, stroke_width=3) +
+         rr(72, 184, 178, 12, 6, p.surface) + rr(72, 184, 118, 12, 6, p.accent) + circ(272, 68, 16, p.surface) + check(272, 70, 12, p.accent_ink))
+    return wrap(p, b, 2)
+
+
+@scene("school")
+def _school(p):
+    """LynkSchool: an open book on a desk with a graduation cap above it and a small timetable grid."""
+    b = (path("M78 128Q118 112 160 128V188Q118 172 78 188Z", p.surface) + path("M160 128Q202 112 242 128V188Q202 172 160 188Z", p.surface) +
+         path("M94 146Q122 138 146 146M94 162Q122 154 146 162M174 146Q198 138 226 146", stroke=p.ink2, stroke_width=2) +
+         path("M160 54l58 22-58 22-58-22z", p.accent) + path("M128 88v20q32 16 64 0V88", p.accent_soft) + path("M218 76v26", stroke_width=3) + circ(218, 106, 5, p.accent, stroke="none") +
+         "".join(rr(250 + 14 * i, 130 + 14 * j, 10, 10, 2, p.accent if (i + j) % 3 == 0 else p.surface, stroke_width=1.5) for i in range(2) for j in range(3)))
+    return wrap(p, b, 1)
+
+
+@scene("property")
+def _property(p):
+    """LynkProperty: a house with a door and windows, a key beside it and a small meter dial for readings."""
+    b = (path("M84 112l66-50 66 50", p.accent_soft) + rr(94, 110, 112, 82, 4, p.surface) + rr(138, 146, 26, 46, 3, p.accent) +
+         rr(106, 124, 22, 20, 3, p.ground, stroke_width=2) + rr(174, 124, 22, 20, 3, p.ground, stroke_width=2) +
+         circ(246, 132, 16, p.surface) + circ(246, 132, 7, "none", stroke=p.ink2, stroke_width=2) + path("M246 148v38M246 170h10M246 182h7", stroke_width=3.5) +
+         circ(262, 70, 18, p.surface) + path("M262 70l8-8", stroke=p.accent_ink, stroke_width=3) + path("M250 76h24", stroke=p.ink2, stroke_width=2))
+    return wrap(p, b, 2)
+
+
+@scene("docs")
+def _docs(p):
+    """LynkDocs: a stack of documents, the top one with lines, a signature stroke and a round seal, and a pen beside it."""
+    b = (rr(104, 66, 116, 136, 8, p.accent_soft) + rr(94, 56, 116, 136, 8, p.surface) + path("M112 82h80M112 98h80M112 114h56", stroke=p.ink2, stroke_width=2.5) +
+         path("M112 166q10-16 20-2t20-4 18 2", stroke=p.accent_ink, stroke_width=3) + path("M112 178h80", stroke=p.ink2, stroke_width=1.5) +
+         circ(182, 140, 15, p.accent) + check(182, 142, 12, p.on_accent) +
+         path("M248 70l16 16-52 52-20 4 4-20z", p.surface) + path("M240 78l16 16", stroke_width=2.5))
+    return wrap(p, b, 1)
+
+
+@scene("jobs")
+def _jobs(p):
+    """LynkJobs: a briefcase with a check tag, a search glass over a list of openings, and a small star for a featured post."""
+    b = (rr(70, 104, 124, 86, 10, p.surface) + path("M110 104V92a8 8 0 0 1 8-8h28a8 8 0 0 1 8 8v12", stroke_width=3) + line(70, 136, 194, 136, stroke_width=2.5) +
+         rr(124, 128, 16, 16, 3, p.accent) + rr(208, 60, 72, 92, 8, p.surface) + path("M220 80h48M220 98h48M220 116h32", stroke=p.ink2, stroke_width=2.5) +
+         circ(240, 152, 22, p.accent_soft) + path("M256 168l18 18", stroke_width=5, stroke_linecap="round") + star(84, 68, 10, p.accent, p) +
+         circ(170, 76, 15, p.accent) + check(170, 78, 12, p.on_accent))
+    return wrap(p, b, 2)
+
+
 @scene("dev")
 def _dev(p):
     b = (rr(58, 58, 204, 134, 12, p.surface) + line(58, 86, 262, 86, stroke_width=2) + "".join(circ(76 + 14 * i, 72, 3.5, p.ink2, stroke="none") for i in range(3)) +

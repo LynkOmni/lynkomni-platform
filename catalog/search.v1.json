@@ -960,6 +960,84 @@
    "status": "planned"
   },
   {
+   "url": "https://lynkomni.com/voting",
+   "kind": "product",
+   "title_key": "seo_title_www-voting",
+   "description_key": "seo_desc_www-voting",
+   "breadcrumb": [
+    "/",
+    "/voting"
+   ],
+   "langs": "all",
+   "build_section": 5,
+   "status": "planned"
+  },
+  {
+   "url": "https://lynkomni.com/hr",
+   "kind": "product",
+   "title_key": "seo_title_www-hr",
+   "description_key": "seo_desc_www-hr",
+   "breadcrumb": [
+    "/",
+    "/hr"
+   ],
+   "langs": "all",
+   "build_section": 5,
+   "status": "planned"
+  },
+  {
+   "url": "https://lynkomni.com/project",
+   "kind": "product",
+   "title_key": "seo_title_www-project",
+   "description_key": "seo_desc_www-project",
+   "breadcrumb": [
+    "/",
+    "/project"
+   ],
+   "langs": "all",
+   "build_section": 5,
+   "status": "planned"
+  },
+  {
+   "url": "https://lynkomni.com/school",
+   "kind": "product",
+   "title_key": "seo_title_www-school",
+   "description_key": "seo_desc_www-school",
+   "breadcrumb": [
+    "/",
+    "/school"
+   ],
+   "langs": "all",
+   "build_section": 5,
+   "status": "planned"
+  },
+  {
+   "url": "https://lynkomni.com/property",
+   "kind": "product",
+   "title_key": "seo_title_www-property",
+   "description_key": "seo_desc_www-property",
+   "breadcrumb": [
+    "/",
+    "/property"
+   ],
+   "langs": "all",
+   "build_section": 5,
+   "status": "planned"
+  },
+  {
+   "url": "https://lynkomni.com/document",
+   "kind": "product",
+   "title_key": "seo_title_www-document",
+   "description_key": "seo_desc_www-document",
+   "breadcrumb": [
+    "/",
+    "/document"
+   ],
+   "langs": "all",
+   "build_section": 5,
+   "status": "planned"
+  },
+  {
    "url": "https://shop.lynkomni.com/{username}",
    "kind": "site",
    "title_key": "seo_title_shop-username",
@@ -1105,6 +1183,30 @@
    ],
    "langs": "all",
    "build_section": 6,
+   "status": "planned"
+  },
+  {
+   "url": "https://vote.lynkomni.com/",
+   "kind": "site",
+   "title_key": "seo_title_vote-home",
+   "description_key": "seo_desc_vote-home",
+   "breadcrumb": [
+    "/"
+   ],
+   "langs": "all",
+   "build_section": 14,
+   "status": "planned"
+  },
+  {
+   "url": "https://job.lynkomni.com/",
+   "kind": "site",
+   "title_key": "seo_title_job-home",
+   "description_key": "seo_desc_job-home",
+   "breadcrumb": [
+    "/"
+   ],
+   "langs": "all",
+   "build_section": "8B",
    "status": "planned"
   }
  ]

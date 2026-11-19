@@ -17,7 +17,7 @@ OUT = os.path.join(ROOT, "catalog", "search.v1.json")
 PRIVATE_RECORD = re.compile(r"\{LO(?!LST)[A-Z]+\}|\{table\}")
 HOST_SECTION = {"lynkomni.com": 5, "shop.lynkomni.com": 7, "booking.lynkomni.com": 8, "essential.lynkomni.com": 9,
                 "exchange.lynkomni.com": 10, "hub.lynkomni.com": 11, "doc.lynkomni.com": 11, "sdk.lynkomni.com": 11,
-                "status.lynkomni.com": 6}
+                "status.lynkomni.com": 6, "vote.lynkomni.com": 14, "job.lynkomni.com": "8B"}
 FAMILIES = [
     {"id": "countries", "what": "one page per country, only where the country truly differs (what is on, local rules)", "build_section": 5},
     {"id": "business_kinds", "what": "one page per kind of business or entity", "build_section": 5},

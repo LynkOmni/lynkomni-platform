@@ -86,6 +86,16 @@
    "host": "news.lynkomni.com",
    "purpose": "Newsletter sending only, no pages",
    "indexed": false
+  },
+  {
+   "host": "vote.lynkomni.com",
+   "purpose": "LynkOmni Voting: voters, ballots, public results and checking a result",
+   "indexed": true
+  },
+  {
+   "host": "job.lynkomni.com",
+   "purpose": "LynkOmni Jobs: jobs for everyone (jobs.lynkomni.com redirects here)",
+   "indexed": true
   }
  ],
  "website_paths": [
@@ -156,7 +166,13 @@
   "/trust",
   "/trust/disclosure",
   "/trust/security",
-  "/vcard"
+  "/vcard",
+  "/voting",
+  "/hr",
+  "/project",
+  "/school",
+  "/property",
+  "/document"
  ],
  "app_paths": [
   "/accounting",
@@ -386,7 +402,23 @@
   "/queue/emulators",
   "/survey/emulators",
   "/external/business/emulators",
-  "/external/sell/emulators"
+  "/external/sell/emulators",
+  "/exchange",
+  "/external/exchange",
+  "/voting",
+  "/external/voting",
+  "/hr",
+  "/external/hr",
+  "/project",
+  "/external/project",
+  "/school",
+  "/external/school",
+  "/property",
+  "/external/property",
+  "/document",
+  "/external/document",
+  "/job",
+  "/external/job"
  ],
  "redirects": {
   "/terms": "/legal/terms",
@@ -559,7 +591,15 @@
    "/survey/results/{LOSRV}",
    "/survey/reports",
    "/business/emulators",
-   "/sell/emulators"
+   "/sell/emulators",
+   "/exchange",
+   "/voting",
+   "/hr",
+   "/project",
+   "/school",
+   "/property",
+   "/document",
+   "/job"
   ],
   "storefront_only": [
    "/external/business/academy/listings",

@@ -315,6 +315,110 @@
     "external": "app.lynkomni.com/external/survey",
     "external_section": 7
    }
+  },
+  {
+   "family": "lynkexchange",
+   "page": "https://exchange.lynkomni.com",
+   "app": "app.lynkomni.com/exchange",
+   "menu": "Sell and get paid",
+   "illustration": "product-exchange",
+   "footer_id": "exchange",
+   "sides": {
+    "internal": "app.lynkomni.com/exchange",
+    "external": "app.lynkomni.com/external/exchange",
+    "external_section": 10
+   }
+  },
+  {
+   "family": "lynkvote",
+   "page": "/voting",
+   "app": "app.lynkomni.com/voting",
+   "menu": "People and service",
+   "illustration": "product-vote",
+   "footer_id": "vote",
+   "sides": {
+    "internal": "app.lynkomni.com/voting",
+    "external": "app.lynkomni.com/external/voting",
+    "external_section": 14
+   }
+  },
+  {
+   "family": "lynkhr",
+   "page": "/hr",
+   "app": "app.lynkomni.com/hr",
+   "menu": "People and service",
+   "illustration": "product-hr",
+   "footer_id": "hr",
+   "sides": {
+    "internal": "app.lynkomni.com/hr",
+    "external": "app.lynkomni.com/external/hr",
+    "external_section": "4B"
+   }
+  },
+  {
+   "family": "lynkproject",
+   "page": "/project",
+   "app": "app.lynkomni.com/project",
+   "menu": "Run your business",
+   "illustration": "product-project",
+   "footer_id": "project",
+   "sides": {
+    "internal": "app.lynkomni.com/project",
+    "external": "app.lynkomni.com/external/project",
+    "external_section": "4B"
+   }
+  },
+  {
+   "family": "lynkschool",
+   "page": "/school",
+   "app": "app.lynkomni.com/school",
+   "menu": "People and service",
+   "illustration": "product-school",
+   "footer_id": "school",
+   "sides": {
+    "internal": "app.lynkomni.com/school",
+    "external": "app.lynkomni.com/external/school",
+    "external_section": "9B"
+   }
+  },
+  {
+   "family": "lynkproperty",
+   "page": "/property",
+   "app": "app.lynkomni.com/property",
+   "menu": "Run your business",
+   "illustration": "product-property",
+   "footer_id": "property",
+   "sides": {
+    "internal": "app.lynkomni.com/property",
+    "external": "app.lynkomni.com/external/property",
+    "external_section": "9B"
+   }
+  },
+  {
+   "family": "lynkdocs",
+   "page": "/document",
+   "app": "app.lynkomni.com/document",
+   "menu": "Run your business",
+   "illustration": "product-docs",
+   "footer_id": "docs",
+   "sides": {
+    "internal": "app.lynkomni.com/document",
+    "external": "app.lynkomni.com/external/document",
+    "external_section": "4B"
+   }
+  },
+  {
+   "family": "lynkjobs",
+   "page": "https://job.lynkomni.com",
+   "app": "app.lynkomni.com/job",
+   "menu": "People and service",
+   "illustration": "product-jobs",
+   "footer_id": "jobs",
+   "sides": {
+    "internal": "app.lynkomni.com/job",
+    "external": "app.lynkomni.com/external/job",
+    "external_section": "8B"
+   }
   }
  ]
 }
