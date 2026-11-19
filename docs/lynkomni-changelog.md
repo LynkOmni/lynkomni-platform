@@ -3,10 +3,11 @@
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
 ## v0.47.1 (2026-11-19)
-Two screen fixes the owner found on a phone:
+Fixes the owner found on a phone:
 - Counter tablet: the first-launch card ("Is this right?") was cut off below "Yes, continue". A shared rule added with the Emulator Panel (web/device/emkit.css) outweighed the tablet's own screen layout, so the app grew taller than the screen. The rule now has no weight (:where), so every device keeps its own layout. No other emulator was affected (checked on all of them, computer and phone size).
 - Counter tablet: the PIN keypad's bottom row (0 and the tick) needed scrolling on the wide, short tablet screen. The keypad now sits beside the name, title and dots, so every key shows; right-to-left mirrors it.
 - Main footer: the line under the logo ("Works with or without internet.") had lost its spacing inside the app shell, so it touched the "Products" heading. It now sits close under the logo with a clear gap above the columns, on every page.
+- Key sounds, like a real device: every number key now plays its own telephone keypad pair (1 to 9, 0, * and #), and confirm, cancel, clear, moving around (arrows, menu, soft keys), tabs, switches on and off, scanning and printing each have their own tone and vibration. One shared rule (ts/src/keytones.ts, tones from the design tokens) serves every device emulator on the Emulator Panel and the button phone, which also gained Key tones and Vibration switches. A PIN, door code or ID number follows the manager's existing choice: each key its own tone, or one same tone on every key. One sound player is reused for every press.
 
 ## v0.47.0 (2026-11-19)
 Section 3A, the Emulator Panel (EMULATOR UPDATE, master blueprint section 70):

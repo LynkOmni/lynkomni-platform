@@ -14,6 +14,9 @@ import { nextCode, runningLate, ticketNumber, waitMinutes } from "../../../ts/sr
 import { bpPage, bpStart, bpStep, textNotification } from "../../../ts/src/basicphone.js";
 import type { BpCtx, BpState, PinCheck } from "../../../ts/src/basicphone.js";
 import { check } from "../../../ts/src/usernames.js";
+import { playSound, soundForAct } from "../../../ts/src/keytones.js";
+import type { Sound } from "../../../ts/src/keytones.js";
+import { SOUNDS } from "../../../ts/src/sounds.generated.js";
 
 declare const DATA: Build;
 /** Shell parts on a button phone (41 B, decided 9 November 2026): there is no touch screen, so "find or do" is the numbered menu
@@ -210,7 +213,12 @@ function ok(): void {
   } else if (S.scr === "done") S.scr = "sell";
   draw();
 }
+/** Key tones and press vibration like a real button phone (owner, 19 November 2026): each number key its own keypad pair, the
+ *  green key, the red key, the arrows and the soft keys each their own sound; both can be turned off in the panel. */
+const TONES = { tones: true, vibration: true, volume: "medium", pin_tones: "per_key" as "per_key" | "same" };
+function keySound(a: string): void { const k: Sound = soundForAct(a); playSound(SOUNDS, k, TONES); }
 function act(a: string): void {
+  keySound(a);
   if (PH.kind === "basic-phone") { channelAct(a); return; }
   const n = /^d(\d)$/.exec(a);
   const list = S.scr === "menu" ? MENU.length : S.scr === "sell" ? PRODUCTS.length : S.scr === "help" || S.scr === "locale" ? 3 : S.scr === "account" ? 2 : 0;
@@ -223,6 +231,7 @@ function act(a: string): void {
 }
 function panel(): void {
   $("#panel").innerHTML = panelHtml(["country", "dark", "lang"], S, W, C) ;
+  $("#panel").insertAdjacentHTML("beforeend", `<label class="center"><input type="checkbox" id="cTones"${TONES.tones ? " checked" : ""}> <span>${esc(t("bp_key_tones"))}</span></label><label class="center"><input type="checkbox" id="cVibe"${TONES.vibration ? " checked" : ""}> <span>${esc(t("bp_vibration"))}</span></label>`);
   $("#panel").insertAdjacentHTML("afterbegin", `<label class="center"><span>${esc(t("internet"))}</span> <select id="cLink"><option value="data">${esc(t("online"))}</option><option value="sms">SMS</option><option value="none">${esc(t("offline"))}</option></select></label>`);
   ($("#cLink") as HTMLSelectElement).value = S.link;
   $("#panel").insertAdjacentHTML("afterbegin", `<label class="center"><span>${esc(t("bp_kind"))}</span> <select id="cKind">${KINDS.map((k) => `<option value="${k}"${k === PH.kind ? " selected" : ""}>${esc(t(k === "button-phone" ? "bp_kind_button" : k === "feature-phone" ? "bp_kind_feature" : "bp_kind_basic"))}</option>`).join("")}</select></label>`);
@@ -232,7 +241,7 @@ function panel(): void {
 function main(): void {
   S.country = DATA.packOrder[0] ?? ""; panel(); draw();
   document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (b) act(b.dataset["act"] ?? ""); });
-  $("#panel").addEventListener("change", (e) => { const el = e.target as HTMLSelectElement; if (el.id === "cKind") { PH.kind = KINDS.find((k) => k === el.value) ?? "button-phone"; PH.mode = "idle"; S.sel = 0; S.scr = "menu"; draw(); return; } if (el.id === "cLink") { S.link = el.value === "sms" ? "sms" : el.value === "none" ? "none" : "data"; draw(); return; } if (panelChange(el, S, DATA)) panel(); draw(); });
+  $("#panel").addEventListener("change", (e) => { const el = e.target as HTMLSelectElement & HTMLInputElement; if (el.id === "cTones") { TONES.tones = el.checked; return; } if (el.id === "cVibe") { TONES.vibration = el.checked; return; } if (el.id === "cKind") { PH.kind = KINDS.find((k) => k === el.value) ?? "button-phone"; PH.mode = "idle"; S.sel = 0; S.scr = "menu"; draw(); return; } if (el.id === "cLink") { S.link = el.value === "sms" ? "sms" : el.value === "none" ? "none" : "data"; draw(); return; } if (panelChange(el, S, DATA)) panel(); draw(); });
   document.addEventListener("keydown", (e) => { if (/^\d$/.test(e.key)) act(`d${e.key}`); else if (e.key === "Enter") act("call"); else if (e.key === "Escape" || e.key === "Backspace") act("end"); else if (e.key === "ArrowUp") act("nav:up"); else if (e.key === "ArrowDown") act("nav:down"); });
   window.setInterval(() => { S.ticks += 1; LOG.tick(S.link !== "none", S.link === "sms", S.ticks, () => undefined); }, 400);
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 300);
