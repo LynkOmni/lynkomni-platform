@@ -95,7 +95,8 @@
 .primary { min-height: 40px; border-radius: 10px; border: 0; background: var(--brand-primary); color: var(--on-brand); font: 600 13px var(--font-body); cursor: pointer; padding: 0 14px; }
 .primary.small { min-height: 32px; font-size: 12px; }
 .primary:disabled, button[disabled] { opacity: .5; cursor: not-allowed; }
-.link { background: transparent; border: 0; color: var(--brand-ink); font: 600 12px var(--font-body); cursor: pointer; min-height: 32px; }
+.link { background: transparent; border: 0; color: var(--brand-ink); font: 600 12px var(--font-body); cursor: pointer; min-height: 32px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.link .ic { width: 16px; height: 16px; flex: none; display: inline-flex; }   /* an icon in a text button keeps text size (the voice button's microphone filled the basket; owner, 19 November 2026) */
 .paybox { padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; height: 100%; overflow: auto; }
 .paybox.center { align-items: center; text-align: center; justify-content: center; }
 .paybox h2 { margin: 0; font-size: 20px; font-feature-settings: var(--font-feature-tabular); }
@@ -166,3 +167,14 @@ label input { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px s
 .lock:has(> .soft) { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 24px; row-gap: 6px; align-content: safe center; justify-items: center; padding: 8px 20px; box-sizing: border-box; }
 .lock:has(> .soft) > * { grid-column: 1; }
 .lock:has(> .soft) > .soft { grid-column: 2; grid-row: 1 / span 6; align-self: center; }
+/* The basket keeps the total, Sell by voice and Charge always in view; only the list of lines scrolls (owner, 19 November 2026). */
+.sell { min-height: 0; grid-template-rows: minmax(0, 1fr); }
+.sell > .basket { min-height: 0; overflow: hidden; }
+.basket ul { min-height: 0; }
+/* Sell by voice and Charge side by side under the total, so the basket lines keep room on the short tablet screen. The microphone
+   button carries its name for screen readers and as a tooltip. */
+.basket ul { min-height: 40px; }
+.bact { display: flex; gap: 6px; margin-block-start: 6px; }
+.bact .mic { flex: none; width: 44px; min-height: 44px; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--brand-ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+.bact .mic .ic { width: 20px; height: 20px; display: inline-flex; }
+.bact .primary { flex: 1; min-width: 0; margin: 0; }

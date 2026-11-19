@@ -168,7 +168,7 @@ function sellScreen(): string {
     <div class="pgrid">${items.map((p) => `<button class="prod${(S.levels[p.id] ?? 0) <= 0 ? " out" : ""}" data-act="add:${p.id}"><span class="nm">${esc(t(p.name))}</span><span class="pr">${esc(money(p.price))}</span><span class="lv">${esc(t("in_stock", { n: qtyText(S.levels[p.id] ?? 0) }))}</span></button>`).join("")}</div></div>
     <div class="basket"><h2>${esc(t("basket"))}</h2><ul>${S.cart.lines().map((l) => `<li><span class="nm">${esc(t(l.product.name))}</span><span class="q"><button data-act="minus:${l.product.id}" aria-label="${esc(t("cancel"))}">${icon("ui-minus")}</button>${qtyText(l.qtyMilli)}<button data-act="add:${l.product.id}" aria-label="${esc(t("next"))}">${icon("ui-plus")}</button></span><span class="pr">${esc(money(l.product.price * l.qtyMilli / 1000))}</span></li>`).join("") || `<li class="empty">${esc(t("new_sale"))}</li>`}</ul>
     <div class="tot"><span>${esc(t("total"))}</span><strong>${esc(money(total()))}</strong></div>${second ? `<p class="second">${esc(t("second_currency", { amount: C.money(second.amount, second.currency), currency: cur }))}</p>` : ""}
-    <button class="link" data-act="voice">${icon("ui-mic")} ${esc(t("voice"))}</button><button class="primary" data-act="charge" ${S.cart.lines().length ? "" : "disabled"}>${esc(t("charge"))}</button></div></div>`;
+    <div class="bact"><button class="mic" data-act="voice" aria-label="${esc(t("voice"))}" title="${esc(t("voice"))}">${icon("ui-mic")}</button><button class="primary" data-act="charge" ${S.cart.lines().length ? "" : "disabled"}>${esc(t("charge"))}</button></div></div></div>`;
 }
 function payScreen(): string {
   const methods: PaymentMethod[] = ["cash", "card", "mobile_money", "bank_transfer"];
