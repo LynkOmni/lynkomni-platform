@@ -36,6 +36,7 @@
   "give out a PIN, face or finger pattern, IDCN or ID number",
   "say who gave an anonymous answer"
  ],
+ "tracking_rule": "Every service that owns a tracked kind in catalog/tracking.v1.json shows its steps through its own API: the scope tracking.read gives the record's steps in the five user states (queued, sent, accepted, confirmed, failed) and tracking.events sends a notice at each step reached. Only what that viewer may see: an outside app gets the customer view (customer steps only, never an id beyond the record's own, an address, a phone number, a rider's identity or a position; live progress only as a share of the trip). Personal account trackers (family platform: registration, recovery, data requests, payout changes) are never in an API. Added 2026-11-19 (owner); a new tracked kind is added to its service's tracks in the same change (tests/test_apis.py).",
  "apis": [
   {
    "id": "pos",
@@ -49,9 +50,20 @@
     "catalog.write",
     "orders.write",
     "sales.read",
-    "shifts.read"
+    "shifts.read",
+    "tracking.read",
+    "tracking.events"
    ],
-   "own_account": true
+   "own_account": true,
+   "tracks": [
+    "delivery",
+    "order",
+    "agent_request",
+    "lease",
+    "emulator_request",
+    "device_swap",
+    "device_reapproval"
+   ]
   },
   {
    "id": "accounting",
@@ -63,9 +75,15 @@
    "scopes": [
     "books.read",
     "journal.draft",
-    "reports.read"
+    "reports.read",
+    "tracking.read",
+    "tracking.events"
    ],
-   "own_account": true
+   "own_account": true,
+   "tracks": [
+    "payout",
+    "tax_return"
+   ]
   },
   {
    "id": "invoicing",
@@ -77,9 +95,15 @@
    "scopes": [
     "invoices.read",
     "invoices.write",
-    "credit_notes.write"
+    "credit_notes.write",
+    "tracking.read",
+    "tracking.events"
    ],
-   "own_account": true
+   "own_account": true,
+   "tracks": [
+    "invoice",
+    "quote"
+   ]
   },
   {
    "id": "crm",
@@ -91,9 +115,14 @@
    "scopes": [
     "contacts.read",
     "contacts.write",
-    "tasks.write"
+    "tasks.write",
+    "tracking.read",
+    "tracking.events"
    ],
-   "own_account": true
+   "own_account": true,
+   "tracks": [
+    "repair"
+   ]
   },
   {
    "id": "stock",
@@ -106,9 +135,14 @@
     "stock.read",
     "stock.hold",
     "transfers.write",
-    "reorders.draft"
+    "reorders.draft",
+    "tracking.read",
+    "tracking.events"
    ],
-   "own_account": true
+   "own_account": true,
+   "tracks": [
+    "group_order"
+   ]
   },
   {
    "id": "rewards",
@@ -172,9 +206,15 @@
    "scopes": [
     "payments.request",
     "payments.read",
-    "refunds.request"
+    "refunds.request",
+    "tracking.read",
+    "tracking.events"
    ],
-   "own_account": true
+   "own_account": true,
+   "tracks": [
+    "payment",
+    "financing"
+   ]
   },
   {
    "id": "recovery",
@@ -198,9 +238,15 @@
    "build_section": 7,
    "scopes": [
     "paylinks.write",
-    "paylinks.read"
+    "paylinks.read",
+    "tracking.read",
+    "tracking.events"
    ],
-   "own_account": true
+   "own_account": true,
+   "tracks": [
+    "standing_payment",
+    "collection"
+   ]
   },
   {
    "id": "assistant",
@@ -416,9 +462,14 @@
     "checkins.read",
     "visitors.read",
     "hours.read",
-    "webhooks"
+    "webhooks",
+    "tracking.read",
+    "tracking.events"
    ],
-   "own_account": true
+   "own_account": true,
+   "tracks": [
+    "attendance_correction"
+   ]
   },
   {
    "id": "queue",
@@ -432,9 +483,14 @@
     "tickets.read",
     "tickets.write",
     "waits.read",
-    "webhooks"
+    "webhooks",
+    "tracking.read",
+    "tracking.events"
    ],
-   "own_account": true
+   "own_account": true,
+   "tracks": [
+    "queue_ticket"
+   ]
   },
   {
    "id": "survey",
@@ -448,9 +504,14 @@
     "surveys.write",
     "answers.read",
     "results.read",
-    "webhooks"
+    "webhooks",
+    "tracking.read",
+    "tracking.events"
    ],
-   "own_account": true
+   "own_account": true,
+   "tracks": [
+    "survey_reward"
+   ]
   },
   {
    "id": "exchange",

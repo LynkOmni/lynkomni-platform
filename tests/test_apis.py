@@ -27,6 +27,29 @@ class Apis(unittest.TestCase):
         for k in R["usage_kinds"]["tracking_and_maps"].split(", "):
             self.assertIn(k, billing.API_PRICES)
 
+    def test_every_tracked_kind_shows_its_steps_through_its_services_api(self):
+        """Owner, 2026-11-19: a service that owns a tracker gives its steps (tracking.read) and a notice at each step
+        (tracking.events) through its own API; personal account trackers are never in an API."""
+        T = json.load(open(os.path.join(ROOT, "catalog", "tracking.v1.json"), encoding="utf-8"))
+        self.assertIn("tracking.read", R["tracking_rule"])
+        tracks = {k: a for a in R["apis"] for k in a.get("tracks", [])}
+        listed = [k for a in R["apis"] for k in a.get("tracks", [])]
+        self.assertEqual(len(listed), len(set(listed)), "a tracked kind belongs to one API")
+        kinds = {k["id"]: k for k in T["kinds"]}
+        for kid, k in kinds.items():
+            if k["family"] == "platform":
+                self.assertNotIn(kid, tracks, f"{kid} is a personal account tracker and never in an API")
+                continue
+            self.assertIn(kid, tracks, f"{kid}: its service's API must show its steps")
+            self.assertEqual(tracks[kid]["family"], k["family"], kid)
+        for kid in tracks:
+            self.assertIn(kid, kinds, f"{kid} is not a tracked kind")
+        for a in R["apis"]:
+            has = {"tracking.read", "tracking.events"} & set(a["scopes"])
+            self.assertEqual(bool(a.get("tracks")), bool(has), a["id"])
+            if a.get("tracks"):
+                self.assertEqual(has, {"tracking.read", "tracking.events"}, a["id"])
+
     def test_own_account_access_follows_the_plan(self):
         self.assertEqual(billing.API_OWN_ACCOUNT, {"pro": ("read", "webhooks"), "max": ("read", "write", "webhooks")})
 
