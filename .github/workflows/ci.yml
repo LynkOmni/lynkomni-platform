@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy: {fail-fast: false, matrix: {part: [1, 2, 3, 4, 5, 6, 7, 8]}}
     env: {LAYOUT_SHARD: "${{ matrix.part }}/8"}
-    steps: [{uses: actions/checkout@v7}, {uses: actions/setup-python@v7, with: {python-version: "3.12"}}, {name: fonts and browser (retried, so a short outage of the package servers never fails the check), run: "for i in 1 2 3 4 5; do sudo apt-get update -q -o Acquire::Retries=5 && sudo apt-get install -y -o Acquire::Retries=5 fonts-noto-core fonts-noto-cjk && pip install playwright && python -m playwright install --with-deps chromium && exit 0; echo retry $i; sleep 30; done; exit 1"}, {run: python -m unittest tests.test_layout_i18n}, {if: "matrix.part == 1", run: python -m unittest tests.test_speed_budget}]
+    steps: [{uses: actions/checkout@v7}, {uses: actions/setup-python@v7, with: {python-version: "3.12"}}, {name: "fonts and browser, retried so a short outage of the package servers never fails the check", run: "for i in 1 2 3 4 5; do sudo apt-get update -q -o Acquire::Retries=5 && sudo apt-get install -y -o Acquire::Retries=5 fonts-noto-core fonts-noto-cjk && pip install playwright && python -m playwright install --with-deps chromium && exit 0; echo retry $i; sleep 30; done; exit 1"}, {run: python -m unittest tests.test_layout_i18n}, {if: "matrix.part == 1", run: python -m unittest tests.test_speed_budget}]
   layout:                      # one result for the whole layout check: green only when all 8 parts are green
     if: always()
     needs: layout-part
