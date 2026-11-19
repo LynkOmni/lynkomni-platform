@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.51.1 (2026-11-19)
+Fixes the owner found on a phone, and a check so they cannot come back:
+- Newsletter sign-up in the main footer (every page that has it): the agreement line, the Subscribe button and the note under it touched each other. They now have clear space between them.
+- Account sign-in: the "Sign in with a passkey" and "Use another way" buttons touched the line explaining them. Found by the new check and fixed.
+- "Find or do anything" (search): the "Ask LynkAssist" button touched the keyboard tip under it. Found by the new check and fixed.
+- New rule in tests/test_fit_guard.py (layout job): on every emulator, at every size, in every state and pop-up, a button never touches the text right above or below it (at least 4 px). It fails on the old code.
+
 ## v0.51.0 (2026-11-19)
 WhatsApp is removed from the whole LynkOmni ecosystem (owner decision, 2026-11-19), so LynkOmni stays focused on its own system:
 - LynkAttend: the PIN and IDCN go by email, LynkChat or text message; the WhatsApp choice is gone from the manager's screens.

@@ -435,6 +435,7 @@ html { font-size: 100%; }
 .suggested { margin-inline-start: auto; color: var(--text-secondary); font-size: var(--text-12); }
 .assist-hand { flex-wrap: wrap; }
 .kbd { margin-block-start: 8px; color: var(--text-secondary); font-size: var(--text-12); }
+.command-bar > .kbd { margin-block-start: 8px; }   /* a page's own paragraph reset must not glue the tip to the Ask LynkAssist button (owner report 2026-11-19) */
 .articles a { display: flex; align-items: center; gap: 10px; min-height: var(--touch-target); padding: 4px 8px; border-radius: 10px; color: var(--text-primary); }
 .articles a:hover { background: var(--bg-subtle); }
 .help-steps { display: grid; gap: 8px; margin-block: 12px; }
@@ -580,6 +581,9 @@ html { font-size: 100%; }
 .ftopic input, .fconsent input { inline-size: 20px; block-size: 20px; flex: none; accent-color: var(--brand-primary); }
 .fnews button { min-height: 44px; padding: 0 20px; border: 0; border-radius: 8px; background: var(--brand-primary); color: var(--on-brand); font: 600 14px var(--font-body); cursor: pointer; }
 .fnote { font-size: 13px; }
+/* breathing room: the agreement line, the Subscribe button and the note never touch (owner report 2026-11-19) */
+.fnews .fconsent { margin-block: 4px 12px; }
+.mainfoot .fnews .fnote { margin-block-start: 8px; }
 .flegal { margin-block-start: 24px; padding-block-start: 16px; border-block-start: 1px solid var(--border-subtle); display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; justify-content: space-between; }
 .flegal ul { display: flex; flex-wrap: wrap; gap: 0 16px; }
 .mainfoot .fcopy { margin: 0; color: var(--text-secondary); font-size: 13px; overflow-wrap: anywhere; }
@@ -855,6 +859,8 @@ button, input, select { font: inherit; color: inherit; }
 .auth h1 { font: 700 var(--text-24) var(--font-heading); margin: 0 0 6px; overflow-wrap: anywhere; }
 .auth .lead { color: var(--text-secondary); margin: 0 0 14px; }
 .auth .primary, .auth .secondary { width: 100%; margin-block-start: 8px; }
+/* the line explaining a button sits a little apart from it (owner report 2026-11-19) */
+.auth :is(.primary, .secondary) + :is(p, .muted) { margin-block-start: 6px; }
 .auth .field { margin-block-start: 12px; }
 .auth .warn, .auth .okbox, .auth .assist, .auth .codebox, .auth h2 { margin-block-start: 12px; }
 .auth h2 { font-size: var(--text-16); margin-block-end: 6px; }

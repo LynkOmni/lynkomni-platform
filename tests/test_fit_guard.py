@@ -77,6 +77,29 @@ DIALOGS = "() => {" + VISIBLE + """
   return [...new Set(bad)];
 }"""
 
+# A button never touches the text right above or below it (owner report 2026-11-19: the newsletter's agreement line, Subscribe
+# button and note were stuck together, and so were the sign-in buttons and their notes): at least 4 px between them.
+CROWD = """() => {
+  const bad = new Set();
+  const shown = (e) => e && e.getClientRects().length && getComputedStyle(e).visibility !== 'hidden';
+  for (const b of document.querySelectorAll('button, [role="button"]')) {
+    if (!shown(b)) continue;
+    const root = b.closest('[data-device-class]') || b.closest('#display, #screen'); if (!root) continue;
+    const k = root.offsetHeight ? root.getBoundingClientRect().height / root.offsetHeight : 1;
+    const r = b.getBoundingClientRect(); if (r.height < 20) continue;
+    for (const sib of [b.previousElementSibling, b.nextElementSibling]) {
+      if (!sib || !shown(sib) || sib.matches('button, [role="button"], input, select, textarea, script, style')) continue;
+      if (!(sib.textContent || '').trim()) continue;
+      const s = sib.getBoundingClientRect();
+      const overlapX = Math.min(r.right, s.right) - Math.max(r.left, s.left) > 0;
+      if (!overlapX) continue;
+      const gap = (s.top >= r.bottom ? s.top - r.bottom : r.top >= s.bottom ? r.top - s.bottom : -1) / k;
+      if (gap >= 0 && gap < 4) bad.add('button touches text: "' + (b.innerText || '').trim().slice(0, 25) + '" / "' + (sib.innerText || '').trim().slice(0, 25) + '"');
+    }
+  }
+  return [...bad];
+}"""
+
 INPUT = """() => {
   const bad = [];
   for (const el of document.querySelectorAll('[data-interface]')) {
@@ -130,7 +153,7 @@ class BrowserTestsRun(unittest.TestCase):
 class FitGuard(unittest.TestCase):
     def check(self, pg, where, found):
         pg.evaluate(SETTLE)
-        bad = list(pg.evaluate(MENUS)) + list(pg.evaluate(DIALOGS)) + list(pg.evaluate(INPUT))
+        bad = list(pg.evaluate(MENUS)) + list(pg.evaluate(DIALOGS)) + list(pg.evaluate(INPUT)) + list(pg.evaluate(CROWD))
         if bad:
             found[where] = bad
 
@@ -187,7 +210,8 @@ class FitGuard(unittest.TestCase):
 
     def test_no_raw_word_names_on_any_screen(self):
         """Every screen of every emulator (each state button and each tab, view or choice it offers), in English: no raw word name
-        such as "ppl_at_way_whatsapp" is ever shown, in text or in a label read aloud (owner report 2026-11-19)."""
+        such as "ppl_at_way_whatsapp" is ever shown, in text or in a label read aloud, and no button touches the text beside it
+        (owner reports 2026-11-19)."""
         found = {}
         with sync_playwright() as p:
             b = p.chromium.launch()
@@ -197,7 +221,7 @@ class FitGuard(unittest.TestCase):
                 pg.goto("file://" + f); pg.wait_for_timeout(300)
                 def look(where):
                     pg.evaluate(SETTLE)
-                    bad = pg.evaluate(RAW)
+                    bad = pg.evaluate(RAW) + pg.evaluate(CROWD)
                     if bad:
                         found.setdefault(emu, {})[where] = bad
                 look("start")
