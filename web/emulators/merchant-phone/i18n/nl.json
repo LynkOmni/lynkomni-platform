@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "e788bc5ce3d20b41ea03dbe469a27bbd1703ee92bfcedd7dda92b868c5d19356",
+ "source_sha256": "05b59c42f3f32611120f39ae571a061949f5fad9c0548f698083fd2337e04c13",
  "texts": {
   "account": "Account",
   "active": "Actief",
@@ -778,7 +778,7 @@
   "why_low_stock_reorder": "Sommige producten bereikten hun nabestelniveau, dus er is een conceptbestelling gemaakt. Er wordt niets verzonden totdat je bevestigt.",
   "why_negative_stock_flag": "Een verkoop bracht een product onder nul. De verkoop ging door; tel het product om het te corrigeren.",
   "wipe_help": "Een ingetrokken apparaat stopt meteen met werken en de gegevens worden gewist zodra het weer verbinding maakt.",
-  "works_anywhere": "Werkt met of zonder internet.",
+  "works_anywhere": "Eén app voor je bedrijf, je geld en je dagelijks leven, met of zonder internet.",
   "write_message": "Schrijf een bericht",
   "wrong_code": "Onjuiste code. Probeer opnieuw.",
   "your_data_yours": "Je gegevens zijn van jou. Exporteer ze op elk moment.",

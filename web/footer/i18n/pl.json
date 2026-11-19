@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pl",
  "native": "Polski",
- "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
+ "source_sha256": "bdf91495b8262e210e77b0b2a251b1b34c70d94abd4c2776e78bdf1ec47299bf",
  "texts": {
   "ft_about": "O nas",
   "ft_accessibility": "Dostępność",
@@ -112,7 +112,7 @@
   "ft_tDev": "Nowości dla programistów",
   "ft_tMerchant": "Porady dla sprzedawców",
   "ft_tProduct": "Nowości w produktach",
-  "ft_tagline": "Działa z internetem i bez niego.",
+  "ft_tagline": "Prowadź wszystko. Wszędzie. Bez przerwy.",
   "ft_terms": "Regulamin",
   "ft_trust": "Bezpieczeństwo i zaufanie",
   "ft_vuln": "Zgłoś lukę w zabezpieczeniach",

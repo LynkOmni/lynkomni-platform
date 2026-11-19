@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "es",
  "native": "Español",
- "source_sha256": "e788bc5ce3d20b41ea03dbe469a27bbd1703ee92bfcedd7dda92b868c5d19356",
+ "source_sha256": "05b59c42f3f32611120f39ae571a061949f5fad9c0548f698083fd2337e04c13",
  "texts": {
   "account": "Cuenta",
   "active": "Activo",
@@ -778,7 +778,7 @@
   "why_low_stock_reorder": "Algunos productos llegaron a su nivel de pedido, así que se preparó un borrador. No se envía nada hasta que confirmes.",
   "why_negative_stock_flag": "Una venta dejó un producto bajo cero. La venta se hizo; cuenta el producto para corregirlo.",
   "wipe_help": "Un dispositivo revocado deja de funcionar al instante y sus datos se borran la próxima vez que se conecte.",
-  "works_anywhere": "Funciona con o sin internet.",
+  "works_anywhere": "Una app para gestionar tu negocio, tu dinero y tu día a día, con o sin internet.",
   "write_message": "Escribe un mensaje",
   "wrong_code": "Código incorrecto. Inténtalo de nuevo.",
   "your_data_yours": "Tus datos son tuyos. Expórtalos cuando quieras.",

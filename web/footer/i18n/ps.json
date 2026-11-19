@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ps",
  "native": "پښتو",
- "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
+ "source_sha256": "bdf91495b8262e210e77b0b2a251b1b34c70d94abd4c2776e78bdf1ec47299bf",
  "texts": {
   "ft_about": "زموږ په اړه",
   "ft_accessibility": "لاسرسی",
@@ -112,7 +112,7 @@
   "ft_tDev": "د پراختیاوونکو خبرونه",
   "ft_tMerchant": "سوداګرو ته لارښوونې",
   "ft_tProduct": "د محصول تازه معلومات",
-  "ft_tagline": "له انټرنېټ سره او بې له هغه کار کوي.",
+  "ft_tagline": "هر څه چلوئ. هر ځای کې. بې دمه.",
   "ft_terms": "شرطونه",
   "ft_trust": "امنیت او باور",
   "ft_vuln": "د امنیتي کمزورۍ راپور ورکړئ",

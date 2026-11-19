@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
+ "source_sha256": "bdf91495b8262e210e77b0b2a251b1b34c70d94abd4c2776e78bdf1ec47299bf",
  "texts": {
   "ft_about": "Kuhusu sisi",
   "ft_accessibility": "Ufikiaji",
@@ -112,7 +112,7 @@
   "ft_tDev": "Habari kwa wasanidi",
   "ft_tMerchant": "Vidokezo kwa wafanyabiashara",
   "ft_tProduct": "Habari za bidhaa",
-  "ft_tagline": "Inafanya kazi na au bila intaneti.",
+  "ft_tagline": "Endesha kila kitu. Popote. Bila kusimama.",
   "ft_terms": "Masharti",
   "ft_trust": "Usalama na uaminifu",
   "ft_vuln": "Ripoti udhaifu wa kiusalama",

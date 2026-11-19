@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
+ "source_sha256": "bdf91495b8262e210e77b0b2a251b1b34c70d94abd4c2776e78bdf1ec47299bf",
  "texts": {
   "ft_about": "회사 소개",
   "ft_accessibility": "접근성",
@@ -112,7 +112,7 @@
   "ft_tDev": "개발자 소식",
   "ft_tMerchant": "판매자 팁",
   "ft_tProduct": "제품 소식",
-  "ft_tagline": "인터넷이 있든 없든 작동합니다.",
+  "ft_tagline": "모든 것을 운영하세요. 어디서나. 멈춤 없이.",
   "ft_terms": "약관",
   "ft_trust": "보안 및 신뢰",
   "ft_vuln": "보안 취약점 신고",

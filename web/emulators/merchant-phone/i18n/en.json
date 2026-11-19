@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "en",
  "native": "English",
- "source_sha256": "e788bc5ce3d20b41ea03dbe469a27bbd1703ee92bfcedd7dda92b868c5d19356",
+ "source_sha256": "05b59c42f3f32611120f39ae571a061949f5fad9c0548f698083fd2337e04c13",
  "texts": {
   "account": "Account",
   "active": "Active",
@@ -778,7 +778,7 @@
   "why_low_stock_reorder": "Some products reached their reorder level, so a draft order was made. Nothing is sent until you confirm.",
   "why_negative_stock_flag": "A sale took a product below zero. The sale went through; count the product to correct it.",
   "wipe_help": "A revoked device stops working at once and its data is wiped the next time it connects.",
-  "works_anywhere": "Works with or without internet.",
+  "works_anywhere": "One app to run your business, money and daily life, with or without internet.",
   "write_message": "Write a message",
   "wrong_code": "Wrong code. Try again.",
   "your_data_yours": "Your data is yours. Export it at any time.",

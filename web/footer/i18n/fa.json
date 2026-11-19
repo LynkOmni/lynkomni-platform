@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fa",
  "native": "فارسی",
- "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
+ "source_sha256": "bdf91495b8262e210e77b0b2a251b1b34c70d94abd4c2776e78bdf1ec47299bf",
  "texts": {
   "ft_about": "درباره ما",
   "ft_accessibility": "دسترس‌پذیری",
@@ -112,7 +112,7 @@
   "ft_tDev": "تازه‌های توسعه‌دهندگان",
   "ft_tMerchant": "نکته‌هایی برای فروشندگان",
   "ft_tProduct": "تازه‌های محصول",
-  "ft_tagline": "با اینترنت یا بدون آن کار می‌کند.",
+  "ft_tagline": "همه‌چیز را اداره کنید. هر جا. بی‌وقفه.",
   "ft_terms": "شرایط",
   "ft_trust": "امنیت و اعتماد",
   "ft_vuln": "گزارش آسیب‌پذیری",

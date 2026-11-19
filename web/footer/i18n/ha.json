@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
+ "source_sha256": "bdf91495b8262e210e77b0b2a251b1b34c70d94abd4c2776e78bdf1ec47299bf",
  "texts": {
   "ft_about": "Game da mu",
   "ft_accessibility": "Samun dama",
@@ -112,7 +112,7 @@
   "ft_tDev": "Labarai ga masu haɓaka manhaja",
   "ft_tMerchant": "Shawarwari ga 'yan kasuwa",
   "ft_tProduct": "Sabbin kayayyaki",
-  "ft_tagline": "Yana aiki da intanet ko ba tare da shi ba.",
+  "ft_tagline": "Gudanar da komai. A ko'ina. Ba tsayawa.",
   "ft_terms": "Sharuɗɗa",
   "ft_trust": "Tsaro da amana",
   "ft_vuln": "Bayar da rahoton rauni",
