@@ -3,7 +3,7 @@ NEW UPDATE 1, owner approved 2026-11-10) is built right after section 7 and befo
 "8B" and "9B" (SIX SERVICES UPDATE) joined the same way. Every register that names a build section (automations, placements,
 APIs, tracking kinds) takes its value from this list.
 
-The thirteen "where every part is built" tables of the master blueprint (64.11 to 76.8) live in catalog/build-tables.v1.json.
+The "where every part is built" tables of the master blueprint (64.11 onward) live in catalog/build-tables.v1.json.
 A build section is not locked until every row naming it is done there (blueprint 44 L; tests/test_build_tables.py)."""
 import json, os
 
@@ -27,7 +27,7 @@ def status(n):
 
 
 def parts(n):
-    """Every row of the thirteen tables that names section n, as (table id, update, row)."""
+    """Every row of the tables that names section n, as (table id, update, row)."""
     return [(t["id"], t["update"], r) for t in TABLES for r in t["rows"] if str(n) in r["sections"]]
 
 

@@ -2,6 +2,16 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.52.0 (2026-11-19)
+ADS UPDATE, the groundwork (owner request; master blueprint section 77):
+- One ads register, catalog/ads.v1.json, now lists every place an ad may appear. It is an allow-list: a screen not listed there never shows an ad. It also holds the protected screens (payments, cards, exchange, agent services, sign-in, security, signatures, LynkAssist answers, notifications, messages, children's and household places and more), the categories, caps, the "really seen" rule, the controls and the revenue streams with their build sections.
+- The ads service follows the register. An impression counts only when at least half the ad was on screen for a second; a device can count at most 6 an hour; clicks and redemptions count only after a counted impression.
+- Merchants decide: receipts, the customer display, in-store screens and offers show ads only after the merchant switches them on, and the merchant earns the share there. Merchants can block an advertiser or a competitor and see their ad earnings.
+- People decide: every ad has Why am I seeing this? (never anything about the person) and Report this ad; reports from three shops pause a campaign for a person's review.
+- Useful beats loud: an ad that matches the screen's subject ranks twice as high. Advertisers see totals only, and nothing below 5.
+- New categories: get-rich-quick, unlicensed finance, counterfeits, surveillance tools and hate are always refused; alcohol, dating, diet and body image, energy drinks and cosmetic procedures only where the country allows them and never for children; health and medicine need a licensed advertiser.
+- The "where every part is built" table 77.9 is added to the build tables. Every price, share and revenue figure for ads stays a placeholder and an assumption.
+
 ## v0.51.2 (2026-11-19)
 Tracking through every service's API (owner request):
 - Every service that has a tracker now shows its steps through its own API: tracking.read gives a record's steps in the five states (queued, sent, accepted, confirmed, failed) and tracking.events sends a notice at each step. Added for LynkPOS (orders, deliveries, leases, agent requests, device requests), LynkAcc (payouts, tax returns), LynkInv (invoices, quotes), LynkCRM (repairs), LynkStock (group orders), LynkMPay (payments, financing), LynkCheckout (standing payments, collections), LynkAttend, LynkQueue and LynkSurvey.

@@ -48,8 +48,10 @@ class T(unittest.TestCase):
 
     def test_offline_bundle_sync_and_billing_with_merchant_share(self):
         os.environ["LYNK_MODE"] = "sandbox"; cid, _ = self.camp(price_minor=1000000)       # 1,000 RWF per impression
+        self.assertEqual(len(self.a.bundle("m1", ["receipt_footer", "pos_idle"])), 1)       # the receipt waits for the merchant's yes
+        self.a.set_hosting("m1", "receipt_footer")
         bundle = self.a.bundle("m1", ["receipt_footer", "pos_idle"]); self.assertEqual(len(bundle), 2)
-        evs = [{"id": f"i{i}", "type": "ad.impression", "payload": {"campaign_id": cid, "surface": "receipt_footer"}, "ts": ts()} for i in range(7)]
+        evs = [{"id": f"i{i}", "type": "ad.impression", "payload": {"campaign_id": cid, "surface": "receipt_footer", "visible_pct": 100, "visible_ms": 1500}, "ts": ts()} for i in range(7)]
         r = self.p.sync("m1", "d1", evs); self.assertEqual(r["accepted"], 7)
         self.assertEqual(self.a.report(cid)["impressions"], 5)                              # 2 beyond the daily cap are not billable
         s = self.a.settle(cid); self.assertEqual(s["settled_minor"], 5000)
@@ -64,10 +66,14 @@ class T(unittest.TestCase):
         os.environ["LYNK_MODE"] = "sandbox"; cid, _ = self.camp(model="cpa", price_minor=500)
         self.a.conversion("m1", cid, "loyalty_offer"); self.assertEqual(self.a.settle(cid)["settled_minor"], 0)   # no impression, not billable
         self.a.impression("m1", "d", cid, "loyalty_offer"); self.a.conversion("m1", cid, "loyalty_offer")
+        self.assertEqual(self.a.settle(cid)["settled_minor"], 0)                                 # an impression nobody saw does not count
+        self.a.impression("m1", "d", cid, "loyalty_offer", visible_pct=60, visible_ms=1200); self.a.conversion("m1", cid, "loyalty_offer")
         self.assertEqual(self.a.settle(cid)["settled_minor"], 500)
 
     def test_receipt_footer_is_labeled_and_last(self):
         os.environ["LYNK_MODE"] = "sandbox"; self.camp()
+        self.assertIsNone(self.a.receipt_footer("m1", "fr"))                                   # off until the merchant hosts it
+        self.a.set_hosting("m1", "receipt_footer")
         foot = self.a.receipt_footer("m1", "fr"); self.assertEqual(foot["label"], "Sponsoris\u00e9")
         sale = {"items": [{"sku": "x", "qty": 1, "price_minor": 100}], "total_minor": 100, "currency": "RWF"}
         txt = receipt_text(sale, ts(), "RW", "fr", ad=foot)

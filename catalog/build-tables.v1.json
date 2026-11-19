@@ -1,6 +1,6 @@
 {
  "version": 1,
- "description": "The thirteen \"where every part is built\" tables of the master blueprint (sections 64.11 to 76.8), one row per line of each table. A row names its build sections; \"done\" maps a section to the version that finished that row's part there, \"progress\" lists what is already in place while the section is being built, and \"nothing\" marks a line with no part. A build section is not locked until every row naming it is done there (tests/test_build_tables.py). Change a row only by the blueprint.",
+ "description": "The \"where every part is built\" tables of the master blueprint (sections 64.11 onward), one row per line of each table. A row names its build sections; \"done\" maps a section to the version that finished that row's part there, \"progress\" lists what is already in place while the section is being built, and \"nothing\" marks a line with no part. A build section is not locked until every row naming it is done there (tests/test_build_tables.py). Change a row only by the blueprint.",
  "tables": [
   {
    "id": "64.11",
@@ -1197,6 +1197,108 @@
       "14"
      ],
      "part": "The phone apps: native turning, foldable postures, camera and scanning in both directions, the store-app settings",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "77.9",
+   "update": "ADS UPDATE",
+   "blueprint_section": 77,
+   "rows": [
+    {
+     "sections": [
+      "3",
+      "3B",
+      "3A"
+     ],
+     "part": "No change when they were built; their ad places are re-tested in section 4",
+     "nothing": true
+    },
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "The groundwork (register, rules, tests); the LynkStat ad card on Free; ad earnings posted as income in LynkAcc; the hosting switches, advertiser and category blocks and the earnings card in Business app settings; the till's idle and after-sale ad states and the labelled receipt line on the emulators",
+     "done": {},
+     "progress": {
+      "4": [
+       "v0.52.0: the groundwork: the ads register (catalog/ads.v1.json) as an allow-list of places, the ads service following it (seen-only impressions, the device-hour cap, the merchant's hosting switch for customer-facing places, advertiser blocking, relevance ranking, Why am I seeing this?, Report this ad with a pause after three shops, totals hidden below 5, age-sensitive categories, no ads for children or households) and its tests"
+      ]
+     }
+    },
+    {
+     "sections": [
+      "4B",
+      "7B",
+      "8B",
+      "9B",
+      "10"
+     ],
+     "part": "No ad places (LynkFiles, LynkHR, LynkProject, LynkMotion, LynkGuard, LynkJobs, LynkSchool, LynkProperty and Exchange screens never show ads)",
+     "nothing": true
+    },
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "The Advertise with LynkOmni page, the ad policy page, house ads for LynkOmni's own services on Free, the Sponsored label and Why am I seeing this? on the website",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Help articles about ads, the Report this ad desk in support and the advertiser support desk",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "Sponsored rows on Explore and shop search, category sponsors, Promote my shop on the Storefront, supplier products at reorder (LynkStock Free), brand-funded offers redeemed at the till (LynkRewards), and the person controls in the customer app",
+     "done": {}
+    },
+    {
+     "sections": [
+      "8"
+     ],
+     "part": "Sponsored stays, trips and events for LynkBooking Pass Free members",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9"
+     ],
+     "part": "The labelled offer card on LynkEssential Free",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "The advertiser API in LynkDev (campaigns and totals) in the API register",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "The advertiser portal, the advert review screen and advertiser invoices (with 67.17); the invalid-traffic desk; pacing, budget and earnings automations in the register; ad events in the next contract version; ad totals in the Control Center; agencies and verification partners through the Partner Hub; the ad streams in the revenue model as assumptions",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "Ads on the customer display while no sale is open and the LynkDScreen screen network that merchants choose to join",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Legal sign-off per country, the outside verification partner, the human security review of ad money, and the native apps' ad places",
      "done": {}
     }
    ]

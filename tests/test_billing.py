@@ -97,6 +97,8 @@ class T(unittest.TestCase):
     def test_ads_depend_on_each_products_tier(self):
         os.environ["LYNK_MODE"] = "sandbox"; a = self.p.ads
         cid = a.create_campaign("TelcoX", "telecom", {"en": "Bonus"}, ["RW"], "cpm", 1000, 100000, "RWF"); a.review(cid)
+        self.assertIsNone(a.select("a", "receipt_footer"))                                                      # receipts wait for the merchant's yes (ADS UPDATE)
+        a.set_hosting("a", "receipt_footer")
         self.assertIsNotNone(a.select("a", "receipt_footer")); self.assertIsNotNone(a.select("a", "dashboard_card"))
         self.b.set_plan("a", "lynkpos", "plus")
         self.assertIsNone(a.select("a", "receipt_footer")); self.assertIsNotNone(a.select("a", "dashboard_card"))    # only POS surfaces lose ads
