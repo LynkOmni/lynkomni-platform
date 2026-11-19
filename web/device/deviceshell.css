@@ -14,6 +14,11 @@
 .dsh-field span { overflow-wrap: anywhere; }
 .dsh-scrim { position: absolute; inset: 0; z-index: 40; display: flex; align-items: flex-end; justify-content: center; background: color-mix(in srgb, var(--text-primary) 40%, transparent); }
 .dsh-panel { position: relative; width: min(100%, 520px); max-height: 92%; overflow-y: auto; padding: 16px; border-radius: 18px 18px 0 0; background: var(--bg-surface); color: var(--text-primary); font: 14px/1.4 var(--font-body); box-sizing: border-box; }
+/* a phone slides the sheet up from the bottom; a wider screen (tablet, computer) shows a dialog in the middle with
+   every corner rounded (owner report 2026-11-19: on the laptop the card looked cut off at the bottom) */
+/* (device class from the screen root, never the browser; a container query here broke tapping inside a scaled screen) */
+[data-device-class]:not([data-device-class="phone"]):not([data-device-class="watch"]) .dsh-scrim { align-items: center; padding: 24px; }
+[data-device-class]:not([data-device-class="phone"]):not([data-device-class="watch"]) .dsh-panel { align-self: center; max-height: 100%; border-radius: 18px; box-shadow: 0 16px 40px -16px color-mix(in srgb, var(--text-primary) 45%, transparent); }
 .dsh-panel h2 { margin: 0 0 8px; padding-inline-end: 44px; font: 700 17px/1.3 var(--font-heading); overflow-wrap: anywhere; }
 .dsh-panel p, .dsh-panel span, .dsh-panel dd, .dsh-panel dt, .dsh-panel a, .dsh-panel button, .dsh-panel code { overflow-wrap: anywhere; }
 .dsh-x { position: absolute; inset-block-start: 8px; inset-inline-end: 8px; min-width: 44px; min-height: 44px; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }

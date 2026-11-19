@@ -48,15 +48,20 @@
 .shell-main { flex: 1; min-width: 0; padding: 16px; max-width: 1440px; }
 .shell-nav { display: flex; background: var(--bg-surface); }
 .shell-nav.tabs { position: sticky; inset-block-end: 0; justify-content: space-around; border-block-start: 1px solid var(--border-subtle); padding: 4px 0 6px; }
-.shell-nav.tabs .navitem { flex: 1; flex-direction: column; gap: 2px; font-size: var(--text-12); }
-.shell-nav.rail { flex-direction: column; width: 76px; padding: 8px 4px; gap: 4px; border-inline-end: 1px solid var(--border-subtle); }
-.shell-nav.rail .navitem { flex-direction: column; gap: 2px; font-size: var(--text-12); }
+.shell-nav.tabs .navitem { flex: 1; min-width: 0; flex-direction: column; gap: 2px; padding: 6px 2px; font-size: var(--text-12); line-height: 1.2; }
+.shell-nav.rail { flex-direction: column; width: 104px; padding: 8px 4px; gap: 4px; border-inline-end: 1px solid var(--border-subtle); }
+.shell-nav.rail .navitem { flex-direction: column; gap: 2px; padding: 6px 2px; font-size: var(--text-12); line-height: 1.2; }
 .shell-nav.sidebar { flex-direction: column; width: 240px; padding: 12px 8px; gap: 2px; border-inline-end: 1px solid var(--border-subtle); }
+/* a long menu scrolls; items never squeeze to fit the height (owner report 2026-11-19: labels were cut) */
+.shell-nav.rail, .shell-nav.sidebar { overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; }
+.shell-nav.rail .navitem, .shell-nav.sidebar .navitem { flex: none; }
 .navitem { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 6px 10px; border-radius: 12px; color: var(--text-secondary); font-weight: 600; text-align: center; }
 .shell-nav.sidebar .navitem { justify-content: flex-start; text-align: start; }
 .navitem:hover { background: var(--bg-subtle); }
 .navitem.current { color: var(--brand-ink); background: var(--brand-subtle); }
 .navitem .nlabel { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+/* rail and sidebar: a long name goes onto a second line instead of being cut */
+.shell-nav.tabs .nlabel, .shell-nav.rail .nlabel, .shell-nav.sidebar .nlabel { white-space: normal; overflow-wrap: break-word; hyphens: auto; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .navitem .badge { position: absolute; inset-block-start: 2px; inset-inline-end: 8px; }
 
 /* ---- sheets and dialogs (launcher, account menu, globe, command bar, help, notifications, sync) ---- */
