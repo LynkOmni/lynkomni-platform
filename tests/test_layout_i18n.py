@@ -6,7 +6,13 @@ import json, os, unittest
 from services import translation
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LANGS = list(translation.languages()) + ["xx", "xx-rtl"]
+ALL_LANGS = list(translation.languages()) + ["xx", "xx-rtl"]
+# CI splits this check into parts that run at the same time (LAYOUT_SHARD="k/n", k from 1): each part takes every n-th
+# language, plus English in every part as the size reference; the checks that do not loop over languages run in part 1.
+# Every language is still checked once in every run. Without the variable, everything runs here, as before.
+_K, _N = (int(x) for x in os.environ.get("LAYOUT_SHARD", "1/1").split("/"))
+LANGS = [l for i, l in enumerate(ALL_LANGS) if i % _N == _K - 1 or l == "en"]
+FIRST_PART = _K == 1
 FILE = os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-pos-terminal.html")
 PAGE = "file://" + FILE
 PHONE = os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-merchant-phone.html")
@@ -439,6 +445,7 @@ if __name__ == "__main__":
     unittest.main()
 
 @unittest.skipUnless(sync_playwright and os.path.isfile(BROWSER), "Playwright with Chromium is needed")
+@unittest.skipUnless(FIRST_PART, "runs in part 1 of the layout check")
 class BrandPlaces(unittest.TestCase):
     """Each screen shows the mark its place calls for (brand/surfaces.v1.json): the full logo where the brand introduces
     itself and there is room (web header on computer and tablet, sign-in, sidebar), the emblem in app bars (under 96 px the
@@ -468,6 +475,7 @@ class BrandPlaces(unittest.TestCase):
 
 
 @unittest.skipUnless(sync_playwright and os.path.isfile(BROWSER), "Playwright with Chromium is needed")
+@unittest.skipUnless(FIRST_PART, "runs in part 1 of the layout check")
 class TextAt200(unittest.TestCase):
     """Blueprint 41 B: text can grow to 200%. Browser zoom at 200% on a 1280 px window lays the page out at 640 px, so every
     emulator is opened at 640 px in English and the long-text test: nothing spills over and the page never scrolls sideways."""
@@ -519,6 +527,7 @@ FIT = """() => {
 
 
 @unittest.skipUnless(sync_playwright and os.path.isfile(BROWSER), "Playwright with Chromium is needed")
+@unittest.skipUnless(FIRST_PART, "runs in part 1 of the layout check")
 class DeviceFit(unittest.TestCase):
     """Every view the browser can be given fits every screen width from a 240 px watch to a 3840 px television: nothing spills
     over, nothing interactive overlaps, no picture is stretched and the page never scrolls sideways, in English, long text and
@@ -572,6 +581,7 @@ class DeviceFit(unittest.TestCase):
 
 
 @unittest.skipUnless(sync_playwright and os.path.isfile(BROWSER), "Playwright with Chromium is needed")
+@unittest.skipUnless(FIRST_PART, "runs in part 1 of the layout check")
 class SwitchAccess(unittest.TestCase):
     """Switch access, keyboard and remote (DEVICE 48.17): every control on the home screen, in the launcher and in the account
     menu is reached with Tab alone and shows a visible focus ring; arrows move inside the launcher grid."""
@@ -603,6 +613,7 @@ class SwitchAccess(unittest.TestCase):
 
 
 @unittest.skipUnless(sync_playwright, "Playwright with Chromium is needed")
+@unittest.skipUnless(FIRST_PART, "runs in part 1 of the layout check")
 class NonTouchVersions(unittest.TestCase):
     """Every device made in a buttons-only version (DEVICE 48.17.14) works by its keys alone: the screen takes no taps, the
     navigation pad (or bump bar and remote) is on the body, and every control on the first screen is reached with the arrows."""

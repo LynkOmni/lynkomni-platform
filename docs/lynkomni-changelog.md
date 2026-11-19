@@ -8,6 +8,7 @@ Fixes the owner found on a phone:
 - Counter tablet: the PIN keypad's bottom row (0 and the tick) needed scrolling on the wide, short tablet screen. The keypad now sits beside the name, title and dots, so every key shows; right-to-left mirrors it.
 - Main footer: the line under the logo ("Works with or without internet.") had lost its spacing inside the app shell, so it touched the "Products" heading. It now sits close under the logo with a clear gap above the columns, on every page.
 - Key sounds, like a real device: every number key now plays its own telephone keypad pair (1 to 9, 0, * and #), and confirm, cancel, clear, moving around (arrows, menu, soft keys), tabs, switches on and off, scanning and printing each have their own tone and vibration. One shared rule (ts/src/keytones.ts, tones from the design tokens) serves every device emulator on the Emulator Panel and the button phone, which also gained Key tones and Vibration switches. A PIN, door code or ID number follows the manager's existing choice: each key its own tone, or one same tone on every key. One sound player is reused for every press.
+- Faster checks: the layout check runs as 8 parts at the same time (every language still checked once), a branch is checked once through its pull request, and a newer push cancels the outdated run. About 6 minutes instead of 35.
 
 ## v0.47.0 (2026-11-19)
 Section 3A, the Emulator Panel (EMULATOR UPDATE, master blueprint section 70):
