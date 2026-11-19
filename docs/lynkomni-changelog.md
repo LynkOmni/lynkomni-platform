@@ -2,6 +2,20 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.46.0 (2026-11-19)
+Section 3B, part 3 (LynkSurvey in full, on every device); section 3B is locked:
+- LynkSurvey's service (people/survey.py): roles and the organisation tree (a viewer sees only their own part), the 13 kinds of survey, "Write it for me", the clear question check, a new version once answers arrived, approval with Approve or Send back, test mode, who can answer (anyone, one per phone with a code, invitation only, signed in), anonymous surveys, groups to fill, "How many people do I need?", asking at the right moment (after a sale, a queue ticket, a chat, an attendance shift), reminders (at most 2), rest periods and "Don't ask me again".
+- Answering on every device: the phone page (new emulator, survey-page), LynkKiosk ("Give your opinion"), LynkDScreen (live poll), LynkCDisplay ("Rate us"), LynkPOS, the Business app (field interviews and paper, marked "Entered by staff"), and the basic phone by menu numbers (USSD, text and voice; Python and TypeScript with shared vectors). One question a page; "Why?" only after an unhappy answer; answers made without internet stay queued and are never shown as sent.
+- "Real answers only": answers that look too fast, all the same or many from one phone are marked "Please check", never deleted, and a person keeps or sets them aside.
+- Results never below 5 answers, each with its margin; the recommend score; goals with words beside the colour; verified results with a check link; research tools by plan (compare groups, "Real difference or chance?", balancing with both results shown, themes in written answers, what matters most and trade-offs, before and after, downloads with labels and never who answered, the research record).
+- Closing the loop: Call back tasks with a time limit, and "You said, we did" (shown on the public page for an anonymous survey and in each person's My answers).
+- Rewards and the LynkSurvey Panel in sandbox: paid only through a licensed partner after the check ("Coming to your country soon." until one is signed), one per person; the researcher never sees who is on the panel.
+- Trackers: attendance correction and survey reward joined the tracking register. LynkAssist: put a ticket back, fix a missing check-out, pause a survey and send reminders joined its register, and the three planned 3B actions are built. Nine LynkSurvey and people automations run on LynkFlow.
+- 289 new screen words in all 38 languages.
+- 2026-11-19: Leftover adjusted in section 3B: the names of the research file formats (CSV, SPSS, Stata, R) are shown as names in the code, not as words to translate, so no language turns a product name into Latin letters in its own script.
+- 2026-11-19: Leftover adjusted in section 3B: "You said, we did" was counted but reached nobody; it now shows in each person's My answers and on the public page. As a message it needs its own event, which joins the next contract version (made in section 3A).
+- 2026-11-19: Size and speed budgets raised with their reasons (the demo files carry LynkSurvey in all 38 languages); the survey engine is made only when a survey screen opens.
+
 ## v0.45.0 (2026-11-18)
 Section 3B, parts 1 and 2 (LynkAttend and LynkQueue in full, on every device; LynkSurvey follows as v0.46.0):
 - LynkAttend in full: register a person with their agreement and their set (Face, then Finger, then IDCN; Finger, then IDCN; or IDCN only), PINs made only by LynkOmni in PIN groups (one branch or one event is one group, never given twice), check-in by hand only when every means failed and never for yourself, visitors with the manager's permission, the fire list that works without internet, shifts with "No check-out" after 2 hours, leave, events and courses with certificates anyone can check, door devices that can be locked, the clock check, everything managers did, what is counted this month, and requests from people (delete my details, dispute) with reminders at 7, 14 and 25 days and deletion by itself at 30.

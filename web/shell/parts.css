@@ -166,3 +166,4 @@
 .svkiosk, .svphone, .svscreen { display: grid; gap: 10px; min-inline-size: 0; overflow-wrap: anywhere; } .svkiosk.done, .svphone[role="status"] { justify-items: center; text-align: center; }
 .svscreen { container-type: inline-size; } .svscreen .qs-title { margin: 0; font-family: var(--font-heading); font-size: min(1.5rem, 7cqi); } .svs-big { font-family: var(--font-heading); font-weight: 700; font-size: min(1.6rem, 8cqi); margin: 0; }
 .svcd { gap: 6px; } .svcd .rateus { justify-content: center; }
+.sv-text { inline-size: 100%; min-inline-size: 0; resize: vertical; field-sizing: content; font: inherit; overflow-wrap: anywhere; }

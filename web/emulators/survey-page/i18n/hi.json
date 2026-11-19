@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "hi",
+ "native": "हिन्दी",
+ "source_sha256": "52d919fbd32da55a9fdd239bb1a9ce4b1d9e200a132aab7cb4f9c385dcc2c45b",
+ "texts": {
+  "sp_offline": "इंटरनेट नहीं है। आपके उत्तर इस फ़ोन पर रहते हैं और इंटरनेट लौटने पर भेजे जाते हैं।",
+  "sp_place": "नमूना जगह",
+  "sp_side": "संस्था क्या देखती है",
+  "sp_side_note": "नतीजे 5 उत्तरों से दिखते हैं। गुमनाम उत्तर कभी नहीं दिखाता कि उसे किसने दिया।",
+  "title": "आपके फ़ोन पर LynkSurvey"
+ }
+}

@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ha",
+ "native": "Hausa",
+ "source_sha256": "52d919fbd32da55a9fdd239bb1a9ce4b1d9e200a132aab7cb4f9c385dcc2c45b",
+ "texts": {
+  "sp_offline": "Babu intanet. Amsoshinka suna zama a wannan waya kuma za a aika su idan intanet ya dawo.",
+  "sp_place": "Wurin misali",
+  "sp_side": "Abin da ƙungiyar ke gani",
+  "sp_side_note": "Sakamako yana bayyana daga amsoshi 5. Amsar da ba ta da suna ba ta taɓa nuna wanda ya bayar ba.",
+  "title": "LynkSurvey a wayarka"
+ }
+}

@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "bn",
+ "native": "বাংলা",
+ "source_sha256": "52d919fbd32da55a9fdd239bb1a9ce4b1d9e200a132aab7cb4f9c385dcc2c45b",
+ "texts": {
+  "sp_offline": "ইন্টারনেট নেই। আপনার উত্তর এই ফোনে থাকে এবং ইন্টারনেট ফিরলে পাঠানো হয়।",
+  "sp_place": "নমুনা স্থান",
+  "sp_side": "প্রতিষ্ঠান যা দেখে",
+  "sp_side_note": "ফলাফল 5টি উত্তর থেকে দেখা যায়। বেনামি উত্তর কখনো দেখায় না কে দিয়েছেন।",
+  "title": "আপনার ফোনে LynkSurvey"
+ }
+}

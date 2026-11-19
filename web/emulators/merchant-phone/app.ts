@@ -1384,13 +1384,13 @@ function view(): string {
 const DM = new DeviceMode(DEVICES, "smartphone");
 function draw(): void {
   const d = $("#display"); DM.device = S.size === "tablet" ? "tablet" : S.size === "web" ? "computer" : "smartphone"; DM.version = S.size === "web" ? "non_touch" : "touch"; DM.apply(d);
-  const focus = document.activeElement instanceof HTMLInputElement && d.contains(document.activeElement) ? { id: document.activeElement.id, at: document.activeElement.selectionStart } : null;
+  const ae = document.activeElement, focus = (ae instanceof HTMLInputElement || ae instanceof HTMLTextAreaElement) && d.contains(ae) ? { id: ae.id, key: ae.dataset["in"] ?? "", at: ae.selectionStart } : null;   // typed text keeps its place across a redraw
   DSH.pictures = S.toggles.has("low_literacy");
   d.className = `display ${S.theme} ${S.size}${S.toggles.has("low_literacy") ? " lowlit" : ""}`;   // picture mode (S4, 43 G): bigger pictures, the word always beside them
   d.lang = S.lang === "xx-rtl" ? "ar" : S.lang === "xx" ? "en" : S.lang;
   d.dir = S.lang === "xx-rtl" ? "rtl" : S.lang === "xx" ? "ltr" : PACKS[S.lang]?.dir ?? "ltr";
   $("#app").innerHTML = view();
-  if (focus?.id) { const el = document.getElementById(focus.id) as HTMLInputElement | null; if (el) { el.focus(); if (focus.at !== null) el.setSelectionRange(focus.at, focus.at); } }
+  if (focus && (focus.id || focus.key)) { const el = (focus.id ? document.getElementById(focus.id) : d.querySelector(`[data-in="${CSS.escape(focus.key)}"]`)) as HTMLInputElement | HTMLTextAreaElement | null; if (el && "setSelectionRange" in el) { el.focus(); if (focus.at !== null) el.setSelectionRange(focus.at, focus.at); } }
   drawStatus();
   const a = document.getElementById("address"); if (a) a.textContent = S.screen === "app" ? address() : "account.lynkomni.com/sign-in";
 }

@@ -467,5 +467,7 @@
  "ch_s_no": "{n}. No",
  "ch_s_choice": "{n}. {name}",
  "ch_s_done": "Thank you. Your answers were sent.",
- "ch_s_dial": "Answer a survey"
+ "ch_s_dial": "Answer a survey",
+ "ch_s_sample_q1": "How was your visit today?",
+ "ch_s_sample_q2": "Will you come back?"
 }

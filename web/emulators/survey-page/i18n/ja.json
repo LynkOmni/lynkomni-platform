@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ja",
+ "native": "日本語",
+ "source_sha256": "52d919fbd32da55a9fdd239bb1a9ce4b1d9e200a132aab7cb4f9c385dcc2c45b",
+ "texts": {
+  "sp_offline": "インターネットに接続されていません。回答はこの電話に保存され、接続が戻ると送信されます。",
+  "sp_place": "サンプルの場所",
+  "sp_side": "団体に見えるもの",
+  "sp_side_note": "結果は回答 5 件から表示されます。匿名の回答では誰が答えたかは表示されません。",
+  "title": "お使いの電話で LynkSurvey"
+ }
+}

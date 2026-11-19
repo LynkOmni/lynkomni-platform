@@ -4,8 +4,10 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "37661afae797d423e8a2ad3b424e4d233e607a27564e6811c9c22e0e5ec613d7",
+ "source_sha256": "ff556803738b7c1ffdf5ba2f8ab72afb0a8b1a2b76b88b2e0f95cd963939cfff",
  "texts": {
+  "k_answer": "ご意見をお聞かせください",
+  "k_answer_sub": "アンケート",
   "k_attend": "出勤または退勤を記録",
   "k_attend_sub": "勤怠",
   "k_camera": "カメラは正常",

@@ -117,6 +117,11 @@ class SurveyTests(unittest.TestCase):
         r = self.s.results(self.m, sid, self.boss)
         self.assertTrue(r["shown"]); self.assertEqual(r["answers"], 5); self.assertEqual(r["questions"]["visit"]["good_percent"], 80)
         self.assertEqual(self.s.you_said(self.m, sid, self.boss, "We opened a second counter.")["public_page"], True)
+        self.assertEqual([x["text"] for x in self.s.you_said_for(sid)], ["We opened a second counter."])   # what the public page shows
+        named = self.make(rule="verified"); them = uuid4()
+        self.s.answer(named, "smartphone", [{"q": "visit", "number": 2}], person=them, seconds=20)
+        self.assertEqual(self.s.you_said(self.m, named, self.boss, "We cut the wait.")["told"], 1)
+        self.assertEqual(self.s.my_answers(them)[0]["you_said"][0]["text"], "We cut the wait.")       # it reaches the person in My answers
 
     def test_sensitive_questions_need_the_persons_agreement(self):
         sid = self.make(questions=[{"id": "visit", "type": "rating", "text": "How is your health care at this clinic?"}])

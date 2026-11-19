@@ -40,6 +40,8 @@ export type SvDevKind = (typeof SV_DEVICE_KINDS)[number];
 const SV_NO_DISPLAY: readonly string[] = ["button_stand", "printer", "scanner", "speaker"];   // run through LynkDriver; paid tiers
 /** The ecosystem names of the display devices (catalog/devices.v1.json lynk_names; the same in every language). */
 export const SV_LYNK: Partial<Record<SvDevKind, string>> = { kiosk: "LynkKiosk", tablet: "LynkTab", pos: "LynkPOS", field: "LynkMobile", screen: "LynkDScreen", counter_display: "LynkCDisplay" };
+/** File formats are names, shown as they are in every language (the spreadsheet is a word). */
+const SV_FORMATS: Record<string, string> = { csv: "CSV", spss: "SPSS", stata: "Stata", r: "R" };
 export const SV_MARGINS = [3, 5, 10] as const;
 /** A plan with every part open, for a device that was given no plan numbers (tests); real screens always get services/billing.py's. */
 export const SV_OPEN_PLAN: SvPlan = { price_usd: 0, creators_included: 5, extra_creator_cents: 0, answers_per_month: 0, live_surveys: null, places: null, org_tree: "full", whatsapp_and_chat: true, basic_phone: true,
@@ -433,14 +435,15 @@ export class SurveyDesk {
   input(k: string, v: string): boolean {
     const [p, f = "", c = "", d = ""] = k.split(":"); if (p !== "sv") return false;
     const qn = this.draft.questions[Number(c)];
-    if (f === "sentence") this.sentence = v.slice(0, 200);
-    else if (f === "qtext" && qn) { qn.text = v.slice(0, 300); qn.key = null; }
-    else if (f === "qchoice" && qn && qn.choices[Number(d)]) { qn.choices[Number(d)] = { key: null, text: v.slice(0, 120) }; }
-    else if (f === "target") { const n = Number(v); if (Number.isInteger(n) && n >= 0 && this.plan.research.includes("groups_to_fill")) { if (n) this.draft.targets[c] = n; else delete this.draft.targets[c]; } }
+    // Plain typing needs no redraw (the box keeps its place and the person keeps typing); the rest redraw what they change.
+    if (f === "sentence") { this.sentence = v.slice(0, 200); return false; }
+    if (f === "qtext" && qn) { qn.text = v.slice(0, 300); qn.key = null; return false; }
+    if (f === "qchoice" && qn && qn.choices[Number(d)]) { qn.choices[Number(d)] = { key: null, text: v.slice(0, 120) }; return false; }
+    if (f === "yousaid") { this.youSaid = v.slice(0, 300); return false; }
+    if (f === "ktext") { this.give("kiosk", c, { text: v.slice(0, 1000) }); return false; }
+    if (f === "ptext") { this.give("phone", c, { text: v.slice(0, 1000) }); return false; }
+    if (f === "target") { const n = Number(v); if (Number.isInteger(n) && n >= 0 && this.plan.research.includes("groups_to_fill")) { if (n) this.draft.targets[c] = n; else delete this.draft.targets[c]; } }
     else if (f === "population") this.population = v.replace(/[^0-9]/g, "").slice(0, 7);
-    else if (f === "yousaid") this.youSaid = v.slice(0, 300);
-    else if (f === "ktext") this.give("kiosk", c, { text: v.slice(0, 1000) });
-    else if (f === "ptext") this.give("phone", c, { text: v.slice(0, 1000) });
     else if (f === "pcode") this.phone.code = v.replace(/\D/g, "").slice(0, 6);
     else if (f === "pcountry") this.panel.country = v.slice(0, 2).toUpperCase();
     else if (f === "pwanted") { const n = Number(v); if (Number.isInteger(n) && n > 0) this.panel.wanted = Math.min(n, 100000); }
@@ -486,13 +489,13 @@ export function svSurveysView(d: SurveyDesk, L: SvLook): string {
 export function svBuilderView(d: SurveyDesk, L: SvLook): string {
   const t = L.t, p = d.plan, dr = d.draft, off = svOff(!L.mayManage);
   const kinds = `<div class="ph-choices small">${SV_KINDS.map((k) => `<button type="button" class="ph-choice" data-act="sv:kind:${k}" ${svOn(dr.kind === k)} ${svOff(!d.kindAllowed(k))}><strong>${esc(svKindName(k, t))}</strong>${d.kindAllowed(k) ? "" : `<span>${esc(t("ppl_sv_from_pro"))}</span>`}</button>`).join("")}</div>`;
-  const write = p.write_it_for_me ? `<label class="field"><span>${esc(t("ppl_sv_write_it"))}</span><input data-in="sv:sentence" value="${esc(d.sentence)}" autocomplete="off" placeholder="${esc(t("ppl_sv_write_it_example"))}"></label>
+  const write = p.write_it_for_me ? `<label class="field"><span>${esc(t("ppl_sv_write_it"))}</span><textarea class="sv-text" rows="2" data-in="sv:sentence" autocomplete="off" placeholder="${esc(t("ppl_sv_write_it_example"))}">${esc(d.sentence)}</textarea></label>
     <button type="button" class="ghost inline" data-act="sv:write" ${svOff(!d.sentence.trim())}>${esc(t("ppl_sv_write"))}</button>${d.wrote ? `<p class="sub">${svTag(t("ppl_sv_assist"))} ${esc(t("ppl_sv_write_note"))}</p>` : ""}` : `<p class="sub">${esc(t("ppl_sv_write_it"))} ${svPlanTag(L, "plus")}</p>`;
   const checks = svCheck(dr.questions);
   const qs = dr.questions.map((x, i) => {
     const mine = checks.filter((c) => c.q === x.id).map((c) => svTag(t(`ppl_sv_check_${c.problem}`), "warn")).join(" ");
-    const choices = x.choices.length ? `<div class="sv-choices">${x.choices.map((c, j) => `<label class="field small"><span>${esc(t("ppl_sv_choice_n", { n: j + 1 }))}</span><input data-in="sv:qchoice:${i}:${j}" value="${esc(d.qText(c, t))}" autocomplete="off"></label>`).join("")}</div>` : "";
-    return `<li class="sv-q"><label class="field"><span>${esc(t("ppl_sv_question_n", { n: i + 1 }))} · ${esc(t(`ppl_sv_type_${x.type}`))}</span><input data-in="sv:qtext:${i}" value="${esc(d.qText(x, t))}" autocomplete="off"></label>${choices}
+    const choices = x.choices.length ? `<div class="sv-choices">${x.choices.map((c, j) => `<label class="field small"><span>${esc(t("ppl_sv_choice_n", { n: j + 1 }))}</span><textarea class="sv-text" rows="1" data-in="sv:qchoice:${i}:${j}" autocomplete="off">${esc(d.qText(c, t))}</textarea></label>`).join("")}</div>` : "";
+    return `<li class="sv-q"><label class="field"><span>${esc(t("ppl_sv_question_n", { n: i + 1 }))} · ${esc(t(`ppl_sv_type_${x.type}`))}</span><textarea class="sv-text" rows="2" data-in="sv:qtext:${i}" autocomplete="off">${esc(d.qText(x, t))}</textarea></label>${choices}
       <div class="ph-row">${mine}<button type="button" class="ghost small" data-act="sv:rmq:${i}" ${svOff(dr.questions.length < 2)}>${esc(t("ppl_sv_remove"))}</button></div></li>`;
   }).join("");
   const add = `<div class="ph-row sv-add">${(["rating", "score", "choice", "yes_no", "long", "number", "spoken", "ranking"] as const).map((ty) => `<button type="button" class="ghost small" data-act="sv:addq:${ty}" ${svOff(!d.typeAllowed(ty))}>${esc(t(`ppl_sv_type_${ty}`))}</button>`).join("")}</div>`;
@@ -592,7 +595,7 @@ export function svResearchView(d: SurveyDesk, L: SvLook): string {
   const bw = research?.questions.find((x) => x.type === "best_worst"), op = research?.questions.find((x) => x.type === "offer_pick");
   const mm = !has("what_matters_most") ? locked("pro") : (() => { const prev = d.cur; if (research) d.cur = research.id; const o = bw ? d.bestWorst(bw) : null; const r = op ? d.result({ ...op, type: "choice" }, d.rows()) : null; d.cur = prev;
     return `${o ? `<ol class="sv-order">${o.map((k) => `<li>${esc(t(k))}</li>`).join("")}</ol>` : ""}${r?.shares ? `<ul class="sv-bars">${r.shares.map((x) => svBar(svChoice(x.c, t), x.p, x.m, t)).join("")}</ul>` : ""}<p class="sub">${svTag(t("ppl_sandbox_answers"))}</p>`; })();
-  const dl = `<div class="ph-row">${["spreadsheet", "csv", "spss", "stata", "r"].map((f) => `<button type="button" class="ghost small" ${svOff(!p.downloads.includes(f))}>${esc(t(`ppl_sv_dl_${f}`))}</button>`).join("")}</div>${p.downloads.length ? `<pre class="sv-csv" dir="ltr">${esc(d.csv())}</pre>` : locked("plus")}<p class="sub">${esc(t("ppl_sv_dl_help"))}</p>`;
+  const dl = `<div class="ph-row">${["spreadsheet", "csv", "spss", "stata", "r"].map((f) => `<button type="button" class="ghost small" ${svOff(!p.downloads.includes(f))}>${esc(SV_FORMATS[f] ?? t("ppl_sv_dl_spreadsheet"))}</button>`).join("")}</div>${p.downloads.length ? `<pre class="sv-csv" dir="ltr">${esc(d.csv())}</pre>` : locked("plus")}<p class="sub">${esc(t("ppl_sv_dl_help"))}</p>`;
   return svCard("sv_compare", t("ppl_sv_compare"), cmp) + svCard("sv_balance", t("ppl_sv_balance"), bal) + svCard("sv_themes", t("ppl_sv_themes"), th)
     + svCard("sv_matters", t("ppl_sv_matters"), mm) + svCard("sv_downloads", t("ppl_sv_downloads"), dl)
     + svCard("sv_record", t("ppl_sv_record"), `<p class="sub">${esc(t("ppl_sv_record_help"))}</p>`);

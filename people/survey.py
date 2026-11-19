@@ -697,7 +697,14 @@ class Survey:
 
     # ---- the person's control: My answers, delete, Don't ask me again, contacts kept 30 days
     def my_answers(s, person):
-        return [dict(zip(("answer_id", "survey_id", "merchant", "at"), r)) for r in s.db.execute("select answer_id, survey_id, merchant, at from sv_answers where person=? and deleted=0 order by at desc", (person,))]
+        """Every non-anonymous answer of the person, each with the organisation's "You said, we did" messages for that survey
+        (the message itself joins the message register with its own event in the next contract version, section 3A)."""
+        out = [dict(zip(("answer_id", "survey_id", "merchant", "at"), r)) for r in s.db.execute("select answer_id, survey_id, merchant, at from sv_answers where person=? and deleted=0 order by at desc", (person,))]
+        for a in out: a["you_said"] = s.you_said_for(a["survey_id"])
+        return out
+    def you_said_for(s, survey):
+        """The "You said, we did" texts of a survey, newest first (for an anonymous survey this is what its public page shows)."""
+        return [{"text": t, "at": at} for t, at in s.db.execute("select text, at from sv_said where survey_id=? order by at desc", (survey,))]
     def delete_my_answer(s, person, answer_id, now=None):
         r = s.db.execute("select merchant from sv_answers where answer_id=? and person=? and deleted=0", (answer_id, person)).fetchone()
         if not r: raise KeyError("not your answer")

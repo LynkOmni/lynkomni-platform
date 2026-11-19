@@ -65,7 +65,7 @@ test("results never show below 5 answers, Please check never deletes, and anonym
   const s = d.blank("satisfaction"); s.state = "open"; s.anonymous = true; d.surveys.push(s); d.cur = s.id;
   for (const r of [5, 4, 2, 4]) d.answer(s.id, "kiosk", { visit: { number: r } }, { online: false });
   assert.equal(d.result(s.questions[0]!, d.rows()), null);
-  const html = svResultsView(d, LOOK); assert.match(html, /ppl_too_few/); assert.doesNotMatch(html, /sv-fill/);
+  const html = svResultsView(d, LOOK); assert.ok(/ppl_too_few/.test(html)); assert.ok(!/sv-fill/.test(html));
   d.answer(s.id, "kiosk", { visit: { number: 4 } }, { online: false });
   const r = d.result(s.questions[0]!, d.rows())!; assert.equal(r.n, 5); assert.equal(r.good, 80);
   const fast = d.answer(s.id, "smartphone", { visit: { number: 5 } }, { online: true, seconds: 1 })!;
@@ -81,7 +81,7 @@ test("the kiosk and the phone ask one question a page, and Why? only after an un
   d.restartKiosk(); d.act("sv:k:5", ctx); d.act("sv:knext", ctx);
   assert.equal(d.visible(main, d.kiosk.answers).some((x) => x.id === "better"), false, "a happy person is not asked why");
   d.act("sv:k:ppl_sv_c_under5:c", ctx); d.act("sv:knext", ctx); d.act("sv:k:yes:c", ctx); d.act("sv:knext", ctx);
-  assert.ok(d.kiosk.done); assert.match(svKioskView(d, LOOK), /ppl_thanks/);
+  assert.ok(d.kiosk.done); assert.ok(/ppl_thanks/.test(svKioskView(d, LOOK)));
   d.act("sv:kagain", ctx); d.act("sv:k:1", ctx);
   assert.ok(d.visible(main, d.kiosk.answers).some((x) => x.id === "better"), "an unhappy person is asked why");
   main.rule = "one_per_phone"; d.act("sv:pstart", ctx); assert.equal(d.phone.step, "code");
@@ -95,14 +95,14 @@ test("research tools by plan, rewards through the partner, the panel never shows
   const { d, log } = desk(); const ctx = { online: true, partner: true, redraw: () => undefined };
   d.tier = "pro";
   const html = svResearchView(d, LOOK);
-  assert.match(html, /ppl_sv_diff_/); assert.match(html, /ppl_sv_balanced/); assert.match(html, /ppl_sv_theme_waiting_time/);
-  d.tier = "plus"; assert.match(svResearchView(d, LOOK), /ppl_sv_from_pro/);
+  assert.ok(/ppl_sv_diff_/.test(html)); assert.ok(/ppl_sv_balanced/.test(html)); assert.ok(/ppl_sv_theme_waiting_time/.test(html));
+  d.tier = "plus"; assert.ok(/ppl_sv_from_pro/.test(svResearchView(d, LOOK)));
   const a = d.answers.find((x) => x.survey === d.cur && x.result === "accepted")!;
   d.act(`sv:reward:${a.id}:airtime`, ctx); assert.equal(d.rewards[0]!.state, "coming_to_country", "never paid before a partner is signed");
   d.act(`sv:reward:${a.id}:airtime`, ctx); assert.equal(d.refused, "one_reward_per_person");
-  d.tier = "pro"; d.panel.wanted = 500; d.act("sv:panel", ctx); assert.equal(d.panel.reached, 500); assert.match(svRewardsView(d, LOOK), /ppl_sv_panel_never/);
+  d.tier = "pro"; d.panel.wanted = 500; d.act("sv:panel", ctx); assert.equal(d.panel.reached, 500); assert.ok(/ppl_sv_panel_never/.test(svRewardsView(d, LOOK)));
   for (const draw of [svSurveysView, svBuilderView, svResultsView, svTasksView, svDevicesView, svPlanView, svScreenView, svPhoneView]) assert.ok(draw(d, LOOK).length > 50);
-  assert.match(svCDisplayView(d, 2, LOOK), /ppl_rate_us/);
+  assert.ok(/ppl_rate_us/.test(svCDisplayView(d, 2, LOOK)));
   assert.ok(MIN_GROUP === 5);
   inContract(log);
 });
