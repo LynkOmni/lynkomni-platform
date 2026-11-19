@@ -29,8 +29,8 @@ WARN_TIMES = 3                     # the same thing 3 times in 30 days raises "P
 PAIR_SECONDS = 60                  # two people checking in one after the other on one device
 UNUSUAL_HOURS = 4
 CLOCK_TOLERANCE_S = 120
-SEND_CHANNELS = ("email", "lynkchat", "whatsapp", "text")
-PARTNER_CHANNELS = ("whatsapp", "text")          # need the people_messages partner in that country; email and LynkChat never do
+SEND_CHANNELS = ("email", "lynkchat", "text")
+PARTNER_CHANNELS = ("text",)                     # needs the people_messages partner in that country; email and LynkChat never do
 SIGNS = ("same_pair", "on_leave", "unusual_hours", "checker_often_absent", "often_on_backup", "often_by_hand")
 
 
@@ -194,10 +194,10 @@ class Attendance:
         s.db.execute("update at_members set pin_state='blocked' where member_id=?", (member,))
         s.cloud.event(merchant, "AttendancePinBlocked", {"member_id": member, "reason": "manager"}, now); s._log(merchant, by, "pin_blocked", member, now); s.db.commit()
     def send_pin(s, merchant, member, channel, by, now=None):
-        """The PIN and the IDCN go together, only to the person's own contact. Text and WhatsApp wait for the messaging partner in
+        """The PIN and the IDCN go together, only to the person's own contact. A text message waits for the messaging partner in
         that country ("Coming to your country soon."); email and LynkChat work everywhere."""
         s._need_manager(merchant, by); m = s._m(member)
-        if channel not in SEND_CHANNELS: raise ValueError("email, LynkChat, WhatsApp or text message")
+        if channel not in SEND_CHANNELS: raise ValueError("email, LynkChat or text message")
         if m["pin_state"] != "live": raise ValueError("no_live_pin")
         if channel in PARTNER_CHANNELS:
             from providers import ready

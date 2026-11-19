@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { PeopleHub, devicesCard, lynkNames, setupCard, surveyCard } from "../src/peoplehub.js";
 import { AfterPay, afterPaymentRating } from "../src/afterpay.js";
-import { QU_LYNK, QueueDesk, quCDisplayView, quCounterView, quCountersView, quDevicesView, quKioskView, quPhoneView, quPublicView, quReceptionView, quReportsView, quScreenView, quSectionsView, quSetupView, quTicketsView } from "../src/queuedesk.js";
+import { QU_LYNK, QU_PHONE_WAYS, QueueDesk, quCDisplayView, quCounterView, quCountersView, quDevicesView, quKioskView, quPhoneView, quPublicView, quReceptionView, quReportsView, quScreenView, quSectionsView, quSetupView, quTicketsView } from "../src/queuedesk.js";
 import type { QuLook, QuPlan } from "../src/queuedesk.js";
 import { AttendDesk, atDoor, checkInsView, peopleView, registerView, reportsView, visitorsView } from "../src/attenddesk.js";
 import type { AtLook, AtPlan, AtTier } from "../src/attenddesk.js";
@@ -22,7 +22,7 @@ const PLAN = (price: number, people: number, extra: number | null, devices: numb
 const PLANS: Record<AtTier, AtPlan> = { free: PLAN(0, 15, null, 2), plus: PLAN(49.5, 50, 150, null), pro: PLAN(95, 50, 250, null), max: PLAN(179, 50, 400, null) };
 /** Every event a screen writes must be a contract version 6 event: a known type, from an allowed origin, with its required fields,
  *  no field the contract does not have, and only values the contract lists. */
-const CONTRACT = JSON.parse(readFileSync(new URL("../../../contract/event-payloads.v6.json", import.meta.url).pathname, "utf8")).events as Record<string, { origins: string[]; payload: { required?: string[]; properties: Record<string, { enum?: unknown[]; items?: { enum?: unknown[] } }> } }>;
+const CONTRACT = JSON.parse(readFileSync(new URL("../../../contract/event-payloads.v8.json", import.meta.url).pathname, "utf8")).events as Record<string, { origins: string[]; payload: { required?: string[]; properties: Record<string, { enum?: unknown[]; items?: { enum?: unknown[] } }> } }>;
 function inContract(log: { type: string; payload: Record<string, unknown>; origin?: string }[]): void {
   for (const e of log) {
     const c = CONTRACT[e.type]; if (!c) throw new Error(`${e.type} is not a contract event`);
@@ -93,8 +93,8 @@ test("finger or face first, IDCN last: three failed reads fall back and are mark
 });
 
 const QPLAN = (price: number, o: Partial<QuPlan>): QuPlan => ({ price_usd: price, places_included: 5, extra_place_cents: 1000, max_places: 10, tickets_per_place_month: 3000, sections_per_place: null, counters_per_place: 15, staff_accounts: 15,
-  basic_phone: true, whatsapp_and_chat: true, appointments: false, send_to: true, own_hardware: true, busy_forecast: true, own_logo: true, reports: "full", history_months: 24, ...o });
-const QPLANS: Record<AtTier, QuPlan> = { free: QPLAN(0, { places_included: 1, extra_place_cents: null, max_places: 1, tickets_per_place_month: 500, sections_per_place: 3, counters_per_place: 3, basic_phone: false, whatsapp_and_chat: false, send_to: false, own_hardware: false, busy_forecast: false, own_logo: false, reports: "daily_summary" }),
+  basic_phone: true, lynkchat_way: true, appointments: false, send_to: true, own_hardware: true, busy_forecast: true, own_logo: true, reports: "full", history_months: 24, ...o });
+const QPLANS: Record<AtTier, QuPlan> = { free: QPLAN(0, { places_included: 1, extra_place_cents: null, max_places: 1, tickets_per_place_month: 500, sections_per_place: 3, counters_per_place: 3, basic_phone: false, lynkchat_way: false, send_to: false, own_hardware: false, busy_forecast: false, own_logo: false, reports: "daily_summary" }),
   plus: QPLAN(55, {}), pro: QPLAN(115, { extra_place_cents: 2000, appointments: true, reports: "by_email" }), max: QPLAN(249, { extra_place_cents: 4000, appointments: true, reports: "custom" }) };
 const QLOOK: QuLook = { ...LOOK, place: "Sample place", powered: "<i data-powered></i>" };
 type Log = { type: string; payload: Record<string, unknown>; origin?: string }[];
@@ -146,7 +146,8 @@ test("LynkQueue: closed, last ticket time, may not be served today, and one phon
 
 test("LynkQueue: ways to join follow the plan, the partner and the place", () => {
   const { d } = desk();
-  d.phone.way = "whatsapp"; assert.equal(d.wayWhy("whatsapp", false), "coming_soon"); match(quPhoneView(d, QLOOK), /coming_soon/); assert.equal(d.wayWhy("whatsapp", true), "");
+  d.phone.way = "basic_phone"; assert.equal(d.wayWhy("basic_phone", false), "coming_soon"); match(quPhoneView(d, QLOOK), /coming_soon/); assert.equal(d.wayWhy("basic_phone", true), "");
+  assert.ok(!(QU_PHONE_WAYS as readonly string[]).includes("whatsapp"), "no WhatsApp (owner, 2026-11-19)");
   assert.equal(d.wayWhy("lynkchat", false), "");
   d.tier = "free"; assert.equal(d.wayWhy("lynkchat", true), "plan"); assert.equal(d.wayWhy("basic_phone", true), "plan"); assert.equal(d.wayWhy("smartphone", false), "");
   d.act("qu:joinfrom:only_at_the_place", QCTX); assert.equal(d.wayWhy("smartphone", false), "only_at_the_place"); match(quScreenView(d, QLOOK, undefined, "K7M2P9"), /ppl_qu_qr_changes/);

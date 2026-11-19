@@ -20,7 +20,7 @@ class ContractV7(unittest.TestCase):
     def test_built_from_v6_and_current(self):
         r = subprocess.run([sys.executable, str(ROOT / "contract" / "tools" / "build_v7.py"), "--check"], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertEqual(CURRENT, 7)
+        self.assertGreaterEqual(CURRENT, 7)                                      # version 8 (2026-11-19) reads version 7
 
     def test_version_6_events_are_unchanged(self):
         for name, e in V6["events"].items():
@@ -46,7 +46,7 @@ class ContractV7(unittest.TestCase):
 
     def test_upcaster_reads_version_6_unchanged(self):
         v6 = {"type": "TicketIssued", "schema_version": 6, "payload": {"ticket_id": "t1"}}
-        self.assertEqual((upcast(v6)["schema_version"], upcast(v6)["payload"]), (7, v6["payload"]))
+        self.assertEqual((upcast(v6)["schema_version"], upcast(v6)["payload"]), (CURRENT, v6["payload"]))
 
     def test_validator_passes(self):
         r = subprocess.run([sys.executable, str(ROOT / "contract" / "tools" / "validate_contract.py")], capture_output=True, text=True)

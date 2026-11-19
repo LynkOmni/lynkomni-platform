@@ -28,11 +28,12 @@ REGISTRY_V3 = load("event-payloads.v3.json")          # published, never edited;
 REGISTRY_V4 = load("event-payloads.v4.json")          # published, never edited; still readable through the upcaster
 REGISTRY_V5 = load("event-payloads.v5.json")          # published, never edited; still readable through the upcaster
 REGISTRY_V6 = load("event-payloads.v6.json")          # published, never edited; still readable through the upcaster
-REGISTRY = load("event-payloads.v7.json")             # the current version (v7, 2026-11-19: v6 plus the Emulator Panel and "You said, we did")
-REGISTRIES = {1: REGISTRY_V1, 2: REGISTRY_V2, 3: REGISTRY_V3, 4: REGISTRY_V4, 5: REGISTRY_V5, 6: REGISTRY_V6, 7: REGISTRY}
+REGISTRY_V7 = load("event-payloads.v7.json")          # published, never edited; still readable through the upcaster
+REGISTRY = load("event-payloads.v8.json")             # the current version (v8, 2026-11-19: v7 without WhatsApp)
+REGISTRIES = {1: REGISTRY_V1, 2: REGISTRY_V2, 3: REGISTRY_V3, 4: REGISTRY_V4, 5: REGISTRY_V5, 6: REGISTRY_V6, 7: REGISTRY_V7, 8: REGISTRY}
 CURRENCIES = load("currencies.v1.json")["decimals"]
 PERMS = load("permissions.v1.json")
-REGISTER = load("command-policy-register.v7.json")
+REGISTER = load("command-policy-register.v8.json")
 STATES = load("state-machines.v1.json")
 SAMPLE_CURRENCY = load(os.path.join("country-packs", "XX.json"))["currency"]   # the neutral sample pack, never a real country
 
@@ -257,7 +258,7 @@ class Device:
         evt = {
             "event_id": uuid7(), "origin": "device", "merchant_id": MERCHANT, "branch_id": BRANCH,
             "device_id": self.id, "actor_user_id": USER, "device_seq": self.seq, "type": etype,
-            "schema_version": 7, "occurred_at_device": ts(at or self.clock), "prev_hash": self.prev,
+            "schema_version": 8, "occurred_at_device": ts(at or self.clock), "prev_hash": self.prev,
             "payload": payload, "signature": fake_sig(),
         }
         self.prev = event_hash(evt)
@@ -523,7 +524,7 @@ def event_checks():
     expect_invalid("event:unknown type rejected", bad, "unknown event type")
     bad = json.loads(json.dumps(ok_sale)); bad["server_cursor"] = 5
     expect_invalid("event:device may not send server stamp", bad, "unexpected field")
-    bad = json.loads(json.dumps(ok_sale)); bad["schema_version"] = 8
+    bad = json.loads(json.dumps(ok_sale)); bad["schema_version"] = 9
     expect_invalid("event:future schema_version rejected", bad, "unsupported schema_version")
     # version 3: the side of a payload is internal or external, nothing else; a missing side means internal
     ext = json.loads(json.dumps(ok_sale)); ext["payload"]["side"] = "external"
@@ -540,7 +541,7 @@ def event_checks():
     v1_pay["schema_version"] = 1
     check("v1:payment without currency valid as version 1", validate_event(v1_pay) == [], str(validate_event(v1_pay)))
     up = upcast(v1_pay)
-    check("upcast:v1 payment reads as the current version with RWF and the workspace side", up["schema_version"] == 7 and up["payload"]["currency"] == "RWF" and up["payload"]["side"] == "internal" and validate_event(up) == [], str(validate_event(up)))
+    check("upcast:v1 payment reads as the current version with RWF and the workspace side", up["schema_version"] == 8 and up["payload"]["currency"] == "RWF" and up["payload"]["side"] == "internal" and validate_event(up) == [], str(validate_event(up)))
     check("upcast:amount never rescaled", up["payload"]["amount"] == v1_pay["payload"]["amount"] and v1_pay["schema_version"] == 1)
     no_cur = Device().emit("PaymentRecorded", {"payment_id": uuid7(), "sale_id": ok_sale["payload"]["sale_id"], "method": "cash", "amount": 1500, "status": "cash_received"})
     expect_invalid("v2:payment without currency rejected", no_cur, "missing required 'currency'")
@@ -669,7 +670,7 @@ def chain_and_ingest_checks():
     d5 = Device(); s5 = ReferenceIngest(); s5.enroll(d5.id)
     fut = d5.emit("StockReceived", {"stock_receipt_id": uuid7(), "lines": [{"product_id": pid, "quantity_milli": 1000}]}); 
     # re-sign chain after changing version: rebuild event manually
-    fut["schema_version"] = 8
+    fut["schema_version"] = 9
     o = s5.push([fut])
     check("ingest:future schema quarantined", o["results"][0].get("reason") == "unknown_schema_version", str(o))
 

@@ -9,7 +9,7 @@ from decimal import Decimal as D, ROUND_HALF_UP
 from core.regions import country
 from services.improvements import Table, _cur
 
-REMINDER_CHANNELS = ("in_app", "chat", "sms", "whatsapp", "email")
+REMINDER_CHANNELS = ("in_app", "chat", "sms", "email")
 
 class Invoicing:
     def __init__(s, p, now=time.time):

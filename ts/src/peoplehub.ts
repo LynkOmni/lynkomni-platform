@@ -26,7 +26,7 @@ export type Setup = (typeof SETUPS)[number];
 /** Plan numbers come from services/billing.py through the build; a device that was given none shows none. */
 const NO_PLAN: AtPlan = { price_usd: 0, people_included: 0, extra_person_cents: null, branches: null, managers: null, door_devices: null };
 const NO_PLANS: Record<AtTier, AtPlan> = { free: NO_PLAN, plus: NO_PLAN, pro: NO_PLAN, max: NO_PLAN };
-const QU_NO_PLAN: QuPlan = { price_usd: 0, places_included: 1, extra_place_cents: 0, max_places: null, tickets_per_place_month: 0, sections_per_place: null, counters_per_place: null, staff_accounts: null, basic_phone: true, whatsapp_and_chat: true,
+const QU_NO_PLAN: QuPlan = { price_usd: 0, places_included: 1, extra_place_cents: 0, max_places: null, tickets_per_place_month: 0, sections_per_place: null, counters_per_place: null, staff_accounts: null, basic_phone: true, lynkchat_way: true,
   appointments: true, send_to: true, own_hardware: true, busy_forecast: true, own_logo: true, reports: "full", history_months: null };
 const QU_NO_PLANS: Record<AtTier, QuPlan> = { free: QU_NO_PLAN, plus: QU_NO_PLAN, pro: QU_NO_PLAN, max: QU_NO_PLAN };
 export type Emit = (type: string, payload: Record<string, unknown>, origin?: "device" | "server") => void;

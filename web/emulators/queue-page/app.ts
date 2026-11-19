@@ -1,5 +1,5 @@
 /** LynkQueue on a person's own phone (NEW UPDATE 4; build section 3B): the page behind the QR code at the door or the link, with
- *  no app and no account. See the wait before taking a ticket, join (the link, WhatsApp, LynkChat or a basic phone, as the place's
+ *  no app and no account. See the wait before taking a ticket, join (the link, LynkChat or a basic phone, as the place's
  *  plan and the country's partner allow), follow the place in the queue, Running late once, Leave queue, "Please come now", and the
  *  place's public queue page. The buttons beside it play reception and the counters. Never a name; the phone number is never shown. */
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, panelChange, panelHtml, stateButtons } from "../../../ts/src/emulator.js";

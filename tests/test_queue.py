@@ -95,10 +95,11 @@ class QueueTests(unittest.TestCase):
         self.assertNotIn(PHONE, j["phone_mark"])
 
     def test_ways_to_join_follow_the_plan_the_place_and_the_partner(self):
-        self.assertEqual(self.q.join(self.m, self.place, "GEN", "whatsapp", PHONE, now=T0), {"state": "coming_soon"})      # the partner is not signed there
+        self.assertEqual(self.q.join(self.m, self.place, "GEN", "basic_phone", PHONE, now=T0), {"state": "coming_soon"})   # the partner is not signed there
+        with self.assertRaisesRegex(ValueError, "unknown way"): self.q.join(self.m, self.place, "GEN", "whatsapp", PHONE, now=T0)   # WhatsApp is not a way (owner, 2026-11-19)
         self.assertEqual(self.q.join(self.m, self.place, "GEN", "lynkchat", PHONE, now=T0)["state"], "sent")
         free = uuid4(); self.q.add_manager(free, self.boss); place = self.q.add_place(free, self.boss, setup="just_me", join_from="only_at_the_place", now=T0)
-        self.assertEqual(self.q.join(free, place, "GEN", "lynkchat", PHONE, now=T0)["reason"], "plan_no_whatsapp_or_chat")
+        self.assertEqual(self.q.join(free, place, "GEN", "lynkchat", PHONE, now=T0)["reason"], "plan_no_lynkchat_way")
         self.assertEqual(self.q.join(free, place, "GEN", "basic_phone", PHONE, now=T0)["reason"], "plan_no_basic_phone")
         self.assertEqual(self.q.join(free, place, "GEN", "link", PHONE, now=T0)["reason"], "only_at_the_place")
         self.assertEqual(self.q.join(free, place, "GEN", "link", PHONE, at_the_place=True, now=T0)["state"], "sent")

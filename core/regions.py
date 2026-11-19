@@ -8,7 +8,7 @@ SERVICES = ["pos", "accountant", "invoicing", "crm", "inventory", "dashboard", "
             "agent", "collection", "delivery", "movement", "vehicle_data", "monitoring", "transport_data", "satellite", "iot_sim",
             "attendance", "queue", "survey", "people_messages", "survey_voice", "survey_rewards"]
 # NEW UPDATE 4 (2026-11-11): "attendance" (LynkAttend), "queue" (LynkQueue) and "survey" (LynkSurvey) need no partner and are on
-# everywhere. Their partner parts are off until signed: "people_messages" (text, WhatsApp and USSD), "survey_voice" (voice calls) and
+# everywhere. Their partner parts are off until signed: "people_messages" (text and USSD), "survey_voice" (voice calls) and
 # "survey_rewards" (reward and panel payments) (services/people_partners.py).
 # NEW UPDATE 1 (2026-11-10): "movement" is LynkMotion and LynkGuard (LynkTrace, LynkGPS, LynkSentry). It needs no partner (the phone is the
 # tracker, maps are LynkOmni's own), so it is on everywhere. Its partner parts are off until signed: "vehicle_data" (connected cars),

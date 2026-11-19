@@ -85,6 +85,36 @@
     "change an event type",
     "add a PIN, a position or a name"
    ]
+  },
+  {
+   "from_schema_version": 7,
+   "to_schema_version": 8,
+   "agreed": "2026-11-19 (owner: WhatsApp removed from the whole ecosystem)",
+   "rule": "Version 8 only removes WhatsApp as a way in LynkAttend, LynkQueue and LynkSurvey events. A version 7 event reads as version 8 with schema_version raised; a value that names WhatsApp reads as LynkChat (only sandbox and test events can hold one; there were no live users). The stored event is never rewritten.",
+   "reads_as": {
+    "AttendanceConsentRecorded.method": {
+     "code_whatsapp": "code_lynkchat"
+    },
+    "AttendancePinSent.channel": {
+     "whatsapp": "lynkchat"
+    },
+    "TicketIssued.via": {
+     "whatsapp": "lynkchat"
+    },
+    "SurveyAnswered.way": {
+     "whatsapp": "lynkchat"
+    },
+    "SurveyAnswerReceived.way": {
+     "whatsapp": "lynkchat"
+    }
+   },
+   "never": [
+    "rescale an amount",
+    "rewrite a stored event",
+    "change an identifier",
+    "change an event type",
+    "add a PIN, a phone number or a name"
+   ]
   }
  ]
 }

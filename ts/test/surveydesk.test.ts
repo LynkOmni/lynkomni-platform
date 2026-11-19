@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { SV_OPEN_PLAN, SurveyDesk, svBuilderView, svCDisplayView, svCheck, svDevicesView, svKioskView, svPhoneView, svPlanView, svRealDifference, svResearchView, svResultsView, svRewardsView,
+import { SV_OPEN_PLAN, SV_WAYS, SurveyDesk, svBuilderView, svCDisplayView, svCheck, svDevicesView, svKioskView, svPhoneView, svPlanView, svRealDifference, svResearchView, svResultsView, svRewardsView,
   svScreenView, svSurveysView, svTasksView, svTemplate, svWriteIt } from "../src/surveydesk.js";
 import type { SvLook, SvPlan } from "../src/surveydesk.js";
 import type { AtTier } from "../src/attenddesk.js";
@@ -13,12 +13,12 @@ import { MIN_GROUP } from "../src/survey.js";
 const t = (k: string, v: Record<string, string | number> = {}): string => k + (Object.keys(v).length ? JSON.stringify(v) : "");
 const icon = (id: string): string => `<i data-icon="${id}"></i>`;
 const LOOK: SvLook = { t, icon, clock: () => "09:00", money: (c) => `$${(c / 100).toFixed(2)}`, online: true, partner: false, mayManage: true, place: "Sample place", powered: "<small>Powered</small>" };
-const FREE: SvPlan = { ...SV_OPEN_PLAN, creators_included: 1, extra_creator_cents: null, answers_per_month: 300, live_surveys: 3, whatsapp_and_chat: false, basic_phone: false, field_and_paper: false, voice_call: false,
+const FREE: SvPlan = { ...SV_OPEN_PLAN, creators_included: 1, extra_creator_cents: null, answers_per_month: 300, live_surveys: 3, lynkchat_way: false, basic_phone: false, field_and_paper: false, voice_call: false,
   write_it_for_me: false, logic: "basic", repeating: false, automatic: [], staff_journey: false, experience_dashboards: false, library_and_brand_kit: false, approval: false, call_back: false, rewards: false, panel: false,
   own_hardware: false, own_logo: false, research: ["margins", "sample_size", "research_record"], downloads: [] };
 const PLUS: SvPlan = { ...SV_OPEN_PLAN, approval: false, panel: false, experience_dashboards: false, research: ["margins", "sample_size", "research_record", "compare_groups", "before_after", "themes_basic"], downloads: ["spreadsheet", "csv"], automatic: ["lynkpos", "lynkqueue", "lynkchat"] };
 const PLANS: Record<AtTier, SvPlan> = { free: FREE, plus: PLUS, pro: SV_OPEN_PLAN, max: SV_OPEN_PLAN };
-const CONTRACT = JSON.parse(readFileSync(new URL("../../../contract/event-payloads.v6.json", import.meta.url).pathname, "utf8")).events as Record<string, { origins: string[]; payload: { required?: string[]; properties: Record<string, { enum?: unknown[] }> } }>;
+const CONTRACT = JSON.parse(readFileSync(new URL("../../../contract/event-payloads.v8.json", import.meta.url).pathname, "utf8")).events as Record<string, { origins: string[]; payload: { required?: string[]; properties: Record<string, { enum?: unknown[] }> } }>;
 function desk(): { d: SurveyDesk; log: { type: string; payload: Record<string, unknown>; origin?: string }[] } {
   const log: { type: string; payload: Record<string, unknown>; origin?: string }[] = [];
   return { d: new SurveyDesk((type, payload, origin) => { log.push({ type, payload, origin }); }, PLANS, () => 1_800_000_000_000), log };
@@ -87,7 +87,8 @@ test("the kiosk and the phone ask one question a page, and Why? only after an un
   main.rule = "one_per_phone"; d.act("sv:pstart", ctx); assert.equal(d.phone.step, "code");
   d.input("sv:pcode", "12345"); d.act("sv:pcode", ctx); assert.equal(d.phone.step, "code");
   d.input("sv:pcode", "123456"); d.act("sv:pcode", ctx); assert.equal(d.phone.step, "question");
-  d.phone.way = "whatsapp"; assert.equal(d.wayWhy("whatsapp", true), "coming_soon"); d.tier = "free"; assert.equal(d.wayWhy("whatsapp", false), "plan");
+  d.phone.way = "basic_phone"; assert.equal(d.wayWhy("basic_phone", true), "coming_soon"); d.tier = "free"; assert.equal(d.wayWhy("lynkchat", false), "plan");
+  assert.ok(!(SV_WAYS as readonly string[]).includes("whatsapp"), "no WhatsApp (owner, 2026-11-19)");
   inContract(log);
 });
 

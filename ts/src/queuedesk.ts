@@ -21,14 +21,14 @@ export const pairCode = (): string => { const b = randomBytes(4); return code(((
 type QuSt = "queued" | "sent" | "accepted" | "confirmed" | "failed";
 /** The plan numbers the screens show (services/billing.py FEATURES lynkqueue, passed in by the build; never typed here). */
 export interface QuPlan { price_usd: number; places_included: number; extra_place_cents: number | null; max_places: number | null; tickets_per_place_month: number; sections_per_place: number | null;
-  counters_per_place: number | null; staff_accounts: number | null; basic_phone: boolean; whatsapp_and_chat: boolean; appointments: boolean; send_to: boolean; own_hardware: boolean; busy_forecast: boolean;
+  counters_per_place: number | null; staff_accounts: number | null; basic_phone: boolean; lynkchat_way: boolean; appointments: boolean; send_to: boolean; own_hardware: boolean; busy_forecast: boolean;
   own_logo: boolean; reports: string; history_months: number | null }
 export const QU_SETUPS = ["just_me", "one_place", "many_places"] as const;
-export const QU_VIAS = ["reception", "kiosk", "smartphone", "whatsapp", "lynkchat", "basic_phone", "api", "appointment"] as const;
+export const QU_VIAS = ["reception", "kiosk", "smartphone", "lynkchat", "basic_phone", "api", "appointment"] as const;
 export type QuVia = (typeof QU_VIAS)[number];
-export const QU_PHONE_WAYS = ["smartphone", "whatsapp", "lynkchat", "basic_phone"] as const;
+export const QU_PHONE_WAYS = ["smartphone", "lynkchat", "basic_phone"] as const;
 export type QuPhoneWay = (typeof QU_PHONE_WAYS)[number];
-const QU_PARTNER_WAYS: readonly string[] = ["whatsapp", "basic_phone"];        // need the people_messages partner in that country
+const QU_PARTNER_WAYS: readonly string[] = ["basic_phone"];                    // needs the people_messages partner in that country
 export const QU_DEVICE_KINDS = ["reception", "counter", "kiosk", "screen", "counter_display", "printer", "counter_keypad", "call_button", "pager_set", "scanner"] as const;
 export type QuKind = (typeof QU_DEVICE_KINDS)[number];
 const QU_NO_DISPLAY: readonly string[] = ["printer", "counter_keypad", "call_button", "pager_set", "scanner"];   // run through LynkDriver; paid tiers
@@ -42,7 +42,7 @@ type QuHealth = (typeof QU_HEALTH)[number];
 /** Words that already exist are used again, so each thing has one name everywhere. */
 const QU_DID: Record<string, string> = { priority: "ppl_priority_short", counter_open: "ppl_counter_open", counter_paused: "ppl_counter_paused", counter_closed: "ppl_counter_closed", called_again: "ppl_call_again", served: "ppl_served",
   missed: "ppl_missed", put_back: "ppl_qu_put_back", running_late: "ppl_qu_running_late", not_served_today: "ppl_qu_state_not_served_today" };
-const QU_VIA_KEY: Record<string, string> = { reception: "ppl_reception_title", kiosk: "ppl_qu_kiosk", whatsapp: "ppl_at_way_whatsapp", lynkchat: "ppl_at_way_lynkchat" };
+const QU_VIA_KEY: Record<string, string> = { reception: "ppl_reception_title", kiosk: "ppl_qu_kiosk", lynkchat: "ppl_at_way_lynkchat" };
 const QU_STATE_KEY: Record<string, string> = { served: "ppl_served", missed: "ppl_missed" };
 const QU_KIND_KEY: Record<string, string> = { reception: "ppl_reception_title", counter: "ppl_counter_title" };
 export interface QuSection { code: string; key: string | null; name: string; opens: number; closes: number; lastBefore: number; avg: number; last: string | null; block: { first: string; last: string } | null }
@@ -219,7 +219,7 @@ export class QueueDesk {
   // ---- the person on a phone ------------------------------------------------------------------------------------------------
   /** May this way be used: the plan, the country's partner and the place's choice. Returns "" or the reason. */
   wayWhy(way: QuPhoneWay, partner: boolean): string {
-    if ((way === "whatsapp" || way === "lynkchat") && !this.plan.whatsapp_and_chat) return "plan";
+    if (way === "lynkchat" && !this.plan.lynkchat_way) return "plan";
     if (way === "basic_phone" && !this.plan.basic_phone) return "plan";
     if (QU_PARTNER_WAYS.includes(way) && !partner) return "coming_soon";
     if (this.joinFrom === "only_at_the_place" && !this.phone.atPlace) return "only_at_the_place";

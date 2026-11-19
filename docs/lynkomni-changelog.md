@@ -2,6 +2,18 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.51.0 (2026-11-19)
+WhatsApp is removed from the whole LynkOmni ecosystem (owner decision, 2026-11-19), so LynkOmni stays focused on its own system:
+- LynkAttend: the PIN and IDCN go by email, LynkChat or text message; the WhatsApp choice is gone from the manager's screens.
+- LynkQueue: people join by the link or QR code, LynkChat or a basic phone. The plan feature is now "LynkChat" (LynkQueue Plus and up), not "WhatsApp and LynkChat". Prices do not change.
+- LynkSurvey: people answer by smartphone, website, LynkChat, basic phone, voice call, kiosk, POS screen, email, field interview or paper; the "one per phone" code goes by text or LynkChat. Prices do not change.
+- Invoice reminders: in the app, LynkChat, text message or email.
+- Message packs and the messaging partner cover text messages and USSD only; the provider ledger no longer asks for a WhatsApp Business provider.
+- Delivery menu on the emulators: "LynkChat, SMS or email", in all 38 languages.
+- Contract version 8: the same as version 7 without the WhatsApp values. An older test event that names WhatsApp reads as LynkChat; nothing stored is rewritten.
+- Kept on purpose: LynkOmni's own WhatsApp Business account stays in the footer's social links as a marketing channel only, and "WhatsApp" stays a protected name in translations so a brand name typed in a chat is never translated.
+- All emulators rebuilt.
+
 ## v0.50.1 (2026-11-19)
 Font check across the ecosystem (owner request):
 - The font register's script rules never reached the emulators: the build copied only the Latin font files from design/fonts.css. Now every emulator carries them: taller lines for Arabic and Indian scripts, and letters that join (Arabic script, Devanagari, Bengali, Tamil, Thai) are never spaced out or capitalised, nor are Chinese, Japanese and Korean spaced. The rule sits on each screen's language and also covers every style of the page that spaces out or capitalises letters, so small labels are safe too, while a tap stays as fast as before.
@@ -585,3 +597,4 @@ Version tags are created automatically by the version-tag workflow when a new en
 Earlier versions (up to v0.9.4) are described in README.md and the master blueprint, sections 1 to 29.
 - 2026-11-10: MASTER UPDATE section 2 (v0.39.0) built by the blueprint: the larger Security Center and account protections, sign-up by phone or email with two ways in, notification settings, the security and account messages, the Messages page, LynkAssist on the account site with its history, breadcrumbs and cards by group.
 - 2026-11-10: Leftovers fixed in section 2: card records now carry their group (older cards are prepaid); the security notice kinds for the new protections and personal reminders joined the message register; LynkAssist's decisions are recorded as AssistActionRecorded; the bell's small action button now has the full touch size.
+- 2026-11-19: Leftover adjusted with v0.51.0: tests/test_attendance.py, ts/test/peoplehub.test.ts and ts/test/surveydesk.test.ts now check events against the current contract (version 8) instead of version 6.
