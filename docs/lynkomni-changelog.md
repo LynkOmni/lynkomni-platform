@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.50.0 (2026-11-19)
+Section 4, part 1c (the build-order tables and a steadier layout check):
+- The thirteen "where every part is built" tables of the master blueprint (64.11 to 76.8, 147 rows) are now a register, catalog/build-tables.v1.json, read through core/build_sections.py. Each row names its build sections and records which are done and in which version.
+- New check tests/test_build_tables.py: a build section cannot be locked while any of its parts is still to build, nothing is marked done ahead of the build order, and every version named is in this change log. Sections 3A and 3B have all their parts done; section 4 has 13 parts, with the prices and families of parts 1a and 1b recorded as progress.
+- The showcase's progress table shows, for every build section, how many of its parts from the updates are done.
+- The layout check in CI: each of the 8 parts now stops after 25 minutes, and its set-up after 10, so a stuck part fails fast instead of blocking for an hour. The fit guard is shared across all 8 parts (each takes every 8th emulator) instead of all running in part 1, which took about twice as long as the others.
+
 ## v0.49.0 (2026-11-19)
 Section 4, part 1b (the eight new families, placed everywhere):
 - Eight new billing families, each outside LynkSuite and priced per organisation: LynkExchange $0, $9, $29, $79 (LynkOmni's part 0.50%, 0.40%, 0.30%, 0.20%, and automatic levels by 30-day volume: a customer pays the lower part); LynkVote $0, $9, $29, $99 (voters in a vote 100, 1,000, 10,000, 100,000; extra 1,000 voters $3, $2, $1); LynkHR $0, $9, $29, $79 (staff 5, 50, 250, 1,000; $4 per extra 100); LynkProject $0, $5, $15, $39 (members 5, 25, 100, 500; $3 per extra 50); LynkSchool $0, $19, $49, $129 (learners 100, 500, 2,500, 10,000; $5 per extra 500); LynkProperty $0, $9, $29, $79 (units 5, 50, 250, 1,000; $5 per extra 100); LynkFiles $0, $4, $11, $29 (storage 5 GB, 100 GB, 500 GB, 2 TB; signature requests 5, 50, 500, unlimited; $2 per extra 100 GB); LynkJobs $0, $15, $45, $129 (open jobs 2, 10, 50, unlimited; $3 per extra open job).

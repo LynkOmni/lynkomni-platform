@@ -13,6 +13,16 @@ import glob, os, unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIST = os.path.join(ROOT, "web", "emulators", "dist")
+# CI runs this check in all 8 parts of the layout job at once (LAYOUT_SHARD="k/n", k from 1): each part takes every n-th
+# emulator, so every emulator is still checked once in every run; the signed-in Business app runs in part 3 (section 4 part 1c).
+# Without the variable, everything runs here.
+_K, _N = (int(x) for x in os.environ.get("LAYOUT_SHARD", "1/1").split("/"))
+SIGNED_IN_PART = min(3, _N)
+
+
+def mine(files):
+    """This part's share of the emulators: every n-th file of the sorted list."""
+    return [f for i, f in enumerate(sorted(files)) if i % _N == _K - 1]
 try:
     from playwright.sync_api import sync_playwright
 except ImportError:          # pragma: no cover
@@ -106,6 +116,15 @@ class BrowserTestsRun(unittest.TestCase):
             if "playwright" in open(f, encoding="utf-8").read():
                 self.assertIn(f"tests.{mod}", ci, f"{mod} uses a browser but no job with a browser runs it")
 
+    def test_every_layout_part_has_a_time_limit(self):
+        """A stuck part fails within minutes instead of blocking the merge for an hour (on 19 November one part hung for over an
+        hour while setting up the test machine): the job and its set-up step each have a time limit (section 4 part 1c)."""
+        ci = open(os.path.join(ROOT, ".github", "workflows", "ci.yml"), encoding="utf-8").read()
+        job = ci[ci.index("  layout-part:"):ci.index("  layout:")]
+        self.assertRegex(job, r"timeout-minutes: \d+", "the layout parts need a time limit")
+        self.assertRegex(job, r"layout_setup\.sh, timeout-minutes: \d+", "the set-up step needs its own time limit")
+        self.assertIn("tests.test_fit_guard", job.split("matrix.part ==")[0], "the fit guard is shared across every part")
+
 
 @unittest.skipUnless(sync_playwright and glob.glob(os.path.join(DIST, "*.html")), "Playwright with Chromium is needed")
 class FitGuard(unittest.TestCase):
@@ -135,8 +154,8 @@ class FitGuard(unittest.TestCase):
             pg.keyboard.press("Escape")
 
     def test_nothing_cut_squeezed_or_blocked_anywhere(self):
-        files = sorted(glob.glob(os.path.join(DIST, "*.html")))
-        self.assertGreater(len(files), 10)
+        self.assertGreater(len(glob.glob(os.path.join(DIST, "*.html"))), 10)
+        files = mine(glob.glob(os.path.join(DIST, "*.html")))
         found = {}
         with sync_playwright() as p:
             b = p.chromium.launch()
@@ -172,7 +191,7 @@ class FitGuard(unittest.TestCase):
         found = {}
         with sync_playwright() as p:
             b = p.chromium.launch()
-            for f in sorted(glob.glob(os.path.join(DIST, "*.html"))):
+            for f in mine(glob.glob(os.path.join(DIST, "*.html"))):
                 emu = os.path.basename(f)[len("lynkomni-"):-len(".html")]
                 pg = b.new_page(viewport={"width": 1500, "height": 1100}, reduced_motion="reduce")
                 pg.goto("file://" + f); pg.wait_for_timeout(300)
@@ -207,6 +226,7 @@ class FitGuard(unittest.TestCase):
             b.close()
         self.assertEqual(found, {}, "\n".join(f"{k}: {v}" for k, v in found.items()))
 
+    @unittest.skipUnless(_K == SIGNED_IN_PART, "runs in part 3 of the layout check")
     def test_business_app_signed_in_at_every_size(self):
         """The Business app's menus (phone tabs, tablet side rail, computer view) appear only after signing in."""
         found = {}

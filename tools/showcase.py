@@ -21,6 +21,7 @@ sys.path.insert(0, ROOT)
 import brand  # noqa: E402
 import visuals  # noqa: E402
 from services import billing  # noqa: E402
+from core import build_sections  # noqa: E402
 
 OUT_DIR = os.path.join(ROOT, "web", "showcase", "dist")
 OUT = os.path.join(OUT_DIR, "lynkomni-showcase.html")
@@ -143,11 +144,15 @@ def build():
     parts.append(_device_pick(devreg, names))
 
     # Progress
-    parts.append(f'<h2 id="progress">Progress: the {len(cfg["sections"])} build steps</h2><table><thead><tr><th>#</th><th>Build section</th><th>Status</th><th>Version</th></tr></thead><tbody>')
+    parts.append(f'<h2 id="progress">Progress: the {len(cfg["sections"])} build steps</h2>'
+                 '<p class="muted">Parts from the updates: how many of the parts that the thirteen tables of the blueprint (64.11 to 76.8) give each section are done. A section is locked only when all are done.</p>'
+                 '<table><thead><tr><th>#</th><th>Build section</th><th>Status</th><th>Parts from the updates</th><th>Version</th></tr></thead><tbody>')
     for s in cfg["sections"]:
         st = s.get("status", "")
         word = {"locked": "Done and locked", "building": "Being built", "next": "Next"}.get(st, "Waiting")
-        parts.append(f'<tr><td>{s["n"]}</td><td>{html.escape(s["title"])}</td><td><span class="tag {st}">{word}</span></td><td>{html.escape(s.get("version", ""))}</td></tr>')
+        done, work = build_sections.tally(s["n"])
+        share = f"{done} of {work} done" if work else "none"
+        parts.append(f'<tr><td>{s["n"]}</td><td>{html.escape(s["title"])}</td><td><span class="tag {st}">{word}</span></td><td>{share}</td><td>{html.escape(s.get("version", ""))}</td></tr>')
     parts.append('</tbody></table>')
 
     # Numbers
