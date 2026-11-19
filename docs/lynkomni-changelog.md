@@ -2,6 +2,12 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.47.1 (2026-11-19)
+Two screen fixes the owner found on a phone:
+- Counter tablet: the first-launch card ("Is this right?") was cut off below "Yes, continue". A shared rule added with the Emulator Panel (web/device/emkit.css) outweighed the tablet's own screen layout, so the app grew taller than the screen. The rule now has no weight (:where), so every device keeps its own layout. No other emulator was affected (checked on all of them, computer and phone size).
+- Counter tablet: the PIN keypad's bottom row (0 and the tick) needed scrolling on the wide, short tablet screen. The keypad now sits beside the name, title and dots, so every key shows; right-to-left mirrors it.
+- Main footer: the line under the logo ("Works with or without internet.") had lost its spacing inside the app shell, so it touched the "Products" heading. It now sits close under the logo with a clear gap above the columns, on every page.
+
 ## v0.47.0 (2026-11-19)
 Section 3A, the Emulator Panel (EMULATOR UPDATE, master blueprint section 70):
 - One register of every emulator (catalog/emulators.v1.json): 24 built today on 10 device emulators, 9 planned with the section that builds them, and the screens that are not on the panel with the reason. Every emulator states the four checks (touch, buttons only, offline, sides).

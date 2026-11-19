@@ -339,7 +339,8 @@ html { font-size: 100%; }
 .mainfoot a { display: inline-flex; align-items: center; min-height: 44px; color: var(--text-primary); text-decoration: none; overflow-wrap: anywhere; }
 .fcol a { display: inline-block; padding-block: 10px; line-height: 24px; }   /* a link with a plain word wraps like text and keeps a 44 px target */
 .mainfoot a:hover, .mainfoot a:focus-visible { text-decoration: underline; }
-.ftag { margin: 0 0 20px; color: var(--text-secondary); }
+/* The tagline sits close under the logo and a clear gap above the columns. Scoped to .mainfoot so a page's own paragraph reset (the shell's .shell p) never wipes it (owner, 19 November 2026). */
+.mainfoot .ftag { margin: 4px 0 24px; color: var(--text-secondary); }
 .fcols, .frow { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(160px, 100%), 1fr)); gap: 16px 24px; }
 .fcols { grid-auto-flow: row dense; }
 /* A long list takes as many tracks as its span and flows into balanced sub-columns (footer.ts PER_COLUMN); on a narrow footer it
@@ -357,7 +358,7 @@ html { font-size: 100%; }
 .fpays li { display: flex; align-items: center; gap: 8px; min-height: 44px; }
 .fpays .ic { inline-size: 20px; block-size: 20px; flex: none; }
 .fnews { min-width: 0; grid-column: span 2; }
-.fnews p { margin: 0 0 8px; color: var(--text-secondary); overflow-wrap: anywhere; }
+.mainfoot .fnews p { margin: 0 0 8px; color: var(--text-secondary); overflow-wrap: anywhere; }
 .fnews .fl { display: flex; flex-direction: column; gap: 4px; margin-block-end: 8px; }
 .fnews input[type="email"] { font: inherit; min-height: 44px; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-input); background: var(--bg-surface); color: var(--text-primary); }
 .fnews fieldset { border: 0; padding: 0; margin: 0 0 8px; display: flex; flex-wrap: wrap; gap: 4px 16px; }
@@ -368,7 +369,7 @@ html { font-size: 100%; }
 .fnote { font-size: 13px; }
 .flegal { margin-block-start: 24px; padding-block-start: 16px; border-block-start: 1px solid var(--border-subtle); display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; justify-content: space-between; }
 .flegal ul { display: flex; flex-wrap: wrap; gap: 0 16px; }
-.fcopy { margin: 0; color: var(--text-secondary); font-size: 13px; overflow-wrap: anywhere; }
+.mainfoot .fcopy { margin: 0; color: var(--text-secondary); font-size: 13px; overflow-wrap: anywhere; }
 @media (max-width: 600px) { .fnews { grid-column: auto; } }
 /* Short footer inside apps: one line, the fixed copyright text. */
 .shortfoot { padding: 12px 8px; text-align: center; }
@@ -707,7 +708,8 @@ html { font-size: 100%; }
 .emk-ways { margin: 0; padding-inline-start: 1.25rem; display: grid; gap: 4px; }
 .emk-art { position: absolute; inset-block: 0; display: grid; place-items: center; pointer-events: none; opacity: .9; }
 .emk-art svg { max-inline-size: 100%; max-block-size: 100%; }
-:is(#screen, #display, #app, .app) { position: relative; }
+/* zero weight (:where), so a device that pins its app to the screen (counter tablet: .screen .app absolute) keeps it; a regression found by the owner on 19 November 2026 */
+:where(#screen, #display, #app, .app) { position: relative; }
 /* the panel in the Business app */
 .emp-path { margin: 0; }
 .emp-filter, .emp-guided, .emp-actions { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
