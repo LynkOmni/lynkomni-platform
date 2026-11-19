@@ -139,7 +139,7 @@
 .menu { list-style: none; margin: 0; padding: 0; }
 .menu button { width: 100%; display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 6px; border: 0; border-bottom: 1px solid var(--border-subtle); background: transparent; color: var(--text-primary); text-align: start; font: 600 13px var(--font-body); cursor: pointer; }
 .menu button .ic { margin-inline-start: auto; width: 16px; height: 16px; color: var(--text-muted); }
-.lock { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; }
+.lock { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: safe center; gap: 8px; text-align: center; }   /* safe: content taller than the screen starts at the top, never cut above it */
 .lockmark { width: 36px; height: 36px; color: var(--brand-ink); }
 .locklogo { width: 160px; display: block; margin-bottom: 4px; }
 .locklogo svg { width: 100%; height: auto; display: block; }
@@ -161,3 +161,8 @@ label input { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px s
 .lock .who .ic { width: 16px; height: 16px; }
 .lock .link { min-height: 44px; padding: 0 8px; border: 0; background: none; color: var(--brand-ink); font: 600 14px var(--font-body); text-decoration: underline; cursor: pointer; }
 .lock .dk-staff { width: min(100%, 420px); }
+/* The PIN screen on the wide, short counter tablet (owner, 19 November 2026): who is signing in, the title and the dots on the
+   inline-start side, the keypad beside them, so every key shows without scrolling. Logical grid, so right-to-left mirrors. */
+.lock:has(> .soft) { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 24px; row-gap: 6px; align-content: safe center; justify-items: center; padding: 8px 20px; box-sizing: border-box; }
+.lock:has(> .soft) > * { grid-column: 1; }
+.lock:has(> .soft) > .soft { grid-column: 2; grid-row: 1 / span 6; align-self: center; }

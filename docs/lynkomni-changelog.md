@@ -9,6 +9,13 @@ Section 4, part 1a (prices first, as agreed when section 4 was planned):
 - Revenue a month is now $21,632, $1,413,452 and $46,046,891 at the three stages. Every figure is an assumption about how many businesses choose each plan.
 - 2026-11-19: Leftover adjusted in section 4: LynkBooking counts its devices by its own places (like LynkAttend, LynkQueue and LynkSurvey), so its $6 extra device price from section 3A is removed; extra places are bought at the LynkBooking place price instead.
 - 2026-11-19: Leftover adjusted in section 4: the bill test's lowest allowed bundle price (a bundle never drops below 59% of its services bought one by one) was set for the old prices; it now fits the new ones.
+## v0.47.1 (2026-11-19)
+Fixes the owner found on a phone:
+- Counter tablet: the first-launch card ("Is this right?") was cut off below "Yes, continue". A shared rule added with the Emulator Panel (web/device/emkit.css) outweighed the tablet's own screen layout, so the app grew taller than the screen. The rule now has no weight (:where), so every device keeps its own layout. No other emulator was affected (checked on all of them, computer and phone size).
+- Counter tablet: the PIN keypad's bottom row (0 and the tick) needed scrolling on the wide, short tablet screen. The keypad now sits beside the name, title and dots, so every key shows; right-to-left mirrors it.
+- Main footer: the line under the logo ("Works with or without internet.") had lost its spacing inside the app shell, so it touched the "Products" heading. It now sits close under the logo with a clear gap above the columns, on every page.
+- Key sounds, like a real device: every number key now plays its own telephone keypad pair (1 to 9, 0, * and #), and confirm, cancel, clear, moving around (arrows, menu, soft keys), tabs, switches on and off, scanning and printing each have their own tone and vibration. One shared rule (ts/src/keytones.ts, tones from the design tokens) serves every device emulator on the Emulator Panel and the button phone, which also gained Key tones and Vibration switches. A PIN, door code or ID number follows the manager's existing choice: each key its own tone, or one same tone on every key. One sound player is reused for every press.
+- Faster checks: the layout check runs as 8 parts at the same time (every language still checked once), a branch is checked once through its pull request, and a newer push cancels the outdated run. About 6 minutes instead of 35.
 
 ## v0.47.0 (2026-11-19)
 Section 3A, the Emulator Panel (EMULATOR UPDATE, master blueprint section 70):

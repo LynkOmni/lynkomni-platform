@@ -36,3 +36,34 @@ test("key tones, the delivery menu, states, re-approval and screen fit agree", (
   for (const c of V.reapproval_due) assert.equal(reapprovalDue(R, c.last, c.today), c.due, JSON.stringify(c));
   for (const c of V.fit) assert.deepEqual(fitScreen(R, c.screen[0], c.screen[1], c.design[0], c.design[1]), c.result, JSON.stringify(c));
 });
+
+test("keys of different kinds sound different, like a real device (owner, 19 November 2026)", async () => {
+  const { soundForAct } = await import("../src/keytones.js");
+  const { KEY_TONE } = await import("../src/signin.js");
+  const S = R.sounds;
+  // every number key has its own keypad pair, the same pairs the PIN pad uses, and no two keys share one
+  const pairs = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].map((d) => S.keypad?.[d]);
+  for (const [i, p] of pairs.entries()) assert.deepEqual(p, KEY_TONE[String(i)], `key ${i}`);
+  assert.equal(new Set(pairs.map((p) => String(p))).size, 10);
+  // every kind a key can be has its own tone and vibration in the tokens
+  for (const k of ["key", "confirm", "cancel", "clear", "nav", "tab", "toggle_on", "toggle_off", "scan", "printer", "pin_same", "error", "paid"]) {
+    assert.ok(S.tones[k]?.length, `tone ${k}`); assert.ok(S.vibrate[k], `vibration ${k}`);
+  }
+  assert.ok(S.vibrate["digit"]);
+  const tonesOf = new Set(["confirm", "cancel", "clear", "nav", "tab", "toggle_on", "toggle_off", "key"].map((k) => JSON.stringify(S.tones[k])));
+  assert.equal(tonesOf.size, 8, "no two kinds share a tone");
+  // the actions each emulator uses
+  assert.equal(soundForAct("d5"), "digit:5"); assert.equal(soundForAct("pin:0"), "digit:0"); assert.equal(soundForAct("at:digit:7"), "digit:7");
+  assert.equal(soundForAct("star"), "digit:*"); assert.equal(soundForAct("hash"), "digit:#"); assert.equal(soundForAct("d00"), "digit:0");
+  assert.equal(soundForAct("enter"), "confirm"); assert.equal(soundForAct("call"), "confirm"); assert.equal(soundForAct("pin:ok"), "confirm");
+  assert.equal(soundForAct("clear"), "clear"); assert.equal(soundForAct("pin:clear"), "clear");
+  assert.equal(soundForAct("cancel"), "cancel"); assert.equal(soundForAct("end"), "cancel");
+  assert.equal(soundForAct("nav:up"), "nav"); assert.equal(soundForAct("pad:left"), "nav"); assert.equal(soundForAct("menu"), "nav"); assert.equal(soundForAct("soft:left"), "nav");
+  assert.equal(soundForAct("tab:home"), "tab");
+  assert.equal(soundForAct("x", { pressed: false }), "toggle_on"); assert.equal(soundForAct("x", { pressed: true }), "toggle_off");
+  assert.equal(soundForAct("reprint"), "printer"); assert.equal(soundForAct("add:p1"), "key");
+  // a PIN, door code or ID number follows the manager's choice: per key, or one same tone so nobody nearby can tell keys apart
+  assert.equal(soundForAct("d4", { privateEntry: true, pinTones: "same" }), "pin_same");
+  assert.equal(soundForAct("d4", { privateEntry: true, pinTones: "per_key" }), "digit:4");
+  assert.equal(soundForAct("d4", { privateEntry: false, pinTones: "same" }), "digit:4");
+});

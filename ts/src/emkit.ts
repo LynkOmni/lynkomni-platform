@@ -13,10 +13,11 @@ import type { Icon, T } from "./shell.js";
 import { newId } from "./emulator.js";
 import { canRun, deliveryWays, fitScreen, hardwareAdvice, tones } from "./emulators.js";
 import type { Caps, EmulatorRegister, Tones, ToneSetting, Way } from "./emulators.js";
+import { PRIVATE_ENTRY, playSound, soundForAct } from "./keytones.js";
+import type { Sound } from "./keytones.js";
 
 export type Link = "connected" | "request" | "disconnected" | "asked" | "lost" | "reapproval";
 export const LINKS: readonly Link[] = ["connected", "request", "disconnected", "asked", "lost", "reapproval"];
-export type Sound = "key" | "confirm" | "cancel" | "error" | "scan" | "paid" | "printer" | "pin_same";
 export type Emit = (type: string, payload: Record<string, unknown>, origin?: "device" | "server") => void;
 type St = "queued" | "sent" | "accepted" | "confirmed" | "failed";
 
@@ -31,25 +32,7 @@ export interface KitOptions {
 }
 
 /** The tone and vibration for one press, from the design tokens; silent where the browser has no sound or vibration. */
-export function play(reg: EmulatorRegister, kind: Sound, s: Tones): void {
-  if (typeof window === "undefined") return;
-  const snd = reg.sounds;
-  try {
-    if (s.vibration && typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate(snd.vibrate[kind] ?? []);
-    if (!s.tones) return;
-    const AC = (window as unknown as { AudioContext?: typeof AudioContext }).AudioContext; if (!AC) return;
-    const ac = new AC(), gain = snd.volume_gain[s.volume] ?? snd.volume_gain["medium"] ?? 0.06;
-    let at = ac.currentTime;
-    for (const [hz, ms] of snd.tones[kind] ?? []) {
-      if (hz > 0) {
-        const o = ac.createOscillator(), g = ac.createGain();
-        o.frequency.value = hz; g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(gain, at + 0.008); g.gain.exponentialRampToValueAtTime(0.0001, at + ms / 1000);
-        o.connect(g).connect(ac.destination); o.start(at); o.stop(at + ms / 1000 + 0.02);
-      }
-      at += ms / 1000;
-    }
-  } catch { /* no sound on this device: every press also shows on the screen */ }
-}
+export function play(reg: EmulatorRegister, kind: Sound, s: Tones): void { playSound(reg.sounds, kind, s); }
 
 export class EmKit {
   link: Link = "connected";
@@ -224,11 +207,12 @@ export function kitChange(k: EmKit, el: HTMLInputElement & HTMLSelectElement, bu
   else if (w === "quiet") k.quietHours = el.checked;
   return true;
 }
-/** The sound for a pressed control: confirm, cancel or a plain key (every press also shows on the screen). */
-export function soundFor(el: HTMLElement): Sound {
-  if (el.classList.contains("primary") || el.dataset["act"]?.endsWith(":ok")) return "confirm";
-  if (/:(cancel|back|deny|clear)$/.test(el.dataset["act"] ?? "")) return "cancel";
-  return "key";
+/** The sound for a pressed control on a device (every press also shows on the screen). */
+export function soundFor(el: HTMLElement, device?: HTMLElement | null, pinTones: "same" | "per_key" = "per_key"): Sound {
+  const pressedAttr = el.getAttribute("aria-pressed") ?? el.getAttribute("aria-checked");
+  const privateEntry = Boolean(el.closest(PRIVATE_ENTRY) || device?.querySelector(PRIVATE_ENTRY));
+  return soundForAct(el.dataset["act"] ?? "", { primary: el.classList.contains("primary") || el.classList.contains("dsh-primary"), pressed: pressedAttr === null ? null : pressedAttr === "true",
+    privateEntry, pinTones, text: el.textContent?.trim() });
 }
 
 /** The kit's options for one emulator of the register: its service, whether it faces customers and its hardware come from
@@ -255,7 +239,7 @@ export function wireKit(k: EmKit, o: { t: T; icon: Icon; online: () => boolean; 
       const a = b.dataset["act"] ?? "";
       if (a.startsWith("emk:")) { e.stopImmediatePropagation(); k.act(a, look()); o.redraw(); return; }
       const dev = o.device?.() ?? document.getElementById("rig");
-      if (dev && dev.contains(b) && !b.closest(".panel, aside")) k.press(soundFor(b));
+      if (dev && dev.contains(b) && !b.closest(".panel, aside")) k.press(soundFor(b, dev, k.now().pin_tones));
     }, true);
     document.addEventListener("change", (e) => {
       const el = e.target as HTMLInputElement & HTMLSelectElement;

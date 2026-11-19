@@ -12,7 +12,9 @@ export interface EmulatorRegister {
   code_minutes: number; reapprove_days: number; downgrade_grace_days: number; artwork_min_px: number;
   hardware_ways: Record<string, string[]>; os_ways: Record<string, string[]>;
   /** The shared tone set from the design tokens (design/tokens.v1.json sounds). */
-  sounds: { volume_gain: Record<string, number>; tones: Record<string, [number, number][]>; vibrate: Record<string, number[]> };
+  sounds: { volume_gain: Record<string, number>; tones: Record<string, [number, number][]>; vibrate: Record<string, number[]>;
+    /** Each number key's own telephone keypad pair (Hz), played together for keypad_ms (owner, 19 November 2026). */
+    keypad?: Record<string, [number, number]>; keypad_ms?: number };
 }
 export interface Connection { device: string; emulator: string; connected?: boolean; practice?: boolean }
 export const EM_STATES = ["queued", "sent", "accepted", "confirmed", "failed"] as const;

@@ -89,7 +89,11 @@ def kotlin():
 def swift():
     def obj(t): return f"    public static let {camel(t)}: [String: UInt32] = [\n" + ",\n".join(f'        "{k}": 0x{a:02X}{r:02X}{g:02X}{b:02X}' for k, v in resolved(t).items() for r, g, b, a in [rgba(v)]) + "\n    ]"
     return f"// {HEADER}\n/// Colours as ARGB values. Fonts: Montserrat headings, Inter body, bundled in the app so they work offline.\npublic enum Tokens {{\n" + "\n".join(obj(t) for t in ("light", "dark", "contrast-light", "contrast-dark")) + "\n" + "    public static let states: [String: (label: String, icon: String, tone: String)] = [\n" + ",\n".join(f'        "{k}": ("{v["label"]}", "{v["icon"]}", "{v["tone"]}")' for k, v in SRC["states"].items()) + "\n    ]\n}\n"
-def build(): return {"design/generated/tokens.css": css(), "design/generated/tailwind.preset.cjs": tailwind(), "ts/src/tokens.ts": ts(),
+def sounds_ts():
+    snd = {k: v for k, v in SRC["sounds"].items() if k != "note"}
+    return (f"// {HEADER}\n/** The shared key tones and press vibrations (design/tokens.v1.json sounds), small on purpose so a light emulator such as\n"
+            f" *  the button phone can play them without the whole token or emulator register. */\nexport const SOUNDS = {json.dumps(snd)} as const;\n")
+def build(): return {"ts/src/sounds.generated.ts": sounds_ts(), "design/generated/tokens.css": css(), "design/generated/tailwind.preset.cjs": tailwind(), "ts/src/tokens.ts": ts(),
                      "android/core/src/main/kotlin/com/lynkomni/core/Tokens.kt": kotlin(), "ios/Sources/LynkCore/Tokens.swift": swift()}
 if __name__ == "__main__":
     stale = []
