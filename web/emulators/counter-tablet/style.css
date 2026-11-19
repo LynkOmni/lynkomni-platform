@@ -23,7 +23,7 @@
 .cdisplay { padding: 8px; border-radius: 12px; background: linear-gradient(160deg, var(--device-shell-edge), var(--device-shell)); }
 .cscreen { width: 134px; height: 150px; border-radius: 6px; overflow: hidden; background: var(--bg-base); color: var(--text-primary); font-size: 10px; padding: 8px; display: flex; flex-direction: column; }
 .cscreen.dark { color-scheme: dark; }
-.cwelcome { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%; gap: 2px; }
+.cwelcome { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%; gap: 2px; min-width: 0; overflow-wrap: anywhere; }
 .cwelcome h2 { margin: 0; font-size: 13px; }
 .cwelcome p { margin: 0; color: var(--text-secondary); }
 .cmark { width: 110px; display: block; }   /* 118 px of room on the 134 px customer screen: the logo fits (from 96 px) */

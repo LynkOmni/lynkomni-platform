@@ -134,7 +134,10 @@ const tokens = read(join(ROOT, "design", "generated", "tokens.css"));
 const fontCss = read(join(ROOT, "design", "fonts.css")).match(/@font-face\s*\{[^}]*\}/g)
   .filter((b) => /-latin\.woff2/.test(b))
   .map((b) => b.replace(/url\('\/fonts\/([\w-]+\.woff2)'\)/, (_, f) => `url(data:font/woff2;base64,${readFileSync(join(ROOT, "design", "fonts", f)).toString("base64")})`))
-  .join("\n");
+  .join("\n")
+  // and every script rule of the font register (taller lines for Arabic and Indian scripts, never spacing or capitalising letters
+  // that join or ideographs, right to left): they apply whatever font the device uses (owner check, 19 November 2026)
+  + "\n" + read(join(ROOT, "design", "fonts.css")).replace(/\/\*[\s\S]*?\*\//g, "").replace(/@font-face\s*\{[^}]*\}/g, "").split("\n").filter((l) => l.trim()).join("\n");
 // The page's own tab icon (brand surface "favicon"): the light-theme emblem when the browser is light, the dark-theme emblem when it is dark.
 // a small data address: double quotes become single quotes and only the characters an address cannot carry are escaped
 // (far smaller than escaping everything, so the two favicons cost little in every file)
@@ -149,6 +152,25 @@ function withPolicy(html) {
   if (!html.includes('<meta charset="utf-8">')) throw new Error("every page starts with <meta charset=\"utf-8\">");
   return html.replace('<meta charset="utf-8">', () => `<meta charset="utf-8">\n<meta http-equiv="Content-Security-Policy" content="${csp}">`);
 }
+// The font register's script rules sit on the element that carries lang and are inherited. A page's own rules that space out or
+// capitalise letters (badges, small headings) would beat inheritance, so each page gets the script rule again for exactly those
+// selectors: letters that join and ideographs are never spaced or capitalised anywhere, and the rule stays as fast as the page's
+// own rules (owner font check, 19 November 2026; tests/test_emulators.py ScriptRules).
+const SCRIPT_RULES = [...read(join(ROOT, "design", "fonts.css")).matchAll(/^((?:\[lang\|="[\w-]+"\](?:, )?)+) (\{[^}]*!important[^}]*\})$/gm)]
+  .map((m) => ({ langs: m[1].split(", "), body: m[2] }));
+function withScriptCover(html) {
+  const css = [...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map((m) => m[1]).join("\n").replace(/\/\*[\s\S]*?\*\//g, "");
+  const sels = new Set();
+  for (const m of css.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+    const decl = m[2], sel = m[1].trim();
+    if (sel.startsWith("@") || /^(from|to|[\d.]+%)/.test(sel) || sel.includes("[lang|=")) continue;
+    const spaced = /letter-spacing\s*:\s*(?!0\b|0\s*!|normal)[^;]+/.test(decl), caps = /text-transform\s*:\s*(uppercase|capitalize)/.test(decl);
+    if (spaced || caps) for (const s of sel.split(",")) if (s.trim()) sels.add(s.trim());
+  }
+  if (!sels.size) return html;
+  const cover = SCRIPT_RULES.map((r) => `:is(${r.langs.join(", ")}) :is(${[...sels].join(", ")}) ${r.body}`).join("\n");
+  return html.replace("</style>", () => `/* script cover */\n${cover}\n</style>`);
+}
 let stale = [];
 for (const e of EMULATORS) {
   const D = JSON.parse(execFileSync("python3", [join(WEB, "emulators", "build_data.py"), e.id], { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 26 }));
@@ -161,6 +183,7 @@ for (const e of EMULATORS) {
     .replace("</head>", () => `${faviconLinks(D.brand.favicon)}\n</head>`)
     .replace(/\/\*@I:([a-z0-9-]+)@\*\//g, (_, id) => `<span class="ic" aria-hidden="true">${D.icons[id] ?? (() => { throw new Error(`unknown icon ${id}`); })()}</span>`)
     .replace("/*@SCRIPT@*/", () => `const DATA = ${JSON.stringify(packData(D)).replace(/</g, "\\u003c")};\n(async () => {\n${UNPACK}\n${INFLATE}\n${bundle(e.modules)}\ndocument.documentElement.dataset.ready = "1"; window.__readyAt = performance.now();\n})();`);
+  html = withScriptCover(html);
   html = withPolicy(html);
   const target = join(OUT, e.out);
   if (process.argv.includes("--check")) {

@@ -32,6 +32,7 @@
 .dsh-panel .hbtn, .dsh-panel .copy { min-width: 44px; min-height: 44px; border: 0; background: transparent; color: inherit; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
 .dsh-panel .results li button, .dsh-panel .articles a, .dsh-panel .mitem { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 44px; padding: 6px 8px; border: 0; border-radius: 10px; background: transparent; color: inherit; font: inherit; text-align: start; cursor: pointer; text-decoration: none; flex-wrap: wrap; }
 .dsh-panel .results li button:hover, .dsh-panel .articles a:hover, .dsh-panel .mitem:hover { background: var(--bg-subtle); }
+.dsh-panel :is(.results li button, .articles a, .mitem):hover :is(.rs, .rk, .kbd, .suggested) { color: var(--text-primary); }   /* secondary text is too faint on the hover colour */
 .dsh-panel .rt { font-weight: 600; flex: 1 1 8em; min-width: 0; }
 .dsh-panel .rs, .dsh-panel .rk, .dsh-panel .kbd, .dsh-panel .suggested { color: var(--text-secondary); font-size: 12px; }
 .dsh-panel .rk { margin-inline-start: auto; }
