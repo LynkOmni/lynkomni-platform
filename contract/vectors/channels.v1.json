@@ -1923,5 +1923,720 @@
     "parsed": null
    }
   ]
+ },
+ "survey": {
+  "ctx": {
+   "org": "Sample place",
+   "minutes": 1,
+   "anonymous": true,
+   "questions": [
+    {
+     "id": "visit",
+     "type": "rating",
+     "text": "How was your visit today?"
+    },
+    {
+     "id": "why",
+     "type": "long",
+     "text": "Why?"
+    },
+    {
+     "id": "again",
+     "type": "yes_no",
+     "text": "Will you come back?"
+    },
+    {
+     "id": "wait",
+     "type": "choice",
+     "text": "How long did you wait?",
+     "choices": [
+      "Under 5 minutes",
+      "5 to 15 minutes",
+      "Over 15 minutes"
+     ]
+    },
+    {
+     "id": "recommend",
+     "type": "score",
+     "text": "Would you recommend us?"
+    }
+   ]
+  },
+  "sessions": [
+   [
+    {
+     "input": null,
+     "page": [
+      [
+       "ch_s_intro",
+       {
+        "org": "Sample place",
+        "count": 4,
+        "minutes": 1
+       }
+      ],
+      [
+       "ch_s_anon",
+       {}
+      ],
+      [
+       "ch_s_start",
+       {
+        "n": 1
+       }
+      ],
+      [
+       "ch_end",
+       {
+        "n": 0
+       }
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "1",
+     "page": [
+      [
+       "ch_s_q",
+       {
+        "i": 1,
+        "of": 4,
+        "text": "How was your visit today?"
+       }
+      ],
+      [
+       "ch_s_rate",
+       {}
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "4",
+     "page": [
+      [
+       "ch_s_q",
+       {
+        "i": 2,
+        "of": 4,
+        "text": "Will you come back?"
+       }
+      ],
+      [
+       "ch_s_yes",
+       {
+        "n": 1
+       }
+      ],
+      [
+       "ch_s_no",
+       {
+        "n": 2
+       }
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "1",
+     "page": [
+      [
+       "ch_s_q",
+       {
+        "i": 3,
+        "of": 4,
+        "text": "How long did you wait?"
+       }
+      ],
+      [
+       "ch_s_choice",
+       {
+        "n": 1,
+        "name": "Under 5 minutes"
+       }
+      ],
+      [
+       "ch_s_choice",
+       {
+        "n": 2,
+        "name": "5 to 15 minutes"
+       }
+      ],
+      [
+       "ch_s_choice",
+       {
+        "n": 3,
+        "name": "Over 15 minutes"
+       }
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "2",
+     "page": [
+      [
+       "ch_s_q",
+       {
+        "i": 4,
+        "of": 4,
+        "text": "Would you recommend us?"
+       }
+      ],
+      [
+       "ch_s_score",
+       {}
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "9",
+     "page": [
+      [
+       "ch_s_done",
+       {}
+      ]
+     ],
+     "ends": true,
+     "action": {
+      "answers": [
+       {
+        "q": "visit",
+        "number": 4
+       },
+       {
+        "q": "again",
+        "choice": "yes"
+       },
+       {
+        "q": "wait",
+        "choice": "5 to 15 minutes"
+       },
+       {
+        "q": "recommend",
+        "number": 9
+       }
+      ]
+     }
+    }
+   ],
+   [
+    {
+     "input": null,
+     "page": [
+      [
+       "ch_s_intro",
+       {
+        "org": "Sample place",
+        "count": 4,
+        "minutes": 1
+       }
+      ],
+      [
+       "ch_s_anon",
+       {}
+      ],
+      [
+       "ch_s_start",
+       {
+        "n": 1
+       }
+      ],
+      [
+       "ch_end",
+       {
+        "n": 0
+       }
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "0",
+     "page": [
+      [
+       "ch_bye",
+       {}
+      ]
+     ],
+     "ends": true,
+     "action": null
+    }
+   ],
+   [
+    {
+     "input": null,
+     "page": [
+      [
+       "ch_s_intro",
+       {
+        "org": "Sample place",
+        "count": 4,
+        "minutes": 1
+       }
+      ],
+      [
+       "ch_s_anon",
+       {}
+      ],
+      [
+       "ch_s_start",
+       {
+        "n": 1
+       }
+      ],
+      [
+       "ch_end",
+       {
+        "n": 0
+       }
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "1",
+     "page": [
+      [
+       "ch_s_q",
+       {
+        "i": 1,
+        "of": 4,
+        "text": "How was your visit today?"
+       }
+      ],
+      [
+       "ch_s_rate",
+       {}
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "7",
+     "page": [
+      [
+       "ch_s_q",
+       {
+        "i": 1,
+        "of": 4,
+        "text": "How was your visit today?"
+       }
+      ],
+      [
+       "ch_s_rate",
+       {}
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "x",
+     "page": [
+      [
+       "ch_s_q",
+       {
+        "i": 1,
+        "of": 4,
+        "text": "How was your visit today?"
+       }
+      ],
+      [
+       "ch_s_rate",
+       {}
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "5",
+     "page": [
+      [
+       "ch_s_q",
+       {
+        "i": 2,
+        "of": 4,
+        "text": "Will you come back?"
+       }
+      ],
+      [
+       "ch_s_yes",
+       {
+        "n": 1
+       }
+      ],
+      [
+       "ch_s_no",
+       {
+        "n": 2
+       }
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "3",
+     "page": [
+      [
+       "ch_s_q",
+       {
+        "i": 2,
+        "of": 4,
+        "text": "Will you come back?"
+       }
+      ],
+      [
+       "ch_s_yes",
+       {
+        "n": 1
+       }
+      ],
+      [
+       "ch_s_no",
+       {
+        "n": 2
+       }
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "1",
+     "page": [
+      [
+       "ch_s_q",
+       {
+        "i": 3,
+        "of": 4,
+        "text": "How long did you wait?"
+       }
+      ],
+      [
+       "ch_s_choice",
+       {
+        "n": 1,
+        "name": "Under 5 minutes"
+       }
+      ],
+      [
+       "ch_s_choice",
+       {
+        "n": 2,
+        "name": "5 to 15 minutes"
+       }
+      ],
+      [
+       "ch_s_choice",
+       {
+        "n": 3,
+        "name": "Over 15 minutes"
+       }
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "3",
+     "page": [
+      [
+       "ch_s_q",
+       {
+        "i": 4,
+        "of": 4,
+        "text": "Would you recommend us?"
+       }
+      ],
+      [
+       "ch_s_score",
+       {}
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "11",
+     "page": [
+      [
+       "ch_s_q",
+       {
+        "i": 4,
+        "of": 4,
+        "text": "Would you recommend us?"
+       }
+      ],
+      [
+       "ch_s_score",
+       {}
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "10",
+     "page": [
+      [
+       "ch_s_done",
+       {}
+      ]
+     ],
+     "ends": true,
+     "action": {
+      "answers": [
+       {
+        "q": "visit",
+        "number": 5
+       },
+       {
+        "q": "again",
+        "choice": "yes"
+       },
+       {
+        "q": "wait",
+        "choice": "Over 15 minutes"
+       },
+       {
+        "q": "recommend",
+        "number": 10
+       }
+      ]
+     }
+    }
+   ],
+   [
+    {
+     "input": null,
+     "page": [
+      [
+       "ch_s_intro",
+       {
+        "org": "Sample place",
+        "count": 4,
+        "minutes": 1
+       }
+      ],
+      [
+       "ch_s_anon",
+       {}
+      ],
+      [
+       "ch_s_start",
+       {
+        "n": 1
+       }
+      ],
+      [
+       "ch_end",
+       {
+        "n": 0
+       }
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "2",
+     "page": [
+      [
+       "ch_s_intro",
+       {
+        "org": "Sample place",
+        "count": 4,
+        "minutes": 1
+       }
+      ],
+      [
+       "ch_s_anon",
+       {}
+      ],
+      [
+       "ch_s_start",
+       {
+        "n": 1
+       }
+      ],
+      [
+       "ch_end",
+       {
+        "n": 0
+       }
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "1",
+     "page": [
+      [
+       "ch_s_q",
+       {
+        "i": 1,
+        "of": 4,
+        "text": "How was your visit today?"
+       }
+      ],
+      [
+       "ch_s_rate",
+       {}
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "1",
+     "page": [
+      [
+       "ch_s_q",
+       {
+        "i": 2,
+        "of": 4,
+        "text": "Will you come back?"
+       }
+      ],
+      [
+       "ch_s_yes",
+       {
+        "n": 1
+       }
+      ],
+      [
+       "ch_s_no",
+       {
+        "n": 2
+       }
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "2",
+     "page": [
+      [
+       "ch_s_q",
+       {
+        "i": 3,
+        "of": 4,
+        "text": "How long did you wait?"
+       }
+      ],
+      [
+       "ch_s_choice",
+       {
+        "n": 1,
+        "name": "Under 5 minutes"
+       }
+      ],
+      [
+       "ch_s_choice",
+       {
+        "n": 2,
+        "name": "5 to 15 minutes"
+       }
+      ],
+      [
+       "ch_s_choice",
+       {
+        "n": 3,
+        "name": "Over 15 minutes"
+       }
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "4",
+     "page": [
+      [
+       "ch_s_q",
+       {
+        "i": 3,
+        "of": 4,
+        "text": "How long did you wait?"
+       }
+      ],
+      [
+       "ch_s_choice",
+       {
+        "n": 1,
+        "name": "Under 5 minutes"
+       }
+      ],
+      [
+       "ch_s_choice",
+       {
+        "n": 2,
+        "name": "5 to 15 minutes"
+       }
+      ],
+      [
+       "ch_s_choice",
+       {
+        "n": 3,
+        "name": "Over 15 minutes"
+       }
+      ]
+     ],
+     "ends": false,
+     "action": null
+    },
+    {
+     "input": "0",
+     "page": [
+      [
+       "ch_s_q",
+       {
+        "i": 3,
+        "of": 4,
+        "text": "How long did you wait?"
+       }
+      ],
+      [
+       "ch_s_choice",
+       {
+        "n": 1,
+        "name": "Under 5 minutes"
+       }
+      ],
+      [
+       "ch_s_choice",
+       {
+        "n": 2,
+        "name": "5 to 15 minutes"
+       }
+      ],
+      [
+       "ch_s_choice",
+       {
+        "n": 3,
+        "name": "Over 15 minutes"
+       }
+      ]
+     ],
+     "ends": false,
+     "action": null
+    }
+   ]
+  ]
  }
 }

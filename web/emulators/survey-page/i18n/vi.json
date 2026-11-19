@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "vi",
+ "native": "Tiếng Việt",
+ "source_sha256": "52d919fbd32da55a9fdd239bb1a9ce4b1d9e200a132aab7cb4f9c385dcc2c45b",
+ "texts": {
+  "sp_offline": "Không có internet. Câu trả lời được giữ trên điện thoại này và gửi khi có internet trở lại.",
+  "sp_place": "Địa điểm mẫu",
+  "sp_side": "Những gì tổ chức thấy",
+  "sp_side_note": "Kết quả hiện từ 5 câu trả lời. Phản hồi ẩn danh không bao giờ cho biết ai đã gửi.",
+  "title": "LynkSurvey trên điện thoại của bạn"
+ }
+}

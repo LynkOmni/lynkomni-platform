@@ -1,0 +1,15 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "he",
+ "native": "עברית",
+ "source_sha256": "52d919fbd32da55a9fdd239bb1a9ce4b1d9e200a132aab7cb4f9c385dcc2c45b",
+ "texts": {
+  "sp_offline": "אין אינטרנט. התשובות שלך נשמרות בטלפון הזה ונשלחות כשהאינטרנט חוזר.",
+  "sp_place": "מקום לדוגמה",
+  "sp_side": "מה הארגון רואה",
+  "sp_side_note": "תוצאות מוצגות החל מ 5 תשובות. תשובה אנונימית לעולם לא מראה מי נתן אותה.",
+  "title": "LynkSurvey בטלפון שלך"
+ }
+}

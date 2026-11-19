@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "am",
+ "native": "አማርኛ",
+ "source_sha256": "52d919fbd32da55a9fdd239bb1a9ce4b1d9e200a132aab7cb4f9c385dcc2c45b",
+ "texts": {
+  "sp_offline": "በይነመረብ የለም። መልሶችዎ በዚህ ስልክ ላይ ይቆያሉ፤ በይነመረብ ሲመለስ ይላካሉ።",
+  "sp_place": "የናሙና ቦታ",
+  "sp_side": "ድርጅቱ የሚያየው",
+  "sp_side_note": "ውጤቶች ከ 5 መልሶች ጀምሮ ይታያሉ። ስም የሌለው መልስ ማን እንደሰጠው በፍጹም አያሳይም።",
+  "title": "LynkSurvey በስልክዎ"
+ }
+}

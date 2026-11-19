@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "nl",
+ "native": "Nederlands",
+ "source_sha256": "52d919fbd32da55a9fdd239bb1a9ce4b1d9e200a132aab7cb4f9c385dcc2c45b",
+ "texts": {
+  "sp_offline": "Geen internet. Uw antwoorden blijven op deze telefoon en worden verzonden zodra internet terug is.",
+  "sp_place": "Voorbeeldlocatie",
+  "sp_side": "Wat de organisatie ziet",
+  "sp_side_note": "Resultaten verschijnen vanaf 5 antwoorden. Een anoniem antwoord laat nooit zien wie het gaf.",
+  "title": "LynkSurvey op uw telefoon"
+ }
+}

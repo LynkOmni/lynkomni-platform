@@ -774,12 +774,18 @@
   },
   {
    "id": "survey",
-   "blueprint": "63 (NEW UPDATE 4, LynkSurvey; build section 3)",
+   "blueprint": "63 (NEW UPDATE 4, LynkSurvey; build sections 3 and 3B)",
    "items": [
     "sv_setup",
     "sv_after_payment",
     "sv_surveys",
+    "sv_new",
     "sv_results",
+    "sv_research",
+    "sv_tasks",
+    "sv_panel_home",
+    "sv_kiosk_home",
+    "sv_devices_home",
     "sv_add_device"
    ],
    "path": "/survey"
@@ -969,6 +975,95 @@
     "attached_hardware",
     "virtual_devices"
    ]
+  },
+  {
+   "id": "survey_surveys",
+   "blueprint": "63 (NEW UPDATE 4, LynkSurvey in full; build section 3B)",
+   "items": [
+    "sv_list",
+    "sv_approval"
+   ],
+   "path": "/survey/surveys"
+  },
+  {
+   "id": "survey_new",
+   "blueprint": "63 (NEW UPDATE 4, LynkSurvey in full; build section 3B)",
+   "items": [
+    "sv_kind",
+    "sv_questions",
+    "sv_languages",
+    "sv_who",
+    "sv_fill",
+    "sv_need",
+    "sv_after",
+    "sv_preview_card",
+    "sv_send"
+   ],
+   "path": "/survey/surveys/new"
+  },
+  {
+   "id": "survey_results",
+   "blueprint": "63 (NEW UPDATE 4, LynkSurvey in full; build section 3B)",
+   "items": [
+    "sv_results",
+    "sv_check",
+    "sv_goal",
+    "sv_verified"
+   ],
+   "path": "/survey/results"
+  },
+  {
+   "id": "survey_research",
+   "blueprint": "63 (NEW UPDATE 4, LynkSurvey in full; build section 3B)",
+   "items": [
+    "sv_compare",
+    "sv_balance",
+    "sv_themes",
+    "sv_matters",
+    "sv_downloads",
+    "sv_record"
+   ],
+   "path": "/survey/reports"
+  },
+  {
+   "id": "survey_tasks",
+   "blueprint": "63 (NEW UPDATE 4, LynkSurvey in full; build section 3B)",
+   "items": [
+    "sv_tasks",
+    "sv_said"
+   ],
+   "path": "/survey/tasks"
+  },
+  {
+   "id": "survey_panel",
+   "blueprint": "63 (NEW UPDATE 4, LynkSurvey in full; build section 3B)",
+   "items": [
+    "sv_rewards",
+    "sv_panel"
+   ],
+   "path": "/survey/panel"
+  },
+  {
+   "id": "survey_devices",
+   "blueprint": "63 (NEW UPDATE 4, LynkSurvey in full; build section 3B)",
+   "items": [
+    "sv_devices",
+    "sv_field",
+    "sv_plan",
+    "sv_history"
+   ],
+   "path": "/survey/devices"
+  },
+  {
+   "id": "survey_kiosk",
+   "blueprint": "63 (NEW UPDATE 4, LynkSurvey in full; build section 3B)",
+   "items": [
+    "sv_kiosk",
+    "sv_screen",
+    "sv_cdisplay",
+    "sv_phone"
+   ],
+   "path": "/survey/kiosk"
   }
  ],
  "workspaces": "Who the app is for (catalog/workspaces.v1.json): a person, a company or an organisation; the entity changes words, tabs (an office workspace of a person or an organisation shows Books instead of Chats) and categories only.",

@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "zh-Hant",
+ "native": "繁體中文",
+ "source_sha256": "52d919fbd32da55a9fdd239bb1a9ce4b1d9e200a132aab7cb4f9c385dcc2c45b",
+ "texts": {
+  "sp_offline": "沒有網路。你的回答會保存在這支手機上，網路恢復後傳送。",
+  "sp_place": "範例場所",
+  "sp_side": "機構能看到什麼",
+  "sp_side_note": "滿 5 份回答才顯示結果。匿名回答絕不會顯示是誰給出的。",
+  "title": "手機上的 LynkSurvey"
+ }
+}

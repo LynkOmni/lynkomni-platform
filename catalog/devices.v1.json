@@ -544,7 +544,8 @@
    "lynk-kiosk": "LynkKiosk",
    "lynk-dscreen": "LynkDScreen",
    "lynk-cdisplay": "LynkCDisplay",
-   "queue-page": "LynkMobile"
+   "queue-page": "LynkMobile",
+   "survey-page": "LynkMobile"
   }
  }
 }

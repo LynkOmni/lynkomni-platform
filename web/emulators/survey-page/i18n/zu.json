@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "zu",
+ "native": "isiZulu",
+ "source_sha256": "52d919fbd32da55a9fdd239bb1a9ce4b1d9e200a132aab7cb4f9c385dcc2c45b",
+ "texts": {
+  "sp_offline": "Ayikho i-inthanethi. Izimpendulo zakho zihlala kulolu cingo futhi zithunyelwa uma i-inthanethi ibuya.",
+  "sp_place": "Indawo yesampula",
+  "sp_side": "Lokho inhlangano ekubonayo",
+  "sp_side_note": "Imiphumela ivela kusukela ezimpendulweni ezingu-5. Impendulo engenagama ayikaze ikhombise ukuthi ngubani oyinikezile.",
+  "title": "I-LynkSurvey ocingweni lwakho"
+ }
+}

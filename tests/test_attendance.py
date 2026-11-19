@@ -118,6 +118,20 @@ class AttendanceTests(unittest.TestCase):
         r = no_readers.check(gpin, "in", ["687399"], checker=eric)
         self.assertEqual((r["means"], r["backup_from"]), ("idcn", "face_not_working"))
 
+    def test_face_and_finger_patterns_never_leave_the_door_device(self):
+        """Security control attend-biometrics-on-device-only: the reader on the door device compares the face or finger itself and
+        tells the door only whether it matched; the door pack from the cloud holds no pattern, and no event carries one."""
+        grace, gpin = self.person("A6F87399", "face_finger_idcn")
+        pack = self.a.door_pack(self.dev)
+        self.assertFalse({"face", "finger", "template", "pattern"} & {k for p in pack["people"] for k in p}, "no pattern in the door pack")
+        self.door().check(gpin, "in", ["ok"])
+        self.sync(now=T0 + 3600)
+        every = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "contract", "event-payloads.v6.json"), encoding="utf-8"))["events"]
+        cloud = self.p.c.store.of(self.m, *every); self.assertTrue(cloud)
+        for e in self.box.log + cloud:
+            self.assertFalse({"template", "pattern", "image", "face_data", "finger_data"} & set(e["payload"]), e["type"])
+        for e in self.box.log: self.assertEqual(validate_event(e), [])
+
     def test_five_wrong_idcns_block_the_pin_and_five_unknown_pins_pause_the_device(self):
         grace, gpin = self.person("A6F87399"); eric, _ = self.person("R4279", name="Eric")
         self.a.set_checkers(self.m, self.place, [eric], self.boss)

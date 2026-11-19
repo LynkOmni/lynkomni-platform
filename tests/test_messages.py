@@ -10,7 +10,8 @@ SHOW = json.load(open(os.path.join(ROOT, "web", "showcase", "showcase.v1.json"),
 LOCKED = {s["n"] for s in SHOW["sections"] if s.get("status") == "locked"}
 EVENTS = set(json.load(open(os.path.join(ROOT, "identity", "events.v1.json"), encoding="utf-8"))["events"])
 EVENTS |= set(json.load(open(os.path.join(ROOT, "merchant", "events.v1.json"), encoding="utf-8"))["events"])
-_c = json.load(open(os.path.join(ROOT, "contract", "event-payloads.v4.json"), encoding="utf-8"))
+from contract.upcast import CURRENT
+_c = json.load(open(os.path.join(ROOT, "contract", f"event-payloads.v{CURRENT}.json"), encoding="utf-8"))   # the current contract version
 EVENTS |= set(_c.get("events") or _c)
 NOON = 1_800_014_400          # 2027-01-15 12:00 UTC: midday in Africa/Douala
 NIGHT = NOON + 11 * 3600      # 23:00 UTC: night in Africa/Douala

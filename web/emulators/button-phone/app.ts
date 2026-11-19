@@ -8,8 +8,8 @@ import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { APP_HOST } from "../../../ts/src/deviceshell.js";
 import { chooseInterface } from "../../../ts/src/interfaces.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
-import { chPage, chQPage, chQStart, chQStep, chRender, chStart, chStep, parseSms } from "../../../ts/src/channels.js";
-import type { ChQCtx, ChQState, ChState } from "../../../ts/src/channels.js";
+import { chPage, chQPage, chQStart, chQStep, chRender, chSPage, chSStart, chSStep, chStart, chStep, parseSms } from "../../../ts/src/channels.js";
+import type { ChQCtx, ChQState, ChSCtx, ChSState, ChState } from "../../../ts/src/channels.js";
 import { nextCode, runningLate, ticketNumber, waitMinutes } from "../../../ts/src/queue.js";
 import { bpPage, bpStart, bpStep, textNotification } from "../../../ts/src/basicphone.js";
 import type { BpCtx, BpState, PinCheck } from "../../../ts/src/basicphone.js";
@@ -26,7 +26,7 @@ const W = new Words(DATA.i18n, () => S.lang); const t = W.t;
  *  the lighter app, and a basic phone with no apps reaches LynkPOS by USSD, text message or a voice menu (core/channels.py). */
 type Kind = "button-phone" | "feature-phone" | "basic-phone";
 const KINDS: Kind[] = ["button-phone", "feature-phone", "basic-phone"];
-const PH = { kind: "button-phone" as Kind, mode: "idle" as "idle" | "ussd" | "sms" | "voice" | "acct" | "queue", st: chStart() as ChState, input: "", sms: "", reply: "", ended: false,
+const PH = { kind: "button-phone" as Kind, mode: "idle" as "idle" | "ussd" | "sms" | "voice" | "acct" | "queue" | "survey", st: chStart() as ChState, input: "", sms: "", reply: "", ended: false,
   // MASTER UPDATE section 3: the LynkOmni account on a basic phone (identity/basic_phone.py): sign up, sign in, help, the bell
   acct: bpStart() as BpState, wrong: 0, read: new Set<string>(), created: false };
 /** LynkQueue by basic phone (build section 3B; core/channels.py queue menu): a sample place whose queue keeper gives the number. The
@@ -51,6 +51,10 @@ function queueMove(): void {
   if (QQ.me && next === QQ.me.id) { QQ.me.state = "called"; LOG.emit("TicketCalled", { ticket_id: QQ.me.id, counter_id: QQ.place, call: 1, by_number: true }); }
   if (QQ.order.length < 2) QQ.order.push(newId());
 }
+/** LynkSurvey by basic phone (build section 3B; core/channels.py survey menu): a sample survey asked one question a page; the
+ *  answers go to the cloud when the last one is given (anonymous here: no name and no number in the answer). */
+const SQ = { st: chSStart() as ChSState, survey: newId() };
+const sCtx = (): ChSCtx => ({ org: t("sample_shop"), minutes: 1, anonymous: true, questions: [{ id: "visit", type: "rating", text: t("ch_s_sample_q1") }, { id: "again", type: "yes_no", text: t("ch_s_sample_q2") }] });
 const ACCT_PIN = "4719";                 // the sample account's PIN
 const SAMPLE_USER = "ama.shop";          // "*" types it: a basic phone types letters by tapping a key several times
 const acctCtx = (): BpCtx => ({ age: 18, lines: [["n1", t("bp_new_sign_in")], ["n2", t("bp_low_rice")], ["n3", t("bp_day_closed")]].filter(([nid]) => !PH.read.has(nid!)) as [string, string][], recovery: "7F3K-9Q2M-X81B-4TZC", case: "LOCASE-2101-7710-0042" });
@@ -85,10 +89,14 @@ function channelBody(): string {
     const text = chRender(bpPage(PH.acct, acctCtx()), (k) => t(k));
     return `${head}<pre class="bussd" role="status">${esc(text)}</pre>${PH.ended ? `<p class="bnote">${esc(t("ch_session_ended"))}</p>` : `<p class="breply">${esc(t("ch_reply"))}: <strong>${esc(PH.acct.screen === "pin" || PH.acct.screen === "new_pin" || PH.acct.screen === "pin_again" ? "•".repeat(PH.input.length) : PH.input)}</strong>_</p>${PH.acct.screen === "username" ? `<p class="bnote">${esc(t("bp_star_hint", { name: SAMPLE_USER }))}</p>` : ""}`}${soft(t("ch_send"), t("back"))}`;
   }
-  if (PH.mode === "idle") return `${head}<ol class="bmenu">${[t("ch_dial"), t("ch_text"), t("ch_voice"), t("bp_dial_account"), t("ch_q_dial")].map((w, i) => `<li class="${i === S.sel ? "sel" : ""}">${i + 1}. ${esc(w)}</li>`).join("")}</ol><p class="bnote">${esc(t("ch_sandbox"))}</p>${soft(t("confirm"), "")}`;
+  if (PH.mode === "idle") return `${head}<ol class="bmenu">${[t("ch_dial"), t("ch_text"), t("ch_voice"), t("bp_dial_account"), t("ch_q_dial"), t("ch_s_dial")].map((w, i) => `<li class="${i === S.sel ? "sel" : ""}">${i + 1}. ${esc(w)}</li>`).join("")}</ol><p class="bnote">${esc(t("ch_sandbox"))}</p>${soft(t("confirm"), "")}`;
   if (PH.mode === "queue") {
     const text = chRender(chQPage(QQ.st, qCtx()), (k) => t(k));
     return `${head}<pre class="bussd" role="status">${esc(text)}</pre>${PH.ended ? `<p class="bnote">${esc(t("ch_session_ended"))}</p>` : `<p class="breply">${esc(t("ch_reply"))}: <strong>${esc(PH.input)}</strong>_</p>`}<p class="bnote">${esc(t("ch_q_text_help"))} ${esc(t("ch_q_sandbox"))}</p>${soft(t("ch_send"), t("back"))}`;
+  }
+  if (PH.mode === "survey") {
+    const text = chRender(chSPage(SQ.st, sCtx()), (k) => t(k));
+    return `${head}<pre class="bussd" role="status">${esc(text)}</pre>${PH.ended ? `<p class="bnote">${esc(t("ch_session_ended"))}</p>` : `<p class="breply">${esc(t("ch_reply"))}: <strong>${esc(PH.input)}</strong>_</p>`}${soft(t("ch_send"), t("back"))}`;
   }
   if (PH.mode === "sms") return `${head}<p class="bt">${esc(t("ch_message_to"))}</p><p class="bsms">${esc(PH.sms)}_</p>${PH.reply ? `<p class="bsms in" role="status">${esc(PH.reply)}</p>` : ""}${soft(t("ch_send"), t("back"))}`;
   const text = chRender(chPage(PH.st, chCtx()), (k) => t(k));
@@ -105,10 +113,10 @@ function sellFromChannel(prod: number, qtyMilli: number): void {
 function channelAct(a: string): void {
   const n = /^d(\d)$/.exec(a);
   if (PH.mode === "idle") {
-    const pickMode = (i: number): void => { PH.mode = (["ussd", "sms", "voice", "acct", "queue"] as const)[i] ?? "ussd"; PH.st = chStart(); PH.acct = bpStart(); QQ.st = chQStart(QQ.me !== null); PH.input = ""; PH.sms = ""; PH.reply = ""; PH.ended = false; };
-    if (n && Number(n[1]) >= 1 && Number(n[1]) <= 5) pickMode(Number(n[1]) - 1);
+    const pickMode = (i: number): void => { PH.mode = (["ussd", "sms", "voice", "acct", "queue", "survey"] as const)[i] ?? "ussd"; PH.st = chStart(); PH.acct = bpStart(); QQ.st = chQStart(QQ.me !== null); SQ.st = chSStart(); PH.input = ""; PH.sms = ""; PH.reply = ""; PH.ended = false; };
+    if (n && Number(n[1]) >= 1 && Number(n[1]) <= 6) pickMode(Number(n[1]) - 1);
     else if (a === "call" || a === "soft:left") pickMode(S.sel);
-    else if (a === "nav:up") S.sel = Math.max(0, S.sel - 1); else if (a === "nav:down") S.sel = Math.min(4, S.sel + 1);
+    else if (a === "nav:up") S.sel = Math.max(0, S.sel - 1); else if (a === "nav:down") S.sel = Math.min(5, S.sel + 1);
     draw(); return;
   }
   if (a === "end" || a === "soft:right") { if (PH.mode === "sms" && PH.sms) PH.sms = PH.sms.slice(0, -1); else { PH.mode = "idle"; S.sel = 0; } draw(); return; }
@@ -131,6 +139,15 @@ function channelAct(a: string): void {
       const [st, ends, action] = chQStep(QQ.st, PH.input, qCtx()); PH.input = "";
       if (action) queueAsk(action);
       QQ.st = st; PH.ended = ends;
+    }
+    draw(); return;
+  }
+  if (PH.mode === "survey") {
+    if (n) PH.input = (PH.input + n[1]).slice(0, 2);
+    else if (a === "call" || a === "soft:left") {
+      const [st, ends, action] = chSStep(SQ.st, PH.input, sCtx()); PH.input = "";
+      if (action) LOG.emit("SurveyAnswerReceived", { answer_id: newId(), survey_id: SQ.survey, version: 1, way: "basic_phone", test: false }, "server");
+      SQ.st = st; PH.ended = ends;
     }
     draw(); return;
   }

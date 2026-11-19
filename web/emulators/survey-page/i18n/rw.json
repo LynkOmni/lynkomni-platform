@@ -1,0 +1,15 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "rw",
+ "native": "Ikinyarwanda",
+ "source_sha256": "52d919fbd32da55a9fdd239bb1a9ce4b1d9e200a132aab7cb4f9c385dcc2c45b",
+ "texts": {
+  "sp_offline": "Nta interineti. Ibisubizo byawe biguma kuri iyi telefoni kandi byoherezwa interineti igarutse.",
+  "sp_place": "Ahantu h'icyitegererezo",
+  "sp_side": "Ibyo ikigo kibona",
+  "sp_side_note": "Ibisubizo bigaragara guhera ku bisubizo 5. Igisubizo kitagira izina ntikigaragaza na rimwe uwagitanze.",
+  "title": "LynkSurvey kuri telefoni yawe"
+ }
+}

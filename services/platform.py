@@ -69,6 +69,9 @@ class Platform(_Base):
         s.attendance = Attendance(s.cloud, s, s.notifier, SandboxPeopleMessages())   # LynkAttend in full (build section 3B)
         from people.queue import Queue
         s.queue = Queue(s.cloud, s, s.notifier, SandboxPeopleMessages())             # LynkQueue in full (build section 3B)
+        from people.survey import Survey
+        from services.people_partners import SandboxSurveyRewards, SandboxSurveyVoice
+        s.survey = Survey(s.cloud, s, s.notifier, SandboxPeopleMessages(), SandboxSurveyVoice(), SandboxSurveyRewards())   # LynkSurvey in full (build section 3B)
         register_section_3b(s.flow, s)
         from services.tracking import PlatformTracking
         s.tracking = PlatformTracking(s)                      # one tracking engine for every service (catalog/tracking.v1.json)

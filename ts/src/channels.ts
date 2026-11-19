@@ -105,6 +105,52 @@ export function parseQueueSms(text: string, sections: number): { command: "runni
   return null;
 }
 
+// ---- LynkSurvey for a person with a basic phone (build section 3B): the port of survey_start, survey_page and survey_step
+export const S_TYPES = ["rating", "stars", "score", "yes_no", "choice"] as const;
+export interface ChSQuestion { id: string; type: string; text: string; choices?: string[] }
+export interface ChSCtx { org: string; minutes: number; anonymous: boolean; questions: ChSQuestion[] }
+export type ChSAnswer = { q: string; number: number } | { q: string; choice: string };
+export interface ChSState { screen: "intro" | "question" | "done" | "bye"; i: number; answers: ChSAnswer[] }
+export const chSStart = (): ChSState => ({ screen: "intro", i: 0, answers: [] });
+const asked = (ctx: ChSCtx): ChSQuestion[] => ctx.questions.filter((q) => (S_TYPES as readonly string[]).includes(q.type));
+export function chSPage(s: ChSState, ctx: ChSCtx): ChLine[] {
+  const qs = asked(ctx);
+  if (s.screen === "intro") return [["ch_s_intro", { org: ctx.org, count: qs.length, minutes: ctx.minutes }], ...(ctx.anonymous ? [["ch_s_anon", {}] as ChLine] : []), ["ch_s_start", { n: 1 }], ["ch_end", { n: 0 }]];
+  if (s.screen === "question") {
+    const q = qs[s.i]!, head: ChLine[] = [["ch_s_q", { i: s.i + 1, of: qs.length, text: q.text }]];
+    if (q.type === "rating" || q.type === "stars") return [...head, ["ch_s_rate", {}]];
+    if (q.type === "score") return [...head, ["ch_s_score", {}]];
+    if (q.type === "yes_no") return [...head, ["ch_s_yes", { n: 1 }], ["ch_s_no", { n: 2 }]];
+    return [...head, ...(q.choices ?? []).map((c, i): ChLine => ["ch_s_choice", { n: i + 1, name: c }])];
+  }
+  if (s.screen === "done") return [["ch_s_done", {}]];
+  return [["ch_bye", {}]];
+}
+function reply(q: ChSQuestion, t: string): ChSAnswer | null {
+  if (!digit(t)) return null;
+  const n = Number(t);
+  if ((q.type === "rating" || q.type === "stars") && n >= 1 && n <= 5) return { q: q.id, number: n };
+  if (q.type === "score" && n >= 0 && n <= 10) return { q: q.id, number: n };
+  if (q.type === "yes_no" && (n === 1 || n === 2)) return { q: q.id, choice: n === 1 ? "yes" : "no" };
+  if (q.type === "choice" && n >= 1 && n <= (q.choices ?? []).length) return { q: q.id, choice: q.choices![n - 1]! };
+  return null;
+}
+export function chSStep(state: ChSState, text: string, ctx: ChSCtx): [ChSState, boolean, { answers: ChSAnswer[] } | null] {
+  const s: ChSState = { ...state, answers: [...state.answers] }, t = (text ?? "").trim(), qs = asked(ctx);
+  if (s.screen === "intro") {
+    if (t === "0" || !qs.length) { s.screen = "bye"; return [s, true, null]; }
+    if (t === "1") { s.screen = "question"; return [s, false, null]; }
+    return [s, false, null];
+  }
+  if (s.screen === "question") {
+    const a = reply(qs[s.i]!, t); if (!a) return [s, false, null];
+    s.answers.push(a);
+    if (s.i + 1 < qs.length) { s.i += 1; return [s, false, null]; }
+    s.screen = "done"; return [s, true, { answers: s.answers }];
+  }
+  return [s, true, null];
+}
+
 export function chRender(lines: ChLine[], words: (key: string) => string): string {
   return lines.map(([k, v]) => words(k).replace(/\{(\w+)\}/g, (m, n: string) => (n in v ? String(v[n]) : m))).join("\n");
 }

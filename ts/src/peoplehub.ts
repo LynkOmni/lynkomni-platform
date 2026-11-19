@@ -14,6 +14,8 @@ import { AttendDesk } from "./attenddesk.js";
 import type { AtPlan, AtTier, Person } from "./attenddesk.js";
 import { QueueDesk, pairCode } from "./queuedesk.js";
 import type { QuPlan } from "./queuedesk.js";
+import { SV_OPEN_PLAN, SurveyDesk } from "./surveydesk.js";
+import type { SvPlan } from "./surveydesk.js";
 import { canShow, margin, MIN_GROUP } from "./survey.js";
 import type { DeviceRegister } from "./interfaces.js";
 
@@ -52,12 +54,19 @@ export class PeopleHub {
   get door(): AttendDesk["door"] { return this.att.door; }
   /** LynkQueue's own engine (ts/src/queuedesk.ts): the queue keeper, reception, the counters and every screen around them. */
   readonly q: QueueDesk;
+  /** LynkSurvey's own engine (ts/src/surveydesk.ts): building, answering on every device, results and the research tools. */
+  private sDesk: SurveyDesk | null = null;
+  private readonly svPlans: Record<AtTier, SvPlan>;
+  /** Made the first time a survey screen asks for it, so a device's first screen does not wait for it. */
+  get s(): SurveyDesk { return (this.sDesk ??= new SurveyDesk(this.emit, this.svPlans, this.now)); }
   afterPayment = true;
   /** Sandbox answers so the results can be shown (labelled "Sandbox" wherever they appear). */
   ratings: number[] = [5, 4, 4, 5, 3, 4, 5, 2, 4, 5, 4, 4];
-  constructor(private emit: Emit, private now: () => number = Date.now, plans: Record<AtTier, AtPlan> = NO_PLANS, quPlans: Record<AtTier, QuPlan> = QU_NO_PLANS) {
+  constructor(private emit: Emit, private now: () => number = Date.now, plans: Record<AtTier, AtPlan> = NO_PLANS, quPlans: Record<AtTier, QuPlan> = QU_NO_PLANS,
+              svPlans: Record<AtTier, SvPlan> = { free: SV_OPEN_PLAN, plus: SV_OPEN_PLAN, pro: SV_OPEN_PLAN, max: SV_OPEN_PLAN }) {
     this.att = new AttendDesk(emit, plans, now);
     this.q = new QueueDesk(emit, quPlans, now);
+    this.svPlans = svPlans;
   }
 
   // ---- setup and devices ----------------------------------------------------------------------------------------------------

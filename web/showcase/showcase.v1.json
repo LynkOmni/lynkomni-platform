@@ -29,8 +29,8 @@
   {
    "n": "3B",
    "title": "LynkAttend, LynkQueue and LynkSurvey (NEW UPDATE 4) in full, on every emulator",
-   "status": "next",
-   "version": "v0.45.0 (LynkAttend and LynkQueue; LynkSurvey next)"
+   "status": "locked",
+   "version": "v0.45.0 (LynkAttend and LynkQueue), v0.46.0 (LynkSurvey)"
   },
   {
    "n": 4,
@@ -102,15 +102,15 @@
    "id": "merchant-phone",
    "title": "Business app on LynkMobile, LynkTab or LynkPC",
    "section": 3,
-   "what": "Every Business app screen of blueprint 41 E: getting in, Sell with every payment way, today's sales, shifts, practice mode, Stock, Chats, every Business section and setting, and the four business types (shop, without a till, agent point, restaurant), on a phone, a tablet side rail or a computer web view, in every language and offline. Setup now starts with who it is for (yourself, a company or an organisation), which changes the words, tabs and categories; Deliveries shows every delivery with its tracker. New: the Storefront side (offers, stock held at online checkout, buyer chats, payouts) and Devices › Driver (LynkDriver, with enforced updates). MASTER UPDATE section 3: Ask the owner with one-tap answers, LynkAssist's controls and history with offline queueing, the owner's thresholds and daily or weekly summary, remote lock and wipe, the integrity and duress alerts, breadcrumbs, and Get a card with the card group word. NEW UPDATE 4 section 3: Business › Attendance, Queue and Surveys, each with How you use it (Just me, One place, Many places) and Add a device; today at the door, sections, the fair waiting order, counters and reception, and the rating after payment with its results.",
-   "try": "Sign in, choose Myself or An organisation in setup and see the Books tab; or make a sale, press Deliver this order and watch the delivery move on the Deliveries screen. Open the hub: Assistant, Settings, Branches and devices, and Cards; try a fix offline and see it wait sealed; use the panel buttons for an altered till app or a duress PIN and read the bell. Then open Business › Queue and press Call next, or Give a ticket. In Queue, also open Devices and switch the queue keeper off to see another device take over, then Reports.",
+   "what": "Every Business app screen of blueprint 41 E: getting in, Sell with every payment way, today's sales, shifts, practice mode, Stock, Chats, every Business section and setting, and the four business types (shop, without a till, agent point, restaurant), on a phone, a tablet side rail or a computer web view, in every language and offline. Setup now starts with who it is for (yourself, a company or an organisation), which changes the words, tabs and categories; Deliveries shows every delivery with its tracker. New: the Storefront side (offers, stock held at online checkout, buyer chats, payouts) and Devices › Driver (LynkDriver, with enforced updates). MASTER UPDATE section 3: Ask the owner with one-tap answers, LynkAssist's controls and history with offline queueing, the owner's thresholds and daily or weekly summary, remote lock and wipe, the integrity and duress alerts, breadcrumbs, and Get a card with the card group word. NEW UPDATE 4 section 3: Business › Attendance, Queue and Surveys, each with How you use it (Just me, One place, Many places) and Add a device; today at the door, sections, the fair waiting order, counters and reception, and the rating after payment with its results. Section 3B: Business › Surveys in full: build a survey (13 kinds, Write it for me, the clear question check, approval, versions), results with margins and goals, Please check, research tools by plan, Call back and You said, we did, rewards and the panel in sandbox, devices, and field interviews and paper.",
+   "try": "Sign in, choose Myself or An organisation in setup and see the Books tab; or make a sale, press Deliver this order and watch the delivery move on the Deliveries screen. Open the hub: Assistant, Settings, Branches and devices, and Cards; try a fix offline and see it wait sealed; use the panel buttons for an altered till app or a duress PIN and read the bell. Then open Business › Queue and press Call next, or Give a ticket. In Queue, also open Devices and switch the queue keeper off to see another device take over, then Reports. Then open Business › Surveys › New survey, type a sentence under Write it for me, then open Results and Research tools.",
    "url": "https://claude.ai/artifact/N7tczvu2FZ5tWMYgHD9B84"
   },
   {
    "id": "pos-terminal",
    "title": "LynkPOS handheld terminal",
    "section": 3,
-   "what": "A physical handheld terminal: 12-tile home, selling, agent services, vouchers and pickup codes, the credit book, shifts and cash counts, receipt printer that prints, scanner and cash drawer, a low-literacy setting, on sandbox adapters. Also in a buttons-only version: choose it under Hardware version and use the arrows, OK and Back. MASTER UPDATE section 3: each person signs in with their own PIN (also offline), a quiet duress view, a manager's PIN for a void above the cashier's limit or Ask the owner, staff PIN reset on the spot, receipts by text or email, the device's own bell and banners, breadcrumbs, and remote lock and wipe by the owner. NEW UPDATE 4 section 3: in the menu, the door (LynkAttend: PIN, then finger or face, then IDCN with a checker), reception that prints the ticket, and the counter (LynkQueue: Call next, call again, served, did not come), all offline.",
+   "what": "A physical handheld terminal: 12-tile home, selling, agent services, vouchers and pickup codes, the credit book, shifts and cash counts, receipt printer that prints, scanner and cash drawer, a low-literacy setting, on sandbox adapters. Also in a buttons-only version: choose it under Hardware version and use the arrows, OK and Back. MASTER UPDATE section 3: each person signs in with their own PIN (also offline), a quiet duress view, a manager's PIN for a void above the cashier's limit or Ask the owner, staff PIN reset on the spot, receipts by text or email, the device's own bell and banners, breadcrumbs, and remote lock and wipe by the owner. NEW UPDATE 4 section 3: in the menu, the door (LynkAttend: PIN, then finger or face, then IDCN with a checker), reception that prints the ticket, and the counter (LynkQueue: Call next, call again, served, did not come), all offline. Section 3B: LynkSurvey answering on the terminal for field interviews and paper, marked Entered by staff.",
    "try": "Open Agent from the home tiles, send a cash-out and see why cash waits for the partner; then sell and print a receipt. Then sign in as Aline with PIN 1234, try a void above her limit and approve it with Eric's PIN 2580; or sign in with Aline's duress PIN 8642 to see the quiet view; tick the owner's remote lock in the panel. Then open Settings › Door, type PIN 739154 and IDCN 120480 and pick a checker; or open Reception and press OK to print a ticket.",
    "url": "https://claude.ai/artifact/FUhtc3e1xDkPA7KmJmxsZp"
   },
@@ -158,8 +158,8 @@
    "id": "button-phone",
    "title": "LynkPOS on LynkMobile (button phone)",
    "section": 3,
-   "what": "Selling and checking stock from a basic phone through a short-code menu, for places without smartphones. Also as a basic phone with no apps: LynkPOS by USSD, text message or voice menu. MASTER UPDATE section 3: a LynkOmni account by menu numbers: sign up (age, username, PIN, terms), sign in with a hard lock after wrong PINs, read messages and get help.",
-   "try": "Use the arrow keys to make a sale and read today's total. From the idle screen choose LynkOmni account; press * to type the sample username and sign in with PIN 4719. Or choose Join a queue from the idle screen, pick a section, then send 8 for Running late.",
+   "what": "Selling and checking stock from a basic phone through a short-code menu, for places without smartphones. Also as a basic phone with no apps: LynkPOS by USSD, text message or voice menu. MASTER UPDATE section 3: a LynkOmni account by menu numbers: sign up (age, username, PIN, terms), sign in with a hard lock after wrong PINs, read messages and get help. Section 3B: answer a LynkSurvey survey by menu numbers (one question a page; 1 to 5, 0 to 10, yes or no, or a choice).",
+   "try": "Use the arrow keys to make a sale and read today's total. From the idle screen choose LynkOmni account; press * to type the sample username and sign in with PIN 4719. Or choose Join a queue from the idle screen, pick a section, then send 8 for Running late. Or choose Answer a survey and reply with numbers.",
    "url": "https://claude.ai/artifact/4VG7qLhvnPrXjTxYuS51xS"
   },
   {
@@ -198,24 +198,24 @@
    "id": "lynk-kiosk",
    "title": "LynkKiosk",
    "section": "3B",
-   "what": "A standing kiosk at the entrance: check in or out for LynkAttend (PIN, then the means in your set, with IDCN as backup; dots only, never the digits) or take a LynkQueue ticket for a section, printed from the paper slot. Works without internet.",
-   "try": "Choose Take a ticket, pick a section and watch the ticket print; then Start again and choose Check in or out.",
+   "what": "A standing kiosk at the entrance: check in or out for LynkAttend (PIN, then the means in your set, with IDCN as backup; dots only, never the digits) or take a LynkQueue ticket for a section, printed from the paper slot. Works without internet. Section 3B: Give your opinion, one question a page with large buttons; Why? appears only after an unhappy answer.",
+   "try": "Choose Take a ticket, pick a section and watch the ticket print; then Start again and choose Check in or out. Then choose Give your opinion and answer 1 to see the Why? question.",
    "url": "https://claude.ai/artifact/PGkutL4hRggPZp2f7HwGgf"
   },
   {
    "id": "lynk-dscreen",
    "title": "LynkDScreen (calling screen)",
    "section": "3B",
-   "what": "The big screen in the waiting room: the tickets being served and their counters, a call that flashes and is spoken, and the QR code to join the queue that changes every few minutes. Ticket numbers only, never a name.",
-   "try": "Use the testing panel to call the next ticket and hear Say again; switch the second language of the voice.",
+   "what": "The big screen in the waiting room: the tickets being served and their counters, a call that flashes and is spoken, and the QR code to join the queue that changes every few minutes. Ticket numbers only, never a name. Section 3B: the live poll, results building up as people answer (from 5 answers).",
+   "try": "Use the testing panel to call the next ticket and hear Say again; switch the second language of the voice. Switch the screen to Live poll and add votes.",
    "url": "https://claude.ai/artifact/TmiyrmDZhEADqwxu3JtBRe"
   },
   {
    "id": "lynk-cdisplay",
    "title": "LynkCDisplay (counter display)",
    "section": "3B",
-   "what": "The small screen above one counter: the ticket it is serving, Next, please, or Back soon when the counter is paused.",
-   "try": "Pick which counter the screen is above, then press # in the panel to serve the next person.",
+   "what": "The small screen above one counter: the ticket it is serving, Next, please, or Back soon when the counter is paused. Section 3B: Rate us after the person is served.",
+   "try": "Pick which counter the screen is above, then press # in the panel to serve the next person. Switch the screen to Rate us.",
    "url": "https://claude.ai/artifact/UiJKTz4fecQPZdyj5rxTYd"
   },
   {
@@ -225,6 +225,14 @@
    "what": "What a person sees after opening the link or scanning the QR code, with no app and no account: join a section, the ticket with your place and the estimate, Running late (once), Leave queue, and the public queue page. Your place is kept when the internet drops.",
    "try": "Join a section, press Running late once, then switch the connection off and on; open Queue now to see the public page.",
    "url": "https://claude.ai/artifact/QNW2oPFYrb9VXjdkzJKgQD"
+  },
+  {
+   "id": "survey-page",
+   "title": "LynkSurvey on your phone (LynkMobile)",
+   "section": "3B",
+   "what": "What a person sees after opening a survey link or QR code, with no app and no account: who is asking, why and how long it takes, then one question a page in their own language, a code for one-per-phone surveys, an agreement step before a sensitive question, and Thank you. Answers made without internet stay on the phone and are sent later.",
+   "try": "Press Start and answer; use the panel to switch to One per phone (type any 6 digits) or Anonymous, or switch the connection off before sending.",
+   "url": ""
   }
  ]
 }
