@@ -6,6 +6,9 @@
 import { chooseInterface } from "./interfaces.js";
 import type { Choice, DeviceRegister, Version } from "./interfaces.js";
 
+/** Inputs that point straight at the screen (catalog/devices.v1.json inputs). */
+const POINTING = ["touch", "stylus", "mouse", "trackpad"];
+
 export class DeviceMode {
   version: Version;
   override: string | null = null;
@@ -17,8 +20,9 @@ export class DeviceMode {
   /** The versions this device is made in (touch, non-touch or both). */
   versions(): Version[] { const d = this.reg.devices.find((x) => x.id === this.device)!; return (["touch", "non_touch"] as Version[]).filter((v) => d[v] !== null); }
   choice(): Choice { return chooseInterface(this.reg, { registered: { device: this.device, version: this.version }, override: this.override }); }
-  /** Whether the chosen interface takes touch on its screen. */
-  touch(): boolean { return (this.reg.interfaces[this.choice().interface]?.inputs ?? []).includes("touch"); }
+  /** Whether the screen takes direct pointing: a finger, a stylus, a mouse or a trackpad. Only a buttons-only screen (arrows, keypad,
+   *  remote) ignores taps; a computer with a mouse is clicked like any computer (owner report 2026-11-19). */
+  touch(): boolean { const i = this.reg.interfaces[this.choice().interface]?.inputs ?? []; return POINTING.some((x) => i.includes(x)); }
   /** Marks the screen root: type scale (device class), focus rules (interface) and whether taps count. */
   apply(root: HTMLElement): void {
     const c = this.choice();

@@ -21,3 +21,17 @@ test("never switch during a payment, count or signature; browser facts are capab
   const fake = { matchMedia: (q: string) => ({ matches: q.includes("coarse") }), innerWidth: 390, innerHeight: 800, navigator: { maxTouchPoints: 5 } };
   assert.deepEqual(chooseInterface(DEVICES, browserFacts(fake)).interface, "phone.touch");
 });
+
+test("a screen with a mouse, trackpad, stylus or touch takes clicks; only buttons-only screens ignore them (owner report 2026-11-19)", async () => {
+  const { DeviceMode } = await import("../src/devicemode.js");
+  const pointing = ["touch", "stylus", "mouse", "trackpad"];
+  for (const d of DEVICES.devices) {
+    for (const v of ["touch", "non_touch"] as const) {
+      if ((d as unknown as Record<string, unknown>)[v] == null) continue;
+      const m = new DeviceMode(DEVICES, d.id, v);
+      const inputs = DEVICES.interfaces[m.choice().interface]?.inputs ?? [];
+      assert.equal(m.touch(), pointing.some((x) => inputs.includes(x)), `${d.id} ${v} (${m.choice().interface})`);
+    }
+  }
+  assert.equal(new DeviceMode(DEVICES, "all-in-one-pos", "non_touch").touch(), true, "the owner's laptop is clicked with a mouse");
+});

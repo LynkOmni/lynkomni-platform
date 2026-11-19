@@ -9,6 +9,25 @@ Section 4, part 1a (prices first, as agreed when section 4 was planned):
 - Revenue a month is now $21,632, $1,413,452 and $46,046,891 at the three stages. Every figure is an assumption about how many businesses choose each plan.
 - 2026-11-19: Leftover adjusted in section 4: LynkBooking counts its devices by its own places (like LynkAttend, LynkQueue and LynkSurvey), so its $6 extra device price from section 3A is removed; extra places are bought at the LynkBooking place price instead.
 - 2026-11-19: Leftover adjusted in section 4: the bill test's lowest allowed bundle price (a bundle never drops below 59% of its services bought one by one) was set for the old prices; it now fits the new ones.
+## v0.47.4 (2026-11-19)
+Fixes the owner found on a phone, and a check so they cannot come back:
+- Side menus (Account and every screen built on the shared shell): on a tablet the narrow side menu squeezed 23 items into the screen's height, so labels were cut at the bottom and the sides ("Secur", "Notifi"). A long menu now scrolls, every item keeps its full height, and a long name goes onto a second line. The same for the computer side menu, the phone's bottom tabs (names were cut with "…" on small phones) and the Business app's tablet side rail.
+- Pop-ups on the laptop and tablets ("Is this right?", search, help, account, sync, notifications): they used the phone's slide-up sheet, stuck to the bottom edge, so on the laptop the card looked cut off. On anything wider than a phone they now sit in the middle of the screen with every corner rounded; phones keep the slide-up sheet.
+- The owner's laptop screen ignored mouse clicks: "no touchscreen" was treated as "buttons only". A screen with a mouse, trackpad, stylus or touch now takes clicks; only buttons-only screens ignore them.
+- In the search pop-up of every device the Close button covered the microphone (Speak) button. The search row now ends before Close.
+- New check (tests/test_fit_guard.py, in the layout job): every emulator, at every size it offers, light and dark, plus the signed-in Business app on phone, tablet and computer: no menu item squeezed, no menu label cut, no item outside a menu that cannot scroll, every pop-up inside its screen and off the edges on wider screens, every visible pop-up button really pressable, and every screen with a mouse or touch takes clicks. It was run against the old code and caught all four problems.
+- Three browser tests (device shell, Business app, placements) were skipped in every automatic run because their job had no browser; they now run in the layout job, and a new rule fails whenever a browser test is not run by a job with a browser.
+
+## v0.47.3 (2026-11-19)
+- Checks: the layout check's tests take about 5 minutes in each of its 8 parts, but downloading the fonts and the test browser from Ubuntu took 1 to 27 minutes per part. They are now kept in GitHub's check cache after the first run and restored in seconds (tools/ci/layout_setup.sh), with retries if a download is needed. The test browser's version is pinned so the stored copy always matches.
+
+## v0.47.2 (2026-11-19)
+Fixes the owner found on the counter tablet:
+- Sell by voice: the microphone picture had no size and filled the whole basket, pushing its words onto the Charge button. The microphone is now a normal-size button beside Charge, with its name for screen readers.
+- The basket keeps the total, the microphone and Charge always in view; only the list of lines scrolls.
+- A main button that cannot be used yet (Charge with an empty basket) is now solid grey with readable grey text in every emulator, instead of a see-through purple that looked broken. Checked every emulator in every state: no other button picture was oversized.
+- Checks: the font and browser download in the layout check now retries by itself, so a short outage of Ubuntu's package servers (as on 19 November 2026) no longer fails a pull request.
+
 ## v0.47.1 (2026-11-19)
 Fixes the owner found on a phone:
 - Counter tablet: the first-launch card ("Is this right?") was cut off below "Yes, continue". A shared rule added with the Emulator Panel (web/device/emkit.css) outweighed the tablet's own screen layout, so the app grew taller than the screen. The rule now has no weight (:where), so every device keeps its own layout. No other emulator was affected (checked on all of them, computer and phone size).

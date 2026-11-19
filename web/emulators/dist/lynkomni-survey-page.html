@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-fkxZ7E18Pe+uUOtNFa2B/gTcJw4TLLZ1hPUNZuBEkbE='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-ez9al4GuKOXcu+Nms2O5ERjd8dLakpBDuEj8nGPDcQA='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkSurvey on your phone</title>
 <meta name="description" content="Interactive emulator of the LynkSurvey page a person opens on their own phone, with no app and no account: who is asking and why, the code for one answer per phone, one question a page, and thank you with Don't ask me again.">
@@ -376,6 +376,11 @@ body { margin: 0; min-height: 100vh; }
 /* Blueprint 41 B: every touch target is at least 44 px (tools/a11y/check.js enforces it on every screen and language). */
 :is(#screen, #screenA, #screenB, #till, #cscreen) :is(button, a[href]) { min-height: 44px; min-width: 44px; }
 
+/* A main button that cannot be used yet (for example Charge with an empty basket) is solid grey with readable grey text, never a
+   see-through purple that looks broken (owner, 19 November 2026). One rule for every emulator; weighty enough to win over each
+   screen's own half-transparent rule. */
+:is(button, a).primary:is(:disabled, [disabled], [aria-disabled="true"]) { opacity: 1; background: var(--bg-subtle); color: var(--text-secondary); border: 1px solid var(--border-subtle); box-shadow: none; cursor: not-allowed; }
+
 /* The LynkOmni footer (blueprint section 26): the main footer on websites and web apps, the one-line short footer inside
    apps. Design tokens only; logical properties so right-to-left mirrors; text wraps in every language. */
 .mainfoot { margin-block-start: 32px; padding: 24px 16px; border-block-start: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-primary); font: 14px/1.5 var(--font-body); container-type: inline-size; }
@@ -446,6 +451,11 @@ body { margin: 0; min-height: 100vh; }
 .dsh-field span { overflow-wrap: anywhere; }
 .dsh-scrim { position: absolute; inset: 0; z-index: 40; display: flex; align-items: flex-end; justify-content: center; background: color-mix(in srgb, var(--text-primary) 40%, transparent); }
 .dsh-panel { position: relative; width: min(100%, 520px); max-height: 92%; overflow-y: auto; padding: 16px; border-radius: 18px 18px 0 0; background: var(--bg-surface); color: var(--text-primary); font: 14px/1.4 var(--font-body); box-sizing: border-box; }
+/* a phone slides the sheet up from the bottom; a wider screen (tablet, computer) shows a dialog in the middle with
+   every corner rounded (owner report 2026-11-19: on the laptop the card looked cut off at the bottom) */
+/* (device class from the screen root, never the browser; a container query here broke tapping inside a scaled screen) */
+[data-device-class]:not([data-device-class="phone"]):not([data-device-class="watch"]) .dsh-scrim { align-items: center; padding: 24px; }
+[data-device-class]:not([data-device-class="phone"]):not([data-device-class="watch"]) .dsh-panel { align-self: center; max-height: 100%; border-radius: 18px; box-shadow: 0 16px 40px -16px color-mix(in srgb, var(--text-primary) 45%, transparent); }
 .dsh-panel h2 { margin: 0 0 8px; padding-inline-end: 44px; font: 700 17px/1.3 var(--font-heading); overflow-wrap: anywhere; }
 .dsh-panel p, .dsh-panel span, .dsh-panel dd, .dsh-panel dt, .dsh-panel a, .dsh-panel button, .dsh-panel code { overflow-wrap: anywhere; }
 .dsh-x { position: absolute; inset-block-start: 8px; inset-inline-end: 8px; min-width: 44px; min-height: 44px; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
@@ -705,6 +715,8 @@ body { margin: 0; min-height: 100vh; }
 :is(.dsh-panel, .notifications) .mitem { display: inline-flex; align-items: center; gap: 8px; min-block-size: var(--touch-target); color: var(--brand-ink); }
 :is(.dsh-panel, .notifications) :is(.note, .muted) { color: var(--text-secondary); font-size: 12px; }
 .dsh-panel .cmd-input { display: flex; align-items: center; gap: 8px; min-block-size: var(--touch-target); padding: 0 10px; border: 1px solid var(--border-input); border-radius: 10px; }
+/* the row ends before the Close button in the corner, so Close never covers Speak (owner report 2026-11-19) */
+.dsh-panel .command-bar > .cmd-input:first-child { margin-inline-end: 44px; }
 .dsh-panel .cmd-input input { flex: 1; min-inline-size: 0; border: 0; background: none; color: var(--text-primary); font: inherit; }
 .dsh-panel .mlabel { font-weight: 700; }
 .dk-banners { display: grid; gap: 6px; margin: 6px 0; }
@@ -2853,6 +2865,7 @@ function browserFacts(win) {
 
 // ---- ts/src/devicemode.js
 
+const POINTING = ["touch", "stylus", "mouse", "trackpad"];
 class DeviceMode {
     reg;
     device;
@@ -2868,7 +2881,7 @@ class DeviceMode {
     }
     versions() { const d = this.reg.devices.find((x) => x.id === this.device); return ["touch", "non_touch"].filter((v) => d[v] !== null); }
     choice() { return chooseInterface(this.reg, { registered: { device: this.device, version: this.version }, override: this.override }); }
-    touch() { return (this.reg.interfaces[this.choice().interface]?.inputs ?? []).includes("touch"); }
+    touch() { const i = this.reg.interfaces[this.choice().interface]?.inputs ?? []; return POINTING.some((x) => i.includes(x)); }
     apply(root) {
         const c = this.choice();
         root.dataset["deviceClass"] = c.class;
