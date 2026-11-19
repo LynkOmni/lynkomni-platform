@@ -2,7 +2,7 @@
 
 One system controls everything: it builds the survey (by hand, from the library or "Write it for me"), checks every question for
 clarity, keeps versions (a question changed after answers arrived makes a new version, so answers are never mixed), sends it for
-approval where the organisation wants that, opens it, takes answers from every way (link, website, WhatsApp, LynkChat, basic phone,
+approval where the organisation wants that, opens it, takes answers from every way (link, website, LynkChat, basic phone,
 voice call, LynkKiosk, LynkPOS, email, field interviews and paper), checks "one person, one answer" and "Real answers only", and
 turns the answers into results with their margins, the research tools, call back tasks, "You said, we did", rewards, the LynkSurvey
 Panel and verified results anyone can check.
@@ -27,11 +27,11 @@ KINDS = ("quick_rating", "satisfaction", "recommend", "staff_pulse", "staff_jour
          "what_matters_most", "trade_off", "form")
 QTYPES = ("choice", "many", "yes_no", "stars", "rating", "score", "number", "date", "short", "long", "ranking", "spoken", "best_worst", "offer_pick")
 BASIC_QTYPES = ("choice", "yes_no", "stars", "rating", "score", "short")          # LynkSurvey Free: "basic" logic and question types
-WAYS = ("smartphone", "website", "whatsapp", "lynkchat", "basic_phone", "voice", "kiosk", "pos", "email", "field", "paper")
+WAYS = ("smartphone", "website", "lynkchat", "basic_phone", "voice", "kiosk", "pos", "email", "field", "paper")
 DEVICE_WAYS = ("kiosk", "pos", "field", "paper")                                    # answered on an added device, also offline
 SHARED_WAYS = ("kiosk", "pos", "field", "paper")                                    # many people answer on one device: never "many from one device"
-WAY_FEATURE = {"whatsapp": "whatsapp_and_chat", "lynkchat": "whatsapp_and_chat", "basic_phone": "basic_phone", "field": "field_and_paper", "paper": "field_and_paper", "voice": "voice_call"}
-PARTNER_WAYS = {"whatsapp": "people_messages", "basic_phone": "people_messages", "voice": "survey_voice"}
+WAY_FEATURE = {"lynkchat": "lynkchat_way", "basic_phone": "basic_phone", "field": "field_and_paper", "paper": "field_and_paper", "voice": "voice_call"}
+PARTNER_WAYS = {"basic_phone": "people_messages", "voice": "survey_voice"}
 ROLES = ("owner", "manager", "creator", "approver", "viewer", "field_worker")
 BUILDERS = ("owner", "manager", "creator")
 SEES_ALL = ("owner", "manager")
@@ -299,7 +299,7 @@ class Survey:
         last = s.db.execute("select at from sv_asked where person=? and merchant=?", (person, merchant)).fetchone()
         return R.may_ask_again(None if not last else int((_now(now) - last[0]) // DAY), rest_days, opted)
     def phone_code(s, survey, contact, now=None):
-        """One per phone: a code is sent by text, WhatsApp or LynkChat before answering (sandbox: the code comes back here)."""
+        """One per phone: a code is sent by text or LynkChat before answering (sandbox: the code comes back here)."""
         n, mark = _now(now), s._mark(survey, contact)
         if s.db.execute("select 1 from sv_marks where survey_id=? and mark=?", (survey, mark)).fetchone(): return {"state": "refused", "reason": "already_answered"}
         code = f"{secrets.randbelow(10**6):06d}"; ref = s.vault.put(f"{survey}:{mark}", "contact", contact)
@@ -344,7 +344,7 @@ class Survey:
     # ---- answering
     def answer(s, survey, way, answers, language="en", seconds=None, invite_code=None, phone_mark=None, person=None, group=None, consent=False,
                call_back_contact=None, device_today=1, device_mark=None, now=None):
-        """An answer from a person's own phone or computer (link, website, WhatsApp, LynkChat, basic phone, voice, email)."""
+        """An answer from a person's own phone or computer (link, website, LynkChat, basic phone, voice, email)."""
         sv = s._sv(survey); merchant, ent, n = sv["merchant"], s._ent(sv["merchant"]), _now(now)
         if way not in WAYS or way in DEVICE_WAYS: raise ValueError("unknown way")
         if sv["state"] not in ("open", "test"): return {"state": "refused", "reason": "survey_closed"}

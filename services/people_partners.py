@@ -4,7 +4,7 @@ The three services need no partner: "attendance", "queue" and "survey" work in e
 per country, each behind its interface with a working sandbox, and each stays "Coming to your country soon." until its partner is
 signed (providers/registry.v1.json):
 
-- people_messages: text messages, WhatsApp and USSD for PINs and agreement codes (LynkAttend), queue joining and "Please come now"
+- people_messages: text messages and USSD for PINs and agreement codes (LynkAttend), queue joining and "Please come now"
   (LynkQueue) and survey invitations and answering (LynkSurvey). LynkChat, email and in-app messages never need a partner;
 - survey_voice: voice calls that read a survey aloud and take answers by keys or speech;
 - survey_rewards: airtime, credit and voucher rewards and LynkSurvey Panel payments through a licensed payment partner.
@@ -15,8 +15,8 @@ the partner confirms it; LynkOmni never holds a reward or panel payment.
 
 
 class PeopleMessages:
-    """Text, WhatsApp and USSD sending for the three services."""
-    CHANNELS = ("text", "whatsapp", "ussd")
+    """Text and USSD sending for the three services."""
+    CHANNELS = ("text", "ussd")
 
     def send(self, channel, contact_ref, template_id, language):
         raise NotImplementedError

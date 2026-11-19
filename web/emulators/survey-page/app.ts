@@ -1,4 +1,4 @@
-/** LynkSurvey on a person's own phone (NEW UPDATE 4; build section 3B): the page behind a link, a QR code, WhatsApp, LynkChat or an
+/** LynkSurvey on a person's own phone (NEW UPDATE 4; build section 3B): the page behind a link, a QR code, LynkChat or an
  *  email, with no app and no account. Who is asking, why and how long it takes; agreement before a sensitive question; the code
  *  for "one per phone"; one question a page ("Why?" only after an unhappy answer); thank you, My answers and "Don't ask me again".
  *  The box beside it shows what the organisation sees (never fewer than 5 answers, never who gave an anonymous one). */

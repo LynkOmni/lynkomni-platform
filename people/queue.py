@@ -6,7 +6,7 @@ what the building's queue keeper recorded (people/keeper.py, also after hours of
 ("Not served today"), and keeps the live view, the history, the reports and the public queue page.
 
 A ticket shows only its number: never a name. A phone number is kept only in the PII vault, by reference, for that ticket's
-messages, and is removed after 30 days. No event carries one. The person on the phone (link, WhatsApp, LynkChat, basic phone) asks
+messages, and is removed after 30 days. No event carries one. The person on the phone (link, LynkChat, basic phone) asks
 the cloud; the cloud checks the plan and passes the request to the place's queue keeper, which alone gives the number."""
 import hashlib, hmac, json, time
 
@@ -18,8 +18,8 @@ DAY = 86400
 CONTACT_KEPT_DAYS = 30
 PLEASE_CHECK_TIMES = 3             # a staff member using Priority or Put back 3 times as often as the others: "Please check"
 LONG_WAIT_MINUTES = 30             # LynkAssist suggests opening another counter (the manager decides)
-JOIN_WAYS = ("link", "whatsapp", "lynkchat", "basic_phone")
-PARTNER_WAYS = ("whatsapp", "basic_phone")          # need the people_messages partner in that country; the link and LynkChat never do
+JOIN_WAYS = ("link", "lynkchat", "basic_phone")
+PARTNER_WAYS = ("basic_phone",)                    # needs the people_messages partner in that country; the link and LynkChat never do
 DEVICE_KINDS = ("reception", "counter", "kiosk", "screen", "counter_display", "printer", "counter_keypad", "call_button", "pager_set", "scanner")
 KEEPER_KINDS = ("reception", "counter")             # a LynkTab, LynkPC or LynkPOS; a kiosk, screen or display only follows
 SETUPS = {"just_me": {"sections": [("GEN", 1)]}, "one_place": {"sections": [("GEN", 2)]}, "many_places": {"sections": [("GEN", 3)]}}
@@ -256,7 +256,7 @@ class Queue:
                 if c >= PLEASE_CHECK_TIMES and others and c >= PLEASE_CHECK_TIMES * (sum(others) / len(others)): out.append({"staff": staff, "sign": sign, "times": c})
         return out
 
-    # ---- the person on a phone: the link or QR, WhatsApp, LynkChat, basic phone
+    # ---- the person on a phone: the link or QR, LynkChat, basic phone
     def mark(s, place, contact): return hmac.new(s._place(place)["mark_key"].encode(), contact.encode(), hashlib.sha256).hexdigest()[:32]
     def see_wait(s, place):
         """Seen before taking a ticket: how many are waiting in each section and about how long."""
@@ -267,7 +267,7 @@ class Queue:
         """A request to join by phone. The cloud checks the plan and the place's choice; the queue keeper gives the number."""
         ent, pl, n = s._ent(merchant), s._place(place), _now(now)
         if way not in JOIN_WAYS: raise ValueError("unknown way")
-        if way in ("whatsapp", "lynkchat") and not ent["whatsapp_and_chat"]: return {"state": "refused", "reason": "plan_no_whatsapp_or_chat"}
+        if way == "lynkchat" and not ent["lynkchat_way"]: return {"state": "refused", "reason": "plan_no_lynkchat_way"}
         if way == "basic_phone" and not ent["basic_phone"]: return {"state": "refused", "reason": "plan_no_basic_phone"}
         if way in PARTNER_WAYS:
             from providers import ready

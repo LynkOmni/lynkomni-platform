@@ -72,7 +72,7 @@ class SurveyTests(unittest.TestCase):
         ids = [self.s.create(free, self.boss, "quick_rating", [{"id": "r", "type": "rating", "text": "How was it?"}]) for _ in range(4)]
         for i in ids[:3]: self.s.set_state(free, i, self.boss, "open")
         with self.assertRaisesRegex(PermissionError, "plan_limit_live_surveys"): self.s.set_state(free, ids[3], self.boss, "open")
-        self.assertEqual(self.s.answer(ids[0], "whatsapp", [{"q": "r", "number": 4}])["reason"], "plan_no_whatsapp_and_chat")
+        self.assertEqual(self.s.answer(ids[0], "lynkchat", [{"q": "r", "number": 4}])["reason"], "plan_no_lynkchat_way")
         with self.assertRaisesRegex(PermissionError, "plan_no_what_matters_most"): self.s.create(self.m, self.maker, "what_matters_most", Q)
         with self.assertRaisesRegex(PermissionError, "plan_no_organisation_tree"): self.s.add_place(self.m, self.boss, level="department")
         with self.assertRaises(PermissionError): self.s.create(self.m, uuid4(), "satisfaction", Q)             # only owners, managers and creators build

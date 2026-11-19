@@ -67,6 +67,7 @@ class AttendanceTests(unittest.TestCase):
         member, _ = self.person("A6F87399")
         self.assertEqual(self.a.send_pin(self.m, member, "email", self.boss, now=T0), {"state": "sent", "channel": "email"})
         self.assertEqual(self.a.send_pin(self.m, member, "text", self.boss, now=T0), {"state": "coming_soon"}, "text waits for the messaging partner")
+        with self.assertRaises(ValueError): self.a.send_pin(self.m, member, "whatsapp", self.boss, now=T0)       # WhatsApp is not a way (owner, 2026-11-19)
         self.assertEqual([e["payload"]["channel"] for e in self.events("AttendancePinSent")], ["email"])
         self.assertEqual([l["kind"] for l in self.p.notifier.lines.values() if l["person"] == member], ["attend_pin_sent"])
 
@@ -126,7 +127,7 @@ class AttendanceTests(unittest.TestCase):
         self.assertFalse({"face", "finger", "template", "pattern"} & {k for p in pack["people"] for k in p}, "no pattern in the door pack")
         self.door().check(gpin, "in", ["ok"])
         self.sync(now=T0 + 3600)
-        every = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "contract", "event-payloads.v6.json"), encoding="utf-8"))["events"]
+        every = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "contract", "event-payloads.v8.json"), encoding="utf-8"))["events"]
         cloud = self.p.c.store.of(self.m, *every); self.assertTrue(cloud)
         for e in self.box.log + cloud:
             self.assertFalse({"template", "pattern", "image", "face_data", "finger_data"} & set(e["payload"]), e["type"])

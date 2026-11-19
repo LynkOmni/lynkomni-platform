@@ -1535,7 +1535,7 @@
    "family": "platform",
    "min_tier": "free",
    "trigger": "event:NotificationRequested",
-   "action": "Choose push, in-app, email, SMS or WhatsApp by preference and cost, in the reader's language, deduplicated, quiet hours kept",
+   "action": "Choose push, in-app, LynkChat, email or SMS by preference and cost, in the reader's language, deduplicated, quiet hours kept",
    "level": "auto",
    "assist": null,
    "touches": [],

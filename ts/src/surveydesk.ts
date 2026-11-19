@@ -17,7 +17,7 @@ import type { AtEmit, AtLook, AtTier } from "./attenddesk.js";
 type St = "queued" | "sent" | "accepted" | "confirmed" | "failed";
 /** The plan numbers the screens show (services/billing.py FEATURES lynksurvey, passed in by the build; never typed here). */
 export interface SvPlan { price_usd: number; creators_included: number; extra_creator_cents: number | null; answers_per_month: number; live_surveys: number | null; places: number | null;
-  org_tree: string | null; whatsapp_and_chat: boolean; basic_phone: boolean; field_and_paper: boolean; voice_call: boolean; write_it_for_me: boolean; logic: string; repeating: boolean;
+  org_tree: string | null; lynkchat_way: boolean; basic_phone: boolean; field_and_paper: boolean; voice_call: boolean; write_it_for_me: boolean; logic: string; repeating: boolean;
   automatic: string[]; staff_journey: boolean; experience_dashboards: boolean; library_and_brand_kit: boolean; approval: boolean; call_back: boolean; rewards: boolean; panel: boolean;
   own_hardware: boolean; company_login: boolean; own_logo: boolean; api: string | boolean; research: string[]; downloads: string[]; reports: string; history_months: number | null; several_countries: boolean }
 export const SV_KINDS = ["quick_rating", "satisfaction", "recommend", "staff_pulse", "staff_journey", "poll", "event_feedback", "research", "consultation", "what_matters_most", "trade_off", "form"] as const;
@@ -25,10 +25,10 @@ export type SvKind = (typeof SV_KINDS)[number];
 export const SV_QTYPES = ["choice", "many", "yes_no", "stars", "rating", "score", "number", "date", "short", "long", "ranking", "spoken", "best_worst", "offer_pick"] as const;
 export type SvQType = (typeof SV_QTYPES)[number];
 const SV_BASIC: readonly string[] = ["choice", "yes_no", "stars", "rating", "score", "short"];
-export const SV_WAYS = ["smartphone", "website", "whatsapp", "lynkchat", "basic_phone", "voice", "kiosk", "pos", "email", "field", "paper"] as const;
+export const SV_WAYS = ["smartphone", "website", "lynkchat", "basic_phone", "voice", "kiosk", "pos", "email", "field", "paper"] as const;
 export type SvWay = (typeof SV_WAYS)[number];
-const SV_WAY_FEATURE: Partial<Record<SvWay, keyof SvPlan>> = { whatsapp: "whatsapp_and_chat", lynkchat: "whatsapp_and_chat", basic_phone: "basic_phone", field: "field_and_paper", paper: "field_and_paper", voice: "voice_call" };
-const SV_PARTNER_WAYS: readonly string[] = ["whatsapp", "basic_phone", "voice"];          // need the people_messages or survey_voice partner in that country
+const SV_WAY_FEATURE: Partial<Record<SvWay, keyof SvPlan>> = { lynkchat: "lynkchat_way", basic_phone: "basic_phone", field: "field_and_paper", paper: "field_and_paper", voice: "voice_call" };
+const SV_PARTNER_WAYS: readonly string[] = ["basic_phone", "voice"];          // need the people_messages or survey_voice partner in that country
 const SV_SHARED_WAYS: readonly string[] = ["kiosk", "pos", "field", "paper"];
 const SV_KIND_RESEARCH: Partial<Record<SvKind, string>> = { what_matters_most: "what_matters_most", trade_off: "trade_off" };
 /** The clear question check (people/survey.py check_questions): pushing towards an answer, too long, two in one, sensitive topics. */
@@ -44,7 +44,7 @@ export const SV_LYNK: Partial<Record<SvDevKind, string>> = { kiosk: "LynkKiosk",
 const SV_FORMATS: Record<string, string> = { csv: "CSV", spss: "SPSS", stata: "Stata", r: "R" };
 export const SV_MARGINS = [3, 5, 10] as const;
 /** A plan with every part open, for a device that was given no plan numbers (tests); real screens always get services/billing.py's. */
-export const SV_OPEN_PLAN: SvPlan = { price_usd: 0, creators_included: 5, extra_creator_cents: 0, answers_per_month: 0, live_surveys: null, places: null, org_tree: "full", whatsapp_and_chat: true, basic_phone: true,
+export const SV_OPEN_PLAN: SvPlan = { price_usd: 0, creators_included: 5, extra_creator_cents: 0, answers_per_month: 0, live_surveys: null, places: null, org_tree: "full", lynkchat_way: true, basic_phone: true,
   field_and_paper: true, voice_call: true, write_it_for_me: true, logic: "full", repeating: true, automatic: ["all", "api"], staff_journey: true, experience_dashboards: true, library_and_brand_kit: true, approval: true,
   call_back: true, rewards: true, panel: true, own_hardware: true, company_login: true, own_logo: true, api: "full", research: ["margins", "sample_size", "research_record", "compare_groups", "before_after", "themes",
   "real_difference", "groups_to_fill", "balancing", "what_matters_most", "trade_off"], downloads: ["spreadsheet", "csv", "spss", "stata", "r"], reports: "custom", history_months: null, several_countries: true };
@@ -668,14 +668,14 @@ export function svScreenView(d: SurveyDesk, L: SvLook): string {
 export function svCDisplayView(d: SurveyDesk, counter: number, L: SvLook): string {
   return `<div class="qcd svcd"><p class="qcd-name">${esc(L.t("ppl_counter_n", { n: counter }))}</p>${rateUs(L.icon, L.t)}</div>`;
 }
-/** The person's phone (link, QR, website, WhatsApp, LynkChat, email): consent first, the code for "one per phone", one question a
+/** The person's phone (link, QR, website, LynkChat, email): consent first, the code for "one per phone", one question a
  *  page, then thank you with My answers and "Don't ask me again". No app and no account. */
 export function svPhoneView(d: SurveyDesk, L: SvLook): string {
   const t = L.t, s = d.sv(), ph = d.phone; if (!s) return "";
   if (!["open", "test"].includes(s.state)) return `<div class="svphone"><p class="sub">${esc(t("ppl_sv_why_survey_closed"))}</p></div>`;
   const list = d.visible(s, ph.answers), sensitive = s.questions.some((x) => svCheck([x]).some((c) => c.problem === "sensitive_topic"));
   if (ph.step === "consent") {
-    const ways = `<div class="ph-choices small">${(["smartphone", "whatsapp", "lynkchat", "email"] as const).map((w) => `<button type="button" class="ph-choice" data-act="sv:pway:${w}" ${svOn(ph.way === w)}><strong>${esc(svWayName(w, t))}</strong></button>`).join("")}</div>`;
+    const ways = `<div class="ph-choices small">${(["smartphone", "lynkchat", "email"] as const).map((w) => `<button type="button" class="ph-choice" data-act="sv:pway:${w}" ${svOn(ph.way === w)}><strong>${esc(svWayName(w, t))}</strong></button>`).join("")}</div>`;
     const note = ph.note === "plan" ? t("ppl_sv_why_plan_way") : ph.note === "coming_soon" ? t("coming_soon") : "";
     return `<div class="svphone"><h2>${esc(L.place)}</h2><p>${esc(t("ppl_sv_consent_line", { org: L.place, n: list.length, m: Math.max(1, Math.ceil(list.length / 2)) }))}</p><p class="sub">${esc(t("ppl_sv_why_asked"))}</p>
       ${s.anonymous ? `<p class="notice">${esc(t("ppl_sv_anonymous_line"))}</p>` : ""}${sensitive ? `<button type="button" class="ph-toggle" data-act="sv:pconsent" ${svOn(ph.consent)}><span>${esc(t("ppl_sv_sensitive_agree"))}</span><strong>${esc(t(ph.consent ? "ppl_on" : "ppl_off"))}</strong></button>` : ""}

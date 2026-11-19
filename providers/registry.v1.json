@@ -535,7 +535,7 @@
     },
     {
       "id": "sms_otp",
-      "name": "SMS, WhatsApp, email and push delivery",
+      "name": "SMS, email and push delivery",
       "kind": "messaging",
       "used_by": [
         "recovery",
@@ -548,7 +548,6 @@
       "sandbox": "identity.auth:Identity",
       "needed_from_provider": [
         "SMS aggregator per country (sender ID registration)",
-        "WhatsApp Business provider",
         "email delivery service with domain verification",
         "push services (FCM, APNs)"
       ],
@@ -1579,7 +1578,7 @@
     },
     {
       "id": "people_messaging",
-      "name": "Text, WhatsApp and USSD partner for LynkAttend, LynkQueue and LynkSurvey",
+      "name": "Text and USSD partner for LynkAttend, LynkQueue and LynkSurvey",
       "kind": "messaging",
       "used_by": [
         "people_messages"
@@ -1589,7 +1588,7 @@
       "interface": "services.people_partners:PeopleMessages",
       "sandbox": "services.people_partners:SandboxPeopleMessages",
       "needed_from_provider": [
-        "messaging agreement per country (text and WhatsApp business messaging)",
+        "messaging agreement per country (text messages)",
         "USSD short code per country",
         "registered message templates in every language",
         "sandbox and live API keys"
@@ -1861,7 +1860,7 @@
       "name": "Sending subdomains mail.lynkomni.com and news.lynkomni.com with their nine sending addresses, SPF, DKIM, DMARC, MTA-STS and TLS reports",
       "blocks": [],
       "status": "pending",
-      "why_not_now": "Needs the email-sending provider (provider ledger item for SMS, WhatsApp, email and push delivery), chosen in build section 13 (outside screens). BIMI (the logo in inboxes) also waits for the registered trademark.",
+      "why_not_now": "Needs the email-sending provider (provider ledger item for SMS, email and push delivery), chosen in build section 13 (outside screens). BIMI (the logo in inboxes) also waits for the registered trademark.",
       "placeholders": [],
       "done_when": "The nine sending addresses send through the chosen provider with SPF, DKIM and DMARC passing, DMARC at reject after two clean weeks, MTA-STS on, and no-reply@mail.lynkomni.com answering anyone who writes with the automatic help message."
     },

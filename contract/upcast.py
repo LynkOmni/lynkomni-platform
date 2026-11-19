@@ -22,5 +22,9 @@ def upcast(event):
             out["payload"].setdefault("currency", u["default_currency"])
     if v == 2:
         out["payload"].setdefault("side", u["adds_side"])      # written before Storefronts existed: the workspace side
+    for where, values in u.get("reads_as", {}).items():      # version 7 to 8: a removed value (WhatsApp) reads as its replacement
+        etype, field = where.split(".")
+        if out.get("type") == etype and out["payload"].get(field) in values:
+            out["payload"][field] = values[out["payload"][field]]
     out["schema_version"] = u["to_schema_version"]
     return upcast(out)

@@ -19,8 +19,8 @@ export const AT_TIERS = ["free", "plus", "pro", "max"] as const;
 export type AtTier = (typeof AT_TIERS)[number];
 /** The plan numbers the screens show (services/billing.py FEATURES lynkattend, passed in by the build; never typed here). */
 export interface AtPlan { price_usd: number; people_included: number; extra_person_cents: number | null; branches: number | null; managers: number | null; door_devices: number | null }
-export const SEND_WAYS = ["email", "lynkchat", "whatsapp", "text"] as const;
-const AT_PARTNER_WAYS = ["whatsapp", "text"];
+export const SEND_WAYS = ["email", "lynkchat", "text"] as const;
+const AT_PARTNER_WAYS = ["text"];
 export const AGREE_WAYS = ["email_link", "code_text", "finger_signature", "full_id_number"] as const;
 export const REQUEST_REMINDER_DAYS = [7, 14, 25] as const, REQUEST_DELETE_AFTER_DAYS = 30, WARN_TIMES = 3;
 const AT_DID = ["registered", "confirmed", "pin_created", "pin_re_created", "pin_sent", "pin_shown", "hand_check_in", "corrected_missed_check_out", "details_deleted", "door_device_locked"];
@@ -131,7 +131,7 @@ export class AttendDesk {
     p.pin = newPin(this.draw, this.usedPins); this.usedPins.add(p.pin); p.pinState = "live"; p.sent = null;     // the old PIN is dead for ever
     this.emit("AttendancePinRecreated", { member_id: p.id }, "server"); this.log("pin_re_created", p.id); return true;
   }
-  /** The PIN and the IDCN go together, to the person's own contact. Text and WhatsApp wait for the messaging partner. */
+  /** The PIN and the IDCN go together, to the person's own contact. A text message waits for the messaging partner. */
   sendPin(id: string, way: string, online: boolean, partner: boolean): "sent" | "coming_soon" | null {
     const p = this.person(id); if (!p || p.pinState !== "live" || !online || !(SEND_WAYS as readonly string[]).includes(way)) return null;
     if (AT_PARTNER_WAYS.includes(way) && !partner) return "coming_soon";
