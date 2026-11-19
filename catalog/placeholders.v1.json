@@ -162,5 +162,23 @@
   }
  },
  "due_note": "Fields that still need a hint (and two hinted fields that still need a visible label) when this rule was agreed. Section 4 moves every built screen onto the page templates and gives each its hint in every language; the list may only shrink, and section 4 cannot lock while it is not empty.",
- "banned_note": "Patterns (case-insensitive except the capital-letter markers); the first is the classic Latin filler text, written so this file itself passes the visuals gate."
+ "banned_note": "Patterns (case-insensitive except the capital-letter markers); the first is the classic Latin filler text, written so this file itself passes the visuals gate.",
+ "more": {
+  "agreed": "2026-11-20 (owner: no placeholder improvement left out; blueprint 83.7)",
+  "rules": [
+   "Number hints use the reader's own digits (Arabic-Indic, Bengali, Devanagari and others), like every number on screen",
+   "Lists that load more show skeleton rows at the end, then a calm 'That's everything'; pull to refresh shows the same Updating chip",
+   "A new item appears in its list at once, marked queued, and moves through the five states",
+   "Uploads show the file's own preview with real progress, and wait queued when offline",
+   "A picture that fails keeps its shape and shows a token-coloured stand-in with its alt text, never a broken-image icon",
+   "Maps and trackers show their steps first and the map after; media shows its frame while buffering",
+   "Search with nothing typed shows recent searches and suggestions, never a blank box; suggestions appear while typing",
+   "Fields with a limit show a character counter; a disabled field says why and what unlocks it",
+   "Typed work is saved as a draft on the device as people type, and offered back after a crash, a timeout or going offline",
+   "A paid-tier feature on a lower plan shows what it does with Upgrade or Try, never a hidden or broken screen; never inside payments, counts or signatures",
+   "A merchant's logo still waiting for its check shows the business's initials",
+   "Spoken interfaces (voice, basic-phone calls, LynkAssist by voice) say once that they are working, never leave silence",
+   "Skeletons follow light, dark, high-contrast and sunlight modes from tokens"
+  ]
+ }
 }

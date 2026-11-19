@@ -1499,7 +1499,7 @@
      "sections": [
       "4"
      ],
-     "part": "The groundwork; every screen already built moved onto shape-matched skeletons, cached-first loading and its empty states; the 34 field hints in every language and the 2 missing labels; Updating chips; busy buttons that keep their width; time to skeleton and no layout shift added to the speed and fit checks",
+     "part": "The groundwork; every screen already built moved onto shape-matched skeletons, cached-first loading and its empty states; the 34 field hints in every language and the 2 missing labels; Updating chips; busy buttons that keep their width; time to skeleton and no layout shift added to the speed and fit checks; the 83.7 additions (reader's digits in number hints, load-more rows, drafts kept as people type, upload previews, picture stand-ins, recent searches, counters, why a field is disabled, upgrade previews, initials for logos waiting their check) on every screen already built",
      "done": {},
      "progress": {
       "4": [

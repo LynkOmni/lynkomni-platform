@@ -2,6 +2,11 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.58.1 (2026-11-20)
+PLACEHOLDER UPDATE, nothing left out (blueprint 83.7):
+- Number hints now use the reader's own digits (for example Arabic-Indic or Bengali), like every number on screen.
+- Thirteen more rules recorded in catalog/placeholders.v1.json and built with section 4 and every later section: load-more rows and "That's everything", new items shown at once as queued, upload previews with real progress, picture stand-ins instead of broken images, maps and media framed while loading, recent searches in an empty search, character counters, a reason on every disabled field, drafts kept as people type, upgrade previews instead of hidden features, initials for logos waiting their check, spoken interfaces never silent, skeletons in every colour mode.
+
 ## v0.58.0 (2026-11-19)
 PLACEHOLDER UPDATE, the groundwork (owner request; master blueprint section 83):
 - One shared part for waiting screens: cached content shows first; otherwise a grey skeleton shaped like the content to come (11 shapes: lists, cards, records, forms, tables, charts, chats, trackers, tiles, media, text). It never flashes (nothing before 300 ms, at least 300 ms once shown), says "taking longer" with Retry after 8 seconds, stays still with reduced motion or lite mode, and is read once as "Loading" by screen readers.

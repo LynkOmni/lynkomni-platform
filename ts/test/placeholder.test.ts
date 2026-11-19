@@ -30,3 +30,11 @@ test("format hints need no words; word hints come from the page's words; sensiti
   assert.equal(hintAttr(null, t), "");
   assert.ok(/placeholder="T:hint_note"/.test(hintAttr("note", t)));
 });
+
+test("number hints use the reader's digits", () => {
+  const t = (k: string) => k;
+  assert.equal(hintFor("amount", t, "en"), "0");
+  assert.equal(hintFor("amount", t, "ar-EG"), new Intl.NumberFormat("ar-EG").format(0));
+  assert.equal(hintFor("count", t, "bn"), new Intl.NumberFormat("bn").format(0));
+  assert.equal(hintFor("amount", t), "0");
+});
