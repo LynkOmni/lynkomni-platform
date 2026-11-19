@@ -105,12 +105,11 @@
    "what": "Issued invoices, credit notes and confirmed payments post to the books",
    "events": [
     "InvoiceIssuedFromQuote",
-    "PaymentStatusChanged"
-   ],
-   "planned_events": [
+    "PaymentStatusChanged",
     "InvoiceIssued",
     "CreditNoteIssued"
    ],
+   "planned_events": [],
    "consent": "none",
    "build_section": 4
   },
@@ -119,10 +118,10 @@
    "from": "lynkacc",
    "to": "lynkstat",
    "what": "The books feed reports, forecasts and the owner's dashboard",
-   "events": [],
-   "planned_events": [
+   "events": [
     "PeriodClosed"
    ],
+   "planned_events": [],
    "consent": "none",
    "build_section": 4
   },
@@ -131,10 +130,10 @@
    "from": "lynkcrm",
    "to": "lynkstat",
    "what": "Customers, deals and cases feed reports, as totals",
-   "events": [],
-   "planned_events": [
+   "events": [
     "DealStageChanged"
    ],
+   "planned_events": [],
    "consent": "none",
    "build_section": 4
   },
@@ -143,10 +142,10 @@
    "from": "lynkinv",
    "to": "lynkchat",
    "what": "An invoice card in a customer conversation, with its pay link",
-   "events": [],
-   "planned_events": [
+   "events": [
     "ConversationCardSent"
    ],
+   "planned_events": [],
    "consent": "person",
    "build_section": 4
   },
@@ -155,10 +154,10 @@
    "from": "ads",
    "to": "lynkacc",
    "what": "A merchant's ad earnings post to the books as income (79.10)",
-   "events": [],
-   "planned_events": [
+   "events": [
     "AdEarningsRecorded"
    ],
+   "planned_events": [],
    "consent": "none",
    "build_section": 4
   },
@@ -167,10 +166,10 @@
    "from": "lynkfiles",
    "to": "lynkacc",
    "what": "Bills, receipts and statements are filed under their record and read into draft entries",
-   "events": [],
-   "planned_events": [
+   "events": [
     "DocumentFiled"
    ],
+   "planned_events": [],
    "consent": "none",
    "build_section": 4
   },
@@ -179,10 +178,10 @@
    "from": "lynkcrm",
    "to": "lynkvote",
    "what": "Members from LynkCRM become a vote's roll, with the organisation's consent records",
-   "events": [],
-   "planned_events": [
+   "events": [
     "VoteRollImported"
    ],
+   "planned_events": [],
    "consent": "merchant",
    "build_section": 4
   },
@@ -191,10 +190,10 @@
    "from": "lynkexchange",
    "to": "lynkacc",
    "what": "Conversions and rate gains or losses post to the books",
-   "events": [],
-   "planned_events": [
+   "events": [
     "ExchangeSettled"
    ],
+   "planned_events": [],
    "consent": "none",
    "build_section": 4
   },
@@ -495,10 +494,10 @@
    "from": "lynkexchange",
    "to": "lynkinv",
    "what": "An invoice in another currency settled through LynkExchange",
-   "events": [],
-   "planned_events": [
+   "events": [
     "ExchangeSettled"
    ],
+   "planned_events": [],
    "consent": "none",
    "build_section": 10
   },

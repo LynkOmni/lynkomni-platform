@@ -1510,6 +1510,132 @@
    "record": "SNT",
    "ui_section": "7B",
    "note": "A LynkSentry incident (LOSNT-): opened, with the owner and trusted contacts, closed; routed to the safety desk."
+  },
+  {
+   "id": "bill_to_pay",
+   "record": "DOC",
+   "ui_section": 4,
+   "note": "A supplier's bill in LynkAcc: received, read into a draft, approved, in a payment run, paid. Only a person approves; money moves only through the provider."
+  },
+  {
+   "id": "expense_claim",
+   "record": "DOC",
+   "ui_section": 4,
+   "note": "A staff expense claim in LynkAcc: sent, approved, paid back, or returned with a reason."
+  },
+  {
+   "id": "message_delivery",
+   "record": "NTF",
+   "ui_section": 4,
+   "note": "One message from the message register: queued, sent, delivered or failed, with the channel the person chose."
+  },
+  {
+   "id": "signature_request",
+   "record": "DOC",
+   "ui_section": "4B",
+   "note": "A signature request in LynkFiles: sent, viewed, signed by each signer, completed or declined."
+  },
+  {
+   "id": "approval_route",
+   "record": "DOC",
+   "ui_section": "4B",
+   "note": "An approval route (bill, expense, invoice, document): waiting for each named approver, approved or returned."
+  },
+  {
+   "id": "document_request",
+   "record": "DOC",
+   "ui_section": "4B",
+   "note": "A request for a document (a staff file, a lease, a certificate): asked, received, checked."
+  },
+  {
+   "id": "verification",
+   "record": "VER",
+   "ui_section": 6,
+   "note": "A verification by the licensed partner (LOVER-): sent, checked by the partner, confirmed or refused; only the partner's answer in the cloud confirms."
+  },
+  {
+   "id": "plan_change",
+   "record": "SUB",
+   "ui_section": 6,
+   "note": "A change of plan: asked, takes effect at the date shown, nothing cut off mid-day."
+  },
+  {
+   "id": "vote",
+   "record": "VOT",
+   "ui_section": 7,
+   "note": "A vote (LOVOT-): set up, roll ready, open, closed, counted, results published by the committee. A ballot is never tracked or shown."
+  },
+  {
+   "id": "dispute",
+   "record": "CASE",
+   "ui_section": 7,
+   "note": "A payment dispute, which opens a support case (LOCASE-): opened, evidence sent to the provider, won or lost."
+  },
+  {
+   "id": "held_payment",
+   "record": "TXN",
+   "ui_section": 7,
+   "note": "A payment the provider holds until check-in or delivery: held, released or refunded."
+  },
+  {
+   "id": "pre_order",
+   "record": "ORD",
+   "ui_section": 7,
+   "note": "A pre-order: placed, deposit confirmed by the provider, item arrived, collected or delivered."
+  },
+  {
+   "id": "return",
+   "record": "RFD",
+   "ui_section": 7,
+   "note": "A return of goods (LORFD-): asked, received, checked, refunded through the provider or exchanged."
+  },
+  {
+   "id": "card_request",
+   "record": "VC",
+   "ui_section": 7,
+   "note": "A LynkVCard request to the licensed issuer: sent, checked, issued or refused; only the issuer's answer in the cloud confirms."
+  },
+  {
+   "id": "journey",
+   "record": "TRP",
+   "ui_section": 8,
+   "note": "A traveller's journey (LOTRP-) made of bookings and legs: booked, checked in, on the way, arrived."
+  },
+  {
+   "id": "advert_review",
+   "record": "LST",
+   "ui_section": "8B",
+   "note": "A job or property advert's review before it goes live: sent, checked, live or returned with a reason."
+  },
+  {
+   "id": "deposit_return",
+   "record": "TXN",
+   "ui_section": "9B",
+   "note": "A tenancy deposit return through the deposit scheme or provider: asked, checked against the move-out photos, returned. LynkOmni never holds the deposit."
+  },
+  {
+   "id": "report_card",
+   "record": "DOC",
+   "ui_section": "9B",
+   "note": "A report card: marks confirmed by the teachers, approved by the head, issued to guardians."
+  },
+  {
+   "id": "app_review",
+   "record": "APP",
+   "ui_section": 12,
+   "note": "A developer app's review before it is listed on LynkHub: sent, checked, listed or returned."
+  },
+  {
+   "id": "purchase_order",
+   "record": "ORD",
+   "ui_section": 14,
+   "note": "A purchase order to a supplier: drafted from low stock, approved, sent, received, matched to the bill."
+  },
+  {
+   "id": "stock_transfer",
+   "record": "ORD",
+   "ui_section": 14,
+   "note": "A stock transfer between branches: sent, on the way, received and counted."
   }
  ]
 }
