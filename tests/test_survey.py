@@ -215,6 +215,19 @@ class SurveyTests(unittest.TestCase):
         me = uuid4(); self.s.panel_join(me, "CM", "36-50", "fr"); self.assertEqual(self.s.panel_leave(me), 1)
         self.assertEqual(self.s.db.execute("select count(*) from sv_panel where person=?", (me,)).fetchone()[0], 0)
 
+    def test_a_reward_is_tracked_and_paid_only_on_the_partners_answer(self):
+        import providers
+        sid = self.make(); a = self.give(sid, [5])[0]["answer_id"]
+        real = providers.ready
+        providers.ready = lambda service, country: (True, "sandbox")
+        try: r = self.s.reward(self.m, a, "airtime", 500, "XAF")
+        finally: providers.ready = real
+        self.assertEqual(r["state"], "sent")
+        self.assertEqual(self.p.tracking.t.state("survey_reward", r["reward_id"]), "sent")             # never "paid" before the partner says so
+        self.s.reward_answer(self.m, r["reward_id"], "paid")
+        self.assertEqual(self.p.tracking.t.state("survey_reward", r["reward_id"]), "confirmed")
+        with self.assertRaises(ValueError): self.s.reward_answer(self.m, r["reward_id"], "paid")        # answered once
+
     # ---- verified results, downloads, the person's control, billing
     def test_verified_results_and_downloads(self):
         self.p.billing.set_plan(self.m, "lynksurvey", "pro")

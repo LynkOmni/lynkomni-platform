@@ -8254,6 +8254,538 @@
    "class": "A"
   },
   {
+   "action": "queue_put_back_ticket",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "queue_put_back_ticket",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "queue_put_back_ticket",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "queue_put_back_ticket",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "queue_put_back_ticket",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "queue_put_back_ticket",
+   "ask": {
+    "role": "owner",
+    "done_today": 50
+   },
+   "run": false,
+   "needs": "fresh_check",
+   "class": "C"
+  },
+  {
+   "action": "queue_put_back_ticket",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "queue_put_back_ticket"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "queue_put_back_ticket",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "queue"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "queue_put_back_ticket",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "queue_put_back_ticket",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "queue_put_back_ticket",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "queue_put_back_ticket"
+    ]
+   },
+   "run": false,
+   "needs": "ask_owner",
+   "class": "B"
+  },
+  {
+   "action": "queue_put_back_ticket",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "queue_put_back_ticket"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "attend_fix_check_out",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "attend_fix_check_out",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "attend_fix_check_out",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "attend_fix_check_out",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "attend_fix_check_out",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "attend_fix_check_out",
+   "ask": {
+    "role": "owner",
+    "done_today": 50
+   },
+   "run": false,
+   "needs": "fresh_check",
+   "class": "C"
+  },
+  {
+   "action": "attend_fix_check_out",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "attend_fix_check_out"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "attend_fix_check_out",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "attendance"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "attend_fix_check_out",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "attend_fix_check_out",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "attend_fix_check_out",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "attend_fix_check_out"
+    ]
+   },
+   "run": false,
+   "needs": "ask_owner",
+   "class": "B"
+  },
+  {
+   "action": "attend_fix_check_out",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "attend_fix_check_out"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "survey_pause",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "survey_pause",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "survey_pause",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "survey_pause",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "survey_pause",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "survey_pause",
+   "ask": {
+    "role": "owner",
+    "done_today": 20
+   },
+   "run": false,
+   "needs": "fresh_check",
+   "class": "C"
+  },
+  {
+   "action": "survey_pause",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "survey_pause"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "survey_pause",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "survey"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "survey_pause",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "survey_pause",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "survey_pause",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "survey_pause"
+    ]
+   },
+   "run": false,
+   "needs": "ask_owner",
+   "class": "B"
+  },
+  {
+   "action": "survey_pause",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "survey_pause"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "survey_send_reminders",
+   "ask": {
+    "role": "owner"
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "survey_send_reminders",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "survey_send_reminders",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "survey_send_reminders",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "survey_send_reminders",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "survey_send_reminders",
+   "ask": {
+    "role": "owner",
+    "done_today": 10
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "survey_send_reminders",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "survey_send_reminders"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "survey_send_reminders",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "survey"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "survey_send_reminders",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "survey_send_reminders",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "survey_send_reminders",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "survey_send_reminders"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "survey_send_reminders",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "survey_send_reminders"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
    "action": "send_all_money_to_me",
    "ask": {
     "role": "owner"
@@ -13940,6 +14472,86 @@
    "run": false,
    "needs": "wait_for_network",
    "offline": null
+  },
+  {
+   "action": "queue_put_back_ticket",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "device"
+  },
+  {
+   "action": "queue_put_back_ticket",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "attend_fix_check_out",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "queue"
+  },
+  {
+   "action": "attend_fix_check_out",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "survey_pause",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "offline": "queue"
+  },
+  {
+   "action": "survey_pause",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "survey_send_reminders",
+   "ask": {
+    "role": "owner"
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
+  },
+  {
+   "action": "survey_send_reminders",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "queue"
   }
  ]
 }

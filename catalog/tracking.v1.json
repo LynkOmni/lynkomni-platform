@@ -1209,6 +1209,108 @@
      ]
     }
    ]
+  },
+  {
+   "id": "attendance_correction",
+   "record": "ATT",
+   "key": "record_id",
+   "family": "lynkattend",
+   "ui_section": "3B",
+   "viewers": {
+    "merchant": "app.lynkomni.com/attendance/check-ins/{LOATT}",
+    "person": "account.lynkomni.com/attendance"
+   },
+   "note": "One attendance record from check-in to check-out and any correction. A correction always has its reason and keeps the old line beside the new one; the person sees their own record only (TRACKING UPDATE 72.9; build section 3B).",
+   "steps": [
+    {
+     "id": "checked_in",
+     "state": "accepted",
+     "customer": true,
+     "on": [
+      {
+       "event": "CheckedIn"
+      }
+     ]
+    },
+    {
+     "id": "checked_out",
+     "state": "confirmed",
+     "customer": true,
+     "optional": true,
+     "on": [
+      {
+       "event": "CheckedOut"
+      }
+     ]
+    },
+    {
+     "id": "corrected",
+     "state": "confirmed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "event": "AttendanceCorrected"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "survey_reward",
+   "record": "RSP",
+   "key": "reward_id",
+   "family": "lynksurvey",
+   "ui_section": "3B",
+   "viewers": {
+    "merchant": "app.lynkomni.com/survey/results/{LOSRV}",
+    "person": "account.lynkomni.com/answers"
+   },
+   "note": "A reward for a full answer, paid by the licensed payment partner from the organisation's own money: requested, then paid or not completed. Only the partner's answer, in the cloud, says it was paid; LynkOmni never holds a reward (TRACKING UPDATE 72.9; build section 3B).",
+   "steps": [
+    {
+     "id": "requested",
+     "state": "sent",
+     "customer": true,
+     "on": [
+      {
+       "event": "SurveyRewardRequested"
+      }
+     ]
+    },
+    {
+     "id": "paid",
+     "state": "confirmed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "event": "SurveyRewardAnswered",
+       "when": {
+        "result": [
+         "paid"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "id": "failed",
+     "state": "failed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "event": "SurveyRewardAnswered",
+       "when": {
+        "result": [
+         "failed"
+        ]
+       }
+      }
+     ]
+    }
+   ]
   }
  ],
  "planned": [

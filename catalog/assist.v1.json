@@ -926,7 +926,7 @@
    "verify": "read_back",
    "undo": "close_counter",
    "build_section": "3B",
-   "status": "planned",
+   "status": "built",
    "offline": "device"
   },
   {
@@ -938,7 +938,8 @@
    ],
    "roles": [
     "owner",
-    "manager"
+    "manager",
+    "creator"
    ],
    "limits": {
     "per_day": 50
@@ -946,7 +947,7 @@
    "verify": "read_back",
    "undo": "discard_draft",
    "build_section": "3B",
-   "status": "planned",
+   "status": "built",
    "offline": "never"
   },
   {
@@ -964,7 +965,7 @@
    "verify": "none",
    "undo": null,
    "build_section": "3B",
-   "status": "planned",
+   "status": "built",
    "offline": "never"
   },
   {
@@ -986,6 +987,86 @@
    "build_section": "3B",
    "status": "planned",
    "offline": "cloud_check"
+  },
+  {
+   "id": "queue_put_back_ticket",
+   "area": "queue",
+   "class": "B",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 50
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": "3B",
+   "status": "built",
+   "offline": "device"
+  },
+  {
+   "id": "attend_fix_check_out",
+   "area": "attendance",
+   "class": "B",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 50
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": "3B",
+   "status": "built",
+   "offline": "queue",
+   "note": "a missed check-out is fixed with its reason; the old line is kept beside the new one; never the manager's own record"
+  },
+  {
+   "id": "survey_pause",
+   "area": "survey",
+   "class": "B",
+   "touches": [
+    "settings"
+   ],
+   "roles": [
+    "owner",
+    "manager",
+    "creator"
+   ],
+   "limits": {
+    "per_day": 20
+   },
+   "verify": "read_back",
+   "undo": "reopen_survey",
+   "build_section": "3B",
+   "status": "built",
+   "offline": "queue"
+  },
+  {
+   "id": "survey_send_reminders",
+   "area": "survey",
+   "class": "A",
+   "touches": [
+    "message"
+   ],
+   "roles": [
+    "owner",
+    "manager",
+    "creator"
+   ],
+   "limits": {
+    "per_day": 10
+   },
+   "verify": "delivery",
+   "undo": null,
+   "build_section": "3B",
+   "status": "built",
+   "offline": "queue",
+   "note": "only the reminders the survey already allows: at most 2 per person, never to anyone who said Don't ask me again"
   }
  ],
  "offline_rule": "Offline layer 2 (MASTER UPDATE 1.11; build section 3): every action says what it does without a network. device: changes only this device, done at once and recorded, synced later. queue: the person confirms now, it is sealed on the device and shown as queued, carried out when the network returns, then verified and told; never shown as done before that, and it expires if the device stays offline too long. cloud_check: needs the cloud's fresh identity check, so it waits. never: needs a provider, a partner or a person, so it is not offered offline (LynkAssist prepares the case to send later; the one exception, a card freeze, is queued and shown frozen only when the issuer confirms).",
