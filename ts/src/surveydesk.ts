@@ -460,7 +460,7 @@ const svOff = (off: boolean): string => (off ? "disabled" : "");
 const svTag = (text: string, kind = ""): string => `<span class="tag ${kind}">${esc(text)}</span>`;
 const svCard = (item: string, title: string, body: string): string => `<div class="card ph-card" data-item="${item}" role="group" aria-label="${esc(title)}"><h2>${esc(title)}</h2>${body}</div>`;
 const svChip = (s: St, L: AtLook): string => `<span class="chip st-${s}">${L.icon(`status-${s}`)}<span>${esc(L.t(`st_${s}`))}</span></span>`;
-const svRow = (name: string, sub: string, end = ""): string => `<li><div class="rowbtn static"><span class="main"><span class="nm">${name}</span><span class="sub">${sub}</span></span>${end}</div></li>`;
+const svRow = (name: string, sub: string, end = ""): string => `<li><div class="rowbtn static sv-row"><span class="main"><span class="nm">${name}</span><span class="sub">${sub}</span></span>${end}</div></li>`;
 const svTenth = (n: number): string => (n / 10).toFixed(1);
 const svPlanTag = (L: AtLook, tier: "plus" | "pro"): string => svTag(L.t(`ppl_sv_from_${tier}`));
 export const svKindName = (k: string, t: T): string => t(`ppl_sv_kind_${k}`);

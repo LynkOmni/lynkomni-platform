@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-StfdKWq9jRdp++vdJ+UM/N552pS1cQa8fFVuDie+WDY='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-lyHTuEdgpSxnawcsFjyX+kec80pSYv67mwK1Z1Gy36E='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkDScreen</title>
 <meta name="description" content="Interactive emulator of LynkDScreen, the main calling screen of LynkQueue: the tickets being called and their counters, the chime and the voice, back soon, how many are waiting and the QR code to join, with or without internet.">
@@ -687,6 +687,7 @@ body { margin: 0; min-height: 100vh; }
 .svscreen { container-type: inline-size; } .svscreen .qs-title { margin: 0; font-family: var(--font-heading); font-size: min(1.5rem, 7cqi); } .svs-big { font-family: var(--font-heading); font-weight: 700; font-size: min(1.6rem, 8cqi); margin: 0; }
 .svcd { gap: 6px; } .svcd .rateus { justify-content: center; }
 .sv-text { inline-size: 100%; min-inline-size: 0; resize: vertical; field-sizing: content; font: inherit; overflow-wrap: anywhere; }
+.sv-row { flex-wrap: wrap; } .rowbtn.sv-row > .main { min-inline-size: min(9rem, 100%); }   /* a long button or chip moves below the name instead of squeezing it */
 
 /* MASTER UPDATE section 3 on every Business app device: the bell button and its badge, banners on the device screen, the
    staff lock screen, the manager's approval, LynkAssist's queued state and the card screens. Tokens only; logical CSS so
@@ -4763,7 +4764,7 @@ const svOff = (off) => (off ? "disabled" : "");
 const svTag = (text, kind = "") => `<span class="tag ${kind}">${esc(text)}</span>`;
 const svCard = (item, title, body) => `<div class="card ph-card" data-item="${item}" role="group" aria-label="${esc(title)}"><h2>${esc(title)}</h2>${body}</div>`;
 const svChip = (s, L) => `<span class="chip st-${s}">${L.icon(`status-${s}`)}<span>${esc(L.t(`st_${s}`))}</span></span>`;
-const svRow = (name, sub, end = "") => `<li><div class="rowbtn static"><span class="main"><span class="nm">${name}</span><span class="sub">${sub}</span></span>${end}</div></li>`;
+const svRow = (name, sub, end = "") => `<li><div class="rowbtn static sv-row"><span class="main"><span class="nm">${name}</span><span class="sub">${sub}</span></span>${end}</div></li>`;
 const svTenth = (n) => (n / 10).toFixed(1);
 const svPlanTag = (L, tier) => svTag(L.t(`ppl_sv_from_${tier}`));
 const svKindName = (k, t) => t(`ppl_sv_kind_${k}`);

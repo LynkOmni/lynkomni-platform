@@ -760,6 +760,7 @@ html { font-size: 100%; }
 .svscreen { container-type: inline-size; } .svscreen .qs-title { margin: 0; font-family: var(--font-heading); font-size: min(1.5rem, 7cqi); } .svs-big { font-family: var(--font-heading); font-weight: 700; font-size: min(1.6rem, 8cqi); margin: 0; }
 .svcd { gap: 6px; } .svcd .rateus { justify-content: center; }
 .sv-text { inline-size: 100%; min-inline-size: 0; resize: vertical; field-sizing: content; font: inherit; overflow-wrap: anywhere; }
+.sv-row { flex-wrap: wrap; } .rowbtn.sv-row > .main { min-inline-size: min(9rem, 100%); }   /* a long button or chip moves below the name instead of squeezing it */
 
 /* LynkOmni Account in a browser window (and on a phone): original LynkOmni design, tokens only. The window and the controls panel
  * are the same as the browser-frame emulator; the page styles below are the account site's own, built from the shell's parts. */
