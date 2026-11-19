@@ -30,24 +30,38 @@ class SizeBudget(unittest.TestCase):
 
 @unittest.skipUnless(sync_playwright, "Playwright with Chromium is needed")
 class TimeBudget(unittest.TestCase):
+    TRIES = 3     # a shared test machine is sometimes busy for a moment: the fastest of three fresh loads counts (owner, 2026-11-19)
+
+    def measure(self, b, emulator, cfg):
+        """One fresh load on the four-times-slower CPU: first screen, nodes on it and the first tap."""
+        pg = b.new_page(viewport={"width": 390, "height": 844}, reduced_motion="reduce")
+        cdp = pg.context.new_cdp_session(pg)
+        cdp.send("Emulation.setCPUThrottlingRate", {"rate": BUDGETS["cpu_slowdown"]})
+        pg.goto("file://" + os.path.join(DIST, f"lynkomni-{emulator}.html"))
+        pg.wait_for_selector("html[data-ready]", state="attached")   # the app has unpacked its data and drawn its first screen (web/build.mjs)
+        first = pg.evaluate("window.__readyAt")
+        nodes = pg.evaluate("(r) => document.querySelector(r).querySelectorAll('*').length", budget(emulator, "root"))
+        tap = pg.evaluate("""(sel) => new Promise((done) => { const t0 = performance.now(); document.querySelector(sel).click(); requestAnimationFrame(() => requestAnimationFrame(() => done(performance.now() - t0))); })""", cfg["first_tap"])
+        pg.close()
+        return first, nodes, tap
+
     def test_first_screen_and_first_tap_within_budget_on_a_slow_cpu(self):
+        """The budgets never change to make a run pass. A real slowdown fails all three loads; a busy moment on the test machine
+        fails only one (twice on 19 November LynkPOS took about 1.6 s once and well under 1.5 s when run again)."""
         with sync_playwright() as p:
             b = p.chromium.launch()
             for emulator, cfg in BUDGETS["emulators"].items():
-                pg = b.new_page(viewport={"width": 390, "height": 844}, reduced_motion="reduce")
-                cdp = pg.context.new_cdp_session(pg)
-                cdp.send("Emulation.setCPUThrottlingRate", {"rate": BUDGETS["cpu_slowdown"]})
-                pg.goto("file://" + os.path.join(DIST, f"lynkomni-{emulator}.html"))
-                pg.wait_for_selector("html[data-ready]", state="attached")   # the app has unpacked its data and drawn its first screen (web/build.mjs)
-                first = pg.evaluate("window.__readyAt")
-                self.assertLessEqual(first, budget(emulator, "first_screen_ms"), f"{emulator}: first screen took {first:.0f} ms")
-                nodes = pg.evaluate("(r) => document.querySelector(r).querySelectorAll('*').length", budget(emulator, "root"))
-                self.assertLessEqual(nodes, budget(emulator, "dom_nodes"), f"{emulator}: {nodes} nodes on the first screen")
-                tap = pg.evaluate("""(sel) => new Promise((done) => { const t0 = performance.now(); document.querySelector(sel).click(); requestAnimationFrame(() => requestAnimationFrame(() => done(performance.now() - t0))); })""", cfg["first_tap"])
-                self.assertLessEqual(tap, budget(emulator, "tap_ms"), f"{emulator}: the first tap took {tap:.0f} ms")
-                pg.close()
+                runs = []
+                for _ in range(self.TRIES):
+                    runs.append(self.measure(b, emulator, cfg))
+                    first, nodes, tap = runs[-1]
+                    if first <= budget(emulator, "first_screen_ms") and tap <= budget(emulator, "tap_ms"):
+                        break
+                self.assertLessEqual(runs[-1][1], budget(emulator, "dom_nodes"), f"{emulator}: {runs[-1][1]} nodes on the first screen")
+                firsts, taps = [r[0] for r in runs], [r[2] for r in runs]
+                self.assertLessEqual(min(firsts), budget(emulator, "first_screen_ms"), f"{emulator}: first screen took {', '.join(f'{x:.0f}' for x in firsts)} ms in {len(runs)} loads")
+                self.assertLessEqual(min(taps), budget(emulator, "tap_ms"), f"{emulator}: the first tap took {', '.join(f'{x:.0f}' for x in taps)} ms in {len(runs)} loads")
             b.close()
-
 
 if __name__ == "__main__":
     unittest.main()
