@@ -1,11 +1,11 @@
-"""The thirteen "where every part is built" tables of the master blueprint (64.11 to 76.8) in catalog/build-tables.v1.json, read
+"""The "where every part is built" tables of the master blueprint (64.11 onward) in catalog/build-tables.v1.json, read
 through core/build_sections.py (section 4 part 1c, owner 2026-11-19). A build section is not locked until every row naming it
 is done there (blueprint 44 L), and nothing is marked done ahead of the build order."""
 import json, os, re, unittest
 from core import build_sections as b
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TABLE_IDS = ["64.11", "65.9", "66.10", "67.17", "68.14", "69.14", "70.16", "71.9", "72.9", "73.9", "74.9", "75.9", "76.8"]
+TABLE_IDS = ["64.11", "65.9", "66.10", "67.17", "68.14", "69.14", "70.16", "71.9", "72.9", "73.9", "74.9", "75.9", "76.8", "79.10"]
 CHANGELOG = open(os.path.join(ROOT, "docs", "lynkomni-changelog.md"), encoding="utf-8").read()
 ORDER = [str(n) for n in b.ORDER]
 
@@ -15,7 +15,7 @@ def building():
 
 
 class BuildTables(unittest.TestCase):
-    def test_the_thirteen_tables_in_blueprint_order(self):
+    def test_the_tables_in_blueprint_order(self):
         self.assertEqual([t["id"] for t in b.TABLES], TABLE_IDS)
         for t in b.TABLES:
             self.assertEqual(t["blueprint_section"], int(t["id"].split(".")[0]))
@@ -66,7 +66,7 @@ class BuildTables(unittest.TestCase):
     def test_every_section_from_4_has_its_parts_listed(self):
         """Each build section from 4 onward has at least one part across the tables, so the lock rule has something to check."""
         for n in ORDER[ORDER.index("4"):]:
-            self.assertGreater(b.tally(n)[1], 0, f"section {n} has no part in the thirteen tables")
+            self.assertGreater(b.tally(n)[1], 0, f"section {n} has no part in the tables")
 
     def test_the_helpers_agree(self):
         done, work = b.tally("3A")

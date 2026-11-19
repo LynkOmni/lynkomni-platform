@@ -145,7 +145,7 @@ def build():
 
     # Progress
     parts.append(f'<h2 id="progress">Progress: the {len(cfg["sections"])} build steps</h2>'
-                 '<p class="muted">Parts from the updates: how many of the parts that the thirteen tables of the blueprint (64.11 to 76.8) give each section are done. A section is locked only when all are done.</p>'
+                 '<p class="muted">Parts from the updates: how many of the parts that the tables of the blueprint (64.11 to 76.8) give each section are done. A section is locked only when all are done.</p>'
                  '<table><thead><tr><th>#</th><th>Build section</th><th>Status</th><th>Parts from the updates</th><th>Version</th></tr></thead><tbody>')
     for s in cfg["sections"]:
         st = s.get("status", "")

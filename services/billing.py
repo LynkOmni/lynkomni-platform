@@ -510,7 +510,7 @@ class Billing:
     def storefront_entitlement(s, account):
         return dict(STOREFRONT_FEATURES[STOREFRONT_TIERS.index(s.storefront_tier(account))])
     def ads_enabled(s, account, product):  # ads show only while the surface's product is on its Free tier
-        return s.tier(account, ADS_PRODUCT[product]) == "free"
+        return s.tier(account, ADS_PRODUCT.get(product, product)) == "free"   # a short product key or a billing family (catalog/ads.v1.json)
     def _money(s, account, family, usd):
         pr = s.c.profile(account); idx = 1 if FAMILIES[family][4] == "developer" else country(pr["country"]).get("price_index", 1.0)
         return s.c.fx.convert(to_minor(usd * idx, "USD"), "USD", pr["currency"])

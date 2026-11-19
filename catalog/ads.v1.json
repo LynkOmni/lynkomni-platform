@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "agreed": "2026-11-19 (ADS UPDATE, owner; master blueprint section 79)",
+ "rule": "Ads appear only in the places listed here (an allow-list, never a block-list). Ads are matched to the screen's subject, never to the person; always labelled in the reader's language; capped; never in the never list; off per country until legal sign-off; never on a product's paid tier; never in a household workspace or anywhere a child is the audience. An ad never delays a screen: it comes from the device's cached bundle, draws after the screen is ready, and a missing ad leaves no gap. Only impressions that were really seen count, devices never bill, and advertisers see totals only. Prices, shares and every revenue figure here are placeholders and assumptions until the first advertisers sign.",
+ "places": [
+  {"id": "receipt_footer", "family": "lynkpos", "audience": "customer", "owner": "merchant", "kind": "text", "share_bps": 4000, "build_section": "3", "what": "One labelled line at the very end of a printed or digital receipt, never on a fiscal document"},
+  {"id": "pos_idle", "family": "lynkpos", "audience": "staff", "owner": "merchant", "kind": "card", "share_bps": 3000, "build_section": "3", "what": "The till's idle screen between sales"},
+  {"id": "pos_after_sale", "family": "lynkpos", "audience": "staff", "owner": "merchant", "kind": "card", "share_bps": 3000, "build_section": "3", "what": "After the sale is finished and the receipt is out"},
+  {"id": "dashboard_card", "family": "lynkstat", "audience": "staff", "owner": "lynkomni", "kind": "card", "share_bps": 0, "build_section": "4", "what": "One card among the owner's dashboard cards on LynkStat Free"},
+  {"id": "reorder_promoted", "family": "lynkstock", "audience": "staff", "owner": "lynkomni", "kind": "listing", "share_bps": 0, "build_section": "7", "what": "Supplier retail media: a sponsored supplier product beside a reorder suggestion on LynkStock Free, never replacing the merchant's own supplier"},
+  {"id": "loyalty_offer", "family": "lynkrewards", "audience": "customer", "owner": "merchant", "kind": "offer", "share_bps": 3000, "build_section": "7", "what": "A brand-funded offer or extra points the customer can redeem at the till (paid per redemption confirmed by a sale)"},
+  {"id": "discover_listing", "family": "storefront", "audience": "customer", "owner": "lynkomni", "kind": "listing", "share_bps": 0, "build_section": "7", "what": "Sponsored shops and offers on Explore, in their own labelled row that never reorders the normal results"},
+  {"id": "shop_search_sponsored", "family": "storefront", "audience": "customer", "owner": "lynkomni", "kind": "listing", "share_bps": 0, "build_section": "7", "what": "At most one labelled sponsored result above search results on shop.lynkomni.com"},
+  {"id": "category_sponsor", "family": "storefront", "audience": "customer", "owner": "lynkomni", "kind": "banner", "share_bps": 0, "build_section": "7", "what": "One brand sponsors an Explore category for a set time at a fixed price (contextual, labelled)"},
+  {"id": "services_promoted", "family": "platform", "audience": "staff", "owner": "lynkomni", "kind": "house", "share_bps": 0, "build_section": "5", "what": "LynkOmni's own services suggested to Free users (house ads, no outside advertiser)"},
+  {"id": "booking_listing", "family": "lynkbooking", "audience": "customer", "owner": "lynkomni", "kind": "listing", "share_bps": 0, "build_section": "8", "what": "Sponsored stays, trips and events for LynkBooking Pass Free members, in their own labelled row"},
+  {"id": "essential_offer", "family": "lynkessential", "audience": "customer", "owner": "lynkomni", "kind": "card", "share_bps": 0, "build_section": "9", "what": "One labelled offer card on LynkEssential Free, never on the payment screen"},
+  {"id": "customer_display_idle", "family": "lynkpos", "audience": "customer", "owner": "merchant", "kind": "signage", "share_bps": 5000, "build_section": "13", "what": "The customer-facing display while no sale is open; the sale always takes the screen back at once"},
+  {"id": "dscreen_signage", "family": "platform", "audience": "public", "owner": "merchant", "kind": "signage", "share_bps": 5000, "build_section": "13", "what": "LynkDScreen in-store screens the merchant chooses to join to the screen network, between the merchant's own content"}
+ ],
+ "never": ["payment", "checkout", "cash_count", "void", "refund", "fiscal_receipt_body", "chat_thread", "exchange", "vcard", "agent_point", "sign_in", "security", "account_recovery", "consent", "signature", "assist_answer", "notification", "message", "email", "tracking_page", "booking_checkout", "survey_answering", "attendance_door", "queue_call", "emulator_panel", "staff", "settings", "household", "school", "child", "error", "offline_banner", "help_article", "legal"],
+ "never_audiences": ["child", "household"],
+ "categories": {
+  "blocked": ["gambling", "adult", "tobacco", "weapons", "political", "get_rich_quick", "unlicensed_finance", "counterfeit", "surveillance_tools", "hate"],
+  "age_sensitive": ["alcohol", "dating", "diet_and_body_image", "energy_drinks", "cosmetic_procedures"],
+  "regulated": ["lending", "insurance", "crypto", "investment", "health_and_medicine"],
+  "age_sensitive_rule": "Accepted only where the country pack lists the category in allowed_ad_categories, and never for a child audience or in a school or household workspace.",
+  "regulated_rule": "Accepted only from an advertiser licensed in every target country (proof kept by the Partner Hub)."
+ },
+ "caps": {"per_campaign_per_merchant_per_day": 5, "per_screen": 1, "per_device_per_hour": 6, "reports_before_pause": 3},
+ "viewability": {"min_visible_pct": 50, "min_visible_ms": 1000, "rule": "An impression counts only when at least half the ad was on screen for at least a second, reported once, sealed by the device; clicks and redemptions count only after a counted impression."},
+ "report_minimum": 5,
+ "ranking": "price times relevance: an ad whose contexts match the screen's subject ranks twice as high, so useful offers win over loud ones",
+ "merchant_controls": ["host or not host ads on each place the merchant owns", "block an advertiser or a competitor's brand", "block a category", "go ad-free with any paid tier", "see ad earnings in LynkAcc"],
+ "person_controls": ["Why am I seeing this?", "Report this ad", "Hide ads like this", "lite mode hides every ad"],
+ "revenue": [
+  {"id": "contextual_places", "model": "cpm, cpc", "build_section": "3", "what": "Labelled ads in the places above, priced by auction with a country floor"},
+  {"id": "supplier_retail_media", "model": "cpc, cpa", "build_section": "7", "what": "Suppliers promote their products to shops at reorder time; paid per click or per confirmed order"},
+  {"id": "promote_my_shop", "model": "cpc", "build_section": "7", "what": "Small businesses promote their own shop or offer on Explore and search from a small daily budget"},
+  {"id": "brand_funded_offers", "model": "cpa", "build_section": "7", "what": "Brands fund discounts or LynkRewards points, paid only when a sale confirms the redemption"},
+  {"id": "category_sponsorship", "model": "fixed", "build_section": "7", "what": "One brand sponsors an Explore category or a season for a fixed fee"},
+  {"id": "booking_sponsored", "model": "cpc", "build_section": "8", "what": "Sponsored stays, trips and events for Free Pass members"},
+  {"id": "screen_network", "model": "cpm", "build_section": "13", "what": "Labelled ads on customer displays and LynkDScreen screens merchants choose to join, with the merchant taking a share"},
+  {"id": "managed_campaigns", "model": "fee", "build_section": "12", "what": "LynkOmni plans and runs campaigns for larger advertisers for a service fee; creative drafts by LynkAssist, approved by a person"},
+  {"id": "advertiser_api", "model": "existing_api_prices", "build_section": "11", "what": "Advertisers and agencies manage campaigns and read totals through LynkDev"},
+  {"id": "ad_free_upgrades", "model": "subscription", "build_section": "3", "what": "Every paid tier removes ads, so ads also lift upgrades"}
+ ],
+ "seamless": ["the ad is chosen from the device's cached bundle; no network call while a screen draws", "an ad draws after the screen is ready and never moves anything already on it", "a failed or missing ad leaves no gap and no message", "no autoplay, sound, animation or pop-up; reduced motion and lite mode respected", "text and design tokens only; translated into every language through the safe translation path", "the sale, payment and every task always take the screen back at once"]
+}
