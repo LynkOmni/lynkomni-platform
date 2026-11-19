@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
+ "source_sha256": "bdf91495b8262e210e77b0b2a251b1b34c70d94abd4c2776e78bdf1ec47299bf",
  "texts": {
   "ft_about": "Tungkol sa amin",
   "ft_accessibility": "Accessibility",
@@ -112,7 +112,7 @@
   "ft_tDev": "Mga update para sa developer",
   "ft_tMerchant": "Tips para sa negosyante",
   "ft_tProduct": "Mga update sa produkto",
-  "ft_tagline": "Gumagana may internet man o wala.",
+  "ft_tagline": "Patakbuhin ang lahat. Kahit saan. Walang tigil.",
   "ft_terms": "Mga tuntunin",
   "ft_trust": "Seguridad at tiwala",
   "ft_vuln": "Mag-ulat ng kahinaan sa seguridad",

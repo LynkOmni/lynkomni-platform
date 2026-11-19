@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "e788bc5ce3d20b41ea03dbe469a27bbd1703ee92bfcedd7dda92b868c5d19356",
+ "source_sha256": "05b59c42f3f32611120f39ae571a061949f5fad9c0548f698083fd2337e04c13",
  "texts": {
   "account": "Akaunti",
   "active": "Inatumika",
@@ -778,7 +778,7 @@
   "why_low_stock_reorder": "Baadhi ya bidhaa zilifikia kiwango cha kuagiza tena, kwa hiyo rasimu ya agizo iliandaliwa. Hakuna kinachotumwa hadi uthibitishe.",
   "why_negative_stock_flag": "Mauzo yalipeleka bidhaa chini ya sifuri. Mauzo yalikamilika; hesabu bidhaa kurekebisha.",
   "wipe_help": "Kifaa kilichobatilishwa huacha kufanya kazi mara moja na data yake hufutwa kitakapounganishwa tena.",
-  "works_anywhere": "Inafanya kazi ukiwa na intaneti au bila.",
+  "works_anywhere": "Programu moja ya kuendesha biashara yako, pesa zako na maisha yako ya kila siku, ukiwa na intaneti au bila.",
   "write_message": "Andika ujumbe",
   "wrong_code": "Msimbo si sahihi. Jaribu tena.",
   "your_data_yours": "Data yako ni yako. Ihamishe wakati wowote.",

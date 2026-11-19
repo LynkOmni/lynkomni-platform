@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "e788bc5ce3d20b41ea03dbe469a27bbd1703ee92bfcedd7dda92b868c5d19356",
+ "source_sha256": "05b59c42f3f32611120f39ae571a061949f5fad9c0548f698083fd2337e04c13",
  "texts": {
   "account": "Account",
   "active": "Aktibo",
@@ -778,7 +778,7 @@
   "why_low_stock_reorder": "Umabot sa reorder level ang ilang produkto, kaya gumawa ng draft na order. Walang ipapadala hangga't hindi mo kinukumpirma.",
   "why_negative_stock_flag": "Bumaba sa zero ang isang produkto dahil sa benta. Natuloy ang benta; bilangin ang produkto para itama ito.",
   "wipe_help": "Agad na titigil ang binawing device at buburahin ang datos nito sa susunod na pagkonekta.",
-  "works_anywhere": "Gumagana may internet man o wala.",
+  "works_anywhere": "Isang app para patakbuhin ang iyong negosyo, pera at buhay sa bawat araw, may internet man o wala.",
   "write_message": "Sumulat ng mensahe",
   "wrong_code": "Maling code. Subukang muli.",
   "your_data_yours": "Sa iyo ang iyong datos. I-export ito anumang oras.",

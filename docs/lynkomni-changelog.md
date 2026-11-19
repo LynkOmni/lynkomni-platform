@@ -9,6 +9,13 @@ Section 4, step A2 (shared groundwork: contract version 9 and new tracker kinds)
 - 21 new tracker kinds registered with their build sections, each on an identifier that already exists: bill to pay, expense claim, message delivery, signature request, approval, document request, verification, plan change, vote, dispute, held payment, pre-order, return, card request, journey, advert review, deposit return, report card, app review, purchase order and stock transfer. Their names are in all 38 languages.
 - The account site, Business app and rider app demo files carry those names in 38 languages, so their size budgets rose a little (1,440 KB, 2,920 KB and 1,100 KB).
 
+## v0.54.1 (2026-11-19)
+The approved company profile words replace the old ones everywhere (owner, 19 November 2026):
+- The main footer line under the logo is now the tag phrase "Run it all. Anywhere. Nonstop." (was "Works with or without internet."), in all 38 languages.
+- The Business app's sign-in screen now says the plain line "One app to run your business, money and daily life, with or without internet." under the welcome, in all 38 languages.
+- The README opens with the tag phrase and the approved definition; the brand note for the footer logo names the tag phrase.
+- Master blueprint section 81 (in its new tab "Sections 81 onward", since the first tab is full) records the company profile and every page where each part appears.
+
 ## v0.54.0 (2026-11-19)
 Section 4, step A1 (shared groundwork: connections and identifiers):
 - New register catalog/connections.v1.json (blueprint 71.3): 49 links between services, each with its two ends, what passes, the contract events that carry it (or the events its build section will add), whose consent it needs and its build section. Every product family and the support desk, the Storefront and ads have at least one link. Read through core/connections.py.

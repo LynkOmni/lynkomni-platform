@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "e788bc5ce3d20b41ea03dbe469a27bbd1703ee92bfcedd7dda92b868c5d19356",
+ "source_sha256": "05b59c42f3f32611120f39ae571a061949f5fad9c0548f698083fd2337e04c13",
  "texts": {
   "account": "I-akhawunti",
   "active": "Kuyasebenza",
@@ -778,7 +778,7 @@
   "why_low_stock_reorder": "Eminye imikhiqizo ifinyelele ezingeni le-oda kabusha, ngakho kwenziwe i-oda elisalungiswa. Akukho okuthunyelwayo uze uqinisekise.",
   "why_negative_stock_flag": "Ukuthengisa kwehlise umkhiqizo ngaphansi kweqanda. Ukuthengisa kudlulile; bala umkhiqizo ukuze ukulungise.",
   "wipe_help": "Idivayisi ehoxisiwe iyeka ukusebenza ngokushesha futhi idatha yayo isulwa lapho ixhuma futhi.",
-  "works_anywhere": "Kusebenza kunayo noma kungekho i-inthanethi.",
+  "works_anywhere": "Uhlelo lokusebenza olulodwa lokuphatha ibhizinisi lakho, imali yakho nempilo yansuku zonke, kunayo noma kungekho i-inthanethi.",
   "write_message": "Bhala umlayezo",
   "wrong_code": "Ikhodi ayilungile. Zama futhi.",
   "your_data_yours": "Idatha yakho ingeyakho. Yikhiphe noma nini.",

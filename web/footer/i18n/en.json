@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "en",
  "native": "English",
- "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
+ "source_sha256": "bdf91495b8262e210e77b0b2a251b1b34c70d94abd4c2776e78bdf1ec47299bf",
  "texts": {
   "ft_about": "About Us",
   "ft_accessibility": "Accessibility",
@@ -112,7 +112,7 @@
   "ft_tDev": "Developer updates",
   "ft_tMerchant": "Merchant tips",
   "ft_tProduct": "Product updates",
-  "ft_tagline": "Works with or without internet.",
+  "ft_tagline": "Run it all. Anywhere. Nonstop.",
   "ft_terms": "Terms",
   "ft_trust": "Security & Trust",
   "ft_vuln": "Report a Vulnerability",

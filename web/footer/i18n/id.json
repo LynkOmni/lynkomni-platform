@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
+ "source_sha256": "bdf91495b8262e210e77b0b2a251b1b34c70d94abd4c2776e78bdf1ec47299bf",
  "texts": {
   "ft_about": "Tentang kami",
   "ft_accessibility": "Aksesibilitas",
@@ -112,7 +112,7 @@
   "ft_tDev": "Kabar untuk pengembang",
   "ft_tMerchant": "Kiat untuk pedagang",
   "ft_tProduct": "Kabar produk",
-  "ft_tagline": "Bekerja dengan atau tanpa internet.",
+  "ft_tagline": "Jalankan semuanya. Di mana saja. Tanpa henti.",
   "ft_terms": "Ketentuan",
   "ft_trust": "Keamanan dan kepercayaan",
   "ft_vuln": "Laporkan kerentanan",

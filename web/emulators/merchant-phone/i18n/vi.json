@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "e788bc5ce3d20b41ea03dbe469a27bbd1703ee92bfcedd7dda92b868c5d19356",
+ "source_sha256": "05b59c42f3f32611120f39ae571a061949f5fad9c0548f698083fd2337e04c13",
  "texts": {
   "account": "Tài khoản",
   "active": "Đang hoạt động",
@@ -778,7 +778,7 @@
   "why_low_stock_reorder": "Một số sản phẩm đã chạm mức đặt lại nên một đơn nháp đã được soạn. Không gửi gì cho đến khi bạn xác nhận.",
   "why_negative_stock_flag": "Một đơn bán làm sản phẩm xuống dưới không. Đơn vẫn hoàn tất; hãy đếm sản phẩm để sửa lại.",
   "wipe_help": "Thiết bị đã thu hồi ngừng hoạt động ngay và dữ liệu của nó được xóa vào lần kết nối tiếp theo.",
-  "works_anywhere": "Hoạt động dù có hay không có internet.",
+  "works_anywhere": "Một ứng dụng để vận hành công việc kinh doanh, tiền bạc và cuộc sống hằng ngày, dù có hay không có internet.",
   "write_message": "Viết tin nhắn",
   "wrong_code": "Sai mã. Thử lại.",
   "your_data_yours": "Dữ liệu là của bạn. Hãy xuất bất cứ lúc nào.",

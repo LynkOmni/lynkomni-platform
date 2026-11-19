@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pl",
  "native": "Polski",
- "source_sha256": "e788bc5ce3d20b41ea03dbe469a27bbd1703ee92bfcedd7dda92b868c5d19356",
+ "source_sha256": "05b59c42f3f32611120f39ae571a061949f5fad9c0548f698083fd2337e04c13",
  "texts": {
   "account": "Konto",
   "active": "Aktywne",
@@ -778,7 +778,7 @@
   "why_low_stock_reorder": "Niektóre produkty osiągnęły poziom ponownego zamówienia, więc przygotowano szkic zamówienia. Nic nie zostanie wysłane, dopóki nie potwierdzisz.",
   "why_negative_stock_flag": "Sprzedaż obniżyła stan produktu poniżej zera. Sprzedaż przeszła; policz produkt, aby to poprawić.",
   "wipe_help": "Odwołane urządzenie od razu przestaje działać, a jego dane są czyszczone przy następnym połączeniu.",
-  "works_anywhere": "Działa z internetem i bez niego.",
+  "works_anywhere": "Jedna aplikacja do prowadzenia firmy, finansów i codziennego życia, z internetem i bez niego.",
   "write_message": "Napisz wiadomość",
   "wrong_code": "Błędny kod. Spróbuj ponownie.",
   "your_data_yours": "Twoje dane należą do Ciebie. Eksportuj je w każdej chwili.",

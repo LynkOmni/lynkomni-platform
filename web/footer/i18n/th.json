@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "th",
  "native": "ไทย",
- "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
+ "source_sha256": "bdf91495b8262e210e77b0b2a251b1b34c70d94abd4c2776e78bdf1ec47299bf",
  "texts": {
   "ft_about": "เกี่ยวกับเรา",
   "ft_accessibility": "การเข้าถึง",
@@ -112,7 +112,7 @@
   "ft_tDev": "อัปเดตสำหรับนักพัฒนา",
   "ft_tMerchant": "เคล็ดลับสำหรับร้านค้า",
   "ft_tProduct": "อัปเดตผลิตภัณฑ์",
-  "ft_tagline": "ใช้งานได้ทั้งมีและไม่มีอินเทอร์เน็ต",
+  "ft_tagline": "บริหารทุกอย่าง ทุกที่ ไม่มีหยุด",
   "ft_terms": "ข้อกำหนด",
   "ft_trust": "ความปลอดภัยและความน่าเชื่อถือ",
   "ft_vuln": "รายงานช่องโหว่",

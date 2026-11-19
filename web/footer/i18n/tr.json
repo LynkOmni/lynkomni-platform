@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
+ "source_sha256": "bdf91495b8262e210e77b0b2a251b1b34c70d94abd4c2776e78bdf1ec47299bf",
  "texts": {
   "ft_about": "Hakkımızda",
   "ft_accessibility": "Erişilebilirlik",
@@ -112,7 +112,7 @@
   "ft_tDev": "Geliştirici haberleri",
   "ft_tMerchant": "Satıcılara ipuçları",
   "ft_tProduct": "Ürün yenilikleri",
-  "ft_tagline": "İnternetle de internetsiz de çalışır.",
+  "ft_tagline": "Her şeyi yönetin. Her yerde. Durmadan.",
   "ft_terms": "Koşullar",
   "ft_trust": "Güvenlik ve güven",
   "ft_vuln": "Güvenlik açığı bildirin",
