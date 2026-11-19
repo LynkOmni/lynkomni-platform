@@ -32,11 +32,12 @@ jobs:
   visuals:                     # illustrations, charts, store and web images: every need has files, nothing off-brand or placeholder
     runs-on: ubuntu-24.04
     steps: [{uses: actions/checkout@v7}, {uses: actions/setup-python@v7, with: {python-version: "3.12"}}, {run: python visuals/check.py}, {run: python -m unittest tests.test_visuals}]
-  layout-part:                 # translations never break a screen (long-text and right-to-left, desktop and phone), the automatic accessibility check and the speed budget; 8 parts at once, every language checked once
+  layout-part:                 # translations never break a screen (long-text and right-to-left, desktop and phone), the fit guard, the automatic accessibility check and the speed budget; 8 parts at once, every language and every emulator checked once; a stuck part stops at its time limit
     runs-on: ubuntu-24.04
+    timeout-minutes: 25
     strategy: {fail-fast: false, matrix: {part: [1, 2, 3, 4, 5, 6, 7, 8]}}
     env: {LAYOUT_SHARD: "${{ matrix.part }}/8", PLAYWRIGHT_VERSION: "1.63.0"}
-    steps: [{uses: actions/checkout@v7}, {uses: actions/setup-python@v7, with: {python-version: "3.12"}}, {uses: actions/cache@v6, with: {path: "~/layout-cache\n~/.cache/ms-playwright", key: "layout-fonts-browser-v1-playwright-${{ env.PLAYWRIGHT_VERSION }}"}}, {name: "fonts and browser, from the cache after the first run (tools/ci/layout_setup.sh)", run: bash tools/ci/layout_setup.sh}, {run: python -m unittest tests.test_layout_i18n}, {if: "matrix.part == 1", run: python -m unittest tests.test_speed_budget tests.test_fit_guard}, {if: "matrix.part == 2", run: python -m unittest tests.test_device_shell tests.test_business_app tests.test_placements}]
+    steps: [{uses: actions/checkout@v7}, {uses: actions/setup-python@v7, with: {python-version: "3.12"}}, {uses: actions/cache@v6, with: {path: "~/layout-cache\n~/.cache/ms-playwright", key: "layout-fonts-browser-v1-playwright-${{ env.PLAYWRIGHT_VERSION }}"}}, {name: "fonts and browser, from the cache after the first run (tools/ci/layout_setup.sh)", run: bash tools/ci/layout_setup.sh, timeout-minutes: 10}, {run: python -m unittest tests.test_layout_i18n tests.test_fit_guard}, {if: "matrix.part == 1", run: python -m unittest tests.test_speed_budget}, {if: "matrix.part == 2", run: python -m unittest tests.test_device_shell tests.test_business_app tests.test_placements}]
   layout:                      # one result for the whole layout check: green only when all 8 parts are green
     if: always()
     needs: layout-part

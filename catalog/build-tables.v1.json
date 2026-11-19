@@ -1,0 +1,1205 @@
+{
+ "version": 1,
+ "description": "The thirteen \"where every part is built\" tables of the master blueprint (sections 64.11 to 76.8), one row per line of each table. A row names its build sections; \"done\" maps a section to the version that finished that row's part there, \"progress\" lists what is already in place while the section is being built, and \"nothing\" marks a line with no part. A build section is not locked until every row naming it is done there (tests/test_build_tables.py). Change a row only by the blueprint.",
+ "tables": [
+  {
+   "id": "64.11",
+   "update": "BOOKING UPDATE",
+   "blueprint_section": 64,
+   "rows": [
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "Groundwork first: the lynkbooking billing family with its tiers and limits, the LynkBooking Pass prices, the commission rules, addresses, placements, contract events and country settings (the price lock and the revenue model re-run are prepared in pull request #78 and are completed and merged here). Then: booking money in LynkAcc; deposits, passes and company bookings in LynkInv with one invoice; customers in LynkCRM; the busy-time forecast, empty-hours report and no-show numbers in LynkStat",
+     "done": {},
+     "progress": {
+      "4": [
+       "v0.48.0: the LynkBooking Pass prices, the business tiers, places, bundle and commission, locked in services/billing.py BOOKING_* with the price lock and the revenue model re-run"
+      ]
+     }
+    },
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "The product page and pricing page; header, footer, launcher and sitemap places; a search page for every business; the \"Book\" button for maps and search engines",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Help pages; \"Help now\"; turned-away help; disputes with LynkProof; LynkAssist answers about bookings",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "The customer side in the LynkOmni app and account: Services search, My bookings, the ticket and its offline code, pay or pay at the venue, payment held until check-in, split the cost, gift a booking, the points wallet, LynkBooking Pass, the Storefront booking page and the \"Book\" button",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7B"
+     ],
+     "part": "\"On the way\", Arrive Safe, the journey pass and the connection checks for door-to-door trips",
+     "done": {}
+    },
+    {
+     "sections": [
+      "8"
+     ],
+     "part": "LynkBooking in full: booking.lynkomni.com with the 16 services and one search; the business side at /booking (setup, calendar, front desk, Check ticket, waiting list, the booking keeper and offline working); every rule in 64.5; basic phone, WhatsApp, LynkChat, Call to book and agent-point booking; online visits; the links to LynkQueue, LynkAttend and LynkSurvey; every emulator in 64.8",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9"
+     ],
+     "part": "Pay later and cancellation cover on the Essentials credit and insurance rails",
+     "done": {}
+    },
+    {
+     "sections": [
+      "10"
+     ],
+     "part": "Nothing new; visitor prices stay estimates by the usual rule",
+     "nothing": true
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "The LynkBooking API (read on Pro, full on Max) with webhooks; the \"Book\" button and widget for other sites; share and earn links; calendar feeds to and from other sites; LynkDriver kinds for ticket printers, scanners and door locks",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "Partner Hub entries for the partners in 64.10; listing checks, verified businesses and takedowns; the published ranking rules; the support console for turned-away help; the Bookings row in the Control Center",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "LynkKiosk self check-in and the LynkDScreen boards on real outside screens",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Native parts: tickets and reminders in the background, voice search, add to calendar; the final price check; the lawyer's checks; partners switched on per country",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "65.9",
+   "update": "EXCHANGE UPDATE",
+   "blueprint_section": 65,
+   "rows": [
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "Groundwork first: the lynkexchange billing family with its tiers, the Exchange levels, the price lock, addresses, places, contract events, the exchange tracker kind, country switches, practice partners and the revenue model re-run. Then: conversions and rate gains or losses in LynkAcc; pay invoices abroad in LynkInv; payees in LynkCRM; Exchange reports in LynkStat; proof of exchange as a verified document",
+     "done": {},
+     "progress": {
+      "4": [
+       "v0.49.0: the lynkexchange billing family with its tiers, the Exchange levels, the price lock, addresses, places and the revenue model"
+      ]
+     }
+    },
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "The product page and pricing page; header, footer, launcher and sitemap places; a search page for each currency pair",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Help pages; \"Where is my money?\"; disputes and refunds with LynkProof; LynkAssist answers; the live routes page on LynkStatus",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "The customer side in the LynkOmni app and account: the Exchange hub, the quote and its countdown, the tracker, saved recipients, alerts, the safety word, the new-recipient wait, the trusted list and limits; \"Why this rate?\", Before you start, Ask to be paid, Tell the receiver, Practice mode, Change back what is left, and Spend abroad with LynkVCard",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7B"
+     ],
+     "part": "Nothing new",
+     "nothing": true
+    },
+    {
+     "sections": [
+      "8"
+     ],
+     "part": "Trip money inside a LynkBooking trip",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9"
+     ],
+     "part": "Nothing new",
+     "nothing": true
+    },
+    {
+     "sections": [
+      "10"
+     ],
+     "part": "LynkExchange in full: Convert, Send, Rates, Marketplace and Crypto; the business side at /exchange; many payments at once, two people to approve, held rates, scheduled conversions and target rate; the Storefront side; the partner page; basic phone rates and alerts; Best way to send, the arrival promise, templates, one payment for several receivers, the large amounts desk and the comparison of licensed crypto exchanges; every emulator",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "The LynkExchange API with webhooks; a rates widget for other sites; request links through the API",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "Partner Hub entries for the partners in 65.8 with their licence checks; unusual-activity flags to the partner; the Exchange row in the Control Center",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "The rate board on LynkDScreen on real screens",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Native parts (alerts in the background); the human security review; the lawyer's checks; the price check per country; partners switched on",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "66.10",
+   "update": "OFFICE UPDATE",
+   "blueprint_section": 66,
+   "rows": [
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "LynkAcc, LynkInv and LynkCRM in full with everything in 66.2 to 66.5 that lives in the Business app and the browser: bills to pay, expense claims, assets, departments and projects, groups, closing, banks, tax, statements, currencies, stock value and the tools per kind of entity; the new documents, e-invoices, credit control and ways to bill; organisations, own fields, deals, teams, cases and clean records; approval flows, own roles and many entities; the Move in tool; every emulator screen",
+     "done": {},
+     "progress": {
+      "4": [
+       "v0.48.0: the Pro and Max price top-up of 66.8 with the price lock and the revenue model re-run"
+      ]
+     }
+    },
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "Product and pricing pages updated; pages for each kind of entity (households and freelancers, businesses, non-profits, schools, public bodies, large organisations)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Help pages and Move in guides; LynkAssist answers for the new parts; the support path for large organisations",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "The customer's side: pay several invoices at once, statements, instalment plans, a dispute on a line, a credit balance and the customer portal; staff see and send their own expense claims in the LynkOmni account",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7B"
+     ],
+     "part": "Mileage from trips into expense claims; the day's route for field staff in LynkCRM",
+     "done": {}
+    },
+    {
+     "sections": [
+      "8"
+     ],
+     "part": "Meetings booked from a customer record through LynkBooking",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9"
+     ],
+     "part": "Nothing new",
+     "nothing": true
+    },
+    {
+     "sections": [
+      "10"
+     ],
+     "part": "Invoices in another currency settled through LynkExchange; period-end rates from LynkExchange",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "The added API parts and webhooks; the connector families for banks, e-invoice networks, payroll, online shops, email and calendar, and phone systems; standard files in and out; developer apps on LynkHub",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "Partner Hub entries for bank connections, e-invoice partners, payroll partners and message connectors; the accountant and auditor programme; onboarding console, data-region settings, legal hold and the service agreement for large organisations",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "Nothing new",
+     "nothing": true
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Native parts (receipt photos, the field CRM offline in the apps); the tests at large scale; the human security review; the checks per country by a lawyer and an accountant",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "67.17",
+   "update": "SERVICES UPDATE",
+   "blueprint_section": 67,
+   "rows": [
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "Groundwork for all of section 67: the limits in billing, the register entries (placements, addresses, automations, tracker kinds, messages, APIs), the provider ledger entries with sandbox adapters, events in a new contract version. LynkStat additions in full (67.5). The office side of gift cards and store credit, deposits, matching centre and payment costs in LynkAcc. Move-in tools for every service (67.15). The large-organisation set applied to every service (67.15)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "Product pages, pricing page lines, search and sitemap for every addition. The LynkFeedback ideas board and public plan (67.14). The chat button and \"Buy\" button pages for a business's own website (67.7, 67.10)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Help articles and LynkAssist answers in 38 languages; LynkStatus per service, country and partner; LynkSafety report forms for the new marketplaces (67.14)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "LynkCheckout additions in full (67.10). The customer side of LynkRewards (levels, stamp cards, wallet card, family pooling, paid clubs; 67.4), gift cards and store credit, scan and pay yourself, pre-orders (67.2). The \"Fix my payment\" page (67.9). Saved ways to pay and pay in parts (67.8). LynkVCard additions on the account site (67.11)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7B"
+     ],
+     "part": "Cold-goods sensors and outside warehouses for LynkStock (67.3)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "8"
+     ],
+     "part": "Rental of items linked to LynkBooking (67.2); hold now, charge later for stays and rentals (67.8)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9"
+     ],
+     "part": "LynkEssential additions in full (67.13)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "10"
+     ],
+     "part": "Top up abroad where it uses an exchange partner (67.13)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "LynkDev additions in full (67.12); the API parts of every addition",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "Partner Hub connectors for the new channels, social pages, listings, call partner, lenders and warehouses. The advertiser portal, advert review and advertiser invoices (67.14). The disputes desk and risk signals on the staff side (67.8)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "Customer screens, kiosks and displays for scan and pay yourself, rewards and the till additions",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "The Business app in full for LynkPOS (67.2), LynkStock (67.3), LynkRewards business side (67.4), LynkGrow (67.6), LynkChat (67.7), LynkMPay (67.8) and LynkRecover (67.9) on every device and emulator, online and offline; the phone wallet card for LynkVCard and LynkRewards; final checks with each signed partner",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "68.14",
+   "update": "VOTE UPDATE",
+   "blueprint_section": 68,
+   "rows": [
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "Groundwork: the lynkvote billing family, tiers, limits, the full price list and the price lock; addresses, placements, identifiers LOVOT- and LOBLT-; a new contract version with the voting events; the security core (locked ballots, split key, proofs, public list, mirrors and witness publishing, order hiding, small-group rule, future-proof encryption) with shared test vectors in every language; every kind of vote and counting method with published examples; the tracker kind; the automations, messages and API register entries; sandbox partners and ledger entries; the product illustration; the revenue model stream. Rolls from LynkCRM, LynkAcc and LynkAttend; the governance home; federations; move in",
+     "done": {},
+     "progress": {
+      "4": [
+       "v0.49.0: the lynkvote billing family, tiers, limits, the full price list and the price lock; addresses, placements, the API register entry, the product illustration and the revenue stream"
+      ]
+     }
+    },
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "Product and pricing pages, \"how it is secured\", the checking tools' page, the public demo vote, \"verify a result\", the public directory of votes, the oversight board and transparency report pages",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Help and LynkAssist answers in 38 languages, voter education pages, accessibility formats, the status line, safety reports and the fake-page report form",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "The voter's side in full: vote.lynkomni.com, the ballot, receipt, \"check my vote\", the second-device checking app, code sheets, duress option, vote again, lost-code recovery, blank-ballot warnings, early voting, delegated voting, petitions, deliberation, \"what is on my ballot\", \"I voted\" badge, \"problem at my polling place\", results pages, maps and widgets, account.lynkomni.com/votes, paid contest votes",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7B"
+     ],
+     "part": "Materials from store to polling place, sealed custody of boxes, paper and devices, staff safety with Arrive Safe",
+     "done": {}
+    },
+    {
+     "sections": [
+      "8"
+     ],
+     "part": "Halls and meetings for assemblies, hybrid rooms, supervised-voting appointments, live captions and interpretation",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9"
+     ],
+     "part": "Basic-phone voting by USSD and text, audio ballots by phone call",
+     "done": {}
+    },
+    {
+     "sections": [
+      "10"
+     ],
+     "part": "No LynkVote part",
+     "nothing": true
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "The voting API, the \"Vote\" button, the open checking tools and published format, verifiable app builds, open data and the common election data formats, existing scanners through LynkDriver, connectors to member, student and share-register systems",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "Partner Hub connectors, the managed-vote desk, the government desk, the operations room, incident plans and log, the freeze during voting, the public-test programme, the oversight board's access, certification files per country, the observer mission kit, the legal seal, the practice environment for governments",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "Kiosks and polling-place screens, chamber voting, the results-night screen, meeting displays, key-ceremony screens, party agents signing result sheets",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "The organiser's side in full in the Business app on every device and emulator: setup, by-law check, ballot testing, roll, trustees, live turnout, count, observers' room, polling place offline, mobile ballot boxes, paper scanning, voting on a text, conflict of interest, election calendar, boundaries, candidates, polling staff, planning tool, election day, paper audits, recounts, archives, turnout comparison; the offline count; outside security reviews; the first public test and pilots",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "69.14",
+   "update": "SIX SERVICES UPDATE",
+   "blueprint_section": 69,
+   "rows": [
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "Groundwork for all six: billing families, tiers, limits, the full price list and the price lock; addresses, placements, identifiers; contract events; tracker kinds; automations, messages and API register entries; sandbox partners and ledger entries; product illustrations; the revenue streams. The document engine of LynkFiles, because every service in section 4 stores and signs through it",
+     "done": {},
+     "progress": {
+      "4": [
+       "v0.49.0: the six billing families, tiers, limits, the full price list and the price lock; addresses, placements, API register entries, four first automations, product illustrations and the revenue streams; build sections 4B, 8B and 9B in the build order"
+      ]
+     }
+    },
+    {
+     "sections": [
+      "4B"
+     ],
+     "part": "The three, both sides, in the Business app and the browser on every emulator, online and offline; staff figures to payroll in LynkAcc; time and costs to LynkInv; Move in",
+     "done": {}
+    },
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "Product and pricing pages for the six; careers pages; public pages for properties to let",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Help and LynkAssist answers in 38 languages; safety reports for job and property adverts; the human-review request path",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "Each person's side on the account site: /work, /school, /home, /documents; paying rent and school fees; signing on any phone; the work passport",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7B"
+     ],
+     "part": "School buses, repair visits, field tasks on a map, gate and door access",
+     "done": {}
+    },
+    {
+     "sections": [
+      "8"
+     ],
+     "part": "Interviews, viewings, parent meetings, shared-space, hall and desk bookings, job fairs",
+     "done": {}
+    },
+    {
+     "sections": [
+      "8B"
+     ],
+     "part": "job.lynkomni.com with every kind of work, the seeker and employer sides, freelance and shift work, verification, safety, every emulator",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9"
+     ],
+     "part": "Basic-phone job alerts and applications, rent and fee payments, leave balances, prepaid meter tokens",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9B"
+     ],
+     "part": "Both, both sides, in the Business app and the browser on every emulator, online and offline, with their links to LynkInv, LynkAttend, LynkVote and LynkBooking",
+     "done": {}
+    },
+    {
+     "sections": [
+      "10"
+     ],
+     "part": "No part",
+     "nothing": true
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "APIs and webhooks for the six; connectors to other job sites, property sites, exam boards and meters; the \"Apply\" and \"Sign\" buttons",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "Partner Hub entries; employer, recruiter, school and landlord verification; advert screening and takedowns; the bias-review files; public job-centre onboarding",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "Job boards and school notice boards on LynkDScreen; kiosks for applications, visitor sign-in and rent payment",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Native parts (scanning, offline files, site reports); outside reviews; the final price check; partners switched on per country",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "70.16",
+   "update": "EMULATOR UPDATE",
+   "blueprint_section": 70,
+   "rows": [
+    {
+     "sections": [
+      "3A"
+     ],
+     "part": "The whole panel on both sides, online and offline: the emulator register and its rules with shared vectors; the contract version; assigning with QR code and Lynk Code, the connect request, the other ways and guided setup; the icon step, screen fit and side artwork; key tones and vibration with their settings; connect, disconnect, lock, lost, swap, re-approval, carry on; users, history and the live view with health and alerts; the hardware helper, the delivery menu and devices talking directly; the tier numbers, the extra device prices per service and the day pass, with the price lock; the four checks in the tests; every existing emulator (LynkPOS, LynkStock, rider and merchant phones, kitchen and customer screens) registered and moved onto the panel; its words in 38 languages; its showcase pages",
+     "done": {
+      "3A": "v0.47.0"
+     }
+    },
+    {
+     "sections": [
+      "3B"
+     ],
+     "part": "LynkAttend, LynkQueue and LynkSurvey emulators registered and assigned through the panel",
+     "done": {
+      "3B": "v0.47.0"
+     }
+    },
+    {
+     "sections": [
+      "4",
+      "4B"
+     ],
+     "part": "The panel entry on each office dashboard that needs it; the LynkFiles signing tablet",
+     "done": {}
+    },
+    {
+     "sections": [
+      "5",
+      "6"
+     ],
+     "part": "The \"will it work?\" public page; help and LynkAssist answers for the panel in 38 languages",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "Receipts and tickets arriving in the customer's LynkOmni account from the delivery menu",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7B"
+     ],
+     "part": "LynkMotion and LynkGuard emulators (driver and patrol phones, gate post, monitoring wall)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "8",
+      "8B",
+      "9B",
+      "10"
+     ],
+     "part": "LynkBooking, LynkJobs, LynkSchool and LynkProperty, and LynkExchange emulators, each registered with its service",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "The panel's API (list devices, connect, disconnect) and device-management connectors for large organisations",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "The support side of \"see the screen to help\"; the staff view of emulator health across accounts, as totals",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "Every outside screen (kiosks, boards, displays) assigned through the panel; LynkVote screens",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Native parts: vibration on every phone, cable hardware on iPhones and iPads, the icon placed without the extra tap where the system allows, starting at power-on",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "71.9",
+   "update": "CONNECT UPDATE",
+   "blueprint_section": 71,
+   "rows": [
+    {
+     "sections": [
+      "3A",
+      "3B"
+     ],
+     "part": "Their own automations, connections, breadcrumbs, assistant actions and messages; the staff coach where it uses the Emulator Panel's practice mode",
+     "done": {
+      "3A": "v0.47.0",
+      "3B": "v0.46.0"
+     }
+    },
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "The connections register, its tests and map; the cross-service journeys sale to books and quote to cash; every new automation registered; the automation system improvements; the shared role system, calendar, address book, timeline, recycle bin, consent page, \"my plans and limits\", data dictionary, offline clash rules, the test copy; breadcrumbs for the new paths with sibling lists and the \"up one level\" key; the LynkAssist register extended, cross-service questions and plans, the morning brief, \"Why did this change?\", scheduled and saved questions, the owner's switches, visible memory, usage meter; the message register extended, smart, role and rota routing, role inboxes, urgent broadcast, delivery states, reply by text, reply-by-email and email-in, wording edits, test mode, fair-use guard, corrections",
+     "done": {}
+    },
+    {
+     "sections": [
+      "4B"
+     ],
+     "part": "Hire to work, document to record, meeting to action; the LynkFiles, LynkHR and LynkProject automations, assistant actions and messages",
+     "done": {}
+    },
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "The whole SEO base (speed budgets, sitemaps, robots, change notices, page data, titles and descriptions in 38 languages, language links, sharing cards, country and entity pages, templates and tools, glossary, comparisons, trust and company pages, the keyword register, the summary file for AI assistants, page owners and review dates, link checks, search measurement); the email template system, sender proof, sending streams and the safety phrase; LynkAssist's public quality page",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Help and guides as full search pages; the moderated community; the public scorecard; \"Explain this screen\" and \"Show me how\"; plain-language mode, read-aloud and the safety response; \"report a fake email\"; \"What LynkOmni sent me\"; status from the health signals",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "Shop and Storefront pages with page data, feeds and other-language versions; one search, one inbox, \"waiting on me\", deep links, carry on anywhere; the recipe library; business-to-business links; listing help for sellers; the professionals' directory; the assistant and messages for a business's customers; a business's own look and sending domain; the counter interpreter, phone answering, hand-over to a professional; voice messages, link pages, private contact; voice in and out",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7B",
+      "8",
+      "8B",
+      "9",
+      "9B",
+      "10"
+     ],
+     "part": "Each service's public pages, hubs, feeds and page data, its automations, connections, assistant actions and messages; calendar invitations and wallet passes in section 8; basic-phone voice answers in section 9",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "Documentation and API pages; webhooks for every public event; the one API front door; the change calendar; the developer assistant and LynkAssist extensions",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "Automation health and the connections map for staff; the SEO console; safe releases and roll-back; the platform automations; break-it-on-purpose tests; look-alike watch; the staff-side assistant and attack tests; reputation and delivery dashboards; posted notices and legal proof of delivery with their partners",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13",
+      "14"
+     ],
+     "part": "Breadcrumb and search parts on outside screens where they apply; app-store pages; native voice, native push, watch notifications, lock-screen live updates, voice calls for critical alerts; final speed and search checks per country",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "72.9",
+   "update": "TRACKING UPDATE",
+   "blueprint_section": 72,
+   "rows": [
+    {
+     "sections": [
+      "3A",
+      "3B"
+     ],
+     "part": "Their own trackers (connect request, device swap, re-approval; attendance correction, survey reward)",
+     "done": {
+      "3A": "v0.47.0",
+      "3B": "v0.46.0"
+     }
+    },
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "The engine upgrade for every kind (parent and child trackers, promised times and \"at risk\", exception lists, partner status mapping, late events, working-time promises, flows that never break items on their way, the two-second target, the offline clash rule, retention); every new kind registered with its build section; the control tower; scan to move a step; proof at hand-over; a business's own extra steps; checks before a step; promise capacity; practice trackers; the office kinds; tracking automations and messages registered",
+     "done": {}
+    },
+    {
+     "sections": [
+      "4B"
+     ],
+     "part": "Signature request, approval route, document request; leave, joining and leaving, review cycle; task, change request, milestone, time sheet",
+     "done": {}
+    },
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "The \"Track\" box on the website; public help on tracking",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Support case, safety report, feedback and waiting-list trackers; LynkAssist's \"where is my...\" answers",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "The \"Track\" home; private link pages; self-service actions; sharing; buyer and receiver views; saved delivery wishes; the LynkChat tracker card; QR codes on receipts; the business's own look and website tracker; pre-order, return, refund, dispute and warranty trackers; trackers between two businesses and views for business customers",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7B"
+     ],
+     "part": "Shipments with every hand-over, chain of custody, cold goods, split and joined items, carriers and their tracking numbers, cross-border steps, assigning and routing, the late forecast, packing check, labels, weight and photo, things that come back, insurer claims, recall reach, carrier comparison",
+     "done": {}
+    },
+    {
+     "sections": [
+      "8",
+      "8B",
+      "9",
+      "9B",
+      "10"
+     ],
+     "part": "Booking and journey; application, advert review and freelance milestone; top-up and bill payment; admission, fees, report cards, rental application, lease, deposit return; exchange and transfer",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "The tracking API, webhooks and embeddable tracker",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "Partner onboarding and app review trackers; the partners' view; the staff view across accounts as totals; rush tests; the scorecard figures",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "\"Order ready\" and arrivals boards, kiosks that scan a code to show a tracker, handheld scanning",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Lock-screen and watch live updates, the home-screen widget, tag scanning on phones, the final check of promised-time accuracy per country",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "73.9",
+   "update": "INTERFACE UPDATE",
+   "blueprint_section": 73,
+   "rows": [
+    {
+     "sections": [
+      "3A",
+      "3B"
+     ],
+     "part": "No change when they are built; their screens move onto the new parts in section 4",
+     "nothing": true
+    },
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "The groundwork: the navigation register and the page-template register; the upgraded header, two-level side bar, bottom bar, quick create, switchers, search and launcher; lists, records, forms and states; the speed targets and checks; the part gallery in the showcase; every screen already built (Step 0 to 3B) moved onto them",
+     "done": {}
+    },
+    {
+     "sections": [
+      "4B"
+     ],
+     "part": "LynkFiles, LynkHR and LynkProject on the templates",
+     "done": {}
+    },
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "The website: header menu, folding footer, phone menu, sticky button, product and pricing pages",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Help and support frames",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "The personal account frame and its bottom bar; one Scan; shop pages; the pay focus frame",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7B",
+      "8",
+      "8B",
+      "9",
+      "9B",
+      "10"
+     ],
+     "part": "Each service's own screens on the templates",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "Developer places",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "Staff tools and the partner door",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "Big screens, boards and kiosks",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "The phone apps: one app named LynkOmni, widgets, icon shortcuts, sharing, links that open in the app, the store pages and the store-rule check; the watch",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "74.9",
+   "update": "CHAT UPDATE",
+   "blueprint_section": 74,
+   "rows": [
+    {
+     "sections": [
+      "3A",
+      "3B"
+     ],
+     "part": "No change when they are built; their chat banners and queue, attendance and survey cards are added when their screens move onto the shared chat part in section 4",
+     "nothing": true
+    },
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "The groundwork: the conversation engine and the registers (kinds, live signs, sounds, routing, links); the shared chat part with live signs, the five states, sounds and vibration; streaming answers; upload progress; masking of card numbers and codes; buttons and small forms; message details; \"Chat about this\" and the card method; LynkAcc, LynkInv, LynkCRM and LynkStat cards; the offline rules; the contract version; the chat screens already built moved onto it",
+     "done": {}
+    },
+    {
+     "sections": [
+      "4B"
+     ],
+     "part": "LynkFiles, LynkHR and LynkProject cards",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Support: LynkAssist first, warm hand-over, place in line, \"Message me instead\", reply-time promises, out-of-hours cases, first-message understanding, the fast lane, incident mode, offering help first, reopening, joining duplicates, screen view with consent, diagnostics",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "The customer's side: one inbox, controls, first-contact notice, verified mark, the website chat button; Storefront buyer and seller chat; shop and pay cards; LynkVote invitation cards",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7B"
+     ],
+     "part": "Shipment, delivery and alert cards",
+     "done": {}
+    },
+    {
+     "sections": [
+      "8",
+      "8B"
+     ],
+     "part": "Booking cards; LynkJobs conversations",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9",
+      "9B"
+     ],
+     "part": "Essentials cards; LynkSchool and LynkProperty conversations",
+     "done": {}
+    },
+    {
+     "sections": [
+      "10"
+     ],
+     "part": "Exchange cards",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "The chat API",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "The support staff desk: routing, limits, alarms, supervisor board, training mode, forecast, fair shares, overflow, around-the-clock hand-over; the partner door",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "Chat on LynkKiosk; counter mode sounds",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "The rest of LynkChat (team routing rules, voice message text, search, pins, the remaining conversation tools, chat reports); the remaining LynkPOS, LynkStock, LynkRewards, LynkGrow, LynkMPay and LynkRecover cards; calls through the partner; sound themes, vibration patterns, spoken announcements and watch taps; voice cleaning, video clips and dictation; nearby relay; sounds and vibration on the real phone apps",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "75.9",
+   "update": "ASSIST UPDATE",
+   "blueprint_section": 75,
+   "rows": [
+    {
+     "sections": [
+      "3A",
+      "3B"
+     ],
+     "part": "No change when they are built; their skills are added when their screens move onto the shared parts in section 4",
+     "nothing": true
+    },
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "The groundwork: working shown, exact figures, \"how sure\"; protection against being tricked; memory with its controls; before-and-after previews, limits, second approver, per-role permission, the pause switch; \"Ask about this\"; warnings at the right moment; scorecards and release gates; the LynkAcc, LynkInv, LynkCRM and LynkStat skills",
+     "done": {}
+    },
+    {
+     "sections": [
+      "4B"
+     ],
+     "part": "LynkFiles, LynkHR and LynkProject skills",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "\"That is wrong\" and its review; the public \"How LynkAssist works\" page; sensitive moments",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "The buyer's helper and the seller's coach; a person's memory page; the LynkVote skill for voters",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7B",
+      "8",
+      "8B",
+      "9",
+      "9B",
+      "10"
+     ],
+     "part": "Each service's own skill, with its \"never\" line",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "Developer skills",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "The quality desk for LynkOmni staff: answer review, scorecards, safety switches",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "The customer helper on LynkKiosk",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Hands-free voice, photo skills, the watch, and the remaining LynkPOS and LynkStock skills",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "76.8",
+   "update": "TURN UPDATE",
+   "blueprint_section": 76,
+   "rows": [
+    {
+     "sections": [
+      "3A",
+      "3B"
+     ],
+     "part": "No change when they are built; their screens are re-tested in section 4",
+     "nothing": true
+    },
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "The groundwork: the fix to the app settings file (leftover, with lines in the decisions diary and change log); the turn rules in the shared shell (keep place, text, focus and step; no double actions); sideways side-rail and two-column layouts; the new checks; every screen already built (Step 0 to 3B) re-tested in both directions and fixed where needed",
+     "done": {}
+    },
+    {
+     "sections": [
+      "4B",
+      "5",
+      "6",
+      "7",
+      "7B",
+      "8",
+      "8B",
+      "9",
+      "9B",
+      "10",
+      "11",
+      "12"
+     ],
+     "part": "Every new screen built to the rules and passing the checks in its own section; fixed-device locks with each section's Emulator Panel parts",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "Big screens, boards, kiosks and their locks",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "The phone apps: native turning, foldable postures, camera and scanning in both directions, the store-app settings",
+     "done": {}
+    }
+   ]
+  }
+ ]
+}
