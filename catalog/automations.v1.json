@@ -2256,7 +2256,7 @@
    "offline": false,
    "default": "off",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/survey.py"
   },
   {
    "id": "attend-course-sessions",
@@ -2516,7 +2516,7 @@
    "offline": false,
    "default": "off",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow",
+   "implemented_by": "people/automations.py on people/survey.py",
    "consent": "transactional"
   },
   {
@@ -2534,7 +2534,7 @@
    "offline": true,
    "default": "off",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow",
+   "implemented_by": "people/automations.py on people/survey.py",
    "consent": "transactional"
   },
   {
@@ -2552,7 +2552,7 @@
    "offline": false,
    "default": "off",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow",
+   "implemented_by": "people/automations.py on people/survey.py",
    "consent": "transactional"
   },
   {
@@ -2643,7 +2643,7 @@
    "offline": false,
    "default": "off",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/survey.py"
   },
   {
    "id": "survey-reminders",
@@ -2660,7 +2660,7 @@
    "offline": false,
    "default": "off",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow",
+   "implemented_by": "people/automations.py on people/survey.py",
    "consent": "transactional"
   },
   {
@@ -2678,7 +2678,7 @@
    "offline": false,
    "default": "on",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/survey.py"
   },
   {
    "id": "survey-write-it-for-me",
@@ -2695,7 +2695,7 @@
    "offline": false,
    "default": "off",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/survey.py"
   },
   {
    "id": "survey-repeat",
@@ -2712,7 +2712,7 @@
    "offline": false,
    "default": "off",
    "standing_instruction": false,
-   "implemented_by": "planned: section 3B (NEW UPDATE 4, blueprint 63.4) on LynkFlow"
+   "implemented_by": "people/automations.py on people/survey.py"
   },
   {
    "id": "survey-after-support-case",
