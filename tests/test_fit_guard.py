@@ -58,7 +58,9 @@ DIALOGS = "() => {" + VISIBLE + """
     if (!phone && !drawer && (s.bottom - r.bottom) / k < 6) bad.push('dialog glued to the bottom edge on a ' + cls + ': ' + name(el));
     const inView = (x) => { const q = x.getBoundingClientRect(); return q.height > 0 && q.top >= r.top && q.bottom <= r.bottom; };
     for (const b of [...el.querySelectorAll('button')].filter((x) => shown(x) && inView(x))) {
-      const q = b.getBoundingClientRect(), hit = document.elementFromPoint(q.left + q.width / 2, q.top + q.height / 2);
+      let q = b.getBoundingClientRect();
+      if (q.top < 0 || q.bottom > innerHeight) { window.scrollBy(0, q.top - innerHeight / 2); q = b.getBoundingClientRect(); }   // the page only, never the screen
+      const hit = document.elementFromPoint(q.left + q.width / 2, q.top + q.height / 2);
       if (!hit || !(hit === b || b.contains(hit))) bad.push('dialog button covered or blocked: ' + name(b));
     }
   }
