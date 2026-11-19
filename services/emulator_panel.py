@@ -48,6 +48,7 @@ class EmulatorPanel:
         create table if not exists em_extra(merchant text, family text, n int, primary key(merchant, family));
         create table if not exists em_settings(device_id text primary key, tones int, vibration int, volume text, user_may_change int, pin_same_tone int);
         create table if not exists em_seen(event_id text primary key);
+        create table if not exists em_pass(merchant text, family text, devices int, until_day int);
         create table if not exists em_grace(merchant text, family text, until_day int, primary key(merchant, family));
         create table if not exists em_history(merchant text, at real, by text, what text, device_id text, emulator text);""")
 
@@ -159,7 +160,8 @@ class EmulatorPanel:
         extra = 0
         if fam:
             limit = R.slots(fam, s.p.billing.tier(merchant, fam))
-            ok, why = R.may_connect(limit, fam, s._connections(merchant), {"device": device, "emulator": emulator, "practice": practice}, s._extra(merchant, fam))
+            ok, why = R.may_connect(limit, fam, s._connections(merchant), {"device": device, "emulator": emulator, "practice": practice},
+                                     s._extra(merchant, fam) + s._passes(merchant, fam, _day(_now(now))))
             if not ok: return {"state": "failed", "reason": why, "family": fam}
             extra = int(isinstance(limit, int) and R.in_use(fam, s._connections(merchant) + [{"device": device, "emulator": emulator, "connected": True}]) > limit)
         n = _now(now)
@@ -175,6 +177,9 @@ class EmulatorPanel:
     def _connections(s, merchant):
         return [{"device": r[0], "emulator": r[1], "connected": bool(r[2]), "practice": bool(r[3])}
                 for r in s.db.execute("select device_id, emulator, connected, practice from em_conn where merchant=?", (merchant,))]
+    def _passes(s, merchant, family, today):
+        r = s.db.execute("select coalesce(sum(devices),0) from em_pass where merchant=? and family=? and until_day>=?", (merchant, family, today)).fetchone()
+        return r[0]
     def _extra(s, merchant, family):
         r = s.db.execute("select n from em_extra where merchant=? and family=?", (merchant, family)).fetchone(); return r[0] if r else 0
 
@@ -348,7 +353,7 @@ class EmulatorPanel:
         mgr = dict(zip(("tones", "vibration", "volume", "user_may_change", "pin_same_tone"), r)) if r else {}
         caps = s._dev(device)["caps"]
         return R.tones(mgr, user, R.EMULATORS[emulator]["customer_facing"], silent, quiet_hours, caps.get("vibration", True))
-    def usage(s, merchant, by):
+    def usage(s, merchant, by, now=None):
         """What is counted: per family, the staff slots in use, the plan's number, extra slots and a hint when the plan is larger
         than needed. Customer-facing screens and practice mode are listed apart and never counted."""
         s._need(merchant, by)
@@ -356,19 +361,31 @@ class EmulatorPanel:
         for fam in sorted({R.counts_for(e) for e in R.EMULATORS if R.counts_for(e)}):
             limit = R.slots(fam, s.p.billing.tier(merchant, fam))
             used = R.in_use(fam, conns)
-            out[fam] = {"in_use": used, "limit": limit, "extra": s._extra(merchant, fam), "extra_slot_cents": R.extra_slot_cents(),
+            out[fam] = {"in_use": used, "limit": limit, "extra": s._extra(merchant, fam), "extra_slot_cents": R.extra_slot_cents(fam), "day_passes": s._passes(merchant, fam, _day(_now(now))),
+                        "cheaper_tier": R.cheaper_tier(fam, s.p.billing.tier(merchant, fam), s._extra(merchant, fam)),
                         "larger_than_needed": isinstance(limit, int) and limit >= 5 and used <= 2}
         out["free_screens"] = sum(1 for c in conns if c["connected"] and R.counts_for(c["emulator"]) is None)
         out["practice"] = sum(1 for c in conns if c["connected"] and c["practice"])
         return out
     def buy_extra_slot(s, merchant, family, by, n=1):
-        """$2 a month for each extra staff emulator slot, on a paid tier with a number of slots (billing.SERVICE_FEES)."""
+        """One more staff device a month at the family's price (billing.EMULATOR_EXTRA_CENTS), on Plus and Pro. The answer says when
+        the next tier would cost less (never upgrades by itself)."""
         s._need(merchant, by)
         tier = s.p.billing.tier(merchant, family)
         if tier == "free": raise PermissionError("extra_slots_on_paid_tiers")
-        if not isinstance(R.slots(family, tier), int): raise PermissionError("no_slot_limit_on_this_plan")
+        if not isinstance(R.slots(family, tier), int) or R.extra_slot_cents(family) is None: raise PermissionError("no_slot_limit_on_this_plan")
         s.db.execute("insert into em_extra values(?,?,?) on conflict(merchant, family) do update set n=n+?", (merchant, family, n, n)); s.db.commit()
-        return {"extra": s._extra(merchant, family), "monthly_cents": s._extra(merchant, family) * R.extra_slot_cents()}
+        ex = s._extra(merchant, family)
+        return {"extra": ex, "monthly_cents": ex * R.extra_slot_cents(family), "cheaper_tier": R.cheaper_tier(family, tier, ex)}
+    def buy_day_pass(s, merchant, family, by, devices=1, days=1, now=None):
+        """A day pass: one more staff device for an event or a market day, on any tier, for at most core.emulators.day_pass_max_days()
+        days; it ends by itself (the daily housekeeping takes it back)."""
+        s._need(merchant, by)
+        if not 1 <= days <= R.day_pass_max_days() or devices < 1: raise ValueError("day_pass_days")
+        if not isinstance(R.slots(family, s.p.billing.tier(merchant, family)), int): raise PermissionError("no_slot_limit_on_this_plan")
+        until = _day(_now(now)) + days - 1
+        s.db.execute("insert into em_pass values(?,?,?,?)", (merchant, family, devices, until)); s.db.commit()
+        return {"devices": devices, "until_day": until, "cents": devices * days * R.day_pass_cents()}
     def after_downgrade(s, merchant, family, now=None):
         """After a downgrade the owner chooses which devices to disconnect; nothing is cut off for core.emulators.DOWNGRADE_GRACE_DAYS
         days, then the daily housekeeping disconnects the most recently connected ones still over the plan (reason "plan")."""

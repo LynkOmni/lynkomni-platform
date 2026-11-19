@@ -1160,7 +1160,6 @@
  "emp_connect_here": "Connect {emulator} here",
  "emp_count_rule": "Only staff screens in use count. A till that runs several services counts once.",
  "emp_disconnect": "Disconnect",
- "emp_extra_paid_only": "Extra devices come with paid plans.",
  "emp_found": "Found it",
  "emp_free_screens": "{n} customer screens, free",
  "emp_full": "Plan full",
@@ -1236,5 +1235,9 @@
  "emk_hw_scale": "Scale",
  "emk_hw_scanner": "Scanner",
  "emk_hw_ticket_printer": "Ticket printer",
- "emp_bar": "Emulators"
+ "emp_bar": "Emulators",
+ "emp_day_pass": "Day pass: {price}",
+ "emp_day_pass_note": "Busy day or an event? A day pass adds one staff device for a day, up to {days} days in a row.",
+ "emp_cheaper": "{tier} now costs less than your plan with these extra devices.",
+ "emp_extra_plus_pro": "Monthly extra devices come with Plus and Pro; Max has no limit."
 }

@@ -59,7 +59,7 @@ class Rules(unittest.TestCase):
         self.assertEqual(E.may_connect(1, "lynkpos", conns, {"device": "e", "emulator": "pos.customer_display"}), (True, None))   # free and unlimited
         self.assertEqual(E.may_connect(1, "lynkpos", conns, {"device": "e", "emulator": "pos.terminal", "practice": True}), (True, None))
         self.assertEqual(E.may_connect("own_units", "lynkqueue", conns, {"device": "e", "emulator": "queue.counter"}), (True, None))
-        self.assertEqual(E.slots("lynkpos", "plus"), 2); self.assertIsNone(E.slots("lynkstock", "max")); self.assertEqual(E.extra_slot_cents(), 200)
+        self.assertEqual(E.slots("lynkpos", "plus"), 2); self.assertIsNone(E.slots("lynkstock", "max")); self.assertEqual(E.extra_slot_cents("lynkpos"), 800); self.assertIsNone(E.extra_slot_cents("lynkattend"))
 
     def test_codes_work_once_and_expire(self):
         self.assertTrue(E.code_valid(T0, T0 + 599)); self.assertFalse(E.code_valid(T0, T0 + 601)); self.assertFalse(E.code_valid(T0, T0 + 5, used=True))
@@ -155,7 +155,8 @@ class Panel(unittest.TestCase):
         self.assertEqual(self.give("pos.counter_tablet", tab)[1]["state"], "confirmed")
         u = self.e.usage(self.m, self.boss)
         self.assertEqual((u["lynkpos"]["in_use"], u["lynkpos"]["limit"], u["free_screens"]), (2, 2, 1))
-        self.assertEqual(self.e.buy_extra_slot(self.m, "lynkpos", self.boss), {"extra": 1, "monthly_cents": 200})
+        self.assertEqual(self.e.buy_extra_slot(self.m, "lynkpos", self.boss), {"extra": 1, "monthly_cents": 800, "cheaper_tier": None})
+        self.assertEqual(self.e.buy_extra_slot(self.m, "lynkpos", self.boss, n=2)["cheaper_tier"], "pro")        # Plus with 3 extras costs more than Pro
 
     def test_safe_disconnect_waits_for_an_offline_device_and_shows_the_message(self):
         self.give("pos.merchant_phone", self.phone)
@@ -222,6 +223,16 @@ class Panel(unittest.TestCase):
         gone = self.events("EmulatorDisconnected")
         self.assertEqual([(x["payload"]["device_id"], x["payload"]["reason"]) for x in gone], [(tab, "plan")])
         self.assertIn("emulator-daily", [h["automation"] for h in self.p.flow.history(self.m)])
+
+    def test_a_day_pass_adds_a_device_for_the_day_on_any_tier(self):
+        self.give("pos.merchant_phone", self.phone)                                            # LynkPOS Free: 1 device
+        tab = self.e.add_device(self.m, self.branch, "Till 2", "LynkTab", "android", dict(PHONE, short_side=800), now=T0)
+        self.assertEqual(self.give("pos.counter_tablet", tab)[1]["reason"], "plan_limit")
+        self.assertEqual(self.e.buy_day_pass(self.m, "lynkpos", self.boss, now=T0), {"devices": 1, "until_day": int(T0 // 86400), "cents": E.day_pass_cents()})
+        self.assertEqual(self.give("pos.counter_tablet", tab, now=T0 + 60)[1]["state"], "confirmed")
+        with self.assertRaises(ValueError): self.e.buy_day_pass(self.m, "lynkpos", self.boss, days=E.day_pass_max_days() + 1, now=T0)
+        self.assertEqual(E.cheaper_tier("lynkpos", "plus", 3), "pro")
+        self.assertIsNone(E.cheaper_tier("lynkpos", "plus", 1))
 
     def test_alerts_and_connect_requests_run_on_lynkflow_and_can_be_switched_off(self):
         self.give("pos.merchant_phone", self.phone)

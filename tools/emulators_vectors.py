@@ -23,7 +23,9 @@ def register():
             "user": e["user"], "planned": e["planned"], "customer_facing": e["customer_facing"], "hardware": e["hardware"], "devices": e["devices"], "min_short_side_px": e["needs"]["min_short_side_px"], "outputs": e["needs"]["outputs"]} for e in E.REG["emulators"]]
     fams = sorted({e["shared_with"] or e["service"] for e in E.REG["emulators"] if e["counted"]})
     names = {f: billing.FAMILIES[f][1] for f in sorted({e["service"] for e in E.REG["emulators"]} | set(fams))}     # short product names, never typed in code
-    return {"emulators": ems, "names": names, "slots": {f: {t: E.slots(f, t) for t in TIERS} for f in fams}, "extra_slot_cents": E.extra_slot_cents(),
+    return {"emulators": ems, "names": names, "slots": {f: {t: E.slots(f, t) for t in TIERS} for f in fams}, "extra_cents": {f: E.extra_slot_cents(f) for f in fams if E.extra_slot_cents(f)},
+            "day_pass_cents": E.day_pass_cents(), "day_pass_max_days": E.day_pass_max_days(),
+            "prices": {f: {"tiers": list(billing.FAMILIES[f][2]), "cents": [round(x * 100) for x in billing.FAMILIES[f][3]]} for f in fams},
             "code_minutes": E.CODE_MINUTES, "reapprove_days": E.REAPPROVE_DAYS, "downgrade_grace_days": E.DOWNGRADE_GRACE_DAYS,
             "artwork_min_px": E.ARTWORK_MIN_PX, "sounds": SOUNDS, "hardware_ways": {k: list(v) for k, v in E.HARDWARE_WAYS.items()}, "os_ways": {k: list(v) for k, v in E.OS_WAYS.items()}}
 
@@ -57,6 +59,7 @@ def build():
             "delivery": [{"caps": c, "online": on, "printer_ready": pr, "customer_known": ck, "contact_given": cg, "ways": E.delivery_ways(c, on, pr, ck, cg)}
                          for c in ({}, {"device_print": True}, {"nearby": True}) for on in (True, False) for pr in (True, False) for ck in (True, False) for cg in (True, False)],
             "request_state": {s: E.request_state(s) for s in ("made_offline", "offered", "accepted", "connected", "denied", "expired", "disconnect_sent", "disconnected")},
+            "cheaper_tier": [{"family": f, "tier": t, "extras": n, "next": E.cheaper_tier(f, t, n)} for f in fams for t in ("free", "plus", "pro", "max") for n in (0, 1, 2, 3, 6, 12)],
             "reapproval_due": [{"last": a, "today": b, "due": E.reapproval_due(a, b)} for a, b in ((0, 29), (0, 30), (10, 45), (5, 5))],
             "downgrade": [{"limit": lim, "family": f, "result": E.downgrade(lim, f, conns)} for lim in (0, 1, 2, None, "own_units") for f in ("lynkpos", "lynkrewards")],
             "fit": [{"screen": [w, h], "design": [dw, dh], "result": E.fit(w, h, dw, dh)}

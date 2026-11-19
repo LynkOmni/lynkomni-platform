@@ -11,7 +11,7 @@
 import { esc } from "./shell.js";
 import type { Icon, T } from "./shell.js";
 import { newId } from "./emulator.js";
-import { canRun, countsFor, inUse, mayConnect, newCode, slots } from "./emulators.js";
+import { canRun, cheaperTier, countsFor, inUse, mayConnect, newCode, slots } from "./emulators.js";
 import type { Caps, Connection, EmulatorRegister, Limit } from "./emulators.js";
 
 type St = "queued" | "sent" | "accepted" | "confirmed" | "failed";
@@ -42,6 +42,8 @@ export class EmulatorPanelDesk {
   offers: PanelOffer[] = [];
   history: PanelHistory[] = [];
   extra: Record<string, number> = {};
+  /** Day passes bought today per family (one more staff device for an event or a market day, any tier). */
+  passes: Record<string, number> = {};
   /** The manager's default key tones per device (70.6). */
   tones: Record<string, { tones: boolean; vibration: boolean; volume: string; user_may_change: boolean; pin_same_tone: boolean }> = {};
   pick = "";
@@ -75,7 +77,7 @@ export class EmulatorPanelDesk {
   /** In use against the plan, per counted family, and the free customer-facing screens. */
   usage(): { family: string; used: number; limit: Limit; extra: number }[] {
     const fams = [...new Set(this.reg.emulators.filter((e) => !e.planned).map((e) => countsFor(this.reg, e.id)).filter((f): f is string => !!f))];   // families with emulators built so far
-    return fams.filter((f) => !this.service || f === this.service).map((f) => ({ family: f, used: inUse(this.reg, f, this.conns()), limit: this.limit(f), extra: this.extra[f] ?? 0 }));
+    return fams.filter((f) => !this.service || f === this.service).map((f) => ({ family: f, used: inUse(this.reg, f, this.conns()), limit: this.limit(f), extra: (this.extra[f] ?? 0) + (this.passes[f] ?? 0) }));
   }
   freeScreens(): number { return this.devices.reduce((n, d) => n + d.ems.filter((e) => e.state === "connected" && countsFor(this.reg, e.id) === null).length, 0); }
   dev(id: string): PanelDevice | undefined { return this.devices.find((d) => d.id === id); }
@@ -102,7 +104,7 @@ export class EmulatorPanelDesk {
     if (!chk.ok) { o.state = "failed"; o.reason = chk.refused ?? ""; return; }
     o.state = "accepted";
     const fam = countsFor(this.reg, o.emulator) ?? "";
-    const [ok, why] = mayConnect(this.reg, this.limit(fam), fam, this.conns(), { device: d.id, emulator: o.emulator }, this.extra[fam] ?? 0);
+    const [ok, why] = mayConnect(this.reg, this.limit(fam), fam, this.conns(), { device: d.id, emulator: o.emulator }, (this.extra[fam] ?? 0) + (this.passes[fam] ?? 0));
     if (!ok) { o.state = "failed"; o.reason = why ?? ""; return; }
     this.devices.push(d); this.tones[d.id] = { tones: true, vibration: true, volume: "medium", user_may_change: this.find(o.emulator)?.user !== "none", pin_same_tone: false };
     d.ems.push({ id: o.emulator, state: "connected", practice: false, user: null, since: this.now(), unsent: 0 });
@@ -120,7 +122,7 @@ export class EmulatorPanelDesk {
     if (d.lost) return { state: "failed", reason: "device_lost_or_removed" };
     if (d.reapprove) return { state: "failed", reason: "reapproval_needed" };
     const fam = countsFor(this.reg, em) ?? "";
-    const [ok, why] = mayConnect(this.reg, this.limit(fam), fam, this.conns().filter((c) => !(c.device === devId && c.emulator === em)), { device: devId, emulator: em, practice }, this.extra[fam] ?? 0);
+    const [ok, why] = mayConnect(this.reg, this.limit(fam), fam, this.conns().filter((c) => !(c.device === devId && c.emulator === em)), { device: devId, emulator: em, practice }, (this.extra[fam] ?? 0) + (this.passes[fam] ?? 0));
     if (!ok) return { state: "failed", reason: why ?? "plan_limit" };
     const e = d.ems.find((x) => x.id === em);
     if (e) { e.state = "connected"; e.practice = practice; e.since = this.now(); } else d.ems.push({ id: em, state: "connected", practice, user: null, since: this.now(), unsent: 0 });
@@ -165,8 +167,15 @@ export class EmulatorPanelDesk {
     return "confirmed";
   }
   /** One more staff device for the locked monthly price, on paid tiers only. */
+  /** A day pass: one more staff device today, on any tier (the price is the register's, from services/billing.py). */
+  buyPass(family: string): boolean {
+    if (typeof this.limit(family) !== "number") return false;
+    this.passes[family] = (this.passes[family] ?? 0) + 1; return true;
+  }
+  /** The next tier, when it costs less than this one with the extra devices bought (said, never applied by itself). */
+  cheaper(family: string): string | null { return cheaperTier(this.reg, family, this.tier, this.extra[family] ?? 0); }
   buyExtra(family: string): boolean {
-    if (this.tier === "free" || !this.usage().some((u) => u.family === family && typeof u.limit === "number")) return false;
+    if (this.tier === "free" || this.reg.extra_cents[family] === undefined || !this.usage().some((u) => u.family === family && typeof u.limit === "number")) return false;
     this.extra[family] = (this.extra[family] ?? 0) + 1; return true;
   }
   setTone(devId: string, key: "tones" | "vibration" | "user_may_change" | "pin_same_tone" | "volume", value: boolean | string): void {
@@ -216,6 +225,7 @@ export class EmulatorPanelDesk {
       case "notseen": this.notSeen(v, this.reg.reapprove_days); break;
       case "swap": this.swap(v, w, this.dev(v)?.ems[0]?.id ?? ""); break;
       case "extra": this.buyExtra(v); break;
+      case "pass": this.buyPass(v); break;
       case "tone": { const [key, val] = w.split("="); if (key) this.setTone(v, key as "tones", val === "on" ? true : val === "off" ? false : val ?? ""); break; }
       case "view": this.view(v, ctx.busy); break;
       case "why": this.why[v] = this.why[v] ? [] : this.reasons(this.dev(v)!); if (!this.why[v]?.length) delete this.why[v]; break;
@@ -244,10 +254,11 @@ export function usageCard(P: EmulatorPanelDesk, L: PanelLook): string {
     const lim = x.limit === "own_units" ? t("emp_own_units") : x.limit === null ? t("emp_unlimited") : t("emp_of", { used: x.used, limit: x.limit + x.extra });
     const full = typeof x.limit === "number" && x.used >= x.limit + x.extra;
     return `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(L.familyName(x.family))}</span><span class="sub">${esc(x.limit === "own_units" ? lim : `${t("emp_in_use", { n: x.used })} · ${lim}`)}</span></span>
-      ${full && L.tier !== "free" && L.mayManage ? `<button type="button" class="ghost small" data-act="emp:extra:${x.family}">${esc(t("emp_buy_extra", { price: L.money(P.reg.extra_slot_cents) }))}</button>` : full ? `<span class="tag">${esc(t("emp_full"))}</span>` : ""}</div></li>`;
+      ${full && L.mayManage ? `<span class="emp-buy">${L.tier !== "free" && P.reg.extra_cents[x.family] !== undefined ? `<button type="button" class="ghost small" data-act="emp:extra:${x.family}">${esc(t("emp_buy_extra", { price: L.money(P.reg.extra_cents[x.family]!) }))}</button>` : ""}<button type="button" class="ghost small" data-act="emp:pass:${x.family}">${esc(t("emp_day_pass", { price: L.money(P.reg.day_pass_cents) }))}</button></span>` : full ? `<span class="tag">${esc(t("emp_full"))}</span>` : ""}
+      ${P.cheaper(x.family) ? `<p class="sub emp-hint" role="status">${esc(t("emp_cheaper", { tier: t(`tier_${P.cheaper(x.family)}`) }))}</p>` : ""}</div></li>`;
   };
   return `<div class="card emp-usage" data-item="emp_usage"><h2>${esc(t("emp_plan_title"))}</h2><ul class="list">${u.map(row).join("")}</ul>
-    <p class="sub">${esc(t("emp_free_screens", { n: P.freeScreens() }))}</p><p class="sub">${esc(t("emp_count_rule"))}</p>${L.tier === "free" ? `<p class="sub">${esc(t("emp_extra_paid_only"))}</p>` : ""}</div>`;
+    <p class="sub">${esc(t("emp_free_screens", { n: P.freeScreens() }))}</p><p class="sub">${esc(t("emp_count_rule"))}</p>${L.tier === "free" ? `<p class="sub">${esc(t("emp_extra_plus_pro"))}</p>` : ""}<p class="sub">${esc(t("emp_day_pass_note", { days: P.reg.day_pass_max_days }))}</p></div>`;
 }
 
 export function addCard(P: EmulatorPanelDesk, L: PanelLook): string {

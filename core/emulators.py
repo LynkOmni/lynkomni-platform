@@ -73,9 +73,36 @@ def slots(family, tier):
     return ent.get("emulator_slots")
 
 
-def extra_slot_cents():
+def extra_slot_cents(family):
+    """One more staff device a month for this family on Plus and Pro (services/billing.py EMULATOR_EXTRA_CENTS), or None."""
     from services import billing
-    return billing.SERVICE_FEES["emulator_extra_slot_cents"]
+    return billing.EMULATOR_EXTRA_CENTS.get(family)
+
+
+def day_pass_cents():
+    from services import billing
+    return billing.SERVICE_FEES["emulator_day_pass_cents"]
+
+
+def day_pass_max_days():
+    from services import billing
+    return billing.SERVICE_FEES["emulator_day_pass_max_days"]
+
+
+def cheaper_tier(family, tier, extras):
+    """The next tier when it costs less a month than this tier with these extra devices (the panel says so; it never upgrades by
+    itself), else None. Prices come only from services/billing.py."""
+    from services import billing
+    tiers, prices = list(billing.FAMILIES[family][2]), billing.FAMILIES[family][3]
+    i = tiers.index(tier)
+    cents = extra_slot_cents(family)
+    if not extras or cents is None or i + 1 >= len(tiers):
+        return None
+    now = round(prices[i] * 100) + extras * cents
+    nxt = round(prices[i + 1] * 100)
+    nxt_slots, now_slots = slots(family, tiers[i + 1]), slots(family, tier)
+    fits = nxt_slots is None or (isinstance(nxt_slots, int) and isinstance(now_slots, int) and nxt_slots >= now_slots + extras)
+    return tiers[i + 1] if fits and nxt <= now else None
 
 
 def counts_for(emulator_id):

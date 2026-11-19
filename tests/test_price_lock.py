@@ -34,7 +34,10 @@ LOCKED_API = {"prices": {"tracking_shipment_cents": 1, "geocoding_per_1000_cents
 # EMULATOR UPDATE (owner accepted 2026-11-18, blueprint 70.12; pinned in build section 3A): staff emulator slots per tier and the one
 # new price, $2 a month for each extra slot on a paid tier. LynkAttend, LynkQueue and LynkSurvey keep their own locked units.
 LOCKED_EMULATORS = {"ladder": (1, 2, 5, None), "lynkpos": (1, 2, 5, None), "own_units": ("lynkattend", "lynkqueue", "lynksurvey"),
-                    "extra_slot_cents": 200}
+                    # owner 2026-11-19: extra devices priced so the next tier stays the better deal, and a day pass for events
+                    "extra_cents": {"lynkpos": 800, "lynkmpay": 400, "lynkstock": 300, "lynkrewards": 300, "lynkcheckout": 200, "lynkessential": 200,
+                                    "lynkbooking": 600, "lynkmotion": 800, "lynkguard": 1400},
+                    "day_pass": (100, 7)}
 
 
 # Storefront plans (BIZZ & DEVICE, owner approved 2026-11-09): the external side's own locked price list, a plan type not a family.
@@ -80,10 +83,17 @@ class TestPriceLock(unittest.TestCase):
         F = billing.FEATURES
         got = {"ladder": billing.EMULATOR_LADDER, "lynkpos": tuple(t["emulator_slots"] for t in F["lynkpos"]),
                "own_units": tuple(f for f in billing.EMULATOR_FAMILIES if F[f][0]["emulator_slots"] == "own_units"),
-               "extra_slot_cents": billing.SERVICE_FEES["emulator_extra_slot_cents"]}
+               "extra_cents": billing.EMULATOR_EXTRA_CENTS,
+               "day_pass": (billing.SERVICE_FEES["emulator_day_pass_cents"], billing.SERVICE_FEES["emulator_day_pass_max_days"])}
         self.assertEqual(got, LOCKED_EMULATORS)
+        from core import emulators as E
         for f in billing.EMULATOR_FAMILIES:
             if f not in LOCKED_EMULATORS["own_units"]:
+                for t in ("plus", "pro"):                                    # stacking extras never beats the next tier
+                    nxt = billing.MT[billing.MT.index(t) + 1]
+                    i = billing.MT.index(t)
+                    plus3 = round(billing.FAMILIES[f][3][i] * 100) + 3 * LOCKED_EMULATORS["extra_cents"][f]
+                    if E.slots(f, t) + 3 >= (E.slots(f, nxt) or 99): self.assertGreater(plus3, round(billing.FAMILIES[f][3][i + 1] * 100), f"{f} {t}")
                 self.assertEqual(tuple(t["emulator_slots"] for t in F[f]), LOCKED_EMULATORS["ladder"], f)
 
     def test_every_standard_price_matches_the_locked_list(self):

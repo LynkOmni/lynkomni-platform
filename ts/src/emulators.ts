@@ -6,7 +6,9 @@ import { CAPACITY, code } from "./queue.js";
 export type Limit = number | null | "own_units";
 export interface EmulatorInfo { id: string; service: string; counted: boolean; shared_with: string | null; touch: boolean; user: string; planned: boolean; customer_facing: boolean; hardware: string[]; devices: string[]; min_short_side_px: number; outputs: string[] }
 export interface EmulatorRegister {
-  emulators: EmulatorInfo[]; names: Record<string, string>; slots: Record<string, Record<string, Limit>>; extra_slot_cents: number;
+  emulators: EmulatorInfo[]; names: Record<string, string>; slots: Record<string, Record<string, Limit>>;
+  /** One more staff device a month per family on Plus and Pro, the day pass, and the plan prices (all from services/billing.py). */
+  extra_cents: Record<string, number>; day_pass_cents: number; day_pass_max_days: number; prices: Record<string, { tiers: string[]; cents: number[] }>;
   code_minutes: number; reapprove_days: number; downgrade_grace_days: number; artwork_min_px: number;
   hardware_ways: Record<string, string[]>; os_ways: Record<string, string[]>;
   /** The shared tone set from the design tokens (design/tokens.v1.json sounds). */
@@ -134,3 +136,15 @@ export function fitScreen(r: EmulatorRegister, screenW: number, screenH: number,
 }
 
 export const slots = (r: EmulatorRegister, family: string, tier: string): Limit => r.slots[family]?.[tier] ?? null;
+
+/** The next tier when it costs less a month than this tier with these extra devices (shown, never applied by itself), else null. */
+export function cheaperTier(r: EmulatorRegister, family: string, tier: string, extras: number): string | null {
+  const p = r.prices[family], cents = r.extra_cents[family];
+  if (!p || !extras || cents === undefined) return null;
+  const i = p.tiers.indexOf(tier);
+  if (i < 0 || i + 1 >= p.tiers.length) return null;
+  const next = p.tiers[i + 1]!, now = (p.cents[i] ?? 0) + extras * cents, nxt = p.cents[i + 1] ?? 0;
+  const ns = slots(r, family, next), cs = slots(r, family, tier);
+  const fits = ns === null || (typeof ns === "number" && typeof cs === "number" && ns >= cs + extras);
+  return fits && nxt <= now ? next : null;
+}

@@ -205,7 +205,7 @@ for _f, _tiers in _NEW.items():
 # of a family connected at the same time. Every number already locked stays: LynkPOS keeps its devices (1, 2, 5, unlimited);
 # LynkAttend, LynkQueue and LynkSurvey keep their own locked units ("own_units": places, counters, creators) and are not limited
 # again. A family with no device number gets the LynkPOS ladder. Customer-facing screens are free and unlimited and practice mode
-# never counts (core/emulators.py). Extra slots on paid tiers: SERVICE_FEES["emulator_extra_slot_cents"].
+# never counts (core/emulators.py). Extra devices on Plus and Pro: EMULATOR_EXTRA_CENTS; a day pass for events: SERVICE_FEES.
 EMULATOR_LADDER = (1, 2, 5, None)
 EMULATOR_FAMILIES = ("lynkpos", "lynkstock", "lynkrewards", "lynkmpay", "lynkcheckout", "lynkessential", "lynkbooking", "lynkmotion", "lynkguard",
                      "lynkattend", "lynkqueue", "lynksurvey")
@@ -227,9 +227,15 @@ SERVICE_FEES = {
     "motion_extra_1000_tracked_cents": 500, "motion_extra_live_cents": 100,
     # NEW UPDATE 4 (2026-11-11): extra queue tickets and survey answers above a paid tier (nobody is turned away; no survey stops).
     "queue_extra_1000_tickets_cents": 200, "survey_extra_1000_answers_cents": 100,
-    # EMULATOR UPDATE (2026-11-18, blueprint 70.12): one extra staff emulator slot on a paid tier, per month. LOCKED with the prices.
-    "emulator_extra_slot_cents": 200,
+    # EMULATOR UPDATE, owner 2026-11-19 (more revenue from extra devices): a day pass adds one staff device for an event or a market
+    # day on any tier, at most 7 days in a row (then the monthly extra device or the next tier is the better deal). LOCKED.
+    "emulator_day_pass_cents": 100, "emulator_day_pass_max_days": 7,
 }
+# One more staff device a month, per family, on Plus and Pro (Max has no limit; Free upgrades or takes a day pass). Owner 2026-11-19:
+# each is the Pro price per device times 1.35, rounded up to whole dollars (at least $2), so stacking extras never beats the next
+# tier and the panel says so when the next tier costs less. LOCKED with the prices (tests/test_price_lock.py).
+EMULATOR_EXTRA_CENTS = {"lynkpos": 800, "lynkmpay": 400, "lynkstock": 300, "lynkrewards": 300, "lynkcheckout": 200, "lynkessential": 200,
+                        "lynkbooking": 600, "lynkmotion": 800, "lynkguard": 1400}
 # LynkA, LynkQ and LynkS: any two or all three paid plans held together take 20% off each of them (a bundle discount, not a link;
 # owner locked 2026-11-11). LOCKED with the prices.
 PEOPLE_FAMILIES = ("lynkattend", "lynkqueue", "lynksurvey")

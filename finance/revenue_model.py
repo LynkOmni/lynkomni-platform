@@ -381,21 +381,25 @@ def people(stage):
             "month": _r(sum(out.values())), "assumption": True}
 
 
-# ---- Emulator Panel extra slots (EMULATOR UPDATE, owner accepted 2026-11-18; build section 3A) -------------------------------
-# A paid plan can add one more staff device for services.billing SERVICE_FEES["emulator_extra_slot_cents"] a month. Shown as its
-# OWN stream, kept OUTSIDE the agreed totals until pilot data exists, so no agreed figure moves. EVERY number below is an
-# ASSUMPTION, labelled as such.
+# ---- Emulator Panel extra devices and day passes (EMULATOR UPDATE; owner 2026-11-19: more revenue from extra devices) --------
+# Plus and Pro can add one more staff device a month at its family's price (services.billing EMULATOR_EXTRA_CENTS, priced so the
+# next tier stays the better deal), and any tier can take a day pass for an event or a market day (SERVICE_FEES). Shown as its OWN
+# stream, kept OUTSIDE the agreed totals until pilot data exists, so no agreed figure moves. EVERY number below is an ASSUMPTION.
 EMULATOR_ASSUMPTIONS = {
-    "buyers": Decimal("2"),                                            # percent of all merchants on a paid plan who buy extra slots
-    "slots_each": Decimal("1.5"),                                      # extra slots per buying merchant
+    "buyers": {"lynkpos": Decimal("2"), "lynkmpay": Decimal("0.5"), "lynkstock": Decimal("0.5"), "lynkrewards": Decimal("0.3"),
+               "lynkcheckout": Decimal("0.3"), "lynkessential": Decimal("0.2")},   # percent of all merchants buying monthly extra devices
+    "slots_each": Decimal("1.5"),                                      # extra devices per buying merchant
+    "day_pass_users": Decimal("3"),                                    # percent of all merchants taking day passes
+    "day_passes_each": Decimal("4"),                                   # device-days a month per day-pass user (market days, events)
 }
 
 
 def emulator_slots(stage):
-    """Monthly USD for one stage (whole dollars): extra Emulator Panel slots (price index and conversion applied). An ASSUMPTION,
-    outside the ecosystem totals."""
-    a = EMULATOR_ASSUMPTIONS
+    """Monthly USD for one stage (whole dollars): extra Emulator Panel devices and day passes (price index and conversion applied).
+    An ASSUMPTION, outside the ecosystem totals."""
+    a, pct = EMULATOR_ASSUMPTIONS, Decimal("0.01")
     m, idx, conv = Decimal(MERCHANTS[stage]), INDEX[stage], CONVERSION[stage]
-    buyers = m * a["buyers"] * Decimal("0.01") * conv
-    month = buyers * a["slots_each"] * Decimal(billing.SERVICE_FEES["emulator_extra_slot_cents"]) / 100 * idx
-    return {"slots": _r(buyers * a["slots_each"]), "month": _r(month), "assumption": True}
+    slots = sum(m * share * pct * conv * a["slots_each"] for share in a["buyers"].values())
+    extra = sum(m * share * pct * conv * a["slots_each"] * Decimal(billing.EMULATOR_EXTRA_CENTS[f]) / 100 for f, share in a["buyers"].items())
+    passes = m * a["day_pass_users"] * pct * a["day_passes_each"] * Decimal(billing.SERVICE_FEES["emulator_day_pass_cents"]) / 100
+    return {"slots": _r(slots), "extra": _r(extra * idx), "day_passes": _r(passes * idx), "month": _r((extra + passes) * idx), "assumption": True}
