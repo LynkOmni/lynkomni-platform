@@ -469,5 +469,8 @@
  "ch_s_done": "Thank you. Your answers were sent.",
  "ch_s_dial": "Answer a survey",
  "ch_s_sample_q1": "How was your visit today?",
- "ch_s_sample_q2": "Will you come back?"
+ "ch_s_sample_q2": "Will you come back?",
+ "auto_order_updates": "Tell customers each step of their order",
+ "auto_tracking_late_watch": "Tell me when an order runs late",
+ "auto_driver_update_reminder": "Remind me about LynkDriver updates"
 }
