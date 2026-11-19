@@ -688,6 +688,9 @@ html { font-size: 100%; }
 .svcd { gap: 6px; } .svcd .rateus { justify-content: center; }
 .sv-text { inline-size: 100%; min-inline-size: 0; resize: vertical; field-sizing: content; font: inherit; overflow-wrap: anywhere; }
 .sv-row { flex-wrap: wrap; } .rowbtn.sv-row > .main { min-inline-size: min(9rem, 100%); }   /* a long button or chip moves below the name instead of squeezing it */
+/* spacing (owner, 2026-11-19: no crowded areas): notification rows and LynkAssist's action buttons never touch each other */
+.nlist { display: grid; gap: 4px; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* MASTER UPDATE section 3 on every Business app device: the bell button and its badge, banners on the device screen, the
    staff lock screen, the manager's approval, LynkAssist's queued state and the card screens. Tokens only; logical CSS so

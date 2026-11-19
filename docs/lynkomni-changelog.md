@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.52.2 (2026-11-19)
+No crowded areas, even spacing (owner: "not only crowded buttons but also crowded areas and uneven spacing"):
+- New rules in tests/test_fit_guard.py, on every emulator, every size, state and pop-up: two visible boxes (cards, fields, panels, chips, filled buttons) never sit closer than 3.5 px, side by side or stacked; a run of three or more repeated items (rows, cards, buttons, chips) has even gaps, apart from a deliberate section break of 24 px or more. Proven on a sample page with both faults; the pointer is moved away first, so a hovered item never counts.
+- Found and fixed: notification rows touched each other (now 4 px apart); LynkAssist's action buttons in help were stacked with no space (now 8 px).
+- Screens still fit every width from 240 to 3840 px with nothing spilling or scrolling sideways (tests/test_layout_i18n.py DeviceFit, unchanged).
+- A check warning (an unclosed file and a text escape in the fit guard) is fixed.
+
 ## v0.52.1 (2026-11-19)
 No space that is not needed (owner report, a phone screenshot of the newsletter's topics: "Avoid unnecessary empty space around menus, topics"):
 - Newsletter topics (the footer on every page): the four choices now sit in two even columns that line up, with no extra space between the rows. Each tick box keeps its full tap size.
