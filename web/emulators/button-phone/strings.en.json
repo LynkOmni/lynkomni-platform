@@ -59,5 +59,7 @@
  "bp_star_hint": "Press * to type the sample username {name}",
  "bp_new_sign_in": "New sign-in on your account",
  "bp_low_rice": "Low stock: Rice 1 kg",
- "bp_day_closed": "Your day is closed"
+ "bp_day_closed": "Your day is closed",
+ "bp_key_tones": "Key tones",
+ "bp_vibration": "Vibration"
 }
