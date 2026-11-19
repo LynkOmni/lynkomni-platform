@@ -13,9 +13,9 @@ MT = ("free", "plus", "pro", "max")
 # id: full name, short name, tiers, standard USD price per tier, kind, inside LynkSuite?
 FAMILIES = {
  "lynkpos":      ("LynkOmni Point of Sale", "LynkPOS", MT, (0, 12, 29, 79), "merchant", True),
- "lynkacc":      ("LynkOmni Accounting", "LynkAcc", MT, (0, 6, 15, 40), "merchant", True),       # took over LynkLedger (2026-11-07)
- "lynkinv":      ("LynkOmni Invoicing", "LynkInv", MT, (0, 5, 12, 32), "merchant", True),        # moved out of LynkCheckout (2026-11-07)
- "lynkcrm":      ("LynkOmni CRM", "LynkCRM", MT, (0, 6, 15, 40), "merchant", True),
+ "lynkacc":      ("LynkOmni Accounting", "LynkAcc", MT, (0, 6, 19, 49), "merchant", True),       # took over LynkLedger (2026-11-07); OFFICE UPDATE top-up 2026-11-18 (was 15, 40)
+ "lynkinv":      ("LynkOmni Invoicing", "LynkInv", MT, (0, 5, 15, 39), "merchant", True),        # moved out of LynkCheckout (2026-11-07); OFFICE UPDATE top-up (was 12, 32)
+ "lynkcrm":      ("LynkOmni CRM", "LynkCRM", MT, (0, 6, 19, 49), "merchant", True),             # OFFICE UPDATE top-up 2026-11-18 (was 15, 40)
  "lynkstock":    ("LynkOmni Inventory and Reordering", "LynkStock", MT, (0, 3, 9, 22), "merchant", True),
  "lynkrewards":  ("LynkOmni Loyalty", "LynkRewards", MT, (0, 3, 9, 22), "merchant", True),
  "lynkstat":     ("LynkOmni Analytics", "LynkStat", MT, (0, 12, 29, 79), "merchant", True),      # took over LynkDash (2026-11-08)
@@ -213,7 +213,7 @@ for _f in EMULATOR_FAMILIES:
     for _i in range(len(MT)):
         if _f == "lynkpos":
             _v = [d["devices"] for d in FEATURES[_f][: _i + 1] if "devices" in d][-1]     # the locked device numbers
-        elif _f in ("lynkattend", "lynkqueue", "lynksurvey"):
+        elif _f in ("lynkattend", "lynkqueue", "lynksurvey", "lynkbooking"):    # own locked units (places, counters, creators, booking places)
             _v = "own_units"
         else:
             _v = EMULATOR_LADDER[_i]
@@ -235,7 +235,7 @@ SERVICE_FEES = {
 # each is the Pro price per device times 1.35, rounded up to whole dollars (at least $2), so stacking extras never beats the next
 # tier and the panel says so when the next tier costs less. LOCKED with the prices (tests/test_price_lock.py).
 EMULATOR_EXTRA_CENTS = {"lynkpos": 800, "lynkmpay": 400, "lynkstock": 300, "lynkrewards": 300, "lynkcheckout": 200, "lynkessential": 200,
-                        "lynkbooking": 600, "lynkmotion": 800, "lynkguard": 1400}
+                        "lynkmotion": 800, "lynkguard": 1400}   # LynkBooking: its devices follow its own places (BOOKING_PLACES_INCLUDED)
 # LynkA, LynkQ and LynkS: any two or all three paid plans held together take 20% off each of them (a bundle discount, not a link;
 # owner locked 2026-11-11). LOCKED with the prices.
 PEOPLE_FAMILIES = ("lynkattend", "lynkqueue", "lynksurvey")

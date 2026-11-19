@@ -11322,7 +11322,7 @@
     "id": "price-lynkacc",
     "topic": "price",
     "q": "How much is LynkAcc?",
-    "a": "LynkAcc plans a month: Free $0, Plus $6, Pro $15, Max $40.",
+    "a": "LynkAcc plans a month: Free $0, Plus $6, Pro $19, Max $49.",
     "source": "services/billing.py"
    },
    {
@@ -11336,7 +11336,7 @@
     "id": "price-lynkinv",
     "topic": "price",
     "q": "How much is LynkInv?",
-    "a": "LynkInv plans a month: Free $0, Plus $5, Pro $12, Max $32.",
+    "a": "LynkInv plans a month: Free $0, Plus $5, Pro $15, Max $39.",
     "source": "services/billing.py"
    },
    {
@@ -11350,7 +11350,7 @@
     "id": "price-lynkcrm",
     "topic": "price",
     "q": "How much is LynkCRM?",
-    "a": "LynkCRM plans a month: Free $0, Plus $6, Pro $15, Max $40.",
+    "a": "LynkCRM plans a month: Free $0, Plus $6, Pro $19, Max $49.",
     "source": "services/billing.py"
    },
    {
@@ -11695,7 +11695,7 @@
     "id": "price-lynkacc",
     "topic": "price",
     "q": "كم سعر LynkAcc؟",
-    "a": "خطط LynkAcc شهريًا: Free $0, Plus $6, Pro $15, Max $40.",
+    "a": "خطط LynkAcc شهريًا: Free $0, Plus $6, Pro $19, Max $49.",
     "source": "services/billing.py"
    },
    {
@@ -11709,7 +11709,7 @@
     "id": "price-lynkinv",
     "topic": "price",
     "q": "كم سعر LynkInv؟",
-    "a": "خطط LynkInv شهريًا: Free $0, Plus $5, Pro $12, Max $32.",
+    "a": "خطط LynkInv شهريًا: Free $0, Plus $5, Pro $15, Max $39.",
     "source": "services/billing.py"
    },
    {
@@ -11723,7 +11723,7 @@
     "id": "price-lynkcrm",
     "topic": "price",
     "q": "كم سعر LynkCRM؟",
-    "a": "خطط LynkCRM شهريًا: Free $0, Plus $6, Pro $15, Max $40.",
+    "a": "خطط LynkCRM شهريًا: Free $0, Plus $6, Pro $19, Max $49.",
     "source": "services/billing.py"
    },
    {
@@ -12068,7 +12068,7 @@
     "id": "price-lynkacc",
     "topic": "price",
     "q": "LynkAccの料金はいくらですか？",
-    "a": "LynkAccの月額プラン：Free $0, Plus $6, Pro $15, Max $40。",
+    "a": "LynkAccの月額プラン：Free $0, Plus $6, Pro $19, Max $49。",
     "source": "services/billing.py"
    },
    {
@@ -12082,7 +12082,7 @@
     "id": "price-lynkinv",
     "topic": "price",
     "q": "LynkInvの料金はいくらですか？",
-    "a": "LynkInvの月額プラン：Free $0, Plus $5, Pro $12, Max $32。",
+    "a": "LynkInvの月額プラン：Free $0, Plus $5, Pro $15, Max $39。",
     "source": "services/billing.py"
    },
    {
@@ -12096,7 +12096,7 @@
     "id": "price-lynkcrm",
     "topic": "price",
     "q": "LynkCRMの料金はいくらですか？",
-    "a": "LynkCRMの月額プラン：Free $0, Plus $6, Pro $15, Max $40。",
+    "a": "LynkCRMの月額プラン：Free $0, Plus $6, Pro $19, Max $49。",
     "source": "services/billing.py"
    },
    {
@@ -12441,7 +12441,7 @@
     "id": "price-lynkacc",
     "topic": "price",
     "q": "Combien coûte LynkAcc ?",
-    "a": "Formules LynkAcc par mois : Free $0, Plus $6, Pro $15, Max $40.",
+    "a": "Formules LynkAcc par mois : Free $0, Plus $6, Pro $19, Max $49.",
     "source": "services/billing.py"
    },
    {
@@ -12455,7 +12455,7 @@
     "id": "price-lynkinv",
     "topic": "price",
     "q": "Combien coûte LynkInv ?",
-    "a": "Formules LynkInv par mois : Free $0, Plus $5, Pro $12, Max $32.",
+    "a": "Formules LynkInv par mois : Free $0, Plus $5, Pro $15, Max $39.",
     "source": "services/billing.py"
    },
    {
@@ -12469,7 +12469,7 @@
     "id": "price-lynkcrm",
     "topic": "price",
     "q": "Combien coûte LynkCRM ?",
-    "a": "Formules LynkCRM par mois : Free $0, Plus $6, Pro $15, Max $40.",
+    "a": "Formules LynkCRM par mois : Free $0, Plus $6, Pro $19, Max $49.",
     "source": "services/billing.py"
    },
    {
@@ -12814,7 +12814,7 @@
     "id": "price-lynkacc",
     "topic": "price",
     "q": "LynkAcc inagharimu kiasi gani?",
-    "a": "Mipango ya LynkAcc kwa mwezi: Free $0, Plus $6, Pro $15, Max $40.",
+    "a": "Mipango ya LynkAcc kwa mwezi: Free $0, Plus $6, Pro $19, Max $49.",
     "source": "services/billing.py"
    },
    {
@@ -12828,7 +12828,7 @@
     "id": "price-lynkinv",
     "topic": "price",
     "q": "LynkInv inagharimu kiasi gani?",
-    "a": "Mipango ya LynkInv kwa mwezi: Free $0, Plus $5, Pro $12, Max $32.",
+    "a": "Mipango ya LynkInv kwa mwezi: Free $0, Plus $5, Pro $15, Max $39.",
     "source": "services/billing.py"
    },
    {
@@ -12842,7 +12842,7 @@
     "id": "price-lynkcrm",
     "topic": "price",
     "q": "LynkCRM inagharimu kiasi gani?",
-    "a": "Mipango ya LynkCRM kwa mwezi: Free $0, Plus $6, Pro $15, Max $40.",
+    "a": "Mipango ya LynkCRM kwa mwezi: Free $0, Plus $6, Pro $19, Max $49.",
     "source": "services/billing.py"
    },
    {
@@ -13187,7 +13187,7 @@
     "id": "price-lynkacc",
     "topic": "price",
     "q": "LynkAcc多少钱？",
-    "a": "LynkAcc的月度方案：Free $0, Plus $6, Pro $15, Max $40。",
+    "a": "LynkAcc的月度方案：Free $0, Plus $6, Pro $19, Max $49。",
     "source": "services/billing.py"
    },
    {
@@ -13201,7 +13201,7 @@
     "id": "price-lynkinv",
     "topic": "price",
     "q": "LynkInv多少钱？",
-    "a": "LynkInv的月度方案：Free $0, Plus $5, Pro $12, Max $32。",
+    "a": "LynkInv的月度方案：Free $0, Plus $5, Pro $15, Max $39。",
     "source": "services/billing.py"
    },
    {
@@ -13215,7 +13215,7 @@
     "id": "price-lynkcrm",
     "topic": "price",
     "q": "LynkCRM多少钱？",
-    "a": "LynkCRM的月度方案：Free $0, Plus $6, Pro $15, Max $40。",
+    "a": "LynkCRM的月度方案：Free $0, Plus $6, Pro $19, Max $49。",
     "source": "services/billing.py"
    },
    {
@@ -13560,7 +13560,7 @@
     "id": "price-lynkacc",
     "topic": "price",
     "q": "LynkAcc कितने का है?",
-    "a": "LynkAcc के मासिक प्लान: Free $0, Plus $6, Pro $15, Max $40।",
+    "a": "LynkAcc के मासिक प्लान: Free $0, Plus $6, Pro $19, Max $49।",
     "source": "services/billing.py"
    },
    {
@@ -13574,7 +13574,7 @@
     "id": "price-lynkinv",
     "topic": "price",
     "q": "LynkInv कितने का है?",
-    "a": "LynkInv के मासिक प्लान: Free $0, Plus $5, Pro $12, Max $32।",
+    "a": "LynkInv के मासिक प्लान: Free $0, Plus $5, Pro $15, Max $39।",
     "source": "services/billing.py"
    },
    {
@@ -13588,7 +13588,7 @@
     "id": "price-lynkcrm",
     "topic": "price",
     "q": "LynkCRM कितने का है?",
-    "a": "LynkCRM के मासिक प्लान: Free $0, Plus $6, Pro $15, Max $40।",
+    "a": "LynkCRM के मासिक प्लान: Free $0, Plus $6, Pro $19, Max $49।",
     "source": "services/billing.py"
    },
    {

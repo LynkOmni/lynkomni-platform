@@ -1282,25 +1282,25 @@
     {
      "theme": "light",
      "file": "charts/chart-pricing-ladder.light.svg",
-     "sha256": "d276246e7bc28d85345183eabff0ca63fdaa18703fc8d6d1bc46264420bdd5cd",
+     "sha256": "da64b03c69bf91f05d6b4c5e8daaa7db2b8f6dddff2e9807a168e7173603258c",
      "bytes": 27842
     },
     {
      "theme": "dark",
      "file": "charts/chart-pricing-ladder.dark.svg",
-     "sha256": "d0bbe2e6a44469551345e7461e1e7d89d11c5a1d610dd116dfaa0275f8967714",
+     "sha256": "564abaed8d966de8ee965de1ed1c3cd0ef90174bd2f7b280a9e5a5675ce7dd8e",
      "bytes": 27842
     },
     {
      "theme": "contrast-light",
      "file": "charts/chart-pricing-ladder.contrast-light.svg",
-     "sha256": "f1b7e4bd3b7feedebfe93021f5d30893456b3e0f3d6072171e9609716eaca1a6",
+     "sha256": "4fa8d34e936cada9a8e33ed9e21d73bf8e85e62e2ba59804a5fa55c737c3ac2d",
      "bytes": 27842
     },
     {
      "theme": "contrast-dark",
      "file": "charts/chart-pricing-ladder.contrast-dark.svg",
-     "sha256": "805d1f20e91a3f764c0ce6812ec0db954f4676532a468c5b6bf3206e64b49067",
+     "sha256": "4fd13fb830f962b348b47f9c319518a7034d1a10bdbdc19f9fb546219c7496fd",
      "bytes": 27842
     }
    ]
@@ -1317,26 +1317,26 @@
     {
      "theme": "light",
      "file": "charts/chart-revenue-path.light.svg",
-     "sha256": "97ca7dcc4abf7f1db14f7bc13df64b8d994aaada6eab1c17303b6fbeaa58371e",
-     "bytes": 11291
+     "sha256": "c5ea92d27f3d8ccf97c7013d3f75893e4ad0f1fc983faa15314f3459ad2c09b1",
+     "bytes": 11297
     },
     {
      "theme": "dark",
      "file": "charts/chart-revenue-path.dark.svg",
-     "sha256": "f7cb8d74da31fe71a3176c67d818ab1b336a1698b6c8f45dc7300145fcc8fec1",
-     "bytes": 11291
+     "sha256": "a4d922ba435acc23a07eb886b09102561d6a56c9e8074ae282713f96a17f6376",
+     "bytes": 11297
     },
     {
      "theme": "contrast-light",
      "file": "charts/chart-revenue-path.contrast-light.svg",
-     "sha256": "e1e0d6568ebeeaea8dd3d4c20aa04f7481263d95bf760008be4a82fd79809186",
-     "bytes": 11291
+     "sha256": "0e623f03c276851c3f7d832c4caafb42bc2f09b5df78e8cef661e8a892d17402",
+     "bytes": 11297
     },
     {
      "theme": "contrast-dark",
      "file": "charts/chart-revenue-path.contrast-dark.svg",
-     "sha256": "ced95acd2d043a0b42e2698aaff41a0e8609ba1e8412ba2e2ed84901249e71b6",
-     "bytes": 11291
+     "sha256": "973488c38546387d18387cb9baafc95d55d9d788e6f9a48520ed8a719ba9ce48",
+     "bytes": 11297
     }
    ]
   },

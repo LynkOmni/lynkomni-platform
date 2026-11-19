@@ -25,12 +25,12 @@ class TestRevenueModel(unittest.TestCase):
         self.assertEqual(R.vcard_subscriptions(R.prices({"lynkvcard": R.OLD_PRICES["lynkvcard"]})), [46200, 69300, 41250, 156750])
 
     def test_new_prices_give_these_totals(self):
-        # Price version 3 (2026-11-08) with BOOKING UPDATE (2026-11-18: LynkBooking Pass at $1.99, $3.99 and $7.99, and no flat appointment fee). The adoption mix is an ASSUMPTION.
+        # Price version 3 (2026-11-08) with BOOKING UPDATE (2026-11-18: LynkBooking Pass at $1.99, $3.99 and $7.99, and no flat appointment fee; OFFICE UPDATE 2026-11-19: LynkAcc, LynkInv and LynkCRM top-up). The adoption mix is an ASSUMPTION.
         t = R.totals()
-        self.assertEqual(t["stage1"]["grand"], 13749)
-        self.assertEqual(t["stage2"]["grand"], 1134602)
-        self.assertEqual(t["stage3"]["grand"], 40257213)
-        self.assertEqual(t["stage3"]["subscriptions"], 17353163)
+        self.assertEqual(t["stage1"]["grand"], 13890)
+        self.assertEqual(t["stage2"]["grand"], 1142666)
+        self.assertEqual(t["stage3"]["grand"], 40503613)
+        self.assertEqual(t["stage3"]["subscriptions"], 17599563)
         self.assertEqual(t["stage3"]["vcard"], 713938)
 
     def test_suite_line_at_stage_3(self):
@@ -46,10 +46,10 @@ class TestRevenueModel(unittest.TestCase):
 
     def test_summary_numbers(self):
         s = R.summary()
-        self.assertEqual(s["yearly"]["stage3"], 483086556)
-        self.assertEqual(s["range"]["stage3"], (20128607, 60385820))
-        self.assertEqual(str(s["per_merchant"]["stage3"]), "20.13")
-        self.assertEqual(s["cumulative"], 546982482)
+        self.assertEqual(s["yearly"]["stage3"], 486043356)
+        self.assertEqual(s["range"]["stage3"], (20251807, 60755420))
+        self.assertEqual(str(s["per_merchant"]["stage3"]), "20.25")
+        self.assertEqual(s["cumulative"], 550438994)
 
     def test_new_section_28_lines_do_not_depend_on_subscription_prices(self):
         # LynkProof, LynkSplit, LynkAudit exports, bandwidth and seats are per-use fees, so the blueprint's $24,825 a month
@@ -63,8 +63,8 @@ class EcosystemTotal(unittest.TestCase):
     def test_totals_per_day_month_year(self):
         t = R.ecosystem_totals()
         self.assertEqual({st: (t[st]["day"], t[st]["month"], t[st]["year"]) for st in R.STAGES},
-                         {"stage1": (707, 21503, 258036), "stage2": (46226, 1406034, 16872408), "stage3": (1506418, 45820203, 549842436)})
-        self.assertEqual(str(t["stage3"]["per_merchant"]), "22.91")
+                         {"stage1": (711, 21632, 259584), "stage2": (46470, 1413452, 16961424), "stage3": (1513870, 46046891, 552562692)})
+        self.assertEqual(str(t["stage3"]["per_merchant"]), "23.02")
     def test_streams_add_up_and_costs_are_negative(self):
         for st in R.STAGES:
             rows = R.ecosystem(st)
@@ -74,7 +74,7 @@ class EcosystemTotal(unittest.TestCase):
         self.assertEqual(R.ecosystem("stage3")["agent_commissions"], 1_800_000)
     def test_seven_year_path(self):
         p = R.ecosystem_path()
-        self.assertEqual(p[7]["year"], 400335472); self.assertEqual(sum(v["year"] for v in p.values()), 633600116)
+        self.assertEqual(p[7]["year"], 402329565); self.assertEqual(sum(v["year"] for v in p.values()), 636773782)
 
     def test_second_review_rows(self):
         e = R.ecosystem("stage3")
@@ -87,7 +87,7 @@ class ExpensesAndProfit(unittest.TestCase):
     def test_profit_per_stage(self):
         from finance import expense_model as X
         got = {st: (X.profit(st)["expenses"]["month"], X.profit(st)["net"]["month"], X.profit(st)["net"]["year"]) for st in R.STAGES}
-        self.assertEqual(got, {"stage1": (36867, -15364, -184368), "stage2": (1182516, 167638, 2011656), "stage3": (20166542, 19240246, 230882952)})
+        self.assertEqual(got, {"stage1": (36872, -15240, -182880), "stage2": (1182798, 172990, 2075880), "stage3": (20175166, 19403794, 232845528)})
     def test_loss_pays_no_tax_and_rows_add_up(self):
         from finance import expense_model as X
         self.assertEqual(X.profit("stage1")["tax"], 0)

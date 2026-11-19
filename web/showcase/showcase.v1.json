@@ -40,7 +40,9 @@
   },
   {
    "n": 4,
-   "title": "LynkAcc, LynkInv, LynkCRM, LynkStat and LynkOps"
+   "title": "LynkAcc, LynkInv, LynkCRM, LynkStat and LynkOps",
+   "status": "building",
+   "version": "v0.48.0 (part 1a: office top-up and LynkBooking prices)"
   },
   {
    "n": 5,

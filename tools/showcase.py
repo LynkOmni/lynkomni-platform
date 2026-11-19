@@ -68,7 +68,7 @@ p{{margin:0 0 8px}} .muted{{color:var(--text-secondary)}}
 table{{width:100%;border-collapse:collapse}} td,th{{text-align:start;padding:8px 6px;border-block-end:1px solid var(--border-subtle);vertical-align:top}}
 .tag{{display:inline-block;border-radius:6px;padding:1px 8px;font-size:13px;background:var(--bg-subtle)}}
 .tag.locked{{background:var(--brand-subtle);color:var(--brand-ink,var(--text-primary))}}
-.tag.next{{border:1px solid var(--brand-primary)}}
+.tag.next,.tag.building{{border:1px solid var(--brand-primary)}}
 footer{{color:var(--text-secondary);font-size:14px;margin-top:48px;border-block-start:1px solid var(--border-subtle)}}
 nav a{{margin-inline-end:16px}}
 a{{color:var(--brand-ink,var(--brand-primary))}}
@@ -146,7 +146,7 @@ def build():
     parts.append(f'<h2 id="progress">Progress: the {len(cfg["sections"])} build steps</h2><table><thead><tr><th>#</th><th>Build section</th><th>Status</th><th>Version</th></tr></thead><tbody>')
     for s in cfg["sections"]:
         st = s.get("status", "")
-        word = {"locked": "Done and locked", "next": "Next"}.get(st, "Waiting")
+        word = {"locked": "Done and locked", "building": "Being built", "next": "Next"}.get(st, "Waiting")
         parts.append(f'<tr><td>{s["n"]}</td><td>{html.escape(s["title"])}</td><td><span class="tag {st}">{word}</span></td><td>{html.escape(s.get("version", ""))}</td></tr>')
     parts.append('</tbody></table>')
 
