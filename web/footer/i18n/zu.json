@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "da99cae367157f466030407251ed0b9b1113d568928e8c37afe4577b81cd36b1",
+ "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
  "texts": {
   "ft_about": "Mayelana nathi",
   "ft_accessibility": "Ukufinyeleleka",
@@ -49,6 +49,7 @@
   "ft_partners": "Uhlelo lozakwethu",
   "ft_payments": "Izindlela zokukhokha",
   "ft_people": "Abantu nesevisi",
+  "ft_plain_academy": "Izifundo nokuqeqeshwa",
   "ft_plain_acc": "Ukubalwa kwezimali",
   "ft_plain_ai": "Umsizi we-AI",
   "ft_plain_api": "Ukuxhumana kwezinhlelo",

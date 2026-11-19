@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "es",
  "native": "Español",
- "source_sha256": "da99cae367157f466030407251ed0b9b1113d568928e8c37afe4577b81cd36b1",
+ "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
  "texts": {
   "ft_about": "Sobre nosotros",
   "ft_accessibility": "Accesibilidad",
@@ -49,6 +49,7 @@
   "ft_partners": "Programa de socios",
   "ft_payments": "Métodos de pago",
   "ft_people": "Personas y atención",
+  "ft_plain_academy": "Cursos y formación",
   "ft_plain_acc": "Contabilidad",
   "ft_plain_ai": "Asistente de IA",
   "ft_plain_api": "Interfaz de programación",

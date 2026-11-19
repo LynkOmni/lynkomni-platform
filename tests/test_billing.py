@@ -14,7 +14,7 @@ class T(unittest.TestCase):
     def rwf(self, usd): return self.p.c.fx.convert(to_minor(usd * .35, "USD"), "USD", "RWF")   # Rwanda price index 0.35
 
     def test_families_names_and_tiers(self):
-        self.assertEqual(len(FAMILIES), 32); self.assertEqual(len(SUITE_MEMBERS), 9)   # 24 + the eight of section 4 part 1b (2026-11-19); self.assertEqual(OPS_MEMBERS, ["lynkacc", "lynkinv", "lynkcrm", "lynkstat"])
+        self.assertEqual(len(FAMILIES), 33); self.assertEqual(len(SUITE_MEMBERS), 9)   # 24 + the eight of section 4 part 1b + LynkAcademy (2026-11-19); self.assertEqual(OPS_MEMBERS, ["lynkacc", "lynkinv", "lynkcrm", "lynkstat"])
         self.assertEqual(FAMILIES["lynkmpay"][:2], ("LynkOmni Merchant Payments", "LynkMPay"))
         self.assertEqual(FAMILIES["lynksuite"][2:4], (("free", "plus", "pro", "max"), (0, 29, 75, 195)))
         self.assertEqual(FAMILIES["lynkdev"][2], ("free", "starter", "business", "enterprise"))
@@ -52,6 +52,17 @@ class T(unittest.TestCase):
         self.assertEqual(self.b.bill("a")["total_minor"], self.rwf(29)); self.assertEqual(self.b.tier("a", "lynkrewards"), "plus")
         self.b.set_plan("a", "lynkrewards", "max")                                                          # above what POS includes: only the difference
         self.assertEqual(self.b.bill("a")["total_minor"], self.rwf(29) + self.rwf(22 - 3))
+
+    def test_each_school_tier_includes_the_same_academy_tier_without_billing_twice(self):
+        """Blueprint 78.17: a LynkSchool tier includes the same LynkAcademy tier, at no extra price."""
+        for t in ("plus", "pro", "max"):
+            self.b.set_plan("a", "lynkschool", t)
+            self.assertEqual(self.b.tier("a", "lynkacademy"), t)
+        self.b.set_plan("a", "lynkschool", "pro"); self.b.set_plan("a", "lynkacademy", "pro")
+        self.assertEqual(self.b.bill("a")["total_minor"], self.rwf(55))                                    # Academy Pro comes with School Pro
+        self.b.set_plan("a", "lynkacademy", "max")                                                          # above what the school includes: only the difference
+        self.assertEqual(self.b.bill("a")["total_minor"], self.rwf(55) + self.rwf(129 - 49))
+        self.assertEqual(self.b.entitlement("a", "lynkacademy")["learners_included"], 1000)
 
     def test_every_partner_service_and_unlimited_sales_at_every_pos_tier(self):
         for t in ("free", "plus", "pro", "max"):

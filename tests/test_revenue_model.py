@@ -134,11 +134,11 @@ class ExpensesAndProfit(unittest.TestCase):
         # Section 4 part 1b (2026-11-19): the eight new families and LynkJobs Pass are their own stream, outside the agreed totals
         # until pilot data exists; every figure is an assumption
         got = {st: R.new_families(st) for st in R.STAGES}
-        self.assertEqual({st: (g["exchange"], g["vote"], g["hr"], g["project"], g["school"], g["property"], g["files"], g["jobs"], g["jobs_pass"], g["month"])
+        self.assertEqual({st: (g["exchange"], g["vote"], g["hr"], g["project"], g["school"], g["property"], g["files"], g["jobs"], g["academy"], g["jobs_pass"], g["month"])
                           for st, g in got.items()},
-                         {"stage1": (840, 137, 314, 209, 152, 169, 171, 207, 14, 2213),
-                          "stage2": (48024, 7828, 17952, 11946, 8714, 9644, 9746, 11827, 789, 126470),
-                          "stage3": (1467400, 239184, 548537, 365002, 266255, 294690, 297792, 361383, 24118, 3864361)})
+                         {"stage1": (840, 137, 314, 209, 163, 169, 171, 207, 253, 14, 2476),           # LynkSchool at $55 and $139, LynkAcademy added (part 1d)
+                          "stage2": (48024, 7828, 17952, 11946, 9289, 9644, 9746, 11827, 14454, 789, 141499),
+                          "stage3": (1467400, 239184, 548537, 365002, 283833, 294690, 297792, 361383, 441650, 24118, 4323589)})
         self.assertTrue(all(g["assumption"] for g in got.values()))
         self.assertNotIn("new_families", R.ECO_ROWS)
 

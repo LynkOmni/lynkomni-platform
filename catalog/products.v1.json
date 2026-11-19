@@ -382,6 +382,19 @@
    }
   },
   {
+   "family": "lynkacademy",
+   "page": "/academy",
+   "app": "app.lynkomni.com/business/academy",
+   "menu": "People and service",
+   "illustration": "product-academy",
+   "footer_id": "academy",
+   "sides": {
+    "internal": "app.lynkomni.com/business/academy",
+    "external": "app.lynkomni.com/external/business/academy",
+    "external_section": 7
+   }
+  },
+  {
    "family": "lynkproperty",
    "page": "/property",
    "app": "app.lynkomni.com/property",

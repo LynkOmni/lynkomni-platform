@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ur",
  "native": "اردو",
- "source_sha256": "da99cae367157f466030407251ed0b9b1113d568928e8c37afe4577b81cd36b1",
+ "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
  "texts": {
   "ft_about": "ہمارے بارے میں",
   "ft_accessibility": "رسائی",
@@ -49,6 +49,7 @@
   "ft_partners": "شراکت دار پروگرام",
   "ft_payments": "ادائیگی کے طریقے",
   "ft_people": "لوگ اور خدمت",
+  "ft_plain_academy": "کورسز اور تربیت",
   "ft_plain_acc": "اکاؤنٹنگ",
   "ft_plain_ai": "AI معاون",
   "ft_plain_api": "پروگرامنگ انٹرفیس",

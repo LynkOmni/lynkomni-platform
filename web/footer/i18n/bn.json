@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "da99cae367157f466030407251ed0b9b1113d568928e8c37afe4577b81cd36b1",
+ "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
  "texts": {
   "ft_about": "আমাদের সম্পর্কে",
   "ft_accessibility": "প্রবেশযোগ্যতা",
@@ -49,6 +49,7 @@
   "ft_partners": "অংশীদার প্রোগ্রাম",
   "ft_payments": "পেমেন্টের উপায়",
   "ft_people": "মানুষ ও সেবা",
+  "ft_plain_academy": "কোর্স ও প্রশিক্ষণ",
   "ft_plain_acc": "হিসাব",
   "ft_plain_ai": "AI সহকারী",
   "ft_plain_api": "প্রোগ্রামিং ইন্টারফেস",

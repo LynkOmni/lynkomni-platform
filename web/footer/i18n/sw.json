@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "da99cae367157f466030407251ed0b9b1113d568928e8c37afe4577b81cd36b1",
+ "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
  "texts": {
   "ft_about": "Kuhusu sisi",
   "ft_accessibility": "Ufikiaji",
@@ -49,6 +49,7 @@
   "ft_partners": "Mpango wa washirika",
   "ft_payments": "Njia za malipo",
   "ft_people": "Watu na huduma",
+  "ft_plain_academy": "Kozi na mafunzo",
   "ft_plain_acc": "Uhasibu",
   "ft_plain_ai": "Msaidizi wa AI",
   "ft_plain_api": "Kiolesura cha programu",

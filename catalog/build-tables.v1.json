@@ -1202,6 +1202,95 @@
    ]
   },
   {
+   "id": "78.16",
+   "update": "ACADEMY UPDATE",
+   "blueprint_section": 78,
+   "rows": [
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "The lynkacademy family, prices, limits and registers; the large-organisation set; the \"includes\" rule (78.17: each LynkSchool tier includes the same LynkAcademy tier) and the new LynkSchool prices and limits (78.18, a new price-lock version)",
+     "done": {},
+     "progress": {
+      "4": [
+       "v0.53.0: the lynkacademy billing family with its tiers, limits and extras, the price lock, the product catalog, placements, footer (38 languages), API register entry, product illustration and revenue stream; the LynkSchool price rise to $55 and $139 with its new tier features; the rule that each LynkSchool tier includes the same LynkAcademy tier"
+      ]
+     }
+    },
+    {
+     "sections": [
+      "4B"
+     ],
+     "part": "Joining training and skills records with LynkHR; LynkAssist's training suggestions for new staff, for the manager to confirm (78.19)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "LynkAcademy pages and pricing",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "LynkOmni's own lessons and \"Learn this screen\"",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "The course builder, the marketplace, the learner side, exams and certificates, the private academy; LynkAssist's course and learner skills (78.19)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "8"
+     ],
+     "part": "Tutoring and in-person sessions with LynkBooking",
+     "done": {}
+    },
+    {
+     "sections": [
+      "8B"
+     ],
+     "part": "The jobs link with LynkJobs",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9B"
+     ],
+     "part": "LynkSchool and LynkAcademy together (78.17) and everything else of 78.18 (curriculum library, catch-up, cover lessons, paper homework, voice lessons, weights, question bank, exam tools, entrance tests, \"Learn from home\", learning plans, head's reports, groups of schools)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "The LynkAcademy API",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "Classroom mode on LynkDScreen and learning stations on LynkKiosk",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Everything in the app on every device; final partner checks",
+     "done": {}
+    }
+   ]
+  },
+  {
    "id": "79.10",
    "update": "ADS UPDATE",
    "blueprint_section": 79,
@@ -1299,6 +1388,69 @@
       "14"
      ],
      "part": "Legal sign-off per country, the outside verification partner, the human security review of ad money, and the native apps' ad places",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "80.15",
+   "update": "SCHOOL UPDATE",
+   "blueprint_section": 80,
+   "rows": [
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "Limits and registers for section 80",
+     "done": {}
+    },
+    {
+     "sections": [
+      "4B"
+     ],
+     "part": "Lesson observations, appraisal and licence reminders with LynkHR",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7B"
+     ],
+     "part": "Bus routes and attendance on the bus",
+     "done": {}
+    },
+    {
+     "sections": [
+      "8"
+     ],
+     "part": "Counselling, room, lab and facility booking with LynkBooking",
+     "done": {}
+    },
+    {
+     "sections": [
+      "8B"
+     ],
+     "part": "Work placements with LynkJobs",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9B"
+     ],
+     "part": "Everything else in section 80, with LynkSchool; all LynkSchool LynkAssist skills (80.16)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "LynkKiosk at the gate and library; LynkDScreen notice board",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Everything in the app on every device; final partner checks",
      "done": {}
     }
    ]

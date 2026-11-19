@@ -457,6 +457,7 @@ NEW_FAMILY_ASSUMPTIONS = {
         "lynkhr": (Decimal("2"), Decimal("0.8"), Decimal("0.15")), "lynkproject": (Decimal("2.5"), Decimal("1"), Decimal("0.2")),
         "lynkschool": (Decimal("0.5"), Decimal("0.2"), Decimal("0.05")), "lynkproperty": (Decimal("1"), Decimal("0.4"), Decimal("0.1")),
         "lynkfiles": (Decimal("3"), Decimal("1"), Decimal("0.2")), "lynkjobs": (Decimal("1"), Decimal("0.3"), Decimal("0.05")),
+        "lynkacademy": (Decimal("1"), Decimal("0.3"), Decimal("0.05")),   # organisations that are not schools (a school gets it with LynkSchool)
     },
     "exchange_volume_usd": (5_000, 25_000, 150_000),                    # a Plus / Pro / Max business's own exchanges a month
     "six_bundle_share": Decimal("0.3"),                                 # share of the six held with another of them or LynkAttend (20% off)

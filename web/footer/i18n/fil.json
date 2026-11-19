@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "da99cae367157f466030407251ed0b9b1113d568928e8c37afe4577b81cd36b1",
+ "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
  "texts": {
   "ft_about": "Tungkol sa amin",
   "ft_accessibility": "Accessibility",
@@ -49,6 +49,7 @@
   "ft_partners": "Partner program",
   "ft_payments": "Mga paraan ng pagbabayad",
   "ft_people": "Mga tao at serbisyo",
+  "ft_plain_academy": "Mga kurso at pagsasanay",
   "ft_plain_acc": "Accounting",
   "ft_plain_ai": "AI na katulong",
   "ft_plain_api": "Interface sa programming",

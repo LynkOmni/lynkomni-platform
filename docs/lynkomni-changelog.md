@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.53.0 (2026-11-19)
+Section 4, part 1d (the ACADEMY UPDATE and SCHOOL UPDATE groundwork):
+- New billing family LynkAcademy, outside LynkSuite, one price per organisation: $0, $19, $49, $129 a month, with 10, 50, 250 and 1,000 learners who opened a lesson that month, $5 per extra 100 on paid tiers, 3 own courses on Free (unlimited from Plus), and the tier features of blueprint 78.12. Learners never pay to join.
+- LynkSchool Pro is now $55 (was $49) and Max $139 (was $129), agreed by the owner; Free and Plus are unchanged. Its tiers carry the new features of 78.18.
+- Each LynkSchool tier includes the same LynkAcademy tier for the school's own learners and staff, never billed twice (78.17).
+- LynkAcademy is a product in the catalog, its placements, the footer's "Work & records" column ("Courses & training" in 38 languages), the API register (built in section 11) and has its own picture.
+- The revenue model: LynkAcademy joins the new families' stream (an assumption, outside the agreed totals), and LynkSchool's figures follow its new prices: about $2,476, $141,499 and $4,323,589 a month at the three stages.
+- The build tables register now has the ACADEMY UPDATE (78.16) and SCHOOL UPDATE (80.15) tables, which their headings ("Build table") had kept out of the first count.
+
 ## v0.52.3 (2026-11-19)
 Faster start-up on every screen, and a steadier speed check (owner: "Do it"):
 - Every emulator now turns its packed data into bytes with a plain loop, about ten times faster than before. LynkPOS opens in about 1.1 to 1.3 s on the four-times-slower test phone (was 1.5 to 2.2 s, over its 1.5 s limit on the test machine), the Business app in about 1.4 s (was about 2 s), the others faster too.

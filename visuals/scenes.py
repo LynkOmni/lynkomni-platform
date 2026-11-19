@@ -266,6 +266,16 @@ def _school(p):
     return wrap(p, b, 1)
 
 
+@scene("academy")
+def _academy(p):
+    """LynkAcademy: a lesson on a screen with a play mark and a progress bar, and a certificate with a ribbon seal beside it."""
+    b = (rr(70, 64, 140, 96, 8, p.surface) + rr(80, 74, 120, 64, 4, p.accent_soft, stroke_width=1.5) + path("M132 92l22 14-22 14z", p.accent, stroke="none") +
+         rr(80, 146, 120, 6, 3, p.ground, stroke_width=1) + rr(80, 146, 74, 6, 3, p.accent, stroke="none") + path("M118 160l-8 26h60l-8-26", p.surface) +
+         rr(208, 96, 76, 96, 6, p.surface) + path("M220 116h52M220 130h52M220 144h34", stroke=p.ink2, stroke_width=2) +
+         path("M256 170l-8 26 10-6 10 6-8-26", p.accent_soft) + circ(258, 168, 13, p.accent) + check(258, 170, 10, p.on_accent))
+    return wrap(p, b, 1)
+
+
 @scene("property")
 def _property(p):
     """LynkProperty: a house with a door and windows, a key beside it and a small meter dial for readings."""

@@ -435,8 +435,7 @@
   },
   {
    "id": "lynkacademy",
-   "kind": "item",
-   "what": "LynkAcademy (workspace lessons and Storefront courses)",
+   "kind": "product",
    "places": [
     "app_nav",
     "footer",

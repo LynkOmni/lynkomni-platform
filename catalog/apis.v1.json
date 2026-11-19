@@ -598,6 +598,22 @@
    "own_account": true
   },
   {
+   "id": "academy",
+   "family": "lynkacademy",
+   "name": "LynkAcademy API",
+   "can": "Courses, learners an organisation enrols, progress and results, certificates with their check link, webhooks when a course is finished; a school's classes come from LynkSchool",
+   "usage": "plan_limits",
+   "build_section": 11,
+   "scopes": [
+    "courses.read",
+    "courses.write",
+    "learners.read",
+    "results.read",
+    "webhooks"
+   ],
+   "own_account": true
+  },
+  {
    "id": "property",
    "family": "lynkproperty",
    "name": "LynkProperty API",

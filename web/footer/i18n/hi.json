@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "da99cae367157f466030407251ed0b9b1113d568928e8c37afe4577b81cd36b1",
+ "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
  "texts": {
   "ft_about": "हमारे बारे में",
   "ft_accessibility": "सुलभता",
@@ -49,6 +49,7 @@
   "ft_partners": "साझेदार कार्यक्रम",
   "ft_payments": "भुगतान के तरीके",
   "ft_people": "लोग और सेवा",
+  "ft_plain_academy": "पाठ्यक्रम और प्रशिक्षण",
   "ft_plain_acc": "लेखा",
   "ft_plain_ai": "AI सहायक",
   "ft_plain_api": "प्रोग्रामिंग इंटरफ़ेस",
