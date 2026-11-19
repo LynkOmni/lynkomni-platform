@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "da99cae367157f466030407251ed0b9b1113d568928e8c37afe4577b81cd36b1",
+ "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
  "texts": {
   "ft_about": "Game da mu",
   "ft_accessibility": "Samun dama",
@@ -49,6 +49,7 @@
   "ft_partners": "Shirin abokan hulɗa",
   "ft_payments": "Hanyoyin biya",
   "ft_people": "Mutane da hidima",
+  "ft_plain_academy": "Darussa da horo",
   "ft_plain_acc": "Lissafi",
   "ft_plain_ai": "Mataimakin AI",
   "ft_plain_api": "Hanyar haɗa manhaja",

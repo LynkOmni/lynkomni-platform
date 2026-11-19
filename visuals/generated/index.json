@@ -1282,26 +1282,26 @@
     {
      "theme": "light",
      "file": "charts/chart-pricing-ladder.light.svg",
-     "sha256": "f73317d45d4755a06b90f171f236a68d996e0a1db1f9a0d18d06abb47e7dd39f",
-     "bytes": 36769
+     "sha256": "96c29670f46bb839b9e0f069b9e44be629db29bde5bf4d2367265bacfa8e4e55",
+     "bytes": 37890
     },
     {
      "theme": "dark",
      "file": "charts/chart-pricing-ladder.dark.svg",
-     "sha256": "7654623f0c547bc89ac17f369dcb130817600b5f9de00ee7509ab78b4c507faa",
-     "bytes": 36769
+     "sha256": "c29f5116921534495a50d2463d4c987be9331f481e96f522b7b652ef11a91519",
+     "bytes": 37890
     },
     {
      "theme": "contrast-light",
      "file": "charts/chart-pricing-ladder.contrast-light.svg",
-     "sha256": "6cf8b508e0a04a93bb4c70d04dd3b476fb808322e3622d7edb2032216ab0fdf7",
-     "bytes": 36769
+     "sha256": "fde01f524eb31c4f0a1710574320b5e1dc3d733d025a0bc1926dbf3a58782f89",
+     "bytes": 37890
     },
     {
      "theme": "contrast-dark",
      "file": "charts/chart-pricing-ladder.contrast-dark.svg",
-     "sha256": "285896977b5a8ec50fd3045336c508d3535af460e556da271f17c797390a3758",
-     "bytes": 36769
+     "sha256": "1de422e7f01c95f4fe3110c6ca7a549029738c3b67d9ce339fc3f9d41ffd1ef5",
+     "bytes": 37890
     }
    ]
   },
@@ -2469,6 +2469,43 @@
      "file": "illustrations/product-school.contrast-dark.svg",
      "sha256": "20752ce6539a0eeef3c48667aef2f55c53ab240052106b1b290bc9b03d4d866f",
      "bytes": 1769
+    }
+   ]
+  },
+  "product-academy": {
+   "kind": "illustration",
+   "alt": "A lesson on a screen with a play mark and a progress bar, beside a certificate with a ribbon seal",
+   "purpose": "Empty state, feature header and onboarding for LynkAcademy",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-academy.light.svg",
+     "sha256": "34f47114784a469e731f87edb60b277625e87f91538df1788ca78a98ff981fe7",
+     "bytes": 1563
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-academy.dark.svg",
+     "sha256": "6364e65482cfbac8ace5b76f400cb9893f48e5d26f0642c070a1e14d8d69ee6e",
+     "bytes": 1563
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-academy.contrast-light.svg",
+     "sha256": "d20a5f2104ef0f482b4a3d92657cd2d46859431fcf327339088ae9f4e291759f",
+     "bytes": 1563
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-academy.contrast-dark.svg",
+     "sha256": "620d421b8c9607f015451f5f55f656efc8db2e1a8dc97caebe6ce845445dada3",
+     "bytes": 1563
     }
    ]
   },

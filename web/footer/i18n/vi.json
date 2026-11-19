@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "da99cae367157f466030407251ed0b9b1113d568928e8c37afe4577b81cd36b1",
+ "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
  "texts": {
   "ft_about": "Về chúng tôi",
   "ft_accessibility": "Khả năng tiếp cận",
@@ -49,6 +49,7 @@
   "ft_partners": "Chương trình đối tác",
   "ft_payments": "Phương thức thanh toán",
   "ft_people": "Con người và dịch vụ",
+  "ft_plain_academy": "Khóa học & đào tạo",
   "ft_plain_acc": "Kế toán",
   "ft_plain_ai": "Trợ lý AI",
   "ft_plain_api": "Giao diện lập trình",

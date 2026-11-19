@@ -40,7 +40,8 @@ FAMILIES = {
  "lynkvote":     ("LynkOmni Voting", "LynkVote", MT, (0, 9, 29, 99), "people", False),              # VOTE UPDATE (blueprint 68.11)
  "lynkhr":       ("LynkOmni People and HR", "LynkHR", MT, (0, 9, 29, 79), "office", False),        # SIX SERVICES UPDATE (blueprint 69.11)
  "lynkproject":  ("LynkOmni Projects", "LynkProject", MT, (0, 5, 15, 39), "office", False),
- "lynkschool":   ("LynkOmni School", "LynkSchool", MT, (0, 19, 49, 129), "office", False),
+ "lynkschool":   ("LynkOmni School", "LynkSchool", MT, (0, 19, 55, 139), "office", False),   # Pro and Max topped up 2026-11-19 (blueprint 78.18)
+ "lynkacademy":  ("LynkOmni Academy", "LynkAcademy", MT, (0, 19, 49, 129), "office", False),   # blueprint 78.12; per organisation, active learners only
  "lynkproperty": ("LynkOmni Property", "LynkProperty", MT, (0, 9, 29, 79), "office", False),
  "lynkfiles":     ("LynkOmni Files", "LynkFiles", MT, (0, 4, 11, 29), "office", False),
  "lynkjobs":     ("LynkOmni Jobs", "LynkJobs", MT, (0, 15, 45, 129), "office", False),            # employers; seekers' LynkJobs Pass: JOBS_PASS_PRICES
@@ -51,8 +52,11 @@ BUNDLE_KINDS = ("bundle", "suite")
 OPS_MEMBERS = ["lynkacc", "lynkinv", "lynkcrm", "lynkstat"]          # the four services inside LynkOps (LynkStat joined 2026-11-08)
 SUITE_MEMBERS = [k for k, v in FAMILIES.items() if v[5] and v[4] not in BUNDLE_KINDS]   # the nine products inside LynkSuite
 BUNDLES = {"lynkops": OPS_MEMBERS, "lynksuite": SUITE_MEMBERS + ["lynkops"]}             # LynkSuite also replaces LynkOps
-# A tier of one product that includes a tier of another (never billed twice): LynkPOS Pro and Max include LynkRewards Plus and Pro.
-INCLUDES = {("lynkpos", "pro"): {"lynkrewards": "plus"}, ("lynkpos", "max"): {"lynkrewards": "pro"}}
+# A tier of one product that includes a tier of another (never billed twice): LynkPOS Pro and Max include LynkRewards Plus and Pro;
+# each LynkSchool tier includes the same LynkAcademy tier for that school's own enrolled learners and staff (blueprint 78.17).
+INCLUDES = {("lynkpos", "pro"): {"lynkrewards": "plus"}, ("lynkpos", "max"): {"lynkrewards": "pro"},
+            ("lynkschool", "plus"): {"lynkacademy": "plus"}, ("lynkschool", "pro"): {"lynkacademy": "pro"},
+            ("lynkschool", "max"): {"lynkacademy": "max"}}
 
 
 def bundle_price(bundle, tier):
@@ -196,8 +200,18 @@ FEATURES = {
             dict(staff_included=250), dict(staff_included=1000)],
  "lynkproject": [dict(members_included=5, extra_50_members_cents=None), dict(members_included=25, extra_50_members_cents=300),
                  dict(members_included=100), dict(members_included=500)],
- "lynkschool": [dict(learners_included=100, extra_500_learners_cents=None), dict(learners_included=500, extra_500_learners_cents=500),
-                dict(learners_included=2500), dict(learners_included=10000)],
+ "lynkschool": [dict(learners_included=100, extra_500_learners_cents=None, classes_and_homework=True, joined_marks=False, curriculum_library=False,
+                     voice_lessons=False, exam_tools=False, entrance_tests=False, head_reports=False, groups_of_schools=False, api=False),
+                dict(learners_included=500, extra_500_learners_cents=500, joined_marks=True, curriculum_library=True, voice_lessons=True),
+                dict(learners_included=2500, exam_tools=True, entrance_tests=True, head_reports=True, api="read"),
+                dict(learners_included=10000, groups_of_schools=True, api="full")],          # blueprint 78.18; LynkAcademy comes with it (INCLUDES)
+ "lynkacademy": [dict(learners_included=10, extra_100_learners_cents=None, own_courses=3, assigned_training=False, learning_paths=False,
+                      storefront_seats=False, supervised_exams=False, org_tree=None, skills_records=False, company_login=False, api=False,
+                      learners_never_pay=True),
+                 dict(learners_included=50, extra_100_learners_cents=500, own_courses=None, assigned_training=True, learning_paths=True,
+                      storefront_seats=True),
+                 dict(learners_included=250, supervised_exams=True, org_tree="branches", skills_records=True, api="read"),
+                 dict(learners_included=1000, org_tree="full", company_login=True, api="full")],   # blueprint 78.12; counts learners who opened a lesson that month
  "lynkproperty": [dict(units_included=5, extra_100_units_cents=None), dict(units_included=50, extra_100_units_cents=500),
                   dict(units_included=250), dict(units_included=1000)],
  "lynkfiles": [dict(storage_gb=5, signature_requests=5, extra_100_gb_cents=None), dict(storage_gb=100, signature_requests=50, extra_100_gb_cents=200),

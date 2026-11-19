@@ -1607,6 +1607,26 @@
    "budget_kb": 12
   },
   {
+   "id": "product-academy",
+   "kind": "illustration",
+   "scene": "academy",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A lesson on a screen with a play mark and a progress bar, beside a certificate with a ribbon seal",
+   "purpose": "Empty state, feature header and onboarding for LynkAcademy",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
    "id": "product-property",
    "kind": "illustration",
    "scene": "property",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "da99cae367157f466030407251ed0b9b1113d568928e8c37afe4577b81cd36b1",
+ "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
  "texts": {
   "ft_about": "Nípa wa",
   "ft_accessibility": "Ìráyèsí",
@@ -49,6 +49,7 @@
   "ft_partners": "Ètò alábàáṣiṣẹ́pọ̀",
   "ft_payments": "Àwọn ọ̀nà ìsanwó",
   "ft_people": "Àwọn ènìyàn àti iṣẹ́",
+  "ft_plain_academy": "Àwọn ẹ̀kọ́ àti ìdánilẹ́kọ̀ọ́",
   "ft_plain_acc": "Ìṣirò owó",
   "ft_plain_ai": "Olùrànlọ́wọ́ AI",
   "ft_plain_api": "Ọ̀nà ìsopọ̀ ètò",

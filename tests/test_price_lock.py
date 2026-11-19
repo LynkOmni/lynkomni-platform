@@ -17,7 +17,10 @@ LOCKED_PRICES = {
     "lynkattend": (0, 49.5, 95, 179), "lynkqueue": (0, 55, 115, 249), "lynksurvey": (0, 59, 155, 249),   # NEW UPDATE 4, 2026-11-11
     # Section 4 part 1b, 2026-11-19 (owner approved 2026-11-18; blueprint 65.6, 68.11 and 69.11)
     "lynkexchange": (0, 9, 29, 79), "lynkvote": (0, 9, 29, 99), "lynkhr": (0, 9, 29, 79), "lynkproject": (0, 5, 15, 39),
-    "lynkschool": (0, 19, 49, 129), "lynkproperty": (0, 9, 29, 79), "lynkfiles": (0, 4, 11, 29), "lynkjobs": (0, 15, 45, 129),
+    "lynkschool": (0, 19, 55, 139), "lynkproperty": (0, 9, 29, 79), "lynkfiles": (0, 4, 11, 29), "lynkjobs": (0, 15, 45, 129),
+    # Section 4 part 1d, 2026-11-19 (owner "Price rise agreed", blueprint 78.12 and 78.18): LynkSchool Pro $55 (was $49) and Max $139
+    # (was $129); the new LynkAcademy family
+    "lynkacademy": (0, 19, 49, 129),
 }
 # Section 4 part 1b (owner approved 2026-11-18): what each tier includes, every extra, the levels, the fees and the bundles.
 LOCKED_NEW_FAMILIES = {
@@ -35,6 +38,9 @@ LOCKED_NEW_FAMILIES = {
     "jobs_pass": (("free", "plus", "pro", "max"), (0, 1.99, 3.99, 7.99)), "jobs_featured_week_cents": 500, "jobs_freelance_bps": 500,
     "six_bundle_bps": 2000,
     "verified_school_free": {"lynkschool": ("plus", {"learners_included": 500}), "lynkvote": ("plus", {"voters_per_vote": 1000})},
+    # Section 4 part 1d (blueprint 78.12, 78.17): LynkAcademy's units and extras, and the LynkAcademy tier each LynkSchool tier includes
+    "academy_learners": (10, 50, 250, 1000), "academy_extra_100_cents": (None, 500, 500, 500), "academy_own_courses": (3, None, None, None),
+    "school_includes_academy": {"plus": "plus", "pro": "pro", "max": "max"},
 }
 # NEW UPDATE 4 (owner locked 2026-11-11, blueprint 63.5): what each paid tier includes, the price of each extra, and the bundle discount.
 LOCKED_PEOPLE = {"attend_people": (15, 50, 50, 50), "attend_extra_person_cents": (None, 150, 250, 400),
@@ -159,9 +165,12 @@ class TestPriceLock(unittest.TestCase):
             "jobs_pass": (b.JOBS_PASS_TIERS, b.JOBS_PASS_PRICES), "jobs_featured_week_cents": b.JOBS_FEATURED_FROM_CENTS_PER_WEEK,
             "jobs_freelance_bps": b.JOBS_FREELANCE_SHARE_BPS, "six_bundle_bps": b.SIX_BUNDLE_DISCOUNT_BPS,
             "verified_school_free": b.VERIFIED_SCHOOL_FREE,
+            "academy_learners": col("lynkacademy", "learners_included"), "academy_extra_100_cents": col("lynkacademy", "extra_100_learners_cents"),
+            "academy_own_courses": col("lynkacademy", "own_courses"),
+            "school_includes_academy": {t: g["lynkacademy"] for (f, t), g in b.INCLUDES.items() if f == "lynkschool"},
         }
         self.assertEqual(got, LOCKED_NEW_FAMILIES)
-        for f in ("lynkexchange", "lynkvote") + b.SIX_FAMILIES: self.assertNotIn(f, b.SUITE_MEMBERS)     # all outside LynkSuite
+        for f in ("lynkexchange", "lynkvote", "lynkacademy") + b.SIX_FAMILIES: self.assertNotIn(f, b.SUITE_MEMBERS)     # all outside LynkSuite
         self.assertEqual(b.exchange_part_bps("plus", 500_000), 40); self.assertEqual(b.exchange_part_bps("free", 20_000_000), 20)   # the lower of tier and level
         self.assertEqual(b.vote_contest_share_cents(1000), 10)                                    # 5%, capped at $0.10 a vote
         self.assertEqual(b.six_bundle_discount_cents({"lynkhr": "plus", "lynkfiles": "pro"}), 180 + 220)

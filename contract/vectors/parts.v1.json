@@ -11848,7 +11848,7 @@
     "id": "price-lynkschool",
     "topic": "price",
     "q": "How much is LynkSchool?",
-    "a": "LynkSchool plans a month: Free $0, Plus $19, Pro $49, Max $129.",
+    "a": "LynkSchool plans a month: Free $0, Plus $19, Pro $55, Max $139.",
     "source": "services/billing.py"
    },
    {
@@ -11856,6 +11856,20 @@
     "topic": "how_to",
     "q": "Where is LynkSchool?",
     "a": "LynkSchool is described at lynkomni.com/school.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkacademy",
+    "topic": "price",
+    "q": "How much is LynkAcademy?",
+    "a": "LynkAcademy plans a month: Free $0, Plus $19, Pro $49, Max $129.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkacademy",
+    "topic": "how_to",
+    "q": "Where is LynkAcademy?",
+    "a": "LynkAcademy is described at lynkomni.com/academy.",
     "source": "catalog/products.v1.json"
    },
    {
@@ -12333,7 +12347,7 @@
     "id": "price-lynkschool",
     "topic": "price",
     "q": "كم سعر LynkSchool؟",
-    "a": "خطط LynkSchool شهريًا: Free $0, Plus $19, Pro $49, Max $129.",
+    "a": "خطط LynkSchool شهريًا: Free $0, Plus $19, Pro $55, Max $139.",
     "source": "services/billing.py"
    },
    {
@@ -12341,6 +12355,20 @@
     "topic": "how_to",
     "q": "أين أجد LynkSchool؟",
     "a": "يُوصف LynkSchool في lynkomni.com/school.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkacademy",
+    "topic": "price",
+    "q": "كم سعر LynkAcademy؟",
+    "a": "خطط LynkAcademy شهريًا: Free $0, Plus $19, Pro $49, Max $129.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkacademy",
+    "topic": "how_to",
+    "q": "أين أجد LynkAcademy؟",
+    "a": "يُوصف LynkAcademy في lynkomni.com/academy.",
     "source": "catalog/products.v1.json"
    },
    {
@@ -12818,7 +12846,7 @@
     "id": "price-lynkschool",
     "topic": "price",
     "q": "LynkSchoolの料金はいくらですか？",
-    "a": "LynkSchoolの月額プラン：Free $0, Plus $19, Pro $49, Max $129。",
+    "a": "LynkSchoolの月額プラン：Free $0, Plus $19, Pro $55, Max $139。",
     "source": "services/billing.py"
    },
    {
@@ -12826,6 +12854,20 @@
     "topic": "how_to",
     "q": "LynkSchoolはどこにありますか？",
     "a": "LynkSchoolの説明はlynkomni.com/schoolにあります。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkacademy",
+    "topic": "price",
+    "q": "LynkAcademyの料金はいくらですか？",
+    "a": "LynkAcademyの月額プラン：Free $0, Plus $19, Pro $49, Max $129。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkacademy",
+    "topic": "how_to",
+    "q": "LynkAcademyはどこにありますか？",
+    "a": "LynkAcademyの説明はlynkomni.com/academyにあります。",
     "source": "catalog/products.v1.json"
    },
    {
@@ -13303,7 +13345,7 @@
     "id": "price-lynkschool",
     "topic": "price",
     "q": "Combien coûte LynkSchool ?",
-    "a": "Formules LynkSchool par mois : Free $0, Plus $19, Pro $49, Max $129.",
+    "a": "Formules LynkSchool par mois : Free $0, Plus $19, Pro $55, Max $139.",
     "source": "services/billing.py"
    },
    {
@@ -13311,6 +13353,20 @@
     "topic": "how_to",
     "q": "Où trouver LynkSchool ?",
     "a": "LynkSchool est présenté sur lynkomni.com/school.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkacademy",
+    "topic": "price",
+    "q": "Combien coûte LynkAcademy ?",
+    "a": "Formules LynkAcademy par mois : Free $0, Plus $19, Pro $49, Max $129.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkacademy",
+    "topic": "how_to",
+    "q": "Où trouver LynkAcademy ?",
+    "a": "LynkAcademy est présenté sur lynkomni.com/academy.",
     "source": "catalog/products.v1.json"
    },
    {
@@ -13788,7 +13844,7 @@
     "id": "price-lynkschool",
     "topic": "price",
     "q": "LynkSchool inagharimu kiasi gani?",
-    "a": "Mipango ya LynkSchool kwa mwezi: Free $0, Plus $19, Pro $49, Max $129.",
+    "a": "Mipango ya LynkSchool kwa mwezi: Free $0, Plus $19, Pro $55, Max $139.",
     "source": "services/billing.py"
    },
    {
@@ -13796,6 +13852,20 @@
     "topic": "how_to",
     "q": "LynkSchool iko wapi?",
     "a": "LynkSchool imeelezwa kwenye lynkomni.com/school.",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkacademy",
+    "topic": "price",
+    "q": "LynkAcademy inagharimu kiasi gani?",
+    "a": "Mipango ya LynkAcademy kwa mwezi: Free $0, Plus $19, Pro $49, Max $129.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkacademy",
+    "topic": "how_to",
+    "q": "LynkAcademy iko wapi?",
+    "a": "LynkAcademy imeelezwa kwenye lynkomni.com/academy.",
     "source": "catalog/products.v1.json"
    },
    {
@@ -14273,7 +14343,7 @@
     "id": "price-lynkschool",
     "topic": "price",
     "q": "LynkSchool多少钱？",
-    "a": "LynkSchool的月度方案：Free $0, Plus $19, Pro $49, Max $129。",
+    "a": "LynkSchool的月度方案：Free $0, Plus $19, Pro $55, Max $139。",
     "source": "services/billing.py"
    },
    {
@@ -14281,6 +14351,20 @@
     "topic": "how_to",
     "q": "LynkSchool在哪里？",
     "a": "LynkSchool的介绍在lynkomni.com/school。",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkacademy",
+    "topic": "price",
+    "q": "LynkAcademy多少钱？",
+    "a": "LynkAcademy的月度方案：Free $0, Plus $19, Pro $49, Max $129。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkacademy",
+    "topic": "how_to",
+    "q": "LynkAcademy在哪里？",
+    "a": "LynkAcademy的介绍在lynkomni.com/academy。",
     "source": "catalog/products.v1.json"
    },
    {
@@ -14758,7 +14842,7 @@
     "id": "price-lynkschool",
     "topic": "price",
     "q": "LynkSchool कितने का है?",
-    "a": "LynkSchool के मासिक प्लान: Free $0, Plus $19, Pro $49, Max $129।",
+    "a": "LynkSchool के मासिक प्लान: Free $0, Plus $19, Pro $55, Max $139।",
     "source": "services/billing.py"
    },
    {
@@ -14766,6 +14850,20 @@
     "topic": "how_to",
     "q": "LynkSchool कहाँ है?",
     "a": "LynkSchool का विवरण lynkomni.com/school पर है।",
+    "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "price-lynkacademy",
+    "topic": "price",
+    "q": "LynkAcademy कितने का है?",
+    "a": "LynkAcademy के मासिक प्लान: Free $0, Plus $19, Pro $49, Max $129।",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkacademy",
+    "topic": "how_to",
+    "q": "LynkAcademy कहाँ है?",
+    "a": "LynkAcademy का विवरण lynkomni.com/academy पर है।",
     "source": "catalog/products.v1.json"
    },
    {

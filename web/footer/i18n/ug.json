@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ug",
  "native": "ئۇيغۇرچە",
- "source_sha256": "da99cae367157f466030407251ed0b9b1113d568928e8c37afe4577b81cd36b1",
+ "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
  "texts": {
   "ft_about": "بىز ھەققىدە",
   "ft_accessibility": "قولايلىق",
@@ -49,6 +49,7 @@
   "ft_partners": "ھەمكارلار پروگراممىسى",
   "ft_payments": "تۆلەم ئۇسۇللىرى",
   "ft_people": "كىشىلەر ۋە مۇلازىمەت",
+  "ft_plain_academy": "دەرسلەر ۋە تەربىيىلەش",
   "ft_plain_acc": "بوغالتىرىيە",
   "ft_plain_ai": "AI ياردەمچى",
   "ft_plain_api": "پروگرامما ئارايۈزى",

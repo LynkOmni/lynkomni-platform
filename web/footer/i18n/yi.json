@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yi",
  "native": "ייִדיש",
- "source_sha256": "da99cae367157f466030407251ed0b9b1113d568928e8c37afe4577b81cd36b1",
+ "source_sha256": "ef8c3de92a992c6e8e83693e34faa3028a222422fa419a8fc481a9f254d523f7",
  "texts": {
   "ft_about": "וועגן אונדז",
   "ft_accessibility": "צוטריטלעכקייט",
@@ -49,6 +49,7 @@
   "ft_partners": "שותּפֿים פּראָגראַם",
   "ft_payments": "צאָלונג מעטאָדן",
   "ft_people": "מענטשן און סערוויס",
+  "ft_plain_academy": "קורסן און טריינינג",
   "ft_plain_acc": "בוכהאַלטונג",
   "ft_plain_ai": "AI געהילף",
   "ft_plain_api": "פּראָגראַמיר־אינטערפֿייס",
