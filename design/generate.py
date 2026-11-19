@@ -81,6 +81,7 @@ def ts():
     s += f"  fonts: {json.dumps({k: v for k, v in SRC['fonts'].items()})},\n"
     for t in ("light", "dark", "contrast-light", "contrast-dark"): s += f'  "{t}": {obj(resolved(t))},\n'
     s += f"  states: {json.dumps(SRC['states'])},\n  modes: {json.dumps(SRC['modes'])},\n"
+    s += f"  sounds: {json.dumps({k: v for k, v in SRC['sounds'].items() if k != 'note'})},\n"
     return s + "} as const;\nexport type ThemeName = \"light\" | \"dark\" | \"contrast-light\" | \"contrast-dark\";\n"
 def kotlin():
     def obj(t): return f"    val {camel(t)}: Map<String, Long> = mapOf(\n" + ",\n".join(f'        "{k}" to 0x{a:02X}{r:02X}{g:02X}{b:02X}L' for k, v in resolved(t).items() for r, g, b, a in [rgba(v)]) + "\n    )"

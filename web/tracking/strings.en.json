@@ -102,5 +102,13 @@
  "trk_k_survey_reward": "Survey reward",
  "trk_checked_in": "Checked in",
  "trk_checked_out": "Checked out",
- "trk_corrected": "Corrected"
+ "trk_corrected": "Corrected",
+ "trk_k_emulator_request": "Emulator request",
+ "trk_k_device_swap": "Device swap",
+ "trk_k_device_reapproval": "Device approval",
+ "trk_connected": "Connected",
+ "trk_denied": "Denied",
+ "trk_swap_started": "Moving",
+ "trk_swapped": "Moved",
+ "trk_approval_needed": "Needs approval"
 }

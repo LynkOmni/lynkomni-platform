@@ -12,6 +12,8 @@ import type { QuLook, QuPlan } from "../../../ts/src/queuedesk.js";
 import { SurveyDesk, svCDisplayView } from "../../../ts/src/surveydesk.js";
 import type { SvPlan } from "../../../ts/src/surveydesk.js";
 import type { AtTier } from "../../../ts/src/attenddesk.js";
+import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
+import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
 
 declare const DATA: Build & { people: { queue: Record<AtTier, QuPlan>; survey: Record<AtTier, SvPlan> } };
 const S: PanelState & { ticks: number; setting: boolean; rate?: boolean } = { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: true, lang: "en", ticks: 0, setting: false };
@@ -36,7 +38,12 @@ function desk(id: string, own: boolean): string {
   return `<div class="deskcol"><div class="cdframe"><div class="cdscreen ${S.dark ? "dark" : "light"}"${own ? ' id="screen"' : ""}>${body}</div>${own ? `<div class="mark" aria-hidden="true">${DATA.brand.body}</div>` : ""}</div><div class="cdarm" aria-hidden="true"></div>
     <div class="cdesk" aria-hidden="true"></div>${own ? '<div class="cdpad" id="pad"></div>' : ""}</div>`;
 }
-function draw(): void {
+/** The device side of the Emulator Panel (ts/src/emkit.ts, build section 3A): the connect request, the disconnected and locked screens,
+ *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
+const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "queue.counter_screen", "Counter 1 screen", { short_side: 480, keys: true, speaker: true }, "linux"), (type, payload, origin) => { LOG.emit(type, payload, origin); });
+const KW = wireKit(KIT, { t, icon: (id, cls) => icon(id, cls), online: () => S.online, redraw: () => draw() });
+function draw(): void { drawScreen(); KW.after($("#screen")); }
+function drawScreen(): void {
   Q.tier = S.tier as AtTier;
   const others = Q.counters.filter((c) => c.id !== mine).slice(0, 1);
   $("#desks").innerHTML = desk(mine, true) + others.map((c) => desk(c.id, false)).join("");

@@ -15,6 +15,8 @@ import { REGISTER } from "../../../ts/src/tracking.generated.js";
 import { trackerHtml } from "../../../ts/src/trackview.js";
 import { chooseInterface } from "../../../ts/src/interfaces.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
+import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
+import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
 
 declare const DATA: Build;
 interface Job { id: string; order: number; area: string; amount: number; state: DeliveryState; code: string; proof?: "code" | "photo" }
@@ -110,7 +112,12 @@ function carVoice(): string {
   const j = S.jobs.find((x) => x.state !== "delivered"); const next = j ? nextDeliveryStep(j.state) : null;
   return `<div class="carvoice" role="status"><p class="big">${icon("ui-mic")}</p><p>${esc(t("car_voice_only"))}</p>${j && next ? `<p><strong>${esc(t("car_next", { step: t(next === "picked_up" ? "picked_up" : "delivered") }))}</strong> · ${esc(t("order", { n: j.order }))}</p>` : ""}<p class="note">${esc(t("car_stop"))}</p></div>`;
 }
-function draw(): void {
+/** The device side of the Emulator Panel (ts/src/emkit.ts, build section 3A): the connect request, the disconnected and locked screens,
+ *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
+const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "pos.rider_phone", "Rider phone", { short_side: 390, touch: true, camera: true, speaker: true }, "android"), (type, payload, origin) => { LOG.emit(type, payload, origin); });
+const KW = wireKit(KIT, { t, icon: (id) => icon(id), online: () => S.online, redraw: () => draw() });
+function draw(): void { drawScreen(); KW.after($("#screen")); }
+function drawScreen(): void {
   const el = $("#screen"); if (!el) return;
   const c = rkChoice(); el.dataset["interface"] = c.interface; el.dataset["deviceClass"] = c.class; el.dataset["moving"] = RK.device === "car-screen" && RK.moving ? "yes" : "no";
   document.querySelector(".phone")?.setAttribute("data-kind", RK.device);

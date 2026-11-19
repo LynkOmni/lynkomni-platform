@@ -16,6 +16,8 @@ import { pairCode, quKioskView, quPaper } from "../../../ts/src/queuedesk.js";
 import type { QuLook, QuPlan } from "../../../ts/src/queuedesk.js";
 import { svKioskView } from "../../../ts/src/surveydesk.js";
 import type { SvLook, SvPlan } from "../../../ts/src/surveydesk.js";
+import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
+import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
 
 declare const DATA: Build & { people: { attend: Record<AtTier, AtPlan>; queue: Record<AtTier, QuPlan>; survey: Record<AtTier, SvPlan> } };
 type Mode = "home" | "door" | "tickets" | "answer";
@@ -54,7 +56,12 @@ function screen(): string {
 /** Touch or buttons only (DEVICE 48.17.14): a kiosk with physical buttons works with arrows, OK and Back alone. */
 const DM = new DeviceMode(DEVICES, "self-order-kiosk");
 const DEV = wireDevice(DM, { t, icon: (id) => icon(id), screen: () => document.getElementById("screen"), pad: () => document.getElementById("pad"), back: () => { act("go:home"); }, redraw: () => draw(), rtl: () => document.getElementById("screen")?.dir === "rtl" });
-function draw(): void {
+/** The device side of the Emulator Panel (ts/src/emkit.ts, build section 3A): the connect request, the disconnected and locked screens,
+ *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
+const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "queue.kiosk", "Entrance kiosk", { short_side: 1080, touch: true, camera: true, speaker: true, device_print: true, hardware: ["ticket_printer"] }, "android"), (type, payload, origin) => { LOG.emit(type, payload, origin); });
+const KW = wireKit(KIT, { t, icon: (id, cls) => icon(id, cls), online: () => S.online, redraw: () => draw() });
+function draw(): void { drawScreen(); KW.after($("#screen")); }
+function drawScreen(): void {
   const el = $("#screen"); DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = screen();
   const m = PH.members[1];
   $("#hint").textContent = S.mode === "door" && m ? t("ppl_door_sample", { pin: m.pin, idcn: m.idcn }) : "";

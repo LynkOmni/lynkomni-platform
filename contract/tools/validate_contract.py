@@ -27,11 +27,12 @@ REGISTRY_V2 = load("event-payloads.v2.json")          # published, never edited;
 REGISTRY_V3 = load("event-payloads.v3.json")          # published, never edited; still readable through the upcaster
 REGISTRY_V4 = load("event-payloads.v4.json")          # published, never edited; still readable through the upcaster
 REGISTRY_V5 = load("event-payloads.v5.json")          # published, never edited; still readable through the upcaster
-REGISTRY = load("event-payloads.v6.json")             # the current version (v6, 2026-11-11: v5 plus LynkAttend, LynkQueue and LynkSurvey)
-REGISTRIES = {1: REGISTRY_V1, 2: REGISTRY_V2, 3: REGISTRY_V3, 4: REGISTRY_V4, 5: REGISTRY_V5, 6: REGISTRY}
+REGISTRY_V6 = load("event-payloads.v6.json")          # published, never edited; still readable through the upcaster
+REGISTRY = load("event-payloads.v7.json")             # the current version (v7, 2026-11-19: v6 plus the Emulator Panel and "You said, we did")
+REGISTRIES = {1: REGISTRY_V1, 2: REGISTRY_V2, 3: REGISTRY_V3, 4: REGISTRY_V4, 5: REGISTRY_V5, 6: REGISTRY_V6, 7: REGISTRY}
 CURRENCIES = load("currencies.v1.json")["decimals"]
 PERMS = load("permissions.v1.json")
-REGISTER = load("command-policy-register.v6.json")
+REGISTER = load("command-policy-register.v7.json")
 STATES = load("state-machines.v1.json")
 SAMPLE_CURRENCY = load(os.path.join("country-packs", "XX.json"))["currency"]   # the neutral sample pack, never a real country
 
@@ -256,7 +257,7 @@ class Device:
         evt = {
             "event_id": uuid7(), "origin": "device", "merchant_id": MERCHANT, "branch_id": BRANCH,
             "device_id": self.id, "actor_user_id": USER, "device_seq": self.seq, "type": etype,
-            "schema_version": 6, "occurred_at_device": ts(at or self.clock), "prev_hash": self.prev,
+            "schema_version": 7, "occurred_at_device": ts(at or self.clock), "prev_hash": self.prev,
             "payload": payload, "signature": fake_sig(),
         }
         self.prev = event_hash(evt)
@@ -445,7 +446,7 @@ def contract_checks():
             if et in ev:
                 if cls == "A": check(f"register:{n}:{et} origin allows device", "device" in ev[et]["origins"])
                 else: check(f"register:{n}:{et} has an origin", bool(ev[et]["origins"]))
-                if (c.get("v1") or c.get("v2") or c.get("v4") or c.get("v5") or c.get("v6")) and "device" in ev[et]["origins"]: emitted_device.add(et)
+                if (c.get("v1") or c.get("v2") or c.get("v4") or c.get("v5") or c.get("v6") or c.get("v7")) and "device" in ev[et]["origins"]: emitted_device.add(et)
         pid = c["permission"]
         if pid is None:
             check(f"register:{n}:null permission is declared", c.get("local_only") or c.get("pre_auth") or c.get("any_authenticated"))
@@ -522,7 +523,7 @@ def event_checks():
     expect_invalid("event:unknown type rejected", bad, "unknown event type")
     bad = json.loads(json.dumps(ok_sale)); bad["server_cursor"] = 5
     expect_invalid("event:device may not send server stamp", bad, "unexpected field")
-    bad = json.loads(json.dumps(ok_sale)); bad["schema_version"] = 7
+    bad = json.loads(json.dumps(ok_sale)); bad["schema_version"] = 8
     expect_invalid("event:future schema_version rejected", bad, "unsupported schema_version")
     # version 3: the side of a payload is internal or external, nothing else; a missing side means internal
     ext = json.loads(json.dumps(ok_sale)); ext["payload"]["side"] = "external"
@@ -539,7 +540,7 @@ def event_checks():
     v1_pay["schema_version"] = 1
     check("v1:payment without currency valid as version 1", validate_event(v1_pay) == [], str(validate_event(v1_pay)))
     up = upcast(v1_pay)
-    check("upcast:v1 payment reads as the current version with RWF and the workspace side", up["schema_version"] == 6 and up["payload"]["currency"] == "RWF" and up["payload"]["side"] == "internal" and validate_event(up) == [], str(validate_event(up)))
+    check("upcast:v1 payment reads as the current version with RWF and the workspace side", up["schema_version"] == 7 and up["payload"]["currency"] == "RWF" and up["payload"]["side"] == "internal" and validate_event(up) == [], str(validate_event(up)))
     check("upcast:amount never rescaled", up["payload"]["amount"] == v1_pay["payload"]["amount"] and v1_pay["schema_version"] == 1)
     no_cur = Device().emit("PaymentRecorded", {"payment_id": uuid7(), "sale_id": ok_sale["payload"]["sale_id"], "method": "cash", "amount": 1500, "status": "cash_received"})
     expect_invalid("v2:payment without currency rejected", no_cur, "missing required 'currency'")
@@ -580,6 +581,15 @@ def event_checks():
     expect_invalid("v6:ticket code only from the Lynk Alphabet", bad_code, "")
     rw = Device().emit("SurveyRewardAnswered", {"reward_id": uuid4(), "result": "paid"})
     expect_invalid("v6:a device never writes the reward partner's answer", rw, "may not originate")
+    # version 7 (EMULATOR UPDATE): the device only asks; the cloud alone connects, disconnects, locks and swaps
+    ans = Device().emit("EmulatorRequestAnswered", {"assignment_id": uuid4(), "device_id": uuid4(), "answer": "accept"})
+    check("v7:a device answers a connect request", validate_event(ans) == [], str(validate_event(ans)))
+    con = Device().emit("EmulatorConnected", {"assignment_id": uuid4(), "device_id": uuid4(), "emulator": "pos.terminal"})
+    expect_invalid("v7:a device never connects itself", con, "may not originate")
+    pinleak = Device().emit("EmulatorUserChanged", {"device_id": uuid4(), "emulator": "pos.terminal", "change": "signed_in", "pin": "4719"})
+    expect_invalid("v7:no PIN when a user signs in", pinleak, "unexpected field")
+    said = Device().emit("SurveyYouSaidSent", {"survey_id": uuid4(), "told": 3, "public_page": False})
+    expect_invalid("v7:only the cloud sends You said, we did", said, "may not originate")
     pos_words = [n for n, e in REGISTRY["events"].items() for k in e["payload"]["properties"] if k in ("lat", "lng", "latitude", "longitude", "position", "location", "coordinates")]
     check("v4:no event in the contract carries a position", not pos_words, str(pos_words))
     bad = json.loads(json.dumps(ok_sale)); bad["payload"]["total"] += 1
@@ -659,7 +669,7 @@ def chain_and_ingest_checks():
     d5 = Device(); s5 = ReferenceIngest(); s5.enroll(d5.id)
     fut = d5.emit("StockReceived", {"stock_receipt_id": uuid7(), "lines": [{"product_id": pid, "quantity_milli": 1000}]}); 
     # re-sign chain after changing version: rebuild event manually
-    fut["schema_version"] = 7
+    fut["schema_version"] = 8
     o = s5.push([fut])
     check("ingest:future schema quarantined", o["results"][0].get("reason") == "unknown_schema_version", str(o))
 

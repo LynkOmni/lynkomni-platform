@@ -120,6 +120,7 @@ class BuiltPlaces(unittest.TestCase):
             self.assertEqual(want - found[item], set(), f"{item} is missing from its places")
 
 
+
 ACCOUNT = os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-account-site.html")
 
 
@@ -204,3 +205,23 @@ class BusinessAppPlaces(unittest.TestCase):
             b.close()
         for item, want in items.items():
             self.assertEqual(want - found[item], set(), f"{item} is missing from its places")
+
+
+    def test_section_3a_emulator_panel_is_where_the_register_says(self):
+        """Section 3A: the Emulator Panel in the Business app menu, in the settings (Branches and devices), in search and in help."""
+        want = set(next(i for i in REG["items"] if i["id"] == "emulator_panel")["places"]) & BUILT_BY_SECTION_3
+        found = set()
+        with sync_playwright() as p:
+            b = p.chromium.launch(); pg = b.new_page(viewport={"width": 1280, "height": 1000})
+            pg.goto("file://" + PHONE); pg.wait_for_selector("html[data-ready]", state="attached")
+            pg.evaluate("__go('business')")
+            if pg.locator('#display [data-act="hub:emulators"]').count(): found.add("app_nav")
+            pg.evaluate("__go('branches_devices')")
+            if pg.locator('#display [data-item="emulators_link"]').count(): found.add("settings")
+            pg.evaluate("__go('business')"); pg.click('#display [data-act="dsh:search"]'); pg.fill("#cmdIn", "Emulator")
+            if pg.locator('#display [data-act="hub:emulators"]').count(): found.add("search")
+            pg.keyboard.press("Escape")
+            pg.evaluate("__go('emulators')"); pg.click('#display .top [data-act="dsh:help"]')
+            if pg.locator("#display .dsh-help").count(): found.add("help")
+            b.close()
+        self.assertEqual(want - found, set())

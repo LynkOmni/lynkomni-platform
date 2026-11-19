@@ -13,6 +13,8 @@ import type { QuLook, QuPlan } from "../../../ts/src/queuedesk.js";
 import { SurveyDesk, svScreenView } from "../../../ts/src/surveydesk.js";
 import type { SvPlan } from "../../../ts/src/surveydesk.js";
 import type { AtTier } from "../../../ts/src/attenddesk.js";
+import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
+import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
 
 declare const DATA: Build & { people: { queue: Record<AtTier, QuPlan>; survey: Record<AtTier, SvPlan> } };
 const TIERS = ["free", "plus", "pro", "max"] as const;
@@ -43,7 +45,12 @@ function chime(text: string, lang: string): void {
     if ("speechSynthesis" in window) { const u = new SpeechSynthesisUtterance(text); u.lang = lang; window.speechSynthesis.speak(u); }
   } catch { /* no sound on this device: the screen still shows and says the call in words */ }
 }
-function draw(): void {
+/** The device side of the Emulator Panel (ts/src/emkit.ts, build section 3A): the connect request, the disconnected and locked screens,
+ *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
+const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "queue.board", "Waiting room", { short_side: 1080, keys: true, speaker: true }, "tv"), (type, payload, origin) => { LOG.emit(type, payload, origin); });
+const KW = wireKit(KIT, { t, icon: (id, cls) => icon(id, cls), online: () => S.online, redraw: () => draw() });
+function draw(): void { drawScreen(); KW.after($("#screen")); }
+function drawScreen(): void {
   const el = $("#screen"); DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W);
   Q.tier = S.tier as AtTier; Q.voice = S.second && S.second !== S.lang ? [S.lang, S.second] : [S.lang];
   const top = Q.tickets.filter((x) => x.state === "called").sort((a, b) => (b.calledAt ?? 0) - (a.calledAt ?? 0))[0];

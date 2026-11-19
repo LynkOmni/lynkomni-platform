@@ -122,6 +122,8 @@ class SurveyTests(unittest.TestCase):
         self.s.answer(named, "smartphone", [{"q": "visit", "number": 2}], person=them, seconds=20)
         self.assertEqual(self.s.you_said(self.m, named, self.boss, "We cut the wait.")["told"], 1)
         self.assertEqual(self.s.my_answers(them)[0]["you_said"][0]["text"], "We cut the wait.")       # it reaches the person in My answers
+        self.assertEqual([l["kind"] for l in self.p.notifier.lines.values() if l["person"] == them], ["survey_you_said"])   # and as a message
+        self.assertEqual([e["payload"]["told"] for e in self.p.c.store.of(self.m, "SurveyYouSaidSent")], [0, 1])     # the cloud's own event
 
     def test_sensitive_questions_need_the_persons_agreement(self):
         sid = self.make(questions=[{"id": "visit", "type": "rating", "text": "How is your health care at this clinic?"}])

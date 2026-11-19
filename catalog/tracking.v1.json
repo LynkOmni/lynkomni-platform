@@ -1311,6 +1311,143 @@
      ]
     }
    ]
+  },
+  {
+   "id": "emulator_request",
+   "record": null,
+   "key": "assignment_id",
+   "family": "lynkpos",
+   "ui_section": "3A",
+   "viewers": {
+    "merchant": "app.lynkomni.com/business/emulators",
+    "staff": "the device's own screen"
+   },
+   "note": "An emulator offered to a device (QR code, Lynk Code or link, or one of the other ways): offered, accepted on the device, connected by the cloud; or denied. Staff and managers only (EMULATOR UPDATE; build section 3A).",
+   "steps": [
+    {
+     "id": "offered",
+     "state": "sent",
+     "customer": false,
+     "on": [
+      {
+       "event": "EmulatorOffered"
+      }
+     ]
+    },
+    {
+     "id": "accepted",
+     "state": "accepted",
+     "customer": false,
+     "on": [
+      {
+       "event": "EmulatorRequestAnswered",
+       "when": {
+        "answer": [
+         "accept"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "id": "connected",
+     "state": "confirmed",
+     "customer": false,
+     "terminal": true,
+     "on": [
+      {
+       "event": "EmulatorConnected"
+      }
+     ]
+    },
+    {
+     "id": "denied",
+     "state": "failed",
+     "customer": false,
+     "terminal": true,
+     "on": [
+      {
+       "event": "EmulatorRequestAnswered",
+       "when": {
+        "answer": [
+         "deny"
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "device_swap",
+   "record": "DEV",
+   "key": "to_device_id",
+   "family": "lynkpos",
+   "ui_section": "3A",
+   "viewers": {
+    "merchant": "app.lynkomni.com/business/emulators",
+    "staff": "the device's own screen"
+   },
+   "note": "An emulator moving to another device: the old device sends its unsent records first, then the emulator moves with its name, settings and printers (build section 3A).",
+   "steps": [
+    {
+     "id": "swap_started",
+     "state": "sent",
+     "customer": false,
+     "on": [
+      {
+       "event": "EmulatorSwapStarted"
+      }
+     ]
+    },
+    {
+     "id": "swapped",
+     "state": "confirmed",
+     "customer": false,
+     "terminal": true,
+     "on": [
+      {
+       "event": "EmulatorSwapped"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "device_reapproval",
+   "record": "DEV",
+   "key": "device_id",
+   "family": "lynkpos",
+   "ui_section": "3A",
+   "viewers": {
+    "merchant": "app.lynkomni.com/business/emulators",
+    "staff": "the device's own screen"
+   },
+   "note": "A device not seen for a while waits for a manager to approve it again before it works (build section 3A).",
+   "steps": [
+    {
+     "id": "approval_needed",
+     "state": "queued",
+     "customer": false,
+     "again": true,
+     "on": [
+      {
+       "event": "EmulatorReapprovalNeeded"
+      }
+     ]
+    },
+    {
+     "id": "approved",
+     "state": "confirmed",
+     "customer": false,
+     "terminal": true,
+     "on": [
+      {
+       "event": "DeviceApprovedAgain"
+      }
+     ]
+    }
+   ]
   }
  ],
  "planned": [

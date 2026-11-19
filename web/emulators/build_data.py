@@ -61,7 +61,8 @@ def _packs(base):
 # shows them, so a device that does not import them never carries their words (size budget).
 PART_MODULES = ("signin.ts", "notify.ts", "assist.ts", "breadcrumbs.ts", "attenddesk.ts", "queuedesk.ts", "surveydesk.ts", "peoplehub.ts", "afterpay.ts")
 PART_WORDS = {"signin.ts": ("pin_", "match_"), "notify.ts": ("ntf_", "msg_"), "assist.ts": ("as_",), "breadcrumbs.ts": ("crumbs",), "peopleparts.ts": ("ppl_",),
-              "attenddesk.ts": ("ppl_at_",), "queuedesk.ts": ("ppl_qu_",), "surveydesk.ts": ("ppl_sv_",)}   # build section 3B: each desk's own words travel only with that desk
+              "attenddesk.ts": ("ppl_at_",), "queuedesk.ts": ("ppl_qu_",), "surveydesk.ts": ("ppl_sv_",),   # build section 3B: each desk's own words travel only with that desk
+              "emkit.ts": ("emk_",), "emulatorpanel.ts": ("emp_",)}                                  # build section 3A: the Emulator Panel's device side and the panel
 
 
 def part_words_left_out(emulator):

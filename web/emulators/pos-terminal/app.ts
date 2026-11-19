@@ -25,6 +25,8 @@ import type { SvPlan } from "../../../ts/src/surveydesk.js";
 import { atDoor, wasThisYou } from "../../../ts/src/attenddesk.js";
 import type { AtLook, AtPlan, AtTier } from "../../../ts/src/attenddesk.js";
 import { ticketNumber } from "../../../ts/src/queue.js";
+import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
+import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
 
 interface BuildData {
   icons: Record<string, string>;
@@ -547,7 +549,12 @@ const DM = new DeviceMode(DEVICES, "pos-terminal");
 const DEV = wireDevice(DM, { t, icon, screen: () => document.getElementById("display"), pad: () => document.getElementById("pad"), back: () => cancelKey(), redraw: () => draw(), rtl: () => document.getElementById("display")?.dir === "rtl" });
 /** The duress PIN's limited view looks like an ordinary quiet till: selling for cash and the receipt, nothing else. */
 const LIMITED_OK: Screen[] = ["lock", "sell", "cart", "pay", "cash", "done", "menu"];
-function draw(): void {
+/** The device side of the Emulator Panel (ts/src/emkit.ts, build section 3A): the connect request, the disconnected and locked screens,
+ *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
+const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "pos.terminal", "Counter 1", { short_side: 480, touch: true, keys: true, camera: true, speaker: true, device_print: true, hardware: ["receipt_printer", "cash_drawer"] }, "android"), (type, payload, origin) => { emit(type, payload, origin); });
+const KW = wireKit(KIT, { t, icon: (id, cls) => icon(id, cls), online: () => S.online, redraw: () => draw() });
+function draw(): void { drawScreen(); KW.after(document.querySelector("#display .app") as HTMLElement); }
+function drawScreen(): void {
   if (S.view === "limited" && !LIMITED_OK.includes(S.screen)) S.screen = "sell";
   const d = $("#display");
   d.className = `display ${S.theme}`;

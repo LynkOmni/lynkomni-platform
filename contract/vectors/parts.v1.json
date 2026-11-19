@@ -2620,6 +2620,78 @@
    ]
   },
   {
+   "host": "app.lynkomni.com",
+   "path": "/business/emulators",
+   "trail": [
+    "/",
+    "/business",
+    "/business/emulators"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/sell/emulators",
+   "trail": [
+    "/",
+    "/sell",
+    "/sell/emulators"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/stock/emulators",
+   "trail": [
+    "/",
+    "/stock",
+    "/stock/emulators"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/attendance/emulators",
+   "trail": [
+    "/",
+    "/attendance",
+    "/attendance/emulators"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/queue/emulators",
+   "trail": [
+    "/",
+    "/queue",
+    "/queue/emulators"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/survey/emulators",
+   "trail": [
+    "/",
+    "/survey",
+    "/survey/emulators"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/business/emulators",
+   "trail": [
+    "/external",
+    "/external/business",
+    "/external/business/emulators"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/sell/emulators",
+   "trail": [
+    "/external",
+    "/external/sell",
+    "/external/sell/emulators"
+   ]
+  },
+  {
    "host": "account.lynkomni.com",
    "path": "/",
    "trail": [
@@ -8786,6 +8858,671 @@
    "class": "A"
   },
   {
+   "action": "panel_explain_device",
+   "ask": {
+    "role": "owner"
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "panel_explain_device",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "panel_explain_device",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "panel_explain_device",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "panel_explain_device",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_explain_device",
+   "ask": {
+    "role": "owner",
+    "done_today": 200
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "panel_explain_device",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "panel_explain_device"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_explain_device",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "emulators"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_explain_device",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_explain_device",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "panel_explain_device",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "panel_explain_device"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "panel_explain_device",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "panel_explain_device"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "panel_connect_device",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "panel_connect_device",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "panel_connect_device",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "panel_connect_device",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "panel_connect_device",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_connect_device",
+   "ask": {
+    "role": "owner",
+    "done_today": 30
+   },
+   "run": false,
+   "needs": "fresh_check",
+   "class": "C"
+  },
+  {
+   "action": "panel_connect_device",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "panel_connect_device"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_connect_device",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "emulators"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_connect_device",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_connect_device",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "panel_connect_device",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "panel_connect_device"
+    ]
+   },
+   "run": false,
+   "needs": "ask_owner",
+   "class": "B"
+  },
+  {
+   "action": "panel_connect_device",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "panel_connect_device"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "panel_disconnect_device",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "panel_disconnect_device",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "panel_disconnect_device",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "panel_disconnect_device",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "panel_disconnect_device",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_disconnect_device",
+   "ask": {
+    "role": "owner",
+    "done_today": 30
+   },
+   "run": false,
+   "needs": "fresh_check",
+   "class": "C"
+  },
+  {
+   "action": "panel_disconnect_device",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "panel_disconnect_device"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_disconnect_device",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "emulators"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_disconnect_device",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_disconnect_device",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "panel_disconnect_device",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "panel_disconnect_device"
+    ]
+   },
+   "run": false,
+   "needs": "ask_owner",
+   "class": "B"
+  },
+  {
+   "action": "panel_disconnect_device",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "panel_disconnect_device"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "panel_mark_lost",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "panel_mark_lost",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "panel_mark_lost",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "panel_mark_lost",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "panel_mark_lost",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_mark_lost",
+   "ask": {
+    "role": "owner",
+    "done_today": 10
+   },
+   "run": false,
+   "needs": "fresh_check",
+   "class": "C"
+  },
+  {
+   "action": "panel_mark_lost",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "panel_mark_lost"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_mark_lost",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "emulators"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_mark_lost",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_mark_lost",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "panel_mark_lost",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "panel_mark_lost"
+    ]
+   },
+   "run": false,
+   "needs": "ask_owner",
+   "class": "B"
+  },
+  {
+   "action": "panel_mark_lost",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "panel_mark_lost"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "panel_practice_mode",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "panel_practice_mode",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "panel_practice_mode",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "panel_practice_mode",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
+   "action": "panel_practice_mode",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_practice_mode",
+   "ask": {
+    "role": "owner",
+    "done_today": 30
+   },
+   "run": false,
+   "needs": "fresh_check",
+   "class": "C"
+  },
+  {
+   "action": "panel_practice_mode",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "panel_practice_mode"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_practice_mode",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "emulators"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_practice_mode",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "panel_practice_mode",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "panel_practice_mode",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "panel_practice_mode"
+    ]
+   },
+   "run": false,
+   "needs": "ask_owner",
+   "class": "B"
+  },
+  {
+   "action": "panel_practice_mode",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "panel_practice_mode"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "B"
+  },
+  {
    "action": "send_all_money_to_me",
    "ask": {
     "role": "owner"
@@ -14552,6 +15289,106 @@
    "run": true,
    "needs": "none",
    "offline": "queue"
+  },
+  {
+   "action": "panel_explain_device",
+   "ask": {
+    "role": "owner"
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "panel_explain_device",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "panel_connect_device",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "panel_connect_device",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "panel_disconnect_device",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "panel_disconnect_device",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "panel_mark_lost",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "panel_mark_lost",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "panel_practice_mode",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "panel_practice_mode",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
   }
  ]
 }
