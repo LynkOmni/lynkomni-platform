@@ -57,7 +57,7 @@ class Version2(unittest.TestCase):
             self.assertEqual(reg[cmd]["class"], "A"); self.assertTrue(reg[cmd]["offline"]["allowed"])
 
     def test_upcaster_reads_version_1_without_rewriting_it(self):
-        self.assertEqual(CURRENT, 7)                                                             # version 3 (2026-11-09) adds the side, version 4 (2026-11-10) the movement milestones, version 5 (MASTER UPDATE) the card request, version 6 (NEW UPDATE 4) LynkA, LynkQ and LynkS, version 7 (EMULATOR UPDATE) the Emulator Panel
+        self.assertEqual(CURRENT, 8)                                                             # version 3 (2026-11-09) adds the side, version 4 (2026-11-10) the movement milestones, version 5 (MASTER UPDATE) the card request, version 6 (NEW UPDATE 4) LynkA, LynkQ and LynkS, version 7 (EMULATOR UPDATE) the Emulator Panel, version 8 (2026-11-19) removes WhatsApp
         v1 = {"type": "PaymentRecorded", "schema_version": 1, "payload": {"payment_id": "x", "amount": 1500}}
         up = upcast(v1)
         self.assertEqual((up["schema_version"], up["payload"]["currency"], up["payload"]["amount"]), (CURRENT, "RWF", 1500))
