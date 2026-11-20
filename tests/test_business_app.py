@@ -115,6 +115,45 @@ class Screens(unittest.TestCase):
             self.assertEqual(top.locator('[data-act="view:account"]').count(), 1)
             b.close()
 
+    def test_chat_masks_shows_states_signs_and_streams_lynkassist(self):
+        """CHAT UPDATE (section 4 step C2): the shared chat part in the Business app."""
+        errors = []
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            pg = b.new_page(viewport={"width": 1280, "height": 1000}, reduced_motion="reduce")
+            pg.on("pageerror", lambda e: errors.append(str(e)))
+            pg.goto("file://" + PHONE); pg.wait_for_selector("html[data-ready]")
+            pg.evaluate("__go('thread')")
+            self.assertEqual(pg.locator("#display .ch-compose label[for=chIn]").count(), 1, "the composer keeps its visible label")
+            pg.fill("#chIn", "card 4111 1111 1111 1111 please")
+            pg.click('#display [data-act="ch:send"]')
+            self.assertEqual(pg.locator('#display .ch-warn[role="alert"]').count(), 1, "warned before a card number is sent")
+            pg.click('#display [data-act="ch:sendmasked"]')
+            last = pg.locator("#display .ch-msg.out .ch-text").last.text_content()
+            self.assertIn("•••• 1111", last); self.assertNotIn("4111 1111", last)
+            pg.wait_for_selector("#display .ch-msg.out:last-child .st-accepted, #display .ch-msg.out .st-accepted", timeout=4000)
+            sign = pg.wait_for_selector('#display .ch-sign[data-sign="typing"]', timeout=4000)
+            self.assertEqual(sign.get_attribute("data-motion"), "none", "still words when motion is reduced")
+            self.assertTrue(sign.text_content().strip())
+            pg.wait_for_selector("#display .ch-msg.out .st-confirmed", timeout=5000)
+            pg.locator('#display [data-act^="ch:details:"]').last.click()
+            self.assertEqual(pg.locator('#display .ch-details[role="dialog"]').count(), 1)
+            pg.evaluate("__go('chats')")
+            pg.click('#display [data-item="support_pinned"] button')
+            self.assertEqual(pg.locator('#display [data-act="ch:person"]').count(), 1, "a person is one tap away")
+            pg.click('#display [data-act^="ch:choice:"][data-act$=":ch_c_payment"]')
+            stop = pg.wait_for_selector('#display [data-act^="ch:stop:"]', timeout=4000)
+            self.assertIn("LynkAssist", pg.locator("#display .ch-msg.assist .ch-who").last.text_content())
+            stop.click()
+            pg.wait_for_timeout(200)
+            self.assertEqual(pg.locator('#display [data-act^="ch:stop:"]').count(), 0)
+            pg.click('#display [data-act="ch:person"]')
+            pg.wait_for_selector('#display .ch-sign[data-sign="finding_helper"]', timeout=3000)
+            pg.wait_for_selector('#display .ch-sign[data-sign="finding_helper"]', state="detached", timeout=5000)
+            self.assertIn("Amina", pg.locator("#display .ch-msg").last.text_content())
+            b.close()
+        self.assertEqual(errors, [])
+
     def test_agent_point_never_hands_over_cash_before_the_partner_confirms(self):
         with sync_playwright() as p:
             b = p.chromium.launch()

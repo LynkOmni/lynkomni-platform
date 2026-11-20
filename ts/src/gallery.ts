@@ -6,6 +6,9 @@ import { firstColumnHtml, launcherGroupsHtml, quickCreateHtml, serviceMenuHtml, 
 import { listToolbarHtml, recordHeaderHtml, saveBarHtml } from "./pagekit.js";
 import type { DeviceRegister } from "./interfaces.js";
 import { layoutFor } from "./interfaces.js";
+import { CHAT } from "./chat.generated.js";
+import { inboxRowHtml, threadHtml, warningHtml } from "./chatview.js";
+import type { ChatLook } from "./chatview.js";
 
 /** Icons are written as build markers, filled by the page build from the brand module. */
 const mark = (id: string): string => `<span class="ic" aria-hidden="true">/*@I:${id}@*/</span>`;
@@ -30,5 +33,27 @@ export function galleryHtml(nav: NavRegister, devices: DeviceRegister, words: Re
     tile("Record header", "Name, state, one main button and the same four tabs", recordHeaderHtml(nav, t, { title: "Sample record", main: { label: "Main action", act: "gal" } })),
     tile("List toolbar", "Search with its label and filter chips", listToolbarHtml(t, { hint: "Sample: LOINV-0042", chips: [{ id: "all", label: "All", on: true }, { id: "open", label: "Open" }, { id: "late", label: "Late" }] })),
     tile("Save bar", "Stays in view at the bottom of a form", saveBarHtml({ label: "Save", act: "gal", secondary: { label: t("nv_back"), act: "gal" } })),
+    ...chatTiles(t, tile),
   ].join("\n");
+}
+
+/** The shared chat part (CHAT UPDATE 74, section 4 step C2), drawn by the real part from the chat register, still (motion off). */
+function chatTiles(t: (k: string) => string, tile: (title: string, note: string, html: string) => string): string[] {
+  const words = (k: string, v?: Record<string, string | number>): string => Object.entries(v ?? {}).reduce((s, [a, b]) => s.replace(`{${a}}`, String(b)), t(k));
+  const look: ChatLook = { t: words, icon: (id) => mark(id), clock: () => "10:42", reducedMotion: true,
+    chip: (s) => `<span class="chip st-${s}">${mark(`status-${s}`)}<span>${s}</span></span>` };
+  const base = { id: "g", kind: "support", title: "Support", side: "internal" as const, online: true, draft: "", draftHint: t("ch_hint_message"), act: "gal" };
+  return [
+    tile("Chat: a support conversation", "LynkAssist always named, its stage with Stop, a person one tap away, the five states",
+      threadHtml(CHAT, look, { ...base, assistFirst: true, msgs: [
+        { id: "a", author: "business", out: true, text: "A question about a payment", at: 0, state: "confirmed" },
+        { id: "b", author: "assistant", out: false, text: "Payments show as paid only", at: 0, state: "accepted", stream: { stage: "assist_writing" } }] })),
+    tile("Chat: live sign and states", "Typing shows as words; your message moves from sent to seen",
+      threadHtml(CHAT, look, { ...base, kind: "customer_business", sign: { sign: "typing", author: "customer" }, msgs: [
+        { id: "c", author: "customer", out: false, text: "Do you have cooking oil today?", at: 0, state: "accepted" },
+        { id: "d", author: "business", out: true, text: "Yes, 1 L and 5 L", at: 0, state: "accepted" }] })),
+    tile("Chat: a card number is never sent", "Masked before it is queued, with the warning", warningHtml(look, ["card"], "gal")),
+    tile("Chat: inbox row", "The live sign replaces the last message for a moment",
+      `<ul class="list card">${inboxRowHtml(CHAT, look, { id: "x", name: "Sample customer", last: "Thank you!", at: 0, unread: 2, sign: { sign: "typing", author: "customer" } }, { online: true, act: "gal" })}</ul>`),
+  ];
 }

@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { canMove, shownState, editAllowed, ordered, hasWord, mask, liveSign, ownConnection, soundFor, routeSupport, routeTeam, escalate, replyTime, offlineRule, cardAction, toolsOk } from "../src/chat.js";
+import { canMove, shownState, editAllowed, ordered, hasWord, mask, liveSign, ownConnection, chatSoundFor, routeSupport, routeTeam, escalate, replyTime, offlineRule, cardAction, toolsOk } from "../src/chat.js";
 import type { ChatState, Msg } from "../src/chat.js";
 import { CHAT } from "../src/chat.generated.js";
 
@@ -21,7 +21,7 @@ test("masking: card numbers and codes never leave the device", () => {
 test("live signs, own connection and sounds agree", () => {
   for (const c of V.signs) assert.deepEqual(liveSign(CHAT, c.sign, c.author, { onlineBoth: c.o.online_both, reducedMotion: c.o.reduced_motion, teamView: c.o.team_view, senderAllows: c.o.sender_allows }), c.expect, JSON.stringify(c));
   for (const c of V.connection) assert.deepEqual(ownConnection(CHAT, c.online, c.was, c.n), c.expect, JSON.stringify(c));
-  for (const c of V.sounds) assert.deepEqual(soundFor(CHAT, c.event, c.s), c.expect, JSON.stringify(c));
+  for (const c of V.sounds) assert.deepEqual(chatSoundFor(CHAT, c.event, c.s), c.expect, JSON.stringify(c));
 });
 test("routing agrees: support and a business's own team", () => {
   for (const c of V.route) assert.deepEqual(routeSupport(CHAT, c.conv, V.helpers, c.open_now), c.expect, JSON.stringify(c));

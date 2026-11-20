@@ -53,6 +53,10 @@ import { NAV } from "../../../ts/src/navigation.generated.js";
 import { isFocus } from "../../../ts/src/navigation.js";
 import { layoutFor } from "../../../ts/src/interfaces.js";
 import { applyLayout } from "../../../ts/src/turn.js";
+import { CHAT } from "../../../ts/src/chat.generated.js";
+import { routeSupport } from "../../../ts/src/chat.js";
+import { chatDigest, inboxRowHtml, muteHtml, playChat, prepareSend, threadHtml } from "../../../ts/src/chatview.js";
+import type { ChatField, ChatLook, ChatMsg } from "../../../ts/src/chatview.js";
 
 interface BuildData {
   people: { attend: Record<AtTier, AtPlan>; queue: Record<AtTier, QuPlan>; survey: Record<AtTier, SvPlan> };
@@ -100,8 +104,11 @@ const PARTNERS: Partner[] = [{ id: newId(), name: "partner_a", float: 400_000, l
 const AGENT_ALL = [...AGENT_SERVICES, ...COLLECTION_KINDS, ...FINANCE_PRODUCTS] as const;
 interface Ev { n: number; type: string; origin: "device" | "server"; payload: unknown; sync: UserState; at: number }
 interface Sale extends DaySale { at: number; tendered?: number; customer?: string; note?: string; returned: number }
-interface Msg { out: boolean; text: string; at: number; state: UserState; card?: { kind: string; label: string }; lang?: string }
-interface Thread { id: string; name: string; msgs: Msg[]; unread: number; order: boolean; assigned: string; lang: string; support?: boolean }
+/** A message as the chat part draws it (ts/src/chatview.ts); text that is a word key (support_welcome, ch_*) is translated when drawn. */
+interface Msg extends Omit<ChatMsg, "choices" | "state"> { state: UserState; lang?: string; choices?: string[] }
+/** A conversation (LOCNV-; cid is its uuid in the events). Live signs live only here, never in an event. */
+interface Thread { id: string; cid: string; name: string; msgs: Msg[]; unread: number; order: boolean; assigned: string; lang: string; support?: boolean;
+  sign?: { sign: string; author: string; vars?: Record<string, string | number> }; muted?: string | null; unreadFrom?: string; reason?: string; person?: boolean }
 interface Item extends Product, StockItem { unit: string; variants: string[]; branch: string; supplier: string }
 interface Customer { id: string; name: string; owes: number }
 /** A delivery booked from a sale: the shop's own rider or a partner; its steps come from the tracking engine. */
@@ -132,11 +139,16 @@ const CODE = "123456";
 const ago = (min: number): number => Date.now() - min * 60_000;
 const CUSTOMERS: Customer[] = [{ id: newId(), name: "Aline", owes: 0 }, { id: newId(), name: "Eric", owes: 4500 }, { id: newId(), name: "Grace", owes: 0 }];
 const THREADS: Thread[] = [
-  { id: publicId("CNV"), name: "LynkOmni Support", unread: 0, order: false, assigned: "", lang: "en", support: true, msgs: [{ out: false, text: "support_welcome", at: ago(600), state: "accepted" }] },
-  { id: publicId("CNV"), name: "Aline", unread: 1, order: false, assigned: "", lang: "fr", msgs: [{ out: false, text: "Do you have cooking oil today?", at: ago(12), state: "accepted", lang: "fr", card: { kind: "product", label: "Cooking oil 1 L" } }] },
-  { id: publicId("CNV"), name: "Eric", unread: 1, order: true, assigned: "", lang: "en", msgs: [{ out: false, text: "Can you keep 2 trays of eggs for me until 5 pm?", at: ago(40), state: "accepted", card: { kind: "order", label: "ORD" } }] },
-  { id: publicId("CNV"), name: "Grace", unread: 0, order: false, assigned: "me", lang: "en", msgs: [{ out: false, text: "Thank you for the delivery!", at: ago(180), state: "accepted" }, { out: true, text: "You are welcome. See you soon.", at: ago(175), state: "sent" }] },
+  { id: publicId("CNV"), cid: newId(), name: "LynkOmni Support", unread: 0, order: false, assigned: "", lang: "en", support: true, reason: "assistant_first",
+    msgs: [{ id: newId(), author: "assistant", out: false, text: "support_welcome", at: ago(600), state: "accepted", choices: ["ch_c_order", "ch_c_payment", "ch_c_person"] }] },
+  { id: publicId("CNV"), cid: newId(), name: "Aline", unread: 1, order: false, assigned: "", lang: "fr", reason: "least_busy",
+    msgs: [{ id: newId(), author: "customer", out: false, text: "Do you have cooking oil today?", at: ago(12), state: "accepted", lang: "fr", card: { kind: "product", label: "Cooking oil 1 L" } }] },
+  { id: publicId("CNV"), cid: newId(), name: "Eric", unread: 1, order: true, assigned: "", lang: "en", reason: "rule",
+    msgs: [{ id: newId(), author: "customer", out: false, text: "Can you keep 2 trays of eggs for me until 5 pm?", at: ago(40), state: "accepted", card: { kind: "order", label: "ORD" } }] },
+  { id: publicId("CNV"), cid: newId(), name: "Grace", unread: 0, order: false, assigned: "me", lang: "en", reason: "rule",
+    msgs: [{ id: newId(), author: "customer", out: false, text: "Thank you for the delivery!", at: ago(180), state: "accepted" }, { id: newId(), author: "business", out: true, text: "You are welcome. See you soon.", at: ago(175), state: "confirmed", times: { written: ago(175), sent: ago(175), accepted: ago(175), confirmed: ago(170) } }] },
 ];
+for (const th of THREADS) if (th.unread) th.unreadFrom = th.msgs[th.msgs.length - th.unread]?.id;
 const SAVED_REPLIES = ["reply_open", "reply_kept", "reply_thanks"];
 const TIERS = ["free", "plus", "pro", "max"] as const;
 
@@ -153,7 +165,7 @@ const S = {
   selected: "", reason: "", returnQty: 1, restock: true,
   shift: null as null | { id: string; float: number; openedAt: number }, countKind: "day_end" as (typeof COUNT_KINDS)[number], practice: false, practiceFloat: 50_000,
   stockFilter: "all" as (typeof STOCK_FILTERS)[number], branch: "all", moveTo: "north", addWay: "scan", countMode: "full" as "full" | "partial",
-  threads: THREADS, thread: "", draft: "", chatFilter: "all" as (typeof CHAT_FILTERS)[number], showOriginal: false,
+  threads: THREADS, thread: "", draft: "", chatFilter: "all" as (typeof CHAT_FILTERS)[number], showOriginal: false, chatWarn: [] as string[], chatDetails: "", chatBack: 0, lastChatSound: 0,
   product: "", qty: 1, notified: new Set<string>(), receiptNo: 0, lastSync: 0, ticks: 0, enrolled: false,
   hub: "", setting: "", notices: [] as Notice[], staff: [{ id: newId(), name: "Owner", role: "owner", pin: true }, { id: newId(), name: "Aline", role: "cashier", pin: true }] as Staff[],
   orders: [] as { id: string; supplier: string; lines: number; state: "draft" | "sent" }[], shared: new Set<string>(), passport: false, englishOnce: false,
@@ -452,12 +464,149 @@ function draftOrder(): void {
   toast(t("drafted"));
 }
 
-// ---- chats (customer-business and support only; messages are a server-side module, not device events) ------------------------
-function sendMsg(card?: { kind: string; label: string }): void {
-  const th = S.threads.find((x) => x.id === S.thread); const text = card ? "" : S.draft.trim();
-  if (!th || (!text && !card)) return;
-  th.msgs.push({ out: true, text, at: Date.now(), state: maySync(S.link, S.forced) && S.link === "good" ? "sent" : "queued", card });
-  S.draft = ""; draw();
+// ---- chats (CHAT UPDATE 74, section 4 step C2): customer-business and support only, drawn by the shared chat part ---------------
+/** Text that is a word key is translated when drawn; a person's own words are shown as they are. */
+const chatText = (x: string): string => (x === "support_welcome" || x.startsWith("ch_") ? t(x) : x);
+/** A chat event's tone and vibration (catalog/chat.v1.json sounds, design tokens chat_*), following the device's switches, silent
+ *  and quiet hours, the conversation's mute, and never inside a payment or cash count. */
+function chatSound(event: string): void {
+  const th = S.threads.find((x) => x.id === S.thread), now = KIT.now();
+  const out = playChat(CHAT, EMULATOR_REGISTER.sounds, event, { sounds: now.tones, vibration: now.vibration, silent: KIT.silent, quiet_hours: KIT.quietHours,
+    muted: !!th?.muted, screen: isFocus(NAV, screenId()) ? "payment" : screenId(), chat_open: S.view === "thread", since_last_ms: Date.now() - S.lastChatSound }, now.volume as "low" | "medium" | "high");
+  if (out.tone || out.vibrate) S.lastChatSound = Date.now();
+}
+/** Sends a message: masked before it is queued (warning first), written as MessagePosted with only its fingerprint, then sent when
+ *  the device is online; the cloud alone says it reached the other side or was seen. */
+function sendMsg(card?: { kind: string; label: string }, confirmed = false, given?: string): void {
+  const th = S.threads.find((x) => x.id === S.thread); if (!th) return;
+  let text = "", found: string[] = [];
+  if (!card) {
+    const r = prepareSend(CHAT, t, given ?? S.draft); text = r.text; found = r.found;
+    if (!text) return;
+    if (found.length && !confirmed) { S.chatWarn = found; draw(); return; }
+  }
+  const now = Date.now();
+  const m: Msg = { id: newId(), author: "business", out: true, text, at: now, state: "queued", card, times: { written: now } };
+  th.msgs.push(m); th.unreadFrom = undefined;
+  if (given === undefined && !card) S.draft = "";
+  S.chatWarn = [];
+  emit("MessagePosted", { message_id: m.id, conversation_id: th.cid, author: "business", body: card ? "card" : "text", device_seq: S.events.length, masked: found.length > 0,
+    content_sha256: chatDigest(text || `${card?.kind ?? ""}:${card?.label ?? ""}`) }, "device");
+  chatSound("sent"); deliver(th, m); draw();
+}
+/** Online, a queued message leaves the device (sent); the cloud then says it reached the other side (accepted). */
+function deliver(th: Thread, m: Msg): void {
+  if (!online() || m.state !== "queued") return;
+  m.state = "sent"; (m.times ??= {}).sent = Date.now();
+  setTimeout(() => {
+    if (m.state !== "sent") return;
+    m.state = "accepted"; m.times!.accepted = Date.now();
+    emit("MessageStateChanged", { message_id: m.id, state: "accepted" }, "server"); draw();
+    if (!th.support && !m.card) customerReplies(th, m);
+  }, 700);
+}
+/** When the connection comes back, queued messages send by themselves, in order, never doubled; the chat says how many. */
+function flushChats(): void {
+  let n = 0;
+  for (const th of S.threads) for (const m of th.msgs) if (m.out && m.state === "queued") { deliver(th, m); n++; }
+  if (n) { S.chatBack = n; setTimeout(() => { S.chatBack = 0; draw(); }, 4000); }
+}
+/** The sample customer reads the message (seen, written by the cloud), types (a live sign, never what is typed) and answers. */
+function customerReplies(th: Thread, m: Msg): void {
+  setTimeout(() => {
+    if (!online()) return;
+    th.sign = { sign: "typing", author: "customer" }; draw();
+    setTimeout(() => {
+      th.sign = undefined;
+      if (m.state === "accepted") { m.state = "confirmed"; m.times!.confirmed = Date.now(); emit("MessageStateChanged", { message_id: m.id, state: "confirmed" }, "server"); }
+      const r: Msg = { id: newId(), author: "customer", out: false, text: t("ch_sample_reply"), at: Date.now(), state: "accepted" };
+      th.msgs.push(r);
+      if (S.thread !== th.id || S.view !== "thread") { th.unread++; th.unreadFrom ??= r.id; }
+      chatSound("received"); draw();
+    }, 2200);
+  }, 600);
+}
+/** LynkAssist's answer as it is written: its stages, then word by word, with Stop; a form may follow. */
+function streamAnswer(th: Thread, key: string, form?: ChatField[]): void {
+  const m: Msg = { id: newId(), author: "assistant", out: false, text: "", at: Date.now(), state: "accepted", stream: { stage: "assist_thinking" } };
+  th.msgs.push(m); draw();
+  const words = t(key).split(" ");
+  let i = 0;
+  const tick = (): void => {
+    if (m.stream?.stopped) return;
+    m.text = words.slice(0, ++i).join(" ");
+    if (i < words.length) { draw(); setTimeout(tick, 70); return; }
+    m.stream = { stage: "assist_writing", done: true }; if (form) m.form = form;
+    chatSound("assist_answer"); draw();
+  };
+  setTimeout(() => { if (m.stream?.stopped) return; m.stream = { stage: "assist_checking" }; draw();
+    setTimeout(() => { if (m.stream?.stopped) return; m.stream = { stage: "assist_writing" }; tick(); }, 700); }, 600);
+}
+const SUPPORT_HELPERS = [{ id: newId(), available: true, on_shift: true, open: 2, topics: ["orders", "payments", "general"], languages: ["en", "fr", "rw", "sw"] }];
+/** 'Talk to a person': the routing register picks the helper (the cloud writes ConversationRouted); the line and the join show as signs. */
+function toPerson(th: Thread): void {
+  th.person = true;
+  const r = routeSupport(CHAT, { topic: "orders", wants_person: true, language: S.lang, side: "internal" }, SUPPORT_HELPERS);
+  th.reason = r.reason; th.sign = { sign: "finding_helper", author: "system", vars: { place: 2 } }; draw();
+  setTimeout(() => {
+    th.sign = undefined;
+    if (online()) emit("ConversationRouted", { conversation_id: th.cid, to: r.to, desk: "orders", ...(r.helper ? { helper_id: r.helper } : {}), reason: r.reason, translate: r.translate }, "server");
+    th.msgs.push({ id: newId(), author: "system", out: false, text: t("ch_sign_joined", { first_name: "Amina", team: "LynkOmni Support" }), at: Date.now(), state: "accepted" });
+    chatSound("support_joined"); draw();
+  }, 2000);
+}
+/** A tap on a button sends the choice as the person's own message; LynkAssist answers. */
+function supportChoice(th: Thread, m: Msg, c: string): void {
+  m.chosen = c; sendMsg(undefined, true, t(c));
+  if (c === "ch_c_person") { toPerson(th); return; }
+  streamAnswer(th, c === "ch_c_order" ? "ch_assist_order" : "ch_assist_payment", c === "ch_c_order" ? [{ id: "order", kind: "short_text", label: t("ch_f_order"), hint: publicId("ORD") }] : undefined);
+}
+/** A small form's answer is sent as the person's own message (masked like any message). */
+function formSend(th: Thread, m: Msg): void {
+  const el = document.getElementById(`chf-${m.id}-order`) as HTMLInputElement | null;
+  const v = el?.value.trim() ?? "";
+  if (!v) { el?.focus(); return; }
+  m.answered = true; sendMsg(undefined, false, v); streamAnswer(th, "ch_assist_found");
+}
+/** A photo leaves with progress (pause, carry on, cancel); a broken upload carries on where it stopped. */
+function startUpload(th: Thread): void {
+  const m: Msg = { id: newId(), author: "business", out: true, text: "", at: Date.now(), state: "queued", upload: { kind: "photo", pct: 0 }, times: { written: Date.now() } };
+  th.msgs.push(m); draw();
+  const step = (): void => {
+    const u = m.upload; if (!u || !th.msgs.includes(m)) return;
+    if (u.paused || !online()) { draw(); return; }
+    u.pct = Math.min(100, u.pct + 20);
+    if (u.pct < 100) { draw(); setTimeout(step, 350); return; }
+    m.upload = undefined; m.card = { kind: "photo", label: "" };
+    emit("MessagePosted", { message_id: m.id, conversation_id: th.cid, author: "business", body: "photo", device_seq: S.events.length, masked: false, content_sha256: chatDigest(`photo:${m.id}`) }, "device");
+    chatSound("sent"); deliver(th, m); draw();
+  };
+  setTimeout(step, 350);
+  (m as Msg & { resume?: () => void }).resume = step;
+}
+function chatAct(rest: string): void {
+  const [k = "", id = "", c = ""] = rest.split(":");
+  const th = S.threads.find((x) => x.id === S.thread); if (!th) return;
+  const m = th.msgs.find((x) => x.id === id);
+  switch (k) {
+    case "send": sendMsg(); return;
+    case "sendmasked": sendMsg(undefined, true); return;
+    case "edit": S.chatWarn = []; draw(); document.getElementById("chIn")?.focus(); return;
+    case "details": S.chatDetails = id; draw(); return;
+    case "closedetails": S.chatDetails = ""; draw(); return;
+    case "retry": if (m) { m.state = "queued"; deliver(th, m); draw(); } return;
+    case "stop": if (m?.stream) { m.stream = { ...m.stream, stopped: true }; draw(); } return;
+    case "pause": if (m?.upload) { m.upload.paused = true; draw(); } return;
+    case "resume": if (m?.upload) { m.upload.paused = false; (m as Msg & { resume?: () => void }).resume?.(); } return;
+    case "cancelup": th.msgs = th.msgs.filter((x) => x.id !== id); draw(); return;
+    case "choice": if (m && !m.chosen) supportChoice(th, m, c); return;
+    case "form": if (m && !m.answered) formSend(th, m); return;
+    case "person": if (!th.person) { sendMsg(undefined, true, t("ch_c_person")); toPerson(th); } return;
+    case "attach": startUpload(th); return;
+    case "record": threadAct("voice_note"); return;
+    case "mute": th.muted = id; S.setting = ""; draw(); return;
+    case "unmute": th.muted = null; S.setting = ""; draw(); return;
+  }
 }
 
 // ---- shell parts (41 B) inside the Business app (41 E) ------------------------------------------------------------------
@@ -814,27 +963,36 @@ function stock(): string {
 function chats(): string {
   const th = S.threads.find((x) => x.id === S.thread);
   if (S.view === "thread" && th) {
+    if (online()) flushChats();
     const translated = th.lang !== "en" && !isTest() && th.lang !== S.lang;
     const actions = THREAD_ACTIONS.map((k) => `<button data-act="tact:${k}" data-item="${k}">${esc(t("ta_" + k))}</button>`).join("");
-    const card = (c: { kind: string; label: string }): string => `<span class="mcard" data-item="attached_card">${icon(c.kind === "order" ? "ui-cart" : c.kind === "pay_link" ? "ui-qr" : c.kind === "receipt" ? "ui-receipt" : c.kind === "quote" ? "ui-doc" : "product-stock")}<span>${esc(t("card_" + c.kind))}${c.label ? ` · ${esc(c.label)}` : ""}</span></span>`;
-    return `${topBar(th.name, "view:main")}<div class="thread">${th.support ? `<p class="info">${icon("ui-info")}<span>${esc(t("support_pinned"))}</span></p>` : ""}
+    const card = (kind: string, label: string): string => `<span class="mcard" data-item="attached_card">${icon(kind === "order" ? "ui-cart" : kind === "pay_link" ? "ui-qr" : kind === "receipt" ? "ui-receipt" : kind === "quote" ? "ui-doc" : kind === "photo" ? "ui-doc" : "product-stock")}<span>${esc(t("card_" + kind))}${label ? ` · ${esc(label)}` : ""}</span></span>`;
+    const look: ChatLook = { t, icon: (id, cls) => icon(id, cls), chip: (st) => chip(st), card, clock, reducedMotion: reduced() };
+    const msgs: ChatMsg[] = th.msgs.map((m) => ({ ...m, text: chatText(m.text), choices: m.choices?.map((c) => ({ id: c, label: t(c) })),
+      noteHtml: !m.out && m.lang && m.lang !== "en" && translated ? `<button class="linkbtn small" data-act="original" data-item="translated_note">${esc(t(S.showOriginal ? "show_translation" : "translated_from", { lang: langName(m.lang) }))}</button>` : undefined }));
+    const queued = th.msgs.filter((m) => m.out && m.state === "queued").length;
+    const tools = `<div class="tactions" role="group" aria-label="${esc(t("chat_actions"))}">${actions}<button data-act="tact:mute" data-item="mute_chat" aria-pressed="${!!th.muted}">${esc(t(th.muted ? "ch_muted" : "ch_mute"))}</button></div>
+      ${S.setting === "replies" ? `<div class="quick">${SAVED_REPLIES.map((r) => `<button data-act="reply:${r}">${esc(t(r))}</button>`).join("")}</div>` : ""}${S.setting === "mute" ? muteHtml(CHAT, look, th.muted) : ""}`;
+    return `${topBar(th.name, "view:main")}${th.support ? `<p class="info">${icon("ui-info")}<span>${esc(t("support_pinned"))}</span></p>` : ""}
       ${th.assigned ? `<p class="sub">${esc(t("assigned_to", { name: th.assigned === "me" ? t("me") : th.assigned }))}</p>` : ""}
-      ${th.msgs.map((m) => `<div class="msg ${m.out ? "out" : "in"}">${m.card ? card(m.card) : ""}${m.text ? `<span>${esc(m.text === "support_welcome" ? t("support_welcome") : m.text)}</span>` : ""}
-        ${!m.out && m.lang && m.lang !== "en" && translated ? `<button class="linkbtn small" data-act="original" data-item="translated_note">${esc(t(S.showOriginal ? "show_translation" : "translated_from", { lang: langName(m.lang) }))}</button>` : ""}
-        <span class="meta">${esc(clock(m.at))}${m.out ? chip(m.state === "queued" ? "queued" : "sent") : ""}</span></div>`).join("")}</div>
-      <div class="tactions" role="group" aria-label="${esc(t("chat_actions"))}">${actions}</div>
-      ${S.setting === "replies" ? `<div class="quick">${SAVED_REPLIES.map((r) => `<button data-act="reply:${r}">${esc(t(r))}</button>`).join("")}</div>` : ""}
-      <div class="compose"><input id="msgIn" data-in="msg" aria-label="${esc(t("write_message"))}" placeholder="${esc(t("write_message"))}" value="${esc(S.draft)}" autocomplete="off"><button class="iconbtn fwd" data-act="send" aria-label="${esc(t("send"))}">${icon("ui-chevron-right")}</button></div>`;
+      ${threadHtml(CHAT, look, { id: th.id, kind: th.support ? "support" : "customer_business", title: th.name, side: "internal", msgs, sign: th.sign, online: online(),
+        wasOffline: S.chatBack > 0, queued: online() ? S.chatBack : queued, unreadFrom: th.unreadFrom, reader: th.support ? "support" : "customer", teamView: true,
+        draft: S.draft, draftHint: t("ch_hint_message"), warning: S.chatWarn, muted: th.muted, assistFirst: !!th.support && !th.person, reason: th.reason,
+        details: S.chatDetails, beforeCompose: tools })}`;
   }
   const shown = S.threads.filter((x) => x.support || S.chatFilter === "all" || (S.chatFilter === "unread" && x.unread > 0) || (S.chatFilter === "assigned" && x.assigned === "me") || (S.chatFilter === "orders" && x.order));
+  const look: ChatLook = { t, icon: (id, cls) => icon(id, cls), chip: (st) => chip(st), clock, reducedMotion: reduced() };
   return `${topBar(t("tab_chats"))}<div class="cats">${CHAT_FILTERS.map((f) => `<button data-act="cfilter:${f}" data-item="filter_${f}" aria-pressed="${S.chatFilter === f}">${esc(t("cf_" + f))}</button>`).join("")}</div>
     <div class="body"><p class="info">${icon("ui-info")}<span>${esc(t("business_chat"))}</span></p><ul class="list card">${shown.map((x) => { const last = x.msgs[x.msgs.length - 1];
-    const lastText = last?.text === "support_welcome" ? t("support_welcome") : last?.card && !last.text ? t("card_" + last.card.kind) : last?.text ?? "";
-    return `<li${x.support ? ' data-item="support_pinned"' : ""}><button class="rowbtn" data-act="thread:${x.id}"><span class="avatar" aria-hidden="true">${x.support ? icon("product-chat") : esc(x.name.slice(0, 1))}</span><span class="main"><span class="nm">${esc(x.name)}${x.support ? ` · ${esc(t("pinned"))}` : ""}</span><span class="sub">${esc(lastText)}</span></span>${x.unread ? `<span class="pill ok">${x.unread}</span>` : `<span class="sub">${esc(last ? clock(last.at) : "")}</span>`}</button></li>`; }).join("")}</ul></div>`;
+    const lastText = last?.card && !last.text ? t("card_" + last.card.kind) : chatText(last?.text ?? "");
+    return inboxRowHtml(CHAT, look, { id: x.id, name: x.name, last: lastText, at: last ? last.at : null, unread: x.unread, support: x.support, sign: x.sign, muted: !!x.muted }, { online: online(), act: "thread", pinnedWord: t("pinned") }); }).join("")}</ul></div>`;
 }
 function threadAct(k: string): void {
   const th = S.threads.find((x) => x.id === S.thread); if (!th) return;
   if (k === "saved_replies") { S.setting = S.setting === "replies" ? "" : "replies"; draw(); return; }
+  if (k === "mute") { S.setting = S.setting === "mute" ? "" : "mute"; draw(); return; }
+  if (k === "photo") { startUpload(th); return; }
+  if (k === "voice_note") { chatSound("record_start"); th.sign = undefined; setTimeout(() => { chatSound("record_stop"); sendMsg({ kind: "voice_note", label: "" }); }, 900); return; }
   if (k === "assign_staff") { th.assigned = th.assigned ? "" : (S.staff[1]?.name ?? "me"); toast(t(th.assigned ? "assigned_to" : "unassigned", { name: th.assigned })); return; }
   const kind = k === "send_product" ? "product" : k === "send_quote" ? "quote" : k === "send_pay_link" ? "pay_link" : k === "send_receipt" ? "receipt" : k === "photo" ? "photo" : "voice_note";
   const label = kind === "product" ? CATALOG[0]?.name ?? "" : kind === "quote" ? publicId("QUO") : kind === "pay_link" ? money(CATALOG[3]?.price ?? 0) : kind === "receipt" ? S.sales[0]?.sale.receipt_number_local ?? "" : "";
@@ -1498,6 +1656,7 @@ function act(a: string): void {
   }
   if (a.startsWith("qu:")) { PH.q.act(a, { online: online(), partner: !S.realUser, pairCode, redraw: draw }); draw(); return; }
   if (a.startsWith("sv:")) { PH.s.act(a, { online: online(), partner: !S.realUser, redraw: draw }); if (a === "sv:new" || a.startsWith("sv:edit:")) S.hub = "survey_new"; draw(); return; }
+  if (a.startsWith("ch:")) { chatAct(a.slice(3)); return; }
   if (a.startsWith("emp:")) { EMP.act(a, { online: online(), busy: false, redraw: draw }); draw(); return; }
   if (a.startsWith("ph:")) { if (!a.startsWith("ph:afterpay") || mayAddDevice()) PH.act(a, { online: online(), redraw: draw, language: S.lang }); draw(); return; }
   try {
@@ -1674,7 +1833,7 @@ function onInput(el: HTMLInputElement): void {
     case "momo": S.input = el.value.replace(/[^\d ]/g, "").slice(0, 15); draw(); return;
     case "phone": S.phone = el.value.replace(/[^\d +]/g, "").slice(0, 16); draw(); return;
     case "code": S.code = digits(6); draw(); return;
-    case "msg": S.draft = el.value.slice(0, 500); return;
+    case "chat": S.draft = el.value.slice(0, 500); return;
     case "anum": S.number = el.value.replace(/[^\d ]/g, "").slice(0, 16); draw(); return;
     case "aamt": S.amount = digits(9); draw(); return;
     case "discount": S.discount = Math.min(S.cart.total(), Number(digits(9) || "0")); draw(); return;
@@ -1712,7 +1871,7 @@ function onChange(el: HTMLInputElement & HTMLSelectElement): void {
   if (k.startsWith("m3")) { m3Change(k, el); return; }
   switch (k) {
     case "perm": if (canChangeSettings(S.role)) S.perms = { staffSeeProfit: el.checked }; break;
-    case "forced": S.forced = el.checked; break;
+    case "forced": S.forced = el.checked; if (!S.forced) flushChats(); break;
     case "restock": S.restock = el.checked; break;
     case "practice": S.practice = el.checked; if (el.checked) S.toggles.add("practice_mode"); else S.toggles.delete("practice_mode"); break;
     case "passport": S.passport = el.checked; break;
@@ -1772,12 +1931,12 @@ function wire(): void {
   display.addEventListener("change", (ev) => onChange(ev.target as HTMLInputElement & HTMLSelectElement));
   display.addEventListener("keydown", (ev) => {
     const el = ev.target as HTMLElement;
-    if (ev.key === "Enter" && el.dataset["in"] === "msg") { S.draft = (el as HTMLInputElement).value; sendMsg(); ev.preventDefault(); }
+    if (ev.key === "Enter" && el.dataset["in"] === "chat") { S.draft = (el as HTMLInputElement).value; sendMsg(); ev.preventDefault(); }
     if (ev.key === "Escape" && S.sheet) { S.sheet = false; draw(); }
   });
   document.addEventListener("keydown", (ev) => { if (S.screen === "app" && !S.sheet) DSH.key(ev); });
   const bind = (id: string, f: (el: HTMLInputElement & HTMLSelectElement) => void): void => { const el = $<HTMLInputElement & HTMLSelectElement>(id); el.addEventListener("change", () => f(el)); };
-  bind("#cLink", (el) => { S.link = el.value as Link; draw(); });
+  bind("#cLink", (el) => { S.link = el.value as Link; flushChats(); draw(); });
   bind("#cRole", (el) => { S.role = pick(["owner", "manager", "cashier"] as Role[], el.value, "owner"); draw(); });
   $("#cIntegrity").addEventListener("click", () => { M3.integrity = true; emit("DeviceIntegrityFailed", { device_id: "pt", failed: ["app_signature"] }, "server"); notice("n_device_integrity", { device: t("m3_dev_terminal") }, { kind: "device_integrity" }); draw(); });
   $("#cDuress").addEventListener("click", () => { emit("DuressSignalled", { device_id: "pt", person: "cashier", path: "internet", at: Date.now() }, "server"); notice("n_duress", { device: t("m3_dev_terminal") }, { kind: "duress_alert" }); draw(); });
