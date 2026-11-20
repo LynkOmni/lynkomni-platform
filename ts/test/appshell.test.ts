@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { tabsHtml, firstColumnHtml, serviceMenuHtml, quickCreateHtml, quickCreateButton, launcherGroupsHtml } from "../src/appshell.js";
+import { tabsHtml, firstColumnHtml, serviceMenuHtml, quickCreateHtml, quickCreateButton, launcherGroupsHtml, orderedMenuHtml } from "../src/appshell.js";
 import { NAV } from "../src/navigation.generated.js";
 import { DEVICES } from "../src/interfaces.generated.js";
 import { layoutFor } from "../src/interfaces.js";
@@ -44,4 +44,10 @@ test("the launcher shows My services first, then the eight groups, each family o
   const groups = [...html.matchAll(/data-group="([^"]+)"/g)].map((m) => m[1]);
   assert.deepEqual(groups, ["mine", "sell", "get_paid", "run_the_office", "people", "move_and_protect", "learn_and_work", "ask_and_decide", "build"]);
   assert.equal((html.match(/data-act="place:lynkpos"/g) ?? []).length, 1);
+});
+
+test("a surface's own menu is put in the register's fixed order", () => {
+  const html = orderedMenuHtml(NAV, look, { items: [{ id: "share", slot: "settings", label: "S" }, { id: "auto", slot: "automations", label: "A" }, { id: "sales", slot: "list", label: "L" }, { id: "home", slot: "overview", label: "O" }], current: "sales", act: "go" });
+  assert.deepEqual([...html.matchAll(/data-act="go:([a-z]+)"/g)].map((m) => m[1]), ["home", "sales", "auto", "share"]);
+  assert.ok(/data-act="go:sales" data-slot="list" aria-current="page"/.test(html));
 });

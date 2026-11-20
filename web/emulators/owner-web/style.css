@@ -10,7 +10,10 @@
 .bar { display: flex; align-items: center; gap: 14px; padding: 8px 12px; background: var(--bg-subtle); border-bottom: 1px solid var(--border-subtle); }
 .dots { display: flex; gap: 6px; } .dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--border-strong); }
 .url { flex: 1; display: flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; background: var(--bg-surface); color: var(--text-secondary); font: 13px var(--font-mono); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; direction: ltr; }
-.app { flex: 1; display: grid; grid-template-columns: 220px minmax(0, 1fr); min-height: 0; }
+.app { flex: 1; display: grid; grid-template-columns: auto auto minmax(0, 1fr); min-height: 0; }   /* the two-level side bar (ts/src/appshell.ts): first column, then the page menu */
+.menu-logo { padding: 4px 4px 12px; } .menu-logo .logo { width: 150px; display: block; } .menu-logo .logo svg { width: 100%; height: auto; display: block; }
+.launch { width: min(760px, 92%); max-height: 86%; overflow: auto; padding: 18px; border-radius: 14px; background: var(--bg-surface); color: var(--text-primary); display: flex; flex-direction: column; gap: 12px; }
+.launch h2 { margin: 0; font: 700 18px var(--font-heading); }
 .side { background: var(--bg-surface); border-inline-end: 1px solid var(--border-subtle); padding: 14px 10px; display: flex; flex-direction: column; gap: 2px; overflow: auto; }
 .side .logo { width: 150px; display: block; margin: 0 6px 12px; }
 .side .logo svg { width: 100%; height: auto; display: block; }

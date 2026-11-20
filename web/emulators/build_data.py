@@ -279,6 +279,12 @@ def country_packs():
     return {SAMPLE: out.pop(SAMPLE), **out}
 
 
+def launcher():
+    with open(os.path.join(ROOT, "catalog", "products.v1.json"), encoding="utf-8") as f:
+        products = json.load(f)["products"]
+    return [{"family": p["family"], "name": billing.FAMILIES[p["family"]][1], "app": p.get("app") or ""} for p in products]
+
+
 def main(emulator):
     with open(os.path.join(ROOT, "design", "tokens.v1.json"), encoding="utf-8") as f:
         states = json.load(f)["states"]
@@ -319,6 +325,8 @@ def main(emulator):
         **({"people": people_plans()} if imports_part(emulator, "peopleparts.ts") else {}),
         # the agent point picture on the agent home (visuals need agent-point), in both themes; its text alternative is a translated screen text
         **({"agentPicture": {th: svg(visuals.get("agent-point", th).path) for th in ("light", "dark")}} if emulator == "merchant-phone" else {}),
+        # the launcher of the app shell (INTERFACE UPDATE 73.5): every product's short name and app address, from the catalog and billing
+        **({"launcher": launcher()} if imports_part(emulator, "appshell.ts") else {}),
         "statePictures": state_pics,
         "addresses": {k: addresses[k] for k in ("hosts", "website_paths", "app_paths", "account_paths", "pay_paths", "shop_paths", "staff_paths", "redirects")},
         "i18n": language_packs(emulator),

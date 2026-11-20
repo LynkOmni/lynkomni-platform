@@ -142,7 +142,7 @@ const TIERS = ["free", "plus", "pro", "max"] as const;
 
 const S = {
   screen: "phone" as "phone" | "code" | "enrol" | "choose" | "locale" | "setup" | "app", tab: "home" as Tab, view: "main" as View, sheet: false,
-  size: "phone" as "phone" | "tablet" | "web", tier: "free" as (typeof TIERS)[number],
+  size: "phone" as "phone" | "side" | "tablet" | "web", tier: "free" as (typeof TIERS)[number],
   btype: "shop" as BusinessType, business: 0, setupDone: new Set<string>(), setupSkipped: new Set<string>(), shopName: "", firstWay: "",
   svc: "bills" as string, partner: PARTNERS[0]?.id ?? "", number: "", amount: "", reqs: [] as AgentReq[], req: "", cashIn: 150_000, usedToday: 0, outlet: "all", outletList: ["Main outlet", "Market outlet"], cashChecks: new Set<string>(),
   lang: "en", theme: "light" as "light" | "dark", link: "good" as Link, forced: false, realUser: false, country: "", outcome: "confirm" as "confirm" | "fail" | "silent",
@@ -496,7 +496,7 @@ function topBar(title: string, back?: string): string {
   return `<div class="top${focus ? " focus" : ""}">${back ? `<button class="iconbtn back" data-act="${back}" aria-label="${esc(t("back"))}">${icon("ui-arrow-left")}</button>` : `${brandMark(DATA.brand.places, "app-top-bar", S.theme === "dark", "logo")}`}
     <h1>${esc(title)}</h1>${focus ? "" : DSH.helpButton() + quickCreateButton(NAV, barLook(), { role: S.role, screen: screenId(), act: "qc" })}<button class="netchip${off ? " off" : ""}" data-act="sheet" aria-label="${esc(t(off ? "offline" : "online"))}. ${esc(t("sync"))}${p.count ? ` · ${p.count}` : ""}">${icon(off ? "ui-offline" : "ui-sync")}${p.count ? `<span class="count">${p.count}</span>` : ""}</button>
     ${focus ? "" : `<button class="iconbtn bell" data-act="view:notifications" aria-label="${esc(t("notifications"))}${n ? ` (${n})` : ""}">${icon("ui-bell")}${n ? `<span class="dot">${n}</span>` : ""}</button>
-    <button class="iconbtn avatarbtn" data-act="view:account" aria-label="${esc(t("account"))}"><span class="initials" aria-hidden="true">${esc(initials)}</span></button>`}</div>${focus ? "" : DSH.crumbs(S.size === "phone")}`;
+    <button class="iconbtn avatarbtn" data-act="view:account" aria-label="${esc(t("account"))}"><span class="initials" aria-hidden="true">${esc(initials)}</span></button>`}</div>${focus ? "" : DSH.crumbs(S.size === "phone" || S.size === "side")}`;
 }
 const TAB_ICON: Record<string, string> = { home: "ui-home", sell: "ui-cart", stock: "product-stock", chats: "product-chat", business: "product-dash", services: "ui-grid", float: "ui-float",
   invoices: "ui-receipt", customers: "ui-user", tables: "ui-grid", kitchen: "ui-receipt", books: "ui-doc" };
@@ -507,13 +507,14 @@ const ww = (k: string): string => t(workspaceWord(DATA.workspaces, S.entity, k))
 const office = (): boolean => S.entity !== "company" && S.btype === "no_till";
 /** Tabs follow the business type (5, 42 H): bottom tabs on a phone, the same tabs in a side rail on a tablet (41 E). */
 /** The screen's shape (TURN UPDATE 76): the layout comes only from the device register (ts/src/interfaces.ts layoutFor). */
-const SHAPE = { phone: { interface: "phone.touch", width: 390, height: 844 }, tablet: { interface: "tablet.touch", width: 768, height: 1024 }, web: { interface: "computer.pointer", width: 1280, height: 800 } } as const;
+/** The shape each emulated device stands for: a phone held upright or turned sideways, the tablet on its side, a computer. */
+const SHAPE = { phone: { interface: "phone.touch", width: 390, height: 844 }, side: { interface: "phone.touch", width: 844, height: 390 }, tablet: { interface: "tablet.touch", width: 1024, height: 768 }, web: { interface: "computer.pointer", width: 1280, height: 800 } } as const;
 const layout = () => layoutFor(DEVICES, SHAPE[S.size]);
 /** The app shell's words and icons for this workspace's tabs (ts/src/appshell.ts, INTERFACE UPDATE 73.4). */
 const barLook = (): BarLook => ({ t, icon: (id, cls) => icon(id, cls), label: (k) => ww(`tab_${k}`), tabIcon: (k) => TAB_ICON[k], badge: (k) => (k === "chats" ? unread() : 0) });
 /** Tabs come from the navigation register: bottom tabs on a phone held upright, a side rail on a tablet or a computer, none on a focus screen. */
 function tabBar(): string {
-  return tabsHtml(NAV, barLook(), { kind: S.btype, layout: S.size === "web" ? { ...layout(), nav: "bottom_bar" } : layout(), screen: screenId(), current: S.tab, tabs: tabs() });
+  return tabsHtml(NAV, barLook(), { kind: S.btype, layout: layout(), screen: screenId(), current: S.tab, tabs: tabs() });
 }
 /** Quick create (+), by role (INTERFACE UPDATE 73.2): each item opens the screen the register names. */
 function openQuickCreate(id: string): void {
@@ -1783,7 +1784,7 @@ function wire(): void {
   bind("#cDriver", (el) => { const v = el.value; DRV.installed = v === "none" ? null : v === "current" ? DRIVERS.pack.version : "1.3.2"; DRV.days = v === "due" ? 2 : v === "overdue" ? 9 : 0; draw(); });
   bind("#cType", (el) => { S.btype = pick(["shop", "no_till", "agent_point", "restaurant"] as BusinessType[], el.value, "shop"); S.tab = "home"; S.view = "main"; S.hub = ""; draw(); });
   bind("#cEntity", (el) => { act(`entity:${el.value}`); S.tab = "home"; S.view = "main"; S.hub = ""; draw(); });
-  bind("#cSize", (el) => { S.size = el.value === "tablet" ? "tablet" : el.value === "web" ? "web" : "phone"; $("#device").className = `device ${S.size}`; fit(); draw(); });
+  bind("#cSize", (el) => { S.size = el.value === "tablet" ? "tablet" : el.value === "web" ? "web" : el.value === "side" ? "side" : "phone"; $("#device").className = `device ${S.size}`; fit(); draw(); });
   bind("#cTier", (el) => { S.tier = pick(TIERS as readonly string[], el.value, "free") as (typeof TIERS)[number]; PH.att.tier = S.tier; PH.q.tier = S.tier; PH.s.tier = S.tier; draw(); });   // the sandbox plan applies to LynkAttend too
   bind("#cOutcome", (el) => { S.outcome = el.value === "fail" ? "fail" : el.value === "silent" ? "silent" : "confirm"; });
   bind("#cDark", (el) => { S.theme = el.checked ? "dark" : "light"; draw(); });

@@ -13,16 +13,19 @@ import { panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
 import type { Entry } from "../../../ts/src/shell.js";
 import { DeviceMode } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
+import { firstColumnHtml, launcherGroupsHtml, orderedMenuHtml } from "../../../ts/src/appshell.js";
+import type { BarLook } from "../../../ts/src/appshell.js";
+import { NAV } from "../../../ts/src/navigation.generated.js";
 const SIDE_W = 200;   // px of room the 220 px sidebar gives its brand place (side-menu: logo from 140 px)
 
 interface Auto { id: string; level: string; assist: string | null; trigger: string; min_tier: string | null; default: string }
-declare const DATA: Build & { automations: Auto[] };
+declare const DATA: Build & { automations: Auto[]; launcher: { family: string; name: string; app: string }[] };
 type Page = "today" | "sales" | "devices" | "staff" | "commissions" | "automations" | "sharing";
 const PAGES: Page[] = ["today", "sales", "devices", "staff", "commissions", "automations", "sharing"];
 const PATH: Record<Page, string> = { today: "/business", sales: "/sell/sales", devices: "/business/devices", staff: "/business/team", commissions: "/business/agent-earnings", automations: "/business/automations", sharing: "/business/settings/data-sharing" };
 const TIERS = ["free", "plus", "pro", "max"] as const;
-const S: PanelState & { page: Page; off: Set<string>; why: string; sharing: Set<string>; notice: string } =
-  { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: false, lang: "en", page: "today", off: new Set(), why: "", sharing: new Set(), notice: "" };
+const S: PanelState & { page: Page; off: Set<string>; why: string; sharing: Set<string>; notice: string; launcher: boolean; place: string } =
+  { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: false, lang: "en", page: "today", off: new Set(), why: "", sharing: new Set(), notice: "", launcher: false, place: "" };
 const W = new Words(DATA.i18n, () => S.lang); const t = W.t;
 const C = new Country(DATA, () => S.country, () => S.lang);
 const $ = <T extends HTMLElement>(sel: string): T => document.querySelector(sel) as T;
@@ -81,18 +84,48 @@ const DSH = panelShell({
   account: () => sampleAccount(t, "owner", ["owner", "manager"], t("sample_shop"), S.dark ? "dark" : "light", DATA.i18n[S.lang]?.native ?? S.lang, C.pack().sample ? t("sample_country") : C.pack().name),
   run: (a) => act(a), redraw: () => draw(),
 });
-function page(): string { return { today, sales, devices, staff, commissions, automations, sharing }[S.page](); }
+function page(): string { return S.place ? placePage() : { today, sales, devices, staff, commissions, automations, sharing }[S.page](); }
+
+// ---- the app shell on a computer: the two-level side bar (INTERFACE UPDATE 73.3, ts/src/appshell.ts) ---------------------------
+const look: BarLook = { t, icon: (id) => icon(id) };
+/** Where each first-column place goes in this view. Track joins in section 7 with the "Track" home; pins come with the person's own choices. */
+const RAIL: Record<string, string> = { home: "go:today", inbox: "dsh:bell", all_services: "launcher", emulators: "go:devices", automations: "go:automations", settings: "go:sharing", help: "dsh:help" };
+const RAIL_CURRENT: Partial<Record<Page, string>> = { today: "home", devices: "emulators", automations: "automations", sharing: "settings" };
+/** This view's pages in the register's fixed order: Overview, the lists, Automations, Settings. */
+const SLOT: Record<Page, string> = { today: "overview", sales: "list", devices: "list", staff: "list", commissions: "list", automations: "automations", sharing: "settings" };
+const MINE = ["lynkpos", "lynkstock", "lynkchat", "lynkacc", "lynkinv", "lynkcrm", "lynkstat"];
+const nameOf = (f: string): string => DATA.launcher.find((x) => x.family === f)?.name ?? f;
+const appOf = (f: string): string => DATA.launcher.find((x) => x.family === f)?.app ?? "";
+function sideBar(): string {
+  const first = firstColumnHtml(NAV, look, { current: S.place ? "all_services" : RAIL_CURRENT[S.page] ?? "", hidden: ["track"], act: "rail" });
+  const logo = `<div class="menu-logo">${brandMark(DATA.brand.places, "side-menu", S.dark, "logo", SIDE_W)}</div>`;
+  const menu = orderedMenuHtml(NAV, look, { items: PAGES.map((p) => ({ id: p, slot: SLOT[p], label: t(LABEL[p]) })), current: S.place ? "" : S.page, act: "go", label: "LynkOmni", top: logo });
+  return first + menu;
+}
+/** A service opened from All services: its address and name; its screens on a computer come with its own build section. */
+function placePage(): string {
+  return `<h1>${esc(nameOf(S.place))}</h1><p class="note">${esc(appOf(S.place))}</p><p><button class="secondary" data-act="go:today">${esc(t("nv_home"))}</button></p>`;
+}
+function launcherOverlay(): string {
+  if (!S.launcher) return "";
+  return `<div class="dsh-scrim launch-scrim" data-act="launcher"><div class="launch" role="dialog" aria-modal="true" aria-label="${esc(t("nv_all_services"))}" data-stop="1"><h2>${esc(t("nv_all_services"))}</h2>
+    ${launcherGroupsHtml(NAV, look, { mine: MINE, name: nameOf, productIcon: () => "ui-grid", act: "place", families: DATA.launcher.map((x) => x.family) })}
+    <button class="secondary" data-act="launcher">${esc(t("nv_back"))}</button></div></div>`;
+}
 /** The owner's computer view is the all-in-one without touch (catalog/devices.v1.json): mouse and keyboard. */
 const DM = new DeviceMode(DEVICES, "all-in-one-pos", "non_touch");
 function draw(): void {
   const el = $("#screen"); DM.apply(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W);
-  el.innerHTML = `<div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">${icon("ui-lock")}app.lynkomni.com${esc(PATH[S.page])}</span></div>
-    <div class="app"><nav class="side" aria-label="LynkOmni">${brandMark(DATA.brand.places, "side-menu", S.dark, "logo", SIDE_W)}${PAGES.map((p) => `<button data-act="go:${p}" ${S.page === p ? 'aria-current="page"' : ""}>${esc(t(LABEL[p]))}</button>`).join("")}</nav><main class="main"><div class="mhead">${DSH.bar()}</div><p class="viewonly" role="note">${icon("ui-info")}${esc(t("view_only_computer"))}</p>${page()}${appMainFooter(W, C, DATA)}</main></div>${DSH.overlay()}`;
+  el.innerHTML = `<div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">${icon("ui-lock")}${esc(S.place ? appOf(S.place) : `app.lynkomni.com${PATH[S.page]}`)}</span></div>
+    <div class="app">${sideBar()}<main class="main"><div class="mhead">${DSH.bar()}</div><p class="viewonly" role="note">${icon("ui-info")}${esc(t("view_only_computer"))}</p>${page()}${appMainFooter(W, C, DATA)}</main></div>${launcherOverlay()}${DSH.overlay()}`;
   const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address();
 }
 function act(a: string): void {
   const [k = "", v = ""] = a.split(":");
-  if (k === "go") { S.page = PAGES.includes(v as Page) ? (v as Page) : "today"; S.why = ""; S.notice = ""; }
+  if (k === "rail") { const to = RAIL[v]; if (to) { if (to.startsWith("dsh:")) { if (DSH.act(to)) return; } else act(to); } return; }
+  if (a === "launcher") { S.launcher = !S.launcher; draw(); return; }
+  if (k === "place") { S.launcher = false; const page = (Object.keys(PATH) as Page[]).find((p) => appOf(v) === `app.lynkomni.com${PATH[p]}` || (v === "lynkpos" && p === "sales")); if (page) { S.place = ""; S.page = page; } else S.place = v; draw(); return; }
+  if (k === "go") { S.place = ""; S.page = PAGES.includes(v as Page) ? (v as Page) : "today"; S.why = ""; S.notice = ""; }
   if (k === "newsale") S.notice = t("needs_registered_device");
   if (k === "toggle") { const on = !S.off.has(v); if (on) S.off.add(v); else S.off.delete(v); }
   if (k === "why") S.why = S.why === v ? "" : v;
