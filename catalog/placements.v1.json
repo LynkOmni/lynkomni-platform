@@ -1714,6 +1714,105 @@
     "sitemap"
    ],
    "section": 4
+  },
+  {
+   "id": "stat_cohorts",
+   "kind": "feature",
+   "what": "Groups over time: customers grouped by the month they first bought, and how many came back",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "stat_what_if",
+   "kind": "feature",
+   "what": "What if: change a price, a cost or staff hours and see the likely result, always labelled an estimate",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "stat_own_measures",
+   "kind": "feature",
+   "what": "Your own measures built from existing figures with + - * / and brackets, without code",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "stat_scope",
+   "kind": "feature",
+   "what": "See only your part: a branch manager sees only that branch's figures, set once per role",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "stat_freshness",
+   "kind": "feature",
+   "what": "Fresh and correct: when each figure was last updated and which source has not reported",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "stat_exports",
+   "kind": "feature",
+   "what": "Scheduled exports of figures to the organisation's own data store, never customers' personal data",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "stat_goals",
+   "kind": "feature",
+   "what": "Goals for teams and branches with progress on the Home screen",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "stat_public_reports",
+   "kind": "feature",
+   "what": "Public reports for a non-profit or public body: totals only, every group below 5 hidden",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "stat_notes",
+   "kind": "feature",
+   "what": "Notes on a chart that explain a change, shown on the date they name",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
   }
  ]
 }

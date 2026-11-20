@@ -308,7 +308,8 @@
      "done": {},
      "progress": {
       "4": [
-       "v0.55.0: contract version 9 with the events of the section 4 links (invoices and credit notes issued, period closed, deal stage, a card in a conversation, ad earnings, a filed document, a vote's roll, a settled exchange) and two offline device commands"
+       "v0.55.0: contract version 9 with the events of the section 4 links (invoices and credit notes issued, period closed, deal stage, a card in a conversation, ad earnings, a filed document, a vote's roll, a settled exchange) and two offline device commands",
+       "v0.73.0: the LynkStat additions in full (67.5): catalog/stats.v1.json read by core/stats.py and ts/src/stats.ts with shared vectors (groups over time, what if always labelled an estimate, your own measures as formulas of figures, seeing only your part, freshness, scheduled exports, goals, notes on a chart, public reports with small groups hidden) and LynkStat in the cloud (services/stats.py) reading figures from the books, LynkInv and LynkCRM"
       ]
      }
     },

@@ -2,6 +2,17 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.73.0 (2026-11-20)
+Section 4, step D4b (SERVICES UPDATE 67.5: the LynkStat additions):
+- New register catalog/stats.v1.json, read by core/stats.py and ts/src/stats.ts with shared test answers (python3 tools/stats_vectors.py). It covers:
+  - groups over time: customers grouped by the month they first bought, and how many came back each later month;
+  - "what if": change a price, a cost or staff hours and see the likely result, always labelled an estimate;
+  - your own measures from existing figures with + - * / and brackets, never code; dividing by zero or a result too large for every device shows nothing, never a made-up number;
+  - seeing only your part (a branch manager sees only that branch, and nothing without a branch), freshness with missing sources, scheduled export dates, goals with progress and "on track", and public reports with every group below 5 hidden.
+- LynkStat in the cloud (services/stats.py): figures read from the books, LynkInv and LynkCRM; groups over time from issued invoices; own measures, roles' scope, freshness, scheduled exports (figures only, never customers' personal data), goals, notes on a chart and public reports.
+- Tiers (no price changes): freshness and notes on every tier; groups over time, goals and public reports from Plus; what if, own measures and branch scope from Pro; scheduled exports on Max.
+- Nine features placed in search, help and the sitemap; two security controls.
+
 ## v0.72.0 (2026-11-20)
 Section 4, step D4a (OFFICE UPDATE: the large-organisation set and Move in):
 - New register catalog/enterprise.v1.json, read by core/enterprise.py and ts/src/enterprise.ts with shared test answers (python3 tools/enterprise_vectors.py). It covers:
