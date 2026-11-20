@@ -49,7 +49,8 @@
     }
    ],
    "colour": "theme",
-   "note": "The browser tab icon (owner, 9 November 2026): the light-theme emblem for browsers in light mode and the dark-theme emblem for browsers in dark mode, as two icon links with prefers-color-scheme media queries; never the one-colour or all-white emblem. Emulated browser tabs follow the page theme the same way."
+   "note": "The browser tab icon (owner, 9 November 2026): the light-theme emblem for browsers in light mode and the dark-theme emblem for browsers in dark mode, as two icon links with prefers-color-scheme media queries; never the one-colour or all-white emblem. Emulated browser tabs follow the page theme the same way. Uses the small-size version of the emblem (gaps opened for 16 to 24 px), brand.small_asset.",
+   "small": true
   },
   {
    "id": "web-footer",
