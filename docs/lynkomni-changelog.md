@@ -13,6 +13,7 @@ Section 4, step C3a (ASSIST UPDATE: LynkAssist's trust layer):
 - "Ask about this" targets; quality gates: no release when a scorecard gets worse by more than 1 point, a language only when it passes its bar, a new skill starts as suggestions only.
 - The Business app's LynkAssist service uses the trust layer: new signals AssistPaused, AssistRoleSet, AssistLimitSet and AssistPlanChanged in merchant/events.v1.json.
 - Three security controls: content never obeyed, no secrets in memory, the second approver.
+- The Business app chat test now finds the Stop button again when it clicks (the answer redraws as it is written; a slower test machine caught it).
 
 ## v0.65.0 (2026-11-20)
 Section 4, step C2 (CHAT UPDATE: the shared chat part):
