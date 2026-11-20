@@ -96,7 +96,8 @@
     "chats",
     "insight",
     "pending_sync",
-    "on_the_way"
+    "on_the_way",
+    "ask_about"
    ],
    "path": "/"
   },
@@ -479,11 +480,16 @@
   },
   {
    "id": "assistant",
-   "blueprint": "41 E, 7",
+   "blueprint": "41 E, 7, 75",
    "items": [
     "ask",
     "drafts",
-    "figures_visible"
+    "figures_visible",
+    "pause_actions",
+    "role_permissions",
+    "second_approver",
+    "warning_pace",
+    "memory"
    ],
    "path": "/business/assistant"
   },

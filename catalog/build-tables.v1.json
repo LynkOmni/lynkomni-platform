@@ -1117,7 +1117,8 @@
      "done": {},
      "progress": {
       "4": [
-       "v0.66.0: the trust layer: catalog/assist-trust.v1.json read by core/assist_trust.py and ts/src/assisttrust.ts with shared vectors (how sure, exact figures, never obeying content, memory with its controls, previews, samples, owner limits, the second approver, per-role permission, the pause switch, plans, practice, warnings, Ask about this targets, quality gates); the Business app's LynkAssist service uses it"
+       "v0.66.0: the trust layer: catalog/assist-trust.v1.json read by core/assist_trust.py and ts/src/assisttrust.ts with shared vectors (how sure, exact figures, never obeying content, memory with its controls, previews, samples, owner limits, the second approver, per-role permission, the pause switch, plans, practice, warnings, Ask about this targets, quality gates); the Business app's LynkAssist service uses it",
+       "v0.67.0: the shared trust part ts/src/assistview.ts (how sure, the working, the preview with a sample, the second approver, warnings with Fix or It is fine, Ask about this, the owner's controls with pause, role permission, the approver amount, the daily pace and memory) with its words in 38 languages; the Business app's Home and Assistant use it"
       ]
      }
     },

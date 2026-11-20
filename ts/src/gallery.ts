@@ -9,6 +9,10 @@ import { layoutFor } from "./interfaces.js";
 import { CHAT } from "./chat.generated.js";
 import { inboxRowHtml, threadHtml, warningHtml } from "./chatview.js";
 import type { ChatLook } from "./chatview.js";
+import { TRUST } from "./assisttrust.generated.js";
+import { guard, work } from "./assisttrust.js";
+import { answerHtml, previewHtml, warningLineHtml } from "./assistview.js";
+import type { LaLook } from "./assistview.js";
 
 /** Icons are written as build markers, filled by the page build from the brand module. */
 const mark = (id: string): string => `<span class="ic" aria-hidden="true">/*@I:${id}@*/</span>`;
@@ -34,6 +38,7 @@ export function galleryHtml(nav: NavRegister, devices: DeviceRegister, words: Re
     tile("List toolbar", "Search with its label and filter chips", listToolbarHtml(t, { hint: "Sample: LOINV-0042", chips: [{ id: "all", label: "All", on: true }, { id: "open", label: "Open" }, { id: "late", label: "Late" }] })),
     tile("Save bar", "Stays in view at the bottom of a form", saveBarHtml({ label: "Save", act: "gal", secondary: { label: t("nv_back"), act: "gal" } })),
     ...chatTiles(t, tile),
+    ...assistTiles(t, tile),
   ].join("\n");
 }
 
@@ -55,5 +60,23 @@ function chatTiles(t: (k: string) => string, tile: (title: string, note: string,
     tile("Chat: a card number is never sent", "Masked before it is queued, with the warning", warningHtml(look, ["card"], "gal")),
     tile("Chat: inbox row", "The live sign replaces the last message for a moment",
       `<ul class="list card">${inboxRowHtml(CHAT, look, { id: "x", name: "Sample customer", last: "Thank you!", at: 0, unread: 2, sign: { sign: "typing", author: "customer" } }, { online: true, act: "gal" })}</ul>`),
+  ];
+}
+
+/** LynkAssist's trust part (ASSIST UPDATE 75, section 4 step C3b), drawn by the real part from the trust register. */
+function assistTiles(t: (k: string) => string, tile: (title: string, note: string, html: string) => string): string[] {
+  const words = (k: string, v?: Record<string, string | number>): string => Object.entries(v ?? {}).reduce((s, [a, b]) => s.replace(`{${a}}`, String(b)), t(k));
+  const look: LaLook = { t: words, icon: (id) => mark(id), money: (m) => (m / 100).toFixed(2) };
+  const parts = [{ label: "Sample receipt 1", minor: 1500 }, { label: "Sample receipt 2", minor: 250 }];
+  const w = work(parts.map((p) => ({ minor: p.minor, currency: "USD" })));
+  const rows = Array.from({ length: 12 }, (_, i) => ({ label: `Sample product ${i + 1}`, before: `${i + 1}.40`, after: `${i + 1}.00` }));
+  const big = guard(TRUST, { register_needs: "confirm", register_run: false, cls: "B", confirmed: true, items: 60, asker: "owner" });
+  return [
+    tile("LynkAssist: an answer", "How sure in words, the working behind the figure, added up twice",
+      answerHtml(TRUST, look, { title: "Today's sales", value: "17.50", sure: "certain", working: { w, parts } }, "gal")),
+    tile("LynkAssist: before you confirm", "A sample of 5 when many change; a big change goes to a second person",
+      previewHtml(look, { action: words("at_round_all"), rows, items: 60, cost: words("at_no_cost"), told: words("at_told_team"), guard: big, approverRole: "manager" }, "gal")),
+    tile("LynkAssist: a warning line", "Told once, with Fix or It is fine; never inside a payment",
+      warningLineHtml(look, "at_w_price_below_cost", { cost: "3.20" }, "price_below_cost", "gal")),
   ];
 }

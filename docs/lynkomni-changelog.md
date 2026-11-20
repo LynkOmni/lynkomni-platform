@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.67.0 (2026-11-20)
+Section 4, step C3b (ASSIST UPDATE: LynkAssist's trust part on screen):
+- New shared part ts/src/assistview.ts (with web/shell/assist.css), drawn from the trust register: LynkAssist's answer with how sure it is (an icon and its word, never colour alone), the working behind a figure (the records and the sum, added up twice, or why it is not shown), the "not an adviser" and "unconfirmed rule" lines; the before-and-after preview (what changes, what it costs, who will be told, a sample of 5 when many change); a warning line with Fix or It is fine; "Ask about this"; and the owner's controls.
+- The Business app uses it: Ask about this on today's sales on Home (a button, or press and hold for half a second); in the Assistant, correcting a price shows the preview and warns when the new price is below cost; rounding every price is a big change, so it goes to a second approver who is never the person asking (the owner or another manager answers it in the requests list); practice mode changes nothing real.
+- The owner's controls on the Assistant screen: Pause LynkAssist actions (answers carry on), what LynkAssist may do for each role, the second-approver amount, how many tips a day, and the memory card (what it remembers, Remember that…, Forget, memory off). Memory never keeps a card number or a code. Staff see the controls greyed.
+- The 79 LynkAssist words in all 38 languages (web/assist, prefix at_), travelling only with pages that use the part.
+- Every hinted field on these screens keeps an accessible name.
+- The Business app demo's size budget is 3,240 KB (the LynkAssist words in 38 languages).
+
 ## v0.66.0 (2026-11-20)
 Section 4, step C3a (ASSIST UPDATE: LynkAssist's trust layer):
 - New register catalog/assist-trust.v1.json, read by core/assist_trust.py and ts/src/assisttrust.ts with shared test answers (python3 tools/assist_trust_vectors.py), on top of the LynkAssist register that already decides what may run.

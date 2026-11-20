@@ -40,7 +40,7 @@ def _numbers():
 
 def _shell_css():
     """The app-shell and page-template styles the part gallery needs, from the same files the emulators use."""
-    return "".join(open(os.path.join(ROOT, "web", "shell", n), encoding="utf-8").read() for n in ("appshell.css", "pagekit.css", "chat.css"))
+    return "".join(open(os.path.join(ROOT, "web", "shell", n), encoding="utf-8").read() for n in ("appshell.css", "pagekit.css", "chat.css", "assist.css"))
 
 
 def _css(tokens):

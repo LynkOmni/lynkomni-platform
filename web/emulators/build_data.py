@@ -20,7 +20,7 @@ def svg(path):
 
 
 # Shared word packs: an emulator that imports the module carries the folder's words too (one translation, used everywhere).
-SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/queuedesk.js", os.path.join("web", "shell")), ("ts/src/surveydesk.js", os.path.join("web", "shell")), ("ts/src/trackview.js", os.path.join("web", "tracking")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/footer.js", os.path.join("web", "footer")), ("ts/src/appshell.js", os.path.join("web", "navigation")), ("ts/src/chatview.js", os.path.join("web", "chat")))
+SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/queuedesk.js", os.path.join("web", "shell")), ("ts/src/surveydesk.js", os.path.join("web", "shell")), ("ts/src/trackview.js", os.path.join("web", "tracking")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/footer.js", os.path.join("web", "footer")), ("ts/src/appshell.js", os.path.join("web", "navigation")), ("ts/src/chatview.js", os.path.join("web", "chat")), ("ts/src/assistview.js", os.path.join("web", "assist")))
 
 
 def uses_shell(emulator):
@@ -63,7 +63,7 @@ PART_MODULES = ("signin.ts", "notify.ts", "assist.ts", "breadcrumbs.ts", "attend
 PART_WORDS = {"signin.ts": ("pin_", "match_"), "notify.ts": ("ntf_", "msg_"), "assist.ts": ("as_",), "breadcrumbs.ts": ("crumbs",), "peopleparts.ts": ("ppl_",),
               "attenddesk.ts": ("ppl_at_",), "queuedesk.ts": ("ppl_qu_",), "surveydesk.ts": ("ppl_sv_",),   # build section 3B: each desk's own words travel only with that desk
               "emkit.ts": ("emk_",), "emulatorpanel.ts": ("emp_",),
-              "appshell.ts": ("nv_",), "chatview.ts": ("ch_",)}                                                                   # section 4 step B2: the menu words travel only with the app shell                                  # build section 3A: the Emulator Panel's device side and the panel
+              "appshell.ts": ("nv_",), "chatview.ts": ("ch_",), "assistview.ts": ("at_",)}                                                                   # section 4 step B2: the menu words travel only with the app shell                                  # build section 3A: the Emulator Panel's device side and the panel
 
 
 def part_words_left_out(emulator):
