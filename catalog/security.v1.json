@@ -681,6 +681,44 @@
    "test": "tests/test_contract_v10.py::test_no_text_secret_sign_or_personal_field",
    "build_section": 4,
    "status": "built"
+  },
+  {
+   "id": "assist-content-never-obeyed",
+   "asset": "accounts",
+   "threat": "Text inside a document, email, chat message, product name or web page tricks LynkAssist into an action (prompt injection)",
+   "enforced_in": [
+    "catalog/assist-trust.v1.json",
+    "core/assist_trust.py",
+    "ts/src/assisttrust.ts",
+    "services/assist_business.py"
+   ],
+   "test": "tests/test_assist_trust.py::test_text_it_reads_is_never_obeyed",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "assist-memory-no-secrets",
+   "asset": "personal_data",
+   "threat": "LynkAssist remembers a card number, PIN or code, mixes a business's memory with a person's, or shows a staff member what only the owner may see",
+   "enforced_in": [
+    "core/assist_trust.py",
+    "ts/src/assisttrust.ts"
+   ],
+   "test": "tests/test_assist_trust.py::test_memory_never_keeps_a_secret_and_never_mixes",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "assist-second-approver",
+   "asset": "records",
+   "threat": "One person makes a big change through LynkAssist alone, or approves their own request",
+   "enforced_in": [
+    "core/assist_trust.py",
+    "services/assist_business.py"
+   ],
+   "test": "tests/test_assist_business.py::test_a_big_change_needs_a_second_person",
+   "build_section": 4,
+   "status": "built"
   }
  ]
 }

@@ -2,6 +2,19 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.66.0 (2026-11-20)
+Section 4, step C3a (ASSIST UPDATE: LynkAssist's trust layer):
+- New register catalog/assist-trust.v1.json, read by core/assist_trust.py and ts/src/assisttrust.ts with shared test answers (python3 tools/assist_trust_vectors.py), on top of the LynkAssist register that already decides what may run.
+- How sure: "certain" only when every figure comes from the records, worked out exactly and checked twice; "likely" for an estimate or missing records; "I am not sure" when sources disagree or a country rule is unconfirmed; "I do not know" when there is no source. Figures are integer minor units of one currency, added up twice; otherwise not shown. Tax, law, money, investment and health answers carry the "not an adviser" line.
+- Cannot be tricked: only the person's own request can start an action; text in a document, email, chat message, product name, review or web page is content and is never obeyed.
+- Memory under control: preferences and "remember that…", kept apart by business, person and household; never a card number, PIN or code; sensitive things only when asked; memory follows the role; an off switch; kept in its own store, never in the event log.
+- Doing things safely: a before-and-after preview for every confirmed action; many changes show a sample of 5; the owner's limits only lower the register's; a big change (over 50 items or the amount) needs a second approver who is never the person asking; per-role permission; "Pause LynkAssist actions" (answers carry on); plans that pause and carry on; practice mode changes nothing real.
+- Warnings at the right moment (price below cost, a copy of an invoice, a date in the past, a cash mismatch, a failing payment, low stock): told once, never inside a payment or count, within the person's daily pace.
+- "Ask about this" targets; quality gates: no release when a scorecard gets worse by more than 1 point, a language only when it passes its bar, a new skill starts as suggestions only.
+- The Business app's LynkAssist service uses the trust layer: new signals AssistPaused, AssistRoleSet, AssistLimitSet and AssistPlanChanged in merchant/events.v1.json.
+- Three security controls: content never obeyed, no secrets in memory, the second approver.
+- The Business app chat test now finds the Stop button again when it clicks (the answer redraws as it is written; a slower test machine caught it).
+
 ## v0.65.0 (2026-11-20)
 Section 4, step C2 (CHAT UPDATE: the shared chat part):
 - New shared part ts/src/chatview.ts (with web/shell/chat.css), drawn from the chat register: messages with the five states (a person's "seen" choice followed, a failed message with Try again), "edited", a quoted reply and message details; live signs always with words (still words when motion is off), announced once to a screen reader; your own connection ("Waiting for internet", "Back online"); the unread line; LynkAssist always named, its answer appearing as it is written with its stage and Stop; upload progress with pause, carry on and cancel; buttons and small forms (a tap sends the choice as the person's own message); cards drawn by their own service; mute for an hour, a day or always; "Why did I get this chat?" and "Who is helping me?"; "Chat about this"; the composer with a visible label and an example as its hint.

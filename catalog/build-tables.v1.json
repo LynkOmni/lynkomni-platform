@@ -1114,7 +1114,12 @@
       "4"
      ],
      "part": "The groundwork: working shown, exact figures, \"how sure\"; protection against being tricked; memory with its controls; before-and-after previews, limits, second approver, per-role permission, the pause switch; \"Ask about this\"; warnings at the right moment; scorecards and release gates; the LynkAcc, LynkInv, LynkCRM and LynkStat skills",
-     "done": {}
+     "done": {},
+     "progress": {
+      "4": [
+       "v0.66.0: the trust layer: catalog/assist-trust.v1.json read by core/assist_trust.py and ts/src/assisttrust.ts with shared vectors (how sure, exact figures, never obeying content, memory with its controls, previews, samples, owner limits, the second approver, per-role permission, the pause switch, plans, practice, warnings, Ask about this targets, quality gates); the Business app's LynkAssist service uses it"
+      ]
+     }
     },
     {
      "sections": [
