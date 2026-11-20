@@ -92,5 +92,46 @@ class Business(unittest.TestCase):
         self.assertNotIn("undo", h[0])
 
 
+    # ---- ASSIST UPDATE 75 (section 4 step C3a): the trust layer on the business devices --------------------------------------
+    def test_text_lynkassist_reads_never_starts_an_action(self):
+        r = self.x.do("d1", "mgr-1", "manager", "correct_price", confirmed=True, source="product_name", product="rice", price_minor=1, now=T0)
+        self.assertEqual((r["needs"], r["state"]), ("content_not_instructions", "not_done"))
+        self.assertEqual(self.x.books.prices["rice"], 1500)
+
+    def test_pause_stops_every_action_and_only_the_owner_switches_it(self):
+        with self.assertRaises(PermissionError):
+            self.x.pause("manager", True, "mgr-1")
+        self.x.pause("owner", True, "owner-1")
+        self.assertEqual(self.x.do("d1", "c1", "cashier", "reprint_receipt", now=T0)["needs"], "paused")
+        self.x.pause("owner", False, "owner-1")
+        self.assertEqual(self.x.do("d1", "c1", "cashier", "reprint_receipt", now=T0)["state"], "done")
+        self.assertIn("AssistPaused", self.ev)
+
+    def test_the_owner_narrows_a_role_and_limits_only_lower(self):
+        self.x.set_role("owner", "manager", "stock", False, "owner-1")
+        self.assertEqual(self.x.do("d1", "mgr-1", "manager", "correct_price", confirmed=True, product="rice", price_minor=1400, now=T0)["needs"], "role_off")
+        self.x.set_role("owner", "manager", "stock", True, "owner-1")
+        self.x.set_limit("owner", "correct_price", max_items=3, by="owner-1")
+        self.assertEqual(self.x.do("d1", "mgr-1", "manager", "correct_price", confirmed=True, items=4, product="rice", price_minor=1400, now=T0)["needs"], "over_limit")
+        self.assertIn("AssistRoleSet", self.ev); self.assertIn("AssistLimitSet", self.ev)
+
+    def test_a_big_change_needs_a_second_person(self):
+        r = self.x.do("d1", "mgr-1", "manager", "correct_price", confirmed=True, items=240, product="rice", price_minor=1400, now=T0)
+        self.assertEqual((r["needs"], r["state"]), ("second_approver", "asked_owner"))
+        rid = self.x.history[0]["request"]
+        with self.assertRaises(PermissionError):
+            self.x.owner_answer(rid, "approve", "mgr-1", "manager", args={"product": "rice", "price_minor": 1400})   # the asker
+        with self.assertRaises(PermissionError):
+            self.x.owner_answer(rid, "approve", "c1", "cashier", args={"product": "rice", "price_minor": 1400})
+        out = self.x.owner_answer(rid, "approve", "mgr-2", "manager", args={"product": "rice", "price_minor": 1400}, now=T0 + 20)
+        self.assertEqual(out["state"], "done"); self.assertEqual(self.x.books.prices["rice"], 1400)
+
+    def test_plans_pause_and_carry_on(self):
+        self.x.plan("p1", "running", "owner-1", steps=["count", "reorder"])
+        self.x.plan("p1", "paused", "owner-1"); self.x.plan("p1", "running", "owner-1"); self.x.plan("p1", "done", "owner-1")
+        with self.assertRaises(ValueError):
+            self.x.plan("p1", "running", "owner-1")
+        self.assertIn("AssistPlanChanged", self.ev)
+
 if __name__ == "__main__":
     unittest.main()

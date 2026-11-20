@@ -391,7 +391,7 @@
     "role",
     "facts"
    ],
-   "note": "Ask the owner: a staff request above their role, with the facts, waiting for one tap."
+   "note": "Ask the owner, or a second approver: a staff request above their role, an action the owner asked to approve first, or a big change (ASSIST UPDATE 75.2: over 50 items or the owner's amount), with the facts, waiting for one tap. The person asking never approves their own request."
   },
   "OwnerAnswered": {
    "payload": [
@@ -443,6 +443,39 @@
     "channel"
    ],
    "note": "The owner's daily or weekly summary was built from the day's records and sent by the channel the owner picked."
+  },
+  "AssistPaused": {
+   "payload": [
+    "on",
+    "by"
+   ],
+   "note": "'Pause LynkAssist actions' (ASSIST UPDATE 75.2): while on, LynkAssist changes nothing anywhere in the business; it still answers. Only the owner switches it."
+  },
+  "AssistRoleSet": {
+   "payload": [
+    "role",
+    "target",
+    "on",
+    "by"
+   ],
+   "note": "The owner chose what LynkAssist may do for one role (an action or area); never more than catalog/assist.v1.json allows that role."
+  },
+  "AssistLimitSet": {
+   "payload": [
+    "action",
+    "max_items",
+    "max_minor",
+    "by"
+   ],
+   "note": "The owner's limits for an action: how many items and how much in one go. They can only lower the register's limits (core/assist_trust.effective_limit)."
+  },
+  "AssistPlanChanged": {
+   "payload": [
+    "plan",
+    "state",
+    "by"
+   ],
+   "note": "A LynkAssist plan of several steps moved: started, paused, carried on (on any device), done or cancelled (catalog/assist-trust.v1.json safety.plans)."
   }
  }
 }

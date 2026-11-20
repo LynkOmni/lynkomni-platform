@@ -12,10 +12,15 @@ What it adds to the register (services/assist_register.py decides; this file onl
   and undoable;
 - Ask the owner: a staff request above their role reaches the owner with the facts (notification kind staff_request) and is
   confirmed or denied in one tap;
-- one history: every decision, run or not, for the business ("Everything LynkAssist did" in the business settings).
+- one history: every decision, run or not, for the business ("Everything LynkAssist did" in the business settings);
+- the trust layer (ASSIST UPDATE 75; core/assist_trust.py, build section 4 step C3a): only the person's own request can start an
+  action (text LynkAssist reads is never obeyed); "Pause LynkAssist actions" stops every action while answers carry on; the owner
+  chooses what LynkAssist may do for each role and sets limits that can only lower the register's; a big change (over 50 items
+  or the amount) needs a second approver who is not the person asking; plans of several steps can be paused and carried on.
 LynkAssist is never shown inside a payment, a cash count, a void or a signature (screens enforce it with NEVER_INSIDE)."""
 import json, time, uuid
 
+from core import assist_trust as AT
 from services import assist_register as AR
 from identity.device_access import emit_checked
 
@@ -48,6 +53,7 @@ class BusinessAssist:
         self.switched_off, self.ask_first, self.standing = set(), set(), {}
         self.done_today = {}
         self.history, self.queue, self.requests = [], [], {}
+        self.paused, self.role_off, self.limits, self.plans = False, set(), {}, {}
 
     def emit(self, t, p):
         emit_checked(self.emit_fn, t, p)
@@ -83,6 +89,39 @@ class BusinessAssist:
             self.standing.pop(action_id, None)
         self.emit("StandingPermissionSet", {"action": action_id, "on": on, "per_day": per_day, "max_minor": max_minor, "by": by})
 
+    def pause(self, role, on, by):
+        """'Pause LynkAssist actions': nothing changes anywhere in the business while on; answers carry on."""
+        self._owner(role)
+        self.paused = bool(on)
+        self.emit("AssistPaused", {"on": self.paused, "by": by})
+
+    def set_role(self, role, for_role, target, on, by):
+        """What LynkAssist may do for one role (an action or an area); never more than the register allows that role."""
+        self._owner(role)
+        (self.role_off.discard if on else self.role_off.add)((for_role, target))
+        self.emit("AssistRoleSet", {"role": for_role, "target": target, "on": bool(on), "by": by})
+
+    def set_limit(self, role, action_id, max_items=None, max_minor=None, by=None):
+        """The owner's limits for one action; they can only lower the register's own."""
+        self._owner(role)
+        reg = AR.ACTIONS[action_id]["limits"]
+        lim = {"max_items": max_items, "max_minor": AT.effective_limit(reg.get("max_minor"), max_minor)}
+        self.limits[action_id] = lim
+        self.emit("AssistLimitSet", {"action": action_id, "max_items": max_items, "max_minor": lim["max_minor"], "by": by})
+
+    def plan(self, plan_id, state, by, steps=None):
+        """A plan of several steps: draft, running, paused, done or cancelled; carried on from any device."""
+        old = self.plans.get(plan_id, {}).get("state", "draft")
+        if plan_id in self.plans and not AT.plan_move(old, state):
+            raise ValueError(f"a plan cannot go from {old} to {state}")
+        self.plans[plan_id] = {"state": state, "steps": steps if steps is not None else self.plans.get(plan_id, {}).get("steps", [])}
+        self.emit("AssistPlanChanged", {"plan": plan_id, "state": state, "by": by})
+        return self.plans[plan_id]
+
+    def _role_off(self, role, action_id):
+        a = AR.ACTIONS.get(action_id, {})
+        return (role, action_id) in self.role_off or (role, a.get("area")) in self.role_off
+
     # ------------------------------------------------------------------ deciding
     def decide(self, action_id, role, amount_minor=None, confirmed=False, fresh_check=False, online=True, country=None):
         n = self.done_today.get(action_id, 0)
@@ -102,10 +141,25 @@ class BusinessAssist:
         return {**d, "offline": mode}
 
     # ------------------------------------------------------------------ doing
-    def do(self, device_id, person, role, action_id, confirmed=False, fresh_check=False, online=True, now=None, amount_minor=None, **args):
+    def do(self, device_id, person, role, action_id, confirmed=False, fresh_check=False, online=True, now=None, amount_minor=None,
+           source="person", items=0, approver=None, approver_role=None, **args):
         d = self.decide(action_id, role, amount_minor=amount_minor, confirmed=confirmed, fresh_check=fresh_check, online=online)
+        lim = self.limits.get(action_id, {})
+        g = AT.guard(d["needs"], d["run"], d.get("class"), source=source, paused=self.paused, role_off=self._role_off(role, action_id),
+                     confirmed=confirmed, items=items, amount_minor=amount_minor, max_items=lim.get("max_items"), max_amount_minor=lim.get("max_minor"),
+                     asker=person, approver=approver, approver_role=approver_role)
         entry = {"id": uuid.uuid4().hex, "action": action_id, "person": person, "role": role, "device": device_id,
-                 "class": d.get("class"), "needs": d["needs"], "why": d["why"], "at": _now(now), "state": "not_done", "result": None, "undo": None}
+                 "class": d.get("class"), "needs": d["needs"], "why": d["why"], "at": _now(now), "state": "not_done", "result": None, "undo": None,
+                 "trust": g["outcome"]}
+        if g["outcome"] in ("content_not_instructions", "paused", "role_off", "over_limit"):
+            entry["needs"], entry["why"] = g["outcome"], g["why"]       # the trust layer stops it before anything runs
+            self.history.insert(0, entry)
+            return {**d, "run": False, "needs": g["outcome"], "why": g["why"], "entry": entry["id"], "state": "not_done", "result": None}
+        if g["outcome"] == "second_approver":
+            entry["state"] = "asked_owner"
+            entry["request"] = self.ask_owner(person, role, action_id, {"args": sorted(args), "reason": "big_change", "items": items, "amount_minor": amount_minor}, now=now)
+            self.history.insert(0, entry)
+            return {**d, "run": False, "needs": "second_approver", "why": g["why"], "entry": entry["id"], "state": "asked_owner", "result": None}
         if d["needs"] == "ask_owner":
             entry["state"] = "asked_owner"
             entry["request"] = self.ask_owner(person, role, action_id, {"args": sorted(args)}, now=now)
@@ -168,14 +222,22 @@ class BusinessAssist:
         return rid
 
     def owner_answer(self, rid, answer, by, by_role, args=None, now=None):
-        """One tap: approve or deny. Approving runs the action as the owner confirmed it, still through the register."""
-        if by_role != "owner":
-            raise PermissionError("only the owner answers")
+        """One tap: approve or deny. Approving runs the action as it was confirmed, still through the register and the trust layer.
+        A big change may be approved by the owner or a manager, but never by the person who asked."""
         r = self.requests[rid]
+        big = r["facts"].get("reason") == "big_change"
+        if by_role not in (AT.SAFE["second_approver"]["approver_roles"] if big else ("owner",)):
+            raise PermissionError("only the owner answers" if not big else "only the owner or a manager approves a big change")
+        if big and by == r["person"]:
+            raise PermissionError("the person who asked never approves their own request")
         if r["answer"] is not None:
             return r["answer"]
         r["answer"] = answer
         self.emit("OwnerAnswered", {"request_id": rid, "answer": answer, "by": by})
+        if answer == "approve" and big:
+            f = r["facts"]
+            return self.do("owner", r["person"], r["role"], r["action"], confirmed=True, now=now, items=f.get("items", 0), amount_minor=f.get("amount_minor"),
+                           approver=by, approver_role=by_role, **(args or {}))
         if answer == "approve":
             return self.do("owner", by, "owner", r["action"], confirmed=True, now=now, **(args or {}))
         return "denied"
