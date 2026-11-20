@@ -2,6 +2,27 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.70.0 (2026-11-20)
+Section 4, step D2b (OFFICE UPDATE: contract version 11 and the cloud services):
+- Contract version 11 (contract/tools/build_v11.py) adds the facts of bills, expense claims, assets, loss of value, journals and the lock date, and of documents, reminders, promises to pay, disputes, write-offs, credit balances, instalment plans, subscription changes and e-invoice answers, and LynkCRM's facts: a record created, records merged, a customer handed over, a case opened and moved on, consent per channel, a data request and a field visit.
+  - A device may record a bill, submit an expense claim, record a promise to pay, mark a dispute, create a customer record, open a case, change consent and check in a visit, offline.
+  - Everything that needs the rules, a second person or a provider is written by the cloud alone.
+  - A journal must balance and name real accounts.
+  - No name, contact detail, bank account, card or tax number, address, photo or position is ever in an event.
+- LynkAcc in the cloud (services/accounting.py):
+  - bills entered, approved step by step by people other than the one who entered them, matched with the order and the goods received, and paid only when the provider confirms; payment runs;
+  - expense claims approved by someone else and repaid;
+  - assets with their loss of value (once per period), and selling or writing one off;
+  - journals with two people for sensitive kinds, the lock date (two people), and the year-end close with its checklist;
+  - revaluation, bank matching and the statements.
+- LynkInv in the cloud (services/invoicing.py):
+  - documents with their own identifiers, and approval before sending;
+  - stepped reminders with promises and disputes, write-offs by two people, paying several invoices at once with a credit balance, instalment plans, subscriptions and billing by use;
+  - government e-invoices waiting as queued until the country's partner is signed.
+- Leftover fixed: issued invoices, invoice payments, credit notes and voids never reached the books. They now post as checked journals: an invoice is owed, earned and taxed; an electronic payment sits in the payments clearing account until the payout, as card and mobile-money sales already did. The quote-to-cash and sale-to-books journeys run end to end in tests, with the books balanced at every step.
+- Three security controls: paid only when confirmed, write-offs by two people, approval before sending.
+- Leftover fixed: on some demo pages (the kitchen screen, the stock scanner) a link the screen handles itself, such as a breadcrumb, also made the browser leave the page. A small shared part now keeps such links in the page on every demo (they keep their real address for hosted pages and screen readers), and a new fit-guard check clicks every such link on every page. This was the cause of the layout check that failed from time to time on CI.
+
 ## v0.69.0 (2026-11-20)
 Section 4, step D2a (OFFICE UPDATE: LynkInv's rules):
 - New register catalog/invoices.v1.json, read by core/invoices.py and ts/src/invoices.ts with shared test answers (python3 tools/invoices_vectors.py), on top of LynkAcc's rules. It covers:

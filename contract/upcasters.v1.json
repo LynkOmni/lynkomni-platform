@@ -141,6 +141,19 @@
     "change an event type",
     "add a PIN, a phone number or a name"
    ]
+  },
+  {
+   "from_schema_version": 10,
+   "to_schema_version": 11,
+   "agreed": "2026-11-20 (build section 4, step D2b: the LynkAcc and LynkInv events of OFFICE UPDATE)",
+   "rule": "Version 11 only adds events (BillRecorded, BillApproved, BillPaymentConfirmed, ExpenseClaimSubmitted, ExpenseClaimApproved, AssetAdded, DepreciationPosted, JournalPosted, LockDateSet, DocumentIssued, InvoiceReminderSent, PromiseToPayRecorded, InvoiceDisputed, InvoiceWrittenOff, CreditBalanceChanged, InstalmentPlanAgreed, SubscriptionChanged, EInvoiceStateChanged, CustomerRecordCreated, CustomerRecordsMerged, CustomerHandedOver, CaseOpened, CaseStateChanged, ContactConsentChanged, DataRequestReceived, VisitCheckedIn) and eight device commands. A version 10 event reads as version 11 with schema_version raised; nothing else changes.",
+   "never": [
+    "rescale an amount",
+    "rewrite a stored event",
+    "change an identifier",
+    "change an event type",
+    "add a name, a bank account, a card number or a tax number"
+   ]
   }
  ]
 }

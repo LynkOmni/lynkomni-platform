@@ -301,10 +301,10 @@
    "from": "lynkchat",
    "to": "support",
    "what": "A conversation becomes a support case (LOCASE-) only when someone opens one",
-   "events": [],
-   "planned_events": [
+   "events": [
     "CaseOpened"
    ],
+   "planned_events": [],
    "consent": "person",
    "build_section": 6
   },

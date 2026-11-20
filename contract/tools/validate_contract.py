@@ -31,12 +31,15 @@ REGISTRY_V6 = load("event-payloads.v6.json")          # published, never edited;
 REGISTRY_V7 = load("event-payloads.v7.json")          # published, never edited; still readable through the upcaster
 REGISTRY_V8 = load("event-payloads.v8.json")          # v8 (2026-11-19: v7 without WhatsApp)
 REGISTRY_V9 = load("event-payloads.v9.json")          # v9 (2026-11-19: the events of the section 4 links)
-REGISTRY = load("event-payloads.v10.json")            # the current version (v10, 2026-11-20: the conversation events of CHAT UPDATE)
-REGISTRIES = {1: REGISTRY_V1, 2: REGISTRY_V2, 3: REGISTRY_V3, 4: REGISTRY_V4, 5: REGISTRY_V5, 6: REGISTRY_V6, 7: REGISTRY_V7, 8: REGISTRY_V8, 9: REGISTRY_V9, 10: REGISTRY}
+REGISTRY_V10 = load("event-payloads.v10.json")        # v10 (2026-11-20: the conversation events of CHAT UPDATE)
+REGISTRY = load("event-payloads.v11.json")            # the current version (v11, 2026-11-20: the LynkAcc and LynkInv events of OFFICE UPDATE)
+REGISTRIES = {1: REGISTRY_V1, 2: REGISTRY_V2, 3: REGISTRY_V3, 4: REGISTRY_V4, 5: REGISTRY_V5, 6: REGISTRY_V6, 7: REGISTRY_V7, 8: REGISTRY_V8, 9: REGISTRY_V9, 10: REGISTRY_V10, 11: REGISTRY}
 CURRENCIES = load("currencies.v1.json")["decimals"]
 PERMS = load("permissions.v1.json")
-REGISTER = load("command-policy-register.v10.json")
+REGISTER = load("command-policy-register.v11.json")
+CURRENT_VERSION = max(REGISTRIES)                        # the newest version this validator reads
 STATES = load("state-machines.v1.json")
+CHART = load("chart-of-accounts.v2.json")["accounts"]   # JournalPosted names only accounts of the global chart
 SAMPLE_CURRENCY = load(os.path.join("country-packs", "XX.json"))["currency"]   # the neutral sample pack, never a real country
 
 # ---------------------------------------------------------------- mini JSON Schema
@@ -160,6 +163,17 @@ def domain_errors(etype, p):
     elif etype == "ProductUpdated":
         if "price" in p["changes"] and "currency" not in p:
             errs.append("price change needs a currency")
+    elif etype in ("DocumentIssued", "SubscriptionChanged"):
+        if ("total" in p or "amount" in p) and "currency" not in p:
+            errs.append("an amount needs a currency")
+    elif etype == "JournalPosted":
+        if sum(l["debit"] for l in p["lines"]) != sum(l["credit"] for l in p["lines"]):
+            errs.append("a journal must balance")
+        for l in p["lines"]:
+            if l["account"] not in CHART:
+                errs.append(f"unknown account {l['account']}")
+            if bool(l["debit"]) == bool(l["credit"]):
+                errs.append("each journal line is a debit or a credit, not both or neither")
     elif etype == "StockAdjusted":
         if p["delta_milli"] == 0:
             errs.append("delta_milli must be non-zero")
@@ -260,7 +274,7 @@ class Device:
         evt = {
             "event_id": uuid7(), "origin": "device", "merchant_id": MERCHANT, "branch_id": BRANCH,
             "device_id": self.id, "actor_user_id": USER, "device_seq": self.seq, "type": etype,
-            "schema_version": 10, "occurred_at_device": ts(at or self.clock), "prev_hash": self.prev,
+            "schema_version": 11, "occurred_at_device": ts(at or self.clock), "prev_hash": self.prev,
             "payload": payload, "signature": fake_sig(),
         }
         self.prev = event_hash(evt)
@@ -449,7 +463,7 @@ def contract_checks():
             if et in ev:
                 if cls == "A": check(f"register:{n}:{et} origin allows device", "device" in ev[et]["origins"])
                 else: check(f"register:{n}:{et} has an origin", bool(ev[et]["origins"]))
-                if (c.get("v1") or c.get("v2") or c.get("v4") or c.get("v5") or c.get("v6") or c.get("v7") or c.get("v9") or c.get("v10")) and "device" in ev[et]["origins"]: emitted_device.add(et)
+                if (c.get("v1") or c.get("v2") or c.get("v4") or c.get("v5") or c.get("v6") or c.get("v7") or c.get("v9") or c.get("v10") or c.get("v11")) and "device" in ev[et]["origins"]: emitted_device.add(et)
         pid = c["permission"]
         if pid is None:
             check(f"register:{n}:null permission is declared", c.get("local_only") or c.get("pre_auth") or c.get("any_authenticated"))
@@ -483,7 +497,7 @@ def contract_checks():
     for name, e in ev.items():
         props = e["payload"]["properties"]
         if carries_money(props):
-            optional_money = name in ("StockReceived", "ProductUpdated", "DealStageChanged")   # money optional there; domain_errors demands the currency with it
+            optional_money = name in ("StockReceived", "ProductUpdated", "DealStageChanged", "DocumentIssued", "SubscriptionChanged")   # money optional there; domain_errors demands the currency with it
             check(f"money:{name} carries its currency", "currency" in props and (optional_money or "currency" in e["payload"]["required"]))
     check("money:no rwf definition left in version 2", "rwf" not in REGISTRY["$defs"])
     check("money:currency enum == currency list", set(REGISTRY["$defs"]["currency"]["enum"]) == set(CURRENCIES))
@@ -526,7 +540,7 @@ def event_checks():
     expect_invalid("event:unknown type rejected", bad, "unknown event type")
     bad = json.loads(json.dumps(ok_sale)); bad["server_cursor"] = 5
     expect_invalid("event:device may not send server stamp", bad, "unexpected field")
-    bad = json.loads(json.dumps(ok_sale)); bad["schema_version"] = 11
+    bad = json.loads(json.dumps(ok_sale)); bad["schema_version"] = 12
     expect_invalid("event:future schema_version rejected", bad, "unsupported schema_version")
     # version 3: the side of a payload is internal or external, nothing else; a missing side means internal
     ext = json.loads(json.dumps(ok_sale)); ext["payload"]["side"] = "external"
@@ -543,7 +557,7 @@ def event_checks():
     v1_pay["schema_version"] = 1
     check("v1:payment without currency valid as version 1", validate_event(v1_pay) == [], str(validate_event(v1_pay)))
     up = upcast(v1_pay)
-    check("upcast:v1 payment reads as the current version with RWF and the workspace side", up["schema_version"] == 10 and up["payload"]["currency"] == "RWF" and up["payload"]["side"] == "internal" and validate_event(up) == [], str(validate_event(up)))
+    check("upcast:v1 payment reads as the current version with RWF and the workspace side", up["schema_version"] == CURRENT_VERSION and up["payload"]["currency"] == "RWF" and up["payload"]["side"] == "internal" and validate_event(up) == [], str(validate_event(up)))
     check("upcast:amount never rescaled", up["payload"]["amount"] == v1_pay["payload"]["amount"] and v1_pay["schema_version"] == 1)
     no_cur = Device().emit("PaymentRecorded", {"payment_id": uuid7(), "sale_id": ok_sale["payload"]["sale_id"], "method": "cash", "amount": 1500, "status": "cash_received"})
     expect_invalid("v2:payment without currency rejected", no_cur, "missing required 'currency'")
@@ -672,7 +686,7 @@ def chain_and_ingest_checks():
     d5 = Device(); s5 = ReferenceIngest(); s5.enroll(d5.id)
     fut = d5.emit("StockReceived", {"stock_receipt_id": uuid7(), "lines": [{"product_id": pid, "quantity_milli": 1000}]}); 
     # re-sign chain after changing version: rebuild event manually
-    fut["schema_version"] = 11
+    fut["schema_version"] = CURRENT_VERSION + 1
     o = s5.push([fut])
     check("ingest:future schema quarantined", o["results"][0].get("reason") == "unknown_schema_version", str(o))
 

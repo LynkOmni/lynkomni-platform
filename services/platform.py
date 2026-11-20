@@ -44,6 +44,8 @@ class Platform(_Base):
         s.seats, s.meter, s.edge, s.guest, s.settings = Seats(s), Meter(s), Edge(s), GuestCheckout(s), BusinessSettings(s)
         from services.invoicing import Invoicing
         s.invoicing = Invoicing(s)
+        from services.accounting import Books
+        s.books = Books(s)                                    # LynkAcc in the cloud (OFFICE UPDATE, section 4 step D2b)
         from services.flow import Flow
         from identity.account import Account
         from identity.automations import register as register_section_2

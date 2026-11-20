@@ -187,7 +187,7 @@ for (const e of EMULATORS) {
     .replace("/*@FAVICON@*/", () => `<span class="fav-l">${D.brand.favicon.light}</span><span class="fav-d">${D.brand.favicon.dark}</span>`)
     .replace("</head>", () => `${faviconLinks(D.brand.favicon)}\n</head>`)
     .replace(/\/\*@I:([a-z0-9-]+)@\*\//g, (_, id) => `<span class="ic" aria-hidden="true">${D.icons[id] ?? (() => { throw new Error(`unknown icon ${id}`); })()}</span>`)
-    .replace("/*@SCRIPT@*/", () => `const DATA = ${JSON.stringify(packData(D)).replace(/</g, "\\u003c")};\n(async () => {\n${UNPACK}\n${INFLATE}\n${bundle(e.modules)}\ndocument.documentElement.dataset.ready = "1"; window.__readyAt = performance.now();\n})();`);
+    .replace("/*@SCRIPT@*/", () => `const DATA = ${JSON.stringify(packData(D)).replace(/</g, "\\u003c")};\n(async () => {\n${UNPACK}\n${INFLATE}\n${bundle(["ts/src/inpage.js", ...e.modules])}\ndocument.documentElement.dataset.ready = "1"; window.__readyAt = performance.now();\n})();`);
   html = withScriptCover(html);
   html = withPolicy(html);
   const target = join(OUT, e.out);
