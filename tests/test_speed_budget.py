@@ -30,6 +30,7 @@ class SizeBudget(unittest.TestCase):
 
 @unittest.skipUnless(sync_playwright, "Playwright with Chromium is needed")
 class TimeBudget(unittest.TestCase):
+    shifts: dict = {}
     TRIES = 3     # a shared test machine is sometimes busy for a moment: the fastest of three fresh loads counts (owner, 2026-11-19)
 
     def measure(self, b, emulator, cfg):
@@ -37,10 +38,15 @@ class TimeBudget(unittest.TestCase):
         pg = b.new_page(viewport={"width": 390, "height": 844}, reduced_motion="reduce")
         cdp = pg.context.new_cdp_session(pg)
         cdp.send("Emulation.setCPUThrottlingRate", {"rate": BUDGETS["cpu_slowdown"]})
+        # nothing jumps while the screen loads (INTERFACE UPDATE 73.8): every layout shift not caused by a tap is added up
+        pg.add_init_script("window.__shift = 0; new PerformanceObserver((l) => { for (const e of l.getEntries()) if (!e.hadRecentInput) window.__shift += e.value; }).observe({ type: 'layout-shift', buffered: true });")
         pg.goto("file://" + os.path.join(DIST, f"lynkomni-{emulator}.html"))
         pg.wait_for_selector("html[data-ready]", state="attached")   # the app has unpacked its data and drawn its first screen (web/build.mjs)
         first = pg.evaluate("window.__readyAt")
         nodes = pg.evaluate("(r) => document.querySelector(r).querySelectorAll('*').length", budget(emulator, "root"))
+        pg.wait_for_timeout(2000)
+        shift = pg.evaluate("window.__shift")
+        self.shifts[emulator] = min(self.shifts.get(emulator, shift), shift)   # like the times: the best of the fresh loads counts; a real jump fails every load
         tap = pg.evaluate("""(sel) => new Promise((done) => { const t0 = performance.now(); document.querySelector(sel).click(); requestAnimationFrame(() => requestAnimationFrame(() => done(performance.now() - t0))); })""", cfg["first_tap"])
         pg.close()
         return first, nodes, tap
@@ -62,6 +68,8 @@ class TimeBudget(unittest.TestCase):
                 self.assertLessEqual(min(firsts), budget(emulator, "first_screen_ms"), f"{emulator}: first screen took {', '.join(f'{x:.0f}' for x in firsts)} ms in {len(runs)} loads")
                 self.assertLessEqual(min(taps), budget(emulator, "tap_ms"), f"{emulator}: the first tap took {', '.join(f'{x:.0f}' for x in taps)} ms in {len(runs)} loads")
             b.close()
+        for emulator, shift in self.shifts.items():
+            self.assertLessEqual(shift, budget(emulator, "layout_shift_max"), f"{emulator}: the screen moved while loading (layout shift {shift:.3f})")
 
 if __name__ == "__main__":
     unittest.main()

@@ -2,6 +2,16 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.63.0 (2026-11-20)
+Section 4, step B2c (INTERFACE UPDATE: page templates, the part gallery and the speed targets; step B is complete with this):
+- The counter tablet's tabs come from the navigation register through the app shell: a side rail (a tablet on its side), hidden during a cash count.
+- New shared page parts ts/src/pagekit.ts (with web/shell/pagekit.css): the record header (name, state, one main button and the same tabs on every record: Details, Activity, Files, Related; at most seven, the rest under More), the list toolbar (search with a visible label and an example as its hint, filter chips) and the save bar that stays in view. Screens take them up as their services are built (LynkAcc, LynkInv, LynkCRM and LynkStat in step D).
+- The showcase has a part gallery: every app-shell and page-template part, drawn by the real code from the registers (web/build.mjs writes web/showcase/gallery.generated.html; its check fails when the gallery is out of date).
+- New speed target: nothing jumps while a page loads (layout shift at most 0.1 from opening to two seconds after the first screen, on the four-times-slower CPU; web/budgets.v1.json layout_shift_max, tests/test_speed_budget.py).
+- Leftover fixed by that check: on a narrow screen, 14 demo pages drew the device at full size and then shrank it, so the page jumped (scores up to 0.36). The device drawing is now scaled before the first paint, and each demo page stays invisible until its first screen is drawn, so it appears all at once; every page is now at or under 0.066 here. Like the time budgets, the best of up to three fresh loads counts (a busy test machine once scored the shell page 0.131).
+- The account site moves onto the app shell in section 7 with the personal account frame and the person's bottom bar (blueprint 73.9 places that frame in section 7).
+- The counter tablet demo's size budget is 1,130 KB (menu words in 38 languages).
+
 ## v0.62.0 (2026-11-20)
 Section 4, step B2b (INTERFACE UPDATE and TURN UPDATE: the two-level side bar on a computer and turning the phone):
 - The owner's view on a laptop now has the two-level side bar from the app shell: a slim first column (Home, Inbox, All services; at the bottom Emulators, Automations, Settings and Help, which can never be hidden) and the page menu in the fixed order (Overview, the lists, Automations, Settings), with the logo above it. "All services" opens the launcher with "My services" first and then the eight groups; a service whose computer screens come in a later section opens at its own address with its name. Track joins this view with the "Track" home in section 7.

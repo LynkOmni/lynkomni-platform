@@ -38,6 +38,11 @@ def _numbers():
     return json.loads(out.stdout)
 
 
+def _shell_css():
+    """The app-shell and page-template styles the part gallery needs, from the same files the emulators use."""
+    return "".join(open(os.path.join(ROOT, "web", "shell", n), encoding="utf-8").read() for n in ("appshell.css", "pagekit.css"))
+
+
 def _css(tokens):
     def block(theme):
         t = tokens["themes"][theme]
@@ -70,6 +75,19 @@ table{{width:100%;border-collapse:collapse}} td,th{{text-align:start;padding:8px
 .tag{{display:inline-block;border-radius:6px;padding:1px 8px;font-size:13px;background:var(--bg-subtle)}}
 .tag.locked{{background:var(--brand-subtle);color:var(--brand-ink,var(--text-primary))}}
 .tag.next,.tag.building{{border:1px solid var(--brand-primary)}}
+.gal{{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}}
+.gal-part{{margin:0;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px}}
+.gal-stage{{background:var(--bg-base);border-radius:8px;padding:8px;position:relative;overflow:hidden}}
+.gal-part figcaption{{display:flex;flex-direction:column;font-size:14px}} .gal-part figcaption span{{color:var(--text-secondary)}}
+.gal-stage .scrim{{position:static}} .gal-stage .sheet{{position:static;width:auto}}
+.gal-stage .tabbar{{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}} .gal-stage .tabbar[data-count="4"]{{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.gal-stage .rail{{display:flex;flex-direction:column;width:96px;gap:4px}}
+.gal-stage .tabbar button,.gal-stage .rail button,.gal-stage .lplace,.gal-stage .rowbtn{{display:flex;flex-direction:column;align-items:center;gap:2px;min-height:44px;border:0;background:transparent;color:var(--text-secondary);font:600 11px var(--font-body)}}
+.gal-stage [aria-current="page"]{{color:var(--brand-ink)}}
+.gal-stage .ic{{width:20px;height:20px;display:inline-block}} .gal-stage .ic svg{{width:100%;height:100%}}
+.gal-stage .list{{list-style:none;margin:0;padding:0}} .gal-stage .rowbtn{{flex-direction:row;gap:8px;width:100%;font-size:14px;color:var(--text-primary)}}
+.gal-empty{{color:var(--text-secondary);font-size:14px;margin:0}}
+.gal-stage .primary,.gal-stage .secondary,.gal-stage .ghost{{min-height:44px;padding:8px 16px;border-radius:10px;font:600 14px var(--font-body);border:1px solid var(--brand-primary)}} .gal-stage .primary{{background:var(--brand-primary);color:var(--text-on-brand,#fff)}} .gal-stage .secondary,.gal-stage .ghost{{background:var(--bg-surface);color:var(--brand-ink)}}
 footer{{color:var(--text-secondary);font-size:14px;margin-top:48px;border-block-start:1px solid var(--border-subtle)}}
 nav a{{margin-inline-end:16px}}
 a{{color:var(--brand-ink,var(--brand-primary))}}
@@ -159,6 +177,10 @@ def build():
     labels = [("billing_families", "product families"), ("languages", "languages"), ("country_packs", "country packs"),
               ("currencies", "currencies"), ("event_types", "event types in the contract"), ("identifier_types", "identifier types"),
               ("automations", "registered automations"), ("pictures", "pictures"), ("provider_items", "provider items in the ledger")]
+    # the part gallery (INTERFACE UPDATE 73.8): every app-shell and page-template part, drawn by the real parts (web/build.mjs writes it)
+    gallery = open(os.path.join(ROOT, "web", "showcase", "gallery.generated.html"), encoding="utf-8").read()
+    parts.append('<h2 id="parts">Part gallery: the app shell and page templates</h2><p class="muted">Every shared part, drawn by the real code from the navigation and page-template registers (English; every language is in the emulators). Draft design until a designer signs off.</p>'
+                 f'<div class="gal">{gallery}</div>')
     parts.append('<h2 id="numbers">Numbers, read from the code</h2><div class="nums">')
     for k, lab in labels:
         if k in nums:
@@ -217,7 +239,7 @@ def build():
         return f'<link rel="icon" type="image/svg+xml" media="(prefers-color-scheme: {th})" href="data:image/svg+xml,{_up.quote(svg)}">'
     doc = ('<!doctype html><html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
            '<title>LynkOmni Showcase</title><meta name="description" content="Everything built so far in LynkOmni: working emulators, progress, numbers and every picture.">'
-           f'{_fav("light")}{_fav("dark")}<style>{_css(tokens)}</style></head><body>{"".join(parts)}</body></html>')
+           f'{_fav("light")}{_fav("dark")}<style>{_css(tokens)}{_shell_css()}</style></head><body>{"".join(parts)}</body></html>')
     # safe page settings (core/pagesafety.py): only this page's own script runs, pinned by its hash
     from core import pagesafety
     doc = doc.replace('<meta charset="utf-8">', '<meta charset="utf-8">' + pagesafety.meta([m.group("body") for m in pagesafety.SCRIPT.finditer(doc)]), 1)

@@ -907,12 +907,15 @@
       "4"
      ],
      "part": "The groundwork: the navigation register and the page-template register; the upgraded header, two-level side bar, bottom bar, quick create, switchers, search and launcher; lists, records, forms and states; the speed targets and checks; the part gallery in the showcase; every screen already built (Step 0 to 3B) moved onto them",
-     "done": {},
+     "done": {
+      "4": "v0.63.0"
+     },
      "progress": {
       "4": [
        "v0.57.0: the navigation register and the page-template register (every Business app screen with its template and a way in; three-tap and no-orphan checks)",
        "v0.61.0: the menu words in 38 languages; the app shell part (bottom bar, side rail, two-level side bar, quick create, grouped launcher, focus header) on the Business app",
-       "v0.62.0: the two-level side bar and the grouped launcher on the owner's computer view; the side rail for the Business app in a browser"
+       "v0.62.0: the two-level side bar and the grouped launcher on the owner's computer view; the side rail for the Business app in a browser",
+       "v0.63.0: the counter tablet on the app shell; the page-template parts (record header, list toolbar, save bar); the part gallery in the showcase; the speed target that nothing jumps; the account site moves with the personal account frame in section 7"
       ]
      }
     },

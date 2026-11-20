@@ -42,7 +42,7 @@
    "n": 4,
    "title": "LynkAcc, LynkInv, LynkCRM, LynkStat and LynkOps",
    "status": "building",
-   "version": "v0.48.0 (part 1a: office top-up and LynkBooking prices), v0.49.0 (part 1b: eight new families), v0.50.0 (part 1c: build tables and a steadier layout check), v0.53.0 (part 1d: LynkAcademy and the LynkSchool price rise), v0.54.0 (step A1: connections register, journeys and the vote identifiers), v0.55.0 (step A2: contract version 9 and 21 tracker kinds), v0.57.0 (step B1: navigation and page-template registers, turning rules), v0.61.0 (step B2a: menu words in 38 languages and the app shell on the Business app), v0.62.0 (step B2b: the two-level side bar on a computer and turning the phone)"
+   "version": "v0.48.0 (part 1a: office top-up and LynkBooking prices), v0.49.0 (part 1b: eight new families), v0.50.0 (part 1c: build tables and a steadier layout check), v0.53.0 (part 1d: LynkAcademy and the LynkSchool price rise), v0.54.0 (step A1: connections register, journeys and the vote identifiers), v0.55.0 (step A2: contract version 9 and 21 tracker kinds), v0.57.0 (step B1: navigation and page-template registers, turning rules), v0.61.0 (step B2a: menu words in 38 languages and the app shell on the Business app), v0.62.0 (step B2b: the two-level side bar on a computer and turning the phone), v0.63.0 (step B2c: page parts, the part gallery and the speed targets)"
   },
   {
    "n": "4B",

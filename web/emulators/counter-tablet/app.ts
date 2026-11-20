@@ -30,6 +30,10 @@ import { DeviceMode } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
 import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
+import { tabsHtml } from "../../../ts/src/appshell.js";
+import { NAV } from "../../../ts/src/navigation.generated.js";
+import { layoutFor } from "../../../ts/src/interfaces.js";
+import { applyLayout } from "../../../ts/src/turn.js";
 
 declare const DATA: Build & { entitlements: Record<string, PosEntitlement>; fx: Record<string, number> };
 type Tab = "home" | "sell" | "stock" | "chats" | "business" | "tables" | "kitchen" | "invoices" | "customers" | "services" | "float";
@@ -151,10 +155,13 @@ const DSH = panelShell({
 });
 const CRUMB: Record<string, string> = { "/": "sample_shop", "/sell": "sell", "/stock": "stock", "/business": "business", "/sell/payment": "pay", "/sell/receipt": "receipt", "/sell/shifts": "count_cash", "/sell/tables": "tables", "/sell/kitchen": "kitchen", "/business/team": "staff", "/business/daily-close": "day_close", "/crm": "customers" };
 function syncPanel(): void { ($("#cLang") as HTMLSelectElement).value = S.lang; ($("#cDark") as HTMLInputElement).checked = S.dark; ($("#cOnline") as HTMLInputElement).checked = S.online; }
+/** The counter tablet is a tablet on its side, fixed at the counter (catalog/devices.v1.json shapes). */
+const counterLayout = () => layoutFor(DEVICES, { interface: "tablet.touch", width: 1024, height: 768, device: "wall-tablet" });
 function tabBar(): string {
   const tabs = TABS[S.type];
   const ic: Record<string, string> = { home: "ui-home", sell: "ui-cart", stock: "product-stock", chats: "product-chat", business: "ui-grid", tables: "ui-grid", kitchen: "ui-bolt", invoices: "ui-doc", customers: "ui-user", services: "ui-grid", float: "ui-float" };
-  return `<nav class="tabbar" aria-label="LynkOmni">${tabs.map((k) => `<button data-act="tab:${k}" ${S.tab === k ? 'aria-current="page"' : ""}>${icon(ic[k] ?? "ui-grid")}<span>${esc(t(k))}</span></button>`).join("")}</nav>`;
+  // the tabs come from the navigation register through the app shell (INTERFACE UPDATE 73.4): a tablet on its side gets a side rail; a cash count hides it
+  return tabsHtml(NAV, { t, icon: (id) => icon(id), label: (k) => t(k), tabIcon: (k) => ic[k] ?? "ui-grid" }, { kind: S.type, layout: counterLayout(), screen: S.view === "shift" ? "shift" : S.view === "pay" ? "pay" : "home", current: S.tab, tabs });
 }
 function top(title: string): string {
   return `<header class="top">${brandMark(DATA.brand.places, "app-top-bar", S.dark, "brandmark")}<h1>${esc(title)}</h1>${S.practice ? `<span class="practice">${esc(t("practice"))}</span>` : ""}
@@ -310,7 +317,8 @@ function drawScreen(): void {
   const screen = $("#screen"), app = screen.querySelector(".app") as HTMLElement; DM.apply(screen);
   screen.classList.toggle("light", !S.dark); screen.classList.toggle("dark", S.dark); screen.classList.toggle("lowlit", DSH.pictures); applyRoot(screen, W);
   const cs = $("#cscreen"); cs.classList.toggle("light", !S.dark); cs.classList.toggle("dark", S.dark); applyRoot(cs, W);
-  app.innerHTML = `${top(t("sample_shop"))}<div class="body">${page()}</div>${S.unlocked && ["main", "shift", "dayclose"].includes(S.view) ? tabBar() : ""}${S.flash ? `<div class="toast" role="status">${esc(S.flash)}</div>` : ""}${DSH.overlay()}`;
+  applyLayout(app, counterLayout());
+  app.innerHTML = `${top(t("sample_shop"))}<div class="mid">${S.unlocked && ["main", "shift", "dayclose"].includes(S.view) ? tabBar() : ""}<div class="body">${page()}</div></div>${S.flash ? `<div class="toast" role="status">${esc(S.flash)}</div>` : ""}${DSH.overlay()}`;
   const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address();
   cs.innerHTML = customerDisplay();
 }

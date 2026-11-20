@@ -62,7 +62,12 @@
 .netchip.off { border-color: var(--status-warning-border); background: var(--status-warning-bg); color: var(--status-warning-text); }
 .netchip .ic { width: 12px; height: 12px; }
 .netchip .count { background: var(--brand-primary); color: var(--on-brand); border-radius: 999px; padding: 0 5px; }
-.body { flex: 1; min-height: 0; overflow: auto; }
+.body { flex: 1; min-height: 0; min-width: 0; overflow: auto; }
+.mid { flex: 1; min-height: 0; display: flex; }   /* the side rail beside the screen body (app shell, a tablet on its side) */
+.rail { flex: none; width: 76px; display: flex; flex-direction: column; gap: 2px; padding: 6px 4px; border-inline-end: 1px solid var(--border-subtle); background: var(--bg-surface); overflow-y: auto; }
+.rail button { min-height: 44px; border: 0; border-radius: 8px; background: transparent; color: var(--text-secondary); display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 4px 2px; font: 600 10px var(--font-body); cursor: pointer; overflow-wrap: anywhere; }
+.rail button[aria-current] { color: var(--brand-ink); background: var(--bg-subtle); }
+.rail .ic { width: 18px; height: 18px; }
 .tabbar { display: flex; border-top: 1px solid var(--border-subtle); background: var(--bg-surface); }
 .tabbar button { flex: 1; min-height: 44px; border: 0; background: transparent; color: var(--text-secondary); display: flex; flex-direction: column; align-items: center; gap: 1px; font: 600 10px var(--font-body); cursor: pointer; overflow-wrap: anywhere; }
 .tabbar button[aria-current] { color: var(--brand-ink); }
@@ -156,7 +161,7 @@
 label input { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px solid var(--border-input); background: var(--bg-surface); color: var(--text-primary); min-height: 32px; width: 120px; }
 .states { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
 .states button { font: 600 11px var(--font-body); padding: 4px 8px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; }
-.screen[dir="rtl"] .menu button .ic svg, .screen[dir="rtl"] .tabbar .ic svg { transform: none; }
+.screen[dir="rtl"] .menu button .ic svg, .screen[dir="rtl"] .tabbar .ic svg, .screen[dir="rtl"] .rail .ic svg { transform: none; }
 /* MASTER UPDATE section 3: who is signing in, with the change-person link */
 .lock .who { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; margin: 4px 0; font-size: 14px; }
 .lock .who .ic { width: 16px; height: 16px; }
