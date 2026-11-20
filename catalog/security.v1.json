@@ -871,6 +871,32 @@
    "test": "tests/test_enterprise.py::test_nothing_moves_in_with_an_error_and_contacts_go_to_the_vault",
    "build_section": 4,
    "status": "built"
+  },
+  {
+   "id": "stat-measure-never-code",
+   "asset": "service",
+   "threat": "An owner's own measure runs code or shows a made-up number (division by zero, a result too large for a device)",
+   "enforced_in": [
+    "core/stats.py",
+    "ts/src/stats.ts",
+    "services/stats.py"
+   ],
+   "test": "tests/test_stats.py::test_a_measure_is_a_formula_of_figures_never_code",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "stat-small-groups-and-scope",
+   "asset": "personal_data",
+   "threat": "A public report or a branch view lets someone pick out a person or see figures outside their part",
+   "enforced_in": [
+    "core/stats.py",
+    "ts/src/stats.ts",
+    "services/stats.py"
+   ],
+   "test": "tests/test_stats.py::test_estimates_are_labelled_and_small_groups_hidden",
+   "build_section": 4,
+   "status": "built"
   }
  ]
 }

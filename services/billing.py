@@ -292,6 +292,17 @@ _OFFICE_CRM = [
 for _i, _d in enumerate(_OFFICE_CRM):
     for _k, _v in _d.items():
         FEATURES["lynkcrm"][_i][_k] = _v
+# SERVICES UPDATE 67.5 for LynkStat (section 4 step D4b). Freshness (when a figure was last updated and what is missing) is on
+# every tier; no price changes. The rules are in catalog/stats.v1.json.
+_OFFICE_STAT = [
+    dict(freshness=True, chart_notes=True),
+    dict(cohorts=True, goals=True, public_reports=True),
+    dict(what_if=True, own_measures=True, scope_by_branch=True),
+    dict(scheduled_exports=True),
+]
+for _i, _d in enumerate(_OFFICE_STAT):
+    for _k, _v in _d.items():
+        FEATURES["lynkstat"][_i][_k] = _v
 # EMULATOR UPDATE (owner accepted 2026-11-18, blueprint 70.12; build section 3A): staff emulator slots, the number of staff emulators
 # of a family connected at the same time. Every number already locked stays: LynkPOS keeps its devices (1, 2, 5, unlimited);
 # LynkAttend, LynkQueue and LynkSurvey keep their own locked units ("own_units": places, counters, creators) and are not limited
