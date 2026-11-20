@@ -236,7 +236,23 @@ def for_surface(surface_id, theme, width_px=None, printing=False, path=None, **k
     allowed = {v for u in s["uses"] if u["asset"] == asset_id for v in u["variants"]}
     if variant not in allowed:
         raise KeyError(f"surface {surface_id} does not allow {asset_id} in {variant}")
+    if s.get("small"):
+        return small_asset(asset_id, variant, **kw)
     return asset(asset_id, variant, **kw)
+
+
+def small_asset(asset_id, variant, **kw):
+    """The small-size version of an asset (the same artwork with the gaps opened slightly so they stay visible at
+    16 to 24 px). Only places marked "small" in surfaces.v1.json use it (the browser tab icon). A release without a
+    small-size version gives the normal asset."""
+    m = manifest(**kw)
+    sm = m.get("small", {}).get(asset_id)
+    if not sm or variant not in sm["variants"]:
+        return asset(asset_id, variant, **kw)
+    a = m["assets"][asset_id]
+    rel = sm["variants"][variant]["svg"]
+    path = _file(rel, **kw)
+    return Asset(asset_id, variant, rel, path, sha256_file(path), a["minWidthPx"], a["accessibleName"], tuple(sm["viewBox"]))
 
 
 def powered_by(badge_tier, screen, merchant_removed=False):

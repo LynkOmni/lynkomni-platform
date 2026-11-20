@@ -27,6 +27,12 @@ jobs:
         run: python -m brand.sync --from "$RUNNER_TEMP/pkg/package"
       - name: Check
         run: python brand/check.py && python -m unittest tests.test_brand
+      - uses: actions/cache@v6
+        with: {path: "~/layout-cache\n~/.cache/ms-playwright", key: "layout-fonts-browser-v1-playwright-1.63.0"}
+      - name: Fonts and browser for the picture renderer (the same setup as the layout checks)
+        env: {PLAYWRIGHT_VERSION: "1.63.0"}
+        run: bash tools/ci/layout_setup.sh
+        timeout-minutes: 10
       - name: Rebuild the pictures that carry the logo (cards, share and store images)
         run: python visuals/generate.py && python visuals/check.py
       - name: Rebuild the interface emulators (they carry the icons inside)

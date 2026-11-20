@@ -18,7 +18,7 @@ SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 10 10" role="img" 
 ICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M0 0L1 1"/></svg>\n'
 
 
-def make_package(root, version="1.2.3", themes_override=None, drop_dir=None, corrupt=None, drop_icons=False):
+def make_package(root, version="1.2.3", themes_override=None, drop_dir=None, corrupt=None, drop_icons=False, small=False):
     dist = os.path.join(root, "dist")
     files, rasters = {}, {}
     def put(rel, data, into):
@@ -34,6 +34,14 @@ def make_package(root, version="1.2.3", themes_override=None, drop_dir=None, cor
             variants[v] = {"svg": rel, "react": "X", "android": "x", "ios": "x"}
         assets[aid] = {"kind": aid, "component": "X", "accessibleName": "LynkOmni", "minWidthPx": mw, "viewBox": [-8, -8, 10, 10], "variants": variants, "auto": {"react": "XAuto"}}
     put("web/favicon.svg", b"<svg/>", files)
+    small_part = {}
+    if small:
+        sv = {}
+        for v in brand.VARIANTS:
+            rel = f"svg/lynkomni-emblem-small-{v}.svg"
+            put(rel, SVG.encode(), files)
+            sv[v] = {"svg": rel}
+        small_part = {"emblem": {"usedBelowPx": 32, "viewBox": [-8, -8, 10, 10], "variants": sv}}
     icons = {}
     for iid, grp in (("status-queued", "states"), ("status-sent", "states"), ("status-accepted", "states"), ("status-confirmed", "states"), ("status-failed", "states"), ("ui-home", "ui"), ("product-pos", "products")):
         rel = f"icons/lynkomni-icon-{iid}.svg"
@@ -50,6 +58,8 @@ def make_package(root, version="1.2.3", themes_override=None, drop_dir=None, cor
         themes[t] = {"ink": m["logo-ink"], "accent": m["brand-primary"], "backgrounds": {k: m[k] for k in ("bg-base", "bg-surface")}}
     themes.update(themes_override or {})
     bj = {"schema": 1, "package": "@lynkomni/icons", "themes": themes, "assets": assets, "files": files, "rasters": rasters, "icons": icons}
+    if small_part:
+        bj["small"] = small_part
     os.makedirs(dist, exist_ok=True)
     with open(os.path.join(dist, "brand.json"), "w") as f: json.dump(bj, f)
     with open(os.path.join(root, "package.json"), "w") as f: json.dump({"name": "@lynkomni/icons", "version": version}, f)
@@ -300,6 +310,26 @@ class TestPlacement(Base):
         probs = check.scan_code(root)
         self.assertEqual(len(probs), 1, probs)
         self.assertIn("use the logo asset", probs[0])
+
+
+class TestSmallVersion(Base):
+    """The browser tab icon uses the small-size emblem (gaps opened for 16 to 24 px) when the release has one."""
+    def test_favicon_uses_the_small_version(self):
+        self.do_sync(small=True)
+        for th in ("light", "dark"):
+            a = brand.for_surface("favicon", th, **self.kw)
+            self.assertEqual((a.id, a.variant), ("emblem", th))
+            self.assertIn("-small-", a.rel)
+            self.assertTrue(os.path.isfile(a.path))
+
+    def test_other_places_never_use_the_small_version(self):
+        self.do_sync(small=True)
+        for sid in ("app-icon", "web-header", "app-top-bar"):
+            self.assertNotIn("-small-", brand.for_surface(sid, "light", **self.kw).rel, sid)
+
+    def test_a_release_without_a_small_version_gives_the_normal_emblem(self):
+        self.do_sync()
+        self.assertEqual(brand.for_surface("favicon", "light", **self.kw).rel, "svg/lynkomni-emblem-light.svg")
 
 
 class TestTokens(unittest.TestCase):
