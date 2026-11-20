@@ -52,6 +52,8 @@ class Platform(_Base):
         s.enterprise, s.move_in = Organisation(s), MoveIn(s)   # the large-organisation set and Move in (section 4 step D4a)
         from services.stats import Analytics
         s.stats = Analytics(s)                                # LynkStat's additions in the cloud (section 4 step D4b)
+        from services.office_chat import OfficeChat
+        s.office_chat = OfficeChat(s)                         # the office services in a customer conversation (section 4 step D4c)
         from services.flow import Flow
         from identity.account import Account
         from identity.automations import register as register_section_2

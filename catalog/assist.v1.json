@@ -701,7 +701,7 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 4,
-   "status": "planned",
+   "status": "built",
    "note": "an issued invoice never changes",
    "offline": "queue"
   },
@@ -722,7 +722,7 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 4,
-   "status": "planned",
+   "status": "built",
    "offline": "never"
   },
   {
@@ -741,7 +741,7 @@
    "verify": "read_back",
    "undo": null,
    "build_section": 4,
-   "status": "planned",
+   "status": "built",
    "offline": "never"
   },
   {
@@ -1166,6 +1166,209 @@
    "build_section": "3A",
    "status": "built",
    "offline": "never"
+  },
+  {
+   "id": "acc_suggest_category",
+   "area": "office",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "accountant"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": 4,
+   "status": "built",
+   "note": "a labelled suggestion; never posts without the person",
+   "offline": "device"
+  },
+  {
+   "id": "acc_suggest_match",
+   "area": "office",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "accountant"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": 4,
+   "status": "built",
+   "note": "a labelled suggestion of the bill, payment or invoice a bank line matches; the person matches it",
+   "offline": "device"
+  },
+  {
+   "id": "acc_explain_statement",
+   "area": "office",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "accountant"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": 4,
+   "status": "built",
+   "note": "explains a statement line by line from the books' own figures",
+   "offline": "device"
+  },
+  {
+   "id": "acc_month_end_checklist",
+   "area": "office",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "accountant"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": 4,
+   "status": "built",
+   "note": "the closing checklist with what is still missing; never closes the period itself",
+   "offline": "device"
+  },
+  {
+   "id": "inv_draft_from_chat",
+   "area": "office",
+   "class": "B",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "accountant",
+    "sales"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "read_back",
+   "undo": "discard_draft",
+   "build_section": 4,
+   "status": "built",
+   "note": "an invoice or quote draft from a conversation; nothing is issued until the person issues it",
+   "offline": "device"
+  },
+  {
+   "id": "inv_draft_from_photo",
+   "area": "office",
+   "class": "B",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "accountant",
+    "sales"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "read_back",
+   "undo": "discard_draft",
+   "build_section": 4,
+   "status": "built",
+   "note": "an invoice draft read from a photo of an order; nothing is issued until the person issues it",
+   "offline": "never"
+  },
+  {
+   "id": "inv_late_payer_plan",
+   "area": "office",
+   "class": "B",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "accountant"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "read_back",
+   "undo": "discard_draft",
+   "build_section": 4,
+   "status": "built",
+   "note": "a polite plan for a late payer (reminder steps, an instalment offer); never sends a reminder the business did not approve",
+   "offline": "device"
+  },
+  {
+   "id": "crm_customer_summary",
+   "area": "office",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "sales"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": 4,
+   "status": "built",
+   "note": "a short summary of a customer from the records the role may see",
+   "offline": "device"
+  },
+  {
+   "id": "crm_next_contact",
+   "area": "office",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "sales"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": 4,
+   "status": "built",
+   "note": "who to contact next and why, labelled a suggestion; never messages a customer who has not opted in",
+   "offline": "device"
+  },
+  {
+   "id": "stat_why_changed",
+   "area": "office",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "accountant",
+    "sales"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": 4,
+   "status": "built",
+   "note": "why a chart changed, from the figures and the owner's notes; an estimate is always labelled, never presented as a fact",
+   "offline": "device"
   }
  ],
  "offline_rule": "Offline layer 2 (MASTER UPDATE 1.11; build section 3): every action says what it does without a network. device: changes only this device, done at once and recorded, synced later. queue: the person confirms now, it is sealed on the device and shown as queued, carried out when the network returns, then verified and told; never shown as done before that, and it expires if the device stays offline too long. cloud_check: needs the cloud's fresh identity check, so it waits. never: needs a provider, a partner or a person, so it is not offered offline (LynkAssist prepares the case to send later; the one exception, a card freeze, is queued and shown frozen only when the issuer confirms).",
