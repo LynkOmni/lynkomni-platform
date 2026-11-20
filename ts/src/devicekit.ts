@@ -122,6 +122,8 @@ export function raiseLocal(lines: Line[], kind: string, title: string, at: numbe
 export function deviceCrumbs(path: string, label: (p: string) => string, compact: boolean, t: T): string {
   let steps: string[] = [];
   try { steps = trail("app.lynkomni.com", path); } catch { return ""; }
+  const norm = (p: string): string => p.replace(/^[a-z.]+\.lynkomni\.com/, "") || "/";   // "/" and "app.lynkomni.com/" are the same place: Home has no trail
+  steps = steps.filter((p, i) => steps.findIndex((q) => norm(q) === norm(p)) === i);
   return steps.length > 1 ? breadcrumbBar(steps.map((p) => ({ path: p, label: label(p) })), compact, t) : "";
 }
 

@@ -5,7 +5,7 @@
  "groups": [
   {
    "id": "sell",
-   "label_key": "nav_g_sell",
+   "label_key": "nv_g_sell",
    "families": [
     "lynkpos",
     "lynkstock",
@@ -17,7 +17,7 @@
   },
   {
    "id": "get_paid",
-   "label_key": "nav_g_get_paid",
+   "label_key": "nv_g_get_paid",
    "families": [
     "lynkmpay",
     "lynkcheckout",
@@ -28,7 +28,7 @@
   },
   {
    "id": "run_the_office",
-   "label_key": "nav_g_run_the_office",
+   "label_key": "nv_g_run_the_office",
    "families": [
     "lynkacc",
     "lynkinv",
@@ -42,7 +42,7 @@
   },
   {
    "id": "people",
-   "label_key": "nav_g_people",
+   "label_key": "nv_g_people",
    "families": [
     "lynkchat",
     "lynkattend",
@@ -52,7 +52,7 @@
   },
   {
    "id": "move_and_protect",
-   "label_key": "nav_g_move_and_protect",
+   "label_key": "nv_g_move_and_protect",
    "families": [
     "lynkmotion",
     "lynkguard"
@@ -60,7 +60,7 @@
   },
   {
    "id": "learn_and_work",
-   "label_key": "nav_g_learn_and_work",
+   "label_key": "nv_g_learn_and_work",
    "families": [
     "lynkschool",
     "lynkacademy",
@@ -70,7 +70,7 @@
   },
   {
    "id": "ask_and_decide",
-   "label_key": "nav_g_ask_and_decide",
+   "label_key": "nv_g_ask_and_decide",
    "families": [
     "lynkassist",
     "lynksurvey",
@@ -79,7 +79,7 @@
   },
   {
    "id": "build",
-   "label_key": "nav_g_build",
+   "label_key": "nv_g_build",
    "families": [
     "lynkdev"
    ]
@@ -166,7 +166,7 @@
   ],
   "storefront_group_last": true,
   "max_page_tabs": 7,
-  "more_key": "nav_more"
+  "more_key": "nv_more"
  },
  "bottom_bar": {
   "max_tabs": 5,

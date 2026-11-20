@@ -31,7 +31,7 @@ export function applyLayout(root: TurnRoot, l: Layout): boolean {
 
 /** The words a screen reader hears after a turn: one message, only when the layout really changed (keys in web/navigation). */
 export const turnMessageKey = (before: Layout | null, after: Layout): string | null =>
-  !before || before.orientation === after.orientation ? null : after.orientation === "sideways" ? "nav_turned_sideways" : "nav_turned_upright";
+  !before || before.orientation === after.orientation ? null : after.orientation === "sideways" ? "nv_turned_sideways" : "nv_turned_upright";
 
 export interface ScrollBox { scrollTop: number; scrollLeft: number }
 export interface Kept { scroll: [ScrollBox, number, number][]; focus: { focus(o?: { preventScroll?: boolean }): void } | null }
@@ -40,7 +40,7 @@ export interface Kept { scroll: [ScrollBox, number, number][]; focus: { focus(o?
 export function keep(boxes: Iterable<ScrollBox>, focused: Kept["focus"]): Kept {
   return { scroll: [...boxes].map((b) => [b, b.scrollTop, b.scrollLeft] as [ScrollBox, number, number]), focus: focused };
 }
-export function putBack(k: Kept, active: unknown): void {
+export function restoreKept(k: Kept, active: unknown): void {
   for (const [b, top, left] of k.scroll) { if (b.scrollTop !== top) b.scrollTop = top; if (b.scrollLeft !== left) b.scrollLeft = left; }
   if (k.focus && active !== k.focus) k.focus.focus({ preventScroll: true });
 }

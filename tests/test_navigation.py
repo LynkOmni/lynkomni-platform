@@ -27,7 +27,8 @@ class Register(unittest.TestCase):
                      + nav["bottom_bar"]["soft_keys"] + nav["header"]["app"] + nav["header"]["app_banners"] + nav["search_groups"]
                      + nav["account_menu"] + nav["launcher"] + nav["rail"]["service_menu_order"] + [q["id"] for q in nav["quick_create"]]
                      + N.TEMPLATES["templates"]["record"]["tabs"] + ["back_or_cancel", "storefront", "more", "needs_internet", "reset_to_default", "turned_sideways", "turned_upright"]):
-            keys.append(f"nav_{item}")
+            keys.append(f"nv_{item}")
+        keys = [k for k in keys if k != "nv_assist"]   # LynkAssist is a product name, shown from the code, never translated
         missing = sorted({k for k in keys if k not in WORDS})
         self.assertEqual(missing, [], "every navigation label has its words in web/navigation/strings.en.json")
 

@@ -2,6 +2,14 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.61.0 (2026-11-20)
+Section 4, step B2a (INTERFACE UPDATE: the app shell's menus, first on the Business app):
+- The menu words of the navigation register (the eight groups, the side bar, the person's bottom bar, quick create, search groups, the account menu, record tabs and the turning messages) are now in all 38 languages (web/navigation; 28 reused from words already translated, 42 new). They use their own prefix nv_ and travel only with pages that use the app shell.
+- New shared part ts/src/appshell.ts (with web/shell/appshell.css): the bottom bar and side rail, the two-level side bar's first column and service menu, quick create (+) and the launcher in the eight groups with "My services" first, all drawn from the navigation register and the layout of the screen's shape, never from a screen's own list.
+- The Business app now uses it: its tabs come from the register (four on a small phone, a side rail on a tablet, none during a payment or cash count); a + button in the header opens quick create by role (new sale, product, invoice, customer); payment and cash-count screens show the calm focus header with only Back and the connection chip; the screen's shape is written on the screen root, so a turn never redraws it. On a phone the screen title now has its own line under the header buttons, so it is never cut.
+- Leftover fixed: the breadcrumb on the Business app's Home screen at tablet size showed a raw word name ("tab_") because the trail held the same place twice; Home now shows no trail.
+- The Business app in a browser keeps its bottom tabs until the two-level side bar replaces them in the next part (B2b), together with the owner's web view, the counter tablet, the account site and the sideways checks.
+
 ## v0.60.0 (2026-11-20)
 Sounds and vibration can be switched on and off everywhere (owner request):
 - **One account setting:** a new Sounds and vibration card in the account's Notifications page has tap and key sounds, vibration, volume (low, medium, high) and notification sounds, in all 38 languages.

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-bJLkf+6rvEfMlyzZmd7CLPOw5kYQazye9t0ZIFiLT8k='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Ew/96n4Zd5+czfVdphkqaMt98zKpIJf4Y0e14l81IxA='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkPOS Terminal</title>
 <meta name="description" content="Interactive emulator of the LynkPOS handheld terminal: real sale rules, sandbox providers, sample products.">
@@ -2763,6 +2763,8 @@ function deviceCrumbs(path, label, compact, t) {
     catch {
         return "";
     }
+    const norm = (p) => p.replace(/^[a-z.]+\.lynkomni\.com/, "") || "/"; // "/" and "app.lynkomni.com/" are the same place: Home has no trail
+    steps = steps.filter((p, i) => steps.findIndex((q) => norm(q) === norm(p)) === i);
     return steps.length > 1 ? breadcrumbBar(steps.map((p) => ({ path: p, label: label(p) })), compact, t) : "";
 }
 const cardName = (group, tier) => `${CARD_GROUP_NAMES[group] ?? group} ${CARD_TIER_WORD[tier] ?? tier}`;

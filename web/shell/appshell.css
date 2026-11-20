@@ -1,0 +1,21 @@
+/* The app shell's navigation parts (ts/src/appshell.ts; INTERFACE UPDATE 73, TURN UPDATE 76). Tokens only. */
+.ash-bottom[data-count="4"] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.ash-bottom[data-count="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ash-plus .ic { width: 22px; height: 22px; }
+/* the two-level side bar on a computer: a slim first column, then the open service's menu */
+.ash-first { flex: none; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; width: 92px; padding: 10px 6px; border-inline-end: 1px solid var(--border-subtle); background: var(--bg-surface); overflow-y: auto; }
+.ash-first .ash-top, .ash-first .ash-bottomgroup { display: flex; flex-direction: column; gap: 4px; }
+.ash-first button { min-height: 44px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 2px; border: 0; border-radius: 8px; background: transparent; color: var(--text-secondary); font: 600 11px/1.25 var(--font-body); cursor: pointer; overflow-wrap: break-word; hyphens: auto; }
+.ash-first button[aria-current="page"] { color: var(--brand-ink); background: var(--bg-subtle); }
+.ash-menu { flex: none; width: 200px; display: flex; flex-direction: column; gap: 2px; padding: 10px 8px; border-inline-end: 1px solid var(--border-subtle); background: var(--bg-surface); overflow-y: auto; }
+.ash-menu button { min-height: 44px; padding: 8px 10px; border: 0; border-radius: 8px; background: transparent; color: var(--text-primary); font: 500 14px/1.3 var(--font-body); text-align: start; cursor: pointer; }
+.ash-menu button[aria-current="page"] { background: var(--bg-subtle); color: var(--brand-ink); font-weight: 700; }
+.ash-menu button[data-slot="overview"] { font-weight: 700; }
+/* the launcher in the eight groups, "My services" first */
+.ash-launcher { display: flex; flex-direction: column; gap: 16px; }
+.ash-group h3 { margin: 0 0 8px; font: 700 13px/1.3 var(--font-heading); color: var(--text-secondary); }
+.ash-group .lgrid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.ash-group .lplace { width: 100%; min-height: 72px; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--bg-surface); color: var(--text-primary); cursor: pointer; }
+.ash-group .lplace .nm { font: 600 12px/1.25 var(--font-body); text-align: center; }
+.ash-group .lplace .pl { font: 400 11px/1.25 var(--font-body); color: var(--text-secondary); text-align: center; }
+@media (prefers-reduced-motion: reduce) { .ash-first button, .ash-menu button { transition: none; } }
