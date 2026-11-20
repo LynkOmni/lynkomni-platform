@@ -8,6 +8,7 @@ Section 4, step B2b (INTERFACE UPDATE and TURN UPDATE: the two-level side bar on
 - The Business app in a browser uses the side rail instead of phone tabs, as the device register says for a computer.
 - The Business app can now be turned: a new choice "Phone turned sideways" shows the same phone on its side, with a side rail instead of the bottom tabs and a one-line header. The tablet's shape is now recorded as it is drawn (on its side).
 - New check tests/test_turning.py (CI layout job): turning in the middle of a sale keeps the screen, the basket and the event log exactly as they were and repeats nothing; typed text is kept; a payment keeps its step and its calm header either way round. The fit guard checks the sideways phone like every other size.
+- Narrow columns of the app shell (the first column and the page menu) let a long word break inside them, so no language pushes a word past the edge (found by the layout check in Kurdish, Uyghur, Hebrew and Tamil).
 - The launcher gets every product's short name and app address from the catalog and billing (web/emulators/build_data.py launcher), for every page that uses the app shell.
 
 ## v0.61.0 (2026-11-20)
