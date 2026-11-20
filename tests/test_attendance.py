@@ -250,7 +250,7 @@ class AttendanceTests(unittest.TestCase):
         grace, gpin = self.person("A6F87399"); eric, _ = self.person("R4279", name="Eric")
         self.a.set_checkers(self.m, self.place, [eric], self.boss); self.a.send_pin(self.m, grace, "email", self.boss, now=T0)
         d = self.door(); d.check(gpin, "in", ["687399"], checker=eric); self.sync(now=T0); self.a.request(grace, "dispute", now=T0)
-        blob = json.dumps([e["payload"] for e in self.p.c.store.of(self.m)]) + json.dumps([l["facts"] for l in self.p.notifier.lines.values()])
+        blob = json.dumps([e["payload"] for e in self.p.c.store.since(self.m)]) + json.dumps([l["facts"] for l in self.p.notifier.lines.values()])
         for secret in (gpin, "687399", "A6F87399", "grace@example.org", "Grace N."): self.assertNotIn(secret, blob)
 
     def test_only_people_who_checked_in_are_billed(self):

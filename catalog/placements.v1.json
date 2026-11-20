@@ -1604,6 +1604,116 @@
     "sitemap"
    ],
    "section": 4
+  },
+  {
+   "id": "ent_approval_flows",
+   "kind": "feature",
+   "what": "Approval flows an organisation builds itself: steps by amount and department, stand-ins, never the person who prepared it",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "ent_roles",
+   "kind": "feature",
+   "what": "Roles of an organisation's own, never more than the owner's, with preparing and approving kept apart",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "ent_staff_directory",
+   "kind": "feature",
+   "what": "The organisation's own login and staff directory: staff added and removed by themselves, access gone within minutes",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "ent_many_entities",
+   "kind": "feature",
+   "what": "Many entities, branches and countries in one account, each with its own books, tax rules, currency and language",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "ent_data_region",
+   "kind": "feature",
+   "what": "Where data is kept, chosen where the law requires it",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "ent_test_copy",
+   "kind": "feature",
+   "what": "A test copy to try changes with no real data touched, no message sent and no money moved",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "ent_audit_hold",
+   "kind": "feature",
+   "what": "Audit log export, legal hold and keeping times set by policy, never shorter than the law's",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "ent_charges_split",
+   "kind": "feature",
+   "what": "Charges split by department for the organisation's own accounts",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "move_in",
+   "kind": "feature",
+   "what": "Move in: charts, opening balances, customers, suppliers and open invoices and bills from spreadsheets and other systems, with a check report before anything goes live",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "leave_download",
+   "kind": "feature",
+   "what": "Leave at any time with a full download of every record in standard files",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
   }
  ]
 }

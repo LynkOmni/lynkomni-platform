@@ -48,6 +48,8 @@ class Platform(_Base):
         s.books = Books(s)                                    # LynkAcc in the cloud (OFFICE UPDATE, section 4 step D2b)
         from services.crm import Customers
         s.crm = Customers(s)                                  # LynkCRM in the cloud (OFFICE UPDATE, section 4 step D3)
+        from services.enterprise import MoveIn, Organisation
+        s.enterprise, s.move_in = Organisation(s), MoveIn(s)   # the large-organisation set and Move in (section 4 step D4a)
         from services.flow import Flow
         from identity.account import Account
         from identity.automations import register as register_section_2

@@ -824,6 +824,53 @@
    "test": "tests/test_crm.py::test_fields_limits_access_and_hidden_fields",
    "build_section": 4,
    "status": "built"
+  },
+  {
+   "id": "ent-own-roles-only-less",
+   "asset": "accounts",
+   "threat": "An organisation's own role grants more than the owner has, or lets one person prepare and approve",
+   "enforced_in": [
+    "core/enterprise.py",
+    "services/enterprise.py"
+   ],
+   "test": "tests/test_enterprise.py::test_own_roles_never_exceed_the_owner_and_keep_preparing_and_approving_apart",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "ent-directory-removal",
+   "asset": "accounts",
+   "threat": "A person removed from the organisation's staff directory keeps access",
+   "enforced_in": [
+    "services/enterprise.py"
+   ],
+   "test": "tests/test_enterprise.py::test_removed_staff_lose_access_and_holds_freeze_records",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "ent-legal-hold",
+   "asset": "records",
+   "threat": "Records under a legal hold are changed or deleted during a dispute",
+   "enforced_in": [
+    "core/enterprise.py",
+    "services/enterprise.py"
+   ],
+   "test": "tests/test_enterprise.py::test_removed_staff_lose_access_and_holds_freeze_records",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "movein-check-before-live",
+   "asset": "records",
+   "threat": "A moved-in file with wrong amounts, dates or references reaches the books",
+   "enforced_in": [
+    "core/enterprise.py",
+    "services/enterprise.py"
+   ],
+   "test": "tests/test_enterprise.py::test_nothing_moves_in_with_an_error_and_contacts_go_to_the_vault",
+   "build_section": 4,
+   "status": "built"
   }
  ]
 }

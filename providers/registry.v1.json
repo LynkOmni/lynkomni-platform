@@ -1717,6 +1717,41 @@
         "Run the shared tests against both adapters",
         "Set status to contract_signed for the country"
       ]
+    },
+    {
+      "id": "staff_directory",
+      "name": "Staff directory connector (the organisation's own login and staff list)",
+      "kind": "directory",
+      "used_by": [
+        "accountant",
+        "invoicing",
+        "crm"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.enterprise:StaffDirectory",
+      "sandbox": "services.enterprise:SandboxStaffDirectory",
+      "needed_from_provider": [
+        "the organisation's own login system (single sign-on) agreement",
+        "a staff-list sync (add, update, suspend, remove) with its credentials",
+        "the answer and error codes"
+      ],
+      "placeholders": [
+        {
+          "file": "services/enterprise.py",
+          "token": "SANDBOX"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "Each organisation connects its own directory; a person removed there loses access within 15 minutes and keeps nothing; their records stay with a new owner.",
+      "integrate": [
+        "Write the real adapter next to the sandbox one behind StaffDirectory",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed when the organisation's agreement is signed"
+      ]
     }
   ],
   "later": [

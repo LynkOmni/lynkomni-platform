@@ -94,7 +94,7 @@ class SurveyTests(unittest.TestCase):
         self.assertEqual(self.s.answer(ver, "smartphone", [{"q": "visit", "number": 4}], seconds=20)["reason"], "sign_in_needed")
         me = uuid4(); self.s.answer(ver, "smartphone", [{"q": "visit", "number": 4}], person=me, seconds=20)
         self.assertEqual(self.s.answer(ver, "smartphone", [{"q": "visit", "number": 4}], person=me, seconds=20)["reason"], "already_answered")
-        for e in self.p.c.store.of(self.m):
+        for e in self.p.c.store.since(self.m):
             self.assertNotIn("+237650000111", json.dumps(e["payload"])); self.assertNotIn("ama@example.org", json.dumps(e["payload"]))
 
     def test_real_answers_only_flags_and_never_deletes(self):
@@ -275,7 +275,7 @@ class SurveyTests(unittest.TestCase):
         for i in range(12): self.s.answer(sid, "smartphone", [{"q": "visit", "number": 4}], seconds=20, now=T0 + i)
         b = self.s.billable(self.m, T0 - DAY, T0 + DAY)
         self.assertEqual((b["creators"], b["extra_creators"], b["answers"], b["over"]), (1, 0, 12, 0))
-        for e in self.p.c.store.of(self.m):
+        for e in self.p.c.store.since(self.m):
             for k in ("name", "phone", "contact"): self.assertNotIn(k, e["payload"])
 
 

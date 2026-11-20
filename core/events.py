@@ -80,5 +80,9 @@ class EventStore:
         marks = ",".join("?" * len(types))
         return self._rows(f"select seq,id,device,type,ts,payload,merchant from events where type in ({marks}) order by seq", types)
     def of(self, merchant, *types):
+        """A merchant's events of the named types; with no type named it refuses (use since() for every event), so a check
+        can never pass by reading an empty list."""
+        if not types:
+            raise ValueError("name the event types, or use since(merchant) for every event")
         marks = ",".join("?" * len(types))
         return self._rows(f"select seq,id,device,type,ts,payload,merchant from events where merchant=? and type in ({marks}) order by seq", (merchant, *types))
