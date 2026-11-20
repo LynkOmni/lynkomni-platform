@@ -51,7 +51,7 @@ const EMULATORS = [
   { id: "queue-page", out: "lynkomni-queue-page.html", modules: [...DEVICE_MODULES, ...QUEUE_ONLY, "web/emulators/queue-page/app.js"], extraCss: ["web/device/device.css"] },
   { id: "survey-page", out: "lynkomni-survey-page.html", modules: [...DEVICE_MODULES, ...SURVEY_ONLY, "web/emulators/survey-page/app.js"], extraCss: ["web/device/device.css"] },
   ...["counter-tablet", "kitchen-screen", "customer-display", "rider-phone", "stock-scanner", "button-phone", "vcard-card", "mesh-relay", "owner-web", "track-page"]
-    .map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...(id === "button-phone" ? ["ts/src/usernames.generated.js", "ts/src/usernames.js"] : []), ...DEVICE_MODULES, ...(["rider-phone", "track-page"].includes(id) ? TRACK_MODULES : []), ...(id === "button-phone" ? ["ts/src/channels.js", "ts/src/basicphone.js", "ts/src/queue.js", "ts/src/sounds.generated.js", "ts/src/keytones.js", "ts/src/soundprefs.js"] : []), ...(id === "customer-display" ? AFTER_PAY : []), ...(PANEL_DEVICES.includes(id) ? [...(id === "customer-display" ? [] : ["ts/src/queue.js"]), ...KIT] : []), ...(id === "owner-web" ? ["ts/src/navigation.js", "ts/src/navigation.generated.js", "ts/src/appshell.js"] : []), `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
+    .map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...(id === "button-phone" ? ["ts/src/usernames.generated.js", "ts/src/usernames.js"] : []), ...DEVICE_MODULES, ...(["rider-phone", "track-page"].includes(id) ? TRACK_MODULES : []), ...(id === "button-phone" ? ["ts/src/channels.js", "ts/src/basicphone.js", "ts/src/queue.js", "ts/src/sounds.generated.js", "ts/src/keytones.js", "ts/src/soundprefs.js"] : []), ...(id === "customer-display" ? AFTER_PAY : []), ...(PANEL_DEVICES.includes(id) ? [...(id === "customer-display" ? [] : ["ts/src/queue.js"]), ...KIT] : []), ...(id === "owner-web" ? ["ts/src/navigation.js", "ts/src/navigation.generated.js", "ts/src/appshell.js"] : id === "counter-tablet" ? ["ts/src/navigation.js", "ts/src/navigation.generated.js", "ts/src/turn.js", "ts/src/appshell.js"] : []), `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
 ];
 
 const read = (p) => readFileSync(p, "utf8");
@@ -172,11 +172,15 @@ function withScriptCover(html) {
   const cover = SCRIPT_RULES.map((r) => `:is(${r.langs.join(", ")}) :is(${[...sels].join(", ")}) ${r.body}`).join("\n");
   return html.replace("</style>", () => `/* script cover */\n${cover}\n</style>`);
 }
+const EARLY_FIT = `(() => { const r = document.getElementById("rig"); const w = r ? Number(r.dataset.width) : 0; if (w) document.documentElement.style.setProperty("--fit", String(Math.min(1, (r.clientWidth - 8) / w))); })();`;
 let stale = [];
+let GALLERY_DATA = null;   // the Business app's build data: its icons and product names fill the part gallery
 for (const e of EMULATORS) {
   const D = JSON.parse(execFileSync("python3", [join(WEB, "emulators", "build_data.py"), e.id], { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 26 }));
+  if (e.id === "merchant-phone") GALLERY_DATA = D;
   const dir = join(WEB, "emulators", e.id);
-  let html = read(join(dir, "shell.html"))
+  // The device drawing is scaled to the window before the first paint, so nothing jumps while the page loads (speed target, INTERFACE UPDATE 73.8)
+  let html = read(join(dir, "shell.html")).replace("<script>/*@SCRIPT@*/</script>", () => `<script>${EARLY_FIT}</script>\n<script>/*@SCRIPT@*/</script>`).replace("</head>", () => "<style>html:not([data-ready]) #rig { visibility: hidden; }</style>\n</head>")
     .replace("/*@TOKENS@*/", () => fontCss + "\n" + tokens)
     .replace("/*@STYLE@*/", () => [...(e.extraCss ?? []), ...(e.modules.includes("ts/src/footer.js") ? ["web/footer/footer.css"] : []), ...(e.modules.includes("ts/src/placeholder.js") ? ["web/shell/placeholder.css"] : []), ...(e.modules.includes("ts/src/deviceshell.js") ? ["web/device/deviceshell.css"] : []), ...(e.modules.includes("ts/src/devicemode.js") ? ["web/device/devicemode.css"] : []), ...(e.modules.includes("ts/src/trackview.js") ? ["web/tracking/tracking.css"] : []), ...(e.modules.includes("ts/src/notify.js") || e.modules.includes("ts/src/queuedesk.js") || e.modules.includes("ts/src/surveydesk.js") ? ["web/shell/parts.css"] : []), ...(e.modules.includes("ts/src/devicekit.js") ? ["web/device/deviceparts.css"] : []), ...(e.modules.includes("ts/src/emkit.js") ? ["web/device/emkit.css"] : []), ...(e.modules.includes("ts/src/appshell.js") ? ["web/shell/appshell.css"] : [])].map((c) => read(join(ROOT, c))).join("\n") + "\n" + read(join(dir, "style.css")))   // the footer's styles travel with the footer module
     .replace("/*@BODYMARK@*/", () => D.brand.body)
@@ -194,6 +198,19 @@ for (const e of EMULATORS) {
     writeFileSync(target, html);
     console.log(`wrote web/emulators/dist/${e.out} (${Math.round(html.length / 1024)} KB)`);
   }
+}
+// The part gallery of the showcase (INTERFACE UPDATE 73.8): every app-shell and page-template part, drawn by the real parts.
+{
+  const { galleryHtml } = await import(join(WEB, ".build", "ts", "src", "gallery.js"));
+  const { NAV } = await import(join(WEB, ".build", "ts", "src", "navigation.generated.js"));
+  const { DEVICES } = await import(join(WEB, ".build", "ts", "src", "interfaces.generated.js"));
+  const words = JSON.parse(read(join(WEB, "navigation", "strings.en.json")));
+  const names = Object.fromEntries(GALLERY_DATA.launcher.map((x) => [x.family, x.name]));
+  const icons = JSON.parse(execFileSync("python3", ["-c", "import json,sys; sys.path.insert(0,'.'); import brand; print(json.dumps({i: brand.icon_svg(i) for i in sys.argv[1:]}))", ...new Set([...galleryHtml(NAV, DEVICES, words, names).matchAll(/\/\*@I:([a-z0-9-]+)@\*\//g)].map((m) => m[1]))], { cwd: ROOT, encoding: "utf8" }));
+  const html = "<!-- GENERATED by web/build.mjs from ts/src/gallery.ts. Do not edit by hand. -->\n" + galleryHtml(NAV, DEVICES, words, names).replace(/\/\*@I:([a-z0-9-]+)@\*\//g, (_, id) => icons[id]) + "\n";
+  const target = join(WEB, "showcase", "gallery.generated.html");
+  if (process.argv.includes("--check")) { if (!existsSync(target) || read(target) !== html) stale.push("web/showcase/gallery.generated.html"); }
+  else { writeFileSync(target, html); console.log("wrote web/showcase/gallery.generated.html"); }
 }
 if (MISSING.size) { console.error(`imported but not joined (add them to the emulator's modules):\n  ${[...MISSING].join("\n  ")}`); process.exit(1); }
 if (DUPLICATES.size) { console.error(`declared twice in one joined scope (rename one):\n  ${[...DUPLICATES].join("\n  ")}`); process.exit(1); }
