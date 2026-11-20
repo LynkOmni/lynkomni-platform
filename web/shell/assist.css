@@ -1,0 +1,35 @@
+/* LynkAssist's trust parts (ts/src/assistview.ts; ASSIST UPDATE 75). Tokens only; logical properties for right-to-left. */
+.at-answer { display: flex; flex-direction: column; gap: 8px; border-inline-start: 3px solid var(--brand-ink); }
+.at-answer h3 { margin: 0; font: 700 15px/1.3 var(--font-heading); }
+.at-who { display: flex; align-items: center; gap: 6px; margin: 0; font: 700 12px/1.3 var(--font-body); color: var(--brand-ink); }
+.at-who .ic { inline-size: 18px; block-size: 18px; }
+.at-value { margin: 0; font: 700 22px/1.2 var(--font-heading); color: var(--text-primary); }
+.at-sure { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; padding: 4px 10px; border-radius: 14px; border: 1px solid var(--border-strong); font: 600 12px/1.3 var(--font-body); color: var(--text-primary); background: var(--bg-surface); }
+.at-sure .ic { inline-size: 16px; block-size: 16px; }
+.at-certain { border-color: var(--status-success-border); background: var(--status-success-bg); color: var(--status-success-text); }
+.at-not_sure { border-color: var(--status-warning-border); background: var(--status-warning-bg); color: var(--status-warning-text); }
+.at-working summary { min-block-size: 44px; display: flex; align-items: center; cursor: pointer; font: 600 13px/1.3 var(--font-body); color: var(--brand-ink); }
+.at-working ul { list-style: none; margin: 4px 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.at-working li, .at-total { display: flex; justify-content: space-between; gap: 12px; margin: 0; font: 400 13px/1.35 var(--font-body); color: var(--text-secondary); }
+.at-total { border-block-start: 1px solid var(--border-subtle); padding-block-start: 6px; color: var(--text-primary); }
+.at-note { display: flex; align-items: flex-start; gap: 6px; margin: 0; font: 400 13px/1.4 var(--font-body); color: var(--text-secondary); }
+.at-note .ic { inline-size: 16px; block-size: 16px; flex: none; margin-block-start: 1px; }
+.at-warn { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid var(--status-warning-border); background: var(--status-warning-bg); color: var(--status-warning-text); border-radius: 10px; font: 400 13px/1.4 var(--font-body); }
+.at-warn > span:first-of-type { flex: 1 1 180px; }
+.at-acts { display: flex; flex-wrap: wrap; gap: 6px; }
+.at-acts button, .at-pace button, .at-ask { min-block-size: 44px; padding: 6px 14px; border-radius: 22px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 600 13px/1.25 var(--font-body); cursor: pointer; }
+.at-acts .primary { background: var(--brand-primary); border-color: var(--brand-primary); color: var(--on-brand); }
+.at-ask { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; }
+.at-ask .ic { inline-size: 16px; block-size: 16px; }
+.at-preview { display: flex; flex-direction: column; gap: 8px; }
+.at-table { inline-size: 100%; border-collapse: collapse; font: 400 13px/1.35 var(--font-body); }
+.at-table th, .at-table td { padding: 6px 4px; text-align: start; border-block-end: 1px solid var(--border-subtle); overflow-wrap: anywhere; }
+.at-table thead th { font-weight: 700; color: var(--text-secondary); }
+.at-facts { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; font: 400 13px/1.35 var(--font-body); }
+.at-facts dt { color: var(--text-secondary); }
+.at-facts dd { margin: 0; }
+.at-pace { display: flex; flex-wrap: wrap; gap: 6px; }
+.at-pace button[aria-pressed="true"] { background: var(--brand-subtle); border-color: var(--brand-ink); }
+.at-role { border: 0; padding: 0; margin: 0 0 8px; }
+.at-role legend { font: 700 13px/1.3 var(--font-body); color: var(--text-secondary); padding: 0; margin-block-end: 4px; }
+[data-ask] { touch-action: manipulation; }

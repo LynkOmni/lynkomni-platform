@@ -55,8 +55,12 @@ import { layoutFor } from "../../../ts/src/interfaces.js";
 import { applyLayout } from "../../../ts/src/turn.js";
 import { CHAT } from "../../../ts/src/chat.generated.js";
 import { routeSupport } from "../../../ts/src/chat.js";
-import { chatDigest, inboxRowHtml, muteHtml, playChat, prepareSend, threadHtml } from "../../../ts/src/chatview.js";
+import { chatDigest, codeWords, inboxRowHtml, muteHtml, playChat, prepareSend, threadHtml } from "../../../ts/src/chatview.js";
 import type { ChatField, ChatLook, ChatMsg } from "../../../ts/src/chatview.js";
+import { TRUST } from "../../../ts/src/assisttrust.generated.js";
+import { certainty, guard, remember, warning, work } from "../../../ts/src/assisttrust.js";
+import { answerHtml, askButtonHtml, controlsHtml, previewHtml, stoppedHtml, warningLineHtml } from "../../../ts/src/assistview.js";
+import type { LaLook } from "../../../ts/src/assistview.js";
 
 interface BuildData {
   people: { attend: Record<AtTier, AtPlan>; queue: Record<AtTier, QuPlan>; survey: Record<AtTier, SvPlan> };
@@ -178,7 +182,7 @@ const S = {
  *  LynkAssist's owner controls and history, the owner's thresholds and summary, remote lock and wipe, and "Get a card". */
 const M3 = {
   filter: "all", lastOpened: 0,
-  requests: [] as { id: string; action: string; by: string; role: Role; amount: number; sale: string; state: "asked" | "approve" | "deny" }[],
+  requests: [] as { id: string; action: string; by: string; role: Role; amount: number; sale: string; state: "asked" | "approve" | "deny"; kind?: "round"; items?: number }[],
   areasOff: new Set<string>(), askFirst: new Set<string>(), standing: new Set<string>(), history: [] as { action: string; state: string; at: number; by: string }[],
   cashDiff: 500, stockLow: 5, discountBps: 1000, summary: { period: "day", channel: "email", consent: false },
   devState: {} as Record<string, "" | "lock_sent" | "locked" | "wipe_confirm" | "wipe_sent">, integrity: false,
@@ -380,8 +384,9 @@ function newSale(): void { S.cart.clear(); S.current = null; S.input = ""; S.not
 const lastPayment = (): PaymentPayload | undefined => S.current?.payments[S.current.payments.length - 1];
 /** Ask the owner: one tap. Approving carries out the act as the owner confirmed it; the line clears for everyone with "Done by". */
 function answerRequest(id: string, ans: "approve" | "deny"): void {
-  const r = M3.requests.find((x) => x.id === id); if (!r || r.state !== "asked" || !owner()) return;
+  const r = M3.requests.find((x) => x.id === id); if (!r || r.state !== "asked" || !laMayAnswer(r)) return;
   r.state = ans;
+  if (r.kind === "round") { laApproved(r, ans); return; }
   emit("OwnerAnswered", { request_id: id, answer: ans, by: "owner" }, "server");
   if (ans === "approve") { const s = S.sales.find((x) => x.sale.sale_id === r.sale); if (s && !s.voided) { emit("SaleVoided", { sale_id: s.sale.sale_id, reason_code: "other" }); s.voided = true; } }
   S.notices.forEach((n) => { if (n.request === id) { n.read = true; n.doneBy = t("role_owner"); } });
@@ -609,6 +614,109 @@ function chatAct(rest: string): void {
   }
 }
 
+// ---- ASSIST UPDATE (section 4 step C3b): LynkAssist's trust layer on this device (core/assist_trust.py, ts/src/assisttrust.ts) ---
+const LA = {
+  paused: false, off: new Set<string>(), approverMajor: 500, pace: "normal", memoryOn: true, draft: "",
+  memory: [] as { id: string; text: string; scope: string; role_min: string }[], answer: "",
+  preview: null as null | { kind: "price" | "round"; price: number }, fine: new Set<string>(), shown: 0,
+};
+const laLook = (): LaLook => ({ t, icon: (id, cls) => icon(id, cls), money: (m) => money(m) });
+const laDecimals = (): number => new Intl.NumberFormat("en", { style: "currency", currency: pack().currency }).resolvedOptions().maximumFractionDigits ?? 2;
+const laMinor = (major: number): number => Math.round(major * 10 ** laDecimals());
+const laRoleOff = (area: string): boolean => LA.off.has(`${S.role}:${area}`);
+/** Who may answer a request: a big change by the owner or a manager who is not the person asking; the rest by the owner only. */
+const laMayAnswer = (r: { kind?: string; role: Role }): boolean => (r.kind === "round" ? (S.role === "owner" || S.role === "manager") && S.role !== r.role : owner());
+/** Today's sales, worked out from the records twice; "likely" while some sales still wait to reach the cloud. */
+function laSalesAnswer(): string {
+  const cur = pack().currency;
+  const parts = S.sales.filter((x) => !x.voided).map((x) => ({ label: x.sale.receipt_number_local, minor: x.sale.total }));
+  const w = work(parts.length ? parts.map((x) => ({ minor: x.minor, currency: cur })) : [{ minor: 0, currency: cur }]);
+  const waiting = S.events.some((e) => e.type === "SaleRecorded" && e.sync !== "accepted");
+  return answerHtml(TRUST, laLook(), { title: t("today_sales"), value: w.ok ? money(w.total ?? 0) : undefined, sure: certainty({ sources: 1, checked: w.ok, missing: waiting }), working: { w, parts } });
+}
+const laRound = (minor: number): number => Math.max(100, Math.round(minor / 100) * 100);
+/** The before-and-after preview for a price fix (one product) or rounding every price (many: a sample, maybe a second approver). */
+function laPreview(): string {
+  const p = LA.preview; if (!p) return "";
+  const prod = CATALOG[0]!;
+  const many = p.kind === "round";
+  const rows = many ? CATALOG.map((x) => ({ label: x.name, before: money(x.price), after: money(laRound(x.price)) })) : [{ label: prod.name, before: money(prod.price), after: money(p.price) }];
+  const items = many ? CATALOG.length : 1;
+  const amount = many ? CATALOG.reduce((a, x) => a + Math.abs(laRound(x.price) - x.price), 0) : Math.abs(p.price - prod.price);
+  const d = decideOffline("correct_price", { role: S.role === "owner" ? "owner" : "manager", confirmed: false, standing: [...M3.standing] }, online());
+  const base = { register_needs: d.needs, register_run: d.run, cls: d.class, paused: LA.paused, role_off: laRoleOff("stock"), practice: S.practice, items, amount_minor: amount, owner_amount: laMinor(LA.approverMajor), asker: S.role };
+  const first = guard(TRUST, base);
+  if (["paused", "role_off", "over_limit", "content_not_instructions", "register"].includes(first.outcome)) return `<div class="card" data-item="assist_preview">${stoppedHtml(laLook(), first.outcome === "register" ? "register" : first.outcome)}<button class="ghost inline" data-act="la:deny">${esc(t("at_close"))}</button></div>`;
+  const after = guard(TRUST, { ...base, confirmed: true });
+  const w = !many && p.price < prod.cost ? warning(TRUST, "price_below_cost", { screen: screenId(), shown_today: LA.shown, pace: LA.pace, fine: LA.fine.has("price_below_cost") }) : { show: false, why: "" };
+  const extra = (many ? "" : `<label class="field"><span>${esc(t("at_new_price"))}</span><input id="laPrice" aria-label="${esc(t("at_new_price"))}" data-in="la:price" type="number" inputmode="decimal" min="0" value="${p.price / 10 ** laDecimals()}" placeholder="${esc(t("at_hint_price"))}"></label>`)
+    + (w.show && w.words ? warningLineHtml(laLook(), w.words, { cost: money(prod.cost) }, "price_below_cost") : "");
+  return previewHtml(laLook(), { action: t(many ? "at_round_all" : "m3_act_correct_price"), rows, items, cost: t("at_no_cost"), told: t(many ? "at_told_team" : "at_told_none"), guard: after,
+    practice: S.practice, approverRole: S.role === "owner" ? "manager" : "owner", extraHtml: extra });
+}
+function laConfirm(approved = false): void {
+  const p = LA.preview; if (!p) return;
+  const prod = CATALOG[0]!;
+  if (p.kind === "round") { if (!approved) return; for (const x of CATALOG) x.price = laRound(x.price); }
+  else if (!S.practice) prod.price = p.price;
+  emit("AssistActionRecorded", { action: "correct_price", class: "B", needs: "none", ran: !S.practice }, "server");
+  M3.history.unshift({ action: "correct_price", state: S.practice ? "not_done" : "done", at: Date.now(), by: t("role_" + S.role) });
+  LA.preview = null; toast(t(S.practice ? "at_practice_done" : "m3_done"));
+}
+/** A big change goes to a second approver (OwnerAsked with the reason), never the person asking. */
+function laAskApprover(): void {
+  const items = CATALOG.length, amount = CATALOG.reduce((a, x) => a + Math.abs(laRound(x.price) - x.price), 0), id = newId();
+  M3.requests.unshift({ id, action: "correct_price", by: t("role_" + S.role), role: S.role, amount, sale: "", state: "asked", kind: "round", items });
+  emit("OwnerAsked", { request_id: id, action: "correct_price", person: S.role, role: S.role, facts: { reason: "big_change", items, amount } }, "server");
+  LA.preview = null; toast(t("at_sent_approver"));
+}
+function laApproved(r: { id: string; role: Role }, ans: "approve" | "deny"): void {
+  emit("OwnerAnswered", { request_id: r.id, answer: ans, by: S.role }, "server");
+  if (ans === "approve") { LA.preview = { kind: "round", price: 0 }; laConfirm(true); }
+  else { M3.history.unshift({ action: "correct_price", state: "not_done", at: Date.now(), by: t("role_" + S.role) }); toast(t("m3_denied")); }
+}
+function laControls(): string {
+  return controlsHtml(TRUST, laLook(), { owner: owner(), paused: LA.paused, roles: ["manager", "cashier"], areas: ["selling", "stock", "cash"], off: LA.off,
+    approverAmount: String(LA.approverMajor), pace: LA.pace, memoryOn: LA.memoryOn, draft: LA.draft, areaLabel: (a) => t("m3_area_" + a),
+    memory: LA.memory.filter((m) => m.scope === "business" && (m.role_min !== "owner" || owner())) });
+}
+function laAct(rest: string): void {
+  const [k = "", a = "", b = ""] = rest.split(":");
+  switch (k) {
+    case "ask": LA.answer = `${a}:${b}`; draw(); return;
+    case "close": LA.answer = ""; draw(); return;
+    case "try": LA.preview = { kind: a === "round" ? "round" : "price", price: Math.max(0, (CATALOG[0]?.price ?? 0) - laMinor(1)) }; draw(); return;
+    case "deny": LA.preview = null; draw(); return;
+    case "confirm": {
+      const p = LA.preview; if (!p) return;
+      if (p.kind === "round") { laAskApprover(); return; }
+      laConfirm(); return;
+    }
+    case "askapprover": laAskApprover(); return;
+    case "fix": if (a === "price_below_cost" && LA.preview) { LA.preview.price = (CATALOG[0]?.cost ?? 0) + laMinor(1); LA.shown += 1; } draw(); return;
+    case "fine": LA.fine.add(a); LA.shown += 1; draw(); return;
+    case "pace": LA.pace = ["less", "normal", "more"].includes(a) ? a : "normal"; draw(); return;   // each person sets their own pace
+    case "remember": {
+      const r = remember(TRUST, CHAT, { kind: "remember_that", scope: "business", text: LA.draft.trim(), ctx_scope: "business", memory_on: LA.memoryOn, count: LA.memory.length, code_words: codeWords(t) });
+      if (LA.draft.trim() && r.keep) { LA.memory.unshift({ id: newId(), text: LA.draft.trim(), scope: "business", role_min: S.role === "owner" ? "owner" : "cashier" }); LA.draft = ""; toast(t("at_remembered")); }
+      else toast(t(r.why === "never_secrets" ? "at_never_secrets" : r.why === "memory_off" ? "at_memory_off" : "at_not_kept"));
+      return;
+    }
+    case "forget": LA.memory = LA.memory.filter((m) => m.id !== a); toast(t("at_forgotten")); return;
+  }
+}
+function laChange(k: string, el: HTMLInputElement): void {
+  const [, what = "", r = "", area = ""] = k.split(":");
+  if (what === "remember") { LA.draft = el.value.slice(0, 200); return; }
+  if (what === "price") { const v = Number(el.value); if (Number.isFinite(v) && v >= 0 && LA.preview) { LA.preview.price = laMinor(v); draw(); } return; }
+  if (!owner()) { draw(); return; }
+  if (what === "pause") { LA.paused = el.checked; emit("AssistPaused", { on: LA.paused, by: "owner" }, "server"); }
+  if (what === "role") { const key = `${r}:${area}`; if (el.checked) LA.off.delete(key); else LA.off.add(key); emit("AssistRoleSet", { role: r, target: area, on: el.checked, by: "owner" }, "server"); }
+  if (what === "approver") { const v = Number(el.value); if (Number.isFinite(v) && v >= 0) LA.approverMajor = Math.floor(v); }
+  if (what === "memory") LA.memoryOn = el.checked;
+  draw();
+}
+
 // ---- shell parts (41 B) inside the Business app (41 E) ------------------------------------------------------------------
 /** 41 E fixes the top bar at five parts (emblem, title, chip, notifications, account), so the 41 B parts sit around them
  *  (decided 9 November 2026): help (?) beside the screen title, "Find or do anything" as a search field on Home and the Business
@@ -727,8 +835,9 @@ function bookDelivery(): void {
 function home(): string {
   if (office()) return officeHome();
   const blocks = homeBlocks(S.role, S.perms), sm = summary(), out: string[] = [`<p class="greet">${esc(t("hello", { shop: shop() }))}</p>`, DSH.searchField()];
-  const kpis = blocks.filter((b) => b === "sales" || b === "profit").map((b) => `<div class="card kpi" data-item="${b === "sales" ? "today_sales" : "today_profit"}"><span>${esc(t(b === "sales" ? "today_sales" : "today_profit"))}</span><strong>${esc(money(b === "sales" ? sm.total : sm.profit))}</strong>${b === "sales" ? `<small>${esc(t("sales_count", { n: sm.count }))}</small>` : ""}</div>`);
+  const kpis = blocks.filter((b) => b === "sales" || b === "profit").map((b) => `<div class="card kpi" data-item="${b === "sales" ? "today_sales" : "today_profit"}"${b === "sales" ? ' data-ask="number:today_sales"' : ""}><span>${esc(t(b === "sales" ? "today_sales" : "today_profit"))}</span><strong>${esc(money(b === "sales" ? sm.total : sm.profit))}</strong>${b === "sales" ? `<small>${esc(t("sales_count", { n: sm.count }))}</small>` : ""}</div>`);
   if (kpis.length) out.push(kpis.length === 2 ? `<div class="duo">${kpis.join("")}</div>` : kpis.join(""));
+  if (blocks.includes("sales")) out.push(LA.answer === "number:today_sales" ? laSalesAnswer() : `<div data-item="ask_about">${askButtonHtml(laLook(), "number", "today_sales")}</div>`);
   for (const b of blocks) {
     if (b === "new_sale") out.push(`<button class="big" data-act="newsale" data-item="new_sale">${icon("ui-plus")}<span>${esc(t("new_sale"))}</span></button>`);
     if (b === "stock_check") out.push(`<button class="ghost" data-act="tab:stock">${esc(t("stock_check"))}</button>`);
@@ -1228,7 +1337,7 @@ function m3Assistant(): string {
   const areas = ["selling", "stock", "devices", "shifts", "cash"];
   const asked = M3.requests.filter((r) => r.state === "asked");
   const reqs = asked.length ? `<ul class="list card" data-item="ask_owner">${asked.map((r) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(t("m3_request_line", { who: r.by, amount: money(r.amount) }))}</span><span class="sub">${esc(t("as_card_title"))}</span></span>
-    ${owner() ? `<button class="primary small" data-act="m3req:approve:${r.id}">${esc(t("ntf_act_approve"))}</button><button class="ghost small" data-act="m3req:deny:${r.id}">${esc(t("ntf_act_deny"))}</button>` : ""}</div></li>`).join("")}</ul>` : "";
+    ${laMayAnswer(r) ? `<button class="primary small" data-act="m3req:approve:${r.id}">${esc(t("ntf_act_approve"))}</button><button class="ghost small" data-act="m3req:deny:${r.id}">${esc(t("ntf_act_deny"))}</button>` : ""}</div></li>`).join("")}</ul>` : "";
   const hist = M3.history.length ? `<ul class="list card" data-item="assist_history">${M3.history.slice(0, 5).map((h) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(t("m3_act_" + h.action))}</span><span class="sub">${esc(h.by)} · ${esc(clock(h.at))}</span></span>${chip(h.state === "queued" ? "queued" : h.state === "done" ? "confirmed" : "failed")}</div></li>`).join("")}</ul>` : `<p class="sub">${esc(t("m3_none_yet"))}</p>`;
   const d = decideOffline("correct_price", { role: S.role === "owner" ? "owner" : "manager", confirmed: true, standing: [...M3.standing] }, online());
   return `<div class="card" data-item="assist_controls"><h2>${esc(t("m3_controls"))}</h2>${owner() ? "" : `<p class="sub">${esc(t("owner_only"))}</p>`}
@@ -1236,7 +1345,7 @@ function m3Assistant(): string {
     ${m3Switch("m3ask:void_sale_within_rules", M3.askFirst.has("void_sale_within_rules"), t("m3_ask_first_void"), !owner())}
     ${m3Switch("m3standing:correct_price", M3.standing.has("correct_price"), t("m3_standing_price"), !owner())}<p class="sub">${esc(t("m3_standing_note"))}</p></div>
     <div class="card" data-item="assist_fix"><h2>${esc(t("m3_try_fix"))}</h2><p>${esc(t("m3_act_correct_price"))}</p><p class="sub">${esc(d.needs === "none" ? t("m3_runs_now") : d.offline === "queue" ? t("m3_queued_note") : t(String(d.why).startsWith("as_") ? String(d.why) : "as_why_confirm"))}</p>
-      <button class="ghost inline" data-act="m3fix:correct_price" ${M3.areasOff.has("stock") ? "disabled" : ""}>${esc(t("as_confirm"))}</button></div>
+      <div class="la-tries"><button class="ghost inline" data-act="la:try:price" ${M3.areasOff.has("stock") ? "disabled" : ""}>${esc(t("at_try_price"))}</button><button class="ghost inline" data-act="la:try:round" ${M3.areasOff.has("stock") ? "disabled" : ""}>${esc(t("at_round_all"))}</button></div></div>
     ${reqs}<h2>${esc(t("m3_history"))}</h2>${hist}`;
 }
 function m3Settings(): string {
@@ -1285,7 +1394,7 @@ function hubSection(id: string): string {
     case "daily_close": extra = `<p class="sub">${esc(t("daily_close_help"))}</p><button class="primary inline" data-act="closeday">${esc(t("close_day"))}</button>`; break;
     case "reports": case "invoicing": case "customers": case "books": extra = `<p class="sub">${esc(t("full_pages_web", { path: reg.path }))}</p>`; break;
     case "assistant": extra = `<label class="field"><span>${esc(t("it_ask"))}</span><input id="askIn" data-in="ask" value="${esc(S.ask)}" autocomplete="off"></label><button class="ghost inline" data-act="ask">${esc(t("send"))}</button>
-      ${S.answer ? `<div class="card"><p class="sub">${esc(t("assist_label"))}</p><p>${esc(S.answer)}</p></div>` : ""}<p class="sub">${esc(t("assist_never"))}</p>${m3Assistant()}`; break;
+      ${S.answer ? laSalesAnswer() : ""}<p class="sub">${esc(t("assist_never"))}</p>${laPreview()}${m3Assistant()}${laControls()}`; break;
     case "cards": extra = `<p class="sub">${esc(t("cards_issuer"))}</p>${m3Cards()}`; break;
     case "online_shop": extra = `<label class="field"><span>${esc(t("it_username"))}</span><input id="userIn" data-in="username" value="${esc(S.userDraft)}" autocomplete="off" autocapitalize="none" spellcheck="false"></label>
       <p class="sub" role="status">${esc(usernameNote())}</p><button class="primary inline" data-act="takeusername" ${check(S.userDraft).ok ? "" : "disabled"}>${esc(t("save"))}</button>
@@ -1657,6 +1766,7 @@ function act(a: string): void {
   if (a.startsWith("qu:")) { PH.q.act(a, { online: online(), partner: !S.realUser, pairCode, redraw: draw }); draw(); return; }
   if (a.startsWith("sv:")) { PH.s.act(a, { online: online(), partner: !S.realUser, redraw: draw }); if (a === "sv:new" || a.startsWith("sv:edit:")) S.hub = "survey_new"; draw(); return; }
   if (a.startsWith("ch:")) { chatAct(a.slice(3)); return; }
+  if (a.startsWith("la:")) { laAct(a.slice(3)); return; }
   if (a.startsWith("emp:")) { EMP.act(a, { online: online(), busy: false, redraw: draw }); draw(); return; }
   if (a.startsWith("ph:")) { if (!a.startsWith("ph:afterpay") || mayAddDevice()) PH.act(a, { online: online(), redraw: draw, language: S.lang }); draw(); return; }
   try {
@@ -1824,6 +1934,7 @@ function act(a: string): void {
 // ---- controls beside the phone ---------------------------------------------------------------------------------------
 function onInput(el: HTMLInputElement): void {
   const k = el.dataset["in"] ?? "", digits = (n: number): string => el.value.replace(/\D/g, "").slice(0, n);
+  if (k === "la:remember") { LA.draft = el.value.slice(0, 200); return; }
   if (k.startsWith("at:")) { if (el.tagName !== "SELECT" && PH.att.input(k, el.value)) draw(); return; }
   if (k.startsWith("qu:")) { if (el.tagName !== "SELECT" && PH.q.input(k, el.value)) draw(); return; }
   if (k.startsWith("sv:")) { if (el.tagName !== "SELECT" && PH.s.input(k, el.value)) draw(); return; }
@@ -1863,6 +1974,7 @@ function m3Change(k: string, el: HTMLInputElement & HTMLSelectElement): void {
 function onChange(el: HTMLInputElement & HTMLSelectElement): void {
   const k = el.dataset["in"] ?? "";
   if ((el.dataset["act"] ?? "") === "ppl:checker") { PH.pickChecker(el.value); draw(); return; }
+  if (k.startsWith("la:")) { if (k !== "la:remember") laChange(k, el); return; }
   if (k.startsWith("at:")) { if (el.tagName === "SELECT") { PH.att.input(k, el.value); draw(); } return; }
   if (k.startsWith("qu:")) { if (el.tagName === "SELECT") { PH.q.input(k, el.value); draw(); } return; }
   if (k.startsWith("sv:")) { if (el.tagName === "SELECT") { PH.s.input(k, el.value); draw(); } return; }
@@ -1929,6 +2041,11 @@ function wire(): void {
   const display = $("#display");
   display.addEventListener("input", (ev) => { if (!DSH.input(ev.target as HTMLInputElement)) onInput(ev.target as HTMLInputElement); });
   display.addEventListener("change", (ev) => onChange(ev.target as HTMLInputElement & HTMLSelectElement));
+  // "Ask about this": press and hold a figure (TRUST.ask_about.hold_ms); the Ask button does the same for keyboards and buttons-only screens
+  let holdTimer = 0;
+  display.addEventListener("pointerdown", (ev) => { const el = (ev.target as HTMLElement).closest<HTMLElement>("[data-ask]"); if (!el) return;
+    holdTimer = window.setTimeout(() => { act(`la:ask:${el.dataset["ask"] ?? ""}`); }, TRUST.ask_about.hold_ms); });
+  for (const end of ["pointerup", "pointerleave", "pointercancel"]) display.addEventListener(end, () => window.clearTimeout(holdTimer));
   display.addEventListener("keydown", (ev) => {
     const el = ev.target as HTMLElement;
     if (ev.key === "Enter" && el.dataset["in"] === "chat") { S.draft = (el as HTMLInputElement).value; sendMsg(); ev.preventDefault(); }
