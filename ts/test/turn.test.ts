@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { applyLayout, turn, keep, putBack, layoutAttributes } from "../src/turn.js";
+import { applyLayout, turn, keep, restoreKept, layoutAttributes } from "../src/turn.js";
 import { DEVICES } from "../src/interfaces.generated.js";
 
 function fakeRoot() {
@@ -15,7 +15,7 @@ test("a turn only writes the layout on the root and is announced once (TURN UPDA
   assert.equal(up.announce, null, "the first layout is not a turn");
   const side = turn(DEVICES, root, { interface: "phone.touch", width: 844, height: 390 }, up.layout);
   assert.equal(root.attrs.get("data-nav"), "side_rail");
-  assert.equal(side.announce, "nav_turned_sideways");
+  assert.equal(side.announce, "nv_turned_sideways");
   const n = root.writes();
   const again = turn(DEVICES, root, { interface: "phone.touch", width: 844, height: 390 }, side.layout);
   assert.equal(again.announce, null, "the same shape twice changes nothing and says nothing");
@@ -36,7 +36,7 @@ test("scroll positions and focus are put back after a turn", () => {
   let focused = 0; const field = { focus: () => { focused++; } };
   const k = keep([box], field);
   box.scrollTop = 0;                      // the browser moved it while the layout changed
-  putBack(k, null);
+  restoreKept(k, null);
   assert.equal(box.scrollTop, 420); assert.equal(focused, 1);
-  putBack(k, field); assert.equal(focused, 1, "focus already on the same control is left alone");
+  restoreKept(k, field); assert.equal(focused, 1, "focus already on the same control is left alone");
 });

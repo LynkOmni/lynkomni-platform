@@ -47,6 +47,12 @@ import type { SvLook, SvPlan } from "../../../ts/src/surveydesk.js";
 import { atDoor, checkInsView, checkersView, devicesView, eventsView, leaveView, peopleView, registerView, reportsView, shiftsView, visitorsView, wasThisYou } from "../../../ts/src/attenddesk.js";
 import type { AtLook, AtPlan, AtTier } from "../../../ts/src/attenddesk.js";
 import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
+import { quickCreateButton, quickCreateHtml, tabsHtml } from "../../../ts/src/appshell.js";
+import type { BarLook } from "../../../ts/src/appshell.js";
+import { NAV } from "../../../ts/src/navigation.generated.js";
+import { isFocus } from "../../../ts/src/navigation.js";
+import { layoutFor } from "../../../ts/src/interfaces.js";
+import { applyLayout } from "../../../ts/src/turn.js";
 
 interface BuildData {
   people: { attend: Record<AtTier, AtPlan>; queue: Record<AtTier, QuPlan>; survey: Record<AtTier, SvPlan> };
@@ -154,7 +160,7 @@ const S = {
   invoices: [] as Invoice[], tables: [] as Table[], devices: [] as { id: string; name: string; revoked: boolean }[], runs: [] as { auto: string; at: number }[], autoOff: new Set<string>(),
   toggles: new Set<string>(["n_sales", "n_stock", "n_chats", "pin_lock", "idle_lock", "receipt_qr", "ads_never_protected"]), username: "", userDraft: "", takenNames: new Set<string>(["sampleshop"]),
   ask: "", answer: "", clockedIn: false, clockId: "", staffPhone: "", supplier: "s1", lynkTail: "7715",
-  entity: "company" as Entity, kind: "business", deliveries: [] as Delivery[], delivery: "",
+  entity: "company" as Entity, kind: "business", deliveries: [] as Delivery[], delivery: "", qc: false,
 };
 /** MASTER UPDATE section 3 in the Business app: the register-driven bell with role routing and "Done by", Ask the owner,
  *  LynkAssist's owner controls and history, the owner's thresholds and summary, remote lock and wipe, and "Get a card". */
@@ -486,10 +492,11 @@ const DSH = new DeviceShell({
 function topBar(title: string, back?: string): string {
   const p = pending(S.events.map((e) => e.sync)), off = !online(), n = unreadNotices();
   const initials = (S.staff.find((x) => x.role === S.role)?.name ?? "O").slice(0, 1);
-  return `<div class="top">${back ? `<button class="iconbtn back" data-act="${back}" aria-label="${esc(t("back"))}">${icon("ui-arrow-left")}</button>` : `${brandMark(DATA.brand.places, "app-top-bar", S.theme === "dark", "logo")}`}
-    <h1>${esc(title)}</h1>${DSH.helpButton()}<button class="netchip${off ? " off" : ""}" data-act="sheet" aria-label="${esc(t(off ? "offline" : "online"))}. ${esc(t("sync"))}${p.count ? ` · ${p.count}` : ""}">${icon(off ? "ui-offline" : "ui-sync")}${p.count ? `<span class="count">${p.count}</span>` : ""}</button>
-    <button class="iconbtn bell" data-act="view:notifications" aria-label="${esc(t("notifications"))}${n ? ` (${n})` : ""}">${icon("ui-bell")}${n ? `<span class="dot">${n}</span>` : ""}</button>
-    <button class="iconbtn avatarbtn" data-act="view:account" aria-label="${esc(t("account"))}"><span class="initials" aria-hidden="true">${esc(initials)}</span></button></div>${DSH.crumbs(S.size === "phone")}`;
+  const focus = isFocus(NAV, screenId());   // a payment or cash count keeps only Back and the connection chip (73.2 focus header)
+  return `<div class="top${focus ? " focus" : ""}">${back ? `<button class="iconbtn back" data-act="${back}" aria-label="${esc(t("back"))}">${icon("ui-arrow-left")}</button>` : `${brandMark(DATA.brand.places, "app-top-bar", S.theme === "dark", "logo")}`}
+    <h1>${esc(title)}</h1>${focus ? "" : DSH.helpButton() + quickCreateButton(NAV, barLook(), { role: S.role, screen: screenId(), act: "qc" })}<button class="netchip${off ? " off" : ""}" data-act="sheet" aria-label="${esc(t(off ? "offline" : "online"))}. ${esc(t("sync"))}${p.count ? ` · ${p.count}` : ""}">${icon(off ? "ui-offline" : "ui-sync")}${p.count ? `<span class="count">${p.count}</span>` : ""}</button>
+    ${focus ? "" : `<button class="iconbtn bell" data-act="view:notifications" aria-label="${esc(t("notifications"))}${n ? ` (${n})` : ""}">${icon("ui-bell")}${n ? `<span class="dot">${n}</span>` : ""}</button>
+    <button class="iconbtn avatarbtn" data-act="view:account" aria-label="${esc(t("account"))}"><span class="initials" aria-hidden="true">${esc(initials)}</span></button>`}</div>${focus ? "" : DSH.crumbs(S.size === "phone")}`;
 }
 const TAB_ICON: Record<string, string> = { home: "ui-home", sell: "ui-cart", stock: "product-stock", chats: "product-chat", business: "product-dash", services: "ui-grid", float: "ui-float",
   invoices: "ui-receipt", customers: "ui-user", tables: "ui-grid", kitchen: "ui-receipt", books: "ui-doc" };
@@ -499,8 +506,23 @@ const tabs = (): readonly Tab[] => workspaceTabs(DATA.workspaces, S.entity, S.bt
 const ww = (k: string): string => t(workspaceWord(DATA.workspaces, S.entity, k));
 const office = (): boolean => S.entity !== "company" && S.btype === "no_till";
 /** Tabs follow the business type (5, 42 H): bottom tabs on a phone, the same tabs in a side rail on a tablet (41 E). */
+/** The screen's shape (TURN UPDATE 76): the layout comes only from the device register (ts/src/interfaces.ts layoutFor). */
+const SHAPE = { phone: { interface: "phone.touch", width: 390, height: 844 }, tablet: { interface: "tablet.touch", width: 768, height: 1024 }, web: { interface: "computer.pointer", width: 1280, height: 800 } } as const;
+const layout = () => layoutFor(DEVICES, SHAPE[S.size]);
+/** The app shell's words and icons for this workspace's tabs (ts/src/appshell.ts, INTERFACE UPDATE 73.4). */
+const barLook = (): BarLook => ({ t, icon: (id, cls) => icon(id, cls), label: (k) => ww(`tab_${k}`), tabIcon: (k) => TAB_ICON[k], badge: (k) => (k === "chats" ? unread() : 0) });
+/** Tabs come from the navigation register: bottom tabs on a phone held upright, a side rail on a tablet or a computer, none on a focus screen. */
 function tabBar(): string {
-  return `<nav class="${S.size === "tablet" ? "rail" : "tabbar"}" aria-label="LynkOmni">${tabs().map((k) => `<button data-act="tab:${k}" ${S.tab === k ? 'aria-current="page"' : ""}>${icon(TAB_ICON[k] ?? "ui-grid")}<span>${esc(ww(`tab_${k}`))}</span>${k === "chats" && unread() ? `<span class="dot">${unread()}</span>` : ""}</button>`).join("")}</nav>`;
+  return tabsHtml(NAV, barLook(), { kind: S.btype, layout: S.size === "web" ? { ...layout(), nav: "bottom_bar" } : layout(), screen: screenId(), current: S.tab, tabs: tabs() });
+}
+/** Quick create (+), by role (INTERFACE UPDATE 73.2): each item opens the screen the register names. */
+function openQuickCreate(id: string): void {
+  S.qc = false;
+  if (id === "new_sale") { act("tab:sell"); return; }
+  if (id === "new_product") { S.tab = "stock"; S.view = "add"; draw(); return; }
+  if (id === "new_invoice") { act(tabs().includes("invoices" as Tab) ? "tab:invoices" : "hub:invoicing"); return; }
+  if (id === "new_customer") { act(tabs().includes("customers" as Tab) ? "tab:customers" : "hub:customers"); return; }
+  draw();
 }
 const summary = () => daySummary(S.sales, COSTS);
 const flash = (): string => (S.flash ? `<div class="toast" role="status">${icon("ui-check")}<span>${esc(S.flash)}</span></div>` : "");
@@ -1398,7 +1420,8 @@ function view(): string {
     default: body = agent ? agentHome() : home();
   }
   const noTabs = S.tab === "sell" && !["main", "done", "receipt", "sales", "shift", "practice"].includes(S.view) || S.view === "thread" || S.view === "svc";
-  return `<div class="screen" data-screen="${esc(screenId())}">${body}</div>${noTabs ? "" : tabBar()}${S.sheet ? syncSheet() : ""}${DSH.overlay()}`;
+  const qc = S.qc ? quickCreateHtml(NAV, barLook(), { role: S.role, close: "qcclose" }) : "";
+  return `<div class="screen" data-screen="${esc(screenId())}">${body}</div>${noTabs ? "" : tabBar()}${S.sheet ? syncSheet() : ""}${qc}${DSH.overlay()}`;
 }
 
 /** The Business app on a phone or tablet is the touch version (catalog/devices.v1.json smartphone, tablet). */
@@ -1418,6 +1441,7 @@ function drawScreen(): void {
   const wantDir = S.lang === "xx-rtl" ? "rtl" : S.lang === "xx" ? "ltr" : PACKS[S.lang]?.dir ?? "ltr";
   if (d.dir !== wantDir) d.dir = wantDir;
   for (const p of document.querySelectorAll<HTMLElement>("#panel, #log, #emkCtl")) { if (p.lang !== d.lang) p.lang = d.lang; if (p.dir !== d.dir) p.dir = d.dir; }   // the "Try it" controls speak the same language
+  applyLayout(d, layout());   // the shape's layout as attributes on the screen root: a turn never redraws (ts/src/turn.ts)
   $("#app").innerHTML = view();
   if (focus && (focus.id || focus.key)) { const el = (focus.id ? document.getElementById(focus.id) : d.querySelector(`[data-in="${CSS.escape(focus.key)}"]`)) as HTMLInputElement | HTMLTextAreaElement | null; if (el && "setSelectionRange" in el) { el.focus(); if (focus.at !== null) el.setSelectionRange(focus.at, focus.at); } }
   drawStatus();
@@ -1463,6 +1487,9 @@ function closeDay(): void {
 }
 function act(a: string): void {
   const [k, v = ""] = a.split(/:(.*)/s);
+  if (a === "qc") { S.qc = true; draw(); return; }
+  if (a === "qcclose") { S.qc = false; draw(); return; }
+  if (k === "qc") { openQuickCreate(v); return; }
   if (a.startsWith("at:")) {
     PH.att.act(a, { online: online(), partner: !S.realUser, typed: (document.getElementById("atFull") as HTMLInputElement | null)?.value ?? "" });
     if (a === "at:new") S.hub = "attendance_new"; else if (a === "at:donenew") S.hub = "attendance_people";
