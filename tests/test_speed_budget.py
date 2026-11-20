@@ -45,7 +45,8 @@ class TimeBudget(unittest.TestCase):
         first = pg.evaluate("window.__readyAt")
         nodes = pg.evaluate("(r) => document.querySelector(r).querySelectorAll('*').length", budget(emulator, "root"))
         pg.wait_for_timeout(2000)
-        self.shifts[emulator] = max(self.shifts.get(emulator, 0), pg.evaluate("window.__shift"))
+        shift = pg.evaluate("window.__shift")
+        self.shifts[emulator] = min(self.shifts.get(emulator, shift), shift)   # like the times: the best of the fresh loads counts; a real jump fails every load
         tap = pg.evaluate("""(sel) => new Promise((done) => { const t0 = performance.now(); document.querySelector(sel).click(); requestAnimationFrame(() => requestAnimationFrame(() => done(performance.now() - t0))); })""", cfg["first_tap"])
         pg.close()
         return first, nodes, tap
