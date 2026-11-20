@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { roundDiv, split, allocate, taxLine, billMove, approvers, mayApprove, match3, earlyDiscount, mileage, cardMatch, depreciation, loanSchedule, loanLines,
+import { rateBp, roundDiv, split, allocate, taxLine, billMove, approvers, mayApprove, match3, earlyDiscount, mileage, cardMatch, depreciation, loanSchedule, loanLines,
   disposal, repeatDates, reversalDate, mayPost, twoPerson, closeMissing, bankMatch, trialBalance, statements, yearEndLines, cashFlow, equityChanges, revalue,
   stockCost, consolidate, mirror, budgetVsActual, fundSpendOk, dimsOk, entityTools, type Line } from "../src/books.js";
 import { BOOKS, CHART } from "../src/books.generated.js";
@@ -13,6 +13,7 @@ const lines = (ls: unknown[]): Line[] => ls as Line[];
 test("integer arithmetic and taxes agree with the Python reference (OFFICE UPDATE 66.2)", () => {
   for (const c of V.round_div) assert.equal(roundDiv(c.n, c.d), c.expect, JSON.stringify(c));
   for (const c of V.split) assert.deepEqual(split(c.t, c.p), c.expect, JSON.stringify(c));
+  for (const [r, want] of Object.entries(V.rate_bp)) assert.equal(rateBp(r), want, r);
   for (const c of V.allocate) assert.deepEqual(allocate(c.t, c.w), c.expect, JSON.stringify(c));
   for (const c of V.tax) assert.deepEqual(taxLine(c.amount, c.taxes, c.included), c.expect, JSON.stringify(c));
 });

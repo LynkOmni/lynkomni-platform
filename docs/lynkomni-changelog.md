@@ -2,6 +2,24 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.69.0 (2026-11-20)
+Section 4, step D2a (OFFICE UPDATE: LynkInv's rules):
+- New register catalog/invoices.v1.json, read by core/invoices.py and ts/src/invoices.ts with shared test answers (python3 tools/invoices_vectors.py), on top of LynkAcc's rules. It covers:
+  - the documents and what each may be made from: quote, pro-forma, sales order, delivery note, invoice, receipt, credit note, debit note, statement of account, and a buyer-issued invoice only where the country allows it. Each keeps an identifier that already exists;
+  - the invoice states, payment terms and due dates;
+  - totals with several taxes per line and per invoice, discounts per line and per invoice, and prices with tax included;
+  - a credit-limit warning (never a block) and approval before sending;
+  - stepped reminders (before the due date, then friendly, firm and final), paused by a promise-to-pay date or a dispute;
+  - late fees only where the country's law allows them, never above its rate;
+  - ageing, and paying several invoices at once (oldest first), with any overpayment kept as a credit balance;
+  - instalment plans, subscription changes for the days left, billing by use (per unit, graduated or volume), project stages and retainers;
+  - another currency at a recorded rate, cash rounding, keeping times, and at most two languages on one invoice.
+- Every country pack now has office settings: late fees, e-invoices, keeping times, mileage and daily allowance, allowed costing and loss-of-value methods, buyer-issued invoices and the reverse charge, and for LynkCRM the days to answer a data request, the data region, keeping times and which sensitive records are allowed (tools/country_office.py). All start unknown and unconfirmed, and the safe default applies until a local lawyer and accountant confirm them.
+- Government e-invoices sit behind one interface (services/einvoice.py) with a working sandbox; provider ledger item e_invoice_network stays a sandbox until a partner is signed per country. Only the network writes accepted, confirmed or failed.
+- LynkInv's tiers follow blueprint 66.7. E-invoices, tax held back and keeping invoices are on every tier, Free included.
+- Seven LynkInv features placed in search, help and the sitemap.
+- Leftover fixed: invoice totals and the dashboard's tax estimate used decimal arithmetic. They now read the country's rate exactly as basis points (a new exact rate reader, also in TypeScript) and work in whole minor units.
+
 ## v0.68.0 (2026-11-20)
 Section 4, step D1 (OFFICE UPDATE: LynkAcc's rules):
 - Chart of accounts version 2 (contract/chart-of-accounts.v2.json): every version 1 account and posting unchanged, plus the accounts LynkAcc needs: mobile money, cheques waiting to clear, paid in advance, earned not yet billed, tax to reclaim, tax held back, equipment and the loss of value so far, money owed between group entities, loans and leases, staff claims to repay, profit kept from earlier years, funds for a set purpose, member shares, grants, exchange gains and losses, late fees, interest, bad debts. Each account has a group for the statements. New postings for bills, expense claims, assets, loss of value, loans, write-offs, late fees, grants and a checked journal (it must balance and name real accounts, or nothing posts).

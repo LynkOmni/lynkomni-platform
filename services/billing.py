@@ -265,6 +265,20 @@ _OFFICE_ACC = [
 for _i, _d in enumerate(_OFFICE_ACC):
     for _k, _v in _d.items():
         FEATURES["lynkacc"][_i][_k] = _v
+# OFFICE UPDATE 66.7 for LynkInv (section 4 step D2a). Government e-invoices, tax held back and keeping invoices for the legal
+# period are on every tier; e-invoices go out only through the signed connector (provider ledger e_invoice_network).
+_OFFICE_INV = [
+    dict(pro_forma=True, receipts=True, delivery_notes=True, customer_order_number=True, e_invoices=True, withholding_tax=True,
+         legal_keeping=True, offline=True, import_records=True, change_history=True),
+    dict(any_currency=True, statements_of_account=True, terms_library=True, stepped_reminders=True, late_fees_by_law=True,
+         batch_sending=True, sales_orders=True, debit_notes=True),
+    dict(credit_limits=True, disputes=True, collections=True, write_offs=True, subscriptions=True, project_stages=True, retainers=True,
+         instalment_plans=True, approval_before_sending=True, two_languages=True),
+    dict(usage_billing=True, time_and_costs=True, bulk_import=True, pay_several_portal=True),
+]
+for _i, _d in enumerate(_OFFICE_INV):
+    for _k, _v in _d.items():
+        FEATURES["lynkinv"][_i][_k] = _v
 # EMULATOR UPDATE (owner accepted 2026-11-18, blueprint 70.12; build section 3A): staff emulator slots, the number of staff emulators
 # of a family connected at the same time. Every number already locked stays: LynkPOS keeps its devices (1, 2, 5, unlimited);
 # LynkAttend, LynkQueue and LynkSurvey keep their own locked units ("own_units": places, counters, creators) and are not limited

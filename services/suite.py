@@ -3,7 +3,7 @@ Numbers match the locked list: 1 Universal Payment App, 2 Offline-First POS, 3 A
 4 Payment Failure Recovery, 5 Pay-by-Link and QR, 6 Smart Inventory and Reordering, 7 Customer Loyalty,
 8 Global Merchant Dashboard, 9 Merchant Growth Engine (intelligence, marketplace, financing, protection)."""
 import base64, hashlib, hmac, json, os, time, uuid
-from decimal import Decimal
+from core import books
 from core.events import EventStore
 from core.money import FX
 from core.providers import build_providers, fiscal_for
@@ -216,10 +216,11 @@ class Dashboard:  # 8
         pr, a = s.c.profile(m), s.acct.summary(m)
         cur = display or pr["currency"]
         cv = lambda x: s.c.fx.convert(x, pr["currency"], cur)
-        t = Decimal(country(pr["country"])["tax_rate"])
+        bp = books.rate_bp(country(pr["country"])["tax_rate"])
+        tax_in = lambda x: x - books.round_div(x * 10000, 10000 + bp)        # the tax inside an amount that includes it, exactly
         return {"currency": cur, "revenue_minor": cv(a["revenue_minor"]), "profit_minor": cv(a["profit_minor"]),
                 "expenses_minor": cv(a["expenses_minor"]), "low_stock": s.inv.low(m), "negative_stock": s.inv.negative(m),
-                "tax_estimate_minor": cv(int(Decimal(a["revenue_minor"]) * t / (1 + t))),  # estimate, not a filing
+                "tax_estimate_minor": cv(tax_in(a["revenue_minor"])),  # estimate, not a filing
                 "insights": s.g.intelligence(m)}
 
 class DataRights:  # data rights and trust: consent log, revoke, export
