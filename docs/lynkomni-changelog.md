@@ -2,6 +2,19 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.59.0 (2026-11-20)
+The final LynkOmni emblem is in place everywhere (owner decision, brand release @lynkomni/icons 1.8.1):
+- The three gaps in the emblem are all the same width (72), and every gap around the centre dot is the same (180), including the corner between top and right.
+- The bar runs at exactly 45 degrees, both dots are true circles, and the outline flows as one figure through the top gap.
+- The full logo carries the same emblem; the LynkOmni name is unchanged.
+- The browser tab icon uses the small-size version, whose gaps stay open at 16 to 24 pixels.
+- Updated through the brand release everywhere the logo appears:
+  - the emblem and full logo in light, dark, high-contrast and one-colour;
+  - the email images, the favicon, and the app and install icons;
+  - every emulator page;
+  - the LynkVCard faces and backs, and the share and store images.
+- The brand library now has a geometry check that fails if the emblem ever drifts from these numbers.
+
 ## v0.58.3 (2026-11-20)
 Ready for the final LynkOmni emblem (owner decision, brand release @lynkomni/icons 1.8.0):
 - The final emblem is locked in the project rules: three gaps of 72, every gap around the centre dot 180, the bar at exactly 45°, one figure through the top gap. It must never be redrawn without the owner's written approval.
