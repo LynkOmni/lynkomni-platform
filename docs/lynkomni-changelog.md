@@ -2,6 +2,21 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.71.0 (2026-11-20)
+Section 4, step D3 (OFFICE UPDATE: LynkCRM):
+- New register catalog/crm.v1.json, read by core/crm.py and ts/src/crm.ts with shared test answers (python3 tools/crm_vectors.py). It covers:
+  - record kinds for every kind of entity and relations (a guardian only in a school);
+  - own fields with their checks and limits, required fields, and saved segments worked out again each time;
+  - pipelines on the contract's five stages, with won and lost reasons and the forecast;
+  - lead scores, always labelled as LynkAssist's suggestion;
+  - who sees which records, and fields hidden by role;
+  - cases with promised answer times, and the one full picture (each source only when its link is on);
+  - duplicates found by email, phone or name set aside of case and accents, and merged into the oldest record (undo for 30 days);
+  - consent per channel (marketing needs "asked"), a person's data requests, and sensitive records only where the law allows.
+- LynkCRM in the cloud (services/crm.py): records with public id LOCST-. Names, emails and phone numbers live only in the PII vault; the record keeps fingerprints to find duplicates, and no event carries them. The service also handles fields, segments, deals, cases, hand-overs, merges with undo, consent, data requests, the timeline and field visits.
+- LynkCRM's tiers follow blueprint 66.7. Consent records, data requests, offline working, import, duplicate merging and the change history are on every tier.
+- Eight LynkCRM features placed in search, help and the sitemap; two security controls.
+
 ## v0.70.0 (2026-11-20)
 Section 4, step D2b (OFFICE UPDATE: contract version 11 and the cloud services):
 - Contract version 11 (contract/tools/build_v11.py) adds the facts of bills, expense claims, assets, loss of value, journals and the lock date, and of documents, reminders, promises to pay, disputes, write-offs, credit balances, instalment plans, subscription changes and e-invoice answers, and LynkCRM's facts: a record created, records merged, a customer handed over, a case opened and moved on, consent per channel, a data request and a field visit.

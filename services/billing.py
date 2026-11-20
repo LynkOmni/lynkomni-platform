@@ -279,6 +279,19 @@ _OFFICE_INV = [
 for _i, _d in enumerate(_OFFICE_INV):
     for _k, _v in _d.items():
         FEATURES["lynkinv"][_i][_k] = _v
+# OFFICE UPDATE 66.7 for LynkCRM (section 4 step D3). Consent records, a person's data requests, offline working, import,
+# duplicate merging and the full change history are on every tier; own fields count against crm_field_limit (catalog/crm.v1.json).
+_OFFICE_CRM = [
+    dict(organisations=True, record_kinds=True, tags=True, full_picture=True, consent_records=True, data_requests=True, offline=True,
+         import_records=True, duplicate_merge=True, change_history=True, own_fields=0),
+    dict(own_fields=20, layouts=True, saved_segments=True, lead_forms=True, referrals=True, message_templates=True),
+    dict(own_fields=100, deals_with_products=True, quote_from_deal=True, teams=True, territories=True, email_calendar=True, cases=True,
+         journeys=True, handover=True),
+    dict(own_fields=None, own_record_kinds=True, hidden_fields=True, promised_times=True, sales_targets=True, lead_scores=True),
+]
+for _i, _d in enumerate(_OFFICE_CRM):
+    for _k, _v in _d.items():
+        FEATURES["lynkcrm"][_i][_k] = _v
 # EMULATOR UPDATE (owner accepted 2026-11-18, blueprint 70.12; build section 3A): staff emulator slots, the number of staff emulators
 # of a family connected at the same time. Every number already locked stays: LynkPOS keeps its devices (1, 2, 5, unlimited);
 # LynkAttend, LynkQueue and LynkSurvey keep their own locked units ("own_units": places, counters, creators) and are not limited

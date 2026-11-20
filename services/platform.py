@@ -46,6 +46,8 @@ class Platform(_Base):
         s.invoicing = Invoicing(s)
         from services.accounting import Books
         s.books = Books(s)                                    # LynkAcc in the cloud (OFFICE UPDATE, section 4 step D2b)
+        from services.crm import Customers
+        s.crm = Customers(s)                                  # LynkCRM in the cloud (OFFICE UPDATE, section 4 step D3)
         from services.flow import Flow
         from identity.account import Account
         from identity.automations import register as register_section_2
