@@ -32,7 +32,7 @@ const big = (x: number): bigint => BigInt(x);
 /** n / d rounded half away from zero (d > 0). */
 export const roundDiv = (n: number, d: number): number => Number(rdBig(big(n), big(d)));
 /** a * b / d, rounded half away from zero, without losing precision. */
-const mulDiv = (a: number, b: number, d: number): number => Number(rdBig(big(a) * big(b), big(d)));
+export const mulDiv = (a: number, b: number, d: number): number => Number(rdBig(big(a) * big(b), big(d)));
 
 export function split(total: number, parts: number): number[] {
   if (parts <= 0) return [];
@@ -47,6 +47,18 @@ export function allocate(total: number, weights: readonly number[]): number[] {
 }
 
 // ---- tax ---------------------------------------------------------------------------------------------------------------------
+/** A rate written as a decimal string ("0.18", "18%", "0.075") as integer basis points, read exactly; finer than a basis point is refused. */
+export function rateBp(rate: string | number): number {
+  let t = String(rate).trim();
+  const pct = t.endsWith("%");
+  t = t.replace(/%+$/, "").trim();
+  const dot = t.indexOf("."), whole = dot < 0 ? t : t.slice(0, dot), frac = dot < 0 ? "" : t.slice(dot + 1);
+  if (!(whole || frac) || !/^\d*$/.test(whole) || !/^\d*$/.test(frac) || (whole === "" && frac === "")) throw new Error(`not a rate: ${rate}`);
+  const places = pct ? 2 : 4;
+  if (frac.replace(/0+$/, "").length > places) throw new Error(`rate finer than a basis point: ${rate}`);
+  const f = (frac + "0".repeat(places)).slice(0, places);
+  return parseInt(whole || "0", 10) * 10 ** places + parseInt(f || "0", 10);
+}
 export interface Tax { kind: string; rate_bp: number }
 export function taxLine(amount: number, taxes: readonly Tax[], included = false) {
   const rates = taxes.filter((t) => ADDED.includes(t.kind)).map((t) => t.rate_bp);
@@ -168,7 +180,10 @@ export function loanLines(row: LoanRow, method = "bank"): Line[] {
 // ---- dates, repeating and reversing ------------------------------------------------------------------------------------------
 const parse = (s: string): [number, number, number] => { const [y, m, d] = s.split("-").map(Number); return [y!, m!, d!]; };
 const iso = (y: number, m: number, d: number): string => `${String(y).padStart(4, "0")}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-const daysInMonth = (y: number, m: number): number => new Date(Date.UTC(y, m, 0)).getUTCDate();
+export const daysInMonth = (y: number, m: number): number => new Date(Date.UTC(y, m, 0)).getUTCDate();
+/** A date as a whole day number, and back (UTC, so no time zone moves a day). */
+export const dayNumber = (s: string): number => { const [y, m, d] = parse(s); return Math.round(Date.UTC(y, m - 1, d) / 86400000); };
+export const fromDayNumber = (n: number): string => { const t = new Date(n * 86400000); return iso(t.getUTCFullYear(), t.getUTCMonth() + 1, t.getUTCDate()); };
 const addDays = (s: string, n: number): string => { const [y, m, d] = parse(s); const t = new Date(Date.UTC(y, m - 1, d + n)); return iso(t.getUTCFullYear(), t.getUTCMonth() + 1, t.getUTCDate()); };
 export function repeatDates(start: string, every: string, count: number): string[] {
   if (every === "week") return Array.from({ length: count }, (_, i) => addDays(start, 7 * i));

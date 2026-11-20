@@ -5,7 +5,7 @@ number is a sequential number in the merchant's own series, separate from the ra
 reason; nothing is called a tax invoice unless the country's workflow is confirmed in writing (default: never).
 Providers are sandbox; legal invoice content and retention need a local adviser per country."""
 import time, uuid
-from decimal import Decimal as D, ROUND_HALF_UP
+from core import books, invoices
 from core.regions import country
 from services.improvements import Table, _cur
 
@@ -44,12 +44,15 @@ class Invoicing:
             if k.startswith(f"{m}|{name}|{device}|") and b["first"] <= number <= b["last"]: return k, b
         return None, None
     # ---- amounts
-    def totals(s, m, lines):
-        rate = D(str(country(s.p.c.profile(m)["country"])["tax_rate"])); net = tax = 0
-        for ln in lines:
-            n = (D(ln["qty_milli"]) * D(ln["unit_minor"]) / 1000).quantize(D(1), ROUND_HALF_UP) - ln.get("discount_minor", 0)
-            net += int(n); tax += int((D(n) * rate).quantize(D(1), ROUND_HALF_UP))
-        return {"net_minor": net, "tax_minor": tax, "total_minor": net + tax}
+    def totals(s, m, lines, taxes=None):
+        """Integer totals through LynkInv's rules (core/invoices.py): the country's sales tax read exactly as basis points, or
+        the invoice's own taxes (several on a line, tax held back, the reverse charge)."""
+        rate = books.rate_bp(country(s.p.c.profile(m)["country"])["tax_rate"])
+        doc = taxes if taxes is not None else ([{"kind": "sales", "rate_bp": rate}] if rate else [])
+        t = invoices.totals([{"qty": ln["qty_milli"], "unit_minor": ln["unit_minor"], "discount_minor": ln.get("discount_minor", 0), **({"taxes": ln["taxes"]} if "taxes" in ln else {})}
+                             for ln in lines], doc)
+        tax = sum(v for k, v in t["taxes"].items() if k in books.ADDED_TAXES)
+        return {"net_minor": t["net"], "tax_minor": tax, "total_minor": t["total"], "withheld_minor": t["withheld"], "to_pay_minor": t["to_pay"]}
     def label(s, m):
         """Only 'Invoice'. The word 'tax invoice' needs the country's workflow confirmed in writing, which no pack states yet."""
         confirmed = country(s.p.c.profile(m)["country"]).get("flags", {}).get("tax_invoice_confirmed", False)

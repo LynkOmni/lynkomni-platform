@@ -1439,6 +1439,83 @@
     "sitemap"
    ],
    "section": 4
+  },
+  {
+   "id": "inv_documents",
+   "kind": "feature",
+   "what": "LynkInv documents: quotes, pro-forma invoices, sales orders, delivery notes, invoices, receipts, credit and debit notes, statements of account, and buyer-issued invoices where the law allows",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "inv_e_invoices",
+   "kind": "feature",
+   "what": "LynkInv government e-invoices: sent through the tax office's connector or a certified partner with the five states, on every tier; supplier e-invoices go into Bills to pay",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "inv_currencies_languages",
+   "kind": "feature",
+   "what": "LynkInv in any currency with the rate recorded, templates per language and two languages on one invoice",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "inv_getting_paid",
+   "kind": "feature",
+   "what": "LynkInv getting paid on time: a terms library, credit limits, stepped reminders with promise-to-pay, late fees only where the law allows, disputes, the collections list and ageing",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "inv_credit_payments",
+   "kind": "feature",
+   "what": "LynkInv credit balances, write-offs with approval, paying several invoices at once and instalment plans",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "inv_ways_to_bill",
+   "kind": "feature",
+   "what": "LynkInv ways to bill: subscriptions with upgrades and pauses, billing by use, project stages, retainers, time and costs, and many invoices at once",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "inv_approval",
+   "kind": "feature",
+   "what": "LynkInv approval before sending, by amount and by who prepared it",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
   }
  ]
 }

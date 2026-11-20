@@ -235,5 +235,35 @@
    "confirmed": false
   },
   "note": "Set per country after the lawyer review (ledger item people_services_legal); unknown until then."
+ },
+ "office": {
+  "late_fees": {
+   "allowed": null,
+   "max_rate_bp_year": null,
+   "fixed_fee_minor": null
+  },
+  "e_invoice": {
+   "required": null,
+   "format": null
+  },
+  "keep_years": null,
+  "mileage_rate_minor": null,
+  "daily_allowance_minor": null,
+  "stock_methods": null,
+  "depreciation_methods": null,
+  "buyer_issued_invoices": null,
+  "reverse_charge": null,
+  "confirmed": false,
+  "note": "Set per country after the lawyer and accountant review (ledger item office_country_rules); unknown until then, and the safe default applies.",
+  "crm": {
+   "request_days": null,
+   "data_region": null,
+   "keep_years": null,
+   "sensitive_allowed": {
+    "health": null,
+    "children": null,
+    "citizens": null
+   }
+  }
  }
 }

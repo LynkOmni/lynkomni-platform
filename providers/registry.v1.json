@@ -1680,6 +1680,43 @@
         "Run the shared tests against both adapters",
         "Set status to contract_signed, then the country switches on by itself"
       ]
+    },
+    {
+      "id": "e_invoice_network",
+      "name": "Tax-office e-invoice connector or certified e-invoice partner",
+      "kind": "e_invoice",
+      "used_by": [
+        "invoicing",
+        "accountant"
+      ],
+      "countries": "all",
+      "status": "sandbox",
+      "interface": "services.einvoice:EInvoiceNetwork",
+      "sandbox": "services.einvoice:SandboxEInvoiceNetwork",
+      "needed_from_provider": [
+        "the country's e-invoice format and the tax office's clearance or reporting rules, confirmed in writing",
+        "a certified connector agreement (or tax-office API access) per country",
+        "test and live credentials",
+        "the answer and failure codes, mapped to accepted, confirmed and failed",
+        "receiving supplier e-invoices"
+      ],
+      "placeholders": [
+        {
+          "file": "services/einvoice.py",
+          "token": "SANDBOX"
+        }
+      ],
+      "when_off": {
+        "visual": "state-coming-soon",
+        "message": "Coming to your country soon."
+      },
+      "notes": "Only the network writes accepted, confirmed or failed. Until it is signed, an invoice still issues and its e-invoice waits as queued, said plainly; LynkOmni never claims an invoice was cleared before the network answers.",
+      "integrate": [
+        "Confirm the country's e-invoice rules with the local accountant (pack office.e_invoice)",
+        "Write the real adapter next to the sandbox one behind EInvoiceNetwork",
+        "Run the shared tests against both adapters",
+        "Set status to contract_signed for the country"
+      ]
     }
   ],
   "later": [
@@ -2112,6 +2149,18 @@
       "why_not_now": "LynkOmni makes no hardware; door devices, fingerprint readers, cameras, kiosks, ticket printers, pagers and feedback button stands come from third-party suppliers the owner chooses (owner action 11). Everything runs on devices people already have until then.",
       "placeholders": [],
       "done_when": "Suppliers are chosen and their devices pass the real-device checks."
+    },
+    {
+      "id": "office_country_rules",
+      "name": "Office rules per country (lawyer and accountant)",
+      "blocks": [
+        "accountant",
+        "invoicing"
+      ],
+      "status": "pending",
+      "why_not_now": "Each country's tax types, held-back tax, official statement layouts, e-invoice rules, keeping times, late-fee rules, mileage rates, daily allowances and allowed costing and loss-of-value methods need a local lawyer and accountant (owner REMINDER item 9). Until then every pack's office settings are unknown and the safe defaults apply.",
+      "placeholders": [],
+      "done_when": "Each country's office settings are set and marked confirmed by its lawyer and accountant (tools/country_office.py keeps confirmed values)."
     }
   ],
   "user_actions": [

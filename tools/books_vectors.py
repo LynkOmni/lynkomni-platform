@@ -67,6 +67,7 @@ def build():
     return {"version": 1, "description": "LynkAcc's rules (OFFICE UPDATE 66.2). core/books.py is the reference; ts/src/books.ts must agree.",
             "round_div": [{"n": n, "d": d, "expect": B.round_div(n, d)} for n, d in itertools.product((0, 1, 5, 15, 25, -5, -15, 99999999999, -7), (1, 2, 3, 10, 7))],
             "split": [{"t": t, "p": p, "expect": B.split(t, p)} for t in (0, 10, 101, -101, 7) for p in (0, 1, 3, 4)],
+            "rate_bp": {r: B.rate_bp(r) for r in ("0.18", "0", "18%", "0.075", "7.5%", "0.16", "1", "12.25%", "0.0005", " 0.2 ")},
             "allocate": [{"t": t, "w": w, "expect": B.allocate(t, w)} for t in (100, 1001, -55) for w in ([], [1], [1, 1, 1], [1800, 250], [0, 0])],
             "tax": tax, "moves": moves,
             "approvers": [{"amount": a, "expect": B.approvers(a)} for a in (0, 50000, 50001, 9999999)],

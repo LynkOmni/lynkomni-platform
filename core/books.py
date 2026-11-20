@@ -50,6 +50,22 @@ def allocate(total, weights):
 
 
 # ---- tax ---------------------------------------------------------------------------------------------------------------------
+def rate_bp(rate):
+    """A rate written as a decimal string ("0.18", "18%", "0.075") as integer basis points, read exactly (never a float).
+    A rate finer than a basis point is refused."""
+    t = str(rate).strip()
+    pct = t.endswith("%")
+    t = t.rstrip("%").strip()
+    whole, _, frac = t.partition(".")
+    if not (whole or frac) or not (whole or "0").isdigit() or (frac and not frac.isdigit()):
+        raise ValueError(f"not a rate: {rate!r}")
+    places = 2 if pct else 4                                 # 18% -> 1800 bp; 0.18 -> 1800 bp
+    if len(frac.rstrip("0")) > places:
+        raise ValueError(f"rate finer than a basis point: {rate!r}")
+    frac = (frac + "0" * places)[:places]
+    return int(whole or "0") * 10 ** places + int(frac or "0")
+
+
 def tax_line(amount, taxes, included=False):
     """Several taxes on one line. taxes: [{"kind": sales|import|withholding|reverse_charge, "rate_bp": int}]. With included,
     amount is the price with the added taxes inside it. Returns the net, each tax, the total charged, the tax held back
