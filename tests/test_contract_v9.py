@@ -17,7 +17,7 @@ class ContractV9(unittest.TestCase):
     def test_built_from_v8_and_current(self):
         r = subprocess.run([sys.executable, str(ROOT / "contract" / "tools" / "build_v9.py"), "--check"], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertEqual(CURRENT, 9)
+        self.assertGreaterEqual(CURRENT, 9)                                   # version 10 (section 4, step C1) reads version 9 unchanged
 
     def test_only_the_new_events_are_added(self):
         self.assertEqual(set(V9["events"]) - set(V8["events"]), NEW)
@@ -49,7 +49,7 @@ class ContractV9(unittest.TestCase):
     def test_a_version_8_event_reads_as_version_9_unchanged(self):
         old = {"type": "SaleRecorded", "schema_version": 8, "payload": {"sale_id": "s1", "total": 5}}
         up = upcast(old)
-        self.assertEqual((up["schema_version"], up["payload"]), (9, old["payload"]))
+        self.assertEqual((up["schema_version"], up["payload"]), (CURRENT, old["payload"]))
         self.assertEqual(old["schema_version"], 8, "the stored event is never rewritten")
 
     def test_a_new_event_validates(self):

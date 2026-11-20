@@ -2,6 +2,16 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.64.0 (2026-11-20)
+Section 4, step C1 (CHAT UPDATE: the conversation engine and its registers):
+- New register catalog/chat.v1.json: the three kinds of conversation (customer and business, Storefront, support; never personal, group or staff-to-staff chat), the five message states and who writes each, the 15-minute edit window, live signs (always with words, never stored, both sides online, still words when motion is off, "Ama is replying" for the team only), presence, the chat sounds and vibrations, masking, routing (LynkAssist first, the fast lane, same helper, language, least busy with a limit of 5, the owner's team rules), the offline rules and the cards each service may put in a chat.
+- The rules in Python (core/chat.py) and TypeScript (ts/src/chat.ts), checked against each other by shared test answers (python3 tools/chat_vectors.py).
+- Masking: a card number (13 to 19 digits that pass the card check) is always hidden except its last four; a 4 to 8 digit code is hidden when the message also has a code word (PIN, password, code and their translations), on the device before the message is queued and again in the cloud. An amount like "I paid 5000" is not touched.
+- Contract version 10 (contract/tools/build_v10.py): eight conversation events. A device may open a conversation, post a message, fix its own text message, close and report one, all offline; the cloud alone writes that a message reached the other side, was seen or failed, and who a chat was routed or handed to. A message's text is never in an event (the event carries only its sha256); nor are live signs, card numbers, PINs, codes, positions, votes or names. ConversationCardSent can name every card of the chat register. Upcaster 9 to 10 only raises the version.
+- The chat cards each have their link in catalog/connections.v1.json (13 new links; Track joins the platform services); the LynkAcc, LynkInv, LynkCRM and LynkStat cards are drawn in step D with those services.
+- An original set of soft chat tones and vibrations in design/tokens.v1.json (sent, received, LynkAssist, a helper joining, recording, failure, your turn, the counter chime); each vibration differs, and typing never sounds. They play from step C2.
+- Two security controls: chat masking and message text kept out of the event log.
+
 ## v0.63.0 (2026-11-20)
 Section 4, step B2c (INTERFACE UPDATE: page templates, the part gallery and the speed targets; step B is complete with this):
 - The counter tablet's tabs come from the navigation register through the app shell: a side rail (a tablet on its side), hidden during a cash count.

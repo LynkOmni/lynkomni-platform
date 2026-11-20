@@ -128,6 +128,19 @@
     "change an event type",
     "add a PIN, a phone number or a name"
    ]
+  },
+  {
+   "from_schema_version": 9,
+   "to_schema_version": 10,
+   "agreed": "2026-11-20 (build section 4, step C1: the conversation events of CHAT UPDATE)",
+   "rule": "Version 10 only adds events (ConversationOpened, MessagePosted, MessageEdited, MessageStateChanged, ConversationRouted, ConversationHandedOver, ConversationClosed, ConversationReported) and five device commands, and widens the cards ConversationCardSent may name. A version 9 event reads as version 10 with schema_version raised; nothing else changes.",
+   "never": [
+    "rescale an amount",
+    "rewrite a stored event",
+    "change an identifier",
+    "change an event type",
+    "add a PIN, a phone number or a name"
+   ]
   }
  ]
 }

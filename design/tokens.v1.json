@@ -1145,7 +1145,7 @@
   "sunlight": "Uses the high-contrast token set on demand, for bright outdoor screens."
  },
  "sounds": {
-  "note": "The one shared set of short generated tones and press vibrations for every emulator (EMULATOR UPDATE 70.6; build section 3A). Each tone is [frequency Hz, length ms] steps (0 Hz is a pause); vibration is milliseconds on and off. Nothing repeats and nothing is loud by default (medium). Never the only signal: every press also shows on the screen. Like a real device, keys of different kinds sound different (owner, 19 November 2026): each number key has its own telephone keypad pair (keypad, played together for keypad_ms), clear differs from cancel, moving around (nav), tabs and switches on or off each have their own tone. A PIN, door code or ID number follows the manager's choice: the keypad pairs, or one same tone on every key (pin_same) so nobody nearby can tell the keys apart.",
+  "note": "The one shared set of short generated tones and press vibrations for every emulator (EMULATOR UPDATE 70.6; build section 3A). Each tone is [frequency Hz, length ms] steps (0 Hz is a pause); vibration is milliseconds on and off. Nothing repeats and nothing is loud by default (medium). Never the only signal: every press also shows on the screen. Like a real device, keys of different kinds sound different (owner, 19 November 2026): each number key has its own telephone keypad pair (keypad, played together for keypad_ms), clear differs from cancel, moving around (nav), tabs and switches on or off each have their own tone. A PIN, door code or ID number follows the manager's choice: the keypad pairs, or one same tone on every key (pin_same) so nobody nearby can tell the keys apart. Chat (CHAT UPDATE 74.6, build section 4): an original soft family for sent, received, LynkAssist, a helper joining, recording, failure, 'your turn' and the counter chime; each vibration pattern differs, so they can be told apart in a pocket; typing never sounds; played with a gentle start.",
   "volume_gain": {
    "low": 0.03,
    "medium": 0.06,
@@ -1285,6 +1285,130 @@
      880,
      30
     ]
+   ],
+   "chat_sent": [
+    [
+     1320,
+     18
+    ]
+   ],
+   "chat_received": [
+    [
+     660,
+     30
+    ],
+    [
+     0,
+     10
+    ],
+    [
+     990,
+     40
+    ]
+   ],
+   "chat_assist": [
+    [
+     587,
+     30
+    ],
+    [
+     0,
+     10
+    ],
+    [
+     784,
+     45
+    ]
+   ],
+   "chat_joined": [
+    [
+     523,
+     70
+    ],
+    [
+     0,
+     30
+    ],
+    [
+     784,
+     90
+    ]
+   ],
+   "chat_record_start": [
+    [
+     440,
+     40
+    ],
+    [
+     0,
+     10
+    ],
+    [
+     660,
+     60
+    ]
+   ],
+   "chat_record_stop": [
+    [
+     660,
+     40
+    ],
+    [
+     0,
+     10
+    ],
+    [
+     440,
+     60
+    ]
+   ],
+   "chat_record_cancel": [
+    [
+     262,
+     90
+    ]
+   ],
+   "chat_failed": [
+    [
+     294,
+     80
+    ],
+    [
+     0,
+     50
+    ],
+    [
+     247,
+     110
+    ]
+   ],
+   "chat_your_turn": [
+    [
+     698,
+     90
+    ],
+    [
+     0,
+     40
+    ],
+    [
+     1047,
+     140
+    ]
+   ],
+   "chat_counter": [
+    [
+     1047,
+     120
+    ],
+    [
+     0,
+     60
+    ],
+    [
+     784,
+     160
+    ]
    ]
   },
   "vibrate": {
@@ -1339,6 +1463,46 @@
    ],
    "toggle_off": [
     15
+   ],
+   "chat_sent": [
+    8
+   ],
+   "chat_received": [
+    12
+   ],
+   "chat_notify": [
+    40
+   ],
+   "chat_joined": [
+    18,
+    80,
+    18
+   ],
+   "chat_assist": [
+    10
+   ],
+   "chat_record_start": [
+    35
+   ],
+   "chat_record_stop": [
+    22
+   ],
+   "chat_record_cancel": [
+    12,
+    40,
+    12
+   ],
+   "chat_failed": [
+    60,
+    50,
+    60
+   ],
+   "chat_your_turn": [
+    50,
+    60,
+    50,
+    60,
+    80
    ]
   },
   "keypad": {

@@ -656,6 +656,31 @@
    "test": "tests/test_contract_v7.py::test_the_device_only_asks_and_nothing_secret",
    "build_section": "3A",
    "status": "built"
+  },
+  {
+   "id": "chat-mask-card-and-codes",
+   "asset": "money",
+   "threat": "A card number, PIN, password or one-time code typed into a chat is stored, shown to staff or sent on",
+   "enforced_in": [
+    "catalog/chat.v1.json",
+    "core/chat.py",
+    "ts/src/chat.ts"
+   ],
+   "test": "tests/test_chat.py::test_masking_never_lets_a_card_number_or_code_through",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "chat-text-never-in-events",
+   "asset": "personal_data",
+   "threat": "A message's text, a live sign or a draft ends up in the permanent event log, where it cannot be deleted by a country's rules",
+   "enforced_in": [
+    "contract/tools/build_v10.py",
+    "contract/event-payloads.v10.json"
+   ],
+   "test": "tests/test_contract_v10.py::test_no_text_secret_sign_or_personal_field",
+   "build_section": 4,
+   "status": "built"
   }
  ]
 }

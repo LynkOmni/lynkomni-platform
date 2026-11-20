@@ -4,7 +4,8 @@
  "platform": [
   "support",
   "storefront",
-  "ads"
+  "ads",
+  "track"
  ],
  "links": [
   {
@@ -606,6 +607,162 @@
    "planned_events": [],
    "consent": "none",
    "build_section": 4
+  },
+  {
+   "id": "acc-chat",
+   "from": "lynkacc",
+   "to": "lynkchat",
+   "what": "Statement and payment reminder cards to a customer; a payment promise from the chat is noted on the customer's account",
+   "events": [
+    "ConversationCardSent"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": "4"
+  },
+  {
+   "id": "stat-chat",
+   "from": "lynkstat",
+   "to": "lynkchat",
+   "what": "Chat figures in reports (first reply, time to solve, reopened, solved by LynkAssist alone); the chats behind a figure open by role",
+   "events": [
+    "ConversationCardSent"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": "4"
+  },
+  {
+   "id": "crm-chat",
+   "from": "lynkcrm",
+   "to": "lynkchat",
+   "what": "The customer panel beside the chat (past orders, invoices and chats, by role); every conversation on the customer's timeline; a new customer, note or follow-up task from a message",
+   "events": [
+    "ConversationCardSent"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": "4"
+  },
+  {
+   "id": "pos-chat",
+   "from": "lynkpos",
+   "to": "lynkchat",
+   "what": "Receipt and order cards in a customer conversation; a receipt sent to the customer's chat on request",
+   "events": [
+    "ConversationCardSent"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": "4"
+  },
+  {
+   "id": "track-chat",
+   "from": "track",
+   "to": "lynkchat",
+   "what": "Any tracker as a live card that moves as its steps move (customer steps only); 'Chat about this' from a tracker",
+   "events": [
+    "ConversationCardSent"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": "4"
+  },
+  {
+   "id": "queue-chat",
+   "from": "lynkqueue",
+   "to": "lynkchat",
+   "what": "The queue ticket card with its live place in line and 'your turn'; running late or leaving from the chat",
+   "events": [
+    "ConversationCardSent"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": "4"
+  },
+  {
+   "id": "survey-chat",
+   "from": "lynksurvey",
+   "to": "lynkchat",
+   "what": "'Was this helpful?' and a survey invitation card answered inside the chat (never required; results never below 5 answers)",
+   "events": [
+    "ConversationCardSent"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": "4"
+  },
+  {
+   "id": "attend-chat",
+   "from": "lynkattend",
+   "to": "lynkchat",
+   "what": "A visitor's arrival notice to the host's desk; pre-registering a visitor from a conversation",
+   "events": [
+    "ConversationCardSent"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": "4"
+  },
+  {
+   "id": "checkout-chat",
+   "from": "lynkcheckout",
+   "to": "lynkchat",
+   "what": "Pay-link and QR cards; paid only when the provider confirms; a refund request becomes a tracked case",
+   "events": [
+    "ConversationCardSent"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": "14"
+  },
+  {
+   "id": "booking-chat",
+   "from": "lynkbooking",
+   "to": "lynkchat",
+   "what": "Booking, reminder, reschedule and cancel cards; book, move or cancel inside the chat",
+   "events": [
+    "ConversationCardSent"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": "8"
+  },
+  {
+   "id": "files-chat",
+   "from": "lynkfiles",
+   "to": "lynkchat",
+   "what": "Document and 'please sign' cards; signing in the secure signing step; a file from a chat kept in LynkFiles",
+   "events": [
+    "ConversationCardSent"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": "4B"
+  },
+  {
+   "id": "motion-chat",
+   "from": "lynkmotion",
+   "to": "lynkchat",
+   "what": "Shipment tracker and delivery cards (never the rider's identity or position); 'leave it with', reschedule and proof of delivery",
+   "events": [
+    "ConversationCardSent"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": "7B"
+  },
+  {
+   "id": "exchange-chat",
+   "from": "lynkexchange",
+   "to": "lynkchat",
+   "what": "Rate and transfer status cards; the partner's secure step opens from the chat, never done in the chat itself",
+   "events": [
+    "ConversationCardSent"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": "10"
   }
  ],
  "journeys": [
