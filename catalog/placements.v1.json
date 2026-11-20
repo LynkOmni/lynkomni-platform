@@ -1307,6 +1307,138 @@
     "website_header"
    ],
    "section": "8B"
+  },
+  {
+   "id": "acc_bills_to_pay",
+   "kind": "feature",
+   "what": "LynkAcc bills to pay: by hand, photo, email or e-invoice, approval steps, three-way matching with the order and the goods received, payment runs through the licensed provider",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "acc_expense_claims",
+   "kind": "feature",
+   "what": "LynkAcc expense claims: receipt photos, mileage and daily allowances from the country pack, approval and repayment; company-card spending matched to receipts",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "acc_assets_loans",
+   "kind": "feature",
+   "what": "LynkAcc assets and loans: an asset register with QR tags, yearly loss of value, sale or write-off, leases, and loans with their repayment schedules",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "acc_dimensions_budgets",
+   "kind": "feature",
+   "what": "LynkAcc departments, projects, cost centres, branches and funds on every entry, budgets against actual and project costing",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "acc_closing",
+   "kind": "feature",
+   "what": "LynkAcc closing and control: period lock, year-end close with its checklist, spreading costs and income over time, repeating and reversing entries, two people for sensitive entries",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "acc_banks",
+   "kind": "feature",
+   "what": "LynkAcc banks and cash: statement import and live bank connections through licensed partners, matching rules, every bank and mobile-money balance on one screen, cheques",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "acc_tax",
+   "kind": "feature",
+   "what": "LynkAcc tax: several taxes on one line, tax held back, import taxes, the reverse charge, tax-number checks and returns as drafts",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "acc_statements",
+   "kind": "feature",
+   "what": "LynkAcc statements: profit and loss, balance sheet, cash flow and changes in equity, official layouts per country and the report builder",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "acc_currencies_stock",
+   "kind": "feature",
+   "what": "LynkAcc currencies and stock value: period-end revaluation with gains and losses apart, and stock value by FIFO or average cost with shipping and duty",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "acc_group_books",
+   "kind": "feature",
+   "what": "LynkAcc group books: the group tree, books added together with what entities owe each other removed, sales between them mirrored, one chart mapped to many",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "acc_entity_tools",
+   "kind": "feature",
+   "what": "LynkAcc tools for each kind of entity: households, freelancers, non-profits and faith groups, schools, public bodies, cooperatives and associations",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "acc_accountants",
+   "kind": "feature",
+   "what": "LynkAcc for accountants and auditors: a client list, review notes, adjusting entries, lock dates, a read-only auditor role and bulk tasks",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
   }
  ]
 }

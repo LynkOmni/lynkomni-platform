@@ -719,6 +719,52 @@
    "test": "tests/test_assist_business.py::test_a_big_change_needs_a_second_person",
    "build_section": 4,
    "status": "built"
+  },
+  {
+   "id": "books-preparer-never-approves",
+   "asset": "money",
+   "threat": "One person enters a bill and approves it for payment alone",
+   "enforced_in": [
+    "core/books.py",
+    "catalog/books.v1.json"
+   ],
+   "test": "tests/test_books.py::test_bills_are_paid_only_through_confirmation_and_never_approved_by_their_preparer",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "books-lock-date",
+   "asset": "records",
+   "threat": "An entry is added or changed in a period that has been closed",
+   "enforced_in": [
+    "core/books.py"
+   ],
+   "test": "tests/test_books.py::test_closing_two_people_and_the_lock_date",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "books-two-people",
+   "asset": "records",
+   "threat": "A sensitive entry (a manual journal, a reversal, a write-off, opening balances, a lock date or bank details) is made by one person alone",
+   "enforced_in": [
+    "core/books.py",
+    "catalog/books.v1.json"
+   ],
+   "test": "tests/test_books.py::test_closing_two_people_and_the_lock_date",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "books-balanced-journal",
+   "asset": "records",
+   "threat": "An unbalanced or made-up journal reaches the books",
+   "enforced_in": [
+    "core/accounts.py"
+   ],
+   "test": "tests/test_books.py::test_a_journal_from_a_payload_must_balance_and_name_real_accounts",
+   "build_section": 4,
+   "status": "built"
   }
  ]
 }
