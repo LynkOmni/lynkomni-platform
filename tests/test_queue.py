@@ -34,7 +34,7 @@ class QueueTests(unittest.TestCase):
     def sync(self, box=None, now=None):
         box = box or self.box; n = self._sent.get(id(box), 0)
         out = [self.q.ingest(self.m, e, now=now if now is not None else self.box.clock.timestamp()) for e in box.log[n:]]; self._sent[id(box)] = len(box.log); return out
-    def events(self, *types): return self.p.c.store.of(self.m, *types)
+    def events(self, *types): return self.p.c.store.of(self.m, *types) if types else self.p.c.store.since(self.m)
     def give(self, n, section="GEN", **kw): return [self.k.issue(section, **kw) for _ in range(n)]
 
     # ---- setting up and the plan

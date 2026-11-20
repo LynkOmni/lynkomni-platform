@@ -2,6 +2,23 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.72.0 (2026-11-20)
+Section 4, step D4a (OFFICE UPDATE: the large-organisation set and Move in):
+- New register catalog/enterprise.v1.json, read by core/enterprise.py and ts/src/enterprise.ts with shared test answers (python3 tools/enterprise_vectors.py). It covers:
+  - approval flows an organisation builds itself: steps by amount and department, stand-ins only while the approver is away, never the preparer, one step per person;
+  - its own roles, never more than the owner's, with preparing and approving kept apart;
+  - charges split by department exactly; legal hold and keeping times never shorter than the law's; where data is kept;
+  - the Move in check report: amounts read exactly as whole minor units ("1,234.50", "1234,5"), dates that exist, required fields, the same reference twice, open items for people not moved in, and opening balances that balance.
+- Large organisations in the cloud (services/enterprise.py): Enterprise is Max plus this set, by an agreement LynkOmni staff record. It adds own flows and roles; the staff directory (a removed person loses access within 15 minutes; provider ledger item staff_directory, sandbox until signed); legal holds; audit log export; charge splits; and a test copy where every provider is a sandbox.
+- Move in and leave (services/enterprise.py MoveIn):
+  - customers and suppliers go to LynkCRM, with names and contacts in the vault;
+  - opening balances wait for a second person;
+  - open invoices and bills are kept as open items without posting twice;
+  - nothing goes in while the check report shows an error;
+  - leaving is a full download at any time.
+- Ten features placed in search, help and the sitemap; four security controls.
+- Fixed while building: the audit log export now carries every event. The event store's of() returned nothing when no event type was named, so it now refuses such a read and since() gives every event. Four older privacy checks in the attendance, survey and queue tests had read that empty list; they now read every event and still pass.
+
 ## v0.71.0 (2026-11-20)
 Section 4, step D3 (OFFICE UPDATE: LynkCRM):
 - New register catalog/crm.v1.json, read by core/crm.py and ts/src/crm.ts with shared test answers (python3 tools/crm_vectors.py). It covers:
