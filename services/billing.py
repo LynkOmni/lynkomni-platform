@@ -250,6 +250,21 @@ for _f, _tiers in _NEW.items():
     for _i, _d in enumerate(_tiers):
         for _k, _v in _d.items():
             FEATURES[_f][_i].setdefault(_k, _v)
+# OFFICE UPDATE (owner 2026-11-18, blueprint 66.7; section 4 step D1): where each LynkAcc addition sits by tier. What the law
+# requires (tax held back, keeping records for the legal period) and offline working, import and the full change history are on
+# every tier, Free included. Live bank connections stay off per country until the bank partner is signed (providers.ready).
+_OFFICE_ACC = [
+    dict(bills_to_pay="one_person", expense_claims="one_person", entity_tools="small", withholding_tax=True, legal_keeping=True,
+         offline=True, import_records=True, change_history=True),
+    dict(approval_steps=True, payment_runs=True, recurring_bills=True, bank_connections=True, budgets=True, expense_claims="team",
+         card_matching=True),
+    dict(assets=True, loans=True, dimensions=True, project_costing=True, period_close=True, spread_entries=True, multi_tax=True,
+         revaluation=True, stock_value=True, official_layouts=True, report_builder=True, entity_tools="full"),
+    dict(group_books=True, intercompany_mirror=True, chart_mapping=True, auditor_role=True, audit_files=True, payroll_countries=True),
+]
+for _i, _d in enumerate(_OFFICE_ACC):
+    for _k, _v in _d.items():
+        FEATURES["lynkacc"][_i][_k] = _v
 # EMULATOR UPDATE (owner accepted 2026-11-18, blueprint 70.12; build section 3A): staff emulator slots, the number of staff emulators
 # of a family connected at the same time. Every number already locked stays: LynkPOS keeps its devices (1, 2, 5, unlimited);
 # LynkAttend, LynkQueue and LynkSurvey keep their own locked units ("own_units": places, counters, creators) and are not limited

@@ -1,0 +1,410 @@
+{
+ "$id": "lynkomni/chart-of-accounts.v2",
+ "description": "One global chart of accounts in the core (Step 0, blueprint 42 A). The double-entry journal is a projection of the event log at every tier: tiers decide which reports are shown, never what is recorded. A country that requires its own chart gets it as a country-pack mapping (`chart_of_accounts` in the pack: global code to the local code and name); the global codes are what every service, export and test use. Shared by every language, like the other contract files. Version 2 (OFFICE UPDATE, blueprint 66, section 4 step D1) keeps every version 1 code and posting unchanged and adds the accounts LynkAcc needs for bills, assets, loans, advances, held-back tax, group balances, funds and exchange rates. Each account has a `group` for the statements (cash, current_asset, non_current_asset, current_liability, non_current_liability, equity, income, other_income, cost_of_sales, expense); `contra` marks an account that grows against its type (loss of value so far); `intercompany` marks the balances removed in group books.",
+ "accounts": {
+  "1000": {
+   "name": "Cash on hand",
+   "type": "asset",
+   "group": "cash"
+  },
+  "1010": {
+   "name": "Electronic payments clearing",
+   "type": "asset",
+   "note": "mobile money, card, QR and transfers between the sale and the provider's confirmation; the payout clears it",
+   "group": "cash"
+  },
+  "1020": {
+   "name": "Bank",
+   "type": "asset",
+   "group": "cash"
+  },
+  "1030": {
+   "name": "Mobile money",
+   "type": "asset",
+   "group": "cash"
+  },
+  "1040": {
+   "name": "Cheques waiting to clear",
+   "type": "asset",
+   "group": "cash"
+  },
+  "1100": {
+   "name": "Customer credit (receivable)",
+   "type": "asset",
+   "group": "current_asset"
+  },
+  "1200": {
+   "name": "Stock on hand",
+   "type": "asset",
+   "group": "current_asset"
+  },
+  "1300": {
+   "name": "Paid in advance",
+   "type": "asset",
+   "group": "current_asset",
+   "note": "costs paid before the period they belong to, spread over time"
+  },
+  "1310": {
+   "name": "Earned, not yet billed",
+   "type": "asset",
+   "group": "current_asset"
+  },
+  "1400": {
+   "name": "Tax to reclaim",
+   "type": "asset",
+   "group": "current_asset"
+  },
+  "1410": {
+   "name": "Tax held back by customers",
+   "type": "asset",
+   "group": "current_asset",
+   "note": "withholding a customer pays to the tax office for the seller"
+  },
+  "1500": {
+   "name": "Equipment and other assets",
+   "type": "asset",
+   "group": "non_current_asset"
+  },
+  "1510": {
+   "name": "Loss of value so far",
+   "type": "asset",
+   "group": "non_current_asset",
+   "contra": true,
+   "note": "accumulated depreciation: an asset account that grows with a credit"
+  },
+  "1600": {
+   "name": "Owed by group entities",
+   "type": "asset",
+   "group": "current_asset",
+   "intercompany": true
+  },
+  "2000": {
+   "name": "Suppliers (payable)",
+   "type": "liability",
+   "group": "current_liability"
+  },
+  "2010": {
+   "name": "Costs owed, not yet billed",
+   "type": "liability",
+   "group": "current_liability"
+  },
+  "2100": {
+   "name": "Tax payable",
+   "type": "liability",
+   "group": "current_liability"
+  },
+  "2110": {
+   "name": "Tax held back for the tax office",
+   "type": "liability",
+   "group": "current_liability"
+  },
+  "2200": {
+   "name": "Vouchers and gift cards (liability)",
+   "type": "liability",
+   "group": "current_liability"
+  },
+  "2300": {
+   "name": "Tips payable to staff",
+   "type": "liability",
+   "group": "current_liability"
+  },
+  "2400": {
+   "name": "Wages payable",
+   "type": "liability",
+   "group": "current_liability"
+  },
+  "2500": {
+   "name": "Received in advance",
+   "type": "liability",
+   "group": "current_liability"
+  },
+  "2510": {
+   "name": "Customer credit balances",
+   "type": "liability",
+   "group": "current_liability",
+   "note": "an overpayment, used on the next invoice or refunded through the provider"
+  },
+  "2600": {
+   "name": "Loans",
+   "type": "liability",
+   "group": "non_current_liability"
+  },
+  "2610": {
+   "name": "Lease obligations",
+   "type": "liability",
+   "group": "non_current_liability"
+  },
+  "2700": {
+   "name": "Owed to group entities",
+   "type": "liability",
+   "group": "current_liability",
+   "intercompany": true
+  },
+  "2800": {
+   "name": "Staff expense claims to repay",
+   "type": "liability",
+   "group": "current_liability"
+  },
+  "3000": {
+   "name": "Owner's equity",
+   "type": "equity",
+   "group": "equity"
+  },
+  "3100": {
+   "name": "Profit kept from earlier years",
+   "type": "equity",
+   "group": "equity"
+  },
+  "3200": {
+   "name": "Funds for a set purpose",
+   "type": "equity",
+   "group": "equity",
+   "note": "restricted funds of non-profits and faith groups"
+  },
+  "3300": {
+   "name": "Member shares",
+   "type": "equity",
+   "group": "equity"
+  },
+  "4000": {
+   "name": "Sales",
+   "type": "income",
+   "group": "income"
+  },
+  "4100": {
+   "name": "Commission income",
+   "type": "income",
+   "note": "the agent's commission, posted only from the cloud's CommissionRecorded event",
+   "group": "income"
+  },
+  "4200": {
+   "name": "Other income",
+   "type": "income",
+   "group": "other_income"
+  },
+  "4300": {
+   "name": "Grants and donations",
+   "type": "income",
+   "group": "other_income"
+  },
+  "4400": {
+   "name": "Exchange rate gains",
+   "type": "income",
+   "group": "other_income"
+  },
+  "4500": {
+   "name": "Late fees and interest received",
+   "type": "income",
+   "group": "other_income"
+  },
+  "5000": {
+   "name": "Cost of goods sold",
+   "type": "expense",
+   "group": "cost_of_sales"
+  },
+  "6000": {
+   "name": "Operating expenses",
+   "type": "expense",
+   "group": "expense"
+  },
+  "6100": {
+   "name": "Payment and provider fees",
+   "type": "expense",
+   "group": "expense"
+  },
+  "6200": {
+   "name": "Cash differences",
+   "type": "expense",
+   "note": "a shortfall is a debit, a surplus a credit; flagged to the owner, never hidden",
+   "group": "expense"
+  },
+  "6300": {
+   "name": "Wages",
+   "type": "expense",
+   "group": "expense"
+  },
+  "6400": {
+   "name": "Refunds and returns",
+   "type": "expense",
+   "group": "expense"
+  },
+  "6500": {
+   "name": "Loss of value",
+   "type": "expense",
+   "group": "expense",
+   "note": "depreciation"
+  },
+  "6600": {
+   "name": "Interest paid",
+   "type": "expense",
+   "group": "expense"
+  },
+  "6700": {
+   "name": "Exchange rate losses",
+   "type": "expense",
+   "group": "expense"
+  },
+  "6800": {
+   "name": "Bad debts written off",
+   "type": "expense",
+   "group": "expense"
+  },
+  "6900": {
+   "name": "Loss on assets sold or written off",
+   "type": "expense",
+   "group": "expense"
+  }
+ },
+ "postings": {
+  "description": "Event type to balanced journal lines. `amount` names the payload field (default total_minor); `by_method` picks the debit account from the payment method. Events not listed post nothing (they are not money facts). Version 2 adds `debit_from` (a payload field naming an account of an allowed type, else the given account) and `lines_from` (a manual or worked-out journal whose balanced lines travel in the payload).",
+  "sale.recorded": {
+   "amount": "total_minor",
+   "by_method": {
+    "cash": "1000",
+    "credit": "1100",
+    "default": "1010"
+   },
+   "credit": "4000"
+  },
+  "sale.voided": {
+   "amount": "total_minor",
+   "reverse_of": "sale.recorded"
+  },
+  "refund.recorded": {
+   "amount": "amount_minor",
+   "debit": "6400",
+   "credit": "1000"
+  },
+  "expense.recorded": {
+   "amount": "amount_minor",
+   "debit": "6000",
+   "credit": "1000"
+  },
+  "stock.received": {
+   "amount": "cost_total_minor",
+   "debit": "1200",
+   "credit": "2000"
+  },
+  "payment.settled": {
+   "amount": "fee_minor",
+   "debit": "6100",
+   "credit": "1010"
+  },
+  "payout.received": {
+   "amount": "amount_minor",
+   "debit": "1020",
+   "credit": "1010"
+  },
+  "commission.recorded": {
+   "amount": "amount_minor",
+   "debit": "1010",
+   "credit": "4100"
+  },
+  "cash_difference.flagged": {
+   "amount": "difference_minor",
+   "signed": true,
+   "debit": "6200",
+   "credit": "1000"
+  },
+  "tip.recorded": {
+   "amount": "amount_minor",
+   "debit": "1000",
+   "credit": "2300"
+  },
+  "voucher.sold": {
+   "amount": "amount_minor",
+   "debit": "1000",
+   "credit": "2200"
+  },
+  "voucher.redeemed": {
+   "amount": "amount_minor",
+   "debit": "2200",
+   "credit": "4000"
+  },
+  "credit.paid": {
+   "amount": "amount_minor",
+   "by_method": {
+    "cash": "1000",
+    "default": "1010"
+   },
+   "credit": "1100"
+  },
+  "payroll.approved": {
+   "amount": "total_minor",
+   "debit": "6300",
+   "credit": "2400"
+  },
+  "payout.confirmed": {
+   "amount": "amount_minor",
+   "debit": "2400",
+   "credit": "1020"
+  },
+  "bill.recorded": {
+   "amount": "total_minor",
+   "debit": "6000",
+   "debit_from": "account",
+   "debit_types": [
+    "expense",
+    "asset"
+   ],
+   "credit": "2000"
+  },
+  "bill.paid": {
+   "amount": "amount_minor",
+   "debit": "2000",
+   "credit_by_method": {
+    "cash": "1000",
+    "mobile_money": "1030",
+    "cheque": "1040",
+    "default": "1020"
+   }
+  },
+  "expense_claim.approved": {
+   "amount": "total_minor",
+   "debit": "6000",
+   "debit_from": "account",
+   "debit_types": [
+    "expense"
+   ],
+   "credit": "2800"
+  },
+  "expense_claim.repaid": {
+   "amount": "amount_minor",
+   "debit": "2800",
+   "credit": "1020"
+  },
+  "asset.added": {
+   "amount": "cost_minor",
+   "debit": "1500",
+   "credit": "2000"
+  },
+  "depreciation.posted": {
+   "amount": "amount_minor",
+   "debit": "6500",
+   "credit": "1510"
+  },
+  "loan.received": {
+   "amount": "amount_minor",
+   "debit": "1020",
+   "credit": "2600"
+  },
+  "bad_debt.written_off": {
+   "amount": "amount_minor",
+   "debit": "6800",
+   "credit": "1100"
+  },
+  "late_fee.charged": {
+   "amount": "amount_minor",
+   "debit": "1100",
+   "credit": "4500"
+  },
+  "grant.received": {
+   "amount": "amount_minor",
+   "debit": "1020",
+   "credit": "4300"
+  },
+  "journal.posted": {
+   "lines_from": "lines"
+  }
+ }
+}

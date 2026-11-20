@@ -207,7 +207,8 @@
      "done": {},
      "progress": {
       "4": [
-       "v0.48.0: the Pro and Max price top-up of 66.8 with the price lock and the revenue model re-run"
+       "v0.48.0: the Pro and Max price top-up of 66.8 with the price lock and the revenue model re-run",
+       "v0.68.0: LynkAcc's rules: chart of accounts version 2 and catalog/books.v1.json read by core/books.py and ts/src/books.ts with shared vectors (bills to pay, approval, three-way matching, expense claims, card matching, assets, loans, spreading, repeating and reversing entries, the lock date, two people, the year-end close, bank matching, several taxes on a line, the four statements, revaluation, stock value, group books, budgets, funds and the tools for each kind of entity); the tier table of 66.7 for LynkAcc in billing"
       ]
      }
     },

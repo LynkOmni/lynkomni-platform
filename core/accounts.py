@@ -11,7 +11,7 @@ statutory reports and the draft tax return read the whole ledger, because the la
 import json, os
 
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-with open(os.path.join(_ROOT, "contract", "chart-of-accounts.v1.json"), encoding="utf-8") as _f:
+with open(os.path.join(_ROOT, "contract", "chart-of-accounts.v2.json"), encoding="utf-8") as _f:    # v2 keeps every v1 code and posting
     CHART = json.load(_f)
 ACCOUNTS = CHART["accounts"]
 POSTINGS = {k: v for k, v in CHART["postings"].items() if k != "description"}
@@ -34,6 +34,8 @@ def post(event_type, payload, amount_in_base):
     rule = POSTINGS.get(event_type)
     if not rule:
         return []
+    if "lines_from" in rule:                                  # a manual or worked-out journal: balanced lines in the payload
+        return checked_lines(payload.get(rule["lines_from"]) or [])
     if "reverse_of" in rule:
         return [(acct, cr, dr) for acct, dr, cr in post(rule["reverse_of"], payload, amount_in_base)]
     amount = amount_in_base
@@ -43,9 +45,36 @@ def post(event_type, payload, amount_in_base):
     if "by_method" in rule:
         bm = rule["by_method"]
         debit = bm.get(payload.get("method", "cash"), bm["default"])
+    if "credit_by_method" in rule:
+        bm = rule["credit_by_method"]
+        credit = bm.get(payload.get("method", "bank"), bm["default"])
+    if "debit_from" in rule:                                  # the payload may name the account, only of an allowed type
+        chosen = payload.get(rule["debit_from"])
+        if chosen in ACCOUNTS and ACCOUNTS[chosen]["type"] in rule.get("debit_types", []) and not ACCOUNTS[chosen].get("contra"):
+            debit = chosen
     if rule.get("signed") and amount < 0:                    # a surplus is the mirror of a shortfall
         debit, credit, amount = credit, debit, -amount
     return [(debit, amount, 0), (credit, 0, amount)]
+
+
+def checked_lines(lines):
+    """Journal lines from a payload, [(account, debit, credit)]: known accounts, whole non-negative minor units, one side per
+    line, and balanced. Anything else posts nothing (an unbalanced journal is refused, never forced)."""
+    out = []
+    for ln in lines:
+        acct, dr, cr = (ln if isinstance(ln, (list, tuple)) else (ln.get("account"), ln.get("debit", 0), ln.get("credit", 0)))
+        if acct not in ACCOUNTS or any(not isinstance(v, int) or isinstance(v, bool) or v < 0 for v in (dr, cr)) or (dr and cr) or not (dr or cr):
+            return []
+        out.append((acct, dr, cr))
+    if not out or sum(d for _, d, _ in out) != sum(c for _, _, c in out):
+        return []
+    return out
+
+
+def debit_normal(acct):
+    """Whether an account grows with a debit: assets and expenses do, except a contra account (loss of value so far)."""
+    a = ACCOUNTS[acct]
+    return (a["type"] in DEBIT_NORMAL) != bool(a.get("contra"))
 
 
 def amount_field(event_type):
@@ -59,6 +88,11 @@ def journal(events, to_base):
     for e in events:
         rule = POSTINGS.get(e["type"])
         if not rule:
+            continue
+        if "lines_from" in rule:
+            lines = post(e["type"], e["payload"], 0)
+            if lines:
+                out.append({"event_id": e["id"], "type": e["type"], "ts": e.get("ts"), "side": e["payload"].get("side", "internal"), "lines": lines})
             continue
         field = amount_field(rule.get("reverse_of", e["type"]))
         p = e["payload"]
@@ -88,7 +122,7 @@ def trial_balance(entries):
     bal = {}
     for en in entries:
         for acct, dr, cr in en["lines"]:
-            bal[acct] = bal.get(acct, 0) + (dr - cr if ACCOUNTS[acct]["type"] in DEBIT_NORMAL else cr - dr)
+            bal[acct] = bal.get(acct, 0) + (dr - cr if debit_normal(acct) else cr - dr)
     return bal
 
 
