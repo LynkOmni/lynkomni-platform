@@ -1007,7 +1007,12 @@
       "4"
      ],
      "part": "The groundwork: the conversation engine and the registers (kinds, live signs, sounds, routing, links); the shared chat part with live signs, the five states, sounds and vibration; streaming answers; upload progress; masking of card numbers and codes; buttons and small forms; message details; \"Chat about this\" and the card method; LynkAcc, LynkInv, LynkCRM and LynkStat cards; the offline rules; the contract version; the chat screens already built moved onto it",
-     "done": {}
+     "done": {},
+     "progress": {
+      "4": [
+       "v0.64.0: the conversation engine and its registers: catalog/chat.v1.json (kinds, the five states, live signs, presence, sounds, routing, masking, offline rules and the card method) read by core/chat.py and ts/src/chat.ts with shared vectors; contract version 10 with the conversation events; every chat card linked in catalog/connections.v1.json; the chat tones and vibrations in the design tokens"
+      ]
+     }
     },
     {
      "sections": [

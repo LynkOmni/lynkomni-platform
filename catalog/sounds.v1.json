@@ -26,7 +26,7 @@
    "except": "security and safety alerts always sound", "status": "built", "build_section": "2"},
   {"id": "queue_calling", "what": "The chime and spoken call on the LynkQueue calling screen", "emulators": ["lynk-dscreen"],
    "switch": "The screen's sound switch (off until switched on) and Device settings", "controls": "manager", "can_turn_off": true, "status": "built", "build_section": "3B"},
-  {"id": "chat_sounds", "what": "LynkChat sounds and vibration for new messages, typing and sent", "emulators": [],
+  {"id": "chat_sounds", "what": "LynkChat sounds and vibration (catalog/chat.v1.json sounds): sent, received, a helper joining, LynkAssist answering, recording, failure and your turn; never for typing; one sound for many messages; silent inside protected screens", "emulators": [],
    "switch": "Chat settings and the account's notification sounds", "controls": "the person", "can_turn_off": true, "status": "planned", "build_section": "4"},
   {"id": "counter_mode_sounds", "what": "Counter mode sounds on LynkKiosk and counter screens", "emulators": [],
    "switch": "Device settings", "controls": "manager", "can_turn_off": true, "status": "planned", "build_section": "13"},
