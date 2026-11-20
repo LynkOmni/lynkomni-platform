@@ -1,7 +1,7 @@
 /** LynkStat's additions (SERVICES UPDATE, master blueprint 67.5; section 4 step D4b): the TypeScript port of core/stats.py,
  *  checked against contract/vectors/stats.v1.json. The register travels in ts/src/stats.generated.ts (python3 tools/stats_vectors.py).
  *  Estimates are always labelled; own measures are formulas of figures, never code; small groups stay hidden. */
-import { roundDiv, mulDiv, repeatDates, dayNumber, fromDayNumber } from "./books.js";
+import { mulDiv, repeatDates, dayNumber, fromDayNumber } from "./books.js";
 
 export interface StatsRegister {
   cohorts: { max_months: number };
@@ -11,14 +11,14 @@ export interface StatsRegister {
   public: { min_group: number };
   [k: string]: unknown;
 }
-const mi = (month: string): number => { const [y, m] = month.split("-").map(Number); return y! * 12 + m! - 1; };
-const mname = (i: number): string => `${String(Math.floor(i / 12)).padStart(4, "0")}-${String((i % 12) + 1).padStart(2, "0")}`;
+const monthIndex = (month: string): number => { const [y, m] = month.split("-").map(Number); return y! * 12 + m! - 1; };
+const monthName = (i: number): string => `${String(Math.floor(i / 12)).padStart(4, "0")}-${String((i % 12) + 1).padStart(2, "0")}`;
 
 // ---- groups over time --------------------------------------------------------------------------------------------------------
 export function cohorts(S: StatsRegister, purchases: readonly { customer: string; month: string }[]) {
   const first = new Map<string, number>(), months = new Map<string, Set<number>>();
   for (const p of purchases) {
-    const i = mi(p.month);
+    const i = monthIndex(p.month);
     first.set(p.customer, Math.min(first.get(p.customer) ?? i, i));
     if (!months.has(p.customer)) months.set(p.customer, new Set());
     months.get(p.customer)!.add(i);
@@ -30,7 +30,7 @@ export function cohorts(S: StatsRegister, purchases: readonly { customer: string
     const members = [...first.entries()].filter(([, f]) => f === start).map(([c]) => c);
     const span = Math.min(last - start, S.cohorts.max_months);
     const back = Array.from({ length: span }, (_, k) => members.filter((c) => months.get(c)!.has(start + k + 1)).length);
-    return { month: mname(start), size: members.length, back };
+    return { month: monthName(start), size: members.length, back };
   });
 }
 
@@ -49,9 +49,9 @@ export function whatIf(S: StatsRegister, base: Base, changes: { price_bp?: numbe
 }
 
 // ---- your own measures -------------------------------------------------------------------------------------------------------
-type Tok = ["n", bigint] | ["f", string] | ["o", string];
-function tokens(expr: string): Tok[] {
-  const out: Tok[] = [];
+type MeasureTok = ["n", bigint] | ["f", string] | ["o", string];
+function measureTokens(expr: string): MeasureTok[] {
+  const out: MeasureTok[] = [];
   const re = /\s*(?:(\d+)|([a-z_]+)|(.))/gy;
   let m: RegExpExecArray | null;
   re.lastIndex = 0;
@@ -64,20 +64,20 @@ function tokens(expr: string): Tok[] {
   return out;
 }
 export function measureNames(S: StatsRegister, expr: string): string[] {
-  const toks = tokens(expr);
+  const toks = measureTokens(expr);
   const terms = toks.filter((t) => t[0] === "n" || t[0] === "f").length;
   if (terms === 0 || terms > S.measures.max_terms) throw new Error("a measure has between 1 and the most terms allowed");
   const names = [...new Set(toks.filter((t) => t[0] === "f").map((t) => t[1] as string))].sort();
   const unknown = names.filter((n) => !S.measures.figures.includes(n));
   if (unknown.length) throw new Error("unknown figures: " + unknown.join(", "));
-  run(toks, {});
+  measureRun(toks, {});
   return names;
 }
-const SAFE = BigInt(Number.MAX_SAFE_INTEGER); // a result beyond it shows nothing
-function run(toks: Tok[], figures: Record<string, number>): number | null {
+const MEASURE_SAFE = BigInt(Number.MAX_SAFE_INTEGER); // a result beyond it shows nothing
+function measureRun(toks: MeasureTok[], figures: Record<string, number>): number | null {
   let pos = 0, zero = false;
-  const peek = (): Tok | undefined => toks[pos];
-  const is = (t: Tok | undefined, o: string): boolean => !!t && t[0] === "o" && t[1] === o;
+  const peek = (): MeasureTok | undefined => toks[pos];
+  const is = (t: MeasureTok | undefined, o: string): boolean => !!t && t[0] === "o" && t[1] === o;
   const rd = (n: bigint, d: bigint): bigint => { const a = n < 0n ? -n : n, q = (2n * a + d) / (2n * d); return n < 0n ? -q : q; };
   const atom = (): bigint => {
     const t = toks[pos++];
@@ -91,7 +91,7 @@ function run(toks: Tok[], figures: Record<string, number>): number | null {
   const term = (): bigint => {
     let v = atom();
     while (is(peek(), "*") || is(peek(), "/")) {
-      const op = (toks[pos++] as Tok)[1], r = atom();
+      const op = (toks[pos++] as MeasureTok)[1], r = atom();
       if (op === "*") v = v * r;
       else if (r === 0n) { zero = true; v = 0n; }                 // read on, so a broken formula is still refused
       else v = rd(r > 0n ? v : -v, r < 0n ? -r : r);
@@ -100,16 +100,16 @@ function run(toks: Tok[], figures: Record<string, number>): number | null {
   };
   const expr = (): bigint => {
     let v = term();
-    while (is(peek(), "+") || is(peek(), "-")) { const op = (toks[pos++] as Tok)[1], r = term(); v = op === "+" ? v + r : v - r; }
+    while (is(peek(), "+") || is(peek(), "-")) { const op = (toks[pos++] as MeasureTok)[1], r = term(); v = op === "+" ? v + r : v - r; }
     return v;
   };
   const v = expr();
   if (pos < toks.length) throw new Error("unexpected end");
-  return zero || v > SAFE || v < -SAFE ? null : Number(v);
+  return zero || v > MEASURE_SAFE || v < -MEASURE_SAFE ? null : Number(v);
 }
 export function evaluate(S: StatsRegister, expr: string, figures: Record<string, number>): number | null {
   measureNames(S, expr);
-  return run(tokens(expr), figures);
+  return measureRun(measureTokens(expr), figures);
 }
 
 // ---- scope, freshness, exports, goals, public reports ------------------------------------------------------------------------
@@ -130,4 +130,3 @@ export function goal(actual: number, target: number, elapsedBp: number): { progr
 }
 export const publicTable = (S: StatsRegister, groups: readonly { group: string; n: number; value: number }[]) =>
   groups.map((g) => ({ group: g.group, n: g.n >= S.public.min_group ? g.n : null, value: g.n >= S.public.min_group ? g.value : null }));
-export { roundDiv };

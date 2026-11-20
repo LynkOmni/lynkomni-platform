@@ -20,7 +20,7 @@ def svg(path):
 
 
 # Shared word packs: an emulator that imports the module carries the folder's words too (one translation, used everywhere).
-SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/queuedesk.js", os.path.join("web", "shell")), ("ts/src/surveydesk.js", os.path.join("web", "shell")), ("ts/src/trackview.js", os.path.join("web", "tracking")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/footer.js", os.path.join("web", "footer")), ("ts/src/appshell.js", os.path.join("web", "navigation")), ("ts/src/chatview.js", os.path.join("web", "chat")), ("ts/src/assistview.js", os.path.join("web", "assist")))
+SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/queuedesk.js", os.path.join("web", "shell")), ("ts/src/surveydesk.js", os.path.join("web", "shell")), ("ts/src/trackview.js", os.path.join("web", "tracking")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/footer.js", os.path.join("web", "footer")), ("ts/src/appshell.js", os.path.join("web", "navigation")), ("ts/src/chatview.js", os.path.join("web", "chat")), ("ts/src/assistview.js", os.path.join("web", "assist")), ("ts/src/officeview.js", os.path.join("web", "office")))
 
 
 def uses_shell(emulator):
@@ -59,11 +59,11 @@ def _packs(base):
 
 # The MASTER UPDATE section 1 parts (the bell, sign-in parts, LynkAssist, breadcrumbs): their words travel only in a file that
 # shows them, so a device that does not import them never carries their words (size budget).
-PART_MODULES = ("signin.ts", "notify.ts", "assist.ts", "breadcrumbs.ts", "attenddesk.ts", "queuedesk.ts", "surveydesk.ts", "peoplehub.ts", "afterpay.ts")
+PART_MODULES = ("signin.ts", "notify.ts", "assist.ts", "breadcrumbs.ts", "attenddesk.ts", "queuedesk.ts", "surveydesk.ts", "peoplehub.ts", "afterpay.ts", "officeview.ts")
 PART_WORDS = {"signin.ts": ("pin_", "match_"), "notify.ts": ("ntf_", "msg_"), "assist.ts": ("as_",), "breadcrumbs.ts": ("crumbs",), "peopleparts.ts": ("ppl_",),
               "attenddesk.ts": ("ppl_at_",), "queuedesk.ts": ("ppl_qu_",), "surveydesk.ts": ("ppl_sv_",),   # build section 3B: each desk's own words travel only with that desk
               "emkit.ts": ("emk_",), "emulatorpanel.ts": ("emp_",),
-              "appshell.ts": ("nv_",), "chatview.ts": ("ch_",), "assistview.ts": ("at_",)}                                                                   # section 4 step B2: the menu words travel only with the app shell                                  # build section 3A: the Emulator Panel's device side and the panel
+              "appshell.ts": ("nv_",), "chatview.ts": ("ch_",), "assistview.ts": ("at_",), "officeview.ts": ("of_",)}                                                                   # section 4 step B2: the menu words travel only with the app shell                                  # build section 3A: the Emulator Panel's device side and the panel
 
 
 def part_words_left_out(emulator):
@@ -279,6 +279,18 @@ def country_packs():
     return {SAMPLE: out.pop(SAMPLE), **out}
 
 
+def tax_rates():
+    """Each country's sales tax as whole basis points (core/books.py rate_bp: read exactly, never as a float), for the office pages."""
+    from core.books import rate_bp
+    packs_dir = os.path.join(ROOT, "contract", "country-packs")
+    out = {}
+    for name in sorted(os.listdir(packs_dir)):
+        with open(os.path.join(packs_dir, name), encoding="utf-8") as f:
+            pack = json.load(f)
+        out[pack["code"]] = rate_bp(pack.get("tax_rate") or 0)
+    return out
+
+
 def launcher():
     with open(os.path.join(ROOT, "catalog", "products.v1.json"), encoding="utf-8") as f:
         products = json.load(f)["products"]
@@ -318,7 +330,7 @@ def main(emulator):
         "entitlements": {tier: entitlement("lynkpos", tier) for tier in billing.FAMILIES["lynkpos"][2]}, "checkout": {tier: entitlement("lynkcheckout", tier) for tier in billing.FAMILIES["lynkcheckout"][2]},
         "fx": {k: float(v) for k, v in USD_RATES.items()},
         **(cards() if emulator == "vcard-card" else {}),
-        **({"automations": automations(3)} if emulator == "owner-web" else {}),
+        **({"automations": automations(3), "taxBp": tax_rates()} if emulator == "owner-web" else {}),
         **({"storefront": storefront_plans()} if emulator in ("account-site", "merchant-phone") else {}),
         **(business_app() if emulator == "merchant-phone" else {}),
         # LynkAttend, LynkQueue and LynkSurvey plan numbers (billing FAMILIES and FEATURES, locked), for every device that runs their engine

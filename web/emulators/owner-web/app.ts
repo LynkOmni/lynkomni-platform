@@ -16,16 +16,18 @@ import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { firstColumnHtml, launcherGroupsHtml, orderedMenuHtml } from "../../../ts/src/appshell.js";
 import type { BarLook } from "../../../ts/src/appshell.js";
 import { NAV } from "../../../ts/src/navigation.generated.js";
+import { OFFICE_PATHS, OFFICE_SERVICES, OfficeView } from "../../../ts/src/officeview.js";
+import type { OfficeService } from "../../../ts/src/officeview.js";
 const SIDE_W = 200;   // px of room the 220 px sidebar gives its brand place (side-menu: logo from 140 px)
 
 interface Auto { id: string; level: string; assist: string | null; trigger: string; min_tier: string | null; default: string }
-declare const DATA: Build & { automations: Auto[]; launcher: { family: string; name: string; app: string }[] };
+declare const DATA: Build & { automations: Auto[]; launcher: { family: string; name: string; app: string }[]; taxBp: Record<string, number> };
 type Page = "today" | "sales" | "devices" | "staff" | "commissions" | "automations" | "sharing";
 const PAGES: Page[] = ["today", "sales", "devices", "staff", "commissions", "automations", "sharing"];
 const PATH: Record<Page, string> = { today: "/business", sales: "/sell/sales", devices: "/business/devices", staff: "/business/team", commissions: "/business/agent-earnings", automations: "/business/automations", sharing: "/business/settings/data-sharing" };
 const TIERS = ["free", "plus", "pro", "max"] as const;
-const S: PanelState & { page: Page; off: Set<string>; why: string; sharing: Set<string>; notice: string; launcher: boolean; place: string } =
-  { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: false, lang: "en", page: "today", off: new Set(), why: "", sharing: new Set(), notice: "", launcher: false, place: "" };
+const S: PanelState & { page: Page; off: Set<string>; why: string; sharing: Set<string>; notice: string; launcher: boolean; place: string; office: string } =
+  { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: false, lang: "en", page: "today", off: new Set(), why: "", sharing: new Set(), notice: "", launcher: false, place: "", office: "" };
 const W = new Words(DATA.i18n, () => S.lang); const t = W.t;
 const C = new Country(DATA, () => S.country, () => S.lang);
 const $ = <T extends HTMLElement>(sel: string): T => document.querySelector(sel) as T;
@@ -84,7 +86,10 @@ const DSH = panelShell({
   account: () => sampleAccount(t, "owner", ["owner", "manager"], t("sample_shop"), S.dark ? "dark" : "light", DATA.i18n[S.lang]?.native ?? S.lang, C.pack().sample ? t("sample_country") : C.pack().name),
   run: (a) => act(a), redraw: () => draw(),
 });
-function page(): string { return S.place ? placePage() : { today, sales, devices, staff, commissions, automations, sharing }[S.page](); }
+// ---- the office services in the browser (section 4 step D5): LynkAcc, LynkInv, LynkCRM and LynkStat from ts/src/officeview.ts ---
+const OV = new OfficeView({ t, money: (n) => C.money(n), icon, chip, nav: NAV, role: "owner", user: "u-owner", today: "2026-11-20", taxBp: () => DATA.taxBp[S.country] ?? 0 });
+const office = (): OfficeService | null => (OFFICE_SERVICES as readonly string[]).includes(S.place) ? (S.place as OfficeService) : null;
+function page(): string { const o = office(); if (o) return OV.draw(o, S.office || OV.pages(o)[0]!.id); return S.place ? placePage() : { today, sales, devices, staff, commissions, automations, sharing }[S.page](); }
 
 // ---- the app shell on a computer: the two-level side bar (INTERFACE UPDATE 73.3, ts/src/appshell.ts) ---------------------------
 const look: BarLook = { t, icon: (id) => icon(id) };
@@ -99,7 +104,9 @@ const appOf = (f: string): string => DATA.launcher.find((x) => x.family === f)?.
 function sideBar(): string {
   const first = firstColumnHtml(NAV, look, { current: S.place ? "all_services" : RAIL_CURRENT[S.page] ?? "", hidden: ["track"], act: "rail" });
   const logo = `<div class="menu-logo">${brandMark(DATA.brand.places, "side-menu", S.dark, "logo", SIDE_W)}</div>`;
-  const menu = orderedMenuHtml(NAV, look, { items: PAGES.map((p) => ({ id: p, slot: SLOT[p], label: t(LABEL[p]) })), current: S.place ? "" : S.page, act: "go", label: "LynkOmni", top: logo });
+  const o = office();
+  const menu = o ? orderedMenuHtml(NAV, look, { items: OV.pages(o).map((p) => ({ id: p.id, slot: p.slot, label: OV.title(p.id) })), current: S.office || OV.pages(o)[0]!.id, act: "office", label: nameOf(o), top: logo })
+    : orderedMenuHtml(NAV, look, { items: PAGES.map((p) => ({ id: p, slot: SLOT[p], label: t(LABEL[p]) })), current: S.place ? "" : S.page, act: "go", label: "LynkOmni", top: logo });
   return first + menu;
 }
 /** A service opened from All services: its address and name; its screens on a computer come with its own build section. */
@@ -116,15 +123,19 @@ function launcherOverlay(): string {
 const DM = new DeviceMode(DEVICES, "all-in-one-pos", "non_touch");
 function draw(): void {
   const el = $("#screen"); DM.apply(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W);
-  el.innerHTML = `<div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">${icon("ui-lock")}${esc(S.place ? appOf(S.place) : `app.lynkomni.com${PATH[S.page]}`)}</span></div>
-    <div class="app">${sideBar()}<main class="main"><div class="mhead">${DSH.bar()}</div><p class="viewonly" role="note">${icon("ui-info")}${esc(t("view_only_computer"))}</p>${page()}${appMainFooter(W, C, DATA)}</main></div>${launcherOverlay()}${DSH.overlay()}`;
+  el.innerHTML = `<div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">${icon("ui-lock")}${esc(office() ? `app.lynkomni.com${OFFICE_PATHS[office()!]}` : S.place ? appOf(S.place) : `app.lynkomni.com${PATH[S.page]}`)}</span></div>
+    <div class="app">${sideBar()}<main class="main"><div class="mhead">${DSH.bar()}</div>${office() ? OV.browserNote() : `<p class="viewonly" role="note">${icon("ui-info")}${esc(t("view_only_computer"))}</p>`}${page()}${appMainFooter(W, C, DATA)}</main></div>${launcherOverlay()}${DSH.overlay()}`;
   const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address();
 }
+/** Redraws while typing and puts the cursor back where it was, so a field never loses its place. */
+function keepFocus(id: string): void { const el = document.getElementById(id) as HTMLInputElement | null; const pos = el?.selectionStart ?? null; draw(); const again = document.getElementById(id) as HTMLInputElement | null; if (again) { again.focus(); if (pos !== null && again.type !== "date") again.setSelectionRange(pos, pos); } }
 function act(a: string): void {
   const [k = "", v = ""] = a.split(":");
   if (k === "rail") { const to = RAIL[v]; if (to) { if (to.startsWith("dsh:")) { if (DSH.act(to)) return; } else act(to); } return; }
   if (a === "launcher") { S.launcher = !S.launcher; draw(); return; }
-  if (k === "place") { S.launcher = false; const page = (Object.keys(PATH) as Page[]).find((p) => appOf(v) === `app.lynkomni.com${PATH[p]}` || (v === "lynkpos" && p === "sales")); if (page) { S.place = ""; S.page = page; } else S.place = v; draw(); return; }
+  if (k === "office") { S.office = v; OV.reset(); draw(); return; }
+  if (OV.act(a)) { if (k === "of" && a.startsWith("of:go:")) { S.office = a.slice(6); OV.reset(); } draw(); return; }
+  if (k === "place") { S.launcher = false; S.office = ""; OV.reset(); const page = (Object.keys(PATH) as Page[]).find((p) => appOf(v) === `app.lynkomni.com${PATH[p]}` || (v === "lynkpos" && p === "sales")); if (page) { S.place = ""; S.page = page; } else S.place = v; draw(); return; }
   if (k === "go") { S.place = ""; S.page = PAGES.includes(v as Page) ? (v as Page) : "today"; S.why = ""; S.notice = ""; }
   if (k === "newsale") S.notice = t("needs_registered_device");
   if (k === "toggle") { const on = !S.off.has(v); if (on) S.off.add(v); else S.off.delete(v); }
@@ -137,13 +148,24 @@ function act(a: string): void {
 function panel(): void {
   $("#panel").innerHTML = panelHtml(["plan", "country", "dark", "lang"], S, W, C, { tiers: TIERS });
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
-  stateButtons($("#stateButtons"), [...PAGES, "why", "new-sale"], (k) => { if (k === "why") { S.page = "automations"; S.why = "cash-difference-flag"; } else if (k === "new-sale") { S.page = "today"; S.notice = t("needs_registered_device"); } else { S.page = k as Page; S.why = ""; S.notice = ""; } draw(); });
+  const OFFICE_STATES = OFFICE_SERVICES.flatMap((svc) => OV.pages(svc).map((p) => p.id));        // every office page, so every check visits it
+  stateButtons($("#stateButtons"), [...PAGES, "why", "new-sale", ...OFFICE_STATES, "inv_record", "crm_record"], (k) => {
+    OV.reset();
+    const svc = OFFICE_SERVICES.find((x) => OV.pages(x).some((p) => p.id === k));
+    if (svc) { S.place = svc; S.office = k; draw(); return; }
+    if (k === "inv_record") { S.place = "lynkinv"; S.office = "inv_list"; OV.act("of:inv:LOINV-1002"); OV.act("of:creditnote"); draw(); return; }
+    if (k === "crm_record") { S.place = "lynkcrm"; S.office = "crm_list"; OV.act("of:person:LOCST-1001"); draw(); return; }
+    S.place = ""; S.office = "";
+    if (k === "why") { S.page = "automations"; S.why = "cash-difference-flag"; } else if (k === "new-sale") { S.page = "today"; S.notice = t("needs_registered_device"); } else { S.page = k as Page; S.why = ""; S.notice = ""; } draw(); });
 }
 function main(): void {
   S.country = DATA.packOrder[0] ?? ""; panel(); draw();
   document.addEventListener("click", (e) => { const tg = e.target as HTMLElement, b = tg.closest<HTMLElement>("[data-act]"); if (!b) return; const a = b.dataset["act"] ?? "";
     if (b.classList.contains("dsh-scrim") && tg.closest("[data-stop]")) return; if (!DSH.act(a)) act(a); });
-  document.addEventListener("input", (e) => { DSH.input(e.target as HTMLInputElement); });
+  document.addEventListener("input", (e) => { const el = e.target as HTMLInputElement;
+    if (el.id === "ofSearch") { OV.search(el.value); keepFocus(el.id); return; }
+    const k = el.dataset["in"] ?? ""; if (OV.input(k, el.value)) { keepFocus(el.id); return; } DSH.input(el); });
+  document.addEventListener("change", (e) => { const el = e.target as HTMLSelectElement; if (el.closest("#screen") && el.tagName === "SELECT" && OV.input(el.dataset["in"] ?? "", el.value)) draw(); });
   document.addEventListener("keydown", (e) => { DSH.key(e); });
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
   $("#panel").addEventListener("change", (e) => { if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });
