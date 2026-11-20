@@ -1813,6 +1813,39 @@
     "sitemap"
    ],
    "section": 4
+  },
+  {
+   "id": "chat_office_cards",
+   "kind": "feature",
+   "what": "Invoices, quotes, credit notes, statements, reminders and report figures as cards in a customer conversation, from their own services",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "chat_office_actions",
+   "kind": "feature",
+   "what": "From a conversation: make a quote or an invoice, note a payment promise, add a customer, a note or a follow-up",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "assist_office_skills",
+   "kind": "feature",
+   "what": "LynkAssist in the office services: suggestions, explanations, drafts and a plan for late payers; never posts, files or sends without the person",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
   }
  ]
 }

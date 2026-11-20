@@ -2,6 +2,22 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.74.0 (2026-11-20)
+Section 4, step D4c (CHAT UPDATE 74.5 and ASSIST UPDATE 75.6: the office services in a conversation, and LynkAssist's office skills):
+- The office cards work in the cloud (services/office_chat.py):
+  - LynkInv's invoice, quote and credit-note cards, LynkAcc's statement and reminder cards and LynkStat's report card, each read from its own service;
+  - Pay opens LynkCheckout's pay link and is never offered offline or on an invoice with nothing left to pay; Accept opens LynkInv;
+  - from a conversation: make a quote or an invoice (an invoice waiting for approval sends no card), note a payment promise, add a new customer (name and contacts to the vault), a note or a follow-up;
+  - every conversation goes on the customer's LynkCRM timeline and on the record it is about;
+  - the chat figures (first reply, time to solve, reopened, solved by LynkAssist alone) come from real conversations; "usually replies within" needs at least 20 replies; the chats behind a figure open only for the owner and managers.
+- LynkAssist's office skills (services/assist_office.py), ten new actions in catalog/assist.v1.json:
+  - LynkAcc: suggests a category and a bank match (labelled suggestions, never posted), explains a statement line by line and shows the month-end checklist (it never closes the period);
+  - LynkInv: drafts an invoice or quote from a conversation or a photo (nothing issued until the person issues it), and drafts a polite plan for a late payer (it never sends a reminder the business did not approve);
+  - LynkCRM: a customer summary from what the role may see, and who to contact next and why (a message only where the customer agreed, otherwise a call or a visit);
+  - LynkStat: "Why did this change?" from the figures and the owner's notes, with an estimate always labelled;
+  - issuing a credit note runs after Confirm; tax filing and payroll are only prepared and handed to a person.
+- Three features placed in search, help and the sitemap; two security controls.
+
 ## v0.73.0 (2026-11-20)
 Section 4, step D4b (SERVICES UPDATE 67.5: the LynkStat additions):
 - New register catalog/stats.v1.json, read by core/stats.py and ts/src/stats.ts with shared test answers (python3 tools/stats_vectors.py). It covers:

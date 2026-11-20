@@ -897,6 +897,31 @@
    "test": "tests/test_stats.py::test_estimates_are_labelled_and_small_groups_hidden",
    "build_section": 4,
    "status": "built"
+  },
+  {
+   "id": "office-card-opens-its-service",
+   "asset": "money",
+   "threat": "A chat card pays, accepts or changes a record itself, or offers Pay offline or on a paid invoice",
+   "enforced_in": [
+    "core/chat.py",
+    "services/office_chat.py"
+   ],
+   "test": "tests/test_office_chat.py::test_an_invoice_card_comes_from_lynkinv_and_pay_opens_checkout",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "assist-office-suggests-only",
+   "asset": "records",
+   "threat": "LynkAssist posts an entry, issues an invoice, files tax or runs payroll without a person",
+   "enforced_in": [
+    "services/assist_office.py",
+    "services/assist_register.py",
+    "catalog/assist.v1.json"
+   ],
+   "test": "tests/test_office_chat.py::test_suggestions_never_post_and_drafts_never_issue",
+   "build_section": 4,
+   "status": "built"
   }
  ]
 }
