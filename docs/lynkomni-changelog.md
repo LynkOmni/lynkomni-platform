@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.60.0 (2026-11-20)
+Sounds and vibration can be switched on and off everywhere (owner request):
+- **One account setting:** a new Sounds and vibration card in the account's Notifications page has tap and key sounds, vibration, volume (low, medium, high) and notification sounds, in all 38 languages.
+- **Remembered and followed:** the choice is remembered and followed on every device and page the person signs in on: the device settings on every LynkOmni device, the button phone, and the sign-in pad and notifications in the shell.
+- **The button phone** now has a volume choice too.
+- **Shared devices:** they still follow their manager, who can let each person's own choice apply. Silent mode, do not disturb and quiet hours still switch sounds off.
+- **Always sound:** security and safety alerts always make a sound, and a sound is never the only signal.
+- **The rule:** this is now a rule for all services. Every sound source is listed with its switch (catalog/sounds.v1.json), including the ones still to come (chat sounds in section 4, counter sounds in 13, spoken announcements and watch taps in 14, safety alarms in 7B). A page that makes a sound without being listed, or without following the person's choice, fails the checks.
+
 ## v0.59.1 (2026-11-20)
 The LynkOmni emblem takes its final shape (owner decision, brand release @lynkomni/icons 1.9.0):
 - The black bottom bar is thicker, now 186, the same as the violet arc. The arc is an even 186 all the way round.

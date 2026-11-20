@@ -8,6 +8,8 @@
  *  (contract v7). Connected, disconnected, lost, swapped and approved again are written by the cloud alone, so the screen shows
  *  them only when the cloud says so (here, the emulator's controls play the cloud). The five user states only. Every choice is a
  *  real button, so the kit works by touch and by arrows, OK and Back alike. */
+import { loadPrefs, savePrefs } from "./soundprefs.js";
+import type { Volume } from "./soundprefs.js";
 import { esc } from "./shell.js";
 import type { Icon, T } from "./shell.js";
 import { newId } from "./emulator.js";
@@ -44,7 +46,8 @@ export class EmKit {
   askState: St | null = null;
   /** The manager's default and the user's own choice where allowed (70.6). */
   manager: ToneSetting = { tones: true, vibration: true, volume: "medium", user_may_change: true, pin_same_tone: false };
-  user: ToneSetting = {};
+  /** The signed-in person's own choice: their account's Sounds and vibration, remembered and followed here (catalog/sounds.v1.json). */
+  user: ToneSetting = (({ tones, vibration, volume }) => ({ tones, vibration, volume }))(loadPrefs());
   silent = false;
   quietHours = false;
   sheet: "" | "settings" | "hardware" | "delivery" = "";
@@ -85,6 +88,7 @@ export class EmKit {
     if (this.o.customerFacing || this.manager.user_may_change === false) return false;
     if (key === "volume") { if (!["low", "medium", "high"].includes(String(value))) return false; this.user.volume = String(value); }
     else this.user[key] = Boolean(value);
+    savePrefs(key === "volume" ? { volume: String(value) as Volume } : { [key]: Boolean(value) });
     const s = this.now();
     this.emit("EmulatorSettingsChanged", { device_id: this.deviceId, tones: s.tones, vibration: s.vibration, volume: s.volume, pin_same_tone: s.pin_tones === "same", by: "device" }, "device");
     this.press("key"); return true;

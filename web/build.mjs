@@ -34,14 +34,14 @@ const SURVEY_ONLY = ["ts/src/attendance.js", "ts/src/queue.js", "ts/src/survey.j
 const AFTER_PAY = ["ts/src/attendance.js", "ts/src/queue.js", "ts/src/survey.js", "ts/src/peopleparts.js", "ts/src/afterpay.js"];
 // build section 3A: the Emulator Panel's rules and register (ts/src/emulators.js), the device side every panel emulator carries (emkit),
 // and the panel itself in the Business app (emulatorpanel)
-const KIT = ["ts/src/emulators.generated.js", "ts/src/emulators.js", "ts/src/keytones.js", "ts/src/emkit.js"];          // after ts/src/queue.js (the Lynk Code)
+const KIT = ["ts/src/emulators.generated.js", "ts/src/emulators.js", "ts/src/keytones.js", "ts/src/soundprefs.js", "ts/src/emkit.js"];          // after ts/src/queue.js (the Lynk Code)
 const PANEL_DEVICES = ["counter-tablet", "kitchen-screen", "customer-display", "rider-phone", "stock-scanner"];
 const EMULATORS = [
   { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: [...DEVICE_MODULES, ...PEOPLE_DEVICE, ...KIT, "web/emulators/pos-terminal/app.js"] },
   { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: ["ts/src/usernames.generated.js", "ts/src/usernames.js", ...DEVICE_MODULES, ...TRACK_MODULES, "ts/src/reservations.js", "ts/src/drivers.js", "ts/src/drivers.generated.js", ...PEOPLE_DEVICE, ...KIT, "ts/src/emulatorpanel.js", "web/emulators/merchant-phone/app.js"] },
-  { id: "browser-frame", out: "lynkomni-browser-frame.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", ...INTERFACE_MODULES, ...PARTS_MODULES, ...PEOPLE_MODULES, "web/emulators/browser-frame/app.js"],
+  { id: "browser-frame", out: "lynkomni-browser-frame.html", modules: ["ts/src/soundprefs.js", "ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", ...INTERFACE_MODULES, ...PARTS_MODULES, ...PEOPLE_MODULES, "web/emulators/browser-frame/app.js"],
     extraCss: ["web/shell/shell.css"] },
-  { id: "account-site", out: "lynkomni-account-site.html", modules: ["ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", "ts/src/account.js", ...INTERFACE_MODULES, ...TRACK_MODULES, ...PARTS_MODULES, "ts/src/protection.js", ...PEOPLE_MODULES, "web/emulators/account-site/app.js"],
+  { id: "account-site", out: "lynkomni-account-site.html", modules: ["ts/src/soundprefs.js", "ts/src/brand.js", "ts/src/usernames.generated.js", "ts/src/usernames.js", "ts/src/payments.js", "ts/src/footer.js", "ts/src/shell.js", "ts/src/account.js", ...INTERFACE_MODULES, ...TRACK_MODULES, ...PARTS_MODULES, "ts/src/protection.js", ...PEOPLE_MODULES, "web/emulators/account-site/app.js"],
     extraCss: ["web/shell/shell.css"] },
   // build section 3: the Business app devices, all on the shared device runtime (ts/src/emulator.js) and words (web/pos)
   // build section 3B: LynkKiosk (LynkAttend's door, LynkQueue's tickets and LynkSurvey's answers on one self-service device)
@@ -51,7 +51,7 @@ const EMULATORS = [
   { id: "queue-page", out: "lynkomni-queue-page.html", modules: [...DEVICE_MODULES, ...QUEUE_ONLY, "web/emulators/queue-page/app.js"], extraCss: ["web/device/device.css"] },
   { id: "survey-page", out: "lynkomni-survey-page.html", modules: [...DEVICE_MODULES, ...SURVEY_ONLY, "web/emulators/survey-page/app.js"], extraCss: ["web/device/device.css"] },
   ...["counter-tablet", "kitchen-screen", "customer-display", "rider-phone", "stock-scanner", "button-phone", "vcard-card", "mesh-relay", "owner-web", "track-page"]
-    .map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...(id === "button-phone" ? ["ts/src/usernames.generated.js", "ts/src/usernames.js"] : []), ...DEVICE_MODULES, ...(["rider-phone", "track-page"].includes(id) ? TRACK_MODULES : []), ...(id === "button-phone" ? ["ts/src/channels.js", "ts/src/basicphone.js", "ts/src/queue.js", "ts/src/sounds.generated.js", "ts/src/keytones.js"] : []), ...(id === "customer-display" ? AFTER_PAY : []), ...(PANEL_DEVICES.includes(id) ? [...(id === "customer-display" ? [] : ["ts/src/queue.js"]), ...KIT] : []), `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
+    .map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...(id === "button-phone" ? ["ts/src/usernames.generated.js", "ts/src/usernames.js"] : []), ...DEVICE_MODULES, ...(["rider-phone", "track-page"].includes(id) ? TRACK_MODULES : []), ...(id === "button-phone" ? ["ts/src/channels.js", "ts/src/basicphone.js", "ts/src/queue.js", "ts/src/sounds.generated.js", "ts/src/keytones.js", "ts/src/soundprefs.js"] : []), ...(id === "customer-display" ? AFTER_PAY : []), ...(PANEL_DEVICES.includes(id) ? [...(id === "customer-display" ? [] : ["ts/src/queue.js"]), ...KIT] : []), `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
 ];
 
 const read = (p) => readFileSync(p, "utf8");

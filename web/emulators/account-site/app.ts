@@ -24,6 +24,8 @@ import { askBox, buildPack, confirmCard, decide, lookup, receipt } from "../../.
 import { idcn } from "../../../ts/src/attendance.js";
 import { ticketCard } from "../../../ts/src/peopleparts.js";
 import { breadcrumbBar, trail } from "../../../ts/src/breadcrumbs.js";
+import { loadPrefs, savePrefs } from "../../../ts/src/soundprefs.js";
+import type { SoundPrefs, Volume } from "../../../ts/src/soundprefs.js";
 import { TERMS_IN_FORCE, cardPlanName, contactWaitSeconds, coolOffSeconds, mayNow } from "../../../ts/src/protection.js";
 const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 } as const;   // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
 
@@ -199,10 +201,14 @@ function notificationSettings(): string {
   const lockChoice = (["neutral", "full", "none"] as const).map((m) => `<button type="button" class="chipbtn${S.nset.lock === m ? " on" : ""}" aria-pressed="${S.nset.lock === m}" data-act="nset:lock:${m}">${esc(t(`nset_lock_${m}`))}</button>`).join("");
   const deputy = S.nset.deputy ? `${ok(t("nset_deputy_on", { name: t("role_manager"), when: dateOf(S.nset.deputy) }))}<div class="actions"><button class="secondary" data-act="nset:enddeputy">${esc(t("nset_end"))}</button></div>` : `<div class="actions"><button class="secondary" data-act="nset:deputy">${esc(t("nset_deputy_set"))}</button></div>`;
   const reminders = S.nset.reminders.length ? rows(S.nset.reminders.map((r) => kv(esc(t("remind_sample")), esc(whenOf(r.at)), `<button class="secondary" data-act="nset:snooze:${r.id}">${esc(t("ntf_act_snooze"))}</button><button class="secondary" data-act="nset:done:${r.id}">${esc(t("ntf_act_done"))}</button>`))) : "";
+  const me = loadPrefs();   // Sounds and vibration: one choice for every device and page (catalog/sounds.v1.json)
+  const vol = (["low", "medium", "high"] as const).map((v) => `<button type="button" class="chipbtn${me.volume === v ? " on" : ""}" aria-pressed="${me.volume === v}" data-act="nset:vol:${v}">${esc(t(`snd_vol_${v}`))}</button>`).join("");
+  const sounds = `<div class="card"><h2>${esc(t("snd_title"))}</h2>${rows([sw("snd:tones", me.tones, t("snd_tones")), sw("snd:vibration", me.vibration, t("snd_vibration")), sw("snd:notification_sounds", me.notification_sounds, t("snd_notifications"))])}<div class="nfilters" role="group" aria-label="${esc(t("snd_volume"))}">${vol}</div><p class="muted">${esc(t("snd_note"))}</p></div>`;
   return `${pageTitle("notifications")}<div class="cards">
     <div class="card wide"><h2>${esc(t("nset_grid"))}</h2>${rows(grid)}<p class="muted">${esc(t("security_always"))}</p></div>
     <div class="card"><h2>${esc(t("your_businesses"))}</h2>${rows(biz)}</div>
     <div class="card"><h2>${esc(t("quiet_hours"))}</h2>${rows([sw("pause", S.nset.paused, t("nset_pause")), sw("dnd", S.nset.dnd, t("nset_dnd")), sw("summary", S.nset.summary, t("nset_summary"))])}${S.nset.paused ? `<p class="muted">${esc(t("nset_paused"))}</p>` : ""}<p class="muted">${esc(t("quiet_hours_line", { start: clock(Date.UTC(2026, 0, 1, 22)), end: clock(Date.UTC(2026, 0, 1, 7)) }))}</p></div>
+    ${sounds}
     <div class="card"><h2>${esc(t("nset_lock"))}</h2><div class="nfilters" role="group" aria-label="${esc(t("nset_lock"))}">${lockChoice}</div></div>
     <div class="card"><h2>${esc(t("nset_deputy"))}</h2><p class="muted">${esc(t("nset_deputy_body"))}</p>${deputy}</div>
     <div class="card"><h2>${esc(t("nset_test"))}</h2><div class="actions"><button class="secondary" data-act="nset:test">${esc(t("nset_test"))}</button><button class="secondary" data-act="nset:health">${esc(t("nset_health"))}</button></div>${S.nset.tested ? ok(t("nset_test_sent")) : ""}${S.nset.health ? ok(t("nset_health_ok")) : ""}</div>
@@ -622,6 +628,7 @@ function act(a: string): void {
     case "close": if (v === "cancel") { S.closing = null; record("AccountCloseCancelled", "server", {}); } draw(); return;
     case "toggle": if (v === "adult") { S.signUp.adult = !S.signUp.adult; draw(); return; }
       if (v === "wty") { S.wasThisYou = !S.wasThisYou; record("NotificationChoiceChanged", "server", { choice: "attend_was_this_you", on: S.wasThisYou }); draw(); return; }
+      if (v.startsWith("snd:")) { const k = v.slice(4) as "tones" | "vibration" | "notification_sounds"; const me: SoundPrefs = savePrefs({ [k]: !loadPrefs()[k] }); record("NotificationChoiceChanged", "server", { sounds: k, on: me[k] }); draw(); return; }
       if (v.startsWith("grid:")) { const key = v.slice(5); S.nset.off = S.nset.off.includes(key) ? S.nset.off.filter((y) => y !== key) : [...S.nset.off, key]; record("NotificationChoiceChanged", "server", { choice: key, on: !S.nset.off.includes(key) }); draw(); return; }
       if (v.startsWith("biz:")) { const b = v.slice(4); S.nset.muted = S.nset.muted.includes(b) ? S.nset.muted.filter((y) => y !== b) : [...S.nset.muted, b]; record("NotificationChoiceChanged", "server", { business: b, muted: S.nset.muted.includes(b) }); draw(); return; }
       if (v === "pause" || v === "dnd" || v === "summary") { const key = v === "pause" ? "paused" : v; S.nset[key] = !S.nset[key]; record("NotificationChoiceChanged", "server", { [key]: S.nset[key] }); draw(); return; } if (v === "mkemail") S.marketing.email = !S.marketing.email; if (v === "mkpush") S.marketing.push = !S.marketing.push; record("MarketingChoiceChanged", "server", { ...S.marketing }); draw(); return;
@@ -672,6 +679,7 @@ function act(a: string): void {
     case "merge": if (!fresh("merge:do")) return; S.merged = 3; record("ProvisionalAccountConfirmed", "server", { into: "existing", records: 3 }); draw(); return;
     case "nset": {
       const [what = "", x = ""] = v.split(":");
+      if (what === "vol") { const me = savePrefs({ volume: pick(["low", "medium", "high"] as const, x, loadPrefs().volume) as Volume }); record("NotificationChoiceChanged", "server", { sounds: "volume", volume: me.volume }); }
       if (what === "lock") S.nset.lock = pick(["neutral", "full", "none"] as const, x, S.nset.lock);
       if (what === "deputy") { S.nset.deputy = now + 14 * DAY; record("DeputyNamed", "server", { role: "manager", until: S.nset.deputy, personal_areas_stay: true }); }
       if (what === "enddeputy") { S.nset.deputy = null; record("DeputyEnded", "server", {}); }

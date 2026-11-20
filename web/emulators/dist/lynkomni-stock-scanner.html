@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-dUcWJSsWdDxTlXSApa57tsGXUOX1WuBY/2A5sgmv+wQ='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-dij8AE7M0rPQfmNgZvsONoKvUrHX4RByB6yPQKFzgFU='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkStock Scanner</title>
 <meta name="description" content="Interactive emulator of a rugged handheld stock scanner: scan to count, receive a supplier delivery, move stock and see low and negative stock, all offline.">
@@ -3449,7 +3449,38 @@ function soundForAct(act, o = {}) {
     return "key";
 }
 
+// ---- ts/src/soundprefs.js
+const DEFAULT_PREFS = Object.freeze({ tones: true, vibration: true, volume: "medium", notification_sounds: true });
+const NEVER_SILENCED = ["security", "safety"];
+const KEY = "lynkomni.sounds.v1";
+let memory = null; // where the browser keeps nothing, the choice still holds for this visit
+function cleanPrefs(p) {
+    const v = p?.volume;
+    return { tones: p?.tones !== false, vibration: p?.vibration !== false, volume: v === "low" || v === "high" ? v : "medium", notification_sounds: p?.notification_sounds !== false };
+}
+function loadPrefs() {
+    try {
+        const raw = typeof localStorage !== "undefined" ? localStorage.getItem(KEY) : null;
+        if (raw)
+            return cleanPrefs(JSON.parse(raw));
+    }
+    catch { /* storage blocked: fall back to this visit's choice */ }
+    return memory ? { ...memory } : { ...DEFAULT_PREFS };
+}
+function savePrefs(change) {
+    const next = cleanPrefs({ ...loadPrefs(), ...change });
+    memory = next;
+    try {
+        if (typeof localStorage !== "undefined")
+            localStorage.setItem(KEY, JSON.stringify(next));
+    }
+    catch { /* kept for this visit */ }
+    return next;
+}
+function alertSounds(p, area) { return p.notification_sounds || NEVER_SILENCED.includes(area); }
+
 // ---- ts/src/emkit.js
+
 
 
 
@@ -3466,7 +3497,7 @@ class EmKit {
     request = null;
     askState = null;
     manager = { tones: true, vibration: true, volume: "medium", user_may_change: true, pin_same_tone: false };
-    user = {};
+    user = (({ tones, vibration, volume }) => ({ tones, vibration, volume }))(loadPrefs());
     silent = false;
     quietHours = false;
     sheet = "";
@@ -3525,6 +3556,7 @@ class EmKit {
         }
         else
             this.user[key] = Boolean(value);
+        savePrefs(key === "volume" ? { volume: String(value) } : { [key]: Boolean(value) });
         const s = this.now();
         this.emit("EmulatorSettingsChanged", { device_id: this.deviceId, tones: s.tones, vibration: s.vibration, volume: s.volume, pin_same_tone: s.pin_tones === "same", by: "device" }, "device");
         this.press("key");

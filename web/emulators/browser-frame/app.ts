@@ -11,6 +11,7 @@ import type { Choice } from "../../../ts/src/interfaces.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { arrowNav, gestures } from "../../../ts/src/gestures.js";
 import { afterWrong, numberChoices, numberMatch, numberShown, pinPad, KEY_TONE } from "../../../ts/src/signin.js";
+import { alertSounds, loadPrefs, savePrefs } from "../../../ts/src/soundprefs.js";
 import { banner, bell, count, feelFor, mailPart, messagesList, priorityOf, textPart, whySheet } from "../../../ts/src/notify.js";
 import type { Line, Priority, Sent } from "../../../ts/src/notify.js";
 import { askBox, buildPack, confirmCard, decide, fixThis, lookup, receipt } from "../../../ts/src/assist.js";
@@ -47,7 +48,7 @@ const S = {
   testView: "auto", testWidth: "auto", choice: null as Choice | null,
   // MASTER UPDATE, section 1: the bell, the sign-in parts and LynkAssist in the help panel
   lines: [] as Line[], bellFilter: "all", lastOpened: 0, whyNid: "", banners: [] as string[],
-  pin: "", wrong: 0, waitUntil: 0, pictures: true, keySound: true, matchShown: "47", matchChoices: [] as string[], matchResult: "" as "" | "ok" | "wrong",
+  pin: "", wrong: 0, waitUntil: 0, pictures: true, keySound: loadPrefs().tones, matchShown: "47", matchChoices: [] as string[], matchResult: "" as "" | "ok" | "wrong",
   ask: "", assistStep: "idle" as "idle" | "card" | "done", assistDoneAt: 0, resends: 0, lastDone: null as null | { nid: string; by: string },
   // NEW UPDATE 4, section 1: the shared parts of LynkAttend, LynkQueue and LynkSurvey
   rate: null as number | null, score: null as number | null, checker: null as string | null, called: false,
@@ -115,10 +116,11 @@ const when = (ms: number): string => clock(ms);
 const lineOf = (nid: string): Line | undefined => S.lines.find((l) => l.nid === nid);
 /** Each priority is felt as well as seen: the tones and vibration of notify.ts FEEL (never instead of the words). */
 let audio: AudioContext | null = null;
-function feel(p: Priority): void {
+function feel(p: Priority, area = "security"): void {
   const f = feelFor(p, { quiet: false, silent: false, lowData: S.dataSaver });
-  try { (navigator as Navigator & { vibrate?: (p: number[]) => boolean }).vibrate?.(f.vibrate); } catch { /* not every device vibrates */ }
-  if (!f.tones.length) return;
+  const me = loadPrefs();   // the person's Sounds and vibration (catalog/sounds.v1.json); security and safety always sound
+  try { if (me.vibration) (navigator as Navigator & { vibrate?: (p: number[]) => boolean }).vibrate?.(f.vibrate); } catch { /* not every device vibrates */ }
+  if (!f.tones.length || !alertSounds(me, area)) return;
   try {
     audio ??= new AudioContext();
     let at = audio.currentTime;
@@ -343,7 +345,7 @@ function act(a: string): void {
     case "pin": {
       if (afterWrong(S.wrong) === "locked" || Date.now() < S.waitUntil) return;
       if (v === "pictures") { S.pictures = !S.pictures; draw(); return; }
-      if (v === "sound") { S.keySound = !S.keySound; draw(); return; }
+      if (v === "sound") { S.keySound = savePrefs({ tones: !S.keySound }).tones; draw(); return; }
       keyTone(v);
       if (v === "clear") S.pin = "";
       else if (/^\d$/.test(v) && S.pin.length < 8) S.pin += v;

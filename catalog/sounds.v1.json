@@ -1,0 +1,38 @@
+{
+ "version": 1,
+ "agreed": "Owner, 20 November 2026: every sound and vibration across LynkOmni can be switched on and off, the choice is remembered and followed everywhere, and only security and safety alerts are never silenced.",
+ "rule": "Every place in LynkOmni that makes a sound or vibrates has an on/off switch where the person (or, on a shared device, the manager) can reach it. A person's own choice lives once in their account (Notifications, Sounds and vibration: tap and key sounds, vibration, volume, notification sounds), is remembered, and is followed on every device and page they sign in on. A shared device follows its manager, who may let staff choose their own. Silent mode, do not disturb and quiet hours switch sounds off by themselves. Only security and safety alerts always make a sound. A sound is never the only signal: every press and alert also shows on the screen. A new sound is added here first, in the same change, with its switch.",
+ "person": {
+  "where": "account.lynkomni.com/notifications, card Sounds and vibration",
+  "settings": {"tones": true, "vibration": true, "volume": "medium", "notification_sounds": true},
+  "volumes": ["low", "medium", "high"],
+  "remembered": "Saved in the account and kept on each device, so it is followed with or without internet",
+  "never_silenced": ["security", "safety"]
+ },
+ "sources": [
+  {"id": "device_key_tones", "what": "Key and tap tones and press vibration on LynkOmni devices (each number key its own keypad pair; confirm, cancel, clear, scan, print and paid their own tones)",
+   "emulators": ["pos-terminal", "counter-tablet", "merchant-phone", "kitchen-screen", "rider-phone", "customer-display", "stock-scanner", "lynk-kiosk", "lynk-dscreen", "lynk-cdisplay"],
+   "switch": "Device settings: Key tones on or off, Vibration on or off, Volume low, medium or high", "controls": "manager for the device; the signed-in person's own choice where the manager allows it; customer-facing screens follow the manager",
+   "can_turn_off": true, "status": "built", "build_section": "3A"},
+  {"id": "staff_pin_tones", "what": "Tones on the staff PIN pad (each key its own pair, or one same tone so nobody nearby can tell the keys apart)",
+   "emulators": ["pos-terminal", "counter-tablet", "merchant-phone", "stock-scanner", "rider-phone"],
+   "switch": "Device settings: Key tones; the manager chooses per-key or same tone", "controls": "manager; the person's choice where allowed", "can_turn_off": true, "status": "built", "build_section": "3"},
+  {"id": "button_phone_keys", "what": "Key tones and press vibration on the basic button phone",
+   "emulators": ["button-phone"], "switch": "Key tones on or off, Vibration on or off, Volume low, medium or high", "controls": "the person", "can_turn_off": true, "status": "built", "build_section": "3"},
+  {"id": "sign_in_pad", "what": "Key tones on the sign-in PIN pad", "emulators": ["browser-frame"],
+   "switch": "Key sound on the pad, and the account's tap and key sounds", "controls": "the person", "can_turn_off": true, "status": "built", "build_section": "1"},
+  {"id": "notification_sounds", "what": "Sound, vibration and light for each notification priority", "emulators": ["browser-frame", "account-site"],
+   "switch": "Account, Notifications, Sounds and vibration: Notification sounds; quiet hours, do not disturb and silent mode", "controls": "the person", "can_turn_off": true,
+   "except": "security and safety alerts always sound", "status": "built", "build_section": "2"},
+  {"id": "queue_calling", "what": "The chime and spoken call on the LynkQueue calling screen", "emulators": ["lynk-dscreen"],
+   "switch": "The screen's sound switch (off until switched on) and Device settings", "controls": "manager", "can_turn_off": true, "status": "built", "build_section": "3B"},
+  {"id": "chat_sounds", "what": "LynkChat sounds and vibration for new messages, typing and sent", "emulators": [],
+   "switch": "Chat settings and the account's notification sounds", "controls": "the person", "can_turn_off": true, "status": "planned", "build_section": "4"},
+  {"id": "counter_mode_sounds", "what": "Counter mode sounds on LynkKiosk and counter screens", "emulators": [],
+   "switch": "Device settings", "controls": "manager", "can_turn_off": true, "status": "planned", "build_section": "13"},
+  {"id": "spoken_and_watch", "what": "Spoken announcements, sound themes, vibration patterns and watch taps in the phone apps", "emulators": [],
+   "switch": "The app's Sounds and vibration, the same as the account's", "controls": "the person", "can_turn_off": true, "status": "planned", "build_section": "14"},
+  {"id": "safety_alarms", "what": "LynkSentry and Arrive Safe safety alarms", "emulators": [],
+   "switch": "Volume only; a safety alarm always sounds", "controls": "the person", "can_turn_off": false, "area": "safety", "status": "planned", "build_section": "7B"}
+ ]
+}

@@ -386,5 +386,14 @@
  "panel_never_seen": "LynkOmni sends the surveys. Researchers never see who you are.",
  "panel_leave": "Leave the Panel and delete my panel details",
  "panel_rewards": "Rewards and payments",
- "panel_rewards_sample": "Sample: rewards are paid by the organisation through a licensed payment partner in your country."
+ "panel_rewards_sample": "Sample: rewards are paid by the organisation through a licensed payment partner in your country.",
+ "snd_title": "Sounds and vibration",
+ "snd_tones": "Tap and key sounds",
+ "snd_vibration": "Vibration",
+ "snd_notifications": "Notification sounds",
+ "snd_volume": "Volume",
+ "snd_vol_low": "Low",
+ "snd_vol_medium": "Medium",
+ "snd_vol_high": "High",
+ "snd_note": "Your choice is remembered and followed on every device you sign in on. Security and safety alerts always make a sound."
 }

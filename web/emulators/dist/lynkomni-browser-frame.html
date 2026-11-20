@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-xdT9n5KzxCvfj6ihJ1qZ+B4/fspTXRgxnsVtl7TlNbM='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-w8KPjhFqgwBp4VBFkUYHFMA91qmLypkxPb24rk/g2OA='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni shell on LynkPC</title>
 <meta name="description" content="Interactive emulator of the shared LynkOmni shell in a browser window at computer, tablet and phone size: header, navigation, launcher, account menu, every screen state, chat translation, username field and charts.">
@@ -902,6 +902,36 @@ try { const s = atob(DATA.Z), z = new Uint8Array(s.length); for (let i = 0; i < 
 for (const p of Object.values(DATA.packs)) { p.services = DATA.serviceCatalog.map((s, i) => ({ ...s, state: p.st[i] === "a" ? "available" : "coming_soon" })); p.ready = Object.fromEntries(DATA.methods.map((m, i) => [m, { ok: p.ok[i] === "1", message: DATA.offMessage }])); }
 "use strict";
 (() => {
+// ---- ts/src/soundprefs.js
+const DEFAULT_PREFS = Object.freeze({ tones: true, vibration: true, volume: "medium", notification_sounds: true });
+const NEVER_SILENCED = ["security", "safety"];
+const KEY = "lynkomni.sounds.v1";
+let memory = null; // where the browser keeps nothing, the choice still holds for this visit
+function cleanPrefs(p) {
+    const v = p?.volume;
+    return { tones: p?.tones !== false, vibration: p?.vibration !== false, volume: v === "low" || v === "high" ? v : "medium", notification_sounds: p?.notification_sounds !== false };
+}
+function loadPrefs() {
+    try {
+        const raw = typeof localStorage !== "undefined" ? localStorage.getItem(KEY) : null;
+        if (raw)
+            return cleanPrefs(JSON.parse(raw));
+    }
+    catch { /* storage blocked: fall back to this visit's choice */ }
+    return memory ? { ...memory } : { ...DEFAULT_PREFS };
+}
+function savePrefs(change) {
+    const next = cleanPrefs({ ...loadPrefs(), ...change });
+    memory = next;
+    try {
+        if (typeof localStorage !== "undefined")
+            localStorage.setItem(KEY, JSON.stringify(next));
+    }
+    catch { /* kept for this visit */ }
+    return next;
+}
+function alertSounds(p, area) { return p.notification_sounds || NEVER_SILENCED.includes(area); }
+
 // ---- ts/src/brand.js
 const BRAND_THEMES = ["light", "dark", "contrast-light", "contrast-dark"];
 const STATUS_STATES = ["queued", "sent", "accepted", "confirmed", "failed"];
@@ -2214,6 +2244,7 @@ function rateUs(icon, t) {
 
 
 
+
 const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 }; // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
 const PACKS = DATA.i18n;
 const EN = PACKS.en?.texts ?? {};
@@ -2225,7 +2256,7 @@ const S = {
     side: "internal", override: null, pendingView: undefined,
     testView: "auto", testWidth: "auto", choice: null,
     lines: [], bellFilter: "all", lastOpened: 0, whyNid: "", banners: [],
-    pin: "", wrong: 0, waitUntil: 0, pictures: true, keySound: true, matchShown: "47", matchChoices: [], matchResult: "",
+    pin: "", wrong: 0, waitUntil: 0, pictures: true, keySound: loadPrefs().tones, matchShown: "47", matchChoices: [], matchResult: "",
     ask: "", assistStep: "idle", assistDoneAt: 0, resends: 0, lastDone: null,
     rate: null, score: null, checker: null, called: false,
 };
@@ -2286,13 +2317,15 @@ const KIND_ACTIONS = { new_sign_in: ["this_was_not_me"], staff_request: ["approv
 const when = (ms) => clock(ms);
 const lineOf = (nid) => S.lines.find((l) => l.nid === nid);
 let audio = null;
-function feel(p) {
+function feel(p, area = "security") {
     const f = feelFor(p, { quiet: false, silent: false, lowData: S.dataSaver });
+    const me = loadPrefs(); // the person's Sounds and vibration (catalog/sounds.v1.json); security and safety always sound
     try {
-        navigator.vibrate?.(f.vibrate);
+        if (me.vibration)
+            navigator.vibrate?.(f.vibrate);
     }
     catch { /* not every device vibrates */ }
-    if (!f.tones.length)
+    if (!f.tones.length || !alertSounds(me, area))
         return;
     try {
         audio ??= new AudioContext();
@@ -2603,7 +2636,7 @@ function act(a) {
                 return;
             }
             if (v === "sound") {
-                S.keySound = !S.keySound;
+                S.keySound = savePrefs({ tones: !S.keySound }).tones;
                 draw();
                 return;
             }
