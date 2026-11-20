@@ -2,6 +2,19 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.59.1 (2026-11-20)
+The LynkOmni emblem takes its final shape (owner decision, brand release @lynkomni/icons 1.9.0):
+- The black bottom bar is thicker, now 186, the same as the violet arc. The arc is an even 186 all the way round.
+- Around the lower dot, the arc and the bottom bar are mirror images of each other across the bar. The lower dot sits level with the bottom of the bar and the right side of the arc.
+- The top is flat and level: the black frame and the violet arc meet the top gap at exactly the same height, and the line runs straight into the arc's curve.
+- Unchanged: every gap (72), every gap around the centre dot (180), the bar at 45°, the colours and the LynkOmni name.
+- Updated everywhere through the brand release:
+  - the emblem and full logo in every colour version;
+  - the small-size browser tab icon, the email images, and the app and install icons;
+  - every emulator page;
+  - the LynkVCard faces, and the share and store images.
+- The geometry check now also locks the stroke thickness, the level edges and the flat top.
+
 ## v0.59.0 (2026-11-20)
 The final LynkOmni emblem is in place everywhere (owner decision, brand release @lynkomni/icons 1.8.1):
 - The three gaps in the emblem are all the same width (72), and every gap around the centre dot is the same (180), including the corner between top and right.

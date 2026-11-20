@@ -844,24 +844,24 @@
   },
   "files": {
     "android/res/drawable/lynkomni_emblem_contrast_dark.xml": {
-      "sha256": "16f69a5fdf244a1e781555e3859fd0cdd473832e9432c69ab7daad60d7af8178",
-      "bytes": 5313
+      "sha256": "770e4c47dde690e0a0ba7d41490284f649cc7d0a87630f4bae56c63325ef6468",
+      "bytes": 4847
     },
     "android/res/drawable/lynkomni_emblem_contrast_light.xml": {
-      "sha256": "bdcaa2da88be55cd8748372de60c0795aae484543803afca9ee603bcc1d2f83e",
-      "bytes": 5313
+      "sha256": "f33a5de3731dccf33cc9968413d9be60b32d831b41af818c141e9d2618259c8e",
+      "bytes": 4847
     },
     "android/res/drawable/lynkomni_emblem_dark.xml": {
-      "sha256": "d939def9d6267b449d001267492d536f9c631207472594e8c9fca2de1c20efc6",
-      "bytes": 5313
+      "sha256": "db219c7216a6f691f099ff2c61cfb1c082e28c18fee64bcc4ae3970d00124d2e",
+      "bytes": 4847
     },
     "android/res/drawable/lynkomni_emblem_light.xml": {
-      "sha256": "d6b94ee04c55d4f64d4e3b41d30371314d8b94cb665748e1297c96a3e95d1dbf",
-      "bytes": 5313
+      "sha256": "5f8422b4d1f9389b71d11090bbcb050c6b895b704ded5c16094569b992c1cde6",
+      "bytes": 4847
     },
     "android/res/drawable/lynkomni_emblem_mono.xml": {
-      "sha256": "1eb4d95b36b9bc582d74dae054c708e2eb33d44bc8e6a142deac59a67e3a8bd1",
-      "bytes": 5313
+      "sha256": "52fd974ffa926f5fc206d397bade1de35ebee953c687f5879ba052f310a38fe7",
+      "bytes": 4847
     },
     "android/res/drawable/lynkomni_icon_lit_agent.xml": {
       "sha256": "0ff8cfd84b90ae4ed49ce26287c70231def29df73b78a9815f8f035692747504",
@@ -1180,24 +1180,24 @@
       "bytes": 538
     },
     "android/res/drawable/lynkomni_logo_contrast_dark.xml": {
-      "sha256": "4970ecde6c475b82baa4ff6265cd45d1d0ba9fb78935b353d6db8b582c1d969f",
-      "bytes": 6614
+      "sha256": "cc34f56676c8a279f7fc0148c6fd97ea12c9ee470d3d09a0512151ba6e94351f",
+      "bytes": 6536
     },
     "android/res/drawable/lynkomni_logo_contrast_light.xml": {
-      "sha256": "48096b05b65fa26c901ddd44fec7bebc8d906ce1453194a9a4860f7a22fb282b",
-      "bytes": 6614
+      "sha256": "e3c98f7f641cbebee3472f8e4f54a4adbdb02fa1a976cf7904c72ef4ebaca7ad",
+      "bytes": 6536
     },
     "android/res/drawable/lynkomni_logo_dark.xml": {
-      "sha256": "12a216522a85cdb607b9f2dc87bb65e2867c9db8005a9554c1e54fc13d002993",
-      "bytes": 6614
+      "sha256": "324d08a42da5de12e6044f3dba06c16b865f2655ebd39fc64d22e550318885e0",
+      "bytes": 6536
     },
     "android/res/drawable/lynkomni_logo_light.xml": {
-      "sha256": "b8c2b680963ba003429514c51eb5c430e04017688f07eedbbd10839bc387cee7",
-      "bytes": 6614
+      "sha256": "7bf4645f05037f27c92957b9a76fb912e292625b7d70c4f82db2ae920b7c1401",
+      "bytes": 6536
     },
     "android/res/drawable/lynkomni_logo_mono.xml": {
-      "sha256": "6d4250ccb1ea26170a2852e8587d3ae4dbb26ea4a2222fd8b19839279bcf7a69",
-      "bytes": 6614
+      "sha256": "2da487b6f2bcc20addc556451cc6372aaef514e533d70dcd94a0c07819ac2287",
+      "bytes": 6536
     },
     "android/res/drawable/lynkomni_wordmark_contrast_dark.xml": {
       "sha256": "ebff942833a0d64129913031a6b1e440ce303c72f6de91f28f468cef664e4c1c",
@@ -2192,80 +2192,80 @@
       "bytes": 240
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-emblem-contrast-dark.imageset/lynkomni-emblem-contrast-dark.svg": {
-      "sha256": "6e71cc182b7fc539ff31ab1790c59aecc3f3771e26fb33858dbb10247d628dbc",
-      "bytes": 4882
+      "sha256": "190520bab722a144b27a1e99aaea65919d2c76202de67819ec768597f265e080",
+      "bytes": 4416
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-emblem-contrast-light.imageset/Contents.json": {
       "sha256": "5a42f377ca96569059ca85102d50e7e948190fe7ddba0cb3b416e05fdb4e91e9",
       "bytes": 241
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-emblem-contrast-light.imageset/lynkomni-emblem-contrast-light.svg": {
-      "sha256": "b13625594cd39881d42405f53bec17cee14a844c99702bed90d8bd85351b0e54",
-      "bytes": 4882
+      "sha256": "1c2c266f769d060948bdc97c3a2be04b0f9de79b1fb0b34a5dbec2710e7fbe57",
+      "bytes": 4416
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-emblem-dark.imageset/Contents.json": {
       "sha256": "a942b8c7b17ce2c6876662d897db36583935d4f0f05f7a67bd126e148bb1cbfe",
       "bytes": 231
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-emblem-dark.imageset/lynkomni-emblem-dark.svg": {
-      "sha256": "27aebf02b59508b5971eb1902ff14f6ad252f91bdd4c894218392dc06c3873ca",
-      "bytes": 4882
+      "sha256": "c907dbed6aac0c976a70c0110a63e016689ec5fe038c37718f88273accc44665",
+      "bytes": 4416
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-emblem-light.imageset/Contents.json": {
       "sha256": "e0b3db9377248a95b031b207b2f91012f65f29811b913d19218f9b536a583f0b",
       "bytes": 232
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-emblem-light.imageset/lynkomni-emblem-light.svg": {
-      "sha256": "6b34d6e17a81acd4bedd79369643dceccd2c186a87a5f00e6c865f82dcb7013c",
-      "bytes": 4882
+      "sha256": "534509c20203551be800587794afdf0ed313001f021c4a3449dedb56c0b703c6",
+      "bytes": 4416
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-emblem-mono.imageset/Contents.json": {
       "sha256": "017a4238d2b8b4eaac5150b60fc457a89e7f984c9b31e91dd8729bd739d63cb5",
       "bytes": 276
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-emblem-mono.imageset/lynkomni-emblem-mono.svg": {
-      "sha256": "dbbfc96c78a577de0262c2f46b263e0a1650138ee13e44cb7635c881131b1650",
-      "bytes": 4892
+      "sha256": "e9e7c53428df64bc9ba4fc4f21a954425f79d30851bfeee0a7732bca12e789b3",
+      "bytes": 4426
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-logo-contrast-dark.imageset/Contents.json": {
       "sha256": "c61f7f2aa33ebeb4621ebdf7b8d7e3a6a8f23346d3cc4e8bbdcf17403e534344",
       "bytes": 238
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-logo-contrast-dark.imageset/lynkomni-logo-contrast-dark.svg": {
-      "sha256": "af493cc2f80b82f651cd2803716ba946e6e9141146538a80f5fd52da441696d8",
-      "bytes": 5835
+      "sha256": "abe5f4a5bd99cc66d76e8bc1d5d2b86021937017dad4ab58dd642837d66ad2aa",
+      "bytes": 5757
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-logo-contrast-light.imageset/Contents.json": {
       "sha256": "68fc0ef7f6ab03312587a5eb42fa258daaae9446c5d11f3aa5e2ee35e37e7d83",
       "bytes": 239
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-logo-contrast-light.imageset/lynkomni-logo-contrast-light.svg": {
-      "sha256": "5a426a0ef8ca16ace91ed19be224f205f38bf084a007292aee86fe0b8a78e687",
-      "bytes": 5835
+      "sha256": "be8d83fbf13151099954cbe13b62d6a81ed6fdbf30fc35a6df38f0db2068d494",
+      "bytes": 5757
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-logo-dark.imageset/Contents.json": {
       "sha256": "58a2d036239b6824f856a6305dc25691731e9989b146a66a690b8aab0c422869",
       "bytes": 229
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-logo-dark.imageset/lynkomni-logo-dark.svg": {
-      "sha256": "4f8c86dc043329d439f13fd089b6b5c6a0474d0a2498897f358cfcc582c5ccb2",
-      "bytes": 5835
+      "sha256": "39d7218fdfc69bb42efa861ae4f574e4d54b5f3173d2dbe5cfb86b7da33f529d",
+      "bytes": 5757
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-logo-light.imageset/Contents.json": {
       "sha256": "9cce3623ce8b75c971a4f0f4557d46784e777fcc71676eea817910d3149fcab1",
       "bytes": 230
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-logo-light.imageset/lynkomni-logo-light.svg": {
-      "sha256": "a88571907b76496bb17f0b6d846fb7ead42928ecf3bb9aa916f85db35dd8b153",
-      "bytes": 5835
+      "sha256": "5dcb5cfdbc007e0709ad844741e1d508dee8a8ccd8ae9613704ba6b90dd3e377",
+      "bytes": 5757
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-logo-mono.imageset/Contents.json": {
       "sha256": "4fe24c2f5b37f04d0077db22bef74cfc2d4e53fb3eb21c51061f589d5d5b4953",
       "bytes": 274
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-logo-mono.imageset/lynkomni-logo-mono.svg": {
-      "sha256": "2f3cd6197d7f33b5fd1751e0a6e7fd88d70e567b5ce21b35e7be78f85dd28253",
-      "bytes": 5855
+      "sha256": "744f325827dc66e0d8c9cd6e1d893e5f38f4c10ac77207591bcaa9abcc2954b8",
+      "bytes": 5777
     },
     "ios/LynkOmniBrand.xcassets/lynkomni-wordmark-contrast-dark.imageset/Contents.json": {
       "sha256": "43135aea20ff73185328fe8153dc13efdf0b3fe86f783ada8800531d9346c634",
@@ -2948,96 +2948,96 @@
       "bytes": 80
     },
     "react/LynkOmniEmblemAuto.js": {
-      "sha256": "d905d38535f80793a10d10fdd97ea5b20d174adfbef6ccbc51365815acfeafea",
-      "bytes": 5289
+      "sha256": "87a6302967634bc49d00221d04066a1d57b3d95a232a541f1ef3c5d0ad82057c",
+      "bytes": 4823
     },
     "react/LynkOmniEmblemContrastDark.d.ts": {
       "sha256": "98089245651d87a65a607514905ecc6cf0093234496e0791ce11073d85be0903",
       "bytes": 96
     },
     "react/LynkOmniEmblemContrastDark.js": {
-      "sha256": "163579c3b31a0a0945b7ea1fd801331c7e94cf9072a1932d6e205f553c3e2acc",
-      "bytes": 5223
+      "sha256": "df6d4d61801f234dfdbcdc289ac4d151afe841fc40cb5d131c4aae993f041ca1",
+      "bytes": 4757
     },
     "react/LynkOmniEmblemContrastLight.d.ts": {
       "sha256": "4b2fb5fb37a89a900bcd30747d7e3aa2113cf31dbf205c32b7f498ad8d46aa20",
       "bytes": 98
     },
     "react/LynkOmniEmblemContrastLight.js": {
-      "sha256": "4649ccde5e79f8abeb2c058f083e282a894eaf07c468a83e0814b5f0fe221e99",
-      "bytes": 5225
+      "sha256": "b5c468123b87fdd3425b0b4765e11b16f09b13b8c6f63c405889691303560a7e",
+      "bytes": 4759
     },
     "react/LynkOmniEmblemDark.d.ts": {
       "sha256": "98ac9becf583a6dbfb3b564ce0e294a1f83b4087a82d83a33b015f2179d169a7",
       "bytes": 80
     },
     "react/LynkOmniEmblemDark.js": {
-      "sha256": "c89e54d95c004d50aceb533fb8cde10c8721f19a7b963a318711055da9ca190d",
-      "bytes": 5207
+      "sha256": "00bb61be8245ff9e4ce77d890e1f2c90e73213a9591e2e9a6531d097960d01a0",
+      "bytes": 4741
     },
     "react/LynkOmniEmblemLight.d.ts": {
       "sha256": "299147ef23ba529027757a6d7a454b258fcffd4917c33b6c821a9aa03d34a8e0",
       "bytes": 82
     },
     "react/LynkOmniEmblemLight.js": {
-      "sha256": "a910225acd0778b47cdf4aa5b13746c5a167f3849adf97fd83caff59d81eafca",
-      "bytes": 5209
+      "sha256": "7617c22a8d68331b8ce2678106ae500a5cb0108199aaf2b494a75072153fe678",
+      "bytes": 4743
     },
     "react/LynkOmniEmblemMono.d.ts": {
       "sha256": "fc0b0468b4a27d01094566a2d3be8ab077a65bd09c2a61c16885d0087a750300",
       "bytes": 80
     },
     "react/LynkOmniEmblemMono.js": {
-      "sha256": "0fed5a4ed6565cf68f91dc80c319bca3cc40ecac994bd84245c5ea241b2d0d76",
-      "bytes": 5217
+      "sha256": "080fc11c35470c16f6168b7750376d090fa527822e28c909fcd00d290a7c0e24",
+      "bytes": 4751
     },
     "react/LynkOmniLogoAuto.d.ts": {
       "sha256": "16cffa47a451c7998f9c2000979603f821783a24c1019bb940abe42404d8b693",
       "bytes": 76
     },
     "react/LynkOmniLogoAuto.js": {
-      "sha256": "ddbe58db3edfc0663fd07f280acbb2856a6387e4153605eed9947ca96dcb8363",
-      "bytes": 6406
+      "sha256": "654ec13857de729032be6ca8c1fd2c0a9f4e5104a2933161fe170ecaa645ec97",
+      "bytes": 6328
     },
     "react/LynkOmniLogoContrastDark.d.ts": {
       "sha256": "7e3f116a0eaeb56cb1c3fb98e4d5334520be23e9a86b399d34c47a4b02dcf28e",
       "bytes": 92
     },
     "react/LynkOmniLogoContrastDark.js": {
-      "sha256": "0fb667d8275954202c0e429083a6480141e981c3b92f287e39a22c0c6661aefa",
-      "bytes": 6258
+      "sha256": "52f4a1988d30b7e8819c816d01bea60555e88a63bcb4505bf5b0f9d807109116",
+      "bytes": 6180
     },
     "react/LynkOmniLogoContrastLight.d.ts": {
       "sha256": "005d10c01e3a82d1101ce2d317fff45ed9ecb2d38e4d8b6b77671c82db82546b",
       "bytes": 94
     },
     "react/LynkOmniLogoContrastLight.js": {
-      "sha256": "9656ca12c0776c071dc2bd239bd98b5b2efe006cb25d92abedc465f4e828ad0c",
-      "bytes": 6260
+      "sha256": "459ff90239ea832a7379ae3eafed3d1b6c4f32494ffd7a663d4875943d48bd1c",
+      "bytes": 6182
     },
     "react/LynkOmniLogoDark.d.ts": {
       "sha256": "8f8e11429bae72d6ca183b9a923ca1d12e9159c1492873ae2070bda19418253c",
       "bytes": 76
     },
     "react/LynkOmniLogoDark.js": {
-      "sha256": "f5d80ee091be38e80cfa75fdd388d9b42bfe203114a6e532f03d4ba23e4affe7",
-      "bytes": 6242
+      "sha256": "614c1fa0c7913cf9d0b76db125b4e3fa8fd7d06ad14ec1bf7ee836fae74da5c0",
+      "bytes": 6164
     },
     "react/LynkOmniLogoLight.d.ts": {
       "sha256": "d600a578141c5b339ea01bfb60debdcfa870164cbe57df95e54715366e9a2281",
       "bytes": 78
     },
     "react/LynkOmniLogoLight.js": {
-      "sha256": "fe68751ef06caecd7c7bc5a85c50b7ae838bbbf90909f95b146213d573a5b46a",
-      "bytes": 6244
+      "sha256": "f5d765d54fa438a2a1d28c9d224f5163302b4ac423ede473e6427b52ab02f91b",
+      "bytes": 6166
     },
     "react/LynkOmniLogoMono.d.ts": {
       "sha256": "e5fbeabc78f4b9baba31978ed325845c6c644b7432a3b16478d5d65c0dbdc6ec",
       "bytes": 76
     },
     "react/LynkOmniLogoMono.js": {
-      "sha256": "1a4190454cf3bc28fe3fc94422091f252449e32cce49f9fbdfbf30b6b46dedf4",
-      "bytes": 6262
+      "sha256": "12b6e00b7961e13a10cc3bf108d8df582565a70cffd1afba538a684c583f89bf",
+      "bytes": 6184
     },
     "react/LynkOmniWordmarkAuto.d.ts": {
       "sha256": "781ab0fdfabdf07181eca758ef8578703646ddb05ddf4bf4da13b27ab07d1be6",
@@ -3096,64 +3096,64 @@
       "bytes": 1298
     },
     "svg/lynkomni-emblem-contrast-dark.svg": {
-      "sha256": "6e71cc182b7fc539ff31ab1790c59aecc3f3771e26fb33858dbb10247d628dbc",
-      "bytes": 4882
+      "sha256": "190520bab722a144b27a1e99aaea65919d2c76202de67819ec768597f265e080",
+      "bytes": 4416
     },
     "svg/lynkomni-emblem-contrast-light.svg": {
-      "sha256": "b13625594cd39881d42405f53bec17cee14a844c99702bed90d8bd85351b0e54",
-      "bytes": 4882
+      "sha256": "1c2c266f769d060948bdc97c3a2be04b0f9de79b1fb0b34a5dbec2710e7fbe57",
+      "bytes": 4416
     },
     "svg/lynkomni-emblem-dark.svg": {
-      "sha256": "27aebf02b59508b5971eb1902ff14f6ad252f91bdd4c894218392dc06c3873ca",
-      "bytes": 4882
+      "sha256": "c907dbed6aac0c976a70c0110a63e016689ec5fe038c37718f88273accc44665",
+      "bytes": 4416
     },
     "svg/lynkomni-emblem-light.svg": {
-      "sha256": "6b34d6e17a81acd4bedd79369643dceccd2c186a87a5f00e6c865f82dcb7013c",
-      "bytes": 4882
+      "sha256": "534509c20203551be800587794afdf0ed313001f021c4a3449dedb56c0b703c6",
+      "bytes": 4416
     },
     "svg/lynkomni-emblem-mono.svg": {
-      "sha256": "dbbfc96c78a577de0262c2f46b263e0a1650138ee13e44cb7635c881131b1650",
-      "bytes": 4892
+      "sha256": "e9e7c53428df64bc9ba4fc4f21a954425f79d30851bfeee0a7732bca12e789b3",
+      "bytes": 4426
     },
     "svg/lynkomni-emblem-small-contrast-dark.svg": {
-      "sha256": "9230e356ca7215fd7cec7a3abcd171f6168120a5cc683e3c65f4e6389255ef94",
-      "bytes": 4415
+      "sha256": "bc49d38f0718a25dc3b43e1ad770f5729fb6fbfe8095d4a4da0eae71f5b673e4",
+      "bytes": 4271
     },
     "svg/lynkomni-emblem-small-contrast-light.svg": {
-      "sha256": "9fcaf72e9bf96bd352cfad75c1b0bc20fd313cda7c2609dba812cb165c32c5d4",
-      "bytes": 4415
+      "sha256": "050e631ce1d9174e22559478749906d3facede7b6e438c785d75427a335e157e",
+      "bytes": 4271
     },
     "svg/lynkomni-emblem-small-dark.svg": {
-      "sha256": "cd0a9bf8e7cd7d723bfc4bfa92846a2c82f612f42df9674b76049c8f7214864b",
-      "bytes": 4415
+      "sha256": "cad15615e4f604879e955b5734c036f3ff187005e7779b40db6917a0bf2f994a",
+      "bytes": 4271
     },
     "svg/lynkomni-emblem-small-light.svg": {
-      "sha256": "130fd112d3446b377834edcf87f9a7083821f51ab9023774e5a6147b529b7c30",
-      "bytes": 4415
+      "sha256": "9441ea3aa07c3ba367fe85c1ba25c3807172671cf7fa7872974152e7a68d6086",
+      "bytes": 4271
     },
     "svg/lynkomni-emblem-small-mono.svg": {
-      "sha256": "24eca183d2da98255473da6b576d640c9103677cbe8cfee3249c307073e3e31d",
-      "bytes": 4425
+      "sha256": "8fad3567e895087a2aa6dd026d46c81845e07b18225b8377ebcaad51024639da",
+      "bytes": 4281
     },
     "svg/lynkomni-logo-contrast-dark.svg": {
-      "sha256": "af493cc2f80b82f651cd2803716ba946e6e9141146538a80f5fd52da441696d8",
-      "bytes": 5835
+      "sha256": "abe5f4a5bd99cc66d76e8bc1d5d2b86021937017dad4ab58dd642837d66ad2aa",
+      "bytes": 5757
     },
     "svg/lynkomni-logo-contrast-light.svg": {
-      "sha256": "5a426a0ef8ca16ace91ed19be224f205f38bf084a007292aee86fe0b8a78e687",
-      "bytes": 5835
+      "sha256": "be8d83fbf13151099954cbe13b62d6a81ed6fdbf30fc35a6df38f0db2068d494",
+      "bytes": 5757
     },
     "svg/lynkomni-logo-dark.svg": {
-      "sha256": "4f8c86dc043329d439f13fd089b6b5c6a0474d0a2498897f358cfcc582c5ccb2",
-      "bytes": 5835
+      "sha256": "39d7218fdfc69bb42efa861ae4f574e4d54b5f3173d2dbe5cfb86b7da33f529d",
+      "bytes": 5757
     },
     "svg/lynkomni-logo-light.svg": {
-      "sha256": "a88571907b76496bb17f0b6d846fb7ead42928ecf3bb9aa916f85db35dd8b153",
-      "bytes": 5835
+      "sha256": "5dcb5cfdbc007e0709ad844741e1d508dee8a8ccd8ae9613704ba6b90dd3e377",
+      "bytes": 5757
     },
     "svg/lynkomni-logo-mono.svg": {
-      "sha256": "2f3cd6197d7f33b5fd1751e0a6e7fd88d70e567b5ce21b35e7be78f85dd28253",
-      "bytes": 5855
+      "sha256": "744f325827dc66e0d8c9cd6e1d893e5f38f4c10ac77207591bcaa9abcc2954b8",
+      "bytes": 5777
     },
     "svg/lynkomni-wordmark-contrast-dark.svg": {
       "sha256": "aeb2fbf257486827919a50a50730d630c16be471011dfbbe1dc669f13d5d32ef",
@@ -3176,54 +3176,54 @@
       "bytes": 4861
     },
     "web/favicon.svg": {
-      "sha256": "2f51808ae2c8fbb2eab7201264cf41ecd92d8875bad05363d04bb25690f6bfb5",
-      "bytes": 4453
+      "sha256": "afda64bed8bca686d2bbb85dee777a080ffc437261c4e8e53b2007a1946ee6c8",
+      "bytes": 4309
     }
   },
   "rasters": {
     "web/favicon-32.png": {
-      "sha256": "40441959fab11d47299a13f04a02d77c1ad639574ecccfd36f89ef31fdf05ca6",
-      "bytes": 718
+      "sha256": "bb3136e865556aa2a6764401cc8e74b27db9f64353e2da5c7b73a6b78e630a84",
+      "bytes": 707
     },
     "web/favicon.ico": {
-      "sha256": "3f24f70535e166fa98a7c3fa5b024c195369d1f55f10577225deb203e81e3a1d",
-      "bytes": 2200
+      "sha256": "ed41a140f7d126f97c964c8e025f08e54293ce0a99ee1328851aebcff3a71e93",
+      "bytes": 2197
     },
     "web/apple-touch-icon-180.png": {
-      "sha256": "817b5afa101505ac954c83ad9faf1992360c101758df254b954dca06e7a20258",
-      "bytes": 2596
+      "sha256": "035580a63fb6e9c4dc4f202625b54db911c51a54b49f6f8ed76288b11c9f0f8a",
+      "bytes": 2491
     },
     "web/pwa-192.png": {
-      "sha256": "1feef97f50b3fbd710eab96472eabd4740aaf6563ab119a81a75207ed5057f55",
-      "bytes": 3388
+      "sha256": "a17efea70b99d16820220bcb55d9f86f9361f3532978690b28da0c31674b68fd",
+      "bytes": 3226
     },
     "web/pwa-512.png": {
-      "sha256": "70e604486e3b7d44bdb2a1d45bfacec79440c8f91cb0515f888e15f35dd67113",
-      "bytes": 10279
+      "sha256": "089f44f5fc91f4ad501a76836dadf27c548b2e0c80597f892e53e15b9f04543c",
+      "bytes": 9963
     },
     "web/pwa-maskable-512.png": {
-      "sha256": "11f21b1fd91991d5b8aa9123eda3b03951e7c18236feb3c4f4afda835c5fa36e",
-      "bytes": 6487
+      "sha256": "4e771ffca98ee98b78e09ae0ac832c0212e2506236ee72d3f13ff30dc9c0448f",
+      "bytes": 6338
     },
     "web/og-1200x630.png": {
-      "sha256": "3a0176a8e40ae9fefc6064e51135fd0f9328745f9009e87328436ce015620d6f",
-      "bytes": 15147
+      "sha256": "9986a488c9b6a066bbe24c16302530acd2f10f3d60997f2b79185e6a52e4401c",
+      "bytes": 14879
     },
     "email/logo-light.png": {
-      "sha256": "f0d0f109715e8dc43a8a1fdcbfed5041fec03dd3d100513c8874c2db23258841",
-      "bytes": 2991
+      "sha256": "c9b59c6c0b91f3d719ee060fe818981e1914d0394cb25358ccdbaaf38f8f8a02",
+      "bytes": 2971
     },
     "email/logo-light@2x.png": {
-      "sha256": "6a9c5a81204a75fda1e54b5608ad659ba9ff689e720cc1c7c25801d0ab3a4ff8",
-      "bytes": 5882
+      "sha256": "4934eca6bcfa2f623745a254a77b3832cbbfa7a013745da347cf8d1691fb21aa",
+      "bytes": 5749
     },
     "email/logo-dark.png": {
-      "sha256": "f023ca0672100bc1fee7798c9457fddcd11657aa63706e8ecc2727291e7f8f33",
-      "bytes": 2758
+      "sha256": "8af413240b54203239cdc64a5b1beb0e1fdaad1aba22c5b592c36a11ae5bdf19",
+      "bytes": 2745
     },
     "email/logo-dark@2x.png": {
-      "sha256": "75c2e2387cc6af559bf6e49860b10e84d768fded8dd925d23f6fd46757b77b63",
-      "bytes": 5469
+      "sha256": "2dc2f31972ae940e84368c5f7ea2692b9a80706e52d2729f390f35ac0a469f8a",
+      "bytes": 5344
     },
     "email/wordmark-light.png": {
       "sha256": "ab4c33cec26b06ef7435a68609d9f1790d3c1db8ac289952c3904433805f83d5",
