@@ -14,8 +14,14 @@ A person's choices, turned into the rules services/messages.py applies. The page
 - personal reminders on any record ("remind me to chase this invoice on Friday"), which arrive as a normal notification and can
   be snoozed or cleared.
 Nothing here can switch off a kind the register says cannot be turned off."""
-import time, uuid
+import json, os, time, uuid
 from services.messages import KINDS, PERSONAL_AREAS, REG
+
+with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "catalog", "sounds.v1.json"), encoding="utf-8") as _f:
+    SOUNDS = json.load(_f)
+DEFAULT_SOUNDS = dict(SOUNDS["person"]["settings"])
+VOLUMES = tuple(SOUNDS["person"]["volumes"])
+NEVER_SILENCED = tuple(SOUNDS["person"]["never_silenced"])
 
 CHANNELS = ("bell", "push", "email", "text")
 LOCKED_AREAS = ("security", "safety")
@@ -36,6 +42,35 @@ class Settings:
     def of(self, person):
         return self.s.setdefault(person, {"grid": {}, "businesses_off": set(), "muted": set(), "snoozed": {}, "dnd_until": 0, "pause_optional": False,
                                           "summary": {"time": "18:00", "channel": "bell"}, "lock_screen": {}, "deputy": None})
+
+    # ---- sounds and vibration (owner rule 2026-11-20, catalog/sounds.v1.json): one choice, followed everywhere
+    def sounds(self, person):
+        """The person's Sounds and vibration: tap and key sounds, vibration, volume and notification sounds."""
+        return dict(self.of(person).setdefault("sounds", dict(DEFAULT_SOUNDS)))
+
+    def set_sounds(self, person, **changes):
+        cur = self.of(person).setdefault("sounds", dict(DEFAULT_SOUNDS))
+        for k, v in changes.items():
+            if k not in DEFAULT_SOUNDS:
+                raise ValueError(f"{k} is not a sound setting")
+            if k == "volume":
+                if v not in VOLUMES:
+                    raise ValueError("volume is low, medium or high")
+                cur[k] = v
+            else:
+                cur[k] = bool(v)
+        return dict(cur)
+
+    def alert_sounds(self, person, kind):
+        """Whether this notification may make a sound for the person: security and safety always do."""
+        return KINDS[kind]["area"] in NEVER_SILENCED or self.sounds(person)["notification_sounds"]
+
+    def device_tones(self, person, manager, customer_facing=False, silent=False, quiet_hours=False, vibrates=True):
+        """The tones on a shared device for the signed-in person: the manager's setting, with the person's own choice where
+        the manager allows it (core/emulators.tones)."""
+        from core.emulators import tones
+        s = self.sounds(person)
+        return tones(manager, {k: s[k] for k in ("tones", "vibration", "volume")}, customer_facing, silent, quiet_hours, vibrates)
 
     # ---- the grid, businesses, mute, snooze, do not disturb, pause all
     def set_channel(self, person, area, channel, on):

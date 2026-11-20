@@ -61,5 +61,9 @@
  "bp_low_rice": "Low stock: Rice 1 kg",
  "bp_day_closed": "Your day is closed",
  "bp_key_tones": "Key tones",
- "bp_vibration": "Vibration"
+ "bp_vibration": "Vibration",
+ "bp_volume": "Volume",
+ "bp_vol_low": "Low",
+ "bp_vol_medium": "Medium",
+ "bp_vol_high": "High"
 }

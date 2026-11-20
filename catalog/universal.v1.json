@@ -230,6 +230,11 @@
    "id": "empty_states",
    "what": "Every list and page has its designed empty state with a picture and a next step; no filler text such as Latin filler or TODO",
    "enforced_by": "tests/test_placeholders.py, ts/test/shell.test.ts"
+  },
+  {
+   "id": "sound_switches",
+   "what": "Every sound and vibration has an on/off switch; a person's choice lives once in their account, is remembered and followed on every device and page; a shared device follows its manager; only security and safety alerts always sound; a sound is never the only signal",
+   "enforced_by": "tests/test_sounds.py"
   }
  ],
  "not_applicable": {
