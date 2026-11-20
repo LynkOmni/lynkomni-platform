@@ -329,6 +329,27 @@ class FitGuard(unittest.TestCase):
             b.close()
         self.assertEqual(found, {}, "\n".join(f"{k}: {v}" for k, v in found.items()))
 
+    def test_links_handled_by_the_screen_never_leave_the_page(self):
+        """A link a screen handles itself (it carries data-act) never makes the browser leave the demo page; it keeps its real
+        address for hosted pages and screen readers (ts/src/inpage.ts, added to every page; found on CI in section 4 step D2b)."""
+        left = {}
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            for f in mine(glob.glob(os.path.join(DIST, "*.html"))):
+                pg = b.new_page(viewport={"width": 1500, "height": 1100})
+                url = "file://" + f
+                pg.goto(url); pg.wait_for_selector("html[data-ready]")
+                hrefs = pg.eval_on_selector_all("a[data-act][href]", "e => [...new Set(e.map(a => a.getAttribute('href')).filter(h => h && !h.startsWith('#')))]")
+                for h in hrefs:
+                    pg.evaluate("h => { const a = [...document.querySelectorAll('a[data-act][href]')].find(x => x.getAttribute('href') === h); if (a) a.click(); }", h)
+                    pg.wait_for_timeout(150)
+                    if pg.url != url:
+                        left.setdefault(os.path.basename(f), []).append(h)
+                        pg.goto(url); pg.wait_for_selector("html[data-ready]")
+                pg.close()
+            b.close()
+        self.assertEqual(left, {})
+
     def test_no_raw_word_names_on_any_screen(self):
         """Every screen of every emulator (each state button and each tab, view or choice it offers), in English: no raw word name
         such as "ppl_at_way_whatsapp" is ever shown, in text or in a label read aloud, and no button touches the text beside it

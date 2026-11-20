@@ -765,6 +765,41 @@
    "test": "tests/test_books.py::test_a_journal_from_a_payload_must_balance_and_name_real_accounts",
    "build_section": 4,
    "status": "built"
+  },
+  {
+   "id": "acc-paid-only-when-confirmed",
+   "asset": "money",
+   "threat": "A bill or expense repayment is shown as paid before the provider confirms it",
+   "enforced_in": [
+    "services/accounting.py"
+   ],
+   "test": "tests/test_office_services.py::test_bills_are_approved_by_others_and_paid_only_when_confirmed",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "inv-write-off-two-people",
+   "asset": "money",
+   "threat": "One person writes off what a customer owes, alone",
+   "enforced_in": [
+    "services/invoicing.py",
+    "core/books.py"
+   ],
+   "test": "tests/test_office_services.py::test_write_offs_need_two_people_and_post_to_bad_debts",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "inv-approval-before-sending",
+   "asset": "records",
+   "threat": "A large invoice is sent by the person who prepared it, unchecked",
+   "enforced_in": [
+    "services/invoicing.py",
+    "core/invoices.py"
+   ],
+   "test": "tests/test_office_services.py::test_approval_before_sending_holds_an_invoice_until_someone_else_approves",
+   "build_section": 4,
+   "status": "built"
   }
  ]
 }

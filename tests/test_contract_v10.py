@@ -20,7 +20,7 @@ class ContractV10(unittest.TestCase):
     def test_built_from_v9_and_current(self):
         r = subprocess.run([sys.executable, str(ROOT / "contract" / "tools" / "build_v10.py"), "--check"], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertEqual(CURRENT, 10)
+        self.assertGreaterEqual(CURRENT, 10)                                  # version 11 (section 4, step D2b) reads version 10 unchanged
 
     def test_only_the_new_events_are_added_and_the_card_list_only_grows(self):
         self.assertEqual(set(V10["events"]) - set(V9["events"]), NEW)
@@ -59,12 +59,12 @@ class ContractV10(unittest.TestCase):
     def test_a_version_9_event_reads_as_version_10_unchanged(self):
         old = {"type": "InvoiceIssued", "schema_version": 9, "payload": {"invoice_id": "i1", "total": 5, "currency": "USD", "issued_on": "2026-11-19"}}
         up = upcast(old)
-        self.assertEqual((up["schema_version"], up["payload"]), (10, old["payload"]))
+        self.assertEqual((up["schema_version"], up["payload"]), (CURRENT, old["payload"]))
         self.assertEqual(old["schema_version"], 9, "the stored event is never rewritten")
 
     def test_a_new_event_validates(self):
         from contract.tools.validate_contract import uuid7, ts, fake_sig, MERCHANT
-        ok = {"event_id": uuid7(), "origin": "server", "merchant_id": MERCHANT, "type": "MessageStateChanged", "schema_version": 10,
+        ok = {"event_id": uuid7(), "origin": "server", "merchant_id": MERCHANT, "type": "MessageStateChanged", "schema_version": CURRENT,
               "created_at_server": ts(), "server_cursor": 1, "server_signature": fake_sig(),
               "payload": {"message_id": uuid7(), "state": "confirmed"}}
         self.assertEqual(validate_event(ok), [])

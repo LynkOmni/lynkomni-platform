@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-9E4+jRr/w0KlKablmvO1j5j/rLKW3pRKcDnxa1W2lOU='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-pfndY9ycYQkkQiFpJQO32+yMf7hi+lJtqrwRPdw4VEY='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkVCard Card</title>
 <meta name="description" content="Interactive emulator of the LynkVCard: the four tier faces as a real card that flips to its back, freeze (shown as frozen only when the issuer confirms) and card details shown only after a fresh check inside the licensed issuer's secure display, hidden again after a short time and never offline. No card number ever reaches this screen.">
@@ -827,6 +827,18 @@ try { const s = atob(DATA.Z), z = new Uint8Array(s.length); for (let i = 0; i < 
 for (const p of Object.values(DATA.packs)) { p.services = DATA.serviceCatalog.map((s, i) => ({ ...s, state: p.st[i] === "a" ? "available" : "coming_soon" })); p.ready = Object.fromEntries(DATA.methods.map((m, i) => [m, { ok: p.ok[i] === "1", message: DATA.offMessage }])); }
 "use strict";
 (() => {
+// ---- ts/src/inpage.js
+function keepLinksInPage(doc) {
+    doc.addEventListener("click", (e) => {
+        const t = e.target;
+        const a = t && typeof t.closest === "function" ? t.closest("a[data-act]") : null;
+        if (a && !e.ctrlKey && !e.metaKey && !e.shiftKey)
+            e.preventDefault();
+    }, true);
+}
+if (typeof document !== "undefined")
+    keepLinksInPage(document);
+
 // ---- ts/src/brand.js
 const BRAND_THEMES = ["light", "dark", "contrast-light", "contrast-dark"];
 const STATUS_STATES = ["queued", "sent", "accepted", "confirmed", "failed"];
