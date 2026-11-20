@@ -51,7 +51,7 @@ const EMULATORS = [
   { id: "queue-page", out: "lynkomni-queue-page.html", modules: [...DEVICE_MODULES, ...QUEUE_ONLY, "web/emulators/queue-page/app.js"], extraCss: ["web/device/device.css"] },
   { id: "survey-page", out: "lynkomni-survey-page.html", modules: [...DEVICE_MODULES, ...SURVEY_ONLY, "web/emulators/survey-page/app.js"], extraCss: ["web/device/device.css"] },
   ...["counter-tablet", "kitchen-screen", "customer-display", "rider-phone", "stock-scanner", "button-phone", "vcard-card", "mesh-relay", "owner-web", "track-page"]
-    .map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...(id === "button-phone" ? ["ts/src/usernames.generated.js", "ts/src/usernames.js"] : []), ...DEVICE_MODULES, ...(["rider-phone", "track-page"].includes(id) ? TRACK_MODULES : []), ...(id === "button-phone" ? ["ts/src/channels.js", "ts/src/basicphone.js", "ts/src/queue.js", "ts/src/sounds.generated.js", "ts/src/keytones.js", "ts/src/soundprefs.js"] : []), ...(id === "customer-display" ? AFTER_PAY : []), ...(PANEL_DEVICES.includes(id) ? [...(id === "customer-display" ? [] : ["ts/src/queue.js"]), ...KIT] : []), ...(id === "owner-web" ? ["ts/src/navigation.js", "ts/src/navigation.generated.js", "ts/src/appshell.js"] : id === "counter-tablet" ? ["ts/src/navigation.js", "ts/src/navigation.generated.js", "ts/src/turn.js", "ts/src/appshell.js"] : []), `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
+    .map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...(id === "button-phone" ? ["ts/src/usernames.generated.js", "ts/src/usernames.js"] : []), ...DEVICE_MODULES, ...(["rider-phone", "track-page"].includes(id) ? TRACK_MODULES : []), ...(id === "button-phone" ? ["ts/src/channels.js", "ts/src/basicphone.js", "ts/src/queue.js", "ts/src/sounds.generated.js", "ts/src/keytones.js", "ts/src/soundprefs.js"] : []), ...(id === "customer-display" ? AFTER_PAY : []), ...(PANEL_DEVICES.includes(id) ? [...(id === "customer-display" ? [] : ["ts/src/queue.js"]), ...KIT] : []), ...(id === "owner-web" ? ["ts/src/navigation.js", "ts/src/navigation.generated.js", "ts/src/appshell.js", "ts/src/pagekit.js", "ts/src/books.generated.js", "ts/src/books.js", "ts/src/invoices.generated.js", "ts/src/invoices.js", "ts/src/crm.generated.js", "ts/src/crm.js", "ts/src/stats.generated.js", "ts/src/stats.js", "ts/src/officeview.js"] : id === "counter-tablet" ? ["ts/src/navigation.js", "ts/src/navigation.generated.js", "ts/src/turn.js", "ts/src/appshell.js"] : []), `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
 ];
 
 const read = (p) => readFileSync(p, "utf8");
@@ -101,11 +101,35 @@ function bundle(mods) {
   const seen = new Map();
   for (const [i, part] of parts.entries()) {
     if (/^const \w+ = \(\(\) => \{/m.test(part.split("\n")[1] ?? "")) continue;          // a namespaced group keeps its names inside
-    for (const [, name] of part.matchAll(/^(?:async )?(?:function\*? |const |let |class )(\w+)/gm)) {
+    for (const name of topNames(part)) {
       if (seen.has(name)) DUPLICATES.add(`${name} (${seen.get(name)} and ${mods[i]})`); else seen.set(name, mods[i]);
     }
   }
   return `"use strict";\n(() => {\n${parts.join("\n")}\n})();`;
+}
+/** Every name a module declares at its top level, including the later names of one statement ("const A = 1, B = 2"):
+ *  a scan that skips strings, comments and anything inside brackets, so only the statement's own names are read. */
+function topNames(src) {
+  const out = [];
+  for (const m of src.matchAll(/^(?:async )?(?:function\*? |class )(\w+)/gm)) out.push(m[1]);
+  for (const m of src.matchAll(/^(?:const|let) /gm)) {
+    let i = m.index + m[0].length, depth = 0, expectName = true;
+    while (i < src.length) {
+      const ch = src[i];
+      if (ch === '"' || ch === "'" || ch === "`") { const q = ch; i++; while (i < src.length && src[i] !== q) { if (src[i] === "\\") i++; i++; } i++; continue; }
+      if (ch === "/" && src[i + 1] === "/") { while (i < src.length && src[i] !== "\n") i++; continue; }
+      if (ch === "/" && src[i + 1] === "*") { i = src.indexOf("*/", i + 2); if (i < 0) break; i += 2; continue; }
+      if ("([{".includes(ch)) depth++;
+      else if (")]}".includes(ch)) depth--;
+      else if (depth === 0 && ch === ";") break;
+      else if (depth === 0 && ch === "\n" && /^\S/.test(src[i + 1] ?? "") && !/^[.?:+\-*/|&=,]/.test(src[i + 1] ?? "")) break;
+      else if (depth === 0 && ch === ",") expectName = true;
+      else if (expectName && /[A-Za-z_$]/.test(ch)) { const name = /^[A-Za-z_$][\w$]*/.exec(src.slice(i))[0]; out.push(name); i += name.length; expectName = false; continue; }
+      else if (expectName && !/\s/.test(ch)) expectName = false;
+      i++;
+    }
+  }
+  return out;
 }
 // The plain bodies of a group of modules (for "NS=a.js+b.js"), checked like any other module.
 bundle.part = (files, flat) => files.map((m) => {
@@ -182,7 +206,7 @@ for (const e of EMULATORS) {
   // The device drawing is scaled to the window before the first paint, so nothing jumps while the page loads (speed target, INTERFACE UPDATE 73.8)
   let html = read(join(dir, "shell.html")).replace("<script>/*@SCRIPT@*/</script>", () => `<script>${EARLY_FIT}</script>\n<script>/*@SCRIPT@*/</script>`).replace("</head>", () => "<style>html:not([data-ready]) body { visibility: hidden; }</style>\n</head>")
     .replace("/*@TOKENS@*/", () => fontCss + "\n" + tokens)
-    .replace("/*@STYLE@*/", () => [...(e.extraCss ?? []), ...(e.modules.includes("ts/src/footer.js") ? ["web/footer/footer.css"] : []), ...(e.modules.includes("ts/src/placeholder.js") ? ["web/shell/placeholder.css"] : []), ...(e.modules.includes("ts/src/deviceshell.js") ? ["web/device/deviceshell.css"] : []), ...(e.modules.includes("ts/src/devicemode.js") ? ["web/device/devicemode.css"] : []), ...(e.modules.includes("ts/src/trackview.js") ? ["web/tracking/tracking.css"] : []), ...(e.modules.includes("ts/src/notify.js") || e.modules.includes("ts/src/queuedesk.js") || e.modules.includes("ts/src/surveydesk.js") ? ["web/shell/parts.css"] : []), ...(e.modules.includes("ts/src/devicekit.js") ? ["web/device/deviceparts.css"] : []), ...(e.modules.includes("ts/src/emkit.js") ? ["web/device/emkit.css"] : []), ...(e.modules.includes("ts/src/appshell.js") ? ["web/shell/appshell.css"] : []), ...(e.modules.includes("ts/src/chatview.js") ? ["web/shell/chat.css"] : []), ...(e.modules.includes("ts/src/assistview.js") ? ["web/shell/assist.css"] : [])].map((c) => read(join(ROOT, c))).join("\n") + "\n" + read(join(dir, "style.css")))   // the footer's styles travel with the footer module
+    .replace("/*@STYLE@*/", () => [...(e.extraCss ?? []), ...(e.modules.includes("ts/src/footer.js") ? ["web/footer/footer.css"] : []), ...(e.modules.includes("ts/src/placeholder.js") ? ["web/shell/placeholder.css"] : []), ...(e.modules.includes("ts/src/deviceshell.js") ? ["web/device/deviceshell.css"] : []), ...(e.modules.includes("ts/src/devicemode.js") ? ["web/device/devicemode.css"] : []), ...(e.modules.includes("ts/src/trackview.js") ? ["web/tracking/tracking.css"] : []), ...(e.modules.includes("ts/src/notify.js") || e.modules.includes("ts/src/queuedesk.js") || e.modules.includes("ts/src/surveydesk.js") ? ["web/shell/parts.css"] : []), ...(e.modules.includes("ts/src/devicekit.js") ? ["web/device/deviceparts.css"] : []), ...(e.modules.includes("ts/src/emkit.js") ? ["web/device/emkit.css"] : []), ...(e.modules.includes("ts/src/appshell.js") ? ["web/shell/appshell.css"] : []), ...(e.modules.includes("ts/src/chatview.js") ? ["web/shell/chat.css"] : []), ...(e.modules.includes("ts/src/assistview.js") ? ["web/shell/assist.css"] : []), ...(e.modules.includes("ts/src/pagekit.js") ? ["web/shell/pagekit.css"] : []), ...(e.modules.includes("ts/src/officeview.js") ? ["web/shell/office.css"] : [])].map((c) => read(join(ROOT, c))).join("\n") + "\n" + read(join(dir, "style.css")))   // the footer's styles travel with the footer module
     .replace("/*@BODYMARK@*/", () => D.brand.body)
     .replace("/*@FAVICON@*/", () => `<span class="fav-l">${D.brand.favicon.light}</span><span class="fav-d">${D.brand.favicon.dark}</span>`)
     .replace("</head>", () => `${faviconLinks(D.brand.favicon)}\n</head>`)

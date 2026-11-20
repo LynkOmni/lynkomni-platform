@@ -2,6 +2,18 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.75.0 (2026-11-20)
+Section 4, step D5 (the office services in the browser, in 38 languages):
+- New shared part ts/src/officeview.ts draws LynkAcc (app.lynkomni.com/accounting), LynkInv (/invoicing), LynkCRM (/crm) and LynkStat (/analytics) in the owner's computer view, computed with the real rules (books, invoices, crm and stats) and the shared page parts (list toolbar, record header with the same tabs, save bar):
+  - LynkAcc: the statements (profit and loss, balance sheet, balanced or not), bills to pay with approval (the person who entered a bill never approves it; a payment counts only when the provider confirms), bank matching as labelled suggestions, and closing the month with its checklist and a lock date a second person approves;
+  - LynkInv: money owed with how late it is, the invoice list with filters, an invoice record (a sent invoice never changes; a credit note never exceeds what is still owed and needs a reason) and a new invoice with live totals and approval over the approval amount;
+  - LynkCRM: customers (contact details private), duplicates that keep the oldest with Undo, and the pipeline with its likely value labelled an estimate;
+  - LynkStat: the overview with freshness and a goal, your own measures (figures added by buttons in the reader's language; nothing shown on division by zero), what if (labelled an estimate), groups over time and a public report with small groups hidden.
+- Words in web/office (prefix of_) in all 38 languages; sample data is labelled Sample; every list has its empty state with a next step; every field has its hint and a visible label.
+- The page builder now also catches a second name declared on one top-level line (const A = 1, B = 2), which had let two modules clash.
+- The owner view's off switch and the office state tags now meet 4.5:1 contrast.
+- The owner view's size budget is raised to 1300 KB (web/budgets.v1.json, reason recorded): it now carries the four office services with their rules and their words in all 38 languages.
+
 ## v0.74.0 (2026-11-20)
 Section 4, step D4c (CHAT UPDATE 74.5 and ASSIST UPDATE 75.6: the office services in a conversation, and LynkAssist's office skills):
 - The office cards work in the cloud (services/office_chat.py):
