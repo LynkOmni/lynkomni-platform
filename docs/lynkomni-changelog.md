@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.58.2 (2026-11-20)
+The LynkOmni emblem is refined (owner request, brand release @lynkomni/icons 1.7.1):
+- All three gaps in the emblem now match the top gap exactly; the two gaps around the lower dot are true circular curves.
+- The violet arc is a perfect circular band, and the black frame flows into it as one smooth outline across the top gap. Nothing else changes: the dots, the connecting line, the colours, the size and the LynkOmni name.
+- Updated everywhere through the brand release: the emblem and full logo in light, dark, high-contrast and one-colour, the email images, the favicon and app icons, every emulator page, the LynkVCard faces, and the share and store images.
+- The brand-sync workflow now also rebuilds the pictures that carry the logo, so a future brand release reaches them by itself.
+
 ## v0.58.1 (2026-11-20)
 PLACEHOLDER UPDATE, nothing left out (blueprint 83.7):
 - Number hints now use the reader's own digits (for example Arabic-Indic or Bengali), like every number on screen.
