@@ -911,7 +911,8 @@
      "progress": {
       "4": [
        "v0.57.0: the navigation register and the page-template register (every Business app screen with its template and a way in; three-tap and no-orphan checks)",
-       "v0.61.0: the menu words in 38 languages; the app shell part (bottom bar, side rail, two-level side bar, quick create, grouped launcher, focus header) on the Business app"
+       "v0.61.0: the menu words in 38 languages; the app shell part (bottom bar, side rail, two-level side bar, quick create, grouped launcher, focus header) on the Business app",
+       "v0.62.0: the two-level side bar and the grouped launcher on the owner's computer view; the side rail for the Business app in a browser"
       ]
      }
     },
@@ -1191,7 +1192,8 @@
      "progress": {
       "4": [
        "v0.57.0: the app settings file fixed (leftover, decisions and change log); the layout for every shape and the turn rules (ts/src/turn.ts) with shared vectors",
-       "v0.61.0: the turn rules in the shared shell (the Business app writes its shape's layout on the screen root)"
+       "v0.61.0: the turn rules in the shared shell (the Business app writes its shape's layout on the screen root)",
+       "v0.62.0: sideways layouts (the phone turned sideways) and the turn checks (tests/test_turning.py)"
       ]
      }
     },

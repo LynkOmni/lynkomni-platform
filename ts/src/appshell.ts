@@ -105,3 +105,11 @@ export function launcherGroupsHtml(reg: NavRegister, look: BarLook, o: { mine: r
     return fams.length ? `<section class="ash-group" data-group="${ashEsc(g.id)}"><h3>${ashEsc(look.t(g.label_key))}</h3><ul class="lgrid">${fams.map(tile).join("")}</ul></section>` : "";
   }).join("")}</div>`;
 }
+
+/** A service menu a surface lists itself (a web view showing part of a service), put in the register's fixed order:
+ *  Overview, its lists, Reports, Automations, Emulators, Settings. Each item names its slot. */
+export function orderedMenuHtml(reg: NavRegister, look: BarLook, o: { items: readonly { id: string; slot: string; label: string }[]; current: string; act: string; label?: string; top?: string }): string {
+  const order = reg.rail.service_menu_order.map((s) => (s === "lists" ? "list" : s));
+  const items = [...o.items].sort((a, b) => order.indexOf(a.slot) - order.indexOf(b.slot));
+  return `<nav class="ash-menu" aria-label="${ashEsc(o.label ?? look.t("nv_overview"))}">${o.top ?? ""}${items.map((i) => `<button data-act="${ashEsc(o.act)}:${ashEsc(i.id)}" data-slot="${ashEsc(i.slot)}"${i.id === o.current ? ' aria-current="page"' : ""}><span>${ashEsc(i.label)}</span></button>`).join("")}</nav>`;
+}

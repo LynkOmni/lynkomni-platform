@@ -2,6 +2,14 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.62.0 (2026-11-20)
+Section 4, step B2b (INTERFACE UPDATE and TURN UPDATE: the two-level side bar on a computer and turning the phone):
+- The owner's view on a laptop now has the two-level side bar from the app shell: a slim first column (Home, Inbox, All services; at the bottom Emulators, Automations, Settings and Help, which can never be hidden) and the page menu in the fixed order (Overview, the lists, Automations, Settings), with the logo above it. "All services" opens the launcher with "My services" first and then the eight groups; a service whose computer screens come in a later section opens at its own address with its name. Track joins this view with the "Track" home in section 7.
+- The Business app in a browser uses the side rail instead of phone tabs, as the device register says for a computer.
+- The Business app can now be turned: a new choice "Phone turned sideways" shows the same phone on its side, with a side rail instead of the bottom tabs and a one-line header. The tablet's shape is now recorded as it is drawn (on its side).
+- New check tests/test_turning.py (CI layout job): turning in the middle of a sale keeps the screen, the basket and the event log exactly as they were and repeats nothing; typed text is kept; a payment keeps its step and its calm header either way round. The fit guard checks the sideways phone like every other size.
+- The launcher gets every product's short name and app address from the catalog and billing (web/emulators/build_data.py launcher), for every page that uses the app shell.
+
 ## v0.61.0 (2026-11-20)
 Section 4, step B2a (INTERFACE UPDATE: the app shell's menus, first on the Business app):
 - The menu words of the navigation register (the eight groups, the side bar, the person's bottom bar, quick create, search groups, the account menu, record tabs and the turning messages) are now in all 38 languages (web/navigation; 28 reused from words already translated, 42 new). They use their own prefix nv_ and travel only with pages that use the app shell.
