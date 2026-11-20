@@ -800,6 +800,30 @@
    "test": "tests/test_office_services.py::test_approval_before_sending_holds_an_invoice_until_someone_else_approves",
    "build_section": 4,
    "status": "built"
+  },
+  {
+   "id": "crm-contact-details-in-vault",
+   "asset": "personal_data",
+   "threat": "A customer's name, email or phone leaks through an event, a log or an export",
+   "enforced_in": [
+    "services/crm.py",
+    "services/privacy.py"
+   ],
+   "test": "tests/test_crm.py::test_contact_details_never_reach_an_event",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "crm-access-and-hidden-fields",
+   "asset": "personal_data",
+   "threat": "A staff member sees records of another team, or a field hidden from their role",
+   "enforced_in": [
+    "core/crm.py",
+    "services/crm.py"
+   ],
+   "test": "tests/test_crm.py::test_fields_limits_access_and_hidden_fields",
+   "build_section": 4,
+   "status": "built"
   }
  ]
 }

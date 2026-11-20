@@ -1516,6 +1516,94 @@
     "sitemap"
    ],
    "section": 4
+  },
+  {
+   "id": "crm_records",
+   "kind": "feature",
+   "what": "LynkCRM records for every kind of entity: organisations and their people, customers and leads, donors and pledges, students and guardians, members and citizens' cases, with your own fields and layouts",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "crm_segments",
+   "kind": "feature",
+   "what": "LynkCRM tags, groups and saved segments",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "crm_selling",
+   "kind": "feature",
+   "what": "LynkCRM selling: deals with products, several pipelines, quotes and invoices from a deal, the forecast, targets, lead forms, referrals and lead scores labelled as suggestions",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "crm_teams",
+   "kind": "feature",
+   "what": "LynkCRM teams and territories, who sees which records, fields hidden by role, and handing over a customer with the history kept",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "crm_cases",
+   "kind": "feature",
+   "what": "LynkCRM cases with owners, priorities and promised answer times",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "crm_full_picture",
+   "kind": "feature",
+   "what": "LynkCRM's one full picture of a customer: sales, invoices, payments, bookings, queue visits, surveys, points and chats, each only when its link is on",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "crm_clean_records",
+   "kind": "feature",
+   "what": "LynkCRM clean and safe records: import, duplicate finding and merging, required fields, bulk edits with undo, change history, consent records, data requests and sensitive-record rules",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "crm_field",
+   "kind": "feature",
+   "what": "LynkCRM in the field: the full CRM on a phone without internet and visit check-ins",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
   }
  ]
 }
