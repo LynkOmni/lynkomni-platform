@@ -102,7 +102,7 @@ export function ownConnection(reg: ChatRegister, online: boolean, wasOffline: bo
 // ---- sounds and vibration --------------------------------------------------------------------------------------------------
 export interface SoundMoment { sounds?: boolean; vibration?: boolean; silent?: boolean; dnd?: boolean; quiet_hours?: boolean; focus?: boolean; muted?: boolean; screen?: string; chat_open?: boolean; since_last_ms?: number }
 export interface SoundOut { tone: string | null; vibrate: string | null; banner: boolean }
-export function soundFor(reg: ChatRegister, event: string, s: SoundMoment): SoundOut {
+export function chatSoundFor(reg: ChatRegister, event: string, s: SoundMoment): SoundOut {
   const snd = reg.sounds;
   if (event === "received") event = s.chat_open ? "received_open" : "received_closed";
   const e = snd.events[event];

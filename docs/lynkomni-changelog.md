@@ -2,6 +2,16 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.65.0 (2026-11-20)
+Section 4, step C2 (CHAT UPDATE: the shared chat part):
+- New shared part ts/src/chatview.ts (with web/shell/chat.css), drawn from the chat register: messages with the five states (a person's "seen" choice followed, a failed message with Try again), "edited", a quoted reply and message details; live signs always with words (still words when motion is off), announced once to a screen reader; your own connection ("Waiting for internet", "Back online"); the unread line; LynkAssist always named, its answer appearing as it is written with its stage and Stop; upload progress with pause, carry on and cancel; buttons and small forms (a tap sends the choice as the person's own message); cards drawn by their own service; mute for an hour, a day or always; "Why did I get this chat?" and "Who is helping me?"; "Chat about this"; the composer with a visible label and an example as its hint.
+- Before a message is queued, a card number or a code is masked and the writer is warned ("LynkOmni and its staff never ask for these"); MessagePosted carries only the text's sha256 (worked out on the device, the same as the cloud's).
+- Chat sounds and vibration play from the design tokens and follow the device's switches, silent mode, quiet hours and each conversation's mute; never inside a payment or cash count; many messages at once make one sound.
+- The Business app's chats run on the shared part: messages move queued, sent, accepted and seen (the cloud writes the last two); the sample customer's typing sign; LynkOmni Support with LynkAssist first, buttons, a small form, the answer as it is written with Stop, and Talk to a person routed by the routing register; queued messages send by themselves when the connection is back.
+- The 88 chat words in all 38 languages (web/chat, prefix ch_), travelling only with pages that use the chat part.
+- The showcase's part gallery shows the chat part.
+- The Business app demo's size budget is 3,080 KB (the chat words in 38 languages).
+
 ## v0.64.0 (2026-11-20)
 Section 4, step C1 (CHAT UPDATE: the conversation engine and its registers):
 - New register catalog/chat.v1.json: the three kinds of conversation (customer and business, Storefront, support; never personal, group or staff-to-staff chat), the five message states and who writes each, the 15-minute edit window, live signs (always with words, never stored, both sides online, still words when motion is off, "Ama is replying" for the team only), presence, the chat sounds and vibrations, masking, routing (LynkAssist first, the fast lane, same helper, language, least busy with a limit of 5, the owner's team rules), the offline rules and the cards each service may put in a chat.

@@ -1010,7 +1010,8 @@
      "done": {},
      "progress": {
       "4": [
-       "v0.64.0: the conversation engine and its registers: catalog/chat.v1.json (kinds, the five states, live signs, presence, sounds, routing, masking, offline rules and the card method) read by core/chat.py and ts/src/chat.ts with shared vectors; contract version 10 with the conversation events; every chat card linked in catalog/connections.v1.json; the chat tones and vibrations in the design tokens"
+       "v0.64.0: the conversation engine and its registers: catalog/chat.v1.json (kinds, the five states, live signs, presence, sounds, routing, masking, offline rules and the card method) read by core/chat.py and ts/src/chat.ts with shared vectors; contract version 10 with the conversation events; every chat card linked in catalog/connections.v1.json; the chat tones and vibrations in the design tokens",
+       "v0.65.0: the shared chat part (ts/src/chatview.ts) with live signs, the five states, sounds and vibration, streaming answers with Stop, upload progress, masking with its warning, buttons and small forms, message details, Chat about this and the routing answers; the Business app's chats moved onto it, with its words in 38 languages"
       ]
      }
     },
