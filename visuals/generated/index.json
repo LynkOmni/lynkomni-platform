@@ -1388,16 +1388,16 @@
     {
      "theme": "light",
      "file": "share/share-card.light.svg",
-     "sha256": "67df949b6de45405a6537d783067654ab3b665aaca3965baaafddef064065adc",
-     "bytes": 6970
+     "sha256": "0ca5a614552ff91c4e8fecf2ad2043ecf3b382fe48f30813cd0ce7d984d0c112",
+     "bytes": 7976
     },
     {
      "theme": "light",
      "file": "web/og-1200x630.png",
      "w": 1200,
      "h": 630,
-     "sha256": "6ec9d3f5de52ee4b9b4b5fcdee6bfc83003b5593ff1135a7a0fcb295e0376f28",
-     "bytes": 59536
+     "sha256": "be6788efe24f078bccf32b57e6fddbb8923f5f5283ff0d06890eef2e59fb022c",
+     "bytes": 59579
     }
    ]
   },
@@ -1413,16 +1413,16 @@
     {
      "theme": "light",
      "file": "store/play-feature-1024x500.svg",
-     "sha256": "551eb78c2f50960f0034306dd84f466e5c1b110d2661c3e43400bf0ad2e08ca4",
-     "bytes": 8116
+     "sha256": "522a5ef243251cb0612ec80f19771cfa3216dc8acdfd9e5575e57bae0e41cbe7",
+     "bytes": 9122
     },
     {
      "theme": "light",
      "file": "store/play-feature-1024x500.png",
      "w": 1024,
      "h": 500,
-     "sha256": "5a7832c13fb8eb151fdbdabc65d73401b864a9444c781d030da177fdaf933312",
-     "bytes": 50695
+     "sha256": "e3a4f92425f183026c2f1cff54e25d6f2c023629f214f9b046c07b804a0cb25a",
+     "bytes": 50763
     }
    ]
   },
@@ -1440,16 +1440,16 @@
      "file": "store/app-icon-1024-light.png",
      "w": 1024,
      "h": 1024,
-     "sha256": "3610e76721df76c1ae71ba9be020138affc519091756185775c268aa38fce344",
-     "bytes": 38853
+     "sha256": "e42eb941fc42b17b2547a6ebb6d9f57e1231ecc84136623eb4e36c1b58ef3d03",
+     "bytes": 39928
     },
     {
      "theme": "dark",
      "file": "store/app-icon-1024-dark.png",
      "w": 1024,
      "h": 1024,
-     "sha256": "b8157567fe9a179affe720290779cffc8c0c97fc98cd40876f4ac152f7156e97",
-     "bytes": 40094
+     "sha256": "4700540e19f900de81a0e9fca91f748a2b19c673646a30c587633b866a8d2cab",
+     "bytes": 41138
     }
    ]
   },
@@ -1467,46 +1467,46 @@
      "file": "web/pwa-192.png",
      "w": 192,
      "h": 192,
-     "sha256": "951723709afea94995d9562a53e9f3896344f9fbc70bf31eee1a764bc80e30a4",
-     "bytes": 4928
+     "sha256": "142b24c95c36fb7074a1e902557b70ebbea68a60ad454fcb71eded9adfbeac82",
+     "bytes": 4890
     },
     {
      "theme": "light",
      "file": "web/pwa-512.png",
      "w": 512,
      "h": 512,
-     "sha256": "0fa21cd006a7fe3b2dbac73ed958d6404d7b275759dd85a16005104c18d2317e",
-     "bytes": 15811
+     "sha256": "7fdb3a1c23f9feaf1f2ed9fdef65897d5b471c4f1985141fa95c498a60cd0ec0",
+     "bytes": 16052
     },
     {
      "theme": "light",
      "file": "web/pwa-maskable-512.png",
      "w": 512,
      "h": 512,
-     "sha256": "22eb022bf761af51c7170816754e62e3eda54b41188a6dacfc6e0f0ced2063c9",
-     "bytes": 13281
+     "sha256": "6e76b87f0a91697477cc7c3c0b5b23eb934ff75279840eb259e046c5e0a64f62",
+     "bytes": 13353
     },
     {
      "theme": "light",
      "file": "web/apple-touch-icon-180.png",
      "w": 180,
      "h": 180,
-     "sha256": "1076e8de2111683f712bc378d79c79a454ec4a06db4ee17f71221bb0765cf05c",
-     "bytes": 4530
+     "sha256": "08c3a037ba97742d496d0e311ccf6dd092bae42346d7cd1ccca48c8a69c49c73",
+     "bytes": 4617
     },
     {
      "theme": "light",
      "file": "web/favicon.svg",
-     "sha256": "d9bc9837bcd37ac1a697cb5ecc8165451ea68b721fb0a669a363914954d53e21",
-     "bytes": 12493
+     "sha256": "d0a07d8325b7855c8e41d085b28b439e0a0eefdbc2732fbb6d61b04cdfadc949",
+     "bytes": 7261
     },
     {
      "theme": "light",
      "file": "web/favicon-32.png",
      "w": 32,
      "h": 32,
-     "sha256": "8fcc23e39a63c4ea32eb8368b0fdad30b29cbfbce53f07dd105cae42f34e0b7d",
-     "bytes": 734
+     "sha256": "7d48f9ad1cf03de031300215ef18643389e0fc39d72da4a1f72e696c4a55a8d3",
+     "bytes": 747
     },
     {
      "theme": "light",
@@ -1517,8 +1517,8 @@
     {
      "theme": "light",
      "file": "web/favicon.ico",
-     "sha256": "02e5caf31da45e9798bc19457821edb2be38b3f7069e8ccfcbf4ede5c89e0aaa",
-     "bytes": 3047
+     "sha256": "9d9fee5ce8d2bc364a6a3beceefaad3760cda64720e4ee2aec28b03abe9e66e8",
+     "bytes": 3095
     },
     {
      "theme": "light",
@@ -1542,8 +1542,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-edge.svg",
-     "sha256": "88e5f0ef9d02d1978f669a7bcf392d225bf24ecc53ef86077e87f8c5d99d0aba",
-     "bytes": 8333
+     "sha256": "5b5acbfb47d42d6f342dff3bd5999e640175ab14a68ef8085a0743e613f85515",
+     "bytes": 9339
     }
    ]
   },
@@ -1561,8 +1561,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-hub.svg",
-     "sha256": "9988ced971cb118174b850b8133cb472633f282055516766cf223147a9b9c92f",
-     "bytes": 10845
+     "sha256": "15f7ff62bc70c143271146cff3cef0cddff3dac08fcc3e058caead07e1ca9f0c",
+     "bytes": 11851
     }
    ]
   },
@@ -1580,8 +1580,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-core.svg",
-     "sha256": "4140d7b5c820875ff1e074b48712ce180d52abf8b1ba1a8415ed92f5d2250f95",
-     "bytes": 12977
+     "sha256": "157d17ec5d9256aca8789e45814ea6862a05053f7ae4b844eda0f62c2359b4da",
+     "bytes": 13983
     }
    ]
   },
@@ -1599,8 +1599,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni.svg",
-     "sha256": "83bda3ffc31726a3721acdfff99dee70342d85306ec68428a837484c6e21b6eb",
-     "bytes": 20521
+     "sha256": "fd2d523252db4e7bfaef3ebf856fc57bcfa9ffffebdf574a3319fe607afafc9c",
+     "bytes": 21527
     }
    ]
   },
@@ -1652,8 +1652,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-edge-back.svg",
-     "sha256": "665b4d5c56a28c9b0d84197d2d84de75a26afcea05d4a857bdae432ef099a535",
-     "bytes": 7976
+     "sha256": "f21c5a99808fe39760613b307ca942c7700a74d16430bb05a3e60558975f8a7c",
+     "bytes": 8982
     }
    ]
   },
@@ -1669,8 +1669,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-hub-back.svg",
-     "sha256": "2dec098e6611c4f21f62cdef27824406a7bad3956719f6bc73b00e80dc057cf6",
-     "bytes": 10533
+     "sha256": "23738b26795c01ba5c4a0248c22af52be53021371808bb4caa566a826593cfe9",
+     "bytes": 11539
     }
    ]
   },
@@ -1686,8 +1686,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-core-back.svg",
-     "sha256": "82179730b2a6aac42fd4252253e94785b6993bfd22a026dee776e677a841f2f5",
-     "bytes": 12623
+     "sha256": "e4733c2d32a34a41a035752c49a1c05300402b16c9326920b99d64db30212752",
+     "bytes": 13629
     }
    ]
   },
@@ -1703,8 +1703,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni-back.svg",
-     "sha256": "21b2a1d138e2d894f152d01d91df155054850e81a549dcb34c9b0c05f868dcac",
-     "bytes": 20197
+     "sha256": "374518952144780ddf03bf032a699736127d821075dea4598e7cfb49458ca2bc",
+     "bytes": 21203
     }
    ]
   },
@@ -1721,8 +1721,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-core-near-limit.svg",
-     "sha256": "c6ca53579a0aedb381095f4b678d4812c3e365923c49211f9e8142327c6255e2",
-     "bytes": 12940
+     "sha256": "e9a744425f152ff861b2149122ad2b7da003a3c0c7d55d80663f400400d8ccdf",
+     "bytes": 13946
     }
    ]
   },
@@ -1739,8 +1739,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni-physical.svg",
-     "sha256": "d0a50028bc5f957e97ef189d780ee874142973e2e5db049c3cd5b06da2a9a75e",
-     "bytes": 20545
+     "sha256": "9bc23abd36a229913e9bd76e3e59b2ed4eef8b84d41a1be778e49c1f13df0500",
+     "bytes": 21551
     }
    ]
   },
@@ -1757,8 +1757,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-edge-prepaid.svg",
-     "sha256": "cea4ed7480cb750db667d64e4db5547135b3fbadf787fc67d5a846b1a4455bfc",
-     "bytes": 10853
+     "sha256": "f5df6f469de89e46b93a384ab0ba875cc3e6b297b835396a82bd56c3a69f463b",
+     "bytes": 11859
     }
    ]
   },
@@ -1775,8 +1775,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-edge-prepaid-back.svg",
-     "sha256": "1a3de0923135fa85deea5b852db0db6c32dd5dd9d66637e27e7b8b2c8b96d634",
-     "bytes": 8673
+     "sha256": "b0ff4a0345d4ef0f2f53279f069b4629aae5974235fdb8b6b37a9627595a2da5",
+     "bytes": 9679
     }
    ]
   },
@@ -1793,8 +1793,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-edge-debit.svg",
-     "sha256": "edbb3387bccac948c5410d71894148924f49b3b220a46fc2088ed12327e9b515",
-     "bytes": 10842
+     "sha256": "a8c7d16b5be938e9afea3cef3a6a4c495c70e64c6a6572e3ba3a0e38d5fab5ce",
+     "bytes": 11848
     }
    ]
   },
@@ -1811,8 +1811,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-edge-debit-back.svg",
-     "sha256": "db9cbb5da55d8876c3241005b1296073346fcdf90fd7c91fa8561754464e3dc9",
-     "bytes": 8666
+     "sha256": "747022e5d485001e5701630a651db5bd936f3fc033489e4f1c5a7cbfb3b51c90",
+     "bytes": 9672
     }
    ]
   },
@@ -1829,8 +1829,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-edge-credit.svg",
-     "sha256": "5f522c02ff674c103cc47949f9f8828702907c2a986f04da9c708f1b8cde7a19",
-     "bytes": 10848
+     "sha256": "406c30e890a1ec160fe84b9301647708abc211272d6836e816abd1657ac57df9",
+     "bytes": 11854
     }
    ]
   },
@@ -1847,8 +1847,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-edge-credit-back.svg",
-     "sha256": "e6efb5ffd0899bdc064a105ff17a6726e319ea11c8e824737e5c19abdf33ba2f",
-     "bytes": 8670
+     "sha256": "ceec7925e7f74b2d39cd3c011a1afe7f8c328e842466c271a00b9a41fa20c796",
+     "bytes": 9676
     }
    ]
   },
@@ -1865,8 +1865,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-hub-prepaid.svg",
-     "sha256": "bb221532842bf05435ea9d1b9850e56dd2712db11c42777001db1e98906b5bee",
-     "bytes": 13427
+     "sha256": "3e91f924ee785f7dd3eb8e705ee606f91aa470669adf02e57359f65532c8a346",
+     "bytes": 14433
     }
    ]
   },
@@ -1883,8 +1883,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-hub-prepaid-back.svg",
-     "sha256": "43fb0fab5e41ab2da22aea939e6add7851caed22373af619267aac504e8edccd",
-     "bytes": 11255
+     "sha256": "f5f5ee8a42bd411e31a1e950924449a1d1e2f7137828617f436097d3460571e9",
+     "bytes": 12261
     }
    ]
   },
@@ -1901,8 +1901,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-hub-debit.svg",
-     "sha256": "455f8783962f54338dbd003c5ba4953c0a3a7b57d87154307e9230fe45be8c5c",
-     "bytes": 13416
+     "sha256": "9d9b79440f32bc75f22c7784dc8306f424886718e27cf20c7afcca6ffed59914",
+     "bytes": 14422
     }
    ]
   },
@@ -1919,8 +1919,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-hub-debit-back.svg",
-     "sha256": "64be9f0f65585798326490e1c79925da51d0e62e8b0b9467f2ae2b2a9890c80d",
-     "bytes": 11248
+     "sha256": "8670e97ad94244dad9bdfaecb5ae2ab6ff907c1bfbbd2524ac782f3b567fee79",
+     "bytes": 12254
     }
    ]
   },
@@ -1937,8 +1937,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-hub-credit.svg",
-     "sha256": "1f93f23c140aec19c9bb3b4e97d210038d1c9433a9ed7730fe17abaa73615494",
-     "bytes": 13422
+     "sha256": "4769e35c6559ce4cde8a9a906c420c3217503c2da00b5fb141fbeda7ff239be1",
+     "bytes": 14428
     }
    ]
   },
@@ -1955,8 +1955,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-hub-credit-back.svg",
-     "sha256": "983d433eb7fac113e58b73bd3669111a668c866accf327b43b18b8924f33bd30",
-     "bytes": 11252
+     "sha256": "23da86a8c463d3fdf61643c766b1a213a2b407edd7bc3c46f680cf9347e3ef3c",
+     "bytes": 12258
     }
    ]
   },
@@ -1973,8 +1973,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-core-prepaid.svg",
-     "sha256": "fb1a7a56b392e6292517037cb8f796bc01c4a87d0867f357b727aaa46abf831f",
-     "bytes": 15535
+     "sha256": "aa88b310d72d29dcf898c7417a90901da1f2552271df043304a626780f9e67c3",
+     "bytes": 16541
     }
    ]
   },
@@ -1991,8 +1991,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-core-prepaid-back.svg",
-     "sha256": "ba1434800d8a4d0079e513c93734f3a4e25640ad089ad9083957e4c1878c68cd",
-     "bytes": 13331
+     "sha256": "b059e19072c66df9641f65a8369080c4bc42080bdbd91cd5809fc413cc99b2e0",
+     "bytes": 14337
     }
    ]
   },
@@ -2009,8 +2009,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-core-debit.svg",
-     "sha256": "b71b0c5ea9b774f0efa8834def5772ed97587bd3aeb169013761c83d989b79a6",
-     "bytes": 15524
+     "sha256": "08218cff63197d8b4c8245a862e7b59d5791447b4ba42361eb421234ba291c07",
+     "bytes": 16530
     }
    ]
   },
@@ -2027,8 +2027,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-core-debit-back.svg",
-     "sha256": "d4cd81b1f599c6b14354660989969362d165322081c19a0375493aa43aace41d",
-     "bytes": 13324
+     "sha256": "1acd46aafc10f1b56de0bf45495167e6621dbe350bacbe31866088ec5860ae3d",
+     "bytes": 14330
     }
    ]
   },
@@ -2045,8 +2045,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-core-credit.svg",
-     "sha256": "ddf5245024db385b80a16c218cca152a2a082a23cce77a7eb073719b7cef6163",
-     "bytes": 15530
+     "sha256": "6b2a4767ec21bfb8a2cb54c1adf0b8e0e0dcb1817d82f15570aad17aed1913ec",
+     "bytes": 16536
     }
    ]
   },
@@ -2063,8 +2063,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-core-credit-back.svg",
-     "sha256": "448d2abec9f7dae4a4551feef95d2e536ccc9a56e9b01f0dd8fc2759c5753aff",
-     "bytes": 13328
+     "sha256": "8df28fcddc60d0b3d51dddea908e904ab88cf02db94285b53e428547bea46ce4",
+     "bytes": 14334
     }
    ]
   },
@@ -2081,8 +2081,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni-prepaid.svg",
-     "sha256": "2cb8977d39fdf1d6043e697383ad28c6bb0dc7fbb3b3d5991c8eb6eff75e7db3",
-     "bytes": 23123
+     "sha256": "32c56cec808aff810b9a8c5f00f1d31a652e783abb02be1262f727f86ee5dbe7",
+     "bytes": 24129
     }
    ]
   },
@@ -2099,8 +2099,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni-prepaid-back.svg",
-     "sha256": "5c2f46abcc372808e27b4cee612a610fe6b71d349ed03c5f98067bce6a23fb8d",
-     "bytes": 20915
+     "sha256": "d34d3c164197968b4e62c6aa5912117c33f1fef10b834d96634c257ed46ba0c4",
+     "bytes": 21921
     }
    ]
   },
@@ -2117,8 +2117,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni-debit.svg",
-     "sha256": "e8a5fa93d7010a797ae20554e9ff675f4857220b09285f38cc6dbb0fdece9232",
-     "bytes": 23112
+     "sha256": "e20fd16057dc33174e32984006948ebc5f7749ec1df07fbf1ac562bbdb84351e",
+     "bytes": 24118
     }
    ]
   },
@@ -2135,8 +2135,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni-debit-back.svg",
-     "sha256": "33af029669e2afcb1b3e8193742eaed9d21bd6296f309fa5c99604a8d0fe263d",
-     "bytes": 20908
+     "sha256": "df81af7ef2826935c5df9e22e8a19ad0df758d101c5d023bbe5d006d15590269",
+     "bytes": 21914
     }
    ]
   },
@@ -2153,8 +2153,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni-credit.svg",
-     "sha256": "44be9b2f423e72de9cb752da83cfc6933b93dbfc89dd720f7fcaf29731cdeb68",
-     "bytes": 23118
+     "sha256": "7b8504c441bec64e19e2f1fde2c005d605d79bad47fe171755449a328e525423",
+     "bytes": 24124
     }
    ]
   },
@@ -2171,8 +2171,8 @@
     {
      "theme": "light",
      "file": "cards/vcard-omni-credit-back.svg",
-     "sha256": "96faf1094fa55b6e66ba7e83c70a1e8cb5442ef9a569acce9e5ed47b858b6b5e",
-     "bytes": 20912
+     "sha256": "7825ecfcee0e3d4fee229d6f686a2e3aaacaca6a0492112b7c1bb0489ccd08fa",
+     "bytes": 21918
     }
    ]
   },
