@@ -13,6 +13,7 @@ import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { AfterPay, afterPaymentRating } from "../../../ts/src/afterpay.js";
 import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
 import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
+import { watchNames } from "../../../ts/src/names.js";
 
 declare const DATA: Build & { fx: Record<string, number> };
 const TIERS = ["free", "plus", "pro", "max"] as const;
@@ -87,3 +88,5 @@ function main(): void {
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 760);
 }
 main();
+/** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
+watchNames(document.body, () => t);

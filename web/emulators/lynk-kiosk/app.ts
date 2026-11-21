@@ -18,6 +18,7 @@ import { svKioskView } from "../../../ts/src/surveydesk.js";
 import type { SvLook, SvPlan } from "../../../ts/src/surveydesk.js";
 import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
 import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
+import { watchNames } from "../../../ts/src/names.js";
 
 declare const DATA: Build & { people: { attend: Record<AtTier, AtPlan>; queue: Record<AtTier, QuPlan>; survey: Record<AtTier, SvPlan> } };
 type Mode = "home" | "door" | "tickets" | "answer";
@@ -125,3 +126,5 @@ function main(): void {
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 420);
 }
 main();
+/** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
+watchNames(document.body, () => t);

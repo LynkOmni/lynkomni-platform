@@ -1514,6 +1514,64 @@
    ]
   },
   {
+   "id": "81.4",
+   "update": "COMPANY PROFILE UPDATE",
+   "blueprint_section": 81,
+   "rows": [
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "The footer line under the logo is the tag phrase and the Business app sign-in shows the plain line, both in 38 languages",
+     "done": {
+      "4": "v0.54.1"
+     }
+    },
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "The profile register and its test; home, about, how it works, solutions, careers, investors, newsroom, brand kit, partners, enterprise, pricing, download and hardware pages carry their parts; email footer; the writing rules in docs/lynkomni-standards.md and the words check",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Help home, the first FAQ answer, LynkAssist's \"What is LynkOmni?\" answer and the offline knowledge pack",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "The first screen of the LynkOmni app (tag phrase and plain line)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "The welcome of hub.lynkomni.com and doc.lynkomni.com",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "The partner door welcome, Partner Hub outreach and staff onboarding",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Store listings, screenshots and promotional text in every language",
+     "done": {}
+    }
+   ]
+  },
+  {
    "id": "83.6",
    "update": "PLACEHOLDER UPDATE",
    "blueprint_section": 83,
@@ -1569,6 +1627,36 @@
       "14"
      ],
      "part": "The phone apps: native skeletons, hints and the phone's own autofill, and the store-app first-run screens",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "84.6",
+   "update": "PLAIN WORDS UPDATE",
+   "blueprint_section": 84,
+   "rows": [
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "The names register and its words in 38 languages; every emulator marks every name; launchers with plain words; search by plain word; LynkAssist's \"What is ...?\"; basic phones plain first; plain words first in the account and the Business app; the checks",
+     "done": {
+      "4": "v0.79.0"
+     }
+    },
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "Website pages, product pages, pricing and emails use the same labels",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Help pages and articles mark every name",
      "done": {}
     }
    ]

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ta",
  "native": "தமிழ்",
- "source_sha256": "5717081e3105e63dd57a6c5f3dd38009d0277a4a68b072b57b84416d971d9f21",
+ "source_sha256": "d5f6d4028dd03c35f4d8ce6f1a7bbaea75b1aa4412b74b5d64687a13f922361e",
  "texts": {
   "academy": "கல்விக்கூடம்",
   "academy_hint": "கற்பிக்கும் திரைக்கு அருகில் ஒரு சிறு பாடம் திறக்கும்.",
@@ -121,7 +121,7 @@
   "ch_s_yes": "{n}. ஆம்",
   "ch_sale_saved": "விற்பனை சேமிக்கப்பட்டது. ரசீது {receipt}.",
   "ch_stock_line": "{name}: {level}",
-  "ch_title": "LynkPOS",
+  "ch_title": "விற்பனை முனையம் (LynkPOS)",
   "ch_today": "இன்று: {count} விற்பனைகள், {total}",
   "change": "மீதி",
   "charge": "கட்டணம் வசூலிக்கவும்",

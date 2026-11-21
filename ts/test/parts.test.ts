@@ -11,7 +11,8 @@ import { translator } from "../src/shell.js";
 
 const root = new URL("../../..", import.meta.url).pathname;
 const V = JSON.parse(readFileSync(`${root}/contract/vectors/parts.v1.json`, "utf8"));
-const words = (lang: string) => JSON.parse(readFileSync(`${root}/web/shell/i18n/${lang}.json`, "utf8")).texts as Record<string, string>;
+const pack = (dir: string, lang: string) => JSON.parse(readFileSync(`${root}/web/${dir}/i18n/${lang}.json`, "utf8")).texts as Record<string, string>;
+const words = (lang: string): Record<string, string> => ({ ...pack("shell", lang), ...pack("names", lang), ...pack("nameinfo", lang) });   // a page with the descriptions
 const t = translator(words("en"));
 const icon = (id: string) => `<i data-i="${id}"></i>`;
 

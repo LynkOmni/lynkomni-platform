@@ -17,6 +17,8 @@ import type { Line, Priority, Sent } from "../../../ts/src/notify.js";
 import { askBox, buildPack, confirmCard, decide, fixThis, lookup, receipt } from "../../../ts/src/assist.js";
 import { breadcrumbBar, trail } from "../../../ts/src/breadcrumbs.js";
 import { idcnEntry, quickRating, rateUs, scoreScale, ticketCard } from "../../../ts/src/peopleparts.js";
+import { watchNames, namePair, nameEntries } from "../../../ts/src/names.js";
+import { NAME_INFO_KEYS } from "../../../ts/src/nameinfo.js";
 const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 } as const;   // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
 
 interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[]; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; id?: string; name: string; icon: string; plain: string; href?: string; state: "available" | "coming_soon" }[] }
@@ -245,7 +247,7 @@ function main(): string {
 function overlay(): string {
   const wrap = (cls: string, inner: string) => `<div class="overlay ${cls}" data-act="closeoverlay">${inner.replace(/^<(div|aside)/, '<$1 data-act="keep"')}</div>`;
   switch (S.overlay) {
-    case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.id ?? s.service, name: s.name, plain: t(`ft_plain_${s.plain}`), icon: s.icon, href: s.href ?? `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon, sides()));
+    case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.id ?? s.service, name: namePair(s.name, t).main, plain: namePair(s.name, t).sub, icon: s.icon, href: s.href ?? `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon, sides()));
     case "account": return wrap("end", accountMenu({ name: "Grace", lynkId: "LOID-4821-9035-7715", businesses: [{ id: "b1", name: SHOP(), current: true }, { id: "b2", name: `${SHOP()} 2`, current: false }], role: "owner", roles: ["owner", "manager", "cashier"], theme: S.mode === "lite" ? "lite" : S.mode === "sunlight" ? "sunlight" : S.theme, language: langName(isTest() ? "en" : S.lang), region: pack().sample ? t("sample_country") : pack().name, sides: sides(), view: { name: t(IFACE_NAME[S.choice?.interface ?? "universal"] ?? "iface_universal") } }, t, icon));
     case "view": return wrap("", viewSheet({ current: S.choice?.interface ?? "universal", rule: S.choice?.rule ?? "safe_default", options: [...VIEWS], ownerOnly: false, canChange: true }, t, icon) + (S.pendingView !== undefined ? `<p class="toast-note" role="status">${esc(t("view_waits"))}</p>` : ""));
     case "globe": return wrap("", globeSheet(Object.entries(PACKS).map(([code, p]) => ({ code, native: p.native, dir: p.dir })), DATA.packOrder.map((c) => ({ code: c, name: (DATA.packs[c] as CountryPack).sample ? t("sample_country") : regionName(c, isTest() ? "en" : S.lang, (DATA.packs[c] as CountryPack).name) })), { language: isTest() ? "en" : S.lang, region: pack().code }, t));
@@ -258,7 +260,7 @@ function overlay(): string {
         { id: "v2", kind: "setting", title: t("change_view"), act: "shell:view" }, { id: "v3", kind: "help", title: t("why_this_view"), act: "shell:why" },
         { id: "h1", kind: "help", title: t("help_article_1"), act: "shell:help" }, { id: "h2", kind: "help", title: t("help_article_2"), act: "shell:help" },
       ];
-      return wrap("", commandBar(S.query, search(index, S.query), t, icon));
+      return wrap("", commandBar(S.query, search([...index, ...nameEntries(t)], S.query), t, icon));
     }
     case "help": return wrap("end", helpPanel(t("tab_home"), [{ id: "1", title: t("help_article_1"), href: "/faq/pos/offline" }, { id: "2", title: t("help_article_2"), href: "/faq/mpay/waiting" }, { id: "3", title: t("switch_side_group"), href: "/faq/storefront/sides" }, { id: "4", title: t("why_this_view"), href: "/faq/devices/view" }], t, icon, assistPart()));
     case "bell": {
@@ -467,3 +469,6 @@ function init(): void {
   draw(); drawLog();
 }
 init();
+/** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
+watchNames(document.body, () => t);
+void NAME_INFO_KEYS;   // this page carries the one-line descriptions, so search and the name notes say what each product does

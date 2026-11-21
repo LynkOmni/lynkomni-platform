@@ -1,0 +1,21 @@
+/* Every Lynk name carries its plain word (catalog/names.v1.json, ts/src/names.ts). Colours only from design tokens. */
+/* Where a screen lists a name: the plain word beside it, lighter. */
+.lname-label .lpl { margin-inline-start: 4px; color: var(--text-secondary); font-weight: 400; }
+.lname-label.lname-pf .lnm { margin-inline-start: 4px; color: var(--text-secondary); font-weight: 400; }
+/* In a header: the plain word as a small line under the name. */
+.lname-header { display: inline-flex; flex-direction: column; line-height: 1.2; }
+.lname-header .lpl { font-size: 0.75em; font-weight: 400; color: var(--text-secondary); }
+.lname-header.lname-pf .lnm { font-size: 0.75em; font-weight: 400; color: var(--text-secondary); }
+/* A marked name in a sentence or a button: a quiet dotted line says it explains itself on hover, focus or long press. */
+.lname-x:not(.lname-shown):not(.lname-said) { text-decoration: underline dotted; text-decoration-color: var(--border-strong); text-underline-offset: 2px; }
+.lname-shown .lpl { color: var(--text-secondary); }
+/* The note a long press opens: inside the screen, never covering it for long, never animated. */
+.ltip { position: fixed; z-index: 60; max-inline-size: min(280px, calc(100vw - 16px)); padding: 8px 12px; border: 1px solid var(--border-strong);
+  border-radius: 8px; background: var(--bg-surface); color: var(--text-primary); font: 14px/1.4 var(--font-body); display: grid; gap: 4px; }
+.ltip b { font-weight: 600; }
+.ltip span, .ltip small { color: var(--text-secondary); }
+@media print { .ltip { display: none; } .lname-x { text-decoration: none; } }
+/* The choice of how names show (account and Business app settings). */
+.names-choice h3 { margin: 16px 0 8px; font: 600 15px var(--font-heading); }
+.names-choice .choice { display: grid; gap: 2px; text-align: start; }
+.names-choice .names-eg { color: var(--text-secondary); font-size: 0.85em; }

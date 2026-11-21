@@ -1,0 +1,408 @@
+{
+ "version": 1,
+ "agreed": "2026-11-21 (owner: every Lynk name carries its plain word everywhere in LynkOmni)",
+ "rule": "Every Lynk name a person can see carries its plain word, from this register only. Names stay the same in every language; plain words and descriptions are translated into every language. A new product, service, feature, card group or device adds its entry here first, in the same change.",
+ "max_plain_chars": 40,
+ "places": {
+  "label": "Menus, side bar, launcher, search, pricing and product cards show the plain word beside or under the name (ts/src/names.ts nameLabel).",
+  "header": "Page and screen headers show the plain word as a small line under the name.",
+  "compact": "Small spaces (icons, the bottom bar, chips, buttons) show the name, with the plain word on hover, focus and long press and for screen readers.",
+  "running_text": "In running text the first mention on a screen shows the plain word in brackets; later mentions are marked and explain themselves on hover, focus and long press.",
+  "basic_phone": "Basic-phone menus show the plain word first.",
+  "plain_first": "A person may choose plain words first in their account, and the owner may switch it on for the business's devices."
+ },
+ "never": [
+  "receipts and fiscal documents",
+  "payment, count, void and signature screens (their focus header)",
+  "the fixed footer copyright line",
+  "what people type",
+  "code constants and file names"
+ ],
+ "company": [
+  "LynkOmni"
+ ],
+ "internal": [
+  "LynkDVBox",
+  "LynkCCBox",
+  "LynkVCRBox",
+  "LynkCore",
+  "LynkOID",
+  "LynkPoints"
+ ],
+ "retired": [
+  "LynkDash",
+  "LynkLedger",
+  "LynkShield",
+  "LynkOne",
+  "LynkPortal",
+  "LynkVCards"
+ ],
+ "names": [
+  {
+   "id": "pos",
+   "name": "LynkPOS",
+   "kind": "product",
+   "family": "lynkpos"
+  },
+  {
+   "id": "mpay",
+   "name": "LynkMPay",
+   "kind": "product",
+   "family": "lynkmpay"
+  },
+  {
+   "id": "checkout",
+   "name": "LynkCheckout",
+   "kind": "product",
+   "family": "lynkcheckout"
+  },
+  {
+   "id": "recover",
+   "name": "LynkRecover",
+   "kind": "product",
+   "family": "lynkrecover"
+  },
+  {
+   "id": "vcard",
+   "name": "LynkVCard",
+   "kind": "product",
+   "family": "lynkvcard"
+  },
+  {
+   "id": "acc",
+   "name": "LynkAcc",
+   "kind": "product",
+   "family": "lynkacc"
+  },
+  {
+   "id": "inv",
+   "name": "LynkInv",
+   "kind": "product",
+   "family": "lynkinv"
+  },
+  {
+   "id": "crm",
+   "name": "LynkCRM",
+   "kind": "product",
+   "family": "lynkcrm"
+  },
+  {
+   "id": "ops",
+   "name": "LynkOps",
+   "kind": "product",
+   "family": "lynkops"
+  },
+  {
+   "id": "stock",
+   "name": "LynkStock",
+   "kind": "product",
+   "family": "lynkstock"
+  },
+  {
+   "id": "stat",
+   "name": "LynkStat",
+   "kind": "product",
+   "family": "lynkstat"
+  },
+  {
+   "id": "rewards",
+   "name": "LynkRewards",
+   "kind": "product",
+   "family": "lynkrewards"
+  },
+  {
+   "id": "chat",
+   "name": "LynkChat",
+   "kind": "product",
+   "family": "lynkchat"
+  },
+  {
+   "id": "grow",
+   "name": "LynkGrow",
+   "kind": "product",
+   "family": "lynkgrow"
+  },
+  {
+   "id": "assist",
+   "name": "LynkAssist",
+   "kind": "product",
+   "family": "lynkassist"
+  },
+  {
+   "id": "motion",
+   "name": "LynkMotion",
+   "kind": "product",
+   "family": "lynkmotion"
+  },
+  {
+   "id": "guard",
+   "name": "LynkGuard",
+   "kind": "product",
+   "family": "lynkguard"
+  },
+  {
+   "id": "suite",
+   "name": "LynkSuite",
+   "kind": "product",
+   "family": "lynksuite"
+  },
+  {
+   "id": "dev",
+   "name": "LynkDev",
+   "kind": "product",
+   "family": "lynkdev"
+  },
+  {
+   "id": "booking",
+   "name": "LynkBooking",
+   "kind": "product",
+   "family": "lynkbooking"
+  },
+  {
+   "id": "essential",
+   "name": "LynkEssential",
+   "kind": "product",
+   "family": "lynkessential"
+  },
+  {
+   "id": "attend",
+   "name": "LynkAttend",
+   "kind": "product",
+   "family": "lynkattend"
+  },
+  {
+   "id": "queue",
+   "name": "LynkQueue",
+   "kind": "product",
+   "family": "lynkqueue"
+  },
+  {
+   "id": "survey",
+   "name": "LynkSurvey",
+   "kind": "product",
+   "family": "lynksurvey"
+  },
+  {
+   "id": "exchange",
+   "name": "LynkExchange",
+   "kind": "product",
+   "family": "lynkexchange"
+  },
+  {
+   "id": "vote",
+   "name": "LynkVote",
+   "kind": "product",
+   "family": "lynkvote"
+  },
+  {
+   "id": "hr",
+   "name": "LynkHR",
+   "kind": "product",
+   "family": "lynkhr"
+  },
+  {
+   "id": "project",
+   "name": "LynkProject",
+   "kind": "product",
+   "family": "lynkproject"
+  },
+  {
+   "id": "school",
+   "name": "LynkSchool",
+   "kind": "product",
+   "family": "lynkschool"
+  },
+  {
+   "id": "academy",
+   "name": "LynkAcademy",
+   "kind": "product",
+   "family": "lynkacademy"
+  },
+  {
+   "id": "property",
+   "name": "LynkProperty",
+   "kind": "product",
+   "family": "lynkproperty"
+  },
+  {
+   "id": "files",
+   "name": "LynkFiles",
+   "kind": "product",
+   "family": "lynkfiles"
+  },
+  {
+   "id": "jobs",
+   "name": "LynkJobs",
+   "kind": "product",
+   "family": "lynkjobs"
+  },
+  {
+   "id": "trace",
+   "name": "LynkTrace",
+   "kind": "service",
+   "part_of": "motion"
+  },
+  {
+   "id": "gps",
+   "name": "LynkGPS",
+   "kind": "service",
+   "part_of": "motion"
+  },
+  {
+   "id": "sentry",
+   "name": "LynkSentry",
+   "kind": "service",
+   "part_of": "guard"
+  },
+  {
+   "id": "hub",
+   "name": "LynkHub",
+   "kind": "service",
+   "part_of": "dev"
+  },
+  {
+   "id": "doc",
+   "name": "LynkDoc",
+   "kind": "service",
+   "part_of": "dev"
+  },
+  {
+   "id": "api",
+   "name": "LynkAPI",
+   "kind": "service",
+   "part_of": "dev"
+  },
+  {
+   "id": "sdk",
+   "name": "LynkSDK",
+   "kind": "service",
+   "part_of": "dev"
+  },
+  {
+   "id": "faq",
+   "name": "LynkFAQ",
+   "kind": "service"
+  },
+  {
+   "id": "support",
+   "name": "LynkSupport",
+   "kind": "service"
+  },
+  {
+   "id": "status",
+   "name": "LynkStatus",
+   "kind": "service"
+  },
+  {
+   "id": "feedback",
+   "name": "LynkFeedback",
+   "kind": "service"
+  },
+  {
+   "id": "safety",
+   "name": "LynkSafety",
+   "kind": "service"
+  },
+  {
+   "id": "flow",
+   "name": "LynkFlow",
+   "kind": "service"
+  },
+  {
+   "id": "mesh",
+   "name": "LynkMesh",
+   "kind": "service",
+   "part_of": "pos"
+  },
+  {
+   "id": "driver",
+   "name": "LynkDriver",
+   "kind": "service"
+  },
+  {
+   "id": "id",
+   "name": "LynkID",
+   "kind": "service"
+  },
+  {
+   "id": "proof",
+   "name": "LynkProof",
+   "kind": "feature",
+   "part_of": "mpay"
+  },
+  {
+   "id": "split",
+   "name": "LynkSplit",
+   "kind": "feature",
+   "part_of": "mpay"
+  },
+  {
+   "id": "audit",
+   "name": "LynkAudit",
+   "kind": "feature",
+   "part_of": "acc"
+  },
+  {
+   "id": "edge",
+   "name": "LynkEdge",
+   "kind": "feature",
+   "part_of": "dev"
+  },
+  {
+   "id": "prima",
+   "name": "LynkPrima",
+   "kind": "card_group",
+   "part_of": "vcard"
+  },
+  {
+   "id": "dyna",
+   "name": "LynkDyna",
+   "kind": "card_group",
+   "part_of": "vcard"
+  },
+  {
+   "id": "crest",
+   "name": "LynkCrest",
+   "kind": "card_group",
+   "part_of": "vcard"
+  },
+  {
+   "id": "mobile",
+   "name": "LynkMobile",
+   "kind": "device",
+   "about": false
+  },
+  {
+   "id": "tab",
+   "name": "LynkTab",
+   "kind": "device",
+   "about": false
+  },
+  {
+   "id": "pc",
+   "name": "LynkPC",
+   "kind": "device",
+   "about": false
+  },
+  {
+   "id": "kiosk",
+   "name": "LynkKiosk",
+   "kind": "device",
+   "about": false
+  },
+  {
+   "id": "dscreen",
+   "name": "LynkDScreen",
+   "kind": "device",
+   "about": false
+  },
+  {
+   "id": "cdisplay",
+   "name": "LynkCDisplay",
+   "kind": "device",
+   "about": false
+  }
+ ],
+ "max_plain_reason": "A plain word fits two short lines in a launcher tile in every language; the fit guard checks the layout itself.",
+ "retired_note": "Names banned outright (core/naming.py BANNED) are never written anywhere, not even here; a screen that showed one would fail as an unknown name."
+}

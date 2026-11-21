@@ -9,6 +9,7 @@ import type { Line } from "./notify.js";
 import { askBox, lookup } from "./assist.js";
 import type { Entry as KEntry } from "./assist.js";
 import { deviceCrumbs } from "./devicekit.js";
+import { nameEntries } from "./names.js";
 
 export type DsPanel = "" | "search" | "help" | "account" | "sync" | "locale" | "bell" | "why";
 /** The screen in view: its register id, its title and its address on app.lynkomni.com (catalog/addresses.v1.json). */
@@ -76,7 +77,7 @@ export class DeviceShell {
       const l = this.h.locale();
       body = `<div class="dsh-locale" role="dialog" aria-modal="true" aria-labelledby="dshLocaleT"><h2 id="dshLocaleT">${SH.esc(t("locale_title"))}</h2><dl><dt>${SH.esc(t("language"))}</dt><dd>${SH.esc(l.language)}</dd><dt>${SH.esc(t("region"))}</dt><dd>${SH.esc(l.region)}</dd><dt>${SH.esc(t("currency"))}</dt><dd>${SH.esc(l.currency)}</dd></dl>
         <button class="dsh-primary" data-act="dsh:localeok">${SH.esc(t("looks_right"))}</button>${l.english ? "" : `<button class="dsh-secondary" data-act="dsh:english" lang="en" dir="ltr">English</button>`}<button class="dsh-link" data-act="dsh:localechange">${SH.esc(t("change"))}</button><p class="dsh-note">${SH.esc(t("presentation_only"))}</p></div>`;
-    } else if (p === "search") body = SH.commandBar(this.q, SH.search([...this.h.entries(), { id: "pictures", kind: "setting", title: t("low_literacy"), act: "dsh:pictures" }], this.q), t, icon);
+    } else if (p === "search") body = SH.commandBar(this.q, SH.search([...this.h.entries(), { id: "pictures", kind: "setting", title: t("low_literacy"), act: "dsh:pictures" }, ...nameEntries(t, undefined, "dsh:close")], this.q), t, icon);
     else if (p === "help") body = SH.helpPanel(this.h.screen().title, this.h.articles(this.h.screen().id), t, icon, this.h.knowledge ? this.askPart() : "");
     else if (p === "bell" && this.h.lines) body = bell(this.h.lines(), { filter: this.filter, lastOpened: this.lastOpened, areas: [] }, t, icon, this.h.clock);
     else if (p === "why" && this.h.lines) { const l = this.h.lines().find((x) => x.nid === this.whyNid); body = l ? whySheet(l, t, icon) : ""; }

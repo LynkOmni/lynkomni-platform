@@ -19,6 +19,7 @@ import type { Volume } from "../../../ts/src/soundprefs.js";
 import { playSound, soundForAct } from "../../../ts/src/keytones.js";
 import type { Sound } from "../../../ts/src/keytones.js";
 import { SOUNDS } from "../../../ts/src/sounds.generated.js";
+import { watchNames } from "../../../ts/src/names.js";
 
 declare const DATA: Build;
 /** Shell parts on a button phone (41 B, decided 9 November 2026): there is no touch screen, so "find or do" is the numbered menu
@@ -251,3 +252,5 @@ function main(): void {
   (window as unknown as { __settle: () => void }).__settle = () => { if (S.scr === "locale") { S.scr = "menu"; S.sel = 0; } draw(); };
 }
 main();
+/** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
+watchNames(document.body, () => t);

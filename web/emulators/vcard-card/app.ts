@@ -6,6 +6,7 @@ import type { UserState } from "../../../ts/src/pos.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, reducedMotion, stateButtons } from "../../../ts/src/emulator.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { cardFormFields, cardName, cardWord } from "../../../ts/src/devicekit.js";
+import { watchNames } from "../../../ts/src/names.js";
 
 interface Card { face: string; front: string; front_alt: string; back: string; back_alt: string; price_usd: number; limits: Record<string, unknown> }
 interface Sample { front: string; front_alt: string; back: string; back_alt: string }
@@ -102,3 +103,5 @@ function main(): void {
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 700);
 }
 main();
+/** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
+watchNames(document.body, () => t);

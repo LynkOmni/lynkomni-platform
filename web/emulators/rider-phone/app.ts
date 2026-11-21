@@ -17,6 +17,7 @@ import { chooseInterface } from "../../../ts/src/interfaces.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
 import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
+import { watchNames } from "../../../ts/src/names.js";
 
 declare const DATA: Build;
 interface Job { id: string; order: number; area: string; amount: number; state: DeliveryState; code: string; proof?: "code" | "photo" }
@@ -170,3 +171,5 @@ function main(): void {
   (window as unknown as { __refit: () => void }).__refit();
 }
 main();
+/** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
+watchNames(document.body, () => t);

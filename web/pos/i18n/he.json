@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "5717081e3105e63dd57a6c5f3dd38009d0277a4a68b072b57b84416d971d9f21",
+ "source_sha256": "d5f6d4028dd03c35f4d8ce6f1a7bbaea75b1aa4412b74b5d64687a13f922361e",
  "texts": {
   "academy": "אקדמיה",
   "academy_hint": "שיעור קצר נפתח ליד המסך שהוא מלמד.",
@@ -121,7 +121,7 @@
   "ch_s_yes": "{n}. כן",
   "ch_sale_saved": "המכירה נשמרה. קבלה {receipt}.",
   "ch_stock_line": "{name}: {level}",
-  "ch_title": "LynkPOS",
+  "ch_title": "נקודת מכירה (LynkPOS)",
   "ch_today": "היום: {count} מכירות, {total}",
   "change": "עודף",
   "charge": "גביית תשלום",

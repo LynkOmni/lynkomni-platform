@@ -235,6 +235,11 @@
    "id": "sound_switches",
    "what": "Every sound and vibration has an on/off switch; a person's choice lives once in their account, is remembered and followed on every device and page; a shared device follows its manager; only security and safety alerts always sound; a sound is never the only signal",
    "enforced_by": "tests/test_sounds.py"
+  },
+  {
+   "id": "plain_names",
+   "what": "Every Lynk name a person sees carries its plain word (and, where the page has room, what it does), from the names register, in all 38 languages; a new product, service, feature, card group or device is added there first",
+   "enforced_by": "tests/test_names.py, tests/test_fit_guard.py"
   }
  ],
  "not_applicable": {

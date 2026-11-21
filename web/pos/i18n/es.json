@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "es",
  "native": "Español",
- "source_sha256": "5717081e3105e63dd57a6c5f3dd38009d0277a4a68b072b57b84416d971d9f21",
+ "source_sha256": "d5f6d4028dd03c35f4d8ce6f1a7bbaea75b1aa4412b74b5d64687a13f922361e",
  "texts": {
   "academy": "Academia",
   "academy_hint": "Un curso corto se abre junto a la pantalla que explica.",
@@ -121,7 +121,7 @@
   "ch_s_yes": "{n}. Sí",
   "ch_sale_saved": "Venta guardada. Recibo {receipt}.",
   "ch_stock_line": "{name}: {level}",
-  "ch_title": "LynkPOS",
+  "ch_title": "Punto de venta (LynkPOS)",
   "ch_today": "Hoy: {count} ventas, {total}",
   "change": "Cambio",
   "charge": "Cobrar",

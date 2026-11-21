@@ -29,10 +29,23 @@ def uses_shell(emulator):
         return "ts/src/shell.js" in f.read()
 
 
+# Word folders a page carries when it uses the module anywhere, even through another shared part (the footer and the
+# shell use ts/src/names.ts): every Lynk name a page shows must carry its plain word (catalog/names.v1.json).
+DEEP_WORDS = (("names", os.path.join("web", "names")), ("nameinfo", os.path.join("web", "nameinfo")))
+
+
+def imported_modules(emulator):
+    """The names of every ts/src module the emulator imports, directly or through another module."""
+    import re
+    return set(re.findall(r'^import\s+(?!type\b)[^;]*?from\s+"[./]*(?:ts/src/)?([a-z]+)\.js";', imported_sources(emulator), re.M))
+
+
 def shared_folders(emulator):
     with open(os.path.join(ROOT, "web", "emulators", emulator, "app.ts"), encoding="utf-8") as f:
         src = f.read()
-    return list(dict.fromkeys(folder for module, folder in SHARED_WORDS if module in src and os.path.isdir(os.path.join(ROOT, folder))))
+    mods = imported_modules(emulator)
+    deep = [folder for module, folder in DEEP_WORDS if module in mods]
+    return list(dict.fromkeys([folder for module, folder in SHARED_WORDS if module in src and os.path.isdir(os.path.join(ROOT, folder))] + deep))
 
 
 def _packs(base):
@@ -179,10 +192,6 @@ SERVICES = [("pos", "LynkPOS", "product-pos"), ("accountant", "LynkAcc", "produc
 HREF = {"LynkMotion": "/tracking", "LynkGuard": "/protection"}
 
 
-# Each product's footer id, whose plain word ("Accounting") travels beside its short name everywhere it is listed (web/footer ft_plain_<id>).
-PLAIN_ID = {"LynkPOS": "pos", "LynkAcc": "acc", "LynkStock": "stock", "LynkStat": "stat", "LynkGrow": "grow", "LynkChat": "chat", "LynkMPay": "mpay",
-            "LynkCheckout": "checkout", "LynkRewards": "rewards", "LynkRecover": "recover", "LynkVCard": "vcard", "LynkMotion": "motion", "LynkGuard": "guard",
-            "LynkAttend": "attend", "LynkQueue": "queue", "LynkSurvey": "survey"}
 
 
 # The brand places the screens ask for (brand/surfaces.v1.json): each place lists its choices in order with the smallest
@@ -325,7 +334,7 @@ def main(emulator):
         "pictures": {"offLight": svg(pic["light"].path), "offDark": svg(pic["dark"].path), "offAlt": pic["light"].alt},
         "states": {k: {"label": v["label"], "meaning": v["meaning"]} for k, v in states.items()},
         "packs": packs, "packOrder": list(packs),   # the country chooser: the sample pack first, then every real pack
-        "serviceCatalog": [{"service": sv, "id": nm.lower(), "name": nm, "icon": ic, "plain": PLAIN_ID[nm], "href": HREF.get(nm, f"/{sv}")} for sv, nm, ic in SERVICES], "methods": list(METHOD_ITEMS), "offMessage": off["message"],
+        "serviceCatalog": [{"service": sv, "id": nm.lower(), "name": nm, "icon": ic, "href": HREF.get(nm, f"/{sv}")} for sv, nm, ic in SERVICES], "methods": list(METHOD_ITEMS), "offMessage": off["message"],
         # what each LynkPOS plan allows (billing FEATURES merged up to the tier) and the PLACEHOLDER rates behind the second-currency estimate (core/money.py, ledger fx_rates)
         "entitlements": {tier: entitlement("lynkpos", tier) for tier in billing.FAMILIES["lynkpos"][2]}, "checkout": {tier: entitlement("lynkcheckout", tier) for tier in billing.FAMILIES["lynkcheckout"][2]},
         "fx": {k: float(v) for k, v in USD_RATES.items()},

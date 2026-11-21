@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "5717081e3105e63dd57a6c5f3dd38009d0277a4a68b072b57b84416d971d9f21",
+ "source_sha256": "d5f6d4028dd03c35f4d8ce6f1a7bbaea75b1aa4412b74b5d64687a13f922361e",
  "texts": {
   "academy": "アカデミー",
   "academy_hint": "短いレッスンが、その内容を説明する画面の横に開きます。",
@@ -121,7 +121,7 @@
   "ch_s_yes": "{n}. はい",
   "ch_sale_saved": "販売を保存しました。レシート {receipt}。",
   "ch_stock_line": "{name}：{level}",
-  "ch_title": "LynkPOS",
+  "ch_title": "レジ（LynkPOS）",
   "ch_today": "今日：{count} 件、{total}",
   "change": "おつり",
   "charge": "支払いを受ける",

@@ -34,6 +34,7 @@ import { tabsHtml } from "../../../ts/src/appshell.js";
 import { NAV } from "../../../ts/src/navigation.generated.js";
 import { layoutFor } from "../../../ts/src/interfaces.js";
 import { applyLayout } from "../../../ts/src/turn.js";
+import { watchNames } from "../../../ts/src/names.js";
 
 declare const DATA: Build & { entitlements: Record<string, PosEntitlement>; fx: Record<string, number> };
 type Tab = "home" | "sell" | "stock" | "chats" | "business" | "tables" | "kitchen" | "invoices" | "customers" | "services" | "float";
@@ -424,3 +425,5 @@ function main(): void {
   fitToWidth($("#rig"), 740);
 }
 main();
+/** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
+watchNames(document.body, () => t);
