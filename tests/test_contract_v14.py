@@ -18,7 +18,7 @@ class ContractV14(unittest.TestCase):
     def test_built_from_v13_and_current(self):
         r = subprocess.run([sys.executable, str(ROOT / "contract" / "tools" / "build_v14.py"), "--check"], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertEqual(CURRENT, 14)
+        self.assertGreaterEqual(CURRENT, 14)                                  # version 15 (section 4, step E4b) reads version 14 unchanged
 
     def test_only_the_new_events_are_added(self):
         self.assertEqual(set(V14["events"]) - set(V13["events"]), NEW)
@@ -44,10 +44,10 @@ class ContractV14(unittest.TestCase):
 
     def test_a_version_13_event_reads_as_version_14_unchanged(self):
         old = {"type": "LegalHoldChanged", "schema_version": 13, "payload": {"document_id": uuid7(), "on": True}}
-        self.assertEqual(upcast(old)["schema_version"], 14)
+        self.assertEqual(upcast(old)["schema_version"], CURRENT)
 
     def test_a_paid_booking_validates_and_a_float_amount_is_refused(self):
-        ok = {"event_id": uuid7(), "origin": "server", "merchant_id": MERCHANT, "type": "BookingPaid", "schema_version": 14,
+        ok = {"event_id": uuid7(), "origin": "server", "merchant_id": MERCHANT, "type": "BookingPaid", "schema_version": CURRENT,
               "created_at_server": ts(), "server_cursor": 1, "server_signature": fake_sig(),
               "payload": {"booking_id": uuid7(), "part": "deposit", "amount": 2000, "currency": "USD", "provider_reference": "prov-123"}}
         self.assertEqual(validate_event(ok), [], validate_event(ok))

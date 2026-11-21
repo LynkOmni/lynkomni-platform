@@ -1133,6 +1133,62 @@
    "test": "tests/test_booking_office.py::test_invoices_for_deposits_passes_and_company_bookings",
    "build_section": 4,
    "status": "built"
+  },
+  {
+   "id": "exchange-no-partner-no-money",
+   "asset": "money",
+   "threat": "Money moves where no licensed partner is signed, or a practice order touches real money or the books",
+   "enforced_in": [
+    "services/exchange_office.py",
+    "services/exchange_partners.py"
+   ],
+   "test": "tests/test_exchange_office.py::test_coming_soon_where_no_partner_and_practice_everywhere",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "exchange-two-people",
+   "asset": "money",
+   "threat": "One person places and approves a large exchange order",
+   "enforced_in": [
+    "services/exchange_office.py"
+   ],
+   "test": "tests/test_exchange_office.py::test_a_second_person_approves_large_orders",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "exchange-price-countdown",
+   "asset": "money",
+   "threat": "An order is placed at a price whose countdown has run out",
+   "enforced_in": [
+    "services/exchange_office.py"
+   ],
+   "test": "tests/test_exchange_office.py::test_an_expired_price_is_never_used",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "exchange-pay-once",
+   "asset": "money",
+   "threat": "A repeated answer from the partner pays an invoice or a bill twice",
+   "enforced_in": [
+    "services/exchange_office.py"
+   ],
+   "test": "tests/test_exchange_office.py::test_an_invoice_paid_from_abroad_and_a_bill_paid_abroad",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "exchange-payee-details",
+   "asset": "personal_data",
+   "threat": "A payee's bank details or name reach an event, a record or a report",
+   "enforced_in": [
+    "services/exchange_office.py"
+   ],
+   "test": "tests/test_exchange_office.py::test_payees_live_in_lynkcrm_with_bank_details_only_in_the_vault",
+   "build_section": 4,
+   "status": "built"
   }
  ]
 }

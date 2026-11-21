@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "707fd781c691b26e941e25ce189485daba096bb5f4be6190e1eec1673d609df9",
+ "source_sha256": "925ee3e4de11a1199f5f44c71c942ec045bdf0d46b37ac13ad35645476813a90",
  "texts": {
   "trk_accepted": "A ti gbà á wọlé",
   "trk_active": "Ó ń ṣiṣẹ́",
@@ -117,6 +117,7 @@
   "trk_ready": "Ó ti ṣetán",
   "trk_ready_to_download": "Ó ṣetán láti gbà sílẹ̀",
   "trk_received": "A ti gbà",
+  "trk_refunded": "Ti dá owó padà",
   "trk_rejected": "A kò fọwọ́ sí",
   "trk_repaid": "A ti san tán",
   "trk_repairing": "À ń tún un ṣe",

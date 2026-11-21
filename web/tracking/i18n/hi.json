@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "707fd781c691b26e941e25ce189485daba096bb5f4be6190e1eec1673d609df9",
+ "source_sha256": "925ee3e4de11a1199f5f44c71c942ec045bdf0d46b37ac13ad35645476813a90",
  "texts": {
   "trk_accepted": "स्वीकार किया",
   "trk_active": "सक्रिय",
@@ -117,6 +117,7 @@
   "trk_ready": "तैयार",
   "trk_ready_to_download": "डाउनलोड के लिए तैयार",
   "trk_received": "मिला",
+  "trk_refunded": "धनवापसी हो गई",
   "trk_rejected": "स्वीकृत नहीं",
   "trk_repaid": "चुका दिया",
   "trk_repairing": "मरम्मत हो रही है",

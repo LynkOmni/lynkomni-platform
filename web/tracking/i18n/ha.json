@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "707fd781c691b26e941e25ce189485daba096bb5f4be6190e1eec1673d609df9",
+ "source_sha256": "925ee3e4de11a1199f5f44c71c942ec045bdf0d46b37ac13ad35645476813a90",
  "texts": {
   "trk_accepted": "An karɓa",
   "trk_active": "Yana aiki",
@@ -117,6 +117,7 @@
   "trk_ready": "A shirye",
   "trk_ready_to_download": "A shirye don saukewa",
   "trk_received": "An karɓa",
+  "trk_refunded": "An mayar da kuɗi",
   "trk_rejected": "Ba a amince ba",
   "trk_repaid": "An gama biya",
   "trk_repairing": "Ana gyarawa",

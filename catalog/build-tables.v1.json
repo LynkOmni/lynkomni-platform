@@ -112,7 +112,8 @@
      "done": {},
      "progress": {
       "4": [
-       "v0.49.0: the lynkexchange billing family with its tiers, the Exchange levels, the price lock, addresses, places and the revenue model"
+       "v0.49.0: the lynkexchange billing family with its tiers, the Exchange levels, the price lock, addresses, places and the revenue model",
+       "v0.82.0: contract events (version 15), the exchange tracker kind, the country switch with the practice partner; conversions and rate gains or losses in LynkAcc; invoices paid from abroad in LynkInv and bills paid abroad; payees in LynkCRM; the Exchange report for LynkStat; proof of exchange as a verified document"
       ]
      }
     },

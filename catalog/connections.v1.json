@@ -190,8 +190,10 @@
    "id": "exchange-acc",
    "from": "lynkexchange",
    "to": "lynkacc",
-   "what": "Conversions and rate gains or losses post to the books",
+   "what": "Conversions in the books: money sent to the partner in the clearing account, foreign money held at its cost, rate gains or losses when it comes back, refunds",
    "events": [
+    "ExchangeOrderPaid",
+    "ExchangeRefunded",
     "ExchangeSettled"
    ],
    "planned_events": [],
@@ -494,13 +496,13 @@
    "id": "exchange-inv",
    "from": "lynkexchange",
    "to": "lynkinv",
-   "what": "An invoice in another currency settled through LynkExchange",
+   "what": "An invoice paid from abroad: the customer pays in their own money through the licensed partner and the invoice is paid when the partner settles",
    "events": [
     "ExchangeSettled"
    ],
    "planned_events": [],
    "consent": "none",
-   "build_section": 10
+   "build_section": 4
   },
   {
    "id": "stock-acc",
@@ -827,6 +829,56 @@
    "events": [
     "BookingConfirmed",
     "BookingNoShow"
+   ],
+   "planned_events": [],
+   "consent": "merchant",
+   "build_section": 4
+  },
+  {
+   "id": "exchange-crm",
+   "from": "lynkexchange",
+   "to": "lynkcrm",
+   "what": "Payees are LynkCRM records of the kind payee; their name and bank details stay in the vault",
+   "events": [
+    "ExchangeOrderPlaced"
+   ],
+   "planned_events": [],
+   "consent": "merchant",
+   "build_section": 4
+  },
+  {
+   "id": "exchange-stat",
+   "from": "lynkexchange",
+   "to": "lynkstat",
+   "what": "The Exchange report: volume per currency pair, LynkOmni's part paid, rate gains and losses, orders by state",
+   "events": [
+    "ExchangeSettled",
+    "ExchangeOrderFailed"
+   ],
+   "planned_events": [],
+   "consent": "merchant",
+   "build_section": 4
+  },
+  {
+   "id": "exchange-files",
+   "from": "lynkexchange",
+   "to": "lynkfiles",
+   "what": "A proof of exchange kept in LynkFiles with a code anyone can check",
+   "events": [
+    "ExchangeProofIssued"
+   ],
+   "planned_events": [],
+   "consent": "merchant",
+   "build_section": 4
+  },
+  {
+   "id": "exchange-bills",
+   "from": "lynkexchange",
+   "to": "lynkacc",
+   "what": "A bill paid to a supplier abroad is paid when the partner settles",
+   "events": [
+    "ExchangeOrderPlaced",
+    "ExchangeSettled"
    ],
    "planned_events": [],
    "consent": "merchant",

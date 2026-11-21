@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ar",
  "native": "العربية",
- "source_sha256": "707fd781c691b26e941e25ce189485daba096bb5f4be6190e1eec1673d609df9",
+ "source_sha256": "925ee3e4de11a1199f5f44c71c942ec045bdf0d46b37ac13ad35645476813a90",
  "texts": {
   "trk_accepted": "مقبول",
   "trk_active": "نشط",
@@ -117,6 +117,7 @@
   "trk_ready": "جاهز",
   "trk_ready_to_download": "جاهز للتنزيل",
   "trk_received": "تم الاستلام",
+  "trk_refunded": "تم الاسترداد",
   "trk_rejected": "لم تتم الموافقة",
   "trk_repaid": "سُدّد",
   "trk_repairing": "قيد الإصلاح",

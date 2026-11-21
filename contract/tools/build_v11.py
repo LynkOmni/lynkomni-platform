@@ -26,7 +26,8 @@ with open(os.path.join(CAT, "invoices.v1.json"), encoding="utf-8") as _f:
     INV = json.load(_f)
 with open(os.path.join(CAT, "crm.v1.json"), encoding="utf-8") as _f:
     CRM = json.load(_f)
-CRM_KINDS = sorted({k for ks in CRM["kinds"].values() for k in ks} | {"own_kind"})
+# Frozen as published in version 11: later kinds (the payee of version 15) join only in their own contract version.
+CRM_KINDS = sorted({k for ks in CRM["kinds"].values() for k in ks if k != "payee"} | {"own_kind"})
 U7, SHA, MONEY, SMONEY = {"$ref": "#/$defs/uuid7"}, {"$ref": "#/$defs/sha256"}, {"$ref": "#/$defs/money"}, {"$ref": "#/$defs/money_signed"}
 CUR, DATE, PERIOD = {"$ref": "#/$defs/currency"}, {"$ref": "#/$defs/date"}, {"$ref": "#/$defs/period"}
 INT0, INT1 = {"type": "integer", "minimum": 0}, {"type": "integer", "minimum": 1}

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ta",
  "native": "தமிழ்",
- "source_sha256": "707fd781c691b26e941e25ce189485daba096bb5f4be6190e1eec1673d609df9",
+ "source_sha256": "925ee3e4de11a1199f5f44c71c942ec045bdf0d46b37ac13ad35645476813a90",
  "texts": {
   "trk_accepted": "ஏற்கப்பட்டது",
   "trk_active": "செயலில்",
@@ -117,6 +117,7 @@
   "trk_ready": "தயார்",
   "trk_ready_to_download": "பதிவிறக்கத் தயார்",
   "trk_received": "பெறப்பட்டது",
+  "trk_refunded": "பணம் திருப்பி அளிக்கப்பட்டது",
   "trk_rejected": "ஒப்புதல் இல்லை",
   "trk_repaid": "திருப்பிச் செலுத்தப்பட்டது",
   "trk_repairing": "பழுது நீக்கம்",

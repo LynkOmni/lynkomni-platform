@@ -3088,6 +3088,58 @@
    "offline": false,
    "default": "off",
    "standing_instruction": false
+  },
+  {
+   "id": "exchange-to-books",
+   "area": "Exchange",
+   "build_section": 4,
+   "family": "lynkexchange",
+   "min_tier": "free",
+   "trigger": "event:ExchangeSettled",
+   "action": "Exchange orders post to LynkAcc from the partner's answers: the clearing account, foreign money at cost, rate gains or losses when it comes back, refunds; undo reverses the entry",
+   "level": "auto_undo",
+   "assist": null,
+   "touches": [
+    "books"
+   ],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false
+  },
+  {
+   "id": "exchange-pays-invoice-or-bill",
+   "area": "Exchange",
+   "build_section": 4,
+   "family": "lynkexchange",
+   "min_tier": "free",
+   "trigger": "event:ExchangeSettled",
+   "action": "An invoice paid from abroad or a bill paid abroad is recorded as paid once, when the partner settles",
+   "level": "auto_undo",
+   "assist": null,
+   "touches": [
+    "books"
+   ],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false
+  },
+  {
+   "id": "exchange-proof-on-settle",
+   "area": "Exchange",
+   "build_section": 4,
+   "family": "lynkexchange",
+   "min_tier": "free",
+   "trigger": "event:ExchangeSettled",
+   "action": "Keeps a proof of exchange in LynkFiles with a code anyone can check, when the owner has switched this on",
+   "level": "auto",
+   "assist": null,
+   "touches": [],
+   "customer_message": false,
+   "offline": false,
+   "default": "off",
+   "standing_instruction": false
   }
  ],
  "careful": [
