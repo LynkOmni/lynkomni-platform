@@ -312,13 +312,17 @@
       "4"
      ],
      "part": "Groundwork for all of section 67: the limits in billing, the register entries (placements, addresses, automations, tracker kinds, messages, APIs), the provider ledger entries with sandbox adapters, events in a new contract version. LynkStat additions in full (67.5). The office side of gift cards and store credit, deposits, matching centre and payment costs in LynkAcc. Move-in tools for every service (67.15). The large-organisation set applied to every service (67.15)",
-     "done": {},
+     "done": {
+      "4": "v0.87.0"
+     },
      "progress": {
       "4": [
        "v0.55.0: contract version 9 with the events of the section 4 links (invoices and credit notes issued, period closed, deal stage, a card in a conversation, ad earnings, a filed document, a vote's roll, a settled exchange) and two offline device commands",
        "v0.73.0: the LynkStat additions in full (67.5): catalog/stats.v1.json read by core/stats.py and ts/src/stats.ts with shared vectors (groups over time, what if always labelled an estimate, your own measures as formulas of figures, seeing only your part, freshness, scheduled exports, goals, notes on a chart, public reports with small groups hidden) and LynkStat in the cloud (services/stats.py) reading figures from the books, LynkInv and LynkCRM",
        "v0.75.0: LynkStat's additions on screen in 38 languages: the overview with freshness and a goal, your own measures, what if, groups over time and a public report",
-       "v0.85.0: Move in for every service (products, stock levels, members, points, bookings and payees beside customers, suppliers, opening balances and open items; each column's type checked, every reference known) and the large-organisation set for every service (approval flows for each service's documents, own roles over every area), each needing that service's Max plus an Enterprise agreement"
+       "v0.85.0: Move in for every service (products, stock levels, members, points, bookings and payees beside customers, suppliers, opening balances and open items; each column's type checked, every reference known) and the large-organisation set for every service (approval flows for each service's documents, own roles over every area), each needing that service's Max plus an Enterprise agreement",
+       "v0.86.0: the office side of gift cards and store credit, deposits, the matching centre and payment costs in LynkAcc (67.2, 67.8): catalog/office-money.v1.json read by core/office_money.py and ts/src/officemoney.ts with shared vectors, contract version 16, the cloud service services/office_money.py posting each fact once, the payout calendar and the provider's settlement report, the tracker provider_payout, three automations, two cash places and five feature placements",
+       "v0.87.0: the 67.18 partners with sandboxes and ledger entries (services/services_partners.py: chat app and social page connectors, a call partner, a licensed lender for pay in parts, map and search listing connectors, outside warehouses, online-shop plugin listings, transport card, toll and parking billers, government fee collectors); delivery firms and phone wallets already had theirs; the register entries for all of section 67: 92 feature placements (help, search and sitemap) with their build sections, 37 automations and 17 message kinds in the sections that build them"
       ]
      }
     },
@@ -1663,9 +1667,9 @@
      "sections": [
       "4"
      ],
-     "part": "The names register and its words in 38 languages; every emulator marks every name; launchers with plain words; search by plain word; LynkAssist's \"What is ...?\"; basic phones plain first; plain words first in the account and the Business app; the checks (v0.79.0). The 15 improvements: product marks beside names, the first-time welcome card, \"now called\" search and one-time notices, how to say each name, brackets that step back, \"Which one do I need?\", plain words in messages, on LynkOmni's own bills and on printed receipts, Names A to Z in the app, the plain-word check, the confusion totals service, LynkAssist's comparisons, and the search register's plain-word data (v0.81.0). Then, in v0.86.0: each Lynk name's own product mark released in lynkomni-icons and vendored (LynkAcc, LynkInv, LynkCRM, LynkOps, LynkStat, LynkExchange, LynkVote, LynkHR, LynkProject, LynkSchool, LynkAcademy, LynkProperty, LynkFiles, LynkJobs, LynkFAQ, LynkSupport, LynkStatus, LynkFeedback, LynkSafety, LynkFlow, LynkDriver, LynkID and LynkAudit's product; provider ledger ops_product_icons and product_marks_all), named in catalog/names.v1.json; LynkInv and LynkCRM joined the Business tab with their own marks",
+     "part": "The names register and its words in 38 languages; every emulator marks every name; launchers with plain words; search by plain word; LynkAssist's \"What is ...?\"; basic phones plain first; plain words first in the account and the Business app; the checks (v0.79.0). The 15 improvements: product marks beside names, the first-time welcome card, \"now called\" search and one-time notices, how to say each name, brackets that step back, \"Which one do I need?\", plain words in messages, on LynkOmni's own bills and on printed receipts, Names A to Z in the app, the plain-word check, the confusion totals service, LynkAssist's comparisons, and the search register's plain-word data (v0.81.0). Then, in v0.89.0: each Lynk name's own product mark released in lynkomni-icons and vendored (LynkAcc, LynkInv, LynkCRM, LynkOps, LynkStat, LynkExchange, LynkVote, LynkHR, LynkProject, LynkSchool, LynkAcademy, LynkProperty, LynkFiles, LynkJobs, LynkFAQ, LynkSupport, LynkStatus, LynkFeedback, LynkSafety, LynkFlow, LynkDriver, LynkID and LynkAudit's product; provider ledger ops_product_icons and product_marks_all), named in catalog/names.v1.json; LynkInv and LynkCRM joined the Business tab with their own marks",
      "done": {
-      "4": "v0.86.0"
+      "4": "v0.89.0"
      }
     },
     {

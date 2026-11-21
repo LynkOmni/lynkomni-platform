@@ -75,8 +75,10 @@ FEATURES = {
                   stock_at_till="barcodes_variants_alerts", staff="tracking", rewards_included="plus", pickup_orders=True, staff_commissions=True),
              dict(devices=None, users=None, branches=None, outlets=None, custom_roles=True, api=True, custom_domain=True, several_businesses=True,
                   rewards_included="pro", payroll_lite=True, custom_receipts=True, dedicated_manager=True)],   # seat price and hardware are PLACEHOLDERS
- "lynkacc": [dict(users=1, daily_profit=True, monthly_profit=True, cash_and_mobile_money=True, accountant_access="view", audit_fee_cents=250),
-             dict(users=3, full_books=True, tax_estimate=True, bank_accounts=True, statement_import=True, weekly_report=True, accountant_access="full"),
+ "lynkacc": [dict(users=1, daily_profit=True, monthly_profit=True, cash_and_mobile_money=True, accountant_access="view", audit_fee_cents=250,
+                  gift_cards_and_deposits=True, payment_costs=True, matching_centre="by_hand", auto_match=False),   # 67.17: the office side on every tier
+             dict(users=3, full_books=True, tax_estimate=True, bank_accounts=True, statement_import=True, weekly_report=True, accountant_access="full",
+                  matching_centre="automatic", auto_match=True),
              dict(users=10, multi_branch_totals=True, credit_ledger=True, collections=True, full_statements=True, journal=True, tax_presets=True, several_currencies=True, audit_fee_cents=150),
              dict(users=None, exports=True, integrations=True, consolidation=True, payroll_lite=True, api=True, audit_fee_cents=0)],   # LynkAudit exports; included at Max
  "lynkinv": [dict(powered_by="required", users=1, invoices_per_month=5, invoice_branding="lynkomni", invoice_series=1, quotes=True, credit_notes=True, pay_link=True,

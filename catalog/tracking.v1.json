@@ -1808,6 +1808,40 @@
      ]
     }
    ]
+  },
+  {
+   "id": "provider_payout",
+   "record": "TXN",
+   "key": "payout_id",
+   "family": "lynkacc",
+   "ui_section": 4,
+   "viewers": {
+    "merchant": "app.lynkomni.com/accounting"
+   },
+   "note": "A payments provider's payout to the shop's own bank or wallet (the payout calendar, 67.8): expected and arrived only from the provider; late is shown on the calendar, never claimed as lost.",
+   "steps": [
+    {
+     "id": "expected",
+     "state": "sent",
+     "customer": false,
+     "on": [
+      {
+       "event": "ProviderPayoutScheduled"
+      }
+     ]
+    },
+    {
+     "id": "paid_out",
+     "state": "confirmed",
+     "customer": false,
+     "terminal": true,
+     "on": [
+      {
+       "event": "ProviderPayoutArrived"
+      }
+     ]
+    }
+   ]
   }
  ],
  "planned": [

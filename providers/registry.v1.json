@@ -2376,6 +2376,277 @@
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
    ]
+  },
+  {
+   "id": "svc_chat_channels",
+   "name": "Chat app and social page connectors",
+   "kind": "messaging",
+   "used_by": [
+    "chat_channels"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.services_partners:ChatChannel",
+   "sandbox": "services.services_partners:SandboxChatChannel",
+   "needed_from_provider": [
+    "business messaging access for each chat app or social page",
+    "message delivery reports",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/services_partners.py",
+     "token": "SandboxChatChannel"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SERVICES UPDATE 67.7 and 67.18: LynkChat channels; WhatsApp is never one (owner decision 2026-11-19).",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "svc_call_partner",
+   "name": "Call partner",
+   "kind": "voice",
+   "used_by": [
+    "chat_calls"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.services_partners:CallPartner",
+   "sandbox": "services.services_partners:SandboxCallPartner",
+   "needed_from_provider": [
+    "licensed voice calls in each country",
+    "call recording only where the law allows it",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/services_partners.py",
+     "token": "SandboxCallPartner"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SERVICES UPDATE 67.7 and 67.18: voice calls in LynkChat.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "svc_pay_in_parts",
+   "name": "Licensed lender for pay in parts",
+   "kind": "lending",
+   "used_by": [
+    "pay_in_parts"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.services_partners:PayInPartsLender",
+   "sandbox": "services.services_partners:SandboxPayInParts",
+   "needed_from_provider": [
+    "a lending licence in each country",
+    "the lender's own decision, terms and collection",
+    "payment to the shop by the lender",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/services_partners.py",
+     "token": "SandboxPayInParts"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SERVICES UPDATE 67.8 and 67.18: LynkMPay and LynkCheckout; the lender alone decides; LynkOmni never lends or holds money.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "svc_listing_connectors",
+   "name": "Map and search listing connectors",
+   "kind": "listings",
+   "used_by": [
+    "listing_sync"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.services_partners:ListingConnector",
+   "sandbox": "services.services_partners:SandboxListingConnector",
+   "needed_from_provider": [
+    "agreement or API access with each map and search listing service",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/services_partners.py",
+     "token": "SandboxListingConnector"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SERVICES UPDATE 67.6 and 67.18: LynkGrow keeps a business's listings right.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "svc_outside_warehouses",
+   "name": "Outside warehouses",
+   "kind": "warehouse",
+   "used_by": [
+    "outside_warehouses"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.services_partners:OutsideWarehouse",
+   "sandbox": "services.services_partners:SandboxOutsideWarehouse",
+   "needed_from_provider": [
+    "stock reports and movements by API",
+    "agreement per warehouse operator",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/services_partners.py",
+     "token": "SandboxOutsideWarehouse"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SERVICES UPDATE 67.3 and 67.18: LynkStock (build section 7B).",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "svc_shop_plugins",
+   "name": "Online-shop plugin listings",
+   "kind": "listings",
+   "used_by": [
+    "shop_plugins"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.services_partners:ShopPluginListing",
+   "sandbox": "services.services_partners:SandboxShopPluginListing",
+   "needed_from_provider": [
+    "a developer account on each shop platform's app store",
+    "review and listing by the platform"
+   ],
+   "placeholders": [
+    {
+     "file": "services/services_partners.py",
+     "token": "SandboxShopPluginListing"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SERVICES UPDATE 67.12 and 67.18: LynkDev (build section 11).",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "svc_transport_billers",
+   "name": "Transport card, toll and parking billers",
+   "kind": "biller",
+   "used_by": [
+    "transport_bills"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.services_partners:TransportBiller",
+   "sandbox": "services.services_partners:SandboxTransportBiller",
+   "needed_from_provider": [
+    "biller agreements per city or operator",
+    "payment through the licensed payment provider",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/services_partners.py",
+     "token": "SandboxTransportBiller"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SERVICES UPDATE 67.13 and 67.18: LynkEssential (build section 9).",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "svc_government_fees",
+   "name": "Government fee collectors",
+   "kind": "biller",
+   "used_by": [
+    "government_fees"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.services_partners:GovernmentFeeCollector",
+   "sandbox": "services.services_partners:SandboxGovernmentFee",
+   "needed_from_provider": [
+    "the authority's collector or payment gateway",
+    "official receipts from the authority",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/services_partners.py",
+     "token": "SandboxGovernmentFee"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SERVICES UPDATE 67.13 and 67.18: LynkEssential (build section 9).",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
   }
  ],
  "later": [

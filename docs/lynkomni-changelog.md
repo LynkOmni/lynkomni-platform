@@ -2,10 +2,26 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
-## v0.86.0 (2026-11-21)
+## v0.89.0 (2026-11-21)
 - Every Lynk name has its own product mark: @lynkomni/icons 1.10.0 adds 22 marks (accounting, invoicing, customers, office bundle, analytics, currency exchange, voting, staff management, projects, school management, courses and training, property management, documents and signing, jobs and hiring, questions and answers, help and support, service status, product feedback, safety and reporting, automations, hardware drivers, account ID), vendored by brand-sync (#141). The names register now names each one; services, features and card groups inside a product use that product's mark.
 - LynkInv and LynkCRM joined the Business tab and launchers with their own marks; LynkAcc, LynkStat and the office notifications moved off the borrowed marks. The provider ledger's later items ops_product_icons and product_marks_all are done and removed; build table 84.6's section 4 row is done, so it no longer holds section 4's lock.
 - Opening the launcher stays within its tap budget: a place that already shows its plain word under its name is marked as explained, so the names part skips it (the two new launcher places had pushed the browser's first tap to 127 ms against 120).
+
+## v0.87.0 (2026-11-21)
+Section 4 review, fourth part (row 67.17, the partners of 67.18 and the registers of section 67):
+- Every partner the improved services need has its interface, a working sandbox and a ledger entry, and stays "Coming to your country soon." until it is signed: chat app and social page connectors and a call partner for LynkChat, a licensed lender for pay in parts, map and search listing connectors for LynkGrow, outside warehouses for LynkStock, online-shop plugin listings for LynkDev, and transport card, toll, parking and government fee collectors for LynkEssential. Delivery firms and phone wallets already had theirs.
+- No sandbox claims a delivery, a listing, a loan, a payment or stocked goods; people are only vault references; WhatsApp is refused as a channel.
+- Every improvement of section 67 is now in the registers: 92 features placed in help, search and the sitemap with the section that builds each, 37 automations (at their levels: money moves only on a person's confirmation or the customer's own standing instruction, marketing only with consent) and 17 message kinds, each in the section that builds it. Prices are unchanged.
+- Build-table row 67.17 is done.
+
+## v0.86.0 (2026-11-21)
+Section 4 review, third part (row 67.17, the office side of money in LynkAcc):
+- Gift cards and store credit are a debt of the shop in the books: a gift card sold or topped up is owed to its holder, store credit given for a return, as cashback or as goodwill is owed to the customer, and spending either is a sale. A card spent below nothing (offline sales are never blocked) is flagged for the owner once.
+- Deposits for pre-orders, special orders, rentals and layaways are received in advance until they are used, kept under terms shown before paying, or returned (in cash at the till, or electronically only when the provider confirms).
+- The matching centre: every provider payment is matched to its sale, invoice or booking by its reference; a single candidate with the same amount within three days is a suggestion; two candidates are never guessed; everything else is listed as unmatched. From LynkAcc Plus suggestions for sales and bookings are matched automatically and can be undone; an invoice payment always waits for a person.
+- What each payment cost: the provider's fee and LynkOmni's part, per payment and per month, from the provider's settlement report only; a fee the cloud already posted is never posted again.
+- When the money arrives: a payout calendar from each provider (expected, arrived, late after two days), with its own tracker.
+- Contract version 16 adds these events; selling a gift card, giving store credit, taking a deposit and settling one work offline and are never rejected; the provider's facts are written by the cloud alone.
 
 ## v0.85.0 (2026-11-21)
 Section 4 review, second part (row 67.17, Move in and the large-organisation set for every service):
