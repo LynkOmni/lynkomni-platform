@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { SHAPES, TIMING, loadingPhase, holdFor, skeletonHtml, hintFor, hintAttr, FORMAT_HINTS } from "../src/placeholder.js";
+import { SHAPES, TIMING, loadingPhase, holdFor, skeletonHtml } from "../src/placeholder.js";
+import { hintFor, hintAttr, FORMAT_HINTS } from "../src/hints.js";
 
 test("cached content stays; no flash before the delay; a note when slow", () => {
   assert.equal(loadingPhase(5000, true), "nothing");

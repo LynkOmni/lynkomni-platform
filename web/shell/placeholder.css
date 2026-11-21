@@ -16,3 +16,4 @@
 @media (prefers-reduced-motion: reduce) { .skeleton .skel { animation: none; } }
 [data-lite] .skeleton .skel, [data-lite="on"] .skeleton .skel { animation: none; }
 ::placeholder { color: var(--text-secondary); opacity: 1; }
+.ph-slow { margin: 8px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; color: var(--text-secondary); font-size: 13px; overflow-wrap: anywhere; }

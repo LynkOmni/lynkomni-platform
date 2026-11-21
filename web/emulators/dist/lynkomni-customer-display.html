@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-c9Nlr5g6vaFA1kIJ+QX8EyeC7c4aeytVuo3OAKuXjD4='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-FduUHolt0gUQrhZLVYeNgkZrXredCcbQNlwIljeAJlI='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkPOS Customer Screen</title>
 <meta name="description" content="Interactive emulator of the standalone customer-facing display some shops mount apart from the till: welcome, the basket line by line, the total with an estimate in a second currency, scan to pay and thank you. It shows only what the till sends.">
@@ -803,6 +803,26 @@ body { margin: 0; min-height: 100vh; }
 :is(#screen, #display, #screenA, #screenB) .crumbs a { color: var(--brand-ink); text-decoration: none; min-block-size: var(--touch-target); }
 .notifications .nline .ntext a { text-decoration: none; }
 .notifications h2 { margin: 0; }
+
+/* Loading skeletons and field hints (PLACEHOLDER UPDATE, blueprint section 83; ts/src/placeholder.ts). Tokens only. The
+   skeleton keeps the real content's size, so nothing jumps when it arrives; it stays still under reduced motion and in lite mode. */
+.skeleton { display: flex; flex-direction: column; gap: 10px; padding-block: 4px; }
+.skeleton .skel { display: block; border-radius: 6px; background: linear-gradient(90deg, var(--bg-subtle), var(--border-subtle), var(--bg-subtle)); background-size: 200% 100%; animation: ph-shimmer 1.4s linear infinite; }
+.skeleton .skel.title { inline-size: 50%; block-size: 22px; } .skeleton .skel.line { inline-size: 90%; block-size: 12px; } .skeleton .skel.line.short { inline-size: 55%; }
+.skeleton .skel.label { inline-size: 30%; block-size: 10px; } .skeleton .skel.input { inline-size: 100%; block-size: 44px; } .skeleton .skel.button { inline-size: 40%; block-size: 44px; border-radius: 22px; }
+.skeleton .skel.dot { inline-size: 36px; block-size: 36px; border-radius: 50%; flex: none; } .skeleton .skel.media { inline-size: 100%; aspect-ratio: 16 / 9; }
+.skeleton .skel.cell { flex: 1; block-size: 14px; } .skeleton .skel.figure { inline-size: 60%; block-size: 26px; } .skeleton .skel.bubble { inline-size: 70%; block-size: 40px; border-radius: 14px; }
+.skeleton .skel.axis { inline-size: 100%; block-size: 2px; order: 2; } .skeleton .skel.col { inline-size: 12%; block-size: 60px; }
+.skel-row, .skel-step, .skel-tr { display: flex; align-items: center; gap: 10px; } .skel-col { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.skel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.skel-card, .skel-tile, .skel-field, .skel-pair { display: flex; flex-direction: column; gap: 6px; }
+.skel-chart { display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; block-size: 80px; }
+.skel-msg:nth-child(even) { display: flex; justify-content: flex-end; }
+@keyframes ph-shimmer { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+@media (prefers-reduced-motion: reduce) { .skeleton .skel { animation: none; } }
+[data-lite] .skeleton .skel, [data-lite="on"] .skeleton .skel { animation: none; }
+::placeholder { color: var(--text-secondary); opacity: 1; }
+.ph-slow { margin: 8px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; color: var(--text-secondary); font-size: 13px; overflow-wrap: anywhere; }
 
 /* Build section 3A: the device side of the Emulator Panel on every panel emulator (ts/src/emkit.ts) and the panel in the Business
    app (ts/src/emulatorpanel.ts). Tokens only; logical CSS so right-to-left works; every control is at least the touch target;
@@ -3990,6 +4010,40 @@ function afterPaymentRating(h, touch, chosen, t, icon) {
     return `<div class="ph-rate">${touch ? quickRating(t("ppl_rate_title"), chosen, t) : rateUs(icon, t)}</div>`;
 }
 
+// ---- ts/src/placeholder.js
+const SHAPES = ["list", "cards", "record", "form", "table", "chart", "chat", "tracker", "tiles", "media", "text"];
+const TIMING = { SHOW_AFTER: 300, MIN_SHOW: 300, SLOW_AFTER: 8000 };
+function loadingPhase(elapsedMs, cached) {
+    if (cached)
+        return "nothing"; // cached content stays on screen; a quiet "Updating" chip may show
+    if (elapsedMs < TIMING.SHOW_AFTER)
+        return "nothing";
+    return elapsedMs < TIMING.SLOW_AFTER ? "skeleton" : "slow";
+}
+function holdFor(shownAtMs, nowMs) {
+    return Math.max(0, TIMING.MIN_SHOW - (nowMs - shownAtMs));
+}
+const phEsc = (s) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const phBar = (cls) => `<span class="skel ${cls}" aria-hidden="true"></span>`;
+function skeletonHtml(shape, loadingWord, count = 3) {
+    const n = Math.max(1, Math.min(count, 12));
+    const rep = (f) => Array.from({ length: n }, f).join("");
+    const body = {
+        list: () => rep(() => `<span class="skel-row">${phBar("dot")}<span class="skel-col">${phBar("line")}${phBar("line short")}</span></span>`),
+        cards: () => `<span class="skel-grid">${rep(() => `<span class="skel-card">${phBar("media")}${phBar("line")}${phBar("line short")}</span>`)}</span>`,
+        record: () => `${phBar("title")}${phBar("line short")}${rep(() => `<span class="skel-pair">${phBar("label")}${phBar("line")}</span>`)}`,
+        form: () => rep(() => `<span class="skel-field">${phBar("label")}${phBar("input")}</span>`) + phBar("button"),
+        table: () => `<span class="skel-table">${rep(() => `<span class="skel-tr">${phBar("cell")}${phBar("cell")}${phBar("cell")}</span>`)}</span>`,
+        chart: () => `<span class="skel-chart">${phBar("axis")}${rep(() => phBar("col"))}</span>`,
+        chat: () => rep(() => `<span class="skel-msg">${phBar("bubble")}</span>`),
+        tracker: () => `<span class="skel-steps">${rep(() => `<span class="skel-step">${phBar("dot")}${phBar("line short")}</span>`)}</span>`,
+        tiles: () => `<span class="skel-grid">${rep(() => `<span class="skel-tile">${phBar("label")}${phBar("figure")}</span>`)}</span>`,
+        media: () => phBar("media"),
+        text: () => rep(() => phBar("line")) + phBar("line short"),
+    };
+    return `<div class="skeleton skel-${shape}" role="status" aria-busy="true" aria-live="polite" aria-label="${phEsc(loadingWord)}" data-skeleton="${shape}">${body[shape]()}</div>`;
+}
+
 // ---- ts/src/emulators.generated.js
 const EMULATOR_REGISTER = { "emulators": [{ "id": "pos.terminal", "service": "lynkpos", "counted": true, "shared_with": null, "touch": true, "user": "needed", "planned": false, "customer_facing": false, "hardware": ["receipt_printer", "scanner", "cash_drawer", "card_reader"], "devices": ["LynkPOS"], "min_short_side_px": 320, "outputs": [] }, { "id": "pos.counter_tablet", "service": "lynkpos", "counted": true, "shared_with": null, "touch": true, "user": "needed", "planned": false, "customer_facing": false, "hardware": ["receipt_printer", "scanner", "cash_drawer", "scale"], "devices": ["LynkTab", "LynkPOS"], "min_short_side_px": 320, "outputs": [] }, { "id": "pos.merchant_phone", "service": "lynkpos", "counted": true, "shared_with": null, "touch": true, "user": "needed", "planned": false, "customer_facing": false, "hardware": ["receipt_printer", "scanner"], "devices": ["LynkMobile", "LynkTab", "LynkPC"], "min_short_side_px": 320, "outputs": [] }, { "id": "pos.kitchen_screen", "service": "lynkpos", "counted": true, "shared_with": null, "touch": true, "user": "optional", "planned": false, "customer_facing": false, "hardware": ["kitchen_printer"], "devices": ["LynkTab", "LynkDScreen"], "min_short_side_px": 480, "outputs": [] }, { "id": "pos.rider_phone", "service": "lynkpos", "counted": true, "shared_with": null, "touch": true, "user": "needed", "planned": false, "customer_facing": false, "hardware": [], "devices": ["LynkMobile"], "min_short_side_px": 320, "outputs": [] }, { "id": "pos.customer_display", "service": "lynkpos", "counted": false, "shared_with": null, "touch": true, "user": "none", "planned": false, "customer_facing": true, "hardware": [], "devices": ["LynkCDisplay", "LynkTab"], "min_short_side_px": 320, "outputs": [] }, { "id": "pos.order_board", "service": "lynkpos", "counted": false, "shared_with": null, "touch": false, "user": "none", "planned": true, "customer_facing": true, "hardware": [], "devices": ["LynkDScreen"], "min_short_side_px": 540, "outputs": [] }, { "id": "stock.scanner", "service": "lynkstock", "counted": true, "shared_with": null, "touch": true, "user": "needed", "planned": false, "customer_facing": false, "hardware": ["scanner", "label_printer"], "devices": ["LynkMobile"], "min_short_side_px": 320, "outputs": ["camera_or_scanner"] }, { "id": "stock.receiving_station", "service": "lynkstock", "counted": true, "shared_with": null, "touch": true, "user": "needed", "planned": true, "customer_facing": false, "hardware": ["scanner", "scale", "label_printer"], "devices": ["LynkTab", "LynkPC"], "min_short_side_px": 320, "outputs": [] }, { "id": "rewards.till", "service": "lynkrewards", "counted": true, "shared_with": "lynkpos", "touch": true, "user": "needed", "planned": false, "customer_facing": false, "hardware": [], "devices": ["LynkPOS", "LynkTab", "LynkMobile"], "min_short_side_px": 320, "outputs": [] }, { "id": "rewards.stand", "service": "lynkrewards", "counted": false, "shared_with": null, "touch": true, "user": "none", "planned": true, "customer_facing": true, "hardware": [], "devices": ["LynkKiosk", "LynkTab"], "min_short_side_px": 320, "outputs": [] }, { "id": "pay.till", "service": "lynkmpay", "counted": true, "shared_with": "lynkpos", "touch": true, "user": "needed", "planned": false, "customer_facing": false, "hardware": [], "devices": ["LynkPOS", "LynkTab", "LynkMobile"], "min_short_side_px": 320, "outputs": [] }, { "id": "pay.qr_stand", "service": "lynkcheckout", "counted": false, "shared_with": null, "touch": true, "user": "none", "planned": true, "customer_facing": true, "hardware": [], "devices": ["LynkKiosk", "LynkTab", "LynkCDisplay"], "min_short_side_px": 320, "outputs": [] }, { "id": "essential.agent_counter", "service": "lynkessential", "counted": true, "shared_with": "lynkpos", "touch": true, "user": "needed", "planned": false, "customer_facing": false, "hardware": ["receipt_printer"], "devices": ["LynkPOS", "LynkTab", "LynkMobile"], "min_short_side_px": 320, "outputs": [] }, { "id": "attend.door", "service": "lynkattend", "counted": false, "shared_with": null, "touch": true, "user": "none", "planned": false, "customer_facing": true, "hardware": ["fingerprint_reader", "camera"], "devices": ["LynkKiosk", "LynkTab", "LynkPOS", "LynkMobile"], "min_short_side_px": 320, "outputs": [] }, { "id": "attend.reception", "service": "lynkattend", "counted": true, "shared_with": null, "touch": true, "user": "needed", "planned": false, "customer_facing": false, "hardware": ["receipt_printer"], "devices": ["LynkTab", "LynkPC", "LynkMobile", "LynkPOS"], "min_short_side_px": 320, "outputs": [] }, { "id": "attend.visitor_kiosk", "service": "lynkattend", "counted": false, "shared_with": null, "touch": true, "user": "none", "planned": false, "customer_facing": true, "hardware": ["receipt_printer"], "devices": ["LynkKiosk", "LynkTab"], "min_short_side_px": 320, "outputs": [] }, { "id": "queue.kiosk", "service": "lynkqueue", "counted": false, "shared_with": null, "touch": true, "user": "none", "planned": false, "customer_facing": true, "hardware": ["ticket_printer"], "devices": ["LynkKiosk", "LynkTab"], "min_short_side_px": 320, "outputs": [] }, { "id": "queue.reception", "service": "lynkqueue", "counted": true, "shared_with": null, "touch": true, "user": "needed", "planned": false, "customer_facing": false, "hardware": ["ticket_printer"], "devices": ["LynkTab", "LynkPC", "LynkMobile", "LynkPOS"], "min_short_side_px": 320, "outputs": [] }, { "id": "queue.counter", "service": "lynkqueue", "counted": true, "shared_with": null, "touch": true, "user": "needed", "planned": false, "customer_facing": false, "hardware": ["pager"], "devices": ["LynkPOS", "LynkTab", "LynkMobile", "LynkPC"], "min_short_side_px": 320, "outputs": [] }, { "id": "queue.counter_screen", "service": "lynkqueue", "counted": false, "shared_with": null, "touch": false, "user": "none", "planned": false, "customer_facing": true, "hardware": [], "devices": ["LynkCDisplay"], "min_short_side_px": 240, "outputs": [] }, { "id": "queue.board", "service": "lynkqueue", "counted": false, "shared_with": null, "touch": false, "user": "none", "planned": false, "customer_facing": true, "hardware": [], "devices": ["LynkDScreen"], "min_short_side_px": 540, "outputs": ["speaker"] }, { "id": "survey.rating_stand", "service": "lynksurvey", "counted": false, "shared_with": null, "touch": true, "user": "none", "planned": false, "customer_facing": true, "hardware": [], "devices": ["LynkCDisplay", "LynkTab"], "min_short_side_px": 240, "outputs": [] }, { "id": "survey.kiosk", "service": "lynksurvey", "counted": false, "shared_with": null, "touch": true, "user": "none", "planned": false, "customer_facing": true, "hardware": [], "devices": ["LynkKiosk", "LynkTab"], "min_short_side_px": 320, "outputs": [] }, { "id": "survey.interviewer", "service": "lynksurvey", "counted": true, "shared_with": null, "touch": true, "user": "needed", "planned": false, "customer_facing": false, "hardware": [], "devices": ["LynkMobile", "LynkTab"], "min_short_side_px": 320, "outputs": [] }, { "id": "booking.front_desk", "service": "lynkbooking", "counted": true, "shared_with": null, "touch": true, "user": "needed", "planned": true, "customer_facing": false, "hardware": [], "devices": ["LynkTab", "LynkPC"], "min_short_side_px": 320, "outputs": [] }, { "id": "booking.check_in_kiosk", "service": "lynkbooking", "counted": false, "shared_with": null, "touch": true, "user": "none", "planned": true, "customer_facing": true, "hardware": [], "devices": ["LynkKiosk", "LynkTab"], "min_short_side_px": 320, "outputs": [] }, { "id": "booking.ticket_checker", "service": "lynkbooking", "counted": true, "shared_with": null, "touch": true, "user": "needed", "planned": true, "customer_facing": false, "hardware": [], "devices": ["LynkMobile"], "min_short_side_px": 320, "outputs": ["camera_or_scanner"] }, { "id": "booking.arrivals_board", "service": "lynkbooking", "counted": false, "shared_with": null, "touch": false, "user": "none", "planned": true, "customer_facing": true, "hardware": [], "devices": ["LynkDScreen"], "min_short_side_px": 540, "outputs": [] }, { "id": "motion.driver_phone", "service": "lynkmotion", "counted": true, "shared_with": null, "touch": true, "user": "needed", "planned": true, "customer_facing": false, "hardware": [], "devices": ["LynkMobile"], "min_short_side_px": 320, "outputs": [] }, { "id": "guard.patrol_phone", "service": "lynkguard", "counted": true, "shared_with": null, "touch": true, "user": "needed", "planned": true, "customer_facing": false, "hardware": [], "devices": ["LynkMobile"], "min_short_side_px": 320, "outputs": [] }, { "id": "guard.gate_post", "service": "lynkguard", "counted": true, "shared_with": null, "touch": true, "user": "needed", "planned": true, "customer_facing": false, "hardware": [], "devices": ["LynkTab", "LynkKiosk"], "min_short_side_px": 320, "outputs": [] }, { "id": "guard.monitoring_wall", "service": "lynkguard", "counted": false, "shared_with": null, "touch": false, "user": "none", "planned": true, "customer_facing": true, "hardware": [], "devices": ["LynkDScreen"], "min_short_side_px": 540, "outputs": [] }], "names": { "lynkattend": "LynkAttend", "lynkbooking": "LynkBooking", "lynkcheckout": "LynkCheckout", "lynkessential": "LynkEssential", "lynkguard": "LynkGuard", "lynkmotion": "LynkMotion", "lynkmpay": "LynkMPay", "lynkpos": "LynkPOS", "lynkqueue": "LynkQueue", "lynkrewards": "LynkRewards", "lynkstock": "LynkStock", "lynksurvey": "LynkSurvey" }, "slots": { "lynkattend": { "free": "own_units", "plus": "own_units", "pro": "own_units", "max": "own_units" }, "lynkbooking": { "free": "own_units", "plus": "own_units", "pro": "own_units", "max": "own_units" }, "lynkguard": { "free": 1, "plus": 2, "pro": 5, "max": null }, "lynkmotion": { "free": 1, "plus": 2, "pro": 5, "max": null }, "lynkpos": { "free": 1, "plus": 2, "pro": 5, "max": null }, "lynkqueue": { "free": "own_units", "plus": "own_units", "pro": "own_units", "max": "own_units" }, "lynkstock": { "free": 1, "plus": 2, "pro": 5, "max": null }, "lynksurvey": { "free": "own_units", "plus": "own_units", "pro": "own_units", "max": "own_units" } }, "extra_cents": { "lynkguard": 1400, "lynkmotion": 800, "lynkpos": 800, "lynkstock": 300 }, "day_pass_cents": 100, "day_pass_max_days": 7, "prices": { "lynkattend": { "tiers": ["free", "plus", "pro", "max"], "cents": [0, 4950, 9500, 17900] }, "lynkbooking": { "tiers": ["free", "plus", "pro", "max"], "cents": [0, 199, 399, 799] }, "lynkguard": { "tiers": ["free", "plus", "pro", "max"], "cents": [0, 1500, 4900, 14900] }, "lynkmotion": { "tiers": ["free", "plus", "pro", "max"], "cents": [0, 900, 2900, 7900] }, "lynkpos": { "tiers": ["free", "plus", "pro", "max"], "cents": [0, 1200, 2900, 7900] }, "lynkqueue": { "tiers": ["free", "plus", "pro", "max"], "cents": [0, 5500, 11500, 24900] }, "lynkstock": { "tiers": ["free", "plus", "pro", "max"], "cents": [0, 300, 900, 2200] }, "lynksurvey": { "tiers": ["free", "plus", "pro", "max"], "cents": [0, 5900, 15500, 24900] } }, "code_minutes": 10, "reapprove_days": 30, "downgrade_grace_days": 3, "artwork_min_px": 48, "sounds": { "volume_gain": { "low": 0.03, "medium": 0.06, "high": 0.12 }, "tones": { "key": [[1100, 25]], "confirm": [[784, 60], [0, 30], [1047, 90]], "cancel": [[523, 80]], "error": [[330, 120], [0, 40], [262, 160]], "scan": [[1568, 50]], "paid": [[659, 70], [0, 30], [880, 70], [0, 30], [1319, 120]], "printer": [[440, 40], [0, 20], [440, 40]], "pin_same": [[1209, 40]], "clear": [[659, 45]], "nav": [[880, 18]], "tab": [[988, 22]], "toggle_on": [[880, 25], [0, 15], [1175, 30]], "toggle_off": [[1175, 25], [0, 15], [880, 30]], "chat_sent": [[1320, 18]], "chat_received": [[660, 30], [0, 10], [990, 40]], "chat_assist": [[587, 30], [0, 10], [784, 45]], "chat_joined": [[523, 70], [0, 30], [784, 90]], "chat_record_start": [[440, 40], [0, 10], [660, 60]], "chat_record_stop": [[660, 40], [0, 10], [440, 60]], "chat_record_cancel": [[262, 90]], "chat_failed": [[294, 80], [0, 50], [247, 110]], "chat_your_turn": [[698, 90], [0, 40], [1047, 140]], "chat_counter": [[1047, 120], [0, 60], [784, 160]] }, "vibrate": { "key": [10], "confirm": [20, 40, 20], "cancel": [30], "error": [60, 40, 60], "scan": [15], "paid": [30, 40, 30, 40, 60], "printer": [10, 30, 10], "pin_same": [10], "digit": [12], "clear": [14], "nav": [8], "tab": [8], "toggle_on": [15], "toggle_off": [15], "chat_sent": [8], "chat_received": [12], "chat_notify": [40], "chat_joined": [18, 80, 18], "chat_assist": [10], "chat_record_start": [35], "chat_record_stop": [22], "chat_record_cancel": [12, 40, 12], "chat_failed": [60, 50, 60], "chat_your_turn": [50, 60, 50, 60, 80] }, "keypad": { "1": [697, 1209], "2": [697, 1336], "3": [697, 1477], "4": [770, 1209], "5": [770, 1336], "6": [770, 1477], "7": [852, 1209], "8": [852, 1336], "9": [852, 1477], "0": [941, 1336], "*": [941, 1209], "#": [941, 1477] }, "keypad_ms": 70 }, "hardware_ways": { "receipt_printer": ["network", "bluetooth", "usb", "device_print"], "ticket_printer": ["network", "bluetooth", "usb", "device_print"], "kitchen_printer": ["network", "usb"], "label_printer": ["network", "bluetooth", "usb"], "scanner": ["bluetooth", "usb", "camera"], "cash_drawer": ["drawer_cable"], "scale": ["usb", "serial", "bluetooth"], "card_reader": ["bluetooth"], "fingerprint_reader": ["usb"], "pager": ["bluetooth", "network"], "camera": ["camera"] }, "os_ways": { "android": ["network", "bluetooth", "usb", "serial", "device_print", "camera", "drawer_cable"], "windows": ["network", "bluetooth", "usb", "serial", "device_print", "camera", "drawer_cable"], "mac": ["network", "bluetooth", "usb", "serial", "device_print", "camera", "drawer_cable"], "linux": ["network", "bluetooth", "usb", "serial", "device_print", "camera", "drawer_cable"], "chromeos": ["network", "bluetooth", "usb", "serial", "device_print", "camera", "drawer_cable"], "ios": ["network", "device_print", "camera", "drawer_cable"], "tv": ["network"], "other": ["network", "device_print"] } };
 
@@ -4238,6 +4292,7 @@ function alertSounds(p, area) { return p.notification_sounds || NEVER_SILENCED.i
 
 
 
+
 const LINKS = ["connected", "request", "disconnected", "asked", "lost", "reapproval"];
 function play(reg, kind, s) { playSound(reg.sounds, kind, s); }
 class EmKit {
@@ -4246,6 +4301,9 @@ class EmKit {
     emit;
     link = "connected";
     practice = false;
+    firstOpen = false;
+    loaded = new Set();
+    loading = new Map();
     homeAdded = false;
     request = null;
     askState = null;
@@ -4327,6 +4385,9 @@ class EmKit {
             return false;
         const [, k = "", v = ""] = a.split(":");
         switch (k) {
+            case "retry":
+                this.loading.clear();
+                break; // Retry starts the wait again; online it arrives, offline it waits again
             case "accept":
                 this.answer(true, L.online);
                 break;
@@ -4439,6 +4500,7 @@ function kitControl(k, t) {
     <label><span>${esc(t("emk_cloud_says"))}</span> <select data-kit="link">${["connected", "request", "disconnected", "lost", "reapproval"].map((l) => `<option value="${l}" ${k.link === l || (l === "disconnected" && k.link === "asked") ? "selected" : ""}>${esc(t(`emk_link_${l}`))}</option>`).join("")}</select></label>
     <label><input type="checkbox" data-kit="practice" ${k.practice ? "checked" : ""}> <span>${esc(t("emk_practice"))}</span></label>
     <label><input type="checkbox" data-kit="quiet" ${k.quietHours ? "checked" : ""}> <span>${esc(t("emk_quiet_hours"))}</span></label>
+    <label><input type="checkbox" data-kit="firstopen" ${k.firstOpen ? "checked" : ""}> <span>${esc(t("emk_first_open"))}</span></label>
     <button type="button" class="emk-btn" data-act="emk:sheet:settings">${esc(t("emk_device_settings"))}</button></div>`;
 }
 function kitChange(k, el, business, sentBy) {
@@ -4454,6 +4516,11 @@ function kitChange(k, el, business, sentBy) {
     }
     else if (w === "practice")
         k.practice = el.checked;
+    else if (w === "firstopen") {
+        k.firstOpen = el.checked;
+        k.loaded.clear();
+        k.loading.clear();
+    }
     else if (w === "quiet")
         k.quietHours = el.checked;
     return true;
@@ -4513,6 +4580,7 @@ function wireKit(k, o) {
                 screen.innerHTML = c + sh;
                 return;
             }
+            waitFor(k, screen, o);
             const b = k.banner(look());
             if (b)
                 screen.insertAdjacentHTML("afterbegin", b);
@@ -4520,6 +4588,39 @@ function wireKit(k, o) {
                 screen.insertAdjacentHTML("beforeend", sh);
         },
     };
+}
+const AREA = ".body, .rbody, .qp-body, .sp-body, .home, .tiles12, .display-main";
+const ARRIVES_MS = 900;
+function waitFor(k, screen, o) {
+    if (!k.firstOpen)
+        return;
+    const area = screen.querySelector(AREA);
+    if (!area)
+        return;
+    const key = (screen.querySelector("h1, h2")?.textContent ?? "") + "|" + (area.className || "main");
+    if (k.loaded.has(key))
+        return;
+    const now = Date.now(), w = k.loading.get(key) ?? { start: now, shown: null };
+    k.loading.set(key, w);
+    const elapsed = now - w.start, online = o.online();
+    if (online && elapsed >= ARRIVES_MS && holdFor(w.shown ?? now, now) === 0) {
+        k.loaded.add(key);
+        k.loading.delete(key);
+        return;
+    }
+    const phase = loadingPhase(elapsed, false);
+    const shape = area.dataset["shape"] ?? "list";
+    if (phase === "nothing")
+        area.style.visibility = "hidden"; // nothing new before 300 ms, and nothing jumps
+    else {
+        if (w.shown === null)
+            w.shown = now;
+        area.innerHTML = skeletonHtml(shape, o.t("loading")) + (phase === "slow"
+            ? `<p class="ph-slow" role="status">${esc(o.t("ph_slow"))} <button type="button" class="emk-btn" data-act="emk:retry">${esc(o.t("action_retry"))}</button></p>` : "");
+    }
+    const next = phase === "nothing" ? TIMING.SHOW_AFTER - elapsed : online ? Math.max(ARRIVES_MS - elapsed, holdFor(w.shown ?? now, now), 50) : TIMING.SLOW_AFTER - elapsed;
+    if (next > 0 && typeof window !== "undefined")
+        window.setTimeout(() => o.redraw(), next + 5);
 }
 
 // ---- web/emulators/customer-display/app.js

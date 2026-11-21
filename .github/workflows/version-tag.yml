@@ -1,11 +1,14 @@
 name: version-tag
-# When main changes, read the newest version in docs/lynkomni-changelog.md and create its Git tag (v0.MINOR.PATCH)
-# if it does not exist yet. So every finished piece gets its version tag without anyone doing it by hand.
+# When main changes, read the versions docs/lynkomni-changelog.md gained and create each one's Git tag (v0.MINOR.PATCH)
+# if it does not exist yet (one merge may finish two pieces). So every finished piece gets its version tag without anyone doing it by hand.
 on:
   push:
     branches: [main]
     paths: [docs/lynkomni-changelog.md]
   workflow_dispatch:
+    inputs:
+      version: {description: "A version from the change log to tag by hand (for example v0.92.0); empty for the newest", required: false, default: ""}
+      commit: {description: "The commit for that version (its merge commit on main)", required: false, default: ""}
 permissions: {contents: write}
 jobs:
   tag:
@@ -13,11 +16,28 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with: {fetch-depth: 0}
-      - name: create the tag for the newest change-log version
+      - name: create the tags for every change-log version this change added
         run: |
-          v=$(grep -m1 -oE '^## v[0-9]+\.[0-9]+\.[0-9]+' docs/lynkomni-changelog.md | cut -c4-)
-          test -n "$v" || { echo "no version found in the change log"; exit 1; }
-          if git rev-parse -q --verify "refs/tags/$v" >/dev/null; then echo "$v already tagged"; exit 0; fi
-          git tag "$v" "$GITHUB_SHA"
-          git push origin "$v"
-          echo "tagged $v"
+          # every version heading in the change log now that has no tag yet and was not in the change log before this push
+          # (a merge that finishes two pieces tags both on its commit; older untagged versions are never tagged here by guess)
+          if [ -n "${{ inputs.version }}" ]; then          # by hand: one named version on its own commit, only if the change log has it
+            v="${{ inputs.version }}"; c="${{ inputs.commit }}"
+            grep -q "^## $v " docs/lynkomni-changelog.md || { echo "$v is not in the change log"; exit 1; }
+            git rev-parse -q --verify "refs/tags/$v" >/dev/null && { echo "$v already tagged"; exit 0; }
+            git tag "$v" "${c:-$GITHUB_SHA}"; git push origin "$v"; echo "tagged $v"; exit 0
+          fi
+          before="${{ github.event.before }}"
+          now=$(grep -oE '^## v[0-9]+\.[0-9]+\.[0-9]+' docs/lynkomni-changelog.md | cut -c4-)
+          test -n "$now" || { echo "no version found in the change log"; exit 1; }
+          if [ -n "$before" ] && git cat-file -e "$before" 2>/dev/null; then
+            old=$(git show "$before:docs/lynkomni-changelog.md" | grep -oE '^## v[0-9]+\.[0-9]+\.[0-9]+' | cut -c4-)
+          else
+            old=$(echo "$now" | tail -n +2)            # run by hand: only the newest version is new
+          fi
+          for v in $now; do
+            if echo "$old" | grep -qx "$v"; then continue; fi
+            if git rev-parse -q --verify "refs/tags/$v" >/dev/null; then echo "$v already tagged"; continue; fi
+            git tag "$v" "$GITHUB_SHA"
+            git push origin "$v"
+            echo "tagged $v"
+          done

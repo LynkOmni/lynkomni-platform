@@ -2,6 +2,12 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.94.0 (2026-11-21)
+Section 4 review, ninth part (row 83.6, second part: waiting well on every device):
+- Every device emulator with the emulator kit (the POS terminal, counter tablet, Business app phone, kitchen screen, customer display, rider phone, stock scanner, LynkKiosk, LynkDScreen and LynkCDisplay) has a tester condition "First open on this device". Each screen's content area then waits exactly as the placeholder register says: nothing new before 300 ms, then a skeleton shaped like the content for at least 300 ms, and after 8 s offline a calm "This is taking longer than usual." with Retry. A screen seen once opens from the device's copy at once. Words in 38 languages.
+- Four device pages' size budgets are raised with the reason (the loading part, about 9 KB).
+- The version-tag workflow now tags every version a merge adds (one merge had finished two pieces and only the newer got its tag), and can tag a named version on its commit when run by hand.
+
 ## v0.93.0 (2026-11-21)
 Section 4 review, eighth part (row 83.6, first part: a hint in every field):
 - Every field already built shows a hint, an example of what to type, never the instruction: names, notes, questions, answers, section names, shop names, searches and questions for LynkAssist as examples in all 38 languages; amounts, counts, phone numbers and short codes in the reader's own digits; the survey panel's country as the page's own country code. Sensitive fields (PINs, one-time codes, a bank account) still never show an example. The two fields that had only a hint now have a name screen readers read. The register's due list is empty.
