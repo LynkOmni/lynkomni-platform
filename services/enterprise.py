@@ -60,9 +60,9 @@ class Organisation:
 
     # ---- approval flows and roles ----------------------------------------------------------------------------------------------
     def set_flow(s, m, document, steps):
-        s._need(m)
         if document not in E.ENT["approval_flows"]["documents"]:
             raise ValueError("unknown document")
+        s._need(m, E.ENT["approval_flows"]["document_family"][document])      # that service's Max plan and the agreement (67.15)
         E.flow_steps(steps, 0)                                        # checks the number of steps
         s.flows.put(f"{m}|{document}", {"steps": steps}); return len(steps)
 
@@ -71,7 +71,9 @@ class Organisation:
         return E.flow_steps(f["steps"], amount, department) if f else None
 
     def define_role(s, m, name, perms):
-        s._need(m)
+        area_family = {a: f for f, a in E.ENT["family_area"].items()}
+        if not perms or not all(s.on(m, area_family.get(a, "lynkacc")) for a in perms):
+            raise PermissionError("the large-organisation set comes with Max and an Enterprise agreement")
         problems = E.role_problems(perms)
         if problems:
             raise ValueError(problems)
@@ -149,7 +151,7 @@ class MoveIn:
 
     def _known(s, m):
         r = s.refs.get(m) or {"customers": [], "suppliers": []}
-        return {"customers": list(r["customers"]), "suppliers": list(r["suppliers"])}
+        return {k: list(r.get(k, [])) for k in ("customers", "suppliers", "products", "members")}
 
     def _accounts(s, m):
         local = AC.local_chart(country(s.p.c.profile(m)["country"]))
@@ -158,7 +160,7 @@ class MoveIn:
     def check(s, m, kind, header, rows, date_format="iso"):
         return E.check(kind, header, rows, s._decimals(m), date_format, s._known(m), s._accounts(m))
 
-    def apply(s, m, kind, header, rows, by, date_format="iso"):
+    def apply(s, m, kind, header, rows, by, date_format="iso", entity_kind="business"):
         """Brings a checked file in. Customers and suppliers go to LynkCRM (names and contacts to the vault); opening balances
         wait for a second person as a sensitive journal; open invoices and bills are kept as open items without posting again
         (the opening balances already carry them)."""
@@ -184,7 +186,53 @@ class MoveIn:
                       "amount": E.parse_amount(get(r, "amount"), dec), "due": E.parse_date(get(r, "due_on"), date_format)} for r in rows]
             Table(s.p.c.store.db, "movein_open").put(f"{m}|{kind}", {"items": items})
             return {"applied": len(items), "report": rep}
+        # every service's files (SERVICES UPDATE 67.15)
+        if kind in ("products", "stock_levels"):
+            # products and stock are created on a device (ProductCreated and StockAdjusted come only from devices): the cloud keeps a
+            # catalog pack and each device writes the events when it takes the pack (catalog_pack)
+            t = Table(s.p.c.store.db, "movein_catalog"); pack = t.get(m) or {"products": [], "stock": []}
+            if kind == "products":
+                items = [{"ref": str(get(r, "ref")).strip(), "name": str(get(r, "name")).strip(), "price": E.parse_amount(get(r, "price"), dec),
+                          "unit": str(get(r, "unit")).strip() or "each", "barcode": str(get(r, "barcode")).strip() or None, "tax_code": str(get(r, "tax_code")).strip() or None} for r in rows]
+                refs = {**refs, "products": sorted(set(refs.get("products", [])) | {i["ref"] for i in items})}
+                pack = {**pack, "products": pack["products"] + items}
+            else:
+                items = [{"product_ref": str(get(r, "product_ref")).strip(), "place": str(get(r, "place")).strip() or None, "quantity": int(str(get(r, "quantity")).strip())} for r in rows]
+                pack = {**pack, "stock": pack["stock"] + items}
+            t.put(m, pack); s.refs.put(m, refs)
+            return {"applied": len(items), "report": rep, "on_devices": True}
+        if kind == "members":
+            from core import crm as C
+            entity, kinds = entity_kind, C.kinds_for(entity_kind)
+            rkind = next((k for k in ("member", "customer", "client", "donor", "student", "contact") if k in kinds), None)
+            if rkind is None:
+                raise ValueError("this kind of workspace keeps no members")
+            ids = dict(refs.get("member_ids", {}))
+            for r in rows:
+                ids[str(get(r, "ref")).strip()] = s.p.crm.create(m, by, rkind, entity_kind=entity, name=get(r, "name") or None,
+                                                                 email=get(r, "email") or None, phone=get(r, "phone") or None, source="import")
+            refs = {**refs, "members": sorted(set(refs.get("members", [])) | set(ids)), "member_ids": ids}
+            s.refs.put(m, refs)
+            return {"applied": len(rows), "report": rep}
+        if kind == "points":
+            for r in rows:
+                ref = str(get(r, "member_ref")).strip()          # points follow the member's LynkCRM record, not the old system's number
+                s.p.c.store.append(m, "server", "loyalty.earned", {"customer": refs.get("member_ids", {}).get(ref, ref), "points": int(str(get(r, "points")).strip()), "source": "move_in"})
+            return {"applied": len(rows), "report": rep}
+        if kind == "payees":
+            for r in rows:
+                s.p.exchange_office.add_payee(m, by, str(get(r, "name")).strip(), str(get(r, "bank_details")).strip(), entity_kind=entity_kind)
+            return {"applied": len(rows), "report": rep}
+        if kind == "bookings":
+            items = [{"ref": str(get(r, "ref")).strip(), "customer_ref": str(get(r, "customer_ref")).strip() or None, "service": str(get(r, "service")).strip() or None,
+                      "starts_on": E.parse_date(get(r, "starts_on"), date_format), "total": E.parse_amount(get(r, "total"), dec) if str(get(r, "total")).strip() else None} for r in rows]
+            Table(s.p.c.store.db, "movein_bookings").put(m, {"items": items})       # kept as moved-in bookings for LynkBooking's business side (section 8)
+            return {"applied": len(items), "report": rep}
         return {"applied": 0, "report": rep}
+
+    def catalog_pack(s, m):
+        """What a device takes after a products or stock Move in: it writes ProductCreated and StockAdjusted for each line."""
+        return Table(s.p.c.store.db, "movein_catalog").get(m) or {"products": [], "stock": []}
 
     def leave(s, m):
         """A full download at any time, in the same standard files."""

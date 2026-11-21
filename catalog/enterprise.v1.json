@@ -6,7 +6,36 @@
   "acc",
   "inv",
   "crm",
-  "stat"
+  "stat",
+  "pos",
+  "stock",
+  "rewards",
+  "grow",
+  "chat",
+  "mpay",
+  "recover",
+  "checkout",
+  "assist",
+  "vcard",
+  "dev",
+  "booking",
+  "essential",
+  "motion",
+  "guard",
+  "attend",
+  "queue",
+  "survey",
+  "exchange",
+  "vote",
+  "hr",
+  "project",
+  "school",
+  "academy",
+  "property",
+  "files",
+  "jobs",
+  "ops",
+  "suite"
  ],
  "permissions": [
   "view",
@@ -23,10 +52,40 @@
    "expense_claim",
    "journal",
    "write_off",
-   "payment_run"
+   "payment_run",
+   "refund",
+   "discount_over_limit",
+   "stock_adjustment",
+   "purchase_order",
+   "price_change",
+   "payout",
+   "exchange_order",
+   "vote_rule_change",
+   "job_offer",
+   "lease",
+   "leave"
   ],
   "max_steps": 6,
-  "rule": "An organisation builds its own flow per document: steps in order, each with a role, an amount it starts from and, if it likes, a department. A document needs every step whose amount it reaches (and whose department matches). The preparer never approves; one person approves at most one step; a stand-in approves only while the named approver is away. Its own flow never removes a step LynkOmni's rules require (the two-person rule stays)."
+  "rule": "An organisation builds its own flow per document: steps in order, each with a role, an amount it starts from and, if it likes, a department. A document needs every step whose amount it reaches (and whose department matches). The preparer never approves; one person approves at most one step; a stand-in approves only while the named approver is away. Its own flow never removes a step LynkOmni's rules require (the two-person rule stays). From section 4 (SERVICES UPDATE 67.15) every service has its documents here; a flow needs that service's Max plan and the Enterprise agreement.",
+  "document_family": {
+   "bill": "lynkacc",
+   "invoice": "lynkinv",
+   "expense_claim": "lynkacc",
+   "journal": "lynkacc",
+   "write_off": "lynkinv",
+   "payment_run": "lynkacc",
+   "refund": "lynkpos",
+   "discount_over_limit": "lynkpos",
+   "stock_adjustment": "lynkstock",
+   "purchase_order": "lynkstock",
+   "price_change": "lynkpos",
+   "payout": "lynkmpay",
+   "exchange_order": "lynkexchange",
+   "vote_rule_change": "lynkvote",
+   "job_offer": "lynkjobs",
+   "lease": "lynkproperty",
+   "leave": "lynkhr"
+  }
  },
  "roles": {
   "base": {
@@ -58,6 +117,238 @@
      "view",
      "export",
      "admin"
+    ],
+    "pos": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "stock": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "rewards": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "grow": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "chat": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "mpay": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "recover": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "checkout": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "assist": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "vcard": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "dev": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "booking": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "essential": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "motion": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "guard": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "attend": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "queue": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "survey": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "exchange": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "vote": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "hr": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "project": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "school": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "academy": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "property": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "files": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "jobs": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "ops": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
+    ],
+    "suite": [
+     "view",
+     "prepare",
+     "approve",
+     "post",
+     "export",
+     "admin"
     ]
    },
    "manager": {
@@ -79,6 +370,151 @@
     ],
     "stat": [
      "view"
+    ],
+    "pos": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "stock": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "rewards": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "grow": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "chat": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "mpay": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "recover": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "checkout": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "assist": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "vcard": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "dev": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "booking": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "essential": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "motion": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "guard": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "attend": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "queue": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "survey": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "exchange": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "vote": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "hr": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "project": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "school": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "academy": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "property": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "files": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "jobs": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "ops": [
+     "view",
+     "prepare",
+     "approve"
+    ],
+    "suite": [
+     "view",
+     "prepare",
+     "approve"
     ]
    },
    "accountant": {
@@ -276,6 +712,113 @@
      "ref",
      "name"
     ]
+   },
+   "products": {
+    "columns": [
+     "ref",
+     "name",
+     "price",
+     "unit",
+     "barcode",
+     "tax_code"
+    ],
+    "required": [
+     "ref",
+     "name",
+     "price"
+    ],
+    "ref": "ref",
+    "types": {
+     "price": "amount"
+    }
+   },
+   "stock_levels": {
+    "columns": [
+     "product_ref",
+     "place",
+     "quantity"
+    ],
+    "required": [
+     "product_ref",
+     "quantity"
+    ],
+    "ref": null,
+    "types": {
+     "quantity": "whole"
+    },
+    "known": {
+     "product_ref": "products"
+    }
+   },
+   "members": {
+    "columns": [
+     "ref",
+     "name",
+     "email",
+     "phone",
+     "joined_on"
+    ],
+    "required": [
+     "ref",
+     "name"
+    ],
+    "ref": "ref",
+    "types": {
+     "joined_on": "date"
+    }
+   },
+   "points": {
+    "columns": [
+     "member_ref",
+     "points"
+    ],
+    "required": [
+     "member_ref",
+     "points"
+    ],
+    "ref": "member_ref",
+    "types": {
+     "points": "whole"
+    },
+    "known": {
+     "member_ref": "members"
+    }
+   },
+   "bookings": {
+    "columns": [
+     "ref",
+     "customer_ref",
+     "service",
+     "starts_on",
+     "total"
+    ],
+    "required": [
+     "ref",
+     "starts_on"
+    ],
+    "ref": "ref",
+    "types": {
+     "starts_on": "date",
+     "total": "amount"
+    },
+    "known": {
+     "customer_ref": "customers"
+    }
+   },
+   "payees": {
+    "columns": [
+     "ref",
+     "name",
+     "bank_details",
+     "currency"
+    ],
+    "required": [
+     "ref",
+     "name",
+     "bank_details"
+    ],
+    "ref": "ref",
+    "types": {}
    }
   },
   "date_formats": [
@@ -284,6 +827,41 @@
    "month_first"
   ],
   "max_rows": 100000,
-  "rule": "Charts, opening balances, customers, suppliers, open invoices and bills, and history come in from spreadsheets and other systems' export files. Every file gets a check report first: missing columns, empty required fields, amounts that are not whole minor units of the currency, dates that do not exist, the same reference twice, open items for people not in the file, and opening balances that do not balance. Nothing goes live while the report has an error. Names, emails and phone numbers go straight to the PII vault. Leaving is a full download of every record, at any time, in the same standard files. Voters for LynkVote (68.9, move in from another voting service) come in the same way: a voter's reference only once, and a weight, where the vote counts shares or seats, a whole number of at least 1."
+  "rule": "Charts, opening balances, customers, suppliers, open invoices and bills, and history come in from spreadsheets and other systems' export files. Every file gets a check report first: missing columns, empty required fields, amounts that are not whole minor units of the currency, dates that do not exist, the same reference twice, open items for people not in the file, and opening balances that do not balance. Nothing goes live while the report has an error. Names, emails and phone numbers go straight to the PII vault. Leaving is a full download of every record, at any time, in the same standard files. Voters for LynkVote (68.9, move in from another voting service) come in the same way: a voter's reference only once, and a weight, where the vote counts shares or seats, a whole number of at least 1. From section 4 (SERVICES UPDATE 67.15) Move in covers every service: products, stock levels, members and points, bookings and payees, each checked the same way (a reference only once, amounts in whole minor units, whole numbers, real dates, references to rows that exist)."
+ },
+ "family_area": {
+  "lynkacc": "acc",
+  "lynkinv": "inv",
+  "lynkcrm": "crm",
+  "lynkstat": "stat",
+  "lynkpos": "pos",
+  "lynkstock": "stock",
+  "lynkrewards": "rewards",
+  "lynkgrow": "grow",
+  "lynkchat": "chat",
+  "lynkmpay": "mpay",
+  "lynkrecover": "recover",
+  "lynkcheckout": "checkout",
+  "lynkassist": "assist",
+  "lynkvcard": "vcard",
+  "lynkdev": "dev",
+  "lynkbooking": "booking",
+  "lynkessential": "essential",
+  "lynkmotion": "motion",
+  "lynkguard": "guard",
+  "lynkattend": "attend",
+  "lynkqueue": "queue",
+  "lynksurvey": "survey",
+  "lynkexchange": "exchange",
+  "lynkvote": "vote",
+  "lynkhr": "hr",
+  "lynkproject": "project",
+  "lynkschool": "school",
+  "lynkacademy": "academy",
+  "lynkproperty": "property",
+  "lynkfiles": "files",
+  "lynkjobs": "jobs",
+  "lynkops": "ops",
+  "lynksuite": "suite"
  }
 }

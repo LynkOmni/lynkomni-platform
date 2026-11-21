@@ -2,6 +2,11 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.85.0 (2026-11-21)
+Section 4 review, second part (row 67.17, Move in and the large-organisation set for every service):
+- Move in for every service: besides customers, suppliers, opening balances and open invoices and bills, a business can now bring in its products, stock levels, members, loyalty points, bookings and payees. Every column is checked by its type (an amount in the currency's own minor units, a whole number, a date) and every reference must be known (stock for a product moved in, points for a member moved in). Nothing moves in while the check shows an error. Products and stock wait in a pack that each device takes, because products and stock are only ever created on a device; members go to LynkCRM with names and contacts in the vault; points follow the member's LynkCRM record; payees go to LynkExchange with bank details in the vault; bookings are kept for LynkBooking's business side.
+- The large-organisation set for every service: approval flows now cover each service's own documents (refunds, discounts over a limit, price changes, stock adjustments, purchase orders, payouts, exchange orders, vote rule changes, job offers, leases, leave and more), and own roles cover every service's area. Each needs that service's Max plus an Enterprise agreement.
+
 ## v0.84.0 (2026-11-21)
 Section 4 review, first part (the groundwork rows):
 - LynkSchool's limits and registers for section 80 (row 80.15): catalog/school.v1.json read by core/school.py (every kind and level of school in five groups, the school year, offline working, the children's rules, what LynkAssist may and never does, the partners and where each part is built) and the 80.13 tier features in billing: every kind of school, the school year, offline working and every safety rule on every tier; Plus adds the learner, guardian and safety tools in full, meals, transport, school property, sponsors and grants; Pro adds vocational, university and centre tools and staff and quality; Max adds ministries and groups.
