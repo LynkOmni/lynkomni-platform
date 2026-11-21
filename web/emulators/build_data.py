@@ -20,7 +20,7 @@ def svg(path):
 
 
 # Shared word packs: an emulator that imports the module carries the folder's words too (one translation, used everywhere).
-SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/queuedesk.js", os.path.join("web", "shell")), ("ts/src/surveydesk.js", os.path.join("web", "shell")), ("ts/src/trackview.js", os.path.join("web", "tracking")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/footer.js", os.path.join("web", "footer")), ("ts/src/appshell.js", os.path.join("web", "navigation")), ("ts/src/chatview.js", os.path.join("web", "chat")), ("ts/src/assistview.js", os.path.join("web", "assist")), ("ts/src/officeview.js", os.path.join("web", "office")))
+SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/queuedesk.js", os.path.join("web", "shell")), ("ts/src/surveydesk.js", os.path.join("web", "shell")), ("ts/src/trackview.js", os.path.join("web", "tracking")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/ads.js", os.path.join("web", "pos")), ("ts/src/footer.js", os.path.join("web", "footer")), ("ts/src/appshell.js", os.path.join("web", "navigation")), ("ts/src/chatview.js", os.path.join("web", "chat")), ("ts/src/assistview.js", os.path.join("web", "assist")), ("ts/src/officeview.js", os.path.join("web", "office")))
 
 
 def uses_shell(emulator):

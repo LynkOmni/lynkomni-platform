@@ -1402,11 +1402,14 @@
       "4"
      ],
      "part": "The groundwork (register, rules, tests); the LynkStat ad card on Free; ad earnings posted as income in LynkAcc; the hosting switches, advertiser and category blocks and the earnings card in Business app settings; the till's idle and after-sale ad states and the labelled receipt line on the emulators",
-     "done": {},
+     "done": {
+      "4": "v0.92.0"
+     },
      "progress": {
       "4": [
        "v0.52.0: the groundwork: the ads register (catalog/ads.v1.json) as an allow-list of places, the ads service following it (seen-only impressions, the device-hour cap, the merchant's hosting switch for customer-facing places, advertiser blocking, relevance ranking, Why am I seeing this?, Report this ad with a pause after three shops, totals hidden below 5, age-sensitive categories, no ads for children or households) and its tests",
-       "v0.83.0: ad earnings recorded once a month (AdEarningsRecorded) and posted as income in LynkAcc"
+       "v0.83.0: ad earnings recorded once a month (AdEarningsRecorded) and posted as income in LynkAcc",
+       "v0.92.0: the screens: the device-side ad rule shared by Python and TypeScript (services/ads.py may_show and counts, ts/src/ads.ts, contract/vectors/ads.v1.json) and one shared labelled slot with Why am I seeing this? and Report this ad; the till's idle and after-sale slots and the labelled receipt line on the POS terminal and the counter tablet; one card on LynkStat Free in the owner's computer view; the hosting switch with the shop's share, category blocks, blocked advertisers and the earnings card in Business settings; words in 38 languages"
       ]
      }
     },

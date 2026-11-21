@@ -1,6 +1,13 @@
 {
  "academy": "Academy",
  "academy_hint": "A short course opens beside the screen it teaches.",
+ "ad_report": "Report this ad",
+ "ad_reported": "Thank you. This ad will be checked.",
+ "ad_sample": "Sample",
+ "ad_sample_text": "Fresh bread from a bakery near you, 10% off this week",
+ "ad_sponsored": "Sponsored",
+ "ad_why": "Why am I seeing this?",
+ "ad_why_text": "This ad is chosen from the kind of business and this screen, never from who you are.",
  "adjust": "Adjust",
  "agent": "Agent",
  "agent_commissions": "Agent commissions",

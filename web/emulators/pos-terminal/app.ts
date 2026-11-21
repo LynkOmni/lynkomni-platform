@@ -28,6 +28,8 @@ import { ticketNumber } from "../../../ts/src/queue.js";
 import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
 import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
 import { watchNames } from "../../../ts/src/names.js";
+import { mayShow, slotHtml, whyHtml } from "../../../ts/src/ads.js";
+import type { Ad, AdLook } from "../../../ts/src/ads.js";
 
 interface BuildData {
   icons: Record<string, string>;
@@ -83,6 +85,16 @@ const STAFF = new StaffLock([
   { person: "o1", name: "Grace", role: "owner", pin: "4719" },
 ]);
 
+// ADS UPDATE 79 (section 4 row 79.10): the idle screen and after a sale on LynkPOS Free; the receipt line only once the shop hosts it
+const AD = { on: false, host: false, why: false, reported: false };
+const SAMPLE_AD = (): Ad => ({ id: "sample-ad", text: t("ad_sample_text"), sample: true });
+const adLook = (): AdLook => ({ t, esc, icon: (id) => icon(id) });
+function adBlock(place: string, screen: string): string {
+  if (!mayShow(place, { screen, country_on: AD.on, hosting: AD.host })) return "";
+  return slotHtml(place, SAMPLE_AD(), adLook()) + (AD.why ? whyHtml(adLook()) : "") + (AD.reported ? `<p class="ad-why" role="status">${esc(t("ad_reported"))}</p>` : "");
+}
+const receiptAd = (): { label: string; text: string } | null =>
+  mayShow("receipt_footer", { screen: "receipt", country_on: AD.on, hosting: AD.host }) ? { label: `${t("ad_sponsored")} · ${t("ad_sample")}`, text: SAMPLE_AD().text } : null;
 const S = {
   screen: "lock" as Screen, lang: "en" as Lang, theme: "light" as "light" | "dark", online: true, realUser: false, country: "", outcome: "confirm" as "confirm" | "fail",
   input: "", note: "", category: "all", cart: new Cart(), current: null as Sale | null, method: "cash" as PaymentMethod, sales: [] as Sale[],
@@ -192,7 +204,7 @@ function printTicket(): void {
 }
 function printReceipt(s: Sale): void {
   const paper = $("#paper"), wrap = $("#paperWrap");
-  const lines = receiptLines({ shop: SHOP, sale: s.sale, payments: s.payments, tendered: s.tendered, when: clock(s.at, true), money, words: Object.fromEntries(Object.keys(EN).map((k) => [k, t(k)])) });
+  const lines = receiptLines({ shop: SHOP, sale: s.sale, payments: s.payments, tendered: s.tendered, when: clock(s.at, true), money, words: Object.fromEntries(Object.keys(EN).map((k) => [k, t(k)])), ad: receiptAd() });
   paper.innerHTML = `<div class="rhead" role="img" aria-label="LynkOmni">${DATA.brand.receipt}</div><pre class="rtext"></pre><div class="rqr" hidden><span class="qr" aria-hidden="true">${DATA.icons["ui-qr"] ?? ""}</span><span>${esc(t("verify_receipt"))}</span><span>${esc(s.receiptId)}</span></div><div class="rcut" aria-hidden="true"></div>`;
   const qr = paper.querySelector(".rqr") as HTMLElement;   // 38 C, 7: every receipt carries a QR the customer can scan to check it
   wrap.classList.remove("torn"); wrap.hidden = false;
@@ -403,7 +415,7 @@ function view(): string {
         <p class="note" role="alert">${esc(S.note)}</p><p class="keyhint">${icon("ui-info")}${esc(t("use_keys"))}</p>
         <p class="hint">${esc(t("pin_hint"))}</p></div>`;
     case "home":
-      return `${top(t("sample_shop"), false)}${banners()}<div class="tiles12${S.lowLiteracy ? " big" : ""}">${HANDHELD_TILES.map((k) => `<button class="t12" data-act="tile:${k}">${icon(TILE_ICON[k] ?? "ui-grid")}<span>${esc(t(`tile_${k}`))}</span></button>`).join("")}</div>
+      return `${top(t("sample_shop"), false)}${banners()}<div class="tiles12${S.lowLiteracy ? " big" : ""}">${HANDHELD_TILES.map((k) => `<button class="t12" data-act="tile:${k}">${icon(TILE_ICON[k] ?? "ui-grid")}<span>${esc(t(`tile_${k}`))}</span></button>`).join("")}</div>${adBlock("pos_idle", "home")}
         ${S.flash ? `<div class="toast" role="status">${icon("ui-check")}${esc(S.flash)}</div>` : ""}`;
     case "pick":
       return `${top(t(`tile_${S.tileGroup}`))}<ul class="menu">${(TILE_SERVICES[S.tileGroup] ?? []).map((k) => `<li><button data-act="svc:${k}">${icon(TILE_ICON[S.tileGroup] ?? "ui-grid")}${esc(t(`svc_${k}`))}${icon("ui-chevron-right")}</button></li>`).join("")}</ul>
@@ -475,7 +487,7 @@ function view(): string {
         ${failed ? `<div class="foot two"><button class="ghost" data-act="go:pay">${esc(t("other_method"))}</button><button class="primary" data-act="retry">${esc(t("try_again"))}</button></div>` : ""}`;
     }
     case "done":
-      return `<div class="donebox">${icon("ui-check", "bigcheck")}<h1>${esc(t("done"))}</h1>${c ? `<p class="big">${esc(money(c.sale.total))}</p>${c.tendered !== undefined ? `<p>${esc(t("change"))}: <strong>${esc(money(change(c.sale.total, c.tendered)))}</strong></p>` : ""}<p class="sub">${esc(t("receipt"))} ${esc(c.sale.receipt_number_local)}</p>` : ""}</div>
+      return `<div class="donebox">${icon("ui-check", "bigcheck")}<h1>${esc(t("done"))}</h1>${c ? `<p class="big">${esc(money(c.sale.total))}</p>${c.tendered !== undefined ? `<p>${esc(t("change"))}: <strong>${esc(money(change(c.sale.total, c.tendered)))}</strong></p>` : ""}<p class="sub">${esc(t("receipt"))} ${esc(c.sale.receipt_number_local)}</p>` : ""}</div>${adBlock("pos_after_sale", "after_sale")}
         ${c ? receiptByMessage() : ""}<div class="foot"><button class="primary" data-act="enter">${esc(t("new_sale"))}</button></div>`;
     case "off":
       return `${top(t("unavailable"))}<div class="offbox"><span class="pic" role="img" aria-label="${esc(DATA.pictures.offAlt)}">${S.theme === "dark" ? DATA.pictures.offDark : DATA.pictures.offLight}</span>
@@ -585,6 +597,8 @@ function drawLog(): void {
 
 function act(a: string): void {
   if (DSH.act(a)) return;
+  if (a.startsWith("ad:why:")) { AD.why = !AD.why; draw(); return; }
+  if (a.startsWith("ad:report:")) { AD.reported = true; draw(); return; }   // the report goes to services/ads.py report_ad; three reports pause the ad
   if (a.startsWith("at:")) { PH.att.act(a, { online: S.online, partner: !S.realUser }); draw(); return; }
   if (a.startsWith("qu:")) { const prints = a === "qu:issue" || a.startsWith("qu:reprint:"); PH.q.act(a, quCtx()); if (prints) printTicket(); draw(); return; }
   if (a.startsWith("ph:")) { PH.act(a, phCtx()); draw(); return; }
@@ -692,6 +706,8 @@ function wire(): void {
   $("#cWipe").addEventListener("click", () => { S.wiped = true; S.screen = "lock"; S.sales = []; S.lines = []; emit("DeviceWiped", { device_id: DEVICE, unsent_lost: S.events.filter((e) => e.sync === "queued").length }, "server"); draw(); });
   bind("#cAltered", (el) => { if (el.checked) emit("DeviceIntegrityFailed", { device_id: DEVICE, failed: ["app_signature"] }, "server"); });
   bind("#cDark", (el) => { S.theme = el.checked ? "dark" : "light"; draw(); });
+  bind("#cAds", (el) => { AD.on = el.checked; AD.why = false; AD.reported = false; draw(); });
+  bind("#cAdHost", (el) => { AD.host = el.checked; draw(); });
   bind("#cReal", (el) => { S.realUser = el.checked; draw(); });
   const country = $<HTMLSelectElement>("#cCountry");
   country.innerHTML = DATA.packOrder.map((c) => { const p = DATA.packs[c] as CountryPack; return `<option value="${esc(c)}">${esc(p.sample ? t("sample_country") : p.name)}</option>`; }).join("");

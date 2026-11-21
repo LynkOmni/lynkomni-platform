@@ -103,7 +103,7 @@ export function formatMoney(minor: number, currency: string, locale: string): st
 export const qtyText = (qtyMilli: number): string => (qtyMilli % 1000 === 0 ? String(qtyMilli / 1000) : (qtyMilli / 1000).toFixed(3));
 
 /** Text for the built-in thermal printer (58 mm paper is 32 characters wide). */
-export function receiptLines(o: { shop: string; sale: SalePayload; payments: PaymentPayload[]; tendered?: number; when: string; money: (n: number) => string; words: Record<string, string>; width?: number }): string[] {
+export function receiptLines(o: { shop: string; sale: SalePayload; payments: PaymentPayload[]; tendered?: number; when: string; money: (n: number) => string; words: Record<string, string>; width?: number; ad?: { label: string; text: string } | null }): string[] {
   const w = o.width ?? 32, rule = "-".repeat(w);
   const two = (a: string, b: string): string => { const room = w - b.length - 1; return (a.length > room ? a.slice(0, Math.max(room - 1, 1)) + "." : a).padEnd(room) + " " + b; };
   const centre = (t: string): string => " ".repeat(Math.max(Math.floor((w - t.length) / 2), 0)) + t;
@@ -122,7 +122,15 @@ export function receiptLines(o: { shop: string; sale: SalePayload; payments: Pay
   out.push(rule, centre(o.words["thanks"] ?? "Thank you"), centre(o.words["not_tax"] ?? "Not a tax receipt"));
   // A Lynk name on the paper is explained in one line at the end (catalog/names.v1.json outside: customers)
   const named = paperLines(out, (k) => o.words[k] ?? k, w);
-  return named.length ? [...out, rule, ...named] : out;
+  const done = named.length ? [...out, rule, ...named] : out;
+  // ADS UPDATE 79: one labelled ad line at the very end of a receipt the shop chose to host, never on a fiscal document (core/locale.py)
+  if (!o.ad) return done;
+  const wrapped: string[] = []; let line = "";
+  for (const word of `${o.ad.label}: ${o.ad.text}`.split(/\s+/)) {
+    if (line && (line + " " + word).length > w) { wrapped.push(line); line = word; } else line = line ? `${line} ${word}` : word;
+  }
+  if (line) wrapped.push(line);
+  return [...done, rule, ...wrapped.map((x) => centre(x.slice(0, w)))];
 }
 
 /** A UUIDv7 (the contract's id format) from a clock and a random source, so it works in any runtime. */

@@ -1,0 +1,9 @@
+/* The ad slot (ADS UPDATE 79, ts/src/ads.ts): always labelled, calm, no animation; drawn after the screen and never moving anything. */
+.ad-slot { margin-block: 8px 0; padding: 8px 10px; border: 1px dashed var(--border-strong); border-radius: 10px; background: var(--bg-surface); color: var(--text-primary); display: flex; flex-direction: column; gap: 4px; }
+.ad-label { font: 600 11px var(--font-body); color: var(--text-secondary); overflow-wrap: anywhere; }
+.ad-text { margin: 0; font-size: 13px; overflow-wrap: anywhere; }
+.ad-acts { margin: 0; display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.ad-acts .linkbtn { border: 0; background: transparent; padding: 0; min-height: 24px; color: var(--brand-ink); font: 600 12px var(--font-body); text-decoration: underline; cursor: pointer; }
+.ad-line { margin: 4px 0 0; font-size: 12px; color: var(--text-secondary); overflow-wrap: anywhere; }
+.ad-why { margin: 4px 0 0; font-size: 12px; color: var(--text-secondary); overflow-wrap: anywhere; }
+[data-mode="lite"] .ad-slot, [data-mode="lite"] .ad-line { display: none; }

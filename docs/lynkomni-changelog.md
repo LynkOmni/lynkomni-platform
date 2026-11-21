@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.92.0 (2026-11-21)
+Section 4 review, seventh part (row 79.10, ads on screens):
+- One shared ad slot for every screen (ts/src/ads.ts), always labelled "Sponsored", with "Why am I seeing this?" and "Report this ad". It follows one rule shared by Python and TypeScript: only in a registered place, never on a payment, void, refund, cash count, settings or private chat screen, never for children or in a household or school, never in lite mode or on a paid plan, never before the country's legal sign-off, and a customer-facing place only once the shop switches it on. No ad leaves no gap.
+- The POS terminal and the counter tablet show the slot on the idle screen and after a sale, and print one labelled ad line at the very end of a receipt the shop hosts. LynkStat Free carries one card on its overview. Business settings hold the receipt-line switch with the shop's share, the category blocks, blocked advertisers and this month's ad earnings. The emulators use a labelled sample ad, off until a panel switch stands for a country whose ads are signed off.
+- The Business app demo file's size budget is raised by 30 KB for the ad settings and their words in 38 languages (a real app downloads one language at a time); first-screen and tap budgets are unchanged.
+- Build-table row 79.10 is done.
+
 ## v0.91.0 (2026-11-21)
 Section 4 review, sixth part (row 76.8, turning every screen already built):
 - Every emulator of a device a person can turn now offers both directions: the rider phone, the tracking, queue and survey pages on a phone, the touch version of the stock scanner and the account site on a phone can be turned sideways, and the counter tablet can stand upright. The layout comes from the device register as on the Business app; nothing on the screen is redrawn, lost or repeated.

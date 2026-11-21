@@ -21,6 +21,7 @@ import { trackerHtml, trackerLine } from "../../../ts/src/trackview.js";
 import { AGENT_SERVICES, COLLECTION_KINDS, FINANCE_PRODUCTS, combinedLimits, commission, floatForecastDays, limitCheck, lowFloat, mayHandOverCash } from "../../../ts/src/agent.js";
 import type { AgentState, Limits } from "../../../ts/src/agent.js";
 import { TEST_LANGS, esc, newId, pick, pseudo, publicId, randomBytes } from "../../../ts/src/emulator.js";
+import { ADS } from "../../../ts/src/ads.generated.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { shortFooterHtml } from "../../../ts/src/footer.js";
 import { check } from "../../../ts/src/usernames.js";
@@ -1448,6 +1449,17 @@ const SETTING_ITEMS: Record<string, string[]> = {
   ad_categories: ["ads_contextual", "ads_never_protected"], lock: ["pin_lock", "idle_lock"], data_privacy: ["export_data", "delete_business"],
   connected_apps: ["no_apps"], data_sharing: ["share_supplier", "share_health", "share_passport"],
 };
+/** Ads in business settings (ADS UPDATE 79, section 4 row 79.10): the receipt line the shop may host and earn from, categories it never
+ *  wants, blocked advertisers and this month's ad earnings. Settings screens never show an ad themselves; a paid plan shows none. */
+function adSettings(sw: (k: string) => string, owner: boolean): string {
+  const pct = Math.round((ADS.share_bps["receipt_footer"] ?? 0) / 100);
+  const host = `<li data-item="ads_host"><label class="switch"><span>${esc(t("ads_host_receipt", { pct }))}</span><input type="checkbox" data-in="set:ads_host" ${S.toggles.has("ads_host") ? "checked" : ""} ${owner ? "" : "disabled"}></label></li>`;
+  const blk = (k: string): string => `<li data-item="${k}"><label class="switch"><span>${esc(t(k))}</span><input type="checkbox" data-in="set:${k}" ${S.toggles.has(k) ? "checked" : ""} ${owner ? "" : "disabled"}></label></li>`;
+  return `${S.tier === "free" ? "" : `<p class="info">${esc(t("ads_ad_free"))}</p>`}<p class="sub">${esc(t("ads_off_country"))}</p>
+    <ul class="list card">${sw("ads_contextual")}${sw("ads_never_protected")}${host}${blk("ads_block_age")}${blk("ads_block_regulated")}</ul>
+    <ul class="list card" data-item="ads_blocked"><li><div class="rowbtn static"><span class="main"><span class="sub">${esc(t("ads_blocked_none"))}</span></span></div></li></ul>
+    <ul class="list card" data-item="ads_earnings">${row(t("ads_earnings"), money(0))}</ul>`;
+}
 function settingScreen(id: string): string {
   const owner = canChangeSettings(S.role), fresh = S.size === "web" && webRule("settings_change", false) === "step_up";
   const items = SETTING_ITEMS[id] ?? [];
@@ -1455,6 +1467,7 @@ function settingScreen(id: string): string {
   const body = id === "language_region"
     ? `<ul class="list card">${row(t("st_language"), PACKS[S.lang]?.native ?? S.lang)}${row(t("st_region"), pack().sample ? t("sample_country") : pack().name)}${row(t("st_currency"), pack().currency)}</ul><button class="ghost inline" data-act="localecard">${esc(t("change"))}</button>${namesChoice(t, { scope: "device", act: "nmc", canChange: owner })}`
     : id === "connected_apps" ? `<p class="info">${esc(t("st_no_apps"))}</p>`
+    : id === "ad_categories" ? adSettings(sw, owner)
     : id === "taxes" ? `<ul class="list card">${row(t("st_tax_rate"), t("from_country_pack"))}${sw("prices_include_tax")}</ul><p class="sub">${esc(t("not_tax"))}</p>`
     : id === "business_profile" ? `<ul class="list card">${row(t("st_shop_name"), shop())}${row(t("st_business_type"), t("type_" + S.btype))}${row(t("st_address"), t("not_set"))}${row(t("st_logo"), t("logo_rule"))}</ul>`
     : id === "data_privacy" ? `<ul class="list card">${row(t("st_export_data"), "", "exportfile")}${row(t("st_delete_business"), t("owner_only"))}</ul>`

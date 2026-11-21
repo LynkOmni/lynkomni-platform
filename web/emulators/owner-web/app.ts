@@ -19,6 +19,7 @@ import { NAV } from "../../../ts/src/navigation.generated.js";
 import { OFFICE_PATHS, OFFICE_SERVICES, OfficeView } from "../../../ts/src/officeview.js";
 import type { OfficeService } from "../../../ts/src/officeview.js";
 import { watchNames, namePair } from "../../../ts/src/names.js";
+import { mayShow, slotHtml, whyHtml } from "../../../ts/src/ads.js";
 import { NAME_INFO_KEYS } from "../../../ts/src/nameinfo.js";
 const SIDE_W = 200;   // px of room the 220 px sidebar gives its brand place (side-menu: logo from 140 px)
 
@@ -89,7 +90,11 @@ const DSH = panelShell({
   run: (a) => act(a), redraw: () => draw(),
 });
 // ---- the office services in the browser (section 4 step D5): LynkAcc, LynkInv, LynkCRM and LynkStat from ts/src/officeview.ts ---
-const OV = new OfficeView({ t, money: (n) => C.money(n), icon, chip, nav: NAV, role: "owner", user: "u-owner", today: "2026-11-20", taxBp: () => DATA.taxBp[S.country] ?? 0 });
+// ADS UPDATE 79 (section 4 row 79.10): one labelled card on LynkStat Free; off until the country's legal sign-off; a paid plan shows none
+const AD = { on: false, why: false, reported: false };
+const adSlot = (): string => !mayShow("dashboard_card", { screen: "dashboard", country_on: AD.on, ad_free: S.tier !== "free" }) ? ""
+  : slotHtml("dashboard_card", { id: "sample-ad", text: t("ad_sample_text"), sample: true }, { t, esc, icon }) + (AD.why ? whyHtml({ t, esc, icon }) : "") + (AD.reported ? `<p class="ad-why" role="status">${esc(t("ad_reported"))}</p>` : "");
+const OV = new OfficeView({ t, money: (n) => C.money(n), icon, chip, nav: NAV, role: "owner", user: "u-owner", today: "2026-11-20", taxBp: () => DATA.taxBp[S.country] ?? 0, ad: adSlot });
 const office = (): OfficeService | null => (OFFICE_SERVICES as readonly string[]).includes(S.place) ? (S.place as OfficeService) : null;
 function page(): string { const o = office(); if (o) return OV.draw(o, S.office || OV.pages(o)[0]!.id); return S.place ? placePage() : { today, sales, devices, staff, commissions, automations, sharing }[S.page](); }
 
@@ -132,6 +137,8 @@ function draw(): void {
 /** Redraws while typing and puts the cursor back where it was, so a field never loses its place. */
 function keepFocus(id: string): void { const el = document.getElementById(id) as HTMLInputElement | null; const pos = el?.selectionStart ?? null; draw(); const again = document.getElementById(id) as HTMLInputElement | null; if (again) { again.focus(); if (pos !== null && again.type !== "date") again.setSelectionRange(pos, pos); } }
 function act(a: string): void {
+  if (a.startsWith("ad:why:")) { AD.why = !AD.why; draw(); return; }
+  if (a.startsWith("ad:report:")) { AD.reported = true; draw(); return; }
   const [k = "", v = ""] = a.split(":");
   if (k === "rail") { const to = RAIL[v]; if (to) { if (to.startsWith("dsh:")) { if (DSH.act(to)) return; } else act(to); } return; }
   if (a === "launcher") { S.launcher = !S.launcher; draw(); return; }
@@ -148,7 +155,7 @@ function act(a: string): void {
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["plan", "country", "dark", "lang"], S, W, C, { tiers: TIERS });
+  $("#panel").innerHTML = panelHtml(["plan", "country", "dark", "lang"], S, W, C, { tiers: TIERS }) + `<label><input type="checkbox" data-ctl="ads"${AD.on ? " checked" : ""}> <span>${esc(t("ad_sponsored"))} · ${esc(t("ad_sample"))}</span></label>`;
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   const OFFICE_STATES = OFFICE_SERVICES.flatMap((svc) => OV.pages(svc).map((p) => p.id));        // every office page, so every check visits it
   stateButtons($("#stateButtons"), [...PAGES, "why", "new-sale", ...OFFICE_STATES, "inv_record", "crm_record"], (k) => {
@@ -170,7 +177,7 @@ function main(): void {
   document.addEventListener("change", (e) => { const el = e.target as HTMLSelectElement; if (el.closest("#screen") && el.tagName === "SELECT" && OV.input(el.dataset["in"] ?? "", el.value)) draw(); });
   document.addEventListener("keydown", (e) => { DSH.key(e); });
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
-  $("#panel").addEventListener("change", (e) => { if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });
+  $("#panel").addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["ctl"] === "ads") { AD.on = el.checked; AD.why = false; AD.reported = false; draw(); return; } if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 1180);
 }
 main();
