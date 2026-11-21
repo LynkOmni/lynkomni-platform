@@ -2,9 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
-## v0.85.0 (2026-11-21)
+## v0.86.0 (2026-11-21)
 - Every Lynk name has its own product mark: @lynkomni/icons 1.10.0 adds 22 marks (accounting, invoicing, customers, office bundle, analytics, currency exchange, voting, staff management, projects, school management, courses and training, property management, documents and signing, jobs and hiring, questions and answers, help and support, service status, product feedback, safety and reporting, automations, hardware drivers, account ID), vendored by brand-sync (#141). The names register now names each one; services, features and card groups inside a product use that product's mark.
 - LynkInv and LynkCRM joined the Business tab and launchers with their own marks; LynkAcc, LynkStat and the office notifications moved off the borrowed marks. The provider ledger's later items ops_product_icons and product_marks_all are done and removed; build table 84.6's section 4 row is done, so it no longer holds section 4's lock.
+- Opening the launcher stays within its tap budget: a place that already shows its plain word under its name is marked as explained, so the names part skips it (the two new launcher places had pushed the browser's first tap to 127 ms against 120).
+
+## v0.85.0 (2026-11-21)
+Section 4 review, second part (row 67.17, Move in and the large-organisation set for every service):
+- Move in for every service: besides customers, suppliers, opening balances and open invoices and bills, a business can now bring in its products, stock levels, members, loyalty points, bookings and payees. Every column is checked by its type (an amount in the currency's own minor units, a whole number, a date) and every reference must be known (stock for a product moved in, points for a member moved in). Nothing moves in while the check shows an error. Products and stock wait in a pack that each device takes, because products and stock are only ever created on a device; members go to LynkCRM with names and contacts in the vault; points follow the member's LynkCRM record; payees go to LynkExchange with bank details in the vault; bookings are kept for LynkBooking's business side.
+- The large-organisation set for every service: approval flows now cover each service's own documents (refunds, discounts over a limit, price changes, stock adjustments, purchase orders, payouts, exchange orders, vote rule changes, job offers, leases, leave and more), and own roles cover every service's area. Each needs that service's Max plus an Enterprise agreement.
 
 ## v0.84.0 (2026-11-21)
 Section 4 review, first part (the groundwork rows):

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-OQ52P26VJE/GVqntI6kVGOQ1T41VnELT+dtSR5MVKOY='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-yyVPQ4R6RsCX+ISrfk4r4Fz2I3ulAiXvq6d9qZsoocA='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni Business App on LynkMobile</title>
 <meta name="description" content="Interactive emulator of the LynkOmni Business app on a phone or tablet: getting in, selling with every payment method, stock, chats, every Business section and setting, agent point, restaurant and invoice-only businesses, online and offline on sandbox providers.">
@@ -2874,7 +2874,7 @@ function navigation(items, vp, t, icon) {
 }
 function launcher(places, t, icon, sides) {
     const top = sides ? `<div class="lsides" role="group" aria-label="${esc(t("switch_side_group"))}">${sideButtons(sides, t, icon)}</div>` : "";
-    return `<div class="launcher" role="dialog" aria-label="${esc(t("app_launcher"))}">${top}<ul class="lgrid">${places.map((p) => `<li><a class="lplace${p.state === "coming_soon" ? " soon" : ""}" href="${esc(p.href)}" data-act="place:${esc(p.id)}">${icon(p.icon, "prod")}<span class="nm">${esc(p.name)}</span>${p.plain ? `<span class="pl">${esc(p.plain)}</span>` : ""}${p.state === "coming_soon" ? `<span class="soon-tag">${esc(t("coming_soon"))}</span>` : ""}</a></li>`).join("")}</ul></div>`;
+    return `<div class="launcher" role="dialog" aria-label="${esc(t("app_launcher"))}">${top}<ul class="lgrid">${places.map((p) => `<li><a class="lplace${p.state === "coming_soon" ? " soon" : ""}" href="${esc(p.href)}" data-act="place:${esc(p.id)}"${p.plain ? ` data-lname="${esc(p.name.startsWith("Lynk") ? p.name : p.plain)}"` : ""}>${icon(p.icon, "prod")}<span class="nm">${esc(p.name)}</span>${p.plain ? `<span class="pl">${esc(p.plain)}</span>` : ""}${p.state === "coming_soon" ? `<span class="soon-tag">${esc(t("coming_soon"))}</span>` : ""}</a></li>`).join("")}</ul></div>`;
 }
 function sideButtons(s, t, icon) {
     const b = (side, word, ic) => `<button class="side-btn${s.current === side ? " current" : ""}" data-act="side:${side}"${s.current === side ? ' aria-current="true"' : ""}>${icon(ic)}<span>${esc(s.current === side ? word : t("switch_side", { side: word }))}</span></button>`;
