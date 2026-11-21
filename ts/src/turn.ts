@@ -51,3 +51,10 @@ export function turn(reg: DeviceRegister, root: TurnRoot, facts: ShapeFacts, bef
   const changed = applyLayout(root, layout);
   return { layout, announce: changed ? turnMessageKey(before, layout) : null };
 }
+
+/** The shape of a device held upright or turned sideways, from its upright size (TURN UPDATE 76.8): the emulators of a phone or a
+ *  tablet use it with layoutFor, so every screen already built is tried in both directions. */
+export function turnedShape(turn: "upright" | "sideways" | undefined, upright: { interface: string; width: number; height: number; device?: string }): { interface: string; width: number; height: number; device?: string } {
+  return turn === "sideways" ? { ...upright, width: upright.height, height: upright.width } : upright;
+}
+

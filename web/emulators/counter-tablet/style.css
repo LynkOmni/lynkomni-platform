@@ -183,3 +183,8 @@ label input { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px s
 .bact .mic { flex: none; width: 44px; min-height: 44px; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--brand-ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
 .bact .mic .ic { width: 20px; height: 20px; display: inline-flex; }
 .bact .primary { flex: 1; min-width: 0; margin: 0; }
+
+/* TURN UPDATE 76.8: the counter tablet turned upright keeps every screen; only the shape changes */
+.counter[data-turn="upright"] { grid-template-columns: 368px 150px; }
+.counter[data-turn="upright"] .tablet { width: 368px; }
+.counter[data-turn="upright"] .screen { width: 340px; height: 532px; }

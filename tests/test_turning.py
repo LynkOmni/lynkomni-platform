@@ -71,3 +71,18 @@ class Turning(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class BothDirections(unittest.TestCase):
+    """TURN UPDATE 76.8: every emulator of a device a person can turn offers it upright and sideways (its size choice, id cSize),
+    so the fit guard tries every screen both ways. Fixed devices that may be held to one direction (catalog/devices.v1.json lockable)
+    and devices that cannot turn (a card, a button phone, a computer window) are not listed."""
+    TURNABLE = {"merchant-phone": ('value="phone"', 'value="side"'), "account-site": ('value="phone"', 'value="phone_side"'),
+                "counter-tablet": ('value="sideways"', 'value="upright"'), "rider-phone": ('"turn"',), "track-page": ('"turn"',),
+                "queue-page": ('"turn"',), "survey-page": ('"turn"',), "stock-scanner": ('"turn"',)}
+
+    def test_every_turnable_emulator_offers_both_directions(self):
+        for emu, marks in self.TURNABLE.items():
+            page = open(os.path.join(DIST, f"lynkomni-{emu}.html"), encoding="utf-8").read()
+            for m in marks:
+                self.assertIn(m, page, emu)
+            self.assertIn('cSize', page, f"{emu}: the fit guard walks the size choice")

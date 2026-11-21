@@ -3,6 +3,8 @@
  *  for "one per phone"; one question a page ("Why?" only after an unhappy answer); thank you, My answers and "Don't ask me again".
  *  The box beside it shows what the organisation sees (never fewer than 5 answers, never who gave an anonymous one). */
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, panelChange, panelHtml, stateButtons } from "../../../ts/src/emulator.js";
+import { layoutFor } from "../../../ts/src/interfaces.js";
+import { applyLayout, turnedShape } from "../../../ts/src/turn.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
@@ -29,6 +31,8 @@ const DEV = wireDevice(DM, { t, icon: (id) => icon(id), screen: () => document.g
 
 function draw(): void {
   const el = $("#screen"); DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W);
+  const turned = S.turn ?? "upright"; document.querySelector(".phone")?.setAttribute("data-turn", turned);   // TURN UPDATE 76.8
+  applyLayout(el, layoutFor(DEVICES, turnedShape(turned, { interface: "phone.touch", width: 390, height: 844 })));
   D.tier = S.tier as AtTier;
   el.innerHTML = `<p class="sp-addr" dir="ltr">shop.lynkomni.com/sample.place/survey</p><div class="sp-body">${svPhoneView(D, look())}${S.online ? "" : `<p class="sub" role="status">${esc(t("sp_offline"))}</p>`}</div>`;
   const tl = $("#till"); applyRoot(tl, W);
@@ -48,7 +52,7 @@ function reset(k: string): void {
   if (k === "done") D.phone.step = "done";
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "plan", "country", "dark", "lang"], S, W, C, { tiers: TIERS });
+  $("#panel").innerHTML = panelHtml(["online", "plan", "country", "dark", "lang", "turn"], S, W, C, { tiers: TIERS });
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["consent", "question", "anonymous", "sensitive", "one-per-phone", "done", "closed"], (k) => { reset(k); draw(); });
 }
@@ -67,6 +71,7 @@ function main(): void {
   });
   window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); }, 400);
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 380);
+  $("#panel").addEventListener("change", () => fitToWidth($("#rig"), S.turn === "sideways" ? 700 : Number($("#rig").dataset["width"]) || 380));
 }
 main();
 /** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */

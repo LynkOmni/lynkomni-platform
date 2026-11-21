@@ -16,6 +16,8 @@ import { trackerHtml } from "../../../ts/src/trackview.js";
 import { chooseInterface } from "../../../ts/src/interfaces.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
+import { layoutFor } from "../../../ts/src/interfaces.js";
+import { applyLayout, turnedShape } from "../../../ts/src/turn.js";
 import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
 import { watchNames } from "../../../ts/src/names.js";
 
@@ -122,6 +124,9 @@ function drawScreen(): void {
   const el = $("#screen"); if (!el) return;
   const c = rkChoice(); el.dataset["interface"] = c.interface; el.dataset["deviceClass"] = c.class; el.dataset["moving"] = RK.device === "car-screen" && RK.moving ? "yes" : "no";
   document.querySelector(".phone")?.setAttribute("data-kind", RK.device);
+  const turned = RK.device === "rider-phone" ? S.turn ?? "upright" : "upright";      // TURN UPDATE 76.8: the phone is tried both ways
+  document.querySelector(".phone")?.setAttribute("data-turn", turned);
+  applyLayout(el, layoutFor(DEVICES, turnedShape(turned, { interface: "phone.touch", width: 390, height: 844 })));
   if (RK.device === "smartwatch" && !job()) { el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = `<div class="rbody">${watchView()}</div>${DSH.overlay()}`; return; }
   if (RK.device === "car-screen" && RK.moving) { el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = carVoice(); return; } el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W);
   el.innerHTML = `<header class="rtop"><span class="rmark">${icon("product-chat")}</span><strong>${esc(t("deliveries"))}</strong>${DSH.bar()}</header><div class="rbody">${job() ? detail(job()!) : list()}</div>${DSH.overlay()}`;
@@ -144,7 +149,7 @@ function seed(): void {
   S.jobs = [{ id: newId(), order: 1042, area: "area_1", amount: 8500, state: "accepted", code: code6() }, { id: newId(), order: 1043, area: "area_2", amount: 23000, state: "accepted", code: code6() }, { id: newId(), order: 1039, area: "area_3", amount: 4000, state: "delivered", code: code6(), proof: "code" }];
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang"], S, W, C)
+  $("#panel").innerHTML = panelHtml(RK.device === "rider-phone" ? ["online", "country", "dark", "lang", "turn"] : ["online", "country", "dark", "lang"], S, W, C)
     + `<label class="center"><span>${esc(t("rk_device"))}</span> <select data-ctl="rkdevice">${(["rider-phone", "smartwatch", "car-screen"] as const).map((k) => `<option value="${k}"${k === RK.device ? " selected" : ""}>${esc(t(k === "rider-phone" ? "rk_phone" : k === "smartwatch" ? "rk_watch" : "rk_car"))}</option>`).join("")}</select></label>`
     + `<label class="center"><span>${esc(t("rk_battery"))}</span> <select data-ctl="battery">${[100, 20, 10, 3].map((b) => `<option value="${b}"${b === RX.battery ? " selected" : ""}>${b}%</option>`).join("")}</select></label>`
     + (RK.device === "car-screen" ? `<label><input type="checkbox" data-ctl="moving"${RK.moving ? " checked" : ""}> <span>${esc(t("rk_moving"))}</span></label>` : "");
@@ -163,10 +168,10 @@ function main(): void {
     if (c.dataset["ctl"] === "rkdevice") { RK.device = c.value === "smartwatch" ? "smartwatch" : c.value === "car-screen" ? "car-screen" : "rider-phone"; RK.moving = false; S.open = ""; panel(); draw(); (window as unknown as { __refit: () => void }).__refit(); return; }
     if (c.dataset["ctl"] === "moving") { RK.moving = c.checked; draw(); return; }
     if (c.dataset["ctl"] === "battery") { RX.battery = Number(c.value) || 100; if (RX.battery > 3) RX.lastSent = false; draw(); return; }
-    if (panelChange(e.target as HTMLSelectElement, S, DATA)) panel(); draw(); });
+    if (panelChange(e.target as HTMLSelectElement, S, DATA)) panel(); draw(); if (c.dataset["ctl"] === "turn") (window as unknown as { __refit: () => void }).__refit(); });
   window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); if (S.share && S.online && job()?.state === "picked_up" && S.ticks % 8 === 0 && S.trip < 16) { S.trip += 1; draw(); } }, 400);
   const base = Number($("#rig").dataset["width"]) || 400;
-  (window as unknown as { __refit: () => void }).__refit = () => { const r = $("#rig"); document.documentElement.style.setProperty("--fit", String(Math.min(1, (r.clientWidth - 8) / (RK.device === "car-screen" ? 680 : base)))); };
+  (window as unknown as { __refit: () => void }).__refit = () => { const r = $("#rig"); document.documentElement.style.setProperty("--fit", String(Math.min(1, (r.clientWidth - 8) / (RK.device === "car-screen" ? 680 : RK.device === "rider-phone" && S.turn === "sideways" ? 800 : base)))); };
   addEventListener("resize", () => (window as unknown as { __refit: () => void }).__refit());
   (window as unknown as { __refit: () => void }).__refit();
 }
