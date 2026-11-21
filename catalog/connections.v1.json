@@ -50,11 +50,17 @@
    "id": "pos-acc",
    "from": "lynkpos",
    "to": "lynkacc",
-   "what": "Sales, payments, cash differences and agent commission post to the books, labelled by side",
+   "what": "Sales, payments, cash differences and agent commission post to the books, labelled by side; gift cards and store credit are owed by the shop and deposits held in advance until they settle (67.2)",
    "events": [
     "SaleRecorded",
     "PaymentRecorded",
-    "CommissionRecorded"
+    "CommissionRecorded",
+    "GiftCardSold",
+    "StoreCreditIssued",
+    "VoucherRedeemed",
+    "DepositTaken",
+    "DepositSettled",
+    "StoredValueConflictFlagged"
    ],
    "planned_events": [],
    "consent": "none",
@@ -64,9 +70,15 @@
    "id": "mpay-acc",
    "from": "lynkmpay",
    "to": "lynkacc",
-   "what": "Provider-confirmed payments and their fees post to the books",
+   "what": "Provider-confirmed payments and their fees post to the books; each payment's costs, its match to a sale, invoice or booking, and the provider's payouts (67.8)",
    "events": [
-    "PaymentStatusChanged"
+    "PaymentStatusChanged",
+    "PaymentSettled",
+    "PaymentMatched",
+    "PaymentMatchUndone",
+    "ProviderPayoutScheduled",
+    "ProviderPayoutArrived",
+    "DepositRefunded"
    ],
    "planned_events": [],
    "consent": "none",

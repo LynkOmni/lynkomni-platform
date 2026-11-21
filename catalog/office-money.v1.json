@@ -1,0 +1,49 @@
+{
+ "version": 1,
+ "agreed": "2026-11-21 (section 4 step F, row 67.17 part 2: SERVICES UPDATE 67.2 and 67.8, the office side in LynkAcc)",
+ "rule": "The office side of money a shop takes or owes before or around a sale. Gift cards and store credit are a debt of the shop in LynkAcc, never held by LynkOmni; a deposit is received in advance until it is used, kept under terms shown before, or returned; every payment is matched to its sale, invoice or booking, and anything unmatched is listed; every payment shows what it cost (the provider's fee and LynkOmni's part); the payout calendar shows when each provider's money arrives. Money is whole minor units. Facts about electronic money come only from the provider. Rules live in core/office_money.py and ts/src/officemoney.ts (python3 tools/office_money_vectors.py after a change); the cloud service is services/office_money.py.",
+ "stored_value": {
+  "kinds": {
+   "gift_card": {"account": "2200", "issued_by": "GiftCardSold", "note": "sold and topped up at the till or online; the money taken is owed to the holder"},
+   "store_credit": {"account": "2510", "issued_by": "StoreCreditIssued", "note": "given for a return, as cashback or as goodwill; owed to the customer"}
+  },
+  "issue_debit": {"return": "6400", "cashback": "6000", "goodwill": "6000"},
+  "spent_by": "VoucherRedeemed",
+  "spend_credit": "4000",
+  "offline": "A device may sell, top up and spend offline; a sale is never blocked. When the cloud finds a balance spent below nothing it flags StoredValueConflictFlagged for the owner and posts nothing extra.",
+  "expiry": "never, until the country's rule is confirmed (country pack office.gift_cards, lawyer)",
+  "cash_out": "never through LynkOmni; a refund of a balance, where the law requires it, goes through the shop's own till or the licensed provider (built with the screens in section 7)"
+ },
+ "deposits": {
+  "for": ["pre_order", "special_order", "rental", "layaway"],
+  "account": "2500",
+  "outcomes": {
+   "applied": {"credit": "4000", "note": "the goods or service were given; the deposit becomes part of the sale"},
+   "kept": {"credit": "4200", "note": "kept only under terms the customer was shown before paying (a no-show, damage on a rental)"},
+   "returned_cash": {"credit": "1000", "note": "given back in cash at the till"}
+  },
+  "returned_electronic": "DepositRefunded, written by the cloud only when the provider confirms the refund",
+  "rule": "A deposit settles at most what is still held; a part kept and a part returned are two settlements."
+ },
+ "matching": {
+  "targets": ["sale", "invoice", "booking"],
+  "order": ["reference", "amount_and_date"],
+  "window_days": 3,
+  "rule": "A provider's payment is matched by its reference first. Without a reference, a single open target with the same amount and currency within the window is a suggestion a person confirms (or the Plus automation settlement-match accepts, undoable). Two or more candidates are never guessed. Anything left is listed as unmatched.",
+  "auto_from_tier": "plus"
+ },
+ "costs": {
+  "lines": ["provider_fee", "lynkomni_part"],
+  "account": "6100",
+  "rule": "Both come from the provider's settlement report; LynkOmni's part is what the provider took for LynkOmni under the shop's plan, never worked out on the device. Shown per payment and per month; the month is the settlement's date in UTC."
+ },
+ "payouts": {
+  "states": ["expected", "arrived", "late"],
+  "late_after_days": 2,
+  "arrived_debit": "1020",
+  "arrived_credit": "1010",
+  "rule": "Expected and arrived come only from the provider. A payout is late when it has not arrived two days after its expected date; late is shown to the owner, never claimed as lost."
+ },
+ "tiers": "Every tier records gift cards, store credit, deposits, costs and payouts and can match by hand; automatic matching from Plus (billing FEATURES lynkacc auto_match).",
+ "build": {"4": "registers, rules, contract version 16, the cloud service and the books", "7": "the customer side of gift cards and store credit", "14": "the Business app screens on every device"}
+}

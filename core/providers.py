@@ -8,6 +8,10 @@ class Provider:
     name, methods = "", ()
     def charge(self, amount_minor, currency, method, key):
         raise NotImplementedError
+    def settlement_report(self, day):
+        """The provider's settlement lines for a day (67.8): reference, amount, currency, the provider's fee and LynkOmni's part,
+        in whole minor units, as services/office_money.py provider_report takes them."""
+        raise NotImplementedError
 
 class Simulator(Provider):
     def __init__(self, name, methods, fail_first=0, fee_bps=100):
@@ -18,8 +22,13 @@ class Simulator(Provider):
         self.calls += 1
         if self.calls <= self.fail_first:
             return {"ok": False, "error": "timeout"}
-        self.done[key] = {"ok": True, "ref": f"{self.name}-{key}", "fee_minor": amount_minor * self.fee_bps // 10000}
+        self.done[key] = {"ok": True, "ref": f"{self.name}-{key}", "fee_minor": amount_minor * self.fee_bps // 10000,
+                          "amount_minor": amount_minor, "currency": currency}
         return self.done[key]
+    def settlement_report(self, day):
+        """SANDBOX: every charge it made, settled on the given day; LynkOmni's part is 0 in the simulator."""
+        return [{"provider_reference": d["ref"], "amount": d["amount_minor"], "currency": d["currency"], "provider_fee": d["fee_minor"],
+                 "lynkomni_part": 0, "settled_on": day} for d in self.done.values()]
 
 def build_providers(names, **sim):
     return [Simulator(n, METHODS[n], **sim) for n in names]

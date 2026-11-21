@@ -17,7 +17,7 @@ class ContractV15(unittest.TestCase):
     def test_built_from_v14_and_current(self):
         r = subprocess.run([sys.executable, str(ROOT / "contract" / "tools" / "build_v15.py"), "--check"], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertEqual(CURRENT, 15)
+        self.assertGreaterEqual(CURRENT, 15)
 
     def test_only_the_new_events_are_added_and_all_are_cloud_only(self):
         self.assertEqual(set(V15["events"]) - set(V14["events"]), NEW)
@@ -40,7 +40,7 @@ class ContractV15(unittest.TestCase):
 
     def test_a_version_14_event_reads_as_version_15_unchanged(self):
         old = {"type": "BookingCheckedIn", "schema_version": 14, "payload": {"booking_id": uuid7()}}
-        self.assertEqual(upcast(old)["schema_version"], 15)
+        self.assertEqual(upcast(old)["schema_version"], CURRENT)
 
     def test_an_order_validates_and_a_decimal_rate_part_is_refused(self):
         ok = {"event_id": uuid7(), "origin": "server", "merchant_id": MERCHANT, "type": "ExchangeOrderPlaced", "schema_version": 15,
