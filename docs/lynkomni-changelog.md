@@ -2,6 +2,11 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.93.0 (2026-11-21)
+Section 4 review, eighth part (row 83.6, first part: a hint in every field):
+- Every field already built shows a hint, an example of what to type, never the instruction: names, notes, questions, answers, section names, shop names, searches and questions for LynkAssist as examples in all 38 languages; amounts, counts, phone numbers and short codes in the reader's own digits; the survey panel's country as the page's own country code. Sensitive fields (PINs, one-time codes, a bank account) still never show an example. The two fields that had only a hint now have a name screen readers read. The register's due list is empty.
+- The hint helpers became a small part of their own (ts/src/hints.ts), and the words of the ad and hint parts now travel only with pages that use them, so device pages shrank again; the POS terminal's and counter tablet's size budgets are raised with their reasons (the ad slot and the hints).
+
 ## v0.92.0 (2026-11-21)
 Section 4 review, seventh part (row 79.10, ads on screens):
 - One shared ad slot for every screen (ts/src/ads.ts), always labelled "Sponsored", with "Why am I seeing this?" and "Report this ad". It follows one rule shared by Python and TypeScript: only in a registered place, never on a payment, void, refund, cash count, settings or private chat screen, never for children or in a household or school, never in lite mode or on a paid plan, never before the country's legal sign-off, and a customer-facing place only once the shop switches it on. No ad leaves no gap.

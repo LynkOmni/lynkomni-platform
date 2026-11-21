@@ -1,6 +1,7 @@
 /** LynkPOS handheld terminal emulator. Draws an original LynkOmni handheld (printer, screen, keypad, tap area, card slot,
  *  scan key) and runs the real sale rules from ts/src/pos.ts against sandbox providers. Draft until a designer reviews it.
  *  Built into one offline HTML file by web/build.mjs. Colours come only from the design tokens (CSS variables). */
+import { hintFor } from "../../../ts/src/hints.js";
 import { Cart, PosError, change, formatMoney, paymentPayload, paymentState, quickCash, receiptLines, salePayload, uuid7 } from "../../../ts/src/pos.js";
 import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload, UserState } from "../../../ts/src/pos.js";
 import { HANDHELD_TILES } from "../../../ts/src/business.js";
@@ -554,7 +555,7 @@ function staffScreen(): string {
 function receiptByMessage(): string {
   if (S.sent) return `<p class="note" role="status">${esc(S.sent)}</p>`;
   if (!S.sendTo) return `<div class="dk-row"><button class="ghost" data-act="rcpt:text">${icon("product-chat")}${esc(t("by_text"))}</button><button class="ghost" data-act="rcpt:email">${icon("ui-doc")}${esc(t("by_email"))}</button></div>`;
-  return `<div class="dk-sheet"><label for="rcptTo">${esc(t("customer_contact"))}</label><input id="rcptTo" inputmode="${S.sendTo === "text" ? "tel" : "email"}" autocomplete="off"><button class="primary" data-act="rcpt:send">${esc(t("send_receipt"))}</button></div>`;
+  return `<div class="dk-sheet"><label for="rcptTo">${esc(t("customer_contact"))}</label><input id="rcptTo" inputmode="${S.sendTo === "text" ? "tel" : "email"}" autocomplete="off" placeholder="${esc(hintFor(S.sendTo === "text" ? "phone" : "email", t, locale()))}"><button class="primary" data-act="rcpt:send">${esc(t("send_receipt"))}</button></div>`;
 }
 
 /** Touch or buttons (DEVICE 48.17.14): the registered hardware version decides; a button terminal works by its keys alone. */

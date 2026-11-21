@@ -2,6 +2,7 @@
  *  display, receipt printer, scanner, cash drawer and card tap area. Runs the real rules from ts/src (sale, payments, stock,
  *  tabs by business type, tier limits, restaurant mode, shifts and cash counts, the web rule) on sandbox partners. Nothing
  *  about a country or a maker lives here: the country comes from its pack, the hardware is an original LynkOmni design. */
+import { hintFor } from "../../../ts/src/hints.js";
 import { Cart, PosError, change, paymentPayload, paymentState, qtyText, quickCash, receiptLines, salePayload } from "../../../ts/src/pos.js";
 import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload, UserState } from "../../../ts/src/pos.js";
 import { afterSale, daySummary, insight } from "../../../ts/src/merchant.js";
@@ -236,7 +237,7 @@ function kitchenScreen(): string {
 }
 function shiftScreen(): string {
   const sh = S.shift; const counted = Number(S.counted || 0);
-  return `<div class="paybox"><h2>${esc(t("shift"))}</h2>${sh ? `<p>${esc(t("expected_cash"))}: <strong>${esc(money(sh.cash))}</strong></p><label>${esc(t("counted_cash"))} <input inputmode="numeric" id="counted" value="${esc(S.counted)}" data-filter="counted"></label>
+  return `<div class="paybox"><h2>${esc(t("shift"))}</h2>${sh ? `<p>${esc(t("expected_cash"))}: <strong>${esc(money(sh.cash))}</strong></p><label>${esc(t("counted_cash"))} <input inputmode="numeric" id="counted" value="${esc(S.counted)}" data-filter="counted" aria-label="${esc(t("counted_cash"))}" placeholder="${esc(hintFor("amount", t, S.lang))}"></label>
     <p>${esc(t("difference"))}: ${esc(money(counted - sh.cash))}</p><div class="row"><button data-act="countcash">${esc(t("count_cash"))}</button><button class="primary" data-act="closeshift">${esc(t("close_shift"))}</button></div><p class="note">${esc(t("difference_flagged"))}</p>`
     : `<p>${esc(t("float_amount"))}</p><div class="quick">${[0, 2000, 5000, 10000].map((n) => `<button class="pill" data-act="openshift:${n}">${esc(money(n))}</button>`).join("")}</div>`}<button class="link" data-act="tab:business">${esc(t("back"))}</button></div>`;
 }

@@ -6,6 +6,7 @@
  *  next follows the fair order); a ticket code given twice; a device that was not added giving out or calling tickets; a ticket
  *  given when the section is closed. Everything in the building works without internet; "Not served today" and new blocks of
  *  codes are written by the cloud alone, so those wait for it. Words are "ppl_" keys in web/shell. */
+import { hintFor } from "./hints.js";
 import { esc } from "./shell.js";
 import type { T } from "./shell.js";
 import { newId, randomBytes } from "./emulator.js";
@@ -434,8 +435,8 @@ export function quSectionsView(d: QueueDesk, L: QuLook): string {
       <p class="sub">${esc(t("ppl_waiting_n", { n: d.waiting(s.code).length }))} · ${esc(t("ppl_qu_about_each", { m: s.avg }))} · ${esc(t("ppl_codes_left", { n: d.codesLeft(s.code) }))}</p>
       <div class="ph-row">${hours(s, "opens", t("ppl_qu_opens"))}${hours(s, "closes", t("ppl_qu_closes"))}${last(s)}</div>
       <button type="button" class="ghost small" data-act="qu:rmsection:${s.code}" ${quOff(!L.mayManage || d.sections.length < 2 || d.waiting(s.code).length > 0)}>${esc(t("ppl_qu_remove"))}</button></li>`; }).join("");
-  const add = `<label class="field"><span>${esc(t("ppl_qu_code"))}</span><input id="quCode" data-in="qu:code" value="${esc(d.draft.code)}" maxlength="3" autocomplete="off" autocapitalize="characters" spellcheck="false" dir="ltr" ${off}></label>
-    <label class="field"><span>${esc(t("ppl_qu_name"))}</span><input id="quName" data-in="qu:name" value="${esc(d.draft.name)}" maxlength="40" autocomplete="off" ${off}></label>
+  const add = `<label class="field"><span>${esc(t("ppl_qu_code"))}</span><input id="quCode" data-in="qu:code" value="${esc(d.draft.code)}" maxlength="3" autocomplete="off" autocapitalize="characters" spellcheck="false" dir="ltr" ${off} placeholder="${esc(hintFor("code_short", t))}" aria-label="${esc(t("ppl_qu_code"))}"></label>
+    <label class="field"><span>${esc(t("ppl_qu_name"))}</span><input id="quName" data-in="qu:name" value="${esc(d.draft.name)}" maxlength="40" autocomplete="off" ${off} placeholder="${esc(t("hint_section"))}" aria-label="${esc(t("ppl_qu_name"))}"></label>
     <button type="button" class="primary inline" data-act="qu:addsection" ${quOff(!L.mayManage || why !== "")}>${esc(t("ppl_qu_add_section"))}</button>
     <p class="sub" role="status">${esc(why === "plan" ? t("ppl_qu_plan_sections", { n: d.plan.sections_per_place ?? 0 }) : why === "used" ? t("ppl_qu_code_used") : t("ppl_qu_code_help"))}</p>`;
   return quCard("section_list", t("ppl_sections"), `<ul class="list">${rows}</ul>`) + quCard("add_section", t("ppl_qu_add_section"), add);

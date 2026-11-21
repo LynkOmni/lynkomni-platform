@@ -6,6 +6,7 @@
  *  catalog/business-app.v1.json with its address; tests/test_business_app.py checks the emulator shows each one. Rules come from
  *  ts/src/pos.ts, merchant.ts, business.ts and agent.ts; payments and the cloud are sandboxes (test money only).
  *  Draft until a designer reviews it. Built into one offline HTML file by web/build.mjs; colours only from the design tokens. */
+import { hintFor } from "../../../ts/src/hints.js";
 import { Cart, PosError, change, formatMoney, paymentPayload, paymentState, qtyText, quickCash, salePayload } from "../../../ts/src/pos.js";
 import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload, UserState } from "../../../ts/src/pos.js";
 import { adjust, afterSale, canChangeSettings, canSeeProfit, counted, daySummary, homeBlocks, insight, maySync, mode, pending, stockAlerts, stockState } from "../../../ts/src/merchant.js";
@@ -889,8 +890,8 @@ function sell(): string {
       const c2 = cust();
       return `${topBar(t("basket"), "view:main")}<div class="body">${practiceBanner()}<ul class="list">${S.cart.lines().map((l) => `<li><div class="rowbtn"><span class="main"><span class="nm">${esc(l.product.name)}</span><span class="sub">${esc(money(l.product.price))}</span></span>
         <span class="stepper" data-item="quantity"><button class="iconbtn" data-act="dec:${l.product.id}" aria-label="-1 ${esc(l.product.name)}">${icon(l.qtyMilli > 1000 ? "ui-minus" : "ui-trash")}</button><output>${qtyText(l.qtyMilli)}</output><button class="iconbtn" data-act="inc:${l.product.id}" aria-label="+1 ${esc(l.product.name)}">${icon("ui-plus")}</button></span></div></li>`).join("") || `<li><p class="info">${esc(t("empty_basket"))}</p></li>`}</ul>
-        <label class="field" data-item="discount"><span>${esc(t("discount"))}</span><input id="discIn" inputmode="numeric" autocomplete="off" value="${S.discount ? esc(String(S.discount)) : ""}" data-in="discount"></label>
-        <label class="field" data-item="note"><span>${esc(t("sale_note"))}</span><input id="noteIn" autocomplete="off" value="${esc(S.saleNote)}" data-in="salenote"></label>
+        <label class="field" data-item="discount"><span>${esc(t("discount"))}</span><input id="discIn" inputmode="numeric" autocomplete="off" value="${S.discount ? esc(String(S.discount)) : ""}" data-in="discount" placeholder="${esc(hintFor("amount", t, locale()))}" aria-label="${esc(t("discount"))}"></label>
+        <label class="field" data-item="note"><span>${esc(t("sale_note"))}</span><input id="noteIn" autocomplete="off" value="${esc(S.saleNote)}" data-in="salenote" placeholder="${esc(t("hint_note"))}" aria-label="${esc(t("sale_note"))}"></label>
         <label class="field" data-item="attach_customer"><span>${esc(t("attach_customer"))}</span><select data-in="customer"><option value="">${esc(t("no_customer"))}</option>${CUSTOMERS.map((x) => `<option value="${x.id}" ${x.id === S.customer ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
         ${c2 ? `<p class="sub">${esc(t("customer_attached", { name: c2.name }))}</p>` : ""}</div>
         <div class="foot"><div class="sum"><span>${esc(t("items", { n: S.cart.count() }))}</span><strong>${esc(money(tot))}</strong></div><button class="primary" data-act="view:pay" ${S.cart.count() ? "" : "disabled"}>${esc(t("charge"))}</button></div>`;
@@ -903,7 +904,7 @@ function sell(): string {
     case "cash": {
       const given = Number(S.input || "0"), enough = given >= tot;
       return `${topBar(t("way_cash"), "view:pay")}<div class="body">${due(tot)}
-        <label class="field"><span>${esc(t("cash_given"))}</span><input id="cashIn" inputmode="numeric" autocomplete="off" value="${esc(S.input)}" data-in="cash"></label>
+        <label class="field"><span>${esc(t("cash_given"))}</span><input id="cashIn" inputmode="numeric" autocomplete="off" value="${esc(S.input)}" data-in="cash" placeholder="${esc(hintFor("amount", t, locale()))}" aria-label="${esc(t("cash_given"))}"></label>
         <div class="quick">${quickCash(tot, NOTES).map((v) => `<button data-act="cash:${v}">${esc(money(v))}</button>`).join("")}</div>
         <div class="change ${enough ? "ok" : ""}"><span>${esc(t("change"))}</span><strong>${enough ? esc(money(change(tot, given))) : "–"}</strong></div></div>
         <div class="foot"><button class="primary" data-act="paycash" ${enough ? "" : "disabled"}>${esc(t("complete"))}</button></div>`;
@@ -912,7 +913,7 @@ function sell(): string {
       const w = payWay(S.receiptWay || "mobile_money");
       const needsNumber = w?.id === "mobile_money";
       return `${topBar(t("way_" + (w?.id ?? "mobile_money")), "view:pay")}<div class="body">${due(tot)}
-        ${needsNumber ? `<label class="field"><span>${esc(t("customer_phone"))}</span><input id="momoIn" inputmode="tel" autocomplete="off" value="${esc(S.input)}" data-in="momo"></label>` : ""}
+        ${needsNumber ? `<label class="field"><span>${esc(t("customer_phone"))}</span><input id="momoIn" inputmode="tel" autocomplete="off" value="${esc(S.input)}" data-in="momo" placeholder="${esc(hintFor("phone", t, locale()))}" aria-label="${esc(t("customer_phone"))}"></label>` : ""}
         ${w?.id === "qr" ? `<div class="qrbox" role="img" aria-label="${esc(t("pay_qr_shown"))}">${icon("ui-qr", "bigqr")}<p>${esc(t("pay_qr_shown"))}</p></div>` : ""}
         ${w?.id === "pay_link" ? `<p class="info">${icon("ui-info")}<span>${esc(t("pay_link_sent"))}</span></p>` : ""}
         ${w?.id === "tap_to_pay" || w?.id === "card" ? `<div class="tapbox">${icon("ui-pay-card", "bigqr")}<p>${esc(t(w.id === "tap_to_pay" ? "tap_phone" : "tap_terminal"))}</p></div>` : ""}
@@ -930,7 +931,7 @@ function sell(): string {
       const parts = S.parts, left = tot - parts.reduce((a, p) => a + p.amount, 0), chk = splitCheck(tot, parts.map((p) => p.amount));
       return `${topBar(t("way_split"), "view:pay")}<div class="body">${due(tot)}<ul class="list card">${parts.map((p, i) => row(`${t("way_" + p.way)} · ${money(p.amount)}`, "", `unsplit:${i}`)).join("") || `<li><p class="info">${esc(t("split_hint"))}</p></li>`}</ul>
         <p class="sub">${esc(t("split_left", { amount: money(Math.max(0, left)) }))}</p>
-        <label class="field"><span>${esc(t("amount"))}</span><input id="splitIn" inputmode="numeric" autocomplete="off" value="${esc(S.input)}" data-in="split"></label>
+        <label class="field"><span>${esc(t("amount"))}</span><input id="splitIn" inputmode="numeric" autocomplete="off" value="${esc(S.input)}" data-in="split" placeholder="${esc(hintFor("amount", t, locale()))}" aria-label="${esc(t("amount"))}"></label>
         <div class="quick">${["cash", "mobile_money", "credit"].map((w) => `<button data-act="splitadd:${w}" ${Number(S.input || "0") > 0 && Number(S.input) <= left && wayOk(w) ? "" : "disabled"}>${esc(t("way_" + w))}</button>`).join("")}</div></div>
         <div class="foot"><button class="primary" data-act="paysplit" ${chk === "ok" && !(parts.some((p) => p.way === "credit") && !S.customer) ? "" : "disabled"}>${esc(t("complete"))}</button></div>`;
     }
@@ -965,7 +966,7 @@ function sell(): string {
       const cats = ["all", "food", "drinks", "home"];
       const q = S.search.trim().toLowerCase();
       const items = CATALOG.filter((p) => (S.category === "all" || p.category === S.category) && (!q || p.name.toLowerCase().includes(q) || (p.barcode ?? "").includes(q)));
-      return `${topBar(t("tab_sell"))}${practiceBanner()}<div class="selltools"><label class="search" data-item="search"><span class="sr">${esc(t("search"))}</span><input id="searchIn" data-in="search" placeholder="${esc(t("search"))}" value="${esc(S.search)}" autocomplete="off"></label>
+      return `${topBar(t("tab_sell"))}${practiceBanner()}<div class="selltools"><label class="search" data-item="search"><span class="sr">${esc(t("search"))}</span><input id="searchIn" data-in="search" aria-label="${esc(t("search"))}" placeholder="${esc(t("hint_search"))}" value="${esc(S.search)}" autocomplete="off"></label>
         <button class="iconbtn" data-act="scan" data-item="scan" aria-label="${esc(t("scan"))}">${icon("ui-qr")}</button><button class="iconbtn" data-act="voice" data-item="voice" aria-label="${esc(t("sell_by_voice"))}">${icon("ui-mic")}</button></div>
         <div class="cats" data-item="categories">${cats.map((k) => `<button data-act="cat:${k}" aria-pressed="${S.category === k}">${esc(t(k === "home" ? "household" : k))}</button>`).join("")}</div>
         <div class="body"><div class="grid">${items.map((p) => { const ql = S.cart.lines().find((l) => l.product.id === p.id); return `<button class="tile" data-act="add:${p.id}"><span class="nm">${esc(p.name)}</span><span class="pr">${esc(money(p.price))}</span>${ql ? `<span class="qty">${qtyText(ql.qtyMilli)}</span>` : ""}</button>`; }).join("") || `<p class="info">${esc(t("no_results"))}</p>`}</div>
@@ -997,10 +998,10 @@ function saleDetail(): string {
 function shiftScreen(): string {
   const sh = S.shift;
   if (!sh) return `${topBar(t("shift"), "view:main")}<div class="body"><div class="card" data-item="open_float"><h2>${esc(t("open_shift"))}</h2>
-    <label class="field"><span>${esc(t("opening_float"))}</span><input id="floatIn" inputmode="numeric" autocomplete="off" value="${esc(S.input)}" data-in="cashnum"></label>
+    <label class="field"><span>${esc(t("opening_float"))}</span><input id="floatIn" inputmode="numeric" autocomplete="off" value="${esc(S.input)}" data-in="cashnum" placeholder="${esc(hintFor("amount", t, locale()))}" aria-label="${esc(t("opening_float"))}"></label>
     <button class="primary inline" data-act="openshift">${esc(t("open_shift"))}</button></div>${flash()}</div>`;
   return `${topBar(t("shift"), "view:main")}<div class="body"><div class="card" data-item="open_float"><div class="kv"><span>${esc(t("opening_float"))}</span><strong>${esc(money(sh.float))}</strong></div><div class="kv"><span>${esc(t("expected_in_drawer"))}</span><strong>${esc(money(expectedCash()))}</strong></div></div>
-    <div class="card" data-item="cash_count"><h2>${esc(t("count_cash"))}</h2><label class="field"><span>${esc(t("counted"))}</span><input id="countIn" inputmode="numeric" autocomplete="off" value="${esc(S.input)}" data-in="cashnum"></label>
+    <div class="card" data-item="cash_count"><h2>${esc(t("count_cash"))}</h2><label class="field"><span>${esc(t("counted"))}</span><input id="countIn" inputmode="numeric" autocomplete="off" value="${esc(S.input)}" data-in="cashnum" placeholder="${esc(hintFor("amount", t, locale()))}" aria-label="${esc(t("counted"))}"></label>
       <div class="reasons">${COUNT_KINDS.filter((k) => k !== "day_end").map((k) => `<button data-act="countkind:${k}" data-item="${k}" aria-pressed="${S.countKind === k}">${esc(t("ck_" + k))}</button>`).join("")}</div>
       <div class="foot two inline"><button class="ghost" data-act="countcash">${esc(t("count_cash"))}</button><button class="primary" data-act="closeshift" data-item="close_discrepancy">${esc(t("close_shift"))}</button></div>
       <p class="sub">${esc(t("difference_never_blocks"))}</p></div>${flash()}</div>`;
@@ -1353,7 +1354,7 @@ function m3Assistant(): string {
 }
 function m3Settings(): string {
   const ro = !owner();
-  const num = (k: string, v: number, label: string): string => `<label class="field"><span>${esc(label)}</span><input inputmode="numeric" autocomplete="off" data-in="m3num:${k}" value="${v}" ${ro ? "disabled" : ""}></label>`;
+  const num = (k: string, v: number, label: string): string => `<label class="field"><span>${esc(label)}</span><input inputmode="numeric" autocomplete="off" data-in="m3num:${k}" value="${v}" ${ro ? "disabled" : ""} placeholder="${esc(hintFor("count", t, locale()))}" aria-label="${esc(label)}"></label>`;
   return `<div class="card" data-item="business_notifications"><h2>${esc(t("m3_thresholds"))}</h2>${num("cashDiff", M3.cashDiff, t("m3_cash_diff", { currency: pack().currency }))}${num("stockLow", M3.stockLow, t("m3_stock_low"))}
     ${num("discountBps", M3.discountBps / 100, t("m3_cashier_discount"))}<p class="sub">${esc(t("m3_limits_note"))}</p></div>
     <div class="card" data-item="owner_summary"><h2>${esc(t("m3_summary"))}</h2>${m3Switch("m3sum:consent", M3.summary.consent, t("m3_summary_on"), ro)}
@@ -1377,7 +1378,7 @@ function m3Cards(): string {
   const compare = `<ul class="list card" data-item="card_compare">${groups.map((g) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(cardName(g, c.tier))} · ${esc(cardWord(g))}</span><span class="sub">${esc(t("m3_group_" + g))}</span></span></div></li>`).join("")}</ul>`;
   const form = c.state === "sent" ? `<p class="info" role="status">${icon("status-sent")}<span>${esc(t("card_sent"))}</span></p>` : c.state === "confirmed" ? `<p class="info" role="status">${icon("status-confirmed")}<span>${esc(t("card_confirmed"))}</span></p>`
     : `<label class="field"><span>${esc(t("card_which"))}</span><select data-in="m3card:group">${groups.map((g) => `<option value="${g}" ${c.group === g ? "selected" : ""}>${esc(cardName(g, c.tier))}</option>`).join("")}</select></label>
-      ${cardFormFields(c.group).filter((f) => f !== "holder" && f !== "form").map((f) => f.endsWith("consent") ? m3Switch(`m3cardf:${f}`, false, t(`card_f_${f}`)) : `<label class="field"><span>${esc(t(`card_f_${f}`))}</span><input autocomplete="off" data-in="m3cardf:${f}"></label>`).join("")}
+      ${cardFormFields(c.group).filter((f) => f !== "holder" && f !== "form").map((f) => f.endsWith("consent") ? m3Switch(`m3cardf:${f}`, false, t(`card_f_${f}`)) : `<label class="field"><span>${esc(t(`card_f_${f}`))}</span><input autocomplete="off" data-in="m3cardf:${f}" ${f === "account" ? "data-sensitive" : `placeholder="${esc(f === "credit_kind" ? t("card_f_credit_kind") : hintFor("amount", t, locale()))}"`} aria-label="${esc(t(`card_f_${f}`))}"></label>`).join("")}
       <button class="primary inline" data-act="m3card:send" ${online() ? "" : "disabled"}>${esc(t("card_send"))}</button>${online() ? "" : `<p class="sub">${esc(t("m3_card_online"))}</p>`}`;
   return `${mine}<div class="card" data-item="get_a_card"><h2>${esc(t("card_get"))}</h2>${compare}${form}<p class="sub">${esc(t("m3_card_note"))}</p></div>`;
 }
@@ -1407,10 +1408,10 @@ function hubBody(id: string): string {
   switch (id) {
     case "daily_close": extra = `<p class="sub">${esc(t("daily_close_help"))}</p><button class="primary inline" data-act="closeday">${esc(t("close_day"))}</button>`; break;
     case "reports": case "invoicing": case "customers": case "books": extra = `<p class="sub">${esc(t("full_pages_web", { path: reg.path }))}</p>`; break;
-    case "assistant": extra = `<label class="field"><span>${esc(t("it_ask"))}</span><input id="askIn" data-in="ask" value="${esc(S.ask)}" autocomplete="off"></label><button class="ghost inline" data-act="ask">${esc(t("send"))}</button>
+    case "assistant": extra = `<label class="field"><span>${esc(t("it_ask"))}</span><input id="askIn" data-in="ask" value="${esc(S.ask)}" autocomplete="off" placeholder="${esc(t("hint_ask"))}" aria-label="${esc(t("it_ask"))}"></label><button class="ghost inline" data-act="ask">${esc(t("send"))}</button>
       ${S.answer ? laSalesAnswer() : ""}<p class="sub">${esc(t("assist_never"))}</p>${laPreview()}${m3Assistant()}${laControls()}`; break;
     case "cards": extra = `<p class="sub">${esc(t("cards_issuer"))}</p>${m3Cards()}`; break;
-    case "online_shop": extra = `<label class="field"><span>${esc(t("it_username"))}</span><input id="userIn" data-in="username" value="${esc(S.userDraft)}" autocomplete="off" autocapitalize="none" spellcheck="false"></label>
+    case "online_shop": extra = `<label class="field"><span>${esc(t("it_username"))}</span><input id="userIn" data-in="username" value="${esc(S.userDraft)}" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="${esc(hintFor("username", t))}" aria-label="${esc(t("it_username"))}"></label>
       <p class="sub" role="status">${esc(usernameNote())}</p><button class="primary inline" data-act="takeusername" ${check(S.userDraft).ok ? "" : "disabled"}>${esc(t("save"))}</button>
       ${S.username ? `<div class="qrbox" data-item="qr" role="img" aria-label="${esc(t("shop_qr"))}">${icon("ui-qr", "bigqr")}<p>${esc(t("shop_qr"))}</p></div>` : ""}`; break;
     case "agent_earnings": extra = `<p class="sub">${esc(t("commission_partner_pays"))}</p>${(ent().outlets ?? 0) !== 0 ? `<ul class="list card">${S.outletList.map((o) => row(o, t("outlet_line"), `outlet:${o}`)).join("")}</ul>` : ""}`; break;
@@ -1529,8 +1530,8 @@ function agentFlow(): string {
   }
   return `${topBar(t(`svc_${S.svc}`), "tab:services")}<div class="body">
     <label class="field"><span>${esc(t("partner"))}</span><select data-in="partner">${PARTNERS.map((x) => `<option value="${x.id}" ${x.id === p.id ? "selected" : ""}>${esc(t(x.name))}</option>`).join("")}</select></label>
-    <label class="field"><span>${esc(t("customer_number"))}</span><input inputmode="tel" autocomplete="off" data-in="anum" id="anumIn" value="${esc(S.number)}"></label>
-    ${isFinance ? "" : `<label class="field"><span>${esc(t("amount"))}</span><input inputmode="numeric" autocomplete="off" data-in="aamt" id="aamtIn" value="${esc(S.amount)}"></label>
+    <label class="field"><span>${esc(t("customer_number"))}</span><input inputmode="tel" autocomplete="off" data-in="anum" id="anumIn" value="${esc(S.number)}" placeholder="${esc(hintFor("phone", t, locale()))}" aria-label="${esc(t("customer_number"))}"></label>
+    ${isFinance ? "" : `<label class="field"><span>${esc(t("amount"))}</span><input inputmode="numeric" autocomplete="off" data-in="aamt" id="aamtIn" value="${esc(S.amount)}" placeholder="${esc(hintFor("amount", t, locale()))}" aria-label="${esc(t("amount"))}"></label>
     <div class="card"><div class="kv"><span>${esc(t("fee"))}</span><strong>${esc(money(fee))}</strong></div><div class="kv"><span>${esc(t("commission"))}</span><strong>${esc(money(commission(amount, p.bps)))}</strong></div>
       <p class="sub">${esc(t("limit_line", { per: money(lim.per_transaction), day: money(lim.per_day) }))}</p></div>
     ${amount && limitCheck(amount, S.usedToday, lim) !== "ok" ? `<p class="alert neg" role="alert">${icon("ui-warning")}<span>${esc(t("limit_exceeded"))}</span></p>` : ""}`}
@@ -1548,7 +1549,7 @@ function agentFloat(): string {
 function cashCheck(): string {
   return `${topBar(t("cash_check"), "view:main")}<div class="body"><div class="reasons">${COUNT_KINDS.filter((k) => k !== "spot").map((k) => `<button data-act="checkkind:${k}" aria-pressed="${S.countKind === k}" data-item="${k}">${esc(t("ck_" + k))}${S.cashChecks.has(k) ? " ✓" : ""}</button>`).join("")}</div>
     <div class="kv"><span>${esc(t("expected_in_drawer"))}</span><strong>${esc(money(S.cashIn))}</strong></div>
-    <label class="field"><span>${esc(t("counted"))}</span><input id="checkIn" inputmode="numeric" autocomplete="off" value="${esc(S.input)}" data-in="cashnum"></label>
+    <label class="field"><span>${esc(t("counted"))}</span><input id="checkIn" inputmode="numeric" autocomplete="off" value="${esc(S.input)}" data-in="cashnum" placeholder="${esc(hintFor("amount", t, locale()))}" aria-label="${esc(t("counted"))}"></label>
     <button class="primary inline" data-act="agentcount" ${S.input ? "" : "disabled"}>${esc(t("save"))}</button><p class="sub">${esc(t("difference_never_blocks"))}</p>${flash()}</div>`;
 }
 function agentCount(): void {
@@ -1613,7 +1614,7 @@ function signin(): string {
   const mark = brandMark(DATA.brand.places, "auth-onboarding", S.theme === "dark", "mark");   // sign-in and onboarding: the full logo (30)
   if (S.screen === "phone") {
     return `<div class="signin" data-gi="sign_in">${mark}<h1>${esc(t("welcome"))}</h1><p>${esc(t("works_anywhere"))}</p>
-      <label class="field"><span>${esc(t("your_phone"))}</span><input id="phoneIn" inputmode="tel" autocomplete="off" value="${esc(S.phone)}" data-in="phone"></label>
+      <label class="field"><span>${esc(t("your_phone"))}</span><input id="phoneIn" inputmode="tel" autocomplete="off" value="${esc(S.phone)}" data-in="phone" placeholder="${esc(hintFor("phone", t, locale()))}" aria-label="${esc(t("your_phone"))}"></label>
       <p class="note" role="alert">${esc(S.note)}</p><div class="grow"></div><button class="primary" data-act="sendcode" ${S.phone.replace(/\D/g, "").length >= 9 ? "" : "disabled"}>${esc(t("send_code"))}</button></div>`;
   }
   if (S.screen === "code") {
@@ -1647,11 +1648,11 @@ function setup(): string {
       body = `<div class="reasons who">${(["person", "company", "organisation"] as Entity[]).map((e) => `<button data-act="entity:${e}" aria-pressed="${S.entity === e}"><strong>${esc(t("entity_" + e))}</strong><span>${esc(t("entity_" + e + "_help"))}</span></button>`).join("")}</div>
         ${kinds.length > 1 ? `<div class="reasons">${kinds.map((k) => `<button data-act="kind:${k}" aria-pressed="${S.kind === k}">${esc(t("kind_" + k))}</button>`).join("")}</div>` : ""}<p class="sub">${esc(t("office_note"))}</p>`; break;
     }
-    case "business_name_type": body = `<label class="field"><span>${esc(t("st_shop_name"))}</span><input id="shopIn" data-in="shopname" value="${esc(S.shopName)}" autocomplete="off"></label>
+    case "business_name_type": body = `<label class="field"><span>${esc(t("st_shop_name"))}</span><input id="shopIn" data-in="shopname" value="${esc(S.shopName)}" autocomplete="off" placeholder="${esc(t("hint_shop"))}" aria-label="${esc(t("st_shop_name"))}"></label>
       <div class="reasons">${(["shop", "no_till", "agent_point", "restaurant"] as BusinessType[]).map((b) => `<button data-act="btype:${b}" aria-pressed="${S.btype === b}">${esc(t("type_" + b))}</button>`).join("")}</div>`; break;
     case "currency": body = `<p class="kv"><span>${esc(t("st_currency"))}</span><strong>${esc(pack().currency)}</strong></p><p class="sub">${esc(t("currency_from_region"))}</p>`; break;
     case "first_products": body = `<div class="quick">${FIRST_PRODUCT_WAYS.map((w) => `<button data-act="firstway:${w}" aria-pressed="${S.firstWay === w}">${esc(t("way_add_" + w))}</button>`).join("")}</div>`; break;
-    case "invite_staff": body = `<label class="field"><span>${esc(t("staff_phone"))}</span><input id="staffIn" inputmode="tel" data-in="staffphone" value="${esc(S.staffPhone)}" autocomplete="off"></label>`; break;
+    case "invite_staff": body = `<label class="field"><span>${esc(t("staff_phone"))}</span><input id="staffIn" inputmode="tel" data-in="staffphone" value="${esc(S.staffPhone)}" autocomplete="off" placeholder="${esc(hintFor("phone", t, locale()))}" aria-label="${esc(t("staff_phone"))}"></label>`; break;
     case "print_shop_qr": body = `<div class="qrbox" role="img" aria-label="${esc(t("shop_qr"))}">${icon("ui-qr", "bigqr")}<p>${esc(t("shop_qr"))}</p></div>`; break;
     default: body = `<p>${esc(t("setup_ready"))}</p>`;
   }
