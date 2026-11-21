@@ -240,6 +240,11 @@
    "id": "plain_names",
    "what": "Every Lynk name a person sees carries its plain word (and, where the page has room, what it does), from the names register, in all 38 languages, inside and outside the app: screens, search and its keywords, page titles and sharing cards, LynkAssist, voice menus, messages, LynkOmni's own bills, printed receipts and documents for customers, developer and staff pages. A new product, service, feature, card group or device is added to the register first, in the same change, with its plain word (passing the plain-word check), description, spoken form, mark, similar group where it sounds like another, and a now-called line when it replaces an old name",
    "enforced_by": "tests/test_names.py, tests/test_fit_guard.py"
+  },
+  {
+   "id": "pay_a_provider",
+   "what": "Every service where a person buys from a provider (airtime, data, eSIMs, bills, subscriptions, fees, tickets, transport, transfers, loans, insurance, savings and any new one) uses the one pay-a-provider flow of blueprint section 85 with its own steps: country, provider, the provider's real offers and prices in the person's currency with the fee shown, details checked with the provider, review and pay, and the result only on the provider's confirmation; money only through licensed partners, \"Coming to your country soon.\" where none is signed",
+   "enforced_by": "built in section 9 (build table 85.6); its tests join there"
   }
  ],
  "not_applicable": {
