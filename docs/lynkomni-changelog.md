@@ -2,6 +2,12 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.87.0 (2026-11-21)
+Section 4 review, fourth part (row 67.17, the partners of 67.18 and the registers of section 67):
+- Every partner the improved services need has its interface, a working sandbox and a ledger entry, and stays "Coming to your country soon." until it is signed: chat app and social page connectors and a call partner for LynkChat, a licensed lender for pay in parts, map and search listing connectors for LynkGrow, outside warehouses for LynkStock, online-shop plugin listings for LynkDev, and transport card, toll, parking and government fee collectors for LynkEssential. Delivery firms and phone wallets already had theirs.
+- No sandbox claims a delivery, a listing, a loan, a payment or stocked goods; people are only vault references; WhatsApp is refused as a channel.
+- Every improvement of section 67 is now in the registers: 92 features placed in help, search and the sitemap with the section that builds each, 37 automations (at their levels: money moves only on a person's confirmation or the customer's own standing instruction, marketing only with consent) and 17 message kinds, each in the section that builds it. Prices are unchanged.
+
 ## v0.86.0 (2026-11-21)
 Section 4 review, third part (row 67.17, the office side of money in LynkAcc):
 - Gift cards and store credit are a debt of the shop in the books: a gift card sold or topped up is owed to its holder, store credit given for a return, as cashback or as goodwill is owed to the customer, and spending either is a sale. A card spent below nothing (offline sales are never blocked) is flagged for the owner once.
