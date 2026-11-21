@@ -922,6 +922,53 @@
    "test": "tests/test_office_chat.py::test_suggestions_never_post_and_drafts_never_issue",
    "build_section": 4,
    "status": "built"
+  },
+  {
+   "id": "vote-ballot-allowed-values",
+   "asset": "records",
+   "threat": "A device locks a ballot that votes twice, votes negative or holds a value the contest does not allow",
+   "enforced_in": [
+    "core/vote_crypto.py",
+    "ts/src/votecrypto.ts"
+   ],
+   "test": "tests/test_vote_core.py::test_a_ballot_holds_only_allowed_values",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "vote-threshold-open",
+   "asset": "personal_data",
+   "threat": "One trustee, LynkOmni alone or a lying trustee opens a total or a ballot",
+   "enforced_in": [
+    "core/vote_crypto.py",
+    "ts/src/votecrypto.ts"
+   ],
+   "test": "tests/test_vote_core.py::test_no_single_trustee_opens_a_total_and_false_openings_are_caught",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "vote-shuffle-proof",
+   "asset": "records",
+   "threat": "A ballot is added, dropped or changed while ballots are shuffled before they are read",
+   "enforced_in": [
+    "core/vote_crypto.py",
+    "ts/src/votecrypto.ts"
+   ],
+   "test": "tests/test_vote_core.py::test_a_shuffle_with_a_changed_ballot_is_caught",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "vote-honest-claims",
+   "asset": "service",
+   "threat": "A screen or message claims LynkVote is unhackable, 100% secure or fraud-proof",
+   "enforced_in": [
+    "catalog/vote.v1.json"
+   ],
+   "test": "tests/test_vote_core.py::test_no_screen_or_message_claims_lynkvote_is_unhackable",
+   "build_section": 4,
+   "status": "built"
   }
  ]
 }
