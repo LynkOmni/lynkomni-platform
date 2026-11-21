@@ -312,7 +312,9 @@
       "4"
      ],
      "part": "Groundwork for all of section 67: the limits in billing, the register entries (placements, addresses, automations, tracker kinds, messages, APIs), the provider ledger entries with sandbox adapters, events in a new contract version. LynkStat additions in full (67.5). The office side of gift cards and store credit, deposits, matching centre and payment costs in LynkAcc. Move-in tools for every service (67.15). The large-organisation set applied to every service (67.15)",
-     "done": {},
+     "done": {
+      "4": "v0.87.0"
+     },
      "progress": {
       "4": [
        "v0.55.0: contract version 9 with the events of the section 4 links (invoices and credit notes issued, period closed, deal stage, a card in a conversation, ad earnings, a filed document, a vote's roll, a settled exchange) and two offline device commands",
