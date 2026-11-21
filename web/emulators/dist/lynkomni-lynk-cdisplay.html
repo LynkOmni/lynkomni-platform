@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-wQVOaI3A2A5H7NE0CCxAp75sksC4S1yXrGMLu1TX2uk='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-BPDQamXKIFLwArA7RTRL+vv06BPXuwvqF5hPAVEJ3rA='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkCDisplay</title>
 <meta name="description" content="Interactive emulator of LynkCDisplay, the small LynkQueue screen above each counter: the ticket being served there, flashing when a new ticket is called, back soon and closed, with or without internet.">
@@ -1035,7 +1035,8 @@ const NM_BY_ID = new Map(NM_REG.names.map((n) => [n.id, n]));
 const NM_NOT_SHOWN = [...NM_REG.company, ...NM_REG.internal, ...NM_REG.retired];
 const nmEsc = (s) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const NM_ALT = [...NM_BY_NAME.keys()].sort((a, b) => b.length - a.length).map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
-const nmPattern = () => new RegExp(`(?<![A-Za-z])(${NM_ALT})(?![A-Za-z])`, "g");
+const NM_RE = new RegExp(`(?<![A-Za-z])(${NM_ALT})(?![A-Za-z])`, "g"); // built once: matchAll works on its own copy, so sharing it is safe
+const nmPattern = () => NM_RE;
 const NM_ANY_LYNK = /(?<![A-Za-z])Lynk[A-Z][A-Za-z]*/g;
 const entryOf = (name) => NM_BY_NAME.get(name);
 const nameById = (id) => NM_BY_ID.get(id)?.name;
@@ -1120,36 +1121,57 @@ function explainNames(root, say, mode = namesMode()) {
     const doc = root.ownerDocument;
     if (!doc)
         return 0;
+    const view = doc.defaultView;
     const walker = doc.createTreeWalker(root, 4 /* text */);
-    const texts = [];
+    const jobs = [];
     for (let n = walker.nextNode(); n; n = walker.nextNode()) {
         const t = n, el = t.parentElement;
         if (!el || !t.data.includes("Lynk") || el.closest(NM_SKIP))
             continue;
-        if (findNames(t.data).length)
-            texts.push(t);
+        const found = findNames(t.data);
+        if (!found.length)
+            continue;
+        const cs = view?.getComputedStyle(el);
+        const row = !!cs && cs.whiteSpace.startsWith("nowrap") && cs.overflowX !== "visible"; // a one-line row that cuts its text: mark the row itself
+        const hits = row ? found.map((f) => ({ ...f, block: null, control: null, screen: doc.body, nearby: "", oneLine: true, shownBefore: false })) : found.map((f) => {
+            const block = el.closest(NM_RUNNING), control = el.closest(NM_CONTROL), screen = el.closest(NM_SCREEN) ?? doc.body;
+            const bcs = block ? view?.getComputedStyle(block) : null;
+            const oneLine = !!bcs && (bcs.whiteSpace.startsWith("nowrap") || bcs.whiteSpace === "pre" || bcs.textOverflow === "ellipsis"); // no room to add words
+            return { ...f, block, control, screen, nearby: ((control ?? block ?? el).textContent ?? "").toLowerCase(), oneLine,
+                shownBefore: !!screen.querySelector(`.lname-shown[data-lname="${f.name}"]`) };
+        });
+        jobs.push({ t, el, row, hits });
     }
+    const shownNow = new Map(); // first mentions shown in this pass, per screen
+    const addedNow = new Map(); // plain words this pass added to a block or control
     let marked = 0;
-    for (const t of texts) {
-        const el = t.parentElement, found = findNames(t.data);
-        const cs = doc.defaultView?.getComputedStyle(el);
-        if (cs && cs.whiteSpace.startsWith("nowrap") && cs.overflowX !== "visible") { // a one-line row that cuts its text: mark the row itself
-            const words = found.map((f) => `${f.name}: ${plainOf(f.name, say)}`).join("; ");
-            el.setAttribute("data-lname", found.map((f) => f.name).join(" "));
+    for (const { t, el, row, hits } of jobs) {
+        if (row) {
+            const words = hits.map((f) => `${f.name}: ${plainOf(f.name, say)}`).join("; ");
+            el.setAttribute("data-lname", hits.map((f) => f.name).join(" "));
             if (!el.getAttribute("title"))
                 el.setAttribute("title", words);
             if (!el.getAttribute("aria-description"))
                 el.setAttribute("aria-description", words);
-            marked += found.length;
+            marked += hits.length;
             continue;
         }
         const frag = doc.createDocumentFragment();
         let at = 0;
-        for (const f of found) {
-            if (f.start > at)
-                frag.append(t.data.slice(at, f.start));
-            frag.append(nmMark(doc, el, f.name, say, mode));
-            at = f.end;
+        for (const h of hits) {
+            if (h.start > at)
+                frag.append(t.data.slice(at, h.start));
+            const where = h.control ?? h.block ?? el, p = plainOf(h.name, say).toLowerCase();
+            const said = h.nearby.includes(p) || (addedNow.get(where) ?? []).some((w) => w.includes(p));
+            const seen = shownNow.get(h.screen) ?? new Set();
+            const show = !!h.block && !h.control && !said && !h.oneLine && !h.shownBefore && !seen.has(h.name);
+            frag.append(nmMark(doc, h.name, say, mode, show, said, h.control));
+            if (show) {
+                seen.add(h.name);
+                shownNow.set(h.screen, seen);
+                addedNow.set(where, [...(addedNow.get(where) ?? []), p]);
+            }
+            at = h.end;
             marked += 1;
         }
         if (at < t.data.length)
@@ -1158,18 +1180,12 @@ function explainNames(root, say, mode = namesMode()) {
     }
     return marked;
 }
-function nmMark(doc, where, name, say, mode) {
+function nmMark(doc, name, say, mode, show, said, control) {
     const p = plainOf(name, say), a = aboutOf(name, say);
     const span = doc.createElement("span");
     span.className = "lname lname-x";
     span.dataset["lname"] = name;
     span.title = a ? `${p}: ${a}` : p;
-    const block = where.closest(NM_RUNNING), control = where.closest(NM_CONTROL), screen = where.closest(NM_SCREEN) ?? doc.body;
-    const nearby = (control ?? block ?? where).textContent ?? "";
-    const said = nearby.toLowerCase().includes(p.toLowerCase()); // the words around already give the plain word
-    const cs = block ? doc.defaultView?.getComputedStyle(block) : null;
-    const oneLine = !!cs && (cs.whiteSpace.startsWith("nowrap") || cs.whiteSpace === "pre" || cs.textOverflow === "ellipsis"); // no room to add words
-    const show = !!block && !control && !said && !oneLine && !screen.querySelector(`.lname-shown[data-lname="${name}"]`);
     if (show) {
         span.classList.add("lname-shown");
         const nm = doc.createElement("span");

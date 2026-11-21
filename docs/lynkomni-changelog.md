@@ -4,6 +4,7 @@ What changed in each version, in plain words, newest first. Version numbers: `0.
 
 ## v0.79.1 (2026-11-21)
 Section 4, step E4a, part 1 (BOOKING UPDATE): every country pack carries LynkBooking's settings, all unknown until the lawyer and accountant confirm them (tools/country_booking.py; ledger later booking_country_rules): the fixed commission amounts in the country's currency, the tourist tax, the travel-seller licence, the most a deposit may be and the shortest legal cancelling notice. The pack generator keeps the new section. Sent on its own because the 248 packs together with the rest of the step went past the 300 files the code-scanning check reads.
+- Fix: the plain words for Lynk names (v0.79.0) made opening the launcher slower than its tap budget on a slow phone (138 to 178 ms against 120). The names part now reads every style it needs first and changes the page after, and builds its name pattern once instead of for every piece of text; marking is unchanged (the first mention on a screen still shows its plain word). The budget is not raised.
 
 ## v0.79.0 (2026-11-21)
 Plain words for every Lynk name, everywhere (owner, 21 November 2026):
