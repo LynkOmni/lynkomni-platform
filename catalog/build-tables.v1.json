@@ -1722,6 +1722,34 @@
      "done": {}
     }
    ]
+  },
+  {
+   "id": "85.6",
+   "update": "PAY A PROVIDER UPDATE",
+   "blueprint_section": 85,
+   "rows": [
+    {
+     "sections": [
+      "9"
+     ],
+     "part": "The one pay-a-provider flow (country, provider, offer, price in the person's currency, details checked with the provider, review and pay, result only on the provider's confirmation) with the offers register and engine; every service of 85.1 with its own steps; all fourteen improvements of 85.4 (favourites and repeat, buying for someone else, search across providers, reminders and capped renewals, automatic refund and Report a problem, provider status, safety checks, offline browsing, agent commission and cash, bulk buying with approvals and LynkAcc, household budget and LynkFiles receipts, LynkAssist suggestions, LynkRewards points, big tiles and read aloud in 38 languages); the LynkPOS tiles, LynkKiosk and basic phones moved onto it",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "The offers and purchase API for developers",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "Partner Hub entries for the offer and payment partners, and the provider status desk for staff",
+     "done": {}
+    }
+   ]
   }
  ]
 }

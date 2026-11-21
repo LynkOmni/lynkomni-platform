@@ -2,6 +2,9 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.94.2 (2026-11-21)
+- Pay a provider (owner, master blueprint section 85): one flow for every service where a person buys from a provider, with each service's own steps and fourteen improvements, recorded as a rule for every service (catalog/universal.v1.json pay_a_provider) and as build table 85.6. It is built in section 9 with LynkEssential, when the LynkPOS tiles, LynkKiosk and basic phones move onto it; the offers API in section 11 and the Partner Hub entries in section 12. Nothing on screen changes yet.
+
 ## v0.94.1 (2026-11-21)
 - Fix (owner report): on the LynkPOS terminal, the limit and identity lines under the customer number touched the screen's edges. They now keep the same side space as the field above them.
 - The fit guard now checks that no line of text on any screen sits closer than 6 px to the screen's left or right edge (rows that scroll or end in an ellipsis on purpose aside), and it also opens the terminal's tiles, so a screen like this one is checked on every change.
