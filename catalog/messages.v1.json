@@ -2015,6 +2015,202 @@
    ],
    "build_section": 4,
    "note": "LynkExchange: the partner sent the money back"
+  },
+  {
+   "id": "leave_request_answered",
+   "area": "work",
+   "trigger": "LeaveRequestAnswered",
+   "audience": "staff",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_request"
+   ],
+   "build_section": "4B",
+   "note": "LynkHR: your leave request was answered by the named person who decides"
+  },
+  {
+   "id": "payslip_ready",
+   "area": "work",
+   "trigger": "PayslipIssued",
+   "audience": "staff",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_payslip"
+   ],
+   "build_section": "4B",
+   "note": "LynkHR: your payslip is ready in your own account; no figures in the message"
+  },
+  {
+   "id": "task_assigned",
+   "area": "projects",
+   "trigger": "TaskAssigned",
+   "audience": "staff",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_task"
+   ],
+   "build_section": "4B",
+   "note": "LynkProject: a task was given to you, with its due date"
+  },
+  {
+   "id": "learner_absent",
+   "area": "school",
+   "trigger": "LearnerAbsent",
+   "audience": "guardian",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "reply_to_school"
+   ],
+   "build_section": "9B",
+   "note": "LynkSchool: your child was marked absent today; within the school's limits on each household"
+  },
+  {
+   "id": "report_card_ready",
+   "area": "school",
+   "trigger": "ReportCardIssued",
+   "audience": "guardian",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_report"
+   ],
+   "build_section": "9B",
+   "note": "LynkSchool: a report card is ready, explained simply in your language"
+  },
+  {
+   "id": "rent_due",
+   "area": "home",
+   "trigger": "RentDue",
+   "audience": "tenant",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "pay"
+   ],
+   "build_section": "9B",
+   "note": "LynkProperty: rent is due soon; paying opens LynkCheckout and is never taken automatically"
+  },
+  {
+   "id": "repair_update",
+   "area": "home",
+   "trigger": "RepairStateChanged",
+   "audience": "tenant",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_repair"
+   ],
+   "build_section": "9B",
+   "note": "LynkProperty: your repair report moved, with its tracker"
+  },
+  {
+   "id": "application_update",
+   "area": "jobs",
+   "trigger": "ApplicationStateChanged",
+   "audience": "candidate",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_application"
+   ],
+   "build_section": "8B",
+   "note": "LynkJobs: your application moved; a person decided"
+  },
+  {
+   "id": "job_alert",
+   "area": "jobs",
+   "trigger": "JobAlertMatched",
+   "audience": "candidate",
+   "basis": "opt_in",
+   "priority": "low",
+   "channels": [
+    "bell",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_job"
+   ],
+   "build_section": "8B",
+   "note": "LynkJobs: a new job matches your saved search; only if you asked for alerts"
   }
  ]
 }

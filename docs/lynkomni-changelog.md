@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.84.0 (2026-11-21)
+Section 4 review, first part (the groundwork rows):
+- LynkSchool's limits and registers for section 80 (row 80.15): catalog/school.v1.json read by core/school.py (every kind and level of school in five groups, the school year, offline working, the children's rules, what LynkAssist may and never does, the partners and where each part is built) and the 80.13 tier features in billing: every kind of school, the school year, offline working and every safety rule on every tier; Plus adds the learner, guardian and safety tools in full, meals, transport, school property, sponsors and grants; Pro adds vocational, university and centre tools and staff and quality; Max adds ministries and groups.
+- The six services' partners (row 69.14): every partner of 69.13 has its interface, a working sandbox and a ledger entry, and stays "Coming to your country soon." until signed (services/six_partners.py: background and reference checks, tenant screening, exam boards, a licensed notary, pensions and benefits, deposit protection, a rent insurer, property sites, job sites, employer of record, public employment services). Connected meters and door access are LynkDriver kinds. Messages and automations of LynkHR, LynkProject, LynkSchool, LynkProperty and LynkJobs are registered in the sections that build them. The notary moved from the later list to a sandbox and ledger entry, as 69.13 asks.
+- Leftover fixed: two automations did the same job (signature reminders); the one from v0.49.0 is kept, now in section 4 where the engine is.
+- Build-table rows marked done in this review: 64.11 (v0.80.0), 65.9 (v0.82.0), 74.9 and 75.9 (v0.74.0), 69.14 and 80.15 (v0.84.0).
+
 ## v0.83.0 (2026-11-21)
 Section 4, leftover step (things section 4 had planned or claimed but not yet done):
 - The three trackers planned for section 4 now work: a supplier's bill in LynkAcc (received, approved, partly paid, paid), a staff expense claim (submitted, approved, repaid) and one message from the message register (waiting to send, sent, delivered in the app, not completed on a channel). The bill and claim trackers show through the LynkAcc API; message delivery is a personal account tracker and never in an API. "Waiting to send" and "Sent" are in 38 languages.

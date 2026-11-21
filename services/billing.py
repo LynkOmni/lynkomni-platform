@@ -202,10 +202,17 @@ FEATURES = {
  "lynkproject": [dict(members_included=5, extra_50_members_cents=None), dict(members_included=25, extra_50_members_cents=300),
                  dict(members_included=100), dict(members_included=500)],
  "lynkschool": [dict(learners_included=100, extra_500_learners_cents=None, classes_and_homework=True, joined_marks=False, curriculum_library=False,
-                     voice_lessons=False, exam_tools=False, entrance_tests=False, head_reports=False, groups_of_schools=False, api=False),
-                dict(learners_included=500, extra_500_learners_cents=500, joined_marks=True, curriculum_library=True, voice_lessons=True),
-                dict(learners_included=2500, exam_tools=True, entrance_tests=True, head_reports=True, api="read"),
-                dict(learners_included=10000, groups_of_schools=True, api="full")],          # blueprint 78.18; LynkAcademy comes with it (INCLUDES)
+                     voice_lessons=False, exam_tools=False, entrance_tests=False, head_reports=False, groups_of_schools=False, api=False,
+                     # SCHOOL UPDATE 80.13 (section 4 row 80.15): on every tier, every kind of school, the school year, offline working and every safety rule
+                     every_kind_of_school=True, school_year=True, offline_keeper=True, safety_rules=True,
+                     learner_tools_full=False, guardian_tools_full=False, safety_tools_full=False, meals=False, transport=False, school_property=False,
+                     sponsors_and_grants=False, vocational_university_centres=False, staff_and_quality=False, ministries_and_groups=False),
+                dict(learners_included=500, extra_500_learners_cents=500, joined_marks=True, curriculum_library=True, voice_lessons=True,
+                     learner_tools_full=True, guardian_tools_full=True, safety_tools_full=True, meals=True, transport=True, school_property=True,
+                     sponsors_and_grants=True),
+                dict(learners_included=2500, exam_tools=True, entrance_tests=True, head_reports=True, api="read",
+                     vocational_university_centres=True, staff_and_quality=True),
+                dict(learners_included=10000, groups_of_schools=True, api="full", ministries_and_groups=True)],   # blueprint 78.18 and 80.13; LynkAcademy comes with it (INCLUDES)
  "lynkacademy": [dict(learners_included=10, extra_100_learners_cents=None, own_courses=3, assigned_training=False, learning_paths=False,
                       storefront_seats=False, supervised_exams=False, org_tree=None, skills_records=False, company_login=False, api=False,
                       learners_never_pay=True),

@@ -2001,6 +2001,381 @@
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
    ]
+  },
+  {
+   "id": "six_background_checks",
+   "name": "Background and reference check provider",
+   "kind": "checks",
+   "used_by": [
+    "hr_checks"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.six_partners:BackgroundCheck",
+   "sandbox": "services.six_partners:SandboxBackgroundCheck",
+   "needed_from_provider": [
+    "background and reference check licence per country",
+    "checks only with the person's recorded consent",
+    "a result the person can see and challenge",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/six_partners.py",
+     "token": "SandboxBackgroundCheck"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SIX SERVICES UPDATE 69.3, 69.8: LynkHR and LynkJobs; a named person decides, never the check.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "six_tenant_screening",
+   "name": "Tenant screening provider",
+   "kind": "checks",
+   "used_by": [
+    "tenant_screening"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.six_partners:TenantScreening",
+   "sandbox": "services.six_partners:SandboxTenantScreening",
+   "needed_from_provider": [
+    "tenant screening licence per country",
+    "consent first",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/six_partners.py",
+     "token": "SandboxTenantScreening"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SIX SERVICES UPDATE 69.6: LynkProperty; the owner decides.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "six_exam_boards",
+   "name": "Qualification and exam-board connectors",
+   "kind": "connector",
+   "used_by": [
+    "exam_boards"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.six_partners:ExamBoard",
+   "sandbox": "services.six_partners:SandboxExamBoard",
+   "needed_from_provider": [
+    "agreement with each exam board or qualification body",
+    "learner registration and results by connector",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/six_partners.py",
+     "token": "SandboxExamBoard"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SIX SERVICES UPDATE 69.5, 80.10: LynkSchool and LynkAcademy; a result is only as official as the body behind it.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "six_notary",
+   "name": "Licensed notary service",
+   "kind": "notary",
+   "used_by": [
+    "notary"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.six_partners:Notary",
+   "sandbox": "services.six_partners:SandboxNotary",
+   "needed_from_provider": [
+    "licensed remote notarisation where the law allows",
+    "notarisation by document fingerprint",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/six_partners.py",
+     "token": "SandboxNotary"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SIX SERVICES UPDATE 69.7: LynkFiles; only where a country's law allows remote notarisation.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "six_pensions",
+   "name": "Pension and benefit providers",
+   "kind": "benefits",
+   "used_by": [
+    "pensions"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.six_partners:Pension",
+   "sandbox": "services.six_partners:SandboxPension",
+   "needed_from_provider": [
+    "pension or benefit provider agreement per country",
+    "enrolment and contribution confirmations",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/six_partners.py",
+     "token": "SandboxPension"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SIX SERVICES UPDATE 69.3: LynkHR; contributions go through the provider, never held by LynkOmni.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "six_deposit_protection",
+   "name": "Deposit-protection schemes",
+   "kind": "deposits",
+   "used_by": [
+    "deposit_protection"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.six_partners:DepositProtection",
+   "sandbox": "services.six_partners:SandboxDepositProtection",
+   "needed_from_provider": [
+    "registration with each country's scheme",
+    "protection certificates by API",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/six_partners.py",
+     "token": "SandboxDepositProtection"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SIX SERVICES UPDATE 69.6: LynkProperty; the deposit sits with the scheme.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "six_rent_insurance",
+   "name": "Licensed rent insurer",
+   "kind": "insurance",
+   "used_by": [
+    "rent_insurance"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.six_partners:RentInsurance",
+   "sandbox": "services.six_partners:SandboxRentInsurance",
+   "needed_from_provider": [
+    "insurance licence per country",
+    "quotes, cover and claims by API",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/six_partners.py",
+     "token": "SandboxRentInsurance"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SIX SERVICES UPDATE 69.6: LynkProperty; LynkOmni never holds premiums.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "six_property_sites",
+   "name": "Property-site connectors",
+   "kind": "listings",
+   "used_by": [
+    "property_listings"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.six_partners:PropertyListings",
+   "sandbox": "services.six_partners:SandboxPropertyListings",
+   "needed_from_provider": [
+    "agreement with each property site",
+    "listing feeds and leads by API",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/six_partners.py",
+     "token": "SandboxPropertyListings"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SIX SERVICES UPDATE 69.6: LynkProperty adverts on other sites.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "six_job_sites",
+   "name": "Other job sites and search engines' job listings",
+   "kind": "listings",
+   "used_by": [
+    "job_listings"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.six_partners:JobListings",
+   "sandbox": "services.six_partners:SandboxJobListings",
+   "needed_from_provider": [
+    "agreement with each job site or search engine",
+    "job feeds and applications by API",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/six_partners.py",
+     "token": "SandboxJobListings"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SIX SERVICES UPDATE 69.8: LynkJobs; job seekers never pay to search, apply or be hired.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "six_employer_of_record",
+   "name": "Employer-of-record partners",
+   "kind": "employment",
+   "used_by": [
+    "employer_of_record"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.six_partners:EmployerOfRecord",
+   "sandbox": "services.six_partners:SandboxEmployerOfRecord",
+   "needed_from_provider": [
+    "employer-of-record licence in each country",
+    "onboarding, contracts and payroll by the partner",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/six_partners.py",
+     "token": "SandboxEmployerOfRecord"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SIX SERVICES UPDATE 69.3, 69.8: hiring abroad; wages are paid by the partner.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "six_employment_services",
+   "name": "Public employment services",
+   "kind": "connector",
+   "used_by": [
+    "employment_services"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.six_partners:EmploymentServices",
+   "sandbox": "services.six_partners:SandboxEmploymentServices",
+   "needed_from_provider": [
+    "agreement with each country's public employment service",
+    "job sharing by API",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/six_partners.py",
+     "token": "SandboxEmploymentServices"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SIX SERVICES UPDATE 69.8: LynkJobs.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
   }
  ],
  "later": [
@@ -2490,15 +2865,6 @@
    "why_not_now": "Blueprint 68.13: paper audits and the risk-limiting audit of large votes are checked by an independent election-audit firm.",
    "placeholders": [],
    "done_when": "An audit firm is signed through the Partner Hub and has checked a practice election end to end."
-  },
-  {
-   "id": "files_notary",
-   "name": "Notary through a licensed partner in LynkFiles",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Blueprint 69.7: notarised documents only through a licensed notary service where the law allows remote notarisation; the rules differ by country and need the lawyer (REMINDER item 9).",
-   "placeholders": [],
-   "done_when": "A licensed notary service is signed through the Partner Hub for a country whose law allows it, with its own adapter and tests."
   },
   {
    "id": "booking_country_rules",

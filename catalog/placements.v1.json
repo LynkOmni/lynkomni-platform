@@ -2062,6 +2062,50 @@
     "sitemap"
    ],
    "section": 4
+  },
+  {
+   "id": "school_every_kind",
+   "kind": "feature",
+   "what": "LynkSchool for every kind and level of school, with the school year, offline working and every safety rule on every plan",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "school_family_tools",
+   "kind": "feature",
+   "what": "LynkSchool Plus: the learner, guardian and safety tools in full, meals, transport, school property, sponsors and grants",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "school_further_and_quality",
+   "kind": "feature",
+   "what": "LynkSchool Pro: vocational, university and centre tools, and staff and quality",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "school_ministries_groups",
+   "kind": "feature",
+   "what": "LynkSchool Max: ministries and groups of schools",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
   }
  ]
 }
