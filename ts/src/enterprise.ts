@@ -102,11 +102,12 @@ export function check(E: EnterpriseRegister, kind: string, header: readonly stri
   const idx = new Map(header.map((c, i) => [c, i] as const));
   const get = (r: readonly unknown[], c: string): string => { const i = idx.get(c); return i !== undefined && i < r.length ? String(r[i] ?? "") : ""; };
   let debit = 0, credit = 0, amount = 0;
-  const refCol = ({ chart: "code", customers: "ref", suppliers: "ref", open_invoices: "number", open_bills: "ref" } as Record<string, string>)[kind];
+  const refCol = ({ chart: "code", customers: "ref", suppliers: "ref", open_invoices: "number", open_bills: "ref", voters: "ref" } as Record<string, string>)[kind];
   rows.forEach((r, i) => {
     const n = i + 1;
     for (const c of spec.required) if (get(r, c).trim() === "") errors.push({ row: n, column: c, issue: "required_empty" });
     if (refCol) { const ref = get(r, refCol).trim(); if (ref && seen.has(ref)) errors.push({ row: n, column: refCol, issue: "duplicate_ref" }); seen.add(ref); }
+    if (kind === "voters" && get(r, "weight").trim() && !/^[1-9][0-9]{0,8}$/.test(get(r, "weight").trim())) errors.push({ row: n, column: "weight", issue: "bad_weight" });
     if (kind === "chart" && get(r, "type").trim() && !ACCOUNT_TYPES.includes(get(r, "type"))) errors.push({ row: n, column: "type", issue: "unknown_type" });
     if (kind === "opening_balances") {
       const acct = get(r, "account").trim();

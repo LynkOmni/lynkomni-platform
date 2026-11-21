@@ -1879,6 +1879,39 @@
     "sitemap"
    ],
    "section": 4
+  },
+  {
+   "id": "vote_governance_home",
+   "kind": "feature",
+   "what": "LynkVote's governance home: by-laws, committees, a register of every decision and who must act on it, and minutes signed electronically",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "vote_federations",
+   "kind": "feature",
+   "what": "Federations: branches run their own votes and the federation's result combines their published results",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "vote_roll",
+   "kind": "feature",
+   "what": "The voter roll from LynkCRM, LynkAcc, LynkAttend or a file, with a check report first and a code for every voter",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
   }
  ]
 }

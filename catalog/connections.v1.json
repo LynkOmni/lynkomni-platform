@@ -763,6 +763,31 @@
    "planned_events": [],
    "consent": "person",
    "build_section": "10"
+  },
+  {
+   "id": "vote-acc",
+   "from": "lynkacc",
+   "to": "lynkvote",
+   "what": "Shareholders and paid-up members from LynkAcc (the share register, member fees and funds) become a vote's roll, each with their weight where the vote counts shares, with the organisation's consent records",
+   "events": [
+    "VoteRollImported"
+   ],
+   "planned_events": [],
+   "consent": "merchant",
+   "build_section": 4
+  },
+  {
+   "id": "vote-attend",
+   "from": "lynkattend",
+   "to": "lynkvote",
+   "what": "People checked in at a meeting with LynkAttend become the roll for a vote held in that meeting, and the check-in count shows whether the quorum is met",
+   "events": [
+    "VoteRollImported",
+    "CheckedIn"
+   ],
+   "planned_events": [],
+   "consent": "merchant",
+   "build_section": 4
   }
  ],
  "journeys": [

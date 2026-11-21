@@ -969,6 +969,63 @@
    "test": "tests/test_vote_core.py::test_no_screen_or_message_claims_lynkvote_is_unhackable",
    "build_section": 4,
    "status": "built"
+  },
+  {
+   "id": "vote-roll-secrets",
+   "asset": "personal_data",
+   "threat": "A voter's code or contact details are read from the vote's own records or an event",
+   "enforced_in": [
+    "services/vote.py"
+   ],
+   "test": "tests/test_vote_service.py::test_the_check_report_comes_first_and_the_plan_limit_applies",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "vote-rule-change-two-people",
+   "asset": "records",
+   "threat": "One person quietly changes a vote's rules, or what a ballot holds, while voting is open",
+   "enforced_in": [
+    "services/vote.py",
+    "contract/tools/build_v12.py"
+   ],
+   "test": "tests/test_vote_service.py::test_rule_changes_while_open_need_two_people_and_never_touch_the_ballot",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "vote-again-unlinked",
+   "asset": "records",
+   "threat": "A ballot is tied back to its voter through the link that lets a voter vote again",
+   "enforced_in": [
+    "services/vote.py"
+   ],
+   "test": "tests/test_vote_service.py::test_voting_again_replaces_and_the_link_is_gone_after_closing",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "vote-forged-or-unknown",
+   "asset": "records",
+   "threat": "A ballot with a false proof, or from a code not on the roll, joins the public list",
+   "enforced_in": [
+    "services/vote.py",
+    "core/vote_crypto.py"
+   ],
+   "test": "tests/test_vote_service.py::test_a_forged_ballot_and_an_unknown_code_are_refused",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "vote-federation-small-groups",
+   "asset": "personal_data",
+   "threat": "A small branch's result is shown on its own and points to how a few people voted",
+   "enforced_in": [
+    "services/vote.py"
+   ],
+   "test": "tests/test_vote_service.py::test_a_federation_combines_only_published_branch_results",
+   "build_section": 4,
+   "status": "built"
   }
  ]
 }

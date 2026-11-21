@@ -463,7 +463,8 @@
   "/attendance",
   "/tickets",
   "/answers",
-  "/panel"
+  "/panel",
+  "/votes"
  ],
  "pay_paths": [
   "/r/{LORCP}",

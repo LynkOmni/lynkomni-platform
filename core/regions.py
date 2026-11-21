@@ -6,7 +6,11 @@ import pathlib
 SERVICES = ["pos", "accountant", "invoicing", "crm", "inventory", "dashboard", "intelligence", "payments",
             "recovery", "paylinks", "loyalty", "marketplace", "financing", "protection", "chat", "ads", "vcard", "registration",
             "agent", "collection", "delivery", "movement", "vehicle_data", "monitoring", "transport_data", "satellite", "iot_sim",
-            "attendance", "queue", "survey", "people_messages", "survey_voice", "survey_rewards"]
+            "attendance", "queue", "survey", "people_messages", "survey_voice", "survey_rewards",
+            "voting", "vote_identity", "vote_seal", "vote_post"]
+# VOTE UPDATE (2026-11-18, section 4 step E2): "voting" (LynkVote) needs no partner and is on everywhere. Its partner parts are off until
+# signed: "vote_identity" (national identity connectors), "vote_seal" (the trust-service seal on results) and "vote_post" (printing and
+# postal ballots) (services/vote_partners.py).
 # NEW UPDATE 4 (2026-11-11): "attendance" (LynkAttend), "queue" (LynkQueue) and "survey" (LynkSurvey) need no partner and are on
 # everywhere. Their partner parts are off until signed: "people_messages" (text and USSD), "survey_voice" (voice calls) and
 # "survey_rewards" (reward and panel payments) (services/people_partners.py).
@@ -20,7 +24,7 @@ SERVICES = ["pos", "accountant", "invoicing", "crm", "inventory", "dashboard", "
 # "agent" (agent point services), "collection" (collection point and partner finance) and "delivery" (N8 partner deliveries) are build
 # section 3: every one needs a licensed partner per country and stays off until it is signed; own riders and pickup codes never need one.
 DEFAULT_FLAGS = {s: s in ("pos", "accountant", "invoicing", "crm", "inventory", "dashboard", "intelligence", "chat", "movement",
-                                "attendance", "queue", "survey") for s in SERVICES}
+                                "attendance", "queue", "survey", "voting") for s in SERVICES}
 
 import json, glob
 def _load_packs():
