@@ -1846,6 +1846,39 @@
     "sitemap"
    ],
    "section": 4
+  },
+  {
+   "id": "vote_security_core",
+   "kind": "feature",
+   "what": "LynkVote's security core: ballots locked on the voter's device, a key split between trustees, totals opened with proofs, receipts and a public list anyone can check",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "vote_counting_methods",
+   "kind": "feature",
+   "what": "Every counting method with a plain explanation and a published example: most votes, two rounds, ranked choices, approval, score, STAR, party lists and more",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "vote_check_device",
+   "kind": "feature",
+   "what": "Test the device: a voter may challenge their device to prove it locked the ballot honestly before casting",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
   }
  ]
 }

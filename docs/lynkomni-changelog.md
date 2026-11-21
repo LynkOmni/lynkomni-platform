@@ -2,6 +2,23 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.76.0 (2026-11-21)
+Section 4, step E1 (VOTE UPDATE: LynkVote's security core and counting methods):
+- New register catalog/vote.v1.json, read by core/vote_crypto.py, core/vote_count.py and their TypeScript ports with shared test answers (python3 tools/vote_vectors.py). It covers every kind of vote, way to vote and counting method, the assurance levels, the published tie draw and the words LynkVote never uses.
+- The security core, in the published RFC 7919 group (a test proves it is a safe prime group):
+  - a choice is locked on the voter's device and every locked choice carries a proof that it is allowed, so a ballot cannot vote twice or vote negative;
+  - the key is split between trustees, each proving their part; any threshold of them opens a total, one trustee alone or LynkOmni opens nothing, and a false opening is caught;
+  - totals are added while still locked, so no single ballot is ever opened in such a count;
+  - ballots read one by one are shuffled first, with a proof that catches a changed ballot;
+  - every voter gets a tracking code that chains the public list, which is sorted so the order is hidden;
+  - a voter may challenge the device to prove it locked the choice honestly.
+- The device's own SHA-256 and HMAC run in the browser and offline, checked against Node's.
+- Every counting method of 68.5, in whole numbers and exact fractions, with published examples. The Tennessee capital example gives Memphis by most votes, Knoxville by instant run-off and Nashville by the head-to-head methods; the standard D'Hondt, Sainte-Laguë, Hare and Droop seat examples also match.
+- Yes, no or abstain with simple, absolute, two-thirds and custom majorities and a quorum; abstentions never count as yes.
+- Honest claims: a test fails if any screen or message says unhackable, 100% secure or fraud-proof.
+- Encryption that stays secret against future computers is not claimed yet. It and the outside cryptographers' review are in the provider ledger's later list.
+- Three features placed; four security controls.
+
 ## v0.75.0 (2026-11-20)
 Section 4, step D5 (the office services in the browser, in 38 languages):
 - New shared part ts/src/officeview.ts draws LynkAcc (app.lynkomni.com/accounting), LynkInv (/invoicing), LynkCRM (/crm) and LynkStat (/analytics) in the owner's computer view, computed with the real rules (books, invoices, crm and stats) and the shared page parts (list toolbar, record header with the same tabs, save bar):

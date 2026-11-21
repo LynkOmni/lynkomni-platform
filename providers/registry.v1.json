@@ -2196,6 +2196,24 @@
       "why_not_now": "Each country's tax types, held-back tax, official statement layouts, e-invoice rules, keeping times, late-fee rules, mileage rates, daily allowances and allowed costing and loss-of-value methods need a local lawyer and accountant (owner REMINDER item 9). Until then every pack's office settings are unknown and the safe defaults apply.",
       "placeholders": [],
       "done_when": "Each country's office settings are set and marked confirmed by its lawyer and accountant (tools/country_office.py keeps confirmed values)."
+    },
+    {
+      "id": "vote_everlasting_privacy",
+      "name": "LynkVote encryption that stays secret for good",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Keeping a vote secret against future computers (blueprint 68.7, 'ready for future computers') needs a perfectly hiding public list or a post-quantum layer, chosen and checked by outside cryptographers. The security core works now in the published RFC 7919 group and LynkVote never claims this until the review is done.",
+      "placeholders": [],
+      "done_when": "Outside cryptographers approve the design, it is built into core/vote_crypto.py and ts/src/votecrypto.ts with shared vectors, and catalog/vote.v1.json future_proof is set to built."
+    },
+    {
+      "id": "vote_outside_review",
+      "name": "LynkVote security core reviewed by outside cryptographers and attack testers",
+      "blocks": [],
+      "status": "pending",
+      "why_not_now": "Blueprint 68.7 requires outside reviews before launch, a mathematical check of the core, a public test before large votes and a standing reward for finding a weakness. The core is built and tested now; the reviewers are chosen by the owner (REMINDER items 10 and 11).",
+      "placeholders": [],
+      "done_when": "The review reports are published and every finding is fixed or answered."
     }
   ],
   "user_actions": [
