@@ -3109,6 +3109,14 @@
    ]
   },
   {
+   "host": "account.lynkomni.com",
+   "path": "/votes",
+   "trail": [
+    "/",
+    "/votes"
+   ]
+  },
+  {
    "host": "shop.lynkomni.com",
    "path": "/{username}",
    "trail": [
