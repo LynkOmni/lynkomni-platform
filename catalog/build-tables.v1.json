@@ -409,7 +409,8 @@
       "4": [
        "v0.49.0: the lynkvote billing family, tiers, limits, the full price list and the price lock; addresses, placements, the API register entry, the product illustration and the revenue stream",
        "v0.54.0: the identifiers LOVOT- (a vote) and LOBLT- (a ballot receipt) in the registry, read by every language",
-       "v0.76.0: the security core (ballots locked on the device, a key split between trustees with proofs, totals opened by a threshold with proofs, a shuffle with a proof, receipts that chain the public list, the device challenge) in the RFC 7919 group, and every counting method of 68.5 with published examples, in Python and TypeScript with shared test answers"
+       "v0.76.0: the security core (ballots locked on the device, a key split between trustees with proofs, totals opened by a threshold with proofs, a shuffle with a proof, receipts that chain the public list, the device challenge) in the RFC 7919 group, and every counting method of 68.5 with published examples, in Python and TypeScript with shared test answers",
+       "v0.77.0: contract version 12 with the voting events; the tracker kind; the automations, messages and API register entries; sandbox partners and ledger entries; rolls from LynkCRM, LynkAcc and LynkAttend; the governance home; federations; move in; LynkVote in the cloud (services/vote.py) on the security core"
       ]
      }
     },

@@ -24,7 +24,7 @@ class ContractV11(unittest.TestCase):
     def test_built_from_v10_and_current(self):
         r = subprocess.run([sys.executable, str(ROOT / "contract" / "tools" / "build_v11.py"), "--check"], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertEqual(CURRENT, 11)
+        self.assertGreaterEqual(CURRENT, 11)                                  # version 12 (section 4, step E2) reads version 11 unchanged
 
     def test_only_the_new_events_are_added(self):
         self.assertEqual(set(V11["events"]) - set(V10["events"]), NEW)
@@ -52,12 +52,12 @@ class ContractV11(unittest.TestCase):
     def test_a_version_10_event_reads_as_version_11_unchanged(self):
         old = {"type": "MessageStateChanged", "schema_version": 10, "payload": {"message_id": "m1", "state": "confirmed"}}
         up = upcast(old)
-        self.assertEqual((up["schema_version"], up["payload"]), (11, old["payload"]))
+        self.assertEqual((up["schema_version"], up["payload"]), (CURRENT, old["payload"]))
         self.assertEqual(old["schema_version"], 10, "the stored event is never rewritten")
 
     def test_a_journal_must_balance_and_name_real_accounts(self):
         from contract.tools.validate_contract import uuid7, ts, fake_sig, MERCHANT
-        ok = {"event_id": uuid7(), "origin": "server", "merchant_id": MERCHANT, "type": "JournalPosted", "schema_version": 11,
+        ok = {"event_id": uuid7(), "origin": "server", "merchant_id": MERCHANT, "type": "JournalPosted", "schema_version": CURRENT,
               "created_at_server": ts(), "server_cursor": 1, "server_signature": fake_sig(),
               "payload": {"journal_id": uuid7(), "kind": "manual", "currency": "USD", "prepared_by": "accountant", "approved_by": "owner",
                           "lines": [{"account": "6500", "debit": 100, "credit": 0}, {"account": "1510", "debit": 0, "credit": 100}]}}

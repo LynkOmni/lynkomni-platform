@@ -543,9 +543,14 @@
     "rolls.write",
     "results.read",
     "proofs.read",
-    "webhooks"
+    "webhooks",
+    "tracking.read",
+    "tracking.events"
    ],
-   "own_account": true
+   "own_account": true,
+   "tracks": [
+    "vote"
+   ]
   },
   {
    "id": "hr",

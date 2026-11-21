@@ -156,7 +156,7 @@ def check(kind, header, rows, decimals=2, date_format="iso", known=None, account
     idx = {c: i for i, c in enumerate(header)}
     get = lambda r, c: (r[idx[c]] if c in idx and idx[c] < len(r) else "")
     debit = credit = amount = 0
-    ref_col = {"chart": "code", "customers": "ref", "suppliers": "ref", "open_invoices": "number", "open_bills": "ref"}.get(kind)
+    ref_col = {"chart": "code", "customers": "ref", "suppliers": "ref", "open_invoices": "number", "open_bills": "ref", "voters": "ref"}.get(kind)
     for n, r in enumerate(rows, 1):
         for c in spec["required"]:
             if str(get(r, c)).strip() == "":
@@ -166,6 +166,8 @@ def check(kind, header, rows, decimals=2, date_format="iso", known=None, account
             if ref and ref in seen:
                 errors.append({"row": n, "column": ref_col, "issue": "duplicate_ref"})
             seen.add(ref)
+        if kind == "voters" and str(get(r, "weight")).strip() and not re.fullmatch(r"[1-9][0-9]{0,8}", str(get(r, "weight")).strip()):
+            errors.append({"row": n, "column": "weight", "issue": "bad_weight"})
         if kind == "chart" and str(get(r, "type")).strip() and get(r, "type") not in TYPES:
             errors.append({"row": n, "column": "type", "issue": "unknown_type"})
         if kind == "opening_balances":

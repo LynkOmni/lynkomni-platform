@@ -223,5 +223,103 @@
    "unbreakable"
   ],
   "rule": "LynkVote says what can be checked and by whom; these words never appear on any screen or message."
+ },
+ "governance": {
+  "rule": "The governance home (68.9): by-laws, committees, a register of every decision and who must act on it, minutes signed electronically, and rule templates per kind of organisation. A template is only a starting point the organisation changes; its own by-laws and the law decide, and LynkOmni gives no legal advice. Who must act is kept in the register, never in an event.",
+  "templates": {
+   "association": {
+    "quorum_bp": 5000,
+    "majority": "simple",
+    "notice_days": 14,
+    "minutes_signers": [
+     "chair",
+     "secretary"
+    ]
+   },
+   "cooperative": {
+    "quorum_bp": 5000,
+    "majority": "simple",
+    "notice_days": 14,
+    "minutes_signers": [
+     "chair",
+     "secretary"
+    ]
+   },
+   "nonprofit": {
+    "quorum_bp": 5000,
+    "majority": "simple",
+    "notice_days": 10,
+    "minutes_signers": [
+     "chair",
+     "secretary"
+    ]
+   },
+   "school": {
+    "quorum_bp": 5000,
+    "majority": "simple",
+    "notice_days": 7,
+    "minutes_signers": [
+     "chair",
+     "secretary"
+    ]
+   },
+   "faith": {
+    "quorum_bp": 3300,
+    "majority": "simple",
+    "notice_days": 14,
+    "minutes_signers": [
+     "chair",
+     "secretary"
+    ]
+   },
+   "public_body": {
+    "quorum_bp": 5000,
+    "majority": "absolute",
+    "notice_days": 7,
+    "minutes_signers": [
+     "chair",
+     "clerk"
+    ]
+   },
+   "company": {
+    "quorum_bp": 5000,
+    "majority": "simple",
+    "notice_days": 21,
+    "minutes_signers": [
+     "chair",
+     "secretary"
+    ]
+   },
+   "union": {
+    "quorum_bp": 5000,
+    "majority": "simple",
+    "notice_days": 14,
+    "minutes_signers": [
+     "chair",
+     "secretary"
+    ]
+   }
+  },
+  "outcomes": [
+   "passed",
+   "rejected",
+   "noted"
+  ],
+  "roles": [
+   "organiser",
+   "committee",
+   "trustee",
+   "observer",
+   "candidate",
+   "helper"
+  ]
+ },
+ "federation": {
+  "rule": "A federation's branches run their own votes; the federation's result combines only the branches' published results, never a branch's ballots or roll. A branch with fewer than small_group_min ballots is folded into the total and never shown on its own.",
+  "rules": [
+   "pooled",
+   "branch_vote",
+   "delegates"
+  ]
  }
 }

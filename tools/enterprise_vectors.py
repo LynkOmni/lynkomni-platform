@@ -36,7 +36,9 @@ def build():
               {"kind": "opening_balances", "header": ob_h, "rows": ob[:2], "accounts": None},
               {"kind": "open_invoices", "header": inv_h, "rows": inv, "known": known},
               {"kind": "open_invoices", "header": inv_h, "rows": inv[:1], "known": known, "decimals": 0},
-              {"kind": "chart", "header": chart_h, "rows": chart}]
+              {"kind": "chart", "header": chart_h, "rows": chart},
+              {"kind": "voters", "header": ["ref", "name", "group", "weight"], "rows": [["V1", "Ana", "north", "3"], ["V2", "Bo", "", ""], ["V1", "Ana again", "", "1"],
+                                                                              ["V3", "Cy", "", "0"], ["V4", "Di", "", "1.5"], ["V5", "", "", "x"]]}]
     for c in checks:
         c["expect"] = E.check(c["kind"], c["header"], c["rows"], c.get("decimals", 2), "iso", c.get("known"), c.get("accounts"))
     return {"version": 1, "description": "The large-organisation set and Move in (OFFICE UPDATE 66.5, 66.6). core/enterprise.py is the reference.",
