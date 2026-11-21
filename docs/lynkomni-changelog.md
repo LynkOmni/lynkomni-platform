@@ -2,6 +2,9 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.79.1 (2026-11-21)
+Section 4, step E4a, part 1 (BOOKING UPDATE): every country pack carries LynkBooking's settings, all unknown until the lawyer and accountant confirm them (tools/country_booking.py; ledger later booking_country_rules): the fixed commission amounts in the country's currency, the tourist tax, the travel-seller licence, the most a deposit may be and the shortest legal cancelling notice. The pack generator keeps the new section. Sent on its own because the 248 packs together with the rest of the step went past the 300 files the code-scanning check reads.
+
 ## v0.79.0 (2026-11-21)
 Plain words for every Lynk name, everywhere (owner, 21 November 2026):
 - One register, catalog/names.v1.json, holds every Lynk name a person can see (33 products, 16 services, 4 features, 3 card groups and 6 devices) with its plain word and a one-line description of what it does, in all 38 languages (web/names, web/nameinfo). It also lists the company name, the internal names and the retired names, which never show.

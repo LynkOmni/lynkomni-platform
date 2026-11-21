@@ -2459,6 +2459,15 @@
    "why_not_now": "Blueprint 69.7: notarised documents only through a licensed notary service where the law allows remote notarisation; the rules differ by country and need the lawyer (REMINDER item 9).",
    "placeholders": [],
    "done_when": "A licensed notary service is signed through the Partner Hub for a country whose law allows it, with its own adapter and tests."
+  },
+  {
+   "id": "booking_country_rules",
+   "name": "LynkBooking's rules per country",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Blueprint 64: tourist taxes, travel-seller licences, deposit limits, the shortest legal cancelling notice and the fixed commission amounts in each currency differ by country and need the lawyer and accountant (REMINDER item 9). Every pack carries them as unknown (tools/country_booking.py) and the safe default applies meanwhile.",
+   "placeholders": [],
+   "done_when": "A country's booking settings are confirmed in its pack and booking.confirmed is true."
   }
  ],
  "user_actions": [
