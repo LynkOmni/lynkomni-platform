@@ -52,6 +52,8 @@ class Platform(_Base):
         s.enterprise, s.move_in = Organisation(s), MoveIn(s)   # the large-organisation set and Move in (section 4 step D4a)
         from services.stats import Analytics
         s.stats = Analytics(s)                                # LynkStat's additions in the cloud (section 4 step D4b)
+        from services.booking_office import BookingOffice
+        s.booking_office = BookingOffice(s)                   # LynkBooking in the office services (BOOKING UPDATE, section 4 step E4a)
         from services.files import Files
         s.files = Files(s)                                    # LynkFiles' document engine (SIX SERVICES UPDATE, section 4 step E3)
         from services.vote import Voting

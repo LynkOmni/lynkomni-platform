@@ -3034,6 +3034,60 @@
    "offline": false,
    "default": "on",
    "standing_instruction": false
+  },
+  {
+   "id": "booking-money-to-books",
+   "area": "Bookings",
+   "build_section": 4,
+   "family": "lynkbooking",
+   "min_tier": "free",
+   "trigger": "event:BookingPaid",
+   "action": "Booking payments, check-ins, kept fees, refunds and commission post to LynkAcc: held as received in advance until the customer comes, then earned; undo reverses the entry",
+   "level": "auto_undo",
+   "assist": null,
+   "touches": [
+    "books"
+   ],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false
+  },
+  {
+   "id": "booking-commission-record",
+   "area": "Bookings",
+   "build_section": 4,
+   "family": "lynkbooking",
+   "min_tier": "free",
+   "trigger": "event:BookingPaid",
+   "action": "Works out LynkOmni's commission with the locked rule, only on customers LynkBooking brought, and records it once",
+   "level": "auto_undo",
+   "assist": null,
+   "touches": [
+    "books"
+   ],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false
+  },
+  {
+   "id": "booking-company-invoice",
+   "area": "Bookings",
+   "build_section": 4,
+   "family": "lynkbooking",
+   "min_tier": "free",
+   "trigger": "schedule:month_end",
+   "action": "Prepares one invoice for each company's bookings of the month for the owner to confirm; each booking is invoiced once",
+   "level": "draft",
+   "assist": "draft",
+   "touches": [
+    "books"
+   ],
+   "customer_message": false,
+   "offline": false,
+   "default": "off",
+   "standing_instruction": false
   }
  ],
  "careful": [
