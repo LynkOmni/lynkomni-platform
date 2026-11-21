@@ -174,5 +174,18 @@
     "citizens": null
    }
   }
+ },
+ "booking": {
+  "commission_fixed_minor": {
+   "cap": null,
+   "ticket": null,
+   "guest": null
+  },
+  "tourist_tax": null,
+  "travel_seller_licence": null,
+  "deposit_max_bp": null,
+  "cancel_notice_hours_min": null,
+  "confirmed": false,
+  "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
  }
 }

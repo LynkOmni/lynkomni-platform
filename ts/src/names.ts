@@ -22,7 +22,8 @@ const NM_NOT_SHOWN = [...NM_REG.company, ...NM_REG.internal, ...NM_REG.retired];
 const nmEsc = (s: string): string => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string);
 // Longest names first, so no name is cut out of a longer one; a name never sits inside a longer word.
 const NM_ALT = [...NM_BY_NAME.keys()].sort((a, b) => b.length - a.length).map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|");
-const nmPattern = (): RegExp => new RegExp(`(?<![A-Za-z])(${NM_ALT})(?![A-Za-z])`, "g");
+const NM_RE = new RegExp(`(?<![A-Za-z])(${NM_ALT})(?![A-Za-z])`, "g");   // built once: matchAll works on its own copy, so sharing it is safe
+const nmPattern = (): RegExp => NM_RE;
 const NM_ANY_LYNK = /(?<![A-Za-z])Lynk[A-Z][A-Za-z]*/g;
 
 export const entryOf = (name: string): NameEntry | undefined => NM_BY_NAME.get(name);
@@ -110,47 +111,62 @@ const NM_SCREEN = "[data-screen],.screen,#display,#screen,main,body";
 /** Mark every registered name inside root. Safe to run again: a marked name is never marked twice. */
 export function explainNames(root: Element, say?: Say, mode: NamesMode = namesMode()): number {
   const doc = root.ownerDocument; if (!doc) return 0;
+  const view = doc.defaultView;
+  // Read everything first, then change the page: a computed style read between two changes makes the browser work out every
+  // style again, once for each name (a launcher full of names took over 120 ms on a slow phone). The result is the same.
+  type Hit = { name: string; start: number; end: number; block: Element | null; control: Element | null; screen: Element; nearby: string; oneLine: boolean; shownBefore: boolean };
+  type Job = { t: Text; el: Element; row: boolean; hits: Hit[] };
   const walker = doc.createTreeWalker(root, 4 /* text */);
-  const texts: Text[] = [];
+  const jobs: Job[] = [];
   for (let n = walker.nextNode(); n; n = walker.nextNode()) {
     const t = n as Text, el = t.parentElement;
     if (!el || !t.data.includes("Lynk") || el.closest(NM_SKIP)) continue;
-    if (findNames(t.data).length) texts.push(t);
+    const found = findNames(t.data);
+    if (!found.length) continue;
+    const cs = view?.getComputedStyle(el);
+    const row = !!cs && cs.whiteSpace.startsWith("nowrap") && cs.overflowX !== "visible";   // a one-line row that cuts its text: mark the row itself
+    const hits = row ? found.map((f) => ({ ...f, block: null, control: null, screen: doc.body, nearby: "", oneLine: true, shownBefore: false })) : found.map((f) => {
+      const block = el.closest(NM_RUNNING), control = el.closest(NM_CONTROL), screen = el.closest(NM_SCREEN) ?? doc.body;
+      const bcs = block ? view?.getComputedStyle(block) : null;
+      const oneLine = !!bcs && (bcs.whiteSpace.startsWith("nowrap") || bcs.whiteSpace === "pre" || bcs.textOverflow === "ellipsis");   // no room to add words
+      return { ...f, block, control, screen, nearby: ((control ?? block ?? el).textContent ?? "").toLowerCase(), oneLine,
+               shownBefore: !!screen.querySelector(`.lname-shown[data-lname="${f.name}"]`) };
+    });
+    jobs.push({ t, el, row, hits });
   }
+  const shownNow = new Map<Element, Set<string>>();       // first mentions shown in this pass, per screen
+  const addedNow = new Map<Element, string[]>();          // plain words this pass added to a block or control
   let marked = 0;
-  for (const t of texts) {
-    const el = t.parentElement as Element, found = findNames(t.data);
-    const cs = doc.defaultView?.getComputedStyle(el);
-    if (cs && cs.whiteSpace.startsWith("nowrap") && cs.overflowX !== "visible") {   // a one-line row that cuts its text: mark the row itself
-      const words = found.map((f) => `${f.name}: ${plainOf(f.name, say)}`).join("; ");
-      el.setAttribute("data-lname", found.map((f) => f.name).join(" "));
+  for (const { t, el, row, hits } of jobs) {
+    if (row) {
+      const words = hits.map((f) => `${f.name}: ${plainOf(f.name, say)}`).join("; ");
+      el.setAttribute("data-lname", hits.map((f) => f.name).join(" "));
       if (!el.getAttribute("title")) el.setAttribute("title", words);
       if (!el.getAttribute("aria-description")) el.setAttribute("aria-description", words);
-      marked += found.length; continue;
+      marked += hits.length; continue;
     }
     const frag = doc.createDocumentFragment();
     let at = 0;
-    for (const f of found) {
-      if (f.start > at) frag.append(t.data.slice(at, f.start));
-      frag.append(nmMark(doc, el, f.name, say, mode));
-      at = f.end; marked += 1;
+    for (const h of hits) {
+      if (h.start > at) frag.append(t.data.slice(at, h.start));
+      const where = h.control ?? h.block ?? el, p = plainOf(h.name, say).toLowerCase();
+      const said = h.nearby.includes(p) || (addedNow.get(where) ?? []).some((w) => w.includes(p));
+      const seen = shownNow.get(h.screen) ?? new Set<string>();
+      const show = !!h.block && !h.control && !said && !h.oneLine && !h.shownBefore && !seen.has(h.name);
+      frag.append(nmMark(doc, h.name, say, mode, show, said, h.control));
+      if (show) { seen.add(h.name); shownNow.set(h.screen, seen); addedNow.set(where, [...(addedNow.get(where) ?? []), p]); }
+      at = h.end; marked += 1;
     }
     if (at < t.data.length) frag.append(t.data.slice(at));
     t.replaceWith(frag);
   }
   return marked;
 }
-function nmMark(doc: Document, where: Element, name: string, say: Say | undefined, mode: NamesMode): HTMLElement {
+function nmMark(doc: Document, name: string, say: Say | undefined, mode: NamesMode, show: boolean, said: boolean, control: Element | null): HTMLElement {
   const p = plainOf(name, say), a = aboutOf(name, say);
   const span = doc.createElement("span");
   span.className = "lname lname-x"; span.dataset["lname"] = name; span.title = a ? `${p}: ${a}` : p;
-  const block = where.closest(NM_RUNNING), control = where.closest(NM_CONTROL), screen = where.closest(NM_SCREEN) ?? doc.body;
-  const nearby = (control ?? block ?? where).textContent ?? "";
-  const said = nearby.toLowerCase().includes(p.toLowerCase());   // the words around already give the plain word
   // The first mention on a screen, in running text, shows its plain word; never when the words around already say it.
-  const cs = block ? doc.defaultView?.getComputedStyle(block) : null;
-  const oneLine = !!cs && (cs.whiteSpace.startsWith("nowrap") || cs.whiteSpace === "pre" || cs.textOverflow === "ellipsis");   // no room to add words
-  const show = !!block && !control && !said && !oneLine && !screen.querySelector(`.lname-shown[data-lname="${name}"]`);
   if (show) {
     span.classList.add("lname-shown");
     const nm = doc.createElement("span"); nm.className = "lnm"; nm.textContent = name;
