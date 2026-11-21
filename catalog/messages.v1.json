@@ -2211,6 +2211,349 @@
    ],
    "build_section": "8B",
    "note": "LynkJobs: a new job matches your saved search; only if you asked for alerts"
+  },
+  {
+   "id": "pre_order_arrived",
+   "area": "orders",
+   "trigger": "PreOrderArrived",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "text",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_order"
+   ],
+   "build_section": 7,
+   "note": "LynkPOS: your pre-order or special order has arrived, with the balance still to pay (67.2)"
+  },
+  {
+   "id": "hold_balance_due",
+   "area": "orders",
+   "trigger": "HoldBalanceDue",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "text",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 14,
+   "note": "LynkPOS: a held item's balance and the date it is kept until (67.2)"
+  },
+  {
+   "id": "points_expiring",
+   "area": "selling",
+   "trigger": "PointsExpiring",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "low",
+   "channels": [
+    "bell",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 7,
+   "note": "LynkRewards: points that will expire soon (67.4)"
+  },
+  {
+   "id": "reward_level_changed",
+   "area": "selling",
+   "trigger": "RewardLevelChanged",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "low",
+   "channels": [
+    "bell",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 7,
+   "note": "LynkRewards: a new reward level and what it brings (67.4)"
+  },
+  {
+   "id": "birthday_reward",
+   "area": "marketing",
+   "trigger": "BirthdayRewardIssued",
+   "audience": "customer",
+   "basis": "opt_in",
+   "priority": "low",
+   "channels": [
+    "bell",
+    "email"
+   ],
+   "sender": "updates@news.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 7,
+   "note": "LynkRewards: a birthday or surprise reward, only for members who chose it (67.4)"
+  },
+  {
+   "id": "win_back",
+   "area": "marketing",
+   "trigger": "WinBackDue",
+   "audience": "customer",
+   "basis": "opt_in",
+   "priority": "low",
+   "channels": [
+    "bell",
+    "email",
+    "text"
+   ],
+   "sender": "updates@news.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 14,
+   "note": "LynkGrow: a message to a customer who stopped coming, only with their opt-in and outside quiet hours (67.6)"
+  },
+  {
+   "id": "basket_reminder",
+   "area": "marketing",
+   "trigger": "BasketLeft",
+   "audience": "customer",
+   "basis": "opt_in",
+   "priority": "low",
+   "channels": [
+    "bell",
+    "email"
+   ],
+   "sender": "updates@news.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 7,
+   "note": "LynkCheckout: an unpaid basket, once, only with consent (67.10)"
+  },
+  {
+   "id": "collect_share_due",
+   "area": "money",
+   "trigger": "CollectShareDue",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "text",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "pay_share"
+   ],
+   "build_section": 7,
+   "note": "LynkCheckout: your share of a collect-from-many link is still to pay (67.10)"
+  },
+  {
+   "id": "digital_goods_ready",
+   "area": "orders",
+   "trigger": "DigitalGoodsDelivered",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "email"
+   ],
+   "sender": "receipts@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "open_item"
+   ],
+   "build_section": 7,
+   "note": "LynkCheckout: digital goods ready after the provider confirmed the payment (67.10)"
+  },
+  {
+   "id": "donor_receipt",
+   "area": "money",
+   "trigger": "DonorReceiptIssued",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "email"
+   ],
+   "sender": "receipts@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 7,
+   "note": "LynkCheckout: a donor receipt, only where the country's rules are confirmed (67.10)"
+  },
+  {
+   "id": "fix_my_payment",
+   "area": "money",
+   "trigger": "PaymentFailed",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "text",
+    "email"
+   ],
+   "sender": "billing@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "fix_payment"
+   ],
+   "build_section": 7,
+   "note": "LynkRecover: a payment did not go through, with a link to choose another way to pay (67.9)"
+  },
+  {
+   "id": "card_renewal_soon",
+   "area": "money",
+   "trigger": "CardRenewalSoon",
+   "audience": "person",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 7,
+   "note": "LynkVCard: a subscription on your card renews soon (67.11)"
+  },
+  {
+   "id": "dispute_deadline",
+   "area": "money",
+   "trigger": "DisputeDeadlineNear",
+   "audience": "merchant_owner",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "open_dispute"
+   ],
+   "build_section": 12,
+   "note": "LynkMPay: a disputed payment's evidence deadline is near (67.8)"
+  },
+  {
+   "id": "cold_goods_alert",
+   "area": "stock",
+   "trigger": "SensorThresholdCrossed",
+   "audience": "stock_staff",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": "7B",
+   "note": "LynkStock: a cold-goods sensor reports a temperature outside its range (67.3)"
+  },
+  {
+   "id": "usage_low",
+   "area": "home",
+   "trigger": "UsageLow",
+   "audience": "person",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 9,
+   "note": "LynkEssential: data or prepaid power is running low (67.13)"
+  },
+  {
+   "id": "split_bill_share",
+   "area": "home",
+   "trigger": "SplitBillRequested",
+   "audience": "person",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 9,
+   "note": "LynkEssential: your share of a split bill (67.13)"
+  },
+  {
+   "id": "api_end_of_life",
+   "area": "developers",
+   "trigger": "ApiVersionEndOfLife",
+   "audience": "developer",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "email"
+   ],
+   "sender": "developers@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 11,
+   "note": "LynkDev: an API version you use reaches its end-of-life date (67.12)"
   }
  ]
 }

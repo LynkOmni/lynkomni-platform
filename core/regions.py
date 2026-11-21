@@ -9,7 +9,10 @@ SERVICES = ["pos", "accountant", "invoicing", "crm", "inventory", "dashboard", "
             "attendance", "queue", "survey", "people_messages", "survey_voice", "survey_rewards",
             "voting", "vote_identity", "vote_seal", "vote_post", "files", "sign_identity", "sign_qualified", "file_scan", "booking", "exchange",
             "hr_checks", "tenant_screening", "exam_boards", "notary", "pensions", "deposit_protection", "rent_insurance", "property_listings",
-            "job_listings", "employer_of_record", "employment_services"]
+            "job_listings", "employer_of_record", "employment_services",
+            "chat_channels", "chat_calls", "pay_in_parts", "listing_sync", "outside_warehouses", "shop_plugins", "transport_bills", "government_fees"]
+# SERVICES UPDATE (67.18, section 4 row 67.17): the partner parts of the improved services, each off until its partner is signed
+# (services/services_partners.py). Delivery firms use "delivery"; phone wallets come through the card issuer ("vcard").
 # SIX SERVICES UPDATE (69.13, section 4 row 69.14): the six services' partner parts, each off until its partner is signed (services/six_partners.py).
 # EXCHANGE UPDATE (2026-11-18, section 4 step E4b): "exchange" (LynkExchange conversions and transfers) needs a licensed currency or
 # money-transfer partner per country and stays off until it is signed (services/exchange_partners.py; practice mode works everywhere).

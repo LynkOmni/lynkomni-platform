@@ -2161,6 +2161,1018 @@
     "sitemap"
    ],
    "section": 4
+  },
+  {
+   "id": "pos_shop_kinds",
+   "kind": "feature",
+   "what": "LynkPOS shop kinds: grocery with a scale, pharmacy with batches and expiry, fashion sizes and colours, electronics serial numbers, wholesale price lists, fuel and services, market stall",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "pos_gift_cards",
+   "kind": "feature",
+   "what": "Gift cards and store credit sold, topped up and spent at the till and online; the balance is the shop's debt, never held by LynkOmni",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "pos_hold_pay_later",
+   "kind": "feature",
+   "what": "Hold and pay later at the shop: an item kept against a deposit, with the balance and date on the receipt",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "pos_pre_orders",
+   "kind": "feature",
+   "what": "Pre-orders and special orders with a deposit and a message when the goods arrive",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "pos_scan_and_pay",
+   "kind": "feature",
+   "what": "Scan and pay yourself with your own phone; staff check a code at the door",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "pos_price_lists",
+   "kind": "feature",
+   "what": "Price lists and promotions by customer group, time of day, quantity, bundle or coupon, with a start and end",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "pos_tax_free",
+   "kind": "feature",
+   "what": "Tax-free and tax-exempt sales with the customer's tax number, where the country allows",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "pos_age_checked",
+   "kind": "feature",
+   "what": "Age-checked items: the cashier confirms the check before the sale; nothing about the person is stored",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "pos_cash_safety",
+   "kind": "feature",
+   "what": "Cash safety: cash moved to the safe, float limits and a loss report by reason",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "pos_item_rental",
+   "kind": "feature",
+   "what": "Rental of items by the hour or day, with a deposit and a return check, linked to LynkBooking",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 8
+  },
+  {
+   "id": "stock_tracing",
+   "kind": "feature",
+   "what": "Batch and serial tracing: where each came from and who bought it, and a recall list in one tap",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "stock_locations",
+   "kind": "feature",
+   "what": "Shelf locations and pick lists for a storeroom or warehouse, first expired first out",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "stock_labels",
+   "kind": "feature",
+   "what": "Labels and price tags with barcodes printed from the product list",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "stock_kits",
+   "kind": "feature",
+   "what": "Kits and recipes: selling a product lowers the stock of its parts",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "stock_cases_units",
+   "kind": "feature",
+   "what": "Cases and units: buy by the case, sell by the unit, with the conversion kept",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "stock_supplier_flows",
+   "kind": "feature",
+   "what": "Returns to suppliers, consignment, goods sent straight from the supplier and back-orders",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "stock_planned_counts",
+   "kind": "feature",
+   "what": "Planned counts: a few shelves each day instead of one big count",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "stock_arrival_checks",
+   "kind": "feature",
+   "what": "Checks on arrival: quantity, quality and expiry before stock is accepted",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "stock_slow_stock",
+   "kind": "feature",
+   "what": "Slow and dead stock reports with a suggested price cut",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "stock_outside_warehouses",
+   "kind": "feature",
+   "what": "Outside warehouses and delivery firms connected through the Partner Hub",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": "7B"
+  },
+  {
+   "id": "stock_cold_goods",
+   "kind": "feature",
+   "what": "Cold goods: temperature alerts from sensors through LynkGuard, when switched on",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": "7B"
+  },
+  {
+   "id": "rewards_levels",
+   "kind": "feature",
+   "what": "Reward levels such as Bronze, Silver and Gold, with the rules the business sets",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "rewards_stamps_cashback",
+   "kind": "feature",
+   "what": "Stamp cards, cashback as store credit, and birthday and surprise rewards",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "rewards_paid_clubs",
+   "kind": "feature",
+   "what": "Paid clubs: a membership the customer pays for, with its benefits",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "rewards_list_and_giving",
+   "kind": "feature",
+   "what": "A rewards list to choose from, and points given to a cause",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "rewards_rules",
+   "kind": "feature",
+   "what": "Reward rules: when points expire, limits per day and checks against cheating",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "rewards_family_pooling",
+   "kind": "feature",
+   "what": "Family pooling: one household earns together",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "rewards_shared_programmes",
+   "kind": "feature",
+   "what": "Shared programmes for a market, a mall or a franchise that choose to share",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "rewards_wallet_card",
+   "kind": "feature",
+   "what": "A rewards card in the phone's wallet and on the LynkOmni account, working offline",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "rewards_proof",
+   "kind": "feature",
+   "what": "Proof that rewards work: how much more members buy, in LynkStat",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "grow_campaign_calendar",
+   "kind": "feature",
+   "what": "A campaign calendar with the country's seasons and holidays, and ready ideas for each",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "grow_design_studio",
+   "kind": "feature",
+   "what": "A design studio: posters, price tags, menus, flyers and social pictures from the business's own logo and colours",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "grow_social_posting",
+   "kind": "feature",
+   "what": "Post to social pages through consented connectors, with one place to see the answers",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "grow_win_back",
+   "kind": "feature",
+   "what": "Win-back and reminders for customers who stopped coming and items back in stock, only with consent and quiet hours",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "grow_tracked_links",
+   "kind": "feature",
+   "what": "Tracked links and QR codes, so each poster or post shows what it brought",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "grow_listings",
+   "kind": "feature",
+   "what": "Keep the listing right everywhere: hours, address and phone sent to maps and search listings",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "grow_local_offers",
+   "kind": "feature",
+   "what": "Local offers on LynkOmni's own labelled surfaces, by the advertising rules",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "chat_channels",
+   "kind": "feature",
+   "what": "More channels in one inbox: social page messages and email beside LynkChat and text",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "chat_website_button",
+   "kind": "feature",
+   "what": "A chat button for the business's own website",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 5
+  },
+  {
+   "id": "chat_assistant_answers",
+   "kind": "feature",
+   "what": "Answers when nobody is there: LynkAssist answers from the business's own information, says so, and hands over to a person",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "chat_who_gets_which",
+   "kind": "feature",
+   "what": "Who gets which chat: rules by topic, language, branch and working hours, with promised answer times",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "chat_voice_calls",
+   "kind": "feature",
+   "what": "Voice calls from a chat through a call partner",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "chat_team_notes",
+   "kind": "feature",
+   "what": "Notes for the team on a customer's conversation, seen only by staff",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "chat_announcements",
+   "kind": "feature",
+   "what": "Announcements to customers who agreed to receive them, with an easy way to stop",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "chat_rating_reports",
+   "kind": "feature",
+   "what": "A rating after the chat through LynkSurvey, and chat reports in LynkStat",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "mpay_hold_charge_later",
+   "kind": "feature",
+   "what": "Hold now, charge later: an amount held and charged when the service is given, where the provider offers it",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 8
+  },
+  {
+   "id": "mpay_saved_ways",
+   "kind": "feature",
+   "what": "Saved ways to pay, kept by the provider, so a returning customer pays in one tap",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "mpay_pay_in_parts",
+   "kind": "feature",
+   "what": "Pay in parts through a licensed lender, who alone decides",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "mpay_local_ways",
+   "kind": "feature",
+   "what": "Every local way to pay the country pack lists: cards, mobile money, bank payments, phone wallets and the country's QR",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "mpay_disputes_desk",
+   "kind": "feature",
+   "what": "A disputes desk: every disputed payment, its deadline and its evidence pack from LynkProof",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 12
+  },
+  {
+   "id": "mpay_risk_signals",
+   "kind": "feature",
+   "what": "Risk signals: unusual patterns flagged to the provider, who alone decides",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 12
+  },
+  {
+   "id": "mpay_extra_charges",
+   "kind": "feature",
+   "what": "Extra-charge rules by country: an extra charge for a way of paying only where the law allows it",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "recover_plain_reasons",
+   "kind": "feature",
+   "what": "Plain reasons why a payment failed, with the next step",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "recover_better_timing",
+   "kind": "feature",
+   "what": "Retries at the times payments most often succeed for that way of paying",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "recover_fix_my_payment",
+   "kind": "feature",
+   "what": "Fix my payment: the customer chooses another way to pay from a link, with no account",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "recover_by_message",
+   "kind": "feature",
+   "what": "Recovery by message in the customer's language, by the channels they agreed to",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "recover_renewals",
+   "kind": "feature",
+   "what": "Renewals that do not lapse: a failed subscription or instalment follows LynkInv's stepped reminders",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "recover_offline_followed",
+   "kind": "feature",
+   "what": "Queued offline payments followed until confirmed or failed, never left hanging",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "checkout_one_page",
+   "kind": "feature",
+   "what": "A full one-page checkout with a basket, delivery choices, discount codes, a tip and tax by the buyer's country",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "checkout_buy_button",
+   "kind": "feature",
+   "what": "A Buy button for the business's own website and social pages",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 5
+  },
+  {
+   "id": "checkout_fundraising",
+   "kind": "feature",
+   "what": "Donation and fundraising pages: one-time and regular giving, a goal bar, donor receipts where confirmed",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "checkout_collect_from_many",
+   "kind": "feature",
+   "what": "Collect from many: one link for a group to pay their shares, with a list of who has paid",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "checkout_basket_reminders",
+   "kind": "feature",
+   "what": "Unpaid basket reminders, with consent",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "checkout_digital_goods",
+   "kind": "feature",
+   "what": "Digital goods delivered after the provider confirms, by the Storefront rules",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "checkout_address_help",
+   "kind": "feature",
+   "what": "Address help from LynkOmni's own places data, with or without street addresses",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "vcard_phone_wallet",
+   "kind": "feature",
+   "what": "Cards in the phone's wallet to tap and pay, where the issuer supports it",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 14
+  },
+  {
+   "id": "vcard_subscriptions",
+   "kind": "feature",
+   "what": "Subscriptions list: what each card pays every month, an alert before a renewal, a card closed for one supplier",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "vcard_travel_notice",
+   "kind": "feature",
+   "what": "Travel notice: tell the issuer where the card will be used",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "vcard_spending_rules",
+   "kind": "feature",
+   "what": "Spending rules in one place: who may spend what, where and when",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "vcard_disputes",
+   "kind": "feature",
+   "what": "Card disputes opened in the app and followed with the five states",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 7
+  },
+  {
+   "id": "dev_try_in_browser",
+   "kind": "feature",
+   "what": "Try every API call from the documentation in the browser",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 11
+  },
+  {
+   "id": "dev_webhook_history",
+   "kind": "feature",
+   "what": "Webhook history and resend, with the reason for each failure",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 11
+  },
+  {
+   "id": "dev_more_kits",
+   "kind": "feature",
+   "what": "More ready-made kits and a command-line tool",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 11
+  },
+  {
+   "id": "dev_plugins",
+   "kind": "feature",
+   "what": "Ready plugins for the common online-shop and website systems",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 11
+  },
+  {
+   "id": "dev_test_data",
+   "kind": "feature",
+   "what": "Test data on demand: a full sample business in one click",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 11
+  },
+  {
+   "id": "dev_app_review",
+   "kind": "feature",
+   "what": "App review and listing rules for LynkHub, with a checklist and answer time",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 11
+  },
+  {
+   "id": "dev_help_desk",
+   "kind": "feature",
+   "what": "A developer help desk and a public change list with end-of-life dates",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 11
+  },
+  {
+   "id": "dev_flow_templates",
+   "kind": "feature",
+   "what": "Automation templates on LynkFlow that need no code",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 11
+  },
+  {
+   "id": "ess_best_value",
+   "kind": "feature",
+   "what": "Best value finder: the cheapest data or airtime bundle for what you need",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 9
+  },
+  {
+   "id": "ess_top_up_abroad",
+   "kind": "feature",
+   "what": "Top up abroad: airtime or data to a number in another country, through the partner",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 10
+  },
+  {
+   "id": "ess_bill_calendar",
+   "kind": "feature",
+   "what": "Bill calendar and budget: what is due and when, with reminders and spending per bill",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 9
+  },
+  {
+   "id": "ess_split_bill",
+   "kind": "feature",
+   "what": "Split a bill in a household or shared home",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 9
+  },
+  {
+   "id": "ess_rent_dues",
+   "kind": "feature",
+   "what": "Rent and regular dues paid to a landlord or association through recurring collections",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 9
+  },
+  {
+   "id": "ess_transport_fees",
+   "kind": "feature",
+   "what": "Transport cards, tolls, parking and government fees, each through its partner",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 9
+  },
+  {
+   "id": "ess_usage_watch",
+   "kind": "feature",
+   "what": "Usage watch: data or prepaid power left, where the supplier shares it",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 9
+  },
+  {
+   "id": "ess_org_approvals",
+   "kind": "feature",
+   "what": "For organisations: approvals and one invoice for many top-ups and bills",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 9
+  },
+  {
+   "id": "ess_basic_phone",
+   "kind": "feature",
+   "what": "Every LynkEssential purchase by USSD or text on a basic phone, through the partner's confirmed channel",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 9
+  },
+  {
+   "id": "feedback_ideas_board",
+   "kind": "feature",
+   "what": "LynkFeedback ideas board: vote on ideas and see what is planned, in progress and done",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 5
+  },
+  {
+   "id": "status_per_country_partner",
+   "kind": "feature",
+   "what": "LynkStatus for each service, each country and each live partner",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 6
+  },
+  {
+   "id": "help_new_parts",
+   "kind": "feature",
+   "what": "Help articles and LynkAssist answers for every new part of sections 64 to 67, in all 38 languages",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 6
+  },
+  {
+   "id": "safety_marketplace_forms",
+   "kind": "feature",
+   "what": "LynkSafety report forms for bookings, money changers and fundraising pages",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 6
+  },
+  {
+   "id": "ads_advertiser_portal",
+   "kind": "feature",
+   "what": "The advertiser's own portal, advert review and advertiser invoices",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 12
   }
  ]
 }
