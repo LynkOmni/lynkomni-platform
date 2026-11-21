@@ -647,6 +647,8 @@
   "pager_base": "phone_message",
   "feedback_buttons": "screen_rating",
   "speaker": "screen_text",
-  "number_board": "screen_number"
+  "number_board": "screen_number",
+  "utility_meter": "meter_reading_entry",
+  "door_access": null
  }
 }

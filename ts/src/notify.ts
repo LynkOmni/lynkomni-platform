@@ -29,7 +29,7 @@ export function ranked(lines: Line[]): Line[] {
 }
 
 export type Filter = "all" | "unread" | string;     // or an area of the register (security, sales, stock ...)
-export const AREA_ICON: Record<string, string> = { security: "ui-lock", account: "ui-user", safety: "product-guard", selling: "ui-receipt", money: "ui-pay-wallet", stock: "product-stock", devices: "ui-settings", staff: "ui-user", support: "product-chat", assist: "product-assist", orders: "ui-cart", marketing: "ui-bell", agent: "ui-float", billing: "ui-receipt", bookings: "product-booking", developers: "product-dev", movement: "product-motion", office: "product-ledger", proof: "ui-doc", storefront: "ui-cart" };
+export const AREA_ICON: Record<string, string> = { security: "ui-lock", account: "ui-user", safety: "product-guard", selling: "ui-receipt", money: "ui-pay-wallet", stock: "product-stock", devices: "ui-settings", staff: "ui-user", support: "product-chat", assist: "product-assist", orders: "ui-cart", marketing: "ui-bell", agent: "ui-float", billing: "ui-receipt", bookings: "product-booking", developers: "product-dev", movement: "product-motion", office: "product-ops", proof: "ui-doc", storefront: "ui-cart" };
 const iconFor = (kind: string) => AREA_ICON[kindOf(kind)?.area ?? ""] ?? "ui-bell";
 
 function lineHtml(l: Line, t: T, icon: Icon, when: (ms: number) => string): string {

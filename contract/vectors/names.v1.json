@@ -172,7 +172,7 @@
    "brand_first": "LynkAcc (Accounting)",
    "plain_first": "Accounting (LynkAcc)",
    "part_of": null,
-   "icon": "product-ledger",
+   "icon": "product-acc",
    "spoken": "Link Ack",
    "similar": [
     "LynkOps",
@@ -186,7 +186,7 @@
    "brand_first": "LynkInv (Invoicing)",
    "plain_first": "Invoicing (LynkInv)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-inv",
    "spoken": "Link Inv",
    "similar": [
     "LynkOps",
@@ -201,7 +201,7 @@
    "brand_first": "LynkCRM (Customers)",
    "plain_first": "Customers (LynkCRM)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-crm",
    "spoken": "Link C R M",
    "similar": [
     "LynkOps",
@@ -215,7 +215,7 @@
    "brand_first": "LynkOps (Office bundle)",
    "plain_first": "Office bundle (LynkOps)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-ops",
    "spoken": "Link Ops",
    "similar": [
     "LynkAcc",
@@ -241,7 +241,7 @@
    "brand_first": "LynkStat (Analytics)",
    "plain_first": "Analytics (LynkStat)",
    "part_of": null,
-   "icon": "product-dash",
+   "icon": "product-stat",
    "spoken": "Link Stat",
    "similar": [
     "LynkOps",
@@ -394,7 +394,7 @@
    "brand_first": "LynkExchange (Currency exchange)",
    "plain_first": "Currency exchange (LynkExchange)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-exchange",
    "spoken": "Link Exchange",
    "similar": []
   },
@@ -403,7 +403,7 @@
    "brand_first": "LynkVote (Voting)",
    "plain_first": "Voting (LynkVote)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-vote",
    "spoken": "Link Vote",
    "similar": []
   },
@@ -412,7 +412,7 @@
    "brand_first": "LynkHR (Staff management)",
    "plain_first": "Staff management (LynkHR)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-hr",
    "spoken": "Link H R",
    "similar": [
     "LynkAttend"
@@ -423,7 +423,7 @@
    "brand_first": "LynkProject (Projects)",
    "plain_first": "Projects (LynkProject)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-project",
    "spoken": "Link Project",
    "similar": []
   },
@@ -432,7 +432,7 @@
    "brand_first": "LynkSchool (School management)",
    "plain_first": "School management (LynkSchool)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-school",
    "spoken": "Link School",
    "similar": [
     "LynkAcademy"
@@ -443,7 +443,7 @@
    "brand_first": "LynkAcademy (Courses & training)",
    "plain_first": "Courses & training (LynkAcademy)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-academy",
    "spoken": "Link Academy",
    "similar": [
     "LynkSchool"
@@ -454,7 +454,7 @@
    "brand_first": "LynkProperty (Property management)",
    "plain_first": "Property management (LynkProperty)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-property",
    "spoken": "Link Property",
    "similar": []
   },
@@ -463,7 +463,7 @@
    "brand_first": "LynkFiles (Documents & signing)",
    "plain_first": "Documents & signing (LynkFiles)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-files",
    "spoken": "Link Files",
    "similar": []
   },
@@ -472,7 +472,7 @@
    "brand_first": "LynkJobs (Jobs & hiring)",
    "plain_first": "Jobs & hiring (LynkJobs)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-jobs",
    "spoken": "Link Jobs",
    "similar": []
   },
@@ -573,7 +573,7 @@
    "brand_first": "LynkFAQ (Questions & answers)",
    "plain_first": "Questions & answers (LynkFAQ)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-faq",
    "spoken": "Link F A Q",
    "similar": [
     "LynkSupport",
@@ -585,7 +585,7 @@
    "brand_first": "LynkSupport (Help & support)",
    "plain_first": "Help & support (LynkSupport)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-support",
    "spoken": "Link Support",
    "similar": [
     "LynkFAQ",
@@ -597,7 +597,7 @@
    "brand_first": "LynkStatus (Service status)",
    "plain_first": "Service status (LynkStatus)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-status",
    "spoken": "Link Status",
    "similar": []
   },
@@ -606,7 +606,7 @@
    "brand_first": "LynkFeedback (Product feedback)",
    "plain_first": "Product feedback (LynkFeedback)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-feedback",
    "spoken": "Link Feedback",
    "similar": [
     "LynkSurvey"
@@ -617,7 +617,7 @@
    "brand_first": "LynkSafety (Safety & reporting)",
    "plain_first": "Safety & reporting (LynkSafety)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-safety",
    "spoken": "Link Safety",
    "similar": []
   },
@@ -626,7 +626,7 @@
    "brand_first": "LynkFlow (Automations)",
    "plain_first": "Automations (LynkFlow)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-flow",
    "spoken": "Link Flow",
    "similar": []
   },
@@ -644,7 +644,7 @@
    "brand_first": "LynkDriver (Hardware drivers)",
    "plain_first": "Hardware drivers (LynkDriver)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-driver",
    "spoken": "Link Driver",
    "similar": []
   },
@@ -653,7 +653,7 @@
    "brand_first": "LynkID (Account ID)",
    "plain_first": "Account ID (LynkID)",
    "part_of": null,
-   "icon": null,
+   "icon": "product-id",
    "spoken": "Link I D",
    "similar": []
   },
@@ -680,7 +680,7 @@
    "brand_first": "LynkAudit (Audit trail)",
    "plain_first": "Audit trail (LynkAudit)",
    "part_of": "LynkAcc",
-   "icon": "product-ledger",
+   "icon": "product-acc",
    "spoken": "Link Audit",
    "similar": []
   },

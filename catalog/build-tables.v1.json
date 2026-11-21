@@ -12,7 +12,9 @@
       "4"
      ],
      "part": "Groundwork first: the lynkbooking billing family with its tiers and limits, the LynkBooking Pass prices, the commission rules, addresses, placements, contract events and country settings (the price lock and the revenue model re-run are prepared in pull request #78 and are completed and merged here). Then: booking money in LynkAcc; deposits, passes and company bookings in LynkInv with one invoice; customers in LynkCRM; the busy-time forecast, empty-hours report and no-show numbers in LynkStat",
-     "done": {},
+     "done": {
+      "4": "v0.80.0"
+     },
      "progress": {
       "4": [
        "v0.48.0: the LynkBooking Pass prices, the business tiers, places, bundle and commission, locked in services/billing.py BOOKING_* with the price lock and the revenue model re-run",
@@ -109,7 +111,9 @@
       "4"
      ],
      "part": "Groundwork first: the lynkexchange billing family with its tiers, the Exchange levels, the price lock, addresses, places, contract events, the exchange tracker kind, country switches, practice partners and the revenue model re-run. Then: conversions and rate gains or losses in LynkAcc; pay invoices abroad in LynkInv; payees in LynkCRM; Exchange reports in LynkStat; proof of exchange as a verified document",
-     "done": {},
+     "done": {
+      "4": "v0.82.0"
+     },
      "progress": {
       "4": [
        "v0.49.0: the lynkexchange billing family with its tiers, the Exchange levels, the price lock, addresses, places and the revenue model",
@@ -505,11 +509,14 @@
       "4"
      ],
      "part": "Groundwork for all six: billing families, tiers, limits, the full price list and the price lock; addresses, placements, identifiers; contract events; tracker kinds; automations, messages and API register entries; sandbox partners and ledger entries; product illustrations; the revenue streams. The document engine of LynkFiles, because every service in section 4 stores and signs through it",
-     "done": {},
+     "done": {
+      "4": "v0.84.0"
+     },
      "progress": {
       "4": [
        "v0.49.0: the six billing families, tiers, limits, the full price list and the price lock; addresses, placements, API register entries, four first automations, product illustrations and the revenue streams; build sections 4B, 8B and 9B in the build order",
-       "v0.78.0: the document engine of LynkFiles (keeping, versions, legal hold, share links, signing at three levels with a code anyone can check, the audit log) with contract version 13, the signature tracker, its messages, automations, sandbox partners and ledger entries; the person's addresses /documents, /work, /school and /home"
+       "v0.78.0: the document engine of LynkFiles (keeping, versions, legal hold, share links, signing at three levels with a code anyone can check, the audit log) with contract version 13, the signature tracker, its messages, automations, sandbox partners and ledger entries; the person's addresses /documents, /work, /school and /home",
+       "v0.84.0: every 69.13 partner with its sandbox and ledger entry (services/six_partners.py: background checks, tenant screening, exam boards, notary, pensions, deposit protection, rent insurer, property sites, job sites, employer of record, public employment services); connected meters and door access as LynkDriver kinds; messages and automations registered in their sections. Identifiers and contract events of the five other services join the section that builds each one (decision of 2026-11-19 in step A1)"
       ]
      }
     },
@@ -822,7 +829,8 @@
      "done": {},
      "progress": {
       "4": [
-       "v0.55.0: 21 new tracker kinds registered with their build sections (bill to pay, expense claim, message delivery, signature request, approval, document request, verification, plan change, vote, dispute, held payment, pre-order, return, card request, journey, advert review, deposit return, report card, app review, purchase order, stock transfer), named in 38 languages; kinds whose identifier is chosen in their own section wait for it"
+       "v0.55.0: 21 new tracker kinds registered with their build sections (bill to pay, expense claim, message delivery, signature request, approval, document request, verification, plan change, vote, dispute, held payment, pre-order, return, card request, journey, advert review, deposit return, report card, app review, purchase order, stock transfer), named in 38 languages; kinds whose identifier is chosen in their own section wait for it",
+       "v0.83.0: the trackers planned for section 4 (bills to pay, expense claims, message delivery) and services that keep their own state feeding the tracker (from_service_events), which also fixes the invoice tracker"
       ]
      }
     },
@@ -1020,7 +1028,9 @@
       "4"
      ],
      "part": "The groundwork: the conversation engine and the registers (kinds, live signs, sounds, routing, links); the shared chat part with live signs, the five states, sounds and vibration; streaming answers; upload progress; masking of card numbers and codes; buttons and small forms; message details; \"Chat about this\" and the card method; LynkAcc, LynkInv, LynkCRM and LynkStat cards; the offline rules; the contract version; the chat screens already built moved onto it",
-     "done": {},
+     "done": {
+      "4": "v0.74.0"
+     },
      "progress": {
       "4": [
        "v0.64.0: the conversation engine and its registers: catalog/chat.v1.json (kinds, the five states, live signs, presence, sounds, routing, masking, offline rules and the card method) read by core/chat.py and ts/src/chat.ts with shared vectors; contract version 10 with the conversation events; every chat card linked in catalog/connections.v1.json; the chat tones and vibrations in the design tokens",
@@ -1128,7 +1138,9 @@
       "4"
      ],
      "part": "The groundwork: working shown, exact figures, \"how sure\"; protection against being tricked; memory with its controls; before-and-after previews, limits, second approver, per-role permission, the pause switch; \"Ask about this\"; warnings at the right moment; scorecards and release gates; the LynkAcc, LynkInv, LynkCRM and LynkStat skills",
-     "done": {},
+     "done": {
+      "4": "v0.74.0"
+     },
      "progress": {
       "4": [
        "v0.66.0: the trust layer: catalog/assist-trust.v1.json read by core/assist_trust.py and ts/src/assisttrust.ts with shared vectors (how sure, exact figures, never obeying content, memory with its controls, previews, samples, owner limits, the second approver, per-role permission, the pause switch, plans, practice, warnings, Ask about this targets, quality gates); the Business app's LynkAssist service uses it",
@@ -1372,7 +1384,8 @@
      "done": {},
      "progress": {
       "4": [
-       "v0.52.0: the groundwork: the ads register (catalog/ads.v1.json) as an allow-list of places, the ads service following it (seen-only impressions, the device-hour cap, the merchant's hosting switch for customer-facing places, advertiser blocking, relevance ranking, Why am I seeing this?, Report this ad with a pause after three shops, totals hidden below 5, age-sensitive categories, no ads for children or households) and its tests"
+       "v0.52.0: the groundwork: the ads register (catalog/ads.v1.json) as an allow-list of places, the ads service following it (seen-only impressions, the device-hour cap, the merchant's hosting switch for customer-facing places, advertiser blocking, relevance ranking, Why am I seeing this?, Report this ad with a pause after three shops, totals hidden below 5, age-sensitive categories, no ads for children or households) and its tests",
+       "v0.83.0: ad earnings recorded once a month (AdEarningsRecorded) and posted as income in LynkAcc"
       ]
      }
     },
@@ -1462,7 +1475,14 @@
       "4"
      ],
      "part": "Limits and registers for section 80",
-     "done": {}
+     "done": {
+      "4": "v0.84.0"
+     },
+     "progress": {
+      "4": [
+       "v0.84.0: LynkSchool's limits and registers for section 80 (catalog/school.v1.json read by core/school.py; the 80.13 tier features in billing: every kind of school, the school year, offline working and the safety rules on every tier, then Plus, Pro and Max)"
+      ]
+     }
     },
     {
      "sections": [
@@ -1642,8 +1662,10 @@
      "sections": [
       "4"
      ],
-     "part": "The names register and its words in 38 languages; every emulator marks every name; launchers with plain words; search by plain word; LynkAssist's \"What is ...?\"; basic phones plain first; plain words first in the account and the Business app; the checks (v0.79.0). The 15 improvements: product marks beside names, the first-time welcome card, \"now called\" search and one-time notices, how to say each name, brackets that step back, \"Which one do I need?\", plain words in messages, on LynkOmni's own bills and on printed receipts, Names A to Z in the app, the plain-word check, the confusion totals service, LynkAssist's comparisons, and the search register's plain-word data (v0.81.0). Still due in section 4: each Lynk name's own product mark released in lynkomni-icons and vendored (LynkAcc, LynkInv, LynkCRM, LynkOps, LynkStat, LynkExchange, LynkVote, LynkHR, LynkProject, LynkSchool, LynkAcademy, LynkProperty, LynkFiles, LynkJobs, LynkFAQ, LynkSupport, LynkStatus, LynkFeedback, LynkSafety, LynkFlow, LynkDriver, LynkID and LynkAudit's product; provider ledger ops_product_icons and product_marks_all), then named in catalog/names.v1.json",
-     "done": {}
+     "part": "The names register and its words in 38 languages; every emulator marks every name; launchers with plain words; search by plain word; LynkAssist's \"What is ...?\"; basic phones plain first; plain words first in the account and the Business app; the checks (v0.79.0). The 15 improvements: product marks beside names, the first-time welcome card, \"now called\" search and one-time notices, how to say each name, brackets that step back, \"Which one do I need?\", plain words in messages, on LynkOmni's own bills and on printed receipts, Names A to Z in the app, the plain-word check, the confusion totals service, LynkAssist's comparisons, and the search register's plain-word data (v0.81.0). Then, in v0.85.0: each Lynk name's own product mark released in lynkomni-icons and vendored (LynkAcc, LynkInv, LynkCRM, LynkOps, LynkStat, LynkExchange, LynkVote, LynkHR, LynkProject, LynkSchool, LynkAcademy, LynkProperty, LynkFiles, LynkJobs, LynkFAQ, LynkSupport, LynkStatus, LynkFeedback, LynkSafety, LynkFlow, LynkDriver, LynkID and LynkAudit's product; provider ledger ops_product_icons and product_marks_all), named in catalog/names.v1.json; LynkInv and LynkCRM joined the Business tab with their own marks",
+     "done": {
+      "4": "v0.85.0"
+     }
     },
     {
      "sections": [

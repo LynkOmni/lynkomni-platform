@@ -1183,7 +1183,7 @@ const PEOPLE_ITEM: Record<string, string> = { att_emulators: "emp_title", q_emul
   sv_setup: "ppl_setup_title", sv_after_payment: "ppl_after_payment", sv_surveys: "ppl_surveys", sv_results: "ppl_results", sv_add_device: "ppl_add_device", sv_new: "ppl_sv_new",
   sv_research: "ppl_sv_research", sv_tasks: "ppl_sv_call_back", sv_panel_home: "ppl_sv_rewards_panel", sv_kiosk_home: "ppl_sv_answering", sv_devices_home: "ppl_sv_devices" };
 const ACADEMY = ["lesson_first_sale", "lesson_stock", "lesson_cash", "lesson_credit", "lesson_proof"];
-const HUB_ICON: Record<string, string> = { reports: "product-dash", daily_close: "ui-receipt", money: "product-mpay", invoicing: "ui-doc", customers: "ui-user", loyalty: "product-rewards", books: "product-ledger",
+const HUB_ICON: Record<string, string> = { reports: "product-stat", daily_close: "ui-receipt", money: "product-mpay", invoicing: "product-inv", customers: "product-crm", loyalty: "product-rewards", books: "product-acc",
   growth: "product-grow", assistant: "ui-info", cards: "product-vcard", online_shop: "product-checkout", agent_earnings: "ui-commission", pickup_point: "ui-qr", attendance: "product-attend", queue: "product-queue", survey: "product-survey", team: "ui-user", branches_devices: "ui-grid", emulators: "ui-grid",
   plans_billing: "ui-receipt", settings: "ui-settings", academy: "ui-info", automations: "ui-sync" };
 // ---- BIZZ & DEVICE section 3: the Storefront side of the Business app, stock held at online checkout, and LynkDriver --------

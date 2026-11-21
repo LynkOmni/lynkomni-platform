@@ -87,6 +87,25 @@ class Ads:
             cur = e["payload"]["currency"]; out[cur] = out.get(cur, 0) + e["payload"]["amount_minor"]
         return out
 
+    def record_earnings(s, m, period):
+        """Once a month: the merchant's ad share for the period (YYYY-MM), per currency, written as AdEarningsRecorded and posted to
+        LynkAcc as other income (4200) held in the payments clearing account (1010) until the payout. Each period and currency once."""
+        done = {(e["payload"]["period"], e["payload"]["currency"]) for e in s.c.store.of(m, "AdEarningsRecorded")}
+        totals = {}
+        for e in s.c.store.of(m, "ad.share.earned"):
+            if e["ts"][:7] == period:
+                cur = e["payload"]["currency"]; totals[cur] = totals.get(cur, 0) + e["payload"]["amount_minor"]
+        shown = sum(1 for e in s.c.store.of(m, "ad.impression") if e["ts"][:7] == period)
+        out = []
+        for cur, amount in sorted(totals.items()):
+            if amount <= 0 or (period, cur) in done:
+                continue
+            s.c.store.append(m, "server", "AdEarningsRecorded", {"period": period, "amount": amount, "currency": cur, "impressions": shown})
+            if getattr(s, "books", None):
+                s.books._post_journal(m, "ads", [("1010", amount, 0), ("4200", 0, amount)], "lynkads")
+            out.append({"currency": cur, "amount": amount})
+        return out
+
     # person controls
     def why(s, cid, context=None):
         """Why am I seeing this? The answer names the screen's subject and country, never anything about the person."""

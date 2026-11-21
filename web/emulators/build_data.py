@@ -180,10 +180,10 @@ def language_packs(emulator):
 
 
 # The services shown in the merchant app's Business tab: (service in core.regions, product family name, icon).
-# LynkInv and LynkCRM join this list in build section 4, once their product icons are released in lynkomni-icons;
-# LynkStat keeps the product-dash icon until its own mark is released there in the same section (provider ledger: ops_product_icons).
-SERVICES = [("pos", "LynkPOS", "product-pos"), ("accountant", "LynkAcc", "product-ledger"), ("inventory", "LynkStock", "product-stock"),
-            ("dashboard", "LynkStat", "product-dash"), ("intelligence", "LynkGrow", "product-grow"), ("chat", "LynkChat", "product-chat"),
+# Every service has its own product mark (@lynkomni/icons 1.10.0, section 4).
+SERVICES = [("pos", "LynkPOS", "product-pos"), ("accountant", "LynkAcc", "product-acc"), ("invoicing", "LynkInv", "product-inv"),
+            ("crm", "LynkCRM", "product-crm"), ("inventory", "LynkStock", "product-stock"),
+            ("dashboard", "LynkStat", "product-stat"), ("intelligence", "LynkGrow", "product-grow"), ("chat", "LynkChat", "product-chat"),
             ("payments", "LynkMPay", "product-mpay"), ("paylinks", "LynkCheckout", "product-checkout"), ("loyalty", "LynkRewards", "product-rewards"),
             ("recovery", "LynkRecover", "product-recover"), ("vcard", "LynkVCard", "product-vcard"),
             ("movement", "LynkMotion", "product-motion"), ("movement", "LynkGuard", "product-guard"),     # NEW UPDATE 1: two plans on the one "movement" service

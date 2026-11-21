@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "agreed": "2026-11-19 (SCHOOL UPDATE, master blueprint section 80; limits and registers built in section 4, row 80.15)",
+ "rule": "LynkSchool serves every kind and level of school (80.1). A school picks its kind and sees only what it needs; prices, limits, events and rules never change by kind. The school year, grading, offline working and every safety rule are on every tier. Children's data serves only that child's schooling and is never used for advertising; a learner under 18 holds no account of their own; a child's photo goes only to that child's guardians with consent; court or school limits on a household are enforced. LynkAssist drafts and explains; a named person decides. Read through core/school.py; the screens come in sections 4B, 7B, 8, 8B, 9B, 13 and 14 (80.15).",
+ "kinds": {
+  "early_years": ["nursery", "day_care"],
+  "schools": ["primary", "secondary", "special_needs", "boarding", "international", "faith", "community"],
+  "further": ["technical", "vocational", "university", "college"],
+  "centres": ["language", "music", "arts", "sports", "driving", "tutoring"],
+  "other": ["home_schooling", "adult_literacy", "mobile", "refugee", "double_shift", "online_only"]
+ },
+ "kind_tier": {"further": "pro", "centres": "pro"},
+ "year": {"models": ["terms", "semesters", "sessions"], "from": "country pack (unknown until confirmed: the safe default is terms)", "grading": "any scale the school sets; report cards in up to two languages"},
+ "offline": ["school_keeper_device", "paper_with_qr_codes", "low_power"],
+ "every_tier": ["every_kind_of_school", "school_year", "offline_keeper", "safety_rules"],
+ "features_by_tier": {
+  "plus": ["learner_tools_full", "guardian_tools_full", "safety_tools_full", "meals", "transport", "school_property", "sponsors_and_grants"],
+  "pro": ["vocational_university_centres", "staff_and_quality"],
+  "max": ["ministries_and_groups"]
+ },
+ "children": {
+  "no_learner_account_under": 18,
+  "never": ["advertising", "a child's photo beyond that child's guardians without consent", "blocking a learner by itself (money is never a reason LynkSchool locks a learner out)", "a drop-out warning that is more than a flag for a named person"],
+  "limits_enforced": ["court_order", "school_restriction"]
+ },
+ "assist": {
+  "may": ["draft report comments for the teacher", "lesson plans from the country's curriculum", "a quiz from a lesson", "suggested marks the teacher confirms", "plain answers from the school's own records", "timetable and cover proposals for the head", "explain a report card simply to a guardian", "a revision plan"],
+  "never": ["grade", "admit", "promote", "discipline", "expel", "report on a child by itself", "see safeguarding, counselling or clinic notes", "talk with a child under 18 outside the school's or a guardian's account", "use a child's data for anything but that child's schooling"]
+ },
+ "partners": ["exam_boards", "learner_registers", "student_loans", "voice"],
+ "build": {"4": "limits and registers", "4B": "observations, appraisal and licence reminders with LynkHR", "7B": "bus routes and bus attendance", "8": "counselling, room, lab and facility booking", "8B": "work placements with LynkJobs", "9B": "everything else, with LynkAssist's skills of 80.16", "13": "LynkKiosk at the gate and library, LynkDScreen notice board", "14": "every device; final partner checks"}
+}
