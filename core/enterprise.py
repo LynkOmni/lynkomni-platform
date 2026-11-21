@@ -156,7 +156,7 @@ def check(kind, header, rows, decimals=2, date_format="iso", known=None, account
     idx = {c: i for i, c in enumerate(header)}
     get = lambda r, c: (r[idx[c]] if c in idx and idx[c] < len(r) else "")
     debit = credit = amount = 0
-    ref_col = {"chart": "code", "customers": "ref", "suppliers": "ref", "open_invoices": "number", "open_bills": "ref", "voters": "ref"}.get(kind)
+    ref_col = spec["ref"] if "ref" in spec else {"chart": "code", "customers": "ref", "suppliers": "ref", "open_invoices": "number", "open_bills": "ref", "voters": "ref"}.get(kind)
     for n, r in enumerate(rows, 1):
         for c in spec["required"]:
             if str(get(r, c)).strip() == "":
@@ -168,6 +168,20 @@ def check(kind, header, rows, decimals=2, date_format="iso", known=None, account
             seen.add(ref)
         if kind == "voters" and str(get(r, "weight")).strip() and not re.fullmatch(r"[1-9][0-9]{0,8}", str(get(r, "weight")).strip()):
             errors.append({"row": n, "column": "weight", "issue": "bad_weight"})
+        for c, t in spec.get("types", {}).items():                   # every service's files (67.15): typed columns
+            v = str(get(r, c)).strip()
+            if not v:
+                continue
+            if t == "amount" and (parse_amount(v, decimals) is None or parse_amount(v, decimals) < 0):
+                errors.append({"row": n, "column": c, "issue": "bad_amount"})
+            elif t == "whole" and not re.fullmatch(r"[0-9]{1,12}", v):
+                errors.append({"row": n, "column": c, "issue": "bad_number"})
+            elif t == "date" and parse_date(v, date_format) is None:
+                errors.append({"row": n, "column": c, "issue": "bad_date"})
+        for c, k in spec.get("known", {}).items():
+            v = str(get(r, c)).strip()
+            if v and known is not None and k in known and v not in known[k]:
+                errors.append({"row": n, "column": c, "issue": "unknown_ref"})
         if kind == "chart" and str(get(r, "type")).strip() and get(r, "type") not in TYPES:
             errors.append({"row": n, "column": "type", "issue": "unknown_type"})
         if kind == "opening_balances":

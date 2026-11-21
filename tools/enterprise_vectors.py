@@ -38,7 +38,12 @@ def build():
               {"kind": "open_invoices", "header": inv_h, "rows": inv[:1], "known": known, "decimals": 0},
               {"kind": "chart", "header": chart_h, "rows": chart},
               {"kind": "voters", "header": ["ref", "name", "group", "weight"], "rows": [["V1", "Ana", "north", "3"], ["V2", "Bo", "", ""], ["V1", "Ana again", "", "1"],
-                                                                              ["V3", "Cy", "", "0"], ["V4", "Di", "", "1.5"], ["V5", "", "", "x"]]}]
+                                                                              ["V3", "Cy", "", "0"], ["V4", "Di", "", "1.5"], ["V5", "", "", "x"]]},
+              {"kind": "products", "header": ["ref", "name", "price", "unit"], "rows": [["P1", "Rice 5 kg", "12,500", "bag"], ["P2", "Soap", "-3", ""], ["P1", "Twice", "1", ""], ["P3", "Oil", "1.2.3", ""]]},
+              {"kind": "stock_levels", "header": ["product_ref", "place", "quantity"], "rows": [["P1", "shop", "40"], ["P9", "", "3"], ["P1", "store", "2.5"], ["P1", "", ""]], "known": {"products": ["P1", "P2"]}},
+              {"kind": "points", "header": ["member_ref", "points"], "rows": [["M1", "120"], ["M1", "5"], ["M2", "-4"]], "known": {"members": ["M1", "M2"]}},
+              {"kind": "bookings", "header": ["ref", "customer_ref", "starts_on", "total"], "rows": [["B1", "C1", "2026-12-01", "45.00"], ["B2", "C7", "2026-02-30", "x"]], "known": {"customers": ["C1"]}},
+              {"kind": "payees", "header": ["ref", "name"], "rows": [["Y1", "Supplier"]]}]
     for c in checks:
         c["expect"] = E.check(c["kind"], c["header"], c["rows"], c.get("decimals", 2), "iso", c.get("known"), c.get("accounts"))
     return {"version": 1, "description": "The large-organisation set and Move in (OFFICE UPDATE 66.5, 66.6). core/enterprise.py is the reference.",

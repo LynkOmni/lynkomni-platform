@@ -83,6 +83,33 @@ class Services(unittest.TestCase):
         out = self.mi.leave("m1")
         self.assertIn("journal.csv", out); self.assertTrue(any(row[2] == "1020" for row in out["journal.csv"][1:]))
 
+    def test_every_service_has_its_flows_and_each_needs_its_own_max(self):
+        flows = E.ENT["approval_flows"]
+        self.assertTrue(all(d in flows["document_family"] for d in flows["documents"]), "every document names its service")
+        self.p.billing.set_plan("m1", "lynkacc", "max"); self.o.set_agreement("m1", True, "staff-1")
+        with self.assertRaises(PermissionError):
+            self.o.set_flow("m1", "stock_adjustment", [{"role": "manager"}])      # LynkStock is not on Max
+        self.p.billing.set_plan("m1", "lynkstock", "max")
+        self.assertEqual(self.o.set_flow("m1", "stock_adjustment", [{"role": "manager"}]), 1)
+
+    def test_every_service_moves_in(self):
+        self.p.billing.set_plan("m1", "lynkexchange", "plus")
+        r = self.mi.apply("m1", "products", ["ref", "name", "price"], [["P1", "Tea", "2500"], ["P2", "Rice", "10000"]], "u1")
+        self.assertEqual(r["applied"], 2); self.assertTrue(r["on_devices"])
+        self.assertEqual(self.mi.catalog_pack("m1")["products"][0]["price"], 2500, "a price is whole minor units")
+        self.assertEqual(self.mi.check("m1", "products", ["ref", "name", "price"], [["P3", "Tea", "2.50"]])["errors"][0]["issue"], "bad_amount", "francs have no cents")
+        bad = self.mi.check("m1", "stock_levels", ["product_ref", "quantity"], [["P9", "3"], ["P1", "2.5"]])
+        self.assertEqual(sorted(e["issue"] for e in bad["errors"]), ["bad_number", "unknown_ref"])
+        self.assertEqual(self.mi.apply("m1", "stock_levels", ["product_ref", "quantity"], [["P1", "12"]], "u1")["applied"], 1)
+        self.assertEqual(self.mi.apply("m1", "members", ["ref", "name", "email"], [["M1", "Ines", "i@club.rw"]], "u1", entity_kind="association")["applied"], 1)
+        self.mi.apply("m1", "points", ["member_ref", "points"], [["M1", "40"]], "u1")
+        earned = self.p.c.store.of("m1", "loyalty.earned")[-1]["payload"]
+        self.assertTrue(earned["customer"].startswith("LO"), "points follow the member's LynkCRM record")
+        self.assertNotIn("i@club.rw", str(self.p.c.store.since("m1")))
+        self.assertEqual(self.mi.apply("m1", "payees", ["ref", "name", "bank_details"], [["Y1", "Supplier Ltd", "IBAN-X"]], "u1")["applied"], 1)
+        self.assertNotIn("IBAN-X", str(self.p.c.store.since("m1")))
+        self.assertEqual(self.mi.apply("m1", "bookings", ["ref", "starts_on", "total"], [["B1", "2026-12-01", "15000"]], "u1")["applied"], 1)
+
 
 if __name__ == "__main__":
     unittest.main()
