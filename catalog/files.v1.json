@@ -1,0 +1,44 @@
+{
+ "version": 1,
+ "agreed": "2026-11-18 (SIX SERVICES UPDATE, master blueprint 69.7; the document engine built in section 4 step E3)",
+ "rule": "LynkFiles is the document engine every service stores and signs through, read only through core/files.py and ts/src/files.ts (python3 tools/files_vectors.py after a change). A file lives under the record it belongs to and follows that service's access rules; its content is checked by its bytes, never its name; every version is kept and fingerprinted; storage follows the plan; nothing under legal hold is deleted. A signature request goes to signers in order or together, on any phone without an account; identity-checked and qualified signatures go only through their licensed partners and are never shown as signed before the partner confirms. A signed document gets a code anyone can check, which shows only its fingerprint and whether it is complete, never who signed. A share link has its rights, an end date and, if set, a password; it can be stopped at once. Every open, change, share and signature is in the audit log.",
+ "record_kinds": {
+  "customer": "lynkcrm", "invoice": "lynkinv", "bill": "lynkacc", "expense": "lynkacc", "staff": "lynkhr", "project": "lynkproject",
+  "property": "lynkproperty", "school": "lynkschool", "deal": "lynkcrm", "other": "lynkfiles"
+ },
+ "kinds": ["bill", "receipt", "statement", "contract", "minutes", "certificate", "other"],
+ "content": {
+  "allowed": {
+   "pdf": "25504446",
+   "png": "89504e470d0a1a0a",
+   "jpeg": "ffd8ff",
+   "webp": "52494646",
+   "zip_office": "504b0304",
+   "text": null
+  },
+  "blocked_starts": ["4d5a", "7f454c46", "cafebabe", "feedfacf", "23212f"],
+  "max_mb": 200,
+  "rule": "The type is read from the first bytes. Programs (Windows, Linux and Mac programs, Java classes and scripts) are refused; text must be valid UTF-8 with no control characters other than tab and new line. Office files are zip files and are scanned by the scanning partner when it is signed; until then they are kept but not opened in a browser."
+ },
+ "signing": {
+  "levels": {
+   "simple": {"partner": null, "note": "A signer opens their own link, sees the whole document and signs; the link, the time and the device are recorded."},
+   "identity_checked": {"partner": "sign_identity", "note": "The licensed identity partner checks the signer first."},
+   "qualified": {"partner": "sign_qualified", "note": "Through a recognised trust-service partner where a country requires a qualified signature."}
+  },
+  "orders": ["in_order", "together"],
+  "max_signers": 50,
+  "link_days": 30,
+  "states": ["sent", "partly_signed", "completed", "declined", "expired", "cancelled"],
+  "code_groups": 3,
+  "code_group_length": 4
+ },
+ "sharing": {
+  "rights": ["view", "comment", "edit"],
+  "max_days": 365,
+  "default_days": 7,
+  "password_min": 8,
+  "rule": "A link always has an end date; downloading can be blocked and a watermark added; a person's own vault documents are shared for at most default_days unless they choose longer."
+ },
+ "audit": ["opened", "downloaded", "version_added", "shared", "share_stopped", "signature_requested", "signed", "declined", "hold_set", "hold_lifted", "deleted"]
+}

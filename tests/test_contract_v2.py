@@ -57,7 +57,7 @@ class Version2(unittest.TestCase):
             self.assertEqual(reg[cmd]["class"], "A"); self.assertTrue(reg[cmd]["offline"]["allowed"])
 
     def test_upcaster_reads_version_1_without_rewriting_it(self):
-        self.assertGreaterEqual(CURRENT, 12)                                                     # version 3 (2026-11-09) adds the side, version 4 (2026-11-10) the movement milestones, version 5 (MASTER UPDATE) the card request, version 6 (NEW UPDATE 4) LynkA, LynkQ and LynkS, version 7 (EMULATOR UPDATE) the Emulator Panel, version 8 (2026-11-19) removes WhatsApp, version 9 (section 4) adds the events of the section 4 links, version 10 (section 4) the conversation events, version 11 the office events, version 12 the voting events
+        self.assertGreaterEqual(CURRENT, 12)                                                     # version 3 (2026-11-09) adds the side, version 4 (2026-11-10) the movement milestones, version 5 (MASTER UPDATE) the card request, version 6 (NEW UPDATE 4) LynkA, LynkQ and LynkS, version 7 (EMULATOR UPDATE) the Emulator Panel, version 8 (2026-11-19) removes WhatsApp, version 9 (section 4) adds the events of the section 4 links, version 10 (section 4) the conversation events, version 11 the office events, version 12 the voting events, version 13 LynkFiles' document engine
         v1 = {"type": "PaymentRecorded", "schema_version": 1, "payload": {"payment_id": "x", "amount": 1500}}
         up = upcast(v1)
         self.assertEqual((up["schema_version"], up["payload"]["currency"], up["payload"]["amount"]), (CURRENT, "RWF", 1500))
@@ -65,7 +65,7 @@ class Version2(unittest.TestCase):
         sale = {"type": "SaleRecorded", "schema_version": 1, "payload": {"currency": "RWF", "total": 5}}
         self.assertEqual(upcast(sale)["payload"]["currency"], "RWF")
         self.assertIs(upcast(up), up)                                                            # already current
-        self.assertEqual(upcast({"type": "X", "schema_version": 12, "payload": {}})["schema_version"], 12)   # unknown: left for quarantine
+        self.assertEqual(upcast({"type": "X", "schema_version": CURRENT + 1, "payload": {}})["schema_version"], CURRENT + 1)   # unknown: left for quarantine
 
 
 if __name__ == "__main__": unittest.main()

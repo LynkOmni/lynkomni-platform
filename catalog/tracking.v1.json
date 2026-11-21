@@ -1523,6 +1523,64 @@
      ]
     }
    ]
+  },
+  {
+   "id": "signature_request",
+   "record": "DOC",
+   "key": "request_id",
+   "family": "lynkfiles",
+   "ui_section": 4,
+   "viewers": {
+    "merchant": "app.lynkomni.com/files",
+    "person": "account.lynkomni.com/documents"
+   },
+   "note": "A signature request in LynkFiles (contract version 13): sent, signed by each signer in turn, completed or declined. Signers see it through their own signing link; no signer's name is shown to another.",
+   "steps": [
+    {
+     "id": "sent_for_signing",
+     "state": "sent",
+     "customer": true,
+     "on": [
+      {
+       "event": "SignatureRequested"
+      }
+     ]
+    },
+    {
+     "id": "signed",
+     "state": "accepted",
+     "customer": true,
+     "again": true,
+     "on": [
+      {
+       "event": "DocumentSigned"
+      }
+     ]
+    },
+    {
+     "id": "completed",
+     "state": "confirmed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "event": "SignatureCompleted"
+      }
+     ]
+    },
+    {
+     "id": "declined",
+     "state": "failed",
+     "customer": true,
+     "terminal": true,
+     "optional": true,
+     "on": [
+      {
+       "event": "SignatureDeclined"
+      }
+     ]
+    }
+   ]
   }
  ],
  "planned": [
@@ -1603,12 +1661,6 @@
    "record": "NTF",
    "ui_section": 4,
    "note": "One message from the message register: queued, sent, delivered or failed, with the channel the person chose."
-  },
-  {
-   "id": "signature_request",
-   "record": "DOC",
-   "ui_section": "4B",
-   "note": "A signature request in LynkFiles: sent, viewed, signed by each signer, completed or declined."
   },
   {
    "id": "approval_route",

@@ -1026,6 +1026,77 @@
    "test": "tests/test_vote_service.py::test_a_federation_combines_only_published_branch_results",
    "build_section": 4,
    "status": "built"
+  },
+  {
+   "id": "files-no-programs",
+   "asset": "service",
+   "threat": "A program or script is uploaded under a harmless name and opened by someone",
+   "enforced_in": [
+    "core/files.py",
+    "ts/src/files.ts",
+    "services/files.py"
+   ],
+   "test": "tests/test_files.py::test_programs_are_refused_by_their_bytes_not_their_name",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "files-record-access",
+   "asset": "personal_data",
+   "threat": "A file opens for someone the record's own service would not let see that record",
+   "enforced_in": [
+    "services/files.py"
+   ],
+   "test": "tests/test_files.py::test_a_file_opens_only_where_its_records_service_allows",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "files-legal-hold",
+   "asset": "records",
+   "threat": "A file under legal hold is changed, shared or deleted",
+   "enforced_in": [
+    "services/files.py"
+   ],
+   "test": "tests/test_files.py::test_legal_hold_blocks_changes_sharing_and_deleting_and_stops_links",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "files-share-links",
+   "asset": "personal_data",
+   "threat": "A share link works forever, without its password, or after it was stopped, or its password is stored readable",
+   "enforced_in": [
+    "core/files.py",
+    "services/files.py"
+   ],
+   "test": "tests/test_files.py::test_share_links_end_need_their_password_and_stop_at_once",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "files-sign-what-was-seen",
+   "asset": "records",
+   "threat": "A signer signs a different version from the one they read, or out of turn",
+   "enforced_in": [
+    "core/files.py",
+    "services/files.py"
+   ],
+   "test": "tests/test_files.py::test_signers_follow_their_order_and_sign_what_they_saw",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "files-partner-signatures",
+   "asset": "records",
+   "threat": "An identity-checked or qualified signature is shown as signed before its partner confirms",
+   "enforced_in": [
+    "services/files.py",
+    "services/files_partners.py"
+   ],
+   "test": "tests/test_files.py::test_partner_signatures_wait_for_the_partner",
+   "build_section": 4,
+   "status": "built"
   }
  ]
 }

@@ -1857,6 +1857,110 @@
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
    ]
+  },
+  {
+   "id": "files_signer_identity",
+   "name": "Identity partner for identity-checked signatures in LynkFiles",
+   "kind": "identity",
+   "used_by": [
+    "sign_identity"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.files_partners:SignIdentity",
+   "sandbox": "services.files_partners:SandboxSignIdentity",
+   "needed_from_provider": [
+    "identity-check agreement per country",
+    "a yes or no answer for each signer, never the ID document itself",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/files_partners.py",
+     "token": "SandboxSignIdentity"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SIX SERVICES UPDATE 69.7: the middle signing level; simple signatures need no partner.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "files_qualified_signature",
+   "name": "Trust-service partner for qualified signatures in LynkFiles",
+   "kind": "trust_service",
+   "used_by": [
+    "sign_qualified"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.files_partners:QualifiedSign",
+   "sandbox": "services.files_partners:SandboxQualifiedSign",
+   "needed_from_provider": [
+    "recognised trust-service status in the country",
+    "qualified signatures by document fingerprint",
+    "the partner's confirmation of every signature",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/files_partners.py",
+     "token": "SandboxQualifiedSign"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SIX SERVICES UPDATE 69.7: only where a country requires a qualified signature (the same kind of partner as LynkVote's legal seal).",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
+  },
+  {
+   "id": "files_scanning",
+   "name": "Scanning partner for office files and archives in LynkFiles",
+   "kind": "scanning",
+   "used_by": [
+    "file_scan"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.files_partners:FileScan",
+   "sandbox": "services.files_partners:SandboxFileScan",
+   "needed_from_provider": [
+    "scanning agreement",
+    "scanning that keeps no copy of the file",
+    "a clear clean or not clean answer",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/files_partners.py",
+     "token": "SandboxFileScan"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "SIX SERVICES UPDATE 69.7: programs are always refused by their bytes; office files and archives are kept but open in a browser only after a clean scan.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
   }
  ],
  "later": [
@@ -2346,6 +2450,15 @@
    "why_not_now": "Blueprint 68.13: paper audits and the risk-limiting audit of large votes are checked by an independent election-audit firm.",
    "placeholders": [],
    "done_when": "An audit firm is signed through the Partner Hub and has checked a practice election end to end."
+  },
+  {
+   "id": "files_notary",
+   "name": "Notary through a licensed partner in LynkFiles",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Blueprint 69.7: notarised documents only through a licensed notary service where the law allows remote notarisation; the rules differ by country and need the lawyer (REMINDER item 9).",
+   "placeholders": [],
+   "done_when": "A licensed notary service is signed through the Partner Hub for a country whose law allows it, with its own adapter and tests."
   }
  ],
  "user_actions": [

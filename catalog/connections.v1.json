@@ -240,11 +240,11 @@
    "from": "lynkhr",
    "to": "lynkfiles",
    "what": "Offers and contracts signed through LynkFiles and kept in the staff file",
-   "events": [],
-   "planned_events": [
+   "events": [
     "SignatureRequested",
     "SignatureCompleted"
    ],
+   "planned_events": [],
    "consent": "person",
    "build_section": "4B"
   },
@@ -277,10 +277,10 @@
    "from": "lynkfiles",
    "to": "lynkcrm",
    "what": "A signed document is filed on the customer's record",
-   "events": [],
-   "planned_events": [
+   "events": [
     "SignatureCompleted"
    ],
+   "planned_events": [],
    "consent": "person",
    "build_section": "4B"
   },
@@ -446,11 +446,11 @@
    "from": "lynkproperty",
    "to": "lynkfiles",
    "what": "Leases from country templates signed through LynkFiles",
-   "events": [],
-   "planned_events": [
+   "events": [
     "SignatureRequested",
     "SignatureCompleted"
    ],
+   "planned_events": [],
    "consent": "person",
    "build_section": "9B"
   },

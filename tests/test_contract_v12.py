@@ -21,7 +21,7 @@ class ContractV12(unittest.TestCase):
     def test_built_from_v11_and_current(self):
         r = subprocess.run([sys.executable, str(ROOT / "contract" / "tools" / "build_v12.py"), "--check"], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertEqual(CURRENT, 12)
+        self.assertGreaterEqual(CURRENT, 12)                                  # version 13 (section 4, step E3) reads version 12 unchanged
 
     def test_only_the_new_events_are_added(self):
         self.assertEqual(set(V12["events"]) - set(V11["events"]), NEW)
@@ -56,11 +56,11 @@ class ContractV12(unittest.TestCase):
     def test_a_version_11_event_reads_as_version_12_unchanged(self):
         old = {"type": "LockDateSet", "schema_version": 11, "payload": {"date": "2026-10-31"}}
         up = upcast(old)
-        self.assertEqual((up["schema_version"], up["payload"]), (12, old["payload"]))
+        self.assertEqual((up["schema_version"], up["payload"]), (CURRENT, old["payload"]))
         self.assertEqual(old["schema_version"], 11, "the stored event is never rewritten")
 
     def test_a_cloud_tally_validates_and_a_choice_is_refused(self):
-        ok = {"event_id": uuid7(), "origin": "server", "merchant_id": MERCHANT, "type": "TallyPublished", "schema_version": 12,
+        ok = {"event_id": uuid7(), "origin": "server", "merchant_id": MERCHANT, "type": "TallyPublished", "schema_version": CURRENT,
               "created_at_server": ts(), "server_cursor": 1, "server_signature": fake_sig(),
               "payload": {"vote_id": uuid7(), "results_sha256": "a" * 64, "proofs_sha256": "b" * 64, "trustees": 2}}
         self.assertEqual(validate_event(ok), [])
