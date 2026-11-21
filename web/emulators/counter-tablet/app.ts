@@ -33,7 +33,7 @@ import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
 import { tabsHtml } from "../../../ts/src/appshell.js";
 import { NAV } from "../../../ts/src/navigation.generated.js";
 import { layoutFor } from "../../../ts/src/interfaces.js";
-import { applyLayout } from "../../../ts/src/turn.js";
+import { applyLayout, turnedShape } from "../../../ts/src/turn.js";
 import { watchNames } from "../../../ts/src/names.js";
 
 declare const DATA: Build & { entitlements: Record<string, PosEntitlement>; fx: Record<string, number> };
@@ -157,7 +157,8 @@ const DSH = panelShell({
 const CRUMB: Record<string, string> = { "/": "sample_shop", "/sell": "sell", "/stock": "stock", "/business": "business", "/sell/payment": "pay", "/sell/receipt": "receipt", "/sell/shifts": "count_cash", "/sell/tables": "tables", "/sell/kitchen": "kitchen", "/business/team": "staff", "/business/daily-close": "day_close", "/crm": "customers" };
 function syncPanel(): void { ($("#cLang") as HTMLSelectElement).value = S.lang; ($("#cDark") as HTMLInputElement).checked = S.dark; ($("#cOnline") as HTMLInputElement).checked = S.online; }
 /** The counter tablet is a tablet on its side, fixed at the counter (catalog/devices.v1.json shapes). */
-const counterLayout = () => layoutFor(DEVICES, { interface: "tablet.touch", width: 1024, height: 768, device: "wall-tablet" });
+let TURN: "upright" | "sideways" = "sideways";      // TURN UPDATE 76.8: on its side at the counter by default, tried upright too
+const counterLayout = () => layoutFor(DEVICES, turnedShape(TURN === "sideways" ? "upright" : "sideways", { interface: "tablet.touch", width: 1024, height: 768, device: "wall-tablet" }));
 function tabBar(): string {
   const tabs = TABS[S.type];
   const ic: Record<string, string> = { home: "ui-home", sell: "ui-cart", stock: "product-stock", chats: "product-chat", business: "ui-grid", tables: "ui-grid", kitchen: "ui-bolt", invoices: "ui-doc", customers: "ui-user", services: "ui-grid", float: "ui-float" };
@@ -318,7 +319,7 @@ function drawScreen(): void {
   const screen = $("#screen"), app = screen.querySelector(".app") as HTMLElement; DM.apply(screen);
   screen.classList.toggle("light", !S.dark); screen.classList.toggle("dark", S.dark); screen.classList.toggle("lowlit", DSH.pictures); applyRoot(screen, W);
   const cs = $("#cscreen"); cs.classList.toggle("light", !S.dark); cs.classList.toggle("dark", S.dark); applyRoot(cs, W);
-  applyLayout(app, counterLayout());
+  applyLayout(app, counterLayout()); document.querySelector(".counter")?.setAttribute("data-turn", TURN);
   app.innerHTML = `${top(t("sample_shop"))}<div class="mid">${S.unlocked && ["main", "shift", "dayclose"].includes(S.view) ? tabBar() : ""}<div class="body">${page()}</div></div>${S.flash ? `<div class="toast" role="status">${esc(S.flash)}</div>` : ""}${DSH.overlay()}`;
   const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address();
   cs.innerHTML = customerDisplay();
@@ -391,7 +392,7 @@ function act(a: string): void {
 function bindPanel(): void {
   const set = (id: string, text: string): void => { const el = document.getElementById(id); if (el) el.textContent = text; };
   set("pTry", t("try_it")); set("pHelp", `${t("sandbox_note")} PIN 1234.`); set("pCond", t("conditions")); set("lOnline", t("internet")); set("lFail", t("provider_declines")); set("lType", t("business_type")); set("lPlan", t("plan"));
-  set("lCountry", t("country")); set("lReal", t("real_user")); set("lPractice", t("practice_mode")); set("lDark", t("dark_screen")); set("lLang", t("language")); set("pLog", t("event_log"));
+  set("lCountry", t("country")); set("lReal", t("real_user")); set("lPractice", t("practice_mode")); set("lDark", t("dark_screen")); set("lTurn", t("screen_turn")); { const o = ($("#cSize") as HTMLSelectElement).options; o[0]!.textContent = t("turn_sideways"); o[1]!.textContent = t("turn_upright"); } set("lLang", t("language")); set("pLog", t("event_log"));
   $("#cType").innerHTML = BUSINESS_TYPES.map((x) => `<option value="${x}" ${x === S.type ? "selected" : ""}>${esc(t(`type_${x}`))}</option>`).join("");
   $("#cPlan").innerHTML = TIERS.map((x) => `<option value="${x}" ${x === S.tier ? "selected" : ""}>${esc(t(`card_${x}`))}</option>`).join("");
   $("#cCountry").innerHTML = C.options(t("sample_country"));
@@ -411,6 +412,7 @@ function main(): void {
   $("#cReal").addEventListener("change", (e) => { S.realUser = (e.target as HTMLInputElement).checked; draw(); });
   $("#cPractice").addEventListener("change", (e) => { S.practice = (e.target as HTMLInputElement).checked; draw(); });
   $("#cDark").addEventListener("change", (e) => { S.dark = (e.target as HTMLInputElement).checked; draw(); });
+  $("#cSize").addEventListener("change", (e) => { TURN = (e.target as HTMLSelectElement).value === "upright" ? "upright" : "sideways"; draw(); fitToWidth($("#rig"), TURN === "upright" ? 560 : 740); });
   $("#cType").addEventListener("change", (e) => { S.type = pick(BUSINESS_TYPES, (e.target as HTMLSelectElement).value, "shop"); S.tab = S.type === "restaurant" ? "tables" : "home"; S.view = "main"; draw(); });
   $("#cPlan").addEventListener("change", (e) => { S.tier = pick(TIERS, (e.target as HTMLSelectElement).value, "plus"); draw(); });
   $("#cCountry").addEventListener("change", (e) => { S.country = pick(DATA.packOrder, (e.target as HTMLSelectElement).value, S.country); draw(); });

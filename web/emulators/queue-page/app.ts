@@ -3,6 +3,8 @@
  *  plan and the country's partner allow), follow the place in the queue, Running late once, Leave queue, "Please come now", and the
  *  place's public queue page. The buttons beside it play reception and the counters. Never a name; the phone number is never shown. */
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, panelChange, panelHtml, stateButtons } from "../../../ts/src/emulator.js";
+import { layoutFor } from "../../../ts/src/interfaces.js";
+import { applyLayout, turnedShape } from "../../../ts/src/turn.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
@@ -30,6 +32,8 @@ const DEV = wireDevice(DM, { t, icon: (id) => icon(id), screen: () => document.g
 
 function draw(): void {
   const el = $("#screen"); DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W);
+  const turned = S.turn ?? "upright"; document.querySelector(".phone")?.setAttribute("data-turn", turned);   // TURN UPDATE 76.8
+  applyLayout(el, layoutFor(DEVICES, turnedShape(turned, { interface: "phone.touch", width: 390, height: 844 })));
   Q.tier = S.tier as AtTier;
   const tabs = `<div class="qp-tabs" role="tablist">${(["ticket", "public"] as const).map((k) => `<button type="button" role="tab" aria-selected="${S.tab === k}" data-act="tab:${k}">${esc(t(`qp_tab_${k}`))}</button>`).join("")}</div>`;
   el.innerHTML = `<p class="qp-addr" dir="ltr">shop.lynkomni.com/sample.place/queue</p>${tabs}<div class="qp-body" role="tabpanel">${S.tab === "ticket" ? quPhoneView(Q, look()) : quPublicView(Q, look())}${S.online ? "" : `<p class="notice" role="status">${esc(t("qp_offline"))}</p>`}</div>${Q.plan.own_logo ? "" : look().powered}`;
@@ -43,7 +47,7 @@ function act(a: string): void {
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "plan", "country", "dark", "lang"], S, W, C, { tiers: TIERS })
+  $("#panel").innerHTML = panelHtml(["online", "plan", "country", "dark", "lang", "turn"], S, W, C, { tiers: TIERS })
     + `<div class="ctl-extra"><label><input type="checkbox" data-kctl="only" ${Q.joinFrom === "only_at_the_place" ? "checked" : ""}> <span>${esc(t("ppl_qu_join_only_at_the_place"))}</span></label>
       <label><input type="checkbox" data-kctl="public" ${Q.publicPage ? "checked" : ""}> <span>${esc(t("ppl_qu_public"))}</span></label></div>`;
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
@@ -74,6 +78,7 @@ function main(): void {
   });
   window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); }, 400);
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 380);
+  $("#panel").addEventListener("change", () => fitToWidth($("#rig"), S.turn === "sideways" ? 700 : Number($("#rig").dataset["width"]) || 380));
 }
 main();
 /** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */

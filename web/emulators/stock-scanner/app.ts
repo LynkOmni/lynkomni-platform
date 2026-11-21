@@ -2,6 +2,8 @@
  *  delivery (StockReceived) and adjust (StockAdjusted) by scanning, fully offline and queued; low and negative stock are shown
  *  with words, never by colour alone, and a negative level is a fact for the owner (the cloud flags it), never a block. */
 import { qtyText } from "../../../ts/src/pos.js";
+import { layoutFor } from "../../../ts/src/interfaces.js";
+import { applyLayout, turnedShape } from "../../../ts/src/turn.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import { stockState } from "../../../ts/src/merchant.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, stateButtons } from "../../../ts/src/emulator.js";
@@ -76,7 +78,10 @@ function screen(): string {
 const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "stock.scanner", "Scanner", { short_side: 360, touch: true, keys: true, camera: true, speaker: true, hardware: ["scanner"] }, "android"), (type, payload, origin) => { LOG.emit(type, payload, origin); });
 const KW = wireKit(KIT, { t, icon: (id) => icon(id), online: () => S.online, redraw: () => draw() });
 function draw(): void { drawScreen(); KW.after($("#screen")); }
-function drawScreen(): void { const el = $("#screen"); if (!el) return; DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W); el.innerHTML = screen() + DSH.overlay(); const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address(); }
+function drawScreen(): void { const el = $("#screen"); if (!el) return; DEV.draw(el);
+  const turned = DM.touch() ? S.turn ?? "upright" : "upright"; document.querySelector(".gun")?.setAttribute("data-turn", turned);   // TURN UPDATE 76.8: the touch version turns
+  applyLayout(el, layoutFor(DEVICES, turnedShape(turned, { interface: "phone.touch", width: 390, height: 844 })));
+  el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W); el.innerHTML = screen() + DSH.overlay(); const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address(); }
 function act(a: string): void {
   const [k = "", v = ""] = a.split(":");
   if (k === "pick") { const x = ITEMS.find((i) => i.id === v); if (x) { S.cur = x.id; S.qty = 1; } }
@@ -86,7 +91,7 @@ function act(a: string): void {
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang"], S, W, C) + DEV.control();
+  $("#panel").innerHTML = panelHtml(DM.touch() ? ["online", "country", "dark", "lang", "turn"] : ["online", "country", "dark", "lang"], S, W, C) + DEV.control();
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["list", "count", "receive", "adjust"], (k) => { if (k === "list") S.cur = ""; else { S.mode = k as Mode; S.cur = ITEMS[3]!.id; S.qty = 1; } draw(); });
 }
@@ -97,7 +102,7 @@ function main(): void {
   document.addEventListener("keydown", (e) => { if (DSH.key(e)) return; DEV.key(e); });
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
   $("#trigger").addEventListener("click", scan);
-  $("#panel").addEventListener("change", (e) => { if (DEV.change(e.target as HTMLElement)) return; if (panelChange(e.target as HTMLSelectElement, S, DATA)) panel(); draw(); });
+  $("#panel").addEventListener("change", (e) => { if (DEV.change(e.target as HTMLElement)) { panel(); return; } if (panelChange(e.target as HTMLSelectElement, S, DATA)) panel(); draw(); fitToWidth($("#rig"), S.turn === "sideways" && DM.touch() ? 600 : Number($("#rig").dataset["width"]) || 420); });
   window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); }, 400);
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 420);
 }

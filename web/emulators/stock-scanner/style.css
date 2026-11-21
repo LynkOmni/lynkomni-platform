@@ -37,3 +37,7 @@ em { font-style: normal; font-weight: 700; color: var(--status-warning-text); }
 .gun > .mark { position: absolute; bottom: 20px; width: 14px; color: var(--on-device-key); opacity: .6; }
 .mark svg { width: 100%; height: auto; display: block; }
 .shead { flex-wrap: wrap; gap: 4px; }
+
+/* TURN UPDATE 76.8: the touch scanner turned sideways keeps every screen; only the shape changes */
+.gun[data-turn="sideways"], .gun[data-turn="sideways"] .gbody { width: 560px; }
+.gun[data-turn="sideways"] .sscreen { height: 220px; }

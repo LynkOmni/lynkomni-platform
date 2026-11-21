@@ -13,7 +13,8 @@ import { Tracking } from "../../../ts/src/tracking.js";
 import type { View as TrackView } from "../../../ts/src/tracking.js";
 import { REGISTER } from "../../../ts/src/tracking.generated.js";
 import { trackerHtml } from "../../../ts/src/trackview.js";
-import { browserFacts, chooseInterface } from "../../../ts/src/interfaces.js";
+import { browserFacts, chooseInterface, layoutFor } from "../../../ts/src/interfaces.js";
+import { applyLayout } from "../../../ts/src/turn.js";
 import type { Choice } from "../../../ts/src/interfaces.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { arrowNav, gestures } from "../../../ts/src/gestures.js";
@@ -52,7 +53,7 @@ type Overlay = null | "launcher" | "account" | "globe" | "cmd" | "help" | "bell"
 /** The views a browser can show the account site in (DEVICE, 48.17); the size follows the chosen view. */
 const VIEWS = ["universal", "phone.touch", "tablet.touch", "computer.touch", "computer.pointer"] as const;
 const SIZE_OF_CLASS: Record<string, Viewport> = { phone: "phone", watch: "phone", voice: "phone", tablet: "tablet", eink: "tablet", computer: "computer", tv: "computer" };
-const TEST_VIEW: Record<string, string> = { computer: "computer.pointer", tablet: "tablet.touch", phone: "phone.touch" };
+const TEST_VIEW: Record<string, string> = { computer: "computer.pointer", tablet: "tablet.touch", phone: "phone.touch", phone_side: "phone.touch" };
 type Screen = "signin" | "signup" | "recover" | Page;
 const SCREENS: Screen[] = ["signin", "signup", "recover", ...PAGES];
 /** Sample credential ids in the one public id format (core/ids.py: valid check digits; tests/test_emulators.py checks every id written here). */
@@ -499,7 +500,9 @@ function draw(): void {
   const nav = signedIn() ? navigation(items, S.size, t, icon) : "";
   const toasts = S.undo.openToasts(Date.now()).map((u) => undoToast(u, Date.now(), t, icon)).join("");
   d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main">${crumbs()}${page()}<div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))} <span class="deeplink">account.lynkomni.com${esc(screenPath())}</span></div>${appFooter()}</main></div>${S.size === "phone" ? nav : ""}${overlay()}<div class="toasts">${toasts}</div></div>`;
-  $("#device").className = `device ${S.size}`;
+  const side = S.testSize === "phone_side" && S.size === "phone";      // TURN UPDATE 76.8: the phone turned sideways (844 by 390)
+  $("#device").className = `device ${S.size}${side ? " side" : ""}`;
+  if (S.testSize !== "auto") applyLayout(d, layoutFor(DEVICES, { interface: S.choice.interface, ...(side ? { width: 844, height: 390 } : { width: { computer: 1280, tablet: 800, phone: 390 }[S.size] ?? 1280, height: { computer: 800, tablet: 1280, phone: 844 }[S.size] ?? 800 }) }));
   $("#tab").className = `tab ${S.theme}`;                       // the tab and its icon follow the page theme (brand surface "favicon")
   $("#url").textContent = `https://account.lynkomni.com${screenPath()}`;
   $("#tabTitle").textContent = t("site_title");
@@ -728,7 +731,7 @@ function act(a: string): void {
 
 function init(): void {
   const bind = (sel: string, fn: (el: HTMLInputElement) => void) => $<HTMLInputElement>(sel).addEventListener("change", (e) => fn(e.target as HTMLInputElement));
-  bind("#cSize", (el) => { S.testSize = pick(["auto", "computer", "tablet", "phone"], el.value, S.testSize); S.overlay = null; draw(); });
+  bind("#cSize", (el) => { S.testSize = pick(["auto", "computer", "tablet", "phone", "phone_side"], el.value, S.testSize); S.overlay = null; draw(); });
   bind("#cLink", (el) => { S.link = pick(["good", "weak", "offline"] as Link[], el.value, S.link); draw(); });
   bind("#cDark", (el) => { S.theme = el.checked ? "dark" : "light"; draw(); });
   bind("#cMode", (el) => { S.mode = pick(["", "lite", "sunlight"] as ("" | "lite" | "sunlight")[], el.value, S.mode); draw(); });
@@ -768,7 +771,7 @@ function init(): void {
     swipeDown: (el) => { if (S.overlay && el.closest(".overlay")) { S.overlay = null; draw(); } },
     longPress: (el) => { if (el.closest(".navitem")) { S.overlay = "help"; draw(); } },
   }, () => $("#display").dir === "rtl");
-  const fit = () => { const w = $("#rig").clientWidth - 8, dev = { computer: 1280, tablet: 800, phone: 390 }[S.size] ?? 1280; document.documentElement.style.setProperty("--fit", String(Math.min(1, w / dev))); };
+  const fit = () => { const w = $("#rig").clientWidth - 8, dev = S.testSize === "phone_side" ? 844 : { computer: 1280, tablet: 800, phone: 390 }[S.size] ?? 1280; document.documentElement.style.setProperty("--fit", String(Math.min(1, w / dev))); };
   new ResizeObserver(fit).observe($("#rig")); fit();
   bind("#cSize", () => fit());
   window.setInterval(() => { if (S.undo.openToasts(Date.now()).length || $(".toasts").children.length) draw(); }, 1000);

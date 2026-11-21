@@ -2,6 +2,12 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.91.0 (2026-11-21)
+Section 4 review, sixth part (row 76.8, turning every screen already built):
+- Every emulator of a device a person can turn now offers both directions: the rider phone, the tracking, queue and survey pages on a phone, the touch version of the stock scanner and the account site on a phone can be turned sideways, and the counter tablet can stand upright. The layout comes from the device register as on the Business app; nothing on the screen is redrawn, lost or repeated.
+- The fit guard tries every one of them both ways, and a new check fails if a turnable emulator stops offering both.
+- Build-table row 76.8 is done, and row 70.16's section 4 share too: no office service built in section 4 uses emulators, so none needs a panel entry; LynkFiles' panel entry and its signing tablet come with LynkFiles' screens in 4B.
+
 ## v0.90.0 (2026-11-21)
 Section 4 review, fifth part (row 68.14, LynkVote's mirrors):
 - The public list of locked ballots is copied to every independent witness's mirror as ballots arrive, and the cloud checks each copy against its own list. A difference is flagged once for the organiser and observers (mirror_mismatch); nothing is ever removed. The witnesses are sandboxes until the owner chooses and signs real ones, and the public page says "witnessed" only after that.
@@ -519,6 +525,7 @@ Section 4, part 1a (prices first, as agreed when section 4 was planned):
 - Revenue a month is now $21,632, $1,413,452 and $46,046,891 at the three stages. Every figure is an assumption about how many businesses choose each plan.
 - 2026-11-19: Leftover adjusted in section 4: LynkBooking counts its devices by its own places (like LynkAttend, LynkQueue and LynkSurvey), so its $6 extra device price from section 3A is removed; extra places are bought at the LynkBooking place price instead.
 - 2026-11-19: Leftover adjusted in section 4: the bill test's lowest allowed bundle price (a bundle never drops below 59% of its services bought one by one) was set for the old prices; it now fits the new ones.
+
 ## v0.47.4 (2026-11-19)
 Fixes the owner found on a phone, and a check so they cannot come back:
 - Side menus (Account and every screen built on the shared shell): on a tablet the narrow side menu squeezed 23 items into the screen's height, so labels were cut at the bottom and the sides ("Secur", "Notifi"). A long menu now scrolls, every item keeps its full height, and a long name goes onto a second line. The same for the computer side menu, the phone's bottom tabs (names were cut with "…" on small phones) and the Business app's tablet side rail.

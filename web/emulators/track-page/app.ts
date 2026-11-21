@@ -5,6 +5,9 @@
  *  position; live progress is a share of the trip. "Tell me each step" records how the customer wants to hear (by text message or
  *  in chat), in their language; offline, the page keeps the last known step and says so. */
 import type { UserState } from "../../../ts/src/pos.js";
+import { layoutFor } from "../../../ts/src/interfaces.js";
+import { applyLayout, turnedShape } from "../../../ts/src/turn.js";
+import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, publicId, stateButtons, appShortFooter } from "../../../ts/src/emulator.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
@@ -62,6 +65,8 @@ function page(): string {
 }
 function draw(): void {
   const el = $("#screen"); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = page();
+  const turned = S.turn ?? "upright"; document.querySelector(".phone")?.setAttribute("data-turn", turned);   // TURN UPDATE 76.8
+  applyLayout(el, layoutFor(DEVICES, turnedShape(turned, { interface: "phone.touch", width: 390, height: 844 })));
   const a = document.getElementById("address"); if (a) a.textContent = `shop.lynkomni.com/track/${PUBLIC}`;
 }
 function act(a: string): void {
@@ -73,7 +78,7 @@ function act(a: string): void {
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang"], S, W, C);
+  $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang", "turn"], S, W, C);
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), STAGES, (k) => { S.stage = (STAGES as readonly string[]).includes(k) ? (k as Stage) : "on_the_way"; S.channel = ""; draw(); });
 }
@@ -81,7 +86,7 @@ function main(): void {
   S.country = DATA.packOrder[0] ?? "";
   panel(); draw();
   document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (b && !b.hasAttribute("disabled")) act(b.dataset["act"] ?? ""); });
-  $("#panel").addEventListener("change", (e) => { if (panelChange(e.target as HTMLSelectElement, S, DATA)) panel(); draw(); });
+  $("#panel").addEventListener("change", (e) => { if (panelChange(e.target as HTMLSelectElement, S, DATA)) panel(); draw(); fitToWidth($("#rig"), S.turn === "sideways" ? 800 : Number($("#rig").dataset["width"]) || 400); });
   window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); }, 400);
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 400);
 }

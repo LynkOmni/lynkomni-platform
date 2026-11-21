@@ -117,8 +117,8 @@ export function fitToWidth(rig: HTMLElement, deviceWidth: number): () => void {
 }
 
 /** The control panel beside every device: the same conditions in the same words everywhere. `controls` picks which appear. */
-export type Control = "online" | "fail" | "type" | "plan" | "country" | "real" | "practice" | "dark" | "lang";
-export interface PanelState { online: boolean; fail: boolean; type: string; tier: string; country: string; realUser: boolean; practice: boolean; dark: boolean; lang: string }
+export type Control = "online" | "fail" | "type" | "plan" | "country" | "real" | "practice" | "dark" | "lang" | "turn";
+export interface PanelState { online: boolean; fail: boolean; type: string; tier: string; country: string; realUser: boolean; practice: boolean; dark: boolean; lang: string; turn?: "upright" | "sideways" }
 export function panelHtml(controls: readonly Control[], st: PanelState, words: Words, country: Country, extra: { types?: readonly string[]; tiers?: readonly string[]; help?: string } = {}): string {
   const t = words.t, row = (inner: string, center = false): string => `<label${center ? ' class="center"' : ""}>${inner}</label>`;
   const box = (id: string, on: boolean, label: string, help?: string): string => row(`<input type="checkbox" data-ctl="${id}" ${on ? "checked" : ""}> <span>${esc(label)}${help ? `<br><span class="help">${esc(help)}</span>` : ""}</span>`);
@@ -134,6 +134,8 @@ export function panelHtml(controls: readonly Control[], st: PanelState, words: W
     if (c === "practice") parts.push(box("practice", st.practice, t("practice_mode"), t("practice_mode_help")));
     if (c === "dark") parts.push(box("dark", st.dark, t("dark_screen")));
     if (c === "lang") parts.push(sel("lang", t("language"), words.options(t("long_text_test"), t("rtl_test")).replace(`value="${esc(st.lang)}"`, `value="${esc(st.lang)}" selected`)));
+    // TURN UPDATE 76.8: a device a person can turn is tried upright and sideways (id cSize: the fit guard walks every choice)
+    if (c === "turn") parts.push(row(`<span>${esc(t("screen_turn"))}</span> <select data-ctl="turn" id="cSize">${(["upright", "sideways"] as const).map((x) => `<option value="${x}" ${x === (st.turn ?? "upright") ? "selected" : ""}>${esc(x === "upright" ? t("turn_upright") : t("turn_sideways"))}</option>`).join("")}</select>`, true));
   }
   parts.push(`<div id="stateButtons" class="states"></div><h3>${esc(t("event_log"))}</h3><ul class="log" id="log" aria-live="polite"></ul>`);
   return parts.join("");
@@ -145,6 +147,7 @@ export function panelChange(el: HTMLInputElement | HTMLSelectElement, st: PanelS
   else if (ctl === "type") st.type = pick(extra.types ?? [], v, st.type);
   else if (ctl === "plan") st.tier = pick(extra.tiers ?? [], v, st.tier);
   else if (ctl === "country") st.country = pick(data.packOrder, v, st.country);
+  else if (ctl === "turn") st.turn = v === "sideways" ? "sideways" : "upright";
   else if (ctl === "lang") { st.lang = v in data.i18n || v === "xx" || v === "xx-rtl" ? v : "en"; return true; }
   return false;
 }

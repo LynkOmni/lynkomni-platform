@@ -657,7 +657,14 @@
       "4B"
      ],
      "part": "The panel entry on each office dashboard that needs it; the LynkFiles signing tablet",
-     "done": {}
+     "done": {
+      "4": "v0.91.0"
+     },
+     "progress": {
+      "4": [
+       "v0.91.0: checked: no office dashboard built in section 4 uses emulators (LynkAcc, LynkInv, LynkCRM and LynkStat are the register's no_panel_services), so section 4 adds no panel entry; LynkFiles' dashboard, its panel entry (/files/emulators) and the signing tablet are built with LynkFiles' screens in 4B (catalog/emulators.v1.json later_services)"
+      ]
+     }
     },
     {
      "sections": [
@@ -1238,12 +1245,15 @@
       "4"
      ],
      "part": "The groundwork: the fix to the app settings file (leftover, with lines in the decisions diary and change log); the turn rules in the shared shell (keep place, text, focus and step; no double actions); sideways side-rail and two-column layouts; the new checks; every screen already built (Step 0 to 3B) re-tested in both directions and fixed where needed",
-     "done": {},
+     "done": {
+      "4": "v0.91.0"
+     },
      "progress": {
       "4": [
        "v0.57.0: the app settings file fixed (leftover, decisions and change log); the layout for every shape and the turn rules (ts/src/turn.ts) with shared vectors",
        "v0.61.0: the turn rules in the shared shell (the Business app writes its shape's layout on the screen root)",
-       "v0.62.0: sideways layouts (the phone turned sideways) and the turn checks (tests/test_turning.py)"
+       "v0.62.0: sideways layouts (the phone turned sideways) and the turn checks (tests/test_turning.py)",
+       "v0.91.0: every screen already built tried in both directions: the rider phone, the track, queue and survey pages, the touch scanner and the account site on a phone can be turned sideways and the counter tablet upright (the Screen choice in each emulator panel, words in 38 languages); the fit guard walks both ways and a new check keeps every turnable emulator offering both"
       ]
      }
     },
