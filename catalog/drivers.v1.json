@@ -260,6 +260,22 @@
     "serial"
    ],
    "virtual": "screen_number"
+  },
+  {
+   "id": "utility_meter",
+   "connections": [
+    "bluetooth",
+    "network"
+   ],
+   "virtual": "meter_reading_entry"
+  },
+  {
+   "id": "door_access",
+   "connections": [
+    "network",
+    "bluetooth"
+   ],
+   "virtual": null
   }
  ]
 }
