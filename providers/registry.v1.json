@@ -2647,6 +2647,40 @@
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
    ]
+  },
+  {
+   "id": "vote_mirror_witnesses_sandbox",
+   "name": "Witness mirrors of LynkVote's public list",
+   "kind": "witness",
+   "used_by": [
+    "vote_mirror"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.vote_partners:VoteMirror",
+   "sandbox": "services.vote_partners:SandboxVoteMirror",
+   "needed_from_provider": [
+    "an independent organisation that runs a mirror",
+    "publishing and reading a vote's public list by API",
+    "a signed agreement through the Partner Hub"
+   ],
+   "placeholders": [
+    {
+     "file": "services/vote_partners.py",
+     "token": "SandboxVoteMirror"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "VOTE UPDATE 68.7: the public list is published to every mirror as ballots arrive and checked against LynkOmni's own list; a difference is flagged mirror_mismatch. The public page says the list is witnessed only once the witnesses are signed (later item vote_mirror_witnesses: the owner chooses them).",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
   }
  ],
  "later": [
@@ -3106,7 +3140,7 @@
    "name": "Independent witness organisations for LynkVote's mirrors",
    "blocks": [],
    "status": "pending",
-   "why_not_now": "Blueprint 68.7: the public list of locked ballots is copied to mirrors run by independent witness organisations, so nobody (LynkOmni included) can change it unseen. The publishing and checking work now on LynkOmni's own list; the witnesses are chosen by the owner (REMINDER item 11).",
+   "why_not_now": "Blueprint 68.7: the public list of locked ballots is copied to mirrors run by independent witness organisations, so nobody (LynkOmni included) can change it unseen. Publishing to mirrors and the mirror check are built with sandbox witnesses (ledger item vote_mirror_witnesses_sandbox); the real witnesses are chosen by the owner (REMINDER item 11).",
    "placeholders": [],
    "done_when": "At least two independent witness organisations run mirrors, the mirror check is switched on and VoteAnomalyFlagged mirror_mismatch is tested against them."
   },

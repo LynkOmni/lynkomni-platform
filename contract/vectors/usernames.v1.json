@@ -190,6 +190,7 @@
   "mdes",
   "merchantofrecordandtaxondigitalsalesstorefront",
   "messaging",
+  "mirrors",
   "moneytransfer",
   "monitoring",
   "motion",
@@ -356,6 +357,8 @@
   "vts",
   "warehouses",
   "without",
+  "witness",
+  "witnessmirrorsoflynkvotespubliclist",
   "www"
  ],
  "cases": [

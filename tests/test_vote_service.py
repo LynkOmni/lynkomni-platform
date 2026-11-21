@@ -218,7 +218,21 @@ class Federation(Base):
         self.assertEqual(len(r["shown"]), 1)
 
 
-class Partners(unittest.TestCase):
+class Partners(Base):
+    def test_witness_mirrors_follow_the_public_list_and_a_change_is_flagged_once(self):
+        vid, _, _, _ = self.run_vote("plurality", ["A", "B"], [[1, 0], [0, 1], [1, 0]])
+        self.assertEqual(set(self.v.check_mirrors("m1", vid).values()), {"same"}, "every cast reached each witness")
+        w = self.v.mirrors[0]
+        w.copies[vid] = {**w.copies[vid], "codes": w.copies[vid]["codes"][1:]}       # a witness's copy differs
+        self.assertEqual(self.v.check_mirrors("m1", vid)["sandbox-witness-a"], "different")
+        self.v.check_mirrors("m1", vid)
+        flags = [e for e in self.p.c.store.of("m1", "VoteAnomalyFlagged") if e["payload"]["kind"] == "mirror_mismatch"]
+        self.assertEqual(len(flags), 1, "flagged once; nothing removed")
+        self.assertEqual(len(self.v.public_list(vid)["codes"]), 3)
+        self.assertFalse(self.v.witnessed("m1"), "never claimed as witnessed before the witnesses are signed")
+        with self.assertRaises(ValueError):
+            w.publish(vid, "not-a-code", [])
+
     def test_sandboxes_take_only_vault_references_and_never_claim_success(self):
         self.assertEqual(SandboxVoteIdentity().check("c1", "vault:x", "document", "RW")["state"], "pending")
         self.assertFalse(SandboxVoteIdentity().check("c1", "Ana, 0788", "document", "RW")["ok"])

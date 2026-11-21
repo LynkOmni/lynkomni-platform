@@ -415,13 +415,16 @@
       "4"
      ],
      "part": "Groundwork: the lynkvote billing family, tiers, limits, the full price list and the price lock; addresses, placements, identifiers LOVOT- and LOBLT-; a new contract version with the voting events; the security core (locked ballots, split key, proofs, public list, mirrors and witness publishing, order hiding, small-group rule, future-proof encryption) with shared test vectors in every language; every kind of vote and counting method with published examples; the tracker kind; the automations, messages and API register entries; sandbox partners and ledger entries; the product illustration; the revenue model stream. Rolls from LynkCRM, LynkAcc and LynkAttend; the governance home; federations; move in",
-     "done": {},
+     "done": {
+      "4": "v0.90.0"
+     },
      "progress": {
       "4": [
        "v0.49.0: the lynkvote billing family, tiers, limits, the full price list and the price lock; addresses, placements, the API register entry, the product illustration and the revenue stream",
        "v0.54.0: the identifiers LOVOT- (a vote) and LOBLT- (a ballot receipt) in the registry, read by every language",
        "v0.76.0: the security core (ballots locked on the device, a key split between trustees with proofs, totals opened by a threshold with proofs, a shuffle with a proof, receipts that chain the public list, the device challenge) in the RFC 7919 group, and every counting method of 68.5 with published examples, in Python and TypeScript with shared test answers",
-       "v0.77.0: contract version 12 with the voting events; the tracker kind; the automations, messages and API register entries; sandbox partners and ledger entries; rolls from LynkCRM, LynkAcc and LynkAttend; the governance home; federations; move in; LynkVote in the cloud (services/vote.py) on the security core"
+       "v0.77.0: contract version 12 with the voting events; the tracker kind; the automations, messages and API register entries; sandbox partners and ledger entries; rolls from LynkCRM, LynkAcc and LynkAttend; the governance home; federations; move in; LynkVote in the cloud (services/vote.py) on the security core",
+       "v0.90.0: mirrors and witness publishing: the public list goes to every witness's mirror as ballots arrive and is checked against LynkOmni's own list (mismatch flagged once, nothing removed), with sandbox witnesses and a ledger entry; witnessed is claimed only once signed. Order hiding (times removed by the shuffle), the small-group rule and the future-proof plan (pending outside review, never claimed) were already in the core"
       ]
      }
     },
@@ -1288,10 +1291,13 @@
       "4"
      ],
      "part": "The lynkacademy family, prices, limits and registers; the large-organisation set; the \"includes\" rule (78.17: each LynkSchool tier includes the same LynkAcademy tier) and the new LynkSchool prices and limits (78.18, a new price-lock version)",
-     "done": {},
+     "done": {
+      "4": "v0.85.0"
+     },
      "progress": {
       "4": [
-       "v0.53.0: the lynkacademy billing family with its tiers, limits and extras, the price lock, the product catalog, placements, footer (38 languages), API register entry, product illustration and revenue stream; the LynkSchool price rise to $55 and $139 with its new tier features; the rule that each LynkSchool tier includes the same LynkAcademy tier"
+       "v0.53.0: the lynkacademy billing family with its tiers, limits and extras, the price lock, the product catalog, placements, footer (38 languages), API register entry, product illustration and revenue stream; the LynkSchool price rise to $55 and $139 with its new tier features; the rule that each LynkSchool tier includes the same LynkAcademy tier",
+       "v0.85.0: the large-organisation set for LynkAcademy (its area academy in the enterprise register: approval flows and own roles, gated by LynkAcademy Max plus an Enterprise agreement), with Move in for every service"
       ]
      }
     },

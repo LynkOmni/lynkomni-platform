@@ -321,5 +321,9 @@
    "branch_vote",
    "delegates"
   ]
+ },
+ "mirrors": {
+  "rule": "The public list (each tracking code and the chain's head; never a voter, a code sheet or a choice) is published to every independent witness's mirror as ballots arrive. The cloud compares each copy with its own list; any difference is flagged once as VoteAnomalyFlagged mirror_mismatch for the organiser and observers, and nothing is removed. The public page says the list is witnessed only once the witnesses are signed (services/vote_partners.py VoteMirror, ledger vote_mirror_witnesses_sandbox).",
+  "witnesses_min": 2
  }
 }
