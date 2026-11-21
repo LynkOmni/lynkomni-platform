@@ -2,6 +2,10 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.94.1 (2026-11-21)
+- Fix (owner report): on the LynkPOS terminal, the limit and identity lines under the customer number touched the screen's edges. They now keep the same side space as the field above them.
+- The fit guard now checks that no line of text on any screen sits closer than 6 px to the screen's left or right edge (rows that scroll or end in an ellipsis on purpose aside), and it also opens the terminal's tiles, so a screen like this one is checked on every change.
+
 ## v0.94.0 (2026-11-21)
 Section 4 review, ninth part (row 83.6, second part: waiting well on every device):
 - Every device emulator with the emulator kit (the POS terminal, counter tablet, Business app phone, kitchen screen, customer display, rider phone, stock scanner, LynkKiosk, LynkDScreen and LynkCDisplay) has a tester condition "First open on this device". Each screen's content area then waits exactly as the placeholder register says: nothing new before 300 ms, then a skeleton shaped like the content for at least 300 ms, and after 8 s offline a calm "This is taking longer than usual." with Retry. A screen seen once opens from the device's copy at once. Words in 38 languages.

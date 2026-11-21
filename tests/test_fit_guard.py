@@ -211,6 +211,31 @@ AREAS = r"""() => {
   return [...crowded, ...uneven];
 }"""
 
+# Text never touches the edge of its screen (owner report 2026-11-21: the LynkPOS limit lines ran to the screen's edge): every
+# line of text keeps at least 6 px from the screen's left and right edges, unless it sits in a row that scrolls or ends in an
+# ellipsis on purpose.
+EDGE = r"""() => {
+  const out = new Set();
+  const roots = [...document.querySelectorAll('#screen, #display, #cscreen, #till, #screenA, #screenB, .lscreen')].filter((r) => r.getClientRects().length);
+  for (const root of roots) {
+    const R = root.getBoundingClientRect(); const k = root.offsetWidth ? R.width / root.offsetWidth : 1;
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    for (let n = w.nextNode(); n; n = w.nextNode()) {
+      if (!n.data.trim()) continue;
+      const el = n.parentElement; if (!el || el.closest('svg, script, style, [aria-hidden="true"], .sr')) continue;
+      const cs = getComputedStyle(el); if (cs.visibility === 'hidden' || cs.display === 'none') continue;
+      if ([el, ...(function* () { for (let a = el.parentElement; a && a !== root; a = a.parentElement) yield a; })()].some((a) => { const c = getComputedStyle(a); return c.textOverflow === 'ellipsis' || (c.overflowX !== 'visible' && a.scrollWidth > a.clientWidth + 1); })) continue;   // a row that scrolls or ends in an ellipsis on purpose
+      const rg = document.createRange(); rg.selectNodeContents(n);
+      for (const r of rg.getClientRects()) {
+        if (!r.width || r.bottom < R.top || r.top > R.bottom) continue;
+        const l = (r.left - R.left) / k, rt = (R.right - r.right) / k;
+        if (l < 6 || rt < 6) out.add('edge: ' + (el.className && typeof el.className === 'string' ? '.' + el.className.split(' ')[0] : el.tagName.toLowerCase()) + ' "' + n.data.trim().slice(0, 30) + '" (' + Math.round(Math.min(l, rt)) + ' px)');
+      }
+    }
+  }
+  return [...out];
+}"""
+
 INPUT = """() => {
   const bad = [];
   for (const el of document.querySelectorAll('[data-interface]')) {
@@ -384,10 +409,10 @@ class FitGuard(unittest.TestCase):
                 def look(where):
                     pg.mouse.move(0, 0)
                     pg.evaluate(SETTLE)
-                    bad = pg.evaluate(RAW) + pg.evaluate(NAMES) + pg.evaluate(CROWD) + pg.evaluate(AREAS)
+                    bad = pg.evaluate(RAW) + pg.evaluate(NAMES) + pg.evaluate(CROWD) + pg.evaluate(AREAS) + pg.evaluate(EDGE)
                     if bad:                   # look again after a moment: only what stays on screen counts
                         pg.wait_for_timeout(400); pg.evaluate(SETTLE)
-                        bad = pg.evaluate(RAW) + pg.evaluate(NAMES) + pg.evaluate(CROWD) + pg.evaluate(AREAS)
+                        bad = pg.evaluate(RAW) + pg.evaluate(NAMES) + pg.evaluate(CROWD) + pg.evaluate(AREAS) + pg.evaluate(EDGE)
                     if bad:
                         found.setdefault(emu, {})[where] = bad
                 look("start")
@@ -400,7 +425,7 @@ class FitGuard(unittest.TestCase):
                             continue
                         look(st)
                     acts = pg.eval_on_selector_all('#screen [data-act], #display [data-act], .lscreen [data-act]',
-                        "e => [...new Set(e.filter(x => x.getClientRects().length && /^(tab|view|way|go|nav|page|show|open|mode|join|qu|sv|at):/.test(x.dataset.act)).map(x => x.dataset.act))].slice(0, 40)")
+                        "e => [...new Set(e.filter(x => x.getClientRects().length && /^(tab|view|way|go|nav|page|show|open|mode|join|qu|sv|at|tile):/.test(x.dataset.act)).map(x => x.dataset.act))].slice(0, 40)")
                     for a in acts:
                         try:
                             pg.click(f'[data-act="{a}"] >> visible=true', timeout=1500)
