@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "707fd781c691b26e941e25ce189485daba096bb5f4be6190e1eec1673d609df9",
+ "source_sha256": "925ee3e4de11a1199f5f44c71c942ec045bdf0d46b37ac13ad35645476813a90",
  "texts": {
   "trk_accepted": "Imekubaliwa",
   "trk_active": "Inatumika",
@@ -117,6 +117,7 @@
   "trk_ready": "Tayari",
   "trk_ready_to_download": "Tayari kupakuliwa",
   "trk_received": "Imepokelewa",
+  "trk_refunded": "Imerejeshwa",
   "trk_rejected": "Haikuidhinishwa",
   "trk_repaid": "Imelipwa yote",
   "trk_repairing": "Inatengenezwa",

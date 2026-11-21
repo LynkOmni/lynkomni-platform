@@ -1581,6 +1581,74 @@
      ]
     }
    ]
+  },
+  {
+   "id": "exchange_order",
+   "record": "TXN",
+   "key": "order_id",
+   "family": "lynkexchange",
+   "ui_section": 4,
+   "viewers": {
+    "merchant": "app.lynkomni.com/exchange"
+   },
+   "note": "An exchange order through the licensed partner (contract version 15): placed, paid to the partner, completed, or not completed and refunded. Only the partner's answers move it; a practice order says so. The person's own exchanges show on exchange.lynkomni.com, never on merchant screens.",
+   "steps": [
+    {
+     "id": "placed",
+     "state": "sent",
+     "customer": true,
+     "on": [
+      {
+       "event": "ExchangeOrderPlaced"
+      }
+     ]
+    },
+    {
+     "id": "paid",
+     "state": "accepted",
+     "customer": true,
+     "on": [
+      {
+       "event": "ExchangeOrderPaid"
+      }
+     ]
+    },
+    {
+     "id": "completed",
+     "state": "confirmed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "event": "ExchangeSettled"
+      }
+     ]
+    },
+    {
+     "id": "failed",
+     "state": "failed",
+     "customer": true,
+     "terminal": true,
+     "optional": true,
+     "on": [
+      {
+       "event": "ExchangeOrderFailed"
+      }
+     ]
+    },
+    {
+     "id": "refunded",
+     "state": "confirmed",
+     "customer": true,
+     "terminal": true,
+     "optional": true,
+     "on": [
+      {
+       "event": "ExchangeRefunded"
+      }
+     ]
+    }
+   ]
   }
  ],
  "planned": [
@@ -1613,12 +1681,6 @@
    "record": "TXN",
    "ui_section": 9,
    "note": "Airtime, data, bills and vouchers: paid, sent to provider, delivered or refund_due."
-  },
-  {
-   "id": "exchange_order",
-   "record": "TXN",
-   "ui_section": 10,
-   "note": "Exchange orders through the licensed partner: placed, matched, settled or failed."
   },
   {
    "id": "journey_leg",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "707fd781c691b26e941e25ce189485daba096bb5f4be6190e1eec1673d609df9",
+ "source_sha256": "925ee3e4de11a1199f5f44c71c942ec045bdf0d46b37ac13ad35645476813a90",
  "texts": {
   "trk_accepted": "承諾済み",
   "trk_active": "有効",
@@ -117,6 +117,7 @@
   "trk_ready": "準備完了",
   "trk_ready_to_download": "ダウンロード可能",
   "trk_received": "受領済み",
+  "trk_refunded": "返金済み",
   "trk_rejected": "承認されず",
   "trk_repaid": "返済済み",
   "trk_repairing": "修理中",

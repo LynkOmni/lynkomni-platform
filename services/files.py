@@ -313,6 +313,17 @@ class Files:
         s._emit(r["merchant"], "SignatureDeclined", {"request_id": rid, "turn": turn, "reason": reason})
         s._audit(r["merchant"], r["document"], "declined", f"signer {turn}")
 
+    def issue_certificate(s, m, doc_id, issuer):
+        """A certificate issued by a service (a proof of exchange, a course certificate): the kept file gets a code anyone can check,
+        with no signers. Returns the code; only its fingerprint is ever stored or put in an event."""
+        d = s._doc(m, doc_id)
+        if d["kind"] != "certificate":
+            raise ValueError("only a certificate gets an issuer's code")
+        code = F.format_code(secrets.randbits(60))
+        s.codes.put(_sha(code.encode()), {"request": None, "sha256": d["versions"][-1]["sha256"], "signers": 0, "level": "issued", "issuer": issuer})
+        s._audit(m, doc_id, "shared", issuer)
+        return code
+
     @staticmethod
     def check_code_shape(code):
         return F.code_ok(code)
@@ -324,4 +335,4 @@ class Files:
         c = s.codes.get(_sha(code.upper().encode()))
         if not c:
             return {"ok": False, "reason": "unknown"}
-        return {"ok": True, "sha256": c["sha256"], "signers": c["signers"], "level": c["level"], "state": "completed"}
+        return {"ok": True, "sha256": c["sha256"], "signers": c["signers"], "level": c["level"], "state": "completed", **({"issuer": c["issuer"]} if c.get("issuer") else {})}

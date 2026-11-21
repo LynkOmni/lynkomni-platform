@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ur",
  "native": "اردو",
- "source_sha256": "707fd781c691b26e941e25ce189485daba096bb5f4be6190e1eec1673d609df9",
+ "source_sha256": "925ee3e4de11a1199f5f44c71c942ec045bdf0d46b37ac13ad35645476813a90",
  "texts": {
   "trk_accepted": "قبول کیا",
   "trk_active": "فعال",
@@ -117,6 +117,7 @@
   "trk_ready": "تیار",
   "trk_ready_to_download": "ڈاؤن لوڈ کے لیے تیار",
   "trk_received": "موصول",
+  "trk_refunded": "رقم واپس کر دی گئی",
   "trk_rejected": "منظور نہیں",
   "trk_repaid": "واپس ادا",
   "trk_repairing": "مرمت جاری",

@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.82.0 (2026-11-21)
+Section 4, step E4b (EXCHANGE UPDATE: LynkExchange in the office services):
+- New rules core/exchange.py and ts/src/exchange.ts with shared test answers (python3 tools/exchange_vectors.py): LynkOmni's part (the lower of the plan's part and the level reached by the last 30 days), one full price from a rate kept as a fraction of whole numbers (never a decimal) and rounded down so nobody is promised more than arrives, the distance from the mid-market rate, and the book value of foreign money spent at its average cost.
+- Contract version 15 (contract/tools/build_v15.py; upcaster 14 to 15 only raises the version): ExchangeOrderPlaced, ExchangeOrderPaid, ExchangeOrderFailed, ExchangeRefunded and ExchangeProofIssued beside ExchangeSettled. All cloud only (nothing about an exchange is queued offline); money facts carry the partner's reference; no payee's name, bank account or contact is ever in an event.
+- LynkExchange in the office services (services/exchange_office.py): prices with a countdown and "Coming to your country soon." where no licensed partner is signed (service exchange, ledger exchange_currency_partner); Practice mode everywhere with the practice partner, never moving money or touching the books; a second person approves orders above the owner's amount; repeated partner answers change nothing. LynkAcc: money sent to the partner in the clearing account, foreign money held at its cost, a rate gain or loss only when it comes back, spending for money sent with no bill, refunds put back. LynkInv: an invoice paid from abroad. LynkAcc bills: a bill paid to a supplier abroad. LynkCRM: payees as records of the new kind payee, bank details only in the vault. LynkStat: the Exchange report. LynkFiles: a proof of exchange with a code anyone can check (LynkFiles now issues certificates without signers).
+- The exchange tracker (order placed, paid, completed, not completed, refunded) in 38 languages and in the exchange API; links to LynkAcc, LynkInv (moved to section 4, as 65.9 says), LynkCRM, LynkStat and LynkFiles; three messages, three automations, placements and five security controls; crypto referral as a later item ($0 until the lawyer approves).
+
 ## v0.81.0 (2026-11-21)
 Plain words, the 15 improvements (owner, 21 November 2026):
 - Each name shows its product's own mark beside it, in search and in labels (catalog/names.v1.json icon). Names still waiting for their own mark in lynkomni-icons show their product's mark or none, never a wrong one (provider ledger later item product_marks_all).

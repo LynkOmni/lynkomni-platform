@@ -1948,6 +1948,73 @@
    ],
    "build_section": 4,
    "note": "LynkFiles: a signer refused, with their reason; the request has stopped"
+  },
+  {
+   "id": "exchange_completed",
+   "area": "money",
+   "trigger": "ExchangeSettled",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_order",
+    "get_proof"
+   ],
+   "build_section": 4,
+   "note": "LynkExchange: an order is completed; the money arrived at the price shown"
+  },
+  {
+   "id": "exchange_failed",
+   "area": "money",
+   "trigger": "ExchangeOrderFailed",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_order"
+   ],
+   "build_section": 4,
+   "note": "LynkExchange: an order did not go through, with the partner's reason; nothing was taken or it is being sent back"
+  },
+  {
+   "id": "exchange_refunded",
+   "area": "money",
+   "trigger": "ExchangeRefunded",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_order"
+   ],
+   "build_section": 4,
+   "note": "LynkExchange: the partner sent the money back"
   }
  ]
 }

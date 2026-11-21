@@ -531,9 +531,14 @@
     "transfers.read",
     "transfers.write",
     "recipients.read",
-    "webhooks"
+    "webhooks",
+    "tracking.read",
+    "tracking.events"
    ],
-   "own_account": true
+   "own_account": true,
+   "tracks": [
+    "exchange_order"
+   ]
   },
   {
    "id": "voting",

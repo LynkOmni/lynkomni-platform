@@ -1961,6 +1961,46 @@
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
    ]
+  },
+  {
+   "id": "exchange_currency_partner",
+   "name": "Licensed currency and money-transfer partner for LynkExchange",
+   "kind": "exchange",
+   "used_by": [
+    "exchange"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.exchange_partners:ExchangePartner",
+   "sandbox": "services.exchange_partners:SandboxExchangePartner",
+   "needed_from_provider": [
+    "currency-exchange or money-transfer licence in the country",
+    "firm quotes with a countdown as whole-number rates",
+    "identity checks, limits and refusals by the partner",
+    "confirmations of money received, settled and refunded",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/exchange_partners.py",
+     "token": "SandboxExchangePartner"
+    },
+    {
+     "file": "services/exchange_partners.py",
+     "token": "PRACTICE"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "EXCHANGE UPDATE 65: LynkOmni never holds money or runs a market; the sandbox is the practice partner (Practice mode) and never moves money. Prefer partners that cover many countries at once.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
   }
  ],
  "later": [
@@ -2477,6 +2517,15 @@
    "why_not_now": "Product marks are released only from the separate lynkomni-icons repository through its gates and the brand-sync workflow, together with ops_product_icons in build section 4. Until then each name shows the mark in catalog/names.v1.json: its own, its product's, a former mark (product-ledger for LynkAcc, product-dash for LynkStat), or none; a wrong mark is never shown. Waiting for its own mark: LynkAcc, LynkInv, LynkCRM, LynkOps, LynkStat, LynkExchange, LynkVote, LynkHR, LynkProject, LynkSchool, LynkAcademy, LynkProperty, LynkFiles, LynkJobs, LynkFAQ, LynkSupport, LynkStatus, LynkFeedback, LynkSafety, LynkFlow, LynkDriver, LynkID, LynkAudit.",
    "placeholders": [],
    "done_when": "lynkomni-icons releases a mark for each name listed here, brand-sync vendors them, and catalog/names.v1.json names each one as its icon."
+  },
+  {
+   "id": "exchange_crypto_referral",
+   "name": "LynkExchange crypto referral",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "Blueprint 65.6: crypto is referral only (a comparison of licensed exchanges and about $2 per verified sign-up), at $0 until the lawyer approves it per country (REMINDER item 9).",
+   "placeholders": [],
+   "done_when": "The lawyer approves crypto referral for a country and a licensed crypto exchange is signed there through the Partner Hub."
   }
  ],
  "user_actions": [

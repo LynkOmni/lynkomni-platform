@@ -2018,6 +2018,50 @@
     "settings"
    ],
    "section": 4
+  },
+  {
+   "id": "exchange_in_books",
+   "kind": "feature",
+   "what": "Exchange in LynkAcc: foreign money at what it cost, rate gains or losses when it comes back, and the Exchange report",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "exchange_invoices_abroad",
+   "kind": "feature",
+   "what": "Invoices paid from abroad and bills paid to suppliers abroad, through the licensed partner",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "exchange_proof",
+   "kind": "feature",
+   "what": "A proof of exchange anyone can check, kept in LynkFiles",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "exchange_practice",
+   "kind": "feature",
+   "what": "Practice mode: try an exchange with practice prices that never move money",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
   }
  ]
 }

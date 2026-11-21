@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yi",
  "native": "ייִדיש",
- "source_sha256": "707fd781c691b26e941e25ce189485daba096bb5f4be6190e1eec1673d609df9",
+ "source_sha256": "925ee3e4de11a1199f5f44c71c942ec045bdf0d46b37ac13ad35645476813a90",
  "texts": {
   "trk_accepted": "אָנגענומען",
   "trk_active": "אַקטיוו",
@@ -117,6 +117,7 @@
   "trk_ready": "גרייט",
   "trk_ready_to_download": "גרייט צום אַראָפּלאָדן",
   "trk_received": "באַקומען",
+  "trk_refunded": "צוריקגעצאָלט",
   "trk_rejected": "נישט באַשטעטיקט",
   "trk_repaid": "אָפּגעצאָלט",
   "trk_repairing": "ווערט פֿאַרריכט",

@@ -7,7 +7,9 @@ SERVICES = ["pos", "accountant", "invoicing", "crm", "inventory", "dashboard", "
             "recovery", "paylinks", "loyalty", "marketplace", "financing", "protection", "chat", "ads", "vcard", "registration",
             "agent", "collection", "delivery", "movement", "vehicle_data", "monitoring", "transport_data", "satellite", "iot_sim",
             "attendance", "queue", "survey", "people_messages", "survey_voice", "survey_rewards",
-            "voting", "vote_identity", "vote_seal", "vote_post", "files", "sign_identity", "sign_qualified", "file_scan", "booking"]
+            "voting", "vote_identity", "vote_seal", "vote_post", "files", "sign_identity", "sign_qualified", "file_scan", "booking", "exchange"]
+# EXCHANGE UPDATE (2026-11-18, section 4 step E4b): "exchange" (LynkExchange conversions and transfers) needs a licensed currency or
+# money-transfer partner per country and stays off until it is signed (services/exchange_partners.py; practice mode works everywhere).
 # BOOKING UPDATE (2026-11-18, section 4 step E4a): "booking" (LynkBooking with direct listings) needs no partner and is on everywhere;
 # partner supply, pay later and cancellation cover join with their own partner parts in their build sections (8 and 9).
 # SIX SERVICES UPDATE (2026-11-18, section 4 step E3): "files" (LynkFiles' document engine) needs no partner and is on everywhere.
