@@ -49,5 +49,4 @@ export function skeletonHtml(shape: SkeletonShape, loadingWord: string, count = 
   return `<div class="skeleton skel-${shape}" role="status" aria-busy="true" aria-live="polite" aria-label="${phEsc(loadingWord)}" data-skeleton="${shape}">${body[shape]()}</div>`;
 }
 
-export { FORMAT_HINTS, SENSITIVE, readerDigits, hintFor, hintAttr } from "./hints.js";
-export type { HintKind } from "./hints.js";
+// Field hints live in ts/src/hints.ts (a small part of their own).

@@ -3321,6 +3321,13 @@
    "why": "Blueprint 68.7 and 68.12: the board watches LynkVote, gets its own access and publishes its own reports; only the owner can invite its members",
    "when": "Before LynkVote's first large vote (build section 12 gives the board its access)",
    "status": "open"
+  },
+  {
+   "id": "tag-v0-92-0",
+   "what": "Run the version-tag workflow once by hand (Actions, version-tag, Run workflow) with version v0.92.0 and commit 086a5c6, so the ads piece has its tag",
+   "why": "v0.92.0 and v0.93.0 were merged in one pull request and the workflow then tagged only the newest; from v0.94.0 it tags every version a merge adds, and pushing tags is not possible from Claude's session",
+   "when": "Any time; once",
+   "status": "open"
   }
  ],
  "reminder": {
