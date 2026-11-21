@@ -27,6 +27,8 @@ import { breadcrumbBar, trail } from "../../../ts/src/breadcrumbs.js";
 import { loadPrefs, savePrefs } from "../../../ts/src/soundprefs.js";
 import type { SoundPrefs, Volume } from "../../../ts/src/soundprefs.js";
 import { TERMS_IN_FORCE, cardPlanName, contactWaitSeconds, coolOffSeconds, mayNow } from "../../../ts/src/protection.js";
+import { watchNames, namePair, nameEntries, namesChoice, namesAct } from "../../../ts/src/names.js";
+import { NAME_INFO_KEYS } from "../../../ts/src/nameinfo.js";
 const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 } as const;   // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
 
 interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[]; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; id?: string; name: string; icon: string; plain: string; href?: string; state: "available" | "coming_soon" }[] }
@@ -450,15 +452,15 @@ function page(): string {
 function overlay(): string {
   const wrap = (cls: string, inner: string) => `<div class="overlay ${cls}" data-act="closeoverlay">${inner.replace(/^<(div|aside)/, '<$1 data-act="keep"')}</div>`;
   switch (S.overlay) {
-    case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.id ?? s.service, name: s.name, plain: t(`ft_plain_${s.plain}`), icon: s.icon, href: s.href ?? `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon));
+    case "launcher": return wrap("", launcher(pack().services.map((s) => ({ id: s.id ?? s.service, name: namePair(s.name, t).main, plain: namePair(s.name, t).sub, icon: s.icon, href: s.href ?? `/${s.service}`, state: S.realUser ? s.state : "available" })), t, icon));
     case "pages": return wrap("", launcher(PAGES.map((p) => ({ id: `page-${p}`, name: t(`page_${p}`), icon: PAGE_ICON[p], href: pagePath(p), state: "available" as const })), t, icon));
     case "account": return wrap("end", accountMenu({ name: t("person_name"), lynkId: LYNKID, businesses: [{ id: "b1", name: t("shop_name"), current: true }, { id: "b2", name: t("client_pharmacy"), current: false }], role: "owner", roles: ["owner", "manager"], theme: S.mode === "lite" ? "lite" : S.mode === "sunlight" ? "sunlight" : S.theme, language: langName(isTest() ? "en" : S.lang), region: pack().sample ? t("sample_country") : pack().name, view: { name: t(IFACE_NAME[S.choice?.interface ?? "universal"] ?? "iface_universal") },
       links: [{ act: "go:storefront", label: t("page_storefront"), icon: "ui-cart" }, { act: "go:support", label: t("support_seller"), icon: "ui-info" }, { act: "go:trips", label: t("page_trips"), icon: "ui-globe" }, { act: "go:collect", label: t("page_collect"), icon: "ui-qr" }, { act: "go:messages", label: t("page_messages"), icon: "product-chat" }, { act: "go:assist", label: t("page_assist"), icon: "product-assist" }, { act: "lock:start", label: t("lock_title"), icon: "ui-lock" }] }, t, icon));
     case "view": return wrap("", viewSheet({ current: S.choice?.interface ?? "universal", rule: S.choice?.rule ?? "safe_default", options: [...VIEWS], ownerOnly: false, canChange: true }, t, icon));
-    case "globe": return wrap("", globeSheet(Object.entries(PACKS).map(([code, p]) => ({ code, native: p.native, dir: p.dir })), DATA.packOrder.map((c) => ({ code: c, name: (DATA.packs[c] as CountryPack).sample ? t("sample_country") : regionName(c, isTest() ? "en" : S.lang, (DATA.packs[c] as CountryPack).name) })), { language: isTest() ? "en" : S.lang, region: pack().code }, t));
+    case "globe": return wrap("", globeSheet(Object.entries(PACKS).map(([code, p]) => ({ code, native: p.native, dir: p.dir })), DATA.packOrder.map((c) => ({ code: c, name: (DATA.packs[c] as CountryPack).sample ? t("sample_country") : regionName(c, isTest() ? "en" : S.lang, (DATA.packs[c] as CountryPack).name) })), { language: isTest() ? "en" : S.lang, region: pack().code }, t) + namesChoice(t, { scope: "person", act: "nmc", canChange: true }));
     case "cmd": {
       const index: Entry[] = [...PAGES.map((p): Entry => ({ id: p, kind: "setting", title: t(`page_${p}`), act: `go:${p}` })), { id: "h1", kind: "help", title: t("help_article_1"), act: "shell:help" }, { id: "h2", kind: "help", title: t("help_article_2"), act: "shell:help" }, { id: "a1", kind: "action", title: t("sign_out_everywhere"), act: "session:all" }, { id: "a2", kind: "action", title: t("support_seller"), act: "support:external" }, { id: "h3", kind: "help", title: t("help_storefront"), act: "shell:help" }, { id: "v1", kind: "setting", title: t("change_view"), act: "shell:view" }, { id: "a3", kind: "action", title: t("lock_title"), act: "lock:start" }];
-      return wrap("", commandBar(S.query, search(index, S.query), t, icon));
+      return wrap("", commandBar(S.query, search([...index, ...nameEntries(t)], S.query), t, icon));
     }
     case "help": return wrap("end", helpPanel(t(`page_${signedIn() ? (S.screen as Page) : "security"}`), [...(S.screen === "storefront" || S.screen === "support" ? [{ id: "3", title: t("help_storefront"), href: "/faq/storefront/start" }] : []), ...(S.screen === "security" || S.screen === "messages" || S.screen === "assist" || S.screen === "notifications" ? [{ id: "4", title: t("lock_title"), href: "/faq/account/lock-everything" }, { id: "5", title: t("page_messages"), href: "/faq/account/messages" }, { id: "6", title: t("page_assist"), href: "/faq/assist/history" }] : []), { id: "1", title: t("help_article_1"), href: "/faq/account/recovery" }, { id: "2", title: t("help_article_2"), href: "/faq/account/passkeys" }], t, icon,
       askBox({ query: S.ask, results: S.ask ? lookup(knowledge(), S.ask) : [], online: S.link !== "offline", builtOn: dateOf(T_NOW()) }, t, icon)));
@@ -512,6 +514,7 @@ const plain = (s: string): string => s.replace(/[<>"'&]/g, "");
 const pick = <V extends string>(allowed: readonly V[], value: string, fallback: V): V => allowed.find((x) => x === value) ?? fallback;
 const stepUp = (then: string): void => { S.stepup = { ok: false, then }; S.overlay = "stepup"; draw(); };
 function act(a: string): void {
+  if (namesAct(plain(a), "nmc", "person")) { draw(); return; }   // the person's own choice of how names show, on every device
   const [k, v = ""] = plain(a).split(/:(.*)/s);
   const now = T_NOW();
   switch (k) {
@@ -766,3 +769,6 @@ function init(): void {
   draw(); drawLog();
 }
 init();
+/** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
+watchNames(document.body, () => t);
+void NAME_INFO_KEYS;   // this page carries the one-line descriptions, so search and the name notes say what each product does

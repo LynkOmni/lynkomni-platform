@@ -2,6 +2,17 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.79.0 (2026-11-21)
+Plain words for every Lynk name, everywhere (owner, 21 November 2026):
+- One register, catalog/names.v1.json, holds every Lynk name a person can see (33 products, 16 services, 4 features, 3 card groups and 6 devices) with its plain word and a one-line description of what it does, in all 38 languages (web/names, web/nameinfo). It also lists the company name, the internal names and the retired names, which never show.
+- Every screen of every emulator marks every Lynk name it shows: the first mention on a screen in running text shows its plain word in brackets ("LynkStat (Analytics)"); every other mention has a quiet dotted line and explains itself on hover, focus or a long press, with what it does on the pages that carry the descriptions; screen readers hear it too. Receipts, printed paper, the copyright line, what people type and code are left alone.
+- Launchers in the browser, the account site and the owner's computer view show each product with its plain word; search finds a product by its plain word or what it does ("accounting" finds LynkAcc and LynkOps), on every device.
+- LynkAssist answers "What is LynkStat?" for every name, in every language, offline too (the knowledge pack).
+- Basic phones show the plain word first: the menu title is now "Point of sale (LynkPOS)".
+- Plain words first: a person can choose it in their account (Language and region) and the owner can switch it on for the business's devices; launchers, labels and notes then show "Analytics (LynkStat)".
+- Clearer plain words where two were too close: LynkTrace is now "Order & delivery tracking" (was "Tracking") and LynkSentry "Theft & incident alerts" (was "Protection").
+- The footer reads its plain words from the register; tests/test_names.py checks the register (every family has a name, one plain word per name in every language, at most 40 characters, every Lynk word on a screen registered) and the fit guard's walk fails any screen that shows a name without its plain word. Page size budgets rise by the words (reasons in web/budgets.v1.json).
+
 ## v0.78.0 (2026-11-21)
 Section 4, step E3 (SIX SERVICES UPDATE: LynkFiles' document engine, which every service stores and signs through):
 - New register catalog/files.v1.json, read by core/files.py and ts/src/files.ts with shared test answers (python3 tools/files_vectors.py): a file's type from its bytes (programs and scripts refused), who signs next, the state of a signature request, when a share link may open, the verification code (three groups of the Lynk Alphabet) and whether a file fits the plan's storage.

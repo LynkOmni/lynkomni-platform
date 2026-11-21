@@ -6,6 +6,7 @@ import { Cart, salePayload } from "../../../ts/src/pos.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, reducedMotion, stateButtons } from "../../../ts/src/emulator.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
+import { watchNames } from "../../../ts/src/names.js";
 
 declare const DATA: Build;
 interface Batch { id: string; items: number; state: UserState; tampered: boolean }
@@ -63,3 +64,5 @@ function main(): void {
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 900);
 }
 main();
+/** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
+watchNames(document.body, () => t);

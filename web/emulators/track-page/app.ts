@@ -12,6 +12,7 @@ import { Tracking } from "../../../ts/src/tracking.js";
 import type { View } from "../../../ts/src/tracking.js";
 import { REGISTER } from "../../../ts/src/tracking.generated.js";
 import { trackerHtml } from "../../../ts/src/trackview.js";
+import { watchNames } from "../../../ts/src/names.js";
 
 declare const DATA: Build;
 type Stage = "placed" | "preparing" | "ready" | "on_the_way" | "late" | "delivered" | "failed";
@@ -85,3 +86,5 @@ function main(): void {
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 400);
 }
 main();
+/** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
+watchNames(document.body, () => t);

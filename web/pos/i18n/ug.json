@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ug",
  "native": "ئۇيغۇرچە",
- "source_sha256": "5717081e3105e63dd57a6c5f3dd38009d0277a4a68b072b57b84416d971d9f21",
+ "source_sha256": "d5f6d4028dd03c35f4d8ce6f1a7bbaea75b1aa4412b74b5d64687a13f922361e",
  "texts": {
   "academy": "ئاكادېمىيە",
   "academy_hint": "قىسقا دەرس ئۇ ئۆگىتىدىغان ئېكراننىڭ يېنىدا ئېچىلىدۇ.",
@@ -121,7 +121,7 @@
   "ch_s_yes": "{n}. ھەئە",
   "ch_sale_saved": "سېتىش ساقلاندى. تالون {receipt}.",
   "ch_stock_line": "{name}: {level}",
-  "ch_title": "LynkPOS",
+  "ch_title": "سېتىش نۇقتىسى (LynkPOS)",
   "ch_today": "بۈگۈن: {count} قېتىم سېتىش، {total}",
   "change": "قايتۇرما پۇل",
   "charge": "پۇل ئېلىش",

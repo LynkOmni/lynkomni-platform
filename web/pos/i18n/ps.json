@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ps",
  "native": "پښتو",
- "source_sha256": "5717081e3105e63dd57a6c5f3dd38009d0277a4a68b072b57b84416d971d9f21",
+ "source_sha256": "d5f6d4028dd03c35f4d8ce6f1a7bbaea75b1aa4412b74b5d64687a13f922361e",
  "texts": {
   "academy": "اکاډمي",
   "academy_hint": "لنډ درس د هغې پردې تر څنګ پرانیستل کېږي چې ښوونه یې کوي.",
@@ -121,7 +121,7 @@
   "ch_s_yes": "{n}. هو",
   "ch_sale_saved": "پلور خوندي شو. رسید {receipt}.",
   "ch_stock_line": "{name}: {level}",
-  "ch_title": "LynkPOS",
+  "ch_title": "د پلور ځای (LynkPOS)",
   "ch_today": "نن: {count} پلورونه، {total}",
   "change": "پاتې پیسې",
   "charge": "پیسې واخلئ",

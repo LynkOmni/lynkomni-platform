@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "5717081e3105e63dd57a6c5f3dd38009d0277a4a68b072b57b84416d971d9f21",
+ "source_sha256": "d5f6d4028dd03c35f4d8ce6f1a7bbaea75b1aa4412b74b5d64687a13f922361e",
  "texts": {
   "academy": "Ilé-ẹ̀kọ́",
   "academy_hint": "Ẹ̀kọ́ kúkúrú kan ṣí lẹ́gbẹ̀ẹ́ ojú-ìwé tí ó ń kọ́ni.",
@@ -121,7 +121,7 @@
   "ch_s_yes": "{n}. Bẹ́ẹ̀ ni",
   "ch_sale_saved": "A ti fi títà pamọ́. Ìwé ẹ̀rí {receipt}.",
   "ch_stock_line": "{name}: {level}",
-  "ch_title": "LynkPOS",
+  "ch_title": "Ibi títa ọjà (LynkPOS)",
   "ch_today": "Òní: títà {count}, {total}",
   "change": "Ṣẹ́ńjì",
   "charge": "Gba owó",

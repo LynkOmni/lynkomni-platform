@@ -27,6 +27,7 @@ import type { AtLook, AtPlan, AtTier } from "../../../ts/src/attenddesk.js";
 import { ticketNumber } from "../../../ts/src/queue.js";
 import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
 import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
+import { watchNames } from "../../../ts/src/names.js";
 
 interface BuildData {
   icons: Record<string, string>;
@@ -722,3 +723,5 @@ function wire(): void {
 }
 
 wire(); draw(); drawLog();
+/** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
+watchNames(document.body, () => t);

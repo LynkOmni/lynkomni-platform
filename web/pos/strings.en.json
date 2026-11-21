@@ -69,7 +69,7 @@
  "ch_qty": "How many {name}?",
  "ch_sale_saved": "Sale saved. Receipt {receipt}.",
  "ch_stock_line": "{name}: {level}",
- "ch_title": "LynkPOS",
+ "ch_title": "Point of sale (LynkPOS)",
  "ch_today": "Today: {count} sales, {total}",
  "change": "Change",
  "charge": "Charge",

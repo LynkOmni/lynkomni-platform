@@ -61,6 +61,8 @@ import { TRUST } from "../../../ts/src/assisttrust.generated.js";
 import { certainty, guard, remember, warning, work } from "../../../ts/src/assisttrust.js";
 import { answerHtml, askButtonHtml, controlsHtml, previewHtml, stoppedHtml, warningLineHtml } from "../../../ts/src/assistview.js";
 import type { LaLook } from "../../../ts/src/assistview.js";
+import { watchNames, namesChoice, namesAct } from "../../../ts/src/names.js";
+import { NAME_INFO_KEYS } from "../../../ts/src/nameinfo.js";
 
 interface BuildData {
   people: { attend: Record<AtTier, AtPlan>; queue: Record<AtTier, QuPlan>; survey: Record<AtTier, SvPlan> };
@@ -1440,7 +1442,7 @@ function settingScreen(id: string): string {
   const items = SETTING_ITEMS[id] ?? [];
   const sw = (k: string): string => `<li data-item="${k}"><label class="switch"><span>${esc(t(k.startsWith("way_") ? k : "st_" + k))}</span><input type="checkbox" data-in="set:${k}" ${S.toggles.has(k) ? "checked" : ""} ${owner ? "" : "disabled"}></label></li>`;
   const body = id === "language_region"
-    ? `<ul class="list card">${row(t("st_language"), PACKS[S.lang]?.native ?? S.lang)}${row(t("st_region"), pack().sample ? t("sample_country") : pack().name)}${row(t("st_currency"), pack().currency)}</ul><button class="ghost inline" data-act="localecard">${esc(t("change"))}</button>`
+    ? `<ul class="list card">${row(t("st_language"), PACKS[S.lang]?.native ?? S.lang)}${row(t("st_region"), pack().sample ? t("sample_country") : pack().name)}${row(t("st_currency"), pack().currency)}</ul><button class="ghost inline" data-act="localecard">${esc(t("change"))}</button>${namesChoice(t, { scope: "device", act: "nmc", canChange: owner })}`
     : id === "connected_apps" ? `<p class="info">${esc(t("st_no_apps"))}</p>`
     : id === "taxes" ? `<ul class="list card">${row(t("st_tax_rate"), t("from_country_pack"))}${sw("prices_include_tax")}</ul><p class="sub">${esc(t("not_tax"))}</p>`
     : id === "business_profile" ? `<ul class="list card">${row(t("st_shop_name"), shop())}${row(t("st_business_type"), t("type_" + S.btype))}${row(t("st_address"), t("not_set"))}${row(t("st_logo"), t("logo_rule"))}</ul>`
@@ -1755,6 +1757,7 @@ function closeDay(): void {
 }
 function act(a: string): void {
   const [k, v = ""] = a.split(/:(.*)/s);
+  if (namesAct(a, "nmc", "device")) { draw(); return; }   // the owner's choice of how names show on this device
   if (a === "qc") { S.qc = true; draw(); return; }
   if (a === "qcclose") { S.qc = false; draw(); return; }
   if (k === "qc") { openQuickCreate(v); return; }
@@ -2086,3 +2089,6 @@ function fit(): void {   // scale the whole device down on small screens, never 
 
 (window as unknown as { __go: (id: string) => void }).__go = go;
 wire(); draw(); drawLog();
+/** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
+watchNames(document.body, () => t);
+void NAME_INFO_KEYS;   // this page carries the one-line descriptions, so search and the name notes say what each product does

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "5717081e3105e63dd57a6c5f3dd38009d0277a4a68b072b57b84416d971d9f21",
+ "source_sha256": "d5f6d4028dd03c35f4d8ce6f1a7bbaea75b1aa4412b74b5d64687a13f922361e",
  "texts": {
   "academy": "अकादमी",
   "academy_hint": "छोटा पाठ उसी स्क्रीन के बगल में खुलता है जिसे वह सिखाता है।",
@@ -121,7 +121,7 @@
   "ch_s_yes": "{n}. हाँ",
   "ch_sale_saved": "बिक्री सहेजी गई। रसीद {receipt}।",
   "ch_stock_line": "{name}: {level}",
-  "ch_title": "LynkPOS",
+  "ch_title": "बिक्री काउंटर (LynkPOS)",
   "ch_today": "आज: {count} बिक्री, {total}",
   "change": "बाकी पैसे",
   "charge": "भुगतान लें",

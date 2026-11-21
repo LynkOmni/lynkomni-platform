@@ -18,6 +18,8 @@ import type { BarLook } from "../../../ts/src/appshell.js";
 import { NAV } from "../../../ts/src/navigation.generated.js";
 import { OFFICE_PATHS, OFFICE_SERVICES, OfficeView } from "../../../ts/src/officeview.js";
 import type { OfficeService } from "../../../ts/src/officeview.js";
+import { watchNames, namePair } from "../../../ts/src/names.js";
+import { NAME_INFO_KEYS } from "../../../ts/src/nameinfo.js";
 const SIDE_W = 200;   // px of room the 220 px sidebar gives its brand place (side-menu: logo from 140 px)
 
 interface Auto { id: string; level: string; assist: string | null; trigger: string; min_tier: string | null; default: string }
@@ -116,7 +118,7 @@ function placePage(): string {
 function launcherOverlay(): string {
   if (!S.launcher) return "";
   return `<div class="dsh-scrim launch-scrim" data-act="launcher"><div class="launch" role="dialog" aria-modal="true" aria-label="${esc(t("nv_all_services"))}" data-stop="1"><h2>${esc(t("nv_all_services"))}</h2>
-    ${launcherGroupsHtml(NAV, look, { mine: MINE, name: nameOf, productIcon: () => "ui-grid", act: "place", families: DATA.launcher.map((x) => x.family) })}
+    ${launcherGroupsHtml(NAV, look, { mine: MINE, name: (f) => namePair(nameOf(f), t).main, plain: (f) => namePair(nameOf(f), t).sub, productIcon: () => "ui-grid", act: "place", families: DATA.launcher.map((x) => x.family) })}
     <button class="secondary" data-act="launcher">${esc(t("nv_back"))}</button></div></div>`;
 }
 /** The owner's computer view is the all-in-one without touch (catalog/devices.v1.json): mouse and keyboard. */
@@ -172,3 +174,6 @@ function main(): void {
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 1180);
 }
 main();
+/** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
+watchNames(document.body, () => t);
+void NAME_INFO_KEYS;   // this page carries the one-line descriptions, so search and the name notes say what each product does

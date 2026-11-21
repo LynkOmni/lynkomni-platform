@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "5717081e3105e63dd57a6c5f3dd38009d0277a4a68b072b57b84416d971d9f21",
+ "source_sha256": "d5f6d4028dd03c35f4d8ce6f1a7bbaea75b1aa4412b74b5d64687a13f922361e",
  "texts": {
   "academy": "學院",
   "academy_hint": "簡短課程會在它所講解的畫面旁邊開啟。",
@@ -121,7 +121,7 @@
   "ch_s_yes": "{n}. 是",
   "ch_sale_saved": "銷售已儲存。收據 {receipt}。",
   "ch_stock_line": "{name}：{level}",
-  "ch_title": "LynkPOS",
+  "ch_title": "收銀（LynkPOS）",
   "ch_today": "今天：{count} 筆銷售，{total}",
   "change": "找零",
   "charge": "收款",

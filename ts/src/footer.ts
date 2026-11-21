@@ -1,4 +1,5 @@
 import { paymentOptions } from "./payments.js";
+import { plainOf } from "./names.js";
 /** LynkOmni footer: one model for every site and app. Menus use ecosystem names, copyright is fixed text, the year follows the viewer's
  *  time zone, language and payment methods follow the country pack. Translations are DRAFTS pending native-speaker review. */
 export interface Pack { code: string; name: string; currency: string; tz: string; languages: string[]; providers: string[]; card_networks: string[]; wallets: string[] }
@@ -18,16 +19,9 @@ const T: Record<string, Record<string, string>> = {
     appstore: "App Store", gplay: "Google Play", pwa: "Install web app", terms: "Terms", privacy: "Privacy", cookies: "Cookies", compliance: "Compliance & Licenses", accessibility: "Accessibility",
     language: "Language", region: "Region", tagline: "Run it all. Anywhere. Nonstop.", nlTitle: "Stay in the loop",
     individuals: "Individuals & Freelancers", companies: "Companies", organisations: "Organisations & Non-profits", logoHome: "LynkOmni home",
-    plain_suite: "All-in-one", plain_pos: "Point of sale", plain_stock: "Inventory", plain_acc: "Accounting", plain_inv: "Invoicing", plain_crm: "Customers",
-    plain_ops: "Office bundle", plain_stat: "Analytics", plain_grow: "Marketing", plain_rewards: "Loyalty", plain_chat: "Business chat", plain_mpay: "Payments",
-    plain_checkout: "Pay links & QR", plain_recover: "Failed-payment recovery", plain_vcard: "Virtual cards", plain_assist: "AI assistant",
-    plain_booking: "Travel & ticketing", plain_essential: "Bills & connectivity", plain_dev: "Developer platform",
-    move: "Move & protect", plain_motion: "Everyday tracking", plain_guard: "Vehicle & asset protection", plain_trace: "Tracking", plain_gps: "Location & maps", plain_sentry: "Protection",
-    people: "People & service", plain_attend: "Attendance", plain_queue: "Queue & tickets", plain_survey: "Surveys",
-    work: "Work & records", plain_exchange: "Currency exchange", plain_vote: "Voting", plain_hr: "Staff management", plain_project: "Projects",
-    plain_school: "School management", plain_property: "Property management", plain_files: "Documents & signing", plain_jobs: "Jobs & hiring", plain_academy: "Courses & training",
-    plain_hub: "Developer portal", plain_doc: "Documentation", plain_api: "Programming interface", plain_sdk: "Software kits",
-    plain_ai: "AI assistant", plain_faq: "Questions & answers", plain_status: "Service status", plain_feedback: "Product feedback", plain_safety: "Safety & reporting",
+    move: "Move & protect",
+    people: "People & service",
+    work: "Work & records",
     nlText: "Product updates, merchant tips and LynkOmni news.", nlEmail: "Email address", nlConsent: "I agree to receive LynkOmni emails and understand I can unsubscribe at any time.",
     pm_bank_transfer: "Bank transfer", pm_qr: "QR payment", pm_crypto: "Crypto", follow: "Follow LynkOmni", nlTopics: "Topics", footerLabel: "LynkOmni site links", nlButton: "Subscribe", nlNote: "We will send a confirmation email first. You are not subscribed until you confirm.", tProduct: "Product updates", tMerchant: "Merchant tips", tDev: "Developer updates", tCompany: "Company news" },
   fr: { products: "Produits", solutions: "Solutions", developers: "Développeurs", enterprise: "Entreprises et partenaires", company: "Entreprise", resources: "Ressources", support: "Assistance",
@@ -66,8 +60,8 @@ export function currentYear(now: Date, tz: string): number {
 export const shortFooter = (now: Date, tz: string): string => copyright(currentYear(now, tz));
 
 let WORDS: Words | undefined, LANG = "en";
-/** A product's short name always travels with a plain word for it ("LynkAcc (Accounting)"), translated like every footer word. */
-const brand = (id: string, label: string, href: string): Item => ({ id, label, href, brand: true, plain: say(LANG, WORDS, `plain_${id}`) });
+/** A product's short name always travels with its plain word ("LynkAcc (Accounting)") from the names register (catalog/names.v1.json, words in web/names). */
+const brand = (id: string, label: string, href: string): Item => ({ id, label, href, brand: true, plain: plainOf(label, (k) => WORDS?.(k) ?? k) });
 const txt = (lang: string, id: string, key: string, href: string): Item => ({ id, label: say(lang, WORDS, key), href });
 
 export function columns(lang: string, words?: Words): Column[] {

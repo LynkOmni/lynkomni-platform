@@ -12,6 +12,7 @@ ignored mouse clicks). For every emulator in web/emulators/dist, at every size i
 
 Needs Playwright with Chromium (installed in CI's layout job); skipped where it is missing."""
 import glob, os, unittest
+from core import names as _names
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIST = os.path.join(ROOT, "web", "emulators", "dist")
@@ -172,7 +173,7 @@ AREAS = r"""() => {
     const k = root.offsetHeight ? root.getBoundingClientRect().height / root.offsetHeight : 1;
     for (const par of root.querySelectorAll('*')) {
       if (par.closest('svg, .keypad, .navpad, .seg, .segmented, table')) continue;
-      const kids = [...par.children].filter((c) => shown(c) && !c.matches('script, style, br'));
+      const kids = [...par.children].filter((c) => shown(c) && !c.matches('script, style, br, .lname'));   // a marked name is part of the text, not a box
       if (kids.length < 2) continue;
       // crowded: two boxes next to each other with less than 4 px between them
       for (let i = 0; i + 1 < kids.length; i++) {
@@ -218,6 +219,25 @@ INPUT = """() => {
   }
   return bad;
 }"""
+
+# Every Lynk name a screen shows carries its plain word (owner 2026-11-21, catalog/names.v1.json): each one sits inside the
+# names part's mark (ts/src/names.ts), except on receipts, printed paper, the copyright line, typed text and code.
+NAMES = r"""() => {
+  const bad = new Set(), re = new RegExp('(?<![A-Za-z])(""" + "|".join(sorted(_names.BY_NAME, key=len, reverse=True)) + r""")(?![A-Za-z])', 'g');
+  const roots = document.querySelectorAll('#screen, #display, #cscreen, #till, #screenA, #screenB, .display, .lscreen');
+  const skip = 'script, style, code, pre, input, textarea, svg, title, .sr, #paper, .receipt, .rtext, .fcopy, .shortfoot, .lname, [data-lname], [data-names="off"]';
+  const walk = (n) => {
+    for (const c of n.childNodes) {
+      if (c.nodeType === 3) {
+        const p = c.parentElement; if (!p || !p.getClientRects().length || p.closest(skip)) continue;
+        for (const m of (c.textContent || '').match(re) || []) bad.add(m + ' without its plain word');
+      } else if (c.nodeType === 1) walk(c);
+    }
+  };
+  roots.forEach(walk);
+  return [...bad];
+}"""
+
 
 RAW = r"""() => {
   const bad = new Set(), re = /\b[a-z][a-z0-9]*(?:_[a-z0-9]+)+\b/g;
@@ -364,10 +384,10 @@ class FitGuard(unittest.TestCase):
                 def look(where):
                     pg.mouse.move(0, 0)
                     pg.evaluate(SETTLE)
-                    bad = pg.evaluate(RAW) + pg.evaluate(CROWD) + pg.evaluate(AREAS)
+                    bad = pg.evaluate(RAW) + pg.evaluate(NAMES) + pg.evaluate(CROWD) + pg.evaluate(AREAS)
                     if bad:                   # look again after a moment: only what stays on screen counts
                         pg.wait_for_timeout(400); pg.evaluate(SETTLE)
-                        bad = pg.evaluate(RAW) + pg.evaluate(CROWD) + pg.evaluate(AREAS)
+                        bad = pg.evaluate(RAW) + pg.evaluate(NAMES) + pg.evaluate(CROWD) + pg.evaluate(AREAS)
                     if bad:
                         found.setdefault(emu, {})[where] = bad
                 look("start")

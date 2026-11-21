@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "5717081e3105e63dd57a6c5f3dd38009d0277a4a68b072b57b84416d971d9f21",
+ "source_sha256": "d5f6d4028dd03c35f4d8ce6f1a7bbaea75b1aa4412b74b5d64687a13f922361e",
  "texts": {
   "academy": "Học viện",
   "academy_hint": "Một khóa học ngắn mở ra bên cạnh màn hình mà nó hướng dẫn.",
@@ -121,7 +121,7 @@
   "ch_s_yes": "{n}. Có",
   "ch_sale_saved": "Đã lưu đơn bán. Biên lai {receipt}.",
   "ch_stock_line": "{name}: {level}",
-  "ch_title": "LynkPOS",
+  "ch_title": "Bán hàng tại quầy (LynkPOS)",
   "ch_today": "Hôm nay: {count} đơn, {total}",
   "change": "Tiền thối",
   "charge": "Thu tiền",

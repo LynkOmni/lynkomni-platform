@@ -13313,6 +13313,398 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "what-pos",
+    "topic": "how_to",
+    "q": "What is LynkPOS?",
+    "a": "LynkPOS (Point of sale): Sell at the counter, on a phone or online, even without internet.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-mpay",
+    "topic": "how_to",
+    "q": "What is LynkMPay?",
+    "a": "LynkMPay (Payments): Take card, mobile money and other payments through licensed partners.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-checkout",
+    "topic": "how_to",
+    "q": "What is LynkCheckout?",
+    "a": "LynkCheckout (Pay links & QR): Send a pay link or show a QR code so customers can pay you.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-recover",
+    "topic": "how_to",
+    "q": "What is LynkRecover?",
+    "a": "LynkRecover (Failed-payment recovery): Follow up failed payments so customers can pay again.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-vcard",
+    "topic": "how_to",
+    "q": "What is LynkVCard?",
+    "a": "LynkVCard (Virtual cards): Cards for spending, issued by a licensed partner.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-acc",
+    "topic": "how_to",
+    "q": "What is LynkAcc?",
+    "a": "LynkAcc (Accounting): Keep your books, expenses and reports in order.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-inv",
+    "topic": "how_to",
+    "q": "What is LynkInv?",
+    "a": "LynkInv (Invoicing): Create and send invoices and see when they are paid.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-crm",
+    "topic": "how_to",
+    "q": "What is LynkCRM?",
+    "a": "LynkCRM (Customers): Keep track of your customers, deals and follow-ups.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-ops",
+    "topic": "how_to",
+    "q": "What is LynkOps?",
+    "a": "LynkOps (Office bundle): Accounting, invoicing, customers and analytics in one plan.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-stock",
+    "topic": "how_to",
+    "q": "What is LynkStock?",
+    "a": "LynkStock (Inventory): Know what you have, what is selling and what to reorder.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-stat",
+    "topic": "how_to",
+    "q": "What is LynkStat?",
+    "a": "LynkStat (Analytics): See your sales, profit and trends in one view.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-rewards",
+    "topic": "how_to",
+    "q": "What is LynkRewards?",
+    "a": "LynkRewards (Loyalty): Reward loyal customers with points, offers and gift cards.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-chat",
+    "topic": "how_to",
+    "q": "What is LynkChat?",
+    "a": "LynkChat (Business chat): Chat with your customers and your team in one inbox.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-grow",
+    "topic": "how_to",
+    "q": "What is LynkGrow?",
+    "a": "LynkGrow (Marketing): Reach more customers with campaigns, offers and your shop page.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-assist",
+    "topic": "how_to",
+    "q": "What is LynkAssist?",
+    "a": "LynkAssist (AI assistant): Ask questions, get help and have drafts prepared for you.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-motion",
+    "topic": "how_to",
+    "q": "What is LynkMotion?",
+    "a": "LynkMotion (Everyday tracking): Follow deliveries, trips and your own things day to day.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-guard",
+    "topic": "how_to",
+    "q": "What is LynkGuard?",
+    "a": "LynkGuard (Vehicle & asset protection): Protect vehicles and valuable things with tracking and alerts.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-suite",
+    "topic": "how_to",
+    "q": "What is LynkSuite?",
+    "a": "LynkSuite (All-in-one): Every core service in one plan at one price.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-dev",
+    "topic": "how_to",
+    "q": "What is LynkDev?",
+    "a": "LynkDev (Developer platform): Build apps that work with LynkOmni, with open APIs and tools.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-booking",
+    "topic": "how_to",
+    "q": "What is LynkBooking?",
+    "a": "LynkBooking (Travel & ticketing): Book travel, tickets and appointments in one place.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-essential",
+    "topic": "how_to",
+    "q": "What is LynkEssential?",
+    "a": "LynkEssential (Bills & connectivity): Pay bills, buy airtime and top up everyday services.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-attend",
+    "topic": "how_to",
+    "q": "What is LynkAttend?",
+    "a": "LynkAttend (Attendance): Record who comes and goes: staff, students and visitors.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-queue",
+    "topic": "how_to",
+    "q": "What is LynkQueue?",
+    "a": "LynkQueue (Queue & tickets): Give out tickets and call people in turn, without crowds.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-survey",
+    "topic": "how_to",
+    "q": "What is LynkSurvey?",
+    "a": "LynkSurvey (Surveys): Ask questions and collect honest answers, online or offline.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-exchange",
+    "topic": "how_to",
+    "q": "What is LynkExchange?",
+    "a": "LynkExchange (Currency exchange): Change money between currencies through licensed partners.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-vote",
+    "topic": "how_to",
+    "q": "What is LynkVote?",
+    "a": "LynkVote (Voting): Run secure votes and elections for any group.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-hr",
+    "topic": "how_to",
+    "q": "What is LynkHR?",
+    "a": "LynkHR (Staff management): Manage staff, leave, shifts and payroll records.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-project",
+    "topic": "how_to",
+    "q": "What is LynkProject?",
+    "a": "LynkProject (Projects): Plan work, share tasks and follow progress.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-school",
+    "topic": "how_to",
+    "q": "What is LynkSchool?",
+    "a": "LynkSchool (School management): Run a school: classes, fees, marks and parents.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-academy",
+    "topic": "how_to",
+    "q": "What is LynkAcademy?",
+    "a": "LynkAcademy (Courses & training): Create and take courses, with lessons and certificates.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-property",
+    "topic": "how_to",
+    "q": "What is LynkProperty?",
+    "a": "LynkProperty (Property management): Manage rentals, tenants, rent and repairs.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-files",
+    "topic": "how_to",
+    "q": "What is LynkFiles?",
+    "a": "LynkFiles (Documents & signing): Keep documents safe and get them signed.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-jobs",
+    "topic": "how_to",
+    "q": "What is LynkJobs?",
+    "a": "LynkJobs (Jobs & hiring): Post jobs, find work and hire people.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-trace",
+    "topic": "how_to",
+    "q": "What is LynkTrace?",
+    "a": "LynkTrace (Order & delivery tracking): Follow each order, delivery and request step by step.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-gps",
+    "topic": "how_to",
+    "q": "What is LynkGPS?",
+    "a": "LynkGPS (Location & maps): See places on a map and plan routes.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-sentry",
+    "topic": "how_to",
+    "q": "What is LynkSentry?",
+    "a": "LynkSentry (Theft & incident alerts): Get alerts about theft, tampering and incidents.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-hub",
+    "topic": "how_to",
+    "q": "What is LynkHub?",
+    "a": "LynkHub (Developer portal): Where developers register apps and manage their keys.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-doc",
+    "topic": "how_to",
+    "q": "What is LynkDoc?",
+    "a": "LynkDoc (Documentation): Guides and references for building with LynkOmni.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-api",
+    "topic": "how_to",
+    "q": "What is LynkAPI?",
+    "a": "LynkAPI (Programming interface): The way apps read and write LynkOmni data, with consent.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-sdk",
+    "topic": "how_to",
+    "q": "What is LynkSDK?",
+    "a": "LynkSDK (Software kits): Ready-made code kits for building apps.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-faq",
+    "topic": "how_to",
+    "q": "What is LynkFAQ?",
+    "a": "LynkFAQ (Questions & answers): Answers to the questions people ask most.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-support",
+    "topic": "how_to",
+    "q": "What is LynkSupport?",
+    "a": "LynkSupport (Help & support): Get help from the LynkOmni support team.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-status",
+    "topic": "how_to",
+    "q": "What is LynkStatus?",
+    "a": "LynkStatus (Service status): See whether every service is running normally.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-feedback",
+    "topic": "how_to",
+    "q": "What is LynkFeedback?",
+    "a": "LynkFeedback (Product feedback): Tell us what to improve and follow our answers.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-safety",
+    "topic": "how_to",
+    "q": "What is LynkSafety?",
+    "a": "LynkSafety (Safety & reporting): Report a safety problem and get help quickly.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-flow",
+    "topic": "how_to",
+    "q": "What is LynkFlow?",
+    "a": "LynkFlow (Automations): Runs your automations from events and schedules.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-mesh",
+    "topic": "how_to",
+    "q": "What is LynkMesh?",
+    "a": "LynkMesh (Offline relay): Passes sales between nearby devices when there is no internet.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-driver",
+    "topic": "how_to",
+    "q": "What is LynkDriver?",
+    "a": "LynkDriver (Hardware drivers): Connects printers, scanners and other hardware.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-id",
+    "topic": "how_to",
+    "q": "What is LynkID?",
+    "a": "LynkID (Account ID): Your own identity in LynkOmni, the same on every device.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-proof",
+    "topic": "how_to",
+    "q": "What is LynkProof?",
+    "a": "LynkProof (Dispute evidence): Gathers the evidence to answer a payment dispute.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-split",
+    "topic": "how_to",
+    "q": "What is LynkSplit?",
+    "a": "LynkSplit (Split payments): Shares one payment between several people or businesses.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-audit",
+    "topic": "how_to",
+    "q": "What is LynkAudit?",
+    "a": "LynkAudit (Audit trail): A full record of who changed what in your books.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-edge",
+    "topic": "how_to",
+    "q": "What is LynkEdge?",
+    "a": "LynkEdge (Bandwidth & metering): Measures how much developer apps use.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-prima",
+    "topic": "how_to",
+    "q": "What is LynkPrima?",
+    "a": "LynkPrima (Prepaid card): Load money first, then spend it.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-dyna",
+    "topic": "how_to",
+    "q": "What is LynkDyna?",
+    "a": "LynkDyna (Debit card): Spends straight from your own account.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-crest",
+    "topic": "how_to",
+    "q": "What is LynkCrest?",
+    "a": "LynkCrest (Credit card): A credit line from a licensed lender.",
+    "source": "catalog/names.v1.json"
+   },
+   {
     "id": "state-queued",
     "topic": "status_word",
     "q": "What does Queued mean?",
@@ -13810,6 +14202,398 @@
     "q": "أين أجد LynkSuite؟",
     "a": "يُوصف LynkSuite في lynkomni.com/suite.",
     "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "what-pos",
+    "topic": "how_to",
+    "q": "ما هو LynkPOS؟",
+    "a": "LynkPOS (نقطة البيع): بِع عند المنضدة أو على الهاتف أو عبر الإنترنت، حتى دون اتصال.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-mpay",
+    "topic": "how_to",
+    "q": "ما هو LynkMPay؟",
+    "a": "LynkMPay (المدفوعات): اقبل البطاقات والأموال عبر الهاتف ومدفوعات أخرى من خلال شركاء مرخّصين.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-checkout",
+    "topic": "how_to",
+    "q": "ما هو LynkCheckout؟",
+    "a": "LynkCheckout (روابط ورموز QR للدفع): أرسل رابط دفع أو اعرض رمز QR ليدفع لك العملاء.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-recover",
+    "topic": "how_to",
+    "q": "ما هو LynkRecover؟",
+    "a": "LynkRecover (استرداد المدفوعات الفاشلة): تابِع المدفوعات المتعثرة ليتمكن العملاء من الدفع مجددًا.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-vcard",
+    "topic": "how_to",
+    "q": "ما هو LynkVCard؟",
+    "a": "LynkVCard (بطاقات افتراضية): بطاقات للإنفاق يصدرها شريك مرخّص.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-acc",
+    "topic": "how_to",
+    "q": "ما هو LynkAcc؟",
+    "a": "LynkAcc (المحاسبة): حافظ على دفاترك ومصروفاتك وتقاريرك منظّمة.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-inv",
+    "topic": "how_to",
+    "q": "ما هو LynkInv؟",
+    "a": "LynkInv (الفوترة): أنشئ الفواتير وأرسلها واعرف متى تُدفع.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-crm",
+    "topic": "how_to",
+    "q": "ما هو LynkCRM؟",
+    "a": "LynkCRM (العملاء): تابِع عملاءك وصفقاتك ومتابعاتك.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-ops",
+    "topic": "how_to",
+    "q": "ما هو LynkOps؟",
+    "a": "LynkOps (حزمة المكتب): المحاسبة والفواتير والعملاء والتحليلات في خطة واحدة.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-stock",
+    "topic": "how_to",
+    "q": "ما هو LynkStock؟",
+    "a": "LynkStock (المخزون): اعرف ما لديك وما يُباع وما يجب إعادة طلبه.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-stat",
+    "topic": "how_to",
+    "q": "ما هو LynkStat؟",
+    "a": "LynkStat (التحليلات): شاهد مبيعاتك وأرباحك واتجاهاتك في عرض واحد.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-rewards",
+    "topic": "how_to",
+    "q": "ما هو LynkRewards؟",
+    "a": "LynkRewards (الولاء): كافئ العملاء الأوفياء بالنقاط والعروض وبطاقات الهدايا.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-chat",
+    "topic": "how_to",
+    "q": "ما هو LynkChat؟",
+    "a": "LynkChat (محادثة الأعمال): تحدّث مع عملائك وفريقك في صندوق واحد.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-grow",
+    "topic": "how_to",
+    "q": "ما هو LynkGrow؟",
+    "a": "LynkGrow (التسويق): صِل إلى عملاء أكثر بالحملات والعروض وصفحة متجرك.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-assist",
+    "topic": "how_to",
+    "q": "ما هو LynkAssist؟",
+    "a": "LynkAssist (مساعد ذكاء اصطناعي): اطرح الأسئلة واحصل على المساعدة ومسودات جاهزة لك.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-motion",
+    "topic": "how_to",
+    "q": "ما هو LynkMotion؟",
+    "a": "LynkMotion (تتبع يومي): تابِع التوصيلات والرحلات وأغراضك يومًا بيوم.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-guard",
+    "topic": "how_to",
+    "q": "ما هو LynkGuard؟",
+    "a": "LynkGuard (حماية المركبات والأصول): احمِ المركبات والممتلكات الثمينة بالتتبع والتنبيهات.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-suite",
+    "topic": "how_to",
+    "q": "ما هو LynkSuite؟",
+    "a": "LynkSuite (الكل في واحد): كل الخدمات الأساسية في خطة واحدة بسعر واحد.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-dev",
+    "topic": "how_to",
+    "q": "ما هو LynkDev؟",
+    "a": "LynkDev (منصة المطورين): أنشئ تطبيقات تعمل مع LynkOmni بواجهات API مفتوحة وأدوات.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-booking",
+    "topic": "how_to",
+    "q": "ما هو LynkBooking؟",
+    "a": "LynkBooking (السفر والتذاكر): احجز السفر والتذاكر والمواعيد في مكان واحد.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-essential",
+    "topic": "how_to",
+    "q": "ما هو LynkEssential؟",
+    "a": "LynkEssential (الفواتير والاتصال): ادفع الفواتير واشترِ الرصيد واشحن الخدمات اليومية.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-attend",
+    "topic": "how_to",
+    "q": "ما هو LynkAttend؟",
+    "a": "LynkAttend (الحضور): سجّل من يحضر ومن يغادر: الموظفون والطلاب والزوار.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-queue",
+    "topic": "how_to",
+    "q": "ما هو LynkQueue؟",
+    "a": "LynkQueue (الطابور والتذاكر): وزّع أرقام الانتظار وناد الناس بالدور دون ازدحام.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-survey",
+    "topic": "how_to",
+    "q": "ما هو LynkSurvey؟",
+    "a": "LynkSurvey (الاستبيانات): اطرح الأسئلة واجمع إجابات صادقة، متصلًا أو دون اتصال.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-exchange",
+    "topic": "how_to",
+    "q": "ما هو LynkExchange؟",
+    "a": "LynkExchange (صرف العملات): حوّل الأموال بين العملات من خلال شركاء مرخّصين.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-vote",
+    "topic": "how_to",
+    "q": "ما هو LynkVote؟",
+    "a": "LynkVote (التصويت): نظّم عمليات تصويت وانتخابات آمنة لأي مجموعة.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-hr",
+    "topic": "how_to",
+    "q": "ما هو LynkHR؟",
+    "a": "LynkHR (إدارة الموظفين): أدِر الموظفين والإجازات والورديات وسجلات الرواتب.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-project",
+    "topic": "how_to",
+    "q": "ما هو LynkProject؟",
+    "a": "LynkProject (المشاريع): خطّط للعمل ووزّع المهام وتابِع التقدّم.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-school",
+    "topic": "how_to",
+    "q": "ما هو LynkSchool؟",
+    "a": "LynkSchool (إدارة المدارس): أدِر مدرسة: الفصول والرسوم والدرجات وأولياء الأمور.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-academy",
+    "topic": "how_to",
+    "q": "ما هو LynkAcademy؟",
+    "a": "LynkAcademy (الدورات والتدريب): أنشئ الدورات وادرسها مع دروس وشهادات.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-property",
+    "topic": "how_to",
+    "q": "ما هو LynkProperty؟",
+    "a": "LynkProperty (إدارة العقارات): أدِر الإيجارات والمستأجرين والأجرة والإصلاحات.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-files",
+    "topic": "how_to",
+    "q": "ما هو LynkFiles؟",
+    "a": "LynkFiles (المستندات والتوقيع): احفظ المستندات بأمان واحصل على توقيعها.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-jobs",
+    "topic": "how_to",
+    "q": "ما هو LynkJobs؟",
+    "a": "LynkJobs (الوظائف والتوظيف): انشر الوظائف وابحث عن عمل ووظّف الناس.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-trace",
+    "topic": "how_to",
+    "q": "ما هو LynkTrace؟",
+    "a": "LynkTrace (تتبع الطلبات والتوصيل): تابِع كل طلب وتوصيل وطلب خدمة خطوة بخطوة.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-gps",
+    "topic": "how_to",
+    "q": "ما هو LynkGPS؟",
+    "a": "LynkGPS (الموقع والخرائط): شاهد الأماكن على الخريطة وخطّط المسارات.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-sentry",
+    "topic": "how_to",
+    "q": "ما هو LynkSentry؟",
+    "a": "LynkSentry (تنبيهات السرقة والحوادث): تلقَّ تنبيهات بشأن السرقة والعبث والحوادث.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-hub",
+    "topic": "how_to",
+    "q": "ما هو LynkHub؟",
+    "a": "LynkHub (بوابة المطورين): حيث يسجّل المطوّرون تطبيقاتهم ويديرون مفاتيحهم.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-doc",
+    "topic": "how_to",
+    "q": "ما هو LynkDoc؟",
+    "a": "LynkDoc (التوثيق): أدلة ومراجع للبناء باستخدام LynkOmni.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-api",
+    "topic": "how_to",
+    "q": "ما هو LynkAPI؟",
+    "a": "LynkAPI (واجهة برمجية): الطريقة التي تقرأ بها التطبيقات بيانات LynkOmni وتكتبها، بموافقة.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-sdk",
+    "topic": "how_to",
+    "q": "ما هو LynkSDK؟",
+    "a": "LynkSDK (حزم برمجية): حزم برمجية جاهزة لبناء التطبيقات.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-faq",
+    "topic": "how_to",
+    "q": "ما هو LynkFAQ؟",
+    "a": "LynkFAQ (أسئلة وأجوبة): إجابات عن أكثر الأسئلة شيوعًا.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-support",
+    "topic": "how_to",
+    "q": "ما هو LynkSupport؟",
+    "a": "LynkSupport (المساعدة والدعم): احصل على المساعدة من فريق دعم LynkOmni.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-status",
+    "topic": "how_to",
+    "q": "ما هو LynkStatus؟",
+    "a": "LynkStatus (حالة الخدمة): تحقّق مما إذا كانت كل خدمة تعمل بشكل طبيعي.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-feedback",
+    "topic": "how_to",
+    "q": "ما هو LynkFeedback؟",
+    "a": "LynkFeedback (رأيك في المنتج): أخبرنا بما يجب تحسينه وتابِع إجاباتنا.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-safety",
+    "topic": "how_to",
+    "q": "ما هو LynkSafety؟",
+    "a": "LynkSafety (السلامة والإبلاغ): أبلغ عن مشكلة أمان واحصل على المساعدة بسرعة.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-flow",
+    "topic": "how_to",
+    "q": "ما هو LynkFlow؟",
+    "a": "LynkFlow (الأتمتة): يشغّل عمليات الأتمتة لديك بناءً على الأحداث والجداول.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-mesh",
+    "topic": "how_to",
+    "q": "ما هو LynkMesh؟",
+    "a": "LynkMesh (ترحيل دون اتصال): ينقل المبيعات بين الأجهزة القريبة عند انقطاع الإنترنت.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-driver",
+    "topic": "how_to",
+    "q": "ما هو LynkDriver؟",
+    "a": "LynkDriver (برامج تشغيل الأجهزة): يوصل الطابعات والماسحات والأجهزة الأخرى.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-id",
+    "topic": "how_to",
+    "q": "ما هو LynkID؟",
+    "a": "LynkID (معرّف الحساب): هويتك في LynkOmni، نفسها على كل جهاز.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-proof",
+    "topic": "how_to",
+    "q": "ما هو LynkProof؟",
+    "a": "LynkProof (أدلة النزاعات): يجمع الأدلة للرد على نزاع دفع.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-split",
+    "topic": "how_to",
+    "q": "ما هو LynkSplit؟",
+    "a": "LynkSplit (مدفوعات مقسّمة): يقسّم دفعة واحدة بين عدة أشخاص أو أعمال.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-audit",
+    "topic": "how_to",
+    "q": "ما هو LynkAudit؟",
+    "a": "LynkAudit (سجل التدقيق): سجل كامل لمن غيّر ماذا في دفاترك.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-edge",
+    "topic": "how_to",
+    "q": "ما هو LynkEdge؟",
+    "a": "LynkEdge (النطاق الترددي والقياس): يقيس مقدار استخدام تطبيقات المطوّرين.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-prima",
+    "topic": "how_to",
+    "q": "ما هو LynkPrima؟",
+    "a": "LynkPrima (بطاقة مسبقة الدفع): اشحن المال أولًا ثم أنفقه.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-dyna",
+    "topic": "how_to",
+    "q": "ما هو LynkDyna؟",
+    "a": "LynkDyna (بطاقة خصم): ينفق مباشرة من حسابك الخاص.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-crest",
+    "topic": "how_to",
+    "q": "ما هو LynkCrest؟",
+    "a": "LynkCrest (بطاقة ائتمان): حد ائتماني من جهة إقراض مرخّصة.",
+    "source": "catalog/names.v1.json"
    },
    {
     "id": "state-queued",
@@ -14311,6 +15095,398 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "what-pos",
+    "topic": "how_to",
+    "q": "LynkPOSとは何ですか？",
+    "a": "LynkPOS（レジ）：カウンターでも、スマートフォンでも、オンラインでも、インターネットがなくても販売できます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-mpay",
+    "topic": "how_to",
+    "q": "LynkMPayとは何ですか？",
+    "a": "LynkMPay（決済）：カード、モバイルマネーなどの支払いを、認可されたパートナーを通じて受け付けます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-checkout",
+    "topic": "how_to",
+    "q": "LynkCheckoutとは何ですか？",
+    "a": "LynkCheckout（支払いリンクと QR）：支払いリンクを送るか QR コードを見せて、代金を受け取ります。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-recover",
+    "topic": "how_to",
+    "q": "LynkRecoverとは何ですか？",
+    "a": "LynkRecover（失敗した支払いの回収）：失敗した支払いをフォローし、お客様がもう一度支払えるようにします。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-vcard",
+    "topic": "how_to",
+    "q": "LynkVCardとは何ですか？",
+    "a": "LynkVCard（バーチャルカード）：認可されたパートナーが発行する、支払い用のカードです。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-acc",
+    "topic": "how_to",
+    "q": "LynkAccとは何ですか？",
+    "a": "LynkAcc（会計）：帳簿、経費、レポートを整理しておけます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-inv",
+    "topic": "how_to",
+    "q": "LynkInvとは何ですか？",
+    "a": "LynkInv（請求）：請求書を作成して送り、いつ支払われたかを確認できます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-crm",
+    "topic": "how_to",
+    "q": "LynkCRMとは何ですか？",
+    "a": "LynkCRM（顧客）：顧客、商談、フォローアップを管理します。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-ops",
+    "topic": "how_to",
+    "q": "LynkOpsとは何ですか？",
+    "a": "LynkOps（オフィスセット）：会計、請求書、顧客管理、分析をひとつのプランで。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-stock",
+    "topic": "how_to",
+    "q": "LynkStockとは何ですか？",
+    "a": "LynkStock（在庫）：在庫、売れ筋、再注文が必要なものがわかります。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-stat",
+    "topic": "how_to",
+    "q": "LynkStatとは何ですか？",
+    "a": "LynkStat（分析）：売上、利益、傾向をひとつの画面で確認できます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-rewards",
+    "topic": "how_to",
+    "q": "LynkRewardsとは何ですか？",
+    "a": "LynkRewards（ポイント）：常連のお客様にポイント、特典、ギフトカードでお礼をします。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-chat",
+    "topic": "how_to",
+    "q": "LynkChatとは何ですか？",
+    "a": "LynkChat（ビジネスチャット）：お客様やチームとひとつの受信箱でチャットできます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-grow",
+    "topic": "how_to",
+    "q": "LynkGrowとは何ですか？",
+    "a": "LynkGrow（マーケティング）：キャンペーン、特典、ショップページで、より多くのお客様に届けます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-assist",
+    "topic": "how_to",
+    "q": "LynkAssistとは何ですか？",
+    "a": "LynkAssist（AI アシスタント）：質問して、助けを受け、下書きを用意してもらえます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-motion",
+    "topic": "how_to",
+    "q": "LynkMotionとは何ですか？",
+    "a": "LynkMotion（毎日の追跡）：配送、移動、自分の持ち物を毎日確認できます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-guard",
+    "topic": "how_to",
+    "q": "LynkGuardとは何ですか？",
+    "a": "LynkGuard（車両と資産の保護）：車両や大切な資産を、追跡と通知で守ります。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-suite",
+    "topic": "how_to",
+    "q": "LynkSuiteとは何ですか？",
+    "a": "LynkSuite（オールインワン）：主なサービスすべてを、ひとつのプランとひとつの価格で。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-dev",
+    "topic": "how_to",
+    "q": "LynkDevとは何ですか？",
+    "a": "LynkDev（開発者プラットフォーム）：LynkOmni と連携するアプリを、オープン API とツールで作れます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-booking",
+    "topic": "how_to",
+    "q": "LynkBookingとは何ですか？",
+    "a": "LynkBooking（旅行とチケット）：旅行、チケット、予約をひとつの場所で手配できます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-essential",
+    "topic": "how_to",
+    "q": "LynkEssentialとは何ですか？",
+    "a": "LynkEssential（請求書と通信）：料金の支払い、通話時間の購入、毎日のサービスのチャージができます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-attend",
+    "topic": "how_to",
+    "q": "LynkAttendとは何ですか？",
+    "a": "LynkAttend（勤怠）：出入りした人を記録します。スタッフ、生徒、来訪者に対応。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-queue",
+    "topic": "how_to",
+    "q": "LynkQueueとは何ですか？",
+    "a": "LynkQueue（順番待ちと整理券）：整理券を配り、混雑なしで順番に呼び出します。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-survey",
+    "topic": "how_to",
+    "q": "LynkSurveyとは何ですか？",
+    "a": "LynkSurvey（アンケート）：質問して正直な回答を集めます。オンラインでもオフラインでも。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-exchange",
+    "topic": "how_to",
+    "q": "LynkExchangeとは何ですか？",
+    "a": "LynkExchange（外貨両替）：認可されたパートナーを通じて、通貨間でお金を両替します。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-vote",
+    "topic": "how_to",
+    "q": "LynkVoteとは何ですか？",
+    "a": "LynkVote（投票）：どんなグループでも、安全な投票と選挙を行えます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-hr",
+    "topic": "how_to",
+    "q": "LynkHRとは何ですか？",
+    "a": "LynkHR（人事管理）：スタッフ、休暇、シフト、給与の記録を管理します。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-project",
+    "topic": "how_to",
+    "q": "LynkProjectとは何ですか？",
+    "a": "LynkProject（プロジェクト）：仕事を計画し、タスクを共有し、進み具合を確認します。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-school",
+    "topic": "how_to",
+    "q": "LynkSchoolとは何ですか？",
+    "a": "LynkSchool（学校運営）：学校を運営します。クラス、学費、成績、保護者まで。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-academy",
+    "topic": "how_to",
+    "q": "LynkAcademyとは何ですか？",
+    "a": "LynkAcademy（コースと研修）：レッスンと修了証つきのコースを作成し、受講できます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-property",
+    "topic": "how_to",
+    "q": "LynkPropertyとは何ですか？",
+    "a": "LynkProperty（不動産管理）：賃貸物件、入居者、家賃、修理を管理します。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-files",
+    "topic": "how_to",
+    "q": "LynkFilesとは何ですか？",
+    "a": "LynkFiles（書類と署名）：書類を安全に保管し、署名をもらえます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-jobs",
+    "topic": "how_to",
+    "q": "LynkJobsとは何ですか？",
+    "a": "LynkJobs（求人と採用）：求人を出し、仕事を探し、人を採用できます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-trace",
+    "topic": "how_to",
+    "q": "LynkTraceとは何ですか？",
+    "a": "LynkTrace（注文と配送の追跡）：注文、配送、依頼のひとつひとつを段階ごとに追えます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-gps",
+    "topic": "how_to",
+    "q": "LynkGPSとは何ですか？",
+    "a": "LynkGPS（位置と地図）：地図で場所を確認し、ルートを計画します。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-sentry",
+    "topic": "how_to",
+    "q": "LynkSentryとは何ですか？",
+    "a": "LynkSentry（盗難とインシデントの通知）：盗難、改ざん、インシデントの通知を受け取ります。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-hub",
+    "topic": "how_to",
+    "q": "LynkHubとは何ですか？",
+    "a": "LynkHub（開発者ポータル）：開発者がアプリを登録し、キーを管理する場所です。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-doc",
+    "topic": "how_to",
+    "q": "LynkDocとは何ですか？",
+    "a": "LynkDoc（ドキュメント）：LynkOmni で開発するためのガイドとリファレンス。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-api",
+    "topic": "how_to",
+    "q": "LynkAPIとは何ですか？",
+    "a": "LynkAPI（プログラム接続）：アプリが同意のもとで LynkOmni のデータを読み書きする方法。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-sdk",
+    "topic": "how_to",
+    "q": "LynkSDKとは何ですか？",
+    "a": "LynkSDK（ソフトウェアキット）：アプリ開発のためのすぐに使えるコードキット。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-faq",
+    "topic": "how_to",
+    "q": "LynkFAQとは何ですか？",
+    "a": "LynkFAQ（よくある質問）：よくある質問への回答。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-support",
+    "topic": "how_to",
+    "q": "LynkSupportとは何ですか？",
+    "a": "LynkSupport（ヘルプとサポート）：LynkOmni サポートチームの助けを受けられます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-status",
+    "topic": "how_to",
+    "q": "LynkStatusとは何ですか？",
+    "a": "LynkStatus（サービス状況）：各サービスが正常に動いているかを確認できます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-feedback",
+    "topic": "how_to",
+    "q": "LynkFeedbackとは何ですか？",
+    "a": "LynkFeedback（製品フィードバック）：改善してほしい点を伝え、私たちの回答を確認できます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-safety",
+    "topic": "how_to",
+    "q": "LynkSafetyとは何ですか？",
+    "a": "LynkSafety（安全と通報）：安全上の問題を報告し、すぐに助けを受けられます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-flow",
+    "topic": "how_to",
+    "q": "LynkFlowとは何ですか？",
+    "a": "LynkFlow（自動化）：イベントやスケジュールに合わせて自動化を実行します。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-mesh",
+    "topic": "how_to",
+    "q": "LynkMeshとは何ですか？",
+    "a": "LynkMesh（オフライン中継）：インターネットがないとき、近くの端末どうしで販売を受け渡します。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-driver",
+    "topic": "how_to",
+    "q": "LynkDriverとは何ですか？",
+    "a": "LynkDriver（ハードウェアドライバー）：プリンター、スキャナーなどのハードウェアをつなぎます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-id",
+    "topic": "how_to",
+    "q": "LynkIDとは何ですか？",
+    "a": "LynkID（アカウントID）：LynkOmni でのあなたの ID。どの端末でも同じです。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-proof",
+    "topic": "how_to",
+    "q": "LynkProofとは何ですか？",
+    "a": "LynkProof（異議申し立ての証拠）：支払いの異議申し立てに答えるための証拠を集めます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-split",
+    "topic": "how_to",
+    "q": "LynkSplitとは何ですか？",
+    "a": "LynkSplit（分割支払い）：ひとつの支払いを、複数の人や事業者で分けます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-audit",
+    "topic": "how_to",
+    "q": "LynkAuditとは何ですか？",
+    "a": "LynkAudit（監査記録）：帳簿で誰が何を変えたかの完全な記録。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-edge",
+    "topic": "how_to",
+    "q": "LynkEdgeとは何ですか？",
+    "a": "LynkEdge（帯域幅と計測）：開発者のアプリの利用量を計測します。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-prima",
+    "topic": "how_to",
+    "q": "LynkPrimaとは何ですか？",
+    "a": "LynkPrima（プリペイドカード）：先にお金をチャージしてから使います。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-dyna",
+    "topic": "how_to",
+    "q": "LynkDynaとは何ですか？",
+    "a": "LynkDyna（デビットカード）：自分の口座から直接支払います。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-crest",
+    "topic": "how_to",
+    "q": "LynkCrestとは何ですか？",
+    "a": "LynkCrest（クレジットカード）：認可された貸し手による利用枠。",
+    "source": "catalog/names.v1.json"
+   },
+   {
     "id": "state-queued",
     "topic": "status_word",
     "q": "待機中とはどういう意味ですか？",
@@ -14808,6 +15984,398 @@
     "q": "Où trouver LynkSuite ?",
     "a": "LynkSuite est présenté sur lynkomni.com/suite.",
     "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "what-pos",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkPOS ?",
+    "a": "LynkPOS (Point de vente) : Vendez au comptoir, sur un téléphone ou en ligne, même sans internet.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-mpay",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkMPay ?",
+    "a": "LynkMPay (Paiements) : Acceptez la carte, le mobile money et d'autres paiements via des partenaires agréés.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-checkout",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkCheckout ?",
+    "a": "LynkCheckout (Liens et QR de paiement) : Envoyez un lien de paiement ou montrez un code QR pour être payé.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-recover",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkRecover ?",
+    "a": "LynkRecover (Relance des paiements échoués) : Relancez les paiements échoués pour que les clients puissent payer à nouveau.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-vcard",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkVCard ?",
+    "a": "LynkVCard (Cartes virtuelles) : Des cartes pour dépenser, émises par un partenaire agréé.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-acc",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkAcc ?",
+    "a": "LynkAcc (Comptabilité) : Tenez vos comptes, dépenses et rapports en ordre.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-inv",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkInv ?",
+    "a": "LynkInv (Facturation) : Créez et envoyez des factures et voyez quand elles sont payées.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-crm",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkCRM ?",
+    "a": "LynkCRM (Clients) : Suivez vos clients, vos affaires et vos relances.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-ops",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkOps ?",
+    "a": "LynkOps (Pack bureau) : Comptabilité, facturation, clients et analyses dans une seule offre.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-stock",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkStock ?",
+    "a": "LynkStock (Stocks) : Sachez ce que vous avez, ce qui se vend et quoi recommander.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-stat",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkStat ?",
+    "a": "LynkStat (Analyses) : Voyez vos ventes, vos bénéfices et vos tendances d'un coup d'œil.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-rewards",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkRewards ?",
+    "a": "LynkRewards (Fidélité) : Récompensez les clients fidèles avec des points, des offres et des cartes cadeaux.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-chat",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkChat ?",
+    "a": "LynkChat (Chat professionnel) : Discutez avec vos clients et votre équipe dans une seule boîte.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-grow",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkGrow ?",
+    "a": "LynkGrow (Marketing) : Touchez plus de clients avec des campagnes, des offres et votre page boutique.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-assist",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkAssist ?",
+    "a": "LynkAssist (Assistant IA) : Posez vos questions, obtenez de l'aide et faites préparer des brouillons.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-motion",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkMotion ?",
+    "a": "LynkMotion (Suivi au quotidien) : Suivez les livraisons, les trajets et vos propres biens au quotidien.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-guard",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkGuard ?",
+    "a": "LynkGuard (Protection des véhicules et des biens) : Protégez véhicules et biens de valeur avec suivi et alertes.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-suite",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkSuite ?",
+    "a": "LynkSuite (Tout-en-un) : Tous les services essentiels dans une seule offre, à un seul prix.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-dev",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkDev ?",
+    "a": "LynkDev (Plateforme développeurs) : Créez des applications qui fonctionnent avec LynkOmni, avec des API ouvertes et des outils.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-booking",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkBooking ?",
+    "a": "LynkBooking (Voyages et billetterie) : Réservez voyages, billets et rendez-vous au même endroit.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-essential",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkEssential ?",
+    "a": "LynkEssential (Factures et connectivité) : Payez vos factures, achetez du crédit et rechargez vos services du quotidien.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-attend",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkAttend ?",
+    "a": "LynkAttend (Présence) : Enregistrez qui arrive et qui part : personnel, élèves et visiteurs.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-queue",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkQueue ?",
+    "a": "LynkQueue (File d'attente et tickets) : Distribuez des tickets et appelez chacun à son tour, sans foule.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-survey",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkSurvey ?",
+    "a": "LynkSurvey (Enquêtes) : Posez des questions et recueillez des réponses sincères, en ligne ou hors ligne.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-exchange",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkExchange ?",
+    "a": "LynkExchange (Change de devises) : Changez de l'argent entre devises via des partenaires agréés.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-vote",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkVote ?",
+    "a": "LynkVote (Vote) : Organisez des votes et des élections sûrs pour tout groupe.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-hr",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkHR ?",
+    "a": "LynkHR (Gestion du personnel) : Gérez le personnel, les congés, les horaires et la paie.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-project",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkProject ?",
+    "a": "LynkProject (Projets) : Planifiez le travail, partagez les tâches et suivez l'avancement.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-school",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkSchool ?",
+    "a": "LynkSchool (Gestion scolaire) : Gérez une école : classes, frais, notes et parents.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-academy",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkAcademy ?",
+    "a": "LynkAcademy (Cours et formation) : Créez et suivez des cours, avec leçons et certificats.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-property",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkProperty ?",
+    "a": "LynkProperty (Gestion immobilière) : Gérez locations, locataires, loyers et réparations.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-files",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkFiles ?",
+    "a": "LynkFiles (Documents et signature) : Gardez vos documents en sécurité et faites-les signer.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-jobs",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkJobs ?",
+    "a": "LynkJobs (Emplois et recrutement) : Publiez des offres, trouvez du travail et recrutez.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-trace",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkTrace ?",
+    "a": "LynkTrace (Suivi des commandes et livraisons) : Suivez chaque commande, livraison et demande étape par étape.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-gps",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkGPS ?",
+    "a": "LynkGPS (Position et cartes) : Voyez les lieux sur une carte et planifiez des trajets.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-sentry",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkSentry ?",
+    "a": "LynkSentry (Alertes vol et incidents) : Recevez des alertes en cas de vol, de manipulation ou d'incident.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-hub",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkHub ?",
+    "a": "LynkHub (Portail développeurs) : Là où les développeurs enregistrent leurs applications et gèrent leurs clés.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-doc",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkDoc ?",
+    "a": "LynkDoc (Documentation) : Guides et références pour développer avec LynkOmni.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-api",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkAPI ?",
+    "a": "LynkAPI (Interface de programmation) : La façon dont les applications lisent et écrivent les données LynkOmni, avec consentement.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-sdk",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkSDK ?",
+    "a": "LynkSDK (Kits logiciels) : Des kits de code prêts à l'emploi pour créer des applications.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-faq",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkFAQ ?",
+    "a": "LynkFAQ (Questions et réponses) : Les réponses aux questions les plus fréquentes.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-support",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkSupport ?",
+    "a": "LynkSupport (Aide et assistance) : Obtenez l'aide de l'équipe d'assistance LynkOmni.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-status",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkStatus ?",
+    "a": "LynkStatus (État du service) : Vérifiez que chaque service fonctionne normalement.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-feedback",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkFeedback ?",
+    "a": "LynkFeedback (Avis sur le produit) : Dites-nous quoi améliorer et suivez nos réponses.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-safety",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkSafety ?",
+    "a": "LynkSafety (Sécurité et signalement) : Signalez un problème de sécurité et obtenez vite de l'aide.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-flow",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkFlow ?",
+    "a": "LynkFlow (Automatisations) : Exécute vos automatisations à partir d'événements et de calendriers.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-mesh",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkMesh ?",
+    "a": "LynkMesh (Relais hors ligne) : Transmet les ventes entre appareils proches quand il n'y a pas d'internet.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-driver",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkDriver ?",
+    "a": "LynkDriver (Pilotes matériels) : Connecte imprimantes, scanners et autres matériels.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-id",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkID ?",
+    "a": "LynkID (Identifiant de compte) : Votre identité dans LynkOmni, la même sur chaque appareil.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-proof",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkProof ?",
+    "a": "LynkProof (Preuves de litige) : Rassemble les preuves pour répondre à un litige de paiement.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-split",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkSplit ?",
+    "a": "LynkSplit (Paiements partagés) : Partage un paiement entre plusieurs personnes ou entreprises.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-audit",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkAudit ?",
+    "a": "LynkAudit (Piste d'audit) : Un historique complet de qui a modifié quoi dans vos comptes.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-edge",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkEdge ?",
+    "a": "LynkEdge (Bande passante et mesure) : Mesure l'utilisation des applications des développeurs.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-prima",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkPrima ?",
+    "a": "LynkPrima (Carte prépayée) : Chargez d'abord de l'argent, puis dépensez-le.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-dyna",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkDyna ?",
+    "a": "LynkDyna (Carte de débit) : Dépense directement depuis votre propre compte.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-crest",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkCrest ?",
+    "a": "LynkCrest (Carte de crédit) : Une ligne de crédit d'un prêteur agréé.",
+    "source": "catalog/names.v1.json"
    },
    {
     "id": "state-queued",
@@ -15309,6 +16877,398 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "what-pos",
+    "topic": "how_to",
+    "q": "LynkPOS ni nini?",
+    "a": "LynkPOS (Mauzo dukani): Uza kaunta, kwenye simu au mtandaoni, hata bila intaneti.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-mpay",
+    "topic": "how_to",
+    "q": "LynkMPay ni nini?",
+    "a": "LynkMPay (Malipo): Pokea kadi, pesa za simu na malipo mengine kupitia washirika wenye leseni.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-checkout",
+    "topic": "how_to",
+    "q": "LynkCheckout ni nini?",
+    "a": "LynkCheckout (Viungo na QR za malipo): Tuma kiungo cha malipo au onyesha msimbo wa QR ili ulipwe.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-recover",
+    "topic": "how_to",
+    "q": "LynkRecover ni nini?",
+    "a": "LynkRecover (Kurejesha malipo yaliyoshindwa): Fuatilia malipo yaliyoshindwa ili wateja walipe tena.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-vcard",
+    "topic": "how_to",
+    "q": "LynkVCard ni nini?",
+    "a": "LynkVCard (Kadi pepe): Kadi za matumizi, zinazotolewa na mshirika mwenye leseni.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-acc",
+    "topic": "how_to",
+    "q": "LynkAcc ni nini?",
+    "a": "LynkAcc (Uhasibu): Weka hesabu, matumizi na ripoti zako katika mpangilio.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-inv",
+    "topic": "how_to",
+    "q": "LynkInv ni nini?",
+    "a": "LynkInv (Ankara): Unda na tuma ankara na uone zinapolipwa.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-crm",
+    "topic": "how_to",
+    "q": "LynkCRM ni nini?",
+    "a": "LynkCRM (Wateja): Fuatilia wateja wako, mikataba na ufuatiliaji.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-ops",
+    "topic": "how_to",
+    "q": "LynkOps ni nini?",
+    "a": "LynkOps (Kifurushi cha ofisi): Uhasibu, ankara, wateja na uchambuzi katika mpango mmoja.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-stock",
+    "topic": "how_to",
+    "q": "LynkStock ni nini?",
+    "a": "LynkStock (Stoo): Jua ulicho nacho, kinachouzika na cha kuagiza tena.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-stat",
+    "topic": "how_to",
+    "q": "LynkStat ni nini?",
+    "a": "LynkStat (Takwimu): Ona mauzo, faida na mwenendo wako kwa mtazamo mmoja.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-rewards",
+    "topic": "how_to",
+    "q": "LynkRewards ni nini?",
+    "a": "LynkRewards (Uaminifu): Wazawadie wateja waaminifu kwa pointi, ofa na kadi za zawadi.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-chat",
+    "topic": "how_to",
+    "q": "LynkChat ni nini?",
+    "a": "LynkChat (Gumzo la biashara): Zungumza na wateja na timu yako katika kikasha kimoja.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-grow",
+    "topic": "how_to",
+    "q": "LynkGrow ni nini?",
+    "a": "LynkGrow (Masoko): Fikia wateja zaidi kwa kampeni, ofa na ukurasa wa duka lako.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-assist",
+    "topic": "how_to",
+    "q": "LynkAssist ni nini?",
+    "a": "LynkAssist (Msaidizi wa AI): Uliza maswali, pata msaada na uandaliwe rasimu.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-motion",
+    "topic": "how_to",
+    "q": "LynkMotion ni nini?",
+    "a": "LynkMotion (Ufuatiliaji wa kila siku): Fuatilia usafirishaji, safari na vitu vyako kila siku.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-guard",
+    "topic": "how_to",
+    "q": "LynkGuard ni nini?",
+    "a": "LynkGuard (Ulinzi wa magari na mali): Linda magari na mali za thamani kwa ufuatiliaji na arifa.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-suite",
+    "topic": "how_to",
+    "q": "LynkSuite ni nini?",
+    "a": "LynkSuite (Yote kwa moja): Huduma zote kuu katika mpango mmoja kwa bei moja.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-dev",
+    "topic": "how_to",
+    "q": "LynkDev ni nini?",
+    "a": "LynkDev (Jukwaa la wasanidi): Tengeneza programu zinazofanya kazi na LynkOmni, kwa API wazi na zana.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-booking",
+    "topic": "how_to",
+    "q": "LynkBooking ni nini?",
+    "a": "LynkBooking (Safari na tiketi): Weka nafasi za safari, tiketi na miadi mahali pamoja.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-essential",
+    "topic": "how_to",
+    "q": "LynkEssential ni nini?",
+    "a": "LynkEssential (Bili na mawasiliano): Lipa bili, nunua muda wa maongezi na ongeza salio la huduma za kila siku.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-attend",
+    "topic": "how_to",
+    "q": "LynkAttend ni nini?",
+    "a": "LynkAttend (Mahudhurio): Rekodi anayekuja na kuondoka: wafanyakazi, wanafunzi na wageni.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-queue",
+    "topic": "how_to",
+    "q": "LynkQueue ni nini?",
+    "a": "LynkQueue (Foleni na tiketi): Toa namba za foleni na uite watu kwa zamu, bila msongamano.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-survey",
+    "topic": "how_to",
+    "q": "LynkSurvey ni nini?",
+    "a": "LynkSurvey (Tafiti): Uliza maswali na kusanya majibu ya kweli, mtandaoni au nje ya mtandao.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-exchange",
+    "topic": "how_to",
+    "q": "LynkExchange ni nini?",
+    "a": "LynkExchange (Kubadilisha fedha): Badilisha pesa kati ya sarafu kupitia washirika wenye leseni.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-vote",
+    "topic": "how_to",
+    "q": "LynkVote ni nini?",
+    "a": "LynkVote (Upigaji kura): Endesha kura na chaguzi salama kwa kundi lolote.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-hr",
+    "topic": "how_to",
+    "q": "LynkHR ni nini?",
+    "a": "LynkHR (Usimamizi wa wafanyakazi): Simamia wafanyakazi, likizo, zamu na kumbukumbu za mishahara.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-project",
+    "topic": "how_to",
+    "q": "LynkProject ni nini?",
+    "a": "LynkProject (Miradi): Panga kazi, gawa majukumu na fuatilia maendeleo.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-school",
+    "topic": "how_to",
+    "q": "LynkSchool ni nini?",
+    "a": "LynkSchool (Usimamizi wa shule): Endesha shule: madarasa, ada, alama na wazazi.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-academy",
+    "topic": "how_to",
+    "q": "LynkAcademy ni nini?",
+    "a": "LynkAcademy (Kozi na mafunzo): Unda na soma kozi, zenye masomo na vyeti.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-property",
+    "topic": "how_to",
+    "q": "LynkProperty ni nini?",
+    "a": "LynkProperty (Usimamizi wa mali): Simamia nyumba za kupangisha, wapangaji, kodi na matengenezo.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-files",
+    "topic": "how_to",
+    "q": "LynkFiles ni nini?",
+    "a": "LynkFiles (Nyaraka na kusaini): Hifadhi nyaraka kwa usalama na uzitie sahihi.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-jobs",
+    "topic": "how_to",
+    "q": "LynkJobs ni nini?",
+    "a": "LynkJobs (Ajira na kuajiri): Tangaza kazi, tafuta kazi na ajiri watu.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-trace",
+    "topic": "how_to",
+    "q": "LynkTrace ni nini?",
+    "a": "LynkTrace (Ufuatiliaji wa oda na usafirishaji): Fuatilia kila oda, usafirishaji na ombi hatua kwa hatua.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-gps",
+    "topic": "how_to",
+    "q": "LynkGPS ni nini?",
+    "a": "LynkGPS (Mahali na ramani): Ona maeneo kwenye ramani na panga njia.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-sentry",
+    "topic": "how_to",
+    "q": "LynkSentry ni nini?",
+    "a": "LynkSentry (Arifa za wizi na matukio): Pata arifa za wizi, uchezewaji na matukio.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-hub",
+    "topic": "how_to",
+    "q": "LynkHub ni nini?",
+    "a": "LynkHub (Lango la wasanidi): Mahali wasanidi programu husajili programu na kusimamia funguo zao.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-doc",
+    "topic": "how_to",
+    "q": "LynkDoc ni nini?",
+    "a": "LynkDoc (Nyaraka): Miongozo na marejeo ya kujenga kwa LynkOmni.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-api",
+    "topic": "how_to",
+    "q": "LynkAPI ni nini?",
+    "a": "LynkAPI (Kiolesura cha programu): Jinsi programu zinavyosoma na kuandika data ya LynkOmni, kwa idhini.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-sdk",
+    "topic": "how_to",
+    "q": "LynkSDK ni nini?",
+    "a": "LynkSDK (Vifaa vya programu): Vifurushi vya msimbo tayari kwa kutengeneza programu.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-faq",
+    "topic": "how_to",
+    "q": "LynkFAQ ni nini?",
+    "a": "LynkFAQ (Maswali na majibu): Majibu ya maswali yanayoulizwa zaidi.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-support",
+    "topic": "how_to",
+    "q": "LynkSupport ni nini?",
+    "a": "LynkSupport (Msaada na usaidizi): Pata msaada kutoka kwa timu ya usaidizi ya LynkOmni.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-status",
+    "topic": "how_to",
+    "q": "LynkStatus ni nini?",
+    "a": "LynkStatus (Hali ya huduma): Ona kama kila huduma inafanya kazi kawaida.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-feedback",
+    "topic": "how_to",
+    "q": "LynkFeedback ni nini?",
+    "a": "LynkFeedback (Maoni kuhusu bidhaa): Tuambie cha kuboresha na fuatilia majibu yetu.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-safety",
+    "topic": "how_to",
+    "q": "LynkSafety ni nini?",
+    "a": "LynkSafety (Usalama na kuripoti): Ripoti tatizo la usalama na upate msaada haraka.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-flow",
+    "topic": "how_to",
+    "q": "LynkFlow ni nini?",
+    "a": "LynkFlow (Uendeshaji otomatiki): Huendesha shughuli zako za kiotomatiki kwa matukio na ratiba.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-mesh",
+    "topic": "how_to",
+    "q": "LynkMesh ni nini?",
+    "a": "LynkMesh (Upitishaji nje ya mtandao): Hupitisha mauzo kati ya vifaa vilivyo karibu wakati hakuna intaneti.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-driver",
+    "topic": "how_to",
+    "q": "LynkDriver ni nini?",
+    "a": "LynkDriver (Viendeshi vya vifaa): Huunganisha printa, skana na vifaa vingine.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-id",
+    "topic": "how_to",
+    "q": "LynkID ni nini?",
+    "a": "LynkID (Kitambulisho cha akaunti): Utambulisho wako ndani ya LynkOmni, uleule kwenye kila kifaa.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-proof",
+    "topic": "how_to",
+    "q": "LynkProof ni nini?",
+    "a": "LynkProof (Ushahidi wa mgogoro): Hukusanya ushahidi wa kujibu mgogoro wa malipo.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-split",
+    "topic": "how_to",
+    "q": "LynkSplit ni nini?",
+    "a": "LynkSplit (Malipo yaliyogawanywa): Hugawanya malipo moja kati ya watu au biashara kadhaa.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-audit",
+    "topic": "how_to",
+    "q": "LynkAudit ni nini?",
+    "a": "LynkAudit (Kumbukumbu za ukaguzi): Kumbukumbu kamili ya nani alibadilisha nini kwenye hesabu zako.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-edge",
+    "topic": "how_to",
+    "q": "LynkEdge ni nini?",
+    "a": "LynkEdge (Kipimo data na upimaji): Hupima kiasi ambacho programu za wasanidi hutumia.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-prima",
+    "topic": "how_to",
+    "q": "LynkPrima ni nini?",
+    "a": "LynkPrima (Kadi ya malipo ya awali): Weka pesa kwanza, kisha uzitumie.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-dyna",
+    "topic": "how_to",
+    "q": "LynkDyna ni nini?",
+    "a": "LynkDyna (Kadi ya benki): Hutumia pesa moja kwa moja kutoka akaunti yako.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-crest",
+    "topic": "how_to",
+    "q": "LynkCrest ni nini?",
+    "a": "LynkCrest (Kadi ya mkopo): Kiwango cha mkopo kutoka kwa mkopeshaji mwenye leseni.",
+    "source": "catalog/names.v1.json"
+   },
+   {
     "id": "state-queued",
     "topic": "status_word",
     "q": "Kwenye foleni inamaanisha nini?",
@@ -15806,6 +17766,398 @@
     "q": "LynkSuite在哪里？",
     "a": "LynkSuite的介绍在lynkomni.com/suite。",
     "source": "catalog/products.v1.json"
+   },
+   {
+    "id": "what-pos",
+    "topic": "how_to",
+    "q": "LynkPOS是什么？",
+    "a": "LynkPOS（收银）：在柜台、手机上或网上销售，没有网络也能卖。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-mpay",
+    "topic": "how_to",
+    "q": "LynkMPay是什么？",
+    "a": "LynkMPay（支付）：通过持牌合作伙伴收取银行卡、移动钱包和其他付款。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-checkout",
+    "topic": "how_to",
+    "q": "LynkCheckout是什么？",
+    "a": "LynkCheckout（支付链接与 QR 码）：发送付款链接或出示 QR 码，让顾客付款给你。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-recover",
+    "topic": "how_to",
+    "q": "LynkRecover是什么？",
+    "a": "LynkRecover（挽回失败付款）：跟进失败的付款，让顾客可以再次付款。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-vcard",
+    "topic": "how_to",
+    "q": "LynkVCard是什么？",
+    "a": "LynkVCard（虚拟卡）：由持牌合作伙伴发行的消费卡。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-acc",
+    "topic": "how_to",
+    "q": "LynkAcc是什么？",
+    "a": "LynkAcc（记账）：把账本、开支和报表整理得井井有条。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-inv",
+    "topic": "how_to",
+    "q": "LynkInv是什么？",
+    "a": "LynkInv（开票）：创建并发送发票，查看何时已付款。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-crm",
+    "topic": "how_to",
+    "q": "LynkCRM是什么？",
+    "a": "LynkCRM（客户）：跟进你的客户、商机和后续事项。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-ops",
+    "topic": "how_to",
+    "q": "LynkOps是什么？",
+    "a": "LynkOps（办公套餐）：会计、发票、客户和分析，一个方案全包。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-stock",
+    "topic": "how_to",
+    "q": "LynkStock是什么？",
+    "a": "LynkStock（库存）：知道你有什么、什么好卖、该补什么货。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-stat",
+    "topic": "how_to",
+    "q": "LynkStat是什么？",
+    "a": "LynkStat（分析）：在一个页面看到销售、利润和趋势。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-rewards",
+    "topic": "how_to",
+    "q": "LynkRewards是什么？",
+    "a": "LynkRewards（会员积分）：用积分、优惠和礼品卡回馈老顾客。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-chat",
+    "topic": "how_to",
+    "q": "LynkChat是什么？",
+    "a": "LynkChat（商务聊天）：在一个收件箱里和顾客及团队聊天。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-grow",
+    "topic": "how_to",
+    "q": "LynkGrow是什么？",
+    "a": "LynkGrow（营销）：通过活动、优惠和店铺页面接触更多顾客。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-assist",
+    "topic": "how_to",
+    "q": "LynkAssist是什么？",
+    "a": "LynkAssist（AI 助手）：提出问题、获得帮助，还能帮你准备草稿。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-motion",
+    "topic": "how_to",
+    "q": "LynkMotion是什么？",
+    "a": "LynkMotion（日常追踪）：每天跟踪配送、行程和你自己的物品。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-guard",
+    "topic": "how_to",
+    "q": "LynkGuard是什么？",
+    "a": "LynkGuard（车辆与资产保护）：用定位和提醒保护车辆和贵重资产。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-suite",
+    "topic": "how_to",
+    "q": "LynkSuite是什么？",
+    "a": "LynkSuite（一站式）：所有核心服务，一个方案，一个价格。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-dev",
+    "topic": "how_to",
+    "q": "LynkDev是什么？",
+    "a": "LynkDev（开发者平台）：用开放 API 和工具开发与 LynkOmni 配合的应用。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-booking",
+    "topic": "how_to",
+    "q": "LynkBooking是什么？",
+    "a": "LynkBooking（旅行与票务）：在一个地方预订出行、票务和预约。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-essential",
+    "topic": "how_to",
+    "q": "LynkEssential是什么？",
+    "a": "LynkEssential（账单与通信）：缴纳账单、购买话费，为日常服务充值。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-attend",
+    "topic": "how_to",
+    "q": "LynkAttend是什么？",
+    "a": "LynkAttend（考勤）：记录谁来谁走：员工、学生和访客。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-queue",
+    "topic": "how_to",
+    "q": "LynkQueue是什么？",
+    "a": "LynkQueue（排队与取号）：发放排队号，按顺序叫号，不再拥挤。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-survey",
+    "topic": "how_to",
+    "q": "LynkSurvey是什么？",
+    "a": "LynkSurvey（问卷调查）：提出问题，收集真实回答，线上线下都可以。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-exchange",
+    "topic": "how_to",
+    "q": "LynkExchange是什么？",
+    "a": "LynkExchange（货币兑换）：通过持牌合作伙伴在不同货币之间换钱。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-vote",
+    "topic": "how_to",
+    "q": "LynkVote是什么？",
+    "a": "LynkVote（投票）：为任何团体举行安全的投票和选举。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-hr",
+    "topic": "how_to",
+    "q": "LynkHR是什么？",
+    "a": "LynkHR（员工管理）：管理员工、请假、排班和工资记录。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-project",
+    "topic": "how_to",
+    "q": "LynkProject是什么？",
+    "a": "LynkProject（项目）：规划工作、分配任务、跟进进度。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-school",
+    "topic": "how_to",
+    "q": "LynkSchool是什么？",
+    "a": "LynkSchool（学校管理）：管理学校：班级、学费、成绩和家长。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-academy",
+    "topic": "how_to",
+    "q": "LynkAcademy是什么？",
+    "a": "LynkAcademy（课程与培训）：创建和学习课程，含课时和证书。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-property",
+    "topic": "how_to",
+    "q": "LynkProperty是什么？",
+    "a": "LynkProperty（物业管理）：管理出租房、租客、租金和维修。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-files",
+    "topic": "how_to",
+    "q": "LynkFiles是什么？",
+    "a": "LynkFiles（文件与签署）：安全保存文件并完成签署。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-jobs",
+    "topic": "how_to",
+    "q": "LynkJobs是什么？",
+    "a": "LynkJobs（招聘与求职）：发布职位、寻找工作、招聘人才。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-trace",
+    "topic": "how_to",
+    "q": "LynkTrace是什么？",
+    "a": "LynkTrace（订单和配送跟踪）：逐步跟踪每个订单、配送和请求。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-gps",
+    "topic": "how_to",
+    "q": "LynkGPS是什么？",
+    "a": "LynkGPS（位置与地图）：在地图上查看地点并规划路线。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-sentry",
+    "topic": "how_to",
+    "q": "LynkSentry是什么？",
+    "a": "LynkSentry（盗窃和事件提醒）：接收盗窃、篡改和事件提醒。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-hub",
+    "topic": "how_to",
+    "q": "LynkHub是什么？",
+    "a": "LynkHub（开发者门户）：开发者注册应用、管理密钥的地方。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-doc",
+    "topic": "how_to",
+    "q": "LynkDoc是什么？",
+    "a": "LynkDoc（文档）：使用 LynkOmni 开发的指南和参考资料。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-api",
+    "topic": "how_to",
+    "q": "LynkAPI是什么？",
+    "a": "LynkAPI（编程接口）：应用在获得同意后读写 LynkOmni 数据的方式。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-sdk",
+    "topic": "how_to",
+    "q": "LynkSDK是什么？",
+    "a": "LynkSDK（软件工具包）：用于开发应用的现成代码包。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-faq",
+    "topic": "how_to",
+    "q": "LynkFAQ是什么？",
+    "a": "LynkFAQ（常见问题）：最常见问题的解答。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-support",
+    "topic": "how_to",
+    "q": "LynkSupport是什么？",
+    "a": "LynkSupport（帮助和支持）：获得 LynkOmni 支持团队的帮助。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-status",
+    "topic": "how_to",
+    "q": "LynkStatus是什么？",
+    "a": "LynkStatus（服务状态）：查看每项服务是否正常运行。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-feedback",
+    "topic": "how_to",
+    "q": "LynkFeedback是什么？",
+    "a": "LynkFeedback（产品反馈）：告诉我们需要改进什么，并查看我们的回复。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-safety",
+    "topic": "how_to",
+    "q": "LynkSafety是什么？",
+    "a": "LynkSafety（安全与举报）：报告安全问题，快速获得帮助。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-flow",
+    "topic": "how_to",
+    "q": "LynkFlow是什么？",
+    "a": "LynkFlow（自动化）：根据事件和日程运行你的自动化。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-mesh",
+    "topic": "how_to",
+    "q": "LynkMesh是什么？",
+    "a": "LynkMesh（离线中继）：没有网络时，在附近设备之间传递销售记录。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-driver",
+    "topic": "how_to",
+    "q": "LynkDriver是什么？",
+    "a": "LynkDriver（硬件驱动程序）：连接打印机、扫描器和其他硬件。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-id",
+    "topic": "how_to",
+    "q": "LynkID是什么？",
+    "a": "LynkID（账户ID）：你在 LynkOmni 中的身份，在每台设备上都一样。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-proof",
+    "topic": "how_to",
+    "q": "LynkProof是什么？",
+    "a": "LynkProof（争议证据）：收集证据，用于回应付款争议。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-split",
+    "topic": "how_to",
+    "q": "LynkSplit是什么？",
+    "a": "LynkSplit（分账付款）：把一笔付款分给多个人或多家企业。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-audit",
+    "topic": "how_to",
+    "q": "LynkAudit是什么？",
+    "a": "LynkAudit（审计记录）：完整记录谁在你的账本里改了什么。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-edge",
+    "topic": "how_to",
+    "q": "LynkEdge是什么？",
+    "a": "LynkEdge（带宽和计量）：计量开发者应用的使用量。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-prima",
+    "topic": "how_to",
+    "q": "LynkPrima是什么？",
+    "a": "LynkPrima（预付卡）：先充值，再消费。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-dyna",
+    "topic": "how_to",
+    "q": "LynkDyna是什么？",
+    "a": "LynkDyna（借记卡）：直接从你自己的账户扣款。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-crest",
+    "topic": "how_to",
+    "q": "LynkCrest是什么？",
+    "a": "LynkCrest（信用卡）：来自持牌贷款方的信用额度。",
+    "source": "catalog/names.v1.json"
    },
    {
     "id": "state-queued",
@@ -16307,6 +18659,398 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "what-pos",
+    "topic": "how_to",
+    "q": "LynkPOS क्या है?",
+    "a": "LynkPOS (बिक्री काउंटर): काउंटर पर, फ़ोन पर या ऑनलाइन बेचें, बिना इंटरनेट के भी।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-mpay",
+    "topic": "how_to",
+    "q": "LynkMPay क्या है?",
+    "a": "LynkMPay (भुगतान): लाइसेंसधारी साझेदारों के ज़रिए कार्ड, मोबाइल मनी और दूसरे भुगतान लें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-checkout",
+    "topic": "how_to",
+    "q": "LynkCheckout क्या है?",
+    "a": "LynkCheckout (भुगतान लिंक और QR): भुगतान लिंक भेजें या QR कोड दिखाएँ ताकि आपको भुगतान मिले।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-recover",
+    "topic": "how_to",
+    "q": "LynkRecover क्या है?",
+    "a": "LynkRecover (असफल भुगतान वापसी): असफल भुगतानों पर फ़ॉलो अप करें ताकि ग्राहक फिर से भुगतान कर सकें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-vcard",
+    "topic": "how_to",
+    "q": "LynkVCard क्या है?",
+    "a": "LynkVCard (वर्चुअल कार्ड): ख़र्च करने के कार्ड, जो लाइसेंसधारी साझेदार जारी करता है।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-acc",
+    "topic": "how_to",
+    "q": "LynkAcc क्या है?",
+    "a": "LynkAcc (लेखा): अपने खाते, ख़र्च और रिपोर्ट व्यवस्थित रखें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-inv",
+    "topic": "how_to",
+    "q": "LynkInv क्या है?",
+    "a": "LynkInv (बिलिंग): इनवॉइस बनाएँ और भेजें और देखें कि भुगतान कब हुआ।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-crm",
+    "topic": "how_to",
+    "q": "LynkCRM क्या है?",
+    "a": "LynkCRM (ग्राहक): अपने ग्राहकों, सौदों और फ़ॉलो अप पर नज़र रखें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-ops",
+    "topic": "how_to",
+    "q": "LynkOps क्या है?",
+    "a": "LynkOps (ऑफ़िस पैक): हिसाब-किताब, इनवॉइस, ग्राहक और विश्लेषण एक प्लान में।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-stock",
+    "topic": "how_to",
+    "q": "LynkStock क्या है?",
+    "a": "LynkStock (स्टॉक): जानें आपके पास क्या है, क्या बिक रहा है और क्या फिर से मँगाना है।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-stat",
+    "topic": "how_to",
+    "q": "LynkStat क्या है?",
+    "a": "LynkStat (विश्लेषण): अपनी बिक्री, मुनाफ़ा और रुझान एक नज़र में देखें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-rewards",
+    "topic": "how_to",
+    "q": "LynkRewards क्या है?",
+    "a": "LynkRewards (लॉयल्टी): वफ़ादार ग्राहकों को पॉइंट, ऑफ़र और गिफ़्ट कार्ड से इनाम दें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-chat",
+    "topic": "how_to",
+    "q": "LynkChat क्या है?",
+    "a": "LynkChat (व्यवसाय चैट): अपने ग्राहकों और टीम से एक ही इनबॉक्स में बात करें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-grow",
+    "topic": "how_to",
+    "q": "LynkGrow क्या है?",
+    "a": "LynkGrow (मार्केटिंग): अभियानों, ऑफ़र और अपनी दुकान के पेज से ज़्यादा ग्राहकों तक पहुँचें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-assist",
+    "topic": "how_to",
+    "q": "LynkAssist क्या है?",
+    "a": "LynkAssist (AI सहायक): सवाल पूछें, मदद पाएँ और अपने लिए तैयार ड्राफ़्ट पाएँ।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-motion",
+    "topic": "how_to",
+    "q": "LynkMotion क्या है?",
+    "a": "LynkMotion (रोज़ की ट्रैकिंग): डिलीवरी, यात्राओं और अपनी चीज़ों पर रोज़ नज़र रखें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-guard",
+    "topic": "how_to",
+    "q": "LynkGuard क्या है?",
+    "a": "LynkGuard (वाहन और संपत्ति सुरक्षा): वाहनों और क़ीमती चीज़ों को ट्रैकिंग और अलर्ट से बचाएँ।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-suite",
+    "topic": "how_to",
+    "q": "LynkSuite क्या है?",
+    "a": "LynkSuite (सब एक में): सभी मुख्य सेवाएँ एक प्लान में, एक क़ीमत पर।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-dev",
+    "topic": "how_to",
+    "q": "LynkDev क्या है?",
+    "a": "LynkDev (डेवलपर प्लेटफ़ॉर्म): ऐसे ऐप बनाएँ जो LynkOmni के साथ काम करें, खुले API और टूल के साथ।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-booking",
+    "topic": "how_to",
+    "q": "LynkBooking क्या है?",
+    "a": "LynkBooking (यात्रा और टिकट): यात्रा, टिकट और अपॉइंटमेंट एक ही जगह बुक करें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-essential",
+    "topic": "how_to",
+    "q": "LynkEssential क्या है?",
+    "a": "LynkEssential (बिल और कनेक्टिविटी): बिल भरें, एयरटाइम ख़रीदें और रोज़ की सेवाएँ रिचार्ज करें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-attend",
+    "topic": "how_to",
+    "q": "LynkAttend क्या है?",
+    "a": "LynkAttend (उपस्थिति): दर्ज करें कि कौन आता और जाता है: स्टाफ़, छात्र और मेहमान।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-queue",
+    "topic": "how_to",
+    "q": "LynkQueue क्या है?",
+    "a": "LynkQueue (कतार और टिकट): टोकन दें और लोगों को उनकी बारी पर बुलाएँ, बिना भीड़ के।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-survey",
+    "topic": "how_to",
+    "q": "LynkSurvey क्या है?",
+    "a": "LynkSurvey (सर्वेक्षण): सवाल पूछें और सच्चे जवाब इकट्ठा करें, ऑनलाइन या ऑफ़लाइन।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-exchange",
+    "topic": "how_to",
+    "q": "LynkExchange क्या है?",
+    "a": "LynkExchange (मुद्रा विनिमय): लाइसेंसधारी साझेदारों के ज़रिए मुद्राओं के बीच पैसा बदलें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-vote",
+    "topic": "how_to",
+    "q": "LynkVote क्या है?",
+    "a": "LynkVote (मतदान): किसी भी समूह के लिए सुरक्षित मतदान और चुनाव कराएँ।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-hr",
+    "topic": "how_to",
+    "q": "LynkHR क्या है?",
+    "a": "LynkHR (कर्मचारी प्रबंधन): स्टाफ़, छुट्टी, शिफ़्ट और वेतन रिकॉर्ड सँभालें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-project",
+    "topic": "how_to",
+    "q": "LynkProject क्या है?",
+    "a": "LynkProject (परियोजनाएँ): काम की योजना बनाएँ, काम बाँटें और प्रगति देखें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-school",
+    "topic": "how_to",
+    "q": "LynkSchool क्या है?",
+    "a": "LynkSchool (स्कूल प्रबंधन): स्कूल चलाएँ: कक्षाएँ, फ़ीस, अंक और अभिभावक।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-academy",
+    "topic": "how_to",
+    "q": "LynkAcademy क्या है?",
+    "a": "LynkAcademy (पाठ्यक्रम और प्रशिक्षण): पाठों और प्रमाणपत्रों के साथ कोर्स बनाएँ और पढ़ें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-property",
+    "topic": "how_to",
+    "q": "LynkProperty क्या है?",
+    "a": "LynkProperty (संपत्ति प्रबंधन): किराए, किरायेदार, किराया और मरम्मत सँभालें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-files",
+    "topic": "how_to",
+    "q": "LynkFiles क्या है?",
+    "a": "LynkFiles (दस्तावेज़ और हस्ताक्षर): दस्तावेज़ सुरक्षित रखें और उन पर हस्ताक्षर करवाएँ।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-jobs",
+    "topic": "how_to",
+    "q": "LynkJobs क्या है?",
+    "a": "LynkJobs (नौकरियाँ और भर्ती): नौकरियाँ पोस्ट करें, काम खोजें और लोगों को रखें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-trace",
+    "topic": "how_to",
+    "q": "LynkTrace क्या है?",
+    "a": "LynkTrace (ऑर्डर और डिलीवरी ट्रैकिंग): हर ऑर्डर, डिलीवरी और अनुरोध को कदम दर कदम देखें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-gps",
+    "topic": "how_to",
+    "q": "LynkGPS क्या है?",
+    "a": "LynkGPS (स्थान और नक्शे): नक्शे पर जगहें देखें और रास्ते तय करें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-sentry",
+    "topic": "how_to",
+    "q": "LynkSentry क्या है?",
+    "a": "LynkSentry (चोरी और घटना अलर्ट): चोरी, छेड़छाड़ और घटनाओं के अलर्ट पाएँ।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-hub",
+    "topic": "how_to",
+    "q": "LynkHub क्या है?",
+    "a": "LynkHub (डेवलपर पोर्टल): जहाँ डेवलपर ऐप रजिस्टर करते और अपनी कुंजियाँ सँभालते हैं।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-doc",
+    "topic": "how_to",
+    "q": "LynkDoc क्या है?",
+    "a": "LynkDoc (दस्तावेज़): LynkOmni के साथ बनाने के लिए गाइड और संदर्भ।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-api",
+    "topic": "how_to",
+    "q": "LynkAPI क्या है?",
+    "a": "LynkAPI (प्रोग्रामिंग इंटरफ़ेस): वह तरीक़ा जिससे ऐप सहमति से LynkOmni डेटा पढ़ते और लिखते हैं।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-sdk",
+    "topic": "how_to",
+    "q": "LynkSDK क्या है?",
+    "a": "LynkSDK (सॉफ़्टवेयर किट): ऐप बनाने के लिए तैयार कोड किट।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-faq",
+    "topic": "how_to",
+    "q": "LynkFAQ क्या है?",
+    "a": "LynkFAQ (सवाल और जवाब): सबसे ज़्यादा पूछे जाने वाले सवालों के जवाब।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-support",
+    "topic": "how_to",
+    "q": "LynkSupport क्या है?",
+    "a": "LynkSupport (सहायता और सपोर्ट): LynkOmni की सहायता टीम से मदद लें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-status",
+    "topic": "how_to",
+    "q": "LynkStatus क्या है?",
+    "a": "LynkStatus (सेवा की स्थिति): देखें कि हर सेवा सामान्य रूप से चल रही है या नहीं।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-feedback",
+    "topic": "how_to",
+    "q": "LynkFeedback क्या है?",
+    "a": "LynkFeedback (उत्पाद पर राय): हमें बताएँ क्या बेहतर करें और हमारे जवाब देखें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-safety",
+    "topic": "how_to",
+    "q": "LynkSafety क्या है?",
+    "a": "LynkSafety (सुरक्षा और शिकायत): सुरक्षा समस्या की रिपोर्ट करें और जल्दी मदद पाएँ।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-flow",
+    "topic": "how_to",
+    "q": "LynkFlow क्या है?",
+    "a": "LynkFlow (स्वचालन): आपके स्वचालन घटनाओं और समय-सारणी के अनुसार चलाता है।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-mesh",
+    "topic": "how_to",
+    "q": "LynkMesh क्या है?",
+    "a": "LynkMesh (ऑफ़लाइन रिले): इंटरनेट न हो तो बिक्री पास के डिवाइसों के बीच पहुँचाता है।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-driver",
+    "topic": "how_to",
+    "q": "LynkDriver क्या है?",
+    "a": "LynkDriver (हार्डवेयर ड्राइवर): प्रिंटर, स्कैनर और दूसरे हार्डवेयर जोड़ता है।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-id",
+    "topic": "how_to",
+    "q": "LynkID क्या है?",
+    "a": "LynkID (खाता आईडी): LynkOmni में आपकी पहचान, हर डिवाइस पर एक जैसी।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-proof",
+    "topic": "how_to",
+    "q": "LynkProof क्या है?",
+    "a": "LynkProof (विवाद के सबूत): भुगतान विवाद का जवाब देने के लिए सबूत जुटाता है।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-split",
+    "topic": "how_to",
+    "q": "LynkSplit क्या है?",
+    "a": "LynkSplit (बँटे हुए भुगतान): एक भुगतान को कई लोगों या व्यवसायों में बाँटता है।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-audit",
+    "topic": "how_to",
+    "q": "LynkAudit क्या है?",
+    "a": "LynkAudit (ऑडिट रिकॉर्ड): पूरा रिकॉर्ड कि आपके खातों में किसने क्या बदला।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-edge",
+    "topic": "how_to",
+    "q": "LynkEdge क्या है?",
+    "a": "LynkEdge (बैंडविड्थ और माप): मापता है कि डेवलपर ऐप कितना इस्तेमाल करते हैं।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-prima",
+    "topic": "how_to",
+    "q": "LynkPrima क्या है?",
+    "a": "LynkPrima (प्रीपेड कार्ड): पहले पैसा डालें, फिर ख़र्च करें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-dyna",
+    "topic": "how_to",
+    "q": "LynkDyna क्या है?",
+    "a": "LynkDyna (डेबिट कार्ड): सीधे आपके अपने खाते से ख़र्च करता है।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-crest",
+    "topic": "how_to",
+    "q": "LynkCrest क्या है?",
+    "a": "LynkCrest (क्रेडिट कार्ड): लाइसेंसधारी ऋणदाता से क्रेडिट सीमा।",
+    "source": "catalog/names.v1.json"
+   },
+   {
     "id": "state-queued",
     "topic": "status_word",
     "q": "कतार में का क्या मतलब है?",
@@ -16386,7 +19130,7 @@
    "ids": [
     "price-lynkstat",
     "where-lynkstat",
-    "price-lynkstock"
+    "what-stat"
    ]
   },
   {
@@ -16413,7 +19157,7 @@
    "ids": [
     "price-lynkstat",
     "where-lynkstat",
-    "price-lynkstock"
+    "what-stat"
    ]
   },
   {
@@ -16422,7 +19166,7 @@
    "ids": [
     "price-lynkstat",
     "where-lynkstat",
-    "price-lynkstock"
+    "what-stat"
    ]
   },
   {

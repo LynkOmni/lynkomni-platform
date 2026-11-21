@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "5717081e3105e63dd57a6c5f3dd38009d0277a4a68b072b57b84416d971d9f21",
+ "source_sha256": "d5f6d4028dd03c35f4d8ce6f1a7bbaea75b1aa4412b74b5d64687a13f922361e",
  "texts": {
   "academy": "اڪيڊمي",
   "academy_hint": "مختصر سبق ان اسڪرين جي ڀرسان کلي ٿو جيڪا اهو سيکاري ٿو.",
@@ -121,7 +121,7 @@
   "ch_s_yes": "{n}. ها",
   "ch_sale_saved": "وڪرو محفوظ ٿيو. رسيد {receipt}.",
   "ch_stock_line": "{name}: {level}",
-  "ch_title": "LynkPOS",
+  "ch_title": "وڪري جو ڪائونٽر (LynkPOS)",
   "ch_today": "اڄ: {count} وڪرا، {total}",
   "change": "باقي پئسا",
   "charge": "ادائگي وٺو",

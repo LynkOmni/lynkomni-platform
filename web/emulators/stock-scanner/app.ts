@@ -14,6 +14,7 @@ import { deviceBanners, knowledgeFor, raiseLocal } from "../../../ts/src/devicek
 import type { Line } from "../../../ts/src/notify.js";
 import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
 import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
+import { watchNames } from "../../../ts/src/names.js";
 /** MASTER UPDATE section 3: the scanner's own bell and banners (lines from the register, folded while offline). */
 let LINES: Line[] = [];
 
@@ -101,3 +102,5 @@ function main(): void {
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 420);
 }
 main();
+/** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
+watchNames(document.body, () => t);
