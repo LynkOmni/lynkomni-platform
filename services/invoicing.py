@@ -47,13 +47,13 @@ class Invoicing:
             if k.startswith(f"{m}|{name}|{device}|") and b["first"] <= number <= b["last"]: return k, b
         return None, None
     # ---- amounts
-    def totals(s, m, lines, taxes=None):
+    def totals(s, m, lines, taxes=None, included=False):
         """Integer totals through LynkInv's rules (core/invoices.py): the country's sales tax read exactly as basis points, or
         the invoice's own taxes (several on a line, tax held back, the reverse charge)."""
         rate = books.rate_bp(country(s.p.c.profile(m)["country"])["tax_rate"])
         doc = taxes if taxes is not None else ([{"kind": "sales", "rate_bp": rate}] if rate else [])
         t = invoices.totals([{"qty": ln["qty_milli"], "unit_minor": ln["unit_minor"], "discount_minor": ln.get("discount_minor", 0), **({"taxes": ln["taxes"]} if "taxes" in ln else {})}
-                             for ln in lines], doc)
+                             for ln in lines], doc, included)
         tax = sum(v for k, v in t["taxes"].items() if k in books.ADDED_TAXES)
         return {"net_minor": t["net"], "tax_minor": tax, "total_minor": t["total"], "withheld_minor": t["withheld"], "to_pay_minor": t["to_pay"]}
     def label(s, m):
@@ -62,7 +62,7 @@ class Invoicing:
         return "Tax invoice" if confirmed else "Invoice (not a tax invoice)"
     # ---- issue
     def issue(s, m, customer, lines, series="A", due_days=14, device=None, number=None, month=None, accepted=True, taxes=None, preparer=None,
-              currency_rate=None):
+              currency_rate=None, included=False):
         """Online: the cloud numbers the invoice. Offline: the device passes a number from its leased block and the cloud accepts it later.
         An invoice over the owner's approval amount (Pro and up) waits for approval before it is numbered and sent; once issued it
         posts to the books as owed by the customer (OFFICE UPDATE, journal kind invoice)."""
@@ -79,7 +79,7 @@ class Invoicing:
             if b is None or number in b["used"] or str(number) in b["voided"]: raise ValueError("number is not available in this device's block")
             b["used"].append(number); s.blocks.put(k, dict(b))
         else: number = s._next(m, series)
-        tot, iid = s.totals(m, lines, taxes), s.p.ids.assign("INV", uuid.uuid4().hex)
+        tot, iid = s.totals(m, lines, taxes, included), s.p.ids.assign("INV", uuid.uuid4().hex)    # included: the line prices already hold the tax
         rec = {"merchant": m, "customer": customer, "series": series, "number": number, "currency": _cur(s.p, m), "lines": lines, **tot, "state": "issued", "month": month,
                "issued_at": s.now(), "due_at": s.now() + due_days * 86400, "paid_minor": 0, "payments": [], "credited_minor": 0, "label": s.label(m), "sent_state": "accepted" if accepted else "sent"}
         s.inv.put(iid, rec); s.p.c.store.append(m, "server", "invoice.issued", {"invoice": iid, "total_minor": tot["total_minor"], "currency": rec["currency"], "number": number, "series": series})

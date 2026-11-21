@@ -1945,6 +1945,39 @@
     "sitemap"
    ],
    "section": 4
+  },
+  {
+   "id": "booking_in_books",
+   "kind": "feature",
+   "what": "Booking money in LynkAcc: payments held until the customer comes, kept fees, refunds and commission, all posted for you",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "booking_invoices",
+   "kind": "feature",
+   "what": "Deposits, passes and a company's bookings invoiced through LynkInv, a company's month on one invoice",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "booking_reports",
+   "kind": "feature",
+   "what": "The busy-time forecast, the empty-hours report and the no-show rate in LynkStat",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
   }
  ]
 }

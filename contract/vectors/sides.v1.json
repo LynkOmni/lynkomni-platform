@@ -979,6 +979,14 @@
    "side": "external"
   },
   {
+   "address": "/booking",
+   "side": "internal"
+  },
+  {
+   "address": "/external/booking",
+   "side": "external"
+  },
+  {
    "address": "/",
    "side": "internal"
   },
@@ -2035,6 +2043,14 @@
   {
    "path": "/external/job",
    "kind": "mirrored"
+  },
+  {
+   "path": "/booking",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/booking",
+   "kind": "mirrored"
   }
  ],
  "twins": [
@@ -2361,6 +2377,10 @@
   {
    "workspace": "/job",
    "storefront": "/external/job"
+  },
+  {
+   "workspace": "/booking",
+   "storefront": "/external/booking"
   }
  ]
 }

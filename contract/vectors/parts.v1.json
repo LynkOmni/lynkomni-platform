@@ -2868,6 +2868,22 @@
    ]
   },
   {
+   "host": "app.lynkomni.com",
+   "path": "/booking",
+   "trail": [
+    "/",
+    "/booking"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/booking",
+   "trail": [
+    "/external",
+    "/external/booking"
+   ]
+  },
+  {
    "host": "account.lynkomni.com",
    "path": "/",
    "trail": [

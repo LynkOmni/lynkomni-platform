@@ -180,6 +180,19 @@
     "change an event type",
     "add a file's content or name, a signer's name or contact, a link's address or password, or a verification code"
    ]
+  },
+  {
+   "from_schema_version": 13,
+   "to_schema_version": 14,
+   "agreed": "2026-11-21 (build section 4, step E4a: LynkBooking's money and figures in the office services, BOOKING UPDATE)",
+   "rule": "Version 14 only adds events (BookingConfirmed, BookingPaid, BookingCheckedIn, BookingCancelled, BookingNoShow, BookingRefunded, BookingCommissionRecorded) and two device commands. A version 13 event reads as version 14 with schema_version raised; nothing else changes.",
+   "never": [
+    "rescale an amount",
+    "rewrite a stored event",
+    "change an identifier",
+    "change an event type",
+    "add a customer's name or contact, a ticket's code or an address"
+   ]
   }
  ]
 }

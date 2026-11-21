@@ -418,7 +418,9 @@
   "/files",
   "/external/files",
   "/job",
-  "/external/job"
+  "/external/job",
+  "/booking",
+  "/external/booking"
  ],
  "redirects": {
   "/terms": "/legal/terms",
@@ -604,7 +606,8 @@
    "/school",
    "/property",
    "/files",
-   "/job"
+   "/job",
+   "/booking"
   ],
   "storefront_only": [
    "/external/business/academy/listings",

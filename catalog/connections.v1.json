@@ -325,10 +325,10 @@
    "from": "lynkbooking",
    "to": "lynkcheckout",
    "what": "Deposits and prepaid bookings through the provider; cash bookings confirm or release",
-   "events": [],
-   "planned_events": [
+   "events": [
     "BookingPaid"
    ],
+   "planned_events": [],
    "consent": "none",
    "build_section": 8
   },
@@ -337,10 +337,10 @@
    "from": "lynkbooking",
    "to": "lynkqueue",
    "what": "An appointment is called by LynkQueue on the day; LynkBooking owns it",
-   "events": [],
-   "planned_events": [
+   "events": [
     "BookingCheckedIn"
    ],
+   "planned_events": [],
    "consent": "none",
    "build_section": 8
   },
@@ -349,12 +349,12 @@
    "from": "lynkbooking",
    "to": "lynkcrm",
    "what": "A booking lands on the customer's record",
-   "events": [],
-   "planned_events": [
+   "events": [
     "BookingConfirmed"
    ],
+   "planned_events": [],
    "consent": "none",
-   "build_section": 8
+   "build_section": 4
   },
   {
    "id": "property-booking",
@@ -784,6 +784,49 @@
    "events": [
     "VoteRollImported",
     "CheckedIn"
+   ],
+   "planned_events": [],
+   "consent": "merchant",
+   "build_section": 4
+  },
+  {
+   "id": "booking-acc",
+   "from": "lynkbooking",
+   "to": "lynkacc",
+   "what": "Booking money in the books: payments held as received in advance until the customer comes, then earned; kept cancellation and no-show fees earned; refunds and LynkOmni's commission",
+   "events": [
+    "BookingPaid",
+    "BookingCheckedIn",
+    "BookingCancelled",
+    "BookingNoShow",
+    "BookingRefunded",
+    "BookingCommissionRecorded"
+   ],
+   "planned_events": [],
+   "consent": "merchant",
+   "build_section": 4
+  },
+  {
+   "id": "booking-inv",
+   "from": "lynkbooking",
+   "to": "lynkinv",
+   "what": "Deposits asked for as invoices with a pay link, passes and memberships sold as invoices, and a company's bookings put on one invoice for the period",
+   "events": [
+    "BookingConfirmed",
+    "InvoiceIssued"
+   ],
+   "planned_events": [],
+   "consent": "merchant",
+   "build_section": 4
+  },
+  {
+   "id": "booking-stat",
+   "from": "lynkbooking",
+   "to": "lynkstat",
+   "what": "The busy-time forecast (an estimate), the empty-hours report and the no-show rate",
+   "events": [
+    "BookingConfirmed",
+    "BookingNoShow"
    ],
    "planned_events": [],
    "consent": "merchant",

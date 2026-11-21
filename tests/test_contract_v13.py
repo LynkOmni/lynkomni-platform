@@ -19,7 +19,7 @@ class ContractV13(unittest.TestCase):
     def test_built_from_v12_and_current(self):
         r = subprocess.run([sys.executable, str(ROOT / "contract" / "tools" / "build_v13.py"), "--check"], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        self.assertEqual(CURRENT, 13)
+        self.assertGreaterEqual(CURRENT, 13)                                  # version 14 (section 4, step E4a) reads version 13 unchanged
 
     def test_only_the_new_events_are_added(self):
         self.assertEqual(set(V13["events"]) - set(V12["events"]), NEW)
@@ -46,10 +46,10 @@ class ContractV13(unittest.TestCase):
     def test_a_version_12_event_reads_as_version_13_unchanged(self):
         old = {"type": "VoteClosed", "schema_version": 12, "payload": {"vote_id": uuid7(), "ballots": 3, "list_head": "a" * 64}}
         up = upcast(old)
-        self.assertEqual((up["schema_version"], up["payload"]), (13, old["payload"]))
+        self.assertEqual((up["schema_version"], up["payload"]), (CURRENT, old["payload"]))
 
     def test_a_share_link_validates_and_its_address_is_refused(self):
-        ok = {"event_id": uuid7(), "origin": "server", "merchant_id": MERCHANT, "type": "ShareLinkCreated", "schema_version": 13,
+        ok = {"event_id": uuid7(), "origin": "server", "merchant_id": MERCHANT, "type": "ShareLinkCreated", "schema_version": CURRENT,
               "created_at_server": ts(), "server_cursor": 1, "server_signature": fake_sig(),
               "payload": {"link_id": uuid7(), "document_id": uuid7(), "rights": "view", "days": 7, "password": True, "download_blocked": False}}
         self.assertEqual(validate_event(ok), [])

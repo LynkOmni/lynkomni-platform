@@ -15,7 +15,8 @@
      "done": {},
      "progress": {
       "4": [
-       "v0.48.0: the LynkBooking Pass prices, the business tiers, places, bundle and commission, locked in services/billing.py BOOKING_* with the price lock and the revenue model re-run"
+       "v0.48.0: the LynkBooking Pass prices, the business tiers, places, bundle and commission, locked in services/billing.py BOOKING_* with the price lock and the revenue model re-run",
+       "v0.80.0: contract events (version 14), country settings, the business address /booking, the service switch and placements; booking money in LynkAcc; deposits, passes and company bookings in LynkInv with one invoice; customers in LynkCRM; the busy-time forecast, empty-hours report and no-show rate for LynkStat"
       ]
      }
     },

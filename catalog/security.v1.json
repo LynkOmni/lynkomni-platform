@@ -1097,6 +1097,42 @@
    "test": "tests/test_files.py::test_partner_signatures_wait_for_the_partner",
    "build_section": 4,
    "status": "built"
+  },
+  {
+   "id": "booking-commission-own-customers",
+   "asset": "money",
+   "threat": "Commission is charged on a business's own customers, twice on one booking, or in a currency whose fixed amounts are not confirmed",
+   "enforced_in": [
+    "core/booking.py",
+    "ts/src/booking.ts",
+    "services/booking_office.py"
+   ],
+   "test": "tests/test_booking_office.py::test_fees_refunds_and_commission",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "booking-money-held",
+   "asset": "money",
+   "threat": "Money paid before a visit is counted as earned before the customer comes, or a refund is taken from income it never reached",
+   "enforced_in": [
+    "services/booking_office.py"
+   ],
+   "test": "tests/test_booking_office.py::test_money_is_held_until_the_customer_comes",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "booking-invoice-once",
+   "asset": "money",
+   "threat": "A company's booking is invoiced twice or tax is added on top of a price that already holds it",
+   "enforced_in": [
+    "services/booking_office.py",
+    "services/invoicing.py"
+   ],
+   "test": "tests/test_booking_office.py::test_invoices_for_deposits_passes_and_company_bookings",
+   "build_section": 4,
+   "status": "built"
   }
  ]
 }
