@@ -238,7 +238,7 @@
   },
   {
    "id": "plain_names",
-   "what": "Every Lynk name a person sees carries its plain word (and, where the page has room, what it does), from the names register, in all 38 languages; a new product, service, feature, card group or device is added there first",
+   "what": "Every Lynk name a person sees carries its plain word (and, where the page has room, what it does), from the names register, in all 38 languages, inside and outside the app: screens, search and its keywords, page titles and sharing cards, LynkAssist, voice menus, messages, LynkOmni's own bills, printed receipts and documents for customers, developer and staff pages. A new product, service, feature, card group or device is added to the register first, in the same change, with its plain word (passing the plain-word check), description, spoken form, mark, similar group where it sounds like another, and a now-called line when it replaces an old name",
    "enforced_by": "tests/test_names.py, tests/test_fit_guard.py"
   }
  ],

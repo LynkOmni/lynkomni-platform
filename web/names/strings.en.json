@@ -66,5 +66,16 @@
  "nm_pref_brand": "Lynk names with plain words",
  "nm_pref_plain": "Plain words first",
  "nm_pref_note": "Plain words first shows the plain word before each Lynk name. Good for anyone still learning the names.",
- "nm_pref_device": "This device follows the owner's choice."
+ "nm_pref_device": "This device follows the owner's choice.",
+ "nm_now_called": "{old} is now {name}.",
+ "nm_renamed": "{old} has a new name: {name}. Nothing else changes.",
+ "nm_compare_title": "Which one do I need?",
+ "nm_welcome_title": "Welcome to {name}",
+ "nm_welcome_start": "Start here",
+ "nm_got_it": "Got it",
+ "nm_az_title": "Names A to Z",
+ "nm_az_note": "Every LynkOmni name and what it does.",
+ "nm_familiar": "Keep plain words in brackets",
+ "nm_familiar_note": "When you use a service often, its brackets step back. Its note stays.",
+ "nm_say": "Say it: {spoken}"
 }

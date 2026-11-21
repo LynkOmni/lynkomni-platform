@@ -19,3 +19,22 @@
 .names-choice h3 { margin: 16px 0 8px; font: 600 15px var(--font-heading); }
 .names-choice .choice { display: grid; gap: 2px; text-align: start; }
 .names-choice .names-eg { color: var(--text-secondary); font-size: 0.85em; }
+/* A name's own product mark beside it: one colour, the text colour, the size of the text. */
+.lic { display: inline-flex; vertical-align: -0.15em; margin-inline-end: 6px; }
+.lic svg { inline-size: 1.1em; block-size: 1.1em; }
+/* Which one do I need? A short side-by-side of names that sound alike. */
+.ltip .lcmp { justify-self: start; min-block-size: var(--touch-target); margin-block-start: 4px; padding: 0 12px; border: 1px solid var(--border-strong);
+  border-radius: 8px; background: var(--bg-base); color: var(--text-primary); font: inherit; }
+.ltip .lcompare { max-block-size: 60vh; overflow: auto; }
+.lcompare ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 8px; }
+.lcompare li { display: grid; gap: 2px; }
+.lcompare li > span:last-child { color: var(--text-secondary); }
+/* The first-time welcome card and the one-time "new name" notice. */
+.lwelcome h2 { overflow-wrap: anywhere; }
+.lwelcome .lsteps { margin: 4px 0 8px; padding-inline-start: 20px; display: grid; gap: 4px; }
+.lrenamed p { margin: 0 0 4px; }
+/* Names A to Z (search, help and LynkAssist open it). */
+.names-sheet { max-block-size: min(85vh, 720px); overflow: auto; inline-size: min(560px, calc(100vw - 32px)); }
+.names-sheet .lcompare { margin-block-end: 16px; padding-block-end: 12px; border-block-end: 1px solid var(--border-subtle); }
+.lindex h2 { margin: 0 0 4px; font: 600 18px var(--font-heading); }
+.lindex .list { margin-block-start: 8px; }

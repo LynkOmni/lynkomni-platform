@@ -61,7 +61,7 @@ import { TRUST } from "../../../ts/src/assisttrust.generated.js";
 import { certainty, guard, remember, warning, work } from "../../../ts/src/assisttrust.js";
 import { answerHtml, askButtonHtml, controlsHtml, previewHtml, stoppedHtml, warningLineHtml } from "../../../ts/src/assistview.js";
 import type { LaLook } from "../../../ts/src/assistview.js";
-import { watchNames, namesChoice, namesAct } from "../../../ts/src/names.js";
+import { watchNames, namesChoice, namesAct, nameById, nameOpened, welcomeCard, welcomeAct } from "../../../ts/src/names.js";
 import { NAME_INFO_KEYS } from "../../../ts/src/nameinfo.js";
 
 interface BuildData {
@@ -1380,7 +1380,18 @@ function m3Cards(): string {
       <button class="primary inline" data-act="m3card:send" ${online() ? "" : "disabled"}>${esc(t("card_send"))}</button>${online() ? "" : `<p class="sub">${esc(t("m3_card_online"))}</p>`}`;
   return `${mine}<div class="card" data-item="get_a_card"><h2>${esc(t("card_get"))}</h2>${compare}${form}<p class="sub">${esc(t("m3_card_note"))}</p></div>`;
 }
+// The first time a person opens a service, one card shows what it is and where to start (catalog/names.v1.json welcome_rule).
+const HUB_NAME: Record<string, string> = { attendance: "attend", queue: "queue", survey: "survey", invoicing: "inv", customers: "crm", books: "acc", reports: "stat", loyalty: "rewards", growth: "grow", assistant: "assist", cards: "vcard" };
+function hubWelcome(id: string): string {
+  const name = nameById(HUB_NAME[id] ?? ""), reg = DATA.screens.find((s) => s.id === id); if (!name || !reg) return "";
+  const go = (i: string): string => AT_HOME[i] ? `hub:${AT_HOME[i]}` : QU_HOME[i] ? `hub:${QU_HOME[i]}` : SV_HOME[i] ? `hub:${SV_HOME[i]}` : "";
+  return welcomeCard(name, t, reg.items.slice(0, 3).map((i) => ({ label: t(PEOPLE_ITEM[i] ?? "it_" + i), act: go(i) })), { act: "nmw", icon });
+}
 function hubSection(id: string): string {
+  const html = hubBody(id), w = hubWelcome(id);
+  return w ? html.replace('<div class="body">', `<div class="body">${w}`) : html;
+}
+function hubBody(id: string): string {
   const reg = DATA.screens.find((s) => s.id === id); if (!reg) return "";
   const page = AT_PAGES[id];
   if (page) return `${topBar(t(page.title), "hub:attendance")}<div class="body">${webNote()}${page.draw()}${flash()}</div>`;
@@ -1758,6 +1769,7 @@ function closeDay(): void {
 function act(a: string): void {
   const [k, v = ""] = a.split(/:(.*)/s);
   if (namesAct(a, "nmc", "device")) { draw(); return; }   // the owner's choice of how names show on this device
+  if (welcomeAct(a, "nmw")) { draw(); return; }           // the first-time welcome card closed: never again on this device
   if (a === "qc") { S.qc = true; draw(); return; }
   if (a === "qcclose") { S.qc = false; draw(); return; }
   if (k === "qc") { openQuickCreate(v); return; }
@@ -1815,7 +1827,7 @@ function act(a: string): void {
         if (S.tab === "float") for (const p of PARTNERS) emit("FloatBalanceRead", { partner_id: p.id, balance: p.float, currency: pack().currency, read_at: new Date().toISOString().slice(0, 19) + "Z" }, "server");
         draw(); return;
       case "view": if (v === "choose") { S.screen = "choose"; draw(); return; } S.view = v as View; S.input = ""; S.note = ""; if (v === "notifications") window.setTimeout(() => S.notices.forEach((n) => { n.read = true; }), 0); draw(); return;
-      case "hub": S.tab = "business"; S.hub = v; S.setting = ""; S.view = "hub"; draw(); return;
+      case "hub": S.tab = "business"; S.hub = v; S.setting = ""; S.view = "hub"; { const n = nameById(HUB_NAME[v] ?? ""); if (n) nameOpened(n); } draw(); return;
       case "m3req": { const [ans = "", id = ""] = v.split(":"); answerRequest(id, ans === "approve" ? "approve" : "deny"); return; }
       case "m3fix": {                                                         // LynkAssist: the register decides, offline it queues sealed
         const d = decideOffline("correct_price", { role: owner() ? "owner" : "manager", confirmed: true, standing: [...M3.standing] }, online());

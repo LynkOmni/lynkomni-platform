@@ -7,6 +7,7 @@ Prices are standard USD and LOCKED (version 3, 2026-11-08; pinned by tests/test_
 adjust them later on purpose, together with the blueprint and finance/revenue_model.py. Regional price index comes from the country pack."""
 from core.money import to_minor
 from core.regions import country
+from core import names
 from services.control import COMPANY
 
 MT = ("free", "plus", "pro", "max")
@@ -612,6 +613,11 @@ class Billing:
         if s.control:
             for l in b["lines"]:
                 s.control.record_revenue(account, f"storefront:plan" if l["side"] == "external" else f"subscription:{l['family']}", l["amount_minor"], b["currency"], pr["country"])
+        # Each line names what it is for: "LynkStat Plus (Analytics)" (catalog/names.v1.json outside: bills); the words are
+        # drawn in the reader's language from the plain-word key; the Storefront plan is already a plain word.
+        for l in b["lines"]:
+            n = names.for_family(l["family"])
+            l["name"], l["plain_key"] = n, (names.plain_key(n) if n else None)
         return {"status": "invoiced", "period": period, **b}
     def counts(s):
         """Paid subscribers per family and tier. Each is counted once; LynkSuite Free and Free tiers are not paid."""

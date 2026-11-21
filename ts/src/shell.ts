@@ -128,7 +128,7 @@ export function filterRegions(list: Element, query: string): number {
 }
 
 // ---------------------------------------------------------------- find or do anything
-export interface Entry { id: string; kind: "product" | "customer" | "order" | "report" | "setting" | "help" | "action"; title: string; subtitle?: string; keywords?: string[]; act?: string; href?: string }
+export interface Entry { id: string; kind: "product" | "customer" | "order" | "report" | "setting" | "help" | "action"; title: string; subtitle?: string; keywords?: string[]; act?: string; href?: string; icon?: string }
 /** Ranks entries for a query: a title that starts with the words first, then any word match, then keywords. Actions ("new sale")
  *  rank above records on a short query so the bar does things, not only finds them. Diacritics and case are ignored. */
 export function search(index: Entry[], query: string, limit = 8): Entry[] {
@@ -154,7 +154,7 @@ export function search(index: Entry[], query: string, limit = 8): Entry[] {
 }
 export function commandBar(query: string, results: Entry[], t: T, icon: Icon, assist = true): string {
   const kindIcon: Record<Entry["kind"], string> = { product: "ui-cart", customer: "ui-user", order: "ui-receipt", report: "ui-chart", setting: "ui-settings", help: "ui-info", action: "ui-bolt" };
-  const li = results.map((r, i) => `<li role="option" id="cmd-${i}"><button class="result" data-act="${esc(r.act ?? (r.href ? `go:${r.href}` : `open:${r.id}`))}">${icon(kindIcon[r.kind])}<span class="rt">${esc(r.title)}</span>${r.subtitle ? `<span class="rs">${esc(r.subtitle)}</span>` : ""}<span class="rk">${esc(t(`kind_${r.kind}`))}</span></button></li>`).join("");
+  const li = results.map((r, i) => `<li role="option" id="cmd-${i}"><button class="result" data-act="${esc(r.act ?? (r.href ? `go:${r.href}` : `open:${r.id}`))}">${icon(r.icon ?? kindIcon[r.kind])}<span class="rt">${esc(r.title)}</span>${r.subtitle ? `<span class="rs">${esc(r.subtitle)}</span>` : ""}<span class="rk">${esc(t(`kind_${r.kind}`))}</span></button></li>`).join("");
   return `<div class="command-bar" role="dialog" aria-label="${esc(t("find_or_do"))}"><div class="cmd-input">${icon("ui-search")}<input id="cmdIn" type="search" value="${esc(query)}" placeholder="${esc(t("find_or_do_hint"))}" aria-label="${esc(t("find_or_do"))}" role="combobox" aria-expanded="true" aria-controls="cmdList" autocomplete="off"><button class="hbtn" data-act="shell:voice" aria-label="${esc(t("voice_input"))}">${icon("ui-mic")}</button></div><ul id="cmdList" class="results" role="listbox">${li || `<li class="none">${esc(t("no_results"))}</li>`}</ul>${assist ? `<button class="assist-hand" data-act="assist:ask">${icon("product-assist")}<span>${esc(t("ask_assist", { q: query }))}</span><span class="suggested">${esc(t("suggested_by_assist"))}</span></button>` : ""}<p class="kbd">${esc(t("shortcut_hint"))}</p></div>`;
 }
 

@@ -172,7 +172,8 @@
   "/project",
   "/school",
   "/property",
-  "/files"
+  "/files",
+  "/names"
  ],
  "app_paths": [
   "/accounting",

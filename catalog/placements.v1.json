@@ -1978,6 +1978,46 @@
     "sitemap"
    ],
    "section": 4
+  },
+  {
+   "id": "names_az",
+   "kind": "item",
+   "what": "Names A to Z (lynkomni.com/names): every Lynk name with its plain word, what it does and its similar names",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "names_compare",
+   "kind": "item",
+   "what": "Which one do I need?: names that sound alike side by side, from a name's note, search and LynkAssist",
+   "places": [
+    "help",
+    "search"
+   ],
+   "section": 4
+  },
+  {
+   "id": "names_welcome",
+   "kind": "item",
+   "what": "The first-time welcome card of each service: what it is and where to start",
+   "places": [
+    "app_nav",
+    "help"
+   ],
+   "section": 4
+  },
+  {
+   "id": "names_choice",
+   "kind": "item",
+   "what": "How names show: Lynk names with plain words or plain words first, and keeping the brackets",
+   "places": [
+    "settings"
+   ],
+   "section": 4
   }
  ]
 }

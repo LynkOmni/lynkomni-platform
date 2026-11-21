@@ -63,6 +63,17 @@ def build(built_on, lang="en"):
         entries.append({"id": f"what-{n['id']}", "topic": "how_to", "q": iw.get("nmi_what_q", "What is {name}?").replace("{name}", n["name"]),
                         "a": iw.get("nmi_what_a", "{name} ({plain}): {about}").replace("{name}", n["name"]).replace("{plain}", p).replace("{about}", a),
                         "source": "catalog/names.v1.json"})
+    # "Which one do I need?" for names that sound alike, and the old names that are now called something else.
+    def said(n):
+        return iw.get("nmi_what_a", "{name} ({plain}): {about}").replace("{name}", n).replace("{plain}", names.plain(n, nw)).replace("{about}", names.about(n, iw) or "")
+    for g in names.SIMILAR:
+        ns = [names.BY_ID[i]["name"] for i in g["names"]]
+        entries.append({"id": f"compare-{g['id']}", "topic": "how_to", "q": f"{nw.get('nm_compare_title', '')} {', '.join(ns)}",
+                        "a": " ".join(said(n) for n in ns), "source": "catalog/names.v1.json"})
+    for old, x in names.NOW_CALLED.items():
+        entries.append({"id": f"renamed-{old}", "topic": "how_to", "q": iw.get("nmi_what_q", "What is {name}?").replace("{name}", old),
+                        "a": nw.get("nm_now_called", "{old} is now {name}.").replace("{old}", old).replace("{name}", names.BY_ID[x["id"]]["name"]),
+                        "source": "catalog/names.v1.json"})
     for state in STATES:
         entries.append({"id": f"state-{state}", "topic": "status_word", "q": w["kp_state_q"].format(state=w[f"st_{state}"]),
                         "a": w[f"kp_state_{state}"], "source": "the five user states"})

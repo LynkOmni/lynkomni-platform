@@ -66,3 +66,99 @@ def part_of(name):
     """The product a service, feature or card group belongs to (its name), or None."""
     parent = BY_NAME[name].get("part_of")
     return BY_ID[parent]["name"] if parent else None
+
+
+# ---------------------------------------------------------------- the 15 improvements (owner, 21 November 2026, v0.81.0)
+FAMILY = {n["family"]: n for n in NAMES if n.get("family")}
+NOW_CALLED = {x["old"]: x for x in REGISTER["now_called"]}
+SIMILAR = REGISTER["similar"]
+FAMILIAR_AFTER = REGISTER["familiar_after"]
+CHECK = REGISTER["plain_word_check"]
+_CAPS = re.compile(r"(?<![A-Za-z])[A-Z]{2,}(?![A-Za-z])")
+
+
+def for_family(family):
+    """The registered name of a billing family (or None, e.g. for the Storefront plan, which is a plain word)."""
+    e = FAMILY.get(family)
+    return e["name"] if e else None
+
+
+def icon_of(name):
+    """The product mark a name shows beside it (brand.icon id), or None."""
+    return BY_NAME[name].get("icon")
+
+
+def spoken(name):
+    """How to say a name aloud: "Link Stat", "Link P O S"."""
+    return BY_NAME[name]["spoken"]
+
+
+def speakable(text):
+    """A text ready to be read aloud: every registered name replaced by its spoken form."""
+    return PATTERN.sub(lambda m: spoken(m.group(1)), text)
+
+
+def now_called(old):
+    """The name a retired name is now called, or None."""
+    x = NOW_CALLED.get(old)
+    return BY_ID[x["id"]]["name"] if x else None
+
+
+def similar(name):
+    """The other names a name could be confused with, in register order."""
+    i = BY_NAME[name]["id"]
+    out = []
+    for g in SIMILAR:
+        if i in g["names"]:
+            out += [BY_ID[x]["name"] for x in g["names"] if x != i and BY_ID[x]["name"] not in out]
+    return out
+
+
+def check_plain(word):
+    """Why a plain word is not plain enough ([] when it is): a short form in capitals, a Lynk name or a technical word."""
+    bad = [c for c in _CAPS.findall(word) if c not in CHECK["allowed_short"]]
+    bad += [w for w in CHECK["words_never"] if re.search(r"(?<![A-Za-z])" + re.escape(w) + r"(?![A-Za-z])", word, re.I)]
+    if "Lynk" in word:
+        bad.append("Lynk")
+    return sorted(set(bad))
+
+
+def explain_text(text, texts=None, mode="brand_first", seen=None):
+    """A message or document text with the first mention of each name followed by its plain word in brackets (or the plain word
+    first). seen carries the names already explained earlier in the same message, so a title and its lines explain each name once."""
+    seen = set() if seen is None else seen
+    def one(m):
+        n = m.group(1)
+        if n in seen:
+            return n
+        seen.add(n)
+        return label(n, texts, mode)
+    return PATTERN.sub(one, text)
+
+
+def paper_lines(lines, texts=None, width=32):
+    """The lines a printed receipt or a document sent to a customer ends with: one "LynkCheckout: Pay links & QR" line for each
+    name it shows, wrapped to the paper's width. Nothing when it shows none."""
+    out = []
+    for n in dict.fromkeys(f["name"] for line in lines for f in find(line)):
+        words, row = f"{n}: {plain(n, texts)}".split(" "), ""
+        for w in words:
+            if row and len(row) + 1 + len(w) > width:
+                out.append(row)
+                row = "  " + w
+            else:
+                row = f"{row} {w}" if row else w
+        out.append(row)
+    return out
+
+
+def bill_label(family, tier_word, texts=None):
+    """A line of LynkOmni's own bill: "LynkStat Plus (Analytics)"; the Storefront plan is a plain word already."""
+    n = for_family(family)
+    return f"{n} {tier_word} ({plain(n, texts)})" if n else tier_word
+
+
+def asks_report(counts, min_shown=None):
+    """Staff view of how often each name had to be explained: totals only, nothing below the minimum (5)."""
+    low = REGISTER["asks"]["min_shown"] if min_shown is None else min_shown
+    return {k: v for k, v in sorted(counts.items()) if v >= low}

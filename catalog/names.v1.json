@@ -42,367 +42,680 @@
    "id": "pos",
    "name": "LynkPOS",
    "kind": "product",
-   "family": "lynkpos"
+   "family": "lynkpos",
+   "icon": "product-pos",
+   "spoken": "Link P O S"
   },
   {
    "id": "mpay",
    "name": "LynkMPay",
    "kind": "product",
-   "family": "lynkmpay"
+   "family": "lynkmpay",
+   "icon": "product-mpay",
+   "spoken": "Link M Pay"
   },
   {
    "id": "checkout",
    "name": "LynkCheckout",
    "kind": "product",
-   "family": "lynkcheckout"
+   "family": "lynkcheckout",
+   "icon": "product-checkout",
+   "spoken": "Link Checkout"
   },
   {
    "id": "recover",
    "name": "LynkRecover",
    "kind": "product",
-   "family": "lynkrecover"
+   "family": "lynkrecover",
+   "icon": "product-recover",
+   "spoken": "Link Recover"
   },
   {
    "id": "vcard",
    "name": "LynkVCard",
    "kind": "product",
-   "family": "lynkvcard"
+   "family": "lynkvcard",
+   "icon": "product-vcard",
+   "spoken": "Link V Card"
   },
   {
    "id": "acc",
    "name": "LynkAcc",
    "kind": "product",
-   "family": "lynkacc"
+   "family": "lynkacc",
+   "icon": "product-ledger",
+   "spoken": "Link Ack"
   },
   {
    "id": "inv",
    "name": "LynkInv",
    "kind": "product",
-   "family": "lynkinv"
+   "family": "lynkinv",
+   "icon": null,
+   "spoken": "Link Inv"
   },
   {
    "id": "crm",
    "name": "LynkCRM",
    "kind": "product",
-   "family": "lynkcrm"
+   "family": "lynkcrm",
+   "icon": null,
+   "spoken": "Link C R M"
   },
   {
    "id": "ops",
    "name": "LynkOps",
    "kind": "product",
-   "family": "lynkops"
+   "family": "lynkops",
+   "icon": null,
+   "spoken": "Link Ops"
   },
   {
    "id": "stock",
    "name": "LynkStock",
    "kind": "product",
-   "family": "lynkstock"
+   "family": "lynkstock",
+   "icon": "product-stock",
+   "spoken": "Link Stock"
   },
   {
    "id": "stat",
    "name": "LynkStat",
    "kind": "product",
-   "family": "lynkstat"
+   "family": "lynkstat",
+   "icon": "product-dash",
+   "spoken": "Link Stat"
   },
   {
    "id": "rewards",
    "name": "LynkRewards",
    "kind": "product",
-   "family": "lynkrewards"
+   "family": "lynkrewards",
+   "icon": "product-rewards",
+   "spoken": "Link Rewards"
   },
   {
    "id": "chat",
    "name": "LynkChat",
    "kind": "product",
-   "family": "lynkchat"
+   "family": "lynkchat",
+   "icon": "product-chat",
+   "spoken": "Link Chat"
   },
   {
    "id": "grow",
    "name": "LynkGrow",
    "kind": "product",
-   "family": "lynkgrow"
+   "family": "lynkgrow",
+   "icon": "product-grow",
+   "spoken": "Link Grow"
   },
   {
    "id": "assist",
    "name": "LynkAssist",
    "kind": "product",
-   "family": "lynkassist"
+   "family": "lynkassist",
+   "icon": "product-assist",
+   "spoken": "Link Assist"
   },
   {
    "id": "motion",
    "name": "LynkMotion",
    "kind": "product",
-   "family": "lynkmotion"
+   "family": "lynkmotion",
+   "icon": "product-motion",
+   "spoken": "Link Motion"
   },
   {
    "id": "guard",
    "name": "LynkGuard",
    "kind": "product",
-   "family": "lynkguard"
+   "family": "lynkguard",
+   "icon": "product-guard",
+   "spoken": "Link Guard"
   },
   {
    "id": "suite",
    "name": "LynkSuite",
    "kind": "product",
-   "family": "lynksuite"
+   "family": "lynksuite",
+   "icon": "product-suite",
+   "spoken": "Link Suite"
   },
   {
    "id": "dev",
    "name": "LynkDev",
    "kind": "product",
-   "family": "lynkdev"
+   "family": "lynkdev",
+   "icon": "product-dev",
+   "spoken": "Link Dev"
   },
   {
    "id": "booking",
    "name": "LynkBooking",
    "kind": "product",
-   "family": "lynkbooking"
+   "family": "lynkbooking",
+   "icon": "product-booking",
+   "spoken": "Link Booking"
   },
   {
    "id": "essential",
    "name": "LynkEssential",
    "kind": "product",
-   "family": "lynkessential"
+   "family": "lynkessential",
+   "icon": "product-essential",
+   "spoken": "Link Essential"
   },
   {
    "id": "attend",
    "name": "LynkAttend",
    "kind": "product",
-   "family": "lynkattend"
+   "family": "lynkattend",
+   "icon": "product-attend",
+   "spoken": "Link Attend"
   },
   {
    "id": "queue",
    "name": "LynkQueue",
    "kind": "product",
-   "family": "lynkqueue"
+   "family": "lynkqueue",
+   "icon": "product-queue",
+   "spoken": "Link Queue"
   },
   {
    "id": "survey",
    "name": "LynkSurvey",
    "kind": "product",
-   "family": "lynksurvey"
+   "family": "lynksurvey",
+   "icon": "product-survey",
+   "spoken": "Link Survey"
   },
   {
    "id": "exchange",
    "name": "LynkExchange",
    "kind": "product",
-   "family": "lynkexchange"
+   "family": "lynkexchange",
+   "icon": null,
+   "spoken": "Link Exchange"
   },
   {
    "id": "vote",
    "name": "LynkVote",
    "kind": "product",
-   "family": "lynkvote"
+   "family": "lynkvote",
+   "icon": null,
+   "spoken": "Link Vote"
   },
   {
    "id": "hr",
    "name": "LynkHR",
    "kind": "product",
-   "family": "lynkhr"
+   "family": "lynkhr",
+   "icon": null,
+   "spoken": "Link H R"
   },
   {
    "id": "project",
    "name": "LynkProject",
    "kind": "product",
-   "family": "lynkproject"
+   "family": "lynkproject",
+   "icon": null,
+   "spoken": "Link Project"
   },
   {
    "id": "school",
    "name": "LynkSchool",
    "kind": "product",
-   "family": "lynkschool"
+   "family": "lynkschool",
+   "icon": null,
+   "spoken": "Link School"
   },
   {
    "id": "academy",
    "name": "LynkAcademy",
    "kind": "product",
-   "family": "lynkacademy"
+   "family": "lynkacademy",
+   "icon": null,
+   "spoken": "Link Academy"
   },
   {
    "id": "property",
    "name": "LynkProperty",
    "kind": "product",
-   "family": "lynkproperty"
+   "family": "lynkproperty",
+   "icon": null,
+   "spoken": "Link Property"
   },
   {
    "id": "files",
    "name": "LynkFiles",
    "kind": "product",
-   "family": "lynkfiles"
+   "family": "lynkfiles",
+   "icon": null,
+   "spoken": "Link Files"
   },
   {
    "id": "jobs",
    "name": "LynkJobs",
    "kind": "product",
-   "family": "lynkjobs"
+   "family": "lynkjobs",
+   "icon": null,
+   "spoken": "Link Jobs"
   },
   {
    "id": "trace",
    "name": "LynkTrace",
    "kind": "service",
-   "part_of": "motion"
+   "part_of": "motion",
+   "icon": "product-motion",
+   "spoken": "Link Trace"
   },
   {
    "id": "gps",
    "name": "LynkGPS",
    "kind": "service",
-   "part_of": "motion"
+   "part_of": "motion",
+   "icon": "product-motion",
+   "spoken": "Link G P S"
   },
   {
    "id": "sentry",
    "name": "LynkSentry",
    "kind": "service",
-   "part_of": "guard"
+   "part_of": "guard",
+   "icon": "product-guard",
+   "spoken": "Link Sentry"
   },
   {
    "id": "hub",
    "name": "LynkHub",
    "kind": "service",
-   "part_of": "dev"
+   "part_of": "dev",
+   "icon": "product-dev",
+   "spoken": "Link Hub"
   },
   {
    "id": "doc",
    "name": "LynkDoc",
    "kind": "service",
-   "part_of": "dev"
+   "part_of": "dev",
+   "icon": "product-dev",
+   "spoken": "Link Doc"
   },
   {
    "id": "api",
    "name": "LynkAPI",
    "kind": "service",
-   "part_of": "dev"
+   "part_of": "dev",
+   "icon": "product-dev",
+   "spoken": "Link A P I"
   },
   {
    "id": "sdk",
    "name": "LynkSDK",
    "kind": "service",
-   "part_of": "dev"
+   "part_of": "dev",
+   "icon": "product-dev",
+   "spoken": "Link S D K"
   },
   {
    "id": "faq",
    "name": "LynkFAQ",
-   "kind": "service"
+   "kind": "service",
+   "icon": null,
+   "spoken": "Link F A Q"
   },
   {
    "id": "support",
    "name": "LynkSupport",
-   "kind": "service"
+   "kind": "service",
+   "icon": null,
+   "spoken": "Link Support"
   },
   {
    "id": "status",
    "name": "LynkStatus",
-   "kind": "service"
+   "kind": "service",
+   "icon": null,
+   "spoken": "Link Status"
   },
   {
    "id": "feedback",
    "name": "LynkFeedback",
-   "kind": "service"
+   "kind": "service",
+   "icon": null,
+   "spoken": "Link Feedback"
   },
   {
    "id": "safety",
    "name": "LynkSafety",
-   "kind": "service"
+   "kind": "service",
+   "icon": null,
+   "spoken": "Link Safety"
   },
   {
    "id": "flow",
    "name": "LynkFlow",
-   "kind": "service"
+   "kind": "service",
+   "icon": null,
+   "spoken": "Link Flow"
   },
   {
    "id": "mesh",
    "name": "LynkMesh",
    "kind": "service",
-   "part_of": "pos"
+   "part_of": "pos",
+   "icon": "product-pos",
+   "spoken": "Link Mesh"
   },
   {
    "id": "driver",
    "name": "LynkDriver",
-   "kind": "service"
+   "kind": "service",
+   "icon": null,
+   "spoken": "Link Driver"
   },
   {
    "id": "id",
    "name": "LynkID",
-   "kind": "service"
+   "kind": "service",
+   "icon": null,
+   "spoken": "Link I D"
   },
   {
    "id": "proof",
    "name": "LynkProof",
    "kind": "feature",
-   "part_of": "mpay"
+   "part_of": "mpay",
+   "icon": "product-mpay",
+   "spoken": "Link Proof"
   },
   {
    "id": "split",
    "name": "LynkSplit",
    "kind": "feature",
-   "part_of": "mpay"
+   "part_of": "mpay",
+   "icon": "product-mpay",
+   "spoken": "Link Split"
   },
   {
    "id": "audit",
    "name": "LynkAudit",
    "kind": "feature",
-   "part_of": "acc"
+   "part_of": "acc",
+   "icon": "product-ledger",
+   "spoken": "Link Audit"
   },
   {
    "id": "edge",
    "name": "LynkEdge",
    "kind": "feature",
-   "part_of": "dev"
+   "part_of": "dev",
+   "icon": "product-dev",
+   "spoken": "Link Edge"
   },
   {
    "id": "prima",
    "name": "LynkPrima",
    "kind": "card_group",
-   "part_of": "vcard"
+   "part_of": "vcard",
+   "icon": "product-vcard",
+   "spoken": "Link Prima"
   },
   {
    "id": "dyna",
    "name": "LynkDyna",
    "kind": "card_group",
-   "part_of": "vcard"
+   "part_of": "vcard",
+   "icon": "product-vcard",
+   "spoken": "Link Dyna"
   },
   {
    "id": "crest",
    "name": "LynkCrest",
    "kind": "card_group",
-   "part_of": "vcard"
+   "part_of": "vcard",
+   "icon": "product-vcard",
+   "spoken": "Link Crest"
   },
   {
    "id": "mobile",
    "name": "LynkMobile",
    "kind": "device",
-   "about": false
+   "about": false,
+   "icon": null,
+   "spoken": "Link Mobile"
   },
   {
    "id": "tab",
    "name": "LynkTab",
    "kind": "device",
-   "about": false
+   "about": false,
+   "icon": null,
+   "spoken": "Link Tab"
   },
   {
    "id": "pc",
    "name": "LynkPC",
    "kind": "device",
-   "about": false
+   "about": false,
+   "icon": null,
+   "spoken": "Link P C"
   },
   {
    "id": "kiosk",
    "name": "LynkKiosk",
    "kind": "device",
-   "about": false
+   "about": false,
+   "icon": null,
+   "spoken": "Link Kiosk"
   },
   {
    "id": "dscreen",
    "name": "LynkDScreen",
    "kind": "device",
-   "about": false
+   "about": false,
+   "icon": null,
+   "spoken": "Link D Screen"
   },
   {
    "id": "cdisplay",
    "name": "LynkCDisplay",
    "kind": "device",
-   "about": false
+   "about": false,
+   "icon": null,
+   "spoken": "Link C Display"
   }
  ],
  "max_plain_reason": "A plain word fits two short lines in a launcher tile in every language; the fit guard checks the layout itself.",
- "retired_note": "Names banned outright (core/naming.py BANNED) are never written anywhere, not even here; a screen that showed one would fail as an unknown name."
+ "retired_note": "Names banned outright (core/naming.py BANNED) are never written anywhere, not even here; a screen that showed one would fail as an unknown name.",
+ "icons_rule": "Each name shows its own product mark from the brand module (brand.icon), a service, feature or card group its product's mark, and a device none. A product whose own mark is not yet released in lynkomni-icons shows the mark named here until it is (provider ledger later item product_marks_all).",
+ "spoken_rule": "How to say each name, for voice menus on basic phones, LynkAssist's voice and the note screen readers read. Lynk is said as the English word link; the letters of a short capital part are said one by one in the listener's language.",
+ "now_called": [
+  {
+   "old": "LynkDash",
+   "id": "stat",
+   "since": "2026-11-08"
+  },
+  {
+   "old": "LynkLedger",
+   "id": "acc",
+   "since": "2026-11-07"
+  }
+ ],
+ "now_called_rule": "A retired name with a successor still finds the new name in search with a short \"now called\" note, and a person whose account is older than the change sees a one-time notice. A retired name appears only there; retired names without a successor are never shown. A renamed product adds its line here in the same change.",
+ "similar": [
+  {
+   "id": "move",
+   "names": [
+    "motion",
+    "guard"
+   ]
+  },
+  {
+   "id": "places",
+   "names": [
+    "trace",
+    "gps",
+    "sentry"
+   ]
+  },
+  {
+   "id": "office",
+   "names": [
+    "ops",
+    "acc",
+    "inv",
+    "crm",
+    "stat"
+   ]
+  },
+  {
+   "id": "stock_or_invoices",
+   "names": [
+    "stock",
+    "inv"
+   ]
+  },
+  {
+   "id": "getting_paid",
+   "names": [
+    "mpay",
+    "checkout",
+    "recover"
+   ]
+  },
+  {
+   "id": "bundles",
+   "names": [
+    "suite",
+    "ops"
+   ]
+  },
+  {
+   "id": "visits",
+   "names": [
+    "booking",
+    "queue"
+   ]
+  },
+  {
+   "id": "people",
+   "names": [
+    "hr",
+    "attend"
+   ]
+  },
+  {
+   "id": "learning",
+   "names": [
+    "school",
+    "academy"
+   ]
+  },
+  {
+   "id": "listening",
+   "names": [
+    "survey",
+    "feedback"
+   ]
+  },
+  {
+   "id": "help",
+   "names": [
+    "faq",
+    "support",
+    "assist"
+   ]
+  },
+  {
+   "id": "developers",
+   "names": [
+    "dev",
+    "hub",
+    "doc",
+    "api",
+    "sdk"
+   ]
+  },
+  {
+   "id": "cards",
+   "names": [
+    "prima",
+    "dyna",
+    "crest"
+   ]
+  }
+ ],
+ "similar_rule": "Names that sound alike or do neighbouring jobs are grouped here. Wherever one of them is explained (the note, search, LynkAssist, the product page), \"Which one do I need?\" shows the group side by side with each plain word and description. A new name that sounds like another joins a group in the same change.",
+ "familiar_after": 10,
+ "familiar_rule": "After a person has opened a service 10 times, the brackets after its name step back for them; the dotted underline and the note stay. They can keep the brackets in their names setting. Counted on the device only, never sent.",
+ "welcome_rule": "The first time a person opens a service, one card shows its name with its plain word, what it does and its first three places to start (the first three items of its menu, from catalog/navigation.v1.json or the screen register). It closes with Got it and never returns on that device.",
+ "plain_word_check": {
+  "allowed_short": [
+   "QR",
+   "AI",
+   "KI",
+   "IA",
+   "ID"
+  ],
+  "words_never": [
+   "API",
+   "SDK",
+   "CRM",
+   "ERP",
+   "KPI",
+   "SaaS",
+   "POS",
+   "GPS",
+   "backend",
+   "endpoint",
+   "webhook",
+   "database",
+   "server",
+   "dashboard"
+  ],
+  "rule": "A plain word is everyday words a person without technical knowledge understands: no short forms in capitals except the ones listed, no Lynk name, none of the listed technical words, in every language."
+ },
+ "asks": {
+  "min_shown": 5,
+  "rule": "How often each name's note, \"What is ...?\" answer or comparison is opened is counted on the device as name and place only, sent as totals, never with a person, device, account or time finer than a day, and shown to LynkOmni staff only as totals of 5 or more, to find names that still confuse people."
+ },
+ "outside": [
+  {
+   "place": "messages",
+   "how": "Emails, texts, push notifications and the Messages page explain the first Lynk name in each message in brackets (ts/src/notify.ts, core/names.py explain_text).",
+   "build_section": "4"
+  },
+  {
+   "place": "bills",
+   "how": "Each line of LynkOmni's own bill carries its name and plain word, \"LynkStat Plus (Analytics)\" (services/billing.py invoice lines).",
+   "build_section": "4"
+  },
+  {
+   "place": "customers",
+   "how": "Storefront, payment, queue, survey and card pages explain names like every screen; printed receipts and documents sent to customers end with one line per Lynk name they show, \"LynkCheckout: Pay links & QR\" (core/names.py paper_lines). Fiscal documents keep the tax authority's layout.",
+   "build_section": "4"
+  },
+  {
+   "place": "developers",
+   "how": "Every API in catalog/apis.v1.json belongs to a registered name; API pages and app consent screens show the name with its plain word.",
+   "build_section": "11"
+  },
+  {
+   "place": "staff",
+   "how": "Support cases, the Partner Hub and every staff tool mark names like every screen.",
+   "build_section": "12"
+  },
+  {
+   "place": "search_engines",
+   "how": "Product pages, link previews and app store text lead with the name and its plain word, \"LynkStat: Analytics for every business\"; every name, plain word, description, spoken form and old name is a search word in every language (catalog/search.v1.json names).",
+   "build_section": "5"
+  },
+  {
+   "place": "names_page",
+   "how": "lynkomni.com/names, \"Names A to Z\": every name with its plain word, what it does and its similar names, in every language, also in help and in the app's search.",
+   "build_section": "5"
+  }
+ ]
 }

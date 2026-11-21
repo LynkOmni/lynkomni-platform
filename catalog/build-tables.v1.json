@@ -1641,23 +1641,37 @@
      "sections": [
       "4"
      ],
-     "part": "The names register and its words in 38 languages; every emulator marks every name; launchers with plain words; search by plain word; LynkAssist's \"What is ...?\"; basic phones plain first; plain words first in the account and the Business app; the checks",
+     "part": "The names register and its words in 38 languages; every emulator marks every name; launchers with plain words; search by plain word; LynkAssist's \"What is ...?\"; basic phones plain first; plain words first in the account and the Business app; the checks (v0.79.0). The 15 improvements: product marks beside names, the first-time welcome card, \"now called\" search and one-time notices, how to say each name, brackets that step back, \"Which one do I need?\", plain words in messages, on LynkOmni's own bills and on printed receipts, Names A to Z in the app, the plain-word check, the confusion totals service, LynkAssist's comparisons, and the search register's plain-word data (v0.81.0)",
      "done": {
-      "4": "v0.79.0"
+      "4": "v0.81.0"
      }
     },
     {
      "sections": [
       "5"
      ],
-     "part": "Website pages, product pages, pricing and emails use the same labels",
+     "part": "Website pages, product pages, pricing and emails use the same labels; every product page's title, description, sharing card and app store text lead with the name and its plain word, and the keyword register takes every name, plain word, description, spoken form and old name in every language (catalog/search.v1.json names); the public Names A to Z page (lynkomni.com/names)",
      "done": {}
     },
     {
      "sections": [
       "6"
      ],
-     "part": "Help pages and articles mark every name",
+     "part": "Help pages and articles mark every name; the Names A to Z help article and \"Which one do I need?\" in help",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "API pages and app consent screens show each API's name with its plain word",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "Support cases, the Partner Hub and every staff tool mark names; the staff view of which names still confuse people (totals of 5 or more, services/name_asks.py)",
      "done": {}
     }
    ]

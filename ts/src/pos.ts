@@ -2,6 +2,7 @@
  *  terminal emulator, the real web app and the tests.
  *  Money is an integer number of minor units plus a currency code. Quantities are integer thousandths (1000 = one piece).
  *  Tax: the fiscal workflow is not confirmed in any country yet, so sales use tax_mode "none" and receipts are provisional. */
+import { paperLines } from "./names.js";
 
 export const USER_STATES = ["queued", "sent", "accepted", "confirmed", "failed"] as const;
 export type UserState = (typeof USER_STATES)[number];
@@ -119,7 +120,9 @@ export function receiptLines(o: { shop: string; sale: SalePayload; payments: Pay
   }
   if (o.tendered !== undefined) { out.push(two(o.words["tendered"] ?? "Cash given", o.money(o.tendered)), two(o.words["change"] ?? "Change", o.money(change(o.sale.total, o.tendered)))); }
   out.push(rule, centre(o.words["thanks"] ?? "Thank you"), centre(o.words["not_tax"] ?? "Not a tax receipt"));
-  return out;
+  // A Lynk name on the paper is explained in one line at the end (catalog/names.v1.json outside: customers)
+  const named = paperLines(out, (k) => o.words[k] ?? k, w);
+  return named.length ? [...out, rule, ...named] : out;
 }
 
 /** A UUIDv7 (the contract's id format) from a clock and a random source, so it works in any runtime. */

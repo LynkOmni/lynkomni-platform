@@ -217,3 +217,9 @@ class SandboxChannelGateway(ChannelGateway):
     channel's when_off state ("Coming to your country soon.") to real users and a labelled sample in the emulators."""
     def numbers(self, country):
         return {"country": country, "ussd": None, "sms": None, "voice": None, "status": "sandbox"}
+
+
+def aloud(text):
+    """A page read aloud on a voice call says each Lynk name the way people say it ("Link P O S"), from the names register."""
+    from core import names
+    return names.speakable(text)
