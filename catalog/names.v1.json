@@ -83,7 +83,7 @@
    "name": "LynkAcc",
    "kind": "product",
    "family": "lynkacc",
-   "icon": "product-ledger",
+   "icon": "product-acc",
    "spoken": "Link Ack"
   },
   {
@@ -91,7 +91,7 @@
    "name": "LynkInv",
    "kind": "product",
    "family": "lynkinv",
-   "icon": null,
+   "icon": "product-inv",
    "spoken": "Link Inv"
   },
   {
@@ -99,7 +99,7 @@
    "name": "LynkCRM",
    "kind": "product",
    "family": "lynkcrm",
-   "icon": null,
+   "icon": "product-crm",
    "spoken": "Link C R M"
   },
   {
@@ -107,7 +107,7 @@
    "name": "LynkOps",
    "kind": "product",
    "family": "lynkops",
-   "icon": null,
+   "icon": "product-ops",
    "spoken": "Link Ops"
   },
   {
@@ -123,7 +123,7 @@
    "name": "LynkStat",
    "kind": "product",
    "family": "lynkstat",
-   "icon": "product-dash",
+   "icon": "product-stat",
    "spoken": "Link Stat"
   },
   {
@@ -235,7 +235,7 @@
    "name": "LynkExchange",
    "kind": "product",
    "family": "lynkexchange",
-   "icon": null,
+   "icon": "product-exchange",
    "spoken": "Link Exchange"
   },
   {
@@ -243,7 +243,7 @@
    "name": "LynkVote",
    "kind": "product",
    "family": "lynkvote",
-   "icon": null,
+   "icon": "product-vote",
    "spoken": "Link Vote"
   },
   {
@@ -251,7 +251,7 @@
    "name": "LynkHR",
    "kind": "product",
    "family": "lynkhr",
-   "icon": null,
+   "icon": "product-hr",
    "spoken": "Link H R"
   },
   {
@@ -259,7 +259,7 @@
    "name": "LynkProject",
    "kind": "product",
    "family": "lynkproject",
-   "icon": null,
+   "icon": "product-project",
    "spoken": "Link Project"
   },
   {
@@ -267,7 +267,7 @@
    "name": "LynkSchool",
    "kind": "product",
    "family": "lynkschool",
-   "icon": null,
+   "icon": "product-school",
    "spoken": "Link School"
   },
   {
@@ -275,7 +275,7 @@
    "name": "LynkAcademy",
    "kind": "product",
    "family": "lynkacademy",
-   "icon": null,
+   "icon": "product-academy",
    "spoken": "Link Academy"
   },
   {
@@ -283,7 +283,7 @@
    "name": "LynkProperty",
    "kind": "product",
    "family": "lynkproperty",
-   "icon": null,
+   "icon": "product-property",
    "spoken": "Link Property"
   },
   {
@@ -291,7 +291,7 @@
    "name": "LynkFiles",
    "kind": "product",
    "family": "lynkfiles",
-   "icon": null,
+   "icon": "product-files",
    "spoken": "Link Files"
   },
   {
@@ -299,7 +299,7 @@
    "name": "LynkJobs",
    "kind": "product",
    "family": "lynkjobs",
-   "icon": null,
+   "icon": "product-jobs",
    "spoken": "Link Jobs"
   },
   {
@@ -362,42 +362,42 @@
    "id": "faq",
    "name": "LynkFAQ",
    "kind": "service",
-   "icon": null,
+   "icon": "product-faq",
    "spoken": "Link F A Q"
   },
   {
    "id": "support",
    "name": "LynkSupport",
    "kind": "service",
-   "icon": null,
+   "icon": "product-support",
    "spoken": "Link Support"
   },
   {
    "id": "status",
    "name": "LynkStatus",
    "kind": "service",
-   "icon": null,
+   "icon": "product-status",
    "spoken": "Link Status"
   },
   {
    "id": "feedback",
    "name": "LynkFeedback",
    "kind": "service",
-   "icon": null,
+   "icon": "product-feedback",
    "spoken": "Link Feedback"
   },
   {
    "id": "safety",
    "name": "LynkSafety",
    "kind": "service",
-   "icon": null,
+   "icon": "product-safety",
    "spoken": "Link Safety"
   },
   {
    "id": "flow",
    "name": "LynkFlow",
    "kind": "service",
-   "icon": null,
+   "icon": "product-flow",
    "spoken": "Link Flow"
   },
   {
@@ -412,14 +412,14 @@
    "id": "driver",
    "name": "LynkDriver",
    "kind": "service",
-   "icon": null,
+   "icon": "product-driver",
    "spoken": "Link Driver"
   },
   {
    "id": "id",
    "name": "LynkID",
    "kind": "service",
-   "icon": null,
+   "icon": "product-id",
    "spoken": "Link I D"
   },
   {
@@ -443,7 +443,7 @@
    "name": "LynkAudit",
    "kind": "feature",
    "part_of": "acc",
-   "icon": "product-ledger",
+   "icon": "product-acc",
    "spoken": "Link Audit"
   },
   {
@@ -529,7 +529,7 @@
  ],
  "max_plain_reason": "A plain word fits two short lines in a launcher tile in every language; the fit guard checks the layout itself.",
  "retired_note": "Names banned outright (core/naming.py BANNED) are never written anywhere, not even here; a screen that showed one would fail as an unknown name.",
- "icons_rule": "Each name shows its own product mark from the brand module (brand.icon), a service, feature or card group its product's mark, and a device none. A product whose own mark is not yet released in lynkomni-icons shows the mark named here until it is (provider ledger later item product_marks_all).",
+ "icons_rule": "Each name shows its own product mark from the brand module (brand.icon), a service, feature or card group without one its product's mark, and a device none. A new name's mark is released in lynkomni-icons in the same build section that adds the name.",
  "spoken_rule": "How to say each name, for voice menus on basic phones, LynkAssist's voice and the note screen readers read. Lynk is said as the English word link; the letters of a short capital part are said one by one in the listener's language.",
  "now_called": [
   {

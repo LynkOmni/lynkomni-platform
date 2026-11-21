@@ -64,10 +64,12 @@ export function navigation(items: NavItem[], vp: Viewport, t: T, icon: Icon): st
 
 // ---------------------------------------------------------------- launcher and account menu
 export interface Place { id: string; name: string; icon: string; href: string; state: "available" | "coming_soon"; plain?: string }
-/** The grid that lists every LynkOmni place the person can use. A place waiting for its partner shows "Coming to your country soon." instead of disappearing. */
+/** The grid that lists every LynkOmni place the person can use. A place waiting for its partner shows "Coming to your country soon." instead of disappearing.
+ *  A place that already shows its plain word under its name is marked as explained (data-lname), so the names part skips it
+ *  and opening the launcher stays within its tap budget. */
 export function launcher(places: Place[], t: T, icon: Icon, sides?: SideChoice): string {
   const top = sides ? `<div class="lsides" role="group" aria-label="${esc(t("switch_side_group"))}">${sideButtons(sides, t, icon)}</div>` : "";
-  return `<div class="launcher" role="dialog" aria-label="${esc(t("app_launcher"))}">${top}<ul class="lgrid">${places.map((p) => `<li><a class="lplace${p.state === "coming_soon" ? " soon" : ""}" href="${esc(p.href)}" data-act="place:${esc(p.id)}">${icon(p.icon, "prod")}<span class="nm">${esc(p.name)}</span>${p.plain ? `<span class="pl">${esc(p.plain)}</span>` : ""}${p.state === "coming_soon" ? `<span class="soon-tag">${esc(t("coming_soon"))}</span>` : ""}</a></li>`).join("")}</ul></div>`;
+  return `<div class="launcher" role="dialog" aria-label="${esc(t("app_launcher"))}">${top}<ul class="lgrid">${places.map((p) => `<li><a class="lplace${p.state === "coming_soon" ? " soon" : ""}" href="${esc(p.href)}" data-act="place:${esc(p.id)}"${p.plain ? ` data-lname="${esc(p.name.startsWith("Lynk") ? p.name : p.plain)}"` : ""}>${icon(p.icon, "prod")}<span class="nm">${esc(p.name)}</span>${p.plain ? `<span class="pl">${esc(p.plain)}</span>` : ""}${p.state === "coming_soon" ? `<span class="soon-tag">${esc(t("coming_soon"))}</span>` : ""}</a></li>`).join("")}</ul></div>`;
 }
 
 export interface Account { name: string; lynkId: string; businesses: { id: string; name: string; current: boolean }[]; role: string; roles: string[]; theme: "light" | "dark" | "lite" | "sunlight"; language: string; region: string;

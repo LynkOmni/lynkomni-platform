@@ -1667,8 +1667,10 @@
      "sections": [
       "4"
      ],
-     "part": "The names register and its words in 38 languages; every emulator marks every name; launchers with plain words; search by plain word; LynkAssist's \"What is ...?\"; basic phones plain first; plain words first in the account and the Business app; the checks (v0.79.0). The 15 improvements: product marks beside names, the first-time welcome card, \"now called\" search and one-time notices, how to say each name, brackets that step back, \"Which one do I need?\", plain words in messages, on LynkOmni's own bills and on printed receipts, Names A to Z in the app, the plain-word check, the confusion totals service, LynkAssist's comparisons, and the search register's plain-word data (v0.81.0). Still due in section 4: each Lynk name's own product mark released in lynkomni-icons and vendored (LynkAcc, LynkInv, LynkCRM, LynkOps, LynkStat, LynkExchange, LynkVote, LynkHR, LynkProject, LynkSchool, LynkAcademy, LynkProperty, LynkFiles, LynkJobs, LynkFAQ, LynkSupport, LynkStatus, LynkFeedback, LynkSafety, LynkFlow, LynkDriver, LynkID and LynkAudit's product; provider ledger ops_product_icons and product_marks_all), then named in catalog/names.v1.json",
-     "done": {}
+     "part": "The names register and its words in 38 languages; every emulator marks every name; launchers with plain words; search by plain word; LynkAssist's \"What is ...?\"; basic phones plain first; plain words first in the account and the Business app; the checks (v0.79.0). The 15 improvements: product marks beside names, the first-time welcome card, \"now called\" search and one-time notices, how to say each name, brackets that step back, \"Which one do I need?\", plain words in messages, on LynkOmni's own bills and on printed receipts, Names A to Z in the app, the plain-word check, the confusion totals service, LynkAssist's comparisons, and the search register's plain-word data (v0.81.0). Then, in v0.89.0: each Lynk name's own product mark released in lynkomni-icons and vendored (LynkAcc, LynkInv, LynkCRM, LynkOps, LynkStat, LynkExchange, LynkVote, LynkHR, LynkProject, LynkSchool, LynkAcademy, LynkProperty, LynkFiles, LynkJobs, LynkFAQ, LynkSupport, LynkStatus, LynkFeedback, LynkSafety, LynkFlow, LynkDriver, LynkID and LynkAudit's product; provider ledger ops_product_icons and product_marks_all), named in catalog/names.v1.json; LynkInv and LynkCRM joined the Business tab with their own marks",
+     "done": {
+      "4": "v0.89.0"
+     }
     },
     {
      "sections": [

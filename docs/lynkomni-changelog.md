@@ -2,6 +2,11 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.89.0 (2026-11-21)
+- Every Lynk name has its own product mark: @lynkomni/icons 1.10.0 adds 22 marks (accounting, invoicing, customers, office bundle, analytics, currency exchange, voting, staff management, projects, school management, courses and training, property management, documents and signing, jobs and hiring, questions and answers, help and support, service status, product feedback, safety and reporting, automations, hardware drivers, account ID), vendored by brand-sync (#141). The names register now names each one; services, features and card groups inside a product use that product's mark.
+- LynkInv and LynkCRM joined the Business tab and launchers with their own marks; LynkAcc, LynkStat and the office notifications moved off the borrowed marks. The provider ledger's later items ops_product_icons and product_marks_all are done and removed; build table 84.6's section 4 row is done, so it no longer holds section 4's lock.
+- Opening the launcher stays within its tap budget: a place that already shows its plain word under its name is marked as explained, so the names part skips it (the two new launcher places had pushed the browser's first tap to 127 ms against 120).
+
 ## v0.87.0 (2026-11-21)
 Section 4 review, fourth part (row 67.17, the partners of 67.18 and the registers of section 67):
 - Every partner the improved services need has its interface, a working sandbox and a ledger entry, and stays "Coming to your country soon." until it is signed: chat app and social page connectors and a call partner for LynkChat, a licensed lender for pay in parts, map and search listing connectors for LynkGrow, outside warehouses for LynkStock, online-shop plugin listings for LynkDev, and transport card, toll, parking and government fee collectors for LynkEssential. Delivery firms and phone wallets already had theirs.

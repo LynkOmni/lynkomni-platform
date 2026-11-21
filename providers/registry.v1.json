@@ -2805,15 +2805,6 @@
    "done_when": "The API server image installs ctranslate2 and sentencepiece and mounts the engine folder made by tools/translation/install_engine.py as LYNK_MT_DIR; ContentTranslator uses MadladTranslator there; typed text never leaves LynkOmni's servers."
   },
   {
-   "id": "ops_product_icons",
-   "name": "Product icons for LynkAcc, LynkInv, LynkCRM and LynkOps and LynkStat in lynkomni-icons",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Icons are released from the separate lynkomni-icons repository through its gates and the brand-sync workflow; they are made with build section 4 (LynkAcc, LynkInv, LynkCRM and LynkOps). Until then LynkAcc uses the existing product-ledger icon and LynkInv and LynkCRM are not yet listed in the merchant app's Business tab.",
-   "placeholders": [],
-   "done_when": "lynkomni-icons releases product-acc, product-inv, product-crm and product-ops, brand-sync vendors them, and every place that lists LynkOmni services shows LynkAcc, LynkInv and LynkCRM with their own icon."
-  },
-  {
    "id": "agent_services_security_review",
    "name": "Human security review of every money-moving LynkPOS flow (agent, collection and partner-finance services)",
    "blocks": [],
@@ -3145,15 +3136,6 @@
    "why_not_now": "Blueprint 64: tourist taxes, travel-seller licences, deposit limits, the shortest legal cancelling notice and the fixed commission amounts in each currency differ by country and need the lawyer and accountant (REMINDER item 9). Every pack carries them as unknown (tools/country_booking.py) and the safe default applies meanwhile.",
    "placeholders": [],
    "done_when": "A country's booking settings are confirmed in its pack and booking.confirmed is true."
-  },
-  {
-   "id": "product_marks_all",
-   "name": "Own product marks for every Lynk name that still borrows or lacks one",
-   "blocks": [],
-   "status": "pending",
-   "why_not_now": "Product marks are released only from the separate lynkomni-icons repository through its gates and the brand-sync workflow, together with ops_product_icons in build section 4. Until then each name shows the mark in catalog/names.v1.json: its own, its product's, a former mark (product-ledger for LynkAcc, product-dash for LynkStat), or none; a wrong mark is never shown. Waiting for its own mark: LynkAcc, LynkInv, LynkCRM, LynkOps, LynkStat, LynkExchange, LynkVote, LynkHR, LynkProject, LynkSchool, LynkAcademy, LynkProperty, LynkFiles, LynkJobs, LynkFAQ, LynkSupport, LynkStatus, LynkFeedback, LynkSafety, LynkFlow, LynkDriver, LynkID, LynkAudit.",
-   "placeholders": [],
-   "done_when": "lynkomni-icons releases a mark for each name listed here, brand-sync vendors them, and catalog/names.v1.json names each one as its icon."
   },
   {
    "id": "exchange_crypto_referral",
