@@ -77,6 +77,11 @@ class Notifier:
         self.sender = sender or SandboxSender()
         self.lines, self.seen_keys, self.backlog, self.sent_today, self.summary = {}, set(), {}, {}, {}
         self.outbox, self.away = {}, {}          # what went outside the app (the Messages page) and what a deputy handled
+        self.on_state = None                      # the platform writes each message's state to the event store (tracking kind message_delivery)
+
+    def _state(self, line, state, channel=None):
+        if self.on_state:
+            self.on_state(line, state, channel)
 
     # ---- the register and the rules
     @staticmethod
@@ -112,6 +117,7 @@ class Notifier:
         line["lock_screen"] = prefs.get("lock_screen", {}).get(kid, k["lock_screen"])
         if not online:
             self.backlog.setdefault(person, []).append(line["nid"])
+            self._state(line, "queued")
             return {"state": "queued", "nid": line["nid"]}
         return self._deliver(k, line, person, now, lang, country, prefs, contacts)
 
@@ -147,6 +153,7 @@ class Notifier:
         quiet = (country and in_quiet_hours(_ts(now), country, REG["quiet_hours"]["start"], REG["quiet_hours"]["end"])) \
             or now < prefs.get("dnd_until", 0)
         if quiet and not pr["breaks_quiet_hours"]:
+            self._state(line, "queued")
             return {"state": "bell_only_until_quiet_ends", "nid": line["nid"], "channels": ["bell"]}
         allowed = prefs.get("channels", {}).get(k["area"])
         wanted = [c for c in k["channels"] if c in contacts and (not k["can_turn_off"] or allowed is None or c in allowed)]
@@ -158,8 +165,13 @@ class Notifier:
             if self.sender.deliver(c, person, k["id"], lang):
                 out.append(c)
                 delivered_one = True
+                self._state(line, "sent", c)
                 self.outbox.setdefault(person, []).append({"nid": line["nid"], "kind": k["id"], "channel": c, "sender": k["sender"], "at": now})
+            else:
+                self._state(line, "failed", c)
         line["channels"] = sorted(set(line["channels"]) | set(out))
+        if "bell" in out:
+            self._state(line, "delivered", "bell")
         return {"state": "shown", "nid": line["nid"], "channels": out}
 
     # ---- the bell

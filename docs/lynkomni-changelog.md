@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.83.0 (2026-11-21)
+Section 4, leftover step (things section 4 had planned or claimed but not yet done):
+- The three trackers planned for section 4 now work: a supplier's bill in LynkAcc (received, approved, partly paid, paid), a staff expense claim (submitted, approved, repaid) and one message from the message register (waiting to send, sent, delivered in the app, not completed on a channel). The bill and claim trackers show through the LynkAcc API; message delivery is a personal account tracker and never in an API. "Waiting to send" and "Sent" are in 38 languages.
+- Services that keep their own state report it in their events, and the tracking register's new list from_service_events says which event moves which tracker. This also fixes the invoice tracker, which LynkInv never fed before: it now moves from issued to paid, credited or voided. LynkAcc's bill and claim events carry their state, and submitting a bill or a claim is recorded.
+- The message engine reports each message's state (notification.state, never the message's words).
+- Ad earnings: once a month the merchant's ad share is recorded as AdEarningsRecorded (each month and currency once) and posted to LynkAcc as other income, held in the payments clearing account until the payout (automation ads-earnings-to-books).
+
 ## v0.82.1 (2026-11-21)
 - Guard: section 4 cannot be locked until every Lynk name that still borrows or lacks a product mark has its own one released in lynkomni-icons and vendored. Build table 84.6's section 4 row stays open until then (it was marked done in v0.81.0 while the marks were only in the provider ledger's later list).
 

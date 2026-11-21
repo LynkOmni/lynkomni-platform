@@ -1649,6 +1649,165 @@
      ]
     }
    ]
+  },
+  {
+   "id": "bill_to_pay",
+   "record": "DOC",
+   "key": "bill_id",
+   "family": "lynkacc",
+   "ui_section": 4,
+   "viewers": {
+    "merchant": "app.lynkomni.com/accounting"
+   },
+   "note": "A supplier's bill in LynkAcc: received, approved, partly paid, paid. Only a person approves; money moves only through the provider. Follows LynkAcc's own record (from_service_events).",
+   "steps": [
+    {
+     "id": "received",
+     "state": "sent",
+     "customer": false,
+     "on": [
+      {
+       "state": "draft"
+      }
+     ]
+    },
+    {
+     "id": "approved",
+     "state": "accepted",
+     "customer": false,
+     "on": [
+      {
+       "state": "approved"
+      }
+     ]
+    },
+    {
+     "id": "partly_paid",
+     "state": "accepted",
+     "customer": false,
+     "optional": true,
+     "again": true,
+     "on": [
+      {
+       "state": "part_paid"
+      }
+     ]
+    },
+    {
+     "id": "paid",
+     "state": "confirmed",
+     "customer": false,
+     "terminal": true,
+     "on": [
+      {
+       "state": "paid"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "expense_claim",
+   "record": "DOC",
+   "key": "claim_id",
+   "family": "lynkacc",
+   "ui_section": 4,
+   "viewers": {
+    "merchant": "app.lynkomni.com/accounting"
+   },
+   "note": "A staff expense claim in LynkAcc: submitted, approved, repaid. Nobody approves their own claim; repaid only when the provider confirms.",
+   "steps": [
+    {
+     "id": "submitted",
+     "state": "sent",
+     "customer": false,
+     "on": [
+      {
+       "state": "submitted"
+      }
+     ]
+    },
+    {
+     "id": "approved",
+     "state": "accepted",
+     "customer": false,
+     "on": [
+      {
+       "state": "approved"
+      }
+     ]
+    },
+    {
+     "id": "repaid",
+     "state": "confirmed",
+     "customer": false,
+     "terminal": true,
+     "on": [
+      {
+       "state": "repaid"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "message_delivery",
+   "record": "NTF",
+   "key": "nid",
+   "family": "platform",
+   "ui_section": 4,
+   "viewers": {
+    "person": "account.lynkomni.com/messages"
+   },
+   "note": "One message from the message register: waiting to send (offline or quiet hours), sent through the channel the person chose, delivered in the app, or not completed on a channel. Never shows the message's words; a personal account tracker, never in an API.",
+   "steps": [
+    {
+     "id": "queued",
+     "state": "queued",
+     "customer": false,
+     "optional": true,
+     "on": [
+      {
+       "state": "queued"
+      }
+     ]
+    },
+    {
+     "id": "sent",
+     "state": "sent",
+     "customer": false,
+     "optional": true,
+     "again": true,
+     "on": [
+      {
+       "state": "sent"
+      }
+     ]
+    },
+    {
+     "id": "delivered",
+     "state": "confirmed",
+     "customer": false,
+     "terminal": true,
+     "on": [
+      {
+       "state": "delivered"
+      }
+     ]
+    },
+    {
+     "id": "failed",
+     "state": "failed",
+     "customer": false,
+     "optional": true,
+     "again": true,
+     "on": [
+      {
+       "state": "failed"
+      }
+     ]
+    }
+   ]
   }
  ],
  "planned": [
@@ -1705,24 +1864,6 @@
    "record": "SNT",
    "ui_section": "7B",
    "note": "A LynkSentry incident (LOSNT-): opened, with the owner and trusted contacts, closed; routed to the safety desk."
-  },
-  {
-   "id": "bill_to_pay",
-   "record": "DOC",
-   "ui_section": 4,
-   "note": "A supplier's bill in LynkAcc: received, read into a draft, approved, in a payment run, paid. Only a person approves; money moves only through the provider."
-  },
-  {
-   "id": "expense_claim",
-   "record": "DOC",
-   "ui_section": 4,
-   "note": "A staff expense claim in LynkAcc: sent, approved, paid back, or returned with a reason."
-  },
-  {
-   "id": "message_delivery",
-   "record": "NTF",
-   "ui_section": 4,
-   "note": "One message from the message register: queued, sent, delivered or failed, with the channel the person chose."
   },
   {
    "id": "approval_route",
@@ -1820,5 +1961,70 @@
    "ui_section": 14,
    "note": "A stock transfer between branches: sent, on the way, received and counted."
   }
- ]
+ ],
+ "from_service_events": {
+  "rule": "Services that keep their own state report it in their internal events; each line moves a tracker by feed_state (services/tracking.py PlatformTracking).",
+  "events": [
+   {
+    "event": "invoice.issued",
+    "kind": "invoice",
+    "record": "invoice"
+   },
+   {
+    "event": "invoice.payment",
+    "kind": "invoice",
+    "record": "invoice"
+   },
+   {
+    "event": "invoice.credited",
+    "kind": "invoice",
+    "record": "invoice"
+   },
+   {
+    "event": "invoice.voided",
+    "kind": "invoice",
+    "record": "invoice"
+   },
+   {
+    "event": "bill.recorded",
+    "kind": "bill_to_pay",
+    "record": "bill_id"
+   },
+   {
+    "event": "bill.submitted",
+    "kind": "bill_to_pay",
+    "record": "bill_id"
+   },
+   {
+    "event": "bill.approved",
+    "kind": "bill_to_pay",
+    "record": "bill_id"
+   },
+   {
+    "event": "bill.paid",
+    "kind": "bill_to_pay",
+    "record": "bill_id"
+   },
+   {
+    "event": "expense_claim.submitted",
+    "kind": "expense_claim",
+    "record": "claim_id"
+   },
+   {
+    "event": "expense_claim.approved",
+    "kind": "expense_claim",
+    "record": "claim_id"
+   },
+   {
+    "event": "expense_claim.repaid",
+    "kind": "expense_claim",
+    "record": "claim_id"
+   },
+   {
+    "event": "notification.state",
+    "kind": "message_delivery",
+    "record": "nid"
+   }
+  ]
+ }
 }

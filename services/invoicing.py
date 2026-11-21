@@ -82,7 +82,7 @@ class Invoicing:
         tot, iid = s.totals(m, lines, taxes, included), s.p.ids.assign("INV", uuid.uuid4().hex)    # included: the line prices already hold the tax
         rec = {"merchant": m, "customer": customer, "series": series, "number": number, "currency": _cur(s.p, m), "lines": lines, **tot, "state": "issued", "month": month,
                "issued_at": s.now(), "due_at": s.now() + due_days * 86400, "paid_minor": 0, "payments": [], "credited_minor": 0, "label": s.label(m), "sent_state": "accepted" if accepted else "sent"}
-        s.inv.put(iid, rec); s.p.c.store.append(m, "server", "invoice.issued", {"invoice": iid, "total_minor": tot["total_minor"], "currency": rec["currency"], "number": number, "series": series})
+        s.inv.put(iid, rec); s.p.c.store.append(m, "server", "invoice.issued", {"invoice": iid, "total_minor": tot["total_minor"], "currency": rec["currency"], "number": number, "series": series, "state": "issued"})
         s._journal(m, s._issue_lines(tot), preparer or "staff")
         s._e_invoice(m, iid)
         return {"id": iid, "number": number, **tot, "label": rec["label"]}
@@ -144,7 +144,7 @@ class Invoicing:
         if amount_minor <= 0 or amount_minor > s.outstanding(iid): raise ValueError("a credit note cannot exceed what is still owed")
         cid = uuid.uuid4().hex; s.notes.put(cid, {"invoice": iid, "amount_minor": amount_minor, "reason": reason}); v["credited_minor"] += amount_minor
         if s.outstanding(iid) == 0: v["state"] = "credited" if v["paid_minor"] == 0 else "paid"
-        s.p.c.store.append(m, "server", "invoice.credited", {"invoice": iid, "amount_minor": amount_minor, "reason": reason})
+        s.p.c.store.append(m, "server", "invoice.credited", {"invoice": iid, "amount_minor": amount_minor, "reason": reason, "state": v["state"]})
         net, tax = (books.allocate(amount_minor, [v["net_minor"], v["tax_minor"]]) if v["tax_minor"] else [amount_minor, 0])
         s._journal(m, [l for l in (["4000", net, 0], ["2100", tax, 0], ["1100", 0, amount_minor]) if l[1] or l[2]], "staff")
         return {"credit": cid, "outstanding_minor": s.outstanding(iid)}
@@ -152,6 +152,7 @@ class Invoicing:
         v = s.inv[iid]
         if v["paid_minor"] or not reason: raise ValueError("only an unpaid invoice can be voided, with a reason")
         v["state"] = "void"; v["void_reason"] = reason
+        s.p.c.store.append(m, "server", "invoice.voided", {"invoice": iid, "state": "void"})
         s._journal(m, books.reverse(s._issue_lines({k: v.get(k, 0) for k in ("to_pay_minor", "withheld_minor", "net_minor", "tax_minor")})), "staff")
     def edit(s, iid, **changes): raise PermissionError("an issued invoice never changes; issue a credit note and a new invoice")
     # ---- reminders (consent first)

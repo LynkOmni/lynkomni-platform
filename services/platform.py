@@ -46,6 +46,7 @@ class Platform(_Base):
         s.invoicing = Invoicing(s)
         from services.accounting import Books
         s.books = Books(s)                                    # LynkAcc in the cloud (OFFICE UPDATE, section 4 step D2b)
+        s.ads.books = s.books                                 # ad earnings post to LynkAcc (ADS UPDATE 79.10)
         from services.crm import Customers
         s.crm = Customers(s)                                  # LynkCRM in the cloud (OFFICE UPDATE, section 4 step D3)
         from services.enterprise import MoveIn, Organisation
@@ -85,6 +86,8 @@ class Platform(_Base):
         from people.attendance import Attendance
         from people.automations import register as register_section_3b
         s.notifier = Notifier()                               # the one message engine (catalog/messages.v1.json)
+        s.notifier.on_state = lambda line, state, channel: s.c.store.append(line["business"] or line["person"], "server", "notification.state",
+                                                                            {"nid": line["nid"], "kind": line["kind"], "state": state, "channel": channel})
         s.attendance = Attendance(s.cloud, s, s.notifier, SandboxPeopleMessages())   # LynkAttend in full (build section 3B)
         from people.queue import Queue
         s.queue = Queue(s.cloud, s, s.notifier, SandboxPeopleMessages())             # LynkQueue in full (build section 3B)

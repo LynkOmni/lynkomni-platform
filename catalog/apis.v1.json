@@ -82,7 +82,9 @@
    "own_account": true,
    "tracks": [
     "payout",
-    "tax_return"
+    "tax_return",
+    "bill_to_pay",
+    "expense_claim"
    ]
   },
   {
