@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { SHAPES, TIMING, loadingPhase, holdFor, skeleton, hintFor, hintAttr, FORMAT_HINTS } from "../src/placeholder.js";
+import { SHAPES, TIMING, loadingPhase, holdFor, skeletonHtml, hintFor, hintAttr, FORMAT_HINTS } from "../src/placeholder.js";
 
 test("cached content stays; no flash before the delay; a note when slow", () => {
   assert.equal(loadingPhase(5000, true), "nothing");
@@ -13,7 +13,7 @@ test("cached content stays; no flash before the delay; a note when slow", () => 
 
 test("every shape is one polite status with hidden bars and a bounded count", () => {
   for (const s of SHAPES) {
-    const h = skeleton(s, "Loading", 50);
+    const h = skeletonHtml(s, "Loading", 50);
     assert.equal((h.match(/role="status"/g) ?? []).length, 1, s);
     assert.ok(/aria-busy="true"/.test(h));
     assert.ok(/aria-label="Loading"/.test(h));

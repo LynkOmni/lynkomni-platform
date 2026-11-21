@@ -7,6 +7,7 @@
  *  or a phone number in an event; an answer deleted because it was flagged ("Please check" is only a flag); a reward shown as paid
  *  before the partner says so. Answers given on this device are written at once and sent when the link is back (the five states).
  *  Words are "ppl_sv_" keys in web/shell. Sample answers are labelled "Sandbox" wherever they appear. */
+import { hintFor } from "./hints.js";
 import { esc } from "./shell.js";
 import type { T } from "./shell.js";
 import { newId } from "./emulator.js";
@@ -454,7 +455,7 @@ export class SurveyDesk {
 
 // ---- drawing ----------------------------------------------------------------------------------------------------------------
 /** What a survey screen needs beyond the shared look: the organisation's name, and "Powered by LynkOmni" where the plan asks for it. */
-export interface SvLook extends AtLook { place: string; powered: string }
+export interface SvLook extends AtLook { place: string; powered: string; country?: string }   // country: the page's own country code, the example in the panel's country field
 const svOn = (on: boolean): string => `aria-pressed="${on}"`;
 const svOff = (off: boolean): string => (off ? "disabled" : "");
 const svTag = (text: string, kind = ""): string => `<span class="tag ${kind}">${esc(text)}</span>`;
@@ -489,20 +490,20 @@ export function svSurveysView(d: SurveyDesk, L: SvLook): string {
 export function svBuilderView(d: SurveyDesk, L: SvLook): string {
   const t = L.t, p = d.plan, dr = d.draft, off = svOff(!L.mayManage);
   const kinds = `<div class="ph-choices small">${SV_KINDS.map((k) => `<button type="button" class="ph-choice" data-act="sv:kind:${k}" ${svOn(dr.kind === k)} ${svOff(!d.kindAllowed(k))}><strong>${esc(svKindName(k, t))}</strong>${d.kindAllowed(k) ? "" : `<span>${esc(t("ppl_sv_from_pro"))}</span>`}</button>`).join("")}</div>`;
-  const write = p.write_it_for_me ? `<label class="field"><span>${esc(t("ppl_sv_write_it"))}</span><textarea class="sv-text" rows="2" data-in="sv:sentence" autocomplete="off" placeholder="${esc(t("ppl_sv_write_it_example"))}">${esc(d.sentence)}</textarea></label>
+  const write = p.write_it_for_me ? `<label class="field"><span>${esc(t("ppl_sv_write_it"))}</span><textarea class="sv-text" rows="2" data-in="sv:sentence" autocomplete="off" aria-label="${esc(t("ppl_sv_write_it"))}" placeholder="${esc(t("ppl_sv_write_it_example"))}">${esc(d.sentence)}</textarea></label>
     <button type="button" class="ghost inline" data-act="sv:write" ${svOff(!d.sentence.trim())}>${esc(t("ppl_sv_write"))}</button>${d.wrote ? `<p class="sub">${svTag(t("ppl_sv_assist"))} ${esc(t("ppl_sv_write_note"))}</p>` : ""}` : `<p class="sub">${esc(t("ppl_sv_write_it"))} ${svPlanTag(L, "plus")}</p>`;
   const checks = svCheck(dr.questions);
   const qs = dr.questions.map((x, i) => {
     const mine = checks.filter((c) => c.q === x.id).map((c) => svTag(t(`ppl_sv_check_${c.problem}`), "warn")).join(" ");
-    const choices = x.choices.length ? `<div class="sv-choices">${x.choices.map((c, j) => `<label class="field small"><span>${esc(t("ppl_sv_choice_n", { n: j + 1 }))}</span><textarea class="sv-text" rows="1" data-in="sv:qchoice:${i}:${j}" autocomplete="off">${esc(d.qText(c, t))}</textarea></label>`).join("")}</div>` : "";
-    return `<li class="sv-q"><label class="field"><span>${esc(t("ppl_sv_question_n", { n: i + 1 }))} · ${esc(t(`ppl_sv_type_${x.type}`))}</span><textarea class="sv-text" rows="2" data-in="sv:qtext:${i}" autocomplete="off">${esc(d.qText(x, t))}</textarea></label>${choices}
+    const choices = x.choices.length ? `<div class="sv-choices">${x.choices.map((c, j) => `<label class="field small"><span>${esc(t("ppl_sv_choice_n", { n: j + 1 }))}</span><textarea class="sv-text" rows="1" data-in="sv:qchoice:${i}:${j}" autocomplete="off" placeholder="${esc(t("hint_answer"))}" aria-label="${esc(t("ppl_sv_choice_n", { n: j + 1 }))}">${esc(d.qText(c, t))}</textarea></label>`).join("")}</div>` : "";
+    return `<li class="sv-q"><label class="field"><span>${esc(t("ppl_sv_question_n", { n: i + 1 }))} · ${esc(t(`ppl_sv_type_${x.type}`))}</span><textarea class="sv-text" rows="2" data-in="sv:qtext:${i}" autocomplete="off" placeholder="${esc(t("hint_question"))}" aria-label="${esc(t("ppl_sv_question_n", { n: i + 1 }))} · ${esc(t(`ppl_sv_type_${x.type}`))}">${esc(d.qText(x, t))}</textarea></label>${choices}
       <div class="ph-row">${mine}<button type="button" class="ghost small" data-act="sv:rmq:${i}" ${svOff(dr.questions.length < 2)}>${esc(t("ppl_sv_remove"))}</button></div></li>`;
   }).join("");
   const add = `<div class="ph-row sv-add">${(["rating", "score", "choice", "yes_no", "long", "number", "spoken", "ranking"] as const).map((ty) => `<button type="button" class="ghost small" data-act="sv:addq:${ty}" ${svOff(!d.typeAllowed(ty))}>${esc(t(`ppl_sv_type_${ty}`))}</button>`).join("")}</div>`;
   const logic = `<button type="button" class="ph-toggle" data-act="sv:why" ${svOn(dr.whyOnlyIfUnhappy)} ${svOff(p.logic === "basic")}><span>${esc(t("ppl_sv_logic_why"))}</span><strong>${esc(t(dr.whyOnlyIfUnhappy ? "ppl_on" : "ppl_off"))}</strong></button>`;
   const rules = `<div class="ph-choices small">${RULES.map((r) => `<button type="button" class="ph-choice" data-act="sv:rule:${r}" ${svOn(dr.rule === r)}><strong>${esc(t(`ppl_sv_rule_${r}`))}</strong><span>${esc(t(`ppl_sv_rule_${r}_help`))}</span></button>`).join("")}</div>`;
   const anon = `<button type="button" class="ph-toggle" data-act="sv:anon" ${svOn(dr.anonymous)}><span>${esc(t("ppl_sv_anonymous"))}</span><strong>${esc(t(dr.anonymous ? "ppl_on" : "ppl_off"))}</strong></button>${dr.anonymous ? `<p class="sub">${esc(t("ppl_sv_anonymous_line"))}</p>` : ""}`;
-  const fill = p.research.includes("groups_to_fill") ? SV_GROUPS.map((g) => `<label class="field small"><span>${esc(t(g))}</span><input inputmode="numeric" data-in="sv:target:${g}" value="${dr.targets[g] ?? ""}" autocomplete="off"></label>`).join("") + `<p class="sub">${esc(t("ppl_sv_fill_help"))}</p>` : `<p class="sub">${svPlanTag(L, "pro")}</p>`;
+  const fill = p.research.includes("groups_to_fill") ? SV_GROUPS.map((g) => `<label class="field small"><span>${esc(t(g))}</span><input inputmode="numeric" data-in="sv:target:${g}" value="${dr.targets[g] ?? ""}" autocomplete="off" placeholder="${esc(hintFor("count", t))}" aria-label="${esc(t(g))}"></label>`).join("") + `<p class="sub">${esc(t("ppl_sv_fill_help"))}</p>` : `<p class="sub">${svPlanTag(L, "pro")}</p>`;
   const need = `<div class="ph-row">${SV_MARGINS.map((m) => `<button type="button" class="ghost small" data-act="sv:margin:${m}" ${svOn(d.marginPick === m)}>±${m}%</button>`).join("")}</div><p>${esc(t("ppl_sv_need", { m: d.marginPick, n: sampleSize(d.marginPick) }))}</p>`;
   const after = `<div class="ph-row">${(["lynkpos", "lynkqueue", "lynkchat", "lynkattend"] as const).map((s) => { const ok = p.automatic.includes("all") || p.automatic.includes(s);
     return `<button type="button" class="ghost small" data-act="sv:after:${s}" ${svOn(dr.after === s)} ${svOff(!ok)}>${esc(t(`ppl_sv_after_${s}`))}</button>`; }).join("")}</div><p class="sub">${esc(t("ppl_sv_after_help"))}</p>
@@ -540,7 +541,7 @@ function svAsk(x: SvQ, got: { number?: number; choice?: string; text?: string } 
   if (x.type === "yes_no") return `<fieldset class="sv-yn"><legend>${esc(title)}</legend><div class="ph-row">${["yes", "no"].map((c) => `<button type="button" class="ph-choice" data-act="sv:${who}:${c}:c" ${svOn(got?.choice === c)}><strong>${esc(t(`ppl_sv_${c}`))}</strong></button>`).join("")}</div></fieldset>`;
   if (["choice", "many", "best_worst", "offer_pick", "ranking"].includes(x.type)) return `<fieldset class="sv-ch"><legend>${esc(title)}</legend><div class="ph-choices small">${x.choices.map((c) => { const v = c.key ?? c.text;
     return `<button type="button" class="ph-choice" data-act="sv:${who}:${esc(v)}:c" ${svOn(got?.choice === v)}><strong>${esc(text(c))}</strong></button>`; }).join("")}</div></fieldset>`;
-  return `<label class="field"><span>${esc(title)}</span><textarea data-in="sv:${who === "k" ? "ktext" : "ptext"}:${x.id}" rows="3">${esc(got?.text ?? "")}</textarea></label><p class="sub">${esc(t("ppl_sv_skip_ok"))}</p>`;
+  return `<label class="field"><span>${esc(title)}</span><textarea data-in="sv:${who === "k" ? "ktext" : "ptext"}:${x.id}" rows="3" placeholder="${esc(t("hint_answer"))}" aria-label="${esc(title)}">${esc(got?.text ?? "")}</textarea></label><p class="sub">${esc(t("ppl_sv_skip_ok"))}</p>`;
 }
 
 /** Live results: the LynkAssist summary, each question with its margin, filters, "Please check", goals, verified results. */
@@ -606,7 +607,7 @@ export function svTasksView(d: SurveyDesk, L: SvLook): string {
   const t = L.t, p = d.plan, s = d.sv();
   const tasks = !p.call_back ? `<p class="sub">${svPlanTag(L, "plus")}</p>` : `<ul class="list">${d.tasks.map((x) => svRow(esc(t(x.state === "done" ? "ppl_sv_cb_done" : "ppl_sv_cb_open")), esc(t("ppl_sv_cb_due", { time: L.clock(x.due) })),
     x.state === "created" ? `<button type="button" class="ghost small" data-act="sv:cbdone:${x.id}">${esc(t("ppl_sv_mark_done"))}</button>` : "")).join("") || `<li><p class="sub">${esc(t("ppl_sv_cb_none"))}</p></li>`}</ul><p class="sub">${esc(t("ppl_sv_cb_help"))}</p>`;
-  const said = !p.call_back || !s ? "" : `<label class="field"><span>${esc(t("ppl_sv_you_said"))}</span><textarea data-in="sv:yousaid" rows="2">${esc(d.youSaid)}</textarea></label><button type="button" class="primary inline" data-act="sv:yousaid" ${svOff(!d.youSaid.trim() || !L.mayManage)}>${esc(t("ppl_sv_send_message"))}</button>
+  const said = !p.call_back || !s ? "" : `<label class="field"><span>${esc(t("ppl_sv_you_said"))}</span><textarea data-in="sv:yousaid" rows="2" placeholder="${esc(t("hint_yousaid"))}" aria-label="${esc(t("ppl_sv_you_said"))}">${esc(d.youSaid)}</textarea></label><button type="button" class="primary inline" data-act="sv:yousaid" ${svOff(!d.youSaid.trim() || !L.mayManage)}>${esc(t("ppl_sv_send_message"))}</button>
     ${d.said.filter((x) => x.survey === s.id).map((x) => `<p class="sub" role="status">${esc(x.public ? t("ppl_sv_said_public") : t("ppl_sv_said_told", { n: x.told }))}</p>`).join("")}`;
   return svCard("sv_tasks", t("ppl_sv_call_back"), tasks) + svCard("sv_said", t("ppl_sv_you_said_title"), said || `<p class="sub">${svPlanTag(L, "plus")}</p>`);
 }
@@ -619,7 +620,7 @@ export function svRewardsView(d: SurveyDesk, L: SvLook): string {
     <ul class="list">${d.rewards.map((r) => svRow(esc(t(`ppl_sv_reward_${r.kind}`)), esc(t(`ppl_sv_reward_state_${r.state}`)), r.state === "sent" ? `<button type="button" class="ghost small" data-act="sv:rpaid:${r.id}:paid">${esc(t("ppl_sv_partner_paid"))}</button>` : "")).join("")}</ul>
     ${d.refused === "only_after_the_check" || d.refused === "one_reward_per_person" ? `<p class="warn" role="alert">${esc(svWhy(d.refused, t))}</p>` : ""}<p class="sub">${esc(t("ppl_sv_reward_help"))}</p>`;
   const panel = !p.panel ? `<p class="sub">${svPlanTag(L, "pro")}</p>` : `<p>${esc(t("ppl_sv_panel_members", { n: d.panelMembers.toLocaleString("en") }))} ${svTag(t("ppl_sandbox_answers"))}</p>
-    <div class="ph-row"><label class="field small"><span>${esc(t("ppl_sv_panel_country"))}</span><input data-in="sv:pcountry" value="${esc(d.panel.country)}" autocomplete="off" dir="ltr"></label><label class="field small"><span>${esc(t("ppl_sv_panel_wanted"))}</span><input inputmode="numeric" data-in="sv:pwanted" value="${d.panel.wanted}" autocomplete="off"></label></div>
+    <div class="ph-row"><label class="field small"><span>${esc(t("ppl_sv_panel_country"))}</span><input data-in="sv:pcountry" value="${esc(d.panel.country)}" autocomplete="off" dir="ltr" placeholder="${esc(hintFor("country", t, undefined, L.country))}" aria-label="${esc(t("ppl_sv_panel_country"))}"></label><label class="field small"><span>${esc(t("ppl_sv_panel_wanted"))}</span><input inputmode="numeric" data-in="sv:pwanted" value="${d.panel.wanted}" autocomplete="off" placeholder="${esc(hintFor("count", t))}" aria-label="${esc(t("ppl_sv_panel_wanted"))}"></label></div>
     <button type="button" class="primary inline" data-act="sv:panel">${esc(t("ppl_sv_panel_ask"))}</button>${d.panel.reached !== null ? `<p role="status">${esc(t("ppl_sv_panel_reached", { n: d.panel.reached, of: d.panel.wanted }))}</p>` : ""}<p class="sub">${esc(t("ppl_sv_panel_never"))}</p>`;
   return svCard("sv_rewards", t("ppl_sv_rewards"), rewards) + svCard("sv_panel", t("ppl_sv_panel"), panel);
 }

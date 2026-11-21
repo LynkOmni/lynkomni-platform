@@ -1402,11 +1402,14 @@
       "4"
      ],
      "part": "The groundwork (register, rules, tests); the LynkStat ad card on Free; ad earnings posted as income in LynkAcc; the hosting switches, advertiser and category blocks and the earnings card in Business app settings; the till's idle and after-sale ad states and the labelled receipt line on the emulators",
-     "done": {},
+     "done": {
+      "4": "v0.92.0"
+     },
      "progress": {
       "4": [
        "v0.52.0: the groundwork: the ads register (catalog/ads.v1.json) as an allow-list of places, the ads service following it (seen-only impressions, the device-hour cap, the merchant's hosting switch for customer-facing places, advertiser blocking, relevance ranking, Why am I seeing this?, Report this ad with a pause after three shops, totals hidden below 5, age-sensitive categories, no ads for children or households) and its tests",
-       "v0.83.0: ad earnings recorded once a month (AdEarningsRecorded) and posted as income in LynkAcc"
+       "v0.83.0: ad earnings recorded once a month (AdEarningsRecorded) and posted as income in LynkAcc",
+       "v0.92.0: the screens: the device-side ad rule shared by Python and TypeScript (services/ads.py may_show and counts, ts/src/ads.ts, contract/vectors/ads.v1.json) and one shared labelled slot with Why am I seeing this? and Report this ad; the till's idle and after-sale slots and the labelled receipt line on the POS terminal and the counter tablet; one card on LynkStat Free in the owner's computer view; the hosting switch with the shop's share, category blocks, blocked advertisers and the earnings card in Business settings; words in 38 languages"
       ]
      }
     },
@@ -1636,7 +1639,8 @@
      "done": {},
      "progress": {
       "4": [
-       "v0.58.0: the groundwork: the placeholder register (catalog/placeholders.v1.json), the shared skeleton and hint part (ts/src/placeholder.ts, web/shell/placeholder.css) with its timing, the checks (tests/test_placeholders.py, ts/test/placeholder.test.ts), and the 34 fields still needing a hint and 2 needing a label listed as due here"
+       "v0.58.0: the groundwork: the placeholder register (catalog/placeholders.v1.json), the shared skeleton and hint part (ts/src/placeholder.ts, web/shell/placeholder.css) with its timing, the checks (tests/test_placeholders.py, ts/test/placeholder.test.ts), and the 34 fields still needing a hint and 2 needing a label listed as due here",
+       "v0.93.0: every field already built has its hint (the 34 due fields: names, notes, questions, answers, section names, shop names, searches and LynkAssist questions as examples in 38 languages; amounts, counts, phone numbers and short codes as formats in the reader's own digits; the panel's country as the page's own country code) and the 2 fields without a name have one; the hint helpers are a small part of their own (ts/src/hints.ts) and words of the ad and hint parts travel only with pages that import them"
       ]
      }
     },

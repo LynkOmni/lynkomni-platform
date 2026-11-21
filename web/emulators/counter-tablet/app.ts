@@ -2,6 +2,7 @@
  *  display, receipt printer, scanner, cash drawer and card tap area. Runs the real rules from ts/src (sale, payments, stock,
  *  tabs by business type, tier limits, restaurant mode, shifts and cash counts, the web rule) on sandbox partners. Nothing
  *  about a country or a maker lives here: the country comes from its pack, the hardware is an original LynkOmni design. */
+import { hintFor } from "../../../ts/src/hints.js";
 import { Cart, PosError, change, paymentPayload, paymentState, qtyText, quickCash, receiptLines, salePayload } from "../../../ts/src/pos.js";
 import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload, UserState } from "../../../ts/src/pos.js";
 import { afterSale, daySummary, insight } from "../../../ts/src/merchant.js";
@@ -35,6 +36,8 @@ import { NAV } from "../../../ts/src/navigation.generated.js";
 import { layoutFor } from "../../../ts/src/interfaces.js";
 import { applyLayout, turnedShape } from "../../../ts/src/turn.js";
 import { watchNames } from "../../../ts/src/names.js";
+import { mayShow, slotHtml, whyHtml } from "../../../ts/src/ads.js";
+import type { Ad, AdLook } from "../../../ts/src/ads.js";
 
 declare const DATA: Build & { entitlements: Record<string, PosEntitlement>; fx: Record<string, number> };
 type Tab = "home" | "sell" | "stock" | "chats" | "business" | "tables" | "kitchen" | "invoices" | "customers" | "services" | "float";
@@ -124,7 +127,7 @@ function openDrawer(): void { const d = $("#drawer"); d.classList.add("open"); $
 function printReceipt(): void {
   const s = S.current; if (!s) return;
   const words = Object.fromEntries(["provisional", "receipt", "total", "tendered", "change", "thanks", "not_tax", "method_cash", "method_card", "method_mobile_money", "method_bank_transfer", "method_credit", "method_other", "state_pending_confirmation", "state_confirmed", "state_failed", "state_credit_open"].map((k) => [k, k.startsWith("state_") ? t(`st_${k.slice(6) === "pending_confirmation" ? "sent" : k.slice(6) === "credit_open" ? "queued" : k.slice(6)}`) : t(k)]));
-  const lines = receiptLines({ shop: t("sample_shop") + (S.practice ? ` (${t("practice")})` : ""), sale: s.sale, payments: s.payments, tendered: s.tendered, when: `${C.date(s.at)} ${C.clock(s.at)}`, money, words, width: 32 });
+  const lines = receiptLines({ shop: t("sample_shop") + (S.practice ? ` (${t("practice")})` : ""), sale: s.sale, payments: s.payments, tendered: s.tendered, when: `${C.date(s.at)} ${C.clock(s.at)}`, money, words, width: 32, ad: receiptAd() });
   $("#paper").innerHTML = `<div class="rhead">${DATA.brand.receipt}</div><pre class="rtext">${esc(lines.join("\n"))}</pre>`;
   $("#paperWrap").hidden = false; $("#paperWrap").classList.remove("torn"); $("#printerStatus").textContent = t("print");
   window.setTimeout(() => { $("#printerStatus").textContent = ""; }, 1500);
@@ -196,12 +199,22 @@ function waitingScreen(): string {
   const l = last(); const st = l ? paymentState(l.status, S.online) : "sent";
   return `<div class="paybox center"><p class="big">${esc(money(total()))}</p><p>${esc(t("waiting_partner"))}</p>${chip(st === "cash" || st === "credit" ? "sent" : st)}<p class="note">${esc(t("not_proof"))}</p>${S.method === "card" ? `<p class="note">${esc(t("card"))}: ${esc(t("scan"))}</p>` : ""}<button class="link" data-act="back">${esc(t("cancel"))}</button></div>`;
 }
+// ADS UPDATE 79 (section 4 row 79.10): the idle home screen and after a sale on LynkPOS Free; the receipt line once the shop hosts it
+const AD = { on: false, host: false, why: false, reported: false };
+const SAMPLE_AD = (): Ad => ({ id: "sample-ad", text: t("ad_sample_text"), sample: true });
+const adLook = (): AdLook => ({ t, esc, icon: (id) => icon(id) });
+function adBlock(place: string, screen: string): string {
+  if (!mayShow(place, { screen, country_on: AD.on, hosting: AD.host })) return "";
+  return slotHtml(place, SAMPLE_AD(), adLook()) + (AD.why ? whyHtml(adLook()) : "") + (AD.reported ? `<p class="ad-why" role="status">${esc(t("ad_reported"))}</p>` : "");
+}
+const receiptAd = (): { label: string; text: string } | null =>
+  mayShow("receipt_footer", { screen: "receipt", country_on: AD.on, hosting: AD.host }) ? { label: `${t("ad_sponsored")} · ${t("ad_sample")}`, text: SAMPLE_AD().text } : null;
 function doneScreen(): string {
   const s = S.current; const l = last(); const confirmed = l ? mayShowConfirmed(l.status) || l.status === "cash_received" : false;
   const channels = receiptChannels(ent());
   return `<div class="paybox center"><span class="bigcheck">${icon("ui-check")}</span><h2>${esc(confirmed ? t("done") : t("st_sent"))}</h2><p class="big">${esc(money(s?.sale.total ?? 0))}</p>${s?.tendered !== undefined ? `<p>${esc(t("change"))}: ${esc(money(change(s.sale.total, s.tendered)))}</p>` : ""}
     <div class="row">${channels.includes("print") ? `<button data-act="print">${icon("ui-receipt")}${esc(t("print"))}</button>` : ""}${channels.includes("qr") ? `<button data-act="qr">${icon("ui-qr")}${esc(t("show_qr"))}</button>` : ""}${channels.includes("message") ? `<button data-act="msg">${icon("ui-bell")}${esc(t("send_receipt"))}</button>` : ""}</div>
-    <div class="row"><button class="primary" data-act="new">${esc(t("new_sale"))}</button><button data-act="go:deliver">${icon("ui-chevron-right")}${esc(t("deliver"))}</button></div></div>`;
+    <div class="row"><button class="primary" data-act="new">${esc(t("new_sale"))}</button><button data-act="go:deliver">${icon("ui-chevron-right")}${esc(t("deliver"))}</button></div>${adBlock("pos_after_sale", "after_sale")}</div>`;
 }
 function tablesScreen(): string {
   const lim = restaurantLimits(ent()); const open = S.tables.filter((x) => x.open).length;
@@ -224,7 +237,7 @@ function kitchenScreen(): string {
 }
 function shiftScreen(): string {
   const sh = S.shift; const counted = Number(S.counted || 0);
-  return `<div class="paybox"><h2>${esc(t("shift"))}</h2>${sh ? `<p>${esc(t("expected_cash"))}: <strong>${esc(money(sh.cash))}</strong></p><label>${esc(t("counted_cash"))} <input inputmode="numeric" id="counted" value="${esc(S.counted)}" data-filter="counted"></label>
+  return `<div class="paybox"><h2>${esc(t("shift"))}</h2>${sh ? `<p>${esc(t("expected_cash"))}: <strong>${esc(money(sh.cash))}</strong></p><label>${esc(t("counted_cash"))} <input inputmode="numeric" id="counted" value="${esc(S.counted)}" data-filter="counted" aria-label="${esc(t("counted_cash"))}" placeholder="${esc(hintFor("amount", t, S.lang))}"></label>
     <p>${esc(t("difference"))}: ${esc(money(counted - sh.cash))}</p><div class="row"><button data-act="countcash">${esc(t("count_cash"))}</button><button class="primary" data-act="closeshift">${esc(t("close_shift"))}</button></div><p class="note">${esc(t("difference_flagged"))}</p>`
     : `<p>${esc(t("float_amount"))}</p><div class="quick">${[0, 2000, 5000, 10000].map((n) => `<button class="pill" data-act="openshift:${n}">${esc(money(n))}</button>`).join("")}</div>`}<button class="link" data-act="tab:business">${esc(t("back"))}</button></div>`;
 }
@@ -232,7 +245,7 @@ function homeScreen(): string {
   const sm = daySummary(S.sales, COSTS); const best = insight(S.sales);
   return `<div class="home"><div class="cards"><div class="card"><span>${esc(t("today_sales"))}</span><strong>${esc(money(sm.total))}</strong><small>${sm.count}</small></div><div class="card"><span>${esc(t("today_profit"))}</span><strong>${esc(money(sm.profit))}</strong></div>
     <div class="card"><span>${esc(t("cash_in_drawer"))}</span><strong>${esc(money(S.shift ? S.shift.cash : sm.cash))}</strong></div><div class="card"><span>${esc(t("insight"))}</span><strong>${esc(best ? t("best_seller", { name: best.name }) : t("no_sales_yet"))}</strong></div></div>
-    <div class="row"><button class="primary" data-act="new">${esc(t("new_sale"))}</button><button data-act="go:shift">${esc(t(S.shift ? "count_cash" : "open_shift"))}</button><button data-act="go:dayclose">${esc(t("day_close"))}</button></div><p class="note">${esc(t("setup_done_in"))}</p>${S.sales.length ? "" : designedState("empty", t, DATA.statePictures, S.dark, { label: t("new_sale"), act: "new" })}</div>`;
+    <div class="row"><button class="primary" data-act="new">${esc(t("new_sale"))}</button><button data-act="go:shift">${esc(t(S.shift ? "count_cash" : "open_shift"))}</button><button data-act="go:dayclose">${esc(t("day_close"))}</button></div><p class="note">${esc(t("setup_done_in"))}</p>${S.sales.length ? "" : designedState("empty", t, DATA.statePictures, S.dark, { label: t("new_sale"), act: "new" })}${adBlock("pos_idle", "home")}</div>`;
 }
 function dayCloseScreen(): string {
   const sm = daySummary(S.sales, COSTS); const low = CATALOG.filter((p) => (S.levels[p.id] ?? 0) <= P(5)).map((p) => t(p.name));
@@ -326,6 +339,8 @@ function drawScreen(): void {
 }
 function act(a: string): void {
   S.lastInput = Date.now();
+  if (a.startsWith("ad:why:")) { AD.why = !AD.why; draw(); return; }
+  if (a.startsWith("ad:report:")) { AD.reported = true; draw(); return; }
   const [k = "", v = "", v2 = ""] = a.split(":");
   if (!S.unlocked) {
     if (k.startsWith("d") && k.length === 2) S.pin = (S.pin + k[1]).slice(0, 4);
@@ -392,7 +407,7 @@ function act(a: string): void {
 function bindPanel(): void {
   const set = (id: string, text: string): void => { const el = document.getElementById(id); if (el) el.textContent = text; };
   set("pTry", t("try_it")); set("pHelp", `${t("sandbox_note")} PIN 1234.`); set("pCond", t("conditions")); set("lOnline", t("internet")); set("lFail", t("provider_declines")); set("lType", t("business_type")); set("lPlan", t("plan"));
-  set("lCountry", t("country")); set("lReal", t("real_user")); set("lPractice", t("practice_mode")); set("lDark", t("dark_screen")); set("lTurn", t("screen_turn")); { const o = ($("#cSize") as HTMLSelectElement).options; o[0]!.textContent = t("turn_sideways"); o[1]!.textContent = t("turn_upright"); } set("lLang", t("language")); set("pLog", t("event_log"));
+  set("lCountry", t("country")); set("lReal", t("real_user")); set("lPractice", t("practice_mode")); set("lDark", t("dark_screen")); set("lAds", t("ad_sponsored")); set("lAdHost", t("ad_sponsored") + ": " + t("receipt")); set("lTurn", t("screen_turn")); { const o = ($("#cSize") as HTMLSelectElement).options; o[0]!.textContent = t("turn_sideways"); o[1]!.textContent = t("turn_upright"); } set("lLang", t("language")); set("pLog", t("event_log"));
   $("#cType").innerHTML = BUSINESS_TYPES.map((x) => `<option value="${x}" ${x === S.type ? "selected" : ""}>${esc(t(`type_${x}`))}</option>`).join("");
   $("#cPlan").innerHTML = TIERS.map((x) => `<option value="${x}" ${x === S.tier ? "selected" : ""}>${esc(t(`card_${x}`))}</option>`).join("");
   $("#cCountry").innerHTML = C.options(t("sample_country"));
@@ -412,6 +427,8 @@ function main(): void {
   $("#cReal").addEventListener("change", (e) => { S.realUser = (e.target as HTMLInputElement).checked; draw(); });
   $("#cPractice").addEventListener("change", (e) => { S.practice = (e.target as HTMLInputElement).checked; draw(); });
   $("#cDark").addEventListener("change", (e) => { S.dark = (e.target as HTMLInputElement).checked; draw(); });
+  $("#cAds").addEventListener("change", (e) => { AD.on = (e.target as HTMLInputElement).checked; AD.why = false; AD.reported = false; draw(); });
+  $("#cAdHost").addEventListener("change", (e) => { AD.host = (e.target as HTMLInputElement).checked; draw(); });
   $("#cSize").addEventListener("change", (e) => { TURN = (e.target as HTMLSelectElement).value === "upright" ? "upright" : "sideways"; draw(); fitToWidth($("#rig"), TURN === "upright" ? 560 : 740); });
   $("#cType").addEventListener("change", (e) => { S.type = pick(BUSINESS_TYPES, (e.target as HTMLSelectElement).value, "shop"); S.tab = S.type === "restaurant" ? "tables" : "home"; S.view = "main"; draw(); });
   $("#cPlan").addEventListener("change", (e) => { S.tier = pick(TIERS, (e.target as HTMLSelectElement).value, "plus"); draw(); });

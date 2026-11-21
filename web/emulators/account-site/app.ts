@@ -1,6 +1,7 @@
 /* LynkOmni Account (account.lynkomni.com) in a browser window and on a phone (build section 2). Every part of the frame comes
  * from ts/src/shell.ts and every rule from ts/src/account.ts; this file holds the sample person, the screens and the event log.
  * Words come from web/shell/strings.en.json (the shell) and strings.en.json (this site) and their language packs. */
+import { hintFor } from "../../../ts/src/hints.js";
 import { STATE_PICTURE, Undo, accountMenu, viewSheet, IFACE_NAME, commandBar, connectionChip, esc, filterRegions, globeSheet, regionName, header, helpPanel, launcher, maskId, navigation, search, state, comingSoon, syncSheet, translator, undoToast, usernameField } from "../../../ts/src/shell.js";
 import type { AddressMap, Entry, Icon, Link, NavItem, Pic, StateKind, SyncInfo, T, UsernameStatus, Viewport } from "../../../ts/src/shell.js";
 import { DAY, PAGES, RECOVERY, REGISTRATION_STEPS, SECURITY_EVENT_KEY, SIGN_UP_STEPS, applicationStatus, canSubmit, closesAt, consentState, dataRequestDue, nextSignUpStep, pagePath, payoutChange, recoveryPath, recoveryReady, recoveryReadyAt, signInAlertNeeded } from "../../../ts/src/account.js";
@@ -276,7 +277,7 @@ const off = (s: string): string => `<span class="status-off">${icon("ui-info")}<
 // ---------------------------------------------------------------- sign-in, sign-up, recovery
 function authSignIn(): string {
   return `<div class="auth"><h1>${esc(t("signin_title"))}</h1><p class="lead">${esc(t("signin_hint"))}</p>
-    <div class="field"><label for="who">${esc(t("username_or_lynkid"))}</label><input class="text" id="who" value="grace.k" autocomplete="username"></div>
+    <div class="field"><label for="who">${esc(t("username_or_lynkid"))}</label><input class="text" id="who" value="grace.k" autocomplete="username" placeholder="${esc(hintFor("username", t))}"></div>
     <button class="primary" data-act="signin:passkey">${icon("ui-lock")}<span>${esc(t("signin_passkey"))}</span></button>
     <p class="muted">${esc(t("signin_passkey_hint"))}</p>
     <button class="secondary" data-act="signin:other">${esc(t("signin_other"))}</button>

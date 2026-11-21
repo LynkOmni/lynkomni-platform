@@ -30,7 +30,7 @@ const phBar = (cls: string) => `<span class="skel ${cls}" aria-hidden="true"></s
 
 /** A skeleton in the shape of the content to come. count = how many rows or cards the screen showed last time (default 3).
  *  One polite "Loading" for the whole block; screen readers never hear each grey bar. */
-export function skeleton(shape: SkeletonShape, loadingWord: string, count = 3): string {
+export function skeletonHtml(shape: SkeletonShape, loadingWord: string, count = 3): string {
   const n = Math.max(1, Math.min(count, 12));
   const rep = (f: () => string) => Array.from({ length: n }, f).join("");
   const body: Record<SkeletonShape, () => string> = {
@@ -49,19 +49,5 @@ export function skeleton(shape: SkeletonShape, loadingWord: string, count = 3): 
   return `<div class="skeleton skel-${shape}" role="status" aria-busy="true" aria-live="polite" aria-label="${phEsc(loadingWord)}" data-skeleton="${shape}">${body[shape]()}</div>`;
 }
 
-/** Field hints. Format hints are the same in every language (no words); word hints come from the page's words as hint_<kind>.
- *  Sensitive fields (PINs, passwords, card details, one-time codes, recovery codes) never get a hint that looks like a value. */
-export type HintKind = "amount" | "count" | "email" | "username" | "search" | "name" | "note" | "ask" | "answer" | "code_short" | "phone" | "id_number" | "country";
-export const FORMAT_HINTS: Partial<Record<HintKind, string>> = { amount: "0", count: "0", email: "name@example.com", username: "your.name" };
-export const SENSITIVE = ["pin", "password", "card", "otp", "one-time-code", "recovery", "cvv"] as const;
-/** Number hints use the reader's own digits (Arabic-Indic, Bengali, Devanagari and the rest), like every number on screen. */
-export function hintFor(kind: HintKind, t: (k: string) => string, lang?: string): string {
-  if ((kind === "amount" || kind === "count") && lang) {
-    try { return new Intl.NumberFormat(lang).format(0); } catch { return "0"; }
-  }
-  return FORMAT_HINTS[kind] ?? t(`hint_${kind}`);
-}
-/** A hint attribute pair for a field; empty for sensitive fields. The visible label (or aria-label) is never replaced. */
-export function hintAttr(kind: HintKind | null, t: (k: string) => string, lang?: string): string {
-  return kind ? ` placeholder="${phEsc(hintFor(kind, t, lang))}"` : "";
-}
+export { FORMAT_HINTS, SENSITIVE, readerDigits, hintFor, hintAttr } from "./hints.js";
+export type { HintKind } from "./hints.js";

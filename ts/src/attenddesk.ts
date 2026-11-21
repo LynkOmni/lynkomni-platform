@@ -390,7 +390,7 @@ export function registerView(d: AttendDesk, L: AtLook): string {
   const dr = d.draft ?? { name: "", idNumber: "", idDoc: "work" as const, set: "idcn" as AttendSet, id: null };
   const p = d.person(dr.id), code = idcn(dr.idNumber), locked = !!p, sets = d.sets();
   const note = d.note && d.note !== "coming_soon" ? `<p class="info" role="alert">${esc(L.t(d.note, { n: d.plan().people_included }))}</p>` : "";
-  const step1 = atCard("id_document", L.t("ppl_at_step_details"), `<label class="field"><span>${esc(L.t("ppl_at_name"))}</span><input id="atName" data-in="at:name" value="${esc(dr.name)}" autocomplete="off" ${atOff(locked)}></label>
+  const step1 = atCard("id_document", L.t("ppl_at_step_details"), `<label class="field"><span>${esc(L.t("ppl_at_name"))}</span><input id="atName" data-in="at:name" value="${esc(dr.name)}" autocomplete="off" ${atOff(locked)} placeholder="${esc(L.t("hint_name"))}" aria-label="${esc(L.t("ppl_at_name"))}"></label>
     <div class="ph-choices small">${(["work", "official"] as const).map((x) => `<button type="button" class="ph-choice" data-act="at:doc:${x}" ${atOn(dr.idDoc === x)} ${atOff(locked)}><strong>${esc(L.t(`ppl_at_doc_${x}`))}</strong></button>`).join("")}</div>
     <label class="field"><span>${esc(L.t("ppl_at_id_number"))}</span><input id="atId" data-in="at:idnum" value="${esc(dr.idNumber)}" autocomplete="off" autocapitalize="characters" spellcheck="false" dir="ltr" ${atOff(locked)}></label>
     <p role="status">${dr.idNumber ? (code ? `IDCN: <strong dir="ltr">${esc(code)}</strong>` : esc(L.t("ppl_at_too_few"))) : esc(L.t("ppl_at_idcn_made"))}</p>`);
@@ -435,7 +435,7 @@ export function visitorsView(d: AttendDesk, L: AtLook): string {
       ${x.state === "inside" ? `<button type="button" class="ghost small" data-act="at:vout:${x.id}">${esc(L.t("ppl_at_sign_out"))}</button>` : ""}</div></li>`).join("") : `<li><p class="sub">${esc(L.t("ppl_at_no_visitors"))}</p></li>`;
   const waiting = d.visitors.filter((x) => x.state === "waiting_for_manager");
   return atCard("visitor_list", L.t("ppl_at_visitors"), `<ul class="list">${list}</ul>`)
-    + atCard("sign_in_visitor", L.t("ppl_at_sign_in_visitor"), `<label class="field"><span>${esc(L.t("ppl_at_name"))}</span><input id="atV" data-in="at:vname" value="${esc(v.name)}" autocomplete="off"></label>
+    + atCard("sign_in_visitor", L.t("ppl_at_sign_in_visitor"), `<label class="field"><span>${esc(L.t("ppl_at_name"))}</span><input id="atV" data-in="at:vname" value="${esc(v.name)}" autocomplete="off" placeholder="${esc(L.t("hint_name"))}" aria-label="${esc(L.t("ppl_at_name"))}"></label>
       <label class="field"><span>${esc(L.t("ppl_at_host"))}</span><select id="atH" data-in="at:vhost"><option value="">${esc(L.t("ppl_at_host"))}</option>${d.people.map((p) => `<option value="${p.id}"${v.host === p.id ? " selected" : ""}>${esc(p.name)}</option>`).join("")}</select></label>
       <div class="ph-choices small">${(["official", "work", "none"] as const).map((x) => `<button type="button" class="ph-choice" data-act="at:vdoc:${x}" ${atOn(v.doc === x)}><strong>${esc(L.t(`ppl_at_doc_${x}`))}</strong></button>`).join("")}</div>
       <button type="button" class="ph-toggle" data-act="at:vguard" ${atOn(v.guardian)}><span>${esc(L.t("ppl_at_guardian"))}</span></button>

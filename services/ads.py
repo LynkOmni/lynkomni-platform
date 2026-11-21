@@ -25,6 +25,24 @@ DAILY_CAP = CAPS["per_campaign_per_merchant_per_day"]
 VIEW = REGISTER["viewability"]
 REPORT_MIN = REGISTER["report_minimum"]
 HOSTED_BY_CHOICE = {k for k, p in PLACES.items() if p["owner"] == "merchant" and p["audience"] in ("customer", "public")}
+
+
+def may_show(place, screen=None, audience=None, workspace=None, ad_free=False, hosting=False, lite=False, country_on=False):
+    """The device-side rule a screen asks before it draws an ad slot (ts/src/ads.ts agrees on contract/vectors/ads.v1.json):
+    only a registered place; never on a blocked screen, for children or in a household or school workspace; never in lite mode,
+    on an ad-free (paid) plan or in a country whose ads are still off; a customer-facing place the merchant owns only once switched on."""
+    if place not in SURFACES:
+        raise ValueError(f"unknown ad place {place}")
+    if screen in BLOCKED_SCREENS or audience in NEVER_AUDIENCES or workspace in NEVER_AUDIENCES or workspace == "school":
+        return False
+    if lite or ad_free or not country_on:
+        return False
+    return bool(hosting) if place in HOSTED_BY_CHOICE else True
+
+
+def counts(visible_pct, visible_ms):
+    """An impression counts only when at least half the ad was on screen for at least a second."""
+    return (visible_pct or 0) >= VIEW["min_visible_pct"] and (visible_ms or 0) >= VIEW["min_visible_ms"]
 BILLABLE = {"cpm": "ad.impression", "cpc": "ad.click", "cpa": "ad.conversion"}
 def _id(): return uuid.uuid4().hex
 

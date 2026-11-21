@@ -27,6 +27,8 @@ export const OFFICE_SERVICES: readonly OfficeService[] = ["lynkacc", "lynkinv", 
 export interface OfficeCtx {
   t: Tf; money: (minor: number) => string; icon: (id: string) => string; chip: (state: "queued" | "sent" | "accepted" | "confirmed" | "failed") => string;
   nav: NavRegister; role: string; user: string; today: string; taxBp: () => number;
+  /** ADS UPDATE 79: the host's labelled ad slot for LynkStat Free (ts/src/ads.ts), or "" (no gap); drawn last on the overview. */
+  ad?: () => string;
 }
 /** Each service's pages in the register's slots (overview, list, reports, automations, settings); records open from a list. */
 export const OFFICE_PAGES: Record<OfficeService, readonly { id: string; slot: string }[]> = {
@@ -270,7 +272,7 @@ export class OfficeView {
     return `<h1>${ofEsc(this.title("stat_overview"))}</h1>${this.sample()}<div class="cards">${["sales", "cost_of_sales", "expenses", "invoices_open"].map((k) => `<div class="card"><span>${ofEsc(this.t(`of_fig_${k}`))}</span><strong>${ofEsc(k === "invoices_open" ? String(f[k]) : this.c.money(f[k]!))}</strong></div>`).join("")}</div>
       <p class="note">${ofEsc(this.t("of_updated_minutes", { n: fr.age_minutes }))}${fr.missing.length ? ` · ${ofEsc(this.t("of_missing_sources", { n: fr.missing.length }))}` : ""}</p>
       <h2>${ofEsc(this.t("of_goal_sales"))}</h2><div class="of-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.min(100, Math.floor((g.progress_bp ?? 0) / 100))}"><i style="inline-size:${Math.min(100, Math.floor((g.progress_bp ?? 0) / 100))}%"></i></div>
-      <p class="note">${ofEsc(this.t("of_goal_progress", { n: Math.floor((g.progress_bp ?? 0) / 100) }))} · ${ofEsc(this.t(g.on_track ? "of_on_track" : "of_behind"))}</p>`;
+      <p class="note">${ofEsc(this.t("of_goal_progress", { n: Math.floor((g.progress_bp ?? 0) / 100) }))} · ${ofEsc(this.t(g.on_track ? "of_on_track" : "of_behind"))}</p>${this.c.ad?.() ?? ""}`;
   }
   private statMeasures(): string {
     let out = "";

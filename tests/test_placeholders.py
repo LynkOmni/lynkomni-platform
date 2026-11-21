@@ -69,7 +69,7 @@ class Placeholders(unittest.TestCase):
 
     def test_the_83_7_additions_are_recorded(self):
         self.assertGreaterEqual(len(R["more"]["rules"]), 13)
-        self.assertIn("Intl.NumberFormat", open(os.path.join(ROOT, "ts", "src", "placeholder.ts"), encoding="utf-8").read())
+        self.assertIn("Intl.NumberFormat", open(os.path.join(ROOT, "ts", "src", "hints.ts"), encoding="utf-8").read(), "number hints use the reader's digits (ts/src/hints.ts)")
 
     def test_the_code_follows_the_register(self):
         src = open(os.path.join(ROOT, "ts", "src", "placeholder.ts"), encoding="utf-8").read()
