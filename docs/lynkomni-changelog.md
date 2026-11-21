@@ -2,6 +2,9 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.82.1 (2026-11-21)
+- Guard: section 4 cannot be locked until every Lynk name that still borrows or lacks a product mark has its own one released in lynkomni-icons and vendored. Build table 84.6's section 4 row stays open until then (it was marked done in v0.81.0 while the marks were only in the provider ledger's later list).
+
 ## v0.82.0 (2026-11-21)
 Section 4, step E4b (EXCHANGE UPDATE: LynkExchange in the office services):
 - New rules core/exchange.py and ts/src/exchange.ts with shared test answers (python3 tools/exchange_vectors.py): LynkOmni's part (the lower of the plan's part and the level reached by the last 30 days), one full price from a rate kept as a fraction of whole numbers (never a decimal) and rounded down so nobody is promised more than arrives, the distance from the mid-market rate, and the book value of foreign money spent at its average cost.
