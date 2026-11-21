@@ -24,7 +24,7 @@ from core import enterprise as E
 from core import vote_count as C
 from core import vote_crypto as V
 from services.improvements import Table
-from services.vote_partners import SandboxVoteIdentity, SandboxVotePost, SandboxVoteSeal
+from services.vote_partners import SandboxVoteIdentity, SandboxVoteMirror, SandboxVotePost, SandboxVoteSeal
 
 REG = V.VOTE
 
@@ -38,9 +38,10 @@ def _fp(code):
 
 
 class Voting:
-    def __init__(s, p, now=time.time, identity=None, seal=None, post=None):
+    def __init__(s, p, now=time.time, identity=None, seal=None, post=None, mirrors=None):
         s.p, s.now, db = p, now, p.c.store.db
         s.identity, s.seal, s.post = identity or SandboxVoteIdentity(), seal or SandboxVoteSeal(), post or SandboxVotePost()
+        s.mirrors = mirrors if mirrors is not None else [SandboxVoteMirror("sandbox-witness-a"), SandboxVoteMirror("sandbox-witness-b")]
         s.votes, s.voters, s.ballots, s.links = Table(db, "vote_votes"), Table(db, "vote_voters"), Table(db, "vote_ballots"), Table(db, "vote_links")
         s.gov, s.decisions, s.minutes, s.history = Table(db, "vote_gov"), Table(db, "vote_decisions"), Table(db, "vote_minutes"), Table(db, "vote_history")
 
@@ -264,6 +265,7 @@ class Voting:
         voter["used"] = True
         v["head"] = tcode
         s._emit(m, "BallotCast", {"vote_id": vid, "tracking_code": tcode, "way": way})
+        s.publish_mirrors(vid)                                # every witness's copy follows the list at once
         return tcode
 
     def ballot_contests(s, m, vid, code):
@@ -285,6 +287,31 @@ class Voting:
         v = s.votes.get(vid)
         entries = [x for k, x in s.ballots.items() if k.startswith(vid + "|")]
         return {"codes": sorted(x["code"] for x in entries), "head": v.get("head"), "replaced": sorted(x["code"] for x in entries if not x["counts"])}
+
+    # ---- mirrors and witnesses (68.7) -----------------------------------------------------------------------------------------
+    def publish_mirrors(s, vid):
+        """Sends the public list (head and tracking codes only) to every witness's mirror."""
+        pub = s.public_list(vid)
+        return [w.publish(vid, pub["head"], pub["codes"]) for w in s.mirrors]
+
+    def check_mirrors(s, m, vid):
+        """Compares each witness's copy with LynkOmni's own list. A difference is flagged once as mirror_mismatch for the organiser
+        and observers; nothing is changed or removed. Returns each witness's state."""
+        pub = s.public_list(vid)
+        mine = {"head": pub["head"], "codes": sorted(pub["codes"])}
+        out = {}
+        for w in s.mirrors:
+            held = w.held(vid)
+            out[w.name] = "missing" if held is None else ("same" if held == mine else "different")
+        if "different" in out.values() and not any(e["payload"]["vote_id"] == vid and e["payload"]["kind"] == "mirror_mismatch"
+                                                    for e in s.p.c.store.of(m, "VoteAnomalyFlagged")):
+            s.flag(m, vid, "mirror_mismatch")
+        return out
+
+    def witnessed(s, m):
+        """Whether the public page may say the list is mirrored by independent witnesses: only once the witnesses are signed."""
+        from providers import ready
+        return ready("vote_mirror", s.p.c.profile(m)["country"])[0]
 
     def remind(s, m, vid, round_):
         v = s._vote(m, vid)

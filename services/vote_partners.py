@@ -7,7 +7,10 @@ each stays "Coming to your country soon." until its partner is signed (providers
 - vote_identity: national identity connectors for votes whose assurance level asks for a checked identity (blueprint 68.6). The
   partner answers whether the person matches; LynkOmni keeps only the answer and a vault reference, never the ID number;
 - vote_seal: a recognised trust-service partner that seals and time-stamps the certified result so it holds as a legal record;
-- vote_post: a printing and postal partner for postal ballots, code sheets and posted notices.
+- vote_post: a printing and postal partner for postal ballots, code sheets and posted notices;
+- vote_mirror: independent witness organisations that each keep a copy (a mirror) of a vote's public list, so nobody, LynkOmni
+  included, can change the list unseen (blueprint 68.7). The mirror is checked against LynkOmni's own list; a difference is
+  flagged as mirror_mismatch for the organiser and observers. "Mirrored by independent witnesses" is claimed only when signed.
 
 Rules every adapter keeps: a voter's contact or identity is only ever a vault reference; the partner never sees a choice (a ballot is
 locked on the voter's device before anything leaves it); a partner's answer is a fact only when the partner confirms it, so the
@@ -71,3 +74,31 @@ class SandboxVotePost(VotePost):
         if not _vault(address_ref):
             return {"ok": False, "reason": "address_must_be_a_vault_reference"}
         return {"ok": True, "item_id": item_id, "kind": kind, "language": language, "state": "pending", "status": "sandbox"}
+
+
+class VoteMirror:
+    """An independent witness's copy of a vote's public list: it takes every published head (the last tracking code of the chain) and
+    the codes, and answers what it holds. It never takes a voter, a code sheet or a choice: the public list holds none."""
+    def publish(self, vote_id, head, codes):
+        raise NotImplementedError
+
+    def held(self, vote_id):
+        raise NotImplementedError
+
+
+class SandboxVoteMirror(VoteMirror):
+    """SANDBOX: keeps the copy in memory and answers "sandbox"; nothing reaches a real witness until one is signed."""
+    def __init__(self, name="sandbox-witness"):
+        self.name, self.copies = name, {}
+
+    def publish(self, vote_id, head, codes):
+        if head is not None and not _SHA.match(head):
+            raise ValueError("a head is a sha256 tracking code")
+        if any(not _SHA.match(c or "") for c in codes):
+            raise ValueError("the public list holds tracking codes only")
+        self.copies[vote_id] = {"head": head, "codes": sorted(codes)}
+        return {"ok": True, "vote_id": vote_id, "witness": self.name, "status": "sandbox"}
+
+    def held(self, vote_id):
+        return self.copies.get(vote_id)
+

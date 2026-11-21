@@ -7,7 +7,7 @@ SERVICES = ["pos", "accountant", "invoicing", "crm", "inventory", "dashboard", "
             "recovery", "paylinks", "loyalty", "marketplace", "financing", "protection", "chat", "ads", "vcard", "registration",
             "agent", "collection", "delivery", "movement", "vehicle_data", "monitoring", "transport_data", "satellite", "iot_sim",
             "attendance", "queue", "survey", "people_messages", "survey_voice", "survey_rewards",
-            "voting", "vote_identity", "vote_seal", "vote_post", "files", "sign_identity", "sign_qualified", "file_scan", "booking", "exchange",
+            "voting", "vote_identity", "vote_seal", "vote_post", "vote_mirror", "files", "sign_identity", "sign_qualified", "file_scan", "booking", "exchange",
             "hr_checks", "tenant_screening", "exam_boards", "notary", "pensions", "deposit_protection", "rent_insurance", "property_listings",
             "job_listings", "employer_of_record", "employment_services",
             "chat_channels", "chat_calls", "pay_in_parts", "listing_sync", "outside_warehouses", "shop_plugins", "transport_bills", "government_fees"]

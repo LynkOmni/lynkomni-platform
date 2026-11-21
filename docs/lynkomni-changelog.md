@@ -2,6 +2,11 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.90.0 (2026-11-21)
+Section 4 review, fifth part (row 68.14, LynkVote's mirrors):
+- The public list of locked ballots is copied to every independent witness's mirror as ballots arrive, and the cloud checks each copy against its own list. A difference is flagged once for the organiser and observers (mirror_mismatch); nothing is ever removed. The witnesses are sandboxes until the owner chooses and signs real ones, and the public page says "witnessed" only after that.
+- Build-table row 68.14 is done. Row 78.16 (LynkAcademy's groundwork) is marked done too: its last part, the large-organisation set, came with v0.85.0.
+
 ## v0.89.0 (2026-11-21)
 - Every Lynk name has its own product mark: @lynkomni/icons 1.10.0 adds 22 marks (accounting, invoicing, customers, office bundle, analytics, currency exchange, voting, staff management, projects, school management, courses and training, property management, documents and signing, jobs and hiring, questions and answers, help and support, service status, product feedback, safety and reporting, automations, hardware drivers, account ID), vendored by brand-sync (#141). The names register now names each one; services, features and card groups inside a product use that product's mark.
 - LynkInv and LynkCRM joined the Business tab and launchers with their own marks; LynkAcc, LynkStat and the office notifications moved off the borrowed marks. The provider ledger's later items ops_product_icons and product_marks_all are done and removed; build table 84.6's section 4 row is done, so it no longer holds section 4's lock.
