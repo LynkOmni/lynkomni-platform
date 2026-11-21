@@ -2106,6 +2106,61 @@
     "sitemap"
    ],
    "section": 4
+  },
+  {
+   "id": "acc_gift_cards",
+   "kind": "feature",
+   "what": "Gift cards and store credit in the books: what the shop still owes to holders and customers, and any card spent below nothing",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "acc_deposits",
+   "kind": "feature",
+   "what": "Deposits held for pre-orders, special orders, rentals and layaways until they are used, kept under shown terms or returned",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "acc_matching_centre",
+   "kind": "feature",
+   "what": "The matching centre: every payment matched to its sale, invoice or booking, anything unmatched listed",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "acc_payment_costs",
+   "kind": "feature",
+   "what": "What each payment cost: the provider's fee and LynkOmni's part, per payment and per month",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "acc_payout_calendar",
+   "kind": "feature",
+   "what": "When the money arrives: a calendar of payouts from each provider, with late ones shown",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
   }
  ]
 }

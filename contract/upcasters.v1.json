@@ -206,6 +206,19 @@
     "change an event type",
     "add a payee's name, bank account or contact, an identity document or a safety word"
    ]
+  },
+  {
+   "from_schema_version": 15,
+   "to_schema_version": 16,
+   "agreed": "2026-11-21 (build section 4, step F, row 67.17: the office side of gift cards, store credit, deposits, matching and payment costs, SERVICES UPDATE)",
+   "rule": "Version 16 only adds events (GiftCardSold, StoreCreditIssued, DepositTaken, DepositSettled, DepositRefunded, StoredValueConflictFlagged, PaymentSettled, PaymentMatched, PaymentMatchUndone, ProviderPayoutScheduled, ProviderPayoutArrived) and four device commands. A version 15 event reads as version 16 with schema_version raised; nothing else changes.",
+   "never": [
+    "rescale an amount",
+    "rewrite a stored event",
+    "change an identifier",
+    "change an event type",
+    "add a card's code or PIN, a customer's name or contact, or a bank account"
+   ]
   }
  ]
 }

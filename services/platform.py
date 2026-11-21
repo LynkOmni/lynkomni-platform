@@ -57,6 +57,8 @@ class Platform(_Base):
         s.booking_office = BookingOffice(s)                   # LynkBooking in the office services (BOOKING UPDATE, section 4 step E4a)
         from services.exchange_office import ExchangeOffice
         s.exchange_office = ExchangeOffice(s)                 # LynkExchange in the office services (EXCHANGE UPDATE, section 4 step E4b)
+        from services.office_money import OfficeMoney
+        s.office_money = OfficeMoney(s)                       # gift cards, store credit, deposits, matching and payment costs in LynkAcc (67.17)
         from services.files import Files
         s.files = Files(s)                                    # LynkFiles' document engine (SIX SERVICES UPDATE, section 4 step E3)
         from services.vote import Voting

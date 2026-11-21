@@ -84,7 +84,8 @@
     "payout",
     "tax_return",
     "bill_to_pay",
-    "expense_claim"
+    "expense_claim",
+    "provider_payout"
    ]
   },
   {

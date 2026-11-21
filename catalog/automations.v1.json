@@ -3240,6 +3240,59 @@
    "offline": false,
    "default": "on",
    "standing_instruction": false
+  },
+  {
+   "id": "settlement-match",
+   "area": "LynkAcc",
+   "build_section": 4,
+   "family": "lynkacc",
+   "assist": "draft",
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "implemented_by": "services/office_money.py",
+   "min_tier": "plus",
+   "trigger": "event:PaymentSettled",
+   "action": "Match a provider's payment to its only open sale or booking with the same amount and currency; an invoice, two candidates or a match a person undid wait for a person",
+   "level": "auto_undo",
+   "touches": [
+    "books"
+   ]
+  },
+  {
+   "id": "payout-late-flag",
+   "area": "LynkAcc",
+   "build_section": 4,
+   "family": "lynkacc",
+   "assist": null,
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "implemented_by": "services/office_money.py",
+   "min_tier": "free",
+   "trigger": "schedule:daily",
+   "action": "Show a provider payout as late on the payout calendar two days after its expected date; never claimed as lost",
+   "level": "inform",
+   "touches": []
+  },
+  {
+   "id": "stored-value-conflict",
+   "area": "LynkAcc",
+   "build_section": 4,
+   "family": "lynkacc",
+   "assist": null,
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "implemented_by": "services/office_money.py",
+   "min_tier": "free",
+   "trigger": "event:VoucherRedeemed",
+   "action": "Flag a gift card or store credit spent below nothing for the owner; the sale is never blocked",
+   "level": "inform",
+   "touches": []
   }
  ],
  "careful": [

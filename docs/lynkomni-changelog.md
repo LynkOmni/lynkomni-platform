@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.86.0 (2026-11-21)
+Section 4 review, third part (row 67.17, the office side of money in LynkAcc):
+- Gift cards and store credit are a debt of the shop in the books: a gift card sold or topped up is owed to its holder, store credit given for a return, as cashback or as goodwill is owed to the customer, and spending either is a sale. A card spent below nothing (offline sales are never blocked) is flagged for the owner once.
+- Deposits for pre-orders, special orders, rentals and layaways are received in advance until they are used, kept under terms shown before paying, or returned (in cash at the till, or electronically only when the provider confirms).
+- The matching centre: every provider payment is matched to its sale, invoice or booking by its reference; a single candidate with the same amount within three days is a suggestion; two candidates are never guessed; everything else is listed as unmatched. From LynkAcc Plus suggestions for sales and bookings are matched automatically and can be undone; an invoice payment always waits for a person.
+- What each payment cost: the provider's fee and LynkOmni's part, per payment and per month, from the provider's settlement report only; a fee the cloud already posted is never posted again.
+- When the money arrives: a payout calendar from each provider (expected, arrived, late after two days), with its own tracker.
+- Contract version 16 adds these events; selling a gift card, giving store credit, taking a deposit and settling one work offline and are never rejected; the provider's facts are written by the cloud alone.
+
 ## v0.85.0 (2026-11-21)
 Section 4 review, second part (row 67.17, Move in and the large-organisation set for every service):
 - Move in for every service: besides customers, suppliers, opening balances and open invoices and bills, a business can now bring in its products, stock levels, members, loyalty points, bookings and payees. Every column is checked by its type (an amount in the currency's own minor units, a whole number, a date) and every reference must be known (stock for a product moved in, points for a member moved in). Nothing moves in while the check shows an error. Products and stock wait in a pack that each device takes, because products and stock are only ever created on a device; members go to LynkCRM with names and contacts in the vault; points follow the member's LynkCRM record; payees go to LynkExchange with bank details in the vault; bookings are kept for LynkBooking's business side.
