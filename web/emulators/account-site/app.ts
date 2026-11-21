@@ -27,7 +27,7 @@ import { breadcrumbBar, trail } from "../../../ts/src/breadcrumbs.js";
 import { loadPrefs, savePrefs } from "../../../ts/src/soundprefs.js";
 import type { SoundPrefs, Volume } from "../../../ts/src/soundprefs.js";
 import { TERMS_IN_FORCE, cardPlanName, contactWaitSeconds, coolOffSeconds, mayNow } from "../../../ts/src/protection.js";
-import { watchNames, namePair, nameEntries, namesChoice, namesAct } from "../../../ts/src/names.js";
+import { watchNames, namePair, nameEntries, namesChoice, namesAct, namesSheet, namesFocusOf, focusName, renameNotices, renameAct } from "../../../ts/src/names.js";
 import { NAME_INFO_KEYS } from "../../../ts/src/nameinfo.js";
 const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 } as const;   // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
 
@@ -48,7 +48,7 @@ interface Ev { n: number; type: string; origin: "device" | "server"; payload: un
 const PACKS = DATA.i18n;
 const EN: Record<string, string> = PACKS.en?.texts ?? {};
 const TEST_LANGS = ["xx", "xx-rtl"];
-type Overlay = null | "launcher" | "account" | "globe" | "cmd" | "help" | "bell" | "why" | "sync" | "stepup" | "pages" | "view";
+type Overlay = null | "launcher" | "account" | "globe" | "cmd" | "help" | "bell" | "why" | "sync" | "stepup" | "pages" | "view" | "names";
 /** The views a browser can show the account site in (DEVICE, 48.17); the size follows the chosen view. */
 const VIEWS = ["universal", "phone.touch", "tablet.touch", "computer.touch", "computer.pointer"] as const;
 const SIZE_OF_CLASS: Record<string, Viewport> = { phone: "phone", watch: "phone", voice: "phone", tablet: "tablet", eink: "tablet", computer: "computer", tv: "computer" };
@@ -57,6 +57,8 @@ type Screen = "signin" | "signup" | "recover" | Page;
 const SCREENS: Screen[] = ["signin", "signup", "recover", ...PAGES];
 /** Sample credential ids in the one public id format (core/ids.py: valid check digits; tests/test_emulators.py checks every id written here). */
 const SAMPLE_CRD = ["LOCRD-0001-0002-0015", "LOCRD-0001-0002-0023", "LOCRD-0001-0002-0031", "LOCRD-0001-0002-0049", "LOCRD-0001-0002-0056", "LOCRD-0001-0002-0064", "LOCRD-0001-0002-0072", "LOCRD-0001-0002-0080"];
+// The sample account opened before the LynkLedger and LynkDash name changes, so its owner sees each one-time notice once.
+const ACCOUNT_SINCE = "2026-10-01";
 const LYNKID = "LOID-4821-9035-7715";           // the sample person: illustrative, never an allocated identifier
 const SHOP_OID = "LOOID-7351-2064-8911";
 const T_NOW = (): number => Math.floor(Date.now() / 1000);
@@ -64,7 +66,7 @@ const T_NOW = (): number => Math.floor(Date.now() / 1000);
 interface Standing { losub: string; merchant: string; cap: number; active: boolean }
 const S = {
   size: "computer" as Viewport, lang: "en", theme: "light" as "light" | "dark", mode: "" as "" | "lite" | "sunlight", link: "good" as Link, country: "", realUser: false,
-  screen: "overview" as Screen, overlay: null as Overlay, query: "", pending: 0, lastSync: null as number | null, events: [] as Ev[], undo: new Undo(), seen: new Set<string>(), notified: new Set<string>(),
+  screen: "overview" as Screen, overlay: null as Overlay, namesFocus: "", query: "", pending: 0, lastSync: null as number | null, events: [] as Ev[], undo: new Undo(), seen: new Set<string>(), notified: new Set<string>(),
   signUp: {} as SignUpState, username: "", cloud: null as UsernameStatus, recoveryCode: "7F3K-9Q2M-X81B-4TZC",
   recover: { otherDevice: null as boolean | null, hasCode: null as boolean | null, started: null as { path: RecoveryPath; startedAt: number; approvals: number; cancelled?: boolean } | null },
   passkeys: [{ locrd: SAMPLE_CRD[0] as string, device: "device_phone", at: T_NOW() - 40 * DAY, here: true }, { locrd: SAMPLE_CRD[1] as string, device: "device_laptop", at: T_NOW() - 12 * DAY, here: false }],
@@ -318,7 +320,7 @@ function page(): string {
     case "recover": return authRecover();
     case "overview": {
       const todo = S.passkeys.length < 2;
-      return `${pageTitle("overview")}<div class="cards">
+      return `${pageTitle("overview")}<div class="cards">${renameNotices(t, ACCOUNT_SINCE, { act: "nmr" })}
         <div class="card"><h2>${esc(t("overview_welcome", { name: t("person_name") }))}</h2><div class="muted">${esc(t("your_lynkid"))}</div><div class="lynkid-box"><span>${esc(maskId(LYNKID))}</span><button class="copy" data-act="copy:lynkid" aria-label="${esc(t("copy"))}">${icon("ui-copy")}</button></div></div>
         <div class="card"><h2>${esc(t("page_security"))}</h2>${todo ? wait(t("overview_security_todo")) : ok(t("overview_security_ok", { n: S.passkeys.length }))}<div class="actions"><button class="secondary" data-act="go:security">${esc(t("page_security"))}</button></div></div>
         <div class="card wide"><h2>${esc(t("shortcuts"))}</h2><div class="actions">${(["businesses", "wallet", "billing", "privacy", "payments", "start"] as Page[]).map((p) => `<button class="secondary" data-act="go:${p}">${icon(PAGE_ICON[p])}<span>${esc(t(`page_${p}`))}</span></button>`).join("")}</div></div>
@@ -460,9 +462,9 @@ function overlay(): string {
     case "globe": return wrap("", globeSheet(Object.entries(PACKS).map(([code, p]) => ({ code, native: p.native, dir: p.dir })), DATA.packOrder.map((c) => ({ code: c, name: (DATA.packs[c] as CountryPack).sample ? t("sample_country") : regionName(c, isTest() ? "en" : S.lang, (DATA.packs[c] as CountryPack).name) })), { language: isTest() ? "en" : S.lang, region: pack().code }, t) + namesChoice(t, { scope: "person", act: "nmc", canChange: true }));
     case "cmd": {
       const index: Entry[] = [...PAGES.map((p): Entry => ({ id: p, kind: "setting", title: t(`page_${p}`), act: `go:${p}` })), { id: "h1", kind: "help", title: t("help_article_1"), act: "shell:help" }, { id: "h2", kind: "help", title: t("help_article_2"), act: "shell:help" }, { id: "a1", kind: "action", title: t("sign_out_everywhere"), act: "session:all" }, { id: "a2", kind: "action", title: t("support_seller"), act: "support:external" }, { id: "h3", kind: "help", title: t("help_storefront"), act: "shell:help" }, { id: "v1", kind: "setting", title: t("change_view"), act: "shell:view" }, { id: "a3", kind: "action", title: t("lock_title"), act: "lock:start" }];
-      return wrap("", commandBar(S.query, search([...index, ...nameEntries(t)], S.query), t, icon));
+      return wrap("", commandBar(S.query, search([...index, { id: "names-az", kind: "help", title: t("nm_az_title"), act: "open:names-az" }, ...nameEntries(t)], S.query), t, icon));
     }
-    case "help": return wrap("end", helpPanel(t(`page_${signedIn() ? (S.screen as Page) : "security"}`), [...(S.screen === "storefront" || S.screen === "support" ? [{ id: "3", title: t("help_storefront"), href: "/faq/storefront/start" }] : []), ...(S.screen === "security" || S.screen === "messages" || S.screen === "assist" || S.screen === "notifications" ? [{ id: "4", title: t("lock_title"), href: "/faq/account/lock-everything" }, { id: "5", title: t("page_messages"), href: "/faq/account/messages" }, { id: "6", title: t("page_assist"), href: "/faq/assist/history" }] : []), { id: "1", title: t("help_article_1"), href: "/faq/account/recovery" }, { id: "2", title: t("help_article_2"), href: "/faq/account/passkeys" }], t, icon,
+    case "help": return wrap("end", helpPanel(t(`page_${signedIn() ? (S.screen as Page) : "security"}`), [...(S.screen === "storefront" || S.screen === "support" ? [{ id: "3", title: t("help_storefront"), href: "/faq/storefront/start" }] : []), ...(S.screen === "security" || S.screen === "messages" || S.screen === "assist" || S.screen === "notifications" ? [{ id: "4", title: t("lock_title"), href: "/faq/account/lock-everything" }, { id: "5", title: t("page_messages"), href: "/faq/account/messages" }, { id: "6", title: t("page_assist"), href: "/faq/assist/history" }] : []), { id: "1", title: t("help_article_1"), href: "/faq/account/recovery" }, { id: "2", title: t("help_article_2"), href: "/faq/account/passkeys" }, { id: "names", title: t("nm_az_title"), href: "/names" }], t, icon,
       askBox({ query: S.ask, results: S.ask ? lookup(knowledge(), S.ask) : [], online: S.link !== "offline", builtOn: dateOf(T_NOW()) }, t, icon)));
     case "bell": {
       const present = AREAS.filter((a) => S.lines.some((l) => MESSAGES.kinds[l.kind]?.area === a)).map((a) => ({ id: a, label: t(`ntf_area_${a}`) }));
@@ -470,6 +472,7 @@ function overlay(): string {
     }
     case "why": { const l = shownLines().find((x) => x.nid === S.whyNid); return l ? wrap("", whySheet(l, t, icon)) : ""; }
     case "sync": return wrap("bottom", syncSheet(sync(), t, icon, clock));
+    case "names": return wrap("", namesSheet(t, S.namesFocus, { close: "closeoverlay", icon }));
     case "stepup": return wrap("", `<div class="sheet" role="dialog" aria-labelledby="suT"><h2 id="suT">${esc(t("stepup_needed"))}</h2><p class="muted">${esc(t("stepup_hint"))}</p><div class="field"><label for="suCode">${esc(t("code_label"))}</label><input class="text" id="suCode" inputmode="numeric" value="771204"></div><button class="primary" data-act="stepup:ok">${esc(t("confirm"))}</button><button class="secondary" data-act="closeoverlay">${esc(t("cancel"))}</button></div>`);
     default: return "";
   }
@@ -515,6 +518,9 @@ const pick = <V extends string>(allowed: readonly V[], value: string, fallback: 
 const stepUp = (then: string): void => { S.stepup = { ok: false, then }; S.overlay = "stepup"; draw(); };
 function act(a: string): void {
   if (namesAct(plain(a), "nmc", "person")) { draw(); return; }   // the person's own choice of how names show, on every device
+  if (renameAct(plain(a), "nmr")) { draw(); return; }             // a one-time "has a new name" notice, closed
+  const nf = namesFocusOf(plain(a));                              // Names A to Z and "Which one do I need?" from search and help
+  if (nf !== null) { S.namesFocus = nf; S.overlay = "names"; draw(); focusName(document, nf); return; }
   const [k, v = ""] = plain(a).split(/:(.*)/s);
   const now = T_NOW();
   switch (k) {

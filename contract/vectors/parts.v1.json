@@ -688,6 +688,14 @@
    ]
   },
   {
+   "host": "lynkomni.com",
+   "path": "/names",
+   "trail": [
+    "/",
+    "/names"
+   ]
+  },
+  {
    "host": "app.lynkomni.com",
    "path": "/accounting",
    "trail": [
@@ -13721,6 +13729,111 @@
     "source": "catalog/names.v1.json"
    },
    {
+    "id": "compare-move",
+    "topic": "how_to",
+    "q": "Which one do I need? LynkMotion, LynkGuard",
+    "a": "LynkMotion (Everyday tracking): Follow deliveries, trips and your own things day to day. LynkGuard (Vehicle & asset protection): Protect vehicles and valuable things with tracking and alerts.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-places",
+    "topic": "how_to",
+    "q": "Which one do I need? LynkTrace, LynkGPS, LynkSentry",
+    "a": "LynkTrace (Order & delivery tracking): Follow each order, delivery and request step by step. LynkGPS (Location & maps): See places on a map and plan routes. LynkSentry (Theft & incident alerts): Get alerts about theft, tampering and incidents.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-office",
+    "topic": "how_to",
+    "q": "Which one do I need? LynkOps, LynkAcc, LynkInv, LynkCRM, LynkStat",
+    "a": "LynkOps (Office bundle): Accounting, invoicing, customers and analytics in one plan. LynkAcc (Accounting): Keep your books, expenses and reports in order. LynkInv (Invoicing): Create and send invoices and see when they are paid. LynkCRM (Customers): Keep track of your customers, deals and follow-ups. LynkStat (Analytics): See your sales, profit and trends in one view.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-stock_or_invoices",
+    "topic": "how_to",
+    "q": "Which one do I need? LynkStock, LynkInv",
+    "a": "LynkStock (Inventory): Know what you have, what is selling and what to reorder. LynkInv (Invoicing): Create and send invoices and see when they are paid.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-getting_paid",
+    "topic": "how_to",
+    "q": "Which one do I need? LynkMPay, LynkCheckout, LynkRecover",
+    "a": "LynkMPay (Payments): Take card, mobile money and other payments through licensed partners. LynkCheckout (Pay links & QR): Send a pay link or show a QR code so customers can pay you. LynkRecover (Failed-payment recovery): Follow up failed payments so customers can pay again.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-bundles",
+    "topic": "how_to",
+    "q": "Which one do I need? LynkSuite, LynkOps",
+    "a": "LynkSuite (All-in-one): Every core service in one plan at one price. LynkOps (Office bundle): Accounting, invoicing, customers and analytics in one plan.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-visits",
+    "topic": "how_to",
+    "q": "Which one do I need? LynkBooking, LynkQueue",
+    "a": "LynkBooking (Travel & ticketing): Book travel, tickets and appointments in one place. LynkQueue (Queue & tickets): Give out tickets and call people in turn, without crowds.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-people",
+    "topic": "how_to",
+    "q": "Which one do I need? LynkHR, LynkAttend",
+    "a": "LynkHR (Staff management): Manage staff, leave, shifts and payroll records. LynkAttend (Attendance): Record who comes and goes: staff, students and visitors.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-learning",
+    "topic": "how_to",
+    "q": "Which one do I need? LynkSchool, LynkAcademy",
+    "a": "LynkSchool (School management): Run a school: classes, fees, marks and parents. LynkAcademy (Courses & training): Create and take courses, with lessons and certificates.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-listening",
+    "topic": "how_to",
+    "q": "Which one do I need? LynkSurvey, LynkFeedback",
+    "a": "LynkSurvey (Surveys): Ask questions and collect honest answers, online or offline. LynkFeedback (Product feedback): Tell us what to improve and follow our answers.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-help",
+    "topic": "how_to",
+    "q": "Which one do I need? LynkFAQ, LynkSupport, LynkAssist",
+    "a": "LynkFAQ (Questions & answers): Answers to the questions people ask most. LynkSupport (Help & support): Get help from the LynkOmni support team. LynkAssist (AI assistant): Ask questions, get help and have drafts prepared for you.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-developers",
+    "topic": "how_to",
+    "q": "Which one do I need? LynkDev, LynkHub, LynkDoc, LynkAPI, LynkSDK",
+    "a": "LynkDev (Developer platform): Build apps that work with LynkOmni, with open APIs and tools. LynkHub (Developer portal): Where developers register apps and manage their keys. LynkDoc (Documentation): Guides and references for building with LynkOmni. LynkAPI (Programming interface): The way apps read and write LynkOmni data, with consent. LynkSDK (Software kits): Ready-made code kits for building apps.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-cards",
+    "topic": "how_to",
+    "q": "Which one do I need? LynkPrima, LynkDyna, LynkCrest",
+    "a": "LynkPrima (Prepaid card): Load money first, then spend it. LynkDyna (Debit card): Spends straight from your own account. LynkCrest (Credit card): A credit line from a licensed lender.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "renamed-LynkDash",
+    "topic": "how_to",
+    "q": "What is LynkDash?",
+    "a": "LynkDash is now LynkStat.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "renamed-LynkLedger",
+    "topic": "how_to",
+    "q": "What is LynkLedger?",
+    "a": "LynkLedger is now LynkAcc.",
+    "source": "catalog/names.v1.json"
+   },
+   {
     "id": "state-queued",
     "topic": "status_word",
     "q": "What does Queued mean?",
@@ -14609,6 +14722,111 @@
     "topic": "how_to",
     "q": "ما هو LynkCrest؟",
     "a": "LynkCrest (بطاقة ائتمان): حد ائتماني من جهة إقراض مرخّصة.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-move",
+    "topic": "how_to",
+    "q": "أيها أحتاج؟ LynkMotion, LynkGuard",
+    "a": "LynkMotion (تتبع يومي): تابِع التوصيلات والرحلات وأغراضك يومًا بيوم. LynkGuard (حماية المركبات والأصول): احمِ المركبات والممتلكات الثمينة بالتتبع والتنبيهات.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-places",
+    "topic": "how_to",
+    "q": "أيها أحتاج؟ LynkTrace, LynkGPS, LynkSentry",
+    "a": "LynkTrace (تتبع الطلبات والتوصيل): تابِع كل طلب وتوصيل وطلب خدمة خطوة بخطوة. LynkGPS (الموقع والخرائط): شاهد الأماكن على الخريطة وخطّط المسارات. LynkSentry (تنبيهات السرقة والحوادث): تلقَّ تنبيهات بشأن السرقة والعبث والحوادث.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-office",
+    "topic": "how_to",
+    "q": "أيها أحتاج؟ LynkOps, LynkAcc, LynkInv, LynkCRM, LynkStat",
+    "a": "LynkOps (حزمة المكتب): المحاسبة والفواتير والعملاء والتحليلات في خطة واحدة. LynkAcc (المحاسبة): حافظ على دفاترك ومصروفاتك وتقاريرك منظّمة. LynkInv (الفوترة): أنشئ الفواتير وأرسلها واعرف متى تُدفع. LynkCRM (العملاء): تابِع عملاءك وصفقاتك ومتابعاتك. LynkStat (التحليلات): شاهد مبيعاتك وأرباحك واتجاهاتك في عرض واحد.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-stock_or_invoices",
+    "topic": "how_to",
+    "q": "أيها أحتاج؟ LynkStock, LynkInv",
+    "a": "LynkStock (المخزون): اعرف ما لديك وما يُباع وما يجب إعادة طلبه. LynkInv (الفوترة): أنشئ الفواتير وأرسلها واعرف متى تُدفع.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-getting_paid",
+    "topic": "how_to",
+    "q": "أيها أحتاج؟ LynkMPay, LynkCheckout, LynkRecover",
+    "a": "LynkMPay (المدفوعات): اقبل البطاقات والأموال عبر الهاتف ومدفوعات أخرى من خلال شركاء مرخّصين. LynkCheckout (روابط ورموز QR للدفع): أرسل رابط دفع أو اعرض رمز QR ليدفع لك العملاء. LynkRecover (استرداد المدفوعات الفاشلة): تابِع المدفوعات المتعثرة ليتمكن العملاء من الدفع مجددًا.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-bundles",
+    "topic": "how_to",
+    "q": "أيها أحتاج؟ LynkSuite, LynkOps",
+    "a": "LynkSuite (الكل في واحد): كل الخدمات الأساسية في خطة واحدة بسعر واحد. LynkOps (حزمة المكتب): المحاسبة والفواتير والعملاء والتحليلات في خطة واحدة.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-visits",
+    "topic": "how_to",
+    "q": "أيها أحتاج؟ LynkBooking, LynkQueue",
+    "a": "LynkBooking (السفر والتذاكر): احجز السفر والتذاكر والمواعيد في مكان واحد. LynkQueue (الطابور والتذاكر): وزّع أرقام الانتظار وناد الناس بالدور دون ازدحام.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-people",
+    "topic": "how_to",
+    "q": "أيها أحتاج؟ LynkHR, LynkAttend",
+    "a": "LynkHR (إدارة الموظفين): أدِر الموظفين والإجازات والورديات وسجلات الرواتب. LynkAttend (الحضور): سجّل من يحضر ومن يغادر: الموظفون والطلاب والزوار.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-learning",
+    "topic": "how_to",
+    "q": "أيها أحتاج؟ LynkSchool, LynkAcademy",
+    "a": "LynkSchool (إدارة المدارس): أدِر مدرسة: الفصول والرسوم والدرجات وأولياء الأمور. LynkAcademy (الدورات والتدريب): أنشئ الدورات وادرسها مع دروس وشهادات.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-listening",
+    "topic": "how_to",
+    "q": "أيها أحتاج؟ LynkSurvey, LynkFeedback",
+    "a": "LynkSurvey (الاستبيانات): اطرح الأسئلة واجمع إجابات صادقة، متصلًا أو دون اتصال. LynkFeedback (رأيك في المنتج): أخبرنا بما يجب تحسينه وتابِع إجاباتنا.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-help",
+    "topic": "how_to",
+    "q": "أيها أحتاج؟ LynkFAQ, LynkSupport, LynkAssist",
+    "a": "LynkFAQ (أسئلة وأجوبة): إجابات عن أكثر الأسئلة شيوعًا. LynkSupport (المساعدة والدعم): احصل على المساعدة من فريق دعم LynkOmni. LynkAssist (مساعد ذكاء اصطناعي): اطرح الأسئلة واحصل على المساعدة ومسودات جاهزة لك.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-developers",
+    "topic": "how_to",
+    "q": "أيها أحتاج؟ LynkDev, LynkHub, LynkDoc, LynkAPI, LynkSDK",
+    "a": "LynkDev (منصة المطورين): أنشئ تطبيقات تعمل مع LynkOmni بواجهات API مفتوحة وأدوات. LynkHub (بوابة المطورين): حيث يسجّل المطوّرون تطبيقاتهم ويديرون مفاتيحهم. LynkDoc (التوثيق): أدلة ومراجع للبناء باستخدام LynkOmni. LynkAPI (واجهة برمجية): الطريقة التي تقرأ بها التطبيقات بيانات LynkOmni وتكتبها، بموافقة. LynkSDK (حزم برمجية): حزم برمجية جاهزة لبناء التطبيقات.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-cards",
+    "topic": "how_to",
+    "q": "أيها أحتاج؟ LynkPrima, LynkDyna, LynkCrest",
+    "a": "LynkPrima (بطاقة مسبقة الدفع): اشحن المال أولًا ثم أنفقه. LynkDyna (بطاقة خصم): ينفق مباشرة من حسابك الخاص. LynkCrest (بطاقة ائتمان): حد ائتماني من جهة إقراض مرخّصة.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "renamed-LynkDash",
+    "topic": "how_to",
+    "q": "ما هو LynkDash؟",
+    "a": "أصبح LynkDash الآن LynkStat.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "renamed-LynkLedger",
+    "topic": "how_to",
+    "q": "ما هو LynkLedger؟",
+    "a": "أصبح LynkLedger الآن LynkAcc.",
     "source": "catalog/names.v1.json"
    },
    {
@@ -15503,6 +15721,111 @@
     "source": "catalog/names.v1.json"
    },
    {
+    "id": "compare-move",
+    "topic": "how_to",
+    "q": "どれが必要ですか？ LynkMotion, LynkGuard",
+    "a": "LynkMotion（毎日の追跡）：配送、移動、自分の持ち物を毎日確認できます。 LynkGuard（車両と資産の保護）：車両や大切な資産を、追跡と通知で守ります。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-places",
+    "topic": "how_to",
+    "q": "どれが必要ですか？ LynkTrace, LynkGPS, LynkSentry",
+    "a": "LynkTrace（注文と配送の追跡）：注文、配送、依頼のひとつひとつを段階ごとに追えます。 LynkGPS（位置と地図）：地図で場所を確認し、ルートを計画します。 LynkSentry（盗難とインシデントの通知）：盗難、改ざん、インシデントの通知を受け取ります。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-office",
+    "topic": "how_to",
+    "q": "どれが必要ですか？ LynkOps, LynkAcc, LynkInv, LynkCRM, LynkStat",
+    "a": "LynkOps（オフィスセット）：会計、請求書、顧客管理、分析をひとつのプランで。 LynkAcc（会計）：帳簿、経費、レポートを整理しておけます。 LynkInv（請求）：請求書を作成して送り、いつ支払われたかを確認できます。 LynkCRM（顧客）：顧客、商談、フォローアップを管理します。 LynkStat（分析）：売上、利益、傾向をひとつの画面で確認できます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-stock_or_invoices",
+    "topic": "how_to",
+    "q": "どれが必要ですか？ LynkStock, LynkInv",
+    "a": "LynkStock（在庫）：在庫、売れ筋、再注文が必要なものがわかります。 LynkInv（請求）：請求書を作成して送り、いつ支払われたかを確認できます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-getting_paid",
+    "topic": "how_to",
+    "q": "どれが必要ですか？ LynkMPay, LynkCheckout, LynkRecover",
+    "a": "LynkMPay（決済）：カード、モバイルマネーなどの支払いを、認可されたパートナーを通じて受け付けます。 LynkCheckout（支払いリンクと QR）：支払いリンクを送るか QR コードを見せて、代金を受け取ります。 LynkRecover（失敗した支払いの回収）：失敗した支払いをフォローし、お客様がもう一度支払えるようにします。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-bundles",
+    "topic": "how_to",
+    "q": "どれが必要ですか？ LynkSuite, LynkOps",
+    "a": "LynkSuite（オールインワン）：主なサービスすべてを、ひとつのプランとひとつの価格で。 LynkOps（オフィスセット）：会計、請求書、顧客管理、分析をひとつのプランで。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-visits",
+    "topic": "how_to",
+    "q": "どれが必要ですか？ LynkBooking, LynkQueue",
+    "a": "LynkBooking（旅行とチケット）：旅行、チケット、予約をひとつの場所で手配できます。 LynkQueue（順番待ちと整理券）：整理券を配り、混雑なしで順番に呼び出します。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-people",
+    "topic": "how_to",
+    "q": "どれが必要ですか？ LynkHR, LynkAttend",
+    "a": "LynkHR（人事管理）：スタッフ、休暇、シフト、給与の記録を管理します。 LynkAttend（勤怠）：出入りした人を記録します。スタッフ、生徒、来訪者に対応。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-learning",
+    "topic": "how_to",
+    "q": "どれが必要ですか？ LynkSchool, LynkAcademy",
+    "a": "LynkSchool（学校運営）：学校を運営します。クラス、学費、成績、保護者まで。 LynkAcademy（コースと研修）：レッスンと修了証つきのコースを作成し、受講できます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-listening",
+    "topic": "how_to",
+    "q": "どれが必要ですか？ LynkSurvey, LynkFeedback",
+    "a": "LynkSurvey（アンケート）：質問して正直な回答を集めます。オンラインでもオフラインでも。 LynkFeedback（製品フィードバック）：改善してほしい点を伝え、私たちの回答を確認できます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-help",
+    "topic": "how_to",
+    "q": "どれが必要ですか？ LynkFAQ, LynkSupport, LynkAssist",
+    "a": "LynkFAQ（よくある質問）：よくある質問への回答。 LynkSupport（ヘルプとサポート）：LynkOmni サポートチームの助けを受けられます。 LynkAssist（AI アシスタント）：質問して、助けを受け、下書きを用意してもらえます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-developers",
+    "topic": "how_to",
+    "q": "どれが必要ですか？ LynkDev, LynkHub, LynkDoc, LynkAPI, LynkSDK",
+    "a": "LynkDev（開発者プラットフォーム）：LynkOmni と連携するアプリを、オープン API とツールで作れます。 LynkHub（開発者ポータル）：開発者がアプリを登録し、キーを管理する場所です。 LynkDoc（ドキュメント）：LynkOmni で開発するためのガイドとリファレンス。 LynkAPI（プログラム接続）：アプリが同意のもとで LynkOmni のデータを読み書きする方法。 LynkSDK（ソフトウェアキット）：アプリ開発のためのすぐに使えるコードキット。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-cards",
+    "topic": "how_to",
+    "q": "どれが必要ですか？ LynkPrima, LynkDyna, LynkCrest",
+    "a": "LynkPrima（プリペイドカード）：先にお金をチャージしてから使います。 LynkDyna（デビットカード）：自分の口座から直接支払います。 LynkCrest（クレジットカード）：認可された貸し手による利用枠。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "renamed-LynkDash",
+    "topic": "how_to",
+    "q": "LynkDashとは何ですか？",
+    "a": "LynkDash は LynkStat になりました。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "renamed-LynkLedger",
+    "topic": "how_to",
+    "q": "LynkLedgerとは何ですか？",
+    "a": "LynkLedger は LynkAcc になりました。",
+    "source": "catalog/names.v1.json"
+   },
+   {
     "id": "state-queued",
     "topic": "status_word",
     "q": "待機中とはどういう意味ですか？",
@@ -16391,6 +16714,111 @@
     "topic": "how_to",
     "q": "Qu'est-ce que LynkCrest ?",
     "a": "LynkCrest (Carte de crédit) : Une ligne de crédit d'un prêteur agréé.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-move",
+    "topic": "how_to",
+    "q": "Lequel me faut-il ? LynkMotion, LynkGuard",
+    "a": "LynkMotion (Suivi au quotidien) : Suivez les livraisons, les trajets et vos propres biens au quotidien. LynkGuard (Protection des véhicules et des biens) : Protégez véhicules et biens de valeur avec suivi et alertes.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-places",
+    "topic": "how_to",
+    "q": "Lequel me faut-il ? LynkTrace, LynkGPS, LynkSentry",
+    "a": "LynkTrace (Suivi des commandes et livraisons) : Suivez chaque commande, livraison et demande étape par étape. LynkGPS (Position et cartes) : Voyez les lieux sur une carte et planifiez des trajets. LynkSentry (Alertes vol et incidents) : Recevez des alertes en cas de vol, de manipulation ou d'incident.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-office",
+    "topic": "how_to",
+    "q": "Lequel me faut-il ? LynkOps, LynkAcc, LynkInv, LynkCRM, LynkStat",
+    "a": "LynkOps (Pack bureau) : Comptabilité, facturation, clients et analyses dans une seule offre. LynkAcc (Comptabilité) : Tenez vos comptes, dépenses et rapports en ordre. LynkInv (Facturation) : Créez et envoyez des factures et voyez quand elles sont payées. LynkCRM (Clients) : Suivez vos clients, vos affaires et vos relances. LynkStat (Analyses) : Voyez vos ventes, vos bénéfices et vos tendances d'un coup d'œil.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-stock_or_invoices",
+    "topic": "how_to",
+    "q": "Lequel me faut-il ? LynkStock, LynkInv",
+    "a": "LynkStock (Stocks) : Sachez ce que vous avez, ce qui se vend et quoi recommander. LynkInv (Facturation) : Créez et envoyez des factures et voyez quand elles sont payées.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-getting_paid",
+    "topic": "how_to",
+    "q": "Lequel me faut-il ? LynkMPay, LynkCheckout, LynkRecover",
+    "a": "LynkMPay (Paiements) : Acceptez la carte, le mobile money et d'autres paiements via des partenaires agréés. LynkCheckout (Liens et QR de paiement) : Envoyez un lien de paiement ou montrez un code QR pour être payé. LynkRecover (Relance des paiements échoués) : Relancez les paiements échoués pour que les clients puissent payer à nouveau.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-bundles",
+    "topic": "how_to",
+    "q": "Lequel me faut-il ? LynkSuite, LynkOps",
+    "a": "LynkSuite (Tout-en-un) : Tous les services essentiels dans une seule offre, à un seul prix. LynkOps (Pack bureau) : Comptabilité, facturation, clients et analyses dans une seule offre.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-visits",
+    "topic": "how_to",
+    "q": "Lequel me faut-il ? LynkBooking, LynkQueue",
+    "a": "LynkBooking (Voyages et billetterie) : Réservez voyages, billets et rendez-vous au même endroit. LynkQueue (File d'attente et tickets) : Distribuez des tickets et appelez chacun à son tour, sans foule.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-people",
+    "topic": "how_to",
+    "q": "Lequel me faut-il ? LynkHR, LynkAttend",
+    "a": "LynkHR (Gestion du personnel) : Gérez le personnel, les congés, les horaires et la paie. LynkAttend (Présence) : Enregistrez qui arrive et qui part : personnel, élèves et visiteurs.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-learning",
+    "topic": "how_to",
+    "q": "Lequel me faut-il ? LynkSchool, LynkAcademy",
+    "a": "LynkSchool (Gestion scolaire) : Gérez une école : classes, frais, notes et parents. LynkAcademy (Cours et formation) : Créez et suivez des cours, avec leçons et certificats.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-listening",
+    "topic": "how_to",
+    "q": "Lequel me faut-il ? LynkSurvey, LynkFeedback",
+    "a": "LynkSurvey (Enquêtes) : Posez des questions et recueillez des réponses sincères, en ligne ou hors ligne. LynkFeedback (Avis sur le produit) : Dites-nous quoi améliorer et suivez nos réponses.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-help",
+    "topic": "how_to",
+    "q": "Lequel me faut-il ? LynkFAQ, LynkSupport, LynkAssist",
+    "a": "LynkFAQ (Questions et réponses) : Les réponses aux questions les plus fréquentes. LynkSupport (Aide et assistance) : Obtenez l'aide de l'équipe d'assistance LynkOmni. LynkAssist (Assistant IA) : Posez vos questions, obtenez de l'aide et faites préparer des brouillons.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-developers",
+    "topic": "how_to",
+    "q": "Lequel me faut-il ? LynkDev, LynkHub, LynkDoc, LynkAPI, LynkSDK",
+    "a": "LynkDev (Plateforme développeurs) : Créez des applications qui fonctionnent avec LynkOmni, avec des API ouvertes et des outils. LynkHub (Portail développeurs) : Là où les développeurs enregistrent leurs applications et gèrent leurs clés. LynkDoc (Documentation) : Guides et références pour développer avec LynkOmni. LynkAPI (Interface de programmation) : La façon dont les applications lisent et écrivent les données LynkOmni, avec consentement. LynkSDK (Kits logiciels) : Des kits de code prêts à l'emploi pour créer des applications.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-cards",
+    "topic": "how_to",
+    "q": "Lequel me faut-il ? LynkPrima, LynkDyna, LynkCrest",
+    "a": "LynkPrima (Carte prépayée) : Chargez d'abord de l'argent, puis dépensez-le. LynkDyna (Carte de débit) : Dépense directement depuis votre propre compte. LynkCrest (Carte de crédit) : Une ligne de crédit d'un prêteur agréé.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "renamed-LynkDash",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkDash ?",
+    "a": "LynkDash s'appelle désormais LynkStat.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "renamed-LynkLedger",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkLedger ?",
+    "a": "LynkLedger s'appelle désormais LynkAcc.",
     "source": "catalog/names.v1.json"
    },
    {
@@ -17285,6 +17713,111 @@
     "source": "catalog/names.v1.json"
    },
    {
+    "id": "compare-move",
+    "topic": "how_to",
+    "q": "Ninahitaji ipi? LynkMotion, LynkGuard",
+    "a": "LynkMotion (Ufuatiliaji wa kila siku): Fuatilia usafirishaji, safari na vitu vyako kila siku. LynkGuard (Ulinzi wa magari na mali): Linda magari na mali za thamani kwa ufuatiliaji na arifa.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-places",
+    "topic": "how_to",
+    "q": "Ninahitaji ipi? LynkTrace, LynkGPS, LynkSentry",
+    "a": "LynkTrace (Ufuatiliaji wa oda na usafirishaji): Fuatilia kila oda, usafirishaji na ombi hatua kwa hatua. LynkGPS (Mahali na ramani): Ona maeneo kwenye ramani na panga njia. LynkSentry (Arifa za wizi na matukio): Pata arifa za wizi, uchezewaji na matukio.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-office",
+    "topic": "how_to",
+    "q": "Ninahitaji ipi? LynkOps, LynkAcc, LynkInv, LynkCRM, LynkStat",
+    "a": "LynkOps (Kifurushi cha ofisi): Uhasibu, ankara, wateja na uchambuzi katika mpango mmoja. LynkAcc (Uhasibu): Weka hesabu, matumizi na ripoti zako katika mpangilio. LynkInv (Ankara): Unda na tuma ankara na uone zinapolipwa. LynkCRM (Wateja): Fuatilia wateja wako, mikataba na ufuatiliaji. LynkStat (Takwimu): Ona mauzo, faida na mwenendo wako kwa mtazamo mmoja.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-stock_or_invoices",
+    "topic": "how_to",
+    "q": "Ninahitaji ipi? LynkStock, LynkInv",
+    "a": "LynkStock (Stoo): Jua ulicho nacho, kinachouzika na cha kuagiza tena. LynkInv (Ankara): Unda na tuma ankara na uone zinapolipwa.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-getting_paid",
+    "topic": "how_to",
+    "q": "Ninahitaji ipi? LynkMPay, LynkCheckout, LynkRecover",
+    "a": "LynkMPay (Malipo): Pokea kadi, pesa za simu na malipo mengine kupitia washirika wenye leseni. LynkCheckout (Viungo na QR za malipo): Tuma kiungo cha malipo au onyesha msimbo wa QR ili ulipwe. LynkRecover (Kurejesha malipo yaliyoshindwa): Fuatilia malipo yaliyoshindwa ili wateja walipe tena.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-bundles",
+    "topic": "how_to",
+    "q": "Ninahitaji ipi? LynkSuite, LynkOps",
+    "a": "LynkSuite (Yote kwa moja): Huduma zote kuu katika mpango mmoja kwa bei moja. LynkOps (Kifurushi cha ofisi): Uhasibu, ankara, wateja na uchambuzi katika mpango mmoja.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-visits",
+    "topic": "how_to",
+    "q": "Ninahitaji ipi? LynkBooking, LynkQueue",
+    "a": "LynkBooking (Safari na tiketi): Weka nafasi za safari, tiketi na miadi mahali pamoja. LynkQueue (Foleni na tiketi): Toa namba za foleni na uite watu kwa zamu, bila msongamano.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-people",
+    "topic": "how_to",
+    "q": "Ninahitaji ipi? LynkHR, LynkAttend",
+    "a": "LynkHR (Usimamizi wa wafanyakazi): Simamia wafanyakazi, likizo, zamu na kumbukumbu za mishahara. LynkAttend (Mahudhurio): Rekodi anayekuja na kuondoka: wafanyakazi, wanafunzi na wageni.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-learning",
+    "topic": "how_to",
+    "q": "Ninahitaji ipi? LynkSchool, LynkAcademy",
+    "a": "LynkSchool (Usimamizi wa shule): Endesha shule: madarasa, ada, alama na wazazi. LynkAcademy (Kozi na mafunzo): Unda na soma kozi, zenye masomo na vyeti.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-listening",
+    "topic": "how_to",
+    "q": "Ninahitaji ipi? LynkSurvey, LynkFeedback",
+    "a": "LynkSurvey (Tafiti): Uliza maswali na kusanya majibu ya kweli, mtandaoni au nje ya mtandao. LynkFeedback (Maoni kuhusu bidhaa): Tuambie cha kuboresha na fuatilia majibu yetu.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-help",
+    "topic": "how_to",
+    "q": "Ninahitaji ipi? LynkFAQ, LynkSupport, LynkAssist",
+    "a": "LynkFAQ (Maswali na majibu): Majibu ya maswali yanayoulizwa zaidi. LynkSupport (Msaada na usaidizi): Pata msaada kutoka kwa timu ya usaidizi ya LynkOmni. LynkAssist (Msaidizi wa AI): Uliza maswali, pata msaada na uandaliwe rasimu.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-developers",
+    "topic": "how_to",
+    "q": "Ninahitaji ipi? LynkDev, LynkHub, LynkDoc, LynkAPI, LynkSDK",
+    "a": "LynkDev (Jukwaa la wasanidi): Tengeneza programu zinazofanya kazi na LynkOmni, kwa API wazi na zana. LynkHub (Lango la wasanidi): Mahali wasanidi programu husajili programu na kusimamia funguo zao. LynkDoc (Nyaraka): Miongozo na marejeo ya kujenga kwa LynkOmni. LynkAPI (Kiolesura cha programu): Jinsi programu zinavyosoma na kuandika data ya LynkOmni, kwa idhini. LynkSDK (Vifaa vya programu): Vifurushi vya msimbo tayari kwa kutengeneza programu.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-cards",
+    "topic": "how_to",
+    "q": "Ninahitaji ipi? LynkPrima, LynkDyna, LynkCrest",
+    "a": "LynkPrima (Kadi ya malipo ya awali): Weka pesa kwanza, kisha uzitumie. LynkDyna (Kadi ya benki): Hutumia pesa moja kwa moja kutoka akaunti yako. LynkCrest (Kadi ya mkopo): Kiwango cha mkopo kutoka kwa mkopeshaji mwenye leseni.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "renamed-LynkDash",
+    "topic": "how_to",
+    "q": "LynkDash ni nini?",
+    "a": "LynkDash sasa ni LynkStat.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "renamed-LynkLedger",
+    "topic": "how_to",
+    "q": "LynkLedger ni nini?",
+    "a": "LynkLedger sasa ni LynkAcc.",
+    "source": "catalog/names.v1.json"
+   },
+   {
     "id": "state-queued",
     "topic": "status_word",
     "q": "Kwenye foleni inamaanisha nini?",
@@ -18173,6 +18706,111 @@
     "topic": "how_to",
     "q": "LynkCrest是什么？",
     "a": "LynkCrest（信用卡）：来自持牌贷款方的信用额度。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-move",
+    "topic": "how_to",
+    "q": "我需要哪一个？ LynkMotion, LynkGuard",
+    "a": "LynkMotion（日常追踪）：每天跟踪配送、行程和你自己的物品。 LynkGuard（车辆与资产保护）：用定位和提醒保护车辆和贵重资产。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-places",
+    "topic": "how_to",
+    "q": "我需要哪一个？ LynkTrace, LynkGPS, LynkSentry",
+    "a": "LynkTrace（订单和配送跟踪）：逐步跟踪每个订单、配送和请求。 LynkGPS（位置与地图）：在地图上查看地点并规划路线。 LynkSentry（盗窃和事件提醒）：接收盗窃、篡改和事件提醒。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-office",
+    "topic": "how_to",
+    "q": "我需要哪一个？ LynkOps, LynkAcc, LynkInv, LynkCRM, LynkStat",
+    "a": "LynkOps（办公套餐）：会计、发票、客户和分析，一个方案全包。 LynkAcc（记账）：把账本、开支和报表整理得井井有条。 LynkInv（开票）：创建并发送发票，查看何时已付款。 LynkCRM（客户）：跟进你的客户、商机和后续事项。 LynkStat（分析）：在一个页面看到销售、利润和趋势。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-stock_or_invoices",
+    "topic": "how_to",
+    "q": "我需要哪一个？ LynkStock, LynkInv",
+    "a": "LynkStock（库存）：知道你有什么、什么好卖、该补什么货。 LynkInv（开票）：创建并发送发票，查看何时已付款。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-getting_paid",
+    "topic": "how_to",
+    "q": "我需要哪一个？ LynkMPay, LynkCheckout, LynkRecover",
+    "a": "LynkMPay（支付）：通过持牌合作伙伴收取银行卡、移动钱包和其他付款。 LynkCheckout（支付链接与 QR 码）：发送付款链接或出示 QR 码，让顾客付款给你。 LynkRecover（挽回失败付款）：跟进失败的付款，让顾客可以再次付款。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-bundles",
+    "topic": "how_to",
+    "q": "我需要哪一个？ LynkSuite, LynkOps",
+    "a": "LynkSuite（一站式）：所有核心服务，一个方案，一个价格。 LynkOps（办公套餐）：会计、发票、客户和分析，一个方案全包。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-visits",
+    "topic": "how_to",
+    "q": "我需要哪一个？ LynkBooking, LynkQueue",
+    "a": "LynkBooking（旅行与票务）：在一个地方预订出行、票务和预约。 LynkQueue（排队与取号）：发放排队号，按顺序叫号，不再拥挤。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-people",
+    "topic": "how_to",
+    "q": "我需要哪一个？ LynkHR, LynkAttend",
+    "a": "LynkHR（员工管理）：管理员工、请假、排班和工资记录。 LynkAttend（考勤）：记录谁来谁走：员工、学生和访客。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-learning",
+    "topic": "how_to",
+    "q": "我需要哪一个？ LynkSchool, LynkAcademy",
+    "a": "LynkSchool（学校管理）：管理学校：班级、学费、成绩和家长。 LynkAcademy（课程与培训）：创建和学习课程，含课时和证书。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-listening",
+    "topic": "how_to",
+    "q": "我需要哪一个？ LynkSurvey, LynkFeedback",
+    "a": "LynkSurvey（问卷调查）：提出问题，收集真实回答，线上线下都可以。 LynkFeedback（产品反馈）：告诉我们需要改进什么，并查看我们的回复。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-help",
+    "topic": "how_to",
+    "q": "我需要哪一个？ LynkFAQ, LynkSupport, LynkAssist",
+    "a": "LynkFAQ（常见问题）：最常见问题的解答。 LynkSupport（帮助和支持）：获得 LynkOmni 支持团队的帮助。 LynkAssist（AI 助手）：提出问题、获得帮助，还能帮你准备草稿。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-developers",
+    "topic": "how_to",
+    "q": "我需要哪一个？ LynkDev, LynkHub, LynkDoc, LynkAPI, LynkSDK",
+    "a": "LynkDev（开发者平台）：用开放 API 和工具开发与 LynkOmni 配合的应用。 LynkHub（开发者门户）：开发者注册应用、管理密钥的地方。 LynkDoc（文档）：使用 LynkOmni 开发的指南和参考资料。 LynkAPI（编程接口）：应用在获得同意后读写 LynkOmni 数据的方式。 LynkSDK（软件工具包）：用于开发应用的现成代码包。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-cards",
+    "topic": "how_to",
+    "q": "我需要哪一个？ LynkPrima, LynkDyna, LynkCrest",
+    "a": "LynkPrima（预付卡）：先充值，再消费。 LynkDyna（借记卡）：直接从你自己的账户扣款。 LynkCrest（信用卡）：来自持牌贷款方的信用额度。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "renamed-LynkDash",
+    "topic": "how_to",
+    "q": "LynkDash是什么？",
+    "a": "LynkDash 现已更名为 LynkStat。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "renamed-LynkLedger",
+    "topic": "how_to",
+    "q": "LynkLedger是什么？",
+    "a": "LynkLedger 现已更名为 LynkAcc。",
     "source": "catalog/names.v1.json"
    },
    {
@@ -19067,6 +19705,111 @@
     "source": "catalog/names.v1.json"
    },
    {
+    "id": "compare-move",
+    "topic": "how_to",
+    "q": "मुझे कौन-सा चाहिए? LynkMotion, LynkGuard",
+    "a": "LynkMotion (रोज़ की ट्रैकिंग): डिलीवरी, यात्राओं और अपनी चीज़ों पर रोज़ नज़र रखें। LynkGuard (वाहन और संपत्ति सुरक्षा): वाहनों और क़ीमती चीज़ों को ट्रैकिंग और अलर्ट से बचाएँ।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-places",
+    "topic": "how_to",
+    "q": "मुझे कौन-सा चाहिए? LynkTrace, LynkGPS, LynkSentry",
+    "a": "LynkTrace (ऑर्डर और डिलीवरी ट्रैकिंग): हर ऑर्डर, डिलीवरी और अनुरोध को कदम दर कदम देखें। LynkGPS (स्थान और नक्शे): नक्शे पर जगहें देखें और रास्ते तय करें। LynkSentry (चोरी और घटना अलर्ट): चोरी, छेड़छाड़ और घटनाओं के अलर्ट पाएँ।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-office",
+    "topic": "how_to",
+    "q": "मुझे कौन-सा चाहिए? LynkOps, LynkAcc, LynkInv, LynkCRM, LynkStat",
+    "a": "LynkOps (ऑफ़िस पैक): हिसाब-किताब, इनवॉइस, ग्राहक और विश्लेषण एक प्लान में। LynkAcc (लेखा): अपने खाते, ख़र्च और रिपोर्ट व्यवस्थित रखें। LynkInv (बिलिंग): इनवॉइस बनाएँ और भेजें और देखें कि भुगतान कब हुआ। LynkCRM (ग्राहक): अपने ग्राहकों, सौदों और फ़ॉलो अप पर नज़र रखें। LynkStat (विश्लेषण): अपनी बिक्री, मुनाफ़ा और रुझान एक नज़र में देखें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-stock_or_invoices",
+    "topic": "how_to",
+    "q": "मुझे कौन-सा चाहिए? LynkStock, LynkInv",
+    "a": "LynkStock (स्टॉक): जानें आपके पास क्या है, क्या बिक रहा है और क्या फिर से मँगाना है। LynkInv (बिलिंग): इनवॉइस बनाएँ और भेजें और देखें कि भुगतान कब हुआ।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-getting_paid",
+    "topic": "how_to",
+    "q": "मुझे कौन-सा चाहिए? LynkMPay, LynkCheckout, LynkRecover",
+    "a": "LynkMPay (भुगतान): लाइसेंसधारी साझेदारों के ज़रिए कार्ड, मोबाइल मनी और दूसरे भुगतान लें। LynkCheckout (भुगतान लिंक और QR): भुगतान लिंक भेजें या QR कोड दिखाएँ ताकि आपको भुगतान मिले। LynkRecover (असफल भुगतान वापसी): असफल भुगतानों पर फ़ॉलो अप करें ताकि ग्राहक फिर से भुगतान कर सकें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-bundles",
+    "topic": "how_to",
+    "q": "मुझे कौन-सा चाहिए? LynkSuite, LynkOps",
+    "a": "LynkSuite (सब एक में): सभी मुख्य सेवाएँ एक प्लान में, एक क़ीमत पर। LynkOps (ऑफ़िस पैक): हिसाब-किताब, इनवॉइस, ग्राहक और विश्लेषण एक प्लान में।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-visits",
+    "topic": "how_to",
+    "q": "मुझे कौन-सा चाहिए? LynkBooking, LynkQueue",
+    "a": "LynkBooking (यात्रा और टिकट): यात्रा, टिकट और अपॉइंटमेंट एक ही जगह बुक करें। LynkQueue (कतार और टिकट): टोकन दें और लोगों को उनकी बारी पर बुलाएँ, बिना भीड़ के।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-people",
+    "topic": "how_to",
+    "q": "मुझे कौन-सा चाहिए? LynkHR, LynkAttend",
+    "a": "LynkHR (कर्मचारी प्रबंधन): स्टाफ़, छुट्टी, शिफ़्ट और वेतन रिकॉर्ड सँभालें। LynkAttend (उपस्थिति): दर्ज करें कि कौन आता और जाता है: स्टाफ़, छात्र और मेहमान।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-learning",
+    "topic": "how_to",
+    "q": "मुझे कौन-सा चाहिए? LynkSchool, LynkAcademy",
+    "a": "LynkSchool (स्कूल प्रबंधन): स्कूल चलाएँ: कक्षाएँ, फ़ीस, अंक और अभिभावक। LynkAcademy (पाठ्यक्रम और प्रशिक्षण): पाठों और प्रमाणपत्रों के साथ कोर्स बनाएँ और पढ़ें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-listening",
+    "topic": "how_to",
+    "q": "मुझे कौन-सा चाहिए? LynkSurvey, LynkFeedback",
+    "a": "LynkSurvey (सर्वेक्षण): सवाल पूछें और सच्चे जवाब इकट्ठा करें, ऑनलाइन या ऑफ़लाइन। LynkFeedback (उत्पाद पर राय): हमें बताएँ क्या बेहतर करें और हमारे जवाब देखें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-help",
+    "topic": "how_to",
+    "q": "मुझे कौन-सा चाहिए? LynkFAQ, LynkSupport, LynkAssist",
+    "a": "LynkFAQ (सवाल और जवाब): सबसे ज़्यादा पूछे जाने वाले सवालों के जवाब। LynkSupport (सहायता और सपोर्ट): LynkOmni की सहायता टीम से मदद लें। LynkAssist (AI सहायक): सवाल पूछें, मदद पाएँ और अपने लिए तैयार ड्राफ़्ट पाएँ।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-developers",
+    "topic": "how_to",
+    "q": "मुझे कौन-सा चाहिए? LynkDev, LynkHub, LynkDoc, LynkAPI, LynkSDK",
+    "a": "LynkDev (डेवलपर प्लेटफ़ॉर्म): ऐसे ऐप बनाएँ जो LynkOmni के साथ काम करें, खुले API और टूल के साथ। LynkHub (डेवलपर पोर्टल): जहाँ डेवलपर ऐप रजिस्टर करते और अपनी कुंजियाँ सँभालते हैं। LynkDoc (दस्तावेज़): LynkOmni के साथ बनाने के लिए गाइड और संदर्भ। LynkAPI (प्रोग्रामिंग इंटरफ़ेस): वह तरीक़ा जिससे ऐप सहमति से LynkOmni डेटा पढ़ते और लिखते हैं। LynkSDK (सॉफ़्टवेयर किट): ऐप बनाने के लिए तैयार कोड किट।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "compare-cards",
+    "topic": "how_to",
+    "q": "मुझे कौन-सा चाहिए? LynkPrima, LynkDyna, LynkCrest",
+    "a": "LynkPrima (प्रीपेड कार्ड): पहले पैसा डालें, फिर ख़र्च करें। LynkDyna (डेबिट कार्ड): सीधे आपके अपने खाते से ख़र्च करता है। LynkCrest (क्रेडिट कार्ड): लाइसेंसधारी ऋणदाता से क्रेडिट सीमा।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "renamed-LynkDash",
+    "topic": "how_to",
+    "q": "LynkDash क्या है?",
+    "a": "LynkDash अब LynkStat है।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "renamed-LynkLedger",
+    "topic": "how_to",
+    "q": "LynkLedger क्या है?",
+    "a": "LynkLedger अब LynkAcc है।",
+    "source": "catalog/names.v1.json"
+   },
+   {
     "id": "state-queued",
     "topic": "status_word",
     "q": "कतार में का क्या मतलब है?",
@@ -19172,8 +19915,8 @@
    "query": "LynkStat 多少钱",
    "ids": [
     "price-lynkstat",
-    "where-lynkstat",
-    "what-stat"
+    "compare-office",
+    "where-lynkstat"
    ]
   },
   {

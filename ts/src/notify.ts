@@ -3,6 +3,7 @@
  *  every interface: the bell with its count, New and Earlier, filters, folded lines, actions with "Done by" and Undo, the empty
  *  state, banners, "Why am I seeing this?", the sound, vibration and light for each priority, the lock-screen wording, and the
  *  message parts (an email, a text and the Messages list). Words come through t(); the kinds and priorities from the register. */
+import { explainText, namesMode } from "./names.js";
 import { MESSAGES } from "./parts.generated.js";
 import { esc } from "./shell.js";
 import type { Icon, T } from "./shell.js";
@@ -97,12 +98,16 @@ export interface Mail { title: string; lines: string[]; record?: string; button?
 /** The email part: the logo (brand place email-header, passed in), one title, short lines, the record number, at most one
  *  button to a lynkomni.com address, then why the person got it, and a one-tap stop only for messages they opted into. */
 export function mailPart(m: Mail, logo: string, t: T): string {
+  // Every Lynk name is explained once in the whole message, at its first mention (catalog/names.v1.json outside: messages)
+  const seen = new Set<string>(), x = (s: string): string => explainText(s, t, namesMode(), seen);
+  m = { ...m, title: x(m.title), lines: m.lines.map(x) };
   const btn = m.button && /^https:\/\/([a-z0-9-]+\.)?lynkomni\.com(\/|$)/.test(m.button.href) ? `<p><a class="mbtn" href="${esc(m.button.href)}">${esc(m.button.label)}</a></p>` : "";
-  return `<article class="mail" lang="${esc(m.lang)}" dir="${m.dir}"><header class="mhead">${logo}</header><h3>${esc(m.title)}</h3>${m.lines.map((l) => `<p>${esc(l)}</p>`).join("")}${m.record ? `<p class="mrec">${esc(t("msg_record"))} <code>${esc(m.record)}</code></p>` : ""}${btn}<footer class="mfoot"><p>${esc(m.reason)}</p>${m.optIn ? `<p><a href="#" data-act="msg:stop">${esc(t("msg_stop"))}</a></p>` : ""}<p>${esc(t("msg_never_ask"))}</p></footer></article>`;
+  return `<article class="mail" data-names="off" lang="${esc(m.lang)}" dir="${m.dir}"><header class="mhead">${logo}</header><h3>${esc(m.title)}</h3>${m.lines.map((l) => `<p>${esc(l)}</p>`).join("")}${m.record ? `<p class="mrec">${esc(t("msg_record"))} <code>${esc(m.record)}</code></p>` : ""}${btn}<footer class="mfoot"><p>${esc(m.reason)}</p>${m.optIn ? `<p><a href="#" data-act="msg:stop">${esc(t("msg_stop"))}</a></p>` : ""}<p>${esc(t("msg_never_ask"))}</p></footer></article>`;
 }
 export function textPart(text: string, t: T): string {
+  text = explainText(text, t, namesMode());
   const p = textParts(text);
-  return `<div class="smsbubble"><p>${esc(text)}</p><p class="note">${esc(t("msg_text_parts", { n: p.parts }))}</p></div>`;
+  return `<div class="smsbubble" data-names="off"><p>${esc(text)}</p><p class="note">${esc(t("msg_text_parts", { n: p.parts }))}</p></div>`;
 }
 export interface Sent { id: string; channel: "email" | "text" | "push" | "bell"; sender: string; title: string; at: number; state: "queued" | "sent" | "accepted" | "confirmed" | "failed" }
 /** The Messages part: what LynkOmni sent this person, on which channel and from which address, with its state word. */

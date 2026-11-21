@@ -117,373 +117,815 @@
    "name": "LynkPOS",
    "brand_first": "LynkPOS (Point of sale)",
    "plain_first": "Point of sale (LynkPOS)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-pos",
+   "spoken": "Link P O S",
+   "similar": []
   },
   {
    "name": "LynkMPay",
    "brand_first": "LynkMPay (Payments)",
    "plain_first": "Payments (LynkMPay)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-mpay",
+   "spoken": "Link M Pay",
+   "similar": [
+    "LynkCheckout",
+    "LynkRecover"
+   ]
   },
   {
    "name": "LynkCheckout",
    "brand_first": "LynkCheckout (Pay links & QR)",
    "plain_first": "Pay links & QR (LynkCheckout)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-checkout",
+   "spoken": "Link Checkout",
+   "similar": [
+    "LynkMPay",
+    "LynkRecover"
+   ]
   },
   {
    "name": "LynkRecover",
    "brand_first": "LynkRecover (Failed-payment recovery)",
    "plain_first": "Failed-payment recovery (LynkRecover)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-recover",
+   "spoken": "Link Recover",
+   "similar": [
+    "LynkMPay",
+    "LynkCheckout"
+   ]
   },
   {
    "name": "LynkVCard",
    "brand_first": "LynkVCard (Virtual cards)",
    "plain_first": "Virtual cards (LynkVCard)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-vcard",
+   "spoken": "Link V Card",
+   "similar": []
   },
   {
    "name": "LynkAcc",
    "brand_first": "LynkAcc (Accounting)",
    "plain_first": "Accounting (LynkAcc)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-ledger",
+   "spoken": "Link Ack",
+   "similar": [
+    "LynkOps",
+    "LynkInv",
+    "LynkCRM",
+    "LynkStat"
+   ]
   },
   {
    "name": "LynkInv",
    "brand_first": "LynkInv (Invoicing)",
    "plain_first": "Invoicing (LynkInv)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Inv",
+   "similar": [
+    "LynkOps",
+    "LynkAcc",
+    "LynkCRM",
+    "LynkStat",
+    "LynkStock"
+   ]
   },
   {
    "name": "LynkCRM",
    "brand_first": "LynkCRM (Customers)",
    "plain_first": "Customers (LynkCRM)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link C R M",
+   "similar": [
+    "LynkOps",
+    "LynkAcc",
+    "LynkInv",
+    "LynkStat"
+   ]
   },
   {
    "name": "LynkOps",
    "brand_first": "LynkOps (Office bundle)",
    "plain_first": "Office bundle (LynkOps)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Ops",
+   "similar": [
+    "LynkAcc",
+    "LynkInv",
+    "LynkCRM",
+    "LynkStat",
+    "LynkSuite"
+   ]
   },
   {
    "name": "LynkStock",
    "brand_first": "LynkStock (Inventory)",
    "plain_first": "Inventory (LynkStock)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-stock",
+   "spoken": "Link Stock",
+   "similar": [
+    "LynkInv"
+   ]
   },
   {
    "name": "LynkStat",
    "brand_first": "LynkStat (Analytics)",
    "plain_first": "Analytics (LynkStat)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-dash",
+   "spoken": "Link Stat",
+   "similar": [
+    "LynkOps",
+    "LynkAcc",
+    "LynkInv",
+    "LynkCRM"
+   ]
   },
   {
    "name": "LynkRewards",
    "brand_first": "LynkRewards (Loyalty)",
    "plain_first": "Loyalty (LynkRewards)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-rewards",
+   "spoken": "Link Rewards",
+   "similar": []
   },
   {
    "name": "LynkChat",
    "brand_first": "LynkChat (Business chat)",
    "plain_first": "Business chat (LynkChat)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-chat",
+   "spoken": "Link Chat",
+   "similar": []
   },
   {
    "name": "LynkGrow",
    "brand_first": "LynkGrow (Marketing)",
    "plain_first": "Marketing (LynkGrow)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-grow",
+   "spoken": "Link Grow",
+   "similar": []
   },
   {
    "name": "LynkAssist",
    "brand_first": "LynkAssist (AI assistant)",
    "plain_first": "AI assistant (LynkAssist)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-assist",
+   "spoken": "Link Assist",
+   "similar": [
+    "LynkFAQ",
+    "LynkSupport"
+   ]
   },
   {
    "name": "LynkMotion",
    "brand_first": "LynkMotion (Everyday tracking)",
    "plain_first": "Everyday tracking (LynkMotion)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-motion",
+   "spoken": "Link Motion",
+   "similar": [
+    "LynkGuard"
+   ]
   },
   {
    "name": "LynkGuard",
    "brand_first": "LynkGuard (Vehicle & asset protection)",
    "plain_first": "Vehicle & asset protection (LynkGuard)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-guard",
+   "spoken": "Link Guard",
+   "similar": [
+    "LynkMotion"
+   ]
   },
   {
    "name": "LynkSuite",
    "brand_first": "LynkSuite (All-in-one)",
    "plain_first": "All-in-one (LynkSuite)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-suite",
+   "spoken": "Link Suite",
+   "similar": [
+    "LynkOps"
+   ]
   },
   {
    "name": "LynkDev",
    "brand_first": "LynkDev (Developer platform)",
    "plain_first": "Developer platform (LynkDev)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-dev",
+   "spoken": "Link Dev",
+   "similar": [
+    "LynkHub",
+    "LynkDoc",
+    "LynkAPI",
+    "LynkSDK"
+   ]
   },
   {
    "name": "LynkBooking",
    "brand_first": "LynkBooking (Travel & ticketing)",
    "plain_first": "Travel & ticketing (LynkBooking)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-booking",
+   "spoken": "Link Booking",
+   "similar": [
+    "LynkQueue"
+   ]
   },
   {
    "name": "LynkEssential",
    "brand_first": "LynkEssential (Bills & connectivity)",
    "plain_first": "Bills & connectivity (LynkEssential)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-essential",
+   "spoken": "Link Essential",
+   "similar": []
   },
   {
    "name": "LynkAttend",
    "brand_first": "LynkAttend (Attendance)",
    "plain_first": "Attendance (LynkAttend)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-attend",
+   "spoken": "Link Attend",
+   "similar": [
+    "LynkHR"
+   ]
   },
   {
    "name": "LynkQueue",
    "brand_first": "LynkQueue (Queue & tickets)",
    "plain_first": "Queue & tickets (LynkQueue)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-queue",
+   "spoken": "Link Queue",
+   "similar": [
+    "LynkBooking"
+   ]
   },
   {
    "name": "LynkSurvey",
    "brand_first": "LynkSurvey (Surveys)",
    "plain_first": "Surveys (LynkSurvey)",
-   "part_of": null
+   "part_of": null,
+   "icon": "product-survey",
+   "spoken": "Link Survey",
+   "similar": [
+    "LynkFeedback"
+   ]
   },
   {
    "name": "LynkExchange",
    "brand_first": "LynkExchange (Currency exchange)",
    "plain_first": "Currency exchange (LynkExchange)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Exchange",
+   "similar": []
   },
   {
    "name": "LynkVote",
    "brand_first": "LynkVote (Voting)",
    "plain_first": "Voting (LynkVote)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Vote",
+   "similar": []
   },
   {
    "name": "LynkHR",
    "brand_first": "LynkHR (Staff management)",
    "plain_first": "Staff management (LynkHR)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link H R",
+   "similar": [
+    "LynkAttend"
+   ]
   },
   {
    "name": "LynkProject",
    "brand_first": "LynkProject (Projects)",
    "plain_first": "Projects (LynkProject)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Project",
+   "similar": []
   },
   {
    "name": "LynkSchool",
    "brand_first": "LynkSchool (School management)",
    "plain_first": "School management (LynkSchool)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link School",
+   "similar": [
+    "LynkAcademy"
+   ]
   },
   {
    "name": "LynkAcademy",
    "brand_first": "LynkAcademy (Courses & training)",
    "plain_first": "Courses & training (LynkAcademy)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Academy",
+   "similar": [
+    "LynkSchool"
+   ]
   },
   {
    "name": "LynkProperty",
    "brand_first": "LynkProperty (Property management)",
    "plain_first": "Property management (LynkProperty)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Property",
+   "similar": []
   },
   {
    "name": "LynkFiles",
    "brand_first": "LynkFiles (Documents & signing)",
    "plain_first": "Documents & signing (LynkFiles)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Files",
+   "similar": []
   },
   {
    "name": "LynkJobs",
    "brand_first": "LynkJobs (Jobs & hiring)",
    "plain_first": "Jobs & hiring (LynkJobs)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Jobs",
+   "similar": []
   },
   {
    "name": "LynkTrace",
    "brand_first": "LynkTrace (Order & delivery tracking)",
    "plain_first": "Order & delivery tracking (LynkTrace)",
-   "part_of": "LynkMotion"
+   "part_of": "LynkMotion",
+   "icon": "product-motion",
+   "spoken": "Link Trace",
+   "similar": [
+    "LynkGPS",
+    "LynkSentry"
+   ]
   },
   {
    "name": "LynkGPS",
    "brand_first": "LynkGPS (Location & maps)",
    "plain_first": "Location & maps (LynkGPS)",
-   "part_of": "LynkMotion"
+   "part_of": "LynkMotion",
+   "icon": "product-motion",
+   "spoken": "Link G P S",
+   "similar": [
+    "LynkTrace",
+    "LynkSentry"
+   ]
   },
   {
    "name": "LynkSentry",
    "brand_first": "LynkSentry (Theft & incident alerts)",
    "plain_first": "Theft & incident alerts (LynkSentry)",
-   "part_of": "LynkGuard"
+   "part_of": "LynkGuard",
+   "icon": "product-guard",
+   "spoken": "Link Sentry",
+   "similar": [
+    "LynkTrace",
+    "LynkGPS"
+   ]
   },
   {
    "name": "LynkHub",
    "brand_first": "LynkHub (Developer portal)",
    "plain_first": "Developer portal (LynkHub)",
-   "part_of": "LynkDev"
+   "part_of": "LynkDev",
+   "icon": "product-dev",
+   "spoken": "Link Hub",
+   "similar": [
+    "LynkDev",
+    "LynkDoc",
+    "LynkAPI",
+    "LynkSDK"
+   ]
   },
   {
    "name": "LynkDoc",
    "brand_first": "LynkDoc (Documentation)",
    "plain_first": "Documentation (LynkDoc)",
-   "part_of": "LynkDev"
+   "part_of": "LynkDev",
+   "icon": "product-dev",
+   "spoken": "Link Doc",
+   "similar": [
+    "LynkDev",
+    "LynkHub",
+    "LynkAPI",
+    "LynkSDK"
+   ]
   },
   {
    "name": "LynkAPI",
    "brand_first": "LynkAPI (Programming interface)",
    "plain_first": "Programming interface (LynkAPI)",
-   "part_of": "LynkDev"
+   "part_of": "LynkDev",
+   "icon": "product-dev",
+   "spoken": "Link A P I",
+   "similar": [
+    "LynkDev",
+    "LynkHub",
+    "LynkDoc",
+    "LynkSDK"
+   ]
   },
   {
    "name": "LynkSDK",
    "brand_first": "LynkSDK (Software kits)",
    "plain_first": "Software kits (LynkSDK)",
-   "part_of": "LynkDev"
+   "part_of": "LynkDev",
+   "icon": "product-dev",
+   "spoken": "Link S D K",
+   "similar": [
+    "LynkDev",
+    "LynkHub",
+    "LynkDoc",
+    "LynkAPI"
+   ]
   },
   {
    "name": "LynkFAQ",
    "brand_first": "LynkFAQ (Questions & answers)",
    "plain_first": "Questions & answers (LynkFAQ)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link F A Q",
+   "similar": [
+    "LynkSupport",
+    "LynkAssist"
+   ]
   },
   {
    "name": "LynkSupport",
    "brand_first": "LynkSupport (Help & support)",
    "plain_first": "Help & support (LynkSupport)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Support",
+   "similar": [
+    "LynkFAQ",
+    "LynkAssist"
+   ]
   },
   {
    "name": "LynkStatus",
    "brand_first": "LynkStatus (Service status)",
    "plain_first": "Service status (LynkStatus)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Status",
+   "similar": []
   },
   {
    "name": "LynkFeedback",
    "brand_first": "LynkFeedback (Product feedback)",
    "plain_first": "Product feedback (LynkFeedback)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Feedback",
+   "similar": [
+    "LynkSurvey"
+   ]
   },
   {
    "name": "LynkSafety",
    "brand_first": "LynkSafety (Safety & reporting)",
    "plain_first": "Safety & reporting (LynkSafety)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Safety",
+   "similar": []
   },
   {
    "name": "LynkFlow",
    "brand_first": "LynkFlow (Automations)",
    "plain_first": "Automations (LynkFlow)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Flow",
+   "similar": []
   },
   {
    "name": "LynkMesh",
    "brand_first": "LynkMesh (Offline relay)",
    "plain_first": "Offline relay (LynkMesh)",
-   "part_of": "LynkPOS"
+   "part_of": "LynkPOS",
+   "icon": "product-pos",
+   "spoken": "Link Mesh",
+   "similar": []
   },
   {
    "name": "LynkDriver",
    "brand_first": "LynkDriver (Hardware drivers)",
    "plain_first": "Hardware drivers (LynkDriver)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Driver",
+   "similar": []
   },
   {
    "name": "LynkID",
    "brand_first": "LynkID (Account ID)",
    "plain_first": "Account ID (LynkID)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link I D",
+   "similar": []
   },
   {
    "name": "LynkProof",
    "brand_first": "LynkProof (Dispute evidence)",
    "plain_first": "Dispute evidence (LynkProof)",
-   "part_of": "LynkMPay"
+   "part_of": "LynkMPay",
+   "icon": "product-mpay",
+   "spoken": "Link Proof",
+   "similar": []
   },
   {
    "name": "LynkSplit",
    "brand_first": "LynkSplit (Split payments)",
    "plain_first": "Split payments (LynkSplit)",
-   "part_of": "LynkMPay"
+   "part_of": "LynkMPay",
+   "icon": "product-mpay",
+   "spoken": "Link Split",
+   "similar": []
   },
   {
    "name": "LynkAudit",
    "brand_first": "LynkAudit (Audit trail)",
    "plain_first": "Audit trail (LynkAudit)",
-   "part_of": "LynkAcc"
+   "part_of": "LynkAcc",
+   "icon": "product-ledger",
+   "spoken": "Link Audit",
+   "similar": []
   },
   {
    "name": "LynkEdge",
    "brand_first": "LynkEdge (Bandwidth & metering)",
    "plain_first": "Bandwidth & metering (LynkEdge)",
-   "part_of": "LynkDev"
+   "part_of": "LynkDev",
+   "icon": "product-dev",
+   "spoken": "Link Edge",
+   "similar": []
   },
   {
    "name": "LynkPrima",
    "brand_first": "LynkPrima (Prepaid card)",
    "plain_first": "Prepaid card (LynkPrima)",
-   "part_of": "LynkVCard"
+   "part_of": "LynkVCard",
+   "icon": "product-vcard",
+   "spoken": "Link Prima",
+   "similar": [
+    "LynkDyna",
+    "LynkCrest"
+   ]
   },
   {
    "name": "LynkDyna",
    "brand_first": "LynkDyna (Debit card)",
    "plain_first": "Debit card (LynkDyna)",
-   "part_of": "LynkVCard"
+   "part_of": "LynkVCard",
+   "icon": "product-vcard",
+   "spoken": "Link Dyna",
+   "similar": [
+    "LynkPrima",
+    "LynkCrest"
+   ]
   },
   {
    "name": "LynkCrest",
    "brand_first": "LynkCrest (Credit card)",
    "plain_first": "Credit card (LynkCrest)",
-   "part_of": "LynkVCard"
+   "part_of": "LynkVCard",
+   "icon": "product-vcard",
+   "spoken": "Link Crest",
+   "similar": [
+    "LynkPrima",
+    "LynkDyna"
+   ]
   },
   {
    "name": "LynkMobile",
    "brand_first": "LynkMobile (Phone)",
    "plain_first": "Phone (LynkMobile)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Mobile",
+   "similar": []
   },
   {
    "name": "LynkTab",
    "brand_first": "LynkTab (Tablet)",
    "plain_first": "Tablet (LynkTab)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Tab",
+   "similar": []
   },
   {
    "name": "LynkPC",
    "brand_first": "LynkPC (Computer)",
    "plain_first": "Computer (LynkPC)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link P C",
+   "similar": []
   },
   {
    "name": "LynkKiosk",
    "brand_first": "LynkKiosk (Self-service kiosk)",
    "plain_first": "Self-service kiosk (LynkKiosk)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Kiosk",
+   "similar": []
   },
   {
    "name": "LynkDScreen",
    "brand_first": "LynkDScreen (Main display screen)",
    "plain_first": "Main display screen (LynkDScreen)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link D Screen",
+   "similar": []
   },
   {
    "name": "LynkCDisplay",
    "brand_first": "LynkCDisplay (Small screen above a counter)",
    "plain_first": "Small screen above a counter (LynkCDisplay)",
-   "part_of": null
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link C Display",
+   "similar": []
+  }
+ ],
+ "speakable": [
+  {
+   "text": "Ask LynkAssist about LynkStat.",
+   "expect": "Ask Link Assist about Link Stat."
+  },
+  {
+   "text": "LynkPOS Pro includes LynkRewards Plus.",
+   "expect": "Link P O S Pro includes Link Rewards Plus."
+  },
+  {
+   "text": "LynkOmni runs LynkBooking Pass.",
+   "expect": "LynkOmni runs Link Booking Pass."
+  },
+  {
+   "text": "Open LynkPOSX or MyLynkStat",
+   "expect": "Open LynkPOSX or MyLynkStat"
+  },
+  {
+   "text": "LynkTab (counter) and LynkKiosk",
+   "expect": "Link Tab (counter) and Link Kiosk"
+  },
+  {
+   "text": "LynkDash is gone; LynkDVBox stays inside.",
+   "expect": "LynkDash is gone; LynkDVBox stays inside."
+  },
+  {
+   "text": "No names here.",
+   "expect": "No names here."
+  }
+ ],
+ "explain": [
+  {
+   "text": "Ask LynkAssist about LynkStat.",
+   "expect": "Ask LynkAssist (AI assistant) about LynkStat (Analytics).",
+   "plain_first": "Ask AI assistant (LynkAssist) about Analytics (LynkStat)."
+  },
+  {
+   "text": "LynkPOS Pro includes LynkRewards Plus.",
+   "expect": "LynkPOS (Point of sale) Pro includes LynkRewards (Loyalty) Plus.",
+   "plain_first": "Point of sale (LynkPOS) Pro includes Loyalty (LynkRewards) Plus."
+  },
+  {
+   "text": "LynkOmni runs LynkBooking Pass.",
+   "expect": "LynkOmni runs LynkBooking (Travel & ticketing) Pass.",
+   "plain_first": "LynkOmni runs Travel & ticketing (LynkBooking) Pass."
+  },
+  {
+   "text": "Open LynkPOSX or MyLynkStat",
+   "expect": "Open LynkPOSX or MyLynkStat",
+   "plain_first": "Open LynkPOSX or MyLynkStat"
+  },
+  {
+   "text": "LynkTab (counter) and LynkKiosk",
+   "expect": "LynkTab (Tablet) (counter) and LynkKiosk (Self-service kiosk)",
+   "plain_first": "Tablet (LynkTab) (counter) and Self-service kiosk (LynkKiosk)"
+  },
+  {
+   "text": "LynkDash is gone; LynkDVBox stays inside.",
+   "expect": "LynkDash is gone; LynkDVBox stays inside.",
+   "plain_first": "LynkDash is gone; LynkDVBox stays inside."
+  },
+  {
+   "text": "No names here.",
+   "expect": "No names here.",
+   "plain_first": "No names here."
+  },
+  {
+   "text": "Paid with LynkCheckout. LynkCheckout again.",
+   "expect": "Paid with LynkCheckout (Pay links & QR). LynkCheckout again.",
+   "plain_first": "Paid with Pay links & QR (LynkCheckout). LynkCheckout again."
+  }
+ ],
+ "paper": [
+  {
+   "lines": [
+    "Paid by LynkCheckout",
+    "LynkMPay"
+   ],
+   "width": 24,
+   "expect": [
+    "LynkCheckout: Pay links",
+    "  & QR",
+    "LynkMPay: Payments"
+   ]
+  },
+  {
+   "lines": [
+    "Thank you"
+   ],
+   "width": 32,
+   "expect": []
+  },
+  {
+   "lines": [
+    "LynkPOS LynkPOS"
+   ],
+   "width": 42,
+   "expect": [
+    "LynkPOS: Point of sale"
+   ]
+  }
+ ],
+ "check_plain": [
+  {
+   "word": "Pay links & QR",
+   "expect": []
+  },
+  {
+   "word": "Customer CRM",
+   "expect": [
+    "CRM"
+   ]
+  },
+  {
+   "word": "LynkStat numbers",
+   "expect": [
+    "Lynk"
+   ]
+  },
+  {
+   "word": "Assistant IA",
+   "expect": []
+  },
+  {
+   "word": "Webhook tools",
+   "expect": [
+    "webhook"
+   ]
+  }
+ ],
+ "now_called": [
+  {
+   "old": "LynkDash",
+   "expect": "LynkStat"
+  },
+  {
+   "old": "LynkLedger",
+   "expect": "LynkAcc"
+  },
+  {
+   "old": "LynkShield",
+   "expect": null
   }
  ]
 }

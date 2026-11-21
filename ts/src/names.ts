@@ -11,8 +11,10 @@ import { NAMES_EN, NAMES_REG } from "./names.generated.js";
 
 export type Say = (key: string, vars?: Record<string, string | number>) => string;
 export type NamesMode = "brand_first" | "plain_first";
-export interface NameEntry { id: string; name: string; kind: "product" | "service" | "feature" | "card_group" | "device"; family?: string; part_of?: string; about?: boolean }
-export interface NamesRegister { max_plain_chars: number; company: string[]; internal: string[]; retired: string[]; names: NameEntry[] }
+export interface NameEntry { id: string; name: string; kind: "product" | "service" | "feature" | "card_group" | "device"; family?: string; part_of?: string; about?: boolean; icon?: string | null; spoken: string }
+export interface NamesRegister { max_plain_chars: number; company: string[]; internal: string[]; retired: string[]; names: NameEntry[];
+  now_called: { old: string; id: string; since: string }[]; similar: { id: string; names: string[] }[]; familiar_after: number;
+  plain_word_check: { allowed_short: string[]; words_never: string[]; rule?: string }; asks: { min_shown: number; rule?: string } }
 export interface NameFind { name: string; start: number; end: number }
 
 const NM_REG = NAMES_REG;
@@ -39,6 +41,7 @@ export function unknownNames(text: string): string[] {
   return (text.match(NM_ANY_LYNK) ?? []).filter((w) => !NM_BY_NAME.has(w) && !NM_NOT_SHOWN.some((n) => w.startsWith(n)));
 }
 const nmSaid = (say: Say | undefined, key: string): string | undefined => { const v = say?.(key); return v && v !== key ? v : undefined; };
+const nmFill = (t: string, v: Record<string, string>): string => t.replace(/\{(\w+)\}/g, (m, k: string) => v[k] ?? m);
 /** The plain word in the screen's language; English when a word is missing. */
 export function plainOf(name: string, say?: Say): string {
   const e = NM_BY_NAME.get(name); if (!e) return "";
@@ -77,22 +80,35 @@ export function namesMode(): NamesMode { return deviceMode() ?? personMode(); }
 export type NamePlace = "label" | "header" | "compact";
 /** A name with its plain word. label: beside it; header: a small line under it; compact: the name alone, explained on
  *  hover, focus and long press and to screen readers. */
-export function nameLabel(name: string, say?: Say, place: NamePlace = "label", mode: NamesMode = namesMode()): string {
+export function nameLabel(name: string, say?: Say, place: NamePlace = "label", mode: NamesMode = namesMode(), icon?: (id: string) => string): string {
   const e = NM_BY_NAME.get(name); if (!e) return nmEsc(name);
   const p = plainOf(name, say);
+  const mark = icon && e.icon ? `<span class="lic" aria-hidden="true">${icon(e.icon)}</span>` : "";
   const attrs = `class="lname lname-${place}${mode === "plain_first" ? " lname-pf" : ""}" data-lname="${nmEsc(name)}"`;
-  if (place === "compact") return `<span ${attrs} title="${nmEsc(p)}">${nmEsc(name)}</span>`;
+  if (place === "compact") return `<span ${attrs} title="${nmEsc(p)}">${mark}${nmEsc(name)}</span>`;
   const nm = `<span class="lnm">${nmEsc(name)}</span>`, pl = `<span class="lpl">${nmEsc(p)}</span>`;
-  return `<span ${attrs}>${mode === "plain_first" ? `${pl} ${nm}` : `${nm} ${pl}`}</span>`;
+  return `<span ${attrs}>${mark}${mode === "plain_first" ? `${pl} ${nm}` : `${nm} ${pl}`}</span>`;
 }
 /** Search entries for every name: found by its name, its plain word or its description, in the screen's language and in
  *  English (the shell's search() ranks them). */
-export function nameEntries(say?: Say, mode: NamesMode = namesMode(), act?: string): { id: string; kind: "help"; title: string; subtitle: string; keywords: string[]; act: string }[] {
-  return NM_REG.names.filter((n) => n.kind !== "device").map((n) => {
+export function nameEntries(say?: Say, mode: NamesMode = namesMode(), act?: string): { id: string; kind: "help"; title: string; subtitle: string; keywords: string[]; act: string; icon?: string }[] {
+  const old = (id: string): string[] => NM_REG.now_called.filter((x) => x.id === id).map((x) => x.old);
+  const out = NM_REG.names.filter((n) => n.kind !== "device").map((n) => {
     const p = plainOf(n.name, say), a = aboutOf(n.name, say);
     return { id: `name:${n.id}`, kind: "help" as const, title: mode === "plain_first" ? `${p} (${n.name})` : `${n.name} (${p})`, subtitle: a,
-      keywords: [p, a, NAMES_EN.plain[`nm_${n.id}`] ?? "", NAMES_EN.about[`nma_${n.id}`] ?? ""].filter(Boolean), act: act ?? `open:name-${n.id}` };
+      keywords: [p, a, n.spoken, ...old(n.id), NAMES_EN.plain[`nm_${n.id}`] ?? "", NAMES_EN.about[`nma_${n.id}`] ?? ""].filter(Boolean), act: act ?? `open:name-${n.id}`, ...(n.icon ? { icon: n.icon } : {}) };
   });
+  // An old name still finds the new one, with a short "now called" note (catalog/names.v1.json now_called).
+  for (const x of NM_REG.now_called) {
+    const n = NM_BY_ID.get(x.id); if (!n) continue;
+    out.push({ id: `name-old:${x.old}`, kind: "help" as const, title: nmFill(nmSaid(say, "nm_now_called") ?? "{old} is now {name}.", { old: x.old, name: n.name }), subtitle: labelText(n.name, say, mode), keywords: [x.old], act: act ?? `open:name-${n.id}` });
+  }
+  const title = nmSaid(say, "nm_compare_title") ?? "Which one do I need?";
+  for (const g of NM_REG.similar) {
+    const names = g.names.map((i) => NM_BY_ID.get(i)?.name ?? "");
+    out.push({ id: `name-compare:${g.id}`, kind: "help" as const, title, subtitle: names.join(", "), keywords: names.flatMap((n) => [n, plainOf(n, say)]), act: act ?? `open:compare-${g.id}` });
+  }
+  return out;
 }
 /** The answer to "What is LynkStat?", from the register (LynkAssist and the offline knowledge pack use the same words). */
 export function whatIs(name: string, say?: Say): string {
@@ -152,7 +168,7 @@ export function explainNames(root: Element, say?: Say, mode: NamesMode = namesMo
       const where = h.control ?? h.block ?? el, p = plainOf(h.name, say).toLowerCase();
       const said = h.nearby.includes(p) || (addedNow.get(where) ?? []).some((w) => w.includes(p));
       const seen = shownNow.get(h.screen) ?? new Set<string>();
-      const show = !!h.block && !h.control && !said && !h.oneLine && !h.shownBefore && !seen.has(h.name);
+      const show = !!h.block && !h.control && !said && !h.oneLine && !h.shownBefore && !seen.has(h.name) && !familiar(h.name);
       frag.append(nmMark(doc, h.name, say, mode, show, said, h.control));
       if (show) { seen.add(h.name); shownNow.set(h.screen, seen); addedNow.set(where, [...(addedNow.get(where) ?? []), p]); }
       at = h.end; marked += 1;
@@ -215,7 +231,9 @@ function nmWireTips(root: Element, say: () => Say | undefined): void {
     const name = span.dataset["lname"] ?? ""; const s = say();
     const tip = doc.createElement("div"); tip.className = "ltip"; tip.setAttribute("role", "status");
     const part = partOf(name);
-    tip.innerHTML = `<b>${nmEsc(labelText(name, s, namesMode()))}</b>${aboutOf(name, s) ? `<span>${nmEsc(aboutOf(name, s))}</span>` : ""}${part ? `<small>${nmEsc((s?.("nm_part_of") ?? "Part of {name}").replace("{name}", part))}</small>` : ""}`;
+    const like = similarOf(name), sayIt = nmSaid(s, "nm_say");
+    tip.innerHTML = `<b>${nmEsc(labelText(name, s, namesMode()))}</b>${aboutOf(name, s) ? `<span>${nmEsc(aboutOf(name, s))}</span>` : ""}${part ? `<small>${nmEsc((s?.("nm_part_of") ?? "Part of {name}").replace("{name}", part))}</small>` : ""}${sayIt ? `<small>${nmEsc(nmFill(sayIt, { spoken: spokenOf(name) }))}</small>` : ""}${like.length ? `<button class="lcmp" data-nmcompare="${nmEsc(name)}">${nmEsc(nmSaid(s, "nm_compare_title") ?? "Which one do I need?")}</button>` : ""}`;
+    nameAsked(name, "note");
     const r = span.getBoundingClientRect(), view = doc.defaultView;
     const w = view?.innerWidth ?? 360, h = view?.innerHeight ?? 640;
     tip.style.insetInlineStart = `${Math.max(8, Math.min(r.left, w - 288))}px`;
@@ -223,7 +241,19 @@ function nmWireTips(root: Element, say: () => Say | undefined): void {
     doc.body.append(tip);
     closeTimer = setTimeout(close, 6000);
   };
+  doc.addEventListener("click", (e) => {
+    const b = (e.target as Element | null)?.closest?.("[data-nmcompare]") as HTMLElement | null;
+    const tip = b?.closest(".ltip") as HTMLElement | null; if (!b || !tip) return;
+    e.stopPropagation();
+    const name = b.dataset["nmcompare"] ?? "";
+    tip.innerHTML = compareHtml(name, say());
+    nameAsked(name, "compare");
+    const h = doc.defaultView?.innerHeight ?? 640, r = tip.getBoundingClientRect();
+    if (r.bottom > h - 8) tip.style.top = `${Math.max(8, h - r.height - 8)}px`;
+    if (closeTimer) clearTimeout(closeTimer); closeTimer = setTimeout(close, 20000);
+  }, true);
   root.addEventListener("pointerdown", (e) => {
+    if ((e.target as Element | null)?.closest?.(".ltip")) return;
     const span = (e.target as Element | null)?.closest?.(".lname-x") as HTMLElement | null;
     if (timer) clearTimeout(timer);
     if (!span) { close(); return; }
@@ -243,12 +273,14 @@ function nmWireTips(root: Element, say: () => Say | undefined): void {
 export function namesChoice(say: Say, o: { scope: "person" | "device"; act: string; canChange: boolean }): string {
   const current = o.scope === "device" ? (deviceMode() ?? "brand_first") : personMode();
   const one = (m: NamesMode, key: string): string => `<li><button class="choice${m === current ? " current" : ""}" data-act="${nmEsc(o.act)}:${m}" aria-pressed="${m === current}"${o.canChange ? "" : " disabled"}>${nmEsc(say(key))}<span class="names-eg" aria-hidden="true">${nmEsc(labelText("LynkStat", say, m))}</span></button></li>`;
-  return `<section class="names-choice" data-names="off"><h3>${nmEsc(say("nm_pref_title"))}</h3><ul class="choices">${one("brand_first", "nm_pref_brand")}${one("plain_first", "nm_pref_plain")}</ul><p class="sub">${nmEsc(say("nm_pref_note"))}</p>${o.scope === "device" && !o.canChange ? `<p class="sub">${nmEsc(say("nm_pref_device"))}</p>` : ""}</section>`;
+  const keep = o.scope === "person" ? `<label class="switch"><span>${nmEsc(say("nm_familiar"))}</span><input type="checkbox" data-act="${nmEsc(o.act)}:${keepBrackets() ? "fade" : "keep"}" ${keepBrackets() ? "checked" : ""}></label><p class="sub">${nmEsc(say("nm_familiar_note"))}</p>` : "";
+  return `<section class="names-choice" data-names="off"><h3>${nmEsc(say("nm_pref_title"))}</h3><ul class="choices">${one("brand_first", "nm_pref_brand")}${one("plain_first", "nm_pref_plain")}</ul><p class="sub">${nmEsc(say("nm_pref_note"))}</p>${o.scope === "device" && !o.canChange ? `<p class="sub">${nmEsc(say("nm_pref_device"))}</p>` : ""}${keep}</section>`;
 }
 /** Apply a namesChoice act ("<act>:<mode>"); returns true when it was one. */
 export function namesAct(a: string, prefix: string, scope: "person" | "device"): boolean {
   if (!a.startsWith(`${prefix}:`)) return false;
   const m = a.slice(prefix.length + 1);
+  if (m === "keep" || m === "fade") { setKeepBrackets(m === "keep"); return true; }
   if (m !== "brand_first" && m !== "plain_first") return false;
   if (scope === "device") setDeviceMode(m); else setPersonMode(m);
   return true;
@@ -258,3 +290,148 @@ export function namePair(name: string, say?: Say, mode: NamesMode = namesMode())
   const p = plainOf(name, say);
   return mode === "plain_first" ? { main: p, sub: name } : { main: name, sub: p };
 }
+
+
+// ---------------------------------------------------------------- the 15 improvements (owner, 21 November 2026, v0.81.0)
+/** The product mark a name shows beside it (brand icon id), or null (core/names.py icon_of). */
+export const iconOf = (name: string): string | null => NM_BY_NAME.get(name)?.icon ?? null;
+/** How to say a name aloud: "Link Stat" (voice menus, LynkAssist's voice, screen readers' note). */
+export const spokenOf = (name: string): string => NM_BY_NAME.get(name)?.spoken ?? name;
+/** A text ready to be read aloud: every name replaced by its spoken form (core/names.py speakable). */
+export const speakable = (text: string): string => text.replace(nmPattern(), (_m, n: string) => spokenOf(n));
+/** The name a retired name is now called, or null. */
+export function nowCalled(old: string): string | null { const x = NM_REG.now_called.find((y) => y.old === old); return x ? (NM_BY_ID.get(x.id)?.name ?? null) : null; }
+/** The registered name of a billing family, or null. */
+export function forFamily(family: string): string | null { return NM_REG.names.find((n) => n.family === family)?.name ?? null; }
+/** The other names a name could be confused with (core/names.py similar). */
+export function similarOf(name: string): string[] {
+  const id = NM_BY_NAME.get(name)?.id; const out: string[] = [];
+  for (const g of NM_REG.similar) if (id && g.names.includes(id)) for (const x of g.names) { const n = NM_BY_ID.get(x)?.name; if (x !== id && n && !out.includes(n)) out.push(n); }
+  return out;
+}
+/** Why a plain word is not plain enough ([] when it is). */
+export function checkPlain(word: string): string[] {
+  const c = NM_REG.plain_word_check;
+  const bad = (word.match(/(?<![A-Za-z])[A-Z]{2,}(?![A-Za-z])/g) ?? []).filter((x) => !c.allowed_short.includes(x));
+  for (const w of c.words_never) if (new RegExp(`(?<![A-Za-z])${w}(?![A-Za-z])`, "i").test(word)) bad.push(w);
+  if (word.includes("Lynk")) bad.push("Lynk");
+  return [...new Set(bad)].sort();
+}
+/** A message or document text with the first mention of each name followed by its plain word (core/names.py explain_text).
+ *  Pass the same seen set for a title and its lines so each name is explained once in the whole message. */
+export function explainText(text: string, say?: Say, mode: NamesMode = "brand_first", seen: Set<string> = new Set()): string {
+  return text.replace(nmPattern(), (_m, n: string) => { if (seen.has(n)) return n; seen.add(n); return labelText(n, say, mode); });
+}
+/** The lines printed paper ends with: one "LynkCheckout: Pay links & QR" line for each name it shows, wrapped to the width. */
+export function paperLines(lines: readonly string[], say?: Say, width = 32): string[] {
+  const out: string[] = [];
+  const names = [...new Set(lines.flatMap((l) => findNames(l).map((f) => f.name)))];
+  for (const n of names) {
+    let row = "";
+    for (const w of `${n}: ${plainOf(n, say)}`.split(" ")) {
+      if (row && row.length + 1 + w.length > width) { out.push(row); row = `  ${w}`; } else row = row ? `${row} ${w}` : w;
+    }
+    out.push(row);
+  }
+  return out;
+}
+
+// ---- how often a person has opened each service (on this device only, never sent), and the brackets stepping back
+const NM_SEEN = "lynkomni.names.seen.v1", NM_KEEP = "lynkomni.names.keep.v1", NM_WELCOMED = "lynkomni.names.welcomed.v1", NM_RENAMED = "lynkomni.names.renamed.v1";
+const nmMem: Record<string, string> = {};
+const nmGet = (k: string): string | null => { try { const v = typeof localStorage !== "undefined" ? localStorage.getItem(k) : null; return v ?? nmMem[k] ?? null; } catch { return nmMem[k] ?? null; } };
+const nmSet = (k: string, v: string): void => { nmMem[k] = v; try { if (typeof localStorage !== "undefined") localStorage.setItem(k, v); } catch { /* kept for this visit */ } };
+const nmJson = <T>(k: string, d: T): T => { try { return JSON.parse(nmGet(k) ?? "") as T; } catch { return d; } };
+// Read once and kept in memory: marking a screen asks for every name it shows, so storage is never read per name.
+let nmKeep: boolean | null = null, nmSeen: Record<string, number> | null = null;
+export function keepBrackets(): boolean { if (nmKeep === null) nmKeep = nmGet(NM_KEEP) === "1"; return nmKeep; }
+export function setKeepBrackets(on: boolean): void { nmKeep = on; nmSet(NM_KEEP, on ? "1" : "0"); }
+const nmSeenNow = (): Record<string, number> => (nmSeen ??= nmJson<Record<string, number>>(NM_SEEN, {}));
+export function timesOpened(name: string): number { const id = NM_BY_NAME.get(name)?.id; return id ? (nmSeenNow()[id] ?? 0) : 0; }
+/** Count one opening of a service (its overview), for the brackets that step back. */
+export function nameOpened(name: string): void {
+  const id = NM_BY_NAME.get(name)?.id; if (!id) return;
+  const seen = nmSeenNow(); seen[id] = (seen[id] ?? 0) + 1; nmSet(NM_SEEN, JSON.stringify(seen));
+}
+/** A name the person knows well: its brackets step back, its underline and note stay. */
+export function familiar(name: string): boolean { return !keepBrackets() && timesOpened(name) >= NM_REG.familiar_after; }
+
+// ---- which names confuse people: counted as totals by name, sent without a person, device, account or time
+const nmAsks: Record<string, number> = {};
+export function nameAsked(name: string, _place: "note" | "compare" | "what_is" | "search"): void { const id = NM_BY_NAME.get(name)?.id; if (id) nmAsks[id] = (nmAsks[id] ?? 0) + 1; }
+/** The totals since the last call, for the cloud (services/name_asks.py); clears them. */
+export function takeNameAsks(): Record<string, number> { const out = { ...nmAsks }; for (const k of Object.keys(nmAsks)) delete nmAsks[k]; return out; }
+
+// ---- Which one do I need?
+/** The names a name could be confused with, side by side with their plain words and what each does. */
+export function compareHtml(name: string, say?: Say, icon?: (id: string) => string): string {
+  const all = [name, ...similarOf(name)];
+  return `<section class="lcompare" data-names="off"><b>${nmEsc(nmSaid(say, "nm_compare_title") ?? "Which one do I need?")}</b><ul>${all.map((n) => `<li>${nameLabel(n, say, "label", namesMode(), icon)}<span>${nmEsc(aboutOf(n, say))}</span></li>`).join("")}</ul></section>`;
+}
+/** The comparison of one similar group by its id (search's "open:compare-<id>"). */
+export function compareGroupHtml(groupId: string, say?: Say, icon?: (id: string) => string): string {
+  const g = NM_REG.similar.find((x) => x.id === groupId); const first = g ? NM_BY_ID.get(g.names[0] ?? "")?.name : undefined;
+  return first ? compareHtml(first, say, icon) : "";
+}
+
+// ---- the first-time welcome card
+export function welcomed(name: string): boolean { return nmJson<string[]>(NM_WELCOMED, []).includes(NM_BY_NAME.get(name)?.id ?? ""); }
+export function setWelcomed(name: string): void { const id = NM_BY_NAME.get(name)?.id; if (!id) return; const w = nmJson<string[]>(NM_WELCOMED, []); if (!w.includes(id)) nmSet(NM_WELCOMED, JSON.stringify([...w, id])); }
+/** The card shown the first time a person opens a service: its name and plain word, what it does, its first three places to
+ *  start and Got it (act "<act>:<id>"). Nothing once it has been closed on this device. */
+export function welcomeCard(name: string, say: Say, steps: { label: string; act: string }[], o: { act: string; icon?: (id: string) => string }): string {
+  const e = NM_BY_NAME.get(name); if (!e || welcomed(name)) return "";
+  const title = nmFill(nmSaid(say, "nm_welcome_title") ?? "Welcome to {name}", { name: "\u0000" });
+  const [before, after] = title.split("\u0000");
+  return `<section class="card lwelcome" data-item="name_welcome" data-names="off"><h2>${nmEsc(before ?? "")}${nameLabel(name, say, "label", namesMode(), o.icon)}${nmEsc(after ?? "")}</h2><p>${nmEsc(aboutOf(name, say))}</p>${steps.length ? `<p class="sub">${nmEsc(nmSaid(say, "nm_welcome_start") ?? "Start here")}</p><ol class="lsteps">${steps.slice(0, 3).map((s) => `<li>${s.act ? `<button class="secondary" data-act="${nmEsc(s.act)}">${nmEsc(s.label)}</button>` : nmEsc(s.label)}</li>`).join("")}</ol>` : ""}<div class="actions"><button class="primary" data-act="${nmEsc(o.act)}:${e.id}">${nmEsc(nmSaid(say, "nm_got_it") ?? "Got it")}</button></div></section>`;
+}
+/** Apply a welcome act ("<prefix>:<id>"); returns true when it was one. */
+export function welcomeAct(a: string, prefix: string): boolean {
+  if (!a.startsWith(`${prefix}:`)) return false;
+  const n = NM_BY_ID.get(a.slice(prefix.length + 1))?.name; if (n) setWelcomed(n);
+  return !!n;
+}
+
+// ---- Names A to Z
+/** Every name with its plain word, what it does and the names it could be confused with, A to Z. */
+export function namesIndexHtml(say?: Say, icon?: (id: string) => string): string {
+  const all = [...NM_REG.names].sort((a, b) => a.name.localeCompare(b.name, "en"));
+  return `<section class="lindex" data-names="off"><h2>${nmEsc(nmSaid(say, "nm_az_title") ?? "Names A to Z")}</h2><p class="sub">${nmEsc(nmSaid(say, "nm_az_note") ?? "")}</p><ul class="list card">${all.map((n) => `<li id="name-${n.id}"><div class="rowbtn static"><span class="main"><span class="nm">${nameLabel(n.name, say, "label", namesMode(), icon)}</span>${aboutOf(n.name, say) ? `<span class="sub">${nmEsc(aboutOf(n.name, say))}</span>` : ""}</span></div></li>`).join("")}</ul></section>`;
+}
+
+// ---- "now called": a one-time notice for people whose account is older than a name change
+/** The notices of name changes made after the account's first day (YYYY-MM-DD) and not yet closed; act "<act>:<old>". */
+export function renameNotices(say: Say, accountSince: string, o: { act: string }): string {
+  const closed = nmJson<string[]>(NM_RENAMED, []);
+  return NM_REG.now_called.filter((x) => x.since > accountSince && !closed.includes(x.old)).map((x) => {
+    const n = NM_BY_ID.get(x.id)?.name ?? "";
+    return `<section class="card lrenamed" data-item="name_renamed" data-names="off" data-names-old="${nmEsc(x.old)}"><p>${nmEsc(nmFill(nmSaid(say, "nm_renamed") ?? "{old} has a new name: {name}. Nothing else changes.", { old: x.old, name: labelText(n, say, namesMode()) }))}</p><div class="actions"><button class="secondary" data-act="${nmEsc(o.act)}:${nmEsc(x.old)}">${nmEsc(nmSaid(say, "nm_got_it") ?? "Got it")}</button></div></section>`;
+  }).join("");
+}
+export function renameAct(a: string, prefix: string): boolean {
+  if (!a.startsWith(`${prefix}:`)) return false;
+  const old = a.slice(prefix.length + 1); if (!NM_REG.now_called.some((x) => x.old === old)) return false;
+  const c = nmJson<string[]>(NM_RENAMED, []); if (!c.includes(old)) nmSet(NM_RENAMED, JSON.stringify([...c, old]));
+  return true;
+}
+
+/** The Names A to Z sheet (search, help and LynkAssist open it): a comparison first when focus is "compare-<group>", then every
+ *  name A to Z; focus "name-<id>" is scrolled to by the page after drawing (focusName). */
+export function namesSheet(say: Say, focus: string, o: { close: string; icon?: (id: string) => string }): string {
+  const compare = focus.startsWith("compare-") ? compareGroupHtml(focus.slice(8), say, o.icon) : "";
+  return `<div class="sheet names-sheet" role="dialog" aria-label="${nmEsc(nmSaid(say, "nm_az_title") ?? "Names A to Z")}">${compare}${namesIndexHtml(say, o.icon)}<button class="secondary" data-act="${nmEsc(o.close)}">${nmEsc(nmSaid(say, "nm_got_it") ?? "Got it")}</button></div>`;
+}
+/** What a search, help or LynkAssist act asks the Names sheet to show ("" for the list, "name-<id>", "compare-<group>"), or null. */
+export function namesFocusOf(a: string): string | null {
+  if (a === "open:names-az" || a === "help:article:names") return "";
+  const m = /^open:((?:name|compare)-[a-z_]+)$/.exec(a); if (!m) return null;
+  const f = m[1] as string;
+  const id = f.startsWith("name-") ? f.slice(5) : null;
+  if (id && NM_BY_ID.get(id)) nameAsked(NM_BY_ID.get(id)?.name ?? "", "search");
+  return f;
+}
+/** Scroll the Names sheet to the name in focus, once it is drawn. */
+export function focusName(doc: Document, focus: string): void { if (focus.startsWith("name-")) doc.getElementById(focus)?.scrollIntoView({ block: "center" }); }
+/** The groups of names that sound alike, and the old names now called something else (for LynkAssist's pack). */
+export const similarGroups = (): readonly { id: string; names: string[] }[] => NM_REG.similar;
+export const renamedNames = (): readonly { old: string; id: string; since: string }[] => NM_REG.now_called;

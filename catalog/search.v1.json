@@ -61,8 +61,26 @@
    "id": "api_pages",
    "what": "every API with examples",
    "build_section": 11
+  },
+  {
+   "id": "names",
+   "what": "Names A to Z: every Lynk name with its plain word, what it does and the names it could be confused with, in every language",
+   "build_section": 5
   }
  ],
+ "names": {
+  "source": "catalog/names.v1.json",
+  "title": "{name}: {plain}",
+  "rule": "A product page's title, description, sharing card and app store text lead with its Lynk name and plain word in the page's language. Search words for each name are its name, its plain word and description in every language, its spoken form and its old names; a page about an old name never exists, the old address redirects to the new page.",
+  "search_words": [
+   "name",
+   "plain word (web/names, every language)",
+   "description (web/nameinfo, every language)",
+   "spoken form",
+   "old names (now_called)"
+  ],
+  "names_page": "https://lynkomni.com/names"
+ },
  "pages": [
   {
    "url": "https://lynkomni.com/",
@@ -114,7 +132,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkAcademy",
+   "plain_key": "nm_academy",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/accounting",
@@ -127,7 +148,12 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkAcc",
+   "plain_key": "nm_acc",
+   "old_names": [
+    "LynkLedger"
+   ]
   },
   {
    "url": "https://lynkomni.com/ads",
@@ -166,7 +192,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkAssist",
+   "plain_key": "nm_assist",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/analytics",
@@ -179,7 +208,12 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkStat",
+   "plain_key": "nm_stat",
+   "old_names": [
+    "LynkDash"
+   ]
   },
   {
    "url": "https://lynkomni.com/attendance",
@@ -192,7 +226,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkAttend",
+   "plain_key": "nm_attend",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/blog",
@@ -244,7 +281,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkChat",
+   "plain_key": "nm_chat",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/checkout",
@@ -257,7 +297,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkCheckout",
+   "plain_key": "nm_checkout",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/contact",
@@ -283,7 +326,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkCRM",
+   "plain_key": "nm_crm",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/developers",
@@ -296,7 +342,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkDev",
+   "plain_key": "nm_dev",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/download",
@@ -402,7 +451,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkGrow",
+   "plain_key": "nm_grow",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/guard",
@@ -415,7 +467,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkGuard",
+   "plain_key": "nm_guard",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/hardware",
@@ -481,7 +536,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkInv",
+   "plain_key": "nm_inv",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/legal/accessibility",
@@ -559,7 +617,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkMotion",
+   "plain_key": "nm_motion",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/mpay",
@@ -572,7 +633,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkMPay",
+   "plain_key": "nm_mpay",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/newsroom",
@@ -598,7 +662,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkOps",
+   "plain_key": "nm_ops",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/partners",
@@ -638,7 +705,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkPOS",
+   "plain_key": "nm_pos",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/pricing",
@@ -677,7 +747,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkQueue",
+   "plain_key": "nm_queue",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/recover",
@@ -690,7 +763,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkRecover",
+   "plain_key": "nm_recover",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/rewards",
@@ -703,7 +779,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkRewards",
+   "plain_key": "nm_rewards",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/roadmap",
@@ -838,7 +917,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkStock",
+   "plain_key": "nm_stock",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/suite",
@@ -851,7 +933,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkSuite",
+   "plain_key": "nm_suite",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/suppliers",
@@ -890,7 +975,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkSurvey",
+   "plain_key": "nm_survey",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/tracking",
@@ -957,7 +1045,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkVCard",
+   "plain_key": "nm_vcard",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/voting",
@@ -970,7 +1061,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkVote",
+   "plain_key": "nm_vote",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/hr",
@@ -983,7 +1077,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkHR",
+   "plain_key": "nm_hr",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/project",
@@ -996,7 +1093,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkProject",
+   "plain_key": "nm_project",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/school",
@@ -1009,7 +1109,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkSchool",
+   "plain_key": "nm_school",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/property",
@@ -1022,7 +1125,10 @@
    ],
    "langs": "all",
    "build_section": 5,
-   "status": "planned"
+   "status": "planned",
+   "name": "LynkProperty",
+   "plain_key": "nm_property",
+   "old_names": []
   },
   {
    "url": "https://lynkomni.com/files",
@@ -1032,6 +1138,22 @@
    "breadcrumb": [
     "/",
     "/files"
+   ],
+   "langs": "all",
+   "build_section": 5,
+   "status": "planned",
+   "name": "LynkFiles",
+   "plain_key": "nm_files",
+   "old_names": []
+  },
+  {
+   "url": "https://lynkomni.com/names",
+   "kind": "help",
+   "title_key": "seo_title_www-names",
+   "description_key": "seo_desc_www-names",
+   "breadcrumb": [
+    "/",
+    "/names"
    ],
    "langs": "all",
    "build_section": 5,

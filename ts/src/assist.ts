@@ -5,7 +5,7 @@
  *  Offline layer 1 is the signed knowledge pack (tools/assist/knowledge_pack.py), rebuilt here from the same words and checked
  *  entry by entry against the Python pack. The parts: "Fix this", the Ask box, the Confirm or Deny card and the receipt with Undo. */
 import { ASSIST, FAMILIES, KP_STATES, PRODUCT_PAGES } from "./parts.generated.js";
-import { allNames, plainOf } from "./names.js";
+import { allNames, plainOf, entryOf, nameById, similarGroups, renamedNames } from "./names.js";
 import { esc } from "./shell.js";
 import type { Icon, T } from "./shell.js";
 
@@ -70,6 +70,13 @@ export function buildPack(w: Record<string, string>): Entry[] {
       const plain = w[`nm_${n.id}`] || plainOf(n.name), about = w[`nma_${n.id}`] ?? "";
       out.push({ id: `what-${n.id}`, topic: "how_to", q: fillIn(w["nmi_what_q"], { name: n.name }), a: fillIn(w["nmi_what_a"] ?? "{name} ({plain}): {about}", { name: n.name, plain, about }), source: "catalog/names.v1.json" });
     }
+    // "Which one do I need?" for names that sound alike, and the old names that are now called something else
+    const said = (n: string): string => fillIn(w["nmi_what_a"] ?? "{name} ({plain}): {about}", { name: n, plain: w[`nm_${entryOf(n)?.id}`] || plainOf(n), about: w[`nma_${entryOf(n)?.id}`] ?? "" });
+    for (const g of similarGroups()) {
+      const ns = g.names.map((i) => nameById(i) ?? "");
+      out.push({ id: `compare-${g.id}`, topic: "how_to", q: `${w["nm_compare_title"] ?? ""} ${ns.join(", ")}`, a: ns.map(said).join(" "), source: "catalog/names.v1.json" });
+    }
+    for (const x of renamedNames()) out.push({ id: `renamed-${x.old}`, topic: "how_to", q: fillIn(w["nmi_what_q"], { name: x.old }), a: fillIn(w["nm_now_called"] ?? "{old} is now {name}.", { old: x.old, name: nameById(x.id) ?? "" }), source: "catalog/names.v1.json" });
   }
   for (const s of KP_STATES) out.push({ id: `state-${s}`, topic: "status_word", q: fillIn(w["kp_state_q"] ?? "", { state: w[`st_${s}`] ?? s }), a: w[`kp_state_${s}`] ?? "", source: "the five user states" });
   return out;

@@ -17,7 +17,7 @@ import type { Line, Priority, Sent } from "../../../ts/src/notify.js";
 import { askBox, buildPack, confirmCard, decide, fixThis, lookup, receipt } from "../../../ts/src/assist.js";
 import { breadcrumbBar, trail } from "../../../ts/src/breadcrumbs.js";
 import { idcnEntry, quickRating, rateUs, scoreScale, ticketCard } from "../../../ts/src/peopleparts.js";
-import { watchNames, namePair, nameEntries } from "../../../ts/src/names.js";
+import { watchNames, namePair, nameEntries, namesSheet, namesFocusOf, focusName } from "../../../ts/src/names.js";
 import { NAME_INFO_KEYS } from "../../../ts/src/nameinfo.js";
 const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 } as const;   // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
 
@@ -38,12 +38,12 @@ interface Ev { n: number; type: string; origin: "device" | "server"; payload: un
 const PACKS = DATA.i18n;
 const EN: Record<string, string> = PACKS.en?.texts ?? {};
 const TEST_LANGS = ["xx", "xx-rtl"];
-type Overlay = null | "launcher" | "account" | "globe" | "cmd" | "help" | "bell" | "sync" | "view" | "why";
+type Overlay = null | "launcher" | "account" | "globe" | "cmd" | "help" | "bell" | "sync" | "view" | "why" | "names";
 type Screen = "home" | "payment" | `state:${StateKind}`;
 
 const S = {
   size: "computer" as Viewport, lang: "en", theme: "light" as "light" | "dark", mode: "" as "" | "lite" | "sunlight", link: "good" as Link, country: "", realUser: false,
-  screen: "home" as Screen, overlay: null as Overlay, query: "", chartView: "chart" as "chart" | "table", showOriginal: false, username: "", cloud: null as UsernameStatus,
+  screen: "home" as Screen, overlay: null as Overlay, namesFocus: "", query: "", chartView: "chart" as "chart" | "table", showOriginal: false, username: "", cloud: null as UsernameStatus,
   notified: new Set<string>(), dataSaver: false, forced: false, pending: 0, lastSync: null as number | null, events: [] as Ev[], undo: new Undo(), archived: 0, voided: 0, seen: new Set<string>(),
   // BIZZ & DEVICE: the side of the screen and the interface this device uses (chosen automatically; Change view overrides it)
   side: "internal" as "internal" | "external", override: null as string | null, pendingView: undefined as string | null | undefined,
@@ -260,9 +260,10 @@ function overlay(): string {
         { id: "v2", kind: "setting", title: t("change_view"), act: "shell:view" }, { id: "v3", kind: "help", title: t("why_this_view"), act: "shell:why" },
         { id: "h1", kind: "help", title: t("help_article_1"), act: "shell:help" }, { id: "h2", kind: "help", title: t("help_article_2"), act: "shell:help" },
       ];
-      return wrap("", commandBar(S.query, search([...index, ...nameEntries(t)], S.query), t, icon));
+      return wrap("", commandBar(S.query, search([...index, { id: "names-az", kind: "help", title: t("nm_az_title"), act: "open:names-az" }, ...nameEntries(t)], S.query), t, icon));
     }
-    case "help": return wrap("end", helpPanel(t("tab_home"), [{ id: "1", title: t("help_article_1"), href: "/faq/pos/offline" }, { id: "2", title: t("help_article_2"), href: "/faq/mpay/waiting" }, { id: "3", title: t("switch_side_group"), href: "/faq/storefront/sides" }, { id: "4", title: t("why_this_view"), href: "/faq/devices/view" }], t, icon, assistPart()));
+    case "help": return wrap("end", helpPanel(t("tab_home"), [{ id: "1", title: t("help_article_1"), href: "/faq/pos/offline" }, { id: "2", title: t("help_article_2"), href: "/faq/mpay/waiting" }, { id: "3", title: t("switch_side_group"), href: "/faq/storefront/sides" }, { id: "4", title: t("why_this_view"), href: "/faq/devices/view" }, { id: "names", title: t("nm_az_title"), href: "/names" }], t, icon, assistPart()));
+    case "names": return wrap("", namesSheet(t, S.namesFocus, { close: "closeoverlay", icon }));
     case "bell": {
       const present = AREAS.filter((a) => S.lines.some((l) => (KIND_AREA[l.kind] ?? "") === a)).map((a) => ({ id: a, label: t(`ntf_area_${a}`) }));
       return wrap("end", bell(shown(), { filter: S.bellFilter, lastOpened: S.lastOpened, areas: present }, t, icon, when));
@@ -317,6 +318,8 @@ const plain = (s: string): string => s.replace(/[<>"'&]/g, "");
 /** A choice from a control is only ever one of the known values, never the control's own text. */
 const pick = <V extends string>(allowed: readonly V[], value: string, fallback: V): V => allowed.find((x) => x === value) ?? fallback;
 function act(a: string): void {
+  const nf = namesFocusOf(plain(a));   // Names A to Z and "Which one do I need?" from search and help
+  if (nf !== null) { S.namesFocus = nf; S.overlay = "names"; draw(); focusName(document, nf); return; }
   const [k, v = ""] = plain(a).split(/:(.*)/s);
   switch (k) {
     case "keep": return;

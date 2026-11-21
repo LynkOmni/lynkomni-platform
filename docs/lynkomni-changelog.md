@@ -2,6 +2,22 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.81.0 (2026-11-21)
+Plain words, the 15 improvements (owner, 21 November 2026):
+- Each name shows its product's own mark beside it, in search and in labels (catalog/names.v1.json icon). Names still waiting for their own mark in lynkomni-icons show their product's mark or none, never a wrong one (provider ledger later item product_marks_all).
+- The first time someone opens a service in the Business app, one card shows what it is, what it does and where to start; Got it closes it for good on that device.
+- Old names still lead to the new ones: searching "LynkDash" finds "LynkDash is now LynkStat.", and a person whose account is older than a change sees a one-time notice.
+- How to say each name ("Link P O S"): in each name's note, for voice menus on basic phones (core/channels.py aloud) and for LynkAssist.
+- Brackets step back once a name is known: after 10 openings of a service its brackets stop showing for that person (the underline and the note stay); a switch in the names setting keeps them.
+- "Which one do I need?": 13 groups of names that sound alike, side by side, from a name's note, search and LynkAssist.
+- Outside the app: emails, texts and push notifications explain the first Lynk name in each message; each line of LynkOmni's own bill carries its name and plain word; a printed receipt that shows a Lynk name ends with one line explaining it (fiscal documents keep the authority's layout).
+- Names A to Z: in the app from search and help, every name with its plain word and what it does; the public page lynkomni.com/names joined the address map and the search register for build section 5.
+- Search engines: the search register now carries, for every product page, its name, plain-word key and old names, and the rule that titles, descriptions, sharing cards and app store text lead with "{name}: {plain}" in every language; section 5's keyword register reads every name, plain word, description, spoken form and old name.
+- A check on every plain word in all 38 languages (no short forms in capitals except QR, AI, ID and their local forms, no Lynk name, no technical words).
+- Which names confuse people: devices count how often each note, answer or comparison is opened as totals by name only; LynkOmni staff see totals of 5 or more (services/name_asks.py; the staff screen comes in section 12).
+- The rule for every name widened in the universal register and CLAUDE.md: a new name comes with its plain word, description, spoken form, mark, similar group and now-called line in the same change. Developer pages (section 11) and staff tools (section 12) carry it in their own sections (build table 84.6).
+- New words in all 38 languages; page size budgets rise by the words (reasons in web/budgets.v1.json).
+
 ## v0.80.0 (2026-11-21)
 Section 4, step E4a (BOOKING UPDATE: LynkBooking's money and figures in the office services):
 - New rules core/booking.py and ts/src/booking.ts with shared test answers (python3 tools/booking_vectors.py): LynkOmni's commission from the locked rule (nothing on a business's own link, QR code, front desk or returning customers; appointments only on a new customer's first visit, capped; events a share plus a fixed amount per paid ticket and nothing on free events; tables per seated guest; partner supply still without a rate), the busy-time forecast (always an estimate), the empty-hours report and the no-show rate.
