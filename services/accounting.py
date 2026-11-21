@@ -72,7 +72,7 @@ class Books:
         rec = {"merchant": m, "by": by, "total": total_minor, "paid": 0, "account": account, "due": due, "order": order, "supplier": supplier,
                "dims": dims or {}, "state": "draft", "approvals": [], "match": None}
         s.bills.put(bid, rec)
-        s._emit(m, "bill.recorded", {"bill_id": bid, "total_minor": total_minor, "account": account, "source": source, "currency": _cur(s.p, m)})
+        s._emit(m, "bill.recorded", {"bill_id": bid, "total_minor": total_minor, "account": account, "source": source, "currency": _cur(s.p, m), "state": "draft"})
         return {"bill": bid, "state": "draft"}
 
     def submit_bill(s, m, bid):
@@ -81,6 +81,7 @@ class Books:
         if not nxt:
             raise ValueError(f"bill is {b['state']}")
         b["state"] = nxt if s.ent(m).get("approval_steps") else "approved"     # one person on Free: no approval steps to wait for
+        s._emit(m, "bill.submitted", {"bill_id": bid, "state": b["state"]})
         return b["state"]
 
     def approve_bill(s, m, bid, approver, role):
@@ -97,9 +98,9 @@ class Books:
         if any(a["who"] == approver for a in b["approvals"]):
             raise PermissionError("each step is a different person")
         b["approvals"] = b["approvals"] + [{"who": approver, "role": role}]
-        s._emit(m, "bill.approved", {"bill_id": bid, "step": step + 1, "by": role})
         if len(b["approvals"]) == len(need):
             b["state"] = B.bill_move("awaiting_approval", "approve")
+        s._emit(m, "bill.approved", {"bill_id": bid, "step": step + 1, "by": role, "state": b["state"]})
         return b["state"]
 
     def match_bill(s, m, bid, po, received, bill_lines, tolerance_bp=0):
@@ -121,7 +122,7 @@ class Books:
             raise ValueError("amount must be positive and not above what is owed")
         b["paid"] = b["paid"] + amount_minor
         b["state"] = B.bill_move(b["state"], "pay_all" if b["paid"] == b["total"] else "pay_part")
-        s._emit(m, "bill.paid", {"bill_id": bid, "amount_minor": amount_minor, "method": method, "ref": ref})
+        s._emit(m, "bill.paid", {"bill_id": bid, "amount_minor": amount_minor, "method": method, "ref": ref, "state": b["state"]})
         return {"state": b["state"], "left": b["total"] - b["paid"]}
 
     def payment_run(s, m, bill_ids, approver):
@@ -153,6 +154,7 @@ class Books:
             raise ValueError("a receipt claim needs a total")
         cid = uuid.uuid4().hex
         s.claims.put(cid, {"merchant": m, "by": by, "kind": kind, "total": total_minor, "account": account, "state": "submitted"})
+        s._emit(m, "expense_claim.submitted", {"claim_id": cid, "kind": kind, "total_minor": total_minor, "state": "submitted"})
         return {"claim": cid, "total": total_minor}
 
     def approve_claim(s, m, cid, approver, role):
@@ -162,7 +164,7 @@ class Books:
         if c["by"] == approver:
             raise PermissionError("nobody approves their own claim")
         c["state"] = "approved"
-        s._emit(m, "expense_claim.approved", {"claim_id": cid, "total_minor": c["total"], "account": c["account"], "by": role})
+        s._emit(m, "expense_claim.approved", {"claim_id": cid, "total_minor": c["total"], "account": c["account"], "by": role, "state": "approved"})
         return "approved"
 
     def repay_claim(s, m, cid, provider_confirmed=False):
@@ -172,7 +174,7 @@ class Books:
         if not provider_confirmed:
             raise PermissionError("a repayment counts only after the provider confirms it")
         c["state"] = "repaid"
-        s._emit(m, "expense_claim.repaid", {"claim_id": cid, "amount_minor": c["total"]})
+        s._emit(m, "expense_claim.repaid", {"claim_id": cid, "amount_minor": c["total"], "state": "repaid"})
         return "repaid"
 
     # ---- assets --------------------------------------------------------------------------------------------------------------

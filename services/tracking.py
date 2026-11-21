@@ -216,11 +216,16 @@ class PlatformTracking:
     runs order-updates and the owner's alerts from it), and records how a customer chose to hear (TrackingSubscribed)."""
     def __init__(s, platform):
         s.p, s.t = platform, Tracking()
+        s.from_service = {x["event"]: x for x in (s.t.reg.get("from_service_events") or {}).get("events", [])}
         platform.c.store.observers.append(s._observe)
     def _observe(s, subject, type_, payload, ts):
         if type_ in ("TrackingStepReached", "TrackingUpdateSent", "AutomationRan"):
             return
-        for ch in s.t.apply({"type": type_, "payload": payload, "at": ts}, owner=subject):
+        changes = s.t.apply({"type": type_, "payload": payload, "at": ts}, owner=subject)
+        m = s.from_service.get(type_)                     # a service that keeps its own state reports it (from_service_events)
+        if m and payload.get("state") and payload.get(m["record"]):
+            changes = changes + s.t.feed_state(m["kind"], payload[m["record"]], payload["state"], ts, owner=subject)
+        for ch in changes:
             s.p.cloud.signal(subject, "TrackingStepReached", {k: ch[k] for k in ("kind", "record", "step", "state", "customer")}, now=ch["at"])
     def subscribe(s, owner, kind, record, channel, lang="en", now=None):
         """The customer chose a way to hear about this record (the tracking page's "Tell me each step"); the contact itself stays in the PII vault."""

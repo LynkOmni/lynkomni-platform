@@ -822,7 +822,8 @@
      "done": {},
      "progress": {
       "4": [
-       "v0.55.0: 21 new tracker kinds registered with their build sections (bill to pay, expense claim, message delivery, signature request, approval, document request, verification, plan change, vote, dispute, held payment, pre-order, return, card request, journey, advert review, deposit return, report card, app review, purchase order, stock transfer), named in 38 languages; kinds whose identifier is chosen in their own section wait for it"
+       "v0.55.0: 21 new tracker kinds registered with their build sections (bill to pay, expense claim, message delivery, signature request, approval, document request, verification, plan change, vote, dispute, held payment, pre-order, return, card request, journey, advert review, deposit return, report card, app review, purchase order, stock transfer), named in 38 languages; kinds whose identifier is chosen in their own section wait for it",
+       "v0.83.0: the trackers planned for section 4 (bills to pay, expense claims, message delivery) and services that keep their own state feeding the tracker (from_service_events), which also fixes the invoice tracker"
       ]
      }
     },
@@ -1372,7 +1373,8 @@
      "done": {},
      "progress": {
       "4": [
-       "v0.52.0: the groundwork: the ads register (catalog/ads.v1.json) as an allow-list of places, the ads service following it (seen-only impressions, the device-hour cap, the merchant's hosting switch for customer-facing places, advertiser blocking, relevance ranking, Why am I seeing this?, Report this ad with a pause after three shops, totals hidden below 5, age-sensitive categories, no ads for children or households) and its tests"
+       "v0.52.0: the groundwork: the ads register (catalog/ads.v1.json) as an allow-list of places, the ads service following it (seen-only impressions, the device-hour cap, the merchant's hosting switch for customer-facing places, advertiser blocking, relevance ranking, Why am I seeing this?, Report this ad with a pause after three shops, totals hidden below 5, age-sensitive categories, no ads for children or households) and its tests",
+       "v0.83.0: ad earnings recorded once a month (AdEarningsRecorded) and posted as income in LynkAcc"
       ]
      }
     },

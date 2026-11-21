@@ -3140,6 +3140,24 @@
    "offline": false,
    "default": "off",
    "standing_instruction": false
+  },
+  {
+   "id": "ads-earnings-to-books",
+   "area": "Ads",
+   "build_section": 4,
+   "family": "staff",
+   "min_tier": "free",
+   "trigger": "schedule:month_end",
+   "action": "The month's ad share is recorded (AdEarningsRecorded) and posted to LynkAcc as other income, once for each month and currency; undo reverses the entry",
+   "level": "auto_undo",
+   "assist": null,
+   "touches": [
+    "books"
+   ],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false
   }
  ],
  "careful": [
