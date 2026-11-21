@@ -1863,6 +1863,91 @@
    ],
    "build_section": 4,
    "note": "LynkVote: an unusual pattern was flagged for the organiser and observers to look at; a flag is never an accusation"
+  },
+  {
+   "id": "please_sign",
+   "area": "files",
+   "trigger": "SignatureRequested",
+   "audience": "signer",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "open_to_sign"
+   ],
+   "build_section": 4,
+   "note": "LynkFiles: a document waits for your signature, with your own private signing link; no account needed"
+  },
+  {
+   "id": "signature_signed",
+   "area": "files",
+   "trigger": "DocumentSigned",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "low",
+   "channels": [
+    "bell"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_document"
+   ],
+   "build_section": 4,
+   "note": "LynkFiles: a signer signed; one line per request, updated as each signer signs"
+  },
+  {
+   "id": "signature_completed",
+   "area": "files",
+   "trigger": "SignatureCompleted",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_document"
+   ],
+   "build_section": 4,
+   "note": "LynkFiles: everyone signed; the signed document and its verification code are ready"
+  },
+  {
+   "id": "signature_declined",
+   "area": "files",
+   "trigger": "SignatureDeclined",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_document"
+   ],
+   "build_section": 4,
+   "note": "LynkFiles: a signer refused, with their reason; the request has stopped"
   }
  ]
 }

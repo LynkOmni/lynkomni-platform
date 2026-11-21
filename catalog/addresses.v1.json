@@ -464,7 +464,11 @@
   "/tickets",
   "/answers",
   "/panel",
-  "/votes"
+  "/votes",
+  "/documents",
+  "/work",
+  "/school",
+  "/home"
  ],
  "pay_paths": [
   "/r/{LORCP}",

@@ -506,7 +506,8 @@
      "done": {},
      "progress": {
       "4": [
-       "v0.49.0: the six billing families, tiers, limits, the full price list and the price lock; addresses, placements, API register entries, four first automations, product illustrations and the revenue streams; build sections 4B, 8B and 9B in the build order"
+       "v0.49.0: the six billing families, tiers, limits, the full price list and the price lock; addresses, placements, API register entries, four first automations, product illustrations and the revenue streams; build sections 4B, 8B and 9B in the build order",
+       "v0.78.0: the document engine of LynkFiles (keeping, versions, legal hold, share links, signing at three levels with a code anyone can check, the audit log) with contract version 13, the signature tracker, its messages, automations, sandbox partners and ledger entries; the person's addresses /documents, /work, /school and /home"
       ]
      }
     },

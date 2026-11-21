@@ -167,6 +167,19 @@
     "change an event type",
     "add a choice, a voter's identity beside a ballot or a key part"
    ]
+  },
+  {
+   "from_schema_version": 12,
+   "to_schema_version": 13,
+   "agreed": "2026-11-21 (build section 4, step E3: LynkFiles' document engine, SIX SERVICES UPDATE)",
+   "rule": "Version 13 only adds events (SignatureRequested, DocumentSigned, SignatureDeclined, SignatureCompleted, ShareLinkCreated, ShareLinkStopped, FileVersionAdded, LegalHoldChanged, FileDeleted) and one device command. A version 12 event reads as version 13 with schema_version raised; nothing else changes.",
+   "never": [
+    "rescale an amount",
+    "rewrite a stored event",
+    "change an identifier",
+    "change an event type",
+    "add a file's content or name, a signer's name or contact, a link's address or password, or a verification code"
+   ]
   }
  ]
 }

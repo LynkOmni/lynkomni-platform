@@ -3117,6 +3117,38 @@
    ]
   },
   {
+   "host": "account.lynkomni.com",
+   "path": "/documents",
+   "trail": [
+    "/",
+    "/documents"
+   ]
+  },
+  {
+   "host": "account.lynkomni.com",
+   "path": "/work",
+   "trail": [
+    "/",
+    "/work"
+   ]
+  },
+  {
+   "host": "account.lynkomni.com",
+   "path": "/school",
+   "trail": [
+    "/",
+    "/school"
+   ]
+  },
+  {
+   "host": "account.lynkomni.com",
+   "path": "/home",
+   "trail": [
+    "/",
+    "/home"
+   ]
+  },
+  {
    "host": "shop.lynkomni.com",
    "path": "/{username}",
    "trail": [

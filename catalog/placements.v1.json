@@ -1912,6 +1912,39 @@
     "sitemap"
    ],
    "section": 4
+  },
+  {
+   "id": "files_keeping",
+   "kind": "feature",
+   "what": "Files kept under the record they belong to, with every version, legal hold and an audit log, opening only for those the record's service allows",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "files_signing",
+   "kind": "feature",
+   "what": "Signing in order or together on any phone without an account, simple, identity-checked or qualified, with a code anyone can check",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "files_sharing",
+   "kind": "feature",
+   "what": "Share links with rights, an end date, an optional password and blocked downloads, stopped at once when needed",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
   }
  ]
 }
