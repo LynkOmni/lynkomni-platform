@@ -1,0 +1,20 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "sd",
+ "native": "سنڌي",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "ٻيهر ڪوشش ڪريو",
+  "emk_first_open": "هن ڊوائيس تي پهريون ڀيرو کولڻ (اڃا ڪجهه به محفوظ ناهي)",
+  "loading": "لوڊ ٿي رهيو آهي",
+  "ph_all_loaded": "بس ايترو ئي",
+  "ph_draft_kept": "توهان جو مسودو هن ڊوائيس تي محفوظ رکيو ويو.",
+  "ph_recent": "تازا",
+  "ph_slow": "هن ۾ معمول کان وڌيڪ وقت لڳي رهيو آهي.",
+  "ph_suggested": "تجويزون",
+  "ph_updating": "تازو ٿي رهيو آهي",
+  "ph_working": "ڪم ڪري رهيو آهي"
+ }
+}

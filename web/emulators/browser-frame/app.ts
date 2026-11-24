@@ -1,5 +1,6 @@
 /* The shared LynkOmni shell inside a browser window (build section 1). Every part comes from ts/src/shell.ts; this file only
  * holds the sample page, the emulator controls and the event log. Words come from strings.en.json and the language packs. */
+import { PAGE_RETRY, PageWait } from "../../../ts/src/placeholder.js";
 import { STATE_PICTURE, Undo, accountMenu, viewSheet, IFACE_NAME, chart, comingSoon, commandBar, connectionChip, deliverNow, esc, filterRegions, globeSheet, regionName, header, helpPanel, launcher, messageNote, messageText, navigation, notificationsPanel, route, search, state, syncSheet, translationBanner, translator, undoToast, usernameField } from "../../../ts/src/shell.js";
 import type { AddressMap, ChatLang, ChatMessage, Entry, Icon, Link, NavItem, Notice, Pic, StateKind, SyncInfo, T, UsernameStatus, Viewport } from "../../../ts/src/shell.js";
 import type { UserState } from "../../../ts/src/pos.js";
@@ -149,7 +150,7 @@ let kpack: { lang: string; entries: ReturnType<typeof buildPack> } | null = null
 const knowledge = () => { const lang = isTest() ? "en" : S.lang; if (!kpack || kpack.lang !== lang) kpack = { lang, entries: buildPack({ ...EN, ...(PACKS[lang]?.texts ?? {}) }) }; return kpack.entries; };
 function assistPart(): string {
   const online = S.link !== "offline" && !S.forced;
-  const ask = askBox({ query: S.ask, results: S.ask ? lookup(knowledge(), S.ask) : [], online, builtOn: new Intl.DateTimeFormat(locale(), { dateStyle: "medium" }).format(T0) }, t, icon);
+  const ask = askBox({ query: S.ask, results: S.ask ? lookup(knowledge(), S.ask) : [], suggest: knowledge().slice(0, 3).map((e) => e.q), online, builtOn: new Intl.DateTimeFormat(locale(), { dateStyle: "medium" }).format(T0) }, t, icon);
   const mute = decide("mute_notification_kind", { role: "owner", confirmed: S.assistStep === "done" });
   const step = S.assistStep === "card" ? confirmCard({ what: t("demo_assist_mute"), d: mute }, t, icon)
     : S.assistStep === "done" ? receipt({ what: t("demo_assist_mute"), undoable: !!mute.undo, secondsLeft: Math.max(0, 30 - Math.round((Date.now() - S.assistDoneAt) / 1000)) }, t, icon)
@@ -260,7 +261,7 @@ function overlay(): string {
         { id: "v2", kind: "setting", title: t("change_view"), act: "shell:view" }, { id: "v3", kind: "help", title: t("why_this_view"), act: "shell:why" },
         { id: "h1", kind: "help", title: t("help_article_1"), act: "shell:help" }, { id: "h2", kind: "help", title: t("help_article_2"), act: "shell:help" },
       ];
-      return wrap("", commandBar(S.query, search([...index, { id: "names-az", kind: "help", title: t("nm_az_title"), act: "open:names-az" }, ...nameEntries(t)], S.query), t, icon));
+      return wrap("", commandBar(S.query, search([...index, { id: "names-az", kind: "help", title: t("nm_az_title"), act: "open:names-az" }, ...nameEntries(t)], S.query), t, icon, true, index.filter((e) => e.kind === "action").slice(0, 3).map((e) => e.title)));
     }
     case "help": return wrap("end", helpPanel(t("tab_home"), [{ id: "1", title: t("help_article_1"), href: "/faq/pos/offline" }, { id: "2", title: t("help_article_2"), href: "/faq/mpay/waiting" }, { id: "3", title: t("switch_side_group"), href: "/faq/storefront/sides" }, { id: "4", title: t("why_this_view"), href: "/faq/devices/view" }, { id: "names", title: t("nm_az_title"), href: "/names" }], t, icon, assistPart()));
     case "names": return wrap("", namesSheet(t, S.namesFocus, { close: "closeoverlay", icon }));
@@ -278,6 +279,7 @@ const KIND_AREA: Record<string, string> = { new_sign_in: "security", recovery_st
 const sides = () => ({ current: S.side, workspaceWord: sideWord("internal"), storefrontWord: sideWord("external") });
 
 let lastOverlay: Overlay = null;
+const WAIT = new PageWait(), FIRST = { on: false };
 function draw(): void {
   if (lastOverlay === "bell" && S.overlay !== "bell" && S.overlay !== "why") S.lastOpened = Date.now();   // New becomes Earlier once the bell was seen
   if (S.overlay === "bell") S.lines.forEach((l) => { l.seen = true; });
@@ -299,13 +301,15 @@ function draw(): void {
   const head = header({ logo, nav: items, notifications: count(S.lines), signedIn: true, title: S.size === "computer" ? undefined : SHOP(), surface: "app", side: { label: sideWord(S.side), storefront: S.side === "external" } }, S.size, t, icon);
   const nav = navigation(items, S.size, t, icon);
   const toasts = S.undo.openToasts(Date.now()).map((u) => undoToast(u, Date.now(), t, icon)).join("");
-  d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main">${main()}<div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))}</div>${appFooter()}</main></div>${S.size === "phone" ? nav : ""}${overlay()}<div class="banners">${S.banners.map((nid) => { const l = shown().find((x) => x.nid === nid); return l ? banner(l, t, icon) : ""; }).join("")}</div><div class="toasts">${toasts}</div></div>`;
+  d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main"><div data-wait-area>${main()}</div><div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))}</div>${appFooter()}</main></div>${S.size === "phone" ? nav : ""}${overlay()}<div class="banners">${S.banners.map((nid) => { const l = shown().find((x) => x.nid === nid); return l ? banner(l, t, icon) : ""; }).join("")}</div><div class="toasts">${toasts}</div></div>`;
   $("#device").className = `device ${S.size}`;
   $("#device").style.width = `${W}px`;
   $("#tab").className = `tab ${S.theme}`;                       // the tab and its icon follow the page theme (brand surface "favicon")
   $("#url").textContent = `https://app.lynkomni.com${screenPath()}`;
   $("#tabTitle").textContent = `LynkOmni · ${SHOP()}`;
   document.querySelectorAll<HTMLElement>("#stateButtons button").forEach((b) => b.classList.toggle("on", b.dataset["state"] === S.screen));
+  if (WAIT.firstOpen !== FIRST.on) WAIT.setFirstOpen(FIRST.on);      // PLACEHOLDER UPDATE 83: the page waits well on a first open
+  WAIT.apply(d, { t, online: () => S.link !== "offline", redraw: draw, retryAct: PAGE_RETRY, retryClass: "ph-retry" });
 }
 function drawLog(): void {
   const box = $("#log");
@@ -419,6 +423,7 @@ function init(): void {
   bind("#cView", (el) => { S.testView = pick(["auto", ...VIEWS], el.value, S.testView); S.overlay = null; draw(); });
   bind("#cLink", (el) => { S.link = pick(["good", "weak", "offline"] as Link[], el.value, S.link); draw(); });
   bind("#cDark", (el) => { S.theme = el.checked ? "dark" : "light"; draw(); });
+  bind("#cFirst", (el) => { FIRST.on = el.checked; draw(); });
   bind("#cMode", (el) => { S.mode = pick(["", "lite", "sunlight"] as ("" | "lite" | "sunlight")[], el.value, S.mode); draw(); });
   bind("#cReal", (el) => { S.realUser = el.checked; draw(); });
   const country = $<HTMLSelectElement>("#cCountry");

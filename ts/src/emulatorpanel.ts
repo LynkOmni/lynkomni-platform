@@ -302,7 +302,7 @@ export function liveCard(P: EmulatorPanelDesk, L: PanelLook): string {
       <ul class="emp-ems">${ems || `<li class="sub">${esc(t("emp_no_emulators"))}</li>`}</ul>${actions}</li>`;
   };
   return `<div class="card emp-live" data-item="emp_live"><h2>${esc(t("emp_live_title"))} <span class="tag">${esc(t("emp_sandbox"))}</span></h2>
-    <label class="field"><span>${esc(t("emp_search"))}</span><input type="search" data-in="emp_filter" value="${esc(P.filter)}" autocomplete="off" placeholder="${esc(t("hint_search"))}" aria-label="${esc(t("emp_search"))}"></label>
+    <label class="field"><span>${esc(t("emp_search"))}</span><input type="search" data-in="emp_filter" data-recents="emp_filter" value="${esc(P.filter)}" autocomplete="off" placeholder="${esc(t("hint_search"))}" aria-label="${esc(t("emp_search"))}"></label>
     <ul class="list emp-list">${list.map(row).join("") || `<li class="sub">${esc(t("emp_none_found"))}</li>`}</ul><p class="sub">${esc(t("emp_branch_only"))}</p></div>`;
 }
 

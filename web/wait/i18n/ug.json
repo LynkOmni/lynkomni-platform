@@ -1,0 +1,20 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ug",
+ "native": "ئۇيغۇرچە",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "قايتا سىناڭ",
+  "emk_first_open": "بۇ ئۈسكۈنىدە تۇنجى ئېچىش (تېخى ھېچنېمە ساقلانمىدى)",
+  "loading": "يۈكلىنىۋاتىدۇ",
+  "ph_all_loaded": "ھەممىسى شۇ",
+  "ph_draft_kept": "لايىھىڭىز بۇ ئۈسكۈنىدە ساقلاندى.",
+  "ph_recent": "يېقىنقى",
+  "ph_slow": "بۇ ئادەتتىكىدىن ئۇزۇن ۋاقىت ئالىۋاتىدۇ.",
+  "ph_suggested": "تەۋسىيەلەر",
+  "ph_updating": "يېڭىلىنىۋاتىدۇ",
+  "ph_working": "ئىشلەۋاتىدۇ"
+ }
+}

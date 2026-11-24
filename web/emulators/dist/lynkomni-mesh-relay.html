@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-ko3AwHjjlOrjfsXqQTSN+8b7JdsnTa7V0pwIhlOblj8='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-T4WzGPQIoc2JFuo2bKCdS2UZ56DtVokxLL4dzkGMR9M='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkMesh Relay</title>
 <meta name="description" content="Interactive emulator of LynkMesh: a till with no connection hands a sealed batch of sales to a nearby LynkOmni device that has one. The sale shows sent, awaiting cloud until the cloud accepts it. LynkMesh carries data, never money, and takes no fee.">
@@ -804,6 +804,43 @@ body { margin: 0; min-height: 100vh; }
 .notifications .nline .ntext a { text-decoration: none; }
 .notifications h2 { margin: 0; }
 
+/* Loading skeletons and field hints (PLACEHOLDER UPDATE, blueprint section 83; ts/src/placeholder.ts). Tokens only. The
+   skeleton keeps the real content's size, so nothing jumps when it arrives; it stays still under reduced motion and in lite mode. */
+.skeleton { display: flex; flex-direction: column; gap: 10px; padding-block: 4px; }
+.skeleton .skel { display: block; border-radius: 6px; background: linear-gradient(90deg, var(--bg-subtle), var(--border-subtle), var(--bg-subtle)); background-size: 200% 100%; animation: ph-shimmer 1.4s linear infinite; }
+.skeleton .skel.title { inline-size: 50%; block-size: 22px; } .skeleton .skel.line { inline-size: 90%; block-size: 12px; } .skeleton .skel.line.short { inline-size: 55%; }
+.skeleton .skel.label { inline-size: 30%; block-size: 10px; } .skeleton .skel.input { inline-size: 100%; block-size: 44px; } .skeleton .skel.button { inline-size: 40%; block-size: 44px; border-radius: 22px; }
+.skeleton .skel.dot { inline-size: 36px; block-size: 36px; border-radius: 50%; flex: none; } .skeleton .skel.media { inline-size: 100%; aspect-ratio: 16 / 9; }
+.skeleton .skel.cell { flex: 1; block-size: 14px; } .skeleton .skel.figure { inline-size: 60%; block-size: 26px; } .skeleton .skel.bubble { inline-size: 70%; block-size: 40px; border-radius: 14px; }
+.skeleton .skel.axis { inline-size: 100%; block-size: 2px; order: 2; } .skeleton .skel.col { inline-size: 12%; block-size: 60px; }
+.skel-row, .skel-step, .skel-tr { display: flex; align-items: center; gap: 10px; } .skel-col { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.skel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.skel-card, .skel-tile, .skel-field, .skel-pair { display: flex; flex-direction: column; gap: 6px; }
+.skel-chart { display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; block-size: 80px; }
+.skel-msg:nth-child(even) { display: flex; justify-content: flex-end; }
+@keyframes ph-shimmer { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+@media (prefers-reduced-motion: reduce) { .skeleton .skel { animation: none; } }
+[data-lite] .skeleton .skel, [data-lite="on"] .skeleton .skel { animation: none; }
+::placeholder { color: var(--text-secondary); opacity: 1; }
+.ph-slow { margin: 8px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; color: var(--text-secondary); font-size: 13px; overflow-wrap: anywhere; }
+.ph-updating { display: inline-flex; align-items: center; min-height: 24px; padding: 2px 10px; margin: 0 0 6px; border-radius: 999px; background: var(--bg-surface); border: 1px solid var(--border-strong); color: var(--text-secondary); font: 600 12px var(--font-body); }
+.ph-end { margin: 8px 0 0; text-align: center; color: var(--text-secondary); font-size: 13px; }
+[aria-busy="true"]:is(button, a) { cursor: progress; opacity: 0.8; }
+.ph-retry { min-height: 44px; padding: 0 14px; margin-inline-start: 6px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 600 14px var(--font-body); cursor: pointer; }
+.ph-count { display: block; margin-block-start: 4px; text-align: end; color: var(--text-secondary); font: 500 12px var(--font-body); font-variant-numeric: tabular-nums; }
+.ph-why, .ph-draft { display: block; margin-block: 4px 0; color: var(--text-secondary); font-size: 13px; line-height: 1.4; }
+.ph-recents { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-block-start: 6px; }
+.ph-rlabel { flex-basis: 100%; color: var(--text-secondary); font: 600 12px var(--font-body); }
+.ph-chip { min-height: 44px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 500 14px var(--font-body); cursor: pointer; overflow-wrap: anywhere; }
+.ph-whyrow { list-style: none; }
+/* 83.7: skeletons follow every mode. Dark comes with the theme tokens; sunlight uses the strong border (high contrast, still);
+   Windows high contrast keeps each bar visible as an outline in the system's own text colour. */
+[data-mode="sunlight"] .skeleton .skel { background: var(--border-strong); animation: none; }
+@media (prefers-contrast: more) { .skeleton .skel { background: var(--border-strong); } }
+@media (forced-colors: active) { .skeleton .skel { background: none; border: 1px solid CanvasText; animation: none; } .ph-updating, .ph-chip { border-color: CanvasText; } }
+/* the content area that waits never changes the page's own layout */
+[data-wait-area] { display: contents; }
+
 /* LynkMesh relay: two original LynkOmni devices and the cloud. Every colour is a design token. */
 .mesh { width: 900px; display: grid; grid-template-columns: 300px 1fr 300px; grid-template-rows: auto auto; gap: 18px; align-items: center; }
 .mdev { padding: 12px; border-radius: 30px; background: linear-gradient(160deg, var(--device-shell-edge), var(--device-shell) 35%, var(--device-glass)); position: relative; }
@@ -867,6 +904,328 @@ function keepLinksInPage(doc) {
 }
 if (typeof document !== "undefined")
     keepLinksInPage(document);
+
+// ---- ts/src/placeholder.js
+const SHAPES = ["list", "cards", "record", "form", "table", "chart", "chat", "tracker", "tiles", "media", "text"];
+const TIMING = { SHOW_AFTER: 300, MIN_SHOW: 300, SLOW_AFTER: 8000 };
+function loadingPhase(elapsedMs, cached) {
+    if (cached)
+        return "nothing"; // cached content stays on screen; a quiet "Updating" chip may show
+    if (elapsedMs < TIMING.SHOW_AFTER)
+        return "nothing";
+    return elapsedMs < TIMING.SLOW_AFTER ? "skeleton" : "slow";
+}
+function holdFor(shownAtMs, nowMs) {
+    return Math.max(0, TIMING.MIN_SHOW - (nowMs - shownAtMs));
+}
+const phEsc = (s) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const phBar = (cls) => `<span class="skel ${cls}" aria-hidden="true"></span>`;
+function skeletonHtml(shape, loadingWord, count = 3) {
+    const n = Math.max(1, Math.min(count, 12));
+    const rep = (f) => Array.from({ length: n }, f).join("");
+    const body = {
+        list: () => rep(() => `<span class="skel-row">${phBar("dot")}<span class="skel-col">${phBar("line")}${phBar("line short")}</span></span>`),
+        cards: () => `<span class="skel-grid">${rep(() => `<span class="skel-card">${phBar("media")}${phBar("line")}${phBar("line short")}</span>`)}</span>`,
+        record: () => `${phBar("title")}${phBar("line short")}${rep(() => `<span class="skel-pair">${phBar("label")}${phBar("line")}</span>`)}`,
+        form: () => rep(() => `<span class="skel-field">${phBar("label")}${phBar("input")}</span>`) + phBar("button"),
+        table: () => `<span class="skel-table">${rep(() => `<span class="skel-tr">${phBar("cell")}${phBar("cell")}${phBar("cell")}</span>`)}</span>`,
+        chart: () => `<span class="skel-chart">${phBar("axis")}${rep(() => phBar("col"))}</span>`,
+        chat: () => rep(() => `<span class="skel-msg">${phBar("bubble")}</span>`),
+        tracker: () => `<span class="skel-steps">${rep(() => `<span class="skel-step">${phBar("dot")}${phBar("line short")}</span>`)}</span>`,
+        tiles: () => `<span class="skel-grid">${rep(() => `<span class="skel-tile">${phBar("label")}${phBar("figure")}</span>`)}</span>`,
+        media: () => phBar("media"),
+        text: () => rep(() => phBar("line")) + phBar("line short"),
+    };
+    return `<div class="skeleton skel-${shape}" role="status" aria-busy="true" aria-live="polite" aria-label="${phEsc(loadingWord)}" data-skeleton="${shape}">${body[shape]()}</div>`;
+}
+function updatingChip(updatingWord) {
+    return `<span class="ph-updating" role="status" aria-live="polite">${phEsc(updatingWord)}</span>`;
+}
+function listEnd(more, t) {
+    return more === "loading" ? skeletonHtml("list", t("loading")) : `<p class="ph-end" role="status">${phEsc(t("ph_all_loaded"))}</p>`;
+}
+function markBusy(btn, workingWord) {
+    if (btn.getAttribute("aria-busy") === "true")
+        return;
+    btn.style.minInlineSize = `${btn.getBoundingClientRect().width}px`;
+    btn.setAttribute("aria-busy", "true");
+    const own = btn.getAttribute("aria-label");
+    if (own !== null)
+        btn.dataset["label0"] = own;
+    btn.setAttribute("aria-label", `${own ?? btn.textContent?.trim() ?? ""} · ${workingWord}`);
+    if (btn instanceof HTMLButtonElement)
+        btn.disabled = true;
+}
+function clearBusy(btn) {
+    btn.removeAttribute("aria-busy");
+    btn.style.minInlineSize = "";
+    const own = btn.dataset["label0"];
+    if (own !== undefined) {
+        btn.setAttribute("aria-label", own);
+        delete btn.dataset["label0"];
+    }
+    else
+        btn.removeAttribute("aria-label");
+    if (btn instanceof HTMLButtonElement)
+        btn.disabled = false;
+}
+const BUSY_MAX_MS = 8000;
+function wireBusy(root, t) {
+    root.addEventListener("click", (e) => {
+        const b = e.target?.closest?.("[data-wait]");
+        if (!b || b.hasAttribute("disabled"))
+            return;
+        window.setTimeout(() => { if (b.isConnected && !b.hasAttribute("disabled"))
+            markBusy(b, t("ph_working")); }, 0);
+        if (typeof window !== "undefined")
+            window.setTimeout(() => { if (b.isConnected)
+                clearBusy(b); }, BUSY_MAX_MS);
+    });
+}
+const WAIT_AREA = ".body, .rbody, .qp-body, .sp-body, .home, .tiles12, .display-main, [data-wait-area]";
+const ARRIVES_MS = 900;
+const PAGE_RETRY = "ph:retry";
+const UPDATING_MS = 1200;
+const FIRST_OPEN_WORD = "emk_first_open";
+class PageWait {
+    firstOpen = false;
+    wired = false;
+    loaded = new Set();
+    loading = new Map();
+    wasOffline = false;
+    updatingUntil = 0;
+    setFirstOpen(on) { this.firstOpen = on; this.loaded.clear(); this.loading.clear(); }
+    retry() { this.loading.clear(); } // online it arrives, offline it waits again
+    apply(screen, o) { this.wire(o); this.waitFor(screen, o); this.refreshing(screen, o); enhanceFields(screen, o.t); }
+    wire(o) {
+        if (this.wired || typeof document === "undefined")
+            return;
+        this.wired = true;
+        document.addEventListener("click", (e) => {
+            const b = e.target?.closest?.("[data-act]");
+            if (b && b.dataset["act"] === o.retryAct && o.retryAct === PAGE_RETRY) {
+                e.stopImmediatePropagation();
+                this.retry();
+                o.redraw();
+            }
+        }, true);
+        if (o.retryAct === PAGE_RETRY)
+            wireBusy(document, o.t); // the kit wires its own busy buttons
+    }
+    waitFor(screen, o) {
+        if (!this.firstOpen)
+            return;
+        const area = screen.querySelector(o.area ?? WAIT_AREA);
+        if (!area)
+            return;
+        const key = (screen.querySelector("h1, h2")?.textContent ?? "") + "|" + (area.className || "main");
+        if (this.loaded.has(key))
+            return;
+        const now = Date.now(), w = this.loading.get(key) ?? { start: now, shown: null };
+        this.loading.set(key, w);
+        const elapsed = now - w.start, online = o.online();
+        if (online && elapsed >= ARRIVES_MS && holdFor(w.shown ?? now, now) === 0) {
+            this.loaded.add(key);
+            this.loading.delete(key);
+            return;
+        }
+        const phase = loadingPhase(elapsed, false);
+        const shape = area.dataset["shape"] ?? "list";
+        if (phase === "nothing")
+            area.style.visibility = "hidden"; // nothing new before 300 ms, and nothing jumps
+        else {
+            if (w.shown === null)
+                w.shown = now;
+            area.innerHTML = skeletonHtml(shape, o.t("loading")) + (phase === "slow"
+                ? `<p class="ph-slow" role="status">${phEsc(o.t("ph_slow"))} <button type="button" class="${phEsc(o.retryClass)}" data-act="${phEsc(o.retryAct)}">${phEsc(o.t("action_retry"))}</button></p>` : "");
+        }
+        const next = phase === "nothing" ? TIMING.SHOW_AFTER - elapsed : online ? Math.max(ARRIVES_MS - elapsed, holdFor(w.shown ?? now, now), 50) : TIMING.SLOW_AFTER - elapsed;
+        if (next > 0 && typeof window !== "undefined")
+            window.setTimeout(() => o.redraw(), next + 5);
+    }
+    refreshing(screen, o) {
+        const online = o.online(), now = Date.now();
+        if (!online) {
+            this.wasOffline = true;
+            return;
+        }
+        if (this.wasOffline) {
+            this.wasOffline = false;
+            this.updatingUntil = now + UPDATING_MS;
+            if (typeof window !== "undefined")
+                window.setTimeout(() => o.redraw(), UPDATING_MS + 10);
+        }
+        if (now >= this.updatingUntil)
+            return;
+        const area = screen.querySelector(o.area ?? WAIT_AREA) ?? screen;
+        area.insertAdjacentHTML("afterbegin", updatingChip(o.t("ph_updating")));
+    }
+}
+const PH_SENSITIVE = 'input[type="password"], [data-sensitive], [autocomplete="one-time-code"]';
+const phStore = () => { try {
+    return typeof localStorage === "undefined" ? null : localStorage;
+}
+catch {
+    return null;
+} };
+const phReadList = (k) => { try {
+    const v = JSON.parse(phStore()?.getItem(k) ?? "[]");
+    return Array.isArray(v) ? v.filter((x) => typeof x === "string").slice(0, RECENT_MAX) : [];
+}
+catch {
+    return [];
+} };
+const phWrite = (k, v) => { try {
+    const s = phStore();
+    if (!s)
+        return;
+    if (v === null)
+        s.removeItem(k);
+    else
+        s.setItem(k, v);
+}
+catch { /* storage full or blocked: typing goes on */ } };
+const RECENT_MAX = 5;
+const phFormats = new Map();
+const phNum = (n, el) => {
+    const lang = el.closest("[lang]")?.getAttribute("lang") ?? "";
+    try {
+        let f = phFormats.get(lang);
+        if (!f) {
+            f = new Intl.NumberFormat(lang || undefined);
+            phFormats.set(lang, f);
+        }
+        return f.format(n);
+    }
+    catch {
+        return String(n);
+    }
+};
+const phRestored = new Set();
+let phFieldsWired = false;
+function counterText(len, max, el) { return `${phNum(len, el)} / ${phNum(max, el)}`; }
+function enhanceFields(root, t) {
+    if (typeof document === "undefined")
+        return;
+    phWireFields(t);
+    const fields = root.getElementsByTagName("input").length + root.getElementsByTagName("textarea").length + root.getElementsByTagName("select").length;
+    if (!fields)
+        return;
+    for (const el of root.querySelectorAll("input, textarea, select")) {
+        if (el.hasAttribute("maxlength") && !(el instanceof HTMLSelectElement) && !el.matches(PH_SENSITIVE) && !el.nextElementSibling?.classList.contains("ph-count")) {
+            const max = Number(el.getAttribute("maxlength"));
+            if (max > 0)
+                el.insertAdjacentHTML("afterend", `<span class="ph-count" aria-hidden="true">${phEsc(counterText(el.value.length, max, el))}</span>`);
+        }
+        if (el.disabled && el.dataset["why"])
+            phWhy(root, el, t);
+        if (el.dataset["draft"] && !(el instanceof HTMLSelectElement))
+            phDraft(el, t);
+        if (el instanceof HTMLInputElement && el.type === "search" && el.dataset["recents"] !== undefined)
+            phShowRecents(el, t);
+    }
+}
+function phWhy(root, el, t) {
+    const why = el.dataset["why"] ?? "";
+    if (why === "shown" || !why)
+        return; // "shown": the reason already stands beside it
+    const group = el.closest(".card, section, fieldset, ul, form") ?? root; // one reason per card, shared by its switches
+    const same = [...group.querySelectorAll(".ph-why")].find((w) => w.dataset["why"] === why);
+    if (same) {
+        el.setAttribute("aria-describedby", same.id);
+        return;
+    }
+    const id = `why-${Math.random().toString(36).slice(2, 9)}`;
+    const at = el.closest("li") ?? el.closest("label") ?? el;
+    at.insertAdjacentHTML("afterend", at.tagName === "LI" ? `<li class="ph-whyrow"><span class="ph-why" id="${id}" data-why="${phEsc(why)}">${phEsc(t(why))}</span></li>` : `<span class="ph-why" id="${id}" data-why="${phEsc(why)}">${phEsc(t(why))}</span>`);
+    el.setAttribute("aria-describedby", id);
+}
+function phDraft(el, t) {
+    const k = `lynk.draft.${el.dataset["draft"]}`;
+    if (el.value)
+        return;
+    if (phRestored.has(k)) {
+        phWrite(k, null);
+        return;
+    } // emptied by the screen after the first open: sent or thrown away
+    phRestored.add(k);
+    let kept = "";
+    try {
+        kept = phStore()?.getItem(k) ?? "";
+    }
+    catch {
+        kept = "";
+    }
+    if (!kept)
+        return;
+    el.value = kept;
+    el.dispatchEvent(new Event("input", { bubbles: true })); // the screen's own state takes the kept words
+    el.insertAdjacentHTML("afterend", `<span class="ph-draft" role="status">${phEsc(t("ph_draft_kept"))}</span>`);
+}
+const phAnchor = (el) => el.closest(".cmd-input, .pk-search, .askbox .cmd-input") ?? el;
+function phShowRecents(el, t) {
+    const at = phAnchor(el), next = at.nextElementSibling;
+    if (next?.classList.contains("ph-recents"))
+        next.remove();
+    if (el.value || document.activeElement !== el)
+        return;
+    const recent = phReadList(`lynk.recent.${el.dataset["recents"]}`);
+    let given = [];
+    try {
+        given = JSON.parse(el.dataset["suggest"] ?? "[]");
+    }
+    catch {
+        given = [];
+    }
+    const suggest = (Array.isArray(given) ? given : []).filter((s) => typeof s === "string" && !!s && !recent.includes(s));
+    if (!recent.length && !suggest.length)
+        return;
+    const chip = (s) => `<button type="button" class="ph-chip" data-fill="${phEsc(s)}">${phEsc(s)}</button>`;
+    at.insertAdjacentHTML("afterend", `<div class="ph-recents">${recent.length ? `<span class="ph-rlabel">${phEsc(t("ph_recent"))}</span>${recent.map(chip).join("")}` : ""}${suggest.length ? `<span class="ph-rlabel">${phEsc(t("ph_suggested"))}</span>${suggest.slice(0, 4).map(chip).join("")}` : ""}</div>`);
+}
+function rememberSearch(scope, query) {
+    const q = query.trim();
+    if (!q)
+        return;
+    const k = `lynk.recent.${scope}`;
+    phWrite(k, JSON.stringify([q, ...phReadList(k).filter((x) => x !== q)].slice(0, RECENT_MAX)));
+}
+function phWireFields(t) {
+    if (phFieldsWired)
+        return;
+    phFieldsWired = true;
+    document.addEventListener("input", (e) => {
+        const el = e.target;
+        if (!el?.matches?.("input, textarea"))
+            return;
+        const c = el.nextElementSibling;
+        if (c?.classList.contains("ph-count"))
+            c.textContent = counterText(el.value.length, Number(el.getAttribute("maxlength")), el);
+        if (el.dataset["draft"] && !el.matches(PH_SENSITIVE))
+            phWrite(`lynk.draft.${el.dataset["draft"]}`, draftSafe(el.value) || null);
+        if (el.matches('input[type="search"][data-recents]'))
+            phShowRecents(el, t);
+    });
+    document.addEventListener("focusin", (e) => { const el = e.target; if (el?.matches?.('input[type="search"][data-recents]'))
+        phShowRecents(el, t); });
+    document.addEventListener("keydown", (e) => { const el = e.target; if (e.key === "Enter" && el?.matches?.('input[type="search"][data-recents]'))
+        rememberSearch(el.dataset["recents"] ?? "", el.value); });
+    document.addEventListener("click", (e) => {
+        const b = e.target?.closest?.(".ph-recents [data-fill]");
+        if (!b)
+            return;
+        const prev = b.closest(".ph-recents")?.previousElementSibling;
+        const box = prev?.matches('input[type="search"]') ? prev : prev?.querySelector('input[type="search"]') ?? null;
+        if (!box)
+            return;
+        box.value = b.dataset["fill"] ?? "";
+        rememberSearch(box.dataset["recents"] ?? "", box.value);
+        box.dispatchEvent(new Event("input", { bubbles: true }));
+        box.focus();
+    });
+}
+function draftSafe(v) { return v.replace(/\d(?:[ -]?\d){7,}/g, (m) => "•".repeat(Math.min(m.replace(/\D/g, "").length, 19))); }
+function clearDraft(key) { phWrite(`lynk.draft.${key}`, null); }
 
 // ---- ts/src/brand.js
 const BRAND_THEMES = ["light", "dark", "contrast-light", "contrast-dark"];
@@ -2058,6 +2417,7 @@ const chargedWhen = (outcome) => outcome === "reached"; // each shop pays the su
 
 
 
+
 const TEST_LANGS = ["xx", "xx-rtl"]; // long-text test and right-to-left test: never shown to real users
 const PSEUDO = { a: "à", c: "ç", e: "é", i: "î", n: "ñ", o: "ö", s: "š", u: "ü", y: "ý" };
 const pseudo = (s) => `[${s.split(/(\{\w+\})/).map((part) => (part.startsWith("{") ? part : part.replace(/[aceinosuy]/g, (c) => PSEUDO[c] ?? c))).join("")} ${"~".repeat(Math.max(1, Math.round(s.length * 0.4)))}]`;
@@ -2069,12 +2429,14 @@ const newId = () => uuid7(Date.now(), randomBytes);
 function randomBelow(n) {
     if (!Number.isInteger(n) || n < 1 || n > 2 ** 32)
         throw new RangeError("randomBelow needs a whole number from 1 to 2^32");
-    const limit = 2 ** 32 - (2 ** 32 % n);
+    const bits = n === 1 ? 0 : 32 - Math.clz32(n - 1);
     for (;;) {
         const b = randomBytes(4);
-        const v = ((b[0] << 24) >>> 0) + (b[1] << 16) + (b[2] << 8) + b[3];
-        if (v < limit)
-            return v % n;
+        const v = (((b[0] << 24) | (b[1] << 16) | (b[2] << 8) | b[3]) >>> (32 - bits)) >>> 0;
+        if (bits === 0)
+            return 0;
+        if (v < n)
+            return v;
     }
 }
 function publicId(code) {
@@ -2218,6 +2580,8 @@ function panelHtml(controls, st, words, country, extra = {}) {
             parts.push(box("dark", st.dark, t("dark_screen")));
         if (c === "lang")
             parts.push(sel("lang", t("language"), words.options(t("long_text_test"), t("rtl_test")).replace(`value="${esc(st.lang)}"`, `value="${esc(st.lang)}" selected`)));
+        if (c === "firstopen")
+            parts.push(box("firstopen", !!st.firstOpen, t(FIRST_OPEN_WORD))); // PLACEHOLDER UPDATE 83
         if (c === "turn")
             parts.push(row(`<span>${esc(t("screen_turn"))}</span> <select data-ctl="turn" id="cSize">${["upright", "sideways"].map((x) => `<option value="${x}" ${x === (st.turn ?? "upright") ? "selected" : ""}>${esc(x === "upright" ? t("turn_upright") : t("turn_sideways"))}</option>`).join("")}</select>`, true));
     }
@@ -2244,6 +2608,8 @@ function panelChange(el, st, data, extra = {}) {
         st.country = pick(data.packOrder, v, st.country);
     else if (ctl === "turn")
         st.turn = v === "sideways" ? "sideways" : "upright";
+    else if (ctl === "firstopen")
+        st.firstOpen = on;
     else if (ctl === "lang") {
         st.lang = v in data.i18n || v === "xx" || v === "xx-rtl" ? v : "en";
         return true;
@@ -2266,6 +2632,11 @@ function appMainFooter(words, country, data) {
         pack: { code: p.code, name: p.name, currency: p.currency, tz: p.tz, languages: [], providers: p.providers, card_networks: p.card_networks, wallets: p.wallets } }), esc, (id) => data.icons[id] ?? "", data.brand.places["web-footer"] ? { light: markFor(data.brand.places, "web-footer", false, 180).svg, dark: markFor(data.brand.places, "web-footer", true, 180).svg } : undefined);
 }
 const appShortFooter = (country) => shortFooterHtml(new Date(), country.pack().tz);
+function pageWaiting(w, st, screen, t, redraw, area) {
+    if (w.firstOpen !== !!st.firstOpen)
+        w.setFirstOpen(!!st.firstOpen);
+    w.apply(screen, { t, online: () => st.online, redraw, retryAct: PAGE_RETRY, retryClass: "ph-retry", ...(area ? { area } : {}) });
+}
 
 // ---- ts/src/usernames.generated.js+ts/src/usernames.js+ts/src/shell.js (as SH)
 const SH = (() => {
@@ -2394,7 +2765,7 @@ function viewSheet(o, t, icon) {
     return `<div class="view-sheet" role="dialog" aria-label="${esc(t("change_view"))}"><h2>${esc(t("change_view"))}</h2><p class="now">${esc(t("view_now", { name: name(o.current) }))}</p>${why}${lock}<ul class="choices">${opts}</ul></div>`;
 }
 function globeSheet(languages, regions, current, t) {
-    const search = regions.length > 12 ? `<input type="search" class="region-search" data-filter="regions" placeholder="${esc(t("search_country"))}" aria-label="${esc(t("search_country"))}" autocomplete="off">` : "";
+    const search = regions.length > 12 ? `<input type="search" class="region-search" data-filter="regions" data-recents="region" placeholder="${esc(t("search_country"))}" aria-label="${esc(t("search_country"))}" autocomplete="off">` : "";
     return `<div class="globe-sheet" role="dialog" aria-label="${esc(t("language_region"))}"><h2>${esc(t("language"))}</h2><ul class="choices">${languages.map((l) => `<li><button class="choice${l.code === current.language ? " current" : ""}" lang="${esc(l.code)}" dir="${l.dir}" data-act="lang:${esc(l.code)}"${l.code === current.language ? ' aria-current="true"' : ""}>${esc(l.native)}</button></li>`).join("")}</ul><h2>${esc(t("region"))}</h2>${search}<ul class="choices regions" id="regionList">${regions.map((r) => `<li data-name="${esc(r.name.toLowerCase())}"><button class="choice${r.code === current.region ? " current" : ""}" data-act="region:${esc(r.code)}">${esc(r.name)}</button></li>`).join("")}</ul><p class="note">${esc(t("presentation_only"))}</p></div>`;
 }
 function regionName(code, language, fallback) {
@@ -2447,10 +2818,10 @@ function search(index, query, limit = 8) {
     };
     return index.map((e) => [score(e), e]).filter(([s]) => s > 0).sort((a, b) => b[0] - a[0]).slice(0, limit).map(([, e]) => e);
 }
-function commandBar(query, results, t, icon, assist = true) {
+function commandBar(query, results, t, icon, assist = true, suggest = []) {
     const kindIcon = { product: "ui-cart", customer: "ui-user", order: "ui-receipt", report: "ui-chart", setting: "ui-settings", help: "ui-info", action: "ui-bolt" };
     const li = results.map((r, i) => `<li role="option" id="cmd-${i}"><button class="result" data-act="${esc(r.act ?? (r.href ? `go:${r.href}` : `open:${r.id}`))}">${icon(r.icon ?? kindIcon[r.kind])}<span class="rt">${esc(r.title)}</span>${r.subtitle ? `<span class="rs">${esc(r.subtitle)}</span>` : ""}<span class="rk">${esc(t(`kind_${r.kind}`))}</span></button></li>`).join("");
-    return `<div class="command-bar" role="dialog" aria-label="${esc(t("find_or_do"))}"><div class="cmd-input">${icon("ui-search")}<input id="cmdIn" type="search" value="${esc(query)}" placeholder="${esc(t("find_or_do_hint"))}" aria-label="${esc(t("find_or_do"))}" role="combobox" aria-expanded="true" aria-controls="cmdList" autocomplete="off"><button class="hbtn" data-act="shell:voice" aria-label="${esc(t("voice_input"))}">${icon("ui-mic")}</button></div><ul id="cmdList" class="results" role="listbox">${li || `<li class="none">${esc(t("no_results"))}</li>`}</ul>${assist ? `<button class="assist-hand" data-act="assist:ask">${icon("product-assist")}<span>${esc(t("ask_assist", { q: query }))}</span><span class="suggested">${esc(t("suggested_by_assist"))}</span></button>` : ""}<p class="kbd">${esc(t("shortcut_hint"))}</p></div>`;
+    return `<div class="command-bar" role="dialog" aria-label="${esc(t("find_or_do"))}"><div class="cmd-input">${icon("ui-search")}<input id="cmdIn" type="search" data-recents="find" data-suggest="${esc(JSON.stringify(suggest))}" value="${esc(query)}" placeholder="${esc(t("find_or_do_hint"))}" aria-label="${esc(t("find_or_do"))}" role="combobox" aria-expanded="true" aria-controls="cmdList" autocomplete="off"><button class="hbtn" data-act="shell:voice" aria-label="${esc(t("voice_input"))}">${icon("ui-mic")}</button></div><ul id="cmdList" class="results" role="listbox">${li || `<li class="none">${esc(t("no_results"))}</li>`}</ul>${assist ? `<button class="assist-hand" data-act="assist:ask">${icon("product-assist")}<span>${esc(t("ask_assist", { q: query }))}</span><span class="suggested">${esc(t("suggested_by_assist"))}</span></button>` : ""}<p class="kbd">${esc(t("shortcut_hint"))}</p></div>`;
 }
 function helpPanel(screen, articles, t, icon, assist = "") {
     return `<aside class="help-panel" role="dialog" aria-label="${esc(t("help"))}"><h2>${esc(t("help_for_screen", { screen }))}</h2>${assist}<ul class="articles">${articles.map((a) => `<li><a href="${esc(a.href)}" data-act="help:article:${esc(a.id)}">${icon("ui-doc")}<span>${esc(a.title)}</span></a></li>`).join("") || `<li class="none">${esc(t("no_articles"))}</li>`}</ul><div class="help-steps"><button class="secondary" data-act="assist:ask">${icon("product-assist")}<span>${esc(t("ask_assist_short"))}</span></button><button class="secondary" data-act="support:chat">${icon("product-chat")}<span>${esc(t("chat_with_person"))}</span></button><button class="secondary" data-act="support:case">${icon("ui-receipt")}<span>${esc(t("open_case"))}</span></button></div><p class="note">${esc(t("never_blocks_person"))}</p></aside>`;
@@ -2488,10 +2859,10 @@ function comingSoon(service, t, pic, notified) {
 }
 function connectionChip(s, t, icon) {
     const word = s.link === "offline" || s.forcedOffline ? t("offline") : s.link === "weak" ? t("weak_link") : t("online");
-    return `<button class="netchip ${s.link}${s.forcedOffline ? " forced" : ""}" data-act="shell:sync" aria-label="${esc(word)}${s.pending ? `, ${esc(t("waiting_send", { n: s.pending }))}` : ""}">${icon(s.link === "offline" || s.forcedOffline ? "ui-offline" : "ui-sync")}<span>${esc(word)}</span>${s.pending ? `<span class="badge">${s.pending}</span>` : ""}</button>`;
+    return `<button class="netchip ${s.link}${s.forcedOffline ? " forced" : ""}" data-act="shell:sync" data-wait aria-label="${esc(word)}${s.pending ? `, ${esc(t("waiting_send", { n: s.pending }))}` : ""}">${icon(s.link === "offline" || s.forcedOffline ? "ui-offline" : "ui-sync")}<span>${esc(word)}</span>${s.pending ? `<span class="badge">${s.pending}</span>` : ""}</button>`;
 }
 function syncSheet(s, t, icon, clock) {
-    return `<div class="sheet sync" role="dialog" aria-label="${esc(t("sync"))}"><h2>${esc(t("sync"))}</h2><dl><dt>${esc(t("waiting_send_label"))}</dt><dd>${s.pending ? esc(t("waiting_send", { n: s.pending })) : esc(t("all_sent"))}</dd><dt>${esc(t("last_sync"))}</dt><dd>${s.lastSync ? esc(clock(s.lastSync)) : esc(t("not_yet"))}</dd></dl><p class="note">${esc(s.link === "weak" ? t("weak_note") : t("needs_net"))}</p><label class="switch"><input type="checkbox" data-act="toggle:datasaver"${s.dataSaver ? " checked" : ""}><span>${esc(t("data_saver"))}</span></label><label class="switch"><input type="checkbox" data-act="toggle:forced"${s.forcedOffline ? " checked" : ""}><span>${esc(t("stay_offline"))}</span></label><button class="primary" data-act="sync:now"${s.link === "offline" || s.forcedOffline ? " disabled" : ""}>${icon("ui-sync")}<span>${esc(t("sync_now"))}</span></button><button class="secondary" data-act="closesheet">${esc(t("close"))}</button></div>`;
+    return `<div class="sheet sync" role="dialog" aria-label="${esc(t("sync"))}"><h2>${esc(t("sync"))}</h2><dl><dt>${esc(t("waiting_send_label"))}</dt><dd>${s.pending ? esc(t("waiting_send", { n: s.pending })) : esc(t("all_sent"))}</dd><dt>${esc(t("last_sync"))}</dt><dd>${s.lastSync ? esc(clock(s.lastSync)) : esc(t("not_yet"))}</dd></dl><p class="note">${esc(s.link === "weak" ? t("weak_note") : t("needs_net"))}</p><label class="switch"><input type="checkbox" data-act="toggle:datasaver"${s.dataSaver ? " checked" : ""}><span>${esc(t("data_saver"))}</span></label><label class="switch"><input type="checkbox" data-act="toggle:forced"${s.forcedOffline ? " checked" : ""}><span>${esc(t("stay_offline"))}</span></label><button class="primary" data-act="sync:now" data-wait${s.link === "offline" || s.forcedOffline ? " disabled" : ""}>${icon("ui-sync")}<span>${esc(t("sync_now"))}</span></button><button class="secondary" data-act="closesheet">${esc(t("close"))}</button></div>`;
 }
 function dataSaverPlan(link, saver) {
     const on = saver || link === "weak";
@@ -2920,7 +3291,7 @@ const fixThis = (problem, t, icon) => `<button type="button" class="secondary fi
 function askBox(o, t, icon) {
     const res = o.query ? (o.results.length ? `<ul class="asres">${o.results.map((e) => `<li><strong>${esc(e.q)}</strong><p>${esc(e.a)}</p></li>`).join("")}</ul>` : `<p class="muted">${esc(t("as_no_answer"))}</p>`) : "";
     const src = o.query && o.results.length ? `<p class="note">${icon(o.online ? "ui-sync" : "ui-offline")}<span>${esc(o.online ? t("as_from_lynkomni") : t("as_from_device", { date: o.builtOn }))}</span></p>` : "";
-    return `<div class="askbox"><label for="asIn" class="mlabel">${esc(t("as_ask_title"))}</label><div class="cmd-input">${icon("product-assist")}<input id="asIn" type="search" value="${esc(o.query)}" placeholder="${esc(t("as_ask_hint"))}" autocomplete="off"></div>${res}${src}<p class="suggested">${esc(t("suggested_by_assist"))}</p></div>`;
+    return `<div class="askbox"><label for="asIn" class="mlabel">${esc(t("as_ask_title"))}</label><div class="cmd-input">${icon("product-assist")}<input id="asIn" type="search" data-recents="ask" data-suggest="${esc(JSON.stringify(o.suggest ?? []))}" value="${esc(o.query)}" placeholder="${esc(t("as_ask_hint"))}" autocomplete="off"></div>${res}${src}<p class="suggested">${esc(t("suggested_by_assist"))}</p></div>`;
 }
 function confirmCard(o, t, icon) {
     const needs = o.d.needs;
@@ -3159,7 +3530,7 @@ class DeviceShell {
         this.panel = p;
         this.q = p === "search" ? "a" : "";
     } this.note = ""; this.h.redraw(); }
-    address() { const p = this.h.screen().path; return p.includes(".lynkomni.com") ? p : `${APP_HOST}${p}`; }
+    address() { const p = this.h.screen().path; return p.startsWith("/") ? `${APP_HOST}${p}` : p; } // a path on the app, else a whole address
     bar(opts = {}) {
         const { t, icon } = this.h, o = { search: true, help: true, account: true, chip: true, ...opts };
         const btn = (act, ic, label) => `<button class="dsh-btn" data-act="${act}" aria-label="${SH.esc(label)}" title="${SH.esc(label)}">${icon(ic)}</button>`;
@@ -3202,7 +3573,7 @@ class DeviceShell {
     }
     askPart() {
         const k = this.h.knowledge ? this.h.knowledge() : [];
-        return askBox({ query: this.ask, results: this.ask ? lookup(k, this.ask) : [], online: this.h.sync().link !== "offline", builtOn: "" }, this.h.t, this.h.icon);
+        return askBox({ query: this.ask, results: this.ask ? lookup(k, this.ask) : [], online: this.h.sync().link !== "offline", builtOn: "", suggest: k.slice(0, 3).map((e) => e.q) }, this.h.t, this.h.icon);
     }
     crumbs(compact) {
         const label = (p) => (this.h.crumbLabel ? this.h.crumbLabel(p) : p.split("/").pop() || p);

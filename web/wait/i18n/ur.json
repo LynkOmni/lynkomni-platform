@@ -1,0 +1,20 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ur",
+ "native": "اردو",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "دوبارہ کوشش کریں",
+  "emk_first_open": "اس ڈیوائس پر پہلی بار کھولنا (ابھی کچھ محفوظ نہیں)",
+  "loading": "لوڈ ہو رہا ہے",
+  "ph_all_loaded": "بس اتنا ہی",
+  "ph_draft_kept": "آپ کا مسودہ اس آلے پر محفوظ رکھا گیا۔",
+  "ph_recent": "حالیہ",
+  "ph_slow": "اس میں معمول سے زیادہ وقت لگ رہا ہے۔",
+  "ph_suggested": "تجاویز",
+  "ph_updating": "اپ ڈیٹ ہو رہا ہے",
+  "ph_working": "کام کر رہا ہے"
+ }
+}

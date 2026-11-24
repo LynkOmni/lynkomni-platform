@@ -99,10 +99,11 @@ export function lookup(pack: Entry[], query: string): Entry[] {
 /** "Fix this": on any screen with a problem, one button that hands the problem to Ask and Resolve with the screen's context. */
 export const fixThis = (problem: string, t: T, icon: Icon): string => `<button type="button" class="secondary fixthis" data-act="assist:fix:${esc(problem)}">${icon("product-assist")}<span>${esc(t("as_fix_this"))}</span></button>`;
 /** The Ask box in the help panel: answers come from the signed pack on this device when offline, and say so. */
-export function askBox(o: { query: string; results: Entry[]; online: boolean; builtOn: string }, t: T, icon: Icon): string {
+/** suggest: a few questions from the help pack, offered with recent questions while the box is empty (83.7). */
+export function askBox(o: { query: string; results: Entry[]; online: boolean; builtOn: string; suggest?: readonly string[] }, t: T, icon: Icon): string {
   const res = o.query ? (o.results.length ? `<ul class="asres">${o.results.map((e) => `<li><strong>${esc(e.q)}</strong><p>${esc(e.a)}</p></li>`).join("")}</ul>` : `<p class="muted">${esc(t("as_no_answer"))}</p>`) : "";
   const src = o.query && o.results.length ? `<p class="note">${icon(o.online ? "ui-sync" : "ui-offline")}<span>${esc(o.online ? t("as_from_lynkomni") : t("as_from_device", { date: o.builtOn }))}</span></p>` : "";
-  return `<div class="askbox"><label for="asIn" class="mlabel">${esc(t("as_ask_title"))}</label><div class="cmd-input">${icon("product-assist")}<input id="asIn" type="search" value="${esc(o.query)}" placeholder="${esc(t("as_ask_hint"))}" autocomplete="off"></div>${res}${src}<p class="suggested">${esc(t("suggested_by_assist"))}</p></div>`;
+  return `<div class="askbox"><label for="asIn" class="mlabel">${esc(t("as_ask_title"))}</label><div class="cmd-input">${icon("product-assist")}<input id="asIn" type="search" data-recents="ask" data-suggest="${esc(JSON.stringify(o.suggest ?? []))}" value="${esc(o.query)}" placeholder="${esc(t("as_ask_hint"))}" autocomplete="off"></div>${res}${src}<p class="suggested">${esc(t("suggested_by_assist"))}</p></div>`;
 }
 /** The Confirm or Deny card: what LynkAssist will do, why it asks, and two equal buttons. Class C first asks for the fresh check. */
 export function confirmCard(o: { what: string; d: Decision; amount?: string }, t: T, icon: Icon): string {

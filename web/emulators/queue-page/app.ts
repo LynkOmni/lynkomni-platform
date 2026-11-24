@@ -2,7 +2,8 @@
  *  no app and no account. See the wait before taking a ticket, join (the link, LynkChat or a basic phone, as the place's
  *  plan and the country's partner allow), follow the place in the queue, Running late once, Leave queue, "Please come now", and the
  *  place's public queue page. The buttons beside it play reception and the counters. Never a name; the phone number is never shown. */
-import { Country, EventLog, Words, applyRoot, esc, fitToWidth, panelChange, panelHtml, stateButtons } from "../../../ts/src/emulator.js";
+import { PageWait } from "../../../ts/src/placeholder.js";
+import { Country, EventLog, Words, applyRoot, esc, fitToWidth, panelChange, panelHtml, stateButtons, pageWaiting } from "../../../ts/src/emulator.js";
 import { layoutFor } from "../../../ts/src/interfaces.js";
 import { applyLayout, turnedShape } from "../../../ts/src/turn.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
@@ -30,6 +31,7 @@ const look = (): QuLook => ({ t, icon, clock, money: (c) => C.money(c, "USD"), o
 const DM = new DeviceMode(DEVICES, "smartphone");
 const DEV = wireDevice(DM, { t, icon: (id) => icon(id), screen: () => document.getElementById("screen"), pad: () => null, back: () => undefined, redraw: () => draw(), rtl: () => document.getElementById("screen")?.dir === "rtl" });
 
+const WAIT = new PageWait();
 function draw(): void {
   const el = $("#screen"); DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W);
   const turned = S.turn ?? "upright"; document.querySelector(".phone")?.setAttribute("data-turn", turned);   // TURN UPDATE 76.8
@@ -38,6 +40,7 @@ function draw(): void {
   const tabs = `<div class="qp-tabs" role="tablist">${(["ticket", "public"] as const).map((k) => `<button type="button" role="tab" aria-selected="${S.tab === k}" data-act="tab:${k}">${esc(t(`qp_tab_${k}`))}</button>`).join("")}</div>`;
   el.innerHTML = `<p class="qp-addr" dir="ltr">shop.lynkomni.com/sample.place/queue</p>${tabs}<div class="qp-body" role="tabpanel">${S.tab === "ticket" ? quPhoneView(Q, look()) : quPublicView(Q, look())}${S.online ? "" : `<p class="notice" role="status">${esc(t("qp_offline"))}</p>`}</div>${Q.plan.own_logo ? "" : look().powered}`;
   const tl = $("#till"); applyRoot(tl, W); tl.innerHTML = quDriver(Q, look());
+  pageWaiting(WAIT, S, el, t, draw);                                  // PLACEHOLDER UPDATE 83
 }
 function act(a: string): void {
   // The person's own buttons need the internet (the page talks to the cloud); the building's own devices do not.
@@ -47,7 +50,7 @@ function act(a: string): void {
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "plan", "country", "dark", "lang", "turn"], S, W, C, { tiers: TIERS })
+  $("#panel").innerHTML = panelHtml(["online", "firstopen", "plan", "country", "dark", "lang", "turn"], S, W, C, { tiers: TIERS })
     + `<div class="ctl-extra"><label><input type="checkbox" data-kctl="only" ${Q.joinFrom === "only_at_the_place" ? "checked" : ""}> <span>${esc(t("ppl_qu_join_only_at_the_place"))}</span></label>
       <label><input type="checkbox" data-kctl="public" ${Q.publicPage ? "checked" : ""}> <span>${esc(t("ppl_qu_public"))}</span></label></div>`;
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));

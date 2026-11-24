@@ -116,9 +116,9 @@ function chTools(reg: ChatRegister, look: ChatLook, m: ChatMsg, act: string): st
     const fields = m.form.slice(0, reg.tools.form_max_fields).filter((f) => reg.tools.form_fields.includes(f.kind));
     out += `<span class="ch-form">${fields.map((f) => {
       const id = `chf-${chEsc(m.id)}-${chEsc(f.id)}`;
-      const input = f.kind === "option" ? `<select id="${id}"${m.answered ? " disabled" : ""}>${(f.options ?? []).map((o) => `<option>${chEsc(o)}</option>`).join("")}</select>`
-        : f.kind === "address_confirm" ? `<input id="${id}" type="checkbox"${m.answered ? " disabled" : ""}>`
-        : `<input id="${id}" type="${f.kind === "date" ? "date" : f.kind === "number" ? "number" : "text"}" inputmode="${f.kind === "number" ? "numeric" : "text"}" placeholder="${chEsc(f.hint ?? look.t(`ch_hint_${f.kind}`))}"${m.answered ? " disabled" : ""}>`;
+      const input = f.kind === "option" ? `<select id="${id}"${m.answered ? ' disabled data-why="shown"' : ""}>${(f.options ?? []).map((o) => `<option>${chEsc(o)}</option>`).join("")}</select>`
+        : f.kind === "address_confirm" ? `<input id="${id}" type="checkbox"${m.answered ? ' disabled data-why="shown"' : ""}>`
+        : `<input id="${id}" type="${f.kind === "date" ? "date" : f.kind === "number" ? "number" : "text"}" inputmode="${f.kind === "number" ? "numeric" : "text"}" placeholder="${chEsc(f.hint ?? look.t(`ch_hint_${f.kind}`))}"${m.answered ? ' disabled data-why="shown"' : ""}>`;
       return `<label for="${id}"><span>${chEsc(f.label)}</span>${input}</label>`;
     }).join("")}${m.answered ? `<span class="ch-note">${chEsc(look.t("ch_answered"))}</span>` : `<button class="primary" data-act="${act}:form:${chEsc(m.id)}">${chEsc(look.t("ch_form_send"))}</button>`}</span>`;
   }
@@ -154,7 +154,7 @@ export function composerHtml(look: ChatLook, v: Pick<ThreadView, "draft" | "draf
   const act = v.act ?? "ch";
   return `<div class="ch-compose"><label class="ch-label" for="chIn">${chEsc(look.t("ch_write"))}</label>
     <button class="iconbtn" data-act="${act}:attach" aria-label="${chEsc(look.t("ch_attach"))}">${look.icon("ui-doc")}</button>
-    <input id="chIn" data-in="chat" value="${chEsc(v.draft)}" placeholder="${chEsc(v.draftHint)}" autocomplete="off" enterkeyhint="send">
+    <input id="chIn" data-in="chat" data-draft="chat:${chEsc(v.act ?? "thread")}" value="${chEsc(v.draft)}" placeholder="${chEsc(v.draftHint)}" autocomplete="off" enterkeyhint="send">
     <button class="iconbtn" data-act="${act}:record" aria-label="${chEsc(look.t("ch_record"))}">${look.icon("ui-mic")}</button>
     <button class="iconbtn primary" data-act="${act}:send" aria-label="${chEsc(look.t("ch_send"))}">${look.icon("ui-chevron-right", "ic fwd")}</button></div>`;
 }

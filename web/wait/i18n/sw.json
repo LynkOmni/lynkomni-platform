@@ -1,0 +1,20 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "sw",
+ "native": "Kiswahili",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "Jaribu tena",
+  "emk_first_open": "Kufungua mara ya kwanza kwenye kifaa hiki (bado hakuna kilichohifadhiwa)",
+  "loading": "Inapakia",
+  "ph_all_loaded": "Hayo ndiyo yote",
+  "ph_draft_kept": "Rasimu yako imehifadhiwa kwenye kifaa hiki.",
+  "ph_recent": "Za hivi karibuni",
+  "ph_slow": "Hii inachukua muda mrefu kuliko kawaida.",
+  "ph_suggested": "Mapendekezo",
+  "ph_updating": "Inasasishwa",
+  "ph_working": "Kinafanya kazi"
+ }
+}

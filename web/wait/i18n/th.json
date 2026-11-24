@@ -1,0 +1,20 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "th",
+ "native": "ไทย",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "ลองอีกครั้ง",
+  "emk_first_open": "เปิดครั้งแรกบนอุปกรณ์นี้ (ยังไม่มีข้อมูลที่บันทึกไว้)",
+  "loading": "กำลังโหลด",
+  "ph_all_loaded": "ครบทั้งหมดแล้ว",
+  "ph_draft_kept": "เก็บฉบับร่างของคุณไว้ในอุปกรณ์นี้แล้ว",
+  "ph_recent": "ล่าสุด",
+  "ph_slow": "ใช้เวลานานกว่าปกติ",
+  "ph_suggested": "คำแนะนำ",
+  "ph_updating": "กำลังอัปเดต",
+  "ph_working": "ใช้งานได้"
+ }
+}

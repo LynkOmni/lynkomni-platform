@@ -39,3 +39,15 @@ test("number hints use the reader's digits", () => {
   assert.equal(hintFor("count", t, "bn"), new Intl.NumberFormat("bn").format(0));
   assert.equal(hintFor("amount", t), "0");
 });
+
+test("83.7: drafts never keep a card number, and counters count", async () => {
+  const { draftSafe, counterText, listEnd, updatingChip } = await import("../src/placeholder.js");
+  assert.equal(draftSafe("pay 4111 1111 1111 1111 now"), "pay •••••••••••••••• now");
+  assert.equal(draftSafe("code 12345678"), "code ••••••••");
+  assert.equal(draftSafe("table 12, 3 people"), "table 12, 3 people");
+  const el = { closest: () => null } as unknown as Element;
+  assert.equal(counterText(3, 40, el), "3 / 40");
+  assert.match(listEnd("done", (k) => k), /ph_all_loaded/);
+  assert.match(listEnd("loading", (k) => k), /data-skeleton="list"/);
+  assert.match(updatingChip("Updating"), /role="status"/);
+});

@@ -1,0 +1,20 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "id",
+ "native": "Bahasa Indonesia",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "Coba lagi",
+  "emk_first_open": "Pertama kali dibuka di perangkat ini (belum ada yang tersimpan)",
+  "loading": "Memuat",
+  "ph_all_loaded": "Sudah semua",
+  "ph_draft_kept": "Draf Anda disimpan di perangkat ini.",
+  "ph_recent": "Terbaru",
+  "ph_slow": "Ini memakan waktu lebih lama dari biasanya.",
+  "ph_suggested": "Saran",
+  "ph_updating": "Memperbarui",
+  "ph_working": "Berfungsi"
+ }
+}

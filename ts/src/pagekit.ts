@@ -23,7 +23,7 @@ export function recordHeaderHtml(reg: NavRegister, t: T, o: { title: string; sta
  *  never the instruction) and filter chips (one may be on). */
 export function listToolbarHtml(t: T, o: { query?: string; hint: string; chips: readonly { id: string; label: string; on?: boolean }[]; act?: string; inputId?: string }): string {
   const act = o.act ?? "filter";
-  return `<div class="pk-toolbar"><label class="pk-search"><span>${pkEsc(t("nv_search"))}</span><input id="${pkEsc(o.inputId ?? "pkSearch")}" type="search" value="${pkEsc(o.query ?? "")}" placeholder="${pkEsc(o.hint)}" aria-label="${pkEsc(t("nv_search"))}"></label>
+  return `<div class="pk-toolbar"><label class="pk-search"><span>${pkEsc(t("nv_search"))}</span><input id="${pkEsc(o.inputId ?? "pkSearch")}" type="search" data-recents="${pkEsc(o.inputId ?? "pkSearch")}" value="${pkEsc(o.query ?? "")}" placeholder="${pkEsc(o.hint)}" aria-label="${pkEsc(t("nv_search"))}"></label>
     <div class="pk-chips" role="group">${o.chips.map((c) => `<button class="pk-chip" data-act="${pkEsc(act)}:${pkEsc(c.id)}" aria-pressed="${!!c.on}">${pkEsc(c.label)}</button>`).join("")}</div></div>`;
 }
 

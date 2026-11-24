@@ -1,0 +1,20 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "am",
+ "native": "አማርኛ",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "እንደገና ሞክር",
+  "emk_first_open": "በዚህ መሣሪያ ላይ የመጀመሪያ መክፈት (ገና ምንም አልተቀመጠም)",
+  "loading": "በመጫን ላይ",
+  "ph_all_loaded": "ያ ነው ሁሉም",
+  "ph_draft_kept": "ረቂቅዎ በዚህ መሣሪያ ላይ ተቀምጧል።",
+  "ph_recent": "የቅርብ ጊዜ",
+  "ph_slow": "ይህ ከወትሮው በላይ እየወሰደ ነው።",
+  "ph_suggested": "የተጠቆሙ",
+  "ph_updating": "በማዘመን ላይ",
+  "ph_working": "ይሠራል"
+ }
+}

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "uk",
  "native": "Українська",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "Після",
   "at_answer_label": "Відповідь LynkAssist",
@@ -52,6 +52,7 @@
   "at_practice_note": "Навчальний режим: нічого справжнього не змінюється.",
   "at_preview_title": "Перед підтвердженням",
   "at_remember": "Запам'ятай, що…",
+  "at_remember_off": "Увімкніть пам'ять, щоб щось додати.",
   "at_remember_save": "Запам'ятати",
   "at_remembered": "Запам'ятано.",
   "at_role_cashier": "касир",

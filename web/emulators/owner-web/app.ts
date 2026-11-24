@@ -3,10 +3,11 @@
  *  statements, the automation control panel and history at app.lynkomni.com/business/automations ("Why did this happen?" and an
  *  off switch for each), and data sharing with suppliers (one consent each, withdrawable). Selling is not here: the till needs a
  *  registered device, so "New sale" explains that instead of opening a till in the browser. */
+import { PageWait } from "../../../ts/src/placeholder.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import { homeCards, webRule } from "../../../ts/src/business.js";
 import { matchStatement } from "../../../ts/src/agent.js";
-import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, stateButtons, appMainFooter } from "../../../ts/src/emulator.js";
+import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, stateButtons, appMainFooter, pageWaiting } from "../../../ts/src/emulator.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
@@ -128,11 +129,13 @@ function launcherOverlay(): string {
 }
 /** The owner's computer view is the all-in-one without touch (catalog/devices.v1.json): mouse and keyboard. */
 const DM = new DeviceMode(DEVICES, "all-in-one-pos", "non_touch");
+const WAIT = new PageWait();
 function draw(): void {
   const el = $("#screen"); DM.apply(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W);
   el.innerHTML = `<div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">${icon("ui-lock")}${esc(office() ? `app.lynkomni.com${OFFICE_PATHS[office()!]}` : S.place ? appOf(S.place) : `app.lynkomni.com${PATH[S.page]}`)}</span></div>
-    <div class="app">${sideBar()}<main class="main"><div class="mhead">${DSH.bar()}</div>${office() ? OV.browserNote() : `<p class="viewonly" role="note">${icon("ui-info")}${esc(t("view_only_computer"))}</p>`}${page()}${appMainFooter(W, C, DATA)}</main></div>${launcherOverlay()}${DSH.overlay()}`;
+    <div class="app">${sideBar()}<main class="main"><div class="mhead">${DSH.bar()}</div>${office() ? OV.browserNote() : `<p class="viewonly" role="note">${icon("ui-info")}${esc(t("view_only_computer"))}</p>`}<div data-wait-area>${page()}</div>${appMainFooter(W, C, DATA)}</main></div>${launcherOverlay()}${DSH.overlay()}`;
   const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address();
+  pageWaiting(WAIT, { online: true, firstOpen: S.firstOpen }, el, t, draw);   // PLACEHOLDER UPDATE 83: a browser page is online
 }
 /** Redraws while typing and puts the cursor back where it was, so a field never loses its place. */
 function keepFocus(id: string): void { const el = document.getElementById(id) as HTMLInputElement | null; const pos = el?.selectionStart ?? null; draw(); const again = document.getElementById(id) as HTMLInputElement | null; if (again) { again.focus(); if (pos !== null && again.type !== "date") again.setSelectionRange(pos, pos); } }
@@ -155,7 +158,7 @@ function act(a: string): void {
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["plan", "country", "dark", "lang"], S, W, C, { tiers: TIERS }) + `<label><input type="checkbox" data-ctl="ads"${AD.on ? " checked" : ""}> <span>${esc(t("ad_sponsored"))} · ${esc(t("ad_sample"))}</span></label>`;
+  $("#panel").innerHTML = panelHtml(["plan", "firstopen", "country", "dark", "lang"], S, W, C, { tiers: TIERS }) + `<label><input type="checkbox" data-ctl="ads"${AD.on ? " checked" : ""}> <span>${esc(t("ad_sponsored"))} · ${esc(t("ad_sample"))}</span></label>`;
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   const OFFICE_STATES = OFFICE_SERVICES.flatMap((svc) => OV.pages(svc).map((p) => p.id));        // every office page, so every check visits it
   stateButtons($("#stateButtons"), [...PAGES, "why", "new-sale", ...OFFICE_STATES, "inv_record", "crm_record"], (k) => {

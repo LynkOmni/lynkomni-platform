@@ -475,7 +475,7 @@ function view(): string {
     case "card":
       return `${top(t("method_card"))}<div class="due"><span>${esc(t("total"))}</span><strong>${esc(money(S.cart.total()))}</strong></div>
         <div class="tapgfx" aria-hidden="true"><i></i><i></i><i></i></div><p class="ask">${esc(t("tap_card"))}</p><p class="note" role="alert">${esc(S.note)}</p><p class="sbx">${icon("ui-info")}${esc(t("sandbox"))}: ${esc(t("test_money"))}</p>
-        <div class="foot"><button class="ghost" data-act="tapcard">${esc(t("method_card"))}: ${esc(t("sandbox"))}</button></div>`;
+        <div class="foot"><button class="ghost" data-act="tapcard" data-wait>${esc(t("method_card"))}: ${esc(t("sandbox"))}</button></div>`;
     case "waiting": {
       const p = activePayment(); if (!p || !c) return "";
       const st = paymentState(p.status, S.online);
@@ -509,7 +509,7 @@ function view(): string {
         <li><button data-act="go:reception">${icon("product-queue")}<span>${esc(t("ppl_reception_title"))} <span class="pn">LynkQueue</span></span>${icon("ui-chevron-right")}</button></li>
         <li><button data-act="go:counter">${icon("product-queue")}<span>${esc(t("ppl_counter_title"))} <span class="pn">LynkQueue</span></span>${icon("ui-chevron-right")}</button></li>
         <li><button data-act="dsh:account">${icon("ui-user")}${esc(t("account_menu"))}${icon("ui-chevron-right")}</button></li>
-        <li><button data-act="dsh:sync">${icon(S.online ? "ui-sync" : "ui-offline")}${esc(t("sync"))}${icon("ui-chevron-right")}</button></li>
+        <li><button data-act="dsh:sync" data-wait>${icon(S.online ? "ui-sync" : "ui-offline")}${esc(t("sync"))}${icon("ui-chevron-right")}</button></li>
         <li><button data-act="lowlit" aria-pressed="${S.lowLiteracy}">${icon("ui-grid")}${esc(t("low_literacy"))}${S.lowLiteracy ? icon("ui-check") : icon("ui-chevron-right")}</button></li>
         <li><button data-act="lock">${icon("ui-lock")}${esc(t("lock"))}${icon("ui-chevron-right")}</button></li></ul>${shortFooterHtml(new Date(), pack().tz)}`;
     case "sales":
@@ -554,7 +554,7 @@ function staffScreen(): string {
 function receiptByMessage(): string {
   if (S.sent) return `<p class="note" role="status">${esc(S.sent)}</p>`;
   if (!S.sendTo) return `<div class="dk-row"><button class="ghost" data-act="rcpt:text">${icon("product-chat")}${esc(t("by_text"))}</button><button class="ghost" data-act="rcpt:email">${icon("ui-doc")}${esc(t("by_email"))}</button></div>`;
-  return `<div class="dk-sheet"><label for="rcptTo">${esc(t("customer_contact"))}</label><input id="rcptTo" inputmode="${S.sendTo === "text" ? "tel" : "email"}" autocomplete="off" placeholder="${esc(hintFor(S.sendTo === "text" ? "phone" : "email", t, locale()))}"><button class="primary" data-act="rcpt:send">${esc(t("send_receipt"))}</button></div>`;
+  return `<div class="dk-sheet"><label for="rcptTo">${esc(t("customer_contact"))}</label><input id="rcptTo" inputmode="${S.sendTo === "text" ? "tel" : "email"}" autocomplete="off" placeholder="${esc(hintFor(S.sendTo === "text" ? "phone" : "email", t, locale()))}"><button class="primary" data-act="rcpt:send" data-wait>${esc(t("send_receipt"))}</button></div>`;
 }
 
 /** Touch or buttons (DEVICE 48.17.14): the registered hardware version decides; a button terminal works by its keys alone. */
@@ -586,7 +586,7 @@ function drawStatus(): void {
   const pending = S.events.find((e) => e.sync === "queued") ? "queued" : S.events.find((e) => e.sync === "sent") ? "sent" : "accepted";
   $("#statusbar").innerHTML = `<span>${esc(clock(Date.now()))}</span>${S.realUser ? "" : `<span class="sbxtag">${esc(t("sandbox"))}</span>`}
     <span class="sync" title="${esc(DATA.states[pending]?.meaning ?? "")}">${icon(`status-${pending}`)}${queued ? `<span>${queued}</span>` : ""}</span>
-    <button type="button" class="net" data-act="dsh:sync" aria-label="${esc(t(S.online ? "online" : "offline"))}. ${esc(t("sync"))}">${icon(S.online ? "ui-sync" : "ui-offline")}</button>`;   // the connection chip (41 B): opens the sync sheet
+    <button type="button" class="net" data-act="dsh:sync" data-wait aria-label="${esc(t(S.online ? "online" : "offline"))}. ${esc(t("sync"))}">${icon(S.online ? "ui-sync" : "ui-offline")}</button>`;   // the connection chip (41 B): opens the sync sheet
 }
 function drawLeds(): void { document.querySelectorAll<HTMLElement>(".leds i").forEach((el, i) => el.classList.toggle("on", i < S.leds)); }
 function drawLog(): void {

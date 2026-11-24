@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "Sonra",
   "at_answer_label": "LynkAssist'in yanıtı",
@@ -52,6 +52,7 @@
   "at_practice_note": "Alıştırma modu: gerçek hiçbir şey değişmez.",
   "at_preview_title": "Onaylamadan önce",
   "at_remember": "Şunu hatırla…",
+  "at_remember_off": "Bir şey eklemek için belleği açın.",
   "at_remember_save": "Hatırla",
   "at_remembered": "Hatırlandı.",
   "at_role_cashier": "kasiyer",

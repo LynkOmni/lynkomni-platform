@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yi",
  "native": "ייִדיש",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "נאָכדעם",
   "at_answer_label": "LynkAssist׳ס ענטפֿער",
@@ -52,6 +52,7 @@
   "at_practice_note": "איבונג־מאָדוס: גאָרנישט אמתדיקס טוישט זיך.",
   "at_preview_title": "איידער איר באַשטעטיקט",
   "at_remember": "געדענק אַז…",
+  "at_remember_off": "צינדט אָן דעם זכּרון כּדי צוצוגעבן עפּעס.",
   "at_remember_save": "געדענקען",
   "at_remembered": "געדענקט.",
   "at_role_cashier": "קאַסירער",

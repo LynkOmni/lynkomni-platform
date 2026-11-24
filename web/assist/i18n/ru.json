@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ru",
  "native": "Русский",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "После",
   "at_answer_label": "Ответ LynkAssist",
@@ -52,6 +52,7 @@
   "at_practice_note": "Учебный режим: ничего настоящего не меняется.",
   "at_preview_title": "Перед подтверждением",
   "at_remember": "Запомни, что…",
+  "at_remember_off": "Включите память, чтобы что-то добавить.",
   "at_remember_save": "Запомнить",
   "at_remembered": "Запомнено.",
   "at_role_cashier": "кассир",

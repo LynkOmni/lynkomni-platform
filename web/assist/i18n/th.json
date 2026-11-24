@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "th",
  "native": "ไทย",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "หลัง",
   "at_answer_label": "คำตอบของ LynkAssist",
@@ -52,6 +52,7 @@
   "at_practice_note": "โหมดฝึก: ไม่มีอะไรเปลี่ยนจริง",
   "at_preview_title": "ก่อนยืนยัน",
   "at_remember": "จำไว้ว่า…",
+  "at_remember_off": "เปิดหน่วยความจำเพื่อเพิ่มข้อมูล",
   "at_remember_save": "จำไว้",
   "at_remembered": "จำไว้แล้ว",
   "at_role_cashier": "แคชเชียร์",

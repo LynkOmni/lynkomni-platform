@@ -1,0 +1,20 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ru",
+ "native": "Русский",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "Попробовать ещё раз",
+  "emk_first_open": "Первое открытие на этом устройстве (пока ничего не сохранено)",
+  "loading": "Загрузка",
+  "ph_all_loaded": "Это всё",
+  "ph_draft_kept": "Ваш черновик сохранён на этом устройстве.",
+  "ph_recent": "Недавние",
+  "ph_slow": "Это занимает больше времени, чем обычно.",
+  "ph_suggested": "Предложения",
+  "ph_updating": "Обновление",
+  "ph_working": "Работает"
+ }
+}

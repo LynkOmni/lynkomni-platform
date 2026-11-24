@@ -1,0 +1,20 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "fil",
+ "native": "Filipino",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "Subukang muli",
+  "emk_first_open": "Unang bukas sa device na ito (wala pang naka-save)",
+  "loading": "Naglo-load",
+  "ph_all_loaded": "Iyan na lahat",
+  "ph_draft_kept": "Naitago ang iyong draft sa device na ito.",
+  "ph_recent": "Kamakailan",
+  "ph_slow": "Mas matagal ito kaysa karaniwan.",
+  "ph_suggested": "Mga mungkahi",
+  "ph_updating": "Nag-a-update",
+  "ph_working": "Gumagana"
+ }
+}

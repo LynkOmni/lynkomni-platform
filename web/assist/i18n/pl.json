@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pl",
  "native": "Polski",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "Po",
   "at_answer_label": "Odpowiedź LynkAssist",
@@ -52,6 +52,7 @@
   "at_practice_note": "Tryb ćwiczeń: nic prawdziwego się nie zmienia.",
   "at_preview_title": "Zanim potwierdzisz",
   "at_remember": "Zapamiętaj, że…",
+  "at_remember_off": "Włącz pamięć, aby coś dodać.",
   "at_remember_save": "Zapamiętaj",
   "at_remembered": "Zapamiętano.",
   "at_role_cashier": "kasjer",

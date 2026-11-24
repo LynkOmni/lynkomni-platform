@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "পরে",
   "at_answer_label": "LynkAssist-এর উত্তর",
@@ -52,6 +52,7 @@
   "at_practice_note": "অনুশীলন মোড: আসল কিছুই বদলায় না।",
   "at_preview_title": "নিশ্চিত করার আগে",
   "at_remember": "মনে রাখো যে…",
+  "at_remember_off": "কিছু যোগ করতে মেমরি চালু করুন।",
   "at_remember_save": "মনে রাখুন",
   "at_remembered": "মনে রাখা হয়েছে।",
   "at_role_cashier": "ক্যাশিয়ার",

@@ -122,5 +122,19 @@
    "Spoken interfaces (voice, basic-phone calls, LynkAssist by voice) say once that they are working, never leave silence",
    "Skeletons follow light, dark, high-contrast and sunlight modes from tokens"
   ]
+ },
+ "waits": {
+  "rule": "Every page waits well (83.4): a page with the emulator kit gets it from ts/src/emkit.ts (wireKit after()), any other page calls PageWait.apply (ts/src/emulator.ts pageWaiting) at the end of every draw, with a 'First open' condition in its panel. Buttons that ask the cloud carry data-wait and keep their width while working; coming back online shows the Updating chip over what is cached.",
+  "words": "web/wait (loading, Try again, taking longer, Updating, Working, That's everything, First open): the only words a page carries for waiting",
+  "not_needed": {
+   "button-phone": "A basic phone shows the network's own menu text, never a skeleton: while a reply is on its way it shows one 'Working' line, and a call says it once (83.7 spoken interfaces).",
+   "mesh-relay": "Shows only the two devices' own records passing between them; nothing arrives from the cloud for the screen to wait for."
+  }
+ },
+ "fields": {
+  "built": "v0.95.0: counters on fields with a limit (never on sensitive ones), the reason beside a disabled field (data-why, shown once per card), recent searches and suggestions in an empty search box (data-recents, data-suggest), drafts kept on the device (data-draft; long digit runs masked first) and offered back after a crash, a timeout or going offline; all added by ts/src/placeholder.ts enhanceFields after every draw.",
+  "no_draft": {
+   "sv:${who === \"k\" ? \"ktext\" : \"ptext\"}": "A customer's own answer, typed on a kiosk or a shared screen: a draft could reach the next person, so none is kept (and an anonymous answer carries nobody)."
+  }
  }
 }

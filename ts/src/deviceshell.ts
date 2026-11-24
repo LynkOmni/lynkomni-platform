@@ -53,7 +53,7 @@ export class DeviceShell {
   show(p: DsPanel | "first"): void { if (p === "first") { this.firstRun = true; this.panel = ""; } else { this.firstRun = false; this.panel = p; this.q = p === "search" ? "a" : ""; } this.note = ""; this.h.redraw(); }
 
   /** The address of the screen in view: every screen has its own (41 B deep links). */
-  address(): string { const p = this.h.screen().path; return p.includes(".lynkomni.com") ? p : `${APP_HOST}${p}`; }
+  address(): string { const p = this.h.screen().path; return p.startsWith("/") ? `${APP_HOST}${p}` : p; }   // a path on the app, else a whole address
 
   /** The device's shell controls: search, help (?), account, and the connection chip. Each is a 44 px target with a name. */
   bar(opts: { search?: boolean; help?: boolean; account?: boolean; chip?: boolean } = {}): string {
@@ -91,7 +91,7 @@ export class DeviceShell {
   /** LynkAssist's Ask box (layer 1 offline): answers from the saved help in the device's language, with its date. */
   askPart(): string {
     const k = this.h.knowledge ? this.h.knowledge() : [];
-    return askBox({ query: this.ask, results: this.ask ? lookup(k, this.ask) : [], online: this.h.sync().link !== "offline", builtOn: "" }, this.h.t, this.h.icon);
+    return askBox({ query: this.ask, results: this.ask ? lookup(k, this.ask) : [], online: this.h.sync().link !== "offline", builtOn: "", suggest: k.slice(0, 3).map((e) => e.q) }, this.h.t, this.h.icon);
   }
   /** The breadcrumb trail of the screen in view (from the address map), compact on small screens. */
   crumbs(compact: boolean): string {

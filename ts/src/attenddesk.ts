@@ -8,7 +8,7 @@
  *  buttons wait for the internet; everything at the door works without it. Words are "ppl_" keys in web/shell. */
 import { esc } from "./shell.js";
 import type { Icon, T } from "./shell.js";
-import { newId, randomBytes } from "./emulator.js";
+import { newId, randomBelow, randomBytes } from "./emulator.js";
 import { ATTEND_SETS, IDCN_LENGTH, IDCN_TRIES, PIN_GROUP_SIZE, PIN_LENGTH, PIN_PAUSE_SECONDS, PIN_TRIES_BEFORE_PAUSE, checkerFlags, door, idcn, isEasyPin, meansOf, newPin, noCheckOutDue, pinGroupWarning, setsAllowed } from "./attendance.js";
 import type { AttendSet, DoorOut, Means } from "./attendance.js";
 import { idcnEntry } from "./peopleparts.js";
@@ -279,7 +279,7 @@ export class AttendDesk {
   addEvent(name: string): boolean {
     const limit = this.tier === "free" ? 1 : this.tier === "plus" ? 5 : null;
     if (limit !== null && this.events.length >= limit) { this.note = "ppl_at_limit"; return false; }
-    this.events.unshift({ id: newId(), name, attendees: 0, sessions: 0, cert: Array.from(randomBytes(4), (b) => (b % 36).toString(36)).join("").toUpperCase() }); return true;
+    this.events.unshift({ id: newId(), name, attendees: 0, sessions: 0, cert: Array.from({ length: 4 }, () => randomBelow(36).toString(36)).join("").toUpperCase() }); return true;
   }
   lockDevice(id: string): void { const d = this.devices.find((x) => x.id === id); if (d && !d.locked) { d.locked = true; this.log("door_device_locked"); } }
 

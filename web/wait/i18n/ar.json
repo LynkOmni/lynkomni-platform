@@ -1,0 +1,20 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ar",
+ "native": "العربية",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "حاول مرة أخرى",
+  "emk_first_open": "أول فتح على هذا الجهاز (لم يُحفظ شيء بعد)",
+  "loading": "جارٍ التحميل",
+  "ph_all_loaded": "هذا كل شيء",
+  "ph_draft_kept": "تم حفظ مسودتك على هذا الجهاز.",
+  "ph_recent": "الأخيرة",
+  "ph_slow": "يستغرق هذا وقتًا أطول من المعتاد.",
+  "ph_suggested": "اقتراحات",
+  "ph_updating": "جارٍ التحديث",
+  "ph_working": "يعمل"
+ }
+}

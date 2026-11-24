@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ckb",
  "native": "کوردی",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "دواتر",
   "at_answer_label": "وەڵامی LynkAssist",
@@ -52,6 +52,7 @@
   "at_practice_note": "دۆخی ڕاهێنان: هیچ شتێکی ڕاستەقینە ناگۆڕێت.",
   "at_preview_title": "پێش پشتڕاستکردنەوە",
   "at_remember": "لە بیرت بێت کە…",
+  "at_remember_off": "بیرگە چالاک بکە بۆ زیادکردنی شتێک.",
   "at_remember_save": "لە بیرت بێت",
   "at_remembered": "لە بیر گیرا.",
   "at_role_cashier": "سندوقدار",

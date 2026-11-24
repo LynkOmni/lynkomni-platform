@@ -61,6 +61,9 @@ const NAME_INFO = ["browser-frame", "account-site", "owner-web", "merchant-phone
 // so the part joins every page first (it imports nothing).
 const HINTED = ["merchant-phone", "pos-terminal", "counter-tablet", "account-site"];
 for (const e of EMULATORS) if (!e.modules.includes("ts/src/hints.js") && (HINTED.includes(e.id) || e.modules.some((m) => m === "ts/src/queuedesk.js" || m === "ts/src/surveydesk.js"))) e.modules.unshift("ts/src/hints.js");
+// PLACEHOLDER UPDATE 83: every page waits well (ts/src/placeholder.ts PageWait: first open, skeletons, Updating, busy buttons).
+// The shared emulator helpers use it, so the part joins every page first (it imports nothing).
+for (const e of EMULATORS) { e.modules = e.modules.filter((m) => m !== "ts/src/placeholder.js"); e.modules.unshift("ts/src/placeholder.js"); }
 for (const e of EMULATORS) {
   const at = e.modules.findIndex((m) => m === "ts/src/footer.js" || m.startsWith("SH="));
   const add = ["ts/src/names.generated.js", "ts/src/names.js", ...(NAME_INFO.includes(e.id) ? ["ts/src/nameinfo.js"] : [])];

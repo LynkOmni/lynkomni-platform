@@ -1,0 +1,20 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "bn",
+ "native": "বাংলা",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "আবার চেষ্টা করুন",
+  "emk_first_open": "এই ডিভাইসে প্রথমবার খোলা (এখনো কিছু সংরক্ষিত নেই)",
+  "loading": "লোড হচ্ছে",
+  "ph_all_loaded": "এই সব",
+  "ph_draft_kept": "আপনার খসড়া এই ডিভাইসে রাখা হয়েছে।",
+  "ph_recent": "সাম্প্রতিক",
+  "ph_slow": "এতে স্বাভাবিকের চেয়ে বেশি সময় লাগছে।",
+  "ph_suggested": "পরামর্শ",
+  "ph_updating": "হালনাগাদ হচ্ছে",
+  "ph_working": "কাজ করছে"
+ }
+}

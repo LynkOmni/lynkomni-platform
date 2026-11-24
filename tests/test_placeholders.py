@@ -83,5 +83,68 @@ class Placeholders(unittest.TestCase):
         self.assertNotRegex(css, r"#[0-9a-fA-F]{3,8}\b", "tokens only")
 
 
+class EveryPageWaits(unittest.TestCase):
+    def test_every_page_waits_well_or_says_why_not(self):
+        """83.4: every emulator page has the kit's wait or calls the shared PageWait at the end of its draw."""
+        reg = json.load(open(os.path.join(ROOT, "catalog", "placeholders.v1.json"), encoding="utf-8"))["waits"]
+        for app in sorted(glob.glob(os.path.join(ROOT, "web", "emulators", "*", "app.ts"))):
+            emu = os.path.basename(os.path.dirname(app)); src = open(app, encoding="utf-8").read()
+            waits = "wireKit(" in src or "pageWaiting(" in src or "WAIT.apply(" in src
+            if emu in reg["not_needed"]:
+                self.assertFalse(waits, f"{emu} waits now: take it off the not_needed list")
+            else:
+                self.assertTrue(waits, f"{emu}: call pageWaiting (ts/src/emulator.ts) at the end of draw, or give a reason in placeholders.v1.json waits")
+                if "wireKit(" not in src:
+                    self.assertIn("firstopen", src.replace("cFirst", "firstopen"), f"{emu}: the panel needs the First open condition")
+
+    def test_the_wait_words_match_the_shell(self):
+        for f in sorted(os.listdir(os.path.join(ROOT, "web", "wait", "i18n"))):
+            wait = json.load(open(os.path.join(ROOT, "web", "wait", "i18n", f), encoding="utf-8"))["texts"]
+            shell = json.load(open(os.path.join(ROOT, "web", "shell", "i18n", f), encoding="utf-8"))["texts"]
+            for k, v in wait.items():
+                self.assertEqual(v, shell[k], f"{f} {k}: the wait words are the shell's own")
+
+    def test_buttons_that_ask_the_cloud_keep_their_width(self):
+        css = open(os.path.join(ROOT, "web", "shell", "placeholder.css"), encoding="utf-8").read()
+        ts = open(os.path.join(ROOT, "ts", "src", "placeholder.ts"), encoding="utf-8").read()
+        self.assertIn("minInlineSize", ts); self.assertIn('[aria-busy="true"]', css)
+        self.assertIn("BUSY_MAX_MS", ts)                                    # nothing stays stuck
+
+
+class FieldsHelp(unittest.TestCase):
+    """83.7: fields that help while people type. The help itself is added by ts/src/placeholder.ts enhanceFields after every draw."""
+    SOURCES = sorted(glob.glob(os.path.join(ROOT, "ts", "src", "*.ts")) + glob.glob(os.path.join(ROOT, "web", "emulators", "*", "app.ts")))
+
+    def tags(self, pattern):
+        for p in self.SOURCES:
+            if p.endswith(".generated.ts"):
+                continue
+            s = open(p, encoding="utf-8").read()
+            for m in re.finditer(pattern, s):
+                yield os.path.relpath(p, ROOT), s.count("\n", 0, m.start()) + 1, m.group(0)
+
+    def test_a_disabled_field_says_why(self):
+        for f, line, tag in self.tags(r'<(?:input|select|textarea)\b[^>]*?(?:\$\{[^}]*disabled[^}]*\}|\bdisabled\b)[^>]*>'):
+            self.assertIn("data-why", tag, f"{f}:{line}: a disabled field needs data-why (a word key, or \"shown\" when the reason stands beside it)")
+
+    def test_a_search_box_offers_recent_searches(self):
+        for f, line, tag in self.tags(r'<input\b[^>]*type="search"[^>]*>'):
+            self.assertIn("data-recents", tag, f"{f}:{line}: a search box needs data-recents (and data-suggest when nothing else shows under it)")
+
+    def test_long_typing_keeps_a_draft_unless_the_device_is_shared(self):
+        shared = json.load(open(os.path.join(ROOT, "catalog", "placeholders.v1.json"), encoding="utf-8"))["fields"]["no_draft"]
+        for f, line, tag in self.tags(r'<textarea\b[^>]*>'):
+            if "data-draft" not in tag:
+                self.assertTrue(any(k in tag for k in shared), f"{f}:{line}: a long text box keeps a draft (data-draft) or is listed in fields.no_draft with its reason")
+
+    def test_the_parts_exist_and_never_keep_a_card_number(self):
+        ts = open(os.path.join(ROOT, "ts", "src", "placeholder.ts"), encoding="utf-8").read()
+        for part in ("export function enhanceFields", "export function counterText", "export function rememberSearch", "export function draftSafe", "SENSITIVE"):
+            self.assertIn(part, ts)
+        css = open(os.path.join(ROOT, "web", "shell", "placeholder.css"), encoding="utf-8").read()
+        for mode in ('[data-mode="sunlight"] .skeleton', "forced-colors: active", "prefers-reduced-motion"):
+            self.assertIn(mode, css)
+
+
 if __name__ == "__main__":
     unittest.main()

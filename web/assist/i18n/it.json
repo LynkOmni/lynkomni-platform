@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "it",
  "native": "Italiano",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "Dopo",
   "at_answer_label": "Risposta di LynkAssist",
@@ -52,6 +52,7 @@
   "at_practice_note": "Modalità prova: non cambia nulla di reale.",
   "at_preview_title": "Prima di confermare",
   "at_remember": "Ricorda che…",
+  "at_remember_off": "Attiva la memoria per aggiungere qualcosa.",
   "at_remember_save": "Ricorda",
   "at_remembered": "Ricordato.",
   "at_role_cashier": "cassiere",

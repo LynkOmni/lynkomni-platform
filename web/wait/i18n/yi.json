@@ -1,0 +1,20 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "yi",
+ "native": "ייִדיש",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "פּרובירט נאָך אַ מאָל",
+  "emk_first_open": "ערשטע עפֿענונג אויף דעם מכשיר (נאָך גאָרנישט אָפּגעהיט)",
+  "loading": "לאָדט",
+  "ph_all_loaded": "דאָס איז אַלץ",
+  "ph_draft_kept": "אײַער ענטוואורף איז אָפּגעהיט געוואָרן אויף דעם מכשיר.",
+  "ph_recent": "לעצטע",
+  "ph_slow": "דאָס נעמט לענגער ווי געוויינטלעך.",
+  "ph_suggested": "פֿאָרשלאָגן",
+  "ph_updating": "ווערט דערהיַנטיקט",
+  "ph_working": "אַרבעט"
+ }
+}
