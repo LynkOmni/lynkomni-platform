@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ar",
  "native": "العربية",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "الحساب",
   "active": "نشط",
@@ -672,6 +672,7 @@
   "st_share_passport": "مشاركة جواز نشاطي التجاري",
   "st_share_supplier": "مشاركة مبيعات منتجات المورّد مع ذلك المورّد",
   "st_shop_name": "اسم النشاط التجاري",
+  "st_staff_till": "صندوق مشترك: يدخل كل شخص برقم PIN الخاص به",
   "st_sunlight": "وضع ضوء الشمس",
   "st_tax_pending": "الإيصالات الضريبية بانتظار تأكيد مصلحة الضرائب",
   "st_tax_rate": "نسبة الضريبة",

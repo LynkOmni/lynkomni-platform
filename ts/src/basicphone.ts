@@ -7,21 +7,22 @@ import { pinProblem } from "./signin.js";
 
 export type BpScreen = "welcome" | "pin" | "locked" | "age" | "too_young" | "username" | "new_pin" | "pin_again" | "terms" | "created" | "home"
   | "messages" | "read" | "help" | "states" | "state" | "pin_help" | "link_sent" | "handed" | "bye";
-export interface BpState { screen: BpScreen; signed_in: boolean; username: string | null; pin: string | null; note: [string, Record<string, string | number>] | null; pick: number | null; back: BpScreen }
+export interface BpState { screen: BpScreen; signed_in: boolean; limited: boolean; username: string | null; pin: string | null; note: [string, Record<string, string | number>] | null; pick: number | null; back: BpScreen }
 export type BpLine = [string, Record<string, string | number>];
 export interface BpCtx { age: number; lines: [string, string][]; recovery?: string; case?: string }
-export type PinCheck = "ok" | "locked" | ["wrong", number];
+export type PinCheck = "ok" | "duress" | "locked" | ["wrong", number];
 export interface BpRules { pinCheck: (pin: string) => PinCheck; usernameCheck: (u: string) => string | null; taken: (u: string) => boolean }
-export type BpAction = { sign_in: true } | { wrong_pin: number } | { create: { username: string; pin: string } } | { read: string } | { send_link: "help" } | { hand_over: "help" };
+export type BpAction = { sign_in: true; duress?: true } | { wrong_pin: number } | { create: { username: string; pin: string } } | { read: string } | { send_link: "help" } | { hand_over: "help" };
 
 export const BP_WELCOME = ["sign_in", "create", "help"] as const;
 export const BP_HELP = ["states", "pin_help", "link", "person"] as const;
 export const BP_STATES = ["queued", "sent", "accepted", "confirmed", "failed"] as const;
 export const BP_MAX_LINES = 5;
 
-export const bpStart = (): BpState => ({ screen: "welcome", signed_in: false, username: null, pin: null, note: null, pick: null, back: "welcome" });
+export const bpStart = (): BpState => ({ screen: "welcome", signed_in: false, limited: false, username: null, pin: null, note: null, pick: null, back: "welcome" });
 
 export function bpPage(state: BpState, ctx: BpCtx): BpLine[] {
+  if (state.limited) ctx = { ...ctx, lines: [] };                 // the duress home: the same pages, no messages
   const note: BpLine[] = state.note ? [state.note] : [];
   const back: BpLine[] = [["ch_back", { n: 0 }]];
   switch (state.screen) {
@@ -68,6 +69,7 @@ export function bpStep(state: BpState, text: string, ctx: BpCtx, rules: BpRules)
     case "pin": {
       const r = rules.pinCheck(t);
       if (r === "ok") return [to({ ...s, signed_in: true }, "home"), false, { sign_in: true }];
+      if (r === "duress") return [to({ ...s, signed_in: true, limited: true }, "home"), false, { sign_in: true, duress: true }];
       if (r === "locked") return [to(s, "locked"), true, null];
       return [to(s, "pin", ["bp_wrong_pin", { left: r[1] }]), false, { wrong_pin: r[1] }];
     }

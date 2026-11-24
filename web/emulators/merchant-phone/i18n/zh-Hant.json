@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "帳戶",
   "active": "使用中",
@@ -672,6 +672,7 @@
   "st_share_passport": "分享我的商家護照",
   "st_share_supplier": "把供應商商品的銷售情況分享給該供應商",
   "st_shop_name": "商家名稱",
+  "st_staff_till": "共用收銀台：每人用自己的 PIN 登入",
   "st_sunlight": "強光模式",
   "st_tax_pending": "稅務收據需等待稅務機關確認",
   "st_tax_rate": "稅率",

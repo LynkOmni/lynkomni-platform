@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "অ্যাকাউন্ট",
   "active": "সক্রিয়",
@@ -672,6 +672,7 @@
   "st_share_passport": "আমার ব্যবসার পাসপোর্ট শেয়ার করুন",
   "st_share_supplier": "সরবরাহকারীর পণ্যের বিক্রি সেই সরবরাহকারীর সঙ্গে শেয়ার করুন",
   "st_shop_name": "ব্যবসার নাম",
+  "st_staff_till": "শেয়ার করা কাউন্টার: প্রত্যেকে নিজের PIN দিয়ে সাইন ইন করেন",
   "st_sunlight": "রোদের মোড",
   "st_tax_pending": "কর রসিদ কর কর্তৃপক্ষের নিশ্চিতকরণের অপেক্ষায়",
   "st_tax_rate": "করের হার",

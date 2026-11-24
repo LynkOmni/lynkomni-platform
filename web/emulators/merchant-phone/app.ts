@@ -38,7 +38,7 @@ import { DeviceMode } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { bell } from "../../../ts/src/notify.js";
 import type { Line } from "../../../ts/src/notify.js";
-import { cardFormFields, cardName, cardWord, decideOffline, knowledgeFor, needsManager } from "../../../ts/src/devicekit.js";
+import { StaffGate, StaffLock, cardFormFields, cardName, cardWord, decideOffline, knowledgeFor, needsManager } from "../../../ts/src/devicekit.js";
 import { PeopleHub, devicesCard, doorWhere, setupCard, surveyCard } from "../../../ts/src/peoplehub.js";
 import { EmulatorPanelDesk, panelPath, panelView } from "../../../ts/src/emulatorpanel.js";
 import type { PanelLook } from "../../../ts/src/emulatorpanel.js";
@@ -183,6 +183,25 @@ const S = {
   ask: "", answer: "", clockedIn: false, clockId: "", staffPhone: "", supplier: "s1", lynkTail: "7715",
   entity: "company" as Entity, kind: "business", deliveries: [] as Delivery[], delivery: "", qc: false,
 };
+/** Shared staff till (owner rule 2026-11-24): when a phone or tablet is a till that staff share (Business settings, Lock), it opens on
+ *  the staff PIN lock: each person signs in with their own PIN, so every sale and cash count is tied to a person; it locks after two
+ *  minutes without use; 8642 is the cashier's sample duress PIN (the quiet limited view: selling for cash and the receipt only, while
+ *  the alert leaves silently). Samples only: a real device keeps a slow salted hash in its encrypted database. */
+const TILL = new StaffLock([
+  { person: "c1", name: "Aline", role: "cashier", pin: "1234", duress: "8642" },
+  { person: "m1", name: "Eric", role: "manager", pin: "2580" },
+  { person: "o1", name: "Grace", role: "owner", pin: "4719" },
+]);
+const GATE = new StaffGate(TILL, { t: (k, v) => t(k, v), icon: (id) => icon(id), device: "merchant-phone", online: () => online(), redraw: () => draw(),
+  emit: (type, payload, origin) => { emit(type, payload, origin ?? "device"); } });
+GATE.open = true;                                                   // only a shared staff till locks; the owner's own phone does not
+const staffTill = (): boolean => S.toggles.has("staff_till");
+/** In the quiet duress view only selling for cash and the receipt work (identity/device_access.py DURESS_VIEW). */
+const DURESS_ACTS = new Set(["add", "cash", "cat", "dec", "inc", "newsale", "paycash", "receipt", "scan", "way", "view", "tab"]);
+function duressBlocks(k: string, v: string): boolean {
+  if (!DURESS_ACTS.has(k)) return true;
+  return (k === "way" && v !== "cash") || (k === "tab" && v !== "sell") || (k === "view" && !["main", "cash", "done", "receipt"].includes(v));
+}
 /** MASTER UPDATE section 3 in the Business app: the register-driven bell with role routing and "Done by", Ask the owner,
  *  LynkAssist's owner controls and history, the owner's thresholds and summary, remote lock and wipe, and "Get a card". */
 const M3 = {
@@ -314,6 +333,7 @@ const AT_HOME: Record<string, string> = { att_emulators: "attendance_emulators",
 const mayAddDevice = (): boolean => S.role === "owner" || S.role === "manager";
 function tick(): void {
   S.ticks += 1;
+  if (S.screen === "app" && staffTill() && GATE.tick()) draw();
   if (!maySync(S.link, S.forced) || (S.link === "weak" && S.ticks % 4)) return;   // a weak link sends now and then
   PH.onlineAgain(draw); PH.s.onlineAgain();                                                   // a device added offline gets its code checked once the link is back
   const now = Date.now();
@@ -1448,7 +1468,7 @@ const SETTING_ITEMS: Record<string, string[]> = {
   business_profile: ["shop_name", "business_type", "address", "logo"], receipts: ["receipt_footer", "receipt_qr", "receipt_language"], taxes: ["tax_rate", "prices_include_tax", "tax_pending"],
   payment_methods: PAY_WAYS.map((w) => "way_" + w.id), printers_scanners: ["printer", "scanner", "drawer"], language_region: ["language", "region", "currency"],
   notifications: ["n_sales", "n_stock", "n_chats", "quiet_hours"], data_saver: ["lite_mode", "images_wifi"], modes: ["low_literacy", "practice_mode", "sunlight"],
-  ad_categories: ["ads_contextual", "ads_never_protected"], lock: ["pin_lock", "idle_lock"], data_privacy: ["export_data", "delete_business"],
+  ad_categories: ["ads_contextual", "ads_never_protected"], lock: ["pin_lock", "idle_lock", "staff_till"], data_privacy: ["export_data", "delete_business"],
   connected_apps: ["no_apps"], data_sharing: ["share_supplier", "share_health", "share_passport"],
 };
 /** Ads in business settings (ADS UPDATE 79, section 4 row 79.10): the receipt line the shop may host and earn from, categories it never
@@ -1691,6 +1711,8 @@ function syncSheet(): string {
 
 function view(): string {
   if (S.screen !== "app") return signin();
+  if (staffTill() && !GATE.open) return `<div class="screen" data-screen="staff_lock">${GATE.view()}</div>`;
+  if (staffTill() && GATE.signed) { S.role = GATE.role() as Role; if (GATE.limited) { S.tab = "sell"; if (!["main", "cash", "done", "receipt"].includes(S.view)) S.view = "main"; } }
   const agent = S.btype === "agent_point";
   let body: string;
   if (S.view === "notifications") body = notifications();
@@ -1717,7 +1739,7 @@ function view(): string {
   }
   const noTabs = S.tab === "sell" && !["main", "done", "receipt", "sales", "shift", "practice"].includes(S.view) || S.view === "thread" || S.view === "svc";
   const qc = S.qc ? quickCreateHtml(NAV, barLook(), { role: S.role, close: "qcclose" }) : "";
-  return `<div class="screen" data-screen="${esc(screenId())}">${body}</div>${noTabs ? "" : tabBar()}${S.sheet ? syncSheet() : ""}${qc}${DSH.overlay()}`;
+  return `<div class="screen" data-screen="${esc(screenId())}">${staffTill() ? GATE.whoRow() : ""}${body}</div>${noTabs || (staffTill() && GATE.limited) ? "" : tabBar()}${S.sheet ? syncSheet() : ""}${qc}${DSH.overlay()}`;
 }
 
 /** The Business app on a phone or tablet is the touch version (catalog/devices.v1.json smartphone, tablet). */
@@ -1782,7 +1804,9 @@ function closeDay(): void {
   run("day-close-prepare"); notice("n_day_closed", { amount: money(sm.total) }); toast(t("saved"));
 }
 function act(a: string): void {
+  if (S.screen === "app" && staffTill() && GATE.act(a)) return;
   const [k, v = ""] = a.split(/:(.*)/s);
+  if (S.screen === "app" && staffTill() && GATE.limited && duressBlocks(k ?? "", v)) return;   // the quiet duress view only sells for cash
   if (namesAct(a, "nmc", "device")) { draw(); return; }   // the owner's choice of how names show on this device
   if (welcomeAct(a, "nmw")) { draw(); return; }           // the first-time welcome card closed: never again on this device
   if (a === "qc") { S.qc = true; draw(); return; }
@@ -2008,7 +2032,8 @@ function onChange(el: HTMLInputElement & HTMLSelectElement): void {
   if (k.startsWith("at:")) { if (el.tagName === "SELECT") { PH.att.input(k, el.value); draw(); } return; }
   if (k.startsWith("qu:")) { if (el.tagName === "SELECT") { PH.q.input(k, el.value); draw(); } return; }
   if (k.startsWith("sv:")) { if (el.tagName === "SELECT") { PH.s.input(k, el.value); draw(); } return; }
-  if (k.startsWith("set:")) { if (canChangeSettings(S.role)) { const x = k.slice(4); if (el.checked) S.toggles.add(x); else S.toggles.delete(x); if (x === "practice_mode") S.practice = el.checked; } draw(); return; }
+  if (k.startsWith("set:")) { if (canChangeSettings(S.role)) { const x = k.slice(4); if (el.checked) S.toggles.add(x); else S.toggles.delete(x); if (x === "practice_mode") S.practice = el.checked;
+      if (x === "staff_till") { GATE.lockNow(); GATE.open = !el.checked; } } draw(); return; }
   if (k.startsWith("auto:")) { const x = k.slice(5); if (el.checked) S.autoOff.delete(x); else S.autoOff.add(x); draw(); return; }
   if (k.startsWith("m3")) { m3Change(k, el); return; }
   switch (k) {
@@ -2081,7 +2106,8 @@ function wire(): void {
     if (ev.key === "Enter" && el.dataset["in"] === "chat") { S.draft = (el as HTMLInputElement).value; sendMsg(); ev.preventDefault(); }
     if (ev.key === "Escape" && S.sheet) { S.sheet = false; draw(); }
   });
-  document.addEventListener("keydown", (ev) => { if (S.screen === "app" && !S.sheet) DSH.key(ev); });
+  document.addEventListener("keydown", (ev) => { if (S.screen === "app" && staffTill() && GATE.key(ev)) return; if (S.screen === "app" && !S.sheet) DSH.key(ev); });
+  $("#cTill").addEventListener("change", () => { const on = ($("#cTill") as HTMLInputElement).checked; if (on) S.toggles.add("staff_till"); else S.toggles.delete("staff_till"); GATE.lockNow(); GATE.open = !on; draw(); });
   const bind = (id: string, f: (el: HTMLInputElement & HTMLSelectElement) => void): void => { const el = $<HTMLInputElement & HTMLSelectElement>(id); el.addEventListener("change", () => f(el)); };
   bind("#cLink", (el) => { S.link = el.value as Link; flushChats(); draw(); });
   bind("#cRole", (el) => { S.role = pick(["owner", "manager", "cashier"] as Role[], el.value, "owner"); draw(); });

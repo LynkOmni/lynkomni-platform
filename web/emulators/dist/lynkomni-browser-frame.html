@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-V43xL0xN/fIX11sARwOGC7f4VqCcYv2dNPEaLBBi8/o='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-a4PpqDe4gPXO/P0+UhZF2SaE/TEv23WE43TSYMUp5A0='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni shell on LynkPC</title>
 <meta name="description" content="Interactive emulator of the shared LynkOmni shell in a browser window at computer, tablet and phone size: header, navigation, launcher, account menu, every screen state, chat translation, username field and charts.">
@@ -2724,9 +2724,9 @@ const CARD_GROUP_NAMES = { "prepaid": "LynkPrima", "debit": "LynkDyna", "credit"
 const CARD_TIER_WORD = { "edge": "Free", "hub": "Plus", "core": "Pro", "omni": "Max" };
 const CARD_WORD = { "prepaid": "PREPAID", "debit": "DEBIT", "credit": "CREDIT" };
 const CARD_FORM = { "prepaid": ["holder", "form", "first_load", "limits"], "debit": ["holder", "form", "account", "limits"], "credit": ["holder", "form", "credit_kind", "limit_asked", "income", "credit_check_consent", "records_consent"] };
-const OFFLINE_LIMITS = { "cashier": { "void_minor": 0, "refund_minor": 0, "discount_bps": 1000 }, "stock_staff": { "void_minor": 0, "refund_minor": 0, "discount_bps": 0 }, "manager": { "void_minor": null, "refund_minor": null, "discount_bps": null }, "owner": { "void_minor": null, "refund_minor": null, "discount_bps": null } };
+const OFFLINE_LIMITS = { "cashier": { "void_minor": 0, "refund_minor": 0, "discount_bps": 1000 }, "stock_staff": { "void_minor": 0, "refund_minor": 0, "discount_bps": 0 }, "rider": { "void_minor": 0, "refund_minor": 0, "discount_bps": 0 }, "kitchen_staff": { "void_minor": 0, "refund_minor": 0, "discount_bps": 0 }, "manager": { "void_minor": null, "refund_minor": null, "discount_bps": null }, "owner": { "void_minor": null, "refund_minor": null, "discount_bps": null } };
 const DURESS_VIEW = ["sell_cash", "receipt_screen", "receipt_paper"];
-const CAN_MANAGE = { "owner": ["manager", "cashier", "stock_staff"], "manager": ["cashier", "stock_staff"] };
+const CAN_MANAGE = { "owner": ["manager", "cashier", "stock_staff", "rider", "kitchen_staff"], "manager": ["cashier", "stock_staff", "rider", "kitchen_staff"] };
 const QUEUE_EXPIRES_S = 604800;
 
 // ---- ts/src/signin.js

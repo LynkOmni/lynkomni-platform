@@ -63,10 +63,11 @@ function queueMove(): void {
 const SQ = { st: chSStart() as ChSState, survey: newId() };
 const sCtx = (): ChSCtx => ({ org: t("sample_shop"), minutes: 1, anonymous: true, questions: [{ id: "visit", type: "rating", text: t("ch_s_sample_q1") }, { id: "again", type: "yes_no", text: t("ch_s_sample_q2") }] });
 const ACCT_PIN = "4719";                 // the sample account's PIN
+const DURESS_PIN = "8642";               // the sample duress PIN (owner rule 2026-11-24): the same pages, and the cloud raises the alert silently
 const SAMPLE_USER = "ama.shop";          // "*" types it: a basic phone types letters by tapping a key several times
 const acctCtx = (): BpCtx => ({ age: 18, lines: [["n1", t("bp_new_sign_in")], ["n2", t("bp_low_rice")], ["n3", t("bp_day_closed")]].filter(([nid]) => !PH.read.has(nid!)) as [string, string][], recovery: "7F3K-9Q2M-X81B-4TZC", case: "LOCASE-2101-7710-0042" });
 const acctRules = {
-  pinCheck: (p: string): PinCheck => { if (p === ACCT_PIN) { PH.wrong = 0; return "ok"; } PH.wrong += 1; return PH.wrong >= 10 ? "locked" : ["wrong", 10 - PH.wrong]; },
+  pinCheck: (p: string): PinCheck => { if (p === ACCT_PIN) { PH.wrong = 0; return "ok"; } if (p === DURESS_PIN) { PH.wrong = 0; return "duress"; } PH.wrong += 1; return PH.wrong >= 10 ? "locked" : ["wrong", 10 - PH.wrong]; },
   usernameCheck: (u: string): string | null => { const r = check(u); return r.ok ? null : r.reason; },
   taken: (u: string): boolean => u === "mamas.kitchen",
 };
@@ -87,7 +88,7 @@ const HELP = ["ask_assist_short", "chat_with_person", "open_case"];
 const HELP_DONE = ["assist_opening", "support_connecting", "case_opened"];
 
 function chCtx() {
-  return { products: PRODUCTS.map((p): [string, string, string] => [t(p.name), C.money(p.price), qtyText(p.level)]), today: [S.count, C.money(S.total)] as [number, string], receipt: S.last, pinOk: (x: string) => x === PIN };
+  return { products: PRODUCTS.map((p): [string, string, string] => [t(p.name), C.money(p.price), qtyText(p.level)]), today: [S.count, C.money(S.total)] as [number, string], receipt: S.last, pinOk: (x: string) => x === PIN, pinDuress: (x: string) => x === DURESS_PIN };
 }
 function channelBody(): string {
   const head = `<div class="bhead"><span>${esc(t("ch_idle"))}</span><span>${esc(S.link === "none" ? t("offline") : "")}</span></div>`;
@@ -165,7 +166,7 @@ function channelAct(a: string): void {
     else if (a === "call" || a === "soft:left") {
       const [st, ends, action] = bpStep(PH.acct, PH.input, acctCtx(), acctRules); PH.input = "";
       if (action && "create" in action) { PH.created = true; LOG.emit("AccountCreated", { username: action.create.username, channel: "ussd" }, "server"); }
-      if (action && "sign_in" in action) LOG.emit("SessionStarted", { site: "basic_phone", channel: "ussd" }, "server");
+      if (action && "sign_in" in action) { LOG.emit("SessionStarted", { site: "basic_phone", channel: "ussd" }, "server"); if (action.duress) LOG.emit("DuressSignalled", { device_id: "basic-phone", person: "account", path: "text", at: Date.now() }, "server"); }
       if (action && "read" in action) { PH.read.add(action.read); LOG.emit("NotificationRead", { nid: action.read, channel: "ussd" }, "server"); }
       if (action && "hand_over" in action) LOG.emit("SupportCaseOpened", { case: "LOCASE-2101-7710-0042", channel: "ussd" }, "server");
       if (action && "send_link" in action) PH.reply = textNotification(t("bp_link_sent"), null, (k) => t(k));
@@ -176,7 +177,7 @@ function channelAct(a: string): void {
   if (n) PH.input = (PH.input + n[1]).slice(0, 4);
   else if (a === "call" || a === "soft:left") {
     const [st, ends, action] = chStep(PH.st, PH.input, chCtx()); PH.input = "";
-    if (action) sellFromChannel(action.sale, action.qty_milli);
+    if (action) { sellFromChannel(action.sale, action.qty_milli); if (action.duress) LOG.emit("DuressSignalled", { device_id: "basic-phone", person: "seller", path: "text", at: Date.now() }, "server"); }
     PH.st = st; PH.ended = ends;
   }
   draw();

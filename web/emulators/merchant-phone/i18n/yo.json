@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "Àkọọ́lẹ̀",
   "active": "Ó ń ṣiṣẹ́",
@@ -672,6 +672,7 @@
   "st_share_passport": "Pín ìwé ìrìnnà iṣẹ́ òwò mi",
   "st_share_supplier": "Pín títà ọjà olùpèsè kan pẹ̀lú olùpèsè náà",
   "st_shop_name": "Orúkọ iṣẹ́ òwò",
+  "st_staff_till": "Kaunta àjọlò: ẹnì kọ̀ọ̀kan ń wọlé pẹ̀lú PIN tirẹ̀",
   "st_sunlight": "Ipò ìmọ́lẹ̀ oòrùn",
   "st_tax_pending": "Ìwé-ẹ̀rí owó-orí ń dúró de ìfìdímúlẹ̀ aláṣẹ owó-orí",
   "st_tax_rate": "Ìwọ̀n owó-orí",

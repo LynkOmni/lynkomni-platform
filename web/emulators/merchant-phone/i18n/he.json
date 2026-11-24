@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "חשבון",
   "active": "פעיל",
@@ -672,6 +672,7 @@
   "st_share_passport": "שיתוף הדרכון העסקי שלי",
   "st_share_supplier": "שיתוף מכירות המוצרים של ספק עם אותו ספק",
   "st_shop_name": "שם העסק",
+  "st_staff_till": "קופה משותפת: כל אחד נכנס עם PIN משלו",
   "st_sunlight": "מצב שמש",
   "st_tax_pending": "קבלות מס ממתינות לאישור רשות המסים",
   "st_tax_rate": "שיעור המס",

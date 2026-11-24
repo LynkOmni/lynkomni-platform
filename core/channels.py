@@ -5,7 +5,8 @@ keys with values, so every channel shows it in the person's language; the TypeSc
 contract/vectors/channels.v1.json proves they agree. The network side (USSD code, short code, voice number) belongs to a
 licensed gateway per country (providers/registry.v1.json ussd_gateway), so the channel stays off until one is signed.
 
-Rules: a sale is recorded only after the person's PIN; quantities are integer thousandths; a page fits one USSD screen
+Rules: a sale is recorded only after the person's PIN (a duress PIN records it the same way and the page looks the same, while the
+action carries duress so the cloud raises the silent alert; owner rule 2026-11-24); quantities are integer thousandths; a page fits one USSD screen
 (USSD_MAX characters in English); agent, collection and partner requests are never offered here (online-only, enrolled devices).
 """
 import re
@@ -62,6 +63,9 @@ def step(state, text, ctx):
         if ctx["pin_ok"](t):
             s["screen"] = "done"
             return s, True, {"sale": s["prod"], "qty_milli": s["qty"] * 1000}
+        if ctx.get("pin_duress", lambda _t: False)(t):           # the same page; the cloud raises DuressSignalled silently
+            s["screen"] = "done"
+            return s, True, {"sale": s["prod"], "qty_milli": s["qty"] * 1000, "duress": True}
         return start(), False, None                               # a wrong PIN records nothing and goes back to the menu
     if scr in ("today", "stock", "help"):
         return (start(), False, None) if t == "0" else (s, False, None)

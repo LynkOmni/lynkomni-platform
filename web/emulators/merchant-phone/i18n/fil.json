@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "Account",
   "active": "Aktibo",
@@ -672,6 +672,7 @@
   "st_share_passport": "Ibahagi ang passport ng negosyo ko",
   "st_share_supplier": "Ibahagi sa supplier ang benta ng mga produkto nito",
   "st_shop_name": "Pangalan ng negosyo",
+  "st_staff_till": "Pinagsasaluhang counter: bawat tao ay nagsa-sign in gamit ang sariling PIN",
   "st_sunlight": "Sunlight mode",
   "st_tax_pending": "Naghihintay ng kumpirmasyon ng awtoridad sa buwis ang mga resibo sa buwis",
   "st_tax_rate": "Antas ng buwis",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "खाता",
   "active": "सक्रिय",
@@ -672,6 +672,7 @@
   "st_share_passport": "मेरा व्यवसाय पासपोर्ट साझा करें",
   "st_share_supplier": "सप्लायर के उत्पादों की बिक्री उसी सप्लायर से साझा करें",
   "st_shop_name": "व्यवसाय का नाम",
+  "st_staff_till": "साझा काउंटर: हर व्यक्ति अपने PIN से साइन इन करता है",
   "st_sunlight": "धूप मोड",
   "st_tax_pending": "कर रसीदें कर प्राधिकरण की पुष्टि का इंतज़ार करती हैं",
   "st_tax_rate": "कर दर",

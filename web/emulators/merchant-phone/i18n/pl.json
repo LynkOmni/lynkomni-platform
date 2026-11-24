@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pl",
  "native": "Polski",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "Konto",
   "active": "Aktywne",
@@ -672,6 +672,7 @@
   "st_share_passport": "Udostępniaj paszport mojej firmy",
   "st_share_supplier": "Udostępniaj dostawcy sprzedaż jego produktów",
   "st_shop_name": "Nazwa firmy",
+  "st_staff_till": "Wspólna kasa: każdy loguje się własnym PIN-em",
   "st_sunlight": "Tryb słoneczny",
   "st_tax_pending": "Paragony fiskalne czekają na potwierdzenie urzędu skarbowego",
   "st_tax_rate": "Stawka podatku",

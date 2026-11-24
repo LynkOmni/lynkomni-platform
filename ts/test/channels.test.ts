@@ -10,7 +10,7 @@ const V = JSON.parse(readFileSync(`${root}/contract/vectors/channels.v1.json`, "
 
 test("every USSD, text and voice session gives the same pages and the same sale as the Python reference", () => {
   assert.equal(USSD_MAX, V.ussd_max);
-  const ctx = { ...V.ctx, pinOk: (t: string) => t === V.pin };
+  const ctx = { ...V.ctx, pinOk: (t: string) => t === V.pin, pinDuress: (t: string) => t === V.duress };
   for (const steps of V.sessions) {
     let s: ChState = start();
     assert.deepEqual(page(s, V.ctx), steps[0].page);

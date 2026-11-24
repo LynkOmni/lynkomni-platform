@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "계정",
   "active": "활성",
@@ -672,6 +672,7 @@
   "st_share_passport": "사업 여권 공유",
   "st_share_supplier": "공급업체 상품의 판매 정보를 그 공급업체와 공유",
   "st_shop_name": "사업장 이름",
+  "st_staff_till": "공용 계산대: 각자 자신의 PIN으로 로그인",
   "st_sunlight": "햇빛 모드",
   "st_tax_pending": "세금 영수증은 세무 당국의 확인을 기다립니다",
   "st_tax_rate": "세율",

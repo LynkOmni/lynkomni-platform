@@ -20,6 +20,7 @@
   "case": "LOCASE-2101-7710-0042"
  },
  "pin": "4719",
+ "duress": "8642",
  "taken": [
   "mamas.kitchen"
  ],
@@ -650,6 +651,180 @@
      ]
     ],
     "ends": true,
+    "action": null
+   }
+  ],
+  [
+   {
+    "input": null,
+    "page": [
+     [
+      "bp_title",
+      {}
+     ],
+     [
+      "bp_sign_in",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_create",
+      {
+       "n": 2
+      }
+     ],
+     [
+      "bp_help",
+      {
+       "n": 3
+      }
+     ],
+     [
+      "ch_end",
+      {
+       "n": 0
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "1",
+    "screen": "pin",
+    "page": [
+     [
+      "bp_enter_pin",
+      {}
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "8642",
+    "screen": "home",
+    "page": [
+     [
+      "bp_home",
+      {}
+     ],
+     [
+      "bp_messages",
+      {
+       "n": 1,
+       "count": 0
+      }
+     ],
+     [
+      "bp_help",
+      {
+       "n": 2
+      }
+     ],
+     [
+      "ch_end",
+      {
+       "n": 0
+      }
+     ]
+    ],
+    "ends": false,
+    "action": {
+     "sign_in": true,
+     "duress": true
+    }
+   },
+   {
+    "input": "1",
+    "screen": "messages",
+    "page": [
+     [
+      "bp_no_messages",
+      {}
+     ],
+     [
+      "ch_back",
+      {
+       "n": 0
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "0",
+    "screen": "home",
+    "page": [
+     [
+      "bp_home",
+      {}
+     ],
+     [
+      "bp_messages",
+      {
+       "n": 1,
+       "count": 0
+      }
+     ],
+     [
+      "bp_help",
+      {
+       "n": 2
+      }
+     ],
+     [
+      "ch_end",
+      {
+       "n": 0
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "2",
+    "screen": "help",
+    "page": [
+     [
+      "bp_help_title",
+      {}
+     ],
+     [
+      "bp_help_states",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_help_pin_help",
+      {
+       "n": 2
+      }
+     ],
+     [
+      "bp_help_link",
+      {
+       "n": 3
+      }
+     ],
+     [
+      "bp_help_person",
+      {
+       "n": 4
+      }
+     ],
+     [
+      "ch_back",
+      {
+       "n": 0
+      }
+     ]
+    ],
+    "ends": false,
     "action": null
    }
   ],

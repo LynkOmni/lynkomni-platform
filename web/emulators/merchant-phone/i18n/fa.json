@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fa",
  "native": "فارسی",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "حساب",
   "active": "فعال",
@@ -672,6 +672,7 @@
   "st_share_passport": "اشتراک گذرنامه کسب‌وکارم",
   "st_share_supplier": "اشتراک فروش کالاهای یک تأمین‌کننده با همان تأمین‌کننده",
   "st_shop_name": "نام کسب‌وکار",
+  "st_staff_till": "صندوق مشترک: هر نفر با PIN خودش وارد می‌شود",
   "st_sunlight": "حالت نور خورشید",
   "st_tax_pending": "رسیدهای مالیاتی منتظر تأیید سازمان مالیاتی هستند",
   "st_tax_rate": "نرخ مالیات",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "アカウント",
   "active": "有効",
@@ -672,6 +672,7 @@
   "st_share_passport": "ビジネスパスポートを共有",
   "st_share_supplier": "仕入先の商品の売上をその仕入先と共有",
   "st_shop_name": "ビジネス名",
+  "st_staff_till": "共用レジ：一人ひとりが自分の PIN でサインイン",
   "st_sunlight": "日差しモード",
   "st_tax_pending": "税務レシートは税務当局の確認待ちです",
   "st_tax_rate": "税率",

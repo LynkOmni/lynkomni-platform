@@ -20,6 +20,7 @@ import { layoutFor } from "../../../ts/src/interfaces.js";
 import { applyLayout, turnedShape } from "../../../ts/src/turn.js";
 import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
 import { watchNames } from "../../../ts/src/names.js";
+import { StaffGate, StaffLock } from "../../../ts/src/devicekit.js";
 
 declare const DATA: Build;
 interface Job { id: string; order: number; area: string; amount: number; state: DeliveryState; code: string; proof?: "code" | "photo" }
@@ -53,6 +54,15 @@ const $ = <T extends HTMLElement>(sel: string): T => document.querySelector(sel)
 const icon = (id: string): string => `<span class="ic" aria-hidden="true">${DATA.icons[id] ?? ""}</span>`;
 const chip = (s: UserState): string => `<span class="chip st-${s}">${icon(`status-${s}`)}<span>${esc(t(`st_${s}`))}</span></span>`;
 const LOG = new EventLog(() => { const el = document.getElementById("log"); if (el) el.innerHTML = LOG.html(esc, chip, t("no_events")); draw(); });
+/** The staff lock (owner rule 2026-11-24): each rider signs in with their own PIN, so every pickup, delivery and cash collection is
+ *  tied to a person. 8642 is the rider's sample duress PIN: the phone looks the same but hides the cash amounts, while the alert
+ *  leaves silently. Samples only: a real phone keeps a slow salted hash in its encrypted database. */
+const STAFF = new StaffLock([
+  { person: "r1", name: "Jean", role: "rider", pin: "1357", duress: "8642" },
+  { person: "m1", name: "Eric", role: "manager", pin: "2580" },
+  { person: "o1", name: "Grace", role: "owner", pin: "4719" },
+]);
+const GATE = new StaffGate(STAFF, { t, icon: (id) => icon(id), device: "rider-phone", online: () => S.online, redraw: () => draw(), emit: (type, payload, origin) => { LOG.emit(type, payload, origin); } });
 const code6 = (): string => String(Math.floor(100000 + Math.random() * 900000));
 const job = (): Job | undefined => S.jobs.find((j) => j.id === S.open);
 const stateWord = (st: DeliveryState): string => (st === "accepted" ? t("st_accepted") : st === "picked_up" ? t("picked_up") : st === "delivered" ? t("delivered") : st === "failed" ? t("st_failed") : t("st_sent"));
@@ -65,7 +75,7 @@ const DSH = panelShell({
   native: () => (DATA.i18n[S.lang]?.native ?? S.lang), region: () => (C.pack().sample ? t("sample_country") : C.pack().name), currency: () => C.pack().currency,
   pending: () => LOG.pending().count, lastSync: () => LOG.events.find((e) => e.sync === "accepted")?.at ?? null,
   screen: () => ({ id: S.open ? "delivery" : "deliveries", title: shellTitle(), path: "/deliveries" }), entries: (): Entry[] => S.jobs.map((j): Entry => ({ id: j.id, kind: "order", title: t("order", { n: j.order }), subtitle: `${t(j.area)} · ${stateWord(j.state)}`, act: `open:${j.id}` })),
-  account: () => sampleAccount(t, "cashier", ["cashier", "manager", "owner"], t("sample_shop"), S.dark ? "dark" : "light", DATA.i18n[S.lang]?.native ?? S.lang, C.pack().sample ? t("sample_country") : C.pack().name),
+  account: () => sampleAccount(t, GATE.role() || "rider", ["rider", "manager", "owner"], t("sample_shop"), S.dark ? "dark" : "light", DATA.i18n[S.lang]?.native ?? S.lang, C.pack().sample ? t("sample_country") : C.pack().name),
   run: (a) => { act(a); }, redraw: () => draw(),
 });
 
@@ -73,7 +83,7 @@ function list(): string {
   // designed states (41 B): changes waiting for the connection, and nothing left to deliver
   const waiting = !S.online && LOG.pending().count ? designedState("sync_pending", t, DATA.statePictures, S.dark, null) : "";
   const done = S.jobs.every((j) => j.state === "delivered") ? designedState("success", t, DATA.statePictures, S.dark, null) : "";
-  return `${batteryNote()}${shiftBar()}${waiting}${done}<h2>${esc(t("deliveries"))}</h2><ul class="jobs">${S.jobs.map((j) => `<li><button data-act="open:${j.id}"><strong>${esc(t("order", { n: j.order }))}</strong><span>${esc(t(j.area))}</span><span class="st st-${j.state}">${esc(stateWord(j.state))}</span>${icon("ui-chevron-right")}</button></li>`).join("")}</ul><p class="note">${esc(t("proof_photo"))}</p>${appShortFooter(C)}`;
+  return `${GATE.whoRow()}${batteryNote()}${shiftBar()}${waiting}${done}<h2>${esc(t("deliveries"))}</h2><ul class="jobs">${S.jobs.map((j) => `<li><button data-act="open:${j.id}"><strong>${esc(t("order", { n: j.order }))}</strong><span>${esc(t(j.area))}</span><span class="st st-${j.state}">${esc(stateWord(j.state))}</span>${icon("ui-chevron-right")}</button></li>`).join("")}</ul><p class="note">${esc(t("proof_photo"))}</p>${appShortFooter(C)}`;
 }
 /** The job as the shared tracking engine sees it (the same steps the shop and the customer see). Trip progress is shared only
  *  while the rider has switched it on for this trip: a share of the way and the arrival time, never a position. */
@@ -91,7 +101,7 @@ const look = { t, esc, icon: (id: string) => icon(id), time: (iso: string) => C.
 function detail(j: Job): string {
   const next = nextDeliveryStep(j.state);
   const syncChip = j.state === "picked_up" ? chip(lastSync(j.id, "DeliveryPickedUp")) : j.state === "delivered" ? chip(lastSync(j.id, "DeliveryDelivered")) : "";
-  return `<button class="link" data-act="back">${icon("ui-arrow-left")}${esc(t("back"))}</button><h2>${esc(t("order", { n: j.order }))}</h2><p>${esc(t(j.area))} · ${esc(C.money(j.amount))}</p>
+  return `<button class="link" data-act="back">${icon("ui-arrow-left")}${esc(t("back"))}</button><h2>${esc(t("order", { n: j.order }))}</h2><p>${esc(t(j.area))}${GATE.limited ? "" : ` · ${esc(C.money(j.amount))}`}</p>
     <p class="state">${esc(stateWord(j.state))} ${syncChip}</p>
     ${next === "picked_up" ? `<button class="primary" data-act="pickup">${esc(t("picked_up"))}</button>` : ""}
     ${next === "delivered" ? `<label class="codebox">${esc(t("delivery_code", { code: "" }))}<input inputmode="numeric" maxlength="6" data-sensitive data-field="code" value="${esc(S.typed)}" autocomplete="off"></label>
@@ -127,12 +137,14 @@ function drawScreen(): void {
   const turned = RK.device === "rider-phone" ? S.turn ?? "upright" : "upright";      // TURN UPDATE 76.8: the phone is tried both ways
   document.querySelector(".phone")?.setAttribute("data-turn", turned);
   applyLayout(el, layoutFor(DEVICES, turnedShape(turned, { interface: "phone.touch", width: 390, height: 844 })));
+  if (!GATE.open) { el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = `<header class="rtop"><span class="rmark">${icon("product-chat")}</span><strong>${esc(t("deliveries"))}</strong></header><div class="rbody">${GATE.view()}</div>${DSH.overlay()}`; const adr = document.getElementById("address"); if (adr) adr.textContent = DSH.address(); return; }
   if (RK.device === "smartwatch" && !job()) { el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = `<div class="rbody">${watchView()}</div>${DSH.overlay()}`; return; }
   if (RK.device === "car-screen" && RK.moving) { el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = carVoice(); return; } el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W);
   el.innerHTML = `<header class="rtop"><span class="rmark">${icon("product-chat")}</span><strong>${esc(t("deliveries"))}</strong>${DSH.bar()}</header><div class="rbody">${job() ? detail(job()!) : list()}</div>${DSH.overlay()}`;
   const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address();
 }
 function act(a: string): void {
+  if (GATE.act(a)) return;
   const [k = "", v = ""] = a.split(":"); const j = job();
   if (k === "open") { S.open = S.jobs.some((x) => x.id === v) ? v : ""; S.typed = ""; S.msg = ""; }
   else if (k === "back") S.open = "";
@@ -154,13 +166,16 @@ function panel(): void {
     + `<label class="center"><span>${esc(t("rk_battery"))}</span> <select data-ctl="battery">${[100, 20, 10, 3].map((b) => `<option value="${b}"${b === RX.battery ? " selected" : ""}>${b}%</option>`).join("")}</select></label>`
     + (RK.device === "car-screen" ? `<label><input type="checkbox" data-ctl="moving"${RK.moving ? " checked" : ""}> <span>${esc(t("rk_moving"))}</span></label>` : "");
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
-  stateButtons($("#stateButtons"), ["list", "pickup", "deliver", "delivered", "wrong"], (k) => { seed(); const j = S.jobs[0]!; S.open = k === "list" ? "" : j.id; S.msg = "";
+  stateButtons($("#stateButtons"), ["lock_screen", "duress", "list", "pickup", "deliver", "delivered", "wrong"], (k) => {
+    if (k === "lock_screen") { GATE.lockNow(); S.open = ""; draw(); return; }
+    GATE.signInFirst(); if (k === "duress") { GATE.limited = true; S.open = ""; draw(); return; }
+    seed(); const j = S.jobs[0]!; S.open = k === "list" ? "" : j.id; S.msg = "";
     if (k === "deliver" || k === "delivered" || k === "wrong") j.state = "picked_up"; if (k === "delivered") { j.state = "delivered"; } if (k === "wrong") { S.typed = "000000"; S.msg = t("wrong_code"); } draw(); });
 }
 function main(): void {
   S.country = DATA.packOrder[0] ?? ""; seed(); panel(); draw();
   document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (!b || b.hasAttribute("disabled")) return; if (b.classList.contains("dsh-scrim") && (e.target as HTMLElement).closest("[data-stop]")) return; if (!DSH.act(b.dataset["act"] ?? "")) act(b.dataset["act"] ?? ""); });
-  document.addEventListener("keydown", (e) => { DSH.key(e); });
+  document.addEventListener("keydown", (e) => { if (GATE.key(e)) return; DSH.key(e); });
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
   document.addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["field"] === "share") { S.share = el.checked; S.trip = 0; draw(); } });
   document.addEventListener("input", (e) => { const el = e.target as HTMLInputElement; if (DSH.input(el)) return; if (el.dataset["field"] === "code") { S.typed = plain(el.value).replace(/\D/g, "").slice(0, 6); const pos = el.selectionStart; draw(); const n = document.querySelector<HTMLInputElement>('[data-field="code"]'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } } });
@@ -169,7 +184,7 @@ function main(): void {
     if (c.dataset["ctl"] === "moving") { RK.moving = c.checked; draw(); return; }
     if (c.dataset["ctl"] === "battery") { RX.battery = Number(c.value) || 100; if (RX.battery > 3) RX.lastSent = false; draw(); return; }
     if (panelChange(e.target as HTMLSelectElement, S, DATA)) panel(); draw(); if (c.dataset["ctl"] === "turn") (window as unknown as { __refit: () => void }).__refit(); });
-  window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); if (S.share && S.online && job()?.state === "picked_up" && S.ticks % 8 === 0 && S.trip < 16) { S.trip += 1; draw(); } }, 400);
+  window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); if (GATE.tick()) draw(); if (S.share && S.online && job()?.state === "picked_up" && S.ticks % 8 === 0 && S.trip < 16) { S.trip += 1; draw(); } }, 400);
   const base = Number($("#rig").dataset["width"]) || 400;
   (window as unknown as { __refit: () => void }).__refit = () => { const r = $("#rig"); document.documentElement.style.setProperty("--fit", String(Math.min(1, (r.clientWidth - 8) / (RK.device === "car-screen" ? 680 : RK.device === "rider-phone" && S.turn === "sideways" ? 800 : base)))); };
   addEventListener("resize", () => (window as unknown as { __refit: () => void }).__refit());

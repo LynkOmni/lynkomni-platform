@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "Asusu",
   "active": "Mai aiki",
@@ -672,6 +672,7 @@
   "st_share_passport": "Raba fasfon kasuwancina",
   "st_share_supplier": "Raba sayarwar kayan mai kawo kaya da shi",
   "st_shop_name": "Sunan kasuwanci",
+  "st_staff_till": "Kanta ta tarayya: kowa yana shiga da PIN nasa",
   "st_sunlight": "Yanayin hasken rana",
   "st_tax_pending": "Rasit na haraji suna jiran tabbaci daga hukumar haraji",
   "st_tax_rate": "Adadin haraji",

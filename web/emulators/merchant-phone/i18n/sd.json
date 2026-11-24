@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "اڪائونٽ",
   "active": "فعال",
@@ -672,6 +672,7 @@
   "st_share_passport": "منهنجو ڪاروباري پاسپورٽ شيئر ڪريو",
   "st_share_supplier": "سپلائر جي پراڊڪٽن جو وڪرو ان سپلائر سان شيئر ڪريو",
   "st_shop_name": "ڪاروبار جو نالو",
+  "st_staff_till": "گڏيل ڪائونٽر: هر ماڻهو پنهنجي PIN سان سائن ان ڪري ٿو",
   "st_sunlight": "سج جي روشني وارو موڊ",
   "st_tax_pending": "ٽيڪس رسيدون ٽيڪس اٿارٽي جي تصديق جو انتظار ڪن ٿيون",
   "st_tax_rate": "ٽيڪس جي شرح",

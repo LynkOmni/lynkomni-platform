@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "it",
  "native": "Italiano",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "Account",
   "active": "Attivo",
@@ -672,6 +672,7 @@
   "st_share_passport": "Condividi il mio passaporto aziendale",
   "st_share_supplier": "Condividi le vendite dei prodotti di un fornitore con quel fornitore",
   "st_shop_name": "Nome dell'attività",
+  "st_staff_till": "Cassa condivisa: ogni persona accede con il proprio PIN",
   "st_sunlight": "Modalità luce solare",
   "st_tax_pending": "Le ricevute fiscali attendono la conferma dell'autorità fiscale",
   "st_tax_rate": "Aliquota",

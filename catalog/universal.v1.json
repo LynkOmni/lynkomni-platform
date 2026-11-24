@@ -246,6 +246,11 @@
    "id": "pay_a_provider",
    "what": "Every service where a person buys from a provider (airtime, data, eSIMs, bills, subscriptions, fees, tickets, transport, transfers, loans, insurance, savings and any new one) uses the one pay-a-provider flow of blueprint section 85 with its own steps: country, provider, the provider's real offers and prices in the person's currency with the fee shown, details checked with the provider, review and pay, and the result only on the provider's confirmation; money only through licensed partners, \"Coming to your country soon.\" where none is signed",
    "enforced_by": "built in section 9 (build table 85.6); its tests join there"
+  },
+  {
+   "id": "staff_pin",
+   "what": "Every shared staff device signs each person in with their own PIN, has a duress PIN with a quiet limited view and a silent alert, waits then locks after wrong PINs (never wipes) and locks itself when left; basic phones take a duress PIN too",
+   "enforced_by": "tests/test_staff_lock.py"
   }
  ],
  "not_applicable": {

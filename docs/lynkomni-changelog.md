@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.98.0 (2026-11-24)
+A staff PIN with a duress PIN on every shared staff device (owner rule):
+- One shared staff lock in the device kit (StaffGate): who is using this device, each person's own PIN on the shared pad, a wait and then a locked PIN after wrong tries (nothing is ever deleted), a lock after two minutes without use, and a duress PIN that opens the device's quiet limited view while the alert leaves silently.
+- Now on the rider phone (riders carry cash on delivery; the duress view hides the cash amounts), the stock scanner (the duress view only counts and receives), the kitchen screen (sign-in is optional there) and the Business app when a phone or tablet is a shared staff till (Business settings, Lock, Shared staff till; the duress view only sells for cash). The LynkPOS terminal, the counter tablet and the LynkBet counter already had it.
+- Basic phones take a duress PIN at sign-in (the same home, no messages shown) and when confirming a sale (the same page), and the cloud raises the alert silently.
+- New staff roles rider and kitchen staff, managed by the owner and managers, with the strictest offline limits.
+- Written down as a rule for every service (the emulator register, the universal rules and the security register): any new shared staff device must have it, and tests/test_staff_lock.py checks every built one. Customer screens, a person's own account and card, and the mesh relay have no staff PIN by design.
+- The device kit's words now travel only with pages that load it; size limits raised only where the lock was added, with the reason written down. In all 38 languages.
+
 ## v0.97.1 (2026-11-24)
 The LynkBet betting counter signs staff in with a PIN (owner report):
 - The counter now opens on the staff PIN lock, like every LynkPOS device: Who is using this device?, each person's own PIN on the shared pad (pictures and a tone per key), a wait after wrong PINs and a locked PIN after ten (nothing is ever deleted; the owner or a manager resets it), the quiet duress view that only takes bets for cash while the alert leaves silently, Lock the counter, and a lock after two minutes without use. Every bet and payout is tied to the person serving.

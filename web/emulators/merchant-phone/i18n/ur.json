@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ur",
  "native": "اردو",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "اکاؤنٹ",
   "active": "فعال",
@@ -672,6 +672,7 @@
   "st_share_passport": "میرا کاروباری پاسپورٹ شیئر کریں",
   "st_share_supplier": "سپلائر کی پروڈکٹس کی فروخت اسی سپلائر سے شیئر کریں",
   "st_shop_name": "کاروبار کا نام",
+  "st_staff_till": "مشترکہ کاؤنٹر: ہر شخص اپنے PIN سے سائن ان کرتا ہے",
   "st_sunlight": "دھوپ موڈ",
   "st_tax_pending": "ٹیکس رسیدیں ٹیکس اتھارٹی کی تصدیق کی منتظر ہیں",
   "st_tax_rate": "ٹیکس کی شرح",

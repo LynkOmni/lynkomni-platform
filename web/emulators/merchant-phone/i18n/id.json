@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "Akun",
   "active": "Aktif",
@@ -672,6 +672,7 @@
   "st_share_passport": "Bagikan paspor bisnis saya",
   "st_share_supplier": "Bagikan penjualan produk pemasok kepada pemasok itu",
   "st_shop_name": "Nama bisnis",
+  "st_staff_till": "Kasir bersama: setiap orang masuk dengan PIN-nya sendiri",
   "st_sunlight": "Mode sinar matahari",
   "st_tax_pending": "Struk pajak menunggu konfirmasi otoritas pajak",
   "st_tax_rate": "Tarif pajak",

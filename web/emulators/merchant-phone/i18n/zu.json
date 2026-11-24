@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "I-akhawunti",
   "active": "Kuyasebenza",
@@ -672,6 +672,7 @@
   "st_share_passport": "Yabelana ngephasiphothi yebhizinisi lami",
   "st_share_supplier": "Yabelana nomhlinzeki ngokuthengiswa kwemikhiqizo yakhe",
   "st_shop_name": "Igama lebhizinisi",
+  "st_staff_till": "Ikhawunta eyabelwanayo: umuntu ngamunye ungena nge-PIN yakhe",
   "st_sunlight": "Imodi yokukhanya kwelanga",
   "st_tax_pending": "Amarisidi entela alinde ukuqinisekiswa yiziphathimandla zentela",
   "st_tax_rate": "Izinga lentela",

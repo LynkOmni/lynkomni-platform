@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ug",
  "native": "ئۇيغۇرچە",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "ھېسابات",
   "active": "ئاكتىپ",
@@ -672,6 +672,7 @@
   "st_share_passport": "سودا پاسپورتىمنى ئورتاقلىشىش",
   "st_share_supplier": "تەمىنلىگۈچى مەھسۇلاتلىرىنىڭ سېتىلىشىنى شۇ تەمىنلىگۈچى بىلەن ئورتاقلىشىش",
   "st_shop_name": "سودا نامى",
+  "st_staff_till": "ئورتاق كاسسا: ھەر كىشى ئۆز PIN ى بىلەن كىرىدۇ",
   "st_sunlight": "قۇياش نۇرى ھالىتى",
   "st_tax_pending": "باج تالونلىرى باج ئورگىنىنىڭ جەزملىشىنى كۈتىدۇ",
   "st_tax_rate": "باج نىسبىتى",
