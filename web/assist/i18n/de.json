@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "de",
  "native": "Deutsch",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "Nachher",
   "at_answer_label": "Antwort von LynkAssist",
@@ -52,6 +52,7 @@
   "at_practice_note": "Übungsmodus: nichts Echtes ändert sich.",
   "at_preview_title": "Bevor Sie bestätigen",
   "at_remember": "Merke dir, dass…",
+  "at_remember_off": "Schalte das Gedächtnis ein, um etwas hinzuzufügen.",
   "at_remember_save": "Merken",
   "at_remembered": "Gemerkt.",
   "at_role_cashier": "Kasse",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ta",
  "native": "தமிழ்",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "பின்",
   "at_answer_label": "LynkAssist இன் பதில்",
@@ -52,6 +52,7 @@
   "at_practice_note": "பயிற்சி முறை: உண்மையில் எதுவும் மாறாது.",
   "at_preview_title": "உறுதிப்படுத்தும் முன்",
   "at_remember": "இதை நினைவில் வை…",
+  "at_remember_off": "எதையாவது சேர்க்க நினைவகத்தை இயக்குங்கள்.",
   "at_remember_save": "நினைவில் வை",
   "at_remembered": "நினைவில் வைக்கப்பட்டது.",
   "at_role_cashier": "காசாளர்",

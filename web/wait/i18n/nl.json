@@ -1,0 +1,20 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "nl",
+ "native": "Nederlands",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "Probeer opnieuw",
+  "emk_first_open": "Eerste keer openen op dit apparaat (nog niets bewaard)",
+  "loading": "Laden",
+  "ph_all_loaded": "Dat is alles",
+  "ph_draft_kept": "Je concept is op dit apparaat bewaard.",
+  "ph_recent": "Recent",
+  "ph_slow": "Dit duurt langer dan normaal.",
+  "ph_suggested": "Suggesties",
+  "ph_updating": "Bijwerken",
+  "ph_working": "Werkt"
+ }
+}

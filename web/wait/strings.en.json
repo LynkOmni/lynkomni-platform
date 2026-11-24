@@ -1,0 +1,12 @@
+{
+ "action_retry": "Try again",
+ "emk_first_open": "First open on this device (nothing saved yet)",
+ "loading": "Loading",
+ "ph_all_loaded": "That's everything",
+ "ph_draft_kept": "Your draft was kept on this device.",
+ "ph_recent": "Recent",
+ "ph_slow": "This is taking longer than usual.",
+ "ph_suggested": "Suggested",
+ "ph_updating": "Updating",
+ "ph_working": "Working"
+}

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fa",
  "native": "فارسی",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "بعد",
   "at_answer_label": "پاسخ LynkAssist",
@@ -52,6 +52,7 @@
   "at_practice_note": "حالت تمرین: هیچ چیز واقعی تغییر نمی‌کند.",
   "at_preview_title": "پیش از تأیید",
   "at_remember": "به خاطر بسپار که…",
+  "at_remember_off": "برای افزودن چیزی، حافظه را روشن کنید.",
   "at_remember_save": "به خاطر بسپار",
   "at_remembered": "به خاطر سپرده شد.",
   "at_role_cashier": "صندوقدار",

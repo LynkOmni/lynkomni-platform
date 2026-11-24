@@ -6,6 +6,7 @@ import { markFor } from "./brand.js";
 import { formatMoney, uuid7 } from "./pos.js";
 import { buildFooter, mainFooterHtml, shortFooterHtml } from "./footer.js";
 import type { UserState } from "./pos.js";
+import { FIRST_OPEN_WORD, PAGE_RETRY, PageWait } from "./placeholder.js";
 
 export interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; ui: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[];
   ready: Record<string, { ok: boolean; message: string }>; services: { service: string; id?: string; name: string; icon: string; href?: string; state: "available" | "coming_soon" }[] }
@@ -27,8 +28,14 @@ export const newId = (): string => uuid7(Date.now(), randomBytes);
 /** A fair whole number from 0 up to n - 1 (n at most 2^32): draws that would favour the low numbers are thrown away and drawn again. */
 export function randomBelow(n: number): number {
   if (!Number.isInteger(n) || n < 1 || n > 2 ** 32) throw new RangeError("randomBelow needs a whole number from 1 to 2^32");
-  const limit = 2 ** 32 - (2 ** 32 % n);
-  for (;;) { const b = randomBytes(4); const v = ((b[0]! << 24) >>> 0) + (b[1]! << 16) + (b[2]! << 8) + b[3]!; if (v < limit) return v % n; }
+  // draw only as many bits as n needs and draw again when the number is too big: every answer is equally likely
+  const bits = n === 1 ? 0 : 32 - Math.clz32(n - 1);
+  for (;;) {
+    const b = randomBytes(4);
+    const v = (((b[0]! << 24) | (b[1]! << 16) | (b[2]! << 8) | b[3]!) >>> (32 - bits)) >>> 0;
+    if (bits === 0) return 0;
+    if (v < n) return v;
+  }
 }
 /** A public identifier in the one LynkOmni format (core/ids.py, ts/src/ids.ts): LO + type code + 12 digits with a Luhn check digit.
  *  The browser copy of the allocator's format step, for sample records in emulators; the code must be in the identifier registry. */
@@ -123,8 +130,8 @@ export function fitToWidth(rig: HTMLElement, deviceWidth: number): () => void {
 }
 
 /** The control panel beside every device: the same conditions in the same words everywhere. `controls` picks which appear. */
-export type Control = "online" | "fail" | "type" | "plan" | "country" | "real" | "practice" | "dark" | "lang" | "turn";
-export interface PanelState { online: boolean; fail: boolean; type: string; tier: string; country: string; realUser: boolean; practice: boolean; dark: boolean; lang: string; turn?: "upright" | "sideways" }
+export type Control = "online" | "fail" | "type" | "plan" | "country" | "real" | "practice" | "dark" | "lang" | "turn" | "firstopen";
+export interface PanelState { online: boolean; fail: boolean; type: string; tier: string; country: string; realUser: boolean; practice: boolean; dark: boolean; lang: string; turn?: "upright" | "sideways"; firstOpen?: boolean }
 export function panelHtml(controls: readonly Control[], st: PanelState, words: Words, country: Country, extra: { types?: readonly string[]; tiers?: readonly string[]; help?: string } = {}): string {
   const t = words.t, row = (inner: string, center = false): string => `<label${center ? ' class="center"' : ""}>${inner}</label>`;
   const box = (id: string, on: boolean, label: string, help?: string): string => row(`<input type="checkbox" data-ctl="${id}" ${on ? "checked" : ""}> <span>${esc(label)}${help ? `<br><span class="help">${esc(help)}</span>` : ""}</span>`);
@@ -141,6 +148,7 @@ export function panelHtml(controls: readonly Control[], st: PanelState, words: W
     if (c === "dark") parts.push(box("dark", st.dark, t("dark_screen")));
     if (c === "lang") parts.push(sel("lang", t("language"), words.options(t("long_text_test"), t("rtl_test")).replace(`value="${esc(st.lang)}"`, `value="${esc(st.lang)}" selected`)));
     // TURN UPDATE 76.8: a device a person can turn is tried upright and sideways (id cSize: the fit guard walks every choice)
+    if (c === "firstopen") parts.push(box("firstopen", !!st.firstOpen, t(FIRST_OPEN_WORD)));     // PLACEHOLDER UPDATE 83
     if (c === "turn") parts.push(row(`<span>${esc(t("screen_turn"))}</span> <select data-ctl="turn" id="cSize">${(["upright", "sideways"] as const).map((x) => `<option value="${x}" ${x === (st.turn ?? "upright") ? "selected" : ""}>${esc(x === "upright" ? t("turn_upright") : t("turn_sideways"))}</option>`).join("")}</select>`, true));
   }
   parts.push(`<div id="stateButtons" class="states"></div><h3>${esc(t("event_log"))}</h3><ul class="log" id="log" aria-live="polite"></ul>`);
@@ -154,6 +162,7 @@ export function panelChange(el: HTMLInputElement | HTMLSelectElement, st: PanelS
   else if (ctl === "plan") st.tier = pick(extra.tiers ?? [], v, st.tier);
   else if (ctl === "country") st.country = pick(data.packOrder, v, st.country);
   else if (ctl === "turn") st.turn = v === "sideways" ? "sideways" : "upright";
+  else if (ctl === "firstopen") st.firstOpen = on;
   else if (ctl === "lang") { st.lang = v in data.i18n || v === "xx" || v === "xx-rtl" ? v : "en"; return true; }
   return false;
 }
@@ -177,3 +186,10 @@ export function appMainFooter(words: Words, country: Country, data: Build): stri
     data.brand.places["web-footer"] ? { light: markFor(data.brand.places, "web-footer", false, 180).svg, dark: markFor(data.brand.places, "web-footer", true, 180).svg } : undefined);
 }
 export const appShortFooter = (country: Country): string => shortFooterHtml(new Date(), country.pack().tz);
+
+/** Waiting well on a page without the kit (PLACEHOLDER UPDATE 83): call at the end of every draw with the page's own PageWait.
+ *  The panel's "First open" condition starts the wait; Retry, the Updating chip and busy buttons come with it. */
+export function pageWaiting(w: PageWait, st: { online: boolean; firstOpen?: boolean }, screen: HTMLElement, t: (k: string) => string, redraw: () => void, area?: string): void {
+  if (w.firstOpen !== !!st.firstOpen) w.setFirstOpen(!!st.firstOpen);
+  w.apply(screen, { t, online: () => st.online, redraw, retryAct: PAGE_RETRY, retryClass: "ph-retry", ...(area ? { area } : {}) });
+}

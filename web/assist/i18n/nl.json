@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "Na",
   "at_answer_label": "Antwoord van LynkAssist",
@@ -52,6 +52,7 @@
   "at_practice_note": "Oefenmodus: er verandert niets echt.",
   "at_preview_title": "Voordat je bevestigt",
   "at_remember": "Onthoud dat…",
+  "at_remember_off": "Zet het geheugen aan om iets toe te voegen.",
   "at_remember_save": "Onthouden",
   "at_remembered": "Onthouden.",
   "at_role_cashier": "kassamedewerker",

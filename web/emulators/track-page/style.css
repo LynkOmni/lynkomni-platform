@@ -28,3 +28,4 @@
 /* TURN UPDATE 76.8: the phone turned sideways keeps every screen; only the shape changes */
 .phone[data-turn="sideways"] { width: 780px; height: 380px; }
 .phone[data-turn="sideways"] .notch, .phone[data-turn="sideways"] .homebar { display: none; }
+.twait { display: flex; flex-direction: column; gap: 12px; }

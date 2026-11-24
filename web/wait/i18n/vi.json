@@ -1,0 +1,20 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "vi",
+ "native": "Tiếng Việt",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "Thử lại",
+  "emk_first_open": "Mở lần đầu trên thiết bị này (chưa lưu gì)",
+  "loading": "Đang tải",
+  "ph_all_loaded": "Đã hết",
+  "ph_draft_kept": "Bản nháp của bạn đã được giữ trên thiết bị này.",
+  "ph_recent": "Gần đây",
+  "ph_slow": "Việc này lâu hơn bình thường.",
+  "ph_suggested": "Gợi ý",
+  "ph_updating": "Đang cập nhật",
+  "ph_working": "Đang hoạt động"
+ }
+}

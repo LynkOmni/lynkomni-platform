@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "変更後",
   "at_answer_label": "LynkAssist の回答",
@@ -52,6 +52,7 @@
   "at_practice_note": "練習モード：実際には何も変わりません。",
   "at_preview_title": "確認の前に",
   "at_remember": "覚えておいて…",
+  "at_remember_off": "追加するにはメモリーをオンにしてください。",
   "at_remember_save": "覚える",
   "at_remembered": "覚えました。",
   "at_role_cashier": "レジ担当",

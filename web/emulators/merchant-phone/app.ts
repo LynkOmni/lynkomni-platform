@@ -21,7 +21,7 @@ import { REGISTER } from "../../../ts/src/tracking.generated.js";
 import { trackerHtml, trackerLine } from "../../../ts/src/trackview.js";
 import { AGENT_SERVICES, COLLECTION_KINDS, FINANCE_PRODUCTS, combinedLimits, commission, floatForecastDays, limitCheck, lowFloat, mayHandOverCash } from "../../../ts/src/agent.js";
 import type { AgentState, Limits } from "../../../ts/src/agent.js";
-import { TEST_LANGS, esc, newId, pick, pseudo, publicId, randomBytes } from "../../../ts/src/emulator.js";
+import { TEST_LANGS, esc, newId, pick, pseudo, publicId, randomBelow, randomBytes } from "../../../ts/src/emulator.js";
 import { ADS } from "../../../ts/src/ads.generated.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { shortFooterHtml } from "../../../ts/src/footer.js";
@@ -891,7 +891,7 @@ function sell(): string {
       return `${topBar(t("basket"), "view:main")}<div class="body">${practiceBanner()}<ul class="list">${S.cart.lines().map((l) => `<li><div class="rowbtn"><span class="main"><span class="nm">${esc(l.product.name)}</span><span class="sub">${esc(money(l.product.price))}</span></span>
         <span class="stepper" data-item="quantity"><button class="iconbtn" data-act="dec:${l.product.id}" aria-label="-1 ${esc(l.product.name)}">${icon(l.qtyMilli > 1000 ? "ui-minus" : "ui-trash")}</button><output>${qtyText(l.qtyMilli)}</output><button class="iconbtn" data-act="inc:${l.product.id}" aria-label="+1 ${esc(l.product.name)}">${icon("ui-plus")}</button></span></div></li>`).join("") || `<li><p class="info">${esc(t("empty_basket"))}</p></li>`}</ul>
         <label class="field" data-item="discount"><span>${esc(t("discount"))}</span><input id="discIn" inputmode="numeric" autocomplete="off" value="${S.discount ? esc(String(S.discount)) : ""}" data-in="discount" placeholder="${esc(hintFor("amount", t, locale()))}" aria-label="${esc(t("discount"))}"></label>
-        <label class="field" data-item="note"><span>${esc(t("sale_note"))}</span><input id="noteIn" autocomplete="off" value="${esc(S.saleNote)}" data-in="salenote" placeholder="${esc(t("hint_note"))}" aria-label="${esc(t("sale_note"))}"></label>
+        <label class="field" data-item="note"><span>${esc(t("sale_note"))}</span><input id="noteIn" autocomplete="off" value="${esc(S.saleNote)}" data-in="salenote" data-draft="salenote" placeholder="${esc(t("hint_note"))}" aria-label="${esc(t("sale_note"))}"></label>
         <label class="field" data-item="attach_customer"><span>${esc(t("attach_customer"))}</span><select data-in="customer"><option value="">${esc(t("no_customer"))}</option>${CUSTOMERS.map((x) => `<option value="${x.id}" ${x.id === S.customer ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
         ${c2 ? `<p class="sub">${esc(t("customer_attached", { name: c2.name }))}</p>` : ""}</div>
         <div class="foot"><div class="sum"><span>${esc(t("items", { n: S.cart.count() }))}</span><strong>${esc(money(tot))}</strong></div><button class="primary" data-act="view:pay" ${S.cart.count() ? "" : "disabled"}>${esc(t("charge"))}</button></div>`;
@@ -918,7 +918,7 @@ function sell(): string {
         ${w?.id === "pay_link" ? `<p class="info">${icon("ui-info")}<span>${esc(t("pay_link_sent"))}</span></p>` : ""}
         ${w?.id === "tap_to_pay" || w?.id === "card" ? `<div class="tapbox">${icon("ui-pay-card", "bigqr")}<p>${esc(t(w.id === "tap_to_pay" ? "tap_phone" : "tap_terminal"))}</p></div>` : ""}
         <p class="info sbx">${icon("ui-info")}<span>${esc(t("sandbox"))}: ${esc(t("test_money"))}</span></p></div>
-        <div class="foot"><button class="primary" data-act="payonline" ${!needsNumber || S.input.replace(/\D/g, "").length >= 9 ? "" : "disabled"}>${esc(t("send_to_partner"))}</button></div>`;
+        <div class="foot"><button class="primary" data-act="payonline" data-wait ${!needsNumber || S.input.replace(/\D/g, "").length >= 9 ? "" : "disabled"}>${esc(t("send_to_partner"))}</button></div>`;
     }
     case "credit": {
       const c2 = cust(), need = creditNeedsCustomer("credit", S.customer || null);
@@ -933,7 +933,7 @@ function sell(): string {
         <p class="sub">${esc(t("split_left", { amount: money(Math.max(0, left)) }))}</p>
         <label class="field"><span>${esc(t("amount"))}</span><input id="splitIn" inputmode="numeric" autocomplete="off" value="${esc(S.input)}" data-in="split" placeholder="${esc(hintFor("amount", t, locale()))}" aria-label="${esc(t("amount"))}"></label>
         <div class="quick">${["cash", "mobile_money", "credit"].map((w) => `<button data-act="splitadd:${w}" ${Number(S.input || "0") > 0 && Number(S.input) <= left && wayOk(w) ? "" : "disabled"}>${esc(t("way_" + w))}</button>`).join("")}</div></div>
-        <div class="foot"><button class="primary" data-act="paysplit" ${chk === "ok" && !(parts.some((p) => p.way === "credit") && !S.customer) ? "" : "disabled"}>${esc(t("complete"))}</button></div>`;
+        <div class="foot"><button class="primary" data-act="paysplit" data-wait ${chk === "ok" && !(parts.some((p) => p.way === "credit") && !S.customer) ? "" : "disabled"}>${esc(t("complete"))}</button></div>`;
     }
     case "waiting": {
       const p = lastPayment(); if (!p || !c) return "";
@@ -1280,7 +1280,7 @@ const webNote = (): string => (S.size === "web" ? `<p class="info" data-item="we
  *  confirms. Each hand-over is one sealed record (ShipmentHandedOver, method and seal). Cash collected for another seller's parcel
  *  is recorded with the Open Delivery Network in build section 7B. */
 interface Parcel { id: string; sale: string; ref: string; name: string; code: string; due: number; state: "waiting" | "choose" | "paying" | "handed"; method: "code" | "collect_pass"; failed: boolean; cash: boolean; seal: string }
-const sixDigits = (): string => [...randomBytes(6)].map((b) => String(b % 10)).join("");
+const sixDigits = (): string => Array.from({ length: 6 }, () => String(randomBelow(10))).join("");
 const PP = { input: "", passCode: sixDigits(), note: "", cash: [] as { at: number; amount: number }[],
   parcels: [{ name: "Aline", due: 0 }, { name: "Eric", due: 4500 }, { name: "Grace", due: 2000 }].map((x): Parcel => ({ id: newId(), sale: newId(), ref: publicId("SHP"), name: x.name, code: sixDigits(), due: x.due, state: "waiting", method: "code", failed: false, cash: false, seal: "" })) };
 /** Cash taken at the pickup counter since the shift opened: part of what the drawer should hold. */
@@ -1336,7 +1336,7 @@ function pickupPoint(): string {
 }
 // ---- MASTER UPDATE section 3: the owner's side of LynkAssist, thresholds and summary, remote lock and wipe, Get a card ------
 const owner = (): boolean => S.role === "owner";
-const m3Switch = (inKey: string, on: boolean, label: string, disabled = false): string => `<label class="switch"><span>${esc(label)}</span><input type="checkbox" data-in="${inKey}" ${on ? "checked" : ""} ${disabled ? "disabled" : ""}></label>`;
+const m3Switch = (inKey: string, on: boolean, label: string, disabled = false): string => `<label class="switch"><span>${esc(label)}</span><input type="checkbox" data-in="${inKey}" ${on ? "checked" : ""} ${disabled ? 'disabled data-why="owner_only"' : ""}></label>`;
 function m3Assistant(): string {
   const areas = ["selling", "stock", "devices", "shifts", "cash"];
   const asked = M3.requests.filter((r) => r.state === "asked");
@@ -1354,12 +1354,12 @@ function m3Assistant(): string {
 }
 function m3Settings(): string {
   const ro = !owner();
-  const num = (k: string, v: number, label: string): string => `<label class="field"><span>${esc(label)}</span><input inputmode="numeric" autocomplete="off" data-in="m3num:${k}" value="${v}" ${ro ? "disabled" : ""} placeholder="${esc(hintFor("count", t, locale()))}" aria-label="${esc(label)}"></label>`;
+  const num = (k: string, v: number, label: string): string => `<label class="field"><span>${esc(label)}</span><input inputmode="numeric" autocomplete="off" data-in="m3num:${k}" value="${v}" ${ro ? 'disabled data-why="owner_only"' : ""} placeholder="${esc(hintFor("count", t, locale()))}" aria-label="${esc(label)}"></label>`;
   return `<div class="card" data-item="business_notifications"><h2>${esc(t("m3_thresholds"))}</h2>${num("cashDiff", M3.cashDiff, t("m3_cash_diff", { currency: pack().currency }))}${num("stockLow", M3.stockLow, t("m3_stock_low"))}
     ${num("discountBps", M3.discountBps / 100, t("m3_cashier_discount"))}<p class="sub">${esc(t("m3_limits_note"))}</p></div>
     <div class="card" data-item="owner_summary"><h2>${esc(t("m3_summary"))}</h2>${m3Switch("m3sum:consent", M3.summary.consent, t("m3_summary_on"), ro)}
-      <label class="field"><span>${esc(t("m3_summary_when"))}</span><select data-in="m3sum:period" ${ro ? "disabled" : ""}><option value="day" ${M3.summary.period === "day" ? "selected" : ""}>${esc(t("m3_daily"))}</option><option value="week" ${M3.summary.period === "week" ? "selected" : ""}>${esc(t("m3_weekly"))}</option></select></label>
-      <label class="field"><span>${esc(t("m3_summary_channel"))}</span><select data-in="m3sum:channel" ${ro ? "disabled" : ""}>${["bell", "email", "text"].map((c) => `<option value="${c}" ${M3.summary.channel === c ? "selected" : ""}>${esc(t("msg_ch_" + c))}</option>`).join("")}</select></label>
+      <label class="field"><span>${esc(t("m3_summary_when"))}</span><select data-in="m3sum:period" ${ro ? 'disabled data-why="owner_only"' : ""}><option value="day" ${M3.summary.period === "day" ? "selected" : ""}>${esc(t("m3_daily"))}</option><option value="week" ${M3.summary.period === "week" ? "selected" : ""}>${esc(t("m3_weekly"))}</option></select></label>
+      <label class="field"><span>${esc(t("m3_summary_channel"))}</span><select data-in="m3sum:channel" ${ro ? 'disabled data-why="owner_only"' : ""}>${["bell", "email", "text"].map((c) => `<option value="${c}" ${M3.summary.channel === c ? "selected" : ""}>${esc(t("msg_ch_" + c))}</option>`).join("")}</select></label>
       <p class="sub">${esc(t("m3_summary_note"))}</p></div>`;
 }
 function m3Devices(): string {
@@ -1415,7 +1415,7 @@ function hubBody(id: string): string {
       <p class="sub" role="status">${esc(usernameNote())}</p><button class="primary inline" data-act="takeusername" ${check(S.userDraft).ok ? "" : "disabled"}>${esc(t("save"))}</button>
       ${S.username ? `<div class="qrbox" data-item="qr" role="img" aria-label="${esc(t("shop_qr"))}">${icon("ui-qr", "bigqr")}<p>${esc(t("shop_qr"))}</p></div>` : ""}`; break;
     case "agent_earnings": extra = `<p class="sub">${esc(t("commission_partner_pays"))}</p>${(ent().outlets ?? 0) !== 0 ? `<ul class="list card">${S.outletList.map((o) => row(o, t("outlet_line"), `outlet:${o}`)).join("")}</ul>` : ""}`; break;
-    case "team": extra = `<label class="switch"><span>${esc(t("staff_profit"))}</span><input type="checkbox" data-in="perm" ${S.perms.staffSeeProfit ? "checked" : ""} ${canChangeSettings(S.role) ? "" : "disabled"}></label>
+    case "team": extra = `<label class="switch"><span>${esc(t("staff_profit"))}</span><input type="checkbox" data-in="perm" ${S.perms.staffSeeProfit ? "checked" : ""} ${canChangeSettings(S.role) ? "" : 'disabled data-why="owner_only"'}></label>
       ${canChangeSettings(S.role) ? "" : `<p>${esc(t("owner_only"))}</p>`}<ul class="list card">${S.staff.map((x) => row(x.name, t("role_" + x.role))).join("")}</ul>
       <button class="ghost inline" data-act="invite">${esc(t("invite_staff"))}</button><button class="ghost inline" data-act="clock">${esc(t(S.clockedIn ? "clock_out" : "clock_in"))}</button>`; break;
     case "branches_devices": extra = `<button class="rowbtn card" data-item="emulators_link" data-act="hub:emulators">${icon("ui-grid", "prod")}<span class="main"><span class="nm">${esc(t("emp_title"))}</span><span class="sub">${esc(t("emp_intro"))}</span></span>${icon("ui-chevron-right", "ic fwd")}</button><button class="rowbtn card" data-act="view:driver">${icon("ui-settings", "prod")}<span class="main"><span class="nm">LynkDriver</span><span class="sub">${esc(driverLine())}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>`; extra += `<ul class="list card">${S.devices.map((d) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(d.name)}</span><span class="sub">${esc(t(d.revoked ? "revoked" : "active"))}</span></span>${d.revoked ? "" : `<button class="ghost small" data-act="revoke:${d.id}">${esc(t("it_revoke"))}</button>`}</div></li>`).join("")}</ul><p class="sub">${esc(t("wipe_help"))}</p>${m3Devices()}`; break;
@@ -1454,8 +1454,8 @@ const SETTING_ITEMS: Record<string, string[]> = {
  *  wants, blocked advertisers and this month's ad earnings. Settings screens never show an ad themselves; a paid plan shows none. */
 function adSettings(sw: (k: string) => string, owner: boolean): string {
   const pct = Math.round((ADS.share_bps["receipt_footer"] ?? 0) / 100);
-  const host = `<li data-item="ads_host"><label class="switch"><span>${esc(t("ads_host_receipt", { pct }))}</span><input type="checkbox" data-in="set:ads_host" ${S.toggles.has("ads_host") ? "checked" : ""} ${owner ? "" : "disabled"}></label></li>`;
-  const blk = (k: string): string => `<li data-item="${k}"><label class="switch"><span>${esc(t(k))}</span><input type="checkbox" data-in="set:${k}" ${S.toggles.has(k) ? "checked" : ""} ${owner ? "" : "disabled"}></label></li>`;
+  const host = `<li data-item="ads_host"><label class="switch"><span>${esc(t("ads_host_receipt", { pct }))}</span><input type="checkbox" data-in="set:ads_host" ${S.toggles.has("ads_host") ? "checked" : ""} ${owner ? "" : 'disabled data-why="owner_only"'}></label></li>`;
+  const blk = (k: string): string => `<li data-item="${k}"><label class="switch"><span>${esc(t(k))}</span><input type="checkbox" data-in="set:${k}" ${S.toggles.has(k) ? "checked" : ""} ${owner ? "" : 'disabled data-why="owner_only"'}></label></li>`;
   return `${S.tier === "free" ? "" : `<p class="info">${esc(t("ads_ad_free"))}</p>`}<p class="sub">${esc(t("ads_off_country"))}</p>
     <ul class="list card">${sw("ads_contextual")}${sw("ads_never_protected")}${host}${blk("ads_block_age")}${blk("ads_block_regulated")}</ul>
     <ul class="list card" data-item="ads_blocked"><li><div class="rowbtn static"><span class="main"><span class="sub">${esc(t("ads_blocked_none"))}</span></span></div></li></ul>
@@ -1464,7 +1464,7 @@ function adSettings(sw: (k: string) => string, owner: boolean): string {
 function settingScreen(id: string): string {
   const owner = canChangeSettings(S.role), fresh = S.size === "web" && webRule("settings_change", false) === "step_up";
   const items = SETTING_ITEMS[id] ?? [];
-  const sw = (k: string): string => `<li data-item="${k}"><label class="switch"><span>${esc(t(k.startsWith("way_") ? k : "st_" + k))}</span><input type="checkbox" data-in="set:${k}" ${S.toggles.has(k) ? "checked" : ""} ${owner ? "" : "disabled"}></label></li>`;
+  const sw = (k: string): string => `<li data-item="${k}"><label class="switch"><span>${esc(t(k.startsWith("way_") ? k : "st_" + k))}</span><input type="checkbox" data-in="set:${k}" ${S.toggles.has(k) ? "checked" : ""} ${owner ? "" : 'disabled data-why="owner_only"'}></label></li>`;
   const body = id === "language_region"
     ? `<ul class="list card">${row(t("st_language"), PACKS[S.lang]?.native ?? S.lang)}${row(t("st_region"), pack().sample ? t("sample_country") : pack().name)}${row(t("st_currency"), pack().currency)}</ul><button class="ghost inline" data-act="localecard">${esc(t("change"))}</button>${namesChoice(t, { scope: "device", act: "nmc", canChange: owner })}`
     : id === "connected_apps" ? `<p class="info">${esc(t("st_no_apps"))}</p>`
@@ -1537,7 +1537,7 @@ function agentFlow(): string {
     ${amount && limitCheck(amount, S.usedToday, lim) !== "ok" ? `<p class="alert neg" role="alert">${icon("ui-warning")}<span>${esc(t("limit_exceeded"))}</span></p>` : ""}`}
     <p class="info">${icon("ui-info")}<span>${esc(t(isFinance ? "referred" : "identity_check"))}</span></p>
     ${online() ? "" : `<p class="alert low">${icon("ui-offline")}<span>${esc(t("online_only"))}</span></p>`}
-    <button class="primary inline" data-act="agentsend" ${online() && S.number.length >= 4 && (isFinance || (amount > 0 && limitCheck(amount, S.usedToday, lim) === "ok")) ? "" : "disabled"}>${esc(t("send_to_partner"))}</button></div>`;
+    <button class="primary inline" data-act="agentsend" data-wait ${online() && S.number.length >= 4 && (isFinance || (amount > 0 && limitCheck(amount, S.usedToday, lim) === "ok")) ? "" : "disabled"}>${esc(t("send_to_partner"))}</button></div>`;
 }
 function agentFloat(): string {
   return `${topBar(t("float"))}<div class="body">${PARTNERS.map((p) => { const days = floatForecastDays(p.float, usual(p));
@@ -1615,7 +1615,7 @@ function signin(): string {
   if (S.screen === "phone") {
     return `<div class="signin" data-gi="sign_in">${mark}<h1>${esc(t("welcome"))}</h1><p>${esc(t("works_anywhere"))}</p>
       <label class="field"><span>${esc(t("your_phone"))}</span><input id="phoneIn" inputmode="tel" autocomplete="off" value="${esc(S.phone)}" data-in="phone" placeholder="${esc(hintFor("phone", t, locale()))}" aria-label="${esc(t("your_phone"))}"></label>
-      <p class="note" role="alert">${esc(S.note)}</p><div class="grow"></div><button class="primary" data-act="sendcode" ${S.phone.replace(/\D/g, "").length >= 9 ? "" : "disabled"}>${esc(t("send_code"))}</button></div>`;
+      <p class="note" role="alert">${esc(S.note)}</p><div class="grow"></div><button class="primary" data-act="sendcode" data-wait ${S.phone.replace(/\D/g, "").length >= 9 ? "" : "disabled"}>${esc(t("send_code"))}</button></div>`;
   }
   if (S.screen === "code") {
     return `<div class="signin" data-gi="sign_in">${mark}<h1>${esc(t("verify"))}</h1><p>${esc(t("enter_code", { phone: S.phone }))}</p>

@@ -1,0 +1,20 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "fr",
+ "native": "Français",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "Réessayer",
+  "emk_first_open": "Première ouverture sur cet appareil (rien d'enregistré pour l'instant)",
+  "loading": "Chargement",
+  "ph_all_loaded": "C'est tout",
+  "ph_draft_kept": "Votre brouillon a été gardé sur cet appareil.",
+  "ph_recent": "Récent",
+  "ph_slow": "Cela prend plus de temps que d'habitude.",
+  "ph_suggested": "Suggestions",
+  "ph_updating": "Mise à jour",
+  "ph_working": "En marche"
+ }
+}

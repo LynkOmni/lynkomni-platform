@@ -8,13 +8,14 @@ import type { UserState } from "../../../ts/src/pos.js";
 import { layoutFor } from "../../../ts/src/interfaces.js";
 import { applyLayout, turnedShape } from "../../../ts/src/turn.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
-import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, publicId, stateButtons, appShortFooter } from "../../../ts/src/emulator.js";
+import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, pageWaiting, panelChange, panelHtml, publicId, stateButtons, appShortFooter } from "../../../ts/src/emulator.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { Tracking } from "../../../ts/src/tracking.js";
 import type { View } from "../../../ts/src/tracking.js";
 import { REGISTER } from "../../../ts/src/tracking.generated.js";
 import { trackerHtml } from "../../../ts/src/trackview.js";
+import { PageWait } from "../../../ts/src/placeholder.js";
 import { watchNames } from "../../../ts/src/names.js";
 
 declare const DATA: Build;
@@ -29,6 +30,7 @@ const chip = (s: UserState): string => `<span class="chip st-${s}">${icon(`statu
 const LOG = new EventLog(() => { const el = document.getElementById("log"); if (el) el.innerHTML = LOG.html(esc, chip, t("no_events")); });
 const ORDER = newId(), DELIVERY = newId(), PUBLIC = publicId("ORD");
 const clock = (iso: string): string => { try { return new Intl.DateTimeFormat(C.locale(), { timeZone: C.pack().tz, hour: "2-digit", minute: "2-digit" }).format(Date.parse(iso)); } catch { return iso.slice(11, 16); } };
+const WAIT = new PageWait();
 const look = { t, esc, icon, time: clock, chip: (s: View["state"]) => chip(s) };
 
 /** The cloud's events up to a stage, replayed by the shared engine: the page holds no step of its own. */
@@ -59,8 +61,8 @@ function page(): string {
   return `<div class="urlbar">${icon("ui-lock")}<span class="u">shop.lynkomni.com/track/${esc(PUBLIC)}</span></div><div class="tbody">
     <div class="thead">${logo}<span class="from">${esc(t("trk_from_shop", { shop: t("sample_shop") }))}</span></div><h1>${esc(t("track_heading"))}</h1>
     ${S.online ? "" : `<p class="banner" role="status">${icon("ui-offline")}<span>${esc(t("trk_last_known"))}</span></p>`}
-    ${v ? trackerHtml(v, look, t("trk_k_order")) : ""}
-    <section class="card"><h2>${esc(t("trk_notify"))}</h2>${notify}</section>
+    <div class="twait" data-wait-area data-shape="tracker">${v ? trackerHtml(v, look, t("trk_k_order")) : ""}
+    <section class="card"><h2>${esc(t("trk_notify"))}</h2>${notify}</section></div>
     <p class="note">${esc(t("trk_privacy"))}</p>${appShortFooter(C)}</div>`;
 }
 function draw(): void {
@@ -68,6 +70,7 @@ function draw(): void {
   const turned = S.turn ?? "upright"; document.querySelector(".phone")?.setAttribute("data-turn", turned);   // TURN UPDATE 76.8
   applyLayout(el, layoutFor(DEVICES, turnedShape(turned, { interface: "phone.touch", width: 390, height: 844 })));
   const a = document.getElementById("address"); if (a) a.textContent = `shop.lynkomni.com/track/${PUBLIC}`;
+  pageWaiting(WAIT, S, el, t, draw);                                  // PLACEHOLDER UPDATE 83: the steps wait well on a first open
 }
 function act(a: string): void {
   const [k = "", v = ""] = a.split(":");
@@ -78,7 +81,7 @@ function act(a: string): void {
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang", "turn"], S, W, C);
+  $("#panel").innerHTML = panelHtml(["online", "firstopen", "country", "dark", "lang", "turn"], S, W, C);
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), STAGES, (k) => { S.stage = (STAGES as readonly string[]).includes(k) ? (k as Stage) : "on_the_way"; S.channel = ""; draw(); });
 }

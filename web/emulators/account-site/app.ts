@@ -1,6 +1,7 @@
 /* LynkOmni Account (account.lynkomni.com) in a browser window and on a phone (build section 2). Every part of the frame comes
  * from ts/src/shell.ts and every rule from ts/src/account.ts; this file holds the sample person, the screens and the event log.
  * Words come from web/shell/strings.en.json (the shell) and strings.en.json (this site) and their language packs. */
+import { PAGE_RETRY, PageWait } from "../../../ts/src/placeholder.js";
 import { hintFor } from "../../../ts/src/hints.js";
 import { STATE_PICTURE, Undo, accountMenu, viewSheet, IFACE_NAME, commandBar, connectionChip, esc, filterRegions, globeSheet, regionName, header, helpPanel, launcher, maskId, navigation, search, state, comingSoon, syncSheet, translator, undoToast, usernameField } from "../../../ts/src/shell.js";
 import type { AddressMap, Entry, Icon, Link, NavItem, Pic, StateKind, SyncInfo, T, UsernameStatus, Viewport } from "../../../ts/src/shell.js";
@@ -200,7 +201,7 @@ function securityCenter(now: number): string {
   return `${checkup}${cool}${two}${lock}${adv}${staff}${succ}`;
 }
 function notificationSettings(): string {
-  const sw = (act: string, on: boolean, label: string, locked = false) => `<label class="switch"><input type="checkbox" data-act="toggle:${act}"${on ? " checked" : ""}${locked ? " disabled" : ""}><span>${esc(label)}</span></label>`;
+  const sw = (act: string, on: boolean, label: string, locked = false) => `<label class="switch"><input type="checkbox" data-act="toggle:${act}"${on ? " checked" : ""}${locked ? ' disabled data-why="shown"' : ""}><span>${esc(label)}</span></label>`;
   const chans: Sent["channel"][] = ["push", "email", "text", "bell"];
   const grid = AREAS.map((a) => { const locked = a === "security" || a === "safety"; return kv(`${esc(t(`ntf_area_${a}`))}${locked ? `<span class="sub">${esc(t("nset_locked"))}</span>` : ""}`, `<span class="wrapline">${chans.map((c) => sw(`grid:${a}:${c}`, locked || !S.nset.off.includes(`${a}:${c}`), t(`msg_ch_${c}`), locked)).join("")}</span>`); });
   const biz = [["b1", t("shop_name")], ["b2", t("client_pharmacy")]].map(([id, name]) => kv(esc(name ?? ""), sw(`biz:${id}`, !!id && S.nset.muted.includes(id), t("nset_mute"))));
@@ -363,7 +364,7 @@ function page(): string {
     case "privacy": return `${pageTitle("privacy")}<div class="cards">
       <div class="card"><h2>${esc(t("terms_title"))}</h2>${rows([kv(esc(t("terms_doc_terms")), esc(t("terms_line", { date: dateOf(Date.parse(TERMS_IN_FORCE.terms) / 1000) }))), kv(esc(t("terms_doc_privacy")), esc(t("terms_line", { date: dateOf(Date.parse(TERMS_IN_FORCE.privacy) / 1000) })))])}</div>
       <div class="card"><h2>${esc(t("consent_log"))}</h2>${rows(S.consents.map((c) => kv(esc(`${c.scope}: ${c.purpose}`), esc(dateOf(c.expires)))))}</div>
-      <div class="card"><h2>${esc(t("download_records"))}</h2><p class="muted">${esc(t("download_hint"))}</p>${heldNote(S.held)}${S.dataRequest ? wait(t("download_requested", { when: dateOf(S.dataRequest.due) })) + tracker("data_request", "data-1") : `<div class="actions"><button class="primary" data-act="data:request">${icon("ui-doc")}<span>${esc(t("download_records"))}</span></button></div>`}</div>
+      <div class="card"><h2>${esc(t("download_records"))}</h2><p class="muted">${esc(t("download_hint"))}</p>${heldNote(S.held)}${S.dataRequest ? wait(t("download_requested", { when: dateOf(S.dataRequest.due) })) + tracker("data_request", "data-1") : `<div class="actions"><button class="primary" data-act="data:request" data-wait>${icon("ui-doc")}<span>${esc(t("download_records"))}</span></button></div>`}</div>
       <div class="card"><h2>${esc(t("marketing_choices"))}</h2>${rows([`<label class="switch"><input type="checkbox" data-act="toggle:mkemail" ${S.marketing.email ? "checked" : ""}><span>${esc(t("marketing_email"))}</span></label>`, `<label class="switch"><input type="checkbox" data-act="toggle:mkpush" ${S.marketing.push ? "checked" : ""}><span>${esc(t("marketing_push"))}</span></label>`])}</div>
       <div class="card"><h2>${esc(t("close_account"))}</h2><p class="muted">${esc(t("close_hint"))}</p>${S.closing ? `${wait(t("close_requested", { when: dateOf(S.closing) }))}<div class="actions"><button class="primary" data-act="close:cancel">${esc(t("keep_account"))}</button></div>` : `<div class="actions"><button class="secondary" data-act="stepup:close">${esc(t("close_account"))}</button></div>`}</div></div>`;
     case "notifications": return notificationSettings();
@@ -377,8 +378,8 @@ function page(): string {
     case "storefront": {
       const sf = DATA.storefront, tier = "free";
       const handle = S.signUp.username || "grace.k";
-      const id = S.idCheck === "confirmed" ? ok(t("sf_identity_done", { ref: SAMPLE_LOVER })) : S.idCheck === "sent" ? `${wait(t("sf_identity_sent"))}<div class="actions"><button class="secondary" data-act="idcheck:poll">${esc(t("sf_identity_poll"))}</button></div>`
-        : `<div class="actions"><button class="primary" data-act="idcheck:start">${icon("ui-lock")}<span>${esc(t("sf_identity_start"))}</span></button></div>`;
+      const id = S.idCheck === "confirmed" ? ok(t("sf_identity_done", { ref: SAMPLE_LOVER })) : S.idCheck === "sent" ? `${wait(t("sf_identity_sent"))}<div class="actions"><button class="secondary" data-act="idcheck:poll" data-wait>${esc(t("sf_identity_poll"))}</button></div>`
+        : `<div class="actions"><button class="primary" data-act="idcheck:start" data-wait>${icon("ui-lock")}<span>${esc(t("sf_identity_start"))}</span></button></div>`;
       const idCard = S.realUser ? comingSoon(t("sf_identity"), t, statePic("coming_soon"), S.notified.has("identity")) : `<p class="muted">${esc(t("sf_identity_why"))}</p>${id}`;
       return `${pageTitle("storefront")}<div class="cards">
         <div class="card wide"><p class="muted">${esc(t("sf_intro"))}</p><div class="muted">${esc(t("sf_address"))}</div><div class="lynkid-box"><span class="deeplink">shop.lynkomni.com/${esc(handle)}</span></div><div class="actions"><button class="secondary" data-act="open:storefront">${esc(t("sf_open"))}</button></div></div>
@@ -445,7 +446,7 @@ function page(): string {
       const a = S.app;
       if (!a) return `${pageTitle("start")}<div class="card"><p class="muted">${esc(t("start_intro"))}</p><div class="actions"><button class="primary" data-act="start:begin">${icon("ui-bolt")}<span>${esc(t("start_begin"))}</span></button></div></div>`;
       const stepRows = REGISTRATION_STEPS.map((st) => kv(esc(t(`start_step_${st}`)), a.steps[st] ? ok(t("done")) : off(t("not_yet")), a.status === "started" && !a.steps[st] ? `<button class="secondary" data-act="start:step:${st}">${esc(t("done"))}</button>` : ""));
-      const foot = a.status === "started" ? `<div class="actions"><button class="primary" data-act="start:submit" ${canSubmit(a.steps) ? "" : "disabled"}>${esc(t("start_submit"))}</button></div>`
+      const foot = a.status === "started" ? `<div class="actions"><button class="primary" data-act="start:submit" data-wait ${canSubmit(a.steps) ? "" : "disabled"}>${esc(t("start_submit"))}</button></div>`
         : a.status === "submitted" ? `${wait(t("start_submitted"))}<div class="actions"><button class="secondary" data-act="start:poll">${esc(t("continue"))}</button></div>` : ok(t("start_approved", { lynkoid: a.lynkoid ?? "" }));
       return `${pageTitle("start")}<div class="card">${rows(stepRows)}${foot}<p class="muted">${esc(t("start_not_before"))}</p></div>`;
     }
@@ -464,10 +465,10 @@ function overlay(): string {
     case "globe": return wrap("", globeSheet(Object.entries(PACKS).map(([code, p]) => ({ code, native: p.native, dir: p.dir })), DATA.packOrder.map((c) => ({ code: c, name: (DATA.packs[c] as CountryPack).sample ? t("sample_country") : regionName(c, isTest() ? "en" : S.lang, (DATA.packs[c] as CountryPack).name) })), { language: isTest() ? "en" : S.lang, region: pack().code }, t) + namesChoice(t, { scope: "person", act: "nmc", canChange: true }));
     case "cmd": {
       const index: Entry[] = [...PAGES.map((p): Entry => ({ id: p, kind: "setting", title: t(`page_${p}`), act: `go:${p}` })), { id: "h1", kind: "help", title: t("help_article_1"), act: "shell:help" }, { id: "h2", kind: "help", title: t("help_article_2"), act: "shell:help" }, { id: "a1", kind: "action", title: t("sign_out_everywhere"), act: "session:all" }, { id: "a2", kind: "action", title: t("support_seller"), act: "support:external" }, { id: "h3", kind: "help", title: t("help_storefront"), act: "shell:help" }, { id: "v1", kind: "setting", title: t("change_view"), act: "shell:view" }, { id: "a3", kind: "action", title: t("lock_title"), act: "lock:start" }];
-      return wrap("", commandBar(S.query, search([...index, { id: "names-az", kind: "help", title: t("nm_az_title"), act: "open:names-az" }, ...nameEntries(t)], S.query), t, icon));
+      return wrap("", commandBar(S.query, search([...index, { id: "names-az", kind: "help", title: t("nm_az_title"), act: "open:names-az" }, ...nameEntries(t)], S.query), t, icon, true, index.filter((e) => e.kind === "action").slice(0, 3).map((e) => e.title)));
     }
     case "help": return wrap("end", helpPanel(t(`page_${signedIn() ? (S.screen as Page) : "security"}`), [...(S.screen === "storefront" || S.screen === "support" ? [{ id: "3", title: t("help_storefront"), href: "/faq/storefront/start" }] : []), ...(S.screen === "security" || S.screen === "messages" || S.screen === "assist" || S.screen === "notifications" ? [{ id: "4", title: t("lock_title"), href: "/faq/account/lock-everything" }, { id: "5", title: t("page_messages"), href: "/faq/account/messages" }, { id: "6", title: t("page_assist"), href: "/faq/assist/history" }] : []), { id: "1", title: t("help_article_1"), href: "/faq/account/recovery" }, { id: "2", title: t("help_article_2"), href: "/faq/account/passkeys" }, { id: "names", title: t("nm_az_title"), href: "/names" }], t, icon,
-      askBox({ query: S.ask, results: S.ask ? lookup(knowledge(), S.ask) : [], online: S.link !== "offline", builtOn: dateOf(T_NOW()) }, t, icon)));
+      askBox({ query: S.ask, results: S.ask ? lookup(knowledge(), S.ask) : [], suggest: knowledge().slice(0, 3).map((e) => e.q), online: S.link !== "offline", builtOn: dateOf(T_NOW()) }, t, icon)));
     case "bell": {
       const present = AREAS.filter((a) => S.lines.some((l) => MESSAGES.kinds[l.kind]?.area === a)).map((a) => ({ id: a, label: t(`ntf_area_${a}`) }));
       return wrap("end", bell(shownLines(), { filter: S.bellFilter, lastOpened: S.lastOpened, areas: present }, t, icon, (ms) => clock(ms)));
@@ -481,6 +482,7 @@ function overlay(): string {
 }
 
 let lastOverlay: Overlay = null;
+const WAIT = new PageWait(), FIRST = { on: false };
 function draw(): void {
   if (lastOverlay === "bell" && S.overlay !== "bell" && S.overlay !== "why") S.lastOpened = Date.now();   // New becomes Earlier once the bell was seen
   if (S.overlay === "bell") S.lines.forEach((l) => { l.seen = true; });
@@ -500,7 +502,7 @@ function draw(): void {
   const head = header({ logo, nav: items, notifications: signedIn() ? S.lines.filter((l) => !l.read && MESSAGES.priorities[MESSAGES.kinds[l.kind]?.priority ?? "low"]?.raises_count).length : 0, signedIn: signedIn(), title: S.size === "computer" ? undefined : t("site_short"), surface: "app" }, S.size, t, icon);
   const nav = signedIn() ? navigation(items, S.size, t, icon) : "";
   const toasts = S.undo.openToasts(Date.now()).map((u) => undoToast(u, Date.now(), t, icon)).join("");
-  d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main">${crumbs()}${page()}<div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))} <span class="deeplink">account.lynkomni.com${esc(screenPath())}</span></div>${appFooter()}</main></div>${S.size === "phone" ? nav : ""}${overlay()}<div class="toasts">${toasts}</div></div>`;
+  d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main"><div data-wait-area>${crumbs()}${page()}</div><div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))} <span class="deeplink">account.lynkomni.com${esc(screenPath())}</span></div>${appFooter()}</main></div>${S.size === "phone" ? nav : ""}${overlay()}<div class="toasts">${toasts}</div></div>`;
   const side = S.testSize === "phone_side" && S.size === "phone";      // TURN UPDATE 76.8: the phone turned sideways (844 by 390)
   $("#device").className = `device ${S.size}${side ? " side" : ""}`;
   if (S.testSize !== "auto") applyLayout(d, layoutFor(DEVICES, { interface: S.choice.interface, ...(side ? { width: 844, height: 390 } : { width: { computer: 1280, tablet: 800, phone: 390 }[S.size] ?? 1280, height: { computer: 800, tablet: 1280, phone: 844 }[S.size] ?? 800 }) }));
@@ -509,6 +511,8 @@ function draw(): void {
   $("#tabTitle").textContent = t("site_title");
   $("#screensHint").textContent = t("screens_hint");
   document.querySelectorAll<HTMLElement>("#stateButtons button").forEach((b) => b.classList.toggle("on", b.dataset["state"] === S.screen));
+  if (WAIT.firstOpen !== FIRST.on) WAIT.setFirstOpen(FIRST.on);      // PLACEHOLDER UPDATE 83: the page waits well on a first open
+  WAIT.apply(d, { t, online: () => S.link !== "offline", redraw: draw, retryAct: PAGE_RETRY, retryClass: "ph-retry" });
 }
 function drawLog(): void {
   const box = $("#log");
@@ -735,6 +739,7 @@ function init(): void {
   bind("#cSize", (el) => { S.testSize = pick(["auto", "computer", "tablet", "phone", "phone_side"], el.value, S.testSize); S.overlay = null; draw(); });
   bind("#cLink", (el) => { S.link = pick(["good", "weak", "offline"] as Link[], el.value, S.link); draw(); });
   bind("#cDark", (el) => { S.theme = el.checked ? "dark" : "light"; draw(); });
+  bind("#cFirst", (el) => { FIRST.on = el.checked; draw(); });
   bind("#cMode", (el) => { S.mode = pick(["", "lite", "sunlight"] as ("" | "lite" | "sunlight")[], el.value, S.mode); draw(); });
   bind("#cReal", (el) => { S.realUser = el.checked; draw(); });
   const country = $<HTMLSelectElement>("#cCountry");

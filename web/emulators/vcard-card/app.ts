@@ -2,8 +2,9 @@
  *  to their backs. Freeze is the only action that may queue offline, and the card is shown frozen only when the issuer confirms.
  *  Card details are never sent to this screen: after a fresh check they appear only inside the licensed issuer's secure display,
  *  for a short time, and never offline. Cards stay "Coming to your country soon" until an issuer is signed there. */
+import { PageWait } from "../../../ts/src/placeholder.js";
 import type { UserState } from "../../../ts/src/pos.js";
-import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, reducedMotion, stateButtons } from "../../../ts/src/emulator.js";
+import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, reducedMotion, stateButtons, pageWaiting } from "../../../ts/src/emulator.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { cardFormFields, cardName, cardWord } from "../../../ts/src/devicekit.js";
 import { watchNames } from "../../../ts/src/names.js";
@@ -50,7 +51,7 @@ function app(): string {
   const form = G.sent === "sent" ? `<p class="note">${esc(t("card_sent"))} ${chip("sent")}</p>` : G.sent === "confirmed" ? `<p class="note">${esc(t("card_confirmed"))} ${chip("confirmed")}</p>` : G.sent === "failed" ? `<p class="note">${esc(t("vc_failed"))} ${chip("failed")}</p>`
     : `<label class="fieldrow"><span>${esc(t("card_which"))}</span><select data-act-change="ask">${GROUPS.map((g) => `<option value="${g}" ${G.ask === g ? "selected" : ""}>${esc(cardName(g, face))} · ${esc(cardWord(g))}</option>`).join("")}</select></label>
       <ul class="fields">${cardFormFields(G.ask).filter((f) => f !== "holder" && f !== "form").map((f) => `<li>${esc(t(`card_f_${f}`))}</li>`).join("")}</ul>${G.ask === "credit" ? `<p class="note">${esc(t("card_lender"))}</p>` : ""}
-      <button class="primary" data-act="getcard" ${S.online ? "" : "disabled"}>${esc(t("card_send"))}</button>${S.online ? "" : `<p class="note">${esc(t("online_only"))}</p>`}`;
+      <button class="primary" data-act="getcard" data-wait ${S.online ? "" : "disabled"}>${esc(t("card_send"))}</button>${S.online ? "" : `<p class="note">${esc(t("online_only"))}</p>`}`;
   const getCard = `<h3>${esc(t("card_get"))}</h3>${form}`;
   if (G.sample) return `<h2>${esc(cardName(G.sample.split("-")[1] ?? "prepaid", G.sample.split("-")[0] ?? "edge"))}</h2><p class="note">${esc(t("vc_sample_note"))}</p><div class="row"><button class="secondary" data-act="flip">↻ ${esc(t("flip_card"))}</button><button class="secondary" data-act="sample:">${esc(t("vc_my_card"))}</button></div>${gallery}${getCard}`;
   return `<h2>${esc(cardName(G.group, face))}</h2><p class="note">${esc(cardWord(G.group))}${G.group === "credit" ? ` · ${esc(t("card_lender"))}` : ""}</p><p class="note">${esc(t("placeholder_limits"))} ${typeof cap === "number" ? `${esc(C.money(cap * 100, "USD"))} / ${esc(t("money"))}` : ""}</p>
@@ -58,7 +59,8 @@ function app(): string {
     <button class="secondary" data-act="details" ${S.online ? "" : "disabled"}>${esc(t("show_details"))}</button>${S.online ? "" : `<p class="note">${esc(t("online_only"))}</p>`}${details}
     ${S.stepup ? `<div class="stepup" role="dialog" aria-label="${esc(t("step_up"))}"><h3>${esc(t("step_up"))}</h3><div class="row"><button class="primary" data-act="stepok">${esc(t("confirm"))}</button><button class="secondary" data-act="stepcancel">${esc(t("cancel"))}</button></div></div>` : ""}${gallery}${getCard}`;
 }
-function draw(): void { drawCard(); const el = $("#screen"); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = app(); }
+const WAIT = new PageWait();
+function draw(): void { drawCard(); const el = $("#screen"); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = `<div data-wait-area data-shape="record">${app()}</div>`; pageWaiting(WAIT, S, el, t, draw); }
 function act(a: string): void {
   if (a === "flip") S.flipped = !S.flipped;
   if (a.startsWith("sample:")) { G.sample = a.slice(7); S.flipped = false; }
@@ -84,7 +86,7 @@ let pendingFreeze: (() => void) | null = null;
 let notified = false;
 const CARD = "LOVC-····";      // the card's public id from core/ids.py, masked; the card number never reaches this screen
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "fail", "plan", "country", "real", "dark", "lang"], S, W, C, { tiers: TIERS });
+  $("#panel").innerHTML = panelHtml(["online", "firstopen", "fail", "plan", "country", "real", "dark", "lang"], S, W, C, { tiers: TIERS });
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["free", "plus", "pro", "max", "back", "near-limit", "freezing", "frozen", "details", "coming-soon"], (k) => {
     S.flipped = false; S.near = false; S.details = 0; S.stepup = false; S.realUser = false;

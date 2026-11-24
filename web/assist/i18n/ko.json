@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "변경 후",
   "at_answer_label": "LynkAssist의 답변",
@@ -52,6 +52,7 @@
   "at_practice_note": "연습 모드: 실제로는 아무것도 바뀌지 않습니다.",
   "at_preview_title": "확인하기 전에",
   "at_remember": "기억해 줘…",
+  "at_remember_off": "추가하려면 메모리를 켜세요.",
   "at_remember_save": "기억하기",
   "at_remembered": "기억했습니다.",
   "at_role_cashier": "계산원",

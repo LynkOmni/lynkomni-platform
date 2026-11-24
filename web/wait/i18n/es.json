@@ -1,0 +1,20 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "es",
+ "native": "Español",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "Intentar de nuevo",
+  "emk_first_open": "Primera vez en este dispositivo (aún no hay nada guardado)",
+  "loading": "Cargando",
+  "ph_all_loaded": "Eso es todo",
+  "ph_draft_kept": "Tu borrador se guardó en este dispositivo.",
+  "ph_recent": "Recientes",
+  "ph_slow": "Esto está tardando más de lo normal.",
+  "ph_suggested": "Sugerencias",
+  "ph_updating": "Actualizando",
+  "ph_working": "Funciona"
+ }
+}

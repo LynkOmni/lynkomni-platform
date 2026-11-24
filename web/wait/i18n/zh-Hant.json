@@ -1,0 +1,20 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "zh-Hant",
+ "native": "繁體中文",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "再試一次",
+  "emk_first_open": "在此裝置上首次開啟（尚未儲存任何內容）",
+  "loading": "載入中",
+  "ph_all_loaded": "已全部顯示",
+  "ph_draft_kept": "你的草稿已保存在此裝置上。",
+  "ph_recent": "最近",
+  "ph_slow": "這比平常花的時間更長。",
+  "ph_suggested": "建議",
+  "ph_updating": "正在更新",
+  "ph_working": "正常"
+ }
+}

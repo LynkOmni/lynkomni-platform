@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "אחרי",
   "at_answer_label": "התשובה של LynkAssist",
@@ -52,6 +52,7 @@
   "at_practice_note": "מצב תרגול: שום דבר אמיתי לא משתנה.",
   "at_preview_title": "לפני שמאשרים",
   "at_remember": "לזכור ש…",
+  "at_remember_off": "הפעילו את הזיכרון כדי להוסיף משהו.",
   "at_remember_save": "לזכור",
   "at_remembered": "נשמר בזיכרון.",
   "at_role_cashier": "הקופאי",

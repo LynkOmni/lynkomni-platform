@@ -1,0 +1,20 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "yo",
+ "native": "Yorùbá",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "Gbìyànjú lẹ́ẹ̀kan sí i",
+  "emk_first_open": "Ṣíṣí àkọ́kọ́ lórí ẹ̀rọ yìí (kò sí ohun tí a fipamọ́ síbẹ̀)",
+  "loading": "Ó ń ṣí",
+  "ph_all_loaded": "Gbogbo rẹ̀ nìyẹn",
+  "ph_draft_kept": "A ti fi àkọsílẹ̀ rẹ pamọ́ sórí ẹ̀rọ yìí.",
+  "ph_recent": "Àìpẹ́",
+  "ph_slow": "Èyí ń gba àkókò ju ti tẹ́lẹ̀ lọ.",
+  "ph_suggested": "Àbá",
+  "ph_updating": "Ó ń ṣe àtúnṣe",
+  "ph_working": "Ó ń ṣiṣẹ́"
+ }
+}

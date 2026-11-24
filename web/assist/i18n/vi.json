@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "Sau",
   "at_answer_label": "Câu trả lời của LynkAssist",
@@ -52,6 +52,7 @@
   "at_practice_note": "Chế độ luyện tập: không có gì thật thay đổi.",
   "at_preview_title": "Trước khi bạn xác nhận",
   "at_remember": "Hãy nhớ rằng…",
+  "at_remember_off": "Bật bộ nhớ để thêm nội dung.",
   "at_remember_save": "Ghi nhớ",
   "at_remembered": "Đã ghi nhớ.",
   "at_role_cashier": "thu ngân",

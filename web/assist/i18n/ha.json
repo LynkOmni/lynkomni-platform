@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "Bayan",
   "at_answer_label": "Amsar LynkAssist",
@@ -52,6 +52,7 @@
   "at_practice_note": "Yanayin horo: babu abin gaske da ke canzawa.",
   "at_preview_title": "Kafin ka tabbatar",
   "at_remember": "Ka tuna cewa…",
+  "at_remember_off": "Kunna ƙwaƙwalwa don ƙara wani abu.",
   "at_remember_save": "Tuna",
   "at_remembered": "An tuna.",
   "at_role_cashier": "mai karɓar kuɗi",

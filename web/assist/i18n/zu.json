@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "Ngemuva",
   "at_answer_label": "Impendulo ye-LynkAssist",
@@ -52,6 +52,7 @@
   "at_practice_note": "Imodi yokuzijwayeza: akukho okwangempela okushintshayo.",
   "at_preview_title": "Ngaphambi kokuqinisekisa",
   "at_remember": "Khumbula ukuthi…",
+  "at_remember_off": "Vula inkumbulo ukuze wengeze okuthile.",
   "at_remember_save": "Khumbula",
   "at_remembered": "Kukhunjuliwe.",
   "at_role_cashier": "ukhasheya",

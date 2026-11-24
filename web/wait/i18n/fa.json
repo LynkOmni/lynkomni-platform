@@ -1,0 +1,20 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "fa",
+ "native": "فارسی",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "تلاش دوباره",
+  "emk_first_open": "نخستین باز کردن در این دستگاه (هنوز چیزی ذخیره نشده)",
+  "loading": "در حال بارگذاری",
+  "ph_all_loaded": "همین بود",
+  "ph_draft_kept": "پیش‌نویس شما روی این دستگاه نگه داشته شد.",
+  "ph_recent": "اخیر",
+  "ph_slow": "این کار بیش از معمول طول می‌کشد.",
+  "ph_suggested": "پیشنهادها",
+  "ph_updating": "در حال به‌روزرسانی",
+  "ph_working": "کار می‌کند"
+ }
+}

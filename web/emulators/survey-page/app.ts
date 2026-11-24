@@ -2,7 +2,8 @@
  *  email, with no app and no account. Who is asking, why and how long it takes; agreement before a sensitive question; the code
  *  for "one per phone"; one question a page ("Why?" only after an unhappy answer); thank you, My answers and "Don't ask me again".
  *  The box beside it shows what the organisation sees (never fewer than 5 answers, never who gave an anonymous one). */
-import { Country, EventLog, Words, applyRoot, esc, fitToWidth, panelChange, panelHtml, stateButtons } from "../../../ts/src/emulator.js";
+import { PageWait } from "../../../ts/src/placeholder.js";
+import { Country, EventLog, Words, applyRoot, esc, fitToWidth, panelChange, panelHtml, stateButtons, pageWaiting } from "../../../ts/src/emulator.js";
 import { layoutFor } from "../../../ts/src/interfaces.js";
 import { applyLayout, turnedShape } from "../../../ts/src/turn.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
@@ -29,6 +30,7 @@ const look = (): SvLook => ({ t, icon, clock, money: (c) => C.money(c, "USD"), o
 const DM = new DeviceMode(DEVICES, "smartphone");
 const DEV = wireDevice(DM, { t, icon: (id) => icon(id), screen: () => document.getElementById("screen"), pad: () => null, back: () => undefined, redraw: () => draw(), rtl: () => document.getElementById("screen")?.dir === "rtl" });
 
+const WAIT = new PageWait();
 function draw(): void {
   const el = $("#screen"); DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W);
   const turned = S.turn ?? "upright"; document.querySelector(".phone")?.setAttribute("data-turn", turned);   // TURN UPDATE 76.8
@@ -38,6 +40,7 @@ function draw(): void {
   const tl = $("#till"); applyRoot(tl, W);
   const mine = D.answers.filter((a) => !a.sample && a.survey === D.cur).slice(-1)[0];
   tl.innerHTML = `<h3>${esc(t("sp_side"))}</h3>${mine ? `<p>${chip(mine.st)}</p>` : ""}${svScreenView(D, look())}<p class="sub">${esc(t("sp_side_note"))}</p>`;
+  pageWaiting(WAIT, S, el, t, draw);                                  // PLACEHOLDER UPDATE 83
 }
 function act(a: string): void {
   if (a.startsWith("sv:")) D.act(a, { online: S.online, partner: !S.realUser, redraw: draw });
@@ -52,7 +55,7 @@ function reset(k: string): void {
   if (k === "done") D.phone.step = "done";
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "plan", "country", "dark", "lang", "turn"], S, W, C, { tiers: TIERS });
+  $("#panel").innerHTML = panelHtml(["online", "firstopen", "plan", "country", "dark", "lang", "turn"], S, W, C, { tiers: TIERS });
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["consent", "question", "anonymous", "sensitive", "one-per-phone", "done", "closed"], (k) => { reset(k); draw(); });
 }

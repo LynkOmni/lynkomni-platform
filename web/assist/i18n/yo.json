@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "Lẹ́yìn",
   "at_answer_label": "Ìdáhùn LynkAssist",
@@ -52,6 +52,7 @@
   "at_practice_note": "Ìdánrawò: kò sí nǹkan gidi tó ń yí padà.",
   "at_preview_title": "Kí o tó fọwọ́ sí i",
   "at_remember": "Rántí pé…",
+  "at_remember_off": "Tan ìrántí kí o lè fi nǹkan kún un.",
   "at_remember_save": "Rántí",
   "at_remembered": "A ti rántí.",
   "at_role_cashier": "olùgbàwó",

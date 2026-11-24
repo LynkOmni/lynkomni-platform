@@ -1,0 +1,20 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "pl",
+ "native": "Polski",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "Spróbuj ponownie",
+  "emk_first_open": "Pierwsze otwarcie na tym urządzeniu (nic jeszcze nie zapisano)",
+  "loading": "Ładowanie",
+  "ph_all_loaded": "To wszystko",
+  "ph_draft_kept": "Twój szkic został zachowany na tym urządzeniu.",
+  "ph_recent": "Ostatnie",
+  "ph_slow": "To trwa dłużej niż zwykle.",
+  "ph_suggested": "Sugestie",
+  "ph_updating": "Aktualizowanie",
+  "ph_working": "Działa"
+ }
+}

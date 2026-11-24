@@ -200,7 +200,7 @@ function body(): string {
   }
 }
 function draw(): void { const el = $("#screen"); if (!el) return; el.dataset["interface"] = iface(); el.dataset["deviceClass"] = DEVICES.interfaces[iface()]?.class ?? "phone"; el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = body(); el.querySelector(".bmenu .sel")?.scrollIntoView({ block: "nearest" });
-  const ad = document.getElementById("address"); if (ad) { const p = PATH[S.scr]; ad.textContent = p.includes(".lynkomni.com") ? p : `${APP_HOST}${p}`; } }
+  const ad = document.getElementById("address"); if (ad) { const p = PATH[S.scr]; ad.textContent = !p.startsWith("/") ? p : `${APP_HOST}${p}`; } }
 function ok(): void {
   if (S.scr === "menu") { S.scr = MENU[S.sel]?.[0] ?? "menu"; S.sel = 0; S.last = ""; }
   else if (S.scr === "locale") { if (S.sel === 1) { S.lang = "en"; panel(); } if (S.sel === 2) document.querySelector<HTMLSelectElement>('[data-ctl="lang"]')?.focus(); S.scr = "menu"; S.sel = 0; }

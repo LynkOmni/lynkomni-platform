@@ -39,5 +39,18 @@ class Addresses(unittest.TestCase):
             self.assertIsNone(re.search(r'startswith\("[a-z]+\.lynkomni\.com', s), f)
 
 
+class RandomAndAddresses(unittest.TestCase):
+    """CodeQL also reads the built pages: no remainder or division on raw random bytes, no host found by a piece of an address."""
+    def test_no_biased_random_and_no_address_substring_checks(self):
+        import glob
+        for f in sorted(glob.glob(str(ROOT / "ts" / "src" / "*.ts")) + glob.glob(str(ROOT / "web" / "emulators" / "*" / "app.ts"))):
+            s = pathlib.Path(f).read_text()
+            self.assertIsNone(re.search(r"randomBytes\([^)]*\)[^;\n]*%", s), f"{f}: use randomBelow, never a remainder of random bytes")
+            self.assertIsNone(re.search(r'\.(?:includes|indexOf)\("\.?lynkomni\.com"\)', s), f"{f}: tell a path from an address by its start, never by a piece of it")
+        em = (ROOT / "ts" / "src" / "emulator.ts").read_text()
+        body = em[em.index("export function randomBelow"):em.index("export function publicId")]
+        self.assertNotIn("%", body)                                          # fair by drawing bits and drawing again, never a remainder
+
+
 if __name__ == "__main__":
     unittest.main()

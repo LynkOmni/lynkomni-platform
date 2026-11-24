@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pt",
  "native": "Português",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "Depois",
   "at_answer_label": "Resposta do LynkAssist",
@@ -52,6 +52,7 @@
   "at_practice_note": "Modo de treino: nada de real muda.",
   "at_preview_title": "Antes de confirmar",
   "at_remember": "Lembrar que…",
+  "at_remember_off": "Ative a memória para acrescentar algo.",
   "at_remember_save": "Lembrar",
   "at_remembered": "Guardado.",
   "at_role_cashier": "operador de caixa",

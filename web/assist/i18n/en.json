@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "en",
  "native": "English",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "After",
   "at_answer_label": "LynkAssist's answer",
@@ -52,6 +52,7 @@
   "at_practice_note": "Practice mode: nothing real changes.",
   "at_preview_title": "Before you confirm",
   "at_remember": "Remember that…",
+  "at_remember_off": "Switch memory on to add something.",
   "at_remember_save": "Remember",
   "at_remembered": "Remembered.",
   "at_role_cashier": "cashier",

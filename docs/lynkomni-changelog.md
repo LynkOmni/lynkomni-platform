@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.95.0 (2026-11-24)
+Section 4 review, tenth part (row 83.6, third part: waiting and typing well on every page):
+- Every page waits well, not only the devices with the emulator kit: the waiting logic is one shared part (PageWait in ts/src/placeholder.ts), used by the kit and called at the end of every draw on the tracking, queue and survey pages, the virtual card, the owner's computer view, the browser frame and the account site, each with "First open on this device" in its panel. The button phone and the two-device relay say why they never show a skeleton.
+- When the link comes back, the screen keeps what it shows and a quiet "Updating" chip stands for a moment. Buttons that ask the cloud (send code, pay online, sync, get a card, identity check and others) keep their width and say "Working" until the answer comes, never stuck longer than 8 s.
+- Fields help while people type: a counter on every field with a limit (never on a PIN or code), the reason beside every disabled field (shown once per card, for example "Only the owner can change this."), recent searches and suggestions in every empty search box, and drafts kept on the device as people type (long digit runs such as card numbers masked first; never on an answer typed on a shared kiosk), offered back after a crash, a timeout or going offline.
+- Skeletons follow sunlight, high-contrast and Windows high-contrast modes.
+- With JavaScript scanning switched on, the code scan also reads the built pages: the fair random helper now draws only the bits it needs and draws again (no remainder), pairing codes pick each letter fairly, a one-time code in the Business app uses the fair helper, and the device shell tells a path from a whole address by how it starts, not by a piece of it. tests/test_code_scanning.py guards all three.
+- The waiting words are a small pack of their own (web/wait), so pages that do not use the shell carry only those few words. Page size budgets rise by the shared part (reasons in web/budgets.v1.json). New words in all 38 languages.
+
 ## v0.94.4 (2026-11-24)
 - Security fixes for the 23 code-scanning findings on main (owner, 2026-11-24). The CI and CD workflows now say their token may only read the code. Developer API keys are kept as a keyed digest with the server's pepper, and recovery and one-time codes as salted scrypt (core/secrethash.py), never as a plain fast hash. Random numbers for sample ids and pairing codes are now fair (ts/src/emulator.ts randomBelow). A slow text pattern in the brand module is replaced by a plain loop. Two tests compare web addresses by whole host name.
 - tests/test_code_scanning.py and two security register entries keep these fixed. The production pepper is in the provider ledger's later list (secret_pepper).

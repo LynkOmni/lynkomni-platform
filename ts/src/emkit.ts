@@ -16,8 +16,7 @@ import { newId } from "./emulator.js";
 import { canRun, deliveryWays, fitScreen, hardwareAdvice, tones } from "./emulators.js";
 import type { Caps, EmulatorRegister, Tones, ToneSetting, Way } from "./emulators.js";
 import { PRIVATE_ENTRY, playSound, soundForAct } from "./keytones.js";
-import { TIMING, holdFor, loadingPhase, skeletonHtml } from "./placeholder.js";
-import type { SkeletonShape } from "./placeholder.js";
+import { PageWait, wireBusy } from "./placeholder.js";
 import type { Sound } from "./keytones.js";
 
 export type Link = "connected" | "request" | "disconnected" | "asked" | "lost" | "reapproval";
@@ -38,15 +37,10 @@ export interface KitOptions {
 /** The tone and vibration for one press, from the design tokens; silent where the browser has no sound or vibration. */
 export function play(reg: EmulatorRegister, kind: Sound, s: Tones): void { playSound(reg.sounds, kind, s); }
 
-export class EmKit {
+/** The device side of a panel emulator. The waiting state (first open, skeletons, Updating, Retry) comes from PageWait (83). */
+export class EmKit extends PageWait {
   link: Link = "connected";
   practice = false;
-  /** PLACEHOLDER UPDATE 83 (tester condition): the first open on this device, nothing saved yet. Each screen then waits for its
-   *  content (about 0.9 s online, never offline): nothing new before 300 ms, then a skeleton shaped like the content for at least
-   *  300 ms, and after 8 s offline a calm "taking longer" note with Retry. Screens seen once open from the device's copy at once. */
-  firstOpen = false;
-  loaded = new Set<string>();
-  loading = new Map<string, { start: number; shown: number | null }>();
   homeAdded = false;
   /** The connect request on screen: which business, which emulator, who sent it (word keys, so the request follows the screen's
    *  language; never a code in an event). */
@@ -62,7 +56,7 @@ export class EmKit {
   hwKind = "";
   lastWay = "";
   readonly deviceId = newId();
-  constructor(private reg: EmulatorRegister, private o: KitOptions, private emit: Emit) { this.hwKind = o.hardware[0] ?? ""; }
+  constructor(private reg: EmulatorRegister, private o: KitOptions, private emit: Emit) { super(); this.hwKind = o.hardware[0] ?? ""; }
 
   get vibrates(): boolean { return typeof navigator !== "undefined" && "vibrate" in navigator; }
   /** The tones in force now (core/emulators.tones through the port). */
@@ -113,7 +107,7 @@ export class EmKit {
     if (!a.startsWith("emk:")) return false;
     const [, k = "", v = ""] = a.split(":");
     switch (k) {
-      case "retry": this.loading.clear(); break;                     // Retry starts the wait again; online it arrives, offline it waits again
+      case "retry": this.retry(); break;                     // Retry starts the wait again; online it arrives, offline it waits again
       case "accept": this.answer(true, L.online); break;
       case "deny": this.answer(false, L.online); break;
       case "ask": this.ask(L.online); this.press("confirm"); break;
@@ -218,7 +212,7 @@ export function kitChange(k: EmKit, el: HTMLInputElement & HTMLSelectElement, bu
   const w = el.dataset["kit"]; if (!w) return false;
   if (w === "link") { const v = el.value as Link; if (v === "request") k.offered(business, sentBy); else k.cloud(v); }
   else if (w === "practice") k.practice = el.checked;
-  else if (w === "firstopen") { k.firstOpen = el.checked; k.loaded.clear(); k.loading.clear(); }
+  else if (w === "firstopen") { k.setFirstOpen(el.checked); }
   else if (w === "quiet") k.quietHours = el.checked;
   return true;
 }
@@ -256,6 +250,7 @@ export function wireKit(k: EmKit, o: { t: T; icon: Icon; online: () => boolean; 
       const dev = o.device?.() ?? document.getElementById("rig");
       if (dev && dev.contains(b) && !b.closest(".panel, aside")) k.press(soundFor(b, dev, k.now().pin_tones));
     }, true);
+    wireBusy(document, o.t);
     document.addEventListener("change", (e) => {
       const el = e.target as HTMLInputElement & HTMLSelectElement;
       if (!el?.dataset?.["kit"]) return;
@@ -272,7 +267,7 @@ export function wireKit(k: EmKit, o: { t: T; icon: Icon; online: () => boolean; 
       }
       const c = k.cover(look()), sh = k.sheetHtml(look());
       if (c) { screen.innerHTML = c + sh; return; }
-      waitFor(k, screen, o);
+      k.apply(screen, { t: o.t, online: o.online, redraw: o.redraw, retryAct: "emk:retry", retryClass: "emk-btn" });
       const b = k.banner(look());
       if (b) screen.insertAdjacentHTML("afterbegin", b);
       if (sh) screen.insertAdjacentHTML("beforeend", sh);
@@ -280,29 +275,5 @@ export function wireKit(k: EmKit, o: { t: T; icon: Icon; online: () => boolean; 
   };
 }
 
-/** The content area of a screen (the part that waits; the header, menus and buttons stay) and its shape (data-shape, else a list). */
-const AREA = ".body, .rbody, .qp-body, .sp-body, .home, .tiles12, .display-main";
-const ARRIVES_MS = 900;
-/** The first open on a device (PLACEHOLDER UPDATE 83): the screen's content area waits as the register says. Called by after(). */
-function waitFor(k: EmKit, screen: HTMLElement, o: { t: T; online: () => boolean; redraw: () => void }): void {
-  if (!k.firstOpen) return;
-  const area = screen.querySelector<HTMLElement>(AREA);
-  if (!area) return;
-  const key = (screen.querySelector("h1, h2")?.textContent ?? "") + "|" + (area.className || "main");
-  if (k.loaded.has(key)) return;
-  const now = Date.now(), w = k.loading.get(key) ?? { start: now, shown: null };
-  k.loading.set(key, w);
-  const elapsed = now - w.start, online = o.online();
-  if (online && elapsed >= ARRIVES_MS && holdFor(w.shown ?? now, now) === 0) { k.loaded.add(key); k.loading.delete(key); return; }
-  const phase = loadingPhase(elapsed, false);
-  const shape = (area.dataset["shape"] as SkeletonShape | undefined) ?? "list";
-  if (phase === "nothing") area.style.visibility = "hidden";          // nothing new before 300 ms, and nothing jumps
-  else {
-    if (w.shown === null) w.shown = now;
-    area.innerHTML = skeletonHtml(shape, o.t("loading")) + (phase === "slow"
-      ? `<p class="ph-slow" role="status">${esc(o.t("ph_slow"))} <button type="button" class="emk-btn" data-act="emk:retry">${esc(o.t("action_retry"))}</button></p>` : "");
-  }
-  const next = phase === "nothing" ? TIMING.SHOW_AFTER - elapsed : online ? Math.max(ARRIVES_MS - elapsed, holdFor(w.shown ?? now, now), 50) : TIMING.SLOW_AFTER - elapsed;
-  if (next > 0 && typeof window !== "undefined") window.setTimeout(() => o.redraw(), next + 5);
-}
+
 

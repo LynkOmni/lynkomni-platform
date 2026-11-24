@@ -1,0 +1,20 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "he",
+ "native": "עברית",
+ "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "texts": {
+  "action_retry": "נסו שוב",
+  "emk_first_open": "פתיחה ראשונה במכשיר הזה (עוד לא נשמר כלום)",
+  "loading": "טוען",
+  "ph_all_loaded": "זה הכול",
+  "ph_draft_kept": "הטיוטה שלך נשמרה במכשיר הזה.",
+  "ph_recent": "אחרונים",
+  "ph_slow": "זה לוקח יותר זמן מהרגיל.",
+  "ph_suggested": "הצעות",
+  "ph_updating": "מתעדכן",
+  "ph_working": "פועל"
+ }
+}

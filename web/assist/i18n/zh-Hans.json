@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "之后",
   "at_answer_label": "LynkAssist 的回答",
@@ -52,6 +52,7 @@
   "at_practice_note": "练习模式：不会改变任何真实内容。",
   "at_preview_title": "确认之前",
   "at_remember": "记住…",
+  "at_remember_off": "开启记忆后才能添加内容。",
   "at_remember_save": "记住",
   "at_remembered": "已记住。",
   "at_role_cashier": "收银员",

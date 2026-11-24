@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "5d9f7434829233aa2722c34aa40f9aaf9e941de8b1cab0565520e99352b969d0",
+ "source_sha256": "cb3440fbb29936e17d09c9a6294adb86d7c31341cf3b2ef303fe332c3494c06b",
  "texts": {
   "at_after": "Selepas",
   "at_answer_label": "Jawapan LynkAssist",
@@ -52,6 +52,7 @@
   "at_practice_note": "Mod latihan: tiada perubahan sebenar.",
   "at_preview_title": "Sebelum anda mengesahkan",
   "at_remember": "Ingat bahawa…",
+  "at_remember_off": "Hidupkan memori untuk menambah sesuatu.",
   "at_remember_save": "Ingat",
   "at_remembered": "Diingati.",
   "at_role_cashier": "juruwang",
