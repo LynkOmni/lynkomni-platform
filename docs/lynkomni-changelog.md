@@ -2,6 +2,11 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.99.1 (2026-11-24)
+Device names in capitals (owner report):
+- The betting counter is now called LynkBet Betting Counter on its page, its browser tab, its screen title and the showcase.
+- Every device page heading, page title and showcase entry now writes the device name in capitals (for example LynkPOS Kitchen Screen, LynkStock Handheld Scanner, Rider Phone for Own-Staff Deliveries), so the showcase and the pages agree. Other languages keep their own capitalisation rules.
+
 ## v0.99.0 (2026-11-24)
 A staff PIN with a duress PIN on every shared staff device (owner rule):
 - One shared staff lock in the device kit (StaffGate): who is using this device, each person's own PIN on the shared pad, a wait and then a locked PIN after wrong tries (nothing is ever deleted), a lock after two minutes without use, and a duress PIN that opens the device's quiet limited view while the alert leaves silently.

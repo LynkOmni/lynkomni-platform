@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "en",
  "native": "English",
- "source_sha256": "a0db6f7bb21caf8e053d7ae641c554163d166212adf4e7d17dca372f62e142e8",
+ "source_sha256": "6acd0eb7e28e17c9e6c22d0499af3599bc5e833c61922e4e0cfc8976754f6926",
  "texts": {
   "bt_a_already_paid": "Already paid. Do not pay it again.",
   "bt_a_expired": "Expired. The ticket was not cashed in time.",
@@ -126,7 +126,7 @@
   "bt_take": "Now take {amount} in cash.",
   "bt_take_momo": "The customer pays {amount} by mobile money.",
   "bt_ticket": "Ticket {code}",
-  "bt_title": "LynkBet betting counter",
+  "bt_title": "LynkBet Betting Counter",
   "bt_total_odds": "Total odds",
   "bt_try": "Sandbox operators, sample games, test money only. Pick a sample ticket below to scan it, or switch the internet off to take a queued slip.",
   "bt_waiting": "Waiting for the operator",
