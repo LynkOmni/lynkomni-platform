@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.99.0 (2026-11-24)
+A staff PIN with a duress PIN on every shared staff device (owner rule):
+- One shared staff lock in the device kit (StaffGate): who is using this device, each person's own PIN on the shared pad, a wait and then a locked PIN after wrong tries (nothing is ever deleted), a lock after two minutes without use, and a duress PIN that opens the device's quiet limited view while the alert leaves silently.
+- Now on the rider phone (riders carry cash on delivery; the duress view hides the cash amounts), the stock scanner (the duress view only counts and receives), the kitchen screen (sign-in is optional there) and the Business app when a phone or tablet is a shared staff till (Business settings, Lock, Shared staff till; the duress view only sells for cash). The LynkPOS terminal, the counter tablet and the LynkBet counter already had it.
+- Basic phones take a duress PIN at sign-in (the same home, no messages shown) and when confirming a sale (the same page), and the cloud raises the alert silently.
+- New staff roles rider and kitchen staff, managed by the owner and managers, with the strictest offline limits.
+- Written down as a rule for every service (the emulator register, the universal rules and the security register): any new shared staff device must have it, and tests/test_staff_lock.py checks every built one. Customer screens, a person's own account and card, and the mesh relay have no staff PIN by design.
+- The device kit's words now travel only with pages that load it; size limits raised only where the lock was added, with the reason written down. In all 38 languages.
+
 ## v0.98.0 (2026-11-24)
 Section 4 review, twelfth part (row 72.9 finished: the tracking engine upgrade):
 - Every tracker now knows how long each step should take. An item is "at risk" when 80% of its time has gone and "late" after; repairs, bills to pay and expense claims count only opening hours. A step waiting for the customer (ready to collect, sent for signing, an invoice not yet paid) never counts as the business being late.
@@ -12,6 +21,7 @@ Section 4 review, twelfth part (row 72.9 finished: the tracking engine upgrade):
 - Contract version 18 adds TrackingStepMarked (from a device) for a business's own steps. Every kind's step names are locked (contract/vectors/tracking-steps.lock.json): steps can be added, never removed or renamed, so items already on their way never break.
 - Automations for delay notices, the next step, assigning by rule, re-planning and closing the loop, and the customer messages tracking_delay and tracking_needs_you, are registered for sections 7 and 7B where their screens are built.
 - New words in all 38 languages. Five pages' size budgets were raised with reasons. Build-table row 72.9 is done.
+
 ## v0.97.1 (2026-11-24)
 The LynkBet betting counter signs staff in with a PIN (owner report):
 - The counter now opens on the staff PIN lock, like every LynkPOS device: Who is using this device?, each person's own PIN on the shared pad (pictures and a tone per key), a wait after wrong PINs and a locked PIN after ten (nothing is ever deleted; the owner or a manager resets it), the quiet duress view that only takes bets for cash while the alert leaves silently, Lock the counter, and a lock after two minutes without use. Every bet and payout is tied to the person serving.

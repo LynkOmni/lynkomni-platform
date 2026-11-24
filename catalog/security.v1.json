@@ -1215,6 +1215,21 @@
    "test": "tests/test_code_scanning.py::test_secrets_are_hashed_with_a_pepper_and_codes_with_salted_scrypt",
    "build_section": 4,
    "status": "built"
+  },
+  {
+   "id": "staff-lock-everywhere",
+   "asset": "safety",
+   "threat": "A shared staff device (till, rider phone, kitchen screen, stock scanner, betting counter, a phone used as a till) or a basic phone is used without saying who, or a person is forced to unlock it",
+   "enforced_in": [
+    "ts/src/devicekit.ts",
+    "identity/device_access.py",
+    "core/channels.py",
+    "identity/basic_phone.py",
+    "catalog/emulators.v1.json"
+   ],
+   "test": "tests/test_staff_lock.py::test_every_shared_staff_emulator_has_the_staff_lock_with_a_duress_pin",
+   "build_section": 4,
+   "status": "built"
   }
  ]
 }

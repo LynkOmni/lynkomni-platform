@@ -11,7 +11,7 @@ import { designedState, panelShell, sampleAccount } from "../../../ts/src/device
 import type { Entry } from "../../../ts/src/shell.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
-import { deviceBanners, knowledgeFor, raiseLocal } from "../../../ts/src/devicekit.js";
+import { StaffGate, StaffLock, deviceBanners, knowledgeFor, raiseLocal } from "../../../ts/src/devicekit.js";
 import type { Line as Notice } from "../../../ts/src/notify.js";
 import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
 import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
@@ -30,6 +30,16 @@ const $ = <T extends HTMLElement>(sel: string): T => document.querySelector(sel)
 const icon = (id: string): string => `<span class="ic" aria-hidden="true">${DATA.icons[id] ?? ""}</span>`;
 const chip = (s: UserState): string => `<span class="chip st-${s}">${icon(`status-${s}`)}<span>${esc(t(`st_${s}`))}</span></span>`;
 const LOG = new EventLog(() => { const el = document.getElementById("log"); if (el) el.innerHTML = LOG.html(esc, chip, t("no_events")); });
+/** The staff lock (owner rule 2026-11-24), optional here: the kitchen screen works with nobody signed in, and a cook may sign in with
+ *  their own PIN so every item marked ready is tied to a person. 8642 is the sample duress PIN: the screen looks the same while the
+ *  alert leaves silently. Samples only: a real screen keeps a slow salted hash in its encrypted database. */
+const STAFF = new StaffLock([
+  { person: "k1", name: "Musa", role: "kitchen_staff", pin: "3691", duress: "8642" },
+  { person: "m1", name: "Eric", role: "manager", pin: "2580" },
+  { person: "o1", name: "Grace", role: "owner", pin: "4719" },
+]);
+const GATE = new StaffGate(STAFF, { t, icon: (id) => icon(id), device: "kitchen-screen", online: () => S.online, redraw: () => draw(), emit: (type, payload, origin) => { LOG.emit(type, payload, origin); },
+  raise: (kind, title) => { LINES = raiseLocal(LINES, kind, title, Date.now()); } }, true);
 const DISHES = [["p_soup", ""], ["p_chicken", "modifiers"], ["p_rice_plate", ""], ["p_juice", ""], ["p_bread", ""]] as const;
 const lim = () => restaurantLimits(DATA.entitlements[S.tier] ?? {});
 const open = (): Ticket[] => S.tickets.filter((x) => !x.bumped);
@@ -67,10 +77,10 @@ function screen(): string {
   const l = lim();
   if (kitchenOutput(l) !== "screen") return `<div class="kempty"><h2>${esc(t("kitchen"))}</h2><p>${esc(t("printed_tickets"))}</p><pre class="kticket">${esc(open().slice(0, 2).map((tk) => `${t("table", { label: tk.table })}\n${tk.lines.map((x) => `${x.qty} x ${t(x.name)}`).join("\n")}`).join("\n\n") || t("all_ready"))}</pre></div>`;
   const screens = l.kitchenScreens === null ? "∞" : String(l.kitchenScreens);
-  return `<header class="khead"><h1>${esc(t("kitchen_queue"))}</h1><span class="kst">${esc(t("kitchen"))} ${S.station}/${screens}</span>${DSH.bar()}</header>${DSH.crumbs(true)}${deviceBanners(LINES, t, (id) => icon(id))}
-    <div class="tickets" data-wait-area data-shape="list">${open().map((tk, i) => `<article class="ticket${i === S.sel ? " sel" : ""}${Date.now() - tk.at > 10 * 60000 ? " late" : ""}" aria-label="${esc(t("table", { label: tk.table }))}"><header><strong>${esc(t("table", { label: tk.table }))}</strong><span>${esc(mins(tk.at))} min</span></header>
+  return `<header class="khead"><h1>${esc(t("kitchen_queue"))}</h1><span class="kst">${esc(t("kitchen"))} ${S.station}/${screens}</span>${DSH.bar()}</header>${DSH.crumbs(true)}${deviceBanners(LINES, t, (id) => icon(id))}${GATE.open ? GATE.whoRow() : GATE.view()}
+    ${GATE.open ? `<div class="tickets" data-wait-area data-shape="list">${open().map((tk, i) => `<article class="ticket${i === S.sel ? " sel" : ""}${Date.now() - tk.at > 10 * 60000 ? " late" : ""}" aria-label="${esc(t("table", { label: tk.table }))}"><header><strong>${esc(t("table", { label: tk.table }))}</strong><span>${esc(mins(tk.at))} min</span></header>
       <ul>${tk.lines.map((x) => `<li class="${x.ready ? "done" : ""}"><button data-act="line:${tk.id}:${x.lineNo}" ${x.ready ? "disabled" : ""}><span class="q">${x.qty}</span><span class="nm">${esc(t(x.name))}${x.mods ? `<small>${esc(t(x.mods))}</small>` : ""}</span>${x.ready ? chip("confirmed") : ""}</button></li>`).join("")}</ul>
-      <button class="kready" data-act="all:${tk.id}">${esc(t("ready"))}</button></article>`).join("") || `<p class="kall">${esc(t("all_ready"))}</p>${designedState("empty", t, DATA.statePictures, S.dark, { label: t("help"), act: "dsh:help" })}`}</div>`;
+      <button class="kready" data-act="all:${tk.id}">${esc(t("ready"))}</button></article>`).join("") || `<p class="kall">${esc(t("all_ready"))}</p>${designedState("empty", t, DATA.statePictures, S.dark, { label: t("help"), act: "dsh:help" })}`}</div>` : ""}`;
 }
 /** Touch or remote (DEVICE 48.17.14): a wall screen without touch works by the bump bar and a remote's arrows, OK and Back. */
 const DM = new DeviceMode(DEVICES, "kitchen-screen");
@@ -84,7 +94,9 @@ function drawScreen(): void { const el = $("#screen"); DEV.draw(el); el.classLis
 function panel(): void {
   $("#panel").innerHTML = panelHtml(["online", "plan", "country", "dark", "lang"], S, W, C, { tiers: TIERS }) + DEV.control();
   $("#panel").insertAdjacentHTML("afterbegin", `<p><button type="button" class="pill" data-act="incoming">+ ${esc(t("new_order_test"))}</button></p>`);
-  stateButtons($("#stateButtons"), ["queue", "empty", "printed", "late"], (k) => { if (k === "empty") S.tickets = []; if (k === "printed") S.tier = "free"; if (k === "queue" || k === "late") { S.tier = S.tier === "free" ? "plus" : S.tier; if (!open().length) { incoming("4"); incoming("7"); } if (k === "late" && open()[0]) open()[0]!.at = Date.now() - 12 * 60000; } panel(); draw(); });
+  stateButtons($("#stateButtons"), ["signed_in", "lock_screen", "duress", "queue", "empty", "printed", "late"], (k) => {
+    if (k === "lock_screen") { GATE.lockNow(); GATE.open = false; draw(); return; }
+    if (k === "signed_in" || k === "duress") { GATE.signInFirst(); GATE.limited = k === "duress"; draw(); return; } if (k === "empty") S.tickets = []; if (k === "printed") S.tier = "free"; if (k === "queue" || k === "late") { S.tier = S.tier === "free" ? "plus" : S.tier; if (!open().length) { incoming("4"); incoming("7"); } if (k === "late" && open()[0]) open()[0]!.at = Date.now() - 12 * 60000; } panel(); draw(); });
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
 }
 function main(): void {
@@ -98,15 +110,16 @@ function main(): void {
     act(b.dataset["act"] ?? "");
   });
   document.addEventListener("input", (e) => { DSH.input(e.target as HTMLInputElement); });
-  document.addEventListener("keydown", (e) => { if (DSH.key(e)) return; DEV.key(e); });
+  document.addEventListener("keydown", (e) => { if (GATE.key(e)) return; if (DSH.key(e)) return; DEV.key(e); });
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
   $("#panel").addEventListener("change", (e) => { if (DEV.change(e.target as HTMLElement)) return; if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });
-  window.setInterval(() => { S.ticks += 1; if (LOG.tick(S.online, false, S.ticks, () => undefined)) draw(); if (S.ticks % 75 === 0) draw(); }, 400);
+  window.setInterval(() => { S.ticks += 1; if (LOG.tick(S.online, false, S.ticks, () => undefined) || GATE.tick()) draw(); if (S.ticks % 75 === 0) draw(); }, 400);
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 1000);
 }
 function act(act_: string): void {
   {
     const [k = "", a = "", c = ""] = act_.split(":");
+    if (k !== "incoming" && GATE.act(act_)) return;                 // orders from the till always arrive; the rest waits for the PIN pad
     if (k === "focus") { const i = open().findIndex((x) => x.id === a); if (i >= 0) S.sel = i; draw(); return; }
     const tk = S.tickets.find((x) => x.id === a);
     if (k === "incoming") incoming();

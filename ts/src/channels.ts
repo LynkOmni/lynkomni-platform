@@ -7,7 +7,7 @@ export const CH_MENU = ["sell", "today", "stock", "help"] as const;
 export type ChScreen = "menu" | "product" | "qty" | "pin" | "done" | "today" | "stock" | "help" | "bye";
 export interface ChState { screen: ChScreen; prod: number | null; qty: number | null }
 export type ChLine = [string, Record<string, string | number>];
-export interface ChCtx { products: [string, string, string][]; today: [number, string]; receipt?: string; pinOk: (t: string) => boolean }
+export interface ChCtx { products: [string, string, string][]; today: [number, string]; receipt?: string; pinOk: (t: string) => boolean; pinDuress?: (t: string) => boolean }
 
 export const chStart = (): ChState => ({ screen: "menu", prod: null, qty: null });
 
@@ -27,7 +27,7 @@ export function chPage(s: ChState, ctx: Omit<ChCtx, "pinOk">): ChLine[] {
 }
 
 const digit = (t: string): boolean => /^\d+$/.test(t);
-export function chStep(state: ChState, text: string, ctx: ChCtx): [ChState, boolean, { sale: number; qty_milli: number } | null] {
+export function chStep(state: ChState, text: string, ctx: ChCtx): [ChState, boolean, { sale: number; qty_milli: number; duress?: true } | null] {
   const s: ChState = { ...state }, t = (text ?? "").trim();
   switch (s.screen) {
     case "menu":
@@ -43,6 +43,7 @@ export function chStep(state: ChState, text: string, ctx: ChCtx): [ChState, bool
       return [s, false, null];
     case "pin":
       if (ctx.pinOk(t)) { s.screen = "done"; return [s, true, { sale: s.prod ?? 0, qty_milli: (s.qty ?? 0) * 1000 }]; }
+      if (ctx.pinDuress?.(t)) { s.screen = "done"; return [s, true, { sale: s.prod ?? 0, qty_milli: (s.qty ?? 0) * 1000, duress: true }]; }   // the same page; the cloud raises the alert silently
       return [chStart(), false, null];
     case "today": case "stock": case "help":
       return t === "0" ? [chStart(), false, null] : [s, false, null];

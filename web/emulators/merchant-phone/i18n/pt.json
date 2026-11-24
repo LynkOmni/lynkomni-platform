@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pt",
  "native": "Português",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "Conta",
   "active": "Ativo",
@@ -672,6 +672,7 @@
   "st_share_passport": "Partilhar o passaporte do meu negócio",
   "st_share_supplier": "Partilhar as vendas dos produtos de um fornecedor com esse fornecedor",
   "st_shop_name": "Nome do negócio",
+  "st_staff_till": "Caixa partilhada: cada pessoa entra com o seu próprio PIN",
   "st_sunlight": "Modo luz do sol",
   "st_tax_pending": "Os recibos fiscais aguardam a confirmação da autoridade tributária",
   "st_tax_rate": "Taxa de imposto",

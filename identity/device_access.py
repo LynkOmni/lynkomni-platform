@@ -27,11 +27,13 @@ for _reg in (("merchant", "events.v1.json"), ("identity", "events.v1.json")):   
     with open(os.path.join(ROOT, *_reg), encoding="utf-8") as f:
         SIGNALS.update(json.load(f)["events"])
 
-ROLES = ("owner", "manager", "cashier", "stock_staff")
-CAN_MANAGE = {"owner": ("manager", "cashier", "stock_staff"), "manager": ("cashier", "stock_staff")}
+ROLES = ("owner", "manager", "cashier", "stock_staff", "rider", "kitchen_staff")   # rider and kitchen_staff: 2026-11-24, staff PIN on every shared staff device
+CAN_MANAGE = {"owner": ("manager", "cashier", "stock_staff", "rider", "kitchen_staff"), "manager": ("cashier", "stock_staff", "rider", "kitchen_staff")}
 OFFLINE_LIMITS = {                                    # the most a role may do alone offline; above it a manager's PIN on the same device
     "cashier": {"void_minor": 0, "refund_minor": 0, "discount_bps": 1000},
     "stock_staff": {"void_minor": 0, "refund_minor": 0, "discount_bps": 0},
+    "rider": {"void_minor": 0, "refund_minor": 0, "discount_bps": 0},
+    "kitchen_staff": {"void_minor": 0, "refund_minor": 0, "discount_bps": 0},
     "manager": {"void_minor": None, "refund_minor": None, "discount_bps": None},   # None: no limit of its own
     "owner": {"void_minor": None, "refund_minor": None, "discount_bps": None},
 }

@@ -11,7 +11,7 @@ const V = JSON.parse(readFileSync(`${root}/contract/vectors/basicphone.v1.json`,
 test("every basic-phone session gives the pages, ends and actions of identity/basic_phone.py", () => {
   const ctx = V.ctx as BpCtx;
   const rules: BpRules = {
-    pinCheck: (t): PinCheck => (t === "LOCKED" ? "locked" : t === V.pin ? "ok" : ["wrong", 9]),
+    pinCheck: (t): PinCheck => (t === "LOCKED" ? "locked" : t === V.pin ? "ok" : t === V.duress ? "duress" : ["wrong", 9]),
     usernameCheck: (u) => { const r = check(u); return r.ok ? null : r.reason; },
     taken: (u) => (V.taken as string[]).includes(u),
   };

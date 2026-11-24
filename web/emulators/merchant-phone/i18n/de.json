@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "de",
  "native": "Deutsch",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "Konto",
   "active": "Aktiv",
@@ -672,6 +672,7 @@
   "st_share_passport": "Meinen Geschäftspass teilen",
   "st_share_supplier": "Verkäufe der Produkte eines Lieferanten mit diesem Lieferanten teilen",
   "st_shop_name": "Name des Geschäfts",
+  "st_staff_till": "Gemeinsame Kasse: Jede Person meldet sich mit ihrer eigenen PIN an",
   "st_sunlight": "Sonnenlichtmodus",
   "st_tax_pending": "Steuerbelege warten auf die Bestätigung der Steuerbehörde",
   "st_tax_rate": "Steuersatz",

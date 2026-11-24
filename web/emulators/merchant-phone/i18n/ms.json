@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "Akaun",
   "active": "Aktif",
@@ -672,6 +672,7 @@
   "st_share_passport": "Kongsi pasport perniagaan saya",
   "st_share_supplier": "Kongsi jualan produk pembekal dengan pembekal itu",
   "st_shop_name": "Nama perniagaan",
+  "st_staff_till": "Kaunter dikongsi: setiap orang log masuk dengan PIN sendiri",
   "st_sunlight": "Mod cahaya matahari",
   "st_tax_pending": "Resit cukai menunggu pengesahan pihak berkuasa cukai",
   "st_tax_rate": "Kadar cukai",

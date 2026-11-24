@@ -12,7 +12,7 @@ import { designedState, panelShell, sampleAccount } from "../../../ts/src/device
 import type { Entry } from "../../../ts/src/shell.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
-import { deviceBanners, knowledgeFor, raiseLocal } from "../../../ts/src/devicekit.js";
+import { StaffGate, StaffLock, deviceBanners, knowledgeFor, raiseLocal } from "../../../ts/src/devicekit.js";
 import type { Line } from "../../../ts/src/notify.js";
 import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
 import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
@@ -30,6 +30,16 @@ const $ = <T extends HTMLElement>(sel: string): T => document.querySelector(sel)
 const icon = (id: string): string => `<span class="ic" aria-hidden="true">${DATA.icons[id] ?? ""}</span>`;
 const chip = (s: UserState): string => `<span class="chip st-${s}">${icon(`status-${s}`)}<span>${esc(t(`st_${s}`))}</span></span>`;
 const LOG = new EventLog(() => { const el = document.getElementById("log"); if (el) el.innerHTML = LOG.html(esc, chip, t("no_events")); draw(); });
+/** The staff lock (owner rule 2026-11-24): each person signs in with their own PIN, so every count, arrival and removal is tied to a
+ *  person. 8642 is the sample duress PIN: the scanner looks the same but only counts and receives (no removals) while the alert
+ *  leaves silently. Samples only: a real scanner keeps a slow salted hash in its encrypted database. */
+const STAFF = new StaffLock([
+  { person: "s1", name: "Aline", role: "stock_staff", pin: "2468", duress: "8642" },
+  { person: "m1", name: "Eric", role: "manager", pin: "2580" },
+  { person: "o1", name: "Grace", role: "owner", pin: "4719" },
+]);
+const GATE = new StaffGate(STAFF, { t, icon: (id) => icon(id), device: "stock-scanner", online: () => S.online, redraw: () => draw(), emit: (type, payload, origin) => { LOG.emit(type, payload, origin); },
+  raise: (kind, title) => { LINES = raiseLocal(LINES, kind, title, Date.now()); } });
 const ITEMS: Item[] = ([["p_rice", "6001", 24, 10], ["p_sugar", "6002", 6, 8], ["p_oil", "6004", 2, 5], ["p_eggs", "6006", -1, 3], ["p_water", "6008", 36, 12], ["p_soap", "6011", 18, 6]] as const)
   .map(([name, barcode, lv, re]) => ({ id: newId(), name, barcode, level: lv * 1000, reorder: re * 1000 }));
 /** Touch or buttons (DEVICE 48.17.14): the registered hardware version decides; a button scanner works by its keys alone. */
@@ -45,7 +55,7 @@ const DSH = panelShell({
   native: () => (DATA.i18n[S.lang]?.native ?? S.lang), region: () => (C.pack().sample ? t("sample_country") : C.pack().name), currency: () => C.pack().currency,
   pending: () => LOG.pending().count, lastSync: () => LOG.events.find((e) => e.sync === "accepted")?.at ?? null,
   screen: () => ({ id: S.mode, title: shellTitle(), path: S.mode === "count" ? "/stock/counts/new" : S.mode === "receive" ? "/stock/arrivals/new" : "/stock/removals/new" }), entries: (): Entry[] => [...(["count", "receive", "adjust"] as Mode[]).map((m): Entry => ({ id: m, kind: "action", title: t(m), act: `mode:${m}` })), ...ITEMS.map((x): Entry => ({ id: x.id, kind: "product", title: t(x.name), subtitle: x.barcode, keywords: [x.barcode], act: `pick:${x.id}` }))],
-  account: () => sampleAccount(t, "cashier", ["cashier", "manager", "owner"], t("sample_shop"), S.dark ? "dark" : "light", DATA.i18n[S.lang]?.native ?? S.lang, C.pack().sample ? t("sample_country") : C.pack().name),
+  account: () => sampleAccount(t, GATE.role() || "stock_staff", ["stock_staff", "manager", "owner"], t("sample_shop"), S.dark ? "dark" : "light", DATA.i18n[S.lang]?.native ?? S.lang, C.pack().sample ? t("sample_country") : C.pack().name),
   run: (a) => { if (a.startsWith("ntf:")) { const nid = a.split(":")[2]; LINES.forEach((l) => { if (l.nid === nid || a === "ntf:allread") { l.read = true; l.acknowledged = true; } }); return; } act(a); }, redraw: () => draw(),
   lines: () => LINES, knowledge: () => knowledgeFor(DATA.i18n, S.lang), crumbLabel: (p) => t(p === "/" ? "sample_shop" : p === "/stock" ? "stock" : S.mode),
 });
@@ -67,7 +77,8 @@ function save(): void {
 function screen(): string {
   const i = item();
   const head = `<header class="shead"><span>${esc(t(S.mode === "count" ? "count" : S.mode === "receive" ? "receive" : "adjust"))}</span>${DSH.bar()}</header>${DSH.crumbs(true)}${deviceBanners(LINES, t, (id) => icon(id))}`;
-  const tabs = `<nav class="smodes">${(["count", "receive", "adjust"] as Mode[]).map((m, n) => `<button data-act="mode:${m}" ${S.mode === m ? 'aria-current="true"' : ""}>F${n + 1} ${esc(t(m))}</button>`).join("")}</nav>`;
+  if (!GATE.open) return `<header class="shead"><span>${esc(t("stock"))}</span></header><div class="sbody">${GATE.view()}</div>`;   // the lock scrolls like every scanner screen
+  const tabs = `${GATE.whoRow()}<nav class="smodes">${(GATE.limited ? ["count", "receive"] as Mode[] : ["count", "receive", "adjust"] as Mode[]).map((m, n) => `<button data-act="mode:${m}" ${S.mode === m ? 'aria-current="true"' : ""}>F${n + 1} ${esc(t(m))}</button>`).join("")}</nav>`;
   const waiting = !S.online && LOG.pending().count ? designedState("sync_pending", t, DATA.statePictures, S.dark, null) : "";   // designed state (41 B)
   if (!i) return `${head}${tabs}<div class="sbody" data-wait-area data-shape="list">${waiting}<p class="big">${icon("ui-qr")}</p><p>${esc(t("scan"))}</p>${S.flash ? `<p class="ok">${esc(S.flash)}</p>` : ""}<ul class="slist">${ITEMS.map((x) => `<li><span>${esc(t(x.name))}</span><span>${qtyText(Math.abs(x.level))}${x.level < 0 ? " −" : ""}</span>${word(x) ? `<em>${esc(word(x))}</em>` : ""}</li>`).join("")}</ul></div>`;
   return `${head}${tabs}<div class="sbody" data-wait-area data-shape="list"><h2>${esc(t(i.name))}</h2><p class="code">${esc(i.barcode)}</p><p>${esc(t("in_stock", { n: qtyText(i.level) }))}${word(i) ? ` · <em>${esc(word(i))}</em>` : ""}</p>
@@ -84,6 +95,9 @@ function drawScreen(): void { const el = $("#screen"); if (!el) return; DEV.draw
   el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W); el.innerHTML = screen() + DSH.overlay(); const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address(); }
 function act(a: string): void {
   const [k = "", v = ""] = a.split(":");
+  if (!GATE.open && k === "key") { if (/^\d$/.test(v)) GATE.act(`pin:${v}`); else if (v === "enter") GATE.act("pin:ok"); else if (v === "clear" || v === "back") GATE.act("pin:clear"); return; }   // the scanner's own keys type the PIN
+  if (GATE.act(a)) return;
+  if (GATE.limited && (v === "adjust" || v === "f3")) return;                                   // the quiet duress view never removes stock
   if (k === "pick") { const x = ITEMS.find((i) => i.id === v); if (x) { S.cur = x.id; S.qty = 1; } }
   if (k === "mode") S.mode = (["count", "receive", "adjust"] as Mode[]).find((m) => m === v) ?? "count";
   if (k === "key") { if (v === "enter") { save(); return; } S.mode = v === "f2" ? "receive" : v === "f3" ? "adjust" : "count"; }
@@ -93,17 +107,20 @@ function act(a: string): void {
 function panel(): void {
   $("#panel").innerHTML = panelHtml(DM.touch() ? ["online", "country", "dark", "lang", "turn"] : ["online", "country", "dark", "lang"], S, W, C) + DEV.control();
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
-  stateButtons($("#stateButtons"), ["list", "count", "receive", "adjust"], (k) => { if (k === "list") S.cur = ""; else { S.mode = k as Mode; S.cur = ITEMS[3]!.id; S.qty = 1; } draw(); });
+  stateButtons($("#stateButtons"), ["lock_screen", "duress", "list", "count", "receive", "adjust"], (k) => {
+    if (k === "lock_screen") { GATE.lockNow(); S.cur = ""; draw(); return; }
+    GATE.signInFirst(); if (k === "duress") { GATE.limited = true; S.mode = "count"; S.cur = ""; draw(); return; }
+    if (k === "list") S.cur = ""; else { S.mode = k as Mode; S.cur = ITEMS[3]!.id; S.qty = 1; } draw(); });
 }
 function main(): void {
   S.country = DATA.packOrder[0] ?? ""; panel(); draw();
   document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (!b) return; if (DEV.act(b.dataset["act"] ?? "")) return; if (b.classList.contains("dsh-scrim") && (e.target as HTMLElement).closest("[data-stop]")) return; if (!DSH.act(b.dataset["act"] ?? "")) act(b.dataset["act"] ?? ""); });
   document.addEventListener("input", (e) => { DSH.input(e.target as HTMLInputElement); });
-  document.addEventListener("keydown", (e) => { if (DSH.key(e)) return; DEV.key(e); });
+  document.addEventListener("keydown", (e) => { if (GATE.key(e)) return; if (DSH.key(e)) return; DEV.key(e); });
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
-  $("#trigger").addEventListener("click", scan);
+  $("#trigger").addEventListener("click", () => { if (GATE.open) scan(); });
   $("#panel").addEventListener("change", (e) => { if (DEV.change(e.target as HTMLElement)) { panel(); return; } if (panelChange(e.target as HTMLSelectElement, S, DATA)) panel(); draw(); fitToWidth($("#rig"), S.turn === "sideways" && DM.touch() ? 600 : Number($("#rig").dataset["width"]) || 420); });
-  window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); }, 400);
+  window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); if (GATE.tick()) draw(); }, 400);
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 420);
 }
 main();

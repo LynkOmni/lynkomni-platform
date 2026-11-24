@@ -12,6 +12,8 @@ Rules:
 - sign-up asks the age first (18 or the country's higher age, never a birth date), a username by the one format, a PIN twice,
   and the terms; the account is created in the cloud only, and the recovery code is shown once;
 - wrong PINs wait and then lock, never wipe; recovery is online, never on this menu;
+- a duress PIN signs in to a home that looks the same but lists no messages, while the action carries duress so the cloud
+  raises the silent alert (owner rule 2026-11-24);
 - the help menu is numbered; fixes that need a smartphone are sent as a link or passed to a person, with a case number;
 - the bell is read here too: unread lines, newest and most urgent first; reading one marks it read on every device;
 - no secret ever appears on a page: no PIN, code or card number (only the recovery code, once, on the screen of the person
@@ -30,7 +32,7 @@ MAX_LINES = 5                                   # messages listed on one page (a
 
 
 def start():
-    return {"screen": "welcome", "signed_in": False, "username": None, "pin": None, "note": None, "pick": None, "back": "welcome"}
+    return {"screen": "welcome", "signed_in": False, "limited": False, "username": None, "pin": None, "note": None, "pick": None, "back": "welcome"}
 
 
 def page(state, ctx):
@@ -38,6 +40,8 @@ def page(state, ctx):
     recovery (shown once after sign-up), case (a support case reference after a hand-over)."""
     s, note = state["screen"], ([(state["note"][0], state["note"][1])] if state.get("note") else [])
     back = [("ch_back", {"n": 0})]
+    if state.get("limited"):                                   # the duress home: the same pages, no messages
+        ctx = dict(ctx, lines=[])
     if s == "welcome":
         return [("bp_title", {})] + [(f"bp_{k}", {"n": i + 1}) for i, k in enumerate(WELCOME)] + [("ch_end", {"n": 0})]
     if s == "pin":
@@ -89,7 +93,7 @@ def _to(s, screen, note=None):
 def step(state, text, ctx):
     """One reply. Returns (state, ends, action or None). Actions: {"sign_in": True}, {"wrong_pin": n_left},
     {"create": {"username", "pin"}} (the cloud hashes the PIN and never stores it), {"read": nid}, {"send_link": "help"},
-    {"hand_over": "help"}. ctx: pin_check(pin) -> "ok" | ("wrong", left) | "locked"; username_check(u) -> None or a reason
+    {"hand_over": "help"}. ctx: pin_check(pin) -> "ok" | "duress" | ("wrong", left) | "locked"; username_check(u) -> None or a reason
     word key; taken(u) -> bool."""
     s, t = dict(state), (text or "").strip()
     scr = s["screen"]
@@ -106,6 +110,9 @@ def step(state, text, ctx):
         if r == "ok":
             s["signed_in"] = True
             return _to(s, "home"), False, {"sign_in": True}
+        if r == "duress":
+            s["signed_in"] = True; s["limited"] = True
+            return _to(s, "home"), False, {"sign_in": True, "duress": True}
         if r == "locked":
             return _to(s, "locked"), True, None
         return _to(s, "pin", ("bp_wrong_pin", {"left": r[1]})), False, {"wrong_pin": r[1]}

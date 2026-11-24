@@ -782,5 +782,6 @@
  "write_message": "Write a message",
  "wrong_code": "Wrong code. Try again.",
  "your_data_yours": "Your data is yours. Export it at any time.",
- "your_phone": "Your phone number"
+ "your_phone": "Your phone number",
+ "st_staff_till": "Shared staff till: each person signs in with their own PIN"
 }

@@ -1078,5 +1078,6 @@
   "lynkhr": "4B (uses the LynkAttend door and reception)",
   "lynkfiles": "4B (signing tablet)"
  },
- "sides_rule": "The side follows the address map (catalog/addresses.v1.json storefront): the in-person till, the door, reception, the counter and the kiosks are workspace-only, so their emulators are internal; the Business app on a phone and the stock handheld serve both sides; a customer-facing screen shows the side it was assigned from."
+ "sides_rule": "The side follows the address map (catalog/addresses.v1.json storefront): the in-person till, the door, reception, the counter and the kiosks are workspace-only, so their emulators are internal; the Business app on a phone and the stock handheld serve both sides; a customer-facing screen shows the side it was assigned from.",
+ "staff_lock": "Owner rule 2026-11-24: every emulator whose user is \"needed\" or \"optional\" (a shared staff device) signs each person in with their own PIN through ts/src/devicekit.ts (StaffLock, StaffGate; rules in identity/device_access.py): waits and a locked PIN after wrong tries, never a wipe; a duress PIN that opens the device's quiet limited view while DuressSignalled leaves silently; a lock after two minutes without use; big or sensitive acts approved with a manager's or the owner's own PIN, never the person serving. Basic phones take a duress PIN at sign-in and at a sale (core/channels.py, identity/basic_phone.py). A planned emulator gets it in the build section that builds it; tests/test_staff_lock.py checks every built one."
 }

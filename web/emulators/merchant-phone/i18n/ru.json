@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ru",
  "native": "Русский",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "Аккаунт",
   "active": "Активно",
@@ -672,6 +672,7 @@
   "st_share_passport": "Поделиться паспортом бизнеса",
   "st_share_supplier": "Делиться продажами товаров поставщика с этим поставщиком",
   "st_shop_name": "Название бизнеса",
+  "st_staff_till": "Общая касса: каждый входит со своим PIN",
   "st_sunlight": "Режим яркого солнца",
   "st_tax_pending": "Налоговые чеки ждут подтверждения налоговой службы",
   "st_tax_rate": "Ставка налога",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "Account",
   "active": "Actief",
@@ -672,6 +672,7 @@
   "st_share_passport": "Mijn bedrijfspaspoort delen",
   "st_share_supplier": "Verkopen van de producten van een leverancier met die leverancier delen",
   "st_shop_name": "Bedrijfsnaam",
+  "st_staff_till": "Gedeelde kassa: iedereen meldt zich aan met een eigen PIN",
   "st_sunlight": "Zonlichtmodus",
   "st_tax_pending": "Fiscale bonnen wachten op bevestiging van de belastingdienst",
   "st_tax_rate": "Belastingtarief",

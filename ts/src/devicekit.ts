@@ -79,6 +79,92 @@ export class StaffLock {
   }
 }
 
+/** The staff lock of every shared staff device (owner rule 2026-11-24: a staff PIN with a duress PIN wherever staff share a device;
+ *  catalog/emulators.v1.json user "needed" or "optional", tests/test_staff_lock.py). One part draws the lock screen (who is using
+ *  this device, then their own PIN on the shared pad with pictures and a tone per key), shows who is signed in with Lock, locks after
+ *  two minutes without use, and on the duress PIN opens the device's quiet limited view while the alert leaves silently by the first
+ *  path out. Wrong PINs make the person wait, then lock that PIN; nothing is ever deleted. "optional": the screen works without
+ *  anyone signed in (the kitchen screen) and a person may sign in. */
+export interface GateHooks { t: T; icon: Icon; device: string; online: () => boolean; redraw: () => void;
+  emit: (type: string, payload: Record<string, unknown>, origin?: "device" | "server") => void; raise?: (kind: string, title: string) => void }
+export class StaffGate {
+  who: string; picking = false; pin = ""; signed = false; limited = false; idle = false; last = Date.now(); pictures = false; sound = true; open: boolean;
+  constructor(public lock: StaffLock, private h: GateHooks, public optional = false, public idleMs = 120_000) {
+    this.who = lock.staff[0]?.person ?? ""; this.open = optional;
+  }
+  /** The person signed in, if any. */
+  me(): Staff | undefined { return this.signed ? this.lock.find(this.who) : undefined; }
+  role(): string { return this.me()?.role ?? ""; }
+  private waitLeft(): number { return Math.max(0, Math.ceil(((this.lock.waitUntil.get(this.who) ?? 0) - Date.now()) / 1000)); }
+  /** The lock screen (when open is false the screen shows only this). */
+  view(cls = "dk-gate"): string {
+    const { t, icon } = this.h;
+    if (this.picking) return `<div class="${cls}">${staffPicker(this.lock.staff, t, icon)}</div>`;
+    const s = this.lock.find(this.who);
+    const pad = pinPad({ entered: this.pin.length, length: Math.max(4, this.pin.length), wrong: this.lock.wrong.get(this.who) ?? 0, waitLeft: this.waitLeft(), pictures: this.pictures, sound: this.sound, title: t("dk_pin_for", { name: s?.name ?? "" }) }, t, icon);
+    const sample = this.lock.staff.map((x) => `${t(`role_${x.role}`)} ${x.pin}`).join(", ");
+    return `<div class="${cls}"><p class="dk-who">${icon("ui-user")}<span>${esc(s?.name ?? "")} · ${esc(t(`role_${s?.role ?? "cashier"}`))}</span><button type="button" class="dk-link" data-act="staff:change">${esc(t("dk_change"))}</button>${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</p>
+      ${this.idle ? `<p class="dk-note" role="status">${esc(t("locked_idle"))}</p>` : ""}${this.lock.hard.has(this.who) ? `<p class="dk-note" role="alert">${esc(t("dk_hard_locked"))}</p>` : ""}
+      ${pad}<p class="dk-note">${esc(t("dk_own_pin"))}</p><p class="dk-note">${esc(t("dk_pin_sample", { list: sample }))}</p>
+</div>`;
+  }
+  /** Who is serving, with Lock; on an optional screen with nobody signed in, Staff sign-in. */
+  whoRow(): string {
+    const { t, icon } = this.h, me = this.me();
+    if (!me) return this.optional ? `<div class="dk-whorow"><button type="button" class="dk-link" data-act="gate:signin">${icon("ui-user")}<span>${esc(t("dk_sign_in"))}</span></button></div>` : "";
+    return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(me.name)} · ${esc(t(`role_${me.role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
+  }
+  /** Lock now (Lock, or two minutes without use). On an optional screen this signs the person out and the screen stays. */
+  lockNow(idle = false): void {
+    this.signed = false; this.limited = false; this.pin = ""; this.picking = false; this.idle = idle && !this.optional; this.open = this.optional;
+  }
+  /** Every act goes through here first: true when the gate handled it (while locked, nothing else runs). */
+  act(a: string): boolean {
+    this.last = Date.now();
+    const [k = "", x = "", y = ""] = a.split(":");
+    if (k === "gate") {
+      if (x === "lock") this.lockNow(false);
+      else if (x === "signin") { this.open = false; this.idle = false; }
+      else if (x === "cancel" && this.optional) { this.open = true; this.pin = ""; this.picking = false; }
+      this.h.redraw(); return true;
+    }
+    if (this.open) return false;
+    if (k === "staff" && x === "change") { this.picking = true; this.pin = ""; this.h.redraw(); return true; }
+    if (k === "staff" && x === "pick") { this.who = y; this.picking = false; this.pin = ""; this.h.redraw(); return true; }
+    if (k !== "pin") return true;
+    if (x === "pictures") this.pictures = !this.pictures;
+    else if (x === "sound") this.sound = !this.sound;
+    else if (x === "clear") this.pin = this.pin.slice(0, -1);
+    else if (/^\d$/.test(x)) { if (this.pin.length < 8) this.pin += x; }
+    else if (x === "ok" && this.pin) this.tryPin();
+    this.h.redraw(); return true;
+  }
+  private tryPin(): void {
+    const pin = this.pin; this.pin = "";
+    const r = this.lock.signIn(this.who, pin, Date.now());
+    if (r.ok) {
+      this.signed = true; this.open = true; this.idle = false; this.limited = r.view === "limited"; this.last = Date.now();
+      const n = this.lock.pathsOut(this.h.online() ? ["internet"] : []);
+      for (let i = 0; i < n; i++) this.h.emit("DuressSignalled", { device_id: this.h.device, person: this.who, path: "internet", at: Date.now() }, "server");
+    } else if (r.reason === "hard_locked") { this.h.emit("DeviceHardLocked", { device: this.h.device }); this.h.raise?.("device_hard_locked", this.h.t("dk_hard_locked")); }
+  }
+  /** Typed digits, Backspace and Enter on the lock screen. */
+  key(e: KeyboardEvent): boolean {
+    this.last = Date.now();
+    if (this.open || this.picking || e.ctrlKey || e.metaKey || e.altKey) return false;
+    const k = /^\d$/.test(e.key) ? e.key : e.key === "Backspace" ? "clear" : e.key === "Enter" && this.pin ? "ok" : "";
+    if (!k) return false;
+    e.preventDefault(); this.act(`pin:${k}`); return true;
+  }
+  /** Call on every timer tick: true when the screen should redraw (it locked by itself, or a wait is counting down). */
+  tick(busy = false): boolean {
+    if (this.signed && !busy && Date.now() - this.last > this.idleMs) { this.lockNow(true); return true; }
+    return !this.open && this.waitLeft() > 0;
+  }
+  /** The sample cashier (first person) signed in at once: for the panel's state buttons. */
+  signInFirst(): void { this.who = this.lock.staff[0]?.person ?? ""; this.signed = true; this.open = true; this.limited = false; this.idle = false; this.last = Date.now(); }
+}
+
 /** The staff picker and PIN pad of a device's lock screen. */
 export function staffPicker(staff: Staff[], t: T, icon: Icon): string {
   return `<div class="dk-staff" role="group" aria-label="${esc(t("dk_who"))}"><h2>${esc(t("dk_who"))}</h2><ul>${staff.map((s) => `<li><button type="button" data-act="staff:pick:${esc(s.person)}">${icon("ui-user")}<span>${esc(s.name)}</span><span class="dk-role">${esc(t(`role_${s.role}`))}</span></button></li>`).join("")}</ul><p class="dk-note">${esc(t("dk_own_pin"))}</p></div>`;

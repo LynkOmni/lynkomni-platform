@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "Hesap",
   "active": "Etkin",
@@ -672,6 +672,7 @@
   "st_share_passport": "İşletme pasaportumu paylaş",
   "st_share_supplier": "Bir tedarikçinin ürünlerinin satışlarını o tedarikçiyle paylaş",
   "st_shop_name": "İşletme adı",
+  "st_staff_till": "Ortak kasa: herkes kendi PIN'i ile giriş yapar",
   "st_sunlight": "Güneş ışığı modu",
   "st_tax_pending": "Vergi fişleri vergi idaresinin onayını bekler",
   "st_tax_rate": "Vergi oranı",

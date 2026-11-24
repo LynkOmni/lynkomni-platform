@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ps",
  "native": "پښتو",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "حساب",
   "active": "فعال",
@@ -672,6 +672,7 @@
   "st_share_passport": "زما د سوداګرۍ پاسپورټ شریک کړئ",
   "st_share_supplier": "د عرضه کوونکي د توکو پلور له همغه عرضه کوونکي سره شریکول",
   "st_shop_name": "د سوداګرۍ نوم",
+  "st_staff_till": "ګډ کاونټر: هر څوک په خپل PIN ننوځي",
   "st_sunlight": "د لمر حالت",
   "st_tax_pending": "مالیاتي رسیدونه د مالیاتو ادارې تایید ته په تمه دي",
   "st_tax_rate": "د مالیې کچه",

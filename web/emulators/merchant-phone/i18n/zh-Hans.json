@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "账户",
   "active": "使用中",
@@ -672,6 +672,7 @@
   "st_share_passport": "共享我的商户护照",
   "st_share_supplier": "把供应商商品的销售情况分享给该供应商",
   "st_shop_name": "商户名称",
+  "st_staff_till": "共用收银台：每人用自己的 PIN 登录",
   "st_sunlight": "强光模式",
   "st_tax_pending": "税务小票需等待税务机关确认",
   "st_tax_rate": "税率",

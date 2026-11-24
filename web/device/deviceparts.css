@@ -37,3 +37,12 @@
 :is(#screen, #display, #screenA, #screenB) .crumbs a { color: var(--brand-ink); text-decoration: none; min-block-size: var(--touch-target); }
 .notifications .nline .ntext a { text-decoration: none; }
 .notifications h2 { margin: 0; }
+/* the staff lock of every shared staff device (StaffGate, 2026-11-24) */
+.dk-gate { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px 8px; text-align: center; min-inline-size: 0; }
+.dk-gate .dk-staff { inline-size: min(100%, 420px); }
+.dk-who, .dk-whorow { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; margin: 0; font-size: 14px; color: var(--text-primary); }
+.dk-whorow { justify-content: space-between; padding-block: 4px; padding-inline: 12px; }
+.dk-whorow > span { display: inline-flex; align-items: center; gap: 6px; min-inline-size: 0; overflow-wrap: anywhere; }
+.dk-who .ic, .dk-whorow .ic, .dk-link .ic { inline-size: 16px; block-size: 16px; display: inline-flex; flex: none; }
+.dk-link { display: inline-flex; align-items: center; gap: 6px; min-block-size: var(--touch-target); min-inline-size: var(--touch-target); padding: 0 8px; border: 0; background: none; color: var(--brand-ink); font: 600 14px var(--font-body); text-decoration: underline; cursor: pointer; }
+.dk-gate .chipbtn { min-block-size: var(--touch-target); padding: 0 12px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 600 13px var(--font-body); cursor: pointer; }

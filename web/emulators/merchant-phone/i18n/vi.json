@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "6f76fc6167c5f118a048e8054f4d1529a663950b480cdbd8aa9daaf78c96bfa0",
+ "source_sha256": "aaeb55d30bdd47bcc26401910f1e4286d993897524051e9e426ca66acb14bebb",
  "texts": {
   "account": "Tài khoản",
   "active": "Đang hoạt động",
@@ -672,6 +672,7 @@
   "st_share_passport": "Chia sẻ hộ chiếu doanh nghiệp của tôi",
   "st_share_supplier": "Chia sẻ doanh số các sản phẩm của nhà cung cấp với chính nhà cung cấp đó",
   "st_shop_name": "Tên cửa hàng",
+  "st_staff_till": "Quầy dùng chung: mỗi người đăng nhập bằng mã PIN riêng",
   "st_sunlight": "Chế độ nắng",
   "st_tax_pending": "Biên lai thuế chờ cơ quan thuế xác nhận",
   "st_tax_rate": "Thuế suất",
