@@ -301,7 +301,7 @@ function draw(): void {
   const head = header({ logo, nav: items, notifications: count(S.lines), signedIn: true, title: S.size === "computer" ? undefined : SHOP(), surface: "app", side: { label: sideWord(S.side), storefront: S.side === "external" } }, S.size, t, icon);
   const nav = navigation(items, S.size, t, icon);
   const toasts = S.undo.openToasts(Date.now()).map((u) => undoToast(u, Date.now(), t, icon)).join("");
-  d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main"><div data-wait-area data-wrap>${main()}</div><div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))}</div>${appFooter()}</main></div>${S.size === "phone" ? nav : ""}${overlay()}<div class="banners">${S.banners.map((nid) => { const l = shown().find((x) => x.nid === nid); return l ? banner(l, t, icon) : ""; }).join("")}</div><div class="toasts">${toasts}</div></div>`;
+  d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main"><div data-wait-area data-wrap>${main()}</div><div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))}</div>${appFooter()}</main></div>${S.size === "phone" ? nav : ""}<div class="ovl" id="ovl">${overlay()}</div><div class="banners">${S.banners.map((nid) => { const l = shown().find((x) => x.nid === nid); return l ? banner(l, t, icon) : ""; }).join("")}</div><div class="toasts">${toasts}</div></div>`;
   $("#device").className = `device ${S.size}`;
   $("#device").style.width = `${W}px`;
   $("#tab").className = `tab ${S.theme}`;                       // the tab and its icon follow the page theme (brand surface "favicon")
@@ -310,6 +310,15 @@ function draw(): void {
   document.querySelectorAll<HTMLElement>("#stateButtons button").forEach((b) => b.classList.toggle("on", b.dataset["state"] === S.screen));
   if (WAIT.firstOpen !== FIRST.on) WAIT.setFirstOpen(FIRST.on);      // PLACEHOLDER UPDATE 83: the page waits well on a first open
   WAIT.apply(d, { t, online: () => S.link !== "offline", redraw: draw, retryAct: PAGE_RETRY, retryClass: "ph-retry" });
+}
+/** Opening or closing a menu panel (launcher, account, language, search, help, sync) redraws only the panel, not the page under it:
+ *  rebuilding the whole page made the first tap on a slow phone miss its 120 ms speed budget (web/budgets.v1.json). */
+function drawOverlay(): void {
+  const box = document.getElementById("ovl");
+  if (!box) { draw(); return; }
+  box.innerHTML = overlay();
+  lastOverlay = S.overlay;
+  WAIT.apply($("#display"), { t, online: () => S.link !== "offline", redraw: draw, retryAct: PAGE_RETRY, retryClass: "ph-retry" });   // the same typing help as a full redraw
 }
 function drawLog(): void {
   const box = $("#log");
@@ -383,7 +392,8 @@ function act(a: string): void {
       if (v === "signout" || v === "signin" || v === "voice") { S.overlay = null; draw(); return; }
       if (v === "side") { act(`side:${S.side === "external" ? "internal" : "external"}`); return; }
       if (v === "view" || v === "why") { S.overlay = "view"; draw(); if (v === "why") $("#whyView")?.focus(); return; }
-      S.overlay = S.overlay === map[v] ? null : (map[v] ?? null); S.query = ""; draw();
+      S.overlay = S.overlay === map[v] ? null : (map[v] ?? null); S.query = "";
+      if (v === "bell") draw(); else drawOverlay();             // the bell marks lines seen, so it redraws the whole page
       if (S.overlay === "cmd") $<HTMLInputElement>("#cmdIn")?.focus();
       return;
     }

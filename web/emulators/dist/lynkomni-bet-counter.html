@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-Z8GdGW3Tih4A881XGlHpsuYHDbp9RhtBYcWPIt6vj9E='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-2fj+uwAZ4znmGsKVLDwhW/zApvdG1gGQ3HnqFk7Qfzs='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkBet Betting Counter</title>
 <meta name="description" content="Interactive emulator of the LynkBet Betting Counter on LynkPOS: take a bet for a licensed operator, print its ticket, scan a ticket to check it, pay a small win from the drawer and refer a big win to head office.">
@@ -1650,6 +1650,21 @@ function explainNames(root, say, mode = namesMode()) {
     const view = doc.defaultView;
     const walker = doc.createTreeWalker(root, 4 /* text */);
     const jobs = [];
+    const styleOf = new Map(), textOf = new Map(), shownIn = new Map();
+    const style = (e) => { if (!styleOf.has(e))
+        styleOf.set(e, view?.getComputedStyle(e) ?? null); return styleOf.get(e) ?? null; };
+    const text = (e) => { let v = textOf.get(e); if (v === undefined) {
+        v = (e.textContent ?? "").toLowerCase();
+        textOf.set(e, v);
+    } return v; };
+    const shown = (scr) => {
+        let v = shownIn.get(scr);
+        if (!v) {
+            v = new Set(Array.from(scr.querySelectorAll(".lname-shown[data-lname]"), (x) => x.getAttribute("data-lname") ?? ""));
+            shownIn.set(scr, v);
+        }
+        return v;
+    };
     for (let n = walker.nextNode(); n; n = walker.nextNode()) {
         const t = n, el = t.parentElement;
         if (!el || !t.data.includes("Lynk") || el.closest(NM_SKIP))
@@ -1657,15 +1672,13 @@ function explainNames(root, say, mode = namesMode()) {
         const found = findNames(t.data);
         if (!found.length)
             continue;
-        const cs = view?.getComputedStyle(el);
+        const cs = style(el);
         const row = !!cs && cs.whiteSpace.startsWith("nowrap") && cs.overflowX !== "visible"; // a one-line row that cuts its text: mark the row itself
-        const hits = row ? found.map((f) => ({ ...f, block: null, control: null, screen: doc.body, nearby: "", oneLine: true, shownBefore: false })) : found.map((f) => {
-            const block = el.closest(NM_RUNNING), control = el.closest(NM_CONTROL), screen = el.closest(NM_SCREEN) ?? doc.body;
-            const bcs = block ? view?.getComputedStyle(block) : null;
-            const oneLine = !!bcs && (bcs.whiteSpace.startsWith("nowrap") || bcs.whiteSpace === "pre" || bcs.textOverflow === "ellipsis"); // no room to add words
-            return { ...f, block, control, screen, nearby: ((control ?? block ?? el).textContent ?? "").toLowerCase(), oneLine,
-                shownBefore: !!screen.querySelector(`.lname-shown[data-lname="${f.name}"]`) };
-        });
+        const block = row ? null : el.closest(NM_RUNNING), control = row ? null : el.closest(NM_CONTROL), screen = row ? doc.body : el.closest(NM_SCREEN) ?? doc.body;
+        const bcs = block ? style(block) : null;
+        const oneLine = !!bcs && (bcs.whiteSpace.startsWith("nowrap") || bcs.whiteSpace === "pre" || bcs.textOverflow === "ellipsis"); // no room to add words
+        const hits = row ? found.map((f) => ({ ...f, block: null, control: null, screen: doc.body, nearby: "", oneLine: true, shownBefore: false }))
+            : found.map((f) => ({ ...f, block, control, screen, nearby: text(control ?? block ?? el), oneLine, shownBefore: shown(screen).has(f.name) }));
         jobs.push({ t, el, row, hits });
     }
     const shownNow = new Map(); // first mentions shown in this pass, per screen
@@ -1743,27 +1756,44 @@ function watchNames(root, say, mode = namesMode) {
     nmWireTips(root, say);
     if (!Obs)
         return () => undefined;
-    let busy = false;
-    const obs = new Obs((records) => {
-        if (busy)
+    let busy = false, due = false;
+    const pending = new Set();
+    const flush = () => {
+        if (!due)
             return;
+        due = false;
+        const roots = [...pending].filter((e) => e.isConnected);
+        pending.clear();
         busy = true;
         try {
-            for (const r of records)
-                for (const n of Array.from(r.addedNodes)) {
-                    if (n.nodeType === 1)
-                        explainNames(n, say(), mode());
-                    else if (n.nodeType === 3 && n.parentElement)
-                        explainNames(n.parentElement, say(), mode());
-                }
-            for (const r of records)
-                if (r.type === "characterData" && r.target.parentElement)
-                    explainNames(r.target.parentElement, say(), mode());
+            for (const e of roots)
+                if (!roots.some((o) => o !== e && o.contains(e)))
+                    explainNames(e, say(), mode());
         }
         finally {
             obs.takeRecords();
             busy = false;
         }
+    };
+    const obs = new Obs((records) => {
+        if (busy)
+            return;
+        for (const r of records) {
+            for (const n of Array.from(r.addedNodes)) {
+                if (n.nodeType === 1)
+                    pending.add(n);
+                else if (n.nodeType === 3 && n.parentElement)
+                    pending.add(n.parentElement);
+            }
+            if (r.type === "characterData" && r.target.parentElement)
+                pending.add(r.target.parentElement);
+        }
+        if (!pending.size || due)
+            return;
+        due = true;
+        if (view?.requestAnimationFrame)
+            view.requestAnimationFrame(() => view.requestAnimationFrame(flush));
+        view?.setTimeout(flush, 250);
     });
     obs.observe(root, { childList: true, subtree: true, characterData: true });
     return () => obs.disconnect();
