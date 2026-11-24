@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "Amince",
+  "au_approve_all": "Amince da duka",
+  "au_digest": "Tara cikin taƙaitaccen bayani na yau da kullum",
+  "au_escalate": "Ba a amince ba cikin awa {hours}? Zai tafi ga mutum na gaba.",
+  "au_limit": "Mafi yawa {n} a rana",
+  "au_owner": "Mai alhaki: {name}",
+  "au_paused": "An dakatar: {name} ya yi aiki fiye da yadda aka saba yau. Zai kasance a kashe har sai kun sake kunna shi.",
+  "au_resume": "Sake kunnawa",
+  "au_role_manager": "Manaja",
+  "au_role_owner": "Mai shi",
+  "au_sample": "Misali",
+  "au_settings": "Saituna",
+  "au_step": "Mataki {n} cikin {total}: {role}",
+  "au_try": "Gwada kan kwanaki {days} da suka wuce",
+  "au_waiting": "Ana jiran amincewa",
+  "au_would": "Da ya fara sau {n}. Ba a canza komai ba.",
   "title": "Kallon mai shi a kwamfutar tafi-da-gidanka"
  }
 }

@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "승인",
+  "au_approve_all": "모두 승인",
+  "au_digest": "하루 한 번 요약으로 모으기",
+  "au_escalate": "{hours}시간 안에 승인되지 않으면 다음 사람에게 넘어갑니다.",
+  "au_limit": "하루 최대 {n}회",
+  "au_owner": "담당자: {name}",
+  "au_paused": "일시 중지됨: {name}이(가) 오늘 평소보다 훨씬 많이 실행되었습니다. 다시 켤 때까지 꺼진 상태로 있습니다.",
+  "au_resume": "다시 켜기",
+  "au_role_manager": "매니저",
+  "au_role_owner": "소유자",
+  "au_sample": "샘플",
+  "au_settings": "설정",
+  "au_step": "{total}단계 중 {n}단계: {role}",
+  "au_try": "최근 {days}일로 시험해 보기",
+  "au_waiting": "승인 대기 중",
+  "au_would": "{n}번 시작했을 것입니다. 바뀐 것은 없습니다.",
   "title": "노트북에서 보는 사장님 웹 화면"
  }
 }

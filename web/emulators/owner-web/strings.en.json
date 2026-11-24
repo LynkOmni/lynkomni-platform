@@ -1,3 +1,19 @@
 {
+ "au_approve": "Approve",
+ "au_approve_all": "Approve all",
+ "au_digest": "Gather into one daily summary",
+ "au_escalate": "Not approved within {hours} hours? It goes up to the next person.",
+ "au_limit": "At most {n} a day",
+ "au_owner": "Answers for it: {name}",
+ "au_paused": "Paused: {name} ran far more than usual today. It stays off until you switch it back on.",
+ "au_resume": "Switch back on",
+ "au_role_manager": "Manager",
+ "au_role_owner": "Owner",
+ "au_sample": "Sample",
+ "au_settings": "Settings",
+ "au_step": "Step {n} of {total}: {role}",
+ "au_try": "Try on the last {days} days",
+ "au_waiting": "Waiting for approval",
+ "au_would": "Would have started {n} times. Nothing was changed.",
  "title": "Owner's web view on a laptop"
 }

@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "es",
  "native": "Español",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "Aprobar",
+  "au_approve_all": "Aprobar todo",
+  "au_digest": "Reunir en un resumen diario",
+  "au_escalate": "¿Sin aprobar en {hours} horas? Pasa a la siguiente persona.",
+  "au_limit": "Como máximo {n} al día",
+  "au_owner": "Responsable: {name}",
+  "au_paused": "En pausa: {name} se ejecutó mucho más de lo normal hoy. Seguirá apagada hasta que la vuelvas a activar.",
+  "au_resume": "Volver a activar",
+  "au_role_manager": "Encargado",
+  "au_role_owner": "Propietario",
+  "au_sample": "Ejemplo",
+  "au_settings": "Ajustes",
+  "au_step": "Paso {n} de {total}: {role}",
+  "au_try": "Probar con los últimos {days} días",
+  "au_waiting": "Esperando aprobación",
+  "au_would": "Se habría iniciado {n} veces. No se cambió nada.",
   "title": "Vista web del dueño en un portátil"
  }
 }

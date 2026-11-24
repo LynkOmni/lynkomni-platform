@@ -216,6 +216,19 @@ class Customers:
         r = s.recs[rid]; r["activities"] = r["activities"] + [ref]
         r["timeline"] = (r.get("timeline") or []) + [{"source": source, "at": at, "id": ref}]
 
+    def take_sales(s, m):
+        """Link pos-crm (CONNECT UPDATE 71.3): a sale that names a customer record lands on that record's timeline, once. It reads the
+        sale events in the log, never the till's own storage."""
+        n = 0
+        for e in s.p.c.store.of(m, "sale.recorded"):
+            rid = e["payload"].get("customer")
+            r = s.recs.get(rid) if rid else None
+            if not r or r.get("merchant") != m or e["id"] in (r.get("activities") or []): continue
+            r["activities"] = (r.get("activities") or []) + [e["id"]]
+            r["timeline"] = (r.get("timeline") or []) + [{"source": "sales", "at": e["ts"], "id": e["id"]}]
+            s.recs.put(rid, r); n += 1
+        return n
+
     def timeline(s, m, rid, links_on, role_sources=None):
         return C.timeline(s.recs[rid].get("timeline") or [], links_on, role_sources)
 

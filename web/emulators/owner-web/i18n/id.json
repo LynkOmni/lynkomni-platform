@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "Setujui",
+  "au_approve_all": "Setujui semua",
+  "au_digest": "Kumpulkan dalam satu ringkasan harian",
+  "au_escalate": "Tidak disetujui dalam {hours} jam? Diteruskan ke orang berikutnya.",
+  "au_limit": "Paling banyak {n} sehari",
+  "au_owner": "Penanggung jawab: {name}",
+  "au_paused": "Dijeda: {name} berjalan jauh lebih sering dari biasanya hari ini. Tetap mati sampai Anda menyalakannya lagi.",
+  "au_resume": "Nyalakan lagi",
+  "au_role_manager": "Manajer",
+  "au_role_owner": "Pemilik",
+  "au_sample": "Contoh",
+  "au_settings": "Pengaturan",
+  "au_step": "Langkah {n} dari {total}: {role}",
+  "au_try": "Coba pada {days} hari terakhir",
+  "au_waiting": "Menunggu persetujuan",
+  "au_would": "Akan dimulai {n} kali. Tidak ada yang diubah.",
   "title": "Tampilan web pemilik di laptop"
  }
 }

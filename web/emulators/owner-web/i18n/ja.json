@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "承認",
+  "au_approve_all": "すべて承認",
+  "au_digest": "1日1回のまとめに集める",
+  "au_escalate": "{hours} 時間以内に承認がなければ、次の人に回ります。",
+  "au_limit": "1日最大 {n} 回",
+  "au_owner": "担当：{name}",
+  "au_paused": "一時停止中：{name} が今日はいつもよりずっと多く動きました。もう一度オンにするまで止まったままです。",
+  "au_resume": "もう一度オンにする",
+  "au_role_manager": "マネージャー",
+  "au_role_owner": "オーナー",
+  "au_sample": "サンプル",
+  "au_settings": "設定",
+  "au_step": "ステップ {n}/{total}：{role}",
+  "au_try": "過去 {days} 日分で試す",
+  "au_waiting": "承認待ち",
+  "au_would": "{n} 回動いていたはずです。何も変更していません。",
   "title": "ノートパソコンでのオーナー用ウェブ表示"
  }
 }
