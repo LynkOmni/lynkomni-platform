@@ -21,6 +21,7 @@ def _now(n): return time.time() if n is None else n
 class Flow:
     def __init__(s, c):
         s.c, s.db, s.handlers = c, c.store.db, {}
+        s.is_test = lambda subject: False             # set by the platform: a test copy never messages a customer (catalog/shared.v1.json)
         s.db.executescript("""
         create table if not exists flow_runs(key text primary key, automation text, subject text, trigger_event text, at real, level text, did text, why text);
         create table if not exists flow_off(subject text, automation text, primary key(subject, automation)); create table if not exists flow_on(subject text, automation text, primary key(subject, automation));
@@ -86,6 +87,7 @@ class Flow:
     def _run(s, a, subject, payload, trigger_event, now=None, depth=0):
         key = f"{a['id']}|{subject}|{trigger_event}"
         if not s.is_on(subject, a["id"]) or s.db.execute("select 1 from flow_runs where key=?", (key,)).fetchone(): return []
+        if a.get("customer_message") and s.is_test(subject): return []
         t = _now(now)
         if s.runs_on_day(subject, a["id"], t) >= s.daily_limit(subject, a["id"]):
             s._tell_once(subject, f"limit|{a['id']}|{int(t // DAY)}", "automation_limited", a["id"], {"limit": s.daily_limit(subject, a["id"])})

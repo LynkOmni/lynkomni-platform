@@ -9,6 +9,11 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 class SixPartners(unittest.TestCase):
+    def setUp(self):
+        self._mode = os.environ.pop("LYNK_MODE", None)          # real-user availability, whatever an earlier test left set
+    def tearDown(self):
+        if self._mode is not None: os.environ["LYNK_MODE"] = self._mode
+
     def test_every_partner_is_in_the_ledger_and_off_until_signed(self):
         from providers import availability
         ledger = json.load(open(os.path.join(ROOT, "providers", "registry.v1.json"), encoding="utf-8"))

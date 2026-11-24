@@ -1,0 +1,147 @@
+{
+ "version": 1,
+ "agreed": "CONNECT UPDATE 71.3, owner 2026-11-19; built in section 4 row 71.9 step 2 (2026-11-24)",
+ "rule": "The parts every service shares, so a business sets each thing once: one role system, one calendar, one address book, one timeline on every record and one audit viewer, one recycle bin, one consent page, one page of plans and limits, one data dictionary and one test copy. Each part reads the services' own events or published methods, never another service's storage, and changes nothing a service's own rules forbid.",
+ "roles": {
+  "base": [
+   "owner",
+   "manager",
+   "accountant",
+   "auditor",
+   "staff"
+  ],
+  "maps": {
+   "device": {
+    "owner": "owner",
+    "manager": "manager",
+    "cashier": "staff",
+    "stock_staff": "staff",
+    "rider": "staff",
+    "kitchen_staff": "staff"
+   },
+   "account_deputy": {
+    "deputy": "manager"
+   }
+  },
+  "rule": "Every role any service uses maps to one of the five base roles of catalog/enterprise.v1.json, whose permissions per area decide what it may do; an organisation's own role only ever does less. A role is set once per person and every service reads it from here."
+ },
+ "calendar": {
+  "sources": [
+   {
+    "id": "invoice_due",
+    "service": "lynkinv",
+    "what": "Invoices due",
+    "build_section": "4"
+   },
+   {
+    "id": "bill_due",
+    "service": "lynkacc",
+    "what": "Bills to pay due",
+    "build_section": "4"
+   },
+   {
+    "id": "lock_date",
+    "service": "lynkacc",
+    "what": "The books' lock date",
+    "build_section": "4"
+   },
+   {
+    "id": "promise_to_pay",
+    "service": "lynkinv",
+    "what": "A customer's promise to pay",
+    "build_section": "4"
+   },
+   {
+    "id": "booking",
+    "service": "lynkbooking",
+    "what": "Bookings and appointments",
+    "build_section": "8"
+   },
+   {
+    "id": "leave",
+    "service": "lynkhr",
+    "what": "Leave and time off",
+    "build_section": "4B"
+   },
+   {
+    "id": "task",
+    "service": "lynkproject",
+    "what": "Tasks and deadlines",
+    "build_section": "4B"
+   },
+   {
+    "id": "shift",
+    "service": "lynkattend",
+    "what": "Shifts",
+    "build_section": "4B"
+   },
+   {
+    "id": "rent_due",
+    "service": "lynkproperty",
+    "what": "Rent due",
+    "build_section": "9B"
+   },
+   {
+    "id": "fee_due",
+    "service": "lynkschool",
+    "what": "School fees due",
+    "build_section": "9B"
+   }
+  ],
+  "rule": "One calendar per person and per team reads each source from its own service; a source joins in its build section. Nothing is typed twice and nothing is moved from the calendar into a service without that service's own step."
+ },
+ "address_book": {
+  "kinds": [
+   "customer",
+   "supplier",
+   "organisation",
+   "contact"
+  ],
+  "rule": "One address book per account: the LynkCRM records every service shares. Names, emails and phone numbers live only in the PII vault; the book shows which services use each entry. A service never keeps its own copy of a contact."
+ },
+ "timeline": {
+  "audit_roles": [
+   "owner",
+   "auditor",
+   "accountant"
+  ],
+  "rule": "Every record has one activity timeline: the events that name it, newest first, by time, type and device only, never their personal content. The audit viewer shows the whole account's events to the owner, an auditor or the accountant only, and every look at it is itself recorded."
+ },
+ "recycle_bin": {
+  "keep_days": 30,
+  "kinds": {
+   "crm_record": "lynkcrm",
+   "file": "lynkfiles"
+  },
+  "never": [
+   "issued invoice",
+   "credit note",
+   "posted journal",
+   "payment",
+   "ballot",
+   "signed document",
+   "anything under legal hold",
+   "an event in the log"
+  ],
+  "rule": "What the rules allow to be undone goes to one recycle bin for keep_days and can be put back from there; after that it is removed for good. Issued invoices, credit notes, posted journals, payments, ballots, signed documents, anything under legal hold and the event log itself never go to the bin."
+ },
+ "consents": {
+  "sources": [
+   "account",
+   "links",
+   "contact_channels"
+  ],
+  "rule": "One consent page per account lists every consent it gave (data shared with others, links between services that need the business's consent) and how many of its contacts agreed to each channel. Every one shows who, what, since when and until when; withdrawing goes through the service that holds it and takes effect at once."
+ },
+ "plans_and_limits": {
+  "rule": "One page shows each service the account pays for or uses free, its plan and every numbered limit of that plan from services/billing.py, with how much is used where a service counts it. Prices and limits are never typed here."
+ },
+ "data_dictionary": {
+  "file": "catalog/data-dictionary.v1.json",
+  "tool": "tools/data_dictionary.py",
+  "rule": "One generated list of every record type (its public id prefix from core/ids.py) and every event (who may write it, its fields) with where personal data may live (only the PII vault). Re-run the tool after a change; the tests fail when it is stale."
+ },
+ "test_copy": {
+  "rule": "Any account can open a test copy to try connections and automations: the same rules and screens with sample data, every provider in its sandbox, no message sent to anyone and no money moved; it never writes to the real account. Large organisations keep their own test copy in catalog/enterprise.v1.json."
+ }
+}
