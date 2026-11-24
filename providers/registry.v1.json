@@ -3393,7 +3393,7 @@
    "what": "Switch off GitHub's automatic code scan once (github.com/LynkOmni/lynkomni-platform, Settings tab, Advanced Security, CodeQL analysis, the three-dot menu, Disable CodeQL), so our own scan (.github/workflows/codeql.yml) takes over with the same six languages",
    "why": "The automatic setup builds Kotlin first and warns that it cannot build a quick database; our own workflow reads Kotlin without building it. The two cannot run at the same time, and only the owner can change the repository's settings",
    "when": "Now, before the pull request that adds .github/workflows/codeql.yml is merged",
-   "status": "open"
+   "status": "done"
   }
  ],
  "reminder": {

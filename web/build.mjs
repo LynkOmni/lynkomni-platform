@@ -191,7 +191,7 @@ const faviconLinks = (f) => `<link rel="icon" type="image/svg+xml" media="(prefe
 // elsewhere and only this page's own script runs, pinned by its SHA-256 hash. The policy goes right after the charset line.
 const SAFETY = JSON.parse(read(join(WEB, "pagesafety.v1.json")));
 function withPolicy(html) {
-  const hashes = [...html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/gi)].map((m) => `'sha256-${createHash("sha256").update(m[2], "utf8").digest("base64")}'`).join(" ") || "'none'";
+  const hashes = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\b[^>]*>/gi)].map((m) => `'sha256-${createHash("sha256").update(m[2], "utf8").digest("base64")}'`).join(" ") || "'none'";
   const csp = Object.entries(SAFETY.directives).map(([k, v]) => `${k} ${v === "HASHES" ? hashes : v}`).join("; ");
   if (!html.includes('<meta charset="utf-8">')) throw new Error("every page starts with <meta charset=\"utf-8\">");
   return html.replace('<meta charset="utf-8">', () => `<meta charset="utf-8">\n<meta http-equiv="Content-Security-Policy" content="${csp}">`);

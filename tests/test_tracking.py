@@ -1,6 +1,7 @@
 """LynkOmni tracking (owner request 9 November 2026): the register (catalog/tracking.v1.json), the engine (services/tracking.py),
 its place in the platform (the event store feeds it; LynkFlow tells customers and owners) and the privacy rules."""
 import json, os, re, unittest, uuid
+from urllib.parse import urlsplit
 
 from contract.tools.validate_contract import uuid7
 from core import ids
@@ -69,7 +70,8 @@ class Register(unittest.TestCase):
         for k in REG["kinds"]:
             for who, where in k["viewers"].items():
                 self.assertIn(who, T.AUDIENCES)
-                if ".lynkomni.com/" in where: self.assertTrue(address_ok(where), f"{k['id']}: {where}")
+                host = urlsplit("https://" + where).hostname or ""
+                if host == "lynkomni.com" or host.endswith(".lynkomni.com"): self.assertTrue(address_ok(where), f"{k['id']}: {where}")   # whole host name
 
     def test_every_step_word_and_kind_name_is_in_the_tracker_words(self):
         # the tracker's own word pack (web/tracking) travels only with the tracker, so devices that show none stay small
