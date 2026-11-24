@@ -5,7 +5,8 @@
   "support",
   "storefront",
   "ads",
-  "track"
+  "track",
+  "messages"
  ],
  "links": [
   {
@@ -972,6 +973,53 @@
    "planned_events": [],
    "consent": "none",
    "build_section": 9
+  },
+  {
+   "id": "attend-messages",
+   "from": "lynkattend",
+   "to": "messages",
+   "what": "Who is checked in now, so a message for a role goes to whoever holds it on shift and never to someone off duty",
+   "events": [
+    "CheckedIn",
+    "CheckedOut"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 4
+  },
+  {
+   "id": "messages-acc",
+   "from": "messages",
+   "to": "lynkacc",
+   "what": "A bill forwarded to the business's email-in address becomes a draft bill that a person completes and approves",
+   "events": [
+    "DocumentFiled"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 4
+  },
+  {
+   "id": "messages-files",
+   "from": "messages",
+   "to": "lynkfiles",
+   "what": "A document forwarded by email is filed in LynkFiles",
+   "events": [
+    "DocumentFiled"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 4
+  },
+  {
+   "id": "messages-chat",
+   "from": "messages",
+   "to": "lynkchat",
+   "what": "A reply to an email about a record lands in that record's conversation or thread",
+   "events": [],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 4
   }
  ],
  "journeys": [

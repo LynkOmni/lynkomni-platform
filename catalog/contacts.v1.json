@@ -219,5 +219,35 @@
   }
  ],
  "owner_inbox": "marvin@cruxomni.com",
- "emergency_admin": "admin@cruxomni.com"
+ "emergency_admin": "admin@cruxomni.com",
+ "patterns": [
+  {
+   "id": "reply",
+   "address": "reply+{token}@mail.lynkomni.com",
+   "shown_on": "the Reply-To of every email about a record",
+   "lands_in": "that record's conversation, support case or invoice thread",
+   "reply": "in the record's own place"
+  },
+  {
+   "id": "email_in_bills",
+   "address": "{username}+bills@in.lynkomni.com",
+   "shown_on": "app.lynkomni.com/accounting (Bills, Forward by email)",
+   "lands_in": "a draft bill in LynkAcc",
+   "reply": "none; the owner is told in the app"
+  },
+  {
+   "id": "email_in_files",
+   "address": "{username}+files@in.lynkomni.com",
+   "shown_on": "app.lynkomni.com/files (Forward by email)",
+   "lands_in": "a filed document in LynkFiles",
+   "reply": "none; the owner is told in the app"
+  },
+  {
+   "id": "email_in_cvs",
+   "address": "{username}+cvs@in.lynkomni.com",
+   "shown_on": "LynkJobs (built in 8B)",
+   "lands_in": "a job application in LynkJobs",
+   "reply": "none; the owner is told in the app"
+  }
+ ]
 }

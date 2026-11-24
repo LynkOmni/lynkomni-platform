@@ -60,6 +60,22 @@ def trail(host, path):
         steps.insert(0, p)
 
 
+def up(host, path):
+    """The "up one level" key (CONNECT UPDATE 71.5): the trail's step before the page, the same on every device; None at home."""
+    return parent(host, path)
+
+
+def siblings(host, path):
+    """Jump sideways (CONNECT UPDATE 71.5): the other pages that share this page's parent, in address-map order. A record
+    page (a path with an identifier such as {LOINV}) has no siblings: other records are reached from their list."""
+    if "{" in path.rsplit("/", 1)[-1]:
+        return []
+    par = parent(host, path)
+    if par is None:
+        return []
+    return [p for p in HOSTS.get(host, []) if p != path and "{" not in p.rsplit("/", 1)[-1] and parent(host, p) == par]
+
+
 def every_address():
     for host, paths in HOSTS.items():
         for p in paths:

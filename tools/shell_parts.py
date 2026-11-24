@@ -64,7 +64,7 @@ def build():
         "version": 1,
         "description": "Shared cases for the section 1 shell parts. Python is the reference (identity/offline.py, core/breadcrumbs.py, services/assist_register.py, tools/assist/knowledge_pack.py); the TypeScript parts must agree.",
         "pins": [{"pin": p, "problem": O.pin_problem(p)} for p in PINS],
-        "trails": [{"host": h, "path": p, "trail": B.trail(h, p)} for h, p in B.every_address()],
+        "trails": [{"host": h, "path": p, "trail": B.trail(h, p), "up": B.up(h, p), "siblings": B.siblings(h, p)} for h, p in B.every_address()],
         "decide": decide_cases(),
         "answers": answer_cases(),
         "packs": packs,

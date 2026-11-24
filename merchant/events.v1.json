@@ -503,6 +503,91 @@
     "every"
    ],
    "note": "A person saved a question across services to be answered daily or weekly."
+  },
+  "UrgentBroadcastSent": {
+   "written_by": "cloud",
+   "payload": [
+    "broadcast_id",
+    "audience",
+    "count",
+    "text_sha256",
+    "by"
+   ],
+   "note": "An urgent broadcast went out; the words only as their sha256. CONNECT UPDATE 71.7, section 4."
+  },
+  "MessageCorrected": {
+   "written_by": "cloud",
+   "payload": [
+    "nid",
+    "correction_nid",
+    "record",
+    "text_sha256",
+    "by"
+   ],
+   "note": "A linked correction followed a wrong message. CONNECT UPDATE 71.7, section 4."
+  },
+  "EmailInReceived": {
+   "written_by": "cloud",
+   "payload": [
+    "box",
+    "state",
+    "attachments",
+    "draft"
+   ],
+   "note": "A forwarded email reached a business's email-in box: drafted, filed, held or planned. CONNECT UPDATE 71.7, section 4."
+  },
+  "MessageWordingTested": {
+   "written_by": "cloud",
+   "payload": [
+    "kind",
+    "lang",
+    "text_sha256",
+    "by"
+   ],
+   "note": "A new or edited customer message wording is in test mode. CONNECT UPDATE 71.7, section 4."
+  },
+  "MessageWordingApproved": {
+   "written_by": "cloud",
+   "payload": [
+    "kind",
+    "by"
+   ],
+   "note": "The owner approved a wording; it now goes to customers. CONNECT UPDATE 71.7, section 4."
+  },
+  "FairUseWarned": {
+   "written_by": "cloud",
+   "payload": [
+    "reason",
+    "sent_today",
+    "stop_rate_bp"
+   ],
+   "note": "Optional sending was slowed for fair use. CONNECT UPDATE 71.7, section 4."
+  },
+  "MessageReplied": {
+   "written_by": "cloud",
+   "payload": [
+    "channel",
+    "lands_in",
+    "record",
+    "text_sha256"
+   ],
+   "note": "A text or email reply landed in its place; never its words. CONNECT UPDATE 71.7, section 4."
+  },
+  "MessageStopped": {
+   "written_by": "cloud",
+   "payload": [
+    "business"
+   ],
+   "note": "A person replied STOP: that business's optional messages end. CONNECT UPDATE 71.7, section 4."
+  },
+  "BroadcastSeen": {
+   "written_by": "cloud",
+   "payload": [
+    "broadcast_id",
+    "seen",
+    "count"
+   ],
+   "note": "Totals of who has seen a broadcast in the app. CONNECT UPDATE 71.7, section 4."
   }
  }
 }

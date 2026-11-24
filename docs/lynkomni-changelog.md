@@ -2,6 +2,20 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.104.0 (2026-11-24)
+Section 4 review, seventeenth part (row 71.9, step 4a of 4: the message system in the cloud):
+- The message register (catalog/messages.v1.json) gains a "system" block with the rules of CONNECT UPDATE 71.7; the engine (services/messages.py) now routes smartly: the channel each person actually uses comes first, then the cheapest that works; a message that is not delivered steps to the next channel; a call is only ever the last step for a critical alert nobody acknowledged.
+- Messages for a role go to whoever holds it now (those checked in with LynkAttend; if nobody is in, every holder; if nobody holds it, the next role up). Teams can keep an on-call rota where an unanswered critical alert climbs to the next person and then the owner. Role inboxes let one person take an alert, and Done clears it for everyone.
+- A new business side, services/message_desk.py, which sends only through the engine:
+  - urgent broadcast from the owner or a manager to all staff, parents, tenants or members, at most 3 a day, with who has seen it from the app's own read state (never email or text opens) and text costs shown before they are spent;
+  - reply by text: YES confirms the latest customer message that asks for it (never LynkAssist or money); STOP ends that business's optional messages;
+  - reply by email: every email about a record has its own reply address, and the reply lands in the invoice thread, support case or conversation;
+  - email-in: forward a bill to get a draft bill in LynkAcc, a document to file it in LynkFiles (CVs wait for LynkJobs in 8B); only from senders the business allowed, programs refused;
+  - wording edits for customer messages within safe limits, translated into every language and checked; test mode sends a new wording only to the owner until they approve it;
+  - optional messages at a good local time, results as totals from 5 up, the fair-use guard and one linked correction per message shown on the record.
+- Breadcrumbs now know each page's sibling pages and the page one level up, in Python and TypeScript, checked by shared cases.
+- New message kinds, business signals, address patterns (contacts map), four links and four security controls.
+
 ## v0.103.0 (2026-11-24)
 Section 4 review, sixteenth part (row 71.9, step 3 of 4: LynkAssist across services):
 - Five new LynkAssist skills, registered in catalog/assist.v1.json and run by services/assist_connect.py through the same decisions, history and trust layer as every other skill:

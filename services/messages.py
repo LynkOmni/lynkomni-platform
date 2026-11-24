@@ -7,6 +7,12 @@ basis, the person's settings, grouping and in-place updates, the daily cap, quie
 through), then delivery with fallback. Critical notifications repeat until acknowledged; unanswered high and critical ones
 escalate to the next role. Offline backlogs are folded on reconnect so nobody is flooded.
 
+CONNECT UPDATE 71.7 (register "system", section 4 row 71.9): smart routing (the channel the person actually uses first, then
+the cheapest that works; a call only as the last step of a critical alert nobody acknowledged), role routing (whoever holds
+the role now, from LynkAttend), the on-call rota, role inboxes (handled once), STOP for a business's optional messages, and
+the five delivery states on a record. The business side (broadcast, replies, email-in, wording, test mode, results, fair use,
+corrections) is services/message_desk.py, which sends only through this engine.
+
 SANDBOX: SandboxSender stands in for the email, text and push providers (provider ledger "sms_otp"); it never tracks opens."""
 import json, os, re, time, uuid
 from core.locale import in_quiet_hours
@@ -15,6 +21,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 with open(os.path.join(ROOT, "catalog", "messages.v1.json"), encoding="utf-8") as _f:
     REG = json.load(_f)
 KINDS = {k["id"]: k for k in REG["kinds"]}
+SYS = REG["system"]
+COST_RANK = {c: i for i, c in enumerate(SYS["routing"]["cost_order"])}
 FMT = "%Y-%m-%dT%H:%M:%SZ"
 BURST_S = 3600
 REPEAT_S = 300
@@ -78,8 +86,14 @@ class Notifier:
         self.lines, self.seen_keys, self.backlog, self.sent_today, self.summary = {}, set(), {}, {}, {}
         self.outbox, self.away = {}, {}          # what went outside the app (the Messages page) and what a deputy handled
         self.on_state = None                      # the platform writes each message's state to the event store (tracking kind message_delivery)
+        self.used_channels = {}                   # person -> {channel: last time they acted from it} (smart routing)
+        self.rotas, self.stopped = {}, set()      # team -> rota; (person, business) that replied STOP
+        self.inboxes = {}                         # (business, role) -> [nid of the inbox line]
 
     def _state(self, line, state, channel=None):
+        five = SYS["states"]["map"].get(state, state)
+        if not (line.get("state") == "confirmed" and five in ("sent", "failed")):
+            line["state"] = five                  # a channel that failed after the app showed it does not undo "confirmed"
         if self.on_state:
             self.on_state(line, state, channel)
 
@@ -100,6 +114,8 @@ class Notifier:
         self.seen_keys.add(key)
         if k["basis"] == "opt_in" and consent is not True:
             return {"state": "refused", "reason": "no_opt_in"}
+        if k["basis"] == "opt_in" and (person, business) in self.stopped:
+            return {"state": "refused", "reason": "stopped"}
         prefs = prefs or {}
         if k["can_turn_off"] and (kid in prefs.get("muted", ()) or prefs.get("paused_optional")):
             return {"state": "suppressed", "reason": "muted"}
@@ -114,6 +130,7 @@ class Notifier:
             return self.notify(kid, dep["person"], event_id, now, facts, record, lang, country, business, consent, None, contacts, online, dep["role"])
         line = self._line(k, person, event_id, now, record, business, role, facts)
         line["lang"] = lang                                   # repeats and follow-ups stay in the reader's language
+        line["contacts"] = tuple(contacts)
         line["lock_screen"] = prefs.get("lock_screen", {}).get(kid, k["lock_screen"])
         if not online:
             self.backlog.setdefault(person, []).append(line["nid"])
@@ -156,7 +173,8 @@ class Notifier:
             self._state(line, "queued")
             return {"state": "bell_only_until_quiet_ends", "nid": line["nid"], "channels": ["bell"]}
         allowed = prefs.get("channels", {}).get(k["area"])
-        wanted = [c for c in k["channels"] if c in contacts and (not k["can_turn_off"] or allowed is None or c in allowed)]
+        wanted = self.order(person, [c for c in k["channels"] if c in contacts and c != "call"
+                                     and (not k["can_turn_off"] or allowed is None or c in allowed)], now)
         out = ["bell"] if "bell" in wanted else []
         delivered_one = False
         for c in [c for c in wanted if c != "bell"]:
@@ -173,6 +191,107 @@ class Notifier:
         if "bell" in out:
             self._state(line, "delivered", "bell")
         return {"state": "shown", "nid": line["nid"], "channels": out}
+
+    # ---- smart routing (71.7)
+    def used(self, person, channel, now):
+        """The person acted from this channel (opened, replied, tapped): it comes first for them for the next used_days."""
+        if channel in REG["channels"] and channel != "bell":
+            self.used_channels.setdefault(person, {})[channel] = now
+
+    def order(self, person, channels, now):
+        """The channel the person actually uses first, then the cheapest that works; the bell always stays."""
+        fresh = {c: t for c, t in self.used_channels.get(person, {}).items() if now - t <= SYS["routing"]["used_days"] * 86400}
+        return sorted(channels, key=lambda c: (c != "bell", c not in fresh, -fresh.get(c, 0), COST_RANK.get(c, 99)))
+
+    def cost_preview(self, channels_by_person, country=None):
+        """Before a business spends money: how many texts and calls a send would use, priced by the messaging partner.
+        SANDBOX: the sandbox sender gives sample prices, labelled as samples."""
+        out = {}
+        for chans in channels_by_person:
+            for c in chans:
+                if c in SYS["routing"]["paid"]:
+                    out[c] = out.get(c, 0) + 1
+        price = getattr(self.sender, "price", lambda c, cc: None)
+        return {c: {"count": n, "price": price(c, country)} for c, n in out.items()}
+
+    def first_outside(self, kid, person, contacts, now, prefs=None):
+        """The outside channel a message would try first for this person (used for cost previews)."""
+        k, prefs = self.kind(kid), prefs or {}
+        allowed = prefs.get("channels", {}).get(k["area"])
+        w = self.order(person, [c for c in k["channels"] if c in contacts and c not in ("bell", "call")
+                                and (not k["can_turn_off"] or allowed is None or c in allowed)], now)
+        return w[:1]
+
+    # ---- role routing, rota and role inboxes (71.7)
+    @staticmethod
+    def holders_now(role, holders, in_now=None):
+        """Whoever holds the role now: holders checked in (LynkAttend); nobody in, every holder; no holder, the next role up."""
+        seen = set()
+        while role and role not in seen:
+            seen.add(role)
+            people = list(holders.get(role, ()))
+            if people:
+                on = [p for p in people if in_now is not None and p in in_now]
+                return role, (on or people)
+            role = NEXT_ROLE.get(role, "owner" if role != "owner" else None)
+        return None, []
+
+    def notify_role(self, kid, business, role, holders, event_id, now, in_now=None, **kw):
+        got, people = self.holders_now(role, holders, in_now)
+        return {"role": got, "people": people,
+                "results": {p: self.notify(kid, p, event_id, now, business=business, role=got, **kw) for p in people}}
+
+    def set_rota(self, team, people, step_after_s=None, owner=None):
+        if not people or len(people) > SYS["rota"]["max_people"] or len(set(people)) != len(people):
+            raise ValueError("a rota lists 1 to %d different people" % SYS["rota"]["max_people"])
+        self.rotas[team] = {"people": list(people), "step": step_after_s or SYS["rota"]["step_after_s"], "owner": owner}
+
+    def notify_rota(self, kid, team, event_id, now, **kw):
+        r = self.rotas[team]
+        res = self.notify(kid, r["people"][0], event_id, now, **kw)
+        if res.get("nid"):
+            self.lines[res["nid"]]["rota"] = {"team": team, "at": 0, "since": now, "kw": kw}
+        return res
+
+    def notify_inbox(self, kid, business, role, holders, event_id, now, in_now=None, **kw):
+        """A shared inbox for a role: one inbox line, and those on shift are alerted. Whoever takes it is shown to the others."""
+        k = self.kind(kid)
+        line = self._line(k, f"inbox:{business}:{role}", event_id, now, kw.get("record"), business, role, kw.get("facts"))
+        line.update(inbox=(business, role), claimed_by=None, lang=kw.get("lang", "en"))
+        if line["nid"] not in self.inboxes.setdefault((business, role), []):
+            self.inboxes[(business, role)].append(line["nid"])
+        sent = self.notify_role(kid, business, role, holders, event_id, now, in_now, **kw)
+        return {"nid": line["nid"], **sent}
+
+    def inbox(self, business, role, open_only=True):
+        ls = [self.lines[n] for n in self.inboxes.get((business, role), ())]
+        return sorted([l for l in ls if not (open_only and l["done_by"])], key=lambda l: l["at"], reverse=True)
+
+    def claim(self, nid, by):
+        """Take an inbox item: it is handled once; someone else trying gets who already has it."""
+        l = self.lines[nid]
+        if l.get("claimed_by") and l["claimed_by"] != by:
+            return {"state": "taken", "by": l["claimed_by"]}
+        l.update(claimed_by=by, updated=time.time())
+        return {"state": "yours"}
+
+    # ---- STOP and the delivery states on a record
+    def stop(self, person, business):
+        """STOP: that business's optional messages end until the person opts in again."""
+        self.stopped.add((person, business))
+
+    def opt_in_again(self, person, business):
+        self.stopped.discard((person, business))
+
+    def on_record(self, business, record):
+        """Every message about a record with its state (the five states only), channels and correction link."""
+        out = []
+        for l in self.lines.values():
+            if l["business"] == business and l["record"] == record and not str(l["person"]).startswith("inbox:"):
+                st = l.get("state") or ("confirmed" if "bell" in l["channels"] else "queued")
+                out.append({"nid": l["nid"], "kind": l["kind"], "channels": l["channels"], "state": st,
+                            "corrects": l.get("corrects"), "corrected_by": l.get("corrected_by"), "at": l["at"]})
+        return sorted(out, key=lambda x: x["at"])
 
     # ---- the bell
     def bell(self, person, business=None, area=None, unread_only=False, now=None):
@@ -219,9 +338,11 @@ class Notifier:
         """The owner's summary on return: what the deputy handled."""
         return self.away.pop(person, [])
 
-    def act(self, nid, by):
+    def act(self, nid, by, channel=None, now=None):
         """Someone acted: the same notification clears for everyone it went to, with 'Done by'."""
         l = self.lines[nid]
+        if channel:
+            self.used(by, channel, now or time.time())
         for m in self.lines.values():
             if m["kind"] == l["kind"] and set(m["events"]) & set(l["events"]):
                 m.update(done_by=by, read=True, seen=True, acked=True, updated=time.time())
@@ -241,14 +362,31 @@ class Notifier:
         """Critical repeats until acknowledged; high and critical that nobody acted on go to the next role."""
         out = []
         for l in list(self.lines.values()):
-            if l["acked"] or l["cleared"] or l["done_by"]:
-                continue
+            if l["acked"] or l["cleared"] or l["done_by"] or l.get("inbox"):
+                continue                                      # an inbox line is the shared list; its people get their own lines
             if l["priority"] == "critical" and now - l["at"] >= REPEAT_S:
                 for c in KINDS[l["kind"]]["channels"]:
                     if c != "bell":
                         self.sender.deliver(c, l["person"], l["kind"], l.get("lang", "en"))
                 l["at"] = now
                 out.append(("repeated", l["nid"]))
+            if l["priority"] in SYS["routing"]["call_only_for"] and not l.get("called") and not str(l["person"]).startswith("inbox:") \
+                    and "text" in l.get("contacts", ()) and now - l["first_at"] >= SYS["routing"]["call_after_s"]:
+                if self.sender.deliver("call", l["person"], l["kind"], l.get("lang", "en")):   # the last step: a call
+                    l["called"] = True
+                    l["channels"] = sorted(set(l["channels"]) | {"call"})
+                    self._state(l, "sent", "call")
+                    out.append(("called", l["nid"]))
+            ro = l.get("rota")
+            if ro and l["priority"] == "critical" and now - ro["since"] >= self.rotas[ro["team"]]["step"]:
+                r, nxt = self.rotas[ro["team"]], ro["at"] + 1
+                person = r["people"][nxt] if nxt < len(r["people"]) else r.get("owner")
+                l["rota"] = None
+                if person:
+                    res = self.notify(l["kind"], person, l["events"][0], now, **ro["kw"])   # same event: Done by clears every step
+                    if res.get("nid"):
+                        self.lines[res["nid"]]["rota"] = {"team": ro["team"], "at": nxt, "since": now, "kw": ro["kw"]} if nxt < len(r["people"]) else None
+                    out.append(("climbed", l["nid"], person))
             limit = (escalate_after or {}).get(l["role"], ESCALATE_DEFAULT_S)
             if l["priority"] in ("high", "critical") and not l["escalated"] and l["role"] in NEXT_ROLE and now - l["first_at"] >= limit:
                 l["escalated"] = True

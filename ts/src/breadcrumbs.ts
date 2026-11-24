@@ -34,6 +34,17 @@ export function trail(host: string, path: string): string[] {
   }
 }
 
+/** The "up one level" key (CONNECT UPDATE 71.5): the step before the page, the same on every device; null at home. */
+export function upOne(host: string, path: string): string | null { return parent(host, path); }
+/** Jump sideways: the other pages that share this page's parent, in address-map order; a record page has none. */
+export function siblings(host: string, path: string): string[] {
+  const last = (x: string) => x.slice(x.lastIndexOf("/") + 1);
+  if (last(path).includes("{")) return [];
+  const par = parent(host, path);
+  if (par === null) return [];
+  return (ADDRESS_HOSTS[host] ?? []).filter((p) => p !== path && !last(p).includes("{") && parent(host, p) === par);
+}
+
 /** The breadcrumb part: an ordered list, the page itself last and marked as current, never a link to itself. On a phone only
  *  the parent shows, as a "back to" link, so the line never wraps into a wall of words. */
 export function breadcrumbBar(steps: { path: string; label: string }[], compact: boolean, t: T): string {
