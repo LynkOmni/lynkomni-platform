@@ -103,6 +103,9 @@ class Platform(_Base):
         from services.shared import Shared
         s.shared = Shared(s)                                  # the parts every service shares (CONNECT UPDATE 71.3, section 4 row 71.9)
         s.flow.is_test = s.shared.is_test_copy               # a test copy never sends a customer a message
+        from services.message_desk import MessageDesk
+        s.message_desk = MessageDesk(s, s.notifier)            # broadcast, replies, email-in, wording, test mode (CONNECT UPDATE 71.7)
+        s.message_desk.on_shift = s.attendance.in_now          # who holds a role now (link attend-messages)
         from services.tracking import PlatformTracking
         s.tracking = PlatformTracking(s)                      # one tracking engine for every service (catalog/tracking.v1.json)
     def mesh_for(s, ccbox, **kw):

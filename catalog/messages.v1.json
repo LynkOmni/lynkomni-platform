@@ -1,12 +1,13 @@
 {
  "version": 1,
  "agreed": "2026-11-10",
- "rule": "MASTER UPDATE, master blueprint sections 56 and 62: one register for every message and notification on every channel. Nothing outside it is ever sent or shown. services/messages.py is the only engine; tests/test_messages.py enforces it.",
+ "rule": "MASTER UPDATE, master blueprint sections 56 and 62: one register for every message and notification on every channel. Nothing outside it is ever sent or shown. services/messages.py is the only engine; tests/test_messages.py enforces it; CONNECT UPDATE 71.7 adds the system block (routing, role and rota routing, role inboxes, broadcast, replies, email-in, wording, test mode, good time, results, fair use, corrections), section 4 row 71.9.",
  "channels": [
   "bell",
   "push",
   "email",
-  "text"
+  "text",
+  "call"
  ],
  "bases": {
   "security": "Always sent: the person must know",
@@ -2759,6 +2760,318 @@
    "lock_screen": "neutral",
    "actions": [],
    "build_section": 4
+  },
+  {
+   "id": "urgent_broadcast",
+   "area": "people",
+   "trigger": "UrgentBroadcastSent",
+   "audience": "group",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "seen"
+   ],
+   "build_section": 4,
+   "note": "An urgent message from the owner or a manager to all staff, parents, tenants or members; shows who has seen it in the app"
+  },
+  {
+   "id": "message_correction",
+   "area": "support",
+   "trigger": "MessageCorrected",
+   "audience": "original",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 4,
+   "note": "A linked correction of a message that was wrong, to the same people on the same channels"
+  },
+  {
+   "id": "email_in_arrived",
+   "area": "office",
+   "trigger": "EmailInReceived",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "burst",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "open_draft"
+   ],
+   "build_section": 4,
+   "note": "A forwarded bill or document arrived: a draft waits, or it is held because the sender is not allowed yet"
+  },
+  {
+   "id": "message_wording_test",
+   "area": "office",
+   "trigger": "MessageWordingTested",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "approve_wording"
+   ],
+   "build_section": 4,
+   "note": "Test mode: a new or edited customer message went only to the owner and waits for approval"
+  },
+  {
+   "id": "fair_use_warning",
+   "area": "account",
+   "trigger": "FairUseWarned",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "daily",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 4,
+   "note": "Too many optional messages or STOP replies: optional sending is slowed"
+  },
+  {
+   "id": "booking_reminder",
+   "area": "bookings",
+   "trigger": "BookingReminderDue",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "confirm"
+   ],
+   "build_section": 8,
+   "note": "A reminder before a booking; a text reply of YES confirms it (CONNECT UPDATE 71.7, built with LynkBooking in section 8)"
   }
- ]
+ ],
+ "system": {
+  "agreed": "CONNECT UPDATE 71.7, owner 2026-11-19; built in section 4 row 71.9 step 4 (v0.104.0). services/messages.py (Notifier) routes; services/message_desk.py (platform.message_desk) is the business side and sends only through the Notifier; tests/test_message_system.py enforces it.",
+  "routing": {
+   "rule": "Each person gets a message on the channel they actually use; when it is not delivered it steps to the next channel; the cheapest channel that works comes first; a call is only ever the last step for a critical alert nobody acknowledged.",
+   "cost_order": [
+    "bell",
+    "push",
+    "email",
+    "text",
+    "call"
+   ],
+   "paid": [
+    "text",
+    "call"
+   ],
+   "used_days": 30,
+   "call_only_for": [
+    "critical"
+   ],
+   "call_after_s": 600
+  },
+  "role_routing": {
+   "rule": "A message for a role goes to whoever holds that role now: the holders checked in with LynkAttend; if nobody is in, every holder; if the role has no holder, the next role up (NEXT_ROLE), ending with the owner.",
+   "on_shift_from": "lynkattend"
+  },
+  "rota": {
+   "rule": "An on-call rota for a team: an unanswered critical alert climbs to the next person after step_after_s, and from the last person to the owner.",
+   "step_after_s": 600,
+   "max_people": 10
+  },
+  "role_inbox": {
+   "rule": "A shared inbox for a role, so an alert is handled once: one person takes it ('X is on it'), and when it is done it clears for everyone with 'Done by'.",
+   "roles": [
+    "owner",
+    "manager",
+    "front_desk",
+    "cashier",
+    "stock_staff",
+    "kitchen_staff",
+    "rider"
+   ]
+  },
+  "broadcast": {
+   "rule": "One urgent message to every member of a group, showing who has seen it. Seen comes only from the app's own read state, never from email or text open tracking. Only the owner or a manager sends it; the words are checked like every message and are never in an event, only their sha256.",
+   "kind": "urgent_broadcast",
+   "senders": [
+    "owner",
+    "manager"
+   ],
+   "audiences": [
+    "staff",
+    "guardians",
+    "tenants",
+    "members"
+   ],
+   "max_chars": 480,
+   "per_day": 3
+  },
+  "reply_text": {
+   "rule": "A text reply of YES confirms the latest message that asks for it; STOP ends that business's optional messages at once and for good until the person opts in again; security, safety, legal and transaction messages keep coming. Other words get a short help reply. A country pack may add its own words once its lawyer confirms them. YES works only for customer messages that ask for it (actions confirm), never for LynkAssist or anything that moves money.",
+   "yes": [
+    "YES",
+    "Y",
+    "1"
+   ],
+   "stop": [
+    "STOP",
+    "UNSUBSCRIBE",
+    "END"
+   ],
+   "yes_actions": [
+    "confirm"
+   ],
+   "yes_audiences": [
+    "customer"
+   ]
+  },
+  "reply_email": {
+   "rule": "Every email about a record carries its own reply address, so a reply lands in that record's place (the LynkChat conversation, the support case or the invoice thread), never in a dead no-reply box. The address holds a random token kept only as a lookup digest; the words of a reply are never in an event, only their sha256.",
+   "pattern": "reply",
+   "lands_in": {
+    "LOINV": "invoice_thread",
+    "LOCASE": "case",
+    "LOCNV": "conversation"
+   },
+   "else": "conversation",
+   "token_days": 90
+  },
+  "email_in": {
+   "rule": "Each business has addresses to forward to: a bill becomes a draft bill in LynkAcc (a person completes and approves it), a document is filed in LynkFiles, a CV becomes a job application in LynkJobs (built in 8B). Only from senders the business allowed; anything else is held for the owner. Programs and scripts are refused by LynkFiles' byte check.",
+   "boxes": {
+    "bills": {
+     "service": "lynkacc",
+     "lands_in": "draft bill",
+     "record_kind": "bill",
+     "kind": "bill",
+     "build_section": 4
+    },
+    "files": {
+     "service": "lynkfiles",
+     "lands_in": "filed document",
+     "record_kind": "other",
+     "kind": "other",
+     "build_section": 4
+    },
+    "cvs": {
+     "service": "lynkjobs",
+     "lands_in": "job application",
+     "build_section": "8B"
+    }
+   },
+   "max_attachments": 10
+  },
+  "wording": {
+   "rule": "A business may change the words of its customer messages within safe limits, with a preview in every language. Edits are translated by services/translation.run and checked by its rules; a language that fails keeps the standard words. Security, safety and legal messages are never edited. A new or edited wording is in test mode: it goes only to the owner until the owner approves it.",
+   "max_chars": 320,
+   "placeholders": [
+    "{business}",
+    "{record}",
+    "{amount}",
+    "{date}",
+    "{time}",
+    "{name}"
+   ],
+   "required": [
+    "{business}"
+   ],
+   "bases": [
+    "transaction",
+    "opt_in"
+   ],
+   "audiences": [
+    "customer"
+   ]
+  },
+  "good_time": {
+   "rule": "Optional messages go at a good time in each receiver's own time zone: between 09:00 and 18:00 local time, otherwise at the next 10:00.",
+   "window": [
+    9,
+    18
+   ],
+   "send_at": 10,
+   "only_for": [
+    "opt_in"
+   ]
+  },
+  "results": {
+   "rule": "Message results are totals only (sent, delivered, failed, acted on) by kind; a total below min_shown is not shown; nothing per person.",
+   "totals": [
+    "sent",
+    "delivered",
+    "failed",
+    "acted"
+   ],
+   "min_shown": 5
+  },
+  "fair_use": {
+   "rule": "A business that sends too many optional messages, or gets many STOP replies, is slowed and warned once a day. Transaction, legal, security and safety messages are never slowed.",
+   "daily_optional": 500,
+   "stop_rate_bp": 200,
+   "min_sample": 50,
+   "slowed_per_hour": 20
+  },
+  "corrections": {
+   "rule": "A wrong message can be followed by one linked correction, sent to the same people on the same channels and shown on the record beside the original. Only the business that sent it corrects it.",
+   "kind": "message_correction",
+   "per_message": 1
+  },
+  "country": {
+   "rule": "Texts use LynkOmni's registered sender name until the country pack confirms a business may register its own (messages.own_sender_name); local rules for texts and calls come from the country pack.",
+   "from_pack": "messages"
+  },
+  "states": {
+   "rule": "Delivery states on a record use only the five states, from tracking kind message_delivery.",
+   "map": {
+    "queued": "queued",
+    "sent": "sent",
+    "delivered": "confirmed",
+    "failed": "failed"
+   }
+  }
+ }
 }

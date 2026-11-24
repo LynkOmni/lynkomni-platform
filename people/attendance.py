@@ -227,6 +227,9 @@ class Attendance:
         return {"place_id": place, "key": key, "people": people, "checkers": s.checkers(place), "shift_end_min": pl["shift_end_min"]}
 
     # ---- records from the door
+    def in_now(s, merchant):
+        """Everyone checked in now at the merchant's places, for messages to whoever holds a role on shift (link attend-messages)."""
+        return {r[0] for r in s.db.execute("select member from at_records where merchant=? and out_at is null", (merchant,))}
     def _open(s, member):
         r = s.db.execute("select record_id, in_at from at_records where member=? and out_at is null order by in_at desc limit 1", (member,)).fetchone()
         return r

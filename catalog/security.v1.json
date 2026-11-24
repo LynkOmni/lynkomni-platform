@@ -1292,6 +1292,52 @@
    "test": "tests/test_contract_v17.py::test_no_name_contact_id_number_photo_or_position",
    "build_section": 4,
    "status": "built"
+  },
+  {
+   "id": "msg-reply-token-digest",
+   "asset": "accounts",
+   "threat": "Someone guesses or reads a reply address and posts into another business's invoice thread or case",
+   "enforced_in": [
+    "services/message_desk.py"
+   ],
+   "test": "tests/test_message_system.py::test_reply_by_email_lands_in_the_record",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "msg-email-in-allowed-senders",
+   "asset": "money",
+   "threat": "A forged email drops a fake supplier bill or a harmful file into a business's books",
+   "enforced_in": [
+    "services/message_desk.py",
+    "services/files.py"
+   ],
+   "test": "tests/test_message_system.py::test_email_in",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "msg-no-typed-secrets",
+   "asset": "personal_data",
+   "threat": "A broadcast, correction or edited wording carries a PIN, password, code, card number or outside link",
+   "enforced_in": [
+    "services/message_desk.py",
+    "services/messages.py"
+   ],
+   "test": "tests/test_message_system.py::test_wording_edits_and_test_mode",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "msg-yes-never-moves-money",
+   "asset": "money",
+   "threat": "A text reply of YES confirms a LynkAssist action or a payment",
+   "enforced_in": [
+    "services/message_desk.py"
+   ],
+   "test": "tests/test_message_system.py::test_reply_by_text_yes_and_stop",
+   "build_section": 4,
+   "status": "built"
   }
  ]
 }
