@@ -103,10 +103,10 @@ export class StaffGate {
     const s = this.lock.find(this.who);
     const pad = pinPad({ entered: this.pin.length, length: Math.max(4, this.pin.length), wrong: this.lock.wrong.get(this.who) ?? 0, waitLeft: this.waitLeft(), pictures: this.pictures, sound: this.sound, title: t("dk_pin_for", { name: s?.name ?? "" }) }, t, icon);
     const sample = this.lock.staff.map((x) => `${t(`role_${x.role}`)} ${x.pin}`).join(", ");
-    return `<div class="${cls}"><p class="dk-who">${icon("ui-user")}<span>${esc(s?.name ?? "")} · ${esc(t(`role_${s?.role ?? "cashier"}`))}</span><button type="button" class="dk-link" data-act="staff:change">${esc(t("dk_change"))}</button></p>
+    return `<div class="${cls}"><p class="dk-who">${icon("ui-user")}<span>${esc(s?.name ?? "")} · ${esc(t(`role_${s?.role ?? "cashier"}`))}</span><button type="button" class="dk-link" data-act="staff:change">${esc(t("dk_change"))}</button>${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</p>
       ${this.idle ? `<p class="dk-note" role="status">${esc(t("locked_idle"))}</p>` : ""}${this.lock.hard.has(this.who) ? `<p class="dk-note" role="alert">${esc(t("dk_hard_locked"))}</p>` : ""}
       ${pad}<p class="dk-note">${esc(t("dk_own_pin"))}</p><p class="dk-note">${esc(t("dk_pin_sample", { list: sample }))}</p>
-      ${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</div>`;
+</div>`;
   }
   /** Who is serving, with Lock; on an optional screen with nobody signed in, Staff sign-in. */
   whoRow(): string {

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-o0Am1+YAbM/NK2hw2DsLAsHCl+9P9CujBidkBeUgJxQ='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-/xg1E7ImhA1lIMQxnbVpJxS/9vogBjLsbGMv/5ozlFk='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni Rider App on LynkMobile</title>
 <meta name="description" content="Interactive emulator of the staff phone an own rider uses (N8): the deliveries assigned to them, pickup at the shop, the customer's code or a photo of the parcel at the door, all offline with the code and sent when a link exists.">
@@ -3646,10 +3646,10 @@ class StaffGate {
         const s = this.lock.find(this.who);
         const pad = pinPad({ entered: this.pin.length, length: Math.max(4, this.pin.length), wrong: this.lock.wrong.get(this.who) ?? 0, waitLeft: this.waitLeft(), pictures: this.pictures, sound: this.sound, title: t("dk_pin_for", { name: s?.name ?? "" }) }, t, icon);
         const sample = this.lock.staff.map((x) => `${t(`role_${x.role}`)} ${x.pin}`).join(", ");
-        return `<div class="${cls}"><p class="dk-who">${icon("ui-user")}<span>${esc(s?.name ?? "")} · ${esc(t(`role_${s?.role ?? "cashier"}`))}</span><button type="button" class="dk-link" data-act="staff:change">${esc(t("dk_change"))}</button></p>
+        return `<div class="${cls}"><p class="dk-who">${icon("ui-user")}<span>${esc(s?.name ?? "")} · ${esc(t(`role_${s?.role ?? "cashier"}`))}</span><button type="button" class="dk-link" data-act="staff:change">${esc(t("dk_change"))}</button>${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</p>
       ${this.idle ? `<p class="dk-note" role="status">${esc(t("locked_idle"))}</p>` : ""}${this.lock.hard.has(this.who) ? `<p class="dk-note" role="alert">${esc(t("dk_hard_locked"))}</p>` : ""}
       ${pad}<p class="dk-note">${esc(t("dk_own_pin"))}</p><p class="dk-note">${esc(t("dk_pin_sample", { list: sample }))}</p>
-      ${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</div>`;
+</div>`;
     }
     whoRow() {
         const { t, icon } = this.h, me = this.me();

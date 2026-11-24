@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-ksT4qr2RBCN1dQnBML0j0L43YchOv5w5iVIas+/vejc='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-oGHq4hg5pWnsFy8da1GLQr2SQZ/nT/CUOBcee5Yl008='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkVCard Card</title>
 <meta name="description" content="Interactive emulator of the LynkVCard: the four tier faces as a real card that flips to its back, freeze (shown as frozen only when the issuer confirms) and card details shown only after a fresh check inside the licensed issuer's secure display, hidden again after a short time and never offline. No card number ever reaches this screen.">
@@ -3552,10 +3552,10 @@ class StaffGate {
         const s = this.lock.find(this.who);
         const pad = pinPad({ entered: this.pin.length, length: Math.max(4, this.pin.length), wrong: this.lock.wrong.get(this.who) ?? 0, waitLeft: this.waitLeft(), pictures: this.pictures, sound: this.sound, title: t("dk_pin_for", { name: s?.name ?? "" }) }, t, icon);
         const sample = this.lock.staff.map((x) => `${t(`role_${x.role}`)} ${x.pin}`).join(", ");
-        return `<div class="${cls}"><p class="dk-who">${icon("ui-user")}<span>${esc(s?.name ?? "")} · ${esc(t(`role_${s?.role ?? "cashier"}`))}</span><button type="button" class="dk-link" data-act="staff:change">${esc(t("dk_change"))}</button></p>
+        return `<div class="${cls}"><p class="dk-who">${icon("ui-user")}<span>${esc(s?.name ?? "")} · ${esc(t(`role_${s?.role ?? "cashier"}`))}</span><button type="button" class="dk-link" data-act="staff:change">${esc(t("dk_change"))}</button>${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</p>
       ${this.idle ? `<p class="dk-note" role="status">${esc(t("locked_idle"))}</p>` : ""}${this.lock.hard.has(this.who) ? `<p class="dk-note" role="alert">${esc(t("dk_hard_locked"))}</p>` : ""}
       ${pad}<p class="dk-note">${esc(t("dk_own_pin"))}</p><p class="dk-note">${esc(t("dk_pin_sample", { list: sample }))}</p>
-      ${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</div>`;
+</div>`;
     }
     whoRow() {
         const { t, icon } = this.h, me = this.me();
