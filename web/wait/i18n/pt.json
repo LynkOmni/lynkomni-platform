@@ -4,17 +4,21 @@
  "kept_in_english": [],
  "lang": "pt",
  "native": "Português",
- "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "source_sha256": "5a07b25367504973634ecb58df3a3e7452b533631c7e8cf8c3c731c377dfd1e2",
  "texts": {
   "action_retry": "Tentar novamente",
   "emk_first_open": "Primeira abertura neste aparelho (nada salvo ainda)",
   "loading": "A carregar",
   "ph_all_loaded": "Isso é tudo",
   "ph_draft_kept": "O seu rascunho foi guardado neste dispositivo.",
+  "ph_logo_checking": "O seu logótipo aguarda verificação. Até lá, aparecem as suas iniciais.",
+  "ph_plans_where": "O proprietário muda o plano nas Definições do negócio, em Planos.",
   "ph_recent": "Recentes",
   "ph_slow": "Isto está demorando mais do que o normal.",
   "ph_suggested": "Sugestões",
   "ph_updating": "Atualizando",
+  "ph_upgrade": "Mudar de plano",
+  "ph_what": "O que faz:",
   "ph_working": "Funcionando"
  }
 }

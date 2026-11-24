@@ -146,5 +146,42 @@ class FieldsHelp(unittest.TestCase):
             self.assertIn(mode, css)
 
 
+class NoGapsLeft(unittest.TestCase):
+    """83.7: what a screen shows instead of a gap, each through its shared part (ts/src/placeholder.ts)."""
+    SOURCES = FieldsHelp.SOURCES
+
+    def code(self):
+        for p in self.SOURCES:
+            if not p.endswith((".generated.ts", "placeholder.ts")):
+                yield os.path.relpath(p, ROOT), open(p, encoding="utf-8").read()
+
+    def test_every_83_7_rule_says_where_it_is_built(self):
+        more = json.load(open(os.path.join(ROOT, "catalog", "placeholders.v1.json"), encoding="utf-8"))["more"]
+        self.assertEqual(len(more["built"]), len(more["rules"]))
+
+    def test_a_feature_on_a_higher_plan_shows_what_it_does_on_staff_screens(self):
+        s = open(os.path.join(ROOT, "ts", "src", "queuedesk.ts"), encoding="utf-8").read()
+        for k in ("ppl_qu_plan_forecast", "ppl_qu_plan_hardware", "ppl_qu_plan_send_to"):
+            self.assertIn(f'planPreviewHtml(t, "{k}"', s, k)
+            self.assertNotIn(f'esc(t("{k}"))', s, k)
+        sv = open(os.path.join(ROOT, "ts", "src", "surveydesk.ts"), encoding="utf-8").read()
+        self.assertIn("plan_limit_live_surveys: ", sv); self.assertIn("plan_no_hardware_without_display: ", sv)   # staff refusals for the plan
+        self.assertEqual(sv.count("svRefusedStaff(d.refused, t)"), 2)
+
+    def test_pictures_uploads_and_longer_lists_use_their_parts(self):
+        for f, s in self.code():
+            self.assertNotRegex(s, r"<img\b|createElement\(\"img\"\)", f"{f}: draw a picture with pictureHtml (it keeps its shape and its alt text)")
+            if 'type="file"' in s:
+                self.assertIn("uploadHtml(", s, f"{f}: a file field shows its upload with uploadHtml")
+            if re.search(r"load[_-]?more|loadMore", s):
+                self.assertIn("listEnd(", s, f"{f}: a list that loads more ends with listEnd")
+
+    def test_logos_waiting_their_check_show_initials_and_voice_never_goes_silent(self):
+        mp = open(os.path.join(ROOT, "web", "emulators", "merchant-phone", "app.ts"), encoding="utf-8").read()
+        self.assertIn("logoInitialsHtml(shop(), t)", mp)
+        bp = open(os.path.join(ROOT, "web", "emulators", "button-phone", "app.ts"), encoding="utf-8").read()
+        self.assertIn('t("ch_working")', bp)
+
+
 if __name__ == "__main__":
     unittest.main()

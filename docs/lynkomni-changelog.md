@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.97.0 (2026-11-24)
+Section 4 review, eleventh part (row 83.6 finished: no gaps on any screen):
+- A feature on a higher plan, on a staff screen, now shows what it does and an Upgrade button that says where the owner changes the plan (Business settings, Plans): the queue desk's busy-hour forecast, printers and other queue hardware, and sending a person to another section; the survey desk's limit on live surveys and devices without a screen. Customers' screens keep only the reason.
+- While a business's logo waits for its check, Business settings shows its initials in its place.
+- The basic phone says once that it is working while the network answers ("One moment, working on it."), read aloud on a voice call, instead of a silent pause.
+- Shared parts for pictures (they keep their shape and show their description if they fail, never a broken-image icon), uploads (the file's name, real progress and the five states) and longer lists (skeleton rows, then "That's everything"), with checks that fail any screen drawing these another way.
+- The speed check now measures, on every page, that the loading placeholder shows after 300 ms and never before. It found seven device screens (kitchen screen, stock scanner, LynkKiosk, LynkDScreen, LynkCDisplay, customer display and the betting counter) whose content area never showed its placeholder on a first open; they now do. Leftover from v0.94.0, which had said every kit device waits.
+- New words in all 38 languages. Build-table row 83.6 is done.
+
 ## v0.96.2 (2026-11-24)
 LynkBet's own product mark (brand artwork 1.11.0):
 - LynkBet now shows its own mark everywhere instead of LynkPOS's: three choices in a row with the middle one picked, the picture every betting platform shares. It was released in lynkomni-icons 1.11.0, brought in by the brand-sync run and named in catalog/names.v1.json. A draft until a human designer reviews the full set.

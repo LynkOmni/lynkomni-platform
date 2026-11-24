@@ -4,17 +4,21 @@
  "kept_in_english": [],
  "lang": "de",
  "native": "Deutsch",
- "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "source_sha256": "5a07b25367504973634ecb58df3a3e7452b533631c7e8cf8c3c731c377dfd1e2",
  "texts": {
   "action_retry": "Erneut versuchen",
   "emk_first_open": "Erstes Öffnen auf diesem Gerät (noch nichts gespeichert)",
   "loading": "Wird geladen",
   "ph_all_loaded": "Das ist alles",
   "ph_draft_kept": "Dein Entwurf wurde auf diesem Gerät behalten.",
+  "ph_logo_checking": "Dein Logo wartet auf die Prüfung. Bis dahin werden deine Initialen angezeigt.",
+  "ph_plans_where": "Der Inhaber ändert den Tarif in den Geschäftseinstellungen unter Tarife.",
   "ph_recent": "Zuletzt",
   "ph_slow": "Das dauert länger als sonst.",
   "ph_suggested": "Vorschläge",
   "ph_updating": "Wird aktualisiert",
+  "ph_upgrade": "Upgrade",
+  "ph_what": "Was es tut:",
   "ph_working": "Funktioniert"
  }
 }

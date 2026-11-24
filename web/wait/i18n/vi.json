@@ -4,17 +4,21 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "source_sha256": "5a07b25367504973634ecb58df3a3e7452b533631c7e8cf8c3c731c377dfd1e2",
  "texts": {
   "action_retry": "Thử lại",
   "emk_first_open": "Mở lần đầu trên thiết bị này (chưa lưu gì)",
   "loading": "Đang tải",
   "ph_all_loaded": "Đã hết",
   "ph_draft_kept": "Bản nháp của bạn đã được giữ trên thiết bị này.",
+  "ph_logo_checking": "Logo của bạn đang chờ kiểm tra. Trong lúc đó, chữ cái đầu tên bạn sẽ được hiển thị.",
+  "ph_plans_where": "Chủ doanh nghiệp đổi gói trong Cài đặt doanh nghiệp, mục Gói.",
   "ph_recent": "Gần đây",
   "ph_slow": "Việc này lâu hơn bình thường.",
   "ph_suggested": "Gợi ý",
   "ph_updating": "Đang cập nhật",
+  "ph_upgrade": "Nâng cấp",
+  "ph_what": "Tính năng này làm gì:",
   "ph_working": "Đang hoạt động"
  }
 }

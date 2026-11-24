@@ -92,7 +92,7 @@ function home(): string {
   return `<div class="bop"><span>${esc(t("bt_operator", { name: operatorName() }))}</span><span>${esc(t("cash_in_drawer"))} <strong>${esc(money(drawer()))}</strong></span></div>
     ${choices(t("bt_operator_pick"), ["1", "2"], String(S.operator), "op", (x) => operatorName(Number(x)))}
     ${S.online ? "" : `<p class="bwarn">${esc(t(S.offlineSlips ? "bt_offline_mode" : "bt_needs_net"))}</p>`}
-    <div class="btiles">${tile("games", "lit-tickets", "bt_place", !canTakeBets())}${tile("check", "ui-qr", "bt_check", false)}${tile("refs", "ui-doc", "bt_refs", false)}${tile("shift", "ui-float", "bt_shift", false)}${tile("safer", "ui-info", "bt_safer", false)}${tile("storefront", "ui-globe", "bt_storefront", false)}</div>
+    <div class="btiles" data-wait-area data-shape="tiles">${tile("games", "lit-tickets", "bt_place", !canTakeBets())}${tile("check", "ui-qr", "bt_check", false)}${tile("refs", "ui-doc", "bt_refs", false)}${tile("shift", "ui-float", "bt_shift", false)}${tile("safer", "ui-info", "bt_safer", false)}${tile("storefront", "ui-globe", "bt_storefront", false)}</div>
     <p class="sub">${esc(t("bt_never_credit"))}</p>`;
 }
 function games(): string {

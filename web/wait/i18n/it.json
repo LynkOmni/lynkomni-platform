@@ -4,17 +4,21 @@
  "kept_in_english": [],
  "lang": "it",
  "native": "Italiano",
- "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "source_sha256": "5a07b25367504973634ecb58df3a3e7452b533631c7e8cf8c3c731c377dfd1e2",
  "texts": {
   "action_retry": "Riprova",
   "emk_first_open": "Prima apertura su questo dispositivo (ancora nulla salvato)",
   "loading": "Caricamento",
   "ph_all_loaded": "È tutto",
   "ph_draft_kept": "La tua bozza è stata conservata su questo dispositivo.",
+  "ph_logo_checking": "Il tuo logo è in attesa di verifica. Fino ad allora vengono mostrate le tue iniziali.",
+  "ph_plans_where": "Il titolare cambia il piano nelle Impostazioni dell'attività, alla voce Piani.",
   "ph_recent": "Recenti",
   "ph_slow": "Ci sta mettendo più del solito.",
   "ph_suggested": "Suggerimenti",
   "ph_updating": "Aggiornamento",
+  "ph_upgrade": "Passa a un piano superiore",
+  "ph_what": "Cosa fa:",
   "ph_working": "Funziona"
  }
 }

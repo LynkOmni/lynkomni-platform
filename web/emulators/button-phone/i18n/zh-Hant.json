@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "5902c9573a94dd00dc1ca0f983ea476f534020b60848bd9742d26d295cc4c51d",
+ "source_sha256": "0d21744682e069f6e976cd76fac7e8ea9ef895de0fd85b50b5f1a29e915acc9f",
  "texts": {
   "bp_age": "你是否年滿 {age} 歲？",
   "bp_agree": "{n}. 我同意",
@@ -72,6 +72,7 @@
   "ch_spoken": "語音朗讀；請按數字",
   "ch_text": "傳送簡訊",
   "ch_voice": "撥打語音選單",
+  "ch_working": "請稍候，正在處理。",
   "title": "按鍵手機上的 LynkPOS"
  }
 }

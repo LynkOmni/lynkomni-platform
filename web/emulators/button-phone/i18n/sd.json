@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "5902c9573a94dd00dc1ca0f983ea476f534020b60848bd9742d26d295cc4c51d",
+ "source_sha256": "0d21744682e069f6e976cd76fac7e8ea9ef895de0fd85b50b5f1a29e915acc9f",
  "texts": {
   "bp_age": "ڇا توهان جي عمر {age} سال يا وڌيڪ آهي؟",
   "bp_agree": "{n}. مان متفق آهيان",
@@ -72,6 +72,7 @@
   "ch_spoken": "وڏي آواز ۾ پڙهيو ويندو؛ ڪو نمبر دٻايو",
   "ch_text": "ٽيڪسٽ پيغام موڪليو",
   "ch_voice": "آواز واري مينيو کي ڪال ڪريو",
+  "ch_working": "هڪ لمحو، ان تي ڪم ٿي رهيو آهي.",
   "title": "بٽڻن واري فون تي LynkPOS"
  }
 }

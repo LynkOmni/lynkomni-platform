@@ -301,7 +301,7 @@ function draw(): void {
   const head = header({ logo, nav: items, notifications: count(S.lines), signedIn: true, title: S.size === "computer" ? undefined : SHOP(), surface: "app", side: { label: sideWord(S.side), storefront: S.side === "external" } }, S.size, t, icon);
   const nav = navigation(items, S.size, t, icon);
   const toasts = S.undo.openToasts(Date.now()).map((u) => undoToast(u, Date.now(), t, icon)).join("");
-  d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main"><div data-wait-area>${main()}</div><div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))}</div>${appFooter()}</main></div>${S.size === "phone" ? nav : ""}${overlay()}<div class="banners">${S.banners.map((nid) => { const l = shown().find((x) => x.nid === nid); return l ? banner(l, t, icon) : ""; }).join("")}</div><div class="toasts">${toasts}</div></div>`;
+  d.innerHTML = `<div class="shell">${head}<div class="shell-body">${S.size === "phone" ? "" : nav}<main class="shell-main" id="main"><div data-wait-area data-wrap>${main()}</div><div class="footer-line">${esc(S.realUser ? "" : t("sandbox"))}</div>${appFooter()}</main></div>${S.size === "phone" ? nav : ""}${overlay()}<div class="banners">${S.banners.map((nid) => { const l = shown().find((x) => x.nid === nid); return l ? banner(l, t, icon) : ""; }).join("")}</div><div class="toasts">${toasts}</div></div>`;
   $("#device").className = `device ${S.size}`;
   $("#device").style.width = `${W}px`;
   $("#tab").className = `tab ${S.theme}`;                       // the tab and its icon follow the page theme (brand surface "favicon")

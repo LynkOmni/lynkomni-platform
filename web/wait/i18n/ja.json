@@ -4,17 +4,21 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "source_sha256": "5a07b25367504973634ecb58df3a3e7452b533631c7e8cf8c3c731c377dfd1e2",
  "texts": {
   "action_retry": "もう一度試す",
   "emk_first_open": "この端末で初めて開く（まだ何も保存されていません）",
   "loading": "読み込み中",
   "ph_all_loaded": "以上です",
   "ph_draft_kept": "下書きはこの端末に保存されました。",
+  "ph_logo_checking": "ロゴは確認待ちです。それまではイニシャルが表示されます。",
+  "ph_plans_where": "プランの変更はオーナーがビジネス設定の「プラン」で行います。",
   "ph_recent": "最近",
   "ph_slow": "いつもより時間がかかっています。",
   "ph_suggested": "おすすめ",
   "ph_updating": "更新中",
+  "ph_upgrade": "アップグレード",
+  "ph_what": "できること：",
   "ph_working": "正常"
  }
 }

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "5902c9573a94dd00dc1ca0f983ea476f534020b60848bd9742d26d295cc4c51d",
+ "source_sha256": "0d21744682e069f6e976cd76fac7e8ea9ef895de0fd85b50b5f1a29e915acc9f",
  "texts": {
   "bp_age": "만 {age}세 이상인가요?",
   "bp_agree": "{n}. 동의합니다",
@@ -72,6 +72,7 @@
   "ch_spoken": "소리 내어 읽어 줍니다. 숫자를 누르세요",
   "ch_text": "문자 보내기",
   "ch_voice": "음성 메뉴에 전화하기",
+  "ch_working": "잠시만요, 처리하고 있습니다.",
   "title": "버튼식 휴대폰의 LynkPOS"
  }
 }

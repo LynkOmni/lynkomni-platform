@@ -37,8 +37,8 @@ const tt = (k: string, v?: Record<string, string | number>): string => t(k, v ??
 function display(): string {
   const cur = C.pack().currency, total = cart.total();
   const pb = S.tier === "free" && S.step !== "pay" ? `<small class="pb">${esc(t("powered_by"))} LynkOmni</small>` : "";
-  if (S.step === "welcome") return `<div class="cwel">${brandMark(DATA.brand.places, "customer-welcome", S.dark, "cmark")}<h2>${esc(t("welcome"))}</h2><p>${esc(t("sample_shop"))}</p>${pb}</div>`;
-  if (S.step === "thanks") return `<div class="cwel"><span class="bigcheck">${icon("ui-check")}</span><h2>${esc(t("thank_you_visit"))}</h2><p>${esc(C.money(total))}</p>${afterPaymentRating(PH, DM.touch(), S.rated, tt, (id) => icon(id))}${pb}</div>`;
+  if (S.step === "welcome") return `<div class="cwel" data-wait-area data-shape="text">${brandMark(DATA.brand.places, "customer-welcome", S.dark, "cmark")}<h2>${esc(t("welcome"))}</h2><p>${esc(t("sample_shop"))}</p>${pb}</div>`;
+  if (S.step === "thanks") return `<div class="cwel" data-wait-area data-shape="text"><span class="bigcheck">${icon("ui-check")}</span><h2>${esc(t("thank_you_visit"))}</h2><p>${esc(C.money(total))}</p>${afterPaymentRating(PH, DM.touch(), S.rated, tt, (id) => icon(id))}${pb}</div>`;
   const second = total ? secondCurrency(total, cur, cur === "USD" ? "EUR" : "USD", (m, a, b) => Math.round(m * ((DATA.fx[b] ?? 1) / (DATA.fx[a] ?? 1)))) : null;
   return `<div class="cbas"><ul>${cart.lines().map((l) => `<li><span>${esc(t(l.product.name))}</span><span>${qtyText(l.qtyMilli)} × ${esc(C.money(l.product.price))}</span><strong>${esc(C.money(l.product.price * l.qtyMilli / 1000))}</strong></li>`).join("")}</ul>
     <div class="ctot"><span>${esc(t("your_total"))}</span><strong>${esc(C.money(total))}</strong></div>${second ? `<p class="sec">${esc(t("second_currency", { amount: C.money(second.amount, second.currency), currency: cur }))}</p>` : ""}

@@ -4,17 +4,21 @@
  "kept_in_english": [],
  "lang": "fr",
  "native": "Français",
- "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "source_sha256": "5a07b25367504973634ecb58df3a3e7452b533631c7e8cf8c3c731c377dfd1e2",
  "texts": {
   "action_retry": "Réessayer",
   "emk_first_open": "Première ouverture sur cet appareil (rien d'enregistré pour l'instant)",
   "loading": "Chargement",
   "ph_all_loaded": "C'est tout",
   "ph_draft_kept": "Votre brouillon a été gardé sur cet appareil.",
+  "ph_logo_checking": "Votre logo attend sa vérification. Vos initiales s'affichent d'ici là.",
+  "ph_plans_where": "Le propriétaire change d'offre dans les réglages de l'entreprise, rubrique Offres.",
   "ph_recent": "Récent",
   "ph_slow": "Cela prend plus de temps que d'habitude.",
   "ph_suggested": "Suggestions",
   "ph_updating": "Mise à jour",
+  "ph_upgrade": "Passer à l'offre supérieure",
+  "ph_what": "Ce que cela fait :",
   "ph_working": "En marche"
  }
 }

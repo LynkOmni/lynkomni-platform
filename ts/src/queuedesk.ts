@@ -7,6 +7,7 @@
  *  given when the section is closed. Everything in the building works without internet; "Not served today" and new blocks of
  *  codes are written by the cloud alone, so those wait for it. Words are "ppl_" keys in web/shell. */
 import { hintFor } from "./hints.js";
+import { planPreviewHtml } from "./placeholder.js";
 import { esc } from "./shell.js";
 import type { T } from "./shell.js";
 import { newId, randomBelow } from "./emulator.js";
@@ -467,11 +468,11 @@ export function quDevicesView(d: QueueDesk, L: QuLook): string {
   const t = L.t, off = !L.mayManage, sb = d.standby();
   const rows = d.devices.map((x) => { const isK = x.id === d.deviceId, paid = QU_NO_DISPLAY.includes(x.kind) && !d.plan.own_hardware;
     return `<li class="ph-detail"><p class="nm">${esc(quKindName(x.kind, t))} ${isK ? quTag(t("ppl_qu_keeper")) : ""} ${x.locked ? quTag(t("ppl_qu_locked"), "warn") : x.state !== "confirmed" ? quChip(x.state, L) : x.health === "ok" ? "" : quTag(t(`ppl_qu_health_${x.health}`), "warn")}</p>
-      ${x.pair ? `<p class="ph-code" role="status">${esc(t("ppl_pair_code"))} <strong dir="ltr">${esc(x.pair)}</strong></p>` : ""}${paid ? `<p class="sub">${esc(t("ppl_qu_plan_hardware"))}</p>` : ""}
+      ${x.pair ? `<p class="ph-code" role="status">${esc(t("ppl_pair_code"))} <strong dir="ltr">${esc(x.pair)}</strong></p>` : ""}${paid ? planPreviewHtml(t, "ppl_qu_plan_hardware", "ppl_qu_what_hardware") : ""}
       <div class="ph-row">${x.locked || isK ? "" : `<button type="button" class="ghost small" data-act="qu:lock:${x.id}" ${quOff(off)}>${esc(t("ppl_qu_lock"))}</button>`}
       ${x.locked || x.state !== "confirmed" ? "" : QU_HEALTH.filter((h) => h === "ok" || h === "offline" || (h === "paper_low" && x.kind === "printer") || (h === "battery_low" && x.kind === "pager_set")).map((h) => `<button type="button" class="ghost small" data-act="qu:health:${x.id}:${h}" ${quOn(x.health === h)}>${esc(t(`ppl_qu_health_${h}`))}</button>`).join("")}</div></li>`; }).join("");
   const add = `<div class="ph-choices small">${QU_DEVICE_KINDS.map((k) => `<button type="button" class="ph-choice" data-act="qu:kind:${k}" ${quOn(d.addKind === k)} ${quOff(off || (QU_NO_DISPLAY.includes(k) && !d.plan.own_hardware))}><strong>${esc(quKindName(k, t))}</strong></button>`).join("")}</div>
-    <button type="button" class="primary inline" data-act="qu:adddev" ${quOff(off)}>${esc(t("ppl_get_code"))}</button><p class="sub">${esc(t("ppl_pair_note"))} ${esc(t("ppl_qu_no_display_note"))}</p>${d.plan.own_hardware ? "" : `<p class="sub">${esc(t("ppl_qu_plan_hardware"))}</p>`}`;
+    <button type="button" class="primary inline" data-act="qu:adddev" ${quOff(off)}>${esc(t("ppl_get_code"))}</button><p class="sub">${esc(t("ppl_pair_note"))} ${esc(t("ppl_qu_no_display_note"))}</p>${d.plan.own_hardware ? "" : planPreviewHtml(t, "ppl_qu_plan_hardware", "ppl_qu_what_hardware")}`;
   const keeper = `<p>${esc(t("ppl_qu_keeper_help"))}</p><button type="button" class="ghost inline" data-act="qu:takeover" ${quOff(!sb)}>${esc(t("ppl_qu_keeper_off"))}</button><p class="sub">${esc(t(sb ? "ppl_qu_keeper_standby" : "ppl_qu_keeper_none"))}</p>`;
   return quCard("device_list", t("ppl_qu_devices"), `<ul class="list">${rows}</ul><p class="sub">${esc(t("ppl_qu_health_note"))} ${quTag(t("ppl_qu_sandbox"))}</p>`) + quCard("queue_keeper", t("ppl_qu_keeper"), keeper) + quCard("q_add_device", t("ppl_add_device"), add)
     + (off ? `<p class="sub">${esc(t("ppl_owner_manager_only"))}</p>` : "");
@@ -481,7 +482,7 @@ export function quReportsView(d: QueueDesk, L: QuLook): string {
   const t = L.t, rep = d.report(), busy = d.busiestHour(), fc = d.forecast(), pc = d.pleaseCheck(), u = d.usage();
   const table = `<ul class="list">${rep.map((r) => quRow(`<span dir="ltr">${esc(r.section)}</span> · ${esc(quSecName(d.sec(r.section), t))}`, `${esc(t("ppl_qu_r_tickets", { n: r.tickets }))} · ${esc(t("ppl_qu_r_served", { n: r.served }))} · ${esc(t("ppl_qu_r_missed", { n: r.missed }))} · ${esc(t("ppl_qu_r_left", { n: r.left }))} · ${esc(t("ppl_qu_r_not_served", { n: r.notServed }))}${r.wait === null ? "" : ` · ${esc(t("ppl_qu_r_wait", { m: r.wait }))}`}`)).join("")}</ul>
     ${busy === null ? "" : `<p>${esc(t("ppl_qu_busiest", { from: quHm(busy * 60), to: quHm((busy + 1) * 60) }))}</p>`}<p class="sub">${esc(t(`ppl_qu_reports_${d.plan.reports}`))}</p>`;
-  const forecast = d.plan.busy_forecast ? `<ul class="list">${fc.map((f) => `<li><p>${esc(t("ppl_qu_forecast_line", { from: quHm(f.from * 60), to: quHm(f.to * 60), section: f.section }))}</p></li>`).join("")}</ul><p class="sub">${quTag(t("ppl_estimate"))} ${quTag(t("ppl_qu_sandbox_history"))} ${esc(t("ppl_qu_forecast_note"))}</p>` : `<p class="sub">${esc(t("ppl_qu_plan_forecast"))}</p>`;
+  const forecast = d.plan.busy_forecast ? `<ul class="list">${fc.map((f) => `<li><p>${esc(t("ppl_qu_forecast_line", { from: quHm(f.from * 60), to: quHm(f.to * 60), section: f.section }))}</p></li>`).join("")}</ul><p class="sub">${quTag(t("ppl_estimate"))} ${quTag(t("ppl_qu_sandbox_history"))} ${esc(t("ppl_qu_forecast_note"))}</p>` : planPreviewHtml(t, "ppl_qu_plan_forecast", "ppl_qu_what_forecast");
   const check = pc.length ? pc.map((k) => `<p class="notice" role="status">${quTag(t("ppl_flag_warning_sign"), "warn")} ${esc(t(`ppl_qu_check_${k}`))}</p>`).join("") + `<p class="sub">${esc(t("ppl_qu_check_note"))}</p>` : `<p class="sub">${esc(t("ppl_qu_check_none"))}</p>`;
   const close = `<p>${esc(t("ppl_qu_close_help"))}</p><button type="button" class="primary inline" data-act="qu:closeday" ${quOff(!L.mayManage || !L.online)}>${esc(t("ppl_qu_close_day"))}</button>${L.online ? "" : `<p class="sub" role="status">${esc(t("ppl_qu_close_online"))}</p>`}`;
   const bill = `<p>${esc(t("ppl_qu_plan_line", { used: u.tickets, included: u.included }))}</p>${u.extra ? `<p>${esc(t("ppl_qu_extra_tickets", { n: u.extra }))}</p>` : ""}<p class="sub">${esc(t("ppl_qu_bill_note"))}</p>`;
@@ -505,7 +506,7 @@ export function quCounterView(d: QueueDesk, L: QuLook): string {
   const tk = d.tk(c.serving), waiting = d.order(c.sections).length;
   const pick = d.counters.length > 1 ? `<div class="ph-choices small">${d.counters.map((x) => `<button type="button" class="ph-choice" data-act="qu:pick:${x.id}" ${quOn(x.id === c.id)}><strong>${esc(t("ppl_counter_n", { n: x.n }))}</strong></button>`).join("")}</div>` : "";
   const states = `<div class="ph-choices small">${(["open", "paused", "closed"] as const).map((s) => `<button type="button" class="ph-choice" data-act="qu:cstate:${c.id}:${s}" ${quOn(c.state === s)} ${quOff(tk !== undefined && s !== "open")}><strong>${esc(t(`ppl_counter_${s}`))}</strong></button>`).join("")}</div>`;
-  const send = d.plan.send_to ? `<div class="ph-row">${d.sections.filter((s) => s.code !== tk?.section).map((s) => `<button type="button" class="ghost small" data-act="qu:sendto:${c.id}:${s.code}">${esc(t("ppl_send_to", { section: quSecName(s, t) }))}</button>`).join("")}</div>` : `<p class="sub">${esc(t("ppl_qu_plan_send_to"))}</p>`;
+  const send = d.plan.send_to ? `<div class="ph-row">${d.sections.filter((s) => s.code !== tk?.section).map((s) => `<button type="button" class="ghost small" data-act="qu:sendto:${c.id}:${s.code}">${esc(t("ppl_send_to", { section: quSecName(s, t) }))}</button>`).join("")}</div>` : planPreviewHtml(t, "ppl_qu_plan_send_to", "ppl_qu_what_send_to");
   const serving = tk ? `${ticketCard(quView(d, tk, t), t, L.icon)}<p class="sub">${esc(t("ppl_calls_n", { n: tk.calls, of: CALLS_BEFORE_MISSED }))}${tk.pager ? ` · ${esc(t("ppl_qu_pager_buzzed", { n: tk.pager }))}` : ""}</p><div class="ph-row">
       <button type="button" class="primary" data-act="qu:served:${c.id}">${esc(t("ppl_served"))}</button><button type="button" class="ghost" data-act="qu:again:${c.id}" ${quOff(tk.calls >= CALLS_BEFORE_MISSED)}>${esc(t("ppl_call_again"))}</button>
       <button type="button" class="ghost" data-act="qu:missed:${c.id}" ${quOff(tk.calls < CALLS_BEFORE_MISSED)}>${esc(t("ppl_missed"))}</button></div>${send}`
@@ -533,7 +534,7 @@ export function quScreenView(d: QueueDesk, L: QuLook, speak?: (lang: string) => 
   const paused = d.counters.filter((c) => c.state === "paused").map((c) => `<p class="qs-soon">${esc(t("ppl_qu_back_soon", { counter: t("ppl_counter_n", { n: c.n }) }))}</p>`).join("");
   const waits = d.sections.map((s) => `<li><span dir="ltr">${esc(s.code)}</span> <span>${esc(quSecName(s, t))}</span> <strong>${esc(t("ppl_waiting_n", { n: d.waiting(s.code).length }))}</strong></li>`).join("");
   const voice = top ? d.voice.map((l) => `<span lang="${esc(l)}">${esc(quVoice(d, top, speak ? speak(l) : t))}</span>`).join(" ") : "";
-  return `<div class="qscreen"><h2 class="qs-title">${esc(t("ppl_qu_now_serving"))}</h2><ul class="qs-list" aria-live="polite">${rows || `<li class="qs-none">${esc(t("ppl_qu_none_called"))}</li>`}</ul>${paused}
+  return `<div class="qscreen" data-wait-area data-shape="text"><h2 class="qs-title">${esc(t("ppl_qu_now_serving"))}</h2><ul class="qs-list" aria-live="polite">${rows || `<li class="qs-none">${esc(t("ppl_qu_none_called"))}</li>`}</ul>${paused}
     <ul class="qs-waits">${waits}</ul><div class="qs-join"><span class="qr" aria-hidden="true">${L.icon("ui-qr", "qrbig")}</span><div><p class="plabel">${esc(t("ppl_qu_scan_join"))}</p>${d.joinFrom === "only_at_the_place" ? `<p class="sub">${esc(t("ppl_qu_qr_changes"))} <span dir="ltr">${esc(qrCode)}</span></p>` : ""}</div></div>
     <p class="qs-voice" role="status">${top ? `${L.icon("ui-bell")} ${voice}` : ""}</p>${d.plan.own_logo ? "" : L.powered}</div>`;
 }
@@ -541,7 +542,7 @@ export function quScreenView(d: QueueDesk, L: QuLook, speak?: (lang: string) => 
 export function quCDisplayView(d: QueueDesk, counterId: string, L: QuLook): string {
   const t = L.t, c = d.counter(counterId) ?? d.counters[0]; if (!c) return "";
   const tk = d.tk(c.serving), fresh = tk && (tk.calledAt ?? 0) > d.nowMs() - QU_FLASH_MS;
-  return `<div class="qcd${fresh ? " flash" : ""}" role="status"><p class="qcd-name">${esc(t("ppl_counter_n", { n: c.n }))}</p>${tk ? `<p class="qcd-num" dir="ltr" aria-label="${esc(spoken(tk.first, tk.code))}">${esc(d.number(tk))}</p>`
+  return `<div class="qcd${fresh ? " flash" : ""}" role="status" data-wait-area data-shape="text"><p class="qcd-name">${esc(t("ppl_counter_n", { n: c.n }))}</p>${tk ? `<p class="qcd-num" dir="ltr" aria-label="${esc(spoken(tk.first, tk.code))}">${esc(d.number(tk))}</p>`
     : `<p class="qcd-state">${esc(c.state === "paused" ? t("ppl_qu_back_soon_short") : c.state === "closed" ? t("ppl_counter_closed") : t("ppl_qu_next_please"))}</p>`}</div>`;
 }
 /** The person's phone, with no app and no account: see the wait, join, then the ticket with Running late and Leave queue. */
