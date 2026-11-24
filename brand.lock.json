@@ -1,9 +1,9 @@
 {
   "schema": 1,
   "package": "@lynkomni/icons",
-  "version": "1.10.0",
+  "version": "1.11.0",
   "files": {
-    "brand.json": "7b45c6a42c9890ba0070d912e86689b476c29021c257906c1a7b21fb2fa5f396",
+    "brand.json": "f12e1199bf5363cbe01705d816955015d4377ec03377f88bea20e305be2d93f4",
     "email/logo-dark.png": "8af413240b54203239cdc64a5b1beb0e1fdaad1aba22c5b592c36a11ae5bdf19",
     "email/logo-dark@2x.png": "2dc2f31972ae940e84368c5f7ea2692b9a80706e52d2729f390f35ac0a469f8a",
     "email/logo-light.png": "c9b59c6c0b91f3d719ee060fe818981e1914d0394cb25358ccdbaaf38f8f8a02",
@@ -28,6 +28,7 @@
     "icons/lynkomni-icon-product-acc.svg": "9264b5839856283b3bbb2e3662472ef87f79e4c05b6dc0aca35e40904271d621",
     "icons/lynkomni-icon-product-assist.svg": "6ffb83892d388358ee5085d3af6ed1582b71248eba154d7a782f1e78d3470855",
     "icons/lynkomni-icon-product-attend.svg": "7d398e8b07fea37a1b93e601e2d2c364f31a009e2a552de9768e5f1978caf7cd",
+    "icons/lynkomni-icon-product-bet.svg": "11fd04004effa87f52784bf5e013a896b41f02baed8d5c6180e80b61d13c2281",
     "icons/lynkomni-icon-product-booking.svg": "46fb9c4a45810bd17753698d561db7520092e0558767b4072d51555d2a6c180c",
     "icons/lynkomni-icon-product-chat.svg": "7934293bc064e9a7b53422467ab0f60eb21eecbc184124b0928ac3e4ae1905bb",
     "icons/lynkomni-icon-product-checkout.svg": "4c9c457fb5075d82587ce5cb9e5fd00f551353bf39be86127fbaf75a0b058f46",
