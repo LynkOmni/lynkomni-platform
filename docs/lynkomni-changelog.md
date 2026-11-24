@@ -2,6 +2,16 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.98.0 (2026-11-24)
+Section 4 review, twelfth part (row 72.9 finished: the tracking engine upgrade):
+- Every tracker now knows how long each step should take. An item is "at risk" when 80% of its time has gone and "late" after; repairs, bills to pay and expense claims count only opening hours. A step waiting for the customer (ready to collect, sent for signing, an invoice not yet paid) never counts as the business being late.
+- What needs a person, in one list: two endings that disagree (for example the partner said failed and the rider said delivered), failed, stuck (twice its time with no move), late, at risk and waiting for the customer. The owner is told once per item and reason (new automation tracking-exception-raise, message tracking_exception); practice items are never raised.
+- The control tower at app.lynkomni.com/tracking on the owner's computer: counts by on time, at risk and late, every item on the way riskiest first, what needs a person, marking a step (with the customer's code or a signature where the step needs proof, and only after the step before it) and a business's own extra steps (up to five per kind, beside the usual steps, never replacing them).
+- Events that arrive late or twice change nothing they should not: a repeat is ignored, an earlier step that arrives late is filed in the past, and a second, different ending is kept as a clash for a person to look at.
+- Delivery partners' answers are read through one map per partner. Finished trackers are cleared after their keeping time (400 days, deliveries 180).
+- Contract version 18 adds TrackingStepMarked (from a device) for a business's own steps. Every kind's step names are locked (contract/vectors/tracking-steps.lock.json): steps can be added, never removed or renamed, so items already on their way never break.
+- Automations for delay notices, the next step, assigning by rule, re-planning and closing the loop, and the customer messages tracking_delay and tracking_needs_you, are registered for sections 7 and 7B where their screens are built.
+- New words in all 38 languages. Five pages' size budgets were raised with reasons. Build-table row 72.9 is done.
 ## v0.97.1 (2026-11-24)
 The LynkBet betting counter signs staff in with a PIN (owner report):
 - The counter now opens on the staff PIN lock, like every LynkPOS device: Who is using this device?, each person's own PIN on the shared pad (pictures and a tone per key), a wait after wrong PINs and a locked PIN after ten (nothing is ever deleted; the owner or a manager resets it), the quiet duress view that only takes bets for cash while the alert leaves silently, Lock the counter, and a lock after two minutes without use. Every bet and payout is tied to the person serving.

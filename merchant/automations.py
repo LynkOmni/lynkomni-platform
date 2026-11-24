@@ -110,6 +110,15 @@ def register(flow, biz, agent, deliveries, restaurant, devices, platform):
             _emit(f, m, "AlertSent", {"kind": "tracking_late", "ref": v["record"], "detail": {"tracking_kind": v["kind"], "step": v["step"], "eta": v["eta"]}}, "tracking-late-watch", now)
         return {"late": len(late), "why": "a tracked delivery or order passed its promised time; the owner is told once, with the latest estimate"}
 
+    def tracking_exception_raise(f, m, p, now):
+        """TRACKING UPDATE 72.4 (section 4): what needs a person, raised once per item and reason; practice trackers never."""
+        tr = platform.tracking
+        told = {(e["payload"]["ref"], (e["payload"].get("detail") or {}).get("why")) for e in c.store.of(m, "AlertSent") if e["payload"].get("kind") == "tracking_exception"}
+        new = [x for x in tr.t.exceptions(m, now, p.get("hours")) if x["why"] in RAISE and (x["record"], x["why"]) not in told]
+        for x in new:
+            _emit(f, m, "AlertSent", {"kind": "tracking_exception", "ref": x["record"], "detail": {"tracking_kind": x["kind"], "step": x["step"], "why": x["why"]}}, "tracking-exception-raise", now)
+        return {"raised": len(new), "why": "an item needs a person (two endings clash, stuck, late or at risk); told once per item and reason"} if new else None
+
     # ---- agent point (inform / auto)
     def low_float_warning(f, m, p, now):
         if not agent.low_float(m, p["partner_id"], p["balance"]): return None
@@ -173,8 +182,11 @@ def register(flow, biz, agent, deliveries, restaurant, devices, platform):
                     "receipt-delivery": receipt_delivery, "kitchen-routing": kitchen_routing, "delivery-auto-request": delivery_auto_request, "low-float-warning": low_float_warning,
                     "commission-match": commission_match, "sync-retry": sync_retry, "device-health": device_health, "staff-pin-lock": staff_pin_lock,
                     "chat-suggested-replies": chat_suggested_replies, "chat-routing": chat_routing, "chat-summary": chat_summary, "reorder-one-tap": reorder_one_tap,
-                    "order-updates": order_updates, "tracking-late-watch": tracking_late_watch, "driver-update-reminder": driver_update_reminder}.items():
+                    "order-updates": order_updates, "tracking-late-watch": tracking_late_watch, "tracking-exception-raise": tracking_exception_raise, "driver-update-reminder": driver_update_reminder}.items():
         flow.handle(aid, fn)
+
+
+RAISE = ("clash", "stuck", "late", "at_risk")      # what tracking-exception-raise tells the owner (failed and waiting have their own messages)
 
 
 def tr_act_now():

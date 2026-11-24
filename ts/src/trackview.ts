@@ -2,7 +2,7 @@
  *  the customer's tracking page all draw a tracker from ts/src/tracking.ts with this one function, so a step reads the same
  *  everywhere. The chip uses only the five states; the steps say what happened, newest at the bottom; the promised time, a missed
  *  promise and live progress (a share of the trip, never a position) show only when the engine has them. */
-import type { View, StepView } from "./tracking.js";
+import type { View, StepView, TowerRow, Exception, Risk } from "./tracking.js";
 
 export interface TrackLook {
   t: (key: string, vars?: Record<string, string | number>) => string;
@@ -41,4 +41,52 @@ export function trackerHtml(v: View, o: TrackLook, title?: string): string {
 export function trackerLine(v: View, o: TrackLook, title: string, act: string): string {
   const cur = v.steps.find((s) => s.current) ?? v.steps.filter((s) => s.done).pop();
   return `<li><button class="rowbtn trk-line" data-act="${o.esc(act)}"><span class="main"><span class="nm">${o.esc(title)}</span><span class="sub">${o.esc(cur ? o.t(cur.label) : o.t(v.label))}${v.late ? ` · ${o.esc(o.t("trk_late_short"))}` : ""}</span></span>${o.chip(v.state)}</button></li>`;
+}
+
+// ---- the control tower (TRACKING UPDATE 72.4, section 4 row 72.9): what is on the way, what needs a person, a scan and own steps ----
+export interface TowerLook extends TrackLook {
+  /** the item's name on screen (an order number, say): never a customer's name, address or phone number */
+  name: (kind: string, record: string) => string;
+}
+const RISKS: readonly Risk[] = ["late", "at_risk", "on_time"];
+const RISK_WORD: Record<Risk, string> = { late: "trk_late_short", at_risk: "trk_risk_at_risk", on_time: "trk_risk_on_time" };
+const WHY_WORD: Record<Exception["why"], string> = { clash: "trk_why_clash", failed: "trk_failed", stuck: "trk_why_stuck", late: "trk_late_short", at_risk: "trk_risk_at_risk", waiting_on_customer: "trk_why_waiting_on_customer" };
+const SCAN_WORD: Record<string, string> = { not_scannable: "trk_scan_why_not_scannable", cloud_only: "trk_scan_why_cloud_only", ended: "trk_scan_why_ended", needs_proof: "trk_scan_why_needs_proof", after: "trk_scan_why_after" };
+
+/** The counts by risk and the list of items on the way, riskiest first. Risk is always a word beside its icon, never colour alone. */
+export function towerHtml(tower: { rows: TowerRow[]; counts: Record<Risk, number>; total: number }, o: TowerLook, practice: ReadonlySet<string> = new Set()): string {
+  const counts = `<ul class="trk-counts" role="list">${RISKS.map((r) => `<li class="trk-count r-${r}"><strong>${tower.counts[r]}</strong><span>${o.esc(o.t(RISK_WORD[r]))}</span></li>`).join("")}</ul>`;
+  const rank = (r: Risk | null): number => (r === null ? 3 : RISKS.indexOf(r));
+  const rows = [...tower.rows].sort((a, b) => rank(a.risk) - rank(b.risk));
+  const body = rows.length ? `<ul class="rows trk-tower">${rows.map((x) => `<li data-kind="${o.esc(x.kind)}"><span class="trk-main"><span class="trk-nm">${o.esc(o.name(x.kind, x.record))}</span><span class="trk-sub">${o.esc(o.t(`trk_k_${x.kind}`))} · ${o.esc(o.t(`trk_${x.step}`))}${x.since ? ` · ${o.esc(o.t("trk_since", { time: o.time(x.since) }))}` : ""}${practice.has(x.record) ? ` · ${o.esc(o.t("trk_practice"))}` : ""}</span></span>${x.risk ? `<span class="trk-risk r-${x.risk}">${o.icon(x.risk === "on_time" ? "ui-check" : "ui-warning")}<span>${o.esc(o.t(RISK_WORD[x.risk]))}</span></span>` : ""}</li>`).join("")}</ul>`
+    : `<p class="note trk-empty">${o.icon("ui-info")}<span>${o.esc(o.t("trk_none"))}</span></p>`;
+  return `<section class="trk-panel" data-item="tower"><h2>${o.esc(o.t("trk_on_the_way"))}</h2><p class="note">${o.esc(o.t("trk_tower_intro", { n: tower.total }))}</p>${counts}${body}</section>`;
+}
+
+/** What needs a person: two endings that clash, failed, stuck, late, at risk and waiting for the customer, each with its reason. */
+export function exceptionsHtml(list: readonly Exception[], o: TowerLook): string {
+  const body = list.length ? `<ul class="rows trk-needs">${list.map((x) => `<li data-why="${o.esc(x.why)}"><span class="trk-main"><span class="trk-nm">${o.esc(o.name(x.kind, x.record))}</span><span class="trk-sub">${o.esc(o.t(`trk_k_${x.kind}`))} · ${o.esc(o.t(`trk_${x.step}`))}</span></span><span class="trk-why">${o.icon(x.why === "waiting_on_customer" ? "ui-info" : "ui-warning")}<span>${o.esc(o.t(WHY_WORD[x.why]))}</span></span></li>`).join("")}</ul>`
+    : `<p class="note trk-empty">${o.icon("ui-check")}<span>${o.esc(o.t("trk_all_clear"))}</span></p>`;
+  return `<section class="trk-panel" data-item="needs"><h2>${o.esc(o.t("trk_needs_you"))}</h2>${body}</section>`;
+}
+
+/** Mark a step by scanning the code on an item (or choosing it): the result says why a scan was refused, in words. */
+export function scanHtml(items: readonly { kind: string; record: string }[], steps: readonly string[], o: TowerLook, sel: { item: string; step: string; proof: string; result: { ok: boolean; why: string[] } | null }): string {
+  const opt = (v: string, label: string, cur: string): string => `<option value="${o.esc(v)}"${v === cur ? " selected" : ""}>${o.esc(label)}</option>`;
+  const res = sel.result ? (sel.result.ok ? `<p class="notice" role="status">${o.icon("ui-check")}<span>${o.esc(o.t("trk_scan_ok"))}</span></p>`
+    : `<p class="warn" role="status">${o.icon("ui-warning")}<span>${sel.result.why.map((w) => o.esc(o.t(SCAN_WORD[w.startsWith("after:") ? "after" : w] ?? "trk_scan_why_not_scannable"))).join(" ")}</span></p>`) : "";
+  return `<section class="trk-panel" data-item="scan"><h2>${o.esc(o.t("trk_scan"))}</h2><div class="trk-form">
+    <label class="trk-field" for="trkItem"><span>${o.esc(o.t("trk_scan_item"))}</span><select id="trkItem" data-in="trk:item">${items.map((x) => opt(`${x.kind}|${x.record}`, `${o.name(x.kind, x.record)} · ${o.t(`trk_k_${x.kind}`)}`, sel.item)).join("")}</select></label>
+    <label class="trk-field" for="trkStep"><span>${o.esc(o.t("trk_scan_step"))}</span><select id="trkStep" data-in="trk:step">${steps.map((s) => opt(s, o.t(`trk_${s}`), sel.step)).join("")}</select></label>
+    <label class="trk-field" for="trkProof"><span>${o.esc(o.t("trk_scan_proof"))}</span><select id="trkProof" data-in="trk:proof">${opt("", o.t("trk_proof_none"), sel.proof)}${opt("code", o.t("trk_proof_code"), sel.proof)}${opt("signature", o.t("trk_proof_signature"), sel.proof)}</select></label>
+    <button class="primary" data-act="trk:scan">${o.esc(o.t("trk_scan_go"))}</button></div>${res}</section>`;
+}
+
+/** A business's own extra steps for one kind (at most `max`): they sit beside LynkOmni's steps and never replace them. */
+export function extraStepsHtml(kind: string, steps: readonly { id: string; label: string }[], max: number, o: TowerLook, draft: string): string {
+  const full = steps.length >= max;
+  return `<section class="trk-panel" data-item="extra"><h2>${o.esc(o.t("trk_extra"))}</h2><p class="note">${o.esc(o.t("trk_extra_intro", { n: max, kind: o.t(`trk_k_${kind}`) }))}</p>
+    ${steps.length ? `<ul class="rows">${steps.map((s) => `<li><span>${o.esc(s.label)}</span><button class="secondary" data-act="trk:drop:${o.esc(s.id)}">${o.esc(o.t("trk_extra_remove"))}</button></li>`).join("")}</ul>` : ""}
+    ${full ? `<p class="note">${o.esc(o.t("trk_extra_full"))}</p>` : `<div class="trk-form"><label class="trk-field" for="trkExtra"><span>${o.esc(o.t("trk_extra_name"))}</span><input id="trkExtra" data-in="trk:extra" maxlength="40" value="${o.esc(draft)}" placeholder="${o.esc(o.t("hint_step"))}"></label>
+    <button class="secondary" data-act="trk:add"${draft.trim() ? "" : ` disabled data-why="${o.esc(o.t("trk_extra_name_first"))}"`}>${o.esc(o.t("trk_extra_add"))}</button></div>`}</section>`;
 }

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "uk",
  "native": "Українська",
- "source_sha256": "be0d96ab4cf2efae2d1d414a4944432748e32d3d8d8d526b02fe126332ab9af4",
+ "source_sha256": "7b5a67580688b6542bc078169686fc5bd6c3af13229fcadc26298f42930deee4",
  "texts": {
   "account_menu": "Акаунт",
   "action_add": "Додати перший",
@@ -281,6 +281,7 @@
   "hint_search": "Вікно",
   "hint_section": "Платежі",
   "hint_shop": "Крамниця на розі",
+  "hint_step": "Перевірка якості",
   "hint_yousaid": "Чекати було довго, тож ми відкрили друге віконце.",
   "iface_car_voice": "Автомобіль (лише голос)",
   "iface_computer_pointer": "LynkPC (миша і клавіатура)",

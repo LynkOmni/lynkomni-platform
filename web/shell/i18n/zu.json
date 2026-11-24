@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "be0d96ab4cf2efae2d1d414a4944432748e32d3d8d8d526b02fe126332ab9af4",
+ "source_sha256": "7b5a67580688b6542bc078169686fc5bd6c3af13229fcadc26298f42930deee4",
  "texts": {
   "account_menu": "I-akhawunti",
   "action_add": "Engeza eyokuqala",
@@ -281,6 +281,7 @@
   "hint_search": "Ikhawunta",
   "hint_section": "Izinkokhelo",
   "hint_shop": "Isitolo sasekhoneni",
+  "hint_step": "Ukuhlolwa kwekhwalithi",
   "hint_yousaid": "Ukulinda bekude, ngakho sivule ikhawunta yesibili.",
   "iface_car_voice": "Imoto (izwi kuphela)",
   "iface_computer_pointer": "LynkPC (igundane nekhibhodi)",

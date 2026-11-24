@@ -38,11 +38,12 @@ REGISTRY_V13 = load("event-payloads.v13.json")        # v13 (2026-11-21: LynkFil
 REGISTRY_V14 = load("event-payloads.v14.json")        # v14 (2026-11-21: LynkBooking in the office services)
 REGISTRY_V15 = load("event-payloads.v15.json")
 REGISTRY_V16 = load("event-payloads.v16.json")        # v16 (2026-11-21: the office side of gift cards, deposits, matching and payment costs)
-REGISTRY = load("event-payloads.v17.json")            # the current version (v17, 2026-11-24: LynkBet, BETTING UPDATE)
-REGISTRIES = {1: REGISTRY_V1, 2: REGISTRY_V2, 3: REGISTRY_V3, 4: REGISTRY_V4, 5: REGISTRY_V5, 6: REGISTRY_V6, 7: REGISTRY_V7, 8: REGISTRY_V8, 9: REGISTRY_V9, 10: REGISTRY_V10, 11: REGISTRY_V11, 12: REGISTRY_V12, 13: REGISTRY_V13, 14: REGISTRY_V14, 15: REGISTRY_V15, 16: REGISTRY_V16, 17: REGISTRY}
+REGISTRY_V17 = load("event-payloads.v17.json")
+REGISTRY = load("event-payloads.v18.json")            # the current version (v18, 2026-11-24: TRACKING UPDATE extra steps)
+REGISTRIES = {1: REGISTRY_V1, 2: REGISTRY_V2, 3: REGISTRY_V3, 4: REGISTRY_V4, 5: REGISTRY_V5, 6: REGISTRY_V6, 7: REGISTRY_V7, 8: REGISTRY_V8, 9: REGISTRY_V9, 10: REGISTRY_V10, 11: REGISTRY_V11, 12: REGISTRY_V12, 13: REGISTRY_V13, 14: REGISTRY_V14, 15: REGISTRY_V15, 16: REGISTRY_V16, 17: REGISTRY_V17, 18: REGISTRY}
 CURRENCIES = load("currencies.v1.json")["decimals"]
 PERMS = load("permissions.v1.json")
-REGISTER = load("command-policy-register.v17.json")
+REGISTER = load("command-policy-register.v18.json")
 CURRENT_VERSION = max(REGISTRIES)                        # the newest version this validator reads
 STATES = load("state-machines.v1.json")
 CHART = load("chart-of-accounts.v2.json")["accounts"]   # JournalPosted names only accounts of the global chart
@@ -280,7 +281,7 @@ class Device:
         evt = {
             "event_id": uuid7(), "origin": "device", "merchant_id": MERCHANT, "branch_id": BRANCH,
             "device_id": self.id, "actor_user_id": USER, "device_seq": self.seq, "type": etype,
-            "schema_version": 17, "occurred_at_device": ts(at or self.clock), "prev_hash": self.prev,
+            "schema_version": 18, "occurred_at_device": ts(at or self.clock), "prev_hash": self.prev,
             "payload": payload, "signature": fake_sig(),
         }
         self.prev = event_hash(evt)
@@ -469,7 +470,7 @@ def contract_checks():
             if et in ev:
                 if cls == "A": check(f"register:{n}:{et} origin allows device", "device" in ev[et]["origins"])
                 else: check(f"register:{n}:{et} has an origin", bool(ev[et]["origins"]))
-                if (c.get("v1") or c.get("v2") or c.get("v4") or c.get("v5") or c.get("v6") or c.get("v7") or c.get("v9") or c.get("v10") or c.get("v11") or c.get("v12") or c.get("v13") or c.get("v14") or c.get("v15") or c.get("v16") or c.get("v17")) and "device" in ev[et]["origins"]: emitted_device.add(et)
+                if (c.get("v1") or c.get("v2") or c.get("v4") or c.get("v5") or c.get("v6") or c.get("v7") or c.get("v9") or c.get("v10") or c.get("v11") or c.get("v12") or c.get("v13") or c.get("v14") or c.get("v15") or c.get("v16") or c.get("v17") or c.get("v18")) and "device" in ev[et]["origins"]: emitted_device.add(et)
         pid = c["permission"]
         if pid is None:
             check(f"register:{n}:null permission is declared", c.get("local_only") or c.get("pre_auth") or c.get("any_authenticated"))

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "be0d96ab4cf2efae2d1d414a4944432748e32d3d8d8d526b02fe126332ab9af4",
+ "source_sha256": "7b5a67580688b6542bc078169686fc5bd6c3af13229fcadc26298f42930deee4",
  "texts": {
   "account_menu": "Àkáǹtì",
   "action_add": "Ṣàfikún àkọ́kọ́",
@@ -281,6 +281,7 @@
   "hint_search": "Káńtà",
   "hint_section": "Ìsanwó",
   "hint_shop": "Ṣọ́ọ̀bù igun",
+  "hint_step": "Àyẹ̀wò dídára",
   "hint_yousaid": "Ìdúró pẹ́ jù, nítorí náà a ṣí kántà kejì.",
   "iface_car_voice": "Ọkọ̀ (ohùn nìkan)",
   "iface_computer_pointer": "LynkPC (máòsì àti kíbọ́ọ̀dù)",
