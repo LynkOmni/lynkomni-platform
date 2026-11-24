@@ -52,5 +52,16 @@ class RandomAndAddresses(unittest.TestCase):
         self.assertNotIn("%", body)                                          # fair by drawing bits and drawing again, never a remainder
 
 
+class OwnScan(unittest.TestCase):
+    def test_our_code_scan_reads_without_building_except_swift(self):
+        s = (ROOT / ".github" / "workflows" / "codeql.yml").read_text()
+        for lang in ("actions", "javascript-typescript", "python", "rust"):
+            self.assertIn(f"{{language: {lang}, build-mode: none}}", s, lang)   # no build, so no "cannot build an overlay database" warning
+        for lang in ("java-kotlin", "swift"):                                # Kotlin and Swift must be built
+            self.assertIn(f"{{language: {lang}, build-mode: manual}}", s, lang)
+        self.assertIn("CODEQL_OVERLAY_DATABASE_MODE: ${{ matrix.build-mode == 'manual' && 'none' || '' }}", s)   # built languages never ask for the overlay
+        self.assertIn("github/codeql-action/analyze@v4", s)
+
+
 if __name__ == "__main__":
     unittest.main()

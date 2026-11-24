@@ -12,6 +12,10 @@ LynkBet, the betting service (owner, master blueprint section 86):
 - LynkBet in every register: its name and plain word (Betting) in 38 languages, the product catalog and picture, every place it belongs (header, launcher, search, help, product page /bet, pricing, sitemap, footer, app navigation in the Sell group), the address map on both sides (/betting, /sell/betting, /external/betting, account /bets, shop /(username)/betting), the API, its links to LynkAcc, LynkStat, LynkPOS, LynkQueue, LynkChat and LynkMPay, two trackers (betting slip and big win referral), automations, messages, LynkAssist actions, the cash register, the universal rules and the sandbox operator in the provider ledger with its later item (each country's betting law).
 - Page size budgets rise by LynkBet's words (reasons in web/budgets.v1.json).
 
+## v0.95.1 (2026-11-24)
+- Our own code scan (.github/workflows/codeql.yml) replaces GitHub's automatic setup, with the same six languages: GitHub Actions, JavaScript and TypeScript, Python and Rust are read without building them; Kotlin and Swift are built by hand as the checks already do (Kotlin cannot be read without a build), with the quick overlay database switched off for those two, so the scan no longer warns that it cannot build one. It runs on every pull request, on main and weekly. tests/test_code_scanning.py keeps the build modes.
+- Fix: a LynkCRM test sometimes failed by chance, when a random record number happened to contain the digits it looks for from a phone number; it now ignores record numbers and looks for the whole phone number.
+
 ## v0.95.0 (2026-11-24)
 Section 4 review, tenth part (row 83.6, third part: waiting and typing well on every page):
 - Every page waits well, not only the devices with the emulator kit: the waiting logic is one shared part (PageWait in ts/src/placeholder.ts), used by the kit and called at the end of every draw on the tracking, queue and survey pages, the virtual card, the owner's computer view, the browser frame and the account site, each with "First open on this device" in its panel. The button phone and the two-device relay say why they never show a skeleton.

@@ -1,7 +1,7 @@
 """LynkCRM's rules (OFFICE UPDATE, master blueprint 66.4; section 4 step D3): catalog/crm.v1.json read through core/crm.py and
 ts/src/crm.ts with shared vectors, and the 66.7 tier table. Deal stages are the contract's five; lead scores are labelled
 suggestions; a hidden field never reaches a role's screens; sensitive records only where the law allows; consent per channel."""
-import json, os, subprocess, sys, unittest
+import json, os, re, subprocess, sys, unittest
 
 from core import crm as C
 
@@ -72,8 +72,8 @@ class CrmService(unittest.TestCase):
         rid = self.c.create("m1", "u1", "customer", name="Amina Uwase", email="amina@shop.rw", phone="+250 788 000 111")
         self.assertTrue(rid.startswith("LOCST-"))
         events = list(self.p.c.store.of("m1", "crm.record_created"))
-        text = str(events)
-        for v in ("Amina", "amina@shop.rw", "788"):
+        text = re.sub(r"LO[A-Z]+-\d{4}-\d{4}-\d{4}", "", str(events))   # a random public id may hold any digits by chance
+        for v in ("Amina", "amina@shop.rw", "788 000 111", "788000111"):
             self.assertNotIn(v, text)
         self.assertEqual(self.p.vault.get(self.c.recs[rid]["email_ref"]), "amina@shop.rw")
 
