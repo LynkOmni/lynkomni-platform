@@ -2,6 +2,18 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.103.0 (2026-11-24)
+Section 4 review, sixteenth part (row 71.9, step 3 of 4: LynkAssist across services):
+- Five new LynkAssist skills, registered in catalog/assist.v1.json and run by services/assist_connect.py through the same decisions, history and trust layer as every other skill:
+  - a question across services (how did this week go, who owes us, what is due soon), each part from its own service and labelled with its source; a part the person's role may not see is left out and said so;
+  - a plan of several steps for a goal (chase what is owed, close the month), shown as a draft; each step still needs its own Confirm and the plan can be paused;
+  - the morning brief, only for people who switch it on and only when there is something to say;
+  - saved questions answered again daily or weekly, sent only to the person who saved them;
+  - a usage meter: questions this month against the plan's number from billing (no limit on Max); a question refused for the limit never counts.
+- Two opt-in automations (assist-morning-brief and assist-saved-questions, off until switched on) and two message kinds (assist_morning_brief and assist_saved_answer, opt-in, daily group); their signals are in the merchant event list.
+- The phone's LynkAssist screen (Business → Assistant) shows the usage meter, the morning brief switch, the three questions with their answers and sources, Ask me this every day and the two plans, in all 38 languages, with sample counts labelled Sample; what a role may see follows the one role system.
+- Three pages' size budgets were raised with reasons.
+
 ## v0.102.0 (2026-11-24)
 Section 4 review, fifteenth part (row 71.9, step 2b of 4: the shared parts on screen):
 - Six new Business app pages, the same on the phone and on the owner's computer view, drawn by one shared part (ts/src/sharedview.ts) on the rules of ts/src/shared.ts (a TypeScript port of the shared rules, checked against shared vectors): Calendar (app.lynkomni.com/business/calendar), Contacts (/business/contacts), Recycle bin (/business/recycle-bin), Audit viewer (/business/audit), Consents (/business/settings/consents) and Test copy (/business/settings/test-copy); plans and limits now show on the plans page (/business/plans).

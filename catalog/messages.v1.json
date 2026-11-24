@@ -2721,6 +2721,44 @@
    "lock_screen": "neutral",
    "actions": [],
    "build_section": 7
+  },
+  {
+   "id": "assist_morning_brief",
+   "area": "assist",
+   "trigger": "AssistBriefSent",
+   "audience": "owner",
+   "basis": "opt_in",
+   "priority": "low",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "daily",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 4
+  },
+  {
+   "id": "assist_saved_answer",
+   "area": "assist",
+   "trigger": "AssistSavedAnswered",
+   "audience": "person",
+   "basis": "opt_in",
+   "priority": "low",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "daily",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 4
   }
  ]
 }

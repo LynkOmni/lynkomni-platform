@@ -98,3 +98,34 @@ export function controlsHtml(TR: TrustRegister, look: LaLook, c: Controls): stri
       <label class="field"><span>${laEsc(look.t("at_remember"))}</span><input id="atRemember" aria-label="${laEsc(look.t("at_remember"))}" data-in="la:remember" value="${laEsc(c.draft)}" placeholder="${laEsc(look.t("at_hint_remember"))}"${c.memoryOn ? "" : ' disabled data-why="at_remember_off"'}></label>
       <button class="ghost inline" data-act="la:remember"${c.memoryOn ? "" : " disabled"}>${laEsc(look.t("at_remember_save"))}</button><p class="sub">${laEsc(look.t("at_memory_note"))}</p></div>`;
 }
+
+// ---- LynkAssist across services (CONNECT UPDATE 71.6, section 4 row 71.9 step 3): usage meter, morning brief, questions across
+//      services, saved questions and plans; the rules run in the cloud (services/assist_connect.py) ----
+export const ACROSS_KINDS = ["week", "owed", "due_soon"] as const;
+export const PLAN_GOALS = ["chase_overdue", "month_end"] as const;
+const AX_PART_WORD: Record<string, string> = { sales: "at_part_sales", payments: "at_part_payments", owed: "at_part_owed", overdue: "at_part_overdue",
+  bills: "at_part_bills", due_today: "at_part_due_today", drafts: "at_part_drafts", needs_person: "at_part_needs_person" };
+const AX_KIND_WORD: Record<string, string> = { week: "at_q_week", owed: "at_q_owed", due_soon: "at_q_due_soon" };
+const AX_GOAL_WORD: Record<string, string> = { chase_overdue: "at_goal_chase_overdue", month_end: "at_goal_month_end" };
+export interface Across {
+  used: number; limit: number | null;
+  brief: { on: boolean; parts: Record<string, number>; hidden: boolean };
+  answer: { kind: string; parts: Record<string, { count: number; source: string }>; hidden: boolean } | null;
+  saved: readonly string[]; plan: { goal: string; steps: number } | null;
+  owner: boolean; name: (family: string) => string;
+}
+const partsHtml = (look: LaLook, parts: Record<string, number>): string =>
+  `<ul class="at-parts">${Object.entries(parts).map(([k, n]) => `<li>${laEsc(look.t(AX_PART_WORD[k] ?? "at_sample_word", { n }))}</li>`).join("")}</ul>`;
+
+export function acrossHtml(look: LaLook, c: Across): string {
+  const usage = c.limit === null ? look.t("at_usage_none", { used: c.used }) : look.t("at_usage", { used: c.used, limit: c.limit });
+  const ans = c.answer ? `<div class="at-answer" role="status"><strong>${laEsc(look.t(AX_KIND_WORD[c.answer.kind] ?? "at_sample_word"))}</strong><ul class="at-parts">${Object.entries(c.answer.parts).map(([k, v]) =>
+      `<li>${laEsc(look.t(AX_PART_WORD[k] ?? "at_sample_word", { n: v.count }))} · <span class="sub">${laEsc(look.t("at_from", { service: c.name(v.source) }))}</span></li>`).join("")}</ul>
+      ${c.answer.hidden ? `<p class="sub">${laEsc(look.t("at_part_hidden"))}</p>` : ""}${c.saved.includes(c.answer.kind) ? `<p class="sub">${laEsc(look.t("at_saved"))}</p>` : `<button class="ghost inline" data-act="la:save:${laEsc(c.answer.kind)}">${laEsc(look.t("at_save_daily"))}</button>`}</div>` : "";
+  return `<div class="card" data-item="usage_meter"><h2>${laEsc(look.t("at_usage_title"))}</h2><p>${laEsc(usage)} · <span class="sub">${laEsc(look.t("at_sample_word"))}</span></p></div>
+    <div class="card" data-item="morning_brief"><h2>${laEsc(look.t("at_brief_title"))}</h2><label class="switch"><span>${laEsc(look.t("at_brief_on"))}</span><input type="checkbox" data-in="la:brief"${c.brief.on ? " checked" : ""}></label>
+      <p class="sub">${laEsc(look.t("at_brief_note"))}</p>${c.brief.on ? `${partsHtml(look, c.brief.parts)}${c.brief.hidden ? `<p class="sub">${laEsc(look.t("at_part_hidden"))}</p>` : ""}<p class="sub">${laEsc(look.t("at_sample_word"))}</p>` : ""}</div>
+    <div class="card" data-item="ask_across"><h2>${laEsc(look.t("at_across_title"))}</h2><div class="at-kinds">${ACROSS_KINDS.map((k) => `<button class="ghost inline" data-act="la:across:${k}">${laEsc(look.t(AX_KIND_WORD[k] ?? "at_sample_word"))}</button>`).join("")}</div>${ans}</div>
+    <div class="card" data-item="assist_plan"><h2>${laEsc(look.t("at_plan_title"))}</h2><p class="sub">${laEsc(look.t("at_plan_note"))}</p><div class="at-kinds">${PLAN_GOALS.map((g) => `<button class="ghost inline" data-act="la:plan:${g}"${c.owner ? "" : " disabled"}>${laEsc(look.t(AX_GOAL_WORD[g] ?? "at_sample_word"))}</button>`).join("")}</div>
+      ${c.plan ? `<p role="status">${laEsc(look.t(AX_GOAL_WORD[c.plan.goal] ?? "at_sample_word"))}: ${laEsc(look.t("at_plan_steps", { n: c.plan.steps }))}</p>` : ""}</div>`;
+}

@@ -64,7 +64,8 @@ import { chatDigest, codeWords, inboxRowHtml, muteHtml, playChat, prepareSend, t
 import type { ChatField, ChatLook, ChatMsg } from "../../../ts/src/chatview.js";
 import { TRUST } from "../../../ts/src/assisttrust.generated.js";
 import { certainty, guard, remember, warning, work } from "../../../ts/src/assisttrust.js";
-import { answerHtml, askButtonHtml, controlsHtml, previewHtml, stoppedHtml, warningLineHtml } from "../../../ts/src/assistview.js";
+import { answerHtml, askButtonHtml, controlsHtml, previewHtml, stoppedHtml, warningLineHtml, acrossHtml } from "../../../ts/src/assistview.js";
+import { sharedMay, sharedBaseRole } from "../../../ts/src/shared.js";
 import type { LaLook } from "../../../ts/src/assistview.js";
 import { watchNames, namesChoice, namesAct, nameById, nameOpened, welcomeCard, welcomeAct, forFamily } from "../../../ts/src/names.js";
 import { NAME_INFO_KEYS } from "../../../ts/src/nameinfo.js";
@@ -90,6 +91,8 @@ interface BuildData {
   /** the shared parts (CONNECT UPDATE 71.3): limits per tier from billing and the links that need the business's consent */
   planLimits: Record<string, Record<string, Record<string, number | null>>>;
   consentLinks: ConsentLink[];
+  /** LynkAssist's questions a month by tier, from billing FEATURES (null: no limit) */
+  assistLimits: Record<string, number | null>;
   /** who the app is for (catalog/workspaces.v1.json): a person, a company or an organisation */
   workspaces: Workspaces;
 }
@@ -705,14 +708,32 @@ function laApproved(r: { id: string; role: Role }, ans: "approve" | "deny"): voi
   if (ans === "approve") { LA.preview = { kind: "round", price: 0 }; laConfirm(true); }
   else { M3.history.unshift({ action: "correct_price", state: "not_done", at: Date.now(), by: t("role_" + S.role) }); toast(t("m3_denied")); }
 }
+// ---- LynkAssist across services (CONNECT UPDATE 71.6): sample counts, labelled Sample; what a role may see follows ts/src/shared.ts ----
+const AX = { brief: false, answer: "", saved: new Set<string>(), plan: "", asked: 0 };
+const AX_SAMPLE: Record<string, number> = { sales: 12, payments: 3, owed: 4, overdue: 2, bills: 1, due_today: 2, drafts: 2, needs_person: 1 };
+const AX_SOURCE: Record<string, string> = { sales: "lynkpos", payments: "lynkinv", owed: "lynkinv", overdue: "lynkinv", bills: "lynkacc", due_today: "lynkinv", drafts: "lynkflow", needs_person: "lynkflow" };
+const AX_AREA: Record<string, string> = { sales: "pos", payments: "inv", owed: "inv", overdue: "inv", bills: "acc", due_today: "inv", drafts: "assist", needs_person: "assist" };
+const AX_KINDS: Record<string, string[]> = { week: ["sales", "payments", "owed", "bills"], owed: ["owed", "overdue"], due_soon: ["due_today", "bills", "drafts"] };
+const axSees = (part: string): boolean => { let base = "staff"; try { base = sharedBaseRole("device", S.role); } catch { base = "staff"; } return sharedMay("base", base, AX_AREA[part] ?? "assist", "view"); };
+function laAcross(): string {
+  const brief = ["sales", "payments", "due_today", "bills", "drafts", "needs_person"];
+  const pick = (names: string[]): Record<string, number> => Object.fromEntries(names.filter(axSees).map((n) => [n, AX_SAMPLE[n] ?? 0]));
+  const ans = AX.answer ? { kind: AX.answer, parts: Object.fromEntries((AX_KINDS[AX.answer] ?? []).filter(axSees).map((n) => [n, { count: AX_SAMPLE[n] ?? 0, source: AX_SOURCE[n] ?? "lynkassist" }])), hidden: (AX_KINDS[AX.answer] ?? []).some((n) => !axSees(n)) } : null;
+  const goalSteps: Record<string, number> = { chase_overdue: AX_SAMPLE["overdue"] ?? 0, month_end: 4 };
+  return acrossHtml(laLook(), { used: AX.asked, limit: DATA.assistLimits["plus"] ?? null, brief: { on: AX.brief, parts: pick(brief), hidden: brief.some((n) => !axSees(n)) },
+    answer: ans, saved: [...AX.saved], plan: AX.plan ? { goal: AX.plan, steps: goalSteps[AX.plan] ?? 0 } : null, owner: owner(), name: (f) => forFamily(f) ?? f });
+}
 function laControls(): string {
-  return controlsHtml(TRUST, laLook(), { owner: owner(), paused: LA.paused, roles: ["manager", "cashier"], areas: ["selling", "stock", "cash"], off: LA.off,
+  return laAcross() + controlsHtml(TRUST, laLook(), { owner: owner(), paused: LA.paused, roles: ["manager", "cashier"], areas: ["selling", "stock", "cash"], off: LA.off,
     approverAmount: String(LA.approverMajor), pace: LA.pace, memoryOn: LA.memoryOn, draft: LA.draft, areaLabel: (a) => t("m3_area_" + a),
     memory: LA.memory.filter((m) => m.scope === "business" && (m.role_min !== "owner" || owner())) });
 }
 function laAct(rest: string): void {
   const [k = "", a = "", b = ""] = rest.split(":");
   switch (k) {
+    case "across": AX.answer = a; AX.asked += 1; draw(); return;
+    case "save": AX.saved.add(a); emit("AssistQuestionSaved", { person: S.role, question: a, every: "daily" }, "device"); draw(); return;
+    case "plan": if (owner()) { AX.plan = a; emit("AssistPlanChanged", { plan: `plan-${a}`, state: "draft", by: S.role }, "device"); } draw(); return;
     case "ask": LA.answer = `${a}:${b}`; draw(); return;
     case "close": LA.answer = ""; draw(); return;
     case "try": LA.preview = { kind: a === "round" ? "round" : "price", price: Math.max(0, (CATALOG[0]?.price ?? 0) - laMinor(1)) }; draw(); return;
@@ -2048,6 +2069,7 @@ function m3Change(k: string, el: HTMLInputElement & HTMLSelectElement): void {
 function onChange(el: HTMLInputElement & HTMLSelectElement): void {
   const k = el.dataset["in"] ?? "";
   if ((el.dataset["act"] ?? "") === "ppl:checker") { PH.pickChecker(el.value); draw(); return; }
+  if (k === "la:brief") { AX.brief = (el as HTMLInputElement).checked; draw(); return; }
   if (k.startsWith("la:")) { if (k !== "la:remember") laChange(k, el); return; }
   if (k.startsWith("at:")) { if (el.tagName === "SELECT") { PH.att.input(k, el.value); draw(); } return; }
   if (k.startsWith("qu:")) { if (el.tagName === "SELECT") { PH.q.input(k, el.value); draw(); } return; }

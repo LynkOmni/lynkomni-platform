@@ -476,6 +476,33 @@
     "by"
    ],
    "note": "A LynkAssist plan of several steps moved: started, paused, carried on (on any device), done or cancelled (catalog/assist-trust.v1.json safety.plans)."
+  },
+  "AssistBriefSent": {
+   "written_by": "automation",
+   "payload": [
+    "person",
+    "parts",
+    "by_automation"
+   ],
+   "note": "The morning brief went to the person who switched it on (CONNECT UPDATE 71.6): which parts it held, never their figures or anyone's personal data."
+  },
+  "AssistSavedAnswered": {
+   "written_by": "automation",
+   "payload": [
+    "person",
+    "question",
+    "by_automation"
+   ],
+   "note": "A saved question was answered again on its schedule and sent only to the person who saved it (CONNECT UPDATE 71.6)."
+  },
+  "AssistQuestionSaved": {
+   "written_by": "assist",
+   "payload": [
+    "person",
+    "question",
+    "every"
+   ],
+   "note": "A person saved a question across services to be answered daily or weekly."
   }
  }
 }
