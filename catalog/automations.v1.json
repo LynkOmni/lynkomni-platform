@@ -4122,6 +4122,42 @@
    "default": "on",
    "standing_instruction": false,
    "implemented_by": "planned for build section 7 on the tracking engine (services/tracking.py)"
+  },
+  {
+   "id": "assist-morning-brief",
+   "area": "Tracking",
+   "build_section": 4,
+   "family": "lynkpos",
+   "min_tier": "free",
+   "trigger": "schedule:daily",
+   "action": "Send the owner's morning brief at the time they chose, only when they switched it on and only when there is something to say; quiet hours are kept",
+   "level": "inform",
+   "assist": "summarize",
+   "touches": [],
+   "customer_message": false,
+   "offline": false,
+   "default": "off",
+   "standing_instruction": false,
+   "implemented_by": "services/assist_connect.py run_morning_briefs",
+   "consent": "opt_in"
+  },
+  {
+   "id": "assist-saved-questions",
+   "area": "Tracking",
+   "build_section": 4,
+   "family": "lynkpos",
+   "min_tier": "free",
+   "trigger": "schedule:daily",
+   "action": "Answer each saved question on its own schedule and send the answer only to the person who saved it",
+   "level": "inform",
+   "assist": "summarize",
+   "touches": [],
+   "customer_message": false,
+   "offline": false,
+   "default": "off",
+   "standing_instruction": false,
+   "implemented_by": "services/assist_connect.py run_saved_questions",
+   "consent": "opt_in"
   }
  ],
  "careful": [

@@ -1429,6 +1429,106 @@
    "build_section": 9,
    "status": "planned",
    "offline": "never"
+  },
+  {
+   "id": "ask_across",
+   "area": "connect",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "accountant"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": 4,
+   "status": "built",
+   "note": "a question across services (how did this week go, who owes us, what is due soon): each part from its own service, labelled with its source; a part the person's role may not see is left out and said so; counts against the plan's questions",
+   "offline": "cloud_check"
+  },
+  {
+   "id": "assist_plan",
+   "area": "connect",
+   "class": "B",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "accountant"
+   ],
+   "limits": {
+    "per_day": 20
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": 4,
+   "status": "built",
+   "note": "a plan of several steps across services for a goal (chase what is owed, close the month): shown before it starts, each step still needs its own Confirm, it can be paused and carried on on any device",
+   "offline": "cloud_check"
+  },
+  {
+   "id": "morning_brief",
+   "area": "connect",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 5
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": 4,
+   "status": "built",
+   "note": "the morning brief from every service the person may see: yesterday's sales, payments confirmed, what is due today, drafts waiting and what needs a person; nothing is sent when there is nothing to say",
+   "offline": "cloud_check"
+  },
+  {
+   "id": "save_question",
+   "area": "connect",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "accountant"
+   ],
+   "limits": {
+    "per_day": 20
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": 4,
+   "status": "built",
+   "note": "save a question across services to be answered again daily or weekly; the answer is sent only to the person who saved it",
+   "offline": "cloud_check"
+  },
+  {
+   "id": "assist_usage",
+   "area": "connect",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "accountant",
+    "sales"
+   ],
+   "limits": {
+    "per_day": 200
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": 4,
+   "status": "built",
+   "note": "how many questions this month against the plan's number (no limit on Max); answers from the help topics never count",
+   "offline": "device"
   }
  ],
  "offline_rule": "Offline layer 2 (MASTER UPDATE 1.11; build section 3): every action says what it does without a network. device: changes only this device, done at once and recorded, synced later. queue: the person confirms now, it is sealed on the device and shown as queued, carried out when the network returns, then verified and told; never shown as done before that, and it expires if the device stays offline too long. cloud_check: needs the cloud's fresh identity check, so it waits. never: needs a provider, a partner or a person, so it is not offered offline (LynkAssist prepares the case to send later; the one exception, a card freeze, is queued and shown frozen only when the issuer confirms).",

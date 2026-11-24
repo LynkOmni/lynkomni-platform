@@ -227,6 +227,14 @@ def plan_limits():
     return out
 
 
+def assist_limits():
+    """LynkAssist's questions a month by tier, from billing FEATURES (None is no limit), for the usage meter."""
+    out, ent = {}, {}
+    for i, tier in enumerate(billing.FAMILIES["lynkassist"][2]):
+        ent.update(billing.FEATURES["lynkassist"][i]); out[tier] = ent.get("ai_questions")
+    return out
+
+
 def consent_links():
     """The links between services that need the business's consent (catalog/connections.v1.json), for the consent page."""
     with open(os.path.join(ROOT, "catalog", "connections.v1.json"), encoding="utf-8") as f:
@@ -366,6 +374,7 @@ def main(emulator):
         **(cards() if emulator == "vcard-card" else {}),
         **({"automations": automations(3), "taxBp": tax_rates(), "autoSystem": auto_system()} if emulator == "owner-web" else {}),
         **({"planLimits": plan_limits(), "consentLinks": consent_links()} if emulator in ("owner-web", "merchant-phone") else {}),
+        **({"assistLimits": assist_limits()} if emulator == "merchant-phone" else {}),
         **({"storefront": storefront_plans()} if emulator in ("account-site", "merchant-phone") else {}),
         **(business_app() if emulator == "merchant-phone" else {}),
         # LynkAttend, LynkQueue and LynkSurvey plan numbers (billing FAMILIES and FEATURES, locked), for every device that runs their engine

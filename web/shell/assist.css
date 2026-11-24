@@ -33,3 +33,8 @@
 .at-role { border: 0; padding: 0; margin: 0 0 8px; }
 .at-role legend { font: 700 13px/1.3 var(--font-body); color: var(--text-secondary); padding: 0; margin-block-end: 4px; }
 [data-ask] { touch-action: manipulation; }
+/* LynkAssist across services (CONNECT UPDATE 71.6) */
+.at-parts { margin: 6px 0 0; padding-inline-start: 18px; display: flex; flex-direction: column; gap: 4px; }
+.at-parts li { overflow-wrap: anywhere; }
+.at-kinds { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 6px; }
+.at-answer { display: flex; flex-direction: column; gap: 6px; margin-block-start: 6px; padding: 10px 12px; border-radius: 10px; background: var(--bg-surface); border: 1px solid var(--border-subtle); }
