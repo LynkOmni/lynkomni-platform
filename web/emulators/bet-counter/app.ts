@@ -12,7 +12,8 @@ import { designedState, panelShell, sampleAccount } from "../../../ts/src/device
 import type { Entry } from "../../../ts/src/shell.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
-import { deviceBanners, knowledgeFor, raiseLocal } from "../../../ts/src/devicekit.js";
+import { StaffLock, deviceBanners, knowledgeFor, raiseLocal, staffPicker } from "../../../ts/src/devicekit.js";
+import { pinPad } from "../../../ts/src/signin.js";
 import type { Line as Notice } from "../../../ts/src/notify.js";
 import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
 import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
@@ -23,20 +24,33 @@ import { betAdultAge, betCancelCheck, betCheckAnswer, betCommission, betExpected
 import type { BetCheckAnswer, BetOddsFormat, BetTicket } from "../../../ts/src/betting.js";
 
 declare const DATA: Build;
-type View = "home" | "games" | "slip" | "check" | "answer" | "refer" | "refs" | "shift" | "safer" | "storefront";
+type View = "lock" | "approve" | "home" | "games" | "slip" | "check" | "answer" | "refer" | "refs" | "shift" | "safer" | "storefront";
 type Pick = "home" | "draw" | "away";
 interface Sel { game: number; pick: Pick; odds: number }
 interface Placed { code: string; stake: number; odds: number[]; sels: Sel[]; win: number; state: UserState; result: "pending" | "won" | "lost"; paid: boolean; expires: number; at: number; method: string; operator: number }
 interface Referral { code: string; amount: number; way: string; step: string }
 let LINES: Notice[] = [];
+/** MASTER UPDATE section 3, as on every LynkPOS device: each person signs in with their own PIN, so every bet and payout is tied to a
+ *  person (samples; a real device keeps only a slow salted hash). 8642 is the cashier's sample duress PIN: the quiet limited view opens
+ *  (taking bets for cash only) and the alert leaves silently by the first path out. Wrong PINs make the person wait, then lock that PIN;
+ *  nothing is ever deleted. A manager or the owner, never the person serving, approves big payouts and cancelling with their own PIN. */
+const STAFF = new StaffLock([
+  { person: "c1", name: "Aline", role: "cashier", pin: "1234", duress: "8642" },
+  { person: "m1", name: "Eric", role: "manager", pin: "2580" },
+  { person: "o1", name: "Grace", role: "owner", pin: "4719" },
+]);
+const IDLE_LOCK_MS = 120_000;
+interface Approval { purpose: "second" | "cancel"; person: string | null; back: View }
 const S: PanelState & { view: View; sels: Sel[]; stakeUnits: number; method: "cash" | "mobile_money"; age: boolean; bet: Placed | null; operator: number; fmt: BetOddsFormat;
   ticket: (BetTicket & { code: string }) | null; answer: BetCheckAnswer | null; lock: UserState | null; handed: boolean; second: boolean; photos: { ticket: boolean; id: boolean }; way: string;
   placed: Placed[]; refs: Referral[]; disputes: string[]; stakes: number[]; payouts: number[]; scans: Record<string, number>; drawerOpen: boolean; ticks: number;
-  offlineSlips: boolean; cancelManager: boolean; cancelled: string | null; sfOn: boolean; note: string | null } = {
+  offlineSlips: boolean; cancelManager: boolean; cancelled: string | null; sfOn: boolean; note: string | null;
+  who: string; picking: boolean; pin: string; limited: boolean; idle: boolean; lastInput: number; pictures: boolean; keySound: boolean; approval: Approval | null; approvedBy: string } = {
   online: true, fail: false, type: "agent_point", tier: "plus", country: "", realUser: false, practice: false, dark: false, lang: "en",
-  view: "home", sels: [], stakeUnits: 2, method: "cash", age: false, bet: null, operator: 1, fmt: "decimal", ticket: null, answer: null, lock: null, handed: false, second: false,
+  view: "lock", sels: [], stakeUnits: 2, method: "cash", age: false, bet: null, operator: 1, fmt: "decimal", ticket: null, answer: null, lock: null, handed: false, second: false,
   photos: { ticket: false, id: false }, way: "mobile_money", placed: [], refs: [], disputes: [], stakes: [], payouts: [], scans: {}, drawerOpen: false, ticks: 0,
-  offlineSlips: true, cancelManager: false, cancelled: null, sfOn: false, note: null };
+  offlineSlips: true, cancelManager: false, cancelled: null, sfOn: false, note: null,
+  who: "c1", picking: false, pin: "", limited: false, idle: false, lastInput: Date.now(), pictures: false, keySound: true, approval: null, approvedBy: "" };
 const W = new Words(DATA.i18n, () => S.lang); const t = W.t;
 const C = new Country(DATA, () => S.country, () => S.lang);
 const $ = <E extends HTMLElement>(sel: string): E => document.querySelector(sel) as E;
@@ -73,7 +87,7 @@ const DSH = panelShell({
   entries: (): Entry[] => [{ id: "bet", kind: "action", title: t("bt_place"), act: "go:games" }, { id: "check", kind: "action", title: t("bt_check"), act: "go:check" },
     { id: "refs", kind: "action", title: t("bt_refs"), act: "go:refs" }, { id: "shift", kind: "action", title: t("bt_shift"), act: "go:shift" }, { id: "safer", kind: "action", title: t("bt_safer"), act: "go:safer" },
     { id: "storefront", kind: "action", title: t("bt_storefront"), act: "go:storefront" }],
-  account: () => sampleAccount(t, "cashier", ["cashier", "manager", "owner"], t("bt_shop"), S.dark ? "dark" : "light", DATA.i18n[S.lang]?.native ?? S.lang, C.pack().sample ? t("sample_country") : C.pack().name),
+  account: () => sampleAccount(t, STAFF.find(S.who)?.role ?? "cashier", ["cashier", "manager", "owner"], t("bt_shop"), S.dark ? "dark" : "light", DATA.i18n[S.lang]?.native ?? S.lang, C.pack().sample ? t("sample_country") : C.pack().name),
   run: (a) => { if (a.startsWith("ntf:")) { const nid = a.split(":")[2]; LINES.forEach((l) => { if (l.nid === nid || a === "ntf:allread") { l.read = true; l.acknowledged = true; } }); return; } act(a); },
   redraw: () => draw(), firstRun: true,
   lines: () => LINES, knowledge: () => knowledgeFor(DATA.i18n, S.lang), crumbLabel: (p) => t(p === "/" ? "bt_shop" : p === "/sell" ? "sell" : p === "/external" ? "bt_storefront" : "bt_title"),
@@ -87,9 +101,15 @@ const choices = (label: string, items: readonly string[], cur: string, act_: str
 /** Offline, a bet is only a queued slip, and only where the operator allows it. */
 const canTakeBets = (): boolean => signed() && (S.online || S.offlineSlips);
 
+/** Who is serving, with Lock the counter (also from the Back key on the lock screen's way out). */
+function whoRow(): string {
+  const me = STAFF.find(S.who);
+  return `<div class="bwho"><span>${icon("ui-user")}<span>${esc(me?.name ?? "")} · ${esc(t(`role_${me?.role ?? "cashier"}`))}</span></span><button type="button" class="ghost" data-act="lockcounter">${icon("ui-lock")} ${esc(t("bt_lock_counter"))}</button></div>`;
+}
 function home(): string {
+  if (S.limited) return `${whoRow()}<div class="btiles"><button type="button" class="btile" data-act="go:games"${canTakeBets() ? "" : " disabled"}>${icon("lit-tickets")}<strong>${esc(t("bt_place"))}</strong></button></div><p class="sub">${esc(t("bt_never_credit"))}</p>`;
   const tile = (go: View, ic: string, label: string, off: boolean): string => `<button type="button" class="btile" data-act="go:${go}"${off ? ` disabled data-why="${esc(t("bt_needs_net"))}"` : ""}>${icon(ic)}<strong>${esc(t(label))}</strong></button>`;
-  return `<div class="bop"><span>${esc(t("bt_operator", { name: operatorName() }))}</span><span>${esc(t("cash_in_drawer"))} <strong>${esc(money(drawer()))}</strong></span></div>
+  return `${whoRow()}<div class="bop"><span>${esc(t("bt_operator", { name: operatorName() }))}</span><span>${esc(t("cash_in_drawer"))} <strong>${esc(money(drawer()))}</strong></span></div>
     ${choices(t("bt_operator_pick"), ["1", "2"], String(S.operator), "op", (x) => operatorName(Number(x)))}
     ${S.online ? "" : `<p class="bwarn">${esc(t(S.offlineSlips ? "bt_offline_mode" : "bt_needs_net"))}</p>`}
     <div class="btiles">${tile("games", "lit-tickets", "bt_place", !canTakeBets())}${tile("check", "ui-qr", "bt_check", false)}${tile("refs", "ui-doc", "bt_refs", false)}${tile("shift", "ui-float", "bt_shift", false)}${tile("safer", "ui-info", "bt_safer", false)}${tile("storefront", "ui-globe", "bt_storefront", false)}</div>
@@ -121,7 +141,7 @@ function placedView(b: Placed): string {
   const body = b.state === "confirmed" || b.state === "queued" ? `${b.state === "confirmed" ? `<p class="bbig" dir="ltr">${esc(b.code)}</p>` : ""}${rows([[t("bt_stake"), money(b.stake)], [t("bt_possible"), money(b.win)]])}
       <p class="bnote">${esc(t(b.method === "cash" ? "bt_take" : "bt_take_momo", { amount: money(b.stake) }))}</p>` : "";
   const why = canCancel === "offline" ? "bt_payout_offline" : canCancel === "manager_needed" ? "bt_cancel_manager" : "bt_cancel_no";
-  const cancel = b.state === "confirmed" && S.cancelled !== b.code ? `${toggle("cancelmgr", S.cancelManager, t("bt_cancel_manager"))}
+  const cancel = b.state === "confirmed" && S.cancelled !== b.code ? `${S.cancelManager ? `<p class="bgood">${icon("ui-check")} ${esc(t("bt_approved_by", { name: S.approvedBy }))}</p>` : `<button type="button" class="ghost" data-act="approve:cancel"${S.online ? "" : " disabled"}>${icon("ui-lock")} ${esc(t("bt_cancel_manager"))}</button>`}
       <button type="button" class="ghost" data-act="cancel" data-wait${canCancel === "ok" ? "" : ` disabled data-why="${esc(t(why))}"`}>${esc(t("bt_cancel"))}</button>
       <button type="button" class="ghost" data-act="reprint">${esc(t("bt_reprint"))}</button>` : S.cancelled === b.code ? `<p class="bwarn">${esc(t("bt_cancelled", { amount: money(b.stake) }))}</p>` : "";
   return bar(t("bt_slip")) + head + body + cancel + `<div class="bactions"><button type="button" class="primary" data-act="newbet"${b.state === "sent" ? " disabled" : ""}>${esc(t("bt_new"))}</button></div>`;
@@ -153,7 +173,7 @@ function answerView(): string {
     const ready = S.online && (!needSecond || S.second) && S.lock !== "sent";
     const btn = S.handed ? `<p class="bgood">${esc(t("bt_paid"))}</p><div class="bactions"><button type="button" class="primary" data-act="go:check">${esc(t("bt_next_ticket"))}</button></div>`
       : betMayHandOverCash(S.lock ?? "") ? `<div class="bactions"><button type="button" class="primary" data-act="handover">${esc(t("bt_hand", { amount: amt }))}</button></div>`
-      : `${needSecond ? `<p class="sub">${esc(t("bt_second_needed", { amount: money(OP.secondFrom()) }))}</p>${toggle("second", S.second, t("bt_second"))}` : ""}
+      : `${needSecond ? `<p class="sub">${esc(t("bt_second_needed", { amount: money(OP.secondFrom()) }))}</p>${S.second ? `<p class="bgood">${icon("ui-check")} ${esc(t("bt_approved_by", { name: S.approvedBy }))}</p>` : `<button type="button" class="ghost" data-act="approve:second"${S.online ? "" : " disabled"}>${icon("ui-lock")} ${esc(t("bt_second"))}</button>`}` : ""}
         ${S.online ? "" : `<p class="bwarn">${esc(t("bt_payout_offline"))}</p>`}
         <div class="bactions"><button type="button" class="primary" data-act="lock" data-wait${ready ? "" : ` disabled data-why="${esc(t(S.online ? "bt_second" : "bt_payout_offline"))}"`}>${esc(t("bt_lock"))}</button></div>`;
     return bar(t("bt_check"), "check") + head + `<p class="bgood">${esc(t("bt_a_pay", { amount: amt }))}</p><p class="bbig">${esc(amt)}</p><p class="sub">${esc(t("bt_locked_note"))}</p>${lockLine}${btn}`;
@@ -196,8 +216,32 @@ function storefrontView(): string {
   return bar(t("bt_storefront")) + `<p class="sub">${esc(t("bt_sf_note"))}</p>${toggle("sf", S.sfOn, t("bt_sf_show"))}
     <ul class="brows">${items.map((k) => `<li><span>${esc(t(k))}</span><span>${S.sfOn ? chip("confirmed") : ""}</span></li>`).join("")}</ul>`;
 }
+/** The lock screen: who is using the counter, then their own PIN on the shared pad (pictures, a tone per key, waits and lock). */
+function lockView(): string {
+  if (S.picking) return `<div class="block">${staffPicker(STAFF.staff, t, (id) => icon(id))}</div>`;
+  const me = STAFF.find(S.who), waitLeft = Math.max(0, Math.ceil(((STAFF.waitUntil.get(S.who) ?? 0) - Date.now()) / 1000));
+  return `<div class="block"><p class="who">${icon("ui-user")}<span>${esc(me?.name ?? "")} · ${esc(t(`role_${me?.role ?? "cashier"}`))}</span><button type="button" class="link" data-act="staff:change">${esc(t("dk_change"))}</button></p>
+    ${S.idle ? `<p class="sub" role="status">${esc(t("locked_idle"))}</p>` : ""}
+    ${STAFF.hard.has(S.who) ? `<p class="bwarn" role="alert">${esc(t("dk_hard_locked"))}</p>` : ""}
+    ${pad(me?.name ?? "", STAFF.wrong.get(S.who) ?? 0, waitLeft)}<p class="sub">${esc(t("dk_own_pin"))}</p><p class="hint">${esc(t("bt_pin_hint"))}</p></div>`;
+}
+const pad = (name: string, wrong: number, waitLeft: number): string =>
+  pinPad({ entered: S.pin.length, length: Math.max(4, S.pin.length), wrong, waitLeft, pictures: S.pictures, sound: S.keySound, title: t("dk_pin_for", { name }) }, t, (id) => icon(id));
+/** A manager or the owner, never the person serving, approves with their own PIN on this counter. */
+function approveView(): string {
+  const ap = S.approval; if (!ap) return home();
+  const title = t(ap.purpose === "second" ? "bt_second" : "bt_cancel_manager");
+  if (!ap.person) {
+    const who = STAFF.staff.filter((x) => (x.role === "manager" || x.role === "owner") && x.person !== S.who);
+    return bar(title, ap.back) + `<p class="sub">${esc(t("bt_approver"))}</p>${staffPicker(who, t, (id) => icon(id))}`;
+  }
+  const m = STAFF.find(ap.person), waitLeft = Math.max(0, Math.ceil(((STAFF.waitUntil.get(ap.person) ?? 0) - Date.now()) / 1000));
+  return bar(title, ap.back) + pad(m?.name ?? "", STAFF.wrong.get(ap.person) ?? 0, waitLeft) + (STAFF.hard.has(ap.person) ? `<p class="bwarn" role="alert">${esc(t("dk_hard_locked"))}</p>` : "");
+}
 function screen(): string {
   const head = `<header class="bhead"><h1>${esc(t("bt_title"))}</h1>${DSH.bar()}</header>${DSH.crumbs(true)}${deviceBanners(LINES, t, (id) => icon(id))}`;
+  if (S.view === "lock") return `<header class="bhead"><h1>${esc(t("bt_title"))}</h1></header>${lockView()}`;
+  if (S.view === "approve") return head + approveView();
   if (!signed() && S.view !== "safer") return head + designedState("coming_soon", t, DATA.statePictures, S.dark, { label: t("bt_safer"), act: "go:safer" }) + `<p class="sub">${esc(t("bt_coming"))}</p>`;
   const v = S.view;
   const body = v === "games" ? games() : v === "slip" ? slip() : v === "check" ? checkView() : v === "answer" ? answerView() : v === "refer" ? referView() : v === "refs" ? refsView()
@@ -257,7 +301,7 @@ function scanned(tk: (BetTicket & { code: string }) | null): void {
   const ticket = tk ?? (last ? { code: last.code, known: true, result: last.result, paid: last.paid, payable: last.result === "won" ? last.win : 0, expires: last.expires } : null);
   if (!ticket) { S.view = "check"; draw(); return; }
   S.scans[ticket.code] = (S.scans[ticket.code] ?? 0) + 1;
-  S.ticket = ticket; S.answer = betCheckAnswer(ticket, today(), OP.shopMax(), drawer()); S.lock = null; S.handed = false; S.second = false; S.photos = { ticket: false, id: false }; S.view = "answer";
+  S.ticket = ticket; S.answer = betCheckAnswer(ticket, today(), OP.shopMax(), drawer()); S.lock = null; S.handed = false; S.second = false; S.approvedBy = ""; S.photos = { ticket: false, id: false }; S.view = "answer";
   LOG.emit("BetTicketChecked", { ticket_ref: ticket.code, answer: S.answer }, "device", S.online ? "sent" : "queued");
   draw();
 }
@@ -319,7 +363,12 @@ const SAMPLES: Record<string, () => BetTicket & { code: string }> = {
 function panel(): void {
   $("#panel").innerHTML = panelHtml(["online", "fail", "country", "real", "dark", "lang"], S, W, C, { help: t("bt_try") }) + DEV.control();
   $("#panel").querySelector("h3")?.insertAdjacentHTML("afterend", `<label><input type="checkbox" data-ctl="slips" ${S.offlineSlips ? "checked" : ""}> <span>${esc(t("bt_offline_slips"))}</span></label>`);
-  stateButtons($("#stateButtons"), ["home", "games", "slip", "confirmed", "offline_slip", ...Object.keys(SAMPLES), "refer", "referrals", "shift", "safer", "storefront", "games_end_win", "games_end_lost"], (k) => {
+  stateButtons($("#stateButtons"), ["lock_screen", "pick_staff", "approve_second", "duress", "home", "games", "slip", "confirmed", "offline_slip", ...Object.keys(SAMPLES), "refer", "referrals", "shift", "safer", "storefront", "games_end_win", "games_end_lost"], (k) => {
+    if (k === "lock_screen" || k === "pick_staff") { lockCounter(false); if (k === "pick_staff") S.picking = true; panel(); draw(); return; }
+    if (S.view === "lock" || S.view === "approve") { S.view = "home"; S.who = "c1"; S.picking = false; S.limited = false; S.approval = null; S.pin = ""; S.lastInput = Date.now(); }
+    if (k === "duress") { S.limited = true; S.method = "cash"; S.view = "home"; panel(); draw(); return; }
+    if (k === "approve_second") { S.online = true; scanned(SAMPLES["win_second"]!()); act("approve:second"); panel(); return; }
+    S.limited = false;
     if (k in SAMPLES) { S.online = true; scanned(SAMPLES[k]!()); panel(); return; }
     if (k === "games" || k === "home" || k === "shift" || k === "safer" || k === "storefront") S.view = k;
     if (k === "slip" || k === "confirmed" || k === "offline_slip") {
@@ -334,9 +383,50 @@ function panel(): void {
   });
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
 }
+/** Sign in, lock, change person and the manager's approval: the only acts on the lock screen and the approval pad. */
+function signInAct(k: string, x: string, y: string): boolean {
+  const onPad = S.view === "lock" || (S.view === "approve" && !!S.approval?.person);
+  if (k === "staff" && x === "change" && S.view === "lock") { S.picking = true; S.pin = ""; draw(); return true; }
+  if (k === "staff" && x === "pick") {
+    if (S.view === "approve" && S.approval) S.approval.person = y; else { S.who = y; S.picking = false; }
+    S.pin = ""; draw(); return true;
+  }
+  if (k !== "pin" || !onPad) return S.view === "lock";
+  if (x === "pictures") { S.pictures = !S.pictures; draw(); return true; }
+  if (x === "sound") { S.keySound = !S.keySound; draw(); return true; }
+  if (x === "clear") { S.pin = S.pin.slice(0, -1); draw(); return true; }
+  if (/^\d$/.test(x)) { if (S.pin.length < 8) S.pin += x; draw(); return true; }
+  if (x !== "ok" || !S.pin) return true;
+  const pin = S.pin; S.pin = "";
+  if (S.view === "lock") {
+    const r = STAFF.signIn(S.who, pin, Date.now());
+    if (r.ok) {
+      S.limited = r.view === "limited"; S.idle = false; S.view = "home"; S.lastInput = Date.now();
+      if (S.limited) { S.method = "cash"; const n = STAFF.pathsOut(S.online ? ["internet"] : []); for (let i = 0; i < n; i++) LOG.emit("DuressSignalled", { device_id: "bet-counter", person: S.who, path: "internet", at: Date.now() }, "server", "accepted"); }
+    } else if (r.reason === "hard_locked") { LOG.emit("DeviceHardLocked", { device: "bet-counter" }); LINES = raiseLocal(LINES, "device_hard_locked", t("dk_hard_locked"), Date.now()); }
+    draw(); return true;
+  }
+  const ap = S.approval; if (!ap?.person) return true;
+  const m = STAFF.find(ap.person), r = STAFF.signIn(ap.person, pin, Date.now());
+  if (r.ok && r.view === "full" && m && (m.role === "manager" || m.role === "owner") && m.person !== S.who) {
+    S.approvedBy = m.name; if (ap.purpose === "second") S.second = true; else S.cancelManager = true;
+    S.view = ap.back; S.approval = null;
+  }
+  draw(); return true;
+}
+function lockCounter(idle: boolean): void {
+  S.view = "lock"; S.pin = ""; S.picking = false; S.limited = false; S.idle = idle; S.approval = null; S.second = false; S.cancelManager = false; S.drawerOpen = false;
+  draw();
+}
 function act(a: string): void {
   const [k = "", x = "", y = ""] = a.split(":");
-  if (k === "go") { S.view = (["home", "games", "slip", "check", "answer", "refer", "refs", "shift", "safer", "storefront"] as View[]).includes(x as View) ? (x as View) : "home"; if (S.view === "slip" && S.bet?.state !== "sent") S.bet = null; S.note = null; draw(); return; }
+  S.lastInput = Date.now();
+  if (signInAct(k, x, y)) return;
+  if (k === "lockcounter") { lockCounter(false); return; }
+  if (k === "approve") { if ((x === "second" || x === "cancel") && S.online) { S.approval = { purpose: x, person: null, back: S.view === "approve" ? "home" : S.view }; S.pin = ""; S.view = "approve"; draw(); } return; }
+  if (S.limited && k === "go" && x !== "games" && x !== "slip" && x !== "home") return;           // the quiet duress view only takes bets for cash
+  if (S.limited && k === "method") return;
+  if (k === "go") { S.approval = null; S.view = (["home", "games", "slip", "check", "answer", "refer", "refs", "shift", "safer", "storefront"] as View[]).includes(x as View) ? (x as View) : "home"; if (S.view === "slip" && S.bet?.state !== "sent") S.bet = null; S.note = null; draw(); return; }
   if (k === "pick") { const g = GAMES.find((q) => q.n === Number(x)), p = y as Pick; if (!g) return; const had = S.sels.find((s) => s.game === g.n); S.sels = S.sels.filter((s) => s.game !== g.n); if (!had || had.pick !== p) S.sels.push({ game: g.n, pick: p, odds: g.odds[p] }); S.sels.sort((m, n) => m.game - n.game); draw(); return; }
   if (k === "booking") { S.sels = [{ game: 4, pick: "home", odds: GAMES[3]!.odds.home }, { game: 5, pick: "draw", odds: GAMES[4]!.odds.draw }]; S.note = t("bt_booking_loaded", { code: "B7K2Q9" }); draw(); return; }
   if (k === "fmt") { if ((FORMATS as readonly string[]).includes(x)) S.fmt = x as BetOddsFormat; draw(); return; }
@@ -345,12 +435,10 @@ function act(a: string): void {
   if (k === "method") { S.method = x === "mobile_money" ? "mobile_money" : "cash"; draw(); return; }
   if (k === "age") { S.age = !S.age; draw(); return; }
   if (k === "send") { send(); return; }
-  if (k === "newbet") { S.bet = null; S.sels = []; S.age = false; S.drawerOpen = false; S.cancelManager = false; S.view = "games"; draw(); return; }
-  if (k === "cancelmgr") { S.cancelManager = !S.cancelManager; draw(); return; }
+  if (k === "newbet") { S.bet = null; S.sels = []; S.age = false; S.drawerOpen = false; S.cancelManager = false; S.approvedBy = ""; S.view = "games"; draw(); return; }
   if (k === "cancel") { cancelBet(); return; }
   if (k === "reprint") { if (S.bet) ticketPaper(S.bet, true); return; }
   if (k === "scan") { scanned(null); return; }
-  if (k === "second") { S.second = !S.second; draw(); return; }
   if (k === "lock") { lock(); return; }
   if (k === "handover") { handover(); return; }
   if (k === "dispute") { const tk = S.ticket; if (tk) { S.disputes.push(tk.code); LOG.emit("BetDisputeOpened", { dispute_id: newId(), ticket_ref: tk.code }, "device", S.online ? "sent" : "queued"); } draw(); return; }
@@ -372,7 +460,15 @@ function main(): void {
     act(b.dataset["act"] ?? "");
   });
   document.addEventListener("input", (e) => { DSH.input(e.target as HTMLInputElement); });
-  document.addEventListener("keydown", (e) => { if (DSH.key(e)) return; DEV.key(e); });
+  document.addEventListener("keydown", (e) => {
+    S.lastInput = Date.now();
+    const onPad = (S.view === "lock" && !S.picking) || (S.view === "approve" && !!S.approval?.person);
+    if (onPad && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      const k = /^\d$/.test(e.key) ? e.key : e.key === "Backspace" ? "clear" : e.key === "Enter" && S.pin ? "ok" : "";
+      if (k) { e.preventDefault(); act(`pin:${k}`); return; }
+    }
+    if (DSH.key(e)) return; DEV.key(e);
+  });
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
   $("#panel").addEventListener("change", (e) => {
     const el = e.target as HTMLInputElement;
@@ -388,6 +484,8 @@ function main(): void {
     if (S.online && pendingSlips.length) { for (const q of pendingSlips.splice(0)) answerBet(q.b, q.id); changed = true; }
     // the operator works through each referral (sandbox): checking, approved, paid; only its answers move a step
     if (S.ticks % 5 === 0) for (const r of S.refs) { const n = betReferNext(r.step); if (n && S.online && !S.fail) { r.step = n; changed = true; LOG.emit("BetReferralAnswered", { referral_id: r.code, step: n }, "server"); } }
+    if (S.view !== "lock" && S.lock !== "sent" && Date.now() - S.lastInput > IDLE_LOCK_MS) { lockCounter(true); return; }   // two minutes without use
+    if ((S.view === "lock" || S.view === "approve") && S.ticks % 3 === 0 && [...STAFF.waitUntil.values()].some((u) => u > Date.now() - 1500)) changed = true;
     if (changed) draw();
   }, 400);
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 460);

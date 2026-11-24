@@ -2,6 +2,12 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.96.3 (2026-11-24)
+The LynkBet betting counter signs staff in with a PIN (owner report):
+- The counter now opens on the staff PIN lock, like every LynkPOS device: Who is using this device?, each person's own PIN on the shared pad (pictures and a tone per key), a wait after wrong PINs and a locked PIN after ten (nothing is ever deleted; the owner or a manager resets it), the quiet duress view that only takes bets for cash while the alert leaves silently, Lock the counter, and a lock after two minutes without use. Every bet and payout is tied to the person serving.
+- A big payout and cancelling a bet now need a manager or the owner to enter their own PIN on the counter (never the person serving), instead of a tick box.
+- In all 38 languages; the counter's size limit is raised to 1270 KB with the reason written down.
+
 ## v0.96.2 (2026-11-24)
 LynkBet's own product mark (brand artwork 1.11.0):
 - LynkBet now shows its own mark everywhere instead of LynkPOS's: three choices in a row with the middle one picked, the picture every betting platform shares. It was released in lynkomni-icons 1.11.0, brought in by the brand-sync run and named in catalog/names.v1.json. A draft until a human designer reviews the full set.
