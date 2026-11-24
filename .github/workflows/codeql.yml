@@ -1,0 +1,44 @@
+name: codeql
+# Our own code scan (owner, 2026-11-24): the same six languages as GitHub's automatic setup, which must stay switched off
+# (the two cannot run together). Four languages are read without building them (build-mode none). Kotlin and Swift need a
+# real build, so they are built by hand as CI and ios-macos do, with the quick "overlay" database switched off for them
+# (CODEQL_OVERLAY_DATABASE_MODE none, read by the action): it works only without a build, and asking for it warns.
+on:
+  push: {branches: [main]}
+  pull_request:
+  schedule: [{cron: "33 4 * * 2"}]   # weekly, so new CodeQL rules also check code that has not changed
+concurrency:
+  group: codeql-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+permissions: {contents: read}
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ${{ matrix.language == 'swift' && 'macos-latest' || 'ubuntu-24.04' }}
+    timeout-minutes: 60
+    permissions: {contents: read, security-events: write, actions: read, packages: read}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {language: actions, build-mode: none}
+          - {language: java-kotlin, build-mode: manual}
+          - {language: javascript-typescript, build-mode: none}
+          - {language: python, build-mode: none}
+          - {language: rust, build-mode: none}
+          - {language: swift, build-mode: manual}
+    env:
+      CODEQL_OVERLAY_DATABASE_MODE: ${{ matrix.build-mode == 'manual' && 'none' || '' }}
+    steps:
+      - uses: actions/checkout@v7
+      - if: matrix.language == 'java-kotlin'
+        uses: actions/setup-java@v6
+        with: {distribution: temurin, java-version: "21"}
+      - uses: github/codeql-action/init@v4
+        with: {languages: "${{ matrix.language }}", build-mode: "${{ matrix.build-mode }}"}
+      - if: matrix.language == 'java-kotlin'
+        run: cd android && gradle --no-daemon --no-build-cache :core:compileKotlin :core:compileTestKotlin
+      - if: matrix.language == 'swift'
+        run: cd ios && swift build
+      - uses: github/codeql-action/analyze@v4
+        with: {category: "/language:${{ matrix.language }}"}
