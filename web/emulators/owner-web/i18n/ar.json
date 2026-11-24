@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "ar",
  "native": "العربية",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "موافقة",
+  "au_approve_all": "الموافقة على الكل",
+  "au_digest": "اجمعها في ملخص يومي واحد",
+  "au_escalate": "لم تتم الموافقة خلال {hours} ساعة؟ ينتقل إلى الشخص التالي.",
+  "au_limit": "بحد أقصى {n} في اليوم",
+  "au_owner": "المسؤول عنه: {name}",
+  "au_paused": "متوقف مؤقتًا: عمل {name} اليوم أكثر بكثير من المعتاد. يبقى متوقفًا حتى تعيد تشغيله.",
+  "au_resume": "إعادة التشغيل",
+  "au_role_manager": "المدير",
+  "au_role_owner": "المالك",
+  "au_sample": "مثال",
+  "au_settings": "الإعدادات",
+  "au_step": "الخطوة {n} من {total}: {role}",
+  "au_try": "جرّبه على آخر {days} يومًا",
+  "au_waiting": "بانتظار الموافقة",
+  "au_would": "كان سيبدأ {n} مرة. لم يتغير شيء.",
   "title": "عرض المالك على الويب في حاسوب محمول"
  }
 }

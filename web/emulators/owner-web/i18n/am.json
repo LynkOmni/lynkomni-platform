@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "am",
  "native": "አማርኛ",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "አጽድቅ",
+  "au_approve_all": "ሁሉንም አጽድቅ",
+  "au_digest": "በአንድ ዕለታዊ ማጠቃለያ ሰብስብ",
+  "au_escalate": "በ{hours} ሰዓት ውስጥ አልጸደቀም? ወደሚቀጥለው ሰው ይሄዳል።",
+  "au_limit": "በቀን ቢበዛ {n}",
+  "au_owner": "ኃላፊ፦ {name}",
+  "au_paused": "ቆሟል፦ {name} ዛሬ ከተለመደው በጣም በላይ ሰርቷል። እንደገና እስኪያበሩት ድረስ ጠፍቶ ይቆያል።",
+  "au_resume": "እንደገና አብራ",
+  "au_role_manager": "ሥራ አስኪያጅ",
+  "au_role_owner": "ባለቤት",
+  "au_sample": "ናሙና",
+  "au_settings": "ቅንብሮች",
+  "au_step": "ደረጃ {n} ከ{total}፦ {role}",
+  "au_try": "ባለፉት {days} ቀናት ላይ ሞክር",
+  "au_waiting": "ፈቃድ በመጠበቅ ላይ",
+  "au_would": "{n} ጊዜ ይጀምር ነበር። ምንም አልተለወጠም።",
   "title": "የባለቤቱ የድር እይታ በላፕቶፕ ላይ"
  }
 }

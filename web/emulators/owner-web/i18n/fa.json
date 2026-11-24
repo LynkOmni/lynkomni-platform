@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "fa",
  "native": "فارسی",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "تأیید",
+  "au_approve_all": "تأیید همه",
+  "au_digest": "جمع کردن در یک خلاصهٔ روزانه",
+  "au_escalate": "تا {hours} ساعت تأیید نشد؟ به نفر بعدی می‌رود.",
+  "au_limit": "حداکثر {n} بار در روز",
+  "au_owner": "مسئول آن: {name}",
+  "au_paused": "متوقف شد: {name} امروز خیلی بیشتر از معمول اجرا شد. تا وقتی دوباره روشنش کنید خاموش می‌ماند.",
+  "au_resume": "روشن کردن دوباره",
+  "au_role_manager": "مدیر",
+  "au_role_owner": "مالک",
+  "au_sample": "نمونه",
+  "au_settings": "تنظیمات",
+  "au_step": "مرحلهٔ {n} از {total}: {role}",
+  "au_try": "آزمایش روی {days} روز گذشته",
+  "au_waiting": "در انتظار تأیید",
+  "au_would": "{n} بار شروع می‌شد. چیزی تغییر نکرد.",
   "title": "نمای وب مالک روی لپ‌تاپ"
  }
 }

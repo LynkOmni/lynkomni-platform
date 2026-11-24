@@ -215,6 +215,13 @@ def entitlement(family, tier):
     return out
 
 
+def auto_system():
+    """The numbers of the automation system the owner sees (catalog/automations.v1.json "system", CONNECT UPDATE 71.2)."""
+    with open(os.path.join(ROOT, "catalog", "automations.v1.json"), encoding="utf-8") as f:
+        sy = json.load(f)["system"]
+    return {"days": sy["try_on_past"]["days"], "maxPerDay": sy["limits"]["max_per_day"], "afterHours": sy["escalation"]["after_hours"]}
+
+
 def automations(section):
     """The automations of a build section as the owner's control panel lists them (catalog/automations.v1.json is the register)."""
     with open(os.path.join(ROOT, "catalog", "automations.v1.json"), encoding="utf-8") as f:
@@ -339,7 +346,7 @@ def main(emulator):
         "entitlements": {tier: entitlement("lynkpos", tier) for tier in billing.FAMILIES["lynkpos"][2]}, "checkout": {tier: entitlement("lynkcheckout", tier) for tier in billing.FAMILIES["lynkcheckout"][2]},
         "fx": {k: float(v) for k, v in USD_RATES.items()},
         **(cards() if emulator == "vcard-card" else {}),
-        **({"automations": automations(3), "taxBp": tax_rates()} if emulator == "owner-web" else {}),
+        **({"automations": automations(3), "taxBp": tax_rates(), "autoSystem": auto_system()} if emulator == "owner-web" else {}),
         **({"storefront": storefront_plans()} if emulator in ("account-site", "merchant-phone") else {}),
         **(business_app() if emulator == "merchant-phone" else {}),
         # LynkAttend, LynkQueue and LynkSurvey plan numbers (billing FAMILIES and FEATURES, locked), for every device that runs their engine

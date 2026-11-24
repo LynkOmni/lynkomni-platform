@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "Onayla",
+  "au_approve_all": "Tümünü onayla",
+  "au_digest": "Tek bir günlük özette topla",
+  "au_escalate": "{hours} saat içinde onaylanmadı mı? Sıradaki kişiye gider.",
+  "au_limit": "Günde en fazla {n}",
+  "au_owner": "Sorumlusu: {name}",
+  "au_paused": "Duraklatıldı: {name} bugün her zamankinden çok daha fazla çalıştı. Siz yeniden açana kadar kapalı kalır.",
+  "au_resume": "Yeniden aç",
+  "au_role_manager": "Yönetici",
+  "au_role_owner": "Sahip",
+  "au_sample": "Örnek",
+  "au_settings": "Ayarlar",
+  "au_step": "Adım {n}/{total}: {role}",
+  "au_try": "Son {days} günde dene",
+  "au_waiting": "Onay bekliyor",
+  "au_would": "{n} kez başlardı. Hiçbir şey değişmedi.",
   "title": "Dizüstü bilgisayarda sahibin web görünümü"
  }
 }

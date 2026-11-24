@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "Duyệt",
+  "au_approve_all": "Duyệt tất cả",
+  "au_digest": "Gom vào một bản tóm tắt hằng ngày",
+  "au_escalate": "Chưa duyệt trong {hours} giờ? Chuyển cho người tiếp theo.",
+  "au_limit": "Tối đa {n} lần mỗi ngày",
+  "au_owner": "Người phụ trách: {name}",
+  "au_paused": "Đã tạm dừng: {name} hôm nay chạy nhiều hơn bình thường rất nhiều. Nó sẽ tắt cho đến khi bạn bật lại.",
+  "au_resume": "Bật lại",
+  "au_role_manager": "Quản lý",
+  "au_role_owner": "Chủ",
+  "au_sample": "Mẫu",
+  "au_settings": "Cài đặt",
+  "au_step": "Bước {n} trên {total}: {role}",
+  "au_try": "Thử trên {days} ngày gần nhất",
+  "au_waiting": "Đang chờ duyệt",
+  "au_would": "Sẽ khởi động {n} lần. Không có gì bị thay đổi.",
   "title": "Giao diện web của chủ trên máy tính xách tay"
  }
 }

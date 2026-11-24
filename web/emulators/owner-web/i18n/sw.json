@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "Idhinisha",
+  "au_approve_all": "Idhinisha zote",
+  "au_digest": "Kusanya kwenye muhtasari mmoja wa kila siku",
+  "au_escalate": "Haijaidhinishwa ndani ya saa {hours}? Inapelekwa kwa mtu anayefuata.",
+  "au_limit": "Isizidi {n} kwa siku",
+  "au_owner": "Anayeiwajibikia: {name}",
+  "au_paused": "Imesitishwa: {name} imeendeshwa zaidi ya kawaida leo. Itabaki imezimwa hadi uiwashe tena.",
+  "au_resume": "Washa tena",
+  "au_role_manager": "Meneja",
+  "au_role_owner": "Mmiliki",
+  "au_sample": "Mfano",
+  "au_settings": "Mipangilio",
+  "au_step": "Hatua {n} kati ya {total}: {role}",
+  "au_try": "Jaribu kwenye siku {days} zilizopita",
+  "au_waiting": "Inasubiri idhini",
+  "au_would": "Ingeanza mara {n}. Hakuna kilichobadilishwa.",
   "title": "Mwonekano wa wavuti wa mmiliki kwenye kompyuta mpakato"
  }
 }

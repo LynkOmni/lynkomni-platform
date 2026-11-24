@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "pt",
  "native": "Português",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "Aprovar",
+  "au_approve_all": "Aprovar tudo",
+  "au_digest": "Reunir num resumo diário",
+  "au_escalate": "Sem aprovação em {hours} horas? Passa para a próxima pessoa.",
+  "au_limit": "No máximo {n} por dia",
+  "au_owner": "Responsável: {name}",
+  "au_paused": "Em pausa: {name} rodou muito mais que o normal hoje. Fica desligada até você ligá-la de novo.",
+  "au_resume": "Ligar de novo",
+  "au_role_manager": "Gerente",
+  "au_role_owner": "Proprietário",
+  "au_sample": "Exemplo",
+  "au_settings": "Configurações",
+  "au_step": "Etapa {n} de {total}: {role}",
+  "au_try": "Testar nos últimos {days} dias",
+  "au_waiting": "Aguardando aprovação",
+  "au_would": "Teria iniciado {n} vezes. Nada foi alterado.",
   "title": "Vista web do dono num portátil"
  }
 }

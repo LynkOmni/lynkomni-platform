@@ -29,7 +29,7 @@ import type { TowerLook } from "../../../ts/src/trackview.js";
 const SIDE_W = 200;   // px of room the 220 px sidebar gives its brand place (side-menu: logo from 140 px)
 
 interface Auto { id: string; level: string; assist: string | null; trigger: string; min_tier: string | null; default: string }
-declare const DATA: Build & { automations: Auto[]; launcher: { family: string; name: string; app: string }[]; taxBp: Record<string, number> };
+declare const DATA: Build & { automations: Auto[]; autoSystem: { days: number; maxPerDay: number; afterHours: number }; launcher: { family: string; name: string; app: string }[]; taxBp: Record<string, number> };
 type Page = "today" | "sales" | "devices" | "staff" | "commissions" | "automations" | "sharing" | "tracking";
 const PAGES: Page[] = ["today", "sales", "devices", "staff", "commissions", "automations", "sharing", "tracking"];
 const PATH: Record<Page, string> = { today: "/business", sales: "/sell/sales", devices: "/business/devices", staff: "/business/team", commissions: "/business/agent-earnings", automations: "/business/automations", sharing: "/business/settings/data-sharing", tracking: "/tracking" };
@@ -74,9 +74,40 @@ function commissions(): string {
   return `<h1>${esc(t("agent_commissions"))}</h1><p>${esc(t("statement_matched", { n: m.matched }))} · ${esc(C.money(m.total))}</p><p class="warn">${esc(t("statement_mismatch", { n: m.mismatches.length }))}</p>
     <ul class="rows">${Object.entries(ours).map(([id, c]) => { const r = reported.find((x) => x.request_id === id); return `<li><span>${esc(t("partner_a"))} · ${esc(id.toUpperCase())}</span><span>${esc(C.money(c))}</span><span>${r ? esc(C.money(r.commission)) : "—"}</span>${r && r.commission === c ? chip("confirmed") : chip("failed")}</li>`; }).join("")}</ul><p class="note">${esc(t("float_read_live"))}</p>`;
 }
+// ---- the automation system (CONNECT UPDATE 71.2, section 4 row 71.9; services/flow.py is the rule): sample state, labelled Sample ----
+const SY = DATA.autoSystem;
+const DRAFT_IDS = DATA.automations.filter((a) => a.level === "draft").slice(0, 2).map((a) => a.id);
+const AU: { open: string; tried: Set<string>; digest: Set<string>; paused: string; drafts: { id: string; automation: string; step: number }[] } =
+  { open: "", tried: new Set(), digest: new Set(), paused: DATA.automations.find((a) => a.level === "auto")?.id ?? "", drafts: DRAFT_IDS.map((a, i) => ({ id: `d${i + 1}`, automation: a, step: 0 })) };
+const CHAIN = ["au_role_manager", "au_role_owner"];
+/** A steady sample count for "would have started", so the screen never shows a made-up number twice differently. */
+const wouldStart = (id: string): number => [...id].reduce((n, ch) => (n * 31 + ch.charCodeAt(0)) % 97, 7) + 3;
+function autoSystemHtml(): string {
+  const paused = AU.paused ? `<p class="notice au-paused" role="status">${icon("ui-warning")}<span>${esc(t("au_paused", { name: t(`auto_${key(AU.paused)}`) }))}</span><button class="secondary" data-act="au:resume">${esc(t("au_resume"))}</button></p>` : "";
+  const waiting = AU.drafts.filter((d) => d.step < CHAIN.length);
+  const drafts = waiting.length ? `<h2>${esc(t("au_waiting"))}</h2><p class="note">${esc(t("au_escalate", { hours: SY.afterHours }))}</p><ul class="rows">${waiting.map((d) => `<li><span>${esc(t(`auto_${key(d.automation)}`))} · ${esc(t("au_sample"))}</span><span>${esc(t("au_step", { n: d.step + 1, total: CHAIN.length, role: t(CHAIN[d.step]!) }))}</span><button class="primary" data-act="au:approve:${d.id}">${esc(t("au_approve"))}</button></li>`).join("")}</ul>${waiting.length > 1 ? `<p><button class="secondary" data-act="au:all">${esc(t("au_approve_all"))}</button></p>` : ""}` : "";
+  return paused + drafts;
+}
+function autoDetail(a: Auto): string {
+  if (AU.open !== a.id) return "";
+  const tried = AU.tried.has(a.id) ? `<p class="note" role="status">${esc(t("au_would", { n: wouldStart(a.id) }))} · ${esc(t("au_sample"))}</p>` : "";
+  const digest = a.level === "inform" ? `<label class="au-check"><input type="checkbox" data-act="au:digest:${a.id}"${AU.digest.has(a.id) ? " checked" : ""}> <span>${esc(t("au_digest"))}</span></label>` : "";
+  return `<div class="au-more"><p>${esc(t("au_owner", { name: t("au_role_owner") }))} · ${esc(t("au_limit", { n: SY.maxPerDay }))}</p><p><button class="link" data-act="au:try:${a.id}">${esc(t("au_try", { days: SY.days }))}</button></p>${tried}${digest}</div>`;
+}
+function auAct(a: string): boolean {
+  if (!a.startsWith("au:")) return false;
+  const [, k = "", v = ""] = a.split(":");
+  if (k === "resume") AU.paused = "";
+  if (k === "approve") { const d = AU.drafts.find((x) => x.id === v); if (d) d.step += 1; }
+  if (k === "all") AU.drafts.forEach((d) => { if (d.step < CHAIN.length) d.step += 1; });
+  if (k === "open") AU.open = AU.open === v ? "" : v;
+  if (k === "try") AU.tried.add(v);
+  if (k === "digest") { if (AU.digest.has(v)) AU.digest.delete(v); else AU.digest.add(v); }
+  return true;
+}
 function automations(): string {
-  return `<h1>${esc(t("automations"))}</h1><p class="note">${esc(t("automations_intro"))}</p><ul class="autos">${DATA.automations.map((a) => { const on = !S.off.has(a.id) && a.default === "on";
-    return `<li><div><strong>${esc(t(`auto_${key(a.id)}`))}</strong><span class="lvl">${esc(t(`level_${a.level}`))}${a.assist ? ` · ${esc(t("assist_suggestion"))}` : ""}</span></div><button class="switch${on ? " on" : ""}" role="switch" aria-checked="${on}" data-act="toggle:${a.id}">${esc(t(on ? "on" : "off"))}</button></li>`; }).join("")}</ul>
+  return `<h1>${esc(t("automations"))}</h1><p class="note">${esc(t("automations_intro"))}</p>${autoSystemHtml()}<ul class="autos">${DATA.automations.map((a) => { const on = !S.off.has(a.id) && a.default === "on" && AU.paused !== a.id;
+    return `<li><div><strong>${esc(t(`auto_${key(a.id)}`))}</strong><span class="lvl">${esc(t(`level_${a.level}`))}${a.assist ? ` · ${esc(t("assist_suggestion"))}` : ""}</span>${autoDetail(a)}</div><button class="secondary au-set" aria-expanded="${AU.open === a.id}" data-act="au:open:${a.id}">${esc(t("au_settings"))}</button><button class="switch${on ? " on" : ""}" role="switch" aria-checked="${on}" data-act="toggle:${a.id}">${esc(t(on ? "on" : "off"))}</button></li>`; }).join("")}</ul>
     <h2>${esc(t("automation_history"))}</h2><ul class="rows">${HISTORY.filter(([id]) => !S.off.has(id)).map(([id, min]) => `<li><span>${esc(t(`auto_${key(id)}`))}</span><span>${esc(t("ran_at", { when: C.clock(now - min * 60000) }))}</span><button class="link" data-act="why:${id}">${esc(t("why_happened"))}</button>${S.why === id ? `<p class="why">${esc(t(`why_${key(id)}`))}</p>` : ""}</li>`).join("")}</ul>`;
 }
 function sharing(): string {
@@ -194,7 +225,7 @@ function act(a: string): void {
   if (a.startsWith("ad:why:")) { AD.why = !AD.why; draw(); return; }
   if (a.startsWith("ad:report:")) { AD.reported = true; draw(); return; }
   const [k = "", v = ""] = a.split(":");
-  if (trkAct(a)) { draw(); return; }
+  if (trkAct(a) || auAct(a)) { draw(); return; }
   if (k === "rail") { const to = RAIL[v]; if (to) { if (to.startsWith("dsh:")) { if (DSH.act(to)) return; } else act(to); } return; }
   if (a === "launcher") { S.launcher = !S.launcher; draw(); return; }
   if (k === "office") { S.office = v; OV.reset(); draw(); return; }

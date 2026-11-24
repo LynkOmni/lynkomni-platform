@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "fr",
  "native": "Français",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "Approuver",
+  "au_approve_all": "Tout approuver",
+  "au_digest": "Regrouper dans un résumé quotidien",
+  "au_escalate": "Pas approuvé en {hours} heures ? Cela passe à la personne suivante.",
+  "au_limit": "Au plus {n} par jour",
+  "au_owner": "En charge : {name}",
+  "au_paused": "En pause : {name} a tourné bien plus que d'habitude aujourd'hui. Elle reste arrêtée jusqu'à ce que vous la relanciez.",
+  "au_resume": "Relancer",
+  "au_role_manager": "Responsable",
+  "au_role_owner": "Propriétaire",
+  "au_sample": "Exemple",
+  "au_settings": "Réglages",
+  "au_step": "Étape {n} sur {total} : {role}",
+  "au_try": "Essayer sur les {days} derniers jours",
+  "au_waiting": "En attente d'approbation",
+  "au_would": "Se serait lancée {n} fois. Rien n'a été modifié.",
   "title": "Vue web du propriétaire sur un ordinateur portable"
  }
 }
