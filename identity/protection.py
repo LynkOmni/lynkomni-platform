@@ -81,9 +81,9 @@ class Protection:
 
     def confirm_recovery_code(self, person, typed, now=None):
         """The person types the recovery code back once. Only its hash is kept, so it is checked against the hash."""
-        from identity.auth import _h
+        from core.secrethash import code_matches
         r = self.a.auth.db.execute("select recovery_hash from identities where person=?", (person,)).fetchone()
-        if not r or r[0] != _h(typed):
+        if not r or not code_matches(typed, r[0]):
             return False
         self._row(person)
         self.db.execute("update prot_people set recovery_typed=1 where person=?", (person,)); self.db.commit()

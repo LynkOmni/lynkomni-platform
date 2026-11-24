@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-lcOAm3v7T8cphijis9GDJBCTLQVZYIcyJM2+zRFLzF0='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-xua5SibOfY+TAfzV4wnSP0GIfr31vCda+4lKWM32ZM0='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkQueue on your phone</title>
 <meta name="description" content="Interactive emulator of the LynkQueue page a person opens on their own phone, with no app and no account: see the wait, join the queue, follow the ticket, Running late and Leave queue, and the place's public queue page.">
@@ -937,7 +937,10 @@ function brandFile(m, id, variant) {
 function brandSrc(base, m, id, variant) {
     if (/^[a-z][a-z0-9+.-]*:/i.test(base) || base.startsWith("//"))
         throw new Error("brand files must be served from this site, not another host");
-    return `${base.replace(/\/+$/, "")}/${brandFile(m, id, variant)}`;
+    let end = base.length;
+    while (end > 0 && base[end - 1] === "/")
+        end--; // trailing slashes off, without a backtracking pattern
+    return `${base.slice(0, end)}/${brandFile(m, id, variant)}`;
 }
 const minWidth = (m, id) => {
     const a = m.assets[id];
@@ -2101,8 +2104,19 @@ const pick = (allowed, value, fallback) => allowed.includes(value) ? value : fal
 const plain = (s) => s.replace(/[<>"'&]/g, "").slice(0, 200);
 const randomBytes = (n) => crypto.getRandomValues(new Uint8Array(n));
 const newId = () => uuid7(Date.now(), randomBytes);
+function randomBelow(n) {
+    if (!Number.isInteger(n) || n < 1 || n > 2 ** 32)
+        throw new RangeError("randomBelow needs a whole number from 1 to 2^32");
+    const limit = 2 ** 32 - (2 ** 32 % n);
+    for (;;) {
+        const b = randomBytes(4);
+        const v = ((b[0] << 24) >>> 0) + (b[1] << 16) + (b[2] << 8) + b[3];
+        if (v < limit)
+            return v % n;
+    }
+}
 function publicId(code) {
-    const p11 = [...randomBytes(11)].map((b) => String(b % 10)).join("");
+    const p11 = Array.from({ length: 11 }, () => String(randomBelow(10))).join("");
     let s = 0;
     [...p11].reverse().forEach((ch, i) => { let d = Number(ch) * (i % 2 === 0 ? 2 : 1); if (d > 9)
         d -= 9; s += d; });
@@ -3904,7 +3918,7 @@ function rateUs(icon, t) {
 
 
 const pairCodeAt = (bucket) => code((Math.imul(bucket, 2654435761) >>> 0) % CAPACITY);
-const pairCode = () => { const b = randomBytes(4); return code(((b[0] << 22) ^ (b[1] << 14) ^ (b[2] << 6) ^ b[3]) % CAPACITY); };
+const pairCode = () => code(randomBelow(CAPACITY));
 const QU_SETUPS = ["just_me", "one_place", "many_places"];
 const QU_VIAS = ["reception", "kiosk", "smartphone", "lynkchat", "basic_phone", "api", "appointment"];
 const QU_PHONE_WAYS = ["smartphone", "lynkchat", "basic_phone"];

@@ -24,9 +24,11 @@ test("menus use the ecosystem names and the cleaned structure", () => {
   assert.ok(ids("products").includes("LynkVCard") && ids("products").includes("LynkSuite") && ids("products").includes("LynkAssist"));
   assert.ok(ids("support").includes("LynkStatus") && ids("support").includes("LynkFAQ"));
   assert.ok(!ids("company").includes("Founder") && !ids("company").includes("Press"));                     // folded into Leadership and Newsroom
-  const all = cols.flatMap((c) => c.items.map((i) => i.href)).join(" ");
-  for (const bad of ["support.lynkomni.com", "docs.lynkomni.com", "bookings.lynkomni.com", "essentials.lynkomni.com", "flow.lynkomni.com"]) assert.ok(!all.includes(bad), bad);
-  assert.ok(all.includes("https://doc.lynkomni.com") && all.includes("https://booking.lynkomni.com") && all.includes("https://essential.lynkomni.com") && all.includes("/support"));
+  const hrefs = cols.flatMap((c) => c.items.map((i) => i.href));
+  const hosts = new Set(hrefs.filter((h) => h.startsWith("https://")).map((h) => new URL(h).hostname));   // compare whole host names, never a piece of an address
+  for (const bad of ["support.lynkomni.com", "docs.lynkomni.com", "bookings.lynkomni.com", "essentials.lynkomni.com", "flow.lynkomni.com"]) assert.ok(!hosts.has(bad), bad);
+  for (const good of ["doc.lynkomni.com", "booking.lynkomni.com", "essential.lynkomni.com"]) assert.ok(hosts.has(good), good);
+  assert.ok(hrefs.includes("/support"));
   assert.deepEqual([...SOCIAL], ["linkedin", "x", "facebook", "instagram", "youtube", "tiktok", "whatsapp"]);
   for (const id of SOCIAL) assert.ok(SOCIAL_LINKS[id].startsWith("https://"), id);
 });

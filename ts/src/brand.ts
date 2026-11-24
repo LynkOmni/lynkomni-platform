@@ -47,7 +47,9 @@ export function brandFile(m: BrandManifest, id: string, variant: BrandVariant): 
  *  host: logos are bundled so they work offline and cannot be swapped remotely. */
 export function brandSrc(base: string, m: BrandManifest, id: string, variant: BrandVariant): string {
   if (/^[a-z][a-z0-9+.-]*:/i.test(base) || base.startsWith("//")) throw new Error("brand files must be served from this site, not another host");
-  return `${base.replace(/\/+$/, "")}/${brandFile(m, id, variant)}`;
+  let end = base.length;
+  while (end > 0 && base[end - 1] === "/") end--;                    // trailing slashes off, without a backtracking pattern
+  return `${base.slice(0, end)}/${brandFile(m, id, variant)}`;
 }
 
 /** Smallest width (px) the asset may be shown at. */

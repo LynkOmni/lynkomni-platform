@@ -1189,6 +1189,32 @@
    "test": "tests/test_exchange_office.py::test_payees_live_in_lynkcrm_with_bank_details_only_in_the_vault",
    "build_section": 4,
    "status": "built"
+  },
+  {
+   "id": "workflow-token-read-only",
+   "asset": "service",
+   "threat": "A workflow token with write rights is misused to change the code or its releases",
+   "enforced_in": [
+    ".github/workflows/ci.yml",
+    ".github/workflows/cd.yml"
+   ],
+   "test": "tests/test_code_scanning.py::test_every_workflow_says_what_its_token_may_do",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "secret-hashing",
+   "asset": "accounts",
+   "threat": "A copied table of stored keys or codes gives the keys or codes back by fast guessing",
+   "enforced_in": [
+    "core/secrethash.py",
+    "identity/auth.py",
+    "identity/account.py",
+    "services/devplatform.py"
+   ],
+   "test": "tests/test_code_scanning.py::test_secrets_are_hashed_with_a_pepper_and_codes_with_salted_scrypt",
+   "build_section": 4,
+   "status": "built"
   }
  ]
 }

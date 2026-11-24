@@ -24,10 +24,16 @@ export const pick = <T extends string>(allowed: readonly T[], value: string, fal
 export const plain = (s: string): string => s.replace(/[<>"'&]/g, "").slice(0, 200);
 export const randomBytes = (n: number): Uint8Array => crypto.getRandomValues(new Uint8Array(n));
 export const newId = (): string => uuid7(Date.now(), randomBytes);
+/** A fair whole number from 0 up to n - 1 (n at most 2^32): draws that would favour the low numbers are thrown away and drawn again. */
+export function randomBelow(n: number): number {
+  if (!Number.isInteger(n) || n < 1 || n > 2 ** 32) throw new RangeError("randomBelow needs a whole number from 1 to 2^32");
+  const limit = 2 ** 32 - (2 ** 32 % n);
+  for (;;) { const b = randomBytes(4); const v = ((b[0]! << 24) >>> 0) + (b[1]! << 16) + (b[2]! << 8) + b[3]!; if (v < limit) return v % n; }
+}
 /** A public identifier in the one LynkOmni format (core/ids.py, ts/src/ids.ts): LO + type code + 12 digits with a Luhn check digit.
  *  The browser copy of the allocator's format step, for sample records in emulators; the code must be in the identifier registry. */
 export function publicId(code: string): string {
-  const p11 = [...randomBytes(11)].map((b) => String(b % 10)).join("");
+  const p11 = Array.from({ length: 11 }, () => String(randomBelow(10))).join("");
   let s = 0;
   [...p11].reverse().forEach((ch, i) => { let d = Number(ch) * (i % 2 === 0 ? 2 : 1); if (d > 9) d -= 9; s += d; });
   const p12 = p11 + String((10 - (s % 10)) % 10);

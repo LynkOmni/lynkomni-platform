@@ -5,6 +5,7 @@ on:
 concurrency:                  # a newer push to the same pull request cancels its older, outdated run
   group: ci-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+permissions: {contents: read}   # every job only reads the code (CodeQL: least privilege for the workflow token)
 jobs:
   python-reference:            # executable specification, AI services, automation, data processing
     runs-on: ubuntu-24.04
