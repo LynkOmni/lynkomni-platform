@@ -316,8 +316,13 @@ function draw(): void {
 function drawOverlay(): void {
   const box = document.getElementById("ovl");
   if (!box) { draw(); return; }
+  const prev = document.activeElement as HTMLElement | null, byKeys = !!prev && prev.matches(":focus-visible");
   box.innerHTML = overlay();
   lastOverlay = S.overlay;
+  // Opened with the keyboard, focus moves into the panel (its ring shows); opened with a tap or a click, the button lets go of the
+  // focus, as when the whole page was redrawn.
+  const first = S.overlay && byKeys ? box.querySelector<HTMLElement>("button:not([disabled]), a[href], input:not([disabled])") : null;
+  if (first) first.focus(); else if (prev && prev !== document.body && $("#display").contains(prev)) prev.blur();
   WAIT.apply($("#display"), { t, online: () => S.link !== "offline", redraw: draw, retryAct: PAGE_RETRY, retryClass: "ph-retry" });   // the same typing help as a full redraw
 }
 function drawLog(): void {

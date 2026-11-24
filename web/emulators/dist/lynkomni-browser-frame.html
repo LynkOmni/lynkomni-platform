@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-bMP43okPSEfllMwMa0gZImt32tkC5wLdGSCFG9w/29o='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-fZefhCkd0UCGOCU+xGBrIaIUHYf7bS4xGOoyqFOTZhw='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni Shell on LynkPC</title>
 <meta name="description" content="Interactive emulator of the shared LynkOmni shell in a browser window at computer, tablet and phone size: header, navigation, launcher, account menu, every screen state, chat translation, username field and charts.">
@@ -3580,8 +3580,14 @@ function drawOverlay() {
         draw();
         return;
     }
+    const prev = document.activeElement, byKeys = !!prev && prev.matches(":focus-visible");
     box.innerHTML = overlay();
     lastOverlay = S.overlay;
+    const first = S.overlay && byKeys ? box.querySelector("button:not([disabled]), a[href], input:not([disabled])") : null;
+    if (first)
+        first.focus();
+    else if (prev && prev !== document.body && $("#display").contains(prev))
+        prev.blur();
     WAIT.apply($("#display"), { t, online: () => S.link !== "offline", redraw: draw, retryAct: PAGE_RETRY, retryClass: "ph-retry" }); // the same typing help as a full redraw
 }
 function drawLog() {
