@@ -1,0 +1,200 @@
+{
+ "note": "Every tracking kind's step ids, ever (TRACKING UPDATE 72.3: flows never break items on their way). A step may be added; none is ever removed or renamed. Add new kinds and steps here in the change that adds them.",
+ "kinds": {
+  "delivery": [
+   "requested",
+   "assigned",
+   "on_the_way",
+   "delivered",
+   "failed"
+  ],
+  "order": [
+   "placed",
+   "preparing",
+   "ready",
+   "out_for_delivery",
+   "collected",
+   "delivered"
+  ],
+  "payment": [
+   "waiting_provider",
+   "on_credit",
+   "confirmed",
+   "failed"
+  ],
+  "agent_request": [
+   "sent_to_partner",
+   "confirmed",
+   "failed"
+  ],
+  "group_order": [
+   "opened",
+   "joined",
+   "target_reached",
+   "target_missed"
+  ],
+  "lease": [
+   "offered",
+   "approved",
+   "shipped",
+   "completed"
+  ],
+  "registration": [
+   "started",
+   "submitted",
+   "approved",
+   "rejected"
+  ],
+  "recovery": [
+   "waiting_period",
+   "completed",
+   "cancelled"
+  ],
+  "data_request": [
+   "preparing",
+   "ready_to_download"
+  ],
+  "payout_change": [
+   "waiting_period",
+   "applied",
+   "cancelled"
+  ],
+  "payout": [
+   "sent_to_provider",
+   "paid",
+   "failed"
+  ],
+  "repair": [
+   "received",
+   "diagnosing",
+   "waiting_parts",
+   "repairing",
+   "ready",
+   "completed"
+  ],
+  "invoice": [
+   "issued",
+   "viewed",
+   "partly_paid",
+   "paid",
+   "credited",
+   "voided"
+  ],
+  "quote": [
+   "signed",
+   "accepted",
+   "invoiced"
+  ],
+  "standing_payment": [
+   "sent_to_provider",
+   "active",
+   "cancelled",
+   "failed"
+  ],
+  "collection": [
+   "sent_to_provider",
+   "paid",
+   "failed"
+  ],
+  "financing": [
+   "sent_to_partner",
+   "offered",
+   "accepted",
+   "paid_out",
+   "repaid"
+  ],
+  "tax_return": [
+   "prepared",
+   "submitted",
+   "approved",
+   "rejected"
+  ],
+  "queue_ticket": [
+   "waiting",
+   "called",
+   "served",
+   "missed",
+   "left_queue",
+   "not_served_today"
+  ],
+  "attendance_correction": [
+   "checked_in",
+   "checked_out",
+   "corrected"
+  ],
+  "survey_reward": [
+   "requested",
+   "paid",
+   "failed"
+  ],
+  "emulator_request": [
+   "offered",
+   "accepted",
+   "connected",
+   "denied"
+  ],
+  "device_swap": [
+   "swap_started",
+   "swapped"
+  ],
+  "device_reapproval": [
+   "approval_needed",
+   "approved"
+  ],
+  "vote": [
+   "set_up",
+   "roll_ready",
+   "voting_open",
+   "voting_closed",
+   "counted",
+   "results_published"
+  ],
+  "signature_request": [
+   "sent_for_signing",
+   "signed",
+   "completed",
+   "declined"
+  ],
+  "exchange_order": [
+   "placed",
+   "paid",
+   "completed",
+   "failed",
+   "refunded"
+  ],
+  "bill_to_pay": [
+   "received",
+   "approved",
+   "partly_paid",
+   "paid"
+  ],
+  "expense_claim": [
+   "submitted",
+   "approved",
+   "repaid"
+  ],
+  "message_delivery": [
+   "queued",
+   "sent",
+   "delivered",
+   "failed"
+  ],
+  "provider_payout": [
+   "expected",
+   "paid_out"
+  ],
+  "bet_slip": [
+   "queued",
+   "sent",
+   "issued",
+   "failed"
+  ],
+  "bet_referral": [
+   "sent_to_provider",
+   "waiting_provider",
+   "approved",
+   "paid",
+   "rejected"
+  ]
+ }
+}

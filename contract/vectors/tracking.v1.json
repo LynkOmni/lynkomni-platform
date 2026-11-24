@@ -264,7 +264,8 @@
         "state": "accepted",
         "step": "on_the_way"
        }
-      ]
+      ],
+      "risk": null
      }
     },
     {
@@ -319,7 +320,8 @@
       "parent": {
        "kind": "order",
        "record": "01900000-0000-7000-8000-000000000002"
-      }
+      },
+      "risk": null
      }
     },
     {
@@ -719,7 +721,8 @@
       "late": false,
       "progress": null,
       "record": "01900000-0000-7000-8000-000000000005",
-      "children": []
+      "children": [],
+      "risk": null
      }
     }
    ]
@@ -856,7 +859,8 @@
       "late": false,
       "progress": null,
       "record": "01900000-0000-7000-8000-000000000010",
-      "children": []
+      "children": [],
+      "risk": null
      }
     },
     {
@@ -989,7 +993,8 @@
       "late": false,
       "progress": null,
       "record": "01900000-0000-7000-8000-000000000014",
-      "children": []
+      "children": [],
+      "risk": null
      }
     }
    ]
@@ -1095,7 +1100,8 @@
       "late": false,
       "progress": null,
       "record": "01900000-0000-7000-8000-000000000019",
-      "children": []
+      "children": [],
+      "risk": null
      }
     }
    ]
@@ -1260,7 +1266,8 @@
       "late": false,
       "progress": null,
       "record": "01900000-0000-7000-8000-000000000022",
-      "children": []
+      "children": [],
+      "risk": null
      }
     },
     {
@@ -1292,8 +1299,1077 @@
       "late": false,
       "progress": null,
       "record": "01900000-0000-7000-8000-000000000022",
+      "children": [],
+      "risk": null
+     }
+    }
+   ]
+  },
+  {
+   "name": "TRACKING UPDATE: a late offline event lands in its true place, a repeated event counts once, two endings clash",
+   "steps": [
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryRequested",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000040",
+       "order_id": "01900000-0000-7000-8000-000000000041",
+       "own_rider": true,
+       "price": 0,
+       "currency": "USD"
+      },
+      "at": 1794200000,
+      "id": "e1"
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryAccepted",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000040",
+       "partner_reference": "SBXD-9",
+       "eta": "2026-11-09T05:00:00Z"
+      },
+      "at": 1794200600,
+      "id": "e2"
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryDelivered",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000040",
+       "proof": "code"
+      },
+      "at": 1794203000,
+      "id": "e3"
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryPickedUp",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000040"
+      },
+      "at": 1794201200,
+      "id": "e4"
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryPickedUp",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000040"
+      },
+      "at": 1794201200,
+      "id": "e4"
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryFailed",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000040",
+       "reason_code": "timeout"
+      },
+      "at": 1794203100,
+      "id": "e5"
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "view",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000040",
+     "audience": "merchant",
+     "now": 1794204000
+    },
+    {
+     "op": "view",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000040",
+     "audience": "customer",
+     "now": 1794204000
+    },
+    {
+     "op": "exceptions",
+     "owner": "m1",
+     "now": 1794204000
+    }
+   ],
+   "expect": [
+    {
+     "view": {
+      "kind": "delivery",
+      "label": "trk_k_delivery",
+      "state": "confirmed",
+      "step": "delivered",
+      "ended": true,
+      "steps": [
+       {
+        "id": "requested",
+        "label": "trk_requested",
+        "state": "sent",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "assigned",
+        "label": "trk_assigned",
+        "state": "accepted",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T05:03:20Z"
+       },
+       {
+        "id": "on_the_way",
+        "label": "trk_on_the_way",
+        "state": "accepted",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T05:13:20Z"
+       },
+       {
+        "id": "delivered",
+        "label": "trk_delivered",
+        "state": "confirmed",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T05:43:20Z"
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "record": "01900000-0000-7000-8000-000000000040",
+      "children": [],
+      "parent": {
+       "kind": "order",
+       "record": "01900000-0000-7000-8000-000000000041"
+      },
+      "risk": null,
+      "clash": [
+       "failed"
+      ]
+     }
+    },
+    {
+     "view": {
+      "kind": "delivery",
+      "label": "trk_k_delivery",
+      "state": "confirmed",
+      "step": "delivered",
+      "ended": true,
+      "steps": [
+       {
+        "id": "requested",
+        "label": "trk_requested",
+        "state": "sent",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "assigned",
+        "label": "trk_assigned",
+        "state": "accepted",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T05:03:20Z"
+       },
+       {
+        "id": "on_the_way",
+        "label": "trk_on_the_way",
+        "state": "accepted",
+        "done": true,
+        "current": false,
+        "at": "2026-11-09T05:13:20Z"
+       },
+       {
+        "id": "delivered",
+        "label": "trk_delivered",
+        "state": "confirmed",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T05:43:20Z"
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
       "children": []
      }
+    },
+    {
+     "exceptions": [
+      {
+       "kind": "delivery",
+       "record": "01900000-0000-7000-8000-000000000040",
+       "step": "delivered",
+       "why": "clash",
+       "since": "2026-11-09T05:43:20Z"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "TRACKING UPDATE: promises, at risk, late, stuck and the control tower; practice stays out",
+   "steps": [
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryRequested",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000042",
+       "order_id": "01900000-0000-7000-8000-000000000043",
+       "own_rider": true,
+       "price": 0,
+       "currency": "USD"
+      },
+      "at": 1794200000
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "risk",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000042",
+     "now": 1794200660
+    },
+    {
+     "op": "risk",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000042",
+     "now": 1794200720
+    },
+    {
+     "op": "risk",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000042",
+     "now": 1794200900
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryRequested",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000044",
+       "order_id": "01900000-0000-7000-8000-000000000045",
+       "own_rider": true,
+       "price": 0,
+       "currency": "USD"
+      },
+      "at": 1794200060
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryRequested",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000046",
+       "order_id": "01900000-0000-7000-8000-000000000047",
+       "own_rider": true,
+       "price": 0,
+       "currency": "USD",
+       "practice": true
+      },
+      "at": 1794200120
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "OrderSentToKitchen",
+      "payload": {
+       "order_id": "01900000-0000-7000-8000-000000000048",
+       "table_id": "01900000-0000-7000-8000-000000000049",
+       "lines": [
+        {
+         "line_no": 0
+        }
+       ]
+      },
+      "at": 1794200030
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "tower",
+     "owner": "m1",
+     "now": 1794200780
+    },
+    {
+     "op": "tower",
+     "owner": "m1",
+     "now": 1794200780,
+     "kind": "delivery"
+    },
+    {
+     "op": "exceptions",
+     "owner": "m1",
+     "now": 1794201860
+    },
+    {
+     "op": "view",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000046",
+     "audience": "merchant",
+     "now": 1794200780
+    }
+   ],
+   "expect": [
+    {
+     "risk": "on_time"
+    },
+    {
+     "risk": "at_risk"
+    },
+    {
+     "risk": "late"
+    },
+    {
+     "tower": {
+      "rows": [
+       {
+        "kind": "order",
+        "record": "01900000-0000-7000-8000-000000000048",
+        "step": "placed",
+        "state": "sent",
+        "risk": "late",
+        "since": "2026-11-09T04:53:50Z"
+       },
+       {
+        "kind": "delivery",
+        "record": "01900000-0000-7000-8000-000000000042",
+        "step": "requested",
+        "state": "sent",
+        "risk": "at_risk",
+        "since": "2026-11-09T04:53:20Z"
+       },
+       {
+        "kind": "delivery",
+        "record": "01900000-0000-7000-8000-000000000044",
+        "step": "requested",
+        "state": "sent",
+        "risk": "at_risk",
+        "since": "2026-11-09T04:54:20Z"
+       }
+      ],
+      "counts": {
+       "late": 1,
+       "at_risk": 2,
+       "on_time": 0
+      },
+      "total": 3
+     }
+    },
+    {
+     "tower": {
+      "rows": [
+       {
+        "kind": "delivery",
+        "record": "01900000-0000-7000-8000-000000000042",
+        "step": "requested",
+        "state": "sent",
+        "risk": "at_risk",
+        "since": "2026-11-09T04:53:20Z"
+       },
+       {
+        "kind": "delivery",
+        "record": "01900000-0000-7000-8000-000000000044",
+        "step": "requested",
+        "state": "sent",
+        "risk": "at_risk",
+        "since": "2026-11-09T04:54:20Z"
+       }
+      ],
+      "counts": {
+       "late": 0,
+       "at_risk": 2,
+       "on_time": 0
+      },
+      "total": 2
+     }
+    },
+    {
+     "exceptions": [
+      {
+       "kind": "delivery",
+       "record": "01900000-0000-7000-8000-000000000042",
+       "step": "requested",
+       "why": "stuck",
+       "since": "2026-11-09T04:53:20Z"
+      },
+      {
+       "kind": "order",
+       "record": "01900000-0000-7000-8000-000000000048",
+       "step": "placed",
+       "why": "stuck",
+       "since": "2026-11-09T04:53:50Z"
+      },
+      {
+       "kind": "delivery",
+       "record": "01900000-0000-7000-8000-000000000044",
+       "step": "requested",
+       "why": "stuck",
+       "since": "2026-11-09T04:54:20Z"
+      }
+     ]
+    },
+    {
+     "view": {
+      "kind": "delivery",
+      "label": "trk_k_delivery",
+      "state": "sent",
+      "step": "requested",
+      "ended": false,
+      "steps": [
+       {
+        "id": "requested",
+        "label": "trk_requested",
+        "state": "sent",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:55:20Z"
+       },
+       {
+        "id": "assigned",
+        "label": "trk_assigned",
+        "state": "accepted",
+        "done": false,
+        "current": false,
+        "at": null
+       },
+       {
+        "id": "on_the_way",
+        "label": "trk_on_the_way",
+        "state": "accepted",
+        "done": false,
+        "current": false,
+        "at": null
+       },
+       {
+        "id": "delivered",
+        "label": "trk_delivered",
+        "state": "confirmed",
+        "done": false,
+        "current": false,
+        "at": null
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "record": "01900000-0000-7000-8000-000000000046",
+      "children": [],
+      "parent": {
+       "kind": "order",
+       "record": "01900000-0000-7000-8000-000000000047"
+      },
+      "risk": "on_time",
+      "practice": true
+     }
+    }
+   ]
+  },
+  {
+   "name": "TRACKING UPDATE: working-time promises count only opening hours",
+   "steps": [
+    {
+     "op": "working",
+     "start": 1794200000,
+     "end": 1794459200,
+     "hours": {
+      "offset_min": 60,
+      "days": {
+       "0": [
+        [
+         480,
+         1020
+        ]
+       ],
+       "1": [
+        [
+         480,
+         1020
+        ]
+       ],
+       "2": [
+        [
+         480,
+         1020
+        ]
+       ],
+       "3": [
+        [
+         480,
+         1020
+        ]
+       ],
+       "4": [
+        [
+         480,
+         1020
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "op": "working",
+     "start": 1794200000,
+     "end": 1794203600
+    },
+    {
+     "op": "working",
+     "start": 1794203600,
+     "end": 1794200000,
+     "hours": {
+      "offset_min": 60,
+      "days": {
+       "0": [
+        [
+         480,
+         1020
+        ]
+       ],
+       "1": [
+        [
+         480,
+         1020
+        ]
+       ],
+       "2": [
+        [
+         480,
+         1020
+        ]
+       ],
+       "3": [
+        [
+         480,
+         1020
+        ]
+       ],
+       "4": [
+        [
+         480,
+         1020
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "op": "state",
+     "kind": "bill_to_pay",
+     "record": "01900000-0000-7000-8000-000000000050",
+     "state": "draft",
+     "at": 1794200000
+    },
+    {
+     "op": "risk",
+     "kind": "bill_to_pay",
+     "record": "01900000-0000-7000-8000-000000000050",
+     "now": 1794632000,
+     "hours": {
+      "offset_min": 60,
+      "days": {
+       "0": [
+        [
+         480,
+         1020
+        ]
+       ],
+       "1": [
+        [
+         480,
+         1020
+        ]
+       ],
+       "2": [
+        [
+         480,
+         1020
+        ]
+       ],
+       "3": [
+        [
+         480,
+         1020
+        ]
+       ],
+       "4": [
+        [
+         480,
+         1020
+        ]
+       ]
+      }
+     }
+    },
+    {
+     "op": "risk",
+     "kind": "bill_to_pay",
+     "record": "01900000-0000-7000-8000-000000000050",
+     "now": 1794632000
+    }
+   ],
+   "expect": [
+    {
+     "working": 1620
+    },
+    {
+     "working": 60
+    },
+    {
+     "working": 0
+    },
+    {
+     "risk": "at_risk"
+    },
+    {
+     "risk": "late"
+    }
+   ]
+  },
+  {
+   "name": "TRACKING UPDATE: scanning moves a step only with its proof and after its checks; partner statuses map to events",
+   "steps": [
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryRequested",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000051",
+       "order_id": "01900000-0000-7000-8000-000000000052",
+       "own_rider": true,
+       "price": 0,
+       "currency": "USD"
+      },
+      "at": 1794200000
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "scan",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000051",
+     "step": "delivered",
+     "proof": "code"
+    },
+    {
+     "op": "scan",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000051",
+     "step": "on_the_way",
+     "client": [
+      "DeliveryPickedUp",
+      "DeliveryDelivered"
+     ]
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryPickedUp",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000051"
+      },
+      "at": 1794200060
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "scan",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000051",
+     "step": "delivered"
+    },
+    {
+     "op": "scan",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000051",
+     "step": "delivered",
+     "proof": "signature"
+    },
+    {
+     "op": "scan",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000051",
+     "step": "assigned"
+    },
+    {
+     "op": "scan",
+     "kind": "delivery",
+     "record": "01900000-0000-7000-8000-000000000051",
+     "step": "on_the_way",
+     "client": [
+      "DeliveryDelivered"
+     ]
+    },
+    {
+     "op": "partner",
+     "kind": "delivery",
+     "partner": "delivery_partner",
+     "code": "picked_up"
+    },
+    {
+     "op": "partner",
+     "kind": "delivery",
+     "partner": "delivery_partner",
+     "code": "lost_in_space"
+    }
+   ],
+   "expect": [
+    {
+     "scan": {
+      "ok": false,
+      "event": null,
+      "why": [
+       "after:on_the_way"
+      ]
+     }
+    },
+    {
+     "scan": {
+      "ok": true,
+      "event": "DeliveryPickedUp",
+      "why": []
+     }
+    },
+    {
+     "scan": {
+      "ok": false,
+      "event": null,
+      "why": [
+       "needs_proof"
+      ]
+     }
+    },
+    {
+     "scan": {
+      "ok": true,
+      "event": "DeliveryDelivered",
+      "why": []
+     }
+    },
+    {
+     "scan": {
+      "ok": false,
+      "event": null,
+      "why": [
+       "not_scannable"
+      ]
+     }
+    },
+    {
+     "scan": {
+      "ok": false,
+      "event": null,
+      "why": [
+       "cloud_only"
+      ]
+     }
+    },
+    {
+     "partner": "DeliveryPickedUp"
+    },
+    {
+     "partner": null
+    }
+   ]
+  },
+  {
+   "name": "TRACKING UPDATE: a business's own extra steps show to it, never change the chip; capacity; keeping time",
+   "steps": [
+    {
+     "op": "extra_defs",
+     "owner": "m1",
+     "kind": "order",
+     "steps": [
+      {
+       "id": "quality_check",
+       "label": "Quality check"
+      },
+      {
+       "id": "bagged",
+       "label": "Bagged",
+       "customer": true
+      }
+     ]
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "OrderSentToKitchen",
+      "payload": {
+       "order_id": "01900000-0000-7000-8000-000000000053",
+       "table_id": "01900000-0000-7000-8000-000000000054",
+       "lines": [
+        {
+         "line_no": 0
+        }
+       ]
+      },
+      "at": 1794200000
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "TrackingStepMarked",
+      "payload": {
+       "kind": "order",
+       "record": "01900000-0000-7000-8000-000000000053",
+       "extra_step": "bagged"
+      },
+      "at": 1794200050
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "TrackingStepMarked",
+      "payload": {
+       "kind": "order",
+       "record": "01900000-0000-7000-8000-000000000053",
+       "extra_step": "quality_check"
+      },
+      "at": 1794200040
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "TrackingStepMarked",
+      "payload": {
+       "kind": "order",
+       "record": "01900000-0000-7000-8000-000000000053",
+       "extra_step": "unknown_step"
+      },
+      "at": 1794200060
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "view",
+     "kind": "order",
+     "record": "01900000-0000-7000-8000-000000000053",
+     "audience": "merchant",
+     "now": 1794200100
+    },
+    {
+     "op": "view",
+     "kind": "order",
+     "record": "01900000-0000-7000-8000-000000000053",
+     "audience": "customer",
+     "now": 1794200100
+    },
+    {
+     "op": "promise",
+     "base": 10,
+     "load": 7,
+     "capacity": 3,
+     "per_round": 5
+    },
+    {
+     "op": "promise",
+     "base": 10,
+     "load": 0,
+     "capacity": 2,
+     "per_round": 5
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryRequested",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000055",
+       "order_id": "01900000-0000-7000-8000-000000000056",
+       "own_rider": true,
+       "price": 0,
+       "currency": "USD"
+      },
+      "at": 1794200000
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "event",
+     "event": {
+      "type": "DeliveryDelivered",
+      "payload": {
+       "delivery_id": "01900000-0000-7000-8000-000000000055",
+       "proof": "code"
+      },
+      "at": 1794200100
+     },
+     "owner": "m1"
+    },
+    {
+     "op": "prune",
+     "now": 1809752100
+    },
+    {
+     "op": "prune",
+     "now": 1809752101
+    }
+   ],
+   "expect": [
+    {
+     "view": {
+      "kind": "order",
+      "label": "trk_k_order",
+      "state": "sent",
+      "step": "placed",
+      "ended": false,
+      "steps": [
+       {
+        "id": "placed",
+        "label": "trk_placed",
+        "state": "sent",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "preparing",
+        "label": "trk_preparing",
+        "state": "accepted",
+        "done": false,
+        "current": false,
+        "at": null
+       },
+       {
+        "id": "ready",
+        "label": "trk_ready",
+        "state": "accepted",
+        "done": false,
+        "current": false,
+        "at": null
+       },
+       {
+        "id": "collected",
+        "label": "trk_collected",
+        "state": "confirmed",
+        "done": false,
+        "current": false,
+        "at": null
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "record": "01900000-0000-7000-8000-000000000053",
+      "children": [],
+      "extra": [
+       {
+        "id": "quality_check",
+        "label": "Quality check",
+        "at": "2026-11-09T04:54:00Z"
+       },
+       {
+        "id": "bagged",
+        "label": "Bagged",
+        "at": "2026-11-09T04:54:10Z"
+       }
+      ],
+      "risk": "on_time"
+     }
+    },
+    {
+     "view": {
+      "kind": "order",
+      "label": "trk_k_order",
+      "state": "sent",
+      "step": "placed",
+      "ended": false,
+      "steps": [
+       {
+        "id": "placed",
+        "label": "trk_placed",
+        "state": "sent",
+        "done": true,
+        "current": true,
+        "at": "2026-11-09T04:53:20Z"
+       },
+       {
+        "id": "preparing",
+        "label": "trk_preparing",
+        "state": "accepted",
+        "done": false,
+        "current": false,
+        "at": null
+       },
+       {
+        "id": "ready",
+        "label": "trk_ready",
+        "state": "accepted",
+        "done": false,
+        "current": false,
+        "at": null
+       },
+       {
+        "id": "collected",
+        "label": "trk_collected",
+        "state": "confirmed",
+        "done": false,
+        "current": false,
+        "at": null
+       }
+      ],
+      "eta": null,
+      "late": false,
+      "progress": null,
+      "children": [],
+      "extra": [
+       {
+        "id": "bagged",
+        "label": "Bagged",
+        "at": "2026-11-09T04:54:10Z"
+       }
+      ]
+     }
+    },
+    {
+     "promise": 25
+    },
+    {
+     "promise": 10
+    },
+    {
+     "pruned": 0,
+     "left": [
+      "delivery|01900000-0000-7000-8000-000000000055",
+      "order|01900000-0000-7000-8000-000000000053",
+      "order|01900000-0000-7000-8000-000000000056"
+     ]
+    },
+    {
+     "pruned": 1,
+     "left": [
+      "order|01900000-0000-7000-8000-000000000053",
+      "order|01900000-0000-7000-8000-000000000056"
+     ]
     }
    ]
   }

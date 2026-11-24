@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "be0d96ab4cf2efae2d1d414a4944432748e32d3d8d8d526b02fe126332ab9af4",
+ "source_sha256": "7b5a67580688b6542bc078169686fc5bd6c3af13229fcadc26298f42930deee4",
  "texts": {
   "account_menu": "חשבון",
   "action_add": "הוסיפו את הראשון",
@@ -281,6 +281,7 @@
   "hint_search": "עמדה",
   "hint_section": "תשלומים",
   "hint_shop": "המכולת בפינה",
+  "hint_step": "בדיקת איכות",
   "hint_yousaid": "ההמתנה הייתה ארוכה, אז פתחנו דלפק שני.",
   "iface_car_voice": "רכב (קול בלבד)",
   "iface_computer_pointer": "LynkPC (עכבר ומקלדת)",

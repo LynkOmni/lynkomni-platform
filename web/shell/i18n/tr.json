@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "be0d96ab4cf2efae2d1d414a4944432748e32d3d8d8d526b02fe126332ab9af4",
+ "source_sha256": "7b5a67580688b6542bc078169686fc5bd6c3af13229fcadc26298f42930deee4",
  "texts": {
   "account_menu": "Hesap",
   "action_add": "İlkini ekle",
@@ -281,6 +281,7 @@
   "hint_search": "Gişe",
   "hint_section": "Ödemeler",
   "hint_shop": "Köşe bakkalı",
+  "hint_step": "Kalite kontrolü",
   "hint_yousaid": "Bekleme uzundu, bu yüzden ikinci bir gişe açtık.",
   "iface_car_voice": "Araba (yalnızca ses)",
   "iface_computer_pointer": "LynkPC (fare ve klavye)",

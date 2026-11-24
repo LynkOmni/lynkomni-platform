@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "be0d96ab4cf2efae2d1d414a4944432748e32d3d8d8d526b02fe126332ab9af4",
+ "source_sha256": "7b5a67580688b6542bc078169686fc5bd6c3af13229fcadc26298f42930deee4",
  "texts": {
   "account_menu": "اڪائونٽ",
   "action_add": "پهريون شامل ڪريو",
@@ -281,6 +281,7 @@
   "hint_search": "ڪائونٽر",
   "hint_section": "ادائگيون",
   "hint_shop": "گهٽيءَ جو دڪان",
+  "hint_step": "معيار جي جانچ",
   "hint_yousaid": "انتظار ڊگهو هو، تنهن ڪري اسان ٻيو ڪائونٽر کوليو.",
   "iface_car_voice": "گاڏي (صرف آواز)",
   "iface_computer_pointer": "LynkPC (مائوس ۽ ڪي بورڊ)",

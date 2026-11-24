@@ -22,13 +22,17 @@ import type { OfficeService } from "../../../ts/src/officeview.js";
 import { watchNames, namePair } from "../../../ts/src/names.js";
 import { mayShow, slotHtml, whyHtml } from "../../../ts/src/ads.js";
 import { NAME_INFO_KEYS } from "../../../ts/src/nameinfo.js";
+import { Tracking } from "../../../ts/src/tracking.js";
+import { REGISTER } from "../../../ts/src/tracking.generated.js";
+import { towerHtml, exceptionsHtml, scanHtml, extraStepsHtml } from "../../../ts/src/trackview.js";
+import type { TowerLook } from "../../../ts/src/trackview.js";
 const SIDE_W = 200;   // px of room the 220 px sidebar gives its brand place (side-menu: logo from 140 px)
 
 interface Auto { id: string; level: string; assist: string | null; trigger: string; min_tier: string | null; default: string }
 declare const DATA: Build & { automations: Auto[]; launcher: { family: string; name: string; app: string }[]; taxBp: Record<string, number> };
-type Page = "today" | "sales" | "devices" | "staff" | "commissions" | "automations" | "sharing";
-const PAGES: Page[] = ["today", "sales", "devices", "staff", "commissions", "automations", "sharing"];
-const PATH: Record<Page, string> = { today: "/business", sales: "/sell/sales", devices: "/business/devices", staff: "/business/team", commissions: "/business/agent-earnings", automations: "/business/automations", sharing: "/business/settings/data-sharing" };
+type Page = "today" | "sales" | "devices" | "staff" | "commissions" | "automations" | "sharing" | "tracking";
+const PAGES: Page[] = ["today", "sales", "devices", "staff", "commissions", "automations", "sharing", "tracking"];
+const PATH: Record<Page, string> = { today: "/business", sales: "/sell/sales", devices: "/business/devices", staff: "/business/team", commissions: "/business/agent-earnings", automations: "/business/automations", sharing: "/business/settings/data-sharing", tracking: "/tracking" };
 const TIERS = ["free", "plus", "pro", "max"] as const;
 const S: PanelState & { page: Page; off: Set<string>; why: string; sharing: Set<string>; notice: string; launcher: boolean; place: string; office: string } =
   { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: false, lang: "en", page: "today", off: new Set(), why: "", sharing: new Set(), notice: "", launcher: false, place: "", office: "" };
@@ -79,7 +83,54 @@ function sharing(): string {
   const sup = [["s1", "supplier_1"], ["s2", "supplier_2"]] as const;
   return `<h1>${esc(t("data_sharing"))}</h1><p class="note">${esc(t("data_sharing_body"))}</p><ul class="rows">${sup.map(([id, w]) => `<li><span>${esc(t(w))}</span>${S.sharing.has(id) ? `${chip("confirmed")}<button class="secondary" data-act="unshare:${id}">${esc(t("stop_sharing"))}</button>` : `<button class="primary" data-act="share:${id}">${esc(t("share"))}</button>`}</li>`).join("")}</ul><p>${esc(t("sharing_with", { n: S.sharing.size }))}</p>`;
 }
-const LABEL: Record<Page, string> = { today: "home", sales: "sales", devices: "devices", staff: "staff_shifts", commissions: "agent_commissions", automations: "automations", sharing: "data_sharing" };
+// ---- the control tower (TRACKING UPDATE 72.4, section 4 row 72.9): sample items run through the real engine (ts/src/tracking.ts) ----
+const ME = "m-sample", MIN = 60, T_NOW = Math.floor(now / 1000);
+const TRK = new Tracking(REGISTER);
+const TRK_NAMES: Record<string, string> = {};
+const TRK_PRACTICE = new Set<string>();
+function trkSample(): void {
+  const at = (minAgo: number): number => T_NOW - minAgo * MIN;
+  const e = (type: string, minAgo: number, id: string, payload: Record<string, unknown>): void => { TRK.apply({ type, payload, at: at(minAgo), id: `${id}-${type}` }, ME); };
+  // three deliveries: on time, late, and one where the rider marked delivered after the partner had reported a failure (two endings clash)
+  e("DeliveryRequested", 6, "d1", { delivery_id: "d1", order_id: "o9", own_rider: true, price: 0, currency: "USD" });
+  e("DeliveryRequested", 90, "d2", { delivery_id: "d2", order_id: "o8", own_rider: true, price: 0, currency: "USD" }); e("DeliveryPickedUp", 85, "d2", { delivery_id: "d2" });
+  e("DeliveryRequested", 50, "d3", { delivery_id: "d3", order_id: "o7", own_rider: true, price: 0, currency: "USD" }); e("DeliveryFailed", 20, "d3", { delivery_id: "d3", reason_code: "timeout" }); e("DeliveryDelivered", 10, "d3", { delivery_id: "d3", proof: "code" });
+  // kitchen orders: one about to miss its promise, one ready and waiting for the customer, one practice order that is never raised
+  e("OrderSentToKitchen", 9, "o1", { order_id: "o1", table_id: "t1", lines: [{ line_no: 0 }] });
+  e("OrderSentToKitchen", 20, "o2", { order_id: "o2", table_id: "t2", lines: [{ line_no: 0 }] }); e("KitchenItemReady", 15, "o2", { order_id: "o2", line_no: 0 }); e("KitchenItemReady", 12, "o2b", { order_id: "o2", line_no: 0 });
+  e("OrderSentToKitchen", 2, "o3", { order_id: "o3", table_id: "t3", lines: [{ line_no: 0 }], practice: true });
+  e("TicketIssued", 30, "k1", { ticket_id: "k1", section: "A" });
+  Object.assign(TRK_NAMES, { d1: "DLV-1041", d2: "DLV-1038", d3: "DLV-1036", o1: "ORD-2207", o2: "ORD-2204", o3: "ORD-2209", k1: "A-7KQ2MD" });
+  TRK_PRACTICE.add("o3");
+}
+trkSample();
+const TS: { item: string; step: string; proof: string; result: { ok: boolean; event: string | null; why: string[] } | null; extra: { id: string; label: string }[]; draft: string } =
+  { item: "delivery|d1", step: "on_the_way", proof: "", result: null, extra: [], draft: "" };
+const towerLook = (): TowerLook => ({ t, esc, icon, chip, time: (x) => C.clock(Date.parse(x)), name: (_k, r) => TRK_NAMES[r] ?? r });
+function tracking(): string {
+  const o = towerLook(), active = TRK.active(ME, T_NOW);
+  const items = active.map((v) => ({ kind: v.kind, record: v.record ?? "" })).filter((x) => x.record);
+  const kind = TS.item.split("|")[0] ?? "delivery";
+  const steps = Object.keys(REGISTER.kinds.find((k) => k.id === kind)?.scan ?? {});
+  if (!steps.includes(TS.step)) TS.step = steps[0] ?? "";
+  return `<h1>${esc(t("trk_tower"))}</h1>${exceptionsHtml(TRK.exceptions(ME, T_NOW), o)}${towerHtml(TRK.tower(ME, T_NOW), o, TRK_PRACTICE)}
+    ${scanHtml(items, steps, o, TS)}${extraStepsHtml("order", TS.extra, REGISTER.engine?.extra_steps_max ?? 5, o, TS.draft)}`;
+}
+function trkAct(a: string): boolean {
+  if (!a.startsWith("trk:")) return false;
+  const [, k = "", v = ""] = a.split(":");
+  if (k === "scan") { const [kind = "", rec = ""] = TS.item.split("|"); TS.result = TRK.scan(kind, rec, TS.step, TS.proof || null); if (TS.result.ok && TS.result.event) LOG.emit(TS.result.event, { [REGISTER.kinds.find((x) => x.id === kind)?.key ?? "id"]: rec, ...(TS.proof ? { proof: TS.proof } : {}) }, "device"); }
+  if (k === "add" && TS.draft.trim()) { const id = `own_${TS.extra.length + 1}`; TS.extra = [...TS.extra, { id, label: TS.draft.trim() }]; TRK.setExtraSteps(ME, "order", TS.extra); TS.draft = ""; }
+  if (k === "drop") { TS.extra = TS.extra.filter((x) => x.id !== v); TRK.setExtraSteps(ME, "order", TS.extra); }
+  return true;
+}
+function trkInput(key: string, value: string): boolean {
+  if (!key.startsWith("trk:")) return false;
+  const k = key.slice(4);
+  if (k === "item") { TS.item = value; TS.result = null; } else if (k === "step") { TS.step = value; TS.result = null; } else if (k === "proof") { TS.proof = value; TS.result = null; } else if (k === "extra") TS.draft = value;
+  return true;
+}
+const LABEL: Record<Page, string> = { today: "home", sales: "sales", devices: "devices", staff: "staff_shifts", commissions: "agent_commissions", automations: "automations", sharing: "data_sharing", tracking: "trk_tower" };
 const DSH = panelShell({
   st: S, t, icon, clock: (ms) => C.clock(ms),
   native: () => (DATA.i18n[S.lang]?.native ?? S.lang), region: () => (C.pack().sample ? t("sample_country") : C.pack().name), currency: () => C.pack().currency,
@@ -97,20 +148,20 @@ const adSlot = (): string => !mayShow("dashboard_card", { screen: "dashboard", c
   : slotHtml("dashboard_card", { id: "sample-ad", text: t("ad_sample_text"), sample: true }, { t, esc, icon }) + (AD.why ? whyHtml({ t, esc, icon }) : "") + (AD.reported ? `<p class="ad-why" role="status">${esc(t("ad_reported"))}</p>` : "");
 const OV = new OfficeView({ t, money: (n) => C.money(n), icon, chip, nav: NAV, role: "owner", user: "u-owner", today: "2026-11-20", taxBp: () => DATA.taxBp[S.country] ?? 0, ad: adSlot });
 const office = (): OfficeService | null => (OFFICE_SERVICES as readonly string[]).includes(S.place) ? (S.place as OfficeService) : null;
-function page(): string { const o = office(); if (o) return OV.draw(o, S.office || OV.pages(o)[0]!.id); return S.place ? placePage() : { today, sales, devices, staff, commissions, automations, sharing }[S.page](); }
+function page(): string { const o = office(); if (o) return OV.draw(o, S.office || OV.pages(o)[0]!.id); return S.place ? placePage() : { today, sales, devices, staff, commissions, automations, sharing, tracking }[S.page](); }
 
 // ---- the app shell on a computer: the two-level side bar (INTERFACE UPDATE 73.3, ts/src/appshell.ts) ---------------------------
 const look: BarLook = { t, icon: (id) => icon(id) };
 /** Where each first-column place goes in this view. Track joins in section 7 with the "Track" home; pins come with the person's own choices. */
-const RAIL: Record<string, string> = { home: "go:today", inbox: "dsh:bell", all_services: "launcher", emulators: "go:devices", automations: "go:automations", settings: "go:sharing", help: "dsh:help" };
-const RAIL_CURRENT: Partial<Record<Page, string>> = { today: "home", devices: "emulators", automations: "automations", sharing: "settings" };
+const RAIL: Record<string, string> = { home: "go:today", inbox: "dsh:bell", track: "go:tracking", all_services: "launcher", emulators: "go:devices", automations: "go:automations", settings: "go:sharing", help: "dsh:help" };
+const RAIL_CURRENT: Partial<Record<Page, string>> = { today: "home", tracking: "track", devices: "emulators", automations: "automations", sharing: "settings" };
 /** This view's pages in the register's fixed order: Overview, the lists, Automations, Settings. */
-const SLOT: Record<Page, string> = { today: "overview", sales: "list", devices: "list", staff: "list", commissions: "list", automations: "automations", sharing: "settings" };
+const SLOT: Record<Page, string> = { today: "overview", sales: "list", devices: "list", staff: "list", commissions: "list", automations: "automations", sharing: "settings", tracking: "list" };
 const MINE = ["lynkpos", "lynkstock", "lynkchat", "lynkacc", "lynkinv", "lynkcrm", "lynkstat"];
 const nameOf = (f: string): string => DATA.launcher.find((x) => x.family === f)?.name ?? f;
 const appOf = (f: string): string => DATA.launcher.find((x) => x.family === f)?.app ?? "";
 function sideBar(): string {
-  const first = firstColumnHtml(NAV, look, { current: S.place ? "all_services" : RAIL_CURRENT[S.page] ?? "", hidden: ["track"], act: "rail" });
+  const first = firstColumnHtml(NAV, look, { current: S.place ? "all_services" : RAIL_CURRENT[S.page] ?? "", hidden: [], act: "rail" });
   const logo = `<div class="menu-logo">${brandMark(DATA.brand.places, "side-menu", S.dark, "logo", SIDE_W)}</div>`;
   const o = office();
   const menu = o ? orderedMenuHtml(NAV, look, { items: OV.pages(o).map((p) => ({ id: p.id, slot: p.slot, label: OV.title(p.id) })), current: S.office || OV.pages(o)[0]!.id, act: "office", label: nameOf(o), top: logo })
@@ -143,6 +194,7 @@ function act(a: string): void {
   if (a.startsWith("ad:why:")) { AD.why = !AD.why; draw(); return; }
   if (a.startsWith("ad:report:")) { AD.reported = true; draw(); return; }
   const [k = "", v = ""] = a.split(":");
+  if (trkAct(a)) { draw(); return; }
   if (k === "rail") { const to = RAIL[v]; if (to) { if (to.startsWith("dsh:")) { if (DSH.act(to)) return; } else act(to); } return; }
   if (a === "launcher") { S.launcher = !S.launcher; draw(); return; }
   if (k === "office") { S.office = v; OV.reset(); draw(); return; }
@@ -176,8 +228,8 @@ function main(): void {
     if (b.classList.contains("dsh-scrim") && tg.closest("[data-stop]")) return; if (!DSH.act(a)) act(a); });
   document.addEventListener("input", (e) => { const el = e.target as HTMLInputElement;
     if (el.id === "ofSearch") { OV.search(el.value); keepFocus(el.id); return; }
-    const k = el.dataset["in"] ?? ""; if (OV.input(k, el.value)) { keepFocus(el.id); return; } DSH.input(el); });
-  document.addEventListener("change", (e) => { const el = e.target as HTMLSelectElement; if (el.closest("#screen") && el.tagName === "SELECT" && OV.input(el.dataset["in"] ?? "", el.value)) draw(); });
+    const k = el.dataset["in"] ?? ""; if (trkInput(k, el.value)) { keepFocus(el.id); return; } if (OV.input(k, el.value)) { keepFocus(el.id); return; } DSH.input(el); });
+  document.addEventListener("change", (e) => { const el = e.target as HTMLSelectElement; if (el.closest("#screen") && el.tagName === "SELECT" && (trkInput(el.dataset["in"] ?? "", el.value) || OV.input(el.dataset["in"] ?? "", el.value))) draw(); });
   document.addEventListener("keydown", (e) => { DSH.key(e); });
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
   $("#panel").addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["ctl"] === "ads") { AD.on = el.checked; AD.why = false; AD.reported = false; draw(); return; } if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });

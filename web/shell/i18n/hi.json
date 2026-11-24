@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "be0d96ab4cf2efae2d1d414a4944432748e32d3d8d8d526b02fe126332ab9af4",
+ "source_sha256": "7b5a67580688b6542bc078169686fc5bd6c3af13229fcadc26298f42930deee4",
  "texts": {
   "account_menu": "खाता",
   "action_add": "पहला जोड़ें",
@@ -281,6 +281,7 @@
   "hint_search": "काउंटर",
   "hint_section": "भुगतान",
   "hint_shop": "नुक्कड़ की दुकान",
+  "hint_step": "गुणवत्ता जाँच",
   "hint_yousaid": "इंतज़ार लंबा था, इसलिए हमने दूसरा काउंटर खोला।",
   "iface_car_voice": "कार (केवल आवाज़)",
   "iface_computer_pointer": "LynkPC (माउस और कीबोर्ड)",

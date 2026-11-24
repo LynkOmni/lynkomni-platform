@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "be0d96ab4cf2efae2d1d414a4944432748e32d3d8d8d526b02fe126332ab9af4",
+ "source_sha256": "7b5a67580688b6542bc078169686fc5bd6c3af13229fcadc26298f42930deee4",
  "texts": {
   "account_menu": "帳戶",
   "action_add": "新增第一個",
@@ -281,6 +281,7 @@
   "hint_search": "窗口",
   "hint_section": "付款",
   "hint_shop": "街角小店",
+  "hint_step": "品質檢查",
   "hint_yousaid": "等候時間太長，所以我們開了第二個窗口。",
   "iface_car_voice": "汽車（僅語音）",
   "iface_computer_pointer": "LynkPC（滑鼠和鍵盤）",

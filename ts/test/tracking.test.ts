@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { Tracking, percent } from "../src/tracking.js";
+import { Tracking, percent, promiseMinutes, workingMinutes } from "../src/tracking.js";
 import { REGISTER } from "../src/tracking.generated.js";
 
 const root = new URL("../../..", import.meta.url).pathname;
@@ -14,6 +14,15 @@ test("every tracking scenario looks the same in TypeScript as in the Python refe
       if (st.op === "event") t.apply(st.event, st.owner);
       else if (st.op === "progress") got.push({ progress_ok: t.setProgress(st.kind, st.record, st.share, st.eta) });
       else if (st.op === "state") t.feedState(st.kind, st.record, st.state, st.at);
+      else if (st.op === "extra_defs") t.setExtraSteps(st.owner, st.kind, st.steps);
+      else if (st.op === "risk") got.push({ risk: t.risk(st.kind, st.record, st.now, st.hours) });
+      else if (st.op === "exceptions") got.push({ exceptions: t.exceptions(st.owner, st.now, st.hours) });
+      else if (st.op === "tower") got.push({ tower: t.tower(st.owner, st.now, st.kind, st.step, st.hours) });
+      else if (st.op === "scan") got.push({ scan: t.scan(st.kind, st.record, st.step, st.proof, st.client ? new Set(st.client) : undefined) });
+      else if (st.op === "partner") got.push({ partner: t.partnerEvent(st.kind, st.partner, st.code) });
+      else if (st.op === "promise") got.push({ promise: promiseMinutes(st.base, st.load, st.capacity, st.per_round) });
+      else if (st.op === "working") got.push({ working: workingMinutes(st.start, st.end, st.hours) });
+      else if (st.op === "prune") got.push({ pruned: t.prune(st.now), left: [...t.recs.keys()].sort() });
       else got.push({ view: t.view(st.kind, st.record, st.audience, st.now) });
     }
     assert.deepEqual(JSON.parse(JSON.stringify(got)), s.expect, s.name);

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "be0d96ab4cf2efae2d1d414a4944432748e32d3d8d8d526b02fe126332ab9af4",
+ "source_sha256": "7b5a67580688b6542bc078169686fc5bd6c3af13229fcadc26298f42930deee4",
  "texts": {
   "account_menu": "Account",
   "action_add": "Idagdag ang una",
@@ -281,6 +281,7 @@
   "hint_search": "Counter",
   "hint_section": "Mga bayad",
   "hint_shop": "Tindahan sa kanto",
+  "hint_step": "Pagsuri ng kalidad",
   "hint_yousaid": "Matagal ang paghihintay, kaya nagbukas kami ng ikalawang counter.",
   "iface_car_voice": "Kotse (boses lang)",
   "iface_computer_pointer": "LynkPC (mouse at keyboard)",
