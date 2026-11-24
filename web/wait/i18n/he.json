@@ -4,17 +4,21 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "source_sha256": "5a07b25367504973634ecb58df3a3e7452b533631c7e8cf8c3c731c377dfd1e2",
  "texts": {
   "action_retry": "נסו שוב",
   "emk_first_open": "פתיחה ראשונה במכשיר הזה (עוד לא נשמר כלום)",
   "loading": "טוען",
   "ph_all_loaded": "זה הכול",
   "ph_draft_kept": "הטיוטה שלך נשמרה במכשיר הזה.",
+  "ph_logo_checking": "הלוגו שלך ממתין לבדיקה. עד אז יוצגו ראשי התיבות שלך.",
+  "ph_plans_where": "הבעלים משנה את התוכנית בהגדרות העסק, תחת תוכניות.",
   "ph_recent": "אחרונים",
   "ph_slow": "זה לוקח יותר זמן מהרגיל.",
   "ph_suggested": "הצעות",
   "ph_updating": "מתעדכן",
+  "ph_upgrade": "שדרוג",
+  "ph_what": "מה זה עושה:",
   "ph_working": "פועל"
  }
 }

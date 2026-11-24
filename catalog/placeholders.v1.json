@@ -121,7 +121,22 @@
    "A merchant's logo still waiting for its check shows the business's initials",
    "Spoken interfaces (voice, basic-phone calls, LynkAssist by voice) say once that they are working, never leave silence",
    "Skeletons follow light, dark, high-contrast and sunlight modes from tokens"
-  ]
+  ],
+  "built": {
+   "reader_digits": "v0.93.0: format hints from ts/src/hints.ts in the reader's own digits",
+   "load_more": "ts/src/placeholder.ts listEnd: skeleton rows while the next part comes, then That's everything; no list loads more yet, and the check fails a screen that loads more without it",
+   "new_items_queued": "every new record already appears at once with its state chip (the five states, from section 1); offline it shows queued",
+   "uploads": "ts/src/placeholder.ts uploadHtml: the file's own name, real progress and the five states; no screen uploads yet (LynkFiles' screens in 4B), and the check fails a file field without it",
+   "pictures": "ts/src/placeholder.ts pictureHtml: keeps its shape, a token-coloured stand-in with its alt text when it fails; every picture on a screen is drawn by it",
+   "maps_steps_first": "trackers are drawn by ts/src/trackview.ts with their steps; no screen shows a map yet (LynkMotion in 7B), and a map comes after its steps",
+   "search": "v0.95.0: recent searches and suggestions (data-recents, data-suggest)",
+   "counters_and_disabled": "v0.95.0: counters and the reason beside a disabled field (data-why)",
+   "drafts": "v0.95.0: drafts kept on the device (data-draft)",
+   "upgrade_previews": "v0.97.0: ts/src/placeholder.ts planPreviewHtml on staff screens (the queue desk's forecast, hardware and send to another section): what it does and Upgrade, which says where the owner changes the plan; customers' screens keep only the reason",
+   "logo_initials": "v0.97.0: ts/src/placeholder.ts logoInitialsHtml in Business settings, Business profile, while the logo waits for its check",
+   "spoken_working": "v0.97.0: the basic phone says once that it is working while the network answers (ch_working, read aloud on a voice call); LynkAssist by voice uses the same line when it is built",
+   "skeleton_modes": "v0.95.0: light, dark, sunlight, prefers-contrast and forced-colors"
+  }
  },
  "waits": {
   "rule": "Every page waits well (83.4): a page with the emulator kit gets it from ts/src/emkit.ts (wireKit after()), any other page calls PageWait.apply (ts/src/emulator.ts pageWaiting) at the end of every draw, with a 'First open' condition in its panel. Buttons that ask the cloud carry data-wait and keep their width while working; coming back online shows the Updating chip over what is cached.",

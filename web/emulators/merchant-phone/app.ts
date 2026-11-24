@@ -6,6 +6,7 @@
  *  catalog/business-app.v1.json with its address; tests/test_business_app.py checks the emulator shows each one. Rules come from
  *  ts/src/pos.ts, merchant.ts, business.ts and agent.ts; payments and the cloud are sandboxes (test money only).
  *  Draft until a designer reviews it. Built into one offline HTML file by web/build.mjs; colours only from the design tokens. */
+import { logoInitialsHtml } from "../../../ts/src/placeholder.js";
 import { hintFor } from "../../../ts/src/hints.js";
 import { Cart, PosError, change, formatMoney, paymentPayload, paymentState, qtyText, quickCash, salePayload } from "../../../ts/src/pos.js";
 import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload, UserState } from "../../../ts/src/pos.js";
@@ -1470,7 +1471,7 @@ function settingScreen(id: string): string {
     : id === "connected_apps" ? `<p class="info">${esc(t("st_no_apps"))}</p>`
     : id === "ad_categories" ? adSettings(sw, owner)
     : id === "taxes" ? `<ul class="list card">${row(t("st_tax_rate"), t("from_country_pack"))}${sw("prices_include_tax")}</ul><p class="sub">${esc(t("not_tax"))}</p>`
-    : id === "business_profile" ? `<ul class="list card">${row(t("st_shop_name"), shop())}${row(t("st_business_type"), t("type_" + S.btype))}${row(t("st_address"), t("not_set"))}${row(t("st_logo"), t("logo_rule"))}</ul>`
+    : id === "business_profile" ? `<ul class="list card">${row(t("st_shop_name"), shop())}${row(t("st_business_type"), t("type_" + S.btype))}${row(t("st_address"), t("not_set"))}<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(t("st_logo"))}</span><span class="ph-logo-row">${logoInitialsHtml(shop(), t)}</span><span class="sub">${esc(t("logo_rule"))}</span></span></div></li></ul>`
     : id === "data_privacy" ? `<ul class="list card">${row(t("st_export_data"), "", "exportfile")}${row(t("st_delete_business"), t("owner_only"))}</ul>`
     : `<ul class="list card">${items.map(sw).join("")}</ul>`;
   return `${topBar(t("it_" + id), "hub:settings")}<div class="body" data-setting="${id}">${fresh ? `<p class="info">${icon("ui-info")}<span>${esc(t("fresh_check"))}</span></p>` : ""}${owner ? "" : `<p class="info">${esc(t("owner_only"))}</p>`}${body}${flash()}</div>`;

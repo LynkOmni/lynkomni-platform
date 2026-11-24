@@ -7,6 +7,7 @@
  *  or a phone number in an event; an answer deleted because it was flagged ("Please check" is only a flag); a reward shown as paid
  *  before the partner says so. Answers given on this device are written at once and sent when the link is back (the five states).
  *  Words are "ppl_sv_" keys in web/shell. Sample answers are labelled "Sandbox" wherever they appear. */
+import { planPreviewHtml } from "./placeholder.js";
 import { hintFor } from "./hints.js";
 import { esc } from "./shell.js";
 import type { T } from "./shell.js";
@@ -469,6 +470,9 @@ const svWayName = (w: string, t: T): string => t(`ppl_sv_way_${w}`);
 const svState = (s: string, t: T): string => t(`ppl_sv_state_${s}`);
 const svChoice = (c: string, t: T): string => (c === "yes" ? t("ppl_sv_yes") : c === "no" ? t("ppl_sv_no") : c.startsWith("ppl_") ? c.split("|").map((x) => t(x)).join(" · ") : c);
 const svWhy = (why: string, t: T): string => (why ? t(`ppl_sv_why_${why}`) : "");
+/** On a staff screen, a refusal because of the plan shows what the feature does and Upgrade (83.7); any other refusal stays a warning. */
+const SV_WHAT: Record<string, string> = { plan_limit_live_surveys: "ppl_sv_what_live_surveys", plan_no_hardware_without_display: "ppl_sv_what_hardware" };
+const svRefusedStaff = (why: string, t: T): string => SV_WHAT[why] ? planPreviewHtml(t, `ppl_sv_why_${why}`, SV_WHAT[why]!) : `<p class="warn" role="alert">${esc(svWhy(why, t))}</p>`;
 const svBar = (label: string, p: number, m: number | null, t: T): string =>
   `<li class="sv-bar"><span class="sv-l">${esc(label)}</span><span class="sv-track" aria-hidden="true"><span class="sv-fill" style="inline-size:${Math.max(0, Math.min(100, p))}%"></span></span><span class="sv-p">${esc(t("ppl_sv_share", { p, m: m === null ? "0.0" : svTenth(m) }))}</span></li>`;
 
@@ -515,7 +519,7 @@ export function svBuilderView(d: SurveyDesk, L: SvLook): string {
     <button type="button" class="ghost" data-act="sv:state:${saved.id}:test" ${off}>${esc(t("ppl_sv_test"))}</button>${d.approvalOn && !["approved", "open", "paused"].includes(saved.state) ? `<button type="button" class="ghost" data-act="sv:submit:${saved.id}" ${off}>${esc(t("ppl_sv_submit"))}</button>` : ""}
     <button type="button" class="primary" data-act="sv:state:${saved.id}:open" ${off}>${esc(t("ppl_sv_send"))}</button><button type="button" class="ghost" data-act="sv:state:${saved.id}:paused" ${svOff(saved.state !== "open")}>${esc(t("ppl_sv_pause"))}</button>
     <button type="button" class="ghost" data-act="sv:state:${saved.id}:closed" ${svOff(saved.state === "closed")}>${esc(t("ppl_sv_close"))}</button>` : ""}</div>
-    ${saved ? `<p class="sub" role="status">${esc(svState(saved.state, t))}${saved.note ? ` · ${esc(t(saved.note))}` : ""} · ${esc(t("ppl_sv_version", { n: saved.version }))}</p>` : ""}${d.refused ? `<p class="warn" role="alert">${esc(svWhy(d.refused, t))}</p>` : ""}
+    ${saved ? `<p class="sub" role="status">${esc(svState(saved.state, t))}${saved.note ? ` · ${esc(t(saved.note))}` : ""} · ${esc(t("ppl_sv_version", { n: saved.version }))}</p>` : ""}${d.refused ? svRefusedStaff(d.refused, t) : ""}
     <p class="sub">${esc(t("ppl_sv_version_help"))}</p>`;
   return svCard("sv_kind", t("ppl_sv_kind"), kinds + write)
     + svCard("sv_questions", t("ppl_sv_questions"), `<ul class="list sv-qs">${qs}</ul>${add}${logic}${checks.length ? `<p class="sub">${esc(t("ppl_sv_check_help"))}</p>` : `<p class="sub">${esc(t("ppl_sv_check_ok"))}</p>`}`)
@@ -632,7 +636,7 @@ export function svDevicesView(d: SurveyDesk, L: SvLook): string {
   const rows = d.devices.map((x) => svRow(esc(name(x.kind)), x.locked ? esc(t("ppl_sv_locked")) : "", `${svChip(x.locked ? "failed" : x.state, L)}${x.locked || x.id === d.deviceId ? "" : `<button type="button" class="ghost small" data-act="sv:lock:${x.id}" ${off}>${esc(t("ppl_sv_lock"))}</button>`}`)).join("");
   const kinds = `<div class="ph-choices small">${SV_DEVICE_KINDS.map((k) => `<button type="button" class="ph-choice" data-act="sv:devkind:${k}" ${svOn(d.addKind === k)} ${svOff(SV_NO_DISPLAY.includes(k) && !p.own_hardware)}><strong>${esc(name(k))}</strong></button>`).join("")}</div>`;
   const field = `<button type="button" class="ph-toggle" data-act="sv:field" ${svOn(d.field)} ${svOff(!p.field_and_paper)}><span>${esc(t("ppl_sv_field"))}</span><strong>${esc(t(d.field ? "ppl_on" : "ppl_off"))}</strong></button>${p.field_and_paper ? `<p class="sub">${esc(t("ppl_sv_field_help"))}</p>` : svPlanTag(L, "plus")}`;
-  return svCard("sv_devices", t("ppl_sv_devices"), `<ul class="list">${rows}</ul>${kinds}<button type="button" class="primary inline" data-act="sv:adddev" ${off}>${esc(t("ppl_add_device"))}</button>${d.refused === "plan_no_hardware_without_display" ? `<p class="warn" role="alert">${esc(svWhy(d.refused, t))}</p>` : ""}<p class="sub">${esc(t("ppl_sv_devices_help"))}</p>`)
+  return svCard("sv_devices", t("ppl_sv_devices"), `<ul class="list">${rows}</ul>${kinds}<button type="button" class="primary inline" data-act="sv:adddev" ${off}>${esc(t("ppl_add_device"))}</button>${d.refused === "plan_no_hardware_without_display" ? svRefusedStaff(d.refused, t) : ""}<p class="sub">${esc(t("ppl_sv_devices_help"))}</p>`)
     + svCard("sv_field", t("ppl_sv_field_title"), field);
 }
 
@@ -667,7 +671,7 @@ export function svScreenView(d: SurveyDesk, L: SvLook): string {
 }
 /** LynkCDisplay: "Rate us" for this counter, with the QR. */
 export function svCDisplayView(d: SurveyDesk, counter: number, L: SvLook): string {
-  return `<div class="qcd svcd"><p class="qcd-name">${esc(L.t("ppl_counter_n", { n: counter }))}</p>${rateUs(L.icon, L.t)}</div>`;
+  return `<div class="qcd svcd" data-wait-area data-shape="text"><p class="qcd-name">${esc(L.t("ppl_counter_n", { n: counter }))}</p>${rateUs(L.icon, L.t)}</div>`;
 }
 /** The person's phone (link, QR, website, LynkChat, email): consent first, the code for "one per phone", one question a
  *  page, then thank you with My answers and "Don't ask me again". No app and no account. */

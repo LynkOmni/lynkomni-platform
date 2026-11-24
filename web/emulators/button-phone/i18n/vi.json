@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "5902c9573a94dd00dc1ca0f983ea476f534020b60848bd9742d26d295cc4c51d",
+ "source_sha256": "0d21744682e069f6e976cd76fac7e8ea9ef895de0fd85b50b5f1a29e915acc9f",
  "texts": {
   "bp_age": "Bạn có từ {age} tuổi trở lên không?",
   "bp_agree": "{n}. Tôi đồng ý",
@@ -72,6 +72,7 @@
   "ch_spoken": "Đọc thành tiếng; bấm một số",
   "ch_text": "Gửi tin nhắn",
   "ch_voice": "Gọi menu thoại",
+  "ch_working": "Xin chờ một chút, đang xử lý.",
   "title": "LynkPOS trên điện thoại bàn phím"
  }
 }

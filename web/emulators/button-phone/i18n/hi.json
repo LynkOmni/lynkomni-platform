@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "5902c9573a94dd00dc1ca0f983ea476f534020b60848bd9742d26d295cc4c51d",
+ "source_sha256": "0d21744682e069f6e976cd76fac7e8ea9ef895de0fd85b50b5f1a29e915acc9f",
  "texts": {
   "bp_age": "क्या आपकी उम्र {age} साल या उससे ज़्यादा है?",
   "bp_agree": "{n}. मैं सहमत हूँ",
@@ -72,6 +72,7 @@
   "ch_spoken": "ज़ोर से पढ़ा जाता है; कोई संख्या दबाएँ",
   "ch_text": "SMS भेजें",
   "ch_voice": "आवाज़ मेनू पर कॉल करें",
+  "ch_working": "एक क्षण, इस पर काम हो रहा है।",
   "title": "बटन वाले फ़ोन पर LynkPOS"
  }
 }

@@ -4,17 +4,21 @@
  "kept_in_english": [],
  "lang": "am",
  "native": "አማርኛ",
- "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "source_sha256": "5a07b25367504973634ecb58df3a3e7452b533631c7e8cf8c3c731c377dfd1e2",
  "texts": {
   "action_retry": "እንደገና ሞክር",
   "emk_first_open": "በዚህ መሣሪያ ላይ የመጀመሪያ መክፈት (ገና ምንም አልተቀመጠም)",
   "loading": "በመጫን ላይ",
   "ph_all_loaded": "ያ ነው ሁሉም",
   "ph_draft_kept": "ረቂቅዎ በዚህ መሣሪያ ላይ ተቀምጧል።",
+  "ph_logo_checking": "አርማዎ ምርመራ እየጠበቀ ነው። እስከዚያ ድረስ የስምዎ የመጀመሪያ ፊደላት ይታያሉ።",
+  "ph_plans_where": "ባለቤቱ ዕቅዱን በንግድ ቅንብሮች ውስጥ በዕቅዶች ስር ይቀይራል።",
   "ph_recent": "የቅርብ ጊዜ",
   "ph_slow": "ይህ ከወትሮው በላይ እየወሰደ ነው።",
   "ph_suggested": "የተጠቆሙ",
   "ph_updating": "በማዘመን ላይ",
+  "ph_upgrade": "ዕቅድ ያሻሽሉ",
+  "ph_what": "የሚሰራው፦",
   "ph_working": "ይሠራል"
  }
 }

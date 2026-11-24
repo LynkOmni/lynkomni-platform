@@ -4,17 +4,21 @@
  "kept_in_english": [],
  "lang": "es",
  "native": "Español",
- "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "source_sha256": "5a07b25367504973634ecb58df3a3e7452b533631c7e8cf8c3c731c377dfd1e2",
  "texts": {
   "action_retry": "Intentar de nuevo",
   "emk_first_open": "Primera vez en este dispositivo (aún no hay nada guardado)",
   "loading": "Cargando",
   "ph_all_loaded": "Eso es todo",
   "ph_draft_kept": "Tu borrador se guardó en este dispositivo.",
+  "ph_logo_checking": "Tu logotipo está pendiente de revisión. Hasta entonces se muestran tus iniciales.",
+  "ph_plans_where": "El propietario cambia el plan en Ajustes del negocio, en Planes.",
   "ph_recent": "Recientes",
   "ph_slow": "Esto está tardando más de lo normal.",
   "ph_suggested": "Sugerencias",
   "ph_updating": "Actualizando",
+  "ph_upgrade": "Mejorar el plan",
+  "ph_what": "Qué hace:",
   "ph_working": "Funciona"
  }
 }

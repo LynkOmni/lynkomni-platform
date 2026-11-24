@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "th",
  "native": "ไทย",
- "source_sha256": "5902c9573a94dd00dc1ca0f983ea476f534020b60848bd9742d26d295cc4c51d",
+ "source_sha256": "0d21744682e069f6e976cd76fac7e8ea9ef895de0fd85b50b5f1a29e915acc9f",
  "texts": {
   "bp_age": "คุณอายุ {age} ปีขึ้นไปหรือไม่",
   "bp_agree": "{n}. ฉันยอมรับ",
@@ -72,6 +72,7 @@
   "ch_spoken": "อ่านออกเสียง กดตัวเลข",
   "ch_text": "ส่ง SMS",
   "ch_voice": "โทรเข้าเมนูเสียง",
+  "ch_working": "รอสักครู่ กำลังดำเนินการ",
   "title": "LynkPOS บนโทรศัพท์แบบปุ่มกด"
  }
 }

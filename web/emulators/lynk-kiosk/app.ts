@@ -42,7 +42,7 @@ const SPEAK = { t: (lang: string): T => (k, vars = {}) => (W.isTest() ? t(k, var
   dir: (lang: string): "ltr" | "rtl" => (W.isTest() ? W.dir() : DATA.i18n[lang]?.dir ?? "ltr"), code: (lang: string): string => (W.isTest() ? "en" : lang) };
 
 function home(): string {
-  return `<div class="khome">${brandMark(DATA.brand.places, "customer-welcome", S.dark, "kmark")}<h2>${esc(t("k_welcome"))}</h2><p class="sub">${esc(t("k_choose"))}</p>
+  return `<div class="khome" data-wait-area data-shape="tiles">${brandMark(DATA.brand.places, "customer-welcome", S.dark, "kmark")}<h2>${esc(t("k_welcome"))}</h2><p class="sub">${esc(t("k_choose"))}</p>
     <button type="button" class="kchoice" data-act="go:door">${icon("product-attend")}<span><strong>${esc(t("k_attend"))}</strong><span>${esc(t("k_attend_sub"))}</span></span></button>
     <button type="button" class="kchoice" data-act="go:tickets">${icon("product-queue")}<span><strong>${esc(t("k_ticket"))}</strong><span>${esc(t("k_ticket_sub"))}</span></span></button>
     <button type="button" class="kchoice" data-act="go:answer">${icon("product-survey")}<span><strong>${esc(t("k_answer"))}</strong><span>${esc(t("k_answer_sub"))}</span></span></button></div>`;

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-l3+H3iVjt+iLn+z2k22lIGxsSwR2B6AJOd8hGgdR2SI='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-9CHt74zJaWSFdTjFaMwzPNLtDTc+a6PHZTv43rfRWZc='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkMesh Relay</title>
 <meta name="description" content="Interactive emulator of LynkMesh: a till with no connection hands a sealed batch of sales to a nearby LynkOmni device that has one. The sale shows sent, awaiting cloud until the cloud accepts it. LynkMesh carries data, never money, and takes no fee.">
@@ -839,7 +839,23 @@ body { margin: 0; min-height: 100vh; }
 @media (prefers-contrast: more) { .skeleton .skel { background: var(--border-strong); } }
 @media (forced-colors: active) { .skeleton .skel { background: none; border: 1px solid CanvasText; animation: none; } .ph-updating, .ph-chip { border-color: CanvasText; } }
 /* the content area that waits never changes the page's own layout */
-[data-wait-area] { display: contents; }
+[data-wait-area][data-wrap] { display: contents; }
+/* 83.7: upgrade previews, initials for logos waiting their check, pictures that keep their shape, uploads */
+.ph-plan { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 10px 12px; border: 1px dashed var(--border-strong); border-radius: 10px; }
+.ph-plan p { margin: 0; overflow-wrap: anywhere; }
+.ph-what { color: var(--text-secondary); font-size: 14px; }
+.ph-upgrade { min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 600 14px var(--font-body); cursor: pointer; }
+.ph-where { color: var(--text-secondary); font-size: 13px; }
+.ph-initials { display: inline-flex; align-items: center; justify-content: center; inline-size: 40px; block-size: 40px; border-radius: 10px; background: var(--bg-subtle); color: var(--text-primary); font: 700 15px var(--font-heading); }
+.ph-pic { display: block; inline-size: 100%; background: var(--bg-subtle); border-radius: 8px; overflow: hidden; }
+.ph-pic img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; }
+.ph-pic.ph-failed img { display: none; }
+.ph-pic.ph-failed::after { content: attr(data-alt); display: flex; align-items: center; justify-content: center; block-size: 100%; padding: 8px; color: var(--text-secondary); font-size: 13px; text-align: center; }
+.ph-upload { display: grid; grid-template-columns: 1fr auto; gap: 4px 8px; align-items: center; }
+.ph-upload progress { grid-column: 1 / -1; inline-size: 100%; block-size: 8px; accent-color: var(--brand-ink); }
+.ph-uname { overflow-wrap: anywhere; } .ph-ustate { color: var(--text-secondary); font-size: 13px; }
+.ph-logo-row { display: flex; align-items: center; gap: 8px; margin-block: 4px; }
+.ph-logo-row .ph-why { margin: 0; }
 
 /* LynkMesh relay: two original LynkOmni devices and the cloud. Every colour is a design token. */
 .mesh { width: 900px; display: grid; grid-template-columns: 300px 1fr 300px; grid-template-rows: auto auto; gap: 18px; align-items: center; }
@@ -1108,6 +1124,8 @@ function enhanceFields(root, t) {
     if (typeof document === "undefined")
         return;
     phWireFields(t);
+    for (const box of root.getElementsByClassName("ph-pic"))
+        phPicture(box);
     const fields = root.getElementsByTagName("input").length + root.getElementsByTagName("textarea").length + root.getElementsByTagName("select").length;
     if (!fields)
         return;
@@ -1211,6 +1229,14 @@ function phWireFields(t) {
     document.addEventListener("keydown", (e) => { const el = e.target; if (e.key === "Enter" && el?.matches?.('input[type="search"][data-recents]'))
         rememberSearch(el.dataset["recents"] ?? "", el.value); });
     document.addEventListener("click", (e) => {
+        const up = e.target?.closest?.('[data-act="ph:plans"]');
+        if (up) { // Upgrade: where the owner changes the plan, said beside the button
+            e.stopImmediatePropagation();
+            const box = up.closest(".ph-plan");
+            if (box && !box.querySelector(".ph-where"))
+                up.insertAdjacentHTML("afterend", `<p class="ph-where" role="status">${phEsc(t("ph_plans_where"))}</p>`);
+            return;
+        }
         const b = e.target?.closest?.(".ph-recents [data-fill]");
         if (!b)
             return;
@@ -1226,6 +1252,39 @@ function phWireFields(t) {
 }
 function draftSafe(v) { return v.replace(/\d(?:[ -]?\d){7,}/g, (m) => "•".repeat(Math.min(m.replace(/\D/g, "").length, 19))); }
 function clearDraft(key) { phWrite(`lynk.draft.${key}`, null); }
+function planPreviewHtml(t, reasonKey, whatKey) {
+    return `<div class="ph-plan" role="note"><p>${phEsc(t(reasonKey))}</p><p class="ph-what"><strong>${phEsc(t("ph_what"))}</strong> ${phEsc(t(whatKey))}</p><button type="button" class="ph-upgrade" data-act="ph:plans">${phEsc(t("ph_upgrade"))}</button></div>`;
+}
+function initialsOf(name) {
+    const words = name.trim().split(/[\s._-]+/u).filter(Boolean);
+    const first = (w) => (w ? Array.from(w)[0] ?? "" : "");
+    return (first(words[0]) + (words.length > 1 ? first(words[words.length - 1]) : "")).toLocaleUpperCase();
+}
+function logoInitialsHtml(name, t) {
+    return `<span class="ph-initials" role="img" aria-label="${phEsc(name)}">${phEsc(initialsOf(name))}</span><span class="ph-why">${phEsc(t("ph_logo_checking"))}</span>`;
+}
+function pictureHtml(src, alt, ratio = "16 / 9") {
+    return `<span class="ph-pic" role="img" aria-label="${phEsc(alt)}" style="aspect-ratio: ${phEsc(ratio)}" data-alt="${phEsc(alt)}" data-src="${phEsc(src)}"></span>`;
+}
+function phPicture(box) {
+    if (box.firstElementChild)
+        return;
+    const src = box.dataset["src"] ?? "";
+    if (!src.startsWith("data:image/")) {
+        box.classList.add("ph-failed");
+        return;
+    } // never a web address
+    const pic = document.createElement("img");
+    pic.alt = "";
+    pic.decoding = "async"; // the box carries the description
+    pic.addEventListener("error", () => box.classList.add("ph-failed"), { once: true });
+    pic.src = src;
+    box.appendChild(pic);
+}
+function uploadHtml(name, percent, state, t) {
+    const p = Math.max(0, Math.min(100, Math.round(percent)));
+    return `<div class="ph-upload" data-state="${state}"><span class="ph-uname">${phEsc(name)}</span><progress max="100" value="${p}" aria-label="${phEsc(name)}">${p}%</progress><span class="ph-ustate">${phEsc(t(`st_${state}`))}</span></div>`;
+}
 
 // ---- ts/src/brand.js
 const BRAND_THEMES = ["light", "dark", "contrast-light", "contrast-dark"];

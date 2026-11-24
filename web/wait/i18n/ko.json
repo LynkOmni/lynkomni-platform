@@ -4,17 +4,21 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "source_sha256": "5a07b25367504973634ecb58df3a3e7452b533631c7e8cf8c3c731c377dfd1e2",
  "texts": {
   "action_retry": "다시 시도",
   "emk_first_open": "이 기기에서 처음 열기(아직 저장된 내용 없음)",
   "loading": "불러오는 중",
   "ph_all_loaded": "모두 표시했습니다",
   "ph_draft_kept": "초안이 이 기기에 저장되었습니다.",
+  "ph_logo_checking": "로고가 확인을 기다리고 있습니다. 그때까지 이니셜이 표시됩니다.",
+  "ph_plans_where": "요금제는 소유자가 비즈니스 설정의 요금제에서 바꿉니다.",
   "ph_recent": "최근",
   "ph_slow": "평소보다 오래 걸리고 있습니다.",
   "ph_suggested": "추천",
   "ph_updating": "업데이트 중",
+  "ph_upgrade": "업그레이드",
+  "ph_what": "하는 일:",
   "ph_working": "작동 중"
  }
 }

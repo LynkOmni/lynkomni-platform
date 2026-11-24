@@ -4,17 +4,21 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "source_sha256": "5a07b25367504973634ecb58df3a3e7452b533631c7e8cf8c3c731c377dfd1e2",
  "texts": {
   "action_retry": "再試一次",
   "emk_first_open": "在此裝置上首次開啟（尚未儲存任何內容）",
   "loading": "載入中",
   "ph_all_loaded": "已全部顯示",
   "ph_draft_kept": "你的草稿已保存在此裝置上。",
+  "ph_logo_checking": "你的標誌正在等待檢查。在此之前將顯示你的首字母。",
+  "ph_plans_where": "店主可在業務設定的「方案」中變更方案。",
   "ph_recent": "最近",
   "ph_slow": "這比平常花的時間更長。",
   "ph_suggested": "建議",
   "ph_updating": "正在更新",
+  "ph_upgrade": "升級",
+  "ph_what": "功能：",
   "ph_working": "正常"
  }
 }
