@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "be0d96ab4cf2efae2d1d414a4944432748e32d3d8d8d526b02fe126332ab9af4",
+ "source_sha256": "7b5a67580688b6542bc078169686fc5bd6c3af13229fcadc26298f42930deee4",
  "texts": {
   "account_menu": "Akun",
   "action_add": "Tambahkan yang pertama",
@@ -281,6 +281,7 @@
   "hint_search": "Loket",
   "hint_section": "Pembayaran",
   "hint_shop": "Warung sudut",
+  "hint_step": "Cek kualitas",
   "hint_yousaid": "Antreannya lama, jadi kami membuka konter kedua.",
   "iface_car_voice": "Mobil (hanya suara)",
   "iface_computer_pointer": "LynkPC (tetikus dan papan ketik)",

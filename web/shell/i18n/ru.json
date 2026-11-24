@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ru",
  "native": "Русский",
- "source_sha256": "be0d96ab4cf2efae2d1d414a4944432748e32d3d8d8d526b02fe126332ab9af4",
+ "source_sha256": "7b5a67580688b6542bc078169686fc5bd6c3af13229fcadc26298f42930deee4",
  "texts": {
   "account_menu": "Аккаунт",
   "action_add": "Добавить первый",
@@ -281,6 +281,7 @@
   "hint_search": "Окно",
   "hint_section": "Платежи",
   "hint_shop": "Магазин у дома",
+  "hint_step": "Проверка качества",
   "hint_yousaid": "Ждать было долго, поэтому мы открыли второе окно.",
   "iface_car_voice": "Автомобиль (только голос)",
   "iface_computer_pointer": "LynkPC (мышь и клавиатура)",

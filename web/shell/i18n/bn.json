@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "be0d96ab4cf2efae2d1d414a4944432748e32d3d8d8d526b02fe126332ab9af4",
+ "source_sha256": "7b5a67580688b6542bc078169686fc5bd6c3af13229fcadc26298f42930deee4",
  "texts": {
   "account_menu": "অ্যাকাউন্ট",
   "action_add": "প্রথমটি যোগ করুন",
@@ -281,6 +281,7 @@
   "hint_search": "কাউন্টার",
   "hint_section": "পেমেন্ট",
   "hint_shop": "পাড়ার দোকান",
+  "hint_step": "মান যাচাই",
   "hint_yousaid": "অপেক্ষা দীর্ঘ ছিল, তাই আমরা দ্বিতীয় কাউন্টার খুলেছি।",
   "iface_car_voice": "গাড়ি (শুধু কণ্ঠ)",
   "iface_computer_pointer": "LynkPC (মাউস ও কিবোর্ড)",

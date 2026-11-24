@@ -95,7 +95,40 @@
       }
      ]
     }
-   ]
+   ],
+   "promise": {
+    "requested": 15,
+    "assigned": 20,
+    "on_the_way": 60
+   },
+   "scan": {
+    "on_the_way": {
+     "event": "DeliveryPickedUp"
+    },
+    "delivered": {
+     "event": "DeliveryDelivered",
+     "proof": [
+      "code",
+      "signature",
+      "photo"
+     ]
+    }
+   },
+   "checks": {
+    "delivered": [
+     "after:on_the_way"
+    ]
+   },
+   "partner_status": {
+    "delivery_partner": {
+     "accepted": "DeliveryAccepted",
+     "picked_up": "DeliveryPickedUp",
+     "delivered": "DeliveryDelivered",
+     "failed": "DeliveryFailed",
+     "cancelled": "DeliveryFailed"
+    }
+   },
+   "keep_days": 180
   },
   {
    "id": "order",
@@ -178,7 +211,28 @@
       }
      ]
     }
-   ]
+   ],
+   "promise": {
+    "placed": 10,
+    "preparing": 30,
+    "ready": 60
+   },
+   "waits_on_customer": [
+    "ready"
+   ],
+   "scan": {
+    "collected": {
+     "event": "PickupHandedOver",
+     "proof": [
+      "code"
+     ]
+    }
+   },
+   "checks": {
+    "collected": [
+     "after:ready"
+    ]
+   }
   },
   {
    "id": "payment",
@@ -766,7 +820,41 @@
       }
      ]
     }
-   ]
+   ],
+   "working_time": true,
+   "promise": {
+    "received": 120,
+    "diagnosing": 480,
+    "waiting_parts": 2880,
+    "repairing": 960,
+    "ready": 4320
+   },
+   "waits_on_customer": [
+    "ready"
+   ],
+   "scan": {
+    "diagnosing": {
+     "event": "RepairStatusChanged"
+    },
+    "repairing": {
+     "event": "RepairStatusChanged"
+    },
+    "ready": {
+     "event": "RepairStatusChanged"
+    },
+    "completed": {
+     "event": "RepairStatusChanged",
+     "proof": [
+      "code",
+      "signature"
+     ]
+    }
+   },
+   "checks": {
+    "completed": [
+     "after:ready"
+    ]
+   }
   },
   {
    "id": "invoice",
@@ -846,6 +934,10 @@
      ],
      "optional": true
     }
+   ],
+   "waits_on_customer": [
+    "issued",
+    "partly_paid"
    ]
   },
   {
@@ -1208,7 +1300,24 @@
       }
      ]
     }
-   ]
+   ],
+   "promise": {
+    "waiting": 45,
+    "called": 5
+   },
+   "scan": {
+    "called": {
+     "event": "TicketCalled"
+    },
+    "served": {
+     "event": "TicketServed"
+    }
+   },
+   "checks": {
+    "served": [
+     "after:called"
+    ]
+   }
   },
   {
    "id": "attendance_correction",
@@ -1580,6 +1689,13 @@
       }
      ]
     }
+   ],
+   "promise": {
+    "sent_for_signing": 4320,
+    "signed": 4320
+   },
+   "waits_on_customer": [
+    "sent_for_signing"
    ]
   },
   {
@@ -1704,7 +1820,13 @@
       }
      ]
     }
-   ]
+   ],
+   "working_time": true,
+   "promise": {
+    "received": 2880,
+    "approved": 2880,
+    "partly_paid": 2880
+   }
   },
   {
    "id": "expense_claim",
@@ -1748,7 +1870,12 @@
       }
      ]
     }
-   ]
+   ],
+   "working_time": true,
+   "promise": {
+    "submitted": 2880,
+    "approved": 2880
+   }
   },
   {
    "id": "message_delivery",
@@ -2183,5 +2310,25 @@
     "record": "nid"
    }
   ]
+ },
+ "engine": {
+  "agreed": "Owner, 19 November 2026: TRACKING UPDATE (master blueprint section 72.3, 72.4 and 72.9); the section 4 engine upgrade",
+  "at_risk_bp": 8000,
+  "at_risk_note": "An item is at risk once it has spent 80% of its step's promised time in that step (basis points, 8000 = 80%), and late once it has spent all of it. Promised times are in minutes; a kind with working_time counts only the business's opening hours.",
+  "stuck_factor": 2,
+  "stuck_note": "An item is stuck when it has stayed in a step at least twice that step's promised time. It is listed and raised; nothing changes its step.",
+  "keep_days": 400,
+  "keep_note": "An ended tracker is kept this many days after its ending (a kind may say keep_days), then removed from the engine; the event log and the books keep their own keeping times.",
+  "two_second_ms": 2000,
+  "two_second_note": "A step is visible within two seconds of its event: the engine applies a busy day's events and draws its views well inside that (tests/test_tracking_engine.py).",
+  "late_events": "An event that arrives late (an offline scan sent hours afterwards) lands in its true place: it never becomes the current step when a later step of the same flow was already reached at a later time. An event seen once (same event id) is never counted twice.",
+  "clash": "Two endings for one item (delivered on one device, failed on another, both offline) never overwrite each other: the ending with the earlier true time stands, the other is kept as a clash and raised to the owner to settle.",
+  "flows": "A kind's steps may be added to but never removed or renamed while items are on their way: every step id that ever existed stays (contract/vectors/tracking-steps.lock.json; tests/test_tracking_engine.py).",
+  "extra_steps_max": 5,
+  "extra_steps_note": "A business may add up to five steps of its own to a kind (a quality check, a second count). They show on its own screens in time order, never change the five-state chip, never decide an ending and are shown to customers only when the business says so. Marked with TrackingStepMarked (contract version 18).",
+  "practice": "A tracker whose events carry practice true (practice mode) is never in the control tower's counts, the exception list, reports or messages.",
+  "capacity": "A promise from real capacity: base minutes plus whole rounds of the work already waiting (load divided by the people or machines on it, rounded up) times the minutes one round takes.",
+  "partners": "A partner's own status words never reach a screen: each is mapped here to the event LynkOmni's cloud writes for it; an unknown status is listed for staff and changes nothing.",
+  "scan": "A scan moves a step only where the register says (scan), only with the proof the step asks for, only after its checks pass, and only by an event a device may write; cloud-only steps are never scanned."
  }
 }

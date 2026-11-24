@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ta",
  "native": "தமிழ்",
- "source_sha256": "be0d96ab4cf2efae2d1d414a4944432748e32d3d8d8d526b02fe126332ab9af4",
+ "source_sha256": "7b5a67580688b6542bc078169686fc5bd6c3af13229fcadc26298f42930deee4",
  "texts": {
   "account_menu": "கணக்கு",
   "action_add": "முதலாவதைச் சேர்க்கவும்",
@@ -281,6 +281,7 @@
   "hint_search": "கவுண்டர்",
   "hint_section": "கட்டணங்கள்",
   "hint_shop": "தெருமுனைக் கடை",
+  "hint_step": "தரச் சோதனை",
   "hint_yousaid": "காத்திருப்பு நீண்டதாக இருந்ததால் இரண்டாவது கவுண்டரைத் திறந்தோம்.",
   "iface_car_voice": "கார் (குரல் மட்டும்)",
   "iface_computer_pointer": "LynkPC (மவுஸ் மற்றும் விசைப்பலகை)",

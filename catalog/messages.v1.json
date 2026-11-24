@@ -2663,6 +2663,64 @@
     "push",
     "text"
    ]
+  },
+  {
+   "id": "tracking_exception",
+   "area": "tracking",
+   "trigger": "AlertSent",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "burst",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 4
+  },
+  {
+   "id": "tracking_delay",
+   "area": "tracking",
+   "trigger": "TrackingStepReached",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 7
+  },
+  {
+   "id": "tracking_needs_you",
+   "area": "tracking",
+   "trigger": "TrackingStepReached",
+   "audience": "customer",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [],
+   "build_section": 7
   }
  ]
 }

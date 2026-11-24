@@ -10,7 +10,7 @@ A step is reached only by the event that proves it. The chip state is one of que
 Customers see customer steps only, never an address, a phone number, a person's name or coordinates. Live progress
 (deliveries) is a share and an arrival time from positions held only in memory during the trip, deleted when it ends.
 The TypeScript port (ts/src/tracking.ts) must agree with this file: tools/tracking_vectors.py writes the shared vectors."""
-import json, math, os, time
+import json, re, math, os, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REGISTER = os.path.join(ROOT, "catalog", "tracking.v1.json")
@@ -52,12 +52,16 @@ class Tracking:
         s.alias = {}         # (kind, alias value) -> record
         s.lines = {}         # (kind, record, rule key) -> set of unique values (all_of rules)
         s.subs = {}          # (kind, record) -> {"channel", "lang"}: how the customer chose to hear about it (TrackingSubscribed)
+        s.engine = s.reg.get("engine", {})
+        s.applied = set()    # event ids already applied: an event seen once is never counted twice
+        s.extra_defs = {}    # (owner, kind) -> [{"id", "label", "customer"}]: a business's own extra steps
 
     # ---- records
     def _rec(s, kind, record, owner):
         r = s.recs.get((kind, record))
         if r is None:
-            r = s.recs[(kind, record)] = {"owner": owner, "reached": {}, "order": [], "seen": {}, "eta": None, "parent": None, "children": [], "progress": None}
+            r = s.recs[(kind, record)] = {"owner": owner, "reached": {}, "order": [], "seen": {}, "eta": None, "parent": None, "children": [], "progress": None,
+                                          "clash": [], "extra": [], "practice": False, "ended_at": None}
         elif owner and not r["owner"]:
             r["owner"] = owner
         return r
@@ -70,7 +74,17 @@ class Tracking:
         r = s.recs[(kind, record)]
         step = s.kinds[kind]["steps"][i]
         if s._ended(kind, r):
-            return                                   # nothing moves after an ending
+            end_i = r["order"][-1]
+            if step.get("terminal") and i != end_i and i not in r["reached"] and not any(c["step"] == step["id"] for c in r["clash"]):
+                r["clash"].append({"step": step["id"], "at": at})       # two endings: the earlier stands, this one waits for a person
+            elif i not in r["reached"] and at is not None and r["reached"].get(end_i) is not None and at < r["reached"][end_i] and i < end_i:
+                r["reached"][i] = at; r["order"].insert(len(r["order"]) - 1, i)   # a late event lands in its true place, never current
+            return                                   # nothing else moves after an ending
+        cur_i = r["order"][-1] if r["order"] else None
+        if (i not in r["reached"] and cur_i is not None and i < cur_i and at is not None and r["reached"].get(cur_i) is not None
+                and at < r["reached"][cur_i] and not step.get("terminal")):
+            r["reached"][i] = at; r["order"].insert(len(r["order"]) - 1, i)      # an earlier step arriving late stays in the past
+            return
         if i in r["reached"]:
             # a step counts once, unless the register says it can come again (a queue ticket waits again after Put back or Send to)
             if not step.get("again") or r["order"][-1] == i: return
@@ -79,6 +93,7 @@ class Tracking:
         r["order"].append(i)                         # arrival order decides the current step (device clocks can disagree)
         if step.get("terminal"):
             r["progress"] = None                     # the trip is over: positions and progress are gone
+            r["ended_at"] = at
         changes.append({"kind": kind, "record": record, "step": step["id"], "state": step["state"], "customer": bool(step.get("customer")), "owner": r["owner"], "at": at})
         for pk, pi in s.by_child.get((kind, step["id"]), []):      # a child's step moves its parent
             if r["parent"] and r["parent"][0] == pk:
@@ -88,6 +103,12 @@ class Tracking:
     def apply(s, event, owner=None):
         etype, p, at = event["type"], event.get("payload", {}), epoch(event.get("at"))
         changes = []
+        eid = event.get("id")
+        if eid is not None:
+            if eid in s.applied: return changes      # the same event twice (a re-sent offline batch) counts once
+            s.applied.add(eid)
+        if etype == "TrackingStepMarked":
+            return s._extra(p, at, owner)
         if etype == "TrackingSubscribed" and p.get("kind") in s.kinds:
             s.subs[(p["kind"], p["record"])] = {"channel": p["channel"], "lang": p.get("lang", "en")}
             return changes
@@ -109,6 +130,7 @@ class Tracking:
             if record is None:
                 continue
             r = s._rec(kind, record, owner)
+            if p.get("practice") is True: r["practice"] = True                  # practice trackers stay out of counts and messages
             if any(etype == e["event"] and e.get("field") in p for e in k.get("eta", [])):
                 r["eta"] = epoch(next(p[e["field"]] for e in k["eta"] if e["event"] == etype and e.get("field") in p))
             when = rule.get("when")
@@ -192,6 +214,12 @@ class Tracking:
             if r["parent"]: v["parent"] = {"kind": r["parent"][0], "record": r["parent"][1]}
         else:
             v["children"] = [s.view(c[0], c[1], "customer", now) for c in r["children"]]
+        extra = [x for x in r["extra"] if audience != "customer" or x["customer"]]
+        if extra: v["extra"] = [{"id": x["id"], "label": x["label"], "at": iso(x["at"])} for x in sorted(extra, key=lambda x: (x["at"] or 0, x["id"]))]
+        if audience != "customer":
+            v["risk"] = s.risk(kind, record, now)
+            if r["clash"]: v["clash"] = [c["step"] for c in r["clash"]]
+            if r["practice"]: v["practice"] = True
         if public_id: v["public_id"] = public_id
         return v
 
@@ -205,6 +233,123 @@ class Tracking:
 
     def late(s, now, owner=None):
         return [v for v in s.active(owner, now=now) if v["late"]]
+
+
+    # ---- the section 4 engine upgrade (TRACKING UPDATE 72.3): promises, risk, exceptions, the control tower, scanning, partners
+    def set_extra_steps(s, owner, kind, steps):
+        """A business's own extra steps for a kind (at most engine.extra_steps_max): shown on its screens, never the chip or an ending."""
+        if kind not in s.kinds: raise ValueError("unknown tracking kind")
+        if len(steps) > s.engine.get("extra_steps_max", 5): raise ValueError("too many extra steps")
+        ids = [x["id"] for x in steps]
+        if len(set(ids)) != len(ids) or any(not EXTRA_ID.fullmatch(i) or i in {st["id"] for st in s.kinds[kind]["steps"]} for i in ids):
+            raise ValueError("an extra step needs its own id (lowercase letters, digits, underscore) that no registered step uses")
+        s.extra_defs[(owner, kind)] = [{"id": x["id"], "label": str(x["label"])[:60], "customer": bool(x.get("customer"))} for x in steps]
+
+    def _extra(s, p, at, owner):
+        kind, record, xid = p.get("kind"), p.get("record"), p.get("extra_step")
+        r = s.recs.get((kind, record))
+        if r is None or s._ended(kind, r): return []
+        d = next((x for x in s.extra_defs.get((r["owner"] or owner, kind), []) if x["id"] == xid), None)
+        if d is None or any(x["id"] == xid for x in r["extra"]): return []
+        r["extra"].append({"id": xid, "label": d["label"], "customer": d["customer"], "at": at})
+        return []                                     # an extra step never changes the chip and sends no message
+
+    def risk(s, kind, record, now, hours=None):
+        """on_time, at_risk or late against the current step's promised time; None when the kind promises nothing or it ended."""
+        k, r = s.kinds[kind], s.recs.get((kind, record))
+        if r is None or not r["order"] or s._ended(kind, r): return None
+        cur = k["steps"][r["order"][-1]]["id"]
+        target = k.get("promise", {}).get(cur)
+        entered = r["reached"].get(r["order"][-1])
+        if target is None or entered is None: return None
+        spent = working_minutes(entered, now, hours) if k.get("working_time") and hours else max(0, int(now - entered) // 60)
+        if spent >= target: return "late"
+        return "at_risk" if spent * 10000 >= target * s.engine.get("at_risk_bp", 8000) else "on_time"
+
+    def _stuck(s, kind, r, now, hours):
+        k = s.kinds[kind]; cur = k["steps"][r["order"][-1]]["id"]
+        target = k.get("promise", {}).get(cur); entered = r["reached"].get(r["order"][-1])
+        if target is None or entered is None: return False
+        spent = working_minutes(entered, now, hours) if k.get("working_time") and hours else max(0, int(now - entered) // 60)
+        return spent >= target * s.engine.get("stuck_factor", 2)
+
+    def exceptions(s, owner, now, hours=None):
+        """What needs a person, worst first: two endings that clash, failed, stuck, late, at risk, waiting on the customer."""
+        order = ["clash", "failed", "stuck", "late", "at_risk", "waiting_on_customer"]
+        out = []
+        for (kind, record), r in s.recs.items():
+            if r["owner"] != owner or r["practice"] or not r["order"]: continue
+            k = s.kinds[kind]; cur = k["steps"][r["order"][-1]]
+            if r["clash"]: why = "clash"
+            elif s._ended(kind, r): why = "failed" if cur["state"] == "failed" else None
+            elif s._stuck(kind, r, now, hours): why = "stuck"
+            else:
+                rk = s.risk(kind, record, now, hours)
+                why = rk if rk in ("late", "at_risk") else ("waiting_on_customer" if cur["id"] in k.get("waits_on_customer", []) else None)
+            if why: out.append({"kind": kind, "record": record, "step": cur["id"], "why": why, "since": iso(r["reached"].get(r["order"][-1]))})
+        return sorted(out, key=lambda x: (order.index(x["why"]), x["since"] or "", x["kind"], x["record"]))
+
+    def tower(s, owner, now, kind=None, step=None, hours=None):
+        """The control tower: everything in motion for an owner, late first, then at risk, then the rest, oldest first; practice left out."""
+        rank = {"late": 0, "at_risk": 1, "on_time": 2, None: 3}
+        rows = []
+        for (k_id, record), r in s.recs.items():
+            if r["owner"] != owner or r["practice"] or not r["order"] or s._ended(k_id, r): continue
+            cur = s.kinds[k_id]["steps"][r["order"][-1]]
+            if (kind and k_id != kind) or (step and cur["id"] != step): continue
+            rows.append({"kind": k_id, "record": record, "step": cur["id"], "state": cur["state"], "risk": s.risk(k_id, record, now, hours),
+                         "since": iso(r["reached"].get(r["order"][-1]))})
+        rows.sort(key=lambda x: (rank[x["risk"]], x["since"] or "", x["kind"], x["record"]))
+        counts = {key: sum(1 for x in rows if x["risk"] == key) for key in ("late", "at_risk", "on_time")}
+        return {"rows": rows, "counts": counts, "total": len(rows)}
+
+    def partner_event(s, kind, partner, code):
+        """The event LynkOmni's cloud writes for a partner's status; None for a status the register does not know (listed for staff)."""
+        return s.kinds[kind].get("partner_status", {}).get(partner, {}).get(code)
+
+    def scan(s, kind, record, step, proof=None, client_events=None):
+        """May a scan on a device move this item to this step? Returns the event the device writes, or the reasons it may not."""
+        k = s.kinds[kind]; r = s.recs.get((kind, record)); why = []
+        rule = k.get("scan", {}).get(step)
+        if rule is None: return {"ok": False, "event": None, "why": ["not_scannable"]}
+        if client_events is not None and rule["event"] not in client_events: why.append("cloud_only")
+        if r is not None and s._ended(kind, r): why.append("ended")
+        if rule.get("proof") and proof not in rule["proof"]: why.append("needs_proof")
+        for c in k.get("checks", {}).get(step, []):
+            if c.startswith("after:"):
+                need = next((i for i, st in enumerate(k["steps"]) if st["id"] == c[6:]), None)
+                if r is None or need not in r["reached"]: why.append(c)
+        return {"ok": not why, "event": None if why else rule["event"], "why": why}
+
+    def prune(s, now):
+        """Ended trackers are kept engine.keep_days (or the kind's keep_days) after their ending, then removed. Returns how many."""
+        gone = [key for key, r in s.recs.items() if r["ended_at"] is not None and s._ended(key[0], r)
+                and now > r["ended_at"] + 86400 * s.kinds[key[0]].get("keep_days", s.engine.get("keep_days", 400))]
+        for key in gone: del s.recs[key]
+        return len(gone)
+
+
+EXTRA_ID = re.compile(r"[a-z][a-z0-9_]{1,30}")
+
+
+def promise_minutes(base, load, capacity, per_round):
+    """A promise from real capacity: base minutes plus whole rounds of the waiting work (rounded up) times one round's minutes."""
+    if capacity < 1 or base < 0 or load < 0 or per_round < 0: raise ValueError("capacity at least 1, nothing below zero")
+    return base + (-(-load // capacity)) * per_round
+
+
+def working_minutes(start, end, hours):
+    """Whole minutes between two times that fall inside opening hours. hours = {"offset_min": minutes east of UTC, "days":
+    {"0": [[open, close], ...], ...}} with Monday = "0" and open and close in minutes after local midnight."""
+    if hours is None or end <= start: return max(0, (end - start) // 60) if hours is None else 0
+    off = int(hours.get("offset_min", 0)) * 60
+    total, day0 = 0, (start + off) // 86400
+    for day in range(day0, (end + off) // 86400 + 1):
+        base = day * 86400 - off
+        for o, c in hours.get("days", {}).get(str((day + 3) % 7), []):       # 1 January 1970 was a Thursday (3)
+            a, b = max(start, base + o * 60), min(end, base + c * 60)
+            if b > a: total += (b - a) // 60
+    return total
 
 
 QUIET_HOURS = (21, 7)                       # local time: messages wait from 21:00 until 07:00 ...
@@ -227,6 +372,10 @@ class PlatformTracking:
             changes = changes + s.t.feed_state(m["kind"], payload[m["record"]], payload["state"], ts, owner=subject)
         for ch in changes:
             s.p.cloud.signal(subject, "TrackingStepReached", {k: ch[k] for k in ("kind", "record", "step", "state", "customer")}, now=ch["at"])
+    def set_extra_steps(s, owner, kind, steps):
+        """A business's own extra steps (TRACKING UPDATE 72.3, at most five per kind); marked later by TrackingStepMarked."""
+        s.t.set_extra_steps(owner, kind, steps)
+
     def subscribe(s, owner, kind, record, channel, lang="en", now=None):
         """The customer chose a way to hear about this record (the tracking page's "Tell me each step"); the contact itself stays in the PII vault."""
         if kind not in s.t.kinds: raise ValueError("unknown tracking kind")

@@ -24,3 +24,27 @@
 .trk-step.current .trk-word { font-weight: 600; }
 .trk-at { color: var(--text-secondary); font-size: 12px; font-feature-settings: var(--font-feature-tabular); white-space: nowrap; }
 .trk-line .sub { overflow-wrap: anywhere; }
+/* the control tower (TRACKING UPDATE 72.4) */
+.trk-panel { display: flex; flex-direction: column; gap: 8px; min-width: 0; margin-block-end: 16px; }
+.trk-panel h2 { margin: 0; font: 600 17px var(--font-heading); }
+.trk-counts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; }
+.trk-count { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border-radius: 12px; background: var(--bg-surface); border: 1px solid var(--border-subtle); min-width: 0; }
+.trk-count strong { font: 700 22px var(--font-heading); font-feature-settings: var(--font-feature-tabular); }
+.trk-count span { overflow-wrap: anywhere; color: var(--text-secondary); }
+.trk-count.r-late strong { color: var(--status-danger-text); }
+.trk-count.r-at_risk strong { color: var(--status-warning-text); }
+.trk-main, .rows li > span.trk-main:first-child { display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; text-align: start; min-width: 0; flex: 1 1 auto; }
+.trk-nm { font-weight: 600; overflow-wrap: anywhere; }
+.trk-sub { color: var(--text-secondary); font-size: 13px; overflow-wrap: anywhere; }
+.trk-why { display: inline-flex; align-items: center; gap: 6px; overflow-wrap: anywhere; }
+.trk-why .ic, .trk-empty .ic { inline-size: 18px; block-size: 18px; flex: none; display: inline-flex; }
+.trk-why svg, .trk-empty svg { inline-size: 100%; block-size: 100%; }
+.trk-empty { display: flex; gap: 6px; align-items: flex-start; }
+.trk-risk { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+.trk-risk .ic { inline-size: 18px; block-size: 18px; flex: none; display: inline-flex; }
+.trk-risk svg { inline-size: 100%; block-size: 100%; }
+.trk-risk.r-late { color: var(--status-danger-text); }
+.trk-risk.r-at_risk { color: var(--status-warning-text); }
+.trk-form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px 12px; }
+.trk-field { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1 1 180px; }
+.trk-field select, .trk-field input { min-block-size: 44px; }

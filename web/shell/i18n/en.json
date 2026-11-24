@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "en",
  "native": "English",
- "source_sha256": "be0d96ab4cf2efae2d1d414a4944432748e32d3d8d8d526b02fe126332ab9af4",
+ "source_sha256": "7b5a67580688b6542bc078169686fc5bd6c3af13229fcadc26298f42930deee4",
  "texts": {
   "account_menu": "Account",
   "action_add": "Add the first one",
@@ -281,6 +281,7 @@
   "hint_search": "Counter",
   "hint_section": "Payments",
   "hint_shop": "Corner Shop",
+  "hint_step": "Quality check",
   "hint_yousaid": "The wait was long, so we opened a second counter.",
   "iface_car_voice": "Car (voice only)",
   "iface_computer_pointer": "LynkPC (mouse and keyboard)",

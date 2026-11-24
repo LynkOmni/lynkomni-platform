@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yi",
  "native": "ייִדיש",
- "source_sha256": "be0d96ab4cf2efae2d1d414a4944432748e32d3d8d8d526b02fe126332ab9af4",
+ "source_sha256": "7b5a67580688b6542bc078169686fc5bd6c3af13229fcadc26298f42930deee4",
  "texts": {
   "account_menu": "חשבון",
   "action_add": "לייגט צו דעם ערשטן",
@@ -281,6 +281,7 @@
   "hint_search": "פֿענצטערל",
   "hint_section": "צאָלונגען",
   "hint_shop": "די קראָם אויפֿן ווינקל",
+  "hint_step": "קוואַליטעט קאָנטראָל",
   "hint_yousaid": "די וואַרטעניש איז געווען לאַנג, האָבן מיר געעפֿנט אַ צווייטן קאָנטער.",
   "iface_car_voice": "אויטאָ (נאָר קול)",
   "iface_computer_pointer": "LynkPC (מויז און קלאַוויאַטור)",
