@@ -77,11 +77,11 @@ class TimeToSkeleton(unittest.TestCase):
     after; a page with its own First open box (pageWaiting) and a device with the kit (emkit) are both measured."""
     KIT, OWN, SHELL = '[data-kit="firstopen"]', '[data-ctl="firstopen"]', "#cFirst"
     PAGES = {"counter-tablet": KIT, "kitchen-screen": KIT, "rider-phone": KIT, "stock-scanner": KIT, "lynk-kiosk": KIT, "lynk-dscreen": KIT,
-             "lynk-cdisplay": KIT, "customer-display": KIT, "bet-counter": KIT, "track-page": OWN, "queue-page": OWN, "survey-page": OWN, "vcard-card": OWN,
+             "lynk-cdisplay": KIT, "customer-display": KIT, "track-page": OWN, "queue-page": OWN, "survey-page": OWN, "vcard-card": OWN,
              "owner-web": OWN, "browser-frame": SHELL, "account-site": SHELL}
-    # first screen is sign-in, with nothing to load: the POS terminal and the Business app wait on every screen after it (checked
+    # first screen is sign-in, with nothing to load: the POS terminal, the betting counter (v0.97.1) and the Business app wait on every screen after it (checked
     # by the fit guard with First open); the button phone and the mesh relay never wait (catalog/placeholders.v1.json waits)
-    NOT_HERE = {"pos-terminal", "merchant-phone", "button-phone", "mesh-relay"}
+    NOT_HERE = {"pos-terminal", "bet-counter", "merchant-phone", "button-phone", "mesh-relay"}
 
     def test_every_page_is_measured_or_says_why_not(self):
         built = {f[len("lynkomni-"):-len(".html")] for f in os.listdir(DIST) if f.startswith("lynkomni-") and f.endswith(".html")}

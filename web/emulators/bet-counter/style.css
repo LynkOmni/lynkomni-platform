@@ -71,3 +71,13 @@
 .bcslip strong { display: block; text-align: center; font: 700 15px/1.3 var(--font-mono); }
 .bctear { margin-block-start: 6px; font: 600 12px var(--font-body); padding: 6px 12px; min-block-size: 32px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; }
 .panel .help, .panel label span { overflow-wrap: anywhere; }
+/* the lock screen, the manager's approval and who is serving (MASTER UPDATE section 3, as on every LynkPOS device) */
+.block { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 8px 4px; text-align: center; }
+.block .who, .bwho { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; font-size: 14px; }
+.bwho { justify-content: space-between; margin-block-end: 8px; }
+.bwho > span { display: inline-flex; align-items: center; gap: 6px; min-inline-size: 0; overflow-wrap: anywhere; }
+.block .who .ic, .bwho .ic { inline-size: 16px; block-size: 16px; display: inline-flex; flex: none; }
+.block .link { min-block-size: var(--touch-target); padding: 0 8px; border: 0; background: none; color: var(--brand-ink); font: 600 14px var(--font-body); text-decoration: underline; cursor: pointer; }
+.block .dk-staff, .bcscreen .dk-staff { inline-size: min(100%, 420px); }
+.chipbtn { min-block-size: var(--touch-target); padding: 0 12px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 600 13px var(--font-body); cursor: pointer; }
+.block .hint { margin: 0; font-size: 12px; color: var(--text-secondary); }
