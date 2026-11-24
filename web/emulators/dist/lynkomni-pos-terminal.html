@@ -883,7 +883,10 @@ body { margin: 0; min-height: 100vh; }
 .ic { display: inline-flex; width: 16px; height: 16px; flex: none; }
 .ic svg { width: 100%; height: 100%; }
 .statusbar .ic { width: 13px; height: 13px; }
-.app { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.app { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow-y: auto; }
+/* When a screen holds more than fits, it scrolls and its title bar and bottom buttons stay in view (owner report 2026-11-24). */
+.app > .bar { position: sticky; top: 0; z-index: 2; }
+.app > .foot { position: sticky; bottom: 0; z-index: 2; }
 .bar { flex: none; display: flex; align-items: center; gap: 6px; padding: 6px 6px 6px 10px; border-bottom: 1px solid var(--border-subtle); background: var(--bg-surface); }
 .bar h1 { flex: 1; margin: 0; font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .logo { width: 26px; display: inline-flex; }
