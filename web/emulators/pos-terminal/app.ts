@@ -7,7 +7,7 @@ import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload
 import { HANDHELD_TILES } from "../../../ts/src/business.js";
 import { AGENT_SERVICES, COLLECTION_KINDS, FINANCE_PRODUCTS, combinedLimits, commission, limitCheck, mayHandOverCash } from "../../../ts/src/agent.js";
 import type { AgentState, Limits } from "../../../ts/src/agent.js";
-import { TEST_LANGS, esc, newId, pseudo, publicId, randomBytes } from "../../../ts/src/emulator.js";
+import { TEST_LANGS, esc, newId, pseudo, publicId, randomBelow } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { shortFooterHtml } from "../../../ts/src/footer.js";
 import type { BrandPlaces } from "../../../ts/src/brand.js";
@@ -66,9 +66,8 @@ interface Sale { sale: SalePayload; payments: PaymentPayload[]; tendered?: numbe
 const PACKS = DATA.i18n;
 const EN: Record<string, string> = PACKS.en?.texts ?? {};
 
-const rnd = randomBytes;
 /** An unbiased index below n (rejection sampling: bytes that would favour the low indexes are thrown away). */
-const pickIndex = (n: number): number => { const limit = 256 - (256 % n); let b = rnd(1)[0]!; while (b >= limit) b = rnd(1)[0]!; return b % n; };
+const pickIndex = (n: number): number => randomBelow(n);
 const CATALOG: Product[] = [
   ["Rice 1 kg", 1500, "food", "6000000000011"], ["Sugar 1 kg", 1400, "food", "6000000000028"], ["Beans 1 kg", 1200, "food", "6000000000035"],
   ["Cooking oil 1 L", 3200, "food", "6000000000042"], ["Bread", 1000, "food", "6000000000059"], ["Eggs, tray of 30", 4500, "food", "6000000000066"],

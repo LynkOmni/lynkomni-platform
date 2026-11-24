@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-RflcNzeKmlDgOAXQIAFq0/J0RDXNsIsggQLCCdXRKd0='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-bDOebBObxx56RHJL374ud9P7/RVNcsJAOaqMiM3egNU='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni Account</title>
 <meta name="description" content="Interactive emulator of LynkOmni Account (account.lynkomni.com) on a phone and in the browser: sign-up, sign-in, recovery, the Security Center and every account page, built on the shared shell.">
@@ -1103,7 +1103,10 @@ function brandFile(m, id, variant) {
 function brandSrc(base, m, id, variant) {
     if (/^[a-z][a-z0-9+.-]*:/i.test(base) || base.startsWith("//"))
         throw new Error("brand files must be served from this site, not another host");
-    return `${base.replace(/\/+$/, "")}/${brandFile(m, id, variant)}`;
+    let end = base.length;
+    while (end > 0 && base[end - 1] === "/")
+        end--; // trailing slashes off, without a backtracking pattern
+    return `${base.slice(0, end)}/${brandFile(m, id, variant)}`;
 }
 const minWidth = (m, id) => {
     const a = m.assets[id];

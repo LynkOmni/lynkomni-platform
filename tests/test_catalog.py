@@ -1,6 +1,7 @@
 """One product catalog, one address map and one contacts map (review P1, A0 and M0, agreed 2026-11-07).
 The footer, billing, visuals and every email address in the code must agree with them."""
 import json, pathlib, re, sys, unittest
+from urllib.parse import urlsplit
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from services import billing
@@ -12,8 +13,8 @@ HOSTS = {h["host"] for h in ADDR["hosts"]}
 PATHS = set(ADDR["website_paths"]) | set(ADDR["redirects"])
 
 def known(href):
-    if href.startswith("https://"): return href[len("https://"):].split("/")[0] in HOSTS
-    if href.startswith("account.lynkomni.com"): return True
+    if href.startswith("https://"): return urlsplit(href).hostname in HOSTS     # the whole host name, never a piece of the address
+    if urlsplit("https://" + href).hostname == "account.lynkomni.com": return True
     return href in PATHS
 
 class Catalog(unittest.TestCase):
@@ -44,9 +45,9 @@ class Catalog(unittest.TestCase):
         and a product on its own host must be a registered host."""
         for p in PRODUCTS["products"]:
             app = p["app"]
-            if app.startswith("https://"): self.assertIn(app[len("https://"):], HOSTS, p["family"])
+            if app.startswith("https://"): self.assertIn(urlsplit(app).hostname, HOSTS, p["family"]); self.assertIn(urlsplit(app).path, ("", "/"), p["family"])
             else:
-                self.assertTrue(app.startswith("app.lynkomni.com/"), app)
+                self.assertEqual(urlsplit("https://" + app).hostname, "app.lynkomni.com", app)
                 self.assertIn(app[len("app.lynkomni.com"):], ADDR["app_paths"], p["family"])
 
     def test_redirects_land_on_real_pages(self):

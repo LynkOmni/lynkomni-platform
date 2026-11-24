@@ -1,12 +1,12 @@
 """One identity per person, two security levels. Sessions are bound to one site (no cookie shared across lynkomni.com).
 Sensitive actions need a short-lived step-up. Owner recovery follows the agreed layered design. In production the codes
 below are sent by SMS or email and are never returned to the caller; they are returned here so tests can run offline."""
-import hashlib, json, secrets, time
+import json, secrets, time
 from core.locale import t
 
 SITES = {"account", "bookings", "essentials", "exchange", "merchant"}
 RESTRICTED = {"change_role", "change_payout", "revoke_device", "export_data"}   # blocked for 24h on a newly recovered device
-def _h(x): return hashlib.sha256(x.encode()).hexdigest()
+from core.secrethash import code_hash as _h, code_matches  # salted scrypt for codes a person types (core/secrethash.py)
 def _now(now): return time.time() if now is None else now
 
 class Identity:
@@ -60,7 +60,7 @@ class Identity:
         if not any(s.validate_session(session_token, site, now) == person for site in SITES): raise PermissionError("sign in first")
         s._attempt(person, now)
         r = s.db.execute("select code,expires from ichallenges where person=?", (person,)).fetchone()
-        if not r or r[1] < _now(now) or r[0] != _h(code): raise PermissionError("wrong or expired code")
+        if not r or r[1] < _now(now) or not code_matches(code, r[0]): raise PermissionError("wrong or expired code")
         tok = secrets.token_hex(16)
         s.db.execute("insert into istepups values(?,?,?,?)", (tok, person, "sensitive", _now(now) + s.STEPUP_S)); s.db.commit(); return tok
     def stepup_valid(s, token, scope="sensitive", now=None):
@@ -90,7 +90,7 @@ class Identity:
     def start_code_recovery(s, person, recovery_code, sms_ok, new_device, lost_device=None, now=None):
         """Path 2: recovery code AND SMS code, then a 24-hour wait during which any enrolled device or the backup contact can cancel."""
         s._attempt(person, now); r = s.db.execute("select recovery_hash from identities where person=?", (person,)).fetchone()
-        if not sms_ok or not r or r[0] != _h(recovery_code or ""): raise PermissionError("recovery needs the recovery code and the SMS code")
+        if not sms_ok or not r or not code_matches(recovery_code or "", r[0]): raise PermissionError("recovery needs the recovery code and the SMS code")
         return s._new_recovery(person, "code", new_device, lost_device, s.WAIT_S, now)
     def start_assisted(s, person, new_device, identity_check_done, business_proof_done, lost_device=None, now=None):
         """Path 3, last resort: 72-hour wait and two different staff approvals. Never a phone-call reset."""

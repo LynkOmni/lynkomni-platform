@@ -5,7 +5,7 @@ closing an account, Start a business (N14) and the customer's standing payments 
 own stream, named in identity/events.v1.json, with references only: no phone numbers, emails, codes or secrets in a payload.
 Sandbox notes: contact codes and recovery codes are returned to the caller so tests run offline; production sends them and never
 returns them (provider ledger: sms_otp). The registration gateway is a SANDBOX adapter (provider ledger: registration_gateway)."""
-import hashlib, json, os, secrets, time, uuid
+import json, os, secrets, time, uuid
 
 import providers
 from core.usernames import UsernameRegistry, check as username_check
@@ -28,7 +28,7 @@ REGISTRATION_STEPS = ("profile", "registration", "tax_number", "bank_account")
 PAGES = ("overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "messages", "support", "assist", "payslips", "payments", "start", "storefront", "trips", "collect",
          "attendance", "tickets", "answers", "panel")   # NEW UPDATE 4 (section 2): My details, My tickets, My answers, the LynkSurvey Panel
 def _now(n): return time.time() if n is None else n
-def _h(x): return hashlib.sha256(x.encode()).hexdigest()
+from core.secrethash import code_hash as _h, code_matches  # salted scrypt for codes a person types (core/secrethash.py)
 
 
 class RegistrationGateway:
@@ -104,7 +104,7 @@ class Account:
         s.db.execute("insert or replace into acct_contacts values(?,?,?)", (person, _h(code), _now(now) + 600)); s.db.commit(); return code
     def confirm_contact(s, person, code, now=None):
         r = s.db.execute("select code_hash,expires from acct_contacts where person=?", (person,)).fetchone()
-        if not r or r[1] < _now(now) or r[0] != _h(code): raise PermissionError("wrong or expired code")
+        if not r or r[1] < _now(now) or not code_matches(code, r[0]): raise PermissionError("wrong or expired code")
         s.db.execute("update acct_people set contact_ok=1 where person=?", (person,)); s.db.execute("delete from acct_contacts where person=?", (person,)); s.db.commit()
         return {"next": "passkey"}
     def finish_sign_up(s, person, passkey_public_key, device_name, phone_ref, email_ref, backup_contact=None, now=None):

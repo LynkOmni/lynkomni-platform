@@ -9,7 +9,7 @@
 import { hintFor } from "./hints.js";
 import { esc } from "./shell.js";
 import type { T } from "./shell.js";
-import { newId, randomBytes } from "./emulator.js";
+import { newId, randomBelow } from "./emulator.js";
 import { CALLS_BEFORE_MISSED, PLEASE_COME_AT, PRIORITY_BALANCE, PUT_BACK_AFTER, PUT_BACK_MINUTES, RUNNING_LATE_PLACES, CAPACITY, code, index, nextCode, pickNext, putBack, reserveBlock, runningLate, ticketNumber, validSection, waitMinutes } from "./queue.js";
 import { spoken, ticketCard } from "./peopleparts.js";
 import type { AtEmit, AtLook, AtTier } from "./attenddesk.js";
@@ -17,7 +17,7 @@ import type { AtEmit, AtLook, AtTier } from "./attenddesk.js";
 /** A one-time pairing code: a Lynk Code (queue.ts alphabet), never a number someone could guess from the last one. */
 /** The code in the changing QR of a place that lets people join "only at the place": one per few minutes, from the time alone. */
 export const pairCodeAt = (bucket: number): string => code((Math.imul(bucket, 2654435761) >>> 0) % CAPACITY);
-export const pairCode = (): string => { const b = randomBytes(4); return code(((b[0]! << 22) ^ (b[1]! << 14) ^ (b[2]! << 6) ^ b[3]!) % CAPACITY); };
+export const pairCode = (): string => code(randomBelow(CAPACITY));
 
 type QuSt = "queued" | "sent" | "accepted" | "confirmed" | "failed";
 /** The plan numbers the screens show (services/billing.py FEATURES lynkqueue, passed in by the build; never typed here). */

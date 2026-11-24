@@ -2,6 +2,10 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.94.4 (2026-11-24)
+- Security fixes for the 23 code-scanning findings on main (owner, 2026-11-24). The CI and CD workflows now say their token may only read the code. Developer API keys are kept as a keyed digest with the server's pepper, and recovery and one-time codes as salted scrypt (core/secrethash.py), never as a plain fast hash. Random numbers for sample ids and pairing codes are now fair (ts/src/emulator.ts randomBelow). A slow text pattern in the brand module is replaced by a plain loop. Two tests compare web addresses by whole host name.
+- tests/test_code_scanning.py and two security register entries keep these fixed. The production pepper is in the provider ledger's later list (secret_pepper).
+
 ## v0.94.3 (2026-11-24)
 - Fix (owner report): on the LynkPOS terminal, a screen holding more than fits (for example an agent service with its fee, commission and a warning) pushed its bottom button below the screen, out of reach. Every terminal screen now scrolls when it is full, and its title bar and bottom buttons stay in view.
 - The fit guard now checks that every button, link and field on every screen of every emulator can be reached: if its label or icon lies outside the screen, it must sit in a part that scrolls to it. A scan of all emulators at phone and computer size, including every terminal tile and service, found no other case.

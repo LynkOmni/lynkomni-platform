@@ -1,6 +1,7 @@
 """LynkHub (apps, keys, consent scopes, metering) and LynkAPI (authorization, quotas, audit) for LynkDev customers.
 Placeholders: scope names and daily call limits. Real deployments need hardened key storage and rate limiting at the gateway."""
-import hashlib, secrets, time
+import secrets, time
+from core.secrethash import lookup_digest
 from services.control import COMPANY
 from services.billing import FEATURES
 
@@ -12,7 +13,7 @@ class RateLimited(Exception):
 class DevPlatform:
     def __init__(s, c, billing, rights): s.c, s.billing, s.rights = c, billing, rights
     @staticmethod
-    def _h(key): return hashlib.sha256(key.encode()).hexdigest()
+    def _h(key): return lookup_digest(key)        # keyed digest with the server's pepper (core/secrethash.py)
     def create_app(s, developer, name, scopes):
         bad = set(scopes) - SCOPES
         if bad:

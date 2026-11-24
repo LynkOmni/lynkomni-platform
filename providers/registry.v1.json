@@ -3179,6 +3179,15 @@
    "why_not_now": "Blueprint 65.6: crypto is referral only (a comparison of licensed exchanges and about $2 per verified sign-up), at $0 until the lawyer approves it per country (REMINDER item 9).",
    "placeholders": [],
    "done_when": "The lawyer approves crypto referral for a country and a licensed crypto exchange is signed there through the Partner Hub."
+  },
+  {
+   "id": "secret_pepper",
+   "name": "Production pepper for stored keys",
+   "blocks": [],
+   "status": "pending",
+   "why_not_now": "core/secrethash.py keys developer API key digests with LYNK_SECRET_PEPPER; tests and sandboxes use the development pepper, and production has no hosting secrets yet.",
+   "placeholders": [],
+   "done_when": "Production sets LYNK_SECRET_PEPPER from the hosting provider's secret store, kept out of the code and the logs, before the first developer key is issued."
   }
  ],
  "user_actions": [
@@ -3327,7 +3336,7 @@
    "what": "Run the version-tag workflow once by hand (Actions, version-tag, Run workflow) with version v0.92.0 and commit 086a5c6, so the ads piece has its tag",
    "why": "v0.92.0 and v0.93.0 were merged in one pull request and the workflow then tagged only the newest; from v0.94.0 it tags every version a merge adds, and pushing tags is not possible from Claude's session",
    "when": "Any time; once",
-   "status": "open"
+   "status": "done"
   }
  ],
  "reminder": {
