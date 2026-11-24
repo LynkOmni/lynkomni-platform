@@ -100,6 +100,9 @@ class Platform(_Base):
         register_section_3b(s.flow, s)
         from services.panel_automations import register as register_section_3a
         register_section_3a(s.flow, s)
+        from services.shared import Shared
+        s.shared = Shared(s)                                  # the parts every service shares (CONNECT UPDATE 71.3, section 4 row 71.9)
+        s.flow.is_test = s.shared.is_test_copy               # a test copy never sends a customer a message
         from services.tracking import PlatformTracking
         s.tracking = PlatformTracking(s)                      # one tracking engine for every service (catalog/tracking.v1.json)
     def mesh_for(s, ccbox, **kw):

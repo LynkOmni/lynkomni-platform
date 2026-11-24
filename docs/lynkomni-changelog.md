@@ -2,6 +2,20 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.101.0 (2026-11-24)
+Section 4 review, fourteenth part (row 71.9, step 2a of 4: the parts every service shares, in the cloud):
+- One register for them, catalog/shared.v1.json, with the rules in core/shared.py and the cloud service services/shared.py.
+- One role system: every role a service uses (the device roles cashier, stock staff, rider and kitchen staff included) maps to the five base roles of the large-organisation set, whose permissions per area decide what each may do; a role is set once per person and nobody makes themselves the owner.
+- One calendar: invoices due, customers' promises to pay, bills to pay due and the books' lock date now; bookings, leave, tasks, shifts, rent and school fees join in their own build sections.
+- One address book: the LynkCRM records every service shares, with which services use each; names and contact details stay in the PII vault.
+- One timeline on every record (time, type and device only) and one audit viewer for the owner, an auditor or the accountant, where every look is itself recorded.
+- One recycle bin for customer records and files, kept 30 days and then removed for good; issued invoices, credit notes, posted journals, payments, ballots, signed documents and anything under legal hold never go to the bin.
+- One consent page: data shared with others, the links between services that need the business's consent (switched on or off once for every service) and how many contacts agreed to each channel.
+- One page of plans and limits, read from billing with how much is used where a service counts it.
+- A data dictionary generated from the id registry and the contract (catalog/data-dictionary.v1.json, tools/data_dictionary.py); a test checks it is current and that no event field holds personal data.
+- A test copy for every account: automations that message customers never run there.
+- The screens for these come in the next part (step 2b).
+- Leftover: one older test (the six services' partners) only passed when an earlier test happened to leave sandbox mode off; it now sets its own mode.
 ## v0.100.1 (2026-11-24)
 - The browser page's first tap is fast again: opening a menu panel (launcher, account, language, search, help, sync) now redraws only the panel instead of the whole page, and Lynk names are marked just after the screen is shown instead of while it is drawn, so the browser no longer works the screen out twice. The first tap went from about 125 ms to about 35 ms on the slow-phone test (the limit is 120 ms); the same names are marked. A panel opened with the keyboard takes the focus; opened with a tap or click, the button lets go of it.
 - A new check fails the build if two versions in the change log share a number.
