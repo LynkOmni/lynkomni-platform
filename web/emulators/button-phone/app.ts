@@ -32,7 +32,8 @@ const W = new Words(DATA.i18n, () => S.lang); const t = W.t;
  *  the lighter app, and a basic phone with no apps reaches LynkPOS by USSD, text message or a voice menu (core/channels.py). */
 type Kind = "button-phone" | "feature-phone" | "basic-phone";
 const KINDS: Kind[] = ["button-phone", "feature-phone", "basic-phone"];
-const PH = { kind: "button-phone" as Kind, mode: "idle" as "idle" | "ussd" | "sms" | "voice" | "acct" | "queue" | "survey", st: chStart() as ChState, input: "", sms: "", reply: "", ended: false,
+const WORKING_MS = 700;
+const PH = { working: false, kind: "button-phone" as Kind, mode: "idle" as "idle" | "ussd" | "sms" | "voice" | "acct" | "queue" | "survey", st: chStart() as ChState, input: "", sms: "", reply: "", ended: false,
   // MASTER UPDATE section 3: the LynkOmni account on a basic phone (identity/basic_phone.py): sign up, sign in, help, the bell
   acct: bpStart() as BpState, wrong: 0, read: new Set<string>(), created: false };
 /** LynkQueue by basic phone (build section 3B; core/channels.py queue menu): a sample place whose queue keeper gives the number. The
@@ -90,6 +91,7 @@ function chCtx() {
 }
 function channelBody(): string {
   const head = `<div class="bhead"><span>${esc(t("ch_idle"))}</span><span>${esc(S.link === "none" ? t("offline") : "")}</span></div>`;
+  if (PH.working) return `${head}<p class="bnote" role="status">${PH.mode === "voice" ? `${icon("ui-mic")} ` : ""}${esc(t("ch_working"))}</p>`;
   const soft = (l: string, r: string): string => `<div class="bsoft"><span>${esc(l)}</span><span>${esc(r)}</span></div>`;
   if (PH.mode === "acct") {
     const text = chRender(bpPage(PH.acct, acctCtx()), (k) => t(k));
@@ -223,7 +225,13 @@ const TONES = { tones: P0.tones, vibration: P0.vibration, volume: P0.volume as s
 function keySound(a: string): void { const k: Sound = soundForAct(a); playSound(SOUNDS, k, TONES); }
 function act(a: string): void {
   keySound(a);
-  if (PH.kind === "basic-phone") { channelAct(a); return; }
+  if (PH.kind === "basic-phone") {
+    const asks = PH.mode !== "idle" && PH.mode !== "sms" && !PH.ended && (a === "call" || a === "soft:left");
+    channelAct(a);
+    // 83.7: while the network answers, the phone says once that it is working (read aloud on a voice call), never silence
+    if (asks && !PH.ended) { PH.working = true; draw(); window.setTimeout(() => { PH.working = false; draw(); }, WORKING_MS); }
+    return;
+  }
   const n = /^d(\d)$/.exec(a);
   const list = S.scr === "menu" ? MENU.length : S.scr === "sell" ? PRODUCTS.length : S.scr === "help" || S.scr === "locale" ? 3 : S.scr === "account" ? 2 : 0;
   if (n) { const d = Number(n[1]); if (S.scr === "qty") S.buf = (S.buf + d).slice(0, 3); else if (d >= 1 && d <= list) { S.sel = d - 1; ok(); return; } }

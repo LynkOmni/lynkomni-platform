@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "5902c9573a94dd00dc1ca0f983ea476f534020b60848bd9742d26d295cc4c51d",
+ "source_sha256": "0d21744682e069f6e976cd76fac7e8ea9ef895de0fd85b50b5f1a29e915acc9f",
  "texts": {
   "bp_age": "আপনার বয়স কি {age} বছর বা তার বেশি?",
   "bp_agree": "{n}. আমি সম্মত",
@@ -72,6 +72,7 @@
   "ch_spoken": "জোরে পড়া হয়; একটি সংখ্যা চাপুন",
   "ch_text": "এসএমএস পাঠান",
   "ch_voice": "কণ্ঠ মেনুতে কল করুন",
+  "ch_working": "একটু অপেক্ষা করুন, কাজ চলছে।",
   "title": "বাটন ফোনে LynkPOS"
  }
 }

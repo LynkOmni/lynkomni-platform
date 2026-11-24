@@ -4,17 +4,21 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "source_sha256": "5a07b25367504973634ecb58df3a3e7452b533631c7e8cf8c3c731c377dfd1e2",
  "texts": {
   "action_retry": "Cuba lagi",
   "emk_first_open": "Kali pertama dibuka pada peranti ini (belum ada yang disimpan)",
   "loading": "Memuatkan",
   "ph_all_loaded": "Itu sahaja",
   "ph_draft_kept": "Draf anda disimpan pada peranti ini.",
+  "ph_logo_checking": "Logo anda sedang menunggu semakan. Sehingga itu, huruf awal nama anda dipaparkan.",
+  "ph_plans_where": "Pemilik menukar pelan dalam Tetapan perniagaan, di bawah Pelan.",
   "ph_recent": "Terkini",
   "ph_slow": "Ini mengambil masa lebih lama daripada biasa.",
   "ph_suggested": "Cadangan",
   "ph_updating": "Mengemas kini",
+  "ph_upgrade": "Naik taraf",
+  "ph_what": "Fungsinya:",
   "ph_working": "Berfungsi"
  }
 }

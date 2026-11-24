@@ -4,9 +4,13 @@
  "loading": "Loading",
  "ph_all_loaded": "That's everything",
  "ph_draft_kept": "Your draft was kept on this device.",
+ "ph_logo_checking": "Your logo is waiting for its check. Your initials show until then.",
+ "ph_plans_where": "The owner changes the plan in Business settings, under Plans.",
  "ph_recent": "Recent",
  "ph_slow": "This is taking longer than usual.",
  "ph_suggested": "Suggested",
  "ph_updating": "Updating",
+ "ph_upgrade": "Upgrade",
+ "ph_what": "What it does:",
  "ph_working": "Working"
 }

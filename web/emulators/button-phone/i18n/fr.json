@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fr",
  "native": "Français",
- "source_sha256": "5902c9573a94dd00dc1ca0f983ea476f534020b60848bd9742d26d295cc4c51d",
+ "source_sha256": "0d21744682e069f6e976cd76fac7e8ea9ef895de0fd85b50b5f1a29e915acc9f",
  "texts": {
   "bp_age": "Avez-vous {age} ans ou plus ?",
   "bp_agree": "{n}. J'accepte",
@@ -72,6 +72,7 @@
   "ch_spoken": "Lu à voix haute ; appuyez sur un chiffre",
   "ch_text": "Envoyer un SMS",
   "ch_voice": "Appeler le menu vocal",
+  "ch_working": "Un instant, nous y travaillons.",
   "title": "LynkPOS sur un téléphone à touches"
  }
 }

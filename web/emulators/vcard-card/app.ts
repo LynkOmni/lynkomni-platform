@@ -60,7 +60,7 @@ function app(): string {
     ${S.stepup ? `<div class="stepup" role="dialog" aria-label="${esc(t("step_up"))}"><h3>${esc(t("step_up"))}</h3><div class="row"><button class="primary" data-act="stepok">${esc(t("confirm"))}</button><button class="secondary" data-act="stepcancel">${esc(t("cancel"))}</button></div></div>` : ""}${gallery}${getCard}`;
 }
 const WAIT = new PageWait();
-function draw(): void { drawCard(); const el = $("#screen"); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = `<div data-wait-area data-shape="record">${app()}</div>`; pageWaiting(WAIT, S, el, t, draw); }
+function draw(): void { drawCard(); const el = $("#screen"); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = `<div data-wait-area data-wrap data-shape="record">${app()}</div>`; pageWaiting(WAIT, S, el, t, draw); }
 function act(a: string): void {
   if (a === "flip") S.flipped = !S.flipped;
   if (a.startsWith("sample:")) { G.sample = a.slice(7); S.flipped = false; }

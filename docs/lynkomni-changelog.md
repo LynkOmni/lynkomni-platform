@@ -2,11 +2,20 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
-## v0.96.3 (2026-11-24)
+## v0.97.1 (2026-11-24)
 The LynkBet betting counter signs staff in with a PIN (owner report):
 - The counter now opens on the staff PIN lock, like every LynkPOS device: Who is using this device?, each person's own PIN on the shared pad (pictures and a tone per key), a wait after wrong PINs and a locked PIN after ten (nothing is ever deleted; the owner or a manager resets it), the quiet duress view that only takes bets for cash while the alert leaves silently, Lock the counter, and a lock after two minutes without use. Every bet and payout is tied to the person serving.
 - A big payout and cancelling a bet now need a manager or the owner to enter their own PIN on the counter (never the person serving), instead of a tick box.
-- In all 38 languages; the counter's size limit is raised to 1270 KB with the reason written down.
+- In all 38 languages; the counter's size limit is raised to 1290 KB with the reason written down.
+
+## v0.97.0 (2026-11-24)
+Section 4 review, eleventh part (row 83.6 finished: no gaps on any screen):
+- A feature on a higher plan, on a staff screen, now shows what it does and an Upgrade button that says where the owner changes the plan (Business settings, Plans): the queue desk's busy-hour forecast, printers and other queue hardware, and sending a person to another section; the survey desk's limit on live surveys and devices without a screen. Customers' screens keep only the reason.
+- While a business's logo waits for its check, Business settings shows its initials in its place.
+- The basic phone says once that it is working while the network answers ("One moment, working on it."), read aloud on a voice call, instead of a silent pause.
+- Shared parts for pictures (they keep their shape and show their description if they fail, never a broken-image icon), uploads (the file's name, real progress and the five states) and longer lists (skeleton rows, then "That's everything"), with checks that fail any screen drawing these another way.
+- The speed check now measures, on every page, that the loading placeholder shows after 300 ms and never before. It found seven device screens (kitchen screen, stock scanner, LynkKiosk, LynkDScreen, LynkCDisplay, customer display and the betting counter) whose content area never showed its placeholder on a first open; they now do. Leftover from v0.94.0, which had said every kit device waits.
+- New words in all 38 languages. Build-table row 83.6 is done.
 
 ## v0.96.2 (2026-11-24)
 LynkBet's own product mark (brand artwork 1.11.0):

@@ -71,5 +71,48 @@ class TimeBudget(unittest.TestCase):
         for emulator, shift in self.shifts.items():
             self.assertLessEqual(shift, budget(emulator, "layout_shift_max"), f"{emulator}: the screen moved while loading (layout shift {shift:.3f})")
 
+
+class TimeToSkeleton(unittest.TestCase):
+    """PLACEHOLDER UPDATE 83 (row 83.6): on a first open, nothing new shows before 300 ms and the shape-matched skeleton is up soon
+    after; a page with its own First open box (pageWaiting) and a device with the kit (emkit) are both measured."""
+    KIT, OWN, SHELL = '[data-kit="firstopen"]', '[data-ctl="firstopen"]', "#cFirst"
+    PAGES = {"counter-tablet": KIT, "kitchen-screen": KIT, "rider-phone": KIT, "stock-scanner": KIT, "lynk-kiosk": KIT, "lynk-dscreen": KIT,
+             "lynk-cdisplay": KIT, "customer-display": KIT, "bet-counter": KIT, "track-page": OWN, "queue-page": OWN, "survey-page": OWN, "vcard-card": OWN,
+             "owner-web": OWN, "browser-frame": SHELL, "account-site": SHELL}
+    # first screen is sign-in, with nothing to load: the POS terminal and the Business app wait on every screen after it (checked
+    # by the fit guard with First open); the button phone and the mesh relay never wait (catalog/placeholders.v1.json waits)
+    NOT_HERE = {"pos-terminal", "merchant-phone", "button-phone", "mesh-relay"}
+
+    def test_every_page_is_measured_or_says_why_not(self):
+        built = {f[len("lynkomni-"):-len(".html")] for f in os.listdir(DIST) if f.startswith("lynkomni-") and f.endswith(".html")}
+        self.assertEqual(built - set(self.PAGES) - self.NOT_HERE, set())
+    SLACK_MS = 400
+
+    @unittest.skipIf(sync_playwright is None, "playwright is not installed")
+    def test_the_skeleton_waits_300_ms_and_then_comes_quickly(self):
+        timing = json.load(open(os.path.join(ROOT, "catalog", "placeholders.v1.json"), encoding="utf-8"))["timing_ms"]
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            for emulator, box in self.PAGES.items():
+                pg = b.new_page(viewport={"width": 1280, "height": 900})
+                pg.goto("file://" + os.path.join(DIST, f"lynkomni-{emulator}.html"))
+                pg.wait_for_selector("html[data-ready]", state="attached")
+                got = pg.evaluate("""(sel) => new Promise((done) => {
+                    const t0 = performance.now(); let early = false;
+                    document.querySelector(sel).click();
+                    const check = () => {
+                        const dt = performance.now() - t0, sk = document.querySelector('.skeleton');
+                        if (sk && dt < 250) early = true;
+                        if (sk || dt > 3000) done({ at: sk ? dt : -1, early }); else requestAnimationFrame(check);
+                    };
+                    requestAnimationFrame(check);
+                })""", box)
+                self.assertFalse(got["early"], f"{emulator}: the skeleton showed before {timing['show_after']} ms")
+                self.assertGreaterEqual(got["at"], timing["show_after"] - 50, f"{emulator}: no skeleton, or too early ({got['at']:.0f} ms)")
+                self.assertLessEqual(got["at"], timing["show_after"] + self.SLACK_MS, f"{emulator}: the skeleton took {got['at']:.0f} ms")
+                pg.close()
+            b.close()
+
+
 if __name__ == "__main__":
     unittest.main()

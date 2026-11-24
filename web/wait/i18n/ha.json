@@ -4,17 +4,21 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "source_sha256": "5a07b25367504973634ecb58df3a3e7452b533631c7e8cf8c3c731c377dfd1e2",
  "texts": {
   "action_retry": "Sake gwadawa",
   "emk_first_open": "Buɗewa ta farko a wannan na'ura (ba a adana komai ba tukuna)",
   "loading": "Ana lodawa",
   "ph_all_loaded": "Wannan ke nan",
   "ph_draft_kept": "An ajiye daftarinka a wannan na'ura.",
+  "ph_logo_checking": "Tambarinka yana jiran a duba shi. Har zuwa lokacin, baƙaƙen sunanka za su bayyana.",
+  "ph_plans_where": "Mai shagon ne ke canza tsari a Saitunan kasuwanci, a sashen Tsarin biyan kuɗi.",
   "ph_recent": "Na kwanan nan",
   "ph_slow": "Wannan yana ɗaukar lokaci fiye da yadda aka saba.",
   "ph_suggested": "Shawarwari",
   "ph_updating": "Ana sabuntawa",
+  "ph_upgrade": "Ɗaga tsari",
+  "ph_what": "Abin da yake yi:",
   "ph_working": "Yana aiki"
  }
 }

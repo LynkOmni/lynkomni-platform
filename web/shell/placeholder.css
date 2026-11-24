@@ -33,4 +33,20 @@
 @media (prefers-contrast: more) { .skeleton .skel { background: var(--border-strong); } }
 @media (forced-colors: active) { .skeleton .skel { background: none; border: 1px solid CanvasText; animation: none; } .ph-updating, .ph-chip { border-color: CanvasText; } }
 /* the content area that waits never changes the page's own layout */
-[data-wait-area] { display: contents; }
+[data-wait-area][data-wrap] { display: contents; }
+/* 83.7: upgrade previews, initials for logos waiting their check, pictures that keep their shape, uploads */
+.ph-plan { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 10px 12px; border: 1px dashed var(--border-strong); border-radius: 10px; }
+.ph-plan p { margin: 0; overflow-wrap: anywhere; }
+.ph-what { color: var(--text-secondary); font-size: 14px; }
+.ph-upgrade { min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 600 14px var(--font-body); cursor: pointer; }
+.ph-where { color: var(--text-secondary); font-size: 13px; }
+.ph-initials { display: inline-flex; align-items: center; justify-content: center; inline-size: 40px; block-size: 40px; border-radius: 10px; background: var(--bg-subtle); color: var(--text-primary); font: 700 15px var(--font-heading); }
+.ph-pic { display: block; inline-size: 100%; background: var(--bg-subtle); border-radius: 8px; overflow: hidden; }
+.ph-pic img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; }
+.ph-pic.ph-failed img { display: none; }
+.ph-pic.ph-failed::after { content: attr(data-alt); display: flex; align-items: center; justify-content: center; block-size: 100%; padding: 8px; color: var(--text-secondary); font-size: 13px; text-align: center; }
+.ph-upload { display: grid; grid-template-columns: 1fr auto; gap: 4px 8px; align-items: center; }
+.ph-upload progress { grid-column: 1 / -1; inline-size: 100%; block-size: 8px; accent-color: var(--brand-ink); }
+.ph-uname { overflow-wrap: anywhere; } .ph-ustate { color: var(--text-secondary); font-size: 13px; }
+.ph-logo-row { display: flex; align-items: center; gap: 8px; margin-block: 4px; }
+.ph-logo-row .ph-why { margin: 0; }

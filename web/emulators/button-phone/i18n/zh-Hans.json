@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "5902c9573a94dd00dc1ca0f983ea476f534020b60848bd9742d26d295cc4c51d",
+ "source_sha256": "0d21744682e069f6e976cd76fac7e8ea9ef895de0fd85b50b5f1a29e915acc9f",
  "texts": {
   "bp_age": "你是否年满 {age} 岁？",
   "bp_agree": "{n}. 我同意",
@@ -72,6 +72,7 @@
   "ch_spoken": "语音朗读；请按数字",
   "ch_text": "发送短信",
   "ch_voice": "拨打语音菜单",
+  "ch_working": "请稍候，正在处理。",
   "title": "按键手机上的 LynkPOS"
  }
 }

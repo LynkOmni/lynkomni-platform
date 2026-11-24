@@ -4,17 +4,21 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "source_sha256": "5a07b25367504973634ecb58df3a3e7452b533631c7e8cf8c3c731c377dfd1e2",
  "texts": {
   "action_retry": "重试",
   "emk_first_open": "在此设备上首次打开（尚未保存任何内容）",
   "loading": "加载中",
   "ph_all_loaded": "已全部显示",
   "ph_draft_kept": "你的草稿已保存在此设备上。",
+  "ph_logo_checking": "你的标志正在等待检查。在此之前将显示你的首字母。",
+  "ph_plans_where": "店主可在业务设置的“套餐”中更改套餐。",
   "ph_recent": "最近",
   "ph_slow": "这比平时花的时间更长。",
   "ph_suggested": "建议",
   "ph_updating": "正在更新",
+  "ph_upgrade": "升级",
+  "ph_what": "功能：",
   "ph_working": "正常"
  }
 }

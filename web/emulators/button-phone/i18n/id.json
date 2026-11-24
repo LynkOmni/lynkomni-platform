@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "5902c9573a94dd00dc1ca0f983ea476f534020b60848bd9742d26d295cc4c51d",
+ "source_sha256": "0d21744682e069f6e976cd76fac7e8ea9ef895de0fd85b50b5f1a29e915acc9f",
  "texts": {
   "bp_age": "Apakah usia Anda {age} tahun atau lebih?",
   "bp_agree": "{n}. Saya setuju",
@@ -72,6 +72,7 @@
   "ch_spoken": "Dibacakan; tekan angka",
   "ch_text": "Kirim SMS",
   "ch_voice": "Telepon menu suara",
+  "ch_working": "Sebentar, sedang diproses.",
   "title": "LynkPOS di ponsel tombol"
  }
 }

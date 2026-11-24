@@ -191,6 +191,7 @@ export function counterText(len: number, max: number, el: Element): string { ret
 export function enhanceFields(root: HTMLElement, t: (k: string) => string): void {
   if (typeof document === "undefined") return;
   phWireFields(t);
+  for (const box of root.getElementsByClassName("ph-pic")) phPicture(box as HTMLElement);
   // one pass over the form fields only (most screens have few or none), so a draw stays inside its tap budget
   const fields = root.getElementsByTagName("input").length + root.getElementsByTagName("textarea").length + root.getElementsByTagName("select").length;
   if (!fields) return;
@@ -263,6 +264,13 @@ function phWireFields(t: (k: string) => string): void {
   document.addEventListener("focusin", (e) => { const el = e.target as HTMLInputElement | null; if (el?.matches?.('input[type="search"][data-recents]')) phShowRecents(el, t); });
   document.addEventListener("keydown", (e) => { const el = e.target as HTMLInputElement | null; if (e.key === "Enter" && el?.matches?.('input[type="search"][data-recents]')) rememberSearch(el.dataset["recents"] ?? "", el.value); });
   document.addEventListener("click", (e) => {
+    const up = (e.target as HTMLElement | null)?.closest?.<HTMLElement>('[data-act="ph:plans"]');
+    if (up) {                                                              // Upgrade: where the owner changes the plan, said beside the button
+      e.stopImmediatePropagation();
+      const box = up.closest(".ph-plan");
+      if (box && !box.querySelector(".ph-where")) up.insertAdjacentHTML("afterend", `<p class="ph-where" role="status">${phEsc(t("ph_plans_where"))}</p>`);
+      return;
+    }
     const b = (e.target as HTMLElement | null)?.closest?.<HTMLElement>(".ph-recents [data-fill]"); if (!b) return;
     const prev = b.closest(".ph-recents")?.previousElementSibling as HTMLElement | null;
     const box = prev?.matches('input[type="search"]') ? (prev as HTMLInputElement) : prev?.querySelector<HTMLInputElement>('input[type="search"]') ?? null; if (!box) return;
@@ -276,3 +284,45 @@ export function draftSafe(v: string): string { return v.replace(/\d(?:[ -]?\d){7
 
 /** A draft is sent or thrown away: forget it on the device. */
 export function clearDraft(key: string): void { phWrite(`lynk.draft.${key}`, null); }
+
+// ---- 83.7: what a screen shows instead of a gap (upgrade previews, logos waiting their check, pictures, uploads) ---------
+/** A feature on a higher plan, on a staff screen: what it does and Upgrade, never a hidden or broken screen (never inside a
+ *  payment, count or signature, and never on a customer's screen, where only the reason shows). The Upgrade answer says where
+ *  the owner changes the plan (Business settings, Plans). */
+export function planPreviewHtml(t: (k: string) => string, reasonKey: string, whatKey: string): string {
+  return `<div class="ph-plan" role="note"><p>${phEsc(t(reasonKey))}</p><p class="ph-what"><strong>${phEsc(t("ph_what"))}</strong> ${phEsc(t(whatKey))}</p><button type="button" class="ph-upgrade" data-act="ph:plans">${phEsc(t("ph_upgrade"))}</button></div>`;
+}
+
+/** A business's initials, shown wherever its logo goes while the logo waits for its check (services/merchant_logo.py). */
+export function initialsOf(name: string): string {
+  const words = name.trim().split(/[\s._-]+/u).filter(Boolean);
+  const first = (w: string | undefined): string => (w ? Array.from(w)[0] ?? "" : "");
+  return (first(words[0]) + (words.length > 1 ? first(words[words.length - 1]) : "")).toLocaleUpperCase();
+}
+export function logoInitialsHtml(name: string, t: (k: string) => string): string {
+  return `<span class="ph-initials" role="img" aria-label="${phEsc(name)}">${phEsc(initialsOf(name))}</span><span class="ph-why">${phEsc(t("ph_logo_checking"))}</span>`;
+}
+
+/** Every picture keeps its shape while it loads and, if it fails, shows a token-coloured stand-in with its alt text, never a
+ *  broken-image icon. Only a picture carried inside the page (a data: address) is ever shown: nothing loads from the web. The box
+ *  is drawn here; enhanceFields puts the picture into it after the draw. */
+export function pictureHtml(src: string, alt: string, ratio = "16 / 9"): string {
+  return `<span class="ph-pic" role="img" aria-label="${phEsc(alt)}" style="aspect-ratio: ${phEsc(ratio)}" data-alt="${phEsc(alt)}" data-src="${phEsc(src)}"></span>`;
+}
+
+function phPicture(box: HTMLElement): void {
+  if (box.firstElementChild) return;
+  const src = box.dataset["src"] ?? "";
+  if (!src.startsWith("data:image/")) { box.classList.add("ph-failed"); return; }        // never a web address
+  const pic = document.createElement("img");
+  pic.alt = ""; pic.decoding = "async";                                                 // the box carries the description
+  pic.addEventListener("error", () => box.classList.add("ph-failed"), { once: true });
+  pic.src = src;
+  box.appendChild(pic);
+}
+
+/** An upload shows the file's own name and real progress, and waits queued when offline (the five states only). */
+export function uploadHtml(name: string, percent: number, state: "queued" | "sent" | "accepted" | "confirmed" | "failed", t: (k: string) => string): string {
+  const p = Math.max(0, Math.min(100, Math.round(percent)));
+  return `<div class="ph-upload" data-state="${state}"><span class="ph-uname">${phEsc(name)}</span><progress max="100" value="${p}" aria-label="${phEsc(name)}">${p}%</progress><span class="ph-ustate">${phEsc(t(`st_${state}`))}</span></div>`;
+}

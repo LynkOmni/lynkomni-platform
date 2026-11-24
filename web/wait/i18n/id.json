@@ -4,17 +4,21 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "9863a49feb9f5756c2e75c66c6a1169a52256531592c83c7ae9599e21d5d16f2",
+ "source_sha256": "5a07b25367504973634ecb58df3a3e7452b533631c7e8cf8c3c731c377dfd1e2",
  "texts": {
   "action_retry": "Coba lagi",
   "emk_first_open": "Pertama kali dibuka di perangkat ini (belum ada yang tersimpan)",
   "loading": "Memuat",
   "ph_all_loaded": "Sudah semua",
   "ph_draft_kept": "Draf Anda disimpan di perangkat ini.",
+  "ph_logo_checking": "Logo Anda menunggu pemeriksaan. Sampai saat itu, inisial Anda yang ditampilkan.",
+  "ph_plans_where": "Pemilik mengubah paket di Pengaturan bisnis, bagian Paket.",
   "ph_recent": "Terbaru",
   "ph_slow": "Ini memakan waktu lebih lama dari biasanya.",
   "ph_suggested": "Saran",
   "ph_updating": "Memperbarui",
+  "ph_upgrade": "Tingkatkan paket",
+  "ph_what": "Fungsinya:",
   "ph_working": "Berfungsi"
  }
 }
