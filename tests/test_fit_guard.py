@@ -236,6 +236,30 @@ EDGE = r"""() => {
   return [...out];
 }"""
 
+# Every button can be reached (owner report 2026-11-24: the LynkPOS "Send to the partner" button sat below the screen): a
+# button, link or field whose label or icon lies outside its screen must sit in a part that scrolls to it.
+CLIP = r"""() => {
+  const out = new Set();
+  const roots = [...document.querySelectorAll('#screen, #display, #cscreen, #till, #screenA, #screenB, .lscreen')].filter((r) => r.getClientRects().length);
+  for (const root of roots) {
+    const R = root.getBoundingClientRect();
+    for (const el of root.querySelectorAll('button, a[href], input, select, textarea, [role="button"]')) {
+      if (!el.getClientRects().length || el.closest('[aria-hidden="true"], [hidden], .dsh-scrim:empty')) continue;
+      const cs = getComputedStyle(el); if (cs.visibility === 'hidden' || cs.display === 'none' || cs.position === 'fixed') continue;
+      const rg = document.createRange(); rg.selectNodeContents(el); const c = rg.getBoundingClientRect();   // what the person sees: its label or icon, not the empty tap area around it
+      const r = c.width && c.height ? c : el.getBoundingClientRect(); if (!r.width || !r.height) continue;
+      if (r.top >= R.top - 1 && r.bottom <= R.bottom + 1 && r.left >= R.left - 1 && r.right <= R.right + 1) continue;
+      let reach = false;
+      for (let a = el.parentElement; a && a !== root.parentElement; a = a.parentElement) {
+        const c = getComputedStyle(a);
+        if ((/(auto|scroll)/.test(c.overflowY) && a.scrollHeight > a.clientHeight + 1) || (/(auto|scroll)/.test(c.overflowX) && a.scrollWidth > a.clientWidth + 1)) { reach = true; break; }
+      }
+      if (!reach) out.add('cut off: ' + (el.textContent.trim() || el.getAttribute('aria-label') || el.dataset.act || el.tagName).slice(0, 30));
+    }
+  }
+  return [...out];
+}"""
+
 INPUT = """() => {
   const bad = [];
   for (const el of document.querySelectorAll('[data-interface]')) {
@@ -409,10 +433,10 @@ class FitGuard(unittest.TestCase):
                 def look(where):
                     pg.mouse.move(0, 0)
                     pg.evaluate(SETTLE)
-                    bad = pg.evaluate(RAW) + pg.evaluate(NAMES) + pg.evaluate(CROWD) + pg.evaluate(AREAS) + pg.evaluate(EDGE)
+                    bad = pg.evaluate(RAW) + pg.evaluate(NAMES) + pg.evaluate(CROWD) + pg.evaluate(AREAS) + pg.evaluate(EDGE) + pg.evaluate(CLIP)
                     if bad:                   # look again after a moment: only what stays on screen counts
                         pg.wait_for_timeout(400); pg.evaluate(SETTLE)
-                        bad = pg.evaluate(RAW) + pg.evaluate(NAMES) + pg.evaluate(CROWD) + pg.evaluate(AREAS) + pg.evaluate(EDGE)
+                        bad = pg.evaluate(RAW) + pg.evaluate(NAMES) + pg.evaluate(CROWD) + pg.evaluate(AREAS) + pg.evaluate(EDGE) + pg.evaluate(CLIP)
                     if bad:
                         found.setdefault(emu, {})[where] = bad
                 look("start")
