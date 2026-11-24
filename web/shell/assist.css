@@ -38,3 +38,4 @@
 .at-parts li { overflow-wrap: anywhere; }
 .at-kinds { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 6px; }
 .at-answer { display: flex; flex-direction: column; gap: 6px; margin-block-start: 6px; padding: 10px 12px; border-radius: 10px; background: var(--bg-surface); border: 1px solid var(--border-subtle); }
+.at-kinds > button, .at-answer > button { white-space: normal; overflow-wrap: anywhere; max-inline-size: 100%; text-align: center; min-width: 0; }
