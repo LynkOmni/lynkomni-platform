@@ -769,6 +769,14 @@
       "android": "lynkomni_icon_product_id",
       "ios": "lynkomni-icon-product-id"
     },
+    "product-bet": {
+      "group": "products",
+      "accessibleName": "Betting",
+      "svg": "icons/lynkomni-icon-product-bet.svg",
+      "react": "ProductBetIcon",
+      "android": "lynkomni_icon_product_bet",
+      "ios": "lynkomni-icon-product-bet"
+    },
     "ui-pay-card": {
       "group": "ui",
       "accessibleName": "Card payment",
@@ -1102,6 +1110,10 @@
     "android/res/drawable/lynkomni_icon_product_attend.xml": {
       "sha256": "08eb871733d3c4ff60eafc19044399191be266c1d44555d69b3133e4e195dcf0",
       "bytes": 562
+    },
+    "android/res/drawable/lynkomni_icon_product_bet.xml": {
+      "sha256": "de3c1575ea70af3765412a9262ad18067fef3a3d4d2d728cc0fe01d49c991390",
+      "bytes": 591
     },
     "android/res/drawable/lynkomni_icon_product_booking.xml": {
       "sha256": "fa4e9c327e57247438810592649eeb2efd08f506158007600de53b537d1b18ef",
@@ -1554,6 +1566,10 @@
     "icons/lynkomni-icon-product-attend.svg": {
       "sha256": "7d398e8b07fea37a1b93e601e2d2c364f31a009e2a552de9768e5f1978caf7cd",
       "bytes": 239
+    },
+    "icons/lynkomni-icon-product-bet.svg": {
+      "sha256": "11fd04004effa87f52784bf5e013a896b41f02baed8d5c6180e80b61d13c2281",
+      "bytes": 268
     },
     "icons/lynkomni-icon-product-booking.svg": {
       "sha256": "46fb9c4a45810bd17753698d561db7520092e0558767b4072d51555d2a6c180c",
@@ -2022,6 +2038,14 @@
     "icons/react/ProductAttendIcon.js": {
       "sha256": "d9a09ce66d376c3b2c6e2a3e34b031ab684ccbd06c0be22fbc0f9afe8ff2b41d",
       "bytes": 660
+    },
+    "icons/react/ProductBetIcon.d.ts": {
+      "sha256": "116da51dc402076b909d2b6106974ef29bd33593b5434f0e2259d68e7e9049f3",
+      "bytes": 72
+    },
+    "icons/react/ProductBetIcon.js": {
+      "sha256": "57feaa46dc236fe0bc5741e3f577599d6eae8cf83f152575eb12204e1334dd9e",
+      "bytes": 683
     },
     "icons/react/ProductBookingIcon.d.ts": {
       "sha256": "525a938c7241f7258fce4f917d48d8794e3807884b8ab9ac34d138584455fccc",
@@ -2704,12 +2728,12 @@
       "bytes": 628
     },
     "icons/react/index.d.ts": {
-      "sha256": "7b1f0dabd7f86019942b99a1293ada8f68b49943a1cf2efeb704f2e65de1ad19",
-      "bytes": 8309
+      "sha256": "a315d608dbdc2e180971237d8ce0dd16efddfc64a0620e3e157a3cadc83ee86c",
+      "bytes": 8389
     },
     "icons/react/index.js": {
-      "sha256": "7c3740c0623bb02140dff4446f2b23861337456b38cf231b65819dc43cbf84f3",
-      "bytes": 5614
+      "sha256": "ceb9ee5b14d63b2278d9077f4ce0240b258baafcebc8af6bdf8e18cfac3fc208",
+      "bytes": 5668
     },
     "ios/LynkOmniBrand.xcassets/Contents.json": {
       "sha256": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f",
@@ -2966,6 +2990,14 @@
     "ios/LynkOmniIcons.xcassets/lynkomni-icon-product-attend.imageset/lynkomni-icon-product-attend.svg": {
       "sha256": "7d398e8b07fea37a1b93e601e2d2c364f31a009e2a552de9768e5f1978caf7cd",
       "bytes": 239
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-product-bet.imageset/Contents.json": {
+      "sha256": "12923408b685a534f6facbb4ce13c1396f5cff98608cba93f1d1118de1e26e92",
+      "bytes": 281
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-product-bet.imageset/lynkomni-icon-product-bet.svg": {
+      "sha256": "11fd04004effa87f52784bf5e013a896b41f02baed8d5c6180e80b61d13c2281",
+      "bytes": 268
     },
     "ios/LynkOmniIcons.xcassets/lynkomni-icon-product-booking.imageset/Contents.json": {
       "sha256": "217eadaaa1a17ba3e99918aecb00c316cc05b5974b07a9b7f1482134c131e4ed",
