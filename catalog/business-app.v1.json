@@ -1140,6 +1140,65 @@
     "emp_history"
    ],
    "path": "/survey/emulators"
+  },
+  {
+   "id": "calendar",
+   "blueprint": "71.3",
+   "items": [
+    "invoice_due",
+    "promise_to_pay",
+    "bill_due",
+    "lock_date"
+   ],
+   "path": "/business/calendar"
+  },
+  {
+   "id": "contacts",
+   "blueprint": "71.3",
+   "items": [
+    "customer",
+    "supplier",
+    "organisation",
+    "contact"
+   ],
+   "path": "/business/contacts"
+  },
+  {
+   "id": "recycle_bin",
+   "blueprint": "71.3",
+   "items": [
+    "restore",
+    "keep_days"
+   ],
+   "path": "/business/recycle-bin"
+  },
+  {
+   "id": "audit",
+   "blueprint": "71.3",
+   "items": [
+    "events",
+    "looks_recorded"
+   ],
+   "path": "/business/audit"
+  },
+  {
+   "id": "consents",
+   "blueprint": "71.3",
+   "items": [
+    "shared_with_others",
+    "links",
+    "contact_channels"
+   ],
+   "path": "/business/settings/consents"
+  },
+  {
+   "id": "test_copy",
+   "blueprint": "71.3",
+   "items": [
+    "open",
+    "close"
+   ],
+   "path": "/business/settings/test-copy"
   }
  ],
  "workspaces": "Who the app is for (catalog/workspaces.v1.json): a person, a company or an organisation; the entity changes words, tabs (an office workspace of a person or an organisation shows Books instead of Chats) and categories only.",

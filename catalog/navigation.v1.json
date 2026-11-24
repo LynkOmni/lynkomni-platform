@@ -563,7 +563,36 @@
     "screen": "delivery",
     "via": "tap"
    }
-  ]
+  ],
+  "business": [
+   {
+    "screen": "calendar",
+    "via": "tap"
+   },
+   {
+    "screen": "contacts",
+    "via": "tap"
+   }
+  ],
+  "settings": [
+   {
+    "screen": "consents",
+    "via": "tap"
+   },
+   {
+    "screen": "test_copy",
+    "via": "tap"
+   },
+   {
+    "screen": "recycle_bin",
+    "via": "tap"
+   },
+   {
+    "screen": "audit",
+    "via": "tap"
+   }
+  ],
+  "plans_billing": []
  },
  "three_taps": 3,
  "often": [

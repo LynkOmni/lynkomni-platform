@@ -26,13 +26,16 @@ import { Tracking } from "../../../ts/src/tracking.js";
 import { REGISTER } from "../../../ts/src/tracking.generated.js";
 import { towerHtml, exceptionsHtml, scanHtml, extraStepsHtml } from "../../../ts/src/trackview.js";
 import type { TowerLook } from "../../../ts/src/trackview.js";
+import { SHARED_PAGES, sampleShared, sharedPage, sharedAct, plansLimitsHtml } from "../../../ts/src/sharedview.js";
+import type { SharedLook, SharedPage, ConsentLink } from "../../../ts/src/sharedview.js";
 const SIDE_W = 200;   // px of room the 220 px sidebar gives its brand place (side-menu: logo from 140 px)
 
 interface Auto { id: string; level: string; assist: string | null; trigger: string; min_tier: string | null; default: string }
-declare const DATA: Build & { automations: Auto[]; autoSystem: { days: number; maxPerDay: number; afterHours: number }; launcher: { family: string; name: string; app: string }[]; taxBp: Record<string, number> };
-type Page = "today" | "sales" | "devices" | "staff" | "commissions" | "automations" | "sharing" | "tracking";
-const PAGES: Page[] = ["today", "sales", "devices", "staff", "commissions", "automations", "sharing", "tracking"];
-const PATH: Record<Page, string> = { today: "/business", sales: "/sell/sales", devices: "/business/devices", staff: "/business/team", commissions: "/business/agent-earnings", automations: "/business/automations", sharing: "/business/settings/data-sharing", tracking: "/tracking" };
+declare const DATA: Build & { automations: Auto[]; autoSystem: { days: number; maxPerDay: number; afterHours: number }; planLimits: Record<string, Record<string, Record<string, number | null>>>; consentLinks: ConsentLink[]; launcher: { family: string; name: string; app: string }[]; taxBp: Record<string, number> };
+type Page = "today" | "sales" | "devices" | "staff" | "commissions" | "automations" | "sharing" | "tracking" | SharedPage | "plans";
+const PAGES: Page[] = ["today", "sales", "devices", "staff", "commissions", "automations", "sharing", "tracking", ...SHARED_PAGES, "plans"];
+const PATH: Record<Page, string> = { today: "/business", sales: "/sell/sales", devices: "/business/devices", staff: "/business/team", commissions: "/business/agent-earnings", automations: "/business/automations", sharing: "/business/settings/data-sharing", tracking: "/tracking",
+  calendar: "/business/calendar", contacts: "/business/contacts", recycle_bin: "/business/recycle-bin", audit: "/business/audit", consents: "/business/settings/consents", test_copy: "/business/settings/test-copy", plans: "/business/plans" };
 const TIERS = ["free", "plus", "pro", "max"] as const;
 const S: PanelState & { page: Page; off: Set<string>; why: string; sharing: Set<string>; notice: string; launcher: boolean; place: string; office: string } =
   { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: false, lang: "en", page: "today", off: new Set(), why: "", sharing: new Set(), notice: "", launcher: false, place: "", office: "" };
@@ -161,7 +164,21 @@ function trkInput(key: string, value: string): boolean {
   if (k === "item") { TS.item = value; TS.result = null; } else if (k === "step") { TS.step = value; TS.result = null; } else if (k === "proof") { TS.proof = value; TS.result = null; } else if (k === "extra") TS.draft = value;
   return true;
 }
-const LABEL: Record<Page, string> = { today: "home", sales: "sales", devices: "devices", staff: "staff_shifts", commissions: "agent_commissions", automations: "automations", sharing: "data_sharing", tracking: "trk_tower" };
+// ---- the parts every service shares (CONNECT UPDATE 71.3, section 4 row 71.9 step 2b): drawn by ts/src/sharedview.ts ----
+const SHV = sampleShared(Math.floor(now / 1000));
+const shvLook = (): SharedLook => ({ t, esc, icon, name: (f) => nameOf(f), date: (secs) => C.date(secs * 1000), btn: { primary: "primary", secondary: "secondary" },
+  toggle: (on, act, label, why) => `<button class="switch${on ? " on" : ""}" role="switch" aria-checked="${on}" aria-label="${esc(label)}" data-act="${esc(act)}"${why ? ` disabled data-why="${esc(why)}"` : ""}>${esc(t(on ? "on" : "off"))}</button>` });
+const shvBuilt = (section: string): boolean => section === "4" || ["1", "2", "3", "3A", "3B"].includes(section);
+function sharedOwner(id: SharedPage): string {
+  return `<h1>${esc(t(LABEL[id]))}</h1>${sharedPage(id, SHV, shvLook(), { links: DATA.consentLinks, built: shvBuilt })}`;
+}
+function plansOwner(): string {
+  const rows = Object.entries(DATA.planLimits).map(([family, tiers]) => { const tier = family === "lynkinv" ? "plus" : "free";
+    return { family, tier, limits: Object.entries(tiers[tier] ?? {}).map(([key, limit]) => ({ key, limit, used: key === "customers" ? 37 : 12 })) }; });
+  return `<h1>${esc(t("sv_plans_limits"))}</h1>${plansLimitsHtml(rows, shvLook())}`;
+}
+const LABEL: Record<Page, string> = { today: "home", sales: "sales", devices: "devices", staff: "staff_shifts", commissions: "agent_commissions", automations: "automations", sharing: "data_sharing", tracking: "trk_tower",
+  calendar: "sv_calendar", contacts: "sv_contacts", recycle_bin: "sv_recycle_bin", audit: "sv_audit", consents: "sv_consents", test_copy: "sv_test_copy", plans: "sv_plans_limits" };
 const DSH = panelShell({
   st: S, t, icon, clock: (ms) => C.clock(ms),
   native: () => (DATA.i18n[S.lang]?.native ?? S.lang), region: () => (C.pack().sample ? t("sample_country") : C.pack().name), currency: () => C.pack().currency,
@@ -179,7 +196,7 @@ const adSlot = (): string => !mayShow("dashboard_card", { screen: "dashboard", c
   : slotHtml("dashboard_card", { id: "sample-ad", text: t("ad_sample_text"), sample: true }, { t, esc, icon }) + (AD.why ? whyHtml({ t, esc, icon }) : "") + (AD.reported ? `<p class="ad-why" role="status">${esc(t("ad_reported"))}</p>` : "");
 const OV = new OfficeView({ t, money: (n) => C.money(n), icon, chip, nav: NAV, role: "owner", user: "u-owner", today: "2026-11-20", taxBp: () => DATA.taxBp[S.country] ?? 0, ad: adSlot });
 const office = (): OfficeService | null => (OFFICE_SERVICES as readonly string[]).includes(S.place) ? (S.place as OfficeService) : null;
-function page(): string { const o = office(); if (o) return OV.draw(o, S.office || OV.pages(o)[0]!.id); return S.place ? placePage() : { today, sales, devices, staff, commissions, automations, sharing, tracking }[S.page](); }
+function page(): string { const o = office(); if (o) return OV.draw(o, S.office || OV.pages(o)[0]!.id); return S.place ? placePage() : (SHARED_PAGES as readonly string[]).includes(S.page) ? sharedOwner(S.page as SharedPage) : S.page === "plans" ? plansOwner() : ({ today, sales, devices, staff, commissions, automations, sharing, tracking } as Record<string, () => string>)[S.page]!(); }
 
 // ---- the app shell on a computer: the two-level side bar (INTERFACE UPDATE 73.3, ts/src/appshell.ts) ---------------------------
 const look: BarLook = { t, icon: (id) => icon(id) };
@@ -187,7 +204,8 @@ const look: BarLook = { t, icon: (id) => icon(id) };
 const RAIL: Record<string, string> = { home: "go:today", inbox: "dsh:bell", track: "go:tracking", all_services: "launcher", emulators: "go:devices", automations: "go:automations", settings: "go:sharing", help: "dsh:help" };
 const RAIL_CURRENT: Partial<Record<Page, string>> = { today: "home", tracking: "track", devices: "emulators", automations: "automations", sharing: "settings" };
 /** This view's pages in the register's fixed order: Overview, the lists, Automations, Settings. */
-const SLOT: Record<Page, string> = { today: "overview", sales: "list", devices: "list", staff: "list", commissions: "list", automations: "automations", sharing: "settings", tracking: "list" };
+const SLOT: Record<Page, string> = { today: "overview", sales: "list", devices: "list", staff: "list", commissions: "list", automations: "automations", sharing: "settings", tracking: "list",
+  calendar: "list", contacts: "list", recycle_bin: "settings", audit: "reports", consents: "settings", test_copy: "settings", plans: "settings" };
 const MINE = ["lynkpos", "lynkstock", "lynkchat", "lynkacc", "lynkinv", "lynkcrm", "lynkstat"];
 const nameOf = (f: string): string => DATA.launcher.find((x) => x.family === f)?.name ?? f;
 const appOf = (f: string): string => DATA.launcher.find((x) => x.family === f)?.app ?? "";
@@ -225,7 +243,7 @@ function act(a: string): void {
   if (a.startsWith("ad:why:")) { AD.why = !AD.why; draw(); return; }
   if (a.startsWith("ad:report:")) { AD.reported = true; draw(); return; }
   const [k = "", v = ""] = a.split(":");
-  if (trkAct(a) || auAct(a)) { draw(); return; }
+  if (trkAct(a) || auAct(a) || sharedAct(SHV, a)) { draw(); return; }
   if (k === "rail") { const to = RAIL[v]; if (to) { if (to.startsWith("dsh:")) { if (DSH.act(to)) return; } else act(to); } return; }
   if (a === "launcher") { S.launcher = !S.launcher; draw(); return; }
   if (k === "office") { S.office = v; OV.reset(); draw(); return; }

@@ -7,6 +7,8 @@
  *  ts/src/pos.ts, merchant.ts, business.ts and agent.ts; payments and the cloud are sandboxes (test money only).
  *  Draft until a designer reviews it. Built into one offline HTML file by web/build.mjs; colours only from the design tokens. */
 import { logoInitialsHtml } from "../../../ts/src/placeholder.js";
+import { SHARED_PAGES, sampleShared, sharedPage, sharedTitle, sharedAct, plansLimitsHtml } from "../../../ts/src/sharedview.js";
+import type { SharedLook, SharedPage, ConsentLink } from "../../../ts/src/sharedview.js";
 import { hintFor } from "../../../ts/src/hints.js";
 import { Cart, PosError, change, formatMoney, paymentPayload, paymentState, qtyText, quickCash, salePayload } from "../../../ts/src/pos.js";
 import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload, UserState } from "../../../ts/src/pos.js";
@@ -64,7 +66,7 @@ import { TRUST } from "../../../ts/src/assisttrust.generated.js";
 import { certainty, guard, remember, warning, work } from "../../../ts/src/assisttrust.js";
 import { answerHtml, askButtonHtml, controlsHtml, previewHtml, stoppedHtml, warningLineHtml } from "../../../ts/src/assistview.js";
 import type { LaLook } from "../../../ts/src/assistview.js";
-import { watchNames, namesChoice, namesAct, nameById, nameOpened, welcomeCard, welcomeAct } from "../../../ts/src/names.js";
+import { watchNames, namesChoice, namesAct, nameById, nameOpened, welcomeCard, welcomeAct, forFamily } from "../../../ts/src/names.js";
 import { NAME_INFO_KEYS } from "../../../ts/src/nameinfo.js";
 
 interface BuildData {
@@ -85,6 +87,9 @@ interface BuildData {
   /** LynkPOS standard monthly prices in USD by tier, from services/billing.py FAMILIES (locked prices, version 3). */
   plans: number[];
   automations: { id: string; level: string }[];
+  /** the shared parts (CONNECT UPDATE 71.3): limits per tier from billing and the links that need the business's consent */
+  planLimits: Record<string, Record<string, Record<string, number | null>>>;
+  consentLinks: ConsentLink[];
   /** who the app is for (catalog/workspaces.v1.json): a person, a company or an organisation */
   workspaces: Workspaces;
 }
@@ -1414,8 +1419,22 @@ function hubSection(id: string): string {
   const html = hubBody(id), w = hubWelcome(id);
   return w ? html.replace('<div class="body">', `<div class="body">${w}`) : html;
 }
+// ---- the parts every service shares (CONNECT UPDATE 71.3, section 4 row 71.9 step 2b): drawn by ts/src/sharedview.ts ----
+const SHV = sampleShared(Math.floor(Date.now() / 1000));
+const shvLook = (): SharedLook => ({ t, esc, icon: (id) => icon(id), name: (f) => forFamily(f) ?? f,
+  date: (secs) => new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, day: "numeric", month: "short" }).format(secs * 1000), btn: { primary: "primary inline", secondary: "ghost inline" },
+  toggle: (on, act, label, why) => `<label class="switch mini"><span class="sr">${esc(label)}</span><input type="checkbox" data-act="${esc(act)}"${on ? " checked" : ""}${why ? ` disabled data-why="${esc(why)}"` : ""}></label>` });
+const SHV_BACK: Record<SharedPage, string> = { calendar: "view:main", contacts: "view:main", recycle_bin: "hub:settings", audit: "hub:settings", consents: "hub:settings", test_copy: "hub:settings" };
+const shvBuilt = (section: string): boolean => section === "4" || ["1", "2", "3", "3A", "3B"].includes(section);
+function shvPlans(): string {
+  const rows = Object.entries(DATA.planLimits).map(([family, tiers]) => { const tier = family === "lynkinv" ? "plus" : "free"; const lim = tiers[tier] ?? {};
+    return { family, tier, limits: Object.entries(lim).map(([key, limit]) => ({ key, limit, used: key === "customers" ? 37 : 12 })) }; });
+  return plansLimitsHtml(rows, shvLook());
+}
 function hubBody(id: string): string {
   const reg = DATA.screens.find((s) => s.id === id); if (!reg) return "";
+  if ((SHARED_PAGES as readonly string[]).includes(id)) { SHV.role = S.role === "owner" ? "owner" : S.role === "manager" ? "manager" : "staff";
+    return `${topBar(t(sharedTitle(id as SharedPage)), SHV_BACK[id as SharedPage])}<div class="body">${webNote()}${sharedPage(id as SharedPage, SHV, shvLook(), { links: DATA.consentLinks, built: shvBuilt })}${flash()}</div>`; }
   const page = AT_PAGES[id];
   if (page) return `${topBar(t(page.title), "hub:attendance")}<div class="body">${webNote()}${page.draw()}${flash()}</div>`;
   const qpage = QU_PAGES[id];
@@ -1440,7 +1459,7 @@ function hubBody(id: string): string {
       ${canChangeSettings(S.role) ? "" : `<p>${esc(t("owner_only"))}</p>`}<ul class="list card">${S.staff.map((x) => row(x.name, t("role_" + x.role))).join("")}</ul>
       <button class="ghost inline" data-act="invite">${esc(t("invite_staff"))}</button><button class="ghost inline" data-act="clock">${esc(t(S.clockedIn ? "clock_out" : "clock_in"))}</button>`; break;
     case "branches_devices": extra = `<button class="rowbtn card" data-item="emulators_link" data-act="hub:emulators">${icon("ui-grid", "prod")}<span class="main"><span class="nm">${esc(t("emp_title"))}</span><span class="sub">${esc(t("emp_intro"))}</span></span>${icon("ui-chevron-right", "ic fwd")}</button><button class="rowbtn card" data-act="view:driver">${icon("ui-settings", "prod")}<span class="main"><span class="nm">LynkDriver</span><span class="sub">${esc(driverLine())}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>`; extra += `<ul class="list card">${S.devices.map((d) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(d.name)}</span><span class="sub">${esc(t(d.revoked ? "revoked" : "active"))}</span></span>${d.revoked ? "" : `<button class="ghost small" data-act="revoke:${d.id}">${esc(t("it_revoke"))}</button>`}</div></li>`).join("")}</ul><p class="sub">${esc(t("wipe_help"))}</p>${m3Devices()}`; break;
-    case "plans_billing": extra = `<ul class="list card">${TIERS.map((k, i) => `<li><button class="rowbtn" data-act="tier:${k}" aria-pressed="${S.tier === k}"><span class="main"><span class="nm">LynkPOS ${esc(t("tier_" + k))}</span><span class="sub">${esc(t("per_month", { amount: formatMoney((DATA.plans[i] ?? 0) * 100, "USD", locale()) }))}</span></span>${S.tier === k ? icon("ui-check") : ""}</button></li>`).join("")}</ul><p class="sub">${esc(t("prices_usd_note"))}</p>
+    case "plans_billing": extra = shvPlans() + `<ul class="list card">${TIERS.map((k, i) => `<li><button class="rowbtn" data-act="tier:${k}" aria-pressed="${S.tier === k}"><span class="main"><span class="nm">LynkPOS ${esc(t("tier_" + k))}</span><span class="sub">${esc(t("per_month", { amount: formatMoney((DATA.plans[i] ?? 0) * 100, "USD", locale()) }))}</span></span>${S.tier === k ? icon("ui-check") : ""}</button></li>`).join("")}</ul><p class="sub">${esc(t("prices_usd_note"))}</p>
       <div class="card" data-item="storefront_plans"><h2>${esc(t("sf_plan"))}</h2><ul class="list">${(DATA.storefront?.tiers ?? []).filter((k) => k in (DATA.storefront?.prices_usd ?? {})).map((k) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(t("tier_" + k))}</span><span class="sub">${esc(t("per_month", { amount: formatMoney((DATA.storefront?.prices_usd[k] ?? 0) * 100, "USD", locale()) }))} · ${esc(new Intl.NumberFormat(locale(), { style: "percent", maximumFractionDigits: 2 }).format((DATA.storefront?.share_bps[k] ?? 0) / 10000))}</span></span></div></li>`).join("")}</ul></div>`; break;
     case "automations": extra = `<ul class="list card">${DATA.automations.map((a) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(t("auto_" + key(a.id)))}</span><span class="sub">${esc(t("level_" + a.level))}</span></span><label class="switch mini"><span class="sr">${esc(t("it_off_switch"))}</span><input type="checkbox" data-in="auto:${a.id}" ${S.autoOff.has(a.id) ? "" : "checked"}></label></div></li>`).join("")}</ul>
       ${S.runs.slice(0, 3).map((r) => `<div class="card"><p class="nm">${esc(t("auto_" + key(r.auto)))} · ${esc(clock(r.at))}</p><p class="sub">${esc(t("why_" + key(r.auto)))}</p></div>`).join("")}`; break;
@@ -1807,6 +1826,7 @@ function act(a: string): void {
   if (S.screen === "app" && staffTill() && GATE.act(a)) return;
   const [k, v = ""] = a.split(/:(.*)/s);
   if (S.screen === "app" && staffTill() && GATE.limited && duressBlocks(k ?? "", v)) return;   // the quiet duress view only sells for cash
+  if (sharedAct(SHV, a)) { draw(); return; }                      // the shared pages (CONNECT UPDATE 71.3)
   if (namesAct(a, "nmc", "device")) { draw(); return; }   // the owner's choice of how names show on this device
   if (welcomeAct(a, "nmw")) { draw(); return; }           // the first-time welcome card closed: never again on this device
   if (a === "qc") { S.qc = true; draw(); return; }
