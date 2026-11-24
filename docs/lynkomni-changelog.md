@@ -7,6 +7,10 @@ LynkBet's safety rules are now in the security list (owner asked whether LynkBet
 - Five controls added to catalog/security.v1.json, each with the code that enforces it and its test: a ticket is paid once and only after the operator's lock; never on credit; payouts, referrals and cancelling only online; another person's own PIN (a manager or the owner, never the person serving) for big payouts and cancelling (new test); no customer name, contact, ID number, photo or position in a betting event.
 - Build-table row 86.12, section 9, now also names the Move in tool for betting shop networks and the chat rule for customer and betting-shop conversations, so section 9 cannot lock without them.
 
+## v0.99.2 (2026-11-24)
+- The project rules file listed the LynkBet rule twice after two merges; the older copy (without the staff PIN line) is removed.
+- Two new automatic checks (tests/test_house_style.py): every device title is written in capitals, and no rule appears twice in the rules file.
+
 ## v0.99.1 (2026-11-24)
 Device names in capitals (owner report):
 - The betting counter is now called LynkBet Betting Counter on its page, its browser tab, its screen title and the showcase.
