@@ -175,6 +175,26 @@ class Invoicing:
                 r["next"] = period + r["every_days"]
         return out
     # ---- OFFICE UPDATE 66.3 (section 4 step D2b): documents, getting paid on time, ways to bill, e-invoices --------------------
+    def quote(s, m, customer, lines, taxes=None):
+        """A quote for a customer (CONNECT UPDATE 71.2, quote to cash): it keeps its lines so the accepted quote becomes its invoice."""
+        tot = s.totals(m, lines, taxes)
+        did = s.document(m, "quote", total_minor=tot["total_minor"])
+        s.docs.put(did, {**s.docs.get(did), "customer": customer, "lines": lines, "taxes": taxes})
+        return did
+
+    def accept_quote(s, m, qid, by="customer"):
+        """The customer accepts or signs the quote: it becomes one invoice, once (a second acceptance returns the same invoice).
+        Link crm-inv; the invoice then follows inv-checkout, inv-acc and inv-chat."""
+        q = s.docs.get(qid)
+        if not q or q["merchant"] != m or q["kind"] != "quote": raise KeyError("no such quote")
+        if q.get("invoice"): return {"id": q["invoice"], "again": True}
+        if not invoices.may_make("quote", "invoice", country(s.p.c.profile(m)["country"])): raise PermissionError("an invoice cannot be made from a quote here")
+        s.p.c.store.append(m, "server", "quote.accepted", {"quote": qid, "by": by})
+        r = s.issue(m, q["customer"], q["lines"], taxes=q.get("taxes"))
+        s.docs.put(qid, {**q, "invoice": r["id"], "state": "accepted"})
+        s.p.c.store.append(m, "server", "invoice.from_quote", {"quote": qid, "invoice": r["id"]})
+        return r
+
     def document(s, m, kind, from_id=None, total_minor=None):
         """Another document (quote, pro-forma, sales order, delivery note, receipt, debit note, statement of account, buyer-issued
         invoice where the law allows): its public id from core/ids.py; it never changes; only invoices and notes post."""

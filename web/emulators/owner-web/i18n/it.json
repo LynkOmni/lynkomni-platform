@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "it",
  "native": "Italiano",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "Approva",
+  "au_approve_all": "Approva tutto",
+  "au_digest": "Raccogli in un riepilogo quotidiano",
+  "au_escalate": "Non approvato entro {hours} ore? Passa alla persona successiva.",
+  "au_limit": "Al massimo {n} al giorno",
+  "au_owner": "Responsabile: {name}",
+  "au_paused": "In pausa: {name} è partita molto più del solito oggi. Resta spenta finché non la riaccendi.",
+  "au_resume": "Riaccendi",
+  "au_role_manager": "Responsabile",
+  "au_role_owner": "Titolare",
+  "au_sample": "Esempio",
+  "au_settings": "Impostazioni",
+  "au_step": "Passaggio {n} di {total}: {role}",
+  "au_try": "Prova sugli ultimi {days} giorni",
+  "au_waiting": "In attesa di approvazione",
+  "au_would": "Sarebbe partita {n} volte. Non è cambiato nulla.",
   "title": "Vista web del titolare su un portatile"
  }
 }

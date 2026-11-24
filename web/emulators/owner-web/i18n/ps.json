@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "ps",
  "native": "پښتو",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "تایید کړئ",
+  "au_approve_all": "ټول تایید کړئ",
+  "au_digest": "په یوه ورځنۍ لنډیز کې یې راټول کړئ",
+  "au_escalate": "په {hours} ساعتونو کې تایید نه شو؟ بل کس ته ځي.",
+  "au_limit": "په ورځ کې تر {n} پورې",
+  "au_owner": "مسؤل: {name}",
+  "au_paused": "ودرول شو: {name} نن تر معمول ډېر وچلېد. تر هغه بند پاتې کېږي چې تاسو یې بیا چالان کړئ.",
+  "au_resume": "بیا چالان کړئ",
+  "au_role_manager": "مدیر",
+  "au_role_owner": "مالک",
+  "au_sample": "بېلګه",
+  "au_settings": "تنظیمات",
+  "au_step": "ګام {n} له {total}: {role}",
+  "au_try": "په تېرو {days} ورځو یې وازمایئ",
+  "au_waiting": "د تایید په تمه",
+  "au_would": "{n} ځله به پیل شوی وای. هیڅ بدلون نه دی شوی.",
   "title": "په لپټاپ کې د مالک ویب لید"
  }
 }

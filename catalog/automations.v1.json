@@ -26,6 +26,48 @@
   "personal_data",
   "consent"
  ],
+ "system": {
+  "note": "How every automation is run, limited and explained (CONNECT UPDATE 71.2, built in section 4 row 71.9; services/flow.py). These apply to every automation in this register without being named again.",
+  "try_on_past": {
+   "days": 30,
+   "rule": "Before switching an automation on, the owner sees how often it would have run on the last 30 days of their own events; nothing is written and no handler runs."
+  },
+  "owners": {
+   "rule": "Each automation a business uses has one person who answers for it (default the owner); questions, pauses and escalations go to them."
+  },
+  "versions": {
+   "rule": "Every change to an automation's settings is a new version with who and when; any earlier version can be brought back, and bringing it back is itself a new version."
+  },
+  "limits": {
+   "max_per_day": 1000,
+   "rule": "Each automation runs at most max_per_day times a day for one business; the owner may only lower it. A run over the limit is skipped and the owner is told once that day."
+  },
+  "unusual": {
+   "factor": 3,
+   "floor": 10,
+   "history_days": 7,
+   "rule": "An automation that runs at least floor times today and more than factor times its usual day is paused for that business and the owner is told once; only a person switches it back on."
+  },
+  "spending_cap": {
+   "rule": "Runs that send customers messages count what they cost to send (paid texts, voice) against the owner's monthly cap in minor units; once the cap is reached those automations wait until the owner raises it or the month turns. Never a payment: money still moves only on a person's confirmation."
+  },
+  "approval_chain": {
+   "rule": "A draft can need a chain of roles (for example manager then owner); each step is a different person, never the person who asked; the draft is done only when the last step approves."
+  },
+  "escalation": {
+   "after_hours": 24,
+   "rule": "A draft nobody acts on within after_hours goes up to the next role in its chain (or the owner) and the owner is told; it is never approved by waiting."
+  },
+  "bulk": {
+   "rule": "Several drafts can be approved at once; each is still checked and recorded on its own, and one refusal never stops the others."
+  },
+  "clashes": {
+   "rule": "Two automations that are on and would both message the customer about the same trigger, or that the register names as a pair (clashes_with), are shown as a clash warning before either runs; the owner chooses which stays on."
+  },
+  "digest": {
+   "rule": "An owner may gather inform-level notices into one daily digest per automation, with each run's reason; safety and security notices are never held for a digest."
+  }
+ },
  "automations": [
   {
    "id": "command-bar",

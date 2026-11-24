@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "批准",
+  "au_approve_all": "全部批准",
+  "au_digest": "汇总到每日摘要",
+  "au_escalate": "{hours} 小时内未批准？将转给下一位。",
+  "au_limit": "每天最多 {n} 次",
+  "au_owner": "负责人：{name}",
+  "au_paused": "已暂停：{name} 今天运行次数远超平常。在你重新开启之前它会保持关闭。",
+  "au_resume": "重新开启",
+  "au_role_manager": "经理",
+  "au_role_owner": "店主",
+  "au_sample": "示例",
+  "au_settings": "设置",
+  "au_step": "第 {n} 步，共 {total} 步：{role}",
+  "au_try": "用最近 {days} 天试运行",
+  "au_waiting": "等待审批",
+  "au_would": "本会启动 {n} 次。没有做任何更改。",
   "title": "笔记本电脑上的店主网页视图"
  }
 }

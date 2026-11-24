@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "en",
  "native": "English",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "Approve",
+  "au_approve_all": "Approve all",
+  "au_digest": "Gather into one daily summary",
+  "au_escalate": "Not approved within {hours} hours? It goes up to the next person.",
+  "au_limit": "At most {n} a day",
+  "au_owner": "Answers for it: {name}",
+  "au_paused": "Paused: {name} ran far more than usual today. It stays off until you switch it back on.",
+  "au_resume": "Switch back on",
+  "au_role_manager": "Manager",
+  "au_role_owner": "Owner",
+  "au_sample": "Sample",
+  "au_settings": "Settings",
+  "au_step": "Step {n} of {total}: {role}",
+  "au_try": "Try on the last {days} days",
+  "au_waiting": "Waiting for approval",
+  "au_would": "Would have started {n} times. Nothing was changed.",
   "title": "Owner's web view on a laptop"
  }
 }

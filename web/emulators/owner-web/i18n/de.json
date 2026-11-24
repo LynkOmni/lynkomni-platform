@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "de",
  "native": "Deutsch",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "Freigeben",
+  "au_approve_all": "Alle freigeben",
+  "au_digest": "In einer täglichen Übersicht sammeln",
+  "au_escalate": "Nach {hours} Stunden nicht freigegeben? Es geht an die nächste Person.",
+  "au_limit": "Höchstens {n} pro Tag",
+  "au_owner": "Zuständig: {name}",
+  "au_paused": "Pausiert: {name} lief heute viel öfter als üblich. Sie bleibt aus, bis Sie die Automation erneut aktivieren.",
+  "au_resume": "Wieder einschalten",
+  "au_role_manager": "Leitung",
+  "au_role_owner": "Inhaber",
+  "au_sample": "Beispiel",
+  "au_settings": "Einstellungen",
+  "au_step": "Schritt {n} von {total}: {role}",
+  "au_try": "Mit den letzten {days} Tagen testen",
+  "au_waiting": "Wartet auf Freigabe",
+  "au_would": "Wäre {n}-mal gestartet. Nichts wurde geändert.",
   "title": "Webansicht des Inhabers auf einem Laptop"
  }
 }

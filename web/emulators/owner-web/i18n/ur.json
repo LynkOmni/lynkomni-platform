@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "ur",
  "native": "اردو",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "منظور کریں",
+  "au_approve_all": "سب منظور کریں",
+  "au_digest": "ایک روزانہ خلاصے میں جمع کریں",
+  "au_escalate": "{hours} گھنٹوں میں منظوری نہیں ملی؟ یہ اگلے شخص کے پاس جاتا ہے۔",
+  "au_limit": "دن میں زیادہ سے زیادہ {n}",
+  "au_owner": "ذمہ دار: {name}",
+  "au_paused": "روک دیا گیا: {name} آج معمول سے کہیں زیادہ چلا۔ یہ تب تک بند رہے گا جب تک آپ اسے دوبارہ چالو نہ کریں۔",
+  "au_resume": "دوبارہ چالو کریں",
+  "au_role_manager": "مینیجر",
+  "au_role_owner": "مالک",
+  "au_sample": "نمونہ",
+  "au_settings": "ترتیبات",
+  "au_step": "قدم {n} از {total}: {role}",
+  "au_try": "پچھلے {days} دنوں پر آزمائیں",
+  "au_waiting": "منظوری کا انتظار",
+  "au_would": "یہ {n} بار شروع ہوتا۔ کچھ نہیں بدلا۔",
   "title": "لیپ ٹاپ پر مالک کا ویب منظر"
  }
 }

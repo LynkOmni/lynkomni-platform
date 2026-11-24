@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "Gunyaza",
+  "au_approve_all": "Gunyaza konke",
+  "au_digest": "Qoqela kusifinyezo esisodwa sansuku zonke",
+  "au_escalate": "Akugunyazwanga emahoreni angu-{hours}? Kuya kumuntu olandelayo.",
+  "au_limit": "Okungenani {n} ngosuku",
+  "au_owner": "Obhekene nakho: {name}",
+  "au_paused": "Kumisiwe: {name} isebenze kakhulu kunokujwayelekile namuhla. Izohlala icishiwe uze uyivule futhi.",
+  "au_resume": "Vula futhi",
+  "au_role_manager": "Umphathi",
+  "au_role_owner": "Umnikazi",
+  "au_sample": "Isampula",
+  "au_settings": "Izilungiselelo",
+  "au_step": "Isinyathelo {n} kwangu-{total}: {role}",
+  "au_try": "Zama ezinsukwini ezingu-{days} ezedlule",
+  "au_waiting": "Kulindwe ukugunyazwa",
+  "au_would": "Ibizoqala izikhathi ezingu-{n}. Akukho okushintshiwe.",
   "title": "Ukubuka komnikazi kukhompyutha ephathekayo"
  }
 }

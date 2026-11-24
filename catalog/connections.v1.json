@@ -985,7 +985,8 @@
     "mpay-acc",
     "acc-stat"
    ],
-   "build_section": 4
+   "build_section": 4,
+   "proved_by": "tests/test_journeys.py::Journeys.test_sale_to_books"
   },
   {
    "id": "quote_to_cash",
@@ -996,7 +997,8 @@
     "inv-acc",
     "inv-chat"
    ],
-   "build_section": 4
+   "build_section": 4,
+   "proved_by": "tests/test_journeys.py::Journeys.test_quote_to_cash"
   },
   {
    "id": "hire_to_work",

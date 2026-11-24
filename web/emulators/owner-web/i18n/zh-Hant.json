@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "核准",
+  "au_approve_all": "全部核准",
+  "au_digest": "彙整到每日摘要",
+  "au_escalate": "{hours} 小時內未核准？將轉給下一位。",
+  "au_limit": "每天最多 {n} 次",
+  "au_owner": "負責人：{name}",
+  "au_paused": "已暫停：{name} 今天執行次數遠超平常。在你重新開啟之前它會保持關閉。",
+  "au_resume": "重新開啟",
+  "au_role_manager": "經理",
+  "au_role_owner": "店主",
+  "au_sample": "範例",
+  "au_settings": "設定",
+  "au_step": "第 {n} 步，共 {total} 步：{role}",
+  "au_try": "用最近 {days} 天試執行",
+  "au_waiting": "等待核准",
+  "au_would": "本會啟動 {n} 次。沒有做任何變更。",
   "title": "筆記型電腦上的店主網頁檢視"
  }
 }

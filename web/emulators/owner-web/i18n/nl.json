@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "Goedkeuren",
+  "au_approve_all": "Alles goedkeuren",
+  "au_digest": "Verzamelen in één dagelijkse samenvatting",
+  "au_escalate": "Niet goedgekeurd binnen {hours} uur? Het gaat naar de volgende persoon.",
+  "au_limit": "Hoogstens {n} per dag",
+  "au_owner": "Verantwoordelijk: {name}",
+  "au_paused": "Gepauzeerd: {name} liep vandaag veel vaker dan normaal. Hij blijft uit tot je hem weer aanzet.",
+  "au_resume": "Weer aanzetten",
+  "au_role_manager": "Manager",
+  "au_role_owner": "Eigenaar",
+  "au_sample": "Voorbeeld",
+  "au_settings": "Instellingen",
+  "au_step": "Stap {n} van {total}: {role}",
+  "au_try": "Proberen op de laatste {days} dagen",
+  "au_waiting": "Wacht op goedkeuring",
+  "au_would": "Zou {n} keer gestart zijn. Er is niets veranderd.",
   "title": "Weergave van de eigenaar op een laptop"
  }
 }

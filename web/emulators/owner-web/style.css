@@ -49,3 +49,13 @@ table { border-collapse: collapse; width: 100%; } th, td { text-align: start; pa
 .link { border: 0; background: transparent; color: var(--brand-ink); }
 .viewonly { display: flex; gap: 8px; align-items: center; margin: 0 0 12px; padding: 8px 12px; border-radius: 10px; background: var(--status-neutral-bg); color: var(--status-neutral-text); border: 1px solid var(--status-neutral-border); font-size: 13px; font-weight: 600; overflow-wrap: anywhere; }
 .mhead { display: flex; justify-content: flex-end; margin: -8px 0 4px; }
+
+/* the automation system (CONNECT UPDATE 71.2) */
+.au-paused { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: 8px 12px; text-align: start; }
+.au-paused .ic { flex: none; inline-size: 20px; block-size: 20px; display: inline-flex; }
+.au-paused .ic svg { inline-size: 100%; block-size: 100%; }
+.au-paused > span { flex: 1 1 220px; min-width: 0; overflow-wrap: anywhere; }
+.au-more { display: flex; flex-direction: column; gap: 6px; margin-block-start: 6px; }
+.au-more p { margin: 0; color: var(--text-secondary); overflow-wrap: anywhere; }
+.au-check { display: inline-flex; align-items: center; gap: 8px; min-block-size: 44px; }
+.autos li { flex-wrap: wrap; }

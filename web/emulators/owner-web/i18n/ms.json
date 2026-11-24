@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "Luluskan",
+  "au_approve_all": "Luluskan semua",
+  "au_digest": "Himpunkan dalam satu ringkasan harian",
+  "au_escalate": "Tidak diluluskan dalam {hours} jam? Ia pergi kepada orang seterusnya.",
+  "au_limit": "Paling banyak {n} sehari",
+  "au_owner": "Bertanggungjawab: {name}",
+  "au_paused": "Dijeda: {name} berjalan jauh lebih kerap daripada biasa hari ini. Ia kekal mati sehingga anda menghidupkannya semula.",
+  "au_resume": "Hidupkan semula",
+  "au_role_manager": "Pengurus",
+  "au_role_owner": "Pemilik",
+  "au_sample": "Contoh",
+  "au_settings": "Tetapan",
+  "au_step": "Langkah {n} daripada {total}: {role}",
+  "au_try": "Cuba pada {days} hari lepas",
+  "au_waiting": "Menunggu kelulusan",
+  "au_would": "Ia akan bermula {n} kali. Tiada apa yang diubah.",
   "title": "Paparan pemilik dalam pelayar komputer riba"
  }
 }

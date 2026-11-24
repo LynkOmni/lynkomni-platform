@@ -4,8 +4,24 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "23b4ffbf21ded5f6ede52f0bc1f7d0a8d78c632527cc17c1a7042369d7783018",
+ "source_sha256": "cfb73932105fcdbb082848517f7d3dbb959422f5723a3b046738b50bd99b2827",
  "texts": {
+  "au_approve": "אישור",
+  "au_approve_all": "אישור הכול",
+  "au_digest": "לאסוף לסיכום יומי אחד",
+  "au_escalate": "לא אושר תוך {hours} שעות? זה עובר לאדם הבא.",
+  "au_limit": "לכל היותר {n} ביום",
+  "au_owner": "אחראי: {name}",
+  "au_paused": "מושהה: {name} רץ היום הרבה יותר מהרגיל. הוא נשאר כבוי עד שתפעילו אותו שוב.",
+  "au_resume": "הפעלה מחדש",
+  "au_role_manager": "מנהל",
+  "au_role_owner": "בעלים",
+  "au_sample": "דוגמה",
+  "au_settings": "הגדרות",
+  "au_step": "שלב {n} מתוך {total}: {role}",
+  "au_try": "נסו על {days} הימים האחרונים",
+  "au_waiting": "ממתין לאישור",
+  "au_would": "היה מתחיל {n} פעמים. שום דבר לא שונה.",
   "title": "תצוגת הבעלים בדפדפן במחשב נייד"
  }
 }
