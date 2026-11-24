@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.102.0 (2026-11-24)
+Section 4 review, fifteenth part (row 71.9, step 2b of 4: the shared parts on screen):
+- Six new Business app pages, the same on the phone and on the owner's computer view, drawn by one shared part (ts/src/sharedview.ts) on the rules of ts/src/shared.ts (a TypeScript port of the shared rules, checked against shared vectors): Calendar (app.lynkomni.com/business/calendar), Contacts (/business/contacts), Recycle bin (/business/recycle-bin), Audit viewer (/business/audit), Consents (/business/settings/consents) and Test copy (/business/settings/test-copy); plans and limits now show on the plans page (/business/plans).
+- Calendar and Contacts open from the Business page; Consents, Test copy, Recycle bin and Audit viewer open from Settings. Each is in the address map with its Storefront mirror, the screen and template registers, the navigation register and search, help and the sitemap.
+- Every page uses sample data, labelled Sample. Limits come from billing (no limit where billing sets none); the links on the consent page come from the connections register; only the owner switches a link, and the audit viewer is closed to anyone but the owner, an auditor or the accountant.
+- The pages' words are in a new shared word pack (web/shared) in all 38 languages. Three pages' size budgets were raised with reasons.
+
 ## v0.101.0 (2026-11-24)
 Section 4 review, fourteenth part (row 71.9, step 2a of 4: the parts every service shares, in the cloud):
 - One register for them, catalog/shared.v1.json, with the rules in core/shared.py and the cloud service services/shared.py.

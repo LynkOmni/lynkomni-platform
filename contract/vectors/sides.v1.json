@@ -999,6 +999,54 @@
    "side": "external"
   },
   {
+   "address": "/business/calendar",
+   "side": "internal"
+  },
+  {
+   "address": "/external/business/calendar",
+   "side": "external"
+  },
+  {
+   "address": "/business/contacts",
+   "side": "internal"
+  },
+  {
+   "address": "/external/business/contacts",
+   "side": "external"
+  },
+  {
+   "address": "/business/recycle-bin",
+   "side": "internal"
+  },
+  {
+   "address": "/external/business/recycle-bin",
+   "side": "external"
+  },
+  {
+   "address": "/business/audit",
+   "side": "internal"
+  },
+  {
+   "address": "/external/business/audit",
+   "side": "external"
+  },
+  {
+   "address": "/business/settings/consents",
+   "side": "internal"
+  },
+  {
+   "address": "/external/business/settings/consents",
+   "side": "external"
+  },
+  {
+   "address": "/business/settings/test-copy",
+   "side": "internal"
+  },
+  {
+   "address": "/external/business/settings/test-copy",
+   "side": "external"
+  },
+  {
    "address": "/",
    "side": "internal"
   },
@@ -2075,6 +2123,54 @@
   {
    "path": "/external/booking",
    "kind": "mirrored"
+  },
+  {
+   "path": "/business/calendar",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/calendar",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/contacts",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/contacts",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/recycle-bin",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/recycle-bin",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/audit",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/audit",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/settings/consents",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/settings/consents",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/settings/test-copy",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/settings/test-copy",
+   "kind": "mirrored"
   }
  ],
  "twins": [
@@ -2409,6 +2505,30 @@
   {
    "workspace": "/betting",
    "storefront": "/external/betting"
+  },
+  {
+   "workspace": "/business/calendar",
+   "storefront": "/external/business/calendar"
+  },
+  {
+   "workspace": "/business/contacts",
+   "storefront": "/external/business/contacts"
+  },
+  {
+   "workspace": "/business/recycle-bin",
+   "storefront": "/external/business/recycle-bin"
+  },
+  {
+   "workspace": "/business/audit",
+   "storefront": "/external/business/audit"
+  },
+  {
+   "workspace": "/business/settings/consents",
+   "storefront": "/external/business/settings/consents"
+  },
+  {
+   "workspace": "/business/settings/test-copy",
+   "storefront": "/external/business/settings/test-copy"
   }
  ]
 }

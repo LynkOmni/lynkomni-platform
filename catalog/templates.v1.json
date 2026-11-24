@@ -396,6 +396,24 @@
   "survey_kiosk": {
    "template": "focus",
    "device": true
+  },
+  "calendar": {
+   "template": "board_calendar"
+  },
+  "contacts": {
+   "template": "list"
+  },
+  "recycle_bin": {
+   "template": "list"
+  },
+  "audit": {
+   "template": "list"
+  },
+  "consents": {
+   "template": "settings"
+  },
+  "test_copy": {
+   "template": "settings"
   }
  },
  "places": {

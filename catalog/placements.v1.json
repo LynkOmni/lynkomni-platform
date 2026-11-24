@@ -3290,6 +3290,83 @@
     "sitemap"
    ],
    "section": 12
+  },
+  {
+   "id": "sh_calendar",
+   "kind": "feature",
+   "what": "One calendar for every service: invoices due, promises to pay, bills due and the lock date, more as services join",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "sh_contacts",
+   "kind": "feature",
+   "what": "One address book shared by every service, with names and contact details in the protected vault",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "sh_recycle_bin",
+   "kind": "feature",
+   "what": "One recycle bin: customer records and files kept 30 days and restored or removed for good",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "sh_audit",
+   "kind": "feature",
+   "what": "The audit viewer: every event of the account for the owner, an auditor or the accountant, each look recorded",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "sh_consents",
+   "kind": "feature",
+   "what": "One consent page: what is shared, links between services that need the business's consent and contact channels",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "sh_test_copy",
+   "kind": "feature",
+   "what": "A test copy for any account: try connections and automations with no message sent and no money moved",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "sh_plans_limits",
+   "kind": "feature",
+   "what": "Plans and limits: each plan with its numbered limits and how much is used",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
   }
  ]
 }

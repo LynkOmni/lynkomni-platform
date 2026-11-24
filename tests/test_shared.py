@@ -40,6 +40,12 @@ class Register(unittest.TestCase):
             self.assertEqual([f for f in e["fields"] if bad.match(f)], [], e["type"])
 
 
+class Vectors(unittest.TestCase):
+    def test_shared_vectors_are_current(self):
+        r = subprocess.run([sys.executable, os.path.join(ROOT, "tools", "shared_vectors.py"), "--check"], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+
+
 class Cloud(unittest.TestCase):
     def setUp(self):
         os.environ["LYNK_MODE"] = "sandbox"

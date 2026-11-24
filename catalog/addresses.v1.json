@@ -425,7 +425,19 @@
   "/job",
   "/external/job",
   "/booking",
-  "/external/booking"
+  "/external/booking",
+  "/business/calendar",
+  "/external/business/calendar",
+  "/business/contacts",
+  "/external/business/contacts",
+  "/business/recycle-bin",
+  "/external/business/recycle-bin",
+  "/business/audit",
+  "/external/business/audit",
+  "/business/settings/consents",
+  "/external/business/settings/consents",
+  "/business/settings/test-copy",
+  "/external/business/settings/test-copy"
  ],
  "redirects": {
   "/terms": "/legal/terms",
@@ -615,7 +627,13 @@
    "/files",
    "/job",
    "/booking",
-   "/betting"
+   "/betting",
+   "/business/calendar",
+   "/business/contacts",
+   "/business/recycle-bin",
+   "/business/audit",
+   "/business/settings/consents",
+   "/business/settings/test-copy"
   ],
   "storefront_only": [
    "/external/business/academy/listings",

@@ -2925,6 +2925,118 @@
    ]
   },
   {
+   "host": "app.lynkomni.com",
+   "path": "/business/calendar",
+   "trail": [
+    "/",
+    "/business",
+    "/business/calendar"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/business/calendar",
+   "trail": [
+    "/external",
+    "/external/business",
+    "/external/business/calendar"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/business/contacts",
+   "trail": [
+    "/",
+    "/business",
+    "/business/contacts"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/business/contacts",
+   "trail": [
+    "/external",
+    "/external/business",
+    "/external/business/contacts"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/business/recycle-bin",
+   "trail": [
+    "/",
+    "/business",
+    "/business/recycle-bin"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/business/recycle-bin",
+   "trail": [
+    "/external",
+    "/external/business",
+    "/external/business/recycle-bin"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/business/audit",
+   "trail": [
+    "/",
+    "/business",
+    "/business/audit"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/business/audit",
+   "trail": [
+    "/external",
+    "/external/business",
+    "/external/business/audit"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/business/settings/consents",
+   "trail": [
+    "/",
+    "/business",
+    "/business/settings",
+    "/business/settings/consents"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/business/settings/consents",
+   "trail": [
+    "/external",
+    "/external/business",
+    "/external/business/settings",
+    "/external/business/settings/consents"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/business/settings/test-copy",
+   "trail": [
+    "/",
+    "/business",
+    "/business/settings",
+    "/business/settings/test-copy"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/business/settings/test-copy",
+   "trail": [
+    "/external",
+    "/external/business",
+    "/external/business/settings",
+    "/external/business/settings/test-copy"
+   ]
+  },
+  {
    "host": "account.lynkomni.com",
    "path": "/",
    "trail": [

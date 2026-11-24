@@ -20,7 +20,7 @@ def svg(path):
 
 
 # Shared word packs: an emulator that imports the module carries the folder's words too (one translation, used everywhere).
-SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/queuedesk.js", os.path.join("web", "shell")), ("ts/src/surveydesk.js", os.path.join("web", "shell")), ("ts/src/trackview.js", os.path.join("web", "tracking")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/ads.js", os.path.join("web", "pos")), ("ts/src/placeholder.js", os.path.join("web", "wait")), ("ts/src/hints.js", os.path.join("web", "shell")), ("ts/src/footer.js", os.path.join("web", "footer")), ("ts/src/appshell.js", os.path.join("web", "navigation")), ("ts/src/chatview.js", os.path.join("web", "chat")), ("ts/src/assistview.js", os.path.join("web", "assist")), ("ts/src/officeview.js", os.path.join("web", "office")))
+SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/queuedesk.js", os.path.join("web", "shell")), ("ts/src/surveydesk.js", os.path.join("web", "shell")), ("ts/src/trackview.js", os.path.join("web", "tracking")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/ads.js", os.path.join("web", "pos")), ("ts/src/placeholder.js", os.path.join("web", "wait")), ("ts/src/sharedview.js", os.path.join("web", "shared")), ("ts/src/hints.js", os.path.join("web", "shell")), ("ts/src/footer.js", os.path.join("web", "footer")), ("ts/src/appshell.js", os.path.join("web", "navigation")), ("ts/src/chatview.js", os.path.join("web", "chat")), ("ts/src/assistview.js", os.path.join("web", "assist")), ("ts/src/officeview.js", os.path.join("web", "office")))
 
 
 def uses_shell(emulator):
@@ -215,6 +215,24 @@ def entitlement(family, tier):
     return out
 
 
+def plan_limits():
+    """The limits the shared plans-and-limits page counts (CONNECT UPDATE 71.3), per tier from billing FEATURES; None is no limit."""
+    out = {}
+    for fam, key in (("lynkinv", "invoices_per_month"), ("lynkcrm", "customers")):
+        out[fam] = {}
+        for i, tier in enumerate(billing.FAMILIES[fam][2]):
+            ent = {}
+            for d in billing.FEATURES[fam][: i + 1]: ent.update(d)
+            out[fam][tier] = {key: ent.get(key)}
+    return out
+
+
+def consent_links():
+    """The links between services that need the business's consent (catalog/connections.v1.json), for the consent page."""
+    with open(os.path.join(ROOT, "catalog", "connections.v1.json"), encoding="utf-8") as f:
+        return [{"id": l["id"], "from": l["from"], "to": l["to"]} for l in json.load(f)["links"] if l["consent"] == "merchant"]
+
+
 def auto_system():
     """The numbers of the automation system the owner sees (catalog/automations.v1.json "system", CONNECT UPDATE 71.2)."""
     with open(os.path.join(ROOT, "catalog", "automations.v1.json"), encoding="utf-8") as f:
@@ -347,6 +365,7 @@ def main(emulator):
         "fx": {k: float(v) for k, v in USD_RATES.items()},
         **(cards() if emulator == "vcard-card" else {}),
         **({"automations": automations(3), "taxBp": tax_rates(), "autoSystem": auto_system()} if emulator == "owner-web" else {}),
+        **({"planLimits": plan_limits(), "consentLinks": consent_links()} if emulator in ("owner-web", "merchant-phone") else {}),
         **({"storefront": storefront_plans()} if emulator in ("account-site", "merchant-phone") else {}),
         **(business_app() if emulator == "merchant-phone" else {}),
         # LynkAttend, LynkQueue and LynkSurvey plan numbers (billing FAMILIES and FEATURES, locked), for every device that runs their engine
