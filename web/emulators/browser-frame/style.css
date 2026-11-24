@@ -72,3 +72,5 @@ button, input, select { font: inherit; color: inherit; }
 .testbtn { min-height: 44px; padding: 4px 14px; border: 1px solid var(--status-danger-border); border-radius: 999px; background: var(--status-danger-bg); color: var(--status-danger-text); font-weight: 600; cursor: pointer; }
 .shell-main { position: relative; }
 .log .chip { display: inline-flex; align-items: center; gap: 4px; } .log .ic, .log .ic svg { display: inline-flex; inline-size: 16px; block-size: 16px; }
+/* the menu panels' own box (drawOverlay): it adds no box of its own, so the panels look and sit exactly as before */
+.ovl { display: contents; }

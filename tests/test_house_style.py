@@ -51,5 +51,11 @@ class HouseStyle(unittest.TestCase):
         self.assertEqual(dups, [], "a rule appears twice in CLAUDE.md")
 
 
+class ChangeLog(unittest.TestCase):
+    def test_every_version_number_is_used_once(self):
+        heads = re.findall(r"^## (v\d+\.\d+\.\d+)", open(os.path.join(ROOT, "docs", "lynkomni-changelog.md"), encoding="utf-8").read(), re.M)
+        self.assertEqual(sorted({v for v in heads if heads.count(v) > 1}), [], "two versions share a number in the change log")
+
+
 if __name__ == "__main__":
     unittest.main()

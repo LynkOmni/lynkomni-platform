@@ -134,20 +134,28 @@ export function explainNames(root: Element, say?: Say, mode: NamesMode = namesMo
   type Job = { t: Text; el: Element; row: boolean; hits: Hit[] };
   const walker = doc.createTreeWalker(root, 4 /* text */);
   const jobs: Job[] = [];
+  // Each lookup is made once per element and remembered for this pass (a launcher repeats the same screen, blocks and styles
+  // for every name; looking them up again for each name cost a slow phone about 60 ms on the first tap). The result is the same.
+  const styleOf = new Map<Element, CSSStyleDeclaration | null>(), textOf = new Map<Element, string>(), shownIn = new Map<Element, Set<string>>();
+  const style = (e: Element): CSSStyleDeclaration | null => { if (!styleOf.has(e)) styleOf.set(e, view?.getComputedStyle(e) ?? null); return styleOf.get(e) ?? null; };
+  const text = (e: Element): string => { let v = textOf.get(e); if (v === undefined) { v = (e.textContent ?? "").toLowerCase(); textOf.set(e, v); } return v; };
+  const shown = (scr: Element): Set<string> => {
+    let v = shownIn.get(scr);
+    if (!v) { v = new Set(Array.from(scr.querySelectorAll(".lname-shown[data-lname]"), (x) => x.getAttribute("data-lname") ?? "")); shownIn.set(scr, v); }
+    return v;
+  };
   for (let n = walker.nextNode(); n; n = walker.nextNode()) {
     const t = n as Text, el = t.parentElement;
     if (!el || !t.data.includes("Lynk") || el.closest(NM_SKIP)) continue;
     const found = findNames(t.data);
     if (!found.length) continue;
-    const cs = view?.getComputedStyle(el);
+    const cs = style(el);
     const row = !!cs && cs.whiteSpace.startsWith("nowrap") && cs.overflowX !== "visible";   // a one-line row that cuts its text: mark the row itself
-    const hits = row ? found.map((f) => ({ ...f, block: null, control: null, screen: doc.body, nearby: "", oneLine: true, shownBefore: false })) : found.map((f) => {
-      const block = el.closest(NM_RUNNING), control = el.closest(NM_CONTROL), screen = el.closest(NM_SCREEN) ?? doc.body;
-      const bcs = block ? view?.getComputedStyle(block) : null;
-      const oneLine = !!bcs && (bcs.whiteSpace.startsWith("nowrap") || bcs.whiteSpace === "pre" || bcs.textOverflow === "ellipsis");   // no room to add words
-      return { ...f, block, control, screen, nearby: ((control ?? block ?? el).textContent ?? "").toLowerCase(), oneLine,
-               shownBefore: !!screen.querySelector(`.lname-shown[data-lname="${f.name}"]`) };
-    });
+    const block = row ? null : el.closest(NM_RUNNING), control = row ? null : el.closest(NM_CONTROL), screen = row ? doc.body : el.closest(NM_SCREEN) ?? doc.body;
+    const bcs = block ? style(block) : null;
+    const oneLine = !!bcs && (bcs.whiteSpace.startsWith("nowrap") || bcs.whiteSpace === "pre" || bcs.textOverflow === "ellipsis");   // no room to add words
+    const hits = row ? found.map((f) => ({ ...f, block: null, control: null, screen: doc.body, nearby: "", oneLine: true, shownBefore: false }))
+      : found.map((f) => ({ ...f, block, control, screen, nearby: text(control ?? block ?? el), oneLine, shownBefore: shown(screen).has(f.name) }));
     jobs.push({ t, el, row, hits });
   }
   const shownNow = new Map<Element, Set<string>>();       // first mentions shown in this pass, per screen
@@ -203,17 +211,34 @@ export function watchNames(root: Element, say: () => Say | undefined, mode: () =
   explainNames(root, say(), mode());
   nmWireTips(root, say);
   if (!Obs) return () => undefined;
-  let busy = false;
-  const obs = new Obs((records) => {
-    if (busy) return;
+  // New text is marked just after the screen is shown, not while it is being drawn: checking whether a line has room for the
+  // plain word needs the page's styles, and reading them in the middle of a redraw made the browser work the whole screen out
+  // twice (about 45 ms of a launcher tap on a slow phone). Marking waits for the next frame, when the styles are already known,
+  // and a timer catches a page that is not drawing frames. The marks are the same; they appear one frame later.
+  let busy = false, due = false;
+  const pending = new Set<Element>();
+  const flush = (): void => {
+    if (!due) return;
+    due = false;
+    const roots = [...pending].filter((e) => e.isConnected); pending.clear();
     busy = true;
     try {
-      for (const r of records) for (const n of Array.from(r.addedNodes)) {
-        if (n.nodeType === 1) explainNames(n as Element, say(), mode());
-        else if (n.nodeType === 3 && n.parentElement) explainNames(n.parentElement, say(), mode());
-      }
-      for (const r of records) if (r.type === "characterData" && r.target.parentElement) explainNames(r.target.parentElement, say(), mode());
+      for (const e of roots) if (!roots.some((o) => o !== e && o.contains(e))) explainNames(e, say(), mode());
     } finally { obs.takeRecords(); busy = false; }
+  };
+  const obs = new Obs((records) => {
+    if (busy) return;
+    for (const r of records) {
+      for (const n of Array.from(r.addedNodes)) {
+        if (n.nodeType === 1) pending.add(n as Element);
+        else if (n.nodeType === 3 && n.parentElement) pending.add(n.parentElement);
+      }
+      if (r.type === "characterData" && r.target.parentElement) pending.add(r.target.parentElement);
+    }
+    if (!pending.size || due) return;
+    due = true;
+    if (view?.requestAnimationFrame) view.requestAnimationFrame(() => view.requestAnimationFrame(flush));
+    view?.setTimeout(flush, 250);
   });
   obs.observe(root, { childList: true, subtree: true, characterData: true });
   return () => obs.disconnect();

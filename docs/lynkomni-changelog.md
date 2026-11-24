@@ -2,6 +2,10 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.100.1 (2026-11-24)
+- The browser page's first tap is fast again: opening a menu panel (launcher, account, language, search, help, sync) now redraws only the panel instead of the whole page, and Lynk names are marked just after the screen is shown instead of while it is drawn, so the browser no longer works the screen out twice. The first tap went from about 125 ms to about 35 ms on the slow-phone test (the limit is 120 ms); the same names are marked. A panel opened with the keyboard takes the focus; opened with a tap or click, the button lets go of it.
+- A new check fails the build if two versions in the change log share a number.
+
 ## v0.100.0 (2026-11-24)
 Section 4 review, thirteenth part (row 71.9, step 1 of 4: journeys and the automation system):
 - The two journeys finished in section 4 now run end to end on the real platform (tests/test_journeys.py), and each journey in the connections register names the test that proves it. Sale to books: one sale moves stock, lands on the customer's record, posts to the books and shows in the reports. Quote to cash: an accepted quote becomes one invoice (accepting twice still makes one), paid through its pay link, counted only when the provider confirms, cleared in the books and shown in the chat.
