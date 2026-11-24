@@ -754,7 +754,8 @@
       "4": [
        "v0.54.0: the connections register (catalog/connections.v1.json, 49 links joining every service, with their events, consent and build section), its reading module core/connections.py and its tests; the ten journeys of 71.2 registered, with sale to books and quote to cash due in section 4",
        "v0.100.0: the sale to books and quote to cash journeys proved; the automation system of 71.2",
-       "v0.101.0 and v0.102.0: the shared role system, calendar, address book, timeline, audit viewer, recycle bin, consent page, plans and limits, data dictionary and test copy, in the cloud and on screen",
+       "v0.101.0: the shared role system, calendar, address book, timeline, audit viewer, recycle bin, consent page, plans and limits, data dictionary and test copy in the cloud",
+       "v0.102.0: the shared parts on screen on the phone and the owner's computer view",
        "v0.103.0: LynkAssist across services (questions with sources and role-based hiding, plans, the morning brief, saved questions, the usage meter)",
        "v0.104.0: the message system in the cloud (smart, role and rota routing with the call as the last step, role inboxes, urgent broadcast, reply by text and email, email-in, wording edits with test mode, good time, results, fair-use guard, corrections, delivery states on records) and breadcrumb sibling lists and the up-one-level rule; screens follow in step 4b"
       ]
