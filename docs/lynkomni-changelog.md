@@ -9,6 +9,7 @@ LynkBet's safety rules are now in the security list (owner asked whether LynkBet
 
 ## v0.99.2 (2026-11-24)
 - The project rules file listed the LynkBet rule twice after two merges; the older copy (without the staff PIN line) is removed.
+- Two new automatic checks (tests/test_house_style.py): every device title is written in capitals, and no rule appears twice in the rules file.
 
 ## v0.99.1 (2026-11-24)
 Device names in capitals (owner report):
