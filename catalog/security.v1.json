@@ -1230,6 +1230,68 @@
    "test": "tests/test_staff_lock.py::test_every_shared_staff_emulator_has_the_staff_lock_with_a_duress_pin",
    "build_section": 4,
    "status": "built"
+  },
+  {
+   "id": "bet-paid-once",
+   "asset": "money",
+   "threat": "A winning ticket is paid twice, paid before the operator locks it, or paid more than the amount the operator confirms",
+   "enforced_in": [
+    "core/betting.py",
+    "ts/src/betting.ts",
+    "web/emulators/bet-counter/app.ts"
+   ],
+   "test": "tests/test_betting.py::test_ticket_is_paid_once_and_only_the_operators_amount",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "bet-never-on-credit",
+   "asset": "money",
+   "threat": "A bet is placed on credit, on a loan or on money the customer does not hand over",
+   "enforced_in": [
+    "core/betting.py",
+    "ts/src/betting.ts"
+   ],
+   "test": "tests/test_betting.py::test_never_on_credit",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "bet-online-only-money",
+   "asset": "money",
+   "threat": "A payout, a referral of a big win or a cancelled bet happens offline, or an offline slip is treated as a ticket",
+   "enforced_in": [
+    "core/betting.py",
+    "ts/src/betting.ts",
+    "contract/command-policy-register.v17.json"
+   ],
+   "test": "tests/test_betting.py::test_offline_only_a_queued_slip_and_never_a_payout",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "bet-another-persons-pin",
+   "asset": "money",
+   "threat": "The person serving approves their own big payout or cancels their own bet",
+   "enforced_in": [
+    "core/betting.py",
+    "identity/device_access.py",
+    "web/emulators/bet-counter/app.ts"
+   ],
+   "test": "tests/test_betting.py::test_big_payouts_and_cancelling_need_another_persons_own_pin",
+   "build_section": 4,
+   "status": "built"
+  },
+  {
+   "id": "bet-no-personal-data",
+   "asset": "personal_data",
+   "threat": "A betting event carries a customer's name, contact, ID number, photo or position",
+   "enforced_in": [
+    "contract/event-payloads.v17.json"
+   ],
+   "test": "tests/test_contract_v17.py::test_no_name_contact_id_number_photo_or_position",
+   "build_section": 4,
+   "status": "built"
   }
  ]
 }

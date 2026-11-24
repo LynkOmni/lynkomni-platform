@@ -1796,7 +1796,7 @@
      "sections": [
       "9"
      ],
-     "part": "LynkBet in full: every kind of betting and bet type, odds shown in every format, the operator connector engine, offline slips, the self-service kiosk on LynkKiosk, odds and results boards on LynkDScreen, cash control with two-person approval, head office for shop networks, settlement and commission in LynkAcc with matching, Please check flags and money-washing warnings, disputes, cancelling, regulator exports, the inspector view, Move in, staff LynkAssist, the busy-day queue, owner alerts and bad-internet handling",
+     "part": "LynkBet in full: every kind of betting and bet type, odds shown in every format, the operator connector engine, offline slips, the self-service kiosk on LynkKiosk, odds and results boards on LynkDScreen, cash control with two-person approval, head office for shop networks, settlement and commission in LynkAcc with matching, Please check flags and money-washing warnings, disputes, cancelling, regulator exports, the inspector view, Move in, staff LynkAssist, the busy-day queue, owner alerts and bad-internet handling; the Move in tool for betting shop networks (shops, staff and opening figures) in catalog/enterprise.v1.json; the chat rule for conversations between a customer and a betting shop (never odds, offers or a prompt to bet, as on the Storefront page) in catalog/chat.v1.json",
      "done": {}
     },
     {

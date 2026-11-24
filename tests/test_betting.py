@@ -63,6 +63,14 @@ class Rules(unittest.TestCase):
         self.assertTrue(B.may_hand_over_cash("confirmed"))
         self.assertEqual(B.check_answer({"known": True, "result": "won", "payable": 5000, "expires": 10}, 1, 1000, 9000), "refer")
 
+    def test_big_payouts_and_cancelling_need_another_persons_own_pin(self):
+        self.assertEqual(B.cancel_check(True, True, False, False, 1, 5), "manager_needed")
+        self.assertEqual(B.cancel_check(True, True, False, True, 1, 5), "ok")
+        self.assertEqual(B.cancel_check(False, True, False, True, 1, 5), "offline")
+        self.assertTrue(B.two_person_needed(500, 500)); self.assertFalse(B.two_person_needed(499, 500)); self.assertFalse(B.two_person_needed(10 ** 9, None))
+        src = open(os.path.join(ROOT, "web", "emulators", "bet-counter", "app.ts"), encoding="utf-8").read()
+        self.assertIn("never the person serving", src)        # the counter uses the device's manager_approves rule (identity/device_access.py)
+
     def test_check_order_names_every_answer(self):
         self.assertEqual(set(REG["check_order"]), set(REG["check_answers"]))
 
