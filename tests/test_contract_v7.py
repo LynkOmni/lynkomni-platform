@@ -34,7 +34,8 @@ class ContractV7(unittest.TestCase):
         for name in new: self.assertEqual(set(V7["events"][name]["payload"]["properties"]) & SECRETS, set(), name)
 
     def test_emulator_names_come_from_the_register(self):
-        self.assertEqual(V7["events"]["EmulatorConnected"]["payload"]["properties"]["emulator"]["enum"], list(E.EMULATORS))
+        at_v7 = [e for e, x in E.EMULATORS.items() if x.get("contract_since", 7) <= 7]      # a later emulator joins a later version (bet.counter: v17)
+        self.assertEqual(V7["events"]["EmulatorConnected"]["payload"]["properties"]["emulator"]["enum"], at_v7)
 
     def test_answering_needs_the_cloud_and_the_rest_works_offline(self):
         new = {c["name"]: c for c in REG["commands"] if c.get("v7")}

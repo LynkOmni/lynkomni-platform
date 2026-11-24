@@ -489,3 +489,33 @@ def new_families(stage):
     res = {k.replace("lynk", ""): _r(v) for k, v in out.items()}
     res.update(month=_r(sum(out.values())), assumption=True)
     return res
+
+
+# ---- BETTING UPDATE: LynkBet (owner 2026-11-24, master blueprint section 86) -------------------------------------------------
+# LynkBet's shop plans (per shop, with extra counters and kiosks) and the licensed operators' share of the money they keep on bets
+# taken through LynkBet shops (1.5% of each month's first $1,000,000 and 1% above). LynkOmni never takes a cut of a shop's
+# commission. Shown as its OWN stream, kept OUTSIDE the agreed totals until pilot data exists, so no agreed figure moves. EVERY
+# number below is an ASSUMPTION, labelled as such.
+BET_ASSUMPTIONS = {
+    "tiers": (Decimal("0.5"), Decimal("0.2"), Decimal("0.05")),        # Plus / Pro / Max betting shops, percent of all merchants
+    "extra_counters": (1, 2, 0),                                        # extra counters per Plus / Pro / Max shop
+    "extra_kiosks": (0, 0, 1),                                          # extra kiosks per Plus / Pro / Max shop
+    "pos_bundle_share": Decimal("0.4"),                                 # share of LynkBet plans held with a paid LynkPOS plan (20% off)
+    "operators": {"stage1": 1, "stage2": 5, "stage3": 25},              # licensed operators signed through the Partner Hub
+    "ggr_per_operator_usd": {"stage1": 20_000, "stage2": 150_000, "stage3": 1_200_000},   # money each keeps a month through LynkBet shops
+}
+
+
+def betting(stage):
+    """Monthly USD for one stage (whole dollars): LynkBet shop plans with their extras (price index and conversion applied, less the
+    20% LynkPOS bundle discount on the assumed share) and the operators' share. An ASSUMPTION, outside the ecosystem totals."""
+    a, pct = BET_ASSUMPTIONS, Decimal("0.01")
+    m, idx, conv = Decimal(MERCHANTS[stage]), INDEX[stage], CONVERSION[stage]
+    subs = [m * s * pct * conv for s in a["tiers"]]
+    plans = sum(n * Decimal(str(p)) for n, p in zip(subs, billing.FAMILIES["lynkbet"][3][1:]))
+    plans *= 1 - a["pos_bundle_share"] * Decimal(billing.BET_BUNDLE_DISCOUNT_BPS) / 10_000
+    extras = sum(n * x * Decimal(c or 0) / 100 for n, x, c in zip(subs, a["extra_counters"], billing.BET_EXTRA_COUNTER_CENTS[1:]))
+    extras += sum(n * x * Decimal(c or 0) / 100 for n, x, c in zip(subs, a["extra_kiosks"], billing.BET_EXTRA_KIOSK_CENTS[1:]))
+    shops = (plans + extras) * idx
+    share = Decimal(a["operators"][stage] * billing.bet_operator_share_cents(a["ggr_per_operator_usd"][stage] * 100)) / 100
+    return {"plans": _r(shops), "operator_share": _r(share), "month": _r(shops + share), "assumption": True}

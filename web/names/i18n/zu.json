@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "Izifundo nokuqeqeshwa",
   "nm_acc": "Ukubalwa kwezimali",
@@ -14,6 +14,7 @@
   "nm_audit": "Irekhodi lokucwaninga",
   "nm_az_note": "Wonke amagama e-LynkOmni nokuthi enzani.",
   "nm_az_title": "Amagama kusuka ku-A kuya ku-Z",
+  "nm_bet": "Ukubheja",
   "nm_booking": "Uhambo namathikithi",
   "nm_cdisplay": "Isikrini esincane ngaphezu kwekhawunta",
   "nm_chat": "Ingxoxo yebhizinisi",

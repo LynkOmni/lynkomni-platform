@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "पाठ्यक्रम और प्रशिक्षण",
   "nm_acc": "लेखा",
@@ -14,6 +14,7 @@
   "nm_audit": "ऑडिट रिकॉर्ड",
   "nm_az_note": "LynkOmni का हर नाम और वह क्या करता है।",
   "nm_az_title": "नाम अ से ज्ञ तक",
+  "nm_bet": "सट्टेबाज़ी",
   "nm_booking": "यात्रा और टिकट",
   "nm_cdisplay": "काउंटर के ऊपर छोटी स्क्रीन",
   "nm_chat": "व्यवसाय चैट",

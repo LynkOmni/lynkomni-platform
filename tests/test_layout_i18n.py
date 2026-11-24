@@ -373,6 +373,7 @@ class AccountLayout(DarkPass, unittest.TestCase):
 DEVICES = {
     "counter-tablet": (["#screen", "#cscreen"], "#cLang", "#cDark"),
     "kitchen-screen": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
+    "bet-counter": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),        # BETTING UPDATE (blueprint 86)
     "customer-display": (["#screen", "#till"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
     "rider-phone": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
     "stock-scanner": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),

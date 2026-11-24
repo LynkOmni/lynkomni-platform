@@ -21,6 +21,8 @@ LOCKED_PRICES = {
     # Section 4 part 1d, 2026-11-19 (owner "Price rise agreed", blueprint 78.12 and 78.18): LynkSchool Pro $55 (was $49) and Max $139
     # (was $129); the new LynkAcademy family
     "lynkacademy": (0, 19, 49, 129),
+    # BETTING UPDATE, 2026-11-24 (owner "Apply all improvements", blueprint 86): LynkBet per shop, add-on outside LynkSuite
+    "lynkbet": (0, 7, 19, 45),
 }
 # Section 4 part 1b (owner approved 2026-11-18): what each tier includes, every extra, the levels, the fees and the bundles.
 LOCKED_NEW_FAMILIES = {
@@ -59,7 +61,7 @@ LOCKED_API = {"prices": {"tracking_shipment_cents": 1, "geocoding_per_1000_cents
 
 # EMULATOR UPDATE (owner accepted 2026-11-18, blueprint 70.12; pinned in build section 3A): staff emulator slots per tier and the one
 # new price, $2 a month for each extra slot on a paid tier. LynkAttend, LynkQueue and LynkSurvey keep their own locked units.
-LOCKED_EMULATORS = {"ladder": (1, 2, 5, None), "lynkpos": (1, 2, 5, None), "own_units": ("lynkbooking", "lynkattend", "lynkqueue", "lynksurvey"),
+LOCKED_EMULATORS = {"ladder": (1, 2, 5, None), "lynkpos": (1, 2, 5, None), "own_units": ("lynkbooking", "lynkattend", "lynkqueue", "lynksurvey", "lynkbet"),
                     # owner 2026-11-19: extra devices priced so the next tier stays the better deal, and a day pass for events
                     "extra_cents": {"lynkpos": 800, "lynkmpay": 400, "lynkstock": 300, "lynkrewards": 300, "lynkcheckout": 200, "lynkessential": 200,
                                     "lynkmotion": 800, "lynkguard": 1400},
@@ -183,6 +185,35 @@ class TestPriceLock(unittest.TestCase):
 
     def test_the_locked_list_covers_every_family(self):
         self.assertEqual(set(LOCKED_PRICES), set(billing.FAMILIES))
+
+
+
+# BETTING UPDATE (owner 2026-11-24, blueprint 86): what each LynkBet tier includes, its extras, the bundle and the operator's share.
+LOCKED_BET = {"operators": (1, 3, None, None), "counters": (1, 3, 10, None), "kiosks": (0, 0, 2, 10), "boards": (0, 1, 3, None),
+              "history_months": (1, 12, 36, 84), "extra_counter_cents": (None, 300, 300, None), "extra_kiosk_cents": (None, None, 900, 900),
+              "bundle_bps": 2000, "operator_share": {"bps": 150, "above_monthly_cents": 100_000_000, "above_bps": 100, "setup_fee_cents": 0, "monthly_minimum_cents": 0}}
+
+
+class BetLock(unittest.TestCase):
+    def test_lynkbet_tiers_extras_bundle_and_operator_share_are_locked(self):
+        def col(key):
+            out, cur = [], None
+            for d in billing.FEATURES["lynkbet"]:
+                cur = d.get(key, cur) if key in d else cur
+                out.append(cur)
+            return tuple(out)
+        got = {k: col(k) for k in ("operators", "counters", "kiosks", "boards", "history_months")}
+        got.update({"extra_counter_cents": billing.BET_EXTRA_COUNTER_CENTS, "extra_kiosk_cents": billing.BET_EXTRA_KIOSK_CENTS,
+                    "bundle_bps": billing.BET_BUNDLE_DISCOUNT_BPS, "operator_share": billing.BET_OPERATOR_SHARE})
+        self.assertEqual(got, LOCKED_BET)
+
+    def test_lynkbet_never_takes_a_cut_of_a_shop_and_the_share_steps_down(self):
+        self.assertEqual(billing.bet_operator_share_cents(0), 0)
+        self.assertEqual(billing.bet_operator_share_cents(-500), 0)
+        self.assertEqual(billing.bet_operator_share_cents(100_000_000), 1_500_000)
+        self.assertEqual(billing.bet_operator_share_cents(200_000_000), 2_500_000)
+        self.assertFalse(billing.FAMILIES["lynkbet"][5])                     # never inside LynkSuite
+        self.assertTrue(all(d.get("safety_core", True) for d in billing.FEATURES["lynkbet"]))
 
 
 if __name__ == "__main__":

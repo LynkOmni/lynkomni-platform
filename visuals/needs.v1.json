@@ -1527,6 +1527,26 @@
    "budget_kb": 12
   },
   {
+   "id": "product-bet",
+   "kind": "illustration",
+   "scene": "bet",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A printed ticket with a square code coming out of a counter printer, beside a check badge and a small shield",
+   "purpose": "Empty state, feature header and onboarding for LynkBet",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
    "id": "product-vote",
    "kind": "illustration",
    "scene": "vote",

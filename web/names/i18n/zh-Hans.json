@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "课程与培训",
   "nm_acc": "记账",
@@ -14,6 +14,7 @@
   "nm_audit": "审计记录",
   "nm_az_note": "LynkOmni 的每个名称及其用途。",
   "nm_az_title": "名称一览（A 到 Z）",
+  "nm_bet": "投注",
   "nm_booking": "旅行与票务",
   "nm_cdisplay": "柜台上方的小屏幕",
   "nm_chat": "商务聊天",

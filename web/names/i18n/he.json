@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "קורסים והדרכה",
   "nm_acc": "הנהלת חשבונות",
@@ -14,6 +14,7 @@
   "nm_audit": "יומן ביקורת",
   "nm_az_note": "כל שם של LynkOmni ומה הוא עושה.",
   "nm_az_title": "שמות מא׳ ועד ת׳",
+  "nm_bet": "הימורים",
   "nm_booking": "נסיעות וכרטיסים",
   "nm_cdisplay": "מסך קטן מעל הדלפק",
   "nm_chat": "צ'אט עסקי",

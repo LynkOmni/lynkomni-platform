@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "Darussa da horo",
   "nm_acc": "Lissafi",
@@ -14,6 +14,7 @@
   "nm_audit": "Rikodin bincike",
   "nm_az_note": "Kowane sunan LynkOmni da abin da yake yi.",
   "nm_az_title": "Sunaye daga A zuwa Z",
+  "nm_bet": "Caca",
   "nm_booking": "Tafiya da tikiti",
   "nm_cdisplay": "Ƙaramin allo sama da kanta",
   "nm_chat": "Hirar kasuwanci",

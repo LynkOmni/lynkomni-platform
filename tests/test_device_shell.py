@@ -16,7 +16,7 @@ except ImportError:          # pragma: no cover
     sync_playwright = None
 
 # Devices with the full shell bar (search, help, account, chip), and the state that shows a signed-in screen.
-NAVIGATED = {"pos-terminal": "pin", "counter-tablet": "sell", "kitchen-screen": None, "rider-phone": None, "stock-scanner": None, "owner-web": None}
+NAVIGATED = {"pos-terminal": "pin", "counter-tablet": "sell", "kitchen-screen": None, "bet-counter": None, "rider-phone": None, "stock-scanner": None, "owner-web": None}
 NOT_NAVIGATED = ("customer-display", "vcard-card", "mesh-relay", "track-page", "lynk-kiosk", "lynk-dscreen", "lynk-cdisplay", "queue-page", "survey-page")
 PROMO = re.compile(r"powered by|sponsored|promot", re.I)
 

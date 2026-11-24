@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "9042f401550324ce555e1bd1a81902b3ef5e163d728bf06d7c778b0519263f25",
+ "source_sha256": "ef705ffc090106985fdc5d4e7969d904bf31d471e2a316b7d216647a5dcdc81a",
  "texts": {
   "nma_academy": "Gumawa at kumuha ng kurso, may aralin at sertipiko.",
   "nma_acc": "Panatilihing maayos ang iyong libro, gastos at ulat.",
@@ -12,6 +12,7 @@
   "nma_assist": "Magtanong, humingi ng tulong at ipagawa ang mga draft para sa iyo.",
   "nma_attend": "Itala kung sino ang dumarating at umaalis: staff, estudyante at bisita.",
   "nma_audit": "Buong talaan kung sino ang nagbago ng ano sa iyong libro.",
+  "nma_bet": "Tumanggap ng taya, mag-print ng tiket at magbayad ng panalo para sa lisensyadong operator.",
   "nma_booking": "Mag-book ng biyahe, tiket at appointment sa iisang lugar.",
   "nma_chat": "Makipag-chat sa iyong customer at team sa iisang inbox.",
   "nma_checkout": "Magpadala ng payment link o magpakita ng QR code para mabayaran.",

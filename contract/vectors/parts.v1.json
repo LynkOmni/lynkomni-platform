@@ -641,6 +641,14 @@
   },
   {
    "host": "lynkomni.com",
+   "path": "/bet",
+   "trail": [
+    "/",
+    "/bet"
+   ]
+  },
+  {
+   "host": "lynkomni.com",
    "path": "/voting",
    "trail": [
     "/",
@@ -745,6 +753,14 @@
     "/",
     "/analytics",
     "/analytics/shared"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/betting",
+   "trail": [
+    "/",
+    "/betting"
    ]
   },
   {
@@ -1091,6 +1107,15 @@
     "/",
     "/sell",
     "/sell/basket"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/sell/betting",
+   "trail": [
+    "/",
+    "/sell",
+    "/sell/betting"
    ]
   },
   {
@@ -2765,6 +2790,14 @@
   },
   {
    "host": "app.lynkomni.com",
+   "path": "/external/betting",
+   "trail": [
+    "/external",
+    "/external/betting"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
    "path": "/voting",
    "trail": [
     "/",
@@ -3173,6 +3206,14 @@
    ]
   },
   {
+   "host": "account.lynkomni.com",
+   "path": "/bets",
+   "trail": [
+    "/",
+    "/bets"
+   ]
+  },
+  {
    "host": "shop.lynkomni.com",
    "path": "/{username}",
    "trail": [
@@ -3283,6 +3324,14 @@
    "trail": [
     "/{username}",
     "/{username}/certificates/{LODOC}"
+   ]
+  },
+  {
+   "host": "shop.lynkomni.com",
+   "path": "/{username}/betting",
+   "trail": [
+    "/{username}",
+    "/{username}/betting"
    ]
   },
   {
@@ -11093,6 +11142,405 @@
    "class": "A"
   },
   {
+   "action": "bet_explain",
+   "ask": {
+    "role": "owner"
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "bet_explain",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "bet_explain",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "bet_explain",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "bet_explain",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "bet_explain",
+   "ask": {
+    "role": "owner",
+    "done_today": 100
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "bet_explain",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "bet_explain"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "bet_explain",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "betting"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "bet_explain",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "bet_explain",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "bet_explain",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "bet_explain"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "bet_explain",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "bet_explain"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "bet_safer_tools",
+   "ask": {
+    "role": "person"
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "bet_safer_tools",
+   "ask": {
+    "role": "person",
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "bet_safer_tools",
+   "ask": {
+    "role": "person",
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "bet_safer_tools",
+   "ask": {
+    "role": "person",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "bet_safer_tools",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "bet_safer_tools",
+   "ask": {
+    "role": "person",
+    "done_today": 50
+   },
+   "run": false,
+   "needs": "confirm",
+   "class": "B"
+  },
+  {
+   "action": "bet_safer_tools",
+   "ask": {
+    "role": "person",
+    "switched_off": [
+     "bet_safer_tools"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "bet_safer_tools",
+   "ask": {
+    "role": "person",
+    "switched_off": [
+     "betting"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "bet_safer_tools",
+   "ask": {
+    "role": "person",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "bet_safer_tools",
+   "ask": {
+    "role": "person",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "bet_safer_tools",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "bet_safer_tools"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "bet_safer_tools",
+   "ask": {
+    "role": "person",
+    "standing": [
+     "bet_safer_tools"
+    ]
+   },
+   "run": true,
+   "needs": "none",
+   "class": "A"
+  },
+  {
+   "action": "bet_referral_hand_over",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "hand_over",
+   "class": "D"
+  },
+  {
+   "action": "bet_referral_hand_over",
+   "ask": {
+    "role": "owner",
+    "confirmed": true
+   },
+   "run": false,
+   "needs": "hand_over",
+   "class": "D"
+  },
+  {
+   "action": "bet_referral_hand_over",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "hand_over",
+   "class": "D"
+  },
+  {
+   "action": "bet_referral_hand_over",
+   "ask": {
+    "role": "owner",
+    "fresh_check": true,
+    "confirmed": true
+   },
+   "run": false,
+   "needs": "hand_over",
+   "class": "D"
+  },
+  {
+   "action": "bet_referral_hand_over",
+   "ask": {
+    "role": "nobody"
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "bet_referral_hand_over",
+   "ask": {
+    "role": "owner",
+    "done_today": 20
+   },
+   "run": false,
+   "needs": "hand_over",
+   "class": "D"
+  },
+  {
+   "action": "bet_referral_hand_over",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "bet_referral_hand_over"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "bet_referral_hand_over",
+   "ask": {
+    "role": "owner",
+    "switched_off": [
+     "betting"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "bet_referral_hand_over",
+   "ask": {
+    "role": "owner",
+    "country": "CM",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "refused",
+   "class": null
+  },
+  {
+   "action": "bet_referral_hand_over",
+   "ask": {
+    "role": "owner",
+    "country": "KE",
+    "switched_off": [
+     "country:CM"
+    ]
+   },
+   "run": false,
+   "needs": "hand_over",
+   "class": "D"
+  },
+  {
+   "action": "bet_referral_hand_over",
+   "ask": {
+    "role": "manager",
+    "ask_owner_first": [
+     "bet_referral_hand_over"
+    ]
+   },
+   "run": false,
+   "needs": "hand_over",
+   "class": "D"
+  },
+  {
+   "action": "bet_referral_hand_over",
+   "ask": {
+    "role": "owner",
+    "standing": [
+     "bet_referral_hand_over"
+    ]
+   },
+   "run": false,
+   "needs": "hand_over",
+   "class": "D"
+  },
+  {
    "action": "send_all_money_to_me",
    "ask": {
     "role": "owner"
@@ -13309,6 +13757,20 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "price-lynkbet",
+    "topic": "price",
+    "q": "How much is LynkBet?",
+    "a": "LynkBet plans a month: Free $0, Plus $7, Pro $19, Max $45.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkbet",
+    "topic": "how_to",
+    "q": "Where is LynkBet?",
+    "a": "LynkBet is described at lynkomni.com/bet.",
+    "source": "catalog/products.v1.json"
+   },
+   {
     "id": "price-lynkops",
     "topic": "price",
     "q": "How much is LynkOps?",
@@ -13481,6 +13943,13 @@
     "topic": "how_to",
     "q": "What is LynkEssential?",
     "a": "LynkEssential (Bills & connectivity): Pay bills, buy airtime and top up everyday services.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-bet",
+    "topic": "how_to",
+    "q": "What is LynkBet?",
+    "a": "LynkBet (Betting): Take bets, print tickets and pay winnings for a licensed operator.",
     "source": "catalog/names.v1.json"
    },
    {
@@ -14305,6 +14774,20 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "price-lynkbet",
+    "topic": "price",
+    "q": "كم سعر LynkBet؟",
+    "a": "خطط LynkBet شهريًا: Free $0, Plus $7, Pro $19, Max $45.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkbet",
+    "topic": "how_to",
+    "q": "أين أجد LynkBet؟",
+    "a": "يُوصف LynkBet في lynkomni.com/bet.",
+    "source": "catalog/products.v1.json"
+   },
+   {
     "id": "price-lynkops",
     "topic": "price",
     "q": "كم سعر LynkOps؟",
@@ -14477,6 +14960,13 @@
     "topic": "how_to",
     "q": "ما هو LynkEssential؟",
     "a": "LynkEssential (الفواتير والاتصال): ادفع الفواتير واشترِ الرصيد واشحن الخدمات اليومية.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-bet",
+    "topic": "how_to",
+    "q": "ما هو LynkBet؟",
+    "a": "LynkBet (المراهنات): اقبل الرهانات واطبع التذاكر وادفع الأرباح لمشغل مرخّص.",
     "source": "catalog/names.v1.json"
    },
    {
@@ -15301,6 +15791,20 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "price-lynkbet",
+    "topic": "price",
+    "q": "LynkBetの料金はいくらですか？",
+    "a": "LynkBetの月額プラン：Free $0, Plus $7, Pro $19, Max $45。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkbet",
+    "topic": "how_to",
+    "q": "LynkBetはどこにありますか？",
+    "a": "LynkBetの説明はlynkomni.com/betにあります。",
+    "source": "catalog/products.v1.json"
+   },
+   {
     "id": "price-lynkops",
     "topic": "price",
     "q": "LynkOpsの料金はいくらですか？",
@@ -15473,6 +15977,13 @@
     "topic": "how_to",
     "q": "LynkEssentialとは何ですか？",
     "a": "LynkEssential（請求書と通信）：料金の支払い、通話時間の購入、毎日のサービスのチャージができます。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-bet",
+    "topic": "how_to",
+    "q": "LynkBetとは何ですか？",
+    "a": "LynkBet（ベッティング）：認可を受けた事業者のために賭けを受け、チケットを印刷し、払い戻しをします。",
     "source": "catalog/names.v1.json"
    },
    {
@@ -16297,6 +16808,20 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "price-lynkbet",
+    "topic": "price",
+    "q": "Combien coûte LynkBet ?",
+    "a": "Formules LynkBet par mois : Free $0, Plus $7, Pro $19, Max $45.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkbet",
+    "topic": "how_to",
+    "q": "Où trouver LynkBet ?",
+    "a": "LynkBet est présenté sur lynkomni.com/bet.",
+    "source": "catalog/products.v1.json"
+   },
+   {
     "id": "price-lynkops",
     "topic": "price",
     "q": "Combien coûte LynkOps ?",
@@ -16469,6 +16994,13 @@
     "topic": "how_to",
     "q": "Qu'est-ce que LynkEssential ?",
     "a": "LynkEssential (Factures et connectivité) : Payez vos factures, achetez du crédit et rechargez vos services du quotidien.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-bet",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkBet ?",
+    "a": "LynkBet (Paris sportifs) : Prenez les paris, imprimez les tickets et payez les gains pour un opérateur agréé.",
     "source": "catalog/names.v1.json"
    },
    {
@@ -17293,6 +17825,20 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "price-lynkbet",
+    "topic": "price",
+    "q": "LynkBet inagharimu kiasi gani?",
+    "a": "Mipango ya LynkBet kwa mwezi: Free $0, Plus $7, Pro $19, Max $45.",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkbet",
+    "topic": "how_to",
+    "q": "LynkBet iko wapi?",
+    "a": "LynkBet imeelezwa kwenye lynkomni.com/bet.",
+    "source": "catalog/products.v1.json"
+   },
+   {
     "id": "price-lynkops",
     "topic": "price",
     "q": "LynkOps inagharimu kiasi gani?",
@@ -17465,6 +18011,13 @@
     "topic": "how_to",
     "q": "LynkEssential ni nini?",
     "a": "LynkEssential (Bili na mawasiliano): Lipa bili, nunua muda wa maongezi na ongeza salio la huduma za kila siku.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-bet",
+    "topic": "how_to",
+    "q": "LynkBet ni nini?",
+    "a": "LynkBet (Ubashiri): Pokea ubashiri, chapisha tiketi na lipa ushindi kwa mwendeshaji mwenye leseni.",
     "source": "catalog/names.v1.json"
    },
    {
@@ -18289,6 +18842,20 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "price-lynkbet",
+    "topic": "price",
+    "q": "LynkBet多少钱？",
+    "a": "LynkBet的月度方案：Free $0, Plus $7, Pro $19, Max $45。",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkbet",
+    "topic": "how_to",
+    "q": "LynkBet在哪里？",
+    "a": "LynkBet的介绍在lynkomni.com/bet。",
+    "source": "catalog/products.v1.json"
+   },
+   {
     "id": "price-lynkops",
     "topic": "price",
     "q": "LynkOps多少钱？",
@@ -18461,6 +19028,13 @@
     "topic": "how_to",
     "q": "LynkEssential是什么？",
     "a": "LynkEssential（账单与通信）：缴纳账单、购买话费，为日常服务充值。",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-bet",
+    "topic": "how_to",
+    "q": "LynkBet是什么？",
+    "a": "LynkBet（投注）：为持牌运营商接受投注、打印彩票并支付奖金。",
     "source": "catalog/names.v1.json"
    },
    {
@@ -19285,6 +19859,20 @@
     "source": "catalog/products.v1.json"
    },
    {
+    "id": "price-lynkbet",
+    "topic": "price",
+    "q": "LynkBet कितने का है?",
+    "a": "LynkBet के मासिक प्लान: Free $0, Plus $7, Pro $19, Max $45।",
+    "source": "services/billing.py"
+   },
+   {
+    "id": "where-lynkbet",
+    "topic": "how_to",
+    "q": "LynkBet कहाँ है?",
+    "a": "LynkBet का विवरण lynkomni.com/bet पर है।",
+    "source": "catalog/products.v1.json"
+   },
+   {
     "id": "price-lynkops",
     "topic": "price",
     "q": "LynkOps कितने का है?",
@@ -19457,6 +20045,13 @@
     "topic": "how_to",
     "q": "LynkEssential क्या है?",
     "a": "LynkEssential (बिल और कनेक्टिविटी): बिल भरें, एयरटाइम ख़रीदें और रोज़ की सेवाएँ रिचार्ज करें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-bet",
+    "topic": "how_to",
+    "q": "LynkBet क्या है?",
+    "a": "LynkBet (सट्टेबाज़ी): लाइसेंस वाले ऑपरेटर के लिए दांव लें, टिकट छापें और जीत का भुगतान करें।",
     "source": "catalog/names.v1.json"
    },
    {
@@ -21520,6 +22115,66 @@
    "run": true,
    "needs": "none",
    "offline": "device"
+  },
+  {
+   "action": "bet_explain",
+   "ask": {
+    "role": "owner"
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "bet_explain",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "bet_safer_tools",
+   "ask": {
+    "role": "person"
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "bet_safer_tools",
+   "ask": {
+    "role": "person",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": true,
+   "needs": "none",
+   "offline": "device"
+  },
+  {
+   "action": "bet_referral_hand_over",
+   "ask": {
+    "role": "owner"
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
+  },
+  {
+   "action": "bet_referral_hand_over",
+   "ask": {
+    "role": "owner",
+    "confirmed": true,
+    "fresh_check": true
+   },
+   "run": false,
+   "needs": "prepare_for_later",
+   "offline": null
   }
  ]
 }

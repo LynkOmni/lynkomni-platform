@@ -223,6 +223,43 @@
    }
   },
   {
+   "id": "bet.counter",
+   "service": "lynkbet",
+   "devices": [
+    "LynkPOS",
+    "LynkTab",
+    "LynkMobile"
+   ],
+   "built_in": "bet-counter",
+   "build_section": 4,
+   "planned": false,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "partner_parts_online_only",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [
+    "receipt_printer",
+    "scanner",
+    "cash_drawer",
+    "camera"
+   ],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": [
+     "camera_or_scanner"
+    ]
+   },
+   "contract_since": 17
+  },
+  {
    "id": "pos.order_board",
    "service": "lynkpos",
    "devices": [

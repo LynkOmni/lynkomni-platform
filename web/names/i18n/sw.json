@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "Kozi na mafunzo",
   "nm_acc": "Uhasibu",
@@ -14,6 +14,7 @@
   "nm_audit": "Kumbukumbu za ukaguzi",
   "nm_az_note": "Kila jina la LynkOmni na kazi yake.",
   "nm_az_title": "Majina kuanzia A hadi Z",
+  "nm_bet": "Ubashiri",
   "nm_booking": "Safari na tiketi",
   "nm_cdisplay": "Skrini ndogo juu ya kaunta",
   "nm_chat": "Gumzo la biashara",

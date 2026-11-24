@@ -46,6 +46,7 @@ FAMILIES = {
  "lynkproperty": ("LynkOmni Property", "LynkProperty", MT, (0, 9, 29, 79), "office", False),
  "lynkfiles":     ("LynkOmni Files", "LynkFiles", MT, (0, 4, 11, 29), "office", False),
  "lynkjobs":     ("LynkOmni Jobs", "LynkJobs", MT, (0, 15, 45, 129), "office", False),            # employers; seekers' LynkJobs Pass: JOBS_PASS_PRICES
+ "lynkbet":      ("LynkOmni Betting", "LynkBet", MT, (0, 7, 19, 45), "merchant", False),   # BETTING UPDATE (owner 2026-11-24, blueprint 86): per shop, add-on outside LynkSuite
  "lynkops":      ("LynkOmni Operations", "LynkOps", MT, (0, 20, 49, 129), "bundle", True),       # a tier: LynkAcc, LynkInv, LynkCRM and LynkStat together
  "lynksuite":    ("LynkOmni Suite", "LynkSuite", MT, (0, 29, 75, 195), "suite", False),
 }
@@ -313,6 +314,17 @@ _OFFICE_STAT = [
 for _i, _d in enumerate(_OFFICE_STAT):
     for _k, _v in _d.items():
         FEATURES["lynkstat"][_i][_k] = _v
+# BETTING UPDATE (owner 2026-11-24, master blueprint section 86; LOCKED by tests/test_price_lock.py): LynkBet per shop. Taking bets,
+# checking tickets, paying winnings and the whole safety core (age, personal limits, self-exclusion, paid once, the help line) are on
+# every tier and never a paid extra. Counters are LynkBet's own units for the Emulator Panel. Rules: catalog/betting.v1.json.
+FEATURES["lynkbet"] = [
+    dict(operators=1, counters=1, kiosks=0, boards=0, history_months=1, staff_limits="basic", two_person_approval=True, offline_slips=True,
+         flags="basic", head_office=False, regulator_exports=False, inspector_view=False, move_in=False, api=False, safety_core=True,
+         powered_by="required"),
+    dict(operators=3, counters=3, boards=1, history_months=12, staff_limits="full", flags="full", move_in=True, powered_by="removable"),
+    dict(operators=None, counters=10, kiosks=2, boards=3, history_months=36, inspector_view=True, api="read"),
+    dict(counters=None, kiosks=10, boards=None, history_months=84, head_office=True, regulator_exports=True, api="full"),
+]
 # EMULATOR UPDATE (owner accepted 2026-11-18, blueprint 70.12; build section 3A): staff emulator slots, the number of staff emulators
 # of a family connected at the same time. Every number already locked stays: LynkPOS keeps its devices (1, 2, 5, unlimited);
 # LynkAttend, LynkQueue and LynkSurvey keep their own locked units ("own_units": places, counters, creators) and are not limited
@@ -320,12 +332,12 @@ for _i, _d in enumerate(_OFFICE_STAT):
 # never counts (core/emulators.py). Extra devices on Plus and Pro: EMULATOR_EXTRA_CENTS; a day pass for events: SERVICE_FEES.
 EMULATOR_LADDER = (1, 2, 5, None)
 EMULATOR_FAMILIES = ("lynkpos", "lynkstock", "lynkrewards", "lynkmpay", "lynkcheckout", "lynkessential", "lynkbooking", "lynkmotion", "lynkguard",
-                     "lynkattend", "lynkqueue", "lynksurvey")
+                     "lynkattend", "lynkqueue", "lynksurvey", "lynkbet")
 for _f in EMULATOR_FAMILIES:
     for _i in range(len(MT)):
         if _f == "lynkpos":
             _v = [d["devices"] for d in FEATURES[_f][: _i + 1] if "devices" in d][-1]     # the locked device numbers
-        elif _f in ("lynkattend", "lynkqueue", "lynksurvey", "lynkbooking"):    # own locked units (places, counters, creators, booking places)
+        elif _f in ("lynkattend", "lynkqueue", "lynksurvey", "lynkbooking", "lynkbet"):    # own locked units (places, counters, creators, booking places, betting counters)
             _v = "own_units"
         else:
             _v = EMULATOR_LADDER[_i]
@@ -431,6 +443,34 @@ def exchange_part_bps(tier, volume_30d_cents):
     level = [bps for start, bps in EXCHANGE_LEVELS if volume_30d_cents >= start][-1]
     tier_bps = [d["lynkomni_part_bps"] for d in FEATURES["lynkexchange"][: MT.index(tier) + 1] if "lynkomni_part_bps" in d][-1]
     return min(tier_bps, level)
+
+
+# BETTING UPDATE (owner 2026-11-24, master blueprint section 86). LynkBet's extras, bundle and the operator's share. LynkOmni never takes
+# a cut of a shop's commission. The operator pays LynkOmni a share of the money it keeps (stakes minus winnings, its GGR) on bets taken
+# through LynkBet shops: 1.5% of each month's first $1,000,000 and 1% above, with no setup fee and no monthly minimum, below the
+# market's platform shares (10 to 25% of GGR) and aggregator shares (3 to 8%). Collected by agreement, never from stakes. LOCKED.
+BET_EXTRA_COUNTER_CENTS = (None, 300, 300, None)   # one more counter a month on Plus and Pro (Max has no limit)
+BET_EXTRA_KIOSK_CENTS = (None, None, 900, 900)     # one more self-service kiosk a month on Pro and Max
+BET_BUNDLE_DISCOUNT_BPS = 2000                     # 20% off LynkBet when held with a paid LynkPOS plan
+BET_OPERATOR_SHARE = {"bps": 150, "above_monthly_cents": 100_000_000, "above_bps": 100, "setup_fee_cents": 0, "monthly_minimum_cents": 0}
+
+
+def bet_operator_share_cents(monthly_ggr_cents):
+    """LynkOmni's monthly share from an operator, in US cents: 1.5% of the first $1,000,000 of its GGR through LynkBet shops and 1% of
+    the rest, rounded down. A month with no GGR (or a loss) costs nothing."""
+    if monthly_ggr_cents <= 0:
+        return 0
+    r = BET_OPERATOR_SHARE
+    low = min(monthly_ggr_cents, r["above_monthly_cents"])
+    return low * r["bps"] // 10_000 + max(0, monthly_ggr_cents - r["above_monthly_cents"]) * r["above_bps"] // 10_000
+
+
+def bet_bundle_discount_cents(tiers):
+    """20% off a paid LynkBet plan held with a paid LynkPOS plan, in US cents a month."""
+    bet, pos = tiers.get("lynkbet", "free"), tiers.get("lynkpos", "free")
+    if bet == "free" or pos == "free":
+        return 0
+    return int(round(FAMILIES["lynkbet"][3][MT.index(bet)] * 100)) * BET_BUNDLE_DISCOUNT_BPS // 10_000
 
 
 # VOTE UPDATE (owner approved 2026-11-18, blueprint 68.11; pinned in section 4 part 1b). Paid contest votes go through the provider;

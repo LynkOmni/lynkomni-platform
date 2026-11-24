@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "58008a40405a72e72c70035e1248b5e00bb82952d196ecdae0676a787b2c0cfb",
+ "source_sha256": "7c64d728ccdae48efaf983a58aa2b77c3826c21805824d9fa8fa9e0951959575",
  "texts": {
   "trk_accepted": "An karɓa",
   "trk_active": "Yana aiki",
@@ -43,6 +43,8 @@
   "trk_k_approval_route": "Amincewa",
   "trk_k_asset_trip": "Tafiyar abin hawa",
   "trk_k_attendance_correction": "Rikodin halarta",
+  "trk_k_bet_referral": "Babbar nasara da aka tura",
+  "trk_k_bet_slip": "Takardar caca",
   "trk_k_bill_to_pay": "Lissafin biya",
   "trk_k_booking": "Ajiyar wuri",
   "trk_k_card_request": "Neman kati",

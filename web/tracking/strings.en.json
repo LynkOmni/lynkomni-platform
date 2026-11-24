@@ -144,5 +144,7 @@
  "trk_waiting": "Waiting",
  "trk_waiting_parts": "Waiting for parts",
  "trk_waiting_period": "Waiting period",
- "trk_waiting_provider": "Waiting for the provider"
+ "trk_waiting_provider": "Waiting for the provider",
+ "trk_k_bet_slip": "Betting slip",
+ "trk_k_bet_referral": "Big win referral"
 }

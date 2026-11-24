@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "9042f401550324ce555e1bd1a81902b3ef5e163d728bf06d7c778b0519263f25",
+ "source_sha256": "ef705ffc090106985fdc5d4e7969d904bf31d471e2a316b7d216647a5dcdc81a",
  "texts": {
   "nma_academy": "Unda na soma kozi, zenye masomo na vyeti.",
   "nma_acc": "Weka hesabu, matumizi na ripoti zako katika mpangilio.",
@@ -12,6 +12,7 @@
   "nma_assist": "Uliza maswali, pata msaada na uandaliwe rasimu.",
   "nma_attend": "Rekodi anayekuja na kuondoka: wafanyakazi, wanafunzi na wageni.",
   "nma_audit": "Kumbukumbu kamili ya nani alibadilisha nini kwenye hesabu zako.",
+  "nma_bet": "Pokea ubashiri, chapisha tiketi na lipa ushindi kwa mwendeshaji mwenye leseni.",
   "nma_booking": "Weka nafasi za safari, tiketi na miadi mahali pamoja.",
   "nma_chat": "Zungumza na wateja na timu yako katika kikasha kimoja.",
   "nma_checkout": "Tuma kiungo cha malipo au onyesha msimbo wa QR ili ulipwe.",

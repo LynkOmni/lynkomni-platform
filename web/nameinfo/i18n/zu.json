@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "9042f401550324ce555e1bd1a81902b3ef5e163d728bf06d7c778b0519263f25",
+ "source_sha256": "ef705ffc090106985fdc5d4e7969d904bf31d471e2a316b7d216647a5dcdc81a",
  "texts": {
   "nma_academy": "Dala futhi uthathe izifundo, ezinezifundo ezincane nezitifiketi.",
   "nma_acc": "Gcina amabhuku akho, izindleko nemibiko kuhlelekile.",
@@ -12,6 +12,7 @@
   "nma_assist": "Buza imibuzo, uthole usizo futhi ulungiselelwe okusalungiswa.",
   "nma_attend": "Bhala phansi ofikayo nohambayo: abasebenzi, abafundi nezivakashi.",
   "nma_audit": "Irekhodi eliphelele lokuthi ubani oshintshe ini emabhukwini akho.",
+  "nma_bet": "Thatha ukubheja, phrinta amathikithi bese ukhokha abawinile ku-opharetha onelayisensi.",
   "nma_booking": "Bhukha uhambo, amathikithi nama-aphoyintimenti endaweni eyodwa.",
   "nma_chat": "Xoxa namakhasimende nethimba lakho ebhokisini elilodwa.",
   "nma_checkout": "Thumela isixhumanisi sokukhokha noma ubonise ikhodi ye-QR ukuze ukhokhelwe.",

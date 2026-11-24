@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ug",
  "native": "ئۇيغۇرچە",
- "source_sha256": "58008a40405a72e72c70035e1248b5e00bb82952d196ecdae0676a787b2c0cfb",
+ "source_sha256": "7c64d728ccdae48efaf983a58aa2b77c3826c21805824d9fa8fa9e0951959575",
  "texts": {
   "trk_accepted": "قوبۇل قىلىندى",
   "trk_active": "ئاكتىپ",
@@ -43,6 +43,8 @@
   "trk_k_approval_route": "تەستىقلاش",
   "trk_k_asset_trip": "ماشىنا سەپىرى",
   "trk_k_attendance_correction": "قاتنىشىش خاتىرىسى",
+  "trk_k_bet_referral": "يوللانغان چوڭ ئۇتۇق",
+  "trk_k_bet_slip": "گىرۋ قەغىزى",
   "trk_k_bill_to_pay": "تۆلەيدىغان ھېسابات",
   "trk_k_booking": "ئالدىن بەلگىلەش",
   "trk_k_card_request": "كارتا تەلىپى",

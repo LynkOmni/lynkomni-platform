@@ -207,6 +207,14 @@
    "spoken": "Link Essential"
   },
   {
+   "id": "bet",
+   "name": "LynkBet",
+   "kind": "product",
+   "family": "lynkbet",
+   "icon": "product-pos",
+   "spoken": "Link Bet"
+  },
+  {
    "id": "attend",
    "name": "LynkAttend",
    "kind": "product",

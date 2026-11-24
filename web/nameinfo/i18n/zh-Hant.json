@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "9042f401550324ce555e1bd1a81902b3ef5e163d728bf06d7c778b0519263f25",
+ "source_sha256": "ef705ffc090106985fdc5d4e7969d904bf31d471e2a316b7d216647a5dcdc81a",
  "texts": {
   "nma_academy": "建立和學習課程，含課堂和證書。",
   "nma_acc": "把帳本、開支和報表整理得井井有條。",
@@ -12,6 +12,7 @@
   "nma_assist": "提出問題、獲得協助，還能幫你準備草稿。",
   "nma_attend": "記錄誰來誰走：員工、學生和訪客。",
   "nma_audit": "完整記錄誰在你的帳本裡改了什麼。",
+  "nma_bet": "為持牌營運商接受投注、列印彩票並支付獎金。",
   "nma_booking": "在一個地方預訂旅遊、票券和預約。",
   "nma_chat": "在一個收件匣裡和顧客及團隊聊天。",
   "nma_checkout": "傳送付款連結或出示 QR 碼，讓顧客付款給你。",

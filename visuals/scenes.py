@@ -226,6 +226,19 @@ def _exchange(p):
     return wrap(p, b, 1)
 
 
+@scene("bet")
+def _bet(p):
+    """LynkBet: a printed ticket with a QR square coming out of a counter printer, a check badge for a ticket that pays once and a
+    small shield for safer betting. No words, odds or money shown."""
+    qr = "".join(rr(150 + 9 * i, 98 + 9 * j, 7, 7, 1.5, p.ink, stroke="none") for i in range(4) for j in range(4) if (i * 3 + j * 5) % 4 != 1)
+    b = (rr(86, 150, 148, 44, 10, p.accent_soft) + rr(106, 158, 108, 8, 4, p.ink2, stroke="none") +
+         path("M124 54h72v108l-6-4.5-6 4.5-6-4.5-6 4.5-6-4.5-6 4.5-6-4.5-6 4.5-6-4.5-6 4.5-6-4.5z", p.surface) +
+         path("M134 70h40M134 82h52", stroke=p.ink2, stroke_width=2.5) + rr(146, 94, 40, 40, 4, p.surface) + qr +
+         circ(256, 78, 18, p.accent) + check(256, 80, 14, p.on_accent) +
+         path("M60 102l18-8 18 8v18c0 14-8 22-18 26-10-4-18-12-18-26z", p.surface) + check(78, 120, 12, p.accent_ink))
+    return wrap(p, b, 2)
+
+
 @scene("vote")
 def _vote(p):
     """LynkVote: a ballot box with a sealed ballot going in, a check mark on the ballot and a small lock for the sealed count."""

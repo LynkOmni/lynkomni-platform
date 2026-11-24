@@ -544,6 +544,30 @@
    ]
   },
   {
+   "id": "bet",
+   "family": "lynkbet",
+   "name": "LynkBet API",
+   "can": "For a shop network on Max and for licensed operators through the Partner Hub: shops, counters and their status, bets and tickets as the operator answered them, ticket checks, payouts after the operator's lock, referrals and their steps, settlements and commission, Please check flags and webhooks on every state. Never places a bet, sets odds or moves money; never a customer's name, contact, ID or photo",
+   "usage": "existing_tier_fees",
+   "build_section": 11,
+   "scopes": [
+    "shops.read",
+    "bets.read",
+    "tickets.read",
+    "payouts.read",
+    "referrals.read",
+    "settlements.read",
+    "webhooks",
+    "tracking.read",
+    "tracking.events"
+   ],
+   "own_account": true,
+   "tracks": [
+    "bet_slip",
+    "bet_referral"
+   ]
+  },
+  {
    "id": "voting",
    "family": "lynkvote",
    "name": "LynkVote API",

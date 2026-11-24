@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "9042f401550324ce555e1bd1a81902b3ef5e163d728bf06d7c778b0519263f25",
+ "source_sha256": "ef705ffc090106985fdc5d4e7969d904bf31d471e2a316b7d216647a5dcdc81a",
  "texts": {
   "nma_academy": "Ƙirƙira ka ɗauki kwasa-kwasai, da darussa da takardun shaida.",
   "nma_acc": "Ka riƙe littattafanka, kuɗaɗen da ka kashe da rahotanni cikin tsari.",
@@ -12,6 +12,7 @@
   "nma_assist": "Yi tambayoyi, sami taimako kuma a shirya maka daftari.",
   "nma_attend": "Rubuta wanda ke shigowa da fita: ma'aikata, ɗalibai da baƙi.",
   "nma_audit": "Cikakken rikodin wanda ya canja me a cikin littattafanka.",
+  "nma_bet": "Karɓi caca, buga tikiti kuma biya nasarori don mai lasisi.",
   "nma_booking": "Yi ajiyar tafiya, tikiti da alƙawura a wuri ɗaya.",
   "nma_chat": "Yi hira da abokan ciniki da ƙungiyarka a akwati ɗaya.",
   "nma_checkout": "Aika hanyar biya ko nuna lambar QR don a biya ka.",

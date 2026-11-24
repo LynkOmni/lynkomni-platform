@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "9042f401550324ce555e1bd1a81902b3ef5e163d728bf06d7c778b0519263f25",
+ "source_sha256": "ef705ffc090106985fdc5d4e7969d904bf31d471e2a316b7d216647a5dcdc81a",
  "texts": {
   "nma_academy": "Maak en volg cursussen, met lessen en certificaten.",
   "nma_acc": "Houd je boekhouding, uitgaven en rapporten op orde.",
@@ -12,6 +12,7 @@
   "nma_assist": "Stel vragen, krijg hulp en laat concepten voor je klaarzetten.",
   "nma_attend": "Leg vast wie komt en gaat: personeel, leerlingen en bezoekers.",
   "nma_audit": "Een volledig overzicht van wie wat in je boeken heeft gewijzigd.",
+  "nma_bet": "Neem weddenschappen aan, druk tickets af en betaal winsten uit voor een erkende aanbieder.",
   "nma_booking": "Boek reizen, tickets en afspraken op één plek.",
   "nma_chat": "Chat met je klanten en je team in één inbox.",
   "nma_checkout": "Stuur een betaallink of toon een QR-code om betaald te krijgen.",

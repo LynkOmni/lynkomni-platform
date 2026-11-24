@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pl",
  "native": "Polski",
- "source_sha256": "58008a40405a72e72c70035e1248b5e00bb82952d196ecdae0676a787b2c0cfb",
+ "source_sha256": "7c64d728ccdae48efaf983a58aa2b77c3826c21805824d9fa8fa9e0951959575",
  "texts": {
   "trk_accepted": "Przyjęto",
   "trk_active": "Aktywne",
@@ -43,6 +43,8 @@
   "trk_k_approval_route": "Zatwierdzenie",
   "trk_k_asset_trip": "Przejazd pojazdu",
   "trk_k_attendance_correction": "Zapis obecności",
+  "trk_k_bet_referral": "Duża wygrana przekazana",
+  "trk_k_bet_slip": "Kupon zakładu",
   "trk_k_bill_to_pay": "Rachunek do zapłaty",
   "trk_k_booking": "Rezerwacja",
   "trk_k_card_request": "Wniosek o kartę",

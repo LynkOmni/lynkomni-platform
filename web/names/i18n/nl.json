@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "Cursussen & training",
   "nm_acc": "Boekhouding",
@@ -14,6 +14,7 @@
   "nm_audit": "Auditspoor",
   "nm_az_note": "Elke LynkOmni-naam en wat die doet.",
   "nm_az_title": "Namen van A tot Z",
+  "nm_bet": "Wedden",
   "nm_booking": "Reizen en tickets",
   "nm_cdisplay": "Klein scherm boven de balie",
   "nm_chat": "Zakelijke chat",

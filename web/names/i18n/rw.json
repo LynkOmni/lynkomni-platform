@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "rw",
  "native": "Ikinyarwanda",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "Amasomo n'amahugurwa",
   "nm_acc": "Ibaruramari",
@@ -14,6 +14,7 @@
   "nm_audit": "Inyandiko z'igenzura",
   "nm_az_note": "Izina ryose rya LynkOmni n'icyo rikora.",
   "nm_az_title": "Amazina kuva kuri A kugeza kuri Z",
+  "nm_bet": "Gutega",
   "nm_booking": "Ingendo n'amatike",
   "nm_cdisplay": "Mugaragaza nto hejuru ya konteri",
   "nm_chat": "Ikiganiro cy'ubucuruzi",

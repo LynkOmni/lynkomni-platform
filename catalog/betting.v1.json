@@ -1,0 +1,161 @@
+{
+ "version": 1,
+ "agreed": "2026-11-24 (owner, BETTING UPDATE; master blueprint section 86)",
+ "rule": "Betting is an agent point service of LynkPOS for shops of licensed betting operators, run on its own emulator, the betting counter (catalog/emulators.v1.json bet.counter). LynkOmni is only the shop's tool: it never takes a bet itself, never sets odds, never decides a result, never holds a stake or a winning and never advertises betting. The operator's own system decides everything and the cloud alone writes its answer. Every rule lives here and in core/betting.py, with the TypeScript port ts/src/betting.ts and shared vectors (python3 tools/betting_vectors.py after a change).",
+ "service": "betting",
+ "global": "One global service. No country, currency, operator, amount or law is written in code: amounts are whole minor units of the shop's own currency, limits come from the operator's answer and the country pack, and the service stays off (Coming to your country soon.) until a licensed operator is signed there and the lawyer has confirmed the country's law.",
+ "online_only": false,
+ "request_states": [
+  "sent",
+  "confirmed",
+  "failed"
+ ],
+ "results": [
+  "won",
+  "lost",
+  "void",
+  "pending"
+ ],
+ "check_answers": {
+  "pay": "A win or a refund the shop may pay now from its own cash.",
+  "refer": "Above the shop's payout limit: referred to the operator's head office.",
+  "short_of_cash": "Within the limit but more than the cash in the drawer: refer, or pay when cash is topped up.",
+  "already_paid": "This ticket was paid before.",
+  "not_valid": "The operator does not know this ticket.",
+  "pending": "Some games have not finished yet.",
+  "lost": "At least one selection lost.",
+  "expired": "The ticket was not cashed in time."
+ },
+ "check_order": [
+  "not_valid",
+  "already_paid",
+  "pending",
+  "lost",
+  "expired",
+  "refer",
+  "short_of_cash",
+  "pay"
+ ],
+ "refer_steps": [
+  "referred",
+  "checking",
+  "approved",
+  "paid"
+ ],
+ "payout_ways": [
+  "bank",
+  "mobile_money",
+  "cash_at_shop"
+ ],
+ "stake_methods": [
+  "cash",
+  "mobile_money"
+ ],
+ "never_stake_methods": [
+  "credit",
+  "credit_book",
+  "card_credit",
+  "pay_later"
+ ],
+ "odds_scale": 1000,
+ "flags": {
+  "repeat_scans": 3,
+  "big_payout_share_bps": 8000,
+  "big_payouts": 3,
+  "note": "Flags say Please check and are never an accusation; they never block a payout the operator confirmed.",
+  "stake_splitting": 3,
+  "split_band_bps": 9000
+ },
+ "expiry_days": {
+  "min": 30,
+  "max": 90,
+  "note": "The operator sets the days for its tickets; the counter shows the date on every ticket."
+ },
+ "safer_betting": {
+  "age": "18, or the country pack's higher age of majority; the operator asks for an ID when unsure. A birth date is never stored.",
+  "personal_limits": "A customer's own stake limits and time-outs are kept by the operator and checked on every bet.",
+  "time_out_days": [
+   1,
+   7,
+   30
+  ],
+  "self_exclusion": "A self-excluded customer cannot bet; the counter only shows Not possible and the help line.",
+  "help_line_on_ticket": "Every ticket and the counter's Safer betting page show the help line from the country pack."
+ },
+ "never": {
+  "offline": "Betting never starts without internet and nothing is queued: odds change by the minute.",
+  "changed_amounts": "Staff never type or change a payout: the operator's figure is the only amount.",
+  "pay_twice": "A ticket is locked with the operator before the cash is handed over, so it can never be paid twice, a copy included.",
+  "children": "No betting for anyone under age, in household or school workspaces, or for a child's account.",
+  "advertising": "No betting ads anywhere (catalog/ads.v1.json blocks gambling).",
+  "assist_offers": "LynkAssist never suggests a bet or a stake; it only explains the counter's own steps and the safer betting tools.",
+  "credit": "No bet on credit, the credit book, a credit card or pay later.",
+  "holding_money": "Stakes and winnings belong to the operator; the shop holds the cash as its agent and LynkOmni holds nothing."
+ },
+ "commission": "The operator pays the shop its commission on stakes and payouts and reports it; the cloud records it once from the operator's statement and posts it to LynkAcc. LynkOmni bills the operator for its own share.",
+ "events_planned": {
+  "contract_version": 17,
+  "note": "In contract version 17 (contract/tools/build_v17.py). Only the counter's requests and records may come from a device; the operator's answers are cloud only. No event carries a customer's name, contact, ID number or photo."
+ },
+ "build_section": 9,
+ "online_and_offline": {
+  "always_offline": [
+   "cash count",
+   "shift report",
+   "float",
+   "practice mode",
+   "safer betting information",
+   "preparing booking codes",
+   "e-tickets already on the device",
+   "the busy-day queue",
+   "the last known state of each ticket"
+  ],
+  "offline_slips": "Only when the operator switches them on: never for live betting, only for games that start at least the operator's lead time later or for draws, within the operator's limit per slip and per shop. The printed slip says Queued: not a ticket yet. When the link is back it is sent; accepted prints the ticket, refused returns the full stake (refund_due).",
+  "never_offline": [
+   "paying a winning ticket (the operator must lock it first)",
+   "head-office referrals",
+   "cancelling a bet"
+  ],
+  "bad_internet": "The counter uses very little data, moves to offline mode by itself and sends everything as soon as the link is back."
+ },
+ "sides": {
+  "internal": "The shop's workspace: app.lynkomni.com/betting (overview, operators, settlements, head office) and app.lynkomni.com/sell/betting (the counter); cash, float, shifts, staff and their limits, books and reports. Staff only.",
+  "external": "The shop's Storefront, only where the country's law allows: shop.lynkomni.com/(username)/betting with the shop's details, the licensed operators it serves, Check my ticket and Send a booking code ahead, and the shop's help desk; managed at app.lynkomni.com/external/betting. Information only: no odds, offers or promotions, and nothing about betting for anyone under age. A customer's e-tickets, results and safer betting tools are in their own account at account.lynkomni.com/bets.",
+  "operator": "The operator's side lives in the Partner Hub (operator console)."
+ },
+ "odds_formats": [
+  "decimal",
+  "fractional",
+  "american",
+  "hong_kong"
+ ],
+ "kinds": [
+  "sports",
+  "live",
+  "virtual",
+  "racing",
+  "lottery",
+  "esports",
+  "other"
+ ],
+ "bet_types": [
+  "single",
+  "multiple",
+  "system",
+  "each_way",
+  "bet_builder",
+  "pool"
+ ],
+ "cancel": {
+  "needs": [
+   "online",
+   "operator allows",
+   "no game started",
+   "manager approval",
+   "within the operator's minutes"
+  ]
+ },
+ "two_person_approval": "A payout at or above the owner's amount needs a second staff member's approval; never the same person.",
+ "reprints": "A reprint is marked Copy and can never be paid; only the original ticket code pays, once.",
+ "settlement": "Prepaid float or settling after the betting, as each operator works. Each period: stakes held for the operator minus payouts minus the shop's commission; positive is owed to the operator, negative is owed to the shop. Through a licensed payment partner, posted once to LynkAcc."
+}

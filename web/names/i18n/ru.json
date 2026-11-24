@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ru",
  "native": "Русский",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "Курсы и обучение",
   "nm_acc": "Бухгалтерия",
@@ -14,6 +14,7 @@
   "nm_audit": "Журнал аудита",
   "nm_az_note": "Каждое название LynkOmni и что оно делает.",
   "nm_az_title": "Названия от А до Я",
+  "nm_bet": "Ставки",
   "nm_booking": "Путешествия и билеты",
   "nm_cdisplay": "Маленький экран над стойкой",
   "nm_chat": "Деловой чат",

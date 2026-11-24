@@ -167,6 +167,7 @@
   "/trust/disclosure",
   "/trust/security",
   "/vcard",
+  "/bet",
   "/voting",
   "/hr",
   "/project",
@@ -182,6 +183,7 @@
   "/analytics",
   "/analytics/sell-through",
   "/analytics/shared",
+  "/betting",
   "/business",
   "/business/academy",
   "/business/agent-earnings",
@@ -221,6 +223,7 @@
   "/notifications",
   "/sell",
   "/sell/basket",
+  "/sell/betting",
   "/sell/kitchen",
   "/sell/payment",
   "/sell/practice",
@@ -406,6 +409,7 @@
   "/external/sell/emulators",
   "/exchange",
   "/external/exchange",
+  "/external/betting",
   "/voting",
   "/external/voting",
   "/hr",
@@ -471,7 +475,8 @@
   "/documents",
   "/work",
   "/school",
-  "/home"
+  "/home",
+  "/bets"
  ],
  "pay_paths": [
   "/r/{LORCP}",
@@ -493,7 +498,8 @@
   "/track/{LOTKT}",
   "/{username}/surveys/{LOSRV}",
   "/{username}/surveys/{LOSRV}/verified",
-  "/{username}/certificates/{LODOC}"
+  "/{username}/certificates/{LODOC}",
+  "/{username}/betting"
  ],
  "username_rule": {
   "format": "instagram",
@@ -608,7 +614,8 @@
    "/property",
    "/files",
    "/job",
-   "/booking"
+   "/booking",
+   "/betting"
   ],
   "storefront_only": [
    "/external/business/academy/listings",
@@ -659,6 +666,7 @@
    "/sell/basket",
    "/sell/payment",
    "/sell/receipt",
+   "/sell/betting",
    "/sell/kitchen",
    "/sell/tables",
    "/sell/shifts",

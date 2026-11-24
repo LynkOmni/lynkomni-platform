@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "Àwọn ẹ̀kọ́ àti ìdánilẹ́kọ̀ọ́",
   "nm_acc": "Ìṣirò owó",
@@ -14,6 +14,7 @@
   "nm_audit": "Àkọsílẹ̀ àyẹ̀wò",
   "nm_az_note": "Gbogbo orúkọ LynkOmni àti ohun tí ó ń ṣe.",
   "nm_az_title": "Àwọn orúkọ láti A dé Z",
+  "nm_bet": "Tẹ́tẹ́",
   "nm_booking": "Ìrìnàjò àti tíkẹ́ẹ̀tì",
   "nm_cdisplay": "Ojú-ìbojú kékeré lórí kántà",
   "nm_chat": "Ìjíròrò iṣòwò",

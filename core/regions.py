@@ -10,7 +10,10 @@ SERVICES = ["pos", "accountant", "invoicing", "crm", "inventory", "dashboard", "
             "voting", "vote_identity", "vote_seal", "vote_post", "vote_mirror", "files", "sign_identity", "sign_qualified", "file_scan", "booking", "exchange",
             "hr_checks", "tenant_screening", "exam_boards", "notary", "pensions", "deposit_protection", "rent_insurance", "property_listings",
             "job_listings", "employer_of_record", "employment_services",
-            "chat_channels", "chat_calls", "pay_in_parts", "listing_sync", "outside_warehouses", "shop_plugins", "transport_bills", "government_fees"]
+            "chat_channels", "chat_calls", "pay_in_parts", "listing_sync", "outside_warehouses", "shop_plugins", "transport_bills", "government_fees",
+            "betting"]
+# BETTING UPDATE (2026-11-24, master blueprint section 86): "betting" (the betting counter at an agent point) needs a licensed betting
+# operator per country and the lawyer's check of the country's law, and stays off until both are done (services/betting_partners.py).
 # SERVICES UPDATE (67.18, section 4 row 67.17): the partner parts of the improved services, each off until its partner is signed
 # (services/services_partners.py). Delivery firms use "delivery"; phone wallets come through the card issuer ("vcard").
 # SIX SERVICES UPDATE (69.13, section 4 row 69.14): the six services' partner parts, each off until its partner is signed (services/six_partners.py).

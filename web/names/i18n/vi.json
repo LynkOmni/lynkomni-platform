@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "Khóa học & đào tạo",
   "nm_acc": "Kế toán",
@@ -14,6 +14,7 @@
   "nm_audit": "Nhật ký kiểm tra",
   "nm_az_note": "Mọi tên của LynkOmni và công dụng của từng tên.",
   "nm_az_title": "Tên từ A đến Z",
+  "nm_bet": "Cá cược",
   "nm_booking": "Du lịch và vé",
   "nm_cdisplay": "Màn hình nhỏ trên quầy",
   "nm_chat": "Chat kinh doanh",

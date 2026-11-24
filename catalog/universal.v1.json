@@ -35,7 +35,8 @@
   "lynkschool": "9B",
   "lynkproperty": "9B",
   "lynkexchange": "10",
-  "lynkdev": "11"
+  "lynkdev": "11",
+  "lynkbet": "9"
  },
  "home_sections_note": "The section where the family is finished; a rule not yet met is due there (or in the section being built now, if that is later). LynkAttend, LynkQueue and LynkSurvey were finished in the locked section 3B, so anything still missing for them is a section 4 leftover.",
  "bundles": [
@@ -278,7 +279,8 @@
    "lynkproperty": "Tenants' and owners' records: no ad places",
    "lynkvote": "Voting never carries ads",
    "lynkacademy": "Learning places used by children never carry ads",
-   "lynkgrow": "Growth tools sell the merchant's own offers; no third-party ad places"
+   "lynkgrow": "Growth tools sell the merchant's own offers; no third-party ad places",
+   "lynkbet": "Betting is never advertised and LynkBet screens never carry ads (catalog/ads.v1.json blocks gambling)"
   },
   "cash": {
    "lynkacc": "Records money; it does not take it in person",
@@ -377,6 +379,10 @@
   ],
   "lynkmpay": [
    "money"
+  ],
+  "lynkbet": [
+   "betting",
+   "agent"
   ]
  },
  "areas_note": "Which areas of the LynkAssist register (catalog/assist.v1.json) and the message register (catalog/messages.v1.json) belong to each family. A family with no area here has its LynkAssist skills and messages due in its home section; its build adds the area here and its entries there."

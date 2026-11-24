@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "9042f401550324ce555e1bd1a81902b3ef5e163d728bf06d7c778b0519263f25",
+ "source_sha256": "ef705ffc090106985fdc5d4e7969d904bf31d471e2a316b7d216647a5dcdc81a",
  "texts": {
   "nma_academy": "创建和学习课程，含课时和证书。",
   "nma_acc": "把账本、开支和报表整理得井井有条。",
@@ -12,6 +12,7 @@
   "nma_assist": "提出问题、获得帮助，还能帮你准备草稿。",
   "nma_attend": "记录谁来谁走：员工、学生和访客。",
   "nma_audit": "完整记录谁在你的账本里改了什么。",
+  "nma_bet": "为持牌运营商接受投注、打印彩票并支付奖金。",
   "nma_booking": "在一个地方预订出行、票务和预约。",
   "nma_chat": "在一个收件箱里和顾客及团队聊天。",
   "nma_checkout": "发送付款链接或出示 QR 码，让顾客付款给你。",

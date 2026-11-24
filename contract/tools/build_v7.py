@@ -27,7 +27,7 @@ BOOL = {"type": "boolean"}
 
 def _emulator_ids():
     with open(os.path.join(os.path.dirname(ROOT), "catalog", "emulators.v1.json"), encoding="utf-8") as f:
-        return [e["id"] for e in json.load(f)["emulators"]]
+        return [e["id"] for e in json.load(f)["emulators"] if e.get("contract_since", 7) <= 7]   # a later emulator joins a later version (bet.counter: v17)
 
 
 EMU = {"enum": _emulator_ids()}

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "ڪورس ۽ تربيت",
   "nm_acc": "حساب ڪتاب",
@@ -14,6 +14,7 @@
   "nm_audit": "آڊٽ رڪارڊ",
   "nm_az_note": "LynkOmni جو هر نالو ۽ اهو ڇا ٿو ڪري.",
   "nm_az_title": "نالا الف کان ي تائين",
+  "nm_bet": "شرط",
   "nm_booking": "سفر ۽ ٽڪيٽون",
   "nm_cdisplay": "ڪائونٽر مٿان ننڍي اسڪرين",
   "nm_chat": "ڪاروباري چيٽ",

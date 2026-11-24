@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "কোর্স ও প্রশিক্ষণ",
   "nm_acc": "হিসাব",
@@ -14,6 +14,7 @@
   "nm_audit": "অডিট রেকর্ড",
   "nm_az_note": "LynkOmni-এর প্রতিটি নাম এবং সেটি কী করে।",
   "nm_az_title": "নাম ক থেকে হ",
+  "nm_bet": "বাজি",
   "nm_booking": "ভ্রমণ ও টিকিট",
   "nm_cdisplay": "কাউন্টারের উপরে ছোট স্ক্রিন",
   "nm_chat": "ব্যবসার চ্যাট",

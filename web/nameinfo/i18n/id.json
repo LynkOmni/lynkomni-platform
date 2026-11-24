@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "9042f401550324ce555e1bd1a81902b3ef5e163d728bf06d7c778b0519263f25",
+ "source_sha256": "ef705ffc090106985fdc5d4e7969d904bf31d471e2a316b7d216647a5dcdc81a",
  "texts": {
   "nma_academy": "Buat dan ikuti kursus, dengan pelajaran dan sertifikat.",
   "nma_acc": "Jaga pembukuan, pengeluaran dan laporan Anda tetap rapi.",
@@ -12,6 +12,7 @@
   "nma_assist": "Ajukan pertanyaan, dapatkan bantuan dan draf yang disiapkan untuk Anda.",
   "nma_attend": "Catat siapa yang datang dan pergi: staf, siswa dan tamu.",
   "nma_audit": "Catatan lengkap tentang siapa mengubah apa di pembukuan Anda.",
+  "nma_bet": "Terima taruhan, cetak tiket, dan bayar kemenangan untuk operator berizin.",
   "nma_booking": "Pesan perjalanan, tiket dan janji temu di satu tempat.",
   "nma_chat": "Mengobrol dengan pelanggan dan tim dalam satu kotak masuk.",
   "nma_checkout": "Kirim tautan pembayaran atau tunjukkan kode QR agar Anda dibayar.",

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LynkBet betting counter</title>
+<meta name="description" content="Interactive emulator of the LynkBet betting counter on LynkPOS: take a bet for a licensed operator, print its ticket, scan a ticket to check it, pay a small win from the drawer and refer a big win to head office.">
+<style>/*@TOKENS@*/
+/*@STYLE@*/</style>
+</head>
+<body>
+<header class="pagehead">
+  <h1>LynkBet betting counter <span class="draft">Draft design</span></h1>
+  <p class="address" aria-live="polite">Address: <code id="address"></code></p>
+  <p>Interactive emulator of the LynkBet betting counter on LynkPOS, for shops of licensed betting operators. The operator's system decides every bet, result and amount; LynkOmni is only the shop's tool and never holds money. Online only. Sample games, a sandbox operator, test money only. Not reviewed by a designer yet.</p>
+</header>
+<main class="stage">
+  <section class="rig" id="rig" aria-label="LynkBet betting counter" data-width="460">
+    <div class="fit"><div class="bc">
+      <div class="bcpaper" id="paperWrap" hidden><div class="bcslip" id="paper" role="document" aria-label="Printed ticket"></div><button type="button" class="bctear" id="tear">Tear off</button></div>
+      <div class="bchead"><span class="bccam" aria-hidden="true"></span><span class="bcspk" aria-hidden="true"></span></div>
+      <div class="bcscreen light" id="screen"></div>
+      <div class="bcbase">
+        <button type="button" class="bcscan" id="scanWin" data-act="scan" aria-label="Ticket scanner: scan a ticket"><span class="bcbeam" id="beam" aria-hidden="true"></span></button>
+        <div class="bcslot" aria-hidden="true"></div>
+        <div class="mark" aria-hidden="true">/*@BODYMARK@*/</div>
+      </div>
+      <div class="bcdrawer" id="drawer" aria-label="Cash drawer" role="img"><span class="bcdtray" aria-hidden="true"></span></div>
+      <div class="bcpad" id="pad"></div>
+    </div></div>
+  </section>
+  <aside class="panel" id="panel" aria-label="Emulator controls"></aside>
+</main>
+<script>/*@SCRIPT@*/</script>
+</body>
+</html>

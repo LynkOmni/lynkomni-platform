@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "58008a40405a72e72c70035e1248b5e00bb82952d196ecdae0676a787b2c0cfb",
+ "source_sha256": "7c64d728ccdae48efaf983a58aa2b77c3826c21805824d9fa8fa9e0951959575",
  "texts": {
   "trk_accepted": "Đã chấp nhận",
   "trk_active": "Đang hoạt động",
@@ -43,6 +43,8 @@
   "trk_k_approval_route": "Phê duyệt",
   "trk_k_asset_trip": "Chuyến đi của xe",
   "trk_k_attendance_correction": "Bản ghi chấm công",
+  "trk_k_bet_referral": "Khoản thắng lớn chuyển lên",
+  "trk_k_bet_slip": "Phiếu cược",
   "trk_k_bill_to_pay": "Hóa đơn cần trả",
   "trk_k_booking": "Đặt chỗ",
   "trk_k_card_request": "Yêu cầu thẻ",

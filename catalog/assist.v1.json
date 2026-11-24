@@ -1369,6 +1369,66 @@
    "status": "built",
    "note": "why a chart changed, from the figures and the owner's notes; an estimate is always labelled, never presented as a fact",
    "offline": "device"
+  },
+  {
+   "id": "bet_explain",
+   "area": "betting",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "cashier"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": 9,
+   "status": "planned",
+   "offline": "device"
+  },
+  {
+   "id": "bet_safer_tools",
+   "area": "betting",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "person",
+    "owner",
+    "manager",
+    "cashier"
+   ],
+   "limits": {
+    "per_day": 50
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": 9,
+   "status": "planned",
+   "offline": "device"
+  },
+  {
+   "id": "bet_referral_hand_over",
+   "area": "betting",
+   "class": "D",
+   "touches": [
+    "money_movement"
+   ],
+   "roles": [
+    "owner",
+    "manager",
+    "cashier"
+   ],
+   "limits": {
+    "per_day": 20
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": 9,
+   "status": "planned",
+   "offline": "never"
   }
  ],
  "offline_rule": "Offline layer 2 (MASTER UPDATE 1.11; build section 3): every action says what it does without a network. device: changes only this device, done at once and recorded, synced later. queue: the person confirms now, it is sealed on the device and shown as queued, carried out when the network returns, then verified and told; never shown as done before that, and it expires if the device stays offline too long. cloud_check: needs the cloud's fresh identity check, so it waits. never: needs a provider, a partner or a person, so it is not offered offline (LynkAssist prepares the case to send later; the one exception, a card freeze, is queued and shown frozen only when the issuer confirms).",

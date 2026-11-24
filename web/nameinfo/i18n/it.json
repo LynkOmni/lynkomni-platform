@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "it",
  "native": "Italiano",
- "source_sha256": "9042f401550324ce555e1bd1a81902b3ef5e163d728bf06d7c778b0519263f25",
+ "source_sha256": "ef705ffc090106985fdc5d4e7969d904bf31d471e2a316b7d216647a5dcdc81a",
  "texts": {
   "nma_academy": "Crea e segui corsi, con lezioni e certificati.",
   "nma_acc": "Tieni in ordine contabilità, spese e report.",
@@ -12,6 +12,7 @@
   "nma_assist": "Fai domande, ricevi aiuto e ottieni bozze già pronte.",
   "nma_attend": "Registra chi entra ed esce: personale, studenti e visitatori.",
   "nma_audit": "Un registro completo di chi ha cambiato cosa nei tuoi conti.",
+  "nma_bet": "Accetta scommesse, stampa biglietti e paga le vincite per un operatore autorizzato.",
   "nma_booking": "Prenota viaggi, biglietti e appuntamenti in un solo posto.",
   "nma_chat": "Chatta con clienti e squadra in un'unica casella.",
   "nma_checkout": "Invia un link di pagamento o mostra un codice QR per farti pagare.",

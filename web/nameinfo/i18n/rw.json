@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "rw",
  "native": "Ikinyarwanda",
- "source_sha256": "9042f401550324ce555e1bd1a81902b3ef5e163d728bf06d7c778b0519263f25",
+ "source_sha256": "ef705ffc090106985fdc5d4e7969d904bf31d471e2a316b7d216647a5dcdc81a",
  "texts": {
   "nma_academy": "Kora kandi wige amasomo, afite amasomo arambuye n'impamyabumenyi.",
   "nma_acc": "Gumana ibitabo, amafaranga wakoresheje na raporo bifite gahunda.",
@@ -12,6 +12,7 @@
   "nma_assist": "Baza ibibazo, ubone ubufasha kandi utegurirwe imishinga y'inyandiko.",
   "nma_attend": "Andika abaza n'abagenda: abakozi, abanyeshuri n'abashyitsi.",
   "nma_audit": "Inyandiko yuzuye y'uwahinduye iki mu bitabo byawe.",
+  "nma_bet": "Akira ibitego, sohora amatike kandi wishyure abatsinze ku mukoresha ufite uruhushya.",
   "nma_booking": "Fata umwanya w'ingendo, amatike n'amasaha yo guhura ahantu hamwe.",
   "nma_chat": "Ganira n'abakiriya n'itsinda ryawe ahantu hamwe.",
   "nma_checkout": "Ohereza ihuza ryo kwishyura cyangwa werekane kode ya QR kugira ngo wishyurwe.",

@@ -56,5 +56,6 @@
  "nma_edge": "Measures how much developer apps use.",
  "nma_prima": "Load money first, then spend it.",
  "nma_dyna": "Spends straight from your own account.",
- "nma_crest": "A credit line from a licensed lender."
+ "nma_crest": "A credit line from a licensed lender.",
+ "nma_bet": "Take bets, print tickets and pay winnings for a licensed operator."
 }
