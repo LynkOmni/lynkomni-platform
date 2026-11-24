@@ -1,6 +1,7 @@
 """Everything has a place (BIZZ & DEVICE, 2026-11-09): every product and new item lists the places it must appear in, every
 product has its two sides, and the places already built show what the register says (more checks join as places are built)."""
 import json, os, unittest
+from urllib.parse import urlsplit
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REG = json.load(open(os.path.join(ROOT, "catalog", "placements.v1.json"), encoding="utf-8"))
 PRODUCTS = json.load(open(os.path.join(ROOT, "catalog", "products.v1.json"), encoding="utf-8"))["products"]
@@ -38,7 +39,7 @@ class Register(unittest.TestCase):
             if i["kind"] == "product":
                 want = {"website_header", "launcher", "search", "help", "product_page", "sitemap", "footer"}
                 if any(x > 0 for x in billing.FAMILIES[i["id"]][3]): want.add("pricing_page")
-                if apps[i["id"]].startswith("app.lynkomni.com/"): want.add("app_nav")
+                if urlsplit("https://" + apps[i["id"]]).hostname == "app.lynkomni.com": want.add("app_nav")   # whole host name
                 self.assertEqual(want - places, set(), f"{i['id']} is missing from places")
             elif i["kind"] in ("service", "feature"):
                 self.assertEqual({"search", "help", "sitemap"} - places, set(), i["id"])

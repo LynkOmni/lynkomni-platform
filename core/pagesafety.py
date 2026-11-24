@@ -14,7 +14,7 @@ with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 DIRECTIVES = _REG["directives"]
 HEADERS = _REG["headers"]          # sent with every hosted page (build section 14); frame-ancestors works only as a header
 
-SCRIPT = re.compile(r"<script(?P<attrs>[^>]*)>(?P<body>[\s\S]*?)</script>", re.I)
+SCRIPT = re.compile(r"<script\b(?P<attrs>[^>]*)>(?P<body>[\s\S]*?)</script\b[^>]*>", re.I)   # any form of the closing tag
 META = re.compile(r'<meta http-equiv="Content-Security-Policy" content="(?P<csp>[^"]*)">', re.I)
 
 

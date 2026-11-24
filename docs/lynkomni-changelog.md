@@ -2,6 +2,9 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.96.1 (2026-11-24)
+- The last five code-scanning findings, from our own scan's first full read: the page builder and the safe-page check find every form of a closing script tag (not only the exact one); developer API key fingerprints use a key-derivation function (PBKDF2 with the server's pepper as its salt) instead of a plain keyed hash; two tests compare whole host names instead of a piece of an address. tests/test_code_scanning.py guards them.
+
 ## v0.96.0 (2026-11-24)
 LynkBet, the betting service (owner, master blueprint section 86):
 - LynkBet is a new LynkOmni service for shops of licensed betting operators, anywhere in the world. LynkOmni is only the shop's tool: the operator's own system takes each bet, sets the odds, decides every result and amount and answers every request; LynkOmni never holds a stake or a winning and betting is never advertised. It stays "Coming to your country soon." until a licensed operator is signed and the lawyer has checked the country's law.
