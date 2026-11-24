@@ -2,6 +2,11 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.99.2 (2026-11-24)
+LynkBet's safety rules are now in the security list (owner asked whether LynkBet is joined up like the other services):
+- Five controls added to catalog/security.v1.json, each with the code that enforces it and its test: a ticket is paid once and only after the operator's lock; never on credit; payouts, referrals and cancelling only online; another person's own PIN (a manager or the owner, never the person serving) for big payouts and cancelling (new test); no customer name, contact, ID number, photo or position in a betting event.
+- Build-table row 86.12, section 9, now also names the Move in tool for betting shop networks and the chat rule for customer and betting-shop conversations, so section 9 cannot lock without them.
+
 ## v0.99.1 (2026-11-24)
 Device names in capitals (owner report):
 - The betting counter is now called LynkBet Betting Counter on its page, its browser tab, its screen title and the showcase.
