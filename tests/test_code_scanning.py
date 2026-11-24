@@ -63,5 +63,13 @@ class OwnScan(unittest.TestCase):
         self.assertIn("github/codeql-action/analyze@v4", s)
 
 
+class ScriptBlocks(unittest.TestCase):
+    def test_every_form_of_a_closing_script_tag_is_found(self):
+        from core import pagesafety
+        for html in ("<script>a()</script>", "<script>a()</script >", "<SCRIPT>a()</SCRIPT foo>"):
+            self.assertEqual([m.group("body") for m in pagesafety.SCRIPT.finditer(html)], ["a()"], html)
+        self.assertIn(r"<\/script\b[^>]*>", (ROOT / "web" / "build.mjs").read_text())
+
+
 if __name__ == "__main__":
     unittest.main()
