@@ -1,0 +1,73 @@
+/* LynkBet betting counter: a countertop LynkPOS with a screen, a ticket printer, a ticket scanner and a cash drawer. An original
+   LynkOmni design; every colour is a design token. */
+.bc { display: flex; flex-direction: column; align-items: center; inline-size: 420px; position: relative; }
+.bchead { inline-size: 100%; block-size: 30px; border-radius: 22px 22px 0 0; background: linear-gradient(160deg, var(--device-shell-edge), var(--device-shell)); display: flex; align-items: center; justify-content: center; gap: 12px; }
+.bccam { inline-size: 12px; block-size: 12px; border-radius: 50%; border: 2px solid var(--device-shell-edge); background: var(--device-glass); }
+.bcspk { inline-size: 48px; block-size: 5px; border-radius: 3px; background: var(--device-glass); opacity: .7; }
+.bcscreen { inline-size: 100%; block-size: 600px; border-inline: 14px solid var(--device-shell); background: var(--bg-base); color: var(--text-primary); font: 14px/1.4 var(--font-body); overflow-y: auto; overflow-x: hidden; padding: 12px; display: flex; flex-direction: column; gap: 10px; min-inline-size: 0; }
+.bcscreen.dark { color-scheme: dark; }
+.bcscreen h1, .bcscreen h2 { margin: 0; font: 700 18px/1.25 var(--font-heading); overflow-wrap: anywhere; }
+.bcscreen h3 { margin: 0; font: 600 15px/1.3 var(--font-heading); overflow-wrap: anywhere; }
+.bcscreen p { margin: 0; overflow-wrap: anywhere; }
+.bcscreen .sub { color: var(--text-secondary); font-size: 13px; }
+.bcscreen button { font: inherit; }
+.bcscreen :focus-visible, .bcscan:focus-visible, .bctear:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+.ic { display: inline-flex; inline-size: 20px; block-size: 20px; flex: none; } .ic svg { inline-size: 100%; block-size: 100%; display: block; }
+.bhead { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; } .bhead h1 { flex: 1 1 9em; min-inline-size: 0; font-size: 17px; overflow-wrap: normal; }
+.bbar { display: flex; align-items: center; gap: 8px; } .bbar h2 { flex: 1; min-inline-size: 0; font-size: 16px; }
+.bback { inline-size: var(--touch-target); block-size: var(--touch-target); border-radius: 50%; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-primary); display: inline-grid; place-items: center; cursor: pointer; flex: none; }
+.bop { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding: 8px 10px; border-radius: 12px; background: var(--bg-subtle); font-size: 13px; }
+.bop strong { font-feature-settings: var(--font-feature-tabular); }
+.btiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.btile { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-block-size: 84px; padding: 10px; border-radius: 14px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-primary); text-align: start; cursor: pointer; overflow-wrap: anywhere; }
+.btile .ic { inline-size: 26px; block-size: 26px; color: var(--brand-ink); } .btile strong { font-size: 14px; }
+.btile:disabled { opacity: .5; cursor: not-allowed; }
+.bnote { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--status-info-border); background: var(--status-info-bg); color: var(--status-info-text); font-size: 13px; }
+.bwarn { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--status-warning-border); background: var(--status-warning-bg); color: var(--status-warning-text); font-size: 13px; }
+.bbad { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--status-danger-border); background: var(--status-danger-bg); color: var(--status-danger-text); font-weight: 600; }
+.bgood { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--status-success-border); background: var(--status-success-bg); color: var(--status-success-text); font-weight: 600; }
+.bgames { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.bgame { padding: 8px 10px; border-radius: 12px; border: 1px solid var(--border-subtle); background: var(--bg-surface); display: flex; flex-direction: column; gap: 6px; }
+.bodds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.bodd { min-block-size: var(--touch-target); padding: 4px 6px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.2; overflow-wrap: anywhere; }
+.bodd small { color: var(--text-secondary); font-size: 11px; } .bodd b { font-feature-settings: var(--font-feature-tabular); }
+.bodd[aria-pressed="true"] { background: var(--brand-primary); color: var(--on-brand); border-color: var(--brand-primary); } .bodd[aria-pressed="true"] small { color: var(--on-brand); }
+.brows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.brows li { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; border-bottom: 1px solid var(--border-subtle); flex-wrap: wrap; }
+.brows li span:last-child { font-feature-settings: var(--font-feature-tabular); font-weight: 600; }
+.bchips { display: flex; flex-wrap: wrap; gap: 6px; }
+.bchoice { min-block-size: var(--touch-target); min-inline-size: var(--touch-target); padding: 4px 12px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; font-feature-settings: var(--font-feature-tabular); }
+.bchoice[aria-pressed="true"] { background: var(--brand-primary); color: var(--on-brand); border-color: var(--brand-primary); }
+.bcheck { display: flex; align-items: center; gap: 10px; min-block-size: var(--touch-target); padding: 6px 10px; border-radius: 12px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; text-align: start; }
+.bcheck .box { inline-size: 22px; block-size: 22px; border-radius: 6px; border: 2px solid var(--border-strong); display: inline-grid; place-items: center; flex: none; }
+.bcheck[aria-pressed="true"] .box { background: var(--brand-primary); border-color: var(--brand-primary); color: var(--on-brand); }
+.bcheck .box .ic { inline-size: 14px; block-size: 14px; }
+.bbig { font: 700 24px/1.2 var(--font-heading); font-feature-settings: var(--font-feature-tabular); overflow-wrap: anywhere; }
+.bactions { display: flex; flex-direction: column; gap: 8px; margin-block-start: auto; }
+.primary { min-block-size: var(--touch-target); padding: 8px 16px; border-radius: 12px; border: 0; background: var(--brand-primary); color: var(--on-brand); font-weight: 700; cursor: pointer; }
+.primary:disabled { opacity: .5; cursor: not-allowed; }
+.ghost { min-block-size: var(--touch-target); padding: 8px 14px; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; }
+.bsteps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.bsteps li { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.bref { padding: 8px 10px; border-radius: 12px; border: 1px solid var(--border-subtle); background: var(--bg-surface); display: flex; flex-direction: column; gap: 6px; }
+/* the base: the ticket scanner window, the printer slot and the casing mark */
+.bcbase { inline-size: 100%; block-size: 70px; background: linear-gradient(180deg, var(--device-shell), var(--device-shell-edge)); display: flex; align-items: center; justify-content: space-between; padding: 0 22px; position: relative; }
+.bcscan { inline-size: 120px; block-size: 40px; border-radius: 10px; border: 3px solid var(--device-shell-edge); background: var(--device-glass); padding: 0; cursor: pointer; position: relative; overflow: hidden; }
+.bcbeam { position: absolute; inset-inline: 8px; inset-block-start: 50%; block-size: 3px; margin-block-start: -1px; border-radius: 2px; background: var(--status-danger-text); opacity: .35; }
+.bcbeam.on { opacity: 1; }
+.bcslot { inline-size: 150px; block-size: 8px; border-radius: 4px; background: var(--device-glass); }
+.bcbase .mark { position: absolute; inset-block-end: 4px; inset-inline-start: 50%; inline-size: 14px; margin-inline-start: -7px; color: var(--on-device-key); opacity: .6; }
+.mark svg { inline-size: 100%; block-size: auto; display: block; }
+.bcdrawer { inline-size: 92%; block-size: 26px; border-radius: 0 0 12px 12px; background: var(--device-shell-edge); display: flex; justify-content: center; align-items: center; transition: block-size .25s ease; }
+.bcdrawer.open { block-size: 54px; }
+.bcdtray { inline-size: 60px; block-size: 5px; border-radius: 3px; background: var(--device-glass); }
+.bcpad { inline-size: 100%; display: flex; justify-content: center; } .bcpad:empty { display: none; }
+/* the printed ticket comes out above the counter */
+.bcpaper { inline-size: 240px; display: flex; flex-direction: column; align-items: center; margin-block-end: 8px; }
+.bcslip { inline-size: 240px; background: var(--device-paper); color: var(--on-device-paper); padding: 12px 10px 18px; font: 11px/1.45 var(--font-mono); box-shadow: 0 6px 18px color-mix(in srgb, var(--device-glass) 25%, transparent); overflow-wrap: anywhere; }
+.bcslip .rhead { inline-size: 110px; margin: 0 auto 6px; color: var(--on-device-paper); } .bcslip .rhead svg { inline-size: 100%; block-size: auto; display: block; }
+.bcslip pre { margin: 0; font: inherit; white-space: pre-wrap; }
+.bcslip .qr { inline-size: 84px; block-size: 84px; margin: 6px auto; display: block; color: var(--on-device-paper); } .bcslip .qr svg { inline-size: 100%; block-size: 100%; display: block; }
+.bcslip strong { display: block; text-align: center; font: 700 15px/1.3 var(--font-mono); }
+.bctear { margin-block-start: 6px; font: 600 12px var(--font-body); padding: 6px 12px; min-block-size: 32px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; }
+.panel .help, .panel label span { overflow-wrap: anywhere; }

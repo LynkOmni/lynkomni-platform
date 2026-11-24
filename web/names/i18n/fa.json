@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fa",
  "native": "فارسی",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "دوره‌ها و آموزش",
   "nm_acc": "حسابداری",
@@ -14,6 +14,7 @@
   "nm_audit": "سابقه حسابرسی",
   "nm_az_note": "هر نام LynkOmni و کاری که انجام می‌دهد.",
   "nm_az_title": "نام‌ها از الف تا ی",
+  "nm_bet": "شرط‌بندی",
   "nm_booking": "سفر و بلیت",
   "nm_cdisplay": "صفحه کوچک بالای باجه",
   "nm_chat": "گفتگوی کاری",

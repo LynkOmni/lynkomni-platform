@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ta",
  "native": "தமிழ்",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "படிப்புகள் மற்றும் பயிற்சி",
   "nm_acc": "கணக்கியல்",
@@ -14,6 +14,7 @@
   "nm_audit": "தணிக்கைப் பதிவு",
   "nm_az_note": "LynkOmni-இன் ஒவ்வொரு பெயரும் அது செய்வதும்.",
   "nm_az_title": "பெயர்கள் அ முதல் ன வரை",
+  "nm_bet": "பந்தயம்",
   "nm_booking": "பயணமும் டிக்கெட்டுகளும்",
   "nm_cdisplay": "கவுண்டருக்கு மேல் சிறிய திரை",
   "nm_chat": "வணிக அரட்டை",

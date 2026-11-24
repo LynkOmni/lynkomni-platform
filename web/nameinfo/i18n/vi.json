@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "9042f401550324ce555e1bd1a81902b3ef5e163d728bf06d7c778b0519263f25",
+ "source_sha256": "ef705ffc090106985fdc5d4e7969d904bf31d471e2a316b7d216647a5dcdc81a",
  "texts": {
   "nma_academy": "Tạo và học khóa học, với bài học và chứng chỉ.",
   "nma_acc": "Giữ sổ sách, chi phí và báo cáo luôn ngăn nắp.",
@@ -12,6 +12,7 @@
   "nma_assist": "Đặt câu hỏi, nhận trợ giúp và có bản nháp soạn sẵn.",
   "nma_attend": "Ghi lại ai đến và đi: nhân viên, học sinh và khách.",
   "nma_audit": "Bản ghi đầy đủ ai đã thay đổi gì trong sổ sách.",
+  "nma_bet": "Nhận cược, in vé và trả thưởng cho một nhà điều hành được cấp phép.",
   "nma_booking": "Đặt chuyến đi, vé và lịch hẹn ở một nơi.",
   "nma_chat": "Trò chuyện với khách hàng và đội ngũ trong một hộp thư.",
   "nma_checkout": "Gửi liên kết thanh toán hoặc đưa mã QR để được trả tiền.",

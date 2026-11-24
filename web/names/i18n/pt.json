@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pt",
  "native": "Português",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "Cursos e formação",
   "nm_acc": "Contabilidade",
@@ -14,6 +14,7 @@
   "nm_audit": "Trilha de auditoria",
   "nm_az_note": "Cada nome da LynkOmni e o que ele faz.",
   "nm_az_title": "Todos os nomes, de A até Z",
+  "nm_bet": "Apostas",
   "nm_booking": "Viagens e bilhetes",
   "nm_cdisplay": "Tela pequena acima do balcão",
   "nm_chat": "Chat comercial",

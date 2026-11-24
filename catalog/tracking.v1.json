@@ -1842,6 +1842,129 @@
      ]
     }
    ]
+  },
+  {
+   "id": "bet_slip",
+   "record": "TXN",
+   "key": "request_id",
+   "family": "lynkbet",
+   "ui_section": 9,
+   "viewers": {
+    "merchant": "app.lynkomni.com/sell/betting"
+   },
+   "note": "A bet asked of the licensed operator (contract version 17). Online it is sent at once; offline it is a queued slip, never a ticket, only where the operator allows it. Only the operator's answers move it; a refused slip is refunded in full.",
+   "steps": [
+    {
+     "id": "queued",
+     "state": "queued",
+     "customer": true,
+     "optional": true,
+     "on": [
+      {
+       "event": "BetRequested"
+      }
+     ]
+    },
+    {
+     "id": "sent",
+     "state": "sent",
+     "customer": true,
+     "on": [
+      {
+       "event": "BetRequested"
+      }
+     ]
+    },
+    {
+     "id": "issued",
+     "state": "confirmed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "event": "BetConfirmed"
+      }
+     ]
+    },
+    {
+     "id": "failed",
+     "state": "failed",
+     "customer": true,
+     "terminal": true,
+     "optional": true,
+     "on": [
+      {
+       "event": "BetFailed"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bet_referral",
+   "record": "TXN",
+   "key": "referral_id",
+   "family": "lynkbet",
+   "ui_section": 9,
+   "viewers": {
+    "merchant": "app.lynkomni.com/sell/betting"
+   },
+   "note": "A big win referred to the operator's head office: referred, checking, approved, paid. Only the operator's answers move it; the winner sees the steps on their e-ticket.",
+   "steps": [
+    {
+     "id": "sent_to_provider",
+     "state": "sent",
+     "customer": true,
+     "on": [
+      {
+       "event": "BetReferred"
+      }
+     ]
+    },
+    {
+     "id": "waiting_provider",
+     "state": "accepted",
+     "customer": true,
+     "on": [
+      {
+       "event": "BetReferralAnswered"
+      }
+     ]
+    },
+    {
+     "id": "approved",
+     "state": "accepted",
+     "customer": true,
+     "on": [
+      {
+       "event": "BetReferralAnswered"
+      }
+     ]
+    },
+    {
+     "id": "paid",
+     "state": "confirmed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "event": "BetReferralAnswered"
+      }
+     ]
+    },
+    {
+     "id": "rejected",
+     "state": "failed",
+     "customer": true,
+     "terminal": true,
+     "optional": true,
+     "on": [
+      {
+       "event": "BetReferralAnswered"
+      }
+     ]
+    }
+   ]
   }
  ],
  "planned": [

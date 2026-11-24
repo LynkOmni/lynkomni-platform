@@ -3909,6 +3909,73 @@
    "offline": false,
    "default": "on",
    "standing_instruction": false
+  },
+  {
+   "id": "bet-owner-alerts",
+   "area": "LynkBet",
+   "build_section": 9,
+   "family": "lynkbet",
+   "min_tier": "free",
+   "trigger": "event:BetFlagRaised",
+   "action": "Tell the shop owner about a Please check flag, a big win referred, cash running low, printer paper running out or a device needing attention",
+   "level": "inform",
+   "assist": "watch",
+   "touches": [],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false
+  },
+  {
+   "id": "bet-settlement-to-books",
+   "area": "LynkBet",
+   "build_section": 9,
+   "family": "lynkbet",
+   "min_tier": "free",
+   "trigger": "event:BetSettlementRecorded",
+   "action": "Post the operator's settlement once to LynkAcc and match its commission against the cloud's records; every difference is its own flag; undo reverses the entry",
+   "level": "auto_undo",
+   "assist": null,
+   "touches": [
+    "books"
+   ],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false
+  },
+  {
+   "id": "bet-slip-refund",
+   "area": "LynkBet",
+   "build_section": 9,
+   "family": "lynkbet",
+   "min_tier": "free",
+   "trigger": "event:BetFailed",
+   "action": "When the operator refuses a queued slip, show Failed: money returned and remind the staff member to give back the full stake",
+   "level": "inform",
+   "assist": null,
+   "touches": [],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false
+  },
+  {
+   "id": "bet-result-message",
+   "area": "LynkBet",
+   "build_section": 9,
+   "family": "lynkbet",
+   "min_tier": "free",
+   "trigger": "event:BetReferralAnswered",
+   "action": "Tell a customer who asked for it the result of their e-ticket or the next step of their big win; transactional only, never an offer or odds",
+   "level": "auto",
+   "assist": null,
+   "touches": [],
+   "customer_message": true,
+   "offline": false,
+   "default": "off",
+   "standing_instruction": false,
+   "consent": "opt_in"
   }
  ],
  "careful": [

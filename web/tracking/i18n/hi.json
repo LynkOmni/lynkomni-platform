@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "58008a40405a72e72c70035e1248b5e00bb82952d196ecdae0676a787b2c0cfb",
+ "source_sha256": "7c64d728ccdae48efaf983a58aa2b77c3826c21805824d9fa8fa9e0951959575",
  "texts": {
   "trk_accepted": "स्वीकार किया",
   "trk_active": "सक्रिय",
@@ -43,6 +43,8 @@
   "trk_k_approval_route": "स्वीकृति",
   "trk_k_asset_trip": "वाहन यात्रा",
   "trk_k_attendance_correction": "उपस्थिति रिकॉर्ड",
+  "trk_k_bet_referral": "भेजी गई बड़ी जीत",
+  "trk_k_bet_slip": "दांव पर्ची",
   "trk_k_bill_to_pay": "देय बिल",
   "trk_k_booking": "बुकिंग",
   "trk_k_card_request": "कार्ड का अनुरोध",

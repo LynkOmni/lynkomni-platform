@@ -330,6 +330,19 @@
    }
   },
   {
+   "family": "lynkbet",
+   "page": "/bet",
+   "app": "app.lynkomni.com/betting",
+   "menu": "Sell and get paid",
+   "illustration": "product-bet",
+   "footer_id": "bet",
+   "sides": {
+    "internal": "app.lynkomni.com/betting",
+    "external": "app.lynkomni.com/external/betting",
+    "external_section": 9
+   }
+  },
+  {
    "family": "lynkvote",
    "page": "/voting",
    "app": "app.lynkomni.com/voting",

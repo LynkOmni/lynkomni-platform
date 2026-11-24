@@ -1184,6 +1184,123 @@
    "section": 10
   },
   {
+   "id": "lynkbet",
+   "kind": "product",
+   "places": [
+    "account_menu",
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": 9
+  },
+  {
+   "id": "bet_counter",
+   "kind": "feature",
+   "what": "The betting counter on LynkPOS, LynkTab and LynkMobile: take bets, print the operator's ticket, check and pay tickets",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 9
+  },
+  {
+   "id": "bet_kiosk",
+   "kind": "feature",
+   "what": "The self-service betting kiosk on LynkKiosk: the customer builds the bet and pays at the counter",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 9
+  },
+  {
+   "id": "bet_boards",
+   "kind": "feature",
+   "what": "Odds and results boards on LynkDScreen inside the licensed shop, where the law allows",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 9
+  },
+  {
+   "id": "bet_check_ticket",
+   "kind": "feature",
+   "what": "Check my ticket by code, QR, basic phone menu or LynkChat",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 9
+  },
+  {
+   "id": "bet_offline_slips",
+   "kind": "feature",
+   "what": "Queued betting slips while offline, only when the operator switches them on",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 9
+  },
+  {
+   "id": "bet_head_office",
+   "kind": "feature",
+   "what": "Head office for a network of betting shops, totals only",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 9
+  },
+  {
+   "id": "bet_operator_console",
+   "kind": "feature",
+   "what": "The operator console in the Partner Hub: approve shops, set limits, see sales and payouts",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 9
+  },
+  {
+   "id": "bet_safer_betting",
+   "kind": "feature",
+   "what": "Safer betting: age check, personal limits, breaks, self-exclusion and the help line",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 9
+  },
+  {
+   "id": "bet_storefront",
+   "kind": "feature",
+   "what": "The betting shop's Storefront page: details, operators served, check a ticket, send a booking code ahead",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 9
+  },
+  {
    "id": "lynkvote",
    "kind": "product",
    "places": [

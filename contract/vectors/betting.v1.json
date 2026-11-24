@@ -1,0 +1,3193 @@
+{
+ "version": 1,
+ "description": "LynkBet: who may start, odds and how they look, possible wins, stakes, ticket checks, commission, cash, flags, stake methods, ages, referral steps, offline slips, online-only actions, cancelling, two-person approval, money-washing warnings and settlement. core/betting.py is the reference; ts/src/betting.ts must agree.",
+ "starts": [
+  {
+   "online": true,
+   "signed": true,
+   "age": true,
+   "excluded": false,
+   "answer": "ok"
+  },
+  {
+   "online": true,
+   "signed": true,
+   "age": true,
+   "excluded": true,
+   "answer": "self_excluded"
+  },
+  {
+   "online": true,
+   "signed": true,
+   "age": false,
+   "excluded": false,
+   "answer": "age"
+  },
+  {
+   "online": true,
+   "signed": true,
+   "age": false,
+   "excluded": true,
+   "answer": "age"
+  },
+  {
+   "online": true,
+   "signed": false,
+   "age": true,
+   "excluded": false,
+   "answer": "coming_soon"
+  },
+  {
+   "online": true,
+   "signed": false,
+   "age": true,
+   "excluded": true,
+   "answer": "coming_soon"
+  },
+  {
+   "online": true,
+   "signed": false,
+   "age": false,
+   "excluded": false,
+   "answer": "coming_soon"
+  },
+  {
+   "online": true,
+   "signed": false,
+   "age": false,
+   "excluded": true,
+   "answer": "coming_soon"
+  },
+  {
+   "online": false,
+   "signed": true,
+   "age": true,
+   "excluded": false,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "signed": true,
+   "age": true,
+   "excluded": true,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "signed": true,
+   "age": false,
+   "excluded": false,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "signed": true,
+   "age": false,
+   "excluded": true,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "signed": false,
+   "age": true,
+   "excluded": false,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "signed": false,
+   "age": true,
+   "excluded": true,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "signed": false,
+   "age": false,
+   "excluded": false,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "signed": false,
+   "age": false,
+   "excluded": true,
+   "answer": "offline"
+  }
+ ],
+ "odds": [
+  {
+   "odds": [
+    1000
+   ],
+   "total": 1000
+  },
+  {
+   "odds": [
+    2150
+   ],
+   "total": 2150
+  },
+  {
+   "odds": [
+    1850,
+    2100
+   ],
+   "total": 3885
+  },
+  {
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "total": 8400
+  },
+  {
+   "odds": [
+    1001,
+    1001,
+    1001
+   ],
+   "total": 1003
+  },
+  {
+   "odds": [
+    12500,
+    9999,
+    4040,
+    1333
+   ],
+   "total": 673094
+  }
+ ],
+ "wins": [
+  {
+   "stake": 0,
+   "odds": [
+    1000
+   ],
+   "max": null,
+   "win": 0
+  },
+  {
+   "stake": 0,
+   "odds": [
+    1000
+   ],
+   "max": 1000000,
+   "win": 0
+  },
+  {
+   "stake": 0,
+   "odds": [
+    2150
+   ],
+   "max": null,
+   "win": 0
+  },
+  {
+   "stake": 0,
+   "odds": [
+    2150
+   ],
+   "max": 1000000,
+   "win": 0
+  },
+  {
+   "stake": 0,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": null,
+   "win": 0
+  },
+  {
+   "stake": 0,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": 1000000,
+   "win": 0
+  },
+  {
+   "stake": 0,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": null,
+   "win": 0
+  },
+  {
+   "stake": 0,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": 1000000,
+   "win": 0
+  },
+  {
+   "stake": 1,
+   "odds": [
+    1000
+   ],
+   "max": null,
+   "win": 1
+  },
+  {
+   "stake": 1,
+   "odds": [
+    1000
+   ],
+   "max": 1000000,
+   "win": 1
+  },
+  {
+   "stake": 1,
+   "odds": [
+    2150
+   ],
+   "max": null,
+   "win": 2
+  },
+  {
+   "stake": 1,
+   "odds": [
+    2150
+   ],
+   "max": 1000000,
+   "win": 2
+  },
+  {
+   "stake": 1,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": null,
+   "win": 3
+  },
+  {
+   "stake": 1,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": 1000000,
+   "win": 3
+  },
+  {
+   "stake": 1,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": null,
+   "win": 8
+  },
+  {
+   "stake": 1,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": 1000000,
+   "win": 8
+  },
+  {
+   "stake": 99,
+   "odds": [
+    1000
+   ],
+   "max": null,
+   "win": 99
+  },
+  {
+   "stake": 99,
+   "odds": [
+    1000
+   ],
+   "max": 1000000,
+   "win": 99
+  },
+  {
+   "stake": 99,
+   "odds": [
+    2150
+   ],
+   "max": null,
+   "win": 212
+  },
+  {
+   "stake": 99,
+   "odds": [
+    2150
+   ],
+   "max": 1000000,
+   "win": 212
+  },
+  {
+   "stake": 99,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": null,
+   "win": 384
+  },
+  {
+   "stake": 99,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": 1000000,
+   "win": 384
+  },
+  {
+   "stake": 99,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": null,
+   "win": 831
+  },
+  {
+   "stake": 99,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": 1000000,
+   "win": 831
+  },
+  {
+   "stake": 100,
+   "odds": [
+    1000
+   ],
+   "max": null,
+   "win": 100
+  },
+  {
+   "stake": 100,
+   "odds": [
+    1000
+   ],
+   "max": 1000000,
+   "win": 100
+  },
+  {
+   "stake": 100,
+   "odds": [
+    2150
+   ],
+   "max": null,
+   "win": 215
+  },
+  {
+   "stake": 100,
+   "odds": [
+    2150
+   ],
+   "max": 1000000,
+   "win": 215
+  },
+  {
+   "stake": 100,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": null,
+   "win": 388
+  },
+  {
+   "stake": 100,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": 1000000,
+   "win": 388
+  },
+  {
+   "stake": 100,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": null,
+   "win": 840
+  },
+  {
+   "stake": 100,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": 1000000,
+   "win": 840
+  },
+  {
+   "stake": 250,
+   "odds": [
+    1000
+   ],
+   "max": null,
+   "win": 250
+  },
+  {
+   "stake": 250,
+   "odds": [
+    1000
+   ],
+   "max": 1000000,
+   "win": 250
+  },
+  {
+   "stake": 250,
+   "odds": [
+    2150
+   ],
+   "max": null,
+   "win": 537
+  },
+  {
+   "stake": 250,
+   "odds": [
+    2150
+   ],
+   "max": 1000000,
+   "win": 537
+  },
+  {
+   "stake": 250,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": null,
+   "win": 971
+  },
+  {
+   "stake": 250,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": 1000000,
+   "win": 971
+  },
+  {
+   "stake": 250,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": null,
+   "win": 2100
+  },
+  {
+   "stake": 250,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": 1000000,
+   "win": 2100
+  },
+  {
+   "stake": 1000,
+   "odds": [
+    1000
+   ],
+   "max": null,
+   "win": 1000
+  },
+  {
+   "stake": 1000,
+   "odds": [
+    1000
+   ],
+   "max": 1000000,
+   "win": 1000
+  },
+  {
+   "stake": 1000,
+   "odds": [
+    2150
+   ],
+   "max": null,
+   "win": 2150
+  },
+  {
+   "stake": 1000,
+   "odds": [
+    2150
+   ],
+   "max": 1000000,
+   "win": 2150
+  },
+  {
+   "stake": 1000,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": null,
+   "win": 3885
+  },
+  {
+   "stake": 1000,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": 1000000,
+   "win": 3885
+  },
+  {
+   "stake": 1000,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": null,
+   "win": 8400
+  },
+  {
+   "stake": 1000,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": 1000000,
+   "win": 8400
+  },
+  {
+   "stake": 99999,
+   "odds": [
+    1000
+   ],
+   "max": null,
+   "win": 99999
+  },
+  {
+   "stake": 99999,
+   "odds": [
+    1000
+   ],
+   "max": 1000000,
+   "win": 99999
+  },
+  {
+   "stake": 99999,
+   "odds": [
+    2150
+   ],
+   "max": null,
+   "win": 214997
+  },
+  {
+   "stake": 99999,
+   "odds": [
+    2150
+   ],
+   "max": 1000000,
+   "win": 214997
+  },
+  {
+   "stake": 99999,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": null,
+   "win": 388496
+  },
+  {
+   "stake": 99999,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": 1000000,
+   "win": 388496
+  },
+  {
+   "stake": 99999,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": null,
+   "win": 839991
+  },
+  {
+   "stake": 99999,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": 1000000,
+   "win": 839991
+  },
+  {
+   "stake": 123457,
+   "odds": [
+    1000
+   ],
+   "max": null,
+   "win": 123457
+  },
+  {
+   "stake": 123457,
+   "odds": [
+    1000
+   ],
+   "max": 1000000,
+   "win": 123457
+  },
+  {
+   "stake": 123457,
+   "odds": [
+    2150
+   ],
+   "max": null,
+   "win": 265432
+  },
+  {
+   "stake": 123457,
+   "odds": [
+    2150
+   ],
+   "max": 1000000,
+   "win": 265432
+  },
+  {
+   "stake": 123457,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": null,
+   "win": 479630
+  },
+  {
+   "stake": 123457,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": 1000000,
+   "win": 479630
+  },
+  {
+   "stake": 123457,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": null,
+   "win": 1037038
+  },
+  {
+   "stake": 123457,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": 1000000,
+   "win": 1000000
+  },
+  {
+   "stake": 5000000,
+   "odds": [
+    1000
+   ],
+   "max": null,
+   "win": 5000000
+  },
+  {
+   "stake": 5000000,
+   "odds": [
+    1000
+   ],
+   "max": 1000000,
+   "win": 1000000
+  },
+  {
+   "stake": 5000000,
+   "odds": [
+    2150
+   ],
+   "max": null,
+   "win": 10750000
+  },
+  {
+   "stake": 5000000,
+   "odds": [
+    2150
+   ],
+   "max": 1000000,
+   "win": 1000000
+  },
+  {
+   "stake": 5000000,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": null,
+   "win": 19425000
+  },
+  {
+   "stake": 5000000,
+   "odds": [
+    1850,
+    2100
+   ],
+   "max": 1000000,
+   "win": 1000000
+  },
+  {
+   "stake": 5000000,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": null,
+   "win": 42000000
+  },
+  {
+   "stake": 5000000,
+   "odds": [
+    1500,
+    1750,
+    3200
+   ],
+   "max": 1000000,
+   "win": 1000000
+  }
+ ],
+ "stakes": [
+  {
+   "stake": 0,
+   "min": 100,
+   "max": 1000000,
+   "left": null,
+   "answer": "below_min"
+  },
+  {
+   "stake": 0,
+   "min": 100,
+   "max": 1000000,
+   "left": 1000,
+   "answer": "below_min"
+  },
+  {
+   "stake": 1,
+   "min": 100,
+   "max": 1000000,
+   "left": null,
+   "answer": "below_min"
+  },
+  {
+   "stake": 1,
+   "min": 100,
+   "max": 1000000,
+   "left": 1000,
+   "answer": "below_min"
+  },
+  {
+   "stake": 99,
+   "min": 100,
+   "max": 1000000,
+   "left": null,
+   "answer": "below_min"
+  },
+  {
+   "stake": 99,
+   "min": 100,
+   "max": 1000000,
+   "left": 1000,
+   "answer": "below_min"
+  },
+  {
+   "stake": 100,
+   "min": 100,
+   "max": 1000000,
+   "left": null,
+   "answer": "ok"
+  },
+  {
+   "stake": 100,
+   "min": 100,
+   "max": 1000000,
+   "left": 1000,
+   "answer": "ok"
+  },
+  {
+   "stake": 250,
+   "min": 100,
+   "max": 1000000,
+   "left": null,
+   "answer": "ok"
+  },
+  {
+   "stake": 250,
+   "min": 100,
+   "max": 1000000,
+   "left": 1000,
+   "answer": "ok"
+  },
+  {
+   "stake": 1000,
+   "min": 100,
+   "max": 1000000,
+   "left": null,
+   "answer": "ok"
+  },
+  {
+   "stake": 1000,
+   "min": 100,
+   "max": 1000000,
+   "left": 1000,
+   "answer": "ok"
+  },
+  {
+   "stake": 99999,
+   "min": 100,
+   "max": 1000000,
+   "left": null,
+   "answer": "ok"
+  },
+  {
+   "stake": 99999,
+   "min": 100,
+   "max": 1000000,
+   "left": 1000,
+   "answer": "personal_limit"
+  },
+  {
+   "stake": 123457,
+   "min": 100,
+   "max": 1000000,
+   "left": null,
+   "answer": "ok"
+  },
+  {
+   "stake": 123457,
+   "min": 100,
+   "max": 1000000,
+   "left": 1000,
+   "answer": "personal_limit"
+  },
+  {
+   "stake": 5000000,
+   "min": 100,
+   "max": 1000000,
+   "left": null,
+   "answer": "above_max"
+  },
+  {
+   "stake": 5000000,
+   "min": 100,
+   "max": 1000000,
+   "left": 1000,
+   "answer": "above_max"
+  }
+ ],
+ "checks": [
+  {
+   "ticket": null,
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 0,
+   "answer": "not_valid"
+  },
+  {
+   "ticket": null,
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 8000,
+   "answer": "not_valid"
+  },
+  {
+   "ticket": null,
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 100000,
+   "answer": "not_valid"
+  },
+  {
+   "ticket": {
+    "known": false
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 0,
+   "answer": "not_valid"
+  },
+  {
+   "ticket": {
+    "known": false
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 8000,
+   "answer": "not_valid"
+  },
+  {
+   "ticket": {
+    "known": false
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 100000,
+   "answer": "not_valid"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "paid": true,
+    "result": "won",
+    "payable": 500,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 0,
+   "answer": "already_paid"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "paid": true,
+    "result": "won",
+    "payable": 500,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 8000,
+   "answer": "already_paid"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "paid": true,
+    "result": "won",
+    "payable": 500,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 100000,
+   "answer": "already_paid"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "pending",
+    "payable": 0,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 0,
+   "answer": "pending"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "pending",
+    "payable": 0,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 8000,
+   "answer": "pending"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "pending",
+    "payable": 0,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 100000,
+   "answer": "pending"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "lost",
+    "payable": 0,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 0,
+   "answer": "lost"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "lost",
+    "payable": 0,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 8000,
+   "answer": "lost"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "lost",
+    "payable": 0,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 100000,
+   "answer": "lost"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "won",
+    "payable": 500,
+    "expires": 999
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 0,
+   "answer": "expired"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "won",
+    "payable": 500,
+    "expires": 999
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 8000,
+   "answer": "expired"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "won",
+    "payable": 500,
+    "expires": 999
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 100000,
+   "answer": "expired"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "won",
+    "payable": 500,
+    "expires": 1000
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 0,
+   "answer": "short_of_cash"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "won",
+    "payable": 500,
+    "expires": 1000
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 8000,
+   "answer": "pay"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "won",
+    "payable": 500,
+    "expires": 1000
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 100000,
+   "answer": "pay"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "void",
+    "payable": 200,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 0,
+   "answer": "short_of_cash"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "void",
+    "payable": 200,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 8000,
+   "answer": "pay"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "void",
+    "payable": 200,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 100000,
+   "answer": "pay"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "won",
+    "payable": 50000,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 0,
+   "answer": "refer"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "won",
+    "payable": 50000,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 8000,
+   "answer": "refer"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "won",
+    "payable": 50000,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 100000,
+   "answer": "refer"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "won",
+    "payable": 9000,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 0,
+   "answer": "short_of_cash"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "won",
+    "payable": 9000,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 8000,
+   "answer": "short_of_cash"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "won",
+    "payable": 9000,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 100000,
+   "answer": "pay"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "draw",
+    "payable": 10,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 0,
+   "answer": "not_valid"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "draw",
+    "payable": 10,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 8000,
+   "answer": "not_valid"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "draw",
+    "payable": 10,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 100000,
+   "answer": "not_valid"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "won",
+    "payable": 20000,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 0,
+   "answer": "short_of_cash"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "won",
+    "payable": 20000,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 8000,
+   "answer": "short_of_cash"
+  },
+  {
+   "ticket": {
+    "known": true,
+    "result": "won",
+    "payable": 20000,
+    "expires": 1050
+   },
+   "today": 1000,
+   "shop_max": 20000,
+   "cash": 100000,
+   "answer": "pay"
+  }
+ ],
+ "commission": [
+  {
+   "amount": 0,
+   "bps": 0,
+   "commission": 0
+  },
+  {
+   "amount": 0,
+   "bps": 150,
+   "commission": 0
+  },
+  {
+   "amount": 0,
+   "bps": 500,
+   "commission": 0
+  },
+  {
+   "amount": 0,
+   "bps": 1234,
+   "commission": 0
+  },
+  {
+   "amount": 1,
+   "bps": 0,
+   "commission": 0
+  },
+  {
+   "amount": 1,
+   "bps": 150,
+   "commission": 0
+  },
+  {
+   "amount": 1,
+   "bps": 500,
+   "commission": 0
+  },
+  {
+   "amount": 1,
+   "bps": 1234,
+   "commission": 0
+  },
+  {
+   "amount": 99,
+   "bps": 0,
+   "commission": 0
+  },
+  {
+   "amount": 99,
+   "bps": 150,
+   "commission": 1
+  },
+  {
+   "amount": 99,
+   "bps": 500,
+   "commission": 4
+  },
+  {
+   "amount": 99,
+   "bps": 1234,
+   "commission": 12
+  },
+  {
+   "amount": 100,
+   "bps": 0,
+   "commission": 0
+  },
+  {
+   "amount": 100,
+   "bps": 150,
+   "commission": 1
+  },
+  {
+   "amount": 100,
+   "bps": 500,
+   "commission": 5
+  },
+  {
+   "amount": 100,
+   "bps": 1234,
+   "commission": 12
+  },
+  {
+   "amount": 250,
+   "bps": 0,
+   "commission": 0
+  },
+  {
+   "amount": 250,
+   "bps": 150,
+   "commission": 3
+  },
+  {
+   "amount": 250,
+   "bps": 500,
+   "commission": 12
+  },
+  {
+   "amount": 250,
+   "bps": 1234,
+   "commission": 30
+  },
+  {
+   "amount": 1000,
+   "bps": 0,
+   "commission": 0
+  },
+  {
+   "amount": 1000,
+   "bps": 150,
+   "commission": 15
+  },
+  {
+   "amount": 1000,
+   "bps": 500,
+   "commission": 50
+  },
+  {
+   "amount": 1000,
+   "bps": 1234,
+   "commission": 123
+  },
+  {
+   "amount": 99999,
+   "bps": 0,
+   "commission": 0
+  },
+  {
+   "amount": 99999,
+   "bps": 150,
+   "commission": 1499
+  },
+  {
+   "amount": 99999,
+   "bps": 500,
+   "commission": 4999
+  },
+  {
+   "amount": 99999,
+   "bps": 1234,
+   "commission": 12339
+  },
+  {
+   "amount": 123457,
+   "bps": 0,
+   "commission": 0
+  },
+  {
+   "amount": 123457,
+   "bps": 150,
+   "commission": 1851
+  },
+  {
+   "amount": 123457,
+   "bps": 500,
+   "commission": 6172
+  },
+  {
+   "amount": 123457,
+   "bps": 1234,
+   "commission": 15234
+  },
+  {
+   "amount": 5000000,
+   "bps": 0,
+   "commission": 0
+  },
+  {
+   "amount": 5000000,
+   "bps": 150,
+   "commission": 75000
+  },
+  {
+   "amount": 5000000,
+   "bps": 500,
+   "commission": 250000
+  },
+  {
+   "amount": 5000000,
+   "bps": 1234,
+   "commission": 617000
+  }
+ ],
+ "cash": [
+  {
+   "opening": 10000,
+   "stakes": [
+    500,
+    1000,
+    250
+   ],
+   "payouts": [
+    800
+   ],
+   "expected": 10950
+  },
+  {
+   "opening": 0,
+   "stakes": [],
+   "payouts": [],
+   "expected": 0
+  }
+ ],
+ "flags": [
+  {
+   "scans": {},
+   "payouts": [],
+   "shop_max": 20000,
+   "flags": []
+  },
+  {
+   "scans": {},
+   "payouts": [
+    16000,
+    16000
+   ],
+   "shop_max": 20000,
+   "flags": []
+  },
+  {
+   "scans": {},
+   "payouts": [
+    16000,
+    17000,
+    20000
+   ],
+   "shop_max": 20000,
+   "flags": [
+    "many_big_payouts"
+   ]
+  },
+  {
+   "scans": {},
+   "payouts": [
+    15999,
+    16000,
+    16001
+   ],
+   "shop_max": 20000,
+   "flags": []
+  },
+  {
+   "scans": {
+    "T1": 2
+   },
+   "payouts": [],
+   "shop_max": 20000,
+   "flags": []
+  },
+  {
+   "scans": {
+    "T1": 2
+   },
+   "payouts": [
+    16000,
+    16000
+   ],
+   "shop_max": 20000,
+   "flags": []
+  },
+  {
+   "scans": {
+    "T1": 2
+   },
+   "payouts": [
+    16000,
+    17000,
+    20000
+   ],
+   "shop_max": 20000,
+   "flags": [
+    "many_big_payouts"
+   ]
+  },
+  {
+   "scans": {
+    "T1": 2
+   },
+   "payouts": [
+    15999,
+    16000,
+    16001
+   ],
+   "shop_max": 20000,
+   "flags": []
+  },
+  {
+   "scans": {
+    "T2": 3,
+    "T1": 5
+   },
+   "payouts": [],
+   "shop_max": 20000,
+   "flags": [
+    "repeat_scans:T1",
+    "repeat_scans:T2"
+   ]
+  },
+  {
+   "scans": {
+    "T2": 3,
+    "T1": 5
+   },
+   "payouts": [
+    16000,
+    16000
+   ],
+   "shop_max": 20000,
+   "flags": [
+    "repeat_scans:T1",
+    "repeat_scans:T2"
+   ]
+  },
+  {
+   "scans": {
+    "T2": 3,
+    "T1": 5
+   },
+   "payouts": [
+    16000,
+    17000,
+    20000
+   ],
+   "shop_max": 20000,
+   "flags": [
+    "repeat_scans:T1",
+    "repeat_scans:T2",
+    "many_big_payouts"
+   ]
+  },
+  {
+   "scans": {
+    "T2": 3,
+    "T1": 5
+   },
+   "payouts": [
+    15999,
+    16000,
+    16001
+   ],
+   "shop_max": 20000,
+   "flags": [
+    "repeat_scans:T1",
+    "repeat_scans:T2"
+   ]
+  }
+ ],
+ "methods": [
+  {
+   "method": "cash",
+   "ok": true
+  },
+  {
+   "method": "mobile_money",
+   "ok": true
+  },
+  {
+   "method": "credit",
+   "ok": false
+  },
+  {
+   "method": "credit_book",
+   "ok": false
+  },
+  {
+   "method": "card_credit",
+   "ok": false
+  },
+  {
+   "method": "pay_later",
+   "ok": false
+  },
+  {
+   "method": "card",
+   "ok": false
+  }
+ ],
+ "ages": [
+  {
+   "pack": null,
+   "age": 18
+  },
+  {
+   "pack": 16,
+   "age": 18
+  },
+  {
+   "pack": 18,
+   "age": 18
+  },
+  {
+   "pack": 19,
+   "age": 19
+  },
+  {
+   "pack": 21,
+   "age": 21
+  }
+ ],
+ "refer": [
+  {
+   "step": "referred",
+   "next": "checking"
+  },
+  {
+   "step": "checking",
+   "next": "approved"
+  },
+  {
+   "step": "approved",
+   "next": "paid"
+  },
+  {
+   "step": "paid",
+   "next": null
+  }
+ ],
+ "texts": [
+  {
+   "odds": 1000,
+   "format": "decimal",
+   "text": "1.00"
+  },
+  {
+   "odds": 1000,
+   "format": "fractional",
+   "text": "0/1"
+  },
+  {
+   "odds": 1000,
+   "format": "american",
+   "text": "0"
+  },
+  {
+   "odds": 1000,
+   "format": "hong_kong",
+   "text": "0.00"
+  },
+  {
+   "odds": 1001,
+   "format": "decimal",
+   "text": "1.00"
+  },
+  {
+   "odds": 1001,
+   "format": "fractional",
+   "text": "1/1000"
+  },
+  {
+   "odds": 1001,
+   "format": "american",
+   "text": "-100000"
+  },
+  {
+   "odds": 1001,
+   "format": "hong_kong",
+   "text": "0.00"
+  },
+  {
+   "odds": 1333,
+   "format": "decimal",
+   "text": "1.33"
+  },
+  {
+   "odds": 1333,
+   "format": "fractional",
+   "text": "333/1000"
+  },
+  {
+   "odds": 1333,
+   "format": "american",
+   "text": "-301"
+  },
+  {
+   "odds": 1333,
+   "format": "hong_kong",
+   "text": "0.33"
+  },
+  {
+   "odds": 1850,
+   "format": "decimal",
+   "text": "1.85"
+  },
+  {
+   "odds": 1850,
+   "format": "fractional",
+   "text": "17/20"
+  },
+  {
+   "odds": 1850,
+   "format": "american",
+   "text": "-118"
+  },
+  {
+   "odds": 1850,
+   "format": "hong_kong",
+   "text": "0.85"
+  },
+  {
+   "odds": 1909,
+   "format": "decimal",
+   "text": "1.90"
+  },
+  {
+   "odds": 1909,
+   "format": "fractional",
+   "text": "909/1000"
+  },
+  {
+   "odds": 1909,
+   "format": "american",
+   "text": "-111"
+  },
+  {
+   "odds": 1909,
+   "format": "hong_kong",
+   "text": "0.90"
+  },
+  {
+   "odds": 2000,
+   "format": "decimal",
+   "text": "2.00"
+  },
+  {
+   "odds": 2000,
+   "format": "fractional",
+   "text": "1/1"
+  },
+  {
+   "odds": 2000,
+   "format": "american",
+   "text": "+100"
+  },
+  {
+   "odds": 2000,
+   "format": "hong_kong",
+   "text": "1.00"
+  },
+  {
+   "odds": 2150,
+   "format": "decimal",
+   "text": "2.15"
+  },
+  {
+   "odds": 2150,
+   "format": "fractional",
+   "text": "23/20"
+  },
+  {
+   "odds": 2150,
+   "format": "american",
+   "text": "+115"
+  },
+  {
+   "odds": 2150,
+   "format": "hong_kong",
+   "text": "1.15"
+  },
+  {
+   "odds": 3200,
+   "format": "decimal",
+   "text": "3.20"
+  },
+  {
+   "odds": 3200,
+   "format": "fractional",
+   "text": "11/5"
+  },
+  {
+   "odds": 3200,
+   "format": "american",
+   "text": "+220"
+  },
+  {
+   "odds": 3200,
+   "format": "hong_kong",
+   "text": "2.20"
+  },
+  {
+   "odds": 12500,
+   "format": "decimal",
+   "text": "12.50"
+  },
+  {
+   "odds": 12500,
+   "format": "fractional",
+   "text": "23/2"
+  },
+  {
+   "odds": 12500,
+   "format": "american",
+   "text": "+1150"
+  },
+  {
+   "odds": 12500,
+   "format": "hong_kong",
+   "text": "11.50"
+  }
+ ],
+ "slips": [
+  {
+   "allows": true,
+   "kind": "sports",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "starts_soon"
+  },
+  {
+   "allows": true,
+   "kind": "sports",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "starts_soon"
+  },
+  {
+   "allows": true,
+   "kind": "sports",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "starts_soon"
+  },
+  {
+   "allows": true,
+   "kind": "sports",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "starts_soon"
+  },
+  {
+   "allows": true,
+   "kind": "sports",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "ok"
+  },
+  {
+   "allows": true,
+   "kind": "sports",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "ok"
+  },
+  {
+   "allows": true,
+   "kind": "sports",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "slip_cap"
+  },
+  {
+   "allows": true,
+   "kind": "sports",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "slip_cap"
+  },
+  {
+   "allows": true,
+   "kind": "sports",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "ok"
+  },
+  {
+   "allows": true,
+   "kind": "sports",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "ok"
+  },
+  {
+   "allows": true,
+   "kind": "sports",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "slip_cap"
+  },
+  {
+   "allows": true,
+   "kind": "sports",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "slip_cap"
+  },
+  {
+   "allows": true,
+   "kind": "live",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "live"
+  },
+  {
+   "allows": true,
+   "kind": "live",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "live"
+  },
+  {
+   "allows": true,
+   "kind": "live",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "live"
+  },
+  {
+   "allows": true,
+   "kind": "live",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "live"
+  },
+  {
+   "allows": true,
+   "kind": "live",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "live"
+  },
+  {
+   "allows": true,
+   "kind": "live",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "live"
+  },
+  {
+   "allows": true,
+   "kind": "live",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "live"
+  },
+  {
+   "allows": true,
+   "kind": "live",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "live"
+  },
+  {
+   "allows": true,
+   "kind": "live",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "live"
+  },
+  {
+   "allows": true,
+   "kind": "live",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "live"
+  },
+  {
+   "allows": true,
+   "kind": "live",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "live"
+  },
+  {
+   "allows": true,
+   "kind": "live",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "live"
+  },
+  {
+   "allows": true,
+   "kind": "lottery",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "ok"
+  },
+  {
+   "allows": true,
+   "kind": "lottery",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "ok"
+  },
+  {
+   "allows": true,
+   "kind": "lottery",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "slip_cap"
+  },
+  {
+   "allows": true,
+   "kind": "lottery",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "slip_cap"
+  },
+  {
+   "allows": true,
+   "kind": "lottery",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "ok"
+  },
+  {
+   "allows": true,
+   "kind": "lottery",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "ok"
+  },
+  {
+   "allows": true,
+   "kind": "lottery",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "slip_cap"
+  },
+  {
+   "allows": true,
+   "kind": "lottery",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "slip_cap"
+  },
+  {
+   "allows": true,
+   "kind": "lottery",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "ok"
+  },
+  {
+   "allows": true,
+   "kind": "lottery",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "ok"
+  },
+  {
+   "allows": true,
+   "kind": "lottery",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "slip_cap"
+  },
+  {
+   "allows": true,
+   "kind": "lottery",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "slip_cap"
+  },
+  {
+   "allows": false,
+   "kind": "sports",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "sports",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "sports",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "sports",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "sports",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "sports",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "sports",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "sports",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "sports",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "sports",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "sports",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "sports",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "live",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "live",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "live",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "live",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "live",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "live",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "live",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "live",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "live",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "live",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "live",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "live",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "lottery",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "lottery",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "lottery",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "lottery",
+   "starts_in": 10,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "lottery",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "lottery",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "lottery",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "lottery",
+   "starts_in": 30,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "lottery",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "lottery",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 1000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "lottery",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 0,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  },
+  {
+   "allows": false,
+   "kind": "lottery",
+   "starts_in": 120,
+   "lead": 30,
+   "stake": 6000,
+   "slip_cap": 5000,
+   "queued": 15000,
+   "shop_cap": 20000,
+   "answer": "operator_off"
+  }
+ ],
+ "results": [
+  {
+   "accepted": true,
+   "stake": 0,
+   "out": {
+    "ticket": true,
+    "refund": 0
+   }
+  },
+  {
+   "accepted": true,
+   "stake": 1500,
+   "out": {
+    "ticket": true,
+    "refund": 0
+   }
+  },
+  {
+   "accepted": false,
+   "stake": 0,
+   "out": {
+    "ticket": false,
+    "refund": 0
+   }
+  },
+  {
+   "accepted": false,
+   "stake": 1500,
+   "out": {
+    "ticket": false,
+    "refund": 1500
+   }
+  }
+ ],
+ "online": [
+  {
+   "action": "payout",
+   "online": true,
+   "ok": true
+  },
+  {
+   "action": "payout",
+   "online": false,
+   "ok": false
+  },
+  {
+   "action": "refer",
+   "online": true,
+   "ok": true
+  },
+  {
+   "action": "refer",
+   "online": false,
+   "ok": false
+  },
+  {
+   "action": "cancel",
+   "online": true,
+   "ok": true
+  },
+  {
+   "action": "cancel",
+   "online": false,
+   "ok": false
+  }
+ ],
+ "cancels": [
+  {
+   "online": true,
+   "allows": true,
+   "started": false,
+   "manager": true,
+   "since": 5,
+   "window": 10,
+   "answer": "ok"
+  },
+  {
+   "online": true,
+   "allows": true,
+   "started": false,
+   "manager": true,
+   "since": 11,
+   "window": 10,
+   "answer": "too_late"
+  },
+  {
+   "online": true,
+   "allows": true,
+   "started": false,
+   "manager": false,
+   "since": 5,
+   "window": 10,
+   "answer": "manager_needed"
+  },
+  {
+   "online": true,
+   "allows": true,
+   "started": false,
+   "manager": false,
+   "since": 11,
+   "window": 10,
+   "answer": "too_late"
+  },
+  {
+   "online": true,
+   "allows": true,
+   "started": true,
+   "manager": true,
+   "since": 5,
+   "window": 10,
+   "answer": "game_started"
+  },
+  {
+   "online": true,
+   "allows": true,
+   "started": true,
+   "manager": true,
+   "since": 11,
+   "window": 10,
+   "answer": "game_started"
+  },
+  {
+   "online": true,
+   "allows": true,
+   "started": true,
+   "manager": false,
+   "since": 5,
+   "window": 10,
+   "answer": "game_started"
+  },
+  {
+   "online": true,
+   "allows": true,
+   "started": true,
+   "manager": false,
+   "since": 11,
+   "window": 10,
+   "answer": "game_started"
+  },
+  {
+   "online": true,
+   "allows": false,
+   "started": false,
+   "manager": true,
+   "since": 5,
+   "window": 10,
+   "answer": "operator_off"
+  },
+  {
+   "online": true,
+   "allows": false,
+   "started": false,
+   "manager": true,
+   "since": 11,
+   "window": 10,
+   "answer": "operator_off"
+  },
+  {
+   "online": true,
+   "allows": false,
+   "started": false,
+   "manager": false,
+   "since": 5,
+   "window": 10,
+   "answer": "operator_off"
+  },
+  {
+   "online": true,
+   "allows": false,
+   "started": false,
+   "manager": false,
+   "since": 11,
+   "window": 10,
+   "answer": "operator_off"
+  },
+  {
+   "online": true,
+   "allows": false,
+   "started": true,
+   "manager": true,
+   "since": 5,
+   "window": 10,
+   "answer": "operator_off"
+  },
+  {
+   "online": true,
+   "allows": false,
+   "started": true,
+   "manager": true,
+   "since": 11,
+   "window": 10,
+   "answer": "operator_off"
+  },
+  {
+   "online": true,
+   "allows": false,
+   "started": true,
+   "manager": false,
+   "since": 5,
+   "window": 10,
+   "answer": "operator_off"
+  },
+  {
+   "online": true,
+   "allows": false,
+   "started": true,
+   "manager": false,
+   "since": 11,
+   "window": 10,
+   "answer": "operator_off"
+  },
+  {
+   "online": false,
+   "allows": true,
+   "started": false,
+   "manager": true,
+   "since": 5,
+   "window": 10,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "allows": true,
+   "started": false,
+   "manager": true,
+   "since": 11,
+   "window": 10,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "allows": true,
+   "started": false,
+   "manager": false,
+   "since": 5,
+   "window": 10,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "allows": true,
+   "started": false,
+   "manager": false,
+   "since": 11,
+   "window": 10,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "allows": true,
+   "started": true,
+   "manager": true,
+   "since": 5,
+   "window": 10,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "allows": true,
+   "started": true,
+   "manager": true,
+   "since": 11,
+   "window": 10,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "allows": true,
+   "started": true,
+   "manager": false,
+   "since": 5,
+   "window": 10,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "allows": true,
+   "started": true,
+   "manager": false,
+   "since": 11,
+   "window": 10,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "allows": false,
+   "started": false,
+   "manager": true,
+   "since": 5,
+   "window": 10,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "allows": false,
+   "started": false,
+   "manager": true,
+   "since": 11,
+   "window": 10,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "allows": false,
+   "started": false,
+   "manager": false,
+   "since": 5,
+   "window": 10,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "allows": false,
+   "started": false,
+   "manager": false,
+   "since": 11,
+   "window": 10,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "allows": false,
+   "started": true,
+   "manager": true,
+   "since": 5,
+   "window": 10,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "allows": false,
+   "started": true,
+   "manager": true,
+   "since": 11,
+   "window": 10,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "allows": false,
+   "started": true,
+   "manager": false,
+   "since": 5,
+   "window": 10,
+   "answer": "offline"
+  },
+  {
+   "online": false,
+   "allows": false,
+   "started": true,
+   "manager": false,
+   "since": 11,
+   "window": 10,
+   "answer": "offline"
+  }
+ ],
+ "two_person": [
+  {
+   "amount": 0,
+   "owner": null,
+   "needed": false
+  },
+  {
+   "amount": 0,
+   "owner": 10000,
+   "needed": false
+  },
+  {
+   "amount": 9999,
+   "owner": null,
+   "needed": false
+  },
+  {
+   "amount": 9999,
+   "owner": 10000,
+   "needed": false
+  },
+  {
+   "amount": 10000,
+   "owner": null,
+   "needed": false
+  },
+  {
+   "amount": 10000,
+   "owner": 10000,
+   "needed": true
+  },
+  {
+   "amount": 50000,
+   "owner": null,
+   "needed": false
+  },
+  {
+   "amount": 50000,
+   "owner": 10000,
+   "needed": true
+  }
+ ],
+ "splitting": [
+  {
+   "stakes": [],
+   "threshold": 10000,
+   "flag": false
+  },
+  {
+   "stakes": [
+    9500,
+    9900,
+    9000
+   ],
+   "threshold": 10000,
+   "flag": true
+  },
+  {
+   "stakes": [
+    9500,
+    9900,
+    8999
+   ],
+   "threshold": 10000,
+   "flag": false
+  },
+  {
+   "stakes": [
+    9500,
+    9900,
+    9000,
+    10000
+   ],
+   "threshold": 10000,
+   "flag": true
+  },
+  {
+   "stakes": [
+    9999,
+    9999,
+    9999,
+    9999,
+    9999
+   ],
+   "threshold": 10000,
+   "flag": true
+  }
+ ],
+ "settlement": [
+  {
+   "stakes": 100000,
+   "payouts": 60000,
+   "commission": 5000,
+   "net": 35000
+  },
+  {
+   "stakes": 20000,
+   "payouts": 90000,
+   "commission": 1000,
+   "net": -71000
+  },
+  {
+   "stakes": 0,
+   "payouts": 0,
+   "commission": 0,
+   "net": 0
+  }
+ ]
+}

@@ -151,6 +151,14 @@
    "url": "https://claude.ai/artifact/9aUfZojeVz7bcS4sotptTV"
   },
   {
+   "id": "bet-counter",
+   "title": "LynkBet betting counter",
+   "section": 4,
+   "what": "LynkBet on LynkPOS: a countertop betting terminal with a ticket printer, a ticket scanner and a cash drawer for shops of licensed betting operators. Take a bet (or a queued slip offline where the operator allows it), print the operator's ticket, scan a ticket and pay a small win only after the operator's lock, refer a big win to head office, cancel, reprint a copy, disputes, shift and cash with flags, safer betting and the shop's Storefront betting page. Sample operators and games, test money only.",
+   "try": "Tap Place a bet, pick two games, choose a stake, tick the age and send. Then pick win, big_win or offline_slip from the panel's state buttons.",
+   "url": "https://claude.ai/artifact/BhMhoN5YZRqnn5sDJk9dVE"
+  },
+  {
    "id": "customer-display",
    "title": "LynkPOS customer screen",
    "section": 3,

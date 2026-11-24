@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "Kurslar ve eğitim",
   "nm_acc": "Muhasebe",
@@ -14,6 +14,7 @@
   "nm_audit": "Denetim kaydı",
   "nm_az_note": "Her LynkOmni adı ve ne işe yaradığı.",
   "nm_az_title": "A'dan Z'ye adlar",
+  "nm_bet": "Bahis",
   "nm_booking": "Seyahat ve biletler",
   "nm_cdisplay": "Gişe üstündeki küçük ekran",
   "nm_chat": "İş sohbeti",

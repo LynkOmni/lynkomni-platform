@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "am",
  "native": "አማርኛ",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "ኮርሶች እና ስልጠና",
   "nm_acc": "ሂሳብ አያያዝ",
@@ -14,6 +14,7 @@
   "nm_audit": "የኦዲት መዝገብ",
   "nm_az_note": "እያንዳንዱ የLynkOmni ስም እና የሚሰራው።",
   "nm_az_title": "ስሞች ከሀ እስከ ፐ",
+  "nm_bet": "ውርርድ",
   "nm_booking": "ጉዞና ቲኬት",
   "nm_cdisplay": "ከቆጣሪው በላይ ትንሽ ስክሪን",
   "nm_chat": "የንግድ ውይይት",

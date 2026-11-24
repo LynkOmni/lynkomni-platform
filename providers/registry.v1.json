@@ -2681,6 +2681,44 @@
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
    ]
+  },
+  {
+   "id": "betting_operators",
+   "name": "Licensed betting operators for the betting counter",
+   "kind": "betting_operator",
+   "used_by": [
+    "betting"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.betting_partners:BettingOperator",
+   "sandbox": "services.betting_partners:SandboxBettingOperator",
+   "needed_from_provider": [
+    "betting operator licence in the country and an agent agreement through the Partner Hub (LynkOmni's role checked by the lawyer)",
+    "games and odds API, bet placement and the ticket format the shop prints",
+    "ticket check, payout lock (paid once) and head-office referral API with answers",
+    "shop payout limits, ticket expiry days and stake limits",
+    "safer betting: age rule, personal limits, time-outs and self-exclusion check",
+    "commission statement per period and LynkOmni's share terms",
+    "sandbox and live API keys"
+   ],
+   "placeholders": [
+    {
+     "file": "services/betting_partners.py",
+     "token": "SandboxBettingOperator"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "BETTING UPDATE (blueprint 86): LynkOmni never takes bets, sets odds, decides results or holds stakes or winnings; the operator decides and the cloud alone writes its answer. Online only. Never advertised.",
+   "integrate": [
+    "Sign the operator for the country through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to SandboxBettingOperator behind BettingOperator",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed after the lawyer's check of the country's law, then the country switches on by itself"
+   ]
   }
  ],
  "later": [
@@ -3188,6 +3226,18 @@
    "why_not_now": "core/secrethash.py keys developer API key digests with LYNK_SECRET_PEPPER; tests and sandboxes use the development pepper, and production has no hosting secrets yet.",
    "placeholders": [],
    "done_when": "Production sets LYNK_SECRET_PEPPER from the hosting provider's secret store, kept out of the code and the logs, before the first developer key is issued."
+  },
+  {
+   "id": "betting_law",
+   "name": "The betting law of each country checked by the lawyer",
+   "blocks": [
+    "betting"
+   ],
+   "status": "pending",
+   "why_not_now": "Needs the lawyer: whether betting shops are allowed, which licences the operator and LynkOmni need, the age, limits, self-exclusion and help line rules.",
+   "placeholders": [],
+   "done_when": "Each country's betting rules are confirmed in writing and kept in its pack; where betting is not allowed the service is never offered there.",
+   "blocks_note": "betting in any country"
   }
  ],
  "user_actions": [

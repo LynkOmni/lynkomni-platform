@@ -149,6 +149,15 @@
    "offline": true,
    "build_section": 14,
    "status": "planned"
+  },
+  {
+   "id": "bet_stake_and_payout",
+   "what": "A bet's stake taken in cash and a small win paid from the drawer at a betting shop: the cash is held for the licensed operator, a stake only after the operator confirms (a queued slip is refunded in full if refused) and a payout only after the operator's lock",
+   "service": "lynkbet",
+   "whose_cash": "held_for_seller",
+   "offline": true,
+   "build_section": 9,
+   "status": "planned"
   }
  ],
  "not_applicable": [

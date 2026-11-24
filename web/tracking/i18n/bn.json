@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "58008a40405a72e72c70035e1248b5e00bb82952d196ecdae0676a787b2c0cfb",
+ "source_sha256": "7c64d728ccdae48efaf983a58aa2b77c3826c21805824d9fa8fa9e0951959575",
  "texts": {
   "trk_accepted": "গৃহীত",
   "trk_active": "সক্রিয়",
@@ -43,6 +43,8 @@
   "trk_k_approval_route": "অনুমোদন",
   "trk_k_asset_trip": "গাড়ির যাত্রা",
   "trk_k_attendance_correction": "উপস্থিতির রেকর্ড",
+  "trk_k_bet_referral": "পাঠানো বড় জয়",
+  "trk_k_bet_slip": "বাজির স্লিপ",
   "trk_k_bill_to_pay": "পরিশোধযোগ্য বিল",
   "trk_k_booking": "বুকিং",
   "trk_k_card_request": "কার্ডের আবেদন",

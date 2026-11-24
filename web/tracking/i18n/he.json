@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "58008a40405a72e72c70035e1248b5e00bb82952d196ecdae0676a787b2c0cfb",
+ "source_sha256": "7c64d728ccdae48efaf983a58aa2b77c3826c21805824d9fa8fa9e0951959575",
  "texts": {
   "trk_accepted": "התקבל",
   "trk_active": "פעיל",
@@ -43,6 +43,8 @@
   "trk_k_approval_route": "אישור",
   "trk_k_asset_trip": "נסיעת רכב",
   "trk_k_attendance_correction": "רישום נוכחות",
+  "trk_k_bet_referral": "זכייה גדולה שהועברה",
+  "trk_k_bet_slip": "טופס הימור",
   "trk_k_bill_to_pay": "חשבון לתשלום",
   "trk_k_booking": "הזמנת מקום",
   "trk_k_card_request": "בקשת כרטיס",

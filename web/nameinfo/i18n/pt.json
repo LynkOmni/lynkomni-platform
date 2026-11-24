@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pt",
  "native": "Português",
- "source_sha256": "9042f401550324ce555e1bd1a81902b3ef5e163d728bf06d7c778b0519263f25",
+ "source_sha256": "ef705ffc090106985fdc5d4e7969d904bf31d471e2a316b7d216647a5dcdc81a",
  "texts": {
   "nma_academy": "Crie e faça cursos, com aulas e certificados.",
   "nma_acc": "Mantenha suas contas, despesas e relatórios em ordem.",
@@ -12,6 +12,7 @@
   "nma_assist": "Faça perguntas, receba ajuda e tenha rascunhos preparados para você.",
   "nma_attend": "Registre quem entra e sai: equipe, alunos e visitantes.",
   "nma_audit": "Um registro completo de quem mudou o quê nas suas contas.",
+  "nma_bet": "Aceite apostas, imprima bilhetes e pague prémios para um operador licenciado.",
   "nma_booking": "Reserve viagens, ingressos e horários em um só lugar.",
   "nma_chat": "Converse com seus clientes e sua equipe em uma só caixa de entrada.",
   "nma_checkout": "Envie um link de pagamento ou mostre um código QR para receber.",

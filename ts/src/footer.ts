@@ -78,7 +78,7 @@ export function columns(lang: string, words?: Words): Column[] {
       brand("school", "LynkSchool", "/school"), brand("academy", "LynkAcademy", "/academy"), brand("jobs", "LynkJobs", "https://job.lynkomni.com")] },
     { id: "solutions", title: tt("solutions"), items: [txt(lang, "merchants", "merchants", "/solutions/merchants"), txt(lang, "suppliers", "suppliers", "/solutions/suppliers"),
       txt(lang, "individuals", "individuals", "/solutions/individuals"), txt(lang, "companies", "companies", "/solutions/companies"), txt(lang, "organisations", "organisations", "/solutions/organisations"),
-      brand("booking", "LynkBooking", "https://booking.lynkomni.com"), brand("essential", "LynkEssential", "https://essential.lynkomni.com"), txt(lang, "currency", "currency", "https://exchange.lynkomni.com"),
+      brand("booking", "LynkBooking", "https://booking.lynkomni.com"), brand("essential", "LynkEssential", "https://essential.lynkomni.com"), brand("bet", "LynkBet", "/bet"), txt(lang, "currency", "currency", "https://exchange.lynkomni.com"),
       txt(lang, "cards", "cards", "/vcard")] },
     { id: "developers", title: tt("developers"), items: [brand("dev", "LynkDev", "/developers"), brand("hub", "LynkHub", "https://hub.lynkomni.com"), brand("doc", "LynkDoc", "https://doc.lynkomni.com"), brand("api", "LynkAPI", "https://api.lynkomni.com"),
       brand("sdk", "LynkSDK", "https://sdk.lynkomni.com")] },

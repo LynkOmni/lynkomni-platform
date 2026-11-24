@@ -541,6 +541,7 @@
    "browser-frame": "LynkPC",
    "pos-terminal": "LynkPOS",
    "customer-display": "LynkPOS",
+   "bet-counter": "LynkPOS",
    "lynk-kiosk": "LynkKiosk",
    "lynk-dscreen": "LynkDScreen",
    "lynk-cdisplay": "LynkCDisplay",

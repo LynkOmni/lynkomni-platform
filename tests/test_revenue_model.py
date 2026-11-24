@@ -153,5 +153,14 @@ class ExpensesAndProfit(unittest.TestCase):
         self.assertEqual(tuple(R.table()["travel"][st] for st in R.STAGES), (88, 5021, 153423))
         self.assertEqual(tuple(R.booking_group(st) for st in R.STAGES), (299, 75855, 4172000))   # without the old flat appointment fee
 
+    def test_betting_stream_is_separate_and_an_assumption(self):
+        # BETTING UPDATE (2026-11-24, blueprint 86): LynkBet shop plans and the operators' share are their own stream, outside the agreed
+        # totals until pilot data exists; LynkOmni never takes a cut of a shop's commission. The adoption mix is an ASSUMPTION.
+        got = {st: R.betting(st) for st in R.STAGES}
+        self.assertEqual({st: (g["plans"], g["operator_share"], g["month"]) for st, g in got.items()},
+                         {"stage1": (75, 300, 375), "stage2": (4297, 11250, 15547), "stage3": (131296, 425000, 556296)})
+        self.assertTrue(all(g["assumption"] for g in got.values()))
+        self.assertNotIn("betting", R.ECO_ROWS)
+
 if __name__ == "__main__":
     unittest.main()

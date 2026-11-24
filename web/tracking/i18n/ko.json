@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "58008a40405a72e72c70035e1248b5e00bb82952d196ecdae0676a787b2c0cfb",
+ "source_sha256": "7c64d728ccdae48efaf983a58aa2b77c3826c21805824d9fa8fa9e0951959575",
  "texts": {
   "trk_accepted": "수락됨",
   "trk_active": "활성",
@@ -43,6 +43,8 @@
   "trk_k_approval_route": "승인",
   "trk_k_asset_trip": "차량 운행",
   "trk_k_attendance_correction": "출근 기록",
+  "trk_k_bet_referral": "본사로 넘긴 큰 당첨",
+  "trk_k_bet_slip": "베팅 전표",
   "trk_k_bill_to_pay": "지불할 청구서",
   "trk_k_booking": "예약",
   "trk_k_card_request": "카드 신청",

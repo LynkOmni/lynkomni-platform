@@ -357,6 +357,15 @@
    "similar": []
   },
   {
+   "name": "LynkBet",
+   "brand_first": "LynkBet (Betting)",
+   "plain_first": "Betting (LynkBet)",
+   "part_of": null,
+   "icon": "product-pos",
+   "spoken": "Link Bet",
+   "similar": []
+  },
+  {
    "name": "LynkAttend",
    "brand_first": "LynkAttend (Attendance)",
    "plain_first": "Attendance (LynkAttend)",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ur",
  "native": "اردو",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "کورسز اور تربیت",
   "nm_acc": "اکاؤنٹنگ",
@@ -14,6 +14,7 @@
   "nm_audit": "آڈٹ ریکارڈ",
   "nm_az_note": "LynkOmni کا ہر نام اور وہ کیا کرتا ہے۔",
   "nm_az_title": "نام الف سے ے تک",
+  "nm_bet": "شرط بازی",
   "nm_booking": "سفر اور ٹکٹ",
   "nm_cdisplay": "کاؤنٹر کے اوپر چھوٹی اسکرین",
   "nm_chat": "کاروباری چیٹ",

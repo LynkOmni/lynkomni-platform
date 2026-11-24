@@ -1282,26 +1282,26 @@
     {
      "theme": "light",
      "file": "charts/chart-pricing-ladder.light.svg",
-     "sha256": "96c29670f46bb839b9e0f069b9e44be629db29bde5bf4d2367265bacfa8e4e55",
-     "bytes": 37890
+     "sha256": "0c0cfccf5b24efc35be7b9a4a29b7b79ed4fdfb014aaa35390dbc8caea9c7713",
+     "bytes": 39005
     },
     {
      "theme": "dark",
      "file": "charts/chart-pricing-ladder.dark.svg",
-     "sha256": "c29f5116921534495a50d2463d4c987be9331f481e96f522b7b652ef11a91519",
-     "bytes": 37890
+     "sha256": "3b193e08c6ee4cd6d4e22410224f5823c8001bb4914c0a9ce717a5b1c4e61dea",
+     "bytes": 39005
     },
     {
      "theme": "contrast-light",
      "file": "charts/chart-pricing-ladder.contrast-light.svg",
-     "sha256": "fde01f524eb31c4f0a1710574320b5e1dc3d733d025a0bc1926dbf3a58782f89",
-     "bytes": 37890
+     "sha256": "e98d3e1d775b1fafdb9fc2050ee6c6f64482b397355edb14b687e9fe5e336a0d",
+     "bytes": 39005
     },
     {
      "theme": "contrast-dark",
      "file": "charts/chart-pricing-ladder.contrast-dark.svg",
-     "sha256": "1de422e7f01c95f4fe3110c6ca7a549029738c3b67d9ce339fc3f9d41ffd1ef5",
-     "bytes": 37890
+     "sha256": "f1fe10252a87c0ce6a23802fadc72dff1916a8b50926fe7195cfe5834a39da1b",
+     "bytes": 39005
     }
    ]
   },
@@ -2321,6 +2321,43 @@
      "file": "illustrations/product-exchange.contrast-dark.svg",
      "sha256": "8b0d86652e880cd6aa1ca6f67935f5d8c754cf849e7bb7bcfeaf56874e555d2d",
      "bytes": 1565
+    }
+   ]
+  },
+  "product-bet": {
+   "kind": "illustration",
+   "alt": "A printed ticket with a square code coming out of a counter printer, beside a check badge and a small shield",
+   "purpose": "Empty state, feature header and onboarding for LynkBet",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-bet.light.svg",
+     "sha256": "1f1d363fe8a94776ab182ddf7908ca982b595ebce425f1dce14484aabb298f5c",
+     "bytes": 2473
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-bet.dark.svg",
+     "sha256": "0092a7d6cc2454d11367fc2e8ed46ae87219fed6209312218fb41549ec96d362",
+     "bytes": 2473
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-bet.contrast-light.svg",
+     "sha256": "5c734718a5e3074e58182de83393c6947886922c0904c0e5d18e64c90035e06d",
+     "bytes": 2473
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-bet.contrast-dark.svg",
+     "sha256": "9b2057c58759a81bfbbba8a3fe6029dc4cc43fe0f5ba5be96ae15536349daca4",
+     "bytes": 2473
     }
    ]
   },

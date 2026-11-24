@@ -1751,6 +1751,71 @@
      "done": {}
     }
    ]
+  },
+  {
+   "id": "86.12",
+   "update": "BETTING UPDATE",
+   "blueprint_section": 86,
+   "rows": [
+    {
+     "sections": [
+      "4"
+     ],
+     "part": "Groundwork, brought forward at the owner's request (2026-11-24): the rules register and engine in Python and TypeScript with shared vectors (catalog/betting.v1.json, core/betting.py, ts/src/betting.ts); the lynkbet billing family with its locked prices, extras, LynkPOS bundle and the operators' share, and its assumed revenue stream; contract version 17 with LynkBet's events; LynkBet in every register (names, catalog, places, menus, addresses on both sides, API, connections, trackers, automations, messages, LynkAssist, cash, universal rules); the licensed operator behind its interface with a sandbox and its ledger entries; the product picture; the betting counter emulator on LynkPOS, LynkTab and LynkMobile in 38 languages",
+     "done": {
+      "4": "v0.96.0"
+     }
+    },
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "The LynkBet product page, the pricing page, the website header, launcher, sitemap and search pages",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Help pages for shops, operators and customers, the safer betting help and LynkAssist's answers",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "The customer side in the account (e-tickets, Check my ticket, booking codes sent ahead, result messages when asked) and the shop's Storefront betting page where the law allows",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9"
+     ],
+     "part": "LynkBet in full: every kind of betting and bet type, odds shown in every format, the operator connector engine, offline slips, the self-service kiosk on LynkKiosk, odds and results boards on LynkDScreen, cash control with two-person approval, head office for shop networks, settlement and commission in LynkAcc with matching, Please check flags and money-washing warnings, disputes, cancelling, regulator exports, the inspector view, Move in, staff LynkAssist, the busy-day queue, owner alerts and bad-internet handling",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "The LynkBet API and webhooks for shop networks and licensed operators",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "The operator console in the Partner Hub (approve shops, limits, sales and payouts, pause or end) and certified operator connectors with the shared test suite",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Native parts, the lawyer's check of each country's betting law, gaming test-lab certification where a country requires it, and operators switched on country by country",
+     "done": {}
+    }
+   ]
   }
  ]
 }

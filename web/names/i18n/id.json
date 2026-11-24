@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "02599bc6bdff5aae512254ecabcbed7159f9935ba6f1e4fe1cb943a8cd4c06a7",
+ "source_sha256": "d64ed64e323bc4209093d6b7386bfe51ea9083b68d85d09a5f71ad85dff93adf",
  "texts": {
   "nm_academy": "Kursus & pelatihan",
   "nm_acc": "Akuntansi",
@@ -14,6 +14,7 @@
   "nm_audit": "Jejak audit",
   "nm_az_note": "Setiap nama LynkOmni dan fungsinya.",
   "nm_az_title": "Nama dari A sampai Z",
+  "nm_bet": "Taruhan",
   "nm_booking": "Perjalanan dan tiket",
   "nm_cdisplay": "Layar kecil di atas loket",
   "nm_chat": "Chat bisnis",

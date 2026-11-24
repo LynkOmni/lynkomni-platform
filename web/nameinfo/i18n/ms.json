@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "9042f401550324ce555e1bd1a81902b3ef5e163d728bf06d7c778b0519263f25",
+ "source_sha256": "ef705ffc090106985fdc5d4e7969d904bf31d471e2a316b7d216647a5dcdc81a",
  "texts": {
   "nma_academy": "Cipta dan ikuti kursus, dengan pelajaran dan sijil.",
   "nma_acc": "Pastikan akaun, perbelanjaan dan laporan anda teratur.",
@@ -12,6 +12,7 @@
   "nma_assist": "Tanya soalan, dapatkan bantuan dan draf yang disediakan untuk anda.",
   "nma_attend": "Rekod siapa datang dan pergi: kakitangan, pelajar dan pelawat.",
   "nma_audit": "Rekod penuh tentang siapa mengubah apa dalam akaun anda.",
+  "nma_bet": "Terima pertaruhan, cetak tiket dan bayar kemenangan untuk pengendali berlesen.",
   "nma_booking": "Tempah perjalanan, tiket dan temu janji di satu tempat.",
   "nma_chat": "Bersembang dengan pelanggan dan pasukan dalam satu peti masuk.",
   "nma_checkout": "Hantar pautan bayaran atau tunjukkan kod QR supaya anda dibayar.",

@@ -36,6 +36,8 @@ const AFTER_PAY = ["ts/src/attendance.js", "ts/src/queue.js", "ts/src/survey.js"
 // and the panel itself in the Business app (emulatorpanel)
 const KIT = ["ts/src/placeholder.js", "ts/src/emulators.generated.js", "ts/src/emulators.js", "ts/src/keytones.js", "ts/src/soundprefs.js", "ts/src/emkit.js"];          // after ts/src/queue.js (the Lynk Code)
 const PANEL_DEVICES = ["counter-tablet", "kitchen-screen", "customer-display", "rider-phone", "stock-scanner"];
+// BETTING UPDATE (blueprint 86): the LynkBet betting counter on LynkPOS, with the betting rules and register
+const BET_MODULES = ["ts/src/betting.generated.js", "ts/src/betting.js"];
 const EMULATORS = [
   { id: "pos-terminal", out: "lynkomni-pos-terminal.html", modules: [...DEVICE_MODULES, ...PEOPLE_DEVICE, ...KIT, "ts/src/ads.generated.js", "ts/src/ads.js", "web/emulators/pos-terminal/app.js"] },
   { id: "merchant-phone", out: "lynkomni-merchant-phone.html", modules: ["ts/src/usernames.generated.js", "ts/src/usernames.js", ...DEVICE_MODULES, ...TRACK_MODULES, "ts/src/reservations.js", "ts/src/drivers.js", "ts/src/drivers.generated.js", ...PEOPLE_DEVICE, ...KIT, "ts/src/emulatorpanel.js", "ts/src/navigation.js", "ts/src/navigation.generated.js", "ts/src/turn.js", "ts/src/appshell.js", "ts/src/chat.js", "ts/src/chat.generated.js", "ts/src/chatview.js", "ts/src/assisttrust.js", "ts/src/assisttrust.generated.js", "ts/src/assistview.js", "ts/src/ads.generated.js", "web/emulators/merchant-phone/app.js"] },
@@ -48,6 +50,7 @@ const EMULATORS = [
   { id: "lynk-kiosk", out: "lynkomni-lynk-kiosk.html", modules: [...DEVICE_MODULES, ...PEOPLE_DEVICE, ...KIT, "web/emulators/lynk-kiosk/app.js"], extraCss: ["web/device/device.css"] },
   // build section 3B: LynkQueue's own screens: the main calling screen, the small screen above each counter, and the page on a person's phone
   ...["lynk-dscreen", "lynk-cdisplay"].map((id) => ({ id, out: `lynkomni-${id}.html`, modules: [...DEVICE_MODULES, ...SCREENS, ...KIT, `web/emulators/${id}/app.js`], extraCss: ["web/device/device.css"] })),
+  { id: "bet-counter", out: "lynkomni-bet-counter.html", modules: [...DEVICE_MODULES, "ts/src/queue.js", ...KIT, ...BET_MODULES, "web/emulators/bet-counter/app.js"], extraCss: ["web/device/device.css"] },
   { id: "queue-page", out: "lynkomni-queue-page.html", modules: [...DEVICE_MODULES, ...QUEUE_ONLY, "ts/src/turn.js", "web/emulators/queue-page/app.js"], extraCss: ["web/device/device.css"] },
   { id: "survey-page", out: "lynkomni-survey-page.html", modules: [...DEVICE_MODULES, ...SURVEY_ONLY, "ts/src/turn.js", "web/emulators/survey-page/app.js"], extraCss: ["web/device/device.css"] },
   ...["counter-tablet", "kitchen-screen", "customer-display", "rider-phone", "stock-scanner", "button-phone", "vcard-card", "mesh-relay", "owner-web", "track-page"]

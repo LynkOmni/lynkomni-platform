@@ -1051,6 +1051,22 @@
    "old_names": []
   },
   {
+   "url": "https://lynkomni.com/bet",
+   "kind": "product",
+   "title_key": "seo_title_www-bet",
+   "description_key": "seo_desc_www-bet",
+   "breadcrumb": [
+    "/",
+    "/bet"
+   ],
+   "langs": "all",
+   "build_section": 5,
+   "status": "planned",
+   "name": "LynkBet",
+   "plain_key": "nm_bet",
+   "old_names": []
+  },
+  {
    "url": "https://lynkomni.com/voting",
    "kind": "product",
    "title_key": "seo_title_www-voting",
@@ -1218,6 +1234,19 @@
    "breadcrumb": [
     "/{username}",
     "/{username}/queue"
+   ],
+   "langs": "all",
+   "build_section": 7,
+   "status": "planned"
+  },
+  {
+   "url": "https://shop.lynkomni.com/{username}/betting",
+   "kind": "site",
+   "title_key": "seo_title_shop-username-betting",
+   "description_key": "seo_desc_shop-username-betting",
+   "breadcrumb": [
+    "/{username}",
+    "/{username}/betting"
    ],
    "langs": "all",
    "build_section": 7,

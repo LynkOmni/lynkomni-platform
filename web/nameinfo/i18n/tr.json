@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "9042f401550324ce555e1bd1a81902b3ef5e163d728bf06d7c778b0519263f25",
+ "source_sha256": "ef705ffc090106985fdc5d4e7969d904bf31d471e2a316b7d216647a5dcdc81a",
  "texts": {
   "nma_academy": "Dersler ve sertifikalarla kurs oluşturun ve alın.",
   "nma_acc": "Defterlerinizi, giderlerinizi ve raporlarınızı düzenli tutun.",
@@ -12,6 +12,7 @@
   "nma_assist": "Soru sorun, yardım alın ve sizin için taslaklar hazırlansın.",
   "nma_attend": "Kimin gelip gittiğini kaydedin: çalışanlar, öğrenciler ve ziyaretçiler.",
   "nma_audit": "Defterlerinizde kimin neyi değiştirdiğinin tam kaydı.",
+  "nma_bet": "Lisanslı bir operatör için bahis alın, bilet basın ve kazançları ödeyin.",
   "nma_booking": "Seyahat, bilet ve randevuları tek yerden ayırtın.",
   "nma_chat": "Müşterileriniz ve ekibinizle tek gelen kutusunda yazışın.",
   "nma_checkout": "Ödeme almak için ödeme bağlantısı gönderin veya QR kodu gösterin.",

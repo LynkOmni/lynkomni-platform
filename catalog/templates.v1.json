@@ -405,6 +405,7 @@
   "account-site": "app",
   "pos-terminal": "device",
   "kitchen-screen": "device",
+  "bet-counter": "device",
   "customer-display": "device",
   "button-phone": "device",
   "lynk-kiosk": "device",

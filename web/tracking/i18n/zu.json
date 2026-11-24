@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "58008a40405a72e72c70035e1248b5e00bb82952d196ecdae0676a787b2c0cfb",
+ "source_sha256": "7c64d728ccdae48efaf983a58aa2b77c3826c21805824d9fa8fa9e0951959575",
  "texts": {
   "trk_accepted": "Kwamukelwe",
   "trk_active": "Iyasebenza",
@@ -43,6 +43,8 @@
   "trk_k_approval_route": "Ukugunyazwa",
   "trk_k_asset_trip": "Uhambo lwemoto",
   "trk_k_attendance_correction": "Irekhodi lokuba khona",
+  "trk_k_bet_referral": "Ukuwina okukhulu okudluliselwe",
+  "trk_k_bet_slip": "Isilipi sokubheja",
   "trk_k_bill_to_pay": "Isikweletu okufanele sikhokhwe",
   "trk_k_booking": "Ukubhukha",
   "trk_k_card_request": "Isicelo sekhadi",

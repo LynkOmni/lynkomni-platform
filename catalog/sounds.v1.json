@@ -11,7 +11,7 @@
  },
  "sources": [
   {"id": "device_key_tones", "what": "Key and tap tones and press vibration on LynkOmni devices (each number key its own keypad pair; confirm, cancel, clear, scan, print and paid their own tones)",
-   "emulators": ["pos-terminal", "counter-tablet", "merchant-phone", "kitchen-screen", "rider-phone", "customer-display", "stock-scanner", "lynk-kiosk", "lynk-dscreen", "lynk-cdisplay"],
+   "emulators": ["pos-terminal", "counter-tablet", "merchant-phone", "kitchen-screen", "bet-counter", "rider-phone", "customer-display", "stock-scanner", "lynk-kiosk", "lynk-dscreen", "lynk-cdisplay"],
    "switch": "Device settings: Key tones on or off, Vibration on or off, Volume low, medium or high", "controls": "manager for the device; the signed-in person's own choice where the manager allows it; customer-facing screens follow the manager",
    "can_turn_off": true, "status": "built", "build_section": "3A"},
   {"id": "staff_pin_tones", "what": "Tones on the staff PIN pad (each key its own pair, or one same tone so nobody nearby can tell the keys apart)",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "9042f401550324ce555e1bd1a81902b3ef5e163d728bf06d7c778b0519263f25",
+ "source_sha256": "ef705ffc090106985fdc5d4e7969d904bf31d471e2a316b7d216647a5dcdc81a",
  "texts": {
   "nma_academy": "Ṣẹ̀dá kí o sì kọ́ ẹ̀kọ́, pẹ̀lú àwọn ìdánilẹ́kọ̀ọ́ àti ìwé ẹ̀rí.",
   "nma_acc": "Jẹ́ kí ìwé owó, ìnáwó àti ìjábọ̀ rẹ wà létòlétò.",
@@ -12,6 +12,7 @@
   "nma_assist": "Béèrè ìbéèrè, gba ìrànlọ́wọ́ kí wọ́n sì pèsè àkọsílẹ̀ àkọ́kọ́ fún ọ.",
   "nma_attend": "Kọ ẹni tó wọlé àti ẹni tó jáde sílẹ̀: òṣìṣẹ́, akẹ́kọ̀ọ́ àti àlejò.",
   "nma_audit": "Àkọsílẹ̀ kíkún nípa ẹni tó yí kí ni padà nínú ìwé owó rẹ.",
+  "nma_bet": "Gba tẹ́tẹ́, tẹ tíkẹ́ẹ̀tì jáde kí o sì san owó ẹ̀bùn fún olùṣiṣẹ́ tó ní ìwé àṣẹ.",
   "nma_booking": "Ṣe ìforúkọsílẹ̀ ìrìn-àjò, tíkẹ́ẹ̀tì àti ìpàdé ní ibì kan.",
   "nma_chat": "Bá àwọn oníbàárà àti ẹgbẹ́ rẹ sọ̀rọ̀ nínú àpótí kan.",
   "nma_checkout": "Fi ìjápọ̀ ìsanwó ránṣẹ́ tàbí fi kóòdù QR hàn kí wọ́n lè sanwó fún ọ.",

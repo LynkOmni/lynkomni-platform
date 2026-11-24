@@ -895,6 +895,83 @@
    "planned_events": [],
    "consent": "merchant",
    "build_section": 4
+  },
+  {
+   "id": "bet-acc",
+   "from": "lynkbet",
+   "to": "lynkacc",
+   "what": "Betting in the books: stake cash held for the operator (never the shop's income), payouts, the operator's weekly settlement and the shop's commission, posted once from the operator's statement",
+   "events": [
+    "BetSettlementRecorded",
+    "BetPaidOut",
+    "BetConfirmed"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 9
+  },
+  {
+   "id": "bet-stat",
+   "from": "lynkbet",
+   "to": "lynkstat",
+   "what": "Betting reports: bets, payouts and commission by day, counter, staff member and operator; totals only for a shop network",
+   "events": [
+    "BetConfirmed",
+    "BetPaidOut",
+    "BetSettlementRecorded"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 9
+  },
+  {
+   "id": "bet-pos",
+   "from": "lynkbet",
+   "to": "lynkpos",
+   "what": "The betting counter runs on LynkPOS devices with the till's cash drawer, shifts, staff PINs and cash count; a paid LynkPOS plan takes 20% off LynkBet",
+   "events": [
+    "BetPaidOut",
+    "BetConfirmed"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 9
+  },
+  {
+   "id": "bet-queue",
+   "from": "lynkbet",
+   "to": "lynkqueue",
+   "what": "Busy match days: customers take a queue ticket for the betting counter",
+   "events": [
+    "TicketIssued"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 9
+  },
+  {
+   "id": "bet-chat",
+   "from": "lynkbet",
+   "to": "lynkchat",
+   "what": "Check my ticket and the shop's help desk in LynkChat; never a bet, an offer or odds",
+   "events": [
+    "BetTicketChecked"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": 9
+  },
+  {
+   "id": "bet-mpay",
+   "from": "lynkbet",
+   "to": "lynkmpay",
+   "what": "Stakes paid by mobile money and winnings paid to the winner's own mobile money or bank through the licensed partner",
+   "events": [
+    "BetPaidOut"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": 9
   }
  ],
  "journeys": [
