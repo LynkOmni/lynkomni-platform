@@ -28,10 +28,17 @@ function lfOrList(items: string[], lang: string): string {
 }
 
 /** Country names in the reader's language (the browser's own names; the pack's English name when it has none; the sample pack's own word). */
+const LF_NAMES: Record<string, Record<string, string>> = {};
 export function countryNamer(lang: string, packs: Record<string, FieldPack>, sampleWord: string): (code: string) => string {
-  let dn: { of: (c: string) => string | undefined } | null = null;
-  try { dn = new Intl.DisplayNames([lang], { type: "region" }); } catch { dn = null; }
-  return (code: string): string => { const p = packs[code]; if (p?.sample) return sampleWord; try { return dn?.of(code) ?? p?.name ?? code; } catch { return p?.name ?? code; } };
+  const memo = (LF_NAMES[lang] ??= {});
+  let dn: { of: (c: string) => string | undefined } | null | undefined;
+  return (code: string): string => {
+    const p = packs[code]; if (p?.sample) return sampleWord;
+    const hit = memo[code]; if (hit !== undefined) return hit;
+    if (dn === undefined) { try { dn = new Intl.DisplayNames([lang], { type: "region" }); } catch { dn = null; } }
+    let name: string; try { name = dn?.of(code) ?? p?.name ?? code; } catch { name = p?.name ?? code; }
+    return (memo[code] = name);
+  };
 }
 
 let FLAGS: boolean | null = null;
@@ -75,6 +82,15 @@ export function phoneMessage(ctx: FieldCtx, country: string, _digits: string, c:
   if (c.state === "short") return { level: "error", text: t("fd_short", { country: name, n: lfLengthWords(ctx, c.lengths) }) };
   return null;
 }
+function lfOption(ctx: FieldCtx, code: string, selected = false): string {
+  const cc = ctx.packs[code]?.ph?.code;
+  return `<option value="${lfEsc(code)}"${selected ? " selected" : ""} title="${lfEsc(ctx.countryName(code))}">${lfEsc(countryMark(code))}${cc ? ` +${lfEsc(ownDigits(cc, ctx.lang))}` : ""}</option>`;
+}
+const LF_OPTS: Record<string, string> = {};
+/** The whole country list, made once per language (the list never changes while the page is open). */
+function lfOptions(ctx: FieldCtx): string {
+  return (LF_OPTS[ctx.lang] ??= ctx.packOrder.map((code) => lfOption(ctx, code)).join(""));
+}
 export interface PhoneFieldOpts { id: string; label: string; country: string; digits: string; mobile?: boolean; submitted?: boolean }
 /** One phone field: the country chooser, the number in the country's groups, the country's sample as its placeholder, and the
  *  message under it. Buttons marked data-needs-phone="<id>" stay off until the number is complete. */
@@ -84,7 +100,9 @@ export function phoneFieldHtml(ctx: FieldCtx, o: PhoneFieldOpts): string {
   const sample = phoneSample(r, mobile);
   // The country is its flag (or its two-letter code where the device cannot draw flags) and its dialling code, never its full
   // name (owner, 2026-11-25); the full name is the option's tooltip.
-  const opts = ctx.packOrder.map((code) => { const p = ctx.packs[code]; const cc = p?.ph?.code; return `<option value="${lfEsc(code)}"${code === o.country ? " selected" : ""} title="${lfEsc(ctx.countryName(code))}">${lfEsc(countryMark(code))}${cc ? ` +${lfEsc(ownDigits(cc, ctx.lang))}` : ""}</option>`; }).join("");
+  // Only the chosen country is drawn at first; the whole list joins when the chooser is first opened (wireFields), so a screen
+  // with phone fields opens as fast as one without.
+  const opts = lfOption(ctx, o.country, true);
   return `<div class="lf-field" data-phone="${lfEsc(o.id)}" data-country="${lfEsc(o.country)}" data-mobile="${mobile ? "1" : "0"}" data-valid="${c.state === "ok" ? "1" : "0"}">
     <label for="${lfEsc(o.id)}">${lfEsc(o.label)}</label>
     <div class="lf-row"><select class="lf-cc" id="${lfEsc(o.id)}-cc" aria-label="${lfEsc(ctx.t("fd_country"))}">${opts}</select><input class="text lf-in" id="${lfEsc(o.id)}" type="text" inputmode="tel" autocomplete="tel-national" dir="ltr" value="${lfEsc(phoneGroups(r, d, mobile))}"${sample ? ` placeholder="${lfEsc(ownDigits(sample, ctx.lang))}"` : ""} aria-describedby="${lfEsc(o.id)}-msg"${msg ? ` aria-invalid="true"` : ""}></div>
@@ -139,6 +157,8 @@ export function wireFields(root: ParentNode, ctx: FieldCtx): void {
     const id = box.dataset.phone as string, input = box.querySelector<HTMLInputElement>("input"), cc = box.querySelector<HTMLSelectElement>("select");
     if (!input || !cc) return;
     const mobile = box.dataset.mobile !== "0";
+    const fill = (): void => { if (cc.options.length > 1) return; const keep = cc.value; cc.innerHTML = lfOptions(ctx); cc.value = keep; };
+    for (const ev of ["focus", "pointerdown", "keydown", "touchstart"]) cc.addEventListener(ev, fill, { passive: true });
     const run = (raw: string, submitted: boolean): void => {
       let country = box.dataset.country as string;
       // A dialling code being typed after + (or 00) stays as typed until it is a whole code; then the country follows it.

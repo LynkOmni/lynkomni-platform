@@ -1822,7 +1822,14 @@ function draw(): void { drawScreen(); KW.after($("#app")); wireFields($("#app"),
 // Section 4C point 1: every phone field is the shared part (ts/src/fields.ts); its country starts on the device's country.
 const fieldState: Record<string, (d: string) => void> = { phoneIn: (d) => { S.phone = d; }, staffIn: (d) => { S.staffPhone = d; }, momoIn: (d) => { S.input = d; }, anumIn: (d) => { S.number = d; } };
 const cc = (id: string): string => S.phoneCc[id] ?? pack().code;
+let FIELD_CTX: { key: string; ctx: FieldCtx } | null = null;
 function fieldCtx(): FieldCtx {
+  const key = `${locale()}|${S.lang}`;
+  if (FIELD_CTX?.key === key) return FIELD_CTX.ctx;
+  FIELD_CTX = { key, ctx: makeFieldCtx() };
+  return FIELD_CTX.ctx;
+}
+function makeFieldCtx(): FieldCtx {
   return { t, lang: locale(), packs: DATA.packs as unknown as FieldCtx["packs"], packOrder: DATA.packOrder, countryName: countryNamer(locale(), DATA.packs as unknown as FieldCtx["packs"], t("sample_country")),
     onPhone: (id, v) => { const was = phoneOk(id); S.phoneCc[id] = v.country; fieldState[id]?.(v.digits); if (was !== v.valid && id !== "phoneIn" && id !== "staffIn") draw(); } };
 }

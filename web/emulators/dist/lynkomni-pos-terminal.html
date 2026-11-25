@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-EimLsXBaIbvLBoBZ8R+C0IDS9uma0NFray+Kji9CX2Q='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-TE7GBfr9UitK6uCRJsDVGB0RayB3yvXZIIX3mIYrdJA='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkPOS Terminal</title>
 <meta name="description" content="Interactive emulator of the LynkPOS handheld terminal: real sale rules, sandbox providers, sample products.">
@@ -1880,21 +1880,34 @@ function lfOrList(items, lang) {
         return items.join(" / ");
     }
 }
+const LF_NAMES = {};
 function countryNamer(lang, packs, sampleWord) {
-    let dn = null;
-    try {
-        dn = new Intl.DisplayNames([lang], { type: "region" });
-    }
-    catch {
-        dn = null;
-    }
-    return (code) => { const p = packs[code]; if (p?.sample)
-        return sampleWord; try {
-        return dn?.of(code) ?? p?.name ?? code;
-    }
-    catch {
-        return p?.name ?? code;
-    } };
+    const memo = (LF_NAMES[lang] ??= {});
+    let dn;
+    return (code) => {
+        const p = packs[code];
+        if (p?.sample)
+            return sampleWord;
+        const hit = memo[code];
+        if (hit !== undefined)
+            return hit;
+        if (dn === undefined) {
+            try {
+                dn = new Intl.DisplayNames([lang], { type: "region" });
+            }
+            catch {
+                dn = null;
+            }
+        }
+        let name;
+        try {
+            name = dn?.of(code) ?? p?.name ?? code;
+        }
+        catch {
+            name = p?.name ?? code;
+        }
+        return (memo[code] = name);
+    };
 }
 let FLAGS = null;
 function flagsShown() {
@@ -1948,11 +1961,19 @@ function phoneMessage(ctx, country, _digits, c) {
         return { level: "error", text: t("fd_short", { country: name, n: lfLengthWords(ctx, c.lengths) }) };
     return null;
 }
+function lfOption(ctx, code, selected = false) {
+    const cc = ctx.packs[code]?.ph?.code;
+    return `<option value="${lfEsc(code)}"${selected ? " selected" : ""} title="${lfEsc(ctx.countryName(code))}">${lfEsc(countryMark(code))}${cc ? ` +${lfEsc(ownDigits(cc, ctx.lang))}` : ""}</option>`;
+}
+const LF_OPTS = {};
+function lfOptions(ctx) {
+    return (LF_OPTS[ctx.lang] ??= ctx.packOrder.map((code) => lfOption(ctx, code)).join(""));
+}
 function phoneFieldHtml(ctx, o) {
     const mobile = o.mobile !== false, r = lfRules(ctx, o.country), d = phoneAccept(r, o.digits || "", mobile);
     const c = phoneCheck(r, d, mobile, !!o.submitted), msg = phoneMessage(ctx, o.country, d, c);
     const sample = phoneSample(r, mobile);
-    const opts = ctx.packOrder.map((code) => { const p = ctx.packs[code]; const cc = p?.ph?.code; return `<option value="${lfEsc(code)}"${code === o.country ? " selected" : ""} title="${lfEsc(ctx.countryName(code))}">${lfEsc(countryMark(code))}${cc ? ` +${lfEsc(ownDigits(cc, ctx.lang))}` : ""}</option>`; }).join("");
+    const opts = lfOption(ctx, o.country, true);
     return `<div class="lf-field" data-phone="${lfEsc(o.id)}" data-country="${lfEsc(o.country)}" data-mobile="${mobile ? "1" : "0"}" data-valid="${c.state === "ok" ? "1" : "0"}">
     <label for="${lfEsc(o.id)}">${lfEsc(o.label)}</label>
     <div class="lf-row"><select class="lf-cc" id="${lfEsc(o.id)}-cc" aria-label="${lfEsc(ctx.t("fd_country"))}">${opts}</select><input class="text lf-in" id="${lfEsc(o.id)}" type="text" inputmode="tel" autocomplete="tel-national" dir="ltr" value="${lfEsc(phoneGroups(r, d, mobile))}"${sample ? ` placeholder="${lfEsc(ownDigits(sample, ctx.lang))}"` : ""} aria-describedby="${lfEsc(o.id)}-msg"${msg ? ` aria-invalid="true"` : ""}></div>
@@ -2015,6 +2036,10 @@ function wireFields(root, ctx) {
         if (!input || !cc)
             return;
         const mobile = box.dataset.mobile !== "0";
+        const fill = () => { if (cc.options.length > 1)
+            return; const keep = cc.value; cc.innerHTML = lfOptions(ctx); cc.value = keep; };
+        for (const ev of ["focus", "pointerdown", "keydown", "touchstart"])
+            cc.addEventListener(ev, fill, { passive: true });
         const run = (raw, submitted) => {
             let country = box.dataset.country;
             const lead = raw.trim(), plus = lead.startsWith("+") || lead.startsWith("00");
