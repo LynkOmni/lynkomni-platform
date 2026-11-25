@@ -36,6 +36,9 @@ def _cat(name):
 
 
 HR, PJ = _cat("hr.v1.json"), _cat("project.v1.json")
+# A published version never reads a later register change: the review kinds version 19 was published with (2026-11-25). Later kinds
+# (lesson_observation, SCHOOL UPDATE 80.15) join version 20 (build_v20.py).
+HR["reviews"]["kinds"] = ["self", "manager", "peer", "upward"]
 
 
 def ev(origins, note, required, props, blueprint="69 SIX SERVICES UPDATE"):

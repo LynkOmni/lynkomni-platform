@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { sniff, nextSigners, requestState, shareOpen, shareDaysOk, formatCode, codeOk, fits, levelPartner } from "../src/files.js";
+import { sniff, nextSigners, signRequestState, shareOpen, shareDaysOk, formatCode, codeOk, fits, levelPartner } from "../src/files.js";
 import { FILES as F } from "../src/files.generated.js";
 
 const root = new URL("../../..", import.meta.url).pathname;
@@ -15,7 +15,7 @@ test("a file's type comes from its bytes and programs are refused, as in the Pyt
 });
 test("signing order, request states and share links agree with the Python reference", () => {
   for (const c of V.next) assert.deepEqual(attempt(() => nextSigners(F, c.o, ["a", "b", "c"], c.signed, c.declined)), c.expect, JSON.stringify(c));
-  for (const c of V.states) assert.equal(requestState(["a", "b", "c"], c.signed, c.declined, c.exp, c.can), c.expect, JSON.stringify(c));
+  for (const c of V.states) assert.equal(signRequestState(["a", "b", "c"], c.signed, c.declined, c.exp, c.can), c.expect, JSON.stringify(c));
   for (const c of V.share) assert.deepEqual(shareOpen(c.link, c.now, c.pw), c.expect, JSON.stringify(c));
   for (const c of V.days) assert.equal(shareDaysOk(F, c.d), c.expect, JSON.stringify(c));
 });

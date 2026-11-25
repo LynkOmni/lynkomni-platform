@@ -250,6 +250,7 @@
  "it_data_sharing": "Data sharing",
  "it_devices": "Devices",
  "it_directory": "Customer list",
+ "it_documents": "Documents & signing",
  "it_drafts": "Drafts",
  "it_evidence_packs": "Evidence packs",
  "it_expenses": "Expenses",
@@ -292,6 +293,7 @@
  "it_payments": "Payments",
  "it_payout_splits": "Payout splits",
  "it_payouts": "Payouts",
+ "it_people": "Staff management",
  "it_period": "Period",
  "it_permissions": "Permissions",
  "it_pickup_point": "Pickup point",
@@ -303,6 +305,7 @@
  "it_products": "Products",
  "it_profit": "Profit",
  "it_profit_loss": "Profit and loss",
+ "it_projects": "Projects",
  "it_protection": "Protection",
  "it_qr": "Shop QR",
  "it_queue": "Queue",
@@ -665,6 +668,7 @@
  "st_share_passport": "Share my business passport",
  "st_share_supplier": "Share sales of a supplier's products with that supplier",
  "st_shop_name": "Business name",
+ "st_staff_till": "Shared staff till: each person signs in with their own PIN",
  "st_sunlight": "Sunlight mode",
  "st_tax_pending": "Tax receipts wait for the tax authority's confirmation",
  "st_tax_rate": "Tax rate",
@@ -782,6 +786,5 @@
  "write_message": "Write a message",
  "wrong_code": "Wrong code. Try again.",
  "your_data_yours": "Your data is yours. Export it at any time.",
- "your_phone": "Your phone number",
- "st_staff_till": "Shared staff till: each person signs in with their own PIN"
+ "your_phone": "Your phone number"
 }

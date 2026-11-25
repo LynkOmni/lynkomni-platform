@@ -2,6 +2,16 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.110.0 (2026-11-25)
+Build section 4B, step 4 of 5: LynkHR, LynkProject and LynkFiles on screen, and the LynkFiles signing tablet.
+- LynkHR (app.lynkomni.com/hr), LynkProject (/project) and LynkFiles (/files) in the browser: 20 pages drawn by one shared part (ts/src/workview.ts) from the real rules: staff records seen by role, leave with balances and clashes shown (never refused), joining and leaving checklists, reviews (peer and upward answers only from 3), pay with a second and a third approver, HR cases, expiring documents; projects, the board, my work, the timeline with the critical path, time sheets billed once, change requests, guests who never see money; files, signing, approval routes, document requests and share links that always end.
+- The same pages inside the Business app: three new hubs, People, Projects and Documents, in the Business tab.
+- The LynkFiles signing tablet (new emulator): the person reads every page, then signs exactly the version they saw with a finger, a stylus or their typed name. Reading works offline; a signature is written only by the cloud, and an identity-checked one only when the licensed partner confirms. The verification code never shows who signed. A free customer screen with no staff PIN.
+- The Emulator Panel lists LynkHR, LynkProject and LynkFiles. Their devices follow each service's own locked units (no new limit or price).
+- Schools: lesson observations (named, always seen by the teacher) and teaching licence reminders in LynkHR.
+- Contract version 20: no new events; the Emulator Panel's events may name the four new emulators, and reviews may be lesson observations. Everything older reads as version 20 unchanged.
+- All new screen text in 38 languages (305 words). Size budgets raised for the Business app, the owner's computer view and pages carrying the emulator register.
+
 ## v0.109.0 (2026-11-25)
 Build section 4B, steps 2 and 3 of 5: LynkHR and LynkProject in the cloud, and everything connected to them.
 - Contract version 19: 29 new events for LynkHR (staff records, joining and leaving steps, leave, reviews, pay changes, payroll figures, HR cases), LynkProject (projects, tasks, waiting, milestones, time, time sheets, billed time, costs, change requests) and LynkFiles (approval routes, document requests). Only the offline steps can come from a device; pay, payroll, billing and decisions are cloud only. No event carries a name, contact or anybody's words.

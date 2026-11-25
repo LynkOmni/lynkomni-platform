@@ -537,11 +537,14 @@
       "4B"
      ],
      "part": "The three, both sides, in the Business app and the browser on every emulator, online and offline; staff figures to payroll in LynkAcc; time and costs to LynkInv; Move in",
-     "done": {},
+     "done": {
+      "4B": "v0.110.0"
+     },
      "progress": {
       "4B": [
        "v0.108.0: LynkHR's and LynkProject's rules (catalog/hr.v1.json and catalog/project.v1.json read by core/hr.py, core/project.py, ts/src/hr.ts and ts/src/project.ts with shared vectors) and their tier features in billing",
-       "v0.109.0: LynkHR and LynkProject in the cloud (services/hr.py, services/projects.py), contract version 19, identifiers LOSTF-, LOPRJ- and LOTSK-, payroll figures to LynkAcc as a draft a second person posts, approved time billed once through LynkInv, project costs to LynkAcc, Move in for staff, leave balances, projects and tasks"
+       "v0.109.0: LynkHR and LynkProject in the cloud (services/hr.py, services/projects.py), contract version 19, identifiers LOSTF-, LOPRJ- and LOTSK-, payroll figures to LynkAcc as a draft a second person posts, approved time billed once through LynkInv, project costs to LynkAcc, Move in for staff, leave balances, projects and tasks",
+       "v0.110.0: the three on screen in the browser (/hr, /project, /files) and the Business app hubs People, Projects and Documents (ts/src/workview.ts), in 38 languages"
       ]
      }
     },
@@ -668,11 +671,15 @@
      ],
      "part": "The panel entry on each office dashboard that needs it; the LynkFiles signing tablet",
      "done": {
-      "4": "v0.91.0"
+      "4": "v0.91.0",
+      "4B": "v0.110.0"
      },
      "progress": {
       "4": [
        "v0.91.0: checked: no office dashboard built in section 4 uses emulators (LynkAcc, LynkInv, LynkCRM and LynkStat are the register's no_panel_services), so section 4 adds no panel entry; LynkFiles' dashboard, its panel entry (/files/emulators) and the signing tablet are built with LynkFiles' screens in 4B (catalog/emulators.v1.json later_services)"
+      ],
+      "4B": [
+       "v0.110.0: the LynkFiles signing tablet (web/emulators/files-signing, files.signing_tablet) and the panel entries hr.people, project.site_phone and files.documents in the Business app"
       ]
      }
     },
@@ -779,7 +786,9 @@
       "4B"
      ],
      "part": "Hire to work, document to record, meeting to action; the LynkFiles, LynkHR and LynkProject automations, assistant actions and messages",
-     "done": {},
+     "done": {
+      "4B": "v0.110.0"
+     },
      "progress": {
       "4B": [
        "v0.109.0: the three journeys hire to work, document to record and meeting to action run end to end (tests/test_journeys_4b.py)",
@@ -880,7 +889,9 @@
       "4B"
      ],
      "part": "Signature request, approval route, document request; leave, joining and leaving, review cycle; task, change request, milestone, time sheet",
-     "done": {},
+     "done": {
+      "4B": "v0.110.0"
+     },
      "progress": {
       "4B": [
        "v0.109.0: the LynkHR, LynkProject and LynkFiles trackers (leave, joining, leaving, review cycle, task, change request, milestone, time sheet, approval route, document request) in the tracking register, their APIs and 38 languages"
@@ -991,7 +1002,14 @@
       "4B"
      ],
      "part": "LynkFiles, LynkHR and LynkProject on the templates",
-     "done": {}
+     "done": {
+      "4B": "v0.110.0"
+     },
+     "progress": {
+      "4B": [
+       "v0.110.0: the three hubs on the list template (catalog/templates.v1.json) and their pages in the service menu's fixed slots (overview, lists, reports, settings)"
+      ]
+     }
     },
     {
      "sections": [
@@ -1090,7 +1108,9 @@
       "4B"
      ],
      "part": "LynkFiles, LynkHR and LynkProject cards",
-     "done": {},
+     "done": {
+      "4B": "v0.110.0"
+     },
      "progress": {
       "4B": [
        "v0.109.0: the LynkFiles, LynkHR and LynkProject cards (document, document request, offer, project update) in the chat register and the card sender, with links hr-chat and project-chat"
@@ -1205,7 +1225,9 @@
       "4B"
      ],
      "part": "LynkFiles, LynkHR and LynkProject skills",
-     "done": {},
+     "done": {
+      "4B": "v0.110.0"
+     },
      "progress": {
       "4B": [
        "v0.109.0: LynkAssist's skills in LynkHR, LynkProject and LynkFiles (services/assist_work.py, 13 actions in the assist register); it never decides about a person"
@@ -1314,7 +1336,14 @@
       "12"
      ],
      "part": "Every new screen built to the rules and passing the checks in its own section; fixed-device locks with each section's Emulator Panel parts",
-     "done": {}
+     "done": {
+      "4B": "v0.110.0"
+     },
+     "progress": {
+      "4B": [
+       "v0.110.0: every new screen (the 20 work pages and the signing tablet) passes the fit guard and the layout and turning checks at every size"
+      ]
+     }
     },
     {
      "sections": [
@@ -1357,7 +1386,9 @@
       "4B"
      ],
      "part": "Joining training and skills records with LynkHR; LynkAssist's training suggestions for new staff, for the manager to confirm (78.19)",
-     "done": {},
+     "done": {
+      "4B": "v0.110.0"
+     },
      "progress": {
       "4B": [
        "v0.109.0: finished training joins the staff skills record with the person's consent (academy-hr) and LynkAssist's training suggestions for new staff, for the manager to confirm"
@@ -1559,7 +1590,14 @@
       "4B"
      ],
      "part": "Lesson observations, appraisal and licence reminders with LynkHR",
-     "done": {}
+     "done": {
+      "4B": "v0.110.0"
+     },
+     "progress": {
+      "4B": [
+       "v0.110.0: lesson observations (named, always seen by the teacher), the appraisal as the manager review and teaching licence reminders in LynkHR's register"
+      ]
+     }
     },
     {
      "sections": [
@@ -1711,7 +1749,14 @@
       "12"
      ],
      "part": "Every new screen built with its skeleton, hints and empty states and passing the checks in its own section (the website and its search pages in 5, help in 6, the customer app in 7, the developer portal and the SDK parts in 11, staff tools in 12)",
-     "done": {}
+     "done": {
+      "4B": "v0.110.0"
+     },
+     "progress": {
+      "4B": [
+       "v0.110.0: every new screen with its sample label, hints, empty states and the shared waiting part"
+      ]
+     }
     },
     {
      "sections": [

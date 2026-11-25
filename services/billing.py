@@ -338,12 +338,12 @@ FEATURES["lynkbet"] = [
 # never counts (core/emulators.py). Extra devices on Plus and Pro: EMULATOR_EXTRA_CENTS; a day pass for events: SERVICE_FEES.
 EMULATOR_LADDER = (1, 2, 5, None)
 EMULATOR_FAMILIES = ("lynkpos", "lynkstock", "lynkrewards", "lynkmpay", "lynkcheckout", "lynkessential", "lynkbooking", "lynkmotion", "lynkguard",
-                     "lynkattend", "lynkqueue", "lynksurvey", "lynkbet")
+                     "lynkattend", "lynkqueue", "lynksurvey", "lynkbet", "lynkhr", "lynkproject", "lynkfiles")   # build section 4B: no new limit, their own locked units
 for _f in EMULATOR_FAMILIES:
     for _i in range(len(MT)):
         if _f == "lynkpos":
             _v = [d["devices"] for d in FEATURES[_f][: _i + 1] if "devices" in d][-1]     # the locked device numbers
-        elif _f in ("lynkattend", "lynkqueue", "lynksurvey", "lynkbooking", "lynkbet"):    # own locked units (places, counters, creators, booking places, betting counters)
+        elif _f in ("lynkattend", "lynkqueue", "lynksurvey", "lynkbooking", "lynkbet", "lynkhr", "lynkproject", "lynkfiles"):    # own locked units (places, counters, creators, booking places, betting counters, staff, members, storage)
             _v = "own_units"
         else:
             _v = EMULATOR_LADDER[_i]

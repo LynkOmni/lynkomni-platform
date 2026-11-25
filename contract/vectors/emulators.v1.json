@@ -34,15 +34,22 @@
   "motion.driver_phone": "lynkmotion",
   "guard.patrol_phone": "lynkguard",
   "guard.gate_post": "lynkguard",
-  "guard.monitoring_wall": null
+  "guard.monitoring_wall": null,
+  "hr.people": "lynkhr",
+  "project.site_phone": "lynkproject",
+  "files.documents": "lynkfiles",
+  "files.signing_tablet": null
  },
  "in_use": {
   "lynkattend": 0,
   "lynkbet": 0,
   "lynkbooking": 0,
+  "lynkfiles": 0,
   "lynkguard": 0,
+  "lynkhr": 0,
   "lynkmotion": 0,
   "lynkpos": 2,
+  "lynkproject": 0,
   "lynkqueue": 0,
   "lynkstock": 0,
   "lynksurvey": 0
@@ -3167,6 +3174,294 @@
       "way": "use_remote_or_keyboard"
      }
     ]
+   }
+  },
+  {
+   "emulator": "hr.people",
+   "caps": {
+    "short_side": 390,
+    "touch": true,
+    "camera": true,
+    "speaker": true,
+    "os": "android"
+   },
+   "result": {
+    "ok": true,
+    "refused": null,
+    "missing": []
+   }
+  },
+  {
+   "emulator": "hr.people",
+   "caps": {
+    "short_side": 1080,
+    "touch": false,
+    "keys": true,
+    "speaker": true,
+    "os": "tv"
+   },
+   "result": {
+    "ok": true,
+    "refused": null,
+    "missing": []
+   }
+  },
+  {
+   "emulator": "hr.people",
+   "caps": {
+    "short_side": 200,
+    "touch": true,
+    "os": "android"
+   },
+   "result": {
+    "ok": false,
+    "refused": "screen_too_small",
+    "missing": []
+   }
+  },
+  {
+   "emulator": "hr.people",
+   "caps": {
+    "short_side": 800,
+    "os": "windows"
+   },
+   "result": {
+    "ok": false,
+    "refused": "no_way_to_use",
+    "missing": []
+   }
+  },
+  {
+   "emulator": "hr.people",
+   "caps": {
+    "short_side": 800,
+    "touch": true,
+    "keys": false,
+    "os": "ios",
+    "hardware": [
+     "scanner"
+    ]
+   },
+   "result": {
+    "ok": true,
+    "refused": null,
+    "missing": []
+   }
+  },
+  {
+   "emulator": "project.site_phone",
+   "caps": {
+    "short_side": 390,
+    "touch": true,
+    "camera": true,
+    "speaker": true,
+    "os": "android"
+   },
+   "result": {
+    "ok": true,
+    "refused": null,
+    "missing": []
+   }
+  },
+  {
+   "emulator": "project.site_phone",
+   "caps": {
+    "short_side": 1080,
+    "touch": false,
+    "keys": true,
+    "speaker": true,
+    "os": "tv"
+   },
+   "result": {
+    "ok": true,
+    "refused": null,
+    "missing": []
+   }
+  },
+  {
+   "emulator": "project.site_phone",
+   "caps": {
+    "short_side": 200,
+    "touch": true,
+    "os": "android"
+   },
+   "result": {
+    "ok": false,
+    "refused": "screen_too_small",
+    "missing": []
+   }
+  },
+  {
+   "emulator": "project.site_phone",
+   "caps": {
+    "short_side": 800,
+    "os": "windows"
+   },
+   "result": {
+    "ok": false,
+    "refused": "no_way_to_use",
+    "missing": []
+   }
+  },
+  {
+   "emulator": "project.site_phone",
+   "caps": {
+    "short_side": 800,
+    "touch": true,
+    "keys": false,
+    "os": "ios",
+    "hardware": [
+     "scanner"
+    ]
+   },
+   "result": {
+    "ok": true,
+    "refused": null,
+    "missing": []
+   }
+  },
+  {
+   "emulator": "files.documents",
+   "caps": {
+    "short_side": 390,
+    "touch": true,
+    "camera": true,
+    "speaker": true,
+    "os": "android"
+   },
+   "result": {
+    "ok": true,
+    "refused": null,
+    "missing": []
+   }
+  },
+  {
+   "emulator": "files.documents",
+   "caps": {
+    "short_side": 1080,
+    "touch": false,
+    "keys": true,
+    "speaker": true,
+    "os": "tv"
+   },
+   "result": {
+    "ok": true,
+    "refused": null,
+    "missing": []
+   }
+  },
+  {
+   "emulator": "files.documents",
+   "caps": {
+    "short_side": 200,
+    "touch": true,
+    "os": "android"
+   },
+   "result": {
+    "ok": false,
+    "refused": "screen_too_small",
+    "missing": []
+   }
+  },
+  {
+   "emulator": "files.documents",
+   "caps": {
+    "short_side": 800,
+    "os": "windows"
+   },
+   "result": {
+    "ok": false,
+    "refused": "no_way_to_use",
+    "missing": []
+   }
+  },
+  {
+   "emulator": "files.documents",
+   "caps": {
+    "short_side": 800,
+    "touch": true,
+    "keys": false,
+    "os": "ios",
+    "hardware": [
+     "scanner"
+    ]
+   },
+   "result": {
+    "ok": true,
+    "refused": null,
+    "missing": []
+   }
+  },
+  {
+   "emulator": "files.signing_tablet",
+   "caps": {
+    "short_side": 390,
+    "touch": true,
+    "camera": true,
+    "speaker": true,
+    "os": "android"
+   },
+   "result": {
+    "ok": false,
+    "refused": "screen_too_small",
+    "missing": []
+   }
+  },
+  {
+   "emulator": "files.signing_tablet",
+   "caps": {
+    "short_side": 1080,
+    "touch": false,
+    "keys": true,
+    "speaker": true,
+    "os": "tv"
+   },
+   "result": {
+    "ok": true,
+    "refused": null,
+    "missing": []
+   }
+  },
+  {
+   "emulator": "files.signing_tablet",
+   "caps": {
+    "short_side": 200,
+    "touch": true,
+    "os": "android"
+   },
+   "result": {
+    "ok": false,
+    "refused": "screen_too_small",
+    "missing": []
+   }
+  },
+  {
+   "emulator": "files.signing_tablet",
+   "caps": {
+    "short_side": 800,
+    "os": "windows"
+   },
+   "result": {
+    "ok": false,
+    "refused": "no_way_to_use",
+    "missing": []
+   }
+  },
+  {
+   "emulator": "files.signing_tablet",
+   "caps": {
+    "short_side": 800,
+    "touch": true,
+    "keys": false,
+    "os": "ios",
+    "hardware": [
+     "scanner"
+    ]
+   },
+   "result": {
+    "ok": true,
+    "refused": null,
+    "missing": []
    }
   }
  ],
@@ -8448,6 +8743,150 @@
    "next": null
   },
   {
+   "family": "lynkfiles",
+   "tier": "free",
+   "extras": 0,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "free",
+   "extras": 1,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "free",
+   "extras": 2,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "free",
+   "extras": 3,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "free",
+   "extras": 6,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "free",
+   "extras": 12,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "plus",
+   "extras": 0,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "plus",
+   "extras": 1,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "plus",
+   "extras": 2,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "plus",
+   "extras": 3,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "plus",
+   "extras": 6,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "plus",
+   "extras": 12,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "pro",
+   "extras": 0,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "pro",
+   "extras": 1,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "pro",
+   "extras": 2,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "pro",
+   "extras": 3,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "pro",
+   "extras": 6,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "pro",
+   "extras": 12,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "max",
+   "extras": 0,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "max",
+   "extras": 1,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "max",
+   "extras": 2,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "max",
+   "extras": 3,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "max",
+   "extras": 6,
+   "next": null
+  },
+  {
+   "family": "lynkfiles",
+   "tier": "max",
+   "extras": 12,
+   "next": null
+  },
+  {
    "family": "lynkguard",
    "tier": "free",
    "extras": 0,
@@ -8592,6 +9031,150 @@
    "next": null
   },
   {
+   "family": "lynkhr",
+   "tier": "free",
+   "extras": 0,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "free",
+   "extras": 1,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "free",
+   "extras": 2,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "free",
+   "extras": 3,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "free",
+   "extras": 6,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "free",
+   "extras": 12,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "plus",
+   "extras": 0,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "plus",
+   "extras": 1,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "plus",
+   "extras": 2,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "plus",
+   "extras": 3,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "plus",
+   "extras": 6,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "plus",
+   "extras": 12,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "pro",
+   "extras": 0,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "pro",
+   "extras": 1,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "pro",
+   "extras": 2,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "pro",
+   "extras": 3,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "pro",
+   "extras": 6,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "pro",
+   "extras": 12,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "max",
+   "extras": 0,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "max",
+   "extras": 1,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "max",
+   "extras": 2,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "max",
+   "extras": 3,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "max",
+   "extras": 6,
+   "next": null
+  },
+  {
+   "family": "lynkhr",
+   "tier": "max",
+   "extras": 12,
+   "next": null
+  },
+  {
    "family": "lynkmotion",
    "tier": "free",
    "extras": 0,
@@ -8875,6 +9458,150 @@
   },
   {
    "family": "lynkpos",
+   "tier": "max",
+   "extras": 12,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "free",
+   "extras": 0,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "free",
+   "extras": 1,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "free",
+   "extras": 2,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "free",
+   "extras": 3,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "free",
+   "extras": 6,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "free",
+   "extras": 12,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "plus",
+   "extras": 0,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "plus",
+   "extras": 1,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "plus",
+   "extras": 2,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "plus",
+   "extras": 3,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "plus",
+   "extras": 6,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "plus",
+   "extras": 12,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "pro",
+   "extras": 0,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "pro",
+   "extras": 1,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "pro",
+   "extras": 2,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "pro",
+   "extras": 3,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "pro",
+   "extras": 6,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "pro",
+   "extras": 12,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "max",
+   "extras": 0,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "max",
+   "extras": 1,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "max",
+   "extras": 2,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "max",
+   "extras": 3,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
+   "tier": "max",
+   "extras": 6,
+   "next": null
+  },
+  {
+   "family": "lynkproject",
    "tier": "max",
    "extras": 12,
    "next": null

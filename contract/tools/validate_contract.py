@@ -40,11 +40,12 @@ REGISTRY_V15 = load("event-payloads.v15.json")
 REGISTRY_V16 = load("event-payloads.v16.json")        # v16 (2026-11-21: the office side of gift cards, deposits, matching and payment costs)
 REGISTRY_V17 = load("event-payloads.v17.json")
 REGISTRY_V18 = load("event-payloads.v18.json")
-REGISTRY = load("event-payloads.v19.json")            # the current version (v19, 2026-11-25: SIX SERVICES UPDATE, LynkHR, LynkProject and LynkFiles flows)
-REGISTRIES = {1: REGISTRY_V1, 2: REGISTRY_V2, 3: REGISTRY_V3, 4: REGISTRY_V4, 5: REGISTRY_V5, 6: REGISTRY_V6, 7: REGISTRY_V7, 8: REGISTRY_V8, 9: REGISTRY_V9, 10: REGISTRY_V10, 11: REGISTRY_V11, 12: REGISTRY_V12, 13: REGISTRY_V13, 14: REGISTRY_V14, 15: REGISTRY_V15, 16: REGISTRY_V16, 17: REGISTRY_V17, 18: REGISTRY_V18, 19: REGISTRY}
+REGISTRY_V19 = load("event-payloads.v19.json")
+REGISTRY = load("event-payloads.v20.json")            # the current version (v20, 2026-11-25: the LynkHR, LynkProject and LynkFiles emulators)
+REGISTRIES = {1: REGISTRY_V1, 2: REGISTRY_V2, 3: REGISTRY_V3, 4: REGISTRY_V4, 5: REGISTRY_V5, 6: REGISTRY_V6, 7: REGISTRY_V7, 8: REGISTRY_V8, 9: REGISTRY_V9, 10: REGISTRY_V10, 11: REGISTRY_V11, 12: REGISTRY_V12, 13: REGISTRY_V13, 14: REGISTRY_V14, 15: REGISTRY_V15, 16: REGISTRY_V16, 17: REGISTRY_V17, 18: REGISTRY_V18, 19: REGISTRY_V19, 20: REGISTRY}
 CURRENCIES = load("currencies.v1.json")["decimals"]
 PERMS = load("permissions.v1.json")
-REGISTER = load("command-policy-register.v19.json")
+REGISTER = load("command-policy-register.v20.json")
 CURRENT_VERSION = max(REGISTRIES)                        # the newest version this validator reads
 STATES = load("state-machines.v1.json")
 CHART = load("chart-of-accounts.v2.json")["accounts"]   # JournalPosted names only accounts of the global chart
@@ -282,7 +283,7 @@ class Device:
         evt = {
             "event_id": uuid7(), "origin": "device", "merchant_id": MERCHANT, "branch_id": BRANCH,
             "device_id": self.id, "actor_user_id": USER, "device_seq": self.seq, "type": etype,
-            "schema_version": 19, "occurred_at_device": ts(at or self.clock), "prev_hash": self.prev,
+            "schema_version": 20, "occurred_at_device": ts(at or self.clock), "prev_hash": self.prev,
             "payload": payload, "signature": fake_sig(),
         }
         self.prev = event_hash(evt)

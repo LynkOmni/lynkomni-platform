@@ -42,7 +42,7 @@ class ContractV17(unittest.TestCase):
         self.assertNotIn("credit", V17["events"]["BetRequested"]["payload"]["properties"]["method"]["enum"])
 
     def test_the_emulator_list_is_the_register(self):
-        self.assertEqual(V17["events"]["EmulatorConnected"]["payload"]["properties"]["emulator"]["enum"], list(E.EMULATORS))
+        self.assertEqual(V17["events"]["EmulatorConnected"]["payload"]["properties"]["emulator"]["enum"], [e for e, x in E.EMULATORS.items() if x.get("contract_since", 7) <= 17])   # a later emulator joins a later version
 
     def test_no_name_contact_id_number_photo_or_position(self):
         fields = {f.lower() for n in NEW for f in V17["events"][n]["payload"]["properties"]}

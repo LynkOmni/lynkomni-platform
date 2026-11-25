@@ -1,0 +1,33 @@
+/* The LynkFiles signing tablet: a tablet on a stand at a counter. An original LynkOmni design; every colour is a design token. */
+.rig .fit { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.tab { inline-size: 700px; max-inline-size: 100%; padding: 18px 18px 26px; border-radius: 22px; background: linear-gradient(160deg, var(--device-shell-edge), var(--device-shell) 40%, var(--device-glass)); position: relative; box-shadow: 0 18px 36px -18px color-mix(in srgb, var(--device-shell) 70%, transparent); }
+.tab .mark { position: absolute; inset-block-end: 6px; inset-inline-start: 50%; inline-size: 14px; margin-inline-start: -7px; color: var(--on-device-key); opacity: .6; }
+.mark svg { inline-size: 100%; block-size: auto; display: block; }
+.tpad { display: flex; justify-content: center; } .tpad:empty { display: none; }
+.tscreen { min-block-size: 440px; border-radius: 8px; padding: 18px; background: var(--bg-base); color: var(--text-primary); font-family: var(--font-body); display: flex; flex-direction: column; gap: 12px; overflow-wrap: anywhere; }
+.tscreen.dark { color-scheme: dark; }
+.tscreen .tbody { display: flex; flex-direction: column; gap: 12px; }
+.tscreen h2 { margin: 0; font: 700 20px/1.3 var(--font-heading); } .tscreen p { margin: 0; line-height: 1.5; } .tscreen .sub { color: var(--text-secondary); font-size: 14px; }
+.tscreen button { font: inherit; }
+.tscreen .primary { min-block-size: var(--touch-target); padding: 8px 18px; border-radius: 12px; border: 0; background: var(--brand-primary); color: var(--on-brand); font-weight: 700; cursor: pointer; }
+.tscreen .ghost { min-block-size: var(--touch-target); padding: 8px 16px; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; }
+.tscreen .primary:disabled, .tscreen .ghost:disabled { opacity: .5; cursor: not-allowed; }
+.tscreen .ghost[aria-pressed="true"] { border: 2px solid var(--brand-primary); background: var(--brand-subtle); }
+.tscreen :focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+.tscreen .acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.tscreen .tag { display: inline-block; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--border-subtle); font-size: 12px; color: var(--text-secondary); background: var(--bg-surface); }
+.tscreen .doc { border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--bg-surface); padding: 14px; display: grid; gap: 8px; max-block-size: 220px; overflow-y: auto; }
+.tscreen .doc h3 { margin: 0; font: 700 15px/1.3 var(--font-heading); }
+.tscreen .tick { display: flex; gap: 10px; align-items: center; min-block-size: var(--touch-target); cursor: pointer; }
+.tscreen .tick input { inline-size: 22px; block-size: 22px; flex: none; }
+.tscreen .padbox { block-size: 160px; border: 2px dashed var(--border-strong); border-radius: 12px; background: var(--bg-surface); touch-action: none; cursor: crosshair; position: relative; }
+.tscreen .padbox svg { inline-size: 100%; block-size: 100%; display: block; } .tscreen .padbox path { fill: none; stroke: var(--text-primary); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.tscreen .padbox .line { position: absolute; inset-inline: 16px; inset-block-end: 34px; border-block-end: 1px solid var(--border-subtle); pointer-events: none; }
+.tscreen .field { display: grid; gap: 4px; } .tscreen .field span { font-weight: 600; font-size: 14px; }
+.tscreen .field input, .tscreen .field select { min-block-size: var(--touch-target); padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: inherit; }
+.tscreen .code { font: 700 26px/1.2 var(--font-heading); letter-spacing: .08em; padding: 10px 14px; border-radius: 10px; background: var(--bg-surface); border: 1px solid var(--border-subtle); justify-self: start; }
+.tscreen .notice { padding: 8px 12px; border-radius: 8px; background: var(--status-warning-bg); border: 1px solid var(--status-warning-border); color: var(--status-warning-text); }
+.tscreen .note { display: flex; gap: 8px; align-items: flex-start; }
+.ic { display: inline-flex; inline-size: 20px; block-size: 20px; flex: none; } .ic svg { inline-size: 100%; block-size: 100%; display: block; } .chip .ic { inline-size: 12px; block-size: 12px; }
+.tscreen .chip { display: inline-flex; gap: 4px; align-items: center; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--border-subtle); font-size: 13px; justify-self: start; align-self: flex-start; }
+@media (max-width: 760px) { .tab { padding: 10px 10px 20px; border-radius: 16px; } .tscreen { min-block-size: 380px; padding: 12px; } }

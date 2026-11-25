@@ -10,7 +10,7 @@ export interface FilesRegister {
   [k: string]: unknown;
 }
 
-const ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";       // the Lynk Alphabet (core/queue_tickets.py)
+const FL_ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";       // the Lynk Alphabet (core/queue_tickets.py)
 const GB = 1024 ** 3;
 const hex = (b: Uint8Array): string => Array.from(b.subarray(0, 16), (x) => x.toString(16).padStart(2, "0")).join("");
 
@@ -31,7 +31,7 @@ export function nextSigners(F: FilesRegister, order: string, signers: readonly s
   return order === "in_order" ? left.slice(0, 1) : left;
 }
 
-export function requestState(signers: readonly string[], signed: readonly string[], declined: readonly string[] = [], expired = false, cancelled = false): string {
+export function signRequestState(signers: readonly string[], signed: readonly string[], declined: readonly string[] = [], expired = false, cancelled = false): string {
   if (cancelled) return "cancelled";
   if (declined.some((d) => signers.includes(d))) return "declined";
   const done = signers.filter((s) => signed.includes(s));
@@ -50,9 +50,9 @@ export function shareOpen(link: { until: number; password_set?: boolean; stopped
 export const shareDaysOk = (F: FilesRegister, days: unknown): boolean => typeof days === "number" && Number.isInteger(days) && days >= 1 && days <= F.sharing.max_days;
 
 export function formatCode(F: FilesRegister, n: bigint): string {
-  const g = F.signing.code_groups, len = F.signing.code_group_length, base = BigInt(ALPHABET.length);
+  const g = F.signing.code_groups, len = F.signing.code_group_length, base = BigInt(FL_ALPHABET.length);
   const chars: string[] = [];
-  for (let i = 0; i < g * len; i++) { chars.push(ALPHABET[Number(n % base)]!); n /= base; }
+  for (let i = 0; i < g * len; i++) { chars.push(FL_ALPHABET[Number(n % base)]!); n /= base; }
   const s = chars.reverse().join("");
   const out: string[] = [];
   for (let i = 0; i < s.length; i += len) out.push(s.slice(i, i + len));
@@ -62,7 +62,7 @@ export function formatCode(F: FilesRegister, n: bigint): string {
 export function codeOk(F: FilesRegister, code: unknown): boolean {
   if (typeof code !== "string") return false;
   const parts = code.toUpperCase().split("-");
-  return parts.length === F.signing.code_groups && parts.every((p) => p.length === F.signing.code_group_length && [...p].every((ch) => ALPHABET.includes(ch)));
+  return parts.length === F.signing.code_groups && parts.every((p) => p.length === F.signing.code_group_length && [...p].every((ch) => FL_ALPHABET.includes(ch)));
 }
 
 export function fits(used: number, add: number, storageGb: number | null, extra100Gb = 0): boolean {
