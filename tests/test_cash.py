@@ -34,6 +34,9 @@ class TestCashEverywhere(unittest.TestCase):
             self.assertTrue(p.get("shown_in"), p["id"])
             for s in p["shown_in"]:
                 src = open(os.path.join(ROOT, "web", "emulators", s["emulator"], "app.ts"), encoding="utf-8").read()
+                if s.get("part"):     # a shared part draws the cash choice: the emulator must import it (section 4 row 66.10)
+                    self.assertIn(os.path.basename(s["part"]).replace(".ts", ".js"), src, f"{p['id']}: {s['emulator']} does not use {s['part']}")
+                    src = open(os.path.join(ROOT, s["part"]), encoding="utf-8").read()
                 self.assertIn(s["marker"], src, f"{p['id']}: no cash choice in {s['emulator']}")
 
     def test_pickup_cash_is_recorded_and_never_waits_for_the_network(self):

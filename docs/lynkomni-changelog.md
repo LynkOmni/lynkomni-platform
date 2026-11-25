@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.107.0 (2026-11-25)
+- Cash everywhere it applies, the two section 4 places (catalog/cash.v1.json):
+  - an invoice paid in person: LynkInv's invoice record now has Cash received (amount, Record cash) in the browser and the Business app; it works offline, is never blocked, joins today's expected cash, and anything over what is owed becomes the customer's credit balance, never income;
+  - paying off the credit book in cash was already built on the Business app, counter tablet and handheld terminal; its register entry now says so.
+- Typed amounts on the office pages (credit notes and cash) are read exactly in whole minor units, never as decimals.
+- Build section 4 (LynkAcc, LynkInv, LynkCRM, LynkStat and LynkOps) is locked: every row of the build tables for section 4 is done, no rule for all services is still due, and every check is green. The showcase marks it locked, and its Business app and owner's computer pages say what section 4 added.
+
 ## v0.106.0 (2026-11-25)
 Section 4 review, nineteenth part (row 66.10, OFFICE UPDATE: LynkAcc, LynkInv and LynkCRM in full in the browser and the Business app; row 66.10 done):
 - 19 more office pages on the owner's computer (app.lynkomni.com/accounting, /invoicing and /crm), drawn by ts/src/officeview.ts from the real rules:

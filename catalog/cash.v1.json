@@ -76,7 +76,19 @@
    "whose_cash": "customer_pays_business",
    "offline": true,
    "build_section": 4,
-   "status": "planned"
+   "status": "built",
+   "shown_in": [
+    {
+     "emulator": "owner-web",
+     "part": "ts/src/officeview.ts",
+     "marker": "act: \"of:docash\""
+    },
+    {
+     "emulator": "merchant-phone",
+     "part": "ts/src/officeview.ts",
+     "marker": "act: \"of:docash\""
+    }
+   ]
   },
   {
    "id": "credit_repayment",
@@ -85,7 +97,21 @@
    "whose_cash": "customer_pays_business",
    "offline": true,
    "build_section": 4,
-   "status": "planned"
+   "status": "built",
+   "shown_in": [
+    {
+     "emulator": "merchant-phone",
+     "marker": "case \"paidcredit\""
+    },
+    {
+     "emulator": "counter-tablet",
+     "marker": "case \"creditpay\""
+    },
+    {
+     "emulator": "pos-terminal",
+     "marker": "case \"credit\": { const c = S.credit[S.selected]"
+    }
+   ]
   },
   {
    "id": "storefront_in_person",
