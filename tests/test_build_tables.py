@@ -71,7 +71,8 @@ class BuildTables(unittest.TestCase):
     def test_the_helpers_agree(self):
         done, work = b.tally("3A")
         self.assertEqual((done, work), (3, 3))
-        self.assertEqual(b.status("4"), "building")
+        self.assertEqual(b.status("4"), "locked")              # locked 25 November 2026 (v0.107.0)
+        self.assertEqual(b.missing("4"), [])
         self.assertEqual(len(b.missing("4")), b.tally("4")[1] - b.tally("4")[0])
 
 

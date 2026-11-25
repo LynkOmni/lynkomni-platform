@@ -18,7 +18,7 @@ import type { InvoicesRegister } from "./invoices.js";
 import { CRM } from "./crm.generated.js";
 import { duplicates, fieldValueOk, forecast, kindsFor, maySee, merge, stageMove, visibleFields } from "./crm.js";
 import { ENTERPRISE } from "./enterprise.generated.js";
-import { moveInCheck, flowSteps, roleProblems, splitCharges } from "./enterprise.js";
+import { moveInCheck, flowSteps, parseAmount, roleProblems, splitCharges } from "./enterprise.js";
 import type { EnterpriseRegister } from "./enterprise.js";
 import type { CrmRegister } from "./crm.js";
 import { STATS } from "./stats.generated.js";
@@ -57,7 +57,7 @@ const ENTRIES: { lines: Line[] }[] = [
   { lines: [["6400", 45000, 0], ["1000", 0, 45000]] },            // phone and internet
 ];
 interface Bill { id: string; supplier: string; total: number; state: string; preparer: string; due: string }
-interface Inv { id: string; number: number; customer: string; total: number; paid: number; credited?: number; state: string; issued: string; due: string; lines: { name: string; qty: number; unit: number }[] }
+interface Inv { id: string; number: number; customer: string; total: number; paid: number; credited?: number; cash?: number; state: string; issued: string; due: string; lines: { name: string; qty: number; unit: number }[] }
 interface Person { id: string; name: string; email?: string; phone?: string; created: string; owner: string; team: string; tags: string[]; consent: boolean }
 interface Deal { id: string; customer: string; amount: number; stage: string }
 
@@ -90,7 +90,7 @@ export class OfficeView {
   draft = { customer: "c1", name: "", qty: "", price: "" };
   merged: { kept: string; gone: string } | null = null;
   measure = "(sales - cost_of_sales) * 100 / sales"; whatif = { price: "10", cost: "0", staff: "0" };
-  issuedNote = ""; crediting = false; credit = { amount: "", reason: "" }; creditNote = "";
+  issuedNote = ""; cash = ""; cashNote = ""; crediting = false; credit = { amount: "", reason: "" }; creditNote = "";
   constructor(private c: OfficeCtx) {}
 
   private t = (k: string, v?: Record<string, string | number>): string => this.c.t(k, v);
@@ -312,6 +312,8 @@ export class OfficeView {
 
   // ---- LynkInv -------------------------------------------------------------------------------------------------------------
   private owed(v: Inv): number { return v.total - v.paid - (v.credited ?? 0); }
+  /** A typed amount in whole minor units, read exactly (enterprise parseAmount; never a float); 0 when it is not an amount. */
+  private minor(text: string): number { const n = parseAmount(text, 2); return n !== null && n > 0 ? n : 0; }
   private open(): { id: string; outstanding: number; due: string }[] { return this.invoices.filter((v) => this.owed(v) > 0).map((v) => ({ id: v.id, outstanding: this.owed(v), due: v.due })); }
   private invOverview(): string {
     const a = ageing(OF_I, this.open(), this.c.today);
@@ -337,14 +339,22 @@ export class OfficeView {
     let body = "";
     if (this.tab === "details") body = `<table class="of-table"><tbody>${v.lines.map((l) => `<tr><td>${ofEsc(this.t(l.name))}</td><td class="of-num">${ofEsc(this.t("of_qty", { n: l.qty / 1000 }))}</td><td class="of-num">${ofEsc(this.c.money(l.unit))}</td></tr>`).join("")}
       <tr class="of-total"><td>${ofEsc(this.t("of_total"))}</td><td></td><td class="of-num">${ofEsc(this.c.money(v.total))}</td></tr><tr><td>${ofEsc(this.t("of_state_paid"))}</td><td></td><td class="of-num">${ofEsc(this.c.money(v.paid))}</td></tr>${v.credited ? `<tr><td>${ofEsc(this.t("of_state_credited"))}</td><td></td><td class="of-num">${ofEsc(this.c.money(v.credited))}</td></tr>` : ""}<tr class="of-total"><td>${ofEsc(this.t("of_still_owed"))}</td><td></td><td class="of-num">${ofEsc(this.c.money(this.owed(v)))}</td></tr></tbody></table>
-      <p class="note">${ofEsc(this.t("of_never_changes"))}</p>${this.crediting ? this.creditForm(v) : ""}${this.creditNote ? `<p class="note" role="status">${ofEsc(this.creditNote)}</p>` : ""}`;
-    else if (this.tab === "activity") body = `<ul class="rows"><li><span>${ofEsc(this.t("of_act_issued", { date: v.issued }))}</span></li>${v.paid ? `<li><span>${ofEsc(this.t("of_act_paid", { amount: this.c.money(v.paid) }))}</span>${this.c.chip("confirmed")}</li>` : ""}</ul>`;
+      <p class="note">${ofEsc(this.t("of_never_changes"))}</p>${this.crediting ? this.creditForm(v) : ""}${this.creditNote ? `<p class="note" role="status">${ofEsc(this.creditNote)}</p>` : ""}${this.owed(v) > 0 && !this.crediting ? this.cashForm() : ""}${this.cashNote}`;
+    else if (this.tab === "activity") body = `<ul class="rows"><li><span>${ofEsc(this.t("of_act_issued", { date: v.issued }))}</span></li>${v.paid ? `<li><span>${ofEsc(this.t("of_act_paid", { amount: this.c.money(v.paid) }))}</span>${this.c.chip("confirmed")}</li>` : ""}${(v.cash ?? 0) > 0 ? `<li><span>${ofEsc(this.t("of_act_cash", { amount: this.c.money(v.cash ?? 0) }))}</span>${this.c.chip("queued")}</li>` : ""}</ul>`;
     else if (this.tab === "files") body = this.empty("of_no_files", "of_back_to_list", "of:back");
     else body = `<ul class="rows"><li><span>${ofEsc(this.custName(v.customer))}</span><button class="link" data-act="of:back">${ofEsc(this.t("of_back_to_list"))}</button></li></ul>`;
     return `${head}${body}`;
   }
+  /** Cash everywhere it applies (catalog/cash.v1.json invoice_in_person): the business records cash paid in person against the invoice.
+   *  It needs no provider and no network, is never blocked, and joins the till's expected cash as PaymentRecorded cash_received;
+   *  more than is owed becomes the customer's credit balance (account 2510), never income. */
+  private cashForm(): string {
+    return `<div class="of-form"><h2>${ofEsc(this.t("of_cash_received"))}</h2><p class="note">${ofEsc(this.t("of_cash_rule"))}</p>
+      <label class="of-field" for="ofCashAmt"><span>${ofEsc(this.t("of_cash_amount"))}</span><input id="ofCashAmt" data-in="of:cash:amount" inputmode="decimal" autocomplete="off" value="${ofEsc(this.cash)}" placeholder="${ofEsc(this.t("of_hint_price"))}"></label>
+      ${saveBarHtml({ label: this.t("of_record_cash"), act: "of:docash", disabled: this.minor(this.cash) <= 0 })}</div>`;
+  }
   private creditForm(v: Inv): string {
-    const amount = Math.round(Number(this.credit.amount || "0") * 100), too = amount > this.owed(v);
+    const amount = this.minor(this.credit.amount), too = amount > this.owed(v);
     return `<div class="of-form"><h2>${ofEsc(this.t("of_credit_note"))}</h2>
       <label class="of-field" for="ofCreditAmt"><span>${ofEsc(this.t("of_credit_amount"))}</span><input id="ofCreditAmt" data-in="of:credit:amount" inputmode="decimal" autocomplete="off" value="${ofEsc(this.credit.amount)}" placeholder="${ofEsc(this.t("of_hint_price"))}"></label>
       <label class="of-field" for="ofCreditWhy"><span>${ofEsc(this.t("of_credit_reason"))}</span><input id="ofCreditWhy" data-in="of:credit:reason" autocomplete="off" value="${ofEsc(this.credit.reason)}" placeholder="${ofEsc(this.t("of_hint_reason"))}"></label>
@@ -463,14 +473,23 @@ export class OfficeView {
     else if (k === "match") { if (!this.matched.includes(v)) this.matched.push(v); }
     else if (k === "close") this.closed = this.closed.includes(v) ? this.closed.filter((x) => x !== v) : [...this.closed, v];
     else if (k === "lock") this.lockAsked = true;
-    else if (k === "inv") { this.record = v; this.tab = "details"; this.crediting = false; this.creditNote = ""; }
+    else if (k === "inv") { this.record = v; this.tab = "details"; this.crediting = false; this.creditNote = ""; this.cash = ""; this.cashNote = ""; }
     else if (k === "person") { this.record = v; this.tab = "details"; }
     else if (k === "tab") this.tab = v === "more" ? "details" : v;
     else if (k === "back") this.record = "";
     else if (k === "creditnote") { this.tab = "details"; this.crediting = true; this.creditNote = ""; }
+    else if (k === "docash") {
+      const v = this.invoices.find((x) => x.id === this.record), amount = this.minor(this.cash);
+      if (v && amount > 0) {                                                       // cash is never blocked; anything over what is owed is the customer's credit
+        const owed = this.owed(v), applied = Math.min(amount, owed), extra = amount - applied;
+        v.paid += applied; v.cash = (v.cash ?? 0) + amount; v.state = this.owed(v) === 0 ? "paid" : "part_paid";
+        this.cashNote = `<p class="note" role="status">${this.c.chip("queued")} ${ofEsc(this.t("of_cash_recorded", { amount: this.c.money(amount) }))}</p>${extra ? `<p class="note">${ofEsc(this.t("of_cash_extra", { amount: this.c.money(extra) }))}</p>` : ""}`;
+        this.cash = "";
+      }
+    }
     else if (k === "creditcancel") { this.crediting = false; this.credit = { amount: "", reason: "" }; }
     else if (k === "docredit") {
-      const v = this.invoices.find((x) => x.id === this.record), amount = Math.round(Number(this.credit.amount || "0") * 100);
+      const v = this.invoices.find((x) => x.id === this.record), amount = this.minor(this.credit.amount);
       if (v && amount > 0 && amount <= this.owed(v) && this.credit.reason.trim()) {        // never more than is still owed, always with a reason
         v.credited = (v.credited ?? 0) + amount; if (this.owed(v) === 0) v.state = v.paid ? "paid" : "credited";
         this.creditNote = this.t("of_credited_note", { amount: this.c.money(amount) }); this.crediting = false; this.credit = { amount: "", reason: "" };
@@ -492,6 +511,7 @@ export class OfficeView {
     else if (k === "measure") this.measure = value;
     else if (k === "whatif") (this.whatif as Record<string, string>)[f] = value;
     else if (k === "credit") (this.credit as Record<string, string>)[f] = value;
+    else if (k === "cash") this.cash = value;
     else if (k === "draft") { const map: Record<string, keyof OfficeView["draft"]> = { ofItem: "name", ofQty: "qty", ofPrice: "price", customer: "customer" }; const m = map[f]; if (m) this.draft[m] = value; }
     return true;
   }
