@@ -10,13 +10,16 @@
 import type { NavRegister } from "./navigation.js";
 import { listToolbarHtml, recordHeaderHtml, saveBarHtml } from "./pagekit.js";
 import { BOOKS, CHART } from "./books.generated.js";
-import { bankMatch, billMove, closeMissing, mayApprove, statements, trialBalance, twoPerson } from "./books.js";
+import { allocate, bankMatch, billMove, budgetVsActual, closeMissing, consolidate, depreciation, mayApprove, revalue, statements, stockCost, taxLine, trialBalance, twoPerson } from "./books.js";
 import type { BooksRegister, Line } from "./books.js";
 import { INVOICES } from "./invoices.generated.js";
-import { ageing, needsApproval, totals } from "./invoices.js";
+import { ageing, creditCheck, docAllowed, instalments, needsApproval, reminderDue, stages, totals, usage } from "./invoices.js";
 import type { InvoicesRegister } from "./invoices.js";
 import { CRM } from "./crm.generated.js";
-import { duplicates, forecast, merge, stageMove, visibleFields } from "./crm.js";
+import { duplicates, fieldValueOk, forecast, kindsFor, maySee, merge, stageMove, visibleFields } from "./crm.js";
+import { ENTERPRISE } from "./enterprise.generated.js";
+import { moveInCheck, flowSteps, roleProblems, splitCharges } from "./enterprise.js";
+import type { EnterpriseRegister } from "./enterprise.js";
 import type { CrmRegister } from "./crm.js";
 import { STATS } from "./stats.generated.js";
 import { cohorts, evaluate, freshness, goal, publicTable, whatIf } from "./stats.js";
@@ -32,13 +35,15 @@ export interface OfficeCtx {
 }
 /** Each service's pages in the register's slots (overview, list, reports, automations, settings); records open from a list. */
 export const OFFICE_PAGES: Record<OfficeService, readonly { id: string; slot: string }[]> = {
-  lynkacc: [{ id: "acc_overview", slot: "overview" }, { id: "acc_bills", slot: "list" }, { id: "acc_bank", slot: "list" }, { id: "acc_close", slot: "reports" }],
-  lynkinv: [{ id: "inv_overview", slot: "overview" }, { id: "inv_list", slot: "list" }, { id: "inv_new", slot: "list" }],
-  lynkcrm: [{ id: "crm_list", slot: "overview" }, { id: "crm_duplicates", slot: "list" }, { id: "crm_pipeline", slot: "reports" }],
+  lynkacc: [{ id: "acc_overview", slot: "overview" }, { id: "acc_bills", slot: "list" }, { id: "acc_claims", slot: "list" }, { id: "acc_assets", slot: "list" }, { id: "acc_bank", slot: "list" },
+    { id: "acc_close", slot: "reports" }, { id: "acc_tax", slot: "reports" }, { id: "acc_currency", slot: "reports" }, { id: "acc_stock", slot: "reports" }, { id: "acc_groups", slot: "reports" },
+    { id: "acc_entity", slot: "settings" }, { id: "ent_flows", slot: "settings" }, { id: "ent_roles", slot: "settings" }, { id: "ent_entities", slot: "settings" }, { id: "ent_movein", slot: "settings" }],
+  lynkinv: [{ id: "inv_overview", slot: "overview" }, { id: "inv_list", slot: "list" }, { id: "inv_new", slot: "list" }, { id: "inv_documents", slot: "list" }, { id: "inv_credit", slot: "reports" }, { id: "inv_ways", slot: "settings" }, { id: "inv_einvoice", slot: "settings" }],
+  lynkcrm: [{ id: "crm_list", slot: "overview" }, { id: "crm_orgs", slot: "list" }, { id: "crm_cases", slot: "list" }, { id: "crm_duplicates", slot: "list" }, { id: "crm_pipeline", slot: "reports" }, { id: "crm_fields", slot: "settings" }, { id: "crm_teams", slot: "settings" }],
   lynkstat: [{ id: "stat_overview", slot: "overview" }, { id: "stat_measures", slot: "list" }, { id: "stat_whatif", slot: "list" }, { id: "stat_cohorts", slot: "reports" }, { id: "stat_public", slot: "settings" }],
 };
 export const OFFICE_PATHS: Record<OfficeService, string> = { lynkacc: "/accounting", lynkinv: "/invoicing", lynkcrm: "/crm", lynkstat: "/analytics" };
-const OF_B = BOOKS as unknown as BooksRegister, OF_I = INVOICES as unknown as InvoicesRegister, OF_C = CRM as unknown as CrmRegister;
+const OF_B = BOOKS as unknown as BooksRegister, OF_I = INVOICES as unknown as InvoicesRegister, OF_C = CRM as unknown as CrmRegister, OF_E = ENTERPRISE as unknown as EnterpriseRegister;
 const ofEsc = (s: string): string => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 // ---- the sample business (labelled Sample on every page) -------------------------------------------------------------------------
@@ -111,6 +116,25 @@ export class OfficeView {
       case "crm_list": return this.crmList();
       case "crm_duplicates": return this.crmDuplicates();
       case "crm_pipeline": return this.crmPipeline();
+      case "acc_claims": return this.accClaims();
+      case "acc_assets": return this.accAssets();
+      case "acc_tax": return this.accTax();
+      case "acc_currency": return this.accCurrency();
+      case "acc_stock": return this.accStock();
+      case "acc_groups": return this.accGroups();
+      case "acc_entity": return this.accEntity();
+      case "ent_flows": return this.entFlows();
+      case "ent_roles": return this.entRoles();
+      case "ent_entities": return this.entEntities();
+      case "ent_movein": return this.entMoveIn();
+      case "inv_documents": return this.invDocuments();
+      case "inv_credit": return this.invCredit();
+      case "inv_ways": return this.invWays();
+      case "inv_einvoice": return this.invEInvoice();
+      case "crm_orgs": return this.crmOrgs();
+      case "crm_cases": return this.crmCases();
+      case "crm_fields": return this.crmFields();
+      case "crm_teams": return this.crmTeams();
       case "stat_overview": return this.statOverview();
       case "stat_measures": return this.statMeasures();
       case "stat_whatif": return this.statWhatIf();
@@ -118,6 +142,128 @@ export class OfficeView {
       case "stat_public": return this.statPublic();
       default: return "";
     }
+  }
+
+
+  // ---- OFFICE UPDATE 66.2 to 66.6 in full (section 4 row 66.10): every page from the real rules, sample data labelled Sample ----
+  claims = [{ id: "cl1", who: "of_sample_staff_1", what: "of_claim_travel", total: 38000, state: "submitted", by: "u-amina" }, { id: "cl2", who: "of_sample_staff_2", what: "of_claim_meal", total: 12500, state: "approved", by: "u-jean" }];
+  entityKind = "business";
+  private head(page: string): string { return `<h1>${ofEsc(this.title(page))}</h1>${this.sample()}`; }
+  private rows(cells: readonly (readonly string[])[], head?: readonly string[]): string {
+    const word = (h: string): string => { const [k = "", n] = h.split(":"); return n === undefined ? this.t(k) : this.t(k, { n: Number(n) }); };
+    // with a header row each cell also carries its column's name, so a narrow screen can show every row as a small card (office.css)
+    return `<table class="of-table${head ? " of-stack" : ""}">${head ? `<thead><tr>${head.map((h) => `<th>${ofEsc(word(h))}</th>`).join("")}</tr></thead>` : ""}<tbody>${cells.map((r) => `<tr>${r.map((c, i) => `<td${i > 0 && /^[-\d]/.test(c) ? ' class="of-num"' : ""}${head?.[i] ? ` data-label="${ofEsc(word(head[i]!))}"` : ""}>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+  }
+  private m(n: number): string { return ofEsc(this.c.money(n)); }
+  private accClaims(): string {
+    const rows = this.claims.map((c) => [ofEsc(this.t(c.who)), ofEsc(this.t(c.what)), this.m(c.total), `${this.c.chip(c.state === "approved" ? "confirmed" : "sent")} ${ofEsc(this.t(`of_claim_${c.state}`))}`,
+      c.state === "submitted" ? (mayApprove(c.by, this.c.user) ? `<button class="primary" data-act="of:claim:${c.id}">${ofEsc(this.t("of_do_approve"))}</button>` : `<span class="of-why">${ofEsc(this.t("of_not_own_bill"))}</span>`) : ""]);
+    return `${this.head("acc_claims")}${this.rows(rows, ["of_col_who", "of_col_what", "of_col_amount", "of_col_state", "of_col_action"])}<p class="note">${ofEsc(this.t("of_claims_rule"))}</p>`;
+  }
+  private accAssets(): string {
+    const cost = 1200000, residual = 200000, years = 4, per = depreciation(cost, residual, years);
+    let left = cost;
+    const rows = per.map((d, i) => { left -= d; return [ofEsc(this.t("of_year_n", { n: i + 1 })), this.m(d), this.m(left)]; });
+    return `${this.head("acc_assets")}<p>${ofEsc(this.t("of_asset_line", { name: this.t("of_sample_asset"), cost: this.c.money(cost), years }))}</p>${this.rows(rows, ["of_col_year", "of_col_charge", "of_col_book_value"])}<p class="note">${ofEsc(this.t("of_assets_rule"))}</p>`;
+  }
+  private accTax(): string {
+    const bp = this.c.taxBp();
+    const line = taxLine(100000, [{ kind: "sales", rate_bp: bp }, { kind: "withholding", rate_bp: 300 }]);
+    const rows = line.taxes.map((x) => [ofEsc(this.t(`of_tax_${x.kind}`)), ofEsc(`${(x.rate_bp / 100).toFixed(2)}%`), this.m(x.amount)]);
+    return `${this.head("acc_tax")}${this.rows([[ofEsc(this.t("of_net")), "", this.m(line.net)], ...rows, [ofEsc(this.t("of_customer_pays")), "", this.m(line.to_pay)]], ["of_col_line", "of_col_rate", "of_col_amount"])}<p class="note">${ofEsc(this.t("of_tax_rule"))}</p>`;
+  }
+  private accCurrency(): string {
+    const r = revalue([{ id: "LOINV-2001", foreign_minor: 10000, booked_minor: 1300000, side: "owed_to_us" }], 135, 1);
+    return `${this.head("acc_currency")}${this.rows([["LOINV-2001", this.m(1300000), this.m(r.items[0]!.new_minor), this.m(r.gain)]], ["of_col_record", "of_col_booked", "of_col_today", "of_col_gain"])}<p class="note">${ofEsc(this.t("of_currency_rule"))}</p>`;
+  }
+  private accStock(): string {
+    const moves = [{ kind: "in" as const, qty: 10000, unit_cost_minor: 1000 }, { kind: "in" as const, qty: 10000, unit_cost_minor: 1200 }, { kind: "out" as const, qty: 12000 }];
+    const rows = ((OF_B as unknown as { stock: { methods: string[] } }).stock.methods).map((mth: string) => { const r = stockCost(moves, mth); return [ofEsc(this.t(`of_stock_${mth}`)), this.m(r.cogs), this.m(r.value)]; });
+    return `${this.head("acc_stock")}${this.rows(rows, ["of_col_method", "of_col_cogs", "of_col_value"])}<p class="note">${ofEsc(this.t("of_stock_rule"))}</p>`;
+  }
+  private accGroups(): string {
+    const split = allocate(300000, [5000, 3000, 2000]);
+    const depts = ["of_dept_shop", "of_dept_kitchen", "of_dept_office"];
+    const bva = budgetVsActual({ of_dept_shop: 160000, of_dept_kitchen: 80000, of_dept_office: 60000 }, { of_dept_shop: split[0]!, of_dept_kitchen: split[1]!, of_dept_office: split[2]! });
+    const rows = depts.map((d) => { const x = bva.find((r) => r.key === d); return [ofEsc(this.t(d)), this.m(x?.budget ?? 0), this.m(x?.actual ?? 0), this.m(x?.diff ?? 0)]; });
+    return `${this.head("acc_groups")}<p>${ofEsc(this.t("of_groups_split", { total: this.c.money(300000) }))}</p>${this.rows(rows, ["of_col_department", "of_col_budget", "of_col_actual", "of_col_difference"])}<p class="note">${ofEsc(this.t("of_groups_rule"))}</p>`;
+  }
+  private accEntity(): string {
+    const kinds = Object.keys(OF_B.entity_tools as Record<string, string[]>);
+    const tools = (OF_B.entity_tools as Record<string, string[]>)[this.entityKind] ?? [];
+    return `${this.head("acc_entity")}<label class="of-field" for="ofEntity"><span>${ofEsc(this.t("of_entity_kind"))}</span><select id="ofEntity" data-in="of:entity">${kinds.map((k) => `<option value="${ofEsc(k)}"${k === this.entityKind ? " selected" : ""}>${ofEsc(this.t(`of_entity_${k}`))}</option>`).join("")}</select></label>
+      <ul class="of-list">${tools.map((x) => `<li>${ofEsc(this.t(`of_tool_${x}`))}</li>`).join("")}</ul><p class="note">${ofEsc(this.t("of_entity_rule"))}</p>`;
+  }
+  private entFlows(): string {
+    const flow = [{ role: "manager", from_minor: 0 }, { role: "accountant", from_minor: 500000 }, { role: "owner", from_minor: 2000000 }];
+    const rows = [100000, 800000, 2500000].map((a) => [this.m(a), flowSteps(OF_E, flow, a).map((st) => ofEsc(this.t(`of_role_${st.role}`))).join(" → ")]);
+    return `${this.head("ent_flows")}${this.rows(rows, ["of_col_amount", "of_col_steps"])}<p class="note">${ofEsc(this.t("of_flows_rule"))}</p>`;
+  }
+  private entRoles(): string {
+    const ok = roleProblems(OF_E, { acc: ["view", "prepare"], inv: ["view"] });
+    const bad = roleProblems(OF_E, { acc: ["view", "prepare", "approve"] });
+    const line = (key: string, probs: readonly unknown[]): string[] => [ofEsc(this.t(key)), `${this.c.chip(probs.length ? "failed" : "confirmed")} ${ofEsc(this.t(probs.length ? "of_role_kept_apart" : "of_role_fine"))}`];
+    return `${this.head("ent_roles")}${this.rows([line("of_role_sample_clerk", ok), line("of_role_sample_both", bad)], ["of_col_role", "of_col_check"])}<p class="note">${ofEsc(this.t("of_roles_rule"))}</p>`;
+  }
+  private entEntities(): string {
+    const a = { id: "e1", tb: { "1000": 900000, "3000": -500000, "4000": -600000, "5000": 200000 }, num: 1, den: 1 };
+    const b = { id: "e2", tb: { "1000": 300000, "3000": -200000, "4000": -150000, "5000": 50000 }, num: 1, den: 1 };
+    const c = consolidate(OF_B, CHART, [a, b]) as { statements?: { profit: number }; profit?: number; combined?: Record<string, number> };
+    const profit = (x: Record<string, number>): number => statements(CHART, x).profit;
+    const charges = splitCharges(90000, { of_dept_shop: 5000, of_dept_kitchen: 3000, of_dept_office: 2000 });
+    return `${this.head("ent_entities")}${this.rows([[ofEsc(this.t("of_entity_main")), this.m(profit(a.tb))], [ofEsc(this.t("of_entity_branch")), this.m(profit(b.tb))], [`<strong>${ofEsc(this.t("of_entity_group"))}</strong>`, this.m(c.combined ? profit(c.combined) : profit(a.tb) + profit(b.tb))]], ["of_col_entity", "of_col_profit"])}
+      <h2>${ofEsc(this.t("of_charges"))}</h2>${this.rows(Object.entries(charges).map(([d, v]) => [ofEsc(this.t(d)), this.m(v)]), ["of_col_department", "of_col_amount"])}<p class="note">${ofEsc(this.t("of_entities_rule"))}</p>`;
+  }
+  private entMoveIn(): string {
+    const r = moveInCheck(OF_E, "customers", ["ref", "name", "email"], [["C1", "of_sample_customer_1", "a@example.com"], ["C1", "of_sample_customer_2", ""], ["C3", "", ""]]) as { ok: boolean; count: number; errors: { row: number; column: string; issue: string }[] };
+    const rows = r.errors.map((e) => [String(e.row), ofEsc(e.column), ofEsc(this.t(`of_issue_${e.issue}`))]);
+    return `${this.head("ent_movein")}<p>${this.c.chip(r.ok ? "confirmed" : "failed")} ${ofEsc(this.t(r.ok ? "of_movein_ok" : "of_movein_errors", { n: r.errors.length, rows: r.count }))}</p>${this.rows(rows, ["of_col_row", "of_col_column", "of_col_problem"])}<p class="note">${ofEsc(this.t("of_movein_rule"))}</p>`;
+  }
+  private invDocuments(): string {
+    const docs = Object.keys(OF_I.documents);
+    const rows = docs.map((d) => { const ok = docAllowed(OF_I, d, null); return [ofEsc(this.t(`of_doc_${d}`)), `${this.c.chip(ok ? "confirmed" : "queued")} ${ofEsc(this.t(ok ? "of_doc_ready" : "of_doc_country"))}`]; });
+    return `${this.head("inv_documents")}${this.rows(rows, ["of_col_document", "of_col_state"])}<p class="note">${ofEsc(this.t("of_documents_rule"))}</p>`;
+  }
+  private invCredit(): string {
+    const open = this.invoices.filter((i) => i.total > i.paid).map((i) => ({ id: i.id, due: i.due, outstanding: i.total - i.paid }));
+    const ag = ageing(OF_I, open, this.c.today);
+    const cc = creditCheck(500000, 320000, 250000) as { warn: boolean; over_by: number };
+    const rem = open.map((o) => [ofEsc(o.id), this.m(o.outstanding), ofEsc(this.t(`of_reminder_${String(reminderDue(OF_I, o.due, this.c.today) ?? "none")}`))]);
+    return `${this.head("inv_credit")}${this.rows(OF_I.ageing.buckets.map((b) => [ofEsc(this.t(`of_bucket_${b.id}`)), this.m(ag.totals[b.id] ?? 0)]), ["of_col_bucket", "of_col_amount"])}
+      ${this.rows(rem, ["of_col_record", "of_col_amount", "of_col_reminder"])}<p class="of-why">${ofEsc(this.t(cc.warn ? "of_credit_warn" : "of_credit_ok", { over: this.c.money(cc.over_by) }))}</p><p class="note">${ofEsc(this.t("of_credit_rule"))}</p>`;
+  }
+  private invWays(): string {
+    const ins = instalments(OF_I, 300000, 3, this.c.today) as { date: string; amount: number }[];
+    const st = stages(900000, [3000, 4000, 3000]);
+    const use = usage(1500, [{ up_to: 1000, unit_minor: 100 }, { up_to: null, unit_minor: 80 }]);
+    return `${this.head("inv_ways")}<h2>${ofEsc(this.t("of_way_instalments"))}</h2>${this.rows(ins.map((x) => [ofEsc(x.date), this.m(x.amount)]), ["of_col_date", "of_col_amount"])}
+      <h2>${ofEsc(this.t("of_way_stages"))}</h2>${this.rows(st.map((v, i) => [ofEsc(this.t("of_stage_n", { n: i + 1 })), this.m(v)]), ["of_col_stage", "of_col_amount"])}
+      <h2>${ofEsc(this.t("of_way_usage"))}</h2><p>${ofEsc(this.t("of_usage_line", { amount: this.c.money(use) }))}</p><p class="note">${ofEsc(this.t("of_ways_rule"))}</p>`;
+  }
+  private invEInvoice(): string {
+    return `${this.head("inv_einvoice")}<p>${this.c.chip("queued")} ${ofEsc(this.t("of_einvoice_off"))}</p><p class="note">${ofEsc(this.t("of_einvoice_rule"))}</p>`;
+  }
+  private crmOrgs(): string {
+    const kinds = kindsFor(OF_C, this.entityKind) as string[];
+    const rels = (OF_C.relations as { kinds: string[] }).kinds;
+    return `${this.head("crm_orgs")}<h2>${ofEsc(this.t("of_record_kinds"))}</h2><ul class="of-list">${kinds.map((k) => `<li>${ofEsc(this.t(`of_kind_${k}`))}</li>`).join("")}</ul>
+      <h2>${ofEsc(this.t("of_relations"))}</h2><ul class="of-list">${rels.filter((r) => r !== "guardian_of").map((r) => `<li>${ofEsc(this.t(`of_rel_${r}`))}</li>`).join("")}</ul><p class="note">${ofEsc(this.t("of_orgs_rule"))}</p>`;
+  }
+  private crmCases(): string {
+    const pr = (OF_C.cases as { priorities: Record<string, number> }).priorities;
+    const cases = [{ id: "LOCASE-1001", p: "high", age: 10 }, { id: "LOCASE-1002", p: "normal", age: 30 }, { id: "LOCASE-1003", p: "urgent", age: 1 }];
+    const rows = cases.map((c) => { const late = c.age > (pr[c.p] ?? 24); return [ofEsc(c.id), ofEsc(this.t(`of_prio_${c.p}`)), ofEsc(this.t("of_hours", { n: pr[c.p] ?? 24 })), `${this.c.chip(late ? "failed" : "sent")} ${ofEsc(this.t(late ? "of_case_late" : "of_case_on_time"))}`]; });
+    return `${this.head("crm_cases")}${this.rows(rows, ["of_col_case", "of_col_priority", "of_col_promise", "of_col_state"])}<p class="note">${ofEsc(this.t("of_cases_rule"))}</p>`;
+  }
+  private crmFields(): string {
+    const fields: [string, string, unknown][] = [["of_field_birthday", "date", "2026-02-30"], ["of_field_size", "choice", "M"], ["of_field_deposit", "money", 12.5], ["of_field_members", "number", 4]];
+    const rows = fields.map(([n, ty, v]) => [ofEsc(this.t(n)), ofEsc(this.t(`of_ftype_${ty}`)), ofEsc(String(v)), `${this.c.chip(fieldValueOk(ty, v) ? "confirmed" : "failed")} ${ofEsc(this.t(fieldValueOk(ty, v) ? "of_field_ok" : "of_field_bad"))}`]);
+    return `${this.head("crm_fields")}${this.rows(rows, ["of_col_field", "of_col_type", "of_col_value", "of_col_check"])}<p class="note">${ofEsc(this.t("of_fields_rule"))}</p>`;
+  }
+  private crmTeams(): string {
+    const viewers = [{ key: "of_role_owner", v: { user: "u-owner", role: "owner", team: null } }, { key: "of_role_manager", v: { user: "u-mgr", role: "manager", team: "north" } }, { key: "of_role_staff", v: { user: "u-jean", role: "staff", team: "south" } }];
+    const rows = viewers.map((x) => [ofEsc(this.t(x.key)), String(this.people.filter((p) => maySee(OF_C, x.v as never, { owner: p.owner, team: p.team })).length)]);
+    return `${this.head("crm_teams")}${this.rows(rows, ["of_col_role", "of_col_sees"])}<p class="note">${ofEsc(this.t("of_teams_rule"))}</p>`;
   }
 
   // ---- LynkAcc -------------------------------------------------------------------------------------------------------------
@@ -296,13 +442,12 @@ export class OfficeView {
     const rows = cohorts(STATS, buys);
     const width = Math.max(0, ...rows.map((r) => r.back.length));
     return `<h1>${ofEsc(this.title("stat_cohorts"))}</h1>${this.sample()}<p class="note">${ofEsc(this.t("of_cohorts_rule"))}</p>
-      <table class="of-table"><thead><tr><th>${ofEsc(this.t("of_first_month"))}</th><th class="of-num">${ofEsc(this.t("of_page_crm_list"))}</th>${Array.from({ length: width }, (_, i) => `<th class="of-num">${ofEsc(this.t("of_month_n", { n: i + 1 }))}</th>`).join("")}</tr></thead>
-      <tbody>${rows.map((r) => `<tr><td>${ofEsc(r.month)}</td><td class="of-num">${r.size}</td>${Array.from({ length: width }, (_, i) => `<td class="of-num">${i < r.back.length ? r.back[i] : ""}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+      ${this.rows(rows.map((r) => [ofEsc(r.month), String(r.size), ...Array.from({ length: width }, (_, i) => (i < r.back.length ? String(r.back[i]) : ""))]), ["of_first_month", "of_page_crm_list", ...Array.from({ length: width }, (_, i) => `of_month_n:${i + 1}`)])}`;
   }
   private statPublic(): string {
     const rows = publicTable(STATS, [{ group: "of_region_north", n: 42, value: 1250 }, { group: "of_region_south", n: 3, value: 90 }, { group: "of_region_east", n: 17, value: 610 }]);
     return `<h1>${ofEsc(this.title("stat_public"))}</h1>${this.sample()}<p class="note">${ofEsc(this.t("of_public_rule", { n: STATS.public.min_group }))}</p>
-      <table class="of-table"><thead><tr><th>${ofEsc(this.t("of_group"))}</th><th class="of-num">${ofEsc(this.t("of_people"))}</th><th class="of-num">${ofEsc(this.t("of_total"))}</th></tr></thead><tbody>${rows.map((r) => `<tr><td>${ofEsc(this.t(r.group))}</td><td class="of-num">${r.n === null ? ofEsc(this.t("of_hidden")) : r.n}</td><td class="of-num">${r.value === null ? ofEsc(this.t("of_hidden")) : r.value}</td></tr>`).join("")}</tbody></table>`;
+      ${this.rows(rows.map((r) => [ofEsc(this.t(r.group)), r.n === null ? ofEsc(this.t("of_hidden")) : String(r.n), r.value === null ? ofEsc(this.t("of_hidden")) : String(r.value)]), ["of_group", "of_people", "of_total"])}`;
   }
 
   // ---- acting ----------------------------------------------------------------------------------------------------------------
@@ -310,7 +455,8 @@ export class OfficeView {
   act(a: string): boolean {
     if (!a.startsWith("of:")) return false;
     const [, k = "", v = "", w = ""] = a.split(":");
-    if (k === "billfilter") this.billFilter = v;
+    if (k === "claim") { const c = this.claims.find((x) => x.id === v); if (c && c.state === "submitted" && mayApprove(c.by, this.c.user)) c.state = "approved"; }
+    else if (k === "billfilter") this.billFilter = v;
     else if (k === "invfilter") this.invFilter = v;
     else if (k === "crmfilter") this.crmFilter = v;
     else if (k === "bill") { const b = this.bills.find((x) => x.id === v); if (b) { if (w === "approve" && !mayApprove(b.preparer, this.c.user)) return true; const to = billMove(OF_B, b.state, w); if (to) b.state = to === "paid" ? "approved" : to; if (to === "paid") this.issuedNote = this.t("of_paid_when_confirmed"); } }
@@ -341,6 +487,7 @@ export class OfficeView {
   input(key: string, value: string): boolean {
     if (!key.startsWith("of:")) return false;
     const [, k = "", f = ""] = key.split(":");
+    if (k === "entity") { this.entityKind = value; return true; }
     if (k === "lock") this.lockDate = value;
     else if (k === "measure") this.measure = value;
     else if (k === "whatif") (this.whatif as Record<string, string>)[f] = value;

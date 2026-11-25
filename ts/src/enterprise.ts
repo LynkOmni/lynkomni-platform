@@ -19,7 +19,7 @@ export function flowSteps(E: EnterpriseRegister, flow: readonly Step[], amount: 
   if (flow.length > E.approval_flows.max_steps) throw new Error("too many steps");
   return flow.filter((s) => amount >= (s.from_minor ?? 0) && (s.department == null || s.department === department));
 }
-export function mayApprove(steps: readonly Step[], approvals: readonly { who: string }[], preparer: string, who: string, role: string, mainAway = false): { ok: boolean; why: string } {
+export function flowMayApprove(steps: readonly Step[], approvals: readonly { who: string }[], preparer: string, who: string, role: string, mainAway = false): { ok: boolean; why: string } {
   const n = approvals.length;
   if (n >= steps.length) return { ok: false, why: "no_step_left" };
   if (who === preparer) return { ok: false, why: "preparer" };
@@ -89,7 +89,7 @@ export function parseDate(text: unknown, fmt = "iso"): string | null {
   return fmt === "day_first" ? realDate(y, b, a) : realDate(y, a, b);
 }
 export interface CheckError { row: number; column: string; issue: string }
-export function check(E: EnterpriseRegister, kind: string, header: readonly string[], rows: readonly (readonly unknown[])[], decimals = 2, dateFormat = "iso",
+export function moveInCheck(E: EnterpriseRegister, kind: string, header: readonly string[], rows: readonly (readonly unknown[])[], decimals = 2, dateFormat = "iso",
   known: Record<string, readonly string[]> | null = null, accounts: readonly string[] | null = null) {
   const spec = E.move_in.kinds[kind]!;
   const errors: CheckError[] = [];

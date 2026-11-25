@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.106.0 (2026-11-25)
+Section 4 review, nineteenth part (row 66.10, OFFICE UPDATE: LynkAcc, LynkInv and LynkCRM in full in the browser and the Business app; row 66.10 done):
+- 19 more office pages on the owner's computer (app.lynkomni.com/accounting, /invoicing and /crm), drawn by ts/src/officeview.ts from the real rules:
+  - LynkAcc: expense claims (the asker never approves their own), assets with the yearly wear, departments and projects with budgets and shared costs split exactly, taxes (several on a line, withheld tax), stock value, currencies, the tools for each kind of entity, many entities with the group total, approval flows, own roles (only ever less than the owner) and Move in with its check report;
+  - LynkInv: document kinds, ways to bill (instalments, stages, billing by use), collection with stepped reminders and the credit warning (never a block), and e-invoices ("Coming to your country soon." until the network is signed);
+  - LynkCRM: record kinds per entity, relations, own fields, teams and cases with promised reply times.
+- The same pages inside the Business app on a phone: Business, then Books, Invoicing, Customers or Reports, then a page button. On a narrow screen each table row becomes a small card with its column names, so nothing is cut or squeezed. Row 66.10 is done.
+- Their words in all 38 languages (web/office). The size budgets of the owner's computer view and the Business app are raised with the reason.
+
 ## v0.105.1 (2026-11-25)
 - The owner approved the waiting brand-sync and icon release runs; the to-do "approve bot workflow runs" is marked done in providers/registry.v1.json and removed from the REMINDER (item 16).
 

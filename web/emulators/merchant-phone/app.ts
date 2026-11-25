@@ -69,6 +69,8 @@ import { sharedMay, sharedBaseRole } from "../../../ts/src/shared.js";
 import type { LaLook } from "../../../ts/src/assistview.js";
 import { watchNames, namesChoice, namesAct, nameById, nameOpened, welcomeCard, welcomeAct, forFamily } from "../../../ts/src/names.js";
 import { NAME_INFO_KEYS } from "../../../ts/src/nameinfo.js";
+import { OFFICE_PAGES, OfficeView } from "../../../ts/src/officeview.js";
+import type { OfficeService } from "../../../ts/src/officeview.js";
 
 interface BuildData {
   people: { attend: Record<AtTier, AtPlan>; queue: Record<AtTier, QuPlan>; survey: Record<AtTier, SvPlan> };
@@ -93,6 +95,7 @@ interface BuildData {
   consentLinks: ConsentLink[];
   /** LynkAssist's questions a month by tier, from billing FEATURES (null: no limit) */
   assistLimits: Record<string, number | null>;
+  taxBp: Record<string, number>;
   /** who the app is for (catalog/workspaces.v1.json): a person, a company or an organisation */
   workspaces: Workspaces;
 }
@@ -1453,6 +1456,16 @@ function shvPlans(): string {
     return { family, tier, limits: Object.entries(lim).map(([key, limit]) => ({ key, limit, used: key === "customers" ? 37 : 12 })) }; });
   return plansLimitsHtml(rows, shvLook());
 }
+// ---- LynkAcc, LynkInv, LynkCRM and LynkStat in the Business app (section 4 row 66.10): the same office pages as the browser, drawn by ts/src/officeview.ts ----
+const OF_HUB: Record<string, OfficeService> = { books: "lynkacc", invoicing: "lynkinv", customers: "lynkcrm", reports: "lynkstat" };
+const OV = new OfficeView({ t, money, icon, chip, nav: NAV, role: "owner", user: "u-owner", today: "2026-11-20", taxBp: () => DATA.taxBp[S.country] ?? 0 });
+let OFP = "";                                       // the office page open inside its hub
+const ofCurrent = (svc: OfficeService): string => (OFFICE_PAGES[svc].some((p) => p.id === OFP) ? OFP : OFFICE_PAGES[svc][0]!.id);
+function officeHub(id: string, svc: OfficeService): string {
+  const cur = ofCurrent(svc);
+  const menu = `<div class="pk-chips of-pages" role="group" aria-label="${esc(t("it_" + id))}">${OFFICE_PAGES[svc].map((p) => `<button class="pk-chip" data-act="page:${esc(p.id)}" aria-pressed="${p.id === cur}">${esc(OV.title(p.id))}</button>`).join("")}</div>`;
+  return `${menu}<div class="of-phone">${OV.draw(svc, cur)}</div>`;
+}
 function hubBody(id: string): string {
   const reg = DATA.screens.find((s) => s.id === id); if (!reg) return "";
   if ((SHARED_PAGES as readonly string[]).includes(id)) { SHV.role = S.role === "owner" ? "owner" : S.role === "manager" ? "manager" : "staff";
@@ -1469,7 +1482,7 @@ function hubBody(id: string): string {
   let extra = "";
   switch (id) {
     case "daily_close": extra = `<p class="sub">${esc(t("daily_close_help"))}</p><button class="primary inline" data-act="closeday">${esc(t("close_day"))}</button>`; break;
-    case "reports": case "invoicing": case "customers": case "books": extra = `<p class="sub">${esc(t("full_pages_web", { path: reg.path }))}</p>`; break;
+    case "reports": case "invoicing": case "customers": case "books": extra = officeHub(id, OF_HUB[id]!); break;
     case "assistant": extra = `<label class="field"><span>${esc(t("it_ask"))}</span><input id="askIn" data-in="ask" value="${esc(S.ask)}" autocomplete="off" placeholder="${esc(t("hint_ask"))}" aria-label="${esc(t("it_ask"))}"></label><button class="ghost inline" data-act="ask">${esc(t("send"))}</button>
       ${S.answer ? laSalesAnswer() : ""}<p class="sub">${esc(t("assist_never"))}</p>${laPreview()}${m3Assistant()}${laControls()}`; break;
     case "cards": extra = `<p class="sub">${esc(t("cards_issuer"))}</p>${m3Cards()}`; break;
@@ -1849,6 +1862,8 @@ function act(a: string): void {
   const [k, v = ""] = a.split(/:(.*)/s);
   if (S.screen === "app" && staffTill() && GATE.limited && duressBlocks(k ?? "", v)) return;   // the quiet duress view only sells for cash
   if (sharedAct(SHV, a)) { draw(); return; }                      // the shared pages (CONNECT UPDATE 71.3)
+  if (k === "page" && S.view === "hub" && OF_HUB[S.hub]) { OFP = v; OV.reset(); draw(); return; }   // an office page inside its hub
+  if (k === "of" && OV.act(a)) { if (a.startsWith("of:go:")) { OFP = a.slice(6); OV.reset(); } draw(); return; }
   if (namesAct(a, "nmc", "device")) { draw(); return; }   // the owner's choice of how names show on this device
   if (welcomeAct(a, "nmw")) { draw(); return; }           // the first-time welcome card closed: never again on this device
   if (a === "qc") { S.qc = true; draw(); return; }
@@ -2028,9 +2043,13 @@ function act(a: string): void {
 }
 
 // ---- controls beside the phone ---------------------------------------------------------------------------------------
+/** Typing in an office field keeps the caret where it was after the page is drawn again. */
+function keepOf(id: string): void { if (!id) return; const el = document.getElementById(id) as HTMLInputElement | null; if (el) { const n = el.value.length; el.focus(); try { el.setSelectionRange(n, n); } catch { /* not a text field */ } } }
 function onInput(el: HTMLInputElement): void {
   const k = el.dataset["in"] ?? "", digits = (n: number): string => el.value.replace(/\D/g, "").slice(0, n);
   if (k === "la:remember") { LA.draft = el.value.slice(0, 200); return; }
+  if (el.id === "ofSearch") { OV.search(el.value); draw(); keepOf(el.id); return; }
+  if (k.startsWith("of:")) { if (el.tagName !== "SELECT" && OV.input(k, el.value)) { draw(); keepOf(el.id); } return; }
   if (k.startsWith("shv:")) { if (el.tagName !== "SELECT" && sharedInput(SHV, k, el.value)) draw(); return; }   // the message pages (CONNECT UPDATE 71.7)
   if (k.startsWith("at:")) { if (el.tagName !== "SELECT" && PH.att.input(k, el.value)) draw(); return; }
   if (k.startsWith("qu:")) { if (el.tagName !== "SELECT" && PH.q.input(k, el.value)) draw(); return; }
@@ -2073,6 +2092,7 @@ function onChange(el: HTMLInputElement & HTMLSelectElement): void {
   if ((el.dataset["act"] ?? "") === "ppl:checker") { PH.pickChecker(el.value); draw(); return; }
   if (k === "la:brief") { AX.brief = (el as HTMLInputElement).checked; draw(); return; }
   if (k.startsWith("shv:")) { if (el.tagName === "SELECT" && sharedInput(SHV, k, el.value)) draw(); return; }
+  if (k.startsWith("of:")) { if (el.tagName === "SELECT" && OV.input(k, el.value)) draw(); return; }
   if (k.startsWith("la:")) { if (k !== "la:remember") laChange(k, el); return; }
   if (k.startsWith("at:")) { if (el.tagName === "SELECT") { PH.att.input(k, el.value); draw(); } return; }
   if (k.startsWith("qu:")) { if (el.tagName === "SELECT") { PH.q.input(k, el.value); draw(); } return; }
@@ -2115,6 +2135,10 @@ function go(id: string): void {
     if (id === "shift" && !S.shift) { S.input = "0"; openShift(); S.flash = ""; }
     if (id === "practice") S.practice = true;
   } else if (id in stockV) { S.btype = "shop"; S.tab = "stock"; S.view = stockV[id] as View; if (id === "product") S.product = CATALOG[0]?.id ?? ""; }
+  else if (Object.values(OFFICE_PAGES).some((ps) => ps.some((p) => p.id === id))) {   // an office page opens inside its hub
+    const svc = (Object.keys(OFFICE_PAGES) as OfficeService[]).find((x) => OFFICE_PAGES[x].some((p) => p.id === id))!;
+    S.tab = "business"; S.view = "hub"; S.hub = Object.keys(OF_HUB).find((h) => OF_HUB[h] === svc)!; OFP = id; OV.reset();
+  }
   else if (id === "home") { S.tab = "home"; S.view = "main"; }
   else if (id === "chats") { S.tab = "chats"; S.view = "main"; }
   else if (id === "thread") { S.tab = "chats"; S.thread = S.threads[1]?.id ?? ""; S.view = "thread"; }
