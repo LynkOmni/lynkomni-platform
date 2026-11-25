@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-CWnXCLPO8TQWUvv5I9AiFgrUguAX4w55uTXr4jPYaBw='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-Vq4Hsp1pAebAUlKOi3Iu0mo3VJ1SrzaixfVWXum02TA='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkBet Betting Counter</title>
 <meta name="description" content="Interactive emulator of the LynkBet Betting Counter on LynkPOS: take a bet for a licensed operator, print its ticket, scan a ticket to check it, pay a small win from the drawer and refer a big win to head office.">
@@ -3889,6 +3889,9 @@ class StaffLock {
         return n;
     }
 }
+function staffWhoRow(name, role, t, icon) {
+    return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(name)} · ${esc(t(`role_${role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
+}
 class StaffGate {
     lock;
     h;
@@ -3931,7 +3934,7 @@ class StaffGate {
         const { t, icon } = this.h, me = this.me();
         if (!me)
             return this.optional ? `<div class="dk-whorow"><button type="button" class="dk-link" data-act="gate:signin">${icon("ui-user")}<span>${esc(t("dk_sign_in"))}</span></button></div>` : "";
-        return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(me.name)} · ${esc(t(`role_${me.role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
+        return staffWhoRow(me.name, me.role, t, icon);
     }
     lockNow(idle = false) {
         this.signed = false;
@@ -5511,7 +5514,7 @@ const choices = (label, items, cur, act_, word) => `<div class="bchips" role="gr
 const canTakeBets = () => signed() && (S.online || S.offlineSlips);
 function whoRow() {
     const me = STAFF.find(S.who);
-    return `<div class="bwho"><span>${icon("ui-user")}<span>${esc(me?.name ?? "")} · ${esc(t(`role_${me?.role ?? "cashier"}`))}</span></span><button type="button" class="ghost" data-act="lockcounter">${icon("ui-lock")} ${esc(t("bt_lock_counter"))}</button></div>`;
+    return staffWhoRow(me?.name ?? "", me?.role ?? "cashier", t, (id) => icon(id)); // the same row with Lock on every staff device
 }
 function home() {
     if (S.limited)
@@ -6034,7 +6037,7 @@ function act(a) {
     S.lastInput = Date.now();
     if (signInAct(k, x, y))
         return;
-    if (k === "lockcounter") {
+    if (k === "lockcounter" || a === "gate:lock") {
         lockCounter(false);
         return;
     }

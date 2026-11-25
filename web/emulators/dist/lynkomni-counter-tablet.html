@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-prJkd2MAfVs8cElqjZKOb0TzZFqwdFqVUDLX94FGbl0='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-9ojZtPt6UvN0WDkInkqTffywpo9mO8Qbh0sc6l9jgUQ='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkPOS on LynkTab</title>
 <meta name="description" content="Interactive emulator of the LynkPOS counter till: a tablet on a stand with a customer-facing display, printer, scanner, cash drawer and card tap area. Real sale rules, sandbox partners.">
@@ -4084,6 +4084,9 @@ class StaffLock {
         return n;
     }
 }
+function staffWhoRow(name, role, t, icon) {
+    return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(name)} · ${esc(t(`role_${role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
+}
 class StaffGate {
     lock;
     h;
@@ -4126,7 +4129,7 @@ class StaffGate {
         const { t, icon } = this.h, me = this.me();
         if (!me)
             return this.optional ? `<div class="dk-whorow"><button type="button" class="dk-link" data-act="gate:signin">${icon("ui-user")}<span>${esc(t("dk_sign_in"))}</span></button></div>` : "";
-        return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(me.name)} · ${esc(t(`role_${me.role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
+        return staffWhoRow(me.name, me.role, t, icon);
     }
     lockNow(idle = false) {
         this.signed = false;
@@ -6047,6 +6050,11 @@ function lockedScreen() {
 function page() {
     if (!S.unlocked)
         return lockedScreen();
+    const me = STAFF.find(WHO);
+    return (me ? staffWhoRow(me.name, me.role, t, (id) => icon(id)) : "") + unlockedPage(); // who is serving, with Lock (owner, 2026-11-25)
+}
+function lockNow() { S.unlocked = false; S.view = "locked"; S.pin = ""; PINNOTE = ""; LOG.emit("DeviceLocked", { device_id: "tablet", after_s: 0 }, "device", "accepted"); }
+function unlockedPage() {
     switch (S.view) {
         case "pay": return payScreen();
         case "cash": return cashScreen();
@@ -6151,6 +6159,11 @@ function act(a) {
                     LINES = raiseLocal(LINES, "device_hard_locked", t("dk_hard_locked"), Date.now());
             }
         }
+        draw();
+        return;
+    }
+    if (a === "gate:lock") {
+        lockNow();
         draw();
         return;
     }

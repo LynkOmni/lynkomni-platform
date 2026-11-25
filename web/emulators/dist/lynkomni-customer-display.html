@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-oYTsgsa3dkVK/uyMwq0UFlqmvnyGLk4/tGhgr7UY7E4='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-TjrGAc0fvkWTD1lb9xtqjfmsdYyub59YFF1zqMvFwEY='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkPOS Customer Screen</title>
 <meta name="description" content="Interactive emulator of the standalone customer-facing display some shops mount apart from the till: welcome, the basket line by line, the total with an estimate in a second currency, scan to pay and thank you. It shows only what the till sends.">
@@ -3836,6 +3836,9 @@ class StaffLock {
         return n;
     }
 }
+function staffWhoRow(name, role, t, icon) {
+    return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(name)} · ${esc(t(`role_${role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
+}
 class StaffGate {
     lock;
     h;
@@ -3878,7 +3881,7 @@ class StaffGate {
         const { t, icon } = this.h, me = this.me();
         if (!me)
             return this.optional ? `<div class="dk-whorow"><button type="button" class="dk-link" data-act="gate:signin">${icon("ui-user")}<span>${esc(t("dk_sign_in"))}</span></button></div>` : "";
-        return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(me.name)} · ${esc(t(`role_${me.role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
+        return staffWhoRow(me.name, me.role, t, icon);
     }
     lockNow(idle = false) {
         this.signed = false;

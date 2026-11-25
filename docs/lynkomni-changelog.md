@@ -2,6 +2,12 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.116.1 (2026-11-25)
+Phone fields: every country has its code, and the field starts on your country.
+- The country list in every phone field shows only countries that have a dialling code. Antarctica, South Georgia, Pitcairn, the French Southern Territories and the U.S. Outlying Islands (no public numbers of their own) and the sample country are left out, so no flag shows without its code.
+- A phone field starts on the country the device is in (its time zone, then its language's region), not on the sample country. It can still be changed.
+- Lock on every screen opened with a staff PIN: the counter tablet had only the two-minute idle lock and the POS terminal had Lock only inside its menu. Both now show who is signed in with Lock beside the name, the same shared row as the kitchen screen, rider app, stock scanner, betting counter and the Business app's staff till (ts/src/devicekit.ts staffWhoRow). A check fails if any shared staff device misses it.
+
 ## v0.116.0 (2026-11-25)
 - Section 4C step 2b (point 2, errors everywhere): every screen now draws its errors, warnings, information and success messages only through the shared message part. That covers the attendance, queue and survey desks, the chat warning, the office and shared pages, the PIN pad and number matching, the device staff lock, the IDCN step, the leave clash warning, and the account site, counter tablet, POS terminal, betting counter, owner's computer view, rider phone and Business app. Each error points at its field (red border, linked for screen readers) and says how to fix it: a "Go to ..." button, a button that does the fix (Check out, Check in, Edit first), or general fix words (Type it again, Connect to the internet, then try again, A manager or the owner can help, Choose another one from the list, Use a smaller amount and the rest), in all 38 languages. tests/test_errors.py now has nothing left to move.
 - The POS terminal used to show a sale error as a code such as "empty_cart"; it now says "The basket is empty, so there is nothing to pay for yet." with what to do, in every language.
@@ -14,12 +20,6 @@ What changed in each version, in plain words, newest first. Version numbers: `0.
 - WhatsApp removed completely: the footer's WhatsApp link is gone on every page and language, and from the translation glossary, the preview script and the build table wording. tests/test_no_whatsapp.py fails if WhatsApp or its link appears again.
 - tests/test_errors.py refuses any screen that draws its own error or warning box; the 18 files still to move are named there and are moved in v0.116.0.
 - Leftover: the section 4C build table still described a rule about the first digits of a phone number, removed by the owner on 25 November; it now says there is no such rule. Size budgets raised with their reasons.
-## v0.114.1 (2026-11-25)
-Phone fields: every country has its code, and the field starts on your country.
-- The country list in every phone field shows only countries that have a dialling code. Antarctica, South Georgia, Pitcairn, the French Southern Territories and the U.S. Outlying Islands (no public numbers of their own) and the sample country are left out, so no flag shows without its code.
-- A phone field starts on the country the device is in (its time zone, then its language's region), not on the sample country. It can still be changed.
-- Lock on every screen opened with a staff PIN: the counter tablet had only the two-minute idle lock and the POS terminal had Lock only inside its menu. Both now show who is signed in with Lock beside the name, the same shared row as the kitchen screen, rider app, stock scanner, betting counter and the Business app's staff till (ts/src/devicekit.ts staffWhoRow). A check fails if any shared staff device misses it.
-
 ## v0.114.0 (2026-11-25)
 - Section 4C step 1b (point 1, codes and contacts): every code field is the shared part ts/src/codefield.ts. It fills itself in from the text message, takes digits typed in any script, never shows an example code, and its New code button counts down (30 seconds, then 1, 2 and 5 minutes; at most 5 codes an hour; a code lasts 5 minutes; the same rules in identity/account.py). The Business app's sign-in code and the survey phone step on LynkPOS, LynkKiosk, LynkDScreen, LynkCDisplay and the survey page use it.
 - One person, one contact: a personal email or phone number belongs to one personal account at a time; signing up with one that is taken says to sign in or use Can't sign in?. When the network says a number was given to someone new, it is taken off the account (ContactRemoved) and the person is told by their other contact; each number is confirmed once a year (automation number-confirm-yearly, NumberConfirmDue, NumberConfirmed; messages number_removed_reassigned and confirm_your_number).

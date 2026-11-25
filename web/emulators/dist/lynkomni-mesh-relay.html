@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-2LXWrDP+Zuk17oIHZbyth9vBT+K8w7AUEblyL6cpjpA='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-yAv7t2xAp7rdYtOtUUsK6woRsDnzxza83YX9eheJy9s='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkMesh Relay</title>
 <meta name="description" content="Interactive emulator of LynkMesh: a till with no connection hands a sealed batch of sales to a nearby LynkOmni device that has one. The sale shows sent, awaiting cloud until the cloud accepts it. LynkMesh carries data, never money, and takes no fee.">
@@ -3772,6 +3772,9 @@ class StaffLock {
         return n;
     }
 }
+function staffWhoRow(name, role, t, icon) {
+    return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(name)} · ${esc(t(`role_${role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
+}
 class StaffGate {
     lock;
     h;
@@ -3814,7 +3817,7 @@ class StaffGate {
         const { t, icon } = this.h, me = this.me();
         if (!me)
             return this.optional ? `<div class="dk-whorow"><button type="button" class="dk-link" data-act="gate:signin">${icon("ui-user")}<span>${esc(t("dk_sign_in"))}</span></button></div>` : "";
-        return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(me.name)} · ${esc(t(`role_${me.role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
+        return staffWhoRow(me.name, me.role, t, icon);
     }
     lockNow(idle = false) {
         this.signed = false;
