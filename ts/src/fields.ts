@@ -1,8 +1,9 @@
 // The phone and email fields and the field message (section 4C points 1 and 2, owner 2026-11-25). Every phone and email field in
 // the ecosystem is drawn here (words in web/fields, prefix fd_; styles web/shell/fields.css); a screen never draws its own.
 // Rules come from ts/src/phone.ts and the country pack's phone block, so nothing here names a country.
-import { phoneRules, phoneCheck, phoneAccept, phoneGroups, phoneSample, phoneInternational, phoneLengths, phoneReadPasted, phoneCodes, type PhoneRules, type PhoneCheck, emailCheck } from "./phone.js";
-import { EMAIL_DOMAINS } from "./phone.generated.js";
+import { phoneRules, phoneCheck, phoneAccept, phoneGroups, phoneSample, phoneInternational, phoneLengths, phoneReadPasted, phoneCodes, type PhoneRules, type PhoneCheck } from "./phone.js";
+import { fieldMsgHtml, efSetMsg, efNeeds, wireEmails, type Level, type EmailValue } from "./emailfield.js";
+import { ownDigits, wireCodes } from "./codefield.js";
 
 type T = (k: string, v?: Record<string, string | number>) => string;
 export interface FieldPack { name: string; sample?: boolean; ph?: PhoneRules | null }
@@ -11,20 +12,8 @@ export interface FieldCtx {
   onPhone?: (id: string, v: PhoneValue) => void; onEmail?: (id: string, v: EmailValue) => void;
 }
 export interface PhoneValue { country: string; digits: string; international: string; valid: boolean }
-export interface EmailValue { text: string; valid: boolean }
-export type Level = "error" | "warning" | "info" | "success";
 
 const lfEsc = (v: string): string => String(v).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-/** Digits in the reader's own numbering system, like every number on screen. */
-const LF_DIGITS: Record<string, string[] | null> = {};
-export function ownDigits(text: string, lang: string): string {
-  if (!(lang in LF_DIGITS)) {
-    try { const nf = new Intl.NumberFormat(lang, { useGrouping: false }); const ds = "0123456789".split("").map((d) => nf.format(Number(d))); LF_DIGITS[lang] = ds.join("") === "0123456789" ? null : ds; }
-    catch { LF_DIGITS[lang] = null; }
-  }
-  const ds = LF_DIGITS[lang];
-  return ds ? text.replace(/[0-9]/g, (d) => ds[Number(d)] as string) : text;
-}
 /** "6 or 2", "8, 9 or 10": a list joined the reader's way. */
 function lfOrList(items: string[], lang: string): string {
   try { return new (Intl as unknown as { ListFormat: new (l: string, o: object) => { format: (x: string[]) => string } }).ListFormat(lang, { type: "disjunction" }).format(items); }
@@ -71,13 +60,6 @@ function lfDetectFlags(): void {
 export const flagOf = (code: string): string => (/^[A-Z]{2}$/.test(code) && code !== "XX" ? String.fromCodePoint(...[...code].map((ch) => 0x1f1e6 + ch.charCodeAt(0) - 65)) : "");
 /** How a country shows beside its number: its flag, or its two-letter code where flags cannot be drawn. */
 export const countryMark = (code: string): string => (flagsShown() && flagOf(code) ? flagOf(code) : code);
-
-// ---- the field message (where, why and how to fix; the official colours with a word, never colour alone) -------------------
-export function fieldMsgHtml(t: T, id: string, level: Level | null, text: string, fix?: { label: string; act: string }): string {
-  if (!level) return `<p class="lf-msg" id="${lfEsc(id)}-msg" aria-live="polite"></p>`;
-  const word = t(`fd_${level}`);
-  return `<p class="lf-msg lf-${level}" id="${lfEsc(id)}-msg" role="${level === "error" ? "alert" : "status"}"><strong class="lf-word">${lfEsc(word)}</strong> <span>${lfEsc(text)}</span>${fix ? ` <button type="button" class="lf-fix" data-lf-fix="${lfEsc(fix.act)}">${lfEsc(fix.label)}</button>` : ""}</p>`;
-}
 
 // ---- phone ----------------------------------------------------------------------------------------------------------------------
 const lfRules = (ctx: FieldCtx, c: string): PhoneRules => phoneRules(ctx.packs[c]?.ph ?? null);
@@ -134,37 +116,10 @@ export function phoneValue(ctx: FieldCtx, country: string, digits: string, mobil
   return { country, digits: d, international: phoneInternational(r, d), valid: phoneCheck(r, d, mobile).state === "ok" };
 }
 
-// ---- email ----------------------------------------------------------------------------------------------------------------------
-export interface EmailFieldOpts { id: string; label: string; text: string; deep?: boolean; submitted?: boolean }
-export function emailMessage(ctx: FieldCtx, id: string, text: string, deep: boolean, submitted: boolean): string {
-  const c = emailCheck(EMAIL_DOMAINS, text, deep);
-  if (c.state === "format" && submitted) return fieldMsgHtml(ctx.t, id, "error", ctx.t("fd_email_format"));
-  if (c.state === "throwaway") return fieldMsgHtml(ctx.t, id, "error", ctx.t("fd_email_throwaway"));
-  if (c.suggest) return fieldMsgHtml(ctx.t, id, "warning", ctx.t("fd_email_suggest", { email: c.suggest }), { label: ctx.t("fd_email_use", { email: c.suggest }), act: `email:${c.suggest}` });
-  return fieldMsgHtml(ctx.t, id, null, "");
-}
-export function emailFieldHtml(ctx: FieldCtx, o: EmailFieldOpts): string {
-  const c = emailCheck(EMAIL_DOMAINS, o.text, !!o.deep);
-  return `<div class="lf-field" data-email="${lfEsc(o.id)}" data-deep="${o.deep ? "1" : "0"}" data-valid="${c.state === "ok" ? "1" : "0"}">
-    <label for="${lfEsc(o.id)}">${lfEsc(o.label)}</label>
-    <input class="text lf-in" id="${lfEsc(o.id)}" type="email" inputmode="email" autocomplete="email" dir="ltr" value="${lfEsc(o.text)}" placeholder="name@example.com" aria-describedby="${lfEsc(o.id)}-msg">
-    ${emailMessage(ctx, o.id, o.text, !!o.deep, !!o.submitted)}
-  </div>`;
-}
-
 // ---- wiring: typing updates the field in place (no redraw, the cursor stays) -----------------------------------------------------
-function lfSetMsg(box: HTMLElement, html: string): void {
-  const old = box.querySelector(".lf-msg"); if (!old) return;
-  const tmp = document.createElement("div"); tmp.innerHTML = html;
-  const fresh = tmp.firstElementChild; if (fresh) old.replaceWith(fresh);
-  const input = box.querySelector("input");
-  if (input) { if (fresh?.classList.contains("lf-error")) input.setAttribute("aria-invalid", "true"); else input.removeAttribute("aria-invalid"); }
-}
-function lfNeeds(root: ParentNode, id: string, ok: boolean): void {
-  root.querySelectorAll<HTMLButtonElement>(`[data-needs-phone="${CSS.escape(id)}"], [data-needs-email="${CSS.escape(id)}"]`).forEach((b) => { b.disabled = !ok; });
-}
-/** Call once after every draw: wires every phone and email field under root. */
+/** Call once after every draw: wires every phone, email and code field under root. */
 export function wireFields(root: ParentNode, ctx: FieldCtx): void {
+  wireCodes(root, ctx);
   const codes = phoneCodes(ctx.packs);
   root.querySelectorAll<HTMLElement>("[data-phone]").forEach((box) => {
     if (box.dataset.lfWired) return; box.dataset.lfWired = "1";
@@ -177,37 +132,21 @@ export function wireFields(root: ParentNode, ctx: FieldCtx): void {
       let country = box.dataset.country as string;
       // A dialling code being typed after + (or 00) stays as typed until it is a whole code; then the country follows it.
       const lead = raw.trim(), plus = lead.startsWith("+") || lead.startsWith("00");
-      if (plus) { const dd = lead.replace(/\D/g, "").slice(lead.startsWith("00") ? 2 : 0); if (![1, 2, 3].some((n) => codes[dd.slice(0, n)] && dd.length >= n)) { lfSetMsg(box, fieldMsgHtml(ctx.t, id, null, "")); return; } }
+      if (plus) { const dd = lead.replace(/\D/g, "").slice(lead.startsWith("00") ? 2 : 0); if (![1, 2, 3].some((n) => codes[dd.slice(0, n)] && dd.length >= n)) { efSetMsg(box, fieldMsgHtml(ctx.t, id, null, "")); return; } }
       const [c, cleaned] = phoneReadPasted(raw, country, (x) => lfRules(ctx, x), codes);
       if (c !== country) { country = c; box.dataset.country = c; cc.value = c; const s = phoneSample(lfRules(ctx, c), mobile); input.placeholder = s ? ownDigits(s, ctx.lang) : ""; }
       const r = lfRules(ctx, country), over = phoneCheck(r, cleaned, mobile).state === "long";
       const d = phoneAccept(r, cleaned, mobile), check = over ? { ...phoneCheck(r, d, mobile), state: "long" as const } : phoneCheck(r, d, mobile, submitted);
       input.value = phoneGroups(r, d, mobile);
       const msg = phoneMessage(ctx, country, d, check);
-      lfSetMsg(box, fieldMsgHtml(ctx.t, id, msg?.level ?? null, msg?.text ?? ""));
+      efSetMsg(box, fieldMsgHtml(ctx.t, id, msg?.level ?? null, msg?.text ?? ""));
       const v = phoneValue(ctx, country, d, mobile);
-      box.dataset.valid = v.valid ? "1" : "0"; lfNeeds(root, id, v.valid); ctx.onPhone?.(id, v);
+      box.dataset.valid = v.valid ? "1" : "0"; efNeeds(root, id, v.valid); ctx.onPhone?.(id, v);
     };
     input.addEventListener("input", () => run(input.value, false));
     input.addEventListener("blur", () => { if (input.value) run(input.value, true); });
     cc.addEventListener("change", () => { box.dataset.country = cc.value; const s = phoneSample(lfRules(ctx, cc.value), mobile); input.placeholder = s ? ownDigits(s, ctx.lang) : ""; run(input.value, false); });
-    lfNeeds(root, id, box.dataset.valid === "1");
+    efNeeds(root, id, box.dataset.valid === "1");
   });
-  root.querySelectorAll<HTMLElement>("[data-email]").forEach((box) => {
-    if (box.dataset.lfWired) return; box.dataset.lfWired = "1";
-    const id = box.dataset.email as string, input = box.querySelector<HTMLInputElement>("input"); if (!input) return;
-    const deep = box.dataset.deep === "1";
-    const run = (submitted: boolean): void => {
-      lfSetMsg(box, emailMessage(ctx, id, input.value, deep, submitted));
-      const ok = emailCheck(EMAIL_DOMAINS, input.value, deep).state === "ok";
-      box.dataset.valid = ok ? "1" : "0"; lfNeeds(root, id, ok); ctx.onEmail?.(id, { text: input.value.trim(), valid: ok });
-    };
-    input.addEventListener("input", () => run(false));
-    input.addEventListener("blur", () => { if (input.value) run(true); });
-    box.addEventListener("click", (e) => {
-      const b = (e.target as HTMLElement).closest<HTMLElement>("[data-lf-fix]"); const act = b?.dataset.lfFix ?? "";
-      if (act.startsWith("email:")) { input.value = act.slice(6); run(true); input.focus(); }
-    });
-    lfNeeds(root, id, box.dataset.valid === "1");
-  });
+  wireEmails(root, ctx);
 }

@@ -4,8 +4,11 @@
  "kept_in_english": [],
  "lang": "yi",
  "native": "ייִדיש",
- "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
  "texts": {
+  "fd_code_new": "שיקט אַ נײַעם קאָד",
+  "fd_code_sent": "אַ נײַער קאָד איז אויפֿן וועג.",
+  "fd_code_wait": "נײַער קאָד אין {time}",
   "fd_country": "לאַנד",
   "fd_email_format": "שרײַבט אַרײַן אַן בליצפּאָסט־אַדרעס ווי name@example.com.",
   "fd_email_suggest": "האָט איר געמיינט {email}?",

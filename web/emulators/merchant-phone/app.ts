@@ -11,6 +11,7 @@ import { SHARED_PAGES, sampleShared, sharedPage, sharedTitle, sharedAct, sharedI
 import type { SharedLook, SharedPage, ConsentLink } from "../../../ts/src/sharedview.js";
 import { hintFor } from "../../../ts/src/hints.js";
 import { phoneFieldHtml, wireFields, countryNamer, phoneValue, phoneDisplay, type FieldCtx } from "../../../ts/src/fields.js";
+import { codeFieldHtml, resendWait, asciiDigits } from "../../../ts/src/codefield.js";
 import { Cart, PosError, change, formatMoney, paymentPayload, paymentState, qtyText, quickCash, salePayload } from "../../../ts/src/pos.js";
 import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload, UserState } from "../../../ts/src/pos.js";
 import { adjust, afterSale, canChangeSettings, canSeeProfit, counted, daySummary, homeBlocks, insight, maySync, mode, pending, stockAlerts, stockState } from "../../../ts/src/merchant.js";
@@ -181,7 +182,7 @@ const S = {
   btype: "shop" as BusinessType, business: 0, setupDone: new Set<string>(), setupSkipped: new Set<string>(), shopName: "", firstWay: "",
   svc: "bills" as string, partner: PARTNERS[0]?.id ?? "", number: "", amount: "", reqs: [] as AgentReq[], req: "", cashIn: 150_000, usedToday: 0, outlet: "all", outletList: ["Main outlet", "Market outlet"], cashChecks: new Set<string>(),
   lang: "en", theme: "light" as "light" | "dark", link: "good" as Link, forced: false, realUser: false, country: "", outcome: "confirm" as "confirm" | "fail" | "silent",
-  role: "owner" as Role, perms: { staffSeeProfit: false }, phoneCc: {} as Record<string, string>, phone: "", code: "", input: "", note: "", flash: "", category: "all", search: "",
+  role: "owner" as Role, perms: { staffSeeProfit: false }, phoneCc: {} as Record<string, string>, codeSent: [] as number[], phone: "", code: "", input: "", note: "", flash: "", category: "all", search: "",
   cart: new Cart(), current: null as Sale | null, sales: [] as Sale[], events: [] as Ev[], levels: { ...START } as Levels, flagged: new Set<string>(),
   branchLevels: {} as Record<string, Record<string, number>>,
   discount: 0, saleNote: "", customer: "", parts: [] as { way: string; amount: number }[], receiptWay: "",
@@ -1710,7 +1711,7 @@ function signin(): string {
   }
   if (S.screen === "code") {
     return `<div class="signin" data-gi="sign_in">${mark}<h1>${esc(t("verify"))}</h1><p dir="auto">${esc(t("enter_code", { phone: phoneDisplay(fieldCtx(), cc("phoneIn"), S.phone) }))}</p>
-      <label class="field"><span>${esc(t("verify"))}</span><input id="codeIn" inputmode="numeric" autocomplete="one-time-code" value="${esc(S.code)}" data-in="code"></label>
+      ${codeFieldHtml(fieldCtx(), { id: "codeIn", label: t("verify"), value: S.code, act: "code", resendAct: "resendcode", sent: S.codeSent })}
       <p class="note" role="alert">${esc(S.note)}</p><p class="info sbx">${icon("ui-info")}<span>${esc(t("sandbox"))}: ${esc(t("code_hint"))}</span></p><div class="grow"></div>
       <button class="primary" data-act="verify" ${S.code.length === 6 ? "" : "disabled"}>${esc(t("verify"))}</button></div>`;
   }
@@ -1931,7 +1932,8 @@ function act(a: string): void {
         toast(t("sf_checkout_held", { name: p.name })); return; }
       case "drvinstall": { const from = DRV.installed; DRV.installed = DRIVERS.pack.version; DRV.days = 0; emit(from ? "DriverUpdated" : "DriverInstalled", from ? { device_id: "this", from_version: from, to_version: DRV.installed } : { device_id: "this", version: DRV.installed, how: "online" }); toast(t("drv_done")); return; }
       // getting in
-      case "sendcode": if (!maySync(S.link, S.forced)) { S.note = t("code_needs_net"); draw(); return; } S.note = ""; S.screen = "code"; draw(); return;
+      case "sendcode": if (!maySync(S.link, S.forced)) { S.note = t("code_needs_net"); draw(); return; } S.note = ""; S.codeSent = [Date.now() / 1000]; S.screen = "code"; draw(); return;
+      case "resendcode": if (!maySync(S.link, S.forced)) { S.note = t("code_needs_net"); draw(); return; } if (!resendWait(S.codeSent, Date.now() / 1000)) { S.codeSent = [...S.codeSent, Date.now() / 1000]; S.code = ""; S.note = t("fd_code_sent"); } draw(); return;
       case "verify": if (S.code === CODE) { S.note = ""; S.screen = "choose"; draw(); } else { S.note = t("wrong_code"); S.code = ""; draw(); } return;
       case "business": if (v === "new") { S.business = 0; S.shopName = ""; S.setupDone.clear(); } else S.business = Number(v) || 0; if (S.enrolled) { S.screen = "locale"; draw(); } else void enrol(); return;
       case "start": S.screen = S.englishOnce || S.setupDone.size ? "app" : "locale"; S.tab = "home"; S.view = "main"; draw(); return;
@@ -2080,7 +2082,7 @@ function act(a: string): void {
 /** Typing in an office field keeps the caret where it was after the page is drawn again. */
 function keepOf(id: string): void { if (!id) return; const el = document.getElementById(id) as HTMLInputElement | null; if (el) { const n = el.value.length; el.focus(); try { el.setSelectionRange(n, n); } catch { /* not a text field */ } } }
 function onInput(el: HTMLInputElement): void {
-  const k = el.dataset["in"] ?? "", digits = (n: number): string => el.value.replace(/\D/g, "").slice(0, n);
+  const k = el.dataset["in"] ?? "", digits = (n: number): string => asciiDigits(el.value).replace(/[^0-9]/g, "").slice(0, n);
   if (k === "la:remember") { LA.draft = el.value.slice(0, 200); return; }
   if (el.id === "ofSearch") { OV.search(el.value); draw(); keepOf(el.id); return; }
   if (k.startsWith("of:")) { if (el.tagName !== "SELECT" && OV.input(k, el.value)) { draw(); keepOf(el.id); } return; }

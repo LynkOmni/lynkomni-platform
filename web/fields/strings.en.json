@@ -12,5 +12,8 @@
  "fd_error": "Error",
  "fd_warning": "Warning",
  "fd_info": "Information",
- "fd_success": "Done"
+ "fd_success": "Done",
+ "fd_code_new": "Send a new code",
+ "fd_code_wait": "New code in {time}",
+ "fd_code_sent": "A new code is on its way."
 }

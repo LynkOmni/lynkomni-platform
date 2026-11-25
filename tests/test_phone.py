@@ -56,7 +56,7 @@ class Phone(unittest.TestCase):
 
     def test_every_phone_and_email_field_is_the_shared_part(self):
         """No screen draws its own phone or email input: the shared part (ts/src/fields.ts) draws them all."""
-        files = glob.glob(os.path.join(ROOT, "web", "emulators", "*", "app.ts")) + [f for f in glob.glob(os.path.join(ROOT, "ts", "src", "*.ts")) if not f.endswith(("fields.ts", ".generated.ts", "footer.ts"))]
+        files = glob.glob(os.path.join(ROOT, "web", "emulators", "*", "app.ts")) + [f for f in glob.glob(os.path.join(ROOT, "ts", "src", "*.ts")) if not f.endswith(("fields.ts", "emailfield.ts", ".generated.ts"))]
         bad = []
         for f in files:
             for m in re.finditer(r"<input[^>]*>", open(f, encoding="utf-8").read()):
@@ -67,3 +67,48 @@ class Phone(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Contacts(unittest.TestCase):
+    """Codes, one contact per account and numbers that change hands (section 4C point 1)."""
+    T0 = 1_800_000_000
+
+    def setUp(self):
+        from services.platform import Platform
+        os.environ.pop("LYNK_MODE", None); self.p = Platform(); self.a = self.p.account
+
+    def person(self, name, phone, email):
+        s = self.a.begin_sign_up(name, "en", self.T0, adult_confirmed=True); who = s["person"]
+        code = self.a.send_contact_code(who, self.T0); self.a.confirm_contact(who, code, self.T0)
+        self.a.finish_sign_up(who, "pk", "phone", phone, email, now=self.T0); return who
+
+    def test_codes_last_five_minutes_and_resending_waits(self):
+        from identity.account import CodeWait
+        s = self.a.begin_sign_up("ama.k", "en", self.T0, adult_confirmed=True); who = s["person"]
+        first = self.a.send_contact_code(who, self.T0)
+        with self.assertRaises(CodeWait) as w: self.a.send_contact_code(who, self.T0 + 10)
+        self.assertEqual(w.exception.seconds, 20)
+        with self.assertRaises(PermissionError): self.a.confirm_contact(who, first, self.T0 + 301)       # lasts 5 minutes
+        t = self.T0 + 30
+        for gap in (0, 60, 120, 300):
+            t += gap; self.a.send_contact_code(who, t)
+        with self.assertRaises(CodeWait): self.a.send_contact_code(who, t + 3000)                        # 5 in an hour at most
+        self.assertEqual(P.resend_wait([], self.T0), 0)
+
+    def test_one_personal_account_per_contact(self):
+        self.person("ama.k", "pii_phone_1", "pii_mail_1")
+        s = self.a.begin_sign_up("kofi.m", "en", self.T0, adult_confirmed=True); who = s["person"]
+        code = self.a.send_contact_code(who, self.T0); self.a.confirm_contact(who, code, self.T0)
+        with self.assertRaises(PermissionError): self.a.finish_sign_up(who, "pk", "phone", "pii_phone_1", "pii_mail_2", now=self.T0)
+
+    def test_a_number_given_to_someone_else_leaves_the_account_and_numbers_are_confirmed_yearly(self):
+        who = self.person("ama.k", "pii_phone_1", "pii_mail_1")
+        self.assertEqual(self.a.number_reassigned("pii_phone_1", self.T0)["told_by"], "email")
+        self.assertIsNone(self.a.auth.db.execute("select phone from identities where person=?", (who,)).fetchone()[0])
+        self.assertEqual(self.a.contact_notices[-1]["message"], "number_removed_reassigned")
+        self.assertIsNone(self.a.number_reassigned("pii_phone_1", self.T0))
+        other = self.person("kofi.m", "pii_phone_2", "pii_mail_2")
+        self.assertEqual(self.a.numbers_to_confirm(self.T0), [])                                          # starts the year
+        self.assertEqual(self.a.numbers_to_confirm(self.T0 + 366 * 86400), [other])
+        self.a.confirm_number(other, self.T0 + 366 * 86400)
+        self.assertEqual(self.a.numbers_to_confirm(self.T0 + 367 * 86400), [])

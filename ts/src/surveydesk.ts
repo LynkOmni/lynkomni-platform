@@ -9,6 +9,7 @@
  *  Words are "ppl_sv_" keys in web/shell. Sample answers are labelled "Sandbox" wherever they appear. */
 import { planPreviewHtml } from "./placeholder.js";
 import { hintFor } from "./hints.js";
+import { codeFieldHtml, resendWait, asciiDigits } from "./codefield.js";
 import { esc } from "./shell.js";
 import type { T } from "./shell.js";
 import { newId } from "./emulator.js";
@@ -146,7 +147,7 @@ export class SurveyDesk {
   compareBy: "group" | "place" | "way" = "group";
   refused = "";
   kiosk = { i: 0, answers: {} as SvAnswer["answers"], done: false, started: 0 };
-  phone = { step: "consent" as "consent" | "code" | "question" | "done", i: 0, answers: {} as SvAnswer["answers"], code: "", consent: false, way: "smartphone" as SvWay, note: "" };
+  phone = { step: "consent" as "consent" | "code" | "question" | "done", i: 0, answers: {} as SvAnswer["answers"], code: "", consent: false, way: "smartphone" as SvWay, note: "", sent: [] as number[] };
   panel = { country: "GH", wanted: 500, reached: null as number | null };
   youSaid = "";
   addKind: SvDevKind = "kiosk";
@@ -423,7 +424,8 @@ export class SurveyDesk {
       case "pway": if ((SV_WAYS as readonly string[]).includes(v)) { this.phone.way = v as SvWay; this.phone.note = ""; } break;
       case "pconsent": this.phone.consent = !this.phone.consent; break;
       case "pstart": { const s = this.sv(); const why = this.wayWhy(this.phone.way, ctx.partner); this.phone.note = why;
-        if (!why && s && (!s.questions.some((x) => svCheck([x]).some((c) => c.problem === "sensitive_topic")) || this.phone.consent)) this.phone.step = s.rule === "one_per_phone" ? "code" : "question"; break; }
+        if (!why && s && (!s.questions.some((x) => svCheck([x]).some((c) => c.problem === "sensitive_topic")) || this.phone.consent)) { this.phone.step = s.rule === "one_per_phone" ? "code" : "question"; if (this.phone.step === "code") this.phone.sent = [Date.now() / 1000]; } break; }
+      case "presend": if (!resendWait(this.phone.sent, Date.now() / 1000)) this.phone.sent = [...this.phone.sent, Date.now() / 1000]; break;
       case "pcode": if (/^\d{6}$/.test(this.phone.code)) this.phone.step = "question"; break;
       case "p": { const s = this.sv(); const qn = s && this.visible(s, this.phone.answers)[this.phone.i]; if (qn) this.give("phone", qn.id, w === "c" ? { choice: v } : { number: Number(v) }); break; }
       case "pnext": this.next("phone", ctx.online); break;
@@ -446,7 +448,7 @@ export class SurveyDesk {
     if (f === "ptext") { this.give("phone", c, { text: v.slice(0, 1000) }); return false; }
     if (f === "target") { const n = Number(v); if (Number.isInteger(n) && n >= 0 && this.plan.research.includes("groups_to_fill")) { if (n) this.draft.targets[c] = n; else delete this.draft.targets[c]; } }
     else if (f === "population") this.population = v.replace(/[^0-9]/g, "").slice(0, 7);
-    else if (f === "pcode") this.phone.code = v.replace(/\D/g, "").slice(0, 6);
+    else if (f === "pcode") this.phone.code = asciiDigits(v).replace(/[^0-9]/g, "").slice(0, 6);
     else if (f === "pcountry") this.panel.country = v.slice(0, 2).toUpperCase();
     else if (f === "pwanted") { const n = Number(v); if (Number.isInteger(n) && n > 0) this.panel.wanted = Math.min(n, 100000); }
     else return false;
@@ -686,7 +688,7 @@ export function svPhoneView(d: SurveyDesk, L: SvLook): string {
       ${s.anonymous ? `<p class="notice">${esc(t("ppl_sv_anonymous_line"))}</p>` : ""}${sensitive ? `<button type="button" class="ph-toggle" data-act="sv:pconsent" ${svOn(ph.consent)}><span>${esc(t("ppl_sv_sensitive_agree"))}</span><strong>${esc(t(ph.consent ? "ppl_on" : "ppl_off"))}</strong></button>` : ""}
       ${ways}${note ? `<p class="warn" role="alert">${esc(note)}</p>` : ""}<button type="button" class="primary inline" data-act="sv:pstart">${esc(t("ppl_sv_start"))}</button><p class="sub">${esc(t("ppl_sv_no_account"))}</p>${d.plan.own_logo ? "" : L.powered}</div>`;
   }
-  if (ph.step === "code") return `<div class="svphone"><p>${esc(t("ppl_sv_code_sent"))}</p><label class="field"><span>${esc(t("ppl_sv_code"))}</span><input inputmode="numeric" data-in="sv:pcode" value="${esc(ph.code)}" autocomplete="one-time-code" dir="ltr"></label>
+  if (ph.step === "code") return `<div class="svphone"><p>${esc(t("ppl_sv_code_sent"))}</p>${codeFieldHtml({ t, lang: typeof document === "undefined" ? "en" : document.documentElement.lang || "en" }, { id: "svPcode", label: t("ppl_sv_code"), value: ph.code, act: "sv:pcode", resendAct: "sv:presend", sent: ph.sent })}
     <button type="button" class="primary inline" data-act="sv:pcode" ${svOff(!/^\d{6}$/.test(ph.code))}>${esc(t("ppl_sv_next"))}</button><p class="sub">${esc(t("ppl_sv_phone_kept"))}</p></div>`;
   if (ph.step === "done") return `<div class="svphone" role="status"><p class="plabel">${esc(t("ppl_thanks"))}</p>${s.anonymous ? "" : `<p class="sub">${esc(t("ppl_sv_in_my_answers"))}</p>`}
     <button type="button" class="ghost inline" data-act="sv:optout" ${svOff(d.optedOut)}>${esc(t(d.optedOut ? "ppl_sv_not_asked" : "ppl_sv_dont_ask"))}</button><button type="button" class="ghost inline" data-act="sv:pagain">${esc(t("ppl_sv_again"))}</button></div>`;

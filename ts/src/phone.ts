@@ -2,7 +2,7 @@
 // from the country pack's phone block (pack.ph, from tools/country_phone.py); nothing here names a country. The shared cases in
 // contract/vectors/phone.v1.json (python3 tools/phone_vectors.py) keep the two the same.
 
-import { DIGIT_ZEROS } from "./phone.generated.js";
+import { asciiDigits } from "./codefield.js";
 
 export interface PhoneKind { lengths: number[]; groups: Record<string, number[]>; sample: string }
 export interface PhoneRules { code: string; prefix: string; main?: boolean; mobile: PhoneKind; any: PhoneKind }
@@ -16,17 +16,6 @@ export const GENERIC_PHONE: PhoneRules = { code: "", prefix: "", main: false, mo
 
 export const phoneRules = (r: PhoneRules | null | undefined): PhoneRules => r ?? GENERIC_PHONE;
 const phKind = (r: PhoneRules, mobile: boolean): PhoneKind => (mobile ? r.mobile : r.any);
-/** Every decimal digit of any script as 0 to 9 (the same as unicodedata.decimal in core/phone.py). */
-export function asciiDigits(text: string): string {
-  let out = "";
-  for (const ch of text || "") {
-    const c = ch.codePointAt(0) as number;
-    if (c < 0x80) { out += ch; continue; }
-    const z = DIGIT_ZEROS.find((zero) => c >= zero && c <= zero + 9);
-    out += z === undefined ? ch : String(c - z);
-  }
-  return out;
-}
 const phDigits = (t: string): string => asciiDigits(t).replace(/[^0-9]/g, "");
 
 /** Digits only, the trunk prefix taken off: a leading 0 once more digits follow it; any other prefix (1, 8, 06) only when the
@@ -97,30 +86,3 @@ export function phoneLengths(lengths: number[]): { one?: number; from?: number; 
   return { list: ls };
 }
 
-// ---- email -------------------------------------------------------------------------------------------------------------------
-export interface EmailDomains { common: string[]; throwaway: string[] }
-export interface EmailCheck { state: "empty" | "format" | "throwaway" | "ok"; suggest: string }
-const PH_EMAIL = /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*\.[A-Za-z]{2,}$/;
-function phDistance(a: string, b: string): number {
-  let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
-  for (let i = 1; i <= a.length; i++) {
-    const cur = [i];
-    for (let j = 1; j <= b.length; j++) cur.push(Math.min((prev[j] as number) + 1, (cur[j - 1] as number) + 1, (prev[j - 1] as number) + (a[i - 1] === b[j - 1] ? 0 : 1)));
-    prev = cur;
-  }
-  return prev[b.length] as number;
-}
-/** Format, "Did you mean" for a domain one or two letters from a common one, throwaway domains refused only when deep. */
-export function emailCheck(D: EmailDomains, text: string, deep = false): EmailCheck {
-  const t = (text || "").trim();
-  if (!t) return { state: "empty", suggest: "" };
-  if (t.length > 254 || !PH_EMAIL.test(t) || t.includes("..")) return { state: "format", suggest: "" };
-  const at = t.lastIndexOf("@"), local = t.slice(0, at), d = t.slice(at + 1).toLowerCase();
-  let suggest = "";
-  if (!D.common.includes(d)) {
-    const near = D.common.map((c) => [phDistance(d, c), c] as [number, string]).sort((x, y) => x[0] - y[0] || (x[1] < y[1] ? -1 : x[1] > y[1] ? 1 : 0))[0];
-    if (near && near[0] > 0 && near[0] <= (d.length >= 8 ? 2 : 1)) suggest = `${local}@${near[1]}`;
-  }
-  if (deep && D.throwaway.includes(d)) return { state: "throwaway", suggest: "" };
-  return { state: "ok", suggest };
-}

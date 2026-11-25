@@ -14,3 +14,5 @@
 .lf-info { background: var(--status-info-bg); color: var(--status-info-text); border-color: var(--status-info-border); }
 .lf-success { background: var(--status-success-bg); color: var(--status-success-text); border-color: var(--status-success-border); }
 .lf-fix { display: block; margin-block-start: 8px; min-block-size: 44px; padding-inline: 12px; border-radius: 10px; border: 1px solid currentColor; background: transparent; color: inherit; font: inherit; font-weight: 600; white-space: normal; overflow-wrap: anywhere; max-inline-size: 100%; }
+.lf-code { letter-spacing: 0.2em; font-variant-numeric: tabular-nums; }
+.lf-resend { align-self: flex-start; min-block-size: 44px; white-space: normal; overflow-wrap: anywhere; max-inline-size: 100%; }

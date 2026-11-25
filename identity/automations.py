@@ -69,7 +69,14 @@ def register(flow, account, platform):
         f.emit(person, "GuideOffered", {"lynkid": acct._lynkid(person), "topic": "storefront_first_paid_offer", "steps": FIRST_PAID_STEPS}, "storefront-first-paid-listing", now)
         return {"draft": "identity_check", "steps": len(FIRST_PAID_STEPS), "labelled": "suggestion", "why": "a first paid Storefront offer needs the licensed partner's identity check; the offer waits until the partner confirms"}
 
-    for aid, fn in (("storefront-first-paid-listing", first_paid_listing), ("sign-in-alert", sign_in_alert), ("recovery-guide", recovery_guide), ("consent-expiry", consent_expiry), ("data-request-timer", data_request_timer),
+    def number_confirm(f, person, payload, now):
+        """Section 4C point 1: once a year the person is asked to confirm the number on the account is still theirs, since
+        networks give old numbers out again. Inform only: nothing changes until the person answers."""
+        if person not in acct.numbers_to_confirm(now): return None
+        f.emit(person, "NumberConfirmDue", {"lynkid": acct._lynkid(person)}, "number-confirm-yearly", now); acct.mark_number_reminded(person, now)
+        return {"reminder": "confirm_your_number", "why": "a year since the number on the account was confirmed; mobile networks give old numbers out again"}
+
+    for aid, fn in (("number-confirm-yearly", number_confirm), ("storefront-first-paid-listing", first_paid_listing), ("sign-in-alert", sign_in_alert), ("recovery-guide", recovery_guide), ("consent-expiry", consent_expiry), ("data-request-timer", data_request_timer),
                     ("start-business-tracker", start_business_tracker), ("churn-watch", churn_watch), ("renewal-reminder", renewal_reminder)):
         flow.handle(aid, fn)
 

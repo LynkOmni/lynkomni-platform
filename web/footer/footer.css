@@ -34,8 +34,7 @@
 .fpays .ic { inline-size: 20px; block-size: 20px; flex: none; }
 .fnews { min-width: 0; grid-column: span 2; }
 .mainfoot .fnews p { margin: 0 0 8px; color: var(--text-secondary); overflow-wrap: anywhere; }
-.fnews .fl { display: flex; flex-direction: column; gap: 4px; margin-block-end: 8px; }
-.fnews input[type="email"] { font: inherit; min-height: 44px; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-input); background: var(--bg-surface); color: var(--text-primary); }
+.fnews .lf-field { margin-block-end: 8px; }
 /* topics sit in two even columns, so the choices line up and the rows stay close (owner report 2026-11-19) */
 .fnews fieldset { border: 0; padding: 0; margin: 0 0 8px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; }
 .fnews legend { padding: 0; margin-block-end: 4px; font-weight: 600; }

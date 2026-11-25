@@ -4,8 +4,11 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
  "texts": {
+  "fd_code_new": "নতুন কোড পাঠান",
+  "fd_code_sent": "একটি নতুন কোড আসছে।",
+  "fd_code_wait": "{time} পরে নতুন কোড",
   "fd_country": "দেশ",
   "fd_email_format": "name@example.com-এর মতো একটি ইমেল ঠিকানা দিন।",
   "fd_email_suggest": "আপনি কি {email} বোঝাতে চেয়েছেন?",

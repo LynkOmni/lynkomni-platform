@@ -179,11 +179,13 @@ export function stateButtons(el: HTMLElement, states: readonly string[], go: (s:
 /** The footer (blueprint section 26). Web apps (the owner's web view) show the main footer; apps on a device show the one-line
  *  short footer. Words come from the language packs, payment methods from the chosen country's pack, and the copyright line is
  *  fixed text with the year in the country's time zone. */
-export function appMainFooter(words: Words, country: Country, data: Build): string {
+/** emailBox: the newsletter's email field from ts/src/emailfield.ts emailFieldHtml (id FOOTER_EMAIL_ID); the page that shows the
+ *  main footer imports that part and calls wireEmails after every draw. */
+export function appMainFooter(words: Words, country: Country, data: Build, emailBox?: (label: string) => string): string {
   const p = country.pack();
   return mainFooterHtml(buildFooter({ now: new Date(), lang: words.htmlLang(), words: (k) => (words.has(k) ? words.t(k) : undefined),
     pack: { code: p.code, name: p.name, currency: p.currency, tz: p.tz, languages: [], providers: p.providers, card_networks: p.card_networks, wallets: p.wallets } }), esc, (id) => data.icons[id] ?? "",
-    data.brand.places["web-footer"] ? { light: markFor(data.brand.places, "web-footer", false, 180).svg, dark: markFor(data.brand.places, "web-footer", true, 180).svg } : undefined);
+    data.brand.places["web-footer"] ? { light: markFor(data.brand.places, "web-footer", false, 180).svg, dark: markFor(data.brand.places, "web-footer", true, 180).svg } : undefined, emailBox);
 }
 export const appShortFooter = (country: Country): string => shortFooterHtml(new Date(), country.pack().tz);
 

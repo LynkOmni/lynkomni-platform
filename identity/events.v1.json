@@ -551,6 +551,26 @@
     "ran"
    ],
    "note": "every LynkAssist decision on the account, run or not ('Everything LynkAssist did')"
+  },
+  "ContactRemoved": {
+   "payload": [
+    "lynkid",
+    "kind",
+    "reason"
+   ],
+   "note": "section 4C point 1: a phone number the mobile network partner reports as given to someone else is taken off the account; the owner is told by email"
+  },
+  "NumberConfirmed": {
+   "payload": [
+    "lynkid"
+   ],
+   "note": "section 4C point 1: the person confirmed the number on the account is still theirs"
+  },
+  "NumberConfirmDue": {
+   "payload": [
+    "lynkid"
+   ],
+   "note": "section 4C point 1: written by the number-confirm-yearly automation a year after the last confirmation"
   }
  }
 }

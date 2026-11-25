@@ -20,7 +20,7 @@ class ArriveSafeTests(unittest.TestCase):
     def person(self, username):
         st = self.a.begin_sign_up(username, "en", T0, adult_confirmed=True); p = st["person"]
         code = self.a.send_contact_code(p, T0); self.a.confirm_contact(p, code, T0)
-        self.a.finish_sign_up(p, f"pk-{username}", "phone", "pii_1", "pii_2", backup_contact="bk", now=T0); return p
+        self.a.finish_sign_up(p, f"pk-{username}", "phone", f"pii_ph_{username}", f"pii_em_{username}", backup_contact="bk", now=T0); return p
 
     def events(self, *types): return [e for e in self.p.c.store.of(self.me, *types)]
 

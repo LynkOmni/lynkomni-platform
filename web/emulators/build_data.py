@@ -20,7 +20,7 @@ def svg(path):
 
 
 # Shared word packs: an emulator that imports the module carries the folder's words too (one translation, used everywhere).
-SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/queuedesk.js", os.path.join("web", "shell")), ("ts/src/surveydesk.js", os.path.join("web", "shell")), ("ts/src/trackview.js", os.path.join("web", "tracking")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/ads.js", os.path.join("web", "pos")), ("ts/src/placeholder.js", os.path.join("web", "wait")), ("ts/src/sharedview.js", os.path.join("web", "shared")), ("ts/src/hints.js", os.path.join("web", "shell")), ("ts/src/footer.js", os.path.join("web", "footer")), ("ts/src/appshell.js", os.path.join("web", "navigation")), ("ts/src/chatview.js", os.path.join("web", "chat")), ("ts/src/assistview.js", os.path.join("web", "assist")), ("ts/src/officeview.js", os.path.join("web", "office")), ("ts/src/workview.js", os.path.join("web", "work")), ("ts/src/fields.js", os.path.join("web", "fields")))
+SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/queuedesk.js", os.path.join("web", "shell")), ("ts/src/surveydesk.js", os.path.join("web", "shell")), ("ts/src/trackview.js", os.path.join("web", "tracking")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/ads.js", os.path.join("web", "pos")), ("ts/src/placeholder.js", os.path.join("web", "wait")), ("ts/src/sharedview.js", os.path.join("web", "shared")), ("ts/src/hints.js", os.path.join("web", "shell")), ("ts/src/footer.js", os.path.join("web", "footer")), ("ts/src/appshell.js", os.path.join("web", "navigation")), ("ts/src/chatview.js", os.path.join("web", "chat")), ("ts/src/assistview.js", os.path.join("web", "assist")), ("ts/src/officeview.js", os.path.join("web", "office")), ("ts/src/workview.js", os.path.join("web", "work")), ("ts/src/fields.js", os.path.join("web", "fields")), ("ts/src/emailfield.js", os.path.join("web", "fields")), ("ts/src/surveydesk.js", os.path.join("web", "fields")))
 
 
 def uses_shell(emulator):
@@ -76,7 +76,9 @@ PART_MODULES = ("devicekit.ts", "signin.ts", "notify.ts", "assist.ts", "breadcru
 PART_WORDS = {"signin.ts": ("pin_", "match_"), "notify.ts": ("ntf_", "msg_"), "assist.ts": ("as_",), "breadcrumbs.ts": ("crumbs",), "peopleparts.ts": ("ppl_",),
               "attenddesk.ts": ("ppl_at_",), "queuedesk.ts": ("ppl_qu_",), "surveydesk.ts": ("ppl_sv_",),   # build section 3B: each desk's own words travel only with that desk
               "emkit.ts": ("emk_",), "emulatorpanel.ts": ("emp_",),
-              "appshell.ts": ("nv_",), "chatview.ts": ("ch_",), "assistview.ts": ("at_",), "officeview.ts": ("of_",), "workview.ts": ("wk_",)}                                                                   # section 4 step B2: the menu words travel only with the app shell                                  # build section 3A: the Emulator Panel's device side and the panel
+              "appshell.ts": ("nv_",), "chatview.ts": ("ch_",), "assistview.ts": ("at_",), "officeview.ts": ("of_",), "workview.ts": ("wk_",),
+              "fields.ts": ("fd_country", "fd_example", "fd_long", "fd_short", "fd_range", "fd_ok"), "emailfield.ts": ("fd_email", "fd_error", "fd_warning", "fd_info", "fd_success"),
+              "codefield.ts": ("fd_code",)}   # section 4C: each field part's words travel only with pages that use it                                                                   # section 4 step B2: the menu words travel only with the app shell                                  # build section 3A: the Emulator Panel's device side and the panel
 
 
 def part_words_left_out(emulator):

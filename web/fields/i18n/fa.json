@@ -4,8 +4,11 @@
  "kept_in_english": [],
  "lang": "fa",
  "native": "فارسی",
- "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
  "texts": {
+  "fd_code_new": "ارسال کد جدید",
+  "fd_code_sent": "یک کد جدید در راه است.",
+  "fd_code_wait": "کد جدید تا {time} دیگر",
   "fd_country": "کشور",
   "fd_email_format": "یک نشانی ایمیل مانند name@example.com وارد کنید.",
   "fd_email_suggest": "منظورتان {email} بود؟",
