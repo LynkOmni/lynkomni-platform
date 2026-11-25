@@ -37,7 +37,11 @@ jobs:
       - uses: github/codeql-action/init@v4
         with: {languages: "${{ matrix.language }}", build-mode: "${{ matrix.build-mode }}"}
       - if: matrix.language == 'java-kotlin'
-        run: cd android && gradle --no-daemon --no-build-cache :core:compileKotlin :core:compileTestKotlin
+        # the Gradle plugin store sometimes fails to answer: try up to five times, as the ci workflow's Kotlin job does
+        run: |
+          cd android
+          for i in 1 2 3 4 5; do gradle --no-daemon --no-build-cache :core:compileKotlin :core:compileTestKotlin && exit 0; sleep 20; done
+          exit 1
       - if: matrix.language == 'swift'
         run: cd ios && swift build
       - uses: github/codeql-action/analyze@v4
