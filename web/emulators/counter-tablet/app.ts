@@ -3,6 +3,7 @@
  *  tabs by business type, tier limits, restaurant mode, shifts and cash counts, the web rule) on sandbox partners. Nothing
  *  about a country or a maker lives here: the country comes from its pack, the hardware is an original LynkOmni design. */
 import { hintFor } from "../../../ts/src/hints.js";
+import { noticeHtml } from "../../../ts/src/errorbox.js";
 import { Cart, PosError, change, paymentPayload, paymentState, qtyText, quickCash, receiptLines, salePayload } from "../../../ts/src/pos.js";
 import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload, UserState } from "../../../ts/src/pos.js";
 import { afterSale, daySummary, insight } from "../../../ts/src/merchant.js";
@@ -24,7 +25,7 @@ const STAFF = new StaffLock([
   { person: "m1", name: "Eric", role: "manager", pin: "2580" },
   { person: "o1", name: "Grace", role: "owner", pin: "4719" },
 ]);
-let WHO = "c1", PICKING = false, LIMITED = false, PINNOTE = "";
+let WHO = "c1", PICKING = false, LIMITED = false, PINNOTE = "", PINHARD = false;
 let LINES: Line[] = [];
 import type { Entry } from "../../../ts/src/shell.js";
 import { DeviceMode } from "../../../ts/src/devicemode.js";
@@ -185,7 +186,7 @@ function sellScreen(): string {
 function payScreen(): string {
   const methods: PaymentMethod[] = ["cash", "card", "mobile_money", "bank_transfer"];
   const l = last(); const failed = l && l.status === "failed";
-  return `<div class="paybox"><h2>${esc(money(total()))}</h2>${failed ? `<p class="warn">${esc(t("failed_try_again"))}</p>` : ""}<p class="note">${esc(t("not_proof"))}</p>
+  return `<div class="paybox"><h2>${esc(money(total()))}</h2>${failed ? noticeHtml(t, { level: "error", text: t("failed_try_again"), how: t("fd_choose_other") }) : ""}<p class="note">${esc(t("not_proof"))}</p>
     <div class="methods">${methods.map((m) => { const ok = C.methodOk(m, S.realUser); return `<button class="method" data-act="method:${m}" ${ok ? "" : 'aria-disabled="true"'}>${icon(m === "cash" ? "ui-pay-wallet" : m === "card" ? "ui-pay-card" : m === "mobile_money" ? "ui-pay-mobile-money" : "ui-pay-bank")}<span>${esc(t(m))}</span>${ok ? "" : `<small>${esc(t("coming_soon"))}</small>`}</button>`; }).join("")}</div>
     ${restaurantLimits(ent()).tips ? `<div class="tips"><span>${esc(t("tip"))}</span>${[0, 5, 10, 15].map((p) => `<button class="pill${S.tipPct === p ? " on" : ""}" data-act="tip:${p}">${p}%</button>`).join("")}<small>${esc(t("tips_belong"))}</small></div>` : ""}
     <button class="link" data-act="back">${esc(t("back"))}</button></div>`;
@@ -253,7 +254,7 @@ function dayCloseScreen(): string {
     <p>${esc(t("low_stock"))}: ${esc(low.join(", ") || "—")}</p><p class="note">${esc(sm.failed ? t("st_failed") + ": " + money(sm.failed) : t("nothing_unusual"))}</p><button class="link" data-act="tab:home">${esc(t("back"))}</button></div>`;
 }
 function stockScreen(): string {
-  return `<div class="stocklist"><h2>${esc(t("stock"))}</h2><ul>${CATALOG.map((p) => { const lv = S.levels[p.id] ?? 0; return `<li><span class="nm">${esc(t(p.name))}</span><span>${qtyText(lv)}</span>${lv < 0 ? `<span class="warn">${esc(t("negative_stock"))}</span>` : lv <= P(5) ? `<span class="low">${esc(t("low_stock"))}</span>` : ""}<button class="pill" data-act="count:${p.id}">${esc(t("count"))}</button></li>`; }).join("")}</ul></div>`;
+  return `<div class="stocklist"><h2>${esc(t("stock"))}</h2><ul>${CATALOG.map((p) => { const lv = S.levels[p.id] ?? 0; return `<li><span class="nm">${esc(t(p.name))}</span><span>${qtyText(lv)}</span>${lv < 0 ? `<span class="neg-tag">${esc(t("negative_stock"))}</span>` : lv <= P(5) ? `<span class="low">${esc(t("low_stock"))}</span>` : ""}<button class="pill" data-act="count:${p.id}">${esc(t("count"))}</button></li>`; }).join("")}</ul></div>`;
 }
 function businessScreen(): string {
   const items: [string, string][] = [["shift", "shift"], ["dayclose", "day_close"], ["staff", "staff"], ["credit", "credit_book"], ["deliver", "deliveries"], ["group", "buy_together"], ["setup", "settings"], ["devices", "devices"], ["reports", "reports"], ["automations", "automations"], ["academy", "academy"]];
@@ -266,7 +267,7 @@ function staffScreen(): string {
 }
 function deliverScreen(): string {
   const e = deliveryEntitlement(ent(), ent()), quotes = pickQuotes(DPARTNERS, e.routing, S.prefer), used = S.deliveries.length;
-  return `<div class="paybox"><h2>${esc(t("deliver"))}</h2>${S.online ? "" : `<p class="warn">${esc(t("online_only"))}</p>`}
+  return `<div class="paybox"><h2>${esc(t("deliver"))}</h2>${S.online ? "" : noticeHtml(t, { level: "warning", text: t("online_only"), how: t("fd_go_online") })}
     ${e.routing ? `<div class="row"><button class="pill${S.prefer === "cheapest" ? " on" : ""}" data-act="prefer:cheapest">${esc(t("cheapest"))}</button><button class="pill${S.prefer === "fastest" ? " on" : ""}" data-act="prefer:fastest">${esc(t("fastest"))}</button></div>` : ""}
     <ul class="orders">${quotes.map((q) => `<li><span>${esc(t("partner_price", { partner: t(q.partnerId === "da" ? "partner_a" : "partner_b"), price: money(q.price), min: Math.round(q.etaS / 60) }))}</span><button class="pill" data-act="book:${q.partnerId}" ${S.online && mayRequestPartnerDelivery(used, e) ? "" : "disabled"}>${esc(t("book_delivery"))}</button></li>`).join("")}
       <li><span>${esc(t("own_rider"))} (${S.riders})</span><button class="pill" data-act="book:own" ${S.online && S.riders > 0 ? "" : "disabled"}>${esc(t("book_delivery"))}</button><button class="pill" data-act="addrider" ${mayAddRider(S.riders, e) ? "" : "disabled"}>+</button></li></ul>
@@ -296,7 +297,7 @@ function voiceScreen(): string {
 function lockedScreen(): string {
   if (PICKING) return `<div class="lock">${staffPicker(STAFF.staff, t, (id) => icon(id))}</div>`;
   const me = STAFF.find(WHO);
-  return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.dark, "locklogo")}<p class="who">${icon("ui-user")}<span>${esc(me?.name ?? "")} · ${esc(t(`role_${me?.role ?? "cashier"}`))}</span><button class="link" data-act="staff:change">${esc(t("dk_change"))}</button></p><h1>${esc(t("enter_pin"))}</h1><p class="note" role="alert">${esc(PINNOTE || (S.idleTicks ? t("locked_idle") : ""))}</p><div class="dots">${[0, 1, 2, 3].map((i) => `<i class="${S.pin.length > i ? "on" : ""}"></i>`).join("")}</div>
+  return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.dark, "locklogo")}<p class="who">${icon("ui-user")}<span>${esc(me?.name ?? "")} · ${esc(t(`role_${me?.role ?? "cashier"}`))}</span><button class="link" data-act="staff:change">${esc(t("dk_change"))}</button></p><h1>${esc(t("enter_pin"))}</h1>${PINNOTE ? noticeHtml(t, PINHARD ? { level: "error", text: PINNOTE, how: t("fd_ask_manager") } : { level: "warning", text: PINNOTE, how: t("fd_type_again") }) : S.idleTicks ? noticeHtml(t, { level: "info", text: t("locked_idle") }) : ""}<div class="dots">${[0, 1, 2, 3].map((i) => `<i class="${S.pin.length > i ? "on" : ""}"></i>`).join("")}</div>
     <div class="soft">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => `<button data-act="d${d}">${d}</button>`).join("")}<button data-act="clear" aria-label="${esc(t("cancel"))}">${icon("ui-arrow-left")}</button><button data-act="d0">0</button><button data-act="enter" aria-label="${esc(t("unlock"))}">${icon("ui-check")}</button></div><p class="hint">PIN 1234</p></div>`;
 }
 function page(): string {
@@ -351,7 +352,7 @@ function act(a: string): void {
       const r = STAFF.signIn(WHO, S.pin, Date.now()); S.pin = "";
       if (r.ok) { S.unlocked = true; S.view = "main"; LIMITED = r.view === "limited"; S.tab = LIMITED || S.type !== "restaurant" ? "sell" : "tables"; PINNOTE = "";
         const n = STAFF.pathsOut(S.online ? ["internet"] : []); for (let i = 0; i < n; i++) LOG.emit("DuressSignalled", { device_id: "tablet", person: WHO, path: "internet", at: Date.now() }, "server", "accepted"); }
-      else { PINNOTE = r.reason === "wrong" ? t("wrong_pin") : r.reason === "wait" ? t("dk_wait", { s: r.seconds ?? 0 }) : t("dk_hard_locked");
+      else { PINNOTE = r.reason === "wrong" ? t("wrong_pin") : r.reason === "wait" ? t("dk_wait", { s: r.seconds ?? 0 }) : t("dk_hard_locked"); PINHARD = r.reason !== "wrong" && r.reason !== "wait";
         if (r.reason === "hard_locked") LINES = raiseLocal(LINES, "device_hard_locked", t("dk_hard_locked"), Date.now()); }
     }
     draw(); return;

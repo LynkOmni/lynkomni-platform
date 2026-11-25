@@ -93,12 +93,11 @@ export function columns(lang: string, words?: Words): Column[] {
   ];
   return cols.map((c) => ({ ...c, span: spanFor(c.items.length) }));
 }
-export const SOCIAL = ["linkedin", "x", "facebook", "instagram", "youtube", "tiktok", "whatsapp"] as const;   // Snapchat, Pinterest and Threads removed: no audience fit for a merchant and fintech platform
+export const SOCIAL = ["linkedin", "x", "facebook", "instagram", "youtube", "tiktok"] as const;   // Snapchat, Pinterest and Threads removed: no audience fit for a merchant and fintech platform; WhatsApp removed completely (owner, 2026-11-25)
 /** Official LynkOmni accounts (claimed 2026-11-06 under the name "LynkOmni" on all ten platforms; seven are shown). */
 export const SOCIAL_LINKS: Record<(typeof SOCIAL)[number], string> = {
   linkedin: "https://www.linkedin.com/showcase/lynkomni", x: "https://x.com/LynkOmni", facebook: "https://www.facebook.com/LynkOmni",
   instagram: "https://www.instagram.com/lynkomni", youtube: "https://www.youtube.com/@LynkOmni", tiktok: "https://www.tiktok.com/@lynkomni",
-  whatsapp: "https://wa.me/237681296652",
 };
 /** Only methods this country's transactions really use, from the country pack (ts/src/payments.ts). Each is shown as a
  *  LynkOmni method icon plus the provider's name as text; never a copied logo. */
@@ -132,7 +131,7 @@ export function mainFooterHtml(f: ReturnType<typeof buildFooter>, esc: (s: strin
   const link = (i: Item): string => `<li><a href="${esc(i.href)}">${i.plain ? `<span class="fname">${esc(i.label)}</span> <span class="fplain">(${esc(i.plain)})</span>` : esc(i.label)}</a></li>`;
   const cols = f.columns.map((c) => `<section class="fcol" data-span="${c.span}" style="--span:${c.span}"><h3>${esc(c.title)}</h3><ul>${c.items.map(link).join("")}</ul></section>`).join("");
   const mark = logo ? `<a class="flogo" href="/" aria-label="${esc(f.labels.home)}"><span class="on-light">${logo.light}</span><span class="on-dark">${logo.dark}</span></a>` : "";
-  const SOCIAL_NAMES: Record<string, string> = { linkedin: "LinkedIn", x: "X", facebook: "Facebook", instagram: "Instagram", youtube: "YouTube", tiktok: "TikTok", whatsapp: "WhatsApp" };
+  const SOCIAL_NAMES: Record<string, string> = { linkedin: "LinkedIn", x: "X", facebook: "Facebook", instagram: "Instagram", youtube: "YouTube", tiktok: "TikTok" };
   const social = f.socialLinks.map((s) => `<li><a href="${esc(s.href)}" target="_blank" rel="noopener">${esc(SOCIAL_NAMES[s.id] ?? s.id)}</a></li>`).join("");
   const pay = f.payments.options.map((o) => `<li class="fpay"><span class="ic" aria-hidden="true">${icon(o.icon)}</span>${esc(o.label)}</li>`).join("");
   const n = f.newsletter;

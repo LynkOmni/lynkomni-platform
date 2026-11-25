@@ -3,6 +3,7 @@
  *  person). Steps are device events (DeliveryPickedUp, DeliveryDelivered) that work offline and are sent when a link exists.
  *  LynkOmni never employs riders: the rider is the shop's own staff. */
 import type { UserState } from "../../../ts/src/pos.js";
+import { noticeHtml, wireNotices } from "../../../ts/src/errorbox.js";
 import { nextDeliveryStep } from "../../../ts/src/restaurant.js";
 import type { DeliveryState } from "../../../ts/src/restaurant.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, plain, stateButtons, appShortFooter } from "../../../ts/src/emulator.js";
@@ -35,16 +36,16 @@ function batteryNote(): string {
   if (RX.battery > 20) return "";
   if (RX.battery <= 3) {
     if (!RX.lastSent) { RX.lastSent = true; LOG.emit("DeviceLastReport", { device_id: "rider-phone-1", reason: "battery", battery_pct: RX.battery }); }
-    return `<p class="warn" role="status">${icon("ui-warning")}${esc(t("last_report"))}</p>`;
+    return noticeHtml(t, { level: "info", text: t("last_report") });
   }
-  return `<p class="warn" role="status">${icon("ui-warning")}${esc(t(RX.battery <= 10 ? "battery_10" : "battery_20"))}</p>`;
+  return noticeHtml(t, { level: "warning", text: t(RX.battery <= 10 ? "battery_10" : "battery_20") });
 }
 function shiftBar(): string {
   return `<div class="shift"><button class="${RX.onShift ? "primary" : "secondary"}" data-act="shift:${RX.onShift ? "off" : "on"}" aria-pressed="${RX.onShift}">${esc(t(RX.onShift ? "shift_on" : "shift_off"))}</button>${RX.onShift ? "" : `<p class="note">${esc(t("shift_off_note"))}</p>`}</div>`;
 }
 function sosView(): string {
   if (RX.sos === "confirm") return `<div class="sos" role="alertdialog" aria-labelledby="sosQ"><p id="sosQ"><strong>${esc(t("sos_confirm"))}</strong></p><button class="primary" data-act="sos:send">${esc(t("sos_send"))}</button><button class="secondary" data-act="sos:cancel">${esc(t("sos_cancel"))}</button></div>`;
-  if (RX.sos === "sent") return `<p class="warn" role="status">${esc(t("sos_sent"))}</p>`;
+  if (RX.sos === "sent") return noticeHtml(t, { level: "warning", text: t("sos_sent") });
   return `<button class="secondary sosbtn" data-act="sos:ask">${icon("ui-warning")}${esc(t("sos"))}</button>`;
 }
 const S: PanelState & { jobs: Job[]; open: string; typed: string; msg: string; ticks: number; share: boolean; trip: number } = { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: false, lang: "en", jobs: [], open: "", typed: "", msg: "", ticks: 0, share: false, trip: 0 };
@@ -104,10 +105,10 @@ function detail(j: Job): string {
   return `<button class="link" data-act="back">${icon("ui-arrow-left")}${esc(t("back"))}</button><h2>${esc(t("order", { n: j.order }))}</h2><p>${esc(t(j.area))}${GATE.limited ? "" : ` · ${esc(C.money(j.amount))}`}</p>
     <p class="state">${esc(stateWord(j.state))} ${syncChip}</p>
     ${next === "picked_up" ? `<button class="primary" data-act="pickup">${esc(t("picked_up"))}</button>` : ""}
-    ${next === "delivered" ? `<label class="codebox">${esc(t("delivery_code", { code: "" }))}<input inputmode="numeric" maxlength="6" data-sensitive data-field="code" value="${esc(S.typed)}" autocomplete="off"></label>
+    ${next === "delivered" ? `<label class="codebox">${esc(t("delivery_code", { code: "" }))}<input id="riderCode" inputmode="numeric" maxlength="6" data-sensitive data-field="code" value="${esc(S.typed)}" autocomplete="off"></label>
       <button class="primary" data-act="deliver:code" ${S.typed.length === 6 ? "" : "disabled"}>${esc(t("delivered"))}</button><p class="note">${esc(t("proof_code"))}</p>
       <button class="secondary" data-act="deliver:photo">${icon("ui-receipt")}${esc(t("proof_photo"))}</button>` : ""}
-    ${batteryNote()}${S.msg ? `<p class="warn" role="alert">${esc(S.msg)}</p>` : ""}
+    ${batteryNote()}${S.msg ? noticeHtml(t, { level: "error", text: S.msg, field: "riderCode", how: t("fd_type_again") }) : ""}
     ${(() => { const v = tracker(j); return v ? trackerHtml(v, look, t("order", { n: j.order })) : ""; })()}
     ${j.state === "delivered" && RX.seals[j.id] ? `<p class="note" data-item="sealed">${icon("ui-lock")}${esc(t("sealed", { seal: RX.seals[j.id]!.slice(0, 12) }))}</p>` : ""}
     ${j.state === "picked_up" && RX.onShift ? `<label class="share"><input type="checkbox" data-field="share" ${S.share ? "checked" : ""}> <span>${esc(t("trk_share_progress"))}</span></label><p class="note">${esc(t("trk_share_help"))}</p>` : ""}
@@ -129,7 +130,7 @@ function carVoice(): string {
  *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
 const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "pos.rider_phone", "Rider phone", { short_side: 390, touch: true, camera: true, speaker: true }, "android"), (type, payload, origin) => { LOG.emit(type, payload, origin); });
 const KW = wireKit(KIT, { t, icon: (id) => icon(id), online: () => S.online, redraw: () => draw() });
-function draw(): void { drawScreen(); KW.after($("#screen")); }
+function draw(): void { drawScreen(); KW.after($("#screen")); wireNotices($("#screen")); }
 function drawScreen(): void {
   const el = $("#screen"); if (!el) return;
   const c = rkChoice(); el.dataset["interface"] = c.interface; el.dataset["deviceClass"] = c.class; el.dataset["moving"] = RK.device === "car-screen" && RK.moving ? "yes" : "no";

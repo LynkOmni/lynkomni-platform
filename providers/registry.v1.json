@@ -3316,11 +3316,11 @@
   },
   {
    "id": "social-accounts",
-   "what": "Create the official LynkOmni accounts and claim the name on LinkedIn, X, Facebook, Instagram, YouTube, TikTok, WhatsApp Business, Snapchat, Pinterest and Threads; send Claude the links of the seven footer channels.",
+   "what": "Create the official LynkOmni accounts and claim the name on LinkedIn, X, Facebook, Instagram, YouTube, TikTok, Snapchat, Pinterest and Threads; send Claude the links of the footer channels.",
    "why": "Claiming the name everywhere stops others from impersonating LynkOmni; the footer links must lead to real, active accounts.",
    "when": "before the website goes public",
    "status": "done",
-   "done_note": "Claimed as \"LynkOmni\" on all ten platforms on 2026-11-06; footer links connected (ts/src/footer.ts SOCIAL_LINKS); LinkedIn is a showcase page under the CruxOmni Group company page."
+   "done_note": "Claimed as \"LynkOmni\" on 2026-11-06 (the WhatsApp Business account stays outside LynkOmni and its footer link was removed on 2026-11-25, owner); footer links connected (ts/src/footer.ts SOCIAL_LINKS); LinkedIn is a showcase page under the CruxOmni Group company page."
   },
   {
    "id": "company-domains-email",

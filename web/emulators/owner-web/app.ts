@@ -9,6 +9,7 @@ import { homeCards, webRule } from "../../../ts/src/business.js";
 import { matchStatement } from "../../../ts/src/agent.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, stateButtons, appMainFooter, pageWaiting } from "../../../ts/src/emulator.js";
 import { emailFieldHtml, wireEmails } from "../../../ts/src/emailfield.js";
+import { noticeHtml, wireNotices } from "../../../ts/src/errorbox.js";
 import { FOOTER_EMAIL_ID } from "../../../ts/src/footer.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
@@ -79,7 +80,7 @@ function staff(): string {
 }
 function commissions(): string {
   const m = matchStatement(ours, reported);
-  return `<h1>${esc(t("agent_commissions"))}</h1><p>${esc(t("statement_matched", { n: m.matched }))} · ${esc(C.money(m.total))}</p><p class="warn">${esc(t("statement_mismatch", { n: m.mismatches.length }))}</p>
+  return `<h1>${esc(t("agent_commissions"))}</h1><p>${esc(t("statement_matched", { n: m.matched }))} · ${esc(C.money(m.total))}</p>${noticeHtml(t, { level: "warning", text: t("statement_mismatch", { n: m.mismatches.length }) })}
     <ul class="rows">${Object.entries(ours).map(([id, c]) => { const r = reported.find((x) => x.request_id === id); return `<li><span>${esc(t("partner_a"))} · ${esc(id.toUpperCase())}</span><span>${esc(C.money(c))}</span><span>${r ? esc(C.money(r.commission)) : "—"}</span>${r && r.commission === c ? chip("confirmed") : chip("failed")}</li>`; }).join("")}</ul><p class="note">${esc(t("float_read_live"))}</p>`;
 }
 // ---- the automation system (CONNECT UPDATE 71.2, section 4 row 71.9; services/flow.py is the rule): sample state, labelled Sample ----
@@ -161,6 +162,7 @@ function trkAct(a: string): boolean {
   if (k === "scan") { const [kind = "", rec = ""] = TS.item.split("|"); TS.result = TRK.scan(kind, rec, TS.step, TS.proof || null); if (TS.result.ok && TS.result.event) LOG.emit(TS.result.event, { [REGISTER.kinds.find((x) => x.id === kind)?.key ?? "id"]: rec, ...(TS.proof ? { proof: TS.proof } : {}) }, "device"); }
   if (k === "add" && TS.draft.trim()) { const id = `own_${TS.extra.length + 1}`; TS.extra = [...TS.extra, { id, label: TS.draft.trim() }]; TRK.setExtraSteps(ME, "order", TS.extra); TS.draft = ""; }
   if (k === "drop") { TS.extra = TS.extra.filter((x) => x.id !== v); TRK.setExtraSteps(ME, "order", TS.extra); }
+  if (k === "pick") { TS.step = v; TS.result = null; setTimeout(() => document.getElementById("trkStep")?.focus(), 0); }   // a fix: mark the earlier step first
   return true;
 }
 function trkInput(key: string, value: string): boolean {
@@ -251,6 +253,7 @@ function draw(): void {
     <div class="app">${sideBar()}<main class="main"><div class="mhead">${DSH.bar()}</div>${office() ? OV.browserNote() : work() ? WV.note() : `<p class="viewonly" role="note">${icon("ui-info")}${esc(t("view_only_computer"))}</p>`}<div data-wait-area data-wrap>${page()}</div>${appMainFooter(W, C, DATA, newsBox)}</main></div>${launcherOverlay()}${DSH.overlay()}`;
   const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address();
   newsWire(el);
+  wireNotices(el);                                                     // section 4C point 2: the field each message is about
   pageWaiting(WAIT, { online: true, firstOpen: S.firstOpen }, el, t, draw);   // PLACEHOLDER UPDATE 83: a browser page is online
 }
 /** Redraws while typing and puts the cursor back where it was, so a field never loses its place. */

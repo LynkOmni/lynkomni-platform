@@ -30,7 +30,6 @@
 .codebox { display: flex; flex-direction: column; gap: 6px; font-weight: 600; }
 .codebox input { font: 700 24px var(--font-mono); letter-spacing: .3em; text-align: center; padding: 10px; border-radius: 12px; border: 1px solid var(--border-input); background: var(--bg-surface); color: var(--text-primary); }
 .note, .hint { color: var(--text-secondary); font-size: 12px; overflow-wrap: anywhere; }
-.warn { padding: 8px 10px; border-radius: 10px; background: var(--status-danger-bg); color: var(--status-danger-text); border: 1px solid var(--status-danger-border); }
 .pscreen[dir="rtl"] .link .ic svg, .pscreen[dir="rtl"] .jobs .ic svg { transform: scaleX(-1); }
 .rtop { flex-wrap: wrap; gap: 4px 8px; }
 .rtop strong { flex: 1 1 9ch; overflow-wrap: anywhere; }   /* the title keeps room for a word; the shell buttons move to the next line when they cannot fit */
@@ -47,7 +46,7 @@
 .carvoice .big .ic { width: 64px; height: 64px; }
 /* NEW UPDATE 1: shift switch, SOS, battery notes */
 .shift { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-block-end: 8px; }
-.warn .ic, .note .ic { display: inline-flex; inline-size: 16px; block-size: 16px; margin-inline-end: 6px; vertical-align: -3px; }
+.note .ic { display: inline-flex; inline-size: 16px; block-size: 16px; margin-inline-end: 6px; vertical-align: -3px; }
 .sos { display: grid; gap: 6px; padding: 8px; border-radius: 10px; border: 1px solid var(--status-danger-border); background: var(--status-danger-bg); color: var(--status-danger-text); }
 .sosbtn { color: var(--status-danger-text); border-color: var(--status-danger-border); }
 /* TURN UPDATE 76.8: the phone turned sideways keeps every screen; only the shape changes */

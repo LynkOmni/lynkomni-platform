@@ -6,6 +6,7 @@
  *  next follows the fair order); a ticket code given twice; a device that was not added giving out or calling tickets; a ticket
  *  given when the section is closed. Everything in the building works without internet; "Not served today" and new blocks of
  *  codes are written by the cloud alone, so those wait for it. Words are "ppl_" keys in web/shell. */
+import { noticeHtml, type Notice } from "./errorbox.js";
 import { hintFor } from "./hints.js";
 import { planPreviewHtml } from "./placeholder.js";
 import { esc } from "./shell.js";
@@ -404,6 +405,15 @@ const quWhy = (why: string, d: QueueDesk, section: string, t: T): string => {
     : why === "free_limit_reached" ? t("ppl_qu_free_limit") : why === "one_waiting_ticket_per_phone" ? t("ppl_qu_one_per_phone") : why === "no_codes_left_on_this_device" ? t("ppl_qu_no_codes") : "";
 };
 
+/** A refused ticket through the shared message part (section 4C point 2): why, and what to do instead. */
+function quNotice(why: string, d: QueueDesk, section: string, t: T): string {
+  const text = quWhy(why, d, section, t);
+  const n: Notice = why === "free_limit_reached" ? { level: "error", text, how: t("fd_owner_plan") }
+    : why === "one_waiting_ticket_per_phone" ? { level: "error", text, how: t("fd_use_ticket") }
+    : why === "no_codes_left_on_this_device" ? { level: "error", text, how: t("fd_go_online") }
+    : { level: "error", text, how: t("fd_choose_other") };
+  return noticeHtml(t, n);
+}
 /** The paper ticket: the place, the section, the number in large letters, its QR, the date and time, the place in the queue and the link to follow it. */
 export function quPaper(d: QueueDesk, tk: QuTicket, L: QuLook): string {
   const p = d.placeOf(tk), w = d.waitOf(tk);
@@ -492,7 +502,7 @@ export function quReportsView(d: QueueDesk, L: QuLook): string {
 export function quReceptionView(d: QueueDesk, L: QuLook): string {
   const t = L.t, tk = d.tk(d.lastTicket), why = d.closedWhy(d.section), missed = d.tickets.filter((x) => x.state === "missed");
   const pick = `<div class="ph-choices small">${d.sections.map((s) => `<button type="button" class="ph-choice" data-act="qu:sec:${s.code}" ${quOn(d.section === s.code)}><strong>${esc(quSecName(s, t))}</strong><span><span dir="ltr">${esc(s.code)}</span> · ${esc(t("ppl_waiting_n", { n: d.waiting(s.code).length }))}</span></button>`).join("")}</div>`;
-  const warn = why ? `<p class="warn" role="alert">${esc(quWhy(why, d, d.section, t))}</p>` : d.mayNotBeServed(d.section) ? `<p class="notice" role="status">${esc(t("ppl_qu_may_not"))}</p>` : d.refused ? `<p class="warn" role="alert">${esc(quWhy(d.refused, d, d.section, t))}</p>` : "";
+  const warn = why ? quNotice(why, d, d.section, t) : d.mayNotBeServed(d.section) ? noticeHtml(t, { level: "warning", text: t("ppl_qu_may_not") }) : d.refused ? quNotice(d.refused, d, d.section, t) : "";
   const given = tk && tk.state === "waiting" ? `${ticketCard(quView(d, tk, t), t, L.icon)}${d.printed === tk.id ? `${L.paper === false ? "" : quPaper(d, tk, L)}<p class="sub" role="status">${esc(t("ppl_qu_printed"))}</p>` : `<p class="sub">${esc(t(d.plan.own_hardware ? "ppl_qu_no_printer" : "ppl_qu_plan_hardware"))}</p>`}
     ${tk.pager ? `<p role="status">${esc(t("ppl_qu_pager_out", { n: tk.pager }))}</p>` : ""}<div class="ph-row"><button type="button" class="ghost small" data-act="qu:reprint:${tk.id}" ${quOff(!d.has("printer"))}>${esc(t("ppl_qu_reprint"))}</button>
     <button type="button" class="ghost small" data-act="qu:markprio:${tk.id}" ${quOff(tk.priority)}>${esc(t("ppl_priority_short"))}</button></div>` : "";
@@ -522,7 +532,7 @@ export function quKioskView(d: QueueDesk, L: QuLook): string {
   if (done) return `<div class="qkiosk done" role="status">${ticketCard(quView(d, done, t), t, L.icon)}${L.paper === false ? "" : quPaper(d, done, L)}<p>${esc(t("ppl_qu_take_ticket"))}</p><button type="button" class="primary inline" data-act="qu:kioskdone">${esc(t("ppl_next_person"))}</button></div>`;
   return `<div class="qkiosk"><p class="plabel">${esc(t("ppl_qu_kiosk_pick"))}</p>${d.sections.map((s) => { const why = d.closedWhy(s.code), n = d.waiting(s.code).length, w = waitMinutes(n + 1, s.avg, Math.max(1, d.openCounters(s.code)));
     return `<button type="button" class="qk-sec" data-act="qu:kiosk:${s.code}" ${quOff(why !== "")}><strong>${esc(quSecName(s, t))}</strong><span>${why ? esc(quWhy(why, d, s.code, t)) : `${esc(t("ppl_waiting_n", { n }))} · ${esc(t("ppl_wait", { m: String(w ?? 0) }))}`}</span>
-      ${!why && d.mayNotBeServed(s.code) ? `<span class="warn">${esc(t("ppl_qu_may_not"))}</span>` : ""}</button>`; }).join("")}${d.refused ? `<p class="warn" role="alert">${esc(quWhy(d.refused, d, d.section, t))}</p>` : ""}<p class="sub">${esc(t("ppl_qu_kiosk_note"))}</p></div>`;
+      ${!why && d.mayNotBeServed(s.code) ? `<span class="qk-may">${esc(t("ppl_qu_may_not"))}</span>` : ""}</button>`; }).join("")}${d.refused ? quNotice(d.refused, d, d.section, t) : ""}<p class="sub">${esc(t("ppl_qu_kiosk_note"))}</p></div>`;
 }
 /** What the voice says for a call, in a language of the place: the number character by character, then the counter. */
 export const quVoice = (d: QueueDesk, tk: QuTicket, t: T): string => t("ppl_qu_voice", { number: spoken(tk.first, tk.code), counter: quCounterName(d, tk.counter, t) });

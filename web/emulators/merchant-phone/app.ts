@@ -12,6 +12,7 @@ import type { SharedLook, SharedPage, ConsentLink } from "../../../ts/src/shared
 import { hintFor } from "../../../ts/src/hints.js";
 import { phoneFieldHtml, wireFields, countryNamer, phoneValue, phoneDisplay, type FieldCtx } from "../../../ts/src/fields.js";
 import { codeFieldHtml, resendWait, asciiDigits } from "../../../ts/src/codefield.js";
+import { noticeHtml, wireNotices } from "../../../ts/src/errorbox.js";
 import { Cart, PosError, change, formatMoney, paymentPayload, paymentState, qtyText, quickCash, salePayload } from "../../../ts/src/pos.js";
 import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload, UserState } from "../../../ts/src/pos.js";
 import { adjust, afterSale, canChangeSettings, canSeeProfit, counted, daySummary, homeBlocks, insight, maySync, mode, pending, stockAlerts, stockState } from "../../../ts/src/merchant.js";
@@ -420,6 +421,9 @@ function finishPay(): void {
   S.view = s.payments.some((p) => p.status === "pending_confirmation") ? "waiting" : "receipt";
   draw();
 }
+/** The sign-in note through the shared part (section 4C point 2): a wrong code points at the code box, anything else needs the internet. */
+const mpNote = (): string => !S.note ? `<p class="note" aria-live="polite"></p>` : S.note === t("wrong_code")
+  ? noticeHtml(t, { level: "error", text: S.note, field: "codeIn", how: t("fd_type_again") }) : noticeHtml(t, { level: "error", text: S.note, how: t("fd_go_online") });
 function newSale(): void { S.cart.clear(); S.current = null; S.input = ""; S.note = ""; S.discount = 0; S.saleNote = ""; S.customer = ""; S.parts = []; S.receiptWay = ""; S.tab = "sell"; S.view = "main"; draw(); }
 const lastPayment = (): PaymentPayload | undefined => S.current?.payments[S.current.payments.length - 1];
 /** Ask the owner: one tap. Approving carries out the act as the owner confirmed it; the line clears for everyone with "Done by". */
@@ -902,7 +906,7 @@ function home(): string {
     if (b === "alerts") {
       const a = stockAlerts(CATALOG, S.levels);
       const rows = [...a.negative.map((id) => [id, "neg", "below_zero"]), ...a.low.map((id) => [id, "low", "low_stock"])].slice(0, 4)
-        .map(([id, c, k]) => `<button class="alert ${c}" data-act="product:${id}">${icon("ui-warning")}<span><b>${esc(item(id ?? "")?.name ?? "")}</b>${esc(t(k ?? ""))}</span>${icon("ui-chevron-right", "ic fwd")}</button>`);
+        .map(([id, c, k]) => `<button class="alertrow ${c}" data-act="product:${id}">${icon("ui-warning")}<span><b>${esc(item(id ?? "")?.name ?? "")}</b>${esc(t(k ?? ""))}</span>${icon("ui-chevron-right", "ic fwd")}</button>`);
       out.push(`<div class="card" data-item="stock_alerts"><h2>${esc(t("attention"))}</h2>${rows.join("") || `<p>${esc(t("stock_fine"))}</p>`}</div>`);
     }
     if (b === "chats") out.push(`<button class="card rowbtn" data-act="tab:chats" data-item="chats">${icon("product-chat")}<span class="main"><span class="nm">${esc(t("tab_chats"))}</span><span class="sub">${esc(unread() ? t("unread", { n: unread() }) : t("no_unread"))}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>`);
@@ -946,7 +950,7 @@ function sell(): string {
         <span class="stepper" data-item="quantity"><button class="iconbtn" data-act="dec:${l.product.id}" aria-label="-1 ${esc(l.product.name)}">${icon(l.qtyMilli > 1000 ? "ui-minus" : "ui-trash")}</button><output>${qtyText(l.qtyMilli)}</output><button class="iconbtn" data-act="inc:${l.product.id}" aria-label="+1 ${esc(l.product.name)}">${icon("ui-plus")}</button></span></div></li>`).join("") || `<li><p class="info">${esc(t("empty_basket"))}</p></li>`}</ul>
         <label class="field" data-item="discount"><span>${esc(t("discount"))}</span><input id="discIn" inputmode="numeric" autocomplete="off" value="${S.discount ? esc(String(S.discount)) : ""}" data-in="discount" placeholder="${esc(hintFor("amount", t, locale()))}" aria-label="${esc(t("discount"))}"></label>
         <label class="field" data-item="note"><span>${esc(t("sale_note"))}</span><input id="noteIn" autocomplete="off" value="${esc(S.saleNote)}" data-in="salenote" data-draft="salenote" placeholder="${esc(t("hint_note"))}" aria-label="${esc(t("sale_note"))}"></label>
-        <label class="field" data-item="attach_customer"><span>${esc(t("attach_customer"))}</span><select data-in="customer"><option value="">${esc(t("no_customer"))}</option>${CUSTOMERS.map((x) => `<option value="${x.id}" ${x.id === S.customer ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
+        <label class="field" data-item="attach_customer"><span>${esc(t("attach_customer"))}</span><select id="custSel" data-in="customer"><option value="">${esc(t("no_customer"))}</option>${CUSTOMERS.map((x) => `<option value="${x.id}" ${x.id === S.customer ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
         ${c2 ? `<p class="sub">${esc(t("customer_attached", { name: c2.name }))}</p>` : ""}</div>
         <div class="foot"><div class="sum"><span>${esc(t("items", { n: S.cart.count() }))}</span><strong>${esc(money(tot))}</strong></div><button class="primary" data-act="view:pay" ${S.cart.count() ? "" : "disabled"}>${esc(t("charge"))}</button></div>`;
     }
@@ -978,7 +982,7 @@ function sell(): string {
       const c2 = cust(), need = creditNeedsCustomer("credit", S.customer || null);
       return `${topBar(t("way_credit"), "view:pay")}<div class="body">${due(tot)}
         <label class="field"><span>${esc(t("attach_customer"))}</span><select data-in="customer"><option value="">${esc(t("no_customer"))}</option>${CUSTOMERS.map((x) => `<option value="${x.id}" ${x.id === S.customer ? "selected" : ""}>${esc(x.name)}</option>`).join("")}</select></label>
-        ${need ? `<p class="alert low" role="alert">${icon("ui-warning")}<span>${esc(t("credit_needs_customer"))}</span></p>` : `<p class="sub">${esc(t("credit_book_line", { name: c2?.name ?? "", amount: money((c2?.owes ?? 0) + tot) }))}</p>`}</div>
+        ${need ? noticeHtml(t, { level: "error", text: t("credit_needs_customer"), field: "custSel", fix: { label: t("fd_go_to", { field: t("attach_customer") }), focus: "custSel" } }) : `<p class="sub">${esc(t("credit_book_line", { name: c2?.name ?? "", amount: money((c2?.owes ?? 0) + tot) }))}</p>`}</div>
         <div class="foot"><button class="primary" data-act="paycredit" ${need ? "disabled" : ""}>${esc(t("complete"))}</button></div>`;
     }
     case "split": {
@@ -1588,13 +1592,13 @@ const outletsAllowed = (): boolean => (ent().outlets ?? 0) !== 0;
 function agentHome(): string {
   const mine = S.reqs.filter((r) => S.outlet === "all" || r.outlet === S.outlet), today = mine.filter((r) => r.state === "confirmed");
   const com = today.reduce((a, r) => a + r.commission, 0);
-  const floats = PARTNERS.map((p) => `<div class="kv"><span>${esc(t("float_at", { partner: t(p.name) }))}</span><strong>${esc(money(p.float))}</strong></div>${lowFloat(p.float, usual(p)) ? `<p class="alert low">${icon("ui-warning")}<span>${esc(t("low_float"))}</span></p>` : ""}`).join("");
+  const floats = PARTNERS.map((p) => `<div class="kv"><span>${esc(t("float_at", { partner: t(p.name) }))}</span><strong>${esc(money(p.float))}</strong></div>${lowFloat(p.float, usual(p)) ? noticeHtml(t, { level: "warning", text: t("low_float") }) : ""}`).join("");
   const outletPick = outletsAllowed() ? `<label class="field" data-item="outlets"><span>${esc(t("outlet"))}</span><select data-in="outlet"><option value="all" ${S.outlet === "all" ? "selected" : ""}>${esc(t("all_outlets"))}</option>${S.outletList.map((o) => `<option value="${esc(o)}" ${o === S.outlet ? "selected" : ""}>${esc(o)}</option>`).join("")}</select></label>`
     : `<p class="sub" data-item="outlets">${esc(t("outlets_plan"))}</p>`;
   const pic = S.toggles.has("lite_mode") ? "" : `<figure class="agentpic" role="img" aria-label="${esc(t("agent_point_picture"))}">${S.theme === "dark" ? DATA.agentPicture.dark : DATA.agentPicture.light}</figure>`;   // decorative pictures hide in lite mode
   return `${topBar(t("agent_point"))}<div class="body">${pic}${outletPick}<div class="card"><h2>${esc(t("float"))}</h2>${floats}<p class="sub">${esc(t("float_read_live"))}</p></div>
     <div class="duo"><div class="card kpi"><span>${esc(t("cash_in_drawer"))}</span><strong>${esc(money(S.cashIn))}</strong></div><div class="card kpi"><span>${esc(t("commission"))}</span><strong>${esc(money(com))}</strong><small>${esc(t("today_services", { n: today.length, amount: money(com) }))}</small></div></div>
-    ${S.cashChecks.has("day_start") ? "" : `<button class="alert low" data-act="view:cashcheck">${icon("ui-warning")}<span>${esc(t("day_start_check"))}</span>${icon("ui-chevron-right", "ic fwd")}</button>`}
+    ${S.cashChecks.has("day_start") ? "" : `<button class="alertrow low" data-act="view:cashcheck">${icon("ui-warning")}<span>${esc(t("day_start_check"))}</span>${icon("ui-chevron-right", "ic fwd")}</button>`}
     <button class="big" data-act="tab:services">${icon("ui-grid")}<span>${esc(t("services"))}</span></button>
     <div class="quick"><button data-act="view:cashcheck">${esc(t("cash_check"))}</button><button data-act="hub:agent_earnings">${esc(t("it_agent_earnings"))}</button><button data-act="hub:daily_close">${esc(t("it_daily_close"))}</button></div>
     <div class="card"><h2>${esc(t("commissions"))}</h2>${mine.slice(0, 4).map((r) => `<div class="kv"><span>${esc(t(`svc_${r.service}`))} · ${esc(money(r.amount))}</span>${chip(r.state)}</div>`).join("") || `<p>${esc(t("no_sales_yet"))}</p>`}</div>
@@ -1602,7 +1606,7 @@ function agentHome(): string {
 }
 function agentServices(): string {
   const tile = (k: string, group: string): string => `<button class="tile" data-act="svc:${k}">${icon(group === "agent" ? "ui-pay-mobile-money" : group === "collect" ? "ui-receipt" : "ui-pay-bank")}<span>${esc(t(`svc_${k}`))}</span></button>`;
-  return `${topBar(t("services"))}<div class="body">${online() ? "" : `<p class="alert low">${icon("ui-offline")}<span>${esc(t("online_only"))}</span></p>`}
+  return `${topBar(t("services"))}<div class="body">${online() ? "" : noticeHtml(t, { level: "warning", text: t("online_only"), how: t("fd_go_online") })}
     <h2 class="sect">${esc(t("agent"))}</h2><div class="tiles">${AGENT_SERVICES.map((k) => tile(k, "agent")).join("")}</div>
     <h2 class="sect">${esc(t("collection_point"))}</h2><div class="tiles">${COLLECTION_KINDS.map((k) => tile(k, "collect")).join("")}</div>
     <h2 class="sect">${esc(t("partner_finance"))}</h2><div class="tiles">${FINANCE_PRODUCTS.map((k) => tile(k, "finance")).join("")}</div></div>`;
@@ -1626,14 +1630,14 @@ function agentFlow(): string {
     ${isFinance ? "" : `<label class="field"><span>${esc(t("amount"))}</span><input inputmode="numeric" autocomplete="off" data-in="aamt" id="aamtIn" value="${esc(S.amount)}" placeholder="${esc(hintFor("amount", t, locale()))}" aria-label="${esc(t("amount"))}"></label>
     <div class="card"><div class="kv"><span>${esc(t("fee"))}</span><strong>${esc(money(fee))}</strong></div><div class="kv"><span>${esc(t("commission"))}</span><strong>${esc(money(commission(amount, p.bps)))}</strong></div>
       <p class="sub">${esc(t("limit_line", { per: money(lim.per_transaction), day: money(lim.per_day) }))}</p></div>
-    ${amount && limitCheck(amount, S.usedToday, lim) !== "ok" ? `<p class="alert neg" role="alert">${icon("ui-warning")}<span>${esc(t("limit_exceeded"))}</span></p>` : ""}`}
+    ${amount && limitCheck(amount, S.usedToday, lim) !== "ok" ? noticeHtml(t, { level: "error", text: t("limit_exceeded"), field: "aamtIn", how: t("fd_smaller_amount") }) : ""}`}
     <p class="info">${icon("ui-info")}<span>${esc(t(isFinance ? "referred" : "identity_check"))}</span></p>
-    ${online() ? "" : `<p class="alert low">${icon("ui-offline")}<span>${esc(t("online_only"))}</span></p>`}
+    ${online() ? "" : noticeHtml(t, { level: "warning", text: t("online_only"), how: t("fd_go_online") })}
     <button class="primary inline" data-act="agentsend" data-wait ${online() && phoneOk("anumIn") && (isFinance || (amount > 0 && limitCheck(amount, S.usedToday, lim) === "ok")) ? "" : "disabled"}>${esc(t("send_to_partner"))}</button></div>`;
 }
 function agentFloat(): string {
   return `${topBar(t("float"))}<div class="body">${PARTNERS.map((p) => { const days = floatForecastDays(p.float, usual(p));
-    return `<div class="card"><h2>${esc(t(p.name))}</h2><div class="kv"><span>${esc(t("float"))}</span><strong>${esc(money(p.float))}</strong></div>${lowFloat(p.float, usual(p)) ? `<p class="alert low">${icon("ui-warning")}<span>${esc(t("low_float"))}</span></p>` : ""}
+    return `<div class="card"><h2>${esc(t(p.name))}</h2><div class="kv"><span>${esc(t("float"))}</span><strong>${esc(money(p.float))}</strong></div>${lowFloat(p.float, usual(p)) ? noticeHtml(t, { level: "warning", text: t("low_float") }) : ""}
       ${days !== null ? `<p class="sub">${esc(t("float_forecast", { days: days.toFixed(1) }))}</p>` : ""}<p class="sub">${esc(t("topup_partner"))}</p></div>`; }).join("")}
     <div class="card"><div class="kv"><span>${esc(t("cash_in_drawer"))}</span><strong>${esc(money(S.cashIn))}</strong></div><button class="ghost" data-act="view:cashcheck">${esc(t("cash_check"))}</button></div><p class="info">${icon("ui-info")}<span>${esc(t("float_read_live"))}</span></p></div>`;
 }
@@ -1707,12 +1711,12 @@ function signin(): string {
   if (S.screen === "phone") {
     return `<div class="signin" data-gi="sign_in">${mark}<h1>${esc(t("welcome"))}</h1><p>${esc(t("works_anywhere"))}</p>
       ${phoneField("phoneIn", t("your_phone"), S.phone)}
-      <p class="note" role="alert">${esc(S.note)}</p><div class="grow"></div><button class="primary" data-act="sendcode" data-wait data-needs-phone="phoneIn" ${phoneOk("phoneIn") ? "" : "disabled"}>${esc(t("send_code"))}</button></div>`;
+      ${mpNote()}<div class="grow"></div><button class="primary" data-act="sendcode" data-wait data-needs-phone="phoneIn" ${phoneOk("phoneIn") ? "" : "disabled"}>${esc(t("send_code"))}</button></div>`;
   }
   if (S.screen === "code") {
     return `<div class="signin" data-gi="sign_in">${mark}<h1>${esc(t("verify"))}</h1><p dir="auto">${esc(t("enter_code", { phone: phoneDisplay(fieldCtx(), cc("phoneIn"), S.phone) }))}</p>
       ${codeFieldHtml(fieldCtx(), { id: "codeIn", label: t("verify"), value: S.code, act: "code", resendAct: "resendcode", sent: S.codeSent })}
-      <p class="note" role="alert">${esc(S.note)}</p><p class="info sbx">${icon("ui-info")}<span>${esc(t("sandbox"))}: ${esc(t("code_hint"))}</span></p><div class="grow"></div>
+      ${mpNote()}<p class="info sbx">${icon("ui-info")}<span>${esc(t("sandbox"))}: ${esc(t("code_hint"))}</span></p><div class="grow"></div>
       <button class="primary" data-act="verify" ${S.code.length === 6 ? "" : "disabled"}>${esc(t("verify"))}</button></div>`;
   }
   if (S.screen === "choose") {
@@ -1819,7 +1823,7 @@ const DM = new DeviceMode(DEVICES, "smartphone");
  *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
 const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "pos.merchant_phone", "Phone", { short_side: 390, touch: true, camera: true, speaker: true, device_print: true }, "android"), (type, payload, origin) => { emit(type, payload, origin); });
 const KW = wireKit(KIT, { t, icon: (id, cls) => icon(id, cls), online: () => online(), redraw: () => draw() });
-function draw(): void { drawScreen(); KW.after($("#app")); wireFields($("#app"), fieldCtx()); }
+function draw(): void { drawScreen(); KW.after($("#app")); wireFields($("#app"), fieldCtx()); wireNotices($("#app")); }
 // Section 4C point 1: every phone field is the shared part (ts/src/fields.ts); its country starts on the device's country.
 const fieldState: Record<string, (d: string) => void> = { phoneIn: (d) => { S.phone = d; }, staffIn: (d) => { S.staffPhone = d; }, momoIn: (d) => { S.input = d; }, anumIn: (d) => { S.number = d; } };
 const cc = (id: string): string => S.phoneCc[id] ?? pack().code;

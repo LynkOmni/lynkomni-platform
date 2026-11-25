@@ -29,7 +29,7 @@ test("menus use the ecosystem names and the cleaned structure", () => {
   for (const bad of ["support.lynkomni.com", "docs.lynkomni.com", "bookings.lynkomni.com", "essentials.lynkomni.com", "flow.lynkomni.com"]) assert.ok(!hosts.has(bad), bad);
   for (const good of ["doc.lynkomni.com", "booking.lynkomni.com", "essential.lynkomni.com"]) assert.ok(hosts.has(good), good);
   assert.ok(hrefs.includes("/support"));
-  assert.deepEqual([...SOCIAL], ["linkedin", "x", "facebook", "instagram", "youtube", "tiktok", "whatsapp"]);
+  assert.deepEqual([...SOCIAL], ["linkedin", "x", "facebook", "instagram", "youtube", "tiktok"]);
   for (const id of SOCIAL) assert.ok(SOCIAL_LINKS[id].startsWith("https://"), id);
 });
 test("payment methods follow the country pack and are never a global list", () => {

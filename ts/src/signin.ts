@@ -7,6 +7,7 @@
  *  see the screen hears each press; the digits typed are never shown, only filled dots; the keys never move. */
 import { PIN_RULE } from "./parts.generated.js";
 import { esc } from "./shell.js";
+import { noticeHtml } from "./errorbox.js";
 import type { Icon, T } from "./shell.js";
 
 export type PinProblem = null | "length" | "pattern";
@@ -46,9 +47,10 @@ export function pinPad(s: PinPadState, t: T, icon: Icon): string {
   const key = (k: string, label: string, aria: string) => `<button type="button" class="pkey${/^\d$/.test(k) ? "" : " fn"}" data-act="pin:${k}" aria-label="${esc(aria)}"${locked || waiting ? " disabled" : ""}><span class="pnum">${label}</span>${s.pictures && /^\d$/.test(k) ? dots(Number(k)) : ""}</button>`;
   const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9"].map((d) => key(d, d, d)).join("")
     + key("clear", icon("ui-undo"), t("pin_clear")) + key("0", "0", "0") + key("ok", icon("ui-check"), t("pin_ok"));
-  const msg = locked ? `<p class="pmsg danger" role="alert">${icon("ui-lock")}<span>${esc(t("pin_locked"))}</span></p>`
-    : waiting ? `<p class="pmsg warning" role="status">${esc(t("pin_wait", { s: s.waitLeft }))}</p>`
-    : s.wrong ? `<p class="pmsg" role="status">${esc(t("pin_wrong", { n: PIN_RULE.hardLockAfter - s.wrong }))}</p>` : "";
+  // section 4C point 2: the shared message part, with what to do next
+  const msg = locked ? noticeHtml(t, { level: "error", cls: "pmsg", text: t("pin_locked"), how: t("fd_ask_manager") })
+    : waiting ? noticeHtml(t, { level: "warning", cls: "pmsg", text: t("pin_wait", { s: s.waitLeft }) })
+    : s.wrong ? noticeHtml(t, { level: "warning", cls: "pmsg", text: t("pin_wrong", { n: PIN_RULE.hardLockAfter - s.wrong }), how: t("fd_type_again") }) : "";
   return `<div class="pinpad" role="group" aria-label="${esc(s.title)}"><p class="ptitle">${esc(s.title)}</p><div class="pdots-row" role="img" aria-label="${esc(t("pin_entered", { n: s.entered }))}">${shown}</div>${msg}<div class="pkeys">${keys}</div><div class="popts"><button type="button" class="chipbtn${s.pictures ? " on" : ""}" data-act="pin:pictures" aria-pressed="${s.pictures}">${esc(t("pin_pictures"))}</button><button type="button" class="chipbtn${s.sound ? " on" : ""}" data-act="pin:sound" aria-pressed="${s.sound}">${esc(t("pin_sound"))}</button></div>${locked ? `<p class="note">${esc(t("pin_locked_how"))}</p>` : ""}</div>`;
 }
 
@@ -69,6 +71,6 @@ export function numberShown(n: string, t: T): string {
   return `<div class="nmatch shown" role="group" aria-label="${esc(t("match_show_title"))}"><p class="ptitle">${esc(t("match_show_title"))}</p><p class="nbig" aria-live="polite">${esc(n)}</p><p class="note">${esc(t("match_show_note"))}</p></div>`;
 }
 export function numberMatch(choices: string[], t: T, result: "" | "ok" | "wrong" = ""): string {
-  const res = result === "ok" ? `<p class="pmsg success" role="status">${esc(t("match_ok"))}</p>` : result === "wrong" ? `<p class="pmsg danger" role="alert">${esc(t("match_wrong"))}</p>` : "";
+  const res = result === "ok" ? noticeHtml(t, { level: "success", cls: "pmsg", text: t("match_ok") }) : result === "wrong" ? noticeHtml(t, { level: "error", cls: "pmsg", text: t("match_wrong"), how: t("fd_match_retry") }) : "";
   return `<div class="nmatch" role="group" aria-label="${esc(t("match_pick_title"))}"><p class="ptitle">${esc(t("match_pick_title"))}</p><div class="nchoices">${choices.map((c) => `<button type="button" class="nchoice" data-act="match:${esc(c)}"${result ? " disabled" : ""}>${esc(c)}</button>`).join("")}</div>${res}<p class="note">${esc(t("match_pick_note"))}</p></div>`;
 }

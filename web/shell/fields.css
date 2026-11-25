@@ -16,3 +16,15 @@
 .lf-fix { display: block; margin-block-start: 8px; min-block-size: 44px; padding-inline: 12px; border-radius: 10px; border: 1px solid currentColor; background: transparent; color: inherit; font: inherit; font-weight: 600; white-space: normal; overflow-wrap: anywhere; max-inline-size: 100%; }
 .lf-code { letter-spacing: 0.2em; font-variant-numeric: tabular-nums; }
 .lf-resend { align-self: flex-start; min-block-size: 44px; white-space: normal; overflow-wrap: anywhere; max-inline-size: 100%; }
+/* The shared message part (ts/src/errorbox.ts, section 4C point 2): an icon shape and a word with every colour, what and why,
+   then how to fix it. */
+.ebx { display: block; }
+.ebx p { margin: 0; }
+.ebx-line { display: block; }
+.ebx-mark, .lf-msg > .ebx-mark { inline-size: 1.1em; block-size: 1.1em; vertical-align: -0.18em; margin-inline-end: 6px; flex: none; }
+.ebx-how { margin-block-start: 4px; }
+.ebx-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.ebx-acts .lf-fix { margin-block-start: 8px; }
+.ebx-list { margin: 6px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.ebx-go { display: block; inline-size: 100%; text-align: start; min-block-size: 44px; padding: 6px 10px; border: 0; border-radius: 8px; background: transparent; color: inherit; font: inherit; text-decoration: underline; white-space: normal; overflow-wrap: anywhere; cursor: pointer; }
+[aria-invalid="true"] { border-color: var(--status-danger-border); }

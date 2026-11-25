@@ -4,6 +4,7 @@
 import { hintFor } from "../../../ts/src/hints.js";
 import { phoneFieldHtml, wireFields, countryNamer, type FieldCtx } from "../../../ts/src/fields.js";
 import { emailFieldHtml } from "../../../ts/src/emailfield.js";
+import { noticeHtml, wireNotices } from "../../../ts/src/errorbox.js";
 import { Cart, PosError, change, formatMoney, paymentPayload, paymentState, quickCash, receiptLines, salePayload, uuid7 } from "../../../ts/src/pos.js";
 import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload, UserState } from "../../../ts/src/pos.js";
 import { HANDHELD_TILES } from "../../../ts/src/business.js";
@@ -182,6 +183,12 @@ function finish(): void {
   const s = S.current; if (!s) return;
   S.screen = "done"; draw(); printReceipt(s);
 }
+// ---- messages (section 4C point 2): every note through the shared part, with what to do next; a sale error never shows its code
+let NOTE_HOW = "", PIN_HARD = false;
+function setNote(text: string, how: string): void { S.note = text; NOTE_HOW = how; }
+const POS_HOW: Record<string, string> = { invalid_amount: "fd_check_retry", empty_cart: "fd_add_item", bad_receipt_number: "fd_check_retry", not_enough_cash: "fd_enter_cash" };
+const noteBox = (): string => S.note && S.note !== "void" ? noticeHtml(t, { level: "error", text: S.note, how: NOTE_HOW || t("fd_check_retry") }) : `<p class="note" aria-live="polite"></p>`;
+const pinBox = (): string => S.pinNote ? noticeHtml(t, PIN_HARD ? { level: "error", text: S.pinNote, how: t("fd_ask_manager") } : { level: "warning", text: S.pinNote, how: t("fd_type_again") }) : "";
 function newSale(): void { S.cart.clear(); S.current = null; S.input = ""; S.note = ""; S.sent = ""; S.sendTo = ""; S.screen = "sell"; draw(); }
 function activePayment(): PaymentPayload | undefined { return S.current?.payments[S.current.payments.length - 1]; }
 
@@ -251,14 +258,14 @@ function enter(): void {
     case "counter": { const c = PH.q.counter(PH.q.counterPick); if (c && !c.serving) PH.q.callNext(c.id); else if (c) PH.q.finish(c.id, "served"); break; }
     case "agent":
       if (S.step === "number") { if (S.input.length < 4) return; S.number = S.input; S.input = ""; S.step = (FINANCE_PRODUCTS as readonly string[]).includes(S.service) ? "confirm" : "amount"; break; }
-      if (S.step === "amount") { const a = Number(S.input || "0"); if (!a) return; if (limitCheck(a, S.usedToday, combinedLimits(PARTNER_LIMITS)) !== "ok") { S.note = t("limit_exceeded"); break; } S.amount = a; S.input = ""; S.step = "confirm"; break; }
+      if (S.step === "amount") { const a = Number(S.input || "0"); if (!a) return; if (limitCheck(a, S.usedToday, combinedLimits(PARTNER_LIMITS)) !== "ok") { setNote(t("limit_exceeded"), t("fd_smaller_amount")); break; } S.amount = a; S.input = ""; S.step = "confirm"; break; }
       agentSend(); return;
     case "agentdone": S.screen = "home"; break;
     case "code": redeem(); return;
     case "credit": { const c = S.credit[S.selected]; const a = Number(S.input || "0"); if (c && a > 0 && a <= c.owes) { c.owes -= a; emit("CustomerCreditPaid", { payment_id: newId(), credit_id: newId(), amount: a, currency: pack().currency, method: "cash" }); S.flash = t("saved"); S.input = ""; } break; }
     case "sell": if (S.cart.lines().length) S.screen = "cart"; break;
     case "cart": if (S.cart.lines().length) S.screen = "pay"; break;
-    case "cash": { const v = Number(S.input || "0"); if (v >= S.cart.total()) { pay("cash", v); return; } S.note = t("not_enough"); break; }
+    case "cash": { const v = Number(S.input || "0"); if (v >= S.cart.total()) { pay("cash", v); return; } setNote(t("not_enough"), t("fd_enter_cash")); break; }
     case "momo": if (S.input.length >= 9) { pay("mobile_money"); return; } break;
     case "done": newSale(); return;
     case "count": {
@@ -275,7 +282,7 @@ function signIn(): void {
   const r = STAFF.signIn(S.who, S.input, Date.now());
   S.input = "";
   if (r.ok) { S.role = r.role; S.view = r.view; S.screen = "home"; S.note = ""; S.pinNote = ""; sendAlerts(); draw(); return; }
-  S.pinNote = r.reason === "wrong" ? t("dk_tries_left", { n: r.left ?? 0 }) : r.reason === "wait" ? t("dk_wait", { s: r.seconds ?? 0 }) : t(r.reason === "hard_locked" ? "dk_hard_locked" : "locked_by_owner");
+  S.pinNote = r.reason === "wrong" ? t("dk_tries_left", { n: r.left ?? 0 }) : r.reason === "wait" ? t("dk_wait", { s: r.seconds ?? 0 }) : t(r.reason === "hard_locked" ? "dk_hard_locked" : "locked_by_owner"); PIN_HARD = r.reason !== "wrong" && r.reason !== "wait";
   if (r.reason === "hard_locked") { emit("DeviceHardLocked", { device: DEVICE }); bellAdd("device_hard_locked", t("dk_hard_locked")); }
   draw();
 }
@@ -285,7 +292,7 @@ function bellAdd(kind: string, title: string, record?: string): void { S.lines =
 const KP = (): ReturnType<typeof buildPack> => buildPack({ ...EN, ...(PACKS[S.lang]?.texts ?? {}) });
 function tapCard(): void {
   if (S.screen !== "card") return;
-  if (!S.online) { S.note = t("card_online"); draw(); return; }
+  if (!S.online) { setNote(t("card_online"), t("fd_go_online")); draw(); return; }
   S.leds = 0;
   const step = (): void => { S.leds += 1; drawLeds(); if (S.leds < 4) window.setTimeout(step, reduced() ? 0 : 160); else window.setTimeout(() => { S.leds = 0; drawLeds(); pay("card"); }, reduced() ? 0 : 250); };
   step();
@@ -315,7 +322,7 @@ function startService(service: string): void {
   S.step = "number"; S.screen = "agent";
 }
 function agentSend(): void {
-  if (!S.online) { S.note = t("online_only"); draw(); return; }     // never queued, never shown as done offline
+  if (!S.online) { setNote(t("online_only"), t("fd_go_online")); draw(); return; }     // never queued, never shown as done offline
   const finance = (FINANCE_PRODUCTS as readonly string[]).includes(S.service);
   const r: Req = { id: newId(), service: S.service, amount: S.amount, fee: finance ? 0 : Math.max(100, Math.floor(S.amount / 100)), commission: 0, state: "sent", ref: "" };
   S.req = r; S.screen = "agentdone";
@@ -336,7 +343,7 @@ function agentSend(): void {
 const usedCodes = new Set<string>();
 function redeem(): void {
   if (S.input.length < 4) return;
-  if (usedCodes.has(S.input)) { S.note = t("already_used"); S.input = ""; draw(); return; }
+  if (usedCodes.has(S.input)) { setNote(t("already_used"), t("fd_check_retry")); S.input = ""; draw(); return; }
   usedCodes.add(S.input);
   if (S.service === "voucher") emit("VoucherRedeemed", { redemption_id: newId(), voucher_id: newId(), amount: 1000, currency: pack().currency });
   else emit("PickupHandedOver", { pickup_id: newId(), order_id: newId(), code_hash: "0".repeat(64) });
@@ -413,8 +420,8 @@ function view(): string {
       if (S.picking) return `<div class="lock">${staffPicker(STAFF.staff, t, icon)}</div>`;
       return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.theme === "dark", "lockmark")}<p class="pname">LynkPOS</p>
         <p class="who">${icon("ui-user")}<span>${esc(STAFF.find(S.who)?.name ?? "")} · ${esc(t(`role_${STAFF.find(S.who)?.role ?? "cashier"}`))}</span><button class="link" data-act="staff:change">${esc(t("dk_change"))}</button></p>
-        <h1>${esc(t("pin"))}</h1>${S.pinNote ? `<p class="note" role="alert">${esc(S.pinNote)}</p>` : ""}<div class="dots" aria-label="${S.input.length} of 4">${[0, 1, 2, 3].map((i) => `<i class="${i < S.input.length ? "on" : ""}"></i>`).join("")}</div>
-        <p class="note" role="alert">${esc(S.note)}</p><p class="keyhint">${icon("ui-info")}${esc(t("use_keys"))}</p>
+        <h1>${esc(t("pin"))}</h1>${pinBox()}<div class="dots" aria-label="${S.input.length} of 4">${[0, 1, 2, 3].map((i) => `<i class="${i < S.input.length ? "on" : ""}"></i>`).join("")}</div>
+        ${noteBox()}<p class="keyhint">${icon("ui-info")}${esc(t("use_keys"))}</p>
         <p class="hint">${esc(t("pin_hint"))}</p></div>`;
     case "home":
       return `${top(t("sample_shop"), false)}${banners()}<div class="tiles12${S.lowLiteracy ? " big" : ""}">${HANDHELD_TILES.map((k) => `<button class="t12" data-act="tile:${k}">${icon(TILE_ICON[k] ?? "ui-grid")}<span>${esc(t(`tile_${k}`))}</span></button>`).join("")}</div>${adBlock("pos_idle", "home")}
@@ -428,7 +435,7 @@ function view(): string {
       const confirm = S.step === "confirm" ? `<div class="due"><span>${esc(t("customer_number"))}</span><strong>${esc(S.number)}</strong></div>${finance ? `<p class="note">${esc(t("referred"))}</p>` : `<div class="due"><span>${esc(t("amount"))}</span><strong>${esc(money(S.amount))}</strong></div>
         <div class="change ok"><span>${esc(t("fee"))}</span><strong>${esc(money(Math.max(100, Math.floor(S.amount / 100))))}</strong></div><div class="change ok"><span>${esc(t("commission"))}</span><strong>${esc(money(commission(S.amount, PARTNER_BPS)))}</strong></div>`}` : "";
       return `${top(t(`svc_${S.service}`))}${S.online ? "" : `<p class="note">${esc(t("online_only"))}</p>`}${field}${confirm}
-        ${S.step !== "number" || finance ? "" : `<p class="hint">${esc(t("limit_line", { per: money(lim.per_transaction), day: money(lim.per_day) }))}</p>`}<p class="hint">${esc(t("identity_check"))}</p><p class="note" role="alert">${esc(S.note)}</p>
+        ${S.step !== "number" || finance ? "" : `<p class="hint">${esc(t("limit_line", { per: money(lim.per_transaction), day: money(lim.per_day) }))}</p>`}<p class="hint">${esc(t("identity_check"))}</p>${noteBox()}
         <div class="foot"><button class="primary" data-act="enter" ${S.step === "confirm" && !S.online ? "disabled" : ""}>${esc(t(S.step === "confirm" ? "send_to_partner" : "next"))}</button></div>`;
     }
     case "agentdone": {
@@ -439,7 +446,7 @@ function view(): string {
         <div class="foot${cash ? " two" : ""}">${cash ? `<button class="ghost" data-act="handcash" ${mayHandOverCash(r.state) ? "" : "disabled"}>${esc(t("hand_over_cash"))}</button>` : ""}<button class="primary" data-act="enter" ${r.state === "sent" ? "disabled" : ""}>${esc(t("ok"))}</button></div>`;
     }
     case "code":
-      return `${top(t(`svc_${S.service}`))}${amountPad(t(S.service === "voucher" ? "voucher_code" : "pickup_code"), S.input || "–")}<p class="note" role="alert">${esc(S.note)}</p>${S.flash ? `<div class="toast" role="status">${icon("ui-check")}${esc(S.flash)}</div>` : ""}
+      return `${top(t(`svc_${S.service}`))}${amountPad(t(S.service === "voucher" ? "voucher_code" : "pickup_code"), S.input || "–")}${noteBox()}${S.flash ? `<div class="toast" role="status">${icon("ui-check")}${esc(S.flash)}</div>` : ""}
         <div class="foot"><button class="primary" data-act="enter">${esc(t(S.service === "voucher" ? "redeem" : "hand_over"))}</button></div>`;
     case "credit": {
       const c = S.credit[S.selected];
@@ -468,7 +475,7 @@ function view(): string {
         ${amountPad(t("cash_given"), S.input ? money(given) : "–")}
         <div class="quick">${quickCash(total, NOTES).map((v) => `<button data-act="cash:${v}">${esc(money(v))}</button>`).join("")}</div>
         <div class="change ${given >= total ? "ok" : ""}"><span>${esc(t("change"))}</span><strong>${given >= total ? esc(money(change(total, given))) : "–"}</strong></div>
-        <p class="note" role="alert">${esc(S.note)}</p><div class="foot"><button class="primary" data-act="enter" ${given >= total ? "" : "disabled"}>${esc(t("complete"))}</button></div>`;
+        ${noteBox()}<div class="foot"><button class="primary" data-act="enter" ${given >= total ? "" : "disabled"}>${esc(t("complete"))}</button></div>`;
     }
     case "momo":
       return `${top(t("method_mobile_money"))}<div class="due"><span>${esc(t("total"))}</span><strong>${esc(money(S.cart.total()))}</strong></div>
@@ -476,7 +483,7 @@ function view(): string {
         <div class="foot"><button class="primary" data-act="enter" ${S.input.length >= 9 ? "" : "disabled"}>${esc(t("send_request"))}</button></div>`;
     case "card":
       return `${top(t("method_card"))}<div class="due"><span>${esc(t("total"))}</span><strong>${esc(money(S.cart.total()))}</strong></div>
-        <div class="tapgfx" aria-hidden="true"><i></i><i></i><i></i></div><p class="ask">${esc(t("tap_card"))}</p><p class="note" role="alert">${esc(S.note)}</p><p class="sbx">${icon("ui-info")}${esc(t("sandbox"))}: ${esc(t("test_money"))}</p>
+        <div class="tapgfx" aria-hidden="true"><i></i><i></i><i></i></div><p class="ask">${esc(t("tap_card"))}</p>${noteBox()}<p class="sbx">${icon("ui-info")}${esc(t("sandbox"))}: ${esc(t("test_money"))}</p>
         <div class="foot"><button class="ghost" data-act="tapcard" data-wait>${esc(t("method_card"))}: ${esc(t("sandbox"))}</button></div>`;
     case "waiting": {
       const p = activePayment(); if (!p || !c) return "";
@@ -549,7 +556,8 @@ function staffScreen(): string {
   const sheet = sh ? `<div class="dk-sheet" role="group" aria-labelledby="rsT"><h3 id="rsT">${esc(t("reset_pin"))}: ${esc(STAFF.find(sh.person)?.name ?? "")}</h3>
     <label for="byPin">${esc(t("your_pin"))}</label><input id="byPin" type="password" inputmode="numeric" autocomplete="off" maxlength="8">
     <label for="newPin">${esc(t("new_pin"))}</label><input id="newPin" type="password" inputmode="numeric" autocomplete="off" maxlength="8">
-    ${sh.note ? `<p role="alert">${esc(sh.note)}</p>` : ""}<div class="dk-row"><button class="primary" data-act="staff:save">${esc(t("ok"))}</button><button class="secondary" data-act="staff:cancel">${esc(t("back"))}</button></div></div>` : "";
+    ${sh.note ? noticeHtml(t, sh.note === t("bad_pin") ? { level: "error", text: sh.note, field: "newPin", fix: { label: t("fd_go_to", { field: t("new_pin") }), focus: "newPin" } }
+      : sh.note === t("wrong_pin") ? { level: "error", text: sh.note, field: "byPin", fix: { label: t("fd_go_to", { field: t("your_pin") }), focus: "byPin" } } : { level: "error", text: sh.note, how: t("fd_ask_manager") }) : ""}<div class="dk-row"><button class="primary" data-act="staff:save">${esc(t("ok"))}</button><button class="secondary" data-act="staff:cancel">${esc(t("back"))}</button></div></div>` : "";
   return `${top(t("staff_title"))}${S.flash ? `<div class="toast" role="status">${icon("ui-check")}${esc(S.flash)}</div>` : ""}<ul class="menu">${STAFF.staff.map((x) => `<li><button data-act="staff:reset:${x.person}" ${x.role === "owner" ? "disabled" : ""}>${icon("ui-user")}<span>${esc(x.name)} · ${esc(t(`role_${x.role}`))}</span>${icon("ui-chevron-right")}</button></li>`).join("")}</ul>
     <p class="note">${esc(t("staff_note"))}</p>${sheet}`;
 }
@@ -576,7 +584,7 @@ const LIMITED_OK: Screen[] = ["lock", "sell", "cart", "pay", "cash", "done", "me
  *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
 const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "pos.terminal", "Counter 1", { short_side: 480, touch: true, keys: true, camera: true, speaker: true, device_print: true, hardware: ["receipt_printer", "cash_drawer"] }, "android"), (type, payload, origin) => { emit(type, payload, origin); });
 const KW = wireKit(KIT, { t, icon: (id, cls) => icon(id, cls), online: () => S.online, redraw: () => draw() });
-function draw(): void { drawScreen(); KW.after(document.querySelector("#display .app") as HTMLElement); wireFields($("#display"), fieldCtx()); }
+function draw(): void { drawScreen(); KW.after(document.querySelector("#display .app") as HTMLElement); wireFields($("#display"), fieldCtx()); wireNotices($("#display")); }
 function drawScreen(): void {
   if (S.view === "limited" && !LIMITED_OK.includes(S.screen)) S.screen = "sell";
   const d = $("#display");
@@ -691,7 +699,7 @@ function act(a: string): void {
         draw(); return;
       }
     }
-  } catch (e) { S.note = e instanceof PosError ? e.reason : String(e); draw(); }
+  } catch (e) { const why = e instanceof PosError && POS_HOW[e.reason] ? e.reason : "invalid_amount"; setNote(t(`pos_why_${why}`), t(POS_HOW[why]!)); draw(); }
 }
 
 // ---- controls beside the device ------------------------------------------------------------------------------------

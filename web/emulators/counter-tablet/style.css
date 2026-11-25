@@ -107,7 +107,7 @@
 .paybox h2 { margin: 0; font-size: 20px; font-feature-settings: var(--font-feature-tabular); }
 .paybox .big { margin: 0; font: 700 22px var(--font-heading); font-feature-settings: var(--font-feature-tabular); }
 .paybox .note, .note { margin: 0; color: var(--text-secondary); font-size: 11px; overflow-wrap: anywhere; }
-.paybox .warn, .warn { margin: 0; color: var(--status-danger-text); background: var(--status-danger-bg); border: 1px solid var(--status-danger-border); border-radius: 8px; padding: 6px 8px; font-size: 11px; }
+.neg-tag { margin-inline-start: 6px; color: var(--status-danger-text); font-weight: 600; font-size: 11px; }
 .low { color: var(--status-warning-text); font-size: 10px; }
 .methods { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .method { min-height: 64px; border-radius: 10px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font: 600 11px var(--font-body); cursor: pointer; overflow-wrap: anywhere; padding: 4px; }

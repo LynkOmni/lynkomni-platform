@@ -2,7 +2,8 @@
 // the ecosystem is drawn here (words in web/fields, prefix fd_; styles web/shell/fields.css); a screen never draws its own.
 // Rules come from ts/src/phone.ts and the country pack's phone block, so nothing here names a country.
 import { phoneRules, phoneCheck, phoneAccept, phoneGroups, phoneSample, phoneInternational, phoneLengths, phoneReadPasted, phoneCodes, type PhoneRules, type PhoneCheck } from "./phone.js";
-import { fieldMsgHtml, efSetMsg, efNeeds, wireEmails, type Level, type EmailValue } from "./emailfield.js";
+import { efSetMsg, efNeeds, wireEmails, type EmailValue } from "./emailfield.js";
+import { fieldMsgHtml, type Level } from "./errorbox.js";
 import { ownDigits, wireCodes } from "./codefield.js";
 
 type T = (k: string, v?: Record<string, string | number>) => string;

@@ -5,6 +5,7 @@
  *  Every part works by touch and by keys alone: a real button or select for every choice, a visible focus ring, the state said in
  *  words beside any colour; numbers and Lynk Codes are shown as they are in every language (the voice reads codes one by one). */
 import { esc } from "./shell.js";
+import { noticeHtml } from "./errorbox.js";
 import type { Icon, T } from "./shell.js";
 import { checkerChoices, IDCN_LENGTH } from "./attendance.js";
 import { validCode, validSection, ticketNumber } from "./queue.js";
@@ -30,7 +31,7 @@ export interface IdcnEntry { typed: number; checkers: readonly string[]; me: str
 export function idcnEntry(e: IdcnEntry, t: T): string {
   const dots = Array.from({ length: IDCN_LENGTH }, (_, i) => `<span class="dot${i < e.typed ? " on" : ""}"></span>`).join("");
   const opts = checkerChoices(e.checkers, e.me).map((c) => `<option value="${esc(c)}"${c === e.chosen ? " selected" : ""}>${esc(c)}</option>`).join("");
-  const left = e.triesLeft !== null ? `<p class="warn" role="alert">${esc(t("ppl_idcn_wrong", { n: String(e.triesLeft) }))}</p>` : "";
+  const left = e.triesLeft !== null ? noticeHtml(t, { level: "warning", text: t("ppl_idcn_wrong", { n: String(e.triesLeft) }), how: t("fd_type_again") }) : "";
   return `<div class="idcn"><p class="plabel" id="idcnL">${esc(t("ppl_idcn_label"))}</p><div class="dots" role="img" aria-labelledby="idcnL" aria-describedby="idcnN">${dots}</div>`
     + `<p class="sr" id="idcnN">${esc(t("ppl_digits_typed", { n: String(e.typed), of: String(IDCN_LENGTH) }))}</p>${left}`
     + `<p class="notice" role="note">${esc(t("ppl_checker_notice"))}</p><label class="plabel" for="checker">${esc(t("ppl_checker_pick"))}</label>`

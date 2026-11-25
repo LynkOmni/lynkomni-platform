@@ -177,11 +177,11 @@
  "trk_scan_ok": "Marked. The tracker moves once the event is in the log.",
  "trk_scan_proof": "Proof",
  "trk_scan_step": "Step",
- "trk_scan_why_after": "An earlier step must happen first.",
- "trk_scan_why_cloud_only": "Only the cloud can mark this step.",
- "trk_scan_why_ended": "This item has already ended.",
- "trk_scan_why_needs_proof": "This step needs the customer's code or a signature.",
- "trk_scan_why_not_scannable": "This step cannot be marked by hand.",
+ "trk_scan_why_after": "{item} can't be marked {step} yet, because {earlier} hasn't been confirmed.",
+ "trk_scan_why_cloud_only": "{step} can't be marked here. LynkOmni marks it by itself when the confirmation arrives.",
+ "trk_scan_why_ended": "{item} has already ended, so no more steps can be marked on it.",
+ "trk_scan_why_needs_proof": "{step} needs the customer's code or their signature.",
+ "trk_scan_why_not_scannable": "{step} can't be marked by hand.",
  "trk_sent": "Sent",
  "trk_sent_for_signing": "Sent for signing",
  "trk_sent_to_partner": "Sent to the partner",
@@ -221,5 +221,10 @@
  "trk_waiting_provider": "Waiting for the provider",
  "trk_why_clash": "Two endings disagree",
  "trk_why_stuck": "Stuck",
- "trk_why_waiting_on_customer": "Waiting for the customer"
+ "trk_why_waiting_on_customer": "Waiting for the customer",
+ "trk_scan_fix_after": "Mark {step} first",
+ "trk_scan_how_wait": "Wait until {step} is confirmed, then try again.",
+ "trk_scan_fix_item": "Choose another item",
+ "trk_scan_fix_step": "Choose another step",
+ "trk_scan_fix_proof": "Choose the proof"
 }

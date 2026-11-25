@@ -20,7 +20,7 @@ test("a draft is masked before it is queued, with the warning", () => {
   const r = prepareSend(CHAT, t, "  card 4111 1111 1111 1111 and PIN 4821 ");
   assert.equal(r.text, "card •••• 1111 and PIN ••••"); assert.deepEqual(r.found, ["card", "code"]);
   const html = threadHtml(CHAT, look(), view({ warning: r.found }));
-  has(html, /role="alert"/); has(html, /ch_warn_never_ask/); has(html, /ch:sendmasked/);
+  has(html, /data-level="warning"/); has(html, /ch_warn_never_ask/); has(html, /ch:sendmasked/);
 });
 test("LynkAssist is always named, its answer has a stage and Stop, and a person is one tap away", () => {
   const html = threadHtml(CHAT, look(), view({ assistFirst: true, msgs: [{ id: "m1", author: "assistant", out: false, text: "Let me check", at: 0, state: "accepted", stream: { stage: "assist_checking" } }] }));
