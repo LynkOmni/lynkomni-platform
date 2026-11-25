@@ -1,0 +1,24 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "tr",
+ "native": "Türkçe",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "Ülke",
+  "fd_email_format": "name@example.com gibi bir e-posta adresi girin.",
+  "fd_email_suggest": "{email} mi demek istediniz?",
+  "fd_email_throwaway": "Bu e-posta adresi kısa süre geçerli. Kullanmaya devam ettiğiniz bir adres girin.",
+  "fd_email_use": "{email} kullan",
+  "fd_error": "Hata",
+  "fd_example": "Örnek: {sample}",
+  "fd_info": "Bilgi",
+  "fd_long": "{country} numaraları {n} hanelidir. Fazla rakam eklenmez.",
+  "fd_ok": "Numara doğru görünüyor.",
+  "fd_range": "{from} ile {to} arası",
+  "fd_short": "Bu numara çok kısa. {country} numaraları {n} hanelidir.",
+  "fd_success": "Tamam",
+  "fd_warning": "Uyarı"
+ }
+}

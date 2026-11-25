@@ -2,6 +2,11 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.113.0 (2026-11-25)
+- Section 4C step 1a (point 1, phone and email fields): every country pack now carries its phone numbering (dialling code, trunk prefix, the main country of a shared code, lengths, groups and a sample, from the public worldwide numbering data; tools/country_phone.py). core/phone.py and ts/src/phone.ts check a number by its length only (no rule about how it starts), clean spaces, symbols, the trunk prefix and digits typed in any script, read a pasted + code and switch the country, write the number in the country's groups and save one international form; the email check gives Did you mean for near misses of common domains and refuses throwaway domains only where the real owner is needed. Shared cases in contract/vectors/phone.v1.json keep the two the same.
+- The shared field part ts/src/fields.ts draws the phone field (flag or two-letter code with the dialling code, the country's sample as placeholder, never more digits than the country's numbers, the reason in the field message) and the email field, with its words in all 38 languages (web/fields). The Business app's sign-in, staff invite, mobile money and agent customer numbers and the POS terminal's receipt by text or email use it.
+- Leftover: the Business app's browser tests now wait until the page is ready.
+
 ## v0.112.0 (2026-11-25)
 - Build section 4C (fixes before section 5) registered in the one build order after 4B, with its build table 87.6 (four rows: phone and email fields, errors and WhatsApp, sign-up and sign-in, the phone owner check). Nothing on screen changes yet.
 

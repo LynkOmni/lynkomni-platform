@@ -179,5 +179,65 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "359",
+  "prefix": "0",
+  "main": true,
+  "mobile": {
+   "lengths": [
+    8,
+    9
+   ],
+   "groups": {
+    "8": [
+     2,
+     3,
+     3
+    ],
+    "9": [
+     2,
+     3,
+     4
+    ]
+   },
+   "sample": "43012345"
+  },
+  "any": {
+   "lengths": [
+    6,
+    7,
+    8,
+    9,
+    12
+   ],
+   "groups": {
+    "6": [
+     6
+    ],
+    "7": [
+     3,
+     4
+    ],
+    "8": [
+     2,
+     3,
+     3
+    ],
+    "9": [
+     2,
+     3,
+     4
+    ],
+    "12": [
+     3,
+     3,
+     3,
+     3
+    ]
+   },
+   "sample": "43012345"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

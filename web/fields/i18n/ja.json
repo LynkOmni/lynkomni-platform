@@ -1,0 +1,24 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ja",
+ "native": "日本語",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "国",
+  "fd_email_format": "name@example.com のようなメールアドレスを入力してください。",
+  "fd_email_suggest": "{email} のことですか？",
+  "fd_email_throwaway": "このメールアドレスは短い期間しか使えません。使い続けるアドレスを入力してください。",
+  "fd_email_use": "{email} を使う",
+  "fd_error": "エラー",
+  "fd_example": "例: {sample}",
+  "fd_info": "お知らせ",
+  "fd_long": "{country}の番号は{n}桁です。それ以上の数字は入力されません。",
+  "fd_ok": "番号は正しいようです。",
+  "fd_range": "{from}～{to}",
+  "fd_short": "この番号は短すぎます。{country}の番号は{n}桁です。",
+  "fd_success": "完了",
+  "fd_warning": "警告"
+ }
+}

@@ -2,6 +2,7 @@
  *  scan key) and runs the real sale rules from ts/src/pos.ts against sandbox providers. Draft until a designer reviews it.
  *  Built into one offline HTML file by web/build.mjs. Colours come only from the design tokens (CSS variables). */
 import { hintFor } from "../../../ts/src/hints.js";
+import { phoneFieldHtml, emailFieldHtml, wireFields, countryNamer, type FieldCtx } from "../../../ts/src/fields.js";
 import { Cart, PosError, change, formatMoney, paymentPayload, paymentState, quickCash, receiptLines, salePayload, uuid7 } from "../../../ts/src/pos.js";
 import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload, UserState } from "../../../ts/src/pos.js";
 import { HANDHELD_TILES } from "../../../ts/src/business.js";
@@ -103,7 +104,7 @@ const S = {
   credit: [{ name: "Aline", owes: 4500 }, { name: "Eric", owes: 12000 }, { name: "Grace", owes: 0 }],
   // MASTER UPDATE section 3: who is signed in, the quiet limited view, the manager's approval, the device's bell and messages
   who: "c1", role: "cashier", view: "full" as "full" | "limited", picking: false, pinNote: "", approve: null as null | { act: "void"; reason: string; amount: number; pin: string; asked: boolean },
-  lines: [] as Line[], wiped: false, staffSheet: null as null | { person: string; byPin: string; newPin: string; note: string }, sendTo: "" as "" | "text" | "email", sent: "",
+  lines: [] as Line[], wiped: false, staffSheet: null as null | { person: string; byPin: string; newPin: string; note: string }, sendTo: "" as "" | "text" | "email", rcptTo: "", rcptCc: "", sent: "",
 };
 /** Agent point on the handheld (blueprint 42 I): one sandbox partner; its float sits in the agent's own account there and is only read. */
 const PARTNER_LIMITS: Limits = { per_transaction: 200_000, per_day: 2_000_000 };
@@ -554,7 +555,15 @@ function staffScreen(): string {
 function receiptByMessage(): string {
   if (S.sent) return `<p class="note" role="status">${esc(S.sent)}</p>`;
   if (!S.sendTo) return `<div class="dk-row"><button class="ghost" data-act="rcpt:text">${icon("product-chat")}${esc(t("by_text"))}</button><button class="ghost" data-act="rcpt:email">${icon("ui-doc")}${esc(t("by_email"))}</button></div>`;
-  return `<div class="dk-sheet"><label for="rcptTo">${esc(t("customer_contact"))}</label><input id="rcptTo" inputmode="${S.sendTo === "text" ? "tel" : "email"}" autocomplete="off" placeholder="${esc(hintFor(S.sendTo === "text" ? "phone" : "email", t, locale()))}"><button class="primary" data-act="rcpt:send" data-wait>${esc(t("send_receipt"))}</button></div>`;
+  // Section 4C point 1: the customer's number or email is the shared field part; Send stays off until it is complete.
+  const field = S.sendTo === "text" ? phoneFieldHtml(fieldCtx(), { id: "rcptTo", label: t("customer_contact"), country: S.rcptCc || pack().code, digits: S.rcptTo })
+    : emailFieldHtml(fieldCtx(), { id: "rcptTo", label: t("customer_contact"), text: S.rcptTo });
+  return `<div class="dk-sheet">${field}<button class="primary" data-act="rcpt:send" data-wait ${S.sendTo === "text" ? "data-needs-phone" : "data-needs-email"}="rcptTo" disabled>${esc(t("send_receipt"))}</button></div>`;
+}
+function fieldCtx(): FieldCtx {
+  const packs = DATA.packs as unknown as FieldCtx["packs"];
+  return { t, lang: locale(), packs, packOrder: DATA.packOrder, countryName: countryNamer(locale(), packs, t("sample_country")),
+    onPhone: (_id, v) => { S.rcptCc = v.country; S.rcptTo = v.digits; }, onEmail: (_id, v) => { S.rcptTo = v.text; } };
 }
 
 /** Touch or buttons (DEVICE 48.17.14): the registered hardware version decides; a button terminal works by its keys alone. */
@@ -566,7 +575,7 @@ const LIMITED_OK: Screen[] = ["lock", "sell", "cart", "pay", "cash", "done", "me
  *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
 const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "pos.terminal", "Counter 1", { short_side: 480, touch: true, keys: true, camera: true, speaker: true, device_print: true, hardware: ["receipt_printer", "cash_drawer"] }, "android"), (type, payload, origin) => { emit(type, payload, origin); });
 const KW = wireKit(KIT, { t, icon: (id, cls) => icon(id, cls), online: () => S.online, redraw: () => draw() });
-function draw(): void { drawScreen(); KW.after(document.querySelector("#display .app") as HTMLElement); }
+function draw(): void { drawScreen(); KW.after(document.querySelector("#display .app") as HTMLElement); wireFields($("#display"), fieldCtx()); }
 function drawScreen(): void {
   if (S.view === "limited" && !LIMITED_OK.includes(S.screen)) S.screen = "sell";
   const d = $("#display");
@@ -665,7 +674,7 @@ function act(a: string): void {
         return;
       }
       case "rcpt": {                        // receipts by message: only when the customer asks; offline it waits, never lost
-        if (v === "text" || v === "email") { S.sendTo = v; draw(); return; }
+        if (v === "text" || v === "email") { S.sendTo = v; S.rcptTo = ""; draw(); return; }
         if (v === "send" && S.current && S.sendTo) {
           if (S.online) { emit("DocumentSent", { document_id: S.current.receiptId, kind: "receipt", channel: S.sendTo, by: S.who }, "server"); S.sent = t("receipt_sent"); }
           else S.sent = t("receipt_waits");                // waits on the device; nothing is claimed as sent

@@ -1,0 +1,24 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ur",
+ "native": "اردو",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "ملک",
+  "fd_email_format": "name@example.com جیسا ای میل پتہ درج کریں۔",
+  "fd_email_suggest": "کیا آپ کا مطلب {email} تھا؟",
+  "fd_email_throwaway": "یہ ای میل پتہ تھوڑی دیر کے لیے ہی رہتا ہے۔ وہ پتہ استعمال کریں جو آپ رکھتے ہیں۔",
+  "fd_email_use": "{email} استعمال کریں",
+  "fd_error": "خرابی",
+  "fd_example": "مثال: {sample}",
+  "fd_info": "معلومات",
+  "fd_long": "{country} میں نمبر {n} ہندسوں کے ہوتے ہیں۔ اضافی ہندسے شامل نہیں ہوتے۔",
+  "fd_ok": "نمبر درست لگ رہا ہے۔",
+  "fd_range": "{from} سے {to}",
+  "fd_short": "یہ نمبر بہت چھوٹا ہے۔ {country} میں نمبر {n} ہندسوں کے ہوتے ہیں۔",
+  "fd_success": "ہو گیا",
+  "fd_warning": "انتباہ"
+ }
+}

@@ -180,5 +180,37 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "509",
+  "prefix": "",
+  "main": true,
+  "mobile": {
+   "lengths": [
+    8
+   ],
+   "groups": {
+    "8": [
+     2,
+     2,
+     4
+    ]
+   },
+   "sample": "34101234"
+  },
+  "any": {
+   "lengths": [
+    8
+   ],
+   "groups": {
+    "8": [
+     2,
+     2,
+     4
+    ]
+   },
+   "sample": "34101234"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

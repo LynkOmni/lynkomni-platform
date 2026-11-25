@@ -174,5 +174,37 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "350",
+  "prefix": "",
+  "main": true,
+  "mobile": {
+   "lengths": [
+    8
+   ],
+   "groups": {
+    "8": [
+     3,
+     3,
+     2
+    ]
+   },
+   "sample": "57123456"
+  },
+  "any": {
+   "lengths": [
+    8
+   ],
+   "groups": {
+    "8": [
+     3,
+     3,
+     2
+    ]
+   },
+   "sample": "57123456"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

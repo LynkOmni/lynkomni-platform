@@ -1,0 +1,16 @@
+{
+ "fd_country": "Country",
+ "fd_example": "Example: {sample}",
+ "fd_long": "Numbers in {country} have {n} digits. Extra digits are not added.",
+ "fd_short": "This number is too short. Numbers in {country} have {n} digits.",
+ "fd_range": "{from} to {to}",
+ "fd_ok": "Number looks right.",
+ "fd_email_format": "Enter an email address like name@example.com.",
+ "fd_email_suggest": "Did you mean {email}?",
+ "fd_email_use": "Use {email}",
+ "fd_email_throwaway": "This email address only lasts a short time. Use an email address you keep.",
+ "fd_error": "Error",
+ "fd_warning": "Warning",
+ "fd_info": "Information",
+ "fd_success": "Done"
+}

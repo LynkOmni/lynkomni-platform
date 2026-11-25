@@ -206,5 +206,76 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "39",
+  "prefix": "",
+  "main": false,
+  "mobile": {
+   "lengths": [
+    9,
+    10
+   ],
+   "groups": {
+    "9": [
+     3,
+     3,
+     3
+    ],
+    "10": [
+     3,
+     3,
+     4
+    ]
+   },
+   "sample": "3123456789"
+  },
+  "any": {
+   "lengths": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "groups": {
+    "6": [
+     6
+    ],
+    "7": [
+     3,
+     4
+    ],
+    "8": [
+     3,
+     3,
+     2
+    ],
+    "9": [
+     3,
+     3,
+     3
+    ],
+    "10": [
+     3,
+     3,
+     4
+    ],
+    "11": [
+     3,
+     4,
+     4
+    ],
+    "12": [
+     3,
+     4,
+     5
+    ]
+   },
+   "sample": "3123456789"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

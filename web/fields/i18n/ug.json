@@ -1,0 +1,24 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ug",
+ "native": "ئۇيغۇرچە",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "دۆلەت",
+  "fd_email_format": "name@example.com غا ئوخشاش ئېلخەت ئادرېسى كىرگۈزۈڭ.",
+  "fd_email_suggest": "{email} نى دېمەكچىمۇ؟",
+  "fd_email_throwaway": "بۇ ئېلخەت ئادرېسى قىسقا ۋاقىتلا ئىشلەيدۇ. ساقلايدىغان ئادرېسىڭىزنى ئىشلىتىڭ.",
+  "fd_email_use": "{email} نى ئىشلەت",
+  "fd_error": "خاتالىق",
+  "fd_example": "مىسال: {sample}",
+  "fd_info": "ئۇچۇر",
+  "fd_long": "{country} دىكى نومۇرلار {n} خانىلىق. ئارتۇق رەقەم قوشۇلمايدۇ.",
+  "fd_ok": "نومۇر توغرىدەك كۆرۈنىدۇ.",
+  "fd_range": "{from} دىن {to} غىچە",
+  "fd_short": "بۇ نومۇر بەك قىسقا. {country} دىكى نومۇرلار {n} خانىلىق.",
+  "fd_success": "تامام",
+  "fd_warning": "ئاگاھلاندۇرۇش"
+ }
+}

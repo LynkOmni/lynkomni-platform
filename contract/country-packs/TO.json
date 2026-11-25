@@ -170,5 +170,39 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "676",
+  "prefix": "",
+  "main": true,
+  "mobile": {
+   "lengths": [
+    7
+   ],
+   "groups": {
+    "7": [
+     3,
+     4
+    ]
+   },
+   "sample": "7715123"
+  },
+  "any": {
+   "lengths": [
+    5,
+    7
+   ],
+   "groups": {
+    "5": [
+     5
+    ],
+    "7": [
+     3,
+     4
+    ]
+   },
+   "sample": "7715123"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

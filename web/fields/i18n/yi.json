@@ -1,0 +1,24 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "yi",
+ "native": "ייִדיש",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "לאַנד",
+  "fd_email_format": "שרײַבט אַרײַן אַן בליצפּאָסט־אַדרעס ווי name@example.com.",
+  "fd_email_suggest": "האָט איר געמיינט {email}?",
+  "fd_email_throwaway": "דער בליצפּאָסט־אַדרעס האַלט נאָר אַ קורצע צײַט. ניצט אַן אַדרעס וואָס איר האַלט.",
+  "fd_email_use": "ניצט {email}",
+  "fd_error": "טעות",
+  "fd_example": "ביישפּיל: {sample}",
+  "fd_info": "אינפֿאָרמאַציע",
+  "fd_long": "נומערן אין {country} האָבן {n} ציפֿערן. מער ציפֿערן ווערן נישט צוגעגעבן.",
+  "fd_ok": "דער נומער זעט אויס ריכטיק.",
+  "fd_range": "פֿון {from} ביז {to}",
+  "fd_short": "דער נומער איז צו קורץ. נומערן אין {country} האָבן {n} ציפֿערן.",
+  "fd_success": "פֿאַרטיק",
+  "fd_warning": "וואָרענונג"
+ }
+}

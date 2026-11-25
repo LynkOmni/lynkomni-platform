@@ -1,0 +1,24 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "zh-Hant",
+ "native": "繁體中文",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "國家或地區",
+  "fd_email_format": "請輸入電子郵件地址，例如 name@example.com。",
+  "fd_email_suggest": "您是想輸入 {email} 嗎？",
+  "fd_email_throwaway": "這個電子郵件地址只能使用很短時間。請使用您長期使用的地址。",
+  "fd_email_use": "使用 {email}",
+  "fd_error": "錯誤",
+  "fd_example": "範例：{sample}",
+  "fd_info": "資訊",
+  "fd_long": "{country}的號碼有{n}位。多出的數字不會輸入。",
+  "fd_ok": "號碼看起來正確。",
+  "fd_range": "{from}至{to}",
+  "fd_short": "這個號碼太短。{country}的號碼有{n}位。",
+  "fd_success": "完成",
+  "fd_warning": "警告"
+ }
+}

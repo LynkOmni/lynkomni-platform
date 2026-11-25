@@ -1,0 +1,24 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "zu",
+ "native": "isiZulu",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "Izwe",
+  "fd_email_format": "Faka ikheli le-imeyili elifana no-name@example.com.",
+  "fd_email_suggest": "Ubusho {email}?",
+  "fd_email_throwaway": "Leli kheli le-imeyili lihlala isikhashana nje. Sebenzisa ikheli ozoligcina.",
+  "fd_email_use": "Sebenzisa {email}",
+  "fd_error": "Iphutha",
+  "fd_example": "Isibonelo: {sample}",
+  "fd_info": "Ulwazi",
+  "fd_long": "Izinombolo zase-{country} zinamadijithi angu-{n}. Amadijithi angeziwe awengezwa.",
+  "fd_ok": "Inombolo ibukeka ilungile.",
+  "fd_range": "kusuka ku-{from} kuya ku-{to}",
+  "fd_short": "Le nombolo imfushane kakhulu. Izinombolo zase-{country} zinamadijithi angu-{n}.",
+  "fd_success": "Kwenziwe",
+  "fd_warning": "Isexwayiso"
+ }
+}

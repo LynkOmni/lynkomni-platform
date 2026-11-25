@@ -1,0 +1,24 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "bn",
+ "native": "বাংলা",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "দেশ",
+  "fd_email_format": "name@example.com-এর মতো একটি ইমেল ঠিকানা দিন।",
+  "fd_email_suggest": "আপনি কি {email} বোঝাতে চেয়েছেন?",
+  "fd_email_throwaway": "এই ইমেল ঠিকানা অল্প সময় টেকে। যে ইমেল ঠিকানা রাখবেন সেটি ব্যবহার করুন।",
+  "fd_email_use": "{email} ব্যবহার করুন",
+  "fd_error": "ত্রুটি",
+  "fd_example": "উদাহরণ: {sample}",
+  "fd_info": "তথ্য",
+  "fd_long": "{country}-এ নম্বরে {n}টি অঙ্ক থাকে। এর বেশি অঙ্ক যোগ হয় না।",
+  "fd_ok": "নম্বরটি ঠিক মনে হচ্ছে।",
+  "fd_range": "{from} থেকে {to}",
+  "fd_short": "এই নম্বরটি খুব ছোট। {country}-এ নম্বরে {n}টি অঙ্ক থাকে।",
+  "fd_success": "সম্পন্ন",
+  "fd_warning": "সতর্কতা"
+ }
+}

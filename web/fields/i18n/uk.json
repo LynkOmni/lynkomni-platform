@@ -1,0 +1,24 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "uk",
+ "native": "Українська",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "Країна",
+  "fd_email_format": "Введіть адресу електронної пошти, наприклад name@example.com.",
+  "fd_email_suggest": "Ви мали на увазі {email}?",
+  "fd_email_throwaway": "Ця адреса пошти діє недовго. Вкажіть адресу, якою користуєтеся постійно.",
+  "fd_email_use": "Використати {email}",
+  "fd_error": "Помилка",
+  "fd_example": "Приклад: {sample}",
+  "fd_info": "Інформація",
+  "fd_long": "Номери в країні {country} мають {n} цифр. Зайві цифри не додаються.",
+  "fd_ok": "Номер виглядає правильним.",
+  "fd_range": "від {from} до {to}",
+  "fd_short": "Цей номер закороткий. Номери в країні {country} мають {n} цифр.",
+  "fd_success": "Готово",
+  "fd_warning": "Попередження"
+ }
+}

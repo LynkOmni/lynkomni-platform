@@ -1,0 +1,16 @@
+/* The phone and email fields and the field message (ts/src/fields.ts, section 4C points 1 and 2). Design tokens only; logical
+   properties so right-to-left mirrors; the number itself always runs left to right; every message has its word, never colour alone. */
+.lf-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; margin-block-end: 12px; }
+.lf-field > label { font-weight: 600; }
+.lf-row { display: flex; gap: 6px; min-width: 0; }
+.lf-cc { flex: 0 1 42%; min-width: 0; max-inline-size: 46%; min-block-size: 44px; border: 1px solid var(--border-input); border-radius: 10px; background: var(--bg-surface); color: inherit; font: inherit; padding-inline: 8px; text-overflow: ellipsis; }
+.lf-in { flex: 1 1 auto; min-width: 0; min-block-size: 44px; }
+.lf-field input[aria-invalid="true"] { border-color: var(--status-danger-border); box-shadow: 0 0 0 1px var(--status-danger-border); }
+.lf-msg:empty { display: none; }
+.lf-msg { margin: 0; padding: 8px 10px; border-radius: 10px; border: 1px solid transparent; display: block; overflow-wrap: anywhere; font-size: 14px; line-height: 1.4; }
+.lf-word { font-weight: 700; }
+.lf-error { background: var(--status-danger-bg); color: var(--status-danger-text); border-color: var(--status-danger-border); }
+.lf-warning { background: var(--status-warning-bg); color: var(--status-warning-text); border-color: var(--status-warning-border); }
+.lf-info { background: var(--status-info-bg); color: var(--status-info-text); border-color: var(--status-info-border); }
+.lf-success { background: var(--status-success-bg); color: var(--status-success-text); border-color: var(--status-success-border); }
+.lf-fix { display: block; margin-block-start: 8px; min-block-size: 44px; padding-inline: 12px; border-radius: 10px; border: 1px solid currentColor; background: transparent; color: inherit; font: inherit; font-weight: 600; white-space: normal; overflow-wrap: anywhere; max-inline-size: 100%; }

@@ -176,5 +176,74 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "381",
+  "prefix": "0",
+  "main": true,
+  "mobile": {
+   "lengths": [
+    8,
+    9,
+    10
+   ],
+   "groups": {
+    "8": [
+     2,
+     6
+    ],
+    "9": [
+     2,
+     7
+    ],
+    "10": [
+     2,
+     8
+    ]
+   },
+   "sample": "601234567"
+  },
+  "any": {
+   "lengths": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "groups": {
+    "6": [
+     6
+    ],
+    "7": [
+     2,
+     5
+    ],
+    "8": [
+     2,
+     6
+    ],
+    "9": [
+     2,
+     7
+    ],
+    "10": [
+     2,
+     8
+    ],
+    "11": [
+     2,
+     9
+    ],
+    "12": [
+     2,
+     10
+    ]
+   },
+   "sample": "601234567"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

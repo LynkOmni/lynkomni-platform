@@ -1,0 +1,24 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ha",
+ "native": "Hausa",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "Ƙasa",
+  "fd_email_format": "Shigar da adireshin imel kamar name@example.com.",
+  "fd_email_suggest": "Kana nufin {email}?",
+  "fd_email_throwaway": "Wannan adireshin imel yana ɗaukar ɗan lokaci kawai. Yi amfani da adireshin da za ka riƙe.",
+  "fd_email_use": "Yi amfani da {email}",
+  "fd_error": "Kuskure",
+  "fd_example": "Misali: {sample}",
+  "fd_info": "Bayani",
+  "fd_long": "Lambobi a {country} suna da haruffan lamba {n}. Ba a ƙara ƙarin haruffa.",
+  "fd_ok": "Lambar tana da kyau.",
+  "fd_range": "daga {from} zuwa {to}",
+  "fd_short": "Wannan lambar ta yi gajeru sosai. Lambobi a {country} suna da haruffan lamba {n}.",
+  "fd_success": "An gama",
+  "fd_warning": "Gargaɗi"
+ }
+}

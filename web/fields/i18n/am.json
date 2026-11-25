@@ -1,0 +1,24 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "am",
+ "native": "አማርኛ",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "አገር",
+  "fd_email_format": "እንደ name@example.com ያለ የኢሜይል አድራሻ ያስገቡ።",
+  "fd_email_suggest": "{email} ማለትዎ ነበር?",
+  "fd_email_throwaway": "ይህ የኢሜይል አድራሻ ለአጭር ጊዜ ብቻ ይቆያል። የሚያቆዩትን የኢሜይል አድራሻ ይጠቀሙ።",
+  "fd_email_use": "{email} ተጠቀም",
+  "fd_error": "ስህተት",
+  "fd_example": "ምሳሌ፦ {sample}",
+  "fd_info": "መረጃ",
+  "fd_long": "በ{country} ቁጥሮች {n} አሃዞች አሏቸው። ተጨማሪ አሃዞች አይገቡም።",
+  "fd_ok": "ቁጥሩ ትክክል ይመስላል።",
+  "fd_range": "ከ{from} እስከ {to}",
+  "fd_short": "ይህ ቁጥር በጣም አጭር ነው። በ{country} ቁጥሮች {n} አሃዞች አሏቸው።",
+  "fd_success": "ተከናውኗል",
+  "fd_warning": "ማስጠንቀቂያ"
+ }
+}

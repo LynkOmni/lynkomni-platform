@@ -1,0 +1,24 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "zh-Hans",
+ "native": "简体中文",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "国家或地区",
+  "fd_email_format": "请输入电子邮箱地址，例如 name@example.com。",
+  "fd_email_suggest": "您是想输入 {email} 吗？",
+  "fd_email_throwaway": "这个邮箱地址只能使用很短时间。请使用您长期使用的邮箱地址。",
+  "fd_email_use": "使用 {email}",
+  "fd_error": "错误",
+  "fd_example": "示例：{sample}",
+  "fd_info": "信息",
+  "fd_long": "{country}的号码有{n}位。多出的数字不会输入。",
+  "fd_ok": "号码看起来正确。",
+  "fd_range": "{from}至{to}",
+  "fd_short": "这个号码太短。{country}的号码有{n}位。",
+  "fd_success": "完成",
+  "fd_warning": "警告"
+ }
+}

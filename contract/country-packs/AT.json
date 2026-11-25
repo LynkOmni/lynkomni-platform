@@ -176,5 +176,108 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "43",
+  "prefix": "0",
+  "main": true,
+  "mobile": {
+   "lengths": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+   ],
+   "groups": {
+    "7": [
+     3,
+     4
+    ],
+    "8": [
+     3,
+     5
+    ],
+    "9": [
+     3,
+     6
+    ],
+    "10": [
+     3,
+     7
+    ],
+    "11": [
+     3,
+     8
+    ],
+    "12": [
+     3,
+     9
+    ],
+    "13": [
+     3,
+     10
+    ]
+   },
+   "sample": "664123456"
+  },
+  "any": {
+   "lengths": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+   ],
+   "groups": {
+    "4": [
+     4
+    ],
+    "5": [
+     5
+    ],
+    "6": [
+     3,
+     3
+    ],
+    "7": [
+     3,
+     4
+    ],
+    "8": [
+     3,
+     5
+    ],
+    "9": [
+     3,
+     6
+    ],
+    "10": [
+     3,
+     7
+    ],
+    "11": [
+     3,
+     8
+    ],
+    "12": [
+     3,
+     9
+    ],
+    "13": [
+     3,
+     10
+    ]
+   },
+   "sample": "664123456"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

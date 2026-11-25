@@ -1,0 +1,24 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "de",
+ "native": "Deutsch",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "Land",
+  "fd_email_format": "Geben Sie eine E-Mail-Adresse wie name@example.com ein.",
+  "fd_email_suggest": "Meinten Sie {email}?",
+  "fd_email_throwaway": "Diese E-Mail-Adresse gilt nur kurze Zeit. Verwenden Sie eine Adresse, die Sie behalten.",
+  "fd_email_use": "{email} verwenden",
+  "fd_error": "Fehler",
+  "fd_example": "Beispiel: {sample}",
+  "fd_info": "Information",
+  "fd_long": "Nummern in {country} haben {n} Ziffern. Weitere Ziffern werden nicht übernommen.",
+  "fd_ok": "Die Nummer sieht richtig aus.",
+  "fd_range": "{from} bis {to}",
+  "fd_short": "Diese Nummer ist zu kurz. Nummern in {country} haben {n} Ziffern.",
+  "fd_success": "Erledigt",
+  "fd_warning": "Warnung"
+ }
+}

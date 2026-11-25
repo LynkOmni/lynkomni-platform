@@ -1,0 +1,24 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "hi",
+ "native": "हिन्दी",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "देश",
+  "fd_email_format": "name@example.com जैसा ईमेल पता डालें।",
+  "fd_email_suggest": "क्या आपका मतलब {email} था?",
+  "fd_email_throwaway": "यह ईमेल पता थोड़े समय के लिए ही रहता है। ऐसा ईमेल पता इस्तेमाल करें जो आप रखते हैं।",
+  "fd_email_use": "{email} इस्तेमाल करें",
+  "fd_error": "त्रुटि",
+  "fd_example": "उदाहरण: {sample}",
+  "fd_info": "जानकारी",
+  "fd_long": "{country} में नंबर {n} अंकों के होते हैं। इससे ज़्यादा अंक नहीं जुड़ते।",
+  "fd_ok": "नंबर सही लग रहा है।",
+  "fd_range": "{from} से {to}",
+  "fd_short": "यह नंबर बहुत छोटा है। {country} में नंबर {n} अंकों के होते हैं।",
+  "fd_success": "हो गया",
+  "fd_warning": "चेतावनी"
+ }
+}

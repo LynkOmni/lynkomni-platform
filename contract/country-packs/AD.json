@@ -174,5 +174,53 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "376",
+  "prefix": "",
+  "main": true,
+  "mobile": {
+   "lengths": [
+    6,
+    9
+   ],
+   "groups": {
+    "6": [
+     3,
+     3
+    ],
+    "9": [
+     3,
+     3,
+     3
+    ]
+   },
+   "sample": "312345"
+  },
+  "any": {
+   "lengths": [
+    6,
+    8,
+    9
+   ],
+   "groups": {
+    "6": [
+     3,
+     3
+    ],
+    "8": [
+     3,
+     3,
+     2
+    ],
+    "9": [
+     3,
+     3,
+     3
+    ]
+   },
+   "sample": "312345"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

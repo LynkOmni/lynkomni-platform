@@ -1,0 +1,24 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "th",
+ "native": "ไทย",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "ประเทศ",
+  "fd_email_format": "ใส่อีเมลเช่น name@example.com",
+  "fd_email_suggest": "คุณหมายถึง {email} ใช่ไหม",
+  "fd_email_throwaway": "อีเมลนี้ใช้ได้แค่ช่วงสั้นๆ ใช้อีเมลที่คุณเก็บไว้ใช้",
+  "fd_email_use": "ใช้ {email}",
+  "fd_error": "ข้อผิดพลาด",
+  "fd_example": "ตัวอย่าง: {sample}",
+  "fd_info": "ข้อมูล",
+  "fd_long": "หมายเลขใน{country}มี {n} หลัก ตัวเลขที่เกินจะไม่ถูกเพิ่ม",
+  "fd_ok": "หมายเลขดูถูกต้อง",
+  "fd_range": "{from} ถึง {to}",
+  "fd_short": "หมายเลขนี้สั้นเกินไป หมายเลขใน{country}มี {n} หลัก",
+  "fd_success": "เสร็จแล้ว",
+  "fd_warning": "คำเตือน"
+ }
+}

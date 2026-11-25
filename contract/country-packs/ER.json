@@ -179,5 +179,37 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "291",
+  "prefix": "0",
+  "main": true,
+  "mobile": {
+   "lengths": [
+    7
+   ],
+   "groups": {
+    "7": [
+     1,
+     3,
+     3
+    ]
+   },
+   "sample": "7123456"
+  },
+  "any": {
+   "lengths": [
+    7
+   ],
+   "groups": {
+    "7": [
+     1,
+     3,
+     3
+    ]
+   },
+   "sample": "7123456"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }
