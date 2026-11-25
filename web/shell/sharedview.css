@@ -2,7 +2,7 @@
    plans and limits. Design tokens only; logical properties so right-to-left mirrors; text wraps in every language. */
 .sv { display: flex; flex-direction: column; gap: 8px; min-width: 0; margin-block-end: 16px; }
 .sv h2 { margin: 0; font: 600 17px var(--font-heading); }
-.sv-note, .sv-warn, .sv-notice { display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: flex-start; overflow-wrap: anywhere; }
+.sv-note, .sv-notice { display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: flex-start; overflow-wrap: anywhere; }
 .sv-sample { font-weight: 600; color: var(--text-secondary); }
 .sv-rows { list-style: none; margin: 0; padding: 0; }
 .sv-rows li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding-block: 10px; border-block-end: 1px solid var(--border-subtle); }
@@ -12,8 +12,7 @@
 .sv .ic { inline-size: 18px; block-size: 18px; flex: none; display: inline-flex; }
 .sv .ic svg { inline-size: 100%; block-size: 100%; }
 .sv-note { margin: 0; color: var(--text-secondary); font-size: 13px; }
-.sv-warn, .sv-notice { margin: 0; padding: 10px 12px; border-radius: 10px; }
-.sv-warn { background: var(--status-warning-bg); color: var(--status-warning-text); border: 1px solid var(--status-warning-border); }
+.sv-notice { margin: 0; padding: 10px 12px; border-radius: 10px; }
 .sv-notice { background: var(--status-info-bg); color: var(--status-info-text); border: 1px solid var(--status-info-border); }
 /* The message system's pages (CONNECT UPDATE 71.7): role inbox, urgent broadcast, forward by email, message wording and results. */
 .sv-chips { display: flex; flex-wrap: wrap; gap: 6px; }

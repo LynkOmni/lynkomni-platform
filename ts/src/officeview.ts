@@ -9,6 +9,7 @@
  *  sees only its branch; groups below the minimum are hidden. */
 import type { NavRegister } from "./navigation.js";
 import { listToolbarHtml, recordHeaderHtml, saveBarHtml } from "./pagekit.js";
+import { noticeHtml } from "./errorbox.js";
 import { BOOKS, CHART } from "./books.generated.js";
 import { allocate, bankMatch, billMove, budgetVsActual, closeMissing, consolidate, depreciation, mayApprove, revalue, statements, stockCost, taxLine, trialBalance, twoPerson } from "./books.js";
 import type { BooksRegister, Line } from "./books.js";
@@ -358,7 +359,7 @@ export class OfficeView {
     return `<div class="of-form"><h2>${ofEsc(this.t("of_credit_note"))}</h2>
       <label class="of-field" for="ofCreditAmt"><span>${ofEsc(this.t("of_credit_amount"))}</span><input id="ofCreditAmt" data-in="of:credit:amount" inputmode="decimal" autocomplete="off" value="${ofEsc(this.credit.amount)}" placeholder="${ofEsc(this.t("of_hint_price"))}"></label>
       <label class="of-field" for="ofCreditWhy"><span>${ofEsc(this.t("of_credit_reason"))}</span><input id="ofCreditWhy" data-in="of:credit:reason" autocomplete="off" value="${ofEsc(this.credit.reason)}" placeholder="${ofEsc(this.t("of_hint_reason"))}"></label>
-      ${too ? `<p class="warn" role="alert">${ofEsc(this.t("of_credit_too_much"))}</p>` : ""}
+      ${too ? noticeHtml(this.t, { level: "error", text: this.t("of_credit_too_much"), field: "ofCreditAmt", fix: { label: this.t("fd_go_to", { field: this.t("of_credit_amount") }), focus: "ofCreditAmt" } }) : ""}
       ${saveBarHtml({ label: this.t("of_issue_credit_note"), act: "of:docredit", disabled: amount <= 0 || too || !this.credit.reason.trim(), secondary: { label: this.t("of_cancel"), act: "of:creditcancel" } })}</div>`;
   }
   private invNew(): string {
@@ -372,7 +373,7 @@ export class OfficeView {
       <label class="of-field" for="ofCustomer"><span>${ofEsc(this.t("of_customer"))}</span><select id="ofCustomer" data-in="of:draft:customer">${["c1", "c2", "c3"].map((c) => `<option value="${c}"${c === this.draft.customer ? " selected" : ""}>${ofEsc(this.custName(c))}</option>`).join("")}</select></label>
       ${field("ofItem", "of_item", "of_hint_item", this.draft.name, "text")}${field("ofQty", "of_quantity", "of_hint_qty", this.draft.qty, "decimal")}${field("ofPrice", "of_price", "of_hint_price", this.draft.price, "decimal")}
       ${tot ? `<table class="of-table"><tbody><tr><td>${ofEsc(this.t("of_net"))}</td><td class="of-num">${ofEsc(this.c.money(tot.net))}</td></tr><tr><td>${ofEsc(this.t("of_tax"))}</td><td class="of-num">${ofEsc(this.c.money(tot.total - tot.net))}</td></tr><tr class="of-total"><td>${ofEsc(this.t("of_total"))}</td><td class="of-num">${ofEsc(this.c.money(tot.total))}</td></tr></tbody></table>` : `<p class="note">${ofEsc(this.t("of_add_a_line"))}</p>`}
-      ${waits ? `<p class="warn">${ofEsc(this.t("of_waits_for_approval"))}</p>` : ""}<p class="note">${ofEsc(this.t("of_pay_link_note"))}</p>
+      ${waits ? noticeHtml(this.t, { level: "info", text: this.t("of_waits_for_approval") }) : ""}<p class="note">${ofEsc(this.t("of_pay_link_note"))}</p>
       ${saveBarHtml({ label: this.t(waits ? "of_send_for_approval" : "of_issue"), act: "of:issue", disabled: !tot || !this.draft.name.trim(), secondary: { label: this.t("of_cancel"), act: "of:go:inv_list" } })}`;
   }
 

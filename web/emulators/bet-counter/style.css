@@ -23,7 +23,6 @@
 .btile .ic { inline-size: 26px; block-size: 26px; color: var(--brand-ink); } .btile strong { font-size: 14px; }
 .btile:disabled { opacity: .5; cursor: not-allowed; }
 .bnote { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--status-info-border); background: var(--status-info-bg); color: var(--status-info-text); font-size: 13px; }
-.bwarn { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--status-warning-border); background: var(--status-warning-bg); color: var(--status-warning-text); font-size: 13px; }
 .bbad { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--status-danger-border); background: var(--status-danger-bg); color: var(--status-danger-text); font-weight: 600; }
 .bgood { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--status-success-border); background: var(--status-success-bg); color: var(--status-success-text); font-weight: 600; }
 .bgames { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }

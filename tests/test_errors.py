@@ -3,8 +3,7 @@
 Every error, warning, information and success message is drawn by the one shared part ts/src/errorbox.ts (noticeHtml,
 summaryHtml, ourSideHtml, fieldMsgHtml): the official colours with an icon shape and a word, the field it is about, what and
 why, and a fix. Its types refuse an error without a fix. This check refuses any screen that draws its own error or warning box.
-DUE lists the files still being moved onto the part in section 4C step 2b; it may only shrink, and 4C cannot lock while it has
-anything in it."""
+Every screen is on the part since section 4C step 2b (v0.116.0); DUE stays empty."""
 import glob
 import json
 import os
@@ -12,15 +11,10 @@ import re
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PARTS = {"ts/src/errorbox.ts", "ts/src/fields.ts", "ts/src/emailfield.ts", "ts/src/codefield.ts"}
-# Still drawing their own boxes, moved in section 4C step 2b (v0.116.0).
-DUE = {
-    "ts/src/attenddesk.ts", "ts/src/chatview.ts", "ts/src/officeview.ts", "ts/src/sharedview.ts", "ts/src/signin.ts",
-    "ts/src/devicekit.ts", "ts/src/peopleparts.ts", "ts/src/shell.ts", "ts/src/queuedesk.ts", "ts/src/surveydesk.ts",
-    "ts/src/workview.ts", "web/emulators/account-site/app.ts", "web/emulators/counter-tablet/app.ts",
-    "web/emulators/pos-terminal/app.ts", "web/emulators/bet-counter/app.ts", "web/emulators/owner-web/app.ts",
-    "web/emulators/rider-phone/app.ts", "web/emulators/merchant-phone/app.ts",
-}
+# the message parts, and the designed full-page states of ts/src/shell.ts state(), which always carry a next step
+PARTS = {"ts/src/errorbox.ts", "ts/src/fields.ts", "ts/src/emailfield.ts", "ts/src/codefield.ts", "ts/src/shell.ts"}
+# Every screen was moved onto the part in section 4C step 2b (v0.116.0); nothing may be added here.
+DUE: set = set()
 OWN_BOX = re.compile(r'role=\\?"alert\\?"|class=\\?"(?:warn|bwarn|sv-warn|ch-warn|error|err|alert [a-z]+|pmsg danger|pmsg success)[ "\\]')
 
 
@@ -42,6 +36,9 @@ class Errors(unittest.TestCase):
                     if OWN_BOX.search(line):
                         bad.append(f"{rel}:{i}")
         self.assertEqual(bad, [], "draw errors and warnings with ts/src/errorbox.ts (noticeHtml): " + ", ".join(bad))
+
+    def test_nothing_is_left_to_move(self):
+        self.assertEqual(DUE, set())
 
     def test_the_due_list_only_names_files_that_still_need_moving(self):
         for rel in sorted(DUE):

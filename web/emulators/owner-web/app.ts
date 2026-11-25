@@ -9,7 +9,7 @@ import { homeCards, webRule } from "../../../ts/src/business.js";
 import { matchStatement } from "../../../ts/src/agent.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, stateButtons, appMainFooter, pageWaiting } from "../../../ts/src/emulator.js";
 import { emailFieldHtml, wireEmails } from "../../../ts/src/emailfield.js";
-import { wireNotices } from "../../../ts/src/errorbox.js";
+import { noticeHtml, wireNotices } from "../../../ts/src/errorbox.js";
 import { FOOTER_EMAIL_ID } from "../../../ts/src/footer.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
@@ -80,7 +80,7 @@ function staff(): string {
 }
 function commissions(): string {
   const m = matchStatement(ours, reported);
-  return `<h1>${esc(t("agent_commissions"))}</h1><p>${esc(t("statement_matched", { n: m.matched }))} · ${esc(C.money(m.total))}</p><p class="warn">${esc(t("statement_mismatch", { n: m.mismatches.length }))}</p>
+  return `<h1>${esc(t("agent_commissions"))}</h1><p>${esc(t("statement_matched", { n: m.matched }))} · ${esc(C.money(m.total))}</p>${noticeHtml(t, { level: "warning", text: t("statement_mismatch", { n: m.mismatches.length }) })}
     <ul class="rows">${Object.entries(ours).map(([id, c]) => { const r = reported.find((x) => x.request_id === id); return `<li><span>${esc(t("partner_a"))} · ${esc(id.toUpperCase())}</span><span>${esc(C.money(c))}</span><span>${r ? esc(C.money(r.commission)) : "—"}</span>${r && r.commission === c ? chip("confirmed") : chip("failed")}</li>`; }).join("")}</ul><p class="note">${esc(t("float_read_live"))}</p>`;
 }
 // ---- the automation system (CONNECT UPDATE 71.2, section 4 row 71.9; services/flow.py is the rule): sample state, labelled Sample ----

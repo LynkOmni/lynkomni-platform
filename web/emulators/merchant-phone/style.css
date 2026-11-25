@@ -75,11 +75,11 @@ button, input, select { font: inherit; color: inherit; }
 .big { min-height: 64px; border: 0; border-radius: 18px; background: var(--brand-primary); color: var(--on-brand); font: 700 18px var(--font-heading); display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; padding: 8px 14px; }
 .big:hover { background: var(--brand-hover); color: var(--on-brand-hover); }
 .big .ic { width: 24px; height: 24px; }
-.alert { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 12px; border: 1px solid; font-size: 13px; text-align: start; cursor: pointer; width: 100%; }
-.alert.neg { background: var(--status-danger-bg); color: var(--status-danger-text); border-color: var(--status-danger-border); }
-.alert.low { background: var(--status-warning-bg); color: var(--status-warning-text); border-color: var(--status-warning-border); }
-.alert > span:not(.ic) { flex: 1; min-width: 0; }
-.alert b { display: block; }
+.alertrow { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 12px; border: 1px solid; font-size: 13px; text-align: start; cursor: pointer; width: 100%; }
+.alertrow.neg { background: var(--status-danger-bg); color: var(--status-danger-text); border-color: var(--status-danger-border); }
+.alertrow.low { background: var(--status-warning-bg); color: var(--status-warning-text); border-color: var(--status-warning-border); }
+.alertrow > span:not(.ic) { flex: 1; min-width: 0; }
+.alertrow b { display: block; }
 .list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
 .list > li { border-bottom: 1px solid var(--border-subtle); }
 .list > li:last-child { border-bottom: 0; }

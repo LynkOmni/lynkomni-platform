@@ -12,8 +12,7 @@
 .pkey:disabled { opacity: .45; }
 .pkey.fn { background: var(--bg-surface); color: var(--brand-ink); }
 .pkey .pdots { inline-size: 18px; block-size: 18px; color: var(--text-secondary); }
-.pmsg { display: flex; gap: 6px; align-items: center; margin: 0; font-size: var(--text-14); text-align: center; }
-.pmsg.danger { color: var(--status-danger-text); } .pmsg.warning { color: var(--status-warning-text); } .pmsg.success { color: var(--status-success-text); }
+.pmsg { margin: 0; }
 .popts { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
 .chipbtn.on { background: var(--brand-subtle); border-color: var(--brand-primary); }
 .nbig { margin: 0; font: 800 var(--text-24)/1 var(--font-heading); font-size: clamp(var(--text-24), 12vw, 48px); letter-spacing: .08em; font-feature-settings: var(--font-feature-tabular); }
@@ -132,7 +131,7 @@
 .pb { display: block; margin-block-start: 6px; color: var(--text-secondary); font-size: var(--text-12); text-align: center; }
 .qkiosk { display: grid; gap: 10px; min-inline-size: 0; } .qkiosk.done { justify-items: center; text-align: center; } .qkiosk .ticket { inline-size: 100%; }
 .qk-sec { display: grid; gap: 2px; text-align: start; inline-size: 100%; min-block-size: 64px; min-inline-size: 0; padding: 10px 14px; border: 1px solid var(--border-subtle); border-radius: 14px; background: var(--bg-surface); color: var(--text-primary); font: inherit; cursor: pointer; overflow-wrap: anywhere; }
-.qk-sec strong { font-size: var(--text-20); } .qk-sec span { color: var(--text-secondary); font-size: var(--text-14); } .qk-sec .warn { color: var(--status-warning-text); } .qk-sec:disabled { opacity: .6; cursor: not-allowed; }
+.qk-sec strong { font-size: var(--text-20); } .qk-sec span { color: var(--text-secondary); font-size: var(--text-14); } .qk-sec .qk-may { color: var(--status-warning-text); font-weight: 600; } .qk-sec:disabled { opacity: .6; cursor: not-allowed; }
 .qscreen { display: grid; gap: 10px; min-inline-size: 0; container-type: inline-size; overflow-wrap: anywhere; }
 .qscreen .qs-title { margin: 0; font-family: var(--font-heading); font-size: min(1.5rem, 7cqi); } .qs-list, .qs-waits { list-style: none; margin: 0; padding: 0; }
 .qs-list { display: grid; gap: 6px; } .qs-row { display: grid; grid-template-columns: minmax(0, 1.4fr) auto minmax(0, 1fr); gap: 8px; align-items: center; padding: 8px 12px; border-radius: 10px; background: var(--bg-subtle); border: 2px solid transparent; }

@@ -6,6 +6,7 @@
  *  /sell/betting) and the shop's Storefront betting page it manages (/external/betting). No country, currency or operator is
  *  written here: amounts are whole minor units of the chosen country's currency and the operators are sandbox samples. */
 import type { UserState } from "../../../ts/src/pos.js";
+import { noticeHtml, type Notice as Msg } from "../../../ts/src/errorbox.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, stateButtons } from "../../../ts/src/emulator.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { designedState, panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
@@ -59,6 +60,11 @@ const chip = (s: UserState): string => `<span class="chip st-${s}">${icon(`statu
 const LOG = new EventLog(() => { const el = document.getElementById("log"); if (el) el.innerHTML = LOG.html(esc, chip, t("no_events")); });
 
 /** One whole unit of the shop's currency in minor units (2 decimals for most, none for some): sample amounts follow the currency. */
+/** The operator's answer on a scanned ticket (section 4C point 2): a win is good news, a refusal says what to do, a flag is never an accusation. */
+function btAnswer(a: string, text: string): Msg {
+  return a === "pay" ? { level: "success", text } : a === "not_valid" ? { level: "error", text, how: t("fd_check_retry") }
+    : a === "refer" || a === "short_of_cash" || a === "already_paid" ? { level: "warning", text } : { level: "info", text };
+}
 function unit(): number {
   try { return 10 ** (new Intl.NumberFormat("en", { style: "currency", currency: C.pack().currency }).resolvedOptions().maximumFractionDigits ?? 2); } catch { return 100; }
 }
@@ -111,7 +117,7 @@ function home(): string {
   const tile = (go: View, ic: string, label: string, off: boolean): string => `<button type="button" class="btile" data-act="go:${go}"${off ? ` disabled data-why="${esc(t("bt_needs_net"))}"` : ""}>${icon(ic)}<strong>${esc(t(label))}</strong></button>`;
   return `${whoRow()}<div class="bop"><span>${esc(t("bt_operator", { name: operatorName() }))}</span><span>${esc(t("cash_in_drawer"))} <strong>${esc(money(drawer()))}</strong></span></div>
     ${choices(t("bt_operator_pick"), ["1", "2"], String(S.operator), "op", (x) => operatorName(Number(x)))}
-    ${S.online ? "" : `<p class="bwarn">${esc(t(S.offlineSlips ? "bt_offline_mode" : "bt_needs_net"))}</p>`}
+    ${S.online ? "" : noticeHtml(t, S.offlineSlips ? { level: "warning", text: t("bt_offline_mode") } : { level: "error", text: t("bt_needs_net"), how: t("fd_go_online") })}
     <div class="btiles" data-wait-area data-shape="tiles">${tile("games", "lit-tickets", "bt_place", !canTakeBets())}${tile("check", "ui-qr", "bt_check", false)}${tile("refs", "ui-doc", "bt_refs", false)}${tile("shift", "ui-float", "bt_shift", false)}${tile("safer", "ui-info", "bt_safer", false)}${tile("storefront", "ui-globe", "bt_storefront", false)}</div>
     <p class="sub">${esc(t("bt_never_credit"))}</p>`;
 }
@@ -143,7 +149,7 @@ function placedView(b: Placed): string {
   const why = canCancel === "offline" ? "bt_payout_offline" : canCancel === "manager_needed" ? "bt_cancel_manager" : "bt_cancel_no";
   const cancel = b.state === "confirmed" && S.cancelled !== b.code ? `${S.cancelManager ? `<p class="bgood">${icon("ui-check")} ${esc(t("bt_approved_by", { name: S.approvedBy }))}</p>` : `<button type="button" class="ghost" data-act="approve:cancel"${S.online ? "" : " disabled"}>${icon("ui-lock")} ${esc(t("bt_cancel_manager"))}</button>`}
       <button type="button" class="ghost" data-act="cancel" data-wait${canCancel === "ok" ? "" : ` disabled data-why="${esc(t(why))}"`}>${esc(t("bt_cancel"))}</button>
-      <button type="button" class="ghost" data-act="reprint">${esc(t("bt_reprint"))}</button>` : S.cancelled === b.code ? `<p class="bwarn">${esc(t("bt_cancelled", { amount: money(b.stake) }))}</p>` : "";
+      <button type="button" class="ghost" data-act="reprint">${esc(t("bt_reprint"))}</button>` : S.cancelled === b.code ? noticeHtml(t, { level: "info", text: t("bt_cancelled", { amount: money(b.stake) }) }) : "";
   return bar(t("bt_slip")) + head + body + cancel + `<div class="bactions"><button type="button" class="primary" data-act="newbet"${b.state === "sent" ? " disabled" : ""}>${esc(t("bt_new"))}</button></div>`;
 }
 function slip(): string {
@@ -157,11 +163,11 @@ function slip(): string {
     <h3>${esc(t("bt_paid_by"))}</h3>${choices(t("bt_paid_by"), ["cash", "mobile_money"], S.method, "method", (m) => t(m))}
     ${rows([[t("bt_possible"), money(betPossibleWin(stake, list))]])}
     ${toggle("age", S.age, t("bt_age", { age: age() }))}
-    ${why ? `<p class="${S.online ? "sub" : "bwarn"}">${esc(t(why))}</p>` : S.online ? "" : `<p class="bnote">${esc(t("bt_queued_note"))}</p>`}
+    ${why ? noticeHtml(t, { level: S.online ? "info" : "warning", text: t(why) }) : S.online ? "" : `<p class="bnote">${esc(t("bt_queued_note"))}</p>`}
     <div class="bactions"><button type="button" class="primary" data-act="send" data-wait${why ? ` disabled data-why="${esc(t(why))}"` : ""}>${esc(t(S.online ? "bt_send" : "bt_queue"))}</button></div>`;
 }
 function checkView(): string {
-  return bar(t("bt_check")) + `<p>${esc(t("bt_scan_hint"))}</p>${S.online ? "" : `<p class="bwarn">${esc(t("bt_payout_offline"))}</p>`}<div class="bactions"><button type="button" class="primary" data-act="scan">${icon("ui-qr")} ${esc(t("scan"))}</button></div>`;
+  return bar(t("bt_check")) + `<p>${esc(t("bt_scan_hint"))}</p>${S.online ? "" : noticeHtml(t, { level: "error", text: t("bt_payout_offline"), how: t("fd_go_online") })}<div class="bactions"><button type="button" class="primary" data-act="scan">${icon("ui-qr")} ${esc(t("scan"))}</button></div>`;
 }
 function answerView(): string {
   const tk = S.ticket, a = S.answer;
@@ -174,12 +180,12 @@ function answerView(): string {
     const btn = S.handed ? `<p class="bgood">${esc(t("bt_paid"))}</p><div class="bactions"><button type="button" class="primary" data-act="go:check">${esc(t("bt_next_ticket"))}</button></div>`
       : betMayHandOverCash(S.lock ?? "") ? `<div class="bactions"><button type="button" class="primary" data-act="handover">${esc(t("bt_hand", { amount: amt }))}</button></div>`
       : `${needSecond ? `<p class="sub">${esc(t("bt_second_needed", { amount: money(OP.secondFrom()) }))}</p>${S.second ? `<p class="bgood">${icon("ui-check")} ${esc(t("bt_approved_by", { name: S.approvedBy }))}</p>` : `<button type="button" class="ghost" data-act="approve:second"${S.online ? "" : " disabled"}>${icon("ui-lock")} ${esc(t("bt_second"))}</button>`}` : ""}
-        ${S.online ? "" : `<p class="bwarn">${esc(t("bt_payout_offline"))}</p>`}
+        ${S.online ? "" : noticeHtml(t, { level: "error", text: t("bt_payout_offline"), how: t("fd_go_online") })}
         <div class="bactions"><button type="button" class="primary" data-act="lock" data-wait${ready ? "" : ` disabled data-why="${esc(t(S.online ? "bt_second" : "bt_payout_offline"))}"`}>${esc(t("bt_lock"))}</button></div>`;
     return bar(t("bt_check"), "check") + head + `<p class="bgood">${esc(t("bt_a_pay", { amount: amt }))}</p><p class="bbig">${esc(amt)}</p><p class="sub">${esc(t("bt_locked_note"))}</p>${lockLine}${btn}`;
   }
   if (a === "refer" || a === "short_of_cash")
-    return bar(t("bt_check"), "check") + head + `<p class="bwarn">${esc(t(`bt_a_${a}`, { amount: amt }))}</p><p class="sub">${esc(t("bt_keep"))}</p>
+    return bar(t("bt_check"), "check") + head + `${noticeHtml(t, btAnswer(a, t(`bt_a_${a}`, { amount: amt })))}<p class="sub">${esc(t("bt_keep"))}</p>
       <div class="bactions"><button type="button" class="primary" data-act="go:refer"${S.online ? "" : ` disabled data-why="${esc(t("bt_payout_offline"))}"`}>${esc(t("bt_refer"))}</button></div>`;
   const dispute = a === "lost" ? (S.disputes.includes(tk.code) ? `<p class="bnote">${esc(t("bt_dispute_sent"))}</p>` : `<button type="button" class="ghost" data-act="dispute">${esc(t("bt_dispute"))}</button>`) : "";
   return bar(t("bt_check"), "check") + head + `<p class="bbad">${esc(t(`bt_a_${a}`))}</p><p class="sub">${esc(t("bt_keep"))}</p>${dispute}
@@ -204,7 +210,7 @@ function shiftView(): string {
   const fl = betFlags(S.scans, S.payouts, OP.shopMax());
   return bar(t("bt_shift")) + rows([[t("bt_opening"), money(OP.opening())], [t("bt_stakes"), money(stakes)], [t("bt_payouts"), money(paid)], [t("expected_cash"), money(drawer())],
     [t("commission"), money(betCommission(stakes, OP.commissionBps))]]) + `<p class="sub">${esc(t("bt_commission_note"))}</p>
-    <h3>${esc(t("bt_checks"))}</h3>${fl.length ? fl.map((f) => `<p class="bwarn">${esc(f.startsWith("repeat_scans:") ? t("bt_flag_repeat", { code: f.split(":")[1] ?? "", n: S.scans[f.split(":")[1] ?? ""] ?? 0 }) : t("bt_flag_big"))}</p>`).join("") + `<p class="sub">${esc(t("bt_flag_note"))}</p>` : `<p class="sub">${esc(t("bt_no_flags"))}</p>`}`;
+    <h3>${esc(t("bt_checks"))}</h3>${fl.length ? fl.map((f) => noticeHtml(t, { level: "warning", text: f.startsWith("repeat_scans:") ? t("bt_flag_repeat", { code: f.split(":")[1] ?? "", n: S.scans[f.split(":")[1] ?? ""] ?? 0 }) : t("bt_flag_big") })).join("") + `<p class="sub">${esc(t("bt_flag_note"))}</p>` : `<p class="sub">${esc(t("bt_no_flags"))}</p>`}`;
 }
 function saferView(): string {
   return bar(t("bt_safer")) + `<p>${esc(t("bt_safer_age", { age: age() }))}</p><p>${esc(t("bt_safer_limits"))}</p><p>${esc(t("bt_safer_exclude"))}</p><p>${esc(t("bt_never_credit"))}</p>
@@ -222,7 +228,7 @@ function lockView(): string {
   const me = STAFF.find(S.who), waitLeft = Math.max(0, Math.ceil(((STAFF.waitUntil.get(S.who) ?? 0) - Date.now()) / 1000));
   return `<div class="block"><p class="who">${icon("ui-user")}<span>${esc(me?.name ?? "")} · ${esc(t(`role_${me?.role ?? "cashier"}`))}</span><button type="button" class="link" data-act="staff:change">${esc(t("dk_change"))}</button></p>
     ${S.idle ? `<p class="sub" role="status">${esc(t("locked_idle"))}</p>` : ""}
-    ${STAFF.hard.has(S.who) ? `<p class="bwarn" role="alert">${esc(t("dk_hard_locked"))}</p>` : ""}
+    ${STAFF.hard.has(S.who) ? noticeHtml(t, { level: "error", text: t("dk_hard_locked"), how: t("fd_ask_manager") }) : ""}
     ${pad(me?.name ?? "", STAFF.wrong.get(S.who) ?? 0, waitLeft)}<p class="sub">${esc(t("dk_own_pin"))}</p><p class="hint">${esc(t("bt_pin_hint"))}</p></div>`;
 }
 const pad = (name: string, wrong: number, waitLeft: number): string =>
@@ -236,7 +242,7 @@ function approveView(): string {
     return bar(title, ap.back) + `<p class="sub">${esc(t("bt_approver"))}</p>${staffPicker(who, t, (id) => icon(id))}`;
   }
   const m = STAFF.find(ap.person), waitLeft = Math.max(0, Math.ceil(((STAFF.waitUntil.get(ap.person) ?? 0) - Date.now()) / 1000));
-  return bar(title, ap.back) + pad(m?.name ?? "", STAFF.wrong.get(ap.person) ?? 0, waitLeft) + (STAFF.hard.has(ap.person) ? `<p class="bwarn" role="alert">${esc(t("dk_hard_locked"))}</p>` : "");
+  return bar(title, ap.back) + pad(m?.name ?? "", STAFF.wrong.get(ap.person) ?? 0, waitLeft) + (STAFF.hard.has(ap.person) ? noticeHtml(t, { level: "error", text: t("dk_hard_locked"), how: t("fd_ask_manager") }) : "");
 }
 function screen(): string {
   const head = `<header class="bhead"><h1>${esc(t("bt_title"))}</h1>${DSH.bar()}</header>${DSH.crumbs(true)}${deviceBanners(LINES, t, (id) => icon(id))}`;

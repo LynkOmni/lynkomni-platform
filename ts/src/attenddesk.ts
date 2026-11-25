@@ -12,6 +12,7 @@ import { newId, randomBelow, randomBytes } from "./emulator.js";
 import { ATTEND_SETS, IDCN_LENGTH, IDCN_TRIES, PIN_GROUP_SIZE, PIN_LENGTH, PIN_PAUSE_SECONDS, PIN_TRIES_BEFORE_PAUSE, checkerFlags, door, idcn, isEasyPin, meansOf, newPin, noCheckOutDue, pinGroupWarning, setsAllowed } from "./attendance.js";
 import type { AttendSet, DoorOut, Means } from "./attendance.js";
 import { idcnEntry } from "./peopleparts.js";
+import { noticeHtml, type Notice } from "./errorbox.js";
 
 export type AtEmit = (type: string, payload: Record<string, unknown>, origin?: "device" | "server") => void;
 type St = "queued" | "sent" | "accepted" | "confirmed" | "failed";
@@ -385,11 +386,27 @@ export function peopleView(d: AttendDesk, L: AtLook): string {
     + atCard("requests", L.t("ppl_at_requests"), `<ul class="list">${reqList}</ul><div class="ph-row"><button type="button" class="ghost small" data-act="at:days:7" ${atOff(!reqs.length)}>${esc(L.t("ppl_at_sandbox_days", { n: 7 }))}</button></div><p class="sub">${esc(L.t("ppl_at_req_note"))}</p>`);
 }
 
+/** Each desk message through the shared part (section 4C point 2): the field it is about and how to fix it. */
+const AT_FIELD: Record<string, [string, string]> = { ppl_at_name_needed: ["atName", "ppl_at_name"], ppl_at_too_few: ["atId", "ppl_at_id_number"], ppl_at_id_mismatch: ["atFull", "ppl_at_agree_full_id_number"], ppl_at_visitor_needed: ["atV", "ppl_at_name"] };
+function atNotice(L: AtLook, key: string, text: string): string {
+  const f = AT_FIELD[key];
+  const n: Notice = f ? { level: "error", text, field: f[0], fix: { label: L.t("fd_go_to", { field: L.t(f[1]) }), focus: f[0] } }
+    : key === "ppl_at_limit" ? { level: "error", text, how: L.t("fd_owner_plan") }
+    : key === "ppl_at_not_allowed" ? { level: "error", text, how: L.t("fd_choose_other") }
+    : key === "ppl_door_pin_wrong" ? { level: "error", text, how: L.t("fd_type_again") }
+    : key === "ppl_door_paused" ? { level: "error", text, how: L.t("fd_wait_retry") }
+    : key === "ppl_door_blocked" ? { level: "error", text, how: L.t("fd_ask_manager") }
+    : key === "ppl_at_already_in" ? { level: "info", text, fix: { label: L.t("ppl_at_check_out"), act: "at:dir:out" } }
+    : key === "ppl_at_not_in" ? { level: "error", text, fix: { label: L.t("ppl_check_in"), act: "at:dir:in" } }
+    : { level: "error", text, how: L.t("fd_check_retry") };
+  return noticeHtml(L.t, n);
+}
+
 /** Registration, one step after the other (app.lynkomni.com/attendance/people/new). */
 export function registerView(d: AttendDesk, L: AtLook): string {
   const dr = d.draft ?? { name: "", idNumber: "", idDoc: "work" as const, set: "idcn" as AttendSet, id: null };
   const p = d.person(dr.id), code = idcn(dr.idNumber), locked = !!p, sets = d.sets();
-  const note = d.note && d.note !== "coming_soon" ? `<p class="info" role="alert">${esc(L.t(d.note, { n: d.plan().people_included }))}</p>` : "";
+  const note = d.note && d.note !== "coming_soon" ? atNotice(L, d.note, L.t(d.note, { n: d.plan().people_included })) : "";
   const step1 = atCard("id_document", L.t("ppl_at_step_details"), `<label class="field"><span>${esc(L.t("ppl_at_name"))}</span><input id="atName" data-in="at:name" value="${esc(dr.name)}" autocomplete="off" ${atOff(locked)} placeholder="${esc(L.t("hint_name"))}" aria-label="${esc(L.t("ppl_at_name"))}"></label>
     <div class="ph-choices small">${(["work", "official"] as const).map((x) => `<button type="button" class="ph-choice" data-act="at:doc:${x}" ${atOn(dr.idDoc === x)} ${atOff(locked)}><strong>${esc(L.t(`ppl_at_doc_${x}`))}</strong></button>`).join("")}</div>
     <label class="field"><span>${esc(L.t("ppl_at_id_number"))}</span><input id="atId" data-in="at:idnum" value="${esc(dr.idNumber)}" autocomplete="off" autocapitalize="characters" spellcheck="false" dir="ltr" ${atOff(locked)}></label>
@@ -439,7 +456,7 @@ export function visitorsView(d: AttendDesk, L: AtLook): string {
       <label class="field"><span>${esc(L.t("ppl_at_host"))}</span><select id="atH" data-in="at:vhost"><option value="">${esc(L.t("ppl_at_host"))}</option>${d.people.map((p) => `<option value="${p.id}"${v.host === p.id ? " selected" : ""}>${esc(p.name)}</option>`).join("")}</select></label>
       <div class="ph-choices small">${(["official", "work", "none"] as const).map((x) => `<button type="button" class="ph-choice" data-act="at:vdoc:${x}" ${atOn(v.doc === x)}><strong>${esc(L.t(`ppl_at_doc_${x}`))}</strong></button>`).join("")}</div>
       <button type="button" class="ph-toggle" data-act="at:vguard" ${atOn(v.guardian)}><span>${esc(L.t("ppl_at_guardian"))}</span></button>
-      <button type="button" class="primary inline" data-act="at:vin">${esc(L.t(v.doc === "none" ? "ppl_at_ask_manager" : "ppl_at_sign_in_visitor"))}</button>${d.note === "ppl_at_visitor_needed" ? `<p class="info" role="alert">${esc(L.t(d.note))}</p>` : ""}<p class="sub">${esc(L.t("ppl_at_visitor_note"))}</p>`)
+      <button type="button" class="primary inline" data-act="at:vin">${esc(L.t(v.doc === "none" ? "ppl_at_ask_manager" : "ppl_at_sign_in_visitor"))}</button>${d.note === "ppl_at_visitor_needed" ? atNotice(L, d.note, L.t(d.note)) : ""}<p class="sub">${esc(L.t("ppl_at_visitor_note"))}</p>`)
     + atCard("ask_manager", L.t("ppl_at_ask_manager"), waiting.length ? `<ul class="list">${waiting.map((x) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(x.name)}</span><span class="sub">${esc(L.t("ppl_at_doc_none"))}</span></span></div><div class="ph-row"><button type="button" class="primary small" data-act="at:vallow:${x.id}" ${atOff(!L.mayManage)}>${esc(L.t("ppl_at_allow"))}</button><button type="button" class="ghost small" data-act="at:vrefuse:${x.id}" ${atOff(!L.mayManage)}>${esc(L.t("ppl_at_refuse"))}</button></div></li>`).join("")}</ul>` : `<p class="sub">${esc(L.t("ppl_at_none_waiting"))}</p>`)
     + atCard("fire_list", L.t("ppl_at_fire_list"), d.fire ? `<p role="status"><strong>${esc(L.t("ppl_at_fire_count", { n: d.fire.staff.length + d.fire.visitors.length }))}</strong></p><ul class="list">${[...d.fire.staff, ...d.fire.visitors].map((id) => `<li><label class="ph-tick"><input type="checkbox"><span>${esc(name(id))}</span></label></li>`).join("")}</ul><button type="button" class="ghost inline" data-act="at:fireclose">${esc(L.t("close"))}</button>`
       : `<button type="button" class="primary inline" data-act="at:fire">${esc(L.t("ppl_at_fire_open"))}</button><p class="sub">${esc(L.t("ppl_at_fire_note"))}</p>`);
@@ -457,7 +474,7 @@ export function leaveView(d: AttendDesk, L: AtLook): string {
   return atCard("leave_list", L.t("ppl_at_leave"), `<p class="sub">${esc(L.t("ppl_at_leave_note"))}</p><ul class="list">${d.people.map((p) => `<li><button type="button" class="ph-toggle" data-act="at:leave:${p.id}" ${atOn(p.onLeave)} ${atOff(!L.mayManage)}><span>${esc(p.name)}</span><strong>${esc(L.t(p.onLeave ? "ppl_at_on_leave" : "ppl_at_at_work"))}</strong></button></li>`).join("")}</ul>`);
 }
 export function eventsView(d: AttendDesk, L: AtLook): string {
-  return atCard("event_list", L.t("ppl_at_events"), `<button type="button" class="primary inline" data-act="at:event:new" ${atOff(!L.mayManage)}>${esc(L.t("ppl_at_add_event"))}</button>${d.note === "ppl_at_limit" ? `<p class="info" role="alert">${esc(L.t("ppl_at_event_limit"))}</p>` : ""}
+  return atCard("event_list", L.t("ppl_at_events"), `<button type="button" class="primary inline" data-act="at:event:new" ${atOff(!L.mayManage)}>${esc(L.t("ppl_at_add_event"))}</button>${d.note === "ppl_at_limit" ? atNotice(L, "ppl_at_limit", L.t("ppl_at_event_limit")) : ""}
       <ul class="list">${d.events.length ? d.events.map((e, i) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(L.t("ppl_at_sample_course"))} ${i + 1}</span><span class="sub">${esc(L.t("ppl_at_own_group"))}</span></span></div></li>`).join("") : `<li><p class="sub">${esc(L.t("ppl_at_no_events"))}</p></li>`}</ul>`)
     + atCard("certificates", L.t("ppl_at_certificates"), d.tier === "free" || d.tier === "plus" ? `<p class="sub">${esc(L.t("ppl_at_cert_tier"))}</p>` : `<p>${esc(L.t("ppl_at_cert_note"))}</p>${d.events.map((e) => `<p>${esc(L.t("ppl_at_cert_code"))}: <strong dir="ltr">${esc(e.cert)}</strong></p>`).join("")}`);
 }
@@ -487,7 +504,7 @@ export function atDoor(d: AttendDesk, L: AtLook, speak?: { t: (lang: string) => 
   const pad = keys ? `<div class="ph-keys" dir="ltr">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `<button type="button" data-act="at:digit:${n}">${n}</button>`).join("")}<button type="button" data-act="at:doorback" aria-label="${esc(L.t("ppl_at_delete_key"))}">${L.icon("ui-arrow-left")}</button><button type="button" data-act="at:digit:0">0</button><span></span></div>` : "";
   if (D.step === "pin") return `<div class="ph-door" data-item="door_screen"><div class="ph-choices small">${(["in", "out"] as const).map((x) => `<button type="button" class="ph-choice" data-act="at:dir:${x}" ${atOn(D.dir === x)}><strong>${esc(L.t(x === "in" ? "ppl_check_in" : "ppl_at_check_out"))}</strong></button>`).join("")}</div>
     <h2>${esc(L.t("ppl_door_pin"))}</h2><div class="dots" role="img" aria-label="${esc(L.t("ppl_digits_typed", { n: D.pin.length, of: PIN_LENGTH }))}">${Array.from({ length: PIN_LENGTH }, (_, i) => `<i class="${i < D.pin.length ? "on" : ""}"></i>`).join("")}</div>
-    ${D.note ? `<p class="note" role="alert">${esc(L.t(D.note))}</p>` : ""}${pad}<p class="sub">${esc(L.t("ppl_door_offline"))}</p></div>`;
+    ${D.note ? atNotice(L, D.note, L.t(D.note)) : ""}${pad}<p class="sub">${esc(L.t("ppl_door_offline"))}</p></div>`;
   if (D.step === "done" && D.out && m) {
     const ok = D.out.result === "in";
     const msg = ok ? tl(D.dir === "in" ? "ppl_door_welcome" : "ppl_door_bye", { name: m.name, time: L.clock(m.at) }) : tl(D.out.result === "pin_blocked" ? "ppl_door_blocked" : "ppl_door_see_manager");

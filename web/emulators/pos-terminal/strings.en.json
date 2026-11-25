@@ -99,5 +99,9 @@
  "receipt_sent": "Receipt sent.",
  "receipt_waits": "The receipt waits on this device and is sent when it is online.",
  "ln_sync": "Sales are waiting to be sent",
- "ln_cash": "The cash count is off by {amount}"
+ "ln_cash": "The cash count is off by {amount}",
+ "pos_why_invalid_amount": "This amount can't be used: it must be a whole amount above zero.",
+ "pos_why_empty_cart": "The basket is empty, so there is nothing to pay for yet.",
+ "pos_why_bad_receipt_number": "The receipt number is not in the expected form.",
+ "pos_why_not_enough_cash": "Not enough cash yet."
 }

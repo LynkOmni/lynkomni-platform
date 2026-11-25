@@ -176,11 +176,42 @@ bundle.part = (files, flat) => files.map((m) => {
 function packData(D) {
   const { i18n = {}, ...rest } = D;
   const { en, ...langs } = i18n;
-  const Z = deflateRawSync(Buffer.from(JSON.stringify({ ...rest, i18n: langs })), { level: 9 }).toString("base64");
-  return { i18n: en ? { en } : {}, Z };
+  // Each language's words are packed on their own (section 4C, 25 November 2026): a page shows one language, so it unpacks only
+  // that one, the moment it is first used; the names and writing direction of every language stay ready for the pickers.
+  // The word names are written once (K); each language is the list of its words in that order (null where it has none).
+  const meta = {}, L = {}, K = [...new Set(Object.values(langs).flatMap((p) => Object.keys(p.texts ?? {})))];
+  for (const [k, p] of Object.entries(langs)) { const { texts = {}, ...m } = p; meta[k] = m; L[k] = deflateRawSync(Buffer.from(JSON.stringify(K.map((w) => (w in texts ? texts[w] : null)))), { level: 9 }).toString("base64"); }
+  const Z = deflateRawSync(Buffer.from(JSON.stringify({ ...rest, i18n: meta, K })), { level: 9 }).toString("base64");
+  return { i18n: en ? { en } : {}, Z, L };
 }
+// A small raw-deflate reader (the format of RFC 1951), so a language's words unpack the moment they are first needed, without
+// waiting: the browser's own DecompressionStream only answers later.
+const INFLATE_RAW = `function inflateRaw(src) {
+  const LB = [3,4,5,6,7,8,9,10,11,13,15,17,19,23,27,31,35,43,51,59,67,83,99,115,131,163,195,227,258], LE = [0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0];
+  const DB = [1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193,257,385,513,769,1025,1537,2049,3073,4097,6145,8193,12289,16385,24577], DE = [0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13];
+  const ORD = [16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15];
+  let pos = 0, buf = 0, cnt = 0, out = new Uint8Array(src.length * 6 + 1024), o = 0;
+  const bit = () => { if (!cnt) { buf = src[pos++]; cnt = 8; } const b = buf & 1; buf >>= 1; cnt--; return b; };
+  const bits = (n) => { let v = 0; for (let i = 0; i < n; i++) v |= bit() << i; return v; };
+  const room = (n) => { if (o + n > out.length) { const g = new Uint8Array(Math.max(out.length * 2, o + n)); g.set(out); out = g; } };
+  const table = (len, n) => { const c = new Uint16Array(16), off = new Uint16Array(16), sym = new Uint16Array(n); for (let i = 0; i < n; i++) c[len[i]]++; c[0] = 0; for (let i = 1; i < 16; i++) off[i] = off[i - 1] + c[i - 1]; for (let i = 0; i < n; i++) if (len[i]) sym[off[len[i]]++] = i; return { c, sym }; };
+  const decode = (t) => { let code = 0, first = 0, index = 0; for (let l = 1; l < 16; l++) { code |= bit(); const n = t.c[l]; if (code - first < n) return t.sym[index + code - first]; index += n; first = (first + n) << 1; code <<= 1; } throw new Error("bad code"); };
+  let fin;
+  do {
+    fin = bit(); const type = bits(2);
+    if (type === 0) { cnt = 0; const n = src[pos] | (src[pos + 1] << 8); pos += 4; room(n); out.set(src.subarray(pos, pos + n), o); o += n; pos += n; continue; }
+    let lt, dt;
+    if (type === 1) { const l = new Uint8Array(288); l.fill(8, 0, 144); l.fill(9, 144, 256); l.fill(7, 256, 280); l.fill(8, 280, 288); lt = table(l, 288); dt = table(new Uint8Array(30).fill(5), 30); }
+    else { const hl = bits(5) + 257, hd = bits(5) + 1, hc = bits(4) + 4, cl = new Uint8Array(19); for (let i = 0; i < hc; i++) cl[ORD[i]] = bits(3);
+      const ct = table(cl, 19), l = new Uint8Array(hl + hd); let i = 0;
+      while (i < hl + hd) { const s = decode(ct); if (s < 16) l[i++] = s; else if (s === 16) { const p = l[i - 1], r = 3 + bits(2); for (let k = 0; k < r; k++) l[i++] = p; } else { const r = s === 17 ? 3 + bits(3) : 11 + bits(7); for (let k = 0; k < r; k++) l[i++] = 0; } }
+      lt = table(l.subarray(0, hl), hl); dt = table(l.subarray(hl), hd); }
+    for (;;) { let s = decode(lt); if (s < 256) { room(1); out[o++] = s; continue; } if (s === 256) break; s -= 257; const n = LB[s] + bits(LE[s]); const d = decode(dt); const dist = DB[d] + bits(DE[d]); room(n); for (let k = 0; k < n; k++, o++) out[o] = out[o - dist]; }
+  } while (!fin);
+  return out.subarray(0, o);
+}`;
 // a plain loop turns the packed text into bytes about ten times faster than Uint8Array.from with a callback (LynkPOS start-up, 19 November 2026)
-const UNPACK = `try { const s = atob(DATA.Z), z = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) z[i] = s.charCodeAt(i); const x = JSON.parse(await new Response(new Blob([z]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text()); const en = DATA.i18n; Object.assign(DATA, x); DATA.i18n = { ...en, ...x.i18n }; delete DATA.Z; } catch { document.body.textContent = "This browser is too old for this demo. Please open it in a current browser."; return; }`;
+const UNPACK = `try { const s = atob(DATA.Z), z = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) z[i] = s.charCodeAt(i); const x = JSON.parse(await new Response(new Blob([z]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text()); const en = DATA.i18n; Object.assign(DATA, x); DATA.i18n = { ...en, ...x.i18n }; delete DATA.Z; for (const [k, b] of Object.entries(DATA.L ?? {})) { const p = DATA.i18n[k]; let v; Object.defineProperty(p, "texts", { enumerable: true, configurable: true, get() { if (v === undefined) { const s2 = atob(b), z2 = new Uint8Array(s2.length); for (let i = 0; i < s2.length; i++) z2[i] = s2.charCodeAt(i); const a = JSON.parse(new TextDecoder().decode(inflateRaw(z2))); v = {}; for (let i = 0; i < a.length; i++) if (a[i] !== null) v[DATA.K[i]] = a[i]; } return v; } }); } delete DATA.L; } catch { document.body.textContent = "This browser is too old for this demo. Please open it in a current browser."; return; }`;
 const INFLATE = `for (const p of Object.values(DATA.packs)) { p.services = DATA.serviceCatalog.map((s, i) => ({ ...s, state: p.st[i] === "a" ? "available" : "coming_soon" })); p.ready = Object.fromEntries(DATA.methods.map((m, i) => [m, { ok: p.ok[i] === "1", message: DATA.offMessage }])); }`;
 const tokens = read(join(ROOT, "design", "generated", "tokens.css"));
 // Brand fonts travel inside the file (offline, no font site). Only the Latin files: other scripts use the device font.
@@ -239,7 +270,7 @@ for (const e of EMULATORS) {
     .replace("/*@FAVICON@*/", () => `<span class="fav-l">${D.brand.favicon.light}</span><span class="fav-d">${D.brand.favicon.dark}</span>`)
     .replace("</head>", () => `${faviconLinks(D.brand.favicon)}\n</head>`)
     .replace(/\/\*@I:([a-z0-9-]+)@\*\//g, (_, id) => `<span class="ic" aria-hidden="true">${D.icons[id] ?? (() => { throw new Error(`unknown icon ${id}`); })()}</span>`)
-    .replace("/*@SCRIPT@*/", () => `const DATA = ${JSON.stringify(packData(D)).replace(/</g, "\\u003c")};\n(async () => {\n${UNPACK}\n${INFLATE}\n${bundle(["ts/src/inpage.js", ...e.modules])}\ndocument.documentElement.dataset.ready = "1"; window.__readyAt = performance.now();\n})();`);
+    .replace("/*@SCRIPT@*/", () => `const DATA = ${JSON.stringify(packData(D)).replace(/</g, "\\u003c")};\n(async () => {\n${INFLATE_RAW}\n${UNPACK}\n${INFLATE}\n${bundle(["ts/src/inpage.js", ...e.modules])}\ndocument.documentElement.dataset.ready = "1"; window.__readyAt = performance.now();\n})();`);
   html = withScriptCover(html);
   html = withPolicy(html);
   const target = join(OUT, e.out);

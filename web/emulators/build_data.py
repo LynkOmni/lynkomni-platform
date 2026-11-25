@@ -77,7 +77,7 @@ PART_WORDS = {"signin.ts": ("pin_", "match_"), "notify.ts": ("ntf_", "msg_"), "a
               "attenddesk.ts": ("ppl_at_",), "queuedesk.ts": ("ppl_qu_",), "surveydesk.ts": ("ppl_sv_",),   # build section 3B: each desk's own words travel only with that desk
               "emkit.ts": ("emk_",), "emulatorpanel.ts": ("emp_",),
               "appshell.ts": ("nv_",), "chatview.ts": ("ch_",), "assistview.ts": ("at_",), "officeview.ts": ("of_",), "workview.ts": ("wk_",),
-              "fields.ts": ("fd_country", "fd_example", "fd_long", "fd_short", "fd_range", "fd_ok"), "emailfield.ts": ("fd_email",), "errorbox.ts": ("fd_error", "fd_warning", "fd_info", "fd_success", "fd_our_side", "fd_ref", "fd_try_again", "fd_contact_support", "fd_one_to_fix", "fd_things_to_fix"),
+              "fields.ts": ("fd_country", "fd_example", "fd_long", "fd_short", "fd_range", "fd_ok"), "emailfield.ts": ("fd_email",), "errorbox.ts": ("fd_error", "fd_warning", "fd_info", "fd_success", "fd_our_side", "fd_ref", "fd_try_again", "fd_contact_support", "fd_one_to_fix", "fd_things_to_fix", "fd_go_to", "fd_owner_", "fd_choose_other", "fd_type_again", "fd_wait_", "fd_ask_manager", "fd_check_retry", "fd_go_online", "fd_match_retry", "fd_use_", "fd_needs_approval", "fd_sign_in", "fd_smaller_amount", "fd_enter_cash", "fd_add_item"),
               "codefield.ts": ("fd_code",)}   # section 4C: each field part's words travel only with pages that use it                                                                   # section 4 step B2: the menu words travel only with the app shell                                  # build section 3A: the Emulator Panel's device side and the panel
 
 

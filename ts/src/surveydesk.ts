@@ -11,6 +11,7 @@ import { planPreviewHtml } from "./placeholder.js";
 import { hintFor } from "./hints.js";
 import { codeFieldHtml, resendWait, asciiDigits } from "./codefield.js";
 import { esc } from "./shell.js";
+import { noticeHtml, type Notice } from "./errorbox.js";
 import type { T } from "./shell.js";
 import { newId } from "./emulator.js";
 import { MIN_GROUP, RULES, canShow, groupOpen, margin, mayAnswer, realAnswerFlags, sampleSize } from "./survey.js";
@@ -474,7 +475,15 @@ const svChoice = (c: string, t: T): string => (c === "yes" ? t("ppl_sv_yes") : c
 const svWhy = (why: string, t: T): string => (why ? t(`ppl_sv_why_${why}`) : "");
 /** On a staff screen, a refusal because of the plan shows what the feature does and Upgrade (83.7); any other refusal stays a warning. */
 const SV_WHAT: Record<string, string> = { plan_limit_live_surveys: "ppl_sv_what_live_surveys", plan_no_hardware_without_display: "ppl_sv_what_hardware" };
-const svRefusedStaff = (why: string, t: T): string => SV_WHAT[why] ? planPreviewHtml(t, `ppl_sv_why_${why}`, SV_WHAT[why]!) : `<p class="warn" role="alert">${esc(svWhy(why, t))}</p>`;
+/** Every survey refusal through the shared message part (section 4C point 2): an error says what to do, the rest are information. */
+const SV_HOW: Record<string, string> = { free_limit_reached: "fd_owner_plan", invitation_needed: "fd_use_code", needs_approval_first: "fd_needs_approval", plan_way: "fd_choose_other", sign_in_needed: "fd_sign_in" };
+function svNotice(why: string, t: T, text = svWhy(why, t)): string {
+  const n: Notice = why === "confirm_phone_first" ? { level: "error", text, field: "svPcode", fix: { label: t("fd_go_to", { field: t("ppl_sv_code") }), focus: "svPcode" } }
+    : SV_HOW[why] ? { level: "error", text, how: t(SV_HOW[why]!) }
+    : { level: why === "only_after_the_check" ? "warning" : "info", text };
+  return noticeHtml(t, n);
+}
+const svRefusedStaff = (why: string, t: T): string => SV_WHAT[why] ? planPreviewHtml(t, `ppl_sv_why_${why}`, SV_WHAT[why]!) : svNotice(why, t);
 const svBar = (label: string, p: number, m: number | null, t: T): string =>
   `<li class="sv-bar"><span class="sv-l">${esc(label)}</span><span class="sv-track" aria-hidden="true"><span class="sv-fill" style="inline-size:${Math.max(0, Math.min(100, p))}%"></span></span><span class="sv-p">${esc(t("ppl_sv_share", { p, m: m === null ? "0.0" : svTenth(m) }))}</span></li>`;
 
@@ -624,7 +633,7 @@ export function svRewardsView(d: SurveyDesk, L: SvLook): string {
   const pick = s ? d.answers.find((a) => a.survey === s.id && a.result === "accepted" && !a.test && !d.rewards.some((r) => r.answer === a.id)) : undefined;
   const rewards = !p.rewards ? `<p class="sub">${svPlanTag(L, "plus")}</p>` : `<div class="ph-row">${(["airtime", "credit", "voucher", "cash"] as const).map((k) => `<button type="button" class="ghost small" data-act="sv:reward:${pick?.id ?? ""}:${k}" ${svOff(!pick)}>${esc(t(`ppl_sv_reward_${k}`))}</button>`).join("")}</div>
     <ul class="list">${d.rewards.map((r) => svRow(esc(t(`ppl_sv_reward_${r.kind}`)), esc(t(`ppl_sv_reward_state_${r.state}`)), r.state === "sent" ? `<button type="button" class="ghost small" data-act="sv:rpaid:${r.id}:paid">${esc(t("ppl_sv_partner_paid"))}</button>` : "")).join("")}</ul>
-    ${d.refused === "only_after_the_check" || d.refused === "one_reward_per_person" ? `<p class="warn" role="alert">${esc(svWhy(d.refused, t))}</p>` : ""}<p class="sub">${esc(t("ppl_sv_reward_help"))}</p>`;
+    ${d.refused === "only_after_the_check" || d.refused === "one_reward_per_person" ? svNotice(d.refused, t) : ""}<p class="sub">${esc(t("ppl_sv_reward_help"))}</p>`;
   const panel = !p.panel ? `<p class="sub">${svPlanTag(L, "pro")}</p>` : `<p>${esc(t("ppl_sv_panel_members", { n: d.panelMembers.toLocaleString("en") }))} ${svTag(t("ppl_sandbox_answers"))}</p>
     <div class="ph-row"><label class="field small"><span>${esc(t("ppl_sv_panel_country"))}</span><input data-in="sv:pcountry" value="${esc(d.panel.country)}" autocomplete="off" dir="ltr" placeholder="${esc(hintFor("country", t, undefined, L.country))}" aria-label="${esc(t("ppl_sv_panel_country"))}"></label><label class="field small"><span>${esc(t("ppl_sv_panel_wanted"))}</span><input inputmode="numeric" data-in="sv:pwanted" value="${d.panel.wanted}" autocomplete="off" placeholder="${esc(hintFor("count", t))}" aria-label="${esc(t("ppl_sv_panel_wanted"))}"></label></div>
     <button type="button" class="primary inline" data-act="sv:panel">${esc(t("ppl_sv_panel_ask"))}</button>${d.panel.reached !== null ? `<p role="status">${esc(t("ppl_sv_panel_reached", { n: d.panel.reached, of: d.panel.wanted }))}</p>` : ""}<p class="sub">${esc(t("ppl_sv_panel_never"))}</p>`;
@@ -661,7 +670,7 @@ export function svKioskView(d: SurveyDesk, L: SvLook): string {
   const got = d.kiosk.answers[x.id] ?? null;
   return `<div class="svkiosk">${d.kiosk.i === 0 ? `<p class="sub">${esc(t("ppl_sv_consent_line", { org: L.place, n: list.length, m: Math.max(1, Math.ceil(list.length / 2)) }))}${s.anonymous ? ` ${esc(t("ppl_sv_anonymous_line"))}` : ""}</p>` : ""}
     <p class="sub">${esc(t("ppl_sv_q_of", { i: d.kiosk.i + 1, n: list.length }))}</p>${svAsk(x, got, "k", t, (y) => d.qText(y, t))}
-    <button type="button" class="primary inline" data-act="sv:knext" ${svOff(!got && x.type !== "long")}>${esc(t(d.kiosk.i + 1 < list.length ? "ppl_sv_next" : "ppl_sv_finish"))}</button>${d.refused ? `<p class="warn" role="alert">${esc(svWhy(d.refused, t))}</p>` : ""}${d.plan.own_logo ? "" : L.powered}</div>`;
+    <button type="button" class="primary inline" data-act="sv:knext" ${svOff(!got && x.type !== "long")}>${esc(t(d.kiosk.i + 1 < list.length ? "ppl_sv_next" : "ppl_sv_finish"))}</button>${d.refused ? svNotice(d.refused, t) : ""}${d.plan.own_logo ? "" : L.powered}</div>`;
 }
 /** LynkDScreen: the live poll on the wall (results build up as people answer, never below 5) and the QR to answer. */
 export function svScreenView(d: SurveyDesk, L: SvLook): string {
@@ -686,7 +695,7 @@ export function svPhoneView(d: SurveyDesk, L: SvLook): string {
     const note = ph.note === "plan" ? t("ppl_sv_why_plan_way") : ph.note === "coming_soon" ? t("coming_soon") : "";
     return `<div class="svphone"><h2>${esc(L.place)}</h2><p>${esc(t("ppl_sv_consent_line", { org: L.place, n: list.length, m: Math.max(1, Math.ceil(list.length / 2)) }))}</p><p class="sub">${esc(t("ppl_sv_why_asked"))}</p>
       ${s.anonymous ? `<p class="notice">${esc(t("ppl_sv_anonymous_line"))}</p>` : ""}${sensitive ? `<button type="button" class="ph-toggle" data-act="sv:pconsent" ${svOn(ph.consent)}><span>${esc(t("ppl_sv_sensitive_agree"))}</span><strong>${esc(t(ph.consent ? "ppl_on" : "ppl_off"))}</strong></button>` : ""}
-      ${ways}${note ? `<p class="warn" role="alert">${esc(note)}</p>` : ""}<button type="button" class="primary inline" data-act="sv:pstart">${esc(t("ppl_sv_start"))}</button><p class="sub">${esc(t("ppl_sv_no_account"))}</p>${d.plan.own_logo ? "" : L.powered}</div>`;
+      ${ways}${note ? svNotice(ph.note === "plan" ? "plan_way" : "coming_soon", t, note) : ""}<button type="button" class="primary inline" data-act="sv:pstart">${esc(t("ppl_sv_start"))}</button><p class="sub">${esc(t("ppl_sv_no_account"))}</p>${d.plan.own_logo ? "" : L.powered}</div>`;
   }
   if (ph.step === "code") return `<div class="svphone"><p>${esc(t("ppl_sv_code_sent"))}</p>${codeFieldHtml({ t, lang: typeof document === "undefined" ? "en" : document.documentElement.lang || "en" }, { id: "svPcode", label: t("ppl_sv_code"), value: ph.code, act: "sv:pcode", resendAct: "sv:presend", sent: ph.sent })}
     <button type="button" class="primary inline" data-act="sv:pcode" ${svOff(!/^\d{6}$/.test(ph.code))}>${esc(t("ppl_sv_next"))}</button><p class="sub">${esc(t("ppl_sv_phone_kept"))}</p></div>`;
@@ -695,5 +704,5 @@ export function svPhoneView(d: SurveyDesk, L: SvLook): string {
   const x = list[ph.i]; if (!x) return "";
   const got = ph.answers[x.id] ?? null;
   return `<div class="svphone"><p class="sub">${esc(t("ppl_sv_q_of", { i: ph.i + 1, n: list.length }))}</p>${svAsk(x, got, "p", t, (y) => d.qText(y, t))}
-    <button type="button" class="primary inline" data-act="sv:pnext" ${svOff(!got && x.type !== "long")}>${esc(t(ph.i + 1 < list.length ? "ppl_sv_next" : "ppl_sv_finish"))}</button>${ph.note && ph.step === "question" ? `<p class="warn" role="alert">${esc(svWhy(ph.note, t))}</p>` : ""}</div>`;
+    <button type="button" class="primary inline" data-act="sv:pnext" ${svOff(!got && x.type !== "long")}>${esc(t(ph.i + 1 < list.length ? "ppl_sv_next" : "ppl_sv_finish"))}</button>${ph.note && ph.step === "question" ? svNotice(ph.note, t) : ""}</div>`;
 }

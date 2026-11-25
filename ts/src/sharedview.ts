@@ -2,6 +2,7 @@
  *  audit viewer, consents, test copy and plans and limits. One shared part draws them on every screen that shows them (the Business
  *  app on a phone and the owner's computer view), on the rules of ts/src/shared.ts; words in web/shared (prefix sv_).
  *  The data on these pages is sample data, labelled Sample; the cloud side is services/shared.py. */
+import { noticeHtml, type Notice } from "./errorbox.js";
 import { SHARED } from "./shared.generated.js";
 import { binnable, calendarSources, mayAudit, purgeDue, sharedMay } from "./shared.js";
 import { MESSAGE_SYSTEM } from "./parts.generated.js";
@@ -68,6 +69,11 @@ const BOX_HELP: Record<string, string> = { bills: "sv_box_bills_help", files: "s
 /** Customer messages of the sections built so far; each later section adds its kinds' words when it is built. */
 const MK_WORD: Record<string, string> = { receipt: "sv_mk_receipt", document: "sv_mk_document", queue_your_turn: "sv_mk_queue_your_turn", queue_next_section: "sv_mk_queue_next_section", queue_missed: "sv_mk_queue_missed", survey_invite: "sv_mk_survey_invite", survey_you_said: "sv_mk_survey_you_said" };
 const MG_WHY_WORD: Record<string, string> = { empty: "sv_mw_why_empty", too_long: "sv_mw_why_too_long", unknown_placeholder: "sv_mw_why_unknown", missing_placeholder: "sv_mw_why_missing", not_allowed: "sv_mw_why_not_allowed", per_day: "sv_bc_why_per_day" };
+/** Why a message cannot go yet, with the field to fix (section 4C point 2); the day's limit says when it can go again. */
+function svWhyNotice(o: SharedLook, why: string, field: string, label: string): Notice {
+  const text = o.t(word(MG_WHY_WORD, why));
+  return why === "per_day" ? { level: "error", text, how: o.t("fd_wait_tomorrow") } : { level: "error", text, field, fix: { label: o.t("fd_go_to", { field: o.t(label) }), focus: field } };
+}
 const SAMPLE_PEOPLE = ["Ama", "Ben", "Chantal", "Didier", "Esther"];
 const word = (map: Record<string, string>, k: string): string => map[k] ?? "sv_sample";
 /** The links between services that need the business's consent (catalog/connections.v1.json), given by the build. */
@@ -148,7 +154,7 @@ export function binHtml(st: SharedState, o: SharedLook): string {
 
 /** Audit viewer: the owner, an auditor or the accountant only; every look is recorded. */
 export function auditHtml(st: SharedState, o: SharedLook): string {
-  if (!mayAudit(st.role)) return `<section class="sv"><p class="sv-warn" role="status" data-item="events">${o.icon("ui-lock")}<span>${o.esc(o.t("sv_au_denied"))}</span></p><span hidden data-item="looks_recorded"></span></section>`;
+  if (!mayAudit(st.role)) return `<section class="sv"><div data-item="events">${noticeHtml(o.t, { level: "warning", text: o.t("sv_au_denied"), how: o.t("fd_owner_access") })}</div><span hidden data-item="looks_recorded"></span></section>`;
   const rows = [{ at: st.now, word: "sv_ev_viewed" }, ...st.events];
   return `<section class="sv">${intro(o, "sv_au_intro")}<ul class="rows sv-rows" data-item="events">${rows.map((e) => `<li><span class="sv-main"><span class="sv-nm">${o.esc(o.t(e.word))}</span><span class="sv-sub">${o.esc(o.date(e.at))}</span></span></li>`).join("")}</ul>
     <p class="sv-note" data-item="looks_recorded">${o.icon("ui-info")}<span>${o.esc(o.t("sv_au_looks", { n: st.looks }))}</span></p></section>`;
@@ -200,7 +206,7 @@ export function broadcastHtml(st: SharedState, o: SharedLook): string {
   const form = `<fieldset class="sv-set" data-item="compose"><legend>${o.esc(o.t("sv_bc_to"))}</legend><div class="sv-picks">${auds}</div></fieldset>
     <label class="sv-field" for="svBcText"><span>${o.esc(o.t("sv_bc_text"))}</span><textarea id="svBcText" data-in="shv:bc_text" data-draft="shv:broadcast" rows="3" maxlength="${MESSAGE_SYSTEM.broadcast.max_chars}" placeholder="${o.esc(o.t("sv_hint_bc_text"))}"${why ? ` disabled data-why="${o.esc(why)}"` : ""}>${o.esc(b.text)}</textarea></label>
     <p class="sv-note">${o.esc(o.t("sv_bc_limits", { chars: MESSAGE_SYSTEM.broadcast.max_chars, left: Math.max(0, left), per_day: MESSAGE_SYSTEM.broadcast.per_day }))}</p>
-    ${b.why ? `<p class="sv-warn" role="alert">${o.icon("ui-info")}<span>${o.esc(o.t(word(MG_WHY_WORD, b.why)))}</span></p>` : ""}
+    ${b.why ? noticeHtml(o.t, svWhyNotice(o, b.why, "svBcText", "sv_bc_text")) : ""}
     ${b.confirm !== null ? `<div class="sv-notice" role="status" data-item="cost">${o.icon("ui-info")}<span>${o.esc(o.t("sv_bc_cost", { n: b.confirm }))} · ${sample(o)}</span></div><p class="sv-btns"><button class="${o.btn.primary}" data-wait data-act="shv:bc:confirm">${o.esc(o.t("sv_bc_send_anyway"))}</button><button class="${o.btn.secondary}" data-act="shv:bc:cancel">${o.esc(o.t("sv_cancel"))}</button></p>`
       : `<p class="sv-btns"><button class="${o.btn.primary}" data-wait data-act="shv:bc:send"${why ? ` disabled data-why="${o.esc(why)}"` : ""}>${o.esc(o.t("sv_bc_send"))}</button></p><span hidden data-item="cost"></span>`}`;
   const sent = b.sent.length ? `<h2>${o.esc(o.t("sv_bc_sent"))}</h2><ul class="rows sv-rows" data-item="seen">${b.sent.map((x) => { const n = x.seen.length + x.notSeen.length;
@@ -233,7 +239,7 @@ export function wordingHtml(st: SharedState, o: SharedLook, built: (section: str
     <label class="sv-field" for="svMwKind"><span>${o.esc(o.t("sv_mw_which"))}</span><select id="svMwKind" data-in="shv:mw_kind"${why ? ` disabled data-why="${o.esc(why)}"` : ""}>${opts}</select></label>
     <label class="sv-field" for="svMwText"><span>${o.esc(o.t("sv_mw_words"))}</span><textarea id="svMwText" data-in="shv:mw_text" data-draft="shv:wording" rows="3" maxlength="${MESSAGE_SYSTEM.wording.max_chars}" placeholder="${o.esc(o.t("sv_hint_mw_text"))}"${why ? ` disabled data-why="${o.esc(why)}"` : ""}>${o.esc(w.text)}</textarea></label>
     <p class="sv-note" data-item="limits">${o.esc(o.t("sv_mw_limits", { chars: MESSAGE_SYSTEM.wording.max_chars, fills: MESSAGE_SYSTEM.wording.placeholders.join(" "), must: MESSAGE_SYSTEM.wording.required.join(" ") }))}</p>
-    ${w.why ? `<p class="sv-warn" role="alert">${o.icon("ui-info")}<span>${o.esc(o.t(word(MG_WHY_WORD, w.why)))}</span></p>` : ""}
+    ${w.why ? noticeHtml(o.t, svWhyNotice(o, w.why, w.why === "not_allowed" ? "svMwKind" : "svMwText", w.why === "not_allowed" ? "sv_mw_which" : "sv_mw_words")) : ""}
     <p class="sv-btns"><button class="${o.btn.primary}" data-wait data-act="shv:mw:save"${why ? ` disabled data-why="${o.esc(why)}"` : ""}>${o.esc(o.t("sv_mw_save"))}</button></p>
     <p class="sv-note" data-item="preview">${o.esc(o.t("sv_mw_languages"))}</p>${state}</section>`;
 }

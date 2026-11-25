@@ -10,6 +10,7 @@
  *  always ends; each approval step is answered by its named approver, in order. */
 import type { NavRegister } from "./navigation.js";
 import { listToolbarHtml, saveBarHtml } from "./pagekit.js";
+import { noticeHtml } from "./errorbox.js";
 import { HR } from "./hr.generated.js";
 import { hrVisibleFields, leaveBalance, leaveClashes, leaveRequestOk, hrMayApprove, hrChecklist, finalPayReady, reviewShown, payChangeOk, payrollFigures, hrCaseMaySee, expiryStage, hrAssistMay } from "./hr.js";
 import type { HrRegister } from "./hr.js";
@@ -136,7 +137,7 @@ export class WorkView {
         : `${this.c.chip(q.state === "approved" ? "confirmed" : "failed")} ${wkEsc(this.t(`wk_state_${q.state}`))}`]);
     return `${this.head("hr_leave", "wk_leave_rule")}<p>${wkEsc(this.t("wk_balance", { n: bal, entitled: 20, taken: 6, carried: 4 }))}</p>
       ${leaveRequestOk(WKH, "annual", 30, bal) ? "" : `<p class="note">${wkEsc(this.t("wk_over_balance"))}</p>`}
-      ${clash.length ? `<p class="warn" role="status">${wkEsc(this.t("wk_clash", { days: clash.join(", ") }))}</p>` : ""}
+      ${clash.length ? noticeHtml(this.t, { level: "warning", text: this.t("wk_clash", { days: clash.join(", ") }) }) : ""}
       ${this.rows(rows, ["wk_col_person", "wk_col_kind", "wk_col_amount", "wk_col_dates", "wk_col_state"])}${this.leaveNote ? `<p class="note" role="status">${wkEsc(this.leaveNote)}</p>` : ""}`;
   }
   private hrJoining(): string {

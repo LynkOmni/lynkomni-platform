@@ -14,6 +14,7 @@ import type { ChatRegister, ChatState, SoundMoment } from "./chat.js";
 import { liveSign, mask, ownConnection, shownState, chatSoundFor } from "./chat.js";
 import type { SoundSet, Sound } from "./keytones.js";
 import { playSound } from "./keytones.js";
+import { noticeHtml } from "./errorbox.js";
 
 export type T = (key: string, vars?: Record<string, string | number>) => string;
 export type Icon = (id: string, cls?: string) => string;
@@ -145,8 +146,8 @@ export function detailsHtml(reg: ChatRegister, look: ChatLook, m: ChatMsg, act =
 /** The warning before a card number or code is sent: it will be hidden; LynkOmni and its staff never ask for it. */
 export function warningHtml(look: ChatLook, found: readonly string[], act = "ch"): string {
   if (!found.length) return "";
-  return `<div class="ch-warn" role="alert">${look.icon("ui-lock")}<span>${chEsc(look.t("ch_warn_never_ask"))}</span>
-    <span class="ch-warn-acts"><button data-act="${act}:edit">${chEsc(look.t("ch_edit_first"))}</button><button class="primary" data-act="${act}:sendmasked">${chEsc(look.t("ch_send_masked"))}</button></span></div>`;
+  // section 4C point 2: drawn by the shared message part, with its two ways on
+  return noticeHtml(look.t, { level: "warning", cls: "ch-warn", text: look.t("ch_warn_never_ask"), fix: { label: look.t("ch_edit_first"), act: `${act}:edit` }, also: [{ label: look.t("ch_send_masked"), act: `${act}:sendmasked` }] });
 }
 
 /** The composer: a visible label, an example as its hint, Send, a voice message and a photo or file. */

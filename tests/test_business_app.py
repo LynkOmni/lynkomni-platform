@@ -127,7 +127,7 @@ class Screens(unittest.TestCase):
             self.assertEqual(pg.locator("#display .ch-compose label[for=chIn]").count(), 1, "the composer keeps its visible label")
             pg.fill("#chIn", "card 4111 1111 1111 1111 please")
             pg.click('#display [data-act="ch:send"]')
-            self.assertEqual(pg.locator('#display .ch-warn[role="alert"]').count(), 1, "warned before a card number is sent")
+            self.assertEqual(pg.locator('#display .ch-warn[data-level="warning"]').count(), 1, "warned before a card number is sent")
             pg.click('#display [data-act="ch:sendmasked"]')
             last = pg.locator("#display .ch-msg.out .ch-text").last.text_content()
             self.assertIn("•••• 1111", last); self.assertNotIn("4111 1111", last)

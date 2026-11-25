@@ -9,7 +9,8 @@ type T = (k: string, v?: Record<string, string | number>) => string;
 export type Level = "error" | "warning" | "info" | "success";
 /** A way out: a button that does the fix (`act`, handled by the screen), or one that takes the person to the field to fix (`focus`). */
 export type Fix = { label: string; act: string } | { label: string; focus: string };
-interface Base { text: string; field?: string; id?: string }
+/** also: more ways out beside the main fix (for example Edit first and Send hidden); cls: the screen's own class for placing it. */
+interface Base { text: string; field?: string; id?: string; also?: readonly Fix[]; cls?: string }
 /** An error always says how to fix it: a button, or the words of what to do. */
 export type ErrorNotice = Base & { level: "error" } & ({ fix: Fix; how?: string } | { how: string; fix?: Fix });
 export type OtherNotice = Base & { level: "warning" | "info" | "success"; fix?: Fix; how?: string };
@@ -39,9 +40,10 @@ export function fieldMsgHtml(t: T, id: string, level: Level | null, text: string
 /** One message. Errors are read out at once (alert); the others politely (status). */
 export function noticeHtml(t: T, n: Notice): string {
   const id = n.id ?? (n.field ? `${n.field}-msg` : "");
-  return `<div class="lf-msg lf-${n.level} ebx" data-level="${n.level}"${id ? ` id="${ebxEsc(id)}"` : ""}${n.field ? ` data-field="${ebxEsc(n.field)}"` : ""} role="${n.level === "error" ? "alert" : "status"}">`
+  const fixes = n.also?.length ? `<div class="ebx-acts">${[n.fix, ...n.also].map(ebxFix).join("")}</div>` : ebxFix(n.fix);
+  return `<div class="lf-msg lf-${n.level} ebx${n.cls ? ` ${ebxEsc(n.cls)}` : ""}" data-level="${n.level}"${id ? ` id="${ebxEsc(id)}"` : ""}${n.field ? ` data-field="${ebxEsc(n.field)}"` : ""} role="${n.level === "error" ? "alert" : "status"}">`
     + `<p class="ebx-line">${EBX_MARK[n.level]}<strong class="lf-word">${ebxEsc(t(`fd_${n.level}`))}</strong> <span>${ebxEsc(n.text)}</span></p>`
-    + `${n.how ? `<p class="ebx-how">${ebxEsc(n.how)}</p>` : ""}${ebxFix(n.fix)}</div>`;
+    + `${n.how ? `<p class="ebx-how">${ebxEsc(n.how)}</p>` : ""}${fixes}</div>`;
 }
 /** A problem on LynkOmni's side, with Try again and the reference to quote to support. */
 export function ourSideHtml(t: T, o: OurSide): string {

@@ -7,6 +7,7 @@
  *  slow salted hash in its encrypted database, never the PIN. */
 import { ASSIST, CAN_MANAGE, CARD_FORM, CARD_GROUP_NAMES, CARD_TIER_WORD, CARD_WORD, DURESS_VIEW, MESSAGES, OFFLINE_LIMITS } from "./parts.generated.js";
 import { afterWrong, pinPad, pinProblem } from "./signin.js";
+import { noticeHtml } from "./errorbox.js";
 import { banner, priorityOf } from "./notify.js";
 import type { Line } from "./notify.js";
 import { buildPack, decide } from "./assist.js";
@@ -104,7 +105,7 @@ export class StaffGate {
     const pad = pinPad({ entered: this.pin.length, length: Math.max(4, this.pin.length), wrong: this.lock.wrong.get(this.who) ?? 0, waitLeft: this.waitLeft(), pictures: this.pictures, sound: this.sound, title: t("dk_pin_for", { name: s?.name ?? "" }) }, t, icon);
     const sample = this.lock.staff.map((x) => `${t(`role_${x.role}`)} ${x.pin}`).join(", ");
     return `<div class="${cls}"><p class="dk-who">${icon("ui-user")}<span>${esc(s?.name ?? "")} · ${esc(t(`role_${s?.role ?? "cashier"}`))}</span><button type="button" class="dk-link" data-act="staff:change">${esc(t("dk_change"))}</button>${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</p>
-      ${this.idle ? `<p class="dk-note" role="status">${esc(t("locked_idle"))}</p>` : ""}${this.lock.hard.has(this.who) ? `<p class="dk-note" role="alert">${esc(t("dk_hard_locked"))}</p>` : ""}
+      ${this.idle ? noticeHtml(t, { level: "info", cls: "dk-note", text: t("locked_idle") }) : ""}${this.lock.hard.has(this.who) ? noticeHtml(t, { level: "error", cls: "dk-note", text: t("dk_hard_locked"), how: t("fd_ask_manager") }) : ""}
       ${pad}<p class="dk-note">${esc(t("dk_own_pin"))}</p><p class="dk-note">${esc(t("dk_pin_sample", { list: sample }))}</p>
 </div>`;
   }

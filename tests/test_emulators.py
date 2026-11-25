@@ -30,7 +30,12 @@ def built_data(p):
     import base64, zlib
     d = json.loads(re.search(r"const DATA = (\{.*?\});\n", read(p), re.S).group(1))
     x = json.loads(zlib.decompress(base64.b64decode(d.pop("Z")), -15))
-    return {**d, **x, "i18n": {**d["i18n"], **x["i18n"]}}
+    i18n = {**d["i18n"], **x["i18n"]}
+    for lang, packed in d.pop("L", {}).items():           # each language's words are packed on their own (section 4C)
+        words = json.loads(zlib.decompress(base64.b64decode(packed), -15))
+        i18n[lang] = {**i18n[lang], "texts": {k: w for k, w in zip(x["K"], words) if w is not None}}
+    x.pop("K", None)
+    return {**d, **x, "i18n": i18n}
 
 
 def built_text(p):
