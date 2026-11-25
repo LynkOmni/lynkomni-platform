@@ -5,7 +5,8 @@ import { STATE_PICTURE, Undo, accountMenu, viewSheet, IFACE_NAME, chart, comingS
 import type { AddressMap, ChatLang, ChatMessage, Entry, Icon, Link, NavItem, Notice, Pic, StateKind, SyncInfo, T, UsernameStatus, Viewport } from "../../../ts/src/shell.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import { brandMark, markFor } from "../../../ts/src/brand.js";
-import { buildFooter, mainFooterHtml } from "../../../ts/src/footer.js";
+import { buildFooter, mainFooterHtml, FOOTER_EMAIL_ID } from "../../../ts/src/footer.js";
+import { emailFieldHtml, wireEmails } from "../../../ts/src/emailfield.js";
 import type { BrandPlaces } from "../../../ts/src/brand.js";
 import { browserFacts, chooseInterface, safeToSwitch } from "../../../ts/src/interfaces.js";
 import type { Choice } from "../../../ts/src/interfaces.js";
@@ -68,11 +69,15 @@ const icon: Icon = (id, cls = "ic") => `<span class="${cls}" aria-hidden="true">
 const pack = (): CountryPack => DATA.packs[S.country] ?? (DATA.packs[DATA.packOrder[0] ?? ""] as CountryPack);
 /** The main footer (blueprint 26 A and B): every word from the language packs, payment methods from the chosen country's pack,
  *  the copyright line fixed and never translated. */
+/** The footer's newsletter email (section 4C point 1): drawn by the shared email part, its text kept across redraws. */
+const NEWS = { text: "" };
+const newsBox = (label: string): string => emailFieldHtml({ t }, { id: FOOTER_EMAIL_ID, label, text: NEWS.text });
+const newsWire = (root: ParentNode): void => wireEmails(root, { t, onEmail: (_id, v) => { NEWS.text = v.text; } });
 const appFooter = (): string => {
   const p = pack();
   return mainFooterHtml(buildFooter({ now: new Date(), lang: S.lang, words: (k) => (k in EN ? t(k) : undefined),
     pack: { code: p.code, name: p.name, currency: p.currency, tz: p.tz, languages: [], providers: p.providers, card_networks: p.card_networks, wallets: p.wallets } }), esc, (id) => DATA.icons[id] ?? "",
-    { light: markFor(DATA.brand.places, "web-footer", false, FOOTER_LOGO_ROOM[S.size]).svg, dark: markFor(DATA.brand.places, "web-footer", true, FOOTER_LOGO_ROOM[S.size]).svg });
+    { light: markFor(DATA.brand.places, "web-footer", false, FOOTER_LOGO_ROOM[S.size]).svg, dark: markFor(DATA.brand.places, "web-footer", true, FOOTER_LOGO_ROOM[S.size]).svg }, newsBox);
 };
 /** Room for the footer logo (brand surface web-footer): the full logo whenever 120 px or more is free, which is every size here. */
 const FOOTER_LOGO_ROOM: Record<string, number> = { computer: 180, tablet: 180, phone: 160 };
@@ -310,6 +315,7 @@ function draw(): void {
   $("#tabTitle").textContent = `LynkOmni · ${SHOP()}`;
   document.querySelectorAll<HTMLElement>("#stateButtons button").forEach((b) => b.classList.toggle("on", b.dataset["state"] === S.screen));
   if (WAIT.firstOpen !== FIRST.on) WAIT.setFirstOpen(FIRST.on);      // PLACEHOLDER UPDATE 83: the page waits well on a first open
+  newsWire(d);
   WAIT.apply(d, { t, online: () => S.link !== "offline", redraw: draw, retryAct: PAGE_RETRY, retryClass: "ph-retry" });
 }
 /** Opening or closing a menu panel (launcher, account, language, search, help, sync) redraws only the panel, not the page under it:

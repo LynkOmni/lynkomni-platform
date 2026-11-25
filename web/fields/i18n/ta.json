@@ -4,8 +4,11 @@
  "kept_in_english": [],
  "lang": "ta",
  "native": "தமிழ்",
- "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
  "texts": {
+  "fd_code_new": "புதிய குறியீட்டை அனுப்பு",
+  "fd_code_sent": "புதிய குறியீடு வந்துகொண்டிருக்கிறது.",
+  "fd_code_wait": "{time} இல் புதிய குறியீடு",
   "fd_country": "நாடு",
   "fd_email_format": "name@example.com போன்ற மின்னஞ்சல் முகவரியை உள்ளிடுங்கள்.",
   "fd_email_suggest": "{email} என்று சொல்ல வந்தீர்களா?",

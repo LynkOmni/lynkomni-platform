@@ -28,6 +28,12 @@ REGISTRATION_STEPS = ("profile", "registration", "tax_number", "bank_account")
 PAGES = ("overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "messages", "support", "assist", "payslips", "payments", "start", "storefront", "trips", "collect",
          "attendance", "tickets", "answers", "panel")   # NEW UPDATE 4 (section 2): My details, My tickets, My answers, the LynkSurvey Panel
 def _now(n): return time.time() if n is None else n
+
+
+class CodeWait(Exception):
+    """Another code cannot be sent yet: .seconds is the wait left (the screen counts it down)."""
+    def __init__(self, seconds):
+        super().__init__(f"wait {seconds} seconds before asking for another code"); self.seconds = seconds
 from core.secrethash import code_hash as _h, code_matches  # salted scrypt for codes a person types (core/secrethash.py)
 
 
@@ -56,6 +62,8 @@ class Account:
         s.db.executescript("""
         create table if not exists acct_people(person text primary key, lynkid text, username text, lang text, status text, closes_at real, contact_ok int);
         create table if not exists acct_contacts(person text primary key, code_hash text, expires real);
+        create table if not exists acct_code_sends(person text, at real);
+        create table if not exists acct_number_checks(person text primary key, confirmed real, reminded real);
         create table if not exists acct_idchecks(lover text primary key, person text, purpose text, state text, partner text, requested real, answered real);
         create table if not exists acct_passkeys(locrd text primary key, person text, device_name text, enrolled_at real, revoked_at real);
         create table if not exists acct_sessions(token text primary key, person text, site text, device_name text, place text, started real, revoked real);
@@ -99,9 +107,17 @@ class Account:
         s.db.execute("insert into acct_people values(?,?,?,?,?,?,0)", (p["internal"], p["lynkid"], u, lang, "signing_up", None)); s.db.commit()
         return {"person": p["internal"], "lynkid": p["lynkid"], "username": u, "next": "contact"}
     def send_contact_code(s, person, now=None):
-        """SANDBOX: the code is returned so tests run offline. Production sends it by SMS or email and never returns it."""
+        """SANDBOX: the code is returned so tests run offline. Production sends it by SMS or email and never returns it.
+        A code lasts 5 minutes; asking again waits a little longer each time and at most 5 codes go out in an hour (core/phone.py
+        CODES): the wait is raised as CodeWait with the seconds left, which the screen shows as its countdown."""
+        from core.phone import CODES, resend_wait
+        t = _now(now)
+        sent = [r[0] for r in s.db.execute("select at from acct_code_sends where person=?", (person,))]
+        wait = resend_wait(sent, t)
+        if wait: raise CodeWait(wait)
         code = f"{secrets.randbelow(10**6):06d}"
-        s.db.execute("insert or replace into acct_contacts values(?,?,?)", (person, _h(code), _now(now) + 600)); s.db.commit(); return code
+        s.db.execute("insert or replace into acct_contacts values(?,?,?)", (person, _h(code), t + CODES["lifetime_s"]))
+        s.db.execute("insert into acct_code_sends values(?,?)", (person, t)); s.db.commit(); return code
     def confirm_contact(s, person, code, now=None):
         r = s.db.execute("select code_hash,expires from acct_contacts where person=?", (person,)).fetchone()
         if not r or r[1] < _now(now) or not code_matches(code, r[0]): raise PermissionError("wrong or expired code")
@@ -112,6 +128,10 @@ class Account:
         row = s.db.execute("select contact_ok,lynkid,username,lang from acct_people where person=?", (person,)).fetchone()
         if not row or not row[0]: raise PermissionError("verify a phone or email first")
         if not (phone_ref or email_ref): raise ValueError("an account needs an email or a phone number; either one is enough")
+        # one person, one contact (section 4C point 1): a personal email or phone number belongs to one personal account at a time
+        for col, ref in (("phone", phone_ref), ("email", email_ref)):
+            if ref and s.auth.db.execute(f"select 1 from identities where {col}=? and person<>?", (ref, person)).fetchone():
+                raise PermissionError("this contact already belongs to another account: sign in to it or use Can't sign in?")
         locrd = s.enroll_passkey(person, passkey_public_key, device_name, now, quiet=True)
         s.auth.register(person, phone_ref, email_ref, row[3])                      # vault references only, never the numbers
         code = s.auth.add_merchant_role(person, f"personal:{person}", backup_contact)
@@ -122,6 +142,42 @@ class Account:
         s.protect.accept_terms(person, TERMS["terms"], TERMS["privacy"], now)      # the sign-up screen shows both; the versions are recorded
         return {"recovery_code": code, "locrd": locrd, "show_once": True, "next": "two_ways_in"}
     # ---- MASTER UPDATE 55: sign-up by email or by phone, side by side, and no clue for strangers
+    # ---- section 4C point 1: numbers that change hands --------------------------------------------------------------------
+    def number_reassigned(s, phone_ref, now=None):
+        """The mobile network partner says a number now belongs to someone else (networks give old numbers out again). The number
+        is taken off the account it was on, so its new owner can never reach that account, and the owner is told by email.
+        A phone number alone never opens or recovers an account."""
+        row = s.auth.db.execute("select person from identities where phone=?", (phone_ref,)).fetchone()
+        if not row: return None
+        person = row[0]
+        s.auth.db.execute("update identities set phone=null where person=?", (person,)); s.auth.db.commit()
+        lynkid = s._lynkid(person)
+        s.emit(person, "ContactRemoved", {"lynkid": lynkid, "kind": "phone", "reason": "reassigned"}, now)
+        s.contact_notices.append({"kind": "email", "person": person, "message": "number_removed_reassigned"})
+        return {"removed": "phone", "told_by": "email"}
+
+    def confirm_number(s, person, now=None):
+        """The person confirms the number on the account is still theirs (asked once a year)."""
+        t = _now(now)
+        s.db.execute("insert into acct_number_checks values(?,?,null) on conflict(person) do update set confirmed=excluded.confirmed, reminded=null", (person, t)); s.db.commit()
+        s.emit(person, "NumberConfirmed", {"lynkid": s._lynkid(person)}, now)
+
+    def numbers_to_confirm(s, now=None):
+        """People whose number was last confirmed (or set) more than a year ago and who were not reminded yet."""
+        t = _now(now)
+        out = []
+        for (person,) in s.db.execute("select person from acct_people where status='active'"):
+            r = s.db.execute("select confirmed,reminded from acct_number_checks where person=?", (person,)).fetchone()
+            ph = s.auth.db.execute("select phone from identities where person=?", (person,)).fetchone()
+            if not ph or not ph[0]: continue
+            if r is None:
+                s.db.execute("insert into acct_number_checks values(?,?,null)", (person, t)); continue
+            if r[1] is None and t - r[0] >= 365 * DAY: out.append(person)
+        s.db.commit(); return out
+
+    def mark_number_reminded(s, person, now=None):
+        s.db.execute("update acct_number_checks set reminded=? where person=?", (_now(now), person)); s.db.commit()
+
     def start_with_contact(s, kind, contact_ref, now=None):
         """The first step of sign-up or sign-in with an email or a phone number (a vault reference). The answer is the same
         whether or not the contact already has an account, so nobody can learn who is a LynkOmni customer. A contact that has an

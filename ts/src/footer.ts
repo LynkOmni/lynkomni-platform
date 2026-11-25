@@ -125,7 +125,10 @@ export function buildFooter(o: { now: Date; pack: Pack | null; lang: string; wor
  *  into sub-columns (Column.span). Payment methods are LynkOmni method icons with the provider's name as text; social channels are
  *  text links (no other company's logo is drawn); the newsletter box is unticked; the copyright line is the fixed text.
  *  `icon` draws a LynkOmni icon by id; `logo` holds the logo artwork for the light and the dark theme. */
-export function mainFooterHtml(f: ReturnType<typeof buildFooter>, esc: (s: string) => string, icon: (id: string) => string, logo?: { light: string; dark: string }): string {
+/** emailBox is the newsletter's email field, drawn by the shared email part (ts/src/emailfield.ts emailFieldHtml with id
+ *  FOOTER_EMAIL_ID; section 4C point 1): the footer never draws its own field. Subscribe stays off until the address is right. */
+export const FOOTER_EMAIL_ID = "fnewsEmail";
+export function mainFooterHtml(f: ReturnType<typeof buildFooter>, esc: (s: string) => string, icon: (id: string) => string, logo?: { light: string; dark: string }, emailBox?: (label: string) => string): string {
   const link = (i: Item): string => `<li><a href="${esc(i.href)}">${i.plain ? `<span class="fname">${esc(i.label)}</span> <span class="fplain">(${esc(i.plain)})</span>` : esc(i.label)}</a></li>`;
   const cols = f.columns.map((c) => `<section class="fcol" data-span="${c.span}" style="--span:${c.span}"><h3>${esc(c.title)}</h3><ul>${c.items.map(link).join("")}</ul></section>`).join("");
   const mark = logo ? `<a class="flogo" href="/" aria-label="${esc(f.labels.home)}"><span class="on-light">${logo.light}</span><span class="on-dark">${logo.dark}</span></a>` : "";
@@ -139,9 +142,9 @@ ${mark}<p class="ftag">${esc(f.tagline)}</p><div class="fcols">${cols}</div>
 <div class="frow"><section class="fcol"><h3>${esc(f.payments.title)}</h3><ul class="fpays">${pay}</ul></section>
 <section class="fcol"><h3>${esc(f.labels.social)}</h3><ul>${social}</ul></section>
 <section class="fcol"><h3>${esc(f.labels.download)}</h3><ul>${f.download.map((d) => `<li><a href="/download#${esc(d.id)}">${esc(d.label)}</a></li>`).join("")}</ul></section>
-<div class="fnews" role="group" aria-labelledby="fnewsTitle"><h3 id="fnewsTitle">${esc(n.title)}</h3><p>${esc(n.text)}</p><label class="fl"><span>${esc(n.email)}</span><input type="email" autocomplete="email" placeholder="name@example.com" aria-label="${esc(n.email)}"></label>
+<div class="fnews" role="group" aria-labelledby="fnewsTitle"><h3 id="fnewsTitle">${esc(n.title)}</h3><p>${esc(n.text)}</p>${emailBox ? emailBox(n.email) : ""}
 <fieldset><legend>${esc(f.labels.topics)}</legend>${topics}</fieldset><label class="fconsent"><input type="checkbox" required> <span>${esc(n.consent)}</span></label>
-<button type="button" data-act="footer:news">${esc(n.button)}</button><p class="fnote">${esc(n.note)}</p></div></div>
+<button type="button" data-act="footer:news"${emailBox ? ` data-needs-email="${FOOTER_EMAIL_ID}" disabled` : ""}>${esc(n.button)}</button><p class="fnote">${esc(n.note)}</p></div></div>
 <div class="flegal"><p class="fcopy">${esc(f.legal.copyright)}</p><ul>${f.legal.links.map(link).join("")}</ul></div></footer>`;
 }
 /** The short footer inside apps (section 26 C): one line, the fixed copyright text with the year in the viewer's time zone. */

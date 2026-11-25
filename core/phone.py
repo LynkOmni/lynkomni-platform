@@ -127,6 +127,22 @@ def lengths_text(lengths):
     return {"list": ls}
 
 
+# ---- codes sent to a phone or an email -----------------------------------------------------------------------------------
+# A code lasts 5 minutes; the next one can be asked after a wait that grows, and at most 5 are sent in an hour (section 4C point 1).
+CODES = {"length": 6, "lifetime_s": 300, "resend_wait_s": [30, 60, 120, 300], "per_hour": 5}
+
+
+def resend_wait(sent_times, now):
+    """Seconds still to wait before another code may be sent, from the times codes were sent (0 means send now). After the hour's
+    limit the wait runs until the oldest send of the last hour is an hour old."""
+    hour = [t for t in sent_times if now - t < 3600]
+    if len(hour) >= CODES["per_hour"]: return int(min(hour) + 3600 - now + 0.999)
+    if not hour: return 0
+    steps = CODES["resend_wait_s"]
+    need = steps[min(len(hour) - 1, len(steps) - 1)]
+    return max(0, int(max(hour) + need - now + 0.999))
+
+
 # ---- email -----------------------------------------------------------------------------------------------------------------
 with open(os.path.join(_ROOT, "catalog", "email-domains.v1.json"), encoding="utf-8") as _f:
     _DOMAINS = json.load(_f)

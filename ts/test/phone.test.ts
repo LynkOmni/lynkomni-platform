@@ -1,7 +1,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { phoneRules, phoneClean, phoneCheck, phoneAccept, phoneGroups, phoneSample, phoneInternational, phoneLengths, phoneReadPasted, emailCheck, type PhoneRules } from "../src/phone.js";
+import { resendWait } from "../src/codefield.js";
+import { phoneRules, phoneClean, phoneCheck, phoneAccept, phoneGroups, phoneSample, phoneInternational, phoneLengths, phoneReadPasted, type PhoneRules } from "../src/phone.js";
+import { emailCheck } from "../src/emailfield.js";
 import { EMAIL_DOMAINS } from "../src/phone.generated.js";
 
 const root = new URL("../../..", import.meta.url).pathname;
@@ -32,4 +34,8 @@ test("pasted numbers with a dialling code switch the country", () => {
 
 test("email checks agree with the Python reference", () => {
   for (const c of V.emails) assert.deepEqual(emailCheck(EMAIL_DOMAINS, c.text, c.deep), c.result, JSON.stringify(c));
+});
+
+test("the wait before another code agrees with the Python reference", () => {
+  for (const c of V.waits) assert.equal(resendWait(c.sent, c.now), c.wait, JSON.stringify(c));
 });

@@ -11,6 +11,7 @@ import type { UserState } from "../../../ts/src/pos.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { SurveyDesk, svPhoneView, svScreenView, svTemplate } from "../../../ts/src/surveydesk.js";
+import { wireCodes } from "../../../ts/src/codefield.js";
 import type { SvLook, SvPlan } from "../../../ts/src/surveydesk.js";
 import type { AtTier } from "../../../ts/src/attenddesk.js";
 import { watchNames } from "../../../ts/src/names.js";
@@ -41,6 +42,7 @@ function draw(): void {
   const mine = D.answers.filter((a) => !a.sample && a.survey === D.cur).slice(-1)[0];
   tl.innerHTML = `<h3>${esc(t("sp_side"))}</h3>${mine ? `<p>${chip(mine.st)}</p>` : ""}${svScreenView(D, look())}<p class="sub">${esc(t("sp_side_note"))}</p>`;
   pageWaiting(WAIT, S, el, t, draw);                                  // PLACEHOLDER UPDATE 83
+  wireCodes(el, { t, lang: S.lang });                                  // section 4C point 1: the code field's resend countdown
 }
 function act(a: string): void {
   if (a.startsWith("sv:")) D.act(a, { online: S.online, partner: !S.realUser, redraw: draw });

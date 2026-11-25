@@ -4,8 +4,11 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
  "texts": {
+  "fd_code_new": "Yeni kod gönder",
+  "fd_code_sent": "Yeni bir kod yolda.",
+  "fd_code_wait": "{time} sonra yeni kod",
   "fd_country": "Ülke",
   "fd_email_format": "name@example.com gibi bir e-posta adresi girin.",
   "fd_email_suggest": "{email} mi demek istediniz?",

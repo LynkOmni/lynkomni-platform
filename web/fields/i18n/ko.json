@@ -4,8 +4,11 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
  "texts": {
+  "fd_code_new": "새 코드 보내기",
+  "fd_code_sent": "새 코드를 보내고 있습니다.",
+  "fd_code_wait": "{time} 후 새 코드",
   "fd_country": "국가",
   "fd_email_format": "name@example.com 같은 이메일 주소를 입력하세요.",
   "fd_email_suggest": "{email}을(를) 입력하려고 하셨나요?",

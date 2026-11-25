@@ -4299,6 +4299,23 @@
    "default": "on",
    "standing_instruction": false,
    "implemented_by": "built in section 4C step 3 (identity security checkup)"
+  },
+  {
+   "id": "number-confirm-yearly",
+   "area": "Account and sign-in",
+   "build_section": "4C",
+   "family": "platform",
+   "min_tier": "free",
+   "trigger": "schedule:daily",
+   "action": "Once a year the person is asked to confirm the phone number on the account is still theirs (networks give old numbers out again); nothing changes until they answer",
+   "level": "inform",
+   "assist": null,
+   "touches": [],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "implemented_by": "identity/automations.py number_confirm (daily): NumberConfirmDue once a year; Account.confirm_number answers it"
   }
  ],
  "careful": [

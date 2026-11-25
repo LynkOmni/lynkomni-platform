@@ -8,6 +8,8 @@ import type { UserState } from "../../../ts/src/pos.js";
 import { homeCards, webRule } from "../../../ts/src/business.js";
 import { matchStatement } from "../../../ts/src/agent.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, stateButtons, appMainFooter, pageWaiting } from "../../../ts/src/emulator.js";
+import { emailFieldHtml, wireEmails } from "../../../ts/src/emailfield.js";
+import { FOOTER_EMAIL_ID } from "../../../ts/src/footer.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
@@ -239,11 +241,16 @@ function launcherOverlay(): string {
 /** The owner's computer view is the all-in-one without touch (catalog/devices.v1.json): mouse and keyboard. */
 const DM = new DeviceMode(DEVICES, "all-in-one-pos", "non_touch");
 const WAIT = new PageWait();
+/** The footer's newsletter email (section 4C point 1): drawn by the shared email part, its text kept across redraws. */
+const NEWS = { text: "" };
+const newsBox = (label: string): string => emailFieldHtml({ t }, { id: FOOTER_EMAIL_ID, label, text: NEWS.text });
+const newsWire = (root: ParentNode): void => wireEmails(root, { t, onEmail: (_id, v) => { NEWS.text = v.text; } });
 function draw(): void {
   const el = $("#screen"); DM.apply(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W);
   el.innerHTML = `<div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">${icon("ui-lock")}${esc(office() ? `app.lynkomni.com${OFFICE_PATHS[office()!]}` : work() ? `app.lynkomni.com${WORK_PATHS[work()!]}` : S.place ? appOf(S.place) : `app.lynkomni.com${PATH[S.page]}`)}</span></div>
-    <div class="app">${sideBar()}<main class="main"><div class="mhead">${DSH.bar()}</div>${office() ? OV.browserNote() : work() ? WV.note() : `<p class="viewonly" role="note">${icon("ui-info")}${esc(t("view_only_computer"))}</p>`}<div data-wait-area data-wrap>${page()}</div>${appMainFooter(W, C, DATA)}</main></div>${launcherOverlay()}${DSH.overlay()}`;
+    <div class="app">${sideBar()}<main class="main"><div class="mhead">${DSH.bar()}</div>${office() ? OV.browserNote() : work() ? WV.note() : `<p class="viewonly" role="note">${icon("ui-info")}${esc(t("view_only_computer"))}</p>`}<div data-wait-area data-wrap>${page()}</div>${appMainFooter(W, C, DATA, newsBox)}</main></div>${launcherOverlay()}${DSH.overlay()}`;
   const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address();
+  newsWire(el);
   pageWaiting(WAIT, { online: true, firstOpen: S.firstOpen }, el, t, draw);   // PLACEHOLDER UPDATE 83: a browser page is online
 }
 /** Redraws while typing and puts the cursor back where it was, so a field never loses its place. */

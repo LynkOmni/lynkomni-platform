@@ -2,7 +2,8 @@
  *  scan key) and runs the real sale rules from ts/src/pos.ts against sandbox providers. Draft until a designer reviews it.
  *  Built into one offline HTML file by web/build.mjs. Colours come only from the design tokens (CSS variables). */
 import { hintFor } from "../../../ts/src/hints.js";
-import { phoneFieldHtml, emailFieldHtml, wireFields, countryNamer, type FieldCtx } from "../../../ts/src/fields.js";
+import { phoneFieldHtml, wireFields, countryNamer, type FieldCtx } from "../../../ts/src/fields.js";
+import { emailFieldHtml } from "../../../ts/src/emailfield.js";
 import { Cart, PosError, change, formatMoney, paymentPayload, paymentState, quickCash, receiptLines, salePayload, uuid7 } from "../../../ts/src/pos.js";
 import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload, UserState } from "../../../ts/src/pos.js";
 import { HANDHELD_TILES } from "../../../ts/src/business.js";
