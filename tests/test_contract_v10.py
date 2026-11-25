@@ -31,7 +31,7 @@ class ContractV10(unittest.TestCase):
         old = V9["events"]["ConversationCardSent"]["payload"]["properties"]["card"]["enum"]
         new = V10["events"]["ConversationCardSent"]["payload"]["properties"]["card"]["enum"]
         self.assertEqual(new[:len(old)], old, "an older card keeps its value")
-        self.assertEqual(set(new), set(old) | set(chat.CARDS), "the cards are those of catalog/chat.v1.json")
+        self.assertTrue(set(old) <= set(new) <= set(old) | set(chat.CARDS), "the cards grow from catalog/chat.v1.json; later cards join a later version")
         self.assertTrue(all(e["schema_version"] == 10 for e in V10["events"].values()))
         self.assertEqual(REG10["commands"][:len(REG9["commands"])], REG9["commands"])
 

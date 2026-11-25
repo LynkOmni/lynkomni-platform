@@ -25,7 +25,7 @@ class ContractV18(unittest.TestCase):
         self.assertEqual(e["origins"], ["device"])
         self.assertEqual(set(e["payload"]["properties"]), {"kind", "record", "extra_step", "staff_id", "side"})   # ids only: no words, no person
         kinds = {k["id"] for k in json.loads((ROOT / "catalog" / "tracking.v1.json").read_text())["kinds"]}
-        self.assertEqual(set(e["payload"]["properties"]["kind"]["enum"]), kinds)
+        self.assertTrue(set(e["payload"]["properties"]["kind"]["enum"]) <= kinds, "kinds of version 18 are tracking kinds; later kinds join a later version")
 
     def test_marking_an_extra_step_works_offline(self):
         added = [c for c in REG18["commands"] if c not in REG17["commands"]]

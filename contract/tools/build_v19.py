@@ -127,6 +127,15 @@ def build():
                         "LynkProject and LynkFiles' approval routes and document requests. Upcaster 18 to 19 in contract/upcasters.v1.json only raises the version.")
     for e in v["events"].values():
         e["schema_version"] = 19
+    # the cards and tracking kinds added in build section 4B join here; older versions keep the lists they were published with
+    with open(os.path.join(CAT, "chat.v1.json"), encoding="utf-8") as f:
+        cards = list(json.load(f)["cards"]["kinds"])
+    enum = v["events"]["ConversationCardSent"]["payload"]["properties"]["card"]["enum"]
+    enum += [k for k in cards if k not in enum]
+    with open(os.path.join(CAT, "tracking.v1.json"), encoding="utf-8") as f:
+        kinds = [k["id"] for k in json.load(f)["kinds"]]
+    enum = v["events"]["TrackingStepMarked"]["payload"]["properties"]["kind"]["enum"]
+    enum += [k for k in kinds if k not in enum]
     for name, e in EVENTS.items():
         if name in v["events"]:
             raise SystemExit(f"{name} already exists in version 18")

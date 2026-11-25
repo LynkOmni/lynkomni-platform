@@ -769,6 +769,30 @@
    "build_section": "4B"
   },
   {
+   "id": "hr-chat",
+   "from": "lynkhr",
+   "to": "lynkchat",
+   "what": "An offer letter card in a conversation with a candidate, signed through LynkFiles; never staff-to-staff chat",
+   "events": [
+    "ConversationCardSent"
+   ],
+   "planned_events": [],
+   "consent": "person",
+   "build_section": "4B"
+  },
+  {
+   "id": "project-chat",
+   "from": "lynkproject",
+   "to": "lynkchat",
+   "what": "A customer project's progress card and stage sign-off in the conversation with that customer; costs and rates never shown",
+   "events": [
+    "ConversationCardSent"
+   ],
+   "planned_events": [],
+   "consent": "merchant",
+   "build_section": "4B"
+  },
+  {
    "id": "motion-chat",
    "from": "lynkmotion",
    "to": "lynkchat",

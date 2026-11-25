@@ -8632,7 +8632,10 @@
        "booking",
        "document",
        "shipment",
-       "exchange"
+       "exchange",
+       "document_request",
+       "offer",
+       "project_update"
       ]
      },
      "record_id": {
@@ -13159,7 +13162,17 @@
        "message_delivery",
        "provider_payout",
        "bet_slip",
-       "bet_referral"
+       "bet_referral",
+       "leave",
+       "joining",
+       "leaving",
+       "review_cycle",
+       "task",
+       "change_request",
+       "milestone",
+       "time_sheet",
+       "approval_route",
+       "document_request"
       ]
      },
      "record": {

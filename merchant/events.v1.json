@@ -588,6 +588,15 @@
     "count"
    ],
    "note": "Totals of who has seen a broadcast in the app. CONNECT UPDATE 71.7, section 4."
+  },
+  "StaffDocumentExpiring": {
+   "written_by": "cloud",
+   "payload": [
+    "staff_id",
+    "kind",
+    "stage"
+   ],
+   "note": "A staff document (work permit, licence, certificate, contract) reaches a reminder step before it ends, or has ended. LynkHR, SIX SERVICES UPDATE 69.3, build section 4B."
   }
  }
 }

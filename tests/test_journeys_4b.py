@@ -81,9 +81,10 @@ class Journeys4B(unittest.TestCase):
         with self.assertRaises(PermissionError):
             pj.move("m1", tasks[1], "done", "u3")                                        # it waits on the shelves
         pj.log_time("m1", pid, "u2", 90, rate=15000, task=tasks[0])
+        sheet = pj.submit_sheet("m1", "u2")
         with self.assertRaises(PermissionError):
-            pj.answer_sheet("m1", "u2", "u2")
-        pj.answer_sheet("m1", "u2", "manager1")
+            pj.answer_sheet("m1", sheet, "u2")
+        pj.answer_sheet("m1", sheet, "manager1")
         billed = pj.bill_time("m1", pid, cust)
         self.assertEqual((billed["minutes"], billed["amount"]), (90, 22500))
         self.assertIsNone(pj.bill_time("m1", pid, cust), "project-inv: time is billed once")

@@ -1529,6 +1529,261 @@
    "status": "built",
    "note": "how many questions this month against the plan's number (no limit on Max); answers from the help topics never count",
    "offline": "device"
+  },
+  {
+   "id": "hr_draft_letter",
+   "area": "work",
+   "class": "B",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": "4B",
+   "status": "built",
+   "note": "a labelled draft of an offer, contract, reference or policy; never sent without the person",
+   "offline": "queue"
+  },
+  {
+   "id": "hr_answer_from_handbook",
+   "area": "work",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "staff"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": "4B",
+   "status": "built",
+   "note": "answers only from the organisation's own handbook, and says so when it is not there",
+   "offline": "device"
+  },
+  {
+   "id": "hr_explain_balance",
+   "area": "work",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "staff"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": "4B",
+   "status": "built",
+   "note": "explains a leave balance line by line in half days",
+   "offline": "device"
+  },
+  {
+   "id": "hr_expiring_documents",
+   "area": "work",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": "4B",
+   "status": "built",
+   "note": "lists documents about to expire; nothing is blocked automatically",
+   "offline": "device"
+  },
+  {
+   "id": "hr_summarise_review",
+   "area": "work",
+   "class": "B",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": "4B",
+   "status": "built",
+   "note": "a labelled draft summary; a named person writes and signs off the review; never a score",
+   "offline": "queue"
+  },
+  {
+   "id": "hr_suggest_training",
+   "area": "work",
+   "class": "B",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": "4B",
+   "status": "built",
+   "note": "training suggestions for a new staff member, for the manager to confirm (78.19); never enrols anyone alone",
+   "offline": "queue"
+  },
+  {
+   "id": "pj_status_report",
+   "area": "projects",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "staff"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": "4B",
+   "status": "built",
+   "note": "a status report from the project's own tasks and figures",
+   "offline": "device"
+  },
+  {
+   "id": "pj_spot_risk",
+   "area": "projects",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "staff"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": "4B",
+   "status": "built",
+   "note": "tasks at risk, labelled a suggestion",
+   "offline": "device"
+  },
+  {
+   "id": "pj_suggest_date",
+   "area": "projects",
+   "class": "B",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": "4B",
+   "status": "built",
+   "note": "a suggested finish date from the critical path; nothing changes until the person confirms",
+   "offline": "queue"
+  },
+  {
+   "id": "pj_actions_from_minutes",
+   "area": "projects",
+   "class": "B",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "staff"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": "4B",
+   "status": "built",
+   "note": "turns the actions in meeting minutes into tasks for named people after Confirm",
+   "offline": "queue"
+  },
+  {
+   "id": "files_summarise",
+   "area": "files",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "staff"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": "4B",
+   "status": "built",
+   "note": "a labelled draft summary of a document the person may open; never shares it",
+   "offline": "device"
+  },
+  {
+   "id": "files_key_dates",
+   "area": "files",
+   "class": "A",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "staff"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "none",
+   "undo": null,
+   "build_section": "4B",
+   "status": "built",
+   "note": "key dates found in a contract, labelled a suggestion",
+   "offline": "device"
+  },
+  {
+   "id": "files_file_scan",
+   "area": "files",
+   "class": "B",
+   "touches": [],
+   "roles": [
+    "owner",
+    "manager",
+    "staff"
+   ],
+   "limits": {
+    "per_day": 100
+   },
+   "verify": "read_back",
+   "undo": null,
+   "build_section": "4B",
+   "status": "built",
+   "note": "files a scan under the right record after Confirm; never signs or shares",
+   "offline": "queue"
   }
  ],
  "offline_rule": "Offline layer 2 (MASTER UPDATE 1.11; build section 3): every action says what it does without a network. device: changes only this device, done at once and recorded, synced later. queue: the person confirms now, it is sealed on the device and shown as queued, carried out when the network returns, then verified and told; never shown as done before that, and it expires if the device stays offline too long. cloud_check: needs the cloud's fresh identity check, so it waits. never: needs a provider, a partner or a person, so it is not offered offline (LynkAssist prepares the case to send later; the one exception, a card freeze, is queued and shown frozen only when the issuer confirms).",

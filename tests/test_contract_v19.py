@@ -23,8 +23,14 @@ class ContractV19(unittest.TestCase):
         self.assertGreaterEqual(CURRENT, 19)
 
     def test_nothing_older_changes(self):
+        grows = {"ConversationCardSent": "card", "TrackingStepMarked": "kind"}     # their lists only grow, with 4B's cards and tracking kinds
         for name, e in V18["events"].items():
-            self.assertEqual((V19["events"][name]["payload"], V19["events"][name]["origins"]), (e["payload"], e["origins"]), name)
+            a, b = json.loads(json.dumps(V19["events"][name]["payload"])), json.loads(json.dumps(e["payload"]))
+            if name in grows:
+                new, old = a["properties"][grows[name]]["enum"], b["properties"][grows[name]]["enum"]
+                self.assertEqual(new[: len(old)], old, name)
+                a["properties"][grows[name]]["enum"] = old
+            self.assertEqual((a, V19["events"][name]["origins"]), (b, e["origins"]), name)
         self.assertEqual(len(NEW), 29)
 
     def test_only_the_offline_steps_come_from_a_device(self):
@@ -39,6 +45,12 @@ class ContractV19(unittest.TestCase):
         for n in NEW:
             for field in V19["events"][n]["payload"]["properties"]:
                 self.assertFalse(any(w in field for w in NEVER), f"{n}.{field}")
+
+    def test_the_newest_version_has_every_card_and_tracking_kind(self):
+        cards = set(json.loads((ROOT / "catalog" / "chat.v1.json").read_text())["cards"]["kinds"])
+        kinds = {k["id"] for k in json.loads((ROOT / "catalog" / "tracking.v1.json").read_text())["kinds"]}
+        self.assertEqual(set(V19["events"]["ConversationCardSent"]["payload"]["properties"]["card"]["enum"]), cards)
+        self.assertEqual(set(V19["events"]["TrackingStepMarked"]["payload"]["properties"]["kind"]["enum"]), kinds)
 
     def test_money_is_whole_numbers(self):
         for n in NEW:

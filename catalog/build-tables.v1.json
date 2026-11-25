@@ -782,7 +782,8 @@
      "done": {},
      "progress": {
       "4B": [
-       "v0.109.0: the three journeys hire to work, document to record and meeting to action run end to end (tests/test_journeys_4b.py)"
+       "v0.109.0: the three journeys hire to work, document to record and meeting to action run end to end (tests/test_journeys_4b.py)",
+       "v0.109.0: the LynkHR, LynkProject and LynkFiles automations (7 new, 2 corrected) and messages (10 new, 2 corrected) in their registers"
       ]
      }
     },
@@ -879,7 +880,12 @@
       "4B"
      ],
      "part": "Signature request, approval route, document request; leave, joining and leaving, review cycle; task, change request, milestone, time sheet",
-     "done": {}
+     "done": {},
+     "progress": {
+      "4B": [
+       "v0.109.0: the LynkHR, LynkProject and LynkFiles trackers (leave, joining, leaving, review cycle, task, change request, milestone, time sheet, approval route, document request) in the tracking register, their APIs and 38 languages"
+      ]
+     }
     },
     {
      "sections": [
@@ -1084,7 +1090,12 @@
       "4B"
      ],
      "part": "LynkFiles, LynkHR and LynkProject cards",
-     "done": {}
+     "done": {},
+     "progress": {
+      "4B": [
+       "v0.109.0: the LynkFiles, LynkHR and LynkProject cards (document, document request, offer, project update) in the chat register and the card sender, with links hr-chat and project-chat"
+      ]
+     }
     },
     {
      "sections": [
@@ -1194,7 +1205,12 @@
       "4B"
      ],
      "part": "LynkFiles, LynkHR and LynkProject skills",
-     "done": {}
+     "done": {},
+     "progress": {
+      "4B": [
+       "v0.109.0: LynkAssist's skills in LynkHR, LynkProject and LynkFiles (services/assist_work.py, 13 actions in the assist register); it never decides about a person"
+      ]
+     }
     },
     {
      "sections": [
@@ -1341,7 +1357,12 @@
       "4B"
      ],
      "part": "Joining training and skills records with LynkHR; LynkAssist's training suggestions for new staff, for the manager to confirm (78.19)",
-     "done": {}
+     "done": {},
+     "progress": {
+      "4B": [
+       "v0.109.0: finished training joins the staff skills record with the person's consent (academy-hr) and LynkAssist's training suggestions for new staff, for the manager to confirm"
+      ]
+     }
     },
     {
      "sections": [

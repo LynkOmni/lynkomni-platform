@@ -454,7 +454,9 @@
    ],
    "own_account": true,
    "tracks": [
-    "signature_request"
+    "signature_request",
+    "approval_route",
+    "document_request"
    ]
   },
   {
@@ -601,9 +603,17 @@
     "staff.write",
     "leave.read",
     "leave.write",
-    "webhooks"
+    "webhooks",
+    "tracking.read",
+    "tracking.events"
    ],
-   "own_account": true
+   "own_account": true,
+   "tracks": [
+    "leave",
+    "joining",
+    "leaving",
+    "review_cycle"
+   ]
   },
   {
    "id": "projects",
@@ -618,9 +628,17 @@
     "tasks.read",
     "tasks.write",
     "time.read",
-    "webhooks"
+    "webhooks",
+    "tracking.read",
+    "tracking.events"
    ],
-   "own_account": true
+   "own_account": true,
+   "tracks": [
+    "task",
+    "change_request",
+    "milestone",
+    "time_sheet"
+   ]
   },
   {
    "id": "school",

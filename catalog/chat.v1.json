@@ -3,15 +3,74 @@
  "agreed": "Owner, 19 November 2026: CHAT UPDATE (master blueprint section 74), every improvement of rounds one and two and the interconnections; section 4 builds the groundwork (blueprint 74.9). No price changes.",
  "rule": "One conversation engine for the whole ecosystem (one LOCNV- id per conversation). LynkChat is customer-and-business chat and support only: never personal, group or staff-to-staff chat. Only the five states are shown. Live signs always carry words, need both sides online, are never stored and never enter the event log. Card numbers, PINs and codes are masked on the device before a message is queued and again in the cloud, so they are never stored. LynkAssist is always named as the assistant. Never called end-to-end encrypted: messages are protected in transit and in storage. Cards come from their own service and follow its rules; actions go back to that service. Every rule here is read through core/chat.py and ts/src/chat.ts (python3 tools/chat_vectors.py after a change).",
  "kinds": {
-  "customer_business": {"side": "internal", "between": ["customer", "business"], "inbox": "team", "desk": null, "note": "A business and its own customers (the team inbox)."},
-  "storefront": {"side": "external", "between": ["buyer", "seller"], "inbox": "storefront", "desk": "storefront", "note": "A seller and buyers who found an offer; shown with the word Storefront; seller support at the Storefront desk."},
-  "support": {"side": "either", "between": ["person", "lynkomni_support"], "inbox": "support", "desk": "by_topic", "note": "LynkOmni support: LynkAssist first, a person one tap away; pinned at the top of every inbox."}
+  "customer_business": {
+   "side": "internal",
+   "between": [
+    "customer",
+    "business"
+   ],
+   "inbox": "team",
+   "desk": null,
+   "note": "A business and its own customers (the team inbox)."
+  },
+  "storefront": {
+   "side": "external",
+   "between": [
+    "buyer",
+    "seller"
+   ],
+   "inbox": "storefront",
+   "desk": "storefront",
+   "note": "A seller and buyers who found an offer; shown with the word Storefront; seller support at the Storefront desk."
+  },
+  "support": {
+   "side": "either",
+   "between": [
+    "person",
+    "lynkomni_support"
+   ],
+   "inbox": "support",
+   "desk": "by_topic",
+   "note": "LynkOmni support: LynkAssist first, a person one tap away; pinned at the top of every inbox."
+  }
  },
- "never": ["personal_chat", "group_chat", "staff_to_staff", "end_to_end_claim", "draft_seen_by_others", "customer_last_seen", "vanishing_messages", "adverts_in_chat", "assistant_as_person"],
- "authors": ["customer", "business", "assistant", "support", "system"],
- "bodies": ["text", "voice", "photo", "file", "video", "card", "choice", "form_answer", "notice"],
+ "never": [
+  "personal_chat",
+  "group_chat",
+  "staff_to_staff",
+  "end_to_end_claim",
+  "draft_seen_by_others",
+  "customer_last_seen",
+  "vanishing_messages",
+  "adverts_in_chat",
+  "assistant_as_person"
+ ],
+ "authors": [
+  "customer",
+  "business",
+  "assistant",
+  "support",
+  "system"
+ ],
+ "bodies": [
+  "text",
+  "voice",
+  "photo",
+  "file",
+  "video",
+  "card",
+  "choice",
+  "form_answer",
+  "notice"
+ ],
  "states": {
-  "order": ["queued", "sent", "accepted", "confirmed", "failed"],
+  "order": [
+   "queued",
+   "sent",
+   "accepted",
+   "confirmed",
+   "failed"
+  ],
   "meaning": {
    "queued": "Waiting on your device (no internet yet)",
    "sent": "Left your device",
@@ -19,42 +78,230 @@
    "confirmed": "Seen by the other side (played, for a voice message)",
    "failed": "Not sent; tap to try again"
   },
-  "next": {"queued": ["sent", "failed"], "sent": ["accepted", "failed"], "accepted": ["confirmed"], "confirmed": [], "failed": ["queued"]},
-  "device_writes": ["queued", "sent"],
-  "cloud_writes": ["accepted", "confirmed", "failed"],
+  "next": {
+   "queued": [
+    "sent",
+    "failed"
+   ],
+   "sent": [
+    "accepted",
+    "failed"
+   ],
+   "accepted": [
+    "confirmed"
+   ],
+   "confirmed": [],
+   "failed": [
+    "queued"
+   ]
+  },
+  "device_writes": [
+   "queued",
+   "sent"
+  ],
+  "cloud_writes": [
+   "accepted",
+   "confirmed",
+   "failed"
+  ],
   "seen_choice": "A person may turn off 'seen'; their reader's messages then stop at accepted. A business's team, LynkOmni Support and LynkAssist always show seen, so customers know they were read."
  },
- "edit": {"window_minutes": 15, "first_version_kept": true, "mark": "edited", "who": "the author only; never a card, a voice message or a system notice"},
- "reliability": {"rule": "Never lost, never doubled, always in order: every message has the device's own id (uuid7) and a sequence number per conversation and device; the cloud keeps the first copy of an id and drops repeats; the screen shows a message at once as queued.", "order_by": ["written_at", "device_seq"]},
+ "edit": {
+  "window_minutes": 15,
+  "first_version_kept": true,
+  "mark": "edited",
+  "who": "the author only; never a card, a voice message or a system notice"
+ },
+ "reliability": {
+  "rule": "Never lost, never doubled, always in order: every message has the device's own id (uuid7) and a sequence number per conversation and device; the cloud keeps the first copy of an id and drops repeats; the screen shows a message at once as queued.",
+  "order_by": [
+   "written_at",
+   "device_seq"
+  ]
+ },
  "live_signs": {
   "rule": "A small moving mark with words, shown while something is happening on the other side. Never what is typed, never stored, never in an event; ends by itself; announced once to a screen reader; still words when motion is off; the first thing dropped on a weak connection; a person can stop sending their own typing sign.",
   "ends_after_s": 6,
   "send_every_s": 3,
   "needs_online": true,
   "signs": {
-   "typing": {"from": ["customer", "business", "support"], "motion": "dots", "words": "ch_sign_typing", "person_can_turn_off": true},
-   "recording": {"from": ["customer", "business", "support"], "motion": "wave", "words": "ch_sign_recording", "counter": "seconds", "person_can_turn_off": true},
-   "sending_photo": {"from": ["customer", "business", "support"], "motion": "progress", "words": "ch_sign_sending_photo", "person_can_turn_off": true},
-   "sending_file": {"from": ["customer", "business", "support"], "motion": "progress", "words": "ch_sign_sending_file", "person_can_turn_off": true},
-   "preparing_card": {"from": ["business"], "motion": "dots", "words": "ch_sign_preparing", "vars": ["card"]},
-   "assist_thinking": {"from": ["assistant"], "motion": "pulse", "words": "ch_sign_assist_thinking", "stage": 1},
-   "assist_checking": {"from": ["assistant"], "motion": "pulse", "words": "ch_sign_assist_checking", "vars": ["what"], "stage": 2},
-   "assist_writing": {"from": ["assistant"], "motion": "pulse", "words": "ch_sign_assist_writing", "stage": 3},
-   "finding_helper": {"from": ["system"], "motion": "pulse", "words": "ch_sign_finding", "vars": ["place"]},
-   "helper_joined": {"from": ["system"], "motion": "none", "words": "ch_sign_joined", "vars": ["first_name", "team"], "lasts": "notice"},
-   "handing_over": {"from": ["system"], "motion": "dots", "words": "ch_sign_handover", "vars": ["team"]},
-   "helper_away": {"from": ["system"], "motion": "none", "words": "ch_sign_away", "vars": ["first_name", "minutes"]},
-   "translating": {"from": ["system"], "motion": "dots", "words": "ch_sign_translating"},
-   "waiting_connection": {"from": ["system"], "motion": "none", "words": "ch_sign_their_connection"},
-   "staff_replying": {"from": ["business", "support"], "motion": "dots", "words": "ch_sign_staff_replying", "vars": ["first_name"], "team_only": true},
-   "your_turn": {"from": ["system"], "motion": "none", "words": "ch_sign_your_turn", "lasts": "notice"}
+   "typing": {
+    "from": [
+     "customer",
+     "business",
+     "support"
+    ],
+    "motion": "dots",
+    "words": "ch_sign_typing",
+    "person_can_turn_off": true
+   },
+   "recording": {
+    "from": [
+     "customer",
+     "business",
+     "support"
+    ],
+    "motion": "wave",
+    "words": "ch_sign_recording",
+    "counter": "seconds",
+    "person_can_turn_off": true
+   },
+   "sending_photo": {
+    "from": [
+     "customer",
+     "business",
+     "support"
+    ],
+    "motion": "progress",
+    "words": "ch_sign_sending_photo",
+    "person_can_turn_off": true
+   },
+   "sending_file": {
+    "from": [
+     "customer",
+     "business",
+     "support"
+    ],
+    "motion": "progress",
+    "words": "ch_sign_sending_file",
+    "person_can_turn_off": true
+   },
+   "preparing_card": {
+    "from": [
+     "business"
+    ],
+    "motion": "dots",
+    "words": "ch_sign_preparing",
+    "vars": [
+     "card"
+    ]
+   },
+   "assist_thinking": {
+    "from": [
+     "assistant"
+    ],
+    "motion": "pulse",
+    "words": "ch_sign_assist_thinking",
+    "stage": 1
+   },
+   "assist_checking": {
+    "from": [
+     "assistant"
+    ],
+    "motion": "pulse",
+    "words": "ch_sign_assist_checking",
+    "vars": [
+     "what"
+    ],
+    "stage": 2
+   },
+   "assist_writing": {
+    "from": [
+     "assistant"
+    ],
+    "motion": "pulse",
+    "words": "ch_sign_assist_writing",
+    "stage": 3
+   },
+   "finding_helper": {
+    "from": [
+     "system"
+    ],
+    "motion": "pulse",
+    "words": "ch_sign_finding",
+    "vars": [
+     "place"
+    ]
+   },
+   "helper_joined": {
+    "from": [
+     "system"
+    ],
+    "motion": "none",
+    "words": "ch_sign_joined",
+    "vars": [
+     "first_name",
+     "team"
+    ],
+    "lasts": "notice"
+   },
+   "handing_over": {
+    "from": [
+     "system"
+    ],
+    "motion": "dots",
+    "words": "ch_sign_handover",
+    "vars": [
+     "team"
+    ]
+   },
+   "helper_away": {
+    "from": [
+     "system"
+    ],
+    "motion": "none",
+    "words": "ch_sign_away",
+    "vars": [
+     "first_name",
+     "minutes"
+    ]
+   },
+   "translating": {
+    "from": [
+     "system"
+    ],
+    "motion": "dots",
+    "words": "ch_sign_translating"
+   },
+   "waiting_connection": {
+    "from": [
+     "system"
+    ],
+    "motion": "none",
+    "words": "ch_sign_their_connection"
+   },
+   "staff_replying": {
+    "from": [
+     "business",
+     "support"
+    ],
+    "motion": "dots",
+    "words": "ch_sign_staff_replying",
+    "vars": [
+     "first_name"
+    ],
+    "team_only": true
+   },
+   "your_turn": {
+    "from": [
+     "system"
+    ],
+    "motion": "none",
+    "words": "ch_sign_your_turn",
+    "lasts": "notice"
+   }
   },
-  "own_connection": {"reconnecting": "ch_conn_reconnecting", "back_online": "ch_conn_back_online", "offline": "ch_conn_waiting_internet"},
-  "assist_stages": ["assist_thinking", "assist_checking", "assist_writing"]
+  "own_connection": {
+   "reconnecting": "ch_conn_reconnecting",
+   "back_online": "ch_conn_back_online",
+   "offline": "ch_conn_waiting_internet"
+  },
+  "assist_stages": [
+   "assist_thinking",
+   "assist_checking",
+   "assist_writing"
+  ]
  },
  "presence": {
-  "business": ["open_now", "closed_opens_at", "usually_replies_within"],
-  "support": ["support_open", "support_answers_from"],
+  "business": [
+   "open_now",
+   "closed_opens_at",
+   "usually_replies_within"
+  ],
+  "support": [
+   "support_open",
+   "support_answers_from"
+  ],
   "customer": "never shown to a business",
   "staff": "available, busy or away; seen only inside the team; drives routing",
   "reply_time": "Usually replies within is the median of the last 30 days' first replies in opening hours, rounded up to 5, 10, 15, 30 or 60 minutes or 2, 4 or 24 hours; not shown with fewer than 20 replies (never invented)"
@@ -62,27 +309,95 @@
  "sounds": {
   "rule": "One small family of original LynkOmni tones (design/tokens.v1.json sounds, chat_*). Chat sounds and chat vibration have separate switches; a conversation can be muted for an hour, a day or always; silent mode, volume, do not disturb, quiet hours (21:00 to 07:00) and focus time are followed; nothing sounds or vibrates inside a payment, cash count, void, signature, ballot or PIN (a quiet banner waits until it ends); many messages at once make one sound; every sound has a sign on screen. Only security and safety alerts are never silenced, and those are not chat sounds.",
   "batch_window_ms": 2000,
-  "mute_for": ["hour", "day", "always"],
-  "protected_screens": ["payment", "cash_count", "void", "signature", "ballot", "pin", "refund", "fiscal"],
+  "mute_for": [
+   "hour",
+   "day",
+   "always"
+  ],
+  "protected_screens": [
+   "payment",
+   "cash_count",
+   "void",
+   "signature",
+   "ballot",
+   "pin",
+   "refund",
+   "fiscal"
+  ],
   "events": {
-   "sent": {"tone": "chat_sent", "vibrate": "chat_sent"},
-   "received_open": {"tone": "chat_received", "vibrate": "chat_received"},
-   "received_closed": {"tone": "notification", "vibrate": "chat_notify", "note": "The normal notification sound of its priority (account notification settings)"},
-   "support_joined": {"tone": "chat_joined", "vibrate": "chat_joined"},
-   "assist_answer": {"tone": "chat_assist", "vibrate": "chat_assist"},
-   "record_start": {"tone": "chat_record_start", "vibrate": "chat_record_start", "own_action": true},
-   "record_stop": {"tone": "chat_record_stop", "vibrate": "chat_record_stop", "own_action": true},
-   "record_cancel": {"tone": "chat_record_cancel", "vibrate": "chat_record_cancel", "own_action": true},
-   "failed": {"tone": "chat_failed", "vibrate": "chat_failed"},
-   "your_turn": {"tone": "chat_your_turn", "vibrate": "chat_your_turn"},
-   "typing": {"tone": null, "vibrate": null, "note": "Never a sound or vibration for typing"},
-   "counter_new_chat": {"tone": "chat_counter", "vibrate": "chat_notify", "repeat_until_opened": true, "build_section": "13", "note": "Counter mode on shared counter devices; built with LynkKiosk counter mode"}
+   "sent": {
+    "tone": "chat_sent",
+    "vibrate": "chat_sent"
+   },
+   "received_open": {
+    "tone": "chat_received",
+    "vibrate": "chat_received"
+   },
+   "received_closed": {
+    "tone": "notification",
+    "vibrate": "chat_notify",
+    "note": "The normal notification sound of its priority (account notification settings)"
+   },
+   "support_joined": {
+    "tone": "chat_joined",
+    "vibrate": "chat_joined"
+   },
+   "assist_answer": {
+    "tone": "chat_assist",
+    "vibrate": "chat_assist"
+   },
+   "record_start": {
+    "tone": "chat_record_start",
+    "vibrate": "chat_record_start",
+    "own_action": true
+   },
+   "record_stop": {
+    "tone": "chat_record_stop",
+    "vibrate": "chat_record_stop",
+    "own_action": true
+   },
+   "record_cancel": {
+    "tone": "chat_record_cancel",
+    "vibrate": "chat_record_cancel",
+    "own_action": true
+   },
+   "failed": {
+    "tone": "chat_failed",
+    "vibrate": "chat_failed"
+   },
+   "your_turn": {
+    "tone": "chat_your_turn",
+    "vibrate": "chat_your_turn"
+   },
+   "typing": {
+    "tone": null,
+    "vibrate": null,
+    "note": "Never a sound or vibration for typing"
+   },
+   "counter_new_chat": {
+    "tone": "chat_counter",
+    "vibrate": "chat_notify",
+    "repeat_until_opened": true,
+    "build_section": "13",
+    "note": "Counter mode on shared counter devices; built with LynkKiosk counter mode"
+   }
   }
  },
  "masking": {
   "rule": "Card numbers, PINs, passwords and one-time codes typed into a chat are masked on the device before the message is queued and again in the cloud, so they are never stored or sent on. The writer is warned before sending ('LynkOmni and its staff never ask for this'). The masked text keeps a card's last four only.",
-  "card": {"min_digits": 13, "max_digits": 19, "separators": " -", "check": "luhn", "keep_last": 4},
-  "code": {"min_digits": 4, "max_digits": 8, "when": "the message also holds a code word of the reader's or writer's language (chat words ch_code_words: PIN, password, code, one-time code and their translations)", "shown_as": "••••"},
+  "card": {
+   "min_digits": 13,
+   "max_digits": 19,
+   "separators": " -",
+   "check": "luhn",
+   "keep_last": 4
+  },
+  "code": {
+   "min_digits": 4,
+   "max_digits": 8,
+   "when": "the message also holds a code word of the reader's or writer's language (chat words ch_code_words: PIN, password, code, one-time code and their translations)",
+   "shown_as": "••••"
+  },
   "mask_char": "•",
   "warn_words": "ch_warn_never_ask"
  },
@@ -91,8 +406,25 @@
   "support": {
    "assistant_first": true,
    "talk_to_person": "always one tap away",
-   "fast_lane": {"topics": ["security", "safety", "fraud"], "desk": {"security": "security", "fraud": "security", "safety": "safety"}},
-   "match": ["language", "topic", "side", "country", "plan"],
+   "fast_lane": {
+    "topics": [
+     "security",
+     "safety",
+     "fraud"
+    ],
+    "desk": {
+     "security": "security",
+     "fraud": "security",
+     "safety": "safety"
+    }
+   },
+   "match": [
+    "language",
+    "topic",
+    "side",
+    "country",
+    "plan"
+   ],
    "same_helper": "the helper of the last 3 days when available",
    "pick": "least_busy",
    "max_open_per_helper": 5,
@@ -103,16 +435,44 @@
    "priority_from": "billing FEATURES support (the highest across the account's plans)"
   },
   "team": {
-   "modes": ["take_turns", "least_busy"],
+   "modes": [
+    "take_turns",
+    "least_busy"
+   ],
    "default_mode": "least_busy",
-   "rules": ["branch", "product_or_order", "language", "served_before"],
+   "rules": [
+    "branch",
+    "product_or_order",
+    "language",
+    "served_before"
+   ],
    "on_shift_only": true,
-   "escalate_after_min": {"default": 15, "min": 5, "max": 120},
+   "escalate_after_min": {
+    "default": 15,
+    "min": 5,
+    "max": 120
+   },
    "notes": "staff-only notes and passing a chat to a colleague with a note",
    "limits_from": "billing FEATURES of LynkChat (set when the team rules are built)"
   },
-  "why": {"staff": "ch_why_got_chat", "customer": "ch_who_helps"},
-  "reasons": ["assistant_first", "fast_lane", "same_helper", "language", "topic", "least_busy", "take_turns", "rule", "back_in_line", "out_of_hours", "handover", "only_one_on_shift"]
+  "why": {
+   "staff": "ch_why_got_chat",
+   "customer": "ch_who_helps"
+  },
+  "reasons": [
+   "assistant_first",
+   "fast_lane",
+   "same_helper",
+   "language",
+   "topic",
+   "least_busy",
+   "take_turns",
+   "rule",
+   "back_in_line",
+   "out_of_hours",
+   "handover",
+   "only_one_on_shift"
+  ]
  },
  "offline": {
   "rule": "Reading, writing (queued), cards already received, offline LynkAssist answers, notes, tasks and cash sales work without internet; live signs, translation, calls, screen view, provider payments, bookings with a provider and partner requests wait for it, and the chat says so. Routing waits too: the message joins the line by the time it was written. Through LynkMesh a waiting message stays queued until the cloud accepts it.",
@@ -137,36 +497,257 @@
  "cards": {
   "rule": "A card comes from its own service and only shows there: its words, states, prices and actions are the service's. An action (Pay, Book, Sign, Accept) opens that service's own step inside the chat and is never done by the chat. A card is sent by the cloud (ConversationCardSent). Every card has its link in catalog/connections.v1.json.",
   "kinds": {
-   "invoice": {"service": "lynkinv", "actions": ["pay", "chat_about"], "link": "inv-chat", "build_section": "4", "offline": "opens"},
-   "quote": {"service": "lynkinv", "actions": ["accept", "chat_about"], "link": "inv-chat", "build_section": "4", "offline": "opens"},
-   "credit_note": {"service": "lynkinv", "actions": ["chat_about"], "link": "inv-chat", "build_section": "4", "offline": "opens"},
-   "statement": {"service": "lynkacc", "actions": ["pay", "chat_about"], "link": "acc-chat", "build_section": "4", "offline": "opens"},
-   "reminder": {"service": "lynkacc", "actions": ["pay", "promise_to_pay"], "link": "acc-chat", "build_section": "4", "offline": "opens"},
-   "report": {"service": "lynkstat", "actions": ["open_chats"], "link": "stat-chat", "build_section": "4", "offline": "opens", "note": "Chat figures in reports; the chats behind a figure open by role"},
-   "receipt": {"service": "lynkpos", "actions": ["chat_about"], "link": "pos-chat", "build_section": "3", "offline": "opens"},
-   "tracker": {"service": "track", "actions": ["chat_about"], "link": "track-chat", "build_section": "4", "offline": "opens", "note": "A live card that moves as its tracker moves (tracking register)"},
-   "queue_ticket": {"service": "lynkqueue", "actions": ["running_late", "leave"], "link": "queue-chat", "build_section": "4", "offline": "opens", "note": "Ticket with live place in line and 'your turn' (3B, moved onto the chat part in section 4)"},
-   "survey": {"service": "lynksurvey", "actions": ["answer"], "link": "survey-chat", "build_section": "4", "offline": "opens", "note": "'Was this helpful?' and a survey invitation (3B)"},
-   "visitor": {"service": "lynkattend", "actions": ["pre_register"], "link": "attend-chat", "build_section": "4", "offline": "opens", "note": "Visitor arrival notice to the host's desk (3B)"},
-   "pay_link": {"service": "lynkcheckout", "actions": ["pay"], "link": "checkout-chat", "build_section": "14", "offline": "not_offered", "note": "Paid only when the provider confirms"},
-   "booking": {"service": "lynkbooking", "actions": ["move", "cancel"], "link": "booking-chat", "build_section": "8", "offline": "opens"},
-   "document": {"service": "lynkfiles", "actions": ["sign"], "link": "files-chat", "build_section": "4B", "offline": "opens"},
-   "shipment": {"service": "lynkmotion", "actions": ["leave_with", "reschedule"], "link": "motion-chat", "build_section": "7B", "offline": "opens", "note": "Never the rider's identity or position"},
-   "exchange": {"service": "lynkexchange", "actions": ["open_secure_step"], "link": "exchange-chat", "build_section": "10", "offline": "not_offered"}
+   "invoice": {
+    "service": "lynkinv",
+    "actions": [
+     "pay",
+     "chat_about"
+    ],
+    "link": "inv-chat",
+    "build_section": "4",
+    "offline": "opens"
+   },
+   "quote": {
+    "service": "lynkinv",
+    "actions": [
+     "accept",
+     "chat_about"
+    ],
+    "link": "inv-chat",
+    "build_section": "4",
+    "offline": "opens"
+   },
+   "credit_note": {
+    "service": "lynkinv",
+    "actions": [
+     "chat_about"
+    ],
+    "link": "inv-chat",
+    "build_section": "4",
+    "offline": "opens"
+   },
+   "statement": {
+    "service": "lynkacc",
+    "actions": [
+     "pay",
+     "chat_about"
+    ],
+    "link": "acc-chat",
+    "build_section": "4",
+    "offline": "opens"
+   },
+   "reminder": {
+    "service": "lynkacc",
+    "actions": [
+     "pay",
+     "promise_to_pay"
+    ],
+    "link": "acc-chat",
+    "build_section": "4",
+    "offline": "opens"
+   },
+   "report": {
+    "service": "lynkstat",
+    "actions": [
+     "open_chats"
+    ],
+    "link": "stat-chat",
+    "build_section": "4",
+    "offline": "opens",
+    "note": "Chat figures in reports; the chats behind a figure open by role"
+   },
+   "receipt": {
+    "service": "lynkpos",
+    "actions": [
+     "chat_about"
+    ],
+    "link": "pos-chat",
+    "build_section": "3",
+    "offline": "opens"
+   },
+   "tracker": {
+    "service": "track",
+    "actions": [
+     "chat_about"
+    ],
+    "link": "track-chat",
+    "build_section": "4",
+    "offline": "opens",
+    "note": "A live card that moves as its tracker moves (tracking register)"
+   },
+   "queue_ticket": {
+    "service": "lynkqueue",
+    "actions": [
+     "running_late",
+     "leave"
+    ],
+    "link": "queue-chat",
+    "build_section": "4",
+    "offline": "opens",
+    "note": "Ticket with live place in line and 'your turn' (3B, moved onto the chat part in section 4)"
+   },
+   "survey": {
+    "service": "lynksurvey",
+    "actions": [
+     "answer"
+    ],
+    "link": "survey-chat",
+    "build_section": "4",
+    "offline": "opens",
+    "note": "'Was this helpful?' and a survey invitation (3B)"
+   },
+   "visitor": {
+    "service": "lynkattend",
+    "actions": [
+     "pre_register"
+    ],
+    "link": "attend-chat",
+    "build_section": "4",
+    "offline": "opens",
+    "note": "Visitor arrival notice to the host's desk (3B)"
+   },
+   "pay_link": {
+    "service": "lynkcheckout",
+    "actions": [
+     "pay"
+    ],
+    "link": "checkout-chat",
+    "build_section": "14",
+    "offline": "not_offered",
+    "note": "Paid only when the provider confirms"
+   },
+   "booking": {
+    "service": "lynkbooking",
+    "actions": [
+     "move",
+     "cancel"
+    ],
+    "link": "booking-chat",
+    "build_section": "8",
+    "offline": "opens"
+   },
+   "document": {
+    "service": "lynkfiles",
+    "actions": [
+     "sign",
+     "chat_about"
+    ],
+    "link": "files-chat",
+    "build_section": "4B",
+    "offline": "opens",
+    "note": "A document or 'please sign' card; Sign opens LynkFiles' own signing step (never offline); a file from the chat is kept in LynkFiles"
+   },
+   "shipment": {
+    "service": "lynkmotion",
+    "actions": [
+     "leave_with",
+     "reschedule"
+    ],
+    "link": "motion-chat",
+    "build_section": "7B",
+    "offline": "opens",
+    "note": "Never the rider's identity or position"
+   },
+   "exchange": {
+    "service": "lynkexchange",
+    "actions": [
+     "open_secure_step"
+    ],
+    "link": "exchange-chat",
+    "build_section": "10",
+    "offline": "not_offered"
+   },
+   "document_request": {
+    "service": "lynkfiles",
+    "actions": [
+     "upload",
+     "chat_about"
+    ],
+    "link": "files-chat",
+    "build_section": "4B",
+    "offline": "opens",
+    "note": "Asks the other person for a document; Upload opens LynkFiles' own upload into the right folder"
+   },
+   "offer": {
+    "service": "lynkhr",
+    "actions": [
+     "sign",
+     "chat_about"
+    ],
+    "link": "hr-chat",
+    "build_section": "4B",
+    "offline": "opens",
+    "note": "An offer letter to a candidate (not yet staff); Sign opens LynkFiles' signing step. Staff never chat with each other here"
+   },
+   "project_update": {
+    "service": "lynkproject",
+    "actions": [
+     "accept",
+     "chat_about"
+    ],
+    "link": "project-chat",
+    "build_section": "4B",
+    "offline": "opens",
+    "note": "A customer project's progress (tasks done, the next milestone) and, at a stage, Accept that opens LynkProject's own sign-off; never shows costs or time rates"
+   }
   },
-  "panels": {"customer": {"service": "lynkcrm", "link": "crm-chat", "build_section": "4", "note": "The customer panel beside the chat (past orders, invoices, chats) by role; every conversation on the customer's timeline"}},
-  "never": {"ballot": "A vote is never cast, shown or discussed in chat (LynkVote opens its own secure ballot)", "card_details": "Card details never appear in chat (LynkVCard opens the issuer's secure display)", "credentials": "Support never changes credentials or completes recovery in chat"}
+  "panels": {
+   "customer": {
+    "service": "lynkcrm",
+    "link": "crm-chat",
+    "build_section": "4",
+    "note": "The customer panel beside the chat (past orders, invoices, chats) by role; every conversation on the customer's timeline"
+   }
+  },
+  "never": {
+   "ballot": "A vote is never cast, shown or discussed in chat (LynkVote opens its own secure ballot)",
+   "card_details": "Card details never appear in chat (LynkVCard opens the issuer's secure display)",
+   "credentials": "Support never changes credentials or completes recovery in chat"
+  }
  },
  "chat_about": {
   "rule": "'Chat about this' on a record opens the conversation with that record attached as its card, so nobody has to explain what they mean. The conversation is opened with about (record kind and id); the card is sent by the record's service.",
-  "records": ["invoice", "quote", "credit_note", "statement", "receipt", "tracker", "queue_ticket", "customer"]
+  "records": [
+   "invoice",
+   "quote",
+   "credit_note",
+   "statement",
+   "receipt",
+   "tracker",
+   "queue_ticket",
+   "customer"
+  ]
  },
  "tools": {
-  "choices": {"max": 6, "note": "Buttons a business or LynkAssist offers ('Track my order', 'Opening hours', 'Talk to someone'); a tap sends the choice as the person's own message"},
-  "form_fields": ["date", "option", "place", "address_confirm", "number", "short_text"],
+  "choices": {
+   "max": 6,
+   "note": "Buttons a business or LynkAssist offers ('Track my order', 'Opening hours', 'Talk to someone'); a tap sends the choice as the person's own message"
+  },
+  "form_fields": [
+   "date",
+   "option",
+   "place",
+   "address_confirm",
+   "number",
+   "short_text"
+  ],
   "form_max_fields": 4,
-  "details": ["written", "sent", "accepted", "confirmed", "edited"],
-  "upload": {"resume": true, "pause": true, "cancel": true, "preview_before_open_over_kb": 300}
+  "details": [
+   "written",
+   "sent",
+   "accepted",
+   "confirmed",
+   "edited"
+  ],
+  "upload": {
+   "resume": true,
+   "pause": true,
+   "cancel": true,
+   "preview_before_open_over_kb": 300
+  }
  },
- "streaming": {"rule": "LynkAssist's answer appears as it is written, word by word, after its stages, with a Stop button; a stopped answer keeps what was written and is marked stopped; the answer counts as sent only when complete or stopped.", "stop": true}
+ "streaming": {
+  "rule": "LynkAssist's answer appears as it is written, word by word, after its stages, with a Stop button; a stopped answer keeps what was written and is marked stopped; the answer counts as sent only when complete or stopped.",
+  "stop": true
+ }
 }

@@ -62,6 +62,7 @@ class People:
                           "special": {}, "skills": [], "documents": {}, "done": {"joining": [], "leaving": []}, "left": None,
                           "probation_end": H.probation_end(start_date)})
         s._emit(m, "StaffRecordCreated", {"staff_id": u, "worker_kind": worker_kind, "start_date": start_date})
+        s._emit(m, "staff.joining", {"staff_id": sid, "state": "started"})              # the joining tracker (catalog/tracking.v1.json)
         return sid
 
     def record(s, m, sid, viewer_role, is_self=False):
@@ -95,6 +96,11 @@ class People:
             r["done"][which].append(step)
             s.staff.put(sid, r)
             s._emit(m, "StaffChecklistStepDone", {"staff_id": r["uuid"], "checklist": which, "step": step})
+            state = {"contract_signed": "contract_signed", "notice_recorded": "notice", "equipment_back": "equipment_back", "access_closed": "access_closed"}.get(step)
+            if which == "joining" and not H.checklist("joining", r["done"]["joining"])["musts_left"]:
+                state = "ready"
+            if state:
+                s._emit(m, f"staff.{which}", {"staff_id": sid, "state": state})
         return H.checklist(which, r["done"][which])
 
     def leave_org(s, m, sid, last_day, by):
@@ -105,6 +111,7 @@ class People:
         r["left"] = last_day
         s.staff.put(sid, r)
         s._emit(m, "StaffLeft", {"staff_id": r["uuid"], "last_day": last_day})
+        s._emit(m, "staff.leaving", {"staff_id": sid, "state": "left"})
 
     # ---- leave ---------------------------------------------------------------------------------------------------------------
     def set_entitlement(s, m, sid, kind, half_days, carried=0):
@@ -279,6 +286,7 @@ class People:
                 st = H.expiry_stage(exp, today)
                 if st is not None:
                     out.append({"staff": sid, "kind": kind, "stage": st})
+                    s._emit(m, "StaffDocumentExpiring", {"staff_id": sid, "kind": kind, "stage": st})   # the reminder message (catalog/messages.v1.json)
         return out
 
     def course_completed(s, m, sid, course_ref, person_agreed):

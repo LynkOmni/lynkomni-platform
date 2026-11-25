@@ -18,6 +18,7 @@ class Projects:
         s.p, s.now, db = p, now, p.c.store.db
         s.projects, s.tasks, s.time, s.changes, s.guests = (Table(db, "pj_projects"), Table(db, "pj_tasks"), Table(db, "pj_time"),
                                                             Table(db, "pj_changes"), Table(db, "pj_guests"))
+        s.sheets = Table(db, "pj_sheets")
 
     # ---- plumbing ------------------------------------------------------------------------------------------------------------
     def ent(s, m):
@@ -120,8 +121,11 @@ class Projects:
         pr = s._project(m, pid)
         mid = pr["milestones"].get(name, {}).get("id") or uuid7()
         pr["milestones"][name] = {"id": mid, "day": planned_day, "reached": reached}
+        new = name not in pr["baseline"]
         pr["baseline"].setdefault(name, planned_day)
         s.projects.put(pid, pr)
+        if new:
+            s._emit(m, "milestone.state", {"milestone_id": mid, "state": "planned"})       # the milestone tracker
         if reached:
             s._emit(m, "MilestoneReached", {"project_id": pr["uuid"], "milestone_id": mid})
         return mid
@@ -144,18 +148,37 @@ class Projects:
         s._emit(m, "TimeLogged", ev)
         return eid
 
-    def answer_sheet(s, m, person, approver, answer="approved"):
-        """A manager approves or returns a person's open time, never the person who logged it."""
-        if not P.time_approve_ok(person, approver):
-            raise PermissionError("time is approved by a manager, never by the person who logged it")
-        mine = [(k, v) for k, v in s.time.items() if v["merchant"] == m and v["by"] == person and not v["approved"]]
-        for k, v in mine:
-            if answer == "approved":
-                v["approved"] = True
-                s.time.put(k, v)
+    def submit_sheet(s, m, person):
+        """A person sends their open time for approval as one sheet."""
+        mine = [k for k, v in s.time.items() if v["merchant"] == m and v["by"] == person and not v["approved"] and not v.get("sheet")]
+        if not mine:
+            return None
         sid = uuid7()
-        s._emit(m, "TimeSheetAnswered", {"sheet_id": sid, "answer": "approved" if answer == "approved" else "returned", "minutes": sum(v["minutes"] for _, v in mine), "by": approver})
+        for k in mine:
+            v = s.time[k]; v["sheet"] = sid; s.time.put(k, v)
+        s.sheets.put(sid, {"merchant": m, "person": person, "entries": mine, "state": "submitted"})
+        s._emit(m, "time_sheet.state", {"sheet_id": sid, "state": "submitted"})
         return sid
+
+    def answer_sheet(s, m, sheet_id, approver, answer="approved"):
+        """A manager approves or returns a time sheet, never the person who logged it."""
+        sh = s.sheets[sheet_id]
+        if sh["merchant"] != m or sh["state"] != "submitted":
+            raise PermissionError("this sheet is not waiting for an answer")
+        if not P.time_approve_ok(sh["person"], approver):
+            raise PermissionError("time is approved by a manager, never by the person who logged it")
+        ok = answer == "approved"
+        for k in sh["entries"]:
+            v = s.time[k]
+            if ok:
+                v["approved"] = True
+            else:
+                v["sheet"] = None
+            s.time.put(k, v)
+        sh["state"] = "approved" if ok else "returned"
+        s.sheets.put(sheet_id, sh)
+        s._emit(m, "TimeSheetAnswered", {"sheet_id": sheet_id, "answer": sh["state"], "minutes": sum(s.time[k]["minutes"] for k in sh["entries"]), "by": approver})
+        return sh["state"]
 
     def bill_time(s, m, pid, customer):
         """project-inv: approved billable time becomes LynkInv invoice lines once; it is never billed twice."""

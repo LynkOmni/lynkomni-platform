@@ -14,7 +14,7 @@ import time, uuid
 from core import chat as CH
 from services.improvements import Table
 
-OFFICE_CARDS = {k: v for k, v in CH.CARDS.items() if v["service"] in ("lynkinv", "lynkacc", "lynkstat")}
+OFFICE_CARDS = {k: v for k, v in CH.CARDS.items() if v["service"] in ("lynkinv", "lynkacc", "lynkstat", "lynkfiles", "lynkhr", "lynkproject")}   # the LynkFiles, LynkHR and LynkProject cards joined in build section 4B
 OPEN_CHATS_ROLES = ("owner", "manager")          # who may open the chats behind a figure (74.5: by role)
 
 
@@ -62,6 +62,22 @@ class OfficeChat:
             return {"number": v["number"], "to_pay_minor": max(inv.outstanding(rec), 0), "promise": v.get("promise"), "step": (v.get("reminders") or [None])[-1]}
         if kind == "report":
             return s.chat_figures(m)
+        if kind in ("document", "offer"):                               # LynkFiles (and an offer kept there): never the file's name or content
+            d = s.p.files.docs.get(rec)
+            if not d or d["merchant"] != m:
+                raise ValueError("no document with that id")
+            return {"kind": d["kind"] if kind == "document" else "offer", "versions": len(d["versions"])}
+        if kind == "document_request":
+            q = s.p.files.doc_requests.get(rec)
+            if not q or q["merchant"] != m:
+                raise ValueError("no request with that id")
+            return {"kind": q["kind"], "due": q["due"], "state": q["state"]}
+        if kind == "project_update":
+            pj = s.p.projects
+            tasks = pj.project_tasks(m, rec)
+            pr = pj._project(m, rec)
+            nxt = sorted((v["day"], k) for k, v in pr["milestones"].items() if not v["reached"])
+            return {"tasks": len(tasks), "done": sum(1 for t in tasks if t["state"] == "done"), "next_milestone": nxt[0][1] if nxt else None}   # never costs or rates
         raise ValueError("not an office card")
 
     def card(s, m, conv, kind, record, online=True):
@@ -88,8 +104,14 @@ class OfficeChat:
             raise PermissionError("that action is not offered on this card now")
         if action == "pay":
             return {"opens": "lynkcheckout", "pay_link": s.p.invoicing.pay_link(m, record)}
+        if action == "accept" and kind == "project_update":
+            return {"opens": "lynkproject", "project": record}
         if action == "accept":
             return {"opens": "lynkinv", "quote": record}
+        if action == "sign":
+            return {"opens": "lynkfiles", "document": record, "step": "signing"}
+        if action == "upload":
+            return {"opens": "lynkfiles", "request": record, "step": "upload"}
         if action == "chat_about":
             return {"opens": "lynkchat", "conversation": s.open(m, s.convs.get(conv)["customer"], (kind, record))}
         if action == "promise_to_pay":

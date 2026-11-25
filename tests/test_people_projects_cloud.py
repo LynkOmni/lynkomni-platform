@@ -109,6 +109,7 @@ class PeopleProjects(unittest.TestCase):
         self.p.projects.move("m1", t, "doing", "u1")
         self.p.projects.milestone("m1", pid, "beta", 20510, reached=True)
         self.p.projects.log_time("m1", pid, "u1", 45, rate=10000)
+        self.p.projects.answer_sheet("m1", self.p.projects.submit_sheet("m1", "u1"), "manager1")
         doc = self.p.files.store("m1", "owner", "staff", sid, "contract", PDF)
         self.p.files.start_route("m1", doc, "owner", ["manager1"])
         self.p.files.request_document("m1", "hr1", "id_document", "2026-12-01")

@@ -323,6 +323,7 @@ class Files:
         rid = uuid7()
         s.routes.put(rid, {"merchant": m, "doc": doc_id, "by": by, "approvers": list(approvers), "step": 1, "state": "waiting"})
         s._emit(m, "ApprovalRouteStarted", {"route_id": rid, "document_id": doc_id, "steps": len(approvers)})
+        s._emit(m, "approval_route.state", {"route_id": rid, "state": "waiting"})       # the approval route tracker
         return rid
 
     def answer_route(s, m, rid, who, answer):
@@ -339,6 +340,7 @@ class Files:
         else:
             r["step"] += 1
         s.routes.put(rid, r)
+        s._emit(m, "approval_route.state", {"route_id": rid, "state": r["state"] if r["state"] != "waiting" else "step_approved"})
         return r["state"]
 
     def request_document(s, m, by, kind, due, record_kind="staff", record_id=None):
@@ -346,6 +348,7 @@ class Files:
         rid = uuid7()
         s.doc_requests.put(rid, {"merchant": m, "by": by, "kind": kind, "due": due, "record_kind": record_kind, "record_id": record_id, "state": "asked", "doc": None})
         s._emit(m, "DocumentRequested", {"request_id": rid, "kind": kind, "due": due})
+        s._emit(m, "document_request.state", {"request_id": rid, "state": "asked"})       # the document request tracker
         return rid
 
     def answer_request(s, m, rid, by, data=None, result="received"):
@@ -357,6 +360,7 @@ class Files:
         q["state"] = result
         s.doc_requests.put(rid, q)
         s._emit(m, "DocumentRequestAnswered", {"request_id": rid, "result": result, **({"document_id": q["doc"]} if q["doc"] else {})})
+        s._emit(m, "document_request.state", {"request_id": rid, "state": result})
         return q["state"]
 
     def issue_certificate(s, m, doc_id, issuer):
