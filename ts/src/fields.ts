@@ -42,17 +42,26 @@ export function countryNamer(lang: string, packs: Record<string, FieldPack>, sam
 }
 
 let FLAGS: boolean | null = null;
-/** True when this device draws flags (checked once by drawing one and looking for colour). */
+/** Whether this device draws flags. Checked once, after the screen is up (drawing an emoji to look for colour is slow on a
+ *  weak device), so the first screen shows two-letter codes and the flags replace them a moment later if the device draws them. */
 export function flagsShown(): boolean {
-  if (FLAGS !== null) return FLAGS;
+  if (FLAGS === null) { FLAGS = false; setTimeout(lfDetectFlags, 0); }
+  return FLAGS;
+}
+function lfDetectFlags(): void {
+  let yes = false;
   try {
     const cv = document.createElement("canvas"); cv.width = 24; cv.height = 24;
-    const x = cv.getContext("2d", { willReadFrequently: true }); if (!x) return (FLAGS = false);
-    x.textBaseline = "top"; x.font = "20px sans-serif"; x.fillText(flagOf("FR"), 0, 0);
-    const d = x.getImageData(0, 0, 24, 24).data; FLAGS = false;
-    for (let i = 0; i < d.length; i += 4) if ((d[i + 3] as number) > 0 && (Math.abs((d[i] as number) - (d[i + 2] as number)) > 60)) { FLAGS = true; break; }
-  } catch { FLAGS = false; }
-  return FLAGS;
+    const x = cv.getContext("2d", { willReadFrequently: true });
+    if (x) {
+      x.textBaseline = "top"; x.font = "20px sans-serif"; x.fillText(flagOf("FR"), 0, 0);
+      const d = x.getImageData(0, 0, 24, 24).data;
+      for (let i = 0; i < d.length; i += 4) if ((d[i + 3] as number) > 0 && Math.abs((d[i] as number) - (d[i + 2] as number)) > 60) { yes = true; break; }
+    }
+  } catch { yes = false; }
+  if (!yes) return;
+  FLAGS = true; for (const k of Object.keys(LF_OPTS)) delete LF_OPTS[k];
+  document.querySelectorAll<HTMLOptionElement>(".lf-cc option").forEach((o) => { const f = flagOf(o.value); if (f && o.textContent?.startsWith(o.value)) o.textContent = f + o.textContent.slice(o.value.length); });
 }
 /** The flag of a two-letter country code (empty for anything else, such as the sample pack). */
 export const flagOf = (code: string): string => (/^[A-Z]{2}$/.test(code) && code !== "XX" ? String.fromCodePoint(...[...code].map((ch) => 0x1f1e6 + ch.charCodeAt(0) - 65)) : "");

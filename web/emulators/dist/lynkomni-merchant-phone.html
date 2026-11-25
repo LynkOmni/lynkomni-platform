@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-pxBkfQF+8U3n38RFYmELiephygTcFQr9r8AAYJSpOes='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-U5jcXT+LU6BYi8K8X31kBKbEmreNA3/cOez0hVjNetg='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni Business App on LynkMobile</title>
 <meta name="description" content="Interactive emulator of the LynkOmni Business app on a phone or tablet: getting in, selling with every payment method, stock, chats, every Business section and setting, agent point, restaurant and invoice-only businesses, online and offline on sandbox providers.">
@@ -2671,30 +2671,41 @@ function countryNamer(lang, packs, sampleWord) {
 }
 let FLAGS = null;
 function flagsShown() {
-    if (FLAGS !== null)
-        return FLAGS;
+    if (FLAGS === null) {
+        FLAGS = false;
+        setTimeout(lfDetectFlags, 0);
+    }
+    return FLAGS;
+}
+function lfDetectFlags() {
+    let yes = false;
     try {
         const cv = document.createElement("canvas");
         cv.width = 24;
         cv.height = 24;
         const x = cv.getContext("2d", { willReadFrequently: true });
-        if (!x)
-            return (FLAGS = false);
-        x.textBaseline = "top";
-        x.font = "20px sans-serif";
-        x.fillText(flagOf("FR"), 0, 0);
-        const d = x.getImageData(0, 0, 24, 24).data;
-        FLAGS = false;
-        for (let i = 0; i < d.length; i += 4)
-            if (d[i + 3] > 0 && (Math.abs(d[i] - d[i + 2]) > 60)) {
-                FLAGS = true;
-                break;
-            }
+        if (x) {
+            x.textBaseline = "top";
+            x.font = "20px sans-serif";
+            x.fillText(flagOf("FR"), 0, 0);
+            const d = x.getImageData(0, 0, 24, 24).data;
+            for (let i = 0; i < d.length; i += 4)
+                if (d[i + 3] > 0 && Math.abs(d[i] - d[i + 2]) > 60) {
+                    yes = true;
+                    break;
+                }
+        }
     }
     catch {
-        FLAGS = false;
+        yes = false;
     }
-    return FLAGS;
+    if (!yes)
+        return;
+    FLAGS = true;
+    for (const k of Object.keys(LF_OPTS))
+        delete LF_OPTS[k];
+    document.querySelectorAll(".lf-cc option").forEach((o) => { const f = flagOf(o.value); if (f && o.textContent?.startsWith(o.value))
+        o.textContent = f + o.textContent.slice(o.value.length); });
 }
 const flagOf = (code) => (/^[A-Z]{2}$/.test(code) && code !== "XX" ? String.fromCodePoint(...[...code].map((ch) => 0x1f1e6 + ch.charCodeAt(0) - 65)) : "");
 const countryMark = (code) => (flagsShown() && flagOf(code) ? flagOf(code) : code);
