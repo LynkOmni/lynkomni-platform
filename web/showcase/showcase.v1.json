@@ -51,6 +51,12 @@
    "version": "v0.108.0 (step 1: LynkHR and LynkProject rules), v0.109.0 (steps 2 and 3: the three in the cloud, contract version 19, trackers, messages, automations, chat cards and LynkAssist skills), v0.110.0 (step 4: the three on screen, the LynkFiles Signing Tablet, contract version 20), v0.111.0 (locked 25 November 2026)"
   },
   {
+   "n": "4C",
+   "title": "Fixes before section 5: phone and email fields, errors that say how to fix, no WhatsApp, sign-up and sign-in with LynkOmni's own security, the phone owner check",
+   "status": "building",
+   "version": "v0.112.0 (setup)"
+  },
+  {
    "n": 5,
    "title": "Website lynkomni.com"
   },
