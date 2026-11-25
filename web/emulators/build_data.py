@@ -20,7 +20,7 @@ def svg(path):
 
 
 # Shared word packs: an emulator that imports the module carries the folder's words too (one translation, used everywhere).
-SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/queuedesk.js", os.path.join("web", "shell")), ("ts/src/surveydesk.js", os.path.join("web", "shell")), ("ts/src/trackview.js", os.path.join("web", "tracking")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/ads.js", os.path.join("web", "pos")), ("ts/src/placeholder.js", os.path.join("web", "wait")), ("ts/src/sharedview.js", os.path.join("web", "shared")), ("ts/src/hints.js", os.path.join("web", "shell")), ("ts/src/footer.js", os.path.join("web", "footer")), ("ts/src/appshell.js", os.path.join("web", "navigation")), ("ts/src/chatview.js", os.path.join("web", "chat")), ("ts/src/assistview.js", os.path.join("web", "assist")), ("ts/src/officeview.js", os.path.join("web", "office")), ("ts/src/workview.js", os.path.join("web", "work")))
+SHARED_WORDS = (("ts/src/shell.js", os.path.join("web", "shell")), ("ts/src/deviceshell.js", os.path.join("web", "shell")), ("ts/src/queuedesk.js", os.path.join("web", "shell")), ("ts/src/surveydesk.js", os.path.join("web", "shell")), ("ts/src/trackview.js", os.path.join("web", "tracking")), ("ts/src/emulator.js", os.path.join("web", "pos")), ("ts/src/ads.js", os.path.join("web", "pos")), ("ts/src/placeholder.js", os.path.join("web", "wait")), ("ts/src/sharedview.js", os.path.join("web", "shared")), ("ts/src/hints.js", os.path.join("web", "shell")), ("ts/src/footer.js", os.path.join("web", "footer")), ("ts/src/appshell.js", os.path.join("web", "navigation")), ("ts/src/chatview.js", os.path.join("web", "chat")), ("ts/src/assistview.js", os.path.join("web", "assist")), ("ts/src/officeview.js", os.path.join("web", "office")), ("ts/src/workview.js", os.path.join("web", "work")), ("ts/src/fields.js", os.path.join("web", "fields")))
 
 
 def uses_shell(emulator):
@@ -295,7 +295,13 @@ def icons_used(emulator):
     return sorted(i for i in all_ids if i.startswith(("status-", "product-")) or re.search(r"[\"'`/:]" + re.escape(i) + r"[\"'`@]", text))
 
 
-def country_packs():
+def _phone(r):
+    if not r: return None
+    kind = lambda k: {"lengths": k["lengths"], "groups": k["groups"], "sample": k["sample"]}
+    return {"code": r["code"], "prefix": r["prefix"], "main": r["main"], "mobile": kind(r["mobile"]), "any": kind(r["any"])}
+
+
+def country_packs(phone=True):
     """Every country pack as the emulator's country chooser sees it, the sample pack first. What works in a country is read
     from the provider ledger, so a pack alone never switches a partner-backed method or service on."""
     ITEMS = {i["id"]: i for i in providers.items()}
@@ -317,6 +323,8 @@ def country_packs():
             "st": "".join("a" if providers.availability(sv, code)["state"] == "available" else "c" for sv, _, _ in SERVICES),
             # the payment methods the footer lists for this country (section 26 D: only what its pack supports)
             "card_networks": pack.get("card_networks") or [], "wallets": pack.get("wallets") or [], "providers": pack.get("providers") or [],
+            # phone numbering rules (section 4C point 1, tools/country_phone.py): dialling code, lengths, groups and sample
+            **({"ph": _phone(pack.get("phone"))} if phone else {}),
         }
     return {SAMPLE: out.pop(SAMPLE), **out}
 
@@ -343,7 +351,7 @@ def main(emulator):
     with open(os.path.join(ROOT, "design", "tokens.v1.json"), encoding="utf-8") as f:
         states = json.load(f)["states"]
     icons = {i: brand.icon_svg(i) for i in icons_used(emulator)}
-    packs = country_packs()
+    packs = country_packs(phone="ts/src/fields.js" in open(os.path.join(ROOT, "web", "emulators", emulator, "app.ts"), encoding="utf-8").read())
     off = providers.when_off("payments")
     pic = {th: visuals.get(off["visual"], th) for th in ("light", "dark")}
     # every screen state's picture (blueprint 41 B: every state is designed), in both themes and the sunlight contrast set

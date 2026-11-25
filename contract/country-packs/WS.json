@@ -169,5 +169,55 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "685",
+  "prefix": "",
+  "main": true,
+  "mobile": {
+   "lengths": [
+    7,
+    10
+   ],
+   "groups": {
+    "7": [
+     2,
+     5
+    ],
+    "10": [
+     3,
+     3,
+     4
+    ]
+   },
+   "sample": "7212345"
+  },
+  "any": {
+   "lengths": [
+    5,
+    6,
+    7,
+    10
+   ],
+   "groups": {
+    "5": [
+     5
+    ],
+    "6": [
+     6
+    ],
+    "7": [
+     2,
+     5
+    ],
+    "10": [
+     3,
+     3,
+     4
+    ]
+   },
+   "sample": "7212345"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

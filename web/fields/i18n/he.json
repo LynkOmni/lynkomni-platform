@@ -1,0 +1,24 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "he",
+ "native": "עברית",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "מדינה",
+  "fd_email_format": "הזינו כתובת אימייל כמו name@example.com.",
+  "fd_email_suggest": "האם התכוונתם ל-{email}?",
+  "fd_email_throwaway": "כתובת האימייל הזו קיימת לזמן קצר בלבד. השתמשו בכתובת שאתם שומרים.",
+  "fd_email_use": "שימוש ב-{email}",
+  "fd_error": "שגיאה",
+  "fd_example": "דוגמה: {sample}",
+  "fd_info": "מידע",
+  "fd_long": "למספרים ב{country} יש {n} ספרות. לא ניתן להוסיף עוד ספרות.",
+  "fd_ok": "המספר נראה תקין.",
+  "fd_range": "{from} עד {to}",
+  "fd_short": "המספר קצר מדי. למספרים ב{country} יש {n} ספרות.",
+  "fd_success": "בוצע",
+  "fd_warning": "אזהרה"
+ }
+}

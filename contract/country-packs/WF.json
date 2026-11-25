@@ -174,5 +174,44 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "681",
+  "prefix": "",
+  "main": true,
+  "mobile": {
+   "lengths": [
+    6
+   ],
+   "groups": {
+    "6": [
+     2,
+     2,
+     2
+    ]
+   },
+   "sample": "821234"
+  },
+  "any": {
+   "lengths": [
+    6,
+    9
+   ],
+   "groups": {
+    "6": [
+     2,
+     2,
+     2
+    ],
+    "9": [
+     3,
+     2,
+     2,
+     2
+    ]
+   },
+   "sample": "821234"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

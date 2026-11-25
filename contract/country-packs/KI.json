@@ -181,5 +181,41 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "686",
+  "prefix": "0",
+  "main": true,
+  "mobile": {
+   "lengths": [
+    8
+   ],
+   "groups": {
+    "8": [
+     3,
+     3,
+     2
+    ]
+   },
+   "sample": "72001234"
+  },
+  "any": {
+   "lengths": [
+    5,
+    8
+   ],
+   "groups": {
+    "5": [
+     5
+    ],
+    "8": [
+     3,
+     3,
+     2
+    ]
+   },
+   "sample": "72001234"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

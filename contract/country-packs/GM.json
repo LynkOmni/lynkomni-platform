@@ -187,5 +187,47 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "220",
+  "prefix": "",
+  "main": true,
+  "mobile": {
+   "lengths": [
+    7,
+    9
+   ],
+   "groups": {
+    "7": [
+     3,
+     4
+    ],
+    "9": [
+     3,
+     3,
+     3
+    ]
+   },
+   "sample": "3012345"
+  },
+  "any": {
+   "lengths": [
+    7,
+    9
+   ],
+   "groups": {
+    "7": [
+     3,
+     4
+    ],
+    "9": [
+     3,
+     3,
+     3
+    ]
+   },
+   "sample": "3012345"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

@@ -10,6 +10,7 @@ import { logoInitialsHtml } from "../../../ts/src/placeholder.js";
 import { SHARED_PAGES, sampleShared, sharedPage, sharedTitle, sharedAct, sharedInput, plansLimitsHtml } from "../../../ts/src/sharedview.js";
 import type { SharedLook, SharedPage, ConsentLink } from "../../../ts/src/sharedview.js";
 import { hintFor } from "../../../ts/src/hints.js";
+import { phoneFieldHtml, wireFields, countryNamer, phoneValue, phoneDisplay, type FieldCtx } from "../../../ts/src/fields.js";
 import { Cart, PosError, change, formatMoney, paymentPayload, paymentState, qtyText, quickCash, salePayload } from "../../../ts/src/pos.js";
 import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload, UserState } from "../../../ts/src/pos.js";
 import { adjust, afterSale, canChangeSettings, canSeeProfit, counted, daySummary, homeBlocks, insight, maySync, mode, pending, stockAlerts, stockState } from "../../../ts/src/merchant.js";
@@ -180,7 +181,7 @@ const S = {
   btype: "shop" as BusinessType, business: 0, setupDone: new Set<string>(), setupSkipped: new Set<string>(), shopName: "", firstWay: "",
   svc: "bills" as string, partner: PARTNERS[0]?.id ?? "", number: "", amount: "", reqs: [] as AgentReq[], req: "", cashIn: 150_000, usedToday: 0, outlet: "all", outletList: ["Main outlet", "Market outlet"], cashChecks: new Set<string>(),
   lang: "en", theme: "light" as "light" | "dark", link: "good" as Link, forced: false, realUser: false, country: "", outcome: "confirm" as "confirm" | "fail" | "silent",
-  role: "owner" as Role, perms: { staffSeeProfit: false }, phone: "", code: "", input: "", note: "", flash: "", category: "all", search: "",
+  role: "owner" as Role, perms: { staffSeeProfit: false }, phoneCc: {} as Record<string, string>, phone: "", code: "", input: "", note: "", flash: "", category: "all", search: "",
   cart: new Cart(), current: null as Sale | null, sales: [] as Sale[], events: [] as Ev[], levels: { ...START } as Levels, flagged: new Set<string>(),
   branchLevels: {} as Record<string, Record<string, number>>,
   discount: 0, saleNote: "", customer: "", parts: [] as { way: string; amount: number }[], receiptWay: "",
@@ -965,12 +966,12 @@ function sell(): string {
       const w = payWay(S.receiptWay || "mobile_money");
       const needsNumber = w?.id === "mobile_money";
       return `${topBar(t("way_" + (w?.id ?? "mobile_money")), "view:pay")}<div class="body">${due(tot)}
-        ${needsNumber ? `<label class="field"><span>${esc(t("customer_phone"))}</span><input id="momoIn" inputmode="tel" autocomplete="off" value="${esc(S.input)}" data-in="momo" placeholder="${esc(hintFor("phone", t, locale()))}" aria-label="${esc(t("customer_phone"))}"></label>` : ""}
+        ${needsNumber ? phoneField("momoIn", t("customer_phone"), S.input) : ""}
         ${w?.id === "qr" ? `<div class="qrbox" role="img" aria-label="${esc(t("pay_qr_shown"))}">${icon("ui-qr", "bigqr")}<p>${esc(t("pay_qr_shown"))}</p></div>` : ""}
         ${w?.id === "pay_link" ? `<p class="info">${icon("ui-info")}<span>${esc(t("pay_link_sent"))}</span></p>` : ""}
         ${w?.id === "tap_to_pay" || w?.id === "card" ? `<div class="tapbox">${icon("ui-pay-card", "bigqr")}<p>${esc(t(w.id === "tap_to_pay" ? "tap_phone" : "tap_terminal"))}</p></div>` : ""}
         <p class="info sbx">${icon("ui-info")}<span>${esc(t("sandbox"))}: ${esc(t("test_money"))}</span></p></div>
-        <div class="foot"><button class="primary" data-act="payonline" data-wait ${!needsNumber || S.input.replace(/\D/g, "").length >= 9 ? "" : "disabled"}>${esc(t("send_to_partner"))}</button></div>`;
+        <div class="foot"><button class="primary" data-act="payonline" data-wait ${!needsNumber || phoneOk("momoIn") ? "" : "disabled"}>${esc(t("send_to_partner"))}</button></div>`;
     }
     case "credit": {
       const c2 = cust(), need = creditNeedsCustomer("credit", S.customer || null);
@@ -1620,14 +1621,14 @@ function agentFlow(): string {
   }
   return `${topBar(t(`svc_${S.svc}`), "tab:services")}<div class="body">
     <label class="field"><span>${esc(t("partner"))}</span><select data-in="partner">${PARTNERS.map((x) => `<option value="${x.id}" ${x.id === p.id ? "selected" : ""}>${esc(t(x.name))}</option>`).join("")}</select></label>
-    <label class="field"><span>${esc(t("customer_number"))}</span><input inputmode="tel" autocomplete="off" data-in="anum" id="anumIn" value="${esc(S.number)}" placeholder="${esc(hintFor("phone", t, locale()))}" aria-label="${esc(t("customer_number"))}"></label>
+    ${phoneField("anumIn", t("customer_number"), S.number)}
     ${isFinance ? "" : `<label class="field"><span>${esc(t("amount"))}</span><input inputmode="numeric" autocomplete="off" data-in="aamt" id="aamtIn" value="${esc(S.amount)}" placeholder="${esc(hintFor("amount", t, locale()))}" aria-label="${esc(t("amount"))}"></label>
     <div class="card"><div class="kv"><span>${esc(t("fee"))}</span><strong>${esc(money(fee))}</strong></div><div class="kv"><span>${esc(t("commission"))}</span><strong>${esc(money(commission(amount, p.bps)))}</strong></div>
       <p class="sub">${esc(t("limit_line", { per: money(lim.per_transaction), day: money(lim.per_day) }))}</p></div>
     ${amount && limitCheck(amount, S.usedToday, lim) !== "ok" ? `<p class="alert neg" role="alert">${icon("ui-warning")}<span>${esc(t("limit_exceeded"))}</span></p>` : ""}`}
     <p class="info">${icon("ui-info")}<span>${esc(t(isFinance ? "referred" : "identity_check"))}</span></p>
     ${online() ? "" : `<p class="alert low">${icon("ui-offline")}<span>${esc(t("online_only"))}</span></p>`}
-    <button class="primary inline" data-act="agentsend" data-wait ${online() && S.number.length >= 4 && (isFinance || (amount > 0 && limitCheck(amount, S.usedToday, lim) === "ok")) ? "" : "disabled"}>${esc(t("send_to_partner"))}</button></div>`;
+    <button class="primary inline" data-act="agentsend" data-wait ${online() && phoneOk("anumIn") && (isFinance || (amount > 0 && limitCheck(amount, S.usedToday, lim) === "ok")) ? "" : "disabled"}>${esc(t("send_to_partner"))}</button></div>`;
 }
 function agentFloat(): string {
   return `${topBar(t("float"))}<div class="body">${PARTNERS.map((p) => { const days = floatForecastDays(p.float, usual(p));
@@ -1704,11 +1705,11 @@ function signin(): string {
   const mark = brandMark(DATA.brand.places, "auth-onboarding", S.theme === "dark", "mark");   // sign-in and onboarding: the full logo (30)
   if (S.screen === "phone") {
     return `<div class="signin" data-gi="sign_in">${mark}<h1>${esc(t("welcome"))}</h1><p>${esc(t("works_anywhere"))}</p>
-      <label class="field"><span>${esc(t("your_phone"))}</span><input id="phoneIn" inputmode="tel" autocomplete="off" value="${esc(S.phone)}" data-in="phone" placeholder="${esc(hintFor("phone", t, locale()))}" aria-label="${esc(t("your_phone"))}"></label>
-      <p class="note" role="alert">${esc(S.note)}</p><div class="grow"></div><button class="primary" data-act="sendcode" data-wait ${S.phone.replace(/\D/g, "").length >= 9 ? "" : "disabled"}>${esc(t("send_code"))}</button></div>`;
+      ${phoneField("phoneIn", t("your_phone"), S.phone)}
+      <p class="note" role="alert">${esc(S.note)}</p><div class="grow"></div><button class="primary" data-act="sendcode" data-wait data-needs-phone="phoneIn" ${phoneOk("phoneIn") ? "" : "disabled"}>${esc(t("send_code"))}</button></div>`;
   }
   if (S.screen === "code") {
-    return `<div class="signin" data-gi="sign_in">${mark}<h1>${esc(t("verify"))}</h1><p>${esc(t("enter_code", { phone: S.phone }))}</p>
+    return `<div class="signin" data-gi="sign_in">${mark}<h1>${esc(t("verify"))}</h1><p dir="auto">${esc(t("enter_code", { phone: phoneDisplay(fieldCtx(), cc("phoneIn"), S.phone) }))}</p>
       <label class="field"><span>${esc(t("verify"))}</span><input id="codeIn" inputmode="numeric" autocomplete="one-time-code" value="${esc(S.code)}" data-in="code"></label>
       <p class="note" role="alert">${esc(S.note)}</p><p class="info sbx">${icon("ui-info")}<span>${esc(t("sandbox"))}: ${esc(t("code_hint"))}</span></p><div class="grow"></div>
       <button class="primary" data-act="verify" ${S.code.length === 6 ? "" : "disabled"}>${esc(t("verify"))}</button></div>`;
@@ -1742,7 +1743,7 @@ function setup(): string {
       <div class="reasons">${(["shop", "no_till", "agent_point", "restaurant"] as BusinessType[]).map((b) => `<button data-act="btype:${b}" aria-pressed="${S.btype === b}">${esc(t("type_" + b))}</button>`).join("")}</div>`; break;
     case "currency": body = `<p class="kv"><span>${esc(t("st_currency"))}</span><strong>${esc(pack().currency)}</strong></p><p class="sub">${esc(t("currency_from_region"))}</p>`; break;
     case "first_products": body = `<div class="quick">${FIRST_PRODUCT_WAYS.map((w) => `<button data-act="firstway:${w}" aria-pressed="${S.firstWay === w}">${esc(t("way_add_" + w))}</button>`).join("")}</div>`; break;
-    case "invite_staff": body = `<label class="field"><span>${esc(t("staff_phone"))}</span><input id="staffIn" inputmode="tel" data-in="staffphone" value="${esc(S.staffPhone)}" autocomplete="off" placeholder="${esc(hintFor("phone", t, locale()))}" aria-label="${esc(t("staff_phone"))}"></label>`; break;
+    case "invite_staff": body = phoneField("staffIn", t("staff_phone"), S.staffPhone); break;
     case "print_shop_qr": body = `<div class="qrbox" role="img" aria-label="${esc(t("shop_qr"))}">${icon("ui-qr", "bigqr")}<p>${esc(t("shop_qr"))}</p></div>`; break;
     default: body = `<p>${esc(t("setup_ready"))}</p>`;
   }
@@ -1817,7 +1818,23 @@ const DM = new DeviceMode(DEVICES, "smartphone");
  *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
 const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "pos.merchant_phone", "Phone", { short_side: 390, touch: true, camera: true, speaker: true, device_print: true }, "android"), (type, payload, origin) => { emit(type, payload, origin); });
 const KW = wireKit(KIT, { t, icon: (id, cls) => icon(id, cls), online: () => online(), redraw: () => draw() });
-function draw(): void { drawScreen(); KW.after($("#app")); }
+function draw(): void { drawScreen(); KW.after($("#app")); wireFields($("#app"), fieldCtx()); }
+// Section 4C point 1: every phone field is the shared part (ts/src/fields.ts); its country starts on the device's country.
+const fieldState: Record<string, (d: string) => void> = { phoneIn: (d) => { S.phone = d; }, staffIn: (d) => { S.staffPhone = d; }, momoIn: (d) => { S.input = d; }, anumIn: (d) => { S.number = d; } };
+const cc = (id: string): string => S.phoneCc[id] ?? pack().code;
+let FIELD_CTX: { key: string; ctx: FieldCtx } | null = null;
+function fieldCtx(): FieldCtx {
+  const key = `${locale()}|${S.lang}`;
+  if (FIELD_CTX?.key === key) return FIELD_CTX.ctx;
+  FIELD_CTX = { key, ctx: makeFieldCtx() };
+  return FIELD_CTX.ctx;
+}
+function makeFieldCtx(): FieldCtx {
+  return { t, lang: locale(), packs: DATA.packs as unknown as FieldCtx["packs"], packOrder: DATA.packOrder, countryName: countryNamer(locale(), DATA.packs as unknown as FieldCtx["packs"], t("sample_country")),
+    onPhone: (id, v) => { const was = phoneOk(id); S.phoneCc[id] = v.country; fieldState[id]?.(v.digits); if (was !== v.valid && id !== "phoneIn" && id !== "staffIn") draw(); } };
+}
+const phoneOk = (id: string, digits?: string): boolean => phoneValue(fieldCtx(), cc(id), digits ?? ({ phoneIn: S.phone, staffIn: S.staffPhone, momoIn: S.input, anumIn: S.number } as Record<string, string>)[id] ?? "").valid;
+const phoneField = (id: string, label: string, digits: string): string => phoneFieldHtml(fieldCtx(), { id, label, country: cc(id), digits });
 function drawScreen(): void {
   const d = $("#display"); DM.device = S.size === "tablet" ? "tablet" : S.size === "web" ? "computer" : "smartphone"; DM.version = S.size === "web" ? "non_touch" : "touch"; DM.apply(d);
   const ae = document.activeElement, focus = (ae instanceof HTMLInputElement || ae instanceof HTMLTextAreaElement) && d.contains(ae) ? { id: ae.id, key: ae.dataset["in"] ?? "", at: ae.selectionStart } : null;   // typed text keeps its place across a redraw
@@ -2074,11 +2091,8 @@ function onInput(el: HTMLInputElement): void {
   if (k === "emp_filter") { EMP.filter = el.value.slice(0, 40); draw(); return; }
   switch (k) {
     case "cash": case "split": case "cashnum": S.input = digits(9); draw(); return;
-    case "momo": S.input = el.value.replace(/[^\d ]/g, "").slice(0, 15); draw(); return;
-    case "phone": S.phone = el.value.replace(/[^\d +]/g, "").slice(0, 16); draw(); return;
     case "code": S.code = digits(6); draw(); return;
     case "chat": S.draft = el.value.slice(0, 500); return;
-    case "anum": S.number = el.value.replace(/[^\d ]/g, "").slice(0, 16); draw(); return;
     case "aamt": S.amount = digits(9); draw(); return;
     case "discount": S.discount = Math.min(S.cart.total(), Number(digits(9) || "0")); draw(); return;
     case "salenote": S.saleNote = el.value.slice(0, 140); return;
@@ -2087,7 +2101,6 @@ function onInput(el: HTMLInputElement): void {
     case "ppcode": PP.input = el.value.replace(/\D/g, "").slice(0, 6); PP.note = ""; draw(); return;
     case "username": S.userDraft = el.value.slice(0, 40); draw(); return;
     case "shopname": S.shopName = el.value.slice(0, 60); return;
-    case "staffphone": S.staffPhone = el.value.replace(/[^\d +]/g, "").slice(0, 16); return;
   }
 }
 function m3Change(k: string, el: HTMLInputElement & HTMLSelectElement): void {

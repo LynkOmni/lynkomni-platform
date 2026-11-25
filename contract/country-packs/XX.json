@@ -135,5 +135,37 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "999",
+  "prefix": "0",
+  "main": true,
+  "source": "sample rules for the neutral sample pack, never a real country",
+  "mobile": {
+   "lengths": [
+    9
+   ],
+   "groups": {
+    "9": [
+     3,
+     3,
+     3
+    ]
+   },
+   "sample": "612345678"
+  },
+  "any": {
+   "lengths": [
+    9
+   ],
+   "groups": {
+    "9": [
+     3,
+     3,
+     3
+    ]
+   },
+   "sample": "612345678"
+  }
  }
 }

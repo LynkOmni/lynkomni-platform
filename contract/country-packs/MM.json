@@ -203,5 +203,75 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "95",
+  "prefix": "0",
+  "main": true,
+  "mobile": {
+   "lengths": [
+    7,
+    8,
+    9,
+    10
+   ],
+   "groups": {
+    "7": [
+     3,
+     4
+    ],
+    "8": [
+     1,
+     3,
+     4
+    ],
+    "9": [
+     1,
+     3,
+     5
+    ],
+    "10": [
+     1,
+     3,
+     6
+    ]
+   },
+   "sample": "92123456"
+  },
+  "any": {
+   "lengths": [
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "groups": {
+    "6": [
+     6
+    ],
+    "7": [
+     3,
+     4
+    ],
+    "8": [
+     1,
+     3,
+     4
+    ],
+    "9": [
+     1,
+     3,
+     5
+    ],
+    "10": [
+     1,
+     3,
+     6
+    ]
+   },
+   "sample": "92123456"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

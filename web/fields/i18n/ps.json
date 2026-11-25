@@ -1,0 +1,24 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ps",
+ "native": "پښتو",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "هېواد",
+  "fd_email_format": "د name@example.com په څېر برېښنالیک پته ولیکئ.",
+  "fd_email_suggest": "ستاسو مطلب {email} و؟",
+  "fd_email_throwaway": "دا برېښنالیک پته یوازې لنډ وخت پاتې کېږي. هغه پته وکاروئ چې ساتئ یې.",
+  "fd_email_use": "{email} وکاروئ",
+  "fd_error": "تېروتنه",
+  "fd_example": "بېلګه: {sample}",
+  "fd_info": "معلومات",
+  "fd_long": "په {country} کې شمېرې {n} عددونه لري. نور عددونه نه ورزیاتېږي.",
+  "fd_ok": "شمېره سمه ښکاري.",
+  "fd_range": "له {from} تر {to}",
+  "fd_short": "دا شمېره ډېره لنډه ده. په {country} کې شمېرې {n} عددونه لري.",
+  "fd_success": "بشپړ شو",
+  "fd_warning": "خبرداری"
+ }
+}

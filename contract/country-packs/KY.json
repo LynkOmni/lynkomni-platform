@@ -173,5 +173,37 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "1",
+  "prefix": "1",
+  "main": false,
+  "mobile": {
+   "lengths": [
+    10
+   ],
+   "groups": {
+    "10": [
+     3,
+     3,
+     4
+    ]
+   },
+   "sample": "3453231234"
+  },
+  "any": {
+   "lengths": [
+    10
+   ],
+   "groups": {
+    "10": [
+     3,
+     3,
+     4
+    ]
+   },
+   "sample": "3453231234"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

@@ -1,0 +1,24 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "rw",
+ "native": "Ikinyarwanda",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "Igihugu",
+  "fd_email_format": "Andika aderesi ya imeli nka name@example.com.",
+  "fd_email_suggest": "Washakaga kuvuga {email}?",
+  "fd_email_throwaway": "Iyi aderesi ya imeli imara igihe gito gusa. Koresha aderesi ugumana.",
+  "fd_email_use": "Koresha {email}",
+  "fd_error": "Ikosa",
+  "fd_example": "Urugero: {sample}",
+  "fd_info": "Amakuru",
+  "fd_long": "Nimero zo muri {country} zigira imibare {n}. Imibare irenze ntiyongerwamo.",
+  "fd_ok": "Nimero isa n'iyo ari yo.",
+  "fd_range": "kuva kuri {from} kugeza kuri {to}",
+  "fd_short": "Iyi nimero ni ngufi cyane. Nimero zo muri {country} zigira imibare {n}.",
+  "fd_success": "Byarangiye",
+  "fd_warning": "Iburira"
+ }
+}

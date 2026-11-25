@@ -1,0 +1,24 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "fil",
+ "native": "Filipino",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "Bansa",
+  "fd_email_format": "Maglagay ng email address gaya ng name@example.com.",
+  "fd_email_suggest": "Ang ibig mo bang sabihin ay {email}?",
+  "fd_email_throwaway": "Sandali lang tatagal ang email address na ito. Gumamit ng email address na itatago mo.",
+  "fd_email_use": "Gamitin ang {email}",
+  "fd_error": "Mali",
+  "fd_example": "Halimbawa: {sample}",
+  "fd_info": "Impormasyon",
+  "fd_long": "Ang mga numero sa {country} ay may {n} digit. Hindi na madaragdagan ng digit.",
+  "fd_ok": "Mukhang tama ang numero.",
+  "fd_range": "{from} hanggang {to}",
+  "fd_short": "Masyadong maikli ang numerong ito. Ang mga numero sa {country} ay may {n} digit.",
+  "fd_success": "Tapos na",
+  "fd_warning": "Babala"
+ }
+}

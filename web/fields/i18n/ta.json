@@ -1,0 +1,24 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ta",
+ "native": "தமிழ்",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "நாடு",
+  "fd_email_format": "name@example.com போன்ற மின்னஞ்சல் முகவரியை உள்ளிடுங்கள்.",
+  "fd_email_suggest": "{email} என்று சொல்ல வந்தீர்களா?",
+  "fd_email_throwaway": "இந்த மின்னஞ்சல் முகவரி சிறிது நேரமே இருக்கும். நீங்கள் வைத்திருக்கும் முகவரியைப் பயன்படுத்துங்கள்.",
+  "fd_email_use": "{email} பயன்படுத்து",
+  "fd_error": "பிழை",
+  "fd_example": "உதாரணம்: {sample}",
+  "fd_info": "தகவல்",
+  "fd_long": "{country} எண்களில் {n} இலக்கங்கள் இருக்கும். கூடுதல் இலக்கங்கள் சேர்க்கப்படாது.",
+  "fd_ok": "எண் சரியாகத் தெரிகிறது.",
+  "fd_range": "{from} முதல் {to}",
+  "fd_short": "இந்த எண் மிகவும் குறுகியது. {country} எண்களில் {n} இலக்கங்கள் இருக்கும்.",
+  "fd_success": "முடிந்தது",
+  "fd_warning": "எச்சரிக்கை"
+ }
+}

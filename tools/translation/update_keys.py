@@ -19,7 +19,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 sys.path.insert(0, ROOT)
 from services import translation as t  # noqa: E402
 
-SHARED = {"shell": os.path.join(ROOT, "web", "shell"), "pos": os.path.join(ROOT, "web", "pos"), "footer": os.path.join(ROOT, "web", "footer"), "tracking": os.path.join(ROOT, "web", "tracking"), "navigation": os.path.join(ROOT, "web", "navigation"), "chat": os.path.join(ROOT, "web", "chat"), "assist": os.path.join(ROOT, "web", "assist"), "office": os.path.join(ROOT, "web", "office"), "names": os.path.join(ROOT, "web", "names"), "nameinfo": os.path.join(ROOT, "web", "nameinfo"), "wait": os.path.join(ROOT, "web", "wait")}
+SHARED = {"shell": os.path.join(ROOT, "web", "shell"), "pos": os.path.join(ROOT, "web", "pos"), "footer": os.path.join(ROOT, "web", "footer"), "tracking": os.path.join(ROOT, "web", "tracking"), "navigation": os.path.join(ROOT, "web", "navigation"), "chat": os.path.join(ROOT, "web", "chat"), "assist": os.path.join(ROOT, "web", "assist"), "office": os.path.join(ROOT, "web", "office"), "names": os.path.join(ROOT, "web", "names"), "nameinfo": os.path.join(ROOT, "web", "nameinfo"), "wait": os.path.join(ROOT, "web", "wait"), "fields": os.path.join(ROOT, "web", "fields")}
 
 
 def main(target, changes_path):

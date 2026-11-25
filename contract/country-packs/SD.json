@@ -177,5 +177,37 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "249",
+  "prefix": "0",
+  "main": true,
+  "mobile": {
+   "lengths": [
+    9
+   ],
+   "groups": {
+    "9": [
+     2,
+     3,
+     4
+    ]
+   },
+   "sample": "911231234"
+  },
+  "any": {
+   "lengths": [
+    9
+   ],
+   "groups": {
+    "9": [
+     2,
+     3,
+     4
+    ]
+   },
+   "sample": "911231234"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

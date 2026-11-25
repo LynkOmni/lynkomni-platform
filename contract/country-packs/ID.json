@@ -183,5 +183,124 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "62",
+  "prefix": "0",
+  "main": true,
+  "mobile": {
+   "lengths": [
+    9,
+    10,
+    11,
+    12
+   ],
+   "groups": {
+    "9": [
+     3,
+     3,
+     3
+    ],
+    "10": [
+     3,
+     4,
+     3
+    ],
+    "11": [
+     3,
+     4,
+     4
+    ],
+    "12": [
+     3,
+     4,
+     5
+    ]
+   },
+   "sample": "812345678"
+  },
+  "any": {
+   "lengths": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+   ],
+   "groups": {
+    "7": [
+     3,
+     4
+    ],
+    "8": [
+     3,
+     3,
+     2
+    ],
+    "9": [
+     3,
+     3,
+     3
+    ],
+    "10": [
+     3,
+     4,
+     3
+    ],
+    "11": [
+     3,
+     4,
+     4
+    ],
+    "12": [
+     3,
+     4,
+     5
+    ],
+    "13": [
+     3,
+     3,
+     3,
+     4
+    ],
+    "14": [
+     3,
+     3,
+     3,
+     3,
+     2
+    ],
+    "15": [
+     3,
+     3,
+     3,
+     3,
+     3
+    ],
+    "16": [
+     3,
+     3,
+     3,
+     3,
+     4
+    ],
+    "17": [
+     3,
+     3,
+     3,
+     3,
+     3,
+     2
+    ]
+   },
+   "sample": "812345678"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

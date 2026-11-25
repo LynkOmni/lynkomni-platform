@@ -1,0 +1,24 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "fa",
+ "native": "فارسی",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "کشور",
+  "fd_email_format": "یک نشانی ایمیل مانند name@example.com وارد کنید.",
+  "fd_email_suggest": "منظورتان {email} بود؟",
+  "fd_email_throwaway": "این نشانی ایمیل فقط مدت کوتاهی می‌ماند. از نشانی‌ای استفاده کنید که نگه می‌دارید.",
+  "fd_email_use": "استفاده از {email}",
+  "fd_error": "خطا",
+  "fd_example": "نمونه: {sample}",
+  "fd_info": "اطلاعات",
+  "fd_long": "شماره‌ها در {country} {n} رقم دارند. رقم بیشتری اضافه نمی‌شود.",
+  "fd_ok": "شماره درست به نظر می‌رسد.",
+  "fd_range": "{from} تا {to}",
+  "fd_short": "این شماره خیلی کوتاه است. شماره‌ها در {country} {n} رقم دارند.",
+  "fd_success": "انجام شد",
+  "fd_warning": "هشدار"
+ }
+}

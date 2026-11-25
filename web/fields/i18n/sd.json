@@ -1,0 +1,24 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "sd",
+ "native": "سنڌي",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "ملڪ",
+  "fd_email_format": "name@example.com جهڙو اي ميل پتو لکو.",
+  "fd_email_suggest": "ڇا توهان جو مطلب {email} هو؟",
+  "fd_email_throwaway": "هي اي ميل پتو ٿوري وقت لاءِ رهي ٿو. اهو پتو استعمال ڪريو جيڪو توهان رکو ٿا.",
+  "fd_email_use": "{email} استعمال ڪريو",
+  "fd_error": "غلطي",
+  "fd_example": "مثال: {sample}",
+  "fd_info": "معلومات",
+  "fd_long": "{country} ۾ نمبرن جا {n} انگ ٿين ٿا. وڌيڪ انگ شامل نٿا ٿين.",
+  "fd_ok": "نمبر صحيح لڳي ٿو.",
+  "fd_range": "{from} کان {to}",
+  "fd_short": "هي نمبر تمام ننڍو آهي. {country} ۾ نمبرن جا {n} انگ ٿين ٿا.",
+  "fd_success": "مڪمل",
+  "fd_warning": "خبرداري"
+ }
+}

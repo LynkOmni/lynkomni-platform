@@ -173,5 +173,43 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "591",
+  "prefix": "0",
+  "main": true,
+  "mobile": {
+   "lengths": [
+    8
+   ],
+   "groups": {
+    "8": [
+     3,
+     3,
+     2
+    ]
+   },
+   "sample": "71234567"
+  },
+  "any": {
+   "lengths": [
+    8,
+    9
+   ],
+   "groups": {
+    "8": [
+     3,
+     3,
+     2
+    ],
+    "9": [
+     3,
+     3,
+     3
+    ]
+   },
+   "sample": "71234567"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

@@ -167,5 +167,46 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "44",
+  "prefix": "0",
+  "main": false,
+  "mobile": {
+   "lengths": [
+    10
+   ],
+   "groups": {
+    "10": [
+     4,
+     6
+    ]
+   },
+   "sample": "7781123456"
+  },
+  "any": {
+   "lengths": [
+    7,
+    9,
+    10
+   ],
+   "groups": {
+    "7": [
+     3,
+     4
+    ],
+    "9": [
+     3,
+     3,
+     3
+    ],
+    "10": [
+     4,
+     6
+    ]
+   },
+   "sample": "7781123456"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }

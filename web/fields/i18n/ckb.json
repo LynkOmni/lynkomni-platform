@@ -1,0 +1,24 @@
+{
+ "dir": "rtl",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ckb",
+ "native": "کوردی",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "وڵات",
+  "fd_email_format": "ناونیشانی ئیمەیڵێک وەک name@example.com بنووسە.",
+  "fd_email_suggest": "مەبەستت {email} بوو؟",
+  "fd_email_throwaway": "ئەم ناونیشانی ئیمەیڵە تەنها بۆ ماوەیەکی کورت دەمێنێتەوە. ناونیشانێک بەکاربهێنە کە هەڵیدەگریت.",
+  "fd_email_use": "{email} بەکاربهێنە",
+  "fd_error": "هەڵە",
+  "fd_example": "نموونە: {sample}",
+  "fd_info": "زانیاری",
+  "fd_long": "ژمارەکان لە {country} {n} ڕەقەمیان هەیە. ڕەقەمی زیاتر زیاد ناکرێت.",
+  "fd_ok": "ژمارەکە دروست دیارە.",
+  "fd_range": "{from} بۆ {to}",
+  "fd_short": "ئەم ژمارەیە زۆر کورتە. ژمارەکان لە {country} {n} ڕەقەمیان هەیە.",
+  "fd_success": "تەواو",
+  "fd_warning": "ئاگاداری"
+ }
+}

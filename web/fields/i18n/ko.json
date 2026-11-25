@@ -1,0 +1,24 @@
+{
+ "dir": "ltr",
+ "engine": "claude-opus-5-5",
+ "kept_in_english": [],
+ "lang": "ko",
+ "native": "한국어",
+ "source_sha256": "3ee3ef8c50c2825ae696762361b9155a68656e64ac84b0d17e2ce5371c11b5cc",
+ "texts": {
+  "fd_country": "국가",
+  "fd_email_format": "name@example.com 같은 이메일 주소를 입력하세요.",
+  "fd_email_suggest": "{email}을(를) 입력하려고 하셨나요?",
+  "fd_email_throwaway": "이 이메일 주소는 잠시만 쓸 수 있습니다. 계속 쓰는 주소를 입력하세요.",
+  "fd_email_use": "{email} 사용",
+  "fd_error": "오류",
+  "fd_example": "예: {sample}",
+  "fd_info": "안내",
+  "fd_long": "{country}의 번호는 {n}자리입니다. 더 이상 숫자가 입력되지 않습니다.",
+  "fd_ok": "번호가 올바른 것 같습니다.",
+  "fd_range": "{from}~{to}",
+  "fd_short": "번호가 너무 짧습니다. {country}의 번호는 {n}자리입니다.",
+  "fd_success": "완료",
+  "fd_warning": "경고"
+ }
+}

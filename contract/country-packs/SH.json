@@ -159,5 +159,37 @@
   "cancel_notice_hours_min": null,
   "confirmed": false,
   "note": "Set per country after the lawyer and accountant review (ledger item booking_country_rules); unknown until then."
+ },
+ "phone": {
+  "code": "290",
+  "prefix": "",
+  "main": true,
+  "mobile": {
+   "lengths": [
+    5
+   ],
+   "groups": {
+    "5": [
+     5
+    ]
+   },
+   "sample": "51234"
+  },
+  "any": {
+   "lengths": [
+    4,
+    5
+   ],
+   "groups": {
+    "4": [
+     4
+    ],
+    "5": [
+     5
+    ]
+   },
+   "sample": "51234"
+  },
+  "source": "worldwide numbering data (phonenumbers 9.0.44, Apache 2.0)"
  }
 }
