@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "একাডেমি",
   "academy_hint": "একটি ছোট কোর্স যে স্ক্রিন শেখায় তার পাশে খোলে।",
@@ -228,6 +228,7 @@
   "key_recall": "ফিরিয়ে আনুন",
   "key_right": "ডানে",
   "key_up": "উপরে",
+  "key_up_level": "এক স্তর ওপরে",
   "kitchen": "রান্নাঘর",
   "kitchen_items_open": "রান্নাঘরের আইটেম এখনও খোলা",
   "kitchen_queue": "রান্নাঘরের সারি",

@@ -749,7 +749,9 @@
       "4"
      ],
      "part": "The connections register, its tests and map; the cross-service journeys sale to books and quote to cash; every new automation registered; the automation system improvements; the shared role system, calendar, address book, timeline, recycle bin, consent page, \"my plans and limits\", data dictionary, offline clash rules, the test copy; breadcrumbs for the new paths with sibling lists and the \"up one level\" key; the LynkAssist register extended, cross-service questions and plans, the morning brief, \"Why did this change?\", scheduled and saved questions, the owner's switches, visible memory, usage meter; the message register extended, smart, role and rota routing, role inboxes, urgent broadcast, delivery states, reply by text, reply-by-email and email-in, wording edits, test mode, fair-use guard, corrections",
-     "done": {},
+     "done": {
+      "4": "v0.105.0"
+     },
      "progress": {
       "4": [
        "v0.54.0: the connections register (catalog/connections.v1.json, 49 links joining every service, with their events, consent and build section), its reading module core/connections.py and its tests; the ten journeys of 71.2 registered, with sale to books and quote to cash due in section 4",
@@ -757,7 +759,8 @@
        "v0.101.0: the shared role system, calendar, address book, timeline, audit viewer, recycle bin, consent page, plans and limits, data dictionary and test copy in the cloud",
        "v0.102.0: the shared parts on screen on the phone and the owner's computer view",
        "v0.103.0: LynkAssist across services (questions with sources and role-based hiding, plans, the morning brief, saved questions, the usage meter)",
-       "v0.104.0: the message system in the cloud (smart, role and rota routing with the call as the last step, role inboxes, urgent broadcast, reply by text and email, email-in, wording edits with test mode, good time, results, fair-use guard, corrections, delivery states on records) and breadcrumb sibling lists and the up-one-level rule; screens follow in step 4b"
+       "v0.104.0: the message system in the cloud (smart, role and rota routing with the call as the last step, role inboxes, urgent broadcast, reply by text and email, email-in, wording edits with test mode, good time, results, fair-use guard, corrections, delivery states on records) and breadcrumb sibling lists and the up-one-level rule; screens follow in step 4b",
+       "v0.105.0: the message pages on screen (team inbox, urgent message, forward by email, message wording with test mode, message results), breadcrumb sibling lists, Copy link and the up-one-level key on every keyboard, and the one set of offline clash rules; the owner's switches and visible memory came with LynkAssist's trust layer (v0.66.0 and v0.67.0)"
       ]
      }
     },

@@ -572,6 +572,18 @@
    {
     "screen": "contacts",
     "via": "tap"
+   },
+   {
+    "screen": "role_inbox",
+    "via": "tap"
+   },
+   {
+    "screen": "broadcast",
+    "via": "tap"
+   },
+   {
+    "screen": "message_results",
+    "via": "tap"
    }
   ],
   "settings": [
@@ -589,6 +601,14 @@
    },
    {
     "screen": "audit",
+    "via": "tap"
+   },
+   {
+    "screen": "email_in",
+    "via": "tap"
+   },
+   {
+    "screen": "message_wording",
     "via": "tap"
    }
   ],

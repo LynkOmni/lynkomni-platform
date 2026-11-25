@@ -7,7 +7,7 @@
  *  ts/src/pos.ts, merchant.ts, business.ts and agent.ts; payments and the cloud are sandboxes (test money only).
  *  Draft until a designer reviews it. Built into one offline HTML file by web/build.mjs; colours only from the design tokens. */
 import { logoInitialsHtml } from "../../../ts/src/placeholder.js";
-import { SHARED_PAGES, sampleShared, sharedPage, sharedTitle, sharedAct, plansLimitsHtml } from "../../../ts/src/sharedview.js";
+import { SHARED_PAGES, sampleShared, sharedPage, sharedTitle, sharedAct, sharedInput, plansLimitsHtml } from "../../../ts/src/sharedview.js";
 import type { SharedLook, SharedPage, ConsentLink } from "../../../ts/src/sharedview.js";
 import { hintFor } from "../../../ts/src/hints.js";
 import { Cart, PosError, change, formatMoney, paymentPayload, paymentState, qtyText, quickCash, salePayload } from "../../../ts/src/pos.js";
@@ -1445,7 +1445,8 @@ const SHV = sampleShared(Math.floor(Date.now() / 1000));
 const shvLook = (): SharedLook => ({ t, esc, icon: (id) => icon(id), name: (f) => forFamily(f) ?? f,
   date: (secs) => new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, day: "numeric", month: "short" }).format(secs * 1000), btn: { primary: "primary inline", secondary: "ghost inline" },
   toggle: (on, act, label, why) => `<label class="switch mini"><span class="sr">${esc(label)}</span><input type="checkbox" data-act="${esc(act)}"${on ? " checked" : ""}${why ? ` disabled data-why="${esc(why)}"` : ""}></label>` });
-const SHV_BACK: Record<SharedPage, string> = { calendar: "view:main", contacts: "view:main", recycle_bin: "hub:settings", audit: "hub:settings", consents: "hub:settings", test_copy: "hub:settings" };
+const SHV_BACK: Record<SharedPage, string> = { calendar: "view:main", contacts: "view:main", recycle_bin: "hub:settings", audit: "hub:settings", consents: "hub:settings", test_copy: "hub:settings",
+  role_inbox: "view:main", broadcast: "view:main", message_results: "view:main", email_in: "hub:settings", message_wording: "hub:settings" };
 const shvBuilt = (section: string): boolean => section === "4" || ["1", "2", "3", "3A", "3B"].includes(section);
 function shvPlans(): string {
   const rows = Object.entries(DATA.planLimits).map(([family, tiers]) => { const tier = family === "lynkinv" ? "plus" : "free"; const lim = tiers[tier] ?? {};
@@ -2030,6 +2031,7 @@ function act(a: string): void {
 function onInput(el: HTMLInputElement): void {
   const k = el.dataset["in"] ?? "", digits = (n: number): string => el.value.replace(/\D/g, "").slice(0, n);
   if (k === "la:remember") { LA.draft = el.value.slice(0, 200); return; }
+  if (k.startsWith("shv:")) { if (el.tagName !== "SELECT" && sharedInput(SHV, k, el.value)) draw(); return; }   // the message pages (CONNECT UPDATE 71.7)
   if (k.startsWith("at:")) { if (el.tagName !== "SELECT" && PH.att.input(k, el.value)) draw(); return; }
   if (k.startsWith("qu:")) { if (el.tagName !== "SELECT" && PH.q.input(k, el.value)) draw(); return; }
   if (k.startsWith("sv:")) { if (el.tagName !== "SELECT" && PH.s.input(k, el.value)) draw(); return; }
@@ -2070,6 +2072,7 @@ function onChange(el: HTMLInputElement & HTMLSelectElement): void {
   const k = el.dataset["in"] ?? "";
   if ((el.dataset["act"] ?? "") === "ppl:checker") { PH.pickChecker(el.value); draw(); return; }
   if (k === "la:brief") { AX.brief = (el as HTMLInputElement).checked; draw(); return; }
+  if (k.startsWith("shv:")) { if (el.tagName === "SELECT" && sharedInput(SHV, k, el.value)) draw(); return; }
   if (k.startsWith("la:")) { if (k !== "la:remember") laChange(k, el); return; }
   if (k.startsWith("at:")) { if (el.tagName === "SELECT") { PH.att.input(k, el.value); draw(); } return; }
   if (k.startsWith("qu:")) { if (el.tagName === "SELECT") { PH.q.input(k, el.value); draw(); } return; }

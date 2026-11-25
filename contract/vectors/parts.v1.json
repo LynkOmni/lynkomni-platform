@@ -5091,7 +5091,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -5124,7 +5127,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -5157,7 +5163,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -5190,7 +5199,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -5223,7 +5235,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -5268,7 +5283,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -5301,7 +5319,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -5334,7 +5355,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -5367,7 +5391,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -5412,7 +5439,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -5445,7 +5475,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -5478,7 +5511,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -5511,7 +5547,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -5544,7 +5583,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -5577,7 +5619,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -5610,7 +5655,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -5626,7 +5674,9 @@
    "siblings": [
     "/business/settings/tips",
     "/business/settings/consents",
-    "/business/settings/test-copy"
+    "/business/settings/test-copy",
+    "/business/settings/forward-by-email",
+    "/business/settings/message-wording"
    ]
   },
   {
@@ -5642,7 +5692,9 @@
    "siblings": [
     "/business/settings/data-sharing",
     "/business/settings/consents",
-    "/business/settings/test-copy"
+    "/business/settings/test-copy",
+    "/business/settings/forward-by-email",
+    "/business/settings/message-wording"
    ]
   },
   {
@@ -5675,7 +5727,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -6686,7 +6741,10 @@
     "/external/business/calendar",
     "/external/business/contacts",
     "/external/business/recycle-bin",
-    "/external/business/audit"
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
    ]
   },
   {
@@ -7357,7 +7415,10 @@
     "/external/business/calendar",
     "/external/business/contacts",
     "/external/business/recycle-bin",
-    "/external/business/audit"
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
    ]
   },
   {
@@ -7385,7 +7446,10 @@
     "/external/business/calendar",
     "/external/business/contacts",
     "/external/business/recycle-bin",
-    "/external/business/audit"
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
    ]
   },
   {
@@ -7413,7 +7477,10 @@
     "/external/business/calendar",
     "/external/business/contacts",
     "/external/business/recycle-bin",
-    "/external/business/audit"
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
    ]
   },
   {
@@ -7441,7 +7508,10 @@
     "/external/business/calendar",
     "/external/business/contacts",
     "/external/business/recycle-bin",
-    "/external/business/audit"
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
    ]
   },
   {
@@ -7469,7 +7539,10 @@
     "/external/business/calendar",
     "/external/business/contacts",
     "/external/business/recycle-bin",
-    "/external/business/audit"
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
    ]
   },
   {
@@ -7509,7 +7582,10 @@
     "/external/business/calendar",
     "/external/business/contacts",
     "/external/business/recycle-bin",
-    "/external/business/audit"
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
    ]
   },
   {
@@ -7537,7 +7613,10 @@
     "/external/business/calendar",
     "/external/business/contacts",
     "/external/business/recycle-bin",
-    "/external/business/audit"
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
    ]
   },
   {
@@ -7565,7 +7644,10 @@
     "/external/business/calendar",
     "/external/business/contacts",
     "/external/business/recycle-bin",
-    "/external/business/audit"
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
    ]
   },
   {
@@ -7605,7 +7687,10 @@
     "/external/business/calendar",
     "/external/business/contacts",
     "/external/business/recycle-bin",
-    "/external/business/audit"
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
    ]
   },
   {
@@ -7633,7 +7718,10 @@
     "/external/business/calendar",
     "/external/business/contacts",
     "/external/business/recycle-bin",
-    "/external/business/audit"
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
    ]
   },
   {
@@ -7661,7 +7749,10 @@
     "/external/business/calendar",
     "/external/business/contacts",
     "/external/business/recycle-bin",
-    "/external/business/audit"
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
    ]
   },
   {
@@ -7676,7 +7767,9 @@
    "up": "/external/business/settings",
    "siblings": [
     "/external/business/settings/consents",
-    "/external/business/settings/test-copy"
+    "/external/business/settings/test-copy",
+    "/external/business/settings/forward-by-email",
+    "/external/business/settings/message-wording"
    ]
   },
   {
@@ -9876,7 +9969,10 @@
     "/business/calendar",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -10012,7 +10108,10 @@
     "/external/business/calendar",
     "/external/business/contacts",
     "/external/business/recycle-bin",
-    "/external/business/audit"
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
    ]
   },
   {
@@ -10820,7 +10919,10 @@
     "/business/emulators",
     "/business/contacts",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -10848,7 +10950,10 @@
     "/external/business/emulators",
     "/external/business/contacts",
     "/external/business/recycle-bin",
-    "/external/business/audit"
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
    ]
   },
   {
@@ -10881,7 +10986,10 @@
     "/business/emulators",
     "/business/calendar",
     "/business/recycle-bin",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -10909,7 +11017,10 @@
     "/external/business/emulators",
     "/external/business/calendar",
     "/external/business/recycle-bin",
-    "/external/business/audit"
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
    ]
   },
   {
@@ -10942,7 +11053,10 @@
     "/business/emulators",
     "/business/calendar",
     "/business/contacts",
-    "/business/audit"
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -10970,7 +11084,10 @@
     "/external/business/emulators",
     "/external/business/calendar",
     "/external/business/contacts",
-    "/external/business/audit"
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
    ]
   },
   {
@@ -11003,7 +11120,10 @@
     "/business/emulators",
     "/business/calendar",
     "/business/contacts",
-    "/business/recycle-bin"
+    "/business/recycle-bin",
+    "/business/team-inbox",
+    "/business/urgent-messages",
+    "/business/message-results"
    ]
   },
   {
@@ -11031,7 +11151,10 @@
     "/external/business/emulators",
     "/external/business/calendar",
     "/external/business/contacts",
-    "/external/business/recycle-bin"
+    "/external/business/recycle-bin",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
    ]
   },
   {
@@ -11047,7 +11170,9 @@
    "siblings": [
     "/business/settings/data-sharing",
     "/business/settings/tips",
-    "/business/settings/test-copy"
+    "/business/settings/test-copy",
+    "/business/settings/forward-by-email",
+    "/business/settings/message-wording"
    ]
   },
   {
@@ -11062,7 +11187,9 @@
    "up": "/external/business/settings",
    "siblings": [
     "/external/business/settings/data-sharing",
-    "/external/business/settings/test-copy"
+    "/external/business/settings/test-copy",
+    "/external/business/settings/forward-by-email",
+    "/external/business/settings/message-wording"
    ]
   },
   {
@@ -11078,7 +11205,9 @@
    "siblings": [
     "/business/settings/data-sharing",
     "/business/settings/tips",
-    "/business/settings/consents"
+    "/business/settings/consents",
+    "/business/settings/forward-by-email",
+    "/business/settings/message-wording"
    ]
   },
   {
@@ -11093,7 +11222,280 @@
    "up": "/external/business/settings",
    "siblings": [
     "/external/business/settings/data-sharing",
-    "/external/business/settings/consents"
+    "/external/business/settings/consents",
+    "/external/business/settings/forward-by-email",
+    "/external/business/settings/message-wording"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/business/team-inbox",
+   "trail": [
+    "/",
+    "/business",
+    "/business/team-inbox"
+   ],
+   "up": "/business",
+   "siblings": [
+    "/business/academy",
+    "/business/agent-earnings",
+    "/business/pickup-point",
+    "/business/assistant",
+    "/business/automations",
+    "/business/cards",
+    "/business/daily-close",
+    "/business/devices",
+    "/business/growth",
+    "/business/loyalty",
+    "/business/money",
+    "/business/online-shop",
+    "/business/pay-links",
+    "/business/plans",
+    "/business/recovery",
+    "/business/settings",
+    "/business/team",
+    "/business/emulators",
+    "/business/calendar",
+    "/business/contacts",
+    "/business/recycle-bin",
+    "/business/audit",
+    "/business/urgent-messages",
+    "/business/message-results"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/business/team-inbox",
+   "trail": [
+    "/external",
+    "/external/business",
+    "/external/business/team-inbox"
+   ],
+   "up": "/external/business",
+   "siblings": [
+    "/external/business/academy",
+    "/external/business/money",
+    "/external/business/pay-links",
+    "/external/business/recovery",
+    "/external/business/cards",
+    "/external/business/growth",
+    "/external/business/loyalty",
+    "/external/business/assistant",
+    "/external/business/automations",
+    "/external/business/plans",
+    "/external/business/team",
+    "/external/business/settings",
+    "/external/business/emulators",
+    "/external/business/calendar",
+    "/external/business/contacts",
+    "/external/business/recycle-bin",
+    "/external/business/audit",
+    "/external/business/urgent-messages",
+    "/external/business/message-results"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/business/urgent-messages",
+   "trail": [
+    "/",
+    "/business",
+    "/business/urgent-messages"
+   ],
+   "up": "/business",
+   "siblings": [
+    "/business/academy",
+    "/business/agent-earnings",
+    "/business/pickup-point",
+    "/business/assistant",
+    "/business/automations",
+    "/business/cards",
+    "/business/daily-close",
+    "/business/devices",
+    "/business/growth",
+    "/business/loyalty",
+    "/business/money",
+    "/business/online-shop",
+    "/business/pay-links",
+    "/business/plans",
+    "/business/recovery",
+    "/business/settings",
+    "/business/team",
+    "/business/emulators",
+    "/business/calendar",
+    "/business/contacts",
+    "/business/recycle-bin",
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/message-results"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/business/urgent-messages",
+   "trail": [
+    "/external",
+    "/external/business",
+    "/external/business/urgent-messages"
+   ],
+   "up": "/external/business",
+   "siblings": [
+    "/external/business/academy",
+    "/external/business/money",
+    "/external/business/pay-links",
+    "/external/business/recovery",
+    "/external/business/cards",
+    "/external/business/growth",
+    "/external/business/loyalty",
+    "/external/business/assistant",
+    "/external/business/automations",
+    "/external/business/plans",
+    "/external/business/team",
+    "/external/business/settings",
+    "/external/business/emulators",
+    "/external/business/calendar",
+    "/external/business/contacts",
+    "/external/business/recycle-bin",
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/message-results"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/business/message-results",
+   "trail": [
+    "/",
+    "/business",
+    "/business/message-results"
+   ],
+   "up": "/business",
+   "siblings": [
+    "/business/academy",
+    "/business/agent-earnings",
+    "/business/pickup-point",
+    "/business/assistant",
+    "/business/automations",
+    "/business/cards",
+    "/business/daily-close",
+    "/business/devices",
+    "/business/growth",
+    "/business/loyalty",
+    "/business/money",
+    "/business/online-shop",
+    "/business/pay-links",
+    "/business/plans",
+    "/business/recovery",
+    "/business/settings",
+    "/business/team",
+    "/business/emulators",
+    "/business/calendar",
+    "/business/contacts",
+    "/business/recycle-bin",
+    "/business/audit",
+    "/business/team-inbox",
+    "/business/urgent-messages"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/business/message-results",
+   "trail": [
+    "/external",
+    "/external/business",
+    "/external/business/message-results"
+   ],
+   "up": "/external/business",
+   "siblings": [
+    "/external/business/academy",
+    "/external/business/money",
+    "/external/business/pay-links",
+    "/external/business/recovery",
+    "/external/business/cards",
+    "/external/business/growth",
+    "/external/business/loyalty",
+    "/external/business/assistant",
+    "/external/business/automations",
+    "/external/business/plans",
+    "/external/business/team",
+    "/external/business/settings",
+    "/external/business/emulators",
+    "/external/business/calendar",
+    "/external/business/contacts",
+    "/external/business/recycle-bin",
+    "/external/business/audit",
+    "/external/business/team-inbox",
+    "/external/business/urgent-messages"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/business/settings/forward-by-email",
+   "trail": [
+    "/",
+    "/business",
+    "/business/settings",
+    "/business/settings/forward-by-email"
+   ],
+   "up": "/business/settings",
+   "siblings": [
+    "/business/settings/data-sharing",
+    "/business/settings/tips",
+    "/business/settings/consents",
+    "/business/settings/test-copy",
+    "/business/settings/message-wording"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/business/settings/forward-by-email",
+   "trail": [
+    "/external",
+    "/external/business",
+    "/external/business/settings",
+    "/external/business/settings/forward-by-email"
+   ],
+   "up": "/external/business/settings",
+   "siblings": [
+    "/external/business/settings/data-sharing",
+    "/external/business/settings/consents",
+    "/external/business/settings/test-copy",
+    "/external/business/settings/message-wording"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/business/settings/message-wording",
+   "trail": [
+    "/",
+    "/business",
+    "/business/settings",
+    "/business/settings/message-wording"
+   ],
+   "up": "/business/settings",
+   "siblings": [
+    "/business/settings/data-sharing",
+    "/business/settings/tips",
+    "/business/settings/consents",
+    "/business/settings/test-copy",
+    "/business/settings/forward-by-email"
+   ]
+  },
+  {
+   "host": "app.lynkomni.com",
+   "path": "/external/business/settings/message-wording",
+   "trail": [
+    "/external",
+    "/external/business",
+    "/external/business/settings",
+    "/external/business/settings/message-wording"
+   ],
+   "up": "/external/business/settings",
+   "siblings": [
+    "/external/business/settings/data-sharing",
+    "/external/business/settings/consents",
+    "/external/business/settings/test-copy",
+    "/external/business/settings/forward-by-email"
    ]
   },
   {
@@ -12841,6 +13243,80 @@
     "/support",
     "/safety"
    ]
+  }
+ ],
+ "wording": [
+  {
+   "text": "Thank you for shopping at {business}",
+   "why": null
+  },
+  {
+   "text": "",
+   "why": "empty"
+  },
+  {
+   "text": "   ",
+   "why": "empty"
+  },
+  {
+   "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "why": "too_long"
+  },
+  {
+   "text": "{business} yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+   "why": null
+  },
+  {
+   "text": "Thanks!",
+   "why": "missing_placeholder"
+  },
+  {
+   "text": "{business}: {secret}",
+   "why": "unknown_placeholder"
+  },
+  {
+   "text": "{business} see https://example.com",
+   "why": "not_allowed"
+  },
+  {
+   "text": "{business} see www.example.com",
+   "why": "not_allowed"
+  },
+  {
+   "text": "{business} PIN 4719",
+   "why": "not_allowed"
+  },
+  {
+   "text": "{business} your code: 123456",
+   "why": "not_allowed"
+  },
+  {
+   "text": "{business} card 4111 1111 1111 1111",
+   "why": "not_allowed"
+  },
+  {
+   "text": "{business} card 4111 1111 1111 1112",
+   "why": null
+  },
+  {
+   "text": "{business} on {date} at {time} for {amount}",
+   "why": null
+  },
+  {
+   "text": "Pincode {business}",
+   "why": null
+  },
+  {
+   "text": "{Business} thanks",
+   "why": "missing_placeholder"
+  },
+  {
+   "text": "{business} {name}, your {record} is ready",
+   "why": null
+  },
+  {
+   "text": "{business} password 9",
+   "why": "not_allowed"
   }
  ],
  "decide": [

@@ -86,6 +86,10 @@
   "recall": {
    "label_key": "key_recall",
    "physical": "bump bar"
+  },
+  "up": {
+   "label_key": "key_up_level",
+   "physical": "Alt+ArrowUp"
   }
  },
  "safe_default": "universal",

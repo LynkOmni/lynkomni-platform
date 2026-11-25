@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "Academie",
   "academy_hint": "Een korte cursus opent naast het scherm dat hij uitlegt.",
@@ -228,6 +228,7 @@
   "key_recall": "Terughalen",
   "key_right": "Rechts",
   "key_up": "Omhoog",
+  "key_up_level": "Eén niveau omhoog",
   "kitchen": "Keuken",
   "kitchen_items_open": "Keukenitems nog open",
   "kitchen_queue": "Keukenwachtrij",

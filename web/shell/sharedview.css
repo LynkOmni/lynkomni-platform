@@ -15,3 +15,16 @@
 .sv-warn, .sv-notice { margin: 0; padding: 10px 12px; border-radius: 10px; }
 .sv-warn { background: var(--status-warning-bg); color: var(--status-warning-text); border: 1px solid var(--status-warning-border); }
 .sv-notice { background: var(--status-info-bg); color: var(--status-info-text); border: 1px solid var(--status-info-border); }
+/* The message system's pages (CONNECT UPDATE 71.7): role inbox, urgent broadcast, forward by email, message wording and results. */
+.sv-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.sv-chips > button, .sv-btns > button, .sv-rows li > button { white-space: normal; overflow-wrap: anywhere; max-inline-size: 100%; min-width: 0; text-align: center; }
+.sv-set { border: 0; margin: 0; padding: 0; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.sv-set legend { padding: 0; margin-block-end: 6px; font: 600 13px var(--font-body); color: var(--text-secondary); }
+.sv-picks { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0 12px; }
+.sv-pick { display: flex; align-items: center; gap: 8px; min-height: 44px; overflow-wrap: anywhere; }
+.sv-pick input { inline-size: 20px; block-size: 20px; flex: none; margin: 0; }
+.sv-field { display: flex; flex-direction: column; gap: 4px; max-inline-size: 520px; font: 600 13px var(--font-body); color: var(--text-secondary); }
+.sv-field textarea, .sv-field select { min-height: 44px; padding: 8px 12px; border: 1px solid var(--border-input); border-radius: 10px; background: var(--bg-surface); color: var(--text-primary); font: 15px var(--font-body); max-inline-size: 100%; box-sizing: border-box; }
+.sv-field textarea { resize: vertical; }
+.sv-btns { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+.sv-addr { font-family: var(--font-mono, monospace); direction: ltr; unicode-bidi: isolate; text-align: start; }

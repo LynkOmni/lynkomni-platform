@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "Akademi",
   "academy_hint": "Kursus ringkas dibuka di sebelah skrin yang diajarnya.",
@@ -228,6 +228,7 @@
   "key_recall": "Panggil semula",
   "key_right": "Kanan",
   "key_up": "Atas",
+  "key_up_level": "Naik satu tahap",
   "kitchen": "Dapur",
   "kitchen_items_open": "Item dapur masih terbuka",
   "kitchen_queue": "Baris gilir dapur",

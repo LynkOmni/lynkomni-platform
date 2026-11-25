@@ -2,6 +2,18 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.105.0 (2026-11-25)
+Section 4 review, eighteenth part (row 71.9, step 4b of 4: the message pages, breadcrumbs and the offline clash rules; row 71.9 done):
+- Five new pages in the Business app on a phone and on the owner's computer, drawn by the shared-pages part (ts/src/sharedview.ts):
+  - Team inbox (/business/team-inbox): pick a role, Take it, Done, and who is on each alert;
+  - Urgent message (/business/urgent-messages): send to all staff, parents, tenants or members, with text costs shown first and "seen by" from the app only;
+  - Forward by email (/business/settings/forward-by-email): the bills and documents addresses, Copy, and emails held from unknown senders;
+  - Message wording (/business/settings/message-wording): new words checked by the same rule as the cloud (checkWording, shared cases), test mode and Approve by the owner;
+  - Message results (/business/message-results): totals only, from 5 up.
+- Breadcrumbs: a "More" menu on the current step with the pages on the same level and Copy link; Alt with the Up arrow goes one level up on every keyboard (devices register key "up"); buttons-only devices keep their Back key.
+- One set of offline clash rules in catalog/shared.v1.json (core/shared.py settle, ts/src/shared.ts sharedSettle, shared cases): records that only add keep both, things used once go to the first and flag the second, fields merge with the later change winning and a flag for prices, tax, consent, bank and role fields, the safer value wins for consent, locks and freezes, and money through a provider is never changed offline.
+- All words in 38 languages; page size budgets raised with their reasons; build row 71.9 marked done.
+
 ## v0.104.0 (2026-11-24)
 Section 4 review, seventeenth part (row 71.9, step 4a of 4: the message system in the cloud):
 - The message register (catalog/messages.v1.json) gains a "system" block with the rules of CONNECT UPDATE 71.7; the engine (services/messages.py) now routes smartly: the channel each person actually uses comes first, then the cheapest that works; a message that is not delivered steps to the next channel; a call is only ever the last step for a critical alert nobody acknowledged.

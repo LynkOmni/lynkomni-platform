@@ -11,7 +11,7 @@ import { banner, priorityOf } from "./notify.js";
 import type { Line } from "./notify.js";
 import { buildPack, decide } from "./assist.js";
 import type { Ask, Decision, Entry as KEntry } from "./assist.js";
-import { breadcrumbBar, trail } from "./breadcrumbs.js";
+import { breadcrumbBar, trail, wireCrumbs } from "./breadcrumbs.js";
 import { esc } from "./shell.js";
 import type { Icon, T } from "./shell.js";
 
@@ -204,12 +204,16 @@ export function raiseLocal(lines: Line[], kind: string, title: string, at: numbe
   return [{ nid: `local-${lines.length + 1}-${kind}`, kind, title, at, record, count: 1, read: false, seen: false }, ...lines];
 }
 
-/** Breadcrumbs on a device screen, from the address map; compact on small screens. */
+/** The up key on a device keyboard follows the trail's parent step (wired once per page). */
+let crumbsWired = false;
+export function wireDeviceCrumbs(): void { if (crumbsWired || typeof document === "undefined") return; crumbsWired = true; wireCrumbs(document); }
+/** Breadcrumbs on a device screen, from the address map; compact on small screens. No sideways list inside a device screen. */
 export function deviceCrumbs(path: string, label: (p: string) => string, compact: boolean, t: T): string {
   let steps: string[] = [];
   try { steps = trail("app.lynkomni.com", path); } catch { return ""; }
   const norm = (p: string): string => p.replace(/^[a-z.]+\.lynkomni\.com/, "") || "/";   // "/" and "app.lynkomni.com/" are the same place: Home has no trail
   steps = steps.filter((p, i) => steps.findIndex((q) => norm(q) === norm(p)) === i);
+  wireDeviceCrumbs();
   return steps.length > 1 ? breadcrumbBar(steps.map((p) => ({ path: p, label: label(p) })), compact, t) : "";
 }
 

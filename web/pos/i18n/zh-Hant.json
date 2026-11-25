@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "學院",
   "academy_hint": "簡短課程會在它所講解的畫面旁邊開啟。",
@@ -228,6 +228,7 @@
   "key_recall": "調回",
   "key_right": "右",
   "key_up": "上",
+  "key_up_level": "返回上一層",
   "kitchen": "廚房",
   "kitchen_items_open": "廚房裡還有餐點",
   "kitchen_queue": "廚房佇列",

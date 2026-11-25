@@ -71,7 +71,9 @@ class Contacts(unittest.TestCase):
 
     def test_every_address_in_the_code_is_in_the_map(self):
         listed = {c["address"] for c in CONTACTS["inbound"]} | {s["address"] for s in CONTACTS["senders"]} | {CONTACTS["owner_inbox"], CONTACTS["emergency_admin"]}
-        pat = re.compile(r"\b[a-z][a-z-]*@(?:mail\.|news\.)?(?:lynkomni|cruxomni)\.com\b")
+        pat = re.compile(r"\b[a-z][a-z-]*@(?:mail\.|news\.|in\.)?(?:lynkomni|cruxomni)\.com\b")
+        for p in CONTACTS["patterns"]:                       # reply and email-in addresses are patterns (CONNECT UPDATE 71.7)
+            listed |= set(pat.findall(p["address"]))
         for f in list(ROOT.glob("services/*.py")) + list(ROOT.glob("ts/src/*.ts")) + list(ROOT.glob("providers/*.json")) + list(ROOT.glob("brand/*.py")):
             for a in pat.findall(f.read_text(errors="ignore")):
                 self.assertIn(a, listed, f"{a} in {f.name}")

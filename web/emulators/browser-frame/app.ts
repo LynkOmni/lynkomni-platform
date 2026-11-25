@@ -16,7 +16,7 @@ import { alertSounds, loadPrefs, savePrefs } from "../../../ts/src/soundprefs.js
 import { banner, bell, count, feelFor, mailPart, messagesList, priorityOf, textPart, whySheet } from "../../../ts/src/notify.js";
 import type { Line, Priority, Sent } from "../../../ts/src/notify.js";
 import { askBox, buildPack, confirmCard, decide, fixThis, lookup, receipt } from "../../../ts/src/assist.js";
-import { breadcrumbBar, trail } from "../../../ts/src/breadcrumbs.js";
+import { breadcrumbBar, siblings, trail, wireCrumbs } from "../../../ts/src/breadcrumbs.js";
 import { idcnEntry, quickRating, rateUs, scoreScale, ticketCard } from "../../../ts/src/peopleparts.js";
 import { watchNames, namePair, nameEntries, namesSheet, namesFocusOf, focusName } from "../../../ts/src/names.js";
 import { NAME_INFO_KEYS } from "../../../ts/src/nameinfo.js";
@@ -180,7 +180,8 @@ function crumbs(): string {
   const label: Record<string, string> = { "/": t("tab_home"), "/business": t("tab_business"), "/sell": t("tab_sell"), "/external": t("side_storefront"), "/external/business": t("tab_business"), "/external/sell": t("tab_sell"), "/business/settings": t("nav_settings"), "/analytics": t("nav_reports") };
   let steps: string[];
   try { steps = trail("app.lynkomni.com", path); } catch { return ""; }
-  return breadcrumbBar(steps.map((p) => ({ path: p, label: label[p] ?? p.split("/").pop() ?? p })), S.size === "phone", t);
+  const sibs = siblings("app.lynkomni.com", path).filter((p) => label[p]).map((p) => ({ path: p, label: label[p]! }));
+  return breadcrumbBar(steps.map((p) => ({ path: p, label: label[p] ?? p.split("/").pop() ?? p })), S.size === "phone", t, { siblings: sibs, link: `https://app.lynkomni.com${path}` });
 }
 
 // ---------------------------------------------------------------- the page
@@ -494,4 +495,5 @@ function init(): void {
 init();
 /** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
 watchNames(document.body, () => t);
+wireCrumbs(document);   // the up key and Copy link of the breadcrumb trail (CONNECT UPDATE 71.5)
 void NAME_INFO_KEYS;   // this page carries the one-line descriptions, so search and the name notes say what each product does

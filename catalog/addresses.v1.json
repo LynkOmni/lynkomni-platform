@@ -437,7 +437,17 @@
   "/business/settings/consents",
   "/external/business/settings/consents",
   "/business/settings/test-copy",
-  "/external/business/settings/test-copy"
+  "/external/business/settings/test-copy",
+  "/business/team-inbox",
+  "/external/business/team-inbox",
+  "/business/urgent-messages",
+  "/external/business/urgent-messages",
+  "/business/message-results",
+  "/external/business/message-results",
+  "/business/settings/forward-by-email",
+  "/external/business/settings/forward-by-email",
+  "/business/settings/message-wording",
+  "/external/business/settings/message-wording"
  ],
  "redirects": {
   "/terms": "/legal/terms",
@@ -633,7 +643,12 @@
    "/business/recycle-bin",
    "/business/audit",
    "/business/settings/consents",
-   "/business/settings/test-copy"
+   "/business/settings/test-copy",
+   "/business/team-inbox",
+   "/business/urgent-messages",
+   "/business/message-results",
+   "/business/settings/forward-by-email",
+   "/business/settings/message-wording"
   ],
   "storefront_only": [
    "/external/business/academy/listings",

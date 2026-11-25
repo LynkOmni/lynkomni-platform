@@ -26,7 +26,7 @@ import { MESSAGES } from "../../../ts/src/parts.generated.js";
 import { askBox, buildPack, confirmCard, decide, lookup, receipt } from "../../../ts/src/assist.js";
 import { idcn } from "../../../ts/src/attendance.js";
 import { ticketCard } from "../../../ts/src/peopleparts.js";
-import { breadcrumbBar, trail } from "../../../ts/src/breadcrumbs.js";
+import { breadcrumbBar, siblings, trail, wireCrumbs } from "../../../ts/src/breadcrumbs.js";
 import { loadPrefs, savePrefs } from "../../../ts/src/soundprefs.js";
 import type { SoundPrefs, Volume } from "../../../ts/src/soundprefs.js";
 import { TERMS_IN_FORCE, cardPlanName, contactWaitSeconds, coolOffSeconds, mayNow } from "../../../ts/src/protection.js";
@@ -185,7 +185,8 @@ function crumbs(): string {
   if (!signedIn()) return "";
   let steps: string[] = []; try { steps = trail("account.lynkomni.com", screenPath()); } catch { return ""; }
   const label = (p: string) => (p === "/" ? t("page_overview") : t(`page_${PAGES.find((x) => pagePath(x) === p) ?? "overview"}`));
-  return breadcrumbBar(steps.map((p) => ({ path: p, label: label(p) })), S.size === "phone", t);
+  const sibs = siblings("account.lynkomni.com", screenPath()).filter((p) => PAGES.some((x) => pagePath(x) === p)).map((p) => ({ path: p, label: label(p) }));
+  return breadcrumbBar(steps.map((p) => ({ path: p, label: label(p) })), S.size === "phone", t, { siblings: sibs, link: `https://account.lynkomni.com${screenPath()}` });
 }
 function securityCenter(now: number): string {
   const findings: { key: string; fix: string }[] = [];
@@ -786,4 +787,5 @@ function init(): void {
 init();
 /** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
 watchNames(document.body, () => t);
+wireCrumbs(document);   // the up key and Copy link of the breadcrumb trail (CONNECT UPDATE 71.5)
 void NAME_INFO_KEYS;   // this page carries the one-line descriptions, so search and the name notes say what each product does

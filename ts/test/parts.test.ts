@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { afterWrong, numberChoices, numberMatch, pinPad, pinProblem } from "../src/signin.js";
-import { badge, banner, bell, count, feelFor, lockScreen, mailPart, ranked, textParts } from "../src/notify.js";
+import { badge, banner, bell, checkWording, count, feelFor, lockScreen, mailPart, ranked, textParts } from "../src/notify.js";
 import type { Line } from "../src/notify.js";
 import { answer, buildPack, confirmCard, decide, lookup } from "../src/assist.js";
 import { breadcrumbBar, siblings, trail, upOne } from "../src/breadcrumbs.js";
@@ -33,6 +33,7 @@ test("number matching offers three different numbers, the right one among them, 
 
 test("every breadcrumb trail is the same as core/breadcrumbs.py", () => {
   for (const c of V.trails) assert.deepEqual(trail(c.host, c.path), c.trail, `${c.host}${c.path}`);
+  for (const c of V.wording) assert.equal(checkWording(c.text), c.why, `wording ${c.text.slice(0, 40)}`);
   for (const c of V.trails) { assert.equal(upOne(c.host, c.path), c.up, `up ${c.host}${c.path}`); assert.deepEqual(siblings(c.host, c.path), c.siblings, `siblings ${c.host}${c.path}`); }
   const bar = breadcrumbBar([{ path: "/", label: "Home" }, { path: "/pricing", label: "Pricing" }], false, t);
   assert.ok(/aria-current="page">Pricing/.test(bar)); assert.ok(!bar.includes('href="/pricing"'), "the page never links to itself");

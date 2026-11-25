@@ -3367,6 +3367,61 @@
     "sitemap"
    ],
    "section": 4
+  },
+  {
+   "id": "msg_role_inbox",
+   "kind": "feature",
+   "what": "Team inbox: alerts for a role handled once, with who took each one",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "msg_broadcast",
+   "kind": "feature",
+   "what": "Urgent message to all staff, parents, tenants or members, with who has seen it in the app",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "msg_email_in",
+   "kind": "feature",
+   "what": "Forward by email: bills become draft bills, documents are filed; only allowed senders",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "msg_message_wording",
+   "kind": "feature",
+   "what": "Message wording: change customer messages within safe limits, with test mode before they go out",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
+  },
+  {
+   "id": "msg_message_results",
+   "kind": "feature",
+   "what": "Message results as totals from 5 up: sent, delivered, failed, acted on",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 4
   }
  ]
 }

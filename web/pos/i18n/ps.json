@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ps",
  "native": "پښتو",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "اکاډمي",
   "academy_hint": "لنډ درس د هغې پردې تر څنګ پرانیستل کېږي چې ښوونه یې کوي.",
@@ -228,6 +228,7 @@
   "key_recall": "بېرته راوړل",
   "key_right": "ښي",
   "key_up": "پورته",
+  "key_up_level": "یوه کچه پورته",
   "kitchen": "پخلنځی",
   "kitchen_items_open": "لا په پخلنځي کې خواړه پاتې دي",
   "kitchen_queue": "د پخلنځي کتار",
