@@ -3246,7 +3246,8 @@
    "what": "Approve workflow runs on pull requests opened by the brand-sync bot (button 'Approve workflows to run' on the pull request).",
    "why": "GitHub does not run checks on bot pull requests until a person approves.",
    "when": "each brand-sync pull request",
-   "status": "open"
+   "status": "done",
+   "done_note": "Owner confirmed on 25 November 2026: nothing is waiting in either repository and the latest icon release and brand-sync runs succeeded. If a later brand-sync pull request needs a person's approval again, Claude sends the exact link at that time."
   },
   {
    "id": "network-for-installs",
