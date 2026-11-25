@@ -170,6 +170,7 @@ class TranslationLayout(DarkPass, unittest.TestCase):
 
 # The office pages of ts/src/officeview.ts OFFICE_PAGES (LynkAcc, LynkInv, LynkCRM, LynkStat), opened by id on the phone.
 OFFICE_PAGE_IDS = re.findall(r'\{ id: "([a-z_]+)", slot:', open(os.path.join(ROOT, "ts", "src", "officeview.ts"), encoding="utf-8").read())
+WORK_PAGE_IDS = re.findall(r'\{ id: "([a-z_]+)", slot:', open(os.path.join(ROOT, "ts", "src", "workview.ts"), encoding="utf-8").read())   # build section 4B
 
 @unittest.skipUnless(sync_playwright and os.path.isfile(PHONE), "Playwright with Chromium is needed")
 class PhoneLayout(DarkPass, unittest.TestCase):
@@ -199,6 +200,8 @@ class PhoneLayout(DarkPass, unittest.TestCase):
         if pg.viewport_size["width"] < 600:   # section 4 row 66.10: every office page inside its Business app hub, at phone size
             for sid in OFFICE_PAGE_IDS:
                 pg.evaluate(f"__go('{sid}')"); check(f"office {sid}")
+            for sid in WORK_PAGE_IDS:
+                pg.evaluate(f"__go('{sid}')"); check(f"work {sid}")
         pg.evaluate("__go('pay')"); pg.click('[data-act="way:mobile_money"]'); pg.fill("#momoIn", "0788123456"); check("mobile money")
         pg.click('.top [data-act="view:pay"]'); pg.click('[data-act="view:split"]'); check("split payment")
         pg.click('.top [data-act="view:pay"]'); pg.click('[data-act="way:credit"]'); check("credit")
@@ -394,6 +397,7 @@ DEVICES = {
     "lynk-cdisplay": (["#screen", "#till"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
     "queue-page": (["#screen", "#till"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
     "survey-page": (["#screen", "#till"], '[data-ctl="lang"]', '[data-ctl="dark"]'),
+    "files-signing": (["#screen"], '[data-ctl="lang"]', '[data-ctl="dark"]'),     # build section 4B: the LynkFiles signing tablet
 }
 DEVICE_FILE = lambda e: os.path.join(ROOT, "web", "emulators", "dist", f"lynkomni-{e}.html")
 OVERFLOW_IN = OVERFLOW.replace("() => {\n  const d = document.querySelector('#display')", "(sel) => {\n  const d = document.querySelector(sel)")

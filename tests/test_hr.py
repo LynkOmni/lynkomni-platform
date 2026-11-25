@@ -51,6 +51,12 @@ class Hr(unittest.TestCase):
         self.assertFalse(H.review_shown("peer", 2))
         self.assertTrue(H.review_shown("peer", 3))
 
+    def test_a_school_observes_lessons_and_reminds_licences(self):
+        """SCHOOL UPDATE 80.15 (build section 4B): a lesson observation is named and always seen by the teacher; a teaching licence is reminded."""
+        self.assertTrue(H.review_shown("lesson_observation", 1))
+        self.assertNotIn("lesson_observation", H.HR["reviews"]["anonymous"])
+        self.assertIn("teaching_licence", H.HR["expiry"]["kinds"])
+
     def test_cases_are_restricted(self):
         self.assertFalse(H.case_may_see("manager"))
         self.assertFalse(H.case_may_see("owner"))

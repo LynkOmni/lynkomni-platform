@@ -258,6 +258,19 @@
     "change an event type",
     "add a person's name, contact, ID number, bank details, health, family or union details, or any words a person wrote"
    ]
+  },
+  {
+   "from_schema_version": 19,
+   "to_schema_version": 20,
+   "agreed": "2026-11-25 (build section 4B step 4: the Emulator Panel learns the LynkHR, LynkProject and LynkFiles emulators)",
+   "rule": "Version 20 adds no event and no command; it adds a school's lesson_observation to the review kinds and lets the Emulator Panel's events name the emulators hr.people, project.site_phone, files.documents and files.signing_tablet. A version 19 event reads as version 20 with schema_version raised; nothing else changes.",
+   "never": [
+    "rescale an amount",
+    "rewrite a stored event",
+    "change an identifier",
+    "change an event type",
+    "add a person's name, contact, ID number, bank details, health, family or union details, or any words a person wrote"
+   ]
   }
  ]
 }

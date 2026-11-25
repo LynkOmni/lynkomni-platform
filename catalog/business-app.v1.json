@@ -814,6 +814,36 @@
    "path": "/business/team"
   },
   {
+   "id": "people",
+   "blueprint": "69",
+   "items": [
+    "hr_leave",
+    "hr_joining",
+    "hr_pay"
+   ],
+   "path": "/hr"
+  },
+  {
+   "id": "projects",
+   "blueprint": "69",
+   "items": [
+    "pj_board",
+    "pj_mywork",
+    "pj_time"
+   ],
+   "path": "/project"
+  },
+  {
+   "id": "documents",
+   "blueprint": "69",
+   "items": [
+    "fl_signing",
+    "fl_requests",
+    "fl_sharing"
+   ],
+   "path": "/files"
+  },
+  {
    "id": "branches_devices",
    "blueprint": "41 E, 44 C",
    "items": [

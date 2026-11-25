@@ -429,6 +429,15 @@
   },
   "message_results": {
    "template": "report"
+  },
+  "people": {
+   "template": "list"
+  },
+  "projects": {
+   "template": "list"
+  },
+  "documents": {
+   "template": "list"
   }
  },
  "places": {
@@ -444,6 +453,7 @@
   "lynk-kiosk": "device",
   "lynk-dscreen": "device",
   "lynk-cdisplay": "device",
+  "files-signing": "device",
   "stock-scanner": "device",
   "rider-phone": "device",
   "mesh-relay": "device",

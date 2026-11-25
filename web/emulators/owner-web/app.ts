@@ -19,6 +19,8 @@ import type { BarLook } from "../../../ts/src/appshell.js";
 import { NAV } from "../../../ts/src/navigation.generated.js";
 import { OFFICE_PATHS, OFFICE_SERVICES, OfficeView } from "../../../ts/src/officeview.js";
 import type { OfficeService } from "../../../ts/src/officeview.js";
+import { WORK_PATHS, WORK_SERVICES, WorkView } from "../../../ts/src/workview.js";
+import type { WorkService } from "../../../ts/src/workview.js";
 import { watchNames, namePair } from "../../../ts/src/names.js";
 import { mayShow, slotHtml, whyHtml } from "../../../ts/src/ads.js";
 import { NAME_INFO_KEYS } from "../../../ts/src/nameinfo.js";
@@ -197,8 +199,11 @@ const AD = { on: false, why: false, reported: false };
 const adSlot = (): string => !mayShow("dashboard_card", { screen: "dashboard", country_on: AD.on, ad_free: S.tier !== "free" }) ? ""
   : slotHtml("dashboard_card", { id: "sample-ad", text: t("ad_sample_text"), sample: true }, { t, esc, icon }) + (AD.why ? whyHtml({ t, esc, icon }) : "") + (AD.reported ? `<p class="ad-why" role="status">${esc(t("ad_reported"))}</p>` : "");
 const OV = new OfficeView({ t, money: (n) => C.money(n), icon, chip, nav: NAV, role: "owner", user: "u-owner", today: "2026-11-20", taxBp: () => DATA.taxBp[S.country] ?? 0, ad: adSlot });
+// ---- LynkHR, LynkProject and LynkFiles in the browser (build section 4B step 4): ts/src/workview.ts on the real rules of hr.ts, project.ts and files.ts
+const WV = new WorkView({ t, money: (n) => C.money(n), icon, chip, nav: NAV, today: "2026-11-25" });
+const work = (): WorkService | null => (WORK_SERVICES as readonly string[]).includes(S.place) ? (S.place as WorkService) : null;
 const office = (): OfficeService | null => (OFFICE_SERVICES as readonly string[]).includes(S.place) ? (S.place as OfficeService) : null;
-function page(): string { const o = office(); if (o) return OV.draw(o, S.office || OV.pages(o)[0]!.id); return S.place ? placePage() : (SHARED_PAGES as readonly string[]).includes(S.page) ? sharedOwner(S.page as SharedPage) : S.page === "plans" ? plansOwner() : ({ today, sales, devices, staff, commissions, automations, sharing, tracking } as Record<string, () => string>)[S.page]!(); }
+function page(): string { const o = office(); if (o) return OV.draw(o, S.office || OV.pages(o)[0]!.id); const w = work(); if (w) return WV.draw(w, S.office || WV.pages(w)[0]!.id); return S.place ? placePage() : (SHARED_PAGES as readonly string[]).includes(S.page) ? sharedOwner(S.page as SharedPage) : S.page === "plans" ? plansOwner() : ({ today, sales, devices, staff, commissions, automations, sharing, tracking } as Record<string, () => string>)[S.page]!(); }
 
 // ---- the app shell on a computer: the two-level side bar (INTERFACE UPDATE 73.3, ts/src/appshell.ts) ---------------------------
 const look: BarLook = { t, icon: (id) => icon(id) };
@@ -209,7 +214,7 @@ const RAIL_CURRENT: Partial<Record<Page, string>> = { today: "home", tracking: "
 const SLOT: Record<Page, string> = { today: "overview", sales: "list", devices: "list", staff: "list", commissions: "list", automations: "automations", sharing: "settings", tracking: "list",
   calendar: "list", contacts: "list", recycle_bin: "settings", audit: "reports", consents: "settings", test_copy: "settings", plans: "settings",
   role_inbox: "list", broadcast: "list", message_results: "reports", email_in: "settings", message_wording: "settings" };
-const MINE = ["lynkpos", "lynkstock", "lynkchat", "lynkacc", "lynkinv", "lynkcrm", "lynkstat"];
+const MINE = ["lynkpos", "lynkstock", "lynkchat", "lynkacc", "lynkinv", "lynkcrm", "lynkstat", "lynkhr", "lynkproject", "lynkfiles"];
 const nameOf = (f: string): string => DATA.launcher.find((x) => x.family === f)?.name ?? f;
 const appOf = (f: string): string => DATA.launcher.find((x) => x.family === f)?.app ?? "";
 function sideBar(): string {
@@ -217,6 +222,7 @@ function sideBar(): string {
   const logo = `<div class="menu-logo">${brandMark(DATA.brand.places, "side-menu", S.dark, "logo", SIDE_W)}</div>`;
   const o = office();
   const menu = o ? orderedMenuHtml(NAV, look, { items: OV.pages(o).map((p) => ({ id: p.id, slot: p.slot, label: OV.title(p.id) })), current: S.office || OV.pages(o)[0]!.id, act: "office", label: nameOf(o), top: logo })
+    : work() ? orderedMenuHtml(NAV, look, { items: WV.pages(work()!).map((p) => ({ id: p.id, slot: p.slot, label: WV.title(p.id) })), current: S.office || WV.pages(work()!)[0]!.id, act: "office", label: nameOf(work()!), top: logo })
     : orderedMenuHtml(NAV, look, { items: PAGES.map((p) => ({ id: p, slot: SLOT[p], label: t(LABEL[p]) })), current: S.place ? "" : S.page, act: "go", label: "LynkOmni", top: logo });
   return first + menu;
 }
@@ -235,8 +241,8 @@ const DM = new DeviceMode(DEVICES, "all-in-one-pos", "non_touch");
 const WAIT = new PageWait();
 function draw(): void {
   const el = $("#screen"); DM.apply(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W);
-  el.innerHTML = `<div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">${icon("ui-lock")}${esc(office() ? `app.lynkomni.com${OFFICE_PATHS[office()!]}` : S.place ? appOf(S.place) : `app.lynkomni.com${PATH[S.page]}`)}</span></div>
-    <div class="app">${sideBar()}<main class="main"><div class="mhead">${DSH.bar()}</div>${office() ? OV.browserNote() : `<p class="viewonly" role="note">${icon("ui-info")}${esc(t("view_only_computer"))}</p>`}<div data-wait-area data-wrap>${page()}</div>${appMainFooter(W, C, DATA)}</main></div>${launcherOverlay()}${DSH.overlay()}`;
+  el.innerHTML = `<div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">${icon("ui-lock")}${esc(office() ? `app.lynkomni.com${OFFICE_PATHS[office()!]}` : work() ? `app.lynkomni.com${WORK_PATHS[work()!]}` : S.place ? appOf(S.place) : `app.lynkomni.com${PATH[S.page]}`)}</span></div>
+    <div class="app">${sideBar()}<main class="main"><div class="mhead">${DSH.bar()}</div>${office() ? OV.browserNote() : work() ? WV.note() : `<p class="viewonly" role="note">${icon("ui-info")}${esc(t("view_only_computer"))}</p>`}<div data-wait-area data-wrap>${page()}</div>${appMainFooter(W, C, DATA)}</main></div>${launcherOverlay()}${DSH.overlay()}`;
   const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address();
   pageWaiting(WAIT, { online: true, firstOpen: S.firstOpen }, el, t, draw);   // PLACEHOLDER UPDATE 83: a browser page is online
 }
@@ -250,6 +256,7 @@ function act(a: string): void {
   if (k === "rail") { const to = RAIL[v]; if (to) { if (to.startsWith("dsh:")) { if (DSH.act(to)) return; } else act(to); } return; }
   if (a === "launcher") { S.launcher = !S.launcher; draw(); return; }
   if (k === "office") { S.office = v; OV.reset(); draw(); return; }
+  if (WV.act(a)) { draw(); return; }
   if (OV.act(a)) { if (k === "of" && a.startsWith("of:go:")) { S.office = a.slice(6); OV.reset(); } draw(); return; }
   if (k === "place") { S.launcher = false; S.office = ""; OV.reset(); const page = (Object.keys(PATH) as Page[]).find((p) => appOf(v) === `app.lynkomni.com${PATH[p]}` || (v === "lynkpos" && p === "sales")); if (page) { S.place = ""; S.page = page; } else S.place = v; draw(); return; }
   if (k === "go") { S.place = ""; S.page = PAGES.includes(v as Page) ? (v as Page) : "today"; S.why = ""; S.notice = ""; }
@@ -264,11 +271,14 @@ function act(a: string): void {
 function panel(): void {
   $("#panel").innerHTML = panelHtml(["plan", "firstopen", "country", "dark", "lang"], S, W, C, { tiers: TIERS }) + `<label><input type="checkbox" data-ctl="ads"${AD.on ? " checked" : ""}> <span>${esc(t("ad_sponsored"))} · ${esc(t("ad_sample"))}</span></label>`;
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
-  const OFFICE_STATES = OFFICE_SERVICES.flatMap((svc) => OV.pages(svc).map((p) => p.id));        // every office page, so every check visits it
-  stateButtons($("#stateButtons"), [...PAGES, "why", "new-sale", ...OFFICE_STATES, "inv_record", "crm_record"], (k) => {
+  const OFFICE_STATES = OFFICE_SERVICES.flatMap((svc) => OV.pages(svc).map((p) => p.id));
+  const WORK_STATES = WORK_SERVICES.flatMap((svc) => WV.pages(svc).map((p) => p.id));        // every LynkHR, LynkProject and LynkFiles page too        // every office page, so every check visits it
+  stateButtons($("#stateButtons"), [...PAGES, "why", "new-sale", ...OFFICE_STATES, ...WORK_STATES, "inv_record", "crm_record"], (k) => {
     OV.reset();
     const svc = OFFICE_SERVICES.find((x) => OV.pages(x).some((p) => p.id === k));
     if (svc) { S.place = svc; S.office = k; draw(); return; }
+    const wsv = WORK_SERVICES.find((x) => WV.pages(x).some((p) => p.id === k));
+    if (wsv) { S.place = wsv; S.office = k; draw(); return; }
     if (k === "inv_record") { S.place = "lynkinv"; S.office = "inv_list"; OV.act("of:inv:LOINV-1002"); OV.act("of:creditnote"); draw(); return; }
     if (k === "crm_record") { S.place = "lynkcrm"; S.office = "crm_list"; OV.act("of:person:LOCST-1001"); draw(); return; }
     S.place = ""; S.office = "";
@@ -280,8 +290,8 @@ function main(): void {
     if (b.classList.contains("dsh-scrim") && tg.closest("[data-stop]")) return; if (!DSH.act(a)) act(a); });
   document.addEventListener("input", (e) => { const el = e.target as HTMLInputElement;
     if (el.id === "ofSearch") { OV.search(el.value); keepFocus(el.id); return; }
-    const k = el.dataset["in"] ?? ""; if (k.startsWith("shv:")) { if (sharedInput(SHV, k, el.value)) draw(); return; } if (trkInput(k, el.value)) { keepFocus(el.id); return; } if (OV.input(k, el.value)) { keepFocus(el.id); return; } DSH.input(el); });
-  document.addEventListener("change", (e) => { const el = e.target as HTMLSelectElement; if (el.tagName === "SELECT" && (el.dataset["in"] ?? "").startsWith("shv:")) { if (sharedInput(SHV, el.dataset["in"] ?? "", el.value)) draw(); return; } if (el.closest("#screen") && el.tagName === "SELECT" && (trkInput(el.dataset["in"] ?? "", el.value) || OV.input(el.dataset["in"] ?? "", el.value))) draw(); });
+    const k = el.dataset["in"] ?? ""; if (k.startsWith("shv:")) { if (sharedInput(SHV, k, el.value)) draw(); return; } if (trkInput(k, el.value)) { keepFocus(el.id); return; } if (WV.input(k, el.value)) { keepFocus(el.id); return; } if (OV.input(k, el.value)) { keepFocus(el.id); return; } DSH.input(el); });
+  document.addEventListener("change", (e) => { const el = e.target as HTMLSelectElement; if (el.tagName === "SELECT" && (el.dataset["in"] ?? "").startsWith("shv:")) { if (sharedInput(SHV, el.dataset["in"] ?? "", el.value)) draw(); return; } if (el.closest("#screen") && el.tagName === "SELECT" && (trkInput(el.dataset["in"] ?? "", el.value) || WV.input(el.dataset["in"] ?? "", el.value) || OV.input(el.dataset["in"] ?? "", el.value))) draw(); });
   document.addEventListener("keydown", (e) => { DSH.key(e); });
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
   $("#panel").addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["ctl"] === "ads") { AD.on = el.checked; AD.why = false; AD.reported = false; draw(); return; } if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });

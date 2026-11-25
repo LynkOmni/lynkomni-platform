@@ -61,7 +61,7 @@ LOCKED_API = {"prices": {"tracking_shipment_cents": 1, "geocoding_per_1000_cents
 
 # EMULATOR UPDATE (owner accepted 2026-11-18, blueprint 70.12; pinned in build section 3A): staff emulator slots per tier and the one
 # new price, $2 a month for each extra slot on a paid tier. LynkAttend, LynkQueue and LynkSurvey keep their own locked units.
-LOCKED_EMULATORS = {"ladder": (1, 2, 5, None), "lynkpos": (1, 2, 5, None), "own_units": ("lynkbooking", "lynkattend", "lynkqueue", "lynksurvey", "lynkbet"),
+LOCKED_EMULATORS = {"ladder": (1, 2, 5, None), "lynkpos": (1, 2, 5, None), "own_units": ("lynkbooking", "lynkattend", "lynkqueue", "lynksurvey", "lynkbet", "lynkhr", "lynkproject", "lynkfiles"),   # build section 4B (2026-11-25): their devices follow their own locked units, no new limit
                     # owner 2026-11-19: extra devices priced so the next tier stays the better deal, and a day pass for events
                     "extra_cents": {"lynkpos": 800, "lynkmpay": 400, "lynkstock": 300, "lynkrewards": 300, "lynkcheckout": 200, "lynkessential": 200,
                                     "lynkmotion": 800, "lynkguard": 1400},

@@ -124,7 +124,7 @@ def load(name):
 
 def emulator_ids():
     with open(os.path.join(os.path.dirname(ROOT), "catalog", "emulators.v1.json"), encoding="utf-8") as f:
-        return [e["id"] for e in json.load(f)["emulators"]]
+        return [e["id"] for e in json.load(f)["emulators"] if e.get("contract_since", 7) <= 17]   # a later emulator joins a later version (build_v20.py)
 
 
 def build():

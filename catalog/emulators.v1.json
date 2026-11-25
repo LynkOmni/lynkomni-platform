@@ -1066,6 +1066,124 @@
     "min_short_side_px": 540,
     "outputs": []
    }
+  },
+  {
+   "id": "hr.people",
+   "service": "lynkhr",
+   "devices": [
+    "LynkMobile",
+    "LynkTab",
+    "LynkPC"
+   ],
+   "built_in": "merchant-phone",
+   "build_section": "4B",
+   "planned": false,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   },
+   "contract_since": 20
+  },
+  {
+   "id": "project.site_phone",
+   "service": "lynkproject",
+   "devices": [
+    "LynkMobile",
+    "LynkTab",
+    "LynkPC"
+   ],
+   "built_in": "merchant-phone",
+   "build_section": "4B",
+   "planned": false,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   },
+   "contract_since": 20
+  },
+  {
+   "id": "files.documents",
+   "service": "lynkfiles",
+   "devices": [
+    "LynkMobile",
+    "LynkTab",
+    "LynkPC"
+   ],
+   "built_in": "merchant-phone",
+   "build_section": "4B",
+   "planned": false,
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "works",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 320,
+    "outputs": []
+   },
+   "contract_since": 20
+  },
+  {
+   "id": "files.signing_tablet",
+   "service": "lynkfiles",
+   "devices": [
+    "LynkTab"
+   ],
+   "built_in": "files-signing",
+   "build_section": "4B",
+   "planned": false,
+   "counted": false,
+   "customer_facing": true,
+   "user": "none",
+   "shared_with": null,
+   "checks": {
+    "touch": true,
+    "buttons_only": true,
+    "offline": "partner_parts_online_only",
+    "sides": [
+     "internal"
+    ]
+   },
+   "hardware": [],
+   "needs": {
+    "min_short_side_px": 480,
+    "outputs": []
+   },
+   "contract_since": 20
   }
  ],
  "later_services": {
@@ -1074,9 +1192,7 @@
   "lynkexchange": "10",
   "lynkschool": "9B",
   "lynkproperty": "9B",
-  "lynkjobs": "8B",
-  "lynkhr": "4B (uses the LynkAttend door and reception)",
-  "lynkfiles": "4B (signing tablet)"
+  "lynkjobs": "8B"
  },
  "sides_rule": "The side follows the address map (catalog/addresses.v1.json storefront): the in-person till, the door, reception, the counter and the kiosks are workspace-only, so their emulators are internal; the Business app on a phone and the stock handheld serve both sides; a customer-facing screen shows the side it was assigned from.",
  "staff_lock": "Owner rule 2026-11-24: every emulator whose user is \"needed\" or \"optional\" (a shared staff device) signs each person in with their own PIN through ts/src/devicekit.ts (StaffLock, StaffGate; rules in identity/device_access.py): waits and a locked PIN after wrong tries, never a wipe; a duress PIN that opens the device's quiet limited view while DuressSignalled leaves silently; a lock after two minutes without use; big or sensitive acts approved with a manager's or the owner's own PIN, never the person serving. Basic phones take a duress PIN at sign-in and at a sale (core/channels.py, identity/basic_phone.py). A planned emulator gets it in the build section that builds it; tests/test_staff_lock.py checks every built one."

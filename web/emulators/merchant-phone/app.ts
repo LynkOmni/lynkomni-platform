@@ -71,6 +71,8 @@ import { watchNames, namesChoice, namesAct, nameById, nameOpened, welcomeCard, w
 import { NAME_INFO_KEYS } from "../../../ts/src/nameinfo.js";
 import { OFFICE_PAGES, OfficeView } from "../../../ts/src/officeview.js";
 import type { OfficeService } from "../../../ts/src/officeview.js";
+import { WORK_PAGES, WorkView } from "../../../ts/src/workview.js";
+import type { WorkService } from "../../../ts/src/workview.js";
 
 interface BuildData {
   people: { attend: Record<AtTier, AtPlan>; queue: Record<AtTier, QuPlan>; survey: Record<AtTier, SvPlan> };
@@ -1437,7 +1439,7 @@ const HUB_NAME: Record<string, string> = { attendance: "attend", queue: "queue",
 function hubWelcome(id: string): string {
   const name = nameById(HUB_NAME[id] ?? ""), reg = DATA.screens.find((s) => s.id === id); if (!name || !reg) return "";
   const go = (i: string): string => AT_HOME[i] ? `hub:${AT_HOME[i]}` : QU_HOME[i] ? `hub:${QU_HOME[i]}` : SV_HOME[i] ? `hub:${SV_HOME[i]}` : "";
-  return welcomeCard(name, t, reg.items.slice(0, 3).map((i) => ({ label: t(PEOPLE_ITEM[i] ?? "it_" + i), act: go(i) })), { act: "nmw", icon });
+  return welcomeCard(name, t, reg.items.slice(0, 3).map((i) => ({ label: itemLabel(i), act: go(i) })), { act: "nmw", icon });
 }
 function hubSection(id: string): string {
   const html = hubBody(id), w = hubWelcome(id);
@@ -1466,6 +1468,18 @@ function officeHub(id: string, svc: OfficeService): string {
   const menu = `<div class="pk-chips of-pages" role="group" aria-label="${esc(t("it_" + id))}">${OFFICE_PAGES[svc].map((p) => `<button class="pk-chip" data-act="page:${esc(p.id)}" aria-pressed="${p.id === cur}">${esc(OV.title(p.id))}</button>`).join("")}</div>`;
   return `${menu}<div class="of-phone">${OV.draw(svc, cur)}</div>`;
 }
+// ---- LynkHR, LynkProject and LynkFiles in the Business app (build section 4B step 4): the same pages as the browser, drawn by ts/src/workview.ts ----
+const WK_HUB: Record<string, WorkService> = { people: "lynkhr", projects: "lynkproject", documents: "lynkfiles" };
+const WV = new WorkView({ t, money, icon, chip, nav: NAV, today: "2026-11-25" });
+let WKP = "";                                       // the page open inside its hub
+const WK_IDS = new Set(Object.values(WORK_PAGES).flatMap((ps) => ps.map((p) => p.id)));
+const wkCurrent = (svc: WorkService): string => (WORK_PAGES[svc].some((p) => p.id === WKP) ? WKP : WORK_PAGES[svc][0]!.id);
+const itemLabel = (i: string): string => WK_IDS.has(i) ? WV.title(i) : t(PEOPLE_ITEM[i] ?? "it_" + i);
+function workHub(id: string, svc: WorkService): string {
+  const cur = wkCurrent(svc);
+  const menu = `<div class="pk-chips of-pages" role="group" aria-label="${esc(t("it_" + id))}">${WORK_PAGES[svc].map((p) => `<button class="pk-chip" data-act="page:${esc(p.id)}" aria-pressed="${p.id === cur}">${esc(WV.title(p.id))}</button>`).join("")}</div>`;
+  return `${menu}<div class="of-phone">${WV.draw(svc, cur)}</div>`;
+}
 function hubBody(id: string): string {
   const reg = DATA.screens.find((s) => s.id === id); if (!reg) return "";
   if ((SHARED_PAGES as readonly string[]).includes(id)) { SHV.role = S.role === "owner" ? "owner" : S.role === "manager" ? "manager" : "staff";
@@ -1478,11 +1492,12 @@ function hubBody(id: string): string {
   const spage = SV_PAGES[id];
   if (spage) return `${topBar(t(spage.title), "hub:survey")}<div class="body">${webNote()}${spage.draw()}${flash()}</div>`;
   const back = "view:main";
-  const rows = (items: readonly string[], act: (i: string) => string = () => ""): string => `<ul class="list card">${items.map((i) => lineItem(i, t(PEOPLE_ITEM[i] ?? "it_" + i), hubValue(i), act(i))).join("")}</ul>`;
+  const rows = (items: readonly string[], act: (i: string) => string = () => ""): string => `<ul class="list card">${items.map((i) => lineItem(i, itemLabel(i), hubValue(i), act(i))).join("")}</ul>`;
   let extra = "";
   switch (id) {
     case "daily_close": extra = `<p class="sub">${esc(t("daily_close_help"))}</p><button class="primary inline" data-act="closeday">${esc(t("close_day"))}</button>`; break;
     case "reports": case "invoicing": case "customers": case "books": extra = officeHub(id, OF_HUB[id]!); break;
+    case "people": case "projects": case "documents": extra = workHub(id, WK_HUB[id]!); break;
     case "assistant": extra = `<label class="field"><span>${esc(t("it_ask"))}</span><input id="askIn" data-in="ask" value="${esc(S.ask)}" autocomplete="off" placeholder="${esc(t("hint_ask"))}" aria-label="${esc(t("it_ask"))}"></label><button class="ghost inline" data-act="ask">${esc(t("send"))}</button>
       ${S.answer ? laSalesAnswer() : ""}<p class="sub">${esc(t("assist_never"))}</p>${laPreview()}${m3Assistant()}${laControls()}`; break;
     case "cards": extra = `<p class="sub">${esc(t("cards_issuer"))}</p>${m3Cards()}`; break;
@@ -1508,7 +1523,7 @@ function hubBody(id: string): string {
   }
   if (id === "settings") extra += m3Settings();
   if (id === "settings") extra += `<button class="rowbtn card" data-item="driver_link" data-act="view:driver">${icon("ui-settings", "prod")}<span class="main"><span class="nm">LynkDriver</span><span class="sub">${esc(driverLine())}</span></span>${icon("ui-chevron-right", "ic fwd")}</button><button class="rowbtn card" data-item="storefront_plans_link" data-act="hub:plans_billing">${icon("ui-cart", "prod")}<span class="main"><span class="nm">${esc(t("sf_plan"))}</span><span class="sub">${esc(sfPlanLine())}</span></span>${icon("ui-chevron-right", "ic fwd")}</button>`;
-  const act = (i: string): string => AT_HOME[i] ? `hub:${AT_HOME[i]}` : QU_HOME[i] ? `hub:${QU_HOME[i]}` : SV_HOME[i] ? `hub:${SV_HOME[i]}` : id === "settings" ? `setting:${i}` : i === "statement_match" ? "matchstatement" : i === "wipe" ? "" : "";
+  const act = (i: string): string => AT_HOME[i] ? `hub:${AT_HOME[i]}` : QU_HOME[i] ? `hub:${QU_HOME[i]}` : SV_HOME[i] ? `hub:${SV_HOME[i]}` : id === "settings" ? `setting:${i}` : WK_IDS.has(i) ? `page:${i}` : i === "statement_match" ? "matchstatement" : i === "wipe" ? "" : "";
   return `${topBar(t("it_" + id), back)}<div class="body">${webNote()}${rows(reg.items, act)}${extra}${flash()}</div>`;
 }
 function usernameNote(): string {
@@ -1862,6 +1877,8 @@ function act(a: string): void {
   const [k, v = ""] = a.split(/:(.*)/s);
   if (S.screen === "app" && staffTill() && GATE.limited && duressBlocks(k ?? "", v)) return;   // the quiet duress view only sells for cash
   if (sharedAct(SHV, a)) { draw(); return; }                      // the shared pages (CONNECT UPDATE 71.3)
+  if (k === "page" && S.view === "hub" && WK_HUB[S.hub]) { WKP = v; WV.reset(); draw(); return; }   // a LynkHR, LynkProject or LynkFiles page inside its hub
+  if (k === "wk" && WV.act(a)) { draw(); return; }
   if (k === "page" && S.view === "hub" && OF_HUB[S.hub]) { OFP = v; OV.reset(); draw(); return; }   // an office page inside its hub
   if (k === "of" && OV.act(a)) { if (a.startsWith("of:go:")) { OFP = a.slice(6); OV.reset(); } draw(); return; }
   if (namesAct(a, "nmc", "device")) { draw(); return; }   // the owner's choice of how names show on this device
@@ -2093,6 +2110,7 @@ function onChange(el: HTMLInputElement & HTMLSelectElement): void {
   if (k === "la:brief") { AX.brief = (el as HTMLInputElement).checked; draw(); return; }
   if (k.startsWith("shv:")) { if (el.tagName === "SELECT" && sharedInput(SHV, k, el.value)) draw(); return; }
   if (k.startsWith("of:")) { if (el.tagName === "SELECT" && OV.input(k, el.value)) draw(); return; }
+  if (k.startsWith("wk:")) { if (el.tagName === "SELECT" && WV.input(k, el.value)) draw(); return; }
   if (k.startsWith("la:")) { if (k !== "la:remember") laChange(k, el); return; }
   if (k.startsWith("at:")) { if (el.tagName === "SELECT") { PH.att.input(k, el.value); draw(); } return; }
   if (k.startsWith("qu:")) { if (el.tagName === "SELECT") { PH.q.input(k, el.value); draw(); } return; }
@@ -2138,6 +2156,10 @@ function go(id: string): void {
   else if (Object.values(OFFICE_PAGES).some((ps) => ps.some((p) => p.id === id))) {   // an office page opens inside its hub
     const svc = (Object.keys(OFFICE_PAGES) as OfficeService[]).find((x) => OFFICE_PAGES[x].some((p) => p.id === id))!;
     S.tab = "business"; S.view = "hub"; S.hub = Object.keys(OF_HUB).find((h) => OF_HUB[h] === svc)!; OFP = id; OV.reset();
+  }
+  else if (WK_IDS.has(id)) {   // a LynkHR, LynkProject or LynkFiles page opens inside its hub
+    const svc = (Object.keys(WORK_PAGES) as WorkService[]).find((x) => WORK_PAGES[x].some((p) => p.id === id))!;
+    S.tab = "business"; S.view = "hub"; S.hub = Object.keys(WK_HUB).find((h) => WK_HUB[h] === svc)!; WKP = id; WV.reset();
   }
   else if (id === "home") { S.tab = "home"; S.view = "main"; }
   else if (id === "chats") { S.tab = "chats"; S.view = "main"; }
