@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-wOOqB36F2lIbBFjNw35+zTYW3+JdUGEooXkdoQBRp4E='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-jHqXK6094Z+8M4Rq2KLpshDPRgWEIP+Co3z9JGsk0sQ='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkKiosk</title>
 <meta name="description" content="Interactive emulator of LynkKiosk, the self-service kiosk: check in or out with LynkAttend, take a ticket with LynkQueue and give an answer with LynkSurvey, by touch or by buttons only, with or without internet.">
@@ -765,9 +765,9 @@ body { margin: 0; min-height: 100vh; }
 .actions { display: flex; flex-wrap: wrap; gap: 8px; }
 /* Jump sideways and Copy link from the current step (CONNECT UPDATE 71.5). */
 .crumbs .crumb-more { position: relative; display: inline-block; margin-inline-start: 6px; }
-.crumbs .crumb-more > summary { cursor: pointer; min-block-size: var(--touch-target); display: inline-flex; align-items: center; color: var(--brand-ink); list-style: none; }
-.crumbs .crumb-more > summary::-webkit-details-marker { display: none; }
-.crumbs .crumb-more > summary::after { content: " ▾"; }
+.crumbs .crumb-toggle { cursor: pointer; min-block-size: var(--touch-target); display: inline-flex; align-items: center; color: var(--brand-ink); background: none; border: 0; padding-inline: 4px; font: inherit; }
+.crumbs .crumb-toggle::after { content: " ▾"; }
+.crumbs .crumb-menu[hidden] { display: none; }
 .crumbs .crumb-menu { position: absolute; inset-inline-start: 0; z-index: 5; min-inline-size: 200px; max-inline-size: min(320px, 80vw); max-block-size: 60vh; overflow: auto; background: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 8px; box-shadow: 0 16px 40px -16px color-mix(in srgb, var(--text-primary) 35%, transparent); }
 .crumbs .crumb-menu ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
 .crumbs .crumb-menu li::before { content: none; }
@@ -3601,16 +3601,39 @@ function breadcrumbBar(steps, compact, t, more) {
         return `<nav class="crumbs compact" aria-label="${esc(t("crumbs"))}"><a href="${esc(up.path)}" data-act="go:${esc(up.path)}" data-up aria-keyshortcuts="${UP_KEY}">‹ ${esc(up.label)}</a></nav>`;
     }
     const sibs = more?.siblings ?? [];
-    const menu = sibs.length || more?.link ? `<details class="crumb-more"><summary>${esc(t("crumbs_more"))}</summary><div class="crumb-menu">${sibs.length ? `<p class="crumb-head">${esc(t("crumbs_siblings"))}</p><ul>${sibs.map((x) => `<li><a href="${esc(x.path)}" data-act="go:${esc(x.path)}">${esc(x.label)}</a></li>`).join("")}</ul>` : ""}${more?.link ? `<button type="button" class="crumb-copy" data-crumb-copy="${esc(more.link)}" data-copied="${esc(t("crumbs_copied"))}">${esc(t("crumbs_copy"))}</button>` : ""}</div></details>` : "";
+    const menu = sibs.length || more?.link ? `<span class="crumb-more"><button type="button" class="crumb-toggle" aria-expanded="false" data-crumb-more>${esc(t("crumbs_more"))}</button><div class="crumb-menu" hidden>${sibs.length ? `<p class="crumb-head">${esc(t("crumbs_siblings"))}</p><ul>${sibs.map((x) => `<li><a href="${esc(x.path)}" data-act="go:${esc(x.path)}">${esc(x.label)}</a></li>`).join("")}</ul>` : ""}${more?.link ? `<button type="button" class="crumb-copy" data-crumb-copy="${esc(more.link)}" data-copied="${esc(t("crumbs_copied"))}">${esc(t("crumbs_copy"))}</button>` : ""}</div></span>` : "";
     return `<nav class="crumbs" aria-label="${esc(t("crumbs"))}"><ol>${steps.map((s, i) => i === steps.length - 1 ? `<li><span aria-current="page">${esc(s.label)}</span>${menu}</li>` : `<li><a href="${esc(s.path)}" data-act="go:${esc(s.path)}"${i === parentAt ? ` data-up aria-keyshortcuts="${UP_KEY}"` : ""}>${esc(s.label)}</a></li>`).join("")}</ol></nav>`;
 }
 function wireCrumbs(doc) {
-    doc.addEventListener("keydown", (e) => { if (!isUpKey(e))
-        return; const up = doc.querySelector(".crumbs [data-up]"); if (up) {
-        e.preventDefault();
-        up.click();
-    } });
+    const close = () => doc.querySelectorAll(".crumbs [data-crumb-more][aria-expanded=true]").forEach((t) => { t.setAttribute("aria-expanded", "false"); t.nextElementSibling?.setAttribute("hidden", ""); });
+    doc.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+            const open = doc.querySelector(".crumbs [data-crumb-more][aria-expanded=true]");
+            if (open) {
+                close();
+                open.focus();
+            }
+            return;
+        }
+        if (!isUpKey(e))
+            return;
+        const up = doc.querySelector(".crumbs [data-up]");
+        if (up) {
+            e.preventDefault();
+            up.click();
+        }
+    });
     doc.addEventListener("click", (e) => {
+        const tg = e.target.closest("[data-crumb-more]");
+        if (tg) {
+            const was = tg.getAttribute("aria-expanded") === "true";
+            close();
+            if (!was) {
+                tg.setAttribute("aria-expanded", "true");
+                tg.nextElementSibling?.removeAttribute("hidden");
+            }
+            return;
+        }
         const b = e.target.closest("[data-crumb-copy]");
         if (!b)
             return;

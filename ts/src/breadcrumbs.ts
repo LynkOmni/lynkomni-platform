@@ -58,14 +58,20 @@ export function breadcrumbBar(steps: { path: string; label: string }[], compact:
   const parentAt = steps.length - 2;
   if (compact) { const up = steps[parentAt]!; return `<nav class="crumbs compact" aria-label="${esc(t("crumbs"))}"><a href="${esc(up.path)}" data-act="go:${esc(up.path)}" data-up aria-keyshortcuts="${UP_KEY}">‹ ${esc(up.label)}</a></nav>`; }
   const sibs = more?.siblings ?? [];
-  const menu = sibs.length || more?.link ? `<details class="crumb-more"><summary>${esc(t("crumbs_more"))}</summary><div class="crumb-menu">${sibs.length ? `<p class="crumb-head">${esc(t("crumbs_siblings"))}</p><ul>${sibs.map((x) => `<li><a href="${esc(x.path)}" data-act="go:${esc(x.path)}">${esc(x.label)}</a></li>`).join("")}</ul>` : ""}${more?.link ? `<button type="button" class="crumb-copy" data-crumb-copy="${esc(more.link)}" data-copied="${esc(t("crumbs_copied"))}">${esc(t("crumbs_copy"))}</button>` : ""}</div></details>` : "";
+  const menu = sibs.length || more?.link ? `<span class="crumb-more"><button type="button" class="crumb-toggle" aria-expanded="false" data-crumb-more>${esc(t("crumbs_more"))}</button><div class="crumb-menu" hidden>${sibs.length ? `<p class="crumb-head">${esc(t("crumbs_siblings"))}</p><ul>${sibs.map((x) => `<li><a href="${esc(x.path)}" data-act="go:${esc(x.path)}">${esc(x.label)}</a></li>`).join("")}</ul>` : ""}${more?.link ? `<button type="button" class="crumb-copy" data-crumb-copy="${esc(more.link)}" data-copied="${esc(t("crumbs_copied"))}">${esc(t("crumbs_copy"))}</button>` : ""}</div></span>` : "";
   return `<nav class="crumbs" aria-label="${esc(t("crumbs"))}"><ol>${steps.map((s, i) => i === steps.length - 1 ? `<li><span aria-current="page">${esc(s.label)}</span>${menu}</li>` : `<li><a href="${esc(s.path)}" data-act="go:${esc(s.path)}"${i === parentAt ? ` data-up aria-keyshortcuts="${UP_KEY}"` : ""}>${esc(s.label)}</a></li>`).join("")}</ol></nav>`;
 }
 
-/** Once per page: the up key follows the trail's parent step, and Copy link copies the page's address (a note says Copied). */
+/** Once per page: the up key follows the trail's parent step, More opens and closes its menu (Escape closes it), and Copy
+ *  link copies the page's address (the button then says Link copied). */
 export function wireCrumbs(doc: Document): void {
-  doc.addEventListener("keydown", (e) => { if (!isUpKey(e)) return; const up = doc.querySelector<HTMLElement>(".crumbs [data-up]"); if (up) { e.preventDefault(); up.click(); } });
+  const close = (): void => doc.querySelectorAll<HTMLElement>(".crumbs [data-crumb-more][aria-expanded=true]").forEach((t) => { t.setAttribute("aria-expanded", "false"); t.nextElementSibling?.setAttribute("hidden", ""); });
+  doc.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") { const open = doc.querySelector<HTMLElement>(".crumbs [data-crumb-more][aria-expanded=true]"); if (open) { close(); open.focus(); } return; }
+    if (!isUpKey(e)) return; const up = doc.querySelector<HTMLElement>(".crumbs [data-up]"); if (up) { e.preventDefault(); up.click(); } });
   doc.addEventListener("click", (e) => {
+    const tg = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-crumb-more]");
+    if (tg) { const was = tg.getAttribute("aria-expanded") === "true"; close(); if (!was) { tg.setAttribute("aria-expanded", "true"); tg.nextElementSibling?.removeAttribute("hidden"); } return; }
     const b = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-crumb-copy]"); if (!b) return;
     try { void navigator.clipboard?.writeText(b.dataset["crumbCopy"] ?? ""); } catch { /* no clipboard here: the address stays visible in the browser */ }
     b.textContent = b.dataset["copied"] ?? b.textContent;
