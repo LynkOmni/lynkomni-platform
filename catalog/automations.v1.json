@@ -2850,7 +2850,7 @@
    "build_section": "4B",
    "family": "lynkhr",
    "min_tier": "free",
-   "trigger": "user:leave_requested",
+   "trigger": "event:LeaveRequested",
    "action": "A staff member's leave request goes to their manager to approve or decline; the staff member is told the answer (a named person decides, never LynkAssist)",
    "level": "inform",
    "assist": null,
@@ -2858,7 +2858,8 @@
    "customer_message": false,
    "offline": true,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "services/hr.py request_leave and answer_leave; message leave_request_waiting"
   },
   {
    "id": "docs-signature-reminder",
@@ -3198,7 +3199,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "implemented_by": "services/projects.py my_work; message task_assigned"
   },
   {
    "id": "school-absence-to-guardian",
@@ -3270,7 +3272,7 @@
   {
    "id": "hr-payslip-ready",
    "area": "People",
-   "build_section": "4B",
+   "build_section": 7,
    "family": "lynkhr",
    "min_tier": "free",
    "trigger": "event:PayslipIssued",
@@ -3281,7 +3283,8 @@
    "customer_message": false,
    "offline": false,
    "default": "on",
-   "standing_instruction": false
+   "standing_instruction": false,
+   "note": "Moved from 4B to 7 on 2026-11-25 with the person's own side (account.lynkomni.com/work), where payslips are shown; LynkHR in 4B sends payroll figures only."
   },
   {
    "id": "settlement-match",
@@ -4158,6 +4161,127 @@
    "standing_instruction": false,
    "implemented_by": "services/assist_connect.py run_saved_questions",
    "consent": "opt_in"
+  },
+  {
+   "id": "hr-document-expiry",
+   "area": "People and HR",
+   "build_section": "4B",
+   "family": "lynkhr",
+   "min_tier": "free",
+   "trigger": "schedule:daily",
+   "action": "The person and HR are told at 60, 30, 7 and 0 days before a work permit, licence, certificate or contract ends; nothing is blocked automatically",
+   "level": "inform",
+   "assist": null,
+   "touches": [],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "implemented_by": "services/hr.py expiries; message staff_document_expiring"
+  },
+  {
+   "id": "hr-probation-end",
+   "area": "People and HR",
+   "build_section": "4B",
+   "family": "lynkhr",
+   "min_tier": "plus",
+   "trigger": "schedule:daily",
+   "action": "The manager is reminded a week before a probation ends, so a named person decides what happens next",
+   "level": "inform",
+   "assist": null,
+   "touches": [],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "implemented_by": "services/hr.py add (probation_end)"
+  },
+  {
+   "id": "hr-final-pay-figures",
+   "area": "People and HR",
+   "build_section": "4B",
+   "family": "lynkhr",
+   "min_tier": "plus",
+   "trigger": "event:StaffChecklistStepDone",
+   "action": "When notice, equipment back and access closed are all done, the leaving checklist shows final pay figures as ready for LynkAcc; payroll stays a draft a second person posts",
+   "level": "draft",
+   "assist": null,
+   "touches": [
+    "payroll"
+   ],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "implemented_by": "services/hr.py step_done and payroll"
+  },
+  {
+   "id": "project-next-person",
+   "area": "Projects",
+   "build_section": "4B",
+   "family": "lynkproject",
+   "min_tier": "plus",
+   "trigger": "event:TaskStateChanged",
+   "action": "When a task is done, the person whose task was waiting on it is told it can start",
+   "level": "auto",
+   "assist": null,
+   "touches": [],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "implemented_by": "services/projects.py move; message task_assigned"
+  },
+  {
+   "id": "project-late-to-manager",
+   "area": "Projects",
+   "build_section": "4B",
+   "family": "lynkproject",
+   "min_tier": "plus",
+   "trigger": "schedule:daily",
+   "action": "When a task is two days late, its project manager is told (the owner can change the days or switch it off)",
+   "level": "inform",
+   "assist": "watch",
+   "touches": [],
+   "customer_message": false,
+   "offline": false,
+   "default": "off",
+   "standing_instruction": false,
+   "implemented_by": "services/projects.py late"
+  },
+  {
+   "id": "files-approval-next",
+   "area": "Files",
+   "build_section": "4B",
+   "family": "lynkfiles",
+   "min_tier": "plus",
+   "trigger": "event:ApprovalStepAnswered",
+   "action": "When one approver approves, the next named approver is asked; a returned document goes back to the sender",
+   "level": "auto",
+   "assist": null,
+   "touches": [],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "implemented_by": "services/files.py answer_route; message approval_waiting"
+  },
+  {
+   "id": "files-document-request-reminder",
+   "area": "Files",
+   "build_section": "4B",
+   "family": "lynkfiles",
+   "min_tier": "free",
+   "trigger": "schedule:daily",
+   "action": "A person asked for a document is reminded two days before the request's date, once, in their language",
+   "level": "auto",
+   "assist": null,
+   "touches": [],
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "implemented_by": "services/files.py request_document; message document_requested"
   }
  ],
  "careful": [

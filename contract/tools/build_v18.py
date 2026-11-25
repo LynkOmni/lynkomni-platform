@@ -22,8 +22,8 @@ UU = {"$ref": "#/$defs/uuid"}
 
 
 def _kinds():
-    with open(os.path.join(os.path.dirname(ROOT), "catalog", "tracking.v1.json"), encoding="utf-8") as f:
-        return [k["id"] for k in json.load(f)["kinds"]]
+    """The tracking kinds version 18 was published with (2026-11-24). Later kinds join a later version (build_v19.py and on)."""
+    return ["delivery", "order", "payment", "agent_request", "group_order", "lease", "registration", "recovery", "data_request", "payout_change", "payout", "repair", "invoice", "quote", "standing_payment", "collection", "financing", "tax_return", "queue_ticket", "attendance_correction", "survey_reward", "emulator_request", "device_swap", "device_reapproval", "vote", "signature_request", "exchange_order", "bill_to_pay", "expense_claim", "message_delivery", "provider_payout", "bet_slip", "bet_referral"]
 
 
 EVENTS = {

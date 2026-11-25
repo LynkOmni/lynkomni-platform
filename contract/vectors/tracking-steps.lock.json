@@ -195,6 +195,61 @@
    "approved",
    "paid",
    "rejected"
+  ],
+  "leave": [
+   "asked",
+   "leave_approved",
+   "leave_declined",
+   "leave_cancelled"
+  ],
+  "joining": [
+   "joining_started",
+   "contract_signed",
+   "joining_ready"
+  ],
+  "leaving": [
+   "notice",
+   "equipment_back",
+   "access_closed",
+   "left"
+  ],
+  "review_cycle": [
+   "cycle_opened",
+   "answers_in",
+   "signed_off"
+  ],
+  "task": [
+   "to_do",
+   "in_progress",
+   "task_waiting",
+   "task_done",
+   "task_cancelled"
+  ],
+  "change_request": [
+   "raised",
+   "change_accepted",
+   "change_refused"
+  ],
+  "milestone": [
+   "planned",
+   "reached"
+  ],
+  "time_sheet": [
+   "sheet_sent",
+   "sheet_approved",
+   "sheet_returned"
+  ],
+  "approval_route": [
+   "route_waiting",
+   "step_approved",
+   "route_approved",
+   "route_returned"
+  ],
+  "document_request": [
+   "doc_asked",
+   "doc_received",
+   "doc_checked",
+   "doc_closed"
   ]
  }
 }

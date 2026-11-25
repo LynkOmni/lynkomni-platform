@@ -388,6 +388,16 @@
   "lynkbet": [
    "betting",
    "agent"
+  ],
+  "lynkhr": [
+   "work",
+   "staff"
+  ],
+  "lynkproject": [
+   "projects"
+  ],
+  "lynkfiles": [
+   "files"
   ]
  },
  "areas_note": "Which areas of the LynkAssist register (catalog/assist.v1.json) and the message register (catalog/messages.v1.json) belong to each family. A family with no area here has its LynkAssist skills and messages due in its home section; its build adds the area here and its entries there."

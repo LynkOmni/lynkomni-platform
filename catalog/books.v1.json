@@ -47,7 +47,7 @@
   "year_end_account": "3100"
  },
  "two_person": {
-  "kinds": ["manual_journal", "reversal", "write_off", "opening_balance", "lock_date_change", "bank_details_change"],
+  "kinds": ["manual_journal", "reversal", "write_off", "opening_balance", "lock_date_change", "bank_details_change", "payroll"],
   "rule": "A sensitive entry is prepared by one person and approved by another; the preparer can never approve their own; every change keeps its history."
  },
  "repeat": {"every": ["week", "month", "quarter", "year"], "rule": "A repeating entry is posted on each date; a month-end date stays at the month's end; a reversing entry is posted again, mirrored, on the first day after."},

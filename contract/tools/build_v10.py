@@ -19,6 +19,8 @@ Nothing older changes: version 9 events read as version 10 as they are (upcaster
 import copy, json, os, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# The cards version 10 was published with (2026-11-20). Later cards join a later version (build_v19.py and on), never this one.
+V10_CARDS = ["invoice", "quote", "receipt", "statement", "report", "tracker", "credit_note", "reminder", "queue_ticket", "survey", "visitor", "pay_link", "booking", "document", "shipment", "exchange"]
 with open(os.path.join(os.path.dirname(ROOT), "catalog", "chat.v1.json"), encoding="utf-8") as _f:
     CHAT = json.load(_f)
 U7, SHA, INT0 = {"$ref": "#/$defs/uuid7"}, {"$ref": "#/$defs/sha256"}, {"type": "integer", "minimum": 0}
@@ -98,7 +100,7 @@ def build():
         e["schema_version"] = 10
     cards = v10["events"]["ConversationCardSent"]["payload"]["properties"]["card"]
     old = list(cards["enum"])
-    cards["enum"] = old + [k for k in CHAT["cards"]["kinds"] if k not in old]
+    cards["enum"] = old + [k for k in V10_CARDS if k not in old]
     for name, e in EVENTS.items():
         if name in v10["events"]:
             raise SystemExit(f"{name} already exists in version 9")

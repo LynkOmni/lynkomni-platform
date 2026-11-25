@@ -2020,7 +2020,7 @@
   {
    "id": "leave_request_answered",
    "area": "work",
-   "trigger": "LeaveRequestAnswered",
+   "trigger": "LeaveAnswered",
    "audience": "staff",
    "basis": "transaction",
    "priority": "normal",
@@ -2058,13 +2058,13 @@
    "actions": [
     "see_payslip"
    ],
-   "build_section": "4B",
-   "note": "LynkHR: your payslip is ready in your own account; no figures in the message"
+   "build_section": 7,
+   "note": "LynkHR: your payslip is ready in your own account; no figures in the message Moved from 4B to 7 on 2026-11-25: a person's payslips are shown on their own side (account.lynkomni.com/work, section 7); LynkHR in 4B sends payroll figures only."
   },
   {
    "id": "task_assigned",
    "area": "projects",
-   "trigger": "TaskAssigned",
+   "trigger": "TaskCreated",
    "audience": "staff",
    "basis": "transaction",
    "priority": "normal",
@@ -2080,7 +2080,7 @@
     "see_task"
    ],
    "build_section": "4B",
-   "note": "LynkProject: a task was given to you, with its due date"
+   "note": "LynkProject: a task was given to you, with its due date Sent only when the task has an owner other than the person who made it."
   },
   {
    "id": "learner_absent",
@@ -2890,6 +2890,213 @@
    ],
    "build_section": 8,
    "note": "A reminder before a booking; a text reply of YES confirms it (CONNECT UPDATE 71.7, built with LynkBooking in section 8)"
+  },
+  {
+   "id": "leave_request_waiting",
+   "area": "work",
+   "trigger": "LeaveRequested",
+   "audience": "manager",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_request"
+   ],
+   "build_section": "4B"
+  },
+  {
+   "id": "review_cycle_opened",
+   "area": "work",
+   "trigger": "ReviewCycleOpened",
+   "audience": "staff",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "open_item"
+   ],
+   "build_section": "4B"
+  },
+  {
+   "id": "staff_document_expiring",
+   "area": "work",
+   "trigger": "StaffDocumentExpiring",
+   "audience": "staff",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "open_item"
+   ],
+   "build_section": "4B",
+   "note": "Sent to the person and to HR at 60, 30, 7 and 0 days before a work permit, licence, certificate or contract ends; nothing is blocked automatically."
+  },
+  {
+   "id": "hr_case_step",
+   "area": "work",
+   "trigger": "HrCaseStepMoved",
+   "audience": "staff",
+   "basis": "transaction",
+   "priority": "high",
+   "channels": [
+    "bell",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "open_item"
+   ],
+   "build_section": "4B",
+   "note": "Only to the people the case concerns and HR; the lock screen never shows what the case is about."
+  },
+  {
+   "id": "time_sheet_answered",
+   "area": "projects",
+   "trigger": "TimeSheetAnswered",
+   "audience": "staff",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_request"
+   ],
+   "build_section": "4B"
+  },
+  {
+   "id": "change_request_decided",
+   "area": "projects",
+   "trigger": "ChangeRequestDecided",
+   "audience": "staff",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_change"
+   ],
+   "build_section": "4B"
+  },
+  {
+   "id": "approval_waiting",
+   "area": "files",
+   "trigger": "ApprovalRouteStarted",
+   "audience": "staff",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "bell",
+    "push",
+    "email"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "approve",
+    "see_document"
+   ],
+   "build_section": "4B",
+   "note": "Goes to the approver named for the step that waits, one at a time."
+  },
+  {
+   "id": "approval_answered",
+   "area": "files",
+   "trigger": "ApprovalStepAnswered",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "low",
+   "channels": [
+    "bell"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_document"
+   ],
+   "build_section": "4B"
+  },
+  {
+   "id": "document_requested",
+   "area": "files",
+   "trigger": "DocumentRequested",
+   "audience": "person",
+   "basis": "transaction",
+   "priority": "normal",
+   "channels": [
+    "email",
+    "text",
+    "push"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "actions": [
+    "open_item"
+   ],
+   "build_section": "4B",
+   "note": "A link to upload into the right folder; the message never names the document's owner or contents."
+  },
+  {
+   "id": "document_request_answered",
+   "area": "files",
+   "trigger": "DocumentRequestAnswered",
+   "audience": "owner",
+   "basis": "transaction",
+   "priority": "low",
+   "channels": [
+    "bell"
+   ],
+   "sender": "notifications@mail.lynkomni.com",
+   "group": "update",
+   "can_turn_off": true,
+   "lock_screen": "neutral",
+   "actions": [
+    "see_document"
+   ],
+   "build_section": "4B"
   }
  ],
  "system": {

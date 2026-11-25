@@ -2092,6 +2092,595 @@
      ]
     }
    ]
+  },
+  {
+   "id": "leave",
+   "record": "STF",
+   "key": "request_id",
+   "family": "lynkhr",
+   "ui_section": "4B",
+   "viewers": {
+    "merchant": "app.lynkomni.com/hr",
+    "person": "account.lynkomni.com/work"
+   },
+   "note": "A leave request in LynkHR (contract version 19): asked, then approved or declined by someone other than the person who asked, or cancelled. The person sees their own request at account.lynkomni.com/work.",
+   "steps": [
+    {
+     "id": "asked",
+     "state": "sent",
+     "customer": true,
+     "on": [
+      {
+       "event": "LeaveRequested"
+      }
+     ]
+    },
+    {
+     "id": "leave_approved",
+     "state": "confirmed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "event": "LeaveAnswered",
+       "when": {
+        "answer": [
+         "approved"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "id": "leave_declined",
+     "state": "failed",
+     "customer": true,
+     "terminal": true,
+     "optional": true,
+     "on": [
+      {
+       "event": "LeaveAnswered",
+       "when": {
+        "answer": [
+         "declined"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "id": "leave_cancelled",
+     "state": "failed",
+     "customer": true,
+     "terminal": true,
+     "optional": true,
+     "on": [
+      {
+       "event": "LeaveCancelled"
+      }
+     ]
+    }
+   ],
+   "working_time": true,
+   "promise": {
+    "asked": 2880
+   }
+  },
+  {
+   "id": "joining",
+   "record": "STF",
+   "key": "staff_id",
+   "family": "lynkhr",
+   "ui_section": "4B",
+   "viewers": {
+    "merchant": "app.lynkomni.com/hr",
+    "person": "account.lynkomni.com/work"
+   },
+   "note": "A new staff member's joining in LynkHR: started, contract signed, ready once every must on the joining checklist is done.",
+   "steps": [
+    {
+     "id": "joining_started",
+     "state": "sent",
+     "customer": true,
+     "on": [
+      {
+       "state": "started"
+      }
+     ]
+    },
+    {
+     "id": "contract_signed",
+     "state": "accepted",
+     "customer": true,
+     "on": [
+      {
+       "state": "contract_signed"
+      }
+     ]
+    },
+    {
+     "id": "joining_ready",
+     "state": "confirmed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "state": "ready"
+      }
+     ]
+    }
+   ],
+   "working_time": true,
+   "promise": {
+    "joining_started": 7200
+   }
+  },
+  {
+   "id": "leaving",
+   "record": "STF",
+   "key": "staff_id",
+   "family": "lynkhr",
+   "ui_section": "4B",
+   "viewers": {
+    "merchant": "app.lynkomni.com/hr",
+    "person": "account.lynkomni.com/work"
+   },
+   "note": "A staff member's leaving in LynkHR: notice recorded, equipment back, access closed, left. Final pay figures go to LynkAcc only after the first three.",
+   "steps": [
+    {
+     "id": "notice",
+     "state": "sent",
+     "customer": true,
+     "on": [
+      {
+       "state": "notice"
+      }
+     ]
+    },
+    {
+     "id": "equipment_back",
+     "state": "accepted",
+     "customer": true,
+     "on": [
+      {
+       "state": "equipment_back"
+      }
+     ]
+    },
+    {
+     "id": "access_closed",
+     "state": "accepted",
+     "customer": false,
+     "on": [
+      {
+       "state": "access_closed"
+      }
+     ]
+    },
+    {
+     "id": "left",
+     "state": "confirmed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "state": "left"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "review_cycle",
+   "record": "STF",
+   "key": "cycle_id",
+   "family": "lynkhr",
+   "ui_section": "4B",
+   "viewers": {
+    "merchant": "app.lynkomni.com/hr",
+    "person": "account.lynkomni.com/work"
+   },
+   "note": "A review cycle in LynkHR: opened, answers coming in (peer and upward shown only from 3), signed off by a named manager.",
+   "steps": [
+    {
+     "id": "cycle_opened",
+     "state": "sent",
+     "customer": true,
+     "on": [
+      {
+       "event": "ReviewCycleOpened"
+      }
+     ]
+    },
+    {
+     "id": "answers_in",
+     "state": "accepted",
+     "customer": true,
+     "again": true,
+     "on": [
+      {
+       "event": "ReviewAnswered"
+      }
+     ]
+    },
+    {
+     "id": "signed_off",
+     "state": "confirmed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "event": "ReviewSignedOff"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "task",
+   "record": "TSK",
+   "key": "task_id",
+   "family": "lynkproject",
+   "ui_section": "4B",
+   "viewers": {
+    "merchant": "app.lynkomni.com/project"
+   },
+   "note": "A task in LynkProject: to do, in progress, waiting on another task, done or cancelled. A guest sees only the tasks of the project they were invited to.",
+   "steps": [
+    {
+     "id": "to_do",
+     "state": "sent",
+     "customer": true,
+     "on": [
+      {
+       "event": "TaskCreated"
+      }
+     ]
+    },
+    {
+     "id": "in_progress",
+     "state": "accepted",
+     "customer": true,
+     "again": true,
+     "on": [
+      {
+       "event": "TaskStateChanged",
+       "when": {
+        "to": [
+         "doing"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "id": "task_waiting",
+     "state": "accepted",
+     "customer": true,
+     "again": true,
+     "optional": true,
+     "on": [
+      {
+       "event": "TaskStateChanged",
+       "when": {
+        "to": [
+         "waiting"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "id": "task_done",
+     "state": "confirmed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "event": "TaskStateChanged",
+       "when": {
+        "to": [
+         "done"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "id": "task_cancelled",
+     "state": "failed",
+     "customer": true,
+     "terminal": true,
+     "optional": true,
+     "on": [
+      {
+       "event": "TaskStateChanged",
+       "when": {
+        "to": [
+         "cancelled"
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "change_request",
+   "record": "PRJ",
+   "key": "request_id",
+   "family": "lynkproject",
+   "ui_section": "4B",
+   "viewers": {
+    "merchant": "app.lynkomni.com/project"
+   },
+   "note": "A change request on a project: raised, then accepted or refused by a named person who did not raise it.",
+   "steps": [
+    {
+     "id": "raised",
+     "state": "sent",
+     "customer": true,
+     "on": [
+      {
+       "event": "ChangeRequestRaised"
+      }
+     ]
+    },
+    {
+     "id": "change_accepted",
+     "state": "confirmed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "event": "ChangeRequestDecided",
+       "when": {
+        "decision": [
+         "accepted"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "id": "change_refused",
+     "state": "failed",
+     "customer": true,
+     "terminal": true,
+     "optional": true,
+     "on": [
+      {
+       "event": "ChangeRequestDecided",
+       "when": {
+        "decision": [
+         "refused"
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "working_time": true,
+   "promise": {
+    "raised": 4320
+   }
+  },
+  {
+   "id": "milestone",
+   "record": "PRJ",
+   "key": "milestone_id",
+   "family": "lynkproject",
+   "ui_section": "4B",
+   "viewers": {
+    "merchant": "app.lynkomni.com/project"
+   },
+   "note": "A project milestone: planned against its baseline, then reached.",
+   "steps": [
+    {
+     "id": "planned",
+     "state": "sent",
+     "customer": true,
+     "on": [
+      {
+       "state": "planned"
+      }
+     ]
+    },
+    {
+     "id": "reached",
+     "state": "confirmed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "event": "MilestoneReached"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "time_sheet",
+   "record": "PRJ",
+   "key": "sheet_id",
+   "family": "lynkproject",
+   "ui_section": "4B",
+   "viewers": {
+    "merchant": "app.lynkomni.com/project"
+   },
+   "note": "A week's time sheet: sent for approval, then approved or returned by a manager, never the person who logged it. Approved billable time is billed once.",
+   "steps": [
+    {
+     "id": "sheet_sent",
+     "state": "sent",
+     "customer": false,
+     "on": [
+      {
+       "state": "submitted"
+      }
+     ]
+    },
+    {
+     "id": "sheet_approved",
+     "state": "confirmed",
+     "customer": false,
+     "terminal": true,
+     "on": [
+      {
+       "event": "TimeSheetAnswered",
+       "when": {
+        "answer": [
+         "approved"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "id": "sheet_returned",
+     "state": "failed",
+     "customer": false,
+     "terminal": true,
+     "optional": true,
+     "on": [
+      {
+       "event": "TimeSheetAnswered",
+       "when": {
+        "answer": [
+         "returned"
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "working_time": true,
+   "promise": {
+    "sheet_sent": 2880
+   }
+  },
+  {
+   "id": "approval_route",
+   "record": "DOC",
+   "key": "route_id",
+   "family": "lynkfiles",
+   "ui_section": "4B",
+   "viewers": {
+    "merchant": "app.lynkomni.com/files",
+    "person": "account.lynkomni.com/documents"
+   },
+   "note": "An approval route (bill, expense, invoice, document): waiting for each named approver in turn, approved or returned.",
+   "steps": [
+    {
+     "id": "route_waiting",
+     "state": "sent",
+     "customer": false,
+     "on": [
+      {
+       "state": "waiting"
+      }
+     ]
+    },
+    {
+     "id": "step_approved",
+     "state": "accepted",
+     "customer": false,
+     "again": true,
+     "on": [
+      {
+       "state": "step_approved"
+      }
+     ]
+    },
+    {
+     "id": "route_approved",
+     "state": "confirmed",
+     "customer": false,
+     "terminal": true,
+     "on": [
+      {
+       "state": "approved"
+      }
+     ]
+    },
+    {
+     "id": "route_returned",
+     "state": "failed",
+     "customer": false,
+     "terminal": true,
+     "optional": true,
+     "on": [
+      {
+       "state": "returned"
+      }
+     ]
+    }
+   ],
+   "working_time": true,
+   "promise": {
+    "route_waiting": 2880,
+    "step_approved": 2880
+   }
+  },
+  {
+   "id": "document_request",
+   "record": "DOC",
+   "key": "request_id",
+   "family": "lynkfiles",
+   "ui_section": "4B",
+   "viewers": {
+    "merchant": "app.lynkomni.com/files",
+    "person": "account.lynkomni.com/documents"
+   },
+   "note": "A request for a document (a staff file, a lease, a certificate): asked, received, checked.",
+   "steps": [
+    {
+     "id": "doc_asked",
+     "state": "sent",
+     "customer": true,
+     "on": [
+      {
+       "state": "asked"
+      }
+     ]
+    },
+    {
+     "id": "doc_received",
+     "state": "accepted",
+     "customer": true,
+     "on": [
+      {
+       "state": "received"
+      }
+     ]
+    },
+    {
+     "id": "doc_checked",
+     "state": "confirmed",
+     "customer": true,
+     "terminal": true,
+     "on": [
+      {
+       "state": "checked"
+      }
+     ]
+    },
+    {
+     "id": "doc_closed",
+     "state": "failed",
+     "customer": true,
+     "terminal": true,
+     "optional": true,
+     "on": [
+      {
+       "state": "closed"
+      }
+     ]
+    }
+   ],
+   "waits_on_customer": [
+    "doc_asked"
+   ]
   }
  ],
  "planned": [
@@ -2148,18 +2737,6 @@
    "record": "SNT",
    "ui_section": "7B",
    "note": "A LynkSentry incident (LOSNT-): opened, with the owner and trusted contacts, closed; routed to the safety desk."
-  },
-  {
-   "id": "approval_route",
-   "record": "DOC",
-   "ui_section": "4B",
-   "note": "An approval route (bill, expense, invoice, document): waiting for each named approver, approved or returned."
-  },
-  {
-   "id": "document_request",
-   "record": "DOC",
-   "ui_section": "4B",
-   "note": "A request for a document (a staff file, a lease, a certificate): asked, received, checked."
   },
   {
    "id": "verification",
@@ -2308,6 +2885,36 @@
     "event": "notification.state",
     "kind": "message_delivery",
     "record": "nid"
+   },
+   {
+    "event": "staff.joining",
+    "kind": "joining",
+    "record": "staff_id"
+   },
+   {
+    "event": "staff.leaving",
+    "kind": "leaving",
+    "record": "staff_id"
+   },
+   {
+    "event": "milestone.state",
+    "kind": "milestone",
+    "record": "milestone_id"
+   },
+   {
+    "event": "time_sheet.state",
+    "kind": "time_sheet",
+    "record": "sheet_id"
+   },
+   {
+    "event": "approval_route.state",
+    "kind": "approval_route",
+    "record": "route_id"
+   },
+   {
+    "event": "document_request.state",
+    "kind": "document_request",
+    "record": "request_id"
    }
   ]
  },

@@ -540,7 +540,8 @@
      "done": {},
      "progress": {
       "4B": [
-       "v0.108.0: LynkHR's and LynkProject's rules (catalog/hr.v1.json and catalog/project.v1.json read by core/hr.py, core/project.py, ts/src/hr.ts and ts/src/project.ts with shared vectors) and their tier features in billing"
+       "v0.108.0: LynkHR's and LynkProject's rules (catalog/hr.v1.json and catalog/project.v1.json read by core/hr.py, core/project.py, ts/src/hr.ts and ts/src/project.ts with shared vectors) and their tier features in billing",
+       "v0.109.0: LynkHR and LynkProject in the cloud (services/hr.py, services/projects.py), contract version 19, identifiers LOSTF-, LOPRJ- and LOTSK-, payroll figures to LynkAcc as a draft a second person posts, approved time billed once through LynkInv, project costs to LynkAcc, Move in for staff, leave balances, projects and tasks"
       ]
      }
     },
@@ -778,7 +779,13 @@
       "4B"
      ],
      "part": "Hire to work, document to record, meeting to action; the LynkFiles, LynkHR and LynkProject automations, assistant actions and messages",
-     "done": {}
+     "done": {},
+     "progress": {
+      "4B": [
+       "v0.109.0: the three journeys hire to work, document to record and meeting to action run end to end (tests/test_journeys_4b.py)",
+       "v0.109.0: the LynkHR, LynkProject and LynkFiles automations (7 new, 2 corrected) and messages (10 new, 2 corrected) in their registers"
+      ]
+     }
     },
     {
      "sections": [
@@ -873,7 +880,12 @@
       "4B"
      ],
      "part": "Signature request, approval route, document request; leave, joining and leaving, review cycle; task, change request, milestone, time sheet",
-     "done": {}
+     "done": {},
+     "progress": {
+      "4B": [
+       "v0.109.0: the LynkHR, LynkProject and LynkFiles trackers (leave, joining, leaving, review cycle, task, change request, milestone, time sheet, approval route, document request) in the tracking register, their APIs and 38 languages"
+      ]
+     }
     },
     {
      "sections": [
@@ -1078,7 +1090,12 @@
       "4B"
      ],
      "part": "LynkFiles, LynkHR and LynkProject cards",
-     "done": {}
+     "done": {},
+     "progress": {
+      "4B": [
+       "v0.109.0: the LynkFiles, LynkHR and LynkProject cards (document, document request, offer, project update) in the chat register and the card sender, with links hr-chat and project-chat"
+      ]
+     }
     },
     {
      "sections": [
@@ -1188,7 +1205,12 @@
       "4B"
      ],
      "part": "LynkFiles, LynkHR and LynkProject skills",
-     "done": {}
+     "done": {},
+     "progress": {
+      "4B": [
+       "v0.109.0: LynkAssist's skills in LynkHR, LynkProject and LynkFiles (services/assist_work.py, 13 actions in the assist register); it never decides about a person"
+      ]
+     }
     },
     {
      "sections": [
@@ -1335,7 +1357,12 @@
       "4B"
      ],
      "part": "Joining training and skills records with LynkHR; LynkAssist's training suggestions for new staff, for the manager to confirm (78.19)",
-     "done": {}
+     "done": {},
+     "progress": {
+      "4B": [
+       "v0.109.0: finished training joins the staff skills record with the person's consent (academy-hr) and LynkAssist's training suggestions for new staff, for the manager to confirm"
+      ]
+     }
     },
     {
      "sections": [

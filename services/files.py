@@ -41,6 +41,7 @@ class Files:
         s.identity, s.qualified, s.scanner = identity or SandboxSignIdentity(), qualified or SandboxQualifiedSign(), scanner or SandboxFileScan()
         s.docs, s.blobs, s.links = Table(db, "files_docs"), Table(db, "files_blobs"), Table(db, "files_links")
         s.requests, s.tokens, s.codes, s.log = Table(db, "files_requests"), Table(db, "files_tokens"), Table(db, "files_codes"), Table(db, "files_audit")
+        s.routes, s.doc_requests = Table(db, "files_routes"), Table(db, "files_doc_requests")
 
     # ---- helpers ---------------------------------------------------------------------------------------------------------------
     def _emit(s, m, type_, payload):
@@ -312,6 +313,55 @@ class Files:
         r["declined"] = r["declined"] + [str(turn)]
         s._emit(r["merchant"], "SignatureDeclined", {"request_id": rid, "turn": turn, "reason": reason})
         s._audit(r["merchant"], r["document"], "declined", f"signer {turn}")
+
+    # ---- approval routes and document requests (SIX SERVICES UPDATE 69.11; build section 4B) ---------------------------------
+    def start_route(s, m, doc_id, by, approvers):
+        """An approval route for any document: named approvers in order, never the person who sent it; the tracker shows each step."""
+        s._doc(m, doc_id)
+        if not approvers or by in approvers or len(set(approvers)) != len(approvers) or len(approvers) > 10:
+            raise ValueError("an approval route names 1 to 10 different approvers, never the sender")
+        rid = uuid7()
+        s.routes.put(rid, {"merchant": m, "doc": doc_id, "by": by, "approvers": list(approvers), "step": 1, "state": "waiting"})
+        s._emit(m, "ApprovalRouteStarted", {"route_id": rid, "document_id": doc_id, "steps": len(approvers)})
+        s._emit(m, "approval_route.state", {"route_id": rid, "state": "waiting"})       # the approval route tracker
+        return rid
+
+    def answer_route(s, m, rid, who, answer):
+        r = s.routes[rid]
+        if r["merchant"] != m or r["state"] != "waiting":
+            raise PermissionError("this route is not waiting for an answer")
+        if who != r["approvers"][r["step"] - 1]:
+            raise PermissionError("only the approver named for this step answers it")
+        s._emit(m, "ApprovalStepAnswered", {"route_id": rid, "step": r["step"], "answer": answer, "by": who})
+        if answer != "approved":
+            r["state"] = "returned"
+        elif r["step"] == len(r["approvers"]):
+            r["state"] = "approved"
+        else:
+            r["step"] += 1
+        s.routes.put(rid, r)
+        s._emit(m, "approval_route.state", {"route_id": rid, "state": r["state"] if r["state"] != "waiting" else "step_approved"})
+        return r["state"]
+
+    def request_document(s, m, by, kind, due, record_kind="staff", record_id=None):
+        """Ask someone to upload a document into the right record (a staff file, a certificate); the tracker shows asked, received, checked."""
+        rid = uuid7()
+        s.doc_requests.put(rid, {"merchant": m, "by": by, "kind": kind, "due": due, "record_kind": record_kind, "record_id": record_id, "state": "asked", "doc": None})
+        s._emit(m, "DocumentRequested", {"request_id": rid, "kind": kind, "due": due})
+        s._emit(m, "document_request.state", {"request_id": rid, "state": "asked"})       # the document request tracker
+        return rid
+
+    def answer_request(s, m, rid, by, data=None, result="received"):
+        q = s.doc_requests[rid]
+        if result == "received":
+            q["doc"] = s.store(m, by, q["record_kind"], q["record_id"] or rid, "other", data)
+        elif result == "checked" and not q["doc"]:
+            raise PermissionError("a document is checked only after it arrived")
+        q["state"] = result
+        s.doc_requests.put(rid, q)
+        s._emit(m, "DocumentRequestAnswered", {"request_id": rid, "result": result, **({"document_id": q["doc"]} if q["doc"] else {})})
+        s._emit(m, "document_request.state", {"request_id": rid, "state": result})
+        return q["state"]
 
     def issue_certificate(s, m, doc_id, issuer):
         """A certificate issued by a service (a proof of exchange, a course certificate): the kept file gets a code anyone can check,

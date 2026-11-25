@@ -14,7 +14,7 @@ from core import books as B
 from core.regions import country
 from services.improvements import Table, _cur
 
-SENSITIVE = {"manual": "manual_journal", "reversal": "reversal", "opening_balance": "opening_balance", "write_off": "write_off"}
+SENSITIVE = {"payroll": "payroll", "manual": "manual_journal", "reversal": "reversal", "opening_balance": "opening_balance", "write_off": "write_off"}
 
 
 class Books:
@@ -225,6 +225,12 @@ class Books:
         pid = uuid.uuid4().hex
         s.pending.put(pid, {"merchant": m, "kind": kind, "lines": [list(l) for l in lines], "by": by, "date": date})
         return {"pending": pid, "state": "awaiting_approval"}
+
+    def payroll_draft(s, m, period, gross_minor, by):
+        """Payroll figures from LynkHR (hr-acc): a draft of wages owed that a second person posts; payroll is only ever a draft."""
+        if gross_minor <= 0:
+            raise ValueError("a payroll draft needs a total")
+        return s.prepare_journal(m, "payroll", [["6300", gross_minor, 0], ["2400", 0, gross_minor]], by)
 
     def approve_journal(s, m, pid, approver):
         j = s.pending[pid]
