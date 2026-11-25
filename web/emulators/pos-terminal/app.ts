@@ -19,7 +19,7 @@ import type { DsScreen, StatePictures } from "../../../ts/src/deviceshell.js";
 import type { Entry } from "../../../ts/src/shell.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
-import { StaffLock, deviceBanners, needsManager, raiseLocal, staffPicker } from "../../../ts/src/devicekit.js";
+import { StaffLock, deviceBanners, needsManager, raiseLocal, staffPicker, staffWhoRow } from "../../../ts/src/devicekit.js";
 import type { Line } from "../../../ts/src/notify.js";
 import { buildPack } from "../../../ts/src/assist.js";
 import { PeopleHub } from "../../../ts/src/peoplehub.js";
@@ -424,7 +424,7 @@ function view(): string {
         ${noteBox()}<p class="keyhint">${icon("ui-info")}${esc(t("use_keys"))}</p>
         <p class="hint">${esc(t("pin_hint"))}</p></div>`;
     case "home":
-      return `${top(t("sample_shop"), false)}${banners()}<div class="tiles12${S.lowLiteracy ? " big" : ""}">${HANDHELD_TILES.map((k) => `<button class="t12" data-act="tile:${k}">${icon(TILE_ICON[k] ?? "ui-grid")}<span>${esc(t(`tile_${k}`))}</span></button>`).join("")}</div>${adBlock("pos_idle", "home")}
+      return `${top(t("sample_shop"), false)}${banners()}${staffWhoRow(STAFF.find(S.who)?.name ?? "", STAFF.find(S.who)?.role ?? "cashier", t, (id) => icon(id))}<div class="tiles12${S.lowLiteracy ? " big" : ""}">${HANDHELD_TILES.map((k) => `<button class="t12" data-act="tile:${k}">${icon(TILE_ICON[k] ?? "ui-grid")}<span>${esc(t(`tile_${k}`))}</span></button>`).join("")}</div>${adBlock("pos_idle", "home")}
         ${S.flash ? `<div class="toast" role="status">${icon("ui-check")}${esc(S.flash)}</div>` : ""}`;
     case "pick":
       return `${top(t(`tile_${S.tileGroup}`))}<ul class="menu">${(TILE_SERVICES[S.tileGroup] ?? []).map((k) => `<li><button data-act="svc:${k}">${icon(TILE_ICON[S.tileGroup] ?? "ui-grid")}${esc(t(`svc_${k}`))}${icon("ui-chevron-right")}</button></li>`).join("")}</ul>
@@ -634,6 +634,7 @@ function act(a: string): void {
       case "cust": S.selected = Math.max(0, Math.min(S.credit.length - 1, Number(v) || 0)); S.input = ""; draw(); return;
       case "lowlit": S.lowLiteracy = !S.lowLiteracy; DSH.pictures = S.lowLiteracy; draw(); return;
       case "lock": S.screen = "lock"; S.input = ""; S.view = "full"; S.approve = null; draw(); return;
+      case "gate": if (v === "lock") { emit("DeviceLocked", { device_id: DEVICE, after_s: 0, by_automation: false }, "device"); S.screen = "lock"; S.input = ""; S.view = "full"; S.approve = null; draw(); } return;   // Lock beside the name on Home (owner, 2026-11-25)
       case "cat": S.category = v; draw(); return;
       case "add": { const p = CATALOG.find((x) => x.id === v); if (p) S.cart.add(p); draw(); return; }
       case "inc": { const l = S.cart.lines().find((x) => x.product.id === v); if (l) S.cart.setQty(v, l.qtyMilli + 1000); draw(); return; }

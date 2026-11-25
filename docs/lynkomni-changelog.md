@@ -18,6 +18,7 @@ What changed in each version, in plain words, newest first. Version numbers: `0.
 Phone fields: every country has its code, and the field starts on your country.
 - The country list in every phone field shows only countries that have a dialling code. Antarctica, South Georgia, Pitcairn, the French Southern Territories and the U.S. Outlying Islands (no public numbers of their own) and the sample country are left out, so no flag shows without its code.
 - A phone field starts on the country the device is in (its time zone, then its language's region), not on the sample country. It can still be changed.
+- Lock on every screen opened with a staff PIN: the counter tablet had only the two-minute idle lock and the POS terminal had Lock only inside its menu. Both now show who is signed in with Lock beside the name, the same shared row as the kitchen screen, rider app, stock scanner, betting counter and the Business app's staff till (ts/src/devicekit.ts staffWhoRow). A check fails if any shared staff device misses it.
 
 ## v0.114.0 (2026-11-25)
 - Section 4C step 1b (point 1, codes and contacts): every code field is the shared part ts/src/codefield.ts. It fills itself in from the text message, takes digits typed in any script, never shows an example code, and its New code button counts down (30 seconds, then 1, 2 and 5 minutes; at most 5 codes an hour; a code lasts 5 minutes; the same rules in identity/account.py). The Business app's sign-in code and the survey phone step on LynkPOS, LynkKiosk, LynkDScreen, LynkCDisplay and the survey page use it.

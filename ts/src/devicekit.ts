@@ -88,6 +88,11 @@ export class StaffLock {
  *  anyone signed in (the kitchen screen) and a person may sign in. */
 export interface GateHooks { t: T; icon: Icon; device: string; online: () => boolean; redraw: () => void;
   emit: (type: string, payload: Record<string, unknown>, origin?: "device" | "server") => void; raise?: (kind: string, title: string) => void }
+/** Who is signed in on a shared staff device, with Lock beside the name. Every screen that opened with a staff PIN shows it, so the
+ *  person can lock the device the moment they step away (owner, 2026-11-25); the act is "gate:lock". */
+export function staffWhoRow(name: string, role: string, t: (k: string) => string, icon: (id: string) => string): string {
+  return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(name)} · ${esc(t(`role_${role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
+}
 export class StaffGate {
   who: string; picking = false; pin = ""; signed = false; limited = false; idle = false; last = Date.now(); pictures = false; sound = true; open: boolean;
   constructor(public lock: StaffLock, private h: GateHooks, public optional = false, public idleMs = 120_000) {
@@ -113,7 +118,7 @@ export class StaffGate {
   whoRow(): string {
     const { t, icon } = this.h, me = this.me();
     if (!me) return this.optional ? `<div class="dk-whorow"><button type="button" class="dk-link" data-act="gate:signin">${icon("ui-user")}<span>${esc(t("dk_sign_in"))}</span></button></div>` : "";
-    return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(me.name)} · ${esc(t(`role_${me.role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
+    return staffWhoRow(me.name, me.role, t, icon);
   }
   /** Lock now (Lock, or two minutes without use). On an optional screen this signs the person out and the screen stays. */
   lockNow(idle = false): void {
