@@ -2,6 +2,9 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.112.0 (2026-11-25)
+- Build section 4C (fixes before section 5) registered in the one build order after 4B, with its build table 87.6 (four rows: phone and email fields, errors and WhatsApp, sign-up and sign-in, the phone owner check). Nothing on screen changes yet.
+
 ## v0.111.0 (2026-11-25)
 Build section 4B is locked: LynkFiles, LynkHR and LynkProject in full.
 - The showcase marks section 4B locked and lists the LynkFiles Signing Tablet; the owner's computer view and the Business app pages say what is new and how to try it.

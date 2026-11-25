@@ -39,7 +39,7 @@ class Screens(unittest.TestCase):
             b = p.chromium.launch()
             pg = b.new_page(viewport={"width": 1280, "height": 1000}, reduced_motion="reduce")
             pg.on("pageerror", lambda e: errors.append(str(e)))
-            pg.goto("file://" + PHONE)
+            pg.goto("file://" + PHONE); pg.wait_for_selector("html[data-ready]")
             pg.wait_for_selector("html[data-ready]")
             for s in REG["screens"]:
                 pg.evaluate(f"__go({json.dumps(s['id'])})")
@@ -64,7 +64,7 @@ class Screens(unittest.TestCase):
             pg = b.new_page(viewport={"width": 1280, "height": 1000}, reduced_motion="reduce")
             errors = []
             pg.on("pageerror", lambda e: errors.append(str(e)))
-            pg.goto("file://" + PHONE)
+            pg.goto("file://" + PHONE); pg.wait_for_selector("html[data-ready]")
             seen = [pg.get_attribute("[data-gi]", "data-gi")]
             pg.fill("#phoneIn", "0788123456"); pg.click('[data-act="sendcode"]')
             pg.fill("#codeIn", "123456"); pg.click('[data-act="verify"]'); seen.append(pg.get_attribute("[data-gi]", "data-gi"))
@@ -86,7 +86,7 @@ class Screens(unittest.TestCase):
         with sync_playwright() as p:
             b = p.chromium.launch()
             pg = b.new_page(viewport={"width": 1280, "height": 1000}, reduced_motion="reduce")
-            pg.goto("file://" + PHONE)
+            pg.goto("file://" + PHONE); pg.wait_for_selector("html[data-ready]")
             pg.evaluate("__go('home')")
             for kind, tabs in REG["tabs"].items():
                 pg.select_option("#cType", kind)
@@ -105,7 +105,7 @@ class Screens(unittest.TestCase):
         with sync_playwright() as p:
             b = p.chromium.launch()
             pg = b.new_page(viewport={"width": 1280, "height": 1000}, reduced_motion="reduce")
-            pg.goto("file://" + PHONE)
+            pg.goto("file://" + PHONE); pg.wait_for_selector("html[data-ready]")
             pg.evaluate("__go('home')")
             top = pg.locator(".top")
             self.assertEqual(top.locator('[data-brand-place="app-top-bar"]').count(), 1)
@@ -207,7 +207,7 @@ class Screens(unittest.TestCase):
         with sync_playwright() as p:
             b = p.chromium.launch()
             pg = b.new_page(viewport={"width": 1280, "height": 1000}, reduced_motion="reduce")
-            pg.goto("file://" + PHONE)
+            pg.goto("file://" + PHONE); pg.wait_for_selector("html[data-ready]")
             pg.select_option("#cType", "agent_point"); pg.select_option("#cOutcome", "silent"); pg.evaluate("__go('home')")
             pg.click('[data-act="tab:services"]'); pg.click('[data-act="svc:cash_withdrawal"]')
             pg.fill("#anumIn", "0788123456"); pg.fill("#aamtIn", "500"); pg.click('[data-act="agentsend"]')
