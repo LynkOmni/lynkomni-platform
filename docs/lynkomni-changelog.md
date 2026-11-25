@@ -2,6 +2,11 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.111.0 (2026-11-25)
+Build section 4B is locked: LynkFiles, LynkHR and LynkProject in full.
+- The showcase marks section 4B locked and lists the LynkFiles Signing Tablet; the owner's computer view and the Business app pages say what is new and how to try it.
+- Every 4B row of the build tables is done and nothing in the rules for all services is still due for 4B.
+
 ## v0.110.0 (2026-11-25)
 Build section 4B, step 4 of 5: LynkHR, LynkProject and LynkFiles on screen, and the LynkFiles signing tablet.
 - LynkHR (app.lynkomni.com/hr), LynkProject (/project) and LynkFiles (/files) in the browser: 20 pages drawn by one shared part (ts/src/workview.ts) from the real rules: staff records seen by role, leave with balances and clashes shown (never refused), joining and leaving checklists, reviews (peer and upward answers only from 3), pay with a second and a third approver, HR cases, expiring documents; projects, the board, my work, the timeline with the critical path, time sheets billed once, change requests, guests who never see money; files, signing, approval routes, document requests and share links that always end.
