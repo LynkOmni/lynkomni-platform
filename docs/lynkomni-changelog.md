@@ -2,6 +2,21 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.108.0 (2026-11-25)
+Build section 4B (LynkFiles, LynkHR and LynkProject in full), step 1 of 5: the rules.
+- LynkHR's rulebook (catalog/hr.v1.json; core/hr.py and ts/src/hr.ts agree on every case of contract/vectors/hr.v1.json):
+  - every kind of worker; sensitive fields seen by the fewest roles; health, family and union details only where the country allows; the person always sees their own record;
+  - leave counted in half days with balances, carry-over and clashes shown (never refused); a country's legal minimum is never invented;
+  - joining and leaving checklists (final pay figures only after notice, equipment back and access closed), probation dates, expiry reminders at 60, 30, 7 and 0 days;
+  - reviews (peer and upward shown only from 3 answers), pay changes approved by a different person, overtime, payroll figures for LynkAcc (volunteers and contractors never on payroll);
+  - cases seen only by HR and the named investigator, with a deadline for every step;
+  - LynkAssist drafts and explains but never decides about a person.
+- LynkProject's rulebook (catalog/project.v1.json; core/project.py and ts/src/project.ts with contract/vectors/project.v1.json):
+  - task states, tasks that wait on others (never in a circle), the critical path, late and at-risk work, My work, workload against leave;
+  - time sheets approved by someone else and billed once, budgets and profit, baselines, sprints;
+  - a guest sees only their project and never money; field time and place only for staff on shift who agreed.
+- Each tier's features for LynkHR and LynkProject are in billing FEATURES and checked against the rulebooks (prices unchanged).
+
 ## v0.107.0 (2026-11-25)
 - Cash everywhere it applies, the two section 4 places (catalog/cash.v1.json):
   - an invoice paid in person: LynkInv's invoice record now has Cash received (amount, Record cash) in the browser and the Business app; it works offline, is never blocked, joins today's expected cash, and anything over what is owed becomes the customer's credit balance, never income;

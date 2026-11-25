@@ -200,10 +200,16 @@ FEATURES = {
               dict(voters_per_vote=1000, extra_1000_voters_cents=300),
               dict(voters_per_vote=10000, extra_1000_voters_cents=200),
               dict(voters_per_vote=100000, extra_1000_voters_cents=100)],
- "lynkhr": [dict(staff_included=5, extra_100_staff_cents=None), dict(staff_included=50, extra_100_staff_cents=400),
-            dict(staff_included=250), dict(staff_included=1000)],
- "lynkproject": [dict(members_included=5, extra_50_members_cents=None), dict(members_included=25, extra_50_members_cents=300),
-                 dict(members_included=100), dict(members_included=500)],
+ "lynkhr": [dict(staff_included=5, extra_100_staff_cents=None,   # SIX SERVICES UPDATE 8.2, agrees with catalog/hr.v1.json tiers (build section 4B)
+                 records=True, org_chart=True, self_service=True, leave_basic=True, expiry_reminders=True, handbook=True, help_desk=True, leave_rules=False, joining_leaving=False, documents_signing=False, overtime_rules=False, recognition=False, staff_id_cards=False, reviews=False, goals=False, pay_reviews=False, cases=False, surveys=False, branches=False, internal_jobs=False, referrals=False, contractors_volunteers=False, pay_guide=False, entities_countries=False, workforce_plans=False, succession=False, audit_files=False, own_roles=False, pay_equity_reports=False),
+            dict(staff_included=50, extra_100_staff_cents=400, leave_rules=True, joining_leaving=True, documents_signing=True, overtime_rules=True, recognition=True, staff_id_cards=True),
+            dict(staff_included=250, reviews=True, goals=True, pay_reviews=True, cases=True, surveys=True, branches=True, internal_jobs=True, referrals=True, contractors_volunteers=True, pay_guide=True),
+            dict(staff_included=1000, entities_countries=True, workforce_plans=True, succession=True, audit_files=True, own_roles=True, pay_equity_reports=True)],
+ "lynkproject": [dict(members_included=5, extra_50_members_cents=None,   # agrees with catalog/project.v1.json tiers
+                      tasks=True, lists=True, board=True, my_work=True, late_view=True, comments=True, files=True, offline=True, request_forms_basic=True, timeline=False, calendar=False, forms=False, rules=False, time_tracking=False, milestones=False, guests=False, whiteboards=False, wiki=False, workload=False, portfolios=False, budgets=False, customer_pages=False, agile=False, baselines=False, risks=False, design_review=False, change_requests=False, bug_tracking=False, equipment_rooms=False, programmes=False, resource_planning=False, own_fields=False, own_roles=False, import_tools=False, tenders=False),
+                 dict(members_included=25, extra_50_members_cents=300, timeline=True, calendar=True, forms=True, rules=True, time_tracking=True, milestones=True, guests=True, whiteboards=True, wiki=True),
+                 dict(members_included=100, workload=True, portfolios=True, budgets=True, customer_pages=True, agile=True, baselines=True, risks=True, design_review=True, change_requests=True, bug_tracking=True, equipment_rooms=True),
+                 dict(members_included=500, programmes=True, resource_planning=True, own_fields=True, own_roles=True, import_tools=True, tenders=True)],
  "lynkschool": [dict(learners_included=100, extra_500_learners_cents=None, classes_and_homework=True, joined_marks=False, curriculum_library=False,
                      voice_lessons=False, exam_tools=False, entrance_tests=False, head_reports=False, groups_of_schools=False, api=False,
                      # SCHOOL UPDATE 80.13 (section 4 row 80.15): on every tier, every kind of school, the school year, offline working and every safety rule
