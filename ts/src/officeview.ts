@@ -18,7 +18,7 @@ import type { InvoicesRegister } from "./invoices.js";
 import { CRM } from "./crm.generated.js";
 import { duplicates, fieldValueOk, forecast, kindsFor, maySee, merge, stageMove, visibleFields } from "./crm.js";
 import { ENTERPRISE } from "./enterprise.generated.js";
-import { check, flowSteps, roleProblems, splitCharges } from "./enterprise.js";
+import { moveInCheck, flowSteps, roleProblems, splitCharges } from "./enterprise.js";
 import type { EnterpriseRegister } from "./enterprise.js";
 import type { CrmRegister } from "./crm.js";
 import { STATS } from "./stats.generated.js";
@@ -150,7 +150,9 @@ export class OfficeView {
   entityKind = "business";
   private head(page: string): string { return `<h1>${ofEsc(this.title(page))}</h1>${this.sample()}`; }
   private rows(cells: readonly (readonly string[])[], head?: readonly string[]): string {
-    return `<table class="of-table">${head ? `<thead><tr>${head.map((h) => `<th>${ofEsc(this.t(h))}</th>`).join("")}</tr></thead>` : ""}<tbody>${cells.map((r) => `<tr>${r.map((c, i) => `<td${i > 0 && /^[-\d]/.test(c) ? ' class="of-num"' : ""}>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+    const word = (h: string): string => { const [k = "", n] = h.split(":"); return n === undefined ? this.t(k) : this.t(k, { n: Number(n) }); };
+    // with a header row each cell also carries its column's name, so a narrow screen can show every row as a small card (office.css)
+    return `<table class="of-table${head ? " of-stack" : ""}">${head ? `<thead><tr>${head.map((h) => `<th>${ofEsc(word(h))}</th>`).join("")}</tr></thead>` : ""}<tbody>${cells.map((r) => `<tr>${r.map((c, i) => `<td${i > 0 && /^[-\d]/.test(c) ? ' class="of-num"' : ""}${head?.[i] ? ` data-label="${ofEsc(word(head[i]!))}"` : ""}>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
   }
   private m(n: number): string { return ofEsc(this.c.money(n)); }
   private accClaims(): string {
@@ -213,7 +215,7 @@ export class OfficeView {
       <h2>${ofEsc(this.t("of_charges"))}</h2>${this.rows(Object.entries(charges).map(([d, v]) => [ofEsc(this.t(d)), this.m(v)]), ["of_col_department", "of_col_amount"])}<p class="note">${ofEsc(this.t("of_entities_rule"))}</p>`;
   }
   private entMoveIn(): string {
-    const r = check(OF_E, "customers", ["ref", "name", "email"], [["C1", "of_sample_customer_1", "a@example.com"], ["C1", "of_sample_customer_2", ""], ["C3", "", ""]]) as { ok: boolean; count: number; errors: { row: number; column: string; issue: string }[] };
+    const r = moveInCheck(OF_E, "customers", ["ref", "name", "email"], [["C1", "of_sample_customer_1", "a@example.com"], ["C1", "of_sample_customer_2", ""], ["C3", "", ""]]) as { ok: boolean; count: number; errors: { row: number; column: string; issue: string }[] };
     const rows = r.errors.map((e) => [String(e.row), ofEsc(e.column), ofEsc(this.t(`of_issue_${e.issue}`))]);
     return `${this.head("ent_movein")}<p>${this.c.chip(r.ok ? "confirmed" : "failed")} ${ofEsc(this.t(r.ok ? "of_movein_ok" : "of_movein_errors", { n: r.errors.length, rows: r.count }))}</p>${this.rows(rows, ["of_col_row", "of_col_column", "of_col_problem"])}<p class="note">${ofEsc(this.t("of_movein_rule"))}</p>`;
   }
@@ -440,13 +442,12 @@ export class OfficeView {
     const rows = cohorts(STATS, buys);
     const width = Math.max(0, ...rows.map((r) => r.back.length));
     return `<h1>${ofEsc(this.title("stat_cohorts"))}</h1>${this.sample()}<p class="note">${ofEsc(this.t("of_cohorts_rule"))}</p>
-      <table class="of-table"><thead><tr><th>${ofEsc(this.t("of_first_month"))}</th><th class="of-num">${ofEsc(this.t("of_page_crm_list"))}</th>${Array.from({ length: width }, (_, i) => `<th class="of-num">${ofEsc(this.t("of_month_n", { n: i + 1 }))}</th>`).join("")}</tr></thead>
-      <tbody>${rows.map((r) => `<tr><td>${ofEsc(r.month)}</td><td class="of-num">${r.size}</td>${Array.from({ length: width }, (_, i) => `<td class="of-num">${i < r.back.length ? r.back[i] : ""}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+      ${this.rows(rows.map((r) => [ofEsc(r.month), String(r.size), ...Array.from({ length: width }, (_, i) => (i < r.back.length ? String(r.back[i]) : ""))]), ["of_first_month", "of_page_crm_list", ...Array.from({ length: width }, (_, i) => `of_month_n:${i + 1}`)])}`;
   }
   private statPublic(): string {
     const rows = publicTable(STATS, [{ group: "of_region_north", n: 42, value: 1250 }, { group: "of_region_south", n: 3, value: 90 }, { group: "of_region_east", n: 17, value: 610 }]);
     return `<h1>${ofEsc(this.title("stat_public"))}</h1>${this.sample()}<p class="note">${ofEsc(this.t("of_public_rule", { n: STATS.public.min_group }))}</p>
-      <table class="of-table"><thead><tr><th>${ofEsc(this.t("of_group"))}</th><th class="of-num">${ofEsc(this.t("of_people"))}</th><th class="of-num">${ofEsc(this.t("of_total"))}</th></tr></thead><tbody>${rows.map((r) => `<tr><td>${ofEsc(this.t(r.group))}</td><td class="of-num">${r.n === null ? ofEsc(this.t("of_hidden")) : r.n}</td><td class="of-num">${r.value === null ? ofEsc(this.t("of_hidden")) : r.value}</td></tr>`).join("")}</tbody></table>`;
+      ${this.rows(rows.map((r) => [ofEsc(this.t(r.group)), r.n === null ? ofEsc(this.t("of_hidden")) : String(r.n), r.value === null ? ofEsc(this.t("of_hidden")) : String(r.value)]), ["of_group", "of_people", "of_total"])}`;
   }
 
   // ---- acting ----------------------------------------------------------------------------------------------------------------

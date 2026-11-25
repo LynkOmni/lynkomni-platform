@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-j/VBwl3CN4lqMxU3VNJOki/T4gJJkvcyxdZd0VDv6mQ='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-Vd1UjUsHl/Ay7NXIhn74CDMJsAaNpBQjZukl1/RaUCE='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni Owner View on LynkPC</title>
 <meta name="description" content="Interactive emulator of the owner's Business app in a browser on a laptop: today at a glance, sales, devices, staff and shifts, agent commissions, the automation control panel with its history at /business/automations, and data sharing. Selling and cash run only on a registered device, so the till is not here.">
@@ -997,6 +997,22 @@ body { margin: 0; min-height: 100vh; }
 .of-estimate { align-self: flex-start; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--status-warning-border); background: var(--status-warning-bg); color: var(--status-warning-text); font: 600 12px var(--font-body); }
 .of-form { display: flex; flex-direction: column; gap: 10px; padding: 12px; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--bg-surface); }
 .of-form h2 { margin: 0; }
+/* Section 4 row 66.10: the same pages inside the Business app on a phone. A table with a header row turns into one small card per row
+   when its space is narrow (each cell shows its column's name first); nothing is cut and nothing scrolls sideways. */
+.of-phone { container-type: inline-size; display: flex; flex-direction: column; gap: 12px; }
+.of-phone h1 { margin: 0; font: 700 22px/1.25 var(--font-heading); overflow-wrap: anywhere; }
+.of-pages { margin-block-end: 4px; }
+@container (max-width: 520px) {
+  .of-stack, .of-stack tbody, .of-stack tr, .of-stack td { display: block; inline-size: 100%; }
+  .of-stack thead { display: none; }   /* each cell already names its column */
+  .of-stack tr { padding: 8px 12px; margin-block-end: 8px; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--bg-surface); }
+  .of-stack td { padding: 6px 0; border-block-end: 1px solid var(--border-subtle); text-align: start; overflow-wrap: anywhere; }
+  .of-stack td:last-child { border-block-end: 0; }
+  .of-stack td:empty { display: none; }
+  .of-stack td[data-label]::before { content: attr(data-label); display: block; margin-block-end: 2px; color: var(--text-secondary); font: 600 13px var(--font-body); }
+  .of-stack .of-num { white-space: normal; }
+  .of-stack td > button { max-inline-size: 100%; white-space: normal; }
+}
 
 /* The shared parts' pages (ts/src/sharedview.ts, CONNECT UPDATE 71.3): calendar, contacts, recycle bin, audit, consents, test copy,
    plans and limits. Design tokens only; logical properties so right-to-left mirrors; text wraps in every language. */
@@ -6577,7 +6593,7 @@ function parseDate(text, fmt = "iso") {
     const a = +m[1], b = +m[2], y = +m[3];
     return fmt === "day_first" ? realDate(y, b, a) : realDate(y, a, b);
 }
-function check(E, kind, header, rows, decimals = 2, dateFormat = "iso", known = null, accounts = null) {
+function moveInCheck(E, kind, header, rows, decimals = 2, dateFormat = "iso", known = null, accounts = null) {
     const spec = E.move_in.kinds[kind];
     const errors = [];
     let totals = {};
@@ -6826,7 +6842,8 @@ class OfficeView {
     entityKind = "business";
     head(page) { return `<h1>${ofEsc(this.title(page))}</h1>${this.sample()}`; }
     rows(cells, head) {
-        return `<table class="of-table">${head ? `<thead><tr>${head.map((h) => `<th>${ofEsc(this.t(h))}</th>`).join("")}</tr></thead>` : ""}<tbody>${cells.map((r) => `<tr>${r.map((c, i) => `<td${i > 0 && /^[-\d]/.test(c) ? ' class="of-num"' : ""}>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+        const word = (h) => { const [k = "", n] = h.split(":"); return n === undefined ? this.t(k) : this.t(k, { n: Number(n) }); };
+        return `<table class="of-table${head ? " of-stack" : ""}">${head ? `<thead><tr>${head.map((h) => `<th>${ofEsc(word(h))}</th>`).join("")}</tr></thead>` : ""}<tbody>${cells.map((r) => `<tr>${r.map((c, i) => `<td${i > 0 && /^[-\d]/.test(c) ? ' class="of-num"' : ""}${head?.[i] ? ` data-label="${ofEsc(word(head[i]))}"` : ""}>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
     }
     m(n) { return ofEsc(this.c.money(n)); }
     accClaims() {
@@ -6889,7 +6906,7 @@ class OfficeView {
       <h2>${ofEsc(this.t("of_charges"))}</h2>${this.rows(Object.entries(charges).map(([d, v]) => [ofEsc(this.t(d)), this.m(v)]), ["of_col_department", "of_col_amount"])}<p class="note">${ofEsc(this.t("of_entities_rule"))}</p>`;
     }
     entMoveIn() {
-        const r = check(OF_E, "customers", ["ref", "name", "email"], [["C1", "of_sample_customer_1", "a@example.com"], ["C1", "of_sample_customer_2", ""], ["C3", "", ""]]);
+        const r = moveInCheck(OF_E, "customers", ["ref", "name", "email"], [["C1", "of_sample_customer_1", "a@example.com"], ["C1", "of_sample_customer_2", ""], ["C3", "", ""]]);
         const rows = r.errors.map((e) => [String(e.row), ofEsc(e.column), ofEsc(this.t(`of_issue_${e.issue}`))]);
         return `${this.head("ent_movein")}<p>${this.c.chip(r.ok ? "confirmed" : "failed")} ${ofEsc(this.t(r.ok ? "of_movein_ok" : "of_movein_errors", { n: r.errors.length, rows: r.count }))}</p>${this.rows(rows, ["of_col_row", "of_col_column", "of_col_problem"])}<p class="note">${ofEsc(this.t("of_movein_rule"))}</p>`;
     }
@@ -7129,13 +7146,12 @@ class OfficeView {
         const rows = cohorts(STATS, buys);
         const width = Math.max(0, ...rows.map((r) => r.back.length));
         return `<h1>${ofEsc(this.title("stat_cohorts"))}</h1>${this.sample()}<p class="note">${ofEsc(this.t("of_cohorts_rule"))}</p>
-      <table class="of-table"><thead><tr><th>${ofEsc(this.t("of_first_month"))}</th><th class="of-num">${ofEsc(this.t("of_page_crm_list"))}</th>${Array.from({ length: width }, (_, i) => `<th class="of-num">${ofEsc(this.t("of_month_n", { n: i + 1 }))}</th>`).join("")}</tr></thead>
-      <tbody>${rows.map((r) => `<tr><td>${ofEsc(r.month)}</td><td class="of-num">${r.size}</td>${Array.from({ length: width }, (_, i) => `<td class="of-num">${i < r.back.length ? r.back[i] : ""}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+      ${this.rows(rows.map((r) => [ofEsc(r.month), String(r.size), ...Array.from({ length: width }, (_, i) => (i < r.back.length ? String(r.back[i]) : ""))]), ["of_first_month", "of_page_crm_list", ...Array.from({ length: width }, (_, i) => `of_month_n:${i + 1}`)])}`;
     }
     statPublic() {
         const rows = publicTable(STATS, [{ group: "of_region_north", n: 42, value: 1250 }, { group: "of_region_south", n: 3, value: 90 }, { group: "of_region_east", n: 17, value: 610 }]);
         return `<h1>${ofEsc(this.title("stat_public"))}</h1>${this.sample()}<p class="note">${ofEsc(this.t("of_public_rule", { n: STATS.public.min_group }))}</p>
-      <table class="of-table"><thead><tr><th>${ofEsc(this.t("of_group"))}</th><th class="of-num">${ofEsc(this.t("of_people"))}</th><th class="of-num">${ofEsc(this.t("of_total"))}</th></tr></thead><tbody>${rows.map((r) => `<tr><td>${ofEsc(this.t(r.group))}</td><td class="of-num">${r.n === null ? ofEsc(this.t("of_hidden")) : r.n}</td><td class="of-num">${r.value === null ? ofEsc(this.t("of_hidden")) : r.value}</td></tr>`).join("")}</tbody></table>`;
+      ${this.rows(rows.map((r) => [ofEsc(this.t(r.group)), r.n === null ? ofEsc(this.t("of_hidden")) : String(r.n), r.value === null ? ofEsc(this.t("of_hidden")) : String(r.value)]), ["of_group", "of_people", "of_total"])}`;
     }
     act(a) {
         if (!a.startsWith("of:"))

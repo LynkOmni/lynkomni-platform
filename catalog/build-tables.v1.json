@@ -210,7 +210,9 @@
       "4"
      ],
      "part": "LynkAcc, LynkInv and LynkCRM in full with everything in 66.2 to 66.5 that lives in the Business app and the browser: bills to pay, expense claims, assets, departments and projects, groups, closing, banks, tax, statements, currencies, stock value and the tools per kind of entity; the new documents, e-invoices, credit control and ways to bill; organisations, own fields, deals, teams, cases and clean records; approval flows, own roles and many entities; the Move in tool; every emulator screen",
-     "done": {},
+     "done": {
+      "4": "v0.106.0"
+     },
      "progress": {
       "4": [
        "v0.48.0: the Pro and Max price top-up of 66.8 with the price lock and the revenue model re-run",
@@ -220,7 +222,8 @@
        "v0.71.0: LynkCRM's rules (catalog/crm.v1.json read by core/crm.py and ts/src/crm.ts with shared vectors: record kinds per entity, relations, own fields, segments, pipelines, forecast, lead scores as suggestions, access and hidden fields, cases with promised times, the full picture, duplicates and merging, consent, data requests, sensitive records) and LynkCRM in the cloud (services/crm.py, contact details only in the vault); the tier table of 66.7 for LynkCRM in billing",
        "v0.72.0: the large-organisation set (catalog/enterprise.v1.json read by core/enterprise.py and ts/src/enterprise.ts with shared vectors: own approval flows, own roles, charge splits, legal hold, keeping times, data region; services/enterprise.py with the staff directory, audit export and the test copy) and the Move in tool with its check report and leaving with a full download",
        "v0.75.0: LynkAcc, LynkInv and LynkCRM in the browser in 38 languages (ts/src/officeview.ts in the owner's computer view): statements, bills to pay with approval, bank matching, closing with the lock date; invoices with ageing, records, credit notes and a new invoice; customers, duplicates and the pipeline",
-       "v0.106.0: the rest of 66.2 to 66.6 in the browser in 38 languages: expense claims, assets, departments and projects with budgets, several taxes on a line, stock value, currencies, the tools per kind of entity, many entities with the group total, approval flows, own roles and the Move in check; document kinds, ways to bill, collection with the credit warning and e-invoices; record kinds, relations, own fields, teams and cases"
+       "v0.106.0: the rest of 66.2 to 66.6 in the browser in 38 languages: expense claims, assets, departments and projects with budgets, several taxes on a line, stock value, currencies, the tools per kind of entity, many entities with the group total, approval flows, own roles and the Move in check; document kinds, ways to bill, collection with the credit warning and e-invoices; record kinds, relations, own fields, teams and cases",
+       "v0.106.0: the same office pages inside the Business app on a phone (the Books, Invoicing, Customers and Reports hubs), every page checked in all 38 languages"
       ]
      }
     },

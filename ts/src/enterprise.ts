@@ -89,7 +89,7 @@ export function parseDate(text: unknown, fmt = "iso"): string | null {
   return fmt === "day_first" ? realDate(y, b, a) : realDate(y, a, b);
 }
 export interface CheckError { row: number; column: string; issue: string }
-export function check(E: EnterpriseRegister, kind: string, header: readonly string[], rows: readonly (readonly unknown[])[], decimals = 2, dateFormat = "iso",
+export function moveInCheck(E: EnterpriseRegister, kind: string, header: readonly string[], rows: readonly (readonly unknown[])[], decimals = 2, dateFormat = "iso",
   known: Record<string, readonly string[]> | null = null, accounts: readonly string[] | null = null) {
   const spec = E.move_in.kinds[kind]!;
   const errors: CheckError[] = [];

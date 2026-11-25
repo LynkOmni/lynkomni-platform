@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { flowSteps, flowMayApprove, roleProblems, splitCharges, mayDelete, dataRegion, suspendedBy, parseAmount, parseDate, check } from "../src/enterprise.js";
+import { flowSteps, flowMayApprove, roleProblems, splitCharges, mayDelete, dataRegion, suspendedBy, parseAmount, parseDate, moveInCheck } from "../src/enterprise.js";
 import { ENTERPRISE as E } from "../src/enterprise.generated.js";
 
 const root = new URL("../../..", import.meta.url).pathname;
@@ -19,5 +19,5 @@ test("approval flows, own roles, charges, keeping and region agree with the Pyth
 test("Move in reads amounts and dates exactly and reports every problem (OFFICE UPDATE 66.6)", () => {
   for (const c of V.amounts) assert.equal(parseAmount(c.t, c.d), c.expect, JSON.stringify(c));
   for (const c of V.dates) assert.equal(parseDate(c.t, c.f), c.expect, JSON.stringify(c));
-  for (const c of V.checks) assert.deepEqual(check(E, c.kind, c.header, c.rows, c.decimals ?? 2, "iso", c.known ?? null, c.accounts ?? null), c.expect, c.kind);
+  for (const c of V.checks) assert.deepEqual(moveInCheck(E, c.kind, c.header, c.rows, c.decimals ?? 2, "iso", c.known ?? null, c.accounts ?? null), c.expect, c.kind);
 });

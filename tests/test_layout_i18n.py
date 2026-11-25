@@ -2,7 +2,8 @@
 over, in every language of design/fonts/scripts.v1.json (real machine translations from the language packs), a long-text
 test (about 40% longer, accented) and a right-to-left test, at desktop and phone size.
 Needs Playwright with Chromium (installed in CI's layout job); skipped where it is missing."""
-import json, os, unittest
+import json
+import re, os, unittest
 from services import translation
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -167,6 +168,9 @@ class TranslationLayout(DarkPass, unittest.TestCase):
             self.assertEqual(len({sizes[(width, l)] for l in LANGS}), 1, f"size changed at {width}px: {sizes}")
 
 
+# The office pages of ts/src/officeview.ts OFFICE_PAGES (LynkAcc, LynkInv, LynkCRM, LynkStat), opened by id on the phone.
+OFFICE_PAGE_IDS = re.findall(r'\{ id: "([a-z_]+)", slot:', open(os.path.join(ROOT, "ts", "src", "officeview.ts"), encoding="utf-8").read())
+
 @unittest.skipUnless(sync_playwright and os.path.isfile(PHONE), "Playwright with Chromium is needed")
 class PhoneLayout(DarkPass, unittest.TestCase):
     """The Business app on a phone (blueprint 41 E): getting in, then every screen of catalog/business-app.v1.json for every
@@ -192,6 +196,9 @@ class PhoneLayout(DarkPass, unittest.TestCase):
         pg.click('[data-act="skipstep:print_shop_qr"]'); pg.click('[data-act="firstsale"]')
         for sid in self.SCREENS:
             pg.evaluate(f"__go('{sid}')"); check(sid)
+        if pg.viewport_size["width"] < 600:   # section 4 row 66.10: every office page inside its Business app hub, at phone size
+            for sid in OFFICE_PAGE_IDS:
+                pg.evaluate(f"__go('{sid}')"); check(f"office {sid}")
         pg.evaluate("__go('pay')"); pg.click('[data-act="way:mobile_money"]'); pg.fill("#momoIn", "0788123456"); check("mobile money")
         pg.click('.top [data-act="view:pay"]'); pg.click('[data-act="view:split"]'); check("split payment")
         pg.click('.top [data-act="view:pay"]'); pg.click('[data-act="way:credit"]'); check("credit")

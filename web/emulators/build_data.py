@@ -374,7 +374,7 @@ def main(emulator):
         **(cards() if emulator == "vcard-card" else {}),
         **({"automations": automations(3), "taxBp": tax_rates(), "autoSystem": auto_system()} if emulator == "owner-web" else {}),
         **({"planLimits": plan_limits(), "consentLinks": consent_links()} if emulator in ("owner-web", "merchant-phone") else {}),
-        **({"assistLimits": assist_limits()} if emulator == "merchant-phone" else {}),
+        **({"assistLimits": assist_limits(), "taxBp": tax_rates()} if emulator == "merchant-phone" else {}),
         **({"storefront": storefront_plans()} if emulator in ("account-site", "merchant-phone") else {}),
         **(business_app() if emulator == "merchant-phone" else {}),
         # LynkAttend, LynkQueue and LynkSurvey plan numbers (billing FAMILIES and FEATURES, locked), for every device that runs their engine
