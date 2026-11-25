@@ -16,7 +16,7 @@ import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, pick, plai
 import type { Build } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { designedState, panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
-import { StaffLock, deviceBanners, knowledgeFor, raiseLocal, staffPicker } from "../../../ts/src/devicekit.js";
+import { StaffLock, deviceBanners, knowledgeFor, raiseLocal, staffPicker, staffWhoRow } from "../../../ts/src/devicekit.js";
 import type { Line } from "../../../ts/src/notify.js";
 /** MASTER UPDATE section 3: each person their own PIN on the tablet (samples; a real device keeps only a slow salted hash).
  *  8642 is Aline's sample duress PIN: the quiet limited view (selling for cash) opens and the alert leaves by the first path out. */
@@ -302,6 +302,12 @@ function lockedScreen(): string {
 }
 function page(): string {
   if (!S.unlocked) return lockedScreen();
+  const me = STAFF.find(WHO);
+  return (me ? staffWhoRow(me.name, me.role, t, (id) => icon(id)) : "") + unlockedPage();   // who is serving, with Lock (owner, 2026-11-25)
+}
+/** Lock now: the same as two minutes without use, by the person's own choice. */
+function lockNow(): void { S.unlocked = false; S.view = "locked"; S.pin = ""; PINNOTE = ""; LOG.emit("DeviceLocked", { device_id: "tablet", after_s: 0 }, "device", "accepted"); }
+function unlockedPage(): string {
   switch (S.view) {
     case "pay": return payScreen(); case "cash": return cashScreen(); case "waiting": return waitingScreen(); case "done": return doneScreen();
     case "shift": return shiftScreen(); case "table": return tableScreen(); case "dayclose": return dayCloseScreen();
@@ -357,6 +363,7 @@ function act(a: string): void {
     }
     draw(); return;
   }
+  if (a === "gate:lock") { lockNow(); draw(); return; }
   const prod = CATALOG.find((p) => p.id === v);
   switch (k) {
     case "tab": S.tab = LIMITED ? "sell" : pick([...TABS[S.type]] as Tab[], v, "home"); S.view = "main";   // the duress view only sells if (S.tab === "sell") S.cdisplay = S.cart.lines().length ? "basket" : "welcome"; break;

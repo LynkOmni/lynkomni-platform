@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-jDGFL45FQmmFDFaN0i6VsfYAi4uxq+ucfMcsxXpmEeA='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-+oJAHW/cAThKmBIX9FTZzDEIOqNXvPuAlTTZ23aEUU0='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni Tracking Page</title>
 <meta name="description" content="Interactive emulator of the page a customer opens from a tracking link, with no account: each step of the order and its delivery, the promised time, live progress as a share of the trip, a missed promise, and a choice to hear each step by text message or chat.">
@@ -3829,6 +3829,9 @@ class StaffLock {
         return n;
     }
 }
+function staffWhoRow(name, role, t, icon) {
+    return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(name)} · ${esc(t(`role_${role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
+}
 class StaffGate {
     lock;
     h;
@@ -3871,7 +3874,7 @@ class StaffGate {
         const { t, icon } = this.h, me = this.me();
         if (!me)
             return this.optional ? `<div class="dk-whorow"><button type="button" class="dk-link" data-act="gate:signin">${icon("ui-user")}<span>${esc(t("dk_sign_in"))}</span></button></div>` : "";
-        return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(me.name)} · ${esc(t(`role_${me.role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
+        return staffWhoRow(me.name, me.role, t, icon);
     }
     lockNow(idle = false) {
         this.signed = false;

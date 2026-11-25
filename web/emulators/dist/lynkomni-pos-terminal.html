@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-Xaw/NnoIqBsX4UNpp3OR2asJ9jmraxLidjxjI/go5qU='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-P5Wck8kCJge7Z/PzEp82UapIT/QSKSfNMIGuTQgVhFg='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkPOS Terminal</title>
 <meta name="description" content="Interactive emulator of the LynkPOS handheld terminal: real sale rules, sandbox providers, sample products.">
@@ -2221,11 +2221,42 @@ function lfOption(ctx, code, selected = false) {
     const cc = ctx.packs[code]?.ph?.code;
     return `<option value="${lfEsc(code)}"${selected ? " selected" : ` title="${lfEsc(ctx.countryName(code))}"`}>${lfEsc(countryMark(code))}${cc ? ` +${lfEsc(ownDigits(cc, ctx.lang))}` : ""}</option>`;
 }
+const dialCountries = (ctx) => ctx.packOrder.filter((c) => !ctx.packs[c]?.sample && !!ctx.packs[c]?.ph?.code);
+let LF_HERE = null;
+function deviceCountry(ctx, tz, langs) {
+    const fresh = tz !== undefined || langs !== undefined;
+    if (LF_HERE && !fresh)
+        return LF_HERE;
+    const ok = dialCountries(ctx);
+    let zone = tz ?? "";
+    try {
+        if (tz === undefined)
+            zone = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+    }
+    catch {
+        zone = "";
+    }
+    let ls = langs ?? [];
+    try {
+        if (langs === undefined && typeof navigator !== "undefined")
+            ls = navigator.languages?.length ? navigator.languages : [navigator.language];
+    }
+    catch {
+        ls = [];
+    }
+    const regions = ls.map((l) => (String(l).match(/[-_]([A-Za-z]{2})(?:$|[-_])/)?.[1] ?? "").toUpperCase()).filter((r) => ok.includes(r));
+    const byZone = zone ? ok.filter((c) => ctx.packs[c]?.tz === zone) : [];
+    const got = (byZone.length === 1 ? byZone[0] : byZone.find((c) => regions.includes(c))) ?? regions[0] ?? ok[0] ?? "";
+    if (!fresh)
+        LF_HERE = got;
+    return got;
+}
 const LF_OPTS = {};
 function lfOptions(ctx) {
-    return (LF_OPTS[ctx.lang] ??= ctx.packOrder.map((code) => lfOption(ctx, code)).join(""));
+    return (LF_OPTS[ctx.lang] ??= dialCountries(ctx).map((code) => lfOption(ctx, code)).join(""));
 }
-function phoneFieldHtml(ctx, o) {
+function phoneFieldHtml(ctx, o0) {
+    const o = dialCountries(ctx).includes(o0.country) ? o0 : { ...o0, country: deviceCountry(ctx) };
     const mobile = o.mobile !== false, r = lfRules(ctx, o.country), d = phoneAccept(r, o.digits || "", mobile);
     const c = phoneCheck(r, d, mobile, !!o.submitted), msg = phoneMessage(ctx, o.country, d, c);
     const sample = phoneSample(r, mobile);
@@ -4509,6 +4540,9 @@ class StaffLock {
         return n;
     }
 }
+function staffWhoRow(name, role, t, icon) {
+    return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(name)} · ${esc(t(`role_${role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
+}
 class StaffGate {
     lock;
     h;
@@ -4551,7 +4585,7 @@ class StaffGate {
         const { t, icon } = this.h, me = this.me();
         if (!me)
             return this.optional ? `<div class="dk-whorow"><button type="button" class="dk-link" data-act="gate:signin">${icon("ui-user")}<span>${esc(t("dk_sign_in"))}</span></button></div>` : "";
-        return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(me.name)} · ${esc(t(`role_${me.role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
+        return staffWhoRow(me.name, me.role, t, icon);
     }
     lockNow(idle = false) {
         this.signed = false;
@@ -9458,7 +9492,7 @@ function view() {
         ${noteBox()}<p class="keyhint">${icon("ui-info")}${esc(t("use_keys"))}</p>
         <p class="hint">${esc(t("pin_hint"))}</p></div>`;
         case "home":
-            return `${top(t("sample_shop"), false)}${banners()}<div class="tiles12${S.lowLiteracy ? " big" : ""}">${HANDHELD_TILES.map((k) => `<button class="t12" data-act="tile:${k}">${icon(TILE_ICON[k] ?? "ui-grid")}<span>${esc(t(`tile_${k}`))}</span></button>`).join("")}</div>${adBlock("pos_idle", "home")}
+            return `${top(t("sample_shop"), false)}${banners()}${staffWhoRow(STAFF.find(S.who)?.name ?? "", STAFF.find(S.who)?.role ?? "cashier", t, (id) => icon(id))}<div class="tiles12${S.lowLiteracy ? " big" : ""}">${HANDHELD_TILES.map((k) => `<button class="t12" data-act="tile:${k}">${icon(TILE_ICON[k] ?? "ui-grid")}<span>${esc(t(`tile_${k}`))}</span></button>`).join("")}</div>${adBlock("pos_idle", "home")}
         ${S.flash ? `<div class="toast" role="status">${icon("ui-check")}${esc(S.flash)}</div>` : ""}`;
         case "pick":
             return `${top(t(`tile_${S.tileGroup}`))}<ul class="menu">${(TILE_SERVICES[S.tileGroup] ?? []).map((k) => `<li><button data-act="svc:${k}">${icon(TILE_ICON[S.tileGroup] ?? "ui-grid")}${esc(t(`svc_${k}`))}${icon("ui-chevron-right")}</button></li>`).join("")}</ul>
@@ -9752,6 +9786,16 @@ function act(a) {
                 S.approve = null;
                 draw();
                 return;
+            case "gate":
+                if (v === "lock") {
+                    emit("DeviceLocked", { device_id: DEVICE, after_s: 0, by_automation: false }, "device");
+                    S.screen = "lock";
+                    S.input = "";
+                    S.view = "full";
+                    S.approve = null;
+                    draw();
+                }
+                return; // Lock beside the name on Home (owner, 2026-11-25)
             case "cat":
                 S.category = v;
                 draw();

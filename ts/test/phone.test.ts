@@ -39,3 +39,15 @@ test("email checks agree with the Python reference", () => {
 test("the wait before another code agrees with the Python reference", () => {
   for (const c of V.waits) assert.equal(resendWait(c.sent, c.now), c.wait, JSON.stringify(c));
 });
+
+test("the phone chooser lists only countries with a dialling code and starts on the device's country (owner, 2026-11-25)", async () => {
+  const { dialCountries, deviceCountry } = await import("../src/fields.js");
+  const ph = (code: string) => ({ code, prefix: "", main: true, mobile: { lengths: [9], groups: [3, 3, 3], sample: "612345678" } }) as unknown as PhoneRules;
+  const ctx = { t: (k: string) => k, lang: "en", countryName: (c: string) => c, packOrder: ["XX", "AQ", "CM", "FR", "GA"],
+    packs: { XX: { name: "Sample", sample: true, tz: "UTC", ph: ph("999") }, AQ: { name: "Antarctica", tz: "Antarctica/McMurdo", ph: null },
+      CM: { name: "Cameroon", tz: "Africa/Douala", ph: ph("237") }, FR: { name: "France", tz: "Europe/Paris", ph: ph("33") }, GA: { name: "Gabon", tz: "Africa/Libreville", ph: ph("241") } } };
+  assert.deepEqual(dialCountries(ctx), ["CM", "FR", "GA"]);                    // no flag without a code, never the sample
+  assert.equal(deviceCountry(ctx, "Africa/Douala", ["fr-FR"]), "CM");          // the time zone decides
+  assert.equal(deviceCountry(ctx, "America/Chicago", ["fr-GA", "en"]), "GA");  // else a language's region
+  assert.equal(deviceCountry(ctx, "", []), "CM");                              // else the first country with numbers
+});

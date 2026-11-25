@@ -13,7 +13,7 @@ import { designedState, panelShell, sampleAccount } from "../../../ts/src/device
 import type { Entry } from "../../../ts/src/shell.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
-import { StaffLock, deviceBanners, knowledgeFor, raiseLocal, staffPicker } from "../../../ts/src/devicekit.js";
+import { StaffLock, deviceBanners, knowledgeFor, raiseLocal, staffPicker, staffWhoRow } from "../../../ts/src/devicekit.js";
 import { pinPad } from "../../../ts/src/signin.js";
 import type { Line as Notice } from "../../../ts/src/notify.js";
 import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
@@ -110,7 +110,7 @@ const canTakeBets = (): boolean => signed() && (S.online || S.offlineSlips);
 /** Who is serving, with Lock the counter (also from the Back key on the lock screen's way out). */
 function whoRow(): string {
   const me = STAFF.find(S.who);
-  return `<div class="bwho"><span>${icon("ui-user")}<span>${esc(me?.name ?? "")} · ${esc(t(`role_${me?.role ?? "cashier"}`))}</span></span><button type="button" class="ghost" data-act="lockcounter">${icon("ui-lock")} ${esc(t("bt_lock_counter"))}</button></div>`;
+  return staffWhoRow(me?.name ?? "", me?.role ?? "cashier", t, (id) => icon(id));   // the same row with Lock on every staff device
 }
 function home(): string {
   if (S.limited) return `${whoRow()}<div class="btiles"><button type="button" class="btile" data-act="go:games"${canTakeBets() ? "" : " disabled"}>${icon("lit-tickets")}<strong>${esc(t("bt_place"))}</strong></button></div><p class="sub">${esc(t("bt_never_credit"))}</p>`;
@@ -428,7 +428,7 @@ function act(a: string): void {
   const [k = "", x = "", y = ""] = a.split(":");
   S.lastInput = Date.now();
   if (signInAct(k, x, y)) return;
-  if (k === "lockcounter") { lockCounter(false); return; }
+  if (k === "lockcounter" || a === "gate:lock") { lockCounter(false); return; }
   if (k === "approve") { if ((x === "second" || x === "cancel") && S.online) { S.approval = { purpose: x, person: null, back: S.view === "approve" ? "home" : S.view }; S.pin = ""; S.view = "approve"; draw(); } return; }
   if (S.limited && k === "go" && x !== "games" && x !== "slip" && x !== "home") return;           // the quiet duress view only takes bets for cash
   if (S.limited && k === "method") return;

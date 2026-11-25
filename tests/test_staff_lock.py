@@ -38,6 +38,16 @@ class StaffLockEverywhere(unittest.TestCase):
                 self.assertRegex(src, r'duress: "\d{4,8}"', "a sample duress PIN")
                 self.assertTrue("DuressSignalled" in src or "new StaffGate(" in src, "the duress PIN sends the silent alert")
 
+    def test_every_screen_opened_with_a_staff_pin_can_be_locked_at_once(self):
+        """Owner, 2026-11-25: every screen a person opened with their PIN shows who is signed in with Lock beside the name
+        (ts/src/devicekit.ts staffWhoRow, act gate:lock), not only the two-minute idle lock or a Lock buried in a menu."""
+        folders = {e["built_in"] for e in REG["emulators"] if e["built_in"] and not e["customer_facing"] and e["user"] in ("needed", "optional")}
+        for folder in sorted(folders):
+            with self.subTest(folder):
+                src = source(folder)
+                self.assertTrue("staffWhoRow(" in src or "GATE.whoRow()" in src, "the who row with Lock is drawn")
+                self.assertTrue('"gate:lock"' in src or "new StaffGate(" in src or '"gate": if (v === "lock")' in src, "Lock locks at once")
+
     def test_customer_screens_have_no_staff_lock(self):
         for e in REG["emulators"]:
             if e["built_in"] and e["customer_facing"] and e["user"] == "none" and e["built_in"] not in {x["built_in"] for x in REG["emulators"] if not x["customer_facing"]}:
