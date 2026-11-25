@@ -2,6 +2,17 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.109.0 (2026-11-25)
+Build section 4B, step 2 of 5: LynkHR and LynkProject in the cloud.
+- Contract version 19: 29 new events for LynkHR (staff records, joining and leaving steps, leave, reviews, pay changes, payroll figures, HR cases), LynkProject (projects, tasks, waiting, milestones, time, time sheets, billed time, costs, change requests) and LynkFiles (approval routes, document requests). Only the offline steps can come from a device; pay, payroll, billing and decisions are cloud only. No event carries a name, contact or anybody's words.
+- Three new public identifiers: LOSTF- (a staff record), LOPRJ- (a project) and LOTSK- (a task).
+- LynkHR in the cloud (services/hr.py): staff records with names only in the PII vault, leave with balances and clashes, answers from someone else, reviews, pay changes with a second (and a third over budget) approver, HR cases, expiry reminders, training joining the skills record, absences from LynkAttend when the business switches that link on.
+- Payroll figures go to LynkAcc as a draft of wages owed that a second person posts (a new two-person kind, payroll).
+- LynkProject in the cloud (services/projects.py): tasks that wait on others (never in a circle), approved time billed once through LynkInv, costs to LynkAcc as bills, change requests decided by someone else, guests who never see money, meeting minutes turned into tasks.
+- LynkFiles: approval routes with named approvers in order, and document requests (asked, received, checked).
+- Move in now takes staff, leave balances, projects and tasks, with the same check report.
+- The three journeys hire to work, document to record and meeting to action run end to end.
+
 ## v0.108.0 (2026-11-25)
 Build section 4B (LynkFiles, LynkHR and LynkProject in full), step 1 of 5: the rules.
 - LynkHR's rulebook (catalog/hr.v1.json; core/hr.py and ts/src/hr.ts agree on every case of contract/vectors/hr.v1.json):

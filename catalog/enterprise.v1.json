@@ -819,6 +819,32 @@
     ],
     "ref": "ref",
     "types": {}
+   },
+   "staff": {
+    "columns": ["ref", "name", "worker_kind", "start_on", "role", "department", "manager_ref", "salary"],
+    "required": ["ref", "name", "worker_kind", "start_on"],
+    "ref": "ref",
+    "types": {"start_on": "date", "salary": "amount"},
+    "known": {"manager_ref": "staff"}
+   },
+   "leave_balances": {
+    "columns": ["staff_ref", "kind", "half_days"],
+    "required": ["staff_ref", "kind", "half_days"],
+    "types": {"half_days": "whole"},
+    "known": {"staff_ref": "staff"}
+   },
+   "projects": {
+    "columns": ["ref", "name", "method", "starts_on", "budget"],
+    "required": ["ref", "name"],
+    "ref": "ref",
+    "types": {"starts_on": "date", "budget": "amount"}
+   },
+   "tasks": {
+    "columns": ["ref", "project_ref", "title", "state", "due_on", "owner"],
+    "required": ["ref", "project_ref", "title"],
+    "ref": "ref",
+    "types": {"due_on": "date"},
+    "known": {"project_ref": "projects"}
    }
   },
   "date_formats": [
@@ -827,7 +853,7 @@
    "month_first"
   ],
   "max_rows": 100000,
-  "rule": "Charts, opening balances, customers, suppliers, open invoices and bills, and history come in from spreadsheets and other systems' export files. Every file gets a check report first: missing columns, empty required fields, amounts that are not whole minor units of the currency, dates that do not exist, the same reference twice, open items for people not in the file, and opening balances that do not balance. Nothing goes live while the report has an error. Names, emails and phone numbers go straight to the PII vault. Leaving is a full download of every record, at any time, in the same standard files. Voters for LynkVote (68.9, move in from another voting service) come in the same way: a voter's reference only once, and a weight, where the vote counts shares or seats, a whole number of at least 1. From section 4 (SERVICES UPDATE 67.15) Move in covers every service: products, stock levels, members and points, bookings and payees, each checked the same way (a reference only once, amounts in whole minor units, whole numbers, real dates, references to rows that exist)."
+  "rule": "Charts, opening balances, customers, suppliers, open invoices and bills, and history come in from spreadsheets and other systems' export files. Every file gets a check report first: missing columns, empty required fields, amounts that are not whole minor units of the currency, dates that do not exist, the same reference twice, open items for people not in the file, and opening balances that do not balance. Nothing goes live while the report has an error. Names, emails and phone numbers go straight to the PII vault. Leaving is a full download of every record, at any time, in the same standard files. Voters for LynkVote (68.9, move in from another voting service) come in the same way: a voter's reference only once, and a weight, where the vote counts shares or seats, a whole number of at least 1. From section 4 (SERVICES UPDATE 67.15) Move in covers every service: products, stock levels, members and points, bookings and payees, each checked the same way (a reference only once, amounts in whole minor units, whole numbers, real dates, references to rows that exist). From build section 4B (SIX SERVICES UPDATE 69) LynkHR moves in staff and leave balances and LynkProject moves in projects and tasks, checked the same way; a staff member's name goes straight to the PII vault."
  },
  "family_area": {
   "lynkacc": "acc",

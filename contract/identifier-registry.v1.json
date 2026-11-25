@@ -360,6 +360,27 @@
    "name": "Ballot receipt",
    "purpose": "The receipt a voter keeps to check that their locked ballot was counted, never showing how they voted (VOTE UPDATE 68; added in build section 4)",
    "origin": "approved addition"
+  },
+  {
+   "code": "STF",
+   "prefix": "LOSTF-",
+   "name": "Staff record",
+   "purpose": "One person who works for an organisation in LynkHR, every kind of worker (SIX SERVICES UPDATE 69.3; added in build section 4B)",
+   "origin": "approved addition"
+  },
+  {
+   "code": "PRJ",
+   "prefix": "LOPRJ-",
+   "name": "Project",
+   "purpose": "One project in LynkProject (SIX SERVICES UPDATE 69.4; added in build section 4B)",
+   "origin": "approved addition"
+  },
+  {
+   "code": "TSK",
+   "prefix": "LOTSK-",
+   "name": "Task",
+   "purpose": "One task in a LynkProject project, opened by its own address (SIX SERVICES UPDATE 69.4; added in build section 4B)",
+   "origin": "approved addition"
   }
  ]
 }

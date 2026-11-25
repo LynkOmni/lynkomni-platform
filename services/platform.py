@@ -61,6 +61,10 @@ class Platform(_Base):
         s.office_money = OfficeMoney(s)                       # gift cards, store credit, deposits, matching and payment costs in LynkAcc (67.17)
         from services.files import Files
         s.files = Files(s)                                    # LynkFiles' document engine (SIX SERVICES UPDATE, section 4 step E3)
+        from services.hr import People
+        s.hr = People(s)                                      # LynkHR in the cloud (SIX SERVICES UPDATE 69.3, build section 4B)
+        from services.projects import Projects
+        s.projects = Projects(s)                              # LynkProject in the cloud (SIX SERVICES UPDATE 69.4, build section 4B)
         from services.vote import Voting
         s.vote = Voting(s)                                    # LynkVote in the cloud (VOTE UPDATE, section 4 step E2)
         from services.office_chat import OfficeChat

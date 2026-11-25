@@ -34,7 +34,7 @@ class ContractV18(unittest.TestCase):
     def test_a_version_17_event_reads_as_version_18_unchanged(self):
         ev = {"schema_version": 17, "type": "DeliveryPickedUp", "payload": {"delivery_id": "x"}}
         up = upcast(dict(ev))
-        self.assertEqual((up["schema_version"], up["payload"]), (18, ev["payload"]))
+        self.assertEqual((up["schema_version"], up["payload"]), (CURRENT, ev["payload"]))
 
 
 if __name__ == "__main__":

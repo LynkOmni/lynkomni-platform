@@ -231,10 +231,10 @@
    "from": "lynkattend",
    "to": "lynkhr",
    "what": "Clock-ins and absences become staff time and leave, where the organisation switches it on",
-   "events": [],
-   "planned_events": [
+   "events": [
     "LeaveRequested"
    ],
+   "planned_events": [],
    "consent": "merchant",
    "build_section": "4B"
   },
@@ -243,10 +243,10 @@
    "from": "lynkhr",
    "to": "lynkacc",
    "what": "Staff figures go to payroll in LynkAcc; LynkAssist never decides pay",
-   "events": [],
-   "planned_events": [
+   "events": [
     "PayrollFiguresSent"
    ],
+   "planned_events": [],
    "consent": "none",
    "build_section": "4B"
   },
@@ -268,10 +268,23 @@
    "from": "lynkproject",
    "to": "lynkinv",
    "what": "Time and costs on a project become invoice lines",
-   "events": [],
-   "planned_events": [
-    "TimeSheetApproved"
+   "events": [
+    "TimeSheetAnswered",
+    "ProjectTimeBilled"
    ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": "4B"
+  },
+  {
+   "id": "project-acc",
+   "from": "lynkproject",
+   "to": "lynkacc",
+   "what": "Project costs and purchases become bills to pay in LynkAcc and count against the project's budget",
+   "events": [
+    "ProjectCostRecorded"
+   ],
+   "planned_events": [],
    "consent": "none",
    "build_section": "4B"
   },
@@ -280,10 +293,10 @@
    "from": "lynkfiles",
    "to": "lynkproject",
    "what": "Minutes from a meeting become tasks for a named person",
-   "events": [],
-   "planned_events": [
+   "events": [
     "TaskCreated"
    ],
+   "planned_events": [],
    "consent": "none",
    "build_section": "4B"
   },
@@ -1057,7 +1070,8 @@
     "hr-acc",
     "academy-hr"
    ],
-   "build_section": "4B"
+   "build_section": "4B",
+   "proved_by": "tests/test_journeys_4b.py::Journeys4B.test_hire_to_work"
   },
   {
    "id": "document_to_record",
@@ -1066,7 +1080,8 @@
     "files-crm",
     "files-acc"
    ],
-   "build_section": "4B"
+   "build_section": "4B",
+   "proved_by": "tests/test_journeys_4b.py::Journeys4B.test_document_to_record"
   },
   {
    "id": "meeting_to_action",
@@ -1075,7 +1090,8 @@
     "files-project",
     "project-inv"
    ],
-   "build_section": "4B"
+   "build_section": "4B",
+   "proved_by": "tests/test_journeys_4b.py::Journeys4B.test_meeting_to_action"
   },
   {
    "id": "problem_to_fix",
