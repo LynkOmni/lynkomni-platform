@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "אקדמיה",
   "academy_hint": "שיעור קצר נפתח ליד המסך שהוא מלמד.",
@@ -228,6 +228,7 @@
   "key_recall": "שחזור",
   "key_right": "ימינה",
   "key_up": "למעלה",
+  "key_up_level": "רמה אחת למעלה",
   "kitchen": "מטבח",
   "kitchen_items_open": "עדיין יש מנות במטבח",
   "kitchen_queue": "תור המטבח",

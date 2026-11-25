@@ -26,7 +26,7 @@ import { Tracking } from "../../../ts/src/tracking.js";
 import { REGISTER } from "../../../ts/src/tracking.generated.js";
 import { towerHtml, exceptionsHtml, scanHtml, extraStepsHtml } from "../../../ts/src/trackview.js";
 import type { TowerLook } from "../../../ts/src/trackview.js";
-import { SHARED_PAGES, sampleShared, sharedPage, sharedAct, plansLimitsHtml } from "../../../ts/src/sharedview.js";
+import { SHARED_PAGES, sampleShared, sharedPage, sharedAct, sharedInput, plansLimitsHtml } from "../../../ts/src/sharedview.js";
 import type { SharedLook, SharedPage, ConsentLink } from "../../../ts/src/sharedview.js";
 const SIDE_W = 200;   // px of room the 220 px sidebar gives its brand place (side-menu: logo from 140 px)
 
@@ -35,7 +35,8 @@ declare const DATA: Build & { automations: Auto[]; autoSystem: { days: number; m
 type Page = "today" | "sales" | "devices" | "staff" | "commissions" | "automations" | "sharing" | "tracking" | SharedPage | "plans";
 const PAGES: Page[] = ["today", "sales", "devices", "staff", "commissions", "automations", "sharing", "tracking", ...SHARED_PAGES, "plans"];
 const PATH: Record<Page, string> = { today: "/business", sales: "/sell/sales", devices: "/business/devices", staff: "/business/team", commissions: "/business/agent-earnings", automations: "/business/automations", sharing: "/business/settings/data-sharing", tracking: "/tracking",
-  calendar: "/business/calendar", contacts: "/business/contacts", recycle_bin: "/business/recycle-bin", audit: "/business/audit", consents: "/business/settings/consents", test_copy: "/business/settings/test-copy", plans: "/business/plans" };
+  calendar: "/business/calendar", contacts: "/business/contacts", recycle_bin: "/business/recycle-bin", audit: "/business/audit", consents: "/business/settings/consents", test_copy: "/business/settings/test-copy", plans: "/business/plans",
+  role_inbox: "/business/team-inbox", broadcast: "/business/urgent-messages", message_results: "/business/message-results", email_in: "/business/settings/forward-by-email", message_wording: "/business/settings/message-wording" };
 const TIERS = ["free", "plus", "pro", "max"] as const;
 const S: PanelState & { page: Page; off: Set<string>; why: string; sharing: Set<string>; notice: string; launcher: boolean; place: string; office: string } =
   { online: true, fail: false, type: "shop", tier: "plus", country: "", realUser: false, practice: false, dark: false, lang: "en", page: "today", off: new Set(), why: "", sharing: new Set(), notice: "", launcher: false, place: "", office: "" };
@@ -178,7 +179,8 @@ function plansOwner(): string {
   return `<h1>${esc(t("sv_plans_limits"))}</h1>${plansLimitsHtml(rows, shvLook())}`;
 }
 const LABEL: Record<Page, string> = { today: "home", sales: "sales", devices: "devices", staff: "staff_shifts", commissions: "agent_commissions", automations: "automations", sharing: "data_sharing", tracking: "trk_tower",
-  calendar: "sv_calendar", contacts: "sv_contacts", recycle_bin: "sv_recycle_bin", audit: "sv_audit", consents: "sv_consents", test_copy: "sv_test_copy", plans: "sv_plans_limits" };
+  calendar: "sv_calendar", contacts: "sv_contacts", recycle_bin: "sv_recycle_bin", audit: "sv_audit", consents: "sv_consents", test_copy: "sv_test_copy", plans: "sv_plans_limits",
+  role_inbox: "sv_role_inbox", broadcast: "sv_broadcast", message_results: "sv_message_results", email_in: "sv_email_in", message_wording: "sv_message_wording" };
 const DSH = panelShell({
   st: S, t, icon, clock: (ms) => C.clock(ms),
   native: () => (DATA.i18n[S.lang]?.native ?? S.lang), region: () => (C.pack().sample ? t("sample_country") : C.pack().name), currency: () => C.pack().currency,
@@ -205,7 +207,8 @@ const RAIL: Record<string, string> = { home: "go:today", inbox: "dsh:bell", trac
 const RAIL_CURRENT: Partial<Record<Page, string>> = { today: "home", tracking: "track", devices: "emulators", automations: "automations", sharing: "settings" };
 /** This view's pages in the register's fixed order: Overview, the lists, Automations, Settings. */
 const SLOT: Record<Page, string> = { today: "overview", sales: "list", devices: "list", staff: "list", commissions: "list", automations: "automations", sharing: "settings", tracking: "list",
-  calendar: "list", contacts: "list", recycle_bin: "settings", audit: "reports", consents: "settings", test_copy: "settings", plans: "settings" };
+  calendar: "list", contacts: "list", recycle_bin: "settings", audit: "reports", consents: "settings", test_copy: "settings", plans: "settings",
+  role_inbox: "list", broadcast: "list", message_results: "reports", email_in: "settings", message_wording: "settings" };
 const MINE = ["lynkpos", "lynkstock", "lynkchat", "lynkacc", "lynkinv", "lynkcrm", "lynkstat"];
 const nameOf = (f: string): string => DATA.launcher.find((x) => x.family === f)?.name ?? f;
 const appOf = (f: string): string => DATA.launcher.find((x) => x.family === f)?.app ?? "";
@@ -277,8 +280,8 @@ function main(): void {
     if (b.classList.contains("dsh-scrim") && tg.closest("[data-stop]")) return; if (!DSH.act(a)) act(a); });
   document.addEventListener("input", (e) => { const el = e.target as HTMLInputElement;
     if (el.id === "ofSearch") { OV.search(el.value); keepFocus(el.id); return; }
-    const k = el.dataset["in"] ?? ""; if (trkInput(k, el.value)) { keepFocus(el.id); return; } if (OV.input(k, el.value)) { keepFocus(el.id); return; } DSH.input(el); });
-  document.addEventListener("change", (e) => { const el = e.target as HTMLSelectElement; if (el.closest("#screen") && el.tagName === "SELECT" && (trkInput(el.dataset["in"] ?? "", el.value) || OV.input(el.dataset["in"] ?? "", el.value))) draw(); });
+    const k = el.dataset["in"] ?? ""; if (k.startsWith("shv:")) { if (sharedInput(SHV, k, el.value)) draw(); return; } if (trkInput(k, el.value)) { keepFocus(el.id); return; } if (OV.input(k, el.value)) { keepFocus(el.id); return; } DSH.input(el); });
+  document.addEventListener("change", (e) => { const el = e.target as HTMLSelectElement; if (el.tagName === "SELECT" && (el.dataset["in"] ?? "").startsWith("shv:")) { if (sharedInput(SHV, el.dataset["in"] ?? "", el.value)) draw(); return; } if (el.closest("#screen") && el.tagName === "SELECT" && (trkInput(el.dataset["in"] ?? "", el.value) || OV.input(el.dataset["in"] ?? "", el.value))) draw(); });
   document.addEventListener("keydown", (e) => { DSH.key(e); });
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
   $("#panel").addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["ctl"] === "ads") { AD.on = el.checked; AD.why = false; AD.reported = false; draw(); return; } if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });

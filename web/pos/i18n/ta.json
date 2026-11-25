@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ta",
  "native": "தமிழ்",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "கல்விக்கூடம்",
   "academy_hint": "கற்பிக்கும் திரைக்கு அருகில் ஒரு சிறு பாடம் திறக்கும்.",
@@ -228,6 +228,7 @@
   "key_recall": "மீட்டெடு",
   "key_right": "வலது",
   "key_up": "மேலே",
+  "key_up_level": "ஒரு நிலை மேலே",
   "kitchen": "சமையலறை",
   "kitchen_items_open": "சமையலறைப் பொருட்கள் இன்னும் திறந்துள்ளன",
   "kitchen_queue": "சமையலறை வரிசை",

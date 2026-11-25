@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ur",
  "native": "اردو",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "اکیڈمی",
   "academy_hint": "ایک مختصر سبق اسی اسکرین کے ساتھ کھلتا ہے جو وہ سکھاتا ہے۔",
@@ -228,6 +228,7 @@
   "key_recall": "واپس لائیں",
   "key_right": "دائیں",
   "key_up": "اوپر",
+  "key_up_level": "ایک سطح اوپر",
   "kitchen": "باورچی خانہ",
   "kitchen_items_open": "باورچی خانے میں ابھی کھانا باقی ہے",
   "kitchen_queue": "باورچی خانے کی قطار",

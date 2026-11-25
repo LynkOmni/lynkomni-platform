@@ -127,3 +127,40 @@ class Cloud(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class OfflineClash(unittest.TestCase):
+    """One set of offline clash rules (CONNECT UPDATE 71.3): the same published rule settles two offline changes everywhere."""
+    def ch(self, device, hlc, accepted, **fields):
+        return {"device": device, "hlc": hlc, "accepted": accepted, "fields": fields}
+
+    def test_every_kind_has_a_known_rule_and_money_never_clashes(self):
+        from core import shared as S
+        oc = S.SHARED["offline_clash"]
+        self.assertTrue(set(oc["kinds"].values()) <= set(oc["rules"]))
+        for k in ("provider_payment", "credentials", "bet_payout", "exchange_order", "agent_request"):
+            self.assertEqual(oc["kinds"][k], "never_offline", k)
+            with self.assertRaises(ValueError):
+                S.settle(k, self.ch("d1", 1, 1), self.ch("d2", 2, 2))
+        for k in oc["safest"]:
+            self.assertEqual(oc["kinds"][k], "safest_wins")
+
+    def test_nothing_is_thrown_away_silently(self):
+        from core import shared as S
+        self.assertEqual(S.settle("sale", self.ch("d1", 1, 1), self.ch("d2", 2, 2))["keep"], ["a", "b"], "a sale is never a clash")
+        r = S.settle("voucher_redeem", self.ch("d1", 9, 2), self.ch("d2", 1, 1))
+        self.assertEqual((r["keep"], r["lost"], r["flag"]), (["b"], ["a"], True), "used once: the first accepted wins, a person is told")
+        r = S.settle("product", self.ch("d1", 5, 1, price_minor=100, name="A"), self.ch("d2", 7, 2, price_minor=120))
+        self.assertEqual((r["fields"], r["lost"], r["flag"]), ({"name": "A", "price_minor": 120}, ["price_minor"], True))
+        r = S.settle("product", self.ch("d1", 5, 1, name="A"), self.ch("d2", 7, 2, colour="red"))
+        self.assertEqual((r["fields"], r["flag"]), ({"colour": "red", "name": "A"}, False), "different fields both apply")
+
+    def test_the_safer_value_wins_whatever_the_order(self):
+        from core import shared as S
+        for later in ("given", "withdrawn"):
+            a = self.ch("d1", 9, 9, state=later); b = self.ch("d2", 1, 1, state="withdrawn" if later == "given" else "given")
+            self.assertEqual(S.settle("contact_consent", a, b)["fields"]["state"], "withdrawn")
+
+    def test_the_screens_agree(self):
+        import subprocess, sys
+        self.assertEqual(subprocess.call([sys.executable, os.path.join(ROOT, "tools", "shared_vectors.py"), "--check"]), 0)

@@ -45,10 +45,29 @@ export function siblings(host: string, path: string): string[] {
   return (ADDRESS_HOSTS[host] ?? []).filter((p) => p !== path && !last(p).includes("{") && parent(host, p) === par);
 }
 
+/** The "up one level" key: Alt with the Up arrow on every keyboard (catalog/devices.v1.json keys "up"); a buttons-only device
+ *  uses its Back key, which already goes one level up. */
+export const UP_KEY = "Alt+ArrowUp";
+export const isUpKey = (e: { key: string; altKey: boolean; ctrlKey?: boolean; metaKey?: boolean }): boolean => e.key === "ArrowUp" && e.altKey && !e.ctrlKey && !e.metaKey;
+
 /** The breadcrumb part: an ordered list, the page itself last and marked as current, never a link to itself. On a phone only
- *  the parent shows, as a "back to" link, so the line never wraps into a wall of words. */
-export function breadcrumbBar(steps: { path: string; label: string }[], compact: boolean, t: T): string {
+ *  the parent shows, as a "back to" link, so the line never wraps into a wall of words. The parent step answers the up key
+ *  (data-up). With more: a "Pages here" list of the page's siblings to jump sideways, and Copy link (CONNECT UPDATE 71.5). */
+export function breadcrumbBar(steps: { path: string; label: string }[], compact: boolean, t: T, more?: { siblings?: { path: string; label: string }[]; link?: string }): string {
   if (steps.length < 2) return "";
-  if (compact) { const up = steps[steps.length - 2]!; return `<nav class="crumbs compact" aria-label="${esc(t("crumbs"))}"><a href="${esc(up.path)}" data-act="go:${esc(up.path)}">‹ ${esc(up.label)}</a></nav>`; }
-  return `<nav class="crumbs" aria-label="${esc(t("crumbs"))}"><ol>${steps.map((s, i) => i === steps.length - 1 ? `<li><span aria-current="page">${esc(s.label)}</span></li>` : `<li><a href="${esc(s.path)}" data-act="go:${esc(s.path)}">${esc(s.label)}</a></li>`).join("")}</ol></nav>`;
+  const parentAt = steps.length - 2;
+  if (compact) { const up = steps[parentAt]!; return `<nav class="crumbs compact" aria-label="${esc(t("crumbs"))}"><a href="${esc(up.path)}" data-act="go:${esc(up.path)}" data-up aria-keyshortcuts="${UP_KEY}">‹ ${esc(up.label)}</a></nav>`; }
+  const sibs = more?.siblings ?? [];
+  const menu = sibs.length || more?.link ? `<details class="crumb-more"><summary>${esc(t("crumbs_more"))}</summary><div class="crumb-menu">${sibs.length ? `<p class="crumb-head">${esc(t("crumbs_siblings"))}</p><ul>${sibs.map((x) => `<li><a href="${esc(x.path)}" data-act="go:${esc(x.path)}">${esc(x.label)}</a></li>`).join("")}</ul>` : ""}${more?.link ? `<button type="button" class="crumb-copy" data-crumb-copy="${esc(more.link)}" data-copied="${esc(t("crumbs_copied"))}">${esc(t("crumbs_copy"))}</button>` : ""}</div></details>` : "";
+  return `<nav class="crumbs" aria-label="${esc(t("crumbs"))}"><ol>${steps.map((s, i) => i === steps.length - 1 ? `<li><span aria-current="page">${esc(s.label)}</span>${menu}</li>` : `<li><a href="${esc(s.path)}" data-act="go:${esc(s.path)}"${i === parentAt ? ` data-up aria-keyshortcuts="${UP_KEY}"` : ""}>${esc(s.label)}</a></li>`).join("")}</ol></nav>`;
+}
+
+/** Once per page: the up key follows the trail's parent step, and Copy link copies the page's address (a note says Copied). */
+export function wireCrumbs(doc: Document): void {
+  doc.addEventListener("keydown", (e) => { if (!isUpKey(e)) return; const up = doc.querySelector<HTMLElement>(".crumbs [data-up]"); if (up) { e.preventDefault(); up.click(); } });
+  doc.addEventListener("click", (e) => {
+    const b = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-crumb-copy]"); if (!b) return;
+    try { void navigator.clipboard?.writeText(b.dataset["crumbCopy"] ?? ""); } catch { /* no clipboard here: the address stays visible in the browser */ }
+    b.textContent = b.dataset["copied"] ?? b.textContent;
+  });
 }

@@ -414,6 +414,21 @@
   },
   "test_copy": {
    "template": "settings"
+  },
+  "role_inbox": {
+   "template": "inbox"
+  },
+  "broadcast": {
+   "template": "form"
+  },
+  "email_in": {
+   "template": "settings"
+  },
+  "message_wording": {
+   "template": "settings"
+  },
+  "message_results": {
+   "template": "report"
   }
  },
  "places": {

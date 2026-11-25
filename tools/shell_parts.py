@@ -20,6 +20,13 @@ from services import card_groups as CG  # noqa: E402
 from identity import device_access as DA  # noqa: E402
 
 VEC = os.path.join(ROOT, "contract", "vectors", "parts.v1.json")
+from services import message_desk as MD
+CONTACT_PATTERNS = {x["id"]: x["address"] for x in json.load(open(os.path.join(ROOT, "catalog", "contacts.v1.json"), encoding="utf-8"))["patterns"]}
+# Wording edits a business may try (CONNECT UPDATE 71.7): the screen's check (ts/src/notify.ts checkWording) must give the cloud's answer.
+WORDING_CASES = ["Thank you for shopping at {business}", "", "   ", "x" * 321, "{business} " + "y" * 309, "Thanks!", "{business}: {secret}",
+                 "{business} see https://example.com", "{business} see www.example.com", "{business} PIN 4719", "{business} your code: 123456",
+                 "{business} card 4111 1111 1111 1111", "{business} card 4111 1111 1111 1112", "{business} on {date} at {time} for {amount}",
+                 "Pincode {business}", "{Business} thanks", "{business} {name}, your {record} is ready", "{business} password 9"]
 TS = os.path.join(ROOT, "ts", "src", "parts.generated.ts")
 MSG = json.load(open(os.path.join(ROOT, "catalog", "messages.v1.json"), encoding="utf-8"))
 SEARCH = json.load(open(os.path.join(ROOT, "catalog", "search.v1.json"), encoding="utf-8"))
@@ -65,6 +72,7 @@ def build():
         "description": "Shared cases for the section 1 shell parts. Python is the reference (identity/offline.py, core/breadcrumbs.py, services/assist_register.py, tools/assist/knowledge_pack.py); the TypeScript parts must agree.",
         "pins": [{"pin": p, "problem": O.pin_problem(p)} for p in PINS],
         "trails": [{"host": h, "path": p, "trail": B.trail(h, p), "up": B.up(h, p), "siblings": B.siblings(h, p)} for h, p in B.every_address()],
+        "wording": [{"text": x, "why": MD.check_wording(x)} for x in WORDING_CASES],
         "decide": decide_cases(),
         "answers": answer_cases(),
         "packs": packs,
@@ -113,6 +121,12 @@ def protection_cases():
 def ts_text():
     kinds = {k["id"]: {f: k[f] for f in ("area", "priority", "group", "can_turn_off", "actions", "basis", "sender")} for k in MSG["kinds"]}
     msg = {"priorities": MSG["priorities"], "daily_cap": MSG["daily_cap"], "history_days": MSG["history_days"], "quiet_hours": MSG["quiet_hours"], "kinds": kinds}
+    ms = MSG["system"]
+    msys = {"channels": MSG["channels"], "wording": {f: ms["wording"][f] for f in ("max_chars", "placeholders", "required")}, "wording_kinds": MD.wording_kinds(),
+            "broadcast": {f: ms["broadcast"][f] for f in ("senders", "audiences", "max_chars", "per_day")},
+            "email_in": {b: {"section": str(v["build_section"]), "address": CONTACT_PATTERNS["email_in_" + b]} for b, v in ms["email_in"]["boxes"].items()}, "min_shown": ms["results"]["min_shown"],
+            "reply_text": {"yes": ms["reply_text"]["yes"][0], "stop": ms["reply_text"]["stop"][0]}, "roles": ms["role_inbox"]["roles"],
+            "corrections_per_message": ms["corrections"]["per_message"]}
     assist = {"only_hand_over": A.REG["only_hand_over"], "never_auto": A.REG["never_auto"],
               "actions": {a["id"]: {f: a[f] for f in ("area", "class", "roles", "limits", "touches", "undo", "offline")} for a in A.REG["actions"]},
               "topics": {t: {"class": v["class"], **({"roles": v["roles"]} if v.get("roles") else {})} for t, v in A.REG["topics"].items()}}
@@ -125,6 +139,7 @@ def ts_text():
             f"export const PIN_RULE: {{ min: number; max: number; delays: Record<string, number>; hardLockAfter: number }} = {j(pin)};\n"
             "export interface MessageKind { area: string; priority: \"critical\" | \"high\" | \"normal\" | \"low\"; group: string; can_turn_off: boolean; actions: string[]; basis: string; sender: string }\n"
             "export interface AssistAction { area: string; class: \"A\" | \"B\" | \"C\" | \"D\"; roles: string[]; limits: { per_day: number; max_minor?: number | null }; touches: string[]; undo: string | null; offline: \"device\" | \"queue\" | \"cloud_check\" | \"never\" }\n"
+            f"export const MESSAGE_SYSTEM: {{ channels: string[]; wording: {{ max_chars: number; placeholders: string[]; required: string[] }}; wording_kinds: string[]; broadcast: {{ senders: string[]; audiences: string[]; max_chars: number; per_day: number }}; email_in: Record<string, {{ section: string; address: string }}>; min_shown: number; reply_text: {{ yes: string; stop: string }}; roles: string[]; corrections_per_message: number }} = {j(msys)};\n"
             f"export const MESSAGES: {{ priorities: Record<string, {{ breaks_quiet_hours: boolean; repeat_until_acknowledged: boolean; capped: boolean; raises_count: boolean }}>; daily_cap: number; history_days: number; quiet_hours: {{ start: number; end: number }}; kinds: Record<string, MessageKind> }} = {j(msg)};\n"
             f"export const ASSIST: {{ only_hand_over: string[]; never_auto: string[]; actions: Record<string, AssistAction>; topics: Record<string, {{ class: number; roles?: string[] }}> }} = {j(assist)};\n"
             f"export const ADDRESS_HOSTS: Record<string, string[]> = {j(B.HOSTS)};\n"

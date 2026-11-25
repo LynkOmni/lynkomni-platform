@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "اڪيڊمي",
   "academy_hint": "مختصر سبق ان اسڪرين جي ڀرسان کلي ٿو جيڪا اهو سيکاري ٿو.",
@@ -228,6 +228,7 @@
   "key_recall": "واپس آڻيو",
   "key_right": "ساڄي",
   "key_up": "مٿي",
+  "key_up_level": "هڪ سطح مٿي",
   "kitchen": "رڌڻو",
   "kitchen_items_open": "اڃا رڌڻي ۾ کاڌو آهي",
   "kitchen_queue": "رڌڻي جي قطار",

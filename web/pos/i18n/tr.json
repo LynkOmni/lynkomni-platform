@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "Akademi",
   "academy_hint": "Kısa bir ders, anlattığı ekranın yanında açılır.",
@@ -228,6 +228,7 @@
   "key_recall": "Geri çağır",
   "key_right": "Sağ",
   "key_up": "Yukarı",
+  "key_up_level": "Bir üst düzey",
   "kitchen": "Mutfak",
   "kitchen_items_open": "Mutfakta hâlâ yemek var",
   "kitchen_queue": "Mutfak sırası",

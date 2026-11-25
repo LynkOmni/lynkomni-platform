@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "Ilé-ẹ̀kọ́",
   "academy_hint": "Ẹ̀kọ́ kúkúrú kan ṣí lẹ́gbẹ̀ẹ́ ojú-ìwé tí ó ń kọ́ni.",
@@ -228,6 +228,7 @@
   "key_recall": "Dá padà",
   "key_right": "Ọ̀tún",
   "key_up": "Òkè",
+  "key_up_level": "Gòkè ìpele kan",
   "kitchen": "Ilé ìdáná",
   "kitchen_items_open": "Ọjà ilé ìdáná ṣì wà ní ṣíṣí",
   "kitchen_queue": "Ìlà ilé ìdáná",

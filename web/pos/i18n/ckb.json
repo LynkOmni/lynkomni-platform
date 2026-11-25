@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ckb",
  "native": "کوردی",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "ئەکادیمیا",
   "academy_hint": "وانەیەکی کورت لە تەنیشت ئەو شاشەیەی کە فێری دەکات دەکرێتەوە.",
@@ -228,6 +228,7 @@
   "key_recall": "گەڕاندنەوە",
   "key_right": "ڕاست",
   "key_up": "سەرەوە",
+  "key_up_level": "ئاستێک بۆ سەرەوە",
   "kitchen": "چێشتخانە",
   "kitchen_items_open": "هێشتا خواردن لە چێشتخانەدا ماوە",
   "kitchen_queue": "ڕیزی چێشتخانە",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "अकादमी",
   "academy_hint": "छोटा पाठ उसी स्क्रीन के बगल में खुलता है जिसे वह सिखाता है।",
@@ -228,6 +228,7 @@
   "key_recall": "वापस लाएँ",
   "key_right": "दाएँ",
   "key_up": "ऊपर",
+  "key_up_level": "एक स्तर ऊपर",
   "kitchen": "रसोई",
   "kitchen_items_open": "रसोई में अभी खाना बाकी है",
   "kitchen_queue": "रसोई की कतार",

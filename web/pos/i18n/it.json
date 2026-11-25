@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "it",
  "native": "Italiano",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "Accademia",
   "academy_hint": "Un breve corso si apre accanto alla schermata che spiega.",
@@ -228,6 +228,7 @@
   "key_recall": "Richiama",
   "key_right": "Destra",
   "key_up": "Su",
+  "key_up_level": "Su di un livello",
   "kitchen": "Cucina",
   "kitchen_items_open": "Ci sono ancora piatti in cucina",
   "kitchen_queue": "Coda della cucina",

@@ -171,3 +171,13 @@
 /* spacing (owner, 2026-11-19: no crowded areas): notification rows and LynkAssist's action buttons never touch each other */
 .nlist { display: grid; gap: 4px; }
 .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+/* Jump sideways and Copy link from the current step (CONNECT UPDATE 71.5). */
+.crumbs .crumb-more { position: relative; display: inline-block; margin-inline-start: 6px; }
+.crumbs .crumb-more > summary { cursor: pointer; min-block-size: var(--touch-target); display: inline-flex; align-items: center; color: var(--brand-ink); list-style: none; }
+.crumbs .crumb-more > summary::-webkit-details-marker { display: none; }
+.crumbs .crumb-more > summary::after { content: " ▾"; }
+.crumbs .crumb-menu { position: absolute; inset-inline-start: 0; z-index: 5; min-inline-size: 200px; max-inline-size: min(320px, 80vw); max-block-size: 60vh; overflow: auto; background: var(--bg-surface); color: var(--text-primary); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 8px; box-shadow: 0 16px 40px -16px color-mix(in srgb, var(--text-primary) 35%, transparent); }
+.crumbs .crumb-menu ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.crumbs .crumb-menu li::before { content: none; }
+.crumbs .crumb-head { margin: 0 0 4px; color: var(--text-secondary); font-size: 12px; }
+.crumbs .crumb-copy { margin-block-start: 6px; min-block-size: var(--touch-target); white-space: normal; overflow-wrap: anywhere; }

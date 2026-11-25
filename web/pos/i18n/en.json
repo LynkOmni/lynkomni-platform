@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "en",
  "native": "English",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "Academy",
   "academy_hint": "A short course opens beside the screen it teaches.",
@@ -228,6 +228,7 @@
   "key_recall": "Recall",
   "key_right": "Right",
   "key_up": "Up",
+  "key_up_level": "Up one level",
   "kitchen": "Kitchen",
   "kitchen_items_open": "Kitchen items still open",
   "kitchen_queue": "Kitchen queue",

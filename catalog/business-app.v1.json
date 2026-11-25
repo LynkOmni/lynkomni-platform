@@ -1199,6 +1199,57 @@
     "close"
    ],
    "path": "/business/settings/test-copy"
+  },
+  {
+   "id": "role_inbox",
+   "blueprint": "71.7",
+   "items": [
+    "roles",
+    "take",
+    "done"
+   ],
+   "path": "/business/team-inbox"
+  },
+  {
+   "id": "broadcast",
+   "blueprint": "71.7",
+   "items": [
+    "compose",
+    "cost",
+    "seen"
+   ],
+   "path": "/business/urgent-messages"
+  },
+  {
+   "id": "message_results",
+   "blueprint": "71.7",
+   "items": [
+    "totals",
+    "privacy"
+   ],
+   "path": "/business/message-results"
+  },
+  {
+   "id": "email_in",
+   "blueprint": "71.7",
+   "items": [
+    "bills",
+    "files",
+    "cvs",
+    "allowed",
+    "held"
+   ],
+   "path": "/business/settings/forward-by-email"
+  },
+  {
+   "id": "message_wording",
+   "blueprint": "71.7",
+   "items": [
+    "limits",
+    "preview",
+    "test_mode"
+   ],
+   "path": "/business/settings/message-wording"
   }
  ],
  "workspaces": "Who the app is for (catalog/workspaces.v1.json): a person, a company or an organisation; the entity changes words, tabs (an office workspace of a person or an organisation shows Books instead of Chats) and categories only.",

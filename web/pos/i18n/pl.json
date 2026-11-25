@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pl",
  "native": "Polski",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "Akademia",
   "academy_hint": "Krótki kurs otwiera się obok ekranu, którego dotyczy.",
@@ -228,6 +228,7 @@
   "key_recall": "Przywróć",
   "key_right": "W prawo",
   "key_up": "W górę",
+  "key_up_level": "Poziom wyżej",
   "kitchen": "Kuchnia",
   "kitchen_items_open": "Pozycje kuchni wciąż otwarte",
   "kitchen_queue": "Kolejka kuchni",

@@ -143,5 +143,66 @@
  },
  "test_copy": {
   "rule": "Any account can open a test copy to try connections and automations: the same rules and screens with sample data, every provider in its sandbox, no message sent to anyone and no money moved; it never writes to the real account. Large organisations keep their own test copy in catalog/enterprise.v1.json."
+ },
+ "offline_clash": {
+  "agreed": "CONNECT UPDATE 71.3 (one set of offline clash rules), owner 2026-11-19; built in section 4 row 71.9 step 4b (v0.105.0).",
+  "rule": "When two devices change the same record while offline, the same published rule settles it in every service (core/shared.py settle, ts/src/shared.ts sharedSettle, shared vectors). Nothing a person did is thrown away silently: a change that loses stays in the record's history, and a person is told when it matters. Order is the cloud's accepted order; for a field changed twice, the later hybrid clock in the event wins, then the device id.",
+  "rules": {
+   "append": "Both are kept: records that only add. Never a clash.",
+   "first_wins": "Used once: the first in the cloud's accepted order wins and the second is flagged for a person.",
+   "field_merge": "Different fields both apply; the same field changed twice: the later change wins, the other stays in history, flagged when the field is one people rely on.",
+   "safest_wins": "The safer value wins whatever the order: withdrawing consent beats giving it, a lock beats an unlock, a freeze beats an unfreeze.",
+   "never_offline": "Never changed offline, so never a clash: a device's offline change is refused."
+  },
+  "kinds": {
+   "sale": "append",
+   "cash_payment": "append",
+   "stock_movement": "append",
+   "note": "append",
+   "attendance": "append",
+   "survey_answer": "append",
+   "gift_card_spend": "append",
+   "conversation_message": "append",
+   "voucher_redeem": "first_wins",
+   "parcel_handover": "first_wins",
+   "tracking_step_end": "first_wins",
+   "queue_ticket_served": "first_wins",
+   "collect_pass_use": "first_wins",
+   "product": "field_merge",
+   "customer_record": "field_merge",
+   "deal": "field_merge",
+   "price_list": "field_merge",
+   "staff_profile": "field_merge",
+   "contact_consent": "safest_wins",
+   "device_lock": "safest_wins",
+   "card_freeze": "safest_wins",
+   "provider_payment": "never_offline",
+   "credentials": "never_offline",
+   "bet_payout": "never_offline",
+   "exchange_order": "never_offline",
+   "agent_request": "never_offline"
+  },
+  "safest": {
+   "contact_consent": [
+    "withdrawn",
+    "given"
+   ],
+   "device_lock": [
+    "locked",
+    "unlocked"
+   ],
+   "card_freeze": [
+    "frozen",
+    "unfrozen"
+   ]
+  },
+  "flag_fields": [
+   "price_minor",
+   "tax_rate_bp",
+   "consent",
+   "payout_account",
+   "bank_details",
+   "role"
+  ]
  }
 }

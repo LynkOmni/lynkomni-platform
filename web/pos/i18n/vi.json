@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "Học viện",
   "academy_hint": "Một khóa học ngắn mở ra bên cạnh màn hình mà nó hướng dẫn.",
@@ -228,6 +228,7 @@
   "key_recall": "Gọi lại",
   "key_right": "Phải",
   "key_up": "Lên",
+  "key_up_level": "Lên một cấp",
   "kitchen": "Bếp",
   "kitchen_items_open": "Bếp vẫn còn món chưa xong",
   "kitchen_queue": "Hàng chờ của bếp",

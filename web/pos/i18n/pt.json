@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pt",
  "native": "Português",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "Academia",
   "academy_hint": "Um curso curto abre ao lado do ecrã que explica.",
@@ -228,6 +228,7 @@
   "key_recall": "Recuperar",
   "key_right": "Direita",
   "key_up": "Cima",
+  "key_up_level": "Subir um nível",
   "kitchen": "Cozinha",
   "kitchen_items_open": "Ainda há pratos na cozinha",
   "kitchen_queue": "Fila da cozinha",

@@ -4,7 +4,7 @@
  *  state, banners, "Why am I seeing this?", the sound, vibration and light for each priority, the lock-screen wording, and the
  *  message parts (an email, a text and the Messages list). Words come through t(); the kinds and priorities from the register. */
 import { explainText, namesMode } from "./names.js";
-import { MESSAGES } from "./parts.generated.js";
+import { MESSAGES, MESSAGE_SYSTEM } from "./parts.generated.js";
 import { esc } from "./shell.js";
 import type { Icon, T } from "./shell.js";
 
@@ -13,6 +13,26 @@ export interface Line { nid: string; kind: string; title: string; body?: string;
   actions?: { id: string; label: string }[]; doneBy?: string; acknowledged?: boolean; business?: string }
 
 export const kindOf = (kind: string) => MESSAGES.kinds[kind];
+
+/** Edited wording of a customer message (CONNECT UPDATE 71.7), the rule of services/message_desk.py check_wording, checked by the
+ *  shared cases in contract/vectors/parts.v1.json: length, only known placeholders, the required ones kept, no secret written next
+ *  to its digits, no full card number, no link. Returns null when the words may be used, else the reason. */
+const MW_FILL = /\{[a-z_]+\}/g;
+const MW_SECRET = /\b(pin|password|passcode|otp|code|cvv|cvc)\b\W{0,3}\d/i;
+function mwLuhn(d: string): boolean { let sum = 0; for (let i = 0; i < d.length; i++) { let n = Number(d[d.length - 1 - i]); if (i % 2 === 1) { n *= 2; if (n > 9) n -= 9; } sum += n; } return sum % 10 === 0; }
+export function checkWording(text: string): string | null {
+  const w = MESSAGE_SYSTEM.wording;
+  const x = (text ?? "").trim();
+  if (!x) return "empty";
+  if (x.length > w.max_chars) return "too_long";
+  const used = new Set(x.match(MW_FILL) ?? []);
+  if ([...used].some((p) => !w.placeholders.includes(p))) return "unknown_placeholder";
+  if (w.required.some((p) => !used.has(p))) return "missing_placeholder";
+  for (const run of x.match(/(?:\d[ -]?){13,19}/g) ?? []) { const d = run.replace(/\D/g, ""); if (d.length >= 13 && d.length <= 19 && mwLuhn(d)) return "not_allowed"; }
+  if (MW_SECRET.test(x)) return "not_allowed";
+  if (/https?:\/\/|www\./.test(x)) return "not_allowed";
+  return null;
+}
 export const priorityOf = (kind: string): Priority => kindOf(kind)?.priority ?? "normal";
 /** The count on the bell: unseen lines whose priority raises it (low never does). Shown as 99+ past 99, nothing at 0. */
 export function count(lines: Line[]): number {

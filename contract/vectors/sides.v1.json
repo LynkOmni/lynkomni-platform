@@ -1047,6 +1047,46 @@
    "side": "external"
   },
   {
+   "address": "/business/team-inbox",
+   "side": "internal"
+  },
+  {
+   "address": "/external/business/team-inbox",
+   "side": "external"
+  },
+  {
+   "address": "/business/urgent-messages",
+   "side": "internal"
+  },
+  {
+   "address": "/external/business/urgent-messages",
+   "side": "external"
+  },
+  {
+   "address": "/business/message-results",
+   "side": "internal"
+  },
+  {
+   "address": "/external/business/message-results",
+   "side": "external"
+  },
+  {
+   "address": "/business/settings/forward-by-email",
+   "side": "internal"
+  },
+  {
+   "address": "/external/business/settings/forward-by-email",
+   "side": "external"
+  },
+  {
+   "address": "/business/settings/message-wording",
+   "side": "internal"
+  },
+  {
+   "address": "/external/business/settings/message-wording",
+   "side": "external"
+  },
+  {
    "address": "/",
    "side": "internal"
   },
@@ -2171,6 +2211,46 @@
   {
    "path": "/external/business/settings/test-copy",
    "kind": "mirrored"
+  },
+  {
+   "path": "/business/team-inbox",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/team-inbox",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/urgent-messages",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/urgent-messages",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/message-results",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/message-results",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/settings/forward-by-email",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/settings/forward-by-email",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/business/settings/message-wording",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/business/settings/message-wording",
+   "kind": "mirrored"
   }
  ],
  "twins": [
@@ -2529,6 +2609,26 @@
   {
    "workspace": "/business/settings/test-copy",
    "storefront": "/external/business/settings/test-copy"
+  },
+  {
+   "workspace": "/business/team-inbox",
+   "storefront": "/external/business/team-inbox"
+  },
+  {
+   "workspace": "/business/urgent-messages",
+   "storefront": "/external/business/urgent-messages"
+  },
+  {
+   "workspace": "/business/message-results",
+   "storefront": "/external/business/message-results"
+  },
+  {
+   "workspace": "/business/settings/forward-by-email",
+   "storefront": "/external/business/settings/forward-by-email"
+  },
+  {
+   "workspace": "/business/settings/message-wording",
+   "storefront": "/external/business/settings/message-wording"
   }
  ]
 }

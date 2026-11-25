@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "69d5acab72218fec7bb1052b878ff48981ef2fb14e086cea1c8f3964d0a267f3",
+ "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
  "texts": {
   "academy": "Isikhungo sokufunda",
   "academy_hint": "Isifundo esifushane sivuleka eduze kwesikrini esisifundisayo.",
@@ -228,6 +228,7 @@
   "key_recall": "Buyisa",
   "key_right": "Kwesokudla",
   "key_up": "Phezulu",
+  "key_up_level": "Khuphuka izinga elilodwa",
   "kitchen": "Ikhishi",
   "kitchen_items_open": "Izinto zasekhishini zisavuliwe",
   "kitchen_queue": "Umugqa wasekhishini",
