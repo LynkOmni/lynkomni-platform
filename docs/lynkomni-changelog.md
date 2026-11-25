@@ -2,6 +2,9 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.105.1 (2026-11-25)
+- The owner approved the waiting brand-sync and icon release runs; the to-do "approve bot workflow runs" is marked done in providers/registry.v1.json and removed from the REMINDER (item 16).
+
 ## v0.105.0 (2026-11-25)
 Section 4 review, eighteenth part (row 71.9, step 4b of 4: the message pages, breadcrumbs and the offline clash rules; row 71.9 done):
 - Five new pages in the Business app on a phone and on the owner's computer, drawn by the shared-pages part (ts/src/sharedview.ts):
