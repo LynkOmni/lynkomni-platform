@@ -46,7 +46,9 @@
   },
   {
    "n": "4B",
-   "title": "LynkFiles, LynkHR and LynkProject in full"
+   "title": "LynkFiles, LynkHR and LynkProject in full",
+   "status": "building",
+   "version": "v0.108.0 (step 1: LynkHR and LynkProject rules)"
   },
   {
    "n": 5,

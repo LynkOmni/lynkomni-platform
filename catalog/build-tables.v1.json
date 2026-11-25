@@ -537,7 +537,12 @@
       "4B"
      ],
      "part": "The three, both sides, in the Business app and the browser on every emulator, online and offline; staff figures to payroll in LynkAcc; time and costs to LynkInv; Move in",
-     "done": {}
+     "done": {},
+     "progress": {
+      "4B": [
+       "v0.108.0: LynkHR's and LynkProject's rules (catalog/hr.v1.json and catalog/project.v1.json read by core/hr.py, core/project.py, ts/src/hr.ts and ts/src/project.ts with shared vectors) and their tier features in billing"
+      ]
+     }
     },
     {
      "sections": [

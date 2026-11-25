@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "agreed": "Owner, 18 November 2026: SIX SERVICES UPDATE (master blueprint section 69, 69.4 LynkProject, 69.11 further improvements, 69.12 rules). Built in build section 4B. Prices locked in section 4 part 1b (v0.49.0).",
+ "rule": "LynkProject's rules, read only through core/project.py and ts/src/project.ts (python3 tools/project_vectors.py after a change). Every view shows the same data; a person picks the view. A guest sees only the project they were invited to. Time and place on field tasks are recorded only for staff on shift who agreed, by LynkMotion's rules, never in an event. LynkAssist drafts plans, reports and dates; a person confirms every change. Money is integer minor units; time is whole minutes; durations are whole days.",
+ "states": ["todo", "doing", "waiting", "done", "cancelled"],
+ "moves": {
+  "todo": ["doing", "waiting", "done", "cancelled"],
+  "doing": ["todo", "waiting", "done", "cancelled"],
+  "waiting": ["todo", "doing", "cancelled"],
+  "done": ["doing"],
+  "cancelled": ["todo"]
+ },
+ "moves_rule": "A task waiting on another task cannot be marked done until what it waits on is done; reopening a done task is allowed and recorded.",
+ "finished": ["done", "cancelled"],
+ "priorities": ["low", "normal", "high", "urgent"],
+ "views": ["list", "board", "calendar", "timeline", "table", "workload", "map", "late"],
+ "methods": ["list", "board", "agile", "phased", "construction", "grant"],
+ "templates": ["event", "construction", "software", "campaign", "audit", "move", "grant", "shop_refit", "family_event"],
+ "capture": ["typed", "voice", "photo", "email", "chat", "invoice", "case", "booking", "meeting"],
+ "my_work": {"week_days": 7, "buckets": ["overdue", "today", "this_week", "later", "no_date"]},
+ "risk_rule": "A task is at risk when it is not finished, not yet late, and something it waits on is late or would finish after its due date.",
+ "workload": {"default_week_minutes": 2400, "rule": "Planned minutes per person per week against what they can give (their working week less leave from LynkHR, a half day counted as 240 minutes); over is shown, never blocked."},
+ "time": {
+  "rule": "Time is whole minutes; a manager approves a time sheet, never the person who logged it. Approved billable time goes to LynkInv once (never billed twice); other approved time can go to payroll as figures.",
+  "max_entry_minutes": 1440
+ },
+ "money_rule": "Budgets, costs and purchase requests go to LynkAcc; project profit is what was invoiced less what it cost. A project over budget is shown, never blocked.",
+ "guests": {"see": ["tasks", "files", "comments", "milestones"], "never": ["budget", "costs", "time_rates", "other_projects", "staff_details"]},
+ "field": {"rule": "Time and place on a field task are taken only for staff on shift who agreed (LynkMotion consent); never stored in an event; a customer sees only the share of progress."},
+ "assist": {
+  "may": ["draft_plan", "status_report", "summarise_thread", "spot_risk", "suggest_date", "draft_minutes", "turn_actions_into_tasks"],
+  "never": ["change_without_confirm", "approve_time", "send_invoice", "assign_without_confirm"],
+  "rule": "Every LynkAssist suggestion is labelled; every change it suggests needs a person's Confirm."
+ },
+ "tiers": {
+  "free": ["tasks", "lists", "board", "my_work", "late_view", "comments", "files", "offline", "request_forms_basic"],
+  "plus": ["timeline", "calendar", "forms", "rules", "time_tracking", "milestones", "guests", "whiteboards", "wiki"],
+  "pro": ["workload", "portfolios", "budgets", "customer_pages", "agile", "baselines", "risks", "design_review", "change_requests", "bug_tracking", "equipment_rooms"],
+  "max": ["programmes", "resource_planning", "own_fields", "own_roles", "import_tools", "tenders"]
+ }
+}
