@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-U5jcXT+LU6BYi8K8X31kBKbEmreNA3/cOez0hVjNetg='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-WnG9BjJDOkFp9n6GmFLMPe5Y7m/qPK2vfaiI16VFxSY='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni Business App on LynkMobile</title>
 <meta name="description" content="Interactive emulator of the LynkOmni Business app on a phone or tablet: getting in, selling with every payment method, stock, chats, every Business section and setting, agent point, restaurant and invoice-only businesses, online and offline on sandbox providers.">
@@ -2622,15 +2622,20 @@ function emailCheck(D, text, deep = false) {
 
 
 const lfEsc = (v) => String(v).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const LF_DIGITS = {};
 function ownDigits(text, lang) {
-    let nf;
-    try {
-        nf = new Intl.NumberFormat(lang, { useGrouping: false });
+    if (!(lang in LF_DIGITS)) {
+        try {
+            const nf = new Intl.NumberFormat(lang, { useGrouping: false });
+            const ds = "0123456789".split("").map((d) => nf.format(Number(d)));
+            LF_DIGITS[lang] = ds.join("") === "0123456789" ? null : ds;
+        }
+        catch {
+            LF_DIGITS[lang] = null;
+        }
     }
-    catch {
-        return text;
-    }
-    return text.replace(/[0-9]/g, (d) => nf.format(Number(d)));
+    const ds = LF_DIGITS[lang];
+    return ds ? text.replace(/[0-9]/g, (d) => ds[Number(d)]) : text;
 }
 function lfOrList(items, lang) {
     try {
@@ -2734,7 +2739,7 @@ function phoneMessage(ctx, country, _digits, c) {
 }
 function lfOption(ctx, code, selected = false) {
     const cc = ctx.packs[code]?.ph?.code;
-    return `<option value="${lfEsc(code)}"${selected ? " selected" : ""} title="${lfEsc(ctx.countryName(code))}">${lfEsc(countryMark(code))}${cc ? ` +${lfEsc(ownDigits(cc, ctx.lang))}` : ""}</option>`;
+    return `<option value="${lfEsc(code)}"${selected ? " selected" : ` title="${lfEsc(ctx.countryName(code))}"`}>${lfEsc(countryMark(code))}${cc ? ` +${lfEsc(ownDigits(cc, ctx.lang))}` : ""}</option>`;
 }
 const LF_OPTS = {};
 function lfOptions(ctx) {

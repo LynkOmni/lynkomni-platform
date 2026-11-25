@@ -16,10 +16,14 @@ export type Level = "error" | "warning" | "info" | "success";
 
 const lfEsc = (v: string): string => String(v).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 /** Digits in the reader's own numbering system, like every number on screen. */
+const LF_DIGITS: Record<string, string[] | null> = {};
 export function ownDigits(text: string, lang: string): string {
-  let nf: Intl.NumberFormat;
-  try { nf = new Intl.NumberFormat(lang, { useGrouping: false }); } catch { return text; }
-  return text.replace(/[0-9]/g, (d) => nf.format(Number(d)));
+  if (!(lang in LF_DIGITS)) {
+    try { const nf = new Intl.NumberFormat(lang, { useGrouping: false }); const ds = "0123456789".split("").map((d) => nf.format(Number(d))); LF_DIGITS[lang] = ds.join("") === "0123456789" ? null : ds; }
+    catch { LF_DIGITS[lang] = null; }
+  }
+  const ds = LF_DIGITS[lang];
+  return ds ? text.replace(/[0-9]/g, (d) => ds[Number(d)] as string) : text;
 }
 /** "6 or 2", "8, 9 or 10": a list joined the reader's way. */
 function lfOrList(items: string[], lang: string): string {
@@ -93,7 +97,8 @@ export function phoneMessage(ctx: FieldCtx, country: string, _digits: string, c:
 }
 function lfOption(ctx: FieldCtx, code: string, selected = false): string {
   const cc = ctx.packs[code]?.ph?.code;
-  return `<option value="${lfEsc(code)}"${selected ? " selected" : ""} title="${lfEsc(ctx.countryName(code))}">${lfEsc(countryMark(code))}${cc ? ` +${lfEsc(ownDigits(cc, ctx.lang))}` : ""}</option>`;
+  // the full country name is the tooltip of the whole list; the first drawn option goes without it so the screen opens fast
+  return `<option value="${lfEsc(code)}"${selected ? " selected" : ` title="${lfEsc(ctx.countryName(code))}"`}>${lfEsc(countryMark(code))}${cc ? ` +${lfEsc(ownDigits(cc, ctx.lang))}` : ""}</option>`;
 }
 const LF_OPTS: Record<string, string> = {};
 /** The whole country list, made once per language (the list never changes while the page is open). */
