@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { flowSteps, mayApprove, roleProblems, splitCharges, mayDelete, dataRegion, suspendedBy, parseAmount, parseDate, check } from "../src/enterprise.js";
+import { flowSteps, flowMayApprove, roleProblems, splitCharges, mayDelete, dataRegion, suspendedBy, parseAmount, parseDate, check } from "../src/enterprise.js";
 import { ENTERPRISE as E } from "../src/enterprise.generated.js";
 
 const root = new URL("../../..", import.meta.url).pathname;
@@ -9,7 +9,7 @@ const V = JSON.parse(readFileSync(`${root}/contract/vectors/enterprise.v1.json`,
 
 test("approval flows, own roles, charges, keeping and region agree with the Python reference (OFFICE UPDATE 66.5)", () => {
   for (const c of V.steps) assert.deepEqual(flowSteps(E, V.flow, c.amount, c.dept), c.expect, JSON.stringify(c));
-  for (const c of V.approve) assert.deepEqual(mayApprove(V.approve_steps, c.approvals, "u1", c.who, c.role, c.away), c.expect, JSON.stringify(c));
+  for (const c of V.approve) assert.deepEqual(flowMayApprove(V.approve_steps, c.approvals, "u1", c.who, c.role, c.away), c.expect, JSON.stringify(c));
   for (const c of V.roles) assert.deepEqual(roleProblems(E, c.perms, c.apart), c.expect, JSON.stringify(c));
   for (const c of V.split) assert.deepEqual(splitCharges(c.t, c.s), c.expect);
   for (const c of V.delete) assert.equal(mayDelete(c.age, c.policy, c.law, c.held), c.expect, JSON.stringify(c));
