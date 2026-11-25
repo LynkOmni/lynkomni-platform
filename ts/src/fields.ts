@@ -7,7 +7,7 @@ import { fieldMsgHtml, type Level } from "./errorbox.js";
 import { ownDigits, wireCodes } from "./codefield.js";
 
 type T = (k: string, v?: Record<string, string | number>) => string;
-export interface FieldPack { name: string; sample?: boolean; ph?: PhoneRules | null }
+export interface FieldPack { name: string; sample?: boolean; tz?: string; ph?: PhoneRules | null }
 export interface FieldCtx {
   t: T; lang: string; packs: Record<string, FieldPack>; packOrder: string[]; countryName: (code: string) => string;
   onPhone?: (id: string, v: PhoneValue) => void; onEmail?: (id: string, v: EmailValue) => void;
@@ -83,15 +83,39 @@ function lfOption(ctx: FieldCtx, code: string, selected = false): string {
   // the full country name is the tooltip of the whole list; the first drawn option goes without it so the screen opens fast
   return `<option value="${lfEsc(code)}"${selected ? " selected" : ` title="${lfEsc(ctx.countryName(code))}"`}>${lfEsc(countryMark(code))}${cc ? ` +${lfEsc(ownDigits(cc, ctx.lang))}` : ""}</option>`;
 }
+/** The countries a phone number can belong to: only those with a dialling code. Places without public phone numbers of their own
+ *  (Antarctica, South Georgia, Pitcairn, the French Southern Territories, the U.S. Outlying Islands) and the sample pack are left
+ *  out, so the list never shows a flag without its code (owner, 2026-11-25). */
+export const dialCountries = (ctx: FieldCtx): string[] => ctx.packOrder.filter((c) => !ctx.packs[c]?.sample && !!ctx.packs[c]?.ph?.code);
+let LF_HERE: string | null = null;
+/** The country the device is in, for a phone field that has none chosen yet (section 4C point 1: "it starts on the device's
+ *  country"). A real app asks the phone's network first; a browser has its time zone and languages: a country whose time zone is
+ *  the device's (a language's region decides between several), else a language's region, else the first country with numbers. */
+export function deviceCountry(ctx: FieldCtx, tz?: string, langs?: readonly string[]): string {
+  const fresh = tz !== undefined || langs !== undefined;
+  if (LF_HERE && !fresh) return LF_HERE;
+  const ok = dialCountries(ctx);
+  let zone = tz ?? "";
+  try { if (tz === undefined) zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch { zone = ""; }
+  let ls: readonly string[] = langs ?? [];
+  try { if (langs === undefined && typeof navigator !== "undefined") ls = navigator.languages?.length ? navigator.languages : [navigator.language]; } catch { ls = []; }
+  const regions = ls.map((l) => (String(l).match(/[-_]([A-Za-z]{2})(?:$|[-_])/)?.[1] ?? "").toUpperCase()).filter((r) => ok.includes(r));
+  const byZone = zone ? ok.filter((c) => ctx.packs[c]?.tz === zone) : [];
+  const got = (byZone.length === 1 ? byZone[0] : byZone.find((c) => regions.includes(c))) ?? regions[0] ?? ok[0] ?? "";
+  if (!fresh) LF_HERE = got;
+  return got;
+}
 const LF_OPTS: Record<string, string> = {};
 /** The whole country list, made once per language (the list never changes while the page is open). */
 function lfOptions(ctx: FieldCtx): string {
-  return (LF_OPTS[ctx.lang] ??= ctx.packOrder.map((code) => lfOption(ctx, code)).join(""));
+  return (LF_OPTS[ctx.lang] ??= dialCountries(ctx).map((code) => lfOption(ctx, code)).join(""));
 }
 export interface PhoneFieldOpts { id: string; label: string; country: string; digits: string; mobile?: boolean; submitted?: boolean }
 /** One phone field: the country chooser, the number in the country's groups, the country's sample as its placeholder, and the
  *  message under it. Buttons marked data-needs-phone="<id>" stay off until the number is complete. */
-export function phoneFieldHtml(ctx: FieldCtx, o: PhoneFieldOpts): string {
+export function phoneFieldHtml(ctx: FieldCtx, o0: PhoneFieldOpts): string {
+  // a field with no country of its own (or the sample's) starts on the device's country
+  const o = dialCountries(ctx).includes(o0.country) ? o0 : { ...o0, country: deviceCountry(ctx) };
   const mobile = o.mobile !== false, r = lfRules(ctx, o.country), d = phoneAccept(r, o.digits || "", mobile);
   const c = phoneCheck(r, d, mobile, !!o.submitted), msg = phoneMessage(ctx, o.country, d, c);
   const sample = phoneSample(r, mobile);

@@ -14,6 +14,10 @@ What changed in each version, in plain words, newest first. Version numbers: `0.
 - WhatsApp removed completely: the footer's WhatsApp link is gone on every page and language, and from the translation glossary, the preview script and the build table wording. tests/test_no_whatsapp.py fails if WhatsApp or its link appears again.
 - tests/test_errors.py refuses any screen that draws its own error or warning box; the 18 files still to move are named there and are moved in v0.116.0.
 - Leftover: the section 4C build table still described a rule about the first digits of a phone number, removed by the owner on 25 November; it now says there is no such rule. Size budgets raised with their reasons.
+## v0.114.1 (2026-11-25)
+Phone fields: every country has its code, and the field starts on your country.
+- The country list in every phone field shows only countries that have a dialling code. Antarctica, South Georgia, Pitcairn, the French Southern Territories and the U.S. Outlying Islands (no public numbers of their own) and the sample country are left out, so no flag shows without its code.
+- A phone field starts on the country the device is in (its time zone, then its language's region), not on the sample country. It can still be changed.
 
 ## v0.114.0 (2026-11-25)
 - Section 4C step 1b (point 1, codes and contacts): every code field is the shared part ts/src/codefield.ts. It fills itself in from the text message, takes digits typed in any script, never shows an example code, and its New code button counts down (30 seconds, then 1, 2 and 5 minutes; at most 5 codes an hour; a code lasts 5 minutes; the same rules in identity/account.py). The Business app's sign-in code and the survey phone step on LynkPOS, LynkKiosk, LynkDScreen, LynkCDisplay and the survey page use it.
