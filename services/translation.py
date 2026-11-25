@@ -29,7 +29,7 @@ def _families():
 
 
 GLOSSARY = sorted(set(["LynkOmni", "CruxOmni Group", "CruxOmni", "Visa", "Mastercard", "MTN MoMo", "Airtel Money", "M-Pesa", "UPI",
-                       "Apple Pay", "Google Pay", "App Store", "Google Play", "WhatsApp", "QR", "IDCN", "Bluetooth", "Wi-Fi", "USB",
+                       "Apple Pay", "Google Pay", "App Store", "Google Play", "QR", "IDCN", "Bluetooth", "Wi-Fi", "USB",
                        "LynkMobile", "LynkTab", "LynkPC", "LynkKiosk", "LynkDScreen", "LynkCDisplay"] + _families()), key=len, reverse=True)
 
 

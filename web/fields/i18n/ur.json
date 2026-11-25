@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "ur",
  "native": "اردو",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "نیا کوڈ بھیجیں",
   "fd_code_sent": "نیا کوڈ راستے میں ہے۔",
   "fd_code_wait": "نیا کوڈ {time} میں",
+  "fd_contact_support": "سپورٹ سے رابطہ کریں",
   "fd_country": "ملک",
   "fd_email_format": "name@example.com جیسا ای میل پتہ درج کریں۔",
   "fd_email_suggest": "کیا آپ کا مطلب {email} تھا؟",
@@ -19,9 +20,14 @@
   "fd_info": "معلومات",
   "fd_long": "{country} میں نمبر {n} ہندسوں کے ہوتے ہیں۔ اضافی ہندسے شامل نہیں ہوتے۔",
   "fd_ok": "نمبر درست لگ رہا ہے۔",
+  "fd_one_to_fix": "درست کرنے کے لیے 1 چیز",
+  "fd_our_side": "ہماری طرف سے کچھ خرابی ہوئی۔ یہ آپ کی غلطی نہیں ہے۔",
   "fd_range": "{from} سے {to}",
+  "fd_ref": "حوالہ {ref}۔ سپورٹ سے رابطہ کریں تو اسے بتائیں۔",
   "fd_short": "یہ نمبر بہت چھوٹا ہے۔ {country} میں نمبر {n} ہندسوں کے ہوتے ہیں۔",
   "fd_success": "ہو گیا",
+  "fd_things_to_fix": "درست کرنے کے لیے {n} چیزیں",
+  "fd_try_again": "دوبارہ کوشش کریں",
   "fd_warning": "انتباہ"
  }
 }

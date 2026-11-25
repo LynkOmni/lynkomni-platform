@@ -2,9 +2,9 @@
 // here, the footer's too (words in web/fields, prefix fd_; styles web/shell/fields.css); a screen never draws its own. Kept apart
 // from the phone field so a page with only an email box (the footer) carries no phone rules.
 import { EMAIL_DOMAINS } from "./phone.generated.js";
+import { fieldMsgHtml } from "./errorbox.js";
 
 type T = (k: string, v?: Record<string, string | number>) => string;
-export type Level = "error" | "warning" | "info" | "success";
 export interface EmailValue { text: string; valid: boolean }
 /** What the email field needs: the words, and who hears about a change. */
 export interface EmailCtx { t: T; onEmail?: (id: string, v: EmailValue) => void }
@@ -39,11 +39,6 @@ export function emailCheck(D: EmailDomains, text: string, deep = false): EmailCh
 }
 
 // ---- the field message (where, why and how to fix; the official colours with a word, never colour alone) -------------------
-export function fieldMsgHtml(t: T, id: string, level: Level | null, text: string, fix?: { label: string; act: string }): string {
-  if (!level) return `<p class="lf-msg" id="${efEsc(id)}-msg" aria-live="polite"></p>`;
-  const word = t(`fd_${level}`);
-  return `<p class="lf-msg lf-${level}" id="${efEsc(id)}-msg" role="${level === "error" ? "alert" : "status"}"><strong class="lf-word">${efEsc(word)}</strong> <span>${efEsc(text)}</span>${fix ? ` <button type="button" class="lf-fix" data-lf-fix="${efEsc(fix.act)}">${efEsc(fix.label)}</button>` : ""}</p>`;
-}
 
 // ---- the email field ----------------------------------------------------------------------------------------------------------------------
 export interface EmailFieldOpts { id: string; label: string; text: string; deep?: boolean; submitted?: boolean }

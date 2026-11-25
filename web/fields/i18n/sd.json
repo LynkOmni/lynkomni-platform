@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "نئون ڪوڊ موڪليو",
   "fd_code_sent": "نئون ڪوڊ رستي ۾ آهي.",
   "fd_code_wait": "نئون ڪوڊ {time} ۾",
+  "fd_contact_support": "مدد سان رابطو ڪريو",
   "fd_country": "ملڪ",
   "fd_email_format": "name@example.com جهڙو اي ميل پتو لکو.",
   "fd_email_suggest": "ڇا توهان جو مطلب {email} هو؟",
@@ -19,9 +20,14 @@
   "fd_info": "معلومات",
   "fd_long": "{country} ۾ نمبرن جا {n} انگ ٿين ٿا. وڌيڪ انگ شامل نٿا ٿين.",
   "fd_ok": "نمبر صحيح لڳي ٿو.",
+  "fd_one_to_fix": "درست ڪرڻ لاءِ 1 شيءِ",
+  "fd_our_side": "اسان جي پاسي کان ڪا خرابي ٿي. اهو توهان جو قصور ناهي.",
   "fd_range": "{from} کان {to}",
+  "fd_ref": "حوالو {ref}. جيڪڏهن مدد سان رابطو ڪريو ته اهو ٻڌايو.",
   "fd_short": "هي نمبر تمام ننڍو آهي. {country} ۾ نمبرن جا {n} انگ ٿين ٿا.",
   "fd_success": "مڪمل",
+  "fd_things_to_fix": "درست ڪرڻ لاءِ {n} شيون",
+  "fd_try_again": "ٻيهر ڪوشش ڪريو",
   "fd_warning": "خبرداري"
  }
 }

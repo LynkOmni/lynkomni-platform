@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "fr",
  "native": "Français",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "Envoyer un nouveau code",
   "fd_code_sent": "Un nouveau code est en route.",
   "fd_code_wait": "Nouveau code dans {time}",
+  "fd_contact_support": "Contacter l'assistance",
   "fd_country": "Pays",
   "fd_email_format": "Saisissez une adresse e-mail comme name@example.com.",
   "fd_email_suggest": "Vouliez-vous dire {email} ?",
@@ -19,9 +20,14 @@
   "fd_info": "Information",
   "fd_long": "Les numéros en {country} ont {n} chiffres. Aucun chiffre de plus n'est ajouté.",
   "fd_ok": "Le numéro semble correct.",
+  "fd_one_to_fix": "1 point à corriger",
+  "fd_our_side": "Un problème est survenu de notre côté. Ce n'est pas de votre faute.",
   "fd_range": "de {from} à {to}",
+  "fd_ref": "Référence {ref}. Indiquez-la si vous contactez l'assistance.",
   "fd_short": "Ce numéro est trop court. Les numéros en {country} ont {n} chiffres.",
   "fd_success": "Terminé",
+  "fd_things_to_fix": "{n} points à corriger",
+  "fd_try_again": "Réessayer",
   "fd_warning": "Avertissement"
  }
 }

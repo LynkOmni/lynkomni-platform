@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "ug",
  "native": "ئۇيغۇرچە",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "يېڭى كود ئەۋەت",
   "fd_code_sent": "يېڭى كود يولدا.",
   "fd_code_wait": "{time} دىن كېيىن يېڭى كود",
+  "fd_contact_support": "ياردەم بىلەن ئالاقىلىشىڭ",
   "fd_country": "دۆلەت",
   "fd_email_format": "name@example.com غا ئوخشاش ئېلخەت ئادرېسى كىرگۈزۈڭ.",
   "fd_email_suggest": "{email} نى دېمەكچىمۇ؟",
@@ -19,9 +20,14 @@
   "fd_info": "ئۇچۇر",
   "fd_long": "{country} دىكى نومۇرلار {n} خانىلىق. ئارتۇق رەقەم قوشۇلمايدۇ.",
   "fd_ok": "نومۇر توغرىدەك كۆرۈنىدۇ.",
+  "fd_one_to_fix": "تۈزىتىدىغان 1 ئىش",
+  "fd_our_side": "بىز تەرەپتە خاتالىق كۆرۈلدى. بۇ سىزنىڭ خاتالىقىڭىز ئەمەس.",
   "fd_range": "{from} دىن {to} غىچە",
+  "fd_ref": "پايدىلىنىش نومۇرى {ref}. ياردەمگە ئالاقىلاشسىڭىز بۇنى ئېيتىڭ.",
   "fd_short": "بۇ نومۇر بەك قىسقا. {country} دىكى نومۇرلار {n} خانىلىق.",
   "fd_success": "تامام",
+  "fd_things_to_fix": "تۈزىتىدىغان {n} ئىش",
+  "fd_try_again": "قايتا سىناڭ",
   "fd_warning": "ئاگاھلاندۇرۇش"
  }
 }

@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "am",
  "native": "አማርኛ",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "አዲስ ኮድ ላክ",
   "fd_code_sent": "አዲስ ኮድ በመንገድ ላይ ነው።",
   "fd_code_wait": "አዲስ ኮድ በ{time}",
+  "fd_contact_support": "ድጋፍን ያግኙ",
   "fd_country": "አገር",
   "fd_email_format": "እንደ name@example.com ያለ የኢሜይል አድራሻ ያስገቡ።",
   "fd_email_suggest": "{email} ማለትዎ ነበር?",
@@ -19,9 +20,14 @@
   "fd_info": "መረጃ",
   "fd_long": "በ{country} ቁጥሮች {n} አሃዞች አሏቸው። ተጨማሪ አሃዞች አይገቡም።",
   "fd_ok": "ቁጥሩ ትክክል ይመስላል።",
+  "fd_one_to_fix": "የሚስተካከል 1 ነገር",
+  "fd_our_side": "በእኛ በኩል ችግር ተፈጥሯል። የእርስዎ ጥፋት አይደለም።",
   "fd_range": "ከ{from} እስከ {to}",
+  "fd_ref": "ማጣቀሻ {ref}። ድጋፍን ሲያገኙ ይጥቀሱት።",
   "fd_short": "ይህ ቁጥር በጣም አጭር ነው። በ{country} ቁጥሮች {n} አሃዞች አሏቸው።",
   "fd_success": "ተከናውኗል",
+  "fd_things_to_fix": "የሚስተካከሉ {n} ነገሮች",
+  "fd_try_again": "እንደገና ይሞክሩ",
   "fd_warning": "ማስጠንቀቂያ"
  }
 }

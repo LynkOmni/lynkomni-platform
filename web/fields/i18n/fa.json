@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "fa",
  "native": "فارسی",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "ارسال کد جدید",
   "fd_code_sent": "یک کد جدید در راه است.",
   "fd_code_wait": "کد جدید تا {time} دیگر",
+  "fd_contact_support": "تماس با پشتیبانی",
   "fd_country": "کشور",
   "fd_email_format": "یک نشانی ایمیل مانند name@example.com وارد کنید.",
   "fd_email_suggest": "منظورتان {email} بود؟",
@@ -19,9 +20,14 @@
   "fd_info": "اطلاعات",
   "fd_long": "شماره‌ها در {country} {n} رقم دارند. رقم بیشتری اضافه نمی‌شود.",
   "fd_ok": "شماره درست به نظر می‌رسد.",
+  "fd_one_to_fix": "1 مورد برای اصلاح",
+  "fd_our_side": "مشکلی از طرف ما پیش آمد. تقصیر شما نیست.",
   "fd_range": "{from} تا {to}",
+  "fd_ref": "شماره پیگیری {ref}. اگر با پشتیبانی تماس گرفتید آن را بگویید.",
   "fd_short": "این شماره خیلی کوتاه است. شماره‌ها در {country} {n} رقم دارند.",
   "fd_success": "انجام شد",
+  "fd_things_to_fix": "{n} مورد برای اصلاح",
+  "fd_try_again": "دوباره امتحان کنید",
   "fd_warning": "هشدار"
  }
 }

@@ -15,5 +15,11 @@
  "fd_success": "Done",
  "fd_code_new": "Send a new code",
  "fd_code_wait": "New code in {time}",
- "fd_code_sent": "A new code is on its way."
+ "fd_code_sent": "A new code is on its way.",
+ "fd_our_side": "Something went wrong on our side. It is not your fault.",
+ "fd_ref": "Reference {ref}. Quote it if you contact support.",
+ "fd_try_again": "Try again",
+ "fd_contact_support": "Contact support",
+ "fd_one_to_fix": "1 thing to fix",
+ "fd_things_to_fix": "{n} things to fix"
 }

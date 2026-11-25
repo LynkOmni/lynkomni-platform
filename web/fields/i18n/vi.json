@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "Gửi mã mới",
   "fd_code_sent": "Mã mới đang được gửi.",
   "fd_code_wait": "Mã mới sau {time}",
+  "fd_contact_support": "Liên hệ hỗ trợ",
   "fd_country": "Quốc gia",
   "fd_email_format": "Nhập địa chỉ email như name@example.com.",
   "fd_email_suggest": "Ý bạn là {email}?",
@@ -19,9 +20,14 @@
   "fd_info": "Thông tin",
   "fd_long": "Số ở {country} có {n} chữ số. Không thể thêm chữ số nữa.",
   "fd_ok": "Số có vẻ đúng.",
+  "fd_one_to_fix": "1 mục cần sửa",
+  "fd_our_side": "Đã xảy ra sự cố ở phía chúng tôi. Đây không phải lỗi của bạn.",
   "fd_range": "từ {from} đến {to}",
+  "fd_ref": "Mã tham chiếu {ref}. Hãy cung cấp mã này khi liên hệ hỗ trợ.",
   "fd_short": "Số này quá ngắn. Số ở {country} có {n} chữ số.",
   "fd_success": "Xong",
+  "fd_things_to_fix": "{n} mục cần sửa",
+  "fd_try_again": "Thử lại",
   "fd_warning": "Cảnh báo"
  }
 }

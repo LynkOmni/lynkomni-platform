@@ -21,7 +21,7 @@ function vendoredIcons() {
 }
 const ICONS = vendoredIcons();
 const badge = (o) => `<span class="mk" title="${esc(o.label)}"><span class="mi" aria-hidden="true">${ICONS[o.icon] ?? ""}</span><span>${esc(o.label)}</span></span>`;
-const SOCIAL = { linkedin: "LinkedIn", x: "X", facebook: "Facebook", instagram: "Instagram", youtube: "YouTube", tiktok: "TikTok", whatsapp: "WhatsApp" };   // names as text, never copied logos
+const SOCIAL = { linkedin: "LinkedIn", x: "X", facebook: "Facebook", instagram: "Instagram", youtube: "YouTube", tiktok: "TikTok" };   // names as text, never copied logos
 const LANG = { en: "English (EN)", fr: "Français (FR)", sw: "Kiswahili (SW)" };
 const NOW = new Date();
 function main(code, lang) {

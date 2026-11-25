@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "新しいコードを送る",
   "fd_code_sent": "新しいコードを送りました。",
   "fd_code_wait": "{time}後に新しいコード",
+  "fd_contact_support": "サポートに連絡",
   "fd_country": "国",
   "fd_email_format": "name@example.com のようなメールアドレスを入力してください。",
   "fd_email_suggest": "{email} のことですか？",
@@ -19,9 +20,14 @@
   "fd_info": "お知らせ",
   "fd_long": "{country}の番号は{n}桁です。それ以上の数字は入力されません。",
   "fd_ok": "番号は正しいようです。",
+  "fd_one_to_fix": "直す項目が1件あります",
+  "fd_our_side": "こちら側で問題が発生しました。お客様の責任ではありません。",
   "fd_range": "{from}～{to}",
+  "fd_ref": "参照番号 {ref}。サポートに連絡するときにお伝えください。",
   "fd_short": "この番号は短すぎます。{country}の番号は{n}桁です。",
   "fd_success": "完了",
+  "fd_things_to_fix": "直す項目が{n}件あります",
+  "fd_try_again": "もう一度試す",
   "fd_warning": "警告"
  }
 }

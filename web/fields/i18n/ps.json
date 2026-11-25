@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "ps",
  "native": "پښتو",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "نوی کوډ ولېږئ",
   "fd_code_sent": "نوی کوډ په لاره کې دی.",
   "fd_code_wait": "نوی کوډ له {time} وروسته",
+  "fd_contact_support": "له ملاتړ سره اړیکه",
   "fd_country": "هېواد",
   "fd_email_format": "د name@example.com په څېر برېښنالیک پته ولیکئ.",
   "fd_email_suggest": "ستاسو مطلب {email} و؟",
@@ -19,9 +20,14 @@
   "fd_info": "معلومات",
   "fd_long": "په {country} کې شمېرې {n} عددونه لري. نور عددونه نه ورزیاتېږي.",
   "fd_ok": "شمېره سمه ښکاري.",
+  "fd_one_to_fix": "د سمولو لپاره 1 شی",
+  "fd_our_side": "زموږ له خوا یوه ستونزه پېښه شوه. ستاسو تقصیر نه دی.",
   "fd_range": "له {from} تر {to}",
+  "fd_ref": "د تعقیب شمېره {ref}. که له ملاتړ سره اړیکه نیسئ، ویې یاست.",
   "fd_short": "دا شمېره ډېره لنډه ده. په {country} کې شمېرې {n} عددونه لري.",
   "fd_success": "بشپړ شو",
+  "fd_things_to_fix": "د سمولو لپاره {n} شیان",
+  "fd_try_again": "بیا هڅه وکړئ",
   "fd_warning": "خبرداری"
  }
 }

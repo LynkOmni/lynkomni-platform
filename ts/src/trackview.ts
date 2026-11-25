@@ -2,6 +2,7 @@
  *  the customer's tracking page all draw a tracker from ts/src/tracking.ts with this one function, so a step reads the same
  *  everywhere. The chip uses only the five states; the steps say what happened, newest at the bottom; the promised time, a missed
  *  promise and live progress (a share of the trip, never a position) show only when the engine has them. */
+import { noticeHtml, type Notice } from "./errorbox.js";
 import type { View, StepView, TowerRow, Exception, Risk } from "./tracking.js";
 
 export interface TrackLook {
@@ -51,7 +52,6 @@ export interface TowerLook extends TrackLook {
 const RISKS: readonly Risk[] = ["late", "at_risk", "on_time"];
 const RISK_WORD: Record<Risk, string> = { late: "trk_late_short", at_risk: "trk_risk_at_risk", on_time: "trk_risk_on_time" };
 const WHY_WORD: Record<Exception["why"], string> = { clash: "trk_why_clash", failed: "trk_failed", stuck: "trk_why_stuck", late: "trk_late_short", at_risk: "trk_risk_at_risk", waiting_on_customer: "trk_why_waiting_on_customer" };
-const SCAN_WORD: Record<string, string> = { not_scannable: "trk_scan_why_not_scannable", cloud_only: "trk_scan_why_cloud_only", ended: "trk_scan_why_ended", needs_proof: "trk_scan_why_needs_proof", after: "trk_scan_why_after" };
 
 /** The counts by risk and the list of items on the way, riskiest first. Risk is always a word beside its icon, never colour alone. */
 export function towerHtml(tower: { rows: TowerRow[]; counts: Record<Risk, number>; total: number }, o: TowerLook, practice: ReadonlySet<string> = new Set()): string {
@@ -73,8 +73,22 @@ export function exceptionsHtml(list: readonly Exception[], o: TowerLook): string
 /** Mark a step by scanning the code on an item (or choosing it): the result says why a scan was refused, in words. */
 export function scanHtml(items: readonly { kind: string; record: string }[], steps: readonly string[], o: TowerLook, sel: { item: string; step: string; proof: string; result: { ok: boolean; why: string[] } | null }): string {
   const opt = (v: string, label: string, cur: string): string => `<option value="${o.esc(v)}"${v === cur ? " selected" : ""}>${o.esc(label)}</option>`;
-  const res = sel.result ? (sel.result.ok ? `<p class="notice" role="status">${o.icon("ui-check")}<span>${o.esc(o.t("trk_scan_ok"))}</span></p>`
-    : `<p class="warn" role="status">${o.icon("ui-warning")}<span>${sel.result.why.map((w) => o.esc(o.t(SCAN_WORD[w.startsWith("after:") ? "after" : w] ?? "trk_scan_why_not_scannable"))).join(" ")}</span></p>`) : "";
+  const [kind = "", rec = ""] = sel.item.split("|");
+  const item = o.name(kind, rec), stepName = o.t(`trk_${sel.step}`);
+  // Section 4C point 2: each refusal says where (the field it is about), what and why with the real names, and how to fix it.
+  const why = (w: string): Notice => {
+    if (w.startsWith("after:")) {
+      const e = w.slice(6), earlier = o.t(`trk_${e}`), text = o.t("trk_scan_why_after", { item, step: stepName, earlier });
+      return steps.includes(e) ? { level: "error", text, field: "trkStep", id: "trkScanMsg", fix: { label: o.t("trk_scan_fix_after", { step: earlier }), act: `trk:pick:${e}` } }
+        : { level: "error", text, field: "trkStep", id: "trkScanMsg", how: o.t("trk_scan_how_wait", { step: earlier }) };
+    }
+    if (w === "ended") return { level: "error", text: o.t("trk_scan_why_ended", { item }), field: "trkItem", id: "trkScanMsg", fix: { label: o.t("trk_scan_fix_item"), focus: "trkItem" } };
+    if (w === "needs_proof") return { level: "error", text: o.t("trk_scan_why_needs_proof", { step: stepName }), field: "trkProof", id: "trkScanMsg", fix: { label: o.t("trk_scan_fix_proof"), focus: "trkProof" } };
+    if (w === "cloud_only") return { level: "error", text: o.t("trk_scan_why_cloud_only", { step: stepName }), field: "trkStep", id: "trkScanMsg", fix: { label: o.t("trk_scan_fix_step"), focus: "trkStep" } };
+    return { level: "error", text: o.t("trk_scan_why_not_scannable", { step: stepName }), field: "trkStep", id: "trkScanMsg", fix: { label: o.t("trk_scan_fix_step"), focus: "trkStep" } };
+  };
+  const res = sel.result ? (sel.result.ok ? noticeHtml(o.t, { level: "success", text: o.t("trk_scan_ok") })
+    : sel.result.why.length ? noticeHtml(o.t, why(sel.result.why[0] as string)) : "") : "";
   return `<section class="trk-panel" data-item="scan"><h2>${o.esc(o.t("trk_scan"))}</h2><div class="trk-form">
     <label class="trk-field" for="trkItem"><span>${o.esc(o.t("trk_scan_item"))}</span><select id="trkItem" data-in="trk:item">${items.map((x) => opt(`${x.kind}|${x.record}`, `${o.name(x.kind, x.record)} · ${o.t(`trk_k_${x.kind}`)}`, sel.item)).join("")}</select></label>
     <label class="trk-field" for="trkStep"><span>${o.esc(o.t("trk_scan_step"))}</span><select id="trkStep" data-in="trk:step">${steps.map((s) => opt(s, o.t(`trk_${s}`), sel.step)).join("")}</select></label>

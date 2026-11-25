@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "שליחת קוד חדש",
   "fd_code_sent": "קוד חדש בדרך.",
   "fd_code_wait": "קוד חדש בעוד {time}",
+  "fd_contact_support": "פנייה לתמיכה",
   "fd_country": "מדינה",
   "fd_email_format": "הזינו כתובת אימייל כמו name@example.com.",
   "fd_email_suggest": "האם התכוונתם ל-{email}?",
@@ -19,9 +20,14 @@
   "fd_info": "מידע",
   "fd_long": "למספרים ב{country} יש {n} ספרות. לא ניתן להוסיף עוד ספרות.",
   "fd_ok": "המספר נראה תקין.",
+  "fd_one_to_fix": "1 דבר לתיקון",
+  "fd_our_side": "משהו השתבש אצלנו. זו לא אשמתך.",
   "fd_range": "{from} עד {to}",
+  "fd_ref": "מספר פנייה {ref}. ציינו אותו אם תפנו לתמיכה.",
   "fd_short": "המספר קצר מדי. למספרים ב{country} יש {n} ספרות.",
   "fd_success": "בוצע",
+  "fd_things_to_fix": "{n} דברים לתיקון",
+  "fd_try_again": "לנסות שוב",
   "fd_warning": "אזהרה"
  }
 }

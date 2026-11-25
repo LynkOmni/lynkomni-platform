@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "Aika sabuwar lamba",
   "fd_code_sent": "Sabuwar lamba tana kan hanya.",
   "fd_code_wait": "Sabuwar lamba bayan {time}",
+  "fd_contact_support": "Tuntuɓi tallafi",
   "fd_country": "Ƙasa",
   "fd_email_format": "Shigar da adireshin imel kamar name@example.com.",
   "fd_email_suggest": "Kana nufin {email}?",
@@ -19,9 +20,14 @@
   "fd_info": "Bayani",
   "fd_long": "Lambobi a {country} suna da haruffan lamba {n}. Ba a ƙara ƙarin haruffa.",
   "fd_ok": "Lambar tana da kyau.",
+  "fd_one_to_fix": "Abu 1 da za a gyara",
+  "fd_our_side": "Wani abu ya lalace daga ɓangarenmu. Ba laifinka ba ne.",
   "fd_range": "daga {from} zuwa {to}",
+  "fd_ref": "Lambar bibiya {ref}. Ka faɗe ta idan ka tuntuɓi tallafi.",
   "fd_short": "Wannan lambar ta yi gajeru sosai. Lambobi a {country} suna da haruffan lamba {n}.",
   "fd_success": "An gama",
+  "fd_things_to_fix": "Abubuwa {n} da za a gyara",
+  "fd_try_again": "Sake gwadawa",
   "fd_warning": "Gargaɗi"
  }
 }

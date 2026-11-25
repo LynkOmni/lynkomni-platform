@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "Nieuwe code sturen",
   "fd_code_sent": "Er is een nieuwe code onderweg.",
   "fd_code_wait": "Nieuwe code over {time}",
+  "fd_contact_support": "Contact opnemen met support",
   "fd_country": "Land",
   "fd_email_format": "Vul een e-mailadres in zoals name@example.com.",
   "fd_email_suggest": "Bedoelde je {email}?",
@@ -19,9 +20,14 @@
   "fd_info": "Informatie",
   "fd_long": "Nummers in {country} hebben {n} cijfers. Extra cijfers worden niet toegevoegd.",
   "fd_ok": "Het nummer lijkt te kloppen.",
+  "fd_one_to_fix": "1 punt om te verbeteren",
+  "fd_our_side": "Er ging iets mis aan onze kant. Het is niet jouw schuld.",
   "fd_range": "{from} tot {to}",
+  "fd_ref": "Referentie {ref}. Noem deze als je contact opneemt met support.",
   "fd_short": "Dit nummer is te kort. Nummers in {country} hebben {n} cijfers.",
   "fd_success": "Klaar",
+  "fd_things_to_fix": "{n} punten om te verbeteren",
+  "fd_try_again": "Opnieuw proberen",
   "fd_warning": "Waarschuwing"
  }
 }

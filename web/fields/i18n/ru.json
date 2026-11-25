@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "ru",
  "native": "Русский",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "Отправить новый код",
   "fd_code_sent": "Новый код уже в пути.",
   "fd_code_wait": "Новый код через {time}",
+  "fd_contact_support": "Связаться с поддержкой",
   "fd_country": "Страна",
   "fd_email_format": "Введите адрес электронной почты, например name@example.com.",
   "fd_email_suggest": "Вы имели в виду {email}?",
@@ -19,9 +20,14 @@
   "fd_info": "Сведения",
   "fd_long": "В номерах страны {country} {n} цифр. Лишние цифры не добавляются.",
   "fd_ok": "Номер выглядит правильным.",
+  "fd_one_to_fix": "Исправить: 1",
+  "fd_our_side": "Что-то пошло не так на нашей стороне. Это не ваша вина.",
   "fd_range": "от {from} до {to}",
+  "fd_ref": "Номер обращения {ref}. Назовите его, если свяжетесь с поддержкой.",
   "fd_short": "Номер слишком короткий. В номерах страны {country} {n} цифр.",
   "fd_success": "Готово",
+  "fd_things_to_fix": "Исправить: {n}",
+  "fd_try_again": "Повторить",
   "fd_warning": "Предупреждение"
  }
 }

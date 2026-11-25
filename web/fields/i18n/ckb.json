@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "ckb",
  "native": "کوردی",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "کۆدێکی نوێ بنێرە",
   "fd_code_sent": "کۆدێکی نوێ لە ڕێگادایە.",
   "fd_code_wait": "کۆدی نوێ دوای {time}",
+  "fd_contact_support": "پەیوەندی بە پشتگیرییەوە بکە",
   "fd_country": "وڵات",
   "fd_email_format": "ناونیشانی ئیمەیڵێک وەک name@example.com بنووسە.",
   "fd_email_suggest": "مەبەستت {email} بوو؟",
@@ -19,9 +20,14 @@
   "fd_info": "زانیاری",
   "fd_long": "ژمارەکان لە {country} {n} ڕەقەمیان هەیە. ڕەقەمی زیاتر زیاد ناکرێت.",
   "fd_ok": "ژمارەکە دروست دیارە.",
+  "fd_one_to_fix": "1 شت بۆ چاککردن",
+  "fd_our_side": "هەڵەیەک لە لای ئێمە ڕوویدا. هەڵەی تۆ نییە.",
   "fd_range": "{from} بۆ {to}",
+  "fd_ref": "ژمارەی سەرچاوە {ref}. ئەگەر پەیوەندیت بە پشتگیرییەوە کرد باسی بکە.",
   "fd_short": "ئەم ژمارەیە زۆر کورتە. ژمارەکان لە {country} {n} ڕەقەمیان هەیە.",
   "fd_success": "تەواو",
+  "fd_things_to_fix": "{n} شت بۆ چاککردن",
+  "fd_try_again": "دووبارە هەوڵ بدەوە",
   "fd_warning": "ئاگاداری"
  }
 }

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-4GZUiK9LqfYxHIBgrXfsjxSPP9YKPQ+68asuNKmnmsQ='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-jNe0/9oyVjZjqfJ0HQ9v/WNg4Lyj5qsQmthNSp5As7E='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkFiles Signing Tablet</title>
 <meta name="description" content="Interactive emulator of the LynkFiles Signing Tablet: the person reads every page, signs exactly the version they saw with a finger, a stylus or their typed name, and gets the verification code, which never shows who signed.">
@@ -494,6 +494,37 @@ body { margin: 0; min-height: 100vh; }
 .lindex h2 { margin: 0 0 4px; font: 600 18px var(--font-heading); }
 .lindex .list { margin-block-start: 8px; }
 
+/* The phone and email fields and the field message (ts/src/fields.ts, section 4C points 1 and 2). Design tokens only; logical
+   properties so right-to-left mirrors; the number itself always runs left to right; every message has its word, never colour alone. */
+.lf-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; margin-block-end: 12px; }
+.lf-field > label { font-weight: 600; }
+.lf-row { display: flex; gap: 6px; min-width: 0; }
+.lf-cc { flex: 0 1 42%; min-width: 0; max-inline-size: 46%; min-block-size: 44px; border: 1px solid var(--border-input); border-radius: 10px; background: var(--bg-surface); color: inherit; font: inherit; padding-inline: 8px; text-overflow: ellipsis; }
+.lf-in { flex: 1 1 auto; min-width: 0; min-block-size: 44px; }
+.lf-field input[aria-invalid="true"] { border-color: var(--status-danger-border); box-shadow: 0 0 0 1px var(--status-danger-border); }
+.lf-msg:empty { display: none; }
+.lf-msg { margin: 0; padding: 8px 10px; border-radius: 10px; border: 1px solid transparent; display: block; overflow-wrap: anywhere; font-size: 14px; line-height: 1.4; }
+.lf-word { font-weight: 700; }
+.lf-error { background: var(--status-danger-bg); color: var(--status-danger-text); border-color: var(--status-danger-border); }
+.lf-warning { background: var(--status-warning-bg); color: var(--status-warning-text); border-color: var(--status-warning-border); }
+.lf-info { background: var(--status-info-bg); color: var(--status-info-text); border-color: var(--status-info-border); }
+.lf-success { background: var(--status-success-bg); color: var(--status-success-text); border-color: var(--status-success-border); }
+.lf-fix { display: block; margin-block-start: 8px; min-block-size: 44px; padding-inline: 12px; border-radius: 10px; border: 1px solid currentColor; background: transparent; color: inherit; font: inherit; font-weight: 600; white-space: normal; overflow-wrap: anywhere; max-inline-size: 100%; }
+.lf-code { letter-spacing: 0.2em; font-variant-numeric: tabular-nums; }
+.lf-resend { align-self: flex-start; min-block-size: 44px; white-space: normal; overflow-wrap: anywhere; max-inline-size: 100%; }
+/* The shared message part (ts/src/errorbox.ts, section 4C point 2): an icon shape and a word with every colour, what and why,
+   then how to fix it. */
+.ebx { display: block; }
+.ebx p { margin: 0; }
+.ebx-line { display: block; }
+.ebx-mark, .lf-msg > .ebx-mark { inline-size: 1.1em; block-size: 1.1em; vertical-align: -0.18em; margin-inline-end: 6px; flex: none; }
+.ebx-how { margin-block-start: 4px; }
+.ebx-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.ebx-acts .lf-fix { margin-block-start: 8px; }
+.ebx-list { margin: 6px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.ebx-go { display: block; inline-size: 100%; text-align: start; min-block-size: 44px; padding: 6px 10px; border: 0; border-radius: 8px; background: transparent; color: inherit; font: inherit; text-decoration: underline; white-space: normal; overflow-wrap: anywhere; cursor: pointer; }
+[aria-invalid="true"] { border-color: var(--status-danger-border); }
+
 /* The shell parts inside device apps (ts/src/deviceshell.ts, blueprint 41 B): search, help, account, connection chip, the
    first-run language card and the sheets. Logical properties only, so right-to-left mirrors; every target is 44 px. */
 .dsh-bar { display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 2px 4px; flex: none; max-width: 100%; }
@@ -957,8 +988,8 @@ body { margin: 0; min-height: 100vh; }
 .tscreen .chip { display: inline-flex; gap: 4px; align-items: center; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--border-subtle); font-size: 13px; justify-self: start; align-self: flex-start; }
 @media (max-width: 760px) { .tab { padding: 10px 10px 20px; border-radius: 16px; } .tscreen { min-block-size: 380px; padding: 12px; } }
 /* script cover */
-:is([lang|="ar"], [lang|="fa"], [lang|="ur"], [lang|="ps"], [lang|="ckb"], [lang|="sd"], [lang|="ug"], [lang|="hi"], [lang|="bn"], [lang|="ta"], [lang|="th"]) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip, .nbig, .ticket .tnum, .ph-code strong, .rtk, .qpaper .qp-num, .qs-num, .qcd-num, .tscreen .code) { letter-spacing: 0 !important; text-transform: none !important; }
-:is([lang|="zh-Hans"], [lang|="zh-Hant"], [lang|="ja"], [lang|="ko"]) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip, .nbig, .ticket .tnum, .ph-code strong, .rtk, .qpaper .qp-num, .qs-num, .qcd-num, .tscreen .code) { letter-spacing: 0 !important; text-spacing-trim: space-all; }
+:is([lang|="ar"], [lang|="fa"], [lang|="ur"], [lang|="ps"], [lang|="ckb"], [lang|="sd"], [lang|="ug"], [lang|="hi"], [lang|="bn"], [lang|="ta"], [lang|="th"]) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip, .lf-code, .nbig, .ticket .tnum, .ph-code strong, .rtk, .qpaper .qp-num, .qs-num, .qcd-num, .tscreen .code) { letter-spacing: 0 !important; text-transform: none !important; }
+:is([lang|="zh-Hans"], [lang|="zh-Hant"], [lang|="ja"], [lang|="ko"]) :is(h1, h2, h3, h4, h5, h6, .font-heading, .badge-label, .micro-chip, .lf-code, .nbig, .ticket .tnum, .ph-code strong, .rtk, .qpaper .qp-num, .qs-num, .qcd-num, .tscreen .code) { letter-spacing: 0 !important; text-spacing-trim: space-all; }
 </style>
 <style>html:not([data-ready]) body { visibility: hidden; }</style>
 <link rel="icon" type="image/svg+xml" media="(prefers-color-scheme: light)" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-8 -8 1390 1161'%3E%3Cpath fill='%2318181B' fill-rule='evenodd' d='M126 361.2L126 883.4L127.2 903.1L129.4 918.3L133.7 937.4L138.3 952.1L145.5 970.3L152.3 984L162.4 1000.9L171.2 1013.4L183.8 1028.4L194.5 1039.3L209.3 1052.2L221.7 1061.3L238.4 1071.6L252 1078.7L269.9 1086.2L288.6 1092.1L299.6 1094.8L315 1097.6L330.6 1099.2L342.2 1099.7L930.4 1099.8L923.7 1089.5L917.5 1078.6L910.8 1065.2L905.3 1052.5L901 1040.7L896.9 1028.1L893.1 1013.2L890.7 1000.5L888.8 987.3L887.6 972.5L887.3 953.8L505.2 953.8L487.8 952.5L472.2 949.3L456.8 944L442.5 936.8L429.2 927.9L416.4 916.7L406 904.7L396.9 891.2L390 877.1L385.7 865.5L382.8 853.8L380.9 842.4L380.2 830.7L380.2 573L380.9 552.6L382.9 531.4L385.1 515.4L387.9 499.9L391.3 484.9L395.4 469.7L400.2 454.4L405.6 439.6L411.8 424.5L418.3 410.4L425.7 396L433.6 382.2L442 368.6L450.9 355.7L460.7 342.6L470.6 330.5L487 312.6L487 51.8L426.5 51.9L408.5 53L389.6 55.3L366.2 59.7L344.2 65.7L322.6 73.2L301.6 82.4L290.7 88L269.3 100.4L259 107.2L249.1 114.4L239.6 122L221.5 138L204.9 155.2L197 164.3L189.3 174.1L182 184.1L168.7 204.8L162.7 215.5L155.4 230.1L148.9 244.9L143.2 260.1L138 276.3L134 292L130.7 307.9L128.3 324.8L126.8 340.8Z'/%3E%3Cpath fill='%237C4DFF' fill-rule='evenodd' d='M816.9 722.5L824.7 720.6L828.6 720L838.8 720.6L848.9 723.8L852 725.6L858.8 730.3L997 868.4L1002.3 874.6L1006.7 883.5L1008.4 889.4L1009.4 895.6L1009.2 902.3L1008.1 908L1003.5 924L1001.3 934.1L999.7 946.2L999.2 958.3L999.7 968.7L1000.8 979.1L1002.7 989.3L1005.3 999.4L1009.4 1010.9L1014.3 1021.8L1020.2 1032.4L1027.1 1042.5L1033.6 1050.7L1042 1059.6L1051 1067.7L1060.6 1074.9L1072.5 1082.2L1085.1 1088.3L1098.1 1093.2L1111.4 1096.7L1125.2 1098.9L1139.1 1099.8L1152.9 1099.3L1166.7 1097.3L1180.2 1094.2L1193.3 1089.6L1206 1083.8L1218 1076.8L1229.2 1068.7L1239.6 1059.5L1249 1049.3L1257.4 1038.2L1263.9 1027.9L1269.3 1017.2L1273.3 1007.6L1277.1 996L1279.8 984.2L1281.5 972.2L1282.2 960L1281.9 949.6L1280.7 937.6L1278.4 925.6L1275.1 913.9L1271.4 904.1L1266.3 893L1260.2 882.6L1253.3 872.5L1245.6 863.3L1238.2 855.8L1230.4 848.8L1222.2 842.5L1213.4 836.9L1204.3 831.9L1194.8 827.6L1185.1 823.9L1173.3 820.6L1164.9 818.8L1154.6 817.5L1145.9 816.9L1137.3 816.8L1126.9 817.5L1114.7 819.2L1106.4 821L1090.6 825.6L1084.1 826.8L1081.8 826.8L1073.3 826.3L1069.4 825.3L1063.4 823.1L1060.1 821.5L1052.1 815.7L914 677.7L909.5 672L907.5 668.8L905 663.1L903.1 656.1L902.6 653.6L902.5 647L902.9 643.3L904.3 636.5L910.5 617.8L913.2 606.7L915.3 593.2L916.2 577.6L916 568L915 556.4L913.2 545L911 535.6L906.9 522.5L901.9 510L896.6 499.6L889.6 488L881.6 477.1L874 468.2L864.3 458.7L855.4 451.2L846 444.4L837.9 439.3L829.3 434.7L820.4 430.6L811.4 427L800.4 423.5L791.1 421.3L781.3 419.5L771.7 418.3L760.2 417.8L750.6 418L740.7 418.8L731.2 420.1L719.8 422.5L710.5 425.2L701.4 428.3L687.1 434.7L673.6 442.3L661 451.3L649.2 461.4L638.6 472.7L629.1 484.8L620.7 498L613.8 511.8L608.2 526.3L604 541.2L601.5 556.5L600.3 572L600.7 587.4L602.6 602.9L606 618L610.9 632.7L617.2 646.9L624.8 660.4L633.7 673L643.9 684.8L655.1 695.4L667.3 705L680.4 713.2L694.3 720.2L708.8 725.8L723.7 730L738.9 732.6L754.4 733.7L769.9 733.3L785.3 731.4L800.5 728ZM599 233.1L618.6 224.6L644.2 215.5L670.4 208.1L696.9 202.8L722.5 199.5L749.7 197.9L776.9 198.3L804 200.6L831 204.9L857.3 211L883.3 219.1L908.6 229L934.2 241.2L957.8 254.8L980.3 269.9L991.9 278.7L1003.3 287.9L1014.3 297.8L1024.7 307.7L1034.9 318.2L1044.2 328.6L1053.6 340L1063 352.1L1071.5 364.3L1079.2 376.3L1086.9 389L1093.8 401.8L1100 414.3L1106 427.5L1116.4 454.9L1123.3 477.8L1128.7 500.9L1132.7 524.6L1135.2 548.5L1136.2 573.9L1136.2 704.8L1154.9 705.1L1169.6 706.4L1184.3 708.5L1196.8 711L1210 714.4L1222.3 718.2L1234.7 722.7L1247.3 728.2L1259.2 734.1L1270.9 740.6L1282.2 747.9L1282.2 572.6L1281.8 554.1L1280.8 536L1279.2 519.3L1274.6 486.6L1267.8 453.9L1263.7 437.6L1259 421.4L1253.7 405.3L1246.8 386.4L1239.2 367.9L1230.9 349.5L1221.9 331.6L1212.2 314L1201.8 296.9L1191 280.4L1179.3 264L1167.1 248L1154.2 232.6L1140.8 217.7L1126.8 203.3L1112.2 189.4L1097.2 176.1L1081.6 163.4L1065.5 151.3L1042.9 135.9L1019.3 121.4L994.9 108.3L969.8 96.4L944.2 85.9L918 76.7L891.4 68.9L864.8 62.7L843.5 58.7L822 55.7L800.4 53.4L778.7 52.2L759.3 51.8L599 51.8Z'/%3E%3C/svg%3E ">
@@ -1506,6 +1537,85 @@ function paymentOptions(pack) {
     if (pack?.providers?.includes("crypto"))
         add("crypto");
     return ids.map((id) => ({ id, ...PAYMENT_METHODS[id], official: false }));
+}
+
+// ---- ts/src/errorbox.js
+const ebxEsc = (v) => String(v).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const EBX_MARK = {
+    error: '<svg class="ebx-mark" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5.4 5.4l5.2 5.2M10.6 5.4l-5.2 5.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+    warning: '<svg class="ebx-mark" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l6.6 12H1.4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6v3.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.6" r="0.9" fill="currentColor"/></svg>',
+    info: '<svg class="ebx-mark" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 7.2v4.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="4.8" r="0.9" fill="currentColor"/></svg>',
+    success: '<svg class="ebx-mark" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4.8 8.2l2.2 2.2 4.2-4.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+};
+function ebxFix(fix) {
+    if (!fix)
+        return "";
+    const how = "act" in fix ? `data-act="${ebxEsc(fix.act)}"` : `data-ebx-focus="${ebxEsc(fix.focus)}"`;
+    return `<button type="button" class="lf-fix" ${how}>${ebxEsc(fix.label)}</button>`;
+}
+function fieldMsgHtml(t, id, level, text, fix) {
+    if (!level)
+        return `<p class="lf-msg" id="${ebxEsc(id)}-msg" aria-live="polite"></p>`;
+    return `<p class="lf-msg lf-${level}" id="${ebxEsc(id)}-msg" role="${level === "error" ? "alert" : "status"}">${EBX_MARK[level]}<strong class="lf-word">${ebxEsc(t(`fd_${level}`))}</strong> <span>${ebxEsc(text)}</span>${fix ? ` <button type="button" class="lf-fix" data-lf-fix="${ebxEsc(fix.act)}">${ebxEsc(fix.label)}</button>` : ""}</p>`;
+}
+function noticeHtml(t, n) {
+    const id = n.id ?? (n.field ? `${n.field}-msg` : "");
+    return `<div class="lf-msg lf-${n.level} ebx" data-level="${n.level}"${id ? ` id="${ebxEsc(id)}"` : ""}${n.field ? ` data-field="${ebxEsc(n.field)}"` : ""} role="${n.level === "error" ? "alert" : "status"}">`
+        + `<p class="ebx-line">${EBX_MARK[n.level]}<strong class="lf-word">${ebxEsc(t(`fd_${n.level}`))}</strong> <span>${ebxEsc(n.text)}</span></p>`
+        + `${n.how ? `<p class="ebx-how">${ebxEsc(n.how)}</p>` : ""}${ebxFix(n.fix)}</div>`;
+}
+function ourSideHtml(t, o) {
+    return `<div class="lf-msg lf-error ebx" data-level="error" role="alert"${o.id ? ` id="${ebxEsc(o.id)}"` : ""}>`
+        + `<p class="ebx-line">${EBX_MARK.error}<strong class="lf-word">${ebxEsc(t("fd_error"))}</strong> <span>${ebxEsc(t("fd_our_side"))}</span></p>`
+        + `<p class="ebx-how">${ebxEsc(t("fd_ref", { ref: o.ref }))}</p>`
+        + `<div class="ebx-acts"><button type="button" class="lf-fix" data-act="${ebxEsc(o.retryAct)}">${ebxEsc(t("fd_try_again"))}</button><button type="button" class="lf-fix" data-act="${ebxEsc(o.supportAct)}">${ebxEsc(t("fd_contact_support"))}</button></div></div>`;
+}
+function summaryHtml(t, items) {
+    if (!items.length)
+        return "";
+    const head = items.length === 1 ? t("fd_one_to_fix") : t("fd_things_to_fix", { n: items.length });
+    return `<div class="lf-msg lf-error ebx ebx-summary" data-level="error" role="alert" tabindex="-1"><p class="ebx-line">${EBX_MARK.error}<strong class="lf-word">${ebxEsc(head)}</strong></p>`
+        + `<ul class="ebx-list">${items.map((x) => `<li><button type="button" class="ebx-go" data-ebx-focus="${ebxEsc(x.field)}">${ebxEsc(x.text)}</button></li>`).join("")}</ul></div>`;
+}
+function wireNotices(root) {
+    const scope = root;
+    scope.querySelectorAll("[data-ebx-marked]").forEach((f) => { if (!scope.querySelector(`.ebx[data-field="${CSS.escape(f.id)}"][data-level="error"]`)) {
+        f.removeAttribute("aria-invalid");
+        f.removeAttribute("data-ebx-marked");
+    } });
+    scope.querySelectorAll(".ebx[data-field]").forEach((m) => {
+        const f = document.getElementById(m.dataset.field ?? "");
+        if (!f)
+            return;
+        const ids = (f.getAttribute("aria-describedby") ?? "").split(/\s+/).filter(Boolean);
+        if (m.id && !ids.includes(m.id))
+            f.setAttribute("aria-describedby", [...ids, m.id].join(" "));
+        if (m.dataset.level === "error") {
+            f.setAttribute("aria-invalid", "true");
+            f.setAttribute("data-ebx-marked", "1");
+        }
+    });
+    const el = root;
+    if (el.dataset && !el.dataset.ebxWired) {
+        el.dataset.ebxWired = "1";
+        el.addEventListener("click", (e) => {
+            const b = e.target.closest("[data-ebx-focus]");
+            if (!b)
+                return;
+            const f = document.getElementById(b.dataset.ebxFocus ?? "");
+            if (f) {
+                f.focus();
+                f.scrollIntoView?.({ block: "center" });
+            }
+        });
+    }
+    const sum = scope.querySelector(".ebx-summary:not([data-ebx-seen])");
+    if (sum) {
+        sum.setAttribute("data-ebx-seen", "1");
+        const first = sum.querySelector("[data-ebx-focus]");
+        const f = first ? document.getElementById(first.dataset.ebxFocus ?? "") : null;
+        (f ?? sum).focus?.();
+    }
 }
 
 // ---- ts/src/names.generated.js
@@ -2104,11 +2214,10 @@ function columns(lang, words) {
     ];
     return cols.map((c) => ({ ...c, span: spanFor(c.items.length) }));
 }
-const SOCIAL = ["linkedin", "x", "facebook", "instagram", "youtube", "tiktok", "whatsapp"]; // Snapchat, Pinterest and Threads removed: no audience fit for a merchant and fintech platform
+const SOCIAL = ["linkedin", "x", "facebook", "instagram", "youtube", "tiktok"]; // Snapchat, Pinterest and Threads removed: no audience fit for a merchant and fintech platform; WhatsApp removed completely (owner, 2026-11-25)
 const SOCIAL_LINKS = {
     linkedin: "https://www.linkedin.com/showcase/lynkomni", x: "https://x.com/LynkOmni", facebook: "https://www.facebook.com/LynkOmni",
     instagram: "https://www.instagram.com/lynkomni", youtube: "https://www.youtube.com/@LynkOmni", tiktok: "https://www.tiktok.com/@lynkomni",
-    whatsapp: "https://wa.me/237681296652",
 };
 function paymentMarks(pack) {
     return paymentOptions(pack).map((o) => o.id);
@@ -2132,7 +2241,7 @@ function mainFooterHtml(f, esc, icon, logo, emailBox) {
     const link = (i) => `<li><a href="${esc(i.href)}">${i.plain ? `<span class="fname">${esc(i.label)}</span> <span class="fplain">(${esc(i.plain)})</span>` : esc(i.label)}</a></li>`;
     const cols = f.columns.map((c) => `<section class="fcol" data-span="${c.span}" style="--span:${c.span}"><h3>${esc(c.title)}</h3><ul>${c.items.map(link).join("")}</ul></section>`).join("");
     const mark = logo ? `<a class="flogo" href="/" aria-label="${esc(f.labels.home)}"><span class="on-light">${logo.light}</span><span class="on-dark">${logo.dark}</span></a>` : "";
-    const SOCIAL_NAMES = { linkedin: "LinkedIn", x: "X", facebook: "Facebook", instagram: "Instagram", youtube: "YouTube", tiktok: "TikTok", whatsapp: "WhatsApp" };
+    const SOCIAL_NAMES = { linkedin: "LinkedIn", x: "X", facebook: "Facebook", instagram: "Instagram", youtube: "YouTube", tiktok: "TikTok" };
     const social = f.socialLinks.map((s) => `<li><a href="${esc(s.href)}" target="_blank" rel="noopener">${esc(SOCIAL_NAMES[s.id] ?? s.id)}</a></li>`).join("");
     const pay = f.payments.options.map((o) => `<li class="fpay"><span class="ic" aria-hidden="true">${icon(o.icon)}</span>${esc(o.label)}</li>`).join("");
     const n = f.newsletter;

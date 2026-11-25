@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "Hantar kod baharu",
   "fd_code_sent": "Kod baharu sedang dihantar.",
   "fd_code_wait": "Kod baharu dalam {time}",
+  "fd_contact_support": "Hubungi sokongan",
   "fd_country": "Negara",
   "fd_email_format": "Masukkan alamat e-mel seperti name@example.com.",
   "fd_email_suggest": "Adakah maksud anda {email}?",
@@ -19,9 +20,14 @@
   "fd_info": "Maklumat",
   "fd_long": "Nombor di {country} mempunyai {n} digit. Angka tambahan tidak dimasukkan.",
   "fd_ok": "Nombor kelihatan betul.",
+  "fd_one_to_fix": "1 perkara perlu dibetulkan",
+  "fd_our_side": "Ada masalah di pihak kami. Ini bukan salah anda.",
   "fd_range": "{from} hingga {to}",
+  "fd_ref": "Rujukan {ref}. Nyatakannya jika anda menghubungi sokongan.",
   "fd_short": "Nombor ini terlalu pendek. Nombor di {country} mempunyai {n} digit.",
   "fd_success": "Selesai",
+  "fd_things_to_fix": "{n} perkara perlu dibetulkan",
+  "fd_try_again": "Cuba lagi",
   "fd_warning": "Amaran"
  }
 }

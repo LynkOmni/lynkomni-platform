@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "es",
  "native": "Español",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "Enviar un código nuevo",
   "fd_code_sent": "Un código nuevo va en camino.",
   "fd_code_wait": "Nuevo código en {time}",
+  "fd_contact_support": "Contactar con soporte",
   "fd_country": "País",
   "fd_email_format": "Escribe un correo como name@example.com.",
   "fd_email_suggest": "¿Quisiste decir {email}?",
@@ -19,9 +20,14 @@
   "fd_info": "Información",
   "fd_long": "Los números en {country} tienen {n} dígitos. No se añaden más dígitos.",
   "fd_ok": "El número parece correcto.",
+  "fd_one_to_fix": "1 cosa por corregir",
+  "fd_our_side": "Algo salió mal por nuestra parte. No es culpa tuya.",
   "fd_range": "de {from} a {to}",
+  "fd_ref": "Referencia {ref}. Indícala si contactas con soporte.",
   "fd_short": "Este número es demasiado corto. Los números en {country} tienen {n} dígitos.",
   "fd_success": "Hecho",
+  "fd_things_to_fix": "{n} cosas por corregir",
+  "fd_try_again": "Intentar de nuevo",
   "fd_warning": "Aviso"
  }
 }

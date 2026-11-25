@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "傳送新驗證碼",
   "fd_code_sent": "新驗證碼正在傳送。",
   "fd_code_wait": "{time}後可取得新驗證碼",
+  "fd_contact_support": "聯絡客服",
   "fd_country": "國家或地區",
   "fd_email_format": "請輸入電子郵件地址，例如 name@example.com。",
   "fd_email_suggest": "您是想輸入 {email} 嗎？",
@@ -19,9 +20,14 @@
   "fd_info": "資訊",
   "fd_long": "{country}的號碼有{n}位。多出的數字不會輸入。",
   "fd_ok": "號碼看起來正確。",
+  "fd_one_to_fix": "有 1 項需要修改",
+  "fd_our_side": "我們這邊出了問題。這不是您的錯。",
   "fd_range": "{from}至{to}",
+  "fd_ref": "參考編號 {ref}。聯絡客服時請提供此編號。",
   "fd_short": "這個號碼太短。{country}的號碼有{n}位。",
   "fd_success": "完成",
+  "fd_things_to_fix": "有 {n} 項需要修改",
+  "fd_try_again": "重試",
   "fd_warning": "警告"
  }
 }

@@ -4,11 +4,12 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "3593f5a728cb8757802bfec81e13d5b95072a8336041b41cfdbf93e2cea36ad9",
+ "source_sha256": "7ad21a8d8b767c011c81c96ed59cea0a65943d9e0df472898241d348cf38d6b5",
  "texts": {
   "fd_code_new": "Tuma msimbo mpya",
   "fd_code_sent": "Msimbo mpya uko njiani.",
   "fd_code_wait": "Msimbo mpya baada ya {time}",
+  "fd_contact_support": "Wasiliana na msaada",
   "fd_country": "Nchi",
   "fd_email_format": "Weka anwani ya barua pepe kama name@example.com.",
   "fd_email_suggest": "Ulimaanisha {email}?",
@@ -19,9 +20,14 @@
   "fd_info": "Taarifa",
   "fd_long": "Namba za {country} zina tarakimu {n}. Tarakimu za ziada haziongezwi.",
   "fd_ok": "Namba inaonekana sahihi.",
+  "fd_one_to_fix": "Jambo 1 la kurekebisha",
+  "fd_our_side": "Kuna hitilafu upande wetu. Si kosa lako.",
   "fd_range": "{from} hadi {to}",
+  "fd_ref": "Kumbukumbu {ref}. Itaje ukiwasiliana na msaada.",
   "fd_short": "Namba hii ni fupi mno. Namba za {country} zina tarakimu {n}.",
   "fd_success": "Imekamilika",
+  "fd_things_to_fix": "Mambo {n} ya kurekebisha",
+  "fd_try_again": "Jaribu tena",
   "fd_warning": "Onyo"
  }
 }
