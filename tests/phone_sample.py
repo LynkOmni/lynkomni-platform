@@ -11,13 +11,28 @@ def fill_phone(pg, selector, fallback="0788123456"):
 
 
 def sign_in_business(pg, who="grace@example.com", check=None):
-    """Sign in to the Business app like a person: one box for a username, email or phone number, then a way (here the
-    passkey). Email and phone are both kept on every account and either one signs in (owner, 2026-11-26)."""
-    pg.fill("#wyWho", who)
+    """Sign in to the Business app like a person: choose how (email, username or phone, in that order; owner 2026-11-26),
+    type it in that field, then a way (here the passkey)."""
+    via = "email" if "@" in who else "phone" if who.replace(" ", "").lstrip("+").isdigit() else "username"
+    pg.click(f'[data-act="wy:si:via:{via}"]')
+    if check:
+        check(f"sign in with {via}")
+    if via == "email":
+        pg.locator("#wyWhoEmail").click(); pg.keyboard.type(who)
+    elif via == "phone":
+        fill_phone(pg, "#wyWhoPhone")
+    else:
+        pg.locator("#wyWho").click(); pg.keyboard.type(who)
     pg.click('[data-act="wy:si:who"]')
     if check:
         check("ways to sign in")
     pg.click('[data-act="wy:si:way:passkey"]')
+
+
+def choose_and_type_who(pg, who="grace.k"):
+    """On a sign-in screen: Continue with username, then type it (the ways to sign in come next)."""
+    pg.click('[data-act="wy:si:via:username"]')
+    pg.locator("#wyWho").click(); pg.keyboard.type(who)
 
 
 def pass_age(pg, year="1990", month="5", day="14", root=""):

@@ -8,11 +8,10 @@
  *  ways, strongest first, and an extra check for a new or unusual sign-in; the hub offers only the ways the person has, with their
  *  waits; never a password, questions, a text, email or call alone, or support finishing it; one Cancel on every old device. */
 import { WAYS_IN } from "./waysin.generated.js";
-import { signUpNext, ageCheck, ageBlocked, legalNameProblem, identifierKind, signInWays, extraChecks, recoveryWays, backupCodesLeftNote, checkup, contactsProblem,
+import { signUpNext, ageCheck, ageBlocked, legalNameProblem, signInWays, extraChecks, recoveryWays, backupCodesLeftNote, checkup, contactsProblem,
   antiPhishingProblem, sessionHours, restrictedAfterRecovery, ownerCheckMethod, ownerCheckOutcome } from "./waysin.js";
 import { noticeHtml } from "./errorbox.js";
 import { asciiDigits } from "./codefield.js";
-import { hintFor } from "./hints.js";
 import { check, handleBoxHtml, HANDLE_HINT } from "./usernames.js";
 /** Sample recovery contacts: a person shows by their name as they wrote it (capitals kept) with their username under it.
  *  Usernames are always lowercase (the username rule); names are free text and keep their capitals. */
@@ -29,7 +28,7 @@ export interface WaysLook {
 export interface WaysState {
   now: number; online: boolean; has: string[]; strongest: boolean; minAge: number;
   su: { done: string[]; birth: { d: string; m: string; y: string }; ageOk: boolean; ageWrong: boolean; ageConfirm: boolean; ageRefusedAt: number | null; ageClearedAt: number | null; ageId: "none" | "sent"; legal: string; tried: boolean; username: string; codes: string[]; recovery: string; device: number; network: number };
-  si: { who: string; step: "who" | "ways" | "extra" | "done"; unusual: string[]; remember: boolean; qr: boolean; numbers: number };
+  si: { via: "email" | "username" | "phone" | null; who: string; step: "who" | "ways" | "extra" | "done"; unusual: string[]; remember: boolean; qr: boolean; numbers: number };
   rc: { problem: string | null; way: string | null; started: number | null; readyAt: number | null; cancelled: boolean; done: number | null; locked: boolean; blocked: boolean };
   sec: { left: number; shown: string[] | null; auth: "off" | "setup" | "on"; authKey: string; keys: number; contacts: string[]; word: string; wordSaved: boolean;
     lock: string[]; old: string[]; activity: { type: string; at: number }[]; appLock: boolean; privacy: boolean; basic: boolean; reach: boolean };
@@ -46,7 +45,7 @@ export function waysStart(now: number, random: (n: number) => number): WaysState
   return {
     now, online: true, has: ["passkey", "other_device", "email_code", "text_code", "backup_code", "recovery_code", "email_and_phone", "id_check"], strongest: false, minAge: 18,
     su: { done: [], birth: { d: "", m: "", y: "" }, ageOk: false, ageWrong: false, ageConfirm: false, ageRefusedAt: null, ageClearedAt: null, ageId: "none", legal: "", tried: false, username: "", codes, recovery: `${code()}-${code()}`, device: 0, network: 0 },
-    si: { who: "grace.k", step: "who", unusual: [], remember: true, qr: false, numbers: 10 + random(90) },
+    si: { via: null, who: "", step: "who", unusual: [], remember: true, qr: false, numbers: 10 + random(90) },
     rc: { problem: null, way: null, started: null, readyAt: null, cancelled: false, done: null, locked: false, blocked: false },
     sec: { left: WAYS_IN.backup_codes.count, shown: null, auth: "off", authKey: "", keys: 0, contacts: [], word: "", wordSaved: false, lock: [], old: ["Old tablet"], activity: [], appLock: false, privacy: false, basic: false, reach: true },
     po: { consent: false, method: ownerCheckMethod(true), state: "none", until: null },
@@ -149,14 +148,28 @@ export function signUpHtml(look: WaysLook, st: WaysState): string {
 // ---- sign-in -------------------------------------------------------------------------------------------------------------
 /** The sign-in screen: one box for username, email or phone, then the person's ways (strongest first), then an extra check
  *  when the sign-in is new or unusual. Codes by email or text come last; Can't sign in? opens the hub. */
+/** The ways to say who you are, in the owner's order (owner 2026-11-26): email, username, phone. Each opens its own field with
+ *  its own example; nothing is guessed from what is typed. */
+export const SIGN_IN_VIA = ["email", "username", "phone"] as const;
+const VIA_ICON = { email: "ui-mail", username: "ui-at", phone: "ui-phone" } as const;
+/** Who you are: first the three choices, then only the chosen field, with Use another way. Shared by sign-in and I lost my phone. */
+function whoHtml(look: WaysLook, st: WaysState, id: string, next: { act: string; label: string } | null): string {
+  const t = look.t, via = st.si.via;
+  if (!via) {
+    return `<div class="wy-via">${SIGN_IN_VIA.map((v) => `<button type="button" class="${look.btn.secondary} wy-via-btn" data-act="wy:si:via:${v}">${look.icon(VIA_ICON[v])}<span>${wyEsc(t(`wy_via_${v}`))}</span></button>`).join("")}</div>`;
+  }
+  const field = via === "email" ? look.emailField(`${id}Email`, t("wy_step_email"))
+    : via === "phone" ? look.phoneField(`${id}Phone`, t("wy_step_phone"))
+    : `<div class="wy-field"><label for="${id}">${wyEsc(t("username"))}</label>${handleBoxHtml({ id, kind: "user", value: st.si.who, attrs: `data-in="wy:who" autocomplete="username webauthn"` })}</div>`;
+  const need = via === "email" ? ` data-needs-email="${id}Email"` : via === "phone" ? ` data-needs-phone="${id}Phone"` : st.si.who.trim() ? "" : " disabled";
+  return `${field}${next ? wyBtn(look, "primary", next.act, next.label, need) : ""}${wyBtn(look, "secondary", "si:via:none", t("wy_other_way"))}`;
+}
 export function signInHtml(look: WaysLook, st: WaysState): string {
   const t = look.t, si = st.si;
   const links = `<div class="wy-links"><span class="wy-sub">${wyEsc(t("wy_no_account"))}</span>${wyBtn(look, "secondary", "go:signup", t("wy_create"))}${wyBtn(look, "secondary", "go:recover", t("wy_cant_sign_in"))}</div>`;
   let body = "";
   if (si.step === "who") {
-    const kind = identifierKind(si.who);
-    body = `<div class="wy-field"><label for="wyWho">${wyEsc(t("wy_who_label"))}</label><input class="text" id="wyWho" data-in="wy:who" autocomplete="username webauthn" value="${wyEsc(si.who)}" placeholder="${wyEsc(hintFor("username", t))}"></div>
-      <p class="wy-note" id="wyWhoIs" aria-live="polite">${wyEsc(t("wy_who_is", { kind: t(`wy_kind_${kind}`) }))}</p>${wyBtn(look, "primary", "si:who", t("wy_next"), si.who.trim() ? "" : " disabled")}`;
+    body = whoHtml(look, st, "wyWho", { act: "si:who", label: t("wy_next") });
   } else if (si.step === "ways") {
     const ways = signInWays(st.has.concat(["qr_code"]), st.strongest);
     body = `<div class="wy-ways">${ways.map((w, i) => wyBtn(look, i === 0 ? "primary" : "secondary", `si:way:${w}`, t(`wy_way_${w}`))).join("")}</div>
@@ -208,7 +221,7 @@ export function recoverHtml(look: WaysLook, st: WaysState): string {
 export function lostPhoneHtml(look: WaysLook, st: WaysState): string {
   const t = look.t;
   return `<section class="wy" data-wy="lost"><h1>${wyEsc(t("wy_lost_title"))}</h1><p class="wy-note">${wyEsc(t("wy_lost_note"))}</p>
-    ${st.rc.locked ? noticeHtml(t, { level: "success", text: t("wy_lost_done") }) : `<div class="wy-field"><label for="wyLostWho">${wyEsc(t("wy_who_label"))}</label><input class="text" id="wyLostWho" data-in="wy:who" value="${wyEsc(st.si.who)}" placeholder="${wyEsc(hintFor("username", t))}"></div>${look.codeField("wyLostCode", t("wy_way_backup_code"))}${wyBtn(look, "primary", "rc:lostlock", t("wy_lock_now"), " data-wait")}`}</section>`;
+    ${st.rc.locked ? noticeHtml(t, { level: "success", text: t("wy_lost_done") }) : `${whoHtml(look, st, "wyLostWho", null)}${st.si.via ? `${look.codeField("wyLostCode", t("wy_way_backup_code"))}${wyBtn(look, "primary", "rc:lostlock", t("wy_lock_now"), " data-wait")}` : ""}`}</section>`;
 }
 
 // ---- the security page ---------------------------------------------------------------------------------------------------
@@ -298,6 +311,7 @@ export function waysAct(st: WaysState, act: string, random: (n: number) => numbe
     return {};
   }
   if (area === "si") {
+    if (verb === "via") { st.si.via = arg === "email" || arg === "username" || arg === "phone" ? arg : null; return {}; }
     if (verb === "who") { st.si.step = "ways"; return {}; }
     if (verb === "way") {
       if (arg === "qr_code") { st.si.qr = !st.si.qr; return {}; }
@@ -363,17 +377,15 @@ export function waysAct(st: WaysState, act: string, random: (n: number) => numbe
   return {};
 }
 /** Applies a typed or ticked wy: input. */
-/** While a person types in a sign-in box, the note (username, email or phone) and Next follow the typing in place, with no redraw,
- *  so the box keeps its focus and the next tap is never lost (owner 2026-11-26: either email or phone signs in). Hosts call it on input. */
-export function waysTyped(root: ParentNode, st: WaysState, field: string, t: WaysLook["t"]): void {
+/** While a person types their username, Next follows the typing in place, with no redraw, so the box keeps its focus and the
+ *  next tap is never lost. Email and phone switch Next on through their own field parts (data-needs-email, data-needs-phone). */
+export function waysTyped(root: ParentNode, st: WaysState, field: string, _t: WaysLook["t"]): void {
   if (field.replace(/^wy:/, "").startsWith("birth_")) {
     const next = root.querySelector<HTMLButtonElement>('[data-act$="su:next:age"]');
     if (next) next.disabled = !birthFilled(st.su.birth);
     return;
   }
   if (field.replace(/^wy:/, "") !== "who") return;
-  const note = root.querySelector<HTMLElement>("#wyWhoIs");
-  if (note) note.textContent = t("wy_who_is", { kind: t(`wy_kind_${identifierKind(st.si.who)}`) });
   const next = root.querySelector<HTMLButtonElement>('[data-act$="si:who"]');
   if (next) next.disabled = !st.si.who.trim();
 }
