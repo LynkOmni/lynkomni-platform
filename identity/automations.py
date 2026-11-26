@@ -23,7 +23,7 @@ def register(flow, account, platform):
 
     def sign_in_alert(f, person, payload, now):
         if not (payload.get("new_device") or payload.get("new_place")): return None
-        f.emit(person, "SecurityAlertSent", {"lynkid": payload["lynkid"], "kind": "new_sign_in", "channels": ["push", "email", "sms"]}, "sign-in-alert", now)
+        f.emit(person, "SecurityAlertSent", {"lynkid": payload["lynkid"], "kind": "new_sign_in", "channels": ["push", "email"]}, "sign-in-alert", now)
         return {"alert": "new_sign_in", "links": False, "why": "a sign-in from a new device or place; the message carries no link and points to the Security Center"}
 
     def recovery_guide(f, person, payload, now):

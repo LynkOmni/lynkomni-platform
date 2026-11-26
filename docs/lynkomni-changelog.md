@@ -2,10 +2,18 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
-## v0.123.1 (2026-11-26)
+## v0.124.1 (2026-11-26)
 The sign-up phone number stays when its last digit is typed (owner report from the Business app).
 - On the Business app's sign-up, the phone box never kept what was typed: on the last digit the number became complete, the screen redrew to switch Next on, and the box came back empty, so the code could never be sent. The box now keeps its digits and is not redrawn; the shared field switches Next on by itself, and Next leads to the code sent to the phone. The sign-up email and code boxes keep their text too.
 - tests/test_business_app.py SignUpKeepsWhatIsTyped types a number to its last digit on the Business app and the account site and checks the number stays, Next switches on and the phone code follows (it fails on the old version).
+## v0.124.0 (2026-11-26)
+Free ways first: LynkOmni's own messages and codes use what the big platforms use, and a text only where it is truly needed (owner).
+- LynkOmni's own messages (security, account, safety, support) go by the app's bell, phone notifications and email, which cost nothing per message. A text is only the last fallback for a high or critical security or safety alert that no free channel delivered (a basic phone with no app and no email, or a trusted contact without LynkOmni). LynkOmni never calls for its own messages, and an earlier text does not make it text again (catalog/messages.v1.json system.routing.own_messages, services/messages.py).
+- Sign-in offers a text code only to someone with no free way at all; passkeys, approving on a signed-in device, QR sign-in, authenticator apps, backup codes and email codes come first (catalog/ways-in.v1.json free_first, core/ways_in.py and ts/src/waysin.ts sign_in_ways).
+- The three places where a text stays, because nothing free can do the job: proving a new or changed phone number, the Can't sign in? way that needs codes to both email and phone, and the last-fallback alerts above. Basic phones use USSD menus with the account PIN, which needs no text.
+- Messages a business sends to its customers are unchanged: the business chooses and pays.
+- The cost line for LynkOmni's own texts falls to the exceptions (3% of accounts a month, an assumption): stage 1 expenses are now $36,595 a month (was $36,872).
+- tests/test_free_first.py keeps it so.
 
 ## v0.123.0 (2026-11-26)
 LynkOmni never pays an outside bill for anyone, only its own mandatory bills (owner).

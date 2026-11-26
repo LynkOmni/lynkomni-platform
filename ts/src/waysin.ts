@@ -47,6 +47,7 @@ export function identifierKind(text: string): "username" | "email" | "phone" {
 /** The ways this person can sign in with, strongest first; strongest protection mode keeps only passkeys and keys. */
 export function signInWays(has: readonly string[], strongest = false): string[] {
   let order = WI_WAYS.filter((w) => (w.kind === "sign_in" || w.kind === "code") && has.includes(w.id));
+  if (order.some((w) => inList(WAYS_IN.free_first.free_ways, w.id))) order = order.filter((w) => w.id !== "text_code");   // a text code only when no free way exists
   if (strongest) order = order.filter((w) => inList(WAYS_IN.protections.strongest_mode.only, w.id));
   return [...order].sort(byStrength).map((w) => w.id);
 }

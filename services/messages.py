@@ -27,7 +27,8 @@ FMT = "%Y-%m-%dT%H:%M:%SZ"
 BURST_S = 3600
 REPEAT_S = 300
 ESCALATE_DEFAULT_S = 900
-PERSONAL_AREAS = ("security", "account", "safety", "billing")    # never handed to a deputy
+PERSONAL_AREAS = ("security", "account", "safety", "billing")
+OWN = SYS["routing"]["own_messages"]                               # LynkOmni's own messages: free channels first (owner, 2026-11-26)    # never handed to a deputy
 NEXT_ROLE = {"cashier": "manager", "stock_staff": "manager", "agent": "owner", "manager": "owner"}
 SECRET_WORDS = {"password", "passcode", "pin", "otp", "secret", "token", "cvv", "cvc"}
 SECRET_KEYS = {"code", "sign_in_code", "verification_code", "one_time_code", "recovery_code"}
@@ -136,7 +137,7 @@ class Notifier:
             self.backlog.setdefault(person, []).append(line["nid"])
             self._state(line, "queued")
             return {"state": "queued", "nid": line["nid"]}
-        return self._deliver(k, line, person, now, lang, country, prefs, contacts)
+        return self._deliver(k, line, person, now, lang, country, prefs, contacts, business)
 
     def _line(self, k, person, event_id, now, record, business, role, facts):
         for l in self.lines.values():                        # in-place updates and bursts reuse a line
@@ -156,7 +157,7 @@ class Notifier:
         self.lines[nid] = l
         return l
 
-    def _deliver(self, k, line, person, now, lang, country, prefs, contacts):
+    def _deliver(self, k, line, person, now, lang, country, prefs, contacts, business=None):
         pr = REG["priorities"][k["priority"]]
         if k["group"] in ("daily", "summary"):
             self.summary.setdefault(person, []).append(line["nid"])
@@ -177,7 +178,19 @@ class Notifier:
                                      and (not k["can_turn_off"] or allowed is None or c in allowed)], now)
         out = ["bell"] if "bell" in wanted else []
         delivered_one = False
-        for c in [c for c in wanted if c != "bell"]:
+        outside = [c for c in wanted if c != "bell"]
+        if business is None:
+            # LynkOmni's own message: only the free channels; a text only as the last fallback for a high or critical security or
+            # safety alert that no free channel delivered; never a call (catalog/messages.v1.json system.routing.own_messages)
+            outside = [c for c in outside if c in OWN["free"]]
+            fallback = [c for c in wanted if c == "text"] if k["area"] in OWN["text_fallback_areas"] \
+                and k["priority"] in OWN["text_fallback_priorities"] else []
+            outside = outside + ["__fallback__"] * bool(fallback)
+        for c in outside:
+            if c == "__fallback__":
+                if delivered_one:
+                    break
+                c = "text"
             if delivered_one and k["priority"] != "critical":
                 break                                         # one outside channel is enough, except for critical
             if self.sender.deliver(c, person, k["id"], lang):
@@ -364,13 +377,14 @@ class Notifier:
         for l in list(self.lines.values()):
             if l["acked"] or l["cleared"] or l["done_by"] or l.get("inbox"):
                 continue                                      # an inbox line is the shared list; its people get their own lines
+            own = l["business"] is None                       # LynkOmni's own message: repeats stay on the free channels it used
             if l["priority"] == "critical" and now - l["at"] >= REPEAT_S:
                 for c in KINDS[l["kind"]]["channels"]:
-                    if c != "bell":
+                    if c != "bell" and (not own or c in OWN["free"] or c in l["channels"]):
                         self.sender.deliver(c, l["person"], l["kind"], l.get("lang", "en"))
                 l["at"] = now
                 out.append(("repeated", l["nid"]))
-            if l["priority"] in SYS["routing"]["call_only_for"] and not l.get("called") and not str(l["person"]).startswith("inbox:") \
+            if l["priority"] in SYS["routing"]["call_only_for"] and not own and not l.get("called") and not str(l["person"]).startswith("inbox:") \
                     and "text" in l.get("contacts", ()) and now - l["first_at"] >= SYS["routing"]["call_after_s"]:
                 if self.sender.deliver("call", l["person"], l["kind"], l.get("lang", "en")):   # the last step: a call
                     l["called"] = True
