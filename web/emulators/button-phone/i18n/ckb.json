@@ -4,10 +4,11 @@
  "kept_in_english": [],
  "lang": "ckb",
  "native": "کوردی",
- "source_sha256": "7f8c8eba73dbc34f24195ba585a82332eeac598f169b0b42ac77dbc3d57fc368",
+ "source_sha256": "50c3ef7e5cafc0f82c28e8c36e9bf06228a3f35f76a6d2a13009f1dadf10368a",
  "texts": {
   "bp_age": "تەمەنت {age} ساڵ یان زیاترە؟",
   "bp_agree": "{n}. ڕازیم",
+  "bp_alert": "ئاگادارییەکی ئاسایش چاوەڕێیە. نامەکان بکەرەوە بۆ خوێندنەوەی.",
   "bp_create": "{n}. هەژمار دروست بکە",
   "bp_created": "هەژماری @{username} دروست کرا.",
   "bp_day_closed": "ڕۆژەکەت داخرا",

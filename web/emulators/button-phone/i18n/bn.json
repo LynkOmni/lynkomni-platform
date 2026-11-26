@@ -4,10 +4,11 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "7f8c8eba73dbc34f24195ba585a82332eeac598f169b0b42ac77dbc3d57fc368",
+ "source_sha256": "50c3ef7e5cafc0f82c28e8c36e9bf06228a3f35f76a6d2a13009f1dadf10368a",
  "texts": {
   "bp_age": "আপনার বয়স কি {age} বছর বা তার বেশি?",
   "bp_agree": "{n}. আমি সম্মত",
+  "bp_alert": "নিরাপত্তা সতর্কতা অপেক্ষায় আছে। পড়তে বার্তা খুলুন।",
   "bp_create": "{n}. অ্যাকাউন্ট তৈরি করুন",
   "bp_created": "অ্যাকাউন্ট @{username} তৈরি হয়েছে।",
   "bp_day_closed": "আপনার দিন বন্ধ হয়েছে",

@@ -2,6 +2,16 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.125.0 (2026-11-26)
+Held, never texted: LynkOmni's own alerts no longer fall back to a text (owner).
+- LynkOmni never texts or calls for its own alerts. A security or safety alert goes by the in-app bell, phone notifications on every signed-in device and email, and repeats free until it is read (catalog/messages.v1.json own_messages; the notifier now says whether an alert reached the person).
+- When an alert about a payout change or a contact change reached the person on no free channel, the change is held after its own wait, until they open the alert or confirm on a device they used before (identity/account.py hold_unreached, reached, on_hold; payout and contact changes check it). Recovery is not held, because its alerts go to the old phone and email that are often what was lost; it keeps its own waits and Cancel.
+- The security checkup's first item is now "A working way to reach you": an email that is not bouncing, or the app signed in on a device. The security page explains the hold.
+- Trusted contacts are invited and must accept before a trip plan or a safety alert uses them; the person or the contact can end it at any time. Accepting means alerts reach them free in the app or by email (identity/arrive_safe.py; the trips page on the account site).
+- A basic phone with an unread security alert sees it first on its home menu.
+- Texts now stay only for proving a new or changed phone number and the recovery way that needs both email and phone, both started by the person.
+- Five security controls, tests/test_hold_unreached.py, words in all 38 languages.
+
 ## v0.124.0 (2026-11-26)
 Free ways first: LynkOmni's own messages and codes use what the big platforms use, and a text only where it is truly needed (owner).
 - LynkOmni's own messages (security, account, safety, support) go by the app's bell, phone notifications and email, which cost nothing per message. A text is only the last fallback for a high or critical security or safety alert that no free channel delivered (a basic phone with no app and no email, or a trusted contact without LynkOmni). LynkOmni never calls for its own messages, and an earlier text does not make it text again (catalog/messages.v1.json system.routing.own_messages, services/messages.py).

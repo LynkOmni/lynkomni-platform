@@ -4,10 +4,11 @@
  "kept_in_english": [],
  "lang": "th",
  "native": "ไทย",
- "source_sha256": "7f8c8eba73dbc34f24195ba585a82332eeac598f169b0b42ac77dbc3d57fc368",
+ "source_sha256": "50c3ef7e5cafc0f82c28e8c36e9bf06228a3f35f76a6d2a13009f1dadf10368a",
  "texts": {
   "bp_age": "คุณอายุ {age} ปีขึ้นไปหรือไม่",
   "bp_agree": "{n}. ฉันยอมรับ",
+  "bp_alert": "มีการแจ้งเตือนความปลอดภัยรออยู่ เปิดข้อความเพื่ออ่าน",
   "bp_create": "{n}. สร้างบัญชี",
   "bp_created": "สร้างบัญชี @{username} แล้ว",
   "bp_day_closed": "ปิดวันของคุณแล้ว",

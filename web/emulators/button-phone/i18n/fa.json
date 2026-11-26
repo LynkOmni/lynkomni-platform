@@ -4,10 +4,11 @@
  "kept_in_english": [],
  "lang": "fa",
  "native": "فارسی",
- "source_sha256": "7f8c8eba73dbc34f24195ba585a82332eeac598f169b0b42ac77dbc3d57fc368",
+ "source_sha256": "50c3ef7e5cafc0f82c28e8c36e9bf06228a3f35f76a6d2a13009f1dadf10368a",
  "texts": {
   "bp_age": "آیا {age} سال یا بیشتر دارید؟",
   "bp_agree": "{n}. می‌پذیرم",
+  "bp_alert": "یک هشدار امنیتی منتظر است. پیام‌ها را باز کنید.",
   "bp_create": "{n}. ساخت حساب",
   "bp_created": "حساب @{username} ساخته شد.",
   "bp_day_closed": "روز کاری شما بسته شد",

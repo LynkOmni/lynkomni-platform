@@ -37,7 +37,8 @@ def start():
 
 def page(state, ctx):
     """The page for a state: [(word key, values)]. ctx: age (country's age of majority), lines [(nid, title)] unread newest first,
-    recovery (shown once after sign-up), case (a support case reference after a hand-over)."""
+    recovery (shown once after sign-up), case (a support case reference after a hand-over), security_unread (an unread security
+    alert waits: LynkOmni never texts its own alerts, so it is shown first on the home page)."""
     s, note = state["screen"], ([(state["note"][0], state["note"][1])] if state.get("note") else [])
     back = [("ch_back", {"n": 0})]
     if state.get("limited"):                                   # the duress home: the same pages, no messages
@@ -63,7 +64,8 @@ def page(state, ctx):
     if s == "created":
         return [("bp_created", {"username": state["username"]}), ("bp_recovery", {"code": ctx.get("recovery", "")}), ("bp_limits", {})]
     if s == "home":
-        return [("bp_home", {}), ("bp_messages", {"n": 1, "count": len(ctx["lines"])}), ("bp_help", {"n": 2}), ("ch_end", {"n": 0})]
+        alert = [("bp_alert", {})] if ctx.get("security_unread") else []   # LynkOmni never texts: an unread security alert waits here
+        return alert + [("bp_home", {}), ("bp_messages", {"n": 1, "count": len(ctx["lines"])}), ("bp_help", {"n": 2}), ("ch_end", {"n": 0})]
     if s == "messages":
         lines = ctx["lines"][:MAX_LINES]
         return ([("bp_msg_line", {"n": i + 1, "title": t}) for i, (_nid, t) in enumerate(lines)] or [("bp_no_messages", {})]) + back

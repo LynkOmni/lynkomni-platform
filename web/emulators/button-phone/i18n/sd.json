@@ -4,10 +4,11 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "7f8c8eba73dbc34f24195ba585a82332eeac598f169b0b42ac77dbc3d57fc368",
+ "source_sha256": "50c3ef7e5cafc0f82c28e8c36e9bf06228a3f35f76a6d2a13009f1dadf10368a",
  "texts": {
   "bp_age": "ڇا توهان جي عمر {age} سال يا وڌيڪ آهي؟",
   "bp_agree": "{n}. مان متفق آهيان",
+  "bp_alert": "حفاظتي الرٽ انتظار ۾ آهي. پڙهڻ لاءِ پيغام کوليو.",
   "bp_create": "{n}. کاتو ٺاهيو",
   "bp_created": "کاتو @{username} ٺهي ويو.",
   "bp_day_closed": "توهان جو ڏينهن بند ٿي ويو",

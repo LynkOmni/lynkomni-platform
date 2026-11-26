@@ -4,10 +4,11 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "7f8c8eba73dbc34f24195ba585a82332eeac598f169b0b42ac77dbc3d57fc368",
+ "source_sha256": "50c3ef7e5cafc0f82c28e8c36e9bf06228a3f35f76a6d2a13009f1dadf10368a",
  "texts": {
   "bp_age": "Ṣé o ti tó ọmọ ọdún {age} tàbí jù bẹ́ẹ̀ lọ?",
   "bp_agree": "{n}. Mo gbà",
+  "bp_alert": "Ìkìlọ̀ ààbò ń dúró. Ṣí Àwọn ìfiránṣẹ́ láti kà á.",
   "bp_create": "{n}. Ṣí àkáǹtì",
   "bp_created": "A ti ṣí àkáǹtì @{username}.",
   "bp_day_closed": "Ọjọ́ rẹ ti parí",

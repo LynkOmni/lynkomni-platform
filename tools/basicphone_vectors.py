@@ -11,7 +11,7 @@ from identity import basic_phone as B  # noqa: E402
 from core import usernames as U  # noqa: E402
 
 OUT = os.path.join(ROOT, "contract", "vectors", "basicphone.v1.json")
-CTX = {"age": 18, "lines": [["n1", "New sign-in on your account"], ["n2", "Low stock: Rice 1 kg"], ["n3", "Your day is closed"]], "recovery": "7F3K-9Q2M-X81B-4TZC", "case": "LOCASE-2101-7710-0042"}
+CTX = {"age": 18, "lines": [["n1", "New sign-in on your account"], ["n2", "Low stock: Rice 1 kg"], ["n3", "Your day is closed"]], "recovery": "7F3K-9Q2M-X81B-4TZC", "case": "LOCASE-2101-7710-0042", "security_unread": True}
 PIN = "4719"
 DURESS = "8642"
 TAKEN = ["mamas.kitchen"]

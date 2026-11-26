@@ -41,6 +41,7 @@ class ArriveSafe:
         create table if not exists safe_shares(share_id text primary key, person text, grantee text, locns text, scope text, started real, ends real, ended real, reason text);
         create table if not exists safe_plans(plan_id text primary key, person text, due real, contacts text, set_at real, checked_in real, overdue real);
         create table if not exists safe_pass(person text primary key, secret text);
+        create table if not exists safe_contacts(invite_id text primary key, person text, contact text, invited real, accepted real, removed real);
         create table if not exists safe_pass_used(person text, shipment text, used real, primary key(person, shipment));""")
 
     # ---- location sharing, always by consent and for a set time
@@ -85,11 +86,49 @@ class ArriveSafe:
         n = _now(now)
         return s.db.execute("select 1 from safe_shares where person=? and grantee=? and ended is null and ends>?", (person, grantee, n)).fetchone() is not None
 
+    # ---- trusted contacts: invited first, and only once they accept do safety alerts go to them, free in the app or by email
+    #      (owner, 2026-11-26: LynkOmni never texts its own alerts, so a trusted contact is always someone it can reach for free)
+    def invite_contact(s, person, contact, now=None):
+        n = _now(now)
+        if not contact or contact == s.a._lynkid(person): raise ValueError("invite someone else")
+        r = s.db.execute("select invite_id from safe_contacts where person=? and contact=? and removed is null", (person, contact)).fetchone()
+        if r: return r[0]
+        iid = uuid7(n)
+        s.db.execute("insert into safe_contacts values(?,?,?,?,null,null)", (iid, person, contact, n)); s.db.commit()
+        s.a.emit(person, "TrustedContactInvited", {"lynkid": s.a._lynkid(person), "invite_id": iid}, n)
+        return iid
+
+    def accept_contact(s, contact, invite_id, now=None):
+        """Only the invited contact accepts, from their own account."""
+        n = _now(now)
+        r = s.db.execute("select person, contact, accepted, removed from safe_contacts where invite_id=?", (invite_id,)).fetchone()
+        if not r or r[1] != contact or r[3] is not None: raise PermissionError("only the invited contact accepts")
+        if r[2]: return False
+        s.db.execute("update safe_contacts set accepted=? where invite_id=?", (n, invite_id)); s.db.commit()
+        s.a.emit(r[0], "TrustedContactAccepted", {"lynkid": s.a._lynkid(r[0]), "invite_id": invite_id}, n)
+        return True
+
+    def remove_contact(s, by, invite_id, now=None):
+        """The person or the contact ends it, at any time."""
+        n = _now(now)
+        r = s.db.execute("select person, contact, removed from safe_contacts where invite_id=?", (invite_id,)).fetchone()
+        if not r or by not in (r[0], r[1]): raise PermissionError("only the person or the contact")
+        if r[2]: return False
+        s.db.execute("update safe_contacts set removed=? where invite_id=?", (n, invite_id)); s.db.commit()
+        s.a.emit(r[0], "TrustedContactRemoved", {"lynkid": s.a._lynkid(r[0]), "invite_id": invite_id, "by": "person" if by == r[0] else "contact"}, n)
+        return True
+
+    def trusted(s, person):
+        """Contacts who accepted and were not removed."""
+        return [c for (c,) in s.db.execute("select contact from safe_contacts where person=? and accepted is not null and removed is null order by accepted", (person,))]
+
     # ---- trip plans with a check-in deadline, watched by the cloud
     def plan(s, person, due_at, contacts, now=None):
         n = _now(now)
         contacts = [c for c in dict.fromkeys(contacts or []) if c and c != s.a._lynkid(person)]
         if not contacts: raise ValueError("a trip plan needs at least one trusted contact")
+        if set(contacts) - set(s.trusted(person)):
+            raise PermissionError("a trusted contact must accept your invitation first, so alerts reach them for free")
         if due_at <= n: raise ValueError("the check-in time is in the future")
         plan_id = uuid7(n)
         s.db.execute("insert into safe_plans values(?,?,?,?,?,null,null)", (plan_id, person, due_at, ",".join(contacts), n)); s.db.commit()

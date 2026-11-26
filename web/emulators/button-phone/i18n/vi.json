@@ -4,10 +4,11 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "7f8c8eba73dbc34f24195ba585a82332eeac598f169b0b42ac77dbc3d57fc368",
+ "source_sha256": "50c3ef7e5cafc0f82c28e8c36e9bf06228a3f35f76a6d2a13009f1dadf10368a",
  "texts": {
   "bp_age": "Bạn có từ {age} tuổi trở lên không?",
   "bp_agree": "{n}. Tôi đồng ý",
+  "bp_alert": "Có cảnh báo bảo mật đang chờ. Mở Tin nhắn để đọc.",
   "bp_create": "{n}. Tạo tài khoản",
   "bp_created": "Đã tạo tài khoản @{username}.",
   "bp_day_closed": "Ngày làm việc của bạn đã đóng",

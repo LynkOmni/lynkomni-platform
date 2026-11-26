@@ -4,10 +4,11 @@
  "kept_in_english": [],
  "lang": "ta",
  "native": "தமிழ்",
- "source_sha256": "7f8c8eba73dbc34f24195ba585a82332eeac598f169b0b42ac77dbc3d57fc368",
+ "source_sha256": "50c3ef7e5cafc0f82c28e8c36e9bf06228a3f35f76a6d2a13009f1dadf10368a",
  "texts": {
   "bp_age": "உங்கள் வயது {age} அல்லது அதற்கு மேல் உள்ளதா?",
   "bp_agree": "{n}. ஏற்கிறேன்",
+  "bp_alert": "பாதுகாப்பு எச்சரிக்கை காத்திருக்கிறது. படிக்கச் செய்திகளைத் திறக்கவும்.",
   "bp_create": "{n}. கணக்கை உருவாக்கு",
   "bp_created": "@{username} கணக்கு உருவாக்கப்பட்டது.",
   "bp_day_closed": "உங்கள் நாள் முடிக்கப்பட்டது",

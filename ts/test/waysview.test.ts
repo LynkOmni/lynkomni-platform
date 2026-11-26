@@ -86,3 +86,13 @@ test("the phone owner card: consent first, every answer with its fix, the SIM ch
   assert.ok(html().includes("wy_po_free") && html().includes("wy_po_who"), "the card says LynkOmni never pays and who does");
   assert.ok(!html().includes("wy_po_act_recovery"), "getting back in never uses a paid check");
 });
+
+test("the checkup asks for a working way to reach you and explains the hold", () => {
+  const st = waysStart(1_800_000_000, () => 0);
+  st.sec.reach = false;
+  const html = securityHtml(look, st);
+  assert.ok(html.includes("wy_check_reachable") && html.includes("wy:sec:fix:reachable"));
+  assert.ok(html.includes("wy_hold_note"), "LynkOmni holds a change instead of texting");
+  waysAct(st, "wy:sec:fix:reachable", () => 0);
+  assert.ok(!securityHtml(look, st).includes("wy_check_reachable"));
+});
