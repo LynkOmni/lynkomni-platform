@@ -675,9 +675,10 @@
     "lynkid",
     "activity",
     "method",
-    "lover"
+    "lover",
+    "payer"
    ],
-   "note": "Section 4C point 4: with the person's consent, the mobile network was asked whether the legal name owns the number (KYC Match) and when the SIM last changed; no name or number in the event; shown as sent until the network answers"
+   "note": "Section 4C point 4: with the person's consent, the mobile network was asked whether the legal name owns the number (KYC Match) and when the SIM last changed; no name or number in the event; shown as sent until the network answers; payer is partner or requester, never LynkOmni"
   },
   "PhoneOwnerCheckAnswered": {
    "payload": [

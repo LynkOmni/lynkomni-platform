@@ -83,5 +83,6 @@ test("the phone owner card: consent first, every answer with its fix, the SIM ch
   assert.deepEqual(waysAct(st, "wy:po:fix:id_document", () => 0), { event: "IdentityCheckRequested" });
   assert.equal(st.po.method, "id_document"); assert.ok(html().includes("wy_po_id_doc") && !html().includes("wy:po:answer:"), "the ID document answer comes only from the partner");
   st.po.state = "sent"; st.po.method = "network"; waysAct(st, "wy:po:answer:match", () => 0); assert.equal(st.po.state, "confirmed");
-  assert.ok(html().includes("wy_po_free"));
+  assert.ok(html().includes("wy_po_free") && html().includes("wy_po_who"), "the card says LynkOmni never pays and who does");
+  assert.ok(!html().includes("wy_po_act_recovery"), "getting back in never uses a paid check");
 });

@@ -210,9 +210,18 @@ def owner_check_needed(activity):
     return activity in OWNER["activities"]
 
 
-def owner_check_method(network_ready, business=False, registered_name_supported=False):
-    """Which check applies: the mobile network where it offers the check (a business by its registered name where supported),
-    otherwise the licensed identity partner's ID document check (for a business, the owner's own)."""
+def owner_payer(activity):
+    """Who pays for the check: "partner" (the licensed partner's own identity check, at its own cost) or "requester" (the one who
+    asks for it). Never LynkOmni and never the person being checked (owner, 2026-11-26)."""
+    return OWNER["payers"][activity]
+
+
+def owner_check_method(network_ready, business=False, registered_name_supported=False, payer="requester"):
+    """Which check applies: for a partner's service, the partner's own identity check; otherwise the mobile network where it offers
+    the check (a business by its registered name where supported), else the identity partner's ID document check (for a business,
+    the owner's own), paid by the one who asks."""
+    if payer == "partner":
+        return "partner"
     if network_ready and (not business or registered_name_supported):
         return "registered_name" if business else "network"
     return "owner_id_document" if business else "id_document"

@@ -8,7 +8,9 @@ a number (catalog/ways-in.v1.json phone_owner), never for everyday sign-up or si
 - The network's answer is written by the cloud alone (network_answer). Match goes ahead; partial asks to check the spelling or
   use the ID document; no match stops with the reason and the fix; a recent SIM change makes the activity wait.
 - Kept as a verification record (LOVER-). No event carries a name or a number; the network's own name is never kept.
-- Each check costs LynkOmni a network fee (an assumption in finance/expense_model.py); the person is never charged.
+- LynkOmni never pays for a check and the person never does (owner, 2026-11-26): for a licensed partner's service (payouts, cards,
+  agent points, exchange, a first paid Storefront offer) the partner checks identity as part of its own legal duty; employer,
+  landlord and election checks are paid by the one who asks (requester), who must be named before anything is sent.
 """
 import time, uuid
 
@@ -35,24 +37,28 @@ class PhoneOwner:
         self.network_ready = network_ready or (lambda country: enabled(country, WI.OWNER["partner_service"]))
         self.db.executescript("""
         create table if not exists po_checks(lover text primary key, person text, activity text, method text, country text, state text,
-                                             result text, until real, requested real, answered real);""")
+                                             result text, until real, requested real, answered real, payer text);""")
 
     # ---- starting a check ---------------------------------------------------------------------------------------------
-    def start(self, person, activity, consent, country, business_ref=None, registered_name_supported=False, now=None):
-        """Starts the check for one activity. Returns {"state", "method", "lover"}; "sent" until the answer comes."""
+    def start(self, person, activity, consent, country, business_ref=None, registered_name_supported=False, now=None, requester=None):
+        """Starts the check for one activity. Returns {"state", "method", "lover", "payer"}; "sent" until the answer comes.
+        A requester activity needs the requester (the employer, landlord or organiser who pays) named first."""
         now = _now(now)
         if not WI.owner_check_needed(activity):
             raise ValueError("this activity does not need the phone owner check")
         if not consent:
             raise PermissionError("the phone owner check needs the person's consent")
+        payer = WI.owner_payer(activity)
+        if payer == "requester" and not requester:
+            raise PermissionError("the one who asks for this check pays for it: name them before anything is sent; LynkOmni never pays")
         if self.may_go(person, activity, now):
-            return {"state": "confirmed", "method": self.last(person)["method"], "lover": self.last(person)["lover"], "reused": True}
+            return {"state": "confirmed", "method": self.last(person)["method"], "lover": self.last(person)["lover"], "reused": True, "payer": payer}
         business = business_ref is not None
-        method = WI.owner_check_method(self.network_ready(country), business, registered_name_supported)
-        if method in ("id_document", "owner_id_document"):
+        method = WI.owner_check_method(self.network_ready(country), business, registered_name_supported, payer)
+        if method in ("partner", "id_document", "owner_id_document"):
             r = self.a.request_identity_check(person, purpose=activity, now=now)
-            self._save(r["lover"], person, activity, method, country, r["state"], now)
-            return {"state": r["state"], "method": method, "lover": r["lover"]}
+            self._save(r["lover"], person, activity, method, country, r["state"], now, payer if payer == "partner" else requester)
+            return {"state": r["state"], "method": method, "lover": r["lover"], "payer": payer}
         number_ref = _vault(self._number_ref(person))
         name_ref = _vault(business_ref if business else self._legal_ref(person))
         lover = self.a.ids.assign("VER", uuid.uuid4().hex)
@@ -60,9 +66,9 @@ class PhoneOwner:
         if not sent.get("ok"):
             raise ValueError(sent.get("reason", "the network refused the request"))
         self.partner.sim_swap(lover, number_ref, country)           # the SIM change check runs at the same time
-        self._save(lover, person, activity, method, country, "sent", now)
-        self.a.emit(person, "PhoneOwnerCheckRequested", {"lynkid": self.a._lynkid(person), "activity": activity, "method": method, "lover": lover}, now)
-        return {"state": "sent", "method": method, "lover": lover}
+        self._save(lover, person, activity, method, country, "sent", now, requester)
+        self.a.emit(person, "PhoneOwnerCheckRequested", {"lynkid": self.a._lynkid(person), "activity": activity, "method": method, "lover": lover, "payer": payer}, now)
+        return {"state": "sent", "method": method, "lover": lover, "payer": payer}
 
     # ---- the network's answer (cloud only) ---------------------------------------------------------------------------------
     def network_answer(self, lover, answer, sim_changed_at, now=None):
@@ -109,8 +115,13 @@ class PhoneOwner:
         return self.a.identity_confirmed(person)
 
     # ---- helpers --------------------------------------------------------------------------------------------------------
-    def _save(self, lover, person, activity, method, country, state, now):
-        self.db.execute("insert or replace into po_checks values(?,?,?,?,?,?,null,null,?,null)", (lover, person, activity, method, country, state, now)); self.db.commit()
+    def _save(self, lover, person, activity, method, country, state, now, payer):
+        self.db.execute("insert or replace into po_checks values(?,?,?,?,?,?,null,null,?,null,?)", (lover, person, activity, method, country, state, now, payer)); self.db.commit()
+
+    def payer_of(self, lover):
+        """Who pays this check: "partner" or the requester who asked; never LynkOmni and never the person."""
+        r = self.db.execute("select payer from po_checks where lover=?", (lover,)).fetchone()
+        return None if not r else r[0]
 
     def _number_ref(self, person):
         r = self.a.auth.db.execute("select phone from identities where person=?", (person,)).fetchone()

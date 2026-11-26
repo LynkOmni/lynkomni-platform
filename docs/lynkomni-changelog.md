@@ -2,6 +2,14 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.123.0 (2026-11-26)
+LynkOmni never pays an outside bill for anyone, only its own mandatory bills (owner).
+- Every one of the 79 partners in the ledger now names who pays its bill: the person or business that uses or asks for it (51), the licensed partner as part of its own business and licence (19), no charge (2), or LynkOmni itself only for its own running costs (7: hosting and delivery network, the relay, storage, rate and location data feeds, and its own sign-in and security codes). The ledger check refuses a partner without a payer, or a partner bill put on LynkOmni (providers/check.py payer_problems, tests/test_who_pays.py).
+- Every expense line is labelled LynkOmni's own mandatory bill or passed through (paid by the businesses that use it). A new rule for all services, no_outside_bills, is in the rules register.
+- The phone owner check costs LynkOmni nothing: payouts, payout changes, a first paid Storefront offer, agent point mode, cards and exchange use the licensed partner's own identity check (its legal duty, at its cost); employer, landlord and election checks are paid by the one who asks, who must be named before anything is sent. The person being checked never pays. Getting back into an account no longer uses a paid check: the Can't sign in? hub's free ways stay, and its last way is two LynkOmni staff looking at the ID document themselves.
+- The assumed 5-cent fee line is gone from the expense model, so the figures are back to stage 1 expenses $36,872 a month.
+- The security page card says who pays, in all 38 languages.
+
 ## v0.122.6 (2026-11-26)
 The Business app signs in with a username, email or phone number (owner, from the sign-in screen).
 - The Business app's first screen was still a phone-only box, a leftover from before section 4C. It now uses the shared sign-in (ts/src/waysview.ts signInHtml), like the account site: one box for a username, email or phone number, then the ways this person has (passkey, approve on another device, QR code, a code by email, a code by text). Sign-up still needs both an email and a phone number, each confirmed by its own code.

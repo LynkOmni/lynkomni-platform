@@ -1507,6 +1507,18 @@
    "test": "tests/test_phone_owner.py::test_no_event_carries_a_name_or_number_and_the_default_is_off",
    "build_section": "4C",
    "status": "built"
+  },
+  {
+   "id": "phone-owner-payer",
+   "asset": "accounts",
+   "threat": "LynkOmni or the person being checked is made to pay for a phone owner check, or a check is sent before anyone agreed to pay",
+   "enforced_in": [
+    "identity/phone_owner.py",
+    "catalog/ways-in.v1.json"
+   ],
+   "test": "tests/test_phone_owner.py::test_lynkomni_never_pays_a_partner_or_the_one_who_asks_pays",
+   "build_section": "4C",
+   "status": "built"
   }
  ]
 }
