@@ -11,6 +11,7 @@ import { HANDHELD_TILES } from "../../../ts/src/business.js";
 import { AGENT_SERVICES, COLLECTION_KINDS, FINANCE_PRODUCTS, combinedLimits, commission, limitCheck, mayHandOverCash } from "../../../ts/src/agent.js";
 import type { AgentState, Limits } from "../../../ts/src/agent.js";
 import { TEST_LANGS, esc, newId, pseudo, publicId, randomBelow } from "../../../ts/src/emulator.js";
+import { turnFixedHtml } from "../../../ts/src/devicenote.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { shortFooterHtml } from "../../../ts/src/footer.js";
 import type { BrandPlaces } from "../../../ts/src/brand.js";
@@ -737,7 +738,7 @@ function wire(): void {
   sel.value = "en";
   $<HTMLSelectElement>("#cLang").addEventListener("change", (e) => { S.lang = (e.target as HTMLSelectElement).value as Lang; draw(); });
   const vc = document.getElementById("versionCtl");
-  if (vc) { vc.innerHTML = DEV.control(); vc.addEventListener("change", (e) => { DEV.change(e.target as HTMLElement); }); }
+  if (vc) { vc.innerHTML = DEV.control() + turnFixedHtml(t, "turn_fixed_terminal"); vc.addEventListener("change", (e) => { DEV.change(e.target as HTMLElement); }); }
   document.addEventListener("keydown", (e) => {
     if (DSH.key(e)) return;
     if (DEV.key(e)) return;

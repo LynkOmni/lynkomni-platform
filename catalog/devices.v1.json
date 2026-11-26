@@ -425,10 +425,10 @@
   },
   {
    "id": "queue-display",
-   "touch": null,
+   "touch": "tablet.touch",
    "non_touch": "tv.remote",
    "emulator": {
-    "touch": null,
+    "touch": "lynk-dscreen",
     "non_touch": "lynk-dscreen"
    },
    "section": 3,
@@ -436,10 +436,10 @@
   },
   {
    "id": "counter-display",
-   "touch": null,
+   "touch": "tablet.touch",
    "non_touch": "tv.remote",
    "emulator": {
-    "touch": null,
+    "touch": "lynk-cdisplay",
     "non_touch": "lynk-cdisplay"
    },
    "section": 3,

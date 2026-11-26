@@ -3,7 +3,8 @@
  *  a button or a key). Reading works without internet; a signature is written only by the cloud (DocumentSigned is cloud only), and an
  *  identity-checked signature only when the licensed partner confirms (catalog/files.v1.json signing.levels; services/files_partners.py).
  *  The verification code comes from ts/src/files.ts and never shows who signed. No staff PIN: a customer screen with no user. */
-import { Country, EventLog, Words, applyRoot, esc, fitToWidth, panelChange, panelHtml, stateButtons, randomBelow } from "../../../ts/src/emulator.js";
+import { Country, EventLog, Words, applyRoot, esc, fitRig, panelChange, panelHtml, stateButtons, randomBelow } from "../../../ts/src/emulator.js";
+import { turnDevice } from "../../../ts/src/turn.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
@@ -69,7 +70,10 @@ function screen(): string {
       <div class="acts"><button class="ghost" data-act="fs:again">${esc(t("fs_hand_back"))}</button></div>`;
   }
 }
-function draw(): void {
+let REFIT: (() => void) | undefined;
+/** Turning (owner, 2026-11-26): Upright or Sideways from the panel; the body takes its turned shape and the screen its layout. */
+const turnNow = (): void => turnDevice(DEVICES, { rig: $("#rig"), body: document.querySelector(".tab"), screens: [$("#screen")], turn: S.turn, width: 760, sidewaysWidth: 540, shape: { width: 1280, height: 800, device: "tablet" } }, REFIT);
+function draw(): void { turnNow();
   const el = $("#screen"); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); DEV.draw(el); applyRoot(el, W);
   el.innerHTML = `<div class="tbody" data-wait-area data-shape="text">${screen()}</div>`; $("#mark").innerHTML = DATA.brand.body;
   wirePad(); KW.after(el);
@@ -108,7 +112,7 @@ function act(a: string): void {
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang"], S, W, C) + DEV.control()
+  $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang", "turn"], S, W, C) + DEV.control()
     + `<label class="field"><span>${esc(t("fs_level"))}</span><select data-ctl="level">${["simple", "identity_checked"].map((l) => `<option value="${l}"${l === S.level ? " selected" : ""}>${esc(t(l === "simple" ? "fs_level_simple" : "fs_level_identity"))}</option>`).join("")}</select></label>`;
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["ready", "read", "sign", "offline", "signed", "declined"], (k) => {
@@ -129,7 +133,7 @@ function main(): void {
   $("#panel").addEventListener("change", (e) => { const el = e.target as HTMLSelectElement; if (el.dataset["ctl"] === "level") { S.level = el.value; draw(); return; } if (DEV.change(el)) return; if (panelChange(el, S, DATA)) panel(); draw(); });
   document.addEventListener("keydown", (e) => { if (DEV.key(e)) return; });
   window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); }, 400);
-  fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 760);
+  REFIT = fitRig($("#rig"), 760); turnNow();
 }
 main();
 /** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */

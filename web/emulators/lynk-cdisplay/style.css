@@ -32,3 +32,5 @@
 .tbtns button { min-block-size: 36px; padding: 4px 10px; border-radius: var(--radius-control); border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 600 12px var(--font-body); cursor: pointer; }
 .tbtns button[disabled] { opacity: .5; cursor: not-allowed; } .tbtns button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
 .ctl-extra label { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; cursor: pointer; }
+/* Turned sideways from the panel (owner, 2026-11-26): the same device held the other way; ts/src/turn.ts turnDevice sets data-turn. */
+.desks[data-turn="sideways"] .cdframe { inline-size: 160px; } .desks[data-turn="sideways"] .cdscreen { block-size: 230px; }

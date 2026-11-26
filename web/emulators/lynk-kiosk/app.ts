@@ -2,7 +2,8 @@
  *  check in or out (LynkAttend, ts/src/attenddesk.ts), take a ticket (LynkQueue) and give an answer (LynkSurvey). It works by
  *  touch or by buttons only (arrows, OK and Back move across the on-screen keys), with or without internet. The camera and the
  *  fingerprint reader on the body answer for Face and Finger; a PIN or an IDCN is only ever shown as dots. */
-import { Country, EventLog, Words, applyRoot, esc, fitToWidth, panelChange, panelHtml, stateButtons } from "../../../ts/src/emulator.js";
+import { Country, EventLog, Words, applyRoot, esc, fitRig, panelChange, panelHtml, stateButtons } from "../../../ts/src/emulator.js";
+import { turnDevice } from "../../../ts/src/turn.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import type { T } from "../../../ts/src/shell.js";
@@ -61,7 +62,10 @@ const DEV = wireDevice(DM, { t, icon: (id) => icon(id), screen: () => document.g
  *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
 const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "queue.kiosk", "Entrance kiosk", { short_side: 1080, touch: true, camera: true, speaker: true, device_print: true, hardware: ["ticket_printer"] }, "android"), (type, payload, origin) => { LOG.emit(type, payload, origin); });
 const KW = wireKit(KIT, { t, icon: (id, cls) => icon(id, cls), online: () => S.online, redraw: () => draw() });
-function draw(): void { drawScreen(); KW.after($("#screen")); }
+let REFIT: (() => void) | undefined;
+/** Turning (owner, 2026-11-26): Upright or Sideways from the panel; the body takes its turned shape and the screen its layout. */
+const turnNow = (): void => turnDevice(DEVICES, { rig: $("#rig"), body: document.querySelector(".kiosk"), screens: [$("#screen")], turn: S.turn, width: 420, sidewaysWidth: 680, shape: { width: 1080, height: 1920, device: "self-order-kiosk" } }, REFIT);
+function draw(): void { drawScreen(); turnNow(); KW.after($("#screen")); }
 function drawScreen(): void {
   const el = $("#screen"); DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = screen();
   const m = PH.members[1];
@@ -82,7 +86,7 @@ function act(a: string): void {
 }
 function panel(): void {
   const box = (id: string, on: boolean, label: string): string => `<label><input type="checkbox" data-kctl="${id}" ${on ? "checked" : ""}> <span>${esc(label)}</span></label>`;
-  $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang"], S, W, C) + `<div class="ctl-extra">${box("face", PH.att.readers.face, t("k_camera"))}${box("finger", PH.att.readers.finger, t("k_reader"))}</div>` + DEV.control();
+  $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang", "turn"], S, W, C) + `<div class="ctl-extra">${box("face", PH.att.readers.face, t("k_camera"))}${box("finger", PH.att.readers.finger, t("k_reader"))}</div>` + DEV.control();
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   const eric = PH.members.find((m) => m.set === "idcn"), aline = PH.members.find((m) => m.set === "finger_idcn");
   const typePin = (pin: string): void => { S.mode = "door"; PH.att.doorReset(); PH.att.doorDir("in"); for (const d of pin) PH.att.doorDigit(d); };
@@ -123,7 +127,7 @@ function main(): void {
     else if (e.key === "Enter" && !(e.target as HTMLElement).closest("button")) { act(PH.door.step === "done" ? "at:doornext" : "at:idcn"); e.preventDefault(); }
   });
   window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); }, 400);
-  fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 420);
+  REFIT = fitRig($("#rig"), 420); turnNow();
 }
 main();
 /** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
