@@ -111,7 +111,7 @@ export function signInHtml(look: WaysLook, st: WaysState): string {
   if (si.step === "who") {
     const kind = identifierKind(si.who);
     body = `<div class="wy-field"><label for="wyWho">${wyEsc(t("wy_who_label"))}</label><input class="text" id="wyWho" data-in="wy:who" autocomplete="username webauthn" value="${wyEsc(si.who)}" placeholder="${wyEsc(hintFor("username", t))}"></div>
-      <p class="wy-note">${wyEsc(t("wy_who_is", { kind: t(`wy_kind_${kind}`) }))}</p>${wyBtn(look, "primary", "si:who", t("wy_next"), si.who.trim() ? "" : " disabled")}`;
+      <p class="wy-note" id="wyWhoIs" aria-live="polite">${wyEsc(t("wy_who_is", { kind: t(`wy_kind_${kind}`) }))}</p>${wyBtn(look, "primary", "si:who", t("wy_next"), si.who.trim() ? "" : " disabled")}`;
   } else if (si.step === "ways") {
     const ways = signInWays(st.has.concat(["qr_code"]), st.strongest);
     body = `<div class="wy-ways">${ways.map((w, i) => wyBtn(look, i === 0 ? "primary" : "secondary", `si:way:${w}`, t(`wy_way_${w}`))).join("")}</div>
@@ -301,6 +301,15 @@ export function waysAct(st: WaysState, act: string, random: (n: number) => numbe
   return {};
 }
 /** Applies a typed or ticked wy: input. */
+/** While a person types in a sign-in box, the note (username, email or phone) and Next follow the typing in place, with no redraw,
+ *  so the box keeps its focus and the next tap is never lost (owner 2026-11-26: either email or phone signs in). Hosts call it on input. */
+export function waysTyped(root: ParentNode, st: WaysState, field: string, t: WaysLook["t"]): void {
+  if (field.replace(/^wy:/, "") !== "who") return;
+  const note = root.querySelector<HTMLElement>("#wyWhoIs");
+  if (note) note.textContent = t("wy_who_is", { kind: t(`wy_kind_${identifierKind(st.si.who)}`) });
+  const next = root.querySelector<HTMLButtonElement>('[data-act$="si:who"]');
+  if (next) next.disabled = !st.si.who.trim();
+}
 export function waysInput(st: WaysState, field: string, value: string, checked: boolean): void {
   const f = field.replace(/^wy:/, "");
   if (f === "adult") st.su.adult = checked;

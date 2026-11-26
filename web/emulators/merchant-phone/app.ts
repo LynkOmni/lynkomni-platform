@@ -12,7 +12,7 @@ import type { SharedLook, SharedPage, ConsentLink } from "../../../ts/src/shared
 import { hintFor } from "../../../ts/src/hints.js";
 import { phoneFieldHtml, wireFields, countryNamer, phoneValue, phoneDisplay, type FieldCtx } from "../../../ts/src/fields.js";
 import { codeFieldHtml, resendWait, asciiDigits } from "../../../ts/src/codefield.js";
-import { signUpHtml, recoverHtml, lostPhoneHtml, waysStart, waysAct, waysInput } from "../../../ts/src/waysview.js";
+import { signUpHtml, signInHtml, recoverHtml, lostPhoneHtml, waysStart, waysAct, waysInput, waysTyped } from "../../../ts/src/waysview.js";
 import type { WaysLook } from "../../../ts/src/waysview.js";
 import { emailFieldHtml } from "../../../ts/src/emailfield.js";
 import { noticeHtml, wireNotices } from "../../../ts/src/errorbox.js";
@@ -1733,12 +1733,9 @@ function wyAct(a: string): void {
 function signin(): string {
   const mark = brandMark(DATA.brand.places, "auth-onboarding", S.theme === "dark", "mark");   // sign-in and onboarding: the full logo (30)
   if (S.screen === "phone") {
-    // section 4C point 3: a passkey first, then a code to the phone; Create an account and Can't sign in? (never Forgot password)
-    return `<div class="signin" data-gi="sign_in">${mark}<h1>${esc(t("welcome"))}</h1><p>${esc(t("works_anywhere"))}</p>
-      <button class="primary" data-act="wy:si:way:passkey">${icon("ui-lock")}<span>${esc(t("wy_way_passkey"))}</span></button>
-      ${phoneField("phoneIn", t("your_phone"), S.phone)}
-      ${mpNote()}<div class="grow"></div><button class="ghost" data-act="sendcode" data-wait data-needs-phone="phoneIn" ${phoneOk("phoneIn") ? "" : "disabled"}>${esc(t("send_code"))}</button>
-      <div class="wy-links"><button class="linkbtn" data-act="wy:go:signup">${esc(t("wy_create"))}</button><button class="linkbtn" data-act="wy:go:recover">${esc(t("wy_cant_sign_in"))}</button></div></div>`;
+    // section 4C points 3 and 5: one box for a username, an email or a phone number, then the ways this person has (passkey, a code by
+    // email or by text, QR); the shared part draws it (owner 2026-11-26: email and phone both kept, either one signs in)
+    return `<div class="signin" data-gi="sign_in">${mark}${signInHtml(wyLook(), wySync())}</div>`;
   }
   if (S.screen === "signup") return `<div class="signin" data-gi="sign_up">${mark}${signUpHtml(wyLook(), wySync())}</div>`;
   if (S.screen === "recover") return `<div class="signin" data-gi="recover">${mark}<div class="wy-stack">${recoverHtml(wyLook(), wySync())}${WY.rc.problem === "lost_phone" ? lostPhoneHtml(wyLook(), WY) : ""}</div></div>`;
@@ -2118,7 +2115,7 @@ function keepOf(id: string): void { if (!id) return; const el = document.getElem
 function onInput(el: HTMLInputElement): void {
   const k = el.dataset["in"] ?? "", digits = (n: number): string => asciiDigits(el.value).replace(/[^0-9]/g, "").slice(0, n);
   if (k === "la:remember") { LA.draft = el.value.slice(0, 200); return; }
-  if (k.startsWith("wy:")) { waysInput(WY, k, el.value, el.checked); if (el.type === "checkbox") draw(); return; }
+  if (k.startsWith("wy:")) { waysInput(WY, k, el.value, el.checked); if (el.type === "checkbox") draw(); else waysTyped(document, WY, k, t); return; }
   if (el.id === "ofSearch") { OV.search(el.value); draw(); keepOf(el.id); return; }
   if (k.startsWith("of:")) { if (el.tagName !== "SELECT" && OV.input(k, el.value)) { draw(); keepOf(el.id); } return; }
   if (k.startsWith("shv:")) { if (el.tagName !== "SELECT" && sharedInput(SHV, k, el.value)) draw(); return; }   // the message pages (CONNECT UPDATE 71.7)
@@ -2158,7 +2155,7 @@ function onChange(el: HTMLInputElement & HTMLSelectElement): void {
   const k = el.dataset["in"] ?? "";
   if ((el.dataset["act"] ?? "") === "ppl:checker") { PH.pickChecker(el.value); draw(); return; }
   if (k === "la:brief") { AX.brief = (el as HTMLInputElement).checked; draw(); return; }
-  if (k.startsWith("wy:")) { waysInput(WY, k, el.value, (el as HTMLInputElement).checked); draw(); return; }
+  if (k.startsWith("wy:")) { waysInput(WY, k, el.value, (el as HTMLInputElement).checked); if ((el as HTMLInputElement).type === "checkbox" || el.tagName === "SELECT") draw(); return; }   // typing already updated in place
   if (k.startsWith("shv:")) { if (el.tagName === "SELECT" && sharedInput(SHV, k, el.value)) draw(); return; }
   if (k.startsWith("of:")) { if (el.tagName === "SELECT" && OV.input(k, el.value)) draw(); return; }
   if (k.startsWith("wk:")) { if (el.tagName === "SELECT" && WV.input(k, el.value)) draw(); return; }

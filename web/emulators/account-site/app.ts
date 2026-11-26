@@ -13,7 +13,7 @@ import { brandMark, markFor } from "../../../ts/src/brand.js";
 import { buildFooter, mainFooterHtml, FOOTER_EMAIL_ID } from "../../../ts/src/footer.js";
 import { emailFieldHtml, wireEmails } from "../../../ts/src/emailfield.js";
 import { noticeHtml, wireNotices } from "../../../ts/src/errorbox.js";
-import { signUpHtml, signInHtml, recoverHtml, lostPhoneHtml, securityHtml, waysStart, waysAct, waysInput } from "../../../ts/src/waysview.js";
+import { signUpHtml, signInHtml, recoverHtml, lostPhoneHtml, securityHtml, waysStart, waysAct, waysInput, waysTyped } from "../../../ts/src/waysview.js";
 import type { WaysLook } from "../../../ts/src/waysview.js";
 import { codeFieldHtml, wireCodes } from "../../../ts/src/codefield.js";
 import { phoneFieldHtml, wireFields, countryNamer, type FieldCtx } from "../../../ts/src/fields.js";
@@ -784,7 +784,7 @@ function init(): void {
     const el = e.target as HTMLInputElement;
     if (el.dataset["filter"] === "regions") { const list = $("#regionList"); if (list) filterRegions(list, el.value); return; }
     if (el.id === "cmdIn") { S.query = plain(el.value); const list = $("#cmdList"); const index = overlay(); const m = /<ul id="cmdList"[^>]*>([\s\S]*?)<\/ul>/.exec(index); if (list && m) list.innerHTML = m[1]!; }
-    if (el.dataset["in"]?.startsWith("wy:")) { waysInput(WY, el.dataset["in"], el.value, el.checked); if (el.type === "checkbox") draw(); return; }
+    if (el.dataset["in"]?.startsWith("wy:")) { waysInput(WY, el.dataset["in"], el.value, el.checked); if (el.type === "checkbox") draw(); else waysTyped(document, WY, el.dataset["in"], t); return; }
     if (el.id === "usernameIn") { act(`username:${el.value}`); const inp = $<HTMLInputElement>("#usernameIn"); inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }
   });
   $("#display").addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["act"]?.startsWith("toggle:")) act(el.dataset["act"]); });

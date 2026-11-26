@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-3ERSDzEMT6TwvegvTUbrZ5a6ulayy81O+bFpNSX1Lgc='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-2JXF4f3CIp5proaKs1knqYFTYOnqHAALvGgHKzomCag='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni Business App on LynkMobile</title>
 <meta name="description" content="Interactive emulator of the LynkOmni Business app on a phone or tablet: getting in, selling with every payment method, stock, chats, every Business section and setting, agent point, restaurant and invoice-only businesses, online and offline on sandbox providers.">
@@ -1251,11 +1251,16 @@ html { font-size: 100%; }
 .wy-bar li { flex: 1 1 0; block-size: 4px; border-radius: var(--radius-pill); background: var(--border-subtle); }
 .wy-bar li.on { background: var(--brand-ink); }
 .wy-field { display: flex; flex-direction: column; gap: 4px; font: 600 13px var(--font-body); color: var(--text-secondary); }
-.wy-field input { box-sizing: border-box; min-block-size: 48px; max-inline-size: 100%; border-radius: var(--radius-control); }
+.wy-field input { box-sizing: border-box; min-block-size: 48px; max-inline-size: 100%; padding-inline: 12px; border: 1px solid var(--border-input); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font: 400 16px var(--font-body); }
 .wy-check { display: flex; align-items: center; gap: 8px; min-block-size: 44px; overflow-wrap: anywhere; }
 .wy-check input { inline-size: 20px; block-size: 20px; flex: none; margin: 0; }
 .wy-ways, .wy-btns, .wy-links { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.wy-ways > button, .wy-btns > button, .wy-links > button, .wy > button { white-space: normal; overflow-wrap: anywhere; max-inline-size: 100%; }
+.wy-ways > button, .wy-btns > button, .wy-links > button, .wy > button { white-space: normal; overflow-wrap: break-word; max-inline-size: 100%; }
+/* a button never breaks inside a word (owner report 2026-11-26): on a narrow screen each takes its own full row instead */
+.wy-ways { flex-direction: column; align-items: stretch; }   /* the ways to sign in: one full row each, strongest first */
+.wy-btns > button { flex: 1 1 12em; }
+.wy-links > button { flex: 1 1 9em; }
+.wy-links > .wy-sub { flex: 1 1 100%; }
 .wy-codes { display: flex; flex-direction: column; gap: 6px; padding: 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-card); background: var(--bg-surface); }
 .wy-code { margin: 0; font: 600 17px var(--font-mono, monospace); letter-spacing: 0.04em; direction: ltr; unicode-bidi: isolate; text-align: start; overflow-wrap: anywhere; }
 .wy-list { margin: 0; padding-inline-start: 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 2px 16px; }
@@ -1618,7 +1623,7 @@ button, input, select { font: inherit; color: inherit; }
   </section>
   <aside class="panel" aria-label="Emulator controls">
     <h2>Try it</h2>
-    <p class="help">Sign in with any phone number and the sample code <kbd>123456</kbd>, choose the business, confirm the language card and follow the setup checklist. Or jump to any screen by its address.</p>
+    <p class="help">Sign in with a username, email or phone number (both an email and a phone are kept on every account) and use a passkey or a sample code, choose the business, confirm the language card and follow the setup checklist. Or jump to any screen by its address.</p>
     <label class="row"><span>Open screen</span> <select id="cScreen"></select></label>
     <h3>Conditions</h3>
     <label class="row"><span>Connection</span> <select id="cLink"><option value="good">Good</option><option value="weak">Weak</option><option value="none">None</option></select></label>
@@ -14396,7 +14401,7 @@ function signInHtml(look, st) {
     if (si.step === "who") {
         const kind = identifierKind(si.who);
         body = `<div class="wy-field"><label for="wyWho">${wyEsc(t("wy_who_label"))}</label><input class="text" id="wyWho" data-in="wy:who" autocomplete="username webauthn" value="${wyEsc(si.who)}" placeholder="${wyEsc(hintFor("username", t))}"></div>
-      <p class="wy-note">${wyEsc(t("wy_who_is", { kind: t(`wy_kind_${kind}`) }))}</p>${wyBtn(look, "primary", "si:who", t("wy_next"), si.who.trim() ? "" : " disabled")}`;
+      <p class="wy-note" id="wyWhoIs" aria-live="polite">${wyEsc(t("wy_who_is", { kind: t(`wy_kind_${kind}`) }))}</p>${wyBtn(look, "primary", "si:who", t("wy_next"), si.who.trim() ? "" : " disabled")}`;
     }
     else if (si.step === "ways") {
         const ways = signInWays(st.has.concat(["qr_code"]), st.strongest);
@@ -14678,6 +14683,16 @@ function waysAct(st, act, random) {
         return ev ? { event: ev } : {};
     }
     return {};
+}
+function waysTyped(root, st, field, t) {
+    if (field.replace(/^wy:/, "") !== "who")
+        return;
+    const note = root.querySelector("#wyWhoIs");
+    if (note)
+        note.textContent = t("wy_who_is", { kind: t(`wy_kind_${identifierKind(st.si.who)}`) });
+    const next = root.querySelector('[data-act$="si:who"]');
+    if (next)
+        next.disabled = !st.si.who.trim();
 }
 function waysInput(st, field, value, checked) {
     const f = field.replace(/^wy:/, "");
@@ -16817,11 +16832,7 @@ function wyAct(a) {
 function signin() {
     const mark = brandMark(DATA.brand.places, "auth-onboarding", S.theme === "dark", "mark"); // sign-in and onboarding: the full logo (30)
     if (S.screen === "phone") {
-        return `<div class="signin" data-gi="sign_in">${mark}<h1>${esc(t("welcome"))}</h1><p>${esc(t("works_anywhere"))}</p>
-      <button class="primary" data-act="wy:si:way:passkey">${icon("ui-lock")}<span>${esc(t("wy_way_passkey"))}</span></button>
-      ${phoneField("phoneIn", t("your_phone"), S.phone)}
-      ${mpNote()}<div class="grow"></div><button class="ghost" data-act="sendcode" data-wait data-needs-phone="phoneIn" ${phoneOk("phoneIn") ? "" : "disabled"}>${esc(t("send_code"))}</button>
-      <div class="wy-links"><button class="linkbtn" data-act="wy:go:signup">${esc(t("wy_create"))}</button><button class="linkbtn" data-act="wy:go:recover">${esc(t("wy_cant_sign_in"))}</button></div></div>`;
+        return `<div class="signin" data-gi="sign_in">${mark}${signInHtml(wyLook(), wySync())}</div>`;
     }
     if (S.screen === "signup")
         return `<div class="signin" data-gi="sign_up">${mark}${signUpHtml(wyLook(), wySync())}</div>`;
@@ -17919,6 +17930,8 @@ function onInput(el) {
         waysInput(WY, k, el.value, el.checked);
         if (el.type === "checkbox")
             draw();
+        else
+            waysTyped(document, WY, k, t);
         return;
     }
     if (el.id === "ofSearch") {
@@ -18072,9 +18085,10 @@ function onChange(el) {
     }
     if (k.startsWith("wy:")) {
         waysInput(WY, k, el.value, el.checked);
-        draw();
+        if (el.type === "checkbox" || el.tagName === "SELECT")
+            draw();
         return;
-    }
+    } // typing already updated in place
     if (k.startsWith("shv:")) {
         if (el.tagName === "SELECT" && sharedInput(SHV, k, el.value))
             draw();

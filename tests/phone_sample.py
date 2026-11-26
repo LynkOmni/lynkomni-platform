@@ -8,3 +8,13 @@ def fill_phone(pg, selector, fallback="0788123456"):
     digits = "".join(c for c in sample if c.isdigit()) or fallback
     pg.fill(selector, digits)
     return digits
+
+
+def sign_in_business(pg, who="grace@example.com", check=None):
+    """Sign in to the Business app like a person: one box for a username, email or phone number, then a way (here the
+    passkey). Email and phone are both kept on every account and either one signs in (owner, 2026-11-26)."""
+    pg.fill("#wyWho", who)
+    pg.click('[data-act="wy:si:who"]')
+    if check:
+        check("ways to sign in")
+    pg.click('[data-act="wy:si:way:passkey"]')
