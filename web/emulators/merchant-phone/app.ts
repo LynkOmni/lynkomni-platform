@@ -1862,7 +1862,8 @@ function fieldCtx(): FieldCtx {
 }
 function makeFieldCtx(): FieldCtx {
   return { t, lang: locale(), packs: DATA.packs as unknown as FieldCtx["packs"], packOrder: DATA.packOrder, countryName: countryNamer(locale(), DATA.packs as unknown as FieldCtx["packs"], t("sample_country")),
-    onPhone: (id, v) => { const was = phoneOk(id); S.phoneCc[id] = v.country; fieldState[id]?.(v.digits); if (was !== v.valid && id !== "phoneIn" && id !== "staffIn") draw(); } };
+    onPhone: (id, v) => { if (id.startsWith("wy")) { WY_TYPED[id] = v.digits; S.phoneCc[id] = v.country; return; }   // sign-up keeps what is typed and never redraws on the last digit (owner report 2026-11-26)
+      const was = phoneOk(id); S.phoneCc[id] = v.country; fieldState[id]?.(v.digits); if (was !== v.valid && id !== "phoneIn" && id !== "staffIn") draw(); } };
 }
 const phoneOk = (id: string, digits?: string): boolean => phoneValue(fieldCtx(), cc(id), digits ?? ({ phoneIn: S.phone, staffIn: S.staffPhone, momoIn: S.input, anumIn: S.number } as Record<string, string>)[id] ?? "").valid;
 const phoneField = (id: string, label: string, digits: string): string => phoneFieldHtml(fieldCtx(), { id, label, country: cc(id), digits });
@@ -2114,6 +2115,7 @@ function act(a: string): void {
 function keepOf(id: string): void { if (!id) return; const el = document.getElementById(id) as HTMLInputElement | null; if (el) { const n = el.value.length; el.focus(); try { el.setSelectionRange(n, n); } catch { /* not a text field */ } } }
 function onInput(el: HTMLInputElement): void {
   const k = el.dataset["in"] ?? "", digits = (n: number): string => asciiDigits(el.value).replace(/[^0-9]/g, "").slice(0, n);
+  if (el.id.startsWith("wy") && !k && !el.closest("[data-phone]")) WY_TYPED[el.id] = el.value;   // sign-up email and code boxes keep their text
   if (k === "la:remember") { LA.draft = el.value.slice(0, 200); return; }
   if (k.startsWith("wy:")) { waysInput(WY, k, el.value, el.checked); if (el.type === "checkbox") draw(); else waysTyped(document, WY, k, t); return; }
   if (el.id === "ofSearch") { OV.search(el.value); draw(); keepOf(el.id); return; }

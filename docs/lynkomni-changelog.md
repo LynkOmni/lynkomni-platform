@@ -12,6 +12,10 @@ Held, never texted: LynkOmni's own alerts no longer fall back to a text (owner).
 - Texts now stay only for proving a new or changed phone number and the recovery way that needs both email and phone, both started by the person.
 - Five security controls, tests/test_hold_unreached.py, words in all 38 languages.
 
+## v0.124.1 (2026-11-26)
+The sign-up phone number stays when its last digit is typed (owner report from the Business app).
+- On the Business app's sign-up, the phone box never kept what was typed: on the last digit the number became complete, the screen redrew to switch Next on, and the box came back empty, so the code could never be sent. The box now keeps its digits and is not redrawn; the shared field switches Next on by itself, and Next leads to the code sent to the phone. The sign-up email and code boxes keep their text too.
+- tests/test_business_app.py SignUpKeepsWhatIsTyped types a number to its last digit on the Business app and the account site and checks the number stays, Next switches on and the phone code follows (it fails on the old version).
 ## v0.124.0 (2026-11-26)
 Free ways first: LynkOmni's own messages and codes use what the big platforms use, and a text only where it is truly needed (owner).
 - LynkOmni's own messages (security, account, safety, support) go by the app's bell, phone notifications and email, which cost nothing per message. A text is only the last fallback for a high or critical security or safety alert that no free channel delivered (a basic phone with no app and no email, or a trusted contact without LynkOmni). LynkOmni never calls for its own messages, and an earlier text does not make it text again (catalog/messages.v1.json system.routing.own_messages, services/messages.py).
