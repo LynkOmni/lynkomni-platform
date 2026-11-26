@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "es",
  "native": "Español",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "Cuenta",
   "action_add": "Añadir el primero",
@@ -1251,7 +1251,7 @@
   "username_hint": "De 3 a 30 caracteres: letras, números, puntos y guiones bajos.",
   "username_leading_or_trailing_dot": "Un punto no puede ir al principio ni al final.",
   "username_reserved_word": "Este nombre está reservado.",
-  "username_rule": "Se muestra como @nombre. Es tuyo para siempre; los enlaces antiguos siguen funcionando si lo cambias.",
+  "username_rule": "Se muestra como @{example}. Es tuyo para siempre; los enlaces antiguos siguen funcionando si lo cambias.",
   "username_taken": "Ocupado",
   "username_too_long": "Como máximo 30 caracteres.",
   "username_too_short": "Al menos 3 caracteres.",

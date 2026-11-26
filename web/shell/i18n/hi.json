@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "खाता",
   "action_add": "पहला जोड़ें",
@@ -1251,7 +1251,7 @@
   "username_hint": "3 से 30 वर्ण: अक्षर, अंक, बिंदु और अंडरस्कोर।",
   "username_leading_or_trailing_dot": "बिंदु शुरू या अंत में नहीं हो सकता।",
   "username_reserved_word": "यह नाम आरक्षित है।",
-  "username_rule": "@नाम के रूप में दिखता है। यह हमेशा आपका रहता है; बदलने पर पुराने लिंक काम करते रहते हैं।",
+  "username_rule": "@{example} के रूप में दिखता है। यह हमेशा आपका रहता है; बदलने पर पुराने लिंक काम करते रहते हैं।",
   "username_taken": "लिया जा चुका",
   "username_too_long": "अधिकतम 30 अक्षर।",
   "username_too_short": "कम से कम 3 अक्षर।",

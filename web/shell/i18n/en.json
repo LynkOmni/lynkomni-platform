@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "en",
  "native": "English",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "Account",
   "action_add": "Add the first one",
@@ -1251,7 +1251,7 @@
   "username_hint": "3 to 30 characters: letters, numbers, full stops and underscores.",
   "username_leading_or_trailing_dot": "A full stop cannot be first or last.",
   "username_reserved_word": "This name is reserved.",
-  "username_rule": "Shown as @name. It stays yours forever; old links keep working if you change it.",
+  "username_rule": "Shown as @{example}. It stays yours forever; old links keep working if you change it.",
   "username_taken": "Taken",
   "username_too_long": "At most 30 characters.",
   "username_too_short": "At least 3 characters.",

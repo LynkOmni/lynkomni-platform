@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "অ্যাকাউন্ট",
   "action_add": "প্রথমটি যোগ করুন",
@@ -1251,7 +1251,7 @@
   "username_hint": "3 থেকে 30টি চিহ্ন: অক্ষর, সংখ্যা, বিন্দু ও আন্ডারস্কোর।",
   "username_leading_or_trailing_dot": "বিন্দু প্রথমে বা শেষে থাকতে পারবে না।",
   "username_reserved_word": "এই নামটি সংরক্ষিত।",
-  "username_rule": "@নাম হিসেবে দেখানো হয়। এটি চিরকাল আপনার; বদলালেও পুরোনো লিংক কাজ করে।",
+  "username_rule": "@{example} হিসেবে দেখানো হয়। এটি চিরকাল আপনার; বদলালেও পুরোনো লিংক কাজ করে।",
   "username_taken": "নেওয়া হয়ে গেছে",
   "username_too_long": "সর্বোচ্চ 30টি চিহ্ন।",
   "username_too_short": "অন্তত 3টি চিহ্ন।",

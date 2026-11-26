@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "アカウント",
   "action_add": "最初の 1 件を追加",
@@ -1251,7 +1251,7 @@
   "username_hint": "3〜30 文字: 英字、数字、ピリオド、アンダースコア。",
   "username_leading_or_trailing_dot": "ピリオドは先頭や末尾に置けません。",
   "username_reserved_word": "この名前は予約されています。",
-  "username_rule": "@name として表示されます。ずっとあなたのものです。変更しても古いリンクは使えます。",
+  "username_rule": "@{example} として表示されます。ずっとあなたのものです。変更しても古いリンクは使えます。",
   "username_taken": "使用済み",
   "username_too_long": "30 文字以内にしてください。",
   "username_too_short": "3 文字以上にしてください。",

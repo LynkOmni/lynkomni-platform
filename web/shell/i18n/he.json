@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "חשבון",
   "action_add": "הוסיפו את הראשון",
@@ -1251,7 +1251,7 @@
   "username_hint": "3 עד 30 תווים: אותיות, ספרות, נקודות וקווים תחתונים.",
   "username_leading_or_trailing_dot": "נקודה לא יכולה להיות ראשונה או אחרונה.",
   "username_reserved_word": "השם הזה שמור.",
-  "username_rule": "מוצג כ-@שם. הוא שלכם לתמיד; קישורים ישנים ממשיכים לעבוד אם תשנו אותו.",
+  "username_rule": "מוצג כ-@{example}. הוא שלכם לתמיד; קישורים ישנים ממשיכים לעבוד אם תשנו אותו.",
   "username_taken": "תפוס",
   "username_too_long": "לכל היותר 30 תווים.",
   "username_too_short": "לפחות 3 תווים.",

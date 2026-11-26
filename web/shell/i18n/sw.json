@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "Akaunti",
   "action_add": "Ongeza ya kwanza",
@@ -1251,7 +1251,7 @@
   "username_hint": "Herufi 3 hadi 30: herufi, nambari, nukta na mistari ya chini.",
   "username_leading_or_trailing_dot": "Nukta haiwezi kuwa ya kwanza au ya mwisho.",
   "username_reserved_word": "Jina hili limehifadhiwa.",
-  "username_rule": "Linaonyeshwa kama @jina. Ni lako milele; viungo vya zamani vinaendelea kufanya kazi ukilibadilisha.",
+  "username_rule": "Linaonyeshwa kama @{example}. Ni lako milele; viungo vya zamani vinaendelea kufanya kazi ukilibadilisha.",
   "username_taken": "Limechukuliwa",
   "username_too_long": "Si zaidi ya herufi 30.",
   "username_too_short": "Angalau herufi 3.",

@@ -214,6 +214,15 @@ class HandleHint(unittest.TestCase):
         used = sum(open(p, encoding="utf-8").read().count("handleBoxHtml({") for p in self.SOURCES)
         self.assertGreaterEqual(used, 3)
 
+    def test_the_note_shows_the_same_example(self):
+        """The note under a handle field shows the field's own example (@username or @shophandle), never "@name"."""
+        with open(os.path.join(ROOT, "web", "shell", "strings.en.json"), encoding="utf-8") as f:
+            rule = json.load(f)["username_rule"]
+        self.assertIn("@{example}", rule)
+        for path in self.SOURCES:
+            with open(path, encoding="utf-8") as f:
+                self.assertNotIn('t("username_rule")', f.read(), f"{path}: the note needs its example")
+
     def test_a_typed_at_is_ignored(self):
         from core import usernames
         self.assertEqual(usernames.normalize("@Mamas.Kitchen"), "mamas.kitchen")

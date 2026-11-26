@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ckb",
  "native": "کوردی",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "هەژمار",
   "action_add": "یەکەم زیاد بکە",
@@ -1251,7 +1251,7 @@
   "username_hint": "3 تا 30 نووسە: پیتی ئەلفوبێ، ژمارە، خاڵ و هێڵی ژێرەوە.",
   "username_leading_or_trailing_dot": "خاڵ ناتوانێت لە سەرەتا یان کۆتایی بێت.",
   "username_reserved_word": "ئەم ناوە پارێزراوە.",
-  "username_rule": "وەک @ناو پیشان دەدرێت. بۆ هەمیشە هی تۆیە؛ بەستەرە کۆنەکان کار دەکەن ئەگەر بیگۆڕیت.",
+  "username_rule": "وەک @{example} پیشان دەدرێت. بۆ هەمیشە هی تۆیە؛ بەستەرە کۆنەکان کار دەکەن ئەگەر بیگۆڕیت.",
   "username_taken": "گیراوە",
   "username_too_long": "زۆرترین 30 پیت.",
   "username_too_short": "لانیکەم 3 پیت.",

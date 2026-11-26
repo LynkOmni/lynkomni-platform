@@ -9,7 +9,7 @@
  *  language pack (never typed here), icons through `icon(id)` from the brand module, pictures through the visuals module.
  *  Colours and sizes live only in web/shell/shell.css, built on the design tokens. */
 import { NO_BADGE_SCREENS } from "./brand.js";
-import { check, suggestions, handleBoxHtml, type HandleKind } from "./usernames.js";
+import { check, suggestions, handleBoxHtml, HANDLE_HINT, type HandleKind } from "./usernames.js";
 
 export type T = (key: string, vars?: Record<string, string | number>) => string;
 export type Icon = (id: string, cls?: string) => string;
@@ -338,7 +338,7 @@ export function usernameField(value: string, cloud: UsernameStatus, taken: (u: s
   else if (cloud === "taken" || cloud === "reserved") { msg = t("username_taken"); tone = "danger"; }
   else { msg = t("username_available"); tone = "success"; ok = true; }
   const sugg = value && !ok && cloud !== "checking" ? suggestions(value, taken) : [];
-  return `<div class="field username"><label for="usernameIn">${esc(t(kind === "user" ? "username" : "handle"))}</label>${handleBoxHtml({ id: "usernameIn", kind, value, attrs: `aria-describedby="usernameMsg" aria-invalid="${tone === "danger"}"`, after: ok ? icon("ui-check", "ic ok") : "" })}<p id="usernameMsg" class="fmsg ${tone}" aria-live="polite">${esc(msg)}</p>${sugg.length ? `<p class="sugg">${esc(t("username_try"))} ${sugg.map((s) => `<button class="chipbtn" data-act="username:${esc(s)}">@${esc(s)}</button>`).join(" ")}</p>` : ""}<p class="note">${esc(t("username_rule"))}</p></div>`;
+  return `<div class="field username"><label for="usernameIn">${esc(t(kind === "user" ? "username" : "handle"))}</label>${handleBoxHtml({ id: "usernameIn", kind, value, attrs: `aria-describedby="usernameMsg" aria-invalid="${tone === "danger"}"`, after: ok ? icon("ui-check", "ic ok") : "" })}<p id="usernameMsg" class="fmsg ${tone}" aria-live="polite">${esc(msg)}</p>${sugg.length ? `<p class="sugg">${esc(t("username_try"))} ${sugg.map((s) => `<button class="chipbtn" data-act="username:${esc(s)}">@${esc(s)}</button>`).join(" ")}</p>` : ""}<p class="note">${esc(t("username_rule", { example: HANDLE_HINT[kind] }))}</p></div>`;
 }
 
 // ---------------------------------------------------------------- charts with a table view and a one-line summary

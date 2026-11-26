@@ -12,7 +12,7 @@ import { signUpNext, legalNameProblem, identifierKind, signInWays, extraChecks, 
   antiPhishingProblem, sessionHours, restrictedAfterRecovery, ownerCheckMethod, ownerCheckOutcome } from "./waysin.js";
 import { noticeHtml } from "./errorbox.js";
 import { hintFor } from "./hints.js";
-import { check, handleBoxHtml } from "./usernames.js";
+import { check, handleBoxHtml, HANDLE_HINT } from "./usernames.js";
 
 type WyT = (key: string, vars?: Record<string, string | number>) => string;
 export interface WaysLook {
@@ -72,7 +72,7 @@ export function signUpHtml(look: WaysLook, st: WaysState): string {
       const u = check(st.su.username);
       body = `<div class="wy-field"><label for="wyUser">${wyEsc(t("username"))}</label>${handleBoxHtml({ id: "wyUser", kind: "user", value: st.su.username, attrs: `data-in="wy:username" autocomplete="username" aria-describedby="wyUser-msg"` })}</div>`
         + (st.su.username && !u.ok ? noticeHtml(t, { level: "error", text: t(`username_${u.reason}`), field: "wyUser", how: t("fd_type_again") }) : "")
-        + `<p class="wy-note">${wyEsc(t("username_rule"))}</p>${next()}`; break;
+        + `<p class="wy-note">${wyEsc(t("username_rule", { example: HANDLE_HINT.user }))}</p>${next()}`; break;
     }
     case "age": body = `<label class="wy-check"><input type="checkbox" data-in="wy:adult"${st.su.adult ? " checked" : ""}><span>${wyEsc(t("wy_age_confirm", { age: look.num(st.minAge) }))}</span></label><p class="wy-note">${wyEsc(t("wy_age_note"))}</p>${next(st.su.adult)}`; break;
     case "legal_name": {

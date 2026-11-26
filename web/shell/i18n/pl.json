@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pl",
  "native": "Polski",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "Konto",
   "action_add": "Dodaj pierwszy",
@@ -1251,7 +1251,7 @@
   "username_hint": "Od 3 do 30 znaków: litery, cyfry, kropki i podkreślenia.",
   "username_leading_or_trailing_dot": "Kropka nie może być pierwsza ani ostatnia.",
   "username_reserved_word": "Ta nazwa jest zastrzeżona.",
-  "username_rule": "Wyświetlana jako @nazwa. Należy do Ciebie na zawsze; po zmianie stare linki nadal działają.",
+  "username_rule": "Wyświetlana jako @{example}. Należy do Ciebie na zawsze; po zmianie stare linki nadal działają.",
   "username_taken": "Zajęta",
   "username_too_long": "Najwyżej 30 znaków.",
   "username_too_short": "Co najmniej 3 znaki.",

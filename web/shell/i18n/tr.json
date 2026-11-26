@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "Hesap",
   "action_add": "İlkini ekle",
@@ -1251,7 +1251,7 @@
   "username_hint": "3 ila 30 karakter: harf, rakam, nokta ve alt çizgi.",
   "username_leading_or_trailing_dot": "Nokta başta veya sonda olamaz.",
   "username_reserved_word": "Bu ad ayrılmıştır.",
-  "username_rule": "@ad olarak gösterilir. Sonsuza kadar sizindir; değiştirirseniz eski bağlantılar çalışmaya devam eder.",
+  "username_rule": "@{example} olarak gösterilir. Sonsuza kadar sizindir; değiştirirseniz eski bağlantılar çalışmaya devam eder.",
   "username_taken": "Alınmış",
   "username_too_long": "En fazla 30 karakter.",
   "username_too_short": "En az 3 karakter.",

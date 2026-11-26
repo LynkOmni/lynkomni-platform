@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fa",
  "native": "فارسی",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "حساب",
   "action_add": "اولین را اضافه کنید",
@@ -1251,7 +1251,7 @@
   "username_hint": "3 تا 30 نویسه: حروف، اعداد، نقطه و زیرخط.",
   "username_leading_or_trailing_dot": "نقطه نمی‌تواند اول یا آخر باشد.",
   "username_reserved_word": "این نام رزرو شده است.",
-  "username_rule": "به صورت @نام نمایش داده می‌شود. برای همیشه مال شماست؛ اگر آن را تغییر دهید پیوندهای قدیمی همچنان کار می‌کنند.",
+  "username_rule": "به صورت @{example} نمایش داده می‌شود. برای همیشه مال شماست؛ اگر آن را تغییر دهید پیوندهای قدیمی همچنان کار می‌کنند.",
   "username_taken": "گرفته شده",
   "username_too_long": "حداکثر 30 نویسه.",
   "username_too_short": "دست‌کم 3 نویسه.",

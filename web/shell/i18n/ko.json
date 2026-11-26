@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "계정",
   "action_add": "첫 항목 추가",
@@ -1251,7 +1251,7 @@
   "username_hint": "3~30자: 영문자, 숫자, 마침표, 밑줄.",
   "username_leading_or_trailing_dot": "마침표는 처음이나 끝에 올 수 없습니다.",
   "username_reserved_word": "이 이름은 예약되어 있습니다.",
-  "username_rule": "@name으로 표시됩니다. 영원히 귀하의 것이며, 바꾸더라도 이전 링크는 계속 작동합니다.",
+  "username_rule": "@{example}(으)로 표시됩니다. 영원히 귀하의 것이며, 바꾸더라도 이전 링크는 계속 작동합니다.",
   "username_taken": "사용 중",
   "username_too_long": "30자 이하여야 합니다.",
   "username_too_short": "3자 이상이어야 합니다.",

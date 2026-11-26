@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ug",
  "native": "ئۇيغۇرچە",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "ھېسابات",
   "action_add": "تۇنجىسىنى قوشۇڭ",
@@ -1251,7 +1251,7 @@
   "username_hint": "3 دىن 30 ھەرپكىچە: ھەرپ، سان، چېكىت ۋە ئاستى سىزىق.",
   "username_leading_or_trailing_dot": "چېكىت بېشىدا ياكى ئاخىرىدا بولالمايدۇ.",
   "username_reserved_word": "بۇ نام ساقلاپ قويۇلغان.",
-  "username_rule": "@نام شەكلىدە كۆرۈنىدۇ. مەڭگۈ سىزنىڭكى؛ ئۆزگەرتسىڭىز كونا ئۇلانمىلار داۋاملىق ئىشلەيدۇ.",
+  "username_rule": "@{example} شەكلىدە كۆرۈنىدۇ. مەڭگۈ سىزنىڭكى؛ ئۆزگەرتسىڭىز كونا ئۇلانمىلار داۋاملىق ئىشلەيدۇ.",
   "username_taken": "ئېلىنغان",
   "username_too_long": "كۆپ بولغاندا 30 ھەرپ.",
   "username_too_short": "كەم دېگەندە 3 ھەرپ.",

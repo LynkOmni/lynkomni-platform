@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "I-akhawunti",
   "action_add": "Engeza eyokuqala",
@@ -1251,7 +1251,7 @@
   "username_hint": "Izinhlamvu ezi-3 kuya ku-30: izinhlamvu, izinombolo, amachashazi nemigqa engezansi.",
   "username_leading_or_trailing_dot": "Ichashazi alikwazi ukuba ngelokuqala noma ngelokugcina.",
   "username_reserved_word": "Leli gama ligodliwe.",
-  "username_rule": "Kuboniswa njenge-@igama. Ngelakho kuze kube phakade; izixhumanisi ezindala ziyaqhubeka nokusebenza uma ulishintsha.",
+  "username_rule": "Kuboniswa njenge-@{example}. Ngelakho kuze kube phakade; izixhumanisi ezindala ziyaqhubeka nokusebenza uma ulishintsha.",
   "username_taken": "Selithathiwe",
   "username_too_long": "Izinhlamvu ezingama-30 kuphela.",
   "username_too_short": "Okungenani izinhlamvu ezi-3.",

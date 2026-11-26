@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "am",
  "native": "አማርኛ",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "መለያ",
   "action_add": "የመጀመሪያውን ያክሉ",
@@ -1251,7 +1251,7 @@
   "username_hint": "ከ3 እስከ 30 ቁምፊዎች፦ ፊደሎች፣ ቁጥሮች፣ ነጥቦችና የስር መስመሮች።",
   "username_leading_or_trailing_dot": "ነጥብ መጀመሪያ ወይም መጨረሻ ሊሆን አይችልም።",
   "username_reserved_word": "ይህ ስም የተያዘ ነው።",
-  "username_rule": "እንደ @ስም ይታያል። ለዘላለም የእርስዎ ነው፤ ቢቀይሩት የቆዩ አገናኞች መሥራታቸውን ይቀጥላሉ።",
+  "username_rule": "እንደ @{example} ይታያል። ለዘላለም የእርስዎ ነው፤ ቢቀይሩት የቆዩ አገናኞች መሥራታቸውን ይቀጥላሉ።",
   "username_taken": "ተይዟል",
   "username_too_long": "ቢበዛ 30 ቁምፊዎች።",
   "username_too_short": "ቢያንስ 3 ቁምፊዎች።",

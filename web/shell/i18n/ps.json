@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ps",
  "native": "پښتو",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "حساب",
   "action_add": "لومړی زیات کړئ",
@@ -1251,7 +1251,7 @@
   "username_hint": "3 تر 30 پورې: الفبا، شمېرې، ټکي او لاندې کرښې.",
   "username_leading_or_trailing_dot": "ټکی نشي کولای لومړی یا وروستی وي.",
   "username_reserved_word": "دا نوم خوندي دی.",
-  "username_rule": "د @نوم په بڼه ښودل کیږي. د تل لپاره ستاسو دی؛ که یې بدل کړئ زاړه لینکونه کار کوي.",
+  "username_rule": "د @{example} په بڼه ښودل کیږي. د تل لپاره ستاسو دی؛ که یې بدل کړئ زاړه لینکونه کار کوي.",
   "username_taken": "اخیستل شوی",
   "username_too_long": "تر 30 توري.",
   "username_too_short": "لږ تر لږه 3 توري.",

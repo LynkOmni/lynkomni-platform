@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "账户",
   "action_add": "添加第一个",
@@ -1251,7 +1251,7 @@
   "username_hint": "3 到 30 个字符：字母、数字、句点和下划线。",
   "username_leading_or_trailing_dot": "句点不能在开头或结尾。",
   "username_reserved_word": "此名称已保留。",
-  "username_rule": "显示为 @name。它永远属于您；如果您更改它，旧链接仍然有效。",
+  "username_rule": "显示为 @{example}。它永远属于您；如果您更改它，旧链接仍然有效。",
   "username_taken": "已被使用",
   "username_too_long": "最多 30 个字符。",
   "username_too_short": "至少 3 个字符。",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "Akun",
   "action_add": "Tambahkan yang pertama",
@@ -1251,7 +1251,7 @@
   "username_hint": "3 sampai 30 karakter: huruf, angka, titik dan garis bawah.",
   "username_leading_or_trailing_dot": "Titik tidak boleh di awal atau akhir.",
   "username_reserved_word": "Nama ini dicadangkan.",
-  "username_rule": "Ditampilkan sebagai @nama. Tetap milik Anda selamanya; tautan lama tetap berfungsi jika Anda mengubahnya.",
+  "username_rule": "Ditampilkan sebagai @{example}. Tetap milik Anda selamanya; tautan lama tetap berfungsi jika Anda mengubahnya.",
   "username_taken": "Sudah dipakai",
   "username_too_long": "Maksimal 30 karakter.",
   "username_too_short": "Minimal 3 karakter.",

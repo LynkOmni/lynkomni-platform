@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "اڪائونٽ",
   "action_add": "پهريون شامل ڪريو",
@@ -1251,7 +1251,7 @@
   "username_hint": "3 کان 30 اکرن تائين: الفابيٽ، انگ، ڊاٽ ۽ انڊر اسڪور.",
   "username_leading_or_trailing_dot": "ڊاٽ شروع يا آخر ۾ نٿو ٿي سگهي.",
   "username_reserved_word": "هي نالو محفوظ آهي.",
-  "username_rule": "@نالو جي طور تي ڏيکاريو وڃي ٿو. اهو هميشه توهان جو رهي ٿو؛ بدلائڻ تي پراڻا لنڪ ڪم ڪندا رهن ٿا.",
+  "username_rule": "@{example} جي طور تي ڏيکاريو وڃي ٿو. اهو هميشه توهان جو رهي ٿو؛ بدلائڻ تي پراڻا لنڪ ڪم ڪندا رهن ٿا.",
   "username_taken": "ورتل آهي",
   "username_too_long": "وڌ ۾ وڌ 30 اکر.",
   "username_too_short": "گهٽ ۾ گهٽ 3 اکر.",

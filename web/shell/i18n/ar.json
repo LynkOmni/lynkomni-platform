@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ar",
  "native": "العربية",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "الحساب",
   "action_add": "أضف الأول",
@@ -1251,7 +1251,7 @@
   "username_hint": "من 3 إلى 30 حرفًا: حروف وأرقام ونقاط وشرطات سفلية.",
   "username_leading_or_trailing_dot": "لا يمكن أن تكون النقطة في البداية أو النهاية.",
   "username_reserved_word": "هذا الاسم محجوز.",
-  "username_rule": "يظهر كـ@الاسم. يبقى لك إلى الأبد؛ وتظل الروابط القديمة تعمل إذا غيّرته.",
+  "username_rule": "يظهر كـ@{example}. يبقى لك إلى الأبد؛ وتظل الروابط القديمة تعمل إذا غيّرته.",
   "username_taken": "مستخدم",
   "username_too_long": "30 حرفًا على الأكثر.",
   "username_too_short": "3 أحرف على الأقل.",

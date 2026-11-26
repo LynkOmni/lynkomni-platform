@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "Àkáǹtì",
   "action_add": "Ṣàfikún àkọ́kọ́",
@@ -1251,7 +1251,7 @@
   "username_hint": "Àmì 3 sí 30: lẹ́tà, nọ́mbà, àmì àdúró àti àmì ìlà-ìsàlẹ̀.",
   "username_leading_or_trailing_dot": "Àmì àdúró kò lè jẹ́ àkọ́kọ́ tàbí ìkẹyìn.",
   "username_reserved_word": "A ti yà orúkọ yìí sọ́tọ̀.",
-  "username_rule": "A ń fi hàn bí @orúkọ. Tìrẹ ni títí láé; àwọn ìjápọ̀ àtijọ́ ń ṣiṣẹ́ lọ tí o bá yí i padà.",
+  "username_rule": "A ń fi hàn bí @{example}. Tìrẹ ni títí láé; àwọn ìjápọ̀ àtijọ́ ń ṣiṣẹ́ lọ tí o bá yí i padà.",
   "username_taken": "Ẹlòmíràn ti mú un",
   "username_too_long": "Kò ju àmì 30 lọ.",
   "username_too_short": "Ó kéré jù àmì 3.",

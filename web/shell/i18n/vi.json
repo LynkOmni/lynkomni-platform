@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "Tài khoản",
   "action_add": "Thêm mục đầu tiên",
@@ -1251,7 +1251,7 @@
   "username_hint": "3 đến 30 ký tự: chữ cái, số, dấu chấm và gạch dưới.",
   "username_leading_or_trailing_dot": "Dấu chấm không được ở đầu hoặc cuối.",
   "username_reserved_word": "Tên này đã được giữ riêng.",
-  "username_rule": "Hiển thị là @name. Thuộc về bạn vĩnh viễn; liên kết cũ vẫn hoạt động nếu bạn đổi tên.",
+  "username_rule": "Hiển thị là @{example}. Thuộc về bạn vĩnh viễn; liên kết cũ vẫn hoạt động nếu bạn đổi tên.",
   "username_taken": "Đã có người dùng",
   "username_too_long": "Tối đa 30 ký tự.",
   "username_too_short": "Ít nhất 3 ký tự.",

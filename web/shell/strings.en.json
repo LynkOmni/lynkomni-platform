@@ -1244,7 +1244,7 @@
  "username_hint": "3 to 30 characters: letters, numbers, full stops and underscores.",
  "username_leading_or_trailing_dot": "A full stop cannot be first or last.",
  "username_reserved_word": "This name is reserved.",
- "username_rule": "Shown as @name. It stays yours forever; old links keep working if you change it.",
+ "username_rule": "Shown as @{example}. It stays yours forever; old links keep working if you change it.",
  "username_taken": "Taken",
  "username_too_long": "At most 30 characters.",
  "username_too_short": "At least 3 characters.",

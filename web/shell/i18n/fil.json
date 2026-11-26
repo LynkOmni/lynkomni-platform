@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "59ebe29e5b693fcbf1a7c6aca65e9b0b7a1812c21a9da89487bcf6c4bbe30229",
+ "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
  "texts": {
   "account_menu": "Account",
   "action_add": "Idagdag ang una",
@@ -1251,7 +1251,7 @@
   "username_hint": "3 hanggang 30 character: titik, numero, tuldok at underscore.",
   "username_leading_or_trailing_dot": "Hindi maaaring una o huli ang tuldok.",
   "username_reserved_word": "Nakareserba ang pangalang ito.",
-  "username_rule": "Ipinapakita bilang @pangalan. Sa iyo ito habambuhay; gagana pa rin ang lumang link kapag binago mo ito.",
+  "username_rule": "Ipinapakita bilang @{example}. Sa iyo ito habambuhay; gagana pa rin ang lumang link kapag binago mo ito.",
   "username_taken": "May gumagamit na",
   "username_too_long": "Hanggang 30 character lang.",
   "username_too_short": "Hindi bababa sa 3 character.",

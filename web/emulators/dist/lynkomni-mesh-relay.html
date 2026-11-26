@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-YQ4y1IN/VLwziAGOL2QinBQgqf68u6YaLoX9oZjhKQQ='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-+AxHr+1xrufOLrjdf2KhI8aRqYpyaOEZvxJ8ZcVIU68='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkMesh Relay</title>
 <meta name="description" content="Interactive emulator of LynkMesh: a till with no connection hands a sealed batch of sales to a nearby LynkOmni device that has one. The sale shows sent, awaiting cloud until the cloud accepts it. LynkMesh carries data, never money, and takes no fee.">
@@ -3280,7 +3280,7 @@ function usernameField(value, cloud, taken, t, icon, kind = "user") {
         ok = true;
     }
     const sugg = value && !ok && cloud !== "checking" ? suggestions(value, taken) : [];
-    return `<div class="field username"><label for="usernameIn">${esc(t(kind === "user" ? "username" : "handle"))}</label>${handleBoxHtml({ id: "usernameIn", kind, value, attrs: `aria-describedby="usernameMsg" aria-invalid="${tone === "danger"}"`, after: ok ? icon("ui-check", "ic ok") : "" })}<p id="usernameMsg" class="fmsg ${tone}" aria-live="polite">${esc(msg)}</p>${sugg.length ? `<p class="sugg">${esc(t("username_try"))} ${sugg.map((s) => `<button class="chipbtn" data-act="username:${esc(s)}">@${esc(s)}</button>`).join(" ")}</p>` : ""}<p class="note">${esc(t("username_rule"))}</p></div>`;
+    return `<div class="field username"><label for="usernameIn">${esc(t(kind === "user" ? "username" : "handle"))}</label>${handleBoxHtml({ id: "usernameIn", kind, value, attrs: `aria-describedby="usernameMsg" aria-invalid="${tone === "danger"}"`, after: ok ? icon("ui-check", "ic ok") : "" })}<p id="usernameMsg" class="fmsg ${tone}" aria-live="polite">${esc(msg)}</p>${sugg.length ? `<p class="sugg">${esc(t("username_try"))} ${sugg.map((s) => `<button class="chipbtn" data-act="username:${esc(s)}">@${esc(s)}</button>`).join(" ")}</p>` : ""}<p class="note">${esc(t("username_rule", { example: HANDLE_HINT[kind] }))}</p></div>`;
 }
 function chartSummary(spec, t) {
     const s = spec.series[0];
