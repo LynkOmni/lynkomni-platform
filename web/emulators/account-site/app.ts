@@ -133,11 +133,26 @@ const appFooter = (): string => {
 const FOOTER_LOGO_ROOM: Record<string, number> = { computer: 180, tablet: 180, phone: 160 };
 const locale = (): string => `${isTest() ? "en" : S.lang}-${pack().code}`;
 const money = (minor: number): string => { try { return new Intl.NumberFormat(locale(), { style: "currency", currency: pack().currency }).format(minor / 100); } catch { return `${pack().currency} ${(minor / 100).toFixed(2)}`; } };
-const clock = (ms: number): string => new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, hour: "2-digit", minute: "2-digit" }).format(ms);
-const dateOf = (s: number): string => { try { return new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, dateStyle: "medium" }).format(s * 1000); } catch { return new Date(s * 1000).toISOString().slice(0, 10); } };
-const whenOf = (s: number): string => { try { return new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, dateStyle: "medium", timeStyle: "short" }).format(s * 1000); } catch { return new Date(s * 1000).toISOString().slice(0, 16); } };
+/** One formatter per language, time zone and style: building a formatter is slow, so a page with many dates reuses it. */
+const FORMATTERS = new Map<string, Intl.DateTimeFormat | Intl.NumberFormat>();
+const dtf = (style: string, opts: Intl.DateTimeFormatOptions): Intl.DateTimeFormat => {
+  const key = `d|${style}|${locale()}|${pack().tz}`;
+  let f = FORMATTERS.get(key) as Intl.DateTimeFormat | undefined;
+  if (!f) { f = new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, ...opts }); FORMATTERS.set(key, f); }
+  return f;
+};
+const clock = (ms: number): string => dtf("clock", { hour: "2-digit", minute: "2-digit" }).format(ms);
+const dateOf = (s: number): string => { try { return dtf("date", { dateStyle: "medium" }).format(s * 1000); } catch { return new Date(s * 1000).toISOString().slice(0, 10); } };
+const whenOf = (s: number): string => { try { return dtf("when", { dateStyle: "medium", timeStyle: "short" }).format(s * 1000); } catch { return new Date(s * 1000).toISOString().slice(0, 16); } };
 const langName = (code: string): string => PACKS[code]?.native ?? code;
-const n = (x: number): string => { try { return new Intl.NumberFormat(locale()).format(x); } catch { return String(x); } };
+const n = (x: number): string => {
+  try {
+    const key = `n|${locale()}`;
+    let f = FORMATTERS.get(key) as Intl.NumberFormat | undefined;
+    if (!f) { f = new Intl.NumberFormat(locale()); FORMATTERS.set(key, f); }
+    return f.format(x);
+  } catch { return String(x); }
+};
 /** Sign-up, sign-in, Can't sign in? and the security page come from the shared part ts/src/waysview.ts (section 4C points 3 and 5). */
 /** Sample codes only (labelled Sample on screen): a fixed, seeded sequence so the demo shows the same sample each time; real codes
  *  are made by the cloud (identity/ways_in.py) and never on a page. */

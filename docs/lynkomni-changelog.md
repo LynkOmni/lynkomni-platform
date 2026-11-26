@@ -11,6 +11,7 @@ Section 4C step 3b: sign-up, sign-in, Can't sign in? and the security page on sc
 - The security page starts with the checkup (each missing item with Fix), then backup codes, authenticator app, security keys, recovery contacts, the anti-phishing word, the country lock, strongest protection, devices (old ones, app lock and privacy screen), the security activity with This wasn't me, and organisation rules.
 - The account site uses it (sign-in, sign-up, Can't sign in?, Security), and so does the Business app: its sign-in offers a passkey first, then a code to the phone, with Create an account and Can't sign in? opening the same shared screens. Sign-up's username step checks the username's form as it is typed.
 - Basic phones get Reset my PIN in the help menu: a code to the phone and a new PIN after 24 hours (other devices can stop it), or at once at a shop or agent point after the ID check. A new basic-phone account is told how to lift its limits.
+- Faster first tap: the site footer (about half of a page's parts) is laid out only when it comes near the screen, so opening Security on the account site is back within its 120 ms budget on a slow processor (the budget is unchanged).
 
 ## v0.119.0 (2026-11-26)
 Section 4C step 5a: the Can't sign in? hub and every reset.

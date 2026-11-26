@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-pClBwz0Kxk4cCxnDRuyzRojSY8z6GWFNr/2Od70F5Gs='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-5dV5FRLq9BsyHKKhzIIo79ddjbi1y+NqcDuUIx3r/zQ='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni Account</title>
 <meta name="description" content="Interactive emulator of LynkOmni Account (account.lynkomni.com) on a phone and in the browser: sign-up, sign-in, recovery, the Security Center and every account page, built on the shared shell.">
@@ -546,6 +546,8 @@ html { font-size: 100%; }
 /* The LynkOmni footer (blueprint section 26): the main footer on websites and web apps, the one-line short footer inside
    apps. Design tokens only; logical properties so right-to-left mirrors; text wraps in every language. */
 .mainfoot { margin-block-start: 32px; padding: 24px 16px; border-block-start: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-primary); font: 14px/1.5 var(--font-body); container-type: inline-size; }
+/* laid out only near the screen (tap budget) */
+.mainfoot{content-visibility:auto;contain-intrinsic-size:auto 720px}
 /* The full LynkOmni logo above the tagline (brand surface web-footer): the artwork of the page's theme shows, the other is hidden. */
 .mainfoot .flogo { display: inline-flex; min-height: 44px; align-items: center; margin-block-end: 4px; }
 .mainfoot .flogo span { display: inline-flex; align-items: center; }
@@ -5437,26 +5439,44 @@ const money = (minor) => { try {
 catch {
     return `${pack().currency} ${(minor / 100).toFixed(2)}`;
 } };
-const clock = (ms) => new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, hour: "2-digit", minute: "2-digit" }).format(ms);
+const FORMATTERS = new Map();
+const dtf = (style, opts) => {
+    const key = `d|${style}|${locale()}|${pack().tz}`;
+    let f = FORMATTERS.get(key);
+    if (!f) {
+        f = new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, ...opts });
+        FORMATTERS.set(key, f);
+    }
+    return f;
+};
+const clock = (ms) => dtf("clock", { hour: "2-digit", minute: "2-digit" }).format(ms);
 const dateOf = (s) => { try {
-    return new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, dateStyle: "medium" }).format(s * 1000);
+    return dtf("date", { dateStyle: "medium" }).format(s * 1000);
 }
 catch {
     return new Date(s * 1000).toISOString().slice(0, 10);
 } };
 const whenOf = (s) => { try {
-    return new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, dateStyle: "medium", timeStyle: "short" }).format(s * 1000);
+    return dtf("when", { dateStyle: "medium", timeStyle: "short" }).format(s * 1000);
 }
 catch {
     return new Date(s * 1000).toISOString().slice(0, 16);
 } };
 const langName = (code) => PACKS[code]?.native ?? code;
-const n = (x) => { try {
-    return new Intl.NumberFormat(locale()).format(x);
-}
-catch {
-    return String(x);
-} };
+const n = (x) => {
+    try {
+        const key = `n|${locale()}`;
+        let f = FORMATTERS.get(key);
+        if (!f) {
+            f = new Intl.NumberFormat(locale());
+            FORMATTERS.set(key, f);
+        }
+        return f.format(x);
+    }
+    catch {
+        return String(x);
+    }
+};
 let WY_SEED = 20261126;
 const wySample = (k) => { WY_SEED = (WY_SEED * 1103515245 + 12345) % 2147483648; return Math.floor((WY_SEED / 2147483648) * k); };
 const WY = waysStart(T_NOW(), wySample);
