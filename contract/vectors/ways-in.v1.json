@@ -1,0 +1,9365 @@
+{
+ "basic": [
+  {
+   "a": [
+    "payouts",
+    false
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    "payouts",
+    true
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    "cards",
+    false
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    "cards",
+    true
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    "exchange",
+    false
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    "exchange",
+    true
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    "storefront_selling",
+    false
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    "storefront_selling",
+    true
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    "cash_sale",
+    false
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    "cash_sale",
+    true
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    "messages",
+    false
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    "messages",
+    true
+   ],
+   "expect": true
+  }
+ ],
+ "checkup": [
+  {
+   "a": {},
+   "expect": [
+    "second_way",
+    "backup_codes",
+    "recovery_contacts",
+    "anti_phishing_word",
+    "old_devices",
+    "number_confirmed"
+   ]
+  },
+  {
+   "a": {
+    "backup_codes": true,
+    "second_way": true
+   },
+   "expect": [
+    "recovery_contacts",
+    "anti_phishing_word",
+    "old_devices",
+    "number_confirmed"
+   ]
+  },
+  {
+   "a": {
+    "anti_phishing_word": true,
+    "backup_codes": true,
+    "number_confirmed": true,
+    "old_devices": true,
+    "recovery_contacts": true,
+    "second_way": true
+   },
+   "expect": []
+  }
+ ],
+ "code_valid": [
+  {
+   "a": [
+    0,
+    0,
+    "d1",
+    "d1"
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    0,
+    0,
+    "d1",
+    "d2"
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    0,
+    300,
+    "d1",
+    "d1"
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    0,
+    300,
+    "d1",
+    "d2"
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    0,
+    301,
+    "d1",
+    "d1"
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    0,
+    301,
+    "d1",
+    "d2"
+   ],
+   "expect": false
+  }
+ ],
+ "codes_left": [
+  {
+   "a": 0,
+   "expect": "none_left"
+  },
+  {
+   "a": 1,
+   "expect": "make_new"
+  },
+  {
+   "a": 2,
+   "expect": "make_new"
+  },
+  {
+   "a": 3,
+   "expect": null
+  },
+  {
+   "a": 10,
+   "expect": null
+  }
+ ],
+ "contacts_confirmed": [
+  {
+   "a": [
+    [
+     "a"
+    ],
+    [
+     "a",
+     "b",
+     "c"
+    ]
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "a",
+     "b",
+     "c"
+    ]
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    [
+     "a",
+     "x"
+    ],
+    [
+     "a",
+     "b",
+     "c"
+    ]
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    [
+     "a",
+     "a"
+    ],
+    [
+     "a",
+     "b",
+     "c"
+    ]
+   ],
+   "expect": false
+  }
+ ],
+ "contacts_problem": [
+  {
+   "a": [
+    "a",
+    "b"
+   ],
+   "expect": "too_few"
+  },
+  {
+   "a": [
+    "a",
+    "b",
+    "c"
+   ],
+   "expect": null
+  },
+  {
+   "a": [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e"
+   ],
+   "expect": null
+  },
+  {
+   "a": [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f"
+   ],
+   "expect": "too_many"
+  },
+  {
+   "a": [
+    "a",
+    "a",
+    "b"
+   ],
+   "expect": "too_few"
+  }
+ ],
+ "country": [
+  {
+   "a": [
+    [],
+    "CM"
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    [],
+    "NG"
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    [],
+    "FR"
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    [
+     "CM"
+    ],
+    "CM"
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    [
+     "CM"
+    ],
+    "NG"
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    [
+     "CM"
+    ],
+    "FR"
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    [
+     "CM",
+     "NG"
+    ],
+    "CM"
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    [
+     "CM",
+     "NG"
+    ],
+    "NG"
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    [
+     "CM",
+     "NG"
+    ],
+    "FR"
+   ],
+   "expect": false
+  }
+ ],
+ "description": "Sign-up, sign-in, protections, recovery and resets (section 4C points 3 and 5). core/ways_in.py is the reference.",
+ "extra": [
+  {
+   "a": [],
+   "expect": []
+  },
+  {
+   "a": [
+    "passkey"
+   ],
+   "expect": []
+  },
+  {
+   "a": [
+    "email_code",
+    "text_code"
+   ],
+   "expect": []
+  },
+  {
+   "a": [
+    "passkey",
+    "security_key",
+    "email_code",
+    "text_code",
+    "qr_code",
+    "other_device"
+   ],
+   "expect": []
+  },
+  {
+   "a": [
+    "authenticator",
+    "backup_code"
+   ],
+   "expect": [
+    "authenticator",
+    "backup_code"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "security_key",
+    "other_device",
+    "qr_code",
+    "authenticator",
+    "backup_code",
+    "recovery_code",
+    "recovery_contacts",
+    "email_code",
+    "text_code",
+    "device_pin",
+    "account_pin",
+    "email_and_phone",
+    "id_check"
+   ],
+   "expect": [
+    "authenticator",
+    "backup_code"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "email_and_phone"
+   ],
+   "expect": []
+  },
+  {
+   "a": [
+    "id_check",
+    "recovery_contacts",
+    "backup_code"
+   ],
+   "expect": [
+    "backup_code"
+   ]
+  }
+ ],
+ "identifier": [
+  {
+   "a": "grace.shop",
+   "expect": "username"
+  },
+  {
+   "a": "grace@example.com",
+   "expect": "email"
+  },
+  {
+   "a": "+237 671 23 45 67",
+   "expect": "phone"
+  },
+  {
+   "a": "0788123456",
+   "expect": "phone"
+  },
+  {
+   "a": "678889666",
+   "expect": "phone"
+  },
+  {
+   "a": "shop2024",
+   "expect": "username"
+  },
+  {
+   "a": "",
+   "expect": "username"
+  },
+  {
+   "a": "  12 ",
+   "expect": "username"
+  }
+ ],
+ "legal_name": [
+  {
+   "a": "",
+   "expect": "too_short"
+  },
+  {
+   "a": "A",
+   "expect": "too_short"
+  },
+  {
+   "a": "Grace Uwase",
+   "expect": null
+  },
+  {
+   "a": "  Jean   Claude  Habimana ",
+   "expect": null
+  },
+  {
+   "a": "R2D2",
+   "expect": "no_digits"
+  },
+  {
+   "a": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "expect": "too_long"
+  },
+  {
+   "a": "Nguyễn Thị Lan",
+   "expect": null
+  },
+  {
+   "a": "محمد علي",
+   "expect": null
+  }
+ ],
+ "may_reset": [
+  {
+   "a": [
+    "passkey",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "security_key",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "backup_codes",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "recovery_contacts",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "contact",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "anti_phishing_word",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "device_pin",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_own"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_own"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "staff_pin",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_own"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "manager_pin",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "duress_pin",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "account_pin",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "attend_pin",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "voter_code",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "card_pin",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "developer_key",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "organisation_admin",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "business_owner",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "not_allowed"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "username",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "never"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "self",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "self",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "self",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "manager",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "manager",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "manager",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "shop",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "shop",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "shop",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "card_issuer",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "card_issuer",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "card_issuer",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "key_owner",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "key_owner",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "key_owner",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "another_admin",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "another_admin",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "another_admin",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "successor",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "successor",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "successor",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "election_rules",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "election_rules",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "election_rules",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "cashier",
+    false,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "cashier",
+    true,
+    true
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  },
+  {
+   "a": [
+    "nope",
+    "cashier",
+    false,
+    false
+   ],
+   "expect": [
+    false,
+    "unknown"
+   ]
+  }
+ ],
+ "may_start": [
+  {
+   "a": [
+    true,
+    0,
+    0
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    true,
+    0,
+    9
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    true,
+    0,
+    10
+   ],
+   "expect": [
+    false,
+    "network_limit"
+   ]
+  },
+  {
+   "a": [
+    true,
+    2,
+    0
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    true,
+    2,
+    9
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    true,
+    2,
+    10
+   ],
+   "expect": [
+    false,
+    "network_limit"
+   ]
+  },
+  {
+   "a": [
+    true,
+    3,
+    0
+   ],
+   "expect": [
+    false,
+    "device_limit"
+   ]
+  },
+  {
+   "a": [
+    true,
+    3,
+    9
+   ],
+   "expect": [
+    false,
+    "device_limit"
+   ]
+  },
+  {
+   "a": [
+    true,
+    3,
+    10
+   ],
+   "expect": [
+    false,
+    "device_limit"
+   ]
+  },
+  {
+   "a": [
+    false,
+    0,
+    0
+   ],
+   "expect": [
+    false,
+    "connect_to_create"
+   ]
+  },
+  {
+   "a": [
+    false,
+    0,
+    9
+   ],
+   "expect": [
+    false,
+    "connect_to_create"
+   ]
+  },
+  {
+   "a": [
+    false,
+    0,
+    10
+   ],
+   "expect": [
+    false,
+    "connect_to_create"
+   ]
+  },
+  {
+   "a": [
+    false,
+    2,
+    0
+   ],
+   "expect": [
+    false,
+    "connect_to_create"
+   ]
+  },
+  {
+   "a": [
+    false,
+    2,
+    9
+   ],
+   "expect": [
+    false,
+    "connect_to_create"
+   ]
+  },
+  {
+   "a": [
+    false,
+    2,
+    10
+   ],
+   "expect": [
+    false,
+    "connect_to_create"
+   ]
+  },
+  {
+   "a": [
+    false,
+    3,
+    0
+   ],
+   "expect": [
+    false,
+    "connect_to_create"
+   ]
+  },
+  {
+   "a": [
+    false,
+    3,
+    9
+   ],
+   "expect": [
+    false,
+    "connect_to_create"
+   ]
+  },
+  {
+   "a": [
+    false,
+    3,
+    10
+   ],
+   "expect": [
+    false,
+    "connect_to_create"
+   ]
+  }
+ ],
+ "never": [
+  {
+   "a": "password",
+   "expect": true
+  },
+  {
+   "a": "security_questions",
+   "expect": true
+  },
+  {
+   "a": "text_alone",
+   "expect": true
+  },
+  {
+   "a": "backup_code",
+   "expect": false
+  },
+  {
+   "a": "support_in_chat",
+   "expect": true
+  }
+ ],
+ "offline": [
+  {
+   "a": [
+    true,
+    "owner",
+    0
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    true,
+    "owner",
+    7
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    true,
+    "owner",
+    8
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    true,
+    "owner",
+    14
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    true,
+    "owner",
+    15
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    true,
+    "cashier",
+    0
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    true,
+    "cashier",
+    7
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    true,
+    "cashier",
+    8
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    true,
+    "cashier",
+    14
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    true,
+    "cashier",
+    15
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    true,
+    "rider",
+    0
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    true,
+    "rider",
+    7
+   ],
+   "expect": [
+    true,
+    null
+   ]
+  },
+  {
+   "a": [
+    true,
+    "rider",
+    8
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    true,
+    "rider",
+    14
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    true,
+    "rider",
+    15
+   ],
+   "expect": [
+    false,
+    "go_online"
+   ]
+  },
+  {
+   "a": [
+    false,
+    "owner",
+    0
+   ],
+   "expect": [
+    false,
+    "sign_in_online_first"
+   ]
+  },
+  {
+   "a": [
+    false,
+    "owner",
+    7
+   ],
+   "expect": [
+    false,
+    "sign_in_online_first"
+   ]
+  },
+  {
+   "a": [
+    false,
+    "owner",
+    8
+   ],
+   "expect": [
+    false,
+    "sign_in_online_first"
+   ]
+  },
+  {
+   "a": [
+    false,
+    "owner",
+    14
+   ],
+   "expect": [
+    false,
+    "sign_in_online_first"
+   ]
+  },
+  {
+   "a": [
+    false,
+    "owner",
+    15
+   ],
+   "expect": [
+    false,
+    "sign_in_online_first"
+   ]
+  },
+  {
+   "a": [
+    false,
+    "cashier",
+    0
+   ],
+   "expect": [
+    false,
+    "sign_in_online_first"
+   ]
+  },
+  {
+   "a": [
+    false,
+    "cashier",
+    7
+   ],
+   "expect": [
+    false,
+    "sign_in_online_first"
+   ]
+  },
+  {
+   "a": [
+    false,
+    "cashier",
+    8
+   ],
+   "expect": [
+    false,
+    "sign_in_online_first"
+   ]
+  },
+  {
+   "a": [
+    false,
+    "cashier",
+    14
+   ],
+   "expect": [
+    false,
+    "sign_in_online_first"
+   ]
+  },
+  {
+   "a": [
+    false,
+    "cashier",
+    15
+   ],
+   "expect": [
+    false,
+    "sign_in_online_first"
+   ]
+  },
+  {
+   "a": [
+    false,
+    "rider",
+    0
+   ],
+   "expect": [
+    false,
+    "sign_in_online_first"
+   ]
+  },
+  {
+   "a": [
+    false,
+    "rider",
+    7
+   ],
+   "expect": [
+    false,
+    "sign_in_online_first"
+   ]
+  },
+  {
+   "a": [
+    false,
+    "rider",
+    8
+   ],
+   "expect": [
+    false,
+    "sign_in_online_first"
+   ]
+  },
+  {
+   "a": [
+    false,
+    "rider",
+    14
+   ],
+   "expect": [
+    false,
+    "sign_in_online_first"
+   ]
+  },
+  {
+   "a": [
+    false,
+    "rider",
+    15
+   ],
+   "expect": [
+    false,
+    "sign_in_online_first"
+   ]
+  }
+ ],
+ "old_device": [
+  {
+   "a": [
+    0,
+    7689600
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    0,
+    7776000
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    100,
+    100
+   ],
+   "expect": false
+  }
+ ],
+ "recovery_ways": [
+  {
+   "a": [],
+   "expect": []
+  },
+  {
+   "a": [
+    "passkey"
+   ],
+   "expect": []
+  },
+  {
+   "a": [
+    "email_code",
+    "text_code"
+   ],
+   "expect": []
+  },
+  {
+   "a": [
+    "passkey",
+    "security_key",
+    "email_code",
+    "text_code",
+    "qr_code",
+    "other_device"
+   ],
+   "expect": [
+    {
+     "id": "other_device",
+     "wait_h": 0
+    }
+   ]
+  },
+  {
+   "a": [
+    "authenticator",
+    "backup_code"
+   ],
+   "expect": [
+    {
+     "id": "backup_code",
+     "wait_h": 0
+    }
+   ]
+  },
+  {
+   "a": [
+    "passkey",
+    "security_key",
+    "other_device",
+    "qr_code",
+    "authenticator",
+    "backup_code",
+    "recovery_code",
+    "recovery_contacts",
+    "email_code",
+    "text_code",
+    "device_pin",
+    "account_pin",
+    "email_and_phone",
+    "id_check"
+   ],
+   "expect": [
+    {
+     "id": "other_device",
+     "wait_h": 0
+    },
+    {
+     "id": "backup_code",
+     "wait_h": 0
+    },
+    {
+     "id": "recovery_code",
+     "wait_h": 0
+    },
+    {
+     "id": "recovery_contacts",
+     "wait_h": 24
+    },
+    {
+     "cancellable": true,
+     "id": "email_and_phone",
+     "wait_h": 24
+    },
+    {
+     "id": "id_check",
+     "staff_approvals": 2,
+     "wait_h": 72,
+     "with": "phone_owner_check"
+    }
+   ]
+  },
+  {
+   "a": [
+    "recovery_code",
+    "email_and_phone"
+   ],
+   "expect": [
+    {
+     "id": "recovery_code",
+     "wait_h": 0
+    },
+    {
+     "cancellable": true,
+     "id": "email_and_phone",
+     "wait_h": 24
+    }
+   ]
+  },
+  {
+   "a": [
+    "id_check",
+    "recovery_contacts",
+    "backup_code"
+   ],
+   "expect": [
+    {
+     "id": "backup_code",
+     "wait_h": 0
+    },
+    {
+     "id": "recovery_contacts",
+     "wait_h": 24
+    },
+    {
+     "id": "id_check",
+     "staff_approvals": 2,
+     "wait_h": 72,
+     "with": "phone_owner_check"
+    }
+   ]
+  }
+ ],
+ "restricted": [
+  {
+   "a": [
+    "payouts",
+    null,
+    0
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    "payouts",
+    0,
+    82800
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    "payouts",
+    0,
+    86400
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    "contact_changes",
+    null,
+    0
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    "contact_changes",
+    0,
+    82800
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    "contact_changes",
+    0,
+    86400
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    "sell",
+    null,
+    0
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    "sell",
+    0,
+    82800
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    "sell",
+    0,
+    86400
+   ],
+   "expect": false
+  }
+ ],
+ "session_hours": [
+  {
+   "a": true,
+   "expect": 720
+  },
+  {
+   "a": false,
+   "expect": 12
+  }
+ ],
+ "sign_in_ways": [
+  {
+   "a": [
+    [],
+    false
+   ],
+   "expect": []
+  },
+  {
+   "a": [
+    [],
+    true
+   ],
+   "expect": []
+  },
+  {
+   "a": [
+    [
+     "passkey"
+    ],
+    false
+   ],
+   "expect": [
+    "passkey"
+   ]
+  },
+  {
+   "a": [
+    [
+     "passkey"
+    ],
+    true
+   ],
+   "expect": [
+    "passkey"
+   ]
+  },
+  {
+   "a": [
+    [
+     "email_code",
+     "text_code"
+    ],
+    false
+   ],
+   "expect": [
+    "email_code",
+    "text_code"
+   ]
+  },
+  {
+   "a": [
+    [
+     "email_code",
+     "text_code"
+    ],
+    true
+   ],
+   "expect": []
+  },
+  {
+   "a": [
+    [
+     "passkey",
+     "security_key",
+     "email_code",
+     "text_code",
+     "qr_code",
+     "other_device"
+    ],
+    false
+   ],
+   "expect": [
+    "passkey",
+    "security_key",
+    "other_device",
+    "qr_code",
+    "email_code",
+    "text_code"
+   ]
+  },
+  {
+   "a": [
+    [
+     "passkey",
+     "security_key",
+     "email_code",
+     "text_code",
+     "qr_code",
+     "other_device"
+    ],
+    true
+   ],
+   "expect": [
+    "passkey",
+    "security_key"
+   ]
+  },
+  {
+   "a": [
+    [
+     "authenticator",
+     "backup_code"
+    ],
+    false
+   ],
+   "expect": []
+  },
+  {
+   "a": [
+    [
+     "authenticator",
+     "backup_code"
+    ],
+    true
+   ],
+   "expect": []
+  },
+  {
+   "a": [
+    [
+     "passkey",
+     "security_key",
+     "other_device",
+     "qr_code",
+     "authenticator",
+     "backup_code",
+     "recovery_code",
+     "recovery_contacts",
+     "email_code",
+     "text_code",
+     "device_pin",
+     "account_pin",
+     "email_and_phone",
+     "id_check"
+    ],
+    false
+   ],
+   "expect": [
+    "passkey",
+    "security_key",
+    "other_device",
+    "qr_code",
+    "email_code",
+    "text_code"
+   ]
+  },
+  {
+   "a": [
+    [
+     "passkey",
+     "security_key",
+     "other_device",
+     "qr_code",
+     "authenticator",
+     "backup_code",
+     "recovery_code",
+     "recovery_contacts",
+     "email_code",
+     "text_code",
+     "device_pin",
+     "account_pin",
+     "email_and_phone",
+     "id_check"
+    ],
+    true
+   ],
+   "expect": [
+    "passkey",
+    "security_key"
+   ]
+  },
+  {
+   "a": [
+    [
+     "recovery_code",
+     "email_and_phone"
+    ],
+    false
+   ],
+   "expect": []
+  },
+  {
+   "a": [
+    [
+     "recovery_code",
+     "email_and_phone"
+    ],
+    true
+   ],
+   "expect": []
+  },
+  {
+   "a": [
+    [
+     "id_check",
+     "recovery_contacts",
+     "backup_code"
+    ],
+    false
+   ],
+   "expect": []
+  },
+  {
+   "a": [
+    [
+     "id_check",
+     "recovery_contacts",
+     "backup_code"
+    ],
+    true
+   ],
+   "expect": []
+  }
+ ],
+ "sign_up_next": [
+  {
+   "done": [],
+   "expect": "country"
+  },
+  {
+   "done": [
+    "country"
+   ],
+   "expect": "username"
+  },
+  {
+   "done": [
+    "country",
+    "username"
+   ],
+   "expect": "age"
+  },
+  {
+   "done": [
+    "country",
+    "username",
+    "age"
+   ],
+   "expect": "legal_name"
+  },
+  {
+   "done": [
+    "country",
+    "username",
+    "age",
+    "legal_name"
+   ],
+   "expect": "email"
+  },
+  {
+   "done": [
+    "country",
+    "username",
+    "age",
+    "legal_name",
+    "email"
+   ],
+   "expect": "email_code"
+  },
+  {
+   "done": [
+    "country",
+    "username",
+    "age",
+    "legal_name",
+    "email",
+    "email_code"
+   ],
+   "expect": "phone"
+  },
+  {
+   "done": [
+    "country",
+    "username",
+    "age",
+    "legal_name",
+    "email",
+    "email_code",
+    "phone"
+   ],
+   "expect": "phone_code"
+  },
+  {
+   "done": [
+    "country",
+    "username",
+    "age",
+    "legal_name",
+    "email",
+    "email_code",
+    "phone",
+    "phone_code"
+   ],
+   "expect": "passkey"
+  },
+  {
+   "done": [
+    "country",
+    "username",
+    "age",
+    "legal_name",
+    "email",
+    "email_code",
+    "phone",
+    "phone_code",
+    "passkey"
+   ],
+   "expect": "recovery"
+  },
+  {
+   "done": [
+    "country",
+    "username",
+    "age",
+    "legal_name",
+    "email",
+    "email_code",
+    "phone",
+    "phone_code",
+    "passkey",
+    "recovery"
+   ],
+   "expect": null
+  },
+  {
+   "done": [
+    "phone",
+    "country"
+   ],
+   "expect": "username"
+  }
+ ],
+ "to_strongest": [
+  {
+   "a": 0,
+   "expect": false
+  },
+  {
+   "a": 4,
+   "expect": false
+  },
+  {
+   "a": 5,
+   "expect": true
+  }
+ ],
+ "unusual": [
+  {
+   "a": [
+    [],
+    {
+     "at": 0,
+     "country": "CM"
+    },
+    0
+   ],
+   "expect": []
+  },
+  {
+   "a": [
+    [
+     {
+      "at": 0,
+      "country": "CM"
+     }
+    ],
+    {
+     "at": 36000,
+     "country": "CM"
+    },
+    0
+   ],
+   "expect": []
+  },
+  {
+   "a": [
+    [
+     {
+      "at": 0,
+      "country": "CM"
+     }
+    ],
+    {
+     "at": 3600,
+     "country": "FR"
+    },
+    0
+   ],
+   "expect": [
+    "new_country",
+    "impossible_journey"
+   ]
+  },
+  {
+   "a": [
+    [
+     {
+      "at": 0,
+      "country": "CM"
+     }
+    ],
+    {
+     "at": 10800,
+     "country": "FR"
+    },
+    0
+   ],
+   "expect": [
+    "new_country"
+   ]
+  },
+  {
+   "a": [
+    [
+     {
+      "at": 0,
+      "country": "CM"
+     },
+     {
+      "at": 18000,
+      "country": "FR"
+     }
+    ],
+    {
+     "at": 21600,
+     "country": "CM"
+    },
+    5
+   ],
+   "expect": [
+    "impossible_journey",
+    "many_tries"
+   ]
+  },
+  {
+   "a": [
+    [
+     {
+      "at": 0,
+      "country": "CM"
+     }
+    ],
+    {
+     "at": 3600,
+     "country": "CM"
+    },
+    4
+   ],
+   "expect": []
+  }
+ ],
+ "version": 1,
+ "word": [
+  {
+   "a": "",
+   "expect": "too_short"
+  },
+  {
+   "a": "ab",
+   "expect": "too_short"
+  },
+  {
+   "a": "sunflower",
+   "expect": null
+  },
+  {
+   "a": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "expect": "too_long"
+  },
+  {
+   "a": " blue ",
+   "expect": null
+  }
+ ]
+}

@@ -423,25 +423,6 @@
    "build_section": 2
   },
   {
-   "id": "provisional_confirmed",
-   "area": "account",
-   "trigger": "ProvisionalAccountConfirmed",
-   "audience": "person",
-   "basis": "transaction",
-   "priority": "normal",
-   "channels": [
-    "bell",
-    "email",
-    "text"
-   ],
-   "sender": "notifications@mail.lynkomni.com",
-   "group": "none",
-   "can_turn_off": true,
-   "lock_screen": "neutral",
-   "actions": [],
-   "build_section": 2
-  },
-  {
    "id": "location_share_started",
    "area": "safety",
    "trigger": "LocationShareStarted",

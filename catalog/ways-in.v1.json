@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "description": "Sign-up, sign-in, the ways to prove it's you, the protections around an account, the Can't sign in? hub and every reset (section 4C points 3 and 5, master blueprint section 87). Read only through core/ways_in.py and ts/src/waysin.ts; shared cases in contract/vectors/ways-in.v1.json (python3 tools/waysin_vectors.py after a change). LynkOmni has no passwords and uses no outside company for any of this.",
+  "sign_up": {
+    "online_only": true,
+    "steps": ["country", "username", "age", "legal_name", "email", "email_code", "phone", "phone_code", "passkey", "recovery"],
+    "needs": ["email", "phone"],
+    "legal_name": {"min": 2, "max": 100, "separate_from_display_name": true, "business_gives": "registered_name"},
+    "offline_says": "connect_to_create",
+    "keeps_typed_when_offline": true,
+    "temporary_offline_account": false,
+    "abuse": {"per_device_hour": 3, "per_network_hour": 10, "picture_puzzles": false, "hidden_check": "real_browser", "unusual_goes_to": "later_step"},
+    "demo_without_email": "ask_at_next_sign_in"
+  },
+  "basic_phone_sign_up": {
+    "needs": ["phone", "pin"],
+    "limited": ["payouts", "cards", "exchange", "storefront_selling"],
+    "lifted_by": "email_added",
+    "email_added_at": ["app", "web", "shop", "agent_point"]
+  },
+  "sign_in": {
+    "identifiers": ["username", "email", "phone"],
+    "extra_check_next": true,
+    "new_device_alert": "every_channel",
+    "codes": {"lifetime_s": 300, "only_asking_device": true, "never_a_link": true}
+  },
+  "offline_sign_in": {
+    "only_known_device": true,
+    "unlock": ["pin", "fingerprint", "face"],
+    "tied_to": "device_key",
+    "back_online_days": {"owner": 7, "manager": 7, "cashier": 14},
+    "account_changes": "online_only",
+    "wrong_pin": "wait_then_lock_never_wipe",
+    "extra_checks_again_online": true
+  },
+  "ways": [
+    {"id": "passkey", "kind": "sign_in", "strength": 100, "phishing_resistant": true, "offline": false},
+    {"id": "security_key", "kind": "sign_in", "strength": 100, "phishing_resistant": true, "offline": false},
+    {"id": "other_device", "kind": "sign_in", "strength": 90, "phishing_resistant": true, "offline": false, "numbers_to_match": 3},
+    {"id": "qr_code", "kind": "sign_in", "strength": 85, "phishing_resistant": true, "offline": false, "lifetime_s": 120},
+    {"id": "authenticator", "kind": "extra", "strength": 70, "phishing_resistant": false, "offline": false, "digits": 6, "period_s": 30, "window": 1, "algorithm": "SHA1", "no_brand_named": true},
+    {"id": "backup_code", "kind": "extra", "strength": 60, "phishing_resistant": false, "offline": false},
+    {"id": "recovery_code", "kind": "recovery", "strength": 60, "phishing_resistant": false, "offline": false},
+    {"id": "recovery_contacts", "kind": "recovery", "strength": 50, "phishing_resistant": false, "offline": false},
+    {"id": "email_code", "kind": "code", "strength": 30, "phishing_resistant": false, "offline": false},
+    {"id": "text_code", "kind": "code", "strength": 30, "phishing_resistant": false, "offline": false},
+    {"id": "device_pin", "kind": "device", "strength": 40, "phishing_resistant": true, "offline": true},
+    {"id": "account_pin", "kind": "basic_phone", "strength": 30, "phishing_resistant": false, "offline": false}
+  ],
+  "backup_codes": {"count": 10, "length": 10, "remind_at": 2, "kept_as": "scrambled", "show": ["download", "print", "copy"], "alert_each_use": true},
+  "recovery_contacts": {"min": 3, "max": 5, "confirm_min": 2},
+  "extra_checks": {
+    "turned_on_at": "account.lynkomni.com/security",
+    "owner_may_require_for": ["money", "settings"],
+    "asked": ["new_device_sign_in", "sensitive_change"],
+    "turning_off_needs": ["fresh_check", "cool_off"],
+    "wrong_tries": {"wait_after": 5, "wait_s": 300},
+    "lost_device_ways": ["backup_code", "recovery_code", "recovery_contacts", "recovery_paths"]
+  },
+  "protections": {
+    "anti_phishing_word": {"min": 3, "max": 30, "in_every_message": true, "change_needs": "fresh_check"},
+    "strongest_mode": {"only": ["passkey", "security_key"], "no_codes": true, "cool_off_days": 7, "passkeys_kept": 2},
+    "checkup": {"yearly_reminder": true, "items": ["second_way", "backup_codes", "recovery_contacts", "anti_phishing_word", "old_devices", "number_confirmed"]},
+    "activity_log": {"keep_days": 365, "this_was_not_me": true},
+    "unusual": {"reasons": ["new_country", "impossible_journey", "many_tries"], "journey_hours": 2, "many_tries": 5, "asks": "extra_check"},
+    "country_lock": {"optional": true, "max_countries": 10},
+    "lost_phone_page": {"needs_sign_in": false, "does": "lock_everything"},
+    "old_devices_days": 90,
+    "app_lock": {"ways": ["fingerprint", "face"], "privacy_screen": ["amounts", "names"]},
+    "remember_device": {"remembered_days": 30, "not_remembered_hours": 12},
+    "org_rules": {"plans": ["max", "enterprise"], "rules": ["security_keys_for_admins", "staff_session_hours", "own_devices_only"], "staff_session_hours": {"min": 1, "max": 24}}
+  },
+  "recovery": {
+    "hub": "account.lynkomni.com/recover",
+    "link_words": "cant_sign_in",
+    "problems": ["lost_phone", "passkey_broken", "no_codes", "no_authenticator", "forgot_pin", "someone_else"],
+    "ways": [
+      {"id": "other_device", "wait_h": 0},
+      {"id": "backup_code", "wait_h": 0},
+      {"id": "recovery_code", "wait_h": 0},
+      {"id": "recovery_contacts", "wait_h": 24},
+      {"id": "email_and_phone", "wait_h": 24, "cancellable": true},
+      {"id": "id_check", "wait_h": 72, "staff_approvals": 2, "with": "phone_owner_check"}
+    ],
+    "never": ["password", "security_questions", "text_alone", "email_alone", "call_alone", "support_in_chat"],
+    "during_wait": {"tell": "every_old_contact_and_device", "cancel": "one_button", "cancel_turns_on": "unusual_check"},
+    "restricted_h": 24,
+    "restricted": ["payouts", "payout_change", "downloads", "card_changes", "contact_changes"],
+    "after": "checkup",
+    "someone_else": ["lock_everything", "recover", "activity_log", "security_desk"],
+    "failed_attempts_to_strongest": 5,
+    "strongest_days": 7,
+    "paused_during": ["payouts", "cards", "keys"]
+  },
+  "resets": [
+    {"what": "passkey", "who": ["self"], "needs": "another_way_in", "where": "online"},
+    {"what": "security_key", "who": ["self"], "needs": "another_way_in", "where": "online"},
+    {"what": "authenticator", "who": ["self"], "needs": "backup_code_or_recovery", "where": "online"},
+    {"what": "backup_codes", "who": ["self"], "needs": "fresh_check", "where": "online"},
+    {"what": "recovery_code", "who": ["self"], "needs": "fresh_check", "where": "online"},
+    {"what": "recovery_contacts", "who": ["self"], "needs": "fresh_check", "where": "online"},
+    {"what": "contact", "who": ["self"], "needs": "fresh_check", "where": "online", "old_contact_told": true, "cool_off": true},
+    {"what": "anti_phishing_word", "who": ["self"], "needs": "fresh_check", "where": "online"},
+    {"what": "device_pin", "who": ["self"], "needs": "online_sign_in", "where": "online"},
+    {"what": "staff_pin", "who": ["owner", "manager"], "never_own": true, "where": "offline_too", "told": "staff_member"},
+    {"what": "manager_pin", "who": ["owner"], "never_own": true, "where": "offline_too"},
+    {"what": "duress_pin", "who": ["self"], "same_as": "pin", "where": "same_as_pin", "never_shown": true},
+    {"what": "account_pin", "who": ["self", "shop", "agent_point"], "needs": "code_and_wait_or_id_check", "wait_h": 24, "where": "online"},
+    {"what": "attend_pin", "who": ["manager"], "new_never_reused": true, "where": "online"},
+    {"what": "voter_code", "who": ["election_rules"], "old_cancelled": true, "where": "online"},
+    {"what": "card_pin", "who": ["card_issuer"], "where": "online", "only_in": "issuer_secure_display"},
+    {"what": "developer_key", "who": ["key_owner"], "overlap_h": 24, "where": "online"},
+    {"what": "organisation_admin", "who": ["another_admin", "lynkomni_staff_with_agreement"], "never_one_person": true, "where": "online"},
+    {"what": "business_owner", "who": ["successor"], "needs": "id_check_and_wait", "where": "online", "until_law": "coming_soon"},
+    {"what": "username", "who": [], "never": true, "where": "none"}
+  ]
+}

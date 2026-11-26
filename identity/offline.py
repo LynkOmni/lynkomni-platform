@@ -3,8 +3,8 @@
 An email or a text code cannot arrive without a network, so offline LynkOmni never depends on a code: it depends on a key kept
 inside the device and a PIN (or fingerprint) that unlocks it. This module holds the rules every device and the cloud share:
 
-- Provisional accounts ("start now, confirm later"): made on one device with no network, shown as queued, able to sell for cash
-  and keep records, and confirmed by the cloud when the device first connects. A wished username is never a promise.
+- No account is ever made offline (section 4C point 3, v0.118.0: the temporary "start now, confirm later" account is removed).
+  Sign-up is online only; offline use starts on a device already signed in online with a real account.
 - Offline permissions: a signed-in owner or manager device may approve a new device face to face, after the person matches the
   number shown on both screens. The permission is signed, short (at most 3 days), limited (never the owner role) and capped
   (3 per approving device until the cloud confirms them).
@@ -19,10 +19,8 @@ In production the device key lives in the device's secure hardware and the PIN c
 and scrypt in software with the same rules. Only standard, publicly reviewed methods are used (no home-made cryptography)."""
 import hashlib, hmac, json, secrets, time
 from cryptography.exceptions import InvalidSignature
-from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey, Ed25519PublicKey
-from core.usernames import check as username_check
 from identity.arrive_safe import uuid7
 from identity.platform import OFFLINE_DAYS
 
@@ -34,8 +32,8 @@ OFFLINE_ROLES = ("cashier", "manager")                 # a face-to-face permissi
 PIN_DELAYS = {3: 30, 5: 300, 7: 3600}                  # seconds to wait after that many wrong tries in a row
 HARD_LOCK_AFTER = 10
 UNLOCK_METHODS = ("recovery_code", "signed_in_device", "online_recovery")
-PROVISIONAL_WORKS = ("cash_sale", "receipt_screen", "receipt_paper", "stock", "cash_count", "device_reports", "assist_offline")
-PROVISIONAL_WAITS = ("electronic_payment", "cards", "partner_services", "storefront", "plans", "other_devices", "receipt_message")
+OFFLINE_WORKS = ("cash_sale", "receipt_screen", "receipt_paper", "stock", "cash_count", "device_reports", "assist_offline")
+OFFLINE_WAITS = ("electronic_payment", "cards", "partner_services", "storefront", "plans", "other_devices", "receipt_message")
 CASH_ONLY = ("cash_sale", "receipt_screen", "receipt_paper")
 
 
@@ -93,7 +91,7 @@ def offline_mode(role, clock):
 
 
 def allowed_offline(mode, action):
-    return action in (CASH_ONLY if mode == "cash_only" else PROVISIONAL_WORKS)
+    return action in (CASH_ONLY if mode == "cash_only" else OFFLINE_WORKS)
 
 
 PIN_MIN, PIN_MAX = 4, 8
@@ -169,48 +167,12 @@ def may_open_account(proofs):
     return bool(set(proofs) & strong) or len(set(proofs)) >= 2
 
 
-class ProvisionalAccount:
-    """'Start now, confirm later': an account that lives only on this device until it first connects. The wished username and
-    contact are not confirmed; the contact is kept encrypted on the device and moves to the personal-details vault on
-    confirmation. Every record made meanwhile is signed by the device key."""
-    def __init__(self, device, adult_confirmed, lang, country, wished_username, wished_contact, pin, now=None):
-        if adult_confirmed is not True:
-            raise PermissionError("confirm you are an adult in your country")
-        c = username_check(wished_username)
-        if not c["ok"]:
-            raise ValueError(c["reason"])
-        if not wished_contact or not isinstance(wished_contact, str):
-            raise ValueError("give the email or phone number you will confirm later")
-        n = _now(now)
-        self.device, self.key, self.pin = device, DeviceKey(), PinLock(pin)
-        self.id, self.lang, self.country, self.wished_username = uuid7(n), lang, country, wished_username
-        self._box = Fernet(Fernet.generate_key())                      # in production the box key is held by the secure hardware
-        self._contact = self._box.encrypt(wished_contact.encode())
-        self.state, self.records, self._seq = "queued", [], 0
-        self.events = [("ProvisionalAccountStarted", {"provisional_id": self.id, "lang": lang, "country": country})]
-
-    def contact_for_confirmation(self):
-        return self._box.decrypt(self._contact).decode()
-
-    def can(self, action):
-        return self.state == "confirmed" or action in PROVISIONAL_WORKS
-
-    def record(self, kind, body, now=None):
-        if not self.can(kind):
-            raise PermissionError(f"{kind} waits until the account is confirmed online")
-        self._seq += 1
-        rec = {"provisional_id": self.id, "seq": self._seq, "kind": kind, "at": _now(now), "body": body}
-        rec["sig"] = self.key.sign({k: v for k, v in rec.items() if k != "sig"})
-        self.records.append(rec)
-        return rec
-
-
 def accept_records(public_hex, records, seen):
     """Cloud check of records made offline: each must carry a valid device signature and a sequence not seen before."""
     ok, refused = [], []
     for r in records:
         body = {k: v for k, v in r.items() if k != "sig"}
-        key = (r.get("provisional_id"), r.get("seq"))
+        key = (r.get("device_id", r.get("provisional_id")), r.get("seq"))
         if key in seen:
             refused.append((r.get("seq"), "replayed"))
         elif not signature_ok(public_hex, body, r.get("sig", "")):
@@ -219,26 +181,6 @@ def accept_records(public_hex, records, seen):
             seen.add(key)
             ok.append(r)
     return ok, refused
-
-
-def confirm_provisional(acct, code_confirmed, username_free, existing_account=False, verified_existing=False):
-    """First connection. The order is fixed: the contact by code (online), then the username, then the account. A wished
-    username taken meanwhile means choosing another; a contact that already has an account means signing in to it and,
-    after verification, attaching this device's records to it."""
-    accept_code(online=True)
-    if not code_confirmed:
-        return {"result": "contact_not_confirmed"}
-    if existing_account:
-        if not verified_existing:
-            return {"result": "sign_in_to_existing"}
-        acct.state = "confirmed"
-        acct.events.append(("ProvisionalAccountConfirmed", {"provisional_id": acct.id, "into": "existing"}))
-        return {"result": "merged"}
-    if not username_free:
-        return {"result": "choose_username"}
-    acct.state = "confirmed"
-    acct.events.append(("ProvisionalAccountConfirmed", {"provisional_id": acct.id, "into": "new"}))
-    return {"result": "confirmed"}
 
 
 class Approver:

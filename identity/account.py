@@ -61,8 +61,10 @@ class Account:
         s.contact_notices = []          # SANDBOX: what the messaging provider would send (provider ledger sms_otp); kept here for tests
         s.db.executescript("""
         create table if not exists acct_people(person text primary key, lynkid text, username text, lang text, status text, closes_at real, contact_ok int);
-        create table if not exists acct_contacts(person text primary key, code_hash text, expires real);
-        create table if not exists acct_code_sends(person text, at real);
+        create table if not exists acct_contacts(person text, kind text, code_hash text, expires real, primary key(person, kind));
+        create table if not exists acct_code_sends(person text, kind text, at real);
+        create table if not exists acct_signup(person text primary key, country text, legal_ref text, email_ok int, phone_ok int, basic int, device text, network text, at real);
+        create table if not exists acct_signup_tries(device text, network text, at real);
         create table if not exists acct_number_checks(person text primary key, confirmed real, reminded real);
         create table if not exists acct_idchecks(lover text primary key, person text, purpose text, state text, partner text, requested real, answered real);
         create table if not exists acct_passkeys(locrd text primary key, person text, device_name text, enrolled_at real, revoked_at real);
@@ -76,6 +78,8 @@ class Account:
         s.safe = ArriveSafe(s)          # Arrive Safe and Collect Pass (NEW UPDATE 1, build section 2)
         from identity.protection import Protection
         s.protect = Protection(s)       # MASTER UPDATE section 2: two ways in, cool-off, slow contact change, Lock everything, successor, terms
+        from identity.ways_in import WaysIn
+        s.ways = WaysIn(s)              # section 4C point 3: backup codes, authenticator apps, security keys, QR sign-in, recovery contacts, protections
     # ---- events
     def _lynkid(s, person):
         r = s.db.execute("select lynkid from acct_people where person=?", (person,)).fetchone(); return r[0] if r else None
@@ -95,39 +99,68 @@ class Account:
         """18, or the country pack's age of majority when it is set and higher (unconfirmed packs keep 18)."""
         from core import workspaces, regions
         return workspaces.minimum_age(regions.country(country).get("storefront") if country else None)
-    def begin_sign_up(s, username, lang="en", now=None, adult_confirmed=False, country=None):
-        """BIZZ & DEVICE: an account is for a person of at least 18, or the local age of majority where that is higher
-        (core.workspaces.minimum_age). The person confirms it; no birth date or age is asked for or stored."""
+    def begin_sign_up(s, username, lang="en", now=None, adult_confirmed=False, country=None, online=True, device=None, network=None):
+        """Sign-up on the app and the web (section 4C point 3, catalog/ways-in.v1.json): online only, in the fixed order country,
+        username, age, legal name, email and its code, phone and its code, passkey, recovery. BIZZ & DEVICE: an account is for a
+        person of at least 18, or the local age of majority where that is higher (core.workspaces.minimum_age); the person
+        confirms it and no birth date or age is asked for or stored. Fake sign-ups are slowed per device and network each hour,
+        with no picture puzzles and no outside company."""
+        from core import ways_in
+        t = _now(now)
+        hour = [r for r in s.db.execute("select device,network from acct_signup_tries where at>?", (t - 3600,))]
+        ok, why = ways_in.may_start_sign_up(online, sum(1 for d, _ in hour if device and d == device), sum(1 for _, n in hour if network and n == network))
+        if not ok:
+            if why == "connect_to_create": raise ConnectionError("connect to the internet to create your account; what you typed is kept")
+            raise PermissionError("too many new accounts from here this hour: try again later")
         if adult_confirmed is not True:
             raise PermissionError(f"confirm you are {s.minimum_age(country)} or older")
         c = username_check(username)
         if not c["ok"]: raise ValueError(c["reason"])
         if s.usernames.status(username) != "available": raise ValueError(s.usernames.status(username))
+        s.db.execute("insert into acct_signup_tries values(?,?,?)", (device, network, t))
         p = s.idp.register_person(lang); u = s.usernames.take(username, p["lynkid"], "person")
-        s.db.execute("insert into acct_people values(?,?,?,?,?,?,0)", (p["internal"], p["lynkid"], u, lang, "signing_up", None)); s.db.commit()
-        return {"person": p["internal"], "lynkid": p["lynkid"], "username": u, "next": "contact"}
-    def send_contact_code(s, person, now=None):
+        s.db.execute("insert into acct_people values(?,?,?,?,?,?,0)", (p["internal"], p["lynkid"], u, lang, "signing_up", None))
+        s.db.execute("insert into acct_signup values(?,?,null,0,0,0,?,?,?)", (p["internal"], country, device, network, t)); s.db.commit()
+        return {"person": p["internal"], "lynkid": p["lynkid"], "username": u, "next": "legal_name"}
+    def set_legal_name(s, person, legal_name, legal_ref):
+        """The legal name as on the person's ID document (a business gives its registered name), asked once and kept apart from
+        the display name so the phone owner check can match it. The text is checked here and kept only in the PII vault;
+        the account keeps the vault reference."""
+        from core import ways_in
+        why = ways_in.legal_name_problem(legal_name)
+        if why: raise ValueError(f"legal name: {why}")
+        s.db.execute("update acct_signup set legal_ref=? where person=?", (legal_ref, person)); s.db.commit()
+        return {"next": "email"}
+    def send_contact_code(s, person, now=None, kind="email"):
         """SANDBOX: the code is returned so tests run offline. Production sends it by SMS or email and never returns it.
-        A code lasts 5 minutes; asking again waits a little longer each time and at most 5 codes go out in an hour (core/phone.py
-        CODES): the wait is raised as CodeWait with the seconds left, which the screen shows as its countdown."""
+        Email and phone each get their own code. A code lasts 5 minutes; asking again waits a little longer each time and at
+        most 5 codes go out in an hour (core/phone.py CODES): the wait is raised as CodeWait with the seconds left."""
         from core.phone import CODES, resend_wait
+        if kind not in ("email", "phone"): raise ValueError("a code goes to an email or a phone number")
         t = _now(now)
-        sent = [r[0] for r in s.db.execute("select at from acct_code_sends where person=?", (person,))]
+        sent = [r[0] for r in s.db.execute("select at from acct_code_sends where person=? and kind=?", (person, kind))]
         wait = resend_wait(sent, t)
         if wait: raise CodeWait(wait)
         code = f"{secrets.randbelow(10**6):06d}"
-        s.db.execute("insert or replace into acct_contacts values(?,?,?)", (person, _h(code), t + CODES["lifetime_s"]))
-        s.db.execute("insert into acct_code_sends values(?,?)", (person, t)); s.db.commit(); return code
-    def confirm_contact(s, person, code, now=None):
-        r = s.db.execute("select code_hash,expires from acct_contacts where person=?", (person,)).fetchone()
+        s.db.execute("insert or replace into acct_contacts values(?,?,?,?)", (person, kind, _h(code), t + CODES["lifetime_s"]))
+        s.db.execute("insert into acct_code_sends values(?,?,?)", (person, kind, t)); s.db.commit(); return code
+    def confirm_contact(s, person, code, now=None, kind="email"):
+        r = s.db.execute("select code_hash,expires from acct_contacts where person=? and kind=?", (person, kind)).fetchone()
         if not r or r[1] < _now(now) or not code_matches(code, r[0]): raise PermissionError("wrong or expired code")
-        s.db.execute("update acct_people set contact_ok=1 where person=?", (person,)); s.db.execute("delete from acct_contacts where person=?", (person,)); s.db.commit()
-        return {"next": "passkey"}
+        s.db.execute(f"update acct_signup set {kind}_ok=1 where person=?", (person,))
+        s.db.execute("delete from acct_contacts where person=? and kind=?", (person, kind))
+        both = s.db.execute("select email_ok and phone_ok from acct_signup where person=?", (person,)).fetchone()
+        if both and both[0]: s.db.execute("update acct_people set contact_ok=1 where person=?", (person,))
+        s.db.commit()
+        return {"next": "phone" if kind == "email" else "passkey"}
     def finish_sign_up(s, person, passkey_public_key, device_name, phone_ref, email_ref, backup_contact=None, now=None):
-        """Needs a verified contact and a passkey. Returns the recovery code ONCE: it goes on paper, never on the phone."""
+        """Needs the legal name, a confirmed email and a confirmed phone number, and a passkey. Returns the recovery code and the
+        ten backup codes ONCE: the recovery code goes on paper, never on the phone."""
         row = s.db.execute("select contact_ok,lynkid,username,lang from acct_people where person=?", (person,)).fetchone()
-        if not row or not row[0]: raise PermissionError("verify a phone or email first")
-        if not (phone_ref or email_ref): raise ValueError("an account needs an email or a phone number; either one is enough")
+        su = s.db.execute("select legal_ref from acct_signup where person=?", (person,)).fetchone()
+        if not row or not row[0]: raise PermissionError("confirm the email and the phone number first, each with its own code")
+        if not su or not su[0]: raise PermissionError("give the legal name as on your ID document first")
+        if not (phone_ref and email_ref): raise ValueError("an account needs both an email and a phone number")
         # one person, one contact (section 4C point 1): a personal email or phone number belongs to one personal account at a time
         for col, ref in (("phone", phone_ref), ("email", email_ref)):
             if ref and s.auth.db.execute(f"select 1 from identities where {col}=? and person<>?", (ref, person)).fetchone():
@@ -140,7 +173,8 @@ class Account:
         s.emit(person, "PasskeyEnrolled", {"lynkid": row[1], "locrd": locrd, "device_name": device_name}, now)
         from identity.protection import TERMS
         s.protect.accept_terms(person, TERMS["terms"], TERMS["privacy"], now)      # the sign-up screen shows both; the versions are recorded
-        return {"recovery_code": code, "locrd": locrd, "show_once": True, "next": "two_ways_in"}
+        backup = s.ways.make_backup_codes(person, now, quiet=True)
+        return {"recovery_code": code, "backup_codes": backup, "locrd": locrd, "show_once": True, "next": "two_ways_in"}
     # ---- MASTER UPDATE 55: sign-up by email or by phone, side by side, and no clue for strangers
     # ---- section 4C point 1: numbers that change hands --------------------------------------------------------------------
     def number_reassigned(s, phone_ref, now=None):
@@ -188,15 +222,6 @@ class Account:
         known = s.auth.db.execute(f"select person from identities where {col}=?", (contact_ref,)).fetchone() is not None
         s.contact_notices.append({"kind": kind, "ref": contact_ref, "message": "someone_tried_your_contact" if known else "sign_up_code"})
         return {"next": "check_your_messages"}
-    # ---- MASTER UPDATE 55: the merge, a "start now, confirm later" account joins an existing account after verification
-    def attach_provisional(s, person, provisional_id, device_public, records, verified, seen, now=None):
-        """The person signed in to their existing account and passed a fresh check: the device's sealed records join it.
-        Matching contacts alone never merge anything; altered or replayed records are refused."""
-        from identity.offline import accept_records
-        if not verified: return {"state": "needs_fresh_check"}
-        ok, refused = accept_records(device_public, records, seen)
-        s.emit(person, "ProvisionalAccountConfirmed", {"provisional_id": provisional_id, "into": "existing"}, now)
-        return {"state": "merged", "accepted": len(ok), "refused": refused}
     # ---- identity check before a first paid Storefront offer (BIZZ & DEVICE): the licensed partner checks, LynkOmni only asks and records
     def request_identity_check(s, person, purpose="first_paid_offer", now=None):
         """Sends the request to the licensed payment partner (sandbox until signed). The state is 'sent' until the partner answers."""

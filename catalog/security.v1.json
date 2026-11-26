@@ -1338,6 +1338,72 @@
    "test": "tests/test_message_system.py::test_reply_by_text_yes_and_stop",
    "build_section": 4,
    "status": "built"
+  },
+  {
+   "id": "signup-online-only",
+   "asset": "accounts",
+   "threat": "An account is made offline on a stolen or shared device and later joined to a real one",
+   "enforced_in": [
+    "identity/account.py"
+   ],
+   "test": "tests/test_ways_in.py::test_sign_up_is_online_only_with_limits_per_device_and_network",
+   "build_section": "4C",
+   "status": "built"
+  },
+  {
+   "id": "signup-needs-both-contacts",
+   "asset": "accounts",
+   "threat": "An account is opened with a recycled phone number or a throwaway email alone",
+   "enforced_in": [
+    "identity/account.py"
+   ],
+   "test": "tests/test_protection.py::test_email_and_phone_are_both_needed",
+   "build_section": "4C",
+   "status": "built"
+  },
+  {
+   "id": "backup-codes-once",
+   "asset": "accounts",
+   "threat": "A backup code is read off a screen or a log and used again",
+   "enforced_in": [
+    "identity/ways_in.py"
+   ],
+   "test": "tests/test_ways_in.py::test_ten_backup_codes_shown_once_each_used_once",
+   "build_section": "4C",
+   "status": "built"
+  },
+  {
+   "id": "authenticator-code-once",
+   "asset": "accounts",
+   "threat": "An authenticator code seen over a shoulder is used a second time",
+   "enforced_in": [
+    "identity/ways_in.py"
+   ],
+   "test": "tests/test_ways_in.py::test_authenticator_app_by_the_open_standard",
+   "build_section": "4C",
+   "status": "built"
+  },
+  {
+   "id": "qr-sign-in-bound",
+   "asset": "accounts",
+   "threat": "A sign-in QR code photographed by someone else opens the account on their device",
+   "enforced_in": [
+    "identity/ways_in.py"
+   ],
+   "test": "tests/test_ways_in.py::test_qr_sign_in_needs_the_signed_in_phone_and_ends_in_two_minutes",
+   "build_section": "4C",
+   "status": "built"
+  },
+  {
+   "id": "unusual-sign-in-check",
+   "asset": "accounts",
+   "threat": "A stolen session is used from another country minutes later",
+   "enforced_in": [
+    "identity/ways_in.py"
+   ],
+   "test": "tests/test_ways_in.py::test_unusual_sign_ins_ask_an_extra_check_and_old_devices_go",
+   "build_section": "4C",
+   "status": "built"
   }
  ]
 }
