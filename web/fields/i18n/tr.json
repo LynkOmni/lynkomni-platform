@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "Önce sepete bir ürün ekleyin.",
   "fd_ask_manager": "Bir yönetici ya da sahip yardımcı olabilir.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "Müşterinin verdiği tutarın tamamını yazın.",
   "fd_error": "Hata",
   "fd_example": "Örnek: {sample}",
+  "fd_find": "Bul",
+  "fd_find_none": "Eşleşme yok. Daha az harf deneyin.",
   "fd_go_online": "İnternete bağlanın, sonra tekrar deneyin.",
   "fd_go_to": "{field} alanına git",
   "fd_info": "Bilgi",

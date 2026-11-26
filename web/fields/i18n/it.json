@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "it",
  "native": "Italiano",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "Aggiungi prima un articolo al carrello.",
   "fd_ask_manager": "Un responsabile o il titolare può aiutare.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "Scrivi l'importo intero dato dal cliente.",
   "fd_error": "Errore",
   "fd_example": "Esempio: {sample}",
+  "fd_find": "Cerca",
+  "fd_find_none": "Nessun risultato. Prova con meno lettere.",
   "fd_go_online": "Connettiti a internet, poi riprova.",
   "fd_go_to": "Vai a {field}",
   "fd_info": "Informazione",

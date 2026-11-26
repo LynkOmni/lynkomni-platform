@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "پهريان ٽوڪري ۾ ڪا شيءِ شامل ڪريو.",
   "fd_ask_manager": "مئنيجر يا مالڪ مدد ڪري سگهن ٿا.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "گراهڪ جيڪا پوري رقم ڏني اها لکو.",
   "fd_error": "غلطي",
   "fd_example": "مثال: {sample}",
+  "fd_find": "ڳوليو",
+  "fd_find_none": "ڪجهه به نه مليو. گهٽ اکر آزمايو.",
   "fd_go_online": "انٽرنيٽ سان ڳنڍيو، پوءِ ٻيهر ڪوشش ڪريو.",
   "fd_go_to": "{field} ڏانهن وڃو",
   "fd_info": "معلومات",

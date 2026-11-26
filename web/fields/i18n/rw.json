@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "rw",
  "native": "Ikinyarwanda",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "Banza ushyire igicuruzwa mu gitebo.",
   "fd_ask_manager": "Umuyobozi cyangwa nyir'ubucuruzi bashobora gufasha.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "Andika amafaranga yose umukiriya yatanze.",
   "fd_error": "Ikosa",
   "fd_example": "Urugero: {sample}",
+  "fd_find": "Shakisha",
+  "fd_find_none": "Nta gihuye. Gerageza inyuguti nke.",
   "fd_go_online": "Jya kuri interineti, hanyuma wongere ugerageze.",
   "fd_go_to": "Jya kuri {field}",
   "fd_info": "Amakuru",

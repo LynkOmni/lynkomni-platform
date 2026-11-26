@@ -4,6 +4,7 @@
  *  as the shop's phone and the rider's. Only customer steps show: never an address, a phone number, the rider's identity or a
  *  position; live progress is a share of the trip. "Tell me each step" records how the customer wants to hear (by text message or
  *  in chat), in their language; offline, the page keeps the last known step and says so. */
+import { anyDeviceHtml } from "../../../ts/src/devicenote.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import { layoutFor } from "../../../ts/src/interfaces.js";
 import { applyLayout, turnedShape } from "../../../ts/src/turn.js";
@@ -81,7 +82,7 @@ function act(a: string): void {
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "firstopen", "country", "dark", "lang", "turn"], S, W, C);
+  $("#panel").innerHTML = panelHtml(["online", "firstopen", "country", "dark", "lang", "turn"], S, W, C) + anyDeviceHtml(t);
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), STAGES, (k) => { S.stage = (STAGES as readonly string[]).includes(k) ? (k as Stage) : "on_the_way"; S.channel = ""; draw(); });
 }

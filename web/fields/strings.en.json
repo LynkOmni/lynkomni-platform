@@ -41,5 +41,7 @@
  "fd_enter_cash": "Type the full amount the customer gave.",
  "fd_add_item": "Add an item to the basket first.",
  "fd_country_find": "Find a country",
- "fd_country_none": "No country matches. Try its dialling code, like 237."
+ "fd_country_none": "No country matches. Try its dialling code, like 237.",
+  "fd_find": "Find",
+  "fd_find_none": "Nothing matches. Try fewer letters."
 }

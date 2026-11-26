@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "पहले टोकरी में कोई सामान जोड़ें।",
   "fd_ask_manager": "मैनेजर या मालिक मदद कर सकते हैं।",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "ग्राहक ने जो पूरी राशि दी, वह लिखें।",
   "fd_error": "त्रुटि",
   "fd_example": "उदाहरण: {sample}",
+  "fd_find": "खोजें",
+  "fd_find_none": "कुछ नहीं मिला। कम अक्षर आज़माएँ।",
   "fd_go_online": "इंटरनेट से जुड़ें, फिर दोबारा कोशिश करें।",
   "fd_go_to": "{field} पर जाएँ",
   "fd_info": "जानकारी",

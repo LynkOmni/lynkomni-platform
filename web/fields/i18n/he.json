@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "הוסיפו קודם פריט לסל.",
   "fd_ask_manager": "מנהל או הבעלים יכולים לעזור.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "הקלידו את הסכום המלא שהלקוח נתן.",
   "fd_error": "שגיאה",
   "fd_example": "דוגמה: {sample}",
+  "fd_find": "חיפוש",
+  "fd_find_none": "אין התאמות. נסו פחות אותיות.",
   "fd_go_online": "התחברו לאינטרנט ואז נסו שוב.",
   "fd_go_to": "מעבר אל {field}",
   "fd_info": "מידע",

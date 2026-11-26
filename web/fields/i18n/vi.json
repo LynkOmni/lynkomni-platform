@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "Thêm một món vào giỏ trước.",
   "fd_ask_manager": "Quản lý hoặc chủ cửa hàng có thể giúp.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "Nhập toàn bộ số tiền khách đưa.",
   "fd_error": "Lỗi",
   "fd_example": "Ví dụ: {sample}",
+  "fd_find": "Tìm",
+  "fd_find_none": "Không có kết quả. Hãy thử ít chữ hơn.",
   "fd_go_online": "Kết nối internet rồi thử lại.",
   "fd_go_to": "Đến {field}",
   "fd_info": "Thông tin",

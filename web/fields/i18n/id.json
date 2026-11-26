@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "Tambahkan barang ke keranjang terlebih dahulu.",
   "fd_ask_manager": "Manajer atau pemilik dapat membantu.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "Ketik jumlah penuh yang diberikan pelanggan.",
   "fd_error": "Galat",
   "fd_example": "Contoh: {sample}",
+  "fd_find": "Cari",
+  "fd_find_none": "Tidak ada yang cocok. Coba lebih sedikit huruf.",
   "fd_go_online": "Sambungkan ke internet, lalu coba lagi.",
   "fd_go_to": "Buka {field}",
   "fd_info": "Informasi",

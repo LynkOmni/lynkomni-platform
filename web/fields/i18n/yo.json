@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "Kọ́kọ́ fi ọjà kan sínú agbọ̀n.",
   "fd_ask_manager": "Alábòójútó tàbí olùní lè ràn ọ́ lọ́wọ́.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "Tẹ gbogbo iye tí oníbàárà fún ọ.",
   "fd_error": "Àṣìṣe",
   "fd_example": "Àpẹẹrẹ: {sample}",
+  "fd_find": "Wá",
+  "fd_find_none": "Kò sí ohun tó bá a mu. Gbìyànjú àwọn lẹ́tà díẹ̀.",
   "fd_go_online": "Sopọ̀ mọ́ ẹ̀rọ ayélujára, lẹ́yìn náà gbìyànjú lẹ́ẹ̀kan sí i.",
   "fd_go_to": "Lọ sí {field}",
   "fd_info": "Ìsọfúnni",

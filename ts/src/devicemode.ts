@@ -29,11 +29,13 @@ export class DeviceMode {
     root.dataset["deviceClass"] = c.class; root.dataset["interface"] = c.interface; root.dataset["touch"] = this.touch() ? "yes" : "no";
   }
   /** The testing control in the emulator panel: which hardware version is registered (real devices are told by LynkDriver). */
-  control(label: string, words: Record<Version, string>): string {
+  control(label: string, words: Record<Version, string>, only?: Record<Version, string>): string {
     const v = this.versions();
-    if (v.length < 2) return "";
+    if (v.length < 2) return only && v[0] ? `<p class="vonly" data-ctl="version-only">${only[v[0]]}</p>` : "";   // said plainly, never left out
     return `<label class="row"><span>${label}</span> <select data-ctl="version">${v.map((x) => `<option value="${x}"${x === this.version ? " selected" : ""}>${words[x]}</option>`).join("")}</select></label>`;
   }
+  /** A computer's version without touch is a mouse and keyboard, not buttons. */
+  pointer(): boolean { const d = this.reg.devices.find((x) => x.id === this.device); return /pointer/.test(String(d?.non_touch ?? "")); }
 }
 
 export type Dir = "up" | "down" | "left" | "right";
@@ -132,7 +134,7 @@ export function wireDevice(mode: DeviceMode, o: { t: (k: string) => string; icon
     document.addEventListener("mousedown", (e) => { if ((e.target as HTMLElement | null)?.closest?.(".padkey")) e.preventDefault(); });
   }
   return {
-    control: () => mode.control(o.t("version_testing"), { touch: o.t("version_touch"), non_touch: o.t("version_non_touch") }),
+    control: () => deviceChoiceHtml(mode, o.t),
     change: (el) => {
       if (el.dataset["ctl"] !== "version") return false;
       const v = (el as HTMLSelectElement).value;
@@ -163,4 +165,12 @@ export function wireDevice(mode: DeviceMode, o: { t: (k: string) => string; icon
       e.preventDefault(); press(w); return true;
     },
   };
+}
+
+/** Every device emulator's panel says how the device is used (owner, 2026-11-26): the choice where the real device can be either a
+ *  touch screen or buttons (a mouse and keyboard on a computer), and a plain line where it can only be one, so nobody looks for a
+ *  choice that the device does not have. */
+export function deviceChoiceHtml(mode: DeviceMode, t: (k: string) => string): string {
+  return mode.control(t("version_testing"), { touch: t("version_touch"), non_touch: mode.pointer() ? t("version_pointer") : t("version_non_touch") },
+    { touch: t("version_only_touch"), non_touch: t("version_only_non_touch") });
 }
