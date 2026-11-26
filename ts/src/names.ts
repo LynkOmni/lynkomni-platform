@@ -211,7 +211,7 @@ export function watchNames(root: Element, say: () => Say | undefined, mode: () =
   const Obs = view?.MutationObserver;
   explainNames(root, say(), mode());
   nmWireTips(root, say);
-  watchChoosers(root, say);   // every page runs this watcher, so every choice on every page becomes LynkOmni's own drop-down
+  watchChoosers(root, say, (text) => explainText(text, say(), mode()));   // every page runs this watcher, so every choice on every page becomes LynkOmni's own drop-down
   if (!Obs) return () => undefined;
   // New text is marked just after the screen is shown, not while it is being drawn: checking whether a line has room for the
   // plain word needs the page's styles, and reading them in the middle of a redraw made the browser work the whole screen out

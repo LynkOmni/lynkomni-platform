@@ -14,6 +14,8 @@ type Say = (k: string, v?: Record<string, string | number>) => string;
 
 const LO_LONG = 10;   // a list longer than this gets a Find box
 let loSeq = 0;
+/** Adds the plain word to a Lynk name in a drop-down's words, as everywhere else (ts/src/names.ts explainText; handed over by watchNames). */
+let loExplain: (text: string) => string = (text) => text;
 
 /** The same escaping as the shared parts (ts/src/emulator.ts esc): every attribute here is written in double quotes. */
 function loEsc(s: string): string {
@@ -69,7 +71,7 @@ export function enhanceChoosers(root: ParentNode, say: () => Say | undefined): v
 function loSync(sel: HTMLSelectElement): void {
   const btn = sel.parentElement?.querySelector<HTMLButtonElement>(".lo-selbtn");
   if (!btn) return;
-  const now = loShown(sel);
+  const now = loExplain(loShown(sel));
   const label = loLabel(sel);
   // Only what changed is written: the watcher below reacts to changes, so writing the same words again would wake it for ever.
   const box = btn.querySelector(".lo-now")!;
@@ -116,7 +118,7 @@ function loToggle(sel: HTMLSelectElement, say: () => Say | undefined): void {
     const g = o.parentElement instanceof HTMLOptGroupElement ? o.parentElement : null;
     if (g && g !== group) rows.push(`<li class="lo-group" role="presentation">${loEsc(g.label)}</li>`);
     group = g;
-    const text = (o.textContent ?? "").trim();
+    const text = loExplain((o.textContent ?? "").trim());
     rows.push(`<li class="lo-opt" role="option" id="${listId}-${i}" data-v="${loEsc(o.value)}" data-find="${loEsc(text.toLowerCase())}"`
       + ` aria-selected="${o.selected}"${o.disabled ? ' aria-disabled="true"' : ""}>${loEsc(text)}</li>`);
   });
@@ -185,7 +187,8 @@ function loToggle(sel: HTMLSelectElement, say: () => Say | undefined): void {
 
 /** Every page: turns its selects now and after every redraw (called by ts/src/names.ts watchNames, which every page runs).
  *  Only what was just added is looked at, never the whole page again, so a tap stays fast. */
-export function watchChoosers(root: Element, say: () => Say | undefined): void {
+export function watchChoosers(root: Element, say: () => Say | undefined, explain?: (text: string) => string): void {
+  if (explain) loExplain = explain;
   const view = root.ownerDocument?.defaultView as (Window & typeof globalThis) | null;
   enhanceChoosers(root, say);
   const Obs = view?.MutationObserver;

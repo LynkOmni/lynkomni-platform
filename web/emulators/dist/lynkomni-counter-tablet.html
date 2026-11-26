@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-9nP6pMhOWBTC9bZNG9rzutPYPQRyOUA4nqV+h+wfeCM='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-dYsd/MZ9bw99MdQrX0Zr3fju1nLh3+xKjWGk81AS6I8='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkPOS on LynkTab</title>
 <meta name="description" content="Interactive emulator of the LynkPOS counter till: a tablet on a stand with a customer-facing display, printer, scanner, cash drawer and card tap area. Real sale rules, sandbox partners.">
@@ -1941,6 +1941,7 @@ function wireNotices(root) {
 // ---- ts/src/chooser.js
 const LO_LONG = 10; // a list longer than this gets a Find box
 let loSeq = 0;
+let loExplain = (text) => text;
 function loEsc(s) {
     return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
@@ -1996,7 +1997,7 @@ function loSync(sel) {
     const btn = sel.parentElement?.querySelector(".lo-selbtn");
     if (!btn)
         return;
-    const now = loShown(sel);
+    const now = loExplain(loShown(sel));
     const label = loLabel(sel);
     const box = btn.querySelector(".lo-now");
     if (box.textContent !== now)
@@ -2050,7 +2051,7 @@ function loToggle(sel, say) {
         if (g && g !== group)
             rows.push(`<li class="lo-group" role="presentation">${loEsc(g.label)}</li>`);
         group = g;
-        const text = (o.textContent ?? "").trim();
+        const text = loExplain((o.textContent ?? "").trim());
         rows.push(`<li class="lo-opt" role="option" id="${listId}-${i}" data-v="${loEsc(o.value)}" data-find="${loEsc(text.toLowerCase())}"`
             + ` aria-selected="${o.selected}"${o.disabled ? ' aria-disabled="true"' : ""}>${loEsc(text)}</li>`);
     });
@@ -2144,7 +2145,9 @@ function loToggle(sel, say) {
     };
     doc.addEventListener("pointerdown", outside, true);
 }
-function watchChoosers(root, say) {
+function watchChoosers(root, say, explain) {
+    if (explain)
+        loExplain = explain;
     const view = root.ownerDocument?.defaultView;
     enhanceChoosers(root, say);
     const Obs = view?.MutationObserver;
@@ -2393,7 +2396,7 @@ function watchNames(root, say, mode = namesMode) {
     const Obs = view?.MutationObserver;
     explainNames(root, say(), mode());
     nmWireTips(root, say);
-    watchChoosers(root, say); // every page runs this watcher, so every choice on every page becomes LynkOmni's own drop-down
+    watchChoosers(root, say, (text) => explainText(text, say(), mode())); // every page runs this watcher, so every choice on every page becomes LynkOmni's own drop-down
     if (!Obs)
         return () => undefined;
     let busy = false, due = false;
