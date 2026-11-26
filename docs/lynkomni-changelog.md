@@ -2,12 +2,20 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
-## v0.122.1 (2026-11-26)
+## v0.122.2 (2026-11-26)
 LynkOmni's own drop-down everywhere, every device says how it is used, and the betting counter's Scan.
 - Every choice on every page (the kiosk's checker list, panel choices, settings and forms) is now LynkOmni's own drop-down instead of the phone's built-in picker, which inside some apps did not open or drew its items dark on dark, so a list that had names looked empty. It opens in place (above when there is no room), scrolls, follows the theme and the reader's direction, has a Find box for long lists, and works with arrows, Enter, Escape and a first letter. The select stays underneath as the source of the value, so every screen's code is unchanged (ts/src/chooser.ts, on every page through the names watcher).
 - Every device emulator's panel says how the device is used: the Touch screen or Buttons choice where the real device can be either (the rider phone gained its keypad version with the arrow pad; the owner's computer view offers Touch screen or Mouse and keyboard), and a plain line where it can only be one ("Touch screen only" on the signing tablet, counter tablet and phone pages; "Buttons only" on LynkDScreen, LynkCDisplay and the button phone; "Touch, mouse or keyboard" on web pages). Words in 38 languages.
 - The betting counter's Scan button no longer does nothing when no ticket is in hand: it offers the sample tickets (each labelled Sample) and the chosen one goes through the real check. Nine new words in 38 languages.
 - tests/test_choosers.py (CI layout job) checks every page in a browser: no built-in picker, the device line or choice in every panel, and the kiosk's checker list opens and chooses. Size budgets: customer display 830 KB, card 825 KB, with reasons.
+Nothing on a screen is ever cut off, and every icon has its size (owner report from the kitchen screen).
+- The staff lock of every shared staff device (the PIN pad and "Who is using this device") scrolls inside its screen instead of being cut, and the person icon in the staff list and the Back and OK keys of the PIN pad have a fixed small size (shared parts web/device/deviceparts.css and web/shell/parts.css).
+- Every page gives any icon without its own size the size of the text beside it (web/shell/iconsize.css, added to every page by web/build.mjs), so an icon can never fill a button again.
+- The same check found and fixed two more places: the business phone's sign-in turned sideways (Send code was cut) and the LynkCDisplay "Rate us" screen; both now scroll.
+- The fit guard (tests/test_fit_guard.py) fails on any text, picture or icon cut off with no scroll (CUT), on any icon bigger than twice the text beside it (ICONS), and on any cut button at every size, light and dark; it opens the PIN pad and the staff list of every staff device at every size. Proven: it fails on the old version.
+- Every emulator preview is republished from this build, so no preview shows an older build than main.
+
+## v0.122.1 (2026-11-26)
 Nothing on a screen is ever cut off, and every icon has its size (owner report from the kitchen screen).
 - The staff lock of every shared staff device (the PIN pad and "Who is using this device") scrolls inside its screen instead of being cut, and the person icon in the staff list and the Back and OK keys of the PIN pad have a fixed small size (shared parts web/device/deviceparts.css and web/shell/parts.css).
 - Every page gives any icon without its own size the size of the text beside it (web/shell/iconsize.css, added to every page by web/build.mjs), so an icon can never fill a button again.

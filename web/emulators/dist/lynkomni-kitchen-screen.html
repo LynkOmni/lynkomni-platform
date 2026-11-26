@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-CoXZPqdJMD7ltn9NqSnf5Ov1ae8t64E/BjAsXVvgJGs='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-pt0wgcQfQIPGqqpRbmtTa5gAKhplnbR5/azWavbRoYs='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkPOS Kitchen Screen</title>
 <meta name="description" content="Interactive emulator of the kitchen screen for restaurant mode (N1): a wall-mounted display that shows every table order as it is sent from the till, with a bump bar to mark items ready. Works offline over the shop's network or LynkMesh.">
@@ -342,6 +342,9 @@ html { font-size: 100%; }
 .state-confirmed { color: var(--status-success-text); background: var(--status-success-bg); border: 1px solid var(--status-success-border); }
 .state-failed { color: var(--status-danger-text); background: var(--status-danger-bg); border: 1px solid var(--status-danger-border); }
 
+/* every icon has a size; a part's own size wins (2026-11-26) */
+:where(.ic){inline-size:1.25em;block-size:1.25em;display:inline-flex;flex:none}:where(.ic)>svg{inline-size:100%;block-size:100%}
+
 /* Shared by every real-device emulator: page head, stage, control panel, event log, the five state chips. Colours are design tokens only. */
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
@@ -678,6 +681,7 @@ body { margin: 0; min-height: 100vh; }
 .pkey:not(:disabled):hover { border-color: var(--brand-primary); }
 .pkey:disabled { opacity: .45; }
 .pkey.fn { background: var(--bg-surface); color: var(--brand-ink); }
+.pkey .pnum .ic { inline-size: 24px; block-size: 24px; }   /* Back and OK keys: the icon is the size of a digit */
 .pkey .pdots { inline-size: 18px; block-size: 18px; color: var(--text-secondary); }
 .pmsg { margin: 0; }
 .popts { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
@@ -879,7 +883,7 @@ body { margin: 0; min-height: 100vh; }
 .dk-staff h2 { margin: 0 0 8px; font: 700 17px/1.3 var(--font-heading); }
 .dk-staff ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .dk-staff button { display: flex; align-items: center; gap: 10px; inline-size: 100%; min-block-size: 52px; padding: 0 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font: 600 15px var(--font-body); text-align: start; cursor: pointer; }
-.dk-staff button > span:first-of-type { flex: 1; min-inline-size: 0; overflow-wrap: anywhere; }
+.dk-staff button > span:not(.ic):not(.dk-role) { flex: 1; min-inline-size: 0; overflow-wrap: anywhere; }
 .dk-role { color: var(--text-secondary); font-weight: 400; font-size: 12px; }
 .dk-note { margin: 8px 0 0; color: var(--text-secondary); font-size: 12px; overflow-wrap: anywhere; }
 .dk-sheet { display: grid; gap: 8px; padding: 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); }
@@ -896,7 +900,12 @@ body { margin: 0; min-height: 100vh; }
 .notifications h2 { margin: 0; }
 /* the staff lock of every shared staff device (StaffGate, 2026-11-24) */
 .dk-gate { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px 8px; text-align: center; min-inline-size: 0; }
+/* never cut (owner report 2026-11-26): on a screen that does not scroll itself, the lock scrolls; elsewhere the screen scrolls it */
+.dk-gate.dk-scroll { flex: 1 1 auto; min-block-size: 0; align-self: stretch; overflow-y: auto; overscroll-behavior: contain; }
+.dk-gate.dk-scroll > * { flex: none; }
 .dk-gate .dk-staff { inline-size: min(100%, 420px); }
+.dk-staff .ic { inline-size: 24px; block-size: 24px; display: inline-flex; flex: none; }   /* one small person icon per row, never the size of the screen */
+.dk-staff .ic svg { inline-size: 100%; block-size: 100%; }
 .dk-who, .dk-whorow { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; margin: 0; font-size: 14px; color: var(--text-primary); }
 .dk-whorow { justify-content: space-between; padding-block: 4px; padding-inline: 12px; }
 .dk-whorow > span { display: inline-flex; align-items: center; gap: 6px; min-inline-size: 0; overflow-wrap: anywhere; }
@@ -5654,7 +5663,7 @@ function screen() {
     if (kitchenOutput(l) !== "screen")
         return `<div class="kempty"><h2>${esc(t("kitchen"))}</h2><p>${esc(t("printed_tickets"))}</p><pre class="kticket">${esc(open().slice(0, 2).map((tk) => `${t("table", { label: tk.table })}\n${tk.lines.map((x) => `${x.qty} x ${t(x.name)}`).join("\n")}`).join("\n\n") || t("all_ready"))}</pre></div>`;
     const screens = l.kitchenScreens === null ? "∞" : String(l.kitchenScreens);
-    return `<header class="khead"><h1>${esc(t("kitchen_queue"))}</h1><span class="kst">${esc(t("kitchen"))} ${S.station}/${screens}</span>${DSH.bar()}</header>${DSH.crumbs(true)}${deviceBanners(LINES, t, (id) => icon(id))}${GATE.open ? GATE.whoRow() : GATE.view()}
+    return `<header class="khead"><h1>${esc(t("kitchen_queue"))}</h1><span class="kst">${esc(t("kitchen"))} ${S.station}/${screens}</span>${DSH.bar()}</header>${DSH.crumbs(true)}${deviceBanners(LINES, t, (id) => icon(id))}${GATE.open ? GATE.whoRow() : GATE.view("dk-gate dk-scroll")}
     ${GATE.open ? `<div class="tickets" data-wait-area data-shape="list">${open().map((tk, i) => `<article class="ticket${i === S.sel ? " sel" : ""}${Date.now() - tk.at > 10 * 60000 ? " late" : ""}" aria-label="${esc(t("table", { label: tk.table }))}"><header><strong>${esc(t("table", { label: tk.table }))}</strong><span>${esc(mins(tk.at))} min</span></header>
       <ul>${tk.lines.map((x) => `<li class="${x.ready ? "done" : ""}"><button data-act="line:${tk.id}:${x.lineNo}" ${x.ready ? "disabled" : ""}><span class="q">${x.qty}</span><span class="nm">${esc(t(x.name))}${x.mods ? `<small>${esc(t(x.mods))}</small>` : ""}</span>${x.ready ? chip("confirmed") : ""}</button></li>`).join("")}</ul>
       <button class="kready" data-act="all:${tk.id}">${esc(t("ready"))}</button></article>`).join("") || `<p class="kall">${esc(t("all_ready"))}</p>${designedState("empty", t, DATA.statePictures, S.dark, { label: t("help"), act: "dsh:help" })}`}</div>` : ""}`;
