@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "f4e7142fbf813933ed8f3040e8c8e173d54d8f521390febb028a0363e805461b",
+ "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
  "texts": {
   "account": "Akun",
   "active": "Aktif",
@@ -342,7 +342,7 @@
   "it_time_clock": "Jam absensi",
   "it_timeline": "Linimasa",
   "it_unusual": "Tidak biasa",
-  "it_username": "Nama pengguna toko",
+  "it_username": "Handle toko",
   "it_waiting": "Menunggu",
   "it_waiting_services": "Segera di negara Anda",
   "it_who_owes_me": "Siapa yang berutang",

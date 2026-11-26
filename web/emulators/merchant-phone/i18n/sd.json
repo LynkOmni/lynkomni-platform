@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "f4e7142fbf813933ed8f3040e8c8e173d54d8f521390febb028a0363e805461b",
+ "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
  "texts": {
   "account": "اڪائونٽ",
   "active": "فعال",
@@ -342,7 +342,7 @@
   "it_time_clock": "حاضري گھڙي",
   "it_timeline": "ٽائيم لائين",
   "it_unusual": "غير معمولي",
-  "it_username": "دڪان جو يوزرنيم",
+  "it_username": "دڪان جو سڃاڻپ نالو",
   "it_waiting": "انتظار ۾",
   "it_waiting_services": "جلد توهان جي ملڪ ۾",
   "it_who_owes_me": "ڪير منهنجو قرضدار آهي",

@@ -2,6 +2,14 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.122.4 (2026-11-26)
+Every handle field has a fixed @ (owner, from the sign-up screen).
+- Every handle field is one shared box (ts/src/usernames.ts handleBoxHtml, web/shell/handle.css) with the @ fixed inside it: never typed, never deleted. A typed @ is ignored.
+- The example after the @ is "username" for a person only; every other entity is its word and "handle": @shophandle, @businesshandle, @apphandle (developer app), @partnerhandle, @agentpointhandle (HANDLE_HINT). "your.name" is gone; it made people think a full stop was needed.
+- On screen today: sign-up (@username), the shared account field (@username for a person, @shophandle for a shop) and the shop handle in the Business app (@shophandle). The shop's labels now say "Handle", "Your shop's handle" and "Shop handle", in all 38 languages.
+- The note under the field shows the same example ("Shown as @username." or "Shown as @shophandle."), never "@name", in all 38 languages.
+- tests/test_placeholders.py HandleHint fails if a handle field is drawn by hand, the @ stops being fixed, an entity's example breaks the rule, or "your.name" comes back.
+
 ## v0.122.3 (2026-11-26)
 Every emulator's panel has every control, or a plain line saying why not.
 - Every device emulator's panel now has online or offline, touch screen or buttons, language, country, light or dark and turning the screen. Where a device truly cannot have one, the panel says so in a plain line with the reason, so nothing is left to guess.

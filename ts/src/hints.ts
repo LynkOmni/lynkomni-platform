@@ -4,8 +4,10 @@ const hEsc = (v: string): string => v.replace(/&/g, "&amp;").replace(/"/g, "&quo
 /** Field hints. Format hints are the same in every language (no words); word hints come from the page's words as hint_<kind>.
  *  Sensitive fields (PINs, passwords, card details, one-time codes, recovery codes) never get a hint that looks like a value. */
 export type HintKind = "amount" | "count" | "email" | "username" | "phone" | "code_short" | "country" | "search" | "name" | "note" | "ask" | "answer" | "section" | "question" | "yousaid" | "shop";
-/** Format hints; the shared shell and footer write the username and email ones as the same plain strings. */
-export const FORMAT_HINTS: Partial<Record<HintKind, string>> = { amount: "0", count: "0", email: "name@example.com", username: "your.name", phone: "123 456 789", code_short: "A1" };
+/** Format hints. Every handle field (username, shop, business, developer app, partner, agent point) shows "@username":
+ *  the @ shows how a handle is written, and a typed @ is ignored (usernames.ts normalize; owner 2026-11-26). The shared
+ *  shell writes the same plain string, so it needs no import (tests/test_placeholders.py HandleHint keeps them equal). */
+export const FORMAT_HINTS: Partial<Record<HintKind, string>> = { amount: "0", count: "0", email: "name@example.com", username: "@username", phone: "123 456 789", code_short: "A1" };
 export const SENSITIVE = ["pin", "password", "card", "otp", "one-time-code", "recovery", "cvv"] as const;
 /** Digits in the reader's own numbering system (Arabic-Indic, Bengali, Devanagari and the rest), like every number on screen. */
 export function readerDigits(text: string, lang?: string): string {

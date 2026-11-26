@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "f4e7142fbf813933ed8f3040e8c8e173d54d8f521390febb028a0363e805461b",
+ "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
  "texts": {
   "account": "アカウント",
   "active": "有効",
@@ -342,7 +342,7 @@
   "it_time_clock": "勤怠",
   "it_timeline": "タイムライン",
   "it_unusual": "いつもと違う",
-  "it_username": "店のユーザー名",
+  "it_username": "店のハンドル",
   "it_waiting": "保留中",
   "it_waiting_services": "まもなくお住まいの国で",
   "it_who_owes_me": "未払いのお客さま",

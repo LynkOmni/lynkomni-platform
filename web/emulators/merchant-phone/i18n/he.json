@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "f4e7142fbf813933ed8f3040e8c8e173d54d8f521390febb028a0363e805461b",
+ "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
  "texts": {
   "account": "חשבון",
   "active": "פעיל",
@@ -342,7 +342,7 @@
   "it_time_clock": "שעון נוכחות",
   "it_timeline": "ציר זמן",
   "it_unusual": "חריג",
-  "it_username": "שם המשתמש של החנות",
+  "it_username": "מזהה החנות",
   "it_waiting": "ממתין",
   "it_waiting_services": "בקרוב במדינה שלכם",
   "it_who_owes_me": "מי חייב לי",

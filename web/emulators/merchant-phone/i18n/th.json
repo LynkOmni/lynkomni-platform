@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "th",
  "native": "ไทย",
- "source_sha256": "f4e7142fbf813933ed8f3040e8c8e173d54d8f521390febb028a0363e805461b",
+ "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
  "texts": {
   "account": "บัญชี",
   "active": "ใช้งานอยู่",
@@ -342,7 +342,7 @@
   "it_time_clock": "นาฬิกาลงเวลา",
   "it_timeline": "ไทม์ไลน์",
   "it_unusual": "ผิดปกติ",
-  "it_username": "ชื่อผู้ใช้ร้าน",
+  "it_username": "แฮนเดิลร้าน",
   "it_waiting": "รออยู่",
   "it_waiting_services": "กำลังมาในประเทศของคุณ",
   "it_who_owes_me": "ใครค้างชำระฉัน",

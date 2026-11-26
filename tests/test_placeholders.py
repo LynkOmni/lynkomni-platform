@@ -185,3 +185,44 @@ class NoGapsLeft(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+
+class HandleHint(unittest.TestCase):
+    """Every handle field has a fixed @ inside the box (never typed, never deleted); the example after it is "username" for a
+    person only, and every other entity its word and "handle" (@shophandle, @businesshandle, ...). Never "your.name", which made
+    people think a full stop was needed (owner, 2026-11-26). Every handle field is drawn by ts/src/usernames.ts handleBoxHtml."""
+    SOURCES = glob.glob(os.path.join(ROOT, "ts", "src", "*.ts")) + glob.glob(os.path.join(ROOT, "web", "emulators", "*", "app.ts"))
+
+    def test_one_example_per_entity(self):
+        with open(os.path.join(ROOT, "ts", "src", "usernames.ts"), encoding="utf-8") as f:
+            src = f.read()
+        hints = dict(re.findall(r'(\w+): "(\w+)"', re.search(r"HANDLE_HINT[^=]*= \{([^}]*)\}", src).group(1)))
+        self.assertEqual(hints.pop("user"), "username")
+        self.assertTrue(hints)
+        for kind, hint in hints.items():
+            self.assertEqual(hint, kind + "handle", "every entity but a person: its word and handle")
+        self.assertIn('<span class="handle-at" aria-hidden="true">@</span>', src, "the @ is fixed inside the box")
+
+    def test_every_handle_field_is_the_handle_box(self):
+        for path in self.SOURCES:
+            with open(path, encoding="utf-8") as f:
+                src = f.read()
+            self.assertNotIn("your.name", src, path)
+            raw = re.findall(r'<input[^>]*(?:id="(?:usernameIn|userIn|wyUser|handleIn)"|data-in="[^"]*user)[^>]*>', src)
+            self.assertEqual(raw, [], f"{path}: a handle field drawn by hand; use handleBoxHtml")
+        used = sum(open(p, encoding="utf-8").read().count("handleBoxHtml({") for p in self.SOURCES)
+        self.assertGreaterEqual(used, 3)
+
+    def test_the_note_shows_the_same_example(self):
+        """The note under a handle field shows the field's own example (@username or @shophandle), never "@name"."""
+        with open(os.path.join(ROOT, "web", "shell", "strings.en.json"), encoding="utf-8") as f:
+            rule = json.load(f)["username_rule"]
+        self.assertIn("@{example}", rule)
+        for path in self.SOURCES:
+            with open(path, encoding="utf-8") as f:
+                self.assertNotIn('t("username_rule")', f.read(), f"{path}: the note needs its example")
+
+    def test_a_typed_at_is_ignored(self):
+        from core import usernames
+        self.assertEqual(usernames.normalize("@Mamas.Kitchen"), "mamas.kitchen")

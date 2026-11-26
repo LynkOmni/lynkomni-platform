@@ -62,3 +62,14 @@ export function suggestions(value: string, taken: (u: string) => boolean = () =>
   }
   return out;
 }
+
+// ---------------------------------------------------------------- the handle box (owner 2026-11-26)
+/** Every handle field in LynkOmni: the @ is fixed inside the box (never typed, never deleted). The example after it is
+ *  "username" for a person only; every other entity is its word and "handle" (owner 2026-11-26). A typed @ is ignored
+ *  (normalize). Styles: web/shell/handle.css. A new kind of entity with a handle is added here first. */
+export type HandleKind = "user" | "shop" | "business" | "app" | "partner" | "agentpoint";
+export const HANDLE_HINT: Record<HandleKind, string> = { user: "username", shop: "shophandle", business: "businesshandle", app: "apphandle", partner: "partnerhandle", agentpoint: "agentpointhandle" };
+const handleEsc = (s: string): string => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string);
+export function handleBoxHtml(o: { id: string; kind: HandleKind; value: string; attrs?: string; after?: string; label?: string }): string {
+  return `<span class="handle-box" dir="ltr"><span class="handle-at" aria-hidden="true">@</span><input class="handle-in" id="${handleEsc(o.id)}" type="text" value="${handleEsc(normalize(o.value))}" placeholder="${HANDLE_HINT[o.kind]}" autocapitalize="none" autocomplete="off" spellcheck="false" maxlength="${USERNAME_RULE.max}" inputmode="latin"${o.label ? ` aria-label="${handleEsc(o.label)}"` : ""}${o.attrs ? ` ${o.attrs}` : ""}>${o.after ?? ""}</span>`;
+}

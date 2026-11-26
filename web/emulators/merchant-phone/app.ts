@@ -34,7 +34,7 @@ import { TEST_LANGS, esc, newId, pick, pseudo, publicId, randomBelow, randomByte
 import { ADS } from "../../../ts/src/ads.generated.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { shortFooterHtml } from "../../../ts/src/footer.js";
-import { check } from "../../../ts/src/usernames.js";
+import { check, handleBoxHtml } from "../../../ts/src/usernames.js";
 import { kitchenOutput, mayOpenTable, restaurantLimits } from "../../../ts/src/restaurant.js";
 import type { BrandPlaces } from "../../../ts/src/brand.js";
 import { DeviceShell, screenArticles } from "../../../ts/src/deviceshell.js";
@@ -1510,7 +1510,7 @@ function hubBody(id: string): string {
     case "assistant": extra = `<label class="field"><span>${esc(t("it_ask"))}</span><input id="askIn" data-in="ask" value="${esc(S.ask)}" autocomplete="off" placeholder="${esc(t("hint_ask"))}" aria-label="${esc(t("it_ask"))}"></label><button class="ghost inline" data-act="ask">${esc(t("send"))}</button>
       ${S.answer ? laSalesAnswer() : ""}<p class="sub">${esc(t("assist_never"))}</p>${laPreview()}${m3Assistant()}${laControls()}`; break;
     case "cards": extra = `<p class="sub">${esc(t("cards_issuer"))}</p>${m3Cards()}`; break;
-    case "online_shop": extra = `<label class="field"><span>${esc(t("it_username"))}</span><input id="userIn" data-in="username" value="${esc(S.userDraft)}" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="${esc(hintFor("username", t))}" aria-label="${esc(t("it_username"))}"></label>
+    case "online_shop": extra = `<label class="field"><span>${esc(t("it_username"))}</span>${handleBoxHtml({ id: "userIn", kind: "shop", value: S.userDraft, label: t("it_username"), attrs: `data-in="username"` })}</label>
       <p class="sub" role="status">${esc(usernameNote())}</p><button class="primary inline" data-act="takeusername" ${check(S.userDraft).ok ? "" : "disabled"}>${esc(t("save"))}</button>
       ${S.username ? `<div class="qrbox" data-item="qr" role="img" aria-label="${esc(t("shop_qr"))}">${icon("ui-qr", "bigqr")}<p>${esc(t("shop_qr"))}</p></div>` : ""}`; break;
     case "agent_earnings": extra = `<p class="sub">${esc(t("commission_partner_pays"))}</p>${(ent().outlets ?? 0) !== 0 ? `<ul class="list card">${S.outletList.map((o) => row(o, t("outlet_line"), `outlet:${o}`)).join("")}</ul>` : ""}`; break;
@@ -2136,7 +2136,7 @@ function onInput(el: HTMLInputElement): void {
     case "search": S.search = el.value.slice(0, 60); draw(); return;
     case "ask": S.ask = el.value.slice(0, 200); return;
     case "ppcode": PP.input = el.value.replace(/\D/g, "").slice(0, 6); PP.note = ""; draw(); return;
-    case "username": S.userDraft = el.value.slice(0, 40); draw(); return;
+    case "username": S.userDraft = el.value.trim().replace(/^@/, "").toLowerCase().slice(0, 40); draw(); return;
     case "shopname": S.shopName = el.value.slice(0, 60); return;
   }
 }

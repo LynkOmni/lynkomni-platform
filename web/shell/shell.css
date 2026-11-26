@@ -133,7 +133,7 @@
 /* ---- forms: the username field ---- */
 .field label { display: block; margin-block-end: 6px; font-weight: 600; }
 .uinput { display: flex; align-items: center; gap: 4px; padding: 0 10px; border: 1px solid var(--border-input); border-radius: var(--radius-control); background: var(--bg-base); }
-.uinput .at { color: var(--text-secondary); } .uinput input { flex: 1; min-height: var(--touch-target); border: 0; background: none; outline: none; direction: ltr; text-align: start; }
+.uinput input { flex: 1; min-height: var(--touch-target); border: 0; background: none; outline: none; direction: ltr; text-align: start; }
 .uinput .ok { color: var(--status-success-text); }
 .fmsg { margin-block-start: 6px; font-size: var(--text-12); color: var(--text-secondary); }
 .fmsg.success { color: var(--status-success-text); } .fmsg.warning { color: var(--status-warning-text); } .fmsg.danger { color: var(--status-danger-text); }

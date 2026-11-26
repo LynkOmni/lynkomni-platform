@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fr",
  "native": "Français",
- "source_sha256": "f4e7142fbf813933ed8f3040e8c8e173d54d8f521390febb028a0363e805461b",
+ "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
  "texts": {
   "account": "Compte",
   "active": "Actif",
@@ -342,7 +342,7 @@
   "it_time_clock": "Pointeuse",
   "it_timeline": "Chronologie",
   "it_unusual": "Inhabituel",
-  "it_username": "Nom d'utilisateur de la boutique",
+  "it_username": "Identifiant de la boutique",
   "it_waiting": "En attente",
   "it_waiting_services": "Bientôt dans votre pays",
   "it_who_owes_me": "Qui me doit",
