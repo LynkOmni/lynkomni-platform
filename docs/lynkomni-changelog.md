@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.120.0 (2026-11-26)
+Section 4C step 3b: sign-up, sign-in, Can't sign in? and the security page on screen.
+- One shared part draws them all (ts/src/waysview.ts, words in web/waysin in 38 languages, styles web/shell/waysin.css), on the rules of ts/src/waysin.ts, with the shared phone, email and code fields and the shared error part.
+- Sign-up shows its ten steps with a step bar: country, username, age, legal name (an error with its fix when it has numbers or is too short), email and its code, phone and its code, passkey, then the recovery code and ten backup codes shown once with Download, Print and Copy. Without internet it says to connect and keeps what was typed; too many new accounts from one place in an hour asks to try again later.
+- Sign-in has one box for username, email or phone, then the person's own ways strongest first (passkey, security key, another device, QR code, then codes), Remember this device, and one more check for a new or unusual sign-in. The link under it says Can't sign in?, never Forgot password.
+- The Can't sign in? hub asks what's wrong, then shows only the ways back in the person has with their waits; Someone else is in my account locks everything first; the I lost my phone page locks without signing in; a waiting recovery can be stopped from an old device; after a recovery the 24 restricted hours show, with the checkup. What LynkOmni never asks for is listed on the page.
+- The security page starts with the checkup (each missing item with Fix), then backup codes, authenticator app, security keys, recovery contacts, the anti-phishing word, the country lock, strongest protection, devices (old ones, app lock and privacy screen), the security activity with This wasn't me, and organisation rules.
+- The account site uses it now (sign-in, sign-up, Can't sign in?, Security). The Business app's sign-in moves onto it in the next step.
+
 ## v0.119.0 (2026-11-26)
 Section 4C step 5a: the Can't sign in? hub and every reset.
 - LynkOmni has no passwords, so wherever people expect "Forgot password?" the link says Can't sign in? and opens one hub (identity/recover.py, account.recover). The person picks what's wrong (lost phone, passkey or key not working, no codes, no authenticator, forgotten PIN, someone else in the account) and sees only the ways back in they actually have, strongest first, with their waits: another signed-in device, a backup code or the recovery code at once; recovery contacts or the email and phone codes together after 24 hours; the ID check with the phone owner check after 72 hours and two different LynkOmni staff.

@@ -11,7 +11,11 @@ import type { UserState } from "../../../ts/src/pos.js";
 import { brandMark, markFor } from "../../../ts/src/brand.js";
 import { buildFooter, mainFooterHtml, FOOTER_EMAIL_ID } from "../../../ts/src/footer.js";
 import { emailFieldHtml, wireEmails } from "../../../ts/src/emailfield.js";
-import { noticeHtml } from "../../../ts/src/errorbox.js";
+import { noticeHtml, wireNotices } from "../../../ts/src/errorbox.js";
+import { signUpHtml, signInHtml, recoverHtml, lostPhoneHtml, securityHtml, waysStart, waysAct, waysInput } from "../../../ts/src/waysview.js";
+import type { WaysLook } from "../../../ts/src/waysview.js";
+import { codeFieldHtml, wireCodes } from "../../../ts/src/codefield.js";
+import { phoneFieldHtml, wireFields, countryNamer, type FieldCtx } from "../../../ts/src/fields.js";
 import type { BrandPlaces } from "../../../ts/src/brand.js";
 import { Tracking } from "../../../ts/src/tracking.js";
 import type { View as TrackView } from "../../../ts/src/tracking.js";
@@ -134,6 +138,24 @@ const dateOf = (s: number): string => { try { return new Intl.DateTimeFormat(loc
 const whenOf = (s: number): string => { try { return new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, dateStyle: "medium", timeStyle: "short" }).format(s * 1000); } catch { return new Date(s * 1000).toISOString().slice(0, 16); } };
 const langName = (code: string): string => PACKS[code]?.native ?? code;
 const n = (x: number): string => { try { return new Intl.NumberFormat(locale()).format(x); } catch { return String(x); } };
+/** Sign-up, sign-in, Can't sign in? and the security page come from the shared part ts/src/waysview.ts (section 4C points 3 and 5). */
+/** Sample codes only (labelled Sample on screen): a fixed, seeded sequence so the demo shows the same sample each time; real codes
+ *  are made by the cloud (identity/ways_in.py) and never on a page. */
+let WY_SEED = 20261126;
+const wySample = (k: number): number => { WY_SEED = (WY_SEED * 1103515245 + 12345) % 2147483648; return Math.floor((WY_SEED / 2147483648) * k); };
+const WY = waysStart(T_NOW(), wySample);
+const WY_FIELDS: Record<string, string> = {};
+let WY_FIELD_CTX: { key: string; ctx: FieldCtx } | null = null;
+function wyFieldCtx(): FieldCtx {
+  const key = `${locale()}|${S.lang}`;
+  if (WY_FIELD_CTX?.key !== key) WY_FIELD_CTX = { key, ctx: { t, lang: locale(), packs: DATA.packs as unknown as FieldCtx["packs"], packOrder: DATA.packOrder, countryName: countryNamer(locale(), DATA.packs as unknown as FieldCtx["packs"], t("sample_country")), onPhone: (id, v) => { WY_FIELDS[id] = v.digits; } } };
+  return WY_FIELD_CTX.ctx;
+}
+const wyLook = (): WaysLook => ({ t, icon: (id) => icon(id), when: whenOf, num: n, btn: { primary: "primary", secondary: "secondary" },
+  phoneField: (id, label) => phoneFieldHtml(wyFieldCtx(), { id, label, country: S.country, digits: WY_FIELDS[id] ?? "" }),
+  emailField: (id, label) => emailFieldHtml({ t }, { id, label, text: WY_FIELDS[id] ?? "" }),
+  codeField: (id, label) => codeFieldHtml({ t, lang: locale() }, { id, label, value: WY_FIELDS[id] ?? "" }) });
+const wySync = (): void => { WY.now = T_NOW(); WY.online = S.link !== "offline"; WY.minAge = DATA.storefront.min_age; };
 const ready = (service: "paylinks" | "registration"): boolean => !S.realUser || (service === "paylinks" ? pack().ready["mobile_money"]?.ok === true : false);   // Start a business: no gateway is signed anywhere yet
 
 function record(type: string, origin: "device" | "server", payload: unknown): void {
@@ -283,43 +305,9 @@ const wait = (s: string): string => `<span class="status-wait">${icon("ui-sync")
 const off = (s: string): string => `<span class="status-off">${icon("ui-info")}<span>${esc(s)}</span></span>`;
 
 // ---------------------------------------------------------------- sign-in, sign-up, recovery
-function authSignIn(): string {
-  return `<div class="auth"><h1>${esc(t("signin_title"))}</h1><p class="lead">${esc(t("signin_hint"))}</p>
-    <div class="field"><label for="who">${esc(t("username_or_lynkid"))}</label><input class="text" id="who" value="grace.k" autocomplete="username" placeholder="${esc(hintFor("username", t))}"></div>
-    <button class="primary" data-act="signin:passkey">${icon("ui-lock")}<span>${esc(t("signin_passkey"))}</span></button>
-    <p class="muted">${esc(t("signin_passkey_hint"))}</p>
-    <button class="secondary" data-act="signin:other">${esc(t("signin_other"))}</button>
-    <p class="muted">${esc(t("signin_pin"))}</p>
-    <div class="okbox">${icon("ui-bell")}<span>${esc(t("signin_new_device_note"))}</span></div>
-    <div class="actions"><span class="muted">${esc(t("no_account"))}</span> <button class="secondary" data-act="go:signup">${esc(t("create_account"))}</button></div>
-    <div class="actions"><span class="muted">${esc(t("lost_access"))}</span> <button class="secondary" data-act="go:recover">${esc(t("recover"))}</button></div></div>`;
-}
-function authSignUp(): string {
-  const step = nextSignUpStep(S.signUp);
-  const idx = step ? SIGN_UP_STEPS.indexOf(step) : SIGN_UP_STEPS.length;
-  const bar = `<ol class="steps" aria-label="${esc(t("step_of", { n: Math.min(idx + 1, 4), total: 4 }))}">${SIGN_UP_STEPS.map((_, i) => `<li class="${i <= idx ? "on" : ""}"></li>`).join("")}</ol>`;
-  let body = "";
-  if (step === "username") body = `<h2>${esc(t("step_username"))}</h2>${usernameField(S.username, S.cloud, (u) => u === "mamas.kitchen", t, icon)}<label class="check"><input type="checkbox" id="adultIn" data-act="toggle:adult"${S.signUp.adult ? " checked" : ""}><span>${esc(t("signup_adult", { age: n(DATA.storefront.min_age) }))}</span></label><p class="muted">${esc(t("signup_adult_note"))}</p><button class="primary" data-act="signup:username" ${S.cloud === "available" && S.signUp.adult ? "" : "disabled"}>${esc(t("next"))}</button>`;
-  else if (step === "contact") body = `<h2>${esc(t("step_contact"))}</h2><div class="nfilters" role="group" aria-label="${esc(t("step_contact"))}">${(["phone", "email"] as const).map((w) => `<button type="button" class="chipbtn${S.signupWay === w ? " on" : ""}" aria-pressed="${S.signupWay === w}" data-act="signup:way:${w}">${esc(t(w === "phone" ? "way_phone" : "msg_ch_email"))}</button>`).join("")}</div><p class="muted">${esc(t("contact_hint"))}</p><div class="field"><label for="code">${esc(t("code_label"))}</label><input class="text" id="code" inputmode="numeric" value="482913"></div><button class="primary" data-act="signup:contact">${esc(t("next"))}</button>`;
-  else if (step === "passkey") body = `<h2>${esc(t("step_passkey"))}</h2><p class="muted">${esc(t("passkey_hint"))}</p><button class="primary" data-act="signup:passkey">${icon("ui-lock")}<span>${esc(t("add_passkey"))}</span></button>`;
-  else if (step === "recovery_code") body = `<h2>${esc(t("step_recovery_code"))}</h2><div class="codebox"><span>${esc(S.recoveryCode)}</span>${icon("ui-doc")}</div>${noticeHtml(t, { level: "warning", text: t("recovery_code_hint") })}<button class="primary" data-act="signup:code">${esc(t("recovery_code_confirm"))}</button>`;
-  else body = `<div class="okbox">${icon("ui-check")}<span>${esc(t("passkey_added"))}</span></div><h2>${esc(t("two_ways_title"))}</h2>${S.passkeys.length > 1 || S.secondWay ? ok(t("two_ways_ok")) : `${wait(t("two_ways_one"))}<div class="actions"><button class="secondary" data-act="passkey:add">${icon("ui-plus")}<span>${esc(t("add_passkey"))}</span></button></div>`}<div class="assist">${icon("ui-bolt")}<span><strong>${esc(t("assist_guide"))}:</strong> ${esc(t("recovery_code_push"))}</span></div><button class="primary" data-act="go:overview">${esc(t("continue"))}</button>`;
-  return `<div class="auth"><h1>${esc(t("signup_title"))}</h1><p class="lead">${esc(t("step_of", { n: Math.min(idx + 1, 4), total: 4 }))}</p>${bar}${body}<button class="secondary" data-act="go:signin">${esc(t("back"))}</button></div>`;
-}
-function authRecover(): string {
-  const r = S.recover;
-  let body = "";
-  if (r.started) {
-    const now = T_NOW(); const done = recoveryReady(r.started, now);
-    body = done ? `<div class="okbox">${icon("ui-check")}<span>${esc(t("ev_recovery_completed"))}</span></div>${noticeHtml(t, { level: "info", text: t("recovery_restricted") })}<button class="primary" data-act="go:overview">${esc(t("continue"))}</button>`
-      : `${wait(t("recovery_waiting", { when: whenOf(recoveryReadyAt(r.started)) }))}<p class="muted">${esc(t("recovery_cancel_note"))}</p><div class="assist">${icon("ui-bolt")}<span><strong>${esc(t("assist_guide"))}:</strong> ${esc(t("guide_steps", { steps: RECOVERY[r.started.path].needs.length + 1 }))}</span></div>${noticeHtml(t, { level: "info", text: t("recovery_restricted") })}<button class="secondary" data-act="recover:cancel">${esc(t("cancel"))}</button>`;
-  } else if (r.otherDevice === null) body = `<h2>${esc(t("recover_question_device"))}</h2><div class="actions"><button class="primary" data-act="recover:device:yes">${esc(t("yes"))}</button><button class="secondary" data-act="recover:device:no">${esc(t("no"))}</button></div>`;
-  else if (r.otherDevice) body = `<h2>${esc(t("path_device"))}</h2><p class="muted">${esc(t("path_device_body"))}</p><button class="primary" data-act="recover:start:device">${esc(t("start_recovery"))}</button>`;
-  else if (r.hasCode === null) body = `<h2>${esc(t("recover_question_code"))}</h2><div class="actions"><button class="primary" data-act="recover:code:yes">${esc(t("yes"))}</button><button class="secondary" data-act="recover:code:no">${esc(t("no"))}</button></div>`;
-  else if (r.hasCode) body = `<h2>${esc(t("path_code"))}</h2><p class="muted">${esc(t("path_code_body"))}</p><div class="field"><label for="rc">${esc(t("recovery_code"))}</label><input class="text" id="rc" value="${esc(S.recoveryCode)}"></div><div class="field"><label for="sms">${esc(t("sms_code"))}</label><input class="text" id="sms" inputmode="numeric" value="305117"></div><button class="primary" data-act="recover:start:code">${esc(t("start_recovery"))}</button>`;
-  else body = `<h2>${esc(t("path_assisted"))}</h2><p class="muted">${esc(t("path_assisted_body"))}</p><button class="primary" data-act="recover:start:assisted">${esc(t("start_recovery"))}</button>`;
-  return `<div class="auth"><h1>${esc(t("recover_title"))}</h1>${body}${noticeHtml(t, { level: "info", text: t("never_allowed") })}<button class="secondary" data-act="go:signin">${esc(t("back"))}</button></div>`;
-}
+function authSignIn(): string { wySync(); return signInHtml(wyLook(), WY); }
+function authSignUp(): string { wySync(); return signUpHtml(wyLook(), WY); }
+function authRecover(): string { wySync(); return `<div class="wy-stack">${recoverHtml(wyLook(), WY)}${WY.rc.problem === "lost_phone" ? lostPhoneHtml(wyLook(), WY) : ""}</div>`; }
 
 // ---------------------------------------------------------------- pages
 function page(): string {
@@ -343,7 +331,7 @@ function page(): string {
       kv(esc(t("profile_language")), esc(langName(isTest() ? "en" : S.lang)), `<button class="secondary" data-act="shell:globe">${esc(t("change"))}</button>`),
       kv(esc(t("profile_region")), esc(pack().sample ? t("sample_country") : pack().name)), kv(esc(t("profile_timezone")), esc(pack().tz)),
     ])}<p class="muted">${esc(t("username_change_note"))}</p></div>`;
-    case "security": return `${pageTitle("security")}<div class="cards">${securityCenter(now)}
+    case "security": return `${pageTitle("security")}${(wySync(), securityHtml(wyLook(), WY))}<div class="cards">${securityCenter(now)}
       <div class="card"><h2>${esc(t("passkeys_devices"))}</h2>${rows(S.passkeys.map((p) => kv(esc(p.device.startsWith("device_") ? t(p.device) : p.device) + (p.here ? ` ${ok(t("this_device"))}` : ""), esc(t("added_on", { when: dateOf(p.at) })), `<button class="secondary" data-act="passkey:remove:${p.locrd}">${esc(t("remove"))}</button>`)))}<div class="actions"><button class="primary" data-act="passkey:add">${icon("ui-plus")}<span>${esc(t("add_passkey"))}</span></button></div><p class="muted">${esc(t("keep_one_passkey"))}</p></div>
       <div class="card"><h2>${esc(t("active_sessions"))}</h2>${rows(S.sessions.map((s) => kv(esc(t("session_line", { site: t(`site_${s.site}`), device: t(s.device), place: t(s.place) })), esc(whenOf(s.at)), `<button class="secondary" data-act="session:revoke:${s.tail}">${esc(t("remove"))}</button>`)))}<div class="actions"><button class="secondary" data-act="session:all">${icon("ui-signout")}<span>${esc(t("sign_out_everywhere"))}</span></button></div></div>
       <div class="card"><h2>${esc(t("recent_events"))}</h2><ul class="evlist">${S.secEvents.slice(0, 8).map((e) => `<li><span class="t">${esc(whenOf(e.at))}</span><span class="w">${esc(t(SECURITY_EVENT_KEY[e.type] ?? e.type))}</span></li>`).join("")}</ul></div>
@@ -519,7 +507,7 @@ function draw(): void {
   $("#screensHint").textContent = t("screens_hint");
   document.querySelectorAll<HTMLElement>("#stateButtons button").forEach((b) => b.classList.toggle("on", b.dataset["state"] === S.screen));
   if (WAIT.firstOpen !== FIRST.on) WAIT.setFirstOpen(FIRST.on);      // PLACEHOLDER UPDATE 83: the page waits well on a first open
-  newsWire(d);
+  newsWire(d); wireFields(d, wyFieldCtx()); wireCodes(d, { t, lang: locale() }); wireNotices(d);
   WAIT.apply(d, { t, online: () => S.link !== "offline", redraw: draw, retryAct: PAGE_RETRY, retryClass: "ph-retry" });
 }
 function drawLog(): void {
@@ -541,6 +529,16 @@ function act(a: string): void {
   const now = T_NOW();
   switch (k) {
     case "keep": return;
+    case "wy": {
+      const r = waysAct(WY, plain(a), wySample);
+      // a sign-in goes through the account's own sign-in step (new device alert and cool-off); a passkey on this device is known
+      if (r.event === "SessionStarted") { act(`signin:${plain(a) === "wy:si:way:passkey" ? "passkey" : "other"}`); return; }
+      if (r.event) record(r.event, "server", {});
+      if (r.go === "signup" || r.go === "recover" || r.go === "signin" || r.go === "security") S.screen = r.go;
+      if (r.go?.startsWith("focus:")) { draw(); $<HTMLInputElement>(`#${r.go.slice(6)}`)?.focus(); return; }
+      if (r.event === "SessionStarted" || r.event === "AccountCreated") S.screen = "overview";
+      draw(); return;
+    }
     case "closeoverlay": case "closesheet": S.overlay = null; draw(); return;
     case "shell": {
       const map: Record<string, Overlay> = { launcher: "launcher", account: "account", globe: "globe", search: "cmd", help: "help", bell: "bell", sync: "sync", menu: "launcher" };
@@ -757,7 +755,7 @@ function init(): void {
   sel.value = "en";
   sel.addEventListener("change", (e) => { S.lang = pick(Object.keys(PACKS).concat(["xx", "xx-rtl"]), (e.target as HTMLSelectElement).value, S.lang); draw(); });
   $("#stateButtons").innerHTML = SCREENS.map((k) => `<button type="button" data-state="${k}">${esc(k === "signin" ? "Sign in" : k === "signup" ? "Sign up" : k === "recover" ? "Recover" : k)}</button>`).join("");
-  $("#stateButtons").addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("button[data-state]"); if (b) { const picked = SCREENS.find((k) => k === b.dataset["state"]); if (picked) { S.screen = picked; S.overlay = null; if (picked === "recover") S.recover = { otherDevice: null, hasCode: null, started: null }; if (picked === "signup") { S.signUp = {}; S.username = ""; S.cloud = null; } draw(); } } });
+  $("#stateButtons").addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("button[data-state]"); if (b) { const picked = SCREENS.find((k) => k === b.dataset["state"]); if (picked) { S.screen = picked; S.overlay = null; if (picked === "recover") { S.recover = { otherDevice: null, hasCode: null, started: null }; Object.assign(WY.rc, waysStart(T_NOW(), wySample).rc); } if (picked === "signup") { S.signUp = {}; S.username = ""; S.cloud = null; WY.su.done = []; } if (picked === "signin") WY.si.step = "who"; draw(); } } });
   $("#display").addEventListener("click", (e) => {
     const el = (e.target as HTMLElement).closest<HTMLElement>("[data-act]");
     if (!el) return;
@@ -770,6 +768,7 @@ function init(): void {
     const el = e.target as HTMLInputElement;
     if (el.dataset["filter"] === "regions") { const list = $("#regionList"); if (list) filterRegions(list, el.value); return; }
     if (el.id === "cmdIn") { S.query = plain(el.value); const list = $("#cmdList"); const index = overlay(); const m = /<ul id="cmdList"[^>]*>([\s\S]*?)<\/ul>/.exec(index); if (list && m) list.innerHTML = m[1]!; }
+    if (el.dataset["in"]?.startsWith("wy:")) { waysInput(WY, el.dataset["in"], el.value, el.checked); if (el.type === "checkbox") draw(); return; }
     if (el.id === "usernameIn") { act(`username:${el.value}`); const inp = $<HTMLInputElement>("#usernameIn"); inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }
   });
   $("#display").addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["act"]?.startsWith("toggle:")) act(el.dataset["act"]); });
