@@ -3,6 +3,7 @@ import os, unittest
 from identity.account import EVENTS
 from identity import protection as P
 from services.platform import Platform
+from tests._signup import confirm_contacts
 
 T0 = 1_800_000_000.0
 DAY = P.DAY
@@ -12,7 +13,7 @@ class Protections(unittest.TestCase):
     def setUp(self):
         os.environ.pop("LYNK_MODE", None); self.p = Platform(); self.a = self.p.account; self.x = self.a.protect
         s = self.a.begin_sign_up("grace.k", "en", T0, adult_confirmed=True); self.person = s["person"]
-        code = self.a.send_contact_code(self.person, T0); self.a.confirm_contact(self.person, code, T0)
+        confirm_contacts(self.a, self.person, T0)
         self.done = self.a.finish_sign_up(self.person, "pk-1", "Grace's phone", "pii_1", "pii_2", backup_contact="bk-1", now=T0)
 
     def types(self):
@@ -147,39 +148,40 @@ if __name__ == "__main__":
 
 
 class SignUpWays(unittest.TestCase):
-    """MASTER UPDATE 55: email or phone, side by side; no clue for strangers; the merge."""
+    """MASTER UPDATE 55 and section 4C point 3: email and phone both, no clue for strangers, nothing made offline."""
     def setUp(self):
         os.environ.pop("LYNK_MODE", None); self.p = Platform(); self.a = self.p.account
 
     def make(self, username, phone, email):
         s = self.a.begin_sign_up(username, "en", T0, adult_confirmed=True)
-        code = self.a.send_contact_code(s["person"], T0); self.a.confirm_contact(s["person"], code, T0)
+        confirm_contacts(self.a, s["person"], T0)
         self.a.finish_sign_up(s["person"], f"pk-{username}", "phone", phone, email, now=T0)
         return s["person"]
 
-    def test_either_contact_alone_is_enough_but_one_is_needed(self):
-        self.make("phone.only", "pii_p1", None)
-        self.make("email.only", None, "pii_e1")
-        s = self.a.begin_sign_up("no.contact", "en", T0, adult_confirmed=True)
-        code = self.a.send_contact_code(s["person"], T0); self.a.confirm_contact(s["person"], code, T0)
-        with self.assertRaises(ValueError):
-            self.a.finish_sign_up(s["person"], "pk-x", "phone", None, None, now=T0)
+    def test_email_and_phone_are_both_needed(self):
+        """Section 4C point 3: sign-up needs both, each confirmed with its own code (it was either one before)."""
+        self.make("both.ways", "pii_p1", "pii_e1")
+        for phone, email in (("pii_p2", None), (None, "pii_e2"), (None, None)):
+            s = self.a.begin_sign_up(f"one.{len(str(phone))}{len(str(email))}", "en", T0, adult_confirmed=True)
+            confirm_contacts(self.a, s["person"], T0)
+            with self.assertRaises(ValueError):
+                self.a.finish_sign_up(s["person"], "pk-x", "phone", phone, email, now=T0)
+        s = self.a.begin_sign_up("half.done", "en", T0, adult_confirmed=True)
+        self.a.set_legal_name(s["person"], "Half Done", "pii_l")
+        self.a.confirm_contact(s["person"], self.a.send_contact_code(s["person"], T0, kind="email"), T0, kind="email")
+        with self.assertRaises(PermissionError):                                       # the phone is not confirmed yet
+            self.a.finish_sign_up(s["person"], "pk-y", "phone", "pii_p3", "pii_e3", now=T0)
 
     def test_the_answer_never_reveals_whether_a_contact_has_an_account(self):
-        self.make("grace.k", "pii_p1", None)
+        self.make("grace.k", "pii_p1", "pii_e1")
         known = self.a.start_with_contact("phone", "pii_p1")
         unknown = self.a.start_with_contact("phone", "pii_p2")
         self.assertEqual(known, unknown)
         self.assertEqual([n["message"] for n in self.a.contact_notices], ["someone_tried_your_contact", "sign_up_code"])
 
-    def test_a_start_now_account_joins_an_existing_account_only_after_verification(self):
-        from identity.offline import ProvisionalAccount
-        person = self.make("grace.k", "pii_p1", None)
-        acct = ProvisionalAccount("tablet-1", True, "en", "RW", "grace.shop", "pii_p1", "2580", now=T0)
-        recs = [acct.record("cash_sale", {"total": 1500, "currency": "RWF"}, T0), acct.record("cash_sale", {"total": 900, "currency": "RWF"}, T0)]
-        seen = set()
-        self.assertEqual(self.a.attach_provisional(person, acct.id, acct.key.public, recs, verified=False, seen=seen, now=T0)["state"], "needs_fresh_check")
-        forged = dict(recs[1], body={"total": 1, "currency": "RWF"})
-        r = self.a.attach_provisional(person, acct.id, acct.key.public, [recs[0], forged], verified=True, seen=seen, now=T0)
-        self.assertEqual((r["state"], r["accepted"], r["refused"]), ("merged", 1, [(2, "altered")]))
-        self.assertEqual(self.a.attach_provisional(person, acct.id, acct.key.public, [recs[0]], True, seen, T0)["refused"], [(1, "replayed")])
+    def test_no_account_is_made_offline_any_more(self):
+        """Section 4C point 3: the temporary offline account is removed; sign-up is online only and keeps what was typed."""
+        import identity.offline as o
+        self.assertFalse(hasattr(o, "ProvisionalAccount") or hasattr(self.a, "attach_provisional"))
+        with self.assertRaises(ConnectionError):
+            self.a.begin_sign_up("no.network", "en", T0, adult_confirmed=True, online=False)

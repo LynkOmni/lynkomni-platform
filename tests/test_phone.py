@@ -2,6 +2,7 @@
 reference and the TypeScript port agree (contract/vectors/phone.v1.json), and every phone or email field is the shared part."""
 import glob, json, os, re, subprocess, sys, unittest
 from core import phone as P
+from tests._signup import confirm_contacts
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -79,7 +80,7 @@ class Contacts(unittest.TestCase):
 
     def person(self, name, phone, email):
         s = self.a.begin_sign_up(name, "en", self.T0, adult_confirmed=True); who = s["person"]
-        code = self.a.send_contact_code(who, self.T0); self.a.confirm_contact(who, code, self.T0)
+        confirm_contacts(self.a, who, self.T0)
         self.a.finish_sign_up(who, "pk", "phone", phone, email, now=self.T0); return who
 
     def test_codes_last_five_minutes_and_resending_waits(self):
@@ -98,7 +99,7 @@ class Contacts(unittest.TestCase):
     def test_one_personal_account_per_contact(self):
         self.person("ama.k", "pii_phone_1", "pii_mail_1")
         s = self.a.begin_sign_up("kofi.m", "en", self.T0, adult_confirmed=True); who = s["person"]
-        code = self.a.send_contact_code(who, self.T0); self.a.confirm_contact(who, code, self.T0)
+        confirm_contacts(self.a, who, self.T0)
         with self.assertRaises(PermissionError): self.a.finish_sign_up(who, "pk", "phone", "pii_phone_1", "pii_mail_2", now=self.T0)
 
     def test_a_number_given_to_someone_else_leaves_the_account_and_numbers_are_confirmed_yearly(self):

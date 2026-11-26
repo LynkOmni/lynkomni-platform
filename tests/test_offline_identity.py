@@ -9,52 +9,23 @@ EVENTS = json.load(open(os.path.join(ROOT, "identity", "events.v1.json"), encodi
 T0 = 1_800_000_000
 
 
-def start(**kw):
-    args = dict(device="dev-1", adult_confirmed=True, lang="fr", country="CM", wished_username="ama.shop",
-                wished_contact="+237600000000", pin="4719", now=T0)
-    args.update(kw)
-    return o.ProvisionalAccount(**args)
+def signed(key, seq, body):
+    """A record made offline on a known device, signed by the device key."""
+    rec = {"device_id": "dev-1", "seq": seq, "kind": "cash_sale", "at": T0, "body": body}
+    rec["sig"] = key.sign(rec)
+    return rec
 
 
-class TestProvisionalAccount(unittest.TestCase):
-    def test_start_now_confirm_later(self):
-        a = start()
-        self.assertEqual(a.state, "queued")
-        for act in ("cash_sale", "receipt_paper", "stock", "cash_count", "device_reports", "assist_offline"):
-            self.assertTrue(a.can(act), act)
-        for act in o.PROVISIONAL_WAITS:
-            self.assertFalse(a.can(act), act)
-            with self.assertRaises(PermissionError):
-                a.record(act, {})
-        rec = a.record("cash_sale", {"total": 1500}, now=T0 + 60)
-        self.assertTrue(o.signature_ok(a.key.public, {k: v for k, v in rec.items() if k != "sig"}, rec["sig"]))
-        self.assertEqual(a.events[0][0], "ProvisionalAccountStarted")
-        self.assertNotIn("+237600000000", json.dumps(a.events), "no contact in any event")
-        self.assertNotIn(b"+237600000000", a._contact, "the wished contact is kept encrypted")
-        self.assertEqual(a.contact_for_confirmation(), "+237600000000")
-
-    def test_age_username_and_contact_are_checked_before_anything_starts(self):
-        with self.assertRaises(PermissionError):
-            start(adult_confirmed=False)
-        with self.assertRaises(ValueError):
-            start(wished_username="..bad")
-        with self.assertRaises(ValueError):
-            start(wished_contact="")
-
-    def test_first_connection_in_a_fixed_order(self):
-        self.assertEqual(o.confirm_provisional(start(), False, True)["result"], "contact_not_confirmed")
-        self.assertEqual(o.confirm_provisional(start(), True, False)["result"], "choose_username")
-        a = start()
-        self.assertEqual(o.confirm_provisional(a, True, True)["result"], "confirmed")
-        self.assertEqual(a.state, "confirmed")
-        self.assertTrue(a.can("electronic_payment"))
-        b = start()
-        self.assertEqual(o.confirm_provisional(b, True, True, existing_account=True)["result"], "sign_in_to_existing")
-        self.assertEqual(b.state, "queued")
-        self.assertEqual(o.confirm_provisional(b, True, True, existing_account=True, verified_existing=True)["result"], "merged")
+class TestNoOfflineAccount(unittest.TestCase):
+    def test_offline_works_only_on_a_real_account(self):
+        """Section 4C point 3: no account is made offline; what a known device does offline is the fixed list."""
+        self.assertFalse(hasattr(o, "ProvisionalAccount") or hasattr(o, "confirm_provisional"))
+        self.assertIn("cash_sale", o.OFFLINE_WORKS)
+        for act in o.OFFLINE_WAITS:
+            self.assertFalse(o.allowed_offline("full", act), act)
 
     def test_every_event_named_here_is_an_account_event(self):
-        for name in ("ProvisionalAccountStarted", "ProvisionalAccountConfirmed", "OfflinePermissionGranted", "OfflinePermissionConfirmed",
+        for name in ("OfflinePermissionGranted", "OfflinePermissionConfirmed",
                      "DeviceHardLocked", "DeviceUnlocked", "DeviceCopySuspended", "OfflineLimitReached"):
             self.assertIn(name, EVENTS)
             self.assertFalse({"phone", "email", "pin", "code", "contact"} & set(EVENTS[name]["payload"]), name)
@@ -73,9 +44,7 @@ class TestOfflineSignIn(unittest.TestCase):
         self.assertEqual(OFFLINE_DAYS, {"owner": 7, "manager": 7, "cashier": 14})
 
     def test_wrong_pins_lock_hard_and_never_destroy(self):
-        a = start()
-        a.record("cash_sale", {"total": 900})
-        lock = a.pin
+        lock, records = o.PinLock("4719"), [signed(o.DeviceKey(), 1, {"total": 900})]
         self.assertNotIn("4719", repr(vars(lock)), "the PIN itself is never stored")
         now = T0
         for i in range(1, o.HARD_LOCK_AFTER):
@@ -84,7 +53,7 @@ class TestOfflineSignIn(unittest.TestCase):
             self.assertEqual(r["reason"], "wrong")
         self.assertEqual(lock.check("0001", now=now + 4000)["reason"], "hard_locked")
         self.assertEqual(lock.check("4719", now=now + 9000)["reason"], "hard_locked", "even the right PIN waits for an unlock")
-        self.assertEqual(len(a.records), 1, "nothing is destroyed by wrong PINs")
+        self.assertEqual(len(records), 1, "nothing is destroyed by wrong PINs")
         with self.assertRaises(PermissionError):
             lock.unlock("guess")
         self.assertTrue(lock.unlock("recovery_code"))
@@ -166,14 +135,13 @@ class TestAttackBank(unittest.TestCase):
         frozen.tick(T0, 9 * o.DAY)
         self.assertEqual(o.offline_mode("owner", frozen), "cash_only", "a stopped wall clock does not stop the count")
         # 9. An altered or replayed offline record is refused.
-        a = start()
-        r1 = a.record("cash_sale", {"total": 1000})
-        r2 = a.record("cash_sale", {"total": 2000})
+        key = o.DeviceKey()
+        r1, r2 = signed(key, 1, {"total": 1000}), signed(key, 2, {"total": 2000})
         seen = set()
-        ok, refused = o.accept_records(a.key.public, [r1, dict(r2, body={"total": 2})], seen)
+        ok, refused = o.accept_records(key.public, [r1, dict(r2, body={"total": 2})], seen)
         self.assertEqual([r["seq"] for r in ok], [1])
         self.assertEqual(refused, [(2, "altered")])
-        ok, refused = o.accept_records(a.key.public, [r1], seen)
+        ok, refused = o.accept_records(key.public, [r1], seen)
         self.assertEqual(refused, [(1, "replayed")])
         # 10. A copied device is caught: both copies wait for the owner.
         w = o.CopyWatch()
@@ -182,8 +150,8 @@ class TestAttackBank(unittest.TestCase):
         self.assertFalse(w.present("lynkid-1", "fp-a")["ok"])
         w.owner_keeps("lynkid-1", "fp-a")
         self.assertTrue(w.present("lynkid-1", "fp-a")["ok"])
-        # 11. A wished username taken meanwhile is never a promise.
-        self.assertEqual(o.confirm_provisional(start(), True, False)["result"], "choose_username")
+        # 11. No account is ever made offline, so no wished username is ever promised.
+        self.assertFalse(hasattr(o, "ProvisionalAccount"))
         # 12. Guessing PINs ends in a hard lock, never in lost records.
         lock = o.PinLock("4719")
         for k in range(o.HARD_LOCK_AFTER):

@@ -95,7 +95,7 @@ const S = {
   tkLate: false, tkLeft: false, answers: ["sv1", "sv2"] as string[], optOut: [] as string[], panel: false,
   // MASTER UPDATE section 2: protections (identity/protection.py decides; the page shows), the bell and Messages, LynkAssist
   coolOffUntil: 0, locked: false, advanced: false, secondWay: true, held: "" as "" | "locked" | "cool_off",
-  contactChange: null as null | { until: number }, signupWay: "phone" as "phone" | "email", merged: 0,
+  contactChange: null as null | { until: number }, signupWay: "phone" as "phone" | "email",
   nset: { off: [] as string[], muted: [] as string[], paused: false, dnd: false, summary: false, lock: "neutral" as "neutral" | "full" | "none", deputy: null as null | number, tested: false, health: false, reminders: [] as { id: string; at: number }[] },
   lines: [] as Line[], sent: [] as Sent[], bellFilter: "all", lastOpened: 0, whyNid: "",
   history: [] as { id: string; action: string; ran: boolean; why: string; at: number; undone: boolean; was?: string }[], pendingAssist: null as null | string, assistFresh: false, ask: "",
@@ -303,7 +303,7 @@ function authSignUp(): string {
   else if (step === "contact") body = `<h2>${esc(t("step_contact"))}</h2><div class="nfilters" role="group" aria-label="${esc(t("step_contact"))}">${(["phone", "email"] as const).map((w) => `<button type="button" class="chipbtn${S.signupWay === w ? " on" : ""}" aria-pressed="${S.signupWay === w}" data-act="signup:way:${w}">${esc(t(w === "phone" ? "way_phone" : "msg_ch_email"))}</button>`).join("")}</div><p class="muted">${esc(t("contact_hint"))}</p><div class="field"><label for="code">${esc(t("code_label"))}</label><input class="text" id="code" inputmode="numeric" value="482913"></div><button class="primary" data-act="signup:contact">${esc(t("next"))}</button>`;
   else if (step === "passkey") body = `<h2>${esc(t("step_passkey"))}</h2><p class="muted">${esc(t("passkey_hint"))}</p><button class="primary" data-act="signup:passkey">${icon("ui-lock")}<span>${esc(t("add_passkey"))}</span></button>`;
   else if (step === "recovery_code") body = `<h2>${esc(t("step_recovery_code"))}</h2><div class="codebox"><span>${esc(S.recoveryCode)}</span>${icon("ui-doc")}</div>${noticeHtml(t, { level: "warning", text: t("recovery_code_hint") })}<button class="primary" data-act="signup:code">${esc(t("recovery_code_confirm"))}</button>`;
-  else body = `<div class="okbox">${icon("ui-check")}<span>${esc(t("passkey_added"))}</span></div><h2>${esc(t("two_ways_title"))}</h2>${S.passkeys.length > 1 || S.secondWay ? ok(t("two_ways_ok")) : `${wait(t("two_ways_one"))}<div class="actions"><button class="secondary" data-act="passkey:add">${icon("ui-plus")}<span>${esc(t("add_passkey"))}</span></button></div>`}<div class="assist">${icon("ui-bolt")}<span><strong>${esc(t("assist_guide"))}:</strong> ${esc(t("recovery_code_push"))}</span></div><p class="muted">${esc(t("signup_later"))}</p>${S.merged ? ok(t("merge_done", { n: n(S.merged) })) : `<div class="actions"><button class="secondary" data-act="merge:do">${esc(t("merge_btn"))}</button></div>`}<button class="primary" data-act="go:overview">${esc(t("continue"))}</button>`;
+  else body = `<div class="okbox">${icon("ui-check")}<span>${esc(t("passkey_added"))}</span></div><h2>${esc(t("two_ways_title"))}</h2>${S.passkeys.length > 1 || S.secondWay ? ok(t("two_ways_ok")) : `${wait(t("two_ways_one"))}<div class="actions"><button class="secondary" data-act="passkey:add">${icon("ui-plus")}<span>${esc(t("add_passkey"))}</span></button></div>`}<div class="assist">${icon("ui-bolt")}<span><strong>${esc(t("assist_guide"))}:</strong> ${esc(t("recovery_code_push"))}</span></div><button class="primary" data-act="go:overview">${esc(t("continue"))}</button>`;
   return `<div class="auth"><h1>${esc(t("signup_title"))}</h1><p class="lead">${esc(t("step_of", { n: Math.min(idx + 1, 4), total: 4 }))}</p>${bar}${body}<button class="secondary" data-act="go:signin">${esc(t("back"))}</button></div>`;
 }
 function authRecover(): string {
@@ -701,7 +701,6 @@ function act(a: string): void {
       if (v === "cancel" && S.contactChange) { S.contactChange = null; record("ContactChangeCancelled", "server", { by: "owner" }); }
       draw(); return;
     }
-    case "merge": if (!fresh("merge:do")) return; S.merged = 3; record("ProvisionalAccountConfirmed", "server", { into: "existing", records: 3 }); draw(); return;
     case "nset": {
       const [what = "", x = ""] = v.split(":");
       if (what === "vol") { const me = savePrefs({ volume: pick(["low", "medium", "high"] as const, x, loadPrefs().volume) as Volume }); record("NotificationChoiceChanged", "server", { sounds: "volume", volume: me.volume }); }

@@ -11,6 +11,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 T0 = 1_800_000_000.0
 BUILT_SECTIONS = 3     # raise this as sections are built; every event trigger up to here must exist
 from core.build_sections import ORDER as _ORDER  # noqa: E402
+from tests._signup import confirm_contacts
 BUILT = set(_ORDER[:_ORDER.index(BUILT_SECTIONS) + 1])
 
 
@@ -20,7 +21,7 @@ class SignUpAndSecurity(unittest.TestCase):
     def tearDown(self): os.environ.pop("LYNK_MODE", None)
     def signed_up(self, username="grace.k", **kw):
         s = self.a.begin_sign_up(username, "en", T0, adult_confirmed=True); p = s["person"]
-        code = self.a.send_contact_code(p, T0); self.a.confirm_contact(p, code, T0)
+        confirm_contacts(self.a, p, T0)
         done = self.a.finish_sign_up(p, "pk-1", "Grace's phone", "pii_1", "pii_2", backup_contact="bk-1", now=T0, **kw)
         return p, s, done
 
@@ -158,7 +159,7 @@ class BusinessesAndMoney(unittest.TestCase):
     def setUp(self):
         os.environ.pop("LYNK_MODE", None); self.p = Platform(); self.a = self.p.account
         s = self.a.begin_sign_up("owner.one", "en", T0, adult_confirmed=True); self.owner = s["person"]; self.lid = s["lynkid"]
-        c = self.a.send_contact_code(self.owner, T0); self.a.confirm_contact(self.owner, c, T0); self.a.finish_sign_up(self.owner, "pk", "phone", "pii_1", "pii_2", now=T0)
+        confirm_contacts(self.a, self.owner, T0); self.a.finish_sign_up(self.owner, "pk", "phone", "pii_1", "pii_2", now=T0)
         self.org = self.p.idp.register_org(self.owner, "Mama Shop", country="XX")["internal"]
     def tearDown(self): os.environ.pop("LYNK_MODE", None)
 

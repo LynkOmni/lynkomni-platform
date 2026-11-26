@@ -2,6 +2,16 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.118.0 (2026-11-26)
+Section 4C step 3a: the rules for signing up, signing in, proving it's you and getting back in.
+- One register, catalog/ways-in.v1.json, holds every rule of points 3 and 5: the sign-up steps in their order, the ways to prove it's you from strongest to weakest, the protections, the Can't sign in? hub's ways back in with their waits, what is never allowed (passwords, security questions, a text alone, an email alone, a call alone, support finishing it in chat) and who may reset what, online or offline. core/ways_in.py and ts/src/waysin.ts read it and agree through contract/vectors/ways-in.v1.json.
+- Sign-up is online only, in the fixed order: country, username, age, legal name, email and its code, phone and its code, passkey, recovery. Email and phone are both needed now, each with its own code. The legal name (as on the ID document) is checked and kept only in the personal-details vault. Without internet the person is asked to connect and what they typed is kept. New accounts are slowed per device and per network each hour, with no picture puzzles and no outside company.
+- The temporary offline account ("start now, confirm later") is removed, with the account site's "Join this device's records" button and its message. Offline use starts only on a device already signed in online with a real account.
+- New ways to prove it's you (identity/ways_in.py): ten backup codes shown once and kept only scrambled, authenticator apps by the open time-based code standard (no brand named; each code works once; waits after wrong tries), security keys, sign-in with a QR code scanned by the signed-in phone (two minutes, once, only on the device that showed it) and 3 to 5 recovery contacts.
+- New protections: the anti-phishing word (kept encrypted, put in every real message, never in an event), the country lock, the unusual sign-in check (new country, a journey too fast, many tries), devices unused for 90 days signed out, Remember this device (30 days, otherwise 12 hours), the security activity log, the security checkup, limits on basic-phone accounts until an email is added, and organisation sign-in rules on Max and Enterprise.
+- Eleven new account events, none carrying a code, secret, word, name, contact or country. Six new security controls with their tests.
+- Leftover: the build table said these events go in a new contract version; account events belong in the account event register (identity/events.v1.json), so the row now says so.
+
 ## v0.117.1 (2026-11-26)
 The review panel never skips the staff PIN.
 - On every staff device emulator (counter tablet, stock scanner, rider phone, kitchen screen, betting counter), a screen button in the review panel now shows the PIN screen first; the chosen screen opens only after a correct PIN. The duress button shows the lock with the sample duress PIN, and a jump from the quiet duress view locks the device instead of leaving it. One shared method does it (ts/src/devicekit.ts StaffGate goAfterPin); the old shortcut that signed the sample cashier in without a PIN is gone.

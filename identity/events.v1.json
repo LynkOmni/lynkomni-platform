@@ -340,14 +340,16 @@
     "lang",
     "country"
    ],
-   "note": "MASTER UPDATE 55: an account started on one device with no network; no contact or username in the payload"
+   "note": "MASTER UPDATE 55: an account started on one device with no network; no contact or username in the payload RETIRED in section 4C (v0.118.0): the temporary offline account is removed; offline use starts only after a real account exists. Kept for old records only.",
+   "retired": true
   },
   "ProvisionalAccountConfirmed": {
    "payload": [
     "provisional_id",
     "into"
    ],
-   "note": "the cloud confirmed the contact and username, or the records joined an existing account after verification"
+   "note": "the cloud confirmed the contact and username, or the records joined an existing account after verification RETIRED in section 4C (v0.118.0): the temporary offline account is removed; offline use starts only after a real account exists. Kept for old records only.",
+   "retired": true
   },
   "OfflinePermissionGranted": {
    "payload": [
@@ -571,6 +573,81 @@
     "lynkid"
    ],
    "note": "section 4C point 1: written by the number-confirm-yearly automation a year after the last confirmation"
+  },
+  "BackupCodesMade": {
+   "payload": [
+    "lynkid",
+    "count"
+   ],
+   "note": "section 4C point 3 (catalog/ways-in.v1.json): ten one-time backup codes made; the old set stops working; the codes are never in the payload"
+  },
+  "BackupCodeUsed": {
+   "payload": [
+    "lynkid",
+    "left"
+   ],
+   "note": "section 4C point 3 (catalog/ways-in.v1.json): a backup code was used; an alert goes to every channel"
+  },
+  "ExtraCheckTurnedOn": {
+   "payload": [
+    "lynkid",
+    "way"
+   ],
+   "note": "section 4C point 3 (catalog/ways-in.v1.json): an extra check (an authenticator app) was turned on"
+  },
+  "ExtraCheckTurnedOff": {
+   "payload": [
+    "lynkid",
+    "way"
+   ],
+   "note": "section 4C point 3 (catalog/ways-in.v1.json): an extra check was turned off after a fresh check and the cool-off"
+  },
+  "SecurityKeyAdded": {
+   "payload": [
+    "lynkid",
+    "locrd"
+   ],
+   "note": "section 4C point 3 (catalog/ways-in.v1.json): a USB or tap security key added as a passkey"
+  },
+  "RecoveryContactsSet": {
+   "payload": [
+    "lynkid",
+    "count"
+   ],
+   "note": "section 4C point 3 (catalog/ways-in.v1.json): 3 to 5 recovery contacts set; who they are is not in the payload"
+  },
+  "AntiPhishingWordSet": {
+   "payload": [
+    "lynkid"
+   ],
+   "note": "section 4C point 3 (catalog/ways-in.v1.json): the anti-phishing word was set or changed; the word is never in the payload"
+  },
+  "CountryLockSet": {
+   "payload": [
+    "lynkid",
+    "count"
+   ],
+   "note": "section 4C point 3 (catalog/ways-in.v1.json): the optional country lock was set"
+  },
+  "SignInRefused": {
+   "payload": [
+    "lynkid",
+    "reason"
+   ],
+   "note": "section 4C point 3 (catalog/ways-in.v1.json): a sign-in was refused (country lock)"
+  },
+  "OldDeviceSignedOut": {
+   "payload": [
+    "lynkid",
+    "device_name"
+   ],
+   "note": "section 4C point 3 (catalog/ways-in.v1.json): a device unused for 90 days was signed out"
+  },
+  "BasicPhoneLimitsLifted": {
+   "payload": [
+    "lynkid"
+   ],
+   "note": "section 4C point 3 (catalog/ways-in.v1.json): an account opened on a basic phone added an email, so its limits are lifted"
   }
  }
 }

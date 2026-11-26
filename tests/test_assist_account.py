@@ -3,6 +3,7 @@ import os, unittest
 from identity.account import EVENTS
 from services.assist_account import AccountAssist
 from services.platform import Platform
+from tests._signup import confirm_contacts
 
 T0 = 1_800_000_000.0
 
@@ -11,8 +12,8 @@ class AccountAssistTests(unittest.TestCase):
     def setUp(self):
         os.environ.pop("LYNK_MODE", None); self.p = Platform(); self.a = self.p.account; self.x = AccountAssist(self.a)
         s = self.a.begin_sign_up("grace.k", "en", T0, adult_confirmed=True); self.person = s["person"]
-        code = self.a.send_contact_code(self.person, T0); self.a.confirm_contact(self.person, code, T0)
-        self.a.finish_sign_up(self.person, "pk-1", "Grace's phone", "pii_1", None, now=T0)
+        confirm_contacts(self.a, self.person, T0)
+        self.a.finish_sign_up(self.person, "pk-1", "Grace's phone", "pii_1", "pii_2", now=T0)
         self.tok = self.a.sign_in(self.person, "account", "Grace's phone", "Kigali", T0)
 
     def stepup(self):
