@@ -3121,6 +3121,90 @@
     "confirm_number",
     "change_number"
    ]
+  },
+  {
+   "area": "security",
+   "audience": "person",
+   "basis": "security",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "no-reply@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "build_section": "4C",
+   "id": "recovery_cancelled",
+   "trigger": "RecoveryCancelled",
+   "priority": "high",
+   "actions": []
+  },
+  {
+   "area": "security",
+   "audience": "person",
+   "basis": "security",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "no-reply@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "build_section": "4C",
+   "id": "recovery_completed",
+   "trigger": "RecoveryCompleted",
+   "priority": "high",
+   "actions": [
+    "open"
+   ]
+  },
+  {
+   "area": "security",
+   "audience": "person",
+   "basis": "security",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "no-reply@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "build_section": "4C",
+   "id": "recovery_attempts_blocked",
+   "trigger": "RecoveryAttemptsBlocked",
+   "priority": "critical",
+   "actions": []
+  },
+  {
+   "area": "security",
+   "audience": "person",
+   "basis": "security",
+   "channels": [
+    "bell",
+    "push",
+    "email",
+    "text"
+   ],
+   "sender": "no-reply@mail.lynkomni.com",
+   "group": "none",
+   "can_turn_off": false,
+   "lock_screen": "neutral",
+   "build_section": "4C",
+   "id": "backup_code_used",
+   "trigger": "BackupCodeUsed",
+   "priority": "high",
+   "actions": [
+    "this_was_not_me"
+   ]
   }
  ],
  "system": {

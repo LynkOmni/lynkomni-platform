@@ -62,7 +62,7 @@
     "recovery_id",
     "ready_at"
    ],
-   "note": "path = device, code or assisted; triggers the recovery guide"
+   "note": "path = device, code or assisted (build section 2, identity/auth.py) or, from section 4C point 5, the hub's way: other_device, backup_code, recovery_code, recovery_contacts, email_and_phone or id_check (identity/recover.py); triggers the recovery guide"
   },
   "RecoveryCancelled": {
    "payload": [
@@ -648,6 +648,27 @@
     "lynkid"
    ],
    "note": "section 4C point 3 (catalog/ways-in.v1.json): an account opened on a basic phone added an email, so its limits are lifted"
+  },
+  "RecoveryAttemptsBlocked": {
+   "payload": [
+    "lynkid",
+    "until"
+   ],
+   "note": "section 4C point 5: repeated failed recovery attempts moved the account into the strongest protection mode for a time; the owner is told"
+  },
+  "RecoveryWaitReminder": {
+   "payload": [
+    "lynkid",
+    "recovery_id"
+   ],
+   "note": "section 4C point 5: a daily reminder to every old contact and device that a waiting recovery can be cancelled"
+  },
+  "CheckupDue": {
+   "payload": [
+    "lynkid",
+    "reason"
+   ],
+   "note": "section 4C point 3: the yearly security checkup, or two or fewer backup codes left"
   }
  }
 }

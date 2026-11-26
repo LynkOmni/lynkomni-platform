@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.119.0 (2026-11-26)
+Section 4C step 5a: the Can't sign in? hub and every reset.
+- LynkOmni has no passwords, so wherever people expect "Forgot password?" the link says Can't sign in? and opens one hub (identity/recover.py, account.recover). The person picks what's wrong (lost phone, passkey or key not working, no codes, no authenticator, forgotten PIN, someone else in the account) and sees only the ways back in they actually have, strongest first, with their waits: another signed-in device, a backup code or the recovery code at once; recovery contacts or the email and phone codes together after 24 hours; the ID check with the phone owner check after 72 hours and two different LynkOmni staff.
+- Never a password, security questions, a text alone, an email alone, a call alone, or support or LynkAssist finishing it. Every old contact and device is told at once with one Cancel button; a cancel stops it and switches on the unusual sign-in check. After a recovery: 24 hours without payouts, payout changes, downloads, card or contact changes, then the security checkup. Payouts, cards and keys pause while it waits. Repeated failed tries switch on the strongest protection for a week and the owner is told.
+- "Someone else is in my account" locks everything first. The I lost my phone page locks everything without signing in and gives the same answer whether or not the username exists.
+- The account PIN of a basic phone resets by menu with a code and a 24-hour wait, or at once at a shop or agent point after the ID check.
+- Every reset in one register with who may do it and whether it works offline (part of catalog/ways-in.v1.json, step 3a).
+- Four new messages (recovery cancelled, recovery finished, attempts blocked, backup code used; all security, never switched off), three automations (the daily cancel reminder while a recovery waits, the checkup after a recovery, the yearly checkup or few backup codes left; inform only), the recovery guide's steps for each way, three account events and five security controls.
+
 ## v0.118.0 (2026-11-26)
 Section 4C step 3a: the rules for signing up, signing in, proving it's you and getting back in.
 - One register, catalog/ways-in.v1.json, holds every rule of points 3 and 5: the sign-up steps in their order, the ways to prove it's you from strongest to weakest, the protections, the Can't sign in? hub's ways back in with their waits, what is never allowed (passwords, security questions, a text alone, an email alone, a call alone, support finishing it in chat) and who may reset what, online or offline. core/ways_in.py and ts/src/waysin.ts read it and agree through contract/vectors/ways-in.v1.json.
