@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "am",
  "native": "አማርኛ",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "መለያ",
   "action_add": "የመጀመሪያውን ያክሉ",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "ይህ መሣሪያ በቂ መረጃ አልሰጠም፣ ስለዚህ ከማንኛውም የግብዓት አይነት ጋር የሚሠራው እይታ ጥቅም ላይ ይውላል።",
   "why_this_view": "ለምን ይህ እይታ?",
   "will_translate_online": "ወደ መስመር ሲመለሱ ይተረጎማል",
-  "writes_in": "{name} በ{from} ይጽፋል። መልእክቶች ለእርስዎ ወደ {to} ይተረጎማሉ።"
+  "writes_in": "{name} በ{from} ይጽፋል። መልእክቶች ለእርስዎ ወደ {to} ይተረጎማሉ።",
+  "your_handle_agentpoint": "የወኪል ቦታዎ መለያ ስም",
+  "your_handle_app": "የመተግበሪያዎ መለያ ስም",
+  "your_handle_business": "የንግድዎ መለያ ስም",
+  "your_handle_partner": "የአጋርነት መለያ ስምዎ",
+  "your_handle_shop": "የሱቅዎ መለያ ስም",
+  "your_handle_user": "የእርስዎ የተጠቃሚ ስም"
  }
 }

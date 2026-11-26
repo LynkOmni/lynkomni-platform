@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "Àkáǹtì",
   "action_add": "Ṣàfikún àkọ́kọ́",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "Ẹ̀rọ yìí kò sọ tó, nítorí náà a ń lo ìrísí tí ó ń ṣiṣẹ́ pẹ̀lú gbogbo ọ̀nà ìtẹ̀wọlé.",
   "why_this_view": "Kí ló dé tí ìrísí yìí?",
   "will_translate_online": "A ó túmọ̀ rẹ̀ nígbà tí o bá padà sórí ìsopọ̀",
-  "writes_in": "{name} ń kọ̀wé ní {from}. À ń túmọ̀ àwọn ọ̀rọ̀ sí {to} fún ọ."
+  "writes_in": "{name} ń kọ̀wé ní {from}. À ń túmọ̀ àwọn ọ̀rọ̀ sí {to} fún ọ.",
+  "your_handle_agentpoint": "Orúkọ ìdánimọ̀ ibi aṣojú rẹ",
+  "your_handle_app": "Orúkọ ìdánimọ̀ áàpù rẹ",
+  "your_handle_business": "Orúkọ ìdánimọ̀ iṣẹ́ rẹ",
+  "your_handle_partner": "Orúkọ ìdánimọ̀ alábàáṣiṣẹ́pọ̀ rẹ",
+  "your_handle_shop": "Orúkọ ìdánimọ̀ ṣọ́ọ̀bù rẹ",
+  "your_handle_user": "Orúkọ olùmúlò rẹ"
  }
 }

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "اڪائونٽ",
   "action_add": "پهريون شامل ڪريو",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "هن اوزار ڪافي معلومات نه ڏني، تنهن ڪري اهو ڏيک استعمال ٿئي ٿو جيڪو هر قسم جي داخلا سان ڪم ڪري ٿو.",
   "why_this_view": "هي ڏيک ڇو؟",
   "will_translate_online": "آن لائين ٿيڻ تي ترجمو ٿيندو",
-  "writes_in": "{name} {from} ۾ لکي ٿو. پيغام توهان لاءِ {to} ۾ ترجمو ٿين ٿا."
+  "writes_in": "{name} {from} ۾ لکي ٿو. پيغام توهان لاءِ {to} ۾ ترجمو ٿين ٿا.",
+  "your_handle_agentpoint": "توهان جي ايجنٽ پوائنٽ جو هينڊل",
+  "your_handle_app": "توهان جي ايپ جو هينڊل",
+  "your_handle_business": "توهان جي ڪاروبار جو هينڊل",
+  "your_handle_partner": "توهان جو ڀائيوار هينڊل",
+  "your_handle_shop": "توهان جي دڪان جو هينڊل",
+  "your_handle_user": "توهان جو يوزر نالو"
  }
 }

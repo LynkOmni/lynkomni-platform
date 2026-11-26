@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "Hesap",
   "action_add": "İlkini ekle",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "Bu cihaz yeterli bilgi vermedi, bu yüzden her tür girişle çalışan görünüm kullanılıyor.",
   "why_this_view": "Neden bu görünüm?",
   "will_translate_online": "Tekrar çevrimiçi olunca çevrilecek",
-  "writes_in": "{name}, {from} dilinde yazıyor. Mesajlar sizin için {to} diline çevriliyor."
+  "writes_in": "{name}, {from} dilinde yazıyor. Mesajlar sizin için {to} diline çevriliyor.",
+  "your_handle_agentpoint": "Acente noktanızın kullanıcı adı",
+  "your_handle_app": "Uygulamanızın kullanıcı adı",
+  "your_handle_business": "İşletmenizin kullanıcı adı",
+  "your_handle_partner": "Ortak kullanıcı adınız",
+  "your_handle_shop": "Mağazanızın kullanıcı adı",
+  "your_handle_user": "Kullanıcı adınız"
  }
 }

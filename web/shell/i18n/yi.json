@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yi",
  "native": "ייִדיש",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "חשבון",
   "action_add": "לייגט צו דעם ערשטן",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "די מכשיר האָט נישט געזאָגט גענוג, דערפֿאַר ניצט מען דעם אויסזע וואָס אַרבעט מיט יעדן סאָרט אַרײַנגאַנג.",
   "why_this_view": "פֿאַר וואָס דער אויסזע?",
   "will_translate_online": "וועט איבערגעזעצט ווערן ווען איר זענט ווידער אָנלײַן",
-  "writes_in": "{name} שרײַבט אויף {from}. מעלדונגען ווערן איבערגעזעצט אויף {to} פֿאַר אײַך."
+  "writes_in": "{name} שרײַבט אויף {from}. מעלדונגען ווערן איבערגעזעצט אויף {to} פֿאַר אײַך.",
+  "your_handle_agentpoint": "דײַן אַגענט־פּונקט־צייכן",
+  "your_handle_app": "דײַן אַפּליקאַציע־צייכן",
+  "your_handle_business": "דײַן געשעפֿט־צייכן",
+  "your_handle_partner": "דײַן שותף־צייכן",
+  "your_handle_shop": "דײַן קראָם־צייכן",
+  "your_handle_user": "דײַן באַניצער־נאָמען"
  }
 }

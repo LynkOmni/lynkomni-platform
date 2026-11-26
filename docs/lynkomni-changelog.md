@@ -2,6 +2,12 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.127.1 (2026-11-26)
+Every handle field has the same bold label as the email and phone fields (owner: "Username" looked faint next to "Your email").
+- Sign-in and sign-up now say "Your username" in the same bold label as "Your email" and "Your phone number"; the @ sits in line with the text; sign-in shows no character count.
+- Every other handle field follows: the shop handle card and the Business app's online shop setting say "Your shop handle", and businesses, developer apps, partners and agent points have their own "Your ... handle" label, all in 38 languages.
+- One shared part draws every handle field (handleFieldHtml); tests/test_placeholders.py refuses a handle box drawn with a label of its own. The labels of the other sign-in fields (legal name, I lost my phone) use the same style.
+
 ## v0.127.0 (2026-11-26)
 Sign in starts with a clear choice (owner: the single box with "Signing in with your username" was confusing).
 - Every sign-in screen (the account site and the Business app) opens with three buttons in this order: Continue with email, Continue with username, Continue with phone, each with its own LynkOmni icon.

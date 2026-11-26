@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-PkVik/bZ0O8tP47e+YCRAktfs8dKAOdrFc/bkM7gRFE='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-VvBe3wZO7EPuShJr9DVoABSTLPN4Uudjo//xf6esYnE='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkVCard Card</title>
 <meta name="description" content="Interactive emulator of the LynkVCard: the four tier faces as a real card that flips to its back, freeze (shown as frozen only when the issuer confirms) and card details shown only after a fresh check inside the licensed issuer's secure display, hidden again after a short time and never offline. No card number ever reaches this screen.">
@@ -3279,6 +3279,10 @@ function suggestions(value, taken = () => false, limit = 3) {
 }
 const HANDLE_HINT = { user: "username", shop: "shophandle", business: "businesshandle", app: "apphandle", partner: "partnerhandle", agentpoint: "agentpointhandle" };
 const handleEsc = (s) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const HANDLE_LABEL = { user: "your_handle_user", shop: "your_handle_shop", business: "your_handle_business", app: "your_handle_app", partner: "your_handle_partner", agentpoint: "your_handle_agentpoint" };
+function handleFieldHtml(o) {
+    return `<div class="handle-field"><label class="hf-label" for="${handleEsc(o.id)}">${handleEsc(o.label)}</label>${handleBoxHtml({ id: o.id, kind: o.kind, value: o.value, attrs: o.attrs, after: o.after })}${o.below ?? ""}</div>`;
+}
 function handleBoxHtml(o) {
     return `<span class="handle-box" dir="ltr"><span class="handle-at" aria-hidden="true">@</span><input class="handle-in" id="${handleEsc(o.id)}" type="text" value="${handleEsc(normalize(o.value))}" placeholder="${HANDLE_HINT[o.kind]}" autocapitalize="none" autocomplete="off" spellcheck="false" maxlength="${USERNAME_RULE.max}" inputmode="latin"${o.label ? ` aria-label="${handleEsc(o.label)}"` : ""}${o.attrs ? ` ${o.attrs}` : ""}>${o.after ?? ""}</span>`;
 }
@@ -3569,7 +3573,7 @@ function usernameField(value, cloud, taken, t, icon, kind = "user") {
         ok = true;
     }
     const sugg = value && !ok && cloud !== "checking" ? suggestions(value, taken) : [];
-    return `<div class="field username"><label for="usernameIn">${esc(t(kind === "user" ? "username" : "handle"))}</label>${handleBoxHtml({ id: "usernameIn", kind, value, attrs: `aria-describedby="usernameMsg" aria-invalid="${tone === "danger"}"`, after: ok ? icon("ui-check", "ic ok") : "" })}<p id="usernameMsg" class="fmsg ${tone}" aria-live="polite">${esc(msg)}</p>${sugg.length ? `<p class="sugg">${esc(t("username_try"))} ${sugg.map((s) => `<button class="chipbtn" data-act="username:${esc(s)}">@${esc(s)}</button>`).join(" ")}</p>` : ""}<p class="note">${esc(t("username_rule", { example: HANDLE_HINT[kind] }))}</p></div>`;
+    return `<div class="field username">${handleFieldHtml({ id: "usernameIn", kind, value, label: t(HANDLE_LABEL[kind]), attrs: `aria-describedby="usernameMsg" aria-invalid="${tone === "danger"}"`, after: ok ? icon("ui-check", "ic ok") : "" })}<p id="usernameMsg" class="fmsg ${tone}" aria-live="polite">${esc(msg)}</p>${sugg.length ? `<p class="sugg">${esc(t("username_try"))} ${sugg.map((s) => `<button class="chipbtn" data-act="username:${esc(s)}">@${esc(s)}</button>`).join(" ")}</p>` : ""}<p class="note">${esc(t("username_rule", { example: HANDLE_HINT[kind] }))}</p></div>`;
 }
 function chartSummary(spec, t) {
     const s = spec.series[0];

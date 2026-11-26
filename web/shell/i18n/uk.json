@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "uk",
  "native": "Українська",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "Акаунт",
   "action_add": "Додати перший",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "Пристрій повідомив замало, тому використовується вигляд, що працює з будь-яким способом введення.",
   "why_this_view": "Чому такий вигляд?",
   "will_translate_online": "Буде перекладено, коли ви знову будете онлайн",
-  "writes_in": "{name} пише мовою: {from}. Повідомлення перекладаються для вас мовою: {to}."
+  "writes_in": "{name} пише мовою: {from}. Повідомлення перекладаються для вас мовою: {to}.",
+  "your_handle_agentpoint": "Ім'я вашого пункту агента",
+  "your_handle_app": "Ім'я вашого застосунку",
+  "your_handle_business": "Ім'я вашого бізнесу",
+  "your_handle_partner": "Ваше ім'я партнера",
+  "your_handle_shop": "Ім'я вашого магазину",
+  "your_handle_user": "Ваше ім'я користувача"
  }
 }

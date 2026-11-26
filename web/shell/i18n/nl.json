@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "Account",
   "action_add": "Voeg de eerste toe",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "Dit apparaat gaf te weinig informatie, dus wordt de weergave gebruikt die met elke invoer werkt.",
   "why_this_view": "Waarom deze weergave?",
   "will_translate_online": "Wordt vertaald zodra je weer online bent",
-  "writes_in": "{name} schrijft in het {from}. Berichten worden voor jou vertaald naar het {to}."
+  "writes_in": "{name} schrijft in het {from}. Berichten worden voor jou vertaald naar het {to}.",
+  "your_handle_agentpoint": "De handle van je agentpunt",
+  "your_handle_app": "De handle van je app",
+  "your_handle_business": "De handle van je bedrijf",
+  "your_handle_partner": "Je partnerhandle",
+  "your_handle_shop": "De handle van je winkel",
+  "your_handle_user": "Je gebruikersnaam"
  }
 }

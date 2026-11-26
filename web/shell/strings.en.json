@@ -269,6 +269,7 @@
  "emp_why_unsent": "Many records are still to be sent.",
  "find_or_do": "Find or do anything",
  "find_or_do_hint": "Search products, customers, orders, reports, settings and help, or type an action",
+ "handle": "Handle",
  "help": "Help",
  "help_for_screen": "Help for {screen}",
  "hint_answer": "Very good",
@@ -1233,7 +1234,6 @@
  "undo": "Undo",
  "undone": "Undone",
  "username": "Username",
- "handle": "Handle",
  "username_available": "Available",
  "username_bad_character": "Only letters a to z, numbers, full stops and underscores.",
  "username_card": "Your shop's handle",
@@ -1269,5 +1269,11 @@
  "why_safe_default": "This device did not say enough, so the view that works with every kind of input is used.",
  "why_this_view": "Why this view?",
  "will_translate_online": "Will translate when you are back online",
- "writes_in": "{name} writes in {from}. Messages are translated into {to} for you."
+ "writes_in": "{name} writes in {from}. Messages are translated into {to} for you.",
+ "your_handle_agentpoint": "Your agent point handle",
+ "your_handle_app": "Your app handle",
+ "your_handle_business": "Your business handle",
+ "your_handle_partner": "Your partner handle",
+ "your_handle_shop": "Your shop handle",
+ "your_handle_user": "Your username"
 }

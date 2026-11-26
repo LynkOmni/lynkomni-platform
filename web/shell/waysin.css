@@ -8,7 +8,8 @@
 .wy-bar { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
 .wy-bar li { flex: 1 1 0; block-size: 4px; border-radius: var(--radius-pill); background: var(--border-subtle); }
 .wy-bar li.on { background: var(--brand-ink); }
-.wy-field { display: flex; flex-direction: column; gap: 4px; font: 600 13px var(--font-body); color: var(--text-secondary); }
+.wy-field { display: flex; flex-direction: column; gap: 6px; min-inline-size: 0; margin-block-end: 12px; }
+.wy-field > label { font-weight: 600; color: var(--text-primary); }   /* the same label as the shared email and phone fields (fields.css .lf-field) */
 .wy-field input { box-sizing: border-box; min-block-size: 48px; max-inline-size: 100%; padding-inline: 12px; border: 1px solid var(--border-input); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font: 400 16px var(--font-body); }
 .wy-date { border: 0; margin: 0; padding: 0; min-inline-size: 0; }
 .wy-date legend { padding: 0; margin-block-end: 4px; font: 600 13px var(--font-body); color: var(--text-secondary); }

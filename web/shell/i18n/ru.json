@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ru",
  "native": "Русский",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "Аккаунт",
   "action_add": "Добавить первый",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "Устройство сообщило слишком мало, поэтому используется вид, который работает с любым способом ввода.",
   "why_this_view": "Почему этот вид?",
   "will_translate_online": "Будет переведено, когда вы снова будете в сети",
-  "writes_in": "{name} пишет на языке {from}. Сообщения переводятся для вас на {to}."
+  "writes_in": "{name} пишет на языке {from}. Сообщения переводятся для вас на {to}.",
+  "your_handle_agentpoint": "Имя вашего пункта агента",
+  "your_handle_app": "Имя вашего приложения",
+  "your_handle_business": "Имя вашего бизнеса",
+  "your_handle_partner": "Ваше имя партнёра",
+  "your_handle_shop": "Имя вашего магазина",
+  "your_handle_user": "Ваше имя пользователя"
  }
 }

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "Asusu",
   "action_add": "Ƙara na farko",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "Wannan na'ura ba ta faɗi isasshe ba, don haka ana amfani da yanayin nuni da ke aiki da kowace irin shigarwa.",
   "why_this_view": "Me ya sa wannan yanayin nuni?",
   "will_translate_online": "Za a fassara idan kun dawo kan intanet",
-  "writes_in": "{name} yana rubutu a {from}. Ana fassara muku saƙonni zuwa {to}."
+  "writes_in": "{name} yana rubutu a {from}. Ana fassara muku saƙonni zuwa {to}.",
+  "your_handle_agentpoint": "Sunan wurin wakilinka",
+  "your_handle_app": "Sunan manhajarka",
+  "your_handle_business": "Sunan kasuwancinka",
+  "your_handle_partner": "Sunanka na abokin hulɗa",
+  "your_handle_shop": "Sunan shagonka",
+  "your_handle_user": "Sunan mai amfani naka"
  }
 }

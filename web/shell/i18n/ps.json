@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ps",
  "native": "پښتو",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "حساب",
   "action_add": "لومړی زیات کړئ",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "دې وسیلې بس معلومات ورنه کړل، نو هغه بڼه کارول کېږي چې د هر ډول ننوتو سره کار کوي.",
   "why_this_view": "ولې دا بڼه؟",
   "will_translate_online": "کله چې بیا آنلاین شئ ژباړل کیږي",
-  "writes_in": "{name} په {from} لیکي. پیغامونه ستاسو لپاره {to} ته ژباړل کیږي."
+  "writes_in": "{name} په {from} لیکي. پیغامونه ستاسو لپاره {to} ته ژباړل کیږي.",
+  "your_handle_agentpoint": "ستاسو د اجنټ ځای پېژند",
+  "your_handle_app": "ستاسو د اپلیکیشن پېژند",
+  "your_handle_business": "ستاسو د سوداګرۍ پېژند",
+  "your_handle_partner": "ستاسو د شریک پېژند",
+  "your_handle_shop": "ستاسو د هټۍ پېژند",
+  "your_handle_user": "ستاسو کارن نوم"
  }
 }

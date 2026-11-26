@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ar",
  "native": "العربية",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "الحساب",
   "action_add": "أضف الأول",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "لم يقدّم هذا الجهاز معلومات كافية، لذلك يُستخدم العرض الذي يعمل مع كل أنواع الإدخال.",
   "why_this_view": "لماذا هذا العرض؟",
   "will_translate_online": "ستُترجم عند عودة الاتصال",
-  "writes_in": "{name} يكتب بـ{from}. تُترجم الرسائل إلى {to} من أجلك."
+  "writes_in": "{name} يكتب بـ{from}. تُترجم الرسائل إلى {to} من أجلك.",
+  "your_handle_agentpoint": "معرّف نقطة الوكيل الخاصة بك",
+  "your_handle_app": "معرّف تطبيقك",
+  "your_handle_business": "معرّف نشاطك التجاري",
+  "your_handle_partner": "معرّفك كشريك",
+  "your_handle_shop": "معرّف متجرك",
+  "your_handle_user": "اسم المستخدم الخاص بك"
  }
 }

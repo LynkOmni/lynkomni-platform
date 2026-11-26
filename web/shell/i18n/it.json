@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "it",
  "native": "Italiano",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "Account",
   "action_add": "Aggiungi il primo",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "Questo dispositivo non ha fornito abbastanza informazioni, quindi si usa la vista che funziona con ogni tipo di input.",
   "why_this_view": "Perché questa vista?",
   "will_translate_online": "Sarà tradotto quando tornerai online",
-  "writes_in": "{name} scrive in {from}. I messaggi sono tradotti in {to} per te."
+  "writes_in": "{name} scrive in {from}. I messaggi sono tradotti in {to} per te.",
+  "your_handle_agentpoint": "L'handle del tuo punto agente",
+  "your_handle_app": "L'handle della tua app",
+  "your_handle_business": "L'handle della tua attività",
+  "your_handle_partner": "Il tuo handle da partner",
+  "your_handle_shop": "L'handle del tuo negozio",
+  "your_handle_user": "Il tuo nome utente"
  }
 }
