@@ -692,12 +692,15 @@ html { font-size: 100%; }
 .lf-ccopt[aria-selected="true"] { font-weight: 600; color: var(--brand-ink); }
 .lf-ccnone { margin: 0; padding: 8px 10px; }
 
-/* The handle box (ts/src/usernames.ts handleBoxHtml): a fixed @ inside the field, then what the person types. Tokens only. */
-.handle-box { display: flex; align-items: center; gap: 2px; box-sizing: border-box; min-block-size: 48px; max-inline-size: 100%; padding-inline: 12px; border: 1px solid var(--border-input); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); cursor: text; }
-.handle-box:focus-within { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
-.handle-at { flex: none; color: var(--text-secondary); font-weight: 600; user-select: none; }
-.handle-box .handle-in { flex: 1; min-inline-size: 0; min-block-size: 46px; padding: 0; border: 0; border-radius: 0; background: none; color: inherit; font: inherit; outline: none; box-shadow: none; text-align: start; }
-.handle-box .ic { flex: none; }
+/* The handle box (ts/src/usernames.ts handleBoxHtml): the typing box is the whole field and the @ sits fixed inside it at the
+   start, so the field's own border, shape and focus ring cover everything. Tokens only. */
+.handle-box { position: relative; display: flex; flex-wrap: wrap; align-items: center; max-inline-size: 100%; }
+.handle-box > .ph-count { flex-basis: 100%; }   /* the character count sits under the field, like every other field */
+.handle-at { position: absolute; inset-block-start: 0; block-size: 48px; display: flex; align-items: center; inset-inline-start: 12px; color: var(--text-secondary); pointer-events: none; user-select: none; }
+.handle-box .handle-in { flex: 1; box-sizing: border-box; min-inline-size: 0; min-block-size: 48px; padding-block: 0; padding-inline: calc(13px + 0.95em) 12px; border: 1px solid var(--border-input); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font: inherit; text-align: start; }
+.handle-box .handle-in:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+.handle-box > .ic { position: absolute; inset-block-start: 14px; inset-inline-end: 12px; inline-size: 20px; block-size: 20px; pointer-events: none; }
+.handle-box:has(> .ic) .handle-in { padding-inline-end: 40px; }
 
 /* The MASTER UPDATE parts (sections 1 and 3): PIN pad and number matching, the bell, banners, message parts, LynkAssist and
    breadcrumbs. Shared by the shell pages and every Business app device; built in when a page bundles ts/src/notify.js. Tokens only. */
