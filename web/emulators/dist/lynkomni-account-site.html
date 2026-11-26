@@ -714,7 +714,7 @@ html { font-size: 100%; }
 .lo-opt[aria-disabled="true"] { color: var(--text-secondary); cursor: not-allowed; }
 .lo-group { padding: 8px 10px 4px; font-size: 0.8em; font-weight: 600; color: var(--text-secondary); }
 .lo-none { margin: 4px 10px; color: var(--text-secondary); }
-.vonly { margin-block: 8px; color: var(--text-secondary); font-size: 0.9em; }   /* how this device is used, when there is no choice (ts/src/devicemode.ts) */
+.vonly { margin-block: 8px; color: var(--text-secondary); font-size: 0.9em; overflow-wrap: anywhere; }   /* how this device is used, when there is no choice (ts/src/devicemode.ts) */
 
 /* A tracker (ts/src/trackview.ts), the same on every screen: the steps run top to bottom with the current one marked, the promised
    time and live progress above them. Design tokens only; logical properties so right-to-left mirrors; text wraps in every language. */

@@ -43,7 +43,11 @@ function hub(): { h: PeopleHub; log: { type: string; payload: Record<string, unk
 test("device names come only from the register: a screen that only shows is offered for LynkQueue alone", () => {
   const all = [...new Set(DEVICES.devices.map((d) => d.lynk_name).filter(Boolean))];
   assert.deepEqual(lynkNames(DEVICES, "queue"), all);
-  assert.ok(!lynkNames(DEVICES, "attendance").includes("LynkDScreen") && !lynkNames(DEVICES, "survey").includes("LynkDScreen"));
+  // A display with no touch screen only shows, so it is offered for LynkQueue alone; LynkDScreen's touch version (2026-11-26) takes answers too.
+  assert.ok(lynkNames(DEVICES, "survey").includes("LynkDScreen"));
+  const showOnly = { ...DEVICES, devices: DEVICES.devices.map((d) => (d.lynk_name === "LynkDScreen" ? { ...d, touch: null } : d)) };
+  assert.ok(lynkNames(showOnly, "queue").includes("LynkDScreen"));
+  assert.ok(!lynkNames(showOnly, "attendance").includes("LynkDScreen") && !lynkNames(showOnly, "survey").includes("LynkDScreen"));
   assert.ok(lynkNames(DEVICES, "attendance").includes("LynkPOS"));
 });
 
