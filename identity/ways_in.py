@@ -5,7 +5,6 @@ brand named, and every code, key and word is kept only as a salted hash or encry
 account event (identity/events.v1.json) with references only: never a code, secret, word, name or contact in a payload."""
 import base64, calendar, hashlib, hmac, json, secrets, struct, time, uuid
 
-from cryptography.fernet import Fernet
 
 from core import ways_in as WI
 from core.secrethash import code_hash, code_matches
@@ -31,7 +30,7 @@ def totp(secret_b32, t, digits=None, period=None):
 class WaysIn:
     def __init__(self, account):
         self.a, self.db = account, account.db
-        self._box = Fernet(Fernet.generate_key())       # production: the key comes from the server key store (later item server_signing_key)
+        self._box_key = None                          # production: the key comes from the server key store (later item server_signing_key)
         self.db.executescript("""
         create table if not exists wi_backup(person text, n int, hash text, used real);
         create table if not exists wi_auth(person text primary key, secret text, confirmed real, last_step int);
@@ -46,6 +45,14 @@ class WaysIn:
         create table if not exists wi_extra_tries(person text, at real);
         create table if not exists wi_org(org text primary key, rules text);
         create table if not exists wi_basic(person text primary key);""")
+
+    @property
+    def _box(self):
+        """The box that encrypts authenticator secrets and anti-phishing words, made only when one is first kept."""
+        from cryptography.fernet import Fernet
+        if self._box_key is None:
+            self._box_key = Fernet(Fernet.generate_key())
+        return self._box_key
 
     def _lid(self, person):
         return self.a._lynkid(person)
