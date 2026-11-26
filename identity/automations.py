@@ -1,11 +1,18 @@
-"""The eight automations of build section 2 (blueprint 45 E row 2), each registered in catalog/automations.v1.json and run by
+"""The automations of the account (build section 2, with section 4C's additions (blueprint 45 E row 2), each registered in catalog/automations.v1.json and run by
 LynkFlow (services/flow.py). Levels: six inform (tell), two draft (a person confirms). None moves money, changes a credential
 or completes a recovery; LynkAssist only guides and watches, and every guide is labelled a suggestion."""
 from identity.account import DAY
 
 RECOVERY_STEPS = {"device": ["approve_on_other_device", "sign_in_on_new_device"],
                   "code": ["enter_recovery_code", "enter_sms_code", "wait_24_hours", "any_device_can_cancel", "new_device_restricted_24h"],
-                  "assisted": ["id_document", "business_proof", "live_check", "wait_72_hours", "two_staff_approve", "new_device_restricted_24h"]}
+                  "assisted": ["id_document", "business_proof", "live_check", "wait_72_hours", "two_staff_approve", "new_device_restricted_24h"],
+                  # section 4C point 5: the Can't sign in? hub's ways back in (identity/recover.py)
+                  "other_device": ["approve_on_other_device", "sign_in_on_new_device", "restricted_24h", "security_checkup"],
+                  "backup_code": ["enter_backup_code", "restricted_24h", "security_checkup"],
+                  "recovery_code": ["enter_recovery_code", "restricted_24h", "security_checkup"],
+                  "recovery_contacts": ["contacts_confirm", "wait_24_hours", "any_old_device_or_contact_can_cancel", "restricted_24h", "security_checkup"],
+                  "email_and_phone": ["email_code", "phone_code", "wait_24_hours", "any_old_device_or_contact_can_cancel", "restricted_24h", "security_checkup"],
+                  "id_check": ["id_document", "phone_owner_check", "wait_72_hours", "two_staff_approve", "restricted_24h", "security_checkup"]}
 FIRST_PAID_STEPS = ["identity_check", "payout_details", "publish"]
 START_STEPS = ["profile", "registration", "tax_number", "bank_account", "wait_for_the_authority"]
 QUIET_DAYS, RENEWAL_DAYS, CONSENT_WARN_DAYS, DATA_WARN_DAYS = 14, 7, 7, 3
@@ -76,7 +83,32 @@ def register(flow, account, platform):
         f.emit(person, "NumberConfirmDue", {"lynkid": acct._lynkid(person)}, "number-confirm-yearly", now); acct.mark_number_reminded(person, now)
         return {"reminder": "confirm_your_number", "why": "a year since the number on the account was confirmed; mobile networks give old numbers out again"}
 
-    for aid, fn in (("number-confirm-yearly", number_confirm), ("storefront-first-paid-listing", first_paid_listing), ("sign-in-alert", sign_in_alert), ("recovery-guide", recovery_guide), ("consent-expiry", consent_expiry), ("data-request-timer", data_request_timer),
+    def recovery_wait_reminder(f, person, payload, now):
+        """Section 4C point 5: while a recovery waits, old contacts and devices are reminded they can cancel it."""
+        waiting = [r for r in acct.recover.recoveries(person) if r["state"] == "waiting" and r["ready_at"] > now]
+        for r in waiting:
+            f.emit(person, "RecoveryWaitReminder", {"lynkid": acct._lynkid(person), "recovery_id": r["rid"]}, "recovery-wait-reminder", now)
+        return {"reminders": len(waiting), "why": "a recovery is waiting; anyone with an old device or contact can still cancel it"} if waiting else None
+
+    def recovery_review(f, person, payload, now):
+        missing = acct.ways.checkup(person, now)
+        f.emit(person, "GuideOffered", {"lynkid": payload["lynkid"], "topic": "after_recovery", "steps": ["restricted_24h"] + missing}, "recovery-review", now)
+        return {"topic": "after_recovery", "steps": len(missing) + 1, "labelled": "suggestion", "why": "the account was recovered; the checkup shows what to renew"}
+
+    def checkup_yearly(f, person, payload, now):
+        from core import ways_in
+        left = acct.ways.backup_codes_left(person)
+        seen = [e for e in c.store.of(person, "CheckupDue")]
+        made = [e for e in c.store.of(person, "AccountCreated")]
+        if not made: return None
+        import calendar, time as _t
+        last = max([calendar.timegm(_t.strptime(e["ts"], "%Y-%m-%dT%H:%M:%SZ")) for e in seen + made])
+        reason = "backup_codes_low" if ways_in.backup_codes_left_note(left) and not seen else ("yearly" if now - last >= 365 * DAY else None)
+        if not reason: return None
+        f.emit(person, "CheckupDue", {"lynkid": acct._lynkid(person), "reason": reason}, "security-checkup-yearly", now)
+        return {"reminder": "security_checkup", "why": "a year since the last checkup, or few backup codes left"}
+
+    for aid, fn in (("recovery-wait-reminder", recovery_wait_reminder), ("recovery-review", recovery_review), ("security-checkup-yearly", checkup_yearly), ("number-confirm-yearly", number_confirm), ("storefront-first-paid-listing", first_paid_listing), ("sign-in-alert", sign_in_alert), ("recovery-guide", recovery_guide), ("consent-expiry", consent_expiry), ("data-request-timer", data_request_timer),
                     ("start-business-tracker", start_business_tracker), ("churn-watch", churn_watch), ("renewal-reminder", renewal_reminder)):
         flow.handle(aid, fn)
 

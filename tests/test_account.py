@@ -259,7 +259,7 @@ class FlowRunner(unittest.TestCase):
     def test_section_2_automations_match_the_register_levels(self):
         for aid, level in (("sign-in-alert", "inform"), ("recovery-guide", "inform"), ("consent-expiry", "inform"), ("data-request-timer", "inform"), ("start-business-tracker", "inform"), ("churn-watch", "draft"), ("renewal-reminder", "inform")):
             self.assertEqual(REGISTER[aid]["level"], level); self.assertEqual(REGISTER[aid]["build_section"], 2); self.assertIn(aid, self.f.handlers)
-        self.assertEqual(set(RECOVERY_STEPS), {"device", "code", "assisted"})
+        self.assertEqual(set(RECOVERY_STEPS), {"device", "code", "assisted", "other_device", "backup_code", "recovery_code", "recovery_contacts", "email_and_phone", "id_check"})
         self.assertEqual(REGISTER["storefront-first-paid-listing"]["level"], "draft"); self.assertIn("storefront-first-paid-listing", self.f.handlers)
 
 

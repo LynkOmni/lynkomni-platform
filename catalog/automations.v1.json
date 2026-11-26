@@ -4316,6 +4316,64 @@
    "default": "on",
    "standing_instruction": false,
    "implemented_by": "identity/automations.py number_confirm (daily): NumberConfirmDue once a year; Account.confirm_number answers it"
+  },
+  {
+   "area": "Account and sign-in",
+   "build_section": "4C",
+   "family": "platform",
+   "min_tier": "free",
+   "level": "inform",
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "id": "recovery-wait-reminder",
+   "trigger": "schedule:daily",
+   "action": "While a recovery waits, every old contact and device is reminded once a day that it can be cancelled with one button; nothing else changes",
+   "assist": "watch",
+   "touches": [
+    "recovery"
+   ],
+   "implemented_by": "identity/automations.py recovery_wait_reminder (daily): RecoveryWaitReminder for each waiting recovery (identity/recover.py)"
+  },
+  {
+   "area": "Account and sign-in",
+   "build_section": "4C",
+   "family": "platform",
+   "min_tier": "free",
+   "level": "inform",
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "id": "recovery-review",
+   "trigger": "event:RecoveryCompleted",
+   "action": "After a recovery the security checkup opens with what to renew (passkeys, backup codes, the word, old devices); the person does each step",
+   "assist": "guide",
+   "touches": [
+    "credentials",
+    "recovery"
+   ],
+   "implemented_by": "identity/automations.py recovery_review: GuideOffered with the checkup items still missing, labelled a suggestion"
+  },
+  {
+   "area": "Account and sign-in",
+   "build_section": "4C",
+   "family": "platform",
+   "min_tier": "free",
+   "level": "inform",
+   "customer_message": false,
+   "offline": false,
+   "default": "on",
+   "standing_instruction": false,
+   "id": "security-checkup-yearly",
+   "trigger": "schedule:daily",
+   "action": "Once a year, or when two or fewer backup codes are left, the person is asked to open the security checkup; nothing changes until they do",
+   "assist": "guide",
+   "touches": [
+    "credentials"
+   ],
+   "implemented_by": "identity/automations.py checkup_yearly (daily): CheckupDue once a year or at two backup codes left"
   }
  ],
  "careful": [

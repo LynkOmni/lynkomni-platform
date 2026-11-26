@@ -1404,6 +1404,61 @@
    "test": "tests/test_ways_in.py::test_unusual_sign_ins_ask_an_extra_check_and_old_devices_go",
    "build_section": "4C",
    "status": "built"
+  },
+  {
+   "id": "recovery-never-weak",
+   "asset": "accounts",
+   "threat": "An account is taken over by a password reset, security questions, a text alone, an email alone, a call alone or a support agent",
+   "enforced_in": [
+    "identity/recover.py"
+   ],
+   "test": "tests/test_recover.py::test_never_a_password_question_text_email_or_call_alone",
+   "build_section": "4C",
+   "status": "built"
+  },
+  {
+   "id": "recovery-old-devices-cancel",
+   "asset": "accounts",
+   "threat": "A thief starts a recovery and the owner never hears of it",
+   "enforced_in": [
+    "identity/recover.py"
+   ],
+   "test": "tests/test_recover.py::test_email_and_phone_wait_24_hours_and_any_old_device_can_cancel",
+   "build_section": "4C",
+   "status": "built"
+  },
+  {
+   "id": "recovery-not-by-support",
+   "asset": "accounts",
+   "threat": "A support agent or LynkAssist is talked into finishing a recovery",
+   "enforced_in": [
+    "identity/recover.py"
+   ],
+   "test": "tests/test_recover.py::test_support_and_lynkassist_never_finish_a_recovery",
+   "build_section": "4C",
+   "status": "built"
+  },
+  {
+   "id": "recovery-id-two-staff",
+   "asset": "accounts",
+   "threat": "One insider finishes an ID check recovery alone",
+   "enforced_in": [
+    "identity/recover.py"
+   ],
+   "test": "tests/test_recover.py::test_the_id_check_waits_72_hours_with_two_different_staff",
+   "build_section": "4C",
+   "status": "built"
+  },
+  {
+   "id": "recovery-brute-force",
+   "asset": "accounts",
+   "threat": "Recovery codes are guessed again and again",
+   "enforced_in": [
+    "identity/recover.py"
+   ],
+   "test": "tests/test_recover.py::test_repeated_failures_switch_on_the_strongest_mode",
+   "build_section": "4C",
+   "status": "built"
   }
  ]
 }

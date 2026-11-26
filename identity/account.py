@@ -80,6 +80,8 @@ class Account:
         s.protect = Protection(s)       # MASTER UPDATE section 2: two ways in, cool-off, slow contact change, Lock everything, successor, terms
         from identity.ways_in import WaysIn
         s.ways = WaysIn(s)              # section 4C point 3: backup codes, authenticator apps, security keys, QR sign-in, recovery contacts, protections
+        from identity.recover import RecoveryHub
+        s.recover = RecoveryHub(s)      # section 4C point 5: the Can't sign in? hub
     # ---- events
     def _lynkid(s, person):
         r = s.db.execute("select lynkid from acct_people where person=?", (person,)).fetchone(); return r[0] if r else None
