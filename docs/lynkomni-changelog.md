@@ -2,6 +2,11 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.123.1 (2026-11-26)
+The sign-up phone number stays when its last digit is typed (owner report from the Business app).
+- On the Business app's sign-up, the phone box never kept what was typed: on the last digit the number became complete, the screen redrew to switch Next on, and the box came back empty, so the code could never be sent. The box now keeps its digits and is not redrawn; the shared field switches Next on by itself, and Next leads to the code sent to the phone. The sign-up email and code boxes keep their text too.
+- tests/test_business_app.py SignUpKeepsWhatIsTyped types a number to its last digit on the Business app and the account site and checks the number stays, Next switches on and the phone code follows (it fails on the old version).
+
 ## v0.123.0 (2026-11-26)
 LynkOmni never pays an outside bill for anyone, only its own mandatory bills (owner).
 - Every one of the 79 partners in the ledger now names who pays its bill: the person or business that uses or asks for it (51), the licensed partner as part of its own business and licence (19), no charge (2), or LynkOmni itself only for its own running costs (7: hosting and delivery network, the relay, storage, rate and location data feeds, and its own sign-in and security codes). The ledger check refuses a partner without a payer, or a partner bill put on LynkOmni (providers/check.py payer_problems, tests/test_who_pays.py).

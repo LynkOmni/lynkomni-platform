@@ -215,3 +215,44 @@ class Screens(unittest.TestCase):
             self.assertTrue(pg.is_disabled('[data-act="handcash"]'))
             self.assertEqual(pg.locator('[data-item="one_receipt"]').count(), 1)
             b.close()
+
+
+@unittest.skipIf(sync_playwright is None, "needs the browser (CI layout job)")
+class SignUpKeepsWhatIsTyped(unittest.TestCase):
+    """Owner report 2026-11-26: on the last digit of the sign-up phone number the box emptied and Next never switched on. On the
+    Business app and the account site the number stays as typed, Next switches on and leads to the phone code."""
+    PAGES = {"merchant-phone": '[data-act="wy:go:signup"] >> visible=true', "account-site": '[data-state="signup"]'}
+
+    def test_phone_number_stays_and_next_switches_on(self):
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            for name, opener in self.PAGES.items():
+                with self.subTest(page=name):
+                    pg = b.new_page(viewport={"width": 1200, "height": 1000})
+                    pg.goto("file://" + os.path.join(ROOT, "web", "emulators", "dist", f"lynkomni-{name}.html")); pg.wait_for_selector("html[data-ready]")
+                    pg.click(opener); pg.wait_for_timeout(200)
+                    for _ in range(12):
+                        if pg.locator("#wyPhone").count():
+                            break
+                        if pg.locator("#wyEmail").count():
+                            pg.locator("#wyEmail").click(); pg.keyboard.type("grace@example.com")
+                        if pg.locator("#wyEmailCode").count():
+                            pg.locator("#wyEmailCode").click(); pg.keyboard.type("123456")
+                        if pg.locator("#wyLegal").count():
+                            pg.fill("#wyLegal", "Grace Kamga")
+                        if pg.locator("#wyUser").count():
+                            pg.locator("#wyUser").click(); pg.keyboard.type("grace.k2")
+                        box = pg.locator('[data-in="wy:adult"]')
+                        if box.count() and not box.is_checked():
+                            box.check()
+                        pg.locator('[data-act^="wy:su:next"] >> visible=true').first.click(timeout=3000); pg.wait_for_timeout(200)
+                    phone = pg.locator("#wyPhone")
+                    digits = "".join(c for c in (phone.get_attribute("placeholder") or "") if c.isdigit())
+                    phone.click(); pg.keyboard.type(digits, delay=20); pg.wait_for_timeout(300)
+                    self.assertEqual("".join(c for c in pg.locator("#wyPhone").input_value() if c.isdigit()), digits, "the number stays as typed")
+                    nxt = pg.locator('[data-needs-phone="wyPhone"]')
+                    self.assertTrue(nxt.is_enabled(), "Next switches on once the number is complete")
+                    nxt.click(); pg.wait_for_timeout(300)
+                    self.assertTrue(pg.locator("#wyPhoneCode").count(), "Next leads to the code sent to the phone")
+                    pg.close()
+            b.close()
