@@ -638,7 +638,7 @@
     "note": "A document or 'please sign' card; Sign opens LynkFiles' own signing step (never offline); a file from the chat is kept in LynkFiles"
    },
    "shipment": {
-    "service": "lynkmotion",
+    "service": "lynktrace",
     "actions": [
      "leave_with",
      "reschedule"

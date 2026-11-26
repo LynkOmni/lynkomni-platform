@@ -18,7 +18,7 @@ class Gate(unittest.TestCase):
     def test_every_product_family_has_art_and_new_families_need_it(self):
         have = set(visuals.ids())
         for fam in billing.FAMILIES:
-            self.assertIn("product-" + fam[len("lynk"):], have, f"{fam} has no product illustration")
+            self.assertIn("product-" + fam[len("lynk"):].replace("_", "-"), have, f"{fam} has no product illustration")   # lynkmotion_land: product-motion-land
 
     def test_every_status_state_screen_and_onboarding_step_exists(self):
         have = set(visuals.ids())

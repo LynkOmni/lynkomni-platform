@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.128.0 (2026-11-26)
+Section 5 step 0: the new build tables, the four location products, LynkCCTV and LynkGate are in the code (owner: "Start section 5").
+- The build tables of the seven updates approved on 26 November (88.6 LynkStation, 89.10 LynkCCTV, 90.7 LynkGate, 91.9 the LOCATION UPDATE, 92.4 API prices, 93.5 ads and coverage, 94.9 the message bar and files) joined catalog/build-tables.v1.json, so every section sees its parts; section 5 now has 22.
+- LOCATION UPDATE (blueprint 91): LynkMotion is three ladders, Land $0/$15/$49/$149, Sea $0/$19/$69/$199 and Air $0/$29/$99/$299, with units included and a price for each extra; LynkTrace ($0/$9/$29/$79, shipments a month) and LynkSentry ($0/$9/$29/$79, alarm desk seats; safety alerts free for everyone) are products of their own; LynkGuard is unchanged. Two LynkMotion areas take 15% off both and three 25%; two of the four products take 15% off the lower and three or four 20% off all but the dearest, the bigger discount only. LynkGPS is retired: its name, words and /gps addresses are gone with no forward, and its paths moved to /motion; /protection/assets and /rentals moved to /guard. Each old LynkMotion automation, cash place, chat card, emulator and link went to the product that now does that job, and the links of 91.2 between the four are registered.
+- LynkCCTV ($0/$19/$59/$149; 4, 16, 64 and 256 cameras; extra camera $1; all-day recording $2, $4 or $9 a camera) and LynkGate ($0/$29/$89/$249; 1, 4, 12 and unlimited lanes; extra lane $5 or $6; 0.5% only on tolls collected through LynkOmni, 0.3% above $1,000,000 a month) are billing families outside LynkSuite with their discounts, placed everywhere a product belongs, built in full in section 9.
+- New product marks in @lynkomni/icons 1.13.0 (a delivery van, a warning beacon, a camera on its bracket, a barrier arm) and seven new product pictures; drafts for the designer. LynkCCTV's plain word is "Security cameras", because "CCTV" fails the plain-word check; LynkGate's is "Gate". New words in all 38 languages.
+- Prices are pinned by tests/test_price_lock.py; the revenue model shows every location product, LynkCCTV and LynkGate as their own assumed stream (stage 1: $3,786 a month; the adoption mix is an assumption).
+- Housekeeping: the change log no longer repeats the v0.122.4 handle text inside v0.122.5.
+
 ## v0.127.1 (2026-11-26)
 Every handle field has the same bold label as the email and phone fields (owner: "Username" looked faint next to "Your email").
 - Sign-in and sign-up now say "Your username" in the same bold label as "Your email" and "Your phone number"; the @ sits in line with the text; sign-in shows no character count.
@@ -73,12 +82,6 @@ Words keep their own capitals everywhere.
 - The reference status line no longer lowercases the translated word "waiting to send" (wrong in German, where nouns keep their capital); it has its own counted words.
 - The card terminal and counter tablet no longer force their printer status, payment tags and key captions into capitals.
 - tests/test_letter_case.py fails if a style forces a case on words, if code changes the case of a translated word to show it, or if a typed example starts in small letters.
-Every handle field has a fixed @ (owner, from the sign-up screen).
-- Every handle field is one shared box (ts/src/usernames.ts handleBoxHtml, web/shell/handle.css) with the @ fixed inside it: never typed, never deleted. A typed @ is ignored.
-- The example after the @ is "username" for a person only; every other entity is its word and "handle": @shophandle, @businesshandle, @apphandle (developer app), @partnerhandle, @agentpointhandle (HANDLE_HINT). "your.name" is gone; it made people think a full stop was needed.
-- On screen today: sign-up (@username), the shared account field (@username for a person, @shophandle for a shop) and the shop handle in the Business app (@shophandle). The shop's labels now say "Handle", "Your shop's handle" and "Shop handle", in all 38 languages.
-- The note under the field shows the same example ("Shown as @username." or "Shown as @shophandle."), never "@name", in all 38 languages.
-- tests/test_placeholders.py HandleHint fails if a handle field is drawn by hand, the @ stops being fixed, an entity's example breaks the rule, or "your.name" comes back.
 
 ## v0.122.4 (2026-11-26)
 Every handle field has a fixed @ (owner, from the sign-up screen).

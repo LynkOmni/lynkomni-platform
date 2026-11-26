@@ -34,7 +34,7 @@ SERVICES = ["pos", "accountant", "invoicing", "crm", "inventory", "dashboard", "
 # NEW UPDATE 4 (2026-11-11): "attendance" (LynkAttend), "queue" (LynkQueue) and "survey" (LynkSurvey) need no partner and are on
 # everywhere. Their partner parts are off until signed: "people_messages" (text and USSD), "survey_voice" (voice calls) and
 # "survey_rewards" (reward and panel payments) (services/people_partners.py).
-# NEW UPDATE 1 (2026-11-10): "movement" is LynkMotion and LynkGuard (LynkTrace, LynkGPS, LynkSentry). It needs no partner (the phone is the
+# NEW UPDATE 1 (2026-11-10), LOCATION UPDATE (2026-11-26): "movement" is the shared location core of LynkMotion, LynkTrace, LynkGuard and LynkSentry. It needs no partner (the phone is the
 # tracker, maps are LynkOmni's own), so it is on everywhere. Its partner parts are off until signed: "vehicle_data" (connected cars),
 # "monitoring" (24/7 monitoring centres), "transport_data" (ship and flight data), "satellite" (satellite messaging), "iot_sim" (tracker
 # data plans). Partner carriers use "delivery"; the insurer pack uses "protection" (insurance).

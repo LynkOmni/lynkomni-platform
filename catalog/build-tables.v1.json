@@ -1937,6 +1937,403 @@
      }
     }
    ]
+  },
+  {
+   "id": "88.6",
+   "update": "STATION UPDATE",
+   "blueprint_section": 88,
+   "rows": [
+    {
+     "sections": [
+      "9"
+     ],
+     "part": "Everything in section 88, in the repository change that starts LynkStation: the billing family, prices and price lock, names, illustration, places and universal home section; the rules register, Python and TypeScript with vectors, country settings, contract version, partners as sandboxes (pump controller, tank gauge, pay at pump, charge roaming, plug and charge, fleet cards, fuel suppliers, delivery licence, plate reading, fiscal fuel) and LynkDriver kinds; cloud services, connections, trackers, messages, automations, LynkAssist, API, both sides and the offline register; the emulators under the device-fit rule (88.7): LynkStation Till, Attendant, Kitchen Screen, Price Sign, Tanks and Deliveries, Driver, Storefront, Delivery Driver, Network View and basic phone, with Pay-at-Pump, Charger Screen and Wash Keypad only on units that run apps and pumps, dispensers, gauges, controllers and plain chargers through LynkDriver, with the Emulator Panel; the 88.7 changes (LynkMotion Land fleet links and the 20% bundle, wrong-fuel stop, hydrogen safety checks, the 89.9 shared improvements, links with LynkCCTV and LynkGate); the LynkPOS shop kind \"fuel and services\" replaced by LynkStation",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "89.10",
+   "update": "CCTV UPDATE",
+   "blueprint_section": 89,
+   "rows": [
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "Billing family, prices and price lock, names register, product mark, places and universal home section; product and pricing pages, search register, sitemap, \"Works with LynkOmni\" and the planner before buying",
+     "done": {},
+     "progress": {
+      "5": [
+       "v0.128.0: step 0, the billing family, prices and price lock, names register, product mark, places and universal home section (pages follow)"
+      ]
+     }
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Help, connecting guides with pictures, printable signs, status page",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "Customer and client pages (account.lynkomni.com/cameras), Storefront pages",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9"
+     ],
+     "part": "Rules, contract, cloud, keeper, every module, every emulator, both sides, offline, automations, messages, trackers, LynkAssist skills, partners as sandboxes, the 89.9 shared improvements; the installer course in LynkAcademy",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "CCTV API",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "Partner consoles in the Partner Hub",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "Video walls and outside screens",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Native camera streaming, phone as camera, NFC and Bluetooth, the lawyer's country checks, partners switched on",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "90.7",
+   "update": "GATE UPDATE",
+   "blueprint_section": 90,
+   "rows": [
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "Billing family, prices and price lock, toll fee, names register, product mark, places and universal home section; product and pricing pages, search register, sitemap",
+     "done": {},
+     "progress": {
+      "5": [
+       "v0.128.0: step 0, the billing family, prices and price lock, toll share, names register, product mark, places and universal home section (pages follow)"
+      ]
+     }
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Help, connecting guides, signs, status page",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "Drivers' and visitors' pages (account.lynkomni.com/passes), Storefront pages",
+     "done": {}
+    },
+    {
+     "sections": [
+      "8"
+     ],
+     "part": "Parking bookings with LynkBooking",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9"
+     ],
+     "part": "Rules, contract, cloud, keeper, all 21 gate types, every emulator, both sides, offline, automations, messages, trackers, LynkAssist skills, partners as sandboxes",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "Gate API",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "Toll and weighbridge partner consoles in the Partner Hub",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "Kiosks, lane displays and outside screens",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Native NFC and Bluetooth, the lawyer's country checks (tolls, plates, low-emission rules), partners switched on",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "91.9",
+   "update": "LOCATION UPDATE",
+   "blueprint_section": 91,
+   "rows": [
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "Step 0: families lynkmotion_land, lynkmotion_sea and lynkmotion_air (replacing lynkmotion), lynkguard kept, lynktrace and lynksentry new; price lock; revenue model; names register (LynkGPS retired); product marks and product pictures for the new families; places; universal home sections; /gps removed and the /motion, /guard and /protection paths of 91.4 in the address map; the connections of 91.2 and 91.3 registered with planned events; the groundwork of Step 0 to section 3 (v0.33.0 to v0.36.0) adjusted. Then: product and pricing pages, search register, sitemap, structured data, breadcrumbs",
+     "done": {},
+     "progress": {
+      "5": [
+       "v0.128.0: step 0 done (families, price lock, revenue model, names with LynkGPS retired, marks and pictures, places, home sections, /gps removed and the 91.4 paths, the 91.2 links with planned events, the earlier groundwork moved to the right product); pages follow"
+      ]
+     }
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Help, tracker connecting guides with pictures, status page, the four support desks",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "Customer and rider pages for LynkTrace; Arrive Safe and trip sharing on the account site",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7B"
+     ],
+     "part": "All four in full: rules registers, contract version, engines, the shared core, all 60 systems, every emulator, both sides, offline, automations, messages and email routing, trackers, LynkAssist skills, partners as sandboxes, the ten connection improvements",
+     "done": {}
+    },
+    {
+     "sections": [
+      "8"
+     ],
+     "part": "Pool vehicle and berth bookings with LynkBooking",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9"
+     ],
+     "part": "Installer course in LynkAcademy; the links with LynkStation, LynkCCTV and LynkGate",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "The Motion, Tracking, Guard and Sentry APIs",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "Partner consoles in the Partner Hub",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "Stop and port boards, outside screens",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Native background tracking, crash detection, satellite messaging on phones, wearables, the lawyer's country checks, partners switched on",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "92.4",
+   "update": "API PRICES UPDATE",
+   "blueprint_section": 92,
+   "rows": [
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "Pricing page Developers tab with the API price list in 38 languages (updated in section 11)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7B",
+      "9"
+     ],
+     "part": "Each service's own API (endpoints, scopes, vectors, sandbox adapters, tests) in its service's build section, as section 50: LynkMotion, LynkTrace, LynkGuard and LynkSentry in 7B; LynkStation, LynkCCTV and LynkGate in 9; then joined to LynkDev in 11",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "LynkDev plans, keys, per-scope consent, metering, spending caps, every price in 92.1 to 92.3 in billing FEATURES and SERVICE_FEES, the price lock test, the API register entry for every service, the developer pages and console; partner costs shown in the bill",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Partner costs in the bill switched on per partner",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "93.5",
+   "update": "ADS AND COVERAGE UPDATE",
+   "blueprint_section": 93,
+   "rows": [
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "The new places and the never list in catalog/ads.v1.json; the coverage rows in catalog/universal.v1.json; build tables 88.6, 89.10, 90.7, 91.9, 92.4, 93.5 and 94.9 joined to catalog/build-tables.v1.json; ad prices shown on the advertiser pages and the pricing page in 38 languages (updated in section 12)",
+     "done": {},
+     "progress": {
+      "5": [
+       "v0.128.0: build tables 88.6 to 94.9 joined (ad places, never list, coverage rows and ad price pages follow)"
+      ]
+     }
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "Sponsored listings in the station finder, installers, companies, rest stops; LynkTrace Rider and LynkGate Pass offers",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9"
+     ],
+     "part": "Station screens, receipts and offers (LynkStation); car park displays, kiosks and receipts (LynkGate); live public camera pages (LynkCCTV)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "Advertiser API for the new places",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "Advertiser portal, review, fraud desk and revenue model for the new streams; the ad price list of 93.6 for every stream in the ecosystem (sections 79 and 93): floors, shares, regional price index, billing and invoices, price lock test, revenue model",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "Screen network on station, car park, stop and port boards",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Legal sign-off per country, verification partner",
+     "done": {}
+    }
+   ]
+  },
+  {
+   "id": "94.9",
+   "update": "ATTACH UPDATE",
+   "blueprint_section": 94,
+   "rows": [
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "The register, the engine on LynkFiles, the shared bar and + menu, safety, quarantine, previews, upload, versions, sealing, contract events; the icon set of 94.6, released before the bar; support tools, screen recording, device details, required documents, request templates, request by link, email into chat",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "Customer side: one inbox, Storefront chats, share to LynkOmni, files tab, search, phone space saver; payment proof matching",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7B",
+      "8",
+      "8B",
+      "9",
+      "9B",
+      "10"
+     ],
+     "part": "Each service's cards in its service's build section (LynkMotion, LynkTrace, LynkGuard and LynkSentry 7B, LynkBooking 8, LynkJobs 8B, LynkStation, LynkCCTV and LynkGate 9, LynkSchool and LynkProperty 9B, LynkExchange 10)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "Chat API attachments",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "Staff desk tools, case export, organisation file policies, send to many",
+     "done": {}
+    },
+    {
+     "sections": [
+      "13"
+     ],
+     "part": "Scan to send on kiosks and counters, printing",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "Native camera, scanner, video notes, handwriting, barcode scan, share sheet, background upload, nearby sharing, watch",
+     "done": {}
+    }
+   ]
   }
  ]
 }

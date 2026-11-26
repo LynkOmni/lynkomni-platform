@@ -165,7 +165,7 @@ def _vcard(p):
 
 @scene("motion")
 def _motion(p):
-    """LynkMotion: a parcel moving along a dotted route between two pins, with a clock for the arrival window."""
+    """LynkTrace (was LynkMotion's picture until the LOCATION UPDATE): a parcel moving along a dotted route between two pins, with a clock for the arrival window."""
     route = path("M70 170C110 170 110 100 160 100S220 70 252 70", stroke=p.ink2, stroke_width=3, stroke_dasharray="2 9", stroke_linecap="round")
     pin = lambda x, y, f: path(f"M{n(x)} {n(y)}c-12-14-18-22-18-31a18 18 0 0 1 36 0c0 9-6 17-18 31z", f) + circ(x, y - 31, 6, p.surface)
     box = rr(136, 82, 48, 40, 6, p.accent) + path("M136 96h48M160 82v14", stroke=p.on_accent, stroke_width=2.5)
@@ -181,6 +181,70 @@ def _guard(p):
            circ(112, 172, 11, p.ink, stroke="none") + circ(178, 172, 11, p.ink, stroke="none"))
     b = ring + car + circ(232, 90, 26, p.surface) + lock(232, 90, 26, p, p.accent_soft) + wifi_arcs(232, 52, p, p.accent_ink)
     return wrap(p, b)
+
+
+@scene("motion_land")
+def _motion_land(p):
+    """LynkMotion Land: a delivery van on a road that curves to a map pin, with a small gauge for distance driven."""
+    road = path("M40 188C110 188 120 132 190 132S262 96 286 92", stroke=p.ink2, stroke_width=3, stroke_dasharray="2 9", stroke_linecap="round")
+    van = (rr(84, 124, 74, 44, 6, p.surface) + path("M158 136h22l14 16v16h-36z", p.accent_soft) + path("M164 142h12l8 10h-20z", p.surface, stroke_width=2) +
+           circ(104, 170, 10, p.ink, stroke="none") + circ(176, 170, 10, p.ink, stroke="none") + rr(96, 134, 40, 14, 4, p.accent))
+    pin = path("M262 104c-12-14-18-22-18-31a18 18 0 0 1 36 0c0 9-6 17-18 31z", p.accent) + circ(262, 73, 6, p.surface)
+    gauge = circ(62, 82, 24, p.surface) + path("M46 90a17 17 0 0 1 32 0", stroke=p.ink2, stroke_width=3) + path("M62 90l9-10", stroke=p.accent_ink, stroke_width=3)
+    return wrap(p, road + van + pin + gauge, 1)
+
+
+@scene("motion_sea")
+def _motion_sea(p):
+    """LynkMotion Sea: a boat on waves heading to a map pin, with an anchor badge for mooring watch."""
+    waves = "".join(path(f"M{40 + 0} {n(y)}q20-10 40 0t40 0t40 0t40 0t40 0t40 0", stroke=c, stroke_width=3) for y, c in ((182, p.accent_ink), (198, p.ink2)))
+    hull = path("M96 150h112l-18 26h-78z", p.surface) + rr(126, 116, 50, 34, 6, p.accent_soft) + rr(136, 124, 12, 10, 2, p.surface, stroke_width=2) + rr(154, 124, 12, 10, 2, p.surface, stroke_width=2)
+    mast = path("M151 116V90", stroke_width=3) + path("M151 92l18 8-18 6z", p.accent)
+    pin = path("M258 116c-12-14-18-22-18-31a18 18 0 0 1 36 0c0 9-6 17-18 31z", p.accent) + circ(258, 85, 6, p.surface)
+    anchor = (circ(62, 80, 24, p.surface) + circ(62, 68, 4, "none", stroke_width=2.5) + path("M62 72v22M52 82h20M50 88q12 12 24 0", stroke=p.accent_ink, stroke_width=2.5))
+    return wrap(p, waves + hull + mast + pin + anchor, 2)
+
+
+@scene("motion_air")
+def _motion_air(p):
+    """LynkMotion Air: a small aircraft on a dotted flight path and a drone below it, with a clock for the flight plan."""
+    route = path("M40 176C100 150 150 96 280 70", stroke=p.ink2, stroke_width=3, stroke_dasharray="2 9", stroke_linecap="round")
+    plane = path("M150 108l70-22 8 6-40 22 24 22-8 4-30-18-26 12-6-4 18-14z", p.accent) + path("M188 114l-34 16", stroke=p.on_accent, stroke_width=2)
+    drone = (rr(84, 150, 36, 16, 5, p.surface) + path("M84 154l-16-8M120 154l16-8", stroke_width=3) +
+             el("ellipse", cx="62", cy="144", rx="12", ry="4", fill=p.accent_soft, stroke=p.ink, stroke_width="2") +
+             el("ellipse", cx="142", cy="144", rx="12", ry="4", fill=p.accent_soft, stroke=p.ink, stroke_width="2"))
+    clock = circ(258, 166, 24, p.surface) + path("M258 152v14l10 6", stroke_width=3)
+    return wrap(p, route + plane + drone + clock, 3)
+
+
+@scene("sentry")
+def _sentry(p):
+    """LynkSentry: a warning beacon sending out alert rays, beside a bell and an incident file with a check."""
+    beacon = (path("M120 150v-34a40 40 0 0 1 80 0v34", p.accent) + rr(108, 150, 104, 22, 6, p.surface) +
+              path("M150 108a12 12 0 0 1 12-12", stroke=p.on_accent, stroke_width=3))
+    rays = path("M160 44v18M104 62l12 12M216 62l-12 12M82 108h16M222 108h16", stroke=p.accent_ink, stroke_width=4, stroke_linecap="round")
+    bell = circ(262, 160, 22, p.surface) + path("M252 168v-10a10 10 0 0 1 20 0v10zM249 168h26M258 172a4 4 0 0 0 8 0", stroke_width=2.5)
+    file = rr(40, 132, 46, 56, 6, p.surface) + path("M50 148h26M50 160h18", stroke=p.ink2, stroke_width=2.5) + check(63, 176, 12, p.accent_ink)
+    return wrap(p, beacon + rays + bell + file, 1)
+
+
+@scene("cctv")
+def _cctv(p):
+    """LynkCCTV: a camera on a wall bracket with its view as a soft cone, a screen with a play button and a recording dot."""
+    cone = path("M176 92L292 150V196L176 116z", p.accent_soft, stroke="none")
+    cam = (path("M60 54v34h30", stroke_width=4) + path("M88 78l92-22 8 34-92 22z", p.surface) + path("M180 60l20-4 6 26-18 4z", p.accent) + circ(118, 84, 5, p.accent_ink, stroke="none"))
+    screen = rr(54, 136, 92, 60, 8, p.surface) + path("M92 152v28l22-14z", p.accent) + circ(134, 148, 5, p.accent_ink, stroke="none")
+    return wrap(p, cone + cam + screen, 2)
+
+
+@scene("gate")
+def _gate(p):
+    """LynkGate: a barrier arm lifting at a lane, a car waiting, and a pass with a square code."""
+    post = rr(70, 104, 22, 82, 5, p.surface) + rr(64, 182, 34, 10, 3, p.ink, stroke="none")
+    arm = group(rr(86, 104, 150, 16, 6, p.surface) + "".join(path(f"M{n(110 + 30 * i)} 104l-10 16", stroke=p.accent, stroke_width=6) for i in range(5)), transform="rotate(-24 81 112)")
+    car = (path("M150 176l10-20q3-6 10-6h52q7 0 10 6l10 20v16H150z", p.accent_soft) + circ(168, 192, 9, p.ink, stroke="none") + circ(222, 192, 9, p.ink, stroke="none"))
+    ticket = rr(234, 60, 52, 60, 6, p.surface) + "".join(rr(246 + 10 * i, 72 + 10 * j, 7, 7, 1.5, p.ink if (i + j) % 2 == 0 else p.accent, stroke="none") for i in range(3) for j in range(3))
+    return wrap(p, post + arm + car + ticket, 3)
 
 
 @scene("attendance")

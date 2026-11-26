@@ -370,7 +370,7 @@
    "budget_kb": 12
   },
   {
-   "id": "product-motion",
+   "id": "product-trace",
    "kind": "illustration",
    "scene": "motion",
    "accent": "brand",
@@ -381,7 +381,127 @@
     "contrast-dark"
    ],
    "alt": "A parcel travelling along a dotted route from one map pin to another, with a clock",
-   "purpose": "Empty state, feature header and onboarding for LynkMotion",
+   "purpose": "Empty state, feature header and onboarding for LynkTrace",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-motion-land",
+   "kind": "illustration",
+   "scene": "motion_land",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A delivery van on a dotted road that curves to a map pin, beside a small gauge",
+   "purpose": "Empty state, feature header and onboarding for LynkMotion Land",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-motion-sea",
+   "kind": "illustration",
+   "scene": "motion_sea",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A boat on waves heading to a map pin, beside an anchor badge",
+   "purpose": "Empty state, feature header and onboarding for LynkMotion Sea",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-motion-air",
+   "kind": "illustration",
+   "scene": "motion_air",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A small aircraft on a dotted flight path above a drone, beside a clock",
+   "purpose": "Empty state, feature header and onboarding for LynkMotion Air",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-sentry",
+   "kind": "illustration",
+   "scene": "sentry",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A warning beacon sending out alert rays, beside a bell and a file with a check",
+   "purpose": "Empty state, feature header and onboarding for LynkSentry",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-cctv",
+   "kind": "illustration",
+   "scene": "cctv",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A camera on a wall bracket with its view shown as a soft cone, and a screen with a play button",
+   "purpose": "Empty state, feature header and onboarding for LynkCCTV",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "budget_kb": 12
+  },
+  {
+   "id": "product-gate",
+   "kind": "illustration",
+   "scene": "gate",
+   "accent": "brand",
+   "themes": [
+    "light",
+    "dark",
+    "contrast-light",
+    "contrast-dark"
+   ],
+   "alt": "A barrier arm lifting at a lane with a car waiting, beside a pass with a square code",
+   "purpose": "Empty state, feature header and onboarding for LynkGate",
    "used_in": [
     "empty-state",
     "feature-header",
@@ -697,7 +817,8 @@
     "pricing-page",
     "docs"
    ],
-   "budget_kb": 44
+   "budget_kb": 52,
+   "budget_reason": "One bar group for every product family, so it grows with the family list (raised from 44 KB on 2026-11-26 for the LOCATION, CCTV and GATE UPDATES: seven new families)"
   },
   {
    "id": "chart-revenue-path",

@@ -35,7 +35,8 @@
   "LynkShield",
   "LynkOne",
   "LynkPortal",
-  "LynkVCards"
+  "LynkVCards",
+  "LynkGPS"
  ],
  "names": [
   {
@@ -162,9 +163,13 @@
    "id": "motion",
    "name": "LynkMotion",
    "kind": "product",
-   "family": "lynkmotion",
    "icon": "product-motion",
-   "spoken": "Link Motion"
+   "spoken": "Link Motion",
+   "families": [
+    "lynkmotion_land",
+    "lynkmotion_sea",
+    "lynkmotion_air"
+   ]
   },
   {
    "id": "guard",
@@ -313,26 +318,34 @@
   {
    "id": "trace",
    "name": "LynkTrace",
-   "kind": "service",
-   "part_of": "motion",
-   "icon": "product-motion",
+   "kind": "product",
+   "family": "lynktrace",
+   "icon": "product-trace",
    "spoken": "Link Trace"
-  },
-  {
-   "id": "gps",
-   "name": "LynkGPS",
-   "kind": "service",
-   "part_of": "motion",
-   "icon": "product-motion",
-   "spoken": "Link G P S"
   },
   {
    "id": "sentry",
    "name": "LynkSentry",
-   "kind": "service",
-   "part_of": "guard",
-   "icon": "product-guard",
+   "kind": "product",
+   "family": "lynksentry",
+   "icon": "product-sentry",
    "spoken": "Link Sentry"
+  },
+  {
+   "id": "cctv",
+   "name": "LynkCCTV",
+   "kind": "product",
+   "family": "lynkcctv",
+   "icon": "product-cctv",
+   "spoken": "Link C C T V"
+  },
+  {
+   "id": "gate",
+   "name": "LynkGate",
+   "kind": "product",
+   "family": "lynkgate",
+   "icon": "product-gate",
+   "spoken": "Link Gate"
   },
   {
    "id": "hub",
@@ -557,15 +570,17 @@
    "id": "move",
    "names": [
     "motion",
-    "guard"
+    "trace",
+    "guard",
+    "sentry"
    ]
   },
   {
-   "id": "places",
+   "id": "site_security",
    "names": [
-    "trace",
-    "gps",
-    "sentry"
+    "cctv",
+    "gate",
+    "guard"
    ]
   },
   {

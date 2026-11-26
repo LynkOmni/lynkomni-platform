@@ -17,7 +17,7 @@ class Register(unittest.TestCase):
     def test_the_eight_groups_in_their_order(self):
         self.assertEqual([g["id"] for g in N.NAV["groups"]],
                          ["sell", "get_paid", "run_the_office", "people", "move_and_protect", "learn_and_work", "ask_and_decide", "build"])
-        self.assertEqual(N.group_of("lynkmotion"), "move_and_protect")
+        self.assertEqual(N.group_of("lynkmotion_land"), "move_and_protect")
         self.assertIsNone(N.group_of("lynkdocs"))
 
     def test_every_label_has_its_words(self):

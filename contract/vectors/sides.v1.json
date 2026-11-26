@@ -527,35 +527,47 @@
    "side": "internal"
   },
   {
-   "address": "/gps",
+   "address": "/motion",
    "side": "internal"
   },
   {
-   "address": "/gps/map",
+   "address": "/motion/land",
    "side": "internal"
   },
   {
-   "address": "/gps/places",
+   "address": "/motion/sea",
    "side": "internal"
   },
   {
-   "address": "/gps/routes",
+   "address": "/motion/air",
    "side": "internal"
   },
   {
-   "address": "/gps/drivers",
+   "address": "/motion/map",
    "side": "internal"
   },
   {
-   "address": "/gps/trips",
+   "address": "/motion/places",
    "side": "internal"
   },
   {
-   "address": "/gps/trips/{LOTRP}",
+   "address": "/motion/routes",
    "side": "internal"
   },
   {
-   "address": "/gps/zones",
+   "address": "/motion/drivers",
+   "side": "internal"
+  },
+  {
+   "address": "/motion/trips",
+   "side": "internal"
+  },
+  {
+   "address": "/motion/trips/{LOTRP}",
+   "side": "internal"
+  },
+  {
+   "address": "/motion/zones",
    "side": "internal"
   },
   {
@@ -563,15 +575,19 @@
    "side": "internal"
   },
   {
-   "address": "/protection/assets",
+   "address": "/guard",
    "side": "internal"
   },
   {
-   "address": "/protection/assets/new",
+   "address": "/guard/assets",
    "side": "internal"
   },
   {
-   "address": "/protection/assets/{LOAST}",
+   "address": "/guard/assets/new",
+   "side": "internal"
+  },
+  {
+   "address": "/guard/assets/{LOAST}",
    "side": "internal"
   },
   {
@@ -587,7 +603,7 @@
    "side": "internal"
   },
   {
-   "address": "/protection/rentals",
+   "address": "/guard/rentals",
    "side": "internal"
   },
   {
@@ -623,35 +639,47 @@
    "side": "external"
   },
   {
-   "address": "/external/gps",
+   "address": "/external/motion",
    "side": "external"
   },
   {
-   "address": "/external/gps/map",
+   "address": "/external/motion/land",
    "side": "external"
   },
   {
-   "address": "/external/gps/places",
+   "address": "/external/motion/sea",
    "side": "external"
   },
   {
-   "address": "/external/gps/routes",
+   "address": "/external/motion/air",
    "side": "external"
   },
   {
-   "address": "/external/gps/drivers",
+   "address": "/external/motion/map",
    "side": "external"
   },
   {
-   "address": "/external/gps/trips",
+   "address": "/external/motion/places",
    "side": "external"
   },
   {
-   "address": "/external/gps/trips/{LOTRP}",
+   "address": "/external/motion/routes",
    "side": "external"
   },
   {
-   "address": "/external/gps/zones",
+   "address": "/external/motion/drivers",
+   "side": "external"
+  },
+  {
+   "address": "/external/motion/trips",
+   "side": "external"
+  },
+  {
+   "address": "/external/motion/trips/{LOTRP}",
+   "side": "external"
+  },
+  {
+   "address": "/external/motion/zones",
    "side": "external"
   },
   {
@@ -659,7 +687,11 @@
    "side": "external"
   },
   {
-   "address": "/external/protection/rentals",
+   "address": "/external/guard",
+   "side": "external"
+  },
+  {
+   "address": "/external/guard/rentals",
    "side": "external"
   },
   {
@@ -1084,6 +1116,22 @@
   },
   {
    "address": "/external/business/settings/message-wording",
+   "side": "external"
+  },
+  {
+   "address": "/cctv",
+   "side": "internal"
+  },
+  {
+   "address": "/gate",
+   "side": "internal"
+  },
+  {
+   "address": "/external/cctv",
+   "side": "external"
+  },
+  {
+   "address": "/external/gate",
    "side": "external"
   },
   {
@@ -1693,35 +1741,47 @@
    "kind": "mirrored"
   },
   {
-   "path": "/gps",
+   "path": "/motion",
    "kind": "mirrored"
   },
   {
-   "path": "/gps/map",
+   "path": "/motion/land",
    "kind": "mirrored"
   },
   {
-   "path": "/gps/places",
+   "path": "/motion/sea",
    "kind": "mirrored"
   },
   {
-   "path": "/gps/routes",
+   "path": "/motion/air",
    "kind": "mirrored"
   },
   {
-   "path": "/gps/drivers",
+   "path": "/motion/map",
    "kind": "mirrored"
   },
   {
-   "path": "/gps/trips",
+   "path": "/motion/places",
    "kind": "mirrored"
   },
   {
-   "path": "/gps/trips/{LOTRP}",
+   "path": "/motion/routes",
    "kind": "mirrored"
   },
   {
-   "path": "/gps/zones",
+   "path": "/motion/drivers",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/motion/trips",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/motion/trips/{LOTRP}",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/motion/zones",
    "kind": "mirrored"
   },
   {
@@ -1729,15 +1789,19 @@
    "kind": "mirrored"
   },
   {
-   "path": "/protection/assets",
+   "path": "/guard",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/guard/assets",
    "kind": "workspace_only"
   },
   {
-   "path": "/protection/assets/new",
+   "path": "/guard/assets/new",
    "kind": "workspace_only"
   },
   {
-   "path": "/protection/assets/{LOAST}",
+   "path": "/guard/assets/{LOAST}",
    "kind": "workspace_only"
   },
   {
@@ -1753,7 +1817,7 @@
    "kind": "workspace_only"
   },
   {
-   "path": "/protection/rentals",
+   "path": "/guard/rentals",
    "kind": "mirrored"
   },
   {
@@ -1789,35 +1853,47 @@
    "kind": "mirrored"
   },
   {
-   "path": "/external/gps",
+   "path": "/external/motion",
    "kind": "mirrored"
   },
   {
-   "path": "/external/gps/map",
+   "path": "/external/motion/land",
    "kind": "mirrored"
   },
   {
-   "path": "/external/gps/places",
+   "path": "/external/motion/sea",
    "kind": "mirrored"
   },
   {
-   "path": "/external/gps/routes",
+   "path": "/external/motion/air",
    "kind": "mirrored"
   },
   {
-   "path": "/external/gps/drivers",
+   "path": "/external/motion/map",
    "kind": "mirrored"
   },
   {
-   "path": "/external/gps/trips",
+   "path": "/external/motion/places",
    "kind": "mirrored"
   },
   {
-   "path": "/external/gps/trips/{LOTRP}",
+   "path": "/external/motion/routes",
    "kind": "mirrored"
   },
   {
-   "path": "/external/gps/zones",
+   "path": "/external/motion/drivers",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/motion/trips",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/motion/trips/{LOTRP}",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/motion/zones",
    "kind": "mirrored"
   },
   {
@@ -1825,7 +1901,11 @@
    "kind": "mirrored"
   },
   {
-   "path": "/external/protection/rentals",
+   "path": "/external/guard",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/guard/rentals",
    "kind": "mirrored"
   },
   {
@@ -2251,6 +2331,22 @@
   {
    "path": "/external/business/settings/message-wording",
    "kind": "mirrored"
+  },
+  {
+   "path": "/cctv",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/gate",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/cctv",
+   "kind": "mirrored"
+  },
+  {
+   "path": "/external/gate",
+   "kind": "mirrored"
   }
  ],
  "twins": [
@@ -2447,44 +2543,60 @@
    "storefront": "/external/tracking/pickup-points"
   },
   {
-   "workspace": "/gps",
-   "storefront": "/external/gps"
+   "workspace": "/motion",
+   "storefront": "/external/motion"
   },
   {
-   "workspace": "/gps/map",
-   "storefront": "/external/gps/map"
+   "workspace": "/motion/land",
+   "storefront": "/external/motion/land"
   },
   {
-   "workspace": "/gps/places",
-   "storefront": "/external/gps/places"
+   "workspace": "/motion/sea",
+   "storefront": "/external/motion/sea"
   },
   {
-   "workspace": "/gps/routes",
-   "storefront": "/external/gps/routes"
+   "workspace": "/motion/air",
+   "storefront": "/external/motion/air"
   },
   {
-   "workspace": "/gps/drivers",
-   "storefront": "/external/gps/drivers"
+   "workspace": "/motion/map",
+   "storefront": "/external/motion/map"
   },
   {
-   "workspace": "/gps/trips",
-   "storefront": "/external/gps/trips"
+   "workspace": "/motion/places",
+   "storefront": "/external/motion/places"
   },
   {
-   "workspace": "/gps/trips/{LOTRP}",
-   "storefront": "/external/gps/trips/{LOTRP}"
+   "workspace": "/motion/routes",
+   "storefront": "/external/motion/routes"
   },
   {
-   "workspace": "/gps/zones",
-   "storefront": "/external/gps/zones"
+   "workspace": "/motion/drivers",
+   "storefront": "/external/motion/drivers"
+  },
+  {
+   "workspace": "/motion/trips",
+   "storefront": "/external/motion/trips"
+  },
+  {
+   "workspace": "/motion/trips/{LOTRP}",
+   "storefront": "/external/motion/trips/{LOTRP}"
+  },
+  {
+   "workspace": "/motion/zones",
+   "storefront": "/external/motion/zones"
   },
   {
    "workspace": "/protection",
    "storefront": "/external/protection"
   },
   {
-   "workspace": "/protection/rentals",
-   "storefront": "/external/protection/rentals"
+   "workspace": "/guard",
+   "storefront": "/external/guard"
+  },
+  {
+   "workspace": "/guard/rentals",
+   "storefront": "/external/guard/rentals"
   },
   {
    "workspace": "/attendance",
@@ -2629,6 +2741,14 @@
   {
    "workspace": "/business/settings/message-wording",
    "storefront": "/external/business/settings/message-wording"
+  },
+  {
+   "workspace": "/cctv",
+   "storefront": "/external/cctv"
+  },
+  {
+   "workspace": "/gate",
+   "storefront": "/external/gate"
   }
  ]
 }

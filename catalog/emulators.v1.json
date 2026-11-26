@@ -957,7 +957,7 @@
   },
   {
    "id": "motion.driver_phone",
-   "service": "lynkmotion",
+   "service": "lynkmotion_land",
    "devices": [
     "LynkMobile"
    ],
@@ -1039,7 +1039,7 @@
   },
   {
    "id": "guard.monitoring_wall",
-   "service": "lynkguard",
+   "service": "lynksentry",
    "devices": [
     "LynkDScreen"
    ],
