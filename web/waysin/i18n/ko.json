@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "보안 활동",
   "wy_add_contact": "사람 추가",
@@ -197,6 +197,7 @@
   "wy_who_label": "사용자 이름, 이메일 또는 전화번호",
   "wy_word_label": "내 단어",
   "wy_word_note": "비밀 단어는 LynkOmni의 모든 진짜 이메일과 메시지에 들어 있습니다. 이 단어가 없는 메시지는 저희가 보낸 것이 아닙니다.",
+  "wy_word_rule": "어떤 언어로든 글자, 숫자, 띄어쓰기 3~30자. 대문자와 소문자는 입력한 그대로 저장됩니다.",
   "wy_word_title": "사기 방지 단어",
   "wy_word_too_long": "30자 이하로 쓰세요.",
   "wy_word_too_short": "3자 이상 쓰세요."

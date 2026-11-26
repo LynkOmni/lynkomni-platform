@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "Ìṣẹ̀lẹ̀ ààbò",
   "wy_add_contact": "Fi ènìyàn kún un",
@@ -58,7 +58,7 @@
   "wy_extra_note": "Wíwọlé yìí jẹ́ tuntun tàbí ó yàtọ̀, nítorí náà a ń béèrè àyẹ̀wò kan sí i.",
   "wy_extra_title": "Àyẹ̀wò kan sí i",
   "wy_fix": "Tún un ṣe",
-  "wy_hint_word": "òdòdó oòrùn",
+  "wy_hint_word": "Òdòdó oòrùn",
   "wy_kept_them": "Mo ti pa wọ́n mọ́",
   "wy_keys_note": "Kọ́kọ́rọ́ USB tàbí ti ìfọwọ́kàn ń ṣiṣẹ́ bí kọ́kọ́rọ́ ìwọlé.",
   "wy_keys_title": "Àwọn kọ́kọ́rọ́ ààbò",
@@ -197,6 +197,7 @@
   "wy_who_label": "Orúkọ olùlò, ímeèlì tàbí nọ́mbà fóònù",
   "wy_word_label": "Ọ̀rọ̀ rẹ",
   "wy_word_note": "Ọ̀rọ̀ àṣírí rẹ máa ń wà nínú gbogbo ímeèlì àti ìfiránṣẹ́ gidi láti LynkOmni. Ìfiránṣẹ́ tí kò ní in kì í ṣe láti ọ̀dọ̀ wa.",
+  "wy_word_rule": "Lẹ́tà, nọ́ńbà tàbí àlàfo láti 3 sí 30, ní èdè èyíkéyìí. A máa ń pa àwọn lẹ́tà ńlá àti kékeré mọ́ gẹ́gẹ́ bí o ṣe tẹ̀ wọ́n.",
   "wy_word_title": "Ọ̀rọ̀ ìdènà jìbìtì",
   "wy_word_too_long": "Lo lẹ́tà 30 tàbí kò tó bẹ́ẹ̀.",
   "wy_word_too_short": "Lo ó kéré tán lẹ́tà 3."

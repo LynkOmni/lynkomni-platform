@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "פעילות אבטחה",
   "wy_add_contact": "הוספת אדם",
@@ -197,6 +197,7 @@
   "wy_who_label": "שם משתמש, אימייל או מספר טלפון",
   "wy_word_label": "המילה שלכם",
   "wy_word_note": "המילה הסודית שלכם מופיעה בכל אימייל והודעה אמיתיים מ LynkOmni. הודעה בלעדיה לא באה מאיתנו.",
+  "wy_word_rule": "3 עד 30 אותיות, ספרות או רווחים, בכל שפה. אותיות גדולות וקטנות נשמרות בדיוק כפי שהקלדת.",
   "wy_word_title": "מילה נגד הונאות",
   "wy_word_too_long": "השתמשו ב 30 אותיות או פחות.",
   "wy_word_too_short": "השתמשו בלפחות 3 אותיות."

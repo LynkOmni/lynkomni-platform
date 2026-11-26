@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "Aktivitas keamanan",
   "wy_add_contact": "Tambahkan orang",
@@ -58,7 +58,7 @@
   "wy_extra_note": "Proses masuk ini baru atau tidak biasa, jadi kami meminta satu pemeriksaan lagi.",
   "wy_extra_title": "Satu pemeriksaan lagi",
   "wy_fix": "Perbaiki",
-  "wy_hint_word": "bunga matahari",
+  "wy_hint_word": "Bunga matahari",
   "wy_kept_them": "Saya sudah menyimpannya",
   "wy_keys_note": "Kunci USB atau sentuh bekerja seperti kunci sandi.",
   "wy_keys_title": "Kunci keamanan",
@@ -197,6 +197,7 @@
   "wy_who_label": "Nama pengguna, email, atau nomor telepon",
   "wy_word_label": "Kata Anda",
   "wy_word_note": "Kata rahasia Anda ada di setiap email dan pesan asli dari LynkOmni. Pesan tanpa kata itu bukan dari kami.",
+  "wy_word_rule": "3 sampai 30 huruf, angka, atau spasi, dalam bahasa apa pun. Huruf besar dan kecil disimpan persis seperti yang Anda ketik.",
   "wy_word_title": "Kata antipenipuan",
   "wy_word_too_long": "Gunakan 30 huruf atau kurang.",
   "wy_word_too_short": "Gunakan paling sedikit 3 huruf."

@@ -13,6 +13,9 @@ import { signUpNext, legalNameProblem, identifierKind, signInWays, extraChecks, 
 import { noticeHtml } from "./errorbox.js";
 import { hintFor } from "./hints.js";
 import { check, handleBoxHtml, HANDLE_HINT } from "./usernames.js";
+/** Sample recovery contacts: a person shows by their name as they wrote it (capitals kept) with their username under it.
+ *  Usernames are always lowercase (the username rule); names are free text and keep their capitals. */
+const WY_PEOPLE: Record<string, string> = { "ama.k": "Ama Kwarteng", "jean.h": "Jean Habimana", "nadia.r": "Nadia Rahman", "kofi.m": "Kofi Mensah", "lina.s": "Lina Sato" };
 
 type WyT = (key: string, vars?: Record<string, string | number>) => string;
 export interface WaysLook {
@@ -180,8 +183,8 @@ export function securityHtml(look: WaysLook, st: WaysState): string {
       : s.auth === "setup" ? `<p class="wy-sub">${wyEsc(t("wy_auth_key"))} <span class="wy-sample">${wyEsc(t("wy_sample"))}</span></p><p class="wy-code" dir="ltr">${wyEsc(s.authKey)}</p>${look.codeField("wyAuthCode", t("wy_way_authenticator"))}${wyBtn(look, "primary", "sec:authon", t("wy_auth_turn_on"), " data-wait")}`
       : wyBtn(look, "secondary", "sec:authsetup", t("wy_auth_turn_on"))}`, "authenticator"),
     sec("wy_keys_title", `<p class="wy-note">${wyEsc(t("wy_keys_note"))}</p>${s.keys ? `<p class="wy-sub">${wyEsc(look.num(s.keys))}</p>` : ""}${wyBtn(look, "secondary", "sec:key", t("wy_add_key"))}`, "keys"),
-    sec("wy_contacts_title", `<p class="wy-note">${wyEsc(t("wy_contacts_note"))}</p>${s.contacts.length ? `<ul class="wy-list">${s.contacts.map((c) => `<li><bdi>${wyEsc(c)}</bdi></li>`).join("")}</ul>` : ""}${contactsWhy ? noticeHtml(t, { level: "warning", text: t(`wy_contacts_${contactsWhy}`) }) : ""}${s.contacts.length < WAYS_IN.recovery_contacts.max ? wyBtn(look, "secondary", "sec:contact", t("wy_add_contact")) : ""}`, "contacts"),
-    sec("wy_word_title", `<p class="wy-note">${wyEsc(t("wy_word_note"))}</p><div class="wy-field"><label for="wyWord">${wyEsc(t("wy_word_label"))}</label><input class="text" id="wyWord" data-in="wy:word" autocomplete="off" value="${wyEsc(s.word)}" placeholder="${wyEsc(t("wy_hint_word"))}"></div>${wordWhy ? noticeHtml(t, { level: "error", text: t(`wy_word_${wordWhy}`), field: "wyWord", how: t("fd_type_again") }) : ""}${s.wordSaved ? `<p class="wy-sub">${wyEsc(t("wy_saved"))}</p>` : ""}${wyBtn(look, "primary", "sec:word", t("wy_save"), s.word && !wordWhy ? " data-wait" : " disabled")}`, "word"),
+    sec("wy_contacts_title", `<p class="wy-note">${wyEsc(t("wy_contacts_note"))}</p>${s.contacts.length ? `<ul class="wy-rows">${s.contacts.map((c) => `<li><span class="wy-main"><span class="wy-nm">${wyEsc(WY_PEOPLE[c] ?? c)}</span><span class="wy-sub" dir="ltr"><bdi>@${wyEsc(c)}</bdi></span></span></li>`).join("")}</ul>` : ""}${contactsWhy ? noticeHtml(t, { level: "warning", text: t(`wy_contacts_${contactsWhy}`) }) : ""}${s.contacts.length < WAYS_IN.recovery_contacts.max ? wyBtn(look, "secondary", "sec:contact", t("wy_add_contact")) : ""}`, "contacts"),
+    sec("wy_word_title", `<p class="wy-note">${wyEsc(t("wy_word_note"))}</p><div class="wy-field"><label for="wyWord">${wyEsc(t("wy_word_label"))}</label><input class="text" id="wyWord" data-in="wy:word" autocomplete="off" aria-describedby="wyWordRule" value="${wyEsc(s.word)}" placeholder="${wyEsc(t("wy_hint_word"))}"><p class="wy-sub" id="wyWordRule">${wyEsc(t("wy_word_rule"))}</p></div>${wordWhy ? noticeHtml(t, { level: "error", text: t(`wy_word_${wordWhy}`), field: "wyWord", how: t("fd_type_again") }) : ""}${s.wordSaved ? `<p class="wy-sub">${wyEsc(t("wy_saved"))}</p>` : ""}${wyBtn(look, "primary", "sec:word", t("wy_save"), s.word && !wordWhy ? " data-wait" : " disabled")}`, "word"),
     sec("wy_country_lock_title", `<p class="wy-note">${wyEsc(t("wy_country_lock_note"))}</p>${s.lock.length ? `<p class="wy-sub" dir="ltr">${wyEsc(s.lock.join(" "))}</p>` : ""}${wyBtn(look, "secondary", "sec:lock", t(s.lock.length ? "wy_remove" : "wy_save"))}`, "country"),
     sec("wy_strongest_title", `<label class="wy-check"><input type="checkbox" data-in="wy:strongest"${st.strongest ? " checked" : ""}><span>${wyEsc(t("wy_strongest_note"))}</span></label>`, "strongest"),
     sec("wy_devices_title", `${s.old.length ? `<ul class="wy-rows">${s.old.map((d) => `<li><span class="wy-main"><span class="wy-nm">${wyEsc(d)}</span><span class="wy-sub">${wyEsc(t("wy_old_device"))}</span></span>${wyBtn(look, "secondary", "sec:old", t("wy_remove"))}</li>`).join("")}</ul>` : ""}
@@ -282,7 +285,7 @@ export function waysAct(st: WaysState, act: string, random: (n: number) => numbe
     else if (verb === "authon") s.auth = "on";
     else if (verb === "authoff") { s.auth = "off"; return { event: "ExtraCheckTurnedOff" }; }
     else if (verb === "key") s.keys += 1;
-    else if (verb === "contact") { const pool = ["ama.k", "jean.h", "nadia.r", "kofi.m", "lina.s"]; const next = pool.find((p) => !s.contacts.includes(p)); if (next) s.contacts.push(next); if (s.contacts.length < WAYS_IN.recovery_contacts.min) return {}; }
+    else if (verb === "contact") { const pool = Object.keys(WY_PEOPLE); const next = pool.find((p) => !s.contacts.includes(p)); if (next) s.contacts.push(next); if (s.contacts.length < WAYS_IN.recovery_contacts.min) return {}; }
     else if (verb === "word") { if (antiPhishingProblem(s.word)) return {}; s.wordSaved = true; }
     else if (verb === "lock") { s.lock = s.lock.length ? [] : ["CM"]; }
     else if (verb === "old") { s.old = []; return { event: "OldDeviceSignedOut" }; }

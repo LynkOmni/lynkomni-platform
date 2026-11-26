@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pl",
  "native": "Polski",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "Aktywność zabezpieczeń",
   "wy_add_contact": "Dodaj osobę",
@@ -58,7 +58,7 @@
   "wy_extra_note": "To logowanie jest nowe lub nietypowe, więc prosimy o jeszcze jedno sprawdzenie.",
   "wy_extra_title": "Jeszcze jedno sprawdzenie",
   "wy_fix": "Napraw",
-  "wy_hint_word": "słonecznik",
+  "wy_hint_word": "Słonecznik",
   "wy_kept_them": "Zachowałem je",
   "wy_keys_note": "Klucz USB lub zbliżeniowy działa jak klucz dostępu.",
   "wy_keys_title": "Klucze bezpieczeństwa",
@@ -197,6 +197,7 @@
   "wy_who_label": "Nazwa użytkownika, e-mail lub numer telefonu",
   "wy_word_label": "Twoje słowo",
   "wy_word_note": "Twoje tajne słowo jest w każdym prawdziwym e-mailu i wiadomości od LynkOmni. Wiadomość bez niego nie pochodzi od nas.",
+  "wy_word_rule": "Od 3 do 30 liter, cyfr lub spacji, w dowolnym języku. Wielkie i małe litery zostają dokładnie tak, jak je wpiszesz.",
   "wy_word_title": "Słowo chroniące przed oszustwami",
   "wy_word_too_long": "Użyj najwyżej 30 liter.",
   "wy_word_too_short": "Użyj co najmniej 3 liter."

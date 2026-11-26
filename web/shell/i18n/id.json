@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
+ "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
  "texts": {
   "account_menu": "Akun",
   "action_add": "Tambahkan yang pertama",
@@ -1264,7 +1264,7 @@
   "view_table": "Tabel",
   "view_waits": "Tampilan baru dimulai setelah langkah ini.",
   "voice_input": "Bicara",
-  "voice_sample_search": "penjualan baru",
+  "voice_sample_search": "Penjualan baru",
   "void_with_reason": "Batalkan dengan alasan",
   "waiting_send": "Menunggu dikirim: {n}",
   "waiting_send_label": "Menunggu dikirim",

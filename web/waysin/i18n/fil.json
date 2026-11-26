@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "Aktibidad sa seguridad",
   "wy_add_contact": "Magdagdag ng tao",
@@ -58,7 +58,7 @@
   "wy_extra_note": "Bago o hindi karaniwan ang pag-sign in na ito, kaya humihingi kami ng isa pang pagsusuri.",
   "wy_extra_title": "Isa pang pagsusuri",
   "wy_fix": "Ayusin",
-  "wy_hint_word": "mirasol",
+  "wy_hint_word": "Mirasol",
   "wy_kept_them": "Naitago ko na",
   "wy_keys_note": "Gumagana ang USB o tap key na parang passkey.",
   "wy_keys_title": "Mga security key",
@@ -197,6 +197,7 @@
   "wy_who_label": "Username, email o numero ng telepono",
   "wy_word_label": "Ang iyong salita",
   "wy_word_note": "Nasa bawat tunay na email at mensahe ng LynkOmni ang iyong lihim na salita. Hindi galing sa amin ang mensaheng wala nito.",
+  "wy_word_rule": "3 hanggang 30 titik, numero o espasyo, sa anumang wika. Pinapanatili ang malalaki at maliliit na titik nang eksakto gaya ng pagkakatype mo.",
   "wy_word_title": "Salitang panlaban sa panloloko",
   "wy_word_too_long": "Gumamit ng 30 titik o mas kaunti.",
   "wy_word_too_short": "Gumamit ng hindi bababa sa 3 titik."

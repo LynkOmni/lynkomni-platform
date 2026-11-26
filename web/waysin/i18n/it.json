@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "it",
  "native": "Italiano",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "Attività di sicurezza",
   "wy_add_contact": "Aggiungi una persona",
@@ -58,7 +58,7 @@
   "wy_extra_note": "Questo accesso è nuovo o insolito, quindi chiediamo un controllo in più.",
   "wy_extra_title": "Un controllo in più",
   "wy_fix": "Risolvi",
-  "wy_hint_word": "girasole",
+  "wy_hint_word": "Girasole",
   "wy_kept_them": "Li ho conservati",
   "wy_keys_note": "Una chiave USB o a sfioramento funziona come una passkey.",
   "wy_keys_title": "Chiavi di sicurezza",
@@ -197,6 +197,7 @@
   "wy_who_label": "Nome utente, email o numero di telefono",
   "wy_word_label": "La tua parola",
   "wy_word_note": "La tua parola segreta compare in ogni email e messaggio autentico di LynkOmni. Un messaggio senza di essa non è nostro.",
+  "wy_word_rule": "Da 3 a 30 lettere, numeri o spazi, in qualsiasi lingua. Maiuscole e minuscole restano esattamente come le scrivi.",
   "wy_word_title": "Parola anti-phishing",
   "wy_word_too_long": "Usa 30 lettere o meno.",
   "wy_word_too_short": "Usa almeno 3 lettere."

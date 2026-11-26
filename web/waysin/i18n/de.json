@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "de",
  "native": "Deutsch",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "Sicherheitsaktivität",
   "wy_add_contact": "Person hinzufügen",
@@ -197,6 +197,7 @@
   "wy_who_label": "Benutzername, E-Mail oder Telefonnummer",
   "wy_word_label": "Ihr Wort",
   "wy_word_note": "Ihr geheimes Wort steht in jeder echten E-Mail und Nachricht von LynkOmni. Eine Nachricht ohne dieses Wort stammt nicht von uns.",
+  "wy_word_rule": "3 bis 30 Buchstaben, Ziffern oder Leerstellen, in jeder Sprache. Groß- und Kleinschreibung bleibt genau so, wie Sie tippen.",
   "wy_word_title": "Anti-Phishing-Wort",
   "wy_word_too_long": "Höchstens 30 Buchstaben.",
   "wy_word_too_short": "Mindestens 3 Buchstaben."

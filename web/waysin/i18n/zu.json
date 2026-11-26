@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "Okwenzeka kwezokuphepha",
   "wy_add_contact": "Engeza umuntu",
@@ -58,7 +58,7 @@
   "wy_extra_note": "Lokhu kungena kusha noma akujwayelekile, ngakho sicela ukuhlola okukodwa futhi.",
   "wy_extra_title": "Ukuhlola okukodwa futhi",
   "wy_fix": "Lungisa",
-  "wy_hint_word": "ilanga",
+  "wy_hint_word": "Ilanga",
   "wy_kept_them": "Ngiwagcinile",
   "wy_keys_note": "Ukhiye we-USB noma wokuthinta usebenza njengokhiye wokungena.",
   "wy_keys_title": "Okhiye bokuphepha",
@@ -197,6 +197,7 @@
   "wy_who_label": "Igama lomsebenzisi, i-imeyili noma inombolo yocingo",
   "wy_word_label": "Igama lakho",
   "wy_word_note": "Igama lakho eliyimfihlo likhona kuyo yonke i-imeyili nomlayezo wangempela we-LynkOmni. Umlayezo ongenalo awuvelanga kithi.",
+  "wy_word_rule": "Izinhlamvu, izinombolo noma izikhala ezi-3 kuya kwezingama-30, nganoma yiluphi ulimi. Izinhlamvu ezinkulu nezincane zigcinwa njengoba uzibhala.",
   "wy_word_title": "Igama lokuvimba inkohliso",
   "wy_word_too_long": "Sebenzisa izinhlamvu ezingu 30 noma ngaphansi.",
   "wy_word_too_short": "Sebenzisa okungenani izinhlamvu ezingu 3."

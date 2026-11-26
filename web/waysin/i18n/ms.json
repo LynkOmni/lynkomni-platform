@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "Aktiviti keselamatan",
   "wy_add_contact": "Tambah orang",
@@ -58,7 +58,7 @@
   "wy_extra_note": "Log masuk ini baharu atau luar biasa, jadi kami meminta satu semakan lagi.",
   "wy_extra_title": "Satu semakan lagi",
   "wy_fix": "Betulkan",
-  "wy_hint_word": "bunga matahari",
+  "wy_hint_word": "Bunga matahari",
   "wy_kept_them": "Saya sudah menyimpannya",
   "wy_keys_note": "Kunci USB atau sentuh berfungsi seperti kunci laluan.",
   "wy_keys_title": "Kunci keselamatan",
@@ -197,6 +197,7 @@
   "wy_who_label": "Nama pengguna, e-mel atau nombor telefon",
   "wy_word_label": "Perkataan anda",
   "wy_word_note": "Perkataan rahsia anda ada dalam setiap e-mel dan mesej sebenar daripada LynkOmni. Mesej tanpanya bukan daripada kami.",
+  "wy_word_rule": "3 hingga 30 huruf, nombor atau ruang, dalam apa jua bahasa. Huruf besar dan kecil disimpan tepat seperti yang anda taip.",
   "wy_word_title": "Perkataan anti penipuan",
   "wy_word_too_long": "Guna 30 huruf atau kurang.",
   "wy_word_too_short": "Guna sekurangnya 3 huruf."

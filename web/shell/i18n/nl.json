@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
+ "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
  "texts": {
   "account_menu": "Account",
   "action_add": "Voeg de eerste toe",
@@ -1264,7 +1264,7 @@
   "view_table": "Tabel",
   "view_waits": "De nieuwe weergave begint na deze stap.",
   "voice_input": "Spreek",
-  "voice_sample_search": "nieuwe verkoop",
+  "voice_sample_search": "Nieuwe verkoop",
   "void_with_reason": "Annuleren met een reden",
   "waiting_send": "Wacht op verzending: {n}",
   "waiting_send_label": "Wacht op verzending",

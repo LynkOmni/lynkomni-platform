@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "uk",
  "native": "Українська",
- "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
+ "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
  "texts": {
   "account_menu": "Акаунт",
   "action_add": "Додати перший",
@@ -1264,7 +1264,7 @@
   "view_table": "Таблиця",
   "view_waits": "Новий вигляд почне діяти після цього кроку.",
   "voice_input": "Говоріть",
-  "voice_sample_search": "новий продаж",
+  "voice_sample_search": "Новий продаж",
   "void_with_reason": "Скасувати із зазначенням причини",
   "waiting_send": "Очікує надсилання: {n}",
   "waiting_send_label": "Очікує надсилання",

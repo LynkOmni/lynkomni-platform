@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
+ "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
  "texts": {
   "account_menu": "I-akhawunti",
   "action_add": "Engeza eyokuqala",
@@ -1264,7 +1264,7 @@
   "view_table": "Ithebula",
   "view_waits": "Ukubukeka okusha kuqala ngemuva kwalesi sinyathelo.",
   "voice_input": "Khuluma",
-  "voice_sample_search": "ukuthengisa okusha",
+  "voice_sample_search": "Ukuthengisa okusha",
   "void_with_reason": "Khansela ngesizathu",
   "waiting_send": "Kulinde ukuthunyelwa: {n}",
   "waiting_send_label": "Kulinde ukuthunyelwa",

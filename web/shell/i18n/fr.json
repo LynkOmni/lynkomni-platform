@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fr",
  "native": "Français",
- "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
+ "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
  "texts": {
   "account_menu": "Compte",
   "action_add": "Ajouter le premier",
@@ -1264,7 +1264,7 @@
   "view_table": "Tableau",
   "view_waits": "Le nouvel affichage commence après cette étape.",
   "voice_input": "Parler",
-  "voice_sample_search": "nouvelle vente",
+  "voice_sample_search": "Nouvelle vente",
   "void_with_reason": "Annuler avec un motif",
   "waiting_send": "En attente d'envoi : {n}",
   "waiting_send_label": "En attente d'envoi",

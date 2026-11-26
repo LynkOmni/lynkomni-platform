@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "Güvenlik etkinliği",
   "wy_add_contact": "Kişi ekle",
@@ -58,7 +58,7 @@
   "wy_extra_note": "Bu giriş yeni veya olağan dışı, bu yüzden bir doğrulama daha istiyoruz.",
   "wy_extra_title": "Bir doğrulama daha",
   "wy_fix": "Düzelt",
-  "wy_hint_word": "ayçiçeği",
+  "wy_hint_word": "Ayçiçeği",
   "wy_kept_them": "Sakladım",
   "wy_keys_note": "USB veya dokunmatik bir anahtar, geçiş anahtarı gibi çalışır.",
   "wy_keys_title": "Güvenlik anahtarları",
@@ -197,6 +197,7 @@
   "wy_who_label": "Kullanıcı adı, e-posta veya telefon numarası",
   "wy_word_label": "Kelimeniz",
   "wy_word_note": "Gizli kelimeniz LynkOmni'nin her gerçek e-postasında ve mesajında yer alır. Bu kelime olmayan bir mesaj bizden değildir.",
+  "wy_word_rule": "Herhangi bir dilde 3 ile 30 arası harf, rakam veya boşluk. Büyük ve küçük harfler tam yazdığınız gibi saklanır.",
   "wy_word_title": "Dolandırıcılığa karşı kelime",
   "wy_word_too_long": "En fazla 30 harf kullanın.",
   "wy_word_too_short": "En az 3 harf kullanın."

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "セキュリティの記録",
   "wy_add_contact": "人を追加",
@@ -197,6 +197,7 @@
   "wy_who_label": "ユーザー名、メールアドレス、電話番号",
   "wy_word_label": "合言葉",
   "wy_word_note": "合言葉は LynkOmni からの本物のメールとメッセージすべてに入っています。入っていないものは私たちからではありません。",
+  "wy_word_rule": "3〜30文字の文字、数字、スペースで、どの言語でも使えます。大文字と小文字は入力したとおりに保存されます。",
   "wy_word_title": "詐欺対策の合言葉",
   "wy_word_too_long": "30 文字以内にしてください。",
   "wy_word_too_short": "3 文字以上にしてください。"
