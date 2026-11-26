@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ps",
  "native": "پښتو",
- "source_sha256": "f10276b1ff78e06d8aeab366306a9f90e6c3d8c53f4f6c836f3a126f32df8fa8",
+ "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
  "texts": {
   "fd_add_item": "لومړی یو توکی ټوکرۍ ته ورزیات کړئ.",
   "fd_ask_manager": "مدیر یا مالک مرسته کولی شي.",
@@ -15,6 +15,8 @@
   "fd_code_wait": "نوی کوډ له {time} وروسته",
   "fd_contact_support": "له ملاتړ سره اړیکه",
   "fd_country": "هېواد",
+  "fd_country_find": "هېواد ولټوئ",
+  "fd_country_none": "هېڅ هېواد سمون نه خوري. د زنګ کوډ یې وازمویئ، لکه 237.",
   "fd_email_format": "د name@example.com په څېر برېښنالیک پته ولیکئ.",
   "fd_email_suggest": "ستاسو مطلب {email} و؟",
   "fd_email_throwaway": "دا برېښنالیک پته یوازې لنډ وخت پاتې کېږي. هغه پته وکاروئ چې ساتئ یې.",

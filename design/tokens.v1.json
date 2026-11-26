@@ -56,6 +56,7 @@
    }
   }
  },
+ "shape": { "description": "One rounding for every part, so fields, choosers, buttons and cards look the same across the ecosystem (owner, 2026-11-26). Small is rows inside a list; controls are fields, choosers and buttons; cards are panels, notices, toasts and pop-ups; pills are chips and round-ended bars.", "radius_small_px": 8, "radius_control_px": 12, "radius_card_px": 16, "radius_pill_px": 999 },
  "common": {
   "vcard-hub-bg": [
    "#0C2470",

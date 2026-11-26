@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "f10276b1ff78e06d8aeab366306a9f90e6c3d8c53f4f6c836f3a126f32df8fa8",
+ "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
  "texts": {
   "fd_add_item": "Kwanza weka bidhaa kwenye kikapu.",
   "fd_ask_manager": "Meneja au mmiliki anaweza kusaidia.",
@@ -15,6 +15,8 @@
   "fd_code_wait": "Msimbo mpya baada ya {time}",
   "fd_contact_support": "Wasiliana na msaada",
   "fd_country": "Nchi",
+  "fd_country_find": "Tafuta nchi",
+  "fd_country_none": "Hakuna nchi inayolingana. Jaribu msimbo wake wa kupiga simu, kama 237.",
   "fd_email_format": "Weka anwani ya barua pepe kama name@example.com.",
   "fd_email_suggest": "Ulimaanisha {email}?",
   "fd_email_throwaway": "Anwani hii ya barua pepe hudumu kwa muda mfupi tu. Tumia anwani unayoitunza.",

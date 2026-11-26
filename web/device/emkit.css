@@ -2,13 +2,13 @@
    app (ts/src/emulatorpanel.ts). Tokens only; logical CSS so right-to-left works; every control is at least the touch target;
    long words wrap and never widen the screen. */
 .emk { display: grid; place-items: center; min-block-size: 100%; padding: 16px; box-sizing: border-box; background: var(--bg-subtle); color: var(--text-primary); }
-.emk-card { display: grid; gap: 10px; inline-size: min(100%, 30rem); padding: 18px; border: 1px solid var(--border-subtle); border-radius: 16px; background: var(--bg-surface); box-sizing: border-box; }
+.emk-card { display: grid; gap: 10px; inline-size: min(100%, 30rem); padding: 18px; border: 1px solid var(--border-subtle); border-radius: var(--radius-card); background: var(--bg-surface); box-sizing: border-box; }
 .emk-card h2 { margin: 0; font: 700 20px/1.25 var(--font-heading); overflow-wrap: anywhere; }
 .emk-card p, .emk-sheet p { margin: 0; overflow-wrap: anywhere; }
-.emk-ic { display: inline-grid; place-items: center; inline-size: 40px; block-size: 40px; border-radius: 999px; background: var(--brand-subtle); color: var(--brand-ink); }
+.emk-ic { display: inline-grid; place-items: center; inline-size: 40px; block-size: 40px; border-radius: var(--radius-pill); background: var(--brand-subtle); color: var(--brand-ink); }
 .emk-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .emk-row > * { min-inline-size: 0; }
-.emk-btn { min-block-size: var(--touch-target); min-inline-size: var(--touch-target); padding: 0 14px; border: 1px solid var(--border-strong); border-radius: 10px; background: var(--bg-surface); color: var(--text-primary); font: 600 15px var(--font-body); overflow-wrap: anywhere; cursor: pointer; }
+.emk-btn { min-block-size: var(--touch-target); min-inline-size: var(--touch-target); padding: 0 14px; border: 1px solid var(--border-strong); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font: 600 15px var(--font-body); overflow-wrap: anywhere; cursor: pointer; }
 .emk-btn.primary { border-color: var(--brand-primary); background: var(--brand-primary); color: var(--on-brand); }
 .emk-btn[aria-pressed="true"] { border-color: var(--brand-primary); background: var(--brand-subtle); color: var(--brand-ink); }
 .emk-btn:disabled { opacity: .55; cursor: not-allowed; }
@@ -16,16 +16,16 @@
 .emk-note { color: var(--text-secondary); font-size: 13px; }
 .emk-state { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .emk-practice { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0; padding: 6px 12px; border-block-end: 1px solid var(--status-warning-border); background: var(--status-warning-bg); color: var(--status-warning-text); font-size: 13px; }
-.emk-home { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 6px; padding: 8px 12px; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--bg-surface); color: var(--text-primary); font-size: 13px; }
+.emk-home { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 6px; padding: 8px 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font-size: 13px; }
 .emk-home p { flex: 1 1 12rem; margin: 0; overflow-wrap: anywhere; }
-.emk-sheet { position: absolute; inset-inline: 8px; inset-block-end: 8px; z-index: 20; display: grid; gap: 10px; max-block-size: calc(100% - 16px); overflow: auto; padding: 14px; border: 1px solid var(--border-strong); border-radius: 14px; background: var(--bg-surface); color: var(--text-primary); box-sizing: border-box; }
+.emk-sheet { position: absolute; inset-inline: 8px; inset-block-end: 8px; z-index: 20; display: grid; gap: 10px; max-block-size: calc(100% - 16px); overflow: auto; padding: 14px; border: 1px solid var(--border-strong); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); box-sizing: border-box; }
 .emk-sheet h2 { margin: 0; font: 700 17px/1.3 var(--font-heading); overflow-wrap: anywhere; }
 .emk-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
-.emk-toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; inline-size: 100%; min-block-size: var(--touch-target); padding: 0 12px; border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--bg-surface); color: var(--text-primary); font: inherit; text-align: start; }
+.emk-toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; inline-size: 100%; min-block-size: var(--touch-target); padding: 0 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font: inherit; text-align: start; }
 .emk-toggle span { min-inline-size: 0; overflow-wrap: anywhere; }
 .emk-toggle[aria-pressed="true"] strong { color: var(--status-success-text); }
 .emk-choices { display: flex; flex-wrap: wrap; gap: 6px; }
-.emk-choice { display: grid; gap: 2px; min-block-size: var(--touch-target); padding: 6px 12px; border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--bg-surface); color: var(--text-primary); font: inherit; text-align: start; overflow-wrap: anywhere; }
+.emk-choice { display: grid; gap: 2px; min-block-size: var(--touch-target); padding: 6px 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font: inherit; text-align: start; overflow-wrap: anywhere; }
 .emk-choice[aria-pressed="true"] { border-color: var(--brand-primary); background: var(--brand-subtle); }
 .emk-choice span { color: var(--text-secondary); font-size: 12px; }
 .emk-ways { margin: 0; padding-inline-start: 1.25rem; display: grid; gap: 4px; }
@@ -36,7 +36,7 @@
 /* the panel in the Business app */
 .emp-path { margin: 0; }
 .emp-filter, .emp-guided, .emp-actions { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
-.emp-offer { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 8px 0; padding: 10px; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--bg-subtle); }
+.emp-offer { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 8px 0; padding: 10px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--bg-subtle); }
 .emp-offer > div { flex: 1 1 12rem; min-inline-size: 0; overflow-wrap: anywhere; }
 .emp-list, .emp-ems, .emp-why { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .emp-dev { display: grid; gap: 6px; padding: 8px 0; border-block-end: 1px solid var(--border-subtle); }

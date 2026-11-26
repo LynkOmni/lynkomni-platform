@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "f10276b1ff78e06d8aeab366306a9f90e6c3d8c53f4f6c836f3a126f32df8fa8",
+ "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
  "texts": {
   "fd_add_item": "پهريان ٽوڪري ۾ ڪا شيءِ شامل ڪريو.",
   "fd_ask_manager": "مئنيجر يا مالڪ مدد ڪري سگهن ٿا.",
@@ -15,6 +15,8 @@
   "fd_code_wait": "نئون ڪوڊ {time} ۾",
   "fd_contact_support": "مدد سان رابطو ڪريو",
   "fd_country": "ملڪ",
+  "fd_country_find": "ملڪ ڳوليو",
+  "fd_country_none": "ڪو ملڪ نه مليو. ان جو ڊائلنگ ڪوڊ آزمايو، جهڙوڪ 237.",
   "fd_email_format": "name@example.com جهڙو اي ميل پتو لکو.",
   "fd_email_suggest": "ڇا توهان جو مطلب {email} هو؟",
   "fd_email_throwaway": "هي اي ميل پتو ٿوري وقت لاءِ رهي ٿو. اهو پتو استعمال ڪريو جيڪو توهان رکو ٿا.",

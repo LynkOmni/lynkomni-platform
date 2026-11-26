@@ -37,6 +37,7 @@ def css():
     cl = {k: v[0] for k, v in CL.items()}; cd = {k: v[0] for k, v in CD.items()}
     s = f"/* {HEADER} */\n:root {{\n  color-scheme: light;\n  --font-heading: {F['heading']};\n  --font-body: {F['body']};\n  --font-mono: {F['mono']};\n  --font-feature-tabular: {F['feature_tabular']};\n"
     s += f"  --touch-target: {SRC['modes']['touch_target_px'] / 16}rem;\n"
+    s += "".join(f"  --radius-{k[7:-3]}: {v / 16 if v < 999 else v}{'rem' if v < 999 else 'px'};\n" for k, v in SRC["shape"].items() if k.startswith("radius_"))
     s += "".join(f"  --text-{px}: {px / 16}rem;\n" for px in F["scale_px"])
     s += "".join(f"  --{k}: {v};\n" for k, v in L.items()) + "}\n"
     # Type and spacing per device class (DEVICE, 48.17): the decision function sets data-device-class on the root of every screen.
@@ -59,6 +60,7 @@ pre, code, kbd, samp, .code { font-family: var(--font-mono); font-variant-numeri
 :disabled, [aria-disabled="true"] { color: var(--text-muted); }
 ::placeholder { color: var(--text-secondary); }
 input, select, textarea { border: 1px solid var(--border-input); }
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea { border-radius: var(--radius-control); }
 @@RTL@@
 button, [role="button"], a.btn, input:not([type="checkbox"]):not([type="radio"]), select { min-height: var(--touch-target); min-width: var(--touch-target); }
 html { font-size: 100%; }

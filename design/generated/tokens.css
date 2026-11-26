@@ -6,6 +6,10 @@
   --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
   --font-feature-tabular: "tnum" 1, "lnum" 1, "cv05" 1;
   --touch-target: 2.75rem;
+  --radius-small: 0.5rem;
+  --radius-control: 0.75rem;
+  --radius-card: 1.0rem;
+  --radius-pill: 999px;
   --text-12: 0.75rem;
   --text-14: 0.875rem;
   --text-16: 1.0rem;
@@ -300,6 +304,7 @@ pre, code, kbd, samp, .code { font-family: var(--font-mono); font-variant-numeri
 :disabled, [aria-disabled="true"] { color: var(--text-muted); }
 ::placeholder { color: var(--text-secondary); }
 input, select, textarea { border: 1px solid var(--border-input); }
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea { border-radius: var(--radius-control); }
 html:lang(ar), html:lang(fa), html:lang(ur), html:lang(ps), html:lang(ckb), html:lang(sd), html:lang(ug), html:lang(he), html:lang(yi), [dir="rtl"] { direction: rtl; }
 button, [role="button"], a.btn, input:not([type="checkbox"]):not([type="radio"]), select { min-height: var(--touch-target); min-width: var(--touch-target); }
 html { font-size: 100%; }

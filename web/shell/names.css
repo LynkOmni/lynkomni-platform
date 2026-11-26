@@ -11,7 +11,7 @@
 .lname-shown .lpl { color: var(--text-secondary); }
 /* The note a long press opens: inside the screen, never covering it for long, never animated. */
 .ltip { position: fixed; z-index: 60; max-inline-size: min(280px, calc(100vw - 16px)); padding: 8px 12px; border: 1px solid var(--border-strong);
-  border-radius: 8px; background: var(--bg-surface); color: var(--text-primary); font: 14px/1.4 var(--font-body); display: grid; gap: 4px; }
+  border-radius: var(--radius-card); background: var(--bg-surface); color: var(--text-primary); font: 14px/1.4 var(--font-body); display: grid; gap: 4px; }
 .ltip b { font-weight: 600; }
 .ltip span, .ltip small { color: var(--text-secondary); }
 @media print { .ltip { display: none; } .lname-x { text-decoration: none; } }
@@ -24,7 +24,7 @@
 .lic svg { inline-size: 1.1em; block-size: 1.1em; }
 /* Which one do I need? A short side-by-side of names that sound alike. */
 .ltip .lcmp { justify-self: start; min-block-size: var(--touch-target); margin-block-start: 4px; padding: 0 12px; border: 1px solid var(--border-strong);
-  border-radius: 8px; background: var(--bg-base); color: var(--text-primary); font: inherit; }
+  border-radius: var(--radius-small); background: var(--bg-base); color: var(--text-primary); font: inherit; }
 .ltip .lcompare { max-block-size: 60vh; overflow: auto; }
 .lcompare ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 8px; }
 .lcompare li { display: grid; gap: 2px; }

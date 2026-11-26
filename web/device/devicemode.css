@@ -3,7 +3,7 @@
 [data-touch="no"] * { pointer-events: none; }
 [data-touch="no"] :focus { outline: 4px solid var(--focus-ring); outline-offset: 2px; }
 .navpad { display: grid; grid-template-columns: repeat(3, 48px); grid-template-rows: repeat(3, 48px); gap: 6px; justify-content: center; margin: 12px auto 0; direction: ltr; }
-.padkey { min-width: 48px; min-height: 48px; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--device-key); color: var(--on-device-key); font: 600 16px var(--font-body); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.padkey { min-width: 48px; min-height: 48px; border-radius: var(--radius-control); border: 1px solid var(--border-strong); background: var(--device-key); color: var(--on-device-key); font: 600 16px var(--font-body); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
 .padkey .ic { width: 20px; height: 20px; }
 .padkey:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
 .padkey.up { grid-column: 2; grid-row: 1; } .padkey.left { grid-column: 1; grid-row: 2; } .padkey.ok { grid-column: 2; grid-row: 2; background: var(--device-key-enter); color: var(--on-device-key-enter); }

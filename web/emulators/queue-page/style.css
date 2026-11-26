@@ -2,31 +2,31 @@
 .phone { inline-size: 340px; padding: 12px 10px 22px; border-radius: 34px; background: linear-gradient(160deg, var(--device-shell-edge), var(--device-shell) 40%, var(--device-glass)); position: relative; box-shadow: 0 24px 50px -22px color-mix(in srgb, var(--device-shell) 70%, transparent); }
 .pspk { inline-size: 60px; block-size: 5px; border-radius: 3px; margin: 0 auto 8px; background: var(--device-glass); opacity: .7; }
 .phone .mark { position: absolute; inset-block-end: 5px; inset-inline-start: 50%; inline-size: 12px; margin-inline-start: -6px; color: var(--on-device-key); opacity: .6; }
-.pscreen { block-size: 620px; border-radius: 22px; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-.qp-addr { font-size: 12px; color: var(--text-secondary); padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border-subtle); background: var(--bg-surface); overflow-wrap: anywhere; }
-.qp-tabs { display: flex; gap: 6px; } .qp-tabs button { flex: 1; min-block-size: var(--touch-target); min-inline-size: 0; padding: 4px 8px; border-radius: 10px; border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; overflow-wrap: anywhere; }
+.pscreen { block-size: 620px; border-radius: 22px; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }   /* hardware shape */
+.qp-addr { font-size: 12px; color: var(--text-secondary); padding: 4px 10px; border-radius: var(--radius-pill); border: 1px solid var(--border-subtle); background: var(--bg-surface); overflow-wrap: anywhere; }
+.qp-tabs { display: flex; gap: 6px; } .qp-tabs button { flex: 1; min-block-size: var(--touch-target); min-inline-size: 0; padding: 4px 8px; border-radius: var(--radius-control); border: 1px solid var(--border-subtle); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; overflow-wrap: anywhere; }
 .qp-tabs button[aria-selected="true"] { border: 2px solid var(--brand-primary); background: var(--brand-subtle); font-weight: 700; }
 .qp-body { display: grid; gap: 10px; min-inline-size: 0; }
 .pscreen { background: var(--bg-base); color: var(--text-primary); font-family: var(--font-body); }
 .pscreen.dark { color-scheme: dark; }
 .pscreen h2 { margin: 0; font: 700 18px/1.25 var(--font-heading); overflow-wrap: anywhere; } .pscreen p { margin: 0; overflow-wrap: anywhere; } .pscreen .sub { color: var(--text-secondary); font-size: 13px; }
-.pscreen button { font: inherit; } .pscreen .primary { min-block-size: var(--touch-target); padding: 8px 16px; border-radius: 12px; border: 0; background: var(--brand-primary); color: var(--on-brand); font-weight: 700; cursor: pointer; }
+.pscreen button { font: inherit; } .pscreen .primary { min-block-size: var(--touch-target); padding: 8px 16px; border-radius: var(--radius-control); border: 0; background: var(--brand-primary); color: var(--on-brand); font-weight: 700; cursor: pointer; }
 .pscreen .primary.small, .pscreen .ghost.small { padding: 4px 12px; } .pscreen .primary:disabled, .pscreen .ghost:disabled { opacity: .5; cursor: not-allowed; }
-.pscreen .ghost { min-block-size: var(--touch-target); padding: 8px 14px; border-radius: 12px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; }
+.pscreen .ghost { min-block-size: var(--touch-target); padding: 8px 14px; border-radius: var(--radius-control); border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; }
 .pscreen .ghost[aria-pressed="true"] { border: 2px solid var(--brand-primary); background: var(--brand-subtle); }
 .pscreen :focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
-.pscreen .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; } .pscreen .rowbtn { display: flex; gap: 8px; align-items: center; padding: 8px 10px; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--bg-surface); min-inline-size: 0; }
+.pscreen .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; } .pscreen .rowbtn { display: flex; gap: 8px; align-items: center; padding: 8px 10px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--bg-surface); min-inline-size: 0; }
 .pscreen .rowbtn .main { flex: 1; min-inline-size: 0; display: grid; gap: 2px; } .pscreen .rowbtn .nm { font-weight: 600; overflow-wrap: anywhere; }
-.pscreen .notice { padding: 8px 10px; border-radius: 8px; background: var(--status-warning-bg); border: 1px solid var(--status-warning-border); color: var(--status-warning-text); }
+.pscreen .notice { padding: 8px 10px; border-radius: var(--radius-card); background: var(--status-warning-bg); border: 1px solid var(--status-warning-border); color: var(--status-warning-text); }
 .pscreen .warn { color: var(--status-danger-text); font-weight: 600; } .pscreen .ok { color: var(--status-success-text); font-weight: 600; } .pscreen .plabel { font-weight: 600; }
-.pscreen .tag { display: inline-block; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--border-subtle); font-size: 12px; color: var(--text-secondary); background: var(--bg-surface); }
+.pscreen .tag { display: inline-block; padding: 1px 8px; border-radius: var(--radius-pill); border: 1px solid var(--border-subtle); font-size: 12px; color: var(--text-secondary); background: var(--bg-surface); }
 .ic { display: inline-flex; inline-size: 20px; block-size: 20px; } .ic svg { inline-size: 100%; block-size: 100%; display: block; } .chip .ic { inline-size: 12px; block-size: 12px; }
 .rig .fit { display: flex; gap: 32px; align-items: flex-end; flex-wrap: wrap; justify-content: center; }
 .mark svg { inline-size: 100%; block-size: auto; display: block; }
-.fake-till { inline-size: 280px; padding: 14px; border-radius: 14px; border: 1px dashed var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font-size: 13px; overflow-wrap: anywhere; }
+.fake-till { inline-size: 280px; padding: 14px; border-radius: var(--radius-control); border: 1px dashed var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font-size: 13px; overflow-wrap: anywhere; }
 .fake-till h3 { margin: 0 0 4px; font-size: 14px; } .fake-till p { margin: 0 0 6px; } .fake-till .sub { color: var(--text-secondary); } .fake-till .tname { font-weight: 600; margin: 8px 0 4px; }
 .tbtns { display: flex; flex-wrap: wrap; gap: 6px; margin-block-end: 6px; }
-.tbtns button { min-block-size: 36px; padding: 4px 10px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 600 12px var(--font-body); cursor: pointer; }
+.tbtns button { min-block-size: 36px; padding: 4px 10px; border-radius: var(--radius-control); border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 600 12px var(--font-body); cursor: pointer; }
 .tbtns button[disabled] { opacity: .5; cursor: not-allowed; } .tbtns button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
 .ctl-extra label { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; cursor: pointer; }
 

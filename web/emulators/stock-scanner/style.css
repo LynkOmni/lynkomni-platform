@@ -2,8 +2,8 @@
 .gun { width: 300px; position: relative; display: flex; flex-direction: column; align-items: center; padding-top: 18px; }
 .window { width: 120px; height: 14px; border-radius: 7px 7px 0 0; background: var(--device-glass); transition: box-shadow .1s; }
 .window.on { box-shadow: 0 -10px 24px var(--device-key-cancel); }
-.gbody { width: 300px; padding: 18px 16px 20px; border-radius: 26px 26px 34px 34px; background: linear-gradient(160deg, var(--device-key-clear), var(--device-shell) 22%, var(--device-glass)); box-shadow: 0 24px 50px -20px color-mix(in srgb, var(--device-glass) 60%, transparent); }
-.sscreen { height: 360px; border-radius: 10px; background: var(--bg-base); color: var(--text-primary); overflow: hidden; display: flex; flex-direction: column; font: 13px var(--font-body); }
+.gbody { width: 300px; padding: 18px 16px 20px; border-radius: 26px 26px 34px 34px; background: linear-gradient(160deg, var(--device-key-clear), var(--device-shell) 22%, var(--device-glass)); box-shadow: 0 24px 50px -20px color-mix(in srgb, var(--device-glass) 60%, transparent); } /* hardware shape */
+.sscreen { height: 360px; border-radius: var(--radius-control); background: var(--bg-base); color: var(--text-primary); overflow: hidden; display: flex; flex-direction: column; font: 13px var(--font-body); }
 .sscreen.dark { color-scheme: dark; }
 .shead { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: var(--bg-surface); border-bottom: 1px solid var(--border-subtle); font-weight: 700; }
 .shead .off { color: var(--status-warning-text); }
@@ -27,9 +27,9 @@ em { font-style: normal; font-weight: 700; color: var(--status-warning-text); }
 .qty { display: flex; align-items: center; justify-content: center; gap: 18px; margin: 8px 0; }
 .qty button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; padding: 12px; }
 .qty output { font: 700 28px var(--font-heading); min-width: 50px; text-align: center; }
-.save { min-height: 44px; border: 0; border-radius: 10px; background: var(--brand-primary); color: var(--on-brand); font: 700 14px var(--font-body); cursor: pointer; }
+.save { min-height: 44px; border: 0; border-radius: var(--radius-control); background: var(--brand-primary); color: var(--on-brand); font: 700 14px var(--font-body); cursor: pointer; }
 .skeys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 14px; }
-.skeys button { height: 40px; border: 0; border-radius: 10px; background: var(--device-key); color: var(--on-device-key); font: 700 13px var(--font-body); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.skeys button { height: 40px; border: 0; border-radius: var(--radius-control); background: var(--device-key); color: var(--on-device-key); font: 700 13px var(--font-body); cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .skeys button:last-child { background: var(--device-key-enter); color: var(--on-device-key-enter); }
 .skeys .ic { width: 18px; height: 18px; }
 .trigger { margin-top: -8px; width: 110px; height: 120px; border: 0; border-radius: 0 0 40px 40px; background: linear-gradient(180deg, var(--device-shell), var(--device-glass)); color: var(--device-key-clear); cursor: pointer; display: flex; align-items: center; justify-content: center; }

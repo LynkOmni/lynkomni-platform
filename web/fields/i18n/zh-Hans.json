@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "f10276b1ff78e06d8aeab366306a9f90e6c3d8c53f4f6c836f3a126f32df8fa8",
+ "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
  "texts": {
   "fd_add_item": "请先往购物篮中添加商品。",
   "fd_ask_manager": "经理或店主可以帮忙。",
@@ -15,6 +15,8 @@
   "fd_code_wait": "{time}后可获取新验证码",
   "fd_contact_support": "联系客服",
   "fd_country": "国家或地区",
+  "fd_country_find": "查找国家或地区",
+  "fd_country_none": "没有匹配的国家或地区。请试试区号，例如 237。",
   "fd_email_format": "请输入电子邮箱地址，例如 name@example.com。",
   "fd_email_suggest": "您是想输入 {email} 吗？",
   "fd_email_throwaway": "这个邮箱地址只能使用很短时间。请使用您长期使用的邮箱地址。",

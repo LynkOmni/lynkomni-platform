@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "f10276b1ff78e06d8aeab366306a9f90e6c3d8c53f4f6c836f3a126f32df8fa8",
+ "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
  "texts": {
   "fd_add_item": "הוסיפו קודם פריט לסל.",
   "fd_ask_manager": "מנהל או הבעלים יכולים לעזור.",
@@ -15,6 +15,8 @@
   "fd_code_wait": "קוד חדש בעוד {time}",
   "fd_contact_support": "פנייה לתמיכה",
   "fd_country": "מדינה",
+  "fd_country_find": "חיפוש מדינה",
+  "fd_country_none": "אין מדינה מתאימה. נסו את קידומת החיוג, למשל 237.",
   "fd_email_format": "הזינו כתובת אימייל כמו name@example.com.",
   "fd_email_suggest": "האם התכוונתם ל-{email}?",
   "fd_email_throwaway": "כתובת האימייל הזו קיימת לזמן קצר בלבד. השתמשו בכתובת שאתם שומרים.",
