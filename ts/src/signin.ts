@@ -74,3 +74,28 @@ export function numberMatch(choices: string[], t: T, result: "" | "ok" | "wrong"
   const res = result === "ok" ? noticeHtml(t, { level: "success", cls: "pmsg", text: t("match_ok") }) : result === "wrong" ? noticeHtml(t, { level: "error", cls: "pmsg", text: t("match_wrong"), how: t("fd_match_retry") }) : "";
   return `<div class="nmatch" role="group" aria-label="${esc(t("match_pick_title"))}"><p class="ptitle">${esc(t("match_pick_title"))}</p><div class="nchoices">${choices.map((c) => `<button type="button" class="nchoice" data-act="match:${esc(c)}"${result ? " disabled" : ""}>${esc(c)}</button>`).join("")}</div>${res}<p class="note">${esc(t("match_pick_note"))}</p></div>`;
 }
+
+/** A PIN pad always fits its screen (owner, 2026-11-26: the scanner's last row of keys was cut off). After every draw each pad is
+ *  on a device lock screen (marked data-fit-pin) measured against the box that holds it: if its keys would end below what is visible, the pad tightens (smaller gaps, the title
+ *  kept for screen readers only, since the name above it already says whose PIN it is); if that is not enough, the keys go into
+ *  two rows of six. Keys never shrink below the touch target and never move once a person has started typing. */
+export function fitPinPads(root: ParentNode = document): void {
+  for (const pad of Array.from(root.querySelectorAll<HTMLElement>("[data-fit-pin] .pinpad"))) {   // device lock screens; a page simply scrolls
+    const keys = pad.querySelector<HTMLElement>(".pkeys");
+    if (!keys || pad.querySelector(".pdot.on")) continue;   // never rearrange while digits are being typed
+    pad.classList.remove("pp-tight", "pp-wide");
+    let box: HTMLElement | null = pad.parentElement;
+    while (box && !/(auto|scroll|hidden)/.test(getComputedStyle(box).overflowY)) box = box.parentElement;
+    if (!box) continue;
+    const over = (): boolean => keys.getBoundingClientRect().bottom > box!.getBoundingClientRect().bottom + 0.5;
+    if (over()) pad.classList.add("pp-tight");
+    const touch = parseFloat(getComputedStyle(pad).getPropertyValue("--touch-target")) || 44;
+    if (over() && pad.parentElement!.clientWidth >= 6 * touch + 5 * 6) pad.classList.add("pp-wide");   // two rows of six only when they fit across
+  }
+}
+if (typeof document !== "undefined" && typeof MutationObserver !== "undefined") {
+  let queued = false;
+  const later = (): void => { if (queued) return; queued = true; requestAnimationFrame(() => { queued = false; fitPinPads(); }); };
+  const start = (): void => { new MutationObserver(later).observe(document.body, { childList: true, subtree: true }); addEventListener("resize", later); later(); };
+  if (document.body) start(); else addEventListener("DOMContentLoaded", start);
+}

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "de",
  "native": "Deutsch",
- "source_sha256": "65a9bcbd7a6d9022d12b89fdd938f728ac41ba7efa6aeea8281b66db2f508381",
+ "source_sha256": "73d503bda652e77b17d7519d187d18078a0c7b8b2cd4ee50d71e9fa24d52ea61",
  "texts": {
   "all": "Alle",
   "asked_owner": "An den Inhaber gesendet. Die Antwort erscheint hier.",
@@ -55,7 +55,6 @@
   "payment": "Zahlung",
   "phone": "Telefonnummer der Kundschaft",
   "pin": "PIN eingeben",
-  "pin_hint": "Beispiel-PIN 1234",
   "pos_why_bad_receipt_number": "Die Belegnummer hat nicht die erwartete Form.",
   "pos_why_empty_cart": "Der Warenkorb ist leer, es gibt also noch nichts zu bezahlen.",
   "pos_why_invalid_amount": "Dieser Betrag ist nicht verwendbar: Er muss ein ganzer Betrag über null sein.",

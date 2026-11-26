@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-5W7Y6iCyl4TCqc4vHSvOb1EfjbvX3h/WiHZoE6f6tgY='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-5ChUmjPE3Fm7U3yLNWUBsRiF0hd/8s08G/7kKpqnc6k='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkQueue on Your Phone</title>
 <meta name="description" content="Interactive emulator of the LynkQueue page a person opens on their own phone, with no app and no account: see the wait, join the queue, follow the ticket, Running late and Leave queue, and the place's public queue page.">
@@ -655,6 +655,13 @@ body { margin: 0; min-height: 100vh; }
 .pkey .pdots { inline-size: 18px; block-size: 18px; color: var(--text-secondary); }
 .pmsg { margin: 0; }
 .popts { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+/* A pad that would not fit its screen (ts/src/signin.ts fitPinPads): tighter first, then the keys in two rows of six. */
+.pinpad.pp-tight { gap: 4px; }
+.pinpad.pp-tight .ptitle { display: none; }   /* the pad's group label still names it for screen readers */
+.pinpad.pp-tight .pkeys { gap: 6px; }
+.pinpad.pp-tight .pkey { min-block-size: var(--touch-target); }
+.pinpad.pp-wide { max-inline-size: 420px; }
+.pinpad.pp-wide .pkeys { grid-template-columns: repeat(6, minmax(var(--touch-target), 1fr)); }
 .chipbtn.on { background: var(--brand-subtle); border-color: var(--brand-primary); }
 .nbig { margin: 0; font: 800 var(--text-24)/1 var(--font-heading); font-size: clamp(var(--text-24), 12vw, 48px); letter-spacing: .08em; font-feature-settings: var(--font-feature-tabular); }
 .nchoices { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-inline-size: 100%; }
@@ -867,6 +874,11 @@ body { margin: 0; min-height: 100vh; }
 .dk-who, .dk-whorow { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; margin: 0; font-size: 14px; color: var(--text-primary); }
 .dk-whorow { justify-content: space-between; padding-block: 4px; padding-inline: 12px; }
 .dk-whorow > span { display: inline-flex; align-items: center; gap: 6px; min-inline-size: 0; overflow-wrap: anywhere; }
+/* Whose PIN the lock asks for: one button on one line that picks another person (ts/src/devicekit.ts lockWhoButton). */
+.dk-whobtn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; max-inline-size: 100%; min-block-size: var(--touch-target); padding-inline: 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font: 600 14px var(--font-body); cursor: pointer; }
+.dk-whobtn > span { min-inline-size: 0; overflow-wrap: anywhere; text-align: center; }
+.dk-whobtn .ic { inline-size: 16px; block-size: 16px; display: inline-flex; flex: none; }
+.dk-whobtn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 .dk-who .ic, .dk-whorow .ic, .dk-link .ic { inline-size: 16px; block-size: 16px; display: inline-flex; flex: none; }
 .dk-link { display: inline-flex; align-items: center; gap: 6px; min-block-size: var(--touch-target); min-inline-size: var(--touch-target); padding: 0 8px; border: 0; background: none; color: var(--brand-ink); font: 600 14px var(--font-body); text-decoration: underline; cursor: pointer; }
 .dk-gate .chipbtn { min-block-size: var(--touch-target); padding: 0 12px; border-radius: var(--radius-control); border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); font: 600 13px var(--font-body); cursor: pointer; }
@@ -3409,6 +3421,35 @@ function numberMatch(choices, t, result = "") {
     const res = result === "ok" ? noticeHtml(t, { level: "success", cls: "pmsg", text: t("match_ok") }) : result === "wrong" ? noticeHtml(t, { level: "error", cls: "pmsg", text: t("match_wrong"), how: t("fd_match_retry") }) : "";
     return `<div class="nmatch" role="group" aria-label="${esc(t("match_pick_title"))}"><p class="ptitle">${esc(t("match_pick_title"))}</p><div class="nchoices">${choices.map((c) => `<button type="button" class="nchoice" data-act="match:${esc(c)}"${result ? " disabled" : ""}>${esc(c)}</button>`).join("")}</div>${res}<p class="note">${esc(t("match_pick_note"))}</p></div>`;
 }
+function fitPinPads(root = document) {
+    for (const pad of Array.from(root.querySelectorAll("[data-fit-pin] .pinpad"))) { // device lock screens; a page simply scrolls
+        const keys = pad.querySelector(".pkeys");
+        if (!keys || pad.querySelector(".pdot.on"))
+            continue; // never rearrange while digits are being typed
+        pad.classList.remove("pp-tight", "pp-wide");
+        let box = pad.parentElement;
+        while (box && !/(auto|scroll|hidden)/.test(getComputedStyle(box).overflowY))
+            box = box.parentElement;
+        if (!box)
+            continue;
+        const over = () => keys.getBoundingClientRect().bottom > box.getBoundingClientRect().bottom + 0.5;
+        if (over())
+            pad.classList.add("pp-tight");
+        const touch = parseFloat(getComputedStyle(pad).getPropertyValue("--touch-target")) || 44;
+        if (over() && pad.parentElement.clientWidth >= 6 * touch + 5 * 6)
+            pad.classList.add("pp-wide"); // two rows of six only when they fit across
+    }
+}
+if (typeof document !== "undefined" && typeof MutationObserver !== "undefined") {
+    let queued = false;
+    const later = () => { if (queued)
+        return; queued = true; requestAnimationFrame(() => { queued = false; fitPinPads(); }); };
+    const start = () => { new MutationObserver(later).observe(document.body, { childList: true, subtree: true }); addEventListener("resize", later); later(); };
+    if (document.body)
+        start();
+    else
+        addEventListener("DOMContentLoaded", start);
+}
 
 // ---- ts/src/notify.js
 
@@ -3749,6 +3790,7 @@ function wireCrumbs(doc) {
 
 
 
+
 const LIMIT_KEY = { void: "void_minor", refund: "refund_minor", discount: "discount_bps" };
 function needsManager(role, act, amount, limits = OFFLINE_LIMITS) {
     const lim = limits[role]?.[LIMIT_KEY[act]];
@@ -3765,8 +3807,12 @@ class StaffLock {
     alerts = [];
     constructor(staff) {
         this.staff = staff;
+        for (const s of staff)
+            if (s.duress && s.duress.length !== s.pin.length)
+                throw new Error(`${s.person}: the duress PIN has the same number of digits as the PIN`);
     }
     find(person) { return this.staff.find((s) => s.person === person); }
+    lengthOf(person) { return this.find(person)?.pin.length ?? PIN_RULE.min; }
     signIn(person, pin, now) {
         if (this.remoteLocked)
             return { ok: false, reason: "locked_by_owner" };
@@ -3832,6 +3878,10 @@ class StaffLock {
 function staffWhoRow(name, role, t, icon) {
     return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(name)} · ${esc(t(`role_${role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
 }
+function lockWhoButton(name, role, t, icon) {
+    const who = `${name} · ${t(`role_${role}`)}`;
+    return `<button type="button" class="dk-whobtn" data-act="staff:change" aria-label="${esc(`${who}. ${t("dk_change")}`)}">${icon("ui-user")}<span>${esc(who)}</span>${icon("ui-chevron-down")}</button>`;
+}
 class StaffGate {
     lock;
     h;
@@ -3864,9 +3914,9 @@ class StaffGate {
         if (this.picking)
             return `<div class="${cls}">${staffPicker(this.lock.staff, t, icon)}</div>`;
         const s = this.lock.find(this.who);
-        const pad = pinPad({ entered: this.pin.length, length: Math.max(4, this.pin.length), wrong: this.lock.wrong.get(this.who) ?? 0, waitLeft: this.waitLeft(), pictures: this.pictures, sound: this.sound, title: t("dk_pin_for", { name: s?.name ?? "" }) }, t, icon);
+        const pad = pinPad({ entered: this.pin.length, length: this.lock.lengthOf(this.who), wrong: this.lock.wrong.get(this.who) ?? 0, waitLeft: this.waitLeft(), pictures: this.pictures, sound: this.sound, title: t("dk_pin_for", { name: s?.name ?? "" }) }, t, icon);
         const sample = this.lock.staff.map((x) => `${t(`role_${x.role}`)} ${x.pin}`).join(", ");
-        return `<div class="${cls}"><p class="dk-who">${icon("ui-user")}<span>${esc(s?.name ?? "")} · ${esc(t(`role_${s?.role ?? "cashier"}`))}</span><button type="button" class="dk-link" data-act="staff:change">${esc(t("dk_change"))}</button>${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</p>
+        return `<div class="${cls}" data-fit-pin><p class="dk-who">${lockWhoButton(s?.name ?? "", s?.role ?? "cashier", t, icon)}${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</p>
       ${this.idle ? noticeHtml(t, { level: "info", cls: "dk-note", text: t("locked_idle") }) : ""}${this.lock.hard.has(this.who) ? noticeHtml(t, { level: "error", cls: "dk-note", text: t("dk_hard_locked"), how: t("fd_ask_manager") }) : ""}
       ${pad}<p class="dk-note">${esc(t("dk_own_pin"))}</p><p class="dk-note">${esc(t("dk_pin_sample", { list: sample }))}</p>${s?.duress ? `<p class="dk-note">${esc(t("dk_duress_sample", { pin: s.duress }))}</p>` : ""}
 </div>`;
@@ -3928,9 +3978,11 @@ class StaffGate {
         else if (x === "clear")
             this.pin = this.pin.slice(0, -1);
         else if (/^\d$/.test(x)) {
-            if (this.pin.length < 8)
+            if (this.pin.length < this.lock.lengthOf(this.who))
                 this.pin += x;
-        }
+            if (this.pin.length === this.lock.lengthOf(this.who))
+                this.tryPin();
+        } // full: checked at once, never a digit more
         else if (x === "ok" && this.pin)
             this.tryPin();
         this.h.redraw();
@@ -3993,9 +4045,6 @@ class StaffGate {
 }
 function staffPicker(staff, t, icon) {
     return `<div class="dk-staff" role="group" aria-label="${esc(t("dk_who"))}"><h2>${esc(t("dk_who"))}</h2><ul>${staff.map((s) => `<li><button type="button" data-act="staff:pick:${esc(s.person)}">${icon("ui-user")}<span>${esc(s.name)}</span><span class="dk-role">${esc(t(`role_${s.role}`))}</span></button></li>`).join("")}</ul><p class="dk-note">${esc(t("dk_own_pin"))}</p></div>`;
-}
-function staffPin(name, entered, wrong, waitLeft, t, icon) {
-    return pinPad({ entered, length: Math.max(4, entered), wrong, waitLeft, pictures: false, sound: true, title: t("dk_pin_for", { name }) }, t, icon);
 }
 const offlineOf = (actionId) => ASSIST.actions[actionId]?.offline ?? "never";
 function decideOffline(actionId, ask, online) {

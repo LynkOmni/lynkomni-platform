@@ -86,6 +86,8 @@ const money = (minor: number): string => { try { return new Intl.NumberFormat(lo
 const clock = (ms: number): string => new Intl.DateTimeFormat(locale(), { timeZone: pack().tz, hour: "2-digit", minute: "2-digit" }).format(ms);
 const langName = (code: string): string => PACKS[code]?.native ?? code;
 const SHOP = (): string => t("shop_name");
+/** The sample device PIN of the sign-in demo; the pad shows its length and checks once it is full. */
+const DEMO_PIN = "2580";
 /** The decision function on this device's own reported facts (never its browser's name); the testing panel may force a view. */
 const choose = (): Choice => {
   const forced = S.testView !== "auto" ? S.testView : null;
@@ -165,7 +167,7 @@ function assistPart(): string {
 function pinCard(): string {
   const waitLeft = Math.max(0, Math.ceil((S.waitUntil - Date.now()) / 1000));
   if (!S.matchChoices.length) { let x = 7; S.matchChoices = numberChoices(S.matchShown, () => (x = (x * 9301 + 49297) % 233280) / 233280); }
-  return `<div class="card"><h2>${esc(t("demo_signin_card"))}</h2>${pinPad({ entered: S.pin.length, length: Math.max(4, S.pin.length), wrong: S.wrong, waitLeft, pictures: S.pictures, sound: S.keySound, title: t("demo_pin_title") }, t, icon)}<div class="pstack">${numberShown(S.matchShown, t)}${numberMatch(S.matchChoices, t, S.matchResult)}</div></div>`;
+  return `<div class="card"><h2>${esc(t("demo_signin_card"))}</h2>${pinPad({ entered: S.pin.length, length: DEMO_PIN.length, wrong: S.wrong, waitLeft, pictures: S.pictures, sound: S.keySound, title: t("demo_pin_title") }, t, icon)}<div class="pstack">${numberShown(S.matchShown, t)}${numberMatch(S.matchChoices, t, S.matchResult)}</div></div>`;
 }
 function peopleCard(): string {
   const tk = ticketCard({ section: "LAB", sectionName: t("demo_section_lab"), code: "A2K9P2", place: S.called ? null : 4, waitMinutes: S.called ? null : 12, counter: S.called ? t("demo_counter") : null }, t, icon);
@@ -378,9 +380,9 @@ function act(a: string): void {
       if (v === "sound") { S.keySound = savePrefs({ tones: !S.keySound }).tones; draw(); return; }
       keyTone(v);
       if (v === "clear") S.pin = "";
-      else if (/^\d$/.test(v) && S.pin.length < 8) S.pin += v;
-      else if (v === "ok") {
-        if (S.pin === "2580") { S.wrong = 0; record("DeviceUnlocked", "device", { by: "pin" }); }
+      else if (/^\d$/.test(v) && S.pin.length < DEMO_PIN.length) S.pin += v;
+      if (v === "ok" || S.pin.length === DEMO_PIN.length) {   // full: checked at once, never a digit more (owner, 2026-11-26)
+        if (S.pin === DEMO_PIN) { S.wrong = 0; record("DeviceUnlocked", "device", { by: "pin" }); }
         else { S.wrong += 1; const w = afterWrong(S.wrong); if (typeof w === "number" && w) S.waitUntil = Date.now() + w * 1000; record(w === "locked" ? "DeviceHardLocked" : "PinRefused", "device", { wrong: S.wrong }); }
         S.pin = "";
       }

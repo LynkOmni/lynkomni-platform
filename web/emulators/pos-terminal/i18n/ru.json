@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ru",
  "native": "Русский",
- "source_sha256": "65a9bcbd7a6d9022d12b89fdd938f728ac41ba7efa6aeea8281b66db2f508381",
+ "source_sha256": "73d503bda652e77b17d7519d187d18078a0c7b8b2cd4ee50d71e9fa24d52ea61",
  "texts": {
   "all": "Все",
   "asked_owner": "Отправлено владельцу. Ответ появится здесь.",
@@ -55,7 +55,6 @@
   "payment": "Оплата",
   "phone": "Телефон покупателя",
   "pin": "Введите PIN-код",
-  "pin_hint": "Пример PIN-кода 1234",
   "pos_why_bad_receipt_number": "Номер чека не в ожидаемом виде.",
   "pos_why_empty_cart": "Корзина пуста, поэтому платить пока не за что.",
   "pos_why_invalid_amount": "Эту сумму нельзя использовать: нужна целая сумма больше нуля.",

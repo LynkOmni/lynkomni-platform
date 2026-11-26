@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fr",
  "native": "Français",
- "source_sha256": "65a9bcbd7a6d9022d12b89fdd938f728ac41ba7efa6aeea8281b66db2f508381",
+ "source_sha256": "73d503bda652e77b17d7519d187d18078a0c7b8b2cd4ee50d71e9fa24d52ea61",
  "texts": {
   "all": "Tout",
   "asked_owner": "Envoyé au propriétaire. La réponse apparaît ici.",
@@ -55,7 +55,6 @@
   "payment": "Paiement",
   "phone": "Numéro de téléphone du client",
   "pin": "Saisissez votre code PIN",
-  "pin_hint": "Code PIN d'exemple : 1234",
   "pos_why_bad_receipt_number": "Le numéro du reçu n'a pas la forme attendue.",
   "pos_why_empty_cart": "Le panier est vide, il n'y a donc encore rien à payer.",
   "pos_why_invalid_amount": "Ce montant n'est pas utilisable : il doit être un montant entier supérieur à zéro.",

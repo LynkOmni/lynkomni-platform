@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "uk",
  "native": "Українська",
- "source_sha256": "65a9bcbd7a6d9022d12b89fdd938f728ac41ba7efa6aeea8281b66db2f508381",
+ "source_sha256": "73d503bda652e77b17d7519d187d18078a0c7b8b2cd4ee50d71e9fa24d52ea61",
  "texts": {
   "all": "Усе",
   "asked_owner": "Надіслано власнику. Відповідь з'явиться тут.",
@@ -55,7 +55,6 @@
   "payment": "Оплата",
   "phone": "Номер телефону покупця",
   "pin": "Введіть PIN-код",
-  "pin_hint": "Приклад PIN-коду 1234",
   "pos_why_bad_receipt_number": "Номер чека не має очікуваного вигляду.",
   "pos_why_empty_cart": "Кошик порожній, тож платити поки нема за що.",
   "pos_why_invalid_amount": "Цю суму не можна використати: потрібна ціла сума, більша за нуль.",
