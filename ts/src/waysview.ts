@@ -323,7 +323,7 @@ export function waysAct(st: WaysState, act: string, random: (n: number) => numbe
   }
   if (area === "rc") {
     const rc = st.rc;
-    if (verb === "problem") { rc.problem = arg ?? null; rc.way = null; return {}; }
+    if (verb === "problem") { rc.problem = arg ?? null; rc.way = null; if (arg === "lost_phone") st.si.via = null; return {}; }
     if (verb === "ways") { rc.way = null; return {}; }
     if (verb === "way") { rc.way = arg ?? null; return {}; }
     if (verb === "lock" || verb === "lostlock") { rc.locked = true; return { event: "EverythingLocked" }; }
