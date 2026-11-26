@@ -338,7 +338,7 @@ class Account:
         ready = _now(now) + PAYOUT_WAIT_S
         s.db.execute("insert into acct_payout values(?,?,?,?,'waiting')", (i, person, org, ready)); s.db.commit()
         s.emit(person, "PayoutChangeRequested", {"lynkid": lid, "lynkoid": oid, "ready_at": ready}, now)
-        s.emit(person, "SecurityAlertSent", {"lynkid": lid, "kind": "payout_change", "channels": ["sms", "email", "push"]}, now)
+        s.emit(person, "SecurityAlertSent", {"lynkid": lid, "kind": "payout_change", "channels": ["push", "email"]}, now)
         return {"id": i, "status": "waiting", "ready_at": ready}
     def apply_payout_change(s, person, change_id, now=None):
         r = s.db.execute("select org,ready_at,status from acct_payout where id=? and person=?", (change_id, person)).fetchone()

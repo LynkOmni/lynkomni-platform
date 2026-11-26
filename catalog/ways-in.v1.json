@@ -618,5 +618,25 @@
       "landlord_verification": "requester"
     },
     "payers_note": "LynkOmni never pays for a check (owner, 2026-11-26). partner: the licensed partner of that service checks identity as part of its own legal duty, at its own cost, and LynkOmni only asks for its answer. requester: the employer, landlord or election organiser who asks for the check pays the network or identity partner, at that partner's price shown before they agree, or inside their plan. The person being checked never pays. Getting back into an account uses the free ways of the Can't sign in? hub, never a paid check."
+  },
+  "free_first": {
+    "rule": "LynkOmni uses the free ways the big platforms use: passkeys and security keys, approving on a signed-in device, QR sign-in, authenticator apps, backup and recovery codes, and codes by email. A text is used only where it is truly needed (owner, 2026-11-26).",
+    "free_ways": [
+      "passkey",
+      "security_key",
+      "other_device",
+      "qr_code",
+      "authenticator",
+      "backup_code",
+      "recovery_code",
+      "recovery_contacts",
+      "email_code"
+    ],
+    "text_only_when": {
+      "confirm_number": "Proving a phone number when it is added or changed (sign-up, a contact change): only a code sent to that number proves it.",
+      "recovery_email_and_phone": "The Can't sign in? way that needs codes to both the email and the phone, for someone who has lost every free way.",
+      "no_free_way": "A sign-in code for someone with no free way at all; every account has an email, so this is rare."
+    },
+    "basic_phones": "Basic phones use USSD menus with the account PIN; the network session itself shows the number, so no text code is needed."
   }
 }

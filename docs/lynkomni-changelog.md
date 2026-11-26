@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.124.0 (2026-11-26)
+Free ways first: LynkOmni's own messages and codes use what the big platforms use, and a text only where it is truly needed (owner).
+- LynkOmni's own messages (security, account, safety, support) go by the app's bell, phone notifications and email, which cost nothing per message. A text is only the last fallback for a high or critical security or safety alert that no free channel delivered (a basic phone with no app and no email, or a trusted contact without LynkOmni). LynkOmni never calls for its own messages, and an earlier text does not make it text again (catalog/messages.v1.json system.routing.own_messages, services/messages.py).
+- Sign-in offers a text code only to someone with no free way at all; passkeys, approving on a signed-in device, QR sign-in, authenticator apps, backup codes and email codes come first (catalog/ways-in.v1.json free_first, core/ways_in.py and ts/src/waysin.ts sign_in_ways).
+- The three places where a text stays, because nothing free can do the job: proving a new or changed phone number, the Can't sign in? way that needs codes to both email and phone, and the last-fallback alerts above. Basic phones use USSD menus with the account PIN, which needs no text.
+- Messages a business sends to its customers are unchanged: the business chooses and pays.
+- The cost line for LynkOmni's own texts falls to the exceptions (3% of accounts a month, an assumption): stage 1 expenses are now $36,595 a month (was $36,872).
+- tests/test_free_first.py keeps it so.
+
 ## v0.123.0 (2026-11-26)
 LynkOmni never pays an outside bill for anyone, only its own mandatory bills (owner).
 - Every one of the 79 partners in the ledger now names who pays its bill: the person or business that uses or asks for it (51), the licensed partner as part of its own business and licence (19), no charge (2), or LynkOmni itself only for its own running costs (7: hosting and delivery network, the relay, storage, rate and location data feeds, and its own sign-in and security codes). The ledger check refuses a partner without a payer, or a partner bill put on LynkOmni (providers/check.py payer_problems, tests/test_who_pays.py).

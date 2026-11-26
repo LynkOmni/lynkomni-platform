@@ -460,6 +460,12 @@
    "expect": [
     "backup_code"
    ]
+  },
+  {
+   "a": [
+    "text_code"
+   ],
+   "expect": []
   }
  ],
  "identifier": [
@@ -9215,6 +9221,12 @@
      "with": "staff_review"
     }
    ]
+  },
+  {
+   "a": [
+    "text_code"
+   ],
+   "expect": []
   }
  ],
  "restricted": [
@@ -9347,8 +9359,7 @@
     false
    ],
    "expect": [
-    "email_code",
-    "text_code"
+    "email_code"
    ]
   },
   {
@@ -9378,8 +9389,7 @@
     "security_key",
     "other_device",
     "qr_code",
-    "email_code",
-    "text_code"
+    "email_code"
    ]
   },
   {
@@ -9444,8 +9454,7 @@
     "security_key",
     "other_device",
     "qr_code",
-    "email_code",
-    "text_code"
+    "email_code"
    ]
   },
   {
@@ -9510,6 +9519,26 @@
      "id_check",
      "recovery_contacts",
      "backup_code"
+    ],
+    true
+   ],
+   "expect": []
+  },
+  {
+   "a": [
+    [
+     "text_code"
+    ],
+    false
+   ],
+   "expect": [
+    "text_code"
+   ]
+  },
+  {
+   "a": [
+    [
+     "text_code"
     ],
     true
    ],

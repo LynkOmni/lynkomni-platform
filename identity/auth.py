@@ -44,7 +44,7 @@ class Identity:
     def _lang(s, person): return s.db.execute("select lang from identities where person=?", (person,)).fetchone()[0]
     def _alert(s, person, key, extra=None):
         s.c.store.append("_identity", "server", "alert.sent", {"person": person, "key": key, "text": t(s._lang(person), key),
-                         "channels": ["sms", "email", "push"], **(extra or {})})
+                         "channels": ["push", "email"], **(extra or {})})
     # sessions bound to one site, and step-up
     def sign_in(s, person, site, now=None):
         if site not in SITES: raise ValueError("unknown site")
