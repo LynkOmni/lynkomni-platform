@@ -1,0 +1,67 @@
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { signUpHtml, signInHtml, recoverHtml, securityHtml, lostPhoneHtml, waysStart, waysAct, waysInput } from "../src/waysview.js";
+import type { WaysLook } from "../src/waysview.js";
+
+let seed = 1;
+const rnd = (n: number): number => { seed = (seed * 1103515245 + 12345) % 2147483648; return Math.floor((seed / 2147483648) * n); };
+const look: WaysLook = { t: (k) => k, icon: () => "", when: (s) => String(s), num: (n) => String(n), btn: { primary: "p", secondary: "s" },
+  phoneField: (id) => `<phone id="${id}">`, emailField: (id) => `<email id="${id}">`, codeField: (id) => `<code id="${id}">` };
+
+test("sign-up goes through the ten steps in order, online only, with both codes", () => {
+  const st = waysStart(0, rnd);
+  st.online = false;
+  assert.ok(/wy_offline_signup/.test(signUpHtml(look, st)));
+  st.online = true;
+  assert.ok(/wy_step_country/.test(signUpHtml(look, st)));
+  waysAct(st, "wy:su:next:country", rnd);
+  waysAct(st, "wy:su:next:username", rnd);
+  assert.deepEqual(st.su.done, ["country"], "a username in the right form first");
+  waysInput(st, "wy:username", "@Grace.K", false); waysAct(st, "wy:su:next:username", rnd);
+  waysAct(st, "wy:su:next:age", rnd);
+  assert.deepEqual(st.su.done, ["country", "username"], "the age must be confirmed first");
+  waysInput(st, "wy:adult", "", true); waysAct(st, "wy:su:next:age", rnd);
+  waysInput(st, "wy:legal", "R2D2", false); waysAct(st, "wy:su:next:legal_name", rnd);
+  assert.ok(/wy_legal_no_digits/.test(signUpHtml(look, st)));
+  waysInput(st, "wy:legal", "Grace Uwase", false); waysAct(st, "wy:su:next:legal_name", rnd);
+  assert.ok(/<email id="wyEmail">/.test(signUpHtml(look, st)));
+  for (const s of ["email", "email_code", "phone", "phone_code", "passkey"]) waysAct(st, `wy:su:next:${s}`, rnd);
+  const rec = signUpHtml(look, st);
+  assert.equal((rec.match(/<li>/g) ?? []).length, 10, "ten backup codes, shown once");
+  assert.equal(waysAct(st, "wy:su:next:recovery", rnd).event, "AccountCreated");
+});
+
+test("sign-in offers the person's ways strongest first and an extra check when unusual", () => {
+  const st = waysStart(0, rnd);
+  waysAct(st, "wy:si:who", rnd);
+  const html = signInHtml(look, st);
+  assert.ok(html.indexOf("wy_way_passkey") < html.indexOf("wy_way_email_code"));
+  st.si.unusual = ["new_country"];
+  waysAct(st, "wy:si:way:passkey", rnd);
+  assert.equal(st.si.step, "extra");
+  assert.ok(/wy_unusual_new_country/.test(signInHtml(look, st)));
+});
+
+test("the hub shows never-allowed ways, locks first when someone else is in, and waits", () => {
+  const st = waysStart(1000, rnd);
+  assert.ok(/wy_never_password/.test(recoverHtml(look, st)));
+  waysAct(st, "wy:rc:problem:someone_else", rnd);
+  assert.ok(/wy_lock_first/.test(recoverHtml(look, st)));
+  waysAct(st, "wy:rc:lock", rnd);
+  assert.ok(/wy_way_backup_code/.test(recoverHtml(look, st)));
+  assert.equal(waysAct(st, "wy:rc:start:email_and_phone", rnd).event, "RecoveryStarted");
+  assert.ok(/wy_waiting/.test(recoverHtml(look, st)));
+  assert.equal(waysAct(st, "wy:rc:cancel", rnd).event, "RecoveryCancelled");
+  assert.ok(/wy_lost_done/.test(lostPhoneHtml(look, st)));
+});
+
+test("the security page lists what is missing and each part works", () => {
+  const st = waysStart(0, rnd);
+  assert.ok(/wy_check_recovery_contacts/.test(securityHtml(look, st)));
+  waysAct(st, "wy:sec:fix:recovery_contacts", rnd);
+  assert.equal(st.sec.contacts.length, 3);
+  waysAct(st, "wy:sec:authsetup", rnd);
+  assert.ok(/wyAuthCode/.test(securityHtml(look, st)));
+  waysInput(st, "wy:word", "ab", false);
+  assert.ok(/wy_word_too_short/.test(securityHtml(look, st)));
+});

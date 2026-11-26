@@ -305,7 +305,7 @@ class ShellLayout(DarkPass, unittest.TestCase):
 
 @unittest.skipUnless(sync_playwright and os.path.isfile(ACCOUNT), "Playwright with Chromium is needed")
 class AccountLayout(DarkPass, unittest.TestCase):
-    """LynkOmni Account (build section 2): sign-in, the four sign-up steps, the three recovery paths, every account page, the
+    """LynkOmni Account (build section 2): sign-in, the ten sign-up steps, the Can't sign in? hub, every account page, the
     step-up sheet and the shell's overlays, at computer, tablet and phone size, in every language."""
     PAGES = ["overview", "profile", "security", "businesses", "orders", "transactions", "wallet", "billing", "memberships", "privacy", "notifications", "messages", "support", "assist", "payslips", "payments", "start"]
 
@@ -317,17 +317,30 @@ class AccountLayout(DarkPass, unittest.TestCase):
                 found[name] = p
         for st in ["signin"] + self.PAGES:
             pg.click(f'#stateButtons button[data-state="{st}"]'); check(st)
-        pg.click('#stateButtons button[data-state="signup"]'); check("signup username")
-        pg.fill("#usernameIn", "grace.k"); check("signup username, age not confirmed"); pg.check("#adultIn"); pg.click('[data-act="signup:username"]'); check("signup contact")
-        pg.click('[data-act="signup:contact"]'); check("signup passkey")
-        pg.click('[data-act="signup:passkey"]'); check("signup recovery code")
-        pg.click('[data-act="signup:code"]'); check("signup done")
-        for answers, name in ((["device:yes"], "recover device"), (["device:no", "code:yes"], "recover code"), (["device:no", "code:no"], "recover assisted")):
-            pg.click('#stateButtons button[data-state="recover"]'); check("recover question")
-            for a in answers:
-                pg.click(f'[data-act="recover:{a}"]')
-            check(name)
-            pg.click('[data-act^="recover:start:"]'); check(name + " started")
+        # section 4C points 3 and 5: the shared sign-up, sign-in and Can't sign in? part (ts/src/waysview.ts)
+        pg.click('#stateButtons button[data-state="signup"]'); check("signup country")
+        pg.click('[data-act="wy:su:next:country"]'); check("signup username")
+        pg.fill("#wyUser", "..bad"); check("signup username error"); pg.fill("#wyUser", "grace.k"); pg.click('[data-act="wy:su:next:username"]')
+        check("signup age"); pg.check('[data-in="wy:adult"]'); pg.click('[data-act="wy:su:next:age"]'); check("signup legal name")
+        pg.fill("#wyLegal", "R2D2"); pg.click('[data-act="wy:su:next:legal_name"]'); check("signup legal name error")
+        pg.fill("#wyLegal", "Grace Uwase"); pg.click('[data-act="wy:su:next:legal_name"]'); check("signup email")
+        for stp in ("email", "email_code", "phone", "phone_code"):
+            pg.evaluate("s => document.querySelector(`[data-act=\"wy:su:next:${s}\"]`).removeAttribute('disabled')", stp)
+            pg.click(f'[data-act="wy:su:next:{stp}"]'); check(f"signup after {stp}")
+        pg.click('[data-act="wy:su:next:passkey"]'); check("signup recovery codes")
+        pg.click('[data-act="wy:su:next:recovery"]'); check("signup done")
+        pg.click('#stateButtons button[data-state="signin"]'); pg.click('[data-act="wy:si:who"]'); check("signin ways")
+        pg.click('[data-act="wy:si:way:qr_code"]'); check("signin qr")
+        for problem in ("lost_phone", "someone_else"):
+            pg.click('#stateButtons button[data-state="recover"]'); check("recover problems")
+            pg.click(f'[data-act="wy:rc:problem:{problem}"]'); check(f"recover {problem}")
+        pg.click('[data-act="wy:rc:lock"]'); check("recover locked, ways")
+        pg.click('[data-act="wy:rc:way:email_and_phone"]'); check("recover email and phone")
+        pg.click('[data-act="wy:rc:start:email_and_phone"]'); check("recover waiting")
+        pg.click('[data-act="wy:rc:cancel"]'); check("recover stopped")
+        pg.click('#stateButtons button[data-state="security"]')
+        for a in ("sec:fix:recovery_contacts", "sec:codes", "sec:authsetup"):
+            pg.click(f'[data-act="wy:{a}"]'); check(a)
         pg.click('#stateButtons button[data-state="storefront"]'); check("my storefront"); pg.click('[data-act="idcheck:start"]'); check("identity sent")
         pg.click('#stateButtons button[data-state="support"]'); pg.click('[data-act="support:external"]'); check("seller support case")
         pg.click('#stateButtons button[data-state="security"]')
@@ -345,7 +358,7 @@ class AccountLayout(DarkPass, unittest.TestCase):
         pg.click('#stateButtons button[data-state="notifications"]'); pg.click('[data-act="nset:deputy"]'); pg.click('[data-act="nset:remind"]'); pg.click('[data-act="nset:test"]'); check("notification settings in use")
         pg.click('#stateButtons button[data-state="assist"]'); pg.click('[data-act="assistc:lock_everything"]'); check("assist card")
         pg.click('#display [data-act="assist:check"]'); pg.click('[data-act="stepup:ok"]'); pg.click('#display [data-act="assist:confirm"]'); check("assist receipt")
-        pg.click('#stateButtons button[data-state="signin"]'); pg.click('[data-act="signin:other"]'); pg.click('#stateButtons button[data-state="security"]'); check("cool-off")
+        pg.click('#stateButtons button[data-state="signin"]'); pg.click('[data-act="wy:si:who"]'); pg.click('[data-act="wy:si:way:text_code"]'); check("signin extra check"); pg.click('[data-act="wy:si:extra"]'); pg.click('#stateButtons button[data-state="security"]'); check("cool-off")
         pg.click('#stateButtons button[data-state="overview"]')
         for ov in ("launcher", "account", "globe", "search", "help", "bell", "sync"):
             if pg.locator(f'[data-act="shell:{ov}"]').count() == 0:

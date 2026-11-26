@@ -12,6 +12,9 @@ import type { SharedLook, SharedPage, ConsentLink } from "../../../ts/src/shared
 import { hintFor } from "../../../ts/src/hints.js";
 import { phoneFieldHtml, wireFields, countryNamer, phoneValue, phoneDisplay, type FieldCtx } from "../../../ts/src/fields.js";
 import { codeFieldHtml, resendWait, asciiDigits } from "../../../ts/src/codefield.js";
+import { signUpHtml, recoverHtml, lostPhoneHtml, waysStart, waysAct, waysInput } from "../../../ts/src/waysview.js";
+import type { WaysLook } from "../../../ts/src/waysview.js";
+import { emailFieldHtml } from "../../../ts/src/emailfield.js";
 import { noticeHtml, wireNotices } from "../../../ts/src/errorbox.js";
 import { Cart, PosError, change, formatMoney, paymentPayload, paymentState, qtyText, quickCash, salePayload } from "../../../ts/src/pos.js";
 import type { PaymentMethod, PaymentPayload, PaymentStatus, Product, SalePayload, UserState } from "../../../ts/src/pos.js";
@@ -178,7 +181,7 @@ const SAVED_REPLIES = ["reply_open", "reply_kept", "reply_thanks"];
 const TIERS = ["free", "plus", "pro", "max"] as const;
 
 const S = {
-  screen: "phone" as "phone" | "code" | "enrol" | "choose" | "locale" | "setup" | "app", tab: "home" as Tab, view: "main" as View, sheet: false,
+  screen: "phone" as "phone" | "code" | "signup" | "recover" | "enrol" | "choose" | "locale" | "setup" | "app", tab: "home" as Tab, view: "main" as View, sheet: false,
   size: "phone" as "phone" | "side" | "tablet" | "web", tier: "free" as (typeof TIERS)[number],
   btype: "shop" as BusinessType, business: 0, setupDone: new Set<string>(), setupSkipped: new Set<string>(), shopName: "", firstWay: "",
   svc: "bills" as string, partner: PARTNERS[0]?.id ?? "", number: "", amount: "", reqs: [] as AgentReq[], req: "", cashIn: 150_000, usedToday: 0, outlet: "all", outletList: ["Main outlet", "Market outlet"], cashChecks: new Set<string>(),
@@ -1705,14 +1708,40 @@ function kitchenTab(): string {
   return `${topBar(t("tab_kitchen"))}<div class="body"><ul class="list card">${q.map(({ x, l }) => `<li><div class="rowbtn static"><span class="main"><span class="nm">${esc(t("table", { label: x.label }))} · ${esc(item(l.product)?.name ?? "")}</span><span class="sub">${esc(clock(l.at))}</span></span><button class="ghost small" data-act="ready:${x.id}:${l.no}">${esc(t("ready"))}</button></div></li>`).join("") || `<li><p class="info">${esc(t("all_ready"))}</p></li>`}</ul></div>`;
 }
 
+// ---- sign-up, sign-in and Can't sign in? come from the shared part ts/src/waysview.ts (section 4C points 3 and 5) -----------
+let WY_SEED = 20261126;
+/** Sample codes only (labelled Sample): a fixed, seeded sequence; real codes come only from the cloud (identity/ways_in.py). */
+const wySample = (k: number): number => { WY_SEED = (WY_SEED * 1103515245 + 12345) % 2147483648; return Math.floor((WY_SEED / 2147483648) * k); };
+const WY = waysStart(Math.floor(Date.now() / 1000), wySample);
+const WY_TYPED: Record<string, string> = {};
+const wyLook = (): WaysLook => ({ t, icon: (id) => icon(id), when: (s0) => clock(s0 * 1000), num: (n) => String(n), btn: { primary: "primary", secondary: "ghost" },
+  phoneField: (id, label) => phoneField(id, label, WY_TYPED[id] ?? ""),
+  emailField: (id, label) => emailFieldHtml({ t }, { id, label, text: WY_TYPED[id] ?? "" }),
+  codeField: (id, label) => codeFieldHtml(fieldCtx(), { id, label, value: WY_TYPED[id] ?? "" }) });
+const wySync = (): typeof WY => { WY.now = Math.floor(Date.now() / 1000); WY.online = online(); return WY; };
+function wyAct(a: string): void {
+  const r = waysAct(WY, a, wySample);
+  if (r.go === "signup" || r.go === "recover") { S.screen = r.go; if (r.go === "signup") WY.su.done = []; }
+  if (r.go === "signin") S.screen = "phone";
+  // account events are written by the cloud only (identity/events.v1.json), so the log shows them as the cloud's
+  if (r.event === "SessionStarted" || r.event === "AccountCreated") { emit(r.event, { site: "merchant" }, "server"); S.screen = "choose"; }
+  else if (r.event) emit(r.event, {}, "server");
+  draw();
+}
+
 // ---- getting in (41 E): sign in, choose the business, register this device, the language and region card, setup, first sale --
 function signin(): string {
   const mark = brandMark(DATA.brand.places, "auth-onboarding", S.theme === "dark", "mark");   // sign-in and onboarding: the full logo (30)
   if (S.screen === "phone") {
+    // section 4C point 3: a passkey first, then a code to the phone; Create an account and Can't sign in? (never Forgot password)
     return `<div class="signin" data-gi="sign_in">${mark}<h1>${esc(t("welcome"))}</h1><p>${esc(t("works_anywhere"))}</p>
+      <button class="primary" data-act="wy:si:way:passkey">${icon("ui-lock")}<span>${esc(t("wy_way_passkey"))}</span></button>
       ${phoneField("phoneIn", t("your_phone"), S.phone)}
-      ${mpNote()}<div class="grow"></div><button class="primary" data-act="sendcode" data-wait data-needs-phone="phoneIn" ${phoneOk("phoneIn") ? "" : "disabled"}>${esc(t("send_code"))}</button></div>`;
+      ${mpNote()}<div class="grow"></div><button class="ghost" data-act="sendcode" data-wait data-needs-phone="phoneIn" ${phoneOk("phoneIn") ? "" : "disabled"}>${esc(t("send_code"))}</button>
+      <div class="wy-links"><button class="linkbtn" data-act="wy:go:signup">${esc(t("wy_create"))}</button><button class="linkbtn" data-act="wy:go:recover">${esc(t("wy_cant_sign_in"))}</button></div></div>`;
   }
+  if (S.screen === "signup") return `<div class="signin" data-gi="sign_up">${mark}${signUpHtml(wyLook(), wySync())}</div>`;
+  if (S.screen === "recover") return `<div class="signin" data-gi="recover">${mark}<div class="wy-stack">${recoverHtml(wyLook(), wySync())}${WY.rc.problem === "lost_phone" ? lostPhoneHtml(wyLook(), WY) : ""}</div></div>`;
   if (S.screen === "code") {
     return `<div class="signin" data-gi="sign_in">${mark}<h1>${esc(t("verify"))}</h1><p dir="auto">${esc(t("enter_code", { phone: phoneDisplay(fieldCtx(), cc("phoneIn"), S.phone) }))}</p>
       ${codeFieldHtml(fieldCtx(), { id: "codeIn", label: t("verify"), value: S.code, act: "code", resendAct: "resendcode", sent: S.codeSent })}
@@ -1854,7 +1883,7 @@ function drawScreen(): void {
   $("#app").innerHTML = view();
   if (focus && (focus.id || focus.key)) { const el = (focus.id ? document.getElementById(focus.id) : d.querySelector(`[data-in="${CSS.escape(focus.key)}"]`)) as HTMLInputElement | HTMLTextAreaElement | null; if (el && "setSelectionRange" in el) { el.focus(); if (focus.at !== null) el.setSelectionRange(focus.at, focus.at); } }
   drawStatus();
-  const a = document.getElementById("address"); if (a) a.textContent = S.screen === "app" ? address() : "account.lynkomni.com/sign-in";
+  const a = document.getElementById("address"); if (a) a.textContent = S.screen === "app" ? address() : S.screen === "signup" ? "account.lynkomni.com/sign-up" : S.screen === "recover" ? "account.lynkomni.com/recover" : "account.lynkomni.com/sign-in";
 }
 function drawStatus(): void {
   const bars = S.link === "good" ? 4 : S.link === "weak" ? 1 : 0;
@@ -1905,6 +1934,7 @@ function act(a: string): void {
   if (k === "of" && OV.act(a)) { if (a.startsWith("of:go:")) { OFP = a.slice(6); OV.reset(); } draw(); return; }
   if (namesAct(a, "nmc", "device")) { draw(); return; }   // the owner's choice of how names show on this device
   if (welcomeAct(a, "nmw")) { draw(); return; }           // the first-time welcome card closed: never again on this device
+  if (k === "wy") { wyAct(a); return; }
   if (a === "qc") { S.qc = true; draw(); return; }
   if (a === "qcclose") { S.qc = false; draw(); return; }
   if (k === "qc") { openQuickCreate(v); return; }
@@ -2088,6 +2118,7 @@ function keepOf(id: string): void { if (!id) return; const el = document.getElem
 function onInput(el: HTMLInputElement): void {
   const k = el.dataset["in"] ?? "", digits = (n: number): string => asciiDigits(el.value).replace(/[^0-9]/g, "").slice(0, n);
   if (k === "la:remember") { LA.draft = el.value.slice(0, 200); return; }
+  if (k.startsWith("wy:")) { waysInput(WY, k, el.value, el.checked); if (el.type === "checkbox") draw(); return; }
   if (el.id === "ofSearch") { OV.search(el.value); draw(); keepOf(el.id); return; }
   if (k.startsWith("of:")) { if (el.tagName !== "SELECT" && OV.input(k, el.value)) { draw(); keepOf(el.id); } return; }
   if (k.startsWith("shv:")) { if (el.tagName !== "SELECT" && sharedInput(SHV, k, el.value)) draw(); return; }   // the message pages (CONNECT UPDATE 71.7)
@@ -2127,6 +2158,7 @@ function onChange(el: HTMLInputElement & HTMLSelectElement): void {
   const k = el.dataset["in"] ?? "";
   if ((el.dataset["act"] ?? "") === "ppl:checker") { PH.pickChecker(el.value); draw(); return; }
   if (k === "la:brief") { AX.brief = (el as HTMLInputElement).checked; draw(); return; }
+  if (k.startsWith("wy:")) { waysInput(WY, k, el.value, (el as HTMLInputElement).checked); draw(); return; }
   if (k.startsWith("shv:")) { if (el.tagName === "SELECT" && sharedInput(SHV, k, el.value)) draw(); return; }
   if (k.startsWith("of:")) { if (el.tagName === "SELECT" && OV.input(k, el.value)) draw(); return; }
   if (k.startsWith("wk:")) { if (el.tagName === "SELECT" && WV.input(k, el.value)) draw(); return; }

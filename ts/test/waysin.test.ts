@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import {
-  signUpNext, mayStartSignUp, legalNameProblem, basicPhoneAllows, identifierKind, signInWays, extraChecks, codeValid, offlineSignIn,
+  signUpNext, mayStartSignUp, legalNameProblem, basicPhoneAllows, identifierKind, signInWays, extraChecks, sentCodeValid, offlineSignIn,
   unusual, countryAllowed, oldDevice, sessionHours, antiPhishingProblem, backupCodesLeftNote, checkup, recoveryWays, neverAllowed,
   restrictedAfterRecovery, contactsConfirmed, contactsProblem, toStrongest, mayReset,
 } from "../src/waysin.js";
@@ -18,7 +18,7 @@ test("sign-up, sign-in, protections, recovery and resets agree with the Python r
   for (const c of V.identifier) assert.equal(identifierKind(c.a), c.expect, c.a);
   for (const c of V.sign_in_ways) assert.deepEqual(signInWays(c.a[0], c.a[1]), c.expect, JSON.stringify(c.a));
   for (const c of V.extra) assert.deepEqual(extraChecks(c.a), c.expect, JSON.stringify(c.a));
-  for (const c of V.code_valid) assert.equal(codeValid(c.a[0], c.a[1], c.a[2], c.a[3]), c.expect, JSON.stringify(c.a));
+  for (const c of V.code_valid) assert.equal(sentCodeValid(c.a[0], c.a[1], c.a[2], c.a[3]), c.expect, JSON.stringify(c.a));
   for (const c of V.offline) assert.deepEqual(offlineSignIn(c.a[0], c.a[1], c.a[2]), c.expect, JSON.stringify(c.a));
   for (const c of V.unusual) assert.deepEqual(unusual(c.a[0], c.a[1], c.a[2]), c.expect, JSON.stringify(c.a));
   for (const c of V.country) assert.equal(countryAllowed(c.a[0], c.a[1]), c.expect, JSON.stringify(c.a));

@@ -10,7 +10,7 @@ from core import ways_in as WI
 from core.secrethash import code_hash, code_matches
 
 DAY, HOUR = 86400, 3600
-CODE_ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ"      # no 0, O, 1 or I: easy to read from paper
+CODE_ALPHABET = WI.W["backup_codes"]["alphabet"]           # no 0, O, 1 or I: easy to read from paper
 
 
 def _now(n):

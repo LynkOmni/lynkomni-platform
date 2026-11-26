@@ -2,6 +2,17 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.120.0 (2026-11-26)
+Section 4C step 3b: sign-up, sign-in, Can't sign in? and the security page on screen.
+- One shared part draws them all (ts/src/waysview.ts, words in web/waysin in 38 languages, styles web/shell/waysin.css), on the rules of ts/src/waysin.ts, with the shared phone, email and code fields and the shared error part.
+- Sign-up shows its ten steps with a step bar: country, username, age, legal name (an error with its fix when it has numbers or is too short), email and its code, phone and its code, passkey, then the recovery code and ten backup codes shown once with Download, Print and Copy. Without internet it says to connect and keeps what was typed; too many new accounts from one place in an hour asks to try again later.
+- Sign-in has one box for username, email or phone, then the person's own ways strongest first (passkey, security key, another device, QR code, then codes), Remember this device, and one more check for a new or unusual sign-in. The link under it says Can't sign in?, never Forgot password.
+- The Can't sign in? hub asks what's wrong, then shows only the ways back in the person has with their waits; Someone else is in my account locks everything first; the I lost my phone page locks without signing in; a waiting recovery can be stopped from an old device; after a recovery the 24 restricted hours show, with the checkup. What LynkOmni never asks for is listed on the page.
+- The security page starts with the checkup (each missing item with Fix), then backup codes, authenticator app, security keys, recovery contacts, the anti-phishing word, the country lock, strongest protection, devices (old ones, app lock and privacy screen), the security activity with This wasn't me, and organisation rules.
+- The account site uses it (sign-in, sign-up, Can't sign in?, Security), and so does the Business app: its sign-in offers a passkey first, then a code to the phone, with Create an account and Can't sign in? opening the same shared screens. Sign-up's username step checks the username's form as it is typed.
+- Basic phones get Reset my PIN in the help menu: a code to the phone and a new PIN after 24 hours (other devices can stop it), or at once at a shop or agent point after the ID check. A new basic-phone account is told how to lift its limits.
+- Faster first tap: the site footer (about half of a page's parts) is laid out only when it comes near the screen, so opening Security on the account site is back within its 120 ms budget on a slow processor (the budget is unchanged).
+
 ## v0.119.1 (2026-11-26)
 PIN pads stop at the PIN's length and always fit their screen.
 - Every PIN pad (the shared staff lock on the POS terminal, Business app, stock scanner, rider phone and kitchen screen, the betting counter, the counter tablet and the account sign-in demo) now shows exactly as many dots as the person's PIN has digits, takes no digit more, and checks the PIN by itself as soon as it is full. Before, the shared pad took up to 8 digits and drew a new dot with every press.

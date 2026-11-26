@@ -1,0 +1,32 @@
+/* Sign-up, sign-in, Can't sign in? and the security page (ts/src/waysview.ts, section 4C points 3 and 5). Design tokens only;
+   logical properties so right-to-left mirrors; text wraps in every language; corners from the token shapes. */
+.wy { display: flex; flex-direction: column; gap: 12px; min-width: 0; max-inline-size: 640px; }
+.wy h1 { margin: 0; font: 600 22px var(--font-heading); overflow-wrap: anywhere; }
+.wy h2 { margin: 0; font: 600 17px var(--font-heading); overflow-wrap: anywhere; }
+.wy-note, .wy-sub { margin: 0; color: var(--text-secondary); overflow-wrap: anywhere; }
+.wy-sub { font-size: 13px; }
+.wy-bar { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
+.wy-bar li { flex: 1 1 0; block-size: 4px; border-radius: var(--radius-pill); background: var(--border-subtle); }
+.wy-bar li.on { background: var(--brand-ink); }
+.wy-field { display: flex; flex-direction: column; gap: 4px; font: 600 13px var(--font-body); color: var(--text-secondary); }
+.wy-field input { box-sizing: border-box; min-block-size: 48px; max-inline-size: 100%; border-radius: var(--radius-control); }
+.wy-check { display: flex; align-items: center; gap: 8px; min-block-size: 44px; overflow-wrap: anywhere; }
+.wy-check input { inline-size: 20px; block-size: 20px; flex: none; margin: 0; }
+.wy-ways, .wy-btns, .wy-links { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.wy-ways > button, .wy-btns > button, .wy-links > button, .wy > button { white-space: normal; overflow-wrap: anywhere; max-inline-size: 100%; }
+.wy-codes { display: flex; flex-direction: column; gap: 6px; padding: 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-card); background: var(--bg-surface); }
+.wy-code { margin: 0; font: 600 17px var(--font-mono, monospace); letter-spacing: 0.04em; direction: ltr; unicode-bidi: isolate; text-align: start; overflow-wrap: anywhere; }
+.wy-list { margin: 0; padding-inline-start: 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 2px 16px; }
+ol.wy-list[dir="ltr"] { font-family: var(--font-mono, monospace); }
+.wy-sample { font-weight: 600; font-size: 13px; color: var(--text-secondary); }
+.wy-qr { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.wy-qrbox { inline-size: 120px; block-size: 120px; display: grid; place-items: center; border: 1px solid var(--border-input); border-radius: var(--radius-card); color: var(--text-primary); }
+.wy-qrbox .ic, .wy-qrbox svg { inline-size: 72px; block-size: 72px; }
+.wy-rows { list-style: none; margin: 0; padding: 0; }
+.wy-rows li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding-block: 10px; border-block-end: 1px solid var(--border-subtle); }
+.wy-main { display: flex; flex-direction: column; gap: 2px; flex: 1 1 200px; min-width: 0; }
+.wy-nm { font-weight: 600; overflow-wrap: anywhere; }
+.wy-card { display: flex; flex-direction: column; gap: 8px; padding: 16px; border: 1px solid var(--border-subtle); border-radius: var(--radius-card); background: var(--bg-surface); }
+.wy-sec { max-inline-size: none; margin-block-end: 16px; }
+.wy-never ul { margin: 4px 0 0; padding-inline-start: 20px; color: var(--text-secondary); font-size: 13px; }
+.wy-stack { display: flex; flex-direction: column; gap: 24px; }

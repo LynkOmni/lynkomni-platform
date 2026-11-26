@@ -53,7 +53,7 @@ export function signInWays(has: readonly string[], strongest = false): string[] 
 /** The extra checks a person has turned on, strongest first. */
 export const extraChecks = (has: readonly string[]): string[] => WI_WAYS.filter((w) => w.kind === "extra" && has.includes(w.id)).sort(byStrength).map((w) => w.id);
 /** A code lasts 5 minutes and only works on the device that asked for it. */
-export function codeValid(sentAt: number, now: number, askingDevice: string, device: string): boolean {
+export function sentCodeValid(sentAt: number, now: number, askingDevice: string, device: string): boolean {
   const c = WAYS_IN.sign_in.codes;
   return now - sentAt <= c.lifetime_s && (!c.only_asking_device || askingDevice === device);
 }

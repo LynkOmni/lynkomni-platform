@@ -23,10 +23,10 @@ Rules:
 from identity.offline import pin_problem
 
 SCREENS = ("welcome", "pin", "locked", "age", "too_young", "username", "new_pin", "pin_again", "terms", "created", "home",
-           "messages", "read", "help", "states", "state", "pin_help", "link_sent", "handed", "bye")
+           "messages", "read", "help", "states", "state", "pin_help", "pin_reset", "pin_reset_sent", "pin_reset_shop", "link_sent", "handed", "bye")
 WELCOME = ("sign_in", "create", "help")
 HOME = ("messages", "help")
-HELP = ("states", "pin_help", "link", "person")
+HELP = ("states", "pin_help", "pin_reset", "link", "person")       # section 4C point 5: Reset my PIN by menu number
 STATES = ("queued", "sent", "accepted", "confirmed", "failed")
 MAX_LINES = 5                                   # messages listed on one page (a USSD screen holds about 182 characters)
 
@@ -61,7 +61,7 @@ def page(state, ctx):
     if s == "terms":
         return [("bp_terms", {}), ("bp_agree", {"n": 1})] + back
     if s == "created":
-        return [("bp_created", {"username": state["username"]}), ("bp_recovery", {"code": ctx.get("recovery", "")})]
+        return [("bp_created", {"username": state["username"]}), ("bp_recovery", {"code": ctx.get("recovery", "")}), ("bp_limits", {})]
     if s == "home":
         return [("bp_home", {}), ("bp_messages", {"n": 1, "count": len(ctx["lines"])}), ("bp_help", {"n": 2}), ("ch_end", {"n": 0})]
     if s == "messages":
@@ -77,6 +77,12 @@ def page(state, ctx):
         return [(f"kp_state_{STATES[state['pick']]}", {})] + back
     if s == "pin_help":
         return [("bp_pin_help", {})] + back
+    if s == "pin_reset":                                       # by menu: a code to this phone, then 24 hours; or at once in person
+        return [("bp_pin_reset", {}), ("bp_pin_reset_menu", {"n": 1}), ("bp_pin_reset_shop", {"n": 2})] + back
+    if s == "pin_reset_sent":
+        return [("bp_pin_reset_sent", {})]
+    if s == "pin_reset_shop":
+        return [("bp_pin_reset_at_shop", {})]
     if s == "link_sent":
         return [("bp_link_sent", {})]
     if s == "handed":
@@ -93,7 +99,7 @@ def _to(s, screen, note=None):
 def step(state, text, ctx):
     """One reply. Returns (state, ends, action or None). Actions: {"sign_in": True}, {"wrong_pin": n_left},
     {"create": {"username", "pin"}} (the cloud hashes the PIN and never stores it), {"read": nid}, {"send_link": "help"},
-    {"hand_over": "help"}. ctx: pin_check(pin) -> "ok" | "duress" | ("wrong", left) | "locked"; username_check(u) -> None or a reason
+    {"hand_over": "help"}, {"pin_reset": "menu"} (identity/recover.py basic_pin_reset: a code to the phone, then 24 hours). ctx: pin_check(pin) -> "ok" | "duress" | ("wrong", left) | "locked"; username_check(u) -> None or a reason
     word key; taken(u) -> bool."""
     s, t = dict(state), (text or "").strip()
     scr = s["screen"]
@@ -163,6 +169,7 @@ def step(state, text, ctx):
         pick = HELP[int(t) - 1] if num and 1 <= int(t) <= len(HELP) else None
         if pick == "states": return _to(s, "states"), False, None
         if pick == "pin_help": return _to(s, "pin_help"), False, None
+        if pick == "pin_reset": return _to(s, "pin_reset"), False, None
         if pick == "link": return _to(s, "link_sent"), True, {"send_link": "help"}
         if pick == "person": return _to(s, "handed"), True, {"hand_over": "help"}
         return s, False, None
@@ -171,6 +178,11 @@ def step(state, text, ctx):
         if num and 1 <= int(t) <= len(STATES):
             s["pick"] = int(t) - 1
             return _to(s, "state"), False, None
+        return s, False, None
+    if scr == "pin_reset":
+        if t == "0": return _to(s, "help"), False, None
+        if t == "1": return _to(s, "pin_reset_sent"), True, {"pin_reset": "menu"}
+        if t == "2": return _to(s, "pin_reset_shop"), True, None
         return s, False, None
     if scr in ("state", "pin_help"):
         return (_to(s, "states" if scr == "state" else "help"), False, None) if t == "0" else (s, False, None)
