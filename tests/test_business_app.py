@@ -2,6 +2,7 @@
 screen with what it must hold and its address. The merchant phone emulator must show each screen, with each item, at its
 address, for the business types that have it, with no script error. Needs Playwright with Chromium (CI's layout job)."""
 import json, os, unittest
+from tests.phone_sample import fill_phone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PHONE = os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-merchant-phone.html")
@@ -66,7 +67,7 @@ class Screens(unittest.TestCase):
             pg.on("pageerror", lambda e: errors.append(str(e)))
             pg.goto("file://" + PHONE); pg.wait_for_selector("html[data-ready]")
             seen = [pg.get_attribute("[data-gi]", "data-gi")]
-            pg.fill("#phoneIn", "0788123456"); pg.click('[data-act="sendcode"]')
+            fill_phone(pg, "#phoneIn"); pg.click('[data-act="sendcode"]')
             pg.fill("#codeIn", "123456"); pg.click('[data-act="verify"]'); seen.append(pg.get_attribute("[data-gi]", "data-gi"))
             pg.click('[data-act="business:0"]'); pg.wait_for_selector('[data-act="start"]'); seen.append(pg.get_attribute("[data-gi]", "data-gi"))
             pg.click('[data-act="start"]'); seen.append(pg.get_attribute("[data-gi]", "data-gi"))
@@ -210,7 +211,7 @@ class Screens(unittest.TestCase):
             pg.goto("file://" + PHONE); pg.wait_for_selector("html[data-ready]")
             pg.select_option("#cType", "agent_point"); pg.select_option("#cOutcome", "silent"); pg.evaluate("__go('home')")
             pg.click('[data-act="tab:services"]'); pg.click('[data-act="svc:cash_withdrawal"]')
-            pg.fill("#anumIn", "0788123456"); pg.fill("#aamtIn", "500"); pg.click('[data-act="agentsend"]')
+            fill_phone(pg, "#anumIn"); pg.fill("#aamtIn", "500"); pg.click('[data-act="agentsend"]')
             pg.wait_for_timeout(800)
             self.assertTrue(pg.is_disabled('[data-act="handcash"]'))
             self.assertEqual(pg.locator('[data-item="one_receipt"]').count(), 1)

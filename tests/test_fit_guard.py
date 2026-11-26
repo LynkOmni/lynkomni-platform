@@ -15,6 +15,7 @@ import glob, os, unittest
 
 from tests.staff_pin import sign_in
 from core import names as _names
+from tests.phone_sample import fill_phone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIST = os.path.join(ROOT, "web", "emulators", "dist")
@@ -528,7 +529,7 @@ class FitGuard(unittest.TestCase):
             b = p.chromium.launch()
             pg = b.new_page(viewport={"width": 1500, "height": 1100}, reduced_motion="reduce")
             pg.goto("file://" + os.path.join(DIST, "lynkomni-merchant-phone.html"))
-            pg.fill("#phoneIn", "0788123456"); pg.click('[data-act="sendcode"]')
+            fill_phone(pg, "#phoneIn"); pg.click('[data-act="sendcode"]')
             pg.fill("#codeIn", "123456"); pg.click('[data-act="verify"]')
             pg.click('[data-act="business:0"]'); pg.wait_for_selector('[data-act="start"]'); pg.click('[data-act="start"]')
             self.check(pg, "language and region card", found)

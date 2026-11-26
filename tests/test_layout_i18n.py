@@ -7,6 +7,7 @@ import json
 from tests.staff_pin import sign_in
 import re, os, unittest
 from services import translation
+from tests.phone_sample import fill_phone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ALL_LANGS = list(translation.languages()) + ["xx", "xx-rtl"]
@@ -187,7 +188,7 @@ class PhoneLayout(DarkPass, unittest.TestCase):
             if p:
                 found[name] = p
         check("sign in")
-        pg.fill("#phoneIn", "0788123456"); pg.click('[data-act="sendcode"]'); check("code")
+        fill_phone(pg, "#phoneIn"); pg.click('[data-act="sendcode"]'); check("code")
         pg.fill("#codeIn", "123456"); pg.click('[data-act="verify"]'); check("choose business")
         pg.click('[data-act="business:0"]'); pg.wait_for_selector('[data-act="start"]'); check("registered")
         pg.click('[data-act="start"]'); check("language and region card")
@@ -204,7 +205,7 @@ class PhoneLayout(DarkPass, unittest.TestCase):
                 pg.evaluate(f"__go('{sid}')"); check(f"office {sid}")
             for sid in WORK_PAGE_IDS:
                 pg.evaluate(f"__go('{sid}')"); check(f"work {sid}")
-        pg.evaluate("__go('pay')"); pg.click('[data-act="way:mobile_money"]'); pg.fill("#momoIn", "0788123456"); check("mobile money")
+        pg.evaluate("__go('pay')"); pg.click('[data-act="way:mobile_money"]'); fill_phone(pg, "#momoIn"); check("mobile money")
         pg.click('.top [data-act="view:pay"]'); pg.click('[data-act="view:split"]'); check("split payment")
         pg.click('.top [data-act="view:pay"]'); pg.click('[data-act="way:credit"]'); check("credit")
         pg.click(".netchip"); check("sync sheet"); pg.click('.sheet [data-act="closesheet"]')

@@ -868,9 +868,10 @@ html { font-size: 100%; }
 .notifications .nline .ntext a { text-decoration: none; }
 .notifications h2 { margin: 0; }
 /* the staff lock of every shared staff device (StaffGate, 2026-11-24) */
-.dk-gate { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px 8px; text-align: center; min-inline-size: 0;
-  flex: 1 1 auto; min-block-size: 0; align-self: stretch; overflow-y: auto; overscroll-behavior: contain; }   /* never cut: a short screen scrolls the lock (owner report 2026-11-26) */
-.dk-gate > * { flex: none; }
+.dk-gate { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px 8px; text-align: center; min-inline-size: 0; }
+/* never cut (owner report 2026-11-26): on a screen that does not scroll itself, the lock scrolls; elsewhere the screen scrolls it */
+.dk-gate.dk-scroll { flex: 1 1 auto; min-block-size: 0; align-self: stretch; overflow-y: auto; overscroll-behavior: contain; }
+.dk-gate.dk-scroll > * { flex: none; }
 .dk-gate .dk-staff { inline-size: min(100%, 420px); }
 .dk-staff .ic { inline-size: 24px; block-size: 24px; display: inline-flex; flex: none; }   /* one small person icon per row, never the size of the screen */
 .dk-staff .ic svg { inline-size: 100%; block-size: 100%; }
