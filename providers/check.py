@@ -114,8 +114,22 @@ def coverage_problems():
     return [f"service {s} is off by default but no provider item gates it" for s in sorted(off_by_default - gated)]
 
 
+def payer_problems(reg=None):
+    """LynkOmni never pays an outside bill for anyone (owner, 2026-11-26): every partner names who pays its bill, and
+    LynkOmni itself only for its own running costs (infrastructure, storage, data feeds, its own security codes)."""
+    reg = reg or providers.registry()
+    rule, out = reg["who_pays"], []
+    for i in reg["items"]:
+        w = i.get("who_pays")
+        if w not in rule["values"]:
+            out.append(f"{i['id']}: who_pays must be one of {rule['values']}")
+        elif w == "lynkomni_own" and (i.get("kind") not in rule["lynkomni_own_kinds"] or (i.get("kind") == "messaging" and i["id"] != "sms_otp")):
+            out.append(f"{i['id']}: LynkOmni pays only its own running costs, not a {i.get('kind')} bill; the user or the partner pays it")
+    return out
+
+
 def problems(root=ROOT):
-    return entry_problems(root=root) + unregistered_markers(root=root) + country_problems() + coverage_problems()
+    return entry_problems(root=root) + unregistered_markers(root=root) + country_problems() + coverage_problems() + payer_problems()
 
 
 if __name__ == "__main__":

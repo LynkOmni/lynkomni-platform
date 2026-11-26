@@ -251,6 +251,11 @@
    "id": "staff_pin",
    "what": "Every shared staff device signs each person in with their own PIN, has a duress PIN with a quiet limited view and a silent alert, waits then locks after wrong PINs (never wipes) and locks itself when left; basic phones take a duress PIN too",
    "enforced_by": "tests/test_staff_lock.py"
+  },
+  {
+   "id": "no_outside_bills",
+   "what": "LynkOmni never pays an outside bill for anyone, only its own mandatory running costs: every partner names who pays (the user, the licensed partner, or no charge) and every expense line is LynkOmni's own or passed through (owner, 2026-11-26)",
+   "enforced_by": "providers/check.py, tests/test_who_pays.py"
   }
  ],
  "not_applicable": {

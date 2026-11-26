@@ -215,7 +215,7 @@ export function phoneOwnerHtml(look: WaysLook, st: WaysState): string {
   else if (po.state === "partial") body = noticeHtml(t, { level: "warning", text: t("wy_po_partial") }) + `<div class="wy-btns">${fixBtns(WAYS_IN.phone_owner.partial_fixes)}</div>`;
   else if (po.state === "failed") body = noticeHtml(t, { level: "error", text: t("wy_po_no_match"), how: t("wy_po_fix_number") }) + `<div class="wy-btns">${fixBtns(WAYS_IN.phone_owner.no_match_fixes)}</div>`;
   else body = noticeHtml(t, { level: "warning", text: t("wy_po_wait", { when: look.when(po.until ?? st.now) }), how: t("wy_po_wait_how") });
-  return `<p class="wy-note">${wyEsc(t("wy_po_note"))}</p>${acts}${how}${body}<p class="wy-note">${wyEsc(t("wy_po_free"))}</p>`;
+  return `<p class="wy-note">${wyEsc(t("wy_po_note"))}</p>${acts}${how}${body}<p class="wy-note">${wyEsc(t("wy_po_free"))}</p><p class="wy-note">${wyEsc(t("wy_po_who"))}</p>`;
 }
 
 // ---- what a tap or a typed letter changes ----------------------------------------------------------------------------------

@@ -48,7 +48,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "airtel_money",
@@ -89,7 +90,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "mpesa",
@@ -129,7 +131,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "upi",
@@ -166,7 +169,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "bank_transfer",
@@ -202,7 +206,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "card_acquirer",
@@ -238,7 +243,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "qr",
@@ -272,7 +278,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "fiscal_rra_ebm",
@@ -309,7 +316,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "fiscal_kra_etims",
@@ -341,7 +349,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "fiscal_tra_vfd",
@@ -373,7 +382,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "fiscal_ura_efris",
@@ -405,7 +415,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "vcard_issuer",
@@ -443,7 +454,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "vcard_wallet_tokens",
@@ -472,7 +484,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "vcard_perks",
@@ -501,7 +514,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "vcard_physical",
@@ -531,7 +545,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "sms_otp",
@@ -571,7 +586,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "lynkomni_own"
   },
   {
    "id": "fx_rates",
@@ -607,7 +623,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "lynkomni_own"
   },
   {
    "id": "geo_lookup",
@@ -640,7 +657,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "lynkomni_own"
   },
   {
    "id": "ads_network",
@@ -675,7 +693,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "financing_partner",
@@ -709,7 +728,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "protection_partner",
@@ -743,7 +763,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "marketplace_partners",
@@ -778,7 +799,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "dispute_provider",
@@ -807,7 +829,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "split_provider",
@@ -835,7 +858,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "edge_cdn",
@@ -869,7 +893,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "lynkomni_own"
   },
   {
    "id": "mesh_relay",
@@ -903,7 +928,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "lynkomni_own"
   },
   {
    "id": "logo_storage",
@@ -936,7 +962,8 @@
     "Choose storage and scanner",
     "Store only logos that pass validate()",
     "Serve through the CDN as an image with the merchant name as alt text"
-   ]
+   ],
+   "who_pays": "lynkomni_own"
   },
   {
    "id": "registration_gateway",
@@ -972,7 +999,8 @@
     "Write the real adapter next to the sandbox one behind RegistrationGateway",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the 'registration' flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "agent_partner_gateways",
@@ -1009,7 +1037,8 @@
     "Write the real adapter next to SandboxPartner behind PartnerGateway",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the 'agent' flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "collection_partners",
@@ -1044,7 +1073,8 @@
     "Real adapter behind PartnerGateway",
     "Shared tests",
     "contract_signed, then the 'collection' flag after legal sign-off"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "delivery_partners",
@@ -1080,7 +1110,8 @@
     "Real adapter behind DeliveryPartner",
     "Shared tests",
     "contract_signed, then the 'delivery' flag"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "pos_terminal_drivers",
@@ -1114,7 +1145,8 @@
     "Write the maker's adapter behind DeviceDrivers",
     "Run the emulator and the shared tests against it",
     "Set status to chosen, then live when the acquirer certifies card tap on it"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "bank_terminal_link",
@@ -1148,7 +1180,8 @@
     "Write the adapter behind BankTerminalLink",
     "Shared tests",
     "contract_signed per bank and country"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "merchant_of_record",
@@ -1184,7 +1217,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country after legal sign-off"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "live_video",
@@ -1219,7 +1253,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "content_store",
@@ -1254,7 +1289,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country after legal sign-off"
-   ]
+   ],
+   "who_pays": "lynkomni_own"
   },
   {
    "id": "tap_to_pay",
@@ -1290,7 +1326,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "ussd_gateway",
@@ -1325,7 +1362,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then enable the country after legal sign-off"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "vehicle_data",
@@ -1360,7 +1398,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "monitoring_centre",
@@ -1394,7 +1433,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "transport_data",
@@ -1428,7 +1468,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "satellite_messaging",
@@ -1462,7 +1503,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "iot_sim",
@@ -1496,7 +1538,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "countries": "all",
@@ -1533,7 +1576,8 @@
     "Write the real adapter beside SandboxAccountPartner behind the same interface",
     "Run tests/test_card_groups.py against both",
     "Set status to contract_signed, then enable after legal sign-off"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "countries": "all",
@@ -1574,7 +1618,8 @@
     "Write the real adapter beside SandboxLender behind the same interface",
     "Run tests/test_card_groups.py against both",
     "Set status to contract_signed, then enable after legal sign-off"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "people_messaging",
@@ -1609,7 +1654,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "survey_voice_calls",
@@ -1644,7 +1690,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "survey_reward_payouts",
@@ -1679,7 +1726,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "e_invoice_network",
@@ -1716,7 +1764,8 @@
     "Write the real adapter next to the sandbox one behind EInvoiceNetwork",
     "Run the shared tests against both adapters",
     "Set status to contract_signed for the country"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "staff_directory",
@@ -1751,7 +1800,8 @@
     "Write the real adapter next to the sandbox one behind StaffDirectory",
     "Run the shared tests against both adapters",
     "Set status to contract_signed when the organisation's agreement is signed"
-   ]
+   ],
+   "who_pays": "none"
   },
   {
    "id": "vote_identity_connectors",
@@ -1786,7 +1836,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "vote_trust_seal",
@@ -1821,7 +1872,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "vote_print_post",
@@ -1856,7 +1908,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "files_signer_identity",
@@ -1890,7 +1943,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "files_qualified_signature",
@@ -1925,7 +1979,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "files_scanning",
@@ -1960,7 +2015,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "exchange_currency_partner",
@@ -2000,7 +2056,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "six_background_checks",
@@ -2035,7 +2092,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "six_tenant_screening",
@@ -2069,7 +2127,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "six_exam_boards",
@@ -2103,7 +2162,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "six_notary",
@@ -2137,7 +2197,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "six_pensions",
@@ -2171,7 +2232,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "six_deposit_protection",
@@ -2205,7 +2267,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "six_rent_insurance",
@@ -2239,7 +2302,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "six_property_sites",
@@ -2273,7 +2337,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "six_job_sites",
@@ -2307,7 +2372,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "six_employer_of_record",
@@ -2341,7 +2407,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "six_employment_services",
@@ -2375,7 +2442,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "svc_chat_channels",
@@ -2409,7 +2477,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "svc_call_partner",
@@ -2443,7 +2512,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "svc_pay_in_parts",
@@ -2478,7 +2548,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "svc_listing_connectors",
@@ -2511,7 +2582,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "svc_outside_warehouses",
@@ -2545,7 +2617,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "svc_shop_plugins",
@@ -2578,7 +2651,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "svc_transport_billers",
@@ -2612,7 +2686,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "svc_government_fees",
@@ -2646,7 +2721,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   },
   {
    "id": "vote_mirror_witnesses_sandbox",
@@ -2680,7 +2756,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "none"
   },
   {
    "id": "betting_operators",
@@ -2718,7 +2795,8 @@
     "Write the real adapter next to SandboxBettingOperator behind BettingOperator",
     "Run the shared tests against both adapters",
     "Set status to contract_signed after the lawyer's check of the country's law, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "partner"
   },
   {
    "id": "phone_owner_networks",
@@ -2754,7 +2832,8 @@
     "Write the real adapter next to the sandbox one behind the same interface",
     "Run the shared tests against both adapters",
     "Set status to contract_signed, then the country switches on by itself"
-   ]
+   ],
+   "who_pays": "user"
   }
  ],
  "later": [
@@ -3459,5 +3538,21 @@
    "14. GitHub Team plan and the lock on the main branch, last.",
    "15. Before the repositories go private at the end of the build (added by the owner 2026-11-08): re-check the two things that change with visibility, the GitHub Actions budget and that CodeQL's job is covered by Claude's own security review (item 11)."
   ]
+ },
+ "who_pays": {
+  "rule": "LynkOmni never pays an outside bill for anyone (owner, 2026-11-26). Every partner's bill is paid by the person or business that uses or asks for it (user: taken from the payment, billed by the partner, or a fee at the partner's own price shown before they agree, or inside their plan), or carried by the licensed partner as part of its own business and licence (partner), or has no charge (none). LynkOmni pays only its own mandatory bills (lynkomni_own): running its own service, never a cost that belongs to one user.",
+  "values": [
+   "user",
+   "partner",
+   "none",
+   "lynkomni_own"
+  ],
+  "lynkomni_own_kinds": [
+   "infrastructure",
+   "storage",
+   "data_feed",
+   "messaging"
+  ],
+  "lynkomni_own_note": "messaging is allowed only for sms_otp: LynkOmni's own sign-in and security codes for its own accounts. Every other message is paid by the business that sends it."
  }
 }

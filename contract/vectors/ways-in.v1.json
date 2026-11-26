@@ -8674,7 +8674,17 @@
    "a": [
     true,
     false,
-    false
+    false,
+    "partner"
+   ],
+   "expect": "partner"
+  },
+  {
+   "a": [
+    true,
+    false,
+    false,
+    "requester"
    ],
    "expect": "network"
   },
@@ -8682,7 +8692,17 @@
    "a": [
     true,
     false,
-    true
+    true,
+    "partner"
+   ],
+   "expect": "partner"
+  },
+  {
+   "a": [
+    true,
+    false,
+    true,
+    "requester"
    ],
    "expect": "network"
   },
@@ -8690,7 +8710,17 @@
    "a": [
     true,
     true,
-    false
+    false,
+    "partner"
+   ],
+   "expect": "partner"
+  },
+  {
+   "a": [
+    true,
+    true,
+    false,
+    "requester"
    ],
    "expect": "owner_id_document"
   },
@@ -8698,7 +8728,17 @@
    "a": [
     true,
     true,
-    true
+    true,
+    "partner"
+   ],
+   "expect": "partner"
+  },
+  {
+   "a": [
+    true,
+    true,
+    true,
+    "requester"
    ],
    "expect": "registered_name"
   },
@@ -8706,7 +8746,17 @@
    "a": [
     false,
     false,
-    false
+    false,
+    "partner"
+   ],
+   "expect": "partner"
+  },
+  {
+   "a": [
+    false,
+    false,
+    false,
+    "requester"
    ],
    "expect": "id_document"
   },
@@ -8714,7 +8764,17 @@
    "a": [
     false,
     false,
-    true
+    true,
+    "partner"
+   ],
+   "expect": "partner"
+  },
+  {
+   "a": [
+    false,
+    false,
+    true,
+    "requester"
    ],
    "expect": "id_document"
   },
@@ -8722,7 +8782,17 @@
    "a": [
     false,
     true,
-    false
+    false,
+    "partner"
+   ],
+   "expect": "partner"
+  },
+  {
+   "a": [
+    false,
+    true,
+    false,
+    "requester"
    ],
    "expect": "owner_id_document"
   },
@@ -8730,7 +8800,17 @@
    "a": [
     false,
     true,
-    true
+    true,
+    "partner"
+   ],
+   "expect": "partner"
+  },
+  {
+   "a": [
+    false,
+    true,
+    true,
+    "requester"
    ],
    "expect": "owner_id_document"
   }
@@ -8758,10 +8838,6 @@
   },
   {
    "a": "exchange",
-   "expect": true
-  },
-  {
-   "a": "recovery",
    "expect": true
   },
   {
@@ -8911,6 +8987,44 @@
    }
   }
  ],
+ "owner_payer": [
+  {
+   "a": "payouts",
+   "expect": "partner"
+  },
+  {
+   "a": "payout_change",
+   "expect": "partner"
+  },
+  {
+   "a": "first_paid_offer",
+   "expect": "partner"
+  },
+  {
+   "a": "agent_point",
+   "expect": "partner"
+  },
+  {
+   "a": "cards",
+   "expect": "partner"
+  },
+  {
+   "a": "exchange",
+   "expect": "partner"
+  },
+  {
+   "a": "public_election",
+   "expect": "requester"
+  },
+  {
+   "a": "employer_verification",
+   "expect": "requester"
+  },
+  {
+   "a": "landlord_verification",
+   "expect": "requester"
+  }
+ ],
  "owner_valid": [
   {
    "a": [
@@ -9054,9 +9168,10 @@
     },
     {
      "id": "id_check",
+     "note": "Two different LynkOmni staff look at the ID document themselves: no outside partner, no paid check (owner, 2026-11-26)",
      "staff_approvals": 2,
      "wait_h": 72,
-     "with": "phone_owner_check"
+     "with": "staff_review"
     }
    ]
   },
@@ -9094,9 +9209,10 @@
     },
     {
      "id": "id_check",
+     "note": "Two different LynkOmni staff look at the ID document themselves: no outside partner, no paid check (owner, 2026-11-26)",
      "staff_approvals": 2,
      "wait_h": 72,
-     "with": "phone_owner_check"
+     "with": "staff_review"
     }
    ]
   }

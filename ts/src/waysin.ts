@@ -130,7 +130,10 @@ const WI_OWNER = WAYS_IN.phone_owner;
 /** Only the activities in the register need the real owner of the number; everyday use never does. */
 export const ownerCheckNeeded = (activity: string): boolean => inList(WI_OWNER.activities, activity);
 /** The mobile network where it offers the check (a business by its registered name where supported), else the ID document check. */
-export function ownerCheckMethod(networkReady: boolean, business = false, registeredNameSupported = false): string {
+/** Who pays for the check: the licensed partner's own identity check, or the one who asks. Never LynkOmni, never the person. */
+export const ownerPayer = (activity: string): string => (WI_OWNER.payers as Record<string, string>)[activity] ?? "requester";
+export function ownerCheckMethod(networkReady: boolean, business = false, registeredNameSupported = false, payer = "requester"): string {
+  if (payer === "partner") return "partner";
   if (networkReady && (!business || registeredNameSupported)) return business ? "registered_name" : "network";
   return business ? "owner_id_document" : "id_document";
 }

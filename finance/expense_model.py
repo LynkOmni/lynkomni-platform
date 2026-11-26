@@ -3,12 +3,8 @@ EVERY number here is an ASSUMPTION (staff, salaries, marketing, SMS, tax) except
 2026-11-07: Google Cloud Run ($0.000024 per vCPU-second, $0.40 per million requests, L4 GPU $0.0001867 a second), Cloud SQL
 (about $197 a month for 4 vCPUs, doubled for high availability), email $0.10 to $1.50 per 1,000, Google Workspace Business
 Starter $7 a user a month. A day is a month x 12 / 365. Tax on profit is a blended 25% guess; losses carried forward are not used."""
-import json, os
 from decimal import Decimal, ROUND_HALF_UP
 from finance import revenue_model as rm
-
-with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "catalog", "ways-in.v1.json"), encoding="utf-8") as _f:
-    _WAYS = json.load(_f)
 
 STAFF = {"stage1": 8, "stage2": 200, "stage3": 3000}                      # people
 STAFF_COST = {"stage1": 30000, "stage2": 45000, "stage3": 55000}          # USD a person a year, everything included
@@ -19,10 +15,19 @@ INSURANCE = {"stage1": 500, "stage2": 10000, "stage3": 80000}
 GPUS = {"stage1": 1, "stage2": 4, "stage3": 40}
 MESSAGING_REVENUE = {"stage1": 338, "stage2": 16920, "stage3": 376000}    # messaging-credit revenue (section 14 E)
 TAX_RATE = Decimal("0.25")
-PHONE_OWNER_FEE_CENTS = _WAYS["phone_owner"]["cost"]["fee_usd_cents_assumption"]   # catalog/ways-in.v1.json, an assumption
 NEW_SERVICE_COST_SHARE = Decimal("0.20")                                  # running costs of the second review's additions
 ROWS = ("people", "office_tools", "marketing", "payment_collection", "legal", "hosting", "message_delivery", "sms", "security",
-        "ai", "assist_everywhere", "insurance", "email", "translation_gpu", "new_service_costs", "phone_owner_checks")
+        "ai", "assist_everywhere", "insurance", "email", "translation_gpu", "new_service_costs")
+# LynkOmni never pays an outside bill for anyone (owner, 2026-11-26): every line is either LynkOmni's own mandatory bill for running
+# its own company and service, or passed through (paid by the businesses that use it, out of what they pay LynkOmni for it).
+OWN, PASSED = "lynkomni_own", "passed_through"
+PAYER = {"people": OWN, "office_tools": OWN, "marketing": OWN, "payment_collection": OWN, "legal": OWN, "hosting": OWN,
+         "message_delivery": PASSED, "sms": OWN, "security": OWN, "ai": OWN, "assist_everywhere": OWN, "insurance": OWN, "email": OWN,
+         "translation_gpu": OWN, "new_service_costs": OWN}
+PAYER_NOTE = {"sms": "only LynkOmni's own sign-in and security codes for its own accounts; a business's messages are message_delivery",
+              "payment_collection": "the payment provider's fee for collecting LynkOmni's own plan revenue",
+              "message_delivery": "messages businesses send, paid by them as messaging revenue (MESSAGING_REVENUE)",
+              "ai": "LynkOmni's own LynkAssist and intelligence features", "new_service_costs": "running LynkOmni's own new services"}
 
 
 def _r(x):
@@ -49,9 +54,6 @@ def expenses(stage):
         "email": (m * 30 + c * 5) / 1000 * Decimal("0.30"),
         "translation_gpu": GPUS[stage] * Decimal("0.0001867") * 3600 * 730,
         "new_service_costs": rm.second_review_uplift(stage) * NEW_SERVICE_COST_SHARE,
-        # section 4C point 4: the mobile network's fee for each phone owner check, paid by LynkOmni and never charged to the person.
-        # Assumption: 30% of merchants and 2% of consumers need one check a month (payouts, cards, agent points, recovery).
-        "phone_owner_checks": (m * Decimal("0.30") + c * Decimal("0.02")) * Decimal(PHONE_OWNER_FEE_CENTS) / 100,
     }
     return {k: _r(v) for k, v in rows.items()}
 

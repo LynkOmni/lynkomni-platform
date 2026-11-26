@@ -340,7 +340,8 @@
         "id": "id_check",
         "wait_h": 72,
         "staff_approvals": 2,
-        "with": "phone_owner_check"
+        "with": "staff_review",
+        "note": "Two different LynkOmni staff look at the ID document themselves: no outside partner, no paid check (owner, 2026-11-26)"
       }
     ],
     "never": [
@@ -559,7 +560,6 @@
       "agent_point",
       "cards",
       "exchange",
-      "recovery",
       "public_election",
       "employer_verification",
       "landlord_verification"
@@ -588,7 +588,8 @@
       "network": "the mobile network compares the legal name with the number",
       "id_document": "the licensed identity partner checks the ID document",
       "registered_name": "the network compares the business's registered name with the number",
-      "owner_id_document": "the owner's own ID document check"
+      "owner_id_document": "the owner's own ID document check",
+      "partner": "the licensed partner of the service checks identity as part of its own checks"
     },
     "partner_service": "phone_owner_match",
     "never_stored": [
@@ -600,10 +601,22 @@
       "phone number"
     ],
     "cost": {
-      "fee_usd_cents_assumption": 5,
-      "charged_to_person": false,
-      "included_in": "the plans of the activities that need it",
-      "assumption": true
-    }
+      "lynkomni_pays": false,
+      "person_pays": false,
+      "partner": "the licensed partner, as part of its own legal identity checks",
+      "requester": "the one who asks for the check, at the partner's price shown first or inside their plan"
+    },
+    "payers": {
+      "payouts": "partner",
+      "payout_change": "partner",
+      "first_paid_offer": "partner",
+      "agent_point": "partner",
+      "cards": "partner",
+      "exchange": "partner",
+      "public_election": "requester",
+      "employer_verification": "requester",
+      "landlord_verification": "requester"
+    },
+    "payers_note": "LynkOmni never pays for a check (owner, 2026-11-26). partner: the licensed partner of that service checks identity as part of its own legal duty, at its own cost, and LynkOmni only asks for its answer. requester: the employer, landlord or election organiser who asks for the check pays the network or identity partner, at that partner's price shown before they agree, or inside their plan. The person being checked never pays. Getting back into an account uses the free ways of the Can't sign in? hub, never a paid check."
   }
 }
