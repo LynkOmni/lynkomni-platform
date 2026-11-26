@@ -180,17 +180,9 @@ class Notifier:
         delivered_one = False
         outside = [c for c in wanted if c != "bell"]
         if business is None:
-            # LynkOmni's own message: only the free channels; a text only as the last fallback for a high or critical security or
-            # safety alert that no free channel delivered; never a call (catalog/messages.v1.json system.routing.own_messages)
+            # LynkOmni's own message: only the free channels, never a text or a call (catalog/messages.v1.json own_messages)
             outside = [c for c in outside if c in OWN["free"]]
-            fallback = [c for c in wanted if c == "text"] if k["area"] in OWN["text_fallback_areas"] \
-                and k["priority"] in OWN["text_fallback_priorities"] else []
-            outside = outside + ["__fallback__"] * bool(fallback)
         for c in outside:
-            if c == "__fallback__":
-                if delivered_one:
-                    break
-                c = "text"
             if delivered_one and k["priority"] != "critical":
                 break                                         # one outside channel is enough, except for critical
             if self.sender.deliver(c, person, k["id"], lang):
@@ -203,7 +195,10 @@ class Notifier:
         line["channels"] = sorted(set(line["channels"]) | set(out))
         if "bell" in out:
             self._state(line, "delivered", "bell")
-        return {"state": "shown", "nid": line["nid"], "channels": out}
+        res = {"state": "shown", "nid": line["nid"], "channels": out}
+        if business is None:
+            res["reached"] = delivered_one      # False: no free outside channel delivered it; the cloud holds the change it is about
+        return res
 
     # ---- smart routing (71.7)
     def used(self, person, channel, now):
@@ -378,9 +373,12 @@ class Notifier:
             if l["acked"] or l["cleared"] or l["done_by"] or l.get("inbox"):
                 continue                                      # an inbox line is the shared list; its people get their own lines
             own = l["business"] is None                       # LynkOmni's own message: repeats stay on the free channels it used
-            if l["priority"] == "critical" and now - l["at"] >= REPEAT_S:
+            if own and l["read"]:
+                continue                                      # read: LynkOmni's own alert stops repeating
+            ru = OWN["repeat_until_read"]
+            if (l["priority"] == "critical" or (own and l["area"] in ru["areas"] and l["priority"] in ru["priorities"])) and now - l["at"] >= REPEAT_S:
                 for c in KINDS[l["kind"]]["channels"]:
-                    if c != "bell" and (not own or c in OWN["free"] or c in l["channels"]):
+                    if c != "bell" and (not own or c in OWN["free"]):
                         self.sender.deliver(c, l["person"], l["kind"], l.get("lang", "en"))
                 l["at"] = now
                 out.append(("repeated", l["nid"]))

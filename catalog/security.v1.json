@@ -1519,6 +1519,61 @@
    "test": "tests/test_phone_owner.py::test_lynkomni_never_pays_a_partner_or_the_one_who_asks_pays",
    "build_section": "4C",
    "status": "built"
+  },
+  {
+   "id": "hold-not-text",
+   "asset": "accounts",
+   "threat": "A payout or contact change goes through while its alert reached nobody, or LynkOmni pays to text the alert",
+   "enforced_in": [
+    "identity/account.py"
+   ],
+   "test": "tests/test_hold_unreached.py::test_a_payout_change_nobody_was_reached_about_waits_until_read",
+   "build_section": "4C",
+   "status": "built"
+  },
+  {
+   "id": "hold-cleared-only-by-person",
+   "asset": "accounts",
+   "threat": "A hold is cleared by someone other than the person, or from a device never used before",
+   "enforced_in": [
+    "identity/account.py"
+   ],
+   "test": "tests/test_hold_unreached.py::test_a_known_device_clears_a_held_contact_change",
+   "build_section": "4C",
+   "status": "built"
+  },
+  {
+   "id": "reachable-checkup",
+   "asset": "accounts",
+   "threat": "A person has no working free way to be reached and does not know it",
+   "enforced_in": [
+    "identity/ways_in.py"
+   ],
+   "test": "tests/test_hold_unreached.py::test_the_checkup_asks_for_a_working_way_to_reach_you",
+   "build_section": "4C",
+   "status": "built"
+  },
+  {
+   "id": "trusted-contact-accepts",
+   "asset": "safety",
+   "threat": "Safety alerts go to someone who never agreed, or must be texted because they cannot be reached",
+   "enforced_in": [
+    "identity/arrive_safe.py"
+   ],
+   "test": "tests/test_arrive_safe.py::test_a_trusted_contact_must_accept_before_alerts_go_to_them",
+   "build_section": "4C",
+   "status": "built"
+  },
+  {
+   "id": "own-messages-never-text",
+   "asset": "accounts",
+   "threat": "LynkOmni pays for a text or a call for its own message",
+   "enforced_in": [
+    "services/messages.py"
+   ],
+   "test": "tests/test_free_first.py::test_lynkomni_never_texts_and_reports_when_nobody_was_reached",
+   "build_section": "4C",
+   "status": "built"
   }
  ]
 }

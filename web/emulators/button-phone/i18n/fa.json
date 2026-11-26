@@ -4,9 +4,10 @@
  "kept_in_english": [],
  "lang": "fa",
  "native": "فارسی",
- "source_sha256": "54944dad614b3632eb950c92fda525d04e33d4583ee1f5a3c61b24a911f6ac72",
+ "source_sha256": "93ac77e69fe1f55a89f3870f71cac56af944302a8ea58cf74af233e0d9a315ab",
  "texts": {
   "bp_agree": "{n}. می‌پذیرم",
+  "bp_alert": "یک هشدار امنیتی منتظر است. پیام‌ها را باز کنید.",
   "bp_birth_confirm": "روز {d}، ماه {m}، سال {y}. درست است؟",
   "bp_birth_day": "روز تولد خود را بنویسید (1 تا 31):",
   "bp_birth_forget": "سن شما را بررسی می‌کنیم و سپس تاریخ را فراموش می‌کنیم.",

@@ -277,13 +277,15 @@
     "checkup": {
       "yearly_reminder": true,
       "items": [
+        "reachable",
         "second_way",
         "backup_codes",
         "recovery_contacts",
         "anti_phishing_word",
         "old_devices",
         "number_confirmed"
-      ]
+      ],
+      "reachable_note": "A working way to reach you: an email that is not bouncing, or the app signed in on a device. LynkOmni never texts its own alerts, so this comes first in the checkup (owner, 2026-11-26)."
     },
     "activity_log": {
       "keep_days": 365,
@@ -669,9 +671,9 @@
     ],
     "text_only_when": {
       "confirm_number": "Proving a phone number when it is added or changed (sign-up, a contact change): only a code sent to that number proves it.",
-      "recovery_email_and_phone": "The Can't sign in? way that needs codes to both the email and the phone, for someone who has lost every free way.",
-      "no_free_way": "A sign-in code for someone with no free way at all; every account has an email, so this is rare."
+      "recovery_email_and_phone": "The Can't sign in? way that needs codes to both the email and the phone, for someone who has lost every free way."
     },
-    "basic_phones": "Basic phones use USSD menus with the account PIN; the network session itself shows the number, so no text code is needed."
+    "basic_phones": "Basic phones use USSD menus with the account PIN; the network session itself shows the number, so no text code is needed.",
+    "alerts": "LynkOmni's own alerts never go by text: they repeat free until read, and the change they are about is held when nobody was reached (catalog/messages.v1.json own_messages)."
   }
 }

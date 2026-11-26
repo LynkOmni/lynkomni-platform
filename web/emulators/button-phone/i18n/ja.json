@@ -4,9 +4,10 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "54944dad614b3632eb950c92fda525d04e33d4583ee1f5a3c61b24a911f6ac72",
+ "source_sha256": "93ac77e69fe1f55a89f3870f71cac56af944302a8ea58cf74af233e0d9a315ab",
  "texts": {
   "bp_agree": "{n}. 同意する",
+  "bp_alert": "セキュリティのお知らせがあります。メッセージを開いて読んでください。",
   "bp_birth_confirm": "{d} 日、{m} 月、{y} 年。正しいですか？",
   "bp_birth_day": "生まれた日を入力してください（1 から 31）：",
   "bp_birth_forget": "年齢を確認し、その後日付は忘れます。",

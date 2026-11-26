@@ -1,5 +1,6 @@
 {
  "bp_agree": "{n}. I agree",
+ "bp_alert": "Security alert waiting. Open Messages to read it.",
  "bp_birth_confirm": "Day {d}, month {m}, year {y}. Is this right?",
  "bp_birth_day": "Type the day you were born (1 to 31):",
  "bp_birth_forget": "We check your age, then forget the date.",

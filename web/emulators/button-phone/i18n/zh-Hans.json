@@ -4,9 +4,10 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "54944dad614b3632eb950c92fda525d04e33d4583ee1f5a3c61b24a911f6ac72",
+ "source_sha256": "93ac77e69fe1f55a89f3870f71cac56af944302a8ea58cf74af233e0d9a315ab",
  "texts": {
   "bp_agree": "{n}. 我同意",
+  "bp_alert": "有一条安全提醒待读。打开消息查看。",
   "bp_birth_confirm": "{d} 日，{m} 月，{y} 年。对吗？",
   "bp_birth_day": "输入你出生的日子（1 到 31）：",
   "bp_birth_forget": "我们核对你的年龄，然后忘掉日期。",

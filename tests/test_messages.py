@@ -151,7 +151,8 @@ class TestEngine(unittest.TestCase):
         r = n.notify("new_sign_in", "p1", "e1", NOON)
         self.assertIn("email", r["channels"])
         r = n.notify("new_sign_in", "p2", "e2", NOON, contacts=("bell", "push", "text"))
-        self.assertIn("text", r["channels"], "phone-first people without email still receive it")
+        self.assertNotIn("text", r["channels"], "LynkOmni never texts for its own messages")
+        self.assertFalse(r["reached"], "nothing free delivered it: the cloud holds the change it is about")
 
     def test_offline_backlog_is_folded_on_reconnect(self):
         for i, step in enumerate(("confirmed", "packed", "on_the_way")):

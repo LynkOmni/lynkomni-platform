@@ -10,8 +10,9 @@ export type BpScreen = "welcome" | "pin" | "locked" | "age" | "age_month" | "age
   | "messages" | "read" | "help" | "states" | "state" | "pin_help" | "pin_reset" | "pin_reset_sent" | "pin_reset_shop" | "link_sent" | "handed" | "bye";
 export interface BpState { screen: BpScreen; signed_in: boolean; limited: boolean; username: string | null; pin: string | null; note: [string, Record<string, string | number>] | null; pick: number | null; back: BpScreen; birth: number[] | null }
 export type BpLine = [string, Record<string, string | number>];
-/** age: the age needed (never shown); today: [y, m, d]; age_blocked: this number came out under age and no ID check cleared it. */
-export interface BpCtx { age: number; today: [number, number, number]; age_blocked?: boolean; lines: [string, string][]; recovery?: string; case?: string }
+/** age: the age needed (never shown); today: [y, m, d]; age_blocked: this number came out under age and no ID check cleared it;
+ *  security_unread: an unread security alert waits and is shown first on the home page. */
+export interface BpCtx { age: number; today: [number, number, number]; age_blocked?: boolean; lines: [string, string][]; recovery?: string; case?: string; security_unread?: boolean }
 export type PinCheck = "ok" | "duress" | "locked" | ["wrong", number];
 export interface BpRules { pinCheck: (pin: string) => PinCheck; usernameCheck: (u: string) => string | null; taken: (u: string) => boolean }
 export type BpAction = { sign_in: true; duress?: true } | { wrong_pin: number } | { create: { username: string; pin: string } } | { read: string } | { send_link: "help" } | { hand_over: "help" } | { pin_reset: "menu" } | { age_refused: true };
@@ -41,7 +42,7 @@ export function bpPage(state: BpState, ctx: BpCtx): BpLine[] {
     case "pin_again": return [["bp_pin_again", {}]];
     case "terms": return [["bp_terms", {}], ["bp_agree", { n: 1 }], ...back];
     case "created": return [["bp_created", { username: state.username ?? "" }], ["bp_recovery", { code: ctx.recovery ?? "" }], ["bp_limits", {}]];
-    case "home": return [["bp_home", {}], ["bp_messages", { n: 1, count: ctx.lines.length }], ["bp_help", { n: 2 }], ["ch_end", { n: 0 }]];
+    case "home": return [...(ctx.security_unread ? [["bp_alert", {}] as BpLine] : []), ["bp_home", {}], ["bp_messages", { n: 1, count: ctx.lines.length }], ["bp_help", { n: 2 }], ["ch_end", { n: 0 }]];
     case "messages": {
       const lines = ctx.lines.slice(0, BP_MAX_LINES);
       return [...(lines.length ? lines.map(([, t], i): BpLine => ["bp_msg_line", { n: i + 1, title: t }]) : [["bp_no_messages", {}] as BpLine]), ...back];

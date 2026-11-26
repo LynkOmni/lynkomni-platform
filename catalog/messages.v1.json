@@ -3228,23 +3228,33 @@
    ],
    "call_after_s": 600,
    "own_messages": {
-    "rule": "LynkOmni's own messages (no business sends them) go only by the free channels the big platforms use: the bell in the app, a phone notification, and email. A text is sent only as the last fallback for a high or critical security or safety alert that no free channel delivered (a person with no app and no working email, such as a basic phone, or a trusted contact without LynkOmni). LynkOmni never calls for its own messages. Messages a business sends are paid by that business (owner, 2026-11-26).",
+    "rule": "LynkOmni's own messages (no business sends them) go only by the free channels the big platforms use: the bell in the app, a phone notification on every signed-in device, and email. LynkOmni never texts or calls for its own messages. A security or safety alert repeats on the free channels until it is read; when no free channel delivered it, the change it is about is held until the person opens the alert or confirms on a device they used before (payout changes, contact changes). Texts stay only for proving a phone number and the recovery way that needs both email and phone (catalog/ways-in.v1.json free_first). Messages a business sends are paid by that business (owner, 2026-11-26).",
     "free": [
      "bell",
      "push",
      "email"
     ],
-    "text_fallback_areas": [
-     "security",
-     "safety"
-    ],
-    "text_fallback_priorities": [
-     "high",
-     "critical"
-    ],
     "never": [
+     "text",
      "call"
-    ]
+    ],
+    "repeat_until_read": {
+     "areas": [
+      "security",
+      "safety"
+     ],
+     "priorities": [
+      "high",
+      "critical"
+     ]
+    },
+    "hold_when_unreached": [
+     "payout_change",
+     "contact_change"
+    ],
+    "hold_not_for": {
+     "recovery": "a recovery's alerts go to the old phone and email, which are often what was lost; it keeps its own waits and Cancel instead"
+    }
    }
   },
   "role_routing": {

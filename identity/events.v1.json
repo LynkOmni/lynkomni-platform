@@ -688,6 +688,42 @@
     "result"
    ],
    "note": "Section 4C point 4, cloud only: the network's answer as a result (go, fix, stop or wait after a recent SIM change); the network's own name for the person is never kept"
+  },
+  "ChangeHeldUntilReached": {
+   "payload": [
+    "lynkid",
+    "kind"
+   ],
+   "note": "Cloud only: the alert about a payout or contact change reached the person on no free channel, so the change waits until they open the alert or confirm on a device they used before; LynkOmni never texts instead"
+  },
+  "ChangeHoldCleared": {
+   "payload": [
+    "lynkid",
+    "how"
+   ],
+   "note": "The person opened the alert (read) or confirmed on a known device; the change goes on when its own wait is over"
+  },
+  "TrustedContactInvited": {
+   "payload": [
+    "lynkid",
+    "invite_id"
+   ],
+   "note": "A person invited one of their contacts to be a trusted contact for safety alerts; the contact is told in the app and by email"
+  },
+  "TrustedContactAccepted": {
+   "payload": [
+    "lynkid",
+    "invite_id"
+   ],
+   "note": "The contact accepted: safety alerts now reach them free in the app or by email"
+  },
+  "TrustedContactRemoved": {
+   "payload": [
+    "lynkid",
+    "invite_id",
+    "by"
+   ],
+   "note": "The person or the contact ended it"
   }
  }
 }

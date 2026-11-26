@@ -4,9 +4,10 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "54944dad614b3632eb950c92fda525d04e33d4583ee1f5a3c61b24a911f6ac72",
+ "source_sha256": "93ac77e69fe1f55a89f3870f71cac56af944302a8ea58cf74af233e0d9a315ab",
  "texts": {
   "bp_agree": "{n}. Sumasang-ayon ako",
+  "bp_alert": "May naghihintay na security alert. Buksan ang Mga Mensahe para basahin.",
   "bp_birth_confirm": "Araw {d}, buwan {m}, taon {y}. Tama ba ito?",
   "bp_birth_day": "I-type ang araw ng kapanganakan mo (1 hanggang 31):",
   "bp_birth_forget": "Sinusuri namin ang edad mo, saka kinakalimutan ang petsa.",

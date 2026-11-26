@@ -4,9 +4,10 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "54944dad614b3632eb950c92fda525d04e33d4583ee1f5a3c61b24a911f6ac72",
+ "source_sha256": "93ac77e69fe1f55a89f3870f71cac56af944302a8ea58cf74af233e0d9a315ab",
  "texts": {
   "bp_agree": "{n}. مان متفق آهيان",
+  "bp_alert": "حفاظتي الرٽ انتظار ۾ آهي. پڙهڻ لاءِ پيغام کوليو.",
   "bp_birth_confirm": "ڏينهن {d}، مهينو {m}، سال {y}. ڇا اهو صحيح آهي؟",
   "bp_birth_day": "پنهنجي ڄمڻ جو ڏينهن لکو (1 کان 31):",
   "bp_birth_forget": "اسان توهان جي عمر جانچيون ٿا، پوءِ تاريخ وساري ڇڏيون ٿا.",

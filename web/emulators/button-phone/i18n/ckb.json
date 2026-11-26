@@ -4,9 +4,10 @@
  "kept_in_english": [],
  "lang": "ckb",
  "native": "کوردی",
- "source_sha256": "54944dad614b3632eb950c92fda525d04e33d4583ee1f5a3c61b24a911f6ac72",
+ "source_sha256": "93ac77e69fe1f55a89f3870f71cac56af944302a8ea58cf74af233e0d9a315ab",
  "texts": {
   "bp_agree": "{n}. ڕازیم",
+  "bp_alert": "ئاگادارییەکی ئاسایش چاوەڕێیە. نامەکان بکەرەوە بۆ خوێندنەوەی.",
   "bp_birth_confirm": "ڕۆژ {d}، مانگ {m}، ساڵ {y}. ئەمە ڕاستە؟",
   "bp_birth_day": "ڕۆژی لەدایکبوونت بنووسە (1 تا 31):",
   "bp_birth_forget": "تەمەنت دەپشکنین، پاشان بەروارەکە لەبیر دەکەین.",

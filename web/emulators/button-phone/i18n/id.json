@@ -4,9 +4,10 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "54944dad614b3632eb950c92fda525d04e33d4583ee1f5a3c61b24a911f6ac72",
+ "source_sha256": "93ac77e69fe1f55a89f3870f71cac56af944302a8ea58cf74af233e0d9a315ab",
  "texts": {
   "bp_agree": "{n}. Saya setuju",
+  "bp_alert": "Ada peringatan keamanan. Buka Pesan untuk membacanya.",
   "bp_birth_confirm": "Hari {d}, bulan {m}, tahun {y}. Apakah ini benar?",
   "bp_birth_day": "Ketik hari Anda lahir (1 sampai 31):",
   "bp_birth_forget": "Kami memeriksa usia Anda, lalu melupakan tanggalnya.",

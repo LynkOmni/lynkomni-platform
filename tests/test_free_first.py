@@ -19,18 +19,24 @@ class FreeFirst(unittest.TestCase):
         r = n.notify("new_sign_in", "p3", "e3", NOON + 1)
         self.assertNotIn("text", r["channels"], "having used texts before does not make LynkOmni pay for one")
 
-    def test_a_text_is_only_the_last_fallback_for_security_and_safety(self):
+    def test_lynkomni_never_texts_and_reports_when_nobody_was_reached(self):
         n = M.Notifier()
         r = n.notify("payout_change_requested", "p1", "e1", NOON, contacts=("bell", "text"))
-        self.assertIn("text", r["channels"], "a person with no app and no email still hears about a payout change")
-        n = M.Notifier(M.SandboxSender(fail={"push", "email"}))
-        r = n.notify("trip_plan_overdue", "t1", "e2", NOON)
-        self.assertIn("text", r["channels"], "a trusted contact is reached when nothing free worked")
-        n = M.Notifier()
-        r = n.notify("account_created", "p2", "e3", NOON, contacts=("bell", "text"))
-        self.assertNotIn("text", r["channels"], "a normal account message never falls back to a text")
-        r = n.notify("message_correction", "p3", "e4", NOON, contacts=("bell", "text"))
         self.assertNotIn("text", r["channels"])
+        self.assertFalse(r["reached"], "a payout change nobody was reached about is held, never texted")
+        r = n.notify("payout_change_requested", "p2", "e2", NOON)
+        self.assertTrue(r["reached"])
+        n = M.Notifier(M.SandboxSender(fail={"push", "email"}))
+        r = n.notify("trip_plan_overdue", "t1", "e3", NOON)
+        self.assertNotIn("text", r["channels"])
+
+    def test_a_security_alert_repeats_free_until_read(self):
+        n = M.Notifier()
+        r = n.notify("new_sign_in", "p1", "e1", NOON)
+        self.assertIn(("repeated", r["nid"]), n.tick(NOON + M.REPEAT_S))
+        n.lines[r["nid"]]["read"] = True
+        self.assertNotIn(("repeated", r["nid"]), n.tick(NOON + 3 * M.REPEAT_S))
+        self.assertFalse([x for x in n.sender.sent if x[0] in ("text", "call")])
 
     def test_a_business_message_is_the_business_s_own_choice_and_bill(self):
         n = M.Notifier()
@@ -42,5 +48,5 @@ class FreeFirst(unittest.TestCase):
         self.assertNotIn("text_code", WI.sign_in_ways({"passkey", "text_code"}))
         self.assertEqual(WI.sign_in_ways({"text_code"}), ["text_code"])
         ff = WI.W["free_first"]
-        self.assertEqual(set(ff["text_only_when"]), {"confirm_number", "recovery_email_and_phone", "no_free_way"})
+        self.assertEqual(set(ff["text_only_when"]), {"confirm_number", "recovery_email_and_phone"})
         self.assertNotIn("text_code", ff["free_ways"])

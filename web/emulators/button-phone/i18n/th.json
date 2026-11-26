@@ -4,9 +4,10 @@
  "kept_in_english": [],
  "lang": "th",
  "native": "ไทย",
- "source_sha256": "54944dad614b3632eb950c92fda525d04e33d4583ee1f5a3c61b24a911f6ac72",
+ "source_sha256": "93ac77e69fe1f55a89f3870f71cac56af944302a8ea58cf74af233e0d9a315ab",
  "texts": {
   "bp_agree": "{n}. ฉันยอมรับ",
+  "bp_alert": "มีการแจ้งเตือนความปลอดภัยรออยู่ เปิดข้อความเพื่ออ่าน",
   "bp_birth_confirm": "วันที่ {d} เดือน {m} ปี {y} ถูกต้องไหม",
   "bp_birth_day": "พิมพ์วันที่คุณเกิด (1 ถึง 31):",
   "bp_birth_forget": "เราตรวจอายุของคุณ แล้วลืมวันที่",

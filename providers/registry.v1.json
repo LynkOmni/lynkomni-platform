@@ -580,7 +580,7 @@
     "visual": "state-coming-soon",
     "message": "Coming to your country soon."
    },
-   "notes": "Codes are returned in the sandbox only so tests run offline; production must send them and never return them. Free first (owner, 2026-11-26): LynkOmni's own messages use the app, phone notifications and email; this text partner is used only to prove a new or changed number, for the recovery way that needs the phone, and as the last fallback for a security or safety alert no free channel delivered.",
+   "notes": "Codes are returned in the sandbox only so tests run offline; production must send them and never return them. Free first (owner, 2026-11-26): LynkOmni never texts its own alerts; this text partner is used only to prove a new or changed number and for the recovery way that needs both email and phone, both started by the person.",
    "integrate": [
     "Sign the agreement and get sandbox credentials",
     "Write the real adapter next to the sandbox one behind the same interface",
@@ -3589,6 +3589,6 @@
    "data_feed",
    "messaging"
   ],
-  "lynkomni_own_note": "messaging is allowed only for sms_otp, and only for its unavoidable cases: proving a new or changed number, the recovery way that needs the phone, and the last fallback for a security or safety alert no free channel delivered (catalog/messages.v1.json own_messages). Every other message is paid by the business that sends it."
+  "lynkomni_own_note": "messaging is allowed only for sms_otp, and only for proving a new or changed number and the recovery way that needs both email and phone (catalog/ways-in.v1.json free_first). LynkOmni never texts its own alerts: when no free channel reaches someone, the change is held instead (catalog/messages.v1.json own_messages). Every other message is paid by the business that sends it."
  }
 }

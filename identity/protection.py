@@ -149,6 +149,8 @@ class Protection:
         """Runs on a schedule: a change whose wait is over and that nobody cancelled is applied, then a cool-off starts."""
         done = []
         for cid, person, kind, ref in self.db.execute("select change_id,person,kind,new_ref from prot_contact where status='waiting' and ready_at<=?", (_now(now),)).fetchall():
+            if self.a.on_hold(cid):
+                continue                                  # held until the alert reached the person (never a text instead)
             col = "email" if kind == "email" else "phone"
             self.a.auth.db.execute(f"update identities set {col}=? where person=?", (ref, person))
             self.db.execute("update prot_contact set status='applied' where change_id=?", (cid,)); self.db.commit()

@@ -4,9 +4,10 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "54944dad614b3632eb950c92fda525d04e33d4583ee1f5a3c61b24a911f6ac72",
+ "source_sha256": "93ac77e69fe1f55a89f3870f71cac56af944302a8ea58cf74af233e0d9a315ab",
  "texts": {
   "bp_agree": "{n}. 동의합니다",
+  "bp_alert": "보안 알림이 있습니다. 메시지를 열어 확인하세요.",
   "bp_birth_confirm": "{d}일, {m}월, {y}년. 맞습니까?",
   "bp_birth_day": "태어난 일을 입력하세요(1에서 31):",
   "bp_birth_forget": "나이를 확인한 후 날짜는 잊습니다.",

@@ -359,6 +359,7 @@
   {
    "a": {},
    "expect": [
+    "reachable",
     "second_way",
     "backup_codes",
     "recovery_contacts",
@@ -373,6 +374,7 @@
     "second_way": true
    },
    "expect": [
+    "reachable",
     "recovery_contacts",
     "anti_phishing_word",
     "old_devices",
@@ -385,6 +387,7 @@
     "backup_codes": true,
     "number_confirmed": true,
     "old_devices": true,
+    "reachable": true,
     "recovery_contacts": true,
     "second_way": true
    },

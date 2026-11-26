@@ -4,9 +4,10 @@
  "kept_in_english": [],
  "lang": "en",
  "native": "English",
- "source_sha256": "54944dad614b3632eb950c92fda525d04e33d4583ee1f5a3c61b24a911f6ac72",
+ "source_sha256": "93ac77e69fe1f55a89f3870f71cac56af944302a8ea58cf74af233e0d9a315ab",
  "texts": {
   "bp_agree": "{n}. I agree",
+  "bp_alert": "Security alert waiting. Open Messages to read it.",
   "bp_birth_confirm": "Day {d}, month {m}, year {y}. Is this right?",
   "bp_birth_day": "Type the day you were born (1 to 31):",
   "bp_birth_forget": "We check your age, then forget the date.",

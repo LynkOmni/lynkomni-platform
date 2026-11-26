@@ -2,7 +2,7 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
-## v0.125.0 (2026-11-26)
+## v0.126.0 (2026-11-26)
 A neutral age check at sign-up (owner approved, following the ICO, Ofcom and EDPB guidance).
 - Sign-up no longer shows a "I am 18 or older" tick box. It asks the birth date (day, month and year, in the order the reader writes dates) without saying which age is needed. The phone works out "adult or not" against 18, or the country's higher age, and forgets the date at once; only "adult: yes" and the day it was checked are kept. LynkOmni still never stores a birth date or an age.
 - The person confirms the date once ("You were born on 14 May 1990. Is this right?"), with Change it before confirming. After that the answer is locked and never retyped. LynkOmni keeps no date, so there is nothing for anyone to change later (owner: once confirmed, only LynkOmni can change it).
@@ -11,6 +11,16 @@ A neutral age check at sign-up (owner approved, following the ICO, Ofcom and EDP
 - A date that does not exist (30 February, a month 13, a date in the future) is explained with how to fix it. A 29 February birthday counts from 1 March in other years.
 - A licensed partner's ID check still confirms age where the risk is higher: payments, cards, exchange, a first paid Storefront offer and betting.
 - The old tick-box leftovers on the account site are gone. New words in all 38 languages; tests in core, TypeScript, the basic phone vectors and the screens.
+
+## v0.125.0 (2026-11-26)
+Held, never texted: LynkOmni's own alerts no longer fall back to a text (owner).
+- LynkOmni never texts or calls for its own alerts. A security or safety alert goes by the in-app bell, phone notifications on every signed-in device and email, and repeats free until it is read (catalog/messages.v1.json own_messages; the notifier now says whether an alert reached the person).
+- When an alert about a payout change or a contact change reached the person on no free channel, the change is held after its own wait, until they open the alert or confirm on a device they used before (identity/account.py hold_unreached, reached, on_hold; payout and contact changes check it). Recovery is not held, because its alerts go to the old phone and email that are often what was lost; it keeps its own waits and Cancel.
+- The security checkup's first item is now "A working way to reach you": an email that is not bouncing, or the app signed in on a device. The security page explains the hold.
+- Trusted contacts are invited and must accept before a trip plan or a safety alert uses them; the person or the contact can end it at any time. Accepting means alerts reach them free in the app or by email (identity/arrive_safe.py; the trips page on the account site).
+- A basic phone with an unread security alert sees it first on its home menu.
+- Texts now stay only for proving a new or changed phone number and the recovery way that needs both email and phone, both started by the person.
+- Five security controls, tests/test_hold_unreached.py, words in all 38 languages.
 
 ## v0.124.1 (2026-11-26)
 The sign-up phone number stays when its last digit is typed (owner report from the Business app).

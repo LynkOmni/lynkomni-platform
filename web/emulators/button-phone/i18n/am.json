@@ -4,9 +4,10 @@
  "kept_in_english": [],
  "lang": "am",
  "native": "አማርኛ",
- "source_sha256": "54944dad614b3632eb950c92fda525d04e33d4583ee1f5a3c61b24a911f6ac72",
+ "source_sha256": "93ac77e69fe1f55a89f3870f71cac56af944302a8ea58cf74af233e0d9a315ab",
  "texts": {
   "bp_agree": "{n}. እቀበላለሁ",
+  "bp_alert": "የደህንነት ማንቂያ እየጠበቀ ነው። ለማንበብ መልእክቶችን ይክፈቱ።",
   "bp_birth_confirm": "ቀን {d}፣ ወር {m}፣ ዓመት {y}። ትክክል ነው?",
   "bp_birth_day": "የተወለዱበትን ቀን ይጻፉ (ከ1 እስከ 31):",
   "bp_birth_forget": "ዕድሜዎን እናረጋግጣለን፣ ከዚያም ቀኑን እንረሳለን።",
