@@ -21,9 +21,10 @@ def sign_in_business(pg, who="grace@example.com", check=None):
 
 
 def pass_age(pg, year="1990", month="5", day="14", root=""):
-    """The neutral age gate (owner 2026-11-26): types a sample adult birth date into the three boxes and presses Next.
+    """The neutral age gate (owner 2026-11-26): types a sample adult birth date into the three boxes, presses Next and confirms.
     The age needed is never on the screen and the date is forgotten as soon as Next is pressed."""
     for k, v in (("y", year), ("m", month), ("d", day)):
         box = pg.locator(f'{root} [data-in="wy:birth_{k}"]'.strip())
         box.click(); box.press_sequentially(v)
     pg.click(f'{root} [data-act="wy:su:next:age"]'.strip())
+    pg.click(f'{root} [data-act="wy:su:age:yes"]'.strip())   # Is this right? once; then the answer is locked

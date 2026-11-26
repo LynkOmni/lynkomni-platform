@@ -60,9 +60,10 @@ def age_check(year, month, day, today, min_age):
     return "adult" if age >= min_age else "under"
 
 
-def age_wait(refused_at, now):
-    """True while someone who came out under age must wait before trying again (no instant retry)."""
-    return refused_at is not None and now - refused_at < SIGN_UP["age"]["under_age_wait_hours"] * HOUR
+def age_blocked(refused_at, cleared_at=None):
+    """True while someone who came out under age is blocked on that device, network or number. There is no retry by
+    retyping and no wait that ends by itself: only the licensed partner's ID check clears it (cleared after the refusal)."""
+    return refused_at is not None and (cleared_at is None or cleared_at < refused_at)
 
 
 def legal_name_problem(name):

@@ -28,7 +28,7 @@ def build():
                 (2008, 2, 29, (2026, 2, 28), 18), (2008, 2, 29, (2026, 3, 1), 18), (2008, 2, 29, (2028, 2, 29), 20), (2027, 1, 1, (2026, 11, 26), 18),
                 (2025, 2, 29, (2026, 1, 1), 18), (2024, 2, 29, (2026, 1, 1), 18), (1906, 1, 1, (2026, 1, 1), 18), (1905, 12, 31, (2026, 1, 1), 18),
                 (2000, 13, 1, (2026, 1, 1), 18), (2000, 4, 31, (2026, 1, 1), 18), (2000, 0, 1, (2026, 1, 1), 18), (2000, 1, 0, (2026, 1, 1), 18))],
-            "age_wait": [{"a": [r, n], "expect": WI.age_wait(r, n)} for r, n in ((None, 0), (0, 23 * H), (0, 24 * H), (100, 100))],
+            "age_blocked": [{"a": [r, c], "expect": WI.age_blocked(r, c)} for r, c in ((None, None), (0, None), (100, 50), (100, 100), (100, 200), (None, 5))],
             "legal_name": [{"a": x, "expect": WI.legal_name_problem(x)} for x in ("", "A", "Grace Uwase", "  Jean   Claude  Habimana ", "R2D2", "x" * 101, "Nguyễn Thị Lan", "محمد علي")],
             "basic": [{"a": [a, e], "expect": WI.basic_phone_allows(a, e)} for a in ("payouts", "cards", "exchange", "storefront_selling", "cash_sale", "messages") for e in (False, True)],
             "identifier": [{"a": x, "expect": WI.identifier_kind(x)} for x in ("grace.shop", "grace@example.com", "+237 671 23 45 67", "0788123456", "678889666", "shop2024", "", "  12 ")],

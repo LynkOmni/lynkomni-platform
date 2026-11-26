@@ -37,9 +37,10 @@ export function ageCheck(year: number, month: number, day: number, today: readon
   const age = ty - year - (wiBefore([tm, td], [bm, bd]) ? 1 : 0);
   return age >= minAge ? "adult" : "under";
 }
-/** True while someone who came out under age must wait before trying again. */
-export function ageWait(refusedAt: number | null, now: number): boolean {
-  return refusedAt !== null && now - refusedAt < WAYS_IN.sign_up.age.under_age_wait_hours * WI_HOUR;
+/** True while someone who came out under age is blocked: no retyping, no wait that ends by itself; only the licensed partner's
+ *  ID check clears it (cleared after the refusal). */
+export function ageBlocked(refusedAt: number | null, clearedAt: number | null = null): boolean {
+  return refusedAt !== null && (clearedAt === null || clearedAt < refusedAt);
 }
 
 /** null when the legal name (as on the ID document) is acceptable, else why. */

@@ -16,7 +16,7 @@ test("every basic-phone session gives the pages, ends and actions of identity/ba
   };
   for (const entry of V.sessions) {
     const steps = Array.isArray(entry) ? entry : entry.steps;
-    const ctx: BpCtx = Array.isArray(entry) ? V.ctx : { ...V.ctx, age_wait: true };
+    const ctx: BpCtx = Array.isArray(entry) ? V.ctx : { ...V.ctx, age_blocked: true };
     let s = bpStart();
     assert.deepEqual(bpPage(s, ctx), steps[0].page);
     for (const st of steps.slice(1)) {

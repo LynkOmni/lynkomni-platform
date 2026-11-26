@@ -7,7 +7,7 @@
    11,
    26
   ],
-  "age_wait": false,
+  "age_blocked": false,
   "lines": [
    [
     "n1",
@@ -930,6 +930,34 @@
    },
    {
     "input": "1",
+    "screen": "age_confirm",
+    "page": [
+     [
+      "bp_birth_confirm",
+      {
+       "d": 1,
+       "m": 12,
+       "y": 2008
+      }
+     ],
+     [
+      "bp_yes",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_change",
+      {
+       "n": 2
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "1",
     "screen": "too_young",
     "page": [
      [
@@ -1041,6 +1069,130 @@
    },
    {
     "input": "26",
+    "screen": "age_confirm",
+    "page": [
+     [
+      "bp_birth_confirm",
+      {
+       "d": 26,
+       "m": 11,
+       "y": 2008
+      }
+     ],
+     [
+      "bp_yes",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_change",
+      {
+       "n": 2
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "5",
+    "screen": "age_confirm",
+    "page": [
+     [
+      "bp_birth_confirm",
+      {
+       "d": 26,
+       "m": 11,
+       "y": 2008
+      }
+     ],
+     [
+      "bp_yes",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_change",
+      {
+       "n": 2
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "2",
+    "screen": "age",
+    "page": [
+     [
+      "bp_birth_forget",
+      {}
+     ],
+     [
+      "bp_birth_year",
+      {}
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "2008",
+    "screen": "age_month",
+    "page": [
+     [
+      "bp_birth_month",
+      {}
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "11",
+    "screen": "age_day",
+    "page": [
+     [
+      "bp_birth_day",
+      {}
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "26",
+    "screen": "age_confirm",
+    "page": [
+     [
+      "bp_birth_confirm",
+      {
+       "d": 26,
+       "m": 11,
+       "y": 2008
+      }
+     ],
+     [
+      "bp_yes",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_change",
+      {
+       "n": 2
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "1",
     "screen": "username",
     "page": [
      [
@@ -1146,6 +1298,34 @@
    },
    {
     "input": "14",
+    "screen": "age_confirm",
+    "page": [
+     [
+      "bp_birth_confirm",
+      {
+       "d": 14,
+       "m": 5,
+       "y": 1990
+      }
+     ],
+     [
+      "bp_yes",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_change",
+      {
+       "n": 2
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "1",
     "screen": "username",
     "page": [
      [
@@ -1464,6 +1644,34 @@
    },
    {
     "input": "29",
+    "screen": "age_confirm",
+    "page": [
+     [
+      "bp_birth_confirm",
+      {
+       "d": 29,
+       "m": 2,
+       "y": 1988
+      }
+     ],
+     [
+      "bp_yes",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_change",
+      {
+       "n": 2
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "1",
     "screen": "username",
     "page": [
      [
@@ -2343,7 +2551,7 @@
    }
   ],
   {
-   "age_wait": true,
+   "age_blocked": true,
    "steps": [
     {
      "input": null,
@@ -2395,7 +2603,7 @@
    ]
   },
   {
-   "age_wait": true,
+   "age_blocked": true,
    "steps": [
     {
      "input": null,

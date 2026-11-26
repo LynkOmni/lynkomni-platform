@@ -41,7 +41,7 @@ class BasicPhone(unittest.TestCase):
         s, _, _ = B.step(s, "2", {})
         self.assertEqual(s["screen"], "age")
         ctx = {"age": 18, "today": (2026, 11, 26), "username_check": lambda u: None, "taken": lambda u: False}
-        for t in ("1990", "5", "14", "ama.shop", "4826", "4826"):
+        for t in ("1990", "5", "14", "1", "ama.shop", "4826", "4826"):
             s, _, _ = B.step(s, t, ctx)
         s, ends, action = B.step(s, "1", ctx)
         self.assertTrue(ends); self.assertEqual(action["create"]["username"], "ama.shop")
@@ -50,15 +50,16 @@ class BasicPhone(unittest.TestCase):
     def test_the_neutral_age_gate_never_says_the_age_or_keeps_the_date(self):
         ctx = {"age": 21, "today": (2026, 11, 26)}
         s = B.step(B.start(), "2", ctx)[0]
-        for t in ("2006", "1"):
+        for t in ("2006", "1", "1"):
             s, _, _ = B.step(s, t, ctx)
-            self.assertNotIn("21", json.dumps(B.page(s, ctx)), "the age needed is never shown")
+            self.assertNotIn('"age": 21', json.dumps(B.page(s, ctx)), "the age needed is never shown")
+        self.assertEqual(s["screen"], "age_confirm", "Is this right? once before the check")
         s, ends, action = B.step(s, "1", ctx)
         self.assertEqual((s["screen"], ends, action), ("too_young", True, {"age_refused": True}))
         self.assertIsNone(s["birth"], "the date is forgotten at once")
         self.assertNotIn("21", json.dumps(B.page(s, ctx)))
-        again, ends, _ = B.step(B.start(), "2", dict(ctx, age_wait=True))
-        self.assertEqual((again["screen"], ends), ("too_young", True), "no instant retry from the same number")
+        again, ends, _ = B.step(B.start(), "2", dict(ctx, age_blocked=True))
+        self.assertEqual((again["screen"], ends), ("too_young", True), "no retry from the same number until an ID check clears it")
 
     def test_reset_my_pin_by_menu_asks_the_cloud_and_never_resets_at_once(self):
         s = B.start()

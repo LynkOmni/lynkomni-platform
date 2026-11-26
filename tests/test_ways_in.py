@@ -52,6 +52,28 @@ class Account(unittest.TestCase):
     def setUp(self):
         os.environ.pop("LYNK_MODE", None); self.p = Platform(); self.a = self.p.account; self.w = self.a.ways
 
+    def test_under_age_is_final_until_the_partner_id_check_clears_it(self):
+        from services.age_partners import SandboxAgeIdCheck
+        self.a.age_refused(device="d-kid", network="n-home", now=T0)
+        for later in (T0 + 3600, T0 + 30 * 86400):
+            with self.assertRaises(PermissionError, msg="no retry by retyping and no wait that ends by itself"):
+                self.a.begin_sign_up("kid.try", "en", later, adult_confirmed=True, device="d-kid", network="n-other")
+        self.assertTrue(self.a.age_blocked(network="n-home"))
+        self.assertEqual(self.a.age_id_check_request("CM", device="d-kid", now=T0)["state"], "coming_soon", "off until a partner is signed")
+        r = self.a.age_id_check_request("CM", device="d-kid", network="n-home", now=T0, partner=SandboxAgeIdCheck())
+        self.assertEqual(r["state"], "sent")
+        self.assertTrue(r["lover"].startswith("LOVER-"))
+        self.assertEqual(self.a.partner_age_answer(r["lover"], False, now=T0 + 60), "failed")
+        self.assertTrue(self.a.age_blocked(device="d-kid"), "not adult leaves the block")
+        r = self.a.age_id_check_request("CM", device="d-kid", network="n-home", now=T0, partner=SandboxAgeIdCheck())
+        self.assertEqual(self.a.partner_age_answer(r["lover"], True, now=T0 + 120), "confirmed")
+        self.assertFalse(self.a.age_blocked(device="d-kid", network="n-home"))
+        self.a.begin_sign_up("adult.now", "en", T0 + 200, adult_confirmed=True, device="d-kid", network="n-home")
+        with self.assertRaises(ValueError):
+            self.a.partner_age_answer(r["lover"], True, now=T0 + 300)
+        rows = self.a.db.execute("select * from acct_age_blocks").fetchall() + self.a.db.execute("select * from acct_age_idchecks").fetchall()
+        self.assertFalse(any("19" in str(c) and "-" in str(c) for row in rows for c in row if isinstance(c, str) and not c.startswith(("LOVER", "["))), "no date is kept")
+
     def sign_up(self, username="grace.k", device="d1", network="n1"):
         s = self.a.begin_sign_up(username, "en", T0, adult_confirmed=True, country="CM", device=device, network=network)
         confirm_contacts(self.a, s["person"], T0)

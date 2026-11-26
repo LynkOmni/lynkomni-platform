@@ -8,7 +8,7 @@
  *  ways, strongest first, and an extra check for a new or unusual sign-in; the hub offers only the ways the person has, with their
  *  waits; never a password, questions, a text, email or call alone, or support finishing it; one Cancel on every old device. */
 import { WAYS_IN } from "./waysin.generated.js";
-import { signUpNext, ageCheck, ageWait, legalNameProblem, identifierKind, signInWays, extraChecks, recoveryWays, backupCodesLeftNote, checkup, contactsProblem,
+import { signUpNext, ageCheck, ageBlocked, legalNameProblem, identifierKind, signInWays, extraChecks, recoveryWays, backupCodesLeftNote, checkup, contactsProblem,
   antiPhishingProblem, sessionHours, restrictedAfterRecovery, ownerCheckMethod, ownerCheckOutcome } from "./waysin.js";
 import { noticeHtml } from "./errorbox.js";
 import { asciiDigits } from "./codefield.js";
@@ -28,7 +28,7 @@ export interface WaysLook {
 }
 export interface WaysState {
   now: number; online: boolean; has: string[]; strongest: boolean; minAge: number;
-  su: { done: string[]; birth: { d: string; m: string; y: string }; ageOk: boolean; ageWrong: boolean; ageRefusedAt: number | null; legal: string; tried: boolean; username: string; codes: string[]; recovery: string; device: number; network: number };
+  su: { done: string[]; birth: { d: string; m: string; y: string }; ageOk: boolean; ageWrong: boolean; ageConfirm: boolean; ageRefusedAt: number | null; ageClearedAt: number | null; ageId: "none" | "sent"; legal: string; tried: boolean; username: string; codes: string[]; recovery: string; device: number; network: number };
   si: { who: string; step: "who" | "ways" | "extra" | "done"; unusual: string[]; remember: boolean; qr: boolean; numbers: number };
   rc: { problem: string | null; way: string | null; started: number | null; readyAt: number | null; cancelled: boolean; done: number | null; locked: boolean; blocked: boolean };
   sec: { left: number; shown: string[] | null; auth: "off" | "setup" | "on"; authKey: string; keys: number; contacts: string[]; word: string; wordSaved: boolean;
@@ -45,7 +45,7 @@ export function waysStart(now: number, random: (n: number) => number): WaysState
   const codes = Array.from({ length: WAYS_IN.backup_codes.count }, code);
   return {
     now, online: true, has: ["passkey", "other_device", "email_code", "text_code", "backup_code", "recovery_code", "email_and_phone", "id_check"], strongest: false, minAge: 18,
-    su: { done: [], birth: { d: "", m: "", y: "" }, ageOk: false, ageWrong: false, ageRefusedAt: null, legal: "", tried: false, username: "", codes, recovery: `${code()}-${code()}`, device: 0, network: 0 },
+    su: { done: [], birth: { d: "", m: "", y: "" }, ageOk: false, ageWrong: false, ageConfirm: false, ageRefusedAt: null, ageClearedAt: null, ageId: "none", legal: "", tried: false, username: "", codes, recovery: `${code()}-${code()}`, device: 0, network: 0 },
     si: { who: "grace.k", step: "who", unusual: [], remember: true, qr: false, numbers: 10 + random(90) },
     rc: { problem: null, way: null, started: null, readyAt: null, cancelled: false, done: null, locked: false, blocked: false },
     sec: { left: WAYS_IN.backup_codes.count, shown: null, auth: "off", authKey: "", keys: 0, contacts: [], word: "", wordSaved: false, lock: [], old: ["Old tablet"], activity: [], appLock: false, privacy: false, basic: false },
@@ -70,19 +70,38 @@ function dateOrder(lang?: string): ("d" | "m" | "y")[] {
   return ["d", "m", "y"];
 }
 const birthFilled = (b: { d: string; m: string; y: string }): boolean => !!b.d && !!b.m && b.y.length === 4;
-/** The neutral age gate (owner 2026-11-26): a birth date typed without saying the age needed; the device works out adult or not
- *  and forgets the date; someone who comes out under age waits before trying again. The age needed is never on this screen. */
+/** The date as the reader writes it, for the one-time "Is this right?" (presentation only; never kept). */
+function birthWords(b: { d: string; m: string; y: string }, lang?: string): string {
+  try { return new Intl.DateTimeFormat(lang, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(Date.UTC(Number(b.y), Number(b.m) - 1, Number(b.d)))); }
+  catch { return `${b.d}/${b.m}/${b.y}`; }
+}
+/** The neutral age gate (owner 2026-11-26): a birth date typed without saying the age needed and confirmed once; the device works
+ *  out adult or not and forgets the date. The answer is locked: it is never retyped. Under age is final on this device until the
+ *  licensed partner's ID check clears it (the person pays its fee, shown first). The age needed is never on this screen. */
 function ageStepHtml(look: WaysLook, st: WaysState, next: (enabled?: boolean, extra?: string) => string): string {
   const t = look.t;
-  if (ageWait(st.su.ageRefusedAt, st.now)) return noticeHtml(t, { level: "info", text: t("wy_age_wait") });
+  if (ageBlocked(st.su.ageRefusedAt, st.su.ageClearedAt)) {
+    return noticeHtml(t, { level: "info", text: t("wy_age_blocked") })
+      + (st.su.ageId === "sent" ? noticeHtml(t, { level: "info", text: t("wy_age_id_sent") })
+        : `<p class="wy-note">${wyEsc(t("wy_age_id_note"))}</p>${wyBtn(look, "secondary", "su:age:id", t("wy_age_id"), " data-wait")}`);
+  }
   if (st.su.ageOk) return `${noticeHtml(t, { level: "success", text: t("wy_age_checked") })}${next()}`;
-  const b = st.su.birth, max = { d: 2, m: 2, y: 4 } as const, ac = { d: "bday-day", m: "bday-month", y: "bday-year" } as const;
+  const b = st.su.birth;
+  if (st.su.ageConfirm) {
+    return `<p class="wy-sub">${wyEsc(t("wy_birth_confirm", { date: birthWords(b, look.lang) }))}</p><p class="wy-note">${wyEsc(t("wy_birth_once"))}</p>`
+      + `<div class="wy-btns">${wyBtn(look, "primary", "su:age:yes", t("wy_birth_yes"))}${wyBtn(look, "secondary", "su:age:change", t("wy_birth_change"))}</div>`;
+  }
+  const max = { d: 2, m: 2, y: 4 } as const, ac = { d: "bday-day", m: "bday-month", y: "bday-year" } as const;
   const word = { d: "wy_birth_day", m: "wy_birth_month", y: "wy_birth_year" } as const;
   const boxes = dateOrder(look.lang).map((k) => `<label class="wy-date-part"><span>${wyEsc(t(word[k]))}</span><input id="wyBirth${k}" data-in="wy:birth_${k}" inputmode="numeric" autocomplete="${ac[k]}" maxlength="${max[k]}" data-count="off" data-sensitive value="${wyEsc(b[k])}" aria-describedby="wyBirth-msg"></label>`).join("");
   return `<fieldset class="wy-date"><legend>${wyEsc(t("wy_birth_label"))}</legend><div class="wy-date-row" dir="ltr">${boxes}</div></fieldset>`
     + (st.su.ageWrong ? noticeHtml(t, { level: "error", text: t("wy_birth_invalid"), field: `wyBirth${dateOrder(look.lang)[0]}`, how: t("fd_type_again") }) : "")
     + `<p class="wy-note">${wyEsc(t("wy_birth_note"))}</p>${next(birthFilled(b))}`;
 }
+const wyAge = (st: WaysState): "adult" | "under" | "no_such_date" => {
+  const b = st.su.birth, day = new Date(st.now * 1000);
+  return ageCheck(Number(b.y), Number(b.m), Number(b.d), [day.getFullYear(), day.getMonth() + 1, day.getDate()], st.minAge);
+};
 export function signUpHtml(look: WaysLook, st: WaysState): string {
   const t = look.t, steps: readonly string[] = WAYS_IN.sign_up.steps, step = signUpNext(st.su.done);
   const idx = step === null ? steps.length : steps.indexOf(step);
@@ -253,18 +272,26 @@ export function waysAct(st: WaysState, act: string, random: (n: number) => numbe
   if (area === "go") return { go: verb };
   if (area === "su") {
     if (verb === "back") { st.su.done.pop(); return {}; }
+    if (verb === "age") {
+      if (arg === "change" && st.su.ageConfirm) { st.su.ageConfirm = false; return {}; }
+      if (arg === "yes" && st.su.ageConfirm && !st.su.ageOk) {
+        const r = wyAge(st);
+        st.su.birth = { d: "", m: "", y: "" }; st.su.ageConfirm = false; st.su.ageWrong = false;   // the date is forgotten at once
+        if (r === "under") { st.su.ageRefusedAt = st.now; return {}; }
+        if (r === "adult") { st.su.ageOk = true; if (!st.su.done.includes("age")) st.su.done.push("age"); }
+        return {};
+      }
+      if (arg === "id" && ageBlocked(st.su.ageRefusedAt, st.su.ageClearedAt)) { st.su.ageId = "sent"; return {}; }   // the partner's answer is written by the cloud alone
+      return {};
+    }
     if (verb === "next" && arg) {
       if (arg === "legal_name") { st.su.tried = true; if (legalNameProblem(st.su.legal)) return {}; }
       if (arg === "age" && !st.su.ageOk) {
-        if (ageWait(st.su.ageRefusedAt, st.now)) return {};
-        const b = st.su.birth, day = new Date(st.now * 1000);
-        const r = ageCheck(Number(b.y), Number(b.m), Number(b.d), [day.getFullYear(), day.getMonth() + 1, day.getDate()], st.minAge);
-        if (r === "no_such_date") { st.su.ageWrong = true; return {}; }
-        st.su.birth = { d: "", m: "", y: "" }; st.su.ageWrong = false;   // the date is forgotten at once; only adult yes is kept
-        if (r === "under") { st.su.ageRefusedAt = st.now; return {}; }
-        st.su.ageOk = true;
-      }
-      if (arg === "username" && !check(st.su.username).ok) return {};
+        if (ageBlocked(st.su.ageRefusedAt, st.su.ageClearedAt)) return {};
+        if (st.su.ageConfirm) return {};
+        if (wyAge(st) === "no_such_date") { st.su.ageWrong = true; return {}; }
+        st.su.ageConfirm = true; return {};   // Is this right? comes once before the check
+      }      if (arg === "username" && !check(st.su.username).ok) return {};
       if (!st.su.done.includes(arg)) st.su.done.push(arg);
       return arg === "recovery" ? { event: "AccountCreated" } : {};
     }

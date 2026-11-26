@@ -6,12 +6,12 @@
 import { pinProblem } from "./signin.js";
 import { ageCheck } from "./waysin.js";
 
-export type BpScreen = "welcome" | "pin" | "locked" | "age" | "age_month" | "age_day" | "too_young" | "username" | "new_pin" | "pin_again" | "terms" | "created" | "home"
+export type BpScreen = "welcome" | "pin" | "locked" | "age" | "age_month" | "age_day" | "age_confirm" | "too_young" | "username" | "new_pin" | "pin_again" | "terms" | "created" | "home"
   | "messages" | "read" | "help" | "states" | "state" | "pin_help" | "pin_reset" | "pin_reset_sent" | "pin_reset_shop" | "link_sent" | "handed" | "bye";
 export interface BpState { screen: BpScreen; signed_in: boolean; limited: boolean; username: string | null; pin: string | null; note: [string, Record<string, string | number>] | null; pick: number | null; back: BpScreen; birth: number[] | null }
 export type BpLine = [string, Record<string, string | number>];
-/** age: the age needed (never shown); today: [y, m, d]; age_wait: this number came out under age within the wait. */
-export interface BpCtx { age: number; today: [number, number, number]; age_wait?: boolean; lines: [string, string][]; recovery?: string; case?: string }
+/** age: the age needed (never shown); today: [y, m, d]; age_blocked: this number came out under age and no ID check cleared it. */
+export interface BpCtx { age: number; today: [number, number, number]; age_blocked?: boolean; lines: [string, string][]; recovery?: string; case?: string }
 export type PinCheck = "ok" | "duress" | "locked" | ["wrong", number];
 export interface BpRules { pinCheck: (pin: string) => PinCheck; usernameCheck: (u: string) => string | null; taken: (u: string) => boolean }
 export type BpAction = { sign_in: true; duress?: true } | { wrong_pin: number } | { create: { username: string; pin: string } } | { read: string } | { send_link: "help" } | { hand_over: "help" } | { pin_reset: "menu" } | { age_refused: true };
@@ -34,6 +34,7 @@ export function bpPage(state: BpState, ctx: BpCtx): BpLine[] {
     case "age": return [...note, ["bp_birth_forget", {}], ["bp_birth_year", {}]];
     case "age_month": return [...note, ["bp_birth_month", {}]];
     case "age_day": return [...note, ["bp_birth_day", {}]];
+    case "age_confirm": { const [y = 0, m = 0, d = 0] = state.birth ?? []; return [["bp_birth_confirm", { d, m, y }], ["bp_yes", { n: 1 }], ["bp_change", { n: 2 }]]; }
     case "too_young": return [["bp_too_young", {}]];
     case "username": return [...note, ["bp_username", {}]];
     case "new_pin": return [...note, ["bp_new_pin", {}]];
@@ -69,7 +70,7 @@ export function bpStep(state: BpState, text: string, ctx: BpCtx, rules: BpRules)
       if (t === "0") return [to(s, "bye"), true, null];
       const pick = n >= 1 && n <= BP_WELCOME.length ? BP_WELCOME[n - 1] : null;
       if (pick === "sign_in") return [to(s, "pin"), false, null];
-      if (pick === "create") return ctx.age_wait ? [to(s, "too_young"), true, null] : [to(s, "age"), false, null];
+      if (pick === "create") return ctx.age_blocked ? [to(s, "too_young"), true, null] : [to(s, "age"), false, null];
       if (pick === "help") return [to({ ...s, back: "welcome" }, "help"), false, null];
       return [s, false, null];
     }
@@ -88,10 +89,15 @@ export function bpStep(state: BpState, text: string, ctx: BpCtx, rules: BpRules)
       return [to(s, "age_month", ["bp_birth_invalid", {}]), false, null];
     case "age_day": {
       if (!(n >= 1 && n <= 31)) return [to(s, "age_day", ["bp_birth_invalid", {}]), false, null];
-      const [y = 0, m = 0] = s.birth ?? [], cleared = { ...s, birth: null };   // the date is forgotten at once
-      const r = ageCheck(y, m, n, ctx.today, ctx.age);
-      if (r === "no_such_date") return [to(cleared, "age", ["bp_birth_invalid", {}]), false, null];
-      if (r === "under") return [to(cleared, "too_young"), true, { age_refused: true }];
+      const [y = 0, m = 0] = s.birth ?? [];
+      if (ageCheck(y, m, n, ctx.today, ctx.age) === "no_such_date") return [to({ ...s, birth: null }, "age", ["bp_birth_invalid", {}]), false, null];
+      return [to({ ...s, birth: [y, m, n] }, "age_confirm"), false, null];
+    }
+    case "age_confirm": {
+      if (t === "2") return [to({ ...s, birth: null }, "age"), false, null];
+      if (t !== "1") return [s, false, null];
+      const [y = 0, m = 0, d = 0] = s.birth ?? [], cleared = { ...s, birth: null };   // confirmed once, then forgotten
+      if (ageCheck(y, m, d, ctx.today, ctx.age) === "under") return [to(cleared, "too_young"), true, { age_refused: true }];
       return [to(cleared, "username"), false, null];
     }
     case "username": {
