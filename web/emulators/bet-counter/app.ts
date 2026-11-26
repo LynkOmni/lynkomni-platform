@@ -13,7 +13,7 @@ import { designedState, panelShell, sampleAccount } from "../../../ts/src/device
 import type { Entry } from "../../../ts/src/shell.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
-import { StaffLock, deviceBanners, knowledgeFor, raiseLocal, staffPicker, staffWhoRow } from "../../../ts/src/devicekit.js";
+import { StaffLock, deviceBanners, knowledgeFor, raiseLocal, staffPicker, staffWhoRow, lockWhoButton } from "../../../ts/src/devicekit.js";
 import { pinPad } from "../../../ts/src/signin.js";
 import type { Line as Notice } from "../../../ts/src/notify.js";
 import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
@@ -226,13 +226,13 @@ function storefrontView(): string {
 function lockView(): string {
   if (S.picking) return `<div class="block">${staffPicker(STAFF.staff, t, (id) => icon(id))}</div>`;
   const me = STAFF.find(S.who), waitLeft = Math.max(0, Math.ceil(((STAFF.waitUntil.get(S.who) ?? 0) - Date.now()) / 1000));
-  return `<div class="block"><p class="who">${icon("ui-user")}<span>${esc(me?.name ?? "")} · ${esc(t(`role_${me?.role ?? "cashier"}`))}</span><button type="button" class="link" data-act="staff:change">${esc(t("dk_change"))}</button></p>
+  return `<div class="block"><p class="who">${lockWhoButton(me?.name ?? "", me?.role ?? "cashier", t, (id) => icon(id))}</p>
     ${S.idle ? `<p class="sub" role="status">${esc(t("locked_idle"))}</p>` : ""}
     ${STAFF.hard.has(S.who) ? noticeHtml(t, { level: "error", text: t("dk_hard_locked"), how: t("fd_ask_manager") }) : ""}
-    ${pad(me?.name ?? "", STAFF.wrong.get(S.who) ?? 0, waitLeft)}<p class="sub">${esc(t("dk_own_pin"))}</p><p class="hint">${esc(t("bt_pin_hint"))}</p>${me?.duress ? `<p class="hint">${esc(t("dk_duress_sample", { pin: me.duress }))}</p>` : ""}</div>`;
+    ${pad(me?.name ?? "", STAFF.wrong.get(S.who) ?? 0, waitLeft, S.who)}<p class="sub">${esc(t("dk_own_pin"))}</p><p class="hint">${esc(t("bt_pin_hint"))}</p>${me?.duress ? `<p class="hint">${esc(t("dk_duress_sample", { pin: me.duress }))}</p>` : ""}</div>`;
 }
-const pad = (name: string, wrong: number, waitLeft: number): string =>
-  pinPad({ entered: S.pin.length, length: Math.max(4, S.pin.length), wrong, waitLeft, pictures: S.pictures, sound: S.keySound, title: t("dk_pin_for", { name }) }, t, (id) => icon(id));
+const pad = (name: string, wrong: number, waitLeft: number, person: string): string =>
+  pinPad({ entered: S.pin.length, length: STAFF.lengthOf(person), wrong, waitLeft, pictures: S.pictures, sound: S.keySound, title: t("dk_pin_for", { name }) }, t, (id) => icon(id));
 /** A manager or the owner, never the person serving, approves with their own PIN on this counter. */
 function approveView(): string {
   const ap = S.approval; if (!ap) return home();
@@ -242,7 +242,7 @@ function approveView(): string {
     return bar(title, ap.back) + `<p class="sub">${esc(t("bt_approver"))}</p>${staffPicker(who, t, (id) => icon(id))}`;
   }
   const m = STAFF.find(ap.person), waitLeft = Math.max(0, Math.ceil(((STAFF.waitUntil.get(ap.person) ?? 0) - Date.now()) / 1000));
-  return bar(title, ap.back) + pad(m?.name ?? "", STAFF.wrong.get(ap.person) ?? 0, waitLeft) + (STAFF.hard.has(ap.person) ? noticeHtml(t, { level: "error", text: t("dk_hard_locked"), how: t("fd_ask_manager") }) : "");
+  return bar(title, ap.back) + pad(m?.name ?? "", STAFF.wrong.get(ap.person) ?? 0, waitLeft, ap.person) + (STAFF.hard.has(ap.person) ? noticeHtml(t, { level: "error", text: t("dk_hard_locked"), how: t("fd_ask_manager") }) : "");
 }
 function screen(): string {
   const head = `<header class="bhead"><h1>${esc(t("bt_title"))}</h1>${DSH.bar()}</header>${DSH.crumbs(true)}${deviceBanners(LINES, t, (id) => icon(id))}`;
@@ -407,8 +407,9 @@ function signInAct(k: string, x: string, y: string): boolean {
   if (x === "pictures") { S.pictures = !S.pictures; draw(); return true; }
   if (x === "sound") { S.keySound = !S.keySound; draw(); return true; }
   if (x === "clear") { S.pin = S.pin.slice(0, -1); draw(); return true; }
-  if (/^\d$/.test(x)) { if (S.pin.length < 8) S.pin += x; draw(); return true; }
-  if (x !== "ok" || !S.pin) return true;
+  const full = STAFF.lengthOf(S.view === "lock" ? S.who : S.approval?.person ?? S.who);   // this person's PIN length: never a digit more
+  if (/^\d$/.test(x)) { if (S.pin.length < full) S.pin += x; if (S.pin.length < full) { draw(); return true; } }   // full: checked at once
+  else if (x !== "ok" || !S.pin) return true;
   const pin = S.pin; S.pin = "";
   if (S.view === "lock") {
     const r = STAFF.signIn(S.who, pin, Date.now());

@@ -113,6 +113,10 @@ class DeviceAccess:
         target["duress"] = None                  # a reset clears the duress PIN too; the person sets a new one
         self.emit("StaffPinReset", {"device_id": self.device, "person": person, "by": by})
 
+    def pin_length(self, person):
+        """How many digits this person's PIN has: the pad shows that many dots, takes no more and checks once they are full."""
+        return self.staff[person]["lock"].length
+
     def set_duress_pin(self, person, pin, duress_pin):
         s = self.staff[person]
         if not s["lock"].check(pin)["ok"]:
@@ -121,6 +125,8 @@ class DeviceAccess:
             raise ValueError("choose a duress PIN of 4 to 8 digits that is not a repeated or running number")
         if duress_pin == pin:
             raise ValueError("the duress PIN must differ from the normal PIN")
+        if len(duress_pin) != len(pin):
+            raise ValueError("the duress PIN has the same number of digits as the PIN, so the pad gives nothing away")
         salt = secrets.token_bytes(16)
         s["duress"] = (salt, hashlib.scrypt(duress_pin.encode(), salt=salt, n=2 ** 14, r=8, p=1))
 

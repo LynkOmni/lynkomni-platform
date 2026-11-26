@@ -17,7 +17,8 @@ def sign_in(pg, device, state=""):
     if pg.locator('[data-act="pin:ok"]').count():
         for d in pin:
             pg.click(f'[data-act="pin:{d}"] >> visible=true', timeout=3000)
-        pg.click('[data-act="pin:ok"] >> visible=true', timeout=3000)
+        if pg.locator('[data-act="pin:ok"]').count():   # a full PIN is checked at once; OK is only pressed if the pad still shows
+            pg.click('[data-act="pin:ok"] >> visible=true', timeout=3000)
     elif pg.locator('.lock [data-act="d1"]').count():   # the counter tablet's own pad opens at the fourth digit
         for d in pin:
             pg.click(f'.lock [data-act="d{d}"]', timeout=3000)

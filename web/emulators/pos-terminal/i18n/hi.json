@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "65a9bcbd7a6d9022d12b89fdd938f728ac41ba7efa6aeea8281b66db2f508381",
+ "source_sha256": "73d503bda652e77b17d7519d187d18078a0c7b8b2cd4ee50d71e9fa24d52ea61",
  "texts": {
   "all": "सभी",
   "asked_owner": "मालिक को भेज दिया। जवाब यहाँ दिखेगा।",
@@ -55,7 +55,6 @@
   "payment": "भुगतान",
   "phone": "ग्राहक का फ़ोन नंबर",
   "pin": "अपना PIN डालें",
-  "pin_hint": "नमूना PIN: 1234",
   "pos_why_bad_receipt_number": "रसीद संख्या अपेक्षित रूप में नहीं है।",
   "pos_why_empty_cart": "टोकरी खाली है, इसलिए अभी भुगतान के लिए कुछ नहीं है।",
   "pos_why_invalid_amount": "यह राशि इस्तेमाल नहीं हो सकती: यह शून्य से अधिक पूरी राशि होनी चाहिए।",

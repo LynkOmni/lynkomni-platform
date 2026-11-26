@@ -7,6 +7,7 @@
  *  slow salted hash in its encrypted database, never the PIN. */
 import { ASSIST, CAN_MANAGE, CARD_FORM, CARD_GROUP_NAMES, CARD_TIER_WORD, CARD_WORD, DURESS_VIEW, MESSAGES, OFFLINE_LIMITS } from "./parts.generated.js";
 import { afterWrong, pinPad, pinProblem } from "./signin.js";
+import { PIN_RULE } from "./parts.generated.js";
 import { noticeHtml } from "./errorbox.js";
 import { banner, priorityOf } from "./notify.js";
 import type { Line } from "./notify.js";
@@ -38,8 +39,13 @@ export class StaffLock {
   hard = new Set<string>();
   remoteLocked = false;
   alerts: { person: string; at: number; sentBy: string | null }[] = [];
-  constructor(public staff: Staff[]) {}
+  constructor(public staff: Staff[]) {
+    for (const s of staff) if (s.duress && s.duress.length !== s.pin.length) throw new Error(`${s.person}: the duress PIN has the same number of digits as the PIN`);
+  }
   find(person: string): Staff | undefined { return this.staff.find((s) => s.person === person); }
+  /** How many digits this person's PIN has (a real device keeps the length beside the salted hash): the pad shows that many
+   *  dots, takes no more and checks once they are full (owner, 2026-11-26). A duress PIN always has the same length. */
+  lengthOf(person: string): number { return this.find(person)?.pin.length ?? PIN_RULE.min; }
   signIn(person: string, pin: string, now: number): SignIn {
     if (this.remoteLocked) return { ok: false, reason: "locked_by_owner" };
     const s = this.find(person);
@@ -93,6 +99,12 @@ export interface GateHooks { t: T; icon: Icon; device: string; online: () => boo
 export function staffWhoRow(name: string, role: string, t: (k: string) => string, icon: (id: string) => string): string {
   return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(name)} · ${esc(t(`role_${role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
 }
+/** Whose PIN the lock asks for, as one button that picks another person (owner, 2026-11-26: a lock screen always fits its
+ *  screen, so the name and "Not you? Change" share one line). Screen readers hear the name and "Not you? Change". */
+export function lockWhoButton(name: string, role: string, t: (k: string) => string, icon: (id: string) => string): string {
+  const who = `${name} · ${t(`role_${role}`)}`;
+  return `<button type="button" class="dk-whobtn" data-act="staff:change" aria-label="${esc(`${who}. ${t("dk_change")}`)}">${icon("ui-user")}<span>${esc(who)}</span>${icon("ui-chevron-down")}</button>`;
+}
 export class StaffGate {
   who: string; picking = false; pin = ""; signed = false; limited = false; idle = false; last = Date.now(); pictures = false; sound = true; open: boolean; private then: (() => void) | null = null;
   constructor(public lock: StaffLock, private h: GateHooks, public optional = false, public idleMs = 120_000) {
@@ -107,9 +119,9 @@ export class StaffGate {
     const { t, icon } = this.h;
     if (this.picking) return `<div class="${cls}">${staffPicker(this.lock.staff, t, icon)}</div>`;
     const s = this.lock.find(this.who);
-    const pad = pinPad({ entered: this.pin.length, length: Math.max(4, this.pin.length), wrong: this.lock.wrong.get(this.who) ?? 0, waitLeft: this.waitLeft(), pictures: this.pictures, sound: this.sound, title: t("dk_pin_for", { name: s?.name ?? "" }) }, t, icon);
+    const pad = pinPad({ entered: this.pin.length, length: this.lock.lengthOf(this.who), wrong: this.lock.wrong.get(this.who) ?? 0, waitLeft: this.waitLeft(), pictures: this.pictures, sound: this.sound, title: t("dk_pin_for", { name: s?.name ?? "" }) }, t, icon);
     const sample = this.lock.staff.map((x) => `${t(`role_${x.role}`)} ${x.pin}`).join(", ");
-    return `<div class="${cls}"><p class="dk-who">${icon("ui-user")}<span>${esc(s?.name ?? "")} · ${esc(t(`role_${s?.role ?? "cashier"}`))}</span><button type="button" class="dk-link" data-act="staff:change">${esc(t("dk_change"))}</button>${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</p>
+    return `<div class="${cls}"><p class="dk-who">${lockWhoButton(s?.name ?? "", s?.role ?? "cashier", t, icon)}${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</p>
       ${this.idle ? noticeHtml(t, { level: "info", cls: "dk-note", text: t("locked_idle") }) : ""}${this.lock.hard.has(this.who) ? noticeHtml(t, { level: "error", cls: "dk-note", text: t("dk_hard_locked"), how: t("fd_ask_manager") }) : ""}
       ${pad}<p class="dk-note">${esc(t("dk_own_pin"))}</p><p class="dk-note">${esc(t("dk_pin_sample", { list: sample }))}</p>${s?.duress ? `<p class="dk-note">${esc(t("dk_duress_sample", { pin: s.duress }))}</p>` : ""}
 </div>`;
@@ -141,7 +153,7 @@ export class StaffGate {
     if (x === "pictures") this.pictures = !this.pictures;
     else if (x === "sound") this.sound = !this.sound;
     else if (x === "clear") this.pin = this.pin.slice(0, -1);
-    else if (/^\d$/.test(x)) { if (this.pin.length < 8) this.pin += x; }
+    else if (/^\d$/.test(x)) { if (this.pin.length < this.lock.lengthOf(this.who)) this.pin += x; if (this.pin.length === this.lock.lengthOf(this.who)) this.tryPin(); }   // full: checked at once, never a digit more
     else if (x === "ok" && this.pin) this.tryPin();
     this.h.redraw(); return true;
   }
@@ -180,9 +192,6 @@ export class StaffGate {
 /** The staff picker and PIN pad of a device's lock screen. */
 export function staffPicker(staff: Staff[], t: T, icon: Icon): string {
   return `<div class="dk-staff" role="group" aria-label="${esc(t("dk_who"))}"><h2>${esc(t("dk_who"))}</h2><ul>${staff.map((s) => `<li><button type="button" data-act="staff:pick:${esc(s.person)}">${icon("ui-user")}<span>${esc(s.name)}</span><span class="dk-role">${esc(t(`role_${s.role}`))}</span></button></li>`).join("")}</ul><p class="dk-note">${esc(t("dk_own_pin"))}</p></div>`;
-}
-export function staffPin(name: string, entered: number, wrong: number, waitLeft: number, t: T, icon: Icon): string {
-  return pinPad({ entered, length: Math.max(4, entered), wrong, waitLeft, pictures: false, sound: true, title: t("dk_pin_for", { name }) }, t, icon);
 }
 
 /** LynkAssist without a network (offline layer 2): what the register says each action does offline. */

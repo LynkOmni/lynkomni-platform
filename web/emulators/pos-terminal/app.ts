@@ -19,7 +19,7 @@ import type { DsScreen, StatePictures } from "../../../ts/src/deviceshell.js";
 import type { Entry } from "../../../ts/src/shell.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
-import { StaffLock, deviceBanners, needsManager, raiseLocal, staffPicker, staffWhoRow } from "../../../ts/src/devicekit.js";
+import { StaffLock, deviceBanners, needsManager, raiseLocal, staffPicker, staffWhoRow, lockWhoButton } from "../../../ts/src/devicekit.js";
 import type { Line } from "../../../ts/src/notify.js";
 import { buildPack } from "../../../ts/src/assist.js";
 import { PeopleHub } from "../../../ts/src/peoplehub.js";
@@ -233,11 +233,11 @@ function tear(): void { const w = $("#paperWrap"); w.classList.add("torn"); wind
 // ---- input: touch screen, physical keypad and keyboard -------------------------------------------------------------
 function digit(d: string): void {
   if (S.screen === "door") { PH.doorDigit(d); draw(); return; }      // the door's PIN and IDCN: dots only, never the digits
-  const max = S.screen === "lock" ? 4 : S.screen === "momo" || (S.screen === "agent" && S.step === "number") ? 12 : S.screen === "code" ? 8 : 9;
+  const max = S.screen === "lock" ? STAFF.lengthOf(S.who) : S.screen === "momo" || (S.screen === "agent" && S.step === "number") ? 12 : S.screen === "code" ? 8 : 9;
   if (!["lock", "cash", "momo", "count", "agent", "code", "credit"].includes(S.screen) || (S.screen === "agent" && S.step === "confirm")) return;
   if (S.input.length + d.length > max) return;
   S.input += d; S.note = "";
-  if (S.screen === "lock" && S.input.length === 4) { enter(); return; }
+  if (S.screen === "lock" && S.input.length === STAFF.lengthOf(S.who)) { enter(); return; }   // full: checked at once, never a digit more
   draw();
 }
 function clearKey(): void { if (S.screen === "door") { PH.doorBack(); draw(); return; } S.input = S.input.slice(0, -1); draw(); }
@@ -419,10 +419,10 @@ function view(): string {
       if (STAFF.remoteLocked) return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.theme === "dark", "lockmark")}<p class="pname">LynkPOS</p><h1>${esc(t("locked_by_owner"))}</h1></div>`;
       if (S.picking) return `<div class="lock">${staffPicker(STAFF.staff, t, icon)}</div>`;
       return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.theme === "dark", "lockmark")}<p class="pname">LynkPOS</p>
-        <p class="who">${icon("ui-user")}<span>${esc(STAFF.find(S.who)?.name ?? "")} · ${esc(t(`role_${STAFF.find(S.who)?.role ?? "cashier"}`))}</span><button class="link" data-act="staff:change">${esc(t("dk_change"))}</button></p>
-        <h1>${esc(t("pin"))}</h1>${pinBox()}<div class="dots" aria-label="${S.input.length} of 4">${[0, 1, 2, 3].map((i) => `<i class="${i < S.input.length ? "on" : ""}"></i>`).join("")}</div>
+        <p class="who">${lockWhoButton(STAFF.find(S.who)?.name ?? "", STAFF.find(S.who)?.role ?? "cashier", t, (id) => icon(id))}</p>
+        <h1>${esc(t("pin"))}</h1>${pinBox()}<div class="dots" aria-label="${esc(t("pin_entered", { n: S.input.length }))}">${Array.from({ length: STAFF.lengthOf(S.who) }, (_, i) => i).map((i) => `<i class="${i < S.input.length ? "on" : ""}"></i>`).join("")}</div>
         ${noteBox()}<p class="keyhint">${icon("ui-info")}${esc(t("use_keys"))}</p>
-        <p class="hint">${esc(t("pin_hint"))}</p></div>`;
+        <p class="hint">${esc(t("dk_pin_sample", { list: STAFF.staff.map((x) => `${t(`role_${x.role}`)} ${x.pin}`).join(", ") }))}</p>${STAFF.find(S.who)?.duress ? `<p class="hint">${esc(t("dk_duress_sample", { pin: STAFF.find(S.who)!.duress! }))}</p>` : ""}</div>`;
     case "home":
       return `${top(t("sample_shop"), false)}${banners()}${staffWhoRow(STAFF.find(S.who)?.name ?? "", STAFF.find(S.who)?.role ?? "cashier", t, (id) => icon(id))}<div class="tiles12${S.lowLiteracy ? " big" : ""}">${HANDHELD_TILES.map((k) => `<button class="t12" data-act="tile:${k}">${icon(TILE_ICON[k] ?? "ui-grid")}<span>${esc(t(`tile_${k}`))}</span></button>`).join("")}</div>${adBlock("pos_idle", "home")}
         ${S.flash ? `<div class="toast" role="status">${icon("ui-check")}${esc(S.flash)}</div>` : ""}`;

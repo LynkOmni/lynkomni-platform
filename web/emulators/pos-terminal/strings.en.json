@@ -1,6 +1,5 @@
 {
  "pin": "Enter your PIN",
- "pin_hint": "Sample PIN 1234",
  "use_keys": "Type it on the keypad below the screen.",
  "card_online": "Card payments need an internet connection. Use cash or mobile money.",
  "wrong_pin": "Wrong PIN. Try again.",

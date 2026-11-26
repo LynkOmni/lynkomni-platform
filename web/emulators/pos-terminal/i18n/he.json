@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "65a9bcbd7a6d9022d12b89fdd938f728ac41ba7efa6aeea8281b66db2f508381",
+ "source_sha256": "73d503bda652e77b17d7519d187d18078a0c7b8b2cd4ee50d71e9fa24d52ea61",
  "texts": {
   "all": "הכול",
   "asked_owner": "נשלח לבעלים. התשובה תופיע כאן.",
@@ -55,7 +55,6 @@
   "payment": "תשלום",
   "phone": "מספר הטלפון של הלקוח",
   "pin": "הזינו את קוד ה-PIN",
-  "pin_hint": "קוד PIN לדוגמה: 1234",
   "pos_why_bad_receipt_number": "מספר הקבלה אינו בצורה הצפויה.",
   "pos_why_empty_cart": "הסל ריק, כך שעדיין אין על מה לשלם.",
   "pos_why_invalid_amount": "אי אפשר להשתמש בסכום הזה: הוא חייב להיות סכום שלם גדול מאפס.",

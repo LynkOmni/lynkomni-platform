@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "65a9bcbd7a6d9022d12b89fdd938f728ac41ba7efa6aeea8281b66db2f508381",
+ "source_sha256": "73d503bda652e77b17d7519d187d18078a0c7b8b2cd4ee50d71e9fa24d52ea61",
  "texts": {
   "all": "すべて",
   "asked_owner": "オーナーに送信しました。回答はここに表示されます。",
@@ -55,7 +55,6 @@
   "payment": "支払い",
   "phone": "お客様の電話番号",
   "pin": "PIN を入力してください",
-  "pin_hint": "サンプル PIN 1234",
   "pos_why_bad_receipt_number": "レシート番号の形式が正しくありません。",
   "pos_why_empty_cart": "かごが空なので、まだ支払うものがありません。",
   "pos_why_invalid_amount": "この金額は使えません。0より大きい整数の金額にしてください。",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ps",
  "native": "پښتو",
- "source_sha256": "65a9bcbd7a6d9022d12b89fdd938f728ac41ba7efa6aeea8281b66db2f508381",
+ "source_sha256": "73d503bda652e77b17d7519d187d18078a0c7b8b2cd4ee50d71e9fa24d52ea61",
  "texts": {
   "all": "ټول",
   "asked_owner": "مالک ته ولېږل شو. ځواب به دلته ښکاره شي.",
@@ -55,7 +55,6 @@
   "payment": "تادیه",
   "phone": "د پېرودونکي د تلیفون شمېره",
   "pin": "خپل PIN ولیکئ",
-  "pin_hint": "د بېلګې PIN: 1234",
   "pos_why_bad_receipt_number": "د رسید شمېره په تمه شوې بڼه نه ده.",
   "pos_why_empty_cart": "ټوکرۍ خالي ده، نو لا د تادیې لپاره څه نشته.",
   "pos_why_invalid_amount": "دا اندازه نشي کارول کېدای: باید له صفر څخه پورته بشپړه اندازه وي.",
