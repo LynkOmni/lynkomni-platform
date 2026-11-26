@@ -262,6 +262,42 @@ CLIP = r"""() => {
   return [...out];
 }"""
 
+# Nothing is ever cut (owner report 2026-11-26: the kitchen screen's PIN pad and staff list ran off the bottom with no scroll):
+# any text, picture or icon that lies outside its screen must sit in a part that scrolls to it.
+CUT = r"""() => {
+  const out = new Set();
+  const roots = [...document.querySelectorAll('#screen, #display, #cscreen, #till, #screenA, #screenB, .lscreen')].filter((r) => r.getClientRects().length);
+  for (const root of roots) {
+    const R = root.getBoundingClientRect();
+    for (const el of root.querySelectorAll('h1, h2, h3, p, li, label, .ic, img, .pinpad, .dk-staff, .popts')) {
+      if (!el.getClientRects().length || el.closest('[aria-hidden="true"], [hidden], .dsh-scrim:empty, .sr-only')) continue;
+      const cs = getComputedStyle(el); if (cs.visibility === 'hidden' || cs.display === 'none' || cs.position === 'fixed' || cs.position === 'absolute') continue;
+      const r = el.getBoundingClientRect(); if (r.width < 2 || r.height < 2) continue;
+      if (r.top >= R.top - 1 && r.bottom <= R.bottom + 1 && r.left >= R.left - 1 && r.right <= R.right + 1) continue;
+      let reach = false;
+      for (let a = el.parentElement; a && a !== root.parentElement; a = a.parentElement) {
+        const c = getComputedStyle(a);
+        if ((/(auto|scroll)/.test(c.overflowY) && a.scrollHeight > a.clientHeight + 1) || (/(auto|scroll)/.test(c.overflowX) && a.scrollWidth > a.clientWidth + 1)) { reach = true; break; }
+      }
+      if (!reach) out.add('cut off with no scroll: ' + (el.className && typeof el.className === 'string' ? '.' + el.className.split(' ')[0] + ' ' : el.tagName + ' ') + (el.textContent || '').trim().slice(0, 30));
+    }
+  }
+  return [...out];
+}"""
+
+# Every icon has a size (same report: an unsized icon filled the PIN key and the staff list). An icon in a button, row or line
+# is never taller than twice the text beside it (at least 40 px); pictures of empty states and illustrations are not icons.
+ICONS = r"""() => {
+  const out = new Set();
+  for (const el of document.querySelectorAll('#screen .ic, #display .ic, #cscreen .ic, #till .ic, #screenA .ic, #screenB .ic, .lscreen .ic')) {
+    if (!el.getClientRects().length) continue;
+    const host = el.closest('button, a, li, p, label, [role="button"]'); if (!host || getComputedStyle(el).display === 'block') continue;   // an icon on its own line is a picture, not beside text
+    const r = el.getBoundingClientRect(), fs = parseFloat(getComputedStyle(host).fontSize) || 14;
+    if (r.height > Math.max(40, 2 * fs) + 1 || r.width > Math.max(40, 2 * fs) + 1) out.add('icon too big: ' + Math.round(r.width) + 'x' + Math.round(r.height) + ' in ' + (host.dataset.act || host.textContent.trim().slice(0, 24) || host.tagName));
+  }
+  return [...out];
+}"""
+
 INPUT = """() => {
   const bad = [];
   for (const el of document.querySelectorAll('[data-interface]')) {
@@ -342,12 +378,26 @@ class FitGuard(unittest.TestCase):
     def check(self, pg, where, found):
         pg.mouse.move(0, 0)            # a hovered item is not part of the layout
         pg.evaluate(SETTLE)
-        bad = list(pg.evaluate(MENUS)) + list(pg.evaluate(DIALOGS)) + list(pg.evaluate(INPUT)) + list(pg.evaluate(CROWD)) + list(pg.evaluate(SPACE)) + list(pg.evaluate(AREAS))
+        bad = list(pg.evaluate(MENUS)) + list(pg.evaluate(DIALOGS)) + list(pg.evaluate(INPUT)) + list(pg.evaluate(CROWD)) + list(pg.evaluate(SPACE)) + list(pg.evaluate(AREAS)) + list(pg.evaluate(CLIP)) + list(pg.evaluate(CUT)) + list(pg.evaluate(ICONS))
         if bad:                               # look again after a moment: only what stays on screen counts
             pg.wait_for_timeout(400); pg.evaluate(SETTLE)
-            bad = list(pg.evaluate(MENUS)) + list(pg.evaluate(DIALOGS)) + list(pg.evaluate(INPUT)) + list(pg.evaluate(CROWD)) + list(pg.evaluate(SPACE)) + list(pg.evaluate(AREAS))
+            bad = list(pg.evaluate(MENUS)) + list(pg.evaluate(DIALOGS)) + list(pg.evaluate(INPUT)) + list(pg.evaluate(CROWD)) + list(pg.evaluate(SPACE)) + list(pg.evaluate(AREAS)) + list(pg.evaluate(CLIP)) + list(pg.evaluate(CUT)) + list(pg.evaluate(ICONS))
         if bad:
             found[where] = bad
+
+    def staff_lock(self, pg, where, found):
+        """Every shared staff device: the PIN pad and the 'Who is using this device' list, at this size (owner report 2026-11-26)."""
+        if not pg.locator('[data-state="lock_screen"]').count():
+            return
+        try:
+            pg.click('[data-state="lock_screen"]', timeout=1500)
+            self.check(pg, f"{where}, PIN pad", found)
+            change = pg.locator('[data-act="staff:change"] >> visible=true')
+            if change.count():
+                change.first.click(timeout=1500)
+                self.check(pg, f"{where}, who is using this device", found)
+        except Exception:
+            pass
 
     def open_dialogs(self, pg, where, found):
         """Opens each shell pop-up the emulator has, checks it and closes it again."""
@@ -395,6 +445,7 @@ class FitGuard(unittest.TestCase):
                         where = f"{emu}{' dark' if dark else ''}{f' at {size}' if size else ''}"
                         self.check(pg, where, found)
                         self.open_dialogs(pg, where, found)
+                        self.staff_lock(pg, where, found)
                     self.assertEqual(errors, [], emu)
                     pg.close()
             b.close()
@@ -435,10 +486,10 @@ class FitGuard(unittest.TestCase):
                 def look(where):
                     pg.mouse.move(0, 0)
                     pg.evaluate(SETTLE)
-                    bad = pg.evaluate(RAW) + pg.evaluate(NAMES) + pg.evaluate(CROWD) + pg.evaluate(AREAS) + pg.evaluate(EDGE) + pg.evaluate(CLIP)
+                    bad = pg.evaluate(RAW) + pg.evaluate(NAMES) + pg.evaluate(CROWD) + pg.evaluate(AREAS) + pg.evaluate(EDGE) + pg.evaluate(CLIP) + pg.evaluate(CUT) + pg.evaluate(ICONS)
                     if bad:                   # look again after a moment: only what stays on screen counts
                         pg.wait_for_timeout(400); pg.evaluate(SETTLE)
-                        bad = pg.evaluate(RAW) + pg.evaluate(NAMES) + pg.evaluate(CROWD) + pg.evaluate(AREAS) + pg.evaluate(EDGE) + pg.evaluate(CLIP)
+                        bad = pg.evaluate(RAW) + pg.evaluate(NAMES) + pg.evaluate(CROWD) + pg.evaluate(AREAS) + pg.evaluate(EDGE) + pg.evaluate(CLIP) + pg.evaluate(CUT) + pg.evaluate(ICONS)
                     if bad:
                         found.setdefault(emu, {})[where] = bad
                 look("start")

@@ -342,6 +342,9 @@ html { font-size: 100%; }
 .state-confirmed { color: var(--status-success-text); background: var(--status-success-bg); border: 1px solid var(--status-success-border); }
 .state-failed { color: var(--status-danger-text); background: var(--status-danger-bg); border: 1px solid var(--status-danger-border); }
 
+/* every icon has a size; a part's own size wins (2026-11-26) */
+:where(.ic){inline-size:1.25em;block-size:1.25em;display:inline-flex;flex:none}:where(.ic)>svg{inline-size:100%;block-size:100%}
+
 /* The LynkOmni shell (build section 1): one set of styles for every surface, built only on the design tokens
    (design/generated/tokens.css). Logical properties everywhere so right-to-left mirrors by itself; 44 px touch targets;
    text scales to 200%; reduced motion honoured; nothing ever scrolls sideways. Classes match ts/src/shell.ts. */
@@ -753,6 +756,7 @@ html { font-size: 100%; }
 .pkey:not(:disabled):hover { border-color: var(--brand-primary); }
 .pkey:disabled { opacity: .45; }
 .pkey.fn { background: var(--bg-surface); color: var(--brand-ink); }
+.pkey .pnum .ic { inline-size: 24px; block-size: 24px; }   /* Back and OK keys: the icon is the size of a digit */
 .pkey .pdots { inline-size: 18px; block-size: 18px; color: var(--text-secondary); }
 .pmsg { margin: 0; }
 .popts { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
