@@ -31,7 +31,7 @@
   "booking.check_in_kiosk": null,
   "booking.ticket_checker": "lynkbooking",
   "booking.arrivals_board": null,
-  "motion.driver_phone": "lynkmotion",
+  "motion.driver_phone": "lynkmotion_land",
   "guard.patrol_phone": "lynkguard",
   "guard.gate_post": "lynkguard",
   "guard.monitoring_wall": null,
@@ -47,7 +47,7 @@
   "lynkfiles": 0,
   "lynkguard": 0,
   "lynkhr": 0,
-  "lynkmotion": 0,
+  "lynkmotion_land": 0,
   "lynkpos": 2,
   "lynkproject": 0,
   "lynkqueue": 0,
@@ -9175,145 +9175,145 @@
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "free",
    "extras": 0,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "free",
    "extras": 1,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "free",
    "extras": 2,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "free",
    "extras": 3,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "free",
    "extras": 6,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "free",
    "extras": 12,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "plus",
    "extras": 0,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "plus",
    "extras": 1,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "plus",
    "extras": 2,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "plus",
    "extras": 3,
    "next": "pro"
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "plus",
    "extras": 6,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "plus",
    "extras": 12,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "pro",
    "extras": 0,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "pro",
    "extras": 1,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "pro",
    "extras": 2,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "pro",
    "extras": 3,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "pro",
    "extras": 6,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "pro",
    "extras": 12,
    "next": "max"
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "max",
    "extras": 0,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "max",
    "extras": 1,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "max",
    "extras": 2,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "max",
    "extras": 3,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "max",
    "extras": 6,
    "next": null
   },
   {
-   "family": "lynkmotion",
+   "family": "lynkmotion_land",
    "tier": "max",
    "extras": 12,
    "next": null

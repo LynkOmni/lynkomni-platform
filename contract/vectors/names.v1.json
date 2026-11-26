@@ -297,7 +297,9 @@
    "icon": "product-motion",
    "spoken": "Link Motion",
    "similar": [
-    "LynkGuard"
+    "LynkTrace",
+    "LynkGuard",
+    "LynkSentry"
    ]
   },
   {
@@ -308,7 +310,11 @@
    "icon": "product-guard",
    "spoken": "Link Guard",
    "similar": [
-    "LynkMotion"
+    "LynkMotion",
+    "LynkTrace",
+    "LynkSentry",
+    "LynkCCTV",
+    "LynkGate"
    ]
   },
   {
@@ -489,23 +495,12 @@
    "name": "LynkTrace",
    "brand_first": "LynkTrace (Order & delivery tracking)",
    "plain_first": "Order & delivery tracking (LynkTrace)",
-   "part_of": "LynkMotion",
-   "icon": "product-motion",
+   "part_of": null,
+   "icon": "product-trace",
    "spoken": "Link Trace",
    "similar": [
-    "LynkGPS",
-    "LynkSentry"
-   ]
-  },
-  {
-   "name": "LynkGPS",
-   "brand_first": "LynkGPS (Location & maps)",
-   "plain_first": "Location & maps (LynkGPS)",
-   "part_of": "LynkMotion",
-   "icon": "product-motion",
-   "spoken": "Link G P S",
-   "similar": [
-    "LynkTrace",
+    "LynkMotion",
+    "LynkGuard",
     "LynkSentry"
    ]
   },
@@ -513,12 +508,37 @@
    "name": "LynkSentry",
    "brand_first": "LynkSentry (Theft & incident alerts)",
    "plain_first": "Theft & incident alerts (LynkSentry)",
-   "part_of": "LynkGuard",
-   "icon": "product-guard",
+   "part_of": null,
+   "icon": "product-sentry",
    "spoken": "Link Sentry",
    "similar": [
+    "LynkMotion",
     "LynkTrace",
-    "LynkGPS"
+    "LynkGuard"
+   ]
+  },
+  {
+   "name": "LynkCCTV",
+   "brand_first": "LynkCCTV (Security cameras)",
+   "plain_first": "Security cameras (LynkCCTV)",
+   "part_of": null,
+   "icon": "product-cctv",
+   "spoken": "Link C C T V",
+   "similar": [
+    "LynkGate",
+    "LynkGuard"
+   ]
+  },
+  {
+   "name": "LynkGate",
+   "brand_first": "LynkGate (Gate)",
+   "plain_first": "Gate (LynkGate)",
+   "part_of": null,
+   "icon": "product-gate",
+   "spoken": "Link Gate",
+   "similar": [
+    "LynkCCTV",
+    "LynkGuard"
    ]
   },
   {

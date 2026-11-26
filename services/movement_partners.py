@@ -1,6 +1,6 @@
 """Partners of LynkMotion and LynkGuard (NEW UPDATE 1, owner approved 2026-11-10, master blueprint section 49 M).
 
-The core of LynkTrace, LynkGPS and LynkSentry needs no partner: the phone is the tracker, maps are LynkOmni's own, and the
+The shared location core of LynkMotion, LynkTrace, LynkGuard and LynkSentry (LOCATION UPDATE, 2026-11-26; LynkGPS retired) needs no partner: the phone is the tracker, maps are LynkOmni's own, and the
 service "movement" works in every country. Only these parts need a licensed partner per country, each behind its interface with a
 working sandbox, and each stays "Coming to your country soon." until its partner is signed (providers/registry.v1.json):
 

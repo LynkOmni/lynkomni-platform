@@ -32,7 +32,7 @@ def screen_words():
 
 class TestRegister(unittest.TestCase):
     def test_every_product_family_has_its_name(self):
-        families = {n.get("family") for n in N.NAMES if n["kind"] == "product"}
+        families = {f for n in N.NAMES if n["kind"] == "product" for f in ([n["family"]] if n.get("family") else n.get("families", []))}
         self.assertEqual(set(billing.FAMILIES) - families, set(), "a billing family without an entry in catalog/names.v1.json")
         with open(os.path.join(ROOT, "catalog", "products.v1.json"), encoding="utf-8") as f:
             self.assertLessEqual({p["family"] for p in json.load(f)["products"]}, families)
@@ -142,7 +142,7 @@ class TestImprovements(unittest.TestCase):
             self.assertGreaterEqual(len(g["names"]), 2, g["id"])
             for i in g["names"]:
                 self.assertIn(i, N.BY_ID, g["id"])
-        self.assertEqual(N.similar("LynkMotion"), ["LynkGuard"])
+        self.assertEqual(N.similar("LynkMotion"), ["LynkTrace", "LynkGuard", "LynkSentry"])   # LOCATION UPDATE (2026-11-26): the four location products
 
     def test_every_plain_word_is_plain_in_every_language(self):
         for lang in LANGS:

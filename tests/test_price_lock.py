@@ -13,7 +13,12 @@ LOCKED_PRICES = {
     "lynkrecover": (0, 3, 7, 12), "lynkcheckout": (0, 3, 7, 15), "lynkassist": (0, 6, 15, 35), "lynkvcard": (0, 4, 12, 30),
     "lynkdev": (0, 500, 2500, 15000), "lynkbooking": (0, 1.99, 3.99, 7.99), "lynkessential": (0, 2.99, 5.99, 11.99),
     "lynksuite": (0, 29, 75, 195),
-    "lynkmotion": (0, 9, 29, 79), "lynkguard": (0, 15, 49, 149),          # NEW UPDATE 1, 2026-11-10
+    "lynkguard": (0, 15, 49, 149),                                         # NEW UPDATE 1, 2026-11-10 (kept by the LOCATION UPDATE)
+    # LOCATION UPDATE, owner approved 2026-11-26 (blueprint 91.6): LynkMotion's three ladders replace its $0/$9/$29/$79
+    "lynkmotion_land": (0, 15, 49, 149), "lynkmotion_sea": (0, 19, 69, 199), "lynkmotion_air": (0, 29, 99, 299),
+    "lynktrace": (0, 9, 29, 79), "lynksentry": (0, 9, 29, 79),
+    # CCTV UPDATE and GATE UPDATE, owner approved 2026-11-26 (blueprint 89.6 and 90.5)
+    "lynkcctv": (0, 19, 59, 149), "lynkgate": (0, 29, 89, 249),
     "lynkattend": (0, 49.5, 95, 179), "lynkqueue": (0, 55, 115, 249), "lynksurvey": (0, 59, 155, 249),   # NEW UPDATE 4, 2026-11-11
     # Section 4 part 1b, 2026-11-19 (owner approved 2026-11-18; blueprint 65.6, 68.11 and 69.11)
     "lynkexchange": (0, 9, 29, 79), "lynkvote": (0, 9, 29, 99), "lynkhr": (0, 9, 29, 79), "lynkproject": (0, 5, 15, 39),
@@ -49,9 +54,19 @@ LOCKED_PEOPLE = {"attend_people": (15, 50, 50, 50), "attend_extra_person_cents":
                  "queue_places": (1, 5, 5, 5), "queue_extra_place_cents": (None, 1000, 2000, 4000), "queue_extra_1000_tickets_cents": 200,
                  "survey_creators": (1, 5, 5, 5), "survey_extra_creator_cents": (None, 1000, 2500, 4000), "survey_extra_1000_answers_cents": 100,
                  "bundle_discount_bps": 2000}
-# NEW UPDATE 1 (owner approved 2026-11-10): LynkMotion extras, LynkGuard extra vehicles, the pair discount and the API prices.
-LOCKED_MOVEMENT = {"motion_extra_1000_tracked_cents": 500, "motion_extra_live_cents": 100, "guard_extra_asset_cents": (None, None, 150, 100),
-                   "guard_assets": (1, 3, 25, 100), "pair_discount_bps": 2000}
+# LOCATION UPDATE (owner approved 2026-11-26, blueprint 91.6): units included and the price of each extra, the LynkMotion area
+# discount and the four-product discount; LynkGuard's vehicles are unchanged. CCTV and Gate (89.6 and 90.5): cameras, lanes,
+# extras, all-day recording, the toll share and the discounts.
+LOCKED_MOVEMENT = {"land": ((3, 10, 50, 250), (None, 200, 150, 100)), "sea": ((1, 3, 20, 100), (None, 500, 300, 200)),
+                   "air": ((1, 3, 15, 75), (2, 10, 100, None), (None, 900, 600, 400)),
+                   "trace": ((100, 1000, 10000, 100000), (None, None, None, 1)), "sentry_seats": (0, 1, 5, 25),
+                   "guard_extra_asset_cents": (None, None, 150, 100), "guard_assets": (1, 3, 25, 100),
+                   "area_bps": {2: 1500, 3: 2500}, "pair_bps": 1500, "many_bps": 2000}
+LOCKED_SECURITY = {"cctv": ((4, 16, 64, 256), (None, 100, 100, 100), (1, 3, 10, None), (1, 7, 30, 90)),
+                   "gate": ((1, 4, 12, None), (None, 500, 600, None), (1, 2, 10, None), (3, 12, 36, 84)),
+                   "fees": {"cctv_all_day_7_days_cents": 200, "cctv_all_day_30_days_cents": 400, "cctv_all_day_90_days_cents": 900,
+                            "gate_toll_share_bps": 50, "gate_toll_share_above_bps": 30, "gate_toll_above_usd_per_month": 1_000_000},
+                   "discounts": {"cctv_with_gate": 2000, "cctv_with_station_property_school": 1500, "guard_with_cctv_or_gate": 1500, "sector": 3000}}
 LOCKED_API = {"prices": {"tracking_shipment_cents": 1, "geocoding_per_1000_cents": 100, "routing_per_1000_cents": 100,
                          "routing_25_stops_per_1000_cents": 200, "map_tiles_per_1000_cents": 50, "offline_region_month_cents": 1000,
                          "zone_events_per_1000_cents": 100, "lynkstat_queries_per_1000_cents": 100, "lynkassist_requests_per_1000_cents": 200,
@@ -61,10 +76,10 @@ LOCKED_API = {"prices": {"tracking_shipment_cents": 1, "geocoding_per_1000_cents
 
 # EMULATOR UPDATE (owner accepted 2026-11-18, blueprint 70.12; pinned in build section 3A): staff emulator slots per tier and the one
 # new price, $2 a month for each extra slot on a paid tier. LynkAttend, LynkQueue and LynkSurvey keep their own locked units.
-LOCKED_EMULATORS = {"ladder": (1, 2, 5, None), "lynkpos": (1, 2, 5, None), "own_units": ("lynkbooking", "lynkattend", "lynkqueue", "lynksurvey", "lynkbet", "lynkhr", "lynkproject", "lynkfiles"),   # build section 4B (2026-11-25): their devices follow their own locked units, no new limit
+LOCKED_EMULATORS = {"ladder": (1, 2, 5, None), "lynkpos": (1, 2, 5, None), "own_units": ("lynkbooking", "lynksentry", "lynkattend", "lynkqueue", "lynksurvey", "lynkbet", "lynkhr", "lynkproject", "lynkfiles"),   # build section 4B (2026-11-25): their devices follow their own locked units, no new limit
                     # owner 2026-11-19: extra devices priced so the next tier stays the better deal, and a day pass for events
                     "extra_cents": {"lynkpos": 800, "lynkmpay": 400, "lynkstock": 300, "lynkrewards": 300, "lynkcheckout": 200, "lynkessential": 200,
-                                    "lynkmotion": 800, "lynkguard": 1400},
+                                    "lynkmotion_land": 1400, "lynkmotion_sea": 1900, "lynkmotion_air": 2700, "lynktrace": 800, "lynkguard": 1400},
                     "day_pass": (100, 7)}
 
 
@@ -115,15 +130,28 @@ class TestPriceLock(unittest.TestCase):
         self.assertNotIn("storefront", billing.FAMILIES)                       # never a product family, never inside LynkSuite
 
     def test_movement_extras_and_api_prices_are_locked(self):
-        f = billing.FEATURES["lynkguard"]
-        self.assertEqual({"motion_extra_1000_tracked_cents": billing.SERVICE_FEES["motion_extra_1000_tracked_cents"],
-                          "motion_extra_live_cents": billing.SERVICE_FEES["motion_extra_live_cents"],
-                          "guard_extra_asset_cents": tuple(t.get("extra_asset_cents") for t in f), "guard_assets": tuple(t["assets"] for t in f),
-                          "pair_discount_bps": billing.MOVEMENT_PAIR_DISCOUNT_BPS}, LOCKED_MOVEMENT)
+        F, col = billing.FEATURES, (lambda fam, k: tuple(t.get(k) for t in billing.FEATURES[fam]))
+        self.assertEqual({"land": (col("lynkmotion_land", "units"), col("lynkmotion_land", "extra_unit_cents")),
+                          "sea": (col("lynkmotion_sea", "vessels"), col("lynkmotion_sea", "extra_vessel_cents")),
+                          "air": (col("lynkmotion_air", "aircraft"), col("lynkmotion_air", "drones"), col("lynkmotion_air", "extra_aircraft_cents")),
+                          "trace": (col("lynktrace", "tracked_per_month"), col("lynktrace", "extra_shipment_cents")),
+                          "sentry_seats": col("lynksentry", "alarm_desk_seats"),
+                          "guard_extra_asset_cents": col("lynkguard", "extra_asset_cents"), "guard_assets": col("lynkguard", "assets"),
+                          "area_bps": billing.MOTION_AREA_DISCOUNT_BPS, "pair_bps": billing.LOCATION_PAIR_DISCOUNT_BPS,
+                          "many_bps": billing.LOCATION_MANY_DISCOUNT_BPS}, LOCKED_MOVEMENT)
+        self.assertEqual({"cctv": (col("lynkcctv", "cameras"), col("lynkcctv", "extra_camera_cents"), col("lynkcctv", "sites"), col("lynkcctv", "clip_days")),
+                          "gate": (col("lynkgate", "lanes"), col("lynkgate", "extra_lane_cents"), col("lynkgate", "sites"), col("lynkgate", "history_months")),
+                          "fees": {k: billing.SERVICE_FEES[k] for k in LOCKED_SECURITY["fees"]}, "discounts": billing.SECURITY_DISCOUNTS_BPS}, LOCKED_SECURITY)
         self.assertEqual({"prices": billing.API_PRICES, "free_monthly": billing.API_FREE_MONTHLY, "business_discount_bps": billing.API_BUSINESS_DISCOUNT_BPS}, LOCKED_API)
-        self.assertNotIn("lynkmotion", billing.SUITE_MEMBERS); self.assertNotIn("lynkguard", billing.SUITE_MEMBERS)    # outside LynkSuite
-        self.assertEqual(billing.movement_pair_discount_cents("pro", "plus"), 300)       # 20% of LynkGuard Plus ($15)
-        self.assertEqual(billing.movement_pair_discount_cents("free", "max"), 0)          # only when both are paid
+        for fam in billing.MOVEMENT_FAMILIES + ("lynkcctv", "lynkgate"):
+            self.assertNotIn(fam, billing.SUITE_MEMBERS)                              # all outside LynkSuite
+        self.assertNotIn("lynkmotion", billing.FAMILIES)                              # replaced by its three ladders
+        L = billing.location_discount_cents
+        self.assertEqual(L({"lynkmotion_land": "pro", "lynkguard": "plus"}), 225)     # two products: 15% of the lower ($15)
+        self.assertEqual(L({"lynkmotion_land": "plus", "lynkmotion_sea": "plus"}), 510)   # two areas: 15% off both
+        self.assertEqual(L({"lynkmotion_land": "plus", "lynkmotion_sea": "plus", "lynkmotion_air": "plus"}), 1575)   # three areas: 25% off all
+        self.assertEqual(L({"lynkmotion_land": "pro", "lynktrace": "pro", "lynksentry": "plus"}), 760)   # three products: 20% off all but the dearest
+        self.assertEqual(L({"lynkmotion_land": "free", "lynkguard": "max"}), 0)       # only paid plans count
 
     def test_emulator_slots_and_the_extra_slot_are_locked(self):
         F = billing.FEATURES

@@ -198,12 +198,51 @@
    }
   },
   {
-   "family": "lynkmotion",
-   "page": "/motion",
+   "family": "lynkmotion_land",
+   "page": "/motion/land",
+   "app": "app.lynkomni.com/motion/land",
+   "menu": "Move and protect",
+   "illustration": "product-motion-land",
+   "footer_id": "motion",
+   "sides": {
+    "internal": "app.lynkomni.com/motion/land",
+    "external": "app.lynkomni.com/external/motion",
+    "external_section": "7B"
+   }
+  },
+  {
+   "family": "lynkmotion_sea",
+   "page": "/motion/sea",
+   "app": "app.lynkomni.com/motion/sea",
+   "menu": "Move and protect",
+   "illustration": "product-motion-sea",
+   "footer_id": "motion",
+   "sides": {
+    "internal": "app.lynkomni.com/motion/sea",
+    "external": "app.lynkomni.com/external/motion",
+    "external_section": "7B"
+   }
+  },
+  {
+   "family": "lynkmotion_air",
+   "page": "/motion/air",
+   "app": "app.lynkomni.com/motion/air",
+   "menu": "Move and protect",
+   "illustration": "product-motion-air",
+   "footer_id": "motion",
+   "sides": {
+    "internal": "app.lynkomni.com/motion/air",
+    "external": "app.lynkomni.com/external/motion",
+    "external_section": "7B"
+   }
+  },
+  {
+   "family": "lynktrace",
+   "page": "/tracking",
    "app": "app.lynkomni.com/tracking",
    "menu": "Move and protect",
-   "illustration": "product-motion",
-   "footer_id": "motion",
+   "illustration": "product-trace",
+   "footer_id": "trace",
    "sides": {
     "internal": "app.lynkomni.com/tracking",
     "external": "app.lynkomni.com/external/tracking",
@@ -213,14 +252,53 @@
   {
    "family": "lynkguard",
    "page": "/guard",
-   "app": "app.lynkomni.com/protection",
+   "app": "app.lynkomni.com/guard",
    "menu": "Move and protect",
    "illustration": "product-guard",
    "footer_id": "guard",
    "sides": {
+    "internal": "app.lynkomni.com/guard",
+    "external": "app.lynkomni.com/external/guard",
+    "external_section": "7B"
+   }
+  },
+  {
+   "family": "lynksentry",
+   "page": "/protection",
+   "app": "app.lynkomni.com/protection",
+   "menu": "Move and protect",
+   "illustration": "product-sentry",
+   "footer_id": "sentry",
+   "sides": {
     "internal": "app.lynkomni.com/protection",
     "external": "app.lynkomni.com/external/protection",
     "external_section": "7B"
+   }
+  },
+  {
+   "family": "lynkcctv",
+   "page": "/cctv",
+   "app": "app.lynkomni.com/cctv",
+   "menu": "Move and protect",
+   "illustration": "product-cctv",
+   "footer_id": "cctv",
+   "sides": {
+    "internal": "app.lynkomni.com/cctv",
+    "external": "app.lynkomni.com/external/cctv",
+    "external_section": 9
+   }
+  },
+  {
+   "family": "lynkgate",
+   "page": "/gate",
+   "app": "app.lynkomni.com/gate",
+   "menu": "Move and protect",
+   "illustration": "product-gate",
+   "footer_id": "gate",
+   "sides": {
+    "internal": "app.lynkomni.com/gate",
+    "external": "app.lynkomni.com/external/gate",
+    "external_section": 9
    }
   },
   {

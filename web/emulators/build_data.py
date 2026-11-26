@@ -188,10 +188,11 @@ SERVICES = [("pos", "LynkPOS", "product-pos"), ("accountant", "LynkAcc", "produc
             ("dashboard", "LynkStat", "product-stat"), ("intelligence", "LynkGrow", "product-grow"), ("chat", "LynkChat", "product-chat"),
             ("payments", "LynkMPay", "product-mpay"), ("paylinks", "LynkCheckout", "product-checkout"), ("loyalty", "LynkRewards", "product-rewards"),
             ("recovery", "LynkRecover", "product-recover"), ("vcard", "LynkVCard", "product-vcard"),
-            ("movement", "LynkMotion", "product-motion"), ("movement", "LynkGuard", "product-guard"),     # NEW UPDATE 1: two plans on the one "movement" service
+            ("movement", "LynkMotion", "product-motion"), ("movement", "LynkTrace", "product-trace"), ("movement", "LynkGuard", "product-guard"),
+            ("movement", "LynkSentry", "product-sentry"),     # LOCATION UPDATE (2026-11-26): four products on the one "movement" service
             ("attendance", "LynkAttend", "product-attend"), ("queue", "LynkQueue", "product-queue"), ("survey", "LynkSurvey", "product-survey")]   # NEW UPDATE 4
 # Where a launcher place opens when it is not /<service> (catalog/products.v1.json app place).
-HREF = {"LynkMotion": "/tracking", "LynkGuard": "/protection"}
+HREF = {"LynkMotion": "/motion", "LynkTrace": "/tracking", "LynkGuard": "/guard", "LynkSentry": "/protection"}
 
 
 

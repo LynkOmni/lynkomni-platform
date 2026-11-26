@@ -484,7 +484,7 @@
   },
   {
    "id": "motion-acc",
-   "from": "lynkmotion",
+   "from": "lynkmotion_land",
    "to": "lynkacc",
    "what": "Mileage from trips goes into expense claims",
    "events": [],
@@ -496,9 +496,9 @@
   },
   {
    "id": "guard-crm",
-   "from": "lynkguard",
+   "from": "lynkmotion_land",
    "to": "lynkcrm",
-   "what": "Repair visits and field tasks show on the customer's record",
+   "what": "Repair visits and field jobs show on the customer's record",
    "events": [],
    "planned_events": [
     "FieldTaskDone"
@@ -794,7 +794,7 @@
   },
   {
    "id": "motion-chat",
-   "from": "lynkmotion",
+   "from": "lynktrace",
    "to": "lynkchat",
    "what": "Shipment tracker and delivery cards (never the rider's identity or position); 'leave it with', reschedule and proof of delivery",
    "events": [
@@ -1057,6 +1057,124 @@
    "planned_events": [],
    "consent": "none",
    "build_section": 4
+  },
+  {
+   "id": "motion-trace",
+   "from": "lynkmotion_land",
+   "to": "lynktrace",
+   "what": "Trip started and ended and the arrival time feed the customer's delivery steps (LOCATION UPDATE 91.2)",
+   "events": [],
+   "planned_events": [
+    "TripStarted",
+    "TripEnded"
+   ],
+   "consent": "none",
+   "build_section": "7B"
+  },
+  {
+   "id": "motion-guard",
+   "from": "lynkmotion_land",
+   "to": "lynkguard",
+   "what": "Trips and unit status, so LynkGuard can check its rules",
+   "events": [],
+   "planned_events": [
+    "UnitAdded",
+    "TripStarted",
+    "TripEnded"
+   ],
+   "consent": "none",
+   "build_section": "7B"
+  },
+  {
+   "id": "motion-sentry",
+   "from": "lynkmotion_land",
+   "to": "lynksentry",
+   "what": "Arrive Safe check-ins and crash signals raise an alarm when nobody answers",
+   "events": [
+    "TripPlanOverdue"
+   ],
+   "planned_events": [],
+   "consent": "none",
+   "build_section": "7B"
+  },
+  {
+   "id": "motion-sea-sentry",
+   "from": "lynkmotion_sea",
+   "to": "lynksentry",
+   "what": "Man overboard and a dragging anchor raise an alarm",
+   "events": [],
+   "planned_events": [
+    "ManOverboard",
+    "AnchorDragged"
+   ],
+   "consent": "none",
+   "build_section": "7B"
+  },
+  {
+   "id": "motion-air-sentry",
+   "from": "lynkmotion_air",
+   "to": "lynksentry",
+   "what": "A flight plan deadline missed raises an overdue alarm",
+   "events": [],
+   "planned_events": [
+    "FlightPlanFiled",
+    "FlightOverdue"
+   ],
+   "consent": "none",
+   "build_section": "7B"
+  },
+  {
+   "id": "guard-sentry",
+   "from": "lynkguard",
+   "to": "lynksentry",
+   "what": "A broken protection rule becomes one incident",
+   "events": [
+    "ProtectionAlertRaised"
+   ],
+   "planned_events": [
+    "RouteDeviated",
+    "TamperDetected"
+   ],
+   "consent": "none",
+   "build_section": "7B"
+  },
+  {
+   "id": "sentry-guard",
+   "from": "lynksentry",
+   "to": "lynkguard",
+   "what": "The owner's decision on an incident starts theft mode, a recovery link or a safe-stop request",
+   "events": [],
+   "planned_events": [
+    "TheftModeOn",
+    "ImmobiliseRequested"
+   ],
+   "consent": "person",
+   "build_section": "7B"
+  },
+  {
+   "id": "cctv-sentry",
+   "from": "lynkcctv",
+   "to": "lynksentry",
+   "what": "Camera clips join the incident file of an alarm (sealed, time-limited, bystanders blurred)",
+   "events": [],
+   "planned_events": [
+    "ClipExported",
+    "AlarmRaised"
+   ],
+   "consent": "person",
+   "build_section": "9"
+  },
+  {
+   "id": "gate-cctv",
+   "from": "lynkgate",
+   "to": "lynkcctv",
+   "what": "A lane reads plates with LynkCCTV's reader at no extra charge; no plate in any event",
+   "events": [],
+   "planned_events": [
+    "GatePassageRecorded"
+   ],
+   "consent": "none",
+   "build_section": "9"
   }
  ],
  "journeys": [

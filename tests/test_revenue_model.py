@@ -105,12 +105,17 @@ class ExpensesAndProfit(unittest.TestCase):
         self.assertNotIn("storefront", R.ECO_ROWS)
 
     def test_movement_and_api_stream_is_separate_and_an_assumption(self):
-        # NEW UPDATE 1 (2026-11-10): LynkMotion, LynkGuard and API usage are their own stream, outside the agreed totals until pilot data exists
+        # NEW UPDATE 1 (2026-11-10), then the LOCATION, CCTV and GATE UPDATES (2026-11-26): every location product, LynkCCTV,
+        # LynkGate and API usage are their own stream, outside the agreed totals until pilot data exists
         got = {st: R.movement(st) for st in R.STAGES}
-        self.assertEqual({st: (g["motion"], g["guard"], g["api"], g["month"]) for st, g in got.items()},
-                         {"stage1": (735, 712, 240, 1_687), "stage2": (42_012, 40_680, 8_000, 90_692), "stage3": (1_283_700, 1_243_000, 160_000, 2_686_700)})
+        keys = ("land", "sea", "air", "trace", "guard", "sentry", "cctv", "gate", "api", "month")
+        self.assertEqual({st: tuple(g[k] for k in keys) for st, g in got.items()},
+                         {"stage1": (1_062, 56, 54, 435, 689, 155, 823, 271, 240, 3_786),
+                          "stage2": (60_694, 3_202, 3_070, 24_879, 39_344, 8_870, 47_048, 15_506, 8_000, 210_612),
+                          "stage3": (1_854_545, 97_829, 93_805, 760_183, 1_202_163, 271_040, 1_437_563, 473_791, 160_000, 6_350_917)})
         self.assertTrue(all(g["assumption"] for g in got.values()))
-        self.assertNotIn("lynkmotion", R.ECO_ROWS); self.assertNotIn("lynkguard", R.ECO_ROWS)
+        for fam in ("lynkmotion_land", "lynkmotion_sea", "lynkmotion_air", "lynktrace", "lynkguard", "lynksentry", "lynkcctv", "lynkgate"):
+            self.assertNotIn(fam, R.ECO_ROWS)
 
 
     def test_lynka_lynkq_and_lynks_stream_is_separate_and_an_assumption(self):

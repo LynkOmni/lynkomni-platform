@@ -5,7 +5,7 @@ import json, os, re, unittest
 from core import build_sections as b
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TABLE_IDS = ["64.11", "65.9", "66.10", "67.17", "68.14", "69.14", "70.16", "71.9", "72.9", "73.9", "74.9", "75.9", "76.8", "78.16", "79.10", "80.15", "81.4", "83.6", "84.6", "85.6", "86.12", "87.6"]
+TABLE_IDS = ["64.11", "65.9", "66.10", "67.17", "68.14", "69.14", "70.16", "71.9", "72.9", "73.9", "74.9", "75.9", "76.8", "78.16", "79.10", "80.15", "81.4", "83.6", "84.6", "85.6", "86.12", "87.6", "88.6", "89.10", "90.7", "91.9", "92.4", "93.5", "94.9"]
 CHANGELOG = open(os.path.join(ROOT, "docs", "lynkomni-changelog.md"), encoding="utf-8").read()
 ORDER = [str(n) for n in b.ORDER]
 

@@ -55,7 +55,7 @@ test("messages, paper and the plain-word check agree with core/names.py", () => 
 test("an old name still finds the new one, and look-alike names are compared side by side", () => {
   const e = nameEntries(undefined, "brand_first");
   assert.ok(e.some((x) => x.keywords.includes("LynkDash") && x.title === "LynkDash is now LynkStat."));
-  assert.ok(e.some((x) => x.id === "name-compare:move" && x.subtitle === "LynkMotion, LynkGuard"));
+  assert.ok(e.some((x) => x.id === "name-compare:move" && x.subtitle === "LynkMotion, LynkTrace, LynkGuard, LynkSentry"));
   const c = compareHtml("LynkMotion");
   assert.ok(c.includes("LynkGuard") && c.includes("Which one do I need?"));
   assert.equal(namesFocusOf("open:compare-move"), "compare-move");

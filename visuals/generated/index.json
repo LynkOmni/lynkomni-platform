@@ -668,10 +668,10 @@
     }
    ]
   },
-  "product-motion": {
+  "product-trace": {
    "kind": "illustration",
    "alt": "A parcel travelling along a dotted route from one map pin to another, with a clock",
-   "purpose": "Empty state, feature header and onboarding for LynkMotion",
+   "purpose": "Empty state, feature header and onboarding for LynkTrace",
    "used_in": [
     "empty-state",
     "feature-header",
@@ -681,27 +681,249 @@
    "files": [
     {
      "theme": "light",
-     "file": "illustrations/product-motion.light.svg",
-     "sha256": "a3ca8edf8796e60ae9d065dd8a1e2d9a7de321c6d2bb1e6c4ce22c7321602b37",
-     "bytes": 1440
+     "file": "illustrations/product-trace.light.svg",
+     "sha256": "b181af49c9d05e33e26196765af22e81203af11dbda10fa04b7bcf35a1d8cc1d",
+     "bytes": 1438
     },
     {
      "theme": "dark",
-     "file": "illustrations/product-motion.dark.svg",
-     "sha256": "d5d0df51cfbfd187054d073034ee0b5db31cd0d80189c9ca938582f7c58c786d",
-     "bytes": 1440
+     "file": "illustrations/product-trace.dark.svg",
+     "sha256": "ccb9dfa2357df80807929d775ea1a09d15a0f849d0d5a6aad3f1ce754558fca5",
+     "bytes": 1438
     },
     {
      "theme": "contrast-light",
-     "file": "illustrations/product-motion.contrast-light.svg",
-     "sha256": "d0232ac2448a909cbda03a21bb5e590ccef5723ed6d1f8ef6c5b9bb85b2693d6",
-     "bytes": 1440
+     "file": "illustrations/product-trace.contrast-light.svg",
+     "sha256": "fe6382b9bf05d94b0c1fd2dd416a86d0fe7cdc39e86aa2a7e20fb0f2c2aee230",
+     "bytes": 1438
     },
     {
      "theme": "contrast-dark",
-     "file": "illustrations/product-motion.contrast-dark.svg",
-     "sha256": "978a86930702068ef7a068ca213061162d8357268c9b873ec5e6793fd269d22e",
-     "bytes": 1440
+     "file": "illustrations/product-trace.contrast-dark.svg",
+     "sha256": "ced3f9d6d770cab6c6bf3127085881d73071168a510290db2da803173e569df5",
+     "bytes": 1438
+    }
+   ]
+  },
+  "product-motion-land": {
+   "kind": "illustration",
+   "alt": "A delivery van on a dotted road that curves to a map pin, beside a small gauge",
+   "purpose": "Empty state, feature header and onboarding for LynkMotion Land",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-motion-land.light.svg",
+     "sha256": "e97b0591f2170225ac7c0c0168039d25402e2b62461f29a073caf6882c4c6a06",
+     "bytes": 1635
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-motion-land.dark.svg",
+     "sha256": "398924a3df0b7bb804a87c2cb9c2a15c51bda15ca7ee12fc63179820a2c0785f",
+     "bytes": 1635
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-motion-land.contrast-light.svg",
+     "sha256": "53e63ef0975d96ac13e9fecd07dc17538b5dec4acdec5773a6559781b0317890",
+     "bytes": 1635
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-motion-land.contrast-dark.svg",
+     "sha256": "ab9f8d233c518acc477431d8af0bf8e02519d756fac9859cee3598bd619da01a",
+     "bytes": 1635
+    }
+   ]
+  },
+  "product-motion-sea": {
+   "kind": "illustration",
+   "alt": "A boat on waves heading to a map pin, beside an anchor badge",
+   "purpose": "Empty state, feature header and onboarding for LynkMotion Sea",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-motion-sea.light.svg",
+     "sha256": "424176d10327669cfe70fd2024f7c6578a635e7366b013a2e0958df47a1dc430",
+     "bytes": 1683
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-motion-sea.dark.svg",
+     "sha256": "1a4a78ef7061740b7ad0a836fdd9ef7ce9ba97ab72aaacef8b7146efae3750b9",
+     "bytes": 1683
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-motion-sea.contrast-light.svg",
+     "sha256": "47a6ca93bbf31ca4df89d13c4281cc87915907c3a08f038fb37ffee4c26b95f3",
+     "bytes": 1683
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-motion-sea.contrast-dark.svg",
+     "sha256": "a0165e950c9eb6fcc2a42d791abf81ffab1bf739f21b00d286388262a67342aa",
+     "bytes": 1683
+    }
+   ]
+  },
+  "product-motion-air": {
+   "kind": "illustration",
+   "alt": "A small aircraft on a dotted flight path above a drone, beside a clock",
+   "purpose": "Empty state, feature header and onboarding for LynkMotion Air",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-motion-air.light.svg",
+     "sha256": "5968800384e923df098700851750139204cd5f31bc2a503c8fd46a98a40a6f0c",
+     "bytes": 1481
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-motion-air.dark.svg",
+     "sha256": "f40714ad59a652f97aef8fe33f118067a3726a1a931e5533a7633ac5e2720455",
+     "bytes": 1481
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-motion-air.contrast-light.svg",
+     "sha256": "62112598b9b21ba28db2176ca59dfc0c97cf8689576c74f3ce17b0a261b52251",
+     "bytes": 1481
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-motion-air.contrast-dark.svg",
+     "sha256": "71524f3d936c60823e6fcbf7301607e7ee94f74b83be516e47d0ba13f7d69d80",
+     "bytes": 1481
+    }
+   ]
+  },
+  "product-sentry": {
+   "kind": "illustration",
+   "alt": "A warning beacon sending out alert rays, beside a bell and a file with a check",
+   "purpose": "Empty state, feature header and onboarding for LynkSentry",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-sentry.light.svg",
+     "sha256": "d7bfc55375572ea0e63e8d5094c7eb3929971966677b3d59007b6795789c069d",
+     "bytes": 1506
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-sentry.dark.svg",
+     "sha256": "9346e9ab9c6072e9580c07cfb687ec736bc3c2ea81b447b59e5336fe0ff368b6",
+     "bytes": 1506
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-sentry.contrast-light.svg",
+     "sha256": "66e54d1ba751149e0745874bc6a880a3646d6d6bd58734421f7521025a440114",
+     "bytes": 1506
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-sentry.contrast-dark.svg",
+     "sha256": "efd9783a420ec3d027f9419a68f6d8003ad3c4c06296de33a121779ebd105062",
+     "bytes": 1506
+    }
+   ]
+  },
+  "product-cctv": {
+   "kind": "illustration",
+   "alt": "A camera on a wall bracket with its view shown as a soft cone, and a screen with a play button",
+   "purpose": "Empty state, feature header and onboarding for LynkCCTV",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-cctv.light.svg",
+     "sha256": "e05fda84c45f3f2827799982578afa3bc89ece37aee2f7425dff6fcb89d6f7e2",
+     "bytes": 1237
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-cctv.dark.svg",
+     "sha256": "8697c53e3c0381e48c03b0415758e15d1890f72b5e4755f964dbd425ddb14bf4",
+     "bytes": 1237
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-cctv.contrast-light.svg",
+     "sha256": "7a8b60f075c31d903cad28597abf271986f632463c7aebf32531b56eb80a8403",
+     "bytes": 1237
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-cctv.contrast-dark.svg",
+     "sha256": "a9bf190558495ab1331c2429defa523f868306af520cfda72e12466e7b5d8215",
+     "bytes": 1237
+    }
+   ]
+  },
+  "product-gate": {
+   "kind": "illustration",
+   "alt": "A barrier arm lifting at a lane with a car waiting, beside a pass with a square code",
+   "purpose": "Empty state, feature header and onboarding for LynkGate",
+   "used_in": [
+    "empty-state",
+    "feature-header",
+    "onboarding"
+   ],
+   "status": "draft",
+   "files": [
+    {
+     "theme": "light",
+     "file": "illustrations/product-gate.light.svg",
+     "sha256": "10d1af51d616ea754239d3b2a2b6a6cc0bf1a66fc3d94992b8e410e3fc0efc7d",
+     "bytes": 2385
+    },
+    {
+     "theme": "dark",
+     "file": "illustrations/product-gate.dark.svg",
+     "sha256": "c1ccdf2cfda6e01ae6f053ded68b60fddda0bff5b59166ec573515a921c4b234",
+     "bytes": 2385
+    },
+    {
+     "theme": "contrast-light",
+     "file": "illustrations/product-gate.contrast-light.svg",
+     "sha256": "e358e8c1d5700d7bbf6d0eaa84ede71e1333a2f88e8be9117ed4d766d829a30c",
+     "bytes": 2385
+    },
+    {
+     "theme": "contrast-dark",
+     "file": "illustrations/product-gate.contrast-dark.svg",
+     "sha256": "5136c687a3c4f6860aa53c8ad45e391dc63ed93a0b15c0aca39ec3b3bd16eda6",
+     "bytes": 2385
     }
    ]
   },
@@ -1282,26 +1504,26 @@
     {
      "theme": "light",
      "file": "charts/chart-pricing-ladder.light.svg",
-     "sha256": "0c0cfccf5b24efc35be7b9a4a29b7b79ed4fdfb014aaa35390dbc8caea9c7713",
-     "bytes": 39005
+     "sha256": "7bad916a7c455a9186da403a1b9be7ed752ef3ff0a85508f35347ca0787e9a3c",
+     "bytes": 45754
     },
     {
      "theme": "dark",
      "file": "charts/chart-pricing-ladder.dark.svg",
-     "sha256": "3b193e08c6ee4cd6d4e22410224f5823c8001bb4914c0a9ce717a5b1c4e61dea",
-     "bytes": 39005
+     "sha256": "951ddaaa5d2ce802a97d0b5b9e76dab75abe1e528dc5587598262a35812699f1",
+     "bytes": 45754
     },
     {
      "theme": "contrast-light",
      "file": "charts/chart-pricing-ladder.contrast-light.svg",
-     "sha256": "e98d3e1d775b1fafdb9fc2050ee6c6f64482b397355edb14b687e9fe5e336a0d",
-     "bytes": 39005
+     "sha256": "c7ed73462acb2d136d6ada463f9862950c41330ddfc360c4111df776071d6f9a",
+     "bytes": 45754
     },
     {
      "theme": "contrast-dark",
      "file": "charts/chart-pricing-ladder.contrast-dark.svg",
-     "sha256": "f1fe10252a87c0ce6a23802fadc72dff1916a8b50926fe7195cfe5834a39da1b",
-     "bytes": 39005
+     "sha256": "64b1e38c91a296cfa2616668ea5ff4abef941c596cc9c3b4f1e08ccdac083c8d",
+     "bytes": 45754
     }
    ]
   },
@@ -1396,8 +1618,8 @@
      "file": "web/og-1200x630.png",
      "w": 1200,
      "h": 630,
-     "sha256": "7f0acd568544075cb52f92766645f7162a2f31e85ac68a5be11f4afd3d7ceb24",
-     "bytes": 42072
+     "sha256": "f3647b975b8acca17603d803a48055a283a7c33005c48c4edb160c716e3c1b8c",
+     "bytes": 59516
     }
    ]
   },
@@ -1421,8 +1643,8 @@
      "file": "store/play-feature-1024x500.png",
      "w": 1024,
      "h": 500,
-     "sha256": "7587c319a2bca88f397dd0a7397ec79f5a50bf1b7cf206cf306a15a3b46ac219",
-     "bytes": 38026
+     "sha256": "45d647e28d535a169d04d45e71b7098acf483e77b01c38f5f3b9ae6b0be07fcf",
+     "bytes": 50866
     }
    ]
   },
@@ -1440,16 +1662,16 @@
      "file": "store/app-icon-1024-light.png",
      "w": 1024,
      "h": 1024,
-     "sha256": "4ddc04e9afae7e34c190e6297f6b243d347c2ec56489f06872fca54a85e5b6ac",
-     "bytes": 20859
+     "sha256": "29ee34fca48d4f037c7a2718232546e97befc829f601d1e694c21ecbc77d89c4",
+     "bytes": 39234
     },
     {
      "theme": "dark",
      "file": "store/app-icon-1024-dark.png",
      "w": 1024,
      "h": 1024,
-     "sha256": "ece8bc5b417a7393de6257bfb4f278c59d197bab1d8bde3a73099e200e2ac6c6",
-     "bytes": 21714
+     "sha256": "5e2b308a7981b5bf3f51e4cb3a6e5d23a4ce84a70245a51bca9f7f842ce93763",
+     "bytes": 40327
     }
    ]
   },
@@ -1467,32 +1689,32 @@
      "file": "web/pwa-192.png",
      "w": 192,
      "h": 192,
-     "sha256": "ffb1df9b6973e93d0217002fcab7e8c9996f4ca6fcfbe500d764a1b326c65255",
-     "bytes": 3637
+     "sha256": "5611f40ee0c0332991b1356551df8955497c3277f749dc226032f1d5dc6469ca",
+     "bytes": 4685
     },
     {
      "theme": "light",
      "file": "web/pwa-512.png",
      "w": 512,
      "h": 512,
-     "sha256": "a5586c4533671b1cafa880a60f2576bfa8af6434a163b69fc0adf14546201610",
-     "bytes": 9758
+     "sha256": "fab7f27aaed66ce41b9f452ceddce3390ede6e6b616ffdd32da59da447f97adf",
+     "bytes": 15098
     },
     {
      "theme": "light",
      "file": "web/pwa-maskable-512.png",
      "w": 512,
      "h": 512,
-     "sha256": "472a0cdb7a48c19da9176f6e26c65df71ef4633c63f5ace7341b072e0ebf3c59",
-     "bytes": 7997
+     "sha256": "2605df81169ba3c9e02c967382dfe501638e6af345aeafdbe8f4b284cea585c9",
+     "bytes": 13069
     },
     {
      "theme": "light",
      "file": "web/apple-touch-icon-180.png",
      "w": 180,
      "h": 180,
-     "sha256": "507188dd8e4ae21a3f5ad0c6e4e677460c5a48b04948e436a9c70d18ec283a14",
-     "bytes": 3412
+     "sha256": "be7066ecbe874b7fb54242608c433c185a69e648c33afee1dec9deedb84c0024",
+     "bytes": 4343
     },
     {
      "theme": "light",
@@ -1505,8 +1727,8 @@
      "file": "web/favicon-32.png",
      "w": 32,
      "h": 32,
-     "sha256": "c5dda89dc9c7e3f6502891e46ee3f813e0e95e2c9d29f5a85f542cefdcc5e03f",
-     "bytes": 673
+     "sha256": "d9949894b65b0591f9e78fca5655b4a42ee234697bd4569338eb578a137b9b8c",
+     "bytes": 747
     },
     {
      "theme": "light",
@@ -1517,8 +1739,8 @@
     {
      "theme": "light",
      "file": "web/favicon.ico",
-     "sha256": "04371a8b1bbf37f473f055d4ccb3a55a28ee7eea41c225bd8b435de4ba3faedd",
-     "bytes": 2663
+     "sha256": "70161f9e2fec7f545369ac5fe500020183e8b41969140863dfdcaa14df829314",
+     "bytes": 3067
     },
     {
      "theme": "light",

@@ -55,8 +55,14 @@
    "id": "move_and_protect",
    "label_key": "nv_g_move_and_protect",
    "families": [
-    "lynkmotion",
-    "lynkguard"
+    "lynkmotion_land",
+    "lynkmotion_sea",
+    "lynkmotion_air",
+    "lynktrace",
+    "lynkguard",
+    "lynksentry",
+    "lynkcctv",
+    "lynkgate"
    ]
   },
   {

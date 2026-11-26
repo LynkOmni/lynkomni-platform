@@ -12,7 +12,7 @@ import { NAMES_EN, NAMES_REG } from "./names.generated.js";
 
 export type Say = (key: string, vars?: Record<string, string | number>) => string;
 export type NamesMode = "brand_first" | "plain_first";
-export interface NameEntry { id: string; name: string; kind: "product" | "service" | "feature" | "card_group" | "device"; family?: string; part_of?: string; about?: boolean; icon?: string | null; spoken: string }
+export interface NameEntry { id: string; name: string; kind: "product" | "service" | "feature" | "card_group" | "device"; family?: string; families?: string[]; part_of?: string; about?: boolean; icon?: string | null; spoken: string }
 export interface NamesRegister { max_plain_chars: number; company: string[]; internal: string[]; retired: string[]; names: NameEntry[];
   now_called: { old: string; id: string; since: string }[]; similar: { id: string; names: string[] }[]; familiar_after: number;
   plain_word_check: { allowed_short: string[]; words_never: string[]; rule?: string }; asks: { min_shown: number; rule?: string } }
@@ -329,7 +329,7 @@ export const speakable = (text: string): string => text.replace(nmPattern(), (_m
 /** The name a retired name is now called, or null. */
 export function nowCalled(old: string): string | null { const x = NM_REG.now_called.find((y) => y.old === old); return x ? (NM_BY_ID.get(x.id)?.name ?? null) : null; }
 /** The registered name of a billing family, or null. */
-export function forFamily(family: string): string | null { return NM_REG.names.find((n) => n.family === family)?.name ?? null; }
+export function forFamily(family: string): string | null { return NM_REG.names.find((n) => n.family === family || (n.families ?? []).includes(family))?.name ?? null; }
 /** The other names a name could be confused with (core/names.py similar). */
 export function similarOf(name: string): string[] {
   const id = NM_BY_NAME.get(name)?.id; const out: string[] = [];

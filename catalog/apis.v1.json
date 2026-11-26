@@ -319,15 +319,15 @@
    "own_account": false
   },
   {
-   "id": "motion",
-   "family": "lynkmotion",
-   "name": "LynkMotion API (LynkTrace, LynkGPS, LynkSentry)",
-   "can": "Shipments across own riders and partner carriers, webhooks on every step, tracking widget, places, routing, arrival windows, map tiles and offline packs, zones",
+   "id": "motion-land",
+   "family": "lynkmotion_land",
+   "name": "LynkMotion API (Land)",
+   "can": "Vehicles, things and consenting workers on shift of the account's own fleet: units, trips, routes, places, zones, maps and offline packs, webhooks on every trip event",
    "usage": "tracking_and_maps",
    "build_section": "7B",
    "scopes": [
-    "shipments.read",
-    "shipments.write",
+    "units.read",
+    "trips.read",
     "places.read",
     "routes.read",
     "maps.read",
@@ -336,17 +336,106 @@
    "own_account": true
   },
   {
+   "id": "motion-sea",
+   "family": "lynkmotion_sea",
+   "name": "LynkMotion API (Sea)",
+   "can": "The account's own vessels: units, voyages, port calls, places, zones and charts through the partner, webhooks on every voyage event",
+   "usage": "tracking_and_maps",
+   "build_section": "7B",
+   "scopes": [
+    "units.read",
+    "voyages.read",
+    "places.read",
+    "maps.read",
+    "zones.events"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "motion-air",
+   "family": "lynkmotion_air",
+   "name": "LynkMotion API (Air)",
+   "can": "The account's own aircraft and drones: units, flight plans, flights, places and drone zones through the partner, webhooks on every flight event; advisory only, never an aircraft's instrument",
+   "usage": "tracking_and_maps",
+   "build_section": "7B",
+   "scopes": [
+    "units.read",
+    "flights.read",
+    "places.read",
+    "maps.read",
+    "zones.events"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "trace",
+   "family": "lynktrace",
+   "name": "LynkTrace API",
+   "can": "Shipments across own riders and partner carriers, webhooks on every step, tracking widget, arrival windows and proof of delivery; customers see only steps and a share of the trip",
+   "usage": "tracking_and_maps",
+   "build_section": "7B",
+   "scopes": [
+    "shipments.read",
+    "shipments.write",
+    "proof.read"
+   ],
+   "own_account": true
+  },
+  {
    "id": "guard",
    "family": "lynkguard",
-   "name": "LynkGuard API (LynkTrace, LynkGPS, LynkSentry)",
-   "can": "Assets, trips, zones and alerts of the developer's own vehicles and assets; LynkSentry alerts to monitoring centres and insurers only by partner contract with the owner's consent",
+   "name": "LynkGuard API",
+   "can": "Protection rules, zones, allowed hours, theft mode status and recovery steps of the developer's own vehicles and assets; safe-stop and immobilising never through an API",
    "usage": "tracking_and_maps",
    "build_section": "7B",
    "scopes": [
     "assets.read",
-    "trips.read",
-    "zones.events",
-    "alerts.read"
+    "rules.read",
+    "zones.events"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "sentry",
+   "family": "lynksentry",
+   "name": "LynkSentry API",
+   "can": "Alerts and incident files of the owner's own units, read and as webhooks; alerts to monitoring centres and insurers only by partner contract with the owner's consent",
+   "usage": "none",
+   "build_section": "7B",
+   "scopes": [
+    "alerts.read",
+    "alerts.events",
+    "incidents.read"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "cctv",
+   "family": "lynkcctv",
+   "name": "LynkCCTV API",
+   "can": "The account's own cameras, live and recorded video, clips, alarms and camera health, and plate reads on the owner's own cameras; video counts as bandwidth; never facial recognition",
+   "usage": "plan_limits",
+   "build_section": 9,
+   "scopes": [
+    "cameras.read",
+    "clips.read",
+    "alarms.read",
+    "alarms.events"
+   ],
+   "own_account": true
+  },
+  {
+   "id": "gate",
+   "family": "lynkgate",
+   "name": "LynkGate API",
+   "can": "Lanes, passages, passes, permits and toll records of the account's own sites, with webhooks; never opens a gate; no plate or name in any event",
+   "usage": "plan_limits",
+   "build_section": 9,
+   "scopes": [
+    "lanes.read",
+    "passages.read",
+    "passes.write",
+    "passes.read"
    ],
    "own_account": true
   },

@@ -69,7 +69,7 @@ def part_of(name):
 
 
 # ---------------------------------------------------------------- the 15 improvements (owner, 21 November 2026, v0.81.0)
-FAMILY = {n["family"]: n for n in NAMES if n.get("family")}
+FAMILY = {f: n for n in NAMES for f in ([n["family"]] if n.get("family") else n.get("families", []))}   # LynkMotion has three ladders (Land, Sea, Air)
 NOW_CALLED = {x["old"]: x for x in REGISTER["now_called"]}
 SIMILAR = REGISTER["similar"]
 FAMILIAR_AFTER = REGISTER["familiar_after"]

@@ -731,7 +731,7 @@
    "section": 11
   },
   {
-   "id": "lynkmotion",
+   "id": "lynkmotion_land",
    "kind": "product",
    "places": [
     "app_nav",
@@ -745,7 +745,41 @@
     "sitemap",
     "website_header"
    ],
-   "section": 1
+   "section": "7B"
+  },
+  {
+   "id": "lynkmotion_sea",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": "7B"
+  },
+  {
+   "id": "lynkmotion_air",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": "7B"
   },
   {
    "id": "lynkguard",
@@ -765,61 +799,72 @@
    "section": 1
   },
   {
-   "id": "lynktrace",
-   "kind": "service",
-   "what": "LynkTrace, tracking (the product name of the tracking engine), inside LynkMotion and LynkGuard",
+   "id": "lynkcctv",
+   "kind": "product",
    "places": [
     "app_nav",
     "footer",
     "help",
     "launcher",
+    "pricing_page",
     "product_page",
     "search",
+    "showcase",
     "sitemap",
     "website_header"
    ],
-   "section": "7B",
-   "footer_ids": [
-    "trace"
-   ]
+   "section": 9
   },
   {
-   "id": "lynkgps",
-   "kind": "service",
-   "what": "LynkGPS, GPS: location with consent, maps, places, routes and dispatch, inside LynkMotion and LynkGuard",
+   "id": "lynkgate",
+   "kind": "product",
    "places": [
     "app_nav",
     "footer",
     "help",
     "launcher",
+    "pricing_page",
     "product_page",
     "search",
+    "showcase",
     "sitemap",
     "website_header"
    ],
-   "section": "7B",
-   "footer_ids": [
-    "gps"
-   ]
+   "section": 9
+  },
+  {
+   "id": "lynktrace",
+   "kind": "product",
+   "places": [
+    "app_nav",
+    "footer",
+    "help",
+    "launcher",
+    "pricing_page",
+    "product_page",
+    "search",
+    "showcase",
+    "sitemap",
+    "website_header"
+   ],
+   "section": "7B"
   },
   {
    "id": "lynksentry",
-   "kind": "service",
-   "what": "LynkSentry, protection: alerts, incidents, custody and safe-stop rules, inside LynkMotion and LynkGuard",
+   "kind": "product",
    "places": [
     "app_nav",
     "footer",
     "help",
     "launcher",
+    "pricing_page",
     "product_page",
     "search",
+    "showcase",
     "sitemap",
     "website_header"
    ],
-   "section": "7B",
-   "footer_ids": [
-    "sentry"
-   ]
+   "section": "7B"
   },
   {
    "id": "arrive_safe",

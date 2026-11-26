@@ -1,3 +1,4 @@
+import os
 """One product catalog, one address map and one contacts map (review P1, A0 and M0, agreed 2026-11-07).
 The footer, billing, visuals and every email address in the code must agree with them."""
 import json, pathlib, re, sys, unittest
@@ -30,7 +31,12 @@ class Catalog(unittest.TestCase):
         """Every product with a footer place is in the footer once, linked to its page, in the column that suits it (Products,
         Solutions or Developers); the Products column holds only products."""
         shown = re.findall(r'brand\("([a-z]+)", "Lynk\w+", "([^"]+)"\)', FOOTER)
-        want = {p["footer_id"]: p["page"] for p in PRODUCTS["products"] if p["footer_id"]}
+        pages = {}
+        for p in PRODUCTS["products"]:
+            if p["footer_id"]:
+                pages.setdefault(p["footer_id"], set()).add(p["page"])
+        # LynkMotion's three ladders (Land, Sea, Air) share one footer link, to their common page /motion (LOCATION UPDATE, 2026-11-26)
+        want = {fid: (ps.pop() if len(ps) == 1 else os.path.commonpath(sorted(ps))) for fid, ps in pages.items()}
         for fid, page in want.items():
             self.assertEqual([h for i, h in shown if i == fid], [page], fid)
         start = FOOTER.index('id: "products"'); col = FOOTER[start:FOOTER.index("{ id:", start)]

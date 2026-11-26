@@ -3227,12 +3227,12 @@
   },
   {
    "id": "movement_names",
-   "name": "Trademark checks for LynkMotion, LynkGuard, LynkTrace, LynkGPS and LynkSentry",
+   "name": "Trademark checks for LynkMotion, LynkGuard, LynkTrace, LynkSentry, LynkCCTV and LynkGate",
    "blocks": [],
    "status": "pending",
    "why_not_now": "Needs the lawyer (owner action names-trademarks).",
    "placeholders": [],
-   "done_when": "The five names are cleared or replaced."
+   "done_when": "The six names are cleared or replaced."
   },
   {
    "id": "map_hosting",

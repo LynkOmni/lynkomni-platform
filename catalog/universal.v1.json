@@ -27,8 +27,12 @@
   "lynkcheckout": "7",
   "lynkvote": "7",
   "lynkacademy": "7",
-  "lynkmotion": "7B",
+  "lynkmotion_land": "7B",
+  "lynkmotion_sea": "7B",
+  "lynkmotion_air": "7B",
+  "lynktrace": "7B",
   "lynkguard": "7B",
+  "lynksentry": "7B",
   "lynkbooking": "8",
   "lynkjobs": "8B",
   "lynkessential": "9",
@@ -36,7 +40,9 @@
   "lynkproperty": "9B",
   "lynkexchange": "10",
   "lynkdev": "11",
-  "lynkbet": "9"
+  "lynkbet": "9",
+  "lynkcctv": "9",
+  "lynkgate": "9"
  },
  "home_sections_note": "The section where the family is finished; a rule not yet met is due there (or in the section being built now, if that is later). LynkAttend, LynkQueue and LynkSurvey were finished in the locked section 3B, so anything still missing for them is a section 4 leftover.",
  "bundles": [
@@ -282,8 +288,8 @@
    "lynkfiles": "Private documents: no ad places",
    "lynkhr": "Staff records: no ad places",
    "lynkproject": "Work records: no ad places",
-   "lynkmotion": "Tracking and safety screens: no ad places",
-   "lynkguard": "Safety and protection screens: no ad places",
+   "lynkguard": "Protection screens never carry ads (blueprint 91.3)",
+   "lynksentry": "Alarm and incident screens never carry ads (blueprint 91.3)",
    "lynkjobs": "People's job applications: no ad places",
    "lynkschool": "Children's and school places never carry ads",
    "lynkproperty": "Tenants' and owners' records: no ad places",
@@ -376,11 +382,27 @@
   "lynkdev": [
    "developers"
   ],
-  "lynkmotion": [
+  "lynkmotion_land": [
+   "movement",
+   "safety"
+  ],
+  "lynkmotion_sea": [
+   "movement",
+   "safety"
+  ],
+  "lynkmotion_air": [
+   "movement",
+   "safety"
+  ],
+  "lynktrace": [
    "movement",
    "safety"
   ],
   "lynkguard": [
+   "movement",
+   "safety"
+  ],
+  "lynksentry": [
    "movement",
    "safety"
   ],

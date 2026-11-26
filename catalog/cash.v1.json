@@ -125,7 +125,7 @@
   {
    "id": "pay_on_delivery",
    "what": "An order paid to the rider at the door",
-   "service": "lynkmotion",
+   "service": "lynktrace",
    "whose_cash": "held_for_seller",
    "offline": true,
    "build_section": "7B",
@@ -134,7 +134,7 @@
   {
    "id": "pickup_for_other_seller",
    "what": "A parcel with money due, collected at a pickup point run by someone other than the seller",
-   "service": "lynkmotion",
+   "service": "lynktrace",
    "whose_cash": "held_for_seller",
    "offline": true,
    "build_section": "7B",
