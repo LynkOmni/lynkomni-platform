@@ -2,7 +2,7 @@
 only. The basket, the screen, typed text and the event log stay exactly as they were; nothing is repeated or cancelled; turning
 back gives the same screen again. Runs in the browser (CI layout job, part 3)."""
 import os, unittest
-from tests.phone_sample import fill_phone
+from tests.phone_sample import fill_phone, sign_in_business
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIST = os.path.join(ROOT, "web", "emulators", "dist")
 try:
@@ -13,8 +13,7 @@ except ImportError:  # pragma: no cover
 
 def signed_in(pg):
     pg.goto("file://" + os.path.join(DIST, "lynkomni-merchant-phone.html"))
-    fill_phone(pg, "#phoneIn"); pg.click('[data-act="sendcode"]')
-    pg.fill("#codeIn", "123456"); pg.click('[data-act="verify"]')
+    sign_in_business(pg)
     pg.click('[data-act="business:0"]'); pg.wait_for_selector('[data-act="start"]'); pg.click('[data-act="start"]')
     pg.click('[data-act="localeok"]'); pg.evaluate("__go('home')")
 

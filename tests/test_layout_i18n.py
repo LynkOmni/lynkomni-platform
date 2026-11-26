@@ -7,7 +7,7 @@ import json
 from tests.staff_pin import sign_in
 import re, os, unittest
 from services import translation
-from tests.phone_sample import fill_phone
+from tests.phone_sample import fill_phone, sign_in_business
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ALL_LANGS = list(translation.languages()) + ["xx", "xx-rtl"]
@@ -188,8 +188,7 @@ class PhoneLayout(DarkPass, unittest.TestCase):
             if p:
                 found[name] = p
         check("sign in")
-        fill_phone(pg, "#phoneIn"); pg.click('[data-act="sendcode"]'); check("code")
-        pg.fill("#codeIn", "123456"); pg.click('[data-act="verify"]'); check("choose business")
+        sign_in_business(pg, check=check); check("choose business")
         pg.click('[data-act="business:0"]'); pg.wait_for_selector('[data-act="start"]'); check("registered")
         pg.click('[data-act="start"]'); check("language and region card")
         pg.click('[data-act="localeok"]'); check("setup, who it is for")

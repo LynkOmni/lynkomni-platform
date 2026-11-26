@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.122.5 (2026-11-26)
+The Business app signs in with a username, email or phone number (owner, from the sign-in screen).
+- The Business app's first screen was still a phone-only box, a leftover from before section 4C. It now uses the shared sign-in (ts/src/waysview.ts signInHtml), like the account site: one box for a username, email or phone number, then the ways this person has (passkey, approve on another device, QR code, a code by email, a code by text). Sign-up still needs both an email and a phone number, each confirmed by its own code.
+- While a person types, the note ("Signing in with your email") and Next follow the typing in place (waysTyped), so the box keeps its focus and the next tap is never lost, on the Business app and the account site.
+- The sign-in buttons never break inside a word: each way to sign in is a full row and the links wrap whole (web/shell/waysin.css); the sign-in box has its padding and the field look.
+- Tests sign in the way a person does (tests/phone_sample.py sign_in_business: an email, then the passkey).
+
 ## v0.122.4 (2026-11-26)
 Every handle field has a fixed @ (owner, from the sign-up screen).
 - Every handle field is one shared box (ts/src/usernames.ts handleBoxHtml, web/shell/handle.css) with the @ fixed inside it: never typed, never deleted. A typed @ is ignored.
