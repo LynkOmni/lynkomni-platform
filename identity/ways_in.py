@@ -40,6 +40,7 @@ class WaysIn:
         create table if not exists wi_word(person text primary key, word text, set_at real);
         create table if not exists wi_lock(person text primary key, countries text);
         create table if not exists wi_devices(person text, device text, last_used real, remembered int, primary key(person, device));
+        create table if not exists wi_bounced(person text primary key, since real);
         create table if not exists wi_signins(person text, country text, at real);
         create table if not exists wi_tries(person text, at real);
         create table if not exists wi_extra_tries(person text, at real);
@@ -258,6 +259,25 @@ class WaysIn:
         self.db.execute("insert or replace into wi_devices values(?,?,?,?)", (person, device, t, 1 if remember else 0)); self.db.commit()
         return {"hours": WI.session_hours(remember)}
 
+    def known_device(self, person, device):
+        """A device this person has signed in on before (and not signed out for being old)."""
+        return self.db.execute("select 1 from wi_devices where person=? and device=?", (person, device)).fetchone() is not None
+
+    # ---- a working way to reach you (owner, 2026-11-26): LynkOmni never texts, so the checkup makes sure a free way works --
+    def email_bounced(self, person, now=None):
+        """Cloud only, from the email partner's report: messages to this person's email are coming back."""
+        self.db.execute("insert or ignore into wi_bounced values(?,?)", (person, _now(now))); self.db.commit()
+
+    def email_works(self, person):
+        """The email was confirmed again (a code was read) or a message was opened."""
+        self.db.execute("delete from wi_bounced where person=?", (person,)); self.db.commit()
+
+    def reachable(self, person):
+        """A free way reaches this person: an email that is not bouncing, or the app signed in on a device."""
+        bounced = self.db.execute("select 1 from wi_bounced where person=?", (person,)).fetchone() is not None
+        devices = self.db.execute("select 1 from wi_devices where person=?", (person,)).fetchone() is not None
+        return not bounced or devices
+
     def sign_out_old_devices(self, now=None):
         """Devices unused for 90 days are signed out (the daily housekeeping)."""
         t, out = _now(now), []
@@ -284,7 +304,8 @@ class WaysIn:
                 "recovery_contacts": bool(self.recovery_contacts(person)),
                 "anti_phishing_word": self.word_for_message(person) is not None,
                 "old_devices": not any(WI.old_device(l, _now(now)) for (l,) in self.db.execute("select last_used from wi_devices where person=?", (person,))),
-                "number_confirmed": True}
+                "number_confirmed": True,
+                "reachable": self.reachable(person)}
         return WI.checkup(have)
 
     # ---- basic phone accounts: phone and PIN only, limited until an email is added ------------------------------------

@@ -17,7 +17,8 @@
    ]
   ],
   "recovery": "7F3K-9Q2M-X81B-4TZC",
-  "case": "LOCASE-2101-7710-0042"
+  "case": "LOCASE-2101-7710-0042",
+  "security_unread": true
  },
  "pin": "4719",
  "duress": "8642",
@@ -77,6 +78,10 @@
     "input": "4719",
     "screen": "home",
     "page": [
+     [
+      "bp_alert",
+      {}
+     ],
      [
       "bp_home",
       {}
@@ -202,6 +207,10 @@
     "input": "0",
     "screen": "home",
     "page": [
+     [
+      "bp_alert",
+      {}
+     ],
      [
       "bp_home",
       {}
@@ -444,6 +453,10 @@
     "screen": "home",
     "page": [
      [
+      "bp_alert",
+      {}
+     ],
+     [
       "bp_home",
       {}
      ],
@@ -575,6 +588,10 @@
     "input": "4719",
     "screen": "home",
     "page": [
+     [
+      "bp_alert",
+      {}
+     ],
      [
       "bp_home",
       {}
@@ -719,6 +736,10 @@
     "screen": "home",
     "page": [
      [
+      "bp_alert",
+      {}
+     ],
+     [
       "bp_home",
       {}
      ],
@@ -770,6 +791,10 @@
     "input": "0",
     "screen": "home",
     "page": [
+     [
+      "bp_alert",
+      {}
+     ],
      [
       "bp_home",
       {}

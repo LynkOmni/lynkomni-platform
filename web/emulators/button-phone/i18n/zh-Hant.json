@@ -4,10 +4,11 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "7f8c8eba73dbc34f24195ba585a82332eeac598f169b0b42ac77dbc3d57fc368",
+ "source_sha256": "50c3ef7e5cafc0f82c28e8c36e9bf06228a3f35f76a6d2a13009f1dadf10368a",
  "texts": {
   "bp_age": "你是否年滿 {age} 歲？",
   "bp_agree": "{n}. 我同意",
+  "bp_alert": "有一則安全提醒待讀。打開訊息查看。",
   "bp_create": "{n}. 建立帳戶",
   "bp_created": "已建立帳戶 @{username}。",
   "bp_day_closed": "今天已日結",

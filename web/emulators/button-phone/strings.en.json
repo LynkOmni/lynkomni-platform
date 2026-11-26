@@ -1,6 +1,7 @@
 {
  "bp_age": "Are you {age} or older?",
  "bp_agree": "{n}. I agree",
+ "bp_alert": "Security alert waiting. Open Messages to read it.",
  "bp_create": "{n}. Create an account",
  "bp_created": "Account @{username} created.",
  "bp_day_closed": "Your day is closed",

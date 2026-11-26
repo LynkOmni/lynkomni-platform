@@ -4,10 +4,11 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "7f8c8eba73dbc34f24195ba585a82332eeac598f169b0b42ac77dbc3d57fc368",
+ "source_sha256": "50c3ef7e5cafc0f82c28e8c36e9bf06228a3f35f76a6d2a13009f1dadf10368a",
  "texts": {
   "bp_age": "האם גילך {age} או יותר?",
   "bp_agree": "{n}. אני מסכים/ה",
+  "bp_alert": "התראת אבטחה ממתינה. פתחו את ההודעות כדי לקרוא אותה.",
   "bp_create": "{n}. יצירת חשבון",
   "bp_created": "החשבון @{username} נוצר.",
   "bp_day_closed": "היום שלך נסגר",

@@ -29,7 +29,7 @@ export interface WaysState {
   si: { who: string; step: "who" | "ways" | "extra" | "done"; unusual: string[]; remember: boolean; qr: boolean; numbers: number };
   rc: { problem: string | null; way: string | null; started: number | null; readyAt: number | null; cancelled: boolean; done: number | null; locked: boolean; blocked: boolean };
   sec: { left: number; shown: string[] | null; auth: "off" | "setup" | "on"; authKey: string; keys: number; contacts: string[]; word: string; wordSaved: boolean;
-    lock: string[]; old: string[]; activity: { type: string; at: number }[]; appLock: boolean; privacy: boolean; basic: boolean };
+    lock: string[]; old: string[]; activity: { type: string; at: number }[]; appLock: boolean; privacy: boolean; basic: boolean; reach: boolean };
   /** The phone owner check (point 4): consent, which check applies, and the answer written by the cloud (sample answers here). */
   po: { consent: boolean; method: string; state: "none" | "sent" | "confirmed" | "partial" | "failed" | "waiting"; until: number | null };
 }
@@ -45,7 +45,7 @@ export function waysStart(now: number, random: (n: number) => number): WaysState
     su: { done: [], adult: false, legal: "", tried: false, username: "", codes, recovery: `${code()}-${code()}`, device: 0, network: 0 },
     si: { who: "grace.k", step: "who", unusual: [], remember: true, qr: false, numbers: 10 + random(90) },
     rc: { problem: null, way: null, started: null, readyAt: null, cancelled: false, done: null, locked: false, blocked: false },
-    sec: { left: WAYS_IN.backup_codes.count, shown: null, auth: "off", authKey: "", keys: 0, contacts: [], word: "", wordSaved: false, lock: [], old: ["Old tablet"], activity: [], appLock: false, privacy: false, basic: false },
+    sec: { left: WAYS_IN.backup_codes.count, shown: null, auth: "off", authKey: "", keys: 0, contacts: [], word: "", wordSaved: false, lock: [], old: ["Old tablet"], activity: [], appLock: false, privacy: false, basic: false, reach: true },
     po: { consent: false, method: ownerCheckMethod(true), state: "none", until: null },
   };
 }
@@ -171,13 +171,13 @@ export function lostPhoneHtml(look: WaysLook, st: WaysState): string {
 export function securityHtml(look: WaysLook, st: WaysState): string {
   const t = look.t, s = st.sec;
   const missing = checkup({ second_way: st.has.length > 1 && (s.keys > 0 || s.auth === "on" || st.has.includes("other_device")), backup_codes: !backupCodesLeftNote(s.left), recovery_contacts: s.contacts.length >= WAYS_IN.recovery_contacts.min,
-    anti_phishing_word: s.wordSaved, old_devices: !s.old.length, number_confirmed: true });
+    anti_phishing_word: s.wordSaved, old_devices: !s.old.length, number_confirmed: true, reachable: s.reach });
   const sec = (title: string, inner: string, id: string): string => `<section class="wy-card" data-wy-part="${id}"><h2>${wyEsc(t(title))}</h2>${inner}</section>`;
   const codesNote = backupCodesLeftNote(s.left);
   const contactsWhy = s.contacts.length ? contactsProblem(s.contacts) : null;
   const wordWhy = s.word ? antiPhishingProblem(s.word) : null;
   const parts = [
-    sec("wy_checkup_title", missing.length ? `<ul class="wy-rows">${missing.map((m) => `<li><span class="wy-main"><span class="wy-nm">${wyEsc(t(`wy_check_${m}`))}</span></span>${wyBtn(look, "secondary", `sec:fix:${m}`, t("wy_fix"))}</li>`).join("")}</ul>` : noticeHtml(t, { level: "success", text: t("wy_checkup_ok") }), "checkup"),
+    sec("wy_checkup_title", (missing.length ? `<ul class="wy-rows">${missing.map((m) => `<li><span class="wy-main"><span class="wy-nm">${wyEsc(t(`wy_check_${m}`))}</span></span>${wyBtn(look, "secondary", `sec:fix:${m}`, t("wy_fix"))}</li>`).join("")}</ul>` : noticeHtml(t, { level: "success", text: t("wy_checkup_ok") })) + `<p class="wy-note">${wyEsc(t("wy_hold_note"))}</p>`, "checkup"),
     sec("wy_backup_codes", `<p class="wy-note">${wyEsc(t("wy_codes_left", { n: look.num(s.left) }))}</p>${codesNote ? noticeHtml(t, { level: "warning", text: t(`wy_codes_${codesNote}`) }) : ""}${s.shown ? `<ol class="wy-list" dir="ltr">${s.shown.map((c) => `<li>${wyEsc(c)}</li>`).join("")}</ol><span class="wy-sample">${wyEsc(t("wy_sample"))}</span>` : ""}${wyBtn(look, "secondary", "sec:codes", t("wy_make_new_codes"), " data-wait")}`, "codes"),
     sec("wy_auth_title", `<p class="wy-note">${wyEsc(t("wy_auth_note"))}</p>${s.auth === "on" ? `<p class="wy-sub">${wyEsc(t("wy_auth_on"))}</p>${wyBtn(look, "secondary", "sec:authoff", t("wy_turn_off"))}<p class="wy-note">${wyEsc(t("wy_turn_off_note"))}</p>`
       : s.auth === "setup" ? `<p class="wy-sub">${wyEsc(t("wy_auth_key"))} <span class="wy-sample">${wyEsc(t("wy_sample"))}</span></p><p class="wy-code" dir="ltr">${wyEsc(s.authKey)}</p>${look.codeField("wyAuthCode", t("wy_way_authenticator"))}${wyBtn(look, "primary", "sec:authon", t("wy_auth_turn_on"), " data-wait")}`
@@ -291,6 +291,7 @@ export function waysAct(st: WaysState, act: string, random: (n: number) => numbe
     else if (verb === "old") { s.old = []; return { event: "OldDeviceSignedOut" }; }
     else if (verb === "notme") return { event: "EverythingLocked" };
     else if (verb === "fix") {
+      if (arg === "reachable") { s.reach = true; return {}; }   // the sample: the email confirmed again, or the app signed in
       const fixes: Record<string, string> = { backup_codes: "codes", recovery_contacts: "contact", old_devices: "old", second_way: "key" };
       if (arg === "recovery_contacts") { while (s.contacts.length < WAYS_IN.recovery_contacts.min - 1) waysAct(st, "wy:sec:contact", random); }
       return arg && fixes[arg] ? waysAct(st, `wy:sec:${fixes[arg]}`, random) : { go: "focus:wyWord" };

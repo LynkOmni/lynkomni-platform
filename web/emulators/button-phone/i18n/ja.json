@@ -4,10 +4,11 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "7f8c8eba73dbc34f24195ba585a82332eeac598f169b0b42ac77dbc3d57fc368",
+ "source_sha256": "50c3ef7e5cafc0f82c28e8c36e9bf06228a3f35f76a6d2a13009f1dadf10368a",
  "texts": {
   "bp_age": "{age} 歳以上ですか？",
   "bp_agree": "{n}. 同意する",
+  "bp_alert": "セキュリティのお知らせがあります。メッセージを開いて読んでください。",
   "bp_create": "{n}. アカウント作成",
   "bp_created": "アカウント @{username} を作成しました。",
   "bp_day_closed": "本日の締めが完了しました",

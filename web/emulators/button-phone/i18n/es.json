@@ -4,10 +4,11 @@
  "kept_in_english": [],
  "lang": "es",
  "native": "Español",
- "source_sha256": "7f8c8eba73dbc34f24195ba585a82332eeac598f169b0b42ac77dbc3d57fc368",
+ "source_sha256": "50c3ef7e5cafc0f82c28e8c36e9bf06228a3f35f76a6d2a13009f1dadf10368a",
  "texts": {
   "bp_age": "¿Tienes {age} años o más?",
   "bp_agree": "{n}. Acepto",
+  "bp_alert": "Alerta de seguridad pendiente. Abre Mensajes para leerla.",
   "bp_create": "{n}. Crear una cuenta",
   "bp_created": "Cuenta @{username} creada.",
   "bp_day_closed": "Tu día está cerrado",

@@ -71,6 +71,7 @@ class Account:
         create table if not exists acct_sessions(token text primary key, person text, site text, device_name text, place text, started real, revoked real);
         create table if not exists acct_consents(locns text primary key, person text, scope text, grantee text, purpose text, granted real, expires real, withdrawn real, warned int);
         create table if not exists acct_payout(id text primary key, person text, org text, ready_at real, status text);
+        create table if not exists acct_holds(ref text primary key, person text, kind text, since real, cleared real, how text);
         create table if not exists acct_requests(id text primary key, person text, opened real, due real, ready real, expires real);
         create table if not exists acct_apps(application_id text primary key, person text, lodoc text, country text, steps text, status text, gateway_ref text, lynkoid text);
         create table if not exists acct_standing(losub text primary key, person text, merchant text, cap_minor int, currency text, provider text, approved real, revoked real, uses int);""")
@@ -340,9 +341,38 @@ class Account:
         s.emit(person, "PayoutChangeRequested", {"lynkid": lid, "lynkoid": oid, "ready_at": ready}, now)
         s.emit(person, "SecurityAlertSent", {"lynkid": lid, "kind": "payout_change", "channels": ["push", "email"]}, now)
         return {"id": i, "status": "waiting", "ready_at": ready}
+    # ---- held until reached (owner, 2026-11-26): LynkOmni never texts; when no free channel delivered the alert about a change,
+    #      the change waits until the person opens the alert or confirms on a device they used before (catalog/messages.v1.json)
+    HOLD_KINDS = ("payout_change", "contact_change")
+    HOLD_CLEARED_BY = ("read", "known_device")
+
+    def hold_unreached(s, person, kind, ref, now=None):
+        """Cloud only: the alert about this change reached the person on no free channel, so the change is held."""
+        if kind not in s.HOLD_KINDS: raise ValueError("only payout and contact changes are held")
+        if s.db.execute("select 1 from acct_holds where ref=?", (ref,)).fetchone(): return False
+        s.db.execute("insert into acct_holds values(?,?,?,?,null,null)", (ref, person, kind, _now(now))); s.db.commit()
+        s.emit(person, "ChangeHeldUntilReached", {"lynkid": s._lynkid(person), "kind": kind}, now)
+        return True
+
+    def reached(s, person, ref, how, now=None, device=None):
+        """The person opened the alert, or confirmed on a device they used before: the held change may go on when its wait is over."""
+        if how not in s.HOLD_CLEARED_BY: raise ValueError("a hold ends only when the alert is read or confirmed on a known device")
+        r = s.db.execute("select person, cleared from acct_holds where ref=?", (ref,)).fetchone()
+        if not r or r[0] != person: raise PermissionError("only the person the change belongs to")
+        if r[1] is not None: return False
+        if how == "known_device" and not (device and s.ways.known_device(person, device)):
+            raise PermissionError("confirm on a device you have used before")
+        s.db.execute("update acct_holds set cleared=?, how=? where ref=?", (_now(now), how, ref)); s.db.commit()
+        s.emit(person, "ChangeHoldCleared", {"lynkid": s._lynkid(person), "how": how}, now)
+        return True
+
+    def on_hold(s, ref):
+        return s.db.execute("select 1 from acct_holds where ref=? and cleared is null", (ref,)).fetchone() is not None
+
     def apply_payout_change(s, person, change_id, now=None):
         r = s.db.execute("select org,ready_at,status from acct_payout where id=? and person=?", (change_id, person)).fetchone()
         if not r or r[2] != "waiting": raise PermissionError("no waiting change")
+        if s.on_hold(change_id): raise PermissionError("held: the alert about this change has not reached you yet")
         if _now(now) < r[1]: raise PermissionError("the waiting period is not over")
         s.db.execute("update acct_payout set status='applied' where id=?", (change_id,)); s.db.commit()
         s.emit(person, "PayoutChangeApplied", {"lynkid": s._lynkid(person), "lynkoid": s.ids.public_for("OID", r[0]), "approved_by": "waiting_period"}, now)

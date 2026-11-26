@@ -94,7 +94,7 @@ const S = {
   testSize: "auto", override: null as string | null, choice: null as Choice | null,
   idCheck: null as null | "sent" | "confirmed", cases: [] as { side: "internal" | "external"; ref: string }[],
   // Arrive Safe and Collect Pass (NEW UPDATE 1): shares end by themselves; a trip plan is watched by the cloud
-  shares: [] as { id: string; scope: "live" | "trips" | "zones"; until: number }[], plan: null as null | { due: number; checked: boolean }, passWindow: 0,
+  shares: [] as { id: string; scope: "live" | "trips" | "zones"; until: number }[], plan: null as null | { due: number; checked: boolean }, trusted: "none" as "none" | "invited" | "accepted", passWindow: 0,
   // NEW UPDATE 4 section 2: My details (LynkAttend), My tickets (LynkQueue), My answers and the Panel (LynkSurvey)
   att: "closed" as "closed" | "code_sent" | "open", attShow: "" as "" | "pin" | "idcn", attRequest: null as null | { kind: "delete_my_details" | "dispute"; at: number }, wasThisYou: true,
   tkLate: false, tkLeft: false, answers: ["sv1", "sv2"] as string[], optOut: [] as string[], panel: false,
@@ -404,10 +404,14 @@ function page(): string {
       const list = S.shares.length ? rows(S.shares.map((x) => kv(esc(`${t("share_with_sample")} · ${t(`share_scope_${x.scope}`)}`), esc(t("share_until", { time: clock(x.until * 1000) })), `<button class="secondary" data-act="share:stop:${esc(x.id)}">${esc(t("share_stop"))}</button>`)))
         : `<p class="muted">${esc(t("share_none"))}</p>`;
       const plan = S.plan ? (S.plan.checked ? ok(t("plan_done")) : `${wait(t("plan_due", { time: clock(S.plan.due * 1000) }))}<p>${esc(t("plan_contacts", { count: n(1) }))}</p><div class="actions"><button class="primary" data-act="plan:checkin">${icon("ui-check")}<span>${esc(t("plan_check_in"))}</span></button></div>`)
-        : `<div class="actions"><button class="primary" data-act="plan:set">${icon("ui-bolt")}<span>${esc(t("plan_set"))}</span></button></div>`;
+        : `<div class="actions"><button class="primary" data-act="plan:set"${S.trusted === "accepted" ? "" : ` disabled data-why="${esc(t("plan_needs_contact"))}"`}>${icon("ui-bolt")}<span>${esc(t("plan_set"))}</span></button></div>`;
+      const tc = S.trusted === "none" ? `<div class="actions"><button class="secondary" data-act="tc:invite">${esc(t("tc_invite"))}</button></div>`
+        : S.trusted === "invited" ? `${wait(t("tc_invited"))}<p class="muted">${esc(t("share_with_sample"))}</p><div class="actions"><button class="secondary" data-act="tc:accept">${esc(t("tc_sample_accept"))}</button><button class="secondary" data-act="tc:remove">${esc(t("tc_remove"))}</button></div>`
+        : `${ok(t("tc_accepted"))}<p class="muted">${esc(t("share_with_sample"))}</p><div class="actions"><button class="secondary" data-act="tc:remove">${esc(t("tc_remove"))}</button></div>`;
       return `${pageTitle("trips")}<div class="cards">
         <div class="card wide"><p class="muted">${esc(t("trips_intro"))}</p>${list}<div class="actions">${scopes.map((sc) => `<button class="secondary" data-act="share:start:${sc}">${esc(t(`share_scope_${sc}`))}</button>`).join("")}</div><p class="muted">${esc(t("share_visible"))}</p></div>
-        <div class="card"><h2>${esc(t("plan_title"))}</h2><p class="muted">${esc(t("plan_intro"))}</p>${plan}</div></div>`;
+        <div class="card"><h2>${esc(t("tc_title"))}</h2><p class="muted">${esc(t("tc_note"))}</p>${tc}</div>
+        <div class="card"><h2>${esc(t("plan_title"))}</h2><p class="muted">${esc(t("plan_intro"))}</p>${S.trusted === "accepted" || S.plan ? "" : `<p class="muted">${esc(t("plan_needs_contact"))}</p>`}${plan}</div></div>`;
     }
     case "collect": {
       const w = Math.floor(now / 60) + S.passWindow;
@@ -613,7 +617,13 @@ function act(a: string): void {
       if (v === "poll" && S.idCheck === "sent" && S.link !== "offline") { S.idCheck = "confirmed"; record("IdentityCheckConfirmed", "server", { lover: SAMPLE_LOVER, by: "partner" }); }
       draw(); return;
     }
-    case "plan": if (v === "set") { S.plan = { due: now + 2 * 3600, checked: false }; record("TripPlanSet", "device", { due_at: S.plan.due, contacts: 1 }); draw(); return; }
+    case "tc":   // trusted contacts: invited first; safety alerts go only to a contact who accepted (free, in the app or by email)
+      if (v === "invite") { S.trusted = "invited"; record("TrustedContactInvited", "server", {}); draw(); return; }
+      if (v === "accept" && S.trusted === "invited") { S.trusted = "accepted"; record("TrustedContactAccepted", "server", {}); draw(); return; }
+      if (v === "remove") { S.trusted = "none"; S.plan = null; record("TrustedContactRemoved", "server", { by: "person" }); draw(); return; }
+      return;
+    case "plan": if (v === "set" && S.trusted !== "accepted") return;
+      if (v === "set") { S.plan = { due: now + 2 * 3600, checked: false }; record("TripPlanSet", "device", { due_at: S.plan.due, contacts: 1 }); draw(); return; }
       if (v === "checkin" && S.plan) { S.plan.checked = true; record("TripPlanCheckedIn", "device", {}); draw(); return; }
       S.overlay = null; record("AccountAction", "device", { action: a }); draw(); return;
     case "business": case "role": case "region": case "open": case "notice": case "help": case "copy": case "edit": S.overlay = null; record("AccountAction", "device", { action: a }); draw(); return;

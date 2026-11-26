@@ -4,10 +4,11 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "7f8c8eba73dbc34f24195ba585a82332eeac598f169b0b42ac77dbc3d57fc368",
+ "source_sha256": "50c3ef7e5cafc0f82c28e8c36e9bf06228a3f35f76a6d2a13009f1dadf10368a",
  "texts": {
   "bp_age": "Ikaw ba ay {age} taong gulang o higit pa?",
   "bp_agree": "{n}. Sumasang-ayon ako",
+  "bp_alert": "May naghihintay na security alert. Buksan ang Mga Mensahe para basahin.",
   "bp_create": "{n}. Gumawa ng account",
   "bp_created": "Nagawa ang account na @{username}.",
   "bp_day_closed": "Sarado na ang araw mo",

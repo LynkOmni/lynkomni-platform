@@ -45,7 +45,25 @@ class ArriveSafeTests(unittest.TestCase):
         self.assertTrue(self.s.stop(self.me, sh["share_id"], T0 + 10))
         self.assertFalse(self.a.consent_allows(self.me, "location-share", self.sis, T0 + 11)); self.assertFalse(self.s.can_see(self.sis, self.me, T0 + 11))
 
+    def trust(self):
+        iid = self.s.invite_contact(self.me, self.sis, T0); self.s.accept_contact(self.sis, iid, T0); return iid
+
+    def test_a_trusted_contact_must_accept_before_alerts_go_to_them(self):
+        with self.assertRaises(ValueError): self.s.invite_contact(self.me, self.a._lynkid(self.me), T0)
+        iid = self.s.invite_contact(self.me, self.sis, T0)
+        self.assertEqual(self.s.invite_contact(self.me, self.sis, T0), iid, "one invitation per contact")
+        with self.assertRaises(PermissionError, msg="never told by text: only a contact who accepted"):
+            self.s.plan(self.me, T0 + 3600, [self.sis], T0)
+        with self.assertRaises(PermissionError): self.s.accept_contact("someone-else", iid, T0)
+        self.assertTrue(self.s.accept_contact(self.sis, iid, T0 + 5))
+        self.assertEqual(self.s.trusted(self.me), [self.sis])
+        self.s.plan(self.me, T0 + 3600, [self.sis], T0 + 6)
+        self.assertTrue(self.s.remove_contact(self.sis, iid, T0 + 7), "the contact may leave at any time")
+        self.assertEqual(self.s.trusted(self.me), [])
+        self.assertEqual([e["payload"].get("by") for e in self.events("TrustedContactRemoved")], ["contact"])
+
     def test_a_trip_plan_is_watched_by_the_cloud(self):
+        self.trust()
         with self.assertRaises(ValueError): self.s.plan(self.me, T0 + 3600, [], T0)
         with self.assertRaises(ValueError): self.s.plan(self.me, T0 - 1, [self.sis], T0)
         on_time = self.s.plan(self.me, T0 + 3600, [self.sis], T0)
@@ -68,6 +86,7 @@ class ArriveSafeTests(unittest.TestCase):
         self.assertEqual(self.s.collect(other, b["code"], "shp-3", T0 + PASS_WINDOW_S)["reason"], "code_not_valid")    # only the person's own pass
 
     def test_events_match_the_contract_and_carry_no_position(self):
+        self.trust()
         sh = self.s.share(self.me, self.sis, "zones", 5, T0); self.s.plan(self.me, T0 + 3600, [self.sis], T0); self.s.stop(self.me, sh["share_id"], T0)
         for e in self.events("LocationShareStarted", "LocationShareEnded", "TripPlanSet"):
             self.assertIn(e["type"], EVENTS)
