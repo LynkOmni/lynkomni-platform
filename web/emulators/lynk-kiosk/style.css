@@ -35,3 +35,5 @@
 .kscreen .warn { color: var(--status-danger-text); font-weight: 600; } .kscreen .plabel { font-weight: 600; } .kpaper .qpaper { border: 0; margin: 0; padding: 0; max-inline-size: none; }
 .kslot .kpaper { z-index: 1; box-shadow: 0 6px 14px -8px color-mix(in srgb, var(--device-shell) 70%, transparent); }
 .kpaper .qpaper .qp-num { font-size: 16px; letter-spacing: 0; }
+/* Turned sideways from the panel (owner, 2026-11-26): the same device held the other way; ts/src/turn.ts turnDevice sets data-turn. */
+.kiosk[data-turn="sideways"] { inline-size: 660px; } .kiosk[data-turn="sideways"] .kscreen { block-size: 370px; }

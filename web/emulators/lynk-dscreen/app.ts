@@ -2,7 +2,8 @@
  *  monitor. It only follows the queue keeper: the tickets being called and their counters, "back soon", how many wait in each
  *  section and the QR code to join (changing every few minutes when people may join only at the place). A chime plays and a voice
  *  reads each call in up to two languages. The buttons beside it play reception and the counters. Ticket numbers only, never a name. */
-import { Country, EventLog, Words, applyRoot, esc, fitToWidth, panelChange, panelHtml, reducedMotion, stateButtons } from "../../../ts/src/emulator.js";
+import { Country, EventLog, Words, applyRoot, esc, fitRig, panelChange, panelHtml, reducedMotion, stateButtons } from "../../../ts/src/emulator.js";
+import { turnDevice } from "../../../ts/src/turn.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import type { T } from "../../../ts/src/shell.js";
@@ -50,7 +51,10 @@ function chime(text: string, lang: string): void {
  *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
 const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "queue.board", "Waiting room", { short_side: 1080, keys: true, speaker: true }, "tv"), (type, payload, origin) => { LOG.emit(type, payload, origin); });
 const KW = wireKit(KIT, { t, icon: (id, cls) => icon(id, cls), online: () => S.online, redraw: () => draw() });
-function draw(): void { drawScreen(); KW.after($("#screen")); }
+let REFIT: (() => void) | undefined;
+/** Turning (owner, 2026-11-26): Upright or Sideways from the panel; the body takes its turned shape and the screen its layout. */
+const turnNow = (): void => turnDevice(DEVICES, { rig: $("#rig"), body: document.querySelector(".tv"), screens: [$("#screen")], turn: S.turn, width: 724, sidewaysWidth: 460, shape: { width: 1920, height: 1080, device: "queue-display" } }, REFIT);
+function draw(): void { drawScreen(); turnNow(); KW.after($("#screen")); }
 function drawScreen(): void {
   const el = $("#screen"); DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W);
   Q.tier = S.tier as AtTier; Q.voice = S.second && S.second !== S.lang ? [S.lang, S.second] : [S.lang];
@@ -73,7 +77,7 @@ function act(a: string): void {
 }
 function panel(): void {
   const langs = Object.keys(DATA.i18n);
-  $("#panel").innerHTML = panelHtml(["online", "plan", "country", "dark", "lang"], S, W, C, { tiers: TIERS })
+  $("#panel").innerHTML = panelHtml(["online", "plan", "country", "dark", "lang", "turn"], S, W, C, { tiers: TIERS })
     + `<div class="ctl-extra"><label class="center"><span>${esc(t("ds_second_language"))}</span> <select data-kctl="second"><option value="">–</option>${langs.map((l) => `<option value="${esc(l)}" ${S.second === l ? "selected" : ""}>${esc(DATA.i18n[l]?.native ?? l)}</option>`).join("")}</select></label>
       <label><input type="checkbox" data-kctl="only" ${Q.joinFrom === "only_at_the_place" ? "checked" : ""}> <span>${esc(t("ppl_qu_join_only_at_the_place"))}</span></label></div>` + DEV.control();
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
@@ -101,7 +105,7 @@ function main(): void {
   });
   document.addEventListener("keydown", (e) => { if (DEV.key(e)) return; });
   window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); if (!reducedMotion() && S.ticks % 15 === 0 && document.querySelector("#screen .flash")) draw(); }, 400);
-  fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 724);
+  REFIT = fitRig($("#rig"), 724); turnNow();
 }
 main();
 /** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */

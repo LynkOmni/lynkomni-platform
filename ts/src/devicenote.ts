@@ -6,3 +6,9 @@
 export function anyDeviceHtml(t: (k: string) => string): string {
   return `<p class="vonly" data-ctl="version-only">${t("version_only_web")}</p>`;
 }
+
+/** The plain line for a device that does not turn, with its reason (owner, 2026-11-26): its panel says so instead of offering a
+ *  turn it cannot make. Devices that can turn offer Upright or Sideways (the panel's turn control). */
+export function turnFixedHtml(t: (k: string) => string, why: "turn_fixed_terminal" | "turn_fixed_counter" | "turn_fixed_laptop" | "turn_fixed_card" | "turn_fixed_pair" | "turn_fixed_keypad"): string {
+  return `<p class="vonly" data-ctl="turn-fixed">${t(why)}</p>`;
+}

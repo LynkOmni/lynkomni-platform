@@ -31,3 +31,5 @@
 .ic { display: inline-flex; inline-size: 20px; block-size: 20px; flex: none; } .ic svg { inline-size: 100%; block-size: 100%; display: block; } .chip .ic { inline-size: 12px; block-size: 12px; }
 .tscreen .chip { display: inline-flex; gap: 4px; align-items: center; padding: 2px 10px; border-radius: var(--radius-pill); border: 1px solid var(--border-subtle); font-size: 13px; justify-self: start; align-self: flex-start; }
 @media (max-width: 760px) { .tab { padding: 10px 10px 20px; border-radius: var(--radius-card); } .tscreen { min-block-size: 380px; padding: 12px; } }
+/* Turned sideways from the panel (owner, 2026-11-26): the same device held the other way; ts/src/turn.ts turnDevice sets data-turn. */
+.tab[data-turn="sideways"] { inline-size: 500px; } .tab[data-turn="sideways"] .tscreen { min-block-size: 660px; }

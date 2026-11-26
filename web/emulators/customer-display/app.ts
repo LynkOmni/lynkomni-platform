@@ -5,7 +5,8 @@
 import { Cart, qtyText } from "../../../ts/src/pos.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import { secondCurrency } from "../../../ts/src/business.js";
-import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, reducedMotion, stateButtons } from "../../../ts/src/emulator.js";
+import { Country, EventLog, Words, applyRoot, esc, fitRig, newId, panelChange, panelHtml, reducedMotion, stateButtons } from "../../../ts/src/emulator.js";
+import { turnDevice } from "../../../ts/src/turn.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
@@ -57,7 +58,10 @@ const DEV = wireDevice(DM, { t, icon: (id) => `<span class="ic" aria-hidden="tru
  *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
 const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "pos.customer_display", "Customer screen", { short_side: 480, touch: true, speaker: true }, "android"), (type, payload, origin) => { LOG.emit(type, payload, origin); });
 const KW = wireKit(KIT, { t, icon: (id) => icon(id), online: () => S.online, redraw: () => draw() });
-function draw(): void { drawScreen(); KW.after($("#screen")); }
+let REFIT: (() => void) | undefined;
+/** Turning (owner, 2026-11-26): Upright or Sideways from the panel; the body takes its turned shape and the screen its layout. */
+const turnNow = (): void => turnDevice(DEVICES, { rig: $("#rig"), body: document.querySelector(".cdbody"), screens: [$("#screen")], turn: S.turn, width: 760, sidewaysWidth: 760, shape: { width: 800, height: 480, device: "customer-display" } }, REFIT);
+function draw(): void { drawScreen(); turnNow(); KW.after($("#screen")); }
 function drawScreen(): void {
   const el = $("#screen"); DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = display();
   const tl = $("#till"); applyRoot(tl, W); tl.innerHTML = till();
@@ -75,7 +79,7 @@ function act(a: string): void {
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "fail", "plan", "country", "dark", "lang"], S, W, C, { tiers: TIERS }) + DEV.control();
+  $("#panel").innerHTML = panelHtml(["online", "fail", "plan", "country", "dark", "lang", "turn"], S, W, C, { tiers: TIERS }) + DEV.control();
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["welcome", "basket", "pay", "thanks"], (k) => { if (!cart.lines().length && products[0] && products[1]) { cart.add(products[0]); cart.add(products[1], 2000); } S.step = k as Step; S.payState = "sent"; draw(); });
 }
@@ -85,7 +89,7 @@ function main(): void {
   document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (b && !b.hasAttribute("disabled")) act(b.dataset["act"] ?? ""); });
   $("#panel").addEventListener("change", (e) => { if (DEV.change(e.target as HTMLElement)) return; if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });
   window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); }, 400);
-  fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 760);
+  REFIT = fitRig($("#rig"), 760); turnNow();
 }
 main();
 /** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */

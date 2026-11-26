@@ -8,6 +8,7 @@
 import type { UserState } from "../../../ts/src/pos.js";
 import { noticeHtml, type Notice as Msg } from "../../../ts/src/errorbox.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, stateButtons } from "../../../ts/src/emulator.js";
+import { turnFixedHtml } from "../../../ts/src/devicenote.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { designedState, panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
 import type { Entry } from "../../../ts/src/shell.js";
@@ -374,7 +375,7 @@ const SAMPLES: Record<string, () => BetTicket & { code: string }> = {
   unknown: () => ({ code: betSampleCode(), known: false }),
 };
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "fail", "country", "real", "dark", "lang"], S, W, C, { help: t("bt_try") }) + DEV.control();
+  $("#panel").innerHTML = panelHtml(["online", "fail", "country", "real", "dark", "lang"], S, W, C, { help: t("bt_try") }) + DEV.control() + turnFixedHtml(t, "turn_fixed_counter");
   $("#panel").querySelector("h3")?.insertAdjacentHTML("afterend", `<label><input type="checkbox" data-ctl="slips" ${S.offlineSlips ? "checked" : ""}> <span>${esc(t("bt_offline_slips"))}</span></label>`);
   stateButtons($("#stateButtons"), ["lock_screen", "pick_staff", "approve_second", "duress", "home", "games", "slip", "confirmed", "offline_slip", ...Object.keys(SAMPLES), "refer", "referrals", "shift", "safer", "storefront", "games_end_win", "games_end_lost"], (k) => {
     if (k === "lock_screen" || k === "pick_staff" || k === "duress") { lockCounter(false); if (k === "pick_staff") S.picking = true; panel(); draw(); return; }   // duress: type the sample duress PIN shown on the lock

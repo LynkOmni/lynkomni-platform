@@ -58,3 +58,13 @@ export function turnedShape(turn: "upright" | "sideways" | undefined, upright: {
   return turn === "sideways" ? { ...upright, width: upright.height, height: upright.width } : upright;
 }
 
+
+/** Turns a drawn device (owner, 2026-11-26: every device that can turn offers it): the body gets data-turn for its sideways shape,
+ *  the rig gets the width to fit, and the screen gets the layout of its turned shape. Nothing on the screen is redrawn or lost. */
+export function turnDevice(reg: DeviceRegister, o: { rig: HTMLElement | null; body: Element | null; screens: HTMLElement[]; turn?: "upright" | "sideways"; width: number; sidewaysWidth: number; shape: { width: number; height: number; device?: string } }, refit?: () => void): void {
+  const side = o.turn === "sideways";
+  o.body?.setAttribute("data-turn", side ? "sideways" : "upright");
+  if (o.rig) o.rig.dataset["width"] = String(side ? o.sidewaysWidth : o.width);
+  for (const s of o.screens) applyLayout(s, layoutFor(reg, turnedShape(o.turn, { interface: s.dataset["interface"] || "universal", ...o.shape })));
+  refit?.();
+}

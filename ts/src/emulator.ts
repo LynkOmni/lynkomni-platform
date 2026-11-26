@@ -124,6 +124,11 @@ export function applyRoot(el: HTMLElement, words: Words): void {
 }
 
 /** Scales a device drawing down to the width it has (never up), so a counter till or a wall screen fits a phone too. */
+/** Like fitToWidth, but reads the rig's data-width each time, so a device turned sideways fits again (ts/src/turn.ts turnDevice). */
+export function fitRig(rig: HTMLElement, fallback: number): () => void {
+  const fit = (): void => { const w = Number(rig.dataset["width"]) || fallback; document.documentElement.style.setProperty("--fit", String(Math.min(1, (rig.clientWidth - 8) / w))); };
+  fit(); addEventListener("resize", fit); return fit;
+}
 export function fitToWidth(rig: HTMLElement, deviceWidth: number): () => void {
   const fit = (): void => { document.documentElement.style.setProperty("--fit", String(Math.min(1, (rig.clientWidth - 8) / deviceWidth))); };
   fit(); addEventListener("resize", fit); return fit;

@@ -5,7 +5,8 @@ import { qtyText } from "../../../ts/src/pos.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import type { PosEntitlement } from "../../../ts/src/business.js";
 import { kitchenOutput, restaurantLimits } from "../../../ts/src/restaurant.js";
-import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, stateButtons } from "../../../ts/src/emulator.js";
+import { Country, EventLog, Words, applyRoot, esc, fitRig, newId, panelChange, panelHtml, stateButtons } from "../../../ts/src/emulator.js";
+import { turnDevice } from "../../../ts/src/turn.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { designedState, panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
 import type { Entry } from "../../../ts/src/shell.js";
@@ -89,10 +90,13 @@ const DEV = wireDevice(DM, { t, icon, screen: () => document.getElementById("scr
  *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
 const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "pos.kitchen_screen", "Kitchen", { short_side: 800, touch: true, speaker: true }, "android"), (type, payload, origin) => { LOG.emit(type, payload, origin); });
 const KW = wireKit(KIT, { t, icon: (id) => icon(id), online: () => S.online, redraw: () => draw() });
-function draw(): void { drawScreen(); KW.after($("#screen")); }
+let REFIT: (() => void) | undefined;
+/** Turning (owner, 2026-11-26): Upright or Sideways from the panel; the body takes its turned shape and the screen its layout. */
+const turnNow = (): void => turnDevice(DEVICES, { rig: $("#rig"), body: $("#wall"), screens: [$("#screen")], turn: S.turn, width: 1000, sidewaysWidth: 600, shape: { width: 1280, height: 720, device: "kitchen-screen" } }, REFIT);
+function draw(): void { drawScreen(); turnNow(); KW.after($("#screen")); }
 function drawScreen(): void { const el = $("#screen"); DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W); el.innerHTML = screen() + DSH.overlay(); const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address(); }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "plan", "country", "dark", "lang"], S, W, C, { tiers: TIERS }) + DEV.control();
+  $("#panel").innerHTML = panelHtml(["online", "plan", "country", "dark", "lang", "turn"], S, W, C, { tiers: TIERS }) + DEV.control();
   $("#panel").insertAdjacentHTML("afterbegin", `<p><button type="button" class="pill" data-act="incoming">+ ${esc(t("new_order_test"))}</button></p>`);
   stateButtons($("#stateButtons"), ["signed_in", "lock_screen", "duress", "queue", "empty", "printed", "late"], (k) => {
     if (k === "lock_screen") { GATE.lockNow(); GATE.open = false; draw(); return; }
@@ -116,7 +120,7 @@ function main(): void {
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
   $("#panel").addEventListener("change", (e) => { if (DEV.change(e.target as HTMLElement)) return; if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });
   window.setInterval(() => { S.ticks += 1; if (LOG.tick(S.online, false, S.ticks, () => undefined) || GATE.tick()) draw(); if (S.ticks % 75 === 0) draw(); }, 400);
-  fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 1000);
+  REFIT = fitRig($("#rig"), 1000); turnNow();
 }
 function act(act_: string): void {
   {

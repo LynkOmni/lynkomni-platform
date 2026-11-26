@@ -39,3 +39,5 @@
 .ph-rate { margin-block-start: 4px; } .ph-rate .rating { padding: 4px 6px; } .ph-rate legend { font-size: 13px; padding: 0 4px; }
 .ph-rate .rates { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; } .ph-rate .rate { padding: 4px 2px; font-size: 11px; line-height: 1.15; }
 .ph-rate .rate .face { inline-size: 1.4rem; block-size: 1.4rem; font-size: 12px; } .ph-rate .ok { margin: 2px 0 0; font-size: 12px; }
+/* Turned sideways from the panel (owner, 2026-11-26): the same device held the other way; ts/src/turn.ts turnDevice sets data-turn. */
+.cdbody[data-turn="sideways"] { width: 280px; } .cdbody[data-turn="sideways"] .cdscreen { height: 440px; overflow-y: auto; }
