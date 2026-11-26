@@ -2,6 +2,14 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.127.0 (2026-11-26)
+Sign in starts with a clear choice (owner: the single box with "Signing in with your username" was confusing).
+- Every sign-in screen (the account site and the Business app) opens with three buttons in this order: Continue with email, Continue with username, Continue with phone, each with its own LynkOmni icon.
+- Each choice opens only its own field with its own example: the email field, the username box with the fixed @, or the phone field with the country. Use another way goes back to the three choices. Nothing is guessed from what is typed, so the old "Signing in with your username" line is gone.
+- The I lost my phone page uses the same choice before the backup code and Lock now.
+- Three new icons in @lynkomni/icons 1.12.0 (ui-mail, ui-at, ui-phone; original drawings, drafts for designer review), vendored by the brand sync.
+- New words in all 38 languages; the old guessing words are removed. Tests and the speed budget now start from the choice.
+
 ## v0.126.0 (2026-11-26)
 A neutral age check at sign-up (owner approved, following the ICO, Ofcom and EDPB guidance).
 - Sign-up no longer shows a "I am 18 or older" tick box. It asks the birth date (day, month and year, in the order the reader writes dates) without saying which age is needed. The phone works out "adult or not" against 18, or the country's higher age, and forgets the date at once; only "adult: yes" and the day it was checked are kept. LynkOmni still never stores a birth date or an age.

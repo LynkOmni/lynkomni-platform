@@ -7,7 +7,7 @@ import json
 from tests.staff_pin import sign_in
 import re, os, unittest
 from services import translation
-from tests.phone_sample import fill_phone, pass_age, sign_in_business
+from tests.phone_sample import choose_and_type_who, fill_phone, pass_age, sign_in_business
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ALL_LANGS = list(translation.languages()) + ["xx", "xx-rtl"]
@@ -329,7 +329,7 @@ class AccountLayout(DarkPass, unittest.TestCase):
             pg.click(f'[data-act="wy:su:next:{stp}"]'); check(f"signup after {stp}")
         pg.click('[data-act="wy:su:next:passkey"]'); check("signup recovery codes")
         pg.click('[data-act="wy:su:next:recovery"]'); check("signup done")
-        pg.click('#stateButtons button[data-state="signin"]'); pg.click('[data-act="wy:si:who"]'); check("signin ways")
+        pg.click('#stateButtons button[data-state="signin"]'); check("signin choices"); choose_and_type_who(pg); check("signin username"); pg.click('[data-act="wy:si:who"]'); check("signin ways")
         pg.click('[data-act="wy:si:way:qr_code"]'); check("signin qr")
         for problem in ("lost_phone", "someone_else"):
             pg.click('#stateButtons button[data-state="recover"]'); check("recover problems")
@@ -362,7 +362,7 @@ class AccountLayout(DarkPass, unittest.TestCase):
         pg.click('#stateButtons button[data-state="notifications"]'); pg.click('[data-act="nset:deputy"]'); pg.click('[data-act="nset:remind"]'); pg.click('[data-act="nset:test"]'); check("notification settings in use")
         pg.click('#stateButtons button[data-state="assist"]'); pg.click('[data-act="assistc:lock_everything"]'); check("assist card")
         pg.click('#display [data-act="assist:check"]'); pg.click('[data-act="stepup:ok"]'); pg.click('#display [data-act="assist:confirm"]'); check("assist receipt")
-        pg.click('#stateButtons button[data-state="signin"]'); pg.click('[data-act="wy:si:who"]'); pg.click('[data-act="wy:si:way:email_code"]'); check("signin extra check"); pg.click('[data-act="wy:si:extra"]'); pg.click('#stateButtons button[data-state="security"]'); check("cool-off")
+        pg.click('#stateButtons button[data-state="signin"]'); choose_and_type_who(pg); pg.click('[data-act="wy:si:who"]'); pg.click('[data-act="wy:si:way:email_code"]'); check("signin extra check"); pg.click('[data-act="wy:si:extra"]'); pg.click('#stateButtons button[data-state="security"]'); check("cool-off")
         pg.click('#stateButtons button[data-state="overview"]')
         for ov in ("launcher", "account", "globe", "search", "help", "bell", "sync"):
             if pg.locator(f'[data-act="shell:{ov}"]').count() == 0:

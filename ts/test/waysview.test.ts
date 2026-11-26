@@ -51,6 +51,22 @@ test("sign-up goes through the ten steps in order, online only, with both codes"
   assert.equal(waysAct(st, "wy:su:next:recovery", rnd).event, "AccountCreated");
 });
 
+test("sign-in starts with three choices in the owner's order, each opening only its own field", () => {
+  const st = waysStart(0, rnd);
+  const first = signInHtml(look, st);
+  const at = (v: string): number => first.indexOf(`wy:si:via:${v}`);
+  assert.ok(at("email") > 0 && at("email") < at("username") && at("username") < at("phone"), "email, username, phone");
+  assert.ok(!/wyWho|wy_who_is/.test(first), "no box and no guessing note before a choice");
+  waysAct(st, "wy:si:via:email", rnd);
+  assert.ok(/<email id="wyWhoEmail">/.test(signInHtml(look, st)) && !/<phone/.test(signInHtml(look, st)), "email opens only the email field");
+  waysAct(st, "wy:si:via:none", rnd);
+  waysAct(st, "wy:si:via:phone", rnd);
+  assert.ok(/<phone id="wyWhoPhone">/.test(signInHtml(look, st)), "phone opens the phone field");
+  waysAct(st, "wy:si:via:username", rnd);
+  const u = signInHtml(look, st);
+  assert.ok(/handle-at/.test(u) && /data-act="wy:si:who"[^>]*disabled/.test(u), "username opens the @ box, Next waits for typing");
+});
+
 test("sign-in offers the person's ways strongest first and an extra check when unusual", () => {
   const st = waysStart(0, rnd);
   waysAct(st, "wy:si:who", rnd);

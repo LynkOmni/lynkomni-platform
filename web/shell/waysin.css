@@ -41,3 +41,6 @@ ol.wy-list[dir="ltr"] { font-family: var(--font-mono, monospace); }
 .wy-sec { max-inline-size: none; margin-block-end: 16px; }
 .wy-never ul { margin: 4px 0 0; padding-inline-start: 20px; color: var(--text-secondary); font-size: 13px; }
 .wy-stack { display: flex; flex-direction: column; gap: 24px; }
+.wy-via { display: flex; flex-direction: column; gap: 12px; }
+.wy-via-btn { display: flex; align-items: center; justify-content: center; gap: 10px; inline-size: 100%; }
+.wy-via-btn .ic { flex: none; }

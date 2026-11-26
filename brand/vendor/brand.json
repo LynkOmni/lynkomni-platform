@@ -345,6 +345,30 @@
       "android": "lynkomni_icon_ui_user",
       "ios": "lynkomni-icon-ui-user"
     },
+    "ui-mail": {
+      "group": "ui",
+      "accessibleName": "Email",
+      "svg": "icons/lynkomni-icon-ui-mail.svg",
+      "react": "UiMailIcon",
+      "android": "lynkomni_icon_ui_mail",
+      "ios": "lynkomni-icon-ui-mail"
+    },
+    "ui-at": {
+      "group": "ui",
+      "accessibleName": "Username",
+      "svg": "icons/lynkomni-icon-ui-at.svg",
+      "react": "UiAtIcon",
+      "android": "lynkomni_icon_ui_at",
+      "ios": "lynkomni-icon-ui-at"
+    },
+    "ui-phone": {
+      "group": "ui",
+      "accessibleName": "Phone number",
+      "svg": "icons/lynkomni-icon-ui-phone.svg",
+      "react": "UiPhoneIcon",
+      "android": "lynkomni_icon_ui_phone",
+      "ios": "lynkomni-icon-ui-phone"
+    },
     "ui-lock": {
       "group": "ui",
       "accessibleName": "Locked",
@@ -1295,6 +1319,10 @@
       "sha256": "7207dff68fc5cf5764f39a2372c7587553dfc41447e363720c95036c73e063cb",
       "bytes": 522
     },
+    "android/res/drawable/lynkomni_icon_ui_at.xml": {
+      "sha256": "a5dc93e8645961723bc2696d26b87e007f6983f5c1b493e86a84a8c7a790b682",
+      "bytes": 597
+    },
     "android/res/drawable/lynkomni_icon_ui_bell.xml": {
       "sha256": "101be3b3c524d7c137d56e159444791f25558a691c15e34898357ad36fc25611",
       "bytes": 540
@@ -1367,6 +1395,10 @@
       "sha256": "3c257b42a3f047954a686cb04afc8039b336d50b4d59aca03709844b6873782e",
       "bytes": 536
     },
+    "android/res/drawable/lynkomni_icon_ui_mail.xml": {
+      "sha256": "31298aa400adc3d20fe90b511c808c7f3cb8087c5a4a3477818e0706b5bf8542",
+      "bytes": 525
+    },
     "android/res/drawable/lynkomni_icon_ui_menu.xml": {
       "sha256": "6226bbaf4110ca42be31a8417590945ab88c54586974116e138eb6a590319a38",
       "bytes": 523
@@ -1406,6 +1438,10 @@
     "android/res/drawable/lynkomni_icon_ui_pay_wallet.xml": {
       "sha256": "9d3d86328baeec85f5e7fa3b0a00f8f02ae792ad85beb302bbb30b1737f6f09e",
       "bytes": 552
+    },
+    "android/res/drawable/lynkomni_icon_ui_phone.xml": {
+      "sha256": "b8b80466bb58c891f9fc0d56fc09ad3d176bf856fa9af455241ddd72aae67e49",
+      "bytes": 597
     },
     "android/res/drawable/lynkomni_icon_ui_plus.xml": {
       "sha256": "18a3003d822a3330866f1d42a087d35c5f6d968150bee5f42cc7d19aefa10672",
@@ -1751,6 +1787,10 @@
       "sha256": "bf53230356969d202183c6f0da3b246071ef42bd90fe0e0c90a52cbf565687a9",
       "bytes": 199
     },
+    "icons/lynkomni-icon-ui-at.svg": {
+      "sha256": "35c73d72b8a54c0d945fc08626c3dcdcc00e6286c1b8545bd9bb733f746cd944",
+      "bytes": 274
+    },
     "icons/lynkomni-icon-ui-bell.svg": {
       "sha256": "6ca38080782817aa0fb49131feb382f4d22a8468bb2f993f891ad0a6dbd5d04b",
       "bytes": 217
@@ -1823,6 +1863,10 @@
       "sha256": "a9cf19da4b6721c22bc2f808ae6c3ba51924eae21dcc490ef4114f5dff0b761e",
       "bytes": 213
     },
+    "icons/lynkomni-icon-ui-mail.svg": {
+      "sha256": "12dc006459b8e79442ede1118e8c46b19056b366dbd31ac650d2ada586e45858",
+      "bytes": 202
+    },
     "icons/lynkomni-icon-ui-menu.svg": {
       "sha256": "2facf780eac145f77d26fd82a55e294ccf80767495110a159933c2debadab02e",
       "bytes": 200
@@ -1862,6 +1906,10 @@
     "icons/lynkomni-icon-ui-pay-wallet.svg": {
       "sha256": "34fca92a409ab7c005d2d20efb3e92fde6296b4d9937ae2e7ee9ef9e8bf2a5e8",
       "bytes": 229
+    },
+    "icons/lynkomni-icon-ui-phone.svg": {
+      "sha256": "26a4584d98e0c57d21c3a25eabe3859d6383d37d5c2c6a6eb4d23db7771ac858",
+      "bytes": 274
     },
     "icons/lynkomni-icon-ui-plus.svg": {
       "sha256": "7f57ef4c3491084327dd29b2ca825790382e8c014f74c2f3a33e7ce9370c7c40",
@@ -2407,6 +2455,14 @@
       "sha256": "ed743d1195146db6bec73508bcaa68c406e0bf2fc192ea363d28ae4c880a5a43",
       "bytes": 616
     },
+    "icons/react/UiAtIcon.d.ts": {
+      "sha256": "f3b6cf7727fae1cd195d722cd0bafa37c87df12ddcfb10c00d3ca0590a522a36",
+      "bytes": 60
+    },
+    "icons/react/UiAtIcon.js": {
+      "sha256": "6c6d24339b0186c17c3413baaab76b9c6eebfe53f9c3675a189f1dfca34afaed",
+      "bytes": 677
+    },
     "icons/react/UiBellIcon.d.ts": {
       "sha256": "0a149e3a68d9c6f697a00eaee3718ae74bdf40b914e157b5bf71fe056a881a19",
       "bytes": 64
@@ -2551,6 +2607,14 @@
       "sha256": "56ba96629962ab147433dd0819cd684c64c86870a8ca5622096c7d5a1e45e379",
       "bytes": 620
     },
+    "icons/react/UiMailIcon.d.ts": {
+      "sha256": "8293389e63e21c6789da7221f4de32b8f6d69bd792d1a9ae71494f908bcee1dc",
+      "bytes": 64
+    },
+    "icons/react/UiMailIcon.js": {
+      "sha256": "ecf4eb354e1350ce8d830fb0c2994a93fefbf45084a67de5faee9d2f0bf83b5a",
+      "bytes": 609
+    },
     "icons/react/UiMenuIcon.d.ts": {
       "sha256": "65c82ef91a015e81eeda906657615f99ae555ab7ac4690963f1bc571a25791ff",
       "bytes": 64
@@ -2630,6 +2694,14 @@
     "icons/react/UiPayWalletIcon.js": {
       "sha256": "475df6cc8bb796139702e625abc795e30b9db5b140a1b6728d72fcefeb2266f1",
       "bytes": 646
+    },
+    "icons/react/UiPhoneIcon.d.ts": {
+      "sha256": "6e6fe3473d4921ac89acacd1df3c55b38e1bf45755a65b18c92a578b627aa2ae",
+      "bytes": 66
+    },
+    "icons/react/UiPhoneIcon.js": {
+      "sha256": "d9cdf953764dda323c1680a0b79fee4e9bac4531ffbf3deabf1687b06a519402",
+      "bytes": 683
     },
     "icons/react/UiPlusIcon.d.ts": {
       "sha256": "6e1ffa2566db22a401eb50f7807968014890ab924a2622a1798512c59c246145",
@@ -2728,12 +2800,12 @@
       "bytes": 628
     },
     "icons/react/index.d.ts": {
-      "sha256": "a315d608dbdc2e180971237d8ce0dd16efddfc64a0620e3e157a3cadc83ee86c",
-      "bytes": 8389
+      "sha256": "5359e62dbb464a4b4bfecc1f65df83101504b03cca2f63abd980d6df692f0c55",
+      "bytes": 8616
     },
     "icons/react/index.js": {
-      "sha256": "ceb9ee5b14d63b2278d9077f4ce0240b258baafcebc8af6bdf8e18cfac3fc208",
-      "bytes": 5668
+      "sha256": "85678b2fbce7e7a8a7ed38ddb2dabeef9af8eb7347be39405490c34430b6750a",
+      "bytes": 5804
     },
     "ios/LynkOmniBrand.xcassets/Contents.json": {
       "sha256": "f5fb0e1f3a8142892ed092efb5955c1c2cc537003a89ad7bbdb9dade7fe8985f",
@@ -3359,6 +3431,14 @@
       "sha256": "bf53230356969d202183c6f0da3b246071ef42bd90fe0e0c90a52cbf565687a9",
       "bytes": 199
     },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-at.imageset/Contents.json": {
+      "sha256": "90ba2c4d4eee9dc5c8a7ec5c0665b04da1af7605175b327405117a3311d55354",
+      "bytes": 275
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-at.imageset/lynkomni-icon-ui-at.svg": {
+      "sha256": "35c73d72b8a54c0d945fc08626c3dcdcc00e6286c1b8545bd9bb733f746cd944",
+      "bytes": 274
+    },
     "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-bell.imageset/Contents.json": {
       "sha256": "32bf3d3b1a884de69c1147a036de0b592f4f7d2cde46a1a6537a55073e0b691b",
       "bytes": 277
@@ -3503,6 +3583,14 @@
       "sha256": "a9cf19da4b6721c22bc2f808ae6c3ba51924eae21dcc490ef4114f5dff0b761e",
       "bytes": 213
     },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-mail.imageset/Contents.json": {
+      "sha256": "0a9f2a6e7bd93854fedcb4a515c8859893a1e63ea45e9054aafca8264c62829f",
+      "bytes": 277
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-mail.imageset/lynkomni-icon-ui-mail.svg": {
+      "sha256": "12dc006459b8e79442ede1118e8c46b19056b366dbd31ac650d2ada586e45858",
+      "bytes": 202
+    },
     "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-menu.imageset/Contents.json": {
       "sha256": "ca731df9250467d16436ce68ad3efd5be686da4bdd566cbf14fd1874b2996e3e",
       "bytes": 277
@@ -3582,6 +3670,14 @@
     "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-pay-wallet.imageset/lynkomni-icon-ui-pay-wallet.svg": {
       "sha256": "34fca92a409ab7c005d2d20efb3e92fde6296b4d9937ae2e7ee9ef9e8bf2a5e8",
       "bytes": 229
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-phone.imageset/Contents.json": {
+      "sha256": "ca602b94005d748aadbeeffb38301ef4b4d06009fac33939e138154c3b7a4515",
+      "bytes": 278
+    },
+    "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-phone.imageset/lynkomni-icon-ui-phone.svg": {
+      "sha256": "26a4584d98e0c57d21c3a25eabe3859d6383d37d5c2c6a6eb4d23db7771ac858",
+      "bytes": 274
     },
     "ios/LynkOmniIcons.xcassets/lynkomni-icon-ui-plus.imageset/Contents.json": {
       "sha256": "55582c921395a1800c2ec0090fc67f4252f7f85ff0ac36addee05a6c54c98dc8",
