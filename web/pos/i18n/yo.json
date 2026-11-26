@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
+ "source_sha256": "3659acabd335aa5975e1b177f00a083e5f3f61ffd9ea30bf882389a7fbb034fb",
  "texts": {
   "academy": "Ilé-ẹ̀kọ́",
   "academy_hint": "Ẹ̀kọ́ kúkúrú kan ṣí lẹ́gbẹ̀ẹ́ ojú-ìwé tí ó ń kọ́ni.",
@@ -175,6 +175,7 @@
   "difference": "Ìyàtọ̀",
   "difference_flagged": "A kọ ìyàtọ̀ sílẹ̀ fún olùní. A kò dí nǹkan kan lọ́wọ́.",
   "dk_change": "Kì í ṣe ìwọ? Yí padà",
+  "dk_duress_sample": "PIN ìfipá mú àpẹẹrẹ: {pin}. Ó ń ṣí ojú ìwòye tó dákẹ́.",
   "dk_hard_locked": "PIN tí kò tọ̀nà ti pọ̀ jù. A ti tì PIN yìí pa, a kò sì pa ohunkóhun rẹ́. Olówó tàbí alákòóso lè tún un ṣe.",
   "dk_lock": "Tì pa",
   "dk_own_pin": "Olúkúlùkù ní PIN tirẹ̀, nítorí náà gbogbo ìtajà so mọ́ ènìyàn kan.",

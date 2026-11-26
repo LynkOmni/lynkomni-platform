@@ -109,8 +109,8 @@ function panel(): void {
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["lock_screen", "duress", "list", "count", "receive", "adjust"], (k) => {
     if (k === "lock_screen") { GATE.lockNow(); S.cur = ""; draw(); return; }
-    GATE.signInFirst(); if (k === "duress") { GATE.limited = true; S.mode = "count"; S.cur = ""; draw(); return; }
-    if (k === "list") S.cur = ""; else { S.mode = k as Mode; S.cur = ITEMS[3]!.id; S.qty = 1; } draw(); });
+    if (k === "duress") { GATE.lockNow(); S.mode = "count"; S.cur = ""; draw(); return; }   // type the sample duress PIN shown on the lock
+    GATE.goAfterPin(() => { if (k === "list") S.cur = ""; else { S.mode = k as Mode; S.cur = ITEMS[3]!.id; S.qty = 1; } draw(); }); draw(); });   // never skips the PIN (owner, 2026-11-26)
 }
 function main(): void {
   S.country = DATA.packOrder[0] ?? ""; panel(); draw();

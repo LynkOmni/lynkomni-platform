@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fr",
  "native": "Français",
- "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
+ "source_sha256": "3659acabd335aa5975e1b177f00a083e5f3f61ffd9ea30bf882389a7fbb034fb",
  "texts": {
   "academy": "Académie",
   "academy_hint": "Un court cours s'ouvre à côté de l'écran qu'il explique.",
@@ -175,6 +175,7 @@
   "difference": "Écart",
   "difference_flagged": "Écart signalé au propriétaire. Rien n'est bloqué.",
   "dk_change": "Pas vous ? Changer",
+  "dk_duress_sample": "Code PIN de contrainte d’exemple : {pin}. Il ouvre la vue discrète.",
   "dk_hard_locked": "Trop de codes PIN incorrects. Ce code PIN est bloqué et rien n'a été supprimé. Le propriétaire ou un responsable peut le réinitialiser.",
   "dk_lock": "Verrouiller",
   "dk_own_pin": "Chacun a son propre code PIN, donc chaque vente est liée à une personne.",

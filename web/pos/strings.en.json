@@ -173,6 +173,7 @@
  "dk_own_pin": "Everyone has their own PIN, so every sale is tied to a person.",
  "dk_pin_for": "{name}, enter your PIN",
  "dk_pin_sample": "Sample PINs: {list}.",
+  "dk_duress_sample": "Sample duress PIN: {pin}. It opens the quiet view.",
  "dk_sign_in": "Staff sign-in",
  "dk_tries_left": "Wrong PIN. {n} tries left.",
  "dk_wait": "Too many tries. Wait {s} seconds.",

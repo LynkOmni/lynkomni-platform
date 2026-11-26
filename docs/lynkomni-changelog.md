@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.117.1 (2026-11-26)
+The review panel never skips the staff PIN.
+- On every staff device emulator (counter tablet, stock scanner, rider phone, kitchen screen, betting counter), a screen button in the review panel now shows the PIN screen first; the chosen screen opens only after a correct PIN. The duress button shows the lock with the sample duress PIN, and a jump from the quiet duress view locks the device instead of leaving it. One shared method does it (ts/src/devicekit.ts StaffGate goAfterPin); the old shortcut that signed the sample cashier in without a PIN is gone.
+- Every lock screen shows the sample duress PIN (new word dk_duress_sample in 38 languages). The counter tablet's untranslated "PIN 1234" became the shared sample PIN line.
+- Lock on every screen: the rider phone's order screen and the betting counter's inner screens now show who is serving with Lock, like their home screens.
+- tests/test_panel_pin.py (CI layout job) presses every screen button on every staff device in a real browser and checks the PIN is asked, the screen opens after it and Lock is shown.
+
 ## v0.117.0 (2026-11-26)
 One country drop-down and one set of rounded corners everywhere.
 - Every phone field's country chooser is now LynkOmni's own drop-down instead of the phone's full-screen picker: it opens under the field (or above it when there is no room), scrolls, follows the light or dark theme, and has a Find box. Typing a name ("ke" finds Kenya) or a dialling code ("44" finds the United Kingdom, the main country of a shared code first) narrows the list; arrows, Enter and Escape work; a tap outside closes it. Countries are listed by name in the reader's language. The Find box keeps recent searches like every other search box. New words fd_country_find and fd_country_none in all 38 languages.

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-hIxHPG9TnvOVGmwpBg9BblQFfqR6ItaSLrJnKLajmBY='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-etYqQ6Tkbsh1VfmYkFIY8BqO0a4WMFiU4KnCVsqL/Kc='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkSurvey on Your Phone</title>
 <meta name="description" content="Interactive emulator of the LynkSurvey page a person opens on their own phone, with no app and no account: who is asking and why, the code for one answer per phone, one question a page, and thank you with Don't ask me again.">
@@ -3929,6 +3929,7 @@ class StaffGate {
     pictures = false;
     sound = true;
     open;
+    then = null;
     constructor(lock, h, optional = false, idleMs = 120_000) {
         this.lock = lock;
         this.h = h;
@@ -3949,7 +3950,7 @@ class StaffGate {
         const sample = this.lock.staff.map((x) => `${t(`role_${x.role}`)} ${x.pin}`).join(", ");
         return `<div class="${cls}"><p class="dk-who">${icon("ui-user")}<span>${esc(s?.name ?? "")} · ${esc(t(`role_${s?.role ?? "cashier"}`))}</span><button type="button" class="dk-link" data-act="staff:change">${esc(t("dk_change"))}</button>${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</p>
       ${this.idle ? noticeHtml(t, { level: "info", cls: "dk-note", text: t("locked_idle") }) : ""}${this.lock.hard.has(this.who) ? noticeHtml(t, { level: "error", cls: "dk-note", text: t("dk_hard_locked"), how: t("fd_ask_manager") }) : ""}
-      ${pad}<p class="dk-note">${esc(t("dk_own_pin"))}</p><p class="dk-note">${esc(t("dk_pin_sample", { list: sample }))}</p>
+      ${pad}<p class="dk-note">${esc(t("dk_own_pin"))}</p><p class="dk-note">${esc(t("dk_pin_sample", { list: sample }))}</p>${s?.duress ? `<p class="dk-note">${esc(t("dk_duress_sample", { pin: s.duress }))}</p>` : ""}
 </div>`;
     }
     whoRow() {
@@ -3965,6 +3966,7 @@ class StaffGate {
         this.picking = false;
         this.idle = idle && !this.optional;
         this.open = this.optional;
+        this.then = null;
     }
     act(a) {
         this.last = Date.now();
@@ -4026,6 +4028,10 @@ class StaffGate {
             this.idle = false;
             this.limited = r.view === "limited";
             this.last = Date.now();
+            const go = this.then;
+            this.then = null;
+            if (go && !this.limited)
+                go(); // the screen chosen in the panel, never past a duress PIN
             const n = this.lock.pathsOut(this.h.online() ? ["internet"] : []);
             for (let i = 0; i < n; i++)
                 this.h.emit("DuressSignalled", { device_id: this.h.device, person: this.who, path: "internet", at: Date.now() }, "server");
@@ -4053,7 +4059,19 @@ class StaffGate {
         }
         return !this.open && this.waitLeft() > 0;
     }
-    signInFirst() { this.who = this.lock.staff[0]?.person ?? ""; this.signed = true; this.open = true; this.limited = false; this.idle = false; this.last = Date.now(); }
+    goAfterPin(go) {
+        if (this.signed && !this.limited) {
+            go();
+            return;
+        }
+        if (this.signed)
+            this.lockNow(false); // never out of the quiet duress view: lock, then a normal PIN
+        this.then = go;
+        this.open = false;
+        this.idle = false;
+        this.picking = false;
+        this.pin = "";
+    }
 }
 function staffPicker(staff, t, icon) {
     return `<div class="dk-staff" role="group" aria-label="${esc(t("dk_who"))}"><h2>${esc(t("dk_who"))}</h2><ul>${staff.map((s) => `<li><button type="button" data-act="staff:pick:${esc(s.person)}">${icon("ui-user")}<span>${esc(s.name)}</span><span class="dk-role">${esc(t(`role_${s.role}`))}</span></button></li>`).join("")}</ul><p class="dk-note">${esc(t("dk_own_pin"))}</p></div>`;

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
+ "source_sha256": "3659acabd335aa5975e1b177f00a083e5f3f61ffd9ea30bf882389a7fbb034fb",
  "texts": {
   "academy": "Akademi",
   "academy_hint": "Kursus ringkas dibuka di sebelah skrin yang diajarnya.",
@@ -175,6 +175,7 @@
   "difference": "Perbezaan",
   "difference_flagged": "Perbezaan dicatat untuk pemilik. Tiada yang disekat.",
   "dk_change": "Bukan anda? Tukar",
+  "dk_duress_sample": "Contoh PIN paksaan: {pin}. Ia membuka paparan senyap.",
   "dk_hard_locked": "Terlalu banyak PIN salah. PIN ini dikunci dan tiada data dipadam. Pemilik atau pengurus boleh menetapkannya semula.",
   "dk_lock": "Kunci",
   "dk_own_pin": "Setiap orang ada PIN sendiri, jadi setiap jualan dikaitkan dengan seorang.",

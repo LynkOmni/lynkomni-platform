@@ -298,7 +298,7 @@ function lockedScreen(): string {
   if (PICKING) return `<div class="lock">${staffPicker(STAFF.staff, t, (id) => icon(id))}</div>`;
   const me = STAFF.find(WHO);
   return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.dark, "locklogo")}<p class="who">${icon("ui-user")}<span>${esc(me?.name ?? "")} · ${esc(t(`role_${me?.role ?? "cashier"}`))}</span><button class="link" data-act="staff:change">${esc(t("dk_change"))}</button></p><h1>${esc(t("enter_pin"))}</h1>${PINNOTE ? noticeHtml(t, PINHARD ? { level: "error", text: PINNOTE, how: t("fd_ask_manager") } : { level: "warning", text: PINNOTE, how: t("fd_type_again") }) : S.idleTicks ? noticeHtml(t, { level: "info", text: t("locked_idle") }) : ""}<div class="dots">${[0, 1, 2, 3].map((i) => `<i class="${S.pin.length > i ? "on" : ""}"></i>`).join("")}</div>
-    <div class="soft">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => `<button data-act="d${d}">${d}</button>`).join("")}<button data-act="clear" aria-label="${esc(t("cancel"))}">${icon("ui-arrow-left")}</button><button data-act="d0">0</button><button data-act="enter" aria-label="${esc(t("unlock"))}">${icon("ui-check")}</button></div><p class="hint">PIN 1234</p></div>`;
+    <div class="soft">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => `<button data-act="d${d}">${d}</button>`).join("")}<button data-act="clear" aria-label="${esc(t("cancel"))}">${icon("ui-arrow-left")}</button><button data-act="d0">0</button><button data-act="enter" aria-label="${esc(t("unlock"))}">${icon("ui-check")}</button></div><p class="hint">${esc(t("dk_pin_sample", { list: STAFF.staff.map((x) => `${t(`role_${x.role}`)} ${x.pin}`).join(", ") }))}</p>${me?.duress ? `<p class="hint">${esc(t("dk_duress_sample", { pin: me.duress }))}</p>` : ""}</div>`;
 }
 function page(): string {
   if (!S.unlocked) return lockedScreen();
@@ -306,7 +306,9 @@ function page(): string {
   return (me ? staffWhoRow(me.name, me.role, t, (id) => icon(id)) : "") + unlockedPage();   // who is serving, with Lock (owner, 2026-11-25)
 }
 /** Lock now: the same as two minutes without use, by the person's own choice. */
-function lockNow(): void { S.unlocked = false; S.view = "locked"; S.pin = ""; PINNOTE = ""; LOG.emit("DeviceLocked", { device_id: "tablet", after_s: 0 }, "device", "accepted"); }
+/** The screen a panel button chose, opened once a correct PIN is typed (owner, 2026-11-26: the panel never skips the PIN). */
+let THEN: (() => void) | null = null;
+function lockNow(): void { S.unlocked = false; S.view = "locked"; S.pin = ""; PINNOTE = ""; THEN = null; LOG.emit("DeviceLocked", { device_id: "tablet", after_s: 0 }, "device", "accepted"); }
 function unlockedPage(): string {
   switch (S.view) {
     case "pay": return payScreen(); case "cash": return cashScreen(); case "waiting": return waitingScreen(); case "done": return doneScreen();
@@ -357,6 +359,7 @@ function act(a: string): void {
     if ((k === "enter" || S.pin.length === 4) && S.pin) {
       const r = STAFF.signIn(WHO, S.pin, Date.now()); S.pin = "";
       if (r.ok) { S.unlocked = true; S.view = "main"; LIMITED = r.view === "limited"; S.tab = LIMITED || S.type !== "restaurant" ? "sell" : "tables"; PINNOTE = "";
+        const go = THEN; THEN = null; if (go && !LIMITED) go();   // the screen chosen in the panel, never past a duress PIN
         const n = STAFF.pathsOut(S.online ? ["internet"] : []); for (let i = 0; i < n; i++) LOG.emit("DuressSignalled", { device_id: "tablet", person: WHO, path: "internet", at: Date.now() }, "server", "accepted"); }
       else { PINNOTE = r.reason === "wrong" ? t("wrong_pin") : r.reason === "wait" ? t("dk_wait", { s: r.seconds ?? 0 }) : t("dk_hard_locked"); PINHARD = r.reason !== "wrong" && r.reason !== "wait";
         if (r.reason === "hard_locked") LINES = raiseLocal(LINES, "device_hard_locked", t("dk_hard_locked"), Date.now()); }
@@ -447,7 +450,11 @@ function main(): void {
   $("#tearBtn").addEventListener("click", () => { $("#paperWrap").classList.add("torn"); window.setTimeout(() => { $("#paperWrap").hidden = true; }, 500); });
   $("#stateButtons").innerHTML = ["locked", "sell", "pay", "cash", "done", "tables", "kitchen", "shift", "dayclose", "stock", "business", "staff", "deliver", "group", "setup", "credit", "voice"].map((k) => `<button type="button" data-state="${k}">${esc(k)}</button>`).join("");
   $("#stateButtons").addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-state]"); if (!b) return; const k = b.dataset["state"] ?? ""; S.lastInput = Date.now(); DSH.settle();
-    if (k === "locked") { S.unlocked = false; S.pin = ""; } else { S.unlocked = true; if (["sell", "stock", "tables", "kitchen", "business"].includes(k)) { if (k === "tables" || k === "kitchen") S.type = "restaurant"; S.tab = k as Tab; S.view = "main"; } else { if (!S.cart.lines().length && CATALOG[0]) S.cart.add(CATALOG[0]); if (k === "done") { S.view = "cash"; S.tendered = total(); pay("cash", S.tendered); return; } S.view = pick(["pay", "cash", "shift", "dayclose", "staff", "deliver", "group", "setup", "credit", "voice"] as View[], k, "main"); if (k === "cash") S.tendered = total(); } } draw(); });
+    if (k === "locked") { S.unlocked = false; S.pin = ""; THEN = null; draw(); return; }
+    const go = (): void => { if (["sell", "stock", "tables", "kitchen", "business"].includes(k)) { if (k === "tables" || k === "kitchen") S.type = "restaurant"; S.tab = k as Tab; S.view = "main"; } else { if (!S.cart.lines().length && CATALOG[0]) S.cart.add(CATALOG[0]); if (k === "done") { S.view = "cash"; S.tendered = total(); pay("cash", S.tendered); return; } S.view = pick(["pay", "cash", "shift", "dayclose", "staff", "deliver", "group", "setup", "credit", "voice"] as View[], k, "main"); if (k === "cash") S.tendered = total(); } draw(); };
+    if (S.unlocked && !LIMITED) { go(); return; }
+    if (S.unlocked) lockNow();   // never out of the quiet duress view: lock, then a normal PIN
+    S.view = "locked"; PICKING = false; THEN = go; draw(); });
   window.setInterval(tick, 400);
   fitToWidth($("#rig"), 740);
 }

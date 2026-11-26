@@ -113,9 +113,9 @@ function whoRow(): string {
   return staffWhoRow(me?.name ?? "", me?.role ?? "cashier", t, (id) => icon(id));   // the same row with Lock on every staff device
 }
 function home(): string {
-  if (S.limited) return `${whoRow()}<div class="btiles"><button type="button" class="btile" data-act="go:games"${canTakeBets() ? "" : " disabled"}>${icon("lit-tickets")}<strong>${esc(t("bt_place"))}</strong></button></div><p class="sub">${esc(t("bt_never_credit"))}</p>`;
+  if (S.limited) return `<div class="btiles"><button type="button" class="btile" data-act="go:games"${canTakeBets() ? "" : " disabled"}>${icon("lit-tickets")}<strong>${esc(t("bt_place"))}</strong></button></div><p class="sub">${esc(t("bt_never_credit"))}</p>`;
   const tile = (go: View, ic: string, label: string, off: boolean): string => `<button type="button" class="btile" data-act="go:${go}"${off ? ` disabled data-why="${esc(t("bt_needs_net"))}"` : ""}>${icon(ic)}<strong>${esc(t(label))}</strong></button>`;
-  return `${whoRow()}<div class="bop"><span>${esc(t("bt_operator", { name: operatorName() }))}</span><span>${esc(t("cash_in_drawer"))} <strong>${esc(money(drawer()))}</strong></span></div>
+  return `<div class="bop"><span>${esc(t("bt_operator", { name: operatorName() }))}</span><span>${esc(t("cash_in_drawer"))} <strong>${esc(money(drawer()))}</strong></span></div>
     ${choices(t("bt_operator_pick"), ["1", "2"], String(S.operator), "op", (x) => operatorName(Number(x)))}
     ${S.online ? "" : noticeHtml(t, S.offlineSlips ? { level: "warning", text: t("bt_offline_mode") } : { level: "error", text: t("bt_needs_net"), how: t("fd_go_online") })}
     <div class="btiles" data-wait-area data-shape="tiles">${tile("games", "lit-tickets", "bt_place", !canTakeBets())}${tile("check", "ui-qr", "bt_check", false)}${tile("refs", "ui-doc", "bt_refs", false)}${tile("shift", "ui-float", "bt_shift", false)}${tile("safer", "ui-info", "bt_safer", false)}${tile("storefront", "ui-globe", "bt_storefront", false)}</div>
@@ -229,7 +229,7 @@ function lockView(): string {
   return `<div class="block"><p class="who">${icon("ui-user")}<span>${esc(me?.name ?? "")} · ${esc(t(`role_${me?.role ?? "cashier"}`))}</span><button type="button" class="link" data-act="staff:change">${esc(t("dk_change"))}</button></p>
     ${S.idle ? `<p class="sub" role="status">${esc(t("locked_idle"))}</p>` : ""}
     ${STAFF.hard.has(S.who) ? noticeHtml(t, { level: "error", text: t("dk_hard_locked"), how: t("fd_ask_manager") }) : ""}
-    ${pad(me?.name ?? "", STAFF.wrong.get(S.who) ?? 0, waitLeft)}<p class="sub">${esc(t("dk_own_pin"))}</p><p class="hint">${esc(t("bt_pin_hint"))}</p></div>`;
+    ${pad(me?.name ?? "", STAFF.wrong.get(S.who) ?? 0, waitLeft)}<p class="sub">${esc(t("dk_own_pin"))}</p><p class="hint">${esc(t("bt_pin_hint"))}</p>${me?.duress ? `<p class="hint">${esc(t("dk_duress_sample", { pin: me.duress }))}</p>` : ""}</div>`;
 }
 const pad = (name: string, wrong: number, waitLeft: number): string =>
   pinPad({ entered: S.pin.length, length: Math.max(4, S.pin.length), wrong, waitLeft, pictures: S.pictures, sound: S.keySound, title: t("dk_pin_for", { name }) }, t, (id) => icon(id));
@@ -248,11 +248,12 @@ function screen(): string {
   const head = `<header class="bhead"><h1>${esc(t("bt_title"))}</h1>${DSH.bar()}</header>${DSH.crumbs(true)}${deviceBanners(LINES, t, (id) => icon(id))}`;
   if (S.view === "lock") return `<header class="bhead"><h1>${esc(t("bt_title"))}</h1></header>${lockView()}`;
   if (S.view === "approve") return head + approveView();
-  if (!signed() && S.view !== "safer") return head + designedState("coming_soon", t, DATA.statePictures, S.dark, { label: t("bt_safer"), act: "go:safer" }) + `<p class="sub">${esc(t("bt_coming"))}</p>`;
+  const who = whoRow();   // every screen opened with a staff PIN shows who is serving, with Lock (owner, 2026-11-25)
+  if (!signed() && S.view !== "safer") return head + who + designedState("coming_soon", t, DATA.statePictures, S.dark, { label: t("bt_safer"), act: "go:safer" }) + `<p class="sub">${esc(t("bt_coming"))}</p>`;
   const v = S.view;
   const body = v === "games" ? games() : v === "slip" ? slip() : v === "check" ? checkView() : v === "answer" ? answerView() : v === "refer" ? referView() : v === "refs" ? refsView()
     : v === "shift" ? shiftView() : v === "safer" ? saferView() : v === "storefront" ? storefrontView() : home();
-  return head + body;
+  return head + who + body;
 }
 
 // ---- the printer: the operator's ticket, a queued slip, a copy and the payout slip ----
@@ -370,11 +371,18 @@ function panel(): void {
   $("#panel").innerHTML = panelHtml(["online", "fail", "country", "real", "dark", "lang"], S, W, C, { help: t("bt_try") }) + DEV.control();
   $("#panel").querySelector("h3")?.insertAdjacentHTML("afterend", `<label><input type="checkbox" data-ctl="slips" ${S.offlineSlips ? "checked" : ""}> <span>${esc(t("bt_offline_slips"))}</span></label>`);
   stateButtons($("#stateButtons"), ["lock_screen", "pick_staff", "approve_second", "duress", "home", "games", "slip", "confirmed", "offline_slip", ...Object.keys(SAMPLES), "refer", "referrals", "shift", "safer", "storefront", "games_end_win", "games_end_lost"], (k) => {
-    if (k === "lock_screen" || k === "pick_staff") { lockCounter(false); if (k === "pick_staff") S.picking = true; panel(); draw(); return; }
-    if (S.view === "lock" || S.view === "approve") { S.view = "home"; S.who = "c1"; S.picking = false; S.limited = false; S.approval = null; S.pin = ""; S.lastInput = Date.now(); }
-    if (k === "duress") { S.limited = true; S.method = "cash"; S.view = "home"; panel(); draw(); return; }
+    if (k === "lock_screen" || k === "pick_staff" || k === "duress") { lockCounter(false); if (k === "pick_staff") S.picking = true; panel(); draw(); return; }   // duress: type the sample duress PIN shown on the lock
+    if (S.view === "lock" || S.limited) { if (S.limited) lockCounter(false); THEN = () => jump(k); S.picking = false; panel(); draw(); return; }   // never out of the quiet duress view either   // a panel jump never skips the PIN (owner, 2026-11-26)
+    if (S.view === "approve") { S.view = "home"; S.approval = null; S.pin = ""; }
+    jump(k);
+  });
+  $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
+}
+/** The screen a panel button chose, once someone is signed in. */
+let THEN: (() => void) | null = null;
+function jump(k: string): void {
+    S.lastInput = Date.now();
     if (k === "approve_second") { S.online = true; scanned(SAMPLES["win_second"]!()); act("approve:second"); panel(); return; }
-    S.limited = false;
     if (k in SAMPLES) { S.online = true; scanned(SAMPLES[k]!()); panel(); return; }
     if (k === "games" || k === "home" || k === "shift" || k === "safer" || k === "storefront") S.view = k;
     if (k === "slip" || k === "confirmed" || k === "offline_slip") {
@@ -386,8 +394,6 @@ function panel(): void {
     if (k === "referrals") { if (!S.refs.length) { scanned(SAMPLES["big_win"]!()); S.photos = { ticket: true, id: true }; refer(); } S.view = "refs"; }
     if (k === "games_end_win" || k === "games_end_lost") { const b = S.placed.find((p) => p.state === "confirmed"); if (b) b.result = k === "games_end_win" ? "won" : "lost"; S.view = "check"; }
     panel(); draw();
-  });
-  $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
 }
 /** Sign in, lock, change person and the manager's approval: the only acts on the lock screen and the approval pad. */
 function signInAct(k: string, x: string, y: string): boolean {
@@ -408,6 +414,7 @@ function signInAct(k: string, x: string, y: string): boolean {
     const r = STAFF.signIn(S.who, pin, Date.now());
     if (r.ok) {
       S.limited = r.view === "limited"; S.idle = false; S.view = "home"; S.lastInput = Date.now();
+      const go = THEN; THEN = null; if (go && !S.limited) { go(); return true; }   // the screen chosen in the panel, never past a duress PIN
       if (S.limited) { S.method = "cash"; const n = STAFF.pathsOut(S.online ? ["internet"] : []); for (let i = 0; i < n; i++) LOG.emit("DuressSignalled", { device_id: "bet-counter", person: S.who, path: "internet", at: Date.now() }, "server", "accepted"); }
     } else if (r.reason === "hard_locked") { LOG.emit("DeviceHardLocked", { device: "bet-counter" }); LINES = raiseLocal(LINES, "device_hard_locked", t("dk_hard_locked"), Date.now()); }
     draw(); return true;
@@ -421,7 +428,7 @@ function signInAct(k: string, x: string, y: string): boolean {
   draw(); return true;
 }
 function lockCounter(idle: boolean): void {
-  S.view = "lock"; S.pin = ""; S.picking = false; S.limited = false; S.idle = idle; S.approval = null; S.second = false; S.cancelManager = false; S.drawerOpen = false;
+  S.view = "lock"; S.pin = ""; S.picking = false; S.limited = false; S.idle = idle; THEN = null; S.approval = null; S.second = false; S.cancelManager = false; S.drawerOpen = false;
   draw();
 }
 function act(a: string): void {

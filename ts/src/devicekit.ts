@@ -94,7 +94,7 @@ export function staffWhoRow(name: string, role: string, t: (k: string) => string
   return `<div class="dk-whorow"><span>${icon("ui-user")}<span>${esc(name)} · ${esc(t(`role_${role}`))}</span></span><button type="button" class="dk-link" data-act="gate:lock">${icon("ui-lock")}<span>${esc(t("dk_lock"))}</span></button></div>`;
 }
 export class StaffGate {
-  who: string; picking = false; pin = ""; signed = false; limited = false; idle = false; last = Date.now(); pictures = false; sound = true; open: boolean;
+  who: string; picking = false; pin = ""; signed = false; limited = false; idle = false; last = Date.now(); pictures = false; sound = true; open: boolean; private then: (() => void) | null = null;
   constructor(public lock: StaffLock, private h: GateHooks, public optional = false, public idleMs = 120_000) {
     this.who = lock.staff[0]?.person ?? ""; this.open = optional;
   }
@@ -111,7 +111,7 @@ export class StaffGate {
     const sample = this.lock.staff.map((x) => `${t(`role_${x.role}`)} ${x.pin}`).join(", ");
     return `<div class="${cls}"><p class="dk-who">${icon("ui-user")}<span>${esc(s?.name ?? "")} · ${esc(t(`role_${s?.role ?? "cashier"}`))}</span><button type="button" class="dk-link" data-act="staff:change">${esc(t("dk_change"))}</button>${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</p>
       ${this.idle ? noticeHtml(t, { level: "info", cls: "dk-note", text: t("locked_idle") }) : ""}${this.lock.hard.has(this.who) ? noticeHtml(t, { level: "error", cls: "dk-note", text: t("dk_hard_locked"), how: t("fd_ask_manager") }) : ""}
-      ${pad}<p class="dk-note">${esc(t("dk_own_pin"))}</p><p class="dk-note">${esc(t("dk_pin_sample", { list: sample }))}</p>
+      ${pad}<p class="dk-note">${esc(t("dk_own_pin"))}</p><p class="dk-note">${esc(t("dk_pin_sample", { list: sample }))}</p>${s?.duress ? `<p class="dk-note">${esc(t("dk_duress_sample", { pin: s.duress }))}</p>` : ""}
 </div>`;
   }
   /** Who is serving, with Lock; on an optional screen with nobody signed in, Staff sign-in. */
@@ -122,7 +122,7 @@ export class StaffGate {
   }
   /** Lock now (Lock, or two minutes without use). On an optional screen this signs the person out and the screen stays. */
   lockNow(idle = false): void {
-    this.signed = false; this.limited = false; this.pin = ""; this.picking = false; this.idle = idle && !this.optional; this.open = this.optional;
+    this.signed = false; this.limited = false; this.pin = ""; this.picking = false; this.idle = idle && !this.optional; this.open = this.optional; this.then = null;
   }
   /** Every act goes through here first: true when the gate handled it (while locked, nothing else runs). */
   act(a: string): boolean {
@@ -150,6 +150,7 @@ export class StaffGate {
     const r = this.lock.signIn(this.who, pin, Date.now());
     if (r.ok) {
       this.signed = true; this.open = true; this.idle = false; this.limited = r.view === "limited"; this.last = Date.now();
+      const go = this.then; this.then = null; if (go && !this.limited) go();   // the screen chosen in the panel, never past a duress PIN
       const n = this.lock.pathsOut(this.h.online() ? ["internet"] : []);
       for (let i = 0; i < n; i++) this.h.emit("DuressSignalled", { device_id: this.h.device, person: this.who, path: "internet", at: Date.now() }, "server");
     } else if (r.reason === "hard_locked") { this.h.emit("DeviceHardLocked", { device: this.h.device }); this.h.raise?.("device_hard_locked", this.h.t("dk_hard_locked")); }
@@ -167,8 +168,13 @@ export class StaffGate {
     if (this.signed && !busy && Date.now() - this.last > this.idleMs) { this.lockNow(true); return true; }
     return !this.open && this.waitLeft() > 0;
   }
-  /** The sample cashier (first person) signed in at once: for the panel's state buttons. */
-  signInFirst(): void { this.who = this.lock.staff[0]?.person ?? ""; this.signed = true; this.open = true; this.limited = false; this.idle = false; this.last = Date.now(); }
+  /** A jump from the review panel never skips the PIN (owner, 2026-11-26): signed in, it goes at once; locked, the lock screen
+   *  shows and the chosen screen opens only after a correct PIN (a duress PIN opens the quiet view instead). */
+  goAfterPin(go: () => void): void {
+    if (this.signed && !this.limited) { go(); return; }
+    if (this.signed) this.lockNow(false);   // never out of the quiet duress view: lock, then a normal PIN
+    this.then = go; this.open = false; this.idle = false; this.picking = false; this.pin = "";
+  }
 }
 
 /** The staff picker and PIN pad of a device's lock screen. */

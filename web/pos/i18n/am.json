@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "am",
  "native": "አማርኛ",
- "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
+ "source_sha256": "3659acabd335aa5975e1b177f00a083e5f3f61ffd9ea30bf882389a7fbb034fb",
  "texts": {
   "academy": "አካዳሚ",
   "academy_hint": "አጭር ትምህርት ከሚያስተምረው ማያ አጠገብ ይከፈታል።",
@@ -175,6 +175,7 @@
   "difference": "ልዩነት",
   "difference_flagged": "ልዩነቱ ለባለቤቱ ምልክት ተደርጓል። ምንም አልታገደም።",
   "dk_change": "እርስዎ አይደሉም? ይቀይሩ",
+  "dk_duress_sample": "የናሙና የአደጋ ፒን፦ {pin}። ጸጥ ያለውን እይታ ይከፍታል።",
   "dk_hard_locked": "በጣም ብዙ የተሳሳቱ PINዎች። ይህ PIN ተቆልፏል፣ ምንም አልተሰረዘም። ባለቤቱ ወይም ሥራ አስኪያጅ ዳግም ሊያስጀምረው ይችላል።",
   "dk_lock": "ቆልፍ",
   "dk_own_pin": "እያንዳንዱ ሰው የራሱ PIN አለው፣ ስለዚህ እያንዳንዱ ሽያጭ ከአንድ ሰው ጋር ይያያዛል።",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "en",
  "native": "English",
- "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
+ "source_sha256": "3659acabd335aa5975e1b177f00a083e5f3f61ffd9ea30bf882389a7fbb034fb",
  "texts": {
   "academy": "Academy",
   "academy_hint": "A short course opens beside the screen it teaches.",
@@ -175,6 +175,7 @@
   "difference": "Difference",
   "difference_flagged": "Difference noted for the owner. Nothing is blocked.",
   "dk_change": "Not you? Change",
+  "dk_duress_sample": "Sample duress PIN: {pin}. It opens the quiet view.",
   "dk_hard_locked": "Too many wrong PINs. This PIN is locked and nothing was deleted. The owner or a manager can reset it.",
   "dk_lock": "Lock",
   "dk_own_pin": "Everyone has their own PIN, so every sale is tied to a person.",

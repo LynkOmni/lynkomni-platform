@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
+ "source_sha256": "3659acabd335aa5975e1b177f00a083e5f3f61ffd9ea30bf882389a7fbb034fb",
  "texts": {
   "academy": "Isikhungo sokufunda",
   "academy_hint": "Isifundo esifushane sivuleka eduze kwesikrini esisifundisayo.",
@@ -175,6 +175,7 @@
   "difference": "Umehluko",
   "difference_flagged": "Umehluko uphawulelwe umnikazi. Akukho okuvinjiwe.",
   "dk_change": "Akusiwe? Shintsha",
+  "dk_duress_sample": "Isibonelo se-PIN yokuphoqwa: {pin}. Ivula ukubuka okuthulile.",
   "dk_hard_locked": "Ama-PIN angalungile mangaphezu kwalokho. Le PIN ikhiyiwe futhi akukho okususiwe. Umnikazi noma umphathi angayisetha kabusha.",
   "dk_lock": "Khiya",
   "dk_own_pin": "Wonke umuntu une-PIN yakhe, ngakho konke ukuthengisa kuxhunywe nomuntu oyedwa.",
