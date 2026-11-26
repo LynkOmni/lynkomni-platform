@@ -2,6 +2,12 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.128.1 (2026-11-27)
+Software only is now one checked rule (owner: "So is this enforced already?").
+- catalog/drivers.v1.json says it once: every piece of hardware comes from the user and connects through open standards or LynkDriver, any applicable hardware works, and LynkOmni hardware is supplied only when the user orders it.
+- Every hardware kind has a stand-in on a phone or screen, or a written reason why it cannot: the fiscal device (certified by the tax authority), the mesh relay (another LynkOmni phone or tablet nearby), condition sensors (a reading is never made up) and door access (a door opens only through the user's own lock).
+- core/drivers.validate and tests/test_software_only.py fail if the rule goes, if a kind has neither, if a plan includes LynkOmni hardware or if a screen promises it; the rule joined the rules for everything (catalog/universal.v1.json).
+
 ## v0.128.0 (2026-11-26)
 Section 5 step 0: the new build tables, the four location products, LynkCCTV and LynkGate are in the code (owner: "Start section 5").
 - The build tables of the seven updates approved on 26 November (88.6 LynkStation, 89.10 LynkCCTV, 90.7 LynkGate, 91.9 the LOCATION UPDATE, 92.4 API prices, 93.5 ads and coverage, 94.9 the message bar and files) joined catalog/build-tables.v1.json, so every section sees its parts; section 5 now has 22.
