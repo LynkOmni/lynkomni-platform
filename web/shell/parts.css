@@ -11,6 +11,7 @@
 .pkey:not(:disabled):hover { border-color: var(--brand-primary); }
 .pkey:disabled { opacity: .45; }
 .pkey.fn { background: var(--bg-surface); color: var(--brand-ink); }
+.pkey .pnum .ic { inline-size: 24px; block-size: 24px; }   /* Back and OK keys: the icon is the size of a digit */
 .pkey .pdots { inline-size: 18px; block-size: 18px; color: var(--text-secondary); }
 .pmsg { margin: 0; }
 .popts { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }

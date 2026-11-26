@@ -3,7 +3,7 @@
 .deskcol { display: flex; flex-direction: column; align-items: center; }
 .cdframe { inline-size: 250px; padding: 10px 10px 18px; border-radius: var(--radius-control); background: linear-gradient(160deg, var(--device-shell-edge), var(--device-shell) 40%, var(--device-glass)); position: relative; box-shadow: 0 18px 36px -18px color-mix(in srgb, var(--device-shell) 70%, transparent); }
 .cdframe .mark { position: absolute; inset-block-end: 4px; inset-inline-start: 50%; inline-size: 12px; margin-inline-start: -6px; color: var(--on-device-key); opacity: .6; }
-.cdscreen { block-size: 132px; border-radius: 4px; padding: 6px; position: relative; overflow: hidden; }
+.cdscreen { block-size: 132px; border-radius: 4px; padding: 6px; position: relative; overflow: hidden auto; overscroll-behavior: contain; }   /* longer content scrolls, never cuts (2026-11-26) */
 .cdarm { inline-size: 14px; block-size: 46px; background: linear-gradient(90deg, var(--device-glass), var(--device-shell), var(--device-glass)); }
 .cdpad { display: flex; justify-content: center; } .cdpad:empty { display: none; }
 .cdesk { inline-size: 250px; block-size: 18px; border-radius: 6px 6px 0 0; background: var(--device-shell); }

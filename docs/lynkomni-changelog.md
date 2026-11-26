@@ -2,6 +2,14 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.122.1 (2026-11-26)
+Nothing on a screen is ever cut off, and every icon has its size (owner report from the kitchen screen).
+- The staff lock of every shared staff device (the PIN pad and "Who is using this device") scrolls inside its screen instead of being cut, and the person icon in the staff list and the Back and OK keys of the PIN pad have a fixed small size (shared parts web/device/deviceparts.css and web/shell/parts.css).
+- Every page gives any icon without its own size the size of the text beside it (web/shell/iconsize.css, added to every page by web/build.mjs), so an icon can never fill a button again.
+- The same check found and fixed two more places: the business phone's sign-in turned sideways (Send code was cut) and the LynkCDisplay "Rate us" screen; both now scroll.
+- The fit guard (tests/test_fit_guard.py) fails on any text, picture or icon cut off with no scroll (CUT), on any icon bigger than twice the text beside it (ICONS), and on any cut button at every size, light and dark; it opens the PIN pad and the staff list of every staff device at every size. Proven: it fails on the old version.
+- Every emulator preview is republished from this build, so no preview shows an older build than main.
+
 ## v0.122.0 (2026-11-26)
 Build section 4C is locked: the fixes before section 5.
 - Every point of build table 87.6 is built: phone and email fields (v0.113.0, v0.114.0), errors that say where, why and how to fix with WhatsApp gone (v0.115.0 to v0.117.0), sign-up and sign-in with LynkOmni's own security and the Can't sign in? hub (v0.118.0 to v0.120.0) and the phone owner check (v0.121.0).
