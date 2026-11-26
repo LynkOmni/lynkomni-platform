@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ps",
  "native": "پښتو",
- "source_sha256": "ccfc9e9f225b84f383f4ac1396ce13d79d24ad6889469d3dfcd1a5b33dda9511",
+ "source_sha256": "f35c3812957bce2e4ba8142c32980b9448e6738a678a629b4ff6a115ecd72d2f",
  "texts": {
   "active_sessions": "فعال ناستې",
   "add_passkey": "پاس کیلي ور زیاته کړئ",
@@ -305,8 +305,6 @@
   "signin_passkey_hint": "ستاسو تلیفون یا کمپیوټر تاییدوي چې دا تاسو یاست. د یادولو لپاره هیڅ پټنوم نشته.",
   "signin_pin": "په ثبت شوي تلیفون کې خپل PIN ولیکئ",
   "signin_title": "LynkOmni ته ننوځئ",
-  "signup_adult": "زه {age} کلن یا تر دې زیات یم، یا چېرته چې اوسېږم بالغ یم",
-  "signup_adult_note": "موږ هېڅکله ستاسو د زېږون نېټه نه پوښتو.",
   "signup_title": "خپل د LynkOmni حساب جوړ کړئ",
   "site_account": "حساب",
   "site_merchant": "د سوداګرۍ اپ",

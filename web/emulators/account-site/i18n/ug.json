@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ug",
  "native": "ئۇيغۇرچە",
- "source_sha256": "ccfc9e9f225b84f383f4ac1396ce13d79d24ad6889469d3dfcd1a5b33dda9511",
+ "source_sha256": "f35c3812957bce2e4ba8142c32980b9448e6738a678a629b4ff6a115ecd72d2f",
  "texts": {
   "active_sessions": "ئاكتىپ سۆھبەتلەر",
   "add_passkey": "ئۆتۈش ئاچقۇچى قوشۇش",
@@ -305,8 +305,6 @@
   "signin_passkey_hint": "تېلېفونىڭىز ياكى كومپيۇتېرىڭىز سىزنىڭ ئۆزىڭىز ئىكەنلىكىڭىزنى جەزملەيدۇ. ئەستە تۇتىدىغان پارول يوق.",
   "signin_pin": "تىزىملاتقان تېلېفوندا PIN ئىڭىزنى كىرگۈزۈڭ",
   "signin_title": "LynkOmni غا كىرىش",
-  "signup_adult": "مەن {age} ياش ياكى ئۇنىڭدىن چوڭ، ياكى تۇرۇشلۇق جايىمدا قۇرامىغا يەتكەن",
-  "signup_adult_note": "بىز ھەرگىز تۇغۇلغان كۈنىڭىزنى سورىمايمىز.",
   "signup_title": "LynkOmni ھېساباتىڭىزنى قۇرۇڭ",
   "site_account": "ھېسابات",
   "site_merchant": "كارخانا ئەپى",

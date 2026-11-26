@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "ccfc9e9f225b84f383f4ac1396ce13d79d24ad6889469d3dfcd1a5b33dda9511",
+ "source_sha256": "f35c3812957bce2e4ba8142c32980b9448e6738a678a629b4ff6a115ecd72d2f",
  "texts": {
   "active_sessions": "使用中的工作階段",
   "add_passkey": "新增密碼金鑰",
@@ -305,8 +305,6 @@
   "signin_passkey_hint": "由您的手機或電腦確認是您本人。不必記住密碼。",
   "signin_pin": "在已註冊的手機上輸入您的 PIN",
   "signin_title": "登入 LynkOmni",
-  "signup_adult": "我已年滿 {age} 歲，或在居住地已成年",
-  "signup_adult_note": "我們從不詢問您的出生日期。",
   "signup_title": "建立您的 LynkOmni 帳戶",
   "site_account": "帳戶",
   "site_merchant": "企業應用程式",

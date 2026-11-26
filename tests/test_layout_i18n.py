@@ -7,7 +7,7 @@ import json
 from tests.staff_pin import sign_in
 import re, os, unittest
 from services import translation
-from tests.phone_sample import fill_phone, sign_in_business
+from tests.phone_sample import fill_phone, pass_age, sign_in_business
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ALL_LANGS = list(translation.languages()) + ["xx", "xx-rtl"]
@@ -321,7 +321,7 @@ class AccountLayout(DarkPass, unittest.TestCase):
         pg.click('#stateButtons button[data-state="signup"]'); check("signup country")
         pg.click('[data-act="wy:su:next:country"]'); check("signup username")
         pg.fill("#wyUser", "..bad"); check("signup username error"); pg.fill("#wyUser", "grace.k"); pg.click('[data-act="wy:su:next:username"]')
-        check("signup age"); pg.check('[data-in="wy:adult"]'); pg.click('[data-act="wy:su:next:age"]'); check("signup legal name")
+        check("signup age"); pass_age(pg); check("signup legal name")
         pg.fill("#wyLegal", "R2D2"); pg.click('[data-act="wy:su:next:legal_name"]'); check("signup legal name error")
         pg.fill("#wyLegal", "Grace Uwase"); pg.click('[data-act="wy:su:next:legal_name"]'); check("signup email")
         for stp in ("email", "email_code", "phone", "phone_code"):

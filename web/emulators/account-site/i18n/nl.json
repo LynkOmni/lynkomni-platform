@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "ccfc9e9f225b84f383f4ac1396ce13d79d24ad6889469d3dfcd1a5b33dda9511",
+ "source_sha256": "f35c3812957bce2e4ba8142c32980b9448e6738a678a629b4ff6a115ecd72d2f",
  "texts": {
   "active_sessions": "Actieve sessies",
   "add_passkey": "Toegangssleutel toevoegen",
@@ -305,8 +305,6 @@
   "signin_passkey_hint": "Je telefoon of computer bevestigt dat jij het bent. Geen wachtwoord om te onthouden.",
   "signin_pin": "Voer je pincode in op een geregistreerde telefoon",
   "signin_title": "Inloggen bij LynkOmni",
-  "signup_adult": "Ik ben {age} jaar of ouder, of meerderjarig waar ik woon",
-  "signup_adult_note": "We vragen nooit naar uw geboortedatum.",
   "signup_title": "Maak je LynkOmni-account aan",
   "site_account": "Account",
   "site_merchant": "Zakelijke app",

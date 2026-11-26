@@ -182,7 +182,8 @@ const phNum = (n: number, el: Element): string => {
 const phRestored = new Set<string>();
 let phFieldsWired = false;
 
-/** The counter beside a field with a limit: how many of how many, in the reader's own digits. */
+/** The counter beside a field with a limit: how many of how many, in the reader's own digits. A box whose length is its
+ *  format (the day, month and year of a date) carries data-count="off" and shows none. */
 export function counterText(len: number, max: number, el: Element): string { return `${phNum(len, el)} / ${phNum(max, el)}`; }
 
 /** Drafts are kept only for a person's own typing on their own device or a staff screen, never on an answer a customer types on a
@@ -196,7 +197,7 @@ export function enhanceFields(root: HTMLElement, t: (k: string) => string): void
   const fields = root.getElementsByTagName("input").length + root.getElementsByTagName("textarea").length + root.getElementsByTagName("select").length;
   if (!fields) return;
   for (const el of root.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>("input, textarea, select")) {
-    if (el.hasAttribute("maxlength") && !(el instanceof HTMLSelectElement) && !el.matches(PH_SENSITIVE) && !el.nextElementSibling?.classList.contains("ph-count")) {
+    if (el.hasAttribute("maxlength") && el.getAttribute("data-count") !== "off" && !(el instanceof HTMLSelectElement) && !el.matches(PH_SENSITIVE) && !el.nextElementSibling?.classList.contains("ph-count")) {
       const max = Number(el.getAttribute("maxlength"));
       if (max > 0) el.insertAdjacentHTML("afterend", `<span class="ph-count" aria-hidden="true">${phEsc(counterText(el.value.length, max, el))}</span>`);
     }

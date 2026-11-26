@@ -9,13 +9,14 @@ const root = new URL("../../..", import.meta.url).pathname;
 const V = JSON.parse(readFileSync(`${root}/contract/vectors/basicphone.v1.json`, "utf8"));
 
 test("every basic-phone session gives the pages, ends and actions of identity/basic_phone.py", () => {
-  const ctx = V.ctx as BpCtx;
   const rules: BpRules = {
     pinCheck: (t): PinCheck => (t === "LOCKED" ? "locked" : t === V.pin ? "ok" : t === V.duress ? "duress" : ["wrong", 9]),
     usernameCheck: (u) => { const r = check(u); return r.ok ? null : r.reason; },
     taken: (u) => (V.taken as string[]).includes(u),
   };
-  for (const steps of V.sessions) {
+  for (const entry of V.sessions) {
+    const steps = Array.isArray(entry) ? entry : entry.steps;
+    const ctx: BpCtx = Array.isArray(entry) ? V.ctx : { ...V.ctx, age_wait: true };
     let s = bpStart();
     assert.deepEqual(bpPage(s, ctx), steps[0].page);
     for (const st of steps.slice(1)) {

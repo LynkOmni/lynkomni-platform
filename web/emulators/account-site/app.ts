@@ -167,7 +167,7 @@ function wyFieldCtx(): FieldCtx {
   if (WY_FIELD_CTX?.key !== key) WY_FIELD_CTX = { key, ctx: { t, lang: locale(), packs: DATA.packs as unknown as FieldCtx["packs"], packOrder: DATA.packOrder, countryName: countryNamer(locale(), DATA.packs as unknown as FieldCtx["packs"], t("sample_country")), onPhone: (id, v) => { WY_FIELDS[id] = v.digits; } } };
   return WY_FIELD_CTX.ctx;
 }
-const wyLook = (): WaysLook => ({ t, icon: (id) => icon(id), when: whenOf, num: n, btn: { primary: "primary", secondary: "secondary" },
+const wyLook = (): WaysLook => ({ lang: S.lang, t, icon: (id) => icon(id), when: whenOf, num: n, btn: { primary: "primary", secondary: "secondary" },
   phoneField: (id, label) => phoneFieldHtml(wyFieldCtx(), { id, label, country: S.country, digits: WY_FIELDS[id] ?? "" }),
   emailField: (id, label) => emailFieldHtml({ t }, { id, label, text: WY_FIELDS[id] ?? "" }),
   codeField: (id, label) => codeFieldHtml({ t, lang: locale() }, { id, label, value: WY_FIELDS[id] ?? "" }) });
@@ -665,7 +665,7 @@ function act(a: string): void {
     case "data": S.held = holds("data_export"); if (S.held) { record("SensitiveActHeld", "server", { act: "data_export", why: S.held }); draw(); return; } S.dataRequest = { due: dataRequestDue(now) }; record("DataRequestOpened", "server", { due_at: S.dataRequest.due }); TRK.apply({ type: "DataRequestOpened", payload: { request_id: "data-1", due_at: new Date(S.dataRequest.due * 1000).toISOString().slice(0, 19) + "Z" }, at: now }, "account");
        draw(); return;
     case "close": if (v === "cancel") { S.closing = null; record("AccountCloseCancelled", "server", {}); } draw(); return;
-    case "toggle": if (v === "adult") { S.signUp.adult = !S.signUp.adult; draw(); return; }
+    case "toggle":
       if (v === "wty") { S.wasThisYou = !S.wasThisYou; record("NotificationChoiceChanged", "server", { choice: "attend_was_this_you", on: S.wasThisYou }); draw(); return; }
       if (v.startsWith("snd:")) { const k = v.slice(4) as "tones" | "vibration" | "notification_sounds"; const me: SoundPrefs = savePrefs({ [k]: !loadPrefs()[k] }); record("NotificationChoiceChanged", "server", { sounds: k, on: me[k] }); draw(); return; }
       if (v.startsWith("grid:")) { const key = v.slice(5); S.nset.off = S.nset.off.includes(key) ? S.nset.off.filter((y) => y !== key) : [...S.nset.off, key]; record("NotificationChoiceChanged", "server", { choice: key, on: !S.nset.off.includes(key) }); draw(); return; }
@@ -771,7 +771,7 @@ function init(): void {
   sel.value = "en";
   sel.addEventListener("change", (e) => { S.lang = pick(Object.keys(PACKS).concat(["xx", "xx-rtl"]), (e.target as HTMLSelectElement).value, S.lang); draw(); });
   $("#stateButtons").innerHTML = SCREENS.map((k) => `<button type="button" data-state="${k}">${esc(k === "signin" ? "Sign in" : k === "signup" ? "Sign up" : k === "recover" ? "Recover" : k)}</button>`).join("");
-  $("#stateButtons").addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("button[data-state]"); if (b) { const picked = SCREENS.find((k) => k === b.dataset["state"]); if (picked) { S.screen = picked; S.overlay = null; if (picked === "recover") { S.recover = { otherDevice: null, hasCode: null, started: null }; Object.assign(WY.rc, waysStart(T_NOW(), wySample).rc); } if (picked === "signup") { S.signUp = {}; S.username = ""; S.cloud = null; WY.su.done = []; } if (picked === "signin") WY.si.step = "who"; draw(); } } });
+  $("#stateButtons").addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("button[data-state]"); if (b) { const picked = SCREENS.find((k) => k === b.dataset["state"]); if (picked) { S.screen = picked; S.overlay = null; if (picked === "recover") { S.recover = { otherDevice: null, hasCode: null, started: null }; Object.assign(WY.rc, waysStart(T_NOW(), wySample).rc); } if (picked === "signup") { S.signUp = {}; S.username = ""; S.cloud = null; WY.su.done = []; WY.su.ageOk = false; WY.su.birth = { d: "", m: "", y: "" }; } if (picked === "signin") WY.si.step = "who"; draw(); } } });
   $("#display").addEventListener("click", (e) => {
     const el = (e.target as HTMLElement).closest<HTMLElement>("[data-act]");
     if (!el) return;

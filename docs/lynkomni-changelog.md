@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.125.0 (2026-11-26)
+A neutral age check at sign-up (owner approved, following the ICO, Ofcom and EDPB guidance).
+- Sign-up no longer shows a "I am 18 or older" tick box. It asks the birth date (day, month and year, in the order the reader writes dates) without saying which age is needed. The phone works out "adult or not" against 18, or the country's higher age, and forgets the date at once; only "adult: yes" and the day it was checked are kept. LynkOmni still never stores a birth date or an age.
+- No instant retry: someone who comes out under age is told only that an account cannot be made right now, and can try again from that device, network or phone number after 24 hours.
+- The basic phone asks the year, the month and the day on three short pages, with the same check and the same wait.
+- A date that does not exist (30 February, a month 13, a date in the future) is explained with how to fix it. A 29 February birthday counts from 1 March in other years.
+- A licensed partner's ID check still confirms age where the risk is higher: payments, cards, exchange, a first paid Storefront offer and betting.
+- The old tick-box leftovers on the account site are gone. New words in all 38 languages; tests in core, TypeScript, the basic phone vectors and the screens.
+
 ## v0.124.1 (2026-11-26)
 The sign-up phone number stays when its last digit is typed (owner report from the Business app).
 - On the Business app's sign-up, the phone box never kept what was typed: on the last digit the number became complete, the screen redrew to switch Next on, and the box came back empty, so the code could never be sent. The box now keeps its digits and is not redrawn; the shared field switches Next on by itself, and Next leads to the code sent to the phone. The sign-up email and code boxes keep their text too.

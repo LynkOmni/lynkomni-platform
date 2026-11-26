@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "rw",
  "native": "Ikinyarwanda",
- "source_sha256": "ccfc9e9f225b84f383f4ac1396ce13d79d24ad6889469d3dfcd1a5b33dda9511",
+ "source_sha256": "f35c3812957bce2e4ba8142c32980b9448e6738a678a629b4ff6a115ecd72d2f",
  "texts": {
   "active_sessions": "Ibihe byo kwinjira birimo",
   "add_passkey": "Ongeraho urufunguzo rwo kwinjira",
@@ -305,8 +305,6 @@
   "signin_passkey_hint": "Telefoni cyangwa mudasobwa yawe yemeza ko ari wowe. Nta jambo ry'ibanga ryo kwibuka.",
   "signin_pin": "Shyiramo PIN yawe kuri telefoni yanditswe",
   "signin_title": "Injira muri LynkOmni",
-  "signup_adult": "Mfite imyaka {age} cyangwa irenga, cyangwa imyaka y'ubukure aho ntuye",
-  "signup_adult_note": "Ntitujya tubaza itariki yawe y'amavuko.",
   "signup_title": "Fungura konti yawe ya LynkOmni",
   "site_account": "Konti",
   "site_merchant": "Porogaramu y'ubucuruzi",

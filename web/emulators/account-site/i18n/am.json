@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "am",
  "native": "አማርኛ",
- "source_sha256": "ccfc9e9f225b84f383f4ac1396ce13d79d24ad6889469d3dfcd1a5b33dda9511",
+ "source_sha256": "f35c3812957bce2e4ba8142c32980b9448e6738a678a629b4ff6a115ecd72d2f",
  "texts": {
   "active_sessions": "ንቁ ክፍለ ጊዜዎች",
   "add_passkey": "ፓስኪ ያክሉ",
@@ -305,8 +305,6 @@
   "signin_passkey_hint": "ስልክዎ ወይም ኮምፒውተርዎ እርስዎ መሆንዎን ያረጋግጣል። የሚያስታውሱት የይለፍ ቃል የለም።",
   "signin_pin": "በተመዘገበ ስልክ ላይ ፒንዎን ያስገቡ",
   "signin_title": "ወደ LynkOmni ይግቡ",
-  "signup_adult": "ዕድሜዬ {age} ዓመት ወይም ከዚያ በላይ ነው፣ ወይም በምኖርበት ቦታ ለአካለ መጠን ደርሻለሁ",
-  "signup_adult_note": "የልደት ቀንዎን በፍጹም አንጠይቅም።",
   "signup_title": "የLynkOmni መለያዎን ይፍጠሩ",
   "site_account": "መለያ",
   "site_merchant": "የንግድ መተግበሪያ",

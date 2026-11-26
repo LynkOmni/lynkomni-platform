@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "ccfc9e9f225b84f383f4ac1396ce13d79d24ad6889469d3dfcd1a5b33dda9511",
+ "source_sha256": "f35c3812957bce2e4ba8142c32980b9448e6738a678a629b4ff6a115ecd72d2f",
  "texts": {
   "active_sessions": "Sesi aktif",
   "add_passkey": "Tambah kunci laluan",
@@ -305,8 +305,6 @@
   "signin_passkey_hint": "Telefon atau komputer anda mengesahkan bahawa itu anda. Tiada kata laluan untuk diingati.",
   "signin_pin": "Masukkan PIN anda pada telefon yang didaftarkan",
   "signin_title": "Log masuk ke LynkOmni",
-  "signup_adult": "Saya berumur {age} tahun ke atas, atau sudah cukup umur menurut hukum di tempat saya tinggal",
-  "signup_adult_note": "Kami tidak pernah meminta tarikh lahir anda.",
   "signup_title": "Cipta akaun LynkOmni anda",
   "site_account": "Akaun",
   "site_merchant": "Aplikasi perniagaan",

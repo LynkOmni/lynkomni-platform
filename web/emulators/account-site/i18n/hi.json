@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "ccfc9e9f225b84f383f4ac1396ce13d79d24ad6889469d3dfcd1a5b33dda9511",
+ "source_sha256": "f35c3812957bce2e4ba8142c32980b9448e6738a678a629b4ff6a115ecd72d2f",
  "texts": {
   "active_sessions": "सक्रिय सत्र",
   "add_passkey": "पासकी जोड़ें",
@@ -305,8 +305,6 @@
   "signin_passkey_hint": "आपका फ़ोन या कंप्यूटर पुष्टि करता है कि यह आप ही हैं। कोई पासवर्ड याद रखने की ज़रूरत नहीं।",
   "signin_pin": "पंजीकृत फ़ोन पर अपना PIN दर्ज करें",
   "signin_title": "LynkOmni में साइन इन करें",
-  "signup_adult": "मेरी उम्र {age} वर्ष या अधिक है, या मैं अपने रहने की जगह पर वयस्क हूँ",
-  "signup_adult_note": "हम कभी आपकी जन्मतिथि नहीं पूछते।",
   "signup_title": "अपना LynkOmni खाता बनाएँ",
   "site_account": "खाता",
   "site_merchant": "व्यवसाय ऐप",

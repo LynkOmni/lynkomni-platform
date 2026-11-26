@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ckb",
  "native": "کوردی",
- "source_sha256": "ccfc9e9f225b84f383f4ac1396ce13d79d24ad6889469d3dfcd1a5b33dda9511",
+ "source_sha256": "f35c3812957bce2e4ba8142c32980b9448e6738a678a629b4ff6a115ecd72d2f",
  "texts": {
   "active_sessions": "دانیشتنە چالاکەکان",
   "add_passkey": "کلیلی تێپەڕ زیاد بکە",
@@ -305,8 +305,6 @@
   "signin_passkey_hint": "مۆبایل یان کۆمپیوتەرەکەت دڵنیایی دەدات کە تۆیت. هیچ وشەی نهێنییەک نییە بۆ لەبیرکردن.",
   "signin_pin": "PIN ـەکەت لەسەر مۆبایلێکی تۆمارکراو بنووسە",
   "signin_title": "چوونەژوورەوە بۆ LynkOmni",
-  "signup_adult": "تەمەنم {age} ساڵ یان زیاترە، یان لە شوێنی ژیانم گەیشتوومەتە تەمەنی یاسایی",
-  "signup_adult_note": "هەرگیز بەرواری لەدایکبوونت داوا ناکەین.",
   "signup_title": "هەژماری LynkOmni ـەکەت دروست بکە",
   "site_account": "هەژمار",
   "site_merchant": "ئەپی بازرگانی",

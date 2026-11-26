@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-bgbDbpH2Ur6CyIby+C4m90KduS4biK4PqAQO+7OH9tw='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-9DUEGXc/gw/rOCVlmOLgggRD208+SgLXTtNfoFgp/CE='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkDScreen</title>
 <meta name="description" content="Interactive emulator of LynkDScreen, the main calling screen of LynkQueue: the tickets being called and their counters, the chime and the voice, back soon, how many are waiting and the QR code to join, with or without internet.">
@@ -1333,7 +1333,7 @@ function enhanceFields(root, t) {
     if (!fields)
         return;
     for (const el of root.querySelectorAll("input, textarea, select")) {
-        if (el.hasAttribute("maxlength") && !(el instanceof HTMLSelectElement) && !el.matches(PH_SENSITIVE) && !el.nextElementSibling?.classList.contains("ph-count")) {
+        if (el.hasAttribute("maxlength") && el.getAttribute("data-count") !== "off" && !(el instanceof HTMLSelectElement) && !el.matches(PH_SENSITIVE) && !el.nextElementSibling?.classList.contains("ph-count")) {
             const max = Number(el.getAttribute("maxlength"));
             if (max > 0)
                 el.insertAdjacentHTML("afterend", `<span class="ph-count" aria-hidden="true">${phEsc(counterText(el.value.length, max, el))}</span>`);

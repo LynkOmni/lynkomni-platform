@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "ccfc9e9f225b84f383f4ac1396ce13d79d24ad6889469d3dfcd1a5b33dda9511",
+ "source_sha256": "f35c3812957bce2e4ba8142c32980b9448e6738a678a629b4ff6a115ecd72d2f",
  "texts": {
   "active_sessions": "সক্রিয় সেশন",
   "add_passkey": "পাসকি যোগ করুন",
@@ -305,8 +305,6 @@
   "signin_passkey_hint": "আপনার ফোন বা কম্পিউটার নিশ্চিত করে যে এটা আপনি। মনে রাখার মতো কোনো পাসওয়ার্ড নেই।",
   "signin_pin": "নিবন্ধিত ফোনে আপনার পিন দিন",
   "signin_title": "LynkOmni-তে সাইন ইন করুন",
-  "signup_adult": "আমার বয়স {age} বছর বা তার বেশি, অথবা আমি যেখানে থাকি সেখানে প্রাপ্তবয়স্ক",
-  "signup_adult_note": "আমরা কখনো আপনার জন্মতারিখ জিজ্ঞেস করি না।",
   "signup_title": "আপনার LynkOmni অ্যাকাউন্ট তৈরি করুন",
   "site_account": "অ্যাকাউন্ট",
   "site_merchant": "ব্যবসার অ্যাপ",

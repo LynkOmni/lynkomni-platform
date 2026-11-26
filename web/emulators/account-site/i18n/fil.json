@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "ccfc9e9f225b84f383f4ac1396ce13d79d24ad6889469d3dfcd1a5b33dda9511",
+ "source_sha256": "f35c3812957bce2e4ba8142c32980b9448e6738a678a629b4ff6a115ecd72d2f",
  "texts": {
   "active_sessions": "Mga aktibong session",
   "add_passkey": "Magdagdag ng passkey",
@@ -305,8 +305,6 @@
   "signin_passkey_hint": "Kinukumpirma ng iyong telepono o computer na ikaw ito. Walang password na kailangang tandaan.",
   "signin_pin": "Ilagay ang iyong PIN sa naka-enroll na telepono",
   "signin_title": "Mag-sign in sa LynkOmni",
-  "signup_adult": "Ako ay {age} taong gulang pataas, o nasa hustong gulang ayon sa batas kung saan ako nakatira",
-  "signup_adult_note": "Hindi namin kailanman hinihingi ang iyong petsa ng kapanganakan.",
   "signup_title": "Gumawa ng iyong LynkOmni account",
   "site_account": "Account",
   "site_merchant": "Business app",

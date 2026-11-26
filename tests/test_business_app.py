@@ -2,7 +2,7 @@
 screen with what it must hold and its address. The merchant phone emulator must show each screen, with each item, at its
 address, for the business types that have it, with no script error. Needs Playwright with Chromium (CI's layout job)."""
 import json, os, unittest
-from tests.phone_sample import fill_phone, sign_in_business
+from tests.phone_sample import fill_phone, pass_age, sign_in_business
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PHONE = os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-merchant-phone.html")
@@ -242,9 +242,8 @@ class SignUpKeepsWhatIsTyped(unittest.TestCase):
                             pg.fill("#wyLegal", "Grace Kamga")
                         if pg.locator("#wyUser").count():
                             pg.locator("#wyUser").click(); pg.keyboard.type("grace.k2")
-                        box = pg.locator('[data-in="wy:adult"]')
-                        if box.count() and not box.is_checked():
-                            box.check()
+                        if pg.locator('[data-in="wy:birth_y"]').count():
+                            pass_age(pg); pg.wait_for_timeout(200); continue
                         pg.locator('[data-act^="wy:su:next"] >> visible=true').first.click(timeout=3000); pg.wait_for_timeout(200)
                     phone = pg.locator("#wyPhone")
                     digits = "".join(c for c in (phone.get_attribute("placeholder") or "") if c.isdigit())

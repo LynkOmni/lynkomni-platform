@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-kvIvt6Q/wNx7USrq7soyuxfC5W9fh55Ep+nAi6LCLNs='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-5+L8BbZnbEtz2uaLNpStSQYKLyZF4ZqpSCPiyN354SA='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkPOS on LynkTab</title>
 <meta name="description" content="Interactive emulator of the LynkPOS counter till: a tablet on a stand with a customer-facing display, printer, scanner, cash drawer and card tap area. Real sale rules, sandbox partners.">
@@ -1553,7 +1553,7 @@ function enhanceFields(root, t) {
     if (!fields)
         return;
     for (const el of root.querySelectorAll("input, textarea, select")) {
-        if (el.hasAttribute("maxlength") && !(el instanceof HTMLSelectElement) && !el.matches(PH_SENSITIVE) && !el.nextElementSibling?.classList.contains("ph-count")) {
+        if (el.hasAttribute("maxlength") && el.getAttribute("data-count") !== "off" && !(el instanceof HTMLSelectElement) && !el.matches(PH_SENSITIVE) && !el.nextElementSibling?.classList.contains("ph-count")) {
             const max = Number(el.getAttribute("maxlength"));
             if (max > 0)
                 el.insertAdjacentHTML("afterend", `<span class="ph-count" aria-hidden="true">${phEsc(counterText(el.value.length, max, el))}</span>`);

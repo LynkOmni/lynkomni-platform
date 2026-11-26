@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import {
-  signUpNext, mayStartSignUp, legalNameProblem, basicPhoneAllows, identifierKind, signInWays, extraChecks, sentCodeValid, offlineSignIn,
+  signUpNext, mayStartSignUp, ageCheck, ageWait, legalNameProblem, basicPhoneAllows, identifierKind, signInWays, extraChecks, sentCodeValid, offlineSignIn,
   unusual, countryAllowed, oldDevice, sessionHours, antiPhishingProblem, backupCodesLeftNote, checkup, recoveryWays, neverAllowed,
   restrictedAfterRecovery, contactsConfirmed, contactsProblem, toStrongest, mayReset, ownerCheckNeeded, ownerCheckMethod, ownerPayer, ownerCheckOutcome, ownerMatchValid,
 } from "../src/waysin.js";
@@ -13,6 +13,8 @@ const V = JSON.parse(readFileSync(`${root}/contract/vectors/ways-in.v1.json`, "u
 test("sign-up, sign-in, protections, recovery and resets agree with the Python reference (section 4C points 3 and 5)", () => {
   for (const c of V.sign_up_next) assert.equal(signUpNext(c.done), c.expect, JSON.stringify(c.done));
   for (const c of V.may_start) assert.deepEqual(mayStartSignUp(c.a[0], c.a[1], c.a[2]), c.expect, JSON.stringify(c.a));
+  for (const c of V.age_check) assert.equal(ageCheck(c.a[0], c.a[1], c.a[2], c.a[3], c.a[4]), c.expect, JSON.stringify(c.a));
+  for (const c of V.age_wait) assert.equal(ageWait(c.a[0], c.a[1]), c.expect, JSON.stringify(c.a));
   for (const c of V.legal_name) assert.equal(legalNameProblem(c.a), c.expect, c.a);
   for (const c of V.basic) assert.equal(basicPhoneAllows(c.a[0], c.a[1]), c.expect, JSON.stringify(c.a));
   for (const c of V.identifier) assert.equal(identifierKind(c.a), c.expect, c.a);

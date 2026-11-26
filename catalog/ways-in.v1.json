@@ -19,6 +19,32 @@
       "email",
       "phone"
     ],
+    "age": {
+      "asks": "birth_date",
+      "says_required_age": false,
+      "worked_out_on": "device",
+      "keeps": [
+        "adult",
+        "checked_on"
+      ],
+      "keeps_birth_date": false,
+      "oldest_years": 120,
+      "leap_day_birthday": "march_1",
+      "under_age_wait_hours": 24,
+      "wait_kept_for": [
+        "device",
+        "network",
+        "phone_number"
+      ],
+      "id_check_where_risk_is_higher": [
+        "payments",
+        "cards",
+        "exchange",
+        "storefront_first_paid_offer",
+        "betting"
+      ],
+      "note": "Neutral age gate (owner approved 2026-11-26, ICO, Ofcom and EDPB guidance): the person types a birth date without being told the age needed; the device works out adult or not against 18 or the country's higher age and forgets the date. Only adult yes and the day it was checked are kept. Someone who comes out under age waits before trying again. A licensed partner's ID check confirms age where the risk is higher."
+    },
     "legal_name": {
       "min": 2,
       "max": 100,

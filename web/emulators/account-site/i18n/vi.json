@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "ccfc9e9f225b84f383f4ac1396ce13d79d24ad6889469d3dfcd1a5b33dda9511",
+ "source_sha256": "f35c3812957bce2e4ba8142c32980b9448e6738a678a629b4ff6a115ecd72d2f",
  "texts": {
   "active_sessions": "Phiên đang hoạt động",
   "add_passkey": "Thêm khóa truy cập",
@@ -305,8 +305,6 @@
   "signin_passkey_hint": "Điện thoại hoặc máy tính của bạn xác nhận đó là bạn. Không cần nhớ mật khẩu.",
   "signin_pin": "Nhập mã PIN trên điện thoại đã đăng ký",
   "signin_title": "Đăng nhập LynkOmni",
-  "signup_adult": "Tôi từ {age} tuổi trở lên, hoặc đủ tuổi thành niên nơi tôi sống",
-  "signup_adult_note": "Chúng tôi không bao giờ hỏi ngày sinh của bạn.",
   "signup_title": "Tạo tài khoản LynkOmni của bạn",
   "site_account": "Tài khoản",
   "site_merchant": "Ứng dụng doanh nghiệp",

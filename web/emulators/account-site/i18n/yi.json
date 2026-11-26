@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yi",
  "native": "ייִדיש",
- "source_sha256": "ccfc9e9f225b84f383f4ac1396ce13d79d24ad6889469d3dfcd1a5b33dda9511",
+ "source_sha256": "f35c3812957bce2e4ba8142c32980b9448e6738a678a629b4ff6a115ecd72d2f",
  "texts": {
   "active_sessions": "אַקטיווע סעסיעס",
   "add_passkey": "צולייגן אַ פּאַסשליסל",
@@ -305,8 +305,6 @@
   "signin_passkey_hint": "אײַער טעלעפֿאָן אָדער קאָמפּיוטער באַשטעטיקט אַז דאָס זענט איר. קיין פּאַראָל צו געדענקען.",
   "signin_pin": "גיט אַרײַן אײַער PIN אויף אַ רעגיסטרירטן טעלעפֿאָן",
   "signin_title": "אַרײַנלאָגירן אין LynkOmni",
-  "signup_adult": "איך בין {age} יאָר אָדער עלטער, אָדער דערוואַקסן לויטן געזעץ וווּ איך וווין",
-  "signup_adult_note": "מיר פֿרעגן קיין מאָל נישט אײַער געבורט־טאָג.",
   "signup_title": "שאַפֿט אײַער LynkOmni קאָנטע",
   "site_account": "קאָנטע",
   "site_merchant": "געשעפֿט אַפּ",

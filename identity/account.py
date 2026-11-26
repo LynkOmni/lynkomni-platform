@@ -63,7 +63,8 @@ class Account:
         create table if not exists acct_people(person text primary key, lynkid text, username text, lang text, status text, closes_at real, contact_ok int);
         create table if not exists acct_contacts(person text, kind text, code_hash text, expires real, primary key(person, kind));
         create table if not exists acct_code_sends(person text, kind text, at real);
-        create table if not exists acct_signup(person text primary key, country text, legal_ref text, email_ok int, phone_ok int, basic int, device text, network text, at real);
+        create table if not exists acct_signup(person text primary key, country text, legal_ref text, email_ok int, phone_ok int, basic int, device text, network text, at real, age_checked real);
+        create table if not exists acct_age_waits(key text, at real);
         create table if not exists acct_signup_tries(device text, network text, at real);
         create table if not exists acct_number_checks(person text primary key, confirmed real, reminded real);
         create table if not exists acct_idchecks(lover text primary key, person text, purpose text, state text, partner text, requested real, answered real);
@@ -116,16 +117,36 @@ class Account:
         if not ok:
             if why == "connect_to_create": raise ConnectionError("connect to the internet to create your account; what you typed is kept")
             raise PermissionError("too many new accounts from here this hour: try again later")
+        if s.age_waiting(device=device, network=network, now=t):
+            raise PermissionError("an account cannot be created from here right now: try again tomorrow")
         if adult_confirmed is not True:
-            raise PermissionError(f"confirm you are {s.minimum_age(country)} or older")
+            raise PermissionError("the age check on the device must say adult")
         c = username_check(username)
         if not c["ok"]: raise ValueError(c["reason"])
         if s.usernames.status(username) != "available": raise ValueError(s.usernames.status(username))
         s.db.execute("insert into acct_signup_tries values(?,?,?)", (device, network, t))
         p = s.idp.register_person(lang); u = s.usernames.take(username, p["lynkid"], "person")
         s.db.execute("insert into acct_people values(?,?,?,?,?,?,0)", (p["internal"], p["lynkid"], u, lang, "signing_up", None))
-        s.db.execute("insert into acct_signup values(?,?,null,0,0,0,?,?,?)", (p["internal"], country, device, network, t)); s.db.commit()
+        s.db.execute("insert into acct_signup values(?,?,null,0,0,0,?,?,?,?)", (p["internal"], country, device, network, t, t)); s.db.commit()
         return {"person": p["internal"], "lynkid": p["lynkid"], "username": u, "next": "legal_name"}
+    @staticmethod
+    def _age_keys(device=None, network=None, number_digest=None):
+        return [f"{k}:{v}" for k, v in (("device", device), ("network", network), ("phone_number", number_digest)) if v]
+    def age_refused(s, device=None, network=None, number_digest=None, now=None):
+        """The device's age check said under: no instant retry from that device, network or (basic phone) number for the
+        register's wait. Nothing about the person is kept: no date, no age, no name, only the key and the time."""
+        t = _now(now)
+        for k in s._age_keys(device, network, number_digest):
+            s.db.execute("insert into acct_age_waits values(?,?)", (k, t))
+        s.db.commit()
+    def age_waiting(s, device=None, network=None, number_digest=None, now=None):
+        from core import ways_in
+        t = _now(now)
+        for k in s._age_keys(device, network, number_digest):
+            r = s.db.execute("select max(at) from acct_age_waits where key=?", (k,)).fetchone()
+            if r and r[0] is not None and ways_in.age_wait(r[0], t):
+                return True
+        return False
     def set_legal_name(s, person, legal_name, legal_ref):
         """The legal name as on the person's ID document (a business gives its registered name), asked once and kept apart from
         the display name so the phone owner check can match it. The text is checked here and kept only in the PII vault;

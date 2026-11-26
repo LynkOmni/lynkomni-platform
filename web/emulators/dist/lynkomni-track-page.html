@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-X9dWKk95AG8Ag8oF3FJiu/s+H2OIWohYQD8IxxXMvXo='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-BN+qqO6VgOkRGqd86o2mz6VI1d20pQTF3haCof2DvGw='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni Tracking Page</title>
 <meta name="description" content="Interactive emulator of the page a customer opens from a tracking link, with no account: each step of the order and its delivery, the promised time, live progress as a share of the trip, a missed promise, and a choice to hear each step by text message or chat.">
@@ -1325,7 +1325,7 @@ function enhanceFields(root, t) {
     if (!fields)
         return;
     for (const el of root.querySelectorAll("input, textarea, select")) {
-        if (el.hasAttribute("maxlength") && !(el instanceof HTMLSelectElement) && !el.matches(PH_SENSITIVE) && !el.nextElementSibling?.classList.contains("ph-count")) {
+        if (el.hasAttribute("maxlength") && el.getAttribute("data-count") !== "off" && !(el instanceof HTMLSelectElement) && !el.matches(PH_SENSITIVE) && !el.nextElementSibling?.classList.contains("ph-count")) {
             const max = Number(el.getAttribute("maxlength"));
             if (max > 0)
                 el.insertAdjacentHTML("afterend", `<span class="ph-count" aria-hidden="true">${phEsc(counterText(el.value.length, max, el))}</span>`);

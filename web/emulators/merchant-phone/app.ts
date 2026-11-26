@@ -1714,7 +1714,7 @@ let WY_SEED = 20261126;
 const wySample = (k: number): number => { WY_SEED = (WY_SEED * 1103515245 + 12345) % 2147483648; return Math.floor((WY_SEED / 2147483648) * k); };
 const WY = waysStart(Math.floor(Date.now() / 1000), wySample);
 const WY_TYPED: Record<string, string> = {};
-const wyLook = (): WaysLook => ({ t, icon: (id) => icon(id), when: (s0) => clock(s0 * 1000), num: (n) => String(n), btn: { primary: "primary", secondary: "ghost" },
+const wyLook = (): WaysLook => ({ lang: S.lang, t, icon: (id) => icon(id), when: (s0) => clock(s0 * 1000), num: (n) => String(n), btn: { primary: "primary", secondary: "ghost" },
   phoneField: (id, label) => phoneField(id, label, WY_TYPED[id] ?? ""),
   emailField: (id, label) => emailFieldHtml({ t }, { id, label, text: WY_TYPED[id] ?? "" }),
   codeField: (id, label) => codeFieldHtml(fieldCtx(), { id, label, value: WY_TYPED[id] ?? "" }) });

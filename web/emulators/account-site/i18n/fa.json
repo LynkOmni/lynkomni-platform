@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fa",
  "native": "فارسی",
- "source_sha256": "ccfc9e9f225b84f383f4ac1396ce13d79d24ad6889469d3dfcd1a5b33dda9511",
+ "source_sha256": "f35c3812957bce2e4ba8142c32980b9448e6738a678a629b4ff6a115ecd72d2f",
  "texts": {
   "active_sessions": "نشست‌های فعال",
   "add_passkey": "افزودن کلید عبور",
@@ -305,8 +305,6 @@
   "signin_passkey_hint": "تلفن یا رایانه شما تأیید می‌کند که خود شما هستید. نیازی به حفظ رمز عبور نیست.",
   "signin_pin": "PIN خود را روی تلفن ثبت‌شده وارد کنید",
   "signin_title": "ورود به LynkOmni",
-  "signup_adult": "من {age} ساله یا بزرگ‌ترم، یا در محل زندگی‌ام به سن قانونی رسیده‌ام",
-  "signup_adult_note": "ما هرگز تاریخ تولد شما را نمی‌پرسیم.",
   "signup_title": "حساب LynkOmni خود را بسازید",
   "site_account": "حساب",
   "site_merchant": "برنامه کسب‌وکار",

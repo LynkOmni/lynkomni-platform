@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-XS4AK/tFKZPmXGd9qeXdCRcZqpcs0ogP/nLdDp+Mz24='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-fxVumGq7nIebf96Sjf+mxyDFHBvhCwO/mf9fv22qPDE='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkPOS Kitchen Screen</title>
 <meta name="description" content="Interactive emulator of the kitchen screen for restaurant mode (N1): a wall-mounted display that shows every table order as it is sent from the till, with a bump bar to mark items ready. Works offline over the shop's network or LynkMesh.">
@@ -1332,7 +1332,7 @@ function enhanceFields(root, t) {
     if (!fields)
         return;
     for (const el of root.querySelectorAll("input, textarea, select")) {
-        if (el.hasAttribute("maxlength") && !(el instanceof HTMLSelectElement) && !el.matches(PH_SENSITIVE) && !el.nextElementSibling?.classList.contains("ph-count")) {
+        if (el.hasAttribute("maxlength") && el.getAttribute("data-count") !== "off" && !(el instanceof HTMLSelectElement) && !el.matches(PH_SENSITIVE) && !el.nextElementSibling?.classList.contains("ph-count")) {
             const max = Number(el.getAttribute("maxlength"));
             if (max > 0)
                 el.insertAdjacentHTML("afterend", `<span class="ph-count" aria-hidden="true">${phEsc(counterText(el.value.length, max, el))}</span>`);

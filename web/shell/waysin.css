@@ -10,6 +10,12 @@
 .wy-bar li.on { background: var(--brand-ink); }
 .wy-field { display: flex; flex-direction: column; gap: 4px; font: 600 13px var(--font-body); color: var(--text-secondary); }
 .wy-field input { box-sizing: border-box; min-block-size: 48px; max-inline-size: 100%; padding-inline: 12px; border: 1px solid var(--border-input); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font: 400 16px var(--font-body); }
+.wy-date { border: 0; margin: 0; padding: 0; min-inline-size: 0; }
+.wy-date legend { padding: 0; margin-block-end: 4px; font: 600 13px var(--font-body); color: var(--text-secondary); }
+.wy-date-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.wy-date-part { display: flex; flex-direction: column; gap: 4px; flex: 1 1 4.5em; min-inline-size: 4.5em; font: 400 13px var(--font-body); color: var(--text-secondary); }
+.wy-date-part:has(input[maxlength="4"]) { flex-grow: 1.6; }
+.wy-date-part input { box-sizing: border-box; inline-size: 100%; min-block-size: 48px; padding-inline: 12px; border: 1px solid var(--border-input); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font: 400 16px var(--font-body); text-align: center; }
 .wy-check { display: flex; align-items: center; gap: 8px; min-block-size: 44px; overflow-wrap: anywhere; }
 .wy-check input { inline-size: 20px; block-size: 20px; flex: none; margin: 0; }
 .wy-ways, .wy-btns, .wy-links { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }

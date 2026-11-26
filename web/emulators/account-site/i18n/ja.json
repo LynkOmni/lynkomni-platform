@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "ccfc9e9f225b84f383f4ac1396ce13d79d24ad6889469d3dfcd1a5b33dda9511",
+ "source_sha256": "f35c3812957bce2e4ba8142c32980b9448e6738a678a629b4ff6a115ecd72d2f",
  "texts": {
   "active_sessions": "有効なセッション",
   "add_passkey": "パスキーを追加",
@@ -305,8 +305,6 @@
   "signin_passkey_hint": "お使いのスマートフォンやパソコンが本人確認を行います。覚えるパスワードはありません。",
   "signin_pin": "登録済みのスマートフォンで PIN を入力してください",
   "signin_title": "LynkOmni にサインイン",
-  "signup_adult": "私は {age} 歳以上、または住んでいる地域で成年に達しています",
-  "signup_adult_note": "生年月日をお聞きすることはありません。",
   "signup_title": "LynkOmni アカウントを作成",
   "site_account": "アカウント",
   "site_merchant": "ビジネスアプリ",

@@ -23,6 +23,12 @@ def build():
     return {"version": 1, "description": "Sign-up, sign-in, protections, recovery and resets (section 4C points 3 and 5). core/ways_in.py is the reference.",
             "sign_up_next": [{"done": steps[:i], "expect": WI.sign_up_next(steps[:i])} for i in range(len(steps) + 1)] + [{"done": ["phone", "country"], "expect": WI.sign_up_next(["phone", "country"])}],
             "may_start": [{"a": [o, d, n], "expect": list(WI.may_start_sign_up(o, d, n))} for o in (True, False) for d in (0, 2, 3) for n in (0, 9, 10)],
+            "age_check": [{"a": [y, m, d, td, n], "expect": WI.age_check(y, m, d, td, n)} for y, m, d, td, n in (
+                (2008, 11, 26, (2026, 11, 26), 18), (2008, 11, 27, (2026, 11, 26), 18), (2005, 6, 1, (2026, 11, 26), 21), (2004, 6, 1, (2026, 11, 26), 21),
+                (2008, 2, 29, (2026, 2, 28), 18), (2008, 2, 29, (2026, 3, 1), 18), (2008, 2, 29, (2028, 2, 29), 20), (2027, 1, 1, (2026, 11, 26), 18),
+                (2025, 2, 29, (2026, 1, 1), 18), (2024, 2, 29, (2026, 1, 1), 18), (1906, 1, 1, (2026, 1, 1), 18), (1905, 12, 31, (2026, 1, 1), 18),
+                (2000, 13, 1, (2026, 1, 1), 18), (2000, 4, 31, (2026, 1, 1), 18), (2000, 0, 1, (2026, 1, 1), 18), (2000, 1, 0, (2026, 1, 1), 18))],
+            "age_wait": [{"a": [r, n], "expect": WI.age_wait(r, n)} for r, n in ((None, 0), (0, 23 * H), (0, 24 * H), (100, 100))],
             "legal_name": [{"a": x, "expect": WI.legal_name_problem(x)} for x in ("", "A", "Grace Uwase", "  Jean   Claude  Habimana ", "R2D2", "x" * 101, "Nguyễn Thị Lan", "محمد علي")],
             "basic": [{"a": [a, e], "expect": WI.basic_phone_allows(a, e)} for a in ("payouts", "cards", "exchange", "storefront_selling", "cash_sale", "messages") for e in (False, True)],
             "identifier": [{"a": x, "expect": WI.identifier_kind(x)} for x in ("grace.shop", "grace@example.com", "+237 671 23 45 67", "0788123456", "678889666", "shop2024", "", "  12 ")],

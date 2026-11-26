@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "ccfc9e9f225b84f383f4ac1396ce13d79d24ad6889469d3dfcd1a5b33dda9511",
+ "source_sha256": "f35c3812957bce2e4ba8142c32980b9448e6738a678a629b4ff6a115ecd72d2f",
  "texts": {
   "active_sessions": "הפעלות פעילות",
   "add_passkey": "הוסף מפתח גישה",
@@ -305,8 +305,6 @@
   "signin_passkey_hint": "הטלפון או המחשב שלך מאשרים שזה אתה. אין סיסמה לזכור.",
   "signin_pin": "הזן את ה-PIN שלך בטלפון רשום",
   "signin_title": "כניסה ל-LynkOmni",
-  "signup_adult": "גילי {age} ומעלה, או שהגעתי לגיל הבגרות במקום מגוריי",
-  "signup_adult_note": "לעולם לא נבקש את תאריך הלידה שלך.",
   "signup_title": "צור את חשבון LynkOmni שלך",
   "site_account": "חשבון",
   "site_merchant": "אפליקציית העסק",
