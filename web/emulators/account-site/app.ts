@@ -1,6 +1,7 @@
 /* LynkOmni Account (account.lynkomni.com) in a browser window and on a phone (build section 2). Every part of the frame comes
  * from ts/src/shell.ts and every rule from ts/src/account.ts; this file holds the sample person, the screens and the event log.
  * Words come from web/shell/strings.en.json (the shell) and strings.en.json (this site) and their language packs. */
+import { anyDeviceHtml } from "../../../ts/src/devicenote.js";
 import { PAGE_RETRY, PageWait } from "../../../ts/src/placeholder.js";
 import { hintFor } from "../../../ts/src/hints.js";
 import { STATE_PICTURE, Undo, accountMenu, viewSheet, IFACE_NAME, commandBar, connectionChip, esc, filterRegions, globeSheet, regionName, header, helpPanel, launcher, maskId, navigation, search, state, comingSoon, syncSheet, translator, undoToast, usernameField } from "../../../ts/src/shell.js";
@@ -493,7 +494,7 @@ function overlay(): string {
 
 let lastOverlay: Overlay = null;
 const WAIT = new PageWait(), FIRST = { on: false };
-function draw(): void {
+function draw(): void { const dv = document.getElementById("cDevice"); if (dv) dv.innerHTML = anyDeviceHtml(t);   /* how this device is used (owner, 2026-11-26) */
   if (lastOverlay === "bell" && S.overlay !== "bell" && S.overlay !== "why") S.lastOpened = Date.now();   // New becomes Earlier once the bell was seen
   if (S.overlay === "bell") S.lines.forEach((l) => { l.seen = true; });
   lastOverlay = S.overlay;

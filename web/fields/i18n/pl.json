@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pl",
  "native": "Polski",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "Najpierw dodaj produkt do koszyka.",
   "fd_ask_manager": "Kierownik lub właściciel może pomóc.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "Wpisz pełną kwotę, którą dał klient.",
   "fd_error": "Błąd",
   "fd_example": "Przykład: {sample}",
+  "fd_find": "Szukaj",
+  "fd_find_none": "Brak wyników. Spróbuj mniej liter.",
   "fd_go_online": "Połącz się z internetem i spróbuj ponownie.",
   "fd_go_to": "Przejdź do: {field}",
   "fd_info": "Informacja",

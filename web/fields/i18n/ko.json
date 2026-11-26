@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "먼저 장바구니에 상품을 담으세요.",
   "fd_ask_manager": "관리자나 소유자가 도와줄 수 있습니다.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "고객이 낸 금액 전체를 입력하세요.",
   "fd_error": "오류",
   "fd_example": "예: {sample}",
+  "fd_find": "찾기",
+  "fd_find_none": "일치하는 항목이 없습니다. 글자를 줄여 보세요.",
   "fd_go_online": "인터넷에 연결한 뒤 다시 시도하세요.",
   "fd_go_to": "{field}(으)로 이동",
   "fd_info": "안내",

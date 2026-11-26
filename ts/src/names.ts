@@ -7,6 +7,7 @@
  *  - watchNames runs explainNames whenever a screen redraws, so no screen has to remember to.
  *  Names are the same in every language; plain words (web/names, nm_<id>) and descriptions (web/nameinfo, nma_<id>) are
  *  translated. A person may choose plain words first; the owner may switch it on for the business's devices. */
+import { watchChoosers } from "./chooser.js";
 import { NAMES_EN, NAMES_REG } from "./names.generated.js";
 
 export type Say = (key: string, vars?: Record<string, string | number>) => string;
@@ -210,6 +211,7 @@ export function watchNames(root: Element, say: () => Say | undefined, mode: () =
   const Obs = view?.MutationObserver;
   explainNames(root, say(), mode());
   nmWireTips(root, say);
+  watchChoosers(root, say);   // every page runs this watcher, so every choice on every page becomes LynkOmni's own drop-down
   if (!Obs) return () => undefined;
   // New text is marked just after the screen is shown, not while it is being drawn: checking whether a line has room for the
   // plain word needs the page's styles, and reading them in the middle of a redraw made the browser work the whole screen out

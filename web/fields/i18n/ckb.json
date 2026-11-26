@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ckb",
  "native": "کوردی",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "سەرەتا کاڵایەک بخەرە سەبەتەکەوە.",
   "fd_ask_manager": "بەڕێوەبەرێک یان خاوەن دەتوانن یارمەتی بدەن.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "تەواوی ئەو بڕەی کڕیار دای بنووسە.",
   "fd_error": "هەڵە",
   "fd_example": "نموونە: {sample}",
+  "fd_find": "گەڕان",
+  "fd_find_none": "هیچ شتێک نەدۆزرایەوە. پیتی کەمتر تاقی بکەرەوە.",
   "fd_go_online": "ئینتەرنێت پەیوەست بکە، پاشان دووبارە هەوڵ بدەوە.",
   "fd_go_to": "بڕۆ بۆ {field}",
   "fd_info": "زانیاری",

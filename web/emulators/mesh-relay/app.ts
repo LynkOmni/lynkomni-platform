@@ -2,6 +2,7 @@
  *  queued batch (services/sealing.py in the reference) and hands it to device B nearby, which has one. B can neither read nor
  *  change the batch: it only carries it. The sale on A shows "sent, awaiting cloud" until the cloud accepts it, and a relay can
  *  never produce "confirmed". LynkMesh carries data, never money, and takes no fee. A tampered batch is refused by the cloud. */
+import { anyDeviceHtml } from "../../../ts/src/devicenote.js";
 import { Cart, salePayload } from "../../../ts/src/pos.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, reducedMotion, stateButtons } from "../../../ts/src/emulator.js";
@@ -52,7 +53,7 @@ function draw(): void {
   $("#cloud").innerHTML = `${icon("ui-globe")}<span>${latest ? esc(t(latest.state === "accepted" ? "st_accepted" : latest.state === "failed" ? "st_failed" : "st_sent")) : ""}</span>`;
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["country", "dark", "lang"], S, W, C);
+  $("#panel").innerHTML = panelHtml(["country", "dark", "lang"], S, W, C) + anyDeviceHtml(t);
   $("#panel").insertAdjacentHTML("afterbegin", `<label><input type="checkbox" id="bOnline" ${S.bOnline ? "checked" : ""}> <span>B: ${esc(t("internet"))}</span></label><label><input type="checkbox" id="tamper" ${S.tamper ? "checked" : ""}> <span>${esc(t("tamper_test"))}</span></label>`);
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["queued", "relaying", "accepted", "refused"], (k) => { S.batches = []; S.aQueued = 0; sell(); sell(); if (k !== "queued") { S.tamper = k === "refused"; relay(); if (k !== "relaying") { S.moving = false; const b = S.batches[0]; if (b) cloud(b); } } panel(); draw(); });

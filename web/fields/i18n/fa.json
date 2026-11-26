@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fa",
  "native": "فارسی",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "اول یک کالا به سبد اضافه کنید.",
   "fd_ask_manager": "یک مدیر یا مالک می‌تواند کمک کند.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "کل مبلغی را که مشتری داد بنویسید.",
   "fd_error": "خطا",
   "fd_example": "نمونه: {sample}",
+  "fd_find": "جستجو",
+  "fd_find_none": "چیزی پیدا نشد. حروف کمتری امتحان کنید.",
   "fd_go_online": "به اینترنت وصل شوید، سپس دوباره امتحان کنید.",
   "fd_go_to": "رفتن به {field}",
   "fd_info": "اطلاعات",

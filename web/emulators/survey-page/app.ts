@@ -8,7 +8,7 @@ import { layoutFor } from "../../../ts/src/interfaces.js";
 import { applyLayout, turnedShape } from "../../../ts/src/turn.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import type { UserState } from "../../../ts/src/pos.js";
-import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
+import { DeviceMode, wireDevice, deviceChoiceHtml } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { SurveyDesk, svPhoneView, svScreenView, svTemplate } from "../../../ts/src/surveydesk.js";
 import { wireCodes } from "../../../ts/src/codefield.js";
@@ -57,7 +57,7 @@ function reset(k: string): void {
   if (k === "done") D.phone.step = "done";
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "firstopen", "plan", "country", "dark", "lang", "turn"], S, W, C, { tiers: TIERS });
+  $("#panel").innerHTML = panelHtml(["online", "firstopen", "plan", "country", "dark", "lang", "turn"], S, W, C, { tiers: TIERS }) + deviceChoiceHtml(DM, t);
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["consent", "question", "anonymous", "sensitive", "one-per-phone", "done", "closed"], (k) => { reset(k); draw(); });
 }

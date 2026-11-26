@@ -166,8 +166,14 @@ function slip(): string {
     ${why ? noticeHtml(t, { level: S.online ? "info" : "warning", text: t(why) }) : S.online ? "" : `<p class="bnote">${esc(t("bt_queued_note"))}</p>`}
     <div class="bactions"><button type="button" class="primary" data-act="send" data-wait${why ? ` disabled data-why="${esc(t(why))}"` : ""}>${esc(t(S.online ? "bt_send" : "bt_queue"))}</button></div>`;
 }
+/** The emulator has no paper ticket to hold under its scanner, so Scan with nothing in front of it offers the sample tickets,
+ *  each labelled Sample; picking one goes through the real check. A real counter reads the ticket when it is held under the
+ *  scanner (or the camera, when the device has no scanner) and never shows this list (owner, 2026-11-26). */
+const SAMPLE_WORDS: Record<string, string> = { win: "bt_sample_win", win_second: "bt_sample_win_second", big_win: "bt_sample_big_win", paid: "bt_sample_paid", pending: "bt_sample_pending", lost: "bt_sample_lost", expired: "bt_sample_expired", unknown: "bt_sample_unknown" };
+let SAMPLE_LIST = false;
 function checkView(): string {
-  return bar(t("bt_check")) + `<p>${esc(t("bt_scan_hint"))}</p>${S.online ? "" : noticeHtml(t, { level: "error", text: t("bt_payout_offline"), how: t("fd_go_online") })}<div class="bactions"><button type="button" class="primary" data-act="scan">${icon("ui-qr")} ${esc(t("scan"))}</button></div>`;
+  const list = SAMPLE_LIST ? `<h3>${esc(t("bt_scan_samples"))}</h3><div class="bactions bsamples">${Object.keys(SAMPLES).map((k) => `<button type="button" data-act="sample:${k}">${esc(t("bt_sample"))}: ${esc(t(SAMPLE_WORDS[k] ?? "bt_sample_unknown"))}</button>`).join("")}</div>` : "";
+  return bar(t("bt_check")) + `<p>${esc(t("bt_scan_hint"))}</p>${S.online ? "" : noticeHtml(t, { level: "error", text: t("bt_payout_offline"), how: t("fd_go_online") })}<div class="bactions"><button type="button" class="primary" data-act="scan">${icon("ui-qr")} ${esc(t("scan"))}</button></div>${list}`;
 }
 function answerView(): string {
   const tk = S.ticket, a = S.answer;
@@ -452,7 +458,8 @@ function act(a: string): void {
   if (k === "newbet") { S.bet = null; S.sels = []; S.age = false; S.drawerOpen = false; S.cancelManager = false; S.approvedBy = ""; S.view = "games"; draw(); return; }
   if (k === "cancel") { cancelBet(); return; }
   if (k === "reprint") { if (S.bet) ticketPaper(S.bet, true); return; }
-  if (k === "scan") { scanned(null); return; }
+  if (k === "scan") { if (!S.placed.some((p) => p.state === "confirmed")) { SAMPLE_LIST = true; draw(); return; } scanned(null); return; }
+  if (k === "sample") { const f = SAMPLES[x]; SAMPLE_LIST = false; if (f) scanned(f()); return; }
   if (k === "lock") { lock(); return; }
   if (k === "handover") { handover(); return; }
   if (k === "dispute") { const tk = S.ticket; if (tk) { S.disputes.push(tk.code); LOG.emit("BetDisputeOpened", { dispute_id: newId(), ticket_ref: tk.code }, "device", S.online ? "sent" : "queued"); } draw(); return; }

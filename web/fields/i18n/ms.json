@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "Tambah item ke bakul dahulu.",
   "fd_ask_manager": "Pengurus atau pemilik boleh membantu.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "Taip jumlah penuh yang diberi pelanggan.",
   "fd_error": "Ralat",
   "fd_example": "Contoh: {sample}",
+  "fd_find": "Cari",
+  "fd_find_none": "Tiada padanan. Cuba kurangkan huruf.",
   "fd_go_online": "Sambung ke internet, kemudian cuba lagi.",
   "fd_go_to": "Pergi ke {field}",
   "fd_info": "Maklumat",

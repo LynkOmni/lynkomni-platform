@@ -15,7 +15,7 @@ import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
 import type { Entry } from "../../../ts/src/shell.js";
-import { DeviceMode } from "../../../ts/src/devicemode.js";
+import { DeviceMode, deviceChoiceHtml } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { firstColumnHtml, launcherGroupsHtml, orderedMenuHtml } from "../../../ts/src/appshell.js";
 import type { BarLook } from "../../../ts/src/appshell.js";
@@ -279,7 +279,7 @@ function act(a: string): void {
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["plan", "firstopen", "country", "dark", "lang"], S, W, C, { tiers: TIERS }) + `<label><input type="checkbox" data-ctl="ads"${AD.on ? " checked" : ""}> <span>${esc(t("ad_sponsored"))} · ${esc(t("ad_sample"))}</span></label>`;
+  $("#panel").innerHTML = panelHtml(["plan", "firstopen", "country", "dark", "lang"], S, W, C, { tiers: TIERS }) + deviceChoiceHtml(DM, t) + `<label><input type="checkbox" data-ctl="ads"${AD.on ? " checked" : ""}> <span>${esc(t("ad_sponsored"))} · ${esc(t("ad_sample"))}</span></label>`;
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   const OFFICE_STATES = OFFICE_SERVICES.flatMap((svc) => OV.pages(svc).map((p) => p.id));
   const WORK_STATES = WORK_SERVICES.flatMap((svc) => WV.pages(svc).map((p) => p.id));        // every LynkHR, LynkProject and LynkFiles page too        // every office page, so every check visits it
@@ -304,7 +304,7 @@ function main(): void {
   document.addEventListener("change", (e) => { const el = e.target as HTMLSelectElement; if (el.tagName === "SELECT" && (el.dataset["in"] ?? "").startsWith("shv:")) { if (sharedInput(SHV, el.dataset["in"] ?? "", el.value)) draw(); return; } if (el.closest("#screen") && el.tagName === "SELECT" && (trkInput(el.dataset["in"] ?? "", el.value) || WV.input(el.dataset["in"] ?? "", el.value) || OV.input(el.dataset["in"] ?? "", el.value))) draw(); });
   document.addEventListener("keydown", (e) => { DSH.key(e); });
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
-  $("#panel").addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["ctl"] === "ads") { AD.on = el.checked; AD.why = false; AD.reported = false; draw(); return; } if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });
+  $("#panel").addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["ctl"] === "version") { DM.version = el.value === "touch" ? "touch" : "non_touch"; panel(); draw(); return; } if (el.dataset["ctl"] === "ads") { AD.on = el.checked; AD.why = false; AD.reported = false; draw(); return; } if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 1180);
 }
 main();

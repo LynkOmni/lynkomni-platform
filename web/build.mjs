@@ -78,7 +78,7 @@ for (const e of EMULATORS) {
   const fields = appSrc.includes("ts/src/fields.js") ? ["ts/src/phone.generated.js", "ts/src/codefield.js", "ts/src/emailfield.js", "ts/src/phone.js", "ts/src/fields.js"]
     : appSrc.includes("ts/src/emailfield.js") ? ["ts/src/phone.generated.js", "ts/src/emailfield.js"]
     : e.modules.includes("ts/src/surveydesk.js") ? ["ts/src/phone.generated.js", "ts/src/codefield.js"] : [];   // the survey page asks only for a code
-  const add = ["ts/src/errorbox.js", ...fields, "ts/src/names.generated.js", "ts/src/names.js", ...(NAME_INFO.includes(e.id) ? ["ts/src/nameinfo.js"] : [])];
+  const add = ["ts/src/errorbox.js", ...fields, "ts/src/chooser.js", "ts/src/devicenote.js", "ts/src/names.generated.js", "ts/src/names.js", ...(NAME_INFO.includes(e.id) ? ["ts/src/nameinfo.js"] : [])];
   e.modules.splice(at < 0 ? e.modules.length - 1 : at, 0, ...add);
 }
 

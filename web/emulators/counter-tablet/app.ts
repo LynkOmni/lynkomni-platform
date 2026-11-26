@@ -28,7 +28,7 @@ const STAFF = new StaffLock([
 let WHO = "c1", PICKING = false, LIMITED = false, PINNOTE = "", PINHARD = false;
 let LINES: Line[] = [];
 import type { Entry } from "../../../ts/src/shell.js";
-import { DeviceMode } from "../../../ts/src/devicemode.js";
+import { DeviceMode, deviceChoiceHtml } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
 import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
@@ -336,7 +336,7 @@ const DM = new DeviceMode(DEVICES, "wall-tablet");
  *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
 const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "pos.counter_tablet", "Counter tablet", { short_side: 800, touch: true, camera: true, speaker: true, device_print: true }, "android"), (type, payload, origin) => { LOG.emit(type, payload, origin); });
 const KW = wireKit(KIT, { t, icon: (id, cls) => icon(id, cls), online: () => S.online, redraw: () => draw() });
-function draw(): void { drawScreen(); KW.after($("#screen").querySelector(".app") as HTMLElement); }
+function draw(): void { const dv = document.getElementById("cDevice"); if (dv) dv.innerHTML = deviceChoiceHtml(DM, t);   /* how this device is used (owner, 2026-11-26) */ drawScreen(); KW.after($("#screen").querySelector(".app") as HTMLElement); }
 function drawScreen(): void {
   const screen = $("#screen"), app = screen.querySelector(".app") as HTMLElement; DM.apply(screen);
   screen.classList.toggle("light", !S.dark); screen.classList.toggle("dark", S.dark); screen.classList.toggle("lowlit", DSH.pictures); applyRoot(screen, W);
