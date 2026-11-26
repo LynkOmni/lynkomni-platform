@@ -2,6 +2,12 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.122.2 (2026-11-26)
+Every handle field shows @username (owner, from the sign-up screen).
+- The example in every username and handle field (sign-up, sign-in, the shop handle in the Business app, the shared account field) is now "@username" instead of "your.name", which made people think a full stop was needed. One example everywhere: ts/src/hints.ts FORMAT_HINTS and the same plain string in the shared shell.
+- A typed @ is ignored everywhere (usernames normalize), so "@mamas.kitchen" and "mamas.kitchen" are the same handle; the shell field's separate @ sign is gone so the @ never shows twice.
+- tests/test_placeholders.py HandleHint fails if "your.name" comes back or a handle field drops the @username example.
+
 ## v0.122.1 (2026-11-26)
 Nothing on a screen is ever cut off, and every icon has its size (owner report from the kitchen screen).
 - The staff lock of every shared staff device (the PIN pad and "Who is using this device") scrolls inside its screen instead of being cut, and the person icon in the staff list and the Back and OK keys of the PIN pad have a fixed small size (shared parts web/device/deviceparts.css and web/shell/parts.css).

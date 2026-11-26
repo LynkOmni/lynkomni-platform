@@ -624,7 +624,7 @@ function act(a: string): void {
       if (alert.alert) { S.coolOffUntil = now + coolOffSeconds(S.advanced); record("CoolOffStarted", "server", { until: S.coolOffUntil }); tell("cool_off_started", "cooloff_title"); }
       S.screen = "overview"; draw(); return;
     }
-    case "username": S.username = v; S.cloud = S.link === "offline" ? "checking" : v === "mamas.kitchen" ? "taken" : v.length >= 3 ? "available" : null; draw(); return;
+    case "username": S.username = v.trim().replace(/^@/, "").toLowerCase(); S.cloud = S.link === "offline" ? "checking" : v === "mamas.kitchen" ? "taken" : v.length >= 3 ? "available" : null; draw(); return;
     case "signup": {
       if (v.startsWith("way:")) { S.signupWay = v === "way:email" ? "email" : "phone"; draw(); return; }
       if (v === "username" && S.cloud === "available") S.signUp.username = S.username;

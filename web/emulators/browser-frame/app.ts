@@ -434,7 +434,7 @@ function act(a: string): void {
     case "undo": { const r = S.undo.undo(v, Date.now()); record("AutomationUndone", "device", { id: v, result: r }); draw(); return; }
     case "chart": S.chartView = v.endsWith(":table") ? "table" : "chart"; draw(); return;
     case "chat": S.showOriginal = v === "lang:original" || v.startsWith("original:"); draw(); return;
-    case "username": S.username = v; S.cloud = S.link === "offline" ? "checking" : v === "mamas.kitchen" ? "taken" : "available"; draw(); return;
+    case "username": S.username = v.trim().replace(/^@/, "").toLowerCase(); S.cloud = S.link === "offline" ? "checking" : v === "mamas.kitchen" ? "taken" : "available"; draw(); return;
     case "notify": S.notified.add(v); record("NotifyMeSubscribed", "device", { service: v }); draw(); return;
     case "toggle": if (v === "datasaver") S.dataSaver = !S.dataSaver; if (v === "forced") S.forced = !S.forced; draw(); return;
     case "sync": if (S.link !== "offline" && !S.forced) { S.lastSync = Date.now(); S.events.forEach((e) => { if (e.sync === "queued") e.sync = "sent"; }); S.pending = 0; record("SyncCompleted", "server", {}); } S.overlay = null; draw(); return;

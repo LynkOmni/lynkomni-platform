@@ -185,3 +185,26 @@ class NoGapsLeft(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class HandleHint(unittest.TestCase):
+    """Every handle field (username, shop, business, developer app, partner, agent point) shows "@username" as its example,
+    never "your.name", which made people think a full stop was needed (owner, 2026-11-26). A typed @ is ignored."""
+    SOURCES = glob.glob(os.path.join(ROOT, "ts", "src", "*.ts")) + glob.glob(os.path.join(ROOT, "web", "emulators", "*", "app.ts"))
+
+    def test_the_hint_is_at_username(self):
+        with open(os.path.join(ROOT, "ts", "src", "hints.ts"), encoding="utf-8") as f:
+            self.assertIn('username: "@username"', f.read())
+
+    def test_no_old_example_and_every_handle_field_uses_the_hint(self):
+        for path in self.SOURCES:
+            with open(path, encoding="utf-8") as f:
+                src = f.read()
+            self.assertNotIn("your.name", src, path)
+            for m in re.finditer(r'<input[^>]*(?:id="(?:usernameIn|userIn|wyUser|handleIn)"|data-in="[^"]*user)[^>]*>', src):
+                tag = m.group(0)
+                self.assertTrue('hintFor("username"' in tag or 'placeholder="@username"' in tag, f"{path}: a handle field without the @username hint: {tag[:80]}")
+
+    def test_a_typed_at_is_ignored(self):
+        from core import usernames
+        self.assertEqual(usernames.normalize("@Mamas.Kitchen"), "mamas.kitchen")

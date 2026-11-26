@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-4dvB9c9GQt+m6keRb0/bbRluNOwbwQkdMtpEVIQoiAc='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-fa3PN0Ev7CpO3V0z4i9jq8t0nOYrwyS578JQ4yvqxnk='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkVCard Card</title>
 <meta name="description" content="Interactive emulator of the LynkVCard: the four tier faces as a real card that flips to its back, freeze (shown as frozen only when the issuer confirms) and card details shown only after a fresh check inside the licensed issuer's secure display, hidden again after a short time and never offline. No card number ever reaches this screen.">
@@ -3287,7 +3287,7 @@ function usernameField(value, cloud, taken, t, icon) {
         ok = true;
     }
     const sugg = value && !ok && cloud !== "checking" ? suggestions(value, taken) : [];
-    return `<div class="field username"><label for="usernameIn">${esc(t("username"))}</label><div class="uinput"><span class="at" aria-hidden="true">@</span><input id="usernameIn" type="text" value="${esc(value)}" autocapitalize="none" autocomplete="off" spellcheck="false" maxlength="30" inputmode="latin" aria-describedby="usernameMsg" aria-invalid="${tone === "danger"}" placeholder="your.name">${ok ? icon("ui-check", "ic ok") : ""}</div><p id="usernameMsg" class="fmsg ${tone}" aria-live="polite">${esc(msg)}</p>${sugg.length ? `<p class="sugg">${esc(t("username_try"))} ${sugg.map((s) => `<button class="chipbtn" data-act="username:${esc(s)}">@${esc(s)}</button>`).join(" ")}</p>` : ""}<p class="note">${esc(t("username_rule"))}</p></div>`;
+    return `<div class="field username"><label for="usernameIn">${esc(t("username"))}</label><div class="uinput"><input id="usernameIn" type="text" value="${esc(value)}" autocapitalize="none" autocomplete="off" spellcheck="false" maxlength="30" inputmode="latin" aria-describedby="usernameMsg" aria-invalid="${tone === "danger"}" placeholder="@username">${ok ? icon("ui-check", "ic ok") : ""}</div><p id="usernameMsg" class="fmsg ${tone}" aria-live="polite">${esc(msg)}</p>${sugg.length ? `<p class="sugg">${esc(t("username_try"))} ${sugg.map((s) => `<button class="chipbtn" data-act="username:${esc(s)}">@${esc(s)}</button>`).join(" ")}</p>` : ""}<p class="note">${esc(t("username_rule"))}</p></div>`;
 }
 function chartSummary(spec, t) {
     const s = spec.series[0];

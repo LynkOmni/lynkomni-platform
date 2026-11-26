@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-x9IU2DMpBD1vpUFsXlUwQdMjXAfL/e6PRjjzKooRiUU='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-2yTZbYuXk1r4FYcZ50xxpvLQkwJuJxn/24Q9jHzLfiY='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkFiles Signing Tablet</title>
 <meta name="description" content="Interactive emulator of the LynkFiles Signing Tablet: the person reads every page, signs exactly the version they saw with a finger, a stylus or their typed name, and gets the verification code, which never shows who signed.">
@@ -1457,7 +1457,7 @@ function uploadHtml(name, percent, state, t) {
 
 // ---- ts/src/hints.js
 const hEsc = (v) => v.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-const FORMAT_HINTS = { amount: "0", count: "0", email: "name@example.com", username: "your.name", phone: "123 456 789", code_short: "A1" };
+const FORMAT_HINTS = { amount: "0", count: "0", email: "name@example.com", username: "@username", phone: "123 456 789", code_short: "A1" };
 const SENSITIVE = ["pin", "password", "card", "otp", "one-time-code", "recovery", "cvv"];
 function readerDigits(text, lang) {
     if (!lang)
@@ -3358,7 +3358,7 @@ function usernameField(value, cloud, taken, t, icon) {
         ok = true;
     }
     const sugg = value && !ok && cloud !== "checking" ? suggestions(value, taken) : [];
-    return `<div class="field username"><label for="usernameIn">${esc(t("username"))}</label><div class="uinput"><span class="at" aria-hidden="true">@</span><input id="usernameIn" type="text" value="${esc(value)}" autocapitalize="none" autocomplete="off" spellcheck="false" maxlength="30" inputmode="latin" aria-describedby="usernameMsg" aria-invalid="${tone === "danger"}" placeholder="your.name">${ok ? icon("ui-check", "ic ok") : ""}</div><p id="usernameMsg" class="fmsg ${tone}" aria-live="polite">${esc(msg)}</p>${sugg.length ? `<p class="sugg">${esc(t("username_try"))} ${sugg.map((s) => `<button class="chipbtn" data-act="username:${esc(s)}">@${esc(s)}</button>`).join(" ")}</p>` : ""}<p class="note">${esc(t("username_rule"))}</p></div>`;
+    return `<div class="field username"><label for="usernameIn">${esc(t("username"))}</label><div class="uinput"><input id="usernameIn" type="text" value="${esc(value)}" autocapitalize="none" autocomplete="off" spellcheck="false" maxlength="30" inputmode="latin" aria-describedby="usernameMsg" aria-invalid="${tone === "danger"}" placeholder="@username">${ok ? icon("ui-check", "ic ok") : ""}</div><p id="usernameMsg" class="fmsg ${tone}" aria-live="polite">${esc(msg)}</p>${sugg.length ? `<p class="sugg">${esc(t("username_try"))} ${sugg.map((s) => `<button class="chipbtn" data-act="username:${esc(s)}">@${esc(s)}</button>`).join(" ")}</p>` : ""}<p class="note">${esc(t("username_rule"))}</p></div>`;
 }
 function chartSummary(spec, t) {
     const s = spec.series[0];

@@ -2136,7 +2136,7 @@ function onInput(el: HTMLInputElement): void {
     case "search": S.search = el.value.slice(0, 60); draw(); return;
     case "ask": S.ask = el.value.slice(0, 200); return;
     case "ppcode": PP.input = el.value.replace(/\D/g, "").slice(0, 6); PP.note = ""; draw(); return;
-    case "username": S.userDraft = el.value.slice(0, 40); draw(); return;
+    case "username": S.userDraft = el.value.trim().replace(/^@/, "").toLowerCase().slice(0, 40); draw(); return;
     case "shopname": S.shopName = el.value.slice(0, 60); return;
   }
 }
