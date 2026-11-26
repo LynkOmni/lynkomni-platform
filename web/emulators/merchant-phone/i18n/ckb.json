@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ckb",
  "native": "کوردی",
- "source_sha256": "f4e7142fbf813933ed8f3040e8c8e173d54d8f521390febb028a0363e805461b",
+ "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
  "texts": {
   "account": "هەژمار",
   "active": "چالاک",
@@ -342,7 +342,7 @@
   "it_time_clock": "کاتژمێری ئامادەبوون",
   "it_timeline": "هێڵی کات",
   "it_unusual": "نائاسایی",
-  "it_username": "ناوی بەکارهێنەری دوکان",
+  "it_username": "ناسنامەی دوکان",
   "it_waiting": "چاوەڕێ",
   "it_waiting_services": "بەم زووانە لە وڵاتەکەت",
   "it_who_owes_me": "کێ قەرزداری منە",

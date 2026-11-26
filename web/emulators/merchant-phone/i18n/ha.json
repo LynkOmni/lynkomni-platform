@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "f4e7142fbf813933ed8f3040e8c8e173d54d8f521390febb028a0363e805461b",
+ "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
  "texts": {
   "account": "Asusu",
   "active": "Mai aiki",
@@ -342,7 +342,7 @@
   "it_time_clock": "Agogon aiki",
   "it_timeline": "Jerin lokaci",
   "it_unusual": "Baƙon abu",
-  "it_username": "Sunan mai amfani na shago",
+  "it_username": "Sunan shaidar shago",
   "it_waiting": "Ana jira",
   "it_waiting_services": "Yana zuwa ƙasarku",
   "it_who_owes_me": "Wa ke bina bashi",

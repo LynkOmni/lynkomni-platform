@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pt",
  "native": "Português",
- "source_sha256": "f4e7142fbf813933ed8f3040e8c8e173d54d8f521390febb028a0363e805461b",
+ "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
  "texts": {
   "account": "Conta",
   "active": "Ativo",
@@ -342,7 +342,7 @@
   "it_time_clock": "Registo de horas",
   "it_timeline": "Cronologia",
   "it_unusual": "Fora do normal",
-  "it_username": "Nome de utilizador da loja",
+  "it_username": "Identificador da loja",
   "it_waiting": "Pendente",
   "it_waiting_services": "Em breve no seu país",
   "it_who_owes_me": "Quem me deve",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "f4e7142fbf813933ed8f3040e8c8e173d54d8f521390febb028a0363e805461b",
+ "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
  "texts": {
   "account": "帳戶",
   "active": "使用中",
@@ -342,7 +342,7 @@
   "it_time_clock": "出勤",
   "it_timeline": "時間軸",
   "it_unusual": "異常",
-  "it_username": "店家使用者名稱",
+  "it_username": "店家帳號名稱",
   "it_waiting": "等待中",
   "it_waiting_services": "即將在你的國家推出",
   "it_who_owes_me": "誰欠我錢",

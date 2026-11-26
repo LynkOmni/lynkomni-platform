@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-NE18T8D2BF4cWRZ2DhGCq9dSYbeHPDVBbi0Mp4CebX0='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-ds/YDYMvNvPvxrKoKXRxO5iwysGNcSoamFWwipjR/M4='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkPOS Customer Screen</title>
 <meta name="description" content="Interactive emulator of the standalone customer-facing display some shops mount apart from the till: welcome, the basket line by line, the total with an estimate in a second currency, scan to pay and thank you. It shows only what the till sends.">
@@ -3052,6 +3052,11 @@ function suggestions(value, taken = () => false, limit = 3) {
     }
     return out;
 }
+const HANDLE_HINT = { user: "username", shop: "shophandle", business: "businesshandle", app: "apphandle", partner: "partnerhandle", agentpoint: "agentpointhandle" };
+const handleEsc = (s) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+function handleBoxHtml(o) {
+    return `<span class="handle-box" dir="ltr"><span class="handle-at" aria-hidden="true">@</span><input class="handle-in" id="${handleEsc(o.id)}" type="text" value="${handleEsc(normalize(o.value))}" placeholder="${HANDLE_HINT[o.kind]}" autocapitalize="none" autocomplete="off" spellcheck="false" maxlength="${USERNAME_RULE.max}" inputmode="latin"${o.label ? ` aria-label="${handleEsc(o.label)}"` : ""}${o.attrs ? ` ${o.attrs}` : ""}>${o.after ?? ""}</span>`;
+}
 
 // ---- ts/src/shell.js
 
@@ -3316,7 +3321,7 @@ function messageNote(m, c, langName, t) {
     return `<span class="mnote">${esc(t("translated_from", { lang: langName(m.language) }))} · <button class="link" data-act="chat:original:${esc(m.id)}">${esc(t("show_original"))}</button></span>`;
 }
 const messageText = (m, c) => (!needsTranslation(c) || c.showOriginal || !m.translated || m.failed ? m.text : m.translated);
-function usernameField(value, cloud, taken, t, icon) {
+function usernameField(value, cloud, taken, t, icon, kind = "user") {
     const c = check(value);
     let msg = "", tone = "neutral", ok = false;
     if (!value) {
@@ -3339,7 +3344,7 @@ function usernameField(value, cloud, taken, t, icon) {
         ok = true;
     }
     const sugg = value && !ok && cloud !== "checking" ? suggestions(value, taken) : [];
-    return `<div class="field username"><label for="usernameIn">${esc(t("username"))}</label><div class="uinput"><input id="usernameIn" type="text" value="${esc(value)}" autocapitalize="none" autocomplete="off" spellcheck="false" maxlength="30" inputmode="latin" aria-describedby="usernameMsg" aria-invalid="${tone === "danger"}" placeholder="@username">${ok ? icon("ui-check", "ic ok") : ""}</div><p id="usernameMsg" class="fmsg ${tone}" aria-live="polite">${esc(msg)}</p>${sugg.length ? `<p class="sugg">${esc(t("username_try"))} ${sugg.map((s) => `<button class="chipbtn" data-act="username:${esc(s)}">@${esc(s)}</button>`).join(" ")}</p>` : ""}<p class="note">${esc(t("username_rule"))}</p></div>`;
+    return `<div class="field username"><label for="usernameIn">${esc(t(kind === "user" ? "username" : "handle"))}</label>${handleBoxHtml({ id: "usernameIn", kind, value, attrs: `aria-describedby="usernameMsg" aria-invalid="${tone === "danger"}"`, after: ok ? icon("ui-check", "ic ok") : "" })}<p id="usernameMsg" class="fmsg ${tone}" aria-live="polite">${esc(msg)}</p>${sugg.length ? `<p class="sugg">${esc(t("username_try"))} ${sugg.map((s) => `<button class="chipbtn" data-act="username:${esc(s)}">@${esc(s)}</button>`).join(" ")}</p>` : ""}<p class="note">${esc(t("username_rule"))}</p></div>`;
 }
 function chartSummary(spec, t) {
     const s = spec.series[0];

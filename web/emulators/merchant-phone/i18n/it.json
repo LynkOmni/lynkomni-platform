@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "it",
  "native": "Italiano",
- "source_sha256": "f4e7142fbf813933ed8f3040e8c8e173d54d8f521390febb028a0363e805461b",
+ "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
  "texts": {
   "account": "Account",
   "active": "Attivo",
@@ -342,7 +342,7 @@
   "it_time_clock": "Rilevazione presenze",
   "it_timeline": "Cronologia degli eventi",
   "it_unusual": "Insolito",
-  "it_username": "Nome utente del negozio",
+  "it_username": "Handle del negozio",
   "it_waiting": "In attesa",
   "it_waiting_services": "Presto nel tuo paese",
   "it_who_owes_me": "Chi mi deve",

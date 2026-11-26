@@ -12,7 +12,7 @@ import { signUpNext, legalNameProblem, identifierKind, signInWays, extraChecks, 
   antiPhishingProblem, sessionHours, restrictedAfterRecovery, ownerCheckMethod, ownerCheckOutcome } from "./waysin.js";
 import { noticeHtml } from "./errorbox.js";
 import { hintFor } from "./hints.js";
-import { check } from "./usernames.js";
+import { check, handleBoxHtml } from "./usernames.js";
 
 type WyT = (key: string, vars?: Record<string, string | number>) => string;
 export interface WaysLook {
@@ -70,7 +70,7 @@ export function signUpHtml(look: WaysLook, st: WaysState): string {
     case "country": body = `<p class="wy-note">${wyEsc(t("wy_country_note"))}</p>${next()}`; break;
     case "username": {
       const u = check(st.su.username);
-      body = `<div class="wy-field"><label for="wyUser">${wyEsc(t("username"))}</label><input class="text" id="wyUser" data-in="wy:username" autocapitalize="none" autocomplete="username" spellcheck="false" maxlength="30" dir="ltr" value="${wyEsc(st.su.username)}" placeholder="${wyEsc(hintFor("username", t))}" aria-describedby="wyUser-msg"></div>`
+      body = `<div class="wy-field"><label for="wyUser">${wyEsc(t("username"))}</label>${handleBoxHtml({ id: "wyUser", kind: "user", value: st.su.username, attrs: `data-in="wy:username" autocomplete="username" aria-describedby="wyUser-msg"` })}</div>`
         + (st.su.username && !u.ok ? noticeHtml(t, { level: "error", text: t(`username_${u.reason}`), field: "wyUser", how: t("fd_type_again") }) : "")
         + `<p class="wy-note">${wyEsc(t("username_rule"))}</p>${next()}`; break;
     }

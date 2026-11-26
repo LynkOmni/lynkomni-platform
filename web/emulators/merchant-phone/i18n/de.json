@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "de",
  "native": "Deutsch",
- "source_sha256": "f4e7142fbf813933ed8f3040e8c8e173d54d8f521390febb028a0363e805461b",
+ "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
  "texts": {
   "account": "Konto",
   "active": "Aktiv",
@@ -342,7 +342,7 @@
   "it_time_clock": "Zeiterfassung",
   "it_timeline": "Zeitachse",
   "it_unusual": "Auffällig",
-  "it_username": "Benutzername des Ladens",
+  "it_username": "Handle des Ladens",
   "it_waiting": "Ausstehend",
   "it_waiting_services": "Bald in Ihrem Land",
   "it_who_owes_me": "Wer mir etwas schuldet",

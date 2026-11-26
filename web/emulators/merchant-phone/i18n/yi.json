@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yi",
  "native": "ייִדיש",
- "source_sha256": "f4e7142fbf813933ed8f3040e8c8e173d54d8f521390febb028a0363e805461b",
+ "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
  "texts": {
   "account": "חשבון",
   "active": "אַקטיוו",
@@ -342,7 +342,7 @@
   "it_time_clock": "צײַט־זייגער",
   "it_timeline": "צײַט־ליניע",
   "it_unusual": "אומגעוויינטלעך",
-  "it_username": "באַניצער־נאָמען פֿונעם געשעפֿט",
+  "it_username": "אידענטיפֿיקאַטאָר פֿונעם געשעפֿט",
   "it_waiting": "וואַרט",
   "it_waiting_services": "באַלד אין אײַער לאַנד",
   "it_who_owes_me": "ווער איז מיר שולדיק",

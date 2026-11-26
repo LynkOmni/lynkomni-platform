@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "f4e7142fbf813933ed8f3040e8c8e173d54d8f521390febb028a0363e805461b",
+ "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
  "texts": {
   "account": "Account",
   "active": "Aktibo",
@@ -342,7 +342,7 @@
   "it_time_clock": "Time clock",
   "it_timeline": "Timeline",
   "it_unusual": "Kakaiba",
-  "it_username": "Username ng tindahan",
+  "it_username": "Handle ng tindahan",
   "it_waiting": "Naghihintay",
   "it_waiting_services": "Malapit na sa iyong bansa",
   "it_who_owes_me": "Sino ang may utang sa akin",

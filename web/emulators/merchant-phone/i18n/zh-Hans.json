@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "f4e7142fbf813933ed8f3040e8c8e173d54d8f521390febb028a0363e805461b",
+ "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
  "texts": {
   "account": "账户",
   "active": "使用中",
@@ -342,7 +342,7 @@
   "it_time_clock": "考勤",
   "it_timeline": "时间线",
   "it_unusual": "异常",
-  "it_username": "店铺用户名",
+  "it_username": "店铺账号名",
   "it_waiting": "等待中",
   "it_waiting_services": "即将在你的国家推出",
   "it_who_owes_me": "谁欠我钱",

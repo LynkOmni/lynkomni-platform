@@ -244,7 +244,7 @@ function main(): string {
         <div class="actions"><button class="primary" data-act="newsale">${icon("ui-plus")}<span>${esc(t("new_sale"))}</span></button><button class="secondary" data-act="archive">${esc(t("archive_product"))}</button><button class="secondary" data-act="void">${esc(t("void_sale"))}</button></div></div>
       <div class="card"><h2>${esc(t("today_profit"))}</h2><div class="big">${esc(money(Math.round((SAMPLE_WEEK[4] ?? 0) * 0.27)))}</div><div class="muted">${esc(t("deep_link"))}: <span class="deeplink">${esc(here ? `app.lynkomni.com${here.path}` : "")}</span></div></div>
       <div class="card" style="grid-column:1/-1">${chartHtml}</div>
-      <div class="card"><h2>${esc(t("username_card"))}</h2>${usernameField(S.username, S.cloud, (u) => u === "mamas.kitchen", t, icon)}</div>
+      <div class="card"><h2>${esc(t("username_card"))}</h2>${usernameField(S.username, S.cloud, (u) => u === "mamas.kitchen", t, icon, "shop")}</div>
       <div class="card"><h2>${esc(t("chat_card"))}</h2><div class="chat-demo">${translationBanner(chatLang, langName, t)}<div class="msg" lang="${messageText(msg, chatLang) === msg.text ? writer : esc(reader)}" dir="${messageText(msg, chatLang) === msg.text ? (PACKS[writer]?.dir ?? "ltr") : (PACKS[S.lang]?.dir ?? "ltr")}">${esc(messageText(msg, chatLang))}${messageNote(msg, chatLang, langName, t)}</div><div class="msg out">${esc(t("chat_reply"))}</div></div></div>
       ${pinCard()}
       ${messagesCard()}

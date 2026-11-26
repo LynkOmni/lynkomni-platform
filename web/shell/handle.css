@@ -1,0 +1,6 @@
+/* The handle box (ts/src/usernames.ts handleBoxHtml): a fixed @ inside the field, then what the person types. Tokens only. */
+.handle-box { display: flex; align-items: center; gap: 2px; box-sizing: border-box; min-block-size: 48px; max-inline-size: 100%; padding-inline: 12px; border: 1px solid var(--border-input); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); cursor: text; }
+.handle-box:focus-within { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+.handle-at { flex: none; color: var(--text-secondary); font-weight: 600; user-select: none; }
+.handle-box .handle-in { flex: 1; min-inline-size: 0; min-block-size: 46px; padding: 0; border: 0; border-radius: 0; background: none; color: inherit; font: inherit; outline: none; box-shadow: none; text-align: start; }
+.handle-box .ic { flex: none; }

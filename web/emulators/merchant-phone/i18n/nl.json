@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "f4e7142fbf813933ed8f3040e8c8e173d54d8f521390febb028a0363e805461b",
+ "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
  "texts": {
   "account": "Account",
   "active": "Actief",
@@ -342,7 +342,7 @@
   "it_time_clock": "Prikklok",
   "it_timeline": "Tijdlijn",
   "it_unusual": "Opvallend",
-  "it_username": "Gebruikersnaam van de winkel",
+  "it_username": "Handle van de winkel",
   "it_waiting": "Wachtend",
   "it_waiting_services": "Binnenkort in jouw land",
   "it_who_owes_me": "Wie is mij iets schuldig",

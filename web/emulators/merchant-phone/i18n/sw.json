@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "f4e7142fbf813933ed8f3040e8c8e173d54d8f521390febb028a0363e805461b",
+ "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
  "texts": {
   "account": "Akaunti",
   "active": "Inatumika",
@@ -342,7 +342,7 @@
   "it_time_clock": "Saa ya mahudhurio",
   "it_timeline": "Mfuatano wa matukio",
   "it_unusual": "Isiyo ya kawaida",
-  "it_username": "Jina la mtumiaji la duka",
+  "it_username": "Kitambulisho cha duka",
   "it_waiting": "Inasubiri",
   "it_waiting_services": "Inakuja nchini kwako",
   "it_who_owes_me": "Wanaonidai",
