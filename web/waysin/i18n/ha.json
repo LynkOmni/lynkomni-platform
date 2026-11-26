@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "Ayyukan tsaro",
   "wy_add_contact": "Ƙara mutum",
@@ -58,7 +58,7 @@
   "wy_extra_note": "Wannan shigar sabuwa ce ko ba ta saba ba, don haka muna neman ƙarin dubawa ɗaya.",
   "wy_extra_title": "Ƙarin dubawa ɗaya",
   "wy_fix": "Gyara",
-  "wy_hint_word": "furen rana",
+  "wy_hint_word": "Furen rana",
   "wy_kept_them": "Na ajiye su",
   "wy_keys_note": "Makullin USB ko na taɓawa yana aiki kamar makullin shiga.",
   "wy_keys_title": "Makullan tsaro",
@@ -197,6 +197,7 @@
   "wy_who_label": "Sunan mai amfani, imel ko lambar waya",
   "wy_word_label": "Kalmarka",
   "wy_word_note": "Kalmarka ta sirri tana cikin kowane ainihin imel da saƙo na LynkOmni. Saƙon da babu ita ba daga gare mu ba ne.",
+  "wy_word_rule": "Haruffa, lambobi ko sarari daga 3 zuwa 30, a kowane harshe. Ana adana manyan da ƙananan haruffa daidai yadda ka rubuta su.",
   "wy_word_title": "Kalmar hana zamba",
   "wy_word_too_long": "Yi amfani da haruffa 30 ko ƙasa da haka.",
   "wy_word_too_short": "Yi amfani da akalla haruffa 3."

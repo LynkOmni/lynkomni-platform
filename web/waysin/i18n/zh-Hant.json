@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "安全動態",
   "wy_add_contact": "新增聯絡人",
@@ -197,6 +197,7 @@
   "wy_who_label": "使用者名稱、電子郵件或手機號碼",
   "wy_word_label": "你的詞",
   "wy_word_note": "你的祕密詞會出現在 LynkOmni 的每封真實郵件與訊息中。沒有它的訊息不是我們傳的。",
+  "wy_word_rule": "3 到 30 個字母、數字或空格，任何語言皆可。大小寫會完全按照你輸入的樣子保存。",
   "wy_word_title": "防詐騙詞",
   "wy_word_too_long": "最多使用 30 個字元。",
   "wy_word_too_short": "至少使用 3 個字元。"

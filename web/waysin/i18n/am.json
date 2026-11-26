@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "am",
  "native": "አማርኛ",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "የደህንነት እንቅስቃሴ",
   "wy_add_contact": "ሰው ያክሉ",
@@ -197,6 +197,7 @@
   "wy_who_label": "የተጠቃሚ ስም፣ ኢሜይል ወይም የስልክ ቁጥር",
   "wy_word_label": "ቃልዎ",
   "wy_word_note": "ሚስጥራዊ ቃልዎ በእያንዳንዱ እውነተኛ የ LynkOmni ኢሜይል እና መልእክት ውስጥ አለ። ያለ እሱ የሚመጣ መልእክት ከኛ አይደለም።",
+  "wy_word_rule": "ከ3 እስከ 30 ፊደሎች፣ ቁጥሮች ወይም ክፍተቶች፣ በማንኛውም ቋንቋ። ትላልቅ እና ትናንሽ ፊደሎች ልክ እንደጻፉት ይቀመጣሉ።",
   "wy_word_title": "የማጭበርበር መከላከያ ቃል",
   "wy_word_too_long": "30 ወይም ያነሱ ፊደላትን ይጠቀሙ።",
   "wy_word_too_short": "ቢያንስ 3 ፊደላትን ይጠቀሙ።"

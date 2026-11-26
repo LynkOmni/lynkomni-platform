@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fr",
  "native": "Français",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "Activité de sécurité",
   "wy_add_contact": "Ajouter une personne",
@@ -58,7 +58,7 @@
   "wy_extra_note": "Cette connexion est nouvelle ou inhabituelle, nous demandons donc une vérification de plus.",
   "wy_extra_title": "Une vérification de plus",
   "wy_fix": "Corriger",
-  "wy_hint_word": "tournesol",
+  "wy_hint_word": "Tournesol",
   "wy_kept_them": "Je les ai conservés",
   "wy_keys_note": "Une clé USB ou sans contact fonctionne comme une clé d'accès.",
   "wy_keys_title": "Clés de sécurité",
@@ -197,6 +197,7 @@
   "wy_who_label": "Nom d'utilisateur, e-mail ou numéro de téléphone",
   "wy_word_label": "Votre mot",
   "wy_word_note": "Votre mot secret figure dans chaque véritable e-mail et message de LynkOmni. Un message sans ce mot ne vient pas de nous.",
+  "wy_word_rule": "De 3 à 30 lettres, chiffres ou espaces, dans n’importe quelle langue. Les majuscules et minuscules sont gardées telles que vous les tapez.",
   "wy_word_title": "Mot anti-hameçonnage",
   "wy_word_too_long": "Utilisez 30 lettres ou moins.",
   "wy_word_too_short": "Utilisez au moins 3 lettres."

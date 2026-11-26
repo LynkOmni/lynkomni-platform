@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
+ "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
  "texts": {
   "account_menu": "Asusu",
   "action_add": "Ƙara na farko",
@@ -1264,7 +1264,7 @@
   "view_table": "Tebur",
   "view_waits": "Sabon yanayin nuni zai fara bayan wannan mataki.",
   "voice_input": "Yi magana",
-  "voice_sample_search": "sabuwar sayarwa",
+  "voice_sample_search": "Sabuwar sayarwa",
   "void_with_reason": "Soke tare da dalili",
   "waiting_send": "Ana jiran aikawa: {n}",
   "waiting_send_label": "Ana jiran aikawa",

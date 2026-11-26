@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
+ "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
  "texts": {
   "account_menu": "Tài khoản",
   "action_add": "Thêm mục đầu tiên",
@@ -1264,7 +1264,7 @@
   "view_table": "Bảng",
   "view_waits": "Giao diện mới bắt đầu sau bước này.",
   "voice_input": "Nói",
-  "voice_sample_search": "bán hàng mới",
+  "voice_sample_search": "Bán hàng mới",
   "void_with_reason": "Hủy kèm lý do",
   "waiting_send": "Đang chờ gửi: {n}",
   "waiting_send_label": "Đang chờ gửi",

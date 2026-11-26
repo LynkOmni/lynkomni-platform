@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "rw",
  "native": "Ikinyarwanda",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "Ibikorwa by'umutekano",
   "wy_add_contact": "Ongeraho umuntu",
@@ -58,7 +58,7 @@
   "wy_extra_note": "Uku kwinjira ni gushya cyangwa ntikusanzwe, ni yo mpamvu dusaba irindi genzura.",
   "wy_extra_title": "Irindi genzura rimwe",
   "wy_fix": "Kosora",
-  "wy_hint_word": "izuba",
+  "wy_hint_word": "Izuba",
   "wy_kept_them": "Nazibitse",
   "wy_keys_note": "Urufunguzo rwa USB cyangwa urwo gukoza rukora nk'urufunguzo rwo kwinjira.",
   "wy_keys_title": "Imfunguzo z'umutekano",
@@ -197,6 +197,7 @@
   "wy_who_label": "Izina ukoresha, imeli cyangwa nimero ya telefone",
   "wy_word_label": "Ijambo ryawe",
   "wy_word_note": "Ijambo ryawe ry'ibanga riboneka muri buri imeli n'ubutumwa nyakuri bya LynkOmni. Ubutumwa butarimo iryo jambo ntibuturutse kuri twe.",
+  "wy_word_rule": "Inyuguti, imibare cyangwa imyanya biri hagati ya 3 na 30, mu rurimi urwo ari rwo rwose. Inyuguti nkuru n'into zibikwa uko wazanditse neza.",
   "wy_word_title": "Ijambo rirwanya uburiganya",
   "wy_word_too_long": "Koresha inyuguti 30 cyangwa munsi.",
   "wy_word_too_short": "Koresha nibura inyuguti 3."

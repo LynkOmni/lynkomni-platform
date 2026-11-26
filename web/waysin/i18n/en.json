@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "en",
  "native": "English",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "Security activity",
   "wy_add_contact": "Add a person",
@@ -58,7 +58,7 @@
   "wy_extra_note": "This sign-in is new or unusual, so we ask for one more check.",
   "wy_extra_title": "One more check",
   "wy_fix": "Fix",
-  "wy_hint_word": "sunflower",
+  "wy_hint_word": "Sunflower",
   "wy_kept_them": "I have kept them",
   "wy_keys_note": "A USB or tap key works like a passkey.",
   "wy_keys_title": "Security keys",
@@ -197,6 +197,7 @@
   "wy_who_label": "Username, email or phone number",
   "wy_word_label": "Your word",
   "wy_word_note": "Your secret word appears in every real LynkOmni email and message. A message without it is not from us.",
+  "wy_word_rule": "3 to 30 letters, numbers or spaces, in any language. Capitals and small letters are kept exactly as you type them.",
   "wy_word_title": "Anti-phishing word",
   "wy_word_too_long": "Use 30 letters or fewer.",
   "wy_word_too_short": "Use at least 3 letters."

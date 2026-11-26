@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "Hoạt động bảo mật",
   "wy_add_contact": "Thêm người",
@@ -58,7 +58,7 @@
   "wy_extra_note": "Lần đăng nhập này mới hoặc bất thường, nên chúng tôi yêu cầu thêm một bước kiểm tra.",
   "wy_extra_title": "Thêm một bước kiểm tra",
   "wy_fix": "Sửa",
-  "wy_hint_word": "hoa hướng dương",
+  "wy_hint_word": "Hoa hướng dương",
   "wy_kept_them": "Tôi đã cất giữ",
   "wy_keys_note": "Khóa USB hoặc khóa chạm hoạt động như khóa truy cập.",
   "wy_keys_title": "Khóa bảo mật",
@@ -197,6 +197,7 @@
   "wy_who_label": "Tên người dùng, email hoặc số điện thoại",
   "wy_word_label": "Từ của bạn",
   "wy_word_note": "Từ bí mật của bạn có trong mọi email và tin nhắn thật của LynkOmni. Tin nhắn không có từ đó không phải của chúng tôi.",
+  "wy_word_rule": "Từ 3 đến 30 chữ cái, chữ số hoặc dấu cách, bằng bất kỳ ngôn ngữ nào. Chữ hoa và chữ thường được giữ đúng như bạn gõ.",
   "wy_word_title": "Từ chống lừa đảo",
   "wy_word_too_long": "Dùng tối đa 30 chữ cái.",
   "wy_word_too_short": "Dùng ít nhất 3 chữ cái."

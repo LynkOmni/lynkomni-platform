@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "Beveiligingsactiviteit",
   "wy_add_contact": "Persoon toevoegen",
@@ -58,7 +58,7 @@
   "wy_extra_note": "Deze inlog is nieuw of ongewoon, daarom vragen we nog een controle.",
   "wy_extra_title": "Nog één controle",
   "wy_fix": "Oplossen",
-  "wy_hint_word": "zonnebloem",
+  "wy_hint_word": "Zonnebloem",
   "wy_kept_them": "Ik heb ze bewaard",
   "wy_keys_note": "Een USB- of tiksleutel werkt als een toegangssleutel.",
   "wy_keys_title": "Beveiligingssleutels",
@@ -197,6 +197,7 @@
   "wy_who_label": "Gebruikersnaam, e-mailadres of telefoonnummer",
   "wy_word_label": "Je woord",
   "wy_word_note": "Je geheime woord staat in elke echte e-mail en elk echt bericht van LynkOmni. Een bericht zonder dit woord komt niet van ons.",
+  "wy_word_rule": "3 tot 30 letters, cijfers of spaties, in elke taal. Hoofdletters en kleine letters blijven precies zoals u ze typt.",
   "wy_word_title": "Antiphishingwoord",
   "wy_word_too_long": "Gebruik 30 letters of minder.",
   "wy_word_too_short": "Gebruik minstens 3 letters."

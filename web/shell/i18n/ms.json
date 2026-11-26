@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
+ "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
  "texts": {
   "account_menu": "Akaun",
   "action_add": "Tambah yang pertama",
@@ -1264,7 +1264,7 @@
   "view_table": "Jadual",
   "view_waits": "Paparan baharu bermula selepas langkah ini.",
   "voice_input": "Bercakap",
-  "voice_sample_search": "jualan baharu",
+  "voice_sample_search": "Jualan baharu",
   "void_with_reason": "Batalkan dengan sebab",
   "waiting_send": "Menunggu untuk dihantar: {n}",
   "waiting_send_label": "Menunggu untuk dihantar",
