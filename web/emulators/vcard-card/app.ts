@@ -2,6 +2,7 @@
  *  to their backs. Freeze is the only action that may queue offline, and the card is shown frozen only when the issuer confirms.
  *  Card details are never sent to this screen: after a fresh check they appear only inside the licensed issuer's secure display,
  *  for a short time, and never offline. Cards stay "Coming to your country soon" until an issuer is signed there. */
+import { anyDeviceHtml, turnFixedHtml } from "../../../ts/src/devicenote.js";
 import { PageWait } from "../../../ts/src/placeholder.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, reducedMotion, stateButtons, pageWaiting } from "../../../ts/src/emulator.js";
@@ -86,7 +87,7 @@ let pendingFreeze: (() => void) | null = null;
 let notified = false;
 const CARD = "LOVC-····";      // the card's public id from core/ids.py, masked; the card number never reaches this screen
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "firstopen", "fail", "plan", "country", "real", "dark", "lang"], S, W, C, { tiers: TIERS });
+  $("#panel").innerHTML = panelHtml(["online", "firstopen", "fail", "plan", "country", "real", "dark", "lang"], S, W, C, { tiers: TIERS }) + anyDeviceHtml(t) + turnFixedHtml(t, "turn_fixed_card");
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["free", "plus", "pro", "max", "back", "near-limit", "freezing", "frozen", "details", "coming-soon"], (k) => {
     S.flipped = false; S.near = false; S.details = 0; S.stepup = false; S.realUser = false;

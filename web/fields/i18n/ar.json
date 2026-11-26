@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ar",
  "native": "العربية",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "أضف صنفًا إلى السلة أولًا.",
   "fd_ask_manager": "يمكن للمدير أو المالك المساعدة.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "اكتب المبلغ الكامل الذي قدّمه العميل.",
   "fd_error": "خطأ",
   "fd_example": "مثال: {sample}",
+  "fd_find": "بحث",
+  "fd_find_none": "لا توجد نتائج. جرّب أحرفًا أقل.",
   "fd_go_online": "اتصل بالإنترنت ثم حاول مرة أخرى.",
   "fd_go_to": "انتقل إلى {field}",
   "fd_info": "معلومة",

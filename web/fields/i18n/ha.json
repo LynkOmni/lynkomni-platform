@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "Saka kaya a kwando da farko.",
   "fd_ask_manager": "Manaja ko mai shi zai iya taimakawa.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "Rubuta cikakken adadin da abokin ciniki ya bayar.",
   "fd_error": "Kuskure",
   "fd_example": "Misali: {sample}",
+  "fd_find": "Nema",
+  "fd_find_none": "Babu abin da ya dace. Gwada ƙananan haruffa.",
   "fd_go_online": "Haɗa da intanet, sannan ka sake gwadawa.",
   "fd_go_to": "Je zuwa {field}",
   "fd_info": "Bayani",

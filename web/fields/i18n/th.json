@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "th",
  "native": "ไทย",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "เพิ่มสินค้าลงตะกร้าก่อน",
   "fd_ask_manager": "ผู้จัดการหรือเจ้าของช่วยได้",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "พิมพ์จำนวนเงินทั้งหมดที่ลูกค้าให้มา",
   "fd_error": "ข้อผิดพลาด",
   "fd_example": "ตัวอย่าง: {sample}",
+  "fd_find": "ค้นหา",
+  "fd_find_none": "ไม่พบรายการที่ตรงกัน ลองพิมพ์ตัวอักษรให้น้อยลง",
   "fd_go_online": "เชื่อมต่ออินเทอร์เน็ต แล้วลองอีกครั้ง",
   "fd_go_to": "ไปที่ {field}",
   "fd_info": "ข้อมูล",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pt",
  "native": "Português",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "Adicione primeiro um item à cesta.",
   "fd_ask_manager": "Um gerente ou o proprietário pode ajudar.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "Digite o valor total que o cliente entregou.",
   "fd_error": "Erro",
   "fd_example": "Exemplo: {sample}",
+  "fd_find": "Pesquisar",
+  "fd_find_none": "Nada corresponde. Experimente menos letras.",
   "fd_go_online": "Conecte-se à internet e tente novamente.",
   "fd_go_to": "Ir para {field}",
   "fd_info": "Informação",

@@ -2,7 +2,8 @@
  *  at its counter and flashes when a new ticket is called; "back soon" when the counter is paused, "closed" when it is closed.
  *  It only follows the queue keeper: the buttons beside it play reception and the counters. Its own buttons (arrows and OK) only
  *  choose which counter this display hangs above. Ticket numbers only, never a name. */
-import { Country, EventLog, Words, applyRoot, esc, fitToWidth, panelChange, panelHtml, reducedMotion, stateButtons } from "../../../ts/src/emulator.js";
+import { Country, EventLog, Words, applyRoot, esc, fitRig, panelChange, panelHtml, reducedMotion, stateButtons } from "../../../ts/src/emulator.js";
+import { turnDevice } from "../../../ts/src/turn.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
@@ -43,7 +44,10 @@ function desk(id: string, own: boolean): string {
  *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
 const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "queue.counter_screen", "Counter 1 screen", { short_side: 480, keys: true, speaker: true }, "linux"), (type, payload, origin) => { LOG.emit(type, payload, origin); });
 const KW = wireKit(KIT, { t, icon: (id, cls) => icon(id, cls), online: () => S.online, redraw: () => draw() });
-function draw(): void { drawScreen(); KW.after($("#screen")); }
+let REFIT: (() => void) | undefined;
+/** Turning (owner, 2026-11-26): Upright or Sideways from the panel; the body takes its turned shape and the screen its layout. */
+const turnNow = (): void => turnDevice(DEVICES, { rig: $("#rig"), body: $("#desks"), screens: [...document.querySelectorAll<HTMLElement>(".cdscreen")], turn: S.turn, width: 600, sidewaysWidth: 600, shape: { width: 800, height: 480, device: "counter-display" } }, REFIT);
+function draw(): void { drawScreen(); turnNow(); KW.after($("#screen")); }
 function drawScreen(): void {
   Q.tier = S.tier as AtTier;
   const others = Q.counters.filter((c) => c.id !== mine).slice(0, 1);
@@ -59,7 +63,7 @@ function act(a: string): void {
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang"], S, W, C) + DEV.control();
+  $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang", "turn"], S, W, C) + DEV.control();
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["next-please", "serving", "back-soon", "closed", "which-counter", "rate-us"], (k) => {
     S.rate = k === "rate-us";
@@ -77,7 +81,7 @@ function main(): void {
   $("#panel").addEventListener("change", (e) => { const el = e.target as HTMLSelectElement; if (DEV.change(el)) return; if (panelChange(el, S, DATA)) panel(); draw(); });
   document.addEventListener("keydown", (e) => { if (DEV.key(e)) return; });
   window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); if (!reducedMotion() && S.ticks % 15 === 0 && document.querySelector("#desks .flash")) draw(); }, 400);
-  fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 600);
+  REFIT = fitRig($("#rig"), 600); turnNow();
 }
 main();
 /** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */

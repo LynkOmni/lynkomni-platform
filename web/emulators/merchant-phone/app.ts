@@ -42,7 +42,7 @@ import type { Entry } from "../../../ts/src/shell.js";
 import { Reservations } from "../../../ts/src/reservations.js";
 import { driverFallback, driverState, needsInstall } from "../../../ts/src/drivers.js";
 import { DRIVERS } from "../../../ts/src/drivers.generated.js";
-import { DeviceMode } from "../../../ts/src/devicemode.js";
+import { DeviceMode, deviceChoiceHtml } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { bell } from "../../../ts/src/notify.js";
 import type { Line } from "../../../ts/src/notify.js";
@@ -1852,7 +1852,7 @@ const DM = new DeviceMode(DEVICES, "smartphone");
  *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
 const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "pos.merchant_phone", "Phone", { short_side: 390, touch: true, camera: true, speaker: true, device_print: true }, "android"), (type, payload, origin) => { emit(type, payload, origin); });
 const KW = wireKit(KIT, { t, icon: (id, cls) => icon(id, cls), online: () => online(), redraw: () => draw() });
-function draw(): void { drawScreen(); KW.after($("#app")); wireFields($("#app"), fieldCtx()); wireNotices($("#app")); }
+function draw(): void { const dv = document.getElementById("cDevice"); if (dv) dv.innerHTML = deviceChoiceHtml(DM, t);   /* how this device is used (owner, 2026-11-26) */ drawScreen(); KW.after($("#app")); wireFields($("#app"), fieldCtx()); wireNotices($("#app")); }
 // Section 4C point 1: every phone field is the shared part (ts/src/fields.ts); its country starts on the device's country.
 const fieldState: Record<string, (d: string) => void> = { phoneIn: (d) => { S.phone = d; }, staffIn: (d) => { S.staffPhone = d; }, momoIn: (d) => { S.input = d; }, anumIn: (d) => { S.number = d; } };
 const cc = (id: string): string => S.phoneCc[id] ?? pack().code;

@@ -1,9 +1,11 @@
 /** LynkPOS on a button phone (42 J build section 3): for phones without a touch screen. A numbered menu records a sale by
  *  product number and quantity, shows today's total and stock, and queues facts by SMS when there is no data (blueprint
  *  section 2: one sync protocol over any link). Agent services are online only, so the menu says so instead of queuing them. */
+import { DeviceMode, deviceChoiceHtml } from "../../../ts/src/devicemode.js";
 import { Cart, qtyText, salePayload } from "../../../ts/src/pos.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, stateButtons } from "../../../ts/src/emulator.js";
+import { turnFixedHtml } from "../../../ts/src/devicenote.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { APP_HOST } from "../../../ts/src/deviceshell.js";
 import { chooseInterface } from "../../../ts/src/interfaces.js";
@@ -243,7 +245,7 @@ function act(a: string): void {
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["country", "dark", "lang"], S, W, C) ;
+  $("#panel").innerHTML = panelHtml(["country", "dark", "lang"], S, W, C) + deviceChoiceHtml(new DeviceMode(DEVICES, "button-phone"), t) + turnFixedHtml(t, "turn_fixed_keypad");
   $("#panel").insertAdjacentHTML("beforeend", `<label class="center"><input type="checkbox" id="cTones"${TONES.tones ? " checked" : ""}> <span>${esc(t("bp_key_tones"))}</span></label><label class="center"><input type="checkbox" id="cVibe"${TONES.vibration ? " checked" : ""}> <span>${esc(t("bp_vibration"))}</span></label><label class="center"><span>${esc(t("bp_volume"))}</span> <select id="cVol">${(["low", "medium", "high"] as const).map((v) => `<option value="${v}"${TONES.volume === v ? " selected" : ""}>${esc(t(`bp_vol_${v}`))}</option>`).join("")}</select></label>`);
   $("#panel").insertAdjacentHTML("afterbegin", `<label class="center"><span>${esc(t("internet"))}</span> <select id="cLink"><option value="data">${esc(t("online"))}</option><option value="sms">SMS</option><option value="none">${esc(t("offline"))}</option></select></label>`);
   ($("#cLink") as HTMLSelectElement).value = S.link;

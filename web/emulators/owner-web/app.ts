@@ -8,6 +8,7 @@ import type { UserState } from "../../../ts/src/pos.js";
 import { homeCards, webRule } from "../../../ts/src/business.js";
 import { matchStatement } from "../../../ts/src/agent.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, stateButtons, appMainFooter, pageWaiting } from "../../../ts/src/emulator.js";
+import { turnFixedHtml } from "../../../ts/src/devicenote.js";
 import { emailFieldHtml, wireEmails } from "../../../ts/src/emailfield.js";
 import { noticeHtml, wireNotices } from "../../../ts/src/errorbox.js";
 import { FOOTER_EMAIL_ID } from "../../../ts/src/footer.js";
@@ -15,7 +16,7 @@ import type { Build, PanelState } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
 import type { Entry } from "../../../ts/src/shell.js";
-import { DeviceMode } from "../../../ts/src/devicemode.js";
+import { DeviceMode, deviceChoiceHtml } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { firstColumnHtml, launcherGroupsHtml, orderedMenuHtml } from "../../../ts/src/appshell.js";
 import type { BarLook } from "../../../ts/src/appshell.js";
@@ -250,11 +251,11 @@ const newsWire = (root: ParentNode): void => wireEmails(root, { t, onEmail: (_id
 function draw(): void {
   const el = $("#screen"); DM.apply(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W);
   el.innerHTML = `<div class="bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="url">${icon("ui-lock")}${esc(office() ? `app.lynkomni.com${OFFICE_PATHS[office()!]}` : work() ? `app.lynkomni.com${WORK_PATHS[work()!]}` : S.place ? appOf(S.place) : `app.lynkomni.com${PATH[S.page]}`)}</span></div>
-    <div class="app">${sideBar()}<main class="main"><div class="mhead">${DSH.bar()}</div>${office() ? OV.browserNote() : work() ? WV.note() : `<p class="viewonly" role="note">${icon("ui-info")}${esc(t("view_only_computer"))}</p>`}<div data-wait-area data-wrap>${page()}</div>${appMainFooter(W, C, DATA, newsBox)}</main></div>${launcherOverlay()}${DSH.overlay()}`;
+    <div class="app">${sideBar()}<main class="main"><div class="mhead">${DSH.bar()}</div>${S.online ? "" : noticeHtml(t, { level: "warning", text: t("state_offline_title"), how: t("fd_go_online") })}${office() ? OV.browserNote() : work() ? WV.note() : `<p class="viewonly" role="note">${icon("ui-info")}${esc(t("view_only_computer"))}</p>`}<div data-wait-area data-wrap>${page()}</div>${appMainFooter(W, C, DATA, newsBox)}</main></div>${launcherOverlay()}${DSH.overlay()}`;
   const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address();
   newsWire(el);
   wireNotices(el);                                                     // section 4C point 2: the field each message is about
-  pageWaiting(WAIT, { online: true, firstOpen: S.firstOpen }, el, t, draw);   // PLACEHOLDER UPDATE 83: a browser page is online
+  pageWaiting(WAIT, { online: S.online, firstOpen: S.firstOpen }, el, t, draw);   // PLACEHOLDER UPDATE 83: a browser page is online
 }
 /** Redraws while typing and puts the cursor back where it was, so a field never loses its place. */
 function keepFocus(id: string): void { const el = document.getElementById(id) as HTMLInputElement | null; const pos = el?.selectionStart ?? null; draw(); const again = document.getElementById(id) as HTMLInputElement | null; if (again) { again.focus(); if (pos !== null && again.type !== "date") again.setSelectionRange(pos, pos); } }
@@ -273,13 +274,14 @@ function act(a: string): void {
   if (k === "newsale") S.notice = t("needs_registered_device");
   if (k === "toggle") { const on = !S.off.has(v); if (on) S.off.add(v); else S.off.delete(v); }
   if (k === "why") S.why = S.why === v ? "" : v;
+  if (!S.online && (k === "share" || k === "unshare" || k === "revoke")) { S.notice = t("fd_go_online"); draw(); return; }   // a browser page asks the cloud; offline it says how to fix it
   if (k === "share") { S.sharing.add(v); LOG.emit("DataSharingConsentGiven", { supplier: v, consent: "LOCNS-…" }, "server"); }
   if (k === "unshare") { S.sharing.delete(v); LOG.emit("DataSharingConsentWithdrawn", { supplier: v }, "server"); }
   if (k === "revoke") LOG.emit("DeviceRevoked", { device_id: newId(), reason: "staff_left" }, "server");
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["plan", "firstopen", "country", "dark", "lang"], S, W, C, { tiers: TIERS }) + `<label><input type="checkbox" data-ctl="ads"${AD.on ? " checked" : ""}> <span>${esc(t("ad_sponsored"))} · ${esc(t("ad_sample"))}</span></label>`;
+  $("#panel").innerHTML = panelHtml(["online", "plan", "firstopen", "country", "dark", "lang"], S, W, C, { tiers: TIERS }) + deviceChoiceHtml(DM, t) + turnFixedHtml(t, "turn_fixed_laptop") + `<label><input type="checkbox" data-ctl="ads"${AD.on ? " checked" : ""}> <span>${esc(t("ad_sponsored"))} · ${esc(t("ad_sample"))}</span></label>`;
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   const OFFICE_STATES = OFFICE_SERVICES.flatMap((svc) => OV.pages(svc).map((p) => p.id));
   const WORK_STATES = WORK_SERVICES.flatMap((svc) => WV.pages(svc).map((p) => p.id));        // every LynkHR, LynkProject and LynkFiles page too        // every office page, so every check visits it
@@ -304,7 +306,7 @@ function main(): void {
   document.addEventListener("change", (e) => { const el = e.target as HTMLSelectElement; if (el.tagName === "SELECT" && (el.dataset["in"] ?? "").startsWith("shv:")) { if (sharedInput(SHV, el.dataset["in"] ?? "", el.value)) draw(); return; } if (el.closest("#screen") && el.tagName === "SELECT" && (trkInput(el.dataset["in"] ?? "", el.value) || WV.input(el.dataset["in"] ?? "", el.value) || OV.input(el.dataset["in"] ?? "", el.value))) draw(); });
   document.addEventListener("keydown", (e) => { DSH.key(e); });
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
-  $("#panel").addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["ctl"] === "ads") { AD.on = el.checked; AD.why = false; AD.reported = false; draw(); return; } if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });
+  $("#panel").addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["ctl"] === "version") { DM.version = el.value === "touch" ? "touch" : "non_touch"; panel(); draw(); return; } if (el.dataset["ctl"] === "ads") { AD.on = el.checked; AD.why = false; AD.reported = false; draw(); return; } if (panelChange(e.target as HTMLSelectElement, S, DATA, { tiers: TIERS })) panel(); draw(); });
   fitToWidth($("#rig"), Number($("#rig").dataset["width"]) || 1180);
 }
 main();

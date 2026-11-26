@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "Kwanza weka bidhaa kwenye kikapu.",
   "fd_ask_manager": "Meneja au mmiliki anaweza kusaidia.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "Andika kiasi chote mteja alichotoa.",
   "fd_error": "Hitilafu",
   "fd_example": "Mfano: {sample}",
+  "fd_find": "Tafuta",
+  "fd_find_none": "Hakuna kinacholingana. Jaribu herufi chache.",
   "fd_go_online": "Unganisha kwenye intaneti, kisha ujaribu tena.",
   "fd_go_to": "Nenda kwa {field}",
   "fd_info": "Taarifa",

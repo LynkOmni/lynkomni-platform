@@ -35,3 +35,7 @@
 /* the emulator's screen is a wall screen drawn small: its own sizes keep the same proportions a real one has at room distance */
 .tvscreen { font-size: 14px; } .tvscreen .qs-title { font-size: 22px; } .tvscreen .qs-waits { font-size: 14px; } .tvscreen .qs-soon { font-size: 14px; } .tvscreen .qs-join { font-size: 13px; } .tvscreen .qs-join .qr { inline-size: 48px; block-size: 48px; }
 .tvscreen .qs-voice { font-size: 12px; } .tvscreen .qs-counter { font-size: 18px; } .tvscreen .qs-num { font-size: 26px; } .tvscreen .pb { font-size: 11px; text-align: start; }
+/* Turned sideways from the panel (owner, 2026-11-26): the same device held the other way; ts/src/turn.ts turnDevice sets data-turn. */
+.tv[data-turn="sideways"] { inline-size: 420px; } .tv[data-turn="sideways"] .tvscreen { block-size: 700px; overflow-y: auto; }
+.tv[data-turn="sideways"] .tvscreen .qscreen { grid-template-columns: minmax(0, 1fr); } .tv[data-turn="sideways"] .tvscreen .qscreen > * { grid-column: 1; grid-row: auto; }
+.tv[data-turn="sideways"] .tvscreen .qs-list { max-block-size: none; }

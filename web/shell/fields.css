@@ -42,3 +42,27 @@
 .lf-ccopt:hover, .lf-ccopt.lf-active { background: var(--bg-subtle); }
 .lf-ccopt[aria-selected="true"] { font-weight: 600; color: var(--brand-ink); }
 .lf-ccnone { margin: 0; padding: 8px 10px; }
+
+/* Every choice on every page: LynkOmni's own drop-down (ts/src/chooser.ts). The select stays underneath as the source of the
+   value; the button and list look like the country drop-down above and follow the theme. */
+.lo-sel { position: relative; display: block; min-inline-size: 0; max-inline-size: 100%; }
+.lo-sel > select.lo-src { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; opacity: 0; pointer-events: none; }
+.lo-selbtn { display: flex; align-items: center; justify-content: space-between; gap: 8px; inline-size: 100%; min-inline-size: 0; min-block-size: 48px; padding-inline: 12px; border: 1px solid var(--border-input); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font: inherit; text-align: start; cursor: pointer; }
+.lo-selbtn .lo-now { flex: 1 1 auto; min-inline-size: 0; overflow-wrap: anywhere; }
+.lo-selbtn.lo-empty .lo-now { color: var(--text-secondary); }
+.lo-selbtn .lo-caret { inline-size: 8px; block-size: 8px; border-inline-end: 2px solid currentColor; border-block-end: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); flex: none; }
+.lo-selbtn[aria-expanded="true"] .lo-caret { transform: rotate(-135deg) translateY(-2px); }
+.lo-selbtn:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; border-color: var(--focus-ring); }
+.lo-selbtn:disabled { opacity: 0.55; cursor: not-allowed; }
+.lo-pop { position: absolute; inset-inline-start: 0; inset-block-start: calc(100% + 4px); z-index: 40; inline-size: max(100%, min(280px, 90vw)); max-inline-size: 100vw; display: flex; flex-direction: column; gap: 6px; padding: 8px; border: 1px solid var(--border-input); border-radius: var(--radius-card); background: var(--bg-surface); color: var(--text-primary); box-shadow: 0 16px 40px -16px color-mix(in srgb, var(--text-primary) 35%, transparent); }
+.lo-pop.lo-up { inset-block-start: auto; inset-block-end: calc(100% + 4px); }
+.lo-find { inline-size: 100%; min-block-size: 44px; padding-inline: 12px; border: 1px solid var(--border-input); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font: inherit; }
+.lo-find:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+.lo-list { display: flex; flex-direction: column; list-style: none; margin: 0; padding: 0; max-block-size: 260px; overflow-y: auto; overscroll-behavior: contain; }
+.lo-opt { display: flex; align-items: center; min-block-size: 44px; padding-inline: 10px; border-radius: var(--radius-small); cursor: pointer; overflow-wrap: anywhere; }
+.lo-opt:hover, .lo-opt.lo-active { background: var(--bg-subtle); }
+.lo-opt[aria-selected="true"] { font-weight: 600; color: var(--brand-ink); }
+.lo-opt[aria-disabled="true"] { color: var(--text-secondary); cursor: not-allowed; }
+.lo-group { padding: 8px 10px 4px; font-size: 0.8em; font-weight: 600; color: var(--text-secondary); }
+.lo-none { margin: 4px 10px; color: var(--text-secondary); }
+.vonly { margin-block: 8px; color: var(--text-secondary); font-size: 0.9em; overflow-wrap: anywhere; }   /* how this device is used, when there is no choice (ts/src/devicemode.ts) */

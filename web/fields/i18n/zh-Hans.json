@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "请先往购物篮中添加商品。",
   "fd_ask_manager": "经理或店主可以帮忙。",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "请输入顾客支付的全部金额。",
   "fd_error": "错误",
   "fd_example": "示例：{sample}",
+  "fd_find": "查找",
+  "fd_find_none": "没有匹配项。请尝试少输入几个字。",
   "fd_go_online": "请连接互联网，然后重试。",
   "fd_go_to": "前往“{field}”",
   "fd_info": "信息",

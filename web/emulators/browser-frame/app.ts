@@ -1,5 +1,6 @@
 /* The shared LynkOmni shell inside a browser window (build section 1). Every part comes from ts/src/shell.ts; this file only
  * holds the sample page, the emulator controls and the event log. Words come from strings.en.json and the language packs. */
+import { anyDeviceHtml } from "../../../ts/src/devicenote.js";
 import { PAGE_RETRY, PageWait } from "../../../ts/src/placeholder.js";
 import { STATE_PICTURE, Undo, accountMenu, viewSheet, IFACE_NAME, chart, comingSoon, commandBar, connectionChip, deliverNow, esc, filterRegions, globeSheet, regionName, header, helpPanel, launcher, messageNote, messageText, navigation, notificationsPanel, route, search, state, syncSheet, translationBanner, translator, undoToast, usernameField } from "../../../ts/src/shell.js";
 import type { AddressMap, ChatLang, ChatMessage, Entry, Icon, Link, NavItem, Notice, Pic, StateKind, SyncInfo, T, UsernameStatus, Viewport } from "../../../ts/src/shell.js";
@@ -288,7 +289,7 @@ const sides = () => ({ current: S.side, workspaceWord: sideWord("internal"), sto
 
 let lastOverlay: Overlay = null;
 const WAIT = new PageWait(), FIRST = { on: false };
-function draw(): void {
+function draw(): void { const dv = document.getElementById("cDevice"); if (dv) dv.innerHTML = anyDeviceHtml(t);   /* how this device is used (owner, 2026-11-26) */
   if (lastOverlay === "bell" && S.overlay !== "bell" && S.overlay !== "why") S.lastOpened = Date.now();   // New becomes Earlier once the bell was seen
   if (S.overlay === "bell") S.lines.forEach((l) => { l.seen = true; });
   lastOverlay = S.overlay;

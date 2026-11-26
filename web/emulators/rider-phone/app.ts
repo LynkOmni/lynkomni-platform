@@ -2,6 +2,7 @@
  *  them, records pickup at the shop and delivery at the door with the customer's code or a photo of the parcel (never of a
  *  person). Steps are device events (DeliveryPickedUp, DeliveryDelivered) that work offline and are sent when a link exists.
  *  LynkOmni never employs riders: the rider is the shop's own staff. */
+import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import type { UserState } from "../../../ts/src/pos.js";
 import { noticeHtml, wireNotices } from "../../../ts/src/errorbox.js";
 import { nextDeliveryStep } from "../../../ts/src/restaurant.js";
@@ -130,14 +131,20 @@ function carVoice(): string {
  *  practice mode, key tones and vibration, the hardware helper and the delivery menu. */
 const KIT = new EmKit(EMULATOR_REGISTER, kitFor(EMULATOR_REGISTER, "pos.rider_phone", "Rider phone", { short_side: 390, touch: true, camera: true, speaker: true }, "android"), (type, payload, origin) => { LOG.emit(type, payload, origin); });
 const KW = wireKit(KIT, { t, icon: (id) => icon(id), online: () => S.online, redraw: () => draw() });
+/** The rider's phone can have a touch screen or a keypad with no touch (catalog/devices.v1.json rider-phone): the panel chooses,
+ *  and the keypad version is used with the arrows, OK and Back under the phone (owner, 2026-11-26). */
+const DM = new DeviceMode(DEVICES, "rider-phone");
+const DEV = wireDevice(DM, { t, icon, screen: () => document.getElementById("screen"), pad: () => document.getElementById("pad"), back: () => { S.open = ""; draw(); }, redraw: () => draw(), rtl: () => document.getElementById("screen")?.getAttribute("dir") === "rtl" });
 function draw(): void { drawScreen(); KW.after($("#screen")); wireNotices($("#screen")); }
 function drawScreen(): void {
   const el = $("#screen"); if (!el) return;
-  const c = rkChoice(); el.dataset["interface"] = c.interface; el.dataset["deviceClass"] = c.class; el.dataset["moving"] = RK.device === "car-screen" && RK.moving ? "yes" : "no";
+  if (RK.device === "rider-phone") DEV.draw(el);
+  else { const c = rkChoice(); el.dataset["interface"] = c.interface; el.dataset["deviceClass"] = c.class; const pad = document.getElementById("pad"); if (pad) pad.innerHTML = ""; }
+  el.dataset["moving"] = RK.device === "car-screen" && RK.moving ? "yes" : "no";
   document.querySelector(".phone")?.setAttribute("data-kind", RK.device);
-  const turned = RK.device === "rider-phone" ? S.turn ?? "upright" : "upright";      // TURN UPDATE 76.8: the phone is tried both ways
+  const turned = RK.device === "rider-phone" && DM.touch() ? S.turn ?? "upright" : "upright";      // TURN UPDATE 76.8: the phone is tried both ways
   document.querySelector(".phone")?.setAttribute("data-turn", turned);
-  applyLayout(el, layoutFor(DEVICES, turnedShape(turned, { interface: "phone.touch", width: 390, height: 844 })));
+  applyLayout(el, layoutFor(DEVICES, turnedShape(turned, { interface: RK.device === "rider-phone" && !DM.touch() ? "phone.keypad" : "phone.touch", width: 390, height: 844 })));
   if (!GATE.open) { el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = `<header class="rtop"><span class="rmark">${icon("product-chat")}</span><strong>${esc(t("deliveries"))}</strong></header><div class="rbody">${GATE.view()}</div>${DSH.overlay()}`; const adr = document.getElementById("address"); if (adr) adr.textContent = DSH.address(); return; }
   if (RK.device === "smartwatch" && !job()) { el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = `<div class="rbody">${watchView()}</div>${DSH.overlay()}`; return; }
   if (RK.device === "car-screen" && RK.moving) { el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = carVoice(); return; } el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W);
@@ -162,10 +169,11 @@ function seed(): void {
   S.jobs = [{ id: newId(), order: 1042, area: "area_1", amount: 8500, state: "accepted", code: code6() }, { id: newId(), order: 1043, area: "area_2", amount: 23000, state: "accepted", code: code6() }, { id: newId(), order: 1039, area: "area_3", amount: 4000, state: "delivered", code: code6(), proof: "code" }];
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(RK.device === "rider-phone" ? ["online", "country", "dark", "lang", "turn"] : ["online", "country", "dark", "lang"], S, W, C)
+  $("#panel").innerHTML = panelHtml(RK.device === "rider-phone" && DM.touch() ? ["online", "country", "dark", "lang", "turn"] : ["online", "country", "dark", "lang"], S, W, C)
     + `<label class="center"><span>${esc(t("rk_device"))}</span> <select data-ctl="rkdevice">${(["rider-phone", "smartwatch", "car-screen"] as const).map((k) => `<option value="${k}"${k === RK.device ? " selected" : ""}>${esc(t(k === "rider-phone" ? "rk_phone" : k === "smartwatch" ? "rk_watch" : "rk_car"))}</option>`).join("")}</select></label>`
     + `<label class="center"><span>${esc(t("rk_battery"))}</span> <select data-ctl="battery">${[100, 20, 10, 3].map((b) => `<option value="${b}"${b === RX.battery ? " selected" : ""}>${b}%</option>`).join("")}</select></label>`
-    + (RK.device === "car-screen" ? `<label><input type="checkbox" data-ctl="moving"${RK.moving ? " checked" : ""}> <span>${esc(t("rk_moving"))}</span></label>` : "");
+    + (RK.device === "car-screen" ? `<label><input type="checkbox" data-ctl="moving"${RK.moving ? " checked" : ""}> <span>${esc(t("rk_moving"))}</span></label>` : "")
+    + (RK.device === "rider-phone" ? DEV.control() : "");
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["lock_screen", "duress", "list", "pickup", "deliver", "delivered", "wrong"], (k) => {
     if (k === "lock_screen") { GATE.lockNow(); S.open = ""; draw(); return; }
@@ -175,12 +183,12 @@ function panel(): void {
 }
 function main(): void {
   S.country = DATA.packOrder[0] ?? ""; seed(); panel(); draw();
-  document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (!b || b.hasAttribute("disabled")) return; if (b.classList.contains("dsh-scrim") && (e.target as HTMLElement).closest("[data-stop]")) return; if (!DSH.act(b.dataset["act"] ?? "")) act(b.dataset["act"] ?? ""); });
-  document.addEventListener("keydown", (e) => { if (GATE.key(e)) return; DSH.key(e); });
+  document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (!b || b.hasAttribute("disabled")) return; if (RK.device === "rider-phone" && DEV.act(b.dataset["act"] ?? "")) return; if (b.classList.contains("dsh-scrim") && (e.target as HTMLElement).closest("[data-stop]")) return; if (!DSH.act(b.dataset["act"] ?? "")) act(b.dataset["act"] ?? ""); });
+  document.addEventListener("keydown", (e) => { if (GATE.key(e)) return; if (DSH.key(e)) return; if (RK.device === "rider-phone") DEV.key(e); });
   (window as unknown as { __settle: () => void }).__settle = () => { DSH.settle(); draw(); };
   document.addEventListener("change", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["field"] === "share") { S.share = el.checked; S.trip = 0; draw(); } });
   document.addEventListener("input", (e) => { const el = e.target as HTMLInputElement; if (DSH.input(el)) return; if (el.dataset["field"] === "code") { S.typed = plain(el.value).replace(/\D/g, "").slice(0, 6); const pos = el.selectionStart; draw(); const n = document.querySelector<HTMLInputElement>('[data-field="code"]'); if (n) { n.focus(); n.setSelectionRange(pos, pos); } } });
-  $("#panel").addEventListener("change", (e) => { const c = e.target as HTMLSelectElement & HTMLInputElement;
+  $("#panel").addEventListener("change", (e) => { const c = e.target as HTMLSelectElement & HTMLInputElement; if (DEV.change(c)) { panel(); draw(); return; }
     if (c.dataset["ctl"] === "rkdevice") { RK.device = c.value === "smartwatch" ? "smartwatch" : c.value === "car-screen" ? "car-screen" : "rider-phone"; RK.moving = false; S.open = ""; panel(); draw(); (window as unknown as { __refit: () => void }).__refit(); return; }
     if (c.dataset["ctl"] === "moving") { RK.moving = c.checked; draw(); return; }
     if (c.dataset["ctl"] === "battery") { RX.battery = Number(c.value) || 100; if (RX.battery > 3) RX.lastSent = false; draw(); return; }

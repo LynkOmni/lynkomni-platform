@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
+ "source_sha256": "6e72271cd25d3d5be1072117cd7dde6cfedcac176ed46125e23ec4a25e15d096",
  "texts": {
   "fd_add_item": "Voeg eerst een artikel toe aan het mandje.",
   "fd_ask_manager": "Een manager of de eigenaar kan helpen.",
@@ -24,6 +24,8 @@
   "fd_enter_cash": "Typ het volledige bedrag dat de klant gaf.",
   "fd_error": "Fout",
   "fd_example": "Voorbeeld: {sample}",
+  "fd_find": "Zoeken",
+  "fd_find_none": "Geen resultaten. Probeer minder letters.",
   "fd_go_online": "Maak verbinding met internet en probeer het daarna opnieuw.",
   "fd_go_to": "Naar {field}",
   "fd_info": "Informatie",
