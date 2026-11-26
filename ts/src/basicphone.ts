@@ -6,16 +6,16 @@
 import { pinProblem } from "./signin.js";
 
 export type BpScreen = "welcome" | "pin" | "locked" | "age" | "too_young" | "username" | "new_pin" | "pin_again" | "terms" | "created" | "home"
-  | "messages" | "read" | "help" | "states" | "state" | "pin_help" | "link_sent" | "handed" | "bye";
+  | "messages" | "read" | "help" | "states" | "state" | "pin_help" | "pin_reset" | "pin_reset_sent" | "pin_reset_shop" | "link_sent" | "handed" | "bye";
 export interface BpState { screen: BpScreen; signed_in: boolean; limited: boolean; username: string | null; pin: string | null; note: [string, Record<string, string | number>] | null; pick: number | null; back: BpScreen }
 export type BpLine = [string, Record<string, string | number>];
 export interface BpCtx { age: number; lines: [string, string][]; recovery?: string; case?: string }
 export type PinCheck = "ok" | "duress" | "locked" | ["wrong", number];
 export interface BpRules { pinCheck: (pin: string) => PinCheck; usernameCheck: (u: string) => string | null; taken: (u: string) => boolean }
-export type BpAction = { sign_in: true; duress?: true } | { wrong_pin: number } | { create: { username: string; pin: string } } | { read: string } | { send_link: "help" } | { hand_over: "help" };
+export type BpAction = { sign_in: true; duress?: true } | { wrong_pin: number } | { create: { username: string; pin: string } } | { read: string } | { send_link: "help" } | { hand_over: "help" } | { pin_reset: "menu" };
 
 export const BP_WELCOME = ["sign_in", "create", "help"] as const;
-export const BP_HELP = ["states", "pin_help", "link", "person"] as const;
+export const BP_HELP = ["states", "pin_help", "pin_reset", "link", "person"] as const;
 export const BP_STATES = ["queued", "sent", "accepted", "confirmed", "failed"] as const;
 export const BP_MAX_LINES = 5;
 
@@ -35,7 +35,7 @@ export function bpPage(state: BpState, ctx: BpCtx): BpLine[] {
     case "new_pin": return [...note, ["bp_new_pin", {}]];
     case "pin_again": return [["bp_pin_again", {}]];
     case "terms": return [["bp_terms", {}], ["bp_agree", { n: 1 }], ...back];
-    case "created": return [["bp_created", { username: state.username ?? "" }], ["bp_recovery", { code: ctx.recovery ?? "" }]];
+    case "created": return [["bp_created", { username: state.username ?? "" }], ["bp_recovery", { code: ctx.recovery ?? "" }], ["bp_limits", {}]];
     case "home": return [["bp_home", {}], ["bp_messages", { n: 1, count: ctx.lines.length }], ["bp_help", { n: 2 }], ["ch_end", { n: 0 }]];
     case "messages": {
       const lines = ctx.lines.slice(0, BP_MAX_LINES);
@@ -46,6 +46,9 @@ export function bpPage(state: BpState, ctx: BpCtx): BpLine[] {
     case "states": return [["bp_states_title", {}], ...BP_STATES.map((k, i): BpLine => [`bp_state_${k}`, { n: i + 1 }]), ...back];
     case "state": return [[`kp_state_${BP_STATES[state.pick ?? 0]}`, {}], ...back];
     case "pin_help": return [["bp_pin_help", {}], ...back];
+    case "pin_reset": return [["bp_pin_reset", {}], ["bp_pin_reset_menu", { n: 1 }], ["bp_pin_reset_shop", { n: 2 }], ...back];
+    case "pin_reset_sent": return [["bp_pin_reset_sent", {}]];
+    case "pin_reset_shop": return [["bp_pin_reset_at_shop", {}]];
     case "link_sent": return [["bp_link_sent", {}]];
     case "handed": return [["bp_handed", { case: ctx.case ?? "" }]];
     default: return [["ch_bye", {}]];
@@ -111,6 +114,7 @@ export function bpStep(state: BpState, text: string, ctx: BpCtx, rules: BpRules)
       const pick = n >= 1 && n <= BP_HELP.length ? BP_HELP[n - 1] : null;
       if (pick === "states") return [to(s, "states"), false, null];
       if (pick === "pin_help") return [to(s, "pin_help"), false, null];
+      if (pick === "pin_reset") return [to(s, "pin_reset"), false, null];
       if (pick === "link") return [to(s, "link_sent"), true, { send_link: "help" }];
       if (pick === "person") return [to(s, "handed"), true, { hand_over: "help" }];
       return [s, false, null];
@@ -118,6 +122,11 @@ export function bpStep(state: BpState, text: string, ctx: BpCtx, rules: BpRules)
     case "states":
       if (t === "0") return [to(s, "help"), false, null];
       if (n >= 1 && n <= BP_STATES.length) return [to({ ...s, pick: n - 1 }, "state"), false, null];
+      return [s, false, null];
+    case "pin_reset":
+      if (t === "0") return [to(s, "help"), false, null];
+      if (t === "1") return [to(s, "pin_reset_sent"), true, { pin_reset: "menu" }];
+      if (t === "2") return [to(s, "pin_reset_shop"), true, null];
       return [s, false, null];
     case "state": case "pin_help":
       return t === "0" ? [to(s, s.screen === "state" ? "states" : "help"), false, null] : [s, false, null];

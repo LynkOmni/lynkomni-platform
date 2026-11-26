@@ -46,6 +46,18 @@ class BasicPhone(unittest.TestCase):
         self.assertTrue(ends); self.assertEqual(action["create"]["username"], "ama.shop")
         self.assertIsNone(s["pin"], "the PIN leaves with the request and is not kept in the session")
 
+    def test_reset_my_pin_by_menu_asks_the_cloud_and_never_resets_at_once(self):
+        s = B.start()
+        s, _, _ = B.step(s, "3", {})
+        s, _, _ = B.step(s, "3", {})
+        self.assertEqual(s["screen"], "pin_reset")
+        menu, ends, action = B.step(s, "1", {})
+        self.assertTrue(ends); self.assertEqual(action, {"pin_reset": "menu"})
+        self.assertEqual(menu["screen"], "pin_reset_sent")
+        shop, ends, action = B.step(s, "2", {})
+        self.assertTrue(ends); self.assertIsNone(action, "at a shop the ID check happens there, not by menu")
+        self.assertEqual(shop["screen"], "pin_reset_shop")
+
     def test_text_notification_carries_no_secret(self):
         from services.messages import check_content
         for c in V["texts"]:

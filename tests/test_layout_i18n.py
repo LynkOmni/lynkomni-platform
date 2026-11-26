@@ -319,8 +319,8 @@ class AccountLayout(DarkPass, unittest.TestCase):
             pg.click(f'#stateButtons button[data-state="{st}"]'); check(st)
         # section 4C points 3 and 5: the shared sign-up, sign-in and Can't sign in? part (ts/src/waysview.ts)
         pg.click('#stateButtons button[data-state="signup"]'); check("signup country")
-        for stp in ("country", "username"):
-            pg.click(f'[data-act="wy:su:next:{stp}"]')
+        pg.click('[data-act="wy:su:next:country"]'); check("signup username")
+        pg.fill("#wyUser", "..bad"); check("signup username error"); pg.fill("#wyUser", "grace.k"); pg.click('[data-act="wy:su:next:username"]')
         check("signup age"); pg.check('[data-in="wy:adult"]'); pg.click('[data-act="wy:su:next:age"]'); check("signup legal name")
         pg.fill("#wyLegal", "R2D2"); pg.click('[data-act="wy:su:next:legal_name"]'); check("signup legal name error")
         pg.fill("#wyLegal", "Grace Uwase"); pg.click('[data-act="wy:su:next:legal_name"]'); check("signup email")

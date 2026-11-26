@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-kikWVdXStuz0jHW19h6vnEGqOf03rcIbsxiuEKol3KE='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-pClBwz0Kxk4cCxnDRuyzRojSY8z6GWFNr/2Od70F5Gs='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni Account</title>
 <meta name="description" content="Interactive emulator of LynkOmni Account (account.lynkomni.com) on a phone and in the browser: sign-up, sign-in, recovery, the Security Center and every account page, built on the shared shell.">
@@ -4915,7 +4915,7 @@ function signInWays(has, strongest = false) {
     return [...order].sort(byStrength).map((w) => w.id);
 }
 const extraChecks = (has) => WI_WAYS.filter((w) => w.kind === "extra" && has.includes(w.id)).sort(byStrength).map((w) => w.id);
-function codeValid(sentAt, now, askingDevice, device) {
+function sentCodeValid(sentAt, now, askingDevice, device) {
     const c = WAYS_IN.sign_in.codes;
     return now - sentAt <= c.lifetime_s && (!c.only_asking_device || askingDevice === device);
 }
@@ -4989,6 +4989,7 @@ function mayReset(what, by, own = false, online = true) {
 
 
 
+
 const wyEsc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const WY_ALPHABET = WAYS_IN.backup_codes.alphabet;
 function waysStart(now, random) {
@@ -4997,7 +4998,7 @@ function waysStart(now, random) {
     const codes = Array.from({ length: WAYS_IN.backup_codes.count }, code);
     return {
         now, online: true, has: ["passkey", "other_device", "email_code", "text_code", "backup_code", "recovery_code", "email_and_phone", "id_check"], strongest: false, minAge: 18,
-        su: { done: [], adult: false, legal: "", tried: false, codes, recovery: `${code()}-${code()}`, device: 0, network: 0 },
+        su: { done: [], adult: false, legal: "", tried: false, username: "", codes, recovery: `${code()}-${code()}`, device: 0, network: 0 },
         si: { who: "grace.k", step: "who", unusual: [], remember: true, qr: false, numbers: 10 + random(90) },
         rc: { problem: null, way: null, started: null, readyAt: null, cancelled: false, done: null, locked: false, blocked: false },
         sec: { left: WAYS_IN.backup_codes.count, shown: null, auth: "off", authKey: "", keys: 0, contacts: [], word: "", wordSaved: false, lock: [], old: ["Old tablet"], activity: [], appLock: false, privacy: false, basic: false },
@@ -5021,9 +5022,13 @@ function signUpHtml(look, st) {
         case "country":
             body = `<p class="wy-note">${wyEsc(t("wy_country_note"))}</p>${next()}`;
             break;
-        case "username":
-            body = `<p class="wy-note">${wyEsc(t("wy_who_is", { kind: t("wy_kind_username") }))}</p>${next()}`;
+        case "username": {
+            const u = check(st.su.username);
+            body = `<div class="wy-field"><label for="wyUser">${wyEsc(t("username"))}</label><input class="text" id="wyUser" data-in="wy:username" autocapitalize="none" autocomplete="username" spellcheck="false" maxlength="30" dir="ltr" value="${wyEsc(st.su.username)}" placeholder="${wyEsc(hintFor("username", t))}" aria-describedby="wyUser-msg"></div>`
+                + (st.su.username && !u.ok ? noticeHtml(t, { level: "error", text: t(`username_${u.reason}`), field: "wyUser", how: t("fd_type_again") }) : "")
+                + `<p class="wy-note">${wyEsc(t("username_rule"))}</p>${next()}`;
             break;
+        }
         case "age":
             body = `<label class="wy-check"><input type="checkbox" data-in="wy:adult"${st.su.adult ? " checked" : ""}><span>${wyEsc(t("wy_age_confirm", { age: look.num(st.minAge) }))}</span></label><p class="wy-note">${wyEsc(t("wy_age_note"))}</p>${next(st.su.adult)}`;
             break;
@@ -5059,7 +5064,7 @@ function signUpHtml(look, st) {
         default: body = `${noticeHtml(t, { level: "success", text: t("wy_signup_done") })}`;
     }
     const title = step === null ? "" : `<h2>${wyEsc(t(`wy_step_${step}`))}</h2>`;
-    const back = step !== null && idx > 0 && step !== "recovery" ? wyBtn(look, "secondary", "su:back", t("wy_back")) : "";
+    const back = step === null || step === "recovery" ? "" : wyBtn(look, "secondary", idx > 0 ? "su:back" : "go:signin", t("wy_back"));
     return `<section class="wy" data-wy="signup"><h1>${wyEsc(t("wy_signup_title"))}</h1><p class="wy-sub">${wyEsc(t("wy_step_of", { n: look.num(Math.min(idx + 1, steps.length)), total: look.num(steps.length) }))}</p>${bar}${title}${body}${back}</section>`;
 }
 function signInHtml(look, st) {
@@ -5173,6 +5178,8 @@ function waysAct(st, act, random) {
                     return {};
             }
             if (arg === "age" && !st.su.adult)
+                return {};
+            if (arg === "username" && !check(st.su.username).ok)
                 return {};
             if (!st.su.done.includes(arg))
                 st.su.done.push(arg);
@@ -5309,6 +5316,8 @@ function waysInput(st, field, value, checked) {
         st.su.legal = value;
         st.su.tried = false;
     }
+    else if (f === "username")
+        st.su.username = value.trim().replace(/^@/, "").toLowerCase().slice(0, 30);
     else if (f === "who")
         st.si.who = value;
     else if (f === "remember")

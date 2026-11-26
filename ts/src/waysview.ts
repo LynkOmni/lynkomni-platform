@@ -12,6 +12,7 @@ import { signUpNext, legalNameProblem, identifierKind, signInWays, extraChecks, 
   antiPhishingProblem, sessionHours, restrictedAfterRecovery } from "./waysin.js";
 import { noticeHtml } from "./errorbox.js";
 import { hintFor } from "./hints.js";
+import { check } from "./usernames.js";
 
 type WyT = (key: string, vars?: Record<string, string | number>) => string;
 export interface WaysLook {
@@ -21,7 +22,7 @@ export interface WaysLook {
 }
 export interface WaysState {
   now: number; online: boolean; has: string[]; strongest: boolean; minAge: number;
-  su: { done: string[]; adult: boolean; legal: string; tried: boolean; codes: string[]; recovery: string; device: number; network: number };
+  su: { done: string[]; adult: boolean; legal: string; tried: boolean; username: string; codes: string[]; recovery: string; device: number; network: number };
   si: { who: string; step: "who" | "ways" | "extra" | "done"; unusual: string[]; remember: boolean; qr: boolean; numbers: number };
   rc: { problem: string | null; way: string | null; started: number | null; readyAt: number | null; cancelled: boolean; done: number | null; locked: boolean; blocked: boolean };
   sec: { left: number; shown: string[] | null; auth: "off" | "setup" | "on"; authKey: string; keys: number; contacts: string[]; word: string; wordSaved: boolean;
@@ -36,7 +37,7 @@ export function waysStart(now: number, random: (n: number) => number): WaysState
   const codes = Array.from({ length: WAYS_IN.backup_codes.count }, code);
   return {
     now, online: true, has: ["passkey", "other_device", "email_code", "text_code", "backup_code", "recovery_code", "email_and_phone", "id_check"], strongest: false, minAge: 18,
-    su: { done: [], adult: false, legal: "", tried: false, codes, recovery: `${code()}-${code()}`, device: 0, network: 0 },
+    su: { done: [], adult: false, legal: "", tried: false, username: "", codes, recovery: `${code()}-${code()}`, device: 0, network: 0 },
     si: { who: "grace.k", step: "who", unusual: [], remember: true, qr: false, numbers: 10 + random(90) },
     rc: { problem: null, way: null, started: null, readyAt: null, cancelled: false, done: null, locked: false, blocked: false },
     sec: { left: WAYS_IN.backup_codes.count, shown: null, auth: "off", authKey: "", keys: 0, contacts: [], word: "", wordSaved: false, lock: [], old: ["Old tablet"], activity: [], appLock: false, privacy: false, basic: false },
@@ -64,7 +65,12 @@ export function signUpHtml(look: WaysLook, st: WaysState): string {
   const next = (enabled = true, extra = ""): string => wyBtn(look, "primary", `su:next:${step}`, t("wy_next"), (enabled ? "" : " disabled") + extra);
   switch (step) {
     case "country": body = `<p class="wy-note">${wyEsc(t("wy_country_note"))}</p>${next()}`; break;
-    case "username": body = `<p class="wy-note">${wyEsc(t("wy_who_is", { kind: t("wy_kind_username") }))}</p>${next()}`; break;
+    case "username": {
+      const u = check(st.su.username);
+      body = `<div class="wy-field"><label for="wyUser">${wyEsc(t("username"))}</label><input class="text" id="wyUser" data-in="wy:username" autocapitalize="none" autocomplete="username" spellcheck="false" maxlength="30" dir="ltr" value="${wyEsc(st.su.username)}" placeholder="${wyEsc(hintFor("username", t))}" aria-describedby="wyUser-msg"></div>`
+        + (st.su.username && !u.ok ? noticeHtml(t, { level: "error", text: t(`username_${u.reason}`), field: "wyUser", how: t("fd_type_again") }) : "")
+        + `<p class="wy-note">${wyEsc(t("username_rule"))}</p>${next()}`; break;
+    }
     case "age": body = `<label class="wy-check"><input type="checkbox" data-in="wy:adult"${st.su.adult ? " checked" : ""}><span>${wyEsc(t("wy_age_confirm", { age: look.num(st.minAge) }))}</span></label><p class="wy-note">${wyEsc(t("wy_age_note"))}</p>${next(st.su.adult)}`; break;
     case "legal_name": {
       const why = st.su.tried ? legalNameProblem(st.su.legal) : null;
@@ -85,7 +91,7 @@ export function signUpHtml(look: WaysLook, st: WaysState): string {
     default: body = `${noticeHtml(t, { level: "success", text: t("wy_signup_done") })}`;
   }
   const title = step === null ? "" : `<h2>${wyEsc(t(`wy_step_${step}`))}</h2>`;
-  const back = step !== null && idx > 0 && step !== "recovery" ? wyBtn(look, "secondary", "su:back", t("wy_back")) : "";
+  const back = step === null || step === "recovery" ? "" : wyBtn(look, "secondary", idx > 0 ? "su:back" : "go:signin", t("wy_back"));
   return `<section class="wy" data-wy="signup"><h1>${wyEsc(t("wy_signup_title"))}</h1><p class="wy-sub">${wyEsc(t("wy_step_of", { n: look.num(Math.min(idx + 1, steps.length)), total: look.num(steps.length) }))}</p>${bar}${title}${body}${back}</section>`;
 }
 
@@ -196,6 +202,7 @@ export function waysAct(st: WaysState, act: string, random: (n: number) => numbe
     if (verb === "next" && arg) {
       if (arg === "legal_name") { st.su.tried = true; if (legalNameProblem(st.su.legal)) return {}; }
       if (arg === "age" && !st.su.adult) return {};
+      if (arg === "username" && !check(st.su.username).ok) return {};
       if (!st.su.done.includes(arg)) st.su.done.push(arg);
       return arg === "recovery" ? { event: "AccountCreated" } : {};
     }
@@ -256,6 +263,7 @@ export function waysInput(st: WaysState, field: string, value: string, checked: 
   const f = field.replace(/^wy:/, "");
   if (f === "adult") st.su.adult = checked;
   else if (f === "legal") { st.su.legal = value; st.su.tried = false; }
+  else if (f === "username") st.su.username = value.trim().replace(/^@/, "").toLowerCase().slice(0, 30);
   else if (f === "who") st.si.who = value;
   else if (f === "remember") st.si.remember = checked;
   else if (f === "word") { st.sec.word = value; st.sec.wordSaved = false; }

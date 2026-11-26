@@ -14,7 +14,10 @@ test("sign-up goes through the ten steps in order, online only, with both codes"
   assert.ok(/wy_offline_signup/.test(signUpHtml(look, st)));
   st.online = true;
   assert.ok(/wy_step_country/.test(signUpHtml(look, st)));
-  for (const s of ["country", "username"]) waysAct(st, `wy:su:next:${s}`, rnd);
+  waysAct(st, "wy:su:next:country", rnd);
+  waysAct(st, "wy:su:next:username", rnd);
+  assert.deepEqual(st.su.done, ["country"], "a username in the right form first");
+  waysInput(st, "wy:username", "@Grace.K", false); waysAct(st, "wy:su:next:username", rnd);
   waysAct(st, "wy:su:next:age", rnd);
   assert.deepEqual(st.su.done, ["country", "username"], "the age must be confirmed first");
   waysInput(st, "wy:adult", "", true); waysAct(st, "wy:su:next:age", rnd);

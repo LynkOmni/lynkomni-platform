@@ -250,15 +250,21 @@
       }
      ],
      [
-      "bp_help_link",
+      "bp_help_pin_reset",
       {
        "n": 3
       }
      ],
      [
-      "bp_help_person",
+      "bp_help_link",
       {
        "n": 4
+      }
+     ],
+     [
+      "bp_help_person",
+      {
+       "n": 5
       }
      ],
      [
@@ -406,15 +412,21 @@
       }
      ],
      [
-      "bp_help_link",
+      "bp_help_pin_reset",
       {
        "n": 3
       }
      ],
      [
-      "bp_help_person",
+      "bp_help_link",
       {
        "n": 4
+      }
+     ],
+     [
+      "bp_help_person",
+      {
+       "n": 5
       }
      ],
      [
@@ -806,15 +818,21 @@
       }
      ],
      [
-      "bp_help_link",
+      "bp_help_pin_reset",
       {
        "n": 3
       }
      ],
      [
-      "bp_help_person",
+      "bp_help_link",
       {
        "n": 4
+      }
+     ],
+     [
+      "bp_help_person",
+      {
+       "n": 5
       }
      ],
      [
@@ -1134,6 +1152,10 @@
       {
        "code": "7F3K-9Q2M-X81B-4TZC"
       }
+     ],
+     [
+      "bp_limits",
+      {}
      ]
     ],
     "ends": true,
@@ -1324,15 +1346,21 @@
       }
      ],
      [
-      "bp_help_link",
+      "bp_help_pin_reset",
       {
        "n": 3
       }
      ],
      [
-      "bp_help_person",
+      "bp_help_link",
       {
        "n": 4
+      }
+     ],
+     [
+      "bp_help_person",
+      {
+       "n": 5
       }
      ],
      [
@@ -1347,18 +1375,16 @@
    },
    {
     "input": "4",
-    "screen": "handed",
+    "screen": "link_sent",
     "page": [
      [
-      "bp_handed",
-      {
-       "case": "LOCASE-2101-7710-0042"
-      }
+      "bp_link_sent",
+      {}
      ]
     ],
     "ends": true,
     "action": {
-     "hand_over": "help"
+     "send_link": "help"
     }
    }
   ],
@@ -1419,15 +1445,21 @@
       }
      ],
      [
-      "bp_help_link",
+      "bp_help_pin_reset",
       {
        "n": 3
       }
      ],
      [
-      "bp_help_person",
+      "bp_help_link",
       {
        "n": 4
+      }
+     ],
+     [
+      "bp_help_person",
+      {
+       "n": 5
       }
      ],
      [
@@ -1479,15 +1511,120 @@
       }
      ],
      [
-      "bp_help_link",
+      "bp_help_pin_reset",
       {
        "n": 3
       }
      ],
      [
-      "bp_help_person",
+      "bp_help_link",
       {
        "n": 4
+      }
+     ],
+     [
+      "bp_help_person",
+      {
+       "n": 5
+      }
+     ],
+     [
+      "ch_back",
+      {
+       "n": 0
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "4",
+    "screen": "link_sent",
+    "page": [
+     [
+      "bp_link_sent",
+      {}
+     ]
+    ],
+    "ends": true,
+    "action": {
+     "send_link": "help"
+    }
+   }
+  ],
+  [
+   {
+    "input": null,
+    "page": [
+     [
+      "bp_title",
+      {}
+     ],
+     [
+      "bp_sign_in",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_create",
+      {
+       "n": 2
+      }
+     ],
+     [
+      "bp_help",
+      {
+       "n": 3
+      }
+     ],
+     [
+      "ch_end",
+      {
+       "n": 0
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "3",
+    "screen": "help",
+    "page": [
+     [
+      "bp_help_title",
+      {}
+     ],
+     [
+      "bp_help_states",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_help_pin_help",
+      {
+       "n": 2
+      }
+     ],
+     [
+      "bp_help_pin_reset",
+      {
+       "n": 3
+      }
+     ],
+     [
+      "bp_help_link",
+      {
+       "n": 4
+      }
+     ],
+     [
+      "bp_help_person",
+      {
+       "n": 5
       }
      ],
      [
@@ -1502,16 +1639,352 @@
    },
    {
     "input": "3",
-    "screen": "link_sent",
+    "screen": "pin_reset",
     "page": [
      [
-      "bp_link_sent",
+      "bp_pin_reset",
+      {}
+     ],
+     [
+      "bp_pin_reset_menu",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_pin_reset_shop",
+      {
+       "n": 2
+      }
+     ],
+     [
+      "ch_back",
+      {
+       "n": 0
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "1",
+    "screen": "pin_reset_sent",
+    "page": [
+     [
+      "bp_pin_reset_sent",
       {}
      ]
     ],
     "ends": true,
     "action": {
-     "send_link": "help"
+     "pin_reset": "menu"
+    }
+   }
+  ],
+  [
+   {
+    "input": null,
+    "page": [
+     [
+      "bp_title",
+      {}
+     ],
+     [
+      "bp_sign_in",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_create",
+      {
+       "n": 2
+      }
+     ],
+     [
+      "bp_help",
+      {
+       "n": 3
+      }
+     ],
+     [
+      "ch_end",
+      {
+       "n": 0
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "3",
+    "screen": "help",
+    "page": [
+     [
+      "bp_help_title",
+      {}
+     ],
+     [
+      "bp_help_states",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_help_pin_help",
+      {
+       "n": 2
+      }
+     ],
+     [
+      "bp_help_pin_reset",
+      {
+       "n": 3
+      }
+     ],
+     [
+      "bp_help_link",
+      {
+       "n": 4
+      }
+     ],
+     [
+      "bp_help_person",
+      {
+       "n": 5
+      }
+     ],
+     [
+      "ch_back",
+      {
+       "n": 0
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "3",
+    "screen": "pin_reset",
+    "page": [
+     [
+      "bp_pin_reset",
+      {}
+     ],
+     [
+      "bp_pin_reset_menu",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_pin_reset_shop",
+      {
+       "n": 2
+      }
+     ],
+     [
+      "ch_back",
+      {
+       "n": 0
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "2",
+    "screen": "pin_reset_shop",
+    "page": [
+     [
+      "bp_pin_reset_at_shop",
+      {}
+     ]
+    ],
+    "ends": true,
+    "action": null
+   }
+  ],
+  [
+   {
+    "input": null,
+    "page": [
+     [
+      "bp_title",
+      {}
+     ],
+     [
+      "bp_sign_in",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_create",
+      {
+       "n": 2
+      }
+     ],
+     [
+      "bp_help",
+      {
+       "n": 3
+      }
+     ],
+     [
+      "ch_end",
+      {
+       "n": 0
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "3",
+    "screen": "help",
+    "page": [
+     [
+      "bp_help_title",
+      {}
+     ],
+     [
+      "bp_help_states",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_help_pin_help",
+      {
+       "n": 2
+      }
+     ],
+     [
+      "bp_help_pin_reset",
+      {
+       "n": 3
+      }
+     ],
+     [
+      "bp_help_link",
+      {
+       "n": 4
+      }
+     ],
+     [
+      "bp_help_person",
+      {
+       "n": 5
+      }
+     ],
+     [
+      "ch_back",
+      {
+       "n": 0
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "3",
+    "screen": "pin_reset",
+    "page": [
+     [
+      "bp_pin_reset",
+      {}
+     ],
+     [
+      "bp_pin_reset_menu",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_pin_reset_shop",
+      {
+       "n": 2
+      }
+     ],
+     [
+      "ch_back",
+      {
+       "n": 0
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "0",
+    "screen": "help",
+    "page": [
+     [
+      "bp_help_title",
+      {}
+     ],
+     [
+      "bp_help_states",
+      {
+       "n": 1
+      }
+     ],
+     [
+      "bp_help_pin_help",
+      {
+       "n": 2
+      }
+     ],
+     [
+      "bp_help_pin_reset",
+      {
+       "n": 3
+      }
+     ],
+     [
+      "bp_help_link",
+      {
+       "n": 4
+      }
+     ],
+     [
+      "bp_help_person",
+      {
+       "n": 5
+      }
+     ],
+     [
+      "ch_back",
+      {
+       "n": 0
+      }
+     ]
+    ],
+    "ends": false,
+    "action": null
+   },
+   {
+    "input": "5",
+    "screen": "handed",
+    "page": [
+     [
+      "bp_handed",
+      {
+       "case": "LOCASE-2101-7710-0042"
+      }
+     ]
+    ],
+    "ends": true,
+    "action": {
+     "hand_over": "help"
     }
    }
   ],
