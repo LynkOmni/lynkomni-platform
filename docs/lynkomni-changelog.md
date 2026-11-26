@@ -2,6 +2,12 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.122.0 (2026-11-26)
+Build section 4C is locked: the fixes before section 5.
+- Every point of build table 87.6 is built: phone and email fields (v0.113.0, v0.114.0), errors that say where, why and how to fix with WhatsApp gone (v0.115.0 to v0.117.0), sign-up and sign-in with LynkOmni's own security and the Can't sign in? hub (v0.118.0 to v0.120.0) and the phone owner check (v0.121.0).
+- The showcase marks 4C locked; the account site, the Business app and the button phone pages are republished with the new sign-in, security and Reset my PIN screens.
+- Nothing in the rules for all services is still due for 4C.
+
 ## v0.121.0 (2026-11-26)
 Section 4C point 4: the phone owner check.
 - Only for things that need the real owner of a number: payouts and payout changes, a first paid Storefront offer, agent point mode, cards, exchange, getting back into an account, public elections, employer and landlord checks (catalog/ways-in.v1.json phone_owner). Never for everyday sign-up or sign-in.
