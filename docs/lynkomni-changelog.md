@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.117.2 (2026-11-26)
+Nothing on a screen is ever cut off, and every icon has its size (owner report from the kitchen screen).
+- The staff lock of every shared staff device (the PIN pad and "Who is using this device") now scrolls inside its screen instead of being cut, and the person icon in the staff list and the Back and OK keys of the PIN pad have a fixed small size (shared parts web/device/deviceparts.css and web/shell/parts.css).
+- Every page now gives any icon without its own size the size of the text beside it (web/shell/iconsize.css, added to every page by web/build.mjs), so an icon can never fill a button again.
+- The same check found and fixed two more places: the business phone's sign-in turned sideways (Send code was cut) and the LynkCDisplay "Rate us" screen; both now scroll.
+- The fit guard (tests/test_fit_guard.py) now fails on any text, picture or icon cut off with no scroll (CUT), on any icon bigger than twice the text beside it (ICONS), and on any cut button at every size, light and dark; it opens the PIN pad and the staff list of every staff device at every size. Proven: it fails on the old version.
+
 ## v0.117.1 (2026-11-26)
 The review panel never skips the staff PIN.
 - On every staff device emulator (counter tablet, stock scanner, rider phone, kitchen screen, betting counter), a screen button in the review panel now shows the PIN screen first; the chosen screen opens only after a correct PIN. The duress button shows the lock with the sample duress PIN, and a jump from the quiet duress view locks the device instead of leaving it. One shared method does it (ts/src/devicekit.ts StaffGate goAfterPin); the old shortcut that signed the sample cashier in without a PIN is gone.

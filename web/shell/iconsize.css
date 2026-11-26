@@ -1,0 +1,2 @@
+/* every icon has a size; a part's own size wins (2026-11-26) */
+:where(.ic){inline-size:1.25em;block-size:1.25em;display:inline-flex;flex:none}:where(.ic)>svg{inline-size:100%;block-size:100%}
