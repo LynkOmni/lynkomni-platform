@@ -8669,6 +8669,304 @@
    "expect": false
   }
  ],
+ "owner_method": [
+  {
+   "a": [
+    true,
+    false,
+    false
+   ],
+   "expect": "network"
+  },
+  {
+   "a": [
+    true,
+    false,
+    true
+   ],
+   "expect": "network"
+  },
+  {
+   "a": [
+    true,
+    true,
+    false
+   ],
+   "expect": "owner_id_document"
+  },
+  {
+   "a": [
+    true,
+    true,
+    true
+   ],
+   "expect": "registered_name"
+  },
+  {
+   "a": [
+    false,
+    false,
+    false
+   ],
+   "expect": "id_document"
+  },
+  {
+   "a": [
+    false,
+    false,
+    true
+   ],
+   "expect": "id_document"
+  },
+  {
+   "a": [
+    false,
+    true,
+    false
+   ],
+   "expect": "owner_id_document"
+  },
+  {
+   "a": [
+    false,
+    true,
+    true
+   ],
+   "expect": "owner_id_document"
+  }
+ ],
+ "owner_needed": [
+  {
+   "a": "payouts",
+   "expect": true
+  },
+  {
+   "a": "payout_change",
+   "expect": true
+  },
+  {
+   "a": "first_paid_offer",
+   "expect": true
+  },
+  {
+   "a": "agent_point",
+   "expect": true
+  },
+  {
+   "a": "cards",
+   "expect": true
+  },
+  {
+   "a": "exchange",
+   "expect": true
+  },
+  {
+   "a": "recovery",
+   "expect": true
+  },
+  {
+   "a": "public_election",
+   "expect": true
+  },
+  {
+   "a": "employer_verification",
+   "expect": true
+  },
+  {
+   "a": "landlord_verification",
+   "expect": true
+  },
+  {
+   "a": "sign_in",
+   "expect": false
+  },
+  {
+   "a": "cash_sale",
+   "expect": false
+  },
+  {
+   "a": "messages",
+   "expect": false
+  }
+ ],
+ "owner_outcome": [
+  {
+   "a": [
+    "match",
+    null,
+    0
+   ],
+   "expect": {
+    "fixes": [],
+    "result": "go",
+    "until": null
+   }
+  },
+  {
+   "a": [
+    "match",
+    0,
+    255600
+   ],
+   "expect": {
+    "fixes": [],
+    "result": "wait",
+    "until": 259200
+   }
+  },
+  {
+   "a": [
+    "match",
+    0,
+    259200
+   ],
+   "expect": {
+    "fixes": [],
+    "result": "go",
+    "until": null
+   }
+  },
+  {
+   "a": [
+    "partial",
+    null,
+    0
+   ],
+   "expect": {
+    "fixes": [
+     "check_spelling",
+     "id_document"
+    ],
+    "result": "fix",
+    "until": null
+   }
+  },
+  {
+   "a": [
+    "partial",
+    0,
+    255600
+   ],
+   "expect": {
+    "fixes": [],
+    "result": "wait",
+    "until": 259200
+   }
+  },
+  {
+   "a": [
+    "partial",
+    0,
+    259200
+   ],
+   "expect": {
+    "fixes": [
+     "check_spelling",
+     "id_document"
+    ],
+    "result": "fix",
+    "until": null
+   }
+  },
+  {
+   "a": [
+    "no_match",
+    null,
+    0
+   ],
+   "expect": {
+    "fixes": [
+     "check_number",
+     "id_document"
+    ],
+    "result": "stop",
+    "until": null
+   }
+  },
+  {
+   "a": [
+    "no_match",
+    0,
+    255600
+   ],
+   "expect": {
+    "fixes": [],
+    "result": "wait",
+    "until": 259200
+   }
+  },
+  {
+   "a": [
+    "no_match",
+    0,
+    259200
+   ],
+   "expect": {
+    "fixes": [
+     "check_number",
+     "id_document"
+    ],
+    "result": "stop",
+    "until": null
+   }
+  }
+ ],
+ "owner_valid": [
+  {
+   "a": [
+    null,
+    0,
+    false,
+    null
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    0,
+    15465600,
+    false,
+    null
+   ],
+   "expect": true
+  },
+  {
+   "a": [
+    0,
+    15552000,
+    false,
+    null
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    0,
+    10,
+    true,
+    null
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    0,
+    10,
+    false,
+    5
+   ],
+   "expect": false
+  },
+  {
+   "a": [
+    10,
+    20,
+    false,
+    5
+   ],
+   "expect": true
+  }
+ ],
  "recovery_ways": [
   {
    "a": [],

@@ -1459,6 +1459,54 @@
    "test": "tests/test_recover.py::test_repeated_failures_switch_on_the_strongest_mode",
    "build_section": "4C",
    "status": "built"
+  },
+  {
+   "id": "phone-owner-consent",
+   "asset": "accounts",
+   "threat": "A person's name and number are sent to a mobile network without them knowing",
+   "enforced_in": [
+    "identity/phone_owner.py",
+    "services/phone_owner_partners.py"
+   ],
+   "test": "tests/test_phone_owner.py::test_only_the_registered_activities_and_only_with_consent",
+   "build_section": "4C",
+   "status": "built"
+  },
+  {
+   "id": "phone-owner-sim-swap",
+   "asset": "accounts",
+   "threat": "Someone takes over a number with a new SIM and uses it for payouts, cards or recovery",
+   "enforced_in": [
+    "identity/phone_owner.py",
+    "services/phone_owner_partners.py"
+   ],
+   "test": "tests/test_phone_owner.py::test_partial_no_match_and_a_recent_sim_change",
+   "build_section": "4C",
+   "status": "built"
+  },
+  {
+   "id": "phone-owner-cloud-answer",
+   "asset": "accounts",
+   "threat": "A device or the sandbox claims the number's owner matched",
+   "enforced_in": [
+    "identity/phone_owner.py",
+    "services/phone_owner_partners.py"
+   ],
+   "test": "tests/test_phone_owner.py::test_the_network_gets_vault_references_and_answers_in_the_cloud",
+   "build_section": "4C",
+   "status": "built"
+  },
+  {
+   "id": "phone-owner-no-pii-in-events",
+   "asset": "personal_data",
+   "threat": "A name or phone number leaks through the event log",
+   "enforced_in": [
+    "identity/phone_owner.py",
+    "services/phone_owner_partners.py"
+   ],
+   "test": "tests/test_phone_owner.py::test_no_event_carries_a_name_or_number_and_the_default_is_off",
+   "build_section": "4C",
+   "status": "built"
   }
  ]
 }

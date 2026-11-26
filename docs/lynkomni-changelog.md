@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.121.0 (2026-11-26)
+Section 4C point 4: the phone owner check.
+- Only for things that need the real owner of a number: payouts and payout changes, a first paid Storefront offer, agent point mode, cards, exchange, getting back into an account, public elections, employer and landlord checks (catalog/ways-in.v1.json phone_owner). Never for everyday sign-up or sign-in.
+- Always with the person's consent. Where the mobile network offers it, the legal name (or a business's registered name) and the number go to the network as vault references through the worldwide standard (KYC Match), with the SIM change check at the same time. Match goes ahead; partly matches asks to check the spelling or use the ID document; no match stops with the fix; a SIM change in the last 72 hours makes it wait. A match lasts 180 days, or until the number or SIM card changes.
+- Where no network is signed, the licensed identity partner's ID document check is used instead (a business: the owner's own), so nothing waits on a network partner. The network partner is a working sandbox behind its interface (services/phone_owner_partners.py), off for real users until signed (ledger phone_owner_networks, country flag phone_owner_match, REMINDER item 10).
+- Kept as a LOVER- verification record (identity/phone_owner.py, account.owner). The answer is written by the cloud alone; a repeated answer changes nothing. Two account events with no name or number; the network's own name is never kept. Four security controls.
+- The network's fee is paid by LynkOmni and never charged to the person: a new assumed line in the expense model (30% of merchants and 2% of consumers checked once a month at 5 US cents), which moves the pinned profit figures (stage 1 expenses $36,932 a month).
+- The account site's security page has the Phone owner check card (what it's for, the consent tick, the answer with its fix, sample answers labelled Sample) in all 38 languages.
+
 ## v0.120.0 (2026-11-26)
 Section 4C step 3b: sign-up, sign-in, Can't sign in? and the security page on screen.
 - One shared part draws them all (ts/src/waysview.ts, words in web/waysin in 38 languages, styles web/shell/waysin.css), on the rules of ts/src/waysin.ts, with the shared phone, email and code fields and the shared error part.

@@ -341,6 +341,10 @@ class AccountLayout(DarkPass, unittest.TestCase):
         pg.click('#stateButtons button[data-state="security"]')
         for a in ("sec:fix:recovery_contacts", "sec:codes", "sec:authsetup"):
             pg.click(f'[data-act="wy:{a}"]'); check(a)
+        for answer, fix in (("partial", "check_spelling"), ("no_match", "id_document")):   # the phone owner check (section 4C point 4)
+            pg.check('[data-in="wy:poconsent"]'); pg.click('[data-act="wy:po:check"]'); check("phone owner sent")
+            pg.click(f'[data-act="wy:po:answer:{answer}"]'); check(f"phone owner {answer}"); pg.click(f'[data-act="wy:po:fix:{fix}"]')
+        check("phone owner id document")
         pg.click('#stateButtons button[data-state="storefront"]'); check("my storefront"); pg.click('[data-act="idcheck:start"]'); check("identity sent")
         pg.click('#stateButtons button[data-state="support"]'); pg.click('[data-act="support:external"]'); check("seller support case")
         pg.click('#stateButtons button[data-state="security"]')

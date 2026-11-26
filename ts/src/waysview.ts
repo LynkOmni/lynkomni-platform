@@ -9,7 +9,7 @@
  *  waits; never a password, questions, a text, email or call alone, or support finishing it; one Cancel on every old device. */
 import { WAYS_IN } from "./waysin.generated.js";
 import { signUpNext, legalNameProblem, identifierKind, signInWays, extraChecks, recoveryWays, backupCodesLeftNote, checkup, contactsProblem,
-  antiPhishingProblem, sessionHours, restrictedAfterRecovery } from "./waysin.js";
+  antiPhishingProblem, sessionHours, restrictedAfterRecovery, ownerCheckMethod, ownerCheckOutcome } from "./waysin.js";
 import { noticeHtml } from "./errorbox.js";
 import { hintFor } from "./hints.js";
 import { check } from "./usernames.js";
@@ -27,6 +27,8 @@ export interface WaysState {
   rc: { problem: string | null; way: string | null; started: number | null; readyAt: number | null; cancelled: boolean; done: number | null; locked: boolean; blocked: boolean };
   sec: { left: number; shown: string[] | null; auth: "off" | "setup" | "on"; authKey: string; keys: number; contacts: string[]; word: string; wordSaved: boolean;
     lock: string[]; old: string[]; activity: { type: string; at: number }[]; appLock: boolean; privacy: boolean; basic: boolean };
+  /** The phone owner check (point 4): consent, which check applies, and the answer written by the cloud (sample answers here). */
+  po: { consent: boolean; method: string; state: "none" | "sent" | "confirmed" | "partial" | "failed" | "waiting"; until: number | null };
 }
 const wyEsc = (s: string): string => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const WY_ALPHABET = WAYS_IN.backup_codes.alphabet;
@@ -41,6 +43,7 @@ export function waysStart(now: number, random: (n: number) => number): WaysState
     si: { who: "grace.k", step: "who", unusual: [], remember: true, qr: false, numbers: 10 + random(90) },
     rc: { problem: null, way: null, started: null, readyAt: null, cancelled: false, done: null, locked: false, blocked: false },
     sec: { left: WAYS_IN.backup_codes.count, shown: null, auth: "off", authKey: "", keys: 0, contacts: [], word: "", wordSaved: false, lock: [], old: ["Old tablet"], activity: [], appLock: false, privacy: false, basic: false },
+    po: { consent: false, method: ownerCheckMethod(true), state: "none", until: null },
   };
 }
 
@@ -185,9 +188,31 @@ export function securityHtml(look: WaysLook, st: WaysState): string {
       <label class="wy-check"><input type="checkbox" data-in="wy:applock"${s.appLock ? " checked" : ""}><span>${wyEsc(t("wy_app_lock"))}</span></label>
       <label class="wy-check"><input type="checkbox" data-in="wy:privacy"${s.privacy ? " checked" : ""}><span>${wyEsc(t("wy_privacy_screen"))}</span></label>`, "devices"),
     sec("wy_activity_title", s.activity.length ? `<ul class="wy-rows">${s.activity.slice(0, 8).map((a, i) => `<li><span class="wy-main"><span class="wy-nm">${wyEsc(t(`wy_ev_${a.type}`))}</span><span class="wy-sub">${wyEsc(look.when(a.at))}</span></span>${wyBtn(look, "secondary", `sec:notme:${i}`, t("wy_not_me"))}</li>`).join("")}</ul>` : `<p class="wy-note">${wyEsc(t("wy_alert_note"))}</p>`, "activity"),
+    sec("wy_po_title", phoneOwnerHtml(look, st), "phone_owner"),
     sec("wy_org_title", `<p class="wy-note">${wyEsc(t("wy_org_note"))}</p>`, "org"),
   ];
   return `<div class="wy wy-sec" data-wy="security">${s.basic ? noticeHtml(t, { level: "info", text: t("wy_basic_limits") }) : ""}${parts.join("")}</div>`;
+}
+
+/** The phone owner check card (section 4C point 4): only for the activities in the register, always with consent; the
+ *  answer is the cloud's (here a labelled sample), each answer with its fix; never charged to the person. */
+export function phoneOwnerHtml(look: WaysLook, st: WaysState): string {
+  const t = look.t, po = st.po;
+  const acts = `<p class="wy-sub">${wyEsc(t("wy_po_for"))}</p><ul class="wy-list">${WAYS_IN.phone_owner.activities.map((a) => `<li>${wyEsc(t(`wy_po_act_${a}`))}</li>`).join("")}</ul>`;
+  const how = `<p class="wy-note">${wyEsc(t(po.method === "network" ? "wy_po_network" : "wy_po_id_doc"))}</p>`;
+  const fixBtns = (fixes: readonly string[]): string => fixes.map((f) => wyBtn(look, "secondary", `po:fix:${f}`, t(`wy_po_fix_${f.replace("check_", "")}`))).join("");
+  let body = "";
+  if (po.state === "none") {
+    body = `<label class="wy-check"><input type="checkbox" data-in="wy:poconsent"${po.consent ? " checked" : ""}><span>${wyEsc(t("wy_po_consent"))}</span></label>`
+      + wyBtn(look, "primary", "po:check", t("wy_po_check"), po.consent ? " data-wait" : ` disabled data-why="${wyEsc(t("wy_po_why"))}"`);
+  } else if (po.state === "sent") {
+    body = noticeHtml(t, { level: "info", text: t("wy_po_sent") })
+      + (po.method === "network" ? `<p class="wy-sub">${wyEsc(t("wy_po_sample"))} <span class="wy-sample">${wyEsc(t("wy_sample"))}</span></p><div class="wy-btns">${(["match", "partial", "no_match", "sim"] as const).map((a) => wyBtn(look, "secondary", `po:answer:${a}`, t(`wy_po_s_${a}`))).join("")}</div>` : "");
+  } else if (po.state === "confirmed") body = noticeHtml(t, { level: "success", text: t("wy_po_match", { n: look.num(WAYS_IN.phone_owner.match_valid_days) }) });
+  else if (po.state === "partial") body = noticeHtml(t, { level: "warning", text: t("wy_po_partial") }) + `<div class="wy-btns">${fixBtns(WAYS_IN.phone_owner.partial_fixes)}</div>`;
+  else if (po.state === "failed") body = noticeHtml(t, { level: "error", text: t("wy_po_no_match"), how: t("wy_po_fix_number") }) + `<div class="wy-btns">${fixBtns(WAYS_IN.phone_owner.no_match_fixes)}</div>`;
+  else body = noticeHtml(t, { level: "warning", text: t("wy_po_wait", { when: look.when(po.until ?? st.now) }), how: t("wy_po_wait_how") });
+  return `<p class="wy-note">${wyEsc(t("wy_po_note"))}</p>${acts}${how}${body}<p class="wy-note">${wyEsc(t("wy_po_free"))}</p>`;
 }
 
 // ---- what a tap or a typed letter changes ----------------------------------------------------------------------------------
@@ -236,6 +261,20 @@ export function waysAct(st: WaysState, act: string, random: (n: number) => numbe
     if (verb === "checkup") return { go: "security" };
     return {};
   }
+  if (area === "po") {
+    const po = st.po;
+    if (verb === "check" && po.consent) { po.state = "sent"; return { event: "PhoneOwnerCheckRequested" }; }
+    if (verb === "answer" && po.state === "sent") {
+      const out = ownerCheckOutcome(arg === "sim" ? "match" : arg ?? "match", arg === "sim" ? st.now - 3600 : null, st.now);
+      po.state = ({ go: "confirmed", fix: "partial", stop: "failed", wait: "waiting" } as const)[out.result]; po.until = out.until;
+      return { event: "PhoneOwnerCheckAnswered" };
+    }
+    if (verb === "fix") {
+      if (arg === "id_document") { po.method = ownerCheckMethod(false); po.state = "sent"; return { event: "IdentityCheckRequested" }; }
+      po.state = "none"; po.consent = false; return {};
+    }
+    return {};
+  }
   if (area === "sec") {
     const s = st.sec, ev = WY_CODE_EVENTS[verb];
     if (verb === "codes") { const fresh = waysStart(st.now, random).su.codes; s.shown = fresh; s.left = fresh.length; }
@@ -270,6 +309,7 @@ export function waysInput(st: WaysState, field: string, value: string, checked: 
   else if (f === "strongest") st.strongest = checked;
   else if (f === "applock") st.sec.appLock = checked;
   else if (f === "privacy") st.sec.privacy = checked;
+  else if (f === "poconsent") st.po.consent = checked;
 }
 /** How long the session lasts for the Remember this device choice (shown in the host's session list). */
 export const waysSessionHours = (st: WaysState): number => sessionHours(st.si.remember);

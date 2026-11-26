@@ -82,6 +82,8 @@ class Account:
         s.ways = WaysIn(s)              # section 4C point 3: backup codes, authenticator apps, security keys, QR sign-in, recovery contacts, protections
         from identity.recover import RecoveryHub
         s.recover = RecoveryHub(s)      # section 4C point 5: the Can't sign in? hub
+        from identity.phone_owner import PhoneOwner
+        s.owner = PhoneOwner(s)         # section 4C point 4: the phone owner check, only where deep identity is needed
     # ---- events
     def _lynkid(s, person):
         r = s.db.execute("select lynkid from acct_people where person=?", (person,)).fetchone(); return r[0] if r else None

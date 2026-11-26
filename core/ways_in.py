@@ -199,3 +199,42 @@ def may_reset(what, by, own=False, online=True):
     if not online and r["where"] == "online":
         return False, "go_online"
     return True, None
+
+
+# ---- point 4: the phone owner check (only where deep identity is needed) -----------------------------------------------
+OWNER = W["phone_owner"]
+
+
+def owner_check_needed(activity):
+    """Only the activities in the register need the real owner of the number; everyday use never does."""
+    return activity in OWNER["activities"]
+
+
+def owner_check_method(network_ready, business=False, registered_name_supported=False):
+    """Which check applies: the mobile network where it offers the check (a business by its registered name where supported),
+    otherwise the licensed identity partner's ID document check (for a business, the owner's own)."""
+    if network_ready and (not business or registered_name_supported):
+        return "registered_name" if business else "network"
+    return "owner_id_document" if business else "id_document"
+
+
+def owner_check_outcome(answer, sim_changed_at, now):
+    """What the network's answer means. A recent SIM change makes the activity wait, whatever the answer.
+    Returns {"result": go | fix | stop | wait, "fixes": [...], "until": time or None}."""
+    wait = OWNER["sim_swap_wait_hours"] * HOUR
+    if sim_changed_at is not None and now - sim_changed_at < wait:
+        return {"result": "wait", "fixes": [], "until": sim_changed_at + wait}
+    result = OWNER["answers"].get(answer)
+    if result is None:
+        raise ValueError("unknown answer")
+    fixes = OWNER["partial_fixes"] if result == "fix" else OWNER["no_match_fixes"] if result == "stop" else []
+    return {"result": result, "fixes": list(fixes), "until": None}
+
+
+def owner_match_valid(matched_at, now, number_changed=False, sim_changed_at=None):
+    """A match is kept for a time for the same number; a new number or a SIM change since the match asks again."""
+    if matched_at is None or number_changed:
+        return False
+    if sim_changed_at is not None and sim_changed_at > matched_at:
+        return False
+    return now - matched_at < OWNER["match_valid_days"] * DAY
