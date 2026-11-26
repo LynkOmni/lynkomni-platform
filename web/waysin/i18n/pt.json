@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pt",
  "native": "Português",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "Atividade de segurança",
   "wy_add_contact": "Adicionar uma pessoa",
@@ -58,7 +58,7 @@
   "wy_extra_note": "Esta entrada é nova ou fora do habitual, por isso pedimos mais uma verificação.",
   "wy_extra_title": "Mais uma verificação",
   "wy_fix": "Resolver",
-  "wy_hint_word": "girassol",
+  "wy_hint_word": "Girassol",
   "wy_kept_them": "Já os guardei",
   "wy_keys_note": "Uma chave USB ou por aproximação funciona como uma chave de acesso.",
   "wy_keys_title": "Chaves de segurança",
@@ -197,6 +197,7 @@
   "wy_who_label": "Nome de utilizador, e-mail ou número de telefone",
   "wy_word_label": "A sua palavra",
   "wy_word_note": "A sua palavra secreta aparece em cada e-mail e mensagem verdadeiros da LynkOmni. Uma mensagem sem ela não é nossa.",
+  "wy_word_rule": "De 3 a 30 letras, números ou espaços, em qualquer língua. As maiúsculas e minúsculas ficam exatamente como as escreve.",
   "wy_word_title": "Palavra contra burlas",
   "wy_word_too_long": "Use 30 letras ou menos.",
   "wy_word_too_short": "Use pelo menos 3 letras."

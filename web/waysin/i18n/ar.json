@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ar",
  "native": "العربية",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "نشاط الأمان",
   "wy_add_contact": "إضافة شخص",
@@ -197,6 +197,7 @@
   "wy_who_label": "اسم المستخدم أو البريد أو رقم الهاتف",
   "wy_word_label": "كلمتك",
   "wy_word_note": "تظهر كلمتك السرية في كل رسالة وبريد حقيقي من LynkOmni. الرسالة التي لا تحملها ليست منا.",
+  "wy_word_rule": "من 3 إلى 30 حرفًا أو رقمًا أو مسافة، بأي لغة. تُحفظ الأحرف الكبيرة والصغيرة كما تكتبها تمامًا.",
   "wy_word_title": "الكلمة المضادة للاحتيال",
   "wy_word_too_long": "استخدم 30 حرفًا أو أقل.",
   "wy_word_too_short": "استخدم 3 أحرف على الأقل."

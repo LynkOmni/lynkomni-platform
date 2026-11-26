@@ -9,17 +9,17 @@ from core.regions import country
 # DRAFT translations: every pack needs native-speaker review. Kinyarwanda is pending and falls back to English.
 PACKS = {
  "en": {"welcome": "Welcome to LynkOmni", "new_sale": "New sale", "online": "Online", "offline_ok": "Offline: working normally",
-        "queued": "Saved on this phone", "pending": "Waiting to send", "sent": "Sent", "delivered": "Delivered", "read": "Read",
+        "queued": "Saved on this phone", "pending": "Waiting to send", "pending_n": "{n} waiting to send", "sent": "Sent", "delivered": "Delivered", "read": "Read",
         "paid_confirmed": "Paid (confirmed by provider)", "total": "Total", "thanks": "Thank you",
         "not_fiscal": "Not a tax invoice", "debt_reminder": "Reminder: a payment is overdue", "sponsored": "Sponsored", "recovery_started": "A recovery of your LynkOmni account was started. If this was not you, cancel it now.", "recovery_done": "Your LynkOmni account was recovered on a new device. The old device was removed."},
  "fr": {"welcome": "Bienvenue sur LynkOmni", "new_sale": "Nouvelle vente", "online": "En ligne",
         "offline_ok": "Hors ligne : fonctionne normalement", "queued": "Enregistr\u00e9 sur ce t\u00e9l\u00e9phone",
-        "pending": "En attente d'envoi", "sent": "Envoy\u00e9", "delivered": "Remis", "read": "Lu",
+        "pending": "En attente d'envoi", "pending_n": "{n} en attente d'envoi", "sent": "Envoy\u00e9", "delivered": "Remis", "read": "Lu",
         "paid_confirmed": "Pay\u00e9 (confirm\u00e9 par le prestataire)", "total": "Total", "thanks": "Merci",
         "not_fiscal": "Ceci n'est pas une facture fiscale", "debt_reminder": "Rappel : un paiement est en retard", "sponsored": "Sponsoris\u00e9", "recovery_started": "Une r\u00e9cup\u00e9ration de votre compte LynkOmni a commenc\u00e9. Si ce n'est pas vous, annulez-la maintenant.", "recovery_done": "Votre compte LynkOmni a \u00e9t\u00e9 r\u00e9cup\u00e9r\u00e9 sur un nouvel appareil. L'ancien appareil a \u00e9t\u00e9 retir\u00e9."},
  "sw": {"welcome": "Karibu LynkOmni", "new_sale": "Mauzo mapya", "online": "Mtandaoni",
         "offline_ok": "Nje ya mtandao: inafanya kazi kawaida", "queued": "Imehifadhiwa kwenye simu hii",
-        "pending": "Inasubiri kutumwa", "sent": "Imetumwa", "delivered": "Imefikishwa", "read": "Imesomwa",
+        "pending": "Inasubiri kutumwa", "pending_n": "{n} zinasubiri kutumwa", "sent": "Imetumwa", "delivered": "Imefikishwa", "read": "Imesomwa",
         "paid_confirmed": "Imelipwa (imethibitishwa na mtoa huduma)", "total": "Jumla", "thanks": "Asante",
         "not_fiscal": "Hii si ankara ya kodi", "debt_reminder": "Kumbusho: malipo yamechelewa", "sponsored": "Imedhaminiwa", "recovery_started": "Urejeshaji wa akaunti yako ya LynkOmni umeanza. Kama si wewe, ughairi sasa.", "recovery_done": "Akaunti yako ya LynkOmni imerejeshwa kwenye kifaa kipya. Kifaa cha zamani kimeondolewa."},
 }
@@ -88,8 +88,8 @@ class ModeManager:
         return "offline" if (s.forced_offline or not reachable or slow) else "online"
     def chip(s, mode, pending, lang="en"):
         return t(lang, "online") if mode == "online" and not pending else (
-            f"{t(lang, 'online')} \u00b7 {pending} {t(lang, 'pending').lower()}" if mode == "online"
-            else f"{t(lang, 'offline_ok')} \u00b7 {pending} {t(lang, 'pending').lower()}")
+            f"{t(lang, 'online')} \u00b7 {t(lang, 'pending_n').format(n=pending)}" if mode == "online"
+            else f"{t(lang, 'offline_ok')} \u00b7 {t(lang, 'pending_n').format(n=pending)}")   # its own counted words: code never changes a word's capitals
 
 PACKS["en"]["ad_label"], PACKS["fr"]["ad_label"], PACKS["sw"]["ad_label"] = "Ad", "Pub", "Tangazo"  # DRAFT
 

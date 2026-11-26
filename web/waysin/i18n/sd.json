@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "حفاظتي سرگرمي",
   "wy_add_contact": "ماڻهو شامل ڪريو",
@@ -197,6 +197,7 @@
   "wy_who_label": "صارف نالو، اي ميل يا فون نمبر",
   "wy_word_label": "توهان جو لفظ",
   "wy_word_note": "توهان جو ڳجهو لفظ LynkOmni جي هر اصل اي ميل ۽ پيغام ۾ هوندو آهي. جنهن پيغام ۾ اهو نه هجي اهو اسان جو ناهي.",
+  "wy_word_rule": "3 کان 30 اکر، انگ يا خال، ڪنهن به ٻوليءَ ۾. وڏا ۽ ننڍا اکر بلڪل ائين رکيا ويندا جيئن توهان لکندا.",
   "wy_word_title": "ٺڳي روڪ لفظ",
   "wy_word_too_long": "30 اکر يا گهٽ استعمال ڪريو.",
   "wy_word_too_short": "گهٽ ۾ گهٽ 3 اکر استعمال ڪريو."

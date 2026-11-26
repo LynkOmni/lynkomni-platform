@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "es",
  "native": "Español",
- "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
+ "source_sha256": "7da77a77ad999320f6b9c675fd6cc1fa4af4ac140b0ca737f23fbf008b067de7",
  "texts": {
   "account": "Cuenta",
   "active": "Activo",
@@ -757,7 +757,7 @@
   "username_taken": "Este nombre de usuario ya está ocupado.",
   "variants": "Variantes",
   "verify": "Verificar",
-  "voice_sample": "dos arroces y un jabón",
+  "voice_sample": "Dos arroces y un jabón",
   "void_sale": "Anular esta venta",
   "voided": "Anulada",
   "vr_customer_cancelled": "El cliente canceló",

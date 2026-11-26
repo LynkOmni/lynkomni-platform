@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
+ "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
  "texts": {
   "account_menu": "Àkáǹtì",
   "action_add": "Ṣàfikún àkọ́kọ́",
@@ -1264,7 +1264,7 @@
   "view_table": "Tábìlì",
   "view_waits": "Ìrísí tuntun yóò bẹ̀rẹ̀ lẹ́yìn ìgbésẹ̀ yìí.",
   "voice_input": "Sọ̀rọ̀",
-  "voice_sample_search": "títà tuntun",
+  "voice_sample_search": "Títà tuntun",
   "void_with_reason": "Fagilé pẹ̀lú ìdí",
   "waiting_send": "Ó ń dúró de fífiránṣẹ́: {n}",
   "waiting_send_label": "Ó ń dúró de fífiránṣẹ́",

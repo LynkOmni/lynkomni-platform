@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pt",
  "native": "Português",
- "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
+ "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
  "texts": {
   "account_menu": "Conta",
   "action_add": "Adicionar o primeiro",
@@ -1264,7 +1264,7 @@
   "view_table": "Tabela",
   "view_waits": "A nova visualização começa depois desta etapa.",
   "voice_input": "Falar",
-  "voice_sample_search": "nova venda",
+  "voice_sample_search": "Nova venda",
   "void_with_reason": "Anular com um motivo",
   "waiting_send": "À espera de envio: {n}",
   "waiting_send_label": "À espera de envio",

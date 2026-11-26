@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pt",
  "native": "Português",
- "source_sha256": "e809a71c89e24898ab2d286ef6c5927ba7ff382b2b23f681d74dcbd7b5b3b750",
+ "source_sha256": "7da77a77ad999320f6b9c675fd6cc1fa4af4ac140b0ca737f23fbf008b067de7",
  "texts": {
   "account": "Conta",
   "active": "Ativo",
@@ -757,7 +757,7 @@
   "username_taken": "Este nome de utilizador já está ocupado.",
   "variants": "Variantes",
   "verify": "Verificar",
-  "voice_sample": "dois arroz e um sabonete",
+  "voice_sample": "Dois arroz e um sabonete",
   "void_sale": "Anular esta venda",
   "voided": "Anulada",
   "vr_customer_cancelled": "O cliente cancelou",

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pl",
  "native": "Polski",
- "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
+ "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
  "texts": {
   "account_menu": "Konto",
   "action_add": "Dodaj pierwszy",
@@ -1264,7 +1264,7 @@
   "view_table": "Tabela",
   "view_waits": "Nowy widok zacznie działać po tym kroku.",
   "voice_input": "Mów",
-  "voice_sample_search": "nowa sprzedaż",
+  "voice_sample_search": "Nowa sprzedaż",
   "void_with_reason": "Anuluj z podaniem powodu",
   "waiting_send": "Czeka na wysłanie: {n}",
   "waiting_send_label": "Czeka na wysłanie",

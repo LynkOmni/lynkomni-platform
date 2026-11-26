@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "4db4ea4db26aeeb2452fba1977775d20ca81d0f17572da43bd0239259a21df2a",
+ "source_sha256": "59dc03a914baa310059a22f436737c3ba6898d640028e67ab2ba56b1d7ece6cf",
  "texts": {
   "wy_activity_title": "Shughuli za usalama",
   "wy_add_contact": "Ongeza mtu",
@@ -58,7 +58,7 @@
   "wy_extra_note": "Kuingia huku ni kupya au si kwa kawaida, kwa hivyo tunaomba ukaguzi mmoja zaidi.",
   "wy_extra_title": "Ukaguzi mmoja zaidi",
   "wy_fix": "Rekebisha",
-  "wy_hint_word": "alizeti",
+  "wy_hint_word": "Alizeti",
   "wy_kept_them": "Nimeihifadhi",
   "wy_keys_note": "Ufunguo wa USB au wa kugusa hufanya kazi kama ufunguo wa kuingia.",
   "wy_keys_title": "Funguo za usalama",
@@ -197,6 +197,7 @@
   "wy_who_label": "Jina la mtumiaji, barua pepe au namba ya simu",
   "wy_word_label": "Neno lako",
   "wy_word_note": "Neno lako la siri liko katika kila barua pepe na ujumbe halisi wa LynkOmni. Ujumbe usio nalo haujatoka kwetu.",
+  "wy_word_rule": "Herufi, nambari au nafasi 3 hadi 30, kwa lugha yoyote. Herufi kubwa na ndogo huhifadhiwa kama ulivyoziandika.",
   "wy_word_title": "Neno la kuzuia ulaghai",
   "wy_word_too_long": "Tumia herufi 30 au chini.",
   "wy_word_too_short": "Tumia angalau herufi 3."

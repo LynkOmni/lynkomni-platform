@@ -14,7 +14,7 @@
 .stand .mark { width: 18px; color: var(--on-device-key); opacity: .6; }
 .stand .mark svg { width: 100%; height: auto; display: block; }
 .drawer { width: 560px; height: 54px; margin-top: 10px; border-radius: var(--radius-card); background: linear-gradient(180deg, var(--device-shell-edge), var(--device-shell)); position: relative; overflow: visible; }
-.drawer-face { position: absolute; inset: 8px 10px; border-radius: 6px; background: var(--device-key); transition: transform .4s ease; display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--on-device-key); font: 600 11px var(--font-body); letter-spacing: .06em; text-transform: uppercase; }
+.drawer-face { position: absolute; inset: 8px 10px; border-radius: 6px; background: var(--device-key); transition: transform .4s ease; display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--on-device-key); font: 600 11px var(--font-body);  }
 .drawer.open .drawer-face { transform: translateY(26px); }
 .handle { width: 80px; height: 6px; border-radius: 3px; background: var(--device-glass); }
 
@@ -38,7 +38,7 @@
 .pb { margin-top: auto; text-align: center; }
 .printer-box { position: relative; padding: 8px; border-radius: var(--radius-control); background: linear-gradient(180deg, var(--device-shell-edge), var(--device-shell)); min-height: 56px; }
 .pslot { width: 118px; height: 8px; margin: 6px auto; border-radius: 4px; background: var(--device-glass); }
-.pstat { display: block; text-align: center; font: 600 9px var(--font-body); letter-spacing: .08em; text-transform: uppercase; color: var(--on-device-key); min-height: 12px; }
+.pstat { display: block; text-align: center; font: 600 9px var(--font-body);  color: var(--on-device-key); min-height: 12px; }
 .paperwrap { position: absolute; right: 0; bottom: 100%; width: 236px; z-index: 3; display: flex; flex-direction: column; align-items: center; transition: transform .45s ease, opacity .45s ease; }
 .paperwrap.torn { transform: translateY(-40px) rotate(-4deg); opacity: 0; }
 .paper { width: 236px; background: var(--device-paper); color: var(--on-device-paper); padding: 14px 10px 26px; box-shadow: 0 6px 18px color-mix(in srgb, var(--device-glass) 25%, transparent); }
@@ -46,7 +46,7 @@
 .rhead svg { width: 100%; height: auto; display: block; }
 .rtext { margin: 0; font: 11px/1.45 var(--font-mono); white-space: pre; overflow: hidden; }
 .tear { margin: 0 0 6px; font: 600 12px var(--font-body); padding: 6px 12px; min-height: 32px; border-radius: var(--radius-pill); border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; order: -1; }
-.reader { height: 64px; border-radius: var(--radius-control); background: linear-gradient(160deg, var(--device-shell-edge), var(--device-shell)); display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; color: var(--on-device-key); font: 600 10px var(--font-body); text-transform: uppercase; letter-spacing: .1em; }
+.reader { height: 64px; border-radius: var(--radius-control); background: linear-gradient(160deg, var(--device-shell-edge), var(--device-shell)); display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; color: var(--on-device-key); font: 600 10px var(--font-body);  letter-spacing: .1em; }
 .reader i { width: 9px; height: 9px; border-radius: 50%; background: var(--device-key); }
 .reader:hover i, .reader:focus-visible i { background: var(--device-key-enter); box-shadow: 0 0 6px var(--device-key-enter); }
 .scanner { height: 64px; border: 0; border-radius: 12px 12px 30px 30px; background: linear-gradient(180deg, var(--device-key-clear), var(--device-shell)); color: var(--on-device-key-clear); cursor: pointer; display: flex; align-items: center; justify-content: center; } /* hardware shape */

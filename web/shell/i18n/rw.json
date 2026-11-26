@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "rw",
  "native": "Ikinyarwanda",
- "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
+ "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
  "texts": {
   "account_menu": "Konti",
   "action_add": "Ongeraho icya mbere",
@@ -1264,7 +1264,7 @@
   "view_table": "Imbonerahamwe",
   "view_waits": "Uburyo bushya butangira nyuma y'iyi ntambwe.",
   "voice_input": "Vuga",
-  "voice_sample_search": "igurisha rishya",
+  "voice_sample_search": "Igurisha rishya",
   "void_with_reason": "Hagarika utanze impamvu",
   "waiting_send": "Bitegereje koherezwa: {n}",
   "waiting_send_label": "Bitegereje koherezwa",

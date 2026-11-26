@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "it",
  "native": "Italiano",
- "source_sha256": "d1394101777d455c5253990297654e961897611191be1bd321893ed74dc8989a",
+ "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
  "texts": {
   "account_menu": "Account",
   "action_add": "Aggiungi il primo",
@@ -1264,7 +1264,7 @@
   "view_table": "Tabella",
   "view_waits": "La nuova vista inizia dopo questo passaggio.",
   "voice_input": "Parla",
-  "voice_sample_search": "nuova vendita",
+  "voice_sample_search": "Nuova vendita",
   "void_with_reason": "Annulla con un motivo",
   "waiting_send": "In attesa di invio: {n}",
   "waiting_send_label": "In attesa di invio",
