@@ -548,5 +548,62 @@
       "never": true,
       "where": "none"
     }
-  ]
+  ],
+  "phone_owner": {
+    "note": "Point 4: a check that the person (or business) really owns the phone number, only where deep identity is needed. Never for everyday sign-up or sign-in.",
+    "standard": "GSMA Open Gateway: KYC Match and SIM Swap",
+    "activities": [
+      "payouts",
+      "payout_change",
+      "first_paid_offer",
+      "agent_point",
+      "cards",
+      "exchange",
+      "recovery",
+      "public_election",
+      "employer_verification",
+      "landlord_verification"
+    ],
+    "consent": "phone-owner-check",
+    "answers": {
+      "match": "go",
+      "partial": "fix",
+      "no_match": "stop"
+    },
+    "partial_fixes": [
+      "check_spelling",
+      "id_document"
+    ],
+    "no_match_fixes": [
+      "check_number",
+      "id_document"
+    ],
+    "sim_swap_wait_hours": 72,
+    "match_valid_days": 180,
+    "again_when": [
+      "number_changed",
+      "sim_swapped"
+    ],
+    "methods": {
+      "network": "the mobile network compares the legal name with the number",
+      "id_document": "the licensed identity partner checks the ID document",
+      "registered_name": "the network compares the business's registered name with the number",
+      "owner_id_document": "the owner's own ID document check"
+    },
+    "partner_service": "phone_owner_match",
+    "never_stored": [
+      "the network's own name for the person",
+      "the ID document number"
+    ],
+    "never_in_event": [
+      "name",
+      "phone number"
+    ],
+    "cost": {
+      "fee_usd_cents_assumption": 5,
+      "charged_to_person": false,
+      "included_in": "the plans of the activities that need it",
+      "assumption": true
+    }
+  }
 }

@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { signUpHtml, signInHtml, recoverHtml, securityHtml, lostPhoneHtml, waysStart, waysAct, waysInput } from "../src/waysview.js";
+import { signUpHtml, signInHtml, recoverHtml, securityHtml, lostPhoneHtml, phoneOwnerHtml, waysStart, waysAct, waysInput } from "../src/waysview.js";
 import type { WaysLook } from "../src/waysview.js";
 
 let seed = 1;
@@ -64,4 +64,24 @@ test("the security page lists what is missing and each part works", () => {
   assert.ok(/wyAuthCode/.test(securityHtml(look, st)));
   waysInput(st, "wy:word", "ab", false);
   assert.ok(/wy_word_too_short/.test(securityHtml(look, st)));
+});
+
+test("the phone owner card: consent first, every answer with its fix, the SIM change wait, the ID document path", () => {
+  const st = waysStart(1_800_000_000, (n) => 0);
+  const html = (): string => phoneOwnerHtml(look, st);
+  assert.ok(/disabled data-why/.test(html()), "Check my number waits for the consent tick");
+  assert.deepEqual(waysAct(st, "wy:po:check", () => 0), {}, "nothing is sent without consent");
+  waysInput(st, "wy:poconsent", "", true);
+  assert.deepEqual(waysAct(st, "wy:po:check", () => 0), { event: "PhoneOwnerCheckRequested" });
+  assert.ok(html().includes("wy_po_sent") && html().includes("wy:po:answer:match"));
+  waysAct(st, "wy:po:answer:partial", () => 0);
+  assert.equal(st.po.state, "partial"); assert.ok(html().includes("wy:po:fix:check_spelling") && html().includes("wy:po:fix:id_document"));
+  waysAct(st, "wy:po:fix:check_spelling", () => 0); assert.equal(st.po.state, "none"); assert.equal(st.po.consent, false, "a new check asks for consent again");
+  waysInput(st, "wy:poconsent", "", true); waysAct(st, "wy:po:check", () => 0); waysAct(st, "wy:po:answer:sim", () => 0);
+  assert.equal(st.po.state, "waiting"); assert.ok(html().includes("wy_po_wait"));
+  st.po.state = "sent"; waysAct(st, "wy:po:answer:no_match", () => 0); assert.equal(st.po.state, "failed");
+  assert.deepEqual(waysAct(st, "wy:po:fix:id_document", () => 0), { event: "IdentityCheckRequested" });
+  assert.equal(st.po.method, "id_document"); assert.ok(html().includes("wy_po_id_doc") && !html().includes("wy:po:answer:"), "the ID document answer comes only from the partner");
+  st.po.state = "sent"; st.po.method = "network"; waysAct(st, "wy:po:answer:match", () => 0); assert.equal(st.po.state, "confirmed");
+  assert.ok(html().includes("wy_po_free"));
 });

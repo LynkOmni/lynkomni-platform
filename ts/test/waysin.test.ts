@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import {
   signUpNext, mayStartSignUp, legalNameProblem, basicPhoneAllows, identifierKind, signInWays, extraChecks, sentCodeValid, offlineSignIn,
   unusual, countryAllowed, oldDevice, sessionHours, antiPhishingProblem, backupCodesLeftNote, checkup, recoveryWays, neverAllowed,
-  restrictedAfterRecovery, contactsConfirmed, contactsProblem, toStrongest, mayReset,
+  restrictedAfterRecovery, contactsConfirmed, contactsProblem, toStrongest, mayReset, ownerCheckNeeded, ownerCheckMethod, ownerCheckOutcome, ownerMatchValid,
 } from "../src/waysin.js";
 
 const root = new URL("../../..", import.meta.url).pathname;
@@ -20,6 +20,10 @@ test("sign-up, sign-in, protections, recovery and resets agree with the Python r
   for (const c of V.extra) assert.deepEqual(extraChecks(c.a), c.expect, JSON.stringify(c.a));
   for (const c of V.code_valid) assert.equal(sentCodeValid(c.a[0], c.a[1], c.a[2], c.a[3]), c.expect, JSON.stringify(c.a));
   for (const c of V.offline) assert.deepEqual(offlineSignIn(c.a[0], c.a[1], c.a[2]), c.expect, JSON.stringify(c.a));
+  for (const c of V.owner_needed) assert.equal(ownerCheckNeeded(c.a), c.expect, c.a);
+  for (const c of V.owner_method) assert.equal(ownerCheckMethod(c.a[0], c.a[1], c.a[2]), c.expect, JSON.stringify(c.a));
+  for (const c of V.owner_outcome) assert.deepEqual(ownerCheckOutcome(c.a[0], c.a[1], c.a[2]), c.expect, JSON.stringify(c.a));
+  for (const c of V.owner_valid) assert.equal(ownerMatchValid(c.a[0], c.a[1], c.a[2], c.a[3]), c.expect, JSON.stringify(c.a));
   for (const c of V.unusual) assert.deepEqual(unusual(c.a[0], c.a[1], c.a[2]), c.expect, JSON.stringify(c.a));
   for (const c of V.country) assert.equal(countryAllowed(c.a[0], c.a[1]), c.expect, JSON.stringify(c.a));
   for (const c of V.old_device) assert.equal(oldDevice(c.a[0], c.a[1]), c.expect, JSON.stringify(c.a));

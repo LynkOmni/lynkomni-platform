@@ -2719,6 +2719,42 @@
     "Run the shared tests against both adapters",
     "Set status to contract_signed after the lawyer's check of the country's law, then the country switches on by itself"
    ]
+  },
+  {
+   "id": "phone_owner_networks",
+   "name": "Mobile networks for the phone owner check (KYC Match and SIM Swap)",
+   "kind": "identity",
+   "used_by": [
+    "phone_owner_match"
+   ],
+   "countries": "all",
+   "status": "sandbox",
+   "interface": "services.phone_owner_partners:NetworkOwnerMatch",
+   "sandbox": "services.phone_owner_partners:SandboxNetworkOwnerMatch",
+   "needed_from_provider": [
+    "a KYC Match and SIM Swap agreement per country through the GSMA Open Gateway standard (a network or an aggregator that covers many)",
+    "an answer of match, partial or no_match, never the network's own name for the person",
+    "the date of the last SIM change",
+    "sandbox and live API keys",
+    "the fee per check"
+   ],
+   "placeholders": [
+    {
+     "file": "services/phone_owner_partners.py",
+     "token": "SandboxNetworkOwnerMatch"
+    }
+   ],
+   "when_off": {
+    "visual": "state-coming-soon",
+    "message": "Coming to your country soon."
+   },
+   "notes": "Section 4C point 4: only for the activities that need the real owner of a number (catalog/ways-in.v1.json phone_owner). Until a network is signed in a country, the licensed identity partner's ID document check is used instead (identity/phone_owner.py), so nothing waits on this partner. REMINDER item 10.",
+   "integrate": [
+    "Sign the agreement through the Partner Hub and get sandbox credentials",
+    "Write the real adapter next to the sandbox one behind the same interface",
+    "Run the shared tests against both adapters",
+    "Set status to contract_signed, then the country switches on by itself"
+   ]
   }
  ],
  "later": [

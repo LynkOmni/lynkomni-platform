@@ -669,6 +669,24 @@
     "reason"
    ],
    "note": "section 4C point 3: the yearly security checkup, or two or fewer backup codes left"
+  },
+  "PhoneOwnerCheckRequested": {
+   "payload": [
+    "lynkid",
+    "activity",
+    "method",
+    "lover"
+   ],
+   "note": "Section 4C point 4: with the person's consent, the mobile network was asked whether the legal name owns the number (KYC Match) and when the SIM last changed; no name or number in the event; shown as sent until the network answers"
+  },
+  "PhoneOwnerCheckAnswered": {
+   "payload": [
+    "lynkid",
+    "lover",
+    "activity",
+    "result"
+   ],
+   "note": "Section 4C point 4, cloud only: the network's answer as a result (go, fix, stop or wait after a recent SIM change); the network's own name for the person is never kept"
   }
  }
 }

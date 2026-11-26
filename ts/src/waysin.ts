@@ -123,3 +123,29 @@ export function mayReset(what: string, by: string, own = false, online = true): 
   if (!online && r.where === "online") return [false, "go_online"];
   return [true, null];
 }
+
+// ---- point 4: the phone owner check (only where deep identity is needed) ---------------------------------------------------
+export interface OwnerOutcome { result: "go" | "fix" | "stop" | "wait"; fixes: string[]; until: number | null }
+const WI_OWNER = WAYS_IN.phone_owner;
+/** Only the activities in the register need the real owner of the number; everyday use never does. */
+export const ownerCheckNeeded = (activity: string): boolean => inList(WI_OWNER.activities, activity);
+/** The mobile network where it offers the check (a business by its registered name where supported), else the ID document check. */
+export function ownerCheckMethod(networkReady: boolean, business = false, registeredNameSupported = false): string {
+  if (networkReady && (!business || registeredNameSupported)) return business ? "registered_name" : "network";
+  return business ? "owner_id_document" : "id_document";
+}
+/** What the network's answer means; a recent SIM change makes the activity wait, whatever the answer. */
+export function ownerCheckOutcome(answer: string, simChangedAt: number | null, now: number): OwnerOutcome {
+  const wait = WI_OWNER.sim_swap_wait_hours * WI_HOUR;
+  if (simChangedAt !== null && now - simChangedAt < wait) return { result: "wait", fixes: [], until: simChangedAt + wait };
+  const result = (WI_OWNER.answers as Record<string, string>)[answer] as OwnerOutcome["result"] | undefined;
+  if (!result) throw new Error("unknown answer");
+  const fixes = result === "fix" ? [...WI_OWNER.partial_fixes] : result === "stop" ? [...WI_OWNER.no_match_fixes] : [];
+  return { result, fixes, until: null };
+}
+/** A match is kept for a time for the same number; a new number or a SIM change since the match asks again. */
+export function ownerMatchValid(matchedAt: number | null, now: number, numberChanged = false, simChangedAt: number | null = null): boolean {
+  if (matchedAt === null || numberChanged) return false;
+  if (simChangedAt !== null && simChangedAt > matchedAt) return false;
+  return now - matchedAt < WI_OWNER.match_valid_days * WI_DAY;
+}
