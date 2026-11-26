@@ -14,6 +14,13 @@
 .pkey .pdots { inline-size: 18px; block-size: 18px; color: var(--text-secondary); }
 .pmsg { margin: 0; }
 .popts { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+/* A pad that would not fit its screen (ts/src/signin.ts fitPinPads): tighter first, then the keys in two rows of six. */
+.pinpad.pp-tight { gap: 4px; }
+.pinpad.pp-tight .ptitle { display: none; }   /* the pad's group label still names it for screen readers */
+.pinpad.pp-tight .pkeys { gap: 6px; }
+.pinpad.pp-tight .pkey { min-block-size: var(--touch-target); }
+.pinpad.pp-wide { max-inline-size: 420px; }
+.pinpad.pp-wide .pkeys { grid-template-columns: repeat(6, minmax(var(--touch-target), 1fr)); }
 .chipbtn.on { background: var(--brand-subtle); border-color: var(--brand-primary); }
 .nbig { margin: 0; font: 800 var(--text-24)/1 var(--font-heading); font-size: clamp(var(--text-24), 12vw, 48px); letter-spacing: .08em; font-feature-settings: var(--font-feature-tabular); }
 .nchoices { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-inline-size: 100%; }

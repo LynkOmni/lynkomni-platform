@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "65a9bcbd7a6d9022d12b89fdd938f728ac41ba7efa6aeea8281b66db2f508381",
+ "source_sha256": "73d503bda652e77b17d7519d187d18078a0c7b8b2cd4ee50d71e9fa24d52ea61",
  "texts": {
   "all": "Alles",
   "asked_owner": "Naar de eigenaar gestuurd. Het antwoord verschijnt hier.",
@@ -55,7 +55,6 @@
   "payment": "Betaling",
   "phone": "Telefoonnummer van de klant",
   "pin": "Voer je pincode in",
-  "pin_hint": "Voorbeeldpincode 1234",
   "pos_why_bad_receipt_number": "Het bonnummer heeft niet de verwachte vorm.",
   "pos_why_empty_cart": "Het mandje is leeg, dus er valt nog niets te betalen.",
   "pos_why_invalid_amount": "Dit bedrag kan niet: het moet een heel bedrag boven nul zijn.",

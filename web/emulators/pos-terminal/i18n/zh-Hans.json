@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "65a9bcbd7a6d9022d12b89fdd938f728ac41ba7efa6aeea8281b66db2f508381",
+ "source_sha256": "73d503bda652e77b17d7519d187d18078a0c7b8b2cd4ee50d71e9fa24d52ea61",
  "texts": {
   "all": "全部",
   "asked_owner": "已发送给店主。答复会显示在这里。",
@@ -55,7 +55,6 @@
   "payment": "付款",
   "phone": "顾客手机号",
   "pin": "请输入您的 PIN 码",
-  "pin_hint": "示例 PIN 码 1234",
   "pos_why_bad_receipt_number": "收据编号格式不正确。",
   "pos_why_empty_cart": "购物篮是空的，还没有需要支付的内容。",
   "pos_why_invalid_amount": "此金额无法使用：必须是大于零的整数金额。",

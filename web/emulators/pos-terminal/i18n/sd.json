@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "65a9bcbd7a6d9022d12b89fdd938f728ac41ba7efa6aeea8281b66db2f508381",
+ "source_sha256": "73d503bda652e77b17d7519d187d18078a0c7b8b2cd4ee50d71e9fa24d52ea61",
  "texts": {
   "all": "سڀ",
   "asked_owner": "مالڪ ڏانهن موڪليو ويو. جواب هتي ڏيکاربو.",
@@ -55,7 +55,6 @@
   "payment": "ادائگي",
   "phone": "گراهڪ جو فون نمبر",
   "pin": "پنهنجو PIN داخل ڪريو",
-  "pin_hint": "نمونو PIN: 1234",
   "pos_why_bad_receipt_number": "رسيد نمبر متوقع صورت ۾ ناهي.",
   "pos_why_empty_cart": "ٽوڪري خالي آهي، تنهن ڪري اڃا ادا ڪرڻ لاءِ ڪجهه ناهي.",
   "pos_why_invalid_amount": "هي رقم استعمال نٿي ٿي سگهي: اها صفر کان وڌيڪ پوري رقم هجڻ گهرجي.",

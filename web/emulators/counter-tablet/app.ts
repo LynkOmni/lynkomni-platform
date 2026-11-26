@@ -16,7 +16,7 @@ import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, pick, plai
 import type { Build } from "../../../ts/src/emulator.js";
 import { brandMark } from "../../../ts/src/brand.js";
 import { designedState, panelShell, sampleAccount } from "../../../ts/src/deviceshell.js";
-import { StaffLock, deviceBanners, knowledgeFor, raiseLocal, staffPicker, staffWhoRow } from "../../../ts/src/devicekit.js";
+import { StaffLock, deviceBanners, knowledgeFor, raiseLocal, staffPicker, staffWhoRow, lockWhoButton } from "../../../ts/src/devicekit.js";
 import type { Line } from "../../../ts/src/notify.js";
 /** MASTER UPDATE section 3: each person their own PIN on the tablet (samples; a real device keeps only a slow salted hash).
  *  8642 is Aline's sample duress PIN: the quiet limited view (selling for cash) opens and the alert leaves by the first path out. */
@@ -297,7 +297,7 @@ function voiceScreen(): string {
 function lockedScreen(): string {
   if (PICKING) return `<div class="lock">${staffPicker(STAFF.staff, t, (id) => icon(id))}</div>`;
   const me = STAFF.find(WHO);
-  return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.dark, "locklogo")}<p class="who">${icon("ui-user")}<span>${esc(me?.name ?? "")} · ${esc(t(`role_${me?.role ?? "cashier"}`))}</span><button class="link" data-act="staff:change">${esc(t("dk_change"))}</button></p><h1>${esc(t("enter_pin"))}</h1>${PINNOTE ? noticeHtml(t, PINHARD ? { level: "error", text: PINNOTE, how: t("fd_ask_manager") } : { level: "warning", text: PINNOTE, how: t("fd_type_again") }) : S.idleTicks ? noticeHtml(t, { level: "info", text: t("locked_idle") }) : ""}<div class="dots">${[0, 1, 2, 3].map((i) => `<i class="${S.pin.length > i ? "on" : ""}"></i>`).join("")}</div>
+  return `<div class="lock">${brandMark(DATA.brand.places, "auth-onboarding", S.dark, "locklogo")}<p class="who">${lockWhoButton(me?.name ?? "", me?.role ?? "cashier", t, (id) => icon(id))}</p><h1>${esc(t("enter_pin"))}</h1>${PINNOTE ? noticeHtml(t, PINHARD ? { level: "error", text: PINNOTE, how: t("fd_ask_manager") } : { level: "warning", text: PINNOTE, how: t("fd_type_again") }) : S.idleTicks ? noticeHtml(t, { level: "info", text: t("locked_idle") }) : ""}<div class="dots">${Array.from({ length: STAFF.lengthOf(WHO) }, (_, i) => i).map((i) => `<i class="${S.pin.length > i ? "on" : ""}"></i>`).join("")}</div>
     <div class="soft">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => `<button data-act="d${d}">${d}</button>`).join("")}<button data-act="clear" aria-label="${esc(t("cancel"))}">${icon("ui-arrow-left")}</button><button data-act="d0">0</button><button data-act="enter" aria-label="${esc(t("unlock"))}">${icon("ui-check")}</button></div><p class="hint">${esc(t("dk_pin_sample", { list: STAFF.staff.map((x) => `${t(`role_${x.role}`)} ${x.pin}`).join(", ") }))}</p>${me?.duress ? `<p class="hint">${esc(t("dk_duress_sample", { pin: me.duress }))}</p>` : ""}</div>`;
 }
 function page(): string {
@@ -352,11 +352,11 @@ function act(a: string): void {
   if (a.startsWith("ad:report:")) { AD.reported = true; draw(); return; }
   const [k = "", v = "", v2 = ""] = a.split(":");
   if (!S.unlocked) {
-    if (k.startsWith("d") && k.length === 2) S.pin = (S.pin + k[1]).slice(0, 4);
+    if (k.startsWith("d") && k.length === 2) S.pin = (S.pin + k[1]).slice(0, STAFF.lengthOf(WHO));   // this person's PIN length, never a digit more
     else if (k === "clear") S.pin = S.pin.slice(0, -1);
     else if (k === "staff" && v === "change") PICKING = true;
     else if (k === "staff" && v === "pick") { WHO = v2; PICKING = false; S.pin = ""; PINNOTE = ""; }
-    if ((k === "enter" || S.pin.length === 4) && S.pin) {
+    if ((k === "enter" || S.pin.length === STAFF.lengthOf(WHO)) && S.pin) {
       const r = STAFF.signIn(WHO, S.pin, Date.now()); S.pin = "";
       if (r.ok) { S.unlocked = true; S.view = "main"; LIMITED = r.view === "limited"; S.tab = LIMITED || S.type !== "restaurant" ? "sell" : "tables"; PINNOTE = "";
         const go = THEN; THEN = null; if (go && !LIMITED) go();   // the screen chosen in the panel, never past a duress PIN

@@ -118,6 +118,7 @@ class PinLock:
             raise ValueError("choose a PIN that is not a repeated or running number")
         self._salt = secrets.token_bytes(16)
         self._hash = self._h(pin)
+        self.length = len(pin)      # the pad shows this many dots and checks once they are full (owner, 2026-11-26)
         self.wrong, self.wait_until, self.state = 0, 0.0, "open"
 
     def _h(self, pin):

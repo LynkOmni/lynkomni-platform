@@ -32,6 +32,14 @@ class Device(unittest.TestCase):
         self.assertEqual(self.d.state, "open", "the device and its records are untouched")
         self.assertTrue(self.d.sign_in("owner-1", "4719", now=T0)["ok"], "other staff still sign in")
 
+    def test_the_pad_knows_the_pin_length_and_a_duress_pin_matches_it(self):
+        """Owner, 2026-11-26: the pad shows as many dots as the PIN has digits and takes no more; a duress PIN has the same
+        number of digits, so the pad never gives away which one is typed."""
+        self.assertEqual(self.d.pin_length("cash-1"), 4)
+        with self.assertRaises(ValueError):
+            self.d.set_duress_pin("cash-1", "1357", "864213")
+        self.d.set_duress_pin("cash-1", "1357", "8642")
+
     def test_duress_pin_opens_a_limited_view_and_alerts_quietly(self):
         self.d.set_duress_pin("cash-1", "1357", "8642")
         r = self.d.sign_in("cash-1", "8642", now=T0)

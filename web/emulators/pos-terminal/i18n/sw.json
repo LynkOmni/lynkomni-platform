@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "65a9bcbd7a6d9022d12b89fdd938f728ac41ba7efa6aeea8281b66db2f508381",
+ "source_sha256": "73d503bda652e77b17d7519d187d18078a0c7b8b2cd4ee50d71e9fa24d52ea61",
  "texts": {
   "all": "Zote",
   "asked_owner": "Imetumwa kwa mmiliki. Jibu litaonekana hapa.",
@@ -55,7 +55,6 @@
   "payment": "Malipo",
   "phone": "Namba ya simu ya mteja",
   "pin": "Weka PIN yako",
-  "pin_hint": "PIN ya mfano: 1234",
   "pos_why_bad_receipt_number": "Namba ya risiti haiko katika muundo unaotarajiwa.",
   "pos_why_empty_cart": "Kikapu ni tupu, kwa hiyo bado hakuna cha kulipia.",
   "pos_why_invalid_amount": "Kiasi hiki hakiwezi kutumika: lazima kiwe kiasi kamili zaidi ya sifuri.",

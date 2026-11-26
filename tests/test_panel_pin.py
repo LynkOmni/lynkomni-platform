@@ -48,11 +48,60 @@ class PanelNeverSkipsThePin(unittest.TestCase):
                         self.assertGreater(pg.locator("text=8642").count(), 0, "the sample duress PIN is shown on the lock")
                         for d in pin:
                             pg.click(f'[data-act="{key.format(d)}"]')
-                        if key.startswith("pin:"):
-                            pg.click('[data-act="pin:ok"]')
+                        self.assertEqual(pg.locator('[data-act="pin:ok"]').count(), 0, "a full PIN is checked at once, without OK")
                         self.assertEqual(pg.locator(PAD).count(), 0, "the chosen screen opens after the PIN")
                         self.assertGreater(pg.locator('[data-act="gate:lock"]').count(), 0, "the screen shows who is serving with Lock")
                 pg.close()
+            b.close()
+
+
+LOCKS = {"stock-scanner": "lock_screen", "rider-phone": "lock_screen", "kitchen-screen": "lock_screen", "bet-counter": "lock_screen", "counter-tablet": "locked"}
+DOTS = ".pinpad .pdot, .lock .dots i"
+LANG = '#cLang, select[data-ctl="lang"]'
+KEYS_FIT = """() => { const k = document.querySelector('.pinpad .pkeys') || document.querySelector('.lock .soft');
+  let b = k.parentElement; while (b && !/(auto|scroll|hidden)/.test(getComputedStyle(b).overflowY)) b = b.parentElement;
+  return !b || k.getBoundingClientRect().bottom <= b.getBoundingClientRect().bottom + 0.5; }"""
+
+
+@unittest.skipIf(sync_playwright is None, "needs the browser (CI layout job)")
+class PinPadsFitAndStopAtTheLength(unittest.TestCase):
+    """Owner, 2026-11-26: a 4-digit PIN showed more dots with every press and the scanner cut off its last row of keys. Every lock
+    shows exactly as many dots as the person's PIN has digits, takes no digit more (it checks once full) and keeps all its keys
+    on screen, at phone and computer size, in long text, upright and turned."""
+    def test_every_lock_stops_at_the_pin_length_and_fits(self):
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            for width in (390, 1280):
+                for name, state in LOCKS.items():
+                    pin, key = DEVICES[name]
+                    pg = b.new_page(viewport={"width": width, "height": 844}, reduced_motion="reduce")
+                    pg.set_default_timeout(8000)
+                    pg.goto("file://" + os.path.join(DIST, f"lynkomni-{name}.html"))
+                    if pg.locator('[data-act="dsh:localeok"]').count():
+                        pg.click('[data-act="dsh:localeok"]')
+                    for lang in ("en", "xx"):
+                        pg.select_option(LANG, lang)
+                        shapes = [None] + (["sideways"] if pg.locator('#cSize option[value="sideways"]').count() else [])
+                        for shape in shapes:
+                            with self.subTest(device=name, width=width, lang=lang, shape=shape or "upright"):
+                                if shape:
+                                    pg.select_option("#cSize", shape)
+                                pg.click(f'#stateButtons [data-state="{state}"]')
+                                pg.wait_for_timeout(120)
+                                self.assertEqual(pg.locator(DOTS).count(), len(pin), "one dot for each digit of the PIN")
+                                self.assertTrue(pg.evaluate(KEYS_FIT), "every key of the PIN pad is on screen")
+                            if shape:
+                                pg.select_option("#cSize", "upright" if pg.locator('#cSize option[value="upright"]').count() else pg.eval_on_selector("#cSize option", "o => o.value"))
+                    with self.subTest(device=name, width=width, typed="one digit too many"):
+                        pg.select_option(LANG, "en")
+                        pg.click(f'#stateButtons [data-state="{state}"]')
+                        wrong = "9" * (len(pin) - 1)
+                        for d in wrong:
+                            pg.click(f'[data-act="{key.format(d)}"]')
+                        self.assertEqual(pg.locator(".pdot.on, .lock .dots i.on").count(), len(pin) - 1)
+                        pg.click(f'[data-act="{key.format("8")}"]')   # the last digit: checked at once (a wrong PIN here)
+                        self.assertEqual(pg.locator(".pdot.on, .lock .dots i.on").count(), 0, "a full PIN is checked at once and never takes a digit more")
+                    pg.close()
             b.close()
 
 

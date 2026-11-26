@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "65a9bcbd7a6d9022d12b89fdd938f728ac41ba7efa6aeea8281b66db2f508381",
+ "source_sha256": "73d503bda652e77b17d7519d187d18078a0c7b8b2cd4ee50d71e9fa24d52ea61",
  "texts": {
   "all": "全部",
   "asked_owner": "已傳送給店主。回覆會顯示在這裡。",
@@ -55,7 +55,6 @@
   "payment": "付款",
   "phone": "顧客手機號碼",
   "pin": "請輸入您的 PIN 碼",
-  "pin_hint": "範例 PIN 碼 1234",
   "pos_why_bad_receipt_number": "收據編號格式不正確。",
   "pos_why_empty_cart": "購物籃是空的，還沒有需要支付的內容。",
   "pos_why_invalid_amount": "此金額無法使用：必須是大於零的整數金額。",

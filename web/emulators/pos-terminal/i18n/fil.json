@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "65a9bcbd7a6d9022d12b89fdd938f728ac41ba7efa6aeea8281b66db2f508381",
+ "source_sha256": "73d503bda652e77b17d7519d187d18078a0c7b8b2cd4ee50d71e9fa24d52ea61",
  "texts": {
   "all": "Lahat",
   "asked_owner": "Naipadala sa may-ari. Lalabas dito ang sagot.",
@@ -55,7 +55,6 @@
   "payment": "Bayad",
   "phone": "Numero ng telepono ng customer",
   "pin": "Ilagay ang iyong PIN",
-  "pin_hint": "Halimbawang PIN 1234",
   "pos_why_bad_receipt_number": "Wala sa inaasahang anyo ang numero ng resibo.",
   "pos_why_empty_cart": "Walang laman ang basket, kaya wala pang babayaran.",
   "pos_why_invalid_amount": "Hindi magagamit ang halagang ito: dapat buong halaga ito na higit sa zero.",
