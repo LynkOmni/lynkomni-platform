@@ -2,6 +2,15 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.122.3 (2026-11-26)
+Every emulator's panel has every control, or a plain line saying why not.
+- Every device emulator's panel now has online or offline, touch screen or buttons, language, country, light or dark and turning the screen. Where a device truly cannot have one, the panel says so in a plain line with the reason, so nothing is left to guess.
+- Six devices now turn Upright or Sideways from their panel: the customer display, the kitchen screen, LynkCDisplay, LynkDScreen, LynkKiosk and the LynkFiles signing tablet. The body takes its turned shape and the screen its turned layout, and nothing on the screen is lost (ts/src/turn.ts turnDevice, ts/src/emulator.ts fitRig).
+- The devices that do not turn say why: the betting counter and the card terminal (printer, scanner, drawer or keypad built in under the screen), the button phone (one fixed phone), the owner's laptop view (fits any window), the virtual card (no screen; it flips) and the mesh relay page (two devices, each turned in its own emulator). The six lines are in all 38 languages.
+- LynkDScreen and LynkCDisplay now offer the touch screen as well as the remote's buttons, as real queue screens and counter displays often are touch screens (catalog/devices.v1.json).
+- The owner's laptop view gained the online switch: offline it says "You are offline" with how to fix it, pages wait with Retry, and anything that asks the cloud says to connect first.
+- A browser test (tests/test_panels.py, CI layout job) opens every emulator and fails the build if any control or its line is missing, if a turned device keeps its shape, or if a display's touch version does not switch on.
+
 ## v0.122.2 (2026-11-26)
 LynkOmni's own drop-down everywhere, every device says how it is used, and the betting counter's Scan.
 - Every choice on every page (the kiosk's checker list, panel choices, settings and forms) is now LynkOmni's own drop-down instead of the phone's built-in picker, which inside some apps did not open or drew its items dark on dark, so a list that had names looked empty. It opens in place (above when there is no room), scrolls, follows the theme and the reader's direction, has a Find box for long lists, and works with arrows, Enter, Escape and a first letter. The select stays underneath as the source of the value, so every screen's code is unchanged (ts/src/chooser.ts, on every page through the names watcher).
