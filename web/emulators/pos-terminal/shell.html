@@ -50,7 +50,7 @@
     <h3>Conditions</h3>
     <label><input type="checkbox" id="cOnline" checked> <span>Internet connection<br><span class="help">Untick to sell offline: sales are saved as Queued and sent later.</span></span></label>
     <label><input type="checkbox" id="cFail"> <span>Provider declines payments<br><span class="help">The sandbox provider answers Failed instead of Confirmed.</span></span></label>
-    <label style="align-items:center"><span>Country</span> <select id="cCountry"></select></label>
+    <label class="center"><span>Country</span> <select id="cCountry"></select></label>
     <h3>Owner and security (MASTER UPDATE section 3)</h3>
     <label><input type="checkbox" id="cRemoteLock"> <span>The owner locks this device from afar<br><span class="help">Carried out the next time the device hears from the cloud; nothing is deleted.</span></span></label>
     <label><input type="checkbox" id="cAltered"> <span>The app on this device was altered<br><span class="help">The cloud holds this device's uploads for the owner to review and tells the owner. Selling still works.</span></span></label>
@@ -61,7 +61,7 @@
     <label><input type="checkbox" id="cAds"> <span>A country whose ads are signed off<br><span class="help">Ads stay off until the country's legal sign-off. Tick to see the sample ad on the idle screen and after a sale (LynkPOS Free).</span></span></label>
     <label><input type="checkbox" id="cAdHost"> <span>The shop hosts the receipt ad line<br><span class="help">Customer-facing places show ads only after the shop switches them on; the shop earns the share.</span></span></label>
     <label><input type="checkbox" id="cDark"> <span>Dark screen</span></label>
-    <label style="align-items:center"><span>Language</span> <select id="cLang"><option value="xx">Long text test</option><option value="xx-rtl">Right-to-left test</option></select></label>
+    <label class="center"><span>Language</span> <select id="cLang"><option value="xx">Long text test</option><option value="xx-rtl">Right-to-left test</option></select></label>
     <div id="versionCtl"></div>
     <h3>Event log (what the terminal sends to the cloud)</h3>
     <ul class="log" id="log" aria-live="polite"></ul>

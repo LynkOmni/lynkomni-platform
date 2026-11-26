@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fr",
  "native": "Français",
- "source_sha256": "f10276b1ff78e06d8aeab366306a9f90e6c3d8c53f4f6c836f3a126f32df8fa8",
+ "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
  "texts": {
   "fd_add_item": "Ajoutez d'abord un article au panier.",
   "fd_ask_manager": "Un responsable ou le propriétaire peut aider.",
@@ -15,6 +15,8 @@
   "fd_code_wait": "Nouveau code dans {time}",
   "fd_contact_support": "Contacter l'assistance",
   "fd_country": "Pays",
+  "fd_country_find": "Chercher un pays",
+  "fd_country_none": "Aucun pays ne correspond. Essayez son indicatif, comme 237.",
   "fd_email_format": "Saisissez une adresse e-mail comme name@example.com.",
   "fd_email_suggest": "Vouliez-vous dire {email} ?",
   "fd_email_throwaway": "Cette adresse e-mail ne dure que peu de temps. Utilisez une adresse que vous gardez.",

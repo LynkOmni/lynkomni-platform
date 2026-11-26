@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.117.0 (2026-11-26)
+One country drop-down and one set of rounded corners everywhere.
+- Every phone field's country chooser is now LynkOmni's own drop-down instead of the phone's full-screen picker: it opens under the field (or above it when there is no room), scrolls, follows the light or dark theme, and has a Find box. Typing a name ("ke" finds Kenya) or a dialling code ("44" finds the United Kingdom, the main country of a shared code first) narrows the list; arrows, Enter and Escape work; a tap outside closes it. Countries are listed by name in the reader's language. The Find box keeps recent searches like every other search box. New words fd_country_find and fd_country_none in all 38 languages.
+- Rounded corners are one system: the design tokens gain a shape block (small 8 px for rows in a list, control 12 px for fields, choosers, buttons and notes, card 16 px for panels and pop-ups, pill for chips). About 280 hand-typed roundings in the shared parts and every emulator now use these four. Every field (text, number, code, phone, email, chooser) has the same rounding and the same 48 px height. Only the drawn hardware (laptop lid, printer, scanner, stand, drawer) keeps its own shape, marked in the styles.
+- tests/test_shapes.py fails on any hand-typed rounding outside the four, unless it is drawn hardware.
+- The customer display's file budget goes from 800 to 805 KB for the shared field styles (first screen and tap budgets unchanged).
+
 ## v0.116.1 (2026-11-25)
 Phone fields: every country has its code, and the field starts on your country.
 - The country list in every phone field shows only countries that have a dialling code. Antarctica, South Georgia, Pitcairn, the French Southern Territories and the U.S. Outlying Islands (no public numbers of their own) and the sample country are left out, so no flag shows without its code.

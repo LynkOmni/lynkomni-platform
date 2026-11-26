@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yi",
  "native": "ייִדיש",
- "source_sha256": "f10276b1ff78e06d8aeab366306a9f90e6c3d8c53f4f6c836f3a126f32df8fa8",
+ "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
  "texts": {
   "fd_add_item": "לייגט ערשט אַרײַן אַ זאַך אין קאָרב.",
   "fd_ask_manager": "אַ פֿאַרוואַלטער אָדער דער אייגנטימער קען העלפֿן.",
@@ -15,6 +15,8 @@
   "fd_code_wait": "נײַער קאָד אין {time}",
   "fd_contact_support": "קאָנטאַקטירט שטיצע",
   "fd_country": "לאַנד",
+  "fd_country_find": "זוכט אַ לאַנד",
+  "fd_country_none": "קיין לאַנד פּאַסט נישט. פּרוּווט זײַן טעלעפֿאָן־קאָד, ווי 237.",
   "fd_email_format": "שרײַבט אַרײַן אַן בליצפּאָסט־אַדרעס ווי name@example.com.",
   "fd_email_suggest": "האָט איר געמיינט {email}?",
   "fd_email_throwaway": "דער בליצפּאָסט־אַדרעס האַלט נאָר אַ קורצע צײַט. ניצט אַן אַדרעס וואָס איר האַלט.",

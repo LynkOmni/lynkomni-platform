@@ -4,7 +4,8 @@
 import { phoneRules, phoneCheck, phoneAccept, phoneGroups, phoneSample, phoneInternational, phoneLengths, phoneReadPasted, phoneCodes, type PhoneRules, type PhoneCheck } from "./phone.js";
 import { efSetMsg, efNeeds, wireEmails, type EmailValue } from "./emailfield.js";
 import { fieldMsgHtml, type Level } from "./errorbox.js";
-import { ownDigits, wireCodes } from "./codefield.js";
+import { ownDigits, wireCodes, asciiDigits } from "./codefield.js";
+import { rememberSearch } from "./placeholder.js";
 
 type T = (k: string, v?: Record<string, string | number>) => string;
 export interface FieldPack { name: string; sample?: boolean; tz?: string; ph?: PhoneRules | null }
@@ -55,7 +56,7 @@ function lfDetectFlags(): void {
   } catch { yes = false; }
   if (!yes) return;
   FLAGS = true; for (const k of Object.keys(LF_OPTS)) delete LF_OPTS[k];
-  document.querySelectorAll<HTMLOptionElement>(".lf-cc option").forEach((o) => { const f = flagOf(o.value); if (f && o.textContent?.startsWith(o.value)) o.textContent = f + o.textContent.slice(o.value.length); });
+  document.querySelectorAll<HTMLElement>(".lf-ccopt, .lf-cc").forEach((o) => { const code = o.dataset.code ?? o.dataset.cc ?? ""; const el = o.querySelector(".lf-ccnow") ?? o; const f = flagOf(code); if (f && el.textContent?.startsWith(code)) el.textContent = f + el.textContent.slice(code.length); });
 }
 /** The flag of a two-letter country code (empty for anything else, such as the sample pack). */
 export const flagOf = (code: string): string => (/^[A-Z]{2}$/.test(code) && code !== "XX" ? String.fromCodePoint(...[...code].map((ch) => 0x1f1e6 + ch.charCodeAt(0) - 65)) : "");
@@ -78,10 +79,12 @@ export function phoneMessage(ctx: FieldCtx, country: string, _digits: string, c:
   if (c.state === "short") return { level: "error", text: t("fd_short", { country: name, n: lfLengthWords(ctx, c.lengths) }) };
   return null;
 }
+/** The country as the field and the list show it: its flag (or two-letter code) and its dialling code, never its full name. */
+const lfMark = (ctx: FieldCtx, code: string): string => { const cc = ctx.packs[code]?.ph?.code; return `${countryMark(code)}${cc ? ` +${ownDigits(cc, ctx.lang)}` : ""}`; };
 function lfOption(ctx: FieldCtx, code: string, selected = false): string {
-  const cc = ctx.packs[code]?.ph?.code;
-  // the full country name is the tooltip of the whole list; the first drawn option goes without it so the screen opens fast
-  return `<option value="${lfEsc(code)}"${selected ? " selected" : ` title="${lfEsc(ctx.countryName(code))}"`}>${lfEsc(countryMark(code))}${cc ? ` +${lfEsc(ownDigits(cc, ctx.lang))}` : ""}</option>`;
+  // the full country name is the option's accessible name and tooltip, and what Find searches; the row shows flag and code
+  const name = ctx.countryName(code);
+  return `<li role="option" class="lf-ccopt" id="lfo-${lfEsc(code)}" data-code="${lfEsc(code)}" data-find="${lfEsc(`${name} ${code}`.toLowerCase())}" data-dial="${lfEsc(ctx.packs[code]?.ph?.code ?? "")}"${ctx.packs[code]?.ph?.main ? ' data-main="1"' : ""} aria-selected="${selected ? "true" : "false"}" title="${lfEsc(name)}" aria-label="${lfEsc(`${name}, +${ctx.packs[code]?.ph?.code ?? ""}`)}">${lfEsc(lfMark(ctx, code))}</li>`;
 }
 /** The countries a phone number can belong to: only those with a dialling code. Places without public phone numbers of their own
  *  (Antarctica, South Georgia, Pitcairn, the French Southern Territories, the U.S. Outlying Islands) and the sample pack are left
@@ -108,7 +111,9 @@ export function deviceCountry(ctx: FieldCtx, tz?: string, langs?: readonly strin
 const LF_OPTS: Record<string, string> = {};
 /** The whole country list, made once per language (the list never changes while the page is open). */
 function lfOptions(ctx: FieldCtx): string {
-  return (LF_OPTS[ctx.lang] ??= dialCountries(ctx).map((code) => lfOption(ctx, code)).join(""));
+  // in the order of the country names in the reader's own language
+  return (LF_OPTS[ctx.lang] ??= dialCountries(ctx).map((code) => [code, ctx.countryName(code)] as const)
+    .sort((a, b) => a[1].localeCompare(b[1], ctx.lang)).map(([code]) => lfOption(ctx, code)).join(""));
 }
 export interface PhoneFieldOpts { id: string; label: string; country: string; digits: string; mobile?: boolean; submitted?: boolean }
 /** One phone field: the country chooser, the number in the country's groups, the country's sample as its placeholder, and the
@@ -123,10 +128,11 @@ export function phoneFieldHtml(ctx: FieldCtx, o0: PhoneFieldOpts): string {
   // name (owner, 2026-11-25); the full name is the option's tooltip.
   // Only the chosen country is drawn at first; the whole list joins when the chooser is first opened (wireFields), so a screen
   // with phone fields opens as fast as one without.
-  const opts = lfOption(ctx, o.country, true);
+  // The chooser is LynkOmni's own drop-down (owner, 2026-11-26): it opens under the field, scrolls, follows the theme and can be
+  // searched, instead of the phone's own full-screen list.
   return `<div class="lf-field" data-phone="${lfEsc(o.id)}" data-country="${lfEsc(o.country)}" data-mobile="${mobile ? "1" : "0"}" data-valid="${c.state === "ok" ? "1" : "0"}">
     <label for="${lfEsc(o.id)}">${lfEsc(o.label)}</label>
-    <div class="lf-row"><select class="lf-cc" id="${lfEsc(o.id)}-cc" aria-label="${lfEsc(ctx.t("fd_country"))}">${opts}</select><input class="text lf-in" id="${lfEsc(o.id)}" type="text" inputmode="tel" autocomplete="tel-national" dir="ltr" value="${lfEsc(phoneGroups(r, d, mobile))}"${sample ? ` placeholder="${lfEsc(ownDigits(sample, ctx.lang))}"` : ""} aria-describedby="${lfEsc(o.id)}-msg"${msg ? ` aria-invalid="true"` : ""}></div>
+    <div class="lf-row"><button type="button" class="lf-cc" id="${lfEsc(o.id)}-cc" data-cc="${lfEsc(o.country)}" aria-haspopup="listbox" aria-expanded="false" aria-label="${lfEsc(`${ctx.t("fd_country")}: ${ctx.countryName(o.country)}`)}" title="${lfEsc(ctx.countryName(o.country))}"><span class="lf-ccnow">${lfEsc(lfMark(ctx, o.country))}</span><span class="lf-caret" aria-hidden="true"></span></button><input class="text lf-in" id="${lfEsc(o.id)}" type="text" inputmode="tel" autocomplete="tel-national" dir="ltr" value="${lfEsc(phoneGroups(r, d, mobile))}"${sample ? ` placeholder="${lfEsc(ownDigits(sample, ctx.lang))}"` : ""} aria-describedby="${lfEsc(o.id)}-msg"${msg ? ` aria-invalid="true"` : ""}></div>
     ${fieldMsgHtml(ctx.t, o.id, msg?.level ?? null, msg?.text ?? "")}
   </div>`;
 }
@@ -148,18 +154,70 @@ export function wireFields(root: ParentNode, ctx: FieldCtx): void {
   const codes = phoneCodes(ctx.packs);
   root.querySelectorAll<HTMLElement>("[data-phone]").forEach((box) => {
     if (box.dataset.lfWired) return; box.dataset.lfWired = "1";
-    const id = box.dataset.phone as string, input = box.querySelector<HTMLInputElement>("input"), cc = box.querySelector<HTMLSelectElement>("select");
+    const id = box.dataset.phone as string, input = box.querySelector<HTMLInputElement>("input.lf-in"), cc = box.querySelector<HTMLButtonElement>(".lf-cc");
     if (!input || !cc) return;
     const mobile = box.dataset.mobile !== "0";
-    const fill = (): void => { if (cc.options.length > 1) return; const keep = cc.value; cc.innerHTML = lfOptions(ctx); cc.value = keep; };
-    for (const ev of ["focus", "pointerdown", "keydown", "touchstart"]) cc.addEventListener(ev, fill, { passive: true });
+    const show = (c: string): void => {
+      cc.dataset.cc = c; const now = cc.querySelector(".lf-ccnow"); if (now) now.textContent = lfMark(ctx, c);
+      cc.title = ctx.countryName(c); cc.setAttribute("aria-label", `${ctx.t("fd_country")}: ${ctx.countryName(c)}`);
+    };
+    const choose = (c: string): void => {
+      const typed = box.querySelector<HTMLInputElement>(".lf-ccfind")?.value.trim();
+      rememberSearch("phone-country", typed || ctx.countryName(c));   // the box's recent searches (placeholder rules)
+      box.dataset.country = c; show(c); const s2 = phoneSample(lfRules(ctx, c), mobile); input.placeholder = s2 ? ownDigits(s2, ctx.lang) : "";
+      close(); run(input.value, false); input.focus();
+    };
+    const close = (): void => { box.querySelector(".lf-ccpop")?.remove(); cc.setAttribute("aria-expanded", "false"); document.removeEventListener("pointerdown", outside, true); };
+    const outside = (e: Event): void => { if (!box.querySelector(".lf-row")?.contains(e.target as Node)) close(); };
+    const open = (): void => {
+      if (box.querySelector(".lf-ccpop")) { close(); return; }
+      const here = box.dataset.country as string, code = ctx.packs[here]?.ph?.code ?? "";
+      const pop = document.createElement("div");
+      pop.className = "lf-ccpop";
+      pop.innerHTML = `<input class="text lf-ccfind" type="search" id="${lfEsc(id)}-find" data-recents="phone-country" autocomplete="off" aria-label="${lfEsc(ctx.t("fd_country_find"))}" placeholder="${lfEsc(`${ctx.countryName(here)}, +${ownDigits(code, ctx.lang)}`)}" aria-controls="${lfEsc(id)}-list">`
+        + `<ul class="lf-cclist" role="listbox" id="${lfEsc(id)}-list" aria-label="${lfEsc(ctx.t("fd_country"))}">${lfOptions(ctx)}</ul><p class="lf-ccnone" hidden>${lfEsc(ctx.t("fd_country_none"))}</p>`;
+      cc.insertAdjacentElement("afterend", pop);
+      // open upwards when there is no room below inside the screen
+      const r = cc.getBoundingClientRect(), roomBelow = (typeof innerHeight === "number" ? innerHeight : 800) - r.bottom;
+      if (roomBelow < 240 && r.top > roomBelow) pop.classList.add("lf-up");
+      const list = pop.querySelector<HTMLUListElement>(".lf-cclist")!, find = pop.querySelector<HTMLInputElement>(".lf-ccfind")!;
+      list.querySelectorAll<HTMLElement>("[aria-selected]").forEach((li) => li.setAttribute("aria-selected", li.dataset.code === here ? "true" : "false"));
+      const cur = list.querySelector<HTMLElement>(`[data-code="${here}"]`);
+      let active = cur;
+      const mark = (li: HTMLElement | null): void => { list.querySelector(".lf-active")?.classList.remove("lf-active"); active = li; if (li) { li.classList.add("lf-active"); find.setAttribute("aria-activedescendant", li.id); li.scrollIntoView({ block: "nearest" }); } };
+      mark(cur ?? null); cur?.scrollIntoView({ block: "center" });
+      cc.setAttribute("aria-expanded", "true"); find.focus({ preventScroll: true });
+      const shown = (): HTMLElement[] => [...list.querySelectorAll<HTMLElement>("li:not([hidden])")].sort((a, b) => Number(a.style.order || 0) - Number(b.style.order || 0));
+      find.addEventListener("input", () => {
+        const q = asciiDigits(find.value).trim().toLowerCase().replace(/^\+|^00/, "");
+        const byCode = /^[0-9]+$/.test(q);   // digits find a dialling code; letters find a name or the two-letter code
+        // a name or code that starts with what was typed comes first, then a word inside the name that starts with it, then the rest
+        list.querySelectorAll<HTMLElement>("li").forEach((li) => {
+          const f = li.dataset.find ?? "", d = li.dataset.dial ?? "";
+          const rank = !q ? 0 : byCode ? (d === q ? (li.dataset.main ? 1 : 2) : d.startsWith(q) ? 3 : 9) : f.startsWith(q) ? 1 : f.split(/[\s,()-]+/).some((w) => w.startsWith(q)) ? 2 : f.includes(q) ? 3 : 9;
+          li.hidden = rank === 9; li.style.order = rank ? String(rank) : "";
+        });
+        const first = shown()[0] ?? null; mark(first); pop.querySelector<HTMLElement>(".lf-ccnone")!.hidden = !!first;
+      });
+      find.addEventListener("keydown", (e) => {
+        const all = shown(), i = active ? all.indexOf(active) : -1;
+        if (e.key === "ArrowDown") { e.preventDefault(); mark(all[Math.min(all.length - 1, i + 1)] ?? null); }
+        else if (e.key === "ArrowUp") { e.preventDefault(); mark(all[Math.max(0, i - 1)] ?? null); }
+        else if (e.key === "Enter") { e.preventDefault(); if (active) choose(active.dataset.code as string); }
+        else if (e.key === "Escape") { e.preventDefault(); close(); cc.focus(); }
+      });
+      list.addEventListener("click", (e) => { const li = (e.target as HTMLElement).closest<HTMLElement>("li[data-code]"); if (li) choose(li.dataset.code as string); });
+      document.addEventListener("pointerdown", outside, true);
+    };
+    cc.addEventListener("click", open);
+    cc.addEventListener("keydown", (e) => { if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); if (!box.querySelector(".lf-ccpop")) open(); } });
     const run = (raw: string, submitted: boolean): void => {
       let country = box.dataset.country as string;
       // A dialling code being typed after + (or 00) stays as typed until it is a whole code; then the country follows it.
       const lead = raw.trim(), plus = lead.startsWith("+") || lead.startsWith("00");
       if (plus) { const dd = lead.replace(/\D/g, "").slice(lead.startsWith("00") ? 2 : 0); if (![1, 2, 3].some((n) => codes[dd.slice(0, n)] && dd.length >= n)) { efSetMsg(box, fieldMsgHtml(ctx.t, id, null, "")); return; } }
       const [c, cleaned] = phoneReadPasted(raw, country, (x) => lfRules(ctx, x), codes);
-      if (c !== country) { country = c; box.dataset.country = c; cc.value = c; const s = phoneSample(lfRules(ctx, c), mobile); input.placeholder = s ? ownDigits(s, ctx.lang) : ""; }
+      if (c !== country) { country = c; box.dataset.country = c; show(c); const s = phoneSample(lfRules(ctx, c), mobile); input.placeholder = s ? ownDigits(s, ctx.lang) : ""; }
       const r = lfRules(ctx, country), over = phoneCheck(r, cleaned, mobile).state === "long";
       const d = phoneAccept(r, cleaned, mobile), check = over ? { ...phoneCheck(r, d, mobile), state: "long" as const } : phoneCheck(r, d, mobile, submitted);
       input.value = phoneGroups(r, d, mobile);
@@ -170,7 +228,6 @@ export function wireFields(root: ParentNode, ctx: FieldCtx): void {
     };
     input.addEventListener("input", () => run(input.value, false));
     input.addEventListener("blur", () => { if (input.value) run(input.value, true); });
-    cc.addEventListener("change", () => { box.dataset.country = cc.value; const s = phoneSample(lfRules(ctx, cc.value), mobile); input.placeholder = s ? ownDigits(s, ctx.lang) : ""; run(input.value, false); });
     efNeeds(root, id, box.dataset.valid === "1");
   });
   wireEmails(root, ctx);

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ckb",
  "native": "کوردی",
- "source_sha256": "f10276b1ff78e06d8aeab366306a9f90e6c3d8c53f4f6c836f3a126f32df8fa8",
+ "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
  "texts": {
   "fd_add_item": "سەرەتا کاڵایەک بخەرە سەبەتەکەوە.",
   "fd_ask_manager": "بەڕێوەبەرێک یان خاوەن دەتوانن یارمەتی بدەن.",
@@ -15,6 +15,8 @@
   "fd_code_wait": "کۆدی نوێ دوای {time}",
   "fd_contact_support": "پەیوەندی بە پشتگیرییەوە بکە",
   "fd_country": "وڵات",
+  "fd_country_find": "وڵاتێک بدۆزەرەوە",
+  "fd_country_none": "هیچ وڵاتێک ناگونجێت. کۆدی پەیوەندیکردنەکەی تاقی بکەرەوە، وەک 237.",
   "fd_email_format": "ناونیشانی ئیمەیڵێک وەک name@example.com بنووسە.",
   "fd_email_suggest": "مەبەستت {email} بوو؟",
   "fd_email_throwaway": "ئەم ناونیشانی ئیمەیڵە تەنها بۆ ماوەیەکی کورت دەمێنێتەوە. ناونیشانێک بەکاربهێنە کە هەڵیدەگریت.",

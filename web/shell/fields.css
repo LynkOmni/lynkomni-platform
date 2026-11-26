@@ -2,18 +2,19 @@
    properties so right-to-left mirrors; the number itself always runs left to right; every message has its word, never colour alone. */
 .lf-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; margin-block-end: 12px; }
 .lf-field > label { font-weight: 600; }
-.lf-row { display: flex; gap: 6px; min-width: 0; }
-.lf-cc { flex: 0 1 42%; min-width: 0; max-inline-size: 46%; min-block-size: 44px; border: 1px solid var(--border-input); border-radius: 10px; background: var(--bg-surface); color: inherit; font: inherit; padding-inline: 8px; text-overflow: ellipsis; }
-.lf-in { flex: 1 1 auto; min-width: 0; min-block-size: 44px; }
+.lf-row { display: flex; gap: 8px; min-width: 0; position: relative; }
+/* Every shared field box looks the same everywhere: one height, one border, the one rounding from the design tokens. */
+.lf-in, .lf-ccfind { flex: 1 1 auto; inline-size: 100%; min-width: 0; min-block-size: 48px; padding-inline: 12px; border: 1px solid var(--border-input); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font: inherit; }
+.lf-in:focus-visible, .lf-ccfind:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; border-color: var(--focus-ring); }
 .lf-field input[aria-invalid="true"] { border-color: var(--status-danger-border); box-shadow: 0 0 0 1px var(--status-danger-border); }
 .lf-msg:empty { display: none; }
-.lf-msg { margin: 0; padding: 8px 10px; border-radius: 10px; border: 1px solid transparent; display: block; overflow-wrap: anywhere; font-size: 14px; line-height: 1.4; }
+.lf-msg { margin: 0; padding: 8px 10px; border-radius: var(--radius-control); border: 1px solid transparent; display: block; overflow-wrap: anywhere; font-size: 14px; line-height: 1.4; }
 .lf-word { font-weight: 700; }
 .lf-error { background: var(--status-danger-bg); color: var(--status-danger-text); border-color: var(--status-danger-border); }
 .lf-warning { background: var(--status-warning-bg); color: var(--status-warning-text); border-color: var(--status-warning-border); }
 .lf-info { background: var(--status-info-bg); color: var(--status-info-text); border-color: var(--status-info-border); }
 .lf-success { background: var(--status-success-bg); color: var(--status-success-text); border-color: var(--status-success-border); }
-.lf-fix { display: block; margin-block-start: 8px; min-block-size: 44px; padding-inline: 12px; border-radius: 10px; border: 1px solid currentColor; background: transparent; color: inherit; font: inherit; font-weight: 600; white-space: normal; overflow-wrap: anywhere; max-inline-size: 100%; }
+.lf-fix { display: block; margin-block-start: 8px; min-block-size: 44px; padding-inline: 12px; border-radius: var(--radius-control); border: 1px solid currentColor; background: transparent; color: inherit; font: inherit; font-weight: 600; white-space: normal; overflow-wrap: anywhere; max-inline-size: 100%; }
 .lf-code { letter-spacing: 0.2em; font-variant-numeric: tabular-nums; }
 .lf-resend { align-self: flex-start; min-block-size: 44px; white-space: normal; overflow-wrap: anywhere; max-inline-size: 100%; }
 /* The shared message part (ts/src/errorbox.ts, section 4C point 2): an icon shape and a word with every colour, what and why,
@@ -26,5 +27,18 @@
 .ebx-acts { display: flex; flex-wrap: wrap; gap: 8px; }
 .ebx-acts .lf-fix { margin-block-start: 8px; }
 .ebx-list { margin: 6px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
-.ebx-go { display: block; inline-size: 100%; text-align: start; min-block-size: 44px; padding: 6px 10px; border: 0; border-radius: 8px; background: transparent; color: inherit; font: inherit; text-decoration: underline; white-space: normal; overflow-wrap: anywhere; cursor: pointer; }
+.ebx-go { display: block; inline-size: 100%; text-align: start; min-block-size: 44px; padding: 6px 10px; border: 0; border-radius: var(--radius-control); background: transparent; color: inherit; font: inherit; text-decoration: underline; white-space: normal; overflow-wrap: anywhere; cursor: pointer; }
 [aria-invalid="true"] { border-color: var(--status-danger-border); }
+/* The country drop-down of the phone field (owner, 2026-11-26): LynkOmni's own list under the field, never the phone's
+   full-screen picker; it scrolls, follows the theme, and can be searched by name or dialling code. */
+.lf-cc { display: inline-flex; align-items: center; justify-content: space-between; gap: 6px; flex: 0 0 auto; max-inline-size: 46%; min-block-size: 48px; padding-inline: 12px; border: 1px solid var(--border-input); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font: inherit; cursor: pointer; white-space: nowrap; }
+.lf-cc[aria-expanded="true"] { border-color: var(--brand-ink); }
+.lf-ccnow { overflow: hidden; text-overflow: ellipsis; }
+.lf-caret { inline-size: 8px; block-size: 8px; border-inline-end: 2px solid currentColor; border-block-end: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); flex: none; }
+.lf-ccpop { position: absolute; inset-inline-start: 0; inset-block-start: calc(100% + 4px); z-index: 30; inline-size: min(300px, 100%); display: flex; flex-direction: column; gap: 6px; padding: 8px; border: 1px solid var(--border-input); border-radius: var(--radius-card); background: var(--bg-surface); color: var(--text-primary); box-shadow: 0 16px 40px -16px color-mix(in srgb, var(--text-primary) 35%, transparent); }
+.lf-ccpop.lf-up { inset-block-start: auto; inset-block-end: calc(100% + 4px); }
+.lf-cclist { display: flex; flex-direction: column; list-style: none; margin: 0; padding: 0; max-block-size: 240px; overflow-y: auto; overscroll-behavior: contain; }
+.lf-ccopt { display: flex; align-items: center; min-block-size: 44px; padding-inline: 10px; border-radius: var(--radius-small); cursor: pointer; }
+.lf-ccopt:hover, .lf-ccopt.lf-active { background: var(--bg-subtle); }
+.lf-ccopt[aria-selected="true"] { font-weight: 600; color: var(--brand-ink); }
+.lf-ccnone { margin: 0; padding: 8px 10px; }

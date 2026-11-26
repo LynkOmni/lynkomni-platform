@@ -1,24 +1,24 @@
 /* The office pages (ts/src/officeview.ts; section 4 step D5). Tokens only; logical properties so right-to-left works. */
-.of-sample { display: flex; gap: 8px; align-items: flex-start; padding: 8px 12px; border-radius: 10px; background: var(--status-info-bg); color: var(--status-info-text); border: 1px solid var(--status-info-border); font-size: 13px; overflow-wrap: anywhere; }
+.of-sample { display: flex; gap: 8px; align-items: flex-start; padding: 8px 12px; border-radius: var(--radius-control); background: var(--status-info-bg); color: var(--status-info-text); border: 1px solid var(--status-info-border); font-size: 13px; overflow-wrap: anywhere; }
 .of-table { border-collapse: collapse; inline-size: 100%; }
 .of-table th, .of-table td { text-align: start; padding: 8px; border-block-end: 1px solid var(--border-subtle); overflow-wrap: anywhere; }
 .of-table .of-num { text-align: end; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .of-total td { font-weight: 700; color: var(--text-primary); }
 .of-num { font-variant-numeric: tabular-nums; }
-.of-tag { display: inline-flex; align-items: center; min-height: 28px; padding: 2px 10px; border-radius: 999px; background: var(--bg-subtle); color: var(--text-primary); font: 600 12px var(--font-body); }
+.of-tag { display: inline-flex; align-items: center; min-height: 28px; padding: 2px 10px; border-radius: var(--radius-pill); background: var(--bg-subtle); color: var(--text-primary); font: 600 12px var(--font-body); }
 .of-why { color: var(--text-secondary); font-size: 13px; overflow-wrap: anywhere; }
-.of-empty { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 16px; border: 1px dashed var(--border-subtle); border-radius: 12px; color: var(--text-secondary); }
+.of-empty { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 16px; border: 1px dashed var(--border-subtle); border-radius: var(--radius-control); color: var(--text-secondary); }
 .of-field { display: flex; flex-direction: column; gap: 4px; max-inline-size: 420px; font: 600 13px var(--font-body); color: var(--text-secondary); }
-.of-field input, .of-field select { min-height: 44px; padding: 8px 12px; border: 1px solid var(--border-strong); border-radius: 10px; background: var(--bg-surface); color: var(--text-primary); font: 15px var(--font-body); }
+.of-field input, .of-field select { min-height: 44px; padding: 8px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font: 15px var(--font-body); }
 .of-board { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; align-items: start; }
 .of-col { display: flex; flex-direction: column; gap: 8px; min-inline-size: 0; }
 .of-col h2 { margin: 0; font-size: 15px; }
 .of-col .card { min-height: 0; min-inline-size: 0; overflow-wrap: anywhere; }
 .of-col .card button { align-self: stretch; min-inline-size: 0; white-space: normal; overflow-wrap: anywhere; hyphens: auto; }
-.of-bar { block-size: 12px; border-radius: 999px; background: var(--bg-subtle); overflow: hidden; }
+.of-bar { block-size: 12px; border-radius: var(--radius-pill); background: var(--bg-subtle); overflow: hidden; }
 .of-bar i { display: block; block-size: 100%; background: var(--brand-primary); }
-.of-estimate { align-self: flex-start; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--status-warning-border); background: var(--status-warning-bg); color: var(--status-warning-text); font: 600 12px var(--font-body); }
-.of-form { display: flex; flex-direction: column; gap: 10px; padding: 12px; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--bg-surface); }
+.of-estimate { align-self: flex-start; padding: 2px 10px; border-radius: var(--radius-pill); border: 1px solid var(--status-warning-border); background: var(--status-warning-bg); color: var(--status-warning-text); font: 600 12px var(--font-body); }
+.of-form { display: flex; flex-direction: column; gap: 10px; padding: 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--bg-surface); }
 .of-form h2 { margin: 0; }
 /* Section 4 row 66.10: the same pages inside the Business app on a phone. A table with a header row turns into one small card per row
    when its space is narrow (each cell shows its column's name first); nothing is cut and nothing scrolls sideways. */
@@ -28,7 +28,7 @@
 @container (max-width: 520px) {
   .of-stack, .of-stack tbody, .of-stack tr, .of-stack td { display: block; inline-size: 100%; }
   .of-stack thead { display: none; }   /* each cell already names its column */
-  .of-stack tr { padding: 8px 12px; margin-block-end: 8px; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--bg-surface); }
+  .of-stack tr { padding: 8px 12px; margin-block-end: 8px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--bg-surface); }
   .of-stack td { padding: 6px 0; border-block-end: 1px solid var(--border-subtle); text-align: start; overflow-wrap: anywhere; }
   .of-stack td:last-child { border-block-end: 0; }
   .of-stack td:empty { display: none; }

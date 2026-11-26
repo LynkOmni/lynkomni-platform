@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ar",
  "native": "العربية",
- "source_sha256": "f10276b1ff78e06d8aeab366306a9f90e6c3d8c53f4f6c836f3a126f32df8fa8",
+ "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
  "texts": {
   "fd_add_item": "أضف صنفًا إلى السلة أولًا.",
   "fd_ask_manager": "يمكن للمدير أو المالك المساعدة.",
@@ -15,6 +15,8 @@
   "fd_code_wait": "رمز جديد بعد {time}",
   "fd_contact_support": "تواصل مع الدعم",
   "fd_country": "البلد",
+  "fd_country_find": "ابحث عن بلد",
+  "fd_country_none": "لا يوجد بلد مطابق. جرّب رمز الاتصال، مثل 237.",
   "fd_email_format": "أدخل عنوان بريد إلكتروني مثل name@example.com.",
   "fd_email_suggest": "هل تقصد {email}؟",
   "fd_email_throwaway": "عنوان البريد هذا يبقى لفترة قصيرة فقط. استخدم عنوان بريد تحتفظ به.",

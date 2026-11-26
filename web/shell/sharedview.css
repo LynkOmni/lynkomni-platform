@@ -12,7 +12,7 @@
 .sv .ic { inline-size: 18px; block-size: 18px; flex: none; display: inline-flex; }
 .sv .ic svg { inline-size: 100%; block-size: 100%; }
 .sv-note { margin: 0; color: var(--text-secondary); font-size: 13px; }
-.sv-notice { margin: 0; padding: 10px 12px; border-radius: 10px; }
+.sv-notice { margin: 0; padding: 10px 12px; border-radius: var(--radius-control); }
 .sv-notice { background: var(--status-info-bg); color: var(--status-info-text); border: 1px solid var(--status-info-border); }
 /* The message system's pages (CONNECT UPDATE 71.7): role inbox, urgent broadcast, forward by email, message wording and results. */
 .sv-chips { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -23,7 +23,7 @@
 .sv-pick { display: flex; align-items: center; gap: 8px; min-height: 44px; overflow-wrap: anywhere; }
 .sv-pick input { inline-size: 20px; block-size: 20px; flex: none; margin: 0; }
 .sv-field { display: flex; flex-direction: column; gap: 4px; max-inline-size: 520px; font: 600 13px var(--font-body); color: var(--text-secondary); }
-.sv-field textarea, .sv-field select { min-height: 44px; padding: 8px 12px; border: 1px solid var(--border-input); border-radius: 10px; background: var(--bg-surface); color: var(--text-primary); font: 15px var(--font-body); max-inline-size: 100%; box-sizing: border-box; }
+.sv-field textarea, .sv-field select { min-height: 44px; padding: 8px 12px; border: 1px solid var(--border-input); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font: 15px var(--font-body); max-inline-size: 100%; box-sizing: border-box; }
 .sv-field textarea { resize: vertical; }
 .sv-btns { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
 .sv-addr { font-family: var(--font-mono, monospace); direction: ltr; unicode-bidi: isolate; text-align: start; }

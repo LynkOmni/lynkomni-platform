@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ug",
  "native": "ئۇيغۇرچە",
- "source_sha256": "f10276b1ff78e06d8aeab366306a9f90e6c3d8c53f4f6c836f3a126f32df8fa8",
+ "source_sha256": "9c059d75dfed9050aaa1b42b26245c126beb476e3cae64a4476ea854961907b2",
  "texts": {
   "fd_add_item": "ئالدى بىلەن سېۋەتكە بىر مال قوشۇڭ.",
   "fd_ask_manager": "باشقۇرغۇچى ياكى ئىگىسى ياردەم بېرەلەيدۇ.",
@@ -15,6 +15,8 @@
   "fd_code_wait": "{time} دىن كېيىن يېڭى كود",
   "fd_contact_support": "ياردەم بىلەن ئالاقىلىشىڭ",
   "fd_country": "دۆلەت",
+  "fd_country_find": "دۆلەت ئىزدەش",
+  "fd_country_none": "ماس كېلىدىغان دۆلەت يوق. 237 دېگەندەك دۆلەت كودىنى سىناڭ.",
   "fd_email_format": "name@example.com غا ئوخشاش ئېلخەت ئادرېسى كىرگۈزۈڭ.",
   "fd_email_suggest": "{email} نى دېمەكچىمۇ؟",
   "fd_email_throwaway": "بۇ ئېلخەت ئادرېسى قىسقا ۋاقىتلا ئىشلەيدۇ. ساقلايدىغان ئادرېسىڭىزنى ئىشلىتىڭ.",
