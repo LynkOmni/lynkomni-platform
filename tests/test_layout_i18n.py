@@ -3,6 +3,8 @@ over, in every language of design/fonts/scripts.v1.json (real machine translatio
 test (about 40% longer, accented) and a right-to-left test, at desktop and phone size.
 Needs Playwright with Chromium (installed in CI's layout job); skipped where it is missing."""
 import json
+
+from tests.staff_pin import sign_in
 import re, os, unittest
 from services import translation
 
@@ -425,7 +427,7 @@ class DeviceLayout(unittest.TestCase):
                     found[f"{name} {r}"] = bad
         shell_parts(pg, check)
         for st in states:
-            pg.click(f'[data-state="{st}"]'); pg.evaluate(SETTLE)
+            pg.click(f'[data-state="{st}"]'); sign_in(pg, emulator, st); pg.evaluate(SETTLE)   # the panel never skips the staff PIN
             for r in roots:
                 if not pg.evaluate("(r) => { const e = document.querySelector(r); return !!e && e.getClientRects().length > 0; }", r):
                     continue

@@ -12,6 +12,8 @@ ignored mouse clicks). For every emulator in web/emulators/dist, at every size i
 
 Needs Playwright with Chromium (installed in CI's layout job); skipped where it is missing."""
 import glob, os, unittest
+
+from tests.staff_pin import sign_in
 from core import names as _names
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -445,6 +447,7 @@ class FitGuard(unittest.TestCase):
                     if st is not None:
                         try:
                             pg.click(f'[data-state="{st}"]', timeout=2000)
+                            sign_in(pg, emu, st)   # the panel never skips the staff PIN: type it like a person, then check the real screen
                         except Exception:
                             continue
                         look(st)
@@ -459,6 +462,7 @@ class FitGuard(unittest.TestCase):
                         if st is not None:
                             try:
                                 pg.click(f'[data-state="{st}"]', timeout=1500)
+                                sign_in(pg, emu, st)
                             except Exception:
                                 pass
                 pg.close()

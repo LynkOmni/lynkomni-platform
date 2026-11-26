@@ -6,6 +6,8 @@ screens). Devices that are not navigated apps (customer display, card, mesh rela
 9 November 2026). Needs Playwright with Chromium (CI's layout job)."""
 import json, os, re, unittest
 
+from tests.staff_pin import jump
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIST = os.path.join(ROOT, "web", "emulators", "dist")
 with open(os.path.join(ROOT, "catalog", "addresses.v1.json"), encoding="utf-8") as f:
@@ -62,7 +64,7 @@ class ShellParts(unittest.TestCase):
                         for k in ("d1", "d2", "d3", "d4", "enter"):
                             pg.click(f'.keypad [data-act="{k}"]')
                     elif state:
-                        pg.click(f'#stateButtons [data-state="{state}"]')
+                        jump(pg, emu, state)
                     # find or do anything: typing filters, a result does the thing and closes the panel
                     pg.click('[data-act="dsh:search"]')
                     self.assertEqual(pg.locator("#cmdIn").count(), 1)
@@ -105,7 +107,7 @@ class ShellParts(unittest.TestCase):
             for emu in list(NAVIGATED) + ["button-phone"]:
                 b, pg, errors = open_page(p, emu)
                 for k in [pg.locator("#stateButtons [data-state]").nth(i).get_attribute("data-state") for i in range(pg.locator("#stateButtons [data-state]").count())]:
-                    pg.click(f'#stateButtons [data-state="{k}"]')
+                    jump(pg, emu, k)
                     a = pg.text_content("#address") or ""
                     if not path_ok(a):
                         bad[f"{emu}:{k}"] = a
@@ -193,12 +195,12 @@ class ProtectedZones(unittest.TestCase):
         with sync_playwright() as p:
             b, pg, errors = open_page(p, "counter-tablet")
             pg.select_option("#cPlan", "free")
-            pg.click('#stateButtons [data-state="pay"]')
+            jump(pg, "counter-tablet", "pay")
             pg.click('#screen [data-act="method:card"]')
             self.assertNotRegex(pg.inner_text("#cscreen"), PROMO, "customer screen at payment")
             self.assertNotRegex(pg.inner_text("#screen"), PROMO, "till at payment")
             for k in ("cash", "shift", "dayclose"):
-                pg.click(f'#stateButtons [data-state="{k}"]')
+                jump(pg, "counter-tablet", k)
                 self.assertNotRegex(pg.inner_text("#screen"), PROMO, k)
             self.assertEqual(errors, [])
             b.close()
