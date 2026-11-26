@@ -118,7 +118,7 @@ class TestEngine(unittest.TestCase):
         self.assertEqual(r["state"], "bell_only_until_quiet_ends")
         r = self.n.notify("trip_plan_overdue", "t1", "c", NIGHT, country="CM", prefs={"dnd_until": NIGHT + 3600})
         self.assertEqual(r["state"], "shown")
-        self.assertEqual(set(r["channels"]), {"bell", "push", "email", "text"}, "critical uses every channel")
+        self.assertEqual(set(r["channels"]), {"bell", "push", "email"}, "critical uses every free channel; LynkOmni's own text is only a fallback")
 
     def test_critical_repeats_until_acknowledged_and_high_escalates(self):
         r = self.n.notify("recovery_started", "p1", "a", NOON, lang="sw")

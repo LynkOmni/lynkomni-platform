@@ -3226,7 +3226,26 @@
    "call_only_for": [
     "critical"
    ],
-   "call_after_s": 600
+   "call_after_s": 600,
+   "own_messages": {
+    "rule": "LynkOmni's own messages (no business sends them) go only by the free channels the big platforms use: the bell in the app, a phone notification, and email. A text is sent only as the last fallback for a high or critical security or safety alert that no free channel delivered (a person with no app and no working email, such as a basic phone, or a trusted contact without LynkOmni). LynkOmni never calls for its own messages. Messages a business sends are paid by that business (owner, 2026-11-26).",
+    "free": [
+     "bell",
+     "push",
+     "email"
+    ],
+    "text_fallback_areas": [
+     "security",
+     "safety"
+    ],
+    "text_fallback_priorities": [
+     "high",
+     "critical"
+    ],
+    "never": [
+     "call"
+    ]
+   }
   },
   "role_routing": {
    "rule": "A message for a role goes to whoever holds that role now: the holders checked in with LynkAttend; if nobody is in, every holder; if the role has no holder, the next role up (NEXT_ROLE), ending with the owner.",

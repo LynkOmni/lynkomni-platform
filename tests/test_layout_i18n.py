@@ -362,7 +362,7 @@ class AccountLayout(DarkPass, unittest.TestCase):
         pg.click('#stateButtons button[data-state="notifications"]'); pg.click('[data-act="nset:deputy"]'); pg.click('[data-act="nset:remind"]'); pg.click('[data-act="nset:test"]'); check("notification settings in use")
         pg.click('#stateButtons button[data-state="assist"]'); pg.click('[data-act="assistc:lock_everything"]'); check("assist card")
         pg.click('#display [data-act="assist:check"]'); pg.click('[data-act="stepup:ok"]'); pg.click('#display [data-act="assist:confirm"]'); check("assist receipt")
-        pg.click('#stateButtons button[data-state="signin"]'); pg.click('[data-act="wy:si:who"]'); pg.click('[data-act="wy:si:way:text_code"]'); check("signin extra check"); pg.click('[data-act="wy:si:extra"]'); pg.click('#stateButtons button[data-state="security"]'); check("cool-off")
+        pg.click('#stateButtons button[data-state="signin"]'); pg.click('[data-act="wy:si:who"]'); pg.click('[data-act="wy:si:way:email_code"]'); check("signin extra check"); pg.click('[data-act="wy:si:extra"]'); pg.click('#stateButtons button[data-state="security"]'); check("cool-off")
         pg.click('#stateButtons button[data-state="overview"]')
         for ov in ("launcher", "account", "globe", "search", "help", "bell", "sync"):
             if pg.locator(f'[data-act="shell:{ov}"]').count() == 0:

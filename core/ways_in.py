@@ -67,6 +67,8 @@ def sign_in_ways(has, strongest=False):
     """The ways this person can sign in with, strongest first; strongest protection mode keeps only passkeys and keys.
     Codes by email or text come last and never alone open a new device (an extra check follows)."""
     order = [w for w in W["ways"] if w["kind"] in ("sign_in", "code") and w["id"] in has]
+    if any(w["id"] in W["free_first"]["free_ways"] for w in order):
+        order = [w for w in order if w["id"] != "text_code"]    # a text code only when no free way exists (owner, 2026-11-26)
     if strongest:
         order = [w for w in order if w["id"] in PROTECT["strongest_mode"]["only"]]
     return [w["id"] for w in sorted(order, key=lambda w: -w["strength"])]

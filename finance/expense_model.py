@@ -24,7 +24,7 @@ OWN, PASSED = "lynkomni_own", "passed_through"
 PAYER = {"people": OWN, "office_tools": OWN, "marketing": OWN, "payment_collection": OWN, "legal": OWN, "hosting": OWN,
          "message_delivery": PASSED, "sms": OWN, "security": OWN, "ai": OWN, "assist_everywhere": OWN, "insurance": OWN, "email": OWN,
          "translation_gpu": OWN, "new_service_costs": OWN}
-PAYER_NOTE = {"sms": "only LynkOmni's own sign-in and security codes for its own accounts; a business's messages are message_delivery",
+PAYER_NOTE = {"sms": "only LynkOmni's own unavoidable texts: proving a new or changed number, the recovery way that needs the phone, and security or safety alerts no free channel delivered (catalog/messages.v1.json own_messages, catalog/ways-in.v1.json free_first); a business's messages are message_delivery",
               "payment_collection": "the payment provider's fee for collecting LynkOmni's own plan revenue",
               "message_delivery": "messages businesses send, paid by them as messaging revenue (MESSAGING_REVENUE)",
               "ai": "LynkOmni's own LynkAssist and intelligence features", "new_service_costs": "running LynkOmni's own new services"}
@@ -46,7 +46,9 @@ def expenses(stage):
         "legal": Decimal(LEGAL[stage]),
         "hosting": 1500 + m * Decimal("0.12") + c * Decimal("0.01"),
         "message_delivery": Decimal("0.7") * MESSAGING_REVENUE[stage],
-        "sms": (m * Decimal("1.5") + c) * Decimal("0.5") * Decimal("0.03"),
+        # LynkOmni's own texts are only the exceptions (owner, 2026-11-26): proving a new or changed number, the rare recovery that needs
+        # the phone, and security or safety alerts no free channel delivered. Assumption: 3% of accounts get one text a month at 3 cents.
+        "sms": (m + c) * Decimal("0.03") * Decimal("0.03"),
         "security": Decimal(SECURITY[stage]),
         "ai": m * Decimal("0.058") * rm.CONVERSION[stage] * Decimal("0.5") + m * Decimal("0.02"),
         "assist_everywhere": m * Decimal("0.03") + c * Decimal("0.005"),   # LynkAssist in support, chat, drafts and summaries (blueprint 45)
