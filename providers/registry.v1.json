@@ -1948,7 +1948,7 @@
   },
   {
    "id": "age_id_check",
-   "name": "Identity partner that clears a wrong under-age answer at sign-up",
+   "name": "Identity partner for age",
    "kind": "identity",
    "used_by": [
     "age_id_check"
