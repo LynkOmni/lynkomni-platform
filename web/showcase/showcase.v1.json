@@ -53,8 +53,8 @@
   {
    "n": "4C",
    "title": "Fixes before section 5: phone and email fields, errors that say how to fix, no WhatsApp, sign-up and sign-in with LynkOmni's own security, the phone owner check",
-   "status": "building",
-   "version": "v0.112.0 (setup)"
+   "status": "locked",
+   "version": "v0.112.0 to v0.122.0"
   },
   {
    "n": 5,
