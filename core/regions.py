@@ -11,7 +11,9 @@ SERVICES = ["pos", "accountant", "invoicing", "crm", "inventory", "dashboard", "
             "hr_checks", "tenant_screening", "exam_boards", "notary", "pensions", "deposit_protection", "rent_insurance", "property_listings",
             "job_listings", "employer_of_record", "employment_services",
             "chat_channels", "chat_calls", "pay_in_parts", "listing_sync", "outside_warehouses", "shop_plugins", "transport_bills", "government_fees",
-            "betting", "phone_owner_match"]
+            "betting", "phone_owner_match", "age_id_check"]
+# NEUTRAL AGE GATE (2026-11-26): "age_id_check" (the licensed identity partner that clears a wrong under-age answer at sign-up; the
+# person pays its fee, shown first) is off until a partner is signed in the country (services/age_partners.py).
 # SECTION 4C point 4 (2026-11-26): "phone_owner_match" (the mobile network's KYC Match and SIM Swap for the phone owner check) is off
 # until a network is signed in the country (services/phone_owner_partners.py); meanwhile the ID document check is used.
 # BETTING UPDATE (2026-11-24, master blueprint section 86): "betting" (the betting counter at an agent point) needs a licensed betting

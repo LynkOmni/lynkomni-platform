@@ -299,8 +299,6 @@
  "signin_passkey_hint": "Your phone or computer confirms it is you. No password to remember.",
  "signin_pin": "Enter your PIN on an enrolled phone",
  "signin_title": "Sign in to LynkOmni",
- "signup_adult": "I am {age} or older, or the age of majority where I live",
- "signup_adult_note": "We never ask for your birth date.",
  "signup_title": "Create your LynkOmni account",
  "site_account": "Account",
  "site_merchant": "Business app",

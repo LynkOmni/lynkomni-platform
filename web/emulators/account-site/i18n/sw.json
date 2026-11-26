@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "d446c5cb6d515109ace560165a8c2628f998fd00807c711340c14f5d35695556",
+ "source_sha256": "28305732430f0b38e7a113cdeb57540a766d92fac836d7c91224f8883030d811",
  "texts": {
   "active_sessions": "Vipindi vinavyoendelea",
   "add_passkey": "Ongeza ufunguo wa kuingia",
@@ -306,8 +306,6 @@
   "signin_passkey_hint": "Simu au kompyuta yako inathibitisha kuwa ni wewe. Hakuna nenosiri la kukumbuka.",
   "signin_pin": "Weka PIN yako kwenye simu iliyosajiliwa",
   "signin_title": "Ingia kwenye LynkOmni",
-  "signup_adult": "Nina umri wa miaka {age} au zaidi, au umri wa utu uzima ninapoishi",
-  "signup_adult_note": "Hatuulizi kamwe tarehe yako ya kuzaliwa.",
   "signup_title": "Fungua akaunti yako ya LynkOmni",
   "site_account": "Akaunti",
   "site_merchant": "Programu ya biashara",

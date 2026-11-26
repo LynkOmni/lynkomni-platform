@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "tr",
  "native": "Türkçe",
- "source_sha256": "d446c5cb6d515109ace560165a8c2628f998fd00807c711340c14f5d35695556",
+ "source_sha256": "28305732430f0b38e7a113cdeb57540a766d92fac836d7c91224f8883030d811",
  "texts": {
   "active_sessions": "Etkin oturumlar",
   "add_passkey": "Geçiş anahtarı ekle",
@@ -306,8 +306,6 @@
   "signin_passkey_hint": "Telefonunuz veya bilgisayarınız sizin olduğunuzu doğrular. Hatırlanacak şifre yok.",
   "signin_pin": "Kayıtlı bir telefonda PIN kodunuzu girin",
   "signin_title": "LynkOmni'ye giriş yapın",
-  "signup_adult": "{age} yaşında veya daha büyüğüm ya da yaşadığım yerde reşidim",
-  "signup_adult_note": "Doğum tarihinizi asla sormayız.",
   "signup_title": "LynkOmni hesabınızı oluşturun",
   "site_account": "Hesap",
   "site_merchant": "İşletme uygulaması",

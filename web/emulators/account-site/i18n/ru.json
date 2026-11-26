@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ru",
  "native": "Русский",
- "source_sha256": "d446c5cb6d515109ace560165a8c2628f998fd00807c711340c14f5d35695556",
+ "source_sha256": "28305732430f0b38e7a113cdeb57540a766d92fac836d7c91224f8883030d811",
  "texts": {
   "active_sessions": "Активные сеансы",
   "add_passkey": "Добавить ключ доступа",
@@ -306,8 +306,6 @@
   "signin_passkey_hint": "Телефон или компьютер подтверждает, что это вы. Пароль помнить не нужно.",
   "signin_pin": "Введите PIN на зарегистрированном телефоне",
   "signin_title": "Вход в LynkOmni",
-  "signup_adult": "Мне {age} лет или больше, или я совершеннолетний там, где живу",
-  "signup_adult_note": "Мы никогда не спрашиваем дату рождения.",
   "signup_title": "Создайте аккаунт LynkOmni",
   "site_account": "Аккаунт",
   "site_merchant": "Бизнес-приложение",

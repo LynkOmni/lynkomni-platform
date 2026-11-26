@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "th",
  "native": "ไทย",
- "source_sha256": "d446c5cb6d515109ace560165a8c2628f998fd00807c711340c14f5d35695556",
+ "source_sha256": "28305732430f0b38e7a113cdeb57540a766d92fac836d7c91224f8883030d811",
  "texts": {
   "active_sessions": "เซสชันที่ใช้งานอยู่",
   "add_passkey": "เพิ่มพาสคีย์",
@@ -306,8 +306,6 @@
   "signin_passkey_hint": "โทรศัพท์หรือคอมพิวเตอร์ของคุณยืนยันว่าเป็นคุณ ไม่ต้องจำรหัสผ่าน",
   "signin_pin": "ใส่ PIN บนโทรศัพท์ที่ลงทะเบียนไว้",
   "signin_title": "เข้าสู่ระบบ LynkOmni",
-  "signup_adult": "ฉันอายุ {age} ปีขึ้นไป หรือบรรลุนิติภาวะในที่ที่ฉันอาศัยอยู่",
-  "signup_adult_note": "เราไม่เคยถามวันเกิดของคุณ",
   "signup_title": "สร้างบัญชี LynkOmni ของคุณ",
   "site_account": "บัญชี",
   "site_merchant": "แอปธุรกิจ",

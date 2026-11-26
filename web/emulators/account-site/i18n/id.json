@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "d446c5cb6d515109ace560165a8c2628f998fd00807c711340c14f5d35695556",
+ "source_sha256": "28305732430f0b38e7a113cdeb57540a766d92fac836d7c91224f8883030d811",
  "texts": {
   "active_sessions": "Sesi aktif",
   "add_passkey": "Tambahkan passkey",
@@ -306,8 +306,6 @@
   "signin_passkey_hint": "Ponsel atau komputer Anda memastikan bahwa itu Anda. Tidak ada kata sandi yang perlu diingat.",
   "signin_pin": "Masukkan PIN Anda di ponsel yang terdaftar",
   "signin_title": "Masuk ke LynkOmni",
-  "signup_adult": "Saya berusia {age} tahun ke atas, atau sudah dewasa menurut hukum di tempat tinggal saya",
-  "signup_adult_note": "Kami tidak pernah meminta tanggal lahir Anda.",
   "signup_title": "Buat akun LynkOmni Anda",
   "site_account": "Akun",
   "site_merchant": "Aplikasi bisnis",

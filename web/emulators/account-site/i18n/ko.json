@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "d446c5cb6d515109ace560165a8c2628f998fd00807c711340c14f5d35695556",
+ "source_sha256": "28305732430f0b38e7a113cdeb57540a766d92fac836d7c91224f8883030d811",
  "texts": {
   "active_sessions": "활성 세션",
   "add_passkey": "패스키 추가",
@@ -306,8 +306,6 @@
   "signin_passkey_hint": "휴대폰이나 컴퓨터가 본인임을 확인합니다. 기억할 비밀번호가 없습니다.",
   "signin_pin": "등록된 휴대폰에서 PIN을 입력하세요",
   "signin_title": "LynkOmni 로그인",
-  "signup_adult": "만 {age}세 이상이거나 거주지에서 성년입니다",
-  "signup_adult_note": "생년월일은 절대 묻지 않습니다.",
   "signup_title": "LynkOmni 계정 만들기",
   "site_account": "계정",
   "site_merchant": "비즈니스 앱",

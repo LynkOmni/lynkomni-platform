@@ -2,6 +2,16 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.126.0 (2026-11-26)
+A neutral age check at sign-up (owner approved, following the ICO, Ofcom and EDPB guidance).
+- Sign-up no longer shows a "I am 18 or older" tick box. It asks the birth date (day, month and year, in the order the reader writes dates) without saying which age is needed. The phone works out "adult or not" against 18, or the country's higher age, and forgets the date at once; only "adult: yes" and the day it was checked are kept. LynkOmni still never stores a birth date or an age.
+- The person confirms the date once ("You were born on 14 May 1990. Is this right?"), with Change it before confirming. After that the answer is locked and never retyped. LynkOmni keeps no date, so there is nothing for anyone to change later (owner: once confirmed, only LynkOmni can change it).
+- Under age is final on that device, network and phone number: no retry and no wait that ends by itself. If it was a mistake, "Check my age with an ID" sends the person to a licensed identity partner through LynkOmni; the partner answers only adult or not, and the person pays the partner's fee, shown before they start (services/age_partners.py, ledger age_id_check, "Coming to your country soon." until a partner is signed). On a basic phone the check is done at a LynkOmni shop or agent point.
+- The basic phone asks the year, the month and the day on three short pages, then "Is this right?", with the same check.
+- A date that does not exist (30 February, a month 13, a date in the future) is explained with how to fix it. A 29 February birthday counts from 1 March in other years.
+- A licensed partner's ID check still confirms age where the risk is higher: payments, cards, exchange, a first paid Storefront offer and betting.
+- The old tick-box leftovers on the account site are gone. New words in all 38 languages; tests in core, TypeScript, the basic phone vectors and the screens.
+
 ## v0.125.0 (2026-11-26)
 Held, never texted: LynkOmni's own alerts no longer fall back to a text (owner).
 - LynkOmni never texts or calls for its own alerts. A security or safety alert goes by the in-app bell, phone notifications on every signed-in device and email, and repeats free until it is read (catalog/messages.v1.json own_messages; the notifier now says whether an alert reached the person).

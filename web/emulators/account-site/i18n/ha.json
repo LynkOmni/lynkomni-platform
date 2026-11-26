@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "d446c5cb6d515109ace560165a8c2628f998fd00807c711340c14f5d35695556",
+ "source_sha256": "28305732430f0b38e7a113cdeb57540a766d92fac836d7c91224f8883030d811",
  "texts": {
   "active_sessions": "Zaman da ke aiki",
   "add_passkey": "Ƙara maɓallin shiga",
@@ -306,8 +306,6 @@
   "signin_passkey_hint": "Wayarku ko kwamfutarku tana tabbatar cewa ku ne. Babu kalmar sirri da za ku tuna.",
   "signin_pin": "Shigar da PIN ɗinku a wayar da aka yi wa rajista",
   "signin_title": "Shiga LynkOmni",
-  "signup_adult": "Ina da shekara {age} ko sama, ko na balaga a inda nake zaune",
-  "signup_adult_note": "Ba mu taɓa tambayar ranar haihuwarka ba.",
   "signup_title": "Ƙirƙiri asusunku na LynkOmni",
   "site_account": "Asusu",
   "site_merchant": "Manhajar kasuwanci",

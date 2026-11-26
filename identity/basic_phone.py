@@ -9,8 +9,12 @@ contract/vectors/basicphone.v1.json proves they agree.
 
 Rules:
 - the number the network gives is one proof, the PIN is the second: a number alone never opens an account (numbers are reused);
-- sign-up asks the age first (18 or the country's higher age, never a birth date), a username by the one format, a PIN twice,
-  and the terms; the account is created in the cloud only, and the recovery code is shown once;
+- sign-up starts with the neutral age gate (owner 2026-11-26): year, month and day of birth, one page each, without saying the
+  age needed, then "Is this right?" once; the engine works out adult or not (core.ways_in.age_check, 18 or the country's higher
+  age) and forgets the date at once; the answer is never retyped; someone under age is told only that an account cannot be made
+  on this number and that a LynkOmni shop or agent point can check their age with an ID; the action age_refused blocks that
+  number in the cloud (identity/account.py age_refused) and ctx age_blocked sends a new try straight there; then a username by the one
+  format, a PIN twice, and the terms; the account is created in the cloud only, and the recovery code is shown once;
 - wrong PINs wait and then lock, never wipe; recovery is online, never on this menu;
 - a duress PIN signs in to a home that looks the same but lists no messages, while the action carries duress so the cloud
   raises the silent alert (owner rule 2026-11-24);
@@ -21,8 +25,9 @@ Rules:
 - the channel stays off for real users until a gateway is signed in the country (providers ussd_gateway), shown as
   "Coming to your country soon." by the screens."""
 from identity.offline import pin_problem
+from core.ways_in import age_check
 
-SCREENS = ("welcome", "pin", "locked", "age", "too_young", "username", "new_pin", "pin_again", "terms", "created", "home",
+SCREENS = ("welcome", "pin", "locked", "age", "age_month", "age_day", "age_confirm", "too_young", "username", "new_pin", "pin_again", "terms", "created", "home",
            "messages", "read", "help", "states", "state", "pin_help", "pin_reset", "pin_reset_sent", "pin_reset_shop", "link_sent", "handed", "bye")
 WELCOME = ("sign_in", "create", "help")
 HOME = ("messages", "help")
@@ -32,11 +37,12 @@ MAX_LINES = 5                                   # messages listed on one page (a
 
 
 def start():
-    return {"screen": "welcome", "signed_in": False, "limited": False, "username": None, "pin": None, "note": None, "pick": None, "back": "welcome"}
+    return {"screen": "welcome", "signed_in": False, "limited": False, "username": None, "pin": None, "note": None, "pick": None, "back": "welcome", "birth": None}
 
 
 def page(state, ctx):
-    """The page for a state: [(word key, values)]. ctx: age (country's age of majority), lines [(nid, title)] unread newest first,
+    """The page for a state: [(word key, values)]. ctx: age (country's age of majority, never shown), today [y, m, d], age_blocked
+    (this number came out under age and no ID check has cleared it), lines [(nid, title)] unread newest first,
     recovery (shown once after sign-up), case (a support case reference after a hand-over), security_unread (an unread security
     alert waits: LynkOmni never texts its own alerts, so it is shown first on the home page)."""
     s, note = state["screen"], ([(state["note"][0], state["note"][1])] if state.get("note") else [])
@@ -50,9 +56,16 @@ def page(state, ctx):
     if s == "locked":
         return [("bp_locked", {})]
     if s == "age":
-        return [("bp_age", {"age": ctx["age"]}), ("bp_yes", {"n": 1}), ("bp_no", {"n": 2})]
+        return note + [("bp_birth_forget", {}), ("bp_birth_year", {})]
+    if s == "age_month":
+        return note + [("bp_birth_month", {})]
+    if s == "age_day":
+        return note + [("bp_birth_day", {})]
+    if s == "age_confirm":
+        y, m, d = state["birth"]
+        return [("bp_birth_confirm", {"d": d, "m": m, "y": y}), ("bp_yes", {"n": 1}), ("bp_change", {"n": 2})]
     if s == "too_young":
-        return [("bp_too_young", {"age": ctx["age"]})]
+        return [("bp_too_young", {})]
     if s == "username":
         return note + [("bp_username", {})]
     if s == "new_pin":
@@ -110,7 +123,7 @@ def step(state, text, ctx):
         if t == "0": return _to(s, "bye"), True, None
         pick = WELCOME[int(t) - 1] if num and 1 <= int(t) <= len(WELCOME) else None
         if pick == "sign_in": return _to(s, "pin"), False, None
-        if pick == "create": return _to(s, "age"), False, None
+        if pick == "create": return (_to(s, "too_young"), True, None) if ctx.get("age_blocked") else (_to(s, "age"), False, None)
         if pick == "help": s["back"] = "welcome"; return _to(s, "help"), False, None
         return s, False, None
     if scr == "pin":
@@ -124,10 +137,26 @@ def step(state, text, ctx):
         if r == "locked":
             return _to(s, "locked"), True, None
         return _to(s, "pin", ("bp_wrong_pin", {"left": r[1]})), False, {"wrong_pin": r[1]}
+    again = ("bp_birth_invalid", {})
     if scr == "age":
-        if t == "1": return _to(s, "username"), False, None
-        if t == "2": return _to(s, "too_young"), True, None
-        return s, False, None
+        if num and len(t) == 4: s["birth"] = [int(t)]; return _to(s, "age_month"), False, None
+        return _to(s, "age", again), False, None
+    if scr == "age_month":
+        if num and 1 <= int(t) <= 12: s["birth"] = s["birth"] + [int(t)]; return _to(s, "age_day"), False, None
+        return _to(s, "age_month", again), False, None
+    if scr == "age_day":
+        if not (num and 1 <= int(t) <= 31): return _to(s, "age_day", again), False, None
+        y, m = s["birth"]
+        if age_check(y, m, int(t), tuple(ctx["today"]), ctx["age"]) == "no_such_date":
+            s["birth"] = None; return _to(s, "age", again), False, None
+        s["birth"] = [y, m, int(t)]
+        return _to(s, "age_confirm"), False, None
+    if scr == "age_confirm":
+        if t == "2": s["birth"] = None; return _to(s, "age"), False, None
+        if t != "1": return s, False, None
+        y, m, d = s["birth"]; s["birth"] = None              # confirmed once, then forgotten; only adult or not is used
+        if age_check(y, m, d, tuple(ctx["today"]), ctx["age"]) == "under": return _to(s, "too_young"), True, {"age_refused": True}
+        return _to(s, "username"), False, None
     if scr == "username":
         u = t.lower().lstrip("@")
         why = ctx["username_check"](u)

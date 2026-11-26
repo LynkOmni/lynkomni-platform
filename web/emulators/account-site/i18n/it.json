@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "it",
  "native": "Italiano",
- "source_sha256": "d446c5cb6d515109ace560165a8c2628f998fd00807c711340c14f5d35695556",
+ "source_sha256": "28305732430f0b38e7a113cdeb57540a766d92fac836d7c91224f8883030d811",
  "texts": {
   "active_sessions": "Sessioni attive",
   "add_passkey": "Aggiungi una passkey",
@@ -306,8 +306,6 @@
   "signin_passkey_hint": "Il tuo telefono o computer conferma che sei tu. Nessuna password da ricordare.",
   "signin_pin": "Inserisci il PIN su un telefono registrato",
   "signin_title": "Accedi a LynkOmni",
-  "signup_adult": "Ho almeno {age} anni o sono maggiorenne dove vivo",
-  "signup_adult_note": "Non chiediamo mai la tua data di nascita.",
   "signup_title": "Crea il tuo account LynkOmni",
   "site_account": "Account",
   "site_merchant": "App Business",

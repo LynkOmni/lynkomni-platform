@@ -14,6 +14,7 @@ import { chPage, chQPage, chQStart, chQStep, chRender, chSPage, chSStart, chSSte
 import type { ChQCtx, ChQState, ChSCtx, ChSState, ChState } from "../../../ts/src/channels.js";
 import { nextCode, runningLate, ticketNumber, waitMinutes } from "../../../ts/src/queue.js";
 import { bpPage, bpStart, bpStep, textNotification } from "../../../ts/src/basicphone.js";
+import { ageBlocked } from "../../../ts/src/waysin.js";
 import type { BpCtx, BpState, PinCheck } from "../../../ts/src/basicphone.js";
 import { check } from "../../../ts/src/usernames.js";
 import { loadPrefs, savePrefs } from "../../../ts/src/soundprefs.js";
@@ -37,7 +38,7 @@ const KINDS: Kind[] = ["button-phone", "feature-phone", "basic-phone"];
 const WORKING_MS = 700;
 const PH = { working: false, kind: "button-phone" as Kind, mode: "idle" as "idle" | "ussd" | "sms" | "voice" | "acct" | "queue" | "survey", st: chStart() as ChState, input: "", sms: "", reply: "", ended: false,
   // MASTER UPDATE section 3: the LynkOmni account on a basic phone (identity/basic_phone.py): sign up, sign in, help, the bell
-  acct: bpStart() as BpState, wrong: 0, read: new Set<string>(), created: false };
+  acct: bpStart() as BpState, wrong: 0, read: new Set<string>(), created: false, ageRefusedAt: null as number | null };
 /** LynkQueue by basic phone (build section 3B; core/channels.py queue menu): a sample place whose queue keeper gives the number. The
  *  menu only asks; ticket codes and the order come from the queue rules (ts/src/queue.ts). "#" plays the counter serving the next person. */
 const QQ = { st: chQStart() as ChQState, place: newId(), last: null as string | null, order: ["a", "b", "c", "d"] as string[], me: null as null | { id: string; code: string; late: boolean; state: "waiting" | "called" | "served" } };
@@ -67,7 +68,7 @@ const sCtx = (): ChSCtx => ({ org: t("sample_shop"), minutes: 1, anonymous: true
 const ACCT_PIN = "4719";                 // the sample account's PIN
 const DURESS_PIN = "8642";               // the sample duress PIN (owner rule 2026-11-24): the same pages, and the cloud raises the alert silently
 const SAMPLE_USER = "ama.shop";          // "*" types it: a basic phone types letters by tapping a key several times
-const acctCtx = (): BpCtx => ({ age: 18, lines: [["n1", t("bp_new_sign_in")], ["n2", t("bp_low_rice")], ["n3", t("bp_day_closed")]].filter(([nid]) => !PH.read.has(nid!)) as [string, string][], recovery: "7F3K-9Q2M-X81B-4TZC", case: "LOCASE-2101-7710-0042" });
+const acctCtx = (): BpCtx => { const d = new Date(); return { age: 18, today: [d.getFullYear(), d.getMonth() + 1, d.getDate()], age_blocked: ageBlocked(PH.ageRefusedAt), lines: [["n1", t("bp_new_sign_in")], ["n2", t("bp_low_rice")], ["n3", t("bp_day_closed")]].filter(([nid]) => !PH.read.has(nid!)) as [string, string][], recovery: "7F3K-9Q2M-X81B-4TZC", case: "LOCASE-2101-7710-0042" }; };
 const acctRules = {
   pinCheck: (p: string): PinCheck => { if (p === ACCT_PIN) { PH.wrong = 0; return "ok"; } if (p === DURESS_PIN) { PH.wrong = 0; return "duress"; } PH.wrong += 1; return PH.wrong >= 10 ? "locked" : ["wrong", 10 - PH.wrong]; },
   usernameCheck: (u: string): string | null => { const r = check(u); return r.ok ? null : r.reason; },
@@ -167,6 +168,7 @@ function channelAct(a: string): void {
     else if (a === "star" && PH.acct.screen === "username") PH.input = SAMPLE_USER;
     else if (a === "call" || a === "soft:left") {
       const [st, ends, action] = bpStep(PH.acct, PH.input, acctCtx(), acctRules); PH.input = "";
+      if (action && "age_refused" in action) PH.ageRefusedAt = Math.floor(Date.now() / 1000);   // the cloud blocks this number until an ID check clears it (identity/account.py age_refused)
       if (action && "create" in action) { PH.created = true; LOG.emit("AccountCreated", { username: action.create.username, channel: "ussd" }, "server"); }
       if (action && "sign_in" in action) { LOG.emit("SessionStarted", { site: "basic_phone", channel: "ussd" }, "server"); if (action.duress) LOG.emit("DuressSignalled", { device_id: "basic-phone", person: "account", path: "text", at: Date.now() }, "server"); }
       if (action && "read" in action) { PH.read.add(action.read); LOG.emit("NotificationRead", { nid: action.read, channel: "ussd" }, "server"); }

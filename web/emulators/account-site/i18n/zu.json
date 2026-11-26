@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zu",
  "native": "isiZulu",
- "source_sha256": "d446c5cb6d515109ace560165a8c2628f998fd00807c711340c14f5d35695556",
+ "source_sha256": "28305732430f0b38e7a113cdeb57540a766d92fac836d7c91224f8883030d811",
  "texts": {
   "active_sessions": "Izikhathi ezisebenzayo",
   "add_passkey": "Engeza ukhiye wokungena",
@@ -306,8 +306,6 @@
   "signin_passkey_hint": "Ifoni noma ikhompyutha yakho iqinisekisa ukuthi nguwe. Ayikho iphasiwedi okufanele uyikhumbule.",
   "signin_pin": "Faka i-PIN yakho efonini ebhalisiwe",
   "signin_title": "Ngena ku-LynkOmni",
-  "signup_adult": "Ngineminyaka engu-{age} noma ngaphezulu, noma sengimdala ngokomthetho lapho ngihlala khona",
-  "signup_adult_note": "Asikaze sibuze usuku lwakho lokuzalwa.",
   "signup_title": "Dala i-akhawunti yakho ye-LynkOmni",
   "site_account": "I-akhawunti",
   "site_merchant": "Uhlelo lwebhizinisi",

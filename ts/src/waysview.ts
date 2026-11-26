@@ -8,9 +8,10 @@
  *  ways, strongest first, and an extra check for a new or unusual sign-in; the hub offers only the ways the person has, with their
  *  waits; never a password, questions, a text, email or call alone, or support finishing it; one Cancel on every old device. */
 import { WAYS_IN } from "./waysin.generated.js";
-import { signUpNext, legalNameProblem, identifierKind, signInWays, extraChecks, recoveryWays, backupCodesLeftNote, checkup, contactsProblem,
+import { signUpNext, ageCheck, ageBlocked, legalNameProblem, identifierKind, signInWays, extraChecks, recoveryWays, backupCodesLeftNote, checkup, contactsProblem,
   antiPhishingProblem, sessionHours, restrictedAfterRecovery, ownerCheckMethod, ownerCheckOutcome } from "./waysin.js";
 import { noticeHtml } from "./errorbox.js";
+import { asciiDigits } from "./codefield.js";
 import { hintFor } from "./hints.js";
 import { check, handleBoxHtml, HANDLE_HINT } from "./usernames.js";
 /** Sample recovery contacts: a person shows by their name as they wrote it (capitals kept) with their username under it.
@@ -19,13 +20,15 @@ const WY_PEOPLE: Record<string, string> = { "ama.k": "Ama Kwarteng", "jean.h": "
 
 type WyT = (key: string, vars?: Record<string, string | number>) => string;
 export interface WaysLook {
+  /** The reader's language, used only to put day, month and year in the order they write them. */
+  lang?: string;
   t: WyT; icon: (id: string) => string; when: (epochS: number) => string; num: (n: number) => string;
   btn: { primary: string; secondary: string };
   phoneField: (id: string, label: string) => string; emailField: (id: string, label: string) => string; codeField: (id: string, label: string) => string;
 }
 export interface WaysState {
   now: number; online: boolean; has: string[]; strongest: boolean; minAge: number;
-  su: { done: string[]; adult: boolean; legal: string; tried: boolean; username: string; codes: string[]; recovery: string; device: number; network: number };
+  su: { done: string[]; birth: { d: string; m: string; y: string }; ageOk: boolean; ageWrong: boolean; ageConfirm: boolean; ageRefusedAt: number | null; ageClearedAt: number | null; ageId: "none" | "sent"; legal: string; tried: boolean; username: string; codes: string[]; recovery: string; device: number; network: number };
   si: { who: string; step: "who" | "ways" | "extra" | "done"; unusual: string[]; remember: boolean; qr: boolean; numbers: number };
   rc: { problem: string | null; way: string | null; started: number | null; readyAt: number | null; cancelled: boolean; done: number | null; locked: boolean; blocked: boolean };
   sec: { left: number; shown: string[] | null; auth: "off" | "setup" | "on"; authKey: string; keys: number; contacts: string[]; word: string; wordSaved: boolean;
@@ -42,7 +45,7 @@ export function waysStart(now: number, random: (n: number) => number): WaysState
   const codes = Array.from({ length: WAYS_IN.backup_codes.count }, code);
   return {
     now, online: true, has: ["passkey", "other_device", "email_code", "text_code", "backup_code", "recovery_code", "email_and_phone", "id_check"], strongest: false, minAge: 18,
-    su: { done: [], adult: false, legal: "", tried: false, username: "", codes, recovery: `${code()}-${code()}`, device: 0, network: 0 },
+    su: { done: [], birth: { d: "", m: "", y: "" }, ageOk: false, ageWrong: false, ageConfirm: false, ageRefusedAt: null, ageClearedAt: null, ageId: "none", legal: "", tried: false, username: "", codes, recovery: `${code()}-${code()}`, device: 0, network: 0 },
     si: { who: "grace.k", step: "who", unusual: [], remember: true, qr: false, numbers: 10 + random(90) },
     rc: { problem: null, way: null, started: null, readyAt: null, cancelled: false, done: null, locked: false, blocked: false },
     sec: { left: WAYS_IN.backup_codes.count, shown: null, auth: "off", authKey: "", keys: 0, contacts: [], word: "", wordSaved: false, lock: [], old: ["Old tablet"], activity: [], appLock: false, privacy: false, basic: false, reach: true },
@@ -57,6 +60,48 @@ const wyNever = (look: WaysLook): string =>
 
 // ---- sign-up -------------------------------------------------------------------------------------------------------------
 /** The sign-up screen: one step at a time in the fixed order, online only, with the step bar. */
+/** The order a reader writes a date in (presentation only: the same three numbers are checked everywhere). */
+function dateOrder(lang?: string): ("d" | "m" | "y")[] {
+  try {
+    const parts = new Intl.DateTimeFormat(lang, { day: "numeric", month: "numeric", year: "numeric" }).formatToParts(new Date(2000, 10, 22));
+    const o = parts.map((p) => (p.type === "day" ? "d" : p.type === "month" ? "m" : p.type === "year" ? "y" : null)).filter((x): x is "d" | "m" | "y" => x !== null);
+    if (o.length === 3) return o;
+  } catch { /* the default order below */ }
+  return ["d", "m", "y"];
+}
+const birthFilled = (b: { d: string; m: string; y: string }): boolean => !!b.d && !!b.m && b.y.length === 4;
+/** The date as the reader writes it, for the one-time "Is this right?" (presentation only; never kept). */
+function birthWords(b: { d: string; m: string; y: string }, lang?: string): string {
+  try { return new Intl.DateTimeFormat(lang, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(Date.UTC(Number(b.y), Number(b.m) - 1, Number(b.d)))); }
+  catch { return `${b.d}/${b.m}/${b.y}`; }
+}
+/** The neutral age gate (owner 2026-11-26): a birth date typed without saying the age needed and confirmed once; the device works
+ *  out adult or not and forgets the date. The answer is locked: it is never retyped. Under age is final on this device until the
+ *  licensed partner's ID check clears it (the person pays its fee, shown first). The age needed is never on this screen. */
+function ageStepHtml(look: WaysLook, st: WaysState, next: (enabled?: boolean, extra?: string) => string): string {
+  const t = look.t;
+  if (ageBlocked(st.su.ageRefusedAt, st.su.ageClearedAt)) {
+    return noticeHtml(t, { level: "info", text: t("wy_age_blocked") })
+      + (st.su.ageId === "sent" ? noticeHtml(t, { level: "info", text: t("wy_age_id_sent") })
+        : `<p class="wy-note">${wyEsc(t("wy_age_id_note"))}</p>${wyBtn(look, "secondary", "su:age:id", t("wy_age_id"), " data-wait")}`);
+  }
+  if (st.su.ageOk) return `${noticeHtml(t, { level: "success", text: t("wy_age_checked") })}${next()}`;
+  const b = st.su.birth;
+  if (st.su.ageConfirm) {
+    return `<p class="wy-sub">${wyEsc(t("wy_birth_confirm", { date: birthWords(b, look.lang) }))}</p><p class="wy-note">${wyEsc(t("wy_birth_once"))}</p>`
+      + `<div class="wy-btns">${wyBtn(look, "primary", "su:age:yes", t("wy_birth_yes"))}${wyBtn(look, "secondary", "su:age:change", t("wy_birth_change"))}</div>`;
+  }
+  const max = { d: 2, m: 2, y: 4 } as const, ac = { d: "bday-day", m: "bday-month", y: "bday-year" } as const;
+  const word = { d: "wy_birth_day", m: "wy_birth_month", y: "wy_birth_year" } as const;
+  const boxes = dateOrder(look.lang).map((k) => `<label class="wy-date-part"><span>${wyEsc(t(word[k]))}</span><input id="wyBirth${k}" data-in="wy:birth_${k}" inputmode="numeric" autocomplete="${ac[k]}" maxlength="${max[k]}" data-count="off" data-sensitive value="${wyEsc(b[k])}" aria-describedby="wyBirth-msg"></label>`).join("");
+  return `<fieldset class="wy-date"><legend>${wyEsc(t("wy_birth_label"))}</legend><div class="wy-date-row" dir="ltr">${boxes}</div></fieldset>`
+    + (st.su.ageWrong ? noticeHtml(t, { level: "error", text: t("wy_birth_invalid"), field: `wyBirth${dateOrder(look.lang)[0]}`, how: t("fd_type_again") }) : "")
+    + `<p class="wy-note">${wyEsc(t("wy_birth_note"))}</p>${next(birthFilled(b))}`;
+}
+const wyAge = (st: WaysState): "adult" | "under" | "no_such_date" => {
+  const b = st.su.birth, day = new Date(st.now * 1000);
+  return ageCheck(Number(b.y), Number(b.m), Number(b.d), [day.getFullYear(), day.getMonth() + 1, day.getDate()], st.minAge);
+};
 export function signUpHtml(look: WaysLook, st: WaysState): string {
   const t = look.t, steps: readonly string[] = WAYS_IN.sign_up.steps, step = signUpNext(st.su.done);
   const idx = step === null ? steps.length : steps.indexOf(step);
@@ -77,7 +122,7 @@ export function signUpHtml(look: WaysLook, st: WaysState): string {
         + (st.su.username && !u.ok ? noticeHtml(t, { level: "error", text: t(`username_${u.reason}`), field: "wyUser", how: t("fd_type_again") }) : "")
         + `<p class="wy-note">${wyEsc(t("username_rule", { example: HANDLE_HINT.user }))}</p>${next()}`; break;
     }
-    case "age": body = `<label class="wy-check"><input type="checkbox" data-in="wy:adult"${st.su.adult ? " checked" : ""}><span>${wyEsc(t("wy_age_confirm", { age: look.num(st.minAge) }))}</span></label><p class="wy-note">${wyEsc(t("wy_age_note"))}</p>${next(st.su.adult)}`; break;
+    case "age": body = ageStepHtml(look, st, next); break;
     case "legal_name": {
       const why = st.su.tried ? legalNameProblem(st.su.legal) : null;
       body = `<div class="wy-field"><label for="wyLegal">${wyEsc(t("wy_legal_label"))}</label><input class="text" id="wyLegal" data-in="wy:legal" autocomplete="name" value="${wyEsc(st.su.legal)}" placeholder="${wyEsc(t("hint_name"))}" aria-describedby="wyLegal-msg"></div>`
@@ -227,10 +272,26 @@ export function waysAct(st: WaysState, act: string, random: (n: number) => numbe
   if (area === "go") return { go: verb };
   if (area === "su") {
     if (verb === "back") { st.su.done.pop(); return {}; }
+    if (verb === "age") {
+      if (arg === "change" && st.su.ageConfirm) { st.su.ageConfirm = false; return {}; }
+      if (arg === "yes" && st.su.ageConfirm && !st.su.ageOk) {
+        const r = wyAge(st);
+        st.su.birth = { d: "", m: "", y: "" }; st.su.ageConfirm = false; st.su.ageWrong = false;   // the date is forgotten at once
+        if (r === "under") { st.su.ageRefusedAt = st.now; return {}; }
+        if (r === "adult") { st.su.ageOk = true; if (!st.su.done.includes("age")) st.su.done.push("age"); }
+        return {};
+      }
+      if (arg === "id" && ageBlocked(st.su.ageRefusedAt, st.su.ageClearedAt)) { st.su.ageId = "sent"; return {}; }   // the partner's answer is written by the cloud alone
+      return {};
+    }
     if (verb === "next" && arg) {
       if (arg === "legal_name") { st.su.tried = true; if (legalNameProblem(st.su.legal)) return {}; }
-      if (arg === "age" && !st.su.adult) return {};
-      if (arg === "username" && !check(st.su.username).ok) return {};
+      if (arg === "age" && !st.su.ageOk) {
+        if (ageBlocked(st.su.ageRefusedAt, st.su.ageClearedAt)) return {};
+        if (st.su.ageConfirm) return {};
+        if (wyAge(st) === "no_such_date") { st.su.ageWrong = true; return {}; }
+        st.su.ageConfirm = true; return {};   // Is this right? comes once before the check
+      }      if (arg === "username" && !check(st.su.username).ok) return {};
       if (!st.su.done.includes(arg)) st.su.done.push(arg);
       return arg === "recovery" ? { event: "AccountCreated" } : {};
     }
@@ -305,6 +366,11 @@ export function waysAct(st: WaysState, act: string, random: (n: number) => numbe
 /** While a person types in a sign-in box, the note (username, email or phone) and Next follow the typing in place, with no redraw,
  *  so the box keeps its focus and the next tap is never lost (owner 2026-11-26: either email or phone signs in). Hosts call it on input. */
 export function waysTyped(root: ParentNode, st: WaysState, field: string, t: WaysLook["t"]): void {
+  if (field.replace(/^wy:/, "").startsWith("birth_")) {
+    const next = root.querySelector<HTMLButtonElement>('[data-act$="su:next:age"]');
+    if (next) next.disabled = !birthFilled(st.su.birth);
+    return;
+  }
   if (field.replace(/^wy:/, "") !== "who") return;
   const note = root.querySelector<HTMLElement>("#wyWhoIs");
   if (note) note.textContent = t("wy_who_is", { kind: t(`wy_kind_${identifierKind(st.si.who)}`) });
@@ -313,7 +379,10 @@ export function waysTyped(root: ParentNode, st: WaysState, field: string, t: Way
 }
 export function waysInput(st: WaysState, field: string, value: string, checked: boolean): void {
   const f = field.replace(/^wy:/, "");
-  if (f === "adult") st.su.adult = checked;
+  if (f === "birth_d" || f === "birth_m" || f === "birth_y") {
+    const k = f.slice(6) as "d" | "m" | "y";
+    st.su.birth[k] = asciiDigits(value).replace(/[^0-9]/g, "").slice(0, k === "y" ? 4 : 2); st.su.ageWrong = false;
+  }
   else if (f === "legal") { st.su.legal = value; st.su.tried = false; }
   else if (f === "username") st.su.username = value.trim().replace(/^@/, "").toLowerCase().slice(0, 30);
   else if (f === "who") st.si.who = value;

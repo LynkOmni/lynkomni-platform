@@ -34,6 +34,38 @@ def may_start_sign_up(online, device_hour, network_hour):
     return True, None
 
 
+def _leap(y):
+    return y % 4 == 0 and (y % 100 != 0 or y % 400 == 0)
+
+
+def _days_in(y, m):
+    return 29 if m == 2 and _leap(y) else (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)[m - 1]
+
+
+def age_check(year, month, day, today, min_age):
+    """The neutral age gate (owner approved 2026-11-26): the person types a birth date without being told the age needed and
+    the device works out "adult" or "under" against min_age (18 or the country's higher age); the date is then forgotten and
+    only adult yes and the day it was checked are kept. "no_such_date" for a date that does not exist, lies in the future or
+    is more than oldest_years ago. today is (year, month, day). A 29 February birthday counts from 1 March in other years."""
+    A = SIGN_UP["age"]
+    ty, tm, td = today
+    if not all(isinstance(x, int) and not isinstance(x, bool) for x in (year, month, day)):
+        return "no_such_date"
+    if not (1 <= month <= 12) or not (1 <= day <= _days_in(year, month)) or year < 1:
+        return "no_such_date"
+    if (year, month, day) > (ty, tm, td) or ty - year > A["oldest_years"]:
+        return "no_such_date"
+    bm, bd = (3, 1) if (month, day) == (2, 29) and not _leap(ty) else (month, day)
+    age = ty - year - (1 if (tm, td) < (bm, bd) else 0)
+    return "adult" if age >= min_age else "under"
+
+
+def age_blocked(refused_at, cleared_at=None):
+    """True while someone who came out under age is blocked on that device, network or number. There is no retry by
+    retyping and no wait that ends by itself: only the licensed partner's ID check clears it (cleared after the refusal)."""
+    return refused_at is not None and (cleared_at is None or cleared_at < refused_at)
+
+
 def legal_name_problem(name):
     """None when the legal name (as on the ID document) is acceptable, else why. Kept apart from the display name."""
     n = " ".join((name or "").split())

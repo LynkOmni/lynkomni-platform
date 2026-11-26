@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ar",
  "native": "العربية",
- "source_sha256": "d446c5cb6d515109ace560165a8c2628f998fd00807c711340c14f5d35695556",
+ "source_sha256": "28305732430f0b38e7a113cdeb57540a766d92fac836d7c91224f8883030d811",
  "texts": {
   "active_sessions": "الجلسات النشطة",
   "add_passkey": "إضافة مفتاح مرور",
@@ -306,8 +306,6 @@
   "signin_passkey_hint": "هاتفك أو حاسوبك يؤكد أنك أنت. لا كلمة مرور لتتذكرها.",
   "signin_pin": "أدخل رمز PIN على هاتف مسجَّل",
   "signin_title": "تسجيل الدخول إلى LynkOmni",
-  "signup_adult": "عمري {age} عامًا أو أكثر، أو بلغت سن الرشد حيث أعيش",
-  "signup_adult_note": "لا نطلب تاريخ ميلادك أبدًا.",
   "signup_title": "أنشئ حسابك في LynkOmni",
   "site_account": "الحساب",
   "site_merchant": "تطبيق الأعمال",

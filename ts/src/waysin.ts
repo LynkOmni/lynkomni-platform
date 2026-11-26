@@ -23,6 +23,26 @@ export function mayStartSignUp(online: boolean, deviceHour: number, networkHour:
   if (networkHour >= a.per_network_hour) return [false, "network_limit"];
   return [true, null];
 }
+const wiLeap = (y: number): boolean => y % 4 === 0 && (y % 100 !== 0 || y % 400 === 0);
+const wiDaysIn = (y: number, m: number): number => (m === 2 && wiLeap(y) ? 29 : [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m - 1] ?? 0);
+const wiBefore = (a: readonly number[], b: readonly number[]): boolean => { for (let i = 0; i < a.length; i++) { if (a[i] !== b[i]) return (a[i] ?? 0) < (b[i] ?? 0); } return false; };
+/** The neutral age gate (owner 2026-11-26): the device works out "adult" or "under" from a birth date typed without being told
+ *  the age needed, then forgets the date. "no_such_date" for a date that does not exist, lies ahead or is too long ago. */
+export function ageCheck(year: number, month: number, day: number, today: readonly [number, number, number], minAge: number): "adult" | "under" | "no_such_date" {
+  const [ty, tm, td] = today;
+  if (![year, month, day].every((x) => Number.isInteger(x))) return "no_such_date";
+  if (month < 1 || month > 12 || day < 1 || day > wiDaysIn(year, month) || year < 1) return "no_such_date";
+  if (wiBefore([ty, tm, td], [year, month, day]) || ty - year > WAYS_IN.sign_up.age.oldest_years) return "no_such_date";
+  const [bm, bd] = month === 2 && day === 29 && !wiLeap(ty) ? [3, 1] : [month, day];
+  const age = ty - year - (wiBefore([tm, td], [bm, bd]) ? 1 : 0);
+  return age >= minAge ? "adult" : "under";
+}
+/** True while someone who came out under age is blocked: no retyping, no wait that ends by itself; only the licensed partner's
+ *  ID check clears it (cleared after the refusal). */
+export function ageBlocked(refusedAt: number | null, clearedAt: number | null = null): boolean {
+  return refusedAt !== null && (clearedAt === null || clearedAt < refusedAt);
+}
+
 /** null when the legal name (as on the ID document) is acceptable, else why. */
 export function legalNameProblem(name: string): string | null {
   const n = (name ?? "").split(/\s+/u).filter(Boolean).join(" ");

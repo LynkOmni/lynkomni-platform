@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ur",
  "native": "اردو",
- "source_sha256": "d446c5cb6d515109ace560165a8c2628f998fd00807c711340c14f5d35695556",
+ "source_sha256": "28305732430f0b38e7a113cdeb57540a766d92fac836d7c91224f8883030d811",
  "texts": {
   "active_sessions": "فعال سیشن",
   "add_passkey": "پاس کی شامل کریں",
@@ -306,8 +306,6 @@
   "signin_passkey_hint": "آپ کا فون یا کمپیوٹر تصدیق کرتا ہے کہ یہ آپ ہیں۔ کوئی پاس ورڈ یاد رکھنے کی ضرورت نہیں۔",
   "signin_pin": "رجسٹرڈ فون پر اپنا PIN درج کریں",
   "signin_title": "LynkOmni میں سائن ان کریں",
-  "signup_adult": "میری عمر {age} سال یا زیادہ ہے، یا میں اپنی رہائش کی جگہ پر بالغ ہوں",
-  "signup_adult_note": "ہم کبھی آپ کی تاریخ پیدائش نہیں پوچھتے۔",
   "signup_title": "اپنا LynkOmni اکاؤنٹ بنائیں",
   "site_account": "اکاؤنٹ",
   "site_merchant": "کاروباری ایپ",
