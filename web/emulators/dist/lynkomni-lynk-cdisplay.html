@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-/6ic5+DCrHKJaysXE0rU0NhXZJTa7n/Bf31J/WfpLqE='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-ThKFK/H2deGBpek2Hka/jarN2lVs/WsyKOnADRWovaE='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkCDisplay</title>
 <meta name="description" content="Interactive emulator of LynkCDisplay, the small LynkQueue screen above each counter: the ticket being served there, flashing when a new ticket is called, back soon and closed, with or without internet.">
@@ -657,7 +657,7 @@ body { margin: 0; min-height: 100vh; }
 .popts { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
 /* A pad that would not fit its screen (ts/src/signin.ts fitPinPads): tighter first, then the keys in two rows of six. */
 .pinpad.pp-tight { gap: 4px; }
-.pinpad.pp-tight .ptitle { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.pinpad.pp-tight .ptitle { display: none; }   /* the pad's group label still names it for screen readers */
 .pinpad.pp-tight .pkeys { gap: 6px; }
 .pinpad.pp-tight .pkey { min-block-size: var(--touch-target); }
 .pinpad.pp-wide { max-inline-size: 420px; }
@@ -3552,7 +3552,7 @@ function numberMatch(choices, t, result = "") {
     return `<div class="nmatch" role="group" aria-label="${esc(t("match_pick_title"))}"><p class="ptitle">${esc(t("match_pick_title"))}</p><div class="nchoices">${choices.map((c) => `<button type="button" class="nchoice" data-act="match:${esc(c)}"${result ? " disabled" : ""}>${esc(c)}</button>`).join("")}</div>${res}<p class="note">${esc(t("match_pick_note"))}</p></div>`;
 }
 function fitPinPads(root = document) {
-    for (const pad of Array.from(root.querySelectorAll(".pinpad"))) {
+    for (const pad of Array.from(root.querySelectorAll("[data-fit-pin] .pinpad"))) { // device lock screens; a page simply scrolls
         const keys = pad.querySelector(".pkeys");
         if (!keys || pad.querySelector(".pdot.on"))
             continue; // never rearrange while digits are being typed
@@ -3565,8 +3565,9 @@ function fitPinPads(root = document) {
         const over = () => keys.getBoundingClientRect().bottom > box.getBoundingClientRect().bottom + 0.5;
         if (over())
             pad.classList.add("pp-tight");
-        if (over())
-            pad.classList.add("pp-wide");
+        const touch = parseFloat(getComputedStyle(pad).getPropertyValue("--touch-target")) || 44;
+        if (over() && pad.parentElement.clientWidth >= 6 * touch + 5 * 6)
+            pad.classList.add("pp-wide"); // two rows of six only when they fit across
     }
 }
 if (typeof document !== "undefined" && typeof MutationObserver !== "undefined") {
@@ -4045,7 +4046,7 @@ class StaffGate {
         const s = this.lock.find(this.who);
         const pad = pinPad({ entered: this.pin.length, length: this.lock.lengthOf(this.who), wrong: this.lock.wrong.get(this.who) ?? 0, waitLeft: this.waitLeft(), pictures: this.pictures, sound: this.sound, title: t("dk_pin_for", { name: s?.name ?? "" }) }, t, icon);
         const sample = this.lock.staff.map((x) => `${t(`role_${x.role}`)} ${x.pin}`).join(", ");
-        return `<div class="${cls}"><p class="dk-who">${lockWhoButton(s?.name ?? "", s?.role ?? "cashier", t, icon)}${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</p>
+        return `<div class="${cls}" data-fit-pin><p class="dk-who">${lockWhoButton(s?.name ?? "", s?.role ?? "cashier", t, icon)}${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</p>
       ${this.idle ? noticeHtml(t, { level: "info", cls: "dk-note", text: t("locked_idle") }) : ""}${this.lock.hard.has(this.who) ? noticeHtml(t, { level: "error", cls: "dk-note", text: t("dk_hard_locked"), how: t("fd_ask_manager") }) : ""}
       ${pad}<p class="dk-note">${esc(t("dk_own_pin"))}</p><p class="dk-note">${esc(t("dk_pin_sample", { list: sample }))}</p>${s?.duress ? `<p class="dk-note">${esc(t("dk_duress_sample", { pin: s.duress }))}</p>` : ""}
 </div>`;

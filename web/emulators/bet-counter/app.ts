@@ -226,7 +226,7 @@ function storefrontView(): string {
 function lockView(): string {
   if (S.picking) return `<div class="block">${staffPicker(STAFF.staff, t, (id) => icon(id))}</div>`;
   const me = STAFF.find(S.who), waitLeft = Math.max(0, Math.ceil(((STAFF.waitUntil.get(S.who) ?? 0) - Date.now()) / 1000));
-  return `<div class="block"><p class="who">${lockWhoButton(me?.name ?? "", me?.role ?? "cashier", t, (id) => icon(id))}</p>
+  return `<div class="block" data-fit-pin><p class="who">${lockWhoButton(me?.name ?? "", me?.role ?? "cashier", t, (id) => icon(id))}</p>
     ${S.idle ? `<p class="sub" role="status">${esc(t("locked_idle"))}</p>` : ""}
     ${STAFF.hard.has(S.who) ? noticeHtml(t, { level: "error", text: t("dk_hard_locked"), how: t("fd_ask_manager") }) : ""}
     ${pad(me?.name ?? "", STAFF.wrong.get(S.who) ?? 0, waitLeft, S.who)}<p class="sub">${esc(t("dk_own_pin"))}</p><p class="hint">${esc(t("bt_pin_hint"))}</p>${me?.duress ? `<p class="hint">${esc(t("dk_duress_sample", { pin: me.duress }))}</p>` : ""}</div>`;
@@ -242,7 +242,7 @@ function approveView(): string {
     return bar(title, ap.back) + `<p class="sub">${esc(t("bt_approver"))}</p>${staffPicker(who, t, (id) => icon(id))}`;
   }
   const m = STAFF.find(ap.person), waitLeft = Math.max(0, Math.ceil(((STAFF.waitUntil.get(ap.person) ?? 0) - Date.now()) / 1000));
-  return bar(title, ap.back) + pad(m?.name ?? "", STAFF.wrong.get(ap.person) ?? 0, waitLeft, ap.person) + (STAFF.hard.has(ap.person) ? noticeHtml(t, { level: "error", text: t("dk_hard_locked"), how: t("fd_ask_manager") }) : "");
+  return bar(title, ap.back) + `<div data-fit-pin>${pad(m?.name ?? "", STAFF.wrong.get(ap.person) ?? 0, waitLeft, ap.person)}</div>` + (STAFF.hard.has(ap.person) ? noticeHtml(t, { level: "error", text: t("dk_hard_locked"), how: t("fd_ask_manager") }) : "");
 }
 function screen(): string {
   const head = `<header class="bhead"><h1>${esc(t("bt_title"))}</h1>${DSH.bar()}</header>${DSH.crumbs(true)}${deviceBanners(LINES, t, (id) => icon(id))}`;

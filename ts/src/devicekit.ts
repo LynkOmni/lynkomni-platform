@@ -121,7 +121,7 @@ export class StaffGate {
     const s = this.lock.find(this.who);
     const pad = pinPad({ entered: this.pin.length, length: this.lock.lengthOf(this.who), wrong: this.lock.wrong.get(this.who) ?? 0, waitLeft: this.waitLeft(), pictures: this.pictures, sound: this.sound, title: t("dk_pin_for", { name: s?.name ?? "" }) }, t, icon);
     const sample = this.lock.staff.map((x) => `${t(`role_${x.role}`)} ${x.pin}`).join(", ");
-    return `<div class="${cls}"><p class="dk-who">${lockWhoButton(s?.name ?? "", s?.role ?? "cashier", t, icon)}${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</p>
+    return `<div class="${cls}" data-fit-pin><p class="dk-who">${lockWhoButton(s?.name ?? "", s?.role ?? "cashier", t, icon)}${this.optional ? `<button type="button" class="dk-link" data-act="gate:cancel">${esc(t("back"))}</button>` : ""}</p>
       ${this.idle ? noticeHtml(t, { level: "info", cls: "dk-note", text: t("locked_idle") }) : ""}${this.lock.hard.has(this.who) ? noticeHtml(t, { level: "error", cls: "dk-note", text: t("dk_hard_locked"), how: t("fd_ask_manager") }) : ""}
       ${pad}<p class="dk-note">${esc(t("dk_own_pin"))}</p><p class="dk-note">${esc(t("dk_pin_sample", { list: sample }))}</p>${s?.duress ? `<p class="dk-note">${esc(t("dk_duress_sample", { pin: s.duress }))}</p>` : ""}
 </div>`;
