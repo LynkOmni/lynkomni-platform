@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ps",
  "native": "پښتو",
- "source_sha256": "7da77a77ad999320f6b9c675fd6cc1fa4af4ac140b0ca737f23fbf008b067de7",
+ "source_sha256": "3212921da3c3995721e1581d799153179ea9aa60d052741c707980fac1119e05",
  "texts": {
   "account": "حساب",
   "active": "فعال",
@@ -342,7 +342,6 @@
   "it_time_clock": "د حاضرۍ ساعت",
   "it_timeline": "مهال‌وېش",
   "it_unusual": "غیر عادي",
-  "it_username": "د هټۍ پېژندنوم",
   "it_waiting": "په تمه",
   "it_waiting_services": "ژر به ستاسو هېواد ته راشي",
   "it_who_owes_me": "څوک مې پوروړی دی",

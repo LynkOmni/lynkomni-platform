@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ms",
  "native": "Bahasa Melayu",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "Akaun",
   "action_add": "Tambah yang pertama",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "Peranti ini tidak memberi maklumat yang cukup, jadi paparan yang berfungsi dengan semua jenis input digunakan.",
   "why_this_view": "Kenapa paparan ini?",
   "will_translate_online": "Akan diterjemahkan apabila anda kembali dalam talian",
-  "writes_in": "{name} menulis dalam {from}. Mesej diterjemahkan ke dalam {to} untuk anda."
+  "writes_in": "{name} menulis dalam {from}. Mesej diterjemahkan ke dalam {to} untuk anda.",
+  "your_handle_agentpoint": "Pengendali titik ejen anda",
+  "your_handle_app": "Pengendali aplikasi anda",
+  "your_handle_business": "Pengendali perniagaan anda",
+  "your_handle_partner": "Pengendali rakan kongsi anda",
+  "your_handle_shop": "Pengendali kedai anda",
+  "your_handle_user": "Nama pengguna anda"
  }
 }

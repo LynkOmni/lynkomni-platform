@@ -70,6 +70,14 @@ export function suggestions(value: string, taken: (u: string) => boolean = () =>
 export type HandleKind = "user" | "shop" | "business" | "app" | "partner" | "agentpoint";
 export const HANDLE_HINT: Record<HandleKind, string> = { user: "username", shop: "shophandle", business: "businesshandle", app: "apphandle", partner: "partnerhandle", agentpoint: "agentpointhandle" };
 const handleEsc = (s: string): string => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string);
+/** The words a handle field's label is drawn with, one per kind ("Your username" for a person, "Your shop handle" and the rest
+ *  for every other entity; owner 2026-11-26). Literal keys so every page carries the word it uses. */
+export const HANDLE_LABEL: Record<HandleKind, string> = { user: "your_handle_user", shop: "your_handle_shop", business: "your_handle_business", app: "your_handle_app", partner: "your_handle_partner", agentpoint: "your_handle_agentpoint" };
+/** Every handle field in LynkOmni: the bold "Your ..." label above the @ box, styled exactly like the email and phone field labels
+ *  (web/shell/handle.css .handle-field). Screens never draw a handle box with a label of their own (tests/test_placeholders.py). */
+export function handleFieldHtml(o: { id: string; kind: HandleKind; value: string; label: string; attrs?: string; after?: string; below?: string }): string {
+  return `<div class="handle-field"><label class="hf-label" for="${handleEsc(o.id)}">${handleEsc(o.label)}</label>${handleBoxHtml({ id: o.id, kind: o.kind, value: o.value, attrs: o.attrs, after: o.after })}${o.below ?? ""}</div>`;
+}
 export function handleBoxHtml(o: { id: string; kind: HandleKind; value: string; attrs?: string; after?: string; label?: string }): string {
   return `<span class="handle-box" dir="ltr"><span class="handle-at" aria-hidden="true">@</span><input class="handle-in" id="${handleEsc(o.id)}" type="text" value="${handleEsc(normalize(o.value))}" placeholder="${HANDLE_HINT[o.kind]}" autocapitalize="none" autocomplete="off" spellcheck="false" maxlength="${USERNAME_RULE.max}" inputmode="latin"${o.label ? ` aria-label="${handleEsc(o.label)}"` : ""}${o.attrs ? ` ${o.attrs}` : ""}>${o.after ?? ""}</span>`;
 }

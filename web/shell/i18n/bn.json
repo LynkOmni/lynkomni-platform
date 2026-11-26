@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "অ্যাকাউন্ট",
   "action_add": "প্রথমটি যোগ করুন",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "এই ডিভাইসটি যথেষ্ট তথ্য দেয়নি, তাই সব ধরনের ইনপুটের সাথে কাজ করে এমন দৃশ্য ব্যবহার করা হচ্ছে।",
   "why_this_view": "কেন এই দৃশ্য?",
   "will_translate_online": "আবার অনলাইনে এলে অনুবাদ হবে",
-  "writes_in": "{name} {from}-এ লেখেন। বার্তাগুলো আপনার জন্য {to}-এ অনুবাদ হয়।"
+  "writes_in": "{name} {from}-এ লেখেন। বার্তাগুলো আপনার জন্য {to}-এ অনুবাদ হয়।",
+  "your_handle_agentpoint": "আপনার এজেন্ট পয়েন্টের হ্যান্ডেল",
+  "your_handle_app": "আপনার অ্যাপের হ্যান্ডেল",
+  "your_handle_business": "আপনার ব্যবসার হ্যান্ডেল",
+  "your_handle_partner": "আপনার অংশীদার হ্যান্ডেল",
+  "your_handle_shop": "আপনার দোকানের হ্যান্ডেল",
+  "your_handle_user": "আপনার ইউজারনেম"
  }
 }

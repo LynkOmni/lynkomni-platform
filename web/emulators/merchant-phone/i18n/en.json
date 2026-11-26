@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "en",
  "native": "English",
- "source_sha256": "7da77a77ad999320f6b9c675fd6cc1fa4af4ac140b0ca737f23fbf008b067de7",
+ "source_sha256": "3212921da3c3995721e1581d799153179ea9aa60d052741c707980fac1119e05",
  "texts": {
   "account": "Account",
   "active": "Active",
@@ -342,7 +342,6 @@
   "it_time_clock": "Time clock",
   "it_timeline": "Timeline",
   "it_unusual": "Unusual",
-  "it_username": "Shop handle",
   "it_waiting": "Waiting",
   "it_waiting_services": "Coming to your country",
   "it_who_owes_me": "Who owes me",

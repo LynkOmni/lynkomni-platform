@@ -194,6 +194,27 @@ class HandleHint(unittest.TestCase):
     people think a full stop was needed (owner, 2026-11-26). Every handle field is drawn by ts/src/usernames.ts handleBoxHtml."""
     SOURCES = glob.glob(os.path.join(ROOT, "ts", "src", "*.ts")) + glob.glob(os.path.join(ROOT, "web", "emulators", "*", "app.ts"))
 
+    def test_every_handle_field_has_the_one_bold_label(self):
+        """Every handle field is handleFieldHtml: the bold "Your ..." label above the box, the same as the email and phone field
+        labels; a screen never draws a handle box with a label of its own (owner, 2026-11-26)."""
+        for path in self.SOURCES:
+            if path.endswith(os.path.join("src", "usernames.ts")):
+                continue
+            with open(path, encoding="utf-8") as f:
+                self.assertNotIn("handleBoxHtml(", f.read(), f"{os.path.relpath(path, ROOT)}: draw a handle field with handleFieldHtml")
+        with open(os.path.join(ROOT, "ts", "src", "usernames.ts"), encoding="utf-8") as f:
+            src = f.read()
+        labels = dict(re.findall(r'(\w+): "(\w+)"', re.search(r"HANDLE_LABEL[^=]*= \{([^}]*)\}", src).group(1)))
+        hints = dict(re.findall(r'(\w+): "(\w+)"', re.search(r"HANDLE_HINT[^=]*= \{([^}]*)\}", src).group(1)))
+        self.assertEqual(set(labels), set(hints), "every kind of handle has its label word")
+        with open(os.path.join(ROOT, "web", "shell", "strings.en.json"), encoding="utf-8") as f:
+            words = json.load(f)
+        self.assertEqual(words[labels["user"]], "Your username")
+        for kind, key in labels.items():
+            self.assertTrue(words[key].startswith("Your ") and (kind == "user" or words[key].endswith(" handle")), key)
+        with open(os.path.join(ROOT, "web", "shell", "handle.css"), encoding="utf-8") as f:
+            self.assertIn(".handle-field > label.hf-label { font-weight: 600; color: var(--text-primary); }", f.read())
+
     def test_one_example_per_entity(self):
         with open(os.path.join(ROOT, "ts", "src", "usernames.ts"), encoding="utf-8") as f:
             src = f.read()
@@ -210,9 +231,9 @@ class HandleHint(unittest.TestCase):
                 src = f.read()
             self.assertNotIn("your.name", src, path)
             raw = re.findall(r'<input[^>]*(?:id="(?:usernameIn|userIn|wyUser|handleIn)"|data-in="[^"]*user)[^>]*>', src)
-            self.assertEqual(raw, [], f"{path}: a handle field drawn by hand; use handleBoxHtml")
-        used = sum(open(p, encoding="utf-8").read().count("handleBoxHtml({") for p in self.SOURCES)
-        self.assertGreaterEqual(used, 3)
+            self.assertEqual(raw, [], f"{path}: a handle field drawn by hand; use handleFieldHtml")
+        used = sum(open(p, encoding="utf-8").read().count("handleFieldHtml({") for p in self.SOURCES)
+        self.assertGreaterEqual(used, 4)
 
     def test_the_note_shows_the_same_example(self):
         """The note under a handle field shows the field's own example (@username or @shophandle), never "@name"."""

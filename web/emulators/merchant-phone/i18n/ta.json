@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ta",
  "native": "தமிழ்",
- "source_sha256": "7da77a77ad999320f6b9c675fd6cc1fa4af4ac140b0ca737f23fbf008b067de7",
+ "source_sha256": "3212921da3c3995721e1581d799153179ea9aa60d052741c707980fac1119e05",
  "texts": {
   "account": "கணக்கு",
   "active": "செயலில்",
@@ -342,7 +342,6 @@
   "it_time_clock": "நேரக் கடிகாரம்",
   "it_timeline": "காலவரிசை",
   "it_unusual": "வழக்கத்துக்கு மாறானவை",
-  "it_username": "கடைக் கைப்பெயர்",
   "it_waiting": "காத்திருக்கிறது",
   "it_waiting_services": "உங்கள் நாட்டுக்கு வருகிறது",
   "it_who_owes_me": "எனக்கு யார் செலுத்த வேண்டும்",

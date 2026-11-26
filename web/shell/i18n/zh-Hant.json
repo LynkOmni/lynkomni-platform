@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "帳戶",
   "action_add": "新增第一個",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "此裝置提供的資訊不足，因此使用適用於各種輸入方式的檢視。",
   "why_this_view": "為什麼是這個檢視？",
   "will_translate_online": "恢復連線後將翻譯",
-  "writes_in": "{name}使用{from}書寫。訊息已為您翻譯成{to}。"
+  "writes_in": "{name}使用{from}書寫。訊息已為您翻譯成{to}。",
+  "your_handle_agentpoint": "你的代理點帳號名稱",
+  "your_handle_app": "你的應用程式帳號名稱",
+  "your_handle_business": "你的企業帳號名稱",
+  "your_handle_partner": "你的合作夥伴帳號名稱",
+  "your_handle_shop": "你的商店帳號名稱",
+  "your_handle_user": "你的使用者名稱"
  }
 }

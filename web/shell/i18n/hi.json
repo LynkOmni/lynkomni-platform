@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "खाता",
   "action_add": "पहला जोड़ें",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "इस डिवाइस ने पर्याप्त जानकारी नहीं दी, इसलिए वह दृश्य इस्तेमाल होता है जो हर तरह के इनपुट के साथ काम करता है।",
   "why_this_view": "यह दृश्य क्यों?",
   "will_translate_online": "ऑनलाइन होने पर अनुवाद होगा",
-  "writes_in": "{name} {from} में लिखते हैं। संदेश आपके लिए {to} में अनुवादित होते हैं।"
+  "writes_in": "{name} {from} में लिखते हैं। संदेश आपके लिए {to} में अनुवादित होते हैं।",
+  "your_handle_agentpoint": "आपके एजेंट पॉइंट का हैंडल",
+  "your_handle_app": "आपके ऐप का हैंडल",
+  "your_handle_business": "आपके व्यवसाय का हैंडल",
+  "your_handle_partner": "आपका पार्टनर हैंडल",
+  "your_handle_shop": "आपकी दुकान का हैंडल",
+  "your_handle_user": "आपका यूज़रनेम"
  }
 }

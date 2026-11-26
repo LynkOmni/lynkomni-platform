@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "7da77a77ad999320f6b9c675fd6cc1fa4af4ac140b0ca737f23fbf008b067de7",
+ "source_sha256": "3212921da3c3995721e1581d799153179ea9aa60d052741c707980fac1119e05",
  "texts": {
   "account": "계정",
   "active": "활성",
@@ -342,7 +342,6 @@
   "it_time_clock": "근태 기록",
   "it_timeline": "타임라인",
   "it_unusual": "이상 징후",
-  "it_username": "가게 핸들",
   "it_waiting": "대기 중",
   "it_waiting_services": "곧 내 국가에서",
   "it_who_owes_me": "나에게 빚진 사람",

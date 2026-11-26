@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pl",
  "native": "Polski",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "Konto",
   "action_add": "Dodaj pierwszy",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "To urządzenie podało za mało informacji, więc używany jest widok działający z każdym rodzajem wprowadzania.",
   "why_this_view": "Dlaczego ten widok?",
   "will_translate_online": "Zostanie przetłumaczone, gdy wrócisz do sieci",
-  "writes_in": "{name} pisze w języku: {from}. Wiadomości są tłumaczone dla Ciebie na: {to}."
+  "writes_in": "{name} pisze w języku: {from}. Wiadomości są tłumaczone dla Ciebie na: {to}.",
+  "your_handle_agentpoint": "Nazwa Twojego punktu agenta",
+  "your_handle_app": "Nazwa Twojej aplikacji",
+  "your_handle_business": "Nazwa Twojej firmy",
+  "your_handle_partner": "Twoja nazwa partnera",
+  "your_handle_shop": "Nazwa Twojego sklepu",
+  "your_handle_user": "Twoja nazwa użytkownika"
  }
 }

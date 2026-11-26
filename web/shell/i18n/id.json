@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "Akun",
   "action_add": "Tambahkan yang pertama",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "Perangkat ini tidak memberi cukup informasi, jadi dipakai tampilan yang berfungsi dengan semua jenis masukan.",
   "why_this_view": "Mengapa tampilan ini?",
   "will_translate_online": "Akan diterjemahkan saat Anda kembali online",
-  "writes_in": "{name} menulis dalam {from}. Pesan diterjemahkan ke {to} untuk Anda."
+  "writes_in": "{name} menulis dalam {from}. Pesan diterjemahkan ke {to} untuk Anda.",
+  "your_handle_agentpoint": "Handle titik agen Anda",
+  "your_handle_app": "Handle aplikasi Anda",
+  "your_handle_business": "Handle bisnis Anda",
+  "your_handle_partner": "Handle mitra Anda",
+  "your_handle_shop": "Handle toko Anda",
+  "your_handle_user": "Nama pengguna Anda"
  }
 }

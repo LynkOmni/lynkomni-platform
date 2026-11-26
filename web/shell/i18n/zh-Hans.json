@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "账户",
   "action_add": "添加第一个",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "此设备提供的信息不足，因此使用适用于各种输入方式的视图。",
   "why_this_view": "为什么是这个视图？",
   "will_translate_online": "恢复在线后将翻译",
-  "writes_in": "{name}使用{from}书写。消息已为您翻译成{to}。"
+  "writes_in": "{name}使用{from}书写。消息已为您翻译成{to}。",
+  "your_handle_agentpoint": "你的代理点账号名",
+  "your_handle_app": "你的应用账号名",
+  "your_handle_business": "你的企业账号名",
+  "your_handle_partner": "你的合作伙伴账号名",
+  "your_handle_shop": "你的店铺账号名",
+  "your_handle_user": "你的用户名"
  }
 }

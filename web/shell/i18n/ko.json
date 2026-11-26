@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "계정",
   "action_add": "첫 항목 추가",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "이 기기가 정보를 충분히 알려 주지 않아 모든 입력 방식에서 작동하는 보기를 사용합니다.",
   "why_this_view": "왜 이 보기인가요?",
   "will_translate_online": "다시 온라인이 되면 번역됩니다",
-  "writes_in": "{name} 님은 {from}(으)로 씁니다. 메시지가 {to}(으)로 번역됩니다."
+  "writes_in": "{name} 님은 {from}(으)로 씁니다. 메시지가 {to}(으)로 번역됩니다.",
+  "your_handle_agentpoint": "내 대리점 핸들",
+  "your_handle_app": "내 앱 핸들",
+  "your_handle_business": "내 비즈니스 핸들",
+  "your_handle_partner": "내 파트너 핸들",
+  "your_handle_shop": "내 가게 핸들",
+  "your_handle_user": "내 사용자 이름"
  }
 }

@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pt",
  "native": "Português",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "Conta",
   "action_add": "Adicionar o primeiro",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "Este dispositivo não informou o suficiente, então é usada a visualização que funciona com qualquer tipo de entrada.",
   "why_this_view": "Por que esta visualização?",
   "will_translate_online": "Será traduzida quando voltar a estar online",
-  "writes_in": "{name} escreve em {from}. As mensagens são traduzidas para {to} para si."
+  "writes_in": "{name} escreve em {from}. As mensagens são traduzidas para {to} para si.",
+  "your_handle_agentpoint": "O identificador do seu ponto de agente",
+  "your_handle_app": "O identificador da sua aplicação",
+  "your_handle_business": "O identificador da sua empresa",
+  "your_handle_partner": "O seu identificador de parceiro",
+  "your_handle_shop": "O identificador da sua loja",
+  "your_handle_user": "O seu nome de utilizador"
  }
 }

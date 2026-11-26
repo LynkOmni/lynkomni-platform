@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "Account",
   "action_add": "Idagdag ang una",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "Kulang ang ibinigay na impormasyon ng device na ito, kaya ginagamit ang view na gumagana sa lahat ng uri ng input.",
   "why_this_view": "Bakit ang view na ito?",
   "will_translate_online": "Isasalin pagbalik mo online",
-  "writes_in": "Sumusulat si {name} sa {from}. Isinasalin ang mga mensahe sa {to} para sa iyo."
+  "writes_in": "Sumusulat si {name} sa {from}. Isinasalin ang mga mensahe sa {to} para sa iyo.",
+  "your_handle_agentpoint": "Ang handle ng agent point mo",
+  "your_handle_app": "Ang handle ng app mo",
+  "your_handle_business": "Ang handle ng negosyo mo",
+  "your_handle_partner": "Ang partner handle mo",
+  "your_handle_shop": "Ang handle ng tindahan mo",
+  "your_handle_user": "Ang username mo"
  }
 }

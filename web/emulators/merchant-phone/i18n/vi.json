@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "7da77a77ad999320f6b9c675fd6cc1fa4af4ac140b0ca737f23fbf008b067de7",
+ "source_sha256": "3212921da3c3995721e1581d799153179ea9aa60d052741c707980fac1119e05",
  "texts": {
   "account": "Tài khoản",
   "active": "Đang hoạt động",
@@ -342,7 +342,6 @@
   "it_time_clock": "Chấm công",
   "it_timeline": "Dòng thời gian",
   "it_unusual": "Bất thường",
-  "it_username": "Định danh cửa hàng",
   "it_waiting": "Đang chờ",
   "it_waiting_services": "Sắp có tại quốc gia của bạn",
   "it_who_owes_me": "Ai đang nợ tôi",

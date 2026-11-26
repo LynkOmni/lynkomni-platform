@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ckb",
  "native": "کوردی",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "هەژمار",
   "action_add": "یەکەم زیاد بکە",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "ئەم ئامێرە زانیاری پێویستی نەدا، بۆیە ئەو دیمەنە بەکاردێت کە لەگەڵ هەموو جۆرە تێخستنێک کار دەکات.",
   "why_this_view": "بۆچی ئەم دیمەنە؟",
   "will_translate_online": "کاتێک ئۆنلاین بوویتەوە وەردەگێڕدرێت",
-  "writes_in": "{name} بە {from} دەنووسێت. نامەکان بۆ تۆ بۆ {to} وەردەگێڕدرێن."
+  "writes_in": "{name} بە {from} دەنووسێت. نامەکان بۆ تۆ بۆ {to} وەردەگێڕدرێن.",
+  "your_handle_agentpoint": "ناسێنەری خاڵی بریکارییەکەت",
+  "your_handle_app": "ناسێنەری بەرنامەکەت",
+  "your_handle_business": "ناسێنەری بازرگانییەکەت",
+  "your_handle_partner": "ناسێنەری هاوبەشییەکەت",
+  "your_handle_shop": "ناسێنەری دوکانەکەت",
+  "your_handle_user": "ناوی بەکارهێنەری تۆ"
  }
 }

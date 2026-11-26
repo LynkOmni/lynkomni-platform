@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fa",
  "native": "فارسی",
- "source_sha256": "7da77a77ad999320f6b9c675fd6cc1fa4af4ac140b0ca737f23fbf008b067de7",
+ "source_sha256": "3212921da3c3995721e1581d799153179ea9aa60d052741c707980fac1119e05",
  "texts": {
   "account": "حساب",
   "active": "فعال",
@@ -342,7 +342,6 @@
   "it_time_clock": "ساعت حضور",
   "it_timeline": "خط زمانی",
   "it_unusual": "غیرعادی",
-  "it_username": "شناسه فروشگاه",
   "it_waiting": "در انتظار",
   "it_waiting_services": "به‌زودی در کشور شما",
   "it_who_owes_me": "چه کسی به من بدهکار است",

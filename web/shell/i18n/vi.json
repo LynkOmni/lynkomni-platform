@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "Tài khoản",
   "action_add": "Thêm mục đầu tiên",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "Thiết bị này không cung cấp đủ thông tin, nên giao diện dùng được với mọi kiểu nhập được sử dụng.",
   "why_this_view": "Vì sao là giao diện này?",
   "will_translate_online": "Sẽ dịch khi bạn có mạng trở lại",
-  "writes_in": "{name} viết bằng {from}. Tin nhắn được dịch sang {to} cho bạn."
+  "writes_in": "{name} viết bằng {from}. Tin nhắn được dịch sang {to} cho bạn.",
+  "your_handle_agentpoint": "Tên định danh điểm đại lý của bạn",
+  "your_handle_app": "Tên định danh ứng dụng của bạn",
+  "your_handle_business": "Tên định danh doanh nghiệp của bạn",
+  "your_handle_partner": "Tên định danh đối tác của bạn",
+  "your_handle_shop": "Tên định danh cửa hàng của bạn",
+  "your_handle_user": "Tên người dùng của bạn"
  }
 }

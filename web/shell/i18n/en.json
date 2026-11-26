@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "en",
  "native": "English",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "Account",
   "action_add": "Add the first one",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "This device did not say enough, so the view that works with every kind of input is used.",
   "why_this_view": "Why this view?",
   "will_translate_online": "Will translate when you are back online",
-  "writes_in": "{name} writes in {from}. Messages are translated into {to} for you."
+  "writes_in": "{name} writes in {from}. Messages are translated into {to} for you.",
+  "your_handle_agentpoint": "Your agent point handle",
+  "your_handle_app": "Your app handle",
+  "your_handle_business": "Your business handle",
+  "your_handle_partner": "Your partner handle",
+  "your_handle_shop": "Your shop handle",
+  "your_handle_user": "Your username"
  }
 }

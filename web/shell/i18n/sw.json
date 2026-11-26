@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "8a07ee525e38c8bb3427e21bdff0d70516bb254b68c2394a6932ed5a321f5aea",
+ "source_sha256": "cedbe17bbd594c4227496310e926efa64cc4de4cbc2b383b4f5e00751f759a01",
  "texts": {
   "account_menu": "Akaunti",
   "action_add": "Ongeza ya kwanza",
@@ -1276,6 +1276,12 @@
   "why_safe_default": "Kifaa hiki hakikutoa taarifa za kutosha, kwa hiyo mwonekano unaofanya kazi na kila aina ya uingizaji unatumika.",
   "why_this_view": "Kwa nini mwonekano huu?",
   "will_translate_online": "Utatafsiriwa utakaporudi mtandaoni",
-  "writes_in": "{name} anaandika kwa {from}. Ujumbe unatafsiriwa kwa {to} kwa ajili yako."
+  "writes_in": "{name} anaandika kwa {from}. Ujumbe unatafsiriwa kwa {to} kwa ajili yako.",
+  "your_handle_agentpoint": "Utambulisho wa kituo chako cha wakala",
+  "your_handle_app": "Utambulisho wa programu yako",
+  "your_handle_business": "Utambulisho wa biashara yako",
+  "your_handle_partner": "Utambulisho wako wa mshirika",
+  "your_handle_shop": "Utambulisho wa duka lako",
+  "your_handle_user": "Jina lako la mtumiaji"
  }
 }
