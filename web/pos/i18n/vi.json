@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
+ "source_sha256": "3659acabd335aa5975e1b177f00a083e5f3f61ffd9ea30bf882389a7fbb034fb",
  "texts": {
   "academy": "Học viện",
   "academy_hint": "Một khóa học ngắn mở ra bên cạnh màn hình mà nó hướng dẫn.",
@@ -175,6 +175,7 @@
   "difference": "Chênh lệch",
   "difference_flagged": "Đã ghi nhận chênh lệch cho chủ. Không có gì bị chặn.",
   "dk_change": "Không phải bạn? Đổi",
+  "dk_duress_sample": "Mã PIN khẩn cấp mẫu: {pin}. Mã này mở chế độ xem kín đáo.",
   "dk_hard_locked": "Sai mã PIN quá nhiều lần. Mã PIN này đã bị khóa và không có gì bị xóa. Chủ hoặc quản lý có thể đặt lại.",
   "dk_lock": "Khóa",
   "dk_own_pin": "Mỗi người có mã PIN riêng, nên mỗi giao dịch bán gắn với một người.",

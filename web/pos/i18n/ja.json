@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
+ "source_sha256": "3659acabd335aa5975e1b177f00a083e5f3f61ffd9ea30bf882389a7fbb034fb",
  "texts": {
   "academy": "アカデミー",
   "academy_hint": "短いレッスンが、その内容を説明する画面の横に開きます。",
@@ -175,6 +175,7 @@
   "difference": "差額",
   "difference_flagged": "差額はオーナー向けに記録されました。何も止まりません。",
   "dk_change": "ご本人ではありませんか？切り替える",
+  "dk_duress_sample": "見本の緊急PIN：{pin}。目立たない画面が開きます。",
   "dk_hard_locked": "誤った PIN が多すぎます。この PIN はロックされましたが、何も消去されていません。オーナーまたはマネージャーがリセットできます。",
   "dk_lock": "ロック",
   "dk_own_pin": "一人ひとりに専用の PIN があるので、すべての販売が一人に結び付きます。",

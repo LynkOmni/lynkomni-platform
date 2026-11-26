@@ -84,7 +84,7 @@ function list(): string {
   // designed states (41 B): changes waiting for the connection, and nothing left to deliver
   const waiting = !S.online && LOG.pending().count ? designedState("sync_pending", t, DATA.statePictures, S.dark, null) : "";
   const done = S.jobs.every((j) => j.state === "delivered") ? designedState("success", t, DATA.statePictures, S.dark, null) : "";
-  return `${GATE.whoRow()}${batteryNote()}${shiftBar()}${waiting}${done}<h2>${esc(t("deliveries"))}</h2><ul class="jobs">${S.jobs.map((j) => `<li><button data-act="open:${j.id}"><strong>${esc(t("order", { n: j.order }))}</strong><span>${esc(t(j.area))}</span><span class="st st-${j.state}">${esc(stateWord(j.state))}</span>${icon("ui-chevron-right")}</button></li>`).join("")}</ul><p class="note">${esc(t("proof_photo"))}</p>${appShortFooter(C)}`;
+  return `${batteryNote()}${shiftBar()}${waiting}${done}<h2>${esc(t("deliveries"))}</h2><ul class="jobs">${S.jobs.map((j) => `<li><button data-act="open:${j.id}"><strong>${esc(t("order", { n: j.order }))}</strong><span>${esc(t(j.area))}</span><span class="st st-${j.state}">${esc(stateWord(j.state))}</span>${icon("ui-chevron-right")}</button></li>`).join("")}</ul><p class="note">${esc(t("proof_photo"))}</p>${appShortFooter(C)}`;
 }
 /** The job as the shared tracking engine sees it (the same steps the shop and the customer see). Trip progress is shared only
  *  while the rider has switched it on for this trip: a share of the way and the arrival time, never a position. */
@@ -141,7 +141,7 @@ function drawScreen(): void {
   if (!GATE.open) { el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = `<header class="rtop"><span class="rmark">${icon("product-chat")}</span><strong>${esc(t("deliveries"))}</strong></header><div class="rbody">${GATE.view()}</div>${DSH.overlay()}`; const adr = document.getElementById("address"); if (adr) adr.textContent = DSH.address(); return; }
   if (RK.device === "smartwatch" && !job()) { el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = `<div class="rbody">${watchView()}</div>${DSH.overlay()}`; return; }
   if (RK.device === "car-screen" && RK.moving) { el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = carVoice(); return; } el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); el.classList.toggle("lowlit", DSH.pictures); applyRoot(el, W);
-  el.innerHTML = `<header class="rtop"><span class="rmark">${icon("product-chat")}</span><strong>${esc(t("deliveries"))}</strong>${DSH.bar()}</header><div class="rbody">${job() ? detail(job()!) : list()}</div>${DSH.overlay()}`;
+  el.innerHTML = `<header class="rtop"><span class="rmark">${icon("product-chat")}</span><strong>${esc(t("deliveries"))}</strong>${DSH.bar()}</header><div class="rbody">${GATE.whoRow()}${job() ? detail(job()!) : list()}</div>${DSH.overlay()}`;
   const ad = document.getElementById("address"); if (ad) ad.textContent = DSH.address();
 }
 function act(a: string): void {
@@ -169,9 +169,9 @@ function panel(): void {
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["lock_screen", "duress", "list", "pickup", "deliver", "delivered", "wrong"], (k) => {
     if (k === "lock_screen") { GATE.lockNow(); S.open = ""; draw(); return; }
-    GATE.signInFirst(); if (k === "duress") { GATE.limited = true; S.open = ""; draw(); return; }
-    seed(); const j = S.jobs[0]!; S.open = k === "list" ? "" : j.id; S.msg = "";
-    if (k === "deliver" || k === "delivered" || k === "wrong") j.state = "picked_up"; if (k === "delivered") { j.state = "delivered"; } if (k === "wrong") { S.typed = "000000"; S.msg = t("wrong_code"); } draw(); });
+    if (k === "duress") { GATE.lockNow(); S.open = ""; draw(); return; }   // type the sample duress PIN shown on the lock
+    GATE.goAfterPin(() => { seed(); const j = S.jobs[0]!; S.open = k === "list" ? "" : j.id; S.msg = "";
+      if (k === "deliver" || k === "delivered" || k === "wrong") j.state = "picked_up"; if (k === "delivered") { j.state = "delivered"; } if (k === "wrong") { S.typed = "000000"; S.msg = t("wrong_code"); } draw(); }); draw(); });   // never skips the PIN (owner, 2026-11-26)
 }
 function main(): void {
   S.country = DATA.packOrder[0] ?? ""; seed(); panel(); draw();

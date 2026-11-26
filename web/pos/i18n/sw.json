@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sw",
  "native": "Kiswahili",
- "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
+ "source_sha256": "3659acabd335aa5975e1b177f00a083e5f3f61ffd9ea30bf882389a7fbb034fb",
  "texts": {
   "academy": "Chuo",
   "academy_hint": "Somo fupi hufunguka kando ya skrini linayofundisha.",
@@ -175,6 +175,7 @@
   "difference": "Tofauti",
   "difference_flagged": "Tofauti imeandikwa kwa mmiliki. Hakuna kinachozuiwa.",
   "dk_change": "Si wewe? Badilisha",
+  "dk_duress_sample": "PIN ya kulazimishwa ya mfano: {pin}. Inafungua mwonekano tulivu.",
   "dk_hard_locked": "PIN zisizo sahihi ni nyingi mno. PIN hii imefungwa na hakuna kilichofutwa. Mmiliki au meneja anaweza kuiweka upya.",
   "dk_lock": "Funga",
   "dk_own_pin": "Kila mtu ana PIN yake, kwa hiyo kila mauzo yanahusishwa na mtu mmoja.",

@@ -96,7 +96,9 @@ function panel(): void {
   $("#panel").insertAdjacentHTML("afterbegin", `<p><button type="button" class="pill" data-act="incoming">+ ${esc(t("new_order_test"))}</button></p>`);
   stateButtons($("#stateButtons"), ["signed_in", "lock_screen", "duress", "queue", "empty", "printed", "late"], (k) => {
     if (k === "lock_screen") { GATE.lockNow(); GATE.open = false; draw(); return; }
-    if (k === "signed_in" || k === "duress") { GATE.signInFirst(); GATE.limited = k === "duress"; draw(); return; } if (k === "empty") S.tickets = []; if (k === "printed") S.tier = "free"; if (k === "queue" || k === "late") { S.tier = S.tier === "free" ? "plus" : S.tier; if (!open().length) { incoming("4"); incoming("7"); } if (k === "late" && open()[0]) open()[0]!.at = Date.now() - 12 * 60000; } panel(); draw(); });
+    if (k === "duress") { GATE.lockNow(); GATE.open = false; draw(); return; }   // type the sample duress PIN shown on the lock
+    if (k === "signed_in") { GATE.goAfterPin(() => draw()); draw(); return; }   // the PIN is never skipped (owner, 2026-11-26)
+    if (k === "empty") S.tickets = []; if (k === "printed") S.tier = "free"; if (k === "queue" || k === "late") { S.tier = S.tier === "free" ? "plus" : S.tier; if (!open().length) { incoming("4"); incoming("7"); } if (k === "late" && open()[0]) open()[0]!.at = Date.now() - 12 * 60000; } panel(); draw(); });
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
 }
 function main(): void {

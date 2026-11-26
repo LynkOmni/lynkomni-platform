@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "id",
  "native": "Bahasa Indonesia",
- "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
+ "source_sha256": "3659acabd335aa5975e1b177f00a083e5f3f61ffd9ea30bf882389a7fbb034fb",
  "texts": {
   "academy": "Akademi",
   "academy_hint": "Kursus singkat terbuka di samping layar yang diajarkannya.",
@@ -175,6 +175,7 @@
   "difference": "Selisih",
   "difference_flagged": "Selisih dicatat untuk pemilik. Tidak ada yang diblokir.",
   "dk_change": "Bukan Anda? Ganti",
+  "dk_duress_sample": "Contoh PIN darurat: {pin}. Ini membuka tampilan senyap.",
   "dk_hard_locked": "Terlalu banyak PIN salah. PIN ini terkunci dan tidak ada yang dihapus. Pemilik atau manajer bisa menyetel ulang.",
   "dk_lock": "Kunci",
   "dk_own_pin": "Setiap orang punya PIN sendiri, jadi setiap penjualan terkait dengan satu orang.",

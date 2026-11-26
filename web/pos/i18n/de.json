@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "de",
  "native": "Deutsch",
- "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
+ "source_sha256": "3659acabd335aa5975e1b177f00a083e5f3f61ffd9ea30bf882389a7fbb034fb",
  "texts": {
   "academy": "Akademie",
   "academy_hint": "Ein kurzer Kurs öffnet sich neben dem Bildschirm, den er erklärt.",
@@ -175,6 +175,7 @@
   "difference": "Differenz",
   "difference_flagged": "Differenz für den Inhaber vermerkt. Nichts wird blockiert.",
   "dk_change": "Nicht Sie? Wechseln",
+  "dk_duress_sample": "Beispiel Notfall PIN: {pin}. Sie öffnet die stille Ansicht.",
   "dk_hard_locked": "Zu viele falsche PINs. Diese PIN ist gesperrt und nichts wurde gelöscht. Der Inhaber oder ein Manager kann sie zurücksetzen.",
   "dk_lock": "Sperren",
   "dk_own_pin": "Jede Person hat ihre eigene PIN, so ist jeder Verkauf einer Person zugeordnet.",

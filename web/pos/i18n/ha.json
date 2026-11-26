@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "cc83b070335ba246b9a34a07f3e08048be009d827f5bb7e6bf5bcf0a25623624",
+ "source_sha256": "3659acabd335aa5975e1b177f00a083e5f3f61ffd9ea30bf882389a7fbb034fb",
  "texts": {
   "academy": "Makaranta",
   "academy_hint": "Ɗan gajeren darasi yana buɗewa kusa da allon da yake koyarwa.",
@@ -175,6 +175,7 @@
   "difference": "Bambanci",
   "difference_flagged": "An lura da bambanci don mai shi. Ba a hana komai ba.",
   "dk_change": "Ba kai ba ne? Canza",
+  "dk_duress_sample": "Misalin PIN na tilastawa: {pin}. Yana buɗe shiru allo.",
   "dk_hard_locked": "PIN marasa daidai sun yi yawa. An kulle wannan PIN kuma ba a goge komai ba. Mai shago ko manaja zai iya sake saita shi.",
   "dk_lock": "Kulle",
   "dk_own_pin": "Kowa yana da PIN nasa, don haka kowace siyarwa tana da alaƙa da mutum ɗaya.",
