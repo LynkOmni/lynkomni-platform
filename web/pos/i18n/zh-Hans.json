@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "bbd69096c19ef2e5fddd30cfbdd7fe94a2b7bf64b00f6012321b5b81dc904a10",
+ "source_sha256": "f7633ee9ede1040de3b2c21b0571d3c65fffff0c984cdfdf0d9f919025ab394a",
  "texts": {
   "academy": "学院",
   "academy_hint": "简短课程会在它所讲解的屏幕旁边打开。",
@@ -213,6 +213,7 @@
   "handover": "交接班",
   "help": "帮助",
   "home": "首页",
+  "hw_none_page": "无需额外硬件:一切都在本设备的屏幕和按键上运行。",
   "identity_check": "合作伙伴核验顾客身份",
   "in_stock": "库存 {n}",
   "insight": "今日提示",

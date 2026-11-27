@@ -26,6 +26,7 @@ CONTROLS = {
     "light or dark": '[data-ctl="dark"], #cDark',
     "turning": '[data-ctl="turn"], #cSize, [data-ctl="turn-fixed"]',
     "touch or buttons": '[data-ctl="version"], [data-ctl="version-only"], .vonly',
+    "hardware": '[data-ctl="hardware"], [data-ctl="hardware-none"]',
 }
 TURNS = ["customer-display", "kitchen-screen", "lynk-cdisplay", "lynk-dscreen", "lynk-kiosk", "files-signing"]
 
@@ -51,8 +52,37 @@ class Panels(unittest.TestCase):
                 for what, sel in CONTROLS.items():
                     with self.subTest(page=name, control=what):
                         self.assertGreater(pg.locator(sel).count(), 0, f"{name} has no {what} control and no line saying why")
+                for line in pg.locator(".vonly, [data-ctl='hardware'] .plabel").all_text_contents():
+                    with self.subTest(page=name, line=line):     # a plain line is words, never a raw word name such as version_only_web
+                        self.assertNotRegex(line.strip(), r"^[a-z][a-z0-9_]*$")
                 self.assertEqual(errors, [], f"{name} runs without errors")
                 pg.close()
+            b.close()
+
+    def test_breaking_a_piece_of_hardware_shows_what_takes_over(self):
+        """DRIVER UPDATE D12, D13, D18: the tester breaks or unplugs a piece of hardware and the device says, in words, what is used
+        instead; putting it back clears the line. Nothing stops working and no error is raised."""
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            tried = 0
+            for name in PAGES:
+                pg, errors = open_page(b, name)
+                sel = pg.locator('[data-ctl="hardware"] select').first
+                if not sel.count():
+                    pg.close(); continue
+                tried += 1
+                with self.subTest(page=name):
+                    sel.select_option("unplugged")
+                    pg.wait_for_timeout(150)
+                    line = pg.locator(".hwd-line").first
+                    if line.count():                              # a page waiting on its PIN shows the line after sign-in
+                        self.assertNotRegex(line.inner_text(), r"\b[a-z]+_[a-z_]+\b", "words, never raw word names")
+                    pg.locator('[data-ctl="hardware"] select').first.select_option("connected")
+                    pg.wait_for_timeout(150)
+                    self.assertEqual(pg.locator(".hwd-line").count(), 0)
+                    self.assertEqual(errors, [])
+                pg.close()
+            self.assertGreaterEqual(tried, 6)
             b.close()
 
     def test_a_device_turned_sideways_takes_its_other_shape(self):

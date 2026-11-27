@@ -155,6 +155,13 @@
    "blueprint": "73",
    "check": "auto",
    "na_allowed": false
+  },
+  {
+   "id": "hardware",
+   "what": "Its hardware kinds listed in the LynkDriver register, each with a stand-in or a written reason, or why it uses none",
+   "blueprint": "95 (D58)",
+   "check": "auto",
+   "na_allowed": true
   }
  ],
  "everywhere": [
@@ -332,6 +339,24 @@
   },
   "automations": {
    "lynkassist": "LynkAssist acts inside other services' automations through its assist role; it has none of its own"
+  },
+  "hardware": {
+   "lynkacc": "Works on the person's own computer or phone; bills are photographed with the device's own camera",
+   "lynkinv": "Invoices print through the device's own printing and go by link or email",
+   "lynkcrm": "Customer records need no hardware",
+   "lynkstat": "Reports and dashboards need no hardware",
+   "lynkassist": "LynkAssist acts through the services it helps and drives no hardware itself",
+   "lynkchat": "Chats run on people's own devices; calls use the device's own microphone and speaker",
+   "lynkgrow": "Marketing runs on people's own devices",
+   "lynkrecover": "Money recovery runs online and needs no hardware",
+   "lynkvcard": "Cards come from the licensed issuer; LynkOmni drives no card hardware",
+   "lynkfiles": "Documents are read and signed on the screen; scanning uses the device's own camera",
+   "lynkhr": "Time clocks and doors belong to LynkAttend; staff records need no hardware",
+   "lynkproject": "Projects run on people's own devices",
+   "lynkacademy": "Classes run on people's own devices",
+   "lynkjobs": "Job listings and applications run on people's own devices",
+   "lynkexchange": "Exchange runs online through the licensed partner and takes no cash, so it drives no hardware",
+   "lynkdev": "Developers add hardware profiles and add-ons (D32); the service itself drives none"
   }
  },
  "areas": {

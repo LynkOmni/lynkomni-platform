@@ -2,6 +2,16 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.130.0 (2026-11-27)
+DRIVER UPDATE part B (section 5 step 1): hardware is a rule for every service, and every emulator shows its hardware (owner: "Build but before that ensure every possible improvements have been implemented").
+- The final round D58 to D77 joined blueprint 95 (95.7a) and the doc "LynkDriver improvements" before building.
+- D58: catalog/drivers.v1.json lists the hardware kinds of every service (and LynkStation's, planned for section 9); the rules register has a new rule, "hardware", so every billing family lists its hardware or has a written reason, and a new service fails the tests until it does. Every hardware kind belongs to a service.
+- The shared hardware part (ts/src/hardware.ts) is on every device emulator through the device kit: each panel has a Hardware control that plugs, unplugs, empties, breaks or outdates each piece, offering only what that piece can have (paper only runs out in printers, a battery only runs low in wireless ones); the device then says in words what happened and what takes over (for example the order on the kitchen screen when the kitchen printer stops). Pages with no extra hardware say so in a plain line. tests/test_panels.py checks every page in the browser.
+- Each role can name its own stand-in (the kitchen printer and the ticket printer), and the rules for each piece in each condition are proved the same in Python and TypeScript.
+- The kitchen screen gained its bump bar, the boards their speaker and the rating stand its feedback buttons.
+- Fixed a leftover: the account site and the browser frame showed the raw word name "version_only_web" in their panels; the panel's plain lines now travel with every page that shows them, and the panel test refuses raw word names.
+- New words in all 38 languages. Size budgets: the customer display 870 KB and the card 845 KB, with reasons.
+
 ## v0.129.0 (2026-11-27)
 DRIVER UPDATE (blueprint 95), section 5 step 1, part A: one hardware register for the whole ecosystem (owner: "I approve all and add any more improvements").
 - catalog/drivers.v1.json now lists 45 kinds of hardware: the 28 before and the 17 approved for LynkCCTV, LynkGate, LynkStation, LynkVote, LynkBet and the location products (recorders, gate controllers, relay boards, tag readers, plate cameras, weighbridges, pump controllers, tank gauges, chargers, LED signs, alarm panels, backup power, intercoms, turnstiles, ballot scanners, security keys, cash acceptors), each with its open standards and its stand-in or written reason.

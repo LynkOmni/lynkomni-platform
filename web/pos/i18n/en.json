@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "en",
  "native": "English",
- "source_sha256": "bbd69096c19ef2e5fddd30cfbdd7fe94a2b7bf64b00f6012321b5b81dc904a10",
+ "source_sha256": "f7633ee9ede1040de3b2c21b0571d3c65fffff0c984cdfdf0d9f919025ab394a",
  "texts": {
   "academy": "Academy",
   "academy_hint": "A short course opens beside the screen it teaches.",
@@ -213,6 +213,7 @@
   "handover": "Shift handover",
   "help": "Help",
   "home": "Home",
+  "hw_none_page": "No extra hardware: everything works on this device's own screen and keys.",
   "identity_check": "The partner checks the customer's identity",
   "in_stock": "{n} in stock",
   "insight": "Insight of the day",

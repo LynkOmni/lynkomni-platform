@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ja",
  "native": "日本語",
- "source_sha256": "bbd69096c19ef2e5fddd30cfbdd7fe94a2b7bf64b00f6012321b5b81dc904a10",
+ "source_sha256": "f7633ee9ede1040de3b2c21b0571d3c65fffff0c984cdfdf0d9f919025ab394a",
  "texts": {
   "academy": "アカデミー",
   "academy_hint": "短いレッスンが、その内容を説明する画面の横に開きます。",
@@ -213,6 +213,7 @@
   "handover": "シフトの引き継ぎ",
   "help": "ヘルプ",
   "home": "ホーム",
+  "hw_none_page": "追加のハードウェアは不要です。すべてこの端末の画面とキーで動きます。",
   "identity_check": "パートナーがお客様の本人確認を行います",
   "in_stock": "在庫 {n}",
   "insight": "本日のヒント",

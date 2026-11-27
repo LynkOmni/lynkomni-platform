@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ps",
  "native": "پښتو",
- "source_sha256": "bbd69096c19ef2e5fddd30cfbdd7fe94a2b7bf64b00f6012321b5b81dc904a10",
+ "source_sha256": "f7633ee9ede1040de3b2c21b0571d3c65fffff0c984cdfdf0d9f919025ab394a",
  "texts": {
   "academy": "اکاډمي",
   "academy_hint": "لنډ درس د هغې پردې تر څنګ پرانیستل کېږي چې ښوونه یې کوي.",
@@ -213,6 +213,7 @@
   "handover": "د نوبت سپارل",
   "help": "مرسته",
   "home": "کور پاڼه",
+  "hw_none_page": "اضافي هارډوېر نشته: هر څه د همدې وسیلې په پرده او تڼیو کار کوي.",
   "identity_check": "ملګری د پېرودونکي هویت ګوري",
   "in_stock": "{n} په ذخیره کې",
   "insight": "د ورځې لارښوونه",

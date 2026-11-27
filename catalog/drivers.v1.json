@@ -676,14 +676,16 @@
     "bluetooth",
     "usb",
     "device_print"
-   ]
+   ],
+   "stand_in": "ticket_on_screen"
   },
   "kitchen_printer": {
    "kind": "receipt_printer",
    "ways": [
     "network",
     "usb"
-   ]
+   ],
+   "stand_in": "kitchen_ticket"
   },
   "label_printer": {
    "kind": "label_printer",
@@ -739,6 +741,37 @@
    "ways": [
     "camera"
    ]
+  },
+  "bump_bar": {
+   "kind": "bump_bar",
+   "ways": [
+    "usb",
+    "bluetooth"
+   ]
+  },
+  "speaker": {
+   "kind": "speaker",
+   "ways": [
+    "bluetooth",
+    "usb",
+    "network"
+   ]
+  },
+  "feedback_buttons": {
+   "kind": "feedback_buttons",
+   "ways": [
+    "usb",
+    "bluetooth",
+    "network"
+   ]
+  },
+  "number_board": {
+   "kind": "number_board",
+   "ways": [
+    "network",
+    "usb",
+    "serial"
+   ]
   }
  },
  "states": [
@@ -772,5 +805,222 @@
   "retire_notice_months": 12,
   "never_dropped_while_used": true,
   "new_kinds_by_register_only": true
- }
+ },
+ "services": {
+  "lynkpos": [
+   "receipt_printer",
+   "label_printer",
+   "barcode_scanner",
+   "cash_drawer",
+   "customer_display",
+   "kitchen_display",
+   "bump_bar",
+   "scale",
+   "card_reader",
+   "nfc_reader",
+   "fiscal_device",
+   "camera",
+   "keypad",
+   "remote",
+   "mesh_relay",
+   "number_board",
+   "speaker",
+   "cash_acceptor"
+  ],
+  "lynkstock": [
+   "barcode_scanner",
+   "label_printer",
+   "scale",
+   "condition_sensor"
+  ],
+  "lynkrewards": [
+   "nfc_reader",
+   "barcode_scanner"
+  ],
+  "lynkmpay": [
+   "card_reader",
+   "nfc_reader"
+  ],
+  "lynkcheckout": [
+   "card_reader",
+   "nfc_reader",
+   "customer_display"
+  ],
+  "lynkattend": [
+   "fingerprint_reader",
+   "camera",
+   "door_access",
+   "turnstile",
+   "tag_reader",
+   "receipt_printer"
+  ],
+  "lynkqueue": [
+   "receipt_printer",
+   "number_board",
+   "speaker",
+   "pager_base",
+   "barcode_scanner",
+   "customer_display"
+  ],
+  "lynksurvey": [
+   "feedback_buttons"
+  ],
+  "lynkvote": [
+   "ballot_scanner",
+   "security_key"
+  ],
+  "lynkmotion_land": [
+   "vehicle_tracker",
+   "obd_plug",
+   "tag",
+   "satellite_tracker"
+  ],
+  "lynkmotion_sea": [
+   "vehicle_tracker",
+   "satellite_tracker",
+   "tag"
+  ],
+  "lynkmotion_air": [
+   "satellite_tracker",
+   "vehicle_tracker",
+   "tag"
+  ],
+  "lynktrace": [
+   "barcode_scanner",
+   "label_printer",
+   "tag",
+   "e_seal",
+   "condition_sensor"
+  ],
+  "lynkguard": [
+   "vehicle_tracker",
+   "tag",
+   "e_seal",
+   "condition_sensor",
+   "camera",
+   "door_access"
+  ],
+  "lynksentry": [
+   "alarm_panel",
+   "camera",
+   "condition_sensor",
+   "speaker"
+  ],
+  "lynkbooking": [
+   "barcode_scanner",
+   "receipt_printer",
+   "door_access",
+   "customer_display"
+  ],
+  "lynkessential": [
+   "receipt_printer",
+   "barcode_scanner",
+   "cash_acceptor",
+   "card_reader",
+   "customer_display"
+  ],
+  "lynkschool": [
+   "barcode_scanner",
+   "fingerprint_reader",
+   "door_access",
+   "receipt_printer"
+  ],
+  "lynkproperty": [
+   "utility_meter",
+   "door_access",
+   "camera"
+  ],
+  "lynkbet": [
+   "receipt_printer",
+   "barcode_scanner",
+   "cash_drawer",
+   "camera",
+   "cash_acceptor",
+   "customer_display"
+  ],
+  "lynkcctv": [
+   "camera",
+   "video_recorder",
+   "relay_board",
+   "alarm_panel",
+   "backup_power",
+   "intercom",
+   "led_sign"
+  ],
+  "lynkgate": [
+   "gate_controller",
+   "relay_board",
+   "tag_reader",
+   "plate_camera",
+   "weighbridge",
+   "led_sign",
+   "intercom",
+   "turnstile",
+   "card_reader",
+   "receipt_printer",
+   "barcode_scanner",
+   "backup_power"
+  ]
+ },
+ "planned_services": {
+  "lynkstation": {
+   "build_section": "9",
+   "kinds": [
+    "pump_controller",
+    "tank_gauge",
+    "ev_charger",
+    "led_sign",
+    "receipt_printer",
+    "barcode_scanner",
+    "card_reader",
+    "cash_drawer",
+    "camera",
+    "plate_camera",
+    "weighbridge"
+   ]
+  }
+ },
+ "services_rule": "Every billing family lists here the hardware kinds it uses, or has a written reason in catalog/universal.v1.json not_applicable.hardware; a new family fails tests/test_universal.py until it does (DRIVER UPDATE D58). Every hardware kind is used by a service or a planned one.",
+ "conditions": {
+  "connected": {
+   "state": "connected",
+   "warning": null
+  },
+  "battery_low": {
+   "state": "connected",
+   "warning": "battery_low",
+   "connections": [
+    "bluetooth"
+   ]
+  },
+  "unplugged": {
+   "state": "not_connected",
+   "warning": null
+  },
+  "paper_out": {
+   "state": "not_working",
+   "warning": "paper_out",
+   "kinds": [
+    "receipt_printer",
+    "label_printer"
+   ]
+  },
+  "needs_update": {
+   "state": "needs_update",
+   "warning": null
+  },
+  "overdue": {
+   "state": "overdue",
+   "warning": null
+  },
+  "broken": {
+   "state": "not_working",
+   "warning": null
+  }
+ },
+ "stand_in_states": [
+  "not_connected",
+  "overdue",
+  "not_working"
+ ]
 }

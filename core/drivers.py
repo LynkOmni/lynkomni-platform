@@ -56,6 +56,28 @@ def ladder_next(step):
     return L[i + 1] if i + 1 < len(L) else None
 
 
+def role_status(role, condition):
+    """What a device shows for one piece of hardware in one condition (DRIVER UPDATE D12, D13, D18): its state, any warning, and
+    the stand-in that takes over (or that none can, so the work goes on by hand). A sale is never blocked by any of them."""
+    kind = role_kind(role)
+    c = REGISTER["conditions"][condition]
+    down = c["state"] in REGISTER["stand_in_states"]
+    v = REGISTER["roles"][role].get("stand_in") or KINDS[kind]["virtual"]
+    return {"role": role, "kind": kind, "state": c["state"], "warning": c["warning"], "stand_in": v if down else None,
+            "next": (("stand_in" if v else "by_hand") if down else None)}
+
+
+def conditions_for(role):
+    """The conditions a tester can give this piece: paper only runs out in printers, a battery only runs low in wireless ones."""
+    k = KINDS[role_kind(role)]
+    out = []
+    for c, v in REGISTER["conditions"].items():
+        if "kinds" in v and k["id"] not in v["kinds"]: continue
+        if "connections" in v and not set(v["connections"]) & set(k["connections"]): continue
+        out.append(c)
+    return out
+
+
 def fallback(kind):
     return KINDS[kind]["virtual"]
 
@@ -81,6 +103,15 @@ def validate():
         problems.append("the ladder must keep its fixed order (D18)")
     for kind in ("ballot_scanner", "security_key", "card_reader", "fiscal_device"):   # money, law and identity never come from a file
         if KINDS.get(kind, {}).get("file_instead") not in (None, "never"): problems.append(f"{kind}: may never be replaced by a file")
+    used = set()
+    for fam, kinds in list(REGISTER.get("services", {}).items()) + [(f, v["kinds"]) for f, v in REGISTER.get("planned_services", {}).items()]:
+        for k in kinds:
+            if k not in KINDS: problems.append(f"{fam}: unknown hardware kind {k}")
+            used.add(k)
+    for k in KINDS:                                               # every kind belongs to a service, now or planned (D58)
+        if REGISTER.get("services") and k not in used: problems.append(f"{k}: used by no service")
+    for c, v in REGISTER.get("conditions", {}).items():
+        if v["state"] not in REGISTER["states"]: problems.append(f"condition {c}: unknown state {v['state']}")
     t = REGISTER.get("speed_targets_ms", {})
     for m in ("find_first_device", "pair", "scan_to_screen", "print_after_confirmed", "stand_in_switch", "reconnect", "keeper_takeover", "app_ready"):
         if not isinstance(t.get(m), int) or t[m] <= 0: problems.append(f"speed target {m} missing (D41)")
