@@ -15,6 +15,7 @@ import { QueueDesk, pairCode, quDriver, quPhoneView, quPublicView } from "../../
 import type { QuLook, QuPlan } from "../../../ts/src/queuedesk.js";
 import type { AtTier } from "../../../ts/src/attenddesk.js";
 import { watchNames } from "../../../ts/src/names.js";
+import { DeviceKeyboard } from "../../../ts/src/keyboard.js";
 
 declare const DATA: Build & { people: { queue: Record<AtTier, QuPlan> } };
 const TIERS = ["free", "plus", "pro", "max"] as const;
@@ -87,3 +88,6 @@ function main(): void {
 main();
 /** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
 watchNames(document.body, () => t);
+
+/** The device's own on-screen keyboard (owner, 2026-11-27): typing opens the keyboard drawn inside the device screen, never the tester's own. */
+new DeviceKeyboard(() => document.getElementById("screen"), (k) => t(k));

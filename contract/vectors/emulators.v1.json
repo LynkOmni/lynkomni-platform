@@ -38,7 +38,7 @@
   "hr.people": "lynkhr",
   "project.site_phone": "lynkproject",
   "files.documents": "lynkfiles",
-  "files.signing_tablet": null
+  "files.signing_tablet": "lynkfiles"
  },
  "in_use": {
   "lynkattend": 0,

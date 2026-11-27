@@ -1,0 +1,13 @@
+/* The device's own on-screen keyboard inside a touch-screen emulator (ts/src/keyboard.ts, owner 2026-11-27). It covers the bottom of
+   the device screen like a real one, takes the theme's colours, and the screen scrolls so the field being typed in stays above it. */
+.lkb { position: absolute; overflow: auto; z-index: 40; display: grid; gap: 6px; padding: 8px 4px 10px; background: var(--bg-subtle); border-block-start: 1px solid var(--border-subtle); animation: lkb-up 160ms ease-out; box-sizing: border-box; }
+@keyframes lkb-up { from { transform: translateY(100%); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .lkb { animation: none; } }
+.lkb-row { display: flex; gap: 4px; justify-content: center; }
+.lkb-k { flex: 1 1 0; min-inline-size: 0; max-inline-size: 48px; min-block-size: 42px; padding: 0 2px; border: 1px solid var(--border-subtle); border-radius: var(--radius-control); background: var(--bg-surface); color: var(--text-primary); font: 500 17px/1 var(--font-body); overflow: hidden; }
+.lkb-k:active, .lkb-k[aria-pressed="true"] { background: var(--brand-subtle); color: var(--brand-ink); }
+.lkb-k:focus-visible { outline: 3px solid var(--brand-primary); outline-offset: 1px; }
+.lkb-wide { max-inline-size: 60px; }
+.lkb-space { flex: 4 1 0; max-inline-size: none; font-size: 14px; }
+.lkb-done { flex: 1.6 1 0; max-inline-size: 96px; background: var(--brand-primary); border-color: var(--brand-primary); color: var(--on-brand); font-size: 14px; }
+.lkb-note { margin: 0 6px; color: var(--text-secondary); font-size: 12px; overflow-wrap: anywhere; }

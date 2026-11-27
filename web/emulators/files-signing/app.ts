@@ -2,7 +2,9 @@
  *  every page of the document, then signs exactly the version they saw, with a finger, a stylus or their typed name (every gesture has
  *  a button or a key). Reading works without internet; a signature is written only by the cloud (DocumentSigned is cloud only), and an
  *  identity-checked signature only when the licensed partner confirms (catalog/files.v1.json signing.levels; services/files_partners.py).
- *  The verification code comes from ts/src/files.ts and never shows who signed. No staff PIN: a customer screen with no user. */
+ *  The verification code comes from ts/src/files.ts and never shows who signed. Staff side and signer side (owner, 2026-11-27): a staff
+ *  member opens the tablet with their own PIN, prepares the document and hands it over; the signer stays inside reading and signing,
+ *  with no way out to the staff side, and the tablet locks again whenever it comes back, so the next staff member types their PIN. */
 import { Country, EventLog, Words, applyRoot, esc, fitRig, panelChange, panelHtml, stateButtons, randomBelow } from "../../../ts/src/emulator.js";
 import { turnDevice } from "../../../ts/src/turn.js";
 import type { Build, PanelState } from "../../../ts/src/emulator.js";
@@ -17,6 +19,7 @@ import { EMULATOR_REGISTER } from "../../../ts/src/emulators.generated.js";
 import { watchNames } from "../../../ts/src/names.js";
 import { hintFor } from "../../../ts/src/hints.js";
 import { PageWait } from "../../../ts/src/placeholder.js";
+import { StaffGate, StaffLock } from "../../../ts/src/devicekit.js";
 void PageWait;   // the waiting part (catalog/placeholders.v1.json) travels with the kit; its words come with it
 
 declare const DATA: Build;
@@ -40,7 +43,17 @@ const KW = wireKit(KIT, { t, icon: (id, cls) => icon(id, cls), online: () => S.o
 const uuid = (): string => "0192f0c0-0000-7000-8000-" + String(randomBelow(1e6)).padStart(6, "0") + String(randomBelow(1e6)).padStart(6, "0");
 const REQ = uuid();
 
-function back(): void { S.view = S.view === "sign" ? "read" : "ready"; }
+/** The staff who use this tablet (samples only: a real tablet keeps a slow salted hash in its encrypted database). */
+const STAFF = new StaffLock([
+  { person: "c1", name: "Aline", role: "cashier", pin: "4826", duress: "6284" },
+  { person: "m1", name: "Eric", role: "manager", pin: "2580" },
+  { person: "o1", name: "Grace", role: "owner", pin: "4719" },
+]);
+const GATE = new StaffGate(STAFF, { t, icon: (id) => icon(id), device: "files-signing", online: () => S.online, redraw: () => draw(), emit: (type, payload, origin) => { LOG.emit(type, payload, origin); } });
+const staffSide = (): boolean => S.view === "ready";
+/** Back to the staff side: the tablet locks, so only a staff member with their own PIN takes it back. */
+function toStaff(): void { S.view = "ready"; GATE.lockNow(); }
+function back(): void { if (S.view === "sign") S.view = "read"; else toStaff(); }
 function hasMark(): boolean { return S.strokes.length > 0 || S.name.trim().length >= 2; }
 function onlineNote(): string { return S.online ? "" : `<p class="notice" role="status">${esc(t("fs_online_only"))}</p>`; }
 function head(): string {
@@ -75,7 +88,8 @@ let REFIT: (() => void) | undefined;
 const turnNow = (): void => turnDevice(DEVICES, { rig: $("#rig"), body: document.querySelector(".tab"), screens: [$("#screen")], turn: S.turn, width: 760, sidewaysWidth: 540, shape: { width: 1280, height: 800, device: "tablet" } }, REFIT);
 function draw(): void { turnNow();
   const el = $("#screen"); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); DEV.draw(el); applyRoot(el, W);
-  el.innerHTML = `<div class="tbody" data-wait-area data-shape="text">${screen()}</div>`; $("#mark").innerHTML = DATA.brand.body;
+  el.innerHTML = !GATE.open ? `<div class="tbody">${GATE.view()}</div>`
+    : `<div class="tbody" data-wait-area data-shape="text">${staffSide() ? GATE.whoRow() : ""}${screen()}</div>`; $("#mark").innerHTML = DATA.brand.body;
   wirePad(); KW.after(el);
 }
 /** The signature box: a finger, a stylus or a mouse draws; the typed name and the buttons do the same without a gesture. */
@@ -108,31 +122,31 @@ function act(a: string): void {
   else if (k === "clear") { S.strokes = []; S.name = ""; }
   else if (k === "sign") { sign(); return; }
   else if (k === "decline") { S.view = "declined"; LOG.emit("SignatureDeclined", { request_id: REQ, turn: signed.length + 1, reason: S.reason }, "server"); }
-  else if (k === "again") { S.view = "ready"; S.read = false; S.name = ""; S.strokes = []; S.state = ""; S.code = ""; if (signRequestState(SIGNERS, signed) === "completed") signed = []; }
+  else if (k === "again") { toStaff(); S.read = false; S.name = ""; S.strokes = []; S.state = ""; S.code = ""; if (signRequestState(SIGNERS, signed) === "completed") signed = []; }
   draw();
 }
 function panel(): void {
   $("#panel").innerHTML = panelHtml(["online", "country", "dark", "lang", "turn"], S, W, C) + DEV.control()
     + `<label class="field"><span>${esc(t("fs_level"))}</span><select data-ctl="level">${["simple", "identity_checked"].map((l) => `<option value="${l}"${l === S.level ? " selected" : ""}>${esc(t(l === "simple" ? "fs_level_simple" : "fs_level_identity"))}</option>`).join("")}</select></label>`;
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
-  stateButtons($("#stateButtons"), ["ready", "read", "sign", "offline", "signed", "declined"], (k) => {
+  stateButtons($("#stateButtons"), ["ready", "read", "sign", "offline", "signed", "declined"], (k) => GATE.goAfterPin(() => {
     S.online = k !== "offline"; S.read = k !== "ready"; S.strokes = k === "sign" || k === "offline" ? ["M40 110 L120 60 L200 120 L300 50 L420 110"] : []; S.name = "";
     S.view = k === "ready" ? "ready" : k === "read" ? "read" : k === "declined" ? "declined" : k === "signed" ? "done" : "sign";
     if (k === "signed") { S.state = "confirmed"; S.code = formatCode(F, 987654321987n); } else { S.state = ""; S.code = ""; }
     panel(); draw();
-  });
+  }));
 }
 function main(): void {
   S.country = DATA.packOrder[0] ?? "";
   panel(); draw();
-  document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (b && DEV.act(b.dataset["act"] ?? "")) return; if (b && !b.hasAttribute("disabled")) act(b.dataset["act"] ?? ""); });
+  document.addEventListener("click", (e) => { const b = (e.target as HTMLElement).closest<HTMLElement>("[data-act]"); if (b && DEV.act(b.dataset["act"] ?? "")) return; if (b && (staffSide() || !GATE.open) && GATE.act(b.dataset["act"] ?? "")) return; if (b && !b.hasAttribute("disabled")) act(b.dataset["act"] ?? ""); });
   document.addEventListener("input", (e) => { const el = e.target as HTMLInputElement; if (el.dataset["in"] === "fs:name") { S.name = el.value.slice(0, 80); const pos = el.selectionStart; draw(); const again = document.getElementById("fsName") as HTMLInputElement | null; if (again) { again.focus(); if (pos !== null) again.setSelectionRange(pos, pos); } } });
   document.addEventListener("change", (e) => { const el = e.target as HTMLInputElement & HTMLSelectElement;
     if (el.dataset["in"] === "fs:read") { S.read = el.checked; draw(); return; }
     if (el.dataset["in"] === "fs:reason") { S.reason = el.value; return; } });
   $("#panel").addEventListener("change", (e) => { const el = e.target as HTMLSelectElement; if (el.dataset["ctl"] === "level") { S.level = el.value; draw(); return; } if (DEV.change(el)) return; if (panelChange(el, S, DATA)) panel(); draw(); });
-  document.addEventListener("keydown", (e) => { if (DEV.key(e)) return; });
-  window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); }, 400);
+  document.addEventListener("keydown", (e) => { if ((staffSide() || !GATE.open) && GATE.key(e)) return; if (DEV.key(e)) return; });
+  window.setInterval(() => { S.ticks += 1; LOG.tick(S.online, false, S.ticks, () => undefined); if (staffSide() && GATE.tick()) draw(); }, 400);
   REFIT = fitRig($("#rig"), 760); turnNow();
 }
 main();
