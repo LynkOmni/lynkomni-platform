@@ -159,6 +159,11 @@
  ],
  "everywhere": [
   {
+   "id": "software_only",
+   "what": "Software only: every piece of hardware comes from the user and connects through open standards or LynkDriver; LynkOmni hardware only when the user orders it; every hardware kind has a stand-in or a written reason",
+   "enforced_by": "tests/test_software_only.py, tests/test_drivers.py"
+  },
+  {
    "id": "five_states",
    "what": "Only queued, sent, accepted, confirmed, failed shown to users",
    "enforced_by": "tests/test_tracking.py, tests/test_emulators.py"

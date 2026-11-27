@@ -56,4 +56,9 @@ def validate():
     for r in releases():
         if r["kind"] not in DAYS: problems.append(f"{r['version']}: unknown kind {r['kind']}")
     if set(DAYS) != {"security", "required", "normal"}: problems.append("update kinds must be security, required and normal")
+    so = REGISTER.get("software_only") or {}
+    if so.get("supplied_by") != "user" or so.get("lynkomni_hardware") != "only_when_ordered":
+        problems.append("software only: hardware comes from the user and LynkOmni hardware only when ordered")
+    for k in REGISTER["kinds"]:                                   # a stand-in on a phone or screen, or the written reason why not
+        if not k.get("virtual") and not k.get("no_stand_in"): problems.append(f"{k['id']}: needs a stand-in or a reason why it has none")
     return problems

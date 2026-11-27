@@ -2,6 +2,11 @@
  "version": 1,
  "agreed": "2026-11-09 (BIZZ & DEVICE: LynkDriver, one driver pack for the whole ecosystem)",
  "rule": "LynkDriver is one free, signed pack that drives every kind of hardware LynkOmni uses. It installs online from Devices > Driver in the Business app or offline from lynkomni.com/download/driver, and the app asks to install it as soon as hardware that needs it is attached. Updates are strongly enforced: a security update is required now, a required update within 3 days, a normal update within 7 days. Past the deadline the hardware pauses and the matching virtual device takes over, so a sale is never blocked. Payment card readers and fiscal devices are certified by their licensed provider or authority; LynkDriver only connects them. core/drivers.py and ts/src/drivers.ts apply this file. NEW UPDATE 1 (2026-11-10): vehicle trackers, OBD plugs, tags, e-seals, condition sensors and satellite trackers are hardware on demand for LynkMotion and LynkGuard; the phone stands in as the tracker and a sealed photo stands in for an e-seal.",
+ "software_only": {
+  "rule": "LynkOmni gives software only (owner rule, blueprint 48 and 89.1). Every piece of hardware comes from the user and connects through open standards or LynkDriver; any applicable hardware works. LynkOmni hardware is supplied only when the user orders it, never needed to start and never part of a plan. Every hardware kind has a stand-in on a phone or screen, or a written reason why it cannot have one.",
+  "supplied_by": "user",
+  "lynkomni_hardware": "only_when_ordered"
+ },
  "pack": {
   "name": "LynkDriver",
   "version": "1.4.0",
@@ -134,7 +139,8 @@
     "serial"
    ],
    "virtual": null,
-   "certified_by": "tax_authority"
+   "certified_by": "tax_authority",
+   "no_stand_in": "Certified by the tax authority; nothing stands in for a fiscal device."
   },
   {
    "id": "camera",
@@ -165,7 +171,8 @@
     "bluetooth",
     "network"
    ],
-   "virtual": null
+   "virtual": null,
+   "no_stand_in": "It is another LynkOmni device nearby (a phone or tablet), never extra hardware."
   },
   {
    "id": "vehicle_tracker",
@@ -206,7 +213,8 @@
     "bluetooth",
     "network"
    ],
-   "virtual": null
+   "virtual": null,
+   "no_stand_in": "Temperature and other readings come only from a real sensor; a reading is never made up."
   },
   {
    "id": "satellite_tracker",
@@ -275,7 +283,8 @@
     "network",
     "bluetooth"
    ],
-   "virtual": null
+   "virtual": null,
+   "no_stand_in": "A door opens only through the user's own lock or controller; software alone never opens it."
   }
  ]
 }
