@@ -2,8 +2,9 @@
  *  hardware, strongly enforced updates (security now, required in 3 days, normal in 7), and past the deadline the hardware pauses
  *  and its virtual device takes over, so a sale is never blocked. */
 export interface DriverRelease { version: string; kind: "security" | "required" | "normal"; released_at: number }
-export interface DriverKind { id: string; connections: string[]; virtual: string | null; certified_by?: string }
-export interface DriverRegister { pack: DriverRelease & { name: string; signed: string }; previous: DriverRelease[]; update_days: Record<string, number>; where: { online: string; offline: string }; kinds: DriverKind[] }
+export interface DriverKind { id: string; connections: string[]; virtual: string | null; certified_by?: string; no_stand_in?: string; standards: string[]; file_instead: string | null }
+export type DriverHwState = "connected" | "not_connected" | "needs_update" | "overdue" | "not_working";
+export interface DriverRegister { pack: DriverRelease & { name: string; signed: string }; previous: DriverRelease[]; update_days: Record<string, number>; where: { online: string; offline: string }; kinds: DriverKind[]; roles: Record<string, { kind: string; ways: string[] }>; states: DriverHwState[]; ladder: string[]; speed_targets_ms: Record<string, number>; future: { interface_version: number; retire_notice_months: number; never_dropped_while_used: boolean; new_kinds_by_register_only: boolean } }
 export interface DriverState { state: "not_installed" | "current" | "available" | "overdue"; latest: string; deadline: number | null; kind?: string; hardware: "on" | "virtual" }
 const DAY = 86400;
 const ver = (s: string): number[] => s.split(".").map(Number);
@@ -23,3 +24,7 @@ export function driverState(r: DriverRegister, installed: string | null, now: nu
 }
 export const needsInstall = (r: DriverRegister, kinds: string[], installed: string | null): string[] => (installed !== null ? [] : kinds.filter((k) => r.kinds.some((x) => x.id === k)));
 export const driverFallback = (r: DriverRegister, kind: string): string | null => r.kinds.find((x) => x.id === kind)?.virtual ?? null;
+/** The hardware kind that fills a role (DRIVER UPDATE D43: screens ask for a role, never a device). */
+export const roleKind = (r: DriverRegister, role: string): string | null => r.roles[role]?.kind ?? null;
+/** The next way in when a step of the ladder fails (D18); null after the last. */
+export function ladderNext(r: DriverRegister, step: string): string | null { const i = r.ladder.indexOf(step); return i >= 0 && i + 1 < r.ladder.length ? (r.ladder[i + 1] ?? null) : null; }

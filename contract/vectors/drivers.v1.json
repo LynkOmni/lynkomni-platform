@@ -649,6 +649,44 @@
   "speaker": "screen_text",
   "number_board": "screen_number",
   "utility_meter": "meter_reading_entry",
-  "door_access": null
+  "door_access": null,
+  "video_recorder": "recorder_app",
+  "gate_controller": null,
+  "relay_board": null,
+  "tag_reader": "qr_pass",
+  "plate_camera": "typed_plate",
+  "weighbridge": "typed_weight",
+  "pump_controller": "manual_pump_mode",
+  "tank_gauge": "dip_reading_entry",
+  "ev_charger": "typed_reading",
+  "led_sign": "screen_sign",
+  "alarm_panel": null,
+  "backup_power": null,
+  "intercom": "lynkchat_voice",
+  "turnstile": null,
+  "ballot_scanner": null,
+  "security_key": null,
+  "cash_acceptor": "count_prompt"
+ },
+ "roles": {
+  "receipt_printer": "receipt_printer",
+  "ticket_printer": "receipt_printer",
+  "kitchen_printer": "receipt_printer",
+  "label_printer": "label_printer",
+  "scanner": "barcode_scanner",
+  "cash_drawer": "cash_drawer",
+  "scale": "scale",
+  "card_reader": "card_reader",
+  "fingerprint_reader": "fingerprint_reader",
+  "pager": "pager_base",
+  "camera": "camera"
+ },
+ "ladder": {
+  "hardware": "same_kind",
+  "same_kind": "nearby_device",
+  "nearby_device": "stand_in",
+  "stand_in": "by_hand",
+  "by_hand": "file_or_paper",
+  "file_or_paper": null
  }
 }

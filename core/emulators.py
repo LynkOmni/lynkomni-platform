@@ -34,19 +34,8 @@ SOUNDS = ("key", "confirm", "cancel", "error", "scan", "paid", "printer")
 STATES = ("queued", "sent", "accepted", "confirmed", "failed")
 
 # Where each kind of hardware can be connected (blueprint 70.9), most reliable first.
-HARDWARE_WAYS = {
-    "receipt_printer": ("network", "bluetooth", "usb", "device_print"),
-    "ticket_printer": ("network", "bluetooth", "usb", "device_print"),
-    "kitchen_printer": ("network", "usb"),
-    "label_printer": ("network", "bluetooth", "usb"),
-    "scanner": ("bluetooth", "usb", "camera"),
-    "cash_drawer": ("drawer_cable",),
-    "scale": ("usb", "serial", "bluetooth"),
-    "card_reader": ("bluetooth",),
-    "fingerprint_reader": ("usb",),
-    "pager": ("bluetooth", "network"),
-    "camera": ("camera",),
-}
+from core import drivers as _drivers  # noqa: E402  (one hardware list for the whole ecosystem, DRIVER UPDATE D1)
+HARDWARE_WAYS = {role: tuple(r["ways"]) for role, r in _drivers.REGISTER["roles"].items()}
 # What each kind of device's browser allows today (the native apps of build section 14 allow more).
 OS_WAYS = {
     "android": ("network", "bluetooth", "usb", "serial", "device_print", "camera", "drawer_cable"),

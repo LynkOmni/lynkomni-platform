@@ -2334,6 +2334,76 @@
      "done": {}
     }
    ]
+  },
+  {
+   "id": "95.8",
+   "update": "DRIVER UPDATE",
+   "blueprint_section": 95,
+   "rows": [
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "Step 1 groundwork: one hardware register with standards, roles, the ladder, files and speed targets (D1, D2, D18, D19, D41, D43, D55); the shared hardware part and states (D12); a Hardware control in every panel (D13); device fit for every built emulator (D14); each built emulator's hardware (D15); practice hardware (D17); the ladder, files, paper forms, device memory, receipts without paper and the no stand-in rules (D18 to D24); find, test, profiles and plain mode for today's hardware (D3 to D5, D8); the Devices page, warnings and automations (D26 to D28); moving and unpairing (D33); safety (D34 to D40); measured speed targets on practice hardware, plug in and it works, own lanes, capabilities, every script on paper, morning check (D41 to D46, D49); practice runs of every kind (D52); the rulebook in every code language (D54); versioned interfaces (D55); signs when something listens or watches on built emulators (D56). Website: the download page, the Works with LynkOmni list (D6), check before buying and ask for a model (D7), picture guides (D9), the Order hardware page (D31)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Report a problem (D25) and Fix this (D30); guides in help",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7B"
+     ],
+     "part": "Trackers, tags, seals, sensors and satellite trackers with their files and memory; signs when something listens or watches (D56)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "8"
+     ],
+     "part": "Ticket scanners, ticket printers and door locks",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9"
+     ],
+     "part": "LynkCCTV, LynkGate, LynkStation and LynkBet hardware, cash acceptors and the site keeper (D10); D56",
+     "done": {}
+    },
+    {
+     "sections": [
+      "9B"
+     ],
+     "part": "Meters and door access",
+     "done": {}
+    },
+    {
+     "sections": [
+      "11"
+     ],
+     "part": "Device profiles and add-ons from developers (D32); the open way for makers (D57)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "12"
+     ],
+     "part": "Reviewing and signing profiles, the compatibility list, real success rates (D53)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "LynkDriver apps for computers, phones and tablets (D11), staged updates and roll back (D29), self-updating profiles (D47), weak networks and low power (D48), copy a site (D50), install from a neighbour (D51), the real test lab (D52), pack signing",
+     "done": {}
+    }
+   ]
   }
  ]
 }
