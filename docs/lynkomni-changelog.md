@@ -2,6 +2,12 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.131.1 (2026-11-27)
+LynkKiosk no longer mixes two languages (owner: "LynkKiosk has its languages mixed up").
+- Once the kiosk knows who is at the door (after their PIN), the whole screen speaks that person's own language: the title, the face or finger step, the reader buttons, the ID number step, the result and Next person. Before, the title and some buttons stayed in the kiosk's language while the rest changed.
+- Before the PIN, and for tickets and answers, everything stays in the kiosk's own language.
+- New test tests/test_kiosk_language.py (in the CI layout job) checks the person sees one language only.
+
 ## v0.131.0 (2026-11-27)
 Every touch-screen emulator types with the device's own keyboard, and the signing tablet has its staff PIN and Lock (owner: "Every emulator is supposed to exactly match the real device it represents with all functions 100% the same").
 - Touching a typing box on a touch-screen device (the signing tablet, the Business app, LynkPOS, the kiosk, the phone pages, the account site at phone and tablet size) now opens a keyboard drawn inside that device's screen, never the tester's own phone keyboard. The page scrolls so the box stays above the keys, as on a real device, and Done closes it.

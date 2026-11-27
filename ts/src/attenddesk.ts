@@ -500,24 +500,25 @@ export function reportsView(d: AttendDesk, L: AtLook): string {
  *  the PIN. Works by touch, by the device's number keys, or by the on-screen keys with arrows and OK. */
 export function atDoor(d: AttendDesk, L: AtLook, speak?: { t: (lang: string) => T; dir: (lang: string) => "ltr" | "rtl"; code: (lang: string) => string }, keys = false): string {
   const D = d.door, m = D.member;
+  // once the person is known, the whole screen speaks their language, never a mix (owner report 2026-11-27)
   const tl = m && speak ? speak.t(m.lang) : L.t, attrs = m && speak ? ` lang="${esc(speak.code(m.lang))}" dir="${speak.dir(m.lang)}"` : "";
-  const pad = keys ? `<div class="ph-keys" dir="ltr">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `<button type="button" data-act="at:digit:${n}">${n}</button>`).join("")}<button type="button" data-act="at:doorback" aria-label="${esc(L.t("ppl_at_delete_key"))}">${L.icon("ui-arrow-left")}</button><button type="button" data-act="at:digit:0">0</button><span></span></div>` : "";
-  if (D.step === "pin") return `<div class="ph-door" data-item="door_screen"><div class="ph-choices small">${(["in", "out"] as const).map((x) => `<button type="button" class="ph-choice" data-act="at:dir:${x}" ${atOn(D.dir === x)}><strong>${esc(L.t(x === "in" ? "ppl_check_in" : "ppl_at_check_out"))}</strong></button>`).join("")}</div>
-    <h2>${esc(L.t("ppl_door_pin"))}</h2><div class="dots" role="img" aria-label="${esc(L.t("ppl_digits_typed", { n: D.pin.length, of: PIN_LENGTH }))}">${Array.from({ length: PIN_LENGTH }, (_, i) => `<i class="${i < D.pin.length ? "on" : ""}"></i>`).join("")}</div>
-    ${D.note ? atNotice(L, D.note, L.t(D.note)) : ""}${pad}<p class="sub">${esc(L.t("ppl_door_offline"))}</p></div>`;
+  const pad = keys ? `<div class="ph-keys" dir="ltr">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `<button type="button" data-act="at:digit:${n}">${n}</button>`).join("")}<button type="button" data-act="at:doorback" aria-label="${esc(tl("ppl_at_delete_key"))}">${L.icon("ui-arrow-left")}</button><button type="button" data-act="at:digit:0">0</button><span></span></div>` : "";
+  if (D.step === "pin") return `<div class="ph-door" data-item="door_screen"><div class="ph-choices small">${(["in", "out"] as const).map((x) => `<button type="button" class="ph-choice" data-act="at:dir:${x}" ${atOn(D.dir === x)}><strong>${esc(tl(x === "in" ? "ppl_check_in" : "ppl_at_check_out"))}</strong></button>`).join("")}</div>
+    <h2>${esc(tl("ppl_door_pin"))}</h2><div class="dots" role="img" aria-label="${esc(tl("ppl_digits_typed", { n: D.pin.length, of: PIN_LENGTH }))}">${Array.from({ length: PIN_LENGTH }, (_, i) => `<i class="${i < D.pin.length ? "on" : ""}"></i>`).join("")}</div>
+    ${D.note ? atNotice(L, D.note, tl(D.note)) : ""}${pad}<p class="sub">${esc(tl("ppl_door_offline"))}</p></div>`;
   if (D.step === "done" && D.out && m) {
     const ok = D.out.result === "in";
     const msg = ok ? tl(D.dir === "in" ? "ppl_door_welcome" : "ppl_door_bye", { name: m.name, time: L.clock(m.at) }) : tl(D.out.result === "pin_blocked" ? "ppl_door_blocked" : "ppl_door_see_manager");
     return `<div class="ph-door done" data-item="door_screen"${attrs}>${L.icon(ok ? "ui-check" : "ui-warning", "bigcheck")}<h2 role="status">${esc(msg)}</h2>${ok && D.dir === "out" ? `<p>${esc(tl("ppl_at_today_time", { h: Math.floor(D.minutes / 60), m: D.minutes % 60 }))}</p>` : ""}
       ${ok && D.out.backup_from ? `<p class="sub">${esc(tl(`ppl_at_backup_${D.out.backup_from}`))}</p>` : ""}${ok ? m.flags.map((f) => `<p class="sub">${esc(tl(`ppl_flag_${f}`))}</p>`).join("") : ""}
-      <button type="button" class="primary" data-act="at:doornext">${esc(L.t("ppl_next_person"))}</button></div>`;
+      <button type="button" class="primary" data-act="at:doornext">${esc(tl("ppl_next_person"))}</button></div>`;
   }
   const means = D.out?.means, moved = D.out?.backup_from ? `<p class="note" role="status">${esc(tl(`ppl_at_backup_${D.out.backup_from}`))}</p>` : "";
   if (means === "idcn" && m) return `<div class="ph-door" data-item="door_screen"${attrs}>${moved}${idcnEntry({ typed: D.typed.length, checkers: d.doorCheckers(), me: m.name, chosen: D.checker, triesLeft: d.idcnTriesLeft() }, tl)}${pad}
     <button type="button" class="primary" data-act="at:idcn" ${atOff(D.typed.length !== IDCN_LENGTH || !D.checker)}>${esc(tl(D.dir === "in" ? "ppl_check_in" : "ppl_at_check_out"))}</button></div>`;
   return `<div class="ph-door" data-item="door_screen"${attrs}>${moved}<h2>${esc(tl(means === "face" ? "ppl_door_face" : "ppl_door_finger"))}</h2>${L.icon(means === "face" ? "ui-user" : "ui-lock", "bigcheck")}
-    <p class="sub">${esc(L.t("ppl_reader_sandbox"))}</p><div class="ph-row" dir="ltr"><button type="button" class="primary" data-act="at:readerok">${esc(L.t("ppl_reader_ok"))}</button>
-    <button type="button" class="ghost" data-act="at:readerfail">${esc(L.t("ppl_reader_fail"))}</button><button type="button" class="ghost" data-act="at:readerbroken">${esc(L.t("ppl_reader_broken"))}</button></div></div>`;
+    <p class="sub">${esc(tl("ppl_reader_sandbox"))}</p><div class="ph-row" dir="ltr"><button type="button" class="primary" data-act="at:readerok">${esc(tl("ppl_reader_ok"))}</button>
+    <button type="button" class="ghost" data-act="at:readerfail">${esc(tl("ppl_reader_fail"))}</button><button type="button" class="ghost" data-act="at:readerbroken">${esc(tl("ppl_reader_broken"))}</button></div></div>`;
 }
 /** "Was this you?" as the person sees it on their own phone, with Not me. */
 export function wasThisYou(d: AttendDesk, L: AtLook): string {
