@@ -32,6 +32,9 @@ def page(b, name):
 
 
 def to_name_box(pg):
+    for d in "4826":                                                      # the staff member's own PIN opens the tablet (sample cashier)
+        pg.locator(f'#screen [data-act="pin:{d}"]').click()
+    pg.wait_for_timeout(200)
     pg.locator('#screen [data-act="fs:start"]').click(); pg.wait_for_timeout(200)
     pg.locator('#screen [data-in="fs:read"]').first.check(); pg.wait_for_timeout(200)
     pg.locator('#screen [data-act="fs:tosign"]').click(); pg.wait_for_timeout(200)

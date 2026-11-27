@@ -1173,9 +1173,9 @@
    "built_in": "files-signing",
    "build_section": "4B",
    "planned": false,
-   "counted": false,
-   "customer_facing": true,
-   "user": "none",
+   "counted": true,
+   "customer_facing": false,
+   "user": "needed",
    "shared_with": null,
    "checks": {
     "touch": true,

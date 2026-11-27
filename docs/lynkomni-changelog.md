@@ -3,10 +3,11 @@
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
 ## v0.131.0 (2026-11-27)
-Every touch-screen emulator types with the device's own keyboard (owner: "Every emulator is supposed to exactly match the real device it represents with all functions 100% the same").
+Every touch-screen emulator types with the device's own keyboard, and the signing tablet has its staff PIN and Lock (owner: "Every emulator is supposed to exactly match the real device it represents with all functions 100% the same").
 - Touching a typing box on a touch-screen device (the signing tablet, the Business app, LynkPOS, the kiosk, the phone pages, the account site at phone and tablet size) now opens a keyboard drawn inside that device's screen, never the tester's own phone keyboard. The page scrolls so the box stays above the keys, as on a real device, and Done closes it.
 - The keyboard follows the box: letters, an email box with @ and full stop, a number pad, a phone pad. It follows the language picked: each of the 38 languages has its own letters (right to left where needed), Korean letters join into syllables, Amharic consonants take their vowel forms, Japanese romaji turns into kana, and a key switches to English letters and back. Turning sounds into Chinese characters or kanji needs the device's own word list, so the keyboard says the letters stay as typed.
 - On buttons-only devices the keys are reached with the arrows and OK. A computer keeps its own keyboard.
+- The LynkFiles signing tablet now works like a real shared tablet (owner report): staff open it with their own PIN and see Lock; the signer stays inside reading and signing with no way out to the staff side; handing it back locks it for the next staff member's PIN.
 - One shared part (ts/src/keyboard.ts) with its rules in catalog/keyboards.v1.json, proved the same in Python (core/keyboards.py) and TypeScript; tests/test_keyboard.py tries it in the browser. Words in all 38 languages; size budgets raised with their reason.
 
 ## v0.130.2 (2026-11-27)
