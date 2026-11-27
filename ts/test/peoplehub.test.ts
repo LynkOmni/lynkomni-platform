@@ -298,3 +298,12 @@ test("LynkAttend dashboard: flags, hand check-in, missed check-out, visitors, re
   d.startDraft(); d.input("at:name", "One more"); d.input("at:idnum", "ID9999"); assert.equal(d.register(), false); assert.equal(d.note, "ppl_at_limit");
   void ctx; now += 1; inContract(log);
 });
+
+test("the door's sample line lists every sample person and their own ways, face and finger included (owner report 2026-11-27)", async () => {
+  const { doorSamples } = await import("../src/attenddesk.js");
+  const d = new PeopleHub(() => {}).att;
+  const lines = doorSamples(d, (k, v) => `${k}|${JSON.stringify(v ?? {})}`);
+  assert.equal(lines.length, d.people.length);
+  const sets = new Set(d.people.map((p) => p.set));
+  assert.ok([...sets].some((s) => s.includes("face")) && [...sets].some((s) => s.includes("finger")) && sets.has("idcn"));
+});

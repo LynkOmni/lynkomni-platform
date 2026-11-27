@@ -23,7 +23,7 @@ class Choosing(unittest.TestCase):
     def test_order_and_examples(self):
         self.assertEqual(I.choose({})["interface"], "universal")
         self.assertEqual(I.choose({"os_class": "phone", "touch": True, "width": 390}), {"interface": "phone.touch", "class": "phone", "rule": "reported"})
-        self.assertEqual(I.choose({"registered": {"device": "kitchen-screen", "version": "non_touch"}, "touch": True})["interface"], "tv.remote")
+        self.assertEqual(I.choose({"registered": {"device": "kitchen-screen", "version": "non_touch"}, "touch": True})["interface"], "tablet.buttons")   # size follows distance, not buttons (owner report 2026-11-27)
         self.assertEqual(I.choose({"override": "computer.pointer", "registered": {"device": "pos-terminal", "version": "touch"}})["rule"], "override")
         self.assertEqual(I.choose({"os_class": "car", "touch": True})["interface"], "car.voice")
         self.assertEqual(I.choose({"os_class": "desktop", "touch": True, "fine": True, "width": 1280, "last_input": "mouse"})["interface"], "computer.pointer")

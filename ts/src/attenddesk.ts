@@ -526,3 +526,9 @@ export function wasThisYou(d: AttendDesk, L: AtLook): string {
   return `<div class="card ph-card" data-item="was_this_you" role="group" aria-label="${esc(L.t("ppl_at_wty_title"))}"><h2>${esc(L.t("ppl_at_wty_title"))} ${atTag(L.t("ppl_at_persons_phone"))}</h2>
     <p>${esc(L.t(m.dir === "in" ? "ppl_at_wty_in" : "ppl_at_wty_out", { time: L.clock(m.at) }))}</p><button type="button" class="ghost inline" data-act="at:notme:${m.rec}">${esc(L.t("ppl_at_not_me"))}</button></div>`;
 }
+
+/** The sample line under a door or kiosk (sandbox only): every sample person with their PIN and their own order of ways, so a
+ *  tester can try a face, a finger, the fallback to the next way after a failed read, and the ID number alike. */
+export function doorSamples(d: AttendDesk, t: (k: string, v?: Record<string, string>) => string): string[] {
+  return d.people.map((m) => t("ppl_door_sample_person", { name: m.name, pin: m.pin, set: t(`ppl_set_${m.set}`), idcn: m.idcn }));
+}

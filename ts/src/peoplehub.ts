@@ -36,7 +36,7 @@ type St = "queued" | "sent" | "accepted" | "confirmed" | "failed";
  *  (LynkDScreen): it can call tickets but takes no answers, so it is offered for LynkQueue only. */
 export function lynkNames(reg: DeviceRegister, service: PeopleService): string[] {
   const names = [...new Set(reg.devices.map((d) => d.lynk_name).filter((n): n is string => !!n))];
-  const showsOnly = (n: string): boolean => reg.devices.filter((d) => d.lynk_name === n).every((d) => d.touch === null && d.non_touch !== null && d.non_touch.startsWith("tv."));
+  const showsOnly = (n: string): boolean => reg.devices.filter((d) => d.lynk_name === n).every((d) => d.touch === null && d.non_touch !== null);   // no touch screen: it only shows
   return names.filter((n) => service === "queue" || !showsOnly(n));
 }
 

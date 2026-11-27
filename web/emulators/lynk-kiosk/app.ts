@@ -11,7 +11,7 @@ import { brandMark } from "../../../ts/src/brand.js";
 import { DeviceMode, wireDevice } from "../../../ts/src/devicemode.js";
 import { DEVICES } from "../../../ts/src/interfaces.generated.js";
 import { PeopleHub } from "../../../ts/src/peoplehub.js";
-import { atDoor } from "../../../ts/src/attenddesk.js";
+import { doorSamples, atDoor } from "../../../ts/src/attenddesk.js";
 import type { AtLook, AtPlan, AtTier } from "../../../ts/src/attenddesk.js";
 import { pairCode, quKioskView, quPaper } from "../../../ts/src/queuedesk.js";
 import type { QuLook, QuPlan } from "../../../ts/src/queuedesk.js";
@@ -68,8 +68,7 @@ const turnNow = (): void => turnDevice(DEVICES, { rig: $("#rig"), body: document
 function draw(): void { drawScreen(); turnNow(); KW.after($("#screen")); }
 function drawScreen(): void {
   const el = $("#screen"); DEV.draw(el); el.classList.toggle("dark", S.dark); el.classList.toggle("light", !S.dark); applyRoot(el, W); el.innerHTML = screen();
-  const m = PH.members[1];
-  $("#hint").textContent = S.mode === "door" && m ? t("ppl_door_sample", { pin: m.pin, idcn: m.idcn }) : "";
+  $("#hint").innerHTML = S.mode === "door" ? doorSamples(PH.att, t).map((x) => esc(x)).join("<br>") : "";
   $("#cam").setAttribute("aria-label", t("k_camera")); $("#reader").setAttribute("aria-label", t("k_reader"));
   const paper = $("#paper"), tk = S.mode === "tickets" ? PH.q.tk(PH.q.kioskDone) : undefined;
   paper.hidden = !tk; paper.innerHTML = tk ? quPaper(PH.q, tk, { ...quLook(), paper: true }) : "";

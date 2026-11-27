@@ -2,6 +2,12 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.130.1 (2026-11-27)
+Two owner reports on LynkKiosk fixed.
+- The check-in sample line named only Eric, whose only way is the ID number, so face and fingerprint check-in could not be tried. The door now lists every sample person with their PIN and their own order of ways (Aline: finger, then IDCN; Grace: face, then IDCN; Eric and Joseph: IDCN only) on the kiosk, the LynkPOS terminal and the Business app, from one shared part (attenddesk.ts doorSamples). Face and finger first, three failed reads moving to the next way, and the checker were already built.
+- In buttons-only mode the kiosk used the TV setup and drew everything 1.5 times bigger. Size follows how far people stand, never how they press: a new device setup, LynkTab (buttons), keeps the touch version's sizes for the kiosk, the kitchen screen, the customer display and the counter and queue displays. tests/test_same_size.py keeps touch and buttons versions of one device the same size.
+- Words in all 38 languages.
+
 ## v0.130.0 (2026-11-27)
 DRIVER UPDATE part B (section 5 step 1): hardware is a rule for every service, and every emulator shows its hardware (owner: "Build but before that ensure every possible improvements have been implemented").
 - The final round D58 to D77 joined blueprint 95 (95.7a) and the doc "LynkDriver improvements" before building.

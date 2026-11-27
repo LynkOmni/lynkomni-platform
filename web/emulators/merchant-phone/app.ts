@@ -55,7 +55,7 @@ import { pairCode, pairCodeAt, quCDisplayView, quCounterView, quCountersView, qu
 import type { QuLook, QuPlan } from "../../../ts/src/queuedesk.js";
 import { svBuilderView, svCDisplayView, svDevicesView, svKioskView, svPhoneView, svPlanView, svResearchView, svResultsView, svRewardsView, svScreenView, svSurveysView, svTasksView } from "../../../ts/src/surveydesk.js";
 import type { SvLook, SvPlan } from "../../../ts/src/surveydesk.js";
-import { atDoor, checkInsView, checkersView, devicesView, eventsView, leaveView, peopleView, registerView, reportsView, shiftsView, visitorsView, wasThisYou } from "../../../ts/src/attenddesk.js";
+import { doorSamples, atDoor, checkInsView, checkersView, devicesView, eventsView, leaveView, peopleView, registerView, reportsView, shiftsView, visitorsView, wasThisYou } from "../../../ts/src/attenddesk.js";
 import type { AtLook, AtPlan, AtTier } from "../../../ts/src/attenddesk.js";
 import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
 import { quickCreateButton, quickCreateHtml, tabsHtml } from "../../../ts/src/appshell.js";
@@ -316,7 +316,7 @@ const AT_PAGES: Record<string, { title: string; draw: () => string }> = {
   attendance_checkers: { title: "ppl_checkers", draw: () => checkersView(PH.att, atLook()) }, attendance_shifts: { title: "ppl_at_shifts", draw: () => shiftsView(PH.att, atLook()) },
   attendance_leave: { title: "ppl_at_leave", draw: () => leaveView(PH.att, atLook()) }, attendance_events: { title: "ppl_at_events", draw: () => eventsView(PH.att, atLook()) },
   attendance_devices: { title: "ppl_at_door_devices", draw: () => devicesView(PH.att, atLook()) + `<div data-item="att_add_device">${devicesCard(PH, "attendance", DEVICES, t, icon, mayAddDevice())}</div>` },
-  attendance_door: { title: "ppl_door_title", draw: () => atDoor(PH.att, atLook(), SPEAK, true) + wasThisYou(PH.att, atLook()) + `<p class="sub">${esc(t("ppl_door_sample", { pin: PH.members[1]?.pin ?? "", idcn: PH.members[1]?.idcn ?? "" }))}</p>` },
+  attendance_door: { title: "ppl_door_title", draw: () => atDoor(PH.att, atLook(), SPEAK, true) + wasThisYou(PH.att, atLook()) + `<p class="sub">${doorSamples(PH.att, t).map((x) => esc(x)).join("<br>")}</p>` },
   attendance_reports: { title: "ppl_reports", draw: () => reportsView(PH.att, atLook()) },
 };
 /** LynkQueue in full (ts/src/queuedesk.ts): each sub-page of app.lynkomni.com/queue. The kiosk and the calling screen also run here,
