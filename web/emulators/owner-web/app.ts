@@ -8,7 +8,7 @@ import type { UserState } from "../../../ts/src/pos.js";
 import { homeCards, webRule } from "../../../ts/src/business.js";
 import { matchStatement } from "../../../ts/src/agent.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, newId, panelChange, panelHtml, stateButtons, appMainFooter, pageWaiting } from "../../../ts/src/emulator.js";
-import { turnFixedHtml } from "../../../ts/src/devicenote.js";
+import { hardwareNoneHtml, turnFixedHtml } from "../../../ts/src/devicenote.js";
 import { emailFieldHtml, wireEmails } from "../../../ts/src/emailfield.js";
 import { noticeHtml, wireNotices } from "../../../ts/src/errorbox.js";
 import { FOOTER_EMAIL_ID } from "../../../ts/src/footer.js";
@@ -281,7 +281,7 @@ function act(a: string): void {
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "plan", "firstopen", "country", "dark", "lang"], S, W, C, { tiers: TIERS }) + deviceChoiceHtml(DM, t) + turnFixedHtml(t, "turn_fixed_laptop") + `<label><input type="checkbox" data-ctl="ads"${AD.on ? " checked" : ""}> <span>${esc(t("ad_sponsored"))} · ${esc(t("ad_sample"))}</span></label>`;
+  $("#panel").innerHTML = panelHtml(["online", "plan", "firstopen", "country", "dark", "lang"], S, W, C, { tiers: TIERS }) + deviceChoiceHtml(DM, t) + turnFixedHtml(t, "turn_fixed_laptop") + hardwareNoneHtml(t) + `<label><input type="checkbox" data-ctl="ads"${AD.on ? " checked" : ""}> <span>${esc(t("ad_sponsored"))} · ${esc(t("ad_sample"))}</span></label>`;
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   const OFFICE_STATES = OFFICE_SERVICES.flatMap((svc) => OV.pages(svc).map((p) => p.id));
   const WORK_STATES = WORK_SERVICES.flatMap((svc) => WV.pages(svc).map((p) => p.id));        // every LynkHR, LynkProject and LynkFiles page too        // every office page, so every check visits it

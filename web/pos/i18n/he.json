@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "he",
  "native": "עברית",
- "source_sha256": "bbd69096c19ef2e5fddd30cfbdd7fe94a2b7bf64b00f6012321b5b81dc904a10",
+ "source_sha256": "f7633ee9ede1040de3b2c21b0571d3c65fffff0c984cdfdf0d9f919025ab394a",
  "texts": {
   "academy": "אקדמיה",
   "academy_hint": "שיעור קצר נפתח ליד המסך שהוא מלמד.",
@@ -213,6 +213,7 @@
   "handover": "העברת משמרת",
   "help": "עזרה",
   "home": "בית",
+  "hw_none_page": "אין חומרה נוספת: הכול עובד על המסך והמקשים של המכשיר הזה.",
   "identity_check": "השותף בודק את זהות הלקוח",
   "in_stock": "{n} במלאי",
   "insight": "טיפ היום",

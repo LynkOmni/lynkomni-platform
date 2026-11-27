@@ -14,6 +14,7 @@ import { esc } from "./shell.js";
 import type { Icon, T } from "./shell.js";
 import { newId } from "./emulator.js";
 import { canRun, deliveryWays, fitScreen, hardwareAdvice, tones } from "./emulators.js";
+import { HwSim, hardwareLineHtml, hardwarePanelHtml } from "./hardware.js";
 import type { Caps, EmulatorRegister, Tones, ToneSetting, Way } from "./emulators.js";
 import { PRIVATE_ENTRY, playSound, soundForAct } from "./keytones.js";
 import { PageWait, wireBusy } from "./placeholder.js";
@@ -54,9 +55,11 @@ export class EmKit extends PageWait {
   quietHours = false;
   sheet: "" | "settings" | "hardware" | "delivery" = "";
   hwKind = "";
+  /** The condition of each piece of this device's hardware, set by the tester's Hardware control (DRIVER UPDATE D13). */
+  hw: HwSim;
   lastWay = "";
   readonly deviceId = newId();
-  constructor(private reg: EmulatorRegister, private o: KitOptions, private emit: Emit) { super(); this.hwKind = o.hardware[0] ?? ""; }
+  constructor(private reg: EmulatorRegister, private o: KitOptions, private emit: Emit) { super(); this.hwKind = o.hardware[0] ?? ""; this.hw = new HwSim(o.hardware); }
 
   get vibrates(): boolean { return typeof navigator !== "undefined" && "vibrate" in navigator; }
   /** The tones in force now (core/emulators.tones through the port). */
@@ -205,11 +208,12 @@ export function kitControl(k: EmKit, t: T): string {
     <label><input type="checkbox" data-kit="practice" ${k.practice ? "checked" : ""}> <span>${esc(t("emk_practice"))}</span></label>
     <label><input type="checkbox" data-kit="quiet" ${k.quietHours ? "checked" : ""}> <span>${esc(t("emk_quiet_hours"))}</span></label>
     <label><input type="checkbox" data-kit="firstopen" ${k.firstOpen ? "checked" : ""}> <span>${esc(t("emk_first_open"))}</span></label>
-    <button type="button" class="emk-btn" data-act="emk:sheet:settings">${esc(t("emk_device_settings"))}</button></div>`;
+    <button type="button" class="emk-btn" data-act="emk:sheet:settings">${esc(t("emk_device_settings"))}</button></div>${hardwarePanelHtml(t, k.hw)}`;
 }
 /** The control changes: what the cloud says, practice mode and quiet hours. */
 export function kitChange(k: EmKit, el: HTMLInputElement & HTMLSelectElement, business: string, sentBy: string): boolean {
   const w = el.dataset["kit"]; if (!w) return false;
+  if (w.startsWith("hw:")) { k.hw.set(w.slice(3), el.value); return true; }
   if (w === "link") { const v = el.value as Link; if (v === "request") k.offered(business, sentBy); else k.cloud(v); }
   else if (w === "practice") k.practice = el.checked;
   else if (w === "firstopen") { k.setFirstOpen(el.checked); }
@@ -269,6 +273,8 @@ export function wireKit(k: EmKit, o: { t: T; icon: Icon; online: () => boolean; 
       if (c) { screen.innerHTML = c + sh; return; }
       k.apply(screen, { t: o.t, online: o.online, redraw: o.redraw, retryAct: "emk:retry", retryClass: "emk-btn" });
       const b = k.banner(look());
+      const hl = hardwareLineHtml(o.t, k.hw);                        // a piece that is down shows what is used instead (D12, D18)
+      if (hl) screen.insertAdjacentHTML("afterbegin", hl);
       if (b) screen.insertAdjacentHTML("afterbegin", b);
       if (sh) screen.insertAdjacentHTML("beforeend", sh);
     },

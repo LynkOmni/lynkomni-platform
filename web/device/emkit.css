@@ -45,3 +45,6 @@
 .emp-why li { padding-inline-start: 12px; color: var(--status-warning-text); font-size: 13px; }
 .emp-tones { display: grid; gap: 6px; inline-size: 100%; }
 .emp-usage .rowbtn > button, .emp-actions > button { flex: 0 1 auto; }
+/* The hardware line (DRIVER UPDATE D12): what a piece of hardware is doing and what is used instead, in words, never colour alone. */
+.hwd-line { display: grid; gap: 2px; margin: 0; padding: 6px 12px; border-block-end: 1px solid var(--status-warning-border); background: var(--status-warning-bg); color: var(--status-warning-text); font-size: 13px; overflow-wrap: anywhere; }
+.hwd-line p { margin: 0; }

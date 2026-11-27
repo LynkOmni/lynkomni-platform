@@ -2,6 +2,7 @@
  *  email, with no app and no account. Who is asking, why and how long it takes; agreement before a sensitive question; the code
  *  for "one per phone"; one question a page ("Why?" only after an unhappy answer); thank you, My answers and "Don't ask me again".
  *  The box beside it shows what the organisation sees (never fewer than 5 answers, never who gave an anonymous one). */
+import { hardwareNoneHtml } from "../../../ts/src/devicenote.js";
 import { PageWait } from "../../../ts/src/placeholder.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, panelChange, panelHtml, stateButtons, pageWaiting } from "../../../ts/src/emulator.js";
 import { layoutFor } from "../../../ts/src/interfaces.js";
@@ -57,7 +58,7 @@ function reset(k: string): void {
   if (k === "done") D.phone.step = "done";
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "firstopen", "plan", "country", "dark", "lang", "turn"], S, W, C, { tiers: TIERS }) + deviceChoiceHtml(DM, t);
+  $("#panel").innerHTML = panelHtml(["online", "firstopen", "plan", "country", "dark", "lang", "turn"], S, W, C, { tiers: TIERS }) + deviceChoiceHtml(DM, t) + hardwareNoneHtml(t);
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));
   stateButtons($("#stateButtons"), ["consent", "question", "anonymous", "sensitive", "one-per-phone", "done", "closed"], (k) => { reset(k); draw(); });
 }

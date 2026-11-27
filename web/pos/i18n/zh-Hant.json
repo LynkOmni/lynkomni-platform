@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hant",
  "native": "繁體中文",
- "source_sha256": "bbd69096c19ef2e5fddd30cfbdd7fe94a2b7bf64b00f6012321b5b81dc904a10",
+ "source_sha256": "f7633ee9ede1040de3b2c21b0571d3c65fffff0c984cdfdf0d9f919025ab394a",
  "texts": {
   "academy": "學院",
   "academy_hint": "簡短課程會在它所講解的畫面旁邊開啟。",
@@ -213,6 +213,7 @@
   "handover": "交接班",
   "help": "說明",
   "home": "首頁",
+  "hw_none_page": "不需額外硬體:一切都在本裝置的螢幕和按鍵上運作。",
   "identity_check": "合作夥伴核對顧客身分",
   "in_stock": "庫存 {n}",
   "insight": "今日提示",

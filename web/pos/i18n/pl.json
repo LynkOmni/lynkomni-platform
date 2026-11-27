@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pl",
  "native": "Polski",
- "source_sha256": "bbd69096c19ef2e5fddd30cfbdd7fe94a2b7bf64b00f6012321b5b81dc904a10",
+ "source_sha256": "f7633ee9ede1040de3b2c21b0571d3c65fffff0c984cdfdf0d9f919025ab394a",
  "texts": {
   "academy": "Akademia",
   "academy_hint": "Krótki kurs otwiera się obok ekranu, którego dotyczy.",
@@ -213,6 +213,7 @@
   "handover": "Przekazanie zmiany",
   "help": "Pomoc",
   "home": "Start",
+  "hw_none_page": "Bez dodatkowego sprzętu: wszystko działa na ekranie i klawiszach tego urządzenia.",
   "identity_check": "Partner sprawdza tożsamość klienta",
   "in_stock": "Na stanie: {n}",
   "insight": "Wniosek dnia",

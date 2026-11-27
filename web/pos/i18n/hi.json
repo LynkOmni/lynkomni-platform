@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "bbd69096c19ef2e5fddd30cfbdd7fe94a2b7bf64b00f6012321b5b81dc904a10",
+ "source_sha256": "f7633ee9ede1040de3b2c21b0571d3c65fffff0c984cdfdf0d9f919025ab394a",
  "texts": {
   "academy": "अकादमी",
   "academy_hint": "छोटा पाठ उसी स्क्रीन के बगल में खुलता है जिसे वह सिखाता है।",
@@ -213,6 +213,7 @@
   "handover": "शिफ़्ट सौंपना",
   "help": "मदद",
   "home": "होम",
+  "hw_none_page": "कोई अतिरिक्त हार्डवेयर नहीं: सब कुछ इसी डिवाइस की स्क्रीन और बटनों पर चलता है।",
   "identity_check": "साझेदार ग्राहक की पहचान जाँचता है",
   "in_stock": "स्टॉक में {n}",
   "insight": "आज का सुझाव",
