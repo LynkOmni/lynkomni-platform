@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.129.0 (2026-11-27)
+DRIVER UPDATE (blueprint 95), section 5 step 1, part A: one hardware register for the whole ecosystem (owner: "I approve all and add any more improvements").
+- catalog/drivers.v1.json now lists 45 kinds of hardware: the 28 before and the 17 approved for LynkCCTV, LynkGate, LynkStation, LynkVote, LynkBet and the location products (recorders, gate controllers, relay boards, tag readers, plate cameras, weighbridges, pump controllers, tank gauges, chargers, LED signs, alarm panels, backup power, intercoms, turnstiles, ballot scanners, security keys, cash acceptors), each with its open standards and its stand-in or written reason.
+- Roles, not devices: the emulators' hardware names (scanner, kitchen printer, ticket printer, pager and the rest) are roles filled by a known kind, and the emulators read their connecting ways from the same list, so the two lists can never disagree again.
+- The ladder when hardware fails (the hardware, another of the same kind, a nearby device, the stand-in, by hand, a file or paper form), what can be sent instead for each kind (never for ballots, security keys, card readers or fiscal devices), the five hardware states, the speed targets and the promise to older hardware are in the register, checked by core/drivers.validate and proved the same in TypeScript (tests/test_driver_register.py, ts/test/drivers.test.ts).
+- Build table 95.8 joined catalog/build-tables.v1.json.
+
 ## v0.128.1 (2026-11-27)
 Software only is now one checked rule (owner: "So is this enforced already?").
 - catalog/drivers.v1.json says it once: every piece of hardware comes from the user and connects through open standards or LynkDriver, any applicable hardware works, and LynkOmni hardware is supplied only when the user orders it.

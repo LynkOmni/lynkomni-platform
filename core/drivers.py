@@ -44,6 +44,18 @@ def needs_install(kinds, installed):
     return [k for k in kinds if k in KINDS]
 
 
+def role_kind(role):
+    """The hardware kind that fills a role (D43: screens ask for a role, never a device)."""
+    return REGISTER["roles"][role]["kind"]
+
+
+def ladder_next(step):
+    """The next way in when a step of the ladder fails (D18); None after the last."""
+    L = REGISTER["ladder"]
+    i = L.index(step)
+    return L[i + 1] if i + 1 < len(L) else None
+
+
 def fallback(kind):
     return KINDS[kind]["virtual"]
 
@@ -61,4 +73,15 @@ def validate():
         problems.append("software only: hardware comes from the user and LynkOmni hardware only when ordered")
     for k in REGISTER["kinds"]:                                   # a stand-in on a phone or screen, or the written reason why not
         if not k.get("virtual") and not k.get("no_stand_in"): problems.append(f"{k['id']}: needs a stand-in or a reason why it has none")
+        if not k.get("standards"): problems.append(f"{k['id']}: needs its open standards (D2)")
+        if "file_instead" not in k: problems.append(f"{k['id']}: says what can be sent instead, or null (D19)")
+    for role, r in REGISTER.get("roles", {}).items():                # roles, not devices (D43): every role is filled by a known kind
+        if r["kind"] not in KINDS: problems.append(f"role {role}: unknown kind {r['kind']}")
+    if REGISTER.get("ladder") != ["hardware", "same_kind", "nearby_device", "stand_in", "by_hand", "file_or_paper"]:
+        problems.append("the ladder must keep its fixed order (D18)")
+    for kind in ("ballot_scanner", "security_key", "card_reader", "fiscal_device"):   # money, law and identity never come from a file
+        if KINDS.get(kind, {}).get("file_instead") not in (None, "never"): problems.append(f"{kind}: may never be replaced by a file")
+    t = REGISTER.get("speed_targets_ms", {})
+    for m in ("find_first_device", "pair", "scan_to_screen", "print_after_confirmed", "stand_in_switch", "reconnect", "keeper_takeover", "app_ready"):
+        if not isinstance(t.get(m), int) or t[m] <= 0: problems.append(f"speed target {m} missing (D41)")
     return problems

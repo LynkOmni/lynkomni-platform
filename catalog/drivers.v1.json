@@ -41,7 +41,10 @@
   "network",
   "serial",
   "audio_jack",
-  "nfc"
+  "nfc",
+  "relay",
+  "rs485",
+  "wiegand"
  ],
  "kinds": [
   {
@@ -52,7 +55,12 @@
     "network",
     "serial"
    ],
-   "virtual": "screen_receipt"
+   "virtual": "screen_receipt",
+   "standards": [
+    "esc_pos",
+    "system_print"
+   ],
+   "file_instead": null
   },
   {
    "id": "label_printer",
@@ -61,7 +69,13 @@
     "bluetooth",
     "network"
    ],
-   "virtual": "pdf_labels"
+   "virtual": "pdf_labels",
+   "standards": [
+    "zpl",
+    "epl",
+    "pdf"
+   ],
+   "file_instead": null
   },
   {
    "id": "barcode_scanner",
@@ -69,7 +83,12 @@
     "usb",
     "bluetooth"
    ],
-   "virtual": "camera_scanner"
+   "virtual": "camera_scanner",
+   "standards": [
+    "hid_keyboard",
+    "serial"
+   ],
+   "file_instead": "count_file"
   },
   {
    "id": "cash_drawer",
@@ -78,7 +97,12 @@
     "serial",
     "network"
    ],
-   "virtual": "count_prompt"
+   "virtual": "count_prompt",
+   "standards": [
+    "printer_kick",
+    "serial"
+   ],
+   "file_instead": null
   },
   {
    "id": "customer_display",
@@ -87,14 +111,23 @@
     "network",
     "bluetooth"
    ],
-   "virtual": "second_screen"
+   "virtual": "second_screen",
+   "standards": [
+    "second_screen",
+    "browser"
+   ],
+   "file_instead": null
   },
   {
    "id": "kitchen_display",
    "connections": [
     "network"
    ],
-   "virtual": "kitchen_ticket"
+   "virtual": "kitchen_ticket",
+   "standards": [
+    "browser"
+   ],
+   "file_instead": null
   },
   {
    "id": "bump_bar",
@@ -102,7 +135,11 @@
     "usb",
     "bluetooth"
    ],
-   "virtual": "on_screen_keys"
+   "virtual": "on_screen_keys",
+   "standards": [
+    "hid_keyboard"
+   ],
+   "file_instead": null
   },
   {
    "id": "scale",
@@ -111,7 +148,11 @@
     "serial",
     "bluetooth"
    ],
-   "virtual": "typed_weight"
+   "virtual": "typed_weight",
+   "standards": [
+    "scale_output"
+   ],
+   "file_instead": "ticket_photo"
   },
   {
    "id": "card_reader",
@@ -121,7 +162,11 @@
     "audio_jack"
    ],
    "virtual": "tap_to_pay",
-   "certified_by": "payment_provider"
+   "certified_by": "payment_provider",
+   "standards": [
+    "payment_partner_path"
+   ],
+   "file_instead": null
   },
   {
    "id": "nfc_reader",
@@ -129,7 +174,11 @@
     "usb",
     "nfc"
    ],
-   "virtual": "phone_nfc"
+   "virtual": "phone_nfc",
+   "standards": [
+    "nfc_forum"
+   ],
+   "file_instead": null
   },
   {
    "id": "fiscal_device",
@@ -140,7 +189,11 @@
    ],
    "virtual": null,
    "certified_by": "tax_authority",
-   "no_stand_in": "Certified by the tax authority; nothing stands in for a fiscal device."
+   "no_stand_in": "Certified by the tax authority; nothing stands in for a fiscal device.",
+   "standards": [
+    "tax_authority_path"
+   ],
+   "file_instead": null
   },
   {
    "id": "camera",
@@ -148,7 +201,13 @@
     "usb",
     "network"
    ],
-   "virtual": "phone_camera"
+   "virtual": "phone_camera",
+   "standards": [
+    "onvif",
+    "rtsp",
+    "uvc"
+   ],
+   "file_instead": "clip_file"
   },
   {
    "id": "keypad",
@@ -156,14 +215,23 @@
     "usb",
     "bluetooth"
    ],
-   "virtual": "on_screen_keys"
+   "virtual": "on_screen_keys",
+   "standards": [
+    "hid_keyboard"
+   ],
+   "file_instead": null
   },
   {
    "id": "remote",
    "connections": [
     "bluetooth"
    ],
-   "virtual": "on_screen_keys"
+   "virtual": "on_screen_keys",
+   "standards": [
+    "hid_keyboard",
+    "ble_hid"
+   ],
+   "file_instead": null
   },
   {
    "id": "mesh_relay",
@@ -172,7 +240,11 @@
     "network"
    ],
    "virtual": null,
-   "no_stand_in": "It is another LynkOmni device nearby (a phone or tablet), never extra hardware."
+   "no_stand_in": "It is another LynkOmni device nearby (a phone or tablet), never extra hardware.",
+   "standards": [
+    "lynkmesh"
+   ],
+   "file_instead": null
   },
   {
    "id": "vehicle_tracker",
@@ -180,7 +252,12 @@
     "network",
     "bluetooth"
    ],
-   "virtual": "phone_tracker"
+   "virtual": "phone_tracker",
+   "standards": [
+    "mqtt",
+    "tracker_protocols"
+   ],
+   "file_instead": "trip_file"
   },
   {
    "id": "obd_plug",
@@ -188,7 +265,11 @@
     "bluetooth",
     "network"
    ],
-   "virtual": "phone_tracker"
+   "virtual": "phone_tracker",
+   "standards": [
+    "obd_ii"
+   ],
+   "file_instead": "trip_file"
   },
   {
    "id": "tag",
@@ -196,7 +277,12 @@
     "bluetooth",
     "nfc"
    ],
-   "virtual": "phone_tracker"
+   "virtual": "phone_tracker",
+   "standards": [
+    "ble_beacon",
+    "nfc_forum"
+   ],
+   "file_instead": null
   },
   {
    "id": "e_seal",
@@ -205,7 +291,12 @@
     "bluetooth",
     "network"
    ],
-   "virtual": "photo_seal"
+   "virtual": "photo_seal",
+   "standards": [
+    "nfc_forum",
+    "ble_gatt"
+   ],
+   "file_instead": "seal_photo"
   },
   {
    "id": "condition_sensor",
@@ -214,14 +305,23 @@
     "network"
    ],
    "virtual": null,
-   "no_stand_in": "Temperature and other readings come only from a real sensor; a reading is never made up."
+   "no_stand_in": "Temperature and other readings come only from a real sensor; a reading is never made up.",
+   "standards": [
+    "ble_gatt",
+    "mqtt"
+   ],
+   "file_instead": "reading_photo"
   },
   {
    "id": "satellite_tracker",
    "connections": [
     "network"
    ],
-   "virtual": "phone_tracker"
+   "virtual": "phone_tracker",
+   "standards": [
+    "satellite_partner_path"
+   ],
+   "file_instead": "trip_file"
   },
   {
    "id": "fingerprint_reader",
@@ -230,7 +330,12 @@
     "bluetooth",
     "serial"
    ],
-   "virtual": "idcn_entry"
+   "virtual": "idcn_entry",
+   "standards": [
+    "reader_export",
+    "lynkdriver_profile"
+   ],
+   "file_instead": "clock_export"
   },
   {
    "id": "pager_base",
@@ -239,7 +344,12 @@
     "network",
     "serial"
    ],
-   "virtual": "phone_message"
+   "virtual": "phone_message",
+   "standards": [
+    "serial",
+    "lynkdriver_profile"
+   ],
+   "file_instead": null
   },
   {
    "id": "feedback_buttons",
@@ -248,7 +358,12 @@
     "bluetooth",
     "network"
    ],
-   "virtual": "screen_rating"
+   "virtual": "screen_rating",
+   "standards": [
+    "hid_keyboard",
+    "mqtt"
+   ],
+   "file_instead": null
   },
   {
    "id": "speaker",
@@ -258,7 +373,12 @@
     "audio_jack",
     "network"
    ],
-   "virtual": "screen_text"
+   "virtual": "screen_text",
+   "standards": [
+    "audio",
+    "sip"
+   ],
+   "file_instead": null
   },
   {
    "id": "number_board",
@@ -267,7 +387,12 @@
     "network",
     "serial"
    ],
-   "virtual": "screen_number"
+   "virtual": "screen_number",
+   "standards": [
+    "led_sign_protocols",
+    "browser"
+   ],
+   "file_instead": null
   },
   {
    "id": "utility_meter",
@@ -275,7 +400,13 @@
     "bluetooth",
     "network"
    ],
-   "virtual": "meter_reading_entry"
+   "virtual": "meter_reading_entry",
+   "standards": [
+    "dlms_cosem",
+    "modbus",
+    "m_bus"
+   ],
+   "file_instead": "reading_photo"
   },
   {
    "id": "door_access",
@@ -284,7 +415,362 @@
     "bluetooth"
    ],
    "virtual": null,
-   "no_stand_in": "A door opens only through the user's own lock or controller; software alone never opens it."
+   "no_stand_in": "A door opens only through the user's own lock or controller; software alone never opens it.",
+   "standards": [
+    "wiegand",
+    "osdp",
+    "matter"
+   ],
+   "file_instead": "paper_log"
+  },
+  {
+   "id": "video_recorder",
+   "connections": [
+    "network",
+    "usb"
+   ],
+   "virtual": "recorder_app",
+   "standards": [
+    "onvif",
+    "rtsp"
+   ],
+   "file_instead": "clip_file"
+  },
+  {
+   "id": "gate_controller",
+   "connections": [
+    "network",
+    "relay",
+    "rs485"
+   ],
+   "virtual": null,
+   "no_stand_in": "A gate or barrier moves only through the user's own controller; a guard opens it by hand with a PIN and records it, and its safety sensors always win.",
+   "standards": [
+    "dry_contact",
+    "modbus",
+    "rs485"
+   ],
+   "file_instead": "paper_log"
+  },
+  {
+   "id": "relay_board",
+   "connections": [
+    "network",
+    "relay",
+    "usb"
+   ],
+   "virtual": null,
+   "no_stand_in": "A relay switches real power; it is never imitated.",
+   "standards": [
+    "dry_contact",
+    "modbus"
+   ],
+   "file_instead": null
+  },
+  {
+   "id": "tag_reader",
+   "connections": [
+    "network",
+    "rs485",
+    "wiegand",
+    "usb"
+   ],
+   "virtual": "qr_pass",
+   "standards": [
+    "epc_gen2",
+    "iso_18000_6b",
+    "en_15509",
+    "wiegand",
+    "osdp"
+   ],
+   "file_instead": "paper_log"
+  },
+  {
+   "id": "plate_camera",
+   "connections": [
+    "network"
+   ],
+   "virtual": "typed_plate",
+   "standards": [
+    "onvif",
+    "rtsp"
+   ],
+   "file_instead": "clip_file"
+  },
+  {
+   "id": "weighbridge",
+   "connections": [
+    "serial",
+    "network"
+   ],
+   "virtual": "typed_weight",
+   "certified_by": "weights_authority",
+   "standards": [
+    "scale_output"
+   ],
+   "file_instead": "ticket_photo"
+  },
+  {
+   "id": "pump_controller",
+   "connections": [
+    "rs485",
+    "serial",
+    "network"
+   ],
+   "virtual": "manual_pump_mode",
+   "standards": [
+    "modbus",
+    "lynkdriver_profile"
+   ],
+   "file_instead": "reading_photo"
+  },
+  {
+   "id": "tank_gauge",
+   "connections": [
+    "rs485",
+    "serial",
+    "network"
+   ],
+   "virtual": "dip_reading_entry",
+   "standards": [
+    "modbus",
+    "lynkdriver_profile"
+   ],
+   "file_instead": "reading_photo"
+  },
+  {
+   "id": "ev_charger",
+   "connections": [
+    "network"
+   ],
+   "virtual": "typed_reading",
+   "standards": [
+    "ocpp"
+   ],
+   "file_instead": "reading_photo"
+  },
+  {
+   "id": "led_sign",
+   "connections": [
+    "network",
+    "serial",
+    "relay"
+   ],
+   "virtual": "screen_sign",
+   "standards": [
+    "led_sign_protocols",
+    "dry_contact"
+   ],
+   "file_instead": null
+  },
+  {
+   "id": "alarm_panel",
+   "connections": [
+    "network",
+    "serial"
+   ],
+   "virtual": null,
+   "no_stand_in": "An alarm panel's own sirens and sensors cannot be imitated; LynkOmni shows the panel as not reporting.",
+   "standards": [
+    "contact_id",
+    "sia"
+   ],
+   "file_instead": "paper_log"
+  },
+  {
+   "id": "backup_power",
+   "connections": [
+    "network",
+    "usb"
+   ],
+   "virtual": null,
+   "no_stand_in": "Power status comes only from the power unit; it shows as unknown, never made up.",
+   "standards": [
+    "snmp",
+    "usb_power"
+   ],
+   "file_instead": null
+  },
+  {
+   "id": "intercom",
+   "connections": [
+    "network"
+   ],
+   "virtual": "lynkchat_voice",
+   "standards": [
+    "sip"
+   ],
+   "file_instead": null
+  },
+  {
+   "id": "turnstile",
+   "connections": [
+    "network",
+    "relay",
+    "wiegand"
+   ],
+   "virtual": null,
+   "no_stand_in": "A turnstile turns only through itself; staff let people through by hand and record it, and the emergency release always wins.",
+   "standards": [
+    "dry_contact",
+    "wiegand",
+    "osdp"
+   ],
+   "file_instead": "paper_log"
+  },
+  {
+   "id": "ballot_scanner",
+   "connections": [
+    "usb",
+    "network"
+   ],
+   "virtual": null,
+   "no_stand_in": "Ballots follow only the election's own paper process; nothing stands in for a ballot scanner.",
+   "standards": [
+    "lynkdriver_profile"
+   ],
+   "file_instead": "never"
+  },
+  {
+   "id": "security_key",
+   "connections": [
+    "usb",
+    "nfc",
+    "bluetooth"
+   ],
+   "virtual": null,
+   "no_stand_in": "A security key proves a person by itself; the person's other sign-in ways are used instead, never an imitation.",
+   "standards": [
+    "fido2"
+   ],
+   "file_instead": "never"
+  },
+  {
+   "id": "cash_acceptor",
+   "connections": [
+    "usb",
+    "serial"
+   ],
+   "virtual": "count_prompt",
+   "standards": [
+    "cctalk",
+    "ssp"
+   ],
+   "file_instead": null
   }
- ]
+ ],
+ "roles": {
+  "receipt_printer": {
+   "kind": "receipt_printer",
+   "ways": [
+    "network",
+    "bluetooth",
+    "usb",
+    "device_print"
+   ]
+  },
+  "ticket_printer": {
+   "kind": "receipt_printer",
+   "ways": [
+    "network",
+    "bluetooth",
+    "usb",
+    "device_print"
+   ]
+  },
+  "kitchen_printer": {
+   "kind": "receipt_printer",
+   "ways": [
+    "network",
+    "usb"
+   ]
+  },
+  "label_printer": {
+   "kind": "label_printer",
+   "ways": [
+    "network",
+    "bluetooth",
+    "usb"
+   ]
+  },
+  "scanner": {
+   "kind": "barcode_scanner",
+   "ways": [
+    "bluetooth",
+    "usb",
+    "camera"
+   ]
+  },
+  "cash_drawer": {
+   "kind": "cash_drawer",
+   "ways": [
+    "drawer_cable"
+   ]
+  },
+  "scale": {
+   "kind": "scale",
+   "ways": [
+    "usb",
+    "serial",
+    "bluetooth"
+   ]
+  },
+  "card_reader": {
+   "kind": "card_reader",
+   "ways": [
+    "bluetooth"
+   ]
+  },
+  "fingerprint_reader": {
+   "kind": "fingerprint_reader",
+   "ways": [
+    "usb"
+   ]
+  },
+  "pager": {
+   "kind": "pager_base",
+   "ways": [
+    "bluetooth",
+    "network"
+   ]
+  },
+  "camera": {
+   "kind": "camera",
+   "ways": [
+    "camera"
+   ]
+  }
+ },
+ "states": [
+  "connected",
+  "not_connected",
+  "needs_update",
+  "overdue",
+  "not_working"
+ ],
+ "ladder": [
+  "hardware",
+  "same_kind",
+  "nearby_device",
+  "stand_in",
+  "by_hand",
+  "file_or_paper"
+ ],
+ "file_instead_rule": "A file, photo or paper form goes through LynkFiles (type from its bytes, programs refused) with a check report like Move in; nothing joins while it shows an error; accepted rows become the same events the hardware writes, marked from a file with who sent it; money and stock rows need a second person; never a payment the provider has not confirmed; never for ballots or security keys.",
+ "speed_targets_ms": {
+  "find_first_device": 2000,
+  "pair": 5000,
+  "scan_to_screen": 100,
+  "print_after_confirmed": 500,
+  "stand_in_switch": 1000,
+  "reconnect": 3000,
+  "keeper_takeover": 10000,
+  "app_ready": 2000
+ },
+ "future": {
+  "interface_version": 1,
+  "retire_notice_months": 12,
+  "never_dropped_while_used": true,
+  "new_kinds_by_register_only": true
+ }
 }
