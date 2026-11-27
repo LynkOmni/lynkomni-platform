@@ -2,6 +2,14 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.131.2 (2026-11-27)
+Buttons-only devices use drop-downs by their keys, and computers are checked with a mouse (owner: "Hope buttons only aspect for non touch emulators and devices is well in place", "Ensure laptops and desktops with touch and no touch that rely on mouse use").
+- Fixed: on a buttons-only device the arrows could land on the hidden list under LynkOmni's own drop-down, and OK did nothing, so the kiosk's "Select a checker" could not be used with buttons. The arrows now skip anything hidden from people, OK opens the drop-down, up and down move through its choices, OK picks one and the focus stays on it, and Back closes the list without leaving the screen, with the physical keys and with the pad on the device body alike (ts/src/devicemode.ts, ts/src/chooser.ts).
+- A new browser check walks every screen of every device that has a buttons-only version (nine today: the terminal, betting counter, kitchen screen, customer screen, LynkCDisplay, LynkDScreen, LynkKiosk, rider phone and stock scanner; a new one is found by itself) and proves every control is reached with the arrows; another proves the drop-down works by keys and by the pad.
+- Laptops and desktops, with or without a touch screen: a check proves the mouse clicks every control in both versions, a touch laptop also takes taps, and typing uses the computer's own keyboard, never an on-screen one.
+- The DRIVER UPDATE row of the build table now records what parts A and B finished (v0.129.0 and v0.130.0).
+- Faster first tap on the account site: since the device keyboard it took about 122 to 127 ms on the slow-phone check (budget 120), on main too. The date and number formatters are now built once the first screen is idle instead of on the first tap, so the tap's own work drops by about a third. The budget is unchanged.
+
 ## v0.131.1 (2026-11-27)
 LynkKiosk no longer mixes two languages (owner: "LynkKiosk has its languages mixed up").
 - Once the kiosk knows who is at the door (after their PIN), the whole screen speaks that person's own language: the title, the face or finger step, the reader buttons, the ID number step, the result and Next person. Before, the title and some buttons stayed in the kiosk's language while the rest changed.

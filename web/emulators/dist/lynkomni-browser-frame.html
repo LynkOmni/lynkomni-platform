@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-IWFv5Q65DEDrKxFWI0i3X5hymxtc53KI+RGEdZjJZdY='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-czODsqWSqiIE/5Mu9ZbaICn5Ns1giqKeFHiVvSo0Waw='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni Shell on LynkPC</title>
 <meta name="description" content="Interactive emulator of the shared LynkOmni shell in a browser window at computer, tablet and phone size: header, navigation, launcher, account menu, every screen state, chat translation, username field and charts.">
@@ -2375,6 +2375,8 @@ function enhanceChoosers(root, say) {
         sel.addEventListener("change", () => loSync(sel));
         btn.addEventListener("click", () => loToggle(sel, say));
         btn.addEventListener("keydown", (e) => {
+            if (btn.closest('[data-touch="no"]'))
+                return;
             if (e.key === "ArrowDown" || e.key === "ArrowUp") {
                 e.preventDefault();
                 if (!wrap.querySelector(".lo-pop"))
@@ -2502,6 +2504,8 @@ function loToggle(sel, say) {
                 loChoose(sel, active.dataset["v"] ?? "");
         }
         else if (e.key === "Escape" || e.key === "Tab") {
+            if (e.key === "Escape")
+                e.preventDefault();
             loClose(wrap);
             if (e.key === "Escape")
                 btn.focus();
@@ -2533,6 +2537,8 @@ function loToggle(sel, say) {
         find.focus();
     }
     const outside = (e) => {
+        if (e.target?.closest?.(".padkey"))
+            return;
         if (!wrap.contains(e.target)) {
             loClose(wrap);
             doc.removeEventListener("pointerdown", outside, true);

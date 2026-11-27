@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-Osz7RTKUSt1VcpDz0eosCtqcaQR3YcQZKAus0XhL9MU='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-ROaUdVDpJJu4e+O+s2cXfzHM7Ll4ebfhK35YS7e4WvA='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkPOS on LynkMobile (Button Phone)</title>
 <meta name="description" content="Interactive emulator of LynkPOS on a basic button phone: a short menu by number keys to record a sale, check today's total and stock, and queue them by SMS when there is no data. For phones without a touch screen.">
@@ -1765,6 +1765,8 @@ function enhanceChoosers(root, say) {
         sel.addEventListener("change", () => loSync(sel));
         btn.addEventListener("click", () => loToggle(sel, say));
         btn.addEventListener("keydown", (e) => {
+            if (btn.closest('[data-touch="no"]'))
+                return;
             if (e.key === "ArrowDown" || e.key === "ArrowUp") {
                 e.preventDefault();
                 if (!wrap.querySelector(".lo-pop"))
@@ -1892,6 +1894,8 @@ function loToggle(sel, say) {
                 loChoose(sel, active.dataset["v"] ?? "");
         }
         else if (e.key === "Escape" || e.key === "Tab") {
+            if (e.key === "Escape")
+                e.preventDefault();
             loClose(wrap);
             if (e.key === "Escape")
                 btn.focus();
@@ -1923,6 +1927,8 @@ function loToggle(sel, say) {
         find.focus();
     }
     const outside = (e) => {
+        if (e.target?.closest?.(".padkey"))
+            return;
         if (!wrap.contains(e.target)) {
             loClose(wrap);
             doc.removeEventListener("pointerdown", outside, true);
@@ -4903,7 +4909,7 @@ function current(root) {
 }
 const FOCUSABLE = "button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), [tabindex='0']";
 function moveFocus(root, dir, rtl = false) {
-    const items = Array.from(root.querySelectorAll(FOCUSABLE)).filter((el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && !el.closest("[hidden]"); });
+    const items = Array.from(root.querySelectorAll(FOCUSABLE)).filter((el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && !el.closest("[hidden]") && el.getAttribute("tabindex") !== "-1" && !el.closest("[aria-hidden='true']"); });
     if (!items.length)
         return false;
     const cur = current(root);
@@ -4947,7 +4953,9 @@ function navPad(words, icon) {
     return `<div class="navpad" role="group" aria-label="${words.ok} / ${words.back}">${k("up", words.up, "▲", " up")}${k("left", words.left, "◀", " left")}${k("ok", words.ok, words.ok, " ok")}${k("right", words.right, "▶", " right")}${k("down", words.down, "▼", " down")}${k("back", words.back, icon("ui-undo"), " back")}</div>`;
 }
 function refocus(root, act, rtl) {
-    const again = act ? root.querySelector(`[data-act="${CSS.escape(act)}"]`) : null;
+    let again = act ? root.querySelector(`[data-act="${CSS.escape(act)}"]`) : null;
+    if (again?.matches("select.lo-src"))
+        again = again.parentElement?.querySelector(".lo-selbtn") ?? again;
     if (again)
         again.focus();
     if (!root.contains(document.activeElement)) {
@@ -4955,7 +4963,21 @@ function refocus(root, act, rtl) {
         moveFocus(root, "down", rtl);
     }
 }
+function actOf(el) {
+    return el.dataset["act"] ?? el.closest(".lo-sel")?.querySelector("select")?.dataset["act"];
+}
+function openList(cur) {
+    const wrap = cur?.closest(".lo-sel");
+    return wrap?.querySelector(".lo-pop") ? wrap : null;
+}
 function padPress(root, what, back, rtl = false) {
+    const cur0 = current(root);
+    if (openList(cur0)) {
+        const key = what === "up" ? "ArrowUp" : what === "down" ? "ArrowDown" : what === "ok" ? "Enter" : what === "back" ? "Escape" : null;
+        if (key)
+            cur0.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
+        return;
+    }
     if (what === "back") {
         back();
         return;
@@ -4966,7 +4988,7 @@ function padPress(root, what, back, rtl = false) {
             moveFocus(root, "down", rtl);
             return;
         }
-        const act = cur.dataset["act"];
+        const act = actOf(cur);
         cur.click(); // the screen redraws: focus returns to the same control, or the first one
         refocus(root, act, rtl);
         return;
@@ -5003,7 +5025,7 @@ function wireDevice(mode, o) {
                 queueMicrotask(() => {
                     if (document.contains(had) || (document.activeElement && document.activeElement !== document.body))
                         return;
-                    refocus(root, had.dataset["act"], o.rtl());
+                    refocus(root, actOf(had), o.rtl());
                 });
         },
         act: (a) => {
@@ -5016,6 +5038,10 @@ function wireDevice(mode, o) {
         key: (e) => {
             if (mode.touch())
                 return false;
+            if (!e.isTrusted)
+                return false; // a key the screen sent itself (padPress inside an open list)
+            if (e.defaultPrevented)
+                return true; // the focused control used it already (an open drop-down list)
             if (e.target?.closest?.(".panel, aside"))
                 return false; // the emulator's own panel keeps its keys
             const w = keyMeaning(e.key);

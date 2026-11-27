@@ -63,6 +63,8 @@ export function enhanceChoosers(root: ParentNode, say: () => Say | undefined): v
     sel.addEventListener("change", () => loSync(sel));
     btn.addEventListener("click", () => loToggle(sel, say));
     btn.addEventListener("keydown", (e) => {
+      // On a buttons-only device the arrows move between controls (as the pad does) and OK opens the list.
+      if (btn.closest('[data-touch="no"]')) return;
       if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); if (!wrap.querySelector(".lo-pop")) loToggle(sel, say); }
     });
   }
@@ -157,7 +159,7 @@ function loToggle(sel: HTMLSelectElement, say: () => Say | undefined): void {
     else if (e.key === "Home") { e.preventDefault(); mark(items[0] ?? null); }
     else if (e.key === "End") { e.preventDefault(); mark(items[items.length - 1] ?? null); }
     else if (e.key === "Enter" || (e.key === " " && !(e.target instanceof HTMLInputElement))) { e.preventDefault(); if (active) loChoose(sel, active.dataset["v"] ?? ""); }
-    else if (e.key === "Escape" || e.key === "Tab") { loClose(wrap); if (e.key === "Escape") btn.focus(); }
+    else if (e.key === "Escape" || e.key === "Tab") { if (e.key === "Escape") e.preventDefault(); loClose(wrap); if (e.key === "Escape") btn.focus(); }
     else if (e.key.length === 1 && !(e.target instanceof HTMLInputElement)) {
       const k = e.key.toLowerCase();
       const from = i + 1;
@@ -183,6 +185,8 @@ function loToggle(sel: HTMLSelectElement, say: () => Say | undefined): void {
     find.focus();
   }
   const outside = (e: Event): void => {
+    // The navigation pad on a buttons-only device's body works the open list, so pressing it is not a tap outside.
+    if ((e.target as HTMLElement | null)?.closest?.(".padkey")) return;
     if (!wrap.contains(e.target as Node)) { loClose(wrap); doc.removeEventListener("pointerdown", outside, true); }
   };
   doc.addEventListener("pointerdown", outside, true);

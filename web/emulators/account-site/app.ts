@@ -815,6 +815,9 @@ function init(): void {
   bind("#cSize", () => fit());
   window.setInterval(() => { if (S.undo.openToasts(Date.now()).length || $(".toasts").children.length) draw(); }, 1000);
   draw(); drawLog();
+  // The home screen shows no dates or numbers, so the formatters are first built on the first tap, which then feels slow on a weak
+  // phone. They are built once the first screen is up and the page is idle instead (web/budgets.v1.json tap_ms).
+  window.setTimeout(() => { try { n(0); clock(0); dateOf(0); whenOf(0); money(0); } catch { /* the formatter is built on first use instead */ } }, 0);
 }
 init();
 /** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
