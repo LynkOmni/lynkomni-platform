@@ -27,7 +27,7 @@ import { PeopleHub } from "../../../ts/src/peoplehub.js";
 import { pairCode, quCounterView, quPaper, quReceptionView } from "../../../ts/src/queuedesk.js";
 import type { QuLook, QuPlan } from "../../../ts/src/queuedesk.js";
 import type { SvPlan } from "../../../ts/src/surveydesk.js";
-import { atDoor, wasThisYou } from "../../../ts/src/attenddesk.js";
+import { doorSamples, atDoor, wasThisYou } from "../../../ts/src/attenddesk.js";
 import type { AtLook, AtPlan, AtTier } from "../../../ts/src/attenddesk.js";
 import { ticketNumber } from "../../../ts/src/queue.js";
 import { EmKit, kitFor, wireKit } from "../../../ts/src/emkit.js";
@@ -506,7 +506,7 @@ function view(): string {
       return `${top(t("shop_qr"))}<div class="offbox"><span class="qrbig" role="img" aria-label="${esc(t("shop_qr"))}">${icon("ui-qr")}</span><p>${esc(t("shop_qr_help"))}</p></div>`;
     case "staff": return staffScreen();
     // NEW UPDATE 4 (section 3): the door (LynkAttend), reception and counter (LynkQueue) on LynkPOS, offline like the till
-    case "door": return `${top(t("ppl_door_title"))}${atDoor(PH.att, atLook(), SPEAK)}${wasThisYou(PH.att, atLook())}<p class="keyhint">${icon("ui-info")}${esc(t("ppl_door_sample", { pin: PH.members[1]?.pin ?? "", idcn: PH.members[1]?.idcn ?? "" }))}</p>`;
+    case "door": return `${top(t("ppl_door_title"))}${atDoor(PH.att, atLook(), SPEAK)}${wasThisYou(PH.att, atLook())}<p class="keyhint">${icon("ui-info")}${doorSamples(PH.att, t).map((x) => esc(x)).join("<br>")}</p>`;
     case "reception": return `${top(t("ppl_reception_title"))}<div class="ph-wrap">${quReceptionView(PH.q, quLook())}</div>`;
     case "counter": return `${top(t("ppl_counter_title"))}<div class="ph-wrap">${quCounterView(PH.q, quLook())}</div>`;
     case "menu":

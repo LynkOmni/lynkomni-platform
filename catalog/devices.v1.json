@@ -146,6 +146,14 @@
     "keyboard"
    ]
   },
+  "tablet.buttons": {
+   "class": "tablet",
+   "inputs": [
+    "arrows",
+    "keyboard"
+   ],
+   "note": "A screen used at arm's length with buttons or arrow keys only (a kiosk, a counter or customer display): the same type size as its touch version, because size follows how far people stand, never how they press (owner report 2026-11-27)."
+  },
   "computer.pointer": {
    "class": "computer",
    "inputs": [
@@ -352,7 +360,7 @@
   {
    "id": "kitchen-screen",
    "touch": "tablet.touch",
-   "non_touch": "tv.remote",
+   "non_touch": "tablet.buttons",
    "emulator": {
     "touch": "kitchen-screen",
     "non_touch": "kitchen-screen"
@@ -362,7 +370,7 @@
   {
    "id": "customer-display",
    "touch": "tablet.touch",
-   "non_touch": "tv.remote",
+   "non_touch": "tablet.buttons",
    "emulator": {
     "touch": "customer-display",
     "non_touch": "customer-display"
@@ -404,7 +412,7 @@
   {
    "id": "self-order-kiosk",
    "touch": "tablet.touch",
-   "non_touch": "tv.remote",
+   "non_touch": "tablet.buttons",
    "emulator": {
     "touch": "lynk-kiosk",
     "non_touch": "lynk-kiosk"
@@ -426,7 +434,7 @@
   {
    "id": "queue-display",
    "touch": "tablet.touch",
-   "non_touch": "tv.remote",
+   "non_touch": "tablet.buttons",
    "emulator": {
     "touch": "lynk-dscreen",
     "non_touch": "lynk-dscreen"
@@ -437,7 +445,7 @@
   {
    "id": "counter-display",
    "touch": "tablet.touch",
-   "non_touch": "tv.remote",
+   "non_touch": "tablet.buttons",
    "emulator": {
     "touch": "lynk-cdisplay",
     "non_touch": "lynk-cdisplay"
