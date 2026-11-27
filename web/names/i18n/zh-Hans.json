@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "4c568f21d7c72174eea808c4f340fad255ee66b5ceb9433cf30f191f963143eb",
+ "source_sha256": "f56eaa6b17edd457c5cf5b11d28e5999860d0a63dc14c539907da9a5d0af5511",
  "texts": {
   "nm_academy": "课程与培训",
   "nm_acc": "记账",
@@ -47,6 +47,7 @@
   "nm_inv": "开票",
   "nm_jobs": "招聘与求职",
   "nm_kiosk": "自助服务终端",
+  "nm_letter": "新闻通讯",
   "nm_mesh": "离线中继",
   "nm_mobile": "手机",
   "nm_motion": "日常追踪",

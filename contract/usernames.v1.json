@@ -13,8 +13,9 @@
   "login", "signin", "signup", "register", "recover", "root", "system", "www", "mail", "news", "partners", "partner", "hub", "doc", "docs",
   "sdk", "exchange", "booking", "bookings", "essential", "essentials", "developer", "developers", "enterprise", "agents", "agent",
   "suppliers", "supplier", "ads", "invoice", "invoices", "receipt", "receipts", "quote", "quotes", "standing", "verify", "verified",
-  "cash", "refund", "refunds", "void", "fiscal", "tax", "government", "bank", "banks", "police", "test", "demo", "sample", "null", "undefined", "anonymous"
- ],
+  "cash", "refund", "refunds", "void", "fiscal", "tax", "government", "bank", "banks", "police", "test", "demo", "sample", "null", "undefined", "anonymous",
+    "lynkletter"
+  ],
  "look_alike_map": {"0": "o", "1": "l", "3": "e", "4": "a", "5": "s", "7": "t", "8": "b", "9": "g", "_": "", ".": "", "i": "l", "j": "l", "rn": "m", "vv": "w"},
  "ownership": {
   "one_owner": "a username is tied to the owner's public id (LOOID- or LynkID), never to a device or a staff member",

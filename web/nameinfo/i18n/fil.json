@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "fil",
  "native": "Filipino",
- "source_sha256": "e204fda7136081e2c4f9bce94d46092c7505d7f900e8bbf634c5c3900d49f3bf",
+ "source_sha256": "3d7c9198673c73edd4ac9f2fc26c18b2229b09bfc8d408a5ea70f89b4c5afd7b",
  "texts": {
   "nma_academy": "Gumawa at kumuha ng kurso, may aralin at sertipiko.",
   "nma_acc": "Panatilihing maayos ang iyong libro, gastos at ulat.",
@@ -38,6 +38,7 @@
   "nma_id": "Ang iyong pagkakakilanlan sa LynkOmni, pareho sa bawat device.",
   "nma_inv": "Gumawa at magpadala ng invoice at alamin kung kailan nabayaran.",
   "nma_jobs": "Mag-post ng trabaho, maghanap ng trabaho at kumuha ng tao.",
+  "nma_letter": "Mga update sa produkto, tip at balita ng LynkOmni sa email, kapag hiniling mo lang.",
   "nma_mesh": "Ipinapasa ang benta sa mga kalapit na device kapag walang internet.",
   "nma_motion": "Sundan ang delivery, biyahe at sarili mong gamit bawat araw.",
   "nma_mpay": "Tumanggap ng card, mobile money at iba pang bayad sa mga lisensyadong partner.",

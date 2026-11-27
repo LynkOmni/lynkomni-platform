@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "rw",
  "native": "Ikinyarwanda",
- "source_sha256": "e204fda7136081e2c4f9bce94d46092c7505d7f900e8bbf634c5c3900d49f3bf",
+ "source_sha256": "3d7c9198673c73edd4ac9f2fc26c18b2229b09bfc8d408a5ea70f89b4c5afd7b",
  "texts": {
   "nma_academy": "Kora kandi wige amasomo, afite amasomo arambuye n'impamyabumenyi.",
   "nma_acc": "Gumana ibitabo, amafaranga wakoresheje na raporo bifite gahunda.",
@@ -38,6 +38,7 @@
   "nma_id": "Umwirondoro wawe muri LynkOmni, umwe kuri buri gikoresho.",
   "nma_inv": "Kora kandi wohereze inyemezabuguzi urebe igihe zishyuriwe.",
   "nma_jobs": "Tangaza akazi, shaka akazi kandi uhe abantu akazi.",
+  "nma_letter": "Amakuru mashya ku bicuruzwa, inama n'amakuru ya LynkOmni kuri imeri, ari uko ubisabye gusa.",
   "nma_mesh": "Ihererekanya ibyagurishijwe hagati y'ibikoresho biri hafi iyo nta interineti.",
   "nma_motion": "Kurikirana ibyoherejwe, ingendo n'ibintu byawe buri munsi.",
   "nma_mpay": "Akira ikarita, amafaranga kuri telefone n'ubundi bwishyu binyuze ku bafatanyabikorwa bafite uruhushya.",

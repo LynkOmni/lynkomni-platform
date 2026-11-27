@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "e204fda7136081e2c4f9bce94d46092c7505d7f900e8bbf634c5c3900d49f3bf",
+ "source_sha256": "3d7c9198673c73edd4ac9f2fc26c18b2229b09bfc8d408a5ea70f89b4c5afd7b",
  "texts": {
   "nma_academy": "Ṣẹ̀dá kí o sì kọ́ ẹ̀kọ́, pẹ̀lú àwọn ìdánilẹ́kọ̀ọ́ àti ìwé ẹ̀rí.",
   "nma_acc": "Jẹ́ kí ìwé owó, ìnáwó àti ìjábọ̀ rẹ wà létòlétò.",
@@ -38,6 +38,7 @@
   "nma_id": "Ìdánimọ̀ rẹ nínú LynkOmni, bákan náà lórí gbogbo ẹ̀rọ.",
   "nma_inv": "Ṣẹ̀dá kí o sì fi ìwé ìdíyelé ránṣẹ́, kí o rí ìgbà tí wọ́n bá san án.",
   "nma_jobs": "Gbé iṣẹ́ jáde, wá iṣẹ́ kí o sì gba àwọn ènìyàn síṣẹ́.",
+  "nma_letter": "Ìròyìn tuntun nípa ọjà, ìmọ̀ràn àti ìròyìn LynkOmni nípasẹ̀ ímeèlì, nígbà tí o bá béèrè nìkan.",
   "nma_mesh": "Ń gbé títà láàrin àwọn ẹ̀rọ tó wà nítòsí nígbà tí kò sí íńtánẹ́ẹ̀tì.",
   "nma_motion": "Tẹ̀lé ìfijíṣẹ́, ìrìn-àjò àti àwọn nǹkan tìrẹ lójoojúmọ́.",
   "nma_mpay": "Gba káàdì, owó alágbèéká àti ìsanwó mìíràn nípasẹ̀ àwọn alábàáṣiṣẹ́pọ̀ tó ní ìwé àṣẹ.",

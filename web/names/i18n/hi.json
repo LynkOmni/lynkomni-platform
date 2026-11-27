@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "hi",
  "native": "हिन्दी",
- "source_sha256": "4c568f21d7c72174eea808c4f340fad255ee66b5ceb9433cf30f191f963143eb",
+ "source_sha256": "f56eaa6b17edd457c5cf5b11d28e5999860d0a63dc14c539907da9a5d0af5511",
  "texts": {
   "nm_academy": "पाठ्यक्रम और प्रशिक्षण",
   "nm_acc": "लेखा",
@@ -47,6 +47,7 @@
   "nm_inv": "बिलिंग",
   "nm_jobs": "नौकरियाँ और भर्ती",
   "nm_kiosk": "सेल्फ़ सर्विस कियोस्क",
+  "nm_letter": "न्यूज़लेटर",
   "nm_mesh": "ऑफ़लाइन रिले",
   "nm_mobile": "फ़ोन",
   "nm_motion": "रोज़ की ट्रैकिंग",

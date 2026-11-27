@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ug",
  "native": "ئۇيغۇرچە",
- "source_sha256": "4c568f21d7c72174eea808c4f340fad255ee66b5ceb9433cf30f191f963143eb",
+ "source_sha256": "f56eaa6b17edd457c5cf5b11d28e5999860d0a63dc14c539907da9a5d0af5511",
  "texts": {
   "nm_academy": "دەرسلەر ۋە تەربىيىلەش",
   "nm_acc": "بوغالتىرىيە",
@@ -47,6 +47,7 @@
   "nm_inv": "ھېسابات چىقىرىش",
   "nm_jobs": "خىزمەت ۋە ئىشقا ئېلىش",
   "nm_kiosk": "ئۆزى مۇلازىمەت كىئوسكى",
+  "nm_letter": "خەۋەرنامە",
   "nm_mesh": "تورسىز يەتكۈزگۈچ",
   "nm_mobile": "تېلېفون",
   "nm_motion": "كۈندىلىك ئىز قوغلاش",

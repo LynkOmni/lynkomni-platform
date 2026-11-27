@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "de",
  "native": "Deutsch",
- "source_sha256": "e204fda7136081e2c4f9bce94d46092c7505d7f900e8bbf634c5c3900d49f3bf",
+ "source_sha256": "3d7c9198673c73edd4ac9f2fc26c18b2229b09bfc8d408a5ea70f89b4c5afd7b",
  "texts": {
   "nma_academy": "Erstellen und belegen Sie Kurse mit Lektionen und Zertifikaten.",
   "nma_acc": "Halten Sie Bücher, Ausgaben und Berichte in Ordnung.",
@@ -38,6 +38,7 @@
   "nma_id": "Ihre Identität bei LynkOmni, auf jedem Gerät dieselbe.",
   "nma_inv": "Erstellen und senden Sie Rechnungen und sehen Sie, wann sie bezahlt sind.",
   "nma_jobs": "Schreiben Sie Stellen aus, finden Sie Arbeit und stellen Sie ein.",
+  "nma_letter": "Produktneuheiten, Tipps und LynkOmni-Neuigkeiten per E-Mail, nur wenn Sie es wünschen.",
   "nma_mesh": "Gibt Verkäufe an Geräte in der Nähe weiter, wenn es kein Internet gibt.",
   "nma_motion": "Verfolgen Sie Lieferungen, Fahrten und Ihre eigenen Dinge im Alltag.",
   "nma_mpay": "Nehmen Sie Karten, Mobile Money und andere Zahlungen über lizenzierte Partner an.",

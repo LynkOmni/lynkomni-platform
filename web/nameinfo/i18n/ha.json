@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ha",
  "native": "Hausa",
- "source_sha256": "e204fda7136081e2c4f9bce94d46092c7505d7f900e8bbf634c5c3900d49f3bf",
+ "source_sha256": "3d7c9198673c73edd4ac9f2fc26c18b2229b09bfc8d408a5ea70f89b4c5afd7b",
  "texts": {
   "nma_academy": "Ƙirƙira ka ɗauki kwasa-kwasai, da darussa da takardun shaida.",
   "nma_acc": "Ka riƙe littattafanka, kuɗaɗen da ka kashe da rahotanni cikin tsari.",
@@ -38,6 +38,7 @@
   "nma_id": "Shaidarka a cikin LynkOmni, iri ɗaya a kowace na'ura.",
   "nma_inv": "Ƙirƙira ka aika takardun kuɗi ka ga lokacin da aka biya su.",
   "nma_jobs": "Sanya aikin yi, nemi aiki kuma ka ɗauki mutane aiki.",
+  "nma_letter": "Sabbin bayanan kayayyaki, shawarwari da labaran LynkOmni ta imel, sai lokacin da ka nema.",
   "nma_mesh": "Yana isar da ciniki tsakanin na'urori na kusa idan babu intanet.",
   "nma_motion": "Bibiyi isarwa, tafiyoyi da kayanka kowace rana.",
   "nma_mpay": "Karɓi kati, kuɗin waya da sauran biya ta hannun abokan hulɗa masu lasisi.",

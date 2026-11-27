@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "zh-Hans",
  "native": "简体中文",
- "source_sha256": "e204fda7136081e2c4f9bce94d46092c7505d7f900e8bbf634c5c3900d49f3bf",
+ "source_sha256": "3d7c9198673c73edd4ac9f2fc26c18b2229b09bfc8d408a5ea70f89b4c5afd7b",
  "texts": {
   "nma_academy": "创建和学习课程，含课时和证书。",
   "nma_acc": "把账本、开支和报表整理得井井有条。",
@@ -38,6 +38,7 @@
   "nma_id": "你在 LynkOmni 中的身份，在每台设备上都一样。",
   "nma_inv": "创建并发送发票，查看何时已付款。",
   "nma_jobs": "发布职位、寻找工作、招聘人才。",
+  "nma_letter": "产品更新、实用技巧和 LynkOmni 新闻，通过邮件发送，仅在您订阅时。",
   "nma_mesh": "没有网络时，在附近设备之间传递销售记录。",
   "nma_motion": "每天跟踪配送、行程和你自己的物品。",
   "nma_mpay": "通过持牌合作伙伴收取银行卡、移动钱包和其他付款。",

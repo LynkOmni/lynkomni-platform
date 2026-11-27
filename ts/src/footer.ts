@@ -109,7 +109,7 @@ export function buildFooter(o: { now: Date; pack: Pack | null; lang: string; wor
   const t = (_l: string, k: string): string => say(lang, o.words, k);
   return {
     lang, region: o.pack ? { code: o.pack.code, name: o.pack.name, currency: o.pack.currency } : null, tagline: t(lang, "tagline"),
-    newsletter: { title: t(lang, "nlTitle"), text: t(lang, "nlText"), email: t(lang, "nlEmail"), consent: t(lang, "nlConsent"), button: t(lang, "nlButton"), note: t(lang, "nlNote"), preticked: false, doubleOptIn: true,
+    newsletter: { name: "LynkLetter", plain: plainOf("LynkLetter", (k) => o.words?.(k) ?? k), title: t(lang, "nlTitle"), text: t(lang, "nlText"), email: t(lang, "nlEmail"), consent: t(lang, "nlConsent"), button: t(lang, "nlButton"), note: t(lang, "nlNote"), preticked: false, doubleOptIn: true,
       topics: [t(lang, "tProduct"), t(lang, "tMerchant"), t(lang, "tDev"), t(lang, "tCompany")] },
     columns: columns(lang, o.words), social: [...SOCIAL], socialLinks: SOCIAL.map((id) => ({ id, href: SOCIAL_LINKS[id] })), download: [{ id: "appstore", label: t(lang, "appstore") }, { id: "gplay", label: t(lang, "gplay") }, { id: "pwa", label: t(lang, "pwa") }],
     payments: { title: t(lang, "payments"), marks: paymentMarks(o.pack), options: paymentOptions(o.pack).map((x) => ({ ...x, label: GENERIC_METHODS.includes(x.id) ? t(lang, `pm_${x.id}`) : x.label })) },
@@ -141,7 +141,7 @@ ${mark}<p class="ftag">${esc(f.tagline)}</p><div class="fcols">${cols}</div>
 <div class="frow"><section class="fcol"><h3>${esc(f.payments.title)}</h3><ul class="fpays">${pay}</ul></section>
 <section class="fcol"><h3>${esc(f.labels.social)}</h3><ul>${social}</ul></section>
 <section class="fcol"><h3>${esc(f.labels.download)}</h3><ul>${f.download.map((d) => `<li><a href="/download#${esc(d.id)}">${esc(d.label)}</a></li>`).join("")}</ul></section>
-<div class="fnews" role="group" aria-labelledby="fnewsTitle"><h3 id="fnewsTitle">${esc(n.title)}</h3><p>${esc(n.text)}</p>${emailBox ? emailBox(n.email) : ""}
+<div class="fnews" role="group" aria-labelledby="fnewsTitle"><h3 id="fnewsTitle"><span class="fname">${esc(n.name)}</span> <span class="fplain">(${esc(n.plain)})</span></h3><p class="fnews-title">${esc(n.title)}</p><p>${esc(n.text)}</p>${emailBox ? emailBox(n.email) : ""}
 <fieldset><legend>${esc(f.labels.topics)}</legend>${topics}</fieldset><label class="fconsent"><input type="checkbox" required> <span>${esc(n.consent)}</span></label>
 <button type="button" data-act="footer:news"${emailBox ? ` data-needs-email="${FOOTER_EMAIL_ID}" disabled` : ""}>${esc(n.button)}</button><p class="fnote">${esc(n.note)}</p></div></div>
 <div class="flegal"><p class="fcopy">${esc(f.legal.copyright)}</p><ul>${f.legal.links.map(link).join("")}</ul></div></footer>`;
