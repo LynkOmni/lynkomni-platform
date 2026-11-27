@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "bn",
  "native": "বাংলা",
- "source_sha256": "bbd69096c19ef2e5fddd30cfbdd7fe94a2b7bf64b00f6012321b5b81dc904a10",
+ "source_sha256": "f7633ee9ede1040de3b2c21b0571d3c65fffff0c984cdfdf0d9f919025ab394a",
  "texts": {
   "academy": "একাডেমি",
   "academy_hint": "একটি ছোট কোর্স যে স্ক্রিন শেখায় তার পাশে খোলে।",
@@ -213,6 +213,7 @@
   "handover": "শিফট হস্তান্তর",
   "help": "সাহায্য",
   "home": "হোম",
+  "hw_none_page": "কোনো বাড়তি হার্ডওয়্যার নেই: সবকিছু এই যন্ত্রের স্ক্রিন ও বোতামে চলে।",
   "identity_check": "অংশীদার গ্রাহকের পরিচয় যাচাই করে",
   "in_stock": "মজুদে {n}",
   "insight": "আজকের বিশ্লেষণ",

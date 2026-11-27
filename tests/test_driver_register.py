@@ -55,6 +55,21 @@ class DriverRegister(unittest.TestCase):
         self.assertTrue(f["never_dropped_while_used"] and f["new_kinds_by_register_only"])
         self.assertGreaterEqual(f["retire_notice_months"], 12)
 
+    def test_every_service_lists_its_hardware_or_why_none(self):
+        from core import universal as U
+        from services import billing as B
+        for fam in sorted(B.FAMILIES):
+            with self.subTest(family=fam):
+                self.assertIn(U.status(fam, "hardware")[0], ("met", "not_applicable"))
+
+    def test_a_new_service_is_due_until_it_lists_its_hardware(self):
+        from core import universal as U
+        U.REGISTER["home_sections"]["lynknew"] = "9"
+        try:
+            self.assertEqual(U.status("lynknew", "hardware"), ("due", "9"))
+        finally:
+            del U.REGISTER["home_sections"]["lynknew"]
+
     def test_the_check_catches_a_role_with_an_unknown_kind(self):
         D.REGISTER["roles"]["x_role"] = {"kind": "no_such_kind", "ways": []}
         try:

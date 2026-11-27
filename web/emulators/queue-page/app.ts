@@ -2,6 +2,7 @@
  *  no app and no account. See the wait before taking a ticket, join (the link, LynkChat or a basic phone, as the place's
  *  plan and the country's partner allow), follow the place in the queue, Running late once, Leave queue, "Please come now", and the
  *  place's public queue page. The buttons beside it play reception and the counters. Never a name; the phone number is never shown. */
+import { hardwareNoneHtml } from "../../../ts/src/devicenote.js";
 import { PageWait } from "../../../ts/src/placeholder.js";
 import { Country, EventLog, Words, applyRoot, esc, fitToWidth, panelChange, panelHtml, stateButtons, pageWaiting } from "../../../ts/src/emulator.js";
 import { layoutFor } from "../../../ts/src/interfaces.js";
@@ -50,7 +51,7 @@ function act(a: string): void {
   draw();
 }
 function panel(): void {
-  $("#panel").innerHTML = panelHtml(["online", "firstopen", "plan", "country", "dark", "lang", "turn"], S, W, C, { tiers: TIERS }) + deviceChoiceHtml(DM, t)
+  $("#panel").innerHTML = panelHtml(["online", "firstopen", "plan", "country", "dark", "lang", "turn"], S, W, C, { tiers: TIERS }) + deviceChoiceHtml(DM, t) + hardwareNoneHtml(t)
     + `<div class="ctl-extra"><label><input type="checkbox" data-kctl="only" ${Q.joinFrom === "only_at_the_place" ? "checked" : ""}> <span>${esc(t("ppl_qu_join_only_at_the_place"))}</span></label>
       <label><input type="checkbox" data-kctl="public" ${Q.publicPage ? "checked" : ""}> <span>${esc(t("ppl_qu_public"))}</span></label></div>`;
   $("#log").innerHTML = LOG.html(esc, chip, t("no_events"));

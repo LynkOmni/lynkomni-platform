@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "sd",
  "native": "سنڌي",
- "source_sha256": "bbd69096c19ef2e5fddd30cfbdd7fe94a2b7bf64b00f6012321b5b81dc904a10",
+ "source_sha256": "f7633ee9ede1040de3b2c21b0571d3c65fffff0c984cdfdf0d9f919025ab394a",
  "texts": {
   "academy": "اڪيڊمي",
   "academy_hint": "مختصر سبق ان اسڪرين جي ڀرسان کلي ٿو جيڪا اهو سيکاري ٿو.",
@@ -213,6 +213,7 @@
   "handover": "شفٽ جي حوالگي",
   "help": "مدد",
   "home": "گهر",
+  "hw_none_page": "ڪو اضافي هارڊويئر ناهي: سڀ ڪجهه هن ڊوائيس جي اسڪرين ۽ بٽڻن تي هلي ٿو.",
   "identity_check": "ڀائيوار گراهڪ جي سڃاڻپ جانچي ٿو",
   "in_stock": "{n} اسٽاڪ ۾",
   "insight": "ڏينهن جي صلاح",

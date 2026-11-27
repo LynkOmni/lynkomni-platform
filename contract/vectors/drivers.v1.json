@@ -679,7 +679,11 @@
   "card_reader": "card_reader",
   "fingerprint_reader": "fingerprint_reader",
   "pager": "pager_base",
-  "camera": "camera"
+  "camera": "camera",
+  "bump_bar": "bump_bar",
+  "speaker": "speaker",
+  "feedback_buttons": "feedback_buttons",
+  "number_board": "number_board"
  },
  "ladder": {
   "hardware": "same_kind",
@@ -688,5 +692,969 @@
   "stand_in": "by_hand",
   "by_hand": "file_or_paper",
   "file_or_paper": null
+ },
+ "status": [
+  {
+   "role": "receipt_printer",
+   "kind": "receipt_printer",
+   "state": "connected",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "receipt_printer",
+   "kind": "receipt_printer",
+   "state": "connected",
+   "warning": "battery_low",
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "receipt_printer",
+   "kind": "receipt_printer",
+   "state": "not_connected",
+   "warning": null,
+   "stand_in": "screen_receipt",
+   "next": "stand_in"
+  },
+  {
+   "role": "receipt_printer",
+   "kind": "receipt_printer",
+   "state": "not_working",
+   "warning": "paper_out",
+   "stand_in": "screen_receipt",
+   "next": "stand_in"
+  },
+  {
+   "role": "receipt_printer",
+   "kind": "receipt_printer",
+   "state": "needs_update",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "receipt_printer",
+   "kind": "receipt_printer",
+   "state": "overdue",
+   "warning": null,
+   "stand_in": "screen_receipt",
+   "next": "stand_in"
+  },
+  {
+   "role": "receipt_printer",
+   "kind": "receipt_printer",
+   "state": "not_working",
+   "warning": null,
+   "stand_in": "screen_receipt",
+   "next": "stand_in"
+  },
+  {
+   "role": "ticket_printer",
+   "kind": "receipt_printer",
+   "state": "connected",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "ticket_printer",
+   "kind": "receipt_printer",
+   "state": "connected",
+   "warning": "battery_low",
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "ticket_printer",
+   "kind": "receipt_printer",
+   "state": "not_connected",
+   "warning": null,
+   "stand_in": "ticket_on_screen",
+   "next": "stand_in"
+  },
+  {
+   "role": "ticket_printer",
+   "kind": "receipt_printer",
+   "state": "not_working",
+   "warning": "paper_out",
+   "stand_in": "ticket_on_screen",
+   "next": "stand_in"
+  },
+  {
+   "role": "ticket_printer",
+   "kind": "receipt_printer",
+   "state": "needs_update",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "ticket_printer",
+   "kind": "receipt_printer",
+   "state": "overdue",
+   "warning": null,
+   "stand_in": "ticket_on_screen",
+   "next": "stand_in"
+  },
+  {
+   "role": "ticket_printer",
+   "kind": "receipt_printer",
+   "state": "not_working",
+   "warning": null,
+   "stand_in": "ticket_on_screen",
+   "next": "stand_in"
+  },
+  {
+   "role": "kitchen_printer",
+   "kind": "receipt_printer",
+   "state": "connected",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "kitchen_printer",
+   "kind": "receipt_printer",
+   "state": "connected",
+   "warning": "battery_low",
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "kitchen_printer",
+   "kind": "receipt_printer",
+   "state": "not_connected",
+   "warning": null,
+   "stand_in": "kitchen_ticket",
+   "next": "stand_in"
+  },
+  {
+   "role": "kitchen_printer",
+   "kind": "receipt_printer",
+   "state": "not_working",
+   "warning": "paper_out",
+   "stand_in": "kitchen_ticket",
+   "next": "stand_in"
+  },
+  {
+   "role": "kitchen_printer",
+   "kind": "receipt_printer",
+   "state": "needs_update",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "kitchen_printer",
+   "kind": "receipt_printer",
+   "state": "overdue",
+   "warning": null,
+   "stand_in": "kitchen_ticket",
+   "next": "stand_in"
+  },
+  {
+   "role": "kitchen_printer",
+   "kind": "receipt_printer",
+   "state": "not_working",
+   "warning": null,
+   "stand_in": "kitchen_ticket",
+   "next": "stand_in"
+  },
+  {
+   "role": "label_printer",
+   "kind": "label_printer",
+   "state": "connected",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "label_printer",
+   "kind": "label_printer",
+   "state": "connected",
+   "warning": "battery_low",
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "label_printer",
+   "kind": "label_printer",
+   "state": "not_connected",
+   "warning": null,
+   "stand_in": "pdf_labels",
+   "next": "stand_in"
+  },
+  {
+   "role": "label_printer",
+   "kind": "label_printer",
+   "state": "not_working",
+   "warning": "paper_out",
+   "stand_in": "pdf_labels",
+   "next": "stand_in"
+  },
+  {
+   "role": "label_printer",
+   "kind": "label_printer",
+   "state": "needs_update",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "label_printer",
+   "kind": "label_printer",
+   "state": "overdue",
+   "warning": null,
+   "stand_in": "pdf_labels",
+   "next": "stand_in"
+  },
+  {
+   "role": "label_printer",
+   "kind": "label_printer",
+   "state": "not_working",
+   "warning": null,
+   "stand_in": "pdf_labels",
+   "next": "stand_in"
+  },
+  {
+   "role": "scanner",
+   "kind": "barcode_scanner",
+   "state": "connected",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "scanner",
+   "kind": "barcode_scanner",
+   "state": "connected",
+   "warning": "battery_low",
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "scanner",
+   "kind": "barcode_scanner",
+   "state": "not_connected",
+   "warning": null,
+   "stand_in": "camera_scanner",
+   "next": "stand_in"
+  },
+  {
+   "role": "scanner",
+   "kind": "barcode_scanner",
+   "state": "not_working",
+   "warning": "paper_out",
+   "stand_in": "camera_scanner",
+   "next": "stand_in"
+  },
+  {
+   "role": "scanner",
+   "kind": "barcode_scanner",
+   "state": "needs_update",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "scanner",
+   "kind": "barcode_scanner",
+   "state": "overdue",
+   "warning": null,
+   "stand_in": "camera_scanner",
+   "next": "stand_in"
+  },
+  {
+   "role": "scanner",
+   "kind": "barcode_scanner",
+   "state": "not_working",
+   "warning": null,
+   "stand_in": "camera_scanner",
+   "next": "stand_in"
+  },
+  {
+   "role": "cash_drawer",
+   "kind": "cash_drawer",
+   "state": "connected",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "cash_drawer",
+   "kind": "cash_drawer",
+   "state": "connected",
+   "warning": "battery_low",
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "cash_drawer",
+   "kind": "cash_drawer",
+   "state": "not_connected",
+   "warning": null,
+   "stand_in": "count_prompt",
+   "next": "stand_in"
+  },
+  {
+   "role": "cash_drawer",
+   "kind": "cash_drawer",
+   "state": "not_working",
+   "warning": "paper_out",
+   "stand_in": "count_prompt",
+   "next": "stand_in"
+  },
+  {
+   "role": "cash_drawer",
+   "kind": "cash_drawer",
+   "state": "needs_update",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "cash_drawer",
+   "kind": "cash_drawer",
+   "state": "overdue",
+   "warning": null,
+   "stand_in": "count_prompt",
+   "next": "stand_in"
+  },
+  {
+   "role": "cash_drawer",
+   "kind": "cash_drawer",
+   "state": "not_working",
+   "warning": null,
+   "stand_in": "count_prompt",
+   "next": "stand_in"
+  },
+  {
+   "role": "scale",
+   "kind": "scale",
+   "state": "connected",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "scale",
+   "kind": "scale",
+   "state": "connected",
+   "warning": "battery_low",
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "scale",
+   "kind": "scale",
+   "state": "not_connected",
+   "warning": null,
+   "stand_in": "typed_weight",
+   "next": "stand_in"
+  },
+  {
+   "role": "scale",
+   "kind": "scale",
+   "state": "not_working",
+   "warning": "paper_out",
+   "stand_in": "typed_weight",
+   "next": "stand_in"
+  },
+  {
+   "role": "scale",
+   "kind": "scale",
+   "state": "needs_update",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "scale",
+   "kind": "scale",
+   "state": "overdue",
+   "warning": null,
+   "stand_in": "typed_weight",
+   "next": "stand_in"
+  },
+  {
+   "role": "scale",
+   "kind": "scale",
+   "state": "not_working",
+   "warning": null,
+   "stand_in": "typed_weight",
+   "next": "stand_in"
+  },
+  {
+   "role": "card_reader",
+   "kind": "card_reader",
+   "state": "connected",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "card_reader",
+   "kind": "card_reader",
+   "state": "connected",
+   "warning": "battery_low",
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "card_reader",
+   "kind": "card_reader",
+   "state": "not_connected",
+   "warning": null,
+   "stand_in": "tap_to_pay",
+   "next": "stand_in"
+  },
+  {
+   "role": "card_reader",
+   "kind": "card_reader",
+   "state": "not_working",
+   "warning": "paper_out",
+   "stand_in": "tap_to_pay",
+   "next": "stand_in"
+  },
+  {
+   "role": "card_reader",
+   "kind": "card_reader",
+   "state": "needs_update",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "card_reader",
+   "kind": "card_reader",
+   "state": "overdue",
+   "warning": null,
+   "stand_in": "tap_to_pay",
+   "next": "stand_in"
+  },
+  {
+   "role": "card_reader",
+   "kind": "card_reader",
+   "state": "not_working",
+   "warning": null,
+   "stand_in": "tap_to_pay",
+   "next": "stand_in"
+  },
+  {
+   "role": "fingerprint_reader",
+   "kind": "fingerprint_reader",
+   "state": "connected",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "fingerprint_reader",
+   "kind": "fingerprint_reader",
+   "state": "connected",
+   "warning": "battery_low",
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "fingerprint_reader",
+   "kind": "fingerprint_reader",
+   "state": "not_connected",
+   "warning": null,
+   "stand_in": "idcn_entry",
+   "next": "stand_in"
+  },
+  {
+   "role": "fingerprint_reader",
+   "kind": "fingerprint_reader",
+   "state": "not_working",
+   "warning": "paper_out",
+   "stand_in": "idcn_entry",
+   "next": "stand_in"
+  },
+  {
+   "role": "fingerprint_reader",
+   "kind": "fingerprint_reader",
+   "state": "needs_update",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "fingerprint_reader",
+   "kind": "fingerprint_reader",
+   "state": "overdue",
+   "warning": null,
+   "stand_in": "idcn_entry",
+   "next": "stand_in"
+  },
+  {
+   "role": "fingerprint_reader",
+   "kind": "fingerprint_reader",
+   "state": "not_working",
+   "warning": null,
+   "stand_in": "idcn_entry",
+   "next": "stand_in"
+  },
+  {
+   "role": "pager",
+   "kind": "pager_base",
+   "state": "connected",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "pager",
+   "kind": "pager_base",
+   "state": "connected",
+   "warning": "battery_low",
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "pager",
+   "kind": "pager_base",
+   "state": "not_connected",
+   "warning": null,
+   "stand_in": "phone_message",
+   "next": "stand_in"
+  },
+  {
+   "role": "pager",
+   "kind": "pager_base",
+   "state": "not_working",
+   "warning": "paper_out",
+   "stand_in": "phone_message",
+   "next": "stand_in"
+  },
+  {
+   "role": "pager",
+   "kind": "pager_base",
+   "state": "needs_update",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "pager",
+   "kind": "pager_base",
+   "state": "overdue",
+   "warning": null,
+   "stand_in": "phone_message",
+   "next": "stand_in"
+  },
+  {
+   "role": "pager",
+   "kind": "pager_base",
+   "state": "not_working",
+   "warning": null,
+   "stand_in": "phone_message",
+   "next": "stand_in"
+  },
+  {
+   "role": "camera",
+   "kind": "camera",
+   "state": "connected",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "camera",
+   "kind": "camera",
+   "state": "connected",
+   "warning": "battery_low",
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "camera",
+   "kind": "camera",
+   "state": "not_connected",
+   "warning": null,
+   "stand_in": "phone_camera",
+   "next": "stand_in"
+  },
+  {
+   "role": "camera",
+   "kind": "camera",
+   "state": "not_working",
+   "warning": "paper_out",
+   "stand_in": "phone_camera",
+   "next": "stand_in"
+  },
+  {
+   "role": "camera",
+   "kind": "camera",
+   "state": "needs_update",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "camera",
+   "kind": "camera",
+   "state": "overdue",
+   "warning": null,
+   "stand_in": "phone_camera",
+   "next": "stand_in"
+  },
+  {
+   "role": "camera",
+   "kind": "camera",
+   "state": "not_working",
+   "warning": null,
+   "stand_in": "phone_camera",
+   "next": "stand_in"
+  },
+  {
+   "role": "bump_bar",
+   "kind": "bump_bar",
+   "state": "connected",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "bump_bar",
+   "kind": "bump_bar",
+   "state": "connected",
+   "warning": "battery_low",
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "bump_bar",
+   "kind": "bump_bar",
+   "state": "not_connected",
+   "warning": null,
+   "stand_in": "on_screen_keys",
+   "next": "stand_in"
+  },
+  {
+   "role": "bump_bar",
+   "kind": "bump_bar",
+   "state": "not_working",
+   "warning": "paper_out",
+   "stand_in": "on_screen_keys",
+   "next": "stand_in"
+  },
+  {
+   "role": "bump_bar",
+   "kind": "bump_bar",
+   "state": "needs_update",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "bump_bar",
+   "kind": "bump_bar",
+   "state": "overdue",
+   "warning": null,
+   "stand_in": "on_screen_keys",
+   "next": "stand_in"
+  },
+  {
+   "role": "bump_bar",
+   "kind": "bump_bar",
+   "state": "not_working",
+   "warning": null,
+   "stand_in": "on_screen_keys",
+   "next": "stand_in"
+  },
+  {
+   "role": "speaker",
+   "kind": "speaker",
+   "state": "connected",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "speaker",
+   "kind": "speaker",
+   "state": "connected",
+   "warning": "battery_low",
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "speaker",
+   "kind": "speaker",
+   "state": "not_connected",
+   "warning": null,
+   "stand_in": "screen_text",
+   "next": "stand_in"
+  },
+  {
+   "role": "speaker",
+   "kind": "speaker",
+   "state": "not_working",
+   "warning": "paper_out",
+   "stand_in": "screen_text",
+   "next": "stand_in"
+  },
+  {
+   "role": "speaker",
+   "kind": "speaker",
+   "state": "needs_update",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "speaker",
+   "kind": "speaker",
+   "state": "overdue",
+   "warning": null,
+   "stand_in": "screen_text",
+   "next": "stand_in"
+  },
+  {
+   "role": "speaker",
+   "kind": "speaker",
+   "state": "not_working",
+   "warning": null,
+   "stand_in": "screen_text",
+   "next": "stand_in"
+  },
+  {
+   "role": "feedback_buttons",
+   "kind": "feedback_buttons",
+   "state": "connected",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "feedback_buttons",
+   "kind": "feedback_buttons",
+   "state": "connected",
+   "warning": "battery_low",
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "feedback_buttons",
+   "kind": "feedback_buttons",
+   "state": "not_connected",
+   "warning": null,
+   "stand_in": "screen_rating",
+   "next": "stand_in"
+  },
+  {
+   "role": "feedback_buttons",
+   "kind": "feedback_buttons",
+   "state": "not_working",
+   "warning": "paper_out",
+   "stand_in": "screen_rating",
+   "next": "stand_in"
+  },
+  {
+   "role": "feedback_buttons",
+   "kind": "feedback_buttons",
+   "state": "needs_update",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "feedback_buttons",
+   "kind": "feedback_buttons",
+   "state": "overdue",
+   "warning": null,
+   "stand_in": "screen_rating",
+   "next": "stand_in"
+  },
+  {
+   "role": "feedback_buttons",
+   "kind": "feedback_buttons",
+   "state": "not_working",
+   "warning": null,
+   "stand_in": "screen_rating",
+   "next": "stand_in"
+  },
+  {
+   "role": "number_board",
+   "kind": "number_board",
+   "state": "connected",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "number_board",
+   "kind": "number_board",
+   "state": "connected",
+   "warning": "battery_low",
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "number_board",
+   "kind": "number_board",
+   "state": "not_connected",
+   "warning": null,
+   "stand_in": "screen_number",
+   "next": "stand_in"
+  },
+  {
+   "role": "number_board",
+   "kind": "number_board",
+   "state": "not_working",
+   "warning": "paper_out",
+   "stand_in": "screen_number",
+   "next": "stand_in"
+  },
+  {
+   "role": "number_board",
+   "kind": "number_board",
+   "state": "needs_update",
+   "warning": null,
+   "stand_in": null,
+   "next": null
+  },
+  {
+   "role": "number_board",
+   "kind": "number_board",
+   "state": "overdue",
+   "warning": null,
+   "stand_in": "screen_number",
+   "next": "stand_in"
+  },
+  {
+   "role": "number_board",
+   "kind": "number_board",
+   "state": "not_working",
+   "warning": null,
+   "stand_in": "screen_number",
+   "next": "stand_in"
+  }
+ ],
+ "conditions_for": {
+  "receipt_printer": [
+   "connected",
+   "battery_low",
+   "unplugged",
+   "paper_out",
+   "needs_update",
+   "overdue",
+   "broken"
+  ],
+  "ticket_printer": [
+   "connected",
+   "battery_low",
+   "unplugged",
+   "paper_out",
+   "needs_update",
+   "overdue",
+   "broken"
+  ],
+  "kitchen_printer": [
+   "connected",
+   "battery_low",
+   "unplugged",
+   "paper_out",
+   "needs_update",
+   "overdue",
+   "broken"
+  ],
+  "label_printer": [
+   "connected",
+   "battery_low",
+   "unplugged",
+   "paper_out",
+   "needs_update",
+   "overdue",
+   "broken"
+  ],
+  "scanner": [
+   "connected",
+   "battery_low",
+   "unplugged",
+   "needs_update",
+   "overdue",
+   "broken"
+  ],
+  "cash_drawer": [
+   "connected",
+   "unplugged",
+   "needs_update",
+   "overdue",
+   "broken"
+  ],
+  "scale": [
+   "connected",
+   "battery_low",
+   "unplugged",
+   "needs_update",
+   "overdue",
+   "broken"
+  ],
+  "card_reader": [
+   "connected",
+   "battery_low",
+   "unplugged",
+   "needs_update",
+   "overdue",
+   "broken"
+  ],
+  "fingerprint_reader": [
+   "connected",
+   "battery_low",
+   "unplugged",
+   "needs_update",
+   "overdue",
+   "broken"
+  ],
+  "pager": [
+   "connected",
+   "unplugged",
+   "needs_update",
+   "overdue",
+   "broken"
+  ],
+  "camera": [
+   "connected",
+   "unplugged",
+   "needs_update",
+   "overdue",
+   "broken"
+  ],
+  "bump_bar": [
+   "connected",
+   "battery_low",
+   "unplugged",
+   "needs_update",
+   "overdue",
+   "broken"
+  ],
+  "speaker": [
+   "connected",
+   "battery_low",
+   "unplugged",
+   "needs_update",
+   "overdue",
+   "broken"
+  ],
+  "feedback_buttons": [
+   "connected",
+   "battery_low",
+   "unplugged",
+   "needs_update",
+   "overdue",
+   "broken"
+  ],
+  "number_board": [
+   "connected",
+   "unplugged",
+   "needs_update",
+   "overdue",
+   "broken"
+  ]
  }
 }

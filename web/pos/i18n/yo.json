@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "yo",
  "native": "Yorùbá",
- "source_sha256": "bbd69096c19ef2e5fddd30cfbdd7fe94a2b7bf64b00f6012321b5b81dc904a10",
+ "source_sha256": "f7633ee9ede1040de3b2c21b0571d3c65fffff0c984cdfdf0d9f919025ab394a",
  "texts": {
   "academy": "Ilé-ẹ̀kọ́",
   "academy_hint": "Ẹ̀kọ́ kúkúrú kan ṣí lẹ́gbẹ̀ẹ́ ojú-ìwé tí ó ń kọ́ni.",
@@ -213,6 +213,7 @@
   "handover": "Ìfilélọ́wọ́ àsìkò iṣẹ́",
   "help": "Ìrànlọ́wọ́",
   "home": "Ilé",
+  "hw_none_page": "Kò sí ohun èlò àfikún: gbogbo rẹ̀ ń ṣiṣẹ́ lórí ìbojú àti bọ́tìnì ẹ̀rọ yìí.",
   "identity_check": "Alábàáṣiṣẹ́pọ̀ ń ṣàyẹ̀wò ìdánimọ̀ oníbàárà",
   "in_stock": "{n} ló wà",
   "insight": "Àkíyèsí ọjọ́",

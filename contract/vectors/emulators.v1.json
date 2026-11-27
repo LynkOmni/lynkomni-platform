@@ -4389,6 +4389,355 @@
     "ways": [],
     "fallback": "through_another_device"
    }
+  },
+  {
+   "kind": "bump_bar",
+   "os": "android",
+   "advice": {
+    "ways": [
+     "usb",
+     "bluetooth"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "bump_bar",
+   "os": "windows",
+   "advice": {
+    "ways": [
+     "usb",
+     "bluetooth"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "bump_bar",
+   "os": "mac",
+   "advice": {
+    "ways": [
+     "usb",
+     "bluetooth"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "bump_bar",
+   "os": "linux",
+   "advice": {
+    "ways": [
+     "usb",
+     "bluetooth"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "bump_bar",
+   "os": "chromeos",
+   "advice": {
+    "ways": [
+     "usb",
+     "bluetooth"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "bump_bar",
+   "os": "ios",
+   "advice": {
+    "ways": [],
+    "fallback": "through_another_device"
+   }
+  },
+  {
+   "kind": "bump_bar",
+   "os": "tv",
+   "advice": {
+    "ways": [],
+    "fallback": "through_another_device"
+   }
+  },
+  {
+   "kind": "bump_bar",
+   "os": "other",
+   "advice": {
+    "ways": [],
+    "fallback": "through_another_device"
+   }
+  },
+  {
+   "kind": "speaker",
+   "os": "android",
+   "advice": {
+    "ways": [
+     "bluetooth",
+     "usb",
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "speaker",
+   "os": "windows",
+   "advice": {
+    "ways": [
+     "bluetooth",
+     "usb",
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "speaker",
+   "os": "mac",
+   "advice": {
+    "ways": [
+     "bluetooth",
+     "usb",
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "speaker",
+   "os": "linux",
+   "advice": {
+    "ways": [
+     "bluetooth",
+     "usb",
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "speaker",
+   "os": "chromeos",
+   "advice": {
+    "ways": [
+     "bluetooth",
+     "usb",
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "speaker",
+   "os": "ios",
+   "advice": {
+    "ways": [
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "speaker",
+   "os": "tv",
+   "advice": {
+    "ways": [
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "speaker",
+   "os": "other",
+   "advice": {
+    "ways": [
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "feedback_buttons",
+   "os": "android",
+   "advice": {
+    "ways": [
+     "usb",
+     "bluetooth",
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "feedback_buttons",
+   "os": "windows",
+   "advice": {
+    "ways": [
+     "usb",
+     "bluetooth",
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "feedback_buttons",
+   "os": "mac",
+   "advice": {
+    "ways": [
+     "usb",
+     "bluetooth",
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "feedback_buttons",
+   "os": "linux",
+   "advice": {
+    "ways": [
+     "usb",
+     "bluetooth",
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "feedback_buttons",
+   "os": "chromeos",
+   "advice": {
+    "ways": [
+     "usb",
+     "bluetooth",
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "feedback_buttons",
+   "os": "ios",
+   "advice": {
+    "ways": [
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "feedback_buttons",
+   "os": "tv",
+   "advice": {
+    "ways": [
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "feedback_buttons",
+   "os": "other",
+   "advice": {
+    "ways": [
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "number_board",
+   "os": "android",
+   "advice": {
+    "ways": [
+     "network",
+     "usb",
+     "serial"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "number_board",
+   "os": "windows",
+   "advice": {
+    "ways": [
+     "network",
+     "usb",
+     "serial"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "number_board",
+   "os": "mac",
+   "advice": {
+    "ways": [
+     "network",
+     "usb",
+     "serial"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "number_board",
+   "os": "linux",
+   "advice": {
+    "ways": [
+     "network",
+     "usb",
+     "serial"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "number_board",
+   "os": "chromeos",
+   "advice": {
+    "ways": [
+     "network",
+     "usb",
+     "serial"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "number_board",
+   "os": "ios",
+   "advice": {
+    "ways": [
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "number_board",
+   "os": "tv",
+   "advice": {
+    "ways": [
+     "network"
+    ],
+    "fallback": null
+   }
+  },
+  {
+   "kind": "number_board",
+   "os": "other",
+   "advice": {
+    "ways": [
+     "network"
+    ],
+    "fallback": null
+   }
   }
  ],
  "tones": [

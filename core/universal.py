@@ -45,6 +45,7 @@ def _facts():
         "storefront_side": {p["family"] for p in products if p.get("sides")},
         "assist": lambda f: bool(set(areas.get(f, ())) & assist_areas),
         "messages": lambda f: bool(set(areas.get(f, ())) & message_areas),
+        "hardware": set(_load("catalog", "drivers.v1.json")["services"]),
         "navigation": {fam for g in _load("catalog", "navigation.v1.json")["groups"] for fam in g["families"]},
     }
 

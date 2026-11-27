@@ -160,7 +160,8 @@
     ]
    },
    "hardware": [
-    "kitchen_printer"
+    "kitchen_printer",
+    "bump_bar"
    ],
    "needs": {
     "min_short_side_px": 480,
@@ -283,7 +284,9 @@
      "internal"
     ]
    },
-   "hardware": [],
+   "hardware": [
+    "speaker"
+   ],
    "needs": {
     "min_short_side_px": 540,
     "outputs": []
@@ -744,7 +747,9 @@
      "internal"
     ]
    },
-   "hardware": [],
+   "hardware": [
+    "speaker"
+   ],
    "needs": {
     "min_short_side_px": 540,
     "outputs": [
@@ -774,7 +779,9 @@
      "internal"
     ]
    },
-   "hardware": [],
+   "hardware": [
+    "feedback_buttons"
+   ],
    "needs": {
     "min_short_side_px": 240,
     "outputs": []

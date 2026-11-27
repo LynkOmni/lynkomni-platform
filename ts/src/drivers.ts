@@ -2,9 +2,9 @@
  *  hardware, strongly enforced updates (security now, required in 3 days, normal in 7), and past the deadline the hardware pauses
  *  and its virtual device takes over, so a sale is never blocked. */
 export interface DriverRelease { version: string; kind: "security" | "required" | "normal"; released_at: number }
-export interface DriverKind { id: string; connections: string[]; virtual: string | null; certified_by?: string; no_stand_in?: string; standards: string[]; file_instead: string | null }
+export interface DriverKind { id: string; connections: string[]; virtual: string | null; certified_by?: string; no_stand_in?: string; standards?: string[]; file_instead: string | null }
 export type DriverHwState = "connected" | "not_connected" | "needs_update" | "overdue" | "not_working";
-export interface DriverRegister { pack: DriverRelease & { name: string; signed: string }; previous: DriverRelease[]; update_days: Record<string, number>; where: { online: string; offline: string }; kinds: DriverKind[]; roles: Record<string, { kind: string; ways: string[] }>; states: DriverHwState[]; ladder: string[]; speed_targets_ms: Record<string, number>; future: { interface_version: number; retire_notice_months: number; never_dropped_while_used: boolean; new_kinds_by_register_only: boolean } }
+export interface DriverRegister { pack: DriverRelease & { name: string; signed: string }; previous: DriverRelease[]; update_days: Record<string, number>; where: { online: string; offline: string }; kinds: DriverKind[]; roles: Record<string, { kind: string; ways: string[]; stand_in?: string }>; states: DriverHwState[]; ladder: string[]; speed_targets_ms: Record<string, number>; conditions: Record<string, { state: DriverHwState; warning: string | null; kinds?: string[]; connections?: string[] }>; stand_in_states: DriverHwState[]; future: { interface_version: number; retire_notice_months: number; never_dropped_while_used: boolean; new_kinds_by_register_only: boolean } }
 export interface DriverState { state: "not_installed" | "current" | "available" | "overdue"; latest: string; deadline: number | null; kind?: string; hardware: "on" | "virtual" }
 const DAY = 86400;
 const ver = (s: string): number[] => s.split(".").map(Number);
@@ -28,3 +28,19 @@ export const driverFallback = (r: DriverRegister, kind: string): string | null =
 export const roleKind = (r: DriverRegister, role: string): string | null => r.roles[role]?.kind ?? null;
 /** The next way in when a step of the ladder fails (D18); null after the last. */
 export function ladderNext(r: DriverRegister, step: string): string | null { const i = r.ladder.indexOf(step); return i >= 0 && i + 1 < r.ladder.length ? (r.ladder[i + 1] ?? null) : null; }
+export interface RoleStatus { role: string; kind: string; state: DriverHwState; warning: string | null; stand_in: string | null; next: string | null }
+/** What a device shows for one piece of hardware in one condition (DRIVER UPDATE D12, D13, D18): its state, any warning and the
+ *  stand-in that takes over, or by hand when none can. A sale is never blocked by any of them. */
+export function roleStatus(r: DriverRegister, role: string, condition: string): RoleStatus {
+  const kind = roleKind(r, role) ?? role;
+  const c = r.conditions[condition] ?? { state: "connected" as DriverHwState, warning: null };
+  const down = r.stand_in_states.includes(c.state);
+  const v = r.roles[role]?.stand_in ?? r.kinds.find((x) => x.id === kind)?.virtual ?? null;
+  return { role, kind, state: c.state, warning: c.warning, stand_in: down ? v : null, next: down ? (v ? "stand_in" : "by_hand") : null };
+}
+/** The conditions a tester can give this piece: paper only runs out in printers, a battery only runs low in wireless ones. */
+export function conditionsFor(r: DriverRegister, role: string): string[] {
+  const k = r.kinds.find((x) => x.id === (roleKind(r, role) ?? role));
+  if (!k) return [];
+  return Object.entries(r.conditions).filter(([, v]) => (!v.kinds || v.kinds.includes(k.id)) && (!v.connections || v.connections.some((c) => k.connections.includes(c)))).map(([c]) => c);
+}

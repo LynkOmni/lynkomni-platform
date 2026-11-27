@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "es",
  "native": "Español",
- "source_sha256": "bbd69096c19ef2e5fddd30cfbdd7fe94a2b7bf64b00f6012321b5b81dc904a10",
+ "source_sha256": "f7633ee9ede1040de3b2c21b0571d3c65fffff0c984cdfdf0d9f919025ab394a",
  "texts": {
   "academy": "Academia",
   "academy_hint": "Un curso corto se abre junto a la pantalla que explica.",
@@ -213,6 +213,7 @@
   "handover": "Relevo de turno",
   "help": "Ayuda",
   "home": "Inicio",
+  "hw_none_page": "Sin equipo adicional: todo funciona con la pantalla y las teclas de este dispositivo.",
   "identity_check": "El socio comprueba la identidad del cliente",
   "in_stock": "{n} en existencia",
   "insight": "Dato del día",

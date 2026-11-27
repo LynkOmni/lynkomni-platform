@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "bbd69096c19ef2e5fddd30cfbdd7fe94a2b7bf64b00f6012321b5b81dc904a10",
+ "source_sha256": "f7633ee9ede1040de3b2c21b0571d3c65fffff0c984cdfdf0d9f919025ab394a",
  "texts": {
   "academy": "아카데미",
   "academy_hint": "짧은 강의가 설명하는 화면 옆에 열립니다.",
@@ -213,6 +213,7 @@
   "handover": "근무 인계",
   "help": "도움말",
   "home": "홈",
+  "hw_none_page": "추가 하드웨어 없음: 모든 것이 이 기기의 화면과 키로 작동합니다.",
   "identity_check": "파트너가 고객 신원을 확인합니다",
   "in_stock": "재고 {n}",
   "insight": "오늘의 팁",

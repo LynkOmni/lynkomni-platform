@@ -4,7 +4,13 @@
  * ts/src/devicemode.ts deviceChoiceHtml instead. Every page carries this part (web/build.mjs).
  */
 export function anyDeviceHtml(t: (k: string) => string): string {
-  return `<p class="vonly" data-ctl="version-only">${t("version_only_web")}</p>`;
+  return `<p class="vonly" data-ctl="version-only">${t("version_only_web")}</p>` + hardwareNoneHtml(t);
+}
+
+/** The plain line in the panel of a page or device that uses no extra hardware (DRIVER UPDATE D13): everything works on its own
+ *  screen and keys. Pages with hardware show the Hardware control of ts/src/hardware.ts through the device kit instead. */
+export function hardwareNoneHtml(t: (k: string) => string): string {
+  return `<p class="vonly" data-ctl="hardware-none">${t("hw_none_page")}</p>`;
 }
 
 /** The plain line for a device that does not turn, with its reason (owner, 2026-11-26): its panel says so instead of offering a
