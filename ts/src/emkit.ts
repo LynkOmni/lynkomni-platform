@@ -15,6 +15,7 @@ import type { Icon, T } from "./shell.js";
 import { newId } from "./emulator.js";
 import { canRun, deliveryWays, fitScreen, hardwareAdvice, tones } from "./emulators.js";
 import { HwSim, hardwareLineHtml, hardwarePanelHtml } from "./hardware.js";
+import { DeviceKeyboard } from "./keyboard.js";
 import type { Caps, EmulatorRegister, Tones, ToneSetting, Way } from "./emulators.js";
 import { PRIVATE_ENTRY, playSound, soundForAct } from "./keytones.js";
 import { PageWait, wireBusy } from "./placeholder.js";
@@ -262,8 +263,13 @@ export function wireKit(k: EmKit, o: { t: T; icon: Icon; online: () => boolean; 
       kitChange(k, el, "emk_sample_business", "emk_sent_by_owner"); o.redraw();
     }, true);
   }
+  // The device's own on-screen keyboard (owner, 2026-11-27): typing on a touch screen opens the keyboard drawn inside it, never the
+  // tester's own phone keyboard. Devices whose screen takes no taps (buttons only) type with their own keys.
+  let kbScreen: HTMLElement | null = null;
+  const kb = new DeviceKeyboard(() => kbScreen, o.t);
   return {
     after: (screen) => {
+      kbScreen = screen; if (typeof document !== "undefined") queueMicrotask(() => kb.after());
       if (typeof document !== "undefined") {                        // the tester control keeps its place beside the device across redraws
         let ctl = document.getElementById("emkCtl");
         if (!ctl) { document.querySelector("aside.panel")?.insertAdjacentHTML("beforeend", '<div id="emkCtl"></div>'); ctl = document.getElementById("emkCtl"); }

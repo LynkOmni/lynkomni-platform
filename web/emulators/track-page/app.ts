@@ -18,6 +18,7 @@ import { REGISTER } from "../../../ts/src/tracking.generated.js";
 import { trackerHtml } from "../../../ts/src/trackview.js";
 import { PageWait } from "../../../ts/src/placeholder.js";
 import { watchNames } from "../../../ts/src/names.js";
+import { DeviceKeyboard } from "../../../ts/src/keyboard.js";
 
 declare const DATA: Build;
 type Stage = "placed" | "preparing" | "ready" | "on_the_way" | "late" | "delivered" | "failed";
@@ -97,3 +98,6 @@ function main(): void {
 main();
 /** Every Lynk name on this page carries its plain word (catalog/names.v1.json, ts/src/names.ts). */
 watchNames(document.body, () => t);
+
+/** The device's own on-screen keyboard (owner, 2026-11-27): typing opens the keyboard drawn inside the device screen, never the tester's own. */
+new DeviceKeyboard(() => document.getElementById("screen"), (k) => t(k));

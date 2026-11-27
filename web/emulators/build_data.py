@@ -178,10 +178,13 @@ def language_packs(emulator):
             needed = imported_literals(emulator)
             shared = {lang: {**v, "texts": {k: x for k, x in v["texts"].items() if not k.startswith(out) or k in needed}} for lang, v in shared.items()}
         own = {lang: {**own[lang], "texts": {**shared[lang]["texts"], **own[lang]["texts"]}} for lang in own if lang in shared}
-    if imports_part(emulator, "devicenote.ts"):                      # the panel's plain lines travel with every page that shows them
+    carried = [m for m in ("devicenote.ts", "keyboard.ts") if imports_part(emulator, m)]
+    if carried:                                                      # the panel's plain lines and the drawn keyboard travel with every page that shows them
         import re
-        with open(os.path.join(ROOT, "ts", "src", "devicenote.ts"), encoding="utf-8") as f:
-            keys = set(re.findall(r'"([a-z][a-z0-9_]*)"', f.read()))
+        keys = set()
+        for m in carried:
+            with open(os.path.join(ROOT, "ts", "src", m), encoding="utf-8") as f:
+                keys |= set(re.findall(r'"([a-z][a-z0-9_]*)"', f.read()))
         pos = _packs(os.path.join(ROOT, "web", "pos"))
         own = {lang: {**own[lang], "texts": {**{k: x for k, x in pos.get(lang, {}).get("texts", {}).items() if k in keys}, **own[lang]["texts"]}} for lang in own}
     return own

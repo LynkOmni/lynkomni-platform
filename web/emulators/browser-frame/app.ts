@@ -22,6 +22,7 @@ import { breadcrumbBar, siblings, trail, wireCrumbs } from "../../../ts/src/brea
 import { idcnEntry, quickRating, rateUs, scoreScale, ticketCard } from "../../../ts/src/peopleparts.js";
 import { watchNames, namePair, nameEntries, namesSheet, namesFocusOf, focusName } from "../../../ts/src/names.js";
 import { NAME_INFO_KEYS } from "../../../ts/src/nameinfo.js";
+import { DeviceKeyboard } from "../../../ts/src/keyboard.js";
 const HEADER_ROOM = { computer: 160, tablet: 160, phone: 160 } as const;   // px the shell header gives its brand place at each size; web-header shows the logo from 96 px (brand/surfaces.v1.json), so every size has room for it
 
 interface CountryPack { code: string; name: string; currency: string; tz: string; locale: string; sample: boolean; card_networks: string[]; wallets: string[]; providers: string[]; ready: Record<string, { ok: boolean; message: string }>; services: { service: string; id?: string; name: string; icon: string; plain: string; href?: string; state: "available" | "coming_soon" }[] }
@@ -506,3 +507,6 @@ init();
 watchNames(document.body, () => t);
 wireCrumbs(document);   // the up key and Copy link of the breadcrumb trail (CONNECT UPDATE 71.5)
 void NAME_INFO_KEYS;   // this page carries the one-line descriptions, so search and the name notes say what each product does
+
+/** The device's own on-screen keyboard (owner, 2026-11-27): typing opens the keyboard drawn inside the device screen, never the tester's own. */
+new DeviceKeyboard(() => document.getElementById("display"), (k) => t(k), () => ["phone", "tablet"].includes(document.getElementById("display")?.dataset["deviceClass"] ?? ""));
