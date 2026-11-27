@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-vgTD24iJ4CUnnhNRofCbYvkskIyorSwdks982vy2WH8='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-SFTUbhffYZoZhg8Xg+ZADsEG5XvQxysUvcwo/V/U8p8='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkOmni Account</title>
 <meta name="description" content="Interactive emulator of LynkOmni Account (account.lynkomni.com) on a phone and in the browser: sign-up, sign-in, recovery, the Security Center and every account page, built on the shared shell.">
@@ -7778,6 +7778,14 @@ function init() {
         draw(); }, 1000);
     draw();
     drawLog();
+    window.setTimeout(() => { try {
+        n(0);
+        clock(0);
+        dateOf(0);
+        whenOf(0);
+        money(0);
+    }
+    catch { /* the formatter is built on first use instead */ } }, 0);
 }
 init();
 watchNames(document.body, () => t);
