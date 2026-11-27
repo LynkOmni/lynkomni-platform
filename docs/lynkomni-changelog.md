@@ -2,11 +2,18 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
-## v0.130.1 (2026-11-27)
+## v0.130.2 (2026-11-27)
 Two owner reports on LynkKiosk fixed.
 - The check-in sample line named only Eric, whose only way is the ID number, so face and fingerprint check-in could not be tried. The door now lists every sample person with their PIN and their own order of ways (Aline: finger, then IDCN; Grace: face, then IDCN; Eric and Joseph: IDCN only) on the kiosk, the LynkPOS terminal and the Business app, from one shared part (attenddesk.ts doorSamples). Face and finger first, three failed reads moving to the next way, and the checker were already built.
 - In buttons-only mode the kiosk used the TV setup and drew everything 1.5 times bigger. Size follows how far people stand, never how they press: a new device setup, LynkTab (buttons), keeps the touch version's sizes for the kiosk, the kitchen screen, the customer display and the counter and queue displays. tests/test_same_size.py keeps touch and buttons versions of one device the same size.
 - Words in all 38 languages.
+
+## v0.130.1 (2026-11-27)
+LynkOmni Lite is planned (LITE UPDATE, master blueprint section 96, approved by the owner).
+- LynkOmni Lite is a light way of delivering the same apps to phones with little storage, memory or data: one code base, never a separate product, plan or price, so it never falls behind (the lesson of Messenger Lite, YouTube Go and Spotify Lite, which were closed).
+- A small core with every other service downloading on first open and removable; only the phone's own languages, fonts and screen; lite mode on by itself on weak phones; every feature still reachable; a Storage page and a data meter; move up to the full app and back.
+- Where it runs: LynkOmni Lite and LynkOmni Business Lite in the app stores, a Lite web app from the browser, and basic phones on USSD, text and voice as today.
+- Build table 96.6 joined catalog/build-tables.v1.json: the Lite web app in section 5, help in 6, the personal app's modules, Storage and data meter in 7, the store listings and real low-end phone checks in 14.
 
 ## v0.130.0 (2026-11-27)
 DRIVER UPDATE part B (section 5 step 1): hardware is a rule for every service, and every emulator shows its hardware (owner: "Build but before that ensure every possible improvements have been implemented").
