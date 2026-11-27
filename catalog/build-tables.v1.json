@@ -2404,6 +2404,41 @@
      "done": {}
     }
    ]
+  },
+  {
+   "id": "96.6",
+   "update": "LITE UPDATE",
+   "blueprint_section": 96,
+   "rows": [
+    {
+     "sections": [
+      "5"
+     ],
+     "part": "The Lite web app: installable from the browser, works offline, updates by itself (L13); only the person's languages and fonts on the web (L6); lite mode switching on by itself on weak devices, remembered (L7); the download page with LynkOmni Lite",
+     "done": {}
+    },
+    {
+     "sections": [
+      "6"
+     ],
+     "part": "Help pages for LynkOmni Lite, the Storage page and the data meter",
+     "done": {}
+    },
+    {
+     "sections": [
+      "7"
+     ],
+     "part": "The personal app's small core (L4); every service as a module that downloads on first open, size shown, removable (L5); every feature reachable with light forms for heavy things (L8); move up to the full app and back (L9); the Storage page (L10) and the data meter (L11)",
+     "done": {}
+    },
+    {
+     "sections": [
+      "14"
+     ],
+     "part": "One code base and both apps (L1, L2, L3); the store listings LynkOmni Lite and LynkOmni Business Lite with their size, memory and oldest-system targets put to the owner and checked in every build (L12); the small core and on-demand modules in the native apps (L4, L5); moving offline data to a memory card (L10); the Lite screens in every emulator panel and the checks on real low-end phones in the test lab (L15)",
+     "done": {}
+    }
+   ]
   }
  ]
 }
