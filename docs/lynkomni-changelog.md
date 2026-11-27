@@ -2,6 +2,13 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.129.1 (2026-11-27)
+LynkOmni Lite is planned (LITE UPDATE, master blueprint section 96, approved by the owner).
+- LynkOmni Lite is a light way of delivering the same apps to phones with little storage, memory or data: one code base, never a separate product, plan or price, so it never falls behind (the lesson of Messenger Lite, YouTube Go and Spotify Lite, which were closed).
+- A small core with every other service downloading on first open and removable; only the phone's own languages, fonts and screen; lite mode on by itself on weak phones; every feature still reachable; a Storage page and a data meter; move up to the full app and back.
+- Where it runs: LynkOmni Lite and LynkOmni Business Lite in the app stores, a Lite web app from the browser, and basic phones on USSD, text and voice as today.
+- Build table 96.6 joined catalog/build-tables.v1.json: the Lite web app in section 5, help in 6, the personal app's modules, Storage and data meter in 7, the store listings and real low-end phone checks in 14.
+
 ## v0.129.0 (2026-11-27)
 DRIVER UPDATE (blueprint 95), section 5 step 1, part A: one hardware register for the whole ecosystem (owner: "I approve all and add any more improvements").
 - catalog/drivers.v1.json now lists 45 kinds of hardware: the 28 before and the 17 approved for LynkCCTV, LynkGate, LynkStation, LynkVote, LynkBet and the location products (recorders, gate controllers, relay boards, tag readers, plate cameras, weighbridges, pump controllers, tank gauges, chargers, LED signs, alarm panels, backup power, intercoms, turnstiles, ballot scanners, security keys, cash acceptors), each with its open standards and its stand-in or written reason.
