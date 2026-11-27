@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "vi",
  "native": "Tiếng Việt",
- "source_sha256": "e204fda7136081e2c4f9bce94d46092c7505d7f900e8bbf634c5c3900d49f3bf",
+ "source_sha256": "3d7c9198673c73edd4ac9f2fc26c18b2229b09bfc8d408a5ea70f89b4c5afd7b",
  "texts": {
   "nma_academy": "Tạo và học khóa học, với bài học và chứng chỉ.",
   "nma_acc": "Giữ sổ sách, chi phí và báo cáo luôn ngăn nắp.",
@@ -38,6 +38,7 @@
   "nma_id": "Danh tính của bạn trong LynkOmni, giống nhau trên mọi thiết bị.",
   "nma_inv": "Tạo và gửi hóa đơn, xem khi nào được thanh toán.",
   "nma_jobs": "Đăng tin tuyển dụng, tìm việc và thuê người.",
+  "nma_letter": "Cập nhật sản phẩm, mẹo và tin tức LynkOmni qua email, chỉ khi bạn yêu cầu.",
   "nma_mesh": "Chuyển giao dịch bán giữa các thiết bị gần nhau khi không có internet.",
   "nma_motion": "Theo dõi giao hàng, chuyến đi và đồ đạc của bạn hằng ngày.",
   "nma_mpay": "Nhận thẻ, ví di động và các khoản thanh toán khác qua đối tác được cấp phép.",

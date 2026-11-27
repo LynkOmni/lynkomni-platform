@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ko",
  "native": "한국어",
- "source_sha256": "4c568f21d7c72174eea808c4f340fad255ee66b5ceb9433cf30f191f963143eb",
+ "source_sha256": "f56eaa6b17edd457c5cf5b11d28e5999860d0a63dc14c539907da9a5d0af5511",
  "texts": {
   "nm_academy": "강좌 및 교육",
   "nm_acc": "회계",
@@ -47,6 +47,7 @@
   "nm_inv": "청구",
   "nm_jobs": "채용 및 구인",
   "nm_kiosk": "셀프서비스 키오스크",
+  "nm_letter": "뉴스레터",
   "nm_mesh": "오프라인 중계",
   "nm_mobile": "전화",
   "nm_motion": "일상 추적",

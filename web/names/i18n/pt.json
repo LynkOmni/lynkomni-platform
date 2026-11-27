@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "pt",
  "native": "Português",
- "source_sha256": "4c568f21d7c72174eea808c4f340fad255ee66b5ceb9433cf30f191f963143eb",
+ "source_sha256": "f56eaa6b17edd457c5cf5b11d28e5999860d0a63dc14c539907da9a5d0af5511",
  "texts": {
   "nm_academy": "Cursos e formação",
   "nm_acc": "Contabilidade",
@@ -47,6 +47,7 @@
   "nm_inv": "Faturamento",
   "nm_jobs": "Empregos e recrutamento",
   "nm_kiosk": "Quiosque de autoatendimento",
+  "nm_letter": "Boletim informativo",
   "nm_mesh": "Retransmissão offline",
   "nm_mobile": "Telefone",
   "nm_motion": "Rastreamento diário",

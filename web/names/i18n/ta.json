@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "ta",
  "native": "தமிழ்",
- "source_sha256": "4c568f21d7c72174eea808c4f340fad255ee66b5ceb9433cf30f191f963143eb",
+ "source_sha256": "f56eaa6b17edd457c5cf5b11d28e5999860d0a63dc14c539907da9a5d0af5511",
  "texts": {
   "nm_academy": "படிப்புகள் மற்றும் பயிற்சி",
   "nm_acc": "கணக்கியல்",
@@ -47,6 +47,7 @@
   "nm_inv": "பில்லிங்",
   "nm_jobs": "வேலைகள் மற்றும் பணியமர்த்தல்",
   "nm_kiosk": "சுய சேவை கியோஸ்க்",
+  "nm_letter": "செய்திமடல்",
   "nm_mesh": "ஆஃப்லைன் ரிலே",
   "nm_mobile": "தொலைபேசி",
   "nm_motion": "தினசரி கண்காணிப்பு",

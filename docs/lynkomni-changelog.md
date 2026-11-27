@@ -2,6 +2,12 @@
 
 What changed in each version, in plain words, newest first. Version numbers: `0.MINOR.PATCH` until the first pilot (a new feature raises MINOR, a fix raises PATCH). Each version has a Git tag `v<number>`.
 
+## v0.131.3 (2026-11-27)
+The newsletter is now called LynkLetter, with Newsletter as its plain word (owner).
+- LynkLetter is in the names register with its plain word and one-line description in all 38 languages; the footer's sign-up box is headed "LynkLetter (Newsletter)" above "Stay in the loop".
+- Search, help and the sitemap list it; "lynkletter" is a reserved username.
+- Every address and path stays the same (owner: "Path remains same"); code names and published events (NewsletterRequested) are unchanged.
+
 ## v0.131.2 (2026-11-27)
 Buttons-only devices use drop-downs by their keys, and computers are checked with a mouse (owner: "Hope buttons only aspect for non touch emulators and devices is well in place", "Ensure laptops and desktops with touch and no touch that rely on mouse use").
 - Fixed: on a buttons-only device the arrows could land on the hidden list under LynkOmni's own drop-down, and OK did nothing, so the kiosk's "Select a checker" could not be used with buttons. The arrows now skip anything hidden from people, OK opens the drop-down, up and down move through its choices, OK picks one and the focus stays on it, and Back closes the list without leaving the screen, with the physical keys and with the pad on the device body alike (ts/src/devicemode.ts, ts/src/chooser.ts).

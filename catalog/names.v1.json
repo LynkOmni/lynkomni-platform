@@ -408,6 +408,13 @@
    "spoken": "Link Feedback"
   },
   {
+   "id": "letter",
+   "name": "LynkLetter",
+   "kind": "service",
+   "icon": null,
+   "spoken": "Link Letter"
+  },
+  {
    "id": "safety",
    "name": "LynkSafety",
    "kind": "service",

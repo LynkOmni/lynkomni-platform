@@ -194,7 +194,7 @@
   },
   {
    "address": "notifications@mail.lynkomni.com",
-   "sends": "account, plan, Notify me, agent and partner messages, newsletter confirmation",
+   "sends": "account, plan, Notify me, agent and partner messages, LynkLetter (newsletter) confirmation",
    "replies_to": "support@lynkomni.com (agent messages: agents@lynkomni.com)"
   },
   {
@@ -214,7 +214,7 @@
   },
   {
    "address": "updates@news.lynkomni.com",
-   "sends": "newsletters, consent only",
+   "sends": "LynkLetter (newsletter), consent only",
    "replies_to": "one-click unsubscribe"
   }
  ],

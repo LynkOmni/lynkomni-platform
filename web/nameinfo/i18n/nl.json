@@ -4,7 +4,7 @@
  "kept_in_english": [],
  "lang": "nl",
  "native": "Nederlands",
- "source_sha256": "e204fda7136081e2c4f9bce94d46092c7505d7f900e8bbf634c5c3900d49f3bf",
+ "source_sha256": "3d7c9198673c73edd4ac9f2fc26c18b2229b09bfc8d408a5ea70f89b4c5afd7b",
  "texts": {
   "nma_academy": "Maak en volg cursussen, met lessen en certificaten.",
   "nma_acc": "Houd je boekhouding, uitgaven en rapporten op orde.",
@@ -38,6 +38,7 @@
   "nma_id": "Jouw identiteit in LynkOmni, op elk apparaat dezelfde.",
   "nma_inv": "Maak en verstuur facturen en zie wanneer ze betaald zijn.",
   "nma_jobs": "Plaats vacatures, vind werk en neem mensen aan.",
+  "nma_letter": "Productnieuws, tips en nieuws van LynkOmni per e-mail, alleen als je erom vraagt.",
   "nma_mesh": "Geeft verkopen door aan apparaten in de buurt als er geen internet is.",
   "nma_motion": "Volg leveringen, ritten en je eigen spullen van dag tot dag.",
   "nma_mpay": "Ontvang kaart, mobiel geld en andere betalingen via erkende partners.",

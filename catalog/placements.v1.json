@@ -597,6 +597,17 @@
    ]
   },
   {
+   "id": "lynkletter",
+   "kind": "service",
+   "what": "LynkLetter, the newsletter (double opt-in, consent only); shown by name above the footer's sign-up box",
+   "places": [
+    "help",
+    "search",
+    "sitemap"
+   ],
+   "section": 6
+  },
+  {
    "id": "lynkfeedback",
    "kind": "service",
    "what": "LynkFeedback, product feedback (LOFBK-)",

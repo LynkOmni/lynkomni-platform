@@ -642,6 +642,15 @@
    ]
   },
   {
+   "name": "LynkLetter",
+   "brand_first": "LynkLetter (Newsletter)",
+   "plain_first": "Newsletter (LynkLetter)",
+   "part_of": null,
+   "icon": null,
+   "spoken": "Link Letter",
+   "similar": []
+  },
+  {
    "name": "LynkSafety",
    "brand_first": "LynkSafety (Safety & reporting)",
    "plain_first": "Safety & reporting (LynkSafety)",

@@ -27268,6 +27268,13 @@
     "source": "catalog/names.v1.json"
    },
    {
+    "id": "what-letter",
+    "topic": "how_to",
+    "q": "What is LynkLetter?",
+    "a": "LynkLetter (Newsletter): Product updates, tips and LynkOmni news by email, only when you ask.",
+    "source": "catalog/names.v1.json"
+   },
+   {
     "id": "what-safety",
     "topic": "how_to",
     "q": "What is LynkSafety?",
@@ -28373,6 +28380,13 @@
     "topic": "how_to",
     "q": "ما هو LynkFeedback؟",
     "a": "LynkFeedback (رأيك في المنتج): أخبرنا بما يجب تحسينه وتابِع إجاباتنا.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-letter",
+    "topic": "how_to",
+    "q": "ما هو LynkLetter؟",
+    "a": "LynkLetter (النشرة الإخبارية): تحديثات المنتجات ونصائح وأخبار LynkOmni عبر البريد الإلكتروني، فقط عندما تطلبها.",
     "source": "catalog/names.v1.json"
    },
    {
@@ -29484,6 +29498,13 @@
     "source": "catalog/names.v1.json"
    },
    {
+    "id": "what-letter",
+    "topic": "how_to",
+    "q": "LynkLetterとは何ですか？",
+    "a": "LynkLetter（ニュースレター）：製品の更新情報、ヒント、LynkOmniのニュースをメールで。ご希望の場合のみ。",
+    "source": "catalog/names.v1.json"
+   },
+   {
     "id": "what-safety",
     "topic": "how_to",
     "q": "LynkSafetyとは何ですか？",
@@ -30589,6 +30610,13 @@
     "topic": "how_to",
     "q": "Qu'est-ce que LynkFeedback ?",
     "a": "LynkFeedback (Avis sur le produit) : Dites-nous quoi améliorer et suivez nos réponses.",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-letter",
+    "topic": "how_to",
+    "q": "Qu'est-ce que LynkLetter ?",
+    "a": "LynkLetter (Lettre d'information) : Nouveautés produits, conseils et actualités de LynkOmni par e-mail, seulement si vous le demandez.",
     "source": "catalog/names.v1.json"
    },
    {
@@ -31700,6 +31728,13 @@
     "source": "catalog/names.v1.json"
    },
    {
+    "id": "what-letter",
+    "topic": "how_to",
+    "q": "LynkLetter ni nini?",
+    "a": "LynkLetter (Jarida la habari): Habari mpya za bidhaa, vidokezo na habari za LynkOmni kwa barua pepe, ukiomba tu.",
+    "source": "catalog/names.v1.json"
+   },
+   {
     "id": "what-safety",
     "topic": "how_to",
     "q": "LynkSafety ni nini?",
@@ -32808,6 +32843,13 @@
     "source": "catalog/names.v1.json"
    },
    {
+    "id": "what-letter",
+    "topic": "how_to",
+    "q": "LynkLetter是什么？",
+    "a": "LynkLetter（新闻通讯）：产品更新、实用技巧和 LynkOmni 新闻，通过邮件发送，仅在您订阅时。",
+    "source": "catalog/names.v1.json"
+   },
+   {
     "id": "what-safety",
     "topic": "how_to",
     "q": "LynkSafety是什么？",
@@ -33913,6 +33955,13 @@
     "topic": "how_to",
     "q": "LynkFeedback क्या है?",
     "a": "LynkFeedback (उत्पाद पर राय): हमें बताएँ क्या बेहतर करें और हमारे जवाब देखें।",
+    "source": "catalog/names.v1.json"
+   },
+   {
+    "id": "what-letter",
+    "topic": "how_to",
+    "q": "LynkLetter क्या है?",
+    "a": "LynkLetter (न्यूज़लेटर): उत्पाद अपडेट, सुझाव और LynkOmni की ख़बरें ईमेल पर, केवल जब आप चाहें।",
     "source": "catalog/names.v1.json"
    },
    {
