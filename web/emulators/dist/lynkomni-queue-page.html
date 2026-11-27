@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-W1n02gytX9w8Xj+D7vRXLc8W5milTktg36ajzNR6ZD0='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Awf/JgTyDOwMqWvSkNOZZb6J6od/38tluuDTi6gK4ZA=' 'sha256-HsVdEJVHBE7PkD/5G1dajZ/6jV7R+5jLpGSdkvgeaVA='; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LynkQueue on Your Phone</title>
 <meta name="description" content="Interactive emulator of the LynkQueue page a person opens on their own phone, with no app and no account: see the wait, join the queue, follow the ticket, Running late and Leave queue, and the place's public queue page.">
@@ -1583,10 +1583,16 @@ class DeviceKeyboard {
             busy = false;
         } }); })
             .observe(document.documentElement, { childList: true, subtree: true });
+        const inApp = (n) => !!(this.screen()?.contains(n) && (n.matches?.(TYPING) || n.closest?.("button,a,[data-act],label,select,[role=button]")));
         document.addEventListener("pointerdown", (e) => {
             const n = e.target;
-            if (this.el && !this.el.contains(n) && !(n.matches?.(TYPING) && this.screen()?.contains(n)))
+            if (this.el && !this.el.contains(n) && !inApp(n))
                 this.hide();
+        }, true);
+        document.addEventListener("mousedown", (e) => {
+            const n = e.target;
+            if (this.el && !this.el.contains(n) && inApp(n) && !n.matches?.(TYPING) && !n.closest?.("label,select"))
+                e.preventDefault();
         }, true);
     }
     after() {
@@ -1658,9 +1664,9 @@ class DeviceKeyboard {
             host.appendChild(this.el);
             this.wire();
         }
-        if (!s.classList.contains("kb-open")) { // the screen keeps its size; what is under the keyboard scrolls up
+        if (!s.classList.contains("kb-open")) { // like a real phone, the screen's visible part shrinks above the keys
             s.dataset["kbStyle"] = s.getAttribute("style") ?? "";
-            s.style.blockSize = `${s.clientHeight}px`;
+            s.dataset["kbH"] = String(s.offsetHeight);
             s.style.overflowY = "auto";
             s.classList.add("kb-open");
         }
@@ -1676,22 +1682,29 @@ class DeviceKeyboard {
         if (!host)
             return;
         const sr = s.getBoundingClientRect(), hr = host.getBoundingClientRect(), k = sr.width / (s.offsetWidth || sr.width || 1) || 1;
-        const h = Math.min(el.offsetHeight || 220, Math.round(s.clientHeight * 0.6));
+        const full = Number(s.dataset["kbH"] ?? s.offsetHeight) || s.offsetHeight;
+        const h = Math.min(el.offsetHeight || 220, Math.round(full * 0.6));
+        s.style.blockSize = `${full - h}px`;
+        s.style.minBlockSize = "0";
+        s.style.maxBlockSize = `${full - h}px`;
         el.style.insetInlineStart = "auto";
         el.style.insetInlineEnd = "auto";
         el.style.left = `${(sr.left - hr.left) / k - host.clientLeft + s.clientLeft}px`;
         el.style.width = `${s.clientWidth}px`;
-        el.style.top = `${(sr.top - hr.top) / k - host.clientTop + s.clientTop + s.clientHeight - h}px`;
+        el.style.top = `${(sr.top - hr.top) / k - host.clientTop + full - h}px`;
         el.style.maxHeight = `${h}px`;
-        s.style.paddingBlockEnd = `${h}px`;
         const f = this.target;
         if (!f)
             return; // the field being typed in always shows just above the keys
-        const fr = f.getBoundingClientRect(), bottom = sr.top + (s.clientTop + s.clientHeight - h - 8) * k, top = sr.top + (s.clientTop + 8) * k;
+        let box = f.parentElement; // scroll whichever part of the screen holds it
+        while (box && box !== s && !(box.scrollHeight > box.clientHeight && /auto|scroll/.test(getComputedStyle(box).overflowY)))
+            box = box.parentElement;
+        const sc = box ?? s, cr = sc.getBoundingClientRect(), fr = f.getBoundingClientRect();
+        const bottom = Math.min(cr.bottom, sr.top + (full - h) * k) - 8 * k, top = Math.max(cr.top, sr.top) + 8 * k;
         if (fr.bottom > bottom)
-            s.scrollTop += (fr.bottom - bottom) / k;
+            sc.scrollTop += (fr.bottom - bottom) / k;
         else if (fr.top < top)
-            s.scrollTop -= (top - fr.top) / k;
+            sc.scrollTop -= (top - fr.top) / k;
     }
     hide() {
         this.el?.remove();
@@ -1707,6 +1720,7 @@ class DeviceKeyboard {
             else
                 s.removeAttribute("style");
             delete s.dataset["kbStyle"];
+            delete s.dataset["kbH"];
         }
     }
     rows() {

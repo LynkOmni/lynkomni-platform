@@ -91,9 +91,15 @@ export class DeviceKeyboard {
     let busy = false;                                                   // every redraw: fields ask for no system keyboard, an open keyboard comes back
     new MutationObserver(() => { if (busy) return; busy = true; queueMicrotask(() => { try { this.after(); } finally { busy = false; } }); })
       .observe(document.documentElement, { childList: true, subtree: true });
+    // like a real phone: tapping a button in the app (Send, Next) keeps the keyboard and the caret; tapping anywhere else closes it
+    const inApp = (n: HTMLElement): boolean => !!(this.screen()?.contains(n) && (n.matches?.(TYPING) || n.closest?.("button,a,[data-act],label,select,[role=button]")));
     document.addEventListener("pointerdown", (e) => {
       const n = e.target as HTMLElement;
-      if (this.el && !this.el.contains(n) && !(n.matches?.(TYPING) && this.screen()?.contains(n))) this.hide();
+      if (this.el && !this.el.contains(n) && !inApp(n)) this.hide();
+    }, true);
+    document.addEventListener("mousedown", (e) => {
+      const n = e.target as HTMLElement;
+      if (this.el && !this.el.contains(n) && inApp(n) && !n.matches?.(TYPING) && !n.closest?.("label,select")) e.preventDefault();
     }, true);
   }
   /** Called at the end of every draw: typing fields in the device screen ask for no system keyboard, and an open keyboard comes back. */
@@ -135,34 +141,39 @@ export class DeviceKeyboard {
       if (getComputedStyle(host).position === "static") host.style.position = "relative";
       host.appendChild(this.el); this.wire();
     }
-    if (!s.classList.contains("kb-open")) {                              // the screen keeps its size; what is under the keyboard scrolls up
+    if (!s.classList.contains("kb-open")) {                              // like a real phone, the screen's visible part shrinks above the keys
       s.dataset["kbStyle"] = s.getAttribute("style") ?? "";
-      s.style.blockSize = `${s.clientHeight}px`; s.style.overflowY = "auto"; s.classList.add("kb-open");
+      s.dataset["kbH"] = String(s.offsetHeight);
+      s.style.overflowY = "auto"; s.classList.add("kb-open");
     }
     this.draw();
     this.place();
     requestAnimationFrame(() => this.place());
   }
-  /** The keyboard covers the bottom of the device screen exactly, like a real one; the screen gains the same room to scroll. */
+  /** The keyboard covers the bottom of the device screen exactly, like a real one; the screen above it shrinks, so a composer or save bar sits just above the keys. */
   private place(): void {
     const s = this.screen(), el = this.el; if (!s || !el) return;
     const host = (el.offsetParent as HTMLElement | null) ?? s.parentElement; if (!host) return;
     // emulators are often drawn smaller to fit the page, so measure on screen and turn it back into the device's own pixels
     const sr = s.getBoundingClientRect(), hr = host.getBoundingClientRect(), k = sr.width / (s.offsetWidth || sr.width || 1) || 1;
-    const h = Math.min(el.offsetHeight || 220, Math.round(s.clientHeight * 0.6));
+    const full = Number(s.dataset["kbH"] ?? s.offsetHeight) || s.offsetHeight;
+    const h = Math.min(el.offsetHeight || 220, Math.round(full * 0.6));
+    s.style.blockSize = `${full - h}px`; s.style.minBlockSize = "0"; s.style.maxBlockSize = `${full - h}px`;
     el.style.insetInlineStart = "auto"; el.style.insetInlineEnd = "auto";
     el.style.left = `${(sr.left - hr.left) / k - host.clientLeft + s.clientLeft}px`; el.style.width = `${s.clientWidth}px`;
-    el.style.top = `${(sr.top - hr.top) / k - host.clientTop + s.clientTop + s.clientHeight - h}px`; el.style.maxHeight = `${h}px`;
-    s.style.paddingBlockEnd = `${h}px`;
+    el.style.top = `${(sr.top - hr.top) / k - host.clientTop + full - h}px`; el.style.maxHeight = `${h}px`;
     const f = this.target; if (!f) return;                               // the field being typed in always shows just above the keys
-    const fr = f.getBoundingClientRect(), bottom = sr.top + (s.clientTop + s.clientHeight - h - 8) * k, top = sr.top + (s.clientTop + 8) * k;
-    if (fr.bottom > bottom) s.scrollTop += (fr.bottom - bottom) / k;
-    else if (fr.top < top) s.scrollTop -= (top - fr.top) / k;
+    let box: HTMLElement | null = f.parentElement;                       // scroll whichever part of the screen holds it
+    while (box && box !== s && !(box.scrollHeight > box.clientHeight && /auto|scroll/.test(getComputedStyle(box).overflowY))) box = box.parentElement;
+    const sc = box ?? s, cr = sc.getBoundingClientRect(), fr = f.getBoundingClientRect();
+    const bottom = Math.min(cr.bottom, sr.top + (full - h) * k) - 8 * k, top = Math.max(cr.top, sr.top) + 8 * k;
+    if (fr.bottom > bottom) sc.scrollTop += (fr.bottom - bottom) / k;
+    else if (fr.top < top) sc.scrollTop -= (top - fr.top) / k;
   }
   hide(): void {
     this.el?.remove(); this.el = null; this.key = ""; this.target = null;
     const s = this.screen();
-    if (s?.classList.contains("kb-open")) { s.classList.remove("kb-open"); const st = s.dataset["kbStyle"] ?? ""; if (st) s.setAttribute("style", st); else s.removeAttribute("style"); delete s.dataset["kbStyle"]; }
+    if (s?.classList.contains("kb-open")) { s.classList.remove("kb-open"); const st = s.dataset["kbStyle"] ?? ""; if (st) s.setAttribute("style", st); else s.removeAttribute("style"); delete s.dataset["kbStyle"]; delete s.dataset["kbH"]; }
   }
   private rows(): string[][] {
     const k = this.kind();

@@ -134,7 +134,7 @@
   "files-signing": {
    "file_kb": 1200,
    "file_kb_reason": "Raised 27 November 2026 for the staff PIN and Lock on the signing tablet (the shared PIN pad and staff lock, about 80 KB). Raised 27 November 2026 for the device's own on-screen keyboard (owner: every emulator matches its real device): the keyboard part, its layouts for 38 languages and its words (about 15 to 45 KB). Build section 4B (v0.110.0): the LynkFiles signing tablet carries the device shell, the emulator kit with the waiting part, the LynkFiles rules and its words in all 38 languages (about 1,030 KB). A real app downloads one language at a time.",
-   "first_tap": "[data-act=\"fs:start\"]",
+   "first_tap": "[data-act=\"pin:4\"]",
    "root": "#screen"
   }
  }

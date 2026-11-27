@@ -66,7 +66,9 @@ class Keyboard(unittest.TestCase):
             self.assertEqual(pg.locator("#fsName").get_attribute("inputmode"), "none", "the tester's own keyboard never opens")
             self.assertEqual(pg.locator(".lkb").count(), 1)
             kb, sc = pg.locator(".lkb").bounding_box(), pg.locator("#screen").bounding_box()
-            self.assertTrue(kb["y"] >= sc["y"] - 1 and kb["y"] + kb["height"] <= sc["y"] + sc["height"] + 1, "inside the tablet's screen")
+            full = pg.evaluate("(() => { const s = document.querySelector('#screen'); return Number(s.dataset.kbH) * s.getBoundingClientRect().width / s.offsetWidth; })()")
+            self.assertTrue(abs(kb["y"] - (sc["y"] + sc["height"])) <= 2, "the screen shrinks to just above the keys, like a real tablet")
+            self.assertTrue(abs(kb["y"] + kb["height"] - (sc["y"] + full)) <= 2, "the keys fill the bottom of the tablet's own screen")
             pg.locator('.lkb [data-kbx="shift"]').click(); pg.locator('.lkb [data-kb="A"]').click()
             for ch in "mina":
                 pg.locator(f'.lkb [data-kb="{ch}"]').click()
