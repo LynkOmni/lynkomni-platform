@@ -52,7 +52,9 @@ const FOCUSABLE = "button:not([disabled]), a[href], input:not([disabled]), selec
 /** Moves focus to the nearest visible control in a direction (spatial navigation for arrows, remotes and pads). The first press
  *  with nothing focused lands on the first control. Returns true when focus moved. */
 export function moveFocus(root: HTMLElement, dir: Dir, rtl = false): boolean {
-  const items = Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE)).filter((el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && !el.closest("[hidden]"); });
+  // Only controls a person can reach: never one taken out of the order (tabindex -1) or hidden from people (aria-hidden), such as
+  // the native list under LynkOmni's own drop-down, which sits exactly under its button.
+  const items = Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE)).filter((el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && !el.closest("[hidden]") && el.getAttribute("tabindex") !== "-1" && !el.closest("[aria-hidden='true']"); });
   if (!items.length) return false;
   const cur = current(root);
   if (!cur || !items.includes(cur)) { items[0]!.focus(); return true; }
@@ -93,18 +95,39 @@ export function navPad(words: { up: string; down: string; left: string; right: s
 /** After the screen redraws, puts the focus back on the same control; when that control is gone or can no longer be used (for
  *  example a kitchen line just marked ready), on the first control instead, so the focus never leaves the screen. */
 function refocus(root: HTMLElement, act: string | undefined, rtl: boolean): void {
-  const again = act ? root.querySelector<HTMLElement>(`[data-act="${CSS.escape(act)}"]`) : null;
+  let again = act ? root.querySelector<HTMLElement>(`[data-act="${CSS.escape(act)}"]`) : null;
+  // A drop-down's name is on its list (select), and the person was on the drop-down's button beside it.
+  if (again?.matches("select.lo-src")) again = again.parentElement?.querySelector<HTMLElement>(".lo-selbtn") ?? again;
   if (again) again.focus();
   if (!root.contains(document.activeElement)) { lastOnScreen = null; moveFocus(root, "down", rtl); }
 }
 
-/** Runs a pad key or a physical key on a non-touch screen: moves focus, clicks the focused control on OK, or calls back(). */
+/** The name a control is found by again after a redraw: its data-act, or its list's for a drop-down button. */
+function actOf(el: HTMLElement): string | undefined {
+  return el.dataset["act"] ?? el.closest(".lo-sel")?.querySelector<HTMLElement>("select")?.dataset["act"];
+}
+
+/** The open list of LynkOmni's drop-down (ts/src/chooser.ts) that holds or belongs to the focused control, if any. */
+function openList(cur: HTMLElement | null): HTMLElement | null {
+  const wrap = cur?.closest<HTMLElement>(".lo-sel");
+  return wrap?.querySelector<HTMLElement>(".lo-pop") ? wrap : null;
+}
+
+/** Runs a pad key or a physical key on a non-touch screen: moves focus, clicks the focused control on OK, or calls back(). While a
+ *  drop-down's list is open, the keys work inside it: up and down move through the choices, OK picks one and Back closes the list,
+ *  as on a real kiosk or TV. */
 export function padPress(root: HTMLElement, what: Dir | "ok" | "back", back: () => void, rtl = false): void {
+  const cur0 = current(root);
+  if (openList(cur0)) {
+    const key = what === "up" ? "ArrowUp" : what === "down" ? "ArrowDown" : what === "ok" ? "Enter" : what === "back" ? "Escape" : null;
+    if (key) cur0!.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
+    return;
+  }
   if (what === "back") { back(); return; }
   if (what === "ok") {
     const cur = current(root);
     if (!cur) { moveFocus(root, "down", rtl); return; }
-    const act = cur.dataset["act"];
+    const act = actOf(cur);
     cur.click();                                                      // the screen redraws: focus returns to the same control, or the first one
     refocus(root, act, rtl);
     return;
@@ -149,7 +172,7 @@ export function wireDevice(mode: DeviceMode, o: { t: (k: string) => string; icon
       const had = lastOnScreen;
       if (!mode.touch() && had) queueMicrotask(() => {
         if (document.contains(had) || (document.activeElement && document.activeElement !== document.body)) return;
-        refocus(root, had.dataset["act"], o.rtl());
+        refocus(root, actOf(had), o.rtl());
       });
     },
     act: (a) => {
@@ -159,6 +182,8 @@ export function wireDevice(mode: DeviceMode, o: { t: (k: string) => string; icon
     },
     key: (e) => {
       if (mode.touch()) return false;
+      if (!e.isTrusted) return false;                              // a key the screen sent itself (padPress inside an open list)
+      if (e.defaultPrevented) return true;                         // the focused control used it already (an open drop-down list)
       if ((e.target as HTMLElement | null)?.closest?.(".panel, aside")) return false;     // the emulator's own panel keeps its keys
       const w = keyMeaning(e.key);
       if (!w) return false;

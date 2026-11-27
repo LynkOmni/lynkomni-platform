@@ -2345,7 +2345,14 @@
       "5"
      ],
      "part": "Step 1 groundwork: one hardware register with standards, roles, the ladder, files and speed targets (D1, D2, D18, D19, D41, D43, D55); the shared hardware part and states (D12); a Hardware control in every panel (D13); device fit for every built emulator (D14); each built emulator's hardware (D15); practice hardware (D17); the ladder, files, paper forms, device memory, receipts without paper and the no stand-in rules (D18 to D24); find, test, profiles and plain mode for today's hardware (D3 to D5, D8); the Devices page, warnings and automations (D26 to D28); moving and unpairing (D33); safety (D34 to D40); measured speed targets on practice hardware, plug in and it works, own lanes, capabilities, every script on paper, morning check (D41 to D46, D49); practice runs of every kind (D52); the rulebook in every code language (D54); versioned interfaces (D55); signs when something listens or watches on built emulators (D56). Website: the download page, the Works with LynkOmni list (D6), check before buying and ask for a model (D7), picture guides (D9), the Order hardware page (D31)",
-     "done": {}
+     "done": {},
+     "progress": {
+      "5": [
+       "v0.129.0: part A, one hardware register (45 kinds, standards, roles not devices, the ladder, files instead, the five states, speed targets, the promise to older hardware)",
+       "v0.130.0: part B, hardware a rule for every service (D58) and the shared hardware part with a Hardware control on every device emulator",
+       "v0.131.2: buttons-only devices proved on every screen by the arrows, drop-downs by keys and pad; computers by mouse and their own keyboard"
+      ]
+     }
     },
     {
      "sections": [

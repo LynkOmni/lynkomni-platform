@@ -686,6 +686,98 @@ class NonTouchVersions(unittest.TestCase):
                 pg.close()
             b.close()
 
+    def test_every_screen_of_every_buttons_only_device_is_reached_by_the_arrows(self):
+        """Every device emulator that has a buttons-only version (found by itself, so a new one is covered without being listed),
+        on every screen of its panel: every control a person can use is reached with the arrows alone (owner 2026-11-27)."""
+        import glob
+        sel = "button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex='0']"
+        usable = (f"[...document.querySelector('[data-touch=\"no\"]').querySelectorAll(\"{sel}\")].filter((e) => {{ const b = e.getBoundingClientRect();"
+                  " return b.width > 0 && b.height > 0 && !e.closest('[hidden]') && e.getAttribute('tabindex') !== '-1' && !e.closest('[aria-hidden=\"true\"]'); })")
+        name = "(e, i) => e.dataset.act || e.id || e.name || ('#' + i)"
+        reach = f"() => {usable}.map({name})"
+        who = f"() => {{ const all = {usable}, a = document.activeElement, i = all.indexOf(a); return i < 0 ? null : ({name})(a, i); }}"
+        focus = f"(id) => {{ const all = {usable}; const el = all.find((e, i) => ({name})(e, i) === id); el && el.focus(); }}"
+        checked = []
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            for f in sorted(glob.glob(os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-*.html"))):
+                emu = os.path.basename(f)[len("lynkomni-"):-len(".html")]
+                pg = b.new_page(viewport={"width": 1400, "height": 1100}, reduced_motion="reduce")
+                pg.goto("file://" + f); pg.wait_for_selector("html[data-ready]", state="attached")
+                if "non_touch" not in (pg.evaluate("() => { const s = document.querySelector('[data-ctl=\"version\"]'); return s ? [...s.options].map((o) => o.value) : []; }") or []):
+                    pg.close(); continue
+                pg.select_option('[data-ctl="version"]', "non_touch")
+                if not pg.locator('[data-touch="no"]').count():
+                    pg.close(); continue                                   # a computer's version without touch is a mouse and keyboard
+                checked.append(emu)
+                states = pg.evaluate("() => [...document.querySelectorAll('[data-state]')].filter((e) => !e.closest('[data-touch]')).map((e) => e.dataset.state)") or [None]
+                for st in states:
+                    if st:
+                        pg.click(f'[data-state="{st}"]')
+                    want = pg.evaluate(reach)
+                    if not want:
+                        continue
+                    seen, todo = set(), [want[0]]
+                    while todo:
+                        cur = todo.pop()
+                        if cur is None or cur in seen:
+                            continue
+                        seen.add(cur)
+                        for k in ("ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"):
+                            pg.evaluate(focus, cur); pg.keyboard.press(k); todo.append(pg.evaluate(who))
+                    self.assertEqual(set(want) - seen, set(), f"{emu} {st}: not reached by the arrows")
+                pg.close()
+            b.close()
+        self.assertGreaterEqual(len(checked), 9, f"buttons-only devices found: {checked}")
+
+    def test_a_drop_down_is_used_by_keys_alone(self):
+        """A buttons-only screen with LynkOmni's own drop-down (the kiosk's checker, owner 2026-11-27): the arrows reach the
+        drop-down's button (never the hidden list under it), OK opens it, up and down move through the choices, OK picks one and
+        the focus stays on the drop-down; Back closes an open list without leaving the screen. Physical keys and the pad alike."""
+        who = "() => { const a = document.activeElement; return a ? a.className : ''; }"
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            for way in ("keys", "pad"):
+                pg = b.new_page(viewport={"width": 1400, "height": 1100}, reduced_motion="reduce")
+                pg.goto("file://" + os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-lynk-kiosk.html")); pg.wait_for_selector("html[data-ready]", state="attached")
+                pg.select_option('[data-ctl="version"]', "non_touch"); pg.click('[data-state="door-idcn"]')
+                pg.evaluate("() => document.querySelector(\"[data-act='at:digit:2']\").focus()")
+                press = (lambda k: pg.keyboard.press({"up": "ArrowUp", "down": "ArrowDown", "ok": "Enter", "back": "Backspace"}[k])) if way == "keys" else (lambda k: pg.click(f'[data-act="pad:{k}"]'))
+                press("up"); self.assertIn("lo-selbtn", pg.evaluate(who), f"{way}: the arrows reach the drop-down's button")
+                press("ok"); self.assertEqual(pg.locator(".lo-pop").count(), 1, f"{way}: OK opens the list")
+                press("down"); press("down"); press("ok")
+                self.assertNotEqual(pg.evaluate("() => document.querySelector('select[data-act=\"ppl:checker\"]').value"), "", f"{way}: a checker was picked")
+                self.assertIn("lo-selbtn", pg.evaluate(who), f"{way}: the focus stays on the drop-down")
+                press("ok"); press("back")
+                self.assertEqual(pg.locator(".lo-pop").count(), 0, f"{way}: Back closes the list")
+                self.assertIn("idcn", pg.inner_text('[data-touch="no"]').lower(), f"{way}: Back closed the list without leaving the screen")
+                pg.close()
+            b.close()
+
+    def test_computers_take_the_mouse_and_keep_their_own_keyboard(self):
+        """Laptops and desktops, with or without a touch screen (owner 2026-11-27): the mouse clicks every control in both
+        versions, a touch laptop also takes taps, and typing uses the computer's own keyboard, never an on-screen one."""
+        with sync_playwright() as p:
+            b = p.chromium.launch()
+            for touch in (False, True):
+                for version in ("touch", "non_touch"):
+                    cx = b.new_context(viewport={"width": 1440, "height": 1000}, has_touch=touch)
+                    pg = cx.new_page()
+                    pg.goto("file://" + os.path.join(ROOT, "web", "emulators", "dist", "lynkomni-owner-web.html")); pg.wait_for_selector("html[data-ready]", state="attached")
+                    pg.select_option('[data-ctl="version"]', version)
+                    self.assertEqual(pg.get_attribute("[data-interface]", "data-interface"), "computer.touch" if version == "touch" else "computer.pointer")
+                    self.assertNotEqual(pg.get_attribute("[data-interface]", "data-touch"), "no", f"{version}: a computer always takes clicks")
+                    for _ in range(3):
+                        ok = pg.locator('[data-act$="localeok"]:visible').first
+                        if ok.count(): ok.click()
+                    box = pg.locator("[data-interface] input[type=email]:visible").first
+                    (box.tap if touch else box.click)(timeout=5000)
+                    self.assertFalse(pg.evaluate("() => [...document.querySelectorAll('.lkb')].some((e) => e.getBoundingClientRect().height > 0)"),
+                                     f"{version} touch={touch}: a computer types with its own keyboard")
+                    pg.keyboard.type("a"); self.assertEqual(box.input_value(), "a", f"{version} touch={touch}: the computer's keys type")
+                    cx.close()
+            b.close()
+
     def test_pad_keys_pressed_by_finger_or_mouse_move_the_focus(self):
         """The pad on the device body is pressed with a finger or a mouse, which must never take the focus away from the screen
         (owner report 2026-11-10: every press jumped back to the first control). Real clicks, not keyboard keys."""
