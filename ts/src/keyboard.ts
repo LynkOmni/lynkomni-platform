@@ -141,11 +141,12 @@ export class DeviceKeyboard {
       if (getComputedStyle(host).position === "static") host.style.position = "relative";
       host.appendChild(this.el); this.wire();
     }
-    if (!s.classList.contains("kb-open")) {                              // like a real phone, the screen's visible part shrinks above the keys
-      s.dataset["kbStyle"] = s.getAttribute("style") ?? "";
+    if (s.dataset["kbH"] === undefined) {                                // like a real phone, the screen's visible part shrinks above the keys
+      s.dataset["kbStyle"] = s.getAttribute("style") ?? "";              // (kept on the element, so a redraw that resets its class never measures the shrunk size)
       s.dataset["kbH"] = String(s.offsetHeight);
-      s.style.overflowY = "auto"; s.classList.add("kb-open");
+      s.dataset["kbFixed"] = "1";
     }
+    s.style.overflowY = "auto"; s.classList.add("kb-open");
     this.draw();
     this.place();
     requestAnimationFrame(() => this.place());
@@ -158,7 +159,9 @@ export class DeviceKeyboard {
     const sr = s.getBoundingClientRect(), hr = host.getBoundingClientRect(), k = sr.width / (s.offsetWidth || sr.width || 1) || 1;
     const full = Number(s.dataset["kbH"] ?? s.offsetHeight) || s.offsetHeight;
     const h = Math.min(el.offsetHeight || 220, Math.round(full * 0.6));
-    s.style.blockSize = `${full - h}px`; s.style.minBlockSize = "0"; s.style.maxBlockSize = `${full - h}px`;
+    if (s.dataset["kbFixed"] === "1") { s.style.blockSize = `${full - h}px`; s.style.minBlockSize = "0"; s.style.maxBlockSize = `${full - h}px`; }
+    else s.style.paddingBlockEnd = `${h}px`;
+    const room = s.dataset["kbFixed"] === "1" ? full - h : s.clientHeight - h;
     el.style.insetInlineStart = "auto"; el.style.insetInlineEnd = "auto";
     el.style.left = `${(sr.left - hr.left) / k - host.clientLeft + s.clientLeft}px`; el.style.width = `${s.clientWidth}px`;
     el.style.top = `${(sr.top - hr.top) / k - host.clientTop + full - h}px`; el.style.maxHeight = `${h}px`;
@@ -166,14 +169,14 @@ export class DeviceKeyboard {
     let box: HTMLElement | null = f.parentElement;                       // scroll whichever part of the screen holds it
     while (box && box !== s && !(box.scrollHeight > box.clientHeight && /auto|scroll/.test(getComputedStyle(box).overflowY))) box = box.parentElement;
     const sc = box ?? s, cr = sc.getBoundingClientRect(), fr = f.getBoundingClientRect();
-    const bottom = Math.min(cr.bottom, sr.top + (full - h) * k) - 8 * k, top = Math.max(cr.top, sr.top) + 8 * k;
+    const bottom = Math.min(cr.bottom, sr.top + room * k) - 8 * k, top = Math.max(cr.top, sr.top) + 8 * k;
     if (fr.bottom > bottom) sc.scrollTop += (fr.bottom - bottom) / k;
     else if (fr.top < top) sc.scrollTop -= (top - fr.top) / k;
   }
   hide(): void {
     this.el?.remove(); this.el = null; this.key = ""; this.target = null;
     const s = this.screen();
-    if (s?.classList.contains("kb-open")) { s.classList.remove("kb-open"); const st = s.dataset["kbStyle"] ?? ""; if (st) s.setAttribute("style", st); else s.removeAttribute("style"); delete s.dataset["kbStyle"]; delete s.dataset["kbH"]; }
+    if (s && s.dataset["kbH"] !== undefined) { s.classList.remove("kb-open"); const st = s.dataset["kbStyle"] ?? ""; if (st) s.setAttribute("style", st); else s.removeAttribute("style"); delete s.dataset["kbStyle"]; delete s.dataset["kbH"]; delete s.dataset["kbFixed"]; }
   }
   private rows(): string[][] {
     const k = this.kind();
