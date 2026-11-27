@@ -48,9 +48,12 @@ function home(): string {
     <button type="button" class="kchoice" data-act="go:tickets">${icon("product-queue")}<span><strong>${esc(t("k_ticket"))}</strong><span>${esc(t("k_ticket_sub"))}</span></span></button>
     <button type="button" class="kchoice" data-act="go:answer">${icon("product-survey")}<span><strong>${esc(t("k_answer"))}</strong><span>${esc(t("k_answer_sub"))}</span></span></button></div>`;
 }
-const bar = (title: string): string => `<div class="kbar"><button type="button" class="kback" data-act="go:home" aria-label="${esc(t("k_home"))}">${icon("ui-arrow-left")}</button><h2>${esc(title)}</h2></div>`;
+const bar = (title: string, tt: T = t, attrs = ""): string => `<div class="kbar"${attrs}><button type="button" class="kback" data-act="go:home" aria-label="${esc(tt("k_home"))}">${icon("ui-arrow-left")}</button><h2>${esc(title)}</h2></div>`;
 function screen(): string {
-  if (S.mode === "door") return bar(t("k_attend")) + atDoor(PH.att, look(), SPEAK, true);
+  if (S.mode === "door") {                                                // once the person is known, the whole kiosk speaks their language
+    const m = PH.att.door.member, tt = m ? SPEAK.t(m.lang) : t, attrs = m ? ` lang="${esc(SPEAK.code(m.lang))}" dir="${SPEAK.dir(m.lang)}"` : "";
+    return bar(tt("k_attend"), tt, attrs) + atDoor(PH.att, look(), SPEAK, true);
+  }
   if (S.mode === "tickets") return bar(t("k_ticket")) + quKioskView(PH.q, quLook());
   if (S.mode === "answer") return bar(t("k_answer")) + svKioskView(PH.s, svLook());
   return home();
